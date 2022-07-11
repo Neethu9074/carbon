@@ -26,13 +26,12 @@ import WebsiteSelector from 'in-custom-dashboards/widgets/Slo/components/Website
 import Sections from 'in-components/workspace/Sections/Sections';
 import Section from 'in-components/workspace/Section/Section';
 import Header from 'in-components/workspace/Header';
-import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 interface FormComponentProps {
   form: MapForm;
   onChange: (path: string[], updater: (f: Item) => Item) => void;
-  setSlideInView: (view: SlideInViewConfig<Nullish>) => void;
+  setSlideInView: (view: SlideInViewConfig<boolean>) => void;
 }
 
 export default function FormComponent({ form, onChange, setSlideInView }: FormComponentProps) {
@@ -40,9 +39,9 @@ export default function FormComponent({ form, onChange, setSlideInView }: FormCo
     onChange(path, field => setFieldValue<T>(field, value, true));
   }
 
-  const entityType = getField<ApdexEntityTypes>(form, entityTypeKey)?.value ?? defaultEntityType;
-  const entityIdField = getField<string>(form, entityIdKey);
-  const configIdField = getField<string>(form, apdexConfigIdKey);
+  const entityType = getField<ApdexEntityTypes>(form, [entityTypeKey])?.value ?? defaultEntityType;
+  const entityIdField = getField<string>(form, [entityIdKey]);
+  const configIdField = getField<string>(form, [apdexConfigIdKey]);
   const entityId = entityIdField?.value || '';
   const showEntityTypeSelector = AvailableEntityTypes.length > 1;
 
@@ -90,15 +89,17 @@ function getSlideInViewConfig(
   entityType: ApdexEntityTypes,
   entityId: string,
   onChange: (value: string) => void
-): SlideInViewConfig<Nullish> {
+): SlideInViewConfig<boolean> {
   return {
-    renderTitle(): string {
+    renderTitle(showCreateForm): string {
+      if (showCreateForm) return t('in-custom-dashboards:widgets.apdex.createApdexForm.title');
       return t('in-custom-dashboards:widgets.apdex.formComponent.manageListTitle');
     },
-    slideOutHandler(slideOut): () => void {
+    slideOutHandler(slideOut, [showCreateForm, setShowCreateForm]): () => void {
+      if (showCreateForm) return () => setShowCreateForm(false);
       return slideOut;
     },
-    getContent({ slideOut }) {
+    getContent({ slideOut, subSlideState: [showCreateForm, setShowCreateForm] }) {
       return (
         <ApdexManageList
           entityId={entityId}
@@ -109,6 +110,9 @@ function getSlideInViewConfig(
             slideOut();
             if (value?.id) onChange(value.id);
           }}
+          showCreateForm={showCreateForm}
+          onShowCreateForm={() => setShowCreateForm(true)}
+          onCloseCreateForm={() => setShowCreateForm(false)}
         />
       );
     }

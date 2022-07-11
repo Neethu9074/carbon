@@ -7,14 +7,14 @@
 import { shallow } from 'enzyme';
 import React from 'react';
 
+import useApdexWidgetTimeConfig from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexWidgetTimeConfig';
 import useMonitoredEntity from 'in-custom-dashboards/widgets/Slo/hooks/useMonitoredEntity';
 import ApdexWidgetPresenter from 'in-custom-dashboards/widgets/Apdex/ApdexWidgetPresenter';
 import useApdexMetrics from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexMetrics';
 import ApdexWidget from 'in-custom-dashboards/widgets/Apdex/components/ApdexWidget';
-import useTimeConfig from 'in-hooks/useTimeConfig';
 import { hours, minutes } from 'in-services/time';
 
-jest.mock('in-hooks/useTimeConfig', () => ({
+jest.mock('in-custom-dashboards/widgets/Apdex/hooks/useApdexWidgetTimeConfig', () => ({
   __esModule: true,
   default: jest.fn(() => {})
 }));
@@ -52,7 +52,7 @@ jest.mock('in-services/featureFlags', () => ({
 describe('in-custom-dashboards/widgets/Apdex', () => {
   it('applies the adjustedTimeframe from the apdex metric subscription to the timeConfig passed to the ApdexWidget if it was provided', () => {
     // Given
-    useTimeConfig.mockReturnValueOnce({
+    useApdexWidgetTimeConfig.mockReturnValueOnce({
       windowSize: hours.toMillis(2),
       autoRefresh: false
     });

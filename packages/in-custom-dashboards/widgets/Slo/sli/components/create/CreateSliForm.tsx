@@ -3,22 +3,22 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React, { useEffect, useState } from 'react';
 import { Item, MapForm } from 'formalistic';
+import React, { useState } from 'react';
 
 import { Message, Stack, Spacer } from '@instana/components';
 import { Observable } from '@instana/observables';
 
 import { useSloWidgetTrackers } from 'in-custom-dashboards/widgets/Slo/components/SloWidgetTrackerProvider';
 import { SLI_MANAGEMENT_CREATE_FINISH, SLI_MANAGEMENT_EDIT_FINISH } from 'in-services/tracking/eventNames';
-import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
+import useSetFormFooterEffect from 'in-custom-dashboards/widgets/Slo/sli/hooks/useSetFormFooterEffect';
 import { SliFormData } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { SliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import Form from 'in-components/form/binding/Form';
 import { t } from 'in-i18n';
 
-interface FormSubmitState {
+export interface FormSubmitState {
   success: boolean;
   saving: boolean;
   error: boolean;
@@ -53,7 +53,16 @@ export default function CreateSliForm<SLI_TYPE extends SliType>({
     error: false
   });
   const { saving } = formSubmitState;
-  useSetFooter({ form, filterExpressionValid, setFooter, close, saving, editMode });
+
+  useSetFormFooterEffect({
+    form,
+    formId: 'createSliForm',
+    isDisabled: !filterExpressionValid || !form.hierarchyTouched,
+    isSaving: saving,
+    cloneOnly: editMode,
+    onCancel: close,
+    setFooter
+  });
 
   const track = useSloWidgetTrackers();
 
@@ -85,34 +94,6 @@ export default function CreateSliForm<SLI_TYPE extends SliType>({
       </Stack>
     </Form>
   );
-}
-
-type UseSetFooterProps = Pick<
-  CreateSliFormProps<SliType>,
-  'form' | 'filterExpressionValid' | 'setFooter' | 'close' | 'editMode'
-> & { saving: boolean };
-
-function useSetFooter({ form, filterExpressionValid, setFooter, close, saving, editMode }: UseSetFooterProps): void {
-  useEffect(() => {
-    setFooter(
-      <FormFooter withRoundedBottomBorder>
-        <CancelButton onClick={close} />
-        <SaveButton
-          form={form}
-          isSaving={saving}
-          disabled={!filterExpressionValid || !form.hierarchyTouched}
-          formId="createSliForm"
-        >
-          {editMode
-            ? t('in-custom-dashboards:widgets.slo.createSliForm.clone')
-            : t('in-custom-dashboards:widgets.slo.createSliForm.create')}
-        </SaveButton>
-      </FormFooter>
-    );
-    return () => {
-      setFooter(null);
-    };
-  }, [close, form, filterExpressionValid, saving, setFooter, editMode]);
 }
 
 function onSaveSuccess(
