@@ -6,7 +6,6 @@
 import React from 'react';
 
 import { number, millis, bytes, micros, positiveNumber, percentage } from 'in-services/formatters/number';
-import TableSpaceUtilDisabled from 'in-forge/plugins/db2Database/Dashboard/TableSpaceUtilDisabled';
 import TopTotalStmtsTable from 'in-forge/plugins/db2Database/Dashboard/TopTotalStmtsTable';
 import HadrGenericsTable from 'in-forge/plugins/db2Database/Dashboard/HadrGenericsTable';
 import DiagLogInfoTable from 'in-forge/plugins/db2Database/Dashboard//DiagLogInfoTable';
@@ -99,9 +98,6 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
       <HadrDashboard snapshotId={snapshotId} timeConfig={timeConfig} />
       {data.get('tableSpaceNames', emptyList).size > 0 && (
         <TableSpaceUtil snapshot={snapshot} timeConfig={timeConfig} />
-      )}
-      {data.get('tableSpaceNamesDisabled', emptyList).size > 0 && (
-        <TableSpaceUtilDisabled snapshot={snapshot} timeConfig={timeConfig} />
       )}
       <Columize>
         <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.rows')}>
