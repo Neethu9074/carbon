@@ -93,7 +93,7 @@ export default function AssociatedActions({
   return (
     <List
       title={setTitle ? t('in-settings:tabs.actionCatalog') : null}
-      noDataMessage={emptyMessage ? emptyMessage : t('in-settings:tabs.noActionsAssociated')}
+      noDataMessage={emptyMessage ? emptyMessage : t('in-settings:tabs.noActions')}
       pageSize={pageSize}
       initialOrderBy="name"
       isSearchable

@@ -470,7 +470,6 @@
     "thereShouldBeAtLeastOneGroupMapping": "At least one group mapping should be added if 'deny access when no mapping is found' is checked, or else no user will be able to log in.",
     "failIfNoIdp": "To change this settings you need to have an identity provider configured.",
     "noActions": "There are no actions configured.",
-    "noActionsAssociated": "There are no actions associated.",
     "noGroupMapping": "There are no mappings configured between identity provider and Instana",
     "denyUserWithNoGroup": "Deny access when no mapping is found. If unchecked, users with no group mappings and no groups found will be added to the Default group.",
     "twoFactor": "Two-Factor",
