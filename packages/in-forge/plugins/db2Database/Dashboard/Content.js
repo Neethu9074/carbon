@@ -585,7 +585,6 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
           }}
           y2={{
             min: 0,
-            max: 100,
             metrics: ['databasevmondeltastats.syncReadPercentage', 'databasevmondeltastats.asyncWritePercentage'],
             labels: [
               t('in-forge:plugins.db2Database.syncReadPercentage'),
