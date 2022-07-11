@@ -133,10 +133,10 @@ pipeline {
           timeout(time: 15, unit: 'MINUTES') {
             timestamps {
               script {
-                if (isDeliveryBranch) {
+                // if (isDeliveryBranch) {
                   instanaImageVersion = sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/componentVersioning/getInstanaImageVersion.js ${branchName}").trim() + "-0"
                   buildAndPublishImages(gitCommitId, backendComponents, uiClientComponents, branchName, instanaUiClientVersion, instanaImageVersion)
-                }
+                // }
               }
             }
           }
