@@ -80,11 +80,11 @@
     "buttonLabel": "Create new Test"
   },
   "navigation": {
-    "synthetics": "Synthetics"
+    "synthetics": "Synthetic Monitoring"
   },
   "dashboard": {
     "testList": {
-      "mainLabel": "Synthetics",
+      "mainLabel": "Synthetic Monitoring",
       "secondaryLabels": {
         "tests": "Tests",
         "location": "Location"
