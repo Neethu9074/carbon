@@ -99,6 +99,11 @@ export interface ResultDetailsResponse {
   time?: number;
 }
 
+export interface FilterProps {
+  filter: { query: string };
+  setFilter: (a: { query: string }) => void;
+}
+
 export const urlStateDefinition = {
   bind: [
     {
@@ -137,7 +142,10 @@ export const urlStateDefinition = {
 
 export type SubtransactionsProps = {
   errors?: Error[];
-  data?: TestResultDetailData;
+  subtransactions?: TestResultSubtransaction[];
+  earliestTimestamp?: number;
+  endTimestamp?: number;
+  totalDuration?: number;
 };
 
 export type OverviewChartToolTipProps = {

@@ -17,19 +17,17 @@ import { SubtransactionsProps } from 'in-synthetics/utils/constants';
 
 import locals from './SubtransactionsList.mless';
 
-export default function SubtransactionsList({ errors, data }: SubtransactionsProps) {
+export default function SubtransactionsList({ subtransactions }: SubtransactionsProps) {
   const [expanded, setExpanded] = useState(true);
 
-  if (errors?.length != undefined && data != undefined) {
-    if (errors.length > 0 || (data instanceof Object && data === null)) {
-      return (
-        <NoDataAvailable
-          type="lib_synthetic"
-          height={160}
-          text={t('in-synthetics:dashboard.detailsPage.noDataAvailable.timelineDescription')}
-        />
-      );
-    }
+  if (subtransactions?.length === 0) {
+    return (
+      <NoDataAvailable
+        type="lib_synthetic"
+        height={160}
+        text={t('in-synthetics:dashboard.detailsPage.noDataAvailable.timelineDescription')}
+      />
+    );
   }
 
   return (
@@ -51,7 +49,7 @@ export default function SubtransactionsList({ errors, data }: SubtransactionsPro
       </div>
       {expanded && (
         <div className={locals.subtransactions}>
-          {data?.subtransactions?.map((subtransaction: TestResultSubtransaction, i: number) => (
+          {subtransactions?.map((subtransaction: TestResultSubtransaction, i: number) => (
             <Subtransaction key={i} subtransaction={subtransaction} />
           ))}
         </div>

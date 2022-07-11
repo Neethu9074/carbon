@@ -164,6 +164,7 @@
       "statusKpiCard": "Status",
       "successResult": "Successful",
       "failedResult": "Failed",
+      "searchFilter": "Search",
       "subtransactionBody": {
         "contentType": "Content type",
         "size": "Size",
@@ -175,7 +176,8 @@
         "timingsPercentageOfTotalDurationName": "{{percentage}} of {{totalDurationName}}"
       },
       "noDataAvailable": {
-        "timelineDescription": "Timeline details not found"
+        "timelineDescription": "Timeline details not found",
+        "notFound": "Not found"
       }
     },
     "noDataAvailable": {
