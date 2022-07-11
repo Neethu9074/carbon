@@ -279,7 +279,6 @@
     "failedToSaveSettings": "Failed to save settings: {{err}}",
     "events": "Events",
     "newEvent": "New Event",
-    "newAction": "New Action",
     "critical": "Critical",
     "warning": "Warning",
     "none": "None",
