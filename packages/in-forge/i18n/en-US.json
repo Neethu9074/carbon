@@ -5232,6 +5232,7 @@
         "hadrSecondaryLog": "HADR Secondary Log Information",
         "hadrLogMetrics": "HADR Log Metrics",
         "hadrTakeOverTime": "HADR Last Take Over Time",
+        "vmonlockStatsValue": "Lock Statistics (Memory)",
         "vmonlockStats": "Lock Statistics",
         "databasevmondeltastats": "Transaction Performance (Incremental Value)"
       },
