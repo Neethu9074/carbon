@@ -8,7 +8,7 @@ import { ReactNode } from 'react';
 
 interface ColumnDefinition {
   id: number | string;
-  getContent: function;
+  getContent: Function;
 }
 
 interface ListProps {
@@ -17,14 +17,14 @@ interface ListProps {
   pageSize?: number;
   initialOrderBy?: string;
   isSearchable?: boolean;
-  loadEntities: function;
+  loadEntities: Function;
   columnDefinitions: ColumnDefinition[];
-  getHeader?: function;
+  getHeader?: Function;
   searchAttributes?: string[];
   searchPlaceholder?: string;
   searchMaxWidth?: number;
-  extraFilters?: function;
-  onRowClick?: function;
+  extraFilters?: Function[];
+  onRowClick?: Function;
   rightHeader?: ReactNode;
   tableActions?: object;
 }
@@ -35,8 +35,6 @@ export declare function leftHeaderWithSelectAll(
   entityName: string,
   inSelectListDialog: boolean,
   trackEvent: object
-): function;
-
-export declare function createNewEntityButton(labelNew: string, pathNew: any, tableActions: function): function;
+): Function;
 
 export default ListComponent;

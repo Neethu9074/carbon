@@ -10,15 +10,14 @@ import { filter } from 'lodash';
 import { Spacer } from '@instana/components';
 
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
-import AssociatedActions from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionCatalog';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
+import ActionTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionTable';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import { getAllActions } from 'in-api/automation';
 import { t } from 'in-i18n';
-import ActionTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionTable';
 
-function ActionSelectionTableActions(form, setForm) {
+function actionSelectionTableActions(form, setForm) {
   return {
     deselect: {
       deselect: deselectedEntity => {
@@ -57,32 +56,34 @@ const getSelectedActionsForEvent = createMemoizedObservableForReferencedEntities
 });
 
 export function ActionsSelection({ form, setForm }) {
-  let selectedActions = form.get('actionIds') ? form.get('actionIds').value : [];
+  const selectedActions = form.get('actionIds') ? form.get('actionIds').value : [];
+
+  const RightHeader = (
+    <SelectListDialogButton
+      form={form}
+      onSubmit={selectedIds => submitActionSelection(form, setForm, selectedIds)}
+      title={t('in-settings:tabs.addActions')}
+      label={t('in-settings:tabs.addActions')}
+      listComponent={ActionTable}
+      limit={10}
+      hiddenIds={selectedActions}
+      createSubmitLabel={numberOfItems =>
+        numberOfItems > 0
+          ? t('in-settings:tabs.addNumberOfItemsAction', { count: numberOfItems })
+          : t('in-settings:tabs.addActions')
+      }
+      requiresAtLeastOneMessage={t('in-settings:tabs.pleaseSelectAtLeastOneAction')}
+    />
+  );
 
   return (
     <Fragment>
       <ActionTable
         loadEntities={() => getSelectedActionsForEvent(selectedActions)}
         noDataMessage={t('in-settings:tabs.noActionsSelected')}
-        tableActions={ActionSelectionTableActions(form, setForm)}
+        tableActions={actionSelectionTableActions(form, setForm)}
         pageSize={10}
-        rightHeader={
-          <SelectListDialogButton
-            form={form}
-            onSubmit={selectedIds => submitActionSelection(form, setForm, selectedIds)}
-            title={t('in-settings:tabs.addActions')}
-            label={t('in-settings:tabs.addActions')}
-            listComponent={AssociatedActions}
-            limit={10}
-            hiddenIds={selectedActions}
-            createSubmitLabel={numberOfItems =>
-              numberOfItems > 0
-                ? t('in-settings:tabs.addNumberOfItemsAction', { count: numberOfItems })
-                : t('in-settings:tabs.addActions')
-            }
-            requiresAtLeastOneMessage={t('in-settings:tabs.pleaseSelectAtLeastOneAction')}
-          />
-        }
+        rightHeader={RightHeader}
       />
       <TouchedMessages field={form.get('selectedActions')} />
       <Spacer vertical="large" />

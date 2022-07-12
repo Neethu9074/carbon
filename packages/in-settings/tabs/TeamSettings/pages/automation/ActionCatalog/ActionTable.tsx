@@ -12,6 +12,7 @@ import { teamSettingsActionCatalog, getEntityIdView } from 'in-settings/navigati
 import { getType } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import List, { leftHeaderWithSelectAll } from 'in-settings/components/List';
 import { formatDateTime } from 'in-services/formatters/date';
+import { getAllActions } from 'in-api/automation';
 import { Action } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -80,11 +81,11 @@ export default function ActionTable({
   title,
   pageSize = 20,
   rightHeader,
-  loadEntities,
+  loadEntities = getAllActions,
   noDataMessage,
   tableActions = {},
   onRowClick,
-  hiddenIds = [],
+  hiddenIds = []
 }: ActionTableProps) {
   return (
     <List
@@ -111,10 +112,10 @@ function getHeader() {
   return leftHeaderWithSelectAll(t('in-settings:tabs.action_plural'), false, {});
 }
 
-function createFilters(a: Array<string>) {
-  const filters = [];
-  if (a) {
-    filters.push((entity: any) => a.indexOf(entity.id) < 0);
+function createFilters(ids: string[]): Array<(action: Action) => boolean> {
+  const filterFunctions = [];
+  if (ids) {
+    filterFunctions.push((action: Action) => ids.indexOf(action.id) < 0);
   }
-  return filters;
+  return filterFunctions;
 }
