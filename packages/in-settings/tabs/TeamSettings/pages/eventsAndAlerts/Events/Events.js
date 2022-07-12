@@ -60,7 +60,7 @@ const severityOptions = [
   { value: 10, label: t('in-settings:tabs.critical') }
 ];
 
-const entityTypeOptionsOfBuiltInMetrics = getEntityTypeOptionsOfBuiltInMetrics();
+const entityTypeOptionsOfBuiltInMetrics = getEntityTypeOptionsOfBuiltInMetrics(false);
 
 const enabledOptions = Object.freeze([
   { value: true, label: t('in-settings:tabs.enabled') },
@@ -354,7 +354,7 @@ function Subscript({ entity }) {
   }
 
   function showDeprecated() {
-    return deprecateAppDataLegacyEventsEnabled && isAppDataEntityType(entity.entityType) ? (
+    return deprecateAppDataLegacyEventsEnabled && !isBuiltInRule(entity) && isAppDataEntityType(entity.entityType) ? (
       entity.migrated ? (
         <span key="deprecated" className={locals.deprecated}>
           {t('in-settings:tabs.deprecated')}
@@ -388,7 +388,7 @@ function createFilters(hiddenIds, type, severity, entityType, enabled) {
   if (type === migratedValue) {
     filters.push(entity => Boolean(entity.migrated));
   } else if (type === deprecatedValue) {
-    filters.push(entity => isAppDataEntityType(entity.entityType));
+    filters.push(entity => !isBuiltInRule(entity) && isAppDataEntityType(entity.entityType));
   } else if (type) {
     filters.push(entity => entity.type === type);
   }
