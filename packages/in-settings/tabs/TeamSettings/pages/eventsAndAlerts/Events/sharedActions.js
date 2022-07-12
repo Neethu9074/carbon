@@ -16,6 +16,7 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import { getAllActions } from 'in-api/automation';
 import { t } from 'in-i18n';
+import ActionTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionTable';
 
 function ActionSelectionTableActions(form, setForm) {
   return {
@@ -60,11 +61,9 @@ export function ActionsSelection({ form, setForm }) {
 
   return (
     <Fragment>
-      <AssociatedActions
-        setTitle
+      <ActionTable
         loadEntities={() => getSelectedActionsForEvent(selectedActions)}
-        hasRowNavigation={false}
-        emptyMessage={t('in-settings:tabs.noActionsSelected')}
+        noDataMessage={t('in-settings:tabs.noActionsSelected')}
         tableActions={ActionSelectionTableActions(form, setForm)}
         pageSize={10}
         rightHeader={
