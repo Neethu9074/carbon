@@ -11,22 +11,38 @@ interface ColumnDefinition {
   getContent: Function;
 }
 
+interface TableActionsDefinition {
+  delete: {
+    deleteEntity: (entity) => Observable<any>;
+  };
+  deselect: {
+    deselectedEntity: (entity) => Observable<any>;
+  };
+}
+
+interface extraFiltersDef {
+  id: string;
+  name: string;
+  type: string;
+  createdAt: Date;
+  modifiedAt: Date;
+}
+
 interface ListProps {
   title?: ReactNode;
   noDataMessage?: string;
   pageSize?: number;
   initialOrderBy?: string;
   isSearchable?: boolean;
-  loadEntities: Function;
+  loadEntities?: () => void;
   columnDefinitions: ColumnDefinition[];
   getHeader?: Function;
   searchAttributes?: string[];
   searchPlaceholder?: string;
   searchMaxWidth?: number;
-  extraFilters?: Function[];
-  onRowClick?: Function;
+  extraFilters?: ((action: extraFiltersDef) => void)[];
   rightHeader?: ReactNode;
-  tableActions?: object;
+  tableActions?: tableActionsDefinition;
 }
 
 declare function ListComponent(props: ListProps): JSX.Element;

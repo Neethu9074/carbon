@@ -50,7 +50,7 @@ const paramCols = [
   formattedColumn(t('in-settings:tabs.value'), 'defaultValue')
 ];
 
-export default function CustomEvent1(props) {
+export default function BuiltinEvent(props) {
   const entityId = props.match.params.id;
 
   function mergeResultData() {
@@ -144,7 +144,7 @@ const Form = entityForm(function DetailsForm(props) {
       <FormGroup>
         <Label>{t('in-settings:tabs.entityType')}</Label>
         <div className={locals.flexWrapper}>
-          <PluginIcon className={locals.entityIcon} color="#000" plugin={entityType} />
+          <PluginIcon className={locals.entityIcon} color={theme.lib.colors.N600Light} plugin={entityType} />
           {getPluginName(entityType, 1)}
         </div>
       </FormGroup>

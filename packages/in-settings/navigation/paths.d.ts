@@ -7,5 +7,4 @@
 import { Observable } from '@instana/observables';
 
 export declare const teamSettingsActionCatalog: string;
-export declare const teamSettingsAlertingEventCustomNew: string;
 export declare function getEntityIdView(path: string, id: string): Observable<string>;

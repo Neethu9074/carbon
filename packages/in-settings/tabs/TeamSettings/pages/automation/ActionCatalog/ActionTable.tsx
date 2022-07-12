@@ -70,10 +70,9 @@ export interface ActionTableProps {
   title?: string;
   pageSize?: number;
   rightHeader?: ReactElement;
-  loadEntities: Function;
+  loadEntities: () => void;
   tableActions?: object;
   noDataMessage?: string;
-  onRowClick?: Function;
   hiddenIds?: string[];
 }
 
@@ -84,7 +83,6 @@ export default function ActionTable({
   loadEntities = getAllActions,
   noDataMessage,
   tableActions = {},
-  onRowClick,
   hiddenIds = []
 }: ActionTableProps) {
   return (
@@ -102,7 +100,6 @@ export default function ActionTable({
       searchMaxWidth={210}
       rightHeader={rightHeader}
       tableActions={tableActions}
-      onRowClick={onRowClick}
       extraFilters={createFilters(hiddenIds)}
     />
   );
