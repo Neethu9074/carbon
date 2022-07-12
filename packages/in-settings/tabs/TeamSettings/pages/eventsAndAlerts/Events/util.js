@@ -71,7 +71,7 @@ export function getDescription(entity) {
  * Consequently, plugins that only have custom-metrics are also not returned by this method.
  * @return {{label: string|""|string, value: *}[]} Plugin options for built-in metrics in alphabetical order.
  */
-export function getEntityTypeOptionsOfBuiltInMetrics() {
+export function getEntityTypeOptionsOfBuiltInMetrics(showDeprecatedLabel) {
   return Object.values(plugins)
     .filter(plugin => hasCategory(plugin))
     .filter(plugin => customIssuesDisabledForPlugins.indexOf(plugin) < 0)
@@ -79,13 +79,13 @@ export function getEntityTypeOptionsOfBuiltInMetrics() {
     .map(plugin => {
       return {
         value: plugin,
-        label: getLabelForPlugin(plugin)
+        label: getLabelForPlugin(plugin, showDeprecatedLabel)
       };
     });
 }
 
-function getLabelForPlugin(plugin) {
-  return shouldDisplayDeprecatedLabel(plugin)
+function getLabelForPlugin(plugin, showDeprecatedLabel) {
+  return showDeprecatedLabel && shouldDisplayDeprecatedLabel(plugin)
     ? getPluginName(plugin, 1) + ` (${t('in-settings:tabs.deprecated')})`
     : getPluginName(plugin, 1);
 }
