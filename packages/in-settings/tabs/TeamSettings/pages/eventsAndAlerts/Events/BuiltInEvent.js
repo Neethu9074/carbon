@@ -15,7 +15,10 @@ import {
   deleteActionAssociationBuiltin
 } from 'in-api/eventSpecifications';
 import { createBuiltinEventFormDefinition } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/BuiltinEventFormContent';
-import { ActionsSelection } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/sharedActions';
+import {
+  ActionsSelection,
+  combineResults
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/sharedActions';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
@@ -60,15 +63,6 @@ export default function BuiltinEvent(props) {
     return combineLatest([eventDetails$, actionDetails$]).map(([response1, response2]) =>
       combineResults(response1, response2)
     );
-  }
-
-  function combineResults(entityResult, metricResult) {
-    let actionsIds = [];
-    metricResult.toJS().forEach(action => {
-      actionsIds.push(action.id);
-    });
-    entityResult.actionIds = actionsIds;
-    return entityResult;
   }
 
   function save(event, form) {

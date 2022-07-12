@@ -43,6 +43,15 @@ function submitActionSelection(form, setForm, selectedIds) {
   );
 }
 
+export function combineResults(entityResult, metricResult) {
+  let actionsIds = [];
+  metricResult.toJS().forEach(action => {
+    actionsIds.push(action.id);
+  });
+  entityResult.actionIds = actionsIds;
+  return entityResult;
+}
+
 const getSelectedActionsForEvent = createMemoizedObservableForReferencedEntities(function(selectedActions) {
   if (selectedActions.length === 0) {
     return alwaysEmptyArray;

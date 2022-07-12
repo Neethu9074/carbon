@@ -31,6 +31,7 @@ import {
   isAppDataEntityType,
   unmapConditionValue
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
+import { combineResults } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/sharedActions';
 import CustomEventForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventForm';
 import { serializeQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import { getMetricDefinition, isBuiltInDynamicMetric } from 'in-sdk/metrics/metrics';
@@ -64,15 +65,6 @@ export default function CustomEvent(props) {
     return combineLatest([eventDetails$, actionDetails$]).map(([response1, response2]) =>
       combineResults(response1, response2)
     );
-  }
-
-  function combineResults(entityResult, metricResult) {
-    let actionsIds = [];
-    metricResult.toJS().forEach(action => {
-      actionsIds.push(action.id);
-    });
-    entityResult.actionIds = actionsIds;
-    return entityResult;
   }
 
   return (
