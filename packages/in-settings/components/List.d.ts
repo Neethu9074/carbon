@@ -8,12 +8,16 @@ import { ReactNode } from 'react';
 
 import { Observable } from '@instana/observables';
 
-import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
-
 export interface TableActions<ItemType extends Object> {
   deselect?: {
     deselect: (entity: ItemType) => void;
   };
+}
+
+interface ColumnDefinition<ItemType extends Object> {
+  id: number | string;
+  label: string;
+  getContent: (entity: ItemType) => ReactNode;
 }
 
 interface ListProps<ItemType extends Object> {
