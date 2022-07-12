@@ -6,51 +6,43 @@
 
 import { ReactNode } from 'react';
 
-interface ColumnDefinition {
-  id: number | string;
-  getContent: Function;
-}
+import { Observable } from '@instana/observables';
 
-interface TableActionsDefinition {
-  delete: {
-    deleteEntity: (entity) => Observable<any>;
-  };
-  deselect: {
-    deselectedEntity: (entity) => Observable<any>;
+import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
+
+export interface TableActions<ItemType extends Object> {
+  deselect?: {
+    deselect: (entity: ItemType) => void;
   };
 }
 
-interface extraFiltersDef {
-  id: string;
-  name: string;
-  type: string;
-  createdAt: Date;
-  modifiedAt: Date;
-}
-
-interface ListProps {
+interface ListProps<ItemType extends Object> {
   title?: ReactNode;
   noDataMessage?: string;
   pageSize?: number;
   initialOrderBy?: string;
   isSearchable?: boolean;
-  loadEntities?: () => void;
-  columnDefinitions: ColumnDefinition[];
-  getHeader?: Function;
+  loadEntities: () => Observable<ItemType[]>;
+  columnDefinitions: ColumnDefinition<ItemType>[];
+  getHeader?: (
+    totalHitsBeforeFilter: number,
+    totalHitsAfterFilter: number,
+    entitiesBeforePagination: number
+  ) => ReactNode;
   searchAttributes?: string[];
   searchPlaceholder?: string;
   searchMaxWidth?: number;
-  extraFilters?: ((action: extraFiltersDef) => void)[];
+  extraFilters?: Array<(element: ItemType, index: number, array: ItemType[]) => boolean>;
   rightHeader?: ReactNode;
-  tableActions?: tableActionsDefinition;
+  tableActions?: TableActions<ItemType>;
 }
 
-declare function ListComponent(props: ListProps): JSX.Element;
+declare function ListComponent<ItemType extends Object>(props: ListProps<ItemType>): JSX.Element;
 
 export declare function leftHeaderWithSelectAll(
   entityName: string,
   inSelectListDialog: boolean,
-  trackEvent: object
-): Function;
+  tableActions: TableActions<ItemType>
+): (totalHitsBeforeFilter: number, totalHitsAfterFilter: number, entitiesBeforePagination: number) => ReactNode;
 
 export default ListComponent;

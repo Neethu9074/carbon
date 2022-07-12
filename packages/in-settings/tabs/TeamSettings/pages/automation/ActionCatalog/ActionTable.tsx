@@ -6,11 +6,12 @@
 
 import React, { ReactElement } from 'react';
 
+import { Observable } from '@instana/observables';
 import { Link } from '@instana/components';
 
 import { teamSettingsActionCatalog, getEntityIdView } from 'in-settings/navigation/paths';
+import List, { leftHeaderWithSelectAll, TableActions } from 'in-settings/components/List';
 import { getType } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
-import List, { leftHeaderWithSelectAll } from 'in-settings/components/List';
 import { formatDateTime } from 'in-services/formatters/date';
 import { getAllActions } from 'in-api/automation';
 import { Action } from 'in-types';
@@ -70,8 +71,8 @@ export interface ActionTableProps {
   title?: string;
   pageSize?: number;
   rightHeader?: ReactElement;
-  loadEntities: () => void;
-  tableActions?: object;
+  loadEntities: () => Observable<Action[]>;
+  tableActions?: TableActions<Action>;
   noDataMessage?: string;
   hiddenIds?: string[];
 }
@@ -86,7 +87,7 @@ export default function ActionTable({
   hiddenIds = []
 }: ActionTableProps) {
   return (
-    <List
+    <List<Action>
       title={title}
       noDataMessage={noDataMessage}
       pageSize={pageSize}
