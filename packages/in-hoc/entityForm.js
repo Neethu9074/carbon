@@ -137,7 +137,7 @@ export default function entityForm(ComposedComponent) {
       });
 
       responseSubscription.current = result$.once(() => {
-        //entity.deleteActions added to excute second promise dis associate actions after the firts one(save event) executed.
+        //entity.deleteActions added to excute second promise disassociate actions after the firts one(save event) executed.
         if (entity.deleteActions) {
           entity.deleteActions.once(() => {
             setState({
@@ -161,25 +161,26 @@ export default function entityForm(ComposedComponent) {
             props.openEntities?.();
           });
         }
-        if (!entity.deleteActions && !entity.actions)
+        if (!entity.deleteActions && !entity.actions) {
           // } else {
           setState({
             ...state,
             loading: false,
             error: false
           });
-        props.onSaveSuccess?.();
-        props.openEntities?.();
+          props.onSaveSuccess?.();
+          props.openEntities?.();
+        }
       });
 
       errorSubscription.current = result$.errors().once(error => {
         entity.actions.errors().once(error1 => {
-          errorMessages(error1);
+          showErrorMessages(error1);
         });
         entity.deleteActions.errors().once(error2 => {
-          errorMessages(error2);
+          showErrorMessages(error2);
         });
-        errorMessages(error);
+        showErrorMessages(error);
       });
     }
 
@@ -193,7 +194,7 @@ export default function entityForm(ComposedComponent) {
       }
     }
 
-    function errorMessages(error) {
+    function showErrorMessages(error) {
       let message = error.message;
       if (
         error.response &&
