@@ -60,7 +60,6 @@ export default function TraceDetailView(props) {
           {...props}
           ListItemContent={SplitScreenTraceDetailContent}
           getHrefToDetailId={getHrefToDetailId}
-          hideTooltip
         >
           <TabView
             key={traceId}
