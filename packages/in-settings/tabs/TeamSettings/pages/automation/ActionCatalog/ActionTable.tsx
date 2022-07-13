@@ -7,8 +7,8 @@
 import React, { ReactNode } from 'react';
 import { get } from 'lodash';
 
+import { Button, Link } from '@instana/components';
 import { Observable } from '@instana/observables';
-import { Link } from '@instana/components';
 
 import { teamSettingsActionCatalog, getEntityIdView } from 'in-settings/navigation/paths';
 import List, { leftHeaderWithSelectAll, TableActions } from 'in-settings/components/List';
@@ -76,6 +76,26 @@ const columnDefinitions = [
   }
 ];
 
+const executeColumn = {
+  id: 'execute',
+  label: 'Execute',
+  getContent(row: Action) {
+    const { type, fields } = row;
+    if (type === 'doc_link') {
+      const field = fields?.[0];
+      const value = field?.value;
+      return (
+        <Button kind="action" icon={'lib_views_external_link'} target="_blank" href={value} noAutoMargin>
+          Launch
+        </Button>
+      );
+    } else {
+      // Not supported yet
+      return <>Run</>;
+    }
+  }
+};
+
 export interface ActionTableProps {
   title?: string;
   pageSize?: number;
@@ -85,6 +105,7 @@ export interface ActionTableProps {
   noDataMessage?: string;
   hiddenIds?: string[];
   getEntityName?: (action: Action) => string;
+  showExecuteColumn?: boolean | undefined;
 }
 
 export default function ActionTable({
@@ -95,8 +116,13 @@ export default function ActionTable({
   noDataMessage,
   tableActions = {},
   hiddenIds = [],
-  getEntityName
+  getEntityName,
+  showExecuteColumn = false
 }: ActionTableProps) {
+  let columnDefinitionsToShow = columnDefinitions;
+  if (showExecuteColumn) {
+    columnDefinitionsToShow = [...columnDefinitions, executeColumn];
+  }
   return (
     <List<Action>
       title={title}
@@ -105,7 +131,7 @@ export default function ActionTable({
       initialOrderBy="name"
       isSearchable
       loadEntities={loadEntities}
-      columnDefinitions={columnDefinitions}
+      columnDefinitions={columnDefinitionsToShow}
       getHeader={getHeader()}
       searchAttributes={['name', 'description', (entity: Action) => get(entity, 'tags').toString()]}
       searchPlaceholder={t('in-settings:tabs.filterActions')}
