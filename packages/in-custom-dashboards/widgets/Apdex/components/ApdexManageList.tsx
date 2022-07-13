@@ -6,7 +6,13 @@
 
 import React, { useEffect, useState } from 'react';
 
+import {
+  APDEX_MANAGEMENT_CREATE_START,
+  APDEX_MANAGEMENT_DELETE,
+  APDEX_MANAGEMENT_EDIT_START
+} from 'in-services/tracking/eventNames';
 import useFilteredApdexConfigurations from 'in-custom-dashboards/widgets/Apdex/hooks/useFilteredApdexConfigurations';
+import { useApdexWidgetTrackers } from 'in-custom-dashboards/widgets/Apdex/components/ApdexWidgetTrackerProvider';
 import CreateApdexForm from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm';
 import { deleteApdexConfiguration } from 'in-custom-dashboards/widgets/Apdex/api';
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
@@ -41,14 +47,24 @@ export default function ApdexManageList({
   const [apdexResult, setQuery] = useFilteredApdexConfigurations(entityType, entityId);
   const [isCreateFormVisible, hideCreateForm] = useSlideOutDelay(showCreateForm);
 
+  const track = useApdexWidgetTrackers();
+
   const onShowSlideInContentChange = () => onChange(undefined);
   const onCreateConfig = () => {
+    track(APDEX_MANAGEMENT_CREATE_START, { entityType });
     setEditableApdexConfig({});
     onShowCreateForm();
   };
   const onEditConfig = (config: ApdexConfiguration) => {
+    track(APDEX_MANAGEMENT_EDIT_START, { entityType });
     setEditableApdexConfig(config);
     onShowCreateForm();
+  };
+  const onDeleteApdexConfig = (id: string) => {
+    track(APDEX_MANAGEMENT_DELETE, { entityType });
+    deleteApdexConfiguration(id)
+      .filter(result => !isLoading(result))
+      .once(onDeleteSuccess, onDeleteFailed);
   };
 
   return (
@@ -86,12 +102,6 @@ export default function ApdexManageList({
       enforceMaxHeightForStaticContent
     />
   );
-}
-
-function onDeleteApdexConfig(id: string) {
-  deleteApdexConfiguration(id)
-    .filter(result => !isLoading(result))
-    .once(onDeleteSuccess, onDeleteFailed);
 }
 
 function onDeleteSuccess() {

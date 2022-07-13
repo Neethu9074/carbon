@@ -9,7 +9,9 @@ import { Item, MapForm } from 'formalistic';
 
 import CreateApplicationApdexForm from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/CreateApplicationApdexForm';
 import CreateWebsiteApdexForm from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/CreateWebsiteApdexForm';
+import { useApdexWidgetTrackers } from 'in-custom-dashboards/widgets/Apdex/components/ApdexWidgetTrackerProvider';
 import useCreateApdexConfiguration from 'in-custom-dashboards/widgets/Apdex/hooks/useCreateApdexConfiguration';
+import { APDEX_MANAGEMENT_CREATE_FINISH, APDEX_MANAGEMENT_EDIT_FINISH } from 'in-services/tracking/eventNames';
 import { apdexNameKey, createForm } from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/form';
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
@@ -51,17 +53,22 @@ export default function CreateApdexForm({
   const [form, setForm] = useState<MapForm>(createForm(apdexConfig, entityType, entityId));
   const [{ success, saving, error }, doSubmit] = useCreateApdexConfiguration();
 
+  const track = useApdexWidgetTrackers();
+
   useEffect(() => {
     // Re-initialize form if apdexConfig has changed
     const newForm = createForm(apdexConfig, entityType, entityId);
     setForm(newForm);
   }, [apdexConfig, entityId, entityType]);
 
+  const editMode = Boolean(apdexConfig.id);
+
   const CreateApdexFormComponent = entityType === 'application' ? CreateApplicationApdexForm : CreateWebsiteApdexForm;
 
   const apdexName = getField<string>(form, [apdexNameKey])?.value ?? '';
 
   const onSaveSuccess = (result: Result<ApdexConfiguration>) => {
+    track(editMode ? APDEX_MANAGEMENT_EDIT_FINISH : APDEX_MANAGEMENT_CREATE_FINISH, { entityType });
     addMessage(
       {
         type: 'info',

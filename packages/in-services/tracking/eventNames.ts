@@ -351,3 +351,13 @@ export const ENTERPRISE_IDP_MAPPING_CHANGED = 'enterprise.idp.mapping.changed';
 export const ENTERPRISE_IDP_MAPPING_REMOVED = 'enterprise.idp.mapping.removed';
 export const ENTERPRISE_IDP_MAPPING_RESTRICT_ACCESS = 'enterprise.idp.mapping.restrictAccess';
 export const ENTERPRISE_IDP_MAPPING_RESTRICT_ACCESS_REMOVE = 'enterprise.idp.mapping.restrictAccess.remove';
+
+// Apdex Widget and Apdex Management
+export const APDEX_WIDGET_EDIT_START = 'apdex.widget.edit.start';
+export const APDEX_MANAGEMENT_VIEW = 'apdex.management.view';
+export const APDEX_MANAGEMENT_EXIT = 'apdex.management.exit';
+export const APDEX_MANAGEMENT_CREATE_START = 'apdex.management.create.start';
+export const APDEX_MANAGEMENT_CREATE_FINISH = 'apdex.management.create.finish';
+export const APDEX_MANAGEMENT_EDIT_START = 'apdex.management.edit.start';
+export const APDEX_MANAGEMENT_EDIT_FINISH = 'apdex.management.edit.finish';
+export const APDEX_MANAGEMENT_DELETE = 'apdex.management.delete';
