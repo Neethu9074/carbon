@@ -93,6 +93,9 @@ function EventContent({ event, latestSnapshot }) {
     return <KubernetesEventContent event={event} timeConfig={timeConfig} />;
   }
 
+  const eventType = getEventType(event);
+  const isIssue = eventType === EVENT_TYPES.ISSUE_WARNING || eventType === EVENT_TYPES.ISSUE_CRITICAL;
+
   return (
     <>
       <ViewTrackingMeta
@@ -160,13 +163,15 @@ function EventContent({ event, latestSnapshot }) {
           )}
         </>
       )}
-      <Row withoutSideMargin>
-        <Col xs>
-          <Card title={t('in-events:associatedActions')}>
-            <AssociatedActions event={event} />
-          </Card>
-        </Col>
-      </Row>
+      {isIssue && (
+        <Row withoutSideMargin>
+          <Col xs>
+            <Card title={t('in-events:associatedActions')}>
+              <AssociatedActions event={event} />
+            </Card>
+          </Col>
+        </Row>
+      )}
     </>
   );
 }
