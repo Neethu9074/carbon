@@ -167,3 +167,12 @@ function getNumberOfDigits(value) {
   const [, digits] = value?.toString()?.split('.') ?? [];
   return digits?.length || 0;
 }
+
+export function needsMigrationAction(entity) {
+  return (
+    deprecateAppDataLegacyEventsEnabled &&
+    !isBuiltInRule(entity) &&
+    isAppDataEntityType(entity.entityType) &&
+    !entity.migrated
+  );
+}
