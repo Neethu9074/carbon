@@ -85,7 +85,7 @@ interface MarkersLaneProps<EventType extends MarkerLaneEvent> extends Partial<Pr
   width: number;
   events: EventType[];
   TooltipContent?: React.JSXElementConstructor<EventType>;
-  label: string;
+  label?: string;
   chartContentPosition: ChartContentPostition;
   LaneItem: React.JSXElementConstructor<LaneItemProps<EventType>>;
   HoverOverlay?: React.JSXElementConstructor<MarkerLaneHoverOverlayConfig>;

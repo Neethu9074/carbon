@@ -10,9 +10,9 @@ import { DataSeries } from 'in-components/Chart/renderer/types';
 /**
  * Filters-out items before minimum startTime (if given).
  *
- * Replaces an entry with 2 entries, if it would be rendered as a point, because too far away from its neighbors.
+ * Replaces an entry with 2 entries, if it would be rendered as a point, because it would be too far away from its neighbors.
  *
- * We are not passing maxDistanceBetweenDataPointsInMillis is calculated:
+ * We are not passing maxDistanceBetweenDataPointsInMillis - but it is calculated:
  * it is `granularity * allowedMultiplesOfRollupSizeMissingInCharts`
  *
  * @param baseline - items may be before of current time-window, so we need to filter by minimum startTime
@@ -30,7 +30,7 @@ export function updateThresholdPointsIfRequired(
   const halfBucketInMillis = thresholdGranularity * 0.5;
   const maxDistanceBetweenDatapointsInMillis = thresholdGranularity * allowedMultiplesOfRollupSizeMissingInCharts;
 
-  let previousThresholdPoint: [number, number] | undefined;
+  let previousThresholdPoint: [number, number] | undefined = undefined;
 
   for (let i = 0; i < baseline.length; i++) {
     const currentThresholdPoint: [number, number] = baseline[i];
@@ -68,19 +68,23 @@ export function updateThresholdPointsIfRequired(
   return result;
 }
 
-/** Compares the timestamps of a and b if they are too far away:
+/** Compares the timestamps of currentThresholdPoint and previousThresholdPoint if they are too far away:
  *
  * Only results in false, when time difference is smaller than given maxDistanceBetweenDatapointsInMillis.
  *
- * @param a Tuple containing a timestamp as its first item, or undefined
- * @param b Tuple containing a timestamp as its first item, or undefined
+ * @param currentThresholdPoint Tuple containing currentThresholdPoint timestamp as its first item, or undefined
+ * @param previousThresholdPoint Tuple containing currentThresholdPoint timestamp as its first item, or undefined
  * @param maxDistanceBetweenDatapointsInMillis base for comparision.
- * @return true if either a or b are undefined of do not have a timestamp.
+ * @return true if either currentThresholdPoint or previousThresholdPoint are undefined of do not have currentThresholdPoint timestamp.
  */
 function distanceBetweenThresholdPointsIsTooBig(
-  a: number[] | undefined,
-  b: number[] | undefined,
+  currentThresholdPoint: number[] | undefined,
+  previousThresholdPoint: number[] | undefined,
   maxDistanceBetweenDatapointsInMillis: number
 ): boolean {
-  return !a || !b || a[0] - b[0] > maxDistanceBetweenDatapointsInMillis;
+  return (
+    !currentThresholdPoint ||
+    !previousThresholdPoint ||
+    currentThresholdPoint[0] - previousThresholdPoint[0] > maxDistanceBetweenDatapointsInMillis
+  );
 }

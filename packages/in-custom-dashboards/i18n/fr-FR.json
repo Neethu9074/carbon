@@ -167,14 +167,16 @@
         "aggregation": "Agrégation",
         "crossSeriesAggregation": "Utiliser SUM pour l'agrégation inter-séries",
         "crossSeriesAggregationHelp": "Normalement, l'agrégation inter-séries est identique à l'agrégation à travers le temps (méthode utilisée pour combiner les points de données en un seul intervalle). Avec ce bouton à bascule activé, nous ferons la somme des intervalles de la série de données au lieu d'utiliser l'agrégation spécifiée.",
-        "crossSeriesAggregationDisabledHelp": "Non applicable à {{aggregation}}"
+        "crossSeriesAggregationDisabledHelp": "Non applicable à {{aggregation}}",
+        "crossSeriesAggregationRestrictedHelp": "Non applicable à cette métrique"
       },
       "metrics": {
         "infrastructurePlatforms": "Infrastructure et plateformes",
         "comingSoon": "(bientôt disponible)"
       },
       "typeAndMetricConfigurator": {
-        "pleaseSelectMetric": "Sélectionnez une métrique."
+        "pleaseSelectMetric": "Sélectionnez une métrique.",
+        "loadingMetrics": "Chargement des métriques..."
       }
     },
     "srcMobileApp": {
@@ -374,6 +376,7 @@
     "slo": {
       "demo": {
         "title": "Titre d'objectif de niveau de service",
+        "sliName": "Exemple Sli",
         "appName": "Exemple de nom d'application"
       },
       "apConfigFormComp": {
@@ -478,7 +481,9 @@
         "delSliConfig": "Supprimer la configuration SLI",
         "pleaseConfirm": "Veuillez confirmer.",
         "pleaseConfirmMsg": "Voulez-vous vraiment supprimer <strong>{{sliName}}</strong> ?",
-        "delete": "Supprimer"
+        "delete": "Supprimer",
+        "eventBasedSli": "En fonction des événements",
+        "timeBasedSli": "Basées sur le temps, {{metricNameLabel}}"
       },
       "sliManageList": {
         "configSrvLevelIndicatorsMsg": "Vous ne disposez pas de l'autorisation <em>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</em> requise pour créer ou modifier les SLI.",
@@ -494,7 +499,9 @@
       "chart": {
         "spent": "Dépensé",
         "budget": "Budget",
-        "viewInAnalyze": "Afficher dans l'analyse"
+        "viewInAnalyze": "Afficher dans l'analyse",
+        "initialEvaluation": "SLI créé",
+        "missingDataInfo": "L'heure de création de ce niveau de service est dans la plage de temps affichée. Les données antérieures à la création du SLI manqueront."
       },
       "formComponent": {
         "sliManagement": "Gestion des SLI",
@@ -521,15 +528,16 @@
         "enterDateFormatYyyyMmDd": "Entrez une date au format JJ/MM/AAAA.",
         "enterTimeInFormatHhMmSs": "Entrez une heure au format HH:mm:ss."
       },
-      "widgetHeader": {
+      "sliSummary": {
         "status": "Statut",
         "target": "Cible :",
         "errorBudgetSpent": "Budget d'erreurs dépensé",
         "errorBudget": "Budget d'erreurs :",
         "timeWindow": "Fenêtre de temps",
-        "dynamicTimeWindow": "Fenêtre de temps dynamique",
-        "rollingTimeWindow": "Fenêtre de temps glissante",
-        "fixedTimeWindow": "Fenêtre de temps fixe"
+        "timeWindowType": "Fenêtre de temps inconnue",
+        "timeWindowType_dynamic": "Fenêtre de temps dynamique",
+        "timeWindowType_rolling": "Fenêtre de temps glissante",
+        "timeWindowType_fixed": "Fenêtre de temps fixe"
       },
       "sloEntityInfo": {
         "tooltip": {
@@ -551,7 +559,9 @@
       "slo": "SLO",
       "monitoringSourceSelector": {
         "source_application": "Application",
-        "source_website": "Site Web"
+        "source_website": "Site Web (Bêta)",
+        "callOut_application": "Exclut les facteurs indépendants de votre contrôle, tels que la mauvaise connectivité Internet des utilisateurs finaux, mais peut ne pas refléter exactement l'expérience de l'utilisateur final",
+        "callOut_website": "La plus grande partie reflète l'expérience de l'utilisateur final, mais n'exclut pas les facteurs qui échappent à votre contrôle, tels que la mauvaise connectivité Internet des utilisateurs finaux."
       },
       "sliFormatter": {
         "unit": "appel",
@@ -560,6 +570,58 @@
         "unit_1": "appel",
         "unit_2": "appels",
         "thousandCallsFormat": "{{count}}K appels"
+      },
+      "widgetLeftHeader": {
+        "previewDataInfo": "Les données de prévisualisation sont affichées jusqu'à 7 jours dans le passé si la configuration SLI a été créée récemment. Le widget final inclura uniquement les données depuis la création de la SLI"
+      }
+    },
+    "apdex": {
+      "title": "Apdex : Graphique",
+      "chart": {
+        "metricLabel": "Apdex"
+      },
+      "demo": {
+        "title": "Apdex for Prod",
+        "entityLabel": "Robot Shop"
+      },
+      "formComponent": {
+        "title": "Configuration d'Apdex",
+        "entityTypeTitle": "Type Apdex",
+        "manageListTitle": "Gestion d'Apdex"
+      },
+      "configurationSelector": {
+        "label": "Configuration d'Apdex",
+        "selectConfig": "Sélectionnez une configuration",
+        "manageConfig": "Gérer Apdex",
+        "noneAvailCreateOne": "Aucun disponible. Créez-en un.",
+        "pleaseSelect": "Veuillez sélectionner"
+      },
+      "entityTypeSelector": {
+        "type": "Type inconnu",
+        "type_website": "Site Web"
+      },
+      "apdexManageList": {
+        "title": "Liste d'Apdex"
+      },
+      "apdexList": {
+        "cardTitle": "Configuration d'Apdex",
+        "nameColumn": "Configuration d'Apdex",
+        "thresholdColumn": "Seuil",
+        "confirmDeleteHeader": "Veuillez confirmer.",
+        "confirmDeleteMessage": "Voulez-vous vraiment supprimer {{apdex}} ?",
+        "editApdexTooltip": "Modifier/cloner la configuration d'Apdex",
+        "deleteApdexTooltip": "Supprimer la configuration d'Apdex",
+        "confirmDeleteButton": "Supprimer",
+        "createButton": "Créer la configuration d'Apdex"
+      },
+      "entityInfo": {
+        "tooltip": "Apdex inconnu",
+        "tooltip_website": "Site Web Apdex",
+        "tooltip_application": "Apdex d'application"
+      },
+      "widget": {
+        "unknownEntityLabel_application": "Application inconnue",
+        "unknownEntityLabel_website": "Site Web inconnu"
       }
     },
     "timezone": {

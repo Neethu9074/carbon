@@ -6,15 +6,18 @@
 
 import React from 'react';
 
+import useApdexConfiguration from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexConfiguration';
+import useTagCatalogLoader from 'in-custom-dashboards/widgets/Apdex/hooks/useTagCatalogLoader';
 import useMonitoredEntity from 'in-custom-dashboards/widgets/Slo/hooks/useMonitoredEntity';
 import useApdexMetrics from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexMetrics';
 import ApdexWidget from 'in-custom-dashboards/widgets/Apdex/components/ApdexWidget';
 import { ApdexWidgetConfiguration } from 'in-custom-dashboards/widgets/Apdex/form';
 import { WidgetProps } from 'in-custom-dashboards/widgets/types';
+import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { apdexWidgetEnabled } from 'in-services/featureFlags';
-import { all as allProgress } from 'in-hooks/utils/progress';
 import { MetricDataSeries } from 'in-components/Chart/types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { all } from 'in-hooks/utils/progress';
 import { t } from 'in-i18n';
 
 export default function ApdexWidgetPresenter({
@@ -27,6 +30,11 @@ export default function ApdexWidgetPresenter({
   const originalTimeConfig = useTimeConfig();
 
   const { entityType, entityId, apdexConfigId } = config;
+  const [apdexConfig, , , configProgress] = useApdexConfiguration(apdexConfigId);
+
+  const tagCatalogLoader = useTagCatalogLoader(apdexConfig);
+  const tagCatalog = useTagCatalog(tagCatalogLoader);
+
   const [entity, , , entityProgress] = useMonitoredEntity({ entityType, entityId });
   const entityLabel =
     entity?.label ?? t('in-custom-dashboards:widgets.apdex.widget.unknownEntityLabel', { context: entityType });
@@ -39,17 +47,19 @@ export default function ApdexWidgetPresenter({
   const granularity = metrics?.[0]?.granularity ?? 0;
   const timeConfig = { ...originalTimeConfig, ...metrics?.[0]?.adjustedTimeframe };
 
-  const progress = allProgress(entityProgress, metricProgress);
+  const progress = all(configProgress, entityProgress, metricProgress);
 
   if (!apdexWidgetEnabled) return;
 
   return (
     <ApdexWidget
+      apdexConfig={apdexConfig}
       title={title}
       actions={actions}
       dragHandle={dragHandle}
       entityLabel={entityLabel}
       entityType={entityType}
+      tagCatalog={tagCatalog}
       errors={errors}
       metrics={metrics?.map(r => r.values as MetricDataSeries) ?? []}
       progress={progress}

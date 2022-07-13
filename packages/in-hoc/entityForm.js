@@ -136,33 +136,50 @@ export default function entityForm(ComposedComponent) {
       });
 
       responseSubscription.current = result$.once(() => {
-        setState({
-          ...state,
-          loading: false,
-          error: false
-        });
-        props.onSaveSuccess?.();
-        props.openEntities?.();
+        //entity.deleteActions added to excute second promise disassociate actions after the firts one(save event) executed.
+        if (entity.deleteActions) {
+          entity.deleteActions.once(() => {
+            setState({
+              ...state,
+              loading: false,
+              error: false
+            });
+            props.onSaveSuccess?.();
+            props.openEntities?.();
+          });
+        }
+        //entity.actions added to excute second promise associate actions after the firts one(save event) executed.
+        if (entity.actions) {
+          entity.actions.once(() => {
+            setState({
+              ...state,
+              loading: false,
+              error: false
+            });
+            props.onSaveSuccess?.();
+            props.openEntities?.();
+          });
+        }
+        if (!entity.deleteActions && !entity.actions) {
+          // } else {
+          setState({
+            ...state,
+            loading: false,
+            error: false
+          });
+          props.onSaveSuccess?.();
+          props.openEntities?.();
+        }
       });
 
       errorSubscription.current = result$.errors().once(error => {
-        let message = error.message;
-        if (
-          error.response &&
-          error.response.body &&
-          error.response.body.errors &&
-          error.response.body.errors.length > 0
-        ) {
-          message = error.response.body.errors.join(', ');
-        }
-        scrollToTopSmoothly();
-        props.onSaveError?.(message);
-        setState({
-          ...state,
-          loading: false,
-          error: true,
-          message: t('in-hoc:entityFormFailedToSave', { SaveFailureMessage: message })
+        entity.actions.errors().once(error1 => {
+          showErrorMessages(error1);
         });
+        entity.deleteActions.errors().once(error2 => {
+          showErrorMessages(error2);
+        });
+        showErrorMessages(error);
       });
     }
 
@@ -174,6 +191,26 @@ export default function entityForm(ComposedComponent) {
       if (errorSubscription.current) {
         errorSubscription.current.dispose();
       }
+    }
+
+    function showErrorMessages(error) {
+      let message = error.message;
+      if (
+        error.response &&
+        error.response.body &&
+        error.response.body.errors &&
+        error.response.body.errors.length > 0
+      ) {
+        message = error.response.body.errors.join(', ');
+      }
+      scrollToTopSmoothly();
+      props.onSaveError?.(message);
+      setState({
+        ...state,
+        loading: false,
+        error: true,
+        message: t('in-hoc:entityFormFailedToSave', { SaveFailureMessage: message })
+      });
     }
 
     function onChange(fieldName, value, updateFormDefinition, forceSetValue) {

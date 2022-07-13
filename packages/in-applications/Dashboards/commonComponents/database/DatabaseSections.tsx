@@ -5,7 +5,7 @@
 
 import React, { Fragment } from 'react';
 
-import { EndpointType, BoundaryScope, TimeConfig, ApplicationBoundaryScope } from '@instana/types';
+import { BoundaryScope, TimeConfig } from '@instana/types';
 
 import DatabaseStatementTopList from 'in-applications/Dashboards/commonComponents/database/DatabaseStatementTopList';
 import WidgetNotActive from 'in-applications/Dashboards/commonComponents/WidgetNotActive';
@@ -18,17 +18,11 @@ interface DatabaseSectionProps {
   serviceId: string;
   endpointId: string;
   timeConfig: TimeConfig;
-  applicationBoundaryScope: ApplicationBoundaryScope;
-  endpointTypes: EndpointType[];
   urlMatrixParamConfig: UrlMatrixParamConfig;
   renderHistoricDataIndicator: boolean;
 }
 
 export default function DatabaseSections(props: DatabaseSectionProps) {
-  if (!hasDatabaseEndpoints(props.endpointTypes)) {
-    return null;
-  }
-
   return (
     <Fragment>
       {props.timeConfig.autoRefresh ? (
@@ -38,15 +32,4 @@ export default function DatabaseSections(props: DatabaseSectionProps) {
       )}
     </Fragment>
   );
-}
-
-function hasDatabaseEndpoints(types: EndpointType[] | null | undefined) {
-  if (!types) {
-    return false;
-  }
-  return hasType('DATABASE', types);
-}
-
-function hasType(type: EndpointType, types: EndpointType[]) {
-  return types.indexOf(type) >= 0;
 }

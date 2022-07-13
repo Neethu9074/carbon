@@ -8,10 +8,15 @@ import React, { useState } from 'react';
 import { Message, Button } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
+import {
+  SLI_MANAGEMENT_CREATE_START,
+  SLI_MANAGEMENT_DELETE,
+  SLI_MANAGEMENT_EDIT_START
+} from 'in-services/tracking/eventNames';
 import { deleteSliConfiguration, getSliConfigurationsByEntity } from 'in-custom-dashboards/widgets/Slo/sli/api';
 import CreateSliFormFactory from 'in-custom-dashboards/widgets/Slo/sli/components/create/CreateSliFormFactory';
+import { useSloWidgetTrackers } from 'in-custom-dashboards/widgets/Slo/components/SloWidgetTrackerProvider';
 import { SliConfigBySliType, SliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
-import { trackSliCreate, trackSliViewSLI } from 'in-custom-dashboards/widgets/Slo/tracker';
 import SliList from 'in-custom-dashboards/widgets/Slo/sli/components/list/SliList';
 import SlideInView, { NoHeader } from 'in-components/SlideInView/SlideInView';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
@@ -72,6 +77,7 @@ function SliManageListContent<S extends SliType>({
     () => getSliConfigurationsByEntity({ entityType, entityId }).map(searchBySliName(nameQuery)),
     [entityType, entityId, nameQuery]
   );
+  const track = useSloWidgetTrackers();
 
   return (
     <div>
@@ -91,8 +97,8 @@ function SliManageListContent<S extends SliType>({
             <Button
               kind="action"
               onClick={() => {
+                track(SLI_MANAGEMENT_CREATE_START, { entityType });
                 onChange({});
-                trackSliCreate({});
               }}
               icon="lib_openclose_add_circle_outline"
               className={locals.createButton}
@@ -103,10 +109,13 @@ function SliManageListContent<S extends SliType>({
         }
         query={nameQuery}
         selectSli={sliConfig => {
+          track(SLI_MANAGEMENT_EDIT_START, { entityType });
           onChange(sliConfig as SliConfigBySliType<S>);
-          trackSliViewSLI({ sliId: sliConfig.id, sliType: sliConfig.sliEntity?.sliType });
         }}
-        onDelete={deleteSliConfig}
+        onDelete={id => {
+          track(SLI_MANAGEMENT_DELETE, { entityType });
+          deleteSliConfig(id);
+        }}
       />
     </div>
   );

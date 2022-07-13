@@ -99,4 +99,13 @@
       border-color: @lib__colors__light-blue800;
     }
   }
+
+  .disabledTagInput {
+    background-color: transparent;
+    cursor: not-allowed;
+  }
+
+  .disabled {
+    cursor: not-allowed;
+  }
 }

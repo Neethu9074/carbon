@@ -52,6 +52,7 @@ export const thousandsSeparator = (isLocaleAware && window.instana.numberLocale?
 
 export const zeroDecimalPlaces = format(',.0f');
 export const twoDecimalPlaces = format(',.2f');
+export const upToTwoDecimalPlaces = format(',.2~f');
 export const fourDecimalPlaces = format(',.4f');
 export const number = markAsFormatterType(
   {
@@ -100,10 +101,13 @@ export const percentageZeroDecimalPlaces = (d: number) =>
   t('in-services:formatters.percent', { num: zeroDecimalPlaces(d * 100) });
 export const percentageTwoDecimalPlaces = (d: number) =>
   t('in-services:formatters.percent', { num: twoDecimalPlaces(d * 100) });
+export const percentageUpToTwoDecimalPlaces = (d: number) =>
+  t('in-services:formatters.percent', { num: upToTwoDecimalPlaces(d * 100) });
 export const percentage = markAsFormatterType(
   {
     compact: percentageZeroDecimalPlaces,
-    detailed: percentageTwoDecimalPlaces
+    detailed: percentageTwoDecimalPlaces,
+    short: percentageUpToTwoDecimalPlaces
   },
   PERCENTAGE_FORMATTER_TYPE
 );

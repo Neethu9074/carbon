@@ -13,9 +13,11 @@ export const CUSTOM_DASHBOARD_EDIT = 'custom.dashboard.edit';
 export const CUSTOM_DASHBOARD_DELETE = 'custom.dashboard.delete';
 export const CUSTOM_DASHBOARD_ADD_WIDGET_START = 'custom.dashboard.add.widget.start';
 export const CUSTOM_DASHBOARD_ADD_WIDGET_FINISH = 'custom.dashboard.add.widget.finish';
+export const CUSTOM_DASHBOARD_ADD_WIDGET_DUPLICATE = 'custom.dashboard.add.widget.duplicate';
 export const CUSTOM_DASHBOARD_EDIT_WIDGET_START = 'custom.dashboard.edit.widget.start';
 export const CUSTOM_DASHBOARD_EDIT_WIDGET_CANCEL = 'custom.dashboard.edit.widget.cancel';
 export const CUSTOM_DASHBOARD_EDIT_WIDGET_FINISH = 'custom.dashboard.edit.widget.finish';
+export const CUSTOM_DASHBOARD_DELETE_WIDGET = 'custom.dashboard.delete.widget';
 export const CUSTOM_DASHBOARD_VIEW_WIDGET = 'custom.dashboard.view.widget';
 
 export const ANALYZE_VIEW_SELECTED = 'analyze.view.selected';
@@ -316,19 +318,14 @@ export const POTENTIAL_PROBLEMS_DIALOG_CLOSED = 'potential.problems.dialog.close
 export const ALERT_PREVIEW_MARKER_FETCH_RETRY = 'alert.preview.marker.fetch.retry';
 
 // SLI Widget and SLI Management
-export const SLI_WIDGET_JUMP_TO_UNBOUNDED_ANALYTICS = 'sli.widget.chart.jumpToUA';
-export const SLI_WIDGET_START_EDITING = 'sli.widget.editStart';
-export const SLI_WIDGET_AP_CHANGED = 'sli.widget.apChanged';
-export const SLI_WIDGET_SLI_CHANGED = 'sli.widget.sliChanged';
-export const SLI_WIDGET_SLO_CHANGED = 'sli.widget.sloChanged';
-export const SLI_WIDGET_TIME_WINDOW_TYPE_CHANGED = 'sli.widget.timeWindowChanged';
-export const SLI_WIDGET_OPEN_SLI_MANAGEMENT = 'sli.widget.openSliManagement';
-export const SLI_MANAGEMENT_CREATE = 'sli.management.create';
-export const SLI_MANAGEMENT_VIEW = 'sli.management.view';
-export const SLI_MANAGEMENT_DELETED = 'sli.management.deleted';
-export const SLI_MANAGEMENT_NEW_CREATED = 'sli.management.sliCreated';
-export const SLI_MANAGEMENT_CLONED = 'sli.management.cloned';
-export const SLI_MANAGEMENT_EDIT_ABORT = 'sli.management.editAbort';
+export const SLO_WIDGET_EDIT_START = 'slo.widget.edit.start';
+export const SLI_MANAGEMENT_VIEW = 'sli.v2.management.view';
+export const SLI_MANAGEMENT_EXIT = 'sli.v2.management.exit';
+export const SLI_MANAGEMENT_CREATE_START = 'sli.v2.management.create.start';
+export const SLI_MANAGEMENT_CREATE_FINISH = 'sli.v2.management.create.finish';
+export const SLI_MANAGEMENT_EDIT_START = 'sli.v2.management.edit.start';
+export const SLI_MANAGEMENT_EDIT_FINISH = 'sli.v2.management.edit.finish';
+export const SLI_MANAGEMENT_DELETE = 'sli.v2.management.delete';
 
 // Logging
 export const ANALYZE_LOGGING_QUERY_BUILDER_FILTER_ADDED = 'analyze.logging.queryBuilder.filter.added';

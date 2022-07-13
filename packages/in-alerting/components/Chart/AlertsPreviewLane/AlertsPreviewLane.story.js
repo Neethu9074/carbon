@@ -32,6 +32,7 @@ const validAlertsPreviewConfiguration = {
 };
 
 const alertsExampleData = success({ alerts: getAlerts(timeConfig) });
+const emptyAlertExampleData = success({ alerts: [] });
 
 export const Default = () => {
   const getAlertsPreview = () => just(alertsExampleData);
@@ -49,9 +50,28 @@ export const Default = () => {
     />
   );
 };
-export const DefaultWithLoading = () => {
+export const DefaultWithLoadingAlerts = () => {
   const getAlertsPreview = () =>
     combineLatest([just(alertsExampleData), timeout(2000)]).map(([resultData]) => {
+      return resultData;
+    });
+  return (
+    <ChartWithSomeData
+      renderPreChartContent={props => (
+        <MarkerLanesPresenter {...props} laneLabelsVisible>
+          <AlertsPreviewLane
+            alertsPreviewConfiguration={validAlertsPreviewConfiguration}
+            getAlertsPreview={getAlertsPreview}
+          />
+        </MarkerLanesPresenter>
+      )}
+    />
+  );
+};
+
+export const DefaultWithLoadingNoAlerts = () => {
+  const getAlertsPreview = () =>
+    combineLatest([just(emptyAlertExampleData), timeout(2000)]).map(([resultData]) => {
       return resultData;
     });
   return (

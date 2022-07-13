@@ -249,6 +249,11 @@
   "pluginName_bizTalk_1": "Hosts BizTalk",
   "pluginName_bizTalk_2": "Hosts BizTalk",
   "pluginName_bizTalk": "Host bizTalk",
+  "pluginName_camunda_plural": "Camunda",
+  "pluginName_camunda_0": "Camunda",
+  "pluginName_camunda_1": "Camunda",
+  "pluginName_camunda_2": "Camunda",
+  "pluginName_camunda": "Camunda",
   "pluginName_cassandraCluster_plural": "Clusters Cassandra",
   "pluginName_cassandraCluster_0": "Clusters Cassandra",
   "pluginName_cassandraCluster_1": "Clusters Cassandra",
@@ -682,7 +687,6 @@
   "pluginName_ibmMqListener_1": "Listeners do IBM MQ",
   "pluginName_ibmMqListener_2": "Listeners do IBM MQ",
   "pluginName_ibmMqListener": "Listener do IBM MQ",
-  "pluginName_ibmMqManager": "Gerenciador de Filas do IBM MQ",
   "pluginName_ibmMqQueue_plural": "Filas do IBM MQ",
   "pluginName_ibmMqQueue_0": "Filas do IBM MQ",
   "pluginName_ibmMqQueue_1": "Filas do IBM MQ",
@@ -1152,6 +1156,21 @@
   "pluginName_vsphereVM_1": "VMs vSphere",
   "pluginName_vsphereVM_2": "VMs vSphere",
   "pluginName_vsphereVM": "VM do vSphere",
+  "pluginName_zOS_plural": "IBM z/OS",
+  "pluginName_zOS_0": "IBM z/OS",
+  "pluginName_zOS_1": "IBM z/OS",
+  "pluginName_zOS_2": "IBM z/OS",
+  "pluginName_zOS": "IBM z/OS",
+  "pluginName_zDb2_plural": "IBM DB2 for z/OS",
+  "pluginName_zDb2_0": "IBM DB2 for z/OS",
+  "pluginName_zDb2_1": "IBM DB2 for z/OS",
+  "pluginName_zDb2_2": "IBM DB2 for z/OS",
+  "pluginName_zDb2": "IBM DB2 for z/OS",
+  "pluginName_zCics_plural": "IBM CICS for z/OS",
+  "pluginName_zCics_0": "IBM CICS for z/OS",
+  "pluginName_zCics_1": "IBM CICS for z/OS",
+  "pluginName_zCics_2": "IBM CICS for z/OS",
+  "pluginName_zCics": "IBM CICS for z/OS",
   "pluginName_webLogicApplicationContainer_plural": "Servidores WebLogic",
   "pluginName_webLogicApplicationContainer_0": "Servidores WebLogic",
   "pluginName_webLogicApplicationContainer_1": "Servidores WebLogic",
@@ -1317,6 +1336,11 @@
   "tracingTypeName_camel_0": "Chamadas do Camel",
   "tracingTypeName_camel_1": "Chamada do Camel",
   "tracingTypeName_camel_2": "Chamadas do Camel",
+  "tracingTypeName_camunda": "Chamada do Camunda",
+  "tracingTypeName_camunda_plural": "Chamadas do Camunda",
+  "tracingTypeName_camunda_0": "Chamadas do Camunda",
+  "tracingTypeName_camunda_1": "Chamada do Camunda",
+  "tracingTypeName_camunda_2": "Chamadas do Camunda",
   "tracingTypeName_cassandra": "Consulta de Cassandra",
   "tracingTypeName_cassandra_plural": "Consultas de Cassandra",
   "tracingTypeName_cassandra_0": "Consultas de Cassandra",
@@ -1336,6 +1360,10 @@
   "tracingTypeName_cicshttpexit": "Chamada HTTP do CICS",
   "tracingTypeName_cicsrpcentry": "Chamada de RPC do CICS",
   "tracingTypeName_cicsrpcexit": "Chamada de RPC do CICS",
+  "tracingTypeName_cicsmqentry": "CICS MQ Message",
+  "tracingTypeName_cicsmqexit": "CICS MQ Message",
+  "tracingTypeName_imsmqentry": "IMS MQ Message",
+  "tracingTypeName_imsmqexit": "IMS MQ Message",
   "tracingTypeName_corba": "Chamada de Corba",
   "tracingTypeName_corba_plural": "Chamadas de Corba",
   "tracingTypeName_corba_0": "Chamadas de Corba",
@@ -1846,6 +1874,11 @@
   "tracingTypeName_rabbitmq_0": "Mensagens do RabbitMQ",
   "tracingTypeName_rabbitmq_1": "Mensagem do RabbitMQ",
   "tracingTypeName_rabbitmq_2": "Mensagens do RabbitMQ",
+  "tracingTypeName_rocketmq": "Mensagem do RocketMQ",
+  "tracingTypeName_rocketmq_plural": "Mensagens do RocketMQ",
+  "tracingTypeName_rocketmq_0": "Mensagens do RocketMQ",
+  "tracingTypeName_rocketmq_1": "Mensagem do RocketMQ",
+  "tracingTypeName_rocketmq_2": "Mensagens do RocketMQ",
   "tracingTypeName_rack": "Rack",
   "tracingTypeName_rack_plural": "Chamadas do Rack",
   "tracingTypeName_rack_0": "Chamadas do Rack",
@@ -1906,6 +1939,16 @@
   "tracingTypeName_rpcserver_0": "Chamadas do servidor RPC",
   "tracingTypeName_rpcserver_1": "Servidor RPC",
   "tracingTypeName_rpcserver_2": "Chamadas do servidor RPC",
+  "tracingTypeName_dubborpcentry": "Provedor Dubbo",
+  "tracingTypeName_dubborpcentry_plural": "Chamadas do Provedor Dubbo",
+  "tracingTypeName_dubborpcentry_0": "Chamadas do Provedor Dubbo",
+  "tracingTypeName_dubborpcentry_1": "Provedor Dubbo",
+  "tracingTypeName_dubborpcentry_2": "Chamadas do Provedor Dubbo",
+  "tracingTypeName_dubborpcexit": "Consumidor Dubbo",
+  "tracingTypeName_dubborpcexit_plural": "Chamadas do Consumidor Dubbo",
+  "tracingTypeName_dubborpcexit_0": "Chamadas do Consumidor Dubbo",
+  "tracingTypeName_dubborpcexit_1": "Consumidor Dubbo",
+  "tracingTypeName_dubborpcexit_2": "Chamadas do Consumidor Dubbo",
   "tracingTypeName_s3": "Chamada de S3",
   "tracingTypeName_s3_plural": "Chamadas de S3",
   "tracingTypeName_s3_0": "Chamadas de S3",
@@ -2630,6 +2673,7 @@
       "integrationNodeInfo": "Nó de integração do IBM ACE",
       "serverName": "Nome do servidor",
       "status": "Status",
+      "serverHealth": "Funcionamento",
       "integrationServerNumber": "Servidor de integração ({{count}})",
       "integrationServerNumber_plural": "Servidores de integração ({{count}})",
       "brokerName": "Nome do broker",
@@ -4059,6 +4103,7 @@
       "traffic": "Tráfego"
     },
     "azureSqlDb": {
+      "infoAzureSqlDb": "Banco de dados SQL do Azure",
       "infoName": "Nome",
       "infoResourceGroup": "Grupo de recursos",
       "infoLocation": "Local",
@@ -4078,7 +4123,7 @@
       "labelDeadlocks": "Conflitos",
       "labelDTUUsed": "DTU usado",
       "labelCPUUsed": "CPU usada",
-      "labelDatabasesize": "Tamanho do banco de dados",
+      "labelDatabaseSize": "Tamanho do banco de dados",
       "labelDataIO": "E/S de dados",
       "labelLogIO": "E/S de log",
       "labelInMemoryOLTPStorage": "Armazenamento OLTP na memória",
@@ -4115,8 +4160,7 @@
         "labelInMemoryOLTPStorage": "Armazenamento OLTP na memória",
         "labelCPULimit": "Limite de CPU",
         "labelCPUUsed": "CPU usada"
-      },
-      "database": "Banco de dados"
+      }
     },
     "azureSqlElasticPool": {
       "infoName": "Nome",
@@ -4412,6 +4456,7 @@
       "titleDatacenter": "Data center",
       "titleRack": "Rack",
       "titleHostID": "ID do host",
+      "titleSeeds": "Valores iniciais",
       "labelClientReadRequests": "Solicitações de leitura do cliente",
       "labelMeanReadRequests": "Média de solicitações de leitura",
       "labelMean": "Média",
@@ -4496,9 +4541,9 @@
     },
     "ceph": {
       "infoProcessID": "ID do processo",
-      "infoClusterName": "ClusterName",
+      "infoClusterName": "Nome do cluster",
       "infoVersion": "Versão",
-      "infoFsid": "Fsid",
+      "infoFsid": "ID do sistema de arquivos (fsid)",
       "labelOverallStatus": "Status geral",
       "labelActiveMonitors": "Monitores ativos",
       "labelNumberOfMonitors": "Número de monitores",
@@ -4614,8 +4659,19 @@
         "labelInsertQueries": "Inserir consultas",
         "labelInsertBytes": "Bytes inseridos",
         "titleMerges": "Mesclagens",
+        "explanationMerges": "A mesclagem é uma tarefa em segundo plano cujo objetivo é mesclar partes menores dentro de partes maiores. Um crescimento ilimitado no número de partes ativas não é funcional, pois isso significa que a mesclagem não pode se manter ativa.",
         "labelMerges": "Mesclagens",
         "labelActiveParts": "Partes ativas",
+        "titleReplication": "Replicação",
+        "explanationReplication": "O tamanho máximo da fila (<code>ReplicasMaxQueueSize</code>) representa o maior tamanho de fila de todas as tabelas replicadas. Um crescimento sem limites não é funcional.",
+        "labelReplicasMaxQueueSize": "Tamanho de fila máx.",
+        "labelReplicasMaxInsertsInQueue": "Máx. de inserções na fila",
+        "labelReplicasMaxMergesInQueue": "Máx. de mesclagens na fila",
+        "labelReplicatedSend": "Envios",
+        "labelReplicatedFetch": "Buscas",
+        "titleDistributedSends": "Envios distribuídos (inserções)",
+        "explanationDistributedSends": "Número de arquivos pendentes a processar para inserção assíncrona em tabelas Distribuídas (<code>DistributedFilesToInserir</code>). Um crescimento sem limites não é funcional.",
+        "labelDistributedFilesToInsert": "Arquivos distribuídos para inserir",
         "titleMetric": "Métrica",
         "titleValue": "Valor",
         "titleMetrics": "Métricas",
@@ -5421,7 +5477,8 @@
       "logHadrWaitCur": "Tempo de espera atual do criador de logs",
       "logHadrWaitTime": "Tempo de espera total do criador de logs",
       "unableToConnect": "Não é possível se conectar à {{connectionUrl}} usando o usuário {{user}}.",
-      "troubleshootingDocs": "Docs de resolução de problemas"
+      "troubleshootingDocs": "Docs de resolução de problemas",
+      "oldConfigUsed": "Db2 Sensor agora oferece suporte ao monitoramento de diversas instâncias e bancos de dados no host onde o Instana Agent está em execução. Consulte os docs para o novo formato de configuração."
     },
     "defaultEntity20": {
       "allCallsPerSecond": "Todas as chamadas por segundo",
@@ -8667,6 +8724,23 @@
             "messageTimestamp": "Registro de data e hora",
             "messageText": "Texto",
             "messageSecondLevelText": "Texto de segundo nível"
+          },
+          "spinningDiskType": {
+            "name": "Informações de disco",
+            "resourceName": "Nome do recurso",
+            "unitStorageCapacity": "Capacidade de armazenamento",
+            "percentUsed": "Percentual usado",
+            "diskType": "Tipo de disco",
+            "unitNumber": "Número da unidade",
+            "aspNumber": "Número de ASP",
+            "raidType": "Tipo de Raid",
+            "protectionStatus": "Status de proteção",
+            "unitMediaCapacityGb": "Capacidade de mídia (GB)",
+            "charts": {
+              "elapsedIoRequests": "Solicitações de E/S decorridas",
+              "elapsedRequestSize": "Tamanho da solicitação decorrida",
+              "elapsedPercentBusy": "Percentual ocupado decorrido"
+            }
           }
         }
       },
@@ -8737,6 +8811,7 @@
         "messages": "Mensagens",
         "publications": "Publicações",
         "subscriptions": "Assinaturas",
+        "topicString": "Sequência de tópicos",
         "topicsWithCount": "Tópicos ({{len}})"
       },
       "name": "Nome",
@@ -8790,6 +8865,8 @@
       "maxQueueDepth": "Profundidade máxima da fila",
       "currentQueueDepth": "Profundidade atual da fila",
       "queueFullPercentage": "Porcentagem de profundidade da fila",
+      "lastGetDateTime": "Último horário de GET",
+      "lastPutDateTime": "Último horário de PULL",
       "depth": "Profundidade",
       "messagesIn": "Mensagens de entrada",
       "messagesOut": "Saída de mensagens",
@@ -8819,11 +8896,12 @@
         "in": "Entrada",
         "out": "Saída",
         "uncommitted": "Não confirmado",
-        "type": "Tipo",
-        "usage": "Uso",
-        "monitoring": "Monitoramento",
         "queuesWithCount": "Filas ({{len}})",
         "queueFullPercentage": "Porcentagem de profundidade",
+        "queueDepth": "Profundidade atual",
+        "lastGetDateTime": "Último horário de GET",
+        "lastPutDateTime": "Último horário de PULL",
+        "maxQueueDepth": "Profundidade máx.",
         "openInputCount": "Abrir entrada",
         "openOutputCount": "Abrir saída",
         "application": "Aplicativo",
@@ -8835,9 +8913,9 @@
         "ibmMqQueueManager": "Gerenciador de Filas do IBM MQ",
         "subsWithCount": "Assinaturas ({{len}})",
         "topicString": "Sequência do tópico",
-        "subType": "Tipo de assinatura",
+        "subType": "Tipo",
         "durable": "Durável",
-        "subAlternatedAt": "Assinatura alternada em",
+        "subAlternatedAt": "Alternado em",
         "numberMessages": "Número de mensagens"
       },
       "name": "Nome",
@@ -8901,7 +8979,8 @@
       "count": "Contagem",
       "lastResetTime": "Horário da última reconfiguração",
       "reset": "Reconfigurar",
-      "subscriptions": "Assinaturas"
+      "subscriptions": "Assinaturas",
+      "topicString": "Sequência de tópicos"
     },
     "ibmMqSubscription": {
       "dashboard": {
@@ -8912,8 +8991,8 @@
       "name": "Nome",
       "queueManager": "Gerenciador de filas",
       "clusterName": "Nome do cluster",
-      "subType": "Tipo de assinatura",
-      "subAlternatedAt": "Assinatura alternada em",
+      "subType": "Tipo",
+      "subAlternatedAt": "Alternado em",
       "numberMessages": "Número de mensagens"
     },
     "ibmVsi": {
@@ -8998,11 +9077,6 @@
         "heap": "Heap",
         "directBuffers": "Buffers diretos",
         "offHeap": "Fora do heap",
-        "garbageCollection": "Coleta de lixo",
-        "copyTime": "Tempo de cópia",
-        "markSweepCompactTime": "Tempo de MarkSweepCompact",
-        "copyInvocation": "Chamada de cópia",
-        "markSweepCompactInvocation": "Chamada de MarkSweepCompact",
         "network": "Rede",
         "received": "Recebido",
         "sent": "Enviado",
@@ -11268,6 +11342,7 @@
       "tablespacesWithCount": "Espaços de tabela ({{len}})",
       "version": "Versão",
       "oracleSid": "SID do Oracle",
+      "serviceNames": "Nomes de serviço",
       "port": "Porta",
       "cpuCount": "Contagem de CPUs",
       "maxSessions": "Máximo de sessões",
@@ -11323,6 +11398,123 @@
     "pCFApplication": {
       "instances": "Instâncias",
       "runningInstances": "Instâncias em execução"
+    },
+    "zDb2": {
+      "label": "IBM DB2 for z/OS",
+      "mvsSystem": "Sistema MVS",
+      "lockConflictCount": "Contagem de Conflitos de Bloqueio",
+      "currentThreadCount": "Contagem de encadeamentos atuais",
+      "transactionsPerSecond": "Transações por segundo",
+      "pagesReadFromBps": "Páginas lidas do BPS",
+      "pagesReadFromDasd": "Páginas lidas do DASD",
+      "ecsaUsedByDb2": "ECSA usado pelo DB2",
+      "realStorageUsedByDb2": "Armazenamento real usado pelo DB2",
+      "originNode": "Nó de origem",
+      "db2Version": "Versão do DB2",
+      "db2Subsystem": "Subsistema DB2",
+      "productCode": "Código do produto",
+      "systemStates": "Estados do sistema DB2",
+      "pageReads": "Leituras de páginas",
+      "storage": "Armazenamento",
+      "cicsExceptions": {
+        "title": "Exceções do CICS",
+        "cicsId": "ID do CICS",
+        "totalThreadUtilization": "Utilização total de encadeamentos",
+        "totalThreadsMaximum": "Total máximo de encadeamentos",
+        "totalThreadsInUse": "Total de Encadeamentos em Uso",
+        "poolThreadUtilization": "Utilização de encadeamentos de conjuntos",
+        "poolThreadsInUse": "Encadeamentos de Conjunto em Uso",
+        "poolThreadWaits": "Esperas de Encadeamentos de Conjunto",
+        "poolThreadMaximum": "Máximo de encadeamentos de conjuntos"
+      },
+      "imsConnections": {
+        "title": "Conexões IMS",
+        "imsName": "Nome do IMS",
+        "activeThreads": "Encadeamentos ativos",
+        "connectedDependentRegions": "Regiões Dependentes Conectadas",
+        "definedDependentRegions": "Regiões Dependentes Definidas",
+        "unconnectedRegions": "Regiões não conectadas"
+      },
+      "lockContentions": {
+        "title": "Contenções de Bloqueio",
+        "planConnection": "Plano: ID de conexão",
+        "lockElapsedTime": "Tempo Decorrido do Bloqueio",
+        "planName": "Nome do plano"
+      }
+    },
+    "zCics": {
+      "label": "IBM CICS for z/OS",
+      "originNode": "Nó de origem",
+      "systemId": "ID do sistema",
+      "cicsRegionName": "Nome da região CICS",
+      "cicsVersion": "Versão do CICS",
+      "cicsplexName": "Nome do CICSPlex",
+      "transactionRate": "Taxa de transação",
+      "maximumTasksPercent": "Percentual máximo de tarefas",
+      "cpuUtilization": "Utilização da CPU",
+      "ioRate": "Taxa de E/S",
+      "pageRate": "Taxa da página",
+      "storageViolations": "Violações de armazenamento",
+      "enqueueWaits": "Espera de enfileiramento",
+      "aids": "AIDS",
+      "ices": "ICES",
+      "worstRegionPerformanceIndex": "Pior índice de desempenho da região",
+      "queuedRemoteRequests": "Solicitações remotas enfileiradas",
+      "performance": "Desempenho",
+      "rates": "Taxas",
+      "sos": "SOS"
+    },
+    "zOS": {
+      "label": "IBM z/OS",
+      "sysplexName": "Nome do Sysplex",
+      "smfid": "ID do SMF",
+      "cpuCount": "Contagem de CPUs físicas",
+      "wlmMode": "Modo gerenciamento de carga de trabalho",
+      "managedSystem": "Sistema gerenciado",
+      "productCode": "Código do produto",
+      "cpuUsage": "Utilização da CPU",
+      "avgWorkloadCpu": "Média de CPU de carga de trabalho",
+      "undispatchedTasks": "Tarefas não despachadas",
+      "avgCpuPercentage": "Média de CPU",
+      "avgIfaPercentage": "Média de IFA",
+      "avgIfaCpPercentage": "Média de IFA no CP",
+      "avgziipPercentage": "Média de ZIIP",
+      "avgziipCpPercentage": "Média de zIIP no CP",
+      "mvsOverhead": "Sobrecarga do MVS",
+      "hiperdispatchManagement": "Gerenciamento de hiperdespacho",
+      "percentLparMsuCapacity": "Capacidade de MSU de LPAR",
+      "averageUnusedGroupMsus": "Média de MSUs de grupo não utilizados",
+      "fourHourMsus": "MSUs de quatro horas",
+      "realStorage": {
+        "title": "Histórico de utilização do armazenamento real",
+        "job": "Tarefa",
+        "totalFrames": "Total de quadros",
+        "activeFrames": "Quadros ativos",
+        "idleFrames": "Quadros inativos",
+        "auxStorageSlots": "Slots de armazenamento auxiliar",
+        "memoryObjectsAllocated": "Objetos de memória alocados",
+        "oneMegFramesInReal": "Quadros de 1 Meg reais",
+        "activeFramesWorkingSet": "Conjunto de trabalhos de quadros ativos",
+        "activeFramesFixed": "Quadros ativos fixos",
+        "activeFramesDiv": "Quadros DIV ativos",
+        "pageInRage": "Taxa de inserção de páginas",
+        "sharedPageInRate": "Taxa de inserção de páginas compartilhadas",
+        "sharedPagesTotalViews": "Visualizações do total de páginas compartilhadas",
+        "sharedPagesTotalValid": "Total de páginas compartilhadas válidas",
+        "sharedPagesValidationRate": "Taxa de validação de páginas compartilhadas"
+      },
+      "commonStorage": {
+        "title": "Histórico de utilização do armazenamento comum",
+        "job": "Tarefa",
+        "percentageCsaInUse": "Porcentual de CSA em uso",
+        "percentageEcsaInUse": "Percentual de ECSA em uso",
+        "percentageSqaInUse": "Percentual de SQA em uso",
+        "percentageEsqaInUse": "Percentual de ESQA em uso",
+        "amountCsaInUse": "Quantia de CSA em uso",
+        "amountEcsaInUse": "Quantia de ECSA em uso",
+        "amountSqaInUse": "Quantia de SQA em uso",
+        "amountEsqaInUse": "Quantia de ESQA em uso"
+      }
     }
   },
   "tracing": {
@@ -11453,6 +11645,16 @@
       "titleSort": "Classificar",
       "titleSize": "Tamanho"
     },
+    "camunda": {
+      "titleBusinessKey": "Chave comercial",
+      "titleCaseIntanceId": "ID da Instância do Caso",
+      "titleRootProcessUUID": "UUID do processo raiz",
+      "titleProcessId": "ID de Processo",
+      "titleProcessName": "Nome do processo",
+      "titleActivityId": "ID da Atividade",
+      "titleActivityName": "Nome da atividade",
+      "titleActivityDesc": "Descrição da atividade"
+    },
     "cassandra": {
       "titleKeyspace": "Keyspace",
       "titleFetchSize": "Tamanho da busca",
@@ -11474,7 +11676,9 @@
       "titleCicsAttributes": "Atributos do CICS",
       "titleUserId": "ID do usuário do CICS",
       "titleTaskNumber": "Número de tarefa do CICS",
-      "titleRegion": "Região CICS"
+      "titleRegion": "Região CICS",
+      "titleDestination": "Destino",
+      "titleUnknown": "desconhecido"
     },
     "corba": {
       "titleMethod": "Método",
@@ -11501,6 +11705,13 @@
     "distributemeClient": {
       "titleService": "Serviço",
       "titleMethod": "Método"
+    },
+    "dubbo": {
+      "titlePath": "Caminho",
+      "titleInterface": "Interface",
+      "titleProviderVersion": "Versão do provedor",
+      "titleConsumerVersion": "Versão do consumidor",
+      "titleVersion": "Versão do protocolo"
     },
     "dynamoDB": {
       "titleTable": "Tabela",
@@ -11708,7 +11919,9 @@
     "ims": {
       "titleImsAttributes": "Atributos do IMS",
       "titleEventKey": "Chave de eventos do IMS",
-      "titleComponent": "Componente do IMS"
+      "titleComponent": "Componente do IMS",
+      "titleDestination": "Destino",
+      "titleUnknown": "desconhecido"
     },
     "jaeger": {
       "titleService": "Serviço",
@@ -11885,7 +12098,8 @@
       "operation": "Operação",
       "traceState": "Estado de rastreio",
       "error": "Erro",
-      "tags": "Tags"
+      "tags": "Tags",
+      "resource": "Recurso"
     },
     "pdo": {
       "driver": "Driver",
@@ -11952,6 +12166,9 @@
       "exchange": "Troca",
       "key": "Chave",
       "size": "Tamanho"
+    },
+    "rocketmq": {
+      "topic": "Tópico"
     },
     "redis": {
       "connection": "Conexão",

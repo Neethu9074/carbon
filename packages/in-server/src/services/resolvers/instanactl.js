@@ -207,3 +207,10 @@ function resolvePathToFileContent(key, path) {
   }
   return {};
 }
+
+/** end connection pool and close any connections */
+exports.shutdown = async () => {
+  logger.info(`Trigger instanactl-resolver db connection pool closing.`);
+  await pool.end();
+  logger.info(`Instanactl-resolver db connection pool closed.`);
+};

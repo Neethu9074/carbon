@@ -65,9 +65,13 @@ module.exports = {
     path.join(__dirname, 'packages', '**', '*.tsx'),
     // Storybook
     path.join(__dirname, 'storybook', 'config', '**', '*.js'),
-    path.join(__dirname, 'packages', '**', '*.mdx')
+    path.join(__dirname, 'packages', '**', '*.mdx'),
 
     // Note that we deliberately do not transpile everything under node_modules. This is not
     // forbidden per se, but we should allow this on a case-by-case basis for performance reasons.
+
+    // Explicitly enable transpilation of @instana/types, because it purely consists of automatically generated typescript
+    // code that can't easily be transpiled upon creation
+    path.join(__dirname, 'node_modules', '@instana', 'types', '**', '*.ts')
   ]
 };

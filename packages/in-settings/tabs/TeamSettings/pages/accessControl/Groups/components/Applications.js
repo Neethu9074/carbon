@@ -11,6 +11,7 @@ import ServerListPresenter from 'in-components/lists/List/ServerListPresenter';
 import getApplications from 'in-applications/subscriptions/getApplications';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import Tooltip from 'in-components/Tooltip';
 
 const columnDefinitions = [
   {
@@ -22,7 +23,11 @@ const columnDefinitions = [
   },
   {
     getContent({ item }) {
-      return item.application.label;
+      return (
+        <Tooltip content={item.application.label} align="topLeft" delay={500}>
+          <div>{item.application.label}</div>
+        </Tooltip>
+      );
     }
   }
 ];

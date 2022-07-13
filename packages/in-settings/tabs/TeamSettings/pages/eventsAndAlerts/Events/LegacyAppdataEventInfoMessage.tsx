@@ -13,22 +13,31 @@ import { Trans } from 'in-i18n';
 interface Props {
   migrated?: boolean;
   saved?: boolean;
+  deleted?: boolean;
 }
 
-export default function LegacyAppdataEventInfoMessage({ migrated, saved }: Props) {
+const smartAlertMigrationUrl =
+  'https://www.ibm.com/docs/en/obi/current?topic=applications-smart-alerts' +
+  '#how-to-migrate-a-custom-event-on-application-service-or-endpoint-metrics-to-smart-alerts';
+
+export default function LegacyAppdataEventInfoMessage({ migrated, saved, deleted }: Props) {
   return (
-    <Message type="warning" withIcon small>
-      <TransContent migrated={migrated} saved={saved} />
+    <Message type="neutral" withIcon small>
+      <TransContent migrated={migrated} saved={saved} deleted={deleted} />
     </Message>
   );
 }
 
-function TransContent({ migrated, saved }: Props) {
+function TransContent({ migrated, saved, deleted }: Props) {
   const docsLink = (
-    <Link href="https://www.ibm.com/docs/en/obi/current?topic=applications-smart-alerts" external>
+    <Link href={smartAlertMigrationUrl} external>
       &nbsp;
     </Link>
   );
+
+  if (deleted) {
+    return <Trans i18nKey="in-settings:tabs.deletedEventMessage" />;
+  }
 
   if (migrated) {
     return (

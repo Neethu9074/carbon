@@ -3,15 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
-import classNames from 'classnames';
 import React, { ReactNode } from 'react';
+import classNames from 'classnames';
 
 import locals from './typography.mless';
 
 interface SectionHeadingProps {
   children: ReactNode;
   withoutTopSpacing?: boolean;
-};
+}
 
 export default function SectionHeading({ children, withoutTopSpacing = false }: SectionHeadingProps) {
   return (

@@ -3,8 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import { difference } from 'lodash';
 import React from 'react';
 
+import { combineLatest } from '@instana/observables';
 import { Stack } from '@instana/components';
 
 import {
@@ -13,7 +15,10 @@ import {
   createCustomSystemRuleBasedHostAvailability,
   createCustomThresholdBasedEventSpecification,
   getCustomEventSpecification,
-  saveCustomEventSpecification
+  saveCustomEventSpecification,
+  getActionAssociationCustom,
+  saveActionAssociation,
+  deleteActionAssociation
 } from 'in-api/eventSpecifications';
 import {
   createEventFormDefinition,
@@ -26,15 +31,16 @@ import {
   isAppDataEntityType,
   unmapConditionValue
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
+import { combineResults } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/sharedActions';
 import CustomEventForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventForm';
 import { serializeQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import { getMetricDefinition, isBuiltInDynamicMetric } from 'in-sdk/metrics/metrics';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import { deprecateAppDataLegacyEventsEnabled } from 'in-services/featureFlags';
 import MigrateToSmartAlerts from 'in-alerting/migration/MigrateToSmartAlerts';
 import LegacyAppdataEventInfoMessage from './LegacyAppdataEventInfoMessage';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
-import { deprecateAppDataLegacyEvents } from 'in-services/featureFlags';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
@@ -52,13 +58,22 @@ import { t } from 'in-i18n';
 export default function CustomEvent(props) {
   const entityId = props.match.params.id;
 
+  function mergeResultData() {
+    const eventDetails$ = getCustomEventSpecification(entityId);
+    const actionDetails$ = getActionAssociationCustom(entityId);
+    // calling Get Event and Get action associations call and combining results
+    return combineLatest([eventDetails$, actionDetails$]).map(([response1, response2]) =>
+      combineResults(response1, response2)
+    );
+  }
+
   return (
     <Form
       title={t('in-settings:tabs.event')}
       entityId={entityId}
       createDefaultEntity={createCustomThresholdBasedEventSpecification}
       createForm={event => createEventFormDefinition(event, !entityId)}
-      getEntityFromApi={getCustomEventSpecification}
+      getEntityFromApi={mergeResultData}
       openEntities={() => goToPath(teamSettingsAlertingEvents)}
       saveEntity={save}
     />
@@ -93,7 +108,7 @@ const Form = entityForm(function DetailsForm(props) {
   const hasPermissionsToEditSmartAlerts = role.canConfigureCustomAlerts && role.canConfigureGlobalAlertConfigs;
   const isMigrateableDfqScope = !entity.get('query')?.startsWith('event.');
 
-  const isDeprecated = deprecateAppDataLegacyEvents && isOneOfMigratableEntityTypes;
+  const isDeprecated = deprecateAppDataLegacyEventsEnabled && isOneOfMigratableEntityTypes;
 
   const isMigratable =
     isDeprecated &&
@@ -104,6 +119,8 @@ const Form = entityForm(function DetailsForm(props) {
 
   const isMigrated = !!entity.get('migrated');
 
+  const isDeleted = !!entity.get('deleted');
+
   return (
     <SettingsDetailPage>
       <Stack direction="horizontal" distribution="spaceBetween">
@@ -113,7 +130,7 @@ const Form = entityForm(function DetailsForm(props) {
             : t('in-settings:tabs.configureEventEntityName', { entityName: entity.get('name') })}
         </SubViewHeader>
 
-        {isMigratable && (
+        {isMigratable && !isDeleted && (
           <span style={{ alignSelf: 'center' }}>
             <MigrateToSmartAlerts eventSpecificationId={props.entityId} />
           </span>
@@ -121,7 +138,7 @@ const Form = entityForm(function DetailsForm(props) {
       </Stack>
       <SectionLine />
 
-      {isDeprecated && <LegacyAppdataEventInfoMessage migrated={isMigrated} saved />}
+      {(isDeleted || isDeprecated) && <LegacyAppdataEventInfoMessage migrated={isMigrated} saved deleted={isDeleted} />}
 
       {message ? (
         <Section>
@@ -131,13 +148,18 @@ const Form = entityForm(function DetailsForm(props) {
         </Section>
       ) : null}
 
-      <CustomEventForm {...props} />
+      <CustomEventForm
+        {...props}
+        disabled={isDeleted || isMigrated}
+        // when we already show an information above, we need to hide another message inside the form
+        hideLegacyAppDataEventDeprecationInfo={isDeleted || isDeprecated}
+      />
 
       <SaveCancel
         form={form}
         message={message}
         loading={loading}
-        saveEnabled={saveEnabled && !isMigrated}
+        saveEnabled={saveEnabled && !isMigrated && !isDeleted}
         isCreate={isCreate}
         listPath={teamSettingsAlertingEvents}
       />
@@ -150,6 +172,11 @@ function save(event, form) {
   const severity = Number(form.get('severity')?.value ?? 0);
   const entityType = form.get('entityType')?.value ?? null;
   const scopeType = form.get('applyOn').value;
+  const actionIds = form.get('actionIds')?.value ?? [];
+  const saveActionIds = form.get('saveActionIds')?.value ?? [];
+
+  const finalActionIds = difference(actionIds, saveActionIds); // actions ids that needs to be associated in edit page
+  const finalActionDeleteIds = difference(saveActionIds, actionIds); // actions ids that are deselected and needs to be disassociated
 
   submitEventTracker({
     scopeType,
@@ -159,7 +186,18 @@ function save(event, form) {
   });
 
   const eventSpecification = getEventSpecification(event, form);
-  return saveCustomEventSpecification(eventSpecification);
+  const saveEvent = saveCustomEventSpecification(eventSpecification);
+  if (finalActionIds.length > 0) {
+    event.actions = combineLatest(finalActionIds.map(id => saveActionAssociation(id, eventSpecification)));
+  }
+
+  if (finalActionDeleteIds.length > 0) {
+    event.deleteActions = combineLatest(
+      finalActionDeleteIds.map(id => deleteActionAssociation(id, eventSpecification))
+    );
+  }
+
+  return saveEvent;
 }
 
 function getTagFilterForHostAvailability(form) {

@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { useEffect, useState } from 'react';
 import { Field, MapForm } from 'formalistic';
-import React, { useState } from 'react';
 
 import { Button } from '@instana/components';
 import { Stack } from '@instana/components';
@@ -21,15 +21,10 @@ import {
   TimeWindowType,
   TimeWindowDuration
 } from 'in-custom-dashboards/widgets/Slo/form';
-import {
-  trackAPSelected,
-  trackOpenSLIManagement,
-  debouncedTrackSloChanged,
-  trackStartEditingSloWidgetConfig,
-  trackTimeWindowTypeChanged
-} from 'in-custom-dashboards/widgets/Slo/tracker';
 import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingFieldValidationMessage';
+import { SLI_MANAGEMENT_EXIT, SLI_MANAGEMENT_VIEW, SLO_WIDGET_EDIT_START } from 'in-services/tracking/eventNames';
 import MonitoringSourceSelector from 'in-custom-dashboards/widgets/Slo/components/MonitoringSourceSelector';
+import { useSloWidgetTrackers } from 'in-custom-dashboards/widgets/Slo/components/SloWidgetTrackerProvider';
 import ApplicationSelector from 'in-custom-dashboards/widgets/Slo/components/ApplicationSelector';
 import FormComponentHeader from 'in-custom-dashboards/widgets/Slo/components/FormComponentHeader';
 import { SlideInViewConfig } from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/types';
@@ -65,11 +60,16 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
   const [configChanged, setConfigChanged] = useState<boolean>();
   const updateForm = useSloFormSideEffects(form, updatedForm => {
     if (!configChanged) {
-      trackStartEditingSloWidgetConfig({});
       setConfigChanged(true);
     }
     originalOnChange([], () => updatedForm as MapForm);
   });
+
+  const track = useSloWidgetTrackers();
+
+  useEffect(() => {
+    track(SLO_WIDGET_EDIT_START);
+  }, [track]);
 
   const entityIdField = form.get(entityId) as Field<string>;
   const entityIdValue = entityIdField?.value;
@@ -81,7 +81,6 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
 
   const onChangeTimeWindowType = (value: TimeWindowType) => {
     updateForm(form.updateIn([timeWindowType], f => (f as Field<TimeWindowType>).setValue(value).setTouched(true)));
-    trackTimeWindowTypeChanged({ type: value });
   };
 
   const timeWindowDurationUnitValue =
@@ -97,6 +96,7 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
   const timeField = (form.get(timeWindowStart) as MapForm)?.get('time') as Field<string>;
 
   function activateManageSliSlideIn() {
+    track(SLI_MANAGEMENT_VIEW, { entityType: entityTypeValue });
     return setSlideInView({
       renderTitle(sliSelected) {
         if (sliSelected === null) {
@@ -109,6 +109,7 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
       slideOutHandler(slideOut, [sliSelected, selectSli]) {
         return () => {
           if (sliSelected == null) {
+            track(SLI_MANAGEMENT_EXIT, { entityType: entityTypeValue });
             slideOut(); // close list
           } else {
             // "cancel"/close, go back to list
@@ -126,7 +127,6 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
 
   function onUpdateAppId(id: string | undefined): void {
     updateForm(form.updateIn([entityId], f => (f as Field<string | undefined>).setValue(id).setTouched(true)));
-    trackAPSelected({ applicationId: id });
   }
 
   const isWebsiteEntityType = entityTypeValue === 'website';
@@ -169,14 +169,7 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
           entityId={entityIdValue}
           updateForm={updateForm}
           openManageSLIComponent={
-            <Button
-              disabled={!entityIdValue}
-              kind="primary"
-              onClick={() => {
-                activateManageSliSlideIn();
-                trackOpenSLIManagement({ entityId: entityIdValue });
-              }}
-            >
+            <Button disabled={!entityIdValue} kind="primary" onClick={activateManageSliSlideIn}>
               {t('in-custom-dashboards:widgets.slo.formComponent.manageSlIs')}
             </Button>
           }
@@ -196,7 +189,6 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
                   updateForm(
                     form.updateIn([sloTarget], f => (f as Field<number | undefined>).setValue(value).setTouched(true))
                   );
-                  debouncedTrackSloChanged({ sloTarget: value });
                 }}
                 hasError={!field.valid && field.touched}
               />

@@ -3,7 +3,16 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { Progress, Result, SyntheticLocation, SyntheticTest } from 'in-types';
+import {
+  PaginatedResult,
+  Progress,
+  Result,
+  SyntheticLocation,
+  SyntheticTest,
+  TestResultDetailData,
+  TestResultListItem,
+  TestResultSubtransaction
+} from 'in-types';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import { syntheticsPath } from 'in-synthetics/navigation/paths';
 import { Options } from 'in-hooks/useUrlState';
@@ -40,6 +49,28 @@ export const dummyLocationn: Result<SyntheticLocation> = {
   }
 };
 
+export const dummyResultDetails: Result<ResultDetails> = {
+  data: {} as ResultDetails,
+  errors: [],
+  progress: {
+    loading: true
+  }
+};
+
+export const dummyTestResultList: Result<PaginatedResult<TestResultListItem>[]> = {
+  data: [] as PaginatedResult<TestResultListItem>[],
+  errors: [],
+  progress: {
+    loading: true
+  }
+};
+
+export interface ResultDetails {
+  testId: string;
+  testResultId: string;
+  subtransactions: TestResultSubtransaction[];
+}
+
 export interface UrlState {
   orderBy: string;
   orderDirection: string;
@@ -56,6 +87,13 @@ export const defaultUrlState: UrlState = {
 
 export interface TestResponse {
   data?: SyntheticTest;
+  errors?: Error[];
+  progress: Progress;
+  time?: number;
+}
+
+export interface ResultDetailsResponse {
+  data?: TestResultDetailData;
   errors?: Error[];
   progress: Progress;
   time?: number;
@@ -96,3 +134,12 @@ export const urlStateDefinition = {
     }
   ]
 } as Options<UrlState>;
+
+export type SubtransactionsProps = {
+  errors?: Error[];
+  data?: TestResultDetailData;
+};
+
+export type OverviewChartToolTipProps = {
+  subtransaction: TestResultSubtransaction;
+};

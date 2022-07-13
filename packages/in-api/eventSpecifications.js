@@ -70,15 +70,6 @@ export function getCustomEventSpecificationMutable(eventSpecificationIds) {
   }).map(response => response.body);
 }
 
-export function getCustomEventActionAssocations(eventSpecificationIds) {
-  return http({
-    method: 'GET',
-    maxRetries: 3,
-    url: `/api/events/settings/event-specifications/custom/${encodeURIComponent(eventSpecificationIds)}/actions`,
-    treat400AsError: false
-  }).map(response => fromJS(response.body));
-}
-
 export function createCustomSystemRuleBasedEventSpecificationForEntityVerification({
   id = generateUniqueShortId(),
   name = t('in-settings:tabs.newEvent'),
@@ -230,6 +221,68 @@ export function saveCustomEventSpecification(eventSpecification) {
     url: `/api/events/settings/event-specifications/custom/${encodeURIComponent(eventSpecification.id)}`,
     headers: getCsrfHeader(),
     data: eventSpecification
+  }).map(response => fromJS(response.body));
+}
+
+export function saveActionAssociation(actionId, eventSpecification) {
+  return http({
+    method: 'POST',
+    maxRetries: 3,
+    url: `/api/events/settings/event-specifications/custom/${encodeURIComponent(
+      eventSpecification.id
+    )}/actions/${encodeURIComponent(actionId)}`,
+    headers: getCsrfHeader()
+  }).map(response => fromJS(response.body));
+}
+
+export function saveActionAssociationBuiltin(actionId, eventId) {
+  return http({
+    method: 'POST',
+    maxRetries: 3,
+    url: `/api/events/settings/event-specifications/built-in/${encodeURIComponent(
+      eventId
+    )}/actions/${encodeURIComponent(actionId)}`,
+    headers: getCsrfHeader()
+  }).map(response => fromJS(response.body));
+}
+
+export function getActionAssociationCustom(eventSpecificationId) {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    url: `/api/events/settings/event-specifications/custom/${encodeURIComponent(eventSpecificationId)}/actions`,
+    treat400AsError: false
+  }).map(response => fromJS(response.body));
+}
+
+export function getActionAssociationBuiltin(eventSpecificationId) {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    url: `/api/events/settings/event-specifications/built-in/${encodeURIComponent(eventSpecificationId)}/actions`,
+    treat400AsError: false
+  }).map(response => fromJS(response.body));
+}
+
+export function deleteActionAssociationBuiltin(actionId, eventId) {
+  return http({
+    method: 'DELETE',
+    maxRetries: 3,
+    url: `/api/events/settings/event-specifications/built-in/${encodeURIComponent(
+      eventId
+    )}/actions/${encodeURIComponent(actionId)}`,
+    headers: getCsrfHeader()
+  }).map(response => fromJS(response.body));
+}
+
+export function deleteActionAssociation(actionId, event) {
+  return http({
+    method: 'DELETE',
+    maxRetries: 3,
+    url: `/api/events/settings/event-specifications/custom/${encodeURIComponent(event.id)}/actions/${encodeURIComponent(
+      actionId
+    )}`,
+    headers: getCsrfHeader()
   }).map(response => fromJS(response.body));
 }
 

@@ -27,9 +27,9 @@ const labels = [
 ];
 const aggregations = ['MEAN', 'SUM', 'SUM'];
 const formatters = [meanLatencyLargeInSeconds.compact, number.compact, number.compact];
-const companionMetrics = [null, null, 'errors'];
-const companionAggregations = [null, null, 'MEAN'];
-const companionFormatters = [null, null, percentage.detailed];
+const companionMetrics = [null, 'calls', 'errors'];
+const companionAggregations = [null, 'PER_SECOND', 'MEAN'];
+const companionFormatters = [null, number.perSecond.compact, percentage.detailed];
 const colors = [null, null, theme.lib.colors.failure];
 
 export default function ServiceTopList({
@@ -77,6 +77,7 @@ function getList({
   selectedMetricAggregation,
   selectedCompanionMetric,
   selectedCompanionMetricAggregation,
+  selectedCompanionMetricAlias,
   syntheticCalls
 }) {
   const metrics = {
@@ -85,11 +86,19 @@ function getList({
       aggregation: selectedMetricAggregation
     }
   };
+
   if (selectedCompanionMetric) {
-    metrics[selectedCompanionMetric] = {
-      metric: selectedCompanionMetric,
-      aggregation: selectedCompanionMetricAggregation
-    };
+    if (selectedCompanionMetric === selectedMetric) {
+      metrics[selectedCompanionMetricAlias] = {
+        metric: selectedCompanionMetric,
+        aggregation: selectedCompanionMetricAggregation
+      };
+    } else {
+      metrics[selectedCompanionMetric] = {
+        metric: selectedCompanionMetric,
+        aggregation: selectedCompanionMetricAggregation
+      };
+    }
   }
 
   return getServices({

@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { get } from 'lodash';
 import React from 'react';
 
 import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
@@ -104,7 +103,7 @@ export default function Vios(props) {
     <ServerTableWithUrlState
       get={getTableData}
       timeConfig={props.timeConfig}
-      consoleId={isWithinConsole(props) ? props.consoleId : undefined}
+      consoleId={props.consoleId}
       systemId={props.systemId}
     />
   );
@@ -137,9 +136,4 @@ function getTableData({
     },
     granularity: getInfraGranularity(timeConfig)
   });
-}
-
-function isWithinConsole(props) {
-  const pathname = get(props, ['location', 'pathname'], '/ibmp/console/vios');
-  return pathname && pathname.toLowerCase().includes('console');
 }

@@ -7,8 +7,9 @@ import React from 'react';
 
 import { Stack } from '@instana/components';
 
-import { Reorderer, MetricsForAxis } from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricReordering';
+import { MetricsForAxis, Reorderer } from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricReordering';
 import DataSeriesConfigurator from 'in-custom-dashboards/widgets/Chart/FormComponent/DataSeriesConfigurator';
+import { getFormatter } from 'in-custom-dashboards/widgets/_shared/formatters';
 import { getShortMetricKey } from 'in-custom-dashboards/widgets/Pie/util';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -19,6 +20,33 @@ import Header from 'in-components/workspace/Header';
 import { t } from 'in-i18n';
 
 export default function PieChartWidgetFormComponent({ form, onChange }) {
+  const axisNames = ['y1', 'y2'];
+  const axis = axisNames.map(axisName => form.get(axisName));
+
+  const metricsForAxis = axis.flatMap(axis => axis.get('metrics'));
+  const metricConfigurations = metricsForAxis?.flatMap(metricList => {
+    return [
+      ...new Set(
+        metricList.map(list => {
+          const source = list.get('source')?.value;
+          const metric = list.get('metric')?.value;
+          const aggregation = list.get('aggregation')?.value;
+
+          return {
+            source,
+            metric,
+            aggregation
+          };
+        })
+      )
+    ];
+  });
+
+  let availableFormatters =
+    metricConfigurations?.flatMap(config => getFormatter(config.source, config.metric, config.aggregation)) ?? [];
+  if (availableFormatters.length === 0) {
+    availableFormatters = publicFormatters;
+  }
   return (
     <Stack gap="large">
       <Stack gap="normal">
@@ -56,7 +84,7 @@ export default function PieChartWidgetFormComponent({ form, onChange }) {
               hasError={!field.valid && field.touched}
               additionalContent={<TouchedMessages field={field} />}
             >
-              {publicFormatters.map(({ id, label }) => (
+              {availableFormatters.map(({ id, label }) => (
                 <option key={id} value={id}>
                   {label}
                 </option>

@@ -26,7 +26,7 @@ const columnDefinitions = [
     id: 'label',
     label: t('in-phmc:name'),
     getContent(item) {
-      return <EntityLink label={item.label} href$={getIbmpSystemDashboard(item.id)} />;
+      return <EntityLink label={item.label} href$={getIbmpSystemDashboard(item.id, { consoleId: item.consoleId })} />;
     }
   },
   {

@@ -45,12 +45,13 @@ module.exports = {
   openFacetedSearchByDefault: true,
   agentInstallViewRestrictedToIBMSaas: false,
   traceDetailViewV2Enabled: false,
-  deprecateAppDataLegacyEvents: true,
+  deprecateAppDataLegacyEventsEnabled: true,
+  disallowAppDataLegacyEventsEnabled: true,
+  hideAppDataLegacyEventsEnabled: false,
   potentialProblemsEnabled: true,
   adaptiveBaselineEnabled: true,
   builtInGlobalApplicationSmartAlertsEnabled: true,
   websiteSloEnabled: true,
-  disableAppDataLegacyEvents: false,
   perServiceAdaptiveBaselineEnabled: true,
   perEndpointAdaptiveBaselineEnabled: false,
   smartAlertsLogsBlueprintEnabled: true,
@@ -59,7 +60,7 @@ module.exports = {
   configMigrationFeatureEnabled: true,
   sliCHClusterAccessEnabled: true,
   perSecondAggregationEnabled: false,
-  baselinePreviewOnAlertPageEnabled: true,
   apdexWidgetEnabled: true,
-  actionAutomationEnabled: true
+  actionAutomationEnabled: true,
+  websiteUploadConfigEnabled: true
 };
