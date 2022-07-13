@@ -6,8 +6,8 @@
 import React, { Fragment, useState } from 'react';
 import classNames from 'classnames';
 
+import { Link, Spacer } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Link } from '@instana/components';
 
 import {
   builtInEnumValue,
@@ -17,7 +17,8 @@ import {
   getSeverityText,
   isAppDataEntityType,
   isBuiltInRule,
-  migratedValue
+  migratedValue,
+  needsMigrationAction
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import {
   getEntityHref,
@@ -201,11 +202,22 @@ function columnDefinitions(hasRowNavigation) {
       label: t('in-settings:tabs.name'),
       width: 40,
       getContent(entity) {
+        const { name } = entity;
+
         const icon = getIcon(entity);
 
+        const tooltipContent = needsMigrationAction(entity) ? (
+          <>
+            {name}
+            <Spacer vertical="normal" />
+            {t('in-settings:tabs.actionNeededRecommendMigrate')}
+          </>
+        ) : (
+          name
+        );
         return (
           <WithIcon icon={icon.icon} iconColor={icon.color}>
-            <Tooltip content={entity.name} align="topLeft" delay={500}>
+            <Tooltip content={tooltipContent} align="topLeft" delay={500}>
               <WithSubscript subscript={<Subscript entity={entity} />}>
                 {hasRowNavigation ? (
                   <Link
@@ -220,10 +232,10 @@ function columnDefinitions(hasRowNavigation) {
                       })
                     }
                   >
-                    {entity.name}
+                    {name}
                   </Link>
                 ) : (
-                  <span className={locals.ellipsis}>{entity.name}</span>
+                  <span className={locals.ellipsis}>{name}</span>
                 )}
               </WithSubscript>
             </Tooltip>
@@ -355,17 +367,9 @@ function Subscript({ entity }) {
 
   function showDeprecated() {
     return deprecateAppDataLegacyEventsEnabled && !isBuiltInRule(entity) && isAppDataEntityType(entity.entityType) ? (
-      entity.migrated ? (
-        <span key="deprecated" className={locals.deprecated}>
-          {t('in-settings:tabs.deprecated')}
-        </span>
-      ) : (
-        <Tooltip content={t('in-settings:tabs.actionNeededRecommendMigrate')}>
-          <span key="deprecated" className={locals.deprecated}>
-            {t('in-settings:tabs.deprecated')}
-          </span>
-        </Tooltip>
-      )
+      <span key="deprecated" className={locals.deprecated}>
+        {t('in-settings:tabs.deprecated')}
+      </span>
     ) : null;
   }
 
