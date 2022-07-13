@@ -20,8 +20,7 @@ export default function ResultHeader({
   totalHits,
   adjustedWindowSize,
   isLoading = true,
-  resultPrecisionDetails,
-  hideTooltip
+  resultPrecisionDetails
 }) {
   // for historic data show number of retained items
   // otherwise show total represented item count (a single batched call can represent multiple items)
@@ -38,8 +37,8 @@ export default function ResultHeader({
       ) : (
         <>
           {getItemName && <span className={locals.number}>{getItemName({ count: resultCount })}</span>}
-          {adjustedWindowSize && !hideTooltip && (
-            <Tooltip content={t('in-components:analyzeView.resultHeaderTooltip')} align="rightMiddle">
+          {adjustedWindowSize && isApproximateData && (
+            <Tooltip content={t('in-components:approximateDataIndicator.dataRetention')} align="rightMiddle">
               <SvgIcon className={locals.adjustmentIcon} type="lib_approximately_equal" />
             </Tooltip>
           )}
@@ -58,6 +57,5 @@ ResultHeader.propTypes = {
   isLoading: rpt.bool,
   resultPrecisionDetails: rpt.shape({
     resultPrecision: rpt.string
-  }),
-  hideTooltip: rpt.bool
+  })
 };
