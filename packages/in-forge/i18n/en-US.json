@@ -5445,7 +5445,6 @@
       "lockWaitTime": "Lock Wait Time",
       "lockEscals": "Lock Escalations",
       "lockListInUse": "Lock List In Use",
-      "numberOfConnections": "Number of Connections",
       "activeLockWaits": "Active Lock Waits",
       "averageLockEscalsPerAct": "Average Lock Escalations Per Activity",
       "lockListValue": "Lock List Value",
