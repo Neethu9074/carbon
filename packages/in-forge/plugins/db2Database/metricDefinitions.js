@@ -507,5 +507,75 @@ export default [
     labels: [t('in-forge:plugins.db2Database.logHadrWaitTime')],
     min: 0,
     formatter: millis
+  },
+  {
+    metrics: [
+      'vmonlockstats.lockEscals',
+      'vmonlockstats.lockTimeouts',
+      'vmonlockstats.lockWaitTime',
+      'vmonlockstats.activeLockWaits',
+      'vmonlockstats.averageLockEscalsPerAct',
+      'vmonlockstats.lockListValue'
+    ],
+    labels: [
+      t('in-forge:plugins.db2Database.lockEscals'),
+      t('in-forge:plugins.db2Database.lockTimeouts'),
+      t('in-forge:plugins.db2Database.lockWaitTime'),
+      t('in-forge:plugins.db2Database.activeLockWaits'),
+      t('in-forge:plugins.db2Database.averageLockEscalsPerAct'),
+      t('in-forge:plugins.db2Database.lockListValue')
+    ],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: ['vmonlockstats.lockListInUse'],
+    labels: [t('in-forge:plugins.db2Database.lockListInUse')],
+    min: 0,
+    formatter: bytes
+  },
+  {
+    metrics: ['vmonlockstats.lockWaitTime'],
+    labels: [t('in-forge:plugins.db2Database.lockWaitTime')],
+    min: 0,
+    formatter: millis
+  },
+  {
+    metrics: [
+      'databasevmondeltastats.indexReadEfficiency',
+      'databasevmondeltastats.sorts',
+      'databasevmondeltastats.sortsPerTransactions',
+      'databasevmondeltastats.sqls'
+    ],
+    labels: [
+      t('in-forge:plugins.db2Database.indexReadEfficiency'),
+      t('in-forge:plugins.db2Database.sorts'),
+      t('in-forge:plugins.db2Database.sortsPerTransactions'),
+      t('in-forge:plugins.db2Database.sqls')
+    ],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'databasevmondeltastats',
+        'syncReadPercentage',
+        t('in-forge:plugins.db2Database.dashboard.databaseVmondeltaStats')
+      ),
+      getDynamicMetricMatch(
+        'databasevmondeltastats',
+        'asyncWritePercentage',
+        t('in-forge:plugins.db2Database.dashboard.databaseVmondeltaStats')
+      )
+    ],
+    labels: [
+      t('in-forge:plugins.db2Database.syncReadPercentage'),
+      t('in-forge:plugins.db2Database.asyncWritePercentage')
+    ],
+    category: [t('in-forge:plugins.db2Database.dashboard.databaseVmondeltaStats')],
+    min: 0,
+    max: 100,
+    formatter: percentage.detailed
   }
 ];
