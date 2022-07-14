@@ -86,7 +86,7 @@ export default [
   },
   {
     metric: getDynamicMetricMatch('topics', 'memoryPercentage', t('in-forge:plugins.activeMQ.topic')),
-    labels: t('in-forge:plugins.activeMQ.memoryUsage'),
+    label: t('in-forge:plugins.activeMQ.memoryUsage'),
     category: [t('in-forge:plugins.activeMQ.topics')],
     min: 0,
     max: 1,
