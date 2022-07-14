@@ -158,7 +158,7 @@ export default function SyntheticAnalyzeView() {
                     }}
                   />
                 </Col>
-                <Col xs>
+                <Col xs style={{ display: get(details, ['errors', 0, 'code'], '') === 'NOT_FOUND' ? 'none' : 'block' }}>
                   <BigNumberKpiCard
                     title={t('in-synthetics:dashboard.summary.requests')}
                     formatter={number.compact}
