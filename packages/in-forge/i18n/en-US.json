@@ -5234,7 +5234,7 @@
         "hadrTakeOverTime": "HADR Last Take Over Time",
         "vmonlockStatsValue": "Lock Statistics (Memory)",
         "vmonlockStats": "Lock Statistics",
-        "databasevmondeltastats": "Transaction Performance (Incremental Value)"
+        "databaseVmondeltaStats": "Transaction Performance (Incremental Value)"
       },
       "db2": "DB2",
       "processId": "Process ID",

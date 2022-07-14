@@ -562,7 +562,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.databasevmondeltastats')}>
+      <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.databaseVmondeltaStats')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}

@@ -561,19 +561,19 @@ export default [
       getDynamicMetricMatch(
         'databasevmondeltastats',
         'syncReadPercentage',
-        t('in-forge:plugins.db2Database.dashboard.databasevmondeltastats')
+        t('in-forge:plugins.db2Database.dashboard.databaseVmondeltaStats')
       ),
       getDynamicMetricMatch(
         'databasevmondeltastats',
         'asyncWritePercentage',
-        t('in-forge:plugins.db2Database.dashboard.databasevmondeltastats')
+        t('in-forge:plugins.db2Database.dashboard.databaseVmondeltaStats')
       )
     ],
     labels: [
       t('in-forge:plugins.db2Database.syncReadPercentage'),
       t('in-forge:plugins.db2Database.asyncWritePercentage')
     ],
-    category: [t('in-forge:plugins.db2Database.dashboard.databasevmondeltastats')],
+    category: [t('in-forge:plugins.db2Database.dashboard.databaseVmondeltaStats')],
     min: 0,
     max: 100,
     formatter: percentage.detailed
