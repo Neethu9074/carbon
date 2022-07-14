@@ -217,7 +217,6 @@
     "groupedViewHeader_2": "{{formattedCount}} Groups",
     "groupedViewHeaderRetained": "Retained from {{formattedCount}}",
     "resultHeaderLoading": "Loading…",
-    "resultHeaderTooltip": "The query time range has been rounded up to nearest full minute to allow this view to load more quickly.",
     "queryProgress": {
       "preparing": "Preparing…",
       "runningQuery": "Running query…",
