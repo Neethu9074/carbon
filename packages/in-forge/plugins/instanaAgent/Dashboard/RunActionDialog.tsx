@@ -46,7 +46,7 @@ export function RunActionDialog(props: propsDefinition) {
   const volatileId = props.snapshot.get('volatileId');
 
   return (
-    <Dialog title={t('in-forge:plugins.instanaAgent.dashboard.configurationManagement')} onClose={close}>
+    <Dialog title={t('in-forge:plugins.instanaAgent.dashboard.actionManagement')} onClose={close}>
       <form
         onSubmit={e => {
           e.preventDefault();
