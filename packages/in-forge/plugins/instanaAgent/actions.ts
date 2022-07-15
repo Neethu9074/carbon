@@ -5,12 +5,16 @@
 
 import createAgentResponseObservable from 'in-subscription/agentResponse';
 
-export function runAction3(volatileId: any, command: any) {
+export function runAction3(command: any, volatileId: any) {
   return createAgentResponseObservable({
-    action: 'action',
+    action: 'action.run',
     target: volatileId,
     args: {
-      command: command
+      actionId: '761d8e94-0646-4563-a55e-fded58f3edf9',
+      actionType: 'COMMAND',
+      command: btoa(command),
+      async: 'false',
+      actionOperation: 'action.run'
     }
   });
 }

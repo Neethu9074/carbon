@@ -76,7 +76,7 @@ export default connectTo(
                 <ImageButton
                   iconType="lib_actions_settings"
                   // onClick={() => addActiveDialog(<AgentConfiguration snapshot={snapshot} />)}
-                  onClick={() => addActiveDialog(<RunActionDialog />)}
+                  onClick={() => addActiveDialog(<RunActionDialog snapshot={snapshot} />)}
                 >
                   {t('in-forge:plugins.instanaAgent.dashboard.runActions')}
                 </ImageButton>

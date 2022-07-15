@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, createMapForm } from 'formalistic';
+import { createField, createMapForm, Field, MapForm } from 'formalistic';
 import React, { useState } from 'react';
 
 import { Button } from '@instana/components';
@@ -24,9 +24,14 @@ import locals from './RunActionDialog.mless';
 
 const { DashboardNotification } = require('in-sdk/components/dashboard/DashboardNotification');
 
-export function RunActionDialog() {
+export interface propsDefinition {
+  snapshot: MapForm;
+}
+
+export function RunActionDialog(props: propsDefinition) {
   const codeTargetId = 'configurationManagement';
   const [code, setCode] = useState('');
+  const [loading, setLoading] = useState(false);
   const [form, setForm] = useState(
     createMapForm().put(
       'inputCommand',
@@ -38,20 +43,21 @@ export function RunActionDialog() {
   );
 
   var response = { data: { stdout: '' }, error: undefined };
+  const volatileId = props.snapshot.get('volatileId');
 
   return (
     <Dialog title={t('in-forge:plugins.instanaAgent.dashboard.configurationManagement')} onClose={close}>
       <form
         onSubmit={e => {
           e.preventDefault();
-          save(form.toJS(), setCode);
+          save(form.toJS() as MapForm, setCode, setLoading, volatileId as MapForm);
         }}
       >
-        {FormField('inputCommand', 'Enter command', form, setForm)};
+        {FormField('inputCommand', t('in-forge:plugins.instanaAgent.dashboard.enterCommand'), form, setForm)}
         <Button kind="create" type="submit" disabled={!form.hierarchyValid}>
           {t('in-forge:plugins.instanaAgent.dashboard.runCommand')}
         </Button>
-        {!response && <LoadingIndicator size={'xl'} />}
+        {(!response || loading) && <LoadingIndicator size={'xl'} />}
         {response && response.error && (
           <DashboardNotification type="danger">
             {t('in-forge:plugins.instanaAgent.dashboard.error', { error: response.error })}
@@ -67,8 +73,8 @@ export function RunActionDialog() {
   );
 }
 
-function FormField(fieldName: string, label: string, form: any, setForm: Function) {
-  return form.get(fieldName).map((field: any) => (
+function FormField(fieldName: string, label: string, form: MapForm, setForm: (form: MapForm) => void) {
+  return (form.get(fieldName) as Field<object>).map((field: any) => (
     <FormGroup>
       <Label htmlFor={fieldName}>{label}</Label>
       <Input
@@ -81,8 +87,15 @@ function FormField(fieldName: string, label: string, form: any, setForm: Functio
     </FormGroup>
   ));
 }
-function save(form: any, setCode: Function) {
-  return runAction3(form.inputCommand, 'configurationManagement').once((agentResponse: any) => {
-    setCode(agentResponse.data.output || agentResponse.data.errorMessage);
+function save(
+  form: MapForm,
+  setCode: (arg0: string) => void,
+  setLoading: (arg0: boolean) => void,
+  volatileId: MapForm
+) {
+  setLoading(true);
+  return runAction3(form.get('inputCommand'), volatileId).once((agentResponse: any) => {
+    setLoading(false);
+    setCode(atob(agentResponse.data.output || agentResponse.data.errorMessage));
   });
 }

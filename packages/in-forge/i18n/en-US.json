@@ -9174,6 +9174,7 @@
         "actions":"Actions",
         "runActions":"Run Actions",
         "runCommand":"Run Command",
+        "enterCommand":"Enter command",
         "updateRestart": "Update & Restart",
         "initializeRestart": "Initialize & Restart",
         "management": "Management",
