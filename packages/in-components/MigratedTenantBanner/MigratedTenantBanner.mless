@@ -1,0 +1,40 @@
+/*
+ * (c) Copyright IBM Corp. 2022
+ * (c) Copyright Instana Inc. 2022
+ */
+:local {
+  .migratedTenantBanner {
+    top: 0px;
+    position: fixed;
+    width: stretch;
+    height: 57px;
+    left: 0px;
+    display: flex;
+    background: rgb(23, 161, 230);
+    z-index: 999;
+    color: white;
+    align-items: center;
+
+    .headerHeading {
+      flex-grow: 1;
+      font-weight: 300;
+      font-size: 28px;
+      margin: 0;
+      margin-left: 72px;
+    }
+
+    .migrationNotice {
+      margin-right: 12px;
+      font-size: 0.875rem;
+    }
+
+    .buttonGoto {
+      margin-right: 12px;
+      font-weight: bold;
+    }
+
+    .buttonExplore {
+      margin-right: 24px;
+    }
+  }
+}
