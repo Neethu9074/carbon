@@ -10,7 +10,6 @@ import { ThemeProvider } from '@instana/components';
 import '@instana/components/esm/index.css';
 
 import FloatingActionButtonPresenter from 'in-components/FloatingActionButton/FloatingActionButtonPresenter';
-import MigratedTenantBanner from 'in-components/MigratedTenantBanner/MigratedTenantBanner';
 import OverlayPresenter from 'in-components/overlays/OverlayPresenter';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import { GlobalTimeConfig } from 'in-stores/time/TimeConfigContext';
@@ -30,7 +29,6 @@ export default function App() {
 
   return (
     <ErrorBoundary name="app">
-      <MigratedTenantBanner />
       <GlobalTheme>
         <ThemeProvider theme="default">
           <GlobalTimeConfig location={location}>

@@ -42,7 +42,7 @@ export default function MigratedTenantBanner() {
         Go to New Location
       </Button>
 
-      <Button kind="secondary" size="compact" className={locals.buttonExplore} onClick={() => setActive(false)}>
+      <Button kind="secondary" size="compact" onClick={() => setActive(false)}>
         Explore Historical Data
       </Button>
     </div>

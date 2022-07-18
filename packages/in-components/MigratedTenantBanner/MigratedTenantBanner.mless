@@ -4,23 +4,21 @@
  */
 :local {
   .migratedTenantBanner {
-    top: 0px;
-    position: fixed;
-    width: stretch;
     height: 57px;
-    left: 0px;
     display: flex;
     background: rgb(23, 161, 230);
     z-index: 999;
     color: white;
     align-items: center;
+    margin-left: -1.5rem;
+    margin-right: -1.5rem;
+    padding: 0 1.5rem;
 
     .headerHeading {
       flex-grow: 1;
       font-weight: 300;
       font-size: 28px;
       margin: 0;
-      margin-left: 72px;
     }
 
     .migrationNotice {
@@ -31,10 +29,6 @@
     .buttonGoto {
       margin-right: 12px;
       font-weight: bold;
-    }
-
-    .buttonExplore {
-      margin-right: 24px;
     }
   }
 }
