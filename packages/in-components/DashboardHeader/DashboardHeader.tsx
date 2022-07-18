@@ -10,6 +10,7 @@ import { LoadingSkeleton, SvgIcon } from '@instana/components';
 
 // @ts-expect-error
 import UrlShortener from 'in-components/DashboardHeader/UrlShortener/UrlShortener';
+import MigratedTenantBanner from 'in-components/MigratedTenantBanner/MigratedTenantBanner';
 import TimeSelection from 'in-components/time/TimeSelection/TimeSelection';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import Title from 'in-components/Title';
@@ -109,6 +110,7 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
     <header
       className={classNames(locals.dashboardHeader, locals[theme], className, withBorderBottom && locals.borderBottom)}
     >
+      <MigratedTenantBanner />
       <Title title={title} dynamic={labelForTitle ?? (typeof label === 'string' ? label : null)} />
       <div className={locals.firstLine}>
         <div className={locals.leftContent}>
