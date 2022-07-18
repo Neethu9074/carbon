@@ -25,7 +25,7 @@ import locals from './RunActionDialog.mless';
 const { DashboardNotification } = require('in-sdk/components/dashboard/DashboardNotification');
 
 export interface propsDefinition {
-  snapshot: MapForm;
+  snapshot: any;
 }
 
 export function RunActionDialog(props: propsDefinition) {
@@ -50,7 +50,7 @@ export function RunActionDialog(props: propsDefinition) {
       <form
         onSubmit={e => {
           e.preventDefault();
-          save(form.toJS() as MapForm, setCode, setLoading, volatileId as MapForm);
+          save(form.toJS(), setCode, setLoading, volatileId);
         }}
       >
         {FormField('inputCommand', t('in-forge:plugins.instanaAgent.dashboard.enterCommand'), form, setForm)}
@@ -73,7 +73,7 @@ export function RunActionDialog(props: propsDefinition) {
   );
 }
 
-function FormField(fieldName: string, label: string, form: MapForm, setForm: (form: MapForm) => void) {
+function FormField(fieldName: string, label: string, form: any, setForm: (form: MapForm) => void) {
   return (form.get(fieldName) as Field<object>).map((field: any) => (
     <FormGroup>
       <Label htmlFor={fieldName}>{label}</Label>
@@ -87,14 +87,9 @@ function FormField(fieldName: string, label: string, form: MapForm, setForm: (fo
     </FormGroup>
   ));
 }
-function save(
-  form: MapForm,
-  setCode: (arg0: string) => void,
-  setLoading: (arg0: boolean) => void,
-  volatileId: MapForm
-) {
+function save(form: any, setCode: (arg0: string) => void, setLoading: (arg0: boolean) => void, volatileId: any) {
   setLoading(true);
-  return runAction3(form.get('inputCommand'), volatileId).once((agentResponse: any) => {
+  return runAction3(form.inputCommand, volatileId).once((agentResponse: any) => {
     setLoading(false);
     setCode(atob(agentResponse.data.output || agentResponse.data.errorMessage));
   });
