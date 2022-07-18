@@ -62,6 +62,8 @@
   "labelScope": "Scope",
   "labelCustomServiceRules": "Custom Service Rules",
   "labelSyntheticEndpoints": "Synthetic Endpoints",
+  "labelWarning":"Warning",
+  "labelCritical":"Critical",
   "titleTopServices": "Top Services",
   "titleMeanLatency": "Mean Latency",
   "titleErroneousCallRate": "Erroneous Call Rate",
