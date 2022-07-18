@@ -37,8 +37,8 @@ export default function ResultHeader({
       ) : (
         <>
           {getItemName && <span className={locals.number}>{getItemName({ count: resultCount })}</span>}
-          {adjustedWindowSize && (
-            <Tooltip content={t('in-components:analyzeView.resultHeaderTooltip')} align="rightMiddle">
+          {adjustedWindowSize && isApproximateData && (
+            <Tooltip content={t('in-components:approximateDataIndicator.dataRetention')} align="rightMiddle">
               <SvgIcon className={locals.adjustmentIcon} type="lib_approximately_equal" />
             </Tooltip>
           )}

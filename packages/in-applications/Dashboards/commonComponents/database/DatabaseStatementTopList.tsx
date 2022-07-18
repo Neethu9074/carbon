@@ -48,9 +48,9 @@ const formatters = [millis.fixedCompact, number.compact, number.compact];
 const colors = [null, null, theme.lib.colors.failure];
 
 interface DatabaseStatementTopListProps {
-  applicationId?: string | undefined;
-  serviceId?: string | undefined;
-  endpointId?: string | undefined;
+  applicationId?: string | null;
+  serviceId?: string | null;
+  endpointId?: string | null;
   boundaryScope: BoundaryScope;
   timeConfig: TimeConfig;
   urlMatrixParamConfig: UrlMatrixParamConfig;
@@ -67,13 +67,13 @@ export default function DatabaseStatementTopList({
   renderHistoricDataIndicator
 }: DatabaseStatementTopListProps) {
   const applicationLabel = useObservable(
-    applicationId ? getApplication({ id: applicationId }).map(getLabel) : just(''),
+    applicationId ? getApplication({ id: applicationId }).map(getLabel) : just(null),
     [applicationId]
   );
-  const serviceLabel = useObservable(serviceId ? getServiceLabel({ id: serviceId }).map(getLabel) : just(''), [
+  const serviceLabel = useObservable(serviceId ? getServiceLabel({ id: serviceId }).map(getLabel) : just(null), [
     serviceId
   ]);
-  const endpointLabel = useObservable(endpointId ? getEndpointInfo({ id: endpointId }).map(getLabel) : just(''), [
+  const endpointLabel = useObservable(endpointId ? getEndpointInfo({ id: endpointId }).map(getLabel) : just(null), [
     endpointId
   ]);
 

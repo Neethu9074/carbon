@@ -5,9 +5,14 @@
 
 import React from 'react';
 
+import {
+  createLineWithHistoricBaseline,
+  createLineWithThreshold,
+  createLineWithAdaptiveBaseline,
+  createLineWithBaselineAndPotentialProblem
+} from 'in-alerting/components/Chart/renderer/Renderer';
 import { generateMetrics, fixedTimestamp, generateBaselineForMetric } from 'in-test/util/generateMetrics';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import AlertingRenderer from 'in-alerting/components/Chart/renderer/Renderer';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { minutes } from 'in-services/time';
 import theme from 'in-themes';
@@ -16,23 +21,6 @@ const oneSecond = 1000;
 const oneMinute = oneSecond * 60;
 const oneHour = oneMinute * 60;
 const oneDay = oneHour * 24;
-
-export default {
-  component: AlertingRenderer
-};
-
-export function BaselineWithGaps() {
-  return (
-    <>
-      <p>Adaptive Baseline</p>
-      <Chart renderer={AlertingRenderer.lineWithAdaptiveBaseline} />
-      <p>Historic Baseline</p>
-      <Chart renderer={AlertingRenderer.lineWithHistoricBaseline} />
-      <p>Baseline with optional PotentialProblem</p>
-      <Chart renderer={AlertingRenderer.lineWithBaselineAndPotentialProblem} />
-    </>
-  );
-}
 
 const metricsBarWithBaseline = [generateMetrics(40, 100, oneDay / 6)];
 
@@ -44,12 +32,49 @@ const baselineBarWithBaseline = generateBaselineForMetric(
   3.0
 ).map((metric, idx) => [metricsBarWithBaseline[0][idx][0], metric[1], metric[2]]);
 
-function Chart({ renderer }) {
-  const baselineBarWithBaselineWithGaps = baselineBarWithBaseline
-    .slice(0, 1)
-    .concat(baselineBarWithBaseline.slice(10, 11))
-    .concat(baselineBarWithBaseline.slice(19));
+const baselineBarWithBaselineWithGaps = baselineBarWithBaseline
+  .slice(0, 1)
+  .concat(baselineBarWithBaseline.slice(10, 11))
+  .concat(baselineBarWithBaseline.slice(19));
 
+const granularity = 10 * oneMinute;
+
+const historicThreshold = {
+  baseline: baselineBarWithBaseline,
+  sensitivity: 2,
+  deviationFactor: 2,
+  operator: '>=',
+  labels: ['Latency', 'Threshold', 'Violations'],
+  thresholdGranularity: minutes.toMillis(10)
+};
+
+export function BaselinesWithGaps() {
+  const adaptiveBaseline = {
+    baseline: baselineBarWithBaselineWithGaps,
+    deviationFactor: 2,
+    operator: '>=',
+    thresholdType: ADAPTIVE_BASELINE
+  };
+  return (
+    <>
+      <h1>Historic Baseline</h1>
+      <Chart renderer={createLineWithHistoricBaseline(historicThreshold, granularity)} />
+      <h1>Adaptive Baseline</h1>
+      <Chart renderer={createLineWithAdaptiveBaseline(adaptiveBaseline, granularity)} />
+      <h1>Baseline with NO optional PotentialProblem</h1>
+      <Chart renderer={createLineWithBaselineAndPotentialProblem(historicThreshold, granularity)} />
+      <h1>Static threshold</h1>
+      <Chart
+        renderer={createLineWithThreshold({
+          operator: '>',
+          value: 30
+        })}
+      />
+    </>
+  );
+}
+
+function Chart({ renderer }) {
   return (
     <ResultAwareChart
       result={{
@@ -60,7 +85,7 @@ function Chart({ renderer }) {
       }}
       config={{
         timeConfig: generateTimeframe(oneDay / 6), // 4 hours
-        granularity: 10 * oneMinute,
+        granularity,
         y1: {
           metricIds: ['latency', 'threshold'],
           excludedLabelsFromTooltip: ['Violations'],
@@ -68,21 +93,11 @@ function Chart({ renderer }) {
             types: ['lib_line_chart', 'lib_threshold', 'lib_actions_stop', 'lib_actions_stop'],
             colors: ['#17A1E6', '#FF4040', '#ffe2e2']
           },
-          lineWidth: 1.75,
-          thresholdLineWidth: 1,
-          threshold: 0,
-          sensitivity: 1,
-          getMax: metricsMaxValue => {
-            return metricsMaxValue * 1.4; // TODO include sensitivity and baseline as well, not just the max-metric-value
-          },
+          getMax: metricsMaxValue => metricsMaxValue * 1.4,
           colors: [theme.lib.colors.lightBlue800, theme.lib.colors.red800, theme.lib.colors.orange800],
           renderer,
           metrics: metricsBarWithBaseline,
-          baseline: baselineBarWithBaselineWithGaps,
-          operator: '>=',
-          thresholdType: ADAPTIVE_BASELINE,
-          labels: ['Latency', 'Threshold', 'Violations'],
-          thresholdGranularity: minutes.toMillis(10)
+          labels: ['Latency', 'Threshold', 'Violations']
         }
       }}
     />

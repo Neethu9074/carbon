@@ -6,6 +6,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import {
+  createLineWithThreshold,
+  createLineWithHistoricBaseline,
+  createLineWithAdaptiveBaseline,
+  createLineWithBaselineAndPotentialProblem
+} from 'in-alerting/components/Chart/renderer/Renderer';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import AlertsPreviewLane from 'in-alerting/components/Chart/AlertsPreviewLane/AlertsPreviewLane';
 import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
@@ -15,7 +21,6 @@ import AlertingChartWrapper from 'in-alerting/components/Chart/AlertingChartWrap
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { zeroFillAndClipMetric } from 'in-alerting/components/Chart/chartUtils';
 import { getColorWithTransparency } from 'in-components/Chart/strokeColors';
-import Renderer from 'in-alerting/components/Chart/renderer/Renderer';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -35,7 +40,6 @@ export default function AlertingChart({
   numeratorTagFilterExpression,
   enrichedTagFilterExpression,
   canReload,
-  rendererOverride,
   eventBasedAdaptiveBaseline,
   highlight,
   setMetricResultPrecision
@@ -47,7 +51,7 @@ export default function AlertingChart({
   const formatter = blueprintConfig.getMetricFormat(metricName);
   const aggregation = blueprintConfig.getAggregation(rule);
   const metricLabel = blueprintConfig.getMetricLabel(metricName);
-  const renderer = rendererOverride || getRendererBasedOnThresholdType(threshold.type);
+  const renderer = getRendererBasedOnThresholdType(threshold, highlight, granularity, eventBasedAdaptiveBaseline);
 
   // only apply zero filling to count metrics
   const requiresZeroFilling = aggregation === 'SUM';
@@ -109,14 +113,14 @@ export default function AlertingChart({
       },
       thresholdGranularity: granularity,
       lineWidth: 1.75,
-      thresholdLineWidth: 1,
-      // used as additional data inside the renderers:
+
+      // used as additional data:
+
       threshold: threshold.value,
       operator: threshold.operator,
       sensitivity: threshold.deviationFactor,
       baseline: threshold.baseline,
       eventBasedAdaptiveBaseline,
-      highlight,
       getMax: computeMax
     };
   }
@@ -163,13 +167,18 @@ export default function AlertingChart({
   }
 }
 
-function getRendererBasedOnThresholdType(thresholdType) {
-  if (thresholdType === STATIC_THRESHOLD) {
-    return Renderer.lineWithThreshold;
-  } else if (thresholdType === HISTORIC_BASELINE) {
-    return Renderer.lineWithHistoricBaseline;
-  } else {
-    return Renderer.lineWithAdaptiveBaseline;
+function getRendererBasedOnThresholdType(threshold, highlight, granularity, eventBasedAdaptiveBaseline) {
+  switch (threshold.type) {
+    case STATIC_THRESHOLD:
+      return createLineWithThreshold(threshold);
+    case HISTORIC_BASELINE:
+      if (highlight) {
+        return createLineWithBaselineAndPotentialProblem(threshold, granularity, highlight);
+      } else {
+        return createLineWithHistoricBaseline(threshold, granularity);
+      }
+    default:
+      return createLineWithAdaptiveBaseline(threshold, granularity, eventBasedAdaptiveBaseline);
   }
 }
 
@@ -286,7 +295,6 @@ AlertingChart.propTypes = {
   isQB1only: PropTypes.bool,
   enrichedTagFilters: PropTypes.array,
   enrichedTagFilterExpression: PropTypes.object,
-  rendererOverride: PropTypes.object,
   eventBasedAdaptiveBaseline: PropTypes.array,
 
   /**
