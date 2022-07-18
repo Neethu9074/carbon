@@ -47,6 +47,20 @@ const columnDefinitions = [
     }
   },
   {
+    id: 'utilizedProcUnitsNumber',
+    label: t('in-phmc:utilizedProcNumber'),
+    getContent(item, { timeConfig }) {
+      return (
+        <InfrastructureMetricSparkChart
+          snapshotId={item.id}
+          timeConfig={timeConfig}
+          formatter={number.compact}
+          metric="utilizedProcUnits"
+        />
+      );
+    }
+  },
+  {
     id: 'utilizedProcUnits',
     label: t('in-phmc:utilizedProc'),
     getContent(item, { timeConfig }) {

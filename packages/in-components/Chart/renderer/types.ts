@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { Config, AxisConfiguration, Axis } from 'in-components/Chart/types';
+import { Axis, AxisConfiguration, Config } from 'in-components/Chart/types';
 import Configuration from 'in-components/Chart/Configuration';
 import { ScaleType } from 'in-services/scale';
 

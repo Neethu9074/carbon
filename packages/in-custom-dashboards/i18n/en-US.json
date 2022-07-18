@@ -467,7 +467,7 @@
         "includeSyntheticCalls": "Include Synthetic Calls",
         "type": "Type",
         "sliEntity": "SLI Entity",
-        "beaconConfigLabel": "Beacon Config",
+        "beaconConfigLabel": "Beacon Configuration",
         "beaconScopeLabel": "Beacon Scope",
         "httpRequestsLabel": "HTTP Requests",
         "beaconFiltersLabel": "Beacon Filters"
@@ -602,18 +602,39 @@
         "type_website": "Website"
       },
       "apdexManageList": {
-        "title": "Apdex List"
+        "title": "Apdex List",
+        "deleteSuccessfulMessage": "Apdex configuration was successfully deleted.",
+        "deleteFailedMessage": "Failed to delete the Apdex configuration."
       },
       "apdexList": {
         "cardTitle": "Apdex Configuration",
         "nameColumn": "Apdex configuration",
-        "thresholdColumn": "Treshold",
+        "thresholdColumn": "Threshold",
         "confirmDeleteHeader": "Please Confirm",
         "confirmDeleteMessage": "Are you sure you want to delete {{apdex}}?",
         "editApdexTooltip": "Edit/Clone Apdex configuration",
         "deleteApdexTooltip": "Delete Apdex configuration",
         "confirmDeleteButton": "Delete",
         "createButton": "Create Apdex Configuration"
+      },
+      "createApdexForm": {
+        "title": "Create Apdex Configuration",
+        "customizationHeader": "Apdex Customization",
+        "label": "Apdex Name",
+        "apdexCreateSuccessTitle": "Apdex configuration was created successfully.",
+        "apdexCreateSuccessContent": "Apdex configuration \"{{apdexName}}\" has been created.",
+        "apdexCreateFailedTitle": "Failed to create the Apdex configuration.",
+        "apdexCreateFailedContent": "There was a problem creating this Apdex configuration: \"{{apdexName}}\"",
+        "apdexNameNotEmpty": "The Apdex name cannot be empty.",
+        "thresholdNotEmpty": "The threshold cannot be empty."
+      },
+      "createWebsiteApdexForm": {
+        "thresholdHeader": "Threshold Configuration",
+        "thresholdLabel": "Threshold",
+        "thresholdFooter": "Threshold can not be edited after creation to prevent loss of data."
+      },
+      "createApplicationApdexForm": {
+        "boundary": "Boundary"
       },
       "entityInfo": {
         "tooltip": "Unknown Apdex",

@@ -80,11 +80,11 @@
     "buttonLabel": "Create new Test"
   },
   "navigation": {
-    "synthetics": "Synthetics"
+    "synthetics": "Synthetic Monitoring"
   },
   "dashboard": {
     "testList": {
-      "mainLabel": "Synthetics",
+      "mainLabel": "Synthetic Monitoring",
       "secondaryLabels": {
         "tests": "Tests",
         "location": "Location"
@@ -110,7 +110,6 @@
       "summaryTab": "Summary",
       "resultsTab": "Results",
       "startTime": "Start Time",
-      "status": "Status",
       "requests": "Requests",
       "widgets": {
         "failures": "Failures",
@@ -162,6 +161,10 @@
       "failedRun": "Failed Run(Exception)",
       "failedRunErrorTitle": "Error Message",
       "noFailedErrorMessage": "No error message",
+      "statusKpiCard": "Status",
+      "successResult": "Successful",
+      "failedResult": "Failed",
+      "searchFilter": "Search",
       "subtransactionBody": {
         "contentType": "Content type",
         "size": "Size",
@@ -173,7 +176,8 @@
         "timingsPercentageOfTotalDurationName": "{{percentage}} of {{totalDurationName}}"
       },
       "noDataAvailable": {
-        "timelineDescription": "Timeline details not found"
+        "timelineDescription": "Timeline details not found",
+        "notFound": "Not found"
       }
     },
     "noDataAvailable": {

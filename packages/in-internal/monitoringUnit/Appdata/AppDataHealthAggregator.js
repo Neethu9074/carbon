@@ -300,6 +300,15 @@ export default connectTo({
               rows={rows}
               labels={labels}
             />
+            <ADHADashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appDataAggregator.appMetricsRetrieverStateMissing')}
+              type="stackedArea"
+              metric="metrics.meters.com.instana.appdata.health.aggregator.aggregation.retriever.GetApplicationMetricsRetriever.state-missing"
+              formatter={number.perSecond.detailed}
+              timeConfig={timeConfig}
+              rows={rows}
+              labels={labels}
+            />
           </Columize>
 
           <Columize>
@@ -342,6 +351,15 @@ export default connectTo({
               rows={rows}
               labels={labels}
             />
+            <ADHADashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appDataAggregator.serviceMetricsRetrieverStateMissing')}
+              type="stackedArea"
+              metric="metrics.meters.com.instana.appdata.health.aggregator.aggregation.retriever.GetServicesWithGranularityMetricRetriever.state-missing"
+              formatter={number.perSecond.detailed}
+              timeConfig={timeConfig}
+              rows={rows}
+              labels={labels}
+            />
           </Columize>
 
           <Columize>
@@ -379,6 +397,15 @@ export default connectTo({
               title={t('in-internal:monitoringUnit.appdata.appDataAggregator.endpointMetricsRetrieverNotRegistered')}
               type="stackedArea"
               metric="metrics.meters.com.instana.appdata.health.aggregator.aggregation.retriever.GetEndpointsWithGranularityMetricRetriever.not-registered"
+              formatter={number.perSecond.detailed}
+              timeConfig={timeConfig}
+              rows={rows}
+              labels={labels}
+            />
+            <ADHADashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appDataAggregator.endpointMetricsRetrieverStateMissing')}
+              type="stackedArea"
+              metric="metrics.meters.com.instana.appdata.health.aggregator.aggregation.retriever.GetEndpointsWithGranularityMetricRetriever.state-missing"
               formatter={number.perSecond.detailed}
               timeConfig={timeConfig}
               rows={rows}

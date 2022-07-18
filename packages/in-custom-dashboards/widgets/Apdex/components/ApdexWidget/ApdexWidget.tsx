@@ -9,17 +9,12 @@ import React from 'react';
 import { ApdexConfiguration, TagCatalog } from '@instana/types';
 
 import useApdexWidgetContextMenu from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexWidgetContextMenu';
-import useApdexLineRenderer from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexLineRenderer';
 import WidgetHeader from 'in-custom-dashboards/widgets/Apdex/components/WidgetHeader';
 import WidgetCard from 'in-custom-dashboards/widgets/Apdex/components/WidgetCard';
+import ApdexChart from 'in-custom-dashboards/widgets/Apdex/components/ApdexChart';
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
-import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { MetricDataSeries } from 'in-components/Chart/types';
 import { Error, Progress, TimeConfig } from 'in-types';
-import theme from 'in-themes';
-import { t } from 'in-i18n';
-
-const apdexAreas = [0, 0.7, 0.9, 1] as const;
 
 interface ApdexWidgetProps {
   title: string;
@@ -35,6 +30,8 @@ interface ApdexWidgetProps {
   granularity: number;
   timeConfig: TimeConfig;
   nonInteractive?: boolean;
+  automaticallySize?: boolean;
+  height?: number;
 }
 
 export default function ApdexWidget({
@@ -50,9 +47,10 @@ export default function ApdexWidget({
   progress,
   granularity,
   timeConfig,
-  nonInteractive
+  nonInteractive,
+  automaticallySize,
+  height
 }: ApdexWidgetProps) {
-  const renderer = useApdexLineRenderer(apdexAreas);
   const contextMenu = useApdexWidgetContextMenu({ apdexConfig, tagCatalog });
 
   return (
@@ -62,31 +60,16 @@ export default function ApdexWidget({
       progress={progress}
       header={<WidgetHeader title={title} entityType={entityType} entityLabel={entityLabel} />}
     >
-      <ResultAwareChart
-        config={{
-          y1: {
-            metricIds: ['APDEX'],
-            labels: [t('in-custom-dashboards:widgets.apdex.chart.metricLabel')],
-            colors: [theme.lib.colors.lightBlue800],
-            renderer,
-            metrics,
-            fixedTickPositions: [...apdexAreas],
-            detailedFormatting: true,
-            renderAllTickLabels: true,
-            min: 0,
-            max: 1
-          },
-          granularity,
-          automaticallySize: true,
-          nonInteractive,
-          timeConfig,
-          ...contextMenu
-        }}
-        result={{
-          errors,
-          progress
-        }}
-        renderLegend
+      <ApdexChart
+        metrics={metrics}
+        errors={errors}
+        progress={progress}
+        granularity={granularity}
+        timeConfig={timeConfig}
+        nonInteractive={nonInteractive}
+        contextMenu={contextMenu}
+        automaticallySize={automaticallySize}
+        height={height}
       />
     </WidgetCard>
   );

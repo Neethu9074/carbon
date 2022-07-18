@@ -139,9 +139,13 @@ function renderButtonLine({ traceId, result }) {
   );
 }
 
-function renderContext({ getHrefToUngroupedView }) {
+function renderContext({ getHrefToUngroupedView, tracker }) {
   return (
-    <Link className={locals.analyticsLink} href={getHrefToUngroupedView()}>
+    <Link
+      className={locals.analyticsLink}
+      href={getHrefToUngroupedView()}
+      onClick={() => tracker.traceViewNavigateBackToUa()}
+    >
       {t('in-applications:labelAnalytic')}
     </Link>
   );
@@ -162,9 +166,9 @@ function renderMetaInformation({ traceId, result }) {
   );
 }
 
-function renderTimeSelection({ getHrefToUngroupedView }) {
+function renderTimeSelection({ getHrefToUngroupedView, tracker }) {
   return (
-    <Link href={getHrefToUngroupedView()}>
+    <Link href={getHrefToUngroupedView()} onClick={() => tracker.traceViewClosedTracker()}>
       <Tooltip content={t('in-applications:analyze.closeTraceDetail')}>
         <SvgIcon
           className={locals.closeIcon}

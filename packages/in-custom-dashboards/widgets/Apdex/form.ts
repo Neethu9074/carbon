@@ -5,6 +5,7 @@
  */
 
 import { createField, createMapForm, Field, Item, MapForm, notBlankValidator } from 'formalistic';
+import { isArray } from 'lodash';
 
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
@@ -48,8 +49,9 @@ export function createForm(savedState: Partial<ApdexWidgetConfiguration> = {}) {
     );
 }
 
-export function getField<T>(form: MapForm, field: string): Field<T> | undefined {
-  return form.get(field) as Field<T> | undefined;
+export function getField<T>(form: MapForm, path: string[] | string): Field<T> | undefined {
+  const item = isArray(path) ? form.getIn(path) : form.get(path);
+  return item as Field<T> | undefined;
 }
 
 export function setFieldValue<T>(field: Item, value: T, isTouched = false): Field<T> {

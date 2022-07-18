@@ -39,8 +39,8 @@ export const deleteWidget = widget => track(CUSTOM_DASHBOARD_DELETE_WIDGET, getT
 export const viewWidget = widget => track(CUSTOM_DASHBOARD_VIEW_WIDGET, getTrackingMeta(widget));
 
 function getTrackingMeta(widget) {
-  const widgetType = widget.type;
-  const customMeta = widgets[widgetType]?.getTrackingMeta?.(widget.config) || emptyObject;
+  const widgetType = widget?.type;
+  const customMeta = widgets[widgetType]?.getTrackingMeta?.(widget?.config) || emptyObject;
   return {
     ...customMeta,
     widgetType

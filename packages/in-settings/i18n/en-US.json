@@ -157,6 +157,8 @@
     "inviteUser": "Invite User",
     "failedToSendInvitation": "Failed to send invitation: {{err}}",
     "pleaseInviteAtLeastOneUser": "Please invite at least one user.",
+    "thisUserAlreadyExists": "This user already exists. You can edit it on the 'Users' menu.",
+    "someEmailsHaveFailedToSend": "Some emails have failed to send",
     "inviteUserToTenant": "Invite user to {{tenant}}",
     "anotherUser": "Another user",
     "permissionEntityLabel": "permission {{entityLabel}}",

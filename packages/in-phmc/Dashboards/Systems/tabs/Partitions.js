@@ -30,21 +30,6 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'logicalMem',
-    label: t('in-phmc:logicalMem'),
-    sortable: true,
-    getContent(item, props, columnId) {
-      return (
-        <ServerSideSortedMetricValue
-          snapshotId={item.id}
-          metric="logicalMem"
-          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
-          formatter={number.compact}
-        />
-      );
-    }
-  },
-  {
     id: 'entitledProcUnits',
     label: t('in-phmc:entitledProc'),
     sortable: true,
@@ -60,10 +45,18 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'mode',
-    label: t('in-phmc:mode'),
-    getContent(item) {
-      return item.mode;
+    id: 'logicalMem',
+    label: t('in-phmc:memory'),
+    sortable: true,
+    getContent(item, props, columnId) {
+      return (
+        <ServerSideSortedMetricValue
+          snapshotId={item.id}
+          metric="logicalMem"
+          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
+          formatter={number.compact}
+        />
+      );
     }
   },
   {
@@ -78,6 +71,13 @@ const columnDefinitions = [
           formatter={number.compact}
         />
       );
+    }
+  },
+  {
+    id: 'mode',
+    label: t('in-phmc:mode'),
+    getContent(item) {
+      return item.mode;
     }
   },
   {

@@ -37,6 +37,27 @@ const columnDefinitions = [
     }
   },
   {
+    id: 'vios',
+    label: t('in-phmc:vios'),
+    getContent(item) {
+      return <TableEntityCounter count={item.vios} />;
+    }
+  },
+  {
+    id: 'utilizedProcUnitsNumber',
+    label: t('in-phmc:utilizedProcNumber'),
+    getContent(item, { timeConfig }) {
+      return (
+        <InfrastructureMetricSparkChart
+          snapshotId={item.id}
+          timeConfig={timeConfig}
+          formatter={number.compact}
+          metric="utilizedProcUnits"
+        />
+      );
+    }
+  },
+  {
     id: 'utilizedProcUnits',
     label: t('in-phmc:utilizedProc'),
     getContent(item, { timeConfig }) {

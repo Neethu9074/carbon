@@ -215,7 +215,7 @@ function EventForm({
 
   let pluginsWithMetricDefinitions;
   if (form.get('dataSource') && form.get('dataSource').value !== dataSourceSystem) {
-    pluginsWithMetricDefinitions = getEntityTypeOptionsOfBuiltInMetrics();
+    pluginsWithMetricDefinitions = getEntityTypeOptionsOfBuiltInMetrics(true);
     updateEntityTypesWithDeprecation(pluginsWithMetricDefinitions, form);
   }
 
@@ -398,7 +398,7 @@ function EventForm({
             <ObserveHostHasMatchingEntitiesRunningFormGroup
               disabled={disabled}
               form={form}
-              entityTypes={getEntityTypeOptionsOfBuiltInMetrics()}
+              entityTypes={getEntityTypeOptionsOfBuiltInMetrics(true)}
               onChange={onChange}
             />
           )}

@@ -58,6 +58,13 @@ export const ANALYZE_UA2_LOAD_MORE_CLICKED = 'analyze.ua2.load.more.clicked';
 export const ANALYZE_UA2_FORMMODEL_CHANGED = 'analyze.ua2.formmodel.changed';
 export const ANALYZE_UA2_FACETS_CHANGED = 'analyze.ua2.facets.changed';
 
+export const ANALYZE_TRACE_VIEW_CLOSED = 'analyze.trace.view.closed';
+export const ANALYZE_TRACE_VIEW_NAVIGATE_TO_UA = 'analyze.trace.view.navigate.ua';
+export const ANALYZE_TRACE_VIEW_TRACE_LIST_CLICK = 'analyze.trace.view.trace.list.click';
+export const ANALYZE_TRACE_VIEW_SERVICE_ENDPOINT_LIST_CLICK = 'analyze.trace.view.service.endpoint.list.click';
+export const ANALYZE_TRACE_VIEW_TREE_CALL_CLICK = 'analyze.trace.view.call.tree.click';
+export const ANALYZE_TRACE_VIEW_TIMELINE_CALL_CLICK = 'analyze.trace.view.call.timeline.click';
+
 export const APPLICATION_CLICK_CREATE = 'application.click.create';
 export const APPLICATION_CLICK_SUBMIT = 'application.click.submit';
 export const APPLICATION_CLICK_SOURCE_OR_DESTINATION = 'application.click.changeSourceOrDestination';
@@ -344,3 +351,13 @@ export const ENTERPRISE_IDP_MAPPING_CHANGED = 'enterprise.idp.mapping.changed';
 export const ENTERPRISE_IDP_MAPPING_REMOVED = 'enterprise.idp.mapping.removed';
 export const ENTERPRISE_IDP_MAPPING_RESTRICT_ACCESS = 'enterprise.idp.mapping.restrictAccess';
 export const ENTERPRISE_IDP_MAPPING_RESTRICT_ACCESS_REMOVE = 'enterprise.idp.mapping.restrictAccess.remove';
+
+// Apdex Widget and Apdex Management
+export const APDEX_WIDGET_EDIT_START = 'apdex.widget.edit.start';
+export const APDEX_MANAGEMENT_VIEW = 'apdex.management.view';
+export const APDEX_MANAGEMENT_EXIT = 'apdex.management.exit';
+export const APDEX_MANAGEMENT_CREATE_START = 'apdex.management.create.start';
+export const APDEX_MANAGEMENT_CREATE_FINISH = 'apdex.management.create.finish';
+export const APDEX_MANAGEMENT_EDIT_START = 'apdex.management.edit.start';
+export const APDEX_MANAGEMENT_EDIT_FINISH = 'apdex.management.edit.finish';
+export const APDEX_MANAGEMENT_DELETE = 'apdex.management.delete';

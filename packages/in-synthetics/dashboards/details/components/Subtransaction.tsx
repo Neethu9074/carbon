@@ -80,7 +80,7 @@ function LeftHeader({ subtransaction }: SubtransactionProps) {
   const { statusCode, responseSize, responseTime, uri } = subtransaction.metrics;
   return (
     <Fragment>
-      <KeyValueHeader label={uri} value={''} />
+      <KeyValueHeader label={uri || t('in-synthetics:dashboard.detailsPage.noDataAvailable.notFound')} value={''} />
       <KeyValueHeader label={t('in-synthetics:dashboard.detailsPage.subtransactionStatus')} value={statusCode} />
       <KeyValueHeader
         label={t('in-synthetics:dashboard.detailsPage.subtransactionSize')}
@@ -164,7 +164,7 @@ function SubtransactionBody({ subtransaction }: SubtransactionProps) {
           <Dl>
             <Di title={'Url'}>
               <a href={uri} rel="noopener noreferrer" target="_blank">
-                {uri}
+                {uri || t('in-synthetics:dashboard.detailsPage.noDataAvailable.notFound')}
               </a>
             </Di>
             <Di title={t('in-synthetics:dashboard.detailsPage.subtransactionBody.contentType')}>{contentType}</Di>

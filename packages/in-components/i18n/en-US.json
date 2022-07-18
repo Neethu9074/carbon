@@ -217,7 +217,6 @@
     "groupedViewHeader_2": "{{formattedCount}} Groups",
     "groupedViewHeaderRetained": "Retained from {{formattedCount}}",
     "resultHeaderLoading": "Loading…",
-    "resultHeaderTooltip": "The query time range has been rounded up to nearest full minute to allow this view to load more quickly.",
     "queryProgress": {
       "preparing": "Preparing…",
       "runningQuery": "Running query…",
@@ -793,5 +792,11 @@
     "retainedLabel_viewChange_0": "Approximated data ({{totalHits}} View Changes retained from {{representedHits}})",
     "retainedLabel_viewChange_1": "Approximated data ({{totalHits}} View Changes retained from {{representedHits}})",
     "retainedLabel_viewChange_2": "Approximated data ({{totalHits}} View Changes retained from {{representedHits}})"
+  },
+  "migratedTenantBanner": {
+    "title": "Migrated Tenant Unit",
+    "notice": "This tenant unit has been migrated to a new region. The unit you are currently accessing only contains historical data.",
+    "goToNewLocationLabel": "Go to New Location",
+    "exploreDataLabel": "Explore Historical Data"
   }
 }

@@ -3,4 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-export const defaultGranularity: number = 600000;
+import { Granularity } from '@instana/types';
+
+export const defaultGranularity: Granularity = 600000;

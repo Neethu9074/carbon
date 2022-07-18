@@ -15,6 +15,7 @@ import { t } from '@instana/i18n-react';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import DashboardHeader, { DashboardHeaderProps } from 'in-components/DashboardHeader';
 import { showUpdateErrorMessage } from 'in-synthetics/components/utils/userFeedback';
+import getSyntheticTest from 'in-synthetics/subscriptions/getSyntheticTest';
 import { syntheticsDashboard } from 'in-synthetics/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import tabs from 'in-synthetics/dashboards/summary/tabs/index';
@@ -96,8 +97,8 @@ export default function SyntheticSummaryDashboard() {
         location={location}
         tabs={tabs}
         props={props}
-        result$={getTest(testId)}
-        withProps={({ result }: any) => ({
+        result$={getSyntheticTest({ testId: testId })}
+        withProps={(result: SynthTestResponse) => ({
           testName: get(result, ['data', 'label'])
         })}
       />

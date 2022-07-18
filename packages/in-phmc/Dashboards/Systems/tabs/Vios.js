@@ -23,25 +23,10 @@ const columnDefinitions = [
   {
     id: 'label',
     label: t('in-phmc:name'),
-    getContent(item) {
-      const systemId = item.systemId;
-      const consoleId = item.consoleId;
+    getContent(item, props) {
+      const systemId = props.systemId;
+      const consoleId = props.consoleId;
       return <EntityLink label={item.label} href$={getIbmpViosDashboard(item.id, { systemId, consoleId })} />;
-    }
-  },
-  {
-    id: 'utilizedMemory',
-    label: t('in-phmc:utilizedMem'),
-    sortable: true,
-    getContent(item, props, columnId) {
-      return (
-        <ServerSideSortedMetricValue
-          snapshotId={item.id}
-          metric="utilizedMemPercentage"
-          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
-          formatter={percentage.compact}
-        />
-      );
     }
   },
   {
@@ -60,10 +45,18 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'mode',
-    label: t('in-phmc:mode'),
-    getContent(item) {
-      return item.mode;
+    id: 'utilizedMemory',
+    label: t('in-phmc:memory'),
+    sortable: true,
+    getContent(item, props, columnId) {
+      return (
+        <ServerSideSortedMetricValue
+          snapshotId={item.id}
+          metric="utilizedMemPercentage"
+          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
+          formatter={percentage.compact}
+        />
+      );
     }
   },
   {
@@ -78,6 +71,13 @@ const columnDefinitions = [
           formatter={number.compact}
         />
       );
+    }
+  },
+  {
+    id: 'mode',
+    label: t('in-phmc:mode'),
+    getContent(item) {
+      return item.mode;
     }
   },
   {

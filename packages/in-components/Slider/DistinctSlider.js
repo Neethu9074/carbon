@@ -3,22 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-// eslint-disable-next-line no-restricted-imports
-import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import BaseSlider from 'in-components/Slider/base/StyledMuiSliderBase';
-import { identity } from 'in-services/util/function';
-import theme from 'in-themes';
+import { DistinctSlider as BaseSlider } from '@instana/components';
 
-const StyledMuiSlider = styled(BaseSlider)(`
-  .MuiSlider-mark {
-    background: ${theme.lib.colors.N500};
-    border-radius: 50%;
-    height: 4px;
-  }
-`);
+import { identity } from 'in-services/util/function';
 
 export default function DistinctSlider(props) {
   const {
@@ -44,7 +34,7 @@ export default function DistinctSlider(props) {
         padding: '0 2rem'
       }}
     >
-      <StyledMuiSlider
+      <BaseSlider
         disabled={disabled}
         orientation="horizontal"
         value={value}
