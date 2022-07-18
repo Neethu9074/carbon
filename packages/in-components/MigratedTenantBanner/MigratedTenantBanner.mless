@@ -28,7 +28,7 @@
 
     .buttonGoto {
       margin-right: 12px;
-      font-weight: bold;
+      font-weight: 300;
     }
   }
 }
