@@ -1,0 +1,10 @@
+/*
+ * (c) Copyright IBM Corp. 2022
+ * (c) Copyright Instana Inc.
+ */
+
+:local {
+  .codeAction {
+    margin-top: 1rem;
+  }
+}
