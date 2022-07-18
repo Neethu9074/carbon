@@ -8,13 +8,10 @@ import React, { useState } from 'react';
 import { get } from 'lodash';
 
 import { Button } from '@instana/components';
+import { t } from '@instana/i18n-react';
 
 import config from 'in-services/config';
 
-/*
- * (c) Copyright IBM Corp. 2022
- * (c) Copyright Instana Inc. 2022
- */
 import locals from './MigratedTenantBanner.mless';
 
 export default function MigratedTenantBanner() {
@@ -23,13 +20,10 @@ export default function MigratedTenantBanner() {
 
   return active ? (
     <div className={locals.migratedTenantBanner}>
-      <h1 className={locals.headerHeading}>Migrated Tenant Unit</h1>
+      <h1 className={locals.headerHeading}>{t('in-components:migratedTenantBanner.title')}</h1>
 
       <p className={locals.migrationNotice}>
-        <b>
-          This tenant unit has been migrated to a new region. The unit you are currently accessing only contains
-          historical data.
-        </b>
+        <b>{t('in-components:migratedTenantBanner.notice')}</b>
       </p>
 
       <Button
@@ -39,11 +33,11 @@ export default function MigratedTenantBanner() {
         target="_blank"
         href={migratedTenantUnitUrl}
       >
-        Go to New Location
+        {t('in-components:migratedTenantBanner.goToNewLocationLabel')}
       </Button>
 
       <Button kind="secondary" size="compact" onClick={() => setActive(false)}>
-        Explore Historical Data
+        {t('in-components:migratedTenantBanner.exploreDataLabel')}
       </Button>
     </div>
   ) : (
