@@ -42,9 +42,9 @@ export function createActionFormDefinition(action: ImmutableNewAction, _isCreate
     .put(
       'tags',
       createField({
-        value: mappedTags,
+        value: List(mappedTags),
         validator: tags => {
-          const hasBlankTags = tags.reduce((hasBlank, tag) => hasBlank || tag.value === '', false);
+          const hasBlankTags = tags.reduce((hasBlank, tag) => hasBlank || tag?.value === '', false);
           if (hasBlankTags) {
             return [
               {
@@ -65,19 +65,11 @@ export function putDocLinkFields(form: MapForm, action: ImmutableNewAction) {
   const fields = action.get('fields') as List<Map<string, string>>;
   const field = fields.get(0);
 
-  return form
-    .put(
-      'docLinkValue',
-      createField({
-        value: field.get('value'),
-        validator: notBlankValidator
-      })
-    )
-    .put(
-      'docLinkDescription',
-      createField({
-        value: field.get('description'),
-        validator: notBlankValidator
-      })
-    );
+  return form.put(
+    'docLinkValue',
+    createField({
+      value: field.get('value'),
+      validator: notBlankValidator
+    })
+  );
 }

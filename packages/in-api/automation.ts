@@ -63,9 +63,9 @@ export function deleteAction(actionId: string) {
 export type NewAction = Mutable<Omit<Action, 'createdAt' | 'modifiedAt' | 'id'>>;
 export type ImmutableNewAction = Map<string, string | string[] | List<Map<string, string>>>;
 
-export const createDocLinkField = (value: string, description: string): Field => ({
+export const createDocLinkField = (value: string): Field => ({
   value,
-  description,
+  description: 'URL to remediation documentation',
   encoding: 'UTF8',
   name: 'URL'
 });
@@ -74,7 +74,7 @@ export function createAction(
   name: string = t('in-settings:tabs.newAction'),
   type: string = 'doc_link',
   description: string = '',
-  fields: Field[] = [createDocLinkField('', 'URL to remediation documentation')],
+  fields: Field[] = [createDocLinkField('')],
   tags: List<string> = List()
 ): ImmutableNewAction {
   return fromJS({

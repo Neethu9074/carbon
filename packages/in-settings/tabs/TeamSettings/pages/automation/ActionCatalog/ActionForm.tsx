@@ -34,7 +34,6 @@ export default function ActionForm({ form, setForm, onChange, entity: action }: 
   const name = form.get('name') as Field<string>;
   const description = form.get('description') as Field<string>;
   const type = form.get('type') as Field<string>;
-  const docLinkDescription = form.get('docLinkDescription') as Field<string>;
   const docLinkValue = form.get('docLinkValue') as Field<string>;
 
   return (
@@ -101,11 +100,11 @@ export default function ActionForm({ form, setForm, onChange, entity: action }: 
                   hasError={!field.valid && field.touched}
                 >
                   <option value={'doc_link'}>{t('in-settings:tabs.docLink')}</option>
+                  <option value={'SCRIPT'}>{t('in-settings:tabs.script')}</option>
+                  <option value={'HTTP'}>{t('in-settings:tabs.http')}</option>
                 </Select>
                 <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-                <HelpText className={locals.subTextFormField}>
-                  {t('in-settings:tabs.showsUpInTheIssueDescription')}
-                </HelpText>
+                <HelpText className={locals.subTextFormField}>{t('in-settings:tabs.actionTypeHelper')}</HelpText>
               </FormGroup>
             ))}
             <FormGroup>
@@ -128,26 +127,7 @@ export default function ActionForm({ form, setForm, onChange, entity: action }: 
                     />
                     <TouchedMessages field={field} className={locals.subErrorTextFormField} />
                     <HelpText className={locals.subTextFormField}>
-                      {t('in-settings:tabs.showsUpInTheIssueDescription')}
-                    </HelpText>
-                  </FormGroup>
-                ))}
-                {docLinkDescription.map(field => (
-                  <FormGroup>
-                    <Label htmlFor="action-docLinkDescription" hasError={!field.valid && field.touched}>
-                      {t('in-settings:tabs.docLinkDescription')}
-                    </Label>
-                    <Input
-                      id="action-docLinkDescription"
-                      type="text"
-                      value={field.value}
-                      onChange={e => onChange('docLinkDescription', e.target.value)}
-                      hasError={!field.valid && field.touched}
-                      maxLength={256}
-                    />
-                    <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-                    <HelpText className={locals.subTextFormField}>
-                      {t('in-settings:tabs.showsUpInTheIssueDescription')}
+                      {(action.get('fields') as any).get(0).get('description')}
                     </HelpText>
                   </FormGroup>
                 ))}

@@ -125,8 +125,7 @@ function getActionSpecification(form: MapForm): NewAction {
 
   if (type === 'doc_link') {
     const docLinkValue = form?.get('docLinkValue')?.toJS();
-    const docLinkDescription = form?.get('docLinkDescription')?.toJS();
-    fields.push(createDocLinkField(docLinkValue, docLinkDescription));
+    fields.push(createDocLinkField(docLinkValue));
   }
 
   return {

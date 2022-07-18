@@ -81,7 +81,7 @@ const deleteItemColumnDefinition = {
 
 export default function AlertConfigCustomPayload({ form, setForm, onChange }: AlertConfigCustomPayloadProps) {
   const tableColumnDefinitions = [keyColumnDefinition(form, onChange), deleteItemColumnDefinition];
-  const tags = (form?.get('tags') as Field<List<Tag>>)?.value.toJS();
+  const tags = (form?.get('tags') as Field<List<Tag>>)?.value?.toJS();
   const data = {
     // Parent component would only render if 'result has no errors' or 'result not loading'. Passing loading and errors param accordingly.
     progress: {
