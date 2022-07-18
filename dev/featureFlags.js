@@ -56,6 +56,7 @@ module.exports = {
   smartAlertsLogsBlueprintEnabled: true,
   syntheticsTestEnabled: true,
   kubernetesExploreEnabled: true,
+  kubernetesTeamEnabled: true,
   configMigrationFeatureEnabled: true,
   sliCHClusterAccessEnabled: true,
   perSecondAggregationEnabled: false,

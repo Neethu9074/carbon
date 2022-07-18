@@ -270,6 +270,7 @@
   "health": "Health",
   "clusters": "Clusters",
   "explore": "Explore (Tech Preview)",
+  "k8sTeam": "K8s Team",
   "noMonitoringDataFound": "No Monitoring Data Found",
   "clusterName": "Cluster Name",
   "running": "Running",
