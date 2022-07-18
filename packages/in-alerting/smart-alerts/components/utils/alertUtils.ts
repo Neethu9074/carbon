@@ -23,3 +23,7 @@ export function toTagFilterNumberOperator(thresholdOperator: ThresholdOperator):
 export function isGreaterOperator(thresholdOperator: ThresholdOperator): boolean {
   return thresholdOperator === '>=' || thresholdOperator === '>';
 }
+
+export function isGreaterOperatorOrUndefined(operator: ThresholdOperator | undefined): boolean {
+  return operator === undefined || isGreaterOperator(operator);
+}
