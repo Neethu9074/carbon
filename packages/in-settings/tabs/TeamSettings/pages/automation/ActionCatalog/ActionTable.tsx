@@ -64,7 +64,7 @@ const columnDefinitions = [
     label: t('in-settings:tabs.tags'),
     id: 'tags',
     getContent(row: Action) {
-      const { tags } = row;
+      const { tags = [] } = row;
       return (
         <>
           {tags.map((tag, idx) => (
