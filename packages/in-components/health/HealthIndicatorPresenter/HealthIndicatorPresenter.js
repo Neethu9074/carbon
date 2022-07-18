@@ -22,7 +22,7 @@ export default function HealthIndicatorPresenter({
 }) {
   if (openIssues === 0 || openIssues === 'No Issues') {
     return (
-      <Tooltip content={tooltipLabel} align="rightMiddle">
+      <Tooltip content={tooltipLabel}>
         <SvgIcon type="lib_check" className={locals.okayIcon} />
       </Tooltip>
     );
@@ -45,7 +45,7 @@ export default function HealthIndicatorPresenter({
       className={locals.badge}
       ref={refSetter}
     >
-      <Tooltip content={tooltipLabel} align="rightMiddle">
+      <Tooltip content={tooltipLabel}>
         <SvgIcon type="lib_help_error_warning" color={color} className={locals.icon} />
       </Tooltip>
     </a>
