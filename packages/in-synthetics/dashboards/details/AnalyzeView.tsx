@@ -18,6 +18,7 @@ import DashboardHeaderShadowModule from 'in-components/DashboardHeader/Dashboard
 // @ts-expect-error Module needs to be translated to TS
 import Sticky from 'in-components/Sticky';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
+import StatusKpiCard from 'in-synthetics/dashboards/details/components/StatusKpiCard';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import FailedRun from 'in-synthetics/dashboards/details/components/FailedRun';
@@ -31,7 +32,6 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
-import StatusKpiCard from './components/StatusKpiCard';
 import { getTest } from 'in-synthetics/api';
 
 export default function SyntheticAnalyzeView() {
