@@ -252,7 +252,7 @@ export default function InviteUserDialog({
             className={locals.button}
             kind="primary"
             type="submit"
-            disabled={!form.hierarchyValid && form.touched}
+            disabled={(!form.hierarchyValid && form.touched) || !anyValidEntry(form)}
           >
             {t('in-settings:tabs.inviteUser')}
           </Button>
@@ -267,6 +267,13 @@ export default function InviteUserDialog({
         )}
       </>
     </Dialog>
+  );
+}
+
+function anyValidEntry(form: ListForm) {
+  const asJsObject = form.toJS();
+  return asJsObject.some(
+    e => (e.userSentState === 'notSentYet' || e.userSentState === 'sentFailureServerError') && e.email.trim() !== ''
   );
 }
 

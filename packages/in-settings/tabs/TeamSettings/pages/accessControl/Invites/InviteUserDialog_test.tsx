@@ -142,4 +142,31 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserDi
       { groupId: 'groupId0', email: 'nacho@example.com', userSentState: 'sentFailureUserExists' }
     ]);
   });
+
+  it('button is disabled if no good email is added', async () => {
+    const previousResult: UserInvite[] = [
+      {
+        groupId: 'groupId1',
+        email: 'jimmy.mcgill@example.com',
+        userSentState: 'sentSuccess'
+      },
+      {
+        groupId: 'groupId0',
+        email: 'nacho@example.com',
+        userSentState: 'sentFailureUserExists'
+      }
+    ];
+    let val = 'not called';
+    render(
+      <InviteUserDialog
+        onSubmit={v => {
+          val = 'called' + JSON.stringify(v);
+        }}
+        previousResult={previousResult}
+      />
+    );
+    const emailInputbutton = screen.getByText(t('in-settings:tabs.inviteUser'));
+    fireEvent.click(emailInputbutton);
+    expect(val).toBe('not called');
+  });
 });
