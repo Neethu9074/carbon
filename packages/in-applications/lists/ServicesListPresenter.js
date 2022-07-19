@@ -158,6 +158,8 @@ const columnDefinitions = [
     label: t('in-applications:labelHealth'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
+      let openIssues = get(item, ['metrics', 'openIssues', 0, 1], 0);
+      let maxSeverity = get(item, ['metrics', 'maxSeverity', 0, 1], 0);
       return (
         <ApplicationEntityHealthIndicatorBehavior
           serviceId={item.service.id}
@@ -166,10 +168,7 @@ const columnDefinitions = [
           IndicatorPresenter={HealthIndicatorPresenter}
           timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
           inContentArea
-          tooltipLabel={getTooltipLabel(
-            get(item, ['metrics', 'openIssues', 0, 1], 0),
-            get(item, ['metrics', 'maxSeverity', 0, 1], 0)
-          )}
+          tooltipLabel={getTooltipLabel(openIssues, maxSeverity)}
         />
       );
     }
@@ -296,11 +295,11 @@ function getHasDataToRender(timeConfig) {
   return getServicesWithDefaults({ timeConfig }).map(result => !result.data || result.data.totalHits > 0);
 }
 
-function getTooltipLabel(openIssues, severity) {
+function getTooltipLabel(openIssues, maxSeverity) {
   if (openIssues === 0) {
     return t('in-applications:noIssues');
   } else {
-    if (severity > 5) {
+    if (maxSeverity > 5) {
       return t('in-applications:labelCritical');
     } else {
       return t('in-applications:labelWarning');
