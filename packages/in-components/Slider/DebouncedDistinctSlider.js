@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import DistinctSlider from 'in-components/Slider/DistinctSlider';
+import { DistinctSlider } from '@instana/components';
+
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 
 export default function DebouncedDistinctSlider(props) {

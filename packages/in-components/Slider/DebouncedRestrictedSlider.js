@@ -5,8 +5,9 @@
 
 import React from 'react';
 
+import { RestrictedSlider } from '@instana/components';
+
 import { restrictedSliderPropTypes } from 'in-components/Slider/proptypes';
-import RestrictedSlider from 'in-components/Slider/RestrictedSlider';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 
 export default function DebouncedRestrictedSlider(props) {
