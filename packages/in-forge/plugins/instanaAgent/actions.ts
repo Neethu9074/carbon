@@ -10,7 +10,7 @@ export function runAction3(command: any, volatileId: any) {
     action: 'action.run',
     target: volatileId,
     args: {
-      actionId: 'e9ea042a-2d4c-486a-b6c9-cd3696d0a5b7',
+      actionInstanceId: 'e9ea042a-2d4c-486a-b6c9-cd3696d0a5b7',
       actionType: 'COMMAND',
       command: btoa(command),
       async: 'false',
