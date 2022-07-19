@@ -91,6 +91,6 @@ function save(form: any, setCode: (arg0: string) => void, setLoading: (arg0: boo
   setLoading(true);
   return runAction3(form.inputCommand, volatileId).once((agentResponse: any) => {
     setLoading(false);
-    setCode(atob(agentResponse.data.output || agentResponse.data.errorMessage));
+    setCode(agentResponse.data.output || agentResponse.data.errorMessage);
   });
 }
