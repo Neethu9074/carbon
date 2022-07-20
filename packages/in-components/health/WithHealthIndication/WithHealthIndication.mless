@@ -9,6 +9,7 @@
   .wrapper {
     position: relative;
     width: fit-content;
+    padding-top: 1px;
   }
 
   .dot {

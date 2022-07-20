@@ -20,7 +20,7 @@ export default function WithHealthIndication({ children, healthInfo, iconSize })
   iconSize = 2 + ((size / 8) | 1) * 2;
 
   return (
-    <div className={locals.wrapper} style={{ paddingTop: `1px` }}>
+    <div className={locals.wrapper}>
       {children}
       <div
         style={{
