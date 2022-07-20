@@ -3,9 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
+import { MapForm } from 'formalistic';
+
 import createAgentResponseObservable from 'in-subscription/agentResponse';
 
-export function runAction3(command: any, volatileId: any) {
+export function runAction3(command: any, volatileId: MapForm) {
   return createAgentResponseObservable({
     action: 'action.run',
     target: volatileId,

@@ -6,6 +6,7 @@
 import { createField, createMapForm, Field, MapForm } from 'formalistic';
 import React, { useState } from 'react';
 
+import { createLogger } from '@instana/logger';
 import { Button } from '@instana/components';
 
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -22,10 +23,12 @@ import { t } from 'in-i18n';
 
 import locals from './RunActionDialog.mless';
 
+const logger = createLogger('in-forge/instanaAgent/config');
+
 const { DashboardNotification } = require('in-sdk/components/dashboard/DashboardNotification');
 
 export interface propsDefinition {
-  snapshot: any;
+  snapshot: MapForm;
 }
 
 export function RunActionDialog(props: propsDefinition) {
@@ -50,11 +53,11 @@ export function RunActionDialog(props: propsDefinition) {
       <form
         onSubmit={e => {
           e.preventDefault();
-          save(form.toJS(), setCode, setLoading, volatileId);
+          save(form, setCode, setLoading, volatileId as MapForm);
         }}
       >
         {FormField('inputCommand', t('in-forge:plugins.instanaAgent.dashboard.enterCommand'), form, setForm)}
-        <Button kind="create" type="submit" disabled={!form.hierarchyValid}>
+        <Button kind="create" type="submit" disabled={loading}>
           {t('in-forge:plugins.instanaAgent.dashboard.runCommand')}
         </Button>
         {(!response || loading) && <LoadingIndicator size={'xl'} />}
@@ -87,10 +90,25 @@ function FormField(fieldName: string, label: string, form: any, setForm: (form: 
     </FormGroup>
   ));
 }
-function save(form: any, setCode: (arg0: string) => void, setLoading: (arg0: boolean) => void, volatileId: any) {
+
+function save(
+  form: MapForm,
+  setCode: (arg0: string) => void,
+  setLoading: (arg0: boolean) => void,
+  volatileId: MapForm
+) {
   setLoading(true);
-  return runAction3(form.inputCommand, volatileId).once((agentResponse: any) => {
-    setLoading(false);
-    setCode(agentResponse.data.output || agentResponse.data.errorMessage);
-  });
+  return runAction3((form.get('inputCommand') as MapForm).toJS(), volatileId as MapForm).once(
+    ({ data, error }: any) => {
+      setLoading(false);
+      if (data) {
+        setCode(data.output! || data.errorMessage!);
+      }
+
+      if (error) {
+        setCode(`Error: ${error}`);
+        logger.error(`Error: ${error}`, error);
+      }
+    }
+  );
 }
