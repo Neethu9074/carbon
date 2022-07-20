@@ -207,7 +207,7 @@
     "podsOnline": "オンライン・ポッド",
     "podsDesired": "必要なポッド",
     "noDataAvailable": {
-      "servicesTitle": "使用可能なサービスがありません",
+      "servicesTitle": "表示可能なサービスがありません",
       "servicesDescription": "選択された時刻範囲で取得されたサービスはありません。",
       "persistentVolumesTitle": "使用可能な永続ボリュームがありません",
       "persistentVolumesDescription": "選択された時刻範囲で取得された永続ボリュームはありません。",
@@ -223,7 +223,7 @@
       "nodesDescription": "選択された時刻範囲で取得されたノードはありません。",
       "podsTitle": "使用可能なポッドがありません",
       "podsDescription": "選択された時刻範囲で取得されたポッドはありません。",
-      "endpointsTitle": "使用可能なエンドポイントがありません",
+      "endpointsTitle": "表示可能なエンドポイントがありません",
       "endpointsDescription": "選択された時刻範囲で取得されたエンドポイントはありません。"
     }
   },

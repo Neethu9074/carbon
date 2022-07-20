@@ -699,7 +699,7 @@
         },
         "applications": {
           "title": "애플리케이션",
-          "description0": "특정 애플리케이션에 대한 스마트 경보만 설정하거나 다중 애플리케이션에 대한 스마트 경보를 설정할 수 있습니다.",
+          "description0": "특정한 하나의 애플리케이션에 대한 스마트 경보만 설정하거나 여러 애플리케이션에 대한 스마트 경보를 설정할 수 있습니다.",
           "stats": "현재 $t(in-alerting:smartAlerts.components.alertsHub.applications.gsa, {\"count\": {{globalSmartAlerts}} }) 및 $t(in-alerting:smartAlerts.components.alertsHub.applications.rsa, {\"count\": {{smartAlerts}} })가 있습니다.",
           "gsa": "{{count}}개 글로벌 스마트 경보",
           "gsa_plural": "{{count}}개 글로벌 스마트 경보",
@@ -788,7 +788,7 @@
         "throughputBlueprintConfigText": "이 웹 사이트에서 선택한 페이지의 호출 수가 비정상적으로 낮거나 높은 경우 자동 경보가 발생합니다.",
         "customEventBlueprintConfigName": "사용자 정의 이벤트",
         "customEventBlueprintConfigHeadline": "사용자 정의 이벤트에 대한 자동 경보",
-        "customEventBlueprintConfigText": "특정 사용자 정의 이벤트가 자주 발생할 때마다 경보를 수신합니다.",
+        "customEventBlueprintConfigText": "특정 사용자 정의 이벤트가 보통보다 자주 발생할 때마다 경보를 수신합니다.",
         "customEventBlueprintConfigIncompleteRuleMessage": "이 경보가 트리거되는 시기를 확인하려면 사용자 정의 이벤트를 선택하십시오.",
         "customEventBlueprintConfigMetricLabel": "발생 횟수",
         "simpleModeBlueprintConfigsUnexpectedDropName": "예상치 못하게 낮은 페이지 로드 수",

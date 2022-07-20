@@ -46,7 +46,7 @@
     },
     "mixpanel": {
       "title": "Analitica degli utenti del prodotto",
-      "purpose": "Registra un ID univoco utilizzato per generare dati statistici relativi al modo in cui il visitatore utilizza il sito Web."
+      "purpose": "Registra un ID univoco utilizzato per generare dati statistici relativi al modo in cui il visitatore utilizza il sito web."
     },
     "appcues": {
       "title": "Esperienza di onboarding personalizzata e sondaggi NPS",
@@ -184,7 +184,7 @@
     "entityNameAlertChannel": "Canale di avviso {{entityName}}",
     "eventsAlerts": "Eventi & avvisi",
     "applicationSmartAlert": "SmartAlert applicazione",
-    "websiteSmartAlert": "SmartAlert sito Web",
+    "websiteSmartAlert": "SmartAlert sito web",
     "globalApplicationSmartAlert": "SmartAlert applicazione globale",
     "enabled": "Abilitato",
     "disabled": "Disabilitato",
@@ -314,7 +314,7 @@
     "canBeFoundFromTheIbmCloudUrl": "L'URL è composto da: <strong>https://base_url/account_id</strong>, ad esempio: <strong>https://cloud.ibm.com/observe/embedded-view/logging/123456789</strong>",
     "enterIbmCloudAccountId": "Immettere l'ID dashboard/account IBM.",
     "enterLogDnaAccountId": "Immettere l'ID account LogDNA.",
-    "logDnaDocumentationReference": "Per ulteriori informazioni <documentationLink>fare riferimento alla documentazione</documentationLink>.",
+    "logDnaDocumentationReference": "Per ulteriori informazioni, <documentationLink>fare riferimento alla documentazione</documentationLink>.",
     "logDnaInstance": "Provider",
     "invalidLogDnaId": "L'ID account/Dashboard deve contenere solo lettere, numeri e -.",
     "configureYourSplunkSettings": "Configurare le impostazioni Splunk",
@@ -501,8 +501,8 @@
     "addUserToGroup": "Aggiungi utente al gruppo",
     "addAreasButton": "Aggiungi aree",
     "addAreasToGroup": "Aggiungi aree al gruppo",
-    "websites": "Siti Web",
-    "mobileApps": "App mobili",
+    "websites": "Siti web",
+    "mobileApps": "App per dispositivi mobili",
     "applications": "Applicazioni",
     "kubernetesCluster": "Cluster Kubernetes",
     "kubernetesNamespaces": "Spazi dei nomi Kubernetes",
@@ -604,7 +604,7 @@
     "pleaseSelectAtLeastOneSmartAlert": "Selezionare almeno un avviso smart",
     "pleaseSelectAtMostSmartAlerts": "Selezionare al massimo {{limit}} avvisi smart",
     "noSmartAlertsSelected": "Nessun avviso smart selezionato",
-    "smartAlerts": "Avvisi Smart",
+    "smartAlerts": "Avvisi smart",
     "addSmartAlerts": "Aggiungi avvisi smart",
     "selectSmartAlerts": "Seleziona {{count}} avviso smart",
     "selectSmartAlerts_plural": "Seleziona {{count}} avvisi smart",
@@ -808,8 +808,8 @@
     "copyApiTokenToClipboardError": "Impossibile copiare il token dell'API negli appunti.",
     "depreactedEventHiddenInfo": "Gli eventi obsoleti non possono più essere aggiunti a nuove configurazioni e sono nascosti da questo elenco.",
     "deprecatedEventMessage": "Questo evento è obsoleto. Migrarlo in un avviso smart o <documentationLink>fare riferimento alla documentazione</documentationLink>.",
-    "migratedEventMessage": "Questo evento obsoleto è stato migrato. Per ulteriori informazioni <documentationLink>fare riferimento alla documentazione</documentationLink>.",
-    "deprecatedEventSelectedMessage": "I tipi di entità <em>Applicazione, Servizio e Endpoint</em> sono obsoleti per gli eventi personalizzati e devono essere migrati al più presto in un avviso smart. Si consiglia di configurare un corrispettivo avviso smart invece di un evento personalizzato. Per ulteriori informazioni <documentationLink>fare riferimento alla documentazione</documentationLink>."
+    "migratedEventMessage": "Questo evento obsoleto è stato migrato. Per ulteriori informazioni, <documentationLink>fare riferimento alla documentazione</documentationLink>.",
+    "deprecatedEventSelectedMessage": "I tipi di entità <em>Applicazione, Servizio e Endpoint</em> sono obsoleti per gli eventi personalizzati e devono essere migrati al più presto in un avviso smart. Si consiglia di configurare un corrispettivo avviso smart invece di un evento personalizzato. Per ulteriori informazioni, <documentationLink>fare riferimento alla documentazione</documentationLink>."
   },
   "languageSelection": {
     "language": "Lingua",

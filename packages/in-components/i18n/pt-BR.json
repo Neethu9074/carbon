@@ -2,7 +2,7 @@
   "fileInputButton": {
     "label": {
       "chooseSingle": "Escolher arquivo…",
-      "chooseMultiple": "Escolha arquivos...",
+      "chooseMultiple": "Escolher arquivos...",
       "multipleSelected": "{{countFormatted}} arquivo selecionado",
       "multipleSelected_plural": "{{countFormatted}} arquivos selecionados",
       "multipleSelected_0": "{{countFormatted}} arquivos selecionados",
@@ -49,7 +49,7 @@
     "chartTemplates": "Modelos"
   },
   "comboBox": {
-    "placeholderSelect": "Selecione..."
+    "placeholderSelect": "Selecionar..."
   },
   "downloadBtn": {
     "downloadViewDownloadAsJsonLabel": "Fazer download como JSON",
@@ -572,17 +572,17 @@
     "companionMetricLabelErroneousCallRate": "Taxa de chamada errônea: ",
     "metricLabelCallsAndErroneousCalls": "Chamadas e chamadas errôneas",
     "metricLabelCallsAndLatency": "Chamadas e latência",
-    "linkSeeAllApplications": "Ver todos os {{count}} {{activeTab}} aplicativos",
-    "linkSeeAllApplications_plural": "Ver todos os {{count}} {{activeTab}} aplicativos",
-    "linkSeeAllApplications_0": "Ver todos os {{count}} {{activeTab}} aplicativos",
-    "linkSeeAllApplications_1": "Ver todos os {{count}} {{activeTab}} aplicativos",
-    "linkSeeAllApplications_2": "Ver todos os {{count}} {{activeTab}} aplicativos",
+    "linkSeeAllApplications": "Ver {{count}} aplicativo de {{activeTab}}",
+    "linkSeeAllApplications_plural": "Ver todos os {{count}} aplicativos de {{activeTab}}",
+    "linkSeeAllApplications_0": "Ver todos os {{count}} aplicativos de {{activeTab}}",
+    "linkSeeAllApplications_1": "Ver {{count}} aplicativo de {{activeTab}}",
+    "linkSeeAllApplications_2": "Ver todos os {{count}} aplicativos de {{activeTab}}",
     "linkSeeApplication": "Ver aplicativo",
-    "linkSeeAllServices": "Ver todos os {{count}} {{activeTab}} serviços",
-    "linkSeeAllServices_plural": "Ver todos os {{count}} {{activeTab}} serviços",
-    "linkSeeAllServices_0": "Ver todos os {{count}} {{activeTab}} serviços",
-    "linkSeeAllServices_1": "Ver todos os {{count}} {{activeTab}} serviços",
-    "linkSeeAllServices_2": "Ver todos os {{count}} {{activeTab}} serviços",
+    "linkSeeAllServices": "Ver {{count}} serviço de {{activeTab}}",
+    "linkSeeAllServices_plural": "Ver todos os {{count}} serviços de {{activeTab}}",
+    "linkSeeAllServices_0": "Ver todos os {{count}} serviços de {{activeTab}}",
+    "linkSeeAllServices_1": "Ver {{count}} serviço de {{activeTab}}",
+    "linkSeeAllServices_2": "Ver todos os {{count}} serviços de {{activeTab}}",
     "linkSeeService": "Ver serviço",
     "activeTab_upstream": "Envio de dados",
     "activeTab_downstream": "Recebimento de dados",

@@ -208,6 +208,7 @@
       "retrievalTimeLabel": "Tempo de recuperação",
       "callDetailsHeader": "Detalhes da chamada",
       "httpCallURITitle": "URI de chamada de HTTP",
+      "httpHeadersHeader": "Cabeçalhos de HTTP",
       "httpMethodTitle": "Método de HTTP",
       "httpStatusTitle": "Status HTTP",
       "errMsgTitle": "Mensagem de erro",
@@ -339,9 +340,9 @@
       "viewsTitle": "Nenhuma visualização disponível",
       "viewsDescription": "Não houve visualizações recuperadas para o intervalo de tempo selecionado.",
       "httpRequestsTitle": "Nenhuma solicitação de HTTP disponível",
-      "httpRequestsDescription": "Não houve nenhuma solicitação de HTTP recuperada para o intervalo de tempo selecionado.",
+      "httpRequestsDescription": "Não houve nenhuma solicitação de HTTP recuperada para o intervalo de tempo selecionado",
       "customEventsTitle": "Nenhum evento customizado disponível",
-      "customEventsDescription": "Não houve eventos customizados recuperados para o intervalo de tempo selecionado."
+      "customEventsDescription": "Não houve eventos customizados recuperados para o intervalo de tempo selecionado"
     }
   },
   "appsList": {

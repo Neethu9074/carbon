@@ -105,11 +105,11 @@
       "locations": "位置",
       "meanResponseTime": "平均响应时间",
       "avgResponseSize": "平均 响应大小",
-      "summaryTab": "目录",
+      "summaryTab": "摘要",
       "resultsTab": "结果",
       "widgets": {
-        "failures": "故障",
-        "responseTimes": "响应次数",
+        "failures": "失败次数",
+        "responseTimes": "响应时间",
         "averageResponseSize": "平均响应大小",
         "responseStatus": "响应状态",
         "networkTimings": "网络计时",
@@ -140,7 +140,7 @@
     },
     "noDataAvailable": {
       "resultsTitle": "无可用结果",
-      "resultsDescription": "未检索到所选时间范围的任何结果。"
+      "resultsDescription": "在所选时间范围内未检索到任何结果。"
     }
   }
 }

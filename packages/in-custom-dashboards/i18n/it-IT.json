@@ -45,7 +45,7 @@
       "widgetEditorDialogPresenter": {
         "editWidget": "Modifica Widget",
         "addWidget": "Aggiungi widget",
-        "next": "Successivo",
+        "next": "Avanti",
         "confirm": "Conferma",
         "create": "Crea",
         "back": "Indietro"
@@ -189,7 +189,7 @@
         "pleaseSelectMetric": "Selezionare una metrica"
       },
       "index": {
-        "mobileAppsBeacon": "App mobili (Beacon)"
+        "mobileAppsBeacon": "App per dispositivi mobili (Beacon)"
       }
     },
     "srcSli": {
@@ -391,7 +391,7 @@
       "websiteSelector": {
         "website": "Sito web",
         "selectWebsite": "Selezionare un sito web",
-        "websiteHelpAction": "Configurare i siti web nell'area Siti web e app mobili.",
+        "websiteHelpAction": "Configurare i siti web nell'area Siti web e app per dispositivi mobili.",
         "rbacHint": "I siti web mostrati possono essere limitati dalle autorizzazioni.",
         "noWebsites": "Nessun sito web trovato",
         "pleaseSelect": "Selezionare"
@@ -425,7 +425,7 @@
         "latency": "Latenza",
         "callCount": "Numero di chiamate",
         "errorRate": "Tasso di errore",
-        "erroneousCalls": "Chiamate errate",
+        "erroneousCalls": "Chiamate con errori",
         "beaconErrorRate": "Tasso di errore beacon",
         "beaconDuration": "Durata beacon",
         "mean": "medio",
@@ -572,7 +572,7 @@
         "thousandCallsFormat": "{{count}}K chiamate"
       },
       "widgetLeftHeader": {
-        "previewDataInfo": "Se la configurazione SLI è stata creata di recente visualizza un'anteprima dei dati mostrati nei 7 giorni precedenti. Il widget finale includerà solo i dati dalla creazione della SLI"
+        "previewDataInfo": "Se la configurazione SLI è stata creata di recente, viene visualizza un'anteprima dei dati mostrati nei 7 giorni precedenti. Il widget finale includerà solo i dati a partire dalla creazione della SLI"
       }
     },
     "apdex": {
