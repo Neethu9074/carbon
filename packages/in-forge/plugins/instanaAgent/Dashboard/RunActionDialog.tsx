@@ -6,6 +6,7 @@
 import { createField, createMapForm, Field, MapForm } from 'formalistic';
 import React, { useState } from 'react';
 
+import { createLogger } from '@instana/logger';
 import { Button } from '@instana/components';
 
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -21,6 +22,8 @@ import Code from 'in-components/Code';
 import { t } from 'in-i18n';
 
 import locals from './RunActionDialog.mless';
+
+const logger = createLogger('in-forge/instanaAgent/config');
 
 const { DashboardNotification } = require('in-sdk/components/dashboard/DashboardNotification');
 
@@ -54,7 +57,7 @@ export function RunActionDialog(props: propsDefinition) {
         }}
       >
         {FormField('inputCommand', t('in-forge:plugins.instanaAgent.dashboard.enterCommand'), form, setForm)}
-        <Button kind="create" type="submit" disabled={!form.hierarchyValid}>
+        <Button kind="create" type="submit" disabled={loading}>
           {t('in-forge:plugins.instanaAgent.dashboard.runCommand')}
         </Button>
         {(!response || loading) && <LoadingIndicator size={'xl'} />}
@@ -95,8 +98,17 @@ function save(
   volatileId: MapForm
 ) {
   setLoading(true);
-  return runAction3((form.get('inputCommand') as MapForm).toJS(), volatileId as MapForm).once(({ data }: any) => {
-    setLoading(false);
-    setCode(data.output || data.errorMessage);
-  });
+  return runAction3((form.get('inputCommand') as MapForm).toJS(), volatileId as MapForm).once(
+    ({ data, error }: any) => {
+      setLoading(false);
+      if (data) {
+        setCode(data.output! || data.errorMessage!);
+      }
+
+      if (error) {
+        setCode(`Error: ${error}`);
+        logger.error(`Error: ${error}`, error);
+      }
+    }
+  );
 }
