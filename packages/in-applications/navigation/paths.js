@@ -55,7 +55,6 @@ import { t } from 'in-i18n';
 
 export const applicationsList = '/applications';
 export const applicationDashboard = '/application';
-export const newApplicationView = '/application/new';
 export const newApplicationWaiterView = '/application/waiter';
 
 export const alertsList = '/alerts';
