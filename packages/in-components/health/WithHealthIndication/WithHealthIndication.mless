@@ -14,7 +14,7 @@
   .dot {
     position: absolute;
 
-    top: -0.125rem;
+    top: -0.08rem;
     width: 0.5rem;
     height: 0.5rem;
 
