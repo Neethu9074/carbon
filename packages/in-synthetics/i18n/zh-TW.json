@@ -103,7 +103,7 @@
     "summary": {
       "successRate": "成功率",
       "locations": "位置",
-      "meanResponseTime": "回應的平均時間",
+      "meanResponseTime": "平均回應時間",
       "avgResponseSize": "平均 回應大小",
       "summaryTab": "摘要",
       "resultsTab": "結果",
@@ -140,7 +140,7 @@
     },
     "noDataAvailable": {
       "resultsTitle": "無可用的結果",
-      "resultsDescription": "在選取的時間範圍內未擷取任何結果。"
+      "resultsDescription": "所選的時間範圍內未擷取到任何的結果。"
     }
   }
 }

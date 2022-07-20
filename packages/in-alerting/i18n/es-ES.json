@@ -689,7 +689,7 @@
         "readMore": "Leer más…",
         "websites": {
           "title": "Sitios web",
-          "description0": "Para configurar una alerta, vaya al sitio web en el que desea configurar la alerta y utilice el botón \" Añadir alerta inteligente \" en la parte inferior derecha.",
+          "description0": "Para configurar una alerta, vaya al sitio web en el que desea configurar la alerta y utilice el botón \"Añadir alerta inteligente\" en la parte inferior derecha.",
           "stats": "Actualmente tiene $t(in-alerting:smartAlerts.components.alertsHub.websites.alerts, {\"count\": {{alerts}} }) en $t(in-alerting:smartAlerts.components.alertsHub.websites.websites, {\"count\": {{websites}} }).",
           "alerts": "{{count}} Alerta inteligente de sitio web",
           "alerts_plural": "{{count}} Alertas inteligentes de sitios web",
@@ -699,12 +699,12 @@
         },
         "applications": {
           "title": "Aplicaciones",
-          "description0": "Sólo puede configurar alertas inteligentes solo para una aplicación específica o configurar alertas inteligentes que cubran varias aplicaciones.",
+          "description0": "Puede configurar alertas inteligentes solo para una aplicación específica o configurar alertas inteligentes que cubran varias aplicaciones.",
           "stats": "Actualmente tiene $t(in-alerting:smartAlerts.components.alertsHub.applications.gsa, {\"count\": {{globalSmartAlerts}} }) y $t(in-alerting:smartAlerts.components.alertsHub.applications.rsa, {\"count\": {{smartAlerts}} }).",
           "gsa": "{{count}} Alerta inteligente global",
           "gsa_plural": "{{count}} Alertas inteligentes globales",
           "rsa": "{{count}} Alerta inteligente regular",
-          "rsa_plural": "{{count}} Alertas inteligentes globales",
+          "rsa_plural": "{{count}} Alertas inteligentes regulares",
           "button0": "Alertas inteligentes"
         },
         "infrastructure": {
@@ -750,7 +750,7 @@
         "propertiesTitle": "Propiedades de alerta adicionales",
         "thresholdValue": "Valor de umbral",
         "payloadsLabel": "Cargas útiles",
-        "payloadsTitle": "Cargas personalizadas"
+        "payloadsTitle": "Cargas útiles personalizadas"
       },
       "components": {
         "provideStatusCodeStatusCode": "Código de estado",

@@ -266,7 +266,7 @@
       "errorTitleForConfiguredSliDeletion": "構成済みの SLI が削除されました",
       "errorDescriptionToConfigureOtherSLI": "別の SLI を選択して SLO ウィジェットを更新してください",
       "index": {
-        "testTitle": "最も遅い上位 5 個のサービス",
+        "testTitle": "最も遅い上位 5 件のサービス",
         "testLabels": {
           "catalogue": "カタログ",
           "cart": "カート",
@@ -408,7 +408,7 @@
         "problemCreateSli": "次の SLI の作成中に問題が発生しました: 「{{sliName}}」",
         "clone": "複製",
         "create": "作成",
-        "sliConfigMsg": "計算済みの費やされたバジェットが無効にならないようにするために、SLI のパラメーターを変更することはできません。 そのため、パラメーターを変更する場合、SLI を複製する必要があります。",
+        "sliConfigMsg": "計算済みの消費済みバジェットが無効にならないようにするために、SLI のパラメーターを変更することはできません。そのため、パラメーターを変更する場合、SLI を複製する必要があります。",
         "sliCreated": "SLI「{{sliName}}」が作成されました。"
       },
       "endpointSelectBox": {
@@ -497,7 +497,7 @@
         "sloTime": "開始: <datetime-from /><br />終了: <datetime-to />"
       },
       "chart": {
-        "spent": "費やされた",
+        "spent": "消費済み",
         "budget": "バジェット",
         "viewInAnalyze": "分析で表示",
         "initialEvaluation": "SLIが作成されました",
@@ -531,7 +531,7 @@
       "sliSummary": {
         "status": "状況",
         "target": "ターゲット:",
-        "errorBudgetSpent": "費やされたエラー・バジェット",
+        "errorBudgetSpent": "消費済みエラー・バジェット",
         "errorBudget": "エラー・バジェット:",
         "timeWindow": "時間枠",
         "timeWindowType": "不明な時間枠",

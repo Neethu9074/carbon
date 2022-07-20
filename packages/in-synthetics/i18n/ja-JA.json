@@ -139,7 +139,7 @@
       "title": "結果"
     },
     "noDataAvailable": {
-      "resultsTitle": "使用可能な結果はありません",
+      "resultsTitle": "表示可能な結果はありません",
       "resultsDescription": "選択した時刻範囲について、取得された結果はありませんでした。"
     }
   }
