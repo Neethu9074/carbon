@@ -8,20 +8,29 @@ import { useLocation } from 'react-router';
 import React, { Fragment } from 'react';
 import { get, head } from 'lodash';
 
+import { PaginatedResult, Result, TestResultListItem } from '@instana/types/typeDefinitions';
 import { formatDateTime } from '@instana/format-date';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
-import { dummyResultDetails, dummyTest, ResultDetailsResponse, TestResponse } from 'in-synthetics/utils/constants';
+import {
+  dummyResultDetails,
+  dummyTest,
+  dummyTestResultList,
+  ResultDetailsResponse,
+  TestResponse
+} from 'in-synthetics/utils/constants';
 import getTestResultSubtransactions from 'in-synthetics/subscriptions/getTestResultSubtransactions';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 // @ts-expect-error Module needs to be translated to TS
 import Sticky from 'in-components/Sticky';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import StatusKpiCard from 'in-synthetics/dashboards/details/components/StatusKpiCard';
+import getTestResultListStatus from 'in-synthetics/utils/getTestResultListStatus';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import FailedRun from 'in-synthetics/dashboards/details/components/FailedRun';
+import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
 import DashboardHeader from 'in-components/DashboardHeader/DashboardHeader';
 import Timeline from 'in-synthetics/dashboards/details/components/Timeline';
 import { bytes, meanLatency, number } from 'in-services/formatters/number';
@@ -33,14 +42,19 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import { getTest } from 'in-synthetics/api';
 
 export default function SyntheticAnalyzeView() {
   const location = useLocation();
   const timeShiftConfig = useTimeShiftConfig();
+  const timeConfig = useTimeConfig();
+  let page = 1;
+  let pageSize = 1;
   const testId = getMatrixParameter(location, syntheticDetailsPath, 'testId') ?? '';
   const resultId = getMatrixParameter(location, syntheticDetailsPath, 'id') ?? '';
   let test: TestResponse = useObservable<any, [number]>(() => getTest(testId), [0]) || dummyTest;
+
   let details: ResultDetailsResponse =
     useObservable<any, [number]>(
       () =>
@@ -92,6 +106,28 @@ export default function SyntheticAnalyzeView() {
     }
   ];
 
+  let resultList: Result<PaginatedResult<TestResultListItem>> =
+    useObservable<any, [number]>(
+      () =>
+        getTestResultList({
+          pagination: {
+            page,
+            pageSize
+          },
+          order: { by: 'errors', direction: 'DESC' },
+          syntheticMetrics: ['errors', 'status'],
+          filter: {
+            timeConfig,
+            includeInternalCalls: false,
+            includeSyntheticCalls: false,
+            useLongTermDataOnly: false
+          },
+          // @ts-expect-error tagFilters do not fully match the TagFilter type
+          tagFilters: tagFilters
+        }),
+      [0]
+    ) || dummyTestResultList;
+
   return (
     <>
       <Sticky
@@ -108,7 +144,7 @@ export default function SyntheticAnalyzeView() {
           </>
         }
       >
-        {details.progress.loading ? (
+        {details.progress.loading || resultList.progress.loading ? (
           <LoadingIndicator text={t('in-components:topListCard.loadingData')} height={160} size="xxxl" />
         ) : (
           <LeftRightPadding>
@@ -197,11 +233,13 @@ export default function SyntheticAnalyzeView() {
                   />
                 </Col>
               </Row>
-              <Row>
-                <Col xs>
-                  <FailedRun testId={testId} resultId={resultId} />
-                </Col>
-              </Row>
+              {getTestResultListStatus(resultList) !== 1 && (
+                <Row>
+                  <Col xs>
+                    <FailedRun resultList={resultList} />
+                  </Col>
+                </Row>
+              )}
               <Row>
                 <Col lg={12}>
                   <Timeline details={details} />
