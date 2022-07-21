@@ -99,20 +99,13 @@ export default function Dashboard() {
               </HorizontalFlexWrapper>
             </HorizontalFlexWrapper>
             <Tests
-              tests={[
-                ...getSearchedTests(
-                  data.filter(test => test != null),
-                  query
-                )
-              ]
-                .sort(sortBy(orderBy, orderDirection))
-                .slice(offset, until)}
+              tests={[...getSearchedTests(data, query)].sort(sortBy(orderBy, orderDirection)).slice(offset, until)}
               isLoading={progress.loading}
               reloadTests={reloadTests}
             />
             <Pagination
               currentPage={page}
-              numPages={Math.ceil(data.filter(test => test != null).length / pageSize)}
+              numPages={Math.ceil(data.length / pageSize)}
               onChange={(newPage: number) => setState({ page: newPage })}
             />
           </Stack>

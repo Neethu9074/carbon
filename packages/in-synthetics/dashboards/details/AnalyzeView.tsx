@@ -6,7 +6,7 @@
 
 import { useLocation } from 'react-router';
 import React, { Fragment } from 'react';
-import { get } from 'lodash';
+import { get, head } from 'lodash';
 
 import { formatDateTime } from '@instana/format-date';
 import { useObservable } from '@instana/hooks';
@@ -28,6 +28,7 @@ import { bytes, meanLatency, number } from 'in-services/formatters/number';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { syntheticDetailsPath } from 'in-synthetics/navigation/paths';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
+import Logs from 'in-synthetics/dashboards/details/components/Logs';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
@@ -204,6 +205,15 @@ export default function SyntheticAnalyzeView() {
               <Row>
                 <Col lg={12}>
                   <Timeline details={details} />
+                </Col>
+              </Row>
+              <Row>
+                <Col lg={12}>
+                  <Logs
+                    testId={testId}
+                    resultId={resultId}
+                    timestamp={get(head(get(details, ['data', 'subtransactions'])), 'properties.startTime')}
+                  />
                 </Col>
               </Row>
             </Fragment>

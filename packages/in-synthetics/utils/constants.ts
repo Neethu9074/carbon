@@ -11,7 +11,8 @@ import {
   SyntheticTest,
   TestResultDetailData,
   TestResultListItem,
-  TestResultSubtransaction
+  TestResultSubtransaction,
+  Error
 } from 'in-types';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import { syntheticsPath } from 'in-synthetics/navigation/paths';
@@ -65,10 +66,24 @@ export const dummyTestResultList: Result<PaginatedResult<TestResultListItem>[]> 
   }
 };
 
+export const dummyTestResultLogs: Result<ResultLogs> = {
+  data: {} as ResultLogs,
+  errors: [],
+  progress: {
+    loading: true
+  }
+};
+
 export interface ResultDetails {
   testId: string;
   testResultId: string;
   subtransactions: TestResultSubtransaction[];
+}
+
+export interface ResultLogs {
+  testId: string;
+  testResultId: string;
+  logs: string;
 }
 
 export interface UrlState {
@@ -97,6 +112,12 @@ export interface ResultDetailsResponse {
   errors?: Error[];
   progress: Progress;
   time?: number;
+}
+
+export interface TestResultLog {
+  data?: ResultLogs;
+  errors: Error[];
+  progress: Progress;
 }
 
 export interface FilterProps {

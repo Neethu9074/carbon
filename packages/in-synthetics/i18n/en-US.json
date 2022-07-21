@@ -175,6 +175,7 @@
         "responseTimingTitle": "Response Timing",
         "timingsPercentageOfTotalDurationName": "{{percentage}} of {{totalDurationName}}"
       },
+      "logs": "Logs",
       "noDataAvailable": {
         "timelineDescription": "Timeline details not found",
         "notFound": "Not found"
