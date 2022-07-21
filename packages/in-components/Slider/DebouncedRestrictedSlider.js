@@ -12,7 +12,7 @@ import useDebouncedValue from 'in-hooks/useDebouncedValue';
 
 export default function DebouncedRestrictedSlider(props) {
   const result = useDebouncedValue(props.value, props.onChange, 500);
-  return <RestrictedSlider {...props} value={result.value} onChange={result.onChange} />;
+  return <RestrictedSlider {...props} value={result.value} onChange={(_event, value) => result.onChange(value)} />;
 }
 
 DebouncedRestrictedSlider.propTypes = restrictedSliderPropTypes;
