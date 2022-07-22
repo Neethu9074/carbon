@@ -83,7 +83,7 @@ export default connectTo(
               ) : null
             }
           >
-            <ConfigurationManagement snapshot={snapshot} />
+            <p>{t('in-forge:plugins.instanaAgent.dashboard.ActionAgentInfo')}</p>
           </DashboardSection>
           <DashboardSection
             title={t('in-forge:plugins.instanaAgent.dashboard.configurationManagement')}
