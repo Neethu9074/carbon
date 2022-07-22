@@ -22,7 +22,8 @@ interface MetricAwareAxisProps {
 
 export default function MetricAwareAxis({ chart, axisName, height, align }: MetricAwareAxisProps) {
   const filteredDataSeries = useObservable(() => chart.config.filteredDataSeries$, [chart]);
-  const axis = chart.config[axisName];
+  const axis$ = axisName === 'y1' ? chart.config.y1$ : chart.config.y2$;
+  const axis = useObservable(axis$, [chart, axisName]);
 
   if (!axis) {
     // When a chart is drawn with y1 and y2 for a while in live mode and then y2 is removed from the chart config, the
