@@ -14,8 +14,11 @@ import { teamSettingsActionCatalog, getEntityIdView } from 'in-settings/navigati
 import List, { leftHeaderWithSelectAll, TableActions } from 'in-settings/components/List';
 import Tag from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Tag';
 import { getType } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
+import RunAction from 'in-events/components/AutomationActions/RunAction';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { formatDateTime } from 'in-services/formatters/date';
 import { getAllActions } from 'in-api/automation';
+import { VolatileId } from 'in-types';
 import { Action } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -76,7 +79,7 @@ const columnDefinitions = [
   }
 ];
 
-const executeColumn = {
+const executeColumn = (volatileId: VolatileId) => ({
   id: 'execute',
   label: 'Execute',
   getContent(row: Action) {
@@ -89,12 +92,25 @@ const executeColumn = {
           Launch
         </Button>
       );
+    } else if (type === 'SCRIPT') {
+      const field = fields?.[1];
+      const value = field?.value ?? '';
+      return (
+        <Button
+          kind="action"
+          icon={'lib_actions_play'}
+          // onClick={() =>runScriptAction(value, volatileId).once(console.log)}
+          onClick={() => addActiveDialog(<RunAction script={value} volatileId={volatileId} />)}
+          noAutoMargin
+        >
+          Run
+        </Button>
+      );
     } else {
-      // Not supported yet
-      return <>Run</>;
+      return <div>Run</div>;
     }
   }
-};
+});
 
 export interface ActionTableProps {
   title?: string;
@@ -106,6 +122,7 @@ export interface ActionTableProps {
   hiddenIds?: string[];
   getEntityName?: (action: Action) => string;
   showExecuteColumn?: boolean | undefined;
+  volatileId?: VolatileId;
 }
 
 export default function ActionTable({
@@ -117,11 +134,12 @@ export default function ActionTable({
   tableActions = {},
   hiddenIds = [],
   getEntityName,
-  showExecuteColumn = false
+  showExecuteColumn = false,
+  volatileId = {}
 }: ActionTableProps) {
   let columnDefinitionsToShow = columnDefinitions;
   if (showExecuteColumn) {
-    columnDefinitionsToShow = [...columnDefinitions, executeColumn];
+    columnDefinitionsToShow = [...columnDefinitions, executeColumn(volatileId)];
   }
   return (
     <List<Action>
@@ -133,7 +151,7 @@ export default function ActionTable({
       loadEntities={loadEntities}
       columnDefinitions={columnDefinitionsToShow}
       getHeader={getHeader()}
-      searchAttributes={['name', 'description', (entity: Action) => get(entity, 'tags').toString()]}
+      searchAttributes={['name', 'description', (entity: Action) => (get(entity, 'tags') ?? []).toString()]}
       searchPlaceholder={t('in-settings:tabs.filterActions')}
       searchMaxWidth={210}
       rightHeader={rightHeader}

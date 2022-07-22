@@ -12,9 +12,10 @@ import { getActionAssociationCustom, getActionAssociationBuiltin } from 'in-api/
 // @ts-expect-error
 import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
 import ActionTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionTable';
+import { VolatileId } from 'in-types';
 import { t } from 'in-i18n';
 
-export default function AssociatedActions({ event }: { event: Map<string, any> }) {
+export default function AssociatedActions({ event, volatileId }: { event: Map<string, any>; volatileId: VolatileId }) {
   const eventSpecificationId = event.getIn(['metadata', 'eventSpecificationId']);
   const isCustom = isCustomEvent(event);
   const observable = isCustom ? getActionAssociationCustom : getActionAssociationBuiltin;
@@ -23,6 +24,7 @@ export default function AssociatedActions({ event }: { event: Map<string, any> }
       <EventSpecificationLink event={event} buttonText={t('in-events:setAssociations')} />
       <ActionTable
         showExecuteColumn
+        volatileId={volatileId}
         loadEntities={() => observable(eventSpecificationId).map((response: any) => response.toJS())}
       />
     </div>

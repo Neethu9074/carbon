@@ -114,7 +114,6 @@ export default function entityForm(ComposedComponent) {
 
     function onSubmit(e) {
       e.preventDefault();
-
       const { entity, form } = state;
 
       if (!form.hierarchyValid) {

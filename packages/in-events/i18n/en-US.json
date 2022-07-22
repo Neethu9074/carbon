@@ -7,6 +7,7 @@
   },
   "associatedActions": "Associated Actions",
   "setAssociations": "Set Associations",
+  "runAction": "Run Action",
   "entityInfoPresenterDefaultLabel": "On: ",
   "entityInfoLabelOfService": "Of Service:",
   "titleDetail": "Detail",

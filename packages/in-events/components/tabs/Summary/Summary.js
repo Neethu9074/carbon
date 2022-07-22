@@ -79,114 +79,118 @@ export default function Summary({ selectedEventId, data: event }) {
   );
 }
 
-function EventContent({ event, latestSnapshot }) {
-  const timeConfig = getTimeConfigForSnapshotRetrieval(event, latestSnapshot);
-  if (isWebsiteSmartAlertEvent(event)) {
-    return <WebsiteEventContent event={event} />;
-  }
-
-  if (isApplicationSmartAlertEvent(event)) {
-    return <ApplicationEventContent event={event} />;
-  }
-
-  if (isKubernetesEvent(event)) {
-    return <KubernetesEventContent event={event} timeConfig={timeConfig} />;
-  }
-
-  const eventType = getEventType(event);
-  const isIssue = eventType === EVENT_TYPES.ISSUE_WARNING || eventType === EVENT_TYPES.ISSUE_CRITICAL;
-
-  return (
-    <>
-      <ViewTrackingMeta
-        data={{
-          productArea: 'Events',
-          pageRootName: 'Event'
-        }}
-      />
-
-      <Row withoutSideMargin>
-        <Col xs>
-          <Card title={t('in-events:titleDescription')}>
-            <EntityWithParentInformation
-              entityId={event.get('entityId')}
-              entityType={event.get('entityType')}
-              metadata={event.get('metadata')}
-              timeConfig={timeConfig}
-              linkTimeConfig={getTimeConfigFromEvent(event)}
-            />
-            <SubEntityInformation event={event} />
-            {isAgentMonitoringIssueEvent(event) ? (
-              <AgentMonitoringIssueDescription
-                event={event}
-                timeConfig={timeConfig}
-                className="in-event-view-event-content"
-              />
-            ) : (
-              <ProblemDescription event={event} className="in-event-view-event-content" />
-            )}
-            <DescriptionButtons>
-              <EventSpecificationLink event={event} />
-              <AnalyzeIssueCallsButton event={event} />
-            </DescriptionButtons>
-          </Card>
-        </Col>
-      </Row>
-
-      {isEntityVerificationEvent(event) || isHostAvailabilityEvent(event) ? (
-        <Row withoutSideMargin>
-          <Col xs>
-            <Card
-              title={isEntityVerificationEvent(event) ? t('in-events:titleLastProcess') : t('in-events:titleLastHost')}
-            >
-              <OfflineEventDescription event={event} latestSnapshot={latestSnapshot} />
-            </Card>
-          </Col>
-        </Row>
-      ) : (
-        <>
-          {hasAtLeastOneMetric(event) && (
-            <Row withoutSideMargin>
-              <Col xs>
-                <Card title={t('in-events:titleMetrics')}>
-                  <EventChart event={event} />
-                </Card>
-              </Col>
-            </Row>
-          )}
-          {hasMetric(event, 'cpu.user') && (
-            <Row withoutSideMargin>
-              <Col xs>
-                <ProcessContent snapshotId={event.get('entityId')} timeConfig={timeConfig} />
-              </Col>
-            </Row>
-          )}
-        </>
-      )}
-      {isIssue && (
-        <Row withoutSideMargin>
-          <Col xs>
-            <Card title={t('in-events:associatedActions')}>
-              <AssociatedActions event={event} />
-            </Card>
-          </Col>
-        </Row>
-      )}
-    </>
-  );
-}
-
-const ProcessContent = connectTo(
-  ({ snapshotId, timeConfig }) => ({
-    snapshot: getSnapshot(snapshotId, timeConfig).startWith(null)
+const EventContent = connectTo(
+  ({ event, latestSnapshot }) => ({
+    snapshot: getSnapshot(event.get('entityId'), getTimeConfigForSnapshotRetrieval(event, latestSnapshot)).startWith(
+      null
+    )
   }),
-  function ProcessContent({ snapshot, timeConfig }) {
-    if (!snapshot || (snapshot.progress && snapshot.progress.loading)) {
-      return <LoadingIndicator inline type="dark" style={{ height: '16px' }} />;
+  function EventContent({ event, latestSnapshot, snapshot }) {
+    const timeConfig = getTimeConfigForSnapshotRetrieval(event, latestSnapshot);
+    if (isWebsiteSmartAlertEvent(event)) {
+      return <WebsiteEventContent event={event} />;
     }
-    return <ProcessTopList snapshot={snapshot} timeConfig={timeConfig} />;
+
+    if (isApplicationSmartAlertEvent(event)) {
+      return <ApplicationEventContent event={event} />;
+    }
+
+    if (isKubernetesEvent(event)) {
+      return <KubernetesEventContent event={event} timeConfig={timeConfig} />;
+    }
+
+    const eventType = getEventType(event);
+    const isIssue = eventType === EVENT_TYPES.ISSUE_WARNING || eventType === EVENT_TYPES.ISSUE_CRITICAL;
+
+    return (
+      <>
+        <ViewTrackingMeta
+          data={{
+            productArea: 'Events',
+            pageRootName: 'Event'
+          }}
+        />
+
+        <Row withoutSideMargin>
+          <Col xs>
+            <Card title={t('in-events:titleDescription')}>
+              <EntityWithParentInformation
+                entityId={event.get('entityId')}
+                entityType={event.get('entityType')}
+                metadata={event.get('metadata')}
+                timeConfig={timeConfig}
+                linkTimeConfig={getTimeConfigFromEvent(event)}
+              />
+              <SubEntityInformation event={event} />
+              {isAgentMonitoringIssueEvent(event) ? (
+                <AgentMonitoringIssueDescription
+                  event={event}
+                  timeConfig={timeConfig}
+                  className="in-event-view-event-content"
+                />
+              ) : (
+                <ProblemDescription event={event} className="in-event-view-event-content" />
+              )}
+              <DescriptionButtons>
+                <EventSpecificationLink event={event} />
+                <AnalyzeIssueCallsButton event={event} />
+              </DescriptionButtons>
+            </Card>
+          </Col>
+        </Row>
+
+        {isEntityVerificationEvent(event) || isHostAvailabilityEvent(event) ? (
+          <Row withoutSideMargin>
+            <Col xs>
+              <Card
+                title={
+                  isEntityVerificationEvent(event) ? t('in-events:titleLastProcess') : t('in-events:titleLastHost')
+                }
+              >
+                <OfflineEventDescription event={event} latestSnapshot={latestSnapshot} />
+              </Card>
+            </Col>
+          </Row>
+        ) : (
+          <>
+            {hasAtLeastOneMetric(event) && (
+              <Row withoutSideMargin>
+                <Col xs>
+                  <Card title={t('in-events:titleMetrics')}>
+                    <EventChart event={event} />
+                  </Card>
+                </Col>
+              </Row>
+            )}
+            {hasMetric(event, 'cpu.user') && (
+              <Row withoutSideMargin>
+                <Col xs>
+                  <ProcessContent snapshot={snapshot} timeConfig={timeConfig} />
+                </Col>
+              </Row>
+            )}
+          </>
+        )}
+        {isIssue && (
+          <Row withoutSideMargin>
+            <Col xs>
+              <Card title={t('in-events:associatedActions')}>
+                <AssociatedActions volatileId={snapshot?.get('volatileId') ?? {}} event={event} />
+              </Card>
+            </Col>
+          </Row>
+        )}
+      </>
+    );
   }
 );
+
+function ProcessContent({ snapshot, timeConfig }) {
+  if (!snapshot || (snapshot.progress && snapshot.progress.loading)) {
+    return <LoadingIndicator inline type="dark" style={{ height: '16px' }} />;
+  }
+  return <ProcessTopList snapshot={snapshot} timeConfig={timeConfig} />;
+}
 
 const IncidentContent = connectTo(
   ({ incident }) => ({

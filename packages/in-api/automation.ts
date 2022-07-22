@@ -4,12 +4,13 @@
  * Copyright IBM Corp. 2022
  */
 
-import { fromJS, List, Map } from 'immutable';
+import { fromJS, Map } from 'immutable';
 
 import { Observable } from '@instana/observables';
 
+import createAgentResponseObservable from 'in-subscription/agentResponse';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
-import { Action, Field, Mutable } from 'in-types';
+import { Action, Field, Mutable, VolatileId } from 'in-types';
 import http from 'in-services/http';
 import { t } from 'in-i18n';
 
@@ -61,7 +62,8 @@ export function deleteAction(actionId: string) {
 }
 
 export type NewAction = Mutable<Omit<Action, 'createdAt' | 'modifiedAt' | 'id'>>;
-export type ImmutableNewAction = Map<string, string | string[] | List<Map<string, string>>>;
+
+export type ImmutableNewAction = Map<string, unknown>;
 
 export const createDocLinkField = (value: string): Field => ({
   value,
@@ -70,12 +72,27 @@ export const createDocLinkField = (value: string): Field => ({
   name: 'URL'
 });
 
+export const createScriptFields = (value: string): Field[] => [
+  {
+    description: 'script subtype',
+    encoding: 'ascii',
+    name: 'subtype',
+    value: 'bash'
+  },
+  {
+    value: btoa(value),
+    description: 'script content',
+    encoding: 'base64',
+    name: 'script_ssh'
+  }
+];
+
 export function createAction(
   name: string = t('in-settings:tabs.newAction'),
   type: string = 'doc_link',
   description: string = '',
   fields: Field[] = [createDocLinkField('')],
-  tags: List<string> = List()
+  tags: string[] = []
 ): ImmutableNewAction {
   return fromJS({
     name,
@@ -83,5 +100,19 @@ export function createAction(
     description,
     fields,
     tags
+  });
+}
+
+export function runScriptAction(script: string, volatileId: VolatileId) {
+  return createAgentResponseObservable({
+    action: 'action.run',
+    target: volatileId,
+    args: {
+      actionInstanceId: 'e9ea042a-2d4c-486a-b6c9-cd3696d0a5b7',
+      actionType: 'SCRIPT',
+      command: script,
+      async: 'true',
+      actionOperation: 'action.run'
+    }
   });
 }
