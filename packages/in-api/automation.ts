@@ -108,7 +108,6 @@ export function runScriptAction(script: string, volatileId: VolatileId) {
     action: 'action.run',
     target: volatileId,
     args: {
-      actionInstanceId: 'e9ea042a-2d4c-486a-b6c9-cd3696d0a5b7',
       actionType: 'SCRIPT',
       command: script,
       async: 'true',
