@@ -74,7 +74,7 @@ export default function Timeline({ details }: TimelineProps) {
         <NoDataAvailable
           type="lib_synthetic"
           height={160}
-          text={t('in-synthetics:dashboard.detailsPage.noDataAvailable.timelineDescription')}
+          text={t('in-synthetics:dashboard.detailsPage.noDataAvailable.message', { component: 'Timeline' })}
         />
       )}
     </Card>

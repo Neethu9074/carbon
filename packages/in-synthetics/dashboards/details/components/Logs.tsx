@@ -13,9 +13,9 @@ import { t } from '@instana/i18n-react';
 import LogMessageColumn from 'in-synthetics/dashboards/details/components/LogMessageColumn';
 import { logLevelColumn, timestampColumn } from 'in-synthetics/utils/logsColumnUtils';
 import { dummyTestResultLogs, TestResultLog } from 'in-synthetics/utils/constants';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import getTestResultLogs from 'in-synthetics/subscriptions/getTestResultLogs';
-import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
 
 import locals from './Logs.mless';
 
@@ -35,7 +35,7 @@ const columnDefinitions = [
 ];
 
 export default function Logs({ testId, resultId, timestamp }: LogsProps) {
-  const { data, progress, errors }: TestResultLog =
+  const { data, progress }: TestResultLog =
     useObservable<any, [number]>(
       () =>
         getTestResultLogs({
@@ -49,14 +49,17 @@ export default function Logs({ testId, resultId, timestamp }: LogsProps) {
     return <LoadingList numSkeletonRows={3} />;
   }
 
-  const hasErrors = errors.length > 0;
-  if (hasErrors) {
-    return <ErrorList errors={errors} />;
-  }
-
   return (
     <Card title={t('in-synthetics:dashboard.detailsPage.logs')}>
-      <LogDetails logs={data?.logs} timestamp={timestamp} />
+      {data != undefined && data != null ? (
+        <LogDetails logs={data?.logs} timestamp={timestamp} />
+      ) : (
+        <NoDataAvailable
+          type="lib_synthetic"
+          height={160}
+          text={t('in-synthetics:dashboard.detailsPage.noDataAvailable.message', { component: 'Logs' })}
+        />
+      )}
     </Card>
   );
 }
