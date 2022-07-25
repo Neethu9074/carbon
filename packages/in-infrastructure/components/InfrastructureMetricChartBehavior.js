@@ -85,10 +85,10 @@ class InfrastructureMetricChartBehavior extends React.Component {
     } = props;
 
     // When displaying metrics until now, the ingestion pipeline has not had time to fully ingest entities
-    // Ingestion time is about 20s, so charts should not go further than present time - 20s to avoid drops at end of charts due to incomplete ingestion
-    const timeSkew = 20000;
+    // Ingestion time is about 10s, so charts should not go further than present time - 10s to avoid drops at end of charts due to incomplete ingestion
+    const timeSkew = 10000;
 
-    this.timeConfig = timeConfigWithShift(timeConfig, timeSkew, timeConfig.autoRefresh);
+    this.timeConfig = timeConfigWithShift(timeConfig, timeSkew);
     this.granularity = getInfraGranularity(this.timeConfig, minRollup);
     this.primaryContextMenuAction = primaryContextMenuAction;
     this.additionalContextMenuButtons = additionalContextMenuButtons;
