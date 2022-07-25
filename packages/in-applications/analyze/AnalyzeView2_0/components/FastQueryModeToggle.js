@@ -9,11 +9,12 @@ import { Toggle, Spacer } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
+import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
-import locals from './PreviewToggle.mless';
+import locals from './FastQueryModeToggle.mless';
 
-export default function PreviewToggle({ previewEnabled, onChangePreviewEnabled }) {
+export default function FastQueryModeToggle({ fastQueryModeEnabled, onChangeFastQueryModeEnabled }) {
   const internalVisible = useObservable(isInternalVisible$, []) || false;
 
   if (!internalVisible) {
@@ -22,9 +23,12 @@ export default function PreviewToggle({ previewEnabled, onChangePreviewEnabled }
 
   return (
     <div className={locals.preview}>
-      <span>{t('in-applications:analyze.preview')}</span>
+      <Tooltip content={t('in-applications:analyze.fastQueryModeTooltip')} delay={500}>
+        <span>{t('in-applications:analyze.fastQueryMode')}</span>
+      </Tooltip>
+
       <Spacer horizontal="xxsmall" />
-      <Toggle checked={previewEnabled} onChange={e => onChangePreviewEnabled(e.target.checked)} />
+      <Toggle checked={fastQueryModeEnabled} onChange={e => onChangeFastQueryModeEnabled(e.target.checked)} />
     </div>
   );
 }

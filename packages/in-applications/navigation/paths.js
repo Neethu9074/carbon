@@ -17,7 +17,7 @@ import {
   facetedSearchMatrixParameter,
   hiddenCallsMatrixParameter,
   plugin as matrixPlugin,
-  previewEnabledMatrixParameter,
+  fastQueryModeEnabledMatrixParameter,
   serviceId as matrixServiceId,
   serviceListPrefix as serviceListMatrixPrefix,
   snapshotId as matrixSnapshotId,
@@ -97,7 +97,7 @@ export function getLinkToAnalyze({
   hiddenCalls,
   chartedMetrics,
   fields,
-  previewEnabled,
+  fastQueryModeEnabled,
   timeConfig,
   tagCatalog,
   setOnClickNotificationMessage
@@ -112,7 +112,7 @@ export function getLinkToAnalyze({
     setOrDeleteMatrixParameter(params, analyzeTwoParameters.fields, fields);
     setOrDeleteMatrixParameter(params, analyzeTwoParameters.chartedMetrics, chartedMetrics);
     setOrDeleteMatrixParameter(params, hiddenCallsMatrixParameter, hiddenCalls);
-    setOrDeleteMatrixParameter(params, previewEnabledMatrixParameter, previewEnabled);
+    setOrDeleteMatrixParameter(params, fastQueryModeEnabledMatrixParameter, fastQueryModeEnabled);
     setOrDeleteMatrixParameter(params, facetedSearchMatrixParameter, facets);
 
     if (timeConfig) {
