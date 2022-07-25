@@ -48,7 +48,7 @@ export default function AlertConfigDialog({ onClose, alertConfig, editMode, star
   };
   const withTrackCreate = simpleMode => {
     websitesAlertingAlertCreated(getTrackingObject(form, { mode: simpleMode ? modeSimple : modeAdvanced }));
-    createAlert(form, setForm, onClose, editMode, setIsSaving, setMessages);
+    createOrSaveAlert(form, setForm, onClose, editMode, setIsSaving, setMessages);
   };
 
   return (
@@ -100,10 +100,15 @@ function createOnChange(setForm, externalForm) {
   };
 }
 
-function createAlert(form, setForm, onClose, editMode, setIsSaving, setMessages) {
+function createOrSaveAlert(form, setForm, onClose, editMode, setIsSaving, setMessages) {
   setIsSaving(true);
+
+  // remove existing error messages:
   setMessages(prevMessages => prevMessages.filter(m => m.level && m.level !== 'error'));
-  const addMessage = message => prevMessages => [...prevMessages, message];
+
+  const addMessage = message => {
+    setMessages(prevMessages => [...prevMessages, message]);
+  };
 
   if (!form.hierarchyValid) {
     setForm(form.setTouched(true, { recurse: true }));
