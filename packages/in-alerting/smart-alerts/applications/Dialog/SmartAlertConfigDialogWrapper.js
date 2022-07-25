@@ -80,7 +80,16 @@ export default function SmartAlertConfigDialogWrapper({
   };
   const withTrackCreate = simpleMode => {
     applicationsAlertingAlertCreated({ mode: simpleMode ? 'Simple' : 'Advanced' });
-    createAlert({ form, setForm, onClose, editMode, migrationMode, isGlobalSmartAlert, setIsSaving, setMessages });
+    createOrSaveAlert({
+      form,
+      setForm,
+      onClose,
+      editMode,
+      migrationMode,
+      isGlobalSmartAlert,
+      setIsSaving,
+      setMessages
+    });
   };
 
   return (
@@ -140,7 +149,7 @@ SmartAlertConfigDialogWrapper.propTypes = {
   onClose: PropTypes.func.isRequired
 };
 
-function createAlert({
+function createOrSaveAlert({
   form,
   setForm,
   onClose,
@@ -151,8 +160,12 @@ function createAlert({
   setMessages
 }) {
   setIsSaving(true);
+  // remove existing error messages:
   setMessages(prevMessages => prevMessages.filter(m => m.level && m.level !== 'error'));
-  const addMessage = message => prevMessages => [...prevMessages, message];
+
+  const addMessage = message => {
+    setMessages(prevMessages => [...prevMessages, message]);
+  };
 
   if (!form.hierarchyValid) {
     setForm(form.setTouched(true, { recurse: true }));
