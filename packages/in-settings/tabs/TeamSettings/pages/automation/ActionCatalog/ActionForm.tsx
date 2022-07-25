@@ -158,7 +158,7 @@ export default function ActionForm({ form, setForm, onChange, entity: action }: 
                     />
                     <TouchedMessages field={field} className={locals.subErrorTextFormField} />
                     <HelpText className={locals.subTextFormField}>
-                      {t('in-settings:tabs.showsUpInTheIssueDescription')}
+                      {(action.get('fields') as any)?.get(1)?.get('description')}
                     </HelpText>
                   </FormGroup>
                 ))}
