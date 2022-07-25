@@ -8,19 +8,39 @@ import { fromJS, Map } from 'immutable';
 
 import { Observable } from '@instana/observables';
 
+import { Action, Field, Mutable, VolatileId, ActionAIScore } from 'in-types';
 import createAgentResponseObservable from 'in-subscription/agentResponse';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
-import { Action, Field, Mutable, VolatileId } from 'in-types';
 import http from 'in-services/http';
 import { t } from 'in-i18n';
 
-const actionUrl = '/api/automation/settings/actions';
+const automationAPIBase = '/api/automation';
+const actionUrl = `${automationAPIBase}/settings/actions`;
 
 export function getAllActions(): Observable<Action[]> {
   return http<Action[]>({
     method: 'GET',
     maxRetries: 3,
     url: actionUrl
+  }).map(response => response.body);
+}
+
+export function getAllActionsWithAISuggestions(
+  eventName: string,
+  eventDescription: string
+): Observable<ActionAIScore[]> {
+  return http<ActionAIScore[]>({
+    method: 'POST',
+    maxRetries: 3,
+    url: `${automationAPIBase}/ai/action/match`,
+    data: {
+      name: eventName,
+      description: eventDescription,
+      type: 'nlp',
+      tags: ['host, database', 'performance'],
+      searchOrder: 'name'
+    },
+    headers: getCsrfHeader()
   }).map(response => response.body);
 }
 

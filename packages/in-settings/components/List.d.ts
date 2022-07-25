@@ -43,6 +43,7 @@ interface ListProps<ItemType extends Object> {
   rightHeader?: ReactNode;
   tableActions?: TableActions<ItemType>;
   getEntityName?: (element: ItemType) => string;
+  initalOrderDir?: 'ASC' | 'DESC';
 }
 
 declare function ListComponent<ItemType extends Object>(props: ListProps<ItemType>): JSX.Element;

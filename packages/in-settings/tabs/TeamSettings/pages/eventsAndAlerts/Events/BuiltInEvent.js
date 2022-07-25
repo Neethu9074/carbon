@@ -176,7 +176,7 @@ const Form = entityForm(function DetailsForm(props) {
       {role.canConfigureAutomationActions && actionAutomationEnabled && (
         <>
           <SectionHeading>{t('in-settings:tabs.ActionAssociations')}</SectionHeading>
-          <ActionsSelection form={form} setForm={setForm} entityId={entity} />
+          <ActionsSelection form={form} setForm={setForm} entity={entity} />
         </>
       )}
       <SaveCancel

@@ -17,6 +17,7 @@ export interface Action {
   readonly parameters?: Parameter[];
   readonly type: string;
   readonly tags: string[];
+  score?: number;
 }
 
 export interface Field {
@@ -28,4 +29,9 @@ export interface Field {
 
 export interface Parameter {
   readonly name: string;
+}
+
+export interface ActionAIScore {
+  action: Action;
+  score: number;
 }

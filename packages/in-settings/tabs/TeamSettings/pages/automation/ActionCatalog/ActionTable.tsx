@@ -79,6 +79,14 @@ const columnDefinitions = [
   }
 ];
 
+const scoreColumn = {
+  label: 'AI Score',
+  id: 'score',
+  getContent(row: Action) {
+    return row.score?.toFixed(2);
+  }
+};
+
 const executeColumn = (volatileId: VolatileId) => ({
   id: 'execute',
   label: 'Execute',
@@ -123,6 +131,7 @@ export interface ActionTableProps {
   getEntityName?: (action: Action) => string;
   showExecuteColumn?: boolean | undefined;
   volatileId?: VolatileId;
+  scored?: boolean;
 }
 
 export default function ActionTable({
@@ -135,18 +144,24 @@ export default function ActionTable({
   hiddenIds = [],
   getEntityName,
   showExecuteColumn = false,
-  volatileId = {}
+  volatileId = {},
+  scored = false
 }: ActionTableProps) {
   let columnDefinitionsToShow = columnDefinitions;
   if (showExecuteColumn) {
     columnDefinitionsToShow = [...columnDefinitions, executeColumn(volatileId)];
   }
+  if (scored) {
+    columnDefinitionsToShow = [...columnDefinitionsToShow, scoreColumn];
+  }
+
   return (
     <List<Action>
       title={title}
+      initalOrderDir={'DESC'}
       noDataMessage={noDataMessage}
       pageSize={pageSize}
-      initialOrderBy="name"
+      initialOrderBy={scored ? 'score' : 'name'}
       isSearchable
       loadEntities={loadEntities}
       columnDefinitions={columnDefinitionsToShow}

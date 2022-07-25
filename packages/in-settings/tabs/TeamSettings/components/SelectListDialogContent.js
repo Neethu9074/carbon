@@ -38,7 +38,9 @@ function SelectListDialogContent({
   limit = Number.MAX_VALUE, // unlimited by default
   pageSize = 7,
   preventCloseOnSubmit,
-  renderCustomFormActions
+  renderCustomFormActions,
+  loadEntities,
+  scored = false
 }) {
   limit = limit - hiddenIds.length; // take the items that are already selected into account
   const ListComponent = listComponent;
@@ -59,8 +61,10 @@ function SelectListDialogContent({
       <FormGroup>
         <ListComponent
           setTitle={false}
+          loadEntities={loadEntities}
           pageSize={pageSize}
           hiddenIds={hiddenIds}
+          scored={scored}
           hasRowNavigation={false}
           noDataMessage={t('in-settings:tabs.noItemsAvailable')}
           onRowClick={entity => toggle(selectedItems, setSelectedItems, entity, limit, setErrorMessage)}

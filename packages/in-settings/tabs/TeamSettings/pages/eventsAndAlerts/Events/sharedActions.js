@@ -12,9 +12,9 @@ import { Spacer } from '@instana/components';
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import ActionTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionTable';
+import { getAllActions, getAllActionsWithAISuggestions } from 'in-api/automation';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
-import { getAllActions } from 'in-api/automation';
 import { t } from 'in-i18n';
 
 function actionSelectionTableActions(form, setForm) {
@@ -64,18 +64,26 @@ const getSelectedActionsForEvent = createMemoizedObservableForReferencedEntities
   );
 });
 
-export function ActionsSelection({ form, setForm }) {
+export function ActionsSelection({ form, setForm, entity }) {
   const selectedActions = form.get('actionIds') ? form.get('actionIds').value : [];
+  const eventName = entity.get('name');
+  const eventDescription = entity.get('description');
 
   const RightHeader = (
     <SelectListDialogButton
       form={form}
+      scored
       onSubmit={selectedIds => submitActionSelection(form, setForm, selectedIds)}
       title={t('in-settings:tabs.addActions')}
       label={t('in-settings:tabs.addActions')}
       listComponent={ActionTable}
       limit={10}
       hiddenIds={selectedActions}
+      loadEntities={() =>
+        getAllActionsWithAISuggestions(eventName, eventDescription).map(actionAIScores =>
+          actionAIScores.map(({ action, score }) => ({ ...action, score }))
+        )
+      }
       createSubmitLabel={numberOfItems =>
         numberOfItems > 0
           ? t('in-settings:tabs.addNumberOfItemsAction', { count: numberOfItems })
