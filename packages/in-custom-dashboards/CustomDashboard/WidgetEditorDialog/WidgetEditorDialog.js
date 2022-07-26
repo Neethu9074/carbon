@@ -190,7 +190,7 @@ export function getInitialFormState(widget) {
     .put(
       'type',
       createField({
-        value: enabledWidgets[0].type,
+        value: widget?.type ?? enabledWidgets[0].type,
         validator: composeAndShortCircuitOnError(
           notUndefinedValidator,
           stringValidator,
