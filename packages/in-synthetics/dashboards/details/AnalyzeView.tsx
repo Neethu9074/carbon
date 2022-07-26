@@ -115,7 +115,7 @@ export default function SyntheticAnalyzeView() {
             pageSize
           },
           order: { by: 'errors', direction: 'DESC' },
-          syntheticMetrics: ['errors', 'status'],
+          syntheticMetrics: ['errors', 'status', 'start_time'],
           filter: {
             timeConfig,
             includeInternalCalls: false,
@@ -180,7 +180,7 @@ export default function SyntheticAnalyzeView() {
                 <Col xs>
                   <BigNumberKpiCard
                     title={t('in-synthetics:dashboard.summary.responseTime')}
-                    formatter={meanLatency.compact}
+                    formatter={meanLatency.detailed}
                     useMaxAvailableHeight
                     config={{
                       metricConfiguration: {
@@ -242,7 +242,11 @@ export default function SyntheticAnalyzeView() {
               )}
               <Row>
                 <Col lg={12}>
-                  <Timeline details={details} />
+                  <Timeline
+                    details={details}
+                    startTime={get(resultList.data?.items[0], ['metrics', 'start_time', 0, 1], 0)}
+                    finishTime={get(resultList.data?.items[0], ['metrics', 'start_time', 0, 0], 0)}
+                  />
                 </Col>
               </Row>
               <Row>
