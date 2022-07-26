@@ -7,12 +7,17 @@
 import React, { useEffect, useState } from 'react';
 import { Item, MapForm } from 'formalistic';
 
+import {
+  apdexNameKey,
+  createForm,
+  toApdexConfigurationInput
+} from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/form';
 import CreateApplicationApdexForm from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/CreateApplicationApdexForm';
 import CreateWebsiteApdexForm from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/CreateWebsiteApdexForm';
 import { useApdexWidgetTrackers } from 'in-custom-dashboards/widgets/Apdex/components/ApdexWidgetTrackerProvider';
 import useCreateApdexConfiguration from 'in-custom-dashboards/widgets/Apdex/hooks/useCreateApdexConfiguration';
 import { APDEX_MANAGEMENT_CREATE_FINISH, APDEX_MANAGEMENT_EDIT_FINISH } from 'in-services/tracking/eventNames';
-import { apdexNameKey, createForm } from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/form';
+import getTranslatedErrorMessage from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/errors';
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { getField } from 'in-custom-dashboards/widgets/Apdex/form';
@@ -84,18 +89,29 @@ export default function CreateApdexForm({
     onClose();
   };
 
-  const onSaveFailure = () => {
-    addMessage(
-      {
-        type: 'danger',
-        timeout: seconds.toMillis(4),
-        title: t('in-custom-dashboards:widgets.apdex.createApdexForm.apdexCreateFailedTitle'),
-        content: t('in-custom-dashboards:widgets.apdex.createApdexForm.apdexCreateFailedContent', {
-          apdexName
+  const onSaveFailure = (result?: Result<ApdexConfiguration>) => {
+    const messageParams = {
+      type: 'danger',
+      title: t('in-custom-dashboards:widgets.apdex.createApdexForm.apdexCreateFailedTitle')
+    } as const;
+
+    if (result?.errors && result.errors.length !== 0) {
+      return result.errors.forEach(error =>
+        addMessage({
+          ...messageParams,
+          timeout: seconds.toMillis(6),
+          content: getTranslatedErrorMessage(error)
         })
-      },
-      'custom-dashboard-apdex-error'
-    );
+      );
+    }
+
+    return addMessage({
+      ...messageParams,
+      timeout: seconds.toMillis(6),
+      content: t('in-custom-dashboards:widgets.apdex.createApdexForm.apdexCreateFailedContent', {
+        apdexName
+      })
+    });
   };
 
   return (
@@ -107,7 +123,7 @@ export default function CreateApdexForm({
         wasSuccessful={success}
         isSaving={saving}
         hasError={error}
-        onSubmit={submittedForm => doSubmit(submittedForm, onSaveSuccess, onSaveFailure)}
+        onSubmit={submittedForm => doSubmit(toApdexConfigurationInput(submittedForm), onSaveSuccess, onSaveFailure)}
         onChange={(path, updater) => setForm(form.updateIn(path, updater))}
         entityId={entityId}
         setFooter={setFooter}
