@@ -330,7 +330,7 @@
     "byDefaultWeWillAttemptToFormatNumbersInYourPreferredLocaleFormat": "Par défaut, nous tenterons de formater les nombres dans le format de vos paramètres régionaux. En cochant cette option, vous pouvez forcer un format de numéro <code>en-US</code>.",
     "accountBilling": "Compte et facturation",
     "usage": "Utilisation",
-    "activationAdoption": "Activation &amp;TWBAMP; Adoption",
+    "activationAdoption": "Activation & Adoption",
     "technologiesReporting": "Production de rapports sur les technologies",
     "accountSettings": "Paramètres du compte",
     "configureGoogleSso": "Configurer Google SSO",
