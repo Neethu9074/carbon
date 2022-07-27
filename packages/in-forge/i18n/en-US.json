@@ -11852,7 +11852,9 @@
       "titleInterface": "Interface",
       "titleProviderVersion": "Provider Version",
       "titleConsumerVersion": "Consumer Version",
-      "titleVersion": "Protocol Version"
+      "titleVersion": "Protocol Version",
+      "titleMethod": "Method",
+      "titleGroup": "Group"
     },
     "dynamoDB": {
       "titleTable": "Table",
