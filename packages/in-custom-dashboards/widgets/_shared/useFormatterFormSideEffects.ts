@@ -1,0 +1,170 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2022
+ */
+
+import { Field, Item, ListForm, MapForm } from 'formalistic';
+
+import { MetricSource } from '@instana/types/typeDefinitions';
+import { AggregationType } from '@instana/types';
+
+import useFormSideEffects, { CHANGE_TYPES, EffectFunction } from 'in-alerting/smart-alerts/hooks/useFormSideEffects';
+import { getFormatter } from 'in-custom-dashboards/widgets/_shared/formatters';
+import { defaultFormatter } from 'in-stores/metric/formatters';
+
+export const y1AxisPath = 'y1';
+export const y2AxisPath = 'y2';
+export const metricConfigurationPath = 'metricConfiguration';
+export const metricsPath = 'metrics';
+export const sourcePath = 'source';
+export const metricPath = 'metric';
+export const aggregationPath = 'aggregation';
+export const formatterPath = 'formatter';
+
+const formSideEffects = [
+  {
+    path: [metricConfigurationPath, sourcePath],
+    effects: [handleFormatterUpdate as EffectFunction]
+  },
+  {
+    path: [metricConfigurationPath, metricPath],
+    effects: [handleFormatterUpdate as EffectFunction]
+  },
+  {
+    path: [metricConfigurationPath, aggregationPath],
+    effects: [handleFormatterUpdate as EffectFunction]
+  }
+];
+const chartFormSideEffects = [
+  {
+    path: [y1AxisPath, metricsPath, /\d+/, sourcePath],
+    effects: [handleChartAxisFormatterUpdate(y1AxisPath) as EffectFunction]
+  },
+  {
+    path: [y1AxisPath, metricsPath, /\d+/, metricPath],
+    effects: [handleChartAxisFormatterUpdate(y1AxisPath) as EffectFunction]
+  },
+  {
+    path: [y1AxisPath, metricsPath, /\d+/, aggregationPath],
+    effects: [handleChartAxisFormatterUpdate(y1AxisPath) as EffectFunction]
+  },
+  {
+    path: [y1AxisPath, metricsPath, /\d+/],
+    effects: [handleChartAxisFormatterUpdate(y1AxisPath) as EffectFunction]
+  },
+  {
+    path: [y2AxisPath, metricsPath, /\d+/, sourcePath],
+    effects: [handleChartAxisFormatterUpdate(y2AxisPath) as EffectFunction]
+  },
+  {
+    path: [y2AxisPath, metricsPath, /\d+/, metricPath],
+    effects: [handleChartAxisFormatterUpdate(y2AxisPath) as EffectFunction]
+  },
+  {
+    path: [y2AxisPath, metricsPath, /\d+/, aggregationPath],
+    effects: [handleChartAxisFormatterUpdate(y2AxisPath) as EffectFunction]
+  },
+  {
+    path: [y2AxisPath, metricsPath, /\d+/],
+    effects: [handleChartAxisFormatterUpdate(y2AxisPath) as EffectFunction]
+  }
+];
+const chartFormDragSideEffects = [
+  {
+    path: [y1AxisPath, metricsPath],
+    effects: [handleChartAxisFormatterUpdate(y1AxisPath) as EffectFunction]
+  },
+  {
+    path: [y2AxisPath, metricsPath],
+    effects: [handleChartAxisFormatterUpdate(y2AxisPath) as EffectFunction]
+  }
+];
+
+interface MetricConfig {
+  source: MetricSource;
+  metric: string;
+  aggregation: AggregationType;
+}
+
+function handleFormatterUpdate(form: MapForm): Item {
+  const metricConfig = form.get(metricConfigurationPath) as MapForm;
+  const sourceField = metricConfig.get(sourcePath) as Field<MetricSource>;
+  const metricField = metricConfig.get(metricPath) as Field<string>;
+  const aggregationField = metricConfig.get(aggregationPath) as Field<AggregationType>;
+
+  const source = sourceField?.value;
+  const metric = metricField?.value;
+  const aggregation = aggregationField?.value;
+  const formatters = getFormatter(source, metric, aggregation);
+
+  return form.updateIn([formatterPath], f =>
+    (f as Field<string>).setValue(formatters?.[0].id ?? defaultFormatter).setTouched(true)
+  );
+}
+
+function handleChartAxisFormatterUpdate(axisName: 'y1' | 'y2') {
+  return (form: MapForm): Item => {
+    const axis = form.get(axisName) as MapForm;
+
+    const metricsForAxis = axis.get(metricsPath) as ListForm;
+    const metricConfigurations = metricsForAxis?.map(
+      (metricList): MetricConfig => {
+        const sourceField = (metricList as MapForm).get(sourcePath);
+        const source = (sourceField as Field<MetricSource>)?.value;
+        const metricField = (metricList as MapForm).get(metricPath);
+        const metric = (metricField as Field<string>)?.value;
+        const aggregationField = (metricList as MapForm).get(aggregationPath);
+        const aggregation = (aggregationField as Field<AggregationType>)?.value;
+
+        return {
+          source,
+          metric,
+          aggregation
+        };
+      }
+    );
+
+    const formatters =
+      metricConfigurations?.flatMap(config => getFormatter(config.source, config.metric, config.aggregation)) ?? [];
+
+    return form.updateIn([axisName, formatterPath], f =>
+      (f as Field<string>).setValue(formatters?.[0].id ?? defaultFormatter).setTouched(true)
+    );
+  };
+}
+
+export function useFormatterFormSideEffects(
+  form: Item,
+  setForm: (field: Item) => void
+): ReturnType<typeof useFormSideEffects> {
+  return useFormSideEffects({
+    form,
+    setForm,
+    effects: formSideEffects,
+    changesToTrack: [CHANGE_TYPES.EDIT, CHANGE_TYPES.LIST_UPDATE]
+  });
+}
+
+export function useChartFormatterFormSideEffects(
+  form: Item,
+  setForm: (field: Item) => void
+): ReturnType<typeof useFormSideEffects> {
+  return useFormSideEffects({
+    form,
+    setForm,
+    effects: chartFormSideEffects,
+    changesToTrack: [CHANGE_TYPES.EDIT, CHANGE_TYPES.LIST_UPDATE]
+  });
+}
+
+export function useChartFormatterDragAndDropFormSideEffects(
+  form: Item,
+  setForm: (field: Item) => void
+): ReturnType<typeof useFormSideEffects> {
+  return useFormSideEffects({
+    form,
+    setForm,
+    effects: chartFormDragSideEffects
+  });
+}

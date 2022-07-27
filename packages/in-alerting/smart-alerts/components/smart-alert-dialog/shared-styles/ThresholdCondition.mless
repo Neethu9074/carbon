@@ -14,4 +14,8 @@
   .thresholdValueWithValidationMessage {
     padding: 1rem 0;
   }
+
+  .narrowControl {
+    width: 6rem;
+  }
 }

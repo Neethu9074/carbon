@@ -80,11 +80,11 @@
     "buttonLabel": "Create new Test"
   },
   "navigation": {
-    "synthetics": "Synthetics"
+    "synthetics": "Synthetic Monitoring"
   },
   "dashboard": {
     "testList": {
-      "mainLabel": "Synthetics",
+      "mainLabel": "Synthetic Monitoring",
       "secondaryLabels": {
         "tests": "Tests",
         "location": "Location"
@@ -103,10 +103,14 @@
     "summary": {
       "successRate": "Success rate",
       "locations": "Locations",
+      "responseTime": "Response Time",
       "meanResponseTime": "Mean response time",
+      "responseSize": "Response Size",
       "avgResponseSize": "Avg. response size",
       "summaryTab": "Summary",
       "resultsTab": "Results",
+      "startTime": "Start Time",
+      "requests": "Requests",
       "widgets": {
         "failures": "Failures",
         "responseTimes": "Response Times",
@@ -135,7 +139,46 @@
       "startedColumn": "Started",
       "locationColumn": "Location",
       "responseTimeColumn": "Response Time",
-      "responseSizeColumn": "Response Size"
+      "responseSizeColumn": "Response Size",
+      "title": "Results"
+    },
+    "detailsPage": {
+      "timeLineWidget": "Timeline",
+      "responseTimeChart": "Response Time",
+      "subtransactionStatus": "Status",
+      "subtransactionSize": "Size",
+      "subtransactionTime": "Time",
+      "subtransactionBlocking": "Blocking",
+      "subtransactionDNS": "DNS",
+      "subtransactionConnect": "Connect",
+      "subtransactionSSL": "SSL",
+      "subtransactionSending": "Sending",
+      "subtransactionWaiting": "Waiting",
+      "subtransactionReceiving": "Receiving",
+      "showLessSubDetails": "Show Less",
+      "showMoreSubDetails": "Show More",
+      "failedRun": "Failed Run(Exception)",
+      "failedRunErrorTitle": "Error Message",
+      "noFailedErrorMessage": "No error message",
+      "statusKpiCard": "Status",
+      "successResult": "Successful",
+      "failedResult": "Failed",
+      "searchFilter": "Search",
+      "subtransactionBody": {
+        "contentType": "Content type",
+        "size": "Size",
+        "redirectTime": "Redirect time",
+        "uploadSpeed": "Upload speed",
+        "downloadSpeed": "Download speed",
+        "requestTitle": "Request",
+        "responseTimingTitle": "Response Timing",
+        "timingsPercentageOfTotalDurationName": "{{percentage}} of {{totalDurationName}}"
+      },
+      "logs": "Logs",
+      "noDataAvailable": {
+        "message": "{{component}} details not available for this test result",
+        "notFound": "Not found"
+      }
     },
     "noDataAvailable": {
       "resultsTitle": "No results available",

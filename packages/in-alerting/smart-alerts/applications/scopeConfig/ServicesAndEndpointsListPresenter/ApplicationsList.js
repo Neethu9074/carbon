@@ -222,7 +222,7 @@ ApplicationsList.propTypes = {
   searchQuery: PropTypes.string,
   boundaryScope: PropTypes.string.isRequired,
   showInteractedItemsOnly: PropTypes.bool,
-  validationError: PropTypes.string,
+  validationError: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   editMode: PropTypes.bool,
   readOnly: PropTypes.bool,
   appIdForIndividualSmartAlert: PropTypes.string,

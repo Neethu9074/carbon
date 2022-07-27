@@ -10,7 +10,8 @@ import {
   teamSettingsAlertingAlertChannels,
   teamSettingsActionLog,
   teamSettingsLogManagementHumio,
-  teamSettingsAccessControlGroups
+  teamSettingsAccessControlGroups,
+  teamSettingsActionCatalog
 } from 'in-settings/navigation/paths';
 import { productOwnerPermissions } from 'in-stores/permission';
 import { role } from 'in-stores/user';
@@ -23,7 +24,8 @@ export function roleHasAnyTeamPermissions() {
     role.canConfigureCustomAlerts ||
     role.canConfigureIntegrations ||
     role.canViewAuditLog ||
-    role.canConfigureLogManagement
+    role.canConfigureLogManagement ||
+    role.canConfigureAutomationActions
   );
 }
 
@@ -48,6 +50,9 @@ export function findFirstPermittedTeamPage() {
   }
   if (role.canConfigureLogManagement) {
     return teamSettingsLogManagementHumio;
+  }
+  if (role.canConfigureAutomationActions) {
+    return teamSettingsActionCatalog;
   }
 }
 

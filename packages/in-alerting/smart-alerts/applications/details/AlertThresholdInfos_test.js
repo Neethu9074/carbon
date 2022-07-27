@@ -4,7 +4,7 @@
  */
 
 import { createMetricLabel } from 'in-alerting/smart-alerts/applications/details/AlertThresholdInfos';
-import { STATIC_THRESHOLD, ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { ADAPTIVE_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 
 describe('in-alerting/smart-alerts/applications/details/AlertThresholdInfos', () => {
   describe('createFormattedMetricLabel', () => {
@@ -24,6 +24,18 @@ describe('in-alerting/smart-alerts/applications/details/AlertThresholdInfos', ()
       const label = createMetricLabel('errorRate', undefined, ADAPTIVE_BASELINE);
 
       expect(label).toBe('Error Rate');
+    });
+
+    it('create text for http status code rate type with static threshold', () => {
+      const label = createMetricLabel('statusCode', 'MEAN', STATIC_THRESHOLD, 0.5, '>', 'callRate');
+
+      expect(label).toBe('Status Code Rate > 50%');
+    });
+
+    it('create text for http status code count type with static threshold', () => {
+      const label = createMetricLabel('statusCode', 'MEAN', STATIC_THRESHOLD, 100, '>', 'calls');
+
+      expect(label).toBe('Status Code Count > 100');
     });
   });
 });

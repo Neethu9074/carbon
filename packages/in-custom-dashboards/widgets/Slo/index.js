@@ -5,7 +5,7 @@
 
 export { default as ShowCaseComponent } from 'in-custom-dashboards/widgets/Slo/ShowCase';
 export { default as Form } from 'in-custom-dashboards/widgets/Slo/FormComponent';
-export { default as Widget } from 'in-custom-dashboards/widgets/Slo/Widget';
+export { default as Widget } from 'in-custom-dashboards/widgets/Slo/SloWidgetPresenter';
 export { createForm } from 'in-custom-dashboards/widgets/Slo/form';
 
 import { t } from 'in-i18n';
@@ -15,3 +15,4 @@ export const label = t('in-custom-dashboards:widgets.slo.slo');
 export const minimumWidth = 6;
 export const minimumHeight = 18;
 export const enabled = true;
+export const trackViews = true;

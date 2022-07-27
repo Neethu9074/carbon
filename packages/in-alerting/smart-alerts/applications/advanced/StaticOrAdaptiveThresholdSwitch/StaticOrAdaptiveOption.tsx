@@ -21,7 +21,7 @@ interface Props {
 }
 
 export default function StaticOrAdaptiveOption({ currentType, baselineType, onChange }: Props) {
-  const { icon, title, description } = staticOrAdaptiveThresholds.info[baselineType];
+  const { icon, title, description, featureFeedbackLink } = staticOrAdaptiveThresholds.info[baselineType];
 
   return (
     <OptionBox
@@ -31,6 +31,7 @@ export default function StaticOrAdaptiveOption({ currentType, baselineType, onCh
       description={description}
       checked={currentType === baselineType}
       onChange={() => onChange(baselineType)}
+      featureFeedbackLink={featureFeedbackLink}
       asRadioButton
     />
   );

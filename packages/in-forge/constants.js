@@ -64,6 +64,7 @@ export const nonServicePlugins = {
   azureFunction: 'azureFunction',
   beeInstanaNode: 'beeInstanaNode',
   bizTalk: 'bizTalk',
+  camunda: 'camunda',
   cassandraNode: 'cassandraNode',
   cassandraCluster: 'cassandraCluster',
   ceph: 'ceph',
@@ -225,6 +226,9 @@ export const nonServicePlugins = {
   redisCluster: 'redisCluster',
   redisEnterpriseNode: 'redisEnterpriseNode',
   redisEnterpriseCluster: 'redisEnterpriseCluster',
+  rocketMqCluster: 'rocketMqCluster',
+  rocketMqBroker: 'rocketMqBroker',
+  rocketMqTopic: 'rocketMqTopic',
   rubyRuntimePlatform: 'rubyRuntimePlatform',
   sapHana: 'sapHana',
   solr: 'solr',
@@ -253,7 +257,10 @@ export const nonServicePlugins = {
   webSphereLibertyApplicationContainer: 'webSphereLibertyApplicationContainer',
   zhmcConsole: 'zhmcConsole',
   zhmcCpc: 'zhmcCpc',
-  zooKeeper: 'zooKeeper'
+  zooKeeper: 'zooKeeper',
+  zOS: 'zOS',
+  zDb2: 'zDb2',
+  zCics: 'zCics'
 };
 
 export const applicationPlugins = {
@@ -293,6 +300,9 @@ export const fullyQualifiedPlugins = {
     'com.instana.forge.hardware.virtual.alicloud.rocketmq.derivedentity.groupPerTopic.AliCloudRocketMqGroupPerTopic',
   aliCloudRocketMqTopic:
     'com.instana.forge.hardware.virtual.alicloud.rocketmq.derivedentity.topic.AliCloudRocketMqTopic',
+  rocketMqCluster: 'com.instana.forge.infrastructure.messaging.rocketmq.RocketMqCluster',
+  rocketMqBroker: 'com.instana.forge.infrastructure.messaging.rocketmq.derivedentity.broker.RocketMqBroker',
+  rocketMqTopic: 'com.instana.forge.infrastructure.messaging.rocketmq.derivedentity.topic.RocketMqTopic',
   apmProxy: 'apmProxy',
   application: 'com.instana.forge.application.Application',
   availabilityZone: 'com.instana.forge.hardware.AvailabilityZone',
@@ -332,6 +342,7 @@ export const fullyQualifiedPlugins = {
   azureSqlServer: 'com.instana.forge.hardware.virtual.azure.sqlserver.AzureSqlServer',
   beeInstanaNode: 'com.instana.forge.infrastructure.database.beeinstana.BeeInstanaNode',
   bizTalk: 'com.instana.forge.infrastructure.messaging.biztalk.BizTalk',
+  camunda: 'camunda',
   cassandraCluster: 'com.instana.forge.infrastructure.database.cassandra.CassandraCluster',
   cassandraNode: 'com.instana.forge.infrastructure.database.cassandra.CassandraNode',
   ceph: 'com.instana.forge.infrastructure.database.ceph.Ceph',
@@ -545,7 +556,10 @@ export const fullyQualifiedPlugins = {
     'com.instana.forge.infrastructure.application.websphere.WebSphereLibertyApplicationContainer',
   zhmcConsole: 'com.instana.forge.infrastructure.paas.zhmc.derivedentity.console.ZhmcConsole',
   zhmcCpc: 'com.instana.forge.infrastructure.paas.zhmc.derivedentity.console.ZhmcCpc',
-  zooKeeper: 'com.instana.forge.infrastructure.database.zookeeper.ZooKeeper'
+  zooKeeper: 'com.instana.forge.infrastructure.database.zookeeper.ZooKeeper',
+  zOS: 'com.instana.forge.ibm.ibmz.os.ZOS',
+  zDb2: 'com.instana.forge.ibm.ibmz.db2.ZDb2',
+  zCics: 'com.instana.forge.ibm.ibmz.cics.ZCics'
 };
 
 export function translateFullyQualifiedPluginToShortPluginName(fullyQualifiedPlugin) {

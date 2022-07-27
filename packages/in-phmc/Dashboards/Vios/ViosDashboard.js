@@ -18,7 +18,7 @@ import DashboardHeader from 'in-components/DashboardHeader';
 import { viosDashboard } from 'in-phmc/navigation/paths';
 import tabs from 'in-phmc/Dashboards/Vios/tabs/index';
 import { getTimeConfig } from 'in-stores/time/config';
-import { ViosBreadcrumb } from 'in-phmc/breadcrumbs';
+import { ViosBreadcrumbs } from 'in-phmc/breadcrumbs';
 import getVIOS from 'in-phmc/subscriptions/getVios';
 import { plugins } from 'in-forge/constants';
 import Footer from 'in-components/Footer';
@@ -32,10 +32,9 @@ export default function ViosDashboard({ location }) {
     viewPath: viosDashboard,
     timeConfig: getTimeConfig(location)
   };
-
   return (
     <Fragment>
-      <Breadcrumbs items={ViosBreadcrumb(props)} />
+      <Breadcrumbs items={ViosBreadcrumbs(props)} />
       <ViewTrackingMeta
         data={{
           productArea: 'IBM Power',

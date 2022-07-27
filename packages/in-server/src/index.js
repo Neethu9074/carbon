@@ -9,6 +9,8 @@ require('@instana/collector')({
   level: 'info'
 });
 
+const { createHttpTerminator } = require('http-terminator');
+
 const cookieParser = require('cookie-parser');
 const { v4: uuidv4 } = require('uuid');
 const express = require('express');
@@ -26,7 +28,10 @@ const csrfRoutes = require('./routes/csrf');
 const pingRoutes = require('./routes/ping');
 const { logger } = require('./logging');
 
-require('./admin');
+const adminServer = require('./admin');
+const adminServerHttpTerminator = createHttpTerminator({ server: adminServer });
+
+const { activeResolver } = require('./services/resolvers');
 
 const app = express();
 
@@ -95,4 +100,34 @@ const server = app.listen(serverConfig.port, serverConfig.bindAddress, () => {
   const port = server.address().port;
 
   logger.info('ui-client in-server listening at http://%s:%s', host, port);
+});
+const serverHttpTerminator = createHttpTerminator({ server: server });
+
+function shutdownAdminServerAndHttpServer() {
+  adminServerHttpTerminator.terminate().then(() => {
+    logger.info('Admin server closed');
+  });
+  serverHttpTerminator.terminate().then(() => {
+    logger.info('HTTP server closed');
+  });
+}
+
+function shutdownResolverIfNeeded() {
+  activeResolver.shutdown?.().then(() => {
+    logger.info('Resolver based server closed');
+  });
+}
+
+/** react on a k8s shutdown signal */
+process.on('SIGTERM', () => {
+  logger.info('SIGTERM signal received. Shutting down.');
+  shutdownAdminServerAndHttpServer();
+  shutdownResolverIfNeeded();
+});
+
+/** react on a Ctrl-C in a shell */
+process.on('SIGINT', () => {
+  logger.info('SIGINT signal received. Shutting down.');
+  shutdownAdminServerAndHttpServer();
+  shutdownResolverIfNeeded();
 });

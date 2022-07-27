@@ -22,13 +22,14 @@ export default function TermsDialog({ onSave, fullTermsConfigEnabled }) {
       return;
     }
 
-    const tosPrivacyAgreement = Object.freeze({
-      tosAccepted: _form.get('tosAccepted').value,
-      privacyAgreementAccepted: _form.get('privacyAgreementAccepted').value,
+    const userPreferences = Object.freeze({
+      // TODO
+      tosAccepted: true,
+      privacyAgreementAccepted: true,
       userSettings: formUserSettingsObject(_form)
     });
 
-    onSave(tosPrivacyAgreement, setSaveError);
+    onSave(userPreferences, setSaveError);
   };
 
   return (

@@ -138,6 +138,11 @@ function renderButtonLine(props) {
     />
   );
 
+  const showAlertButton =
+    role.canConfigureCustomAlerts &&
+    applicationSmartAlertsEnabled &&
+    !location.pathname.includes('/application/configuration');
+
   return (
     <>
       <ApplicationEntityHealthIndicatorBehavior
@@ -161,9 +166,7 @@ function renderButtonLine(props) {
         syntheticCalls={syntheticCalls}
       />
 
-      {role.canConfigureCustomAlerts && applicationSmartAlertsEnabled && (
-        <FloatingActionButtons>{AddSmartAlertButton}</FloatingActionButtons>
-      )}
+      {showAlertButton && <FloatingActionButtons>{AddSmartAlertButton}</FloatingActionButtons>}
     </>
   );
 }

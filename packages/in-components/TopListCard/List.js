@@ -17,6 +17,7 @@ export default function TopListPresenter(props) {
     result,
     selectedMetric,
     selectedMetricFormatter,
+    selectedCompanionMetricAlias,
     selectedCompanionMetric,
     selectedCompanionMetricFormatter,
     selectedMetricColor,
@@ -55,7 +56,9 @@ export default function TopListPresenter(props) {
 
           let CompanionMetricRenderer;
           if (selectedCompanionMetric) {
-            const companionValue = getMetricValueFromItem(selectedCompanionMetric, item);
+            const selector =
+              selectedCompanionMetric === selectedMetric ? selectedCompanionMetricAlias : selectedCompanionMetric;
+            const companionValue = getMetricValueFromItem(selector, item);
             const formattedCompanionMetric = selectedCompanionMetricFormatter(companionValue);
             CompanionMetricRenderer = CompanionMetric
               ? () => <CompanionMetric formattedCompanionMetric={formattedCompanionMetric} />

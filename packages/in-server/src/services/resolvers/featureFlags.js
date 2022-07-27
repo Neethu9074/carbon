@@ -87,7 +87,7 @@ module.exports = exports = [
   {
     uiClientKey: 'applicationSmartAlertsEnabled',
     instanaCtlKey: 'feature.application.smart.alerts.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'agentMonitoringIssuesEnabled',
@@ -167,7 +167,7 @@ module.exports = exports = [
   {
     uiClientKey: 'kubernetesLoggingEnabled',
     instanaCtlKey: 'feature.kubernetes.logging.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'enableTroubleshootingMode',
@@ -200,11 +200,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'deprecateAppDataLegacyEvents',
-    instanaCtlKey: 'feature.deprecated.appdata.legacy.events',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'potentialProblemsEnabled',
     instanaCtlKey: 'feature.potential.problems.enabled',
     defaultValue: true
@@ -230,8 +225,18 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'disableAppDataLegacyEvents',
-    instanaCtlKey: 'feature.disable.app.data.legacy.events',
+    uiClientKey: 'deprecateAppDataLegacyEventsEnabled',
+    instanaCtlKey: 'feature.deprecate.app.data.legacy.events.enabled',
+    defaultValue: true
+  },
+  {
+    uiClientKey: 'disallowAppDataLegacyEventsEnabled',
+    instanaCtlKey: 'feature.disallow.app.data.legacy.events.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'hideAppDataLegacyEventsEnabled',
+    instanaCtlKey: 'feature.hide.app.data.legacy.events.enabled',
     defaultValue: false
   },
   {
@@ -260,8 +265,18 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'baselinePreviewOnAlertPageEnabled',
-    instanaCtlKey: 'feature.baseline.preview.on.alert.page.enabled',
+    uiClientKey: 'apdexWidgetEnabled',
+    instanaCtlKey: 'feature.apdex.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'websiteUploadConfigEnabled',
+    instanaCtlKey: 'feature.website.sourcemap.upload.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'actionAutomationEnabled',
+    instanaCtlKey: 'feature.automation.enabled',
     defaultValue: false
   }
 ];

@@ -47,7 +47,7 @@ export default function AlertConfigDialogWithThreshold(props) {
   const alertConfigWithFormModel = form.toJS();
   const blueprintConfig = getBlueprintConfig(alertConfigWithFormModel.rule.alertType);
 
-  const { enrichedTagFilterFormModel, numeratorFilter } = getEnhancedTagFilterFormModel(
+  const { enrichedTagFilterFormModel, numeratorTagFilterFormModel } = getEnhancedTagFilterFormModel(
     alertConfigWithFormModel,
     blueprintConfig
   );
@@ -55,10 +55,10 @@ export default function AlertConfigDialogWithThreshold(props) {
   return (
     <SmartAlertConfigDialogWithQueryValidation
       {...props}
-      numeratorFilter={numeratorFilter}
-      enrichedTagFilterFormModel={enrichedTagFilterFormModel}
       alertConfigWithFormModel={alertConfigWithFormModel}
       blueprintConfig={blueprintConfig}
+      enrichedTagFilterFormModel={enrichedTagFilterFormModel}
+      numeratorTagFilterFormModel={numeratorTagFilterFormModel}
     />
   );
 }
@@ -69,7 +69,7 @@ function SmartAlertConfigDialogWithQueryValidation({
   alertConfigWithFormModel,
   blueprintConfig,
   enrichedTagFilterFormModel,
-  numeratorFilter,
+  numeratorTagFilterFormModel,
   ...props
 }) {
   const { form, updateForm, startWithSimpleMode, editMode, withTrackCreate, withTrackClose, isSaving } = props;
@@ -95,12 +95,12 @@ function SmartAlertConfigDialogWithQueryValidation({
 
   const [thresholdResult, setThresholdResult] = useState();
   useThresholdSuggestion(form, updateForm, setThresholdResult, {
-    numeratorFilter,
     isValid,
     simpleMode,
     alertConfigWithFormModel,
     blueprintConfig,
-    enrichedTagFilterFormModel
+    enrichedTagFilterFormModel,
+    numeratorTagFilterFormModel
   });
 
   const { step, setStep, simpleModeStep, backOrCancel, handleSubmit } = useSimpleModePageNavigation({
@@ -161,8 +161,8 @@ function resolveThresholdRequest(
   alertConfigWithFormModel,
   blueprintConfig,
   enrichedTagFilterFormModel,
-  numeratorFilter,
-  fallbackOnError,
+  numeratorTagFilterFormModel,
+  isSimpleMode,
   isValid
 ) {
   const {
@@ -182,7 +182,9 @@ function resolveThresholdRequest(
       // request static threshold
       return null;
     }
-    return fallbackOnError ? DAILY : seasonality;
+    // In simple mode, user does not have a choice to change threshold type, so we set it to HISTORIC_BASELINE for
+    // blueprint where baseline is enabled and here we need to select DAILY seasonality as default!
+    return isSimpleMode ? DAILY : seasonality;
   };
 
   const thresholdSuggestionRequest = blueprintConfig.getThresholdSuggestionRequest(metricName);
@@ -191,12 +193,12 @@ function resolveThresholdRequest(
     metric: {
       metric: blueprintConfig.getMetricName(rule),
       granularity,
-      numeratorFilter,
-      aggregation: blueprintConfig.getAggregation(rule)
+      aggregation: blueprintConfig.getAggregation(rule),
+      numeratorTagFilterExpression: toBackendQueryModel(numeratorTagFilterFormModel)
     },
     operator,
     seasonality: getSeasonality(),
-    fallbackOnError
+    fallbackOnError: isSimpleMode
   });
 }
 
@@ -216,12 +218,12 @@ function useIsTagFilterFormModelValid(tagFilterFormModel, isAlertQueryValid) {
 
 function useThresholdSuggestion(form, updateForm, setThresholdResult, config) {
   const {
-    numeratorFilter,
     isValid,
     simpleMode,
     alertConfigWithFormModel,
     blueprintConfig,
-    enrichedTagFilterFormModel
+    enrichedTagFilterFormModel,
+    numeratorTagFilterFormModel
   } = config;
   const thresholdResult = useObservable(
     ([simpleMode, isValid]) =>
@@ -229,7 +231,7 @@ function useThresholdSuggestion(form, updateForm, setThresholdResult, config) {
         alertConfigWithFormModel,
         blueprintConfig,
         enrichedTagFilterFormModel,
-        numeratorFilter,
+        numeratorTagFilterFormModel,
         simpleMode,
         isValid
       ),

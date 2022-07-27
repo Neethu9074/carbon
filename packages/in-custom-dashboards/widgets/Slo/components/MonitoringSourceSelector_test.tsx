@@ -8,7 +8,9 @@ import React from 'react';
 
 import MonitoringSourceSelector from 'in-custom-dashboards/widgets/Slo/components/MonitoringSourceSelector';
 import { MonitoringSources } from 'in-custom-dashboards/widgets/Slo/constants';
+import ButtonGroup from 'in-components/ButtonGroup';
 import { noop } from 'in-services/util/function';
+import { t } from 'in-i18n';
 
 describe('in-custom-dashboards/widgets/Slo/components/MonitoringSourceSelector', () => {
   it('renders a button for every monitoring source', () => {
@@ -20,16 +22,16 @@ describe('in-custom-dashboards/widgets/Slo/components/MonitoringSourceSelector',
     const wrapper = shallow(<MonitoringSourceSelector value={value} onChange={onChange} />);
 
     // Then
-    expect(wrapper.first().props()).toEqual(
+    expect(wrapper.find(ButtonGroup).props()).toEqual(
       expect.objectContaining({
         buttonPropsList: [
           expect.objectContaining({
             key: 'application',
-            text: 'Application'
+            text: t('in-custom-dashboards:widgets.slo.monitoringSourceSelector.source', { context: 'application' })
           }),
           expect.objectContaining({
             key: 'website',
-            text: 'Website'
+            text: t('in-custom-dashboards:widgets.slo.monitoringSourceSelector.source', { context: 'website' })
           })
         ]
       })
@@ -44,9 +46,10 @@ describe('in-custom-dashboards/widgets/Slo/components/MonitoringSourceSelector',
     // When
     const wrapper = shallow(<MonitoringSourceSelector value={value} onChange={onChange} />);
     wrapper
-      .first()
+      .find(ButtonGroup)
       .props()
-      .buttonPropsList[1].onClick();
+      .buttonPropsList[1] // @ts-expect-error
+      .onClick?.();
 
     // Then
     expect(onChange).toHaveBeenLastCalledWith('website');
@@ -62,7 +65,7 @@ describe('in-custom-dashboards/widgets/Slo/components/MonitoringSourceSelector',
     const wrapper = shallow(<MonitoringSourceSelector value={value} onChange={onChange} />);
 
     // Then
-    expect(wrapper.first().props()).toEqual(
+    expect(wrapper.find(ButtonGroup).props()).toEqual(
       expect.objectContaining({
         activeKey: 'website'
       })

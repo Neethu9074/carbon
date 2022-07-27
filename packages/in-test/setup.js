@@ -67,6 +67,7 @@ global.window.instana.user = {
         canSeeOnPremLicenseInformation: true,
         canConfigureTeams: true,
         canConfigureCustomAlerts: true,
+        canConfigureAutomationActions: true,
         canConfigureApiTokens: true,
         canConfigurePersonalApiTokens: true,
         canConfigureAgentRunMode: true,

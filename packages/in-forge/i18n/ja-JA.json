@@ -249,6 +249,11 @@
   "pluginName_bizTalk_1": "BizTalk ホスト",
   "pluginName_bizTalk_2": "BizTalk ホスト",
   "pluginName_bizTalk": "BizTalk ホスト",
+  "pluginName_camunda_plural": "Camunda",
+  "pluginName_camunda_0": "Camunda",
+  "pluginName_camunda_1": "Camunda",
+  "pluginName_camunda_2": "Camunda",
+  "pluginName_camunda": "Camunda",
   "pluginName_cassandraCluster_plural": "Cassandra クラスター",
   "pluginName_cassandraCluster_0": "Cassandra クラスター",
   "pluginName_cassandraCluster_1": "Cassandra クラスター",
@@ -682,7 +687,6 @@
   "pluginName_ibmMqListener_1": "IBM MQ リスナー",
   "pluginName_ibmMqListener_2": "IBM MQ リスナー",
   "pluginName_ibmMqListener": "IBM MQ リスナー",
-  "pluginName_ibmMqManager": "IBM MQ キュー・マネージャー",
   "pluginName_ibmMqQueue_plural": "IBM MQ キュー",
   "pluginName_ibmMqQueue_0": "IBM MQ キュー",
   "pluginName_ibmMqQueue_1": "IBM MQ キュー",
@@ -1152,6 +1156,21 @@
   "pluginName_vsphereVM_1": "vSphere VM",
   "pluginName_vsphereVM_2": "vSphere VM",
   "pluginName_vsphereVM": "vSphere VM",
+  "pluginName_zOS_plural": "IBM z/OS",
+  "pluginName_zOS_0": "IBM z/OS",
+  "pluginName_zOS_1": "IBM z/OS",
+  "pluginName_zOS_2": "IBM z/OS",
+  "pluginName_zOS": "IBM z/OS",
+  "pluginName_zDb2_plural": "IBM Db2 for z/OS",
+  "pluginName_zDb2_0": "IBM Db2 for z/OS",
+  "pluginName_zDb2_1": "IBM Db2 for z/OS",
+  "pluginName_zDb2_2": "IBM Db2 for z/OS",
+  "pluginName_zDb2": "IBM Db2 for z/OS",
+  "pluginName_zCics_plural": "IBM CICS for z/OS",
+  "pluginName_zCics_0": "IBM CICS for z/OS",
+  "pluginName_zCics_1": "IBM CICS for z/OS",
+  "pluginName_zCics_2": "IBM CICS for z/OS",
+  "pluginName_zCics": "IBM CICS for z/OS",
   "pluginName_webLogicApplicationContainer_plural": "WebLogic Server",
   "pluginName_webLogicApplicationContainer_0": "WebLogic Server",
   "pluginName_webLogicApplicationContainer_1": "WebLogic Server",
@@ -1317,6 +1336,11 @@
   "tracingTypeName_camel_0": "Camel 呼び出し",
   "tracingTypeName_camel_1": "Camel 呼び出し",
   "tracingTypeName_camel_2": "Camel 呼び出し",
+  "tracingTypeName_camunda": "Camunda 呼び出し",
+  "tracingTypeName_camunda_plural": "Camunda 呼び出し",
+  "tracingTypeName_camunda_0": "Camunda 呼び出し",
+  "tracingTypeName_camunda_1": "Camunda 呼び出し",
+  "tracingTypeName_camunda_2": "Camunda 呼び出し",
   "tracingTypeName_cassandra": "Cassandra 照会",
   "tracingTypeName_cassandra_plural": "Cassandra 照会",
   "tracingTypeName_cassandra_0": "Cassandra 照会",
@@ -1336,6 +1360,10 @@
   "tracingTypeName_cicshttpexit": "CICS HTTP 呼び出し",
   "tracingTypeName_cicsrpcentry": "CICS RPC 呼び出し",
   "tracingTypeName_cicsrpcexit": "CICS RPC 呼び出し",
+  "tracingTypeName_cicsmqentry": "CICS MQ メッセージ",
+  "tracingTypeName_cicsmqexit": "CICS MQ メッセージ",
+  "tracingTypeName_imsmqentry": "IMS MQ メッセージ",
+  "tracingTypeName_imsmqexit": "IMS MQ メッセージ",
   "tracingTypeName_corba": "Corba 呼び出し",
   "tracingTypeName_corba_plural": "Corba 呼び出し",
   "tracingTypeName_corba_0": "Corba 呼び出し",
@@ -1846,6 +1874,11 @@
   "tracingTypeName_rabbitmq_0": "RabbitMQ メッセージ",
   "tracingTypeName_rabbitmq_1": "RabbitMQ メッセージ",
   "tracingTypeName_rabbitmq_2": "RabbitMQ メッセージ",
+  "tracingTypeName_rocketmq": "RocketMQ メッセージ",
+  "tracingTypeName_rocketmq_plural": "RocketMQ メッセージ",
+  "tracingTypeName_rocketmq_0": "RocketMQ メッセージ",
+  "tracingTypeName_rocketmq_1": "RocketMQ メッセージ",
+  "tracingTypeName_rocketmq_2": "RocketMQ メッセージ",
   "tracingTypeName_rack": "ラック",
   "tracingTypeName_rack_plural": "Rack 呼び出し",
   "tracingTypeName_rack_0": "Rack 呼び出し",
@@ -1906,6 +1939,16 @@
   "tracingTypeName_rpcserver_0": "RPC サーバー呼び出し",
   "tracingTypeName_rpcserver_1": "RPC サーバー",
   "tracingTypeName_rpcserver_2": "RPC サーバー呼び出し",
+  "tracingTypeName_dubborpcentry": "Dubbo プロバイダー",
+  "tracingTypeName_dubborpcentry_plural": "Dubbo プロバイダー呼び出し",
+  "tracingTypeName_dubborpcentry_0": "Dubbo プロバイダー呼び出し",
+  "tracingTypeName_dubborpcentry_1": "Dubbo プロバイダー",
+  "tracingTypeName_dubborpcentry_2": "Dubbo プロバイダー呼び出し",
+  "tracingTypeName_dubborpcexit": "Dubbo Consumer",
+  "tracingTypeName_dubborpcexit_plural": "Dubbo Consumer 呼び出し",
+  "tracingTypeName_dubborpcexit_0": "Dubbo Consumer 呼び出し",
+  "tracingTypeName_dubborpcexit_1": "Dubbo Consumer",
+  "tracingTypeName_dubborpcexit_2": "Dubbo Consumer 呼び出し",
   "tracingTypeName_s3": "S3 呼び出し",
   "tracingTypeName_s3_plural": "S3 呼び出し",
   "tracingTypeName_s3_0": "S3 呼び出し",
@@ -2630,6 +2673,7 @@
       "integrationNodeInfo": "IBM ACE 統合ノード",
       "serverName": "サーバー名",
       "status": "状況",
+      "serverHealth": "正常性",
       "integrationServerNumber": "統合サーバー数 ({{count}})",
       "integrationServerNumber_plural": "統合サーバー数 ({{count}})",
       "brokerName": "ブローカー名",
@@ -4059,6 +4103,7 @@
       "traffic": "トラフィック"
     },
     "azureSqlDb": {
+      "infoAzureSqlDb": "Azure SQL Database",
       "infoName": "名前",
       "infoResourceGroup": "リソース・グループ",
       "infoLocation": "ロケーション",
@@ -4078,7 +4123,7 @@
       "labelDeadlocks": "デッドロック数",
       "labelDTUUsed": "使用中の DTU",
       "labelCPUUsed": "使用中の CPU",
-      "labelDatabasesize": "データベースのサイズ",
+      "labelDatabaseSize": "データベース・サイズ",
       "labelDataIO": "データ I/O",
       "labelLogIO": "ログ I/O",
       "labelInMemoryOLTPStorage": "インメモリー OLTP ストレージ",
@@ -4115,8 +4160,7 @@
         "labelInMemoryOLTPStorage": "インメモリー OLTP ストレージ",
         "labelCPULimit": "CPU 制限",
         "labelCPUUsed": "使用中の CPU"
-      },
-      "database": "データベース"
+      }
     },
     "azureSqlElasticPool": {
       "infoName": "名前",
@@ -4412,6 +4456,7 @@
       "titleDatacenter": "データ・センター",
       "titleRack": "ラック",
       "titleHostID": "ホスト ID",
+      "titleSeeds": "シード",
       "labelClientReadRequests": "クライアント読み取り要求",
       "labelMeanReadRequests": "平均読み取り要求",
       "labelMean": "平均",
@@ -4498,7 +4543,7 @@
       "infoProcessID": "プロセス ID",
       "infoClusterName": "クラスター名",
       "infoVersion": "バージョン",
-      "infoFsid": "fsid",
+      "infoFsid": "ファイル・システムID(fsid)",
       "labelOverallStatus": "全体の状況",
       "labelActiveMonitors": "アクティブ・モニター",
       "labelNumberOfMonitors": "モニターの数",
@@ -4614,8 +4659,19 @@
         "labelInsertQueries": "照会の挿入",
         "labelInsertBytes": "挿入バイト数",
         "titleMerges": "マージ",
+        "explanationMerges": "マージはバックグラウンド・ジョブであり、その目的は、より小さいパーツをより大きなパーツにマージすることです。 アクティブな部品の数の無制限の増加は、マージが遅れ続けることができないことを意味するため、正常ではありません。",
         "labelMerges": "マージ",
         "labelActiveParts": "アクティブ・パート",
+        "titleReplication": "複製する",
+        "explanationReplication": "最大キュー・サイズ(<code>ReplicasMaxQueueSize</code>)は、複製されたすべての表の最大キュー・サイズを表します。 無制限の成長は正常ではありません。",
+        "labelReplicasMaxQueueSize": "最大のキュー・サイズ",
+        "labelReplicasMaxInsertsInQueue": "キュー内の最大の挿入数",
+        "labelReplicasMaxMergesInQueue": "キュー内の最大のマージ数",
+        "labelReplicatedSend": "送信 (Sends)",
+        "labelReplicatedFetch": "フェッチ",
+        "titleDistributedSends": "分散送信(挿入)",
+        "explanationDistributedSends": "分散テーブルへの非同期挿入のために処理する保留ファイルの数(<code>分配されたファイルから挿入へ</code>)。 無制限の成長は正常ではありません。",
+        "labelDistributedFilesToInsert": "挿入する分散のファイル",
         "titleMetric": "メトリック",
         "titleValue": "値",
         "titleMetrics": "メトリック",
@@ -5421,7 +5477,8 @@
       "logHadrWaitCur": "現在のロガー待機時間",
       "logHadrWaitTime": "合計ロガー待機時間",
       "unableToConnect": "ユーザー {{user}} を使用して {{connectionUrl}} に接続することはできません。",
-      "troubleshootingDocs": "トラブルシューティング資料"
+      "troubleshootingDocs": "トラブルシューティング資料",
+      "oldConfigUsed": "Db2センサーは、Instana Agentが実行されているホスト上の複数インスタンスおよびデータベースのモニターをサポートするようになりました。 新しい構成形式については、Docsを参照してください。"
     },
     "defaultEntity20": {
       "allCallsPerSecond": "1 秒当たりの呼び出し数 (すべての呼び出し)",
@@ -8667,6 +8724,23 @@
             "messageTimestamp": "タイム・スタンプ",
             "messageText": "テキスト",
             "messageSecondLevelText": "セカンドレベル・テキスト"
+          },
+          "spinningDiskType": {
+            "name": "ディスク情報",
+            "resourceName": "リソース名",
+            "unitStorageCapacity": "ストレージ容量",
+            "percentUsed": "使用率(%)",
+            "diskType": "ディスク・タイプ",
+            "unitNumber": "装置番号",
+            "aspNumber": "ASP番号",
+            "raidType": "Raidタイプ",
+            "protectionStatus": "保護状況",
+            "unitMediaCapacityGb": "メディア容量(GB)",
+            "charts": {
+              "elapsedIoRequests": "経過入出力の要求",
+              "elapsedRequestSize": "経過要求のサイズ",
+              "elapsedPercentBusy": "経過パーセントが使用中です"
+            }
           }
         }
       },
@@ -8737,6 +8811,7 @@
         "messages": "メッセージ数",
         "publications": "資料",
         "subscriptions": "サブスクリプション数",
+        "topicString": "トピック・ストリング",
         "topicsWithCount": "トピック数 ({{len}})"
       },
       "name": "名前",
@@ -8790,6 +8865,8 @@
       "maxQueueDepth": "最大キュー項目数",
       "currentQueueDepth": "現在のキュー項目数",
       "queueFullPercentage": "キュー項目数のパーセンテージ",
+      "lastGetDateTime": "最終の取得時刻",
+      "lastPutDateTime": "最終の書き込み時刻",
       "depth": "項目数",
       "messagesIn": "着信メッセージ数",
       "messagesOut": "発信メッセージ数",
@@ -8819,11 +8896,12 @@
         "in": "着信",
         "out": "発信",
         "uncommitted": "未コミット",
-        "type": "タイプ",
-        "usage": "使用状況",
-        "monitoring": "モニタリング",
         "queuesWithCount": "キュー数 ({{len}})",
         "queueFullPercentage": "深さの割合（％）",
+        "queueDepth": "現在の項目数",
+        "lastGetDateTime": "最終の取得時刻",
+        "lastPutDateTime": "最終の書き込み時刻",
+        "maxQueueDepth": "最大の項目数",
         "openInputCount": "入力オープン",
         "openOutputCount": "出力オープン",
         "application": "アプリケーション",
@@ -8835,9 +8913,9 @@
         "ibmMqQueueManager": "IBM MQ キュー・マネージャー",
         "subsWithCount": "サブスクリプション（{{len}}）",
         "topicString": "トピック・ストリング",
-        "subType": "サブスクリプション・タイプ",
+        "subType": "タイプ",
         "durable": "永続的な",
-        "subAlternatedAt": "サブスクリプションの代替時期",
+        "subAlternatedAt": "入れ替えの日時",
         "numberMessages": "メッセージ数"
       },
       "name": "名前",
@@ -8901,7 +8979,8 @@
       "count": "カウント",
       "lastResetTime": "最終リセット時刻",
       "reset": "リセット",
-      "subscriptions": "サブスクリプション数"
+      "subscriptions": "サブスクリプション数",
+      "topicString": "トピック・ストリング"
     },
     "ibmMqSubscription": {
       "dashboard": {
@@ -8912,8 +8991,8 @@
       "name": "名前",
       "queueManager": "キュー・マネージャー",
       "clusterName": "クラスター名",
-      "subType": "サブスクリプション・タイプ",
-      "subAlternatedAt": "サブスクリプションの代替時期",
+      "subType": "タイプ",
+      "subAlternatedAt": "入れ替えの日時",
       "numberMessages": "メッセージ数"
     },
     "ibmVsi": {
@@ -8998,11 +9077,6 @@
         "heap": "ヒープ",
         "directBuffers": "ダイレクト・バッファー",
         "offHeap": "オフ・ヒープ",
-        "garbageCollection": "ガーベッジ・コレクション",
-        "copyTime": "Copy 時間",
-        "markSweepCompactTime": "MarkSweepCompact 時間",
-        "copyInvocation": "Copy 呼び出し",
-        "markSweepCompactInvocation": "MarkSweepCompact 呼び出し",
         "network": "ネットワーク",
         "received": "受信済み",
         "sent": "送信済み",
@@ -11268,6 +11342,7 @@
       "tablespacesWithCount": "テーブル・スペース数 ({{len}})",
       "version": "バージョン",
       "oracleSid": "Oracle SID",
+      "serviceNames": "サービス名",
       "port": "ポート",
       "cpuCount": "CPU 数",
       "maxSessions": "最大セッション数",
@@ -11323,6 +11398,123 @@
     "pCFApplication": {
       "instances": "インスタンス",
       "runningInstances": "実行中インスタンスの数"
+    },
+    "zDb2": {
+      "label": "IBM Db2 for z/OS",
+      "mvsSystem": "MVS システム",
+      "lockConflictCount": "ロック競合カウント",
+      "currentThreadCount": "現行スレッド・カウント",
+      "transactionsPerSecond": "1 秒当たりのトランザクション数",
+      "pagesReadFromBps": "BPS から読み取られたページ",
+      "pagesReadFromDasd": "DASD から読み取られたページ",
+      "ecsaUsedByDb2": "Db2 が使用した ECSA",
+      "realStorageUsedByDb2": "Db2 が使用した実ストレージ",
+      "originNode": "起点ノード",
+      "db2Version": "Db2 バージョン",
+      "db2Subsystem": "Db2 サブシステム",
+      "productCode": "製品コード",
+      "systemStates": "Db2 システム状態",
+      "pageReads": "ページ読み取り",
+      "storage": "ストレージ",
+      "cicsExceptions": {
+        "title": "CICS 例外",
+        "cicsId": "CICS ID",
+        "totalThreadUtilization": "合計スレッド使用率",
+        "totalThreadsMaximum": "最大合計スレッド数",
+        "totalThreadsInUse": "使用中の合計スレッド数",
+        "poolThreadUtilization": "プール・スレッド使用率",
+        "poolThreadsInUse": "使用中のプール・スレッド",
+        "poolThreadWaits": "プール・スレッド待機",
+        "poolThreadMaximum": "プール・スレッド最大数"
+      },
+      "imsConnections": {
+        "title": "IMS 接続",
+        "imsName": "IMS 名",
+        "activeThreads": "アクティブ・スレッド",
+        "connectedDependentRegions": "接続された従属領域",
+        "definedDependentRegions": "定義済み従属領域",
+        "unconnectedRegions": "未接続領域"
+      },
+      "lockContentions": {
+        "title": "ロック競合",
+        "planConnection": "プラン: 接続 ID",
+        "lockElapsedTime": "ロック経過時間",
+        "planName": "プラン名"
+      }
+    },
+    "zCics": {
+      "label": "IBM CICS for z/OS",
+      "originNode": "起点ノード",
+      "systemId": "システム ID",
+      "cicsRegionName": "CICS 領域名",
+      "cicsVersion": "CICS バージョン",
+      "cicsplexName": "CICSPlex 名",
+      "transactionRate": "トランザクション率",
+      "maximumTasksPercent": "最大タスク (%)",
+      "cpuUtilization": "CPU 使用率",
+      "ioRate": "入出力速度",
+      "pageRate": "ページング率",
+      "storageViolations": "記憶保護違反",
+      "enqueueWaits": "エンキュー待機",
+      "aids": "AIDS",
+      "ices": "ICES",
+      "worstRegionPerformanceIndex": "ワースト領域のパフォーマンス指標",
+      "queuedRemoteRequests": "キューに入れられたリモート要求",
+      "performance": "パフォーマンス",
+      "rates": "レート",
+      "sos": "SOS"
+    },
+    "zOS": {
+      "label": "IBM z/OS",
+      "sysplexName": "シスプレックス名",
+      "smfid": "SMF ID",
+      "cpuCount": "物理 CPU カウント",
+      "wlmMode": "ワークロード管理モード",
+      "managedSystem": "管理対象システム",
+      "productCode": "製品コード",
+      "cpuUsage": "CPU 使用量",
+      "avgWorkloadCpu": "平均ワークロード CPU",
+      "undispatchedTasks": "ディスパッチされていないタスク",
+      "avgCpuPercentage": "平均 CPU",
+      "avgIfaPercentage": "平均 IFA",
+      "avgIfaCpPercentage": "CP 上の平均 IFA",
+      "avgziipPercentage": "平均 zIIP",
+      "avgziipCpPercentage": "CP 上の平均 zIIP",
+      "mvsOverhead": "MVS オーバーヘッド",
+      "hiperdispatchManagement": "Hiperdispatch 管理",
+      "percentLparMsuCapacity": "LPAR MSU 容量",
+      "averageUnusedGroupMsus": "平均未使用グループ MSU",
+      "fourHourMsus": "4 時間の MSU",
+      "realStorage": {
+        "title": "実ストレージ使用率ヒストリー",
+        "job": "ジョブ",
+        "totalFrames": "フレームの合計",
+        "activeFrames": "アクティブ・フレーム",
+        "idleFrames": "アイドル・フレーム",
+        "auxStorageSlots": "補助記憶域スロット",
+        "memoryObjectsAllocated": "割り振られたメモリー・オブジェクト",
+        "oneMegFramesInReal": "1 MB 実フレーム数",
+        "activeFramesWorkingSet": "アクティブ・フレーム実効ページ・セット",
+        "activeFramesFixed": "アクティブ・フレーム固定",
+        "activeFramesDiv": "アクティブ・フレーム DIV",
+        "pageInRage": "ページイン率",
+        "sharedPageInRate": "共用ページイン率",
+        "sharedPagesTotalViews": "共用ページ総ビュー数",
+        "sharedPagesTotalValid": "共用ページ有効総数",
+        "sharedPagesValidationRate": "共用ページ検証率"
+      },
+      "commonStorage": {
+        "title": "共通ストレージ使用率ヒストリー",
+        "job": "ジョブ",
+        "percentageCsaInUse": "使用中の CSA 率 (%)",
+        "percentageEcsaInUse": "使用中の ECSA 率 (%)",
+        "percentageSqaInUse": "使用中の SQA 率 (%)",
+        "percentageEsqaInUse": "使用中の ESQA 率 (%)",
+        "amountCsaInUse": "CSA 使用量",
+        "amountEcsaInUse": "ECSA 使用量",
+        "amountSqaInUse": "SQA 使用量",
+        "amountEsqaInUse": "ESQA 使用量"
+      }
     }
   },
   "tracing": {
@@ -11453,6 +11645,16 @@
       "titleSort": "ソート",
       "titleSize": "サイズ"
     },
+    "camunda": {
+      "titleBusinessKey": "ビジネス・キー",
+      "titleCaseIntanceId": "ケース・インスタンス ID",
+      "titleRootProcessUUID": "ルート・プロセス UUID",
+      "titleProcessId": "プロセス ID",
+      "titleProcessName": "プロセス名",
+      "titleActivityId": "アクティビティー ID",
+      "titleActivityName": "アクティビティー名",
+      "titleActivityDesc": "アクティビティーの説明"
+    },
     "cassandra": {
       "titleKeyspace": "キー・スペース",
       "titleFetchSize": "フェッチ・サイズ",
@@ -11474,7 +11676,9 @@
       "titleCicsAttributes": "CICS 属性",
       "titleUserId": "CICS ユーザー ID",
       "titleTaskNumber": "CICS タスク番号",
-      "titleRegion": "CICS 領域"
+      "titleRegion": "CICS 領域",
+      "titleDestination": "宛先",
+      "titleUnknown": "不明"
     },
     "corba": {
       "titleMethod": "メソッド",
@@ -11501,6 +11705,13 @@
     "distributemeClient": {
       "titleService": "サービス",
       "titleMethod": "メソッド"
+    },
+    "dubbo": {
+      "titlePath": "パス",
+      "titleInterface": "インターフェース",
+      "titleProviderVersion": "プロバイダー・バージョン",
+      "titleConsumerVersion": "コンシューマー・バージョン",
+      "titleVersion": "プロトコル・バージョン"
     },
     "dynamoDB": {
       "titleTable": "テーブル",
@@ -11708,7 +11919,9 @@
     "ims": {
       "titleImsAttributes": "IMS 属性",
       "titleEventKey": "IMS イベント・キー",
-      "titleComponent": "IMS コンポーネント"
+      "titleComponent": "IMS コンポーネント",
+      "titleDestination": "宛先",
+      "titleUnknown": "不明"
     },
     "jaeger": {
       "titleService": "サービス",
@@ -11885,7 +12098,8 @@
       "operation": "操作",
       "traceState": "トレース状態",
       "error": "エラー",
-      "tags": "タグ"
+      "tags": "タグ",
+      "resource": "リソース"
     },
     "pdo": {
       "driver": "ドライバー",
@@ -11952,6 +12166,9 @@
       "exchange": "交換",
       "key": "キー",
       "size": "サイズ"
+    },
+    "rocketmq": {
+      "topic": "トピック"
     },
     "redis": {
       "connection": "接続",

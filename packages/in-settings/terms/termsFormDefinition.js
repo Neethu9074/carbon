@@ -9,13 +9,13 @@ import { isDeprecatedUserDefinedRole } from 'in-settings/terms/userSelfDefinedRo
 import { notBlankValidator } from 'in-services/validators/string';
 import { t } from 'in-i18n';
 
-export default function termsFormDefinition(userSettings, withAcceptanceFields = true) {
+export default function termsFormDefinition(userSettings) {
   let form = createMapForm()
     .put(
       'role',
       createField({
         value: userSettings && !isDeprecatedUserDefinedRole(userSettings.role) ? userSettings.role : '',
-        validator: withAcceptanceFields && roleValidator
+        validator: roleValidator
       })
     )
     .put(
@@ -50,33 +50,7 @@ export default function termsFormDefinition(userSettings, withAcceptanceFields =
     );
 
   form = addDynamicRoleField(form, userSettings);
-
-  if (withAcceptanceFields) {
-    form = form
-      .put(
-        'tosAccepted',
-        createField({
-          value: false,
-          validator: checkboxCheckedValidator
-        })
-      )
-      .put(
-        'privacyAgreementAccepted',
-        createField({
-          value: false,
-          validator: checkboxCheckedValidator
-        })
-      );
-  }
-
   return form;
-}
-
-function checkboxCheckedValidator(value) {
-  if (value) {
-    return null;
-  }
-  return [{ severity: 'error', message: t('in-settings:terms.termsAgreementMissing') }];
 }
 
 function roleValidator(value) {

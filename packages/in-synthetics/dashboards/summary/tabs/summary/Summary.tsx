@@ -10,6 +10,7 @@ import { get } from 'lodash';
 import { useObservable } from '@instana/hooks';
 
 import ResultsTopList from 'in-synthetics/dashboards/summary/tabs/summary/components/ResultsTopList';
+import ResponseStatus from 'in-synthetics/dashboards/summary/tabs/summary/components/ResponseStatus';
 import NetworkTimings from 'in-synthetics/dashboards/summary/tabs/summary/components/NetworkTiming';
 import ResponseTime from 'in-synthetics/dashboards/summary/tabs/summary/components/ResponseTime';
 import ResponseSize from 'in-synthetics/dashboards/summary/tabs/summary/components/ResponseSize';
@@ -22,7 +23,6 @@ import { syntheticsDashboard } from 'in-synthetics/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { dummyTest } from 'in-synthetics/utils/constants';
-import ResponseStatus from './components/ResponseStatus';
 import { Col, Row } from 'in-components/layout/Grid';
 import { getTest } from 'in-synthetics/api';
 import { t } from 'in-i18n';

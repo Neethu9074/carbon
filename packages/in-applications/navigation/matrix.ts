@@ -92,10 +92,10 @@ export const chartsMatrixParameter = {
   parser: buildJsonParser(emptyObject)
 } as const;
 
-export const previewEnabledMatrixParameter = {
+export const fastQueryModeEnabledMatrixParameter = {
   path: '/analyze',
-  name: 'previewEnabled',
-  initialState: false,
+  name: 'fastQueryModeEnabled',
+  initialState: true,
   parser: (v: 'true' | 'false') => v === 'true',
   serializer: Boolean
 } as const;

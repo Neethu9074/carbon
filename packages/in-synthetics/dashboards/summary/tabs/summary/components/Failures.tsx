@@ -35,7 +35,7 @@ export default function Failures({ test, timeShiftConfig }: Props) {
           y1: {
             metrics: [],
             colors: [],
-            renderer: stackedBar,
+            renderer: stackedBar.renderer,
             metricIds: [],
             labels: []
           },
@@ -48,7 +48,8 @@ export default function Failures({ test, timeShiftConfig }: Props) {
 }
 
 function renderChart(test: TestResponse, timeShiftConfig: TimeShift) {
-  const locations = get(test, ['data', 'locations']);
+  const locations: string[] = get(test, ['data', 'locations']);
+  const locationLabels: string[] = get(test, ['data', 'locationLabels']);
   const id = get(test, ['data', 'id']);
 
   let tagFilters = [];
@@ -56,7 +57,7 @@ function renderChart(test: TestResponse, timeShiftConfig: TimeShift) {
   var locationLabel: string;
   let colors = [];
   for (let i = 0; i < locations.length; i++) {
-    locationLabel = `${locations[i].split('_', 1)}`;
+    locationLabel = `${locationLabels[i]}`;
     tagFilters = [
       {
         stringValue: id,

@@ -5,7 +5,6 @@
 
 import React from 'react';
 
-import { Card } from '@instana/components';
 import { Link } from '@instana/components';
 
 import {
@@ -90,7 +89,7 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 
 export default function Views({ timeConfig, tagFilters, mobileAppId }) {
   return (
-    <Card>
+    <>
       <ServerTableWithUrlState
         get={getTableData}
         mobileAppId={mobileAppId}
@@ -98,7 +97,7 @@ export default function Views({ timeConfig, tagFilters, mobileAppId }) {
         cardTitle={t('in-mobile-apps:dashboard.tabs.viewsLabel')}
         timeConfig={timeConfig}
       />
-    </Card>
+    </>
   );
 }
 

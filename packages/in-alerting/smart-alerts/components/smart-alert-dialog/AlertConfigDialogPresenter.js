@@ -33,7 +33,6 @@ export default function AlertConfigDialogPresenter(props) {
     withTrackCreate,
     updateForm,
     footer,
-    featureFeedbackElement, // to be removed after GA
     isGlobalSmartAlert
   } = props;
 
@@ -67,12 +66,10 @@ export default function AlertConfigDialogPresenter(props) {
       }
       titleIconType="lib_alerts_create"
       onClose={() => withTrackClose(simpleMode && simpleModeStep)}
-      doNotCloseOnOutsideClick
       slideInViewVisible={slideInViewVisible}
       slideInViewComponent={slideInConfig?.component}
       renderCustomCloseBehaviour={resetScrollShadow => (
         <>
-          {featureFeedbackElement}
           {!editMode && simpleMode && (
             <Button
               onClick={() => {
@@ -91,6 +88,7 @@ export default function AlertConfigDialogPresenter(props) {
           )}
         </>
       )}
+      doNotCloseOnOutsideClick
       removeBottomPaddingWhenFooterIsShown
     >
       <form
@@ -144,9 +142,7 @@ function getDialogTitle({ isGlobalSmartAlert, editMode, migrationMode, builtIn }
     context: mode
   });
   if (migrationMode) {
-    title = t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleMigrateAlert', {
-      context: mode
-    });
+    title = t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleMigrateAlert');
   } else if (editMode) {
     title = t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleEditAlert', {
       context: mode
@@ -183,7 +179,6 @@ AlertConfigDialogPresenter.propTypes = {
   setSimpleMode: PropTypes.func.isRequired,
   editMode: PropTypes.bool,
   migrationMode: PropTypes.bool,
-  featureFeedbackElement: PropTypes.element,
   initialConfiguredApplications: PropTypes.object,
   isGlobalSmartAlert: PropTypes.bool
 };

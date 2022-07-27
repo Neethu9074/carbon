@@ -6,6 +6,7 @@
 import { useLocation } from 'react-router';
 import React from 'react';
 
+import { ThemeProvider } from '@instana/components';
 import '@instana/components/esm/index.css';
 
 import FloatingActionButtonPresenter from 'in-components/FloatingActionButton/FloatingActionButtonPresenter';
@@ -29,31 +30,33 @@ export default function App() {
   return (
     <ErrorBoundary name="app">
       <GlobalTheme>
-        <GlobalTimeConfig location={location}>
-          <ErrorBoundary name="main-navigation">
-            <MainNavigation />
-          </ErrorBoundary>
+        <ThemeProvider theme="default">
+          <GlobalTimeConfig location={location}>
+            <ErrorBoundary name="main-navigation">
+              <MainNavigation />
+            </ErrorBoundary>
 
-          <div className={locals.content}>
-            <ErrorBoundary name="app-routes">{routes}</ErrorBoundary>
-          </div>
+            <div className={locals.content}>
+              <ErrorBoundary name="app-routes">{routes}</ErrorBoundary>
+            </div>
 
-          <ErrorBoundary name="dialogs">
-            {/* for release notes */}
-            <ReleaseNotesDialog />
-            <TooltipPresenter />
-            <OverlayPresenter />
-            {/* the flyouts on the top right corner */}
-            <MessageFlyout />
-            {/* all the different dialogs e.g. in the settings */}
-            <DialogPresenter />
-          </ErrorBoundary>
+            <ErrorBoundary name="dialogs">
+              {/* for release notes */}
+              <ReleaseNotesDialog />
+              <TooltipPresenter />
+              <OverlayPresenter />
+              {/* the flyouts on the top right corner */}
+              <MessageFlyout />
+              {/* all the different dialogs e.g. in the settings */}
+              <DialogPresenter />
+            </ErrorBoundary>
 
-          <ErrorBoundary name="floatinButtons">
-            {/* floating action buttons at the bottom of the screen */}
-            <FloatingActionButtonPresenter />
-          </ErrorBoundary>
-        </GlobalTimeConfig>
+            <ErrorBoundary name="floatinButtons">
+              {/* floating action buttons at the bottom of the screen */}
+              <FloatingActionButtonPresenter />
+            </ErrorBoundary>
+          </GlobalTimeConfig>
+        </ThemeProvider>
       </GlobalTheme>
     </ErrorBoundary>
   );

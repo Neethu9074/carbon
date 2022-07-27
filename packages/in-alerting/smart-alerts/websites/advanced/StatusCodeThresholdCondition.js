@@ -11,33 +11,29 @@ import {
   websitesAlertingThresholdOperatorChanged,
   websitesAlertingThresholdValueChanged
 } from 'in-alerting/smart-alerts/websites/tracker';
+import ThresholdValueInputWithValidationMessage from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdValueWithValidationMessage';
 import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdConditionFormGroup';
 import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdOperatorDropDown';
 import UseSuggestedValueButton from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/UseSuggestedValueButton';
-import ThresholdValueInput from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdValueInput';
 import { isPercentageMetric, getMetricUnitPostfix } from 'in-alerting/smart-alerts/websites/form/formUtils';
 import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
 import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
 import { blueprintConfigPropType } from 'in-alerting/components/constants';
-import TouchedMessages from 'in-components/form/TouchedMessages';
 import Dropdown from 'in-alerting/components/Dropdown';
-
-import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/shared-styles/InteractiveChart.mless';
 
 export default function StatusCodeThresholdCondition({ form, blueprintConfig, updateForm }) {
   const metricName = form.get('rule').get('metricName').value;
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
   const percentageMetric = isPercentageMetric(metricName);
   const maxValue = blueprintConfig.getMaxMetricValue(metricName);
-  const thresholdField = form.get('threshold').get('value');
 
   return (
     <ThresholdConditionFormGroup>
       <Dropdown
         asSimpleDropdown
-        label={blueprintConfig.getMetricLabel(metricName)}
+        value={metricName}
         items={ruleMetricNameOptions.statusCode}
-        onChange={({ value = '' }) => {
+        onChange={value => {
           updateForm(form.updateIn(['rule', 'metricName'], f => f.setValue(value).setTouched(true)));
 
           websitesAlertingThresholdMetricChanged(getTrackingObject(form, { value }));
@@ -48,18 +44,15 @@ export default function StatusCodeThresholdCondition({ form, blueprintConfig, up
         updateForm={updateForm}
         trackingCallback={websitesAlertingThresholdOperatorChanged}
       />
-      <div className={locals.thresholdValueWithValidationMessage}>
-        <ThresholdValueInput
-          className={locals.narrowControl}
-          max={maxValue}
-          form={form}
-          updateForm={updateForm}
-          trackChange={websitesAlertingThresholdValueChanged}
-          percentageMetric={percentageMetric}
-          metricUnitPostfix={metricUnitPostfix}
-        />
-        <TouchedMessages field={thresholdField} />
-      </div>
+      <ThresholdValueInputWithValidationMessage
+        max={maxValue}
+        form={form}
+        updateForm={updateForm}
+        trackChange={websitesAlertingThresholdValueChanged}
+        percentageMetric={percentageMetric}
+        metricUnitPostfix={metricUnitPostfix}
+        isSmall
+      />
       <UseSuggestedValueButton
         form={form}
         updateForm={updateForm}

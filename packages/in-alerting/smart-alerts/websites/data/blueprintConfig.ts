@@ -131,9 +131,7 @@ const jsErrorsBlueprintConfig: BluePrint = Object.freeze({
   baselineEnabled: false,
   defaultMetric: 'errors',
   getMetricName: (alertRule: WebsiteAlertRule) => alertRule.metricName,
-  getMetricLabel: (metricName: MetricName): string => {
-    return jsErrorMetricLabelsByName[metricName];
-  },
+  getMetricLabel: (metricName: MetricName) => jsErrorMetricLabelsByName[metricName],
   getMetricFormat: (metricName: MetricName) => (isCustomRateMetric(metricName) ? percentage : number.forcedCompact),
   getMaxMetricValue: (metricName: MetricName) => (isCustomRateMetric(metricName) ? 100 : Number.MAX_SAFE_INTEGER),
   getAggregation: (alertRule: WebsiteAlertRule) => (isCustomRateMetric(alertRule.metricName) ? 'MEAN' : 'SUM'),
@@ -204,7 +202,7 @@ const customEventBlueprintConfig: BluePrint = Object.freeze({
   headline: t('in-alerting:smartAlerts.websites.data.customEventBlueprintConfigHeadline'),
   text: t('in-alerting:smartAlerts.websites.data.customEventBlueprintConfigText'),
   getAvailableTags: () => getIncludedTags(availableFilterTags.custom),
-  baselineEnabled: false,
+  baselineEnabled: true,
   defaultMetric: 'beaconCount',
   getMetricName: () => 'beaconCount',
   getMetricLabel: () => t('in-alerting:smartAlerts.websites.data.customEventBlueprintConfigMetricLabel'),

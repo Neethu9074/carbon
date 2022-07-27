@@ -21,11 +21,6 @@ import { propTypeLocation } from 'in-stores/navigation';
 import { t } from 'in-i18n';
 
 export default function CreateGlobalSmartAlertButton({ renderAsSimpleButton, location }) {
-  if (location?.pathname.includes('/application/configuration')) {
-    // hide button on the config page
-    return null;
-  }
-
   const buttonProps = {
     icon: 'lib_alerts_create',
     // i18n: primaryv2 is an internal technical name, no translation needed

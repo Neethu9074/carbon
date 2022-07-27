@@ -7,7 +7,7 @@ import { createMapForm, createField, createListForm, composeValidators } from 'f
 import { compose, withProps, withState } from 'recompose';
 
 import FileDownloadConfigurationDialogPresenter from 'in-websites/WebsiteDashboard/tabs/Configuration/StackTraceTranslation/FileDownloadConfigurationDialogPresenter';
-import { addSourceMapConfiguration, updateSourceMapConfiguration } from 'in-websites/api/websites';
+import { addSourceMapDownloadConfiguration, updateSourceMapDownloadConfiguration } from 'in-websites/api/websites';
 import { notBlankValidator } from 'in-services/validators/string';
 import { isBlank, isNotBlank } from 'in-services/util/string';
 import { close } from 'in-components/DialogPresenter/store';
@@ -68,12 +68,12 @@ export default compose(
         isSaving: true
       });
       if (config.id) {
-        response$ = updateSourceMapConfiguration(websiteId, config);
+        response$ = updateSourceMapDownloadConfiguration(websiteId, config);
         successMessage = t(
           'in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogMessageConfigurationUpdated'
         );
       } else {
-        response$ = addSourceMapConfiguration(websiteId, config);
+        response$ = addSourceMapDownloadConfiguration(websiteId, config);
         successMessage = t(
           'in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogMessageNewConfigurationSaved'
         );

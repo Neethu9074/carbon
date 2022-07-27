@@ -3,7 +3,17 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { Progress, Result, SyntheticLocation, SyntheticTest } from 'in-types';
+import {
+  PaginatedResult,
+  Progress,
+  Result,
+  SyntheticLocation,
+  SyntheticTest,
+  TestResultDetailData,
+  TestResultListItem,
+  TestResultSubtransaction,
+  Error
+} from 'in-types';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import { syntheticsPath } from 'in-synthetics/navigation/paths';
 import { Options } from 'in-hooks/useUrlState';
@@ -40,6 +50,42 @@ export const dummyLocationn: Result<SyntheticLocation> = {
   }
 };
 
+export const dummyResultDetails: Result<ResultDetails> = {
+  data: {} as ResultDetails,
+  errors: [],
+  progress: {
+    loading: true
+  }
+};
+
+export const dummyTestResultList: Result<PaginatedResult<TestResultListItem>[]> = {
+  data: [] as PaginatedResult<TestResultListItem>[],
+  errors: [],
+  progress: {
+    loading: true
+  }
+};
+
+export const dummyTestResultLogs: Result<ResultLogs> = {
+  data: {} as ResultLogs,
+  errors: [],
+  progress: {
+    loading: true
+  }
+};
+
+export interface ResultDetails {
+  testId: string;
+  testResultId: string;
+  subtransactions: TestResultSubtransaction[];
+}
+
+export interface ResultLogs {
+  testId: string;
+  testResultId: string;
+  logs: string;
+}
+
 export interface UrlState {
   orderBy: string;
   orderDirection: string;
@@ -59,6 +105,24 @@ export interface TestResponse {
   errors?: Error[];
   progress: Progress;
   time?: number;
+}
+
+export interface ResultDetailsResponse {
+  data?: TestResultDetailData;
+  errors?: Error[];
+  progress: Progress;
+  time?: number;
+}
+
+export interface TestResultLog {
+  data?: ResultLogs;
+  errors: Error[];
+  progress: Progress;
+}
+
+export interface FilterProps {
+  filter: { query: string };
+  setFilter: (a: { query: string }) => void;
 }
 
 export const urlStateDefinition = {
@@ -96,3 +160,15 @@ export const urlStateDefinition = {
     }
   ]
 } as Options<UrlState>;
+
+export type SubtransactionsProps = {
+  errors?: Error[];
+  subtransactions?: TestResultSubtransaction[];
+  earliestTimestamp?: number;
+  endTimestamp?: number;
+  totalDuration?: number;
+};
+
+export type OverviewChartToolTipProps = {
+  subtransaction: TestResultSubtransaction;
+};

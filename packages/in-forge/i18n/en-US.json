@@ -259,6 +259,16 @@
   "pluginName_bizTalk_1": "BizTalk Hosts",
   "pluginName_bizTalk_2": "BizTalk Hosts",
   "pluginName_bizTalk": "BizTalk Host",
+  "pluginName_camunda_plural": "Camunda",
+  "pluginName_camunda_0": "Camunda",
+  "pluginName_camunda_1": "Camunda",
+  "pluginName_camunda_2": "Camunda",
+  "pluginName_camunda": "Camunda",
+  "pluginName_camundaexit_plural": "Camunda Exit",
+  "pluginName_camundaexit_0": "Camunda Exit",
+  "pluginName_camundaexit_1": "Camunda Exit",
+  "pluginName_camundaexit_2": "Camunda Exit",
+  "pluginName_camundaexit": "Camunda Exit",
   "pluginName_cassandraCluster_plural": "Cassandra Clusters",
   "pluginName_cassandraCluster_0": "Cassandra Clusters",
   "pluginName_cassandraCluster_1": "Cassandra Clusters",
@@ -1061,6 +1071,21 @@
   "pluginName_redisEnterpriseNode_1": "Redis Enterprise Nodes",
   "pluginName_redisEnterpriseNode_2": "Redis Enterprise Nodes",
   "pluginName_redisEnterpriseNode": "Redis Enterprise Node",
+  "pluginName_rocketMqCluster_plural": "RocketMQ Clusters",
+  "pluginName_rocketMqCluster_0": "RocketMQ Clusters",
+  "pluginName_rocketMqCluster_1": "RocketMQ Clusters",
+  "pluginName_rocketMqCluster_2": "RocketMQ Clusters",
+  "pluginName_rocketMqCluster": "RocketMQ Cluster",
+  "pluginName_rocketMqBroker_plural": "RocketMQ Brokers",
+  "pluginName_rocketMqBroker_0": "RocketMQ Brokers",
+  "pluginName_rocketMqBroker_1": "RocketMQ Brokers",
+  "pluginName_rocketMqBroker_2": "RocketMQ Brokers",
+  "pluginName_rocketMqBroker": "RocketMQ Broker",
+  "pluginName_rocketMqTopic_plural": "RocketMQ Topics",
+  "pluginName_rocketMqTopic_0": "RocketMQ Topics",
+  "pluginName_rocketMqTopic_1": "RocketMQ Topics",
+  "pluginName_rocketMqTopic_2": "RocketMQ Topics",
+  "pluginName_rocketMqTopic": "RocketMQ Topic",
   "pluginName_rubyRuntimePlatform_plural": "Ruby Apps",
   "pluginName_rubyRuntimePlatform_0": "Ruby Apps",
   "pluginName_rubyRuntimePlatform_1": "Ruby Apps",
@@ -1161,6 +1186,21 @@
   "pluginName_vsphereVM_1": "vSphere VMs",
   "pluginName_vsphereVM_2": "vSphere VMs",
   "pluginName_vsphereVM": "vSphere VM",
+  "pluginName_zOS_plural": "IBM z/OS",
+  "pluginName_zOS_0": "IBM z/OS",
+  "pluginName_zOS_1": "IBM z/OS",
+  "pluginName_zOS_2": "IBM z/OS",
+  "pluginName_zOS": "IBM z/OS",
+  "pluginName_zDb2_plural": "IBM Db2 for z/OS",
+  "pluginName_zDb2_0": "IBM Db2 for z/OS",
+  "pluginName_zDb2_1": "IBM Db2 for z/OS",
+  "pluginName_zDb2_2": "IBM Db2 for z/OS",
+  "pluginName_zDb2": "IBM Db2 for z/OS",
+  "pluginName_zCics_plural": "IBM CICS for z/OS",
+  "pluginName_zCics_0": "IBM CICS for z/OS",
+  "pluginName_zCics_1": "IBM CICS for z/OS",
+  "pluginName_zCics_2": "IBM CICS for z/OS",
+  "pluginName_zCics": "IBM CICS for z/OS",
   "pluginName_webLogicApplicationContainer_plural": "WebLogic Servers",
   "pluginName_webLogicApplicationContainer_0": "WebLogic Servers",
   "pluginName_webLogicApplicationContainer_1": "WebLogic Servers",
@@ -1331,6 +1371,11 @@
   "tracingTypeName_camunda_0": "Camunda Calls",
   "tracingTypeName_camunda_1": "Camunda Call",
   "tracingTypeName_camunda_2": "Camunda Calls",
+  "tracingTypeName_camundaexit": "Camunda External Task Message",
+  "tracingTypeName_camundaexit_plural": "Camunda External Task Messages",
+  "tracingTypeName_camundaexit_0": "Camunda External Task Messages",
+  "tracingTypeName_camundaexit_1": "Camunda External Task Message",
+  "tracingTypeName_camundaexit_2": "Camunda External Task Messages",
   "tracingTypeName_cassandra": "Cassandra query",
   "tracingTypeName_cassandra_plural": "Cassandra queries",
   "tracingTypeName_cassandra_0": "Cassandra queries",
@@ -1350,6 +1395,10 @@
   "tracingTypeName_cicshttpexit": "CICS HTTP Call",
   "tracingTypeName_cicsrpcentry": "CICS RPC Call",
   "tracingTypeName_cicsrpcexit": "CICS RPC Call",
+  "tracingTypeName_cicsmqentry": "CICS MQ Message",
+  "tracingTypeName_cicsmqexit": "CICS MQ Message",
+  "tracingTypeName_imsmqentry": "IMS MQ Message",
+  "tracingTypeName_imsmqexit": "IMS MQ Message",
   "tracingTypeName_corba": "Corba call",
   "tracingTypeName_corba_plural": "Corba calls",
   "tracingTypeName_corba_0": "Corba calls",
@@ -1390,6 +1439,11 @@
   "tracingTypeName_distributemeclient_0": "DistributeMe calls",
   "tracingTypeName_distributemeclient_1": "DistributeMe call",
   "tracingTypeName_distributemeclient_2": "DistributeMe calls",
+  "tracingTypeName_datagrid": "Data Grid call",
+  "tracingTypeName_datagrid_plural": "Data Grid Calls",
+  "tracingTypeName_datagrid_0": "Data Grid Calls",
+  "tracingTypeName_datagrid_1": "Data Grid Calls",
+  "tracingTypeName_datagrid_2": "Data Grid Calls",
   "tracingTypeName_django": "Django",
   "tracingTypeName_django_plural": "Django Calls",
   "tracingTypeName_django_0": "Django Calls",
@@ -1675,6 +1729,11 @@
   "tracingTypeName_mail_0": "Mail messages",
   "tracingTypeName_mail_1": "Mail message",
   "tracingTypeName_mail_2": "Mail messages",
+  "tracingTypeName_mailjavamail": "Mail message",
+  "tracingTypeName_mailjavamail_plural": "Mail messages",
+  "tracingTypeName_mailjavamail_0": "Mail messages",
+  "tracingTypeName_mailjavamail_1": "Mail message",
+  "tracingTypeName_mailjavamail_2": "Mail messages",
   "tracingTypeName_mailactionmailer": "ActionMailer message",
   "tracingTypeName_mailactionmailer_plural": "ActionMailer messages",
   "tracingTypeName_mailactionmailer_0": "ActionMailer messages",
@@ -1860,6 +1919,11 @@
   "tracingTypeName_rabbitmq_0": "RabbitMQ messages",
   "tracingTypeName_rabbitmq_1": "RabbitMQ message",
   "tracingTypeName_rabbitmq_2": "RabbitMQ messages",
+  "tracingTypeName_rocketmq": "RocketMQ message",
+  "tracingTypeName_rocketmq_plural": "RocketMQ messages",
+  "tracingTypeName_rocketmq_0": "RocketMQ messages",
+  "tracingTypeName_rocketmq_1": "RocketMQ message",
+  "tracingTypeName_rocketmq_2": "RocketMQ messages",
   "tracingTypeName_rack": "Rack",
   "tracingTypeName_rack_plural": "Rack Calls",
   "tracingTypeName_rack_0": "Rack Calls",
@@ -1920,6 +1984,16 @@
   "tracingTypeName_rpcserver_0": "RPC Server Calls",
   "tracingTypeName_rpcserver_1": "RPC Server",
   "tracingTypeName_rpcserver_2": "RPC Server Calls",
+  "tracingTypeName_dubborpcentry": "Dubbo Provider",
+  "tracingTypeName_dubborpcentry_plural": "Dubbo Provider Calls",
+  "tracingTypeName_dubborpcentry_0": "Dubbo Provider Calls",
+  "tracingTypeName_dubborpcentry_1": "Dubbo Provider",
+  "tracingTypeName_dubborpcentry_2": "Dubbo Provider Calls",
+  "tracingTypeName_dubborpcexit": "Dubbo Consumer",
+  "tracingTypeName_dubborpcexit_plural": "Dubbo Consumer Calls",
+  "tracingTypeName_dubborpcexit_0": "Dubbo Consumer Calls",
+  "tracingTypeName_dubborpcexit_1": "Dubbo Consumer",
+  "tracingTypeName_dubborpcexit_2": "Dubbo Consumer Calls",
   "tracingTypeName_s3": "S3 call",
   "tracingTypeName_s3_plural": "S3 calls",
   "tracingTypeName_s3_0": "S3 calls",
@@ -2536,7 +2610,69 @@
       "mysqIbufRequestR": "Read Request",
       "mysqIbufRequestW": "Write Request",
       "mysqIbufPoolReads": "Pool Read"
-
+    },
+    "rocketMqCluster": {
+      "rocketMqClusterInfo": "RocketMQ Cluster",
+      "nameSrvAddrs": "Name Server Address",
+      "clusterName": "Cluster Name",
+      "brokerName": "Broker Name",
+      "brokerAddr": "Broker Address",
+      "bootTimestamp": "Broker Boot Time",
+      "brokerVersionDesc": "Broker Version",
+      "brokersNumber": "Broker ({{count}})",
+      "brokersNumber_plural": "Brokers ({{count}})",
+      "topicName": "Topic Name",
+      "topicsNumber": "Topic ({{count}})",
+      "topicsNumber_plural": "Topics ({{count}})"
+    },
+    "rocketMqBroker": {
+      "rocketMqBrokerInfo": "RocketMQ Broker",
+      "brokerName": "Name",
+      "brokerId": "ID",
+      "brokerAddr": "Address",
+      "bootTimestamp": "Boot Time",
+      "runtime": "Run Time",
+      "brokerVersionDesc": "Version",
+      "msgTPS": "Message TPS",
+      "putNums": "Put Message TPS",
+      "getNums": "Get Message TPS",
+      "elapsedTime": "Elapsed Time",
+      "putMessageEntireTimeMax": "Put Elapsed Time Max",
+      "getMessageEntireTimeMax": "Get Elapsed Time Max",
+      "messageTimesTotal": "Elapsed Time Total",
+      "putMessageTimesTotal": "Put Elapsed Time Total",
+      "messageSizeTotal": "Message Size Total",
+      "putMessageSizeTotal": "Put Message Size Total",
+      "putMessageFailedTimes": "Put Failed Times",
+      "tps60": "TPS in Last 1 min",
+      "putTps60": "Put TPS in Last 1 min",
+      "getFoundTps60": "Get Found TPS in Last 1 min",
+      "getMissTps60": "Get Miss TPS in Last 1 min",
+      "getTotalTps60": "Get total TPS in last 1 min",
+      "getTransferedTps60": "Get Transferred TPS in Last 1 min",
+      "msgTotalTodayNow": "Today Message Count",
+      "msgGetTotalTodayNow": "Today Produce Count",
+      "msgPutTotalTodayNow": "Today Consume Count",
+      "threadPoolQueueHeadWaitTimeMills": "Thread Pool Queue Head Element Wait Time",
+      "sendThreadPoolQueueHeadWaitTimeMills": "Send Queue Head Element Wait Time",
+      "pullThreadPoolQueueHeadWaitTimeMills": "Pull Queue Head Element Wait Time",
+      "queryThreadPoolQueueHeadWaitTimeMills": "Query Queue Head Element Wait Time",
+      "threadPoolQueueSize": "Thread Pool Queue Size",
+      "queryThreadPoolQueueSize": "Query Queue Size",
+      "pullThreadPoolQueueSize": "Pull Queue Size",
+      "sendThreadPoolQueueSize": "Send Queue Size",
+      "commitLogDiskRatio": "Commit Log Disk Ratio"
+    },
+    "rocketMqTopic": {
+      "rocketMqTopicInfo": "RocketMQ Topic",
+      "topicName": "Name",
+      "msgTps": "Message TPS",
+      "putNums": "Put Message TPS",
+      "getNums": "Get Message TPS",
+      "msgSize": "Message Size",
+      "putMessageSize": "Put Message Size",
+      "getMessageSize": "Get Message Size",
+      "sendBackNums": "Send Back Nums"
     },
     "ibmDataPowerAppliance": {
       "ibmDataPowerApplianceInfo": "IBM DataPower Appliance",
@@ -4076,6 +4212,7 @@
       "traffic": "Traffic"
     },
     "azureSqlDb": {
+      "infoAzureSqlDb": "Azure SQL Database",
       "infoName": "Name",
       "infoResourceGroup": "Resource Group",
       "infoLocation": "Location",
@@ -4095,7 +4232,7 @@
       "labelDeadlocks": "Deadlocks",
       "labelDTUUsed": "DTU Used",
       "labelCPUUsed": "CPU Used",
-      "labelDatabasesize": "Database size",
+      "labelDatabaseSize": "Database size",
       "labelDataIO": "Data IO",
       "labelLogIO": "Log IO",
       "labelInMemoryOLTPStorage": "In-Memory OLTP storage",
@@ -4132,8 +4269,7 @@
         "labelInMemoryOLTPStorage": "In-Memory OLTP storage",
         "labelCPULimit": "CPU Limit",
         "labelCPUUsed": "CPU Used"
-      },
-      "database": "Database"
+      }
     },
     "azureSqlElasticPool": {
       "infoName": "Name",
@@ -4655,6 +4791,9 @@
       "threads": "Threads",
       "throttlingDelay": "Throttling & Delay"
     },
+    "camunda": {
+      "camunda": "Camunda"
+    },
     "cassandraCluster": {
       "indexLabel": "Cassandra",
       "infoName": "Name",
@@ -4724,6 +4863,7 @@
       "titleDatacenter": "Datacenter",
       "titleRack": "Rack",
       "titleHostID": "Host ID",
+      "titleSeeds": "Seeds",
       "labelClientReadRequests": "Client Read Requests",
       "labelMeanReadRequests": "Mean Read Requests",
       "labelMean": "Mean",
@@ -5536,7 +5676,10 @@
         "hadrPrimaryLog": "HADR Primary Log Information",
         "hadrSecondaryLog": "HADR Secondary Log Information",
         "hadrLogMetrics": "HADR Log Metrics",
-        "hadrTakeOverTime": "HADR Last Take Over Time"
+        "hadrTakeOverTime": "HADR Last Take Over Time",
+        "vmonlockStatsValue": "Lock Statistics (Memory)",
+        "vmonlockStats": "Lock Statistics",
+        "databaseVmondeltaStats": "Transaction Performance (Incremental Value)"
       },
       "db2": "DB2",
       "processId": "Process ID",
@@ -5744,6 +5887,18 @@
       "timeSinceLastRecv": "Time Since Last Receive",
       "logHadrWaitCur": "Current Logger Wait Time",
       "logHadrWaitTime": "Total Logger Wait Time",
+      "lockWaitTime": "Lock Wait Time",
+      "lockEscals": "Lock Escalations",
+      "lockListInUse": "Lock List In Use",
+      "activeLockWaits": "Active Lock Waits",
+      "averageLockEscalsPerAct": "Average Lock Escalations Per Activity",
+      "lockListValue": "Lock List Value",
+      "indexReadEfficiency":  "Index Read Efficiency",
+      "sorts":  "Total Sorts",
+      "syncReadPercentage": "Sync Read Percentage",
+      "asyncWritePercentage": "Async Write Percentage",
+      "sortsPerTransactions": "Sorts Per Transactions",
+      "sqls": "SQLs",
       "unableToConnect": "Cannot connect to {{connectionUrl}} using user {{user}}.",
       "troubleshootingDocs": "Troubleshooting docs",
       "oldConfigUsed": "Db2 Sensor now supports monitoring of multiple instances and databases on the host where Instana Agent is running. Please refer to the docs for the new configuration format."
@@ -9133,6 +9288,10 @@
       "defaultBinding": "Default Binding",
       "usage": "Usage",
       "monitoring": "Monitoring",
+      "queueDescription": "Queue Description",
+      "queueDepthHighLimit": "Queue Depth High Limit",
+      "queueDepthLowLimit": "Queue Depth Low Limit",
+      "queueServiceInterval": "Queue Service Interval(ms)",
       "queueDepth": "Queue Depth",
       "oldestMessage": "Oldest Message",
       "maxQueueDepth": "Max Queue Depth",
@@ -9350,11 +9509,6 @@
         "heap": "Heap",
         "directBuffers": "Direct Buffers",
         "offHeap": "Off Heap",
-        "garbageCollection": "Garbage Collection",
-        "copyTime": "Copy Time",
-        "markSweepCompactTime": "MarkSweepCompact Time",
-        "copyInvocation": "Copy Invocation",
-        "markSweepCompactInvocation": "MarkSweepCompact Invocation",
         "network": "Network",
         "received": "Received",
         "sent": "Sent",
@@ -9986,6 +10140,7 @@
       "datasourceJndi": "Datasource JNDI"
     },
     "jbossDataGrid": {
+      "datagrid": "Data Grid",
       "cacheName": "Cache [{{cacheName}}]",
       "jGroupsClusterName": "JGroups Cluster [{{clusterName}}]",
       "hitRatio": "Hit Ratio",
@@ -11676,6 +11831,123 @@
     "pCFApplication": {
       "instances": "Instances",
       "runningInstances": "Running instances"
+    },
+    "zDb2": {
+      "label": "IBM Db2 for z/OS",
+      "mvsSystem": "MVS System",
+      "lockConflictCount": "Lock Conflict Count",
+      "currentThreadCount": "Current Thread Count",
+      "transactionsPerSecond": "Transactions Per Second",
+      "pagesReadFromBps": "Pages Read From BPS",
+      "pagesReadFromDasd": "Pages Read From DASD",
+      "ecsaUsedByDb2": "ECSA Used By DB2",
+      "realStorageUsedByDb2": "Real Storage Used By Db2",
+      "originNode": "Origin Node",
+      "db2Version": "Db2 Version",
+      "db2Subsystem": "Db2 Subsystem",
+      "productCode": "Product Code",
+      "systemStates": "Db2 System States",
+      "pageReads": "Page Reads",
+      "storage": "Storage",
+      "cicsExceptions": {
+        "title": "CICS Exceptions",
+        "cicsId": "CICS ID",
+        "totalThreadUtilization": "Total Thread Utilization",
+        "totalThreadsMaximum": "Total Threads Maximum",
+        "totalThreadsInUse": "Total Threads In Use",
+        "poolThreadUtilization": "Pool Thread Utilization",
+        "poolThreadsInUse": "Pool Threads In Use",
+        "poolThreadWaits": "Pool Thread Waits",
+        "poolThreadMaximum": "Pool Thread Maximum"
+      },
+      "imsConnections": {
+        "title": "IMS Connections",
+        "imsName": "IMS Name",
+        "activeThreads": "Active Threads",
+        "connectedDependentRegions": "Connected Dependent Regions",
+        "definedDependentRegions": "Defined Dependent Regions",
+        "unconnectedRegions": "Unconnected Regions"
+      },
+      "lockContentions": {
+        "title": "Lock Contentions",
+        "planConnection": "Plan : Connection ID",
+        "lockElapsedTime": "Lock Elapsed Time",
+        "planName": "Plan Name"
+      }
+    },
+    "zCics": {
+      "label": "IBM CICS for z/OS",
+      "originNode": "Origin Node",
+      "systemId": "System ID",
+      "cicsRegionName": "CICS Region Name",
+      "cicsVersion": "CICS Version",
+      "cicsplexName": "CICSPlex Name",
+      "transactionRate": "Transaction Rate",
+      "maximumTasksPercent": "Maximum Tasks Percent",
+      "cpuUtilization": "CPU Utilization",
+      "ioRate": "IO Rate",
+      "pageRate": "Page Rate",
+      "storageViolations": "Storage Violations",
+      "enqueueWaits": "Enqueue Waits",
+      "aids": "AIDS",
+      "ices": "ICES",
+      "worstRegionPerformanceIndex": "Worst Region Performance Index",
+      "queuedRemoteRequests": "Queued Remote Requests",
+      "performance": "Performance",
+      "rates": "Rates",
+      "sos": "SOS"
+    },
+    "zOS": {
+      "label": "IBM z/OS",
+      "sysplexName": "Sysplex Name",
+      "smfid": "SMF ID",
+      "cpuCount": "Physical CPU Count",
+      "wlmMode": "Workload Management Mode",
+      "managedSystem": "Managed System",
+      "productCode": "Product Code",
+      "cpuUsage": "CPU Usage",
+      "avgWorkloadCpu": "Average Workload CPU",
+      "undispatchedTasks": "Undispatched Tasks",
+      "avgCpuPercentage": "Average CPU",
+      "avgIfaPercentage": "Average IFA",
+      "avgIfaCpPercentage": "Average IFA on CP",
+      "avgziipPercentage": "Average zIIP",
+      "avgziipCpPercentage": "Average zIIP on CP",
+      "mvsOverhead": "MVS Overhead",
+      "hiperdispatchManagement": "Hiperdispatch Management",
+      "percentLparMsuCapacity": "LPAR MSU Capacity",
+      "averageUnusedGroupMsus": "Average Unused Group MSUs",
+      "fourHourMsus": "Four Hour MSUs",
+      "realStorage": {
+        "title": "Real Storage Utilization History",
+        "job": "Job",
+        "totalFrames": "Total Frames",
+        "activeFrames": "Active Frames",
+        "idleFrames": "Idle Frames",
+        "auxStorageSlots": "Auxiliary Storage Slots",
+        "memoryObjectsAllocated": "Memory Objects Allocated",
+        "oneMegFramesInReal": "1 Meg Frames In Real",
+        "activeFramesWorkingSet": "Active Frames Working Set",
+        "activeFramesFixed": "Active Frames Fixed",
+        "activeFramesDiv": "Active Frames DIV",
+        "pageInRage": "Page-In Rate",
+        "sharedPageInRate": "Shared Page-In Rate",
+        "sharedPagesTotalViews": "Shared Pages Total Views",
+        "sharedPagesTotalValid": "Shared Pages Total Valid",
+        "sharedPagesValidationRate": "Shared Pages Validation Rate"
+      },
+      "commonStorage": {
+        "title": "Common Storage Utilization History",
+        "job": "Job",
+        "percentageCsaInUse": "Percentage CSA In Use",
+        "percentageEcsaInUse": "Percentage ECSA In Use",
+        "percentageSqaInUse": "Percentage SQA In Use",
+        "percentageEsqaInUse": "Percentage ESQA In Use",
+        "amountCsaInUse": "Amount CSA In Use",
+        "amountEcsaInUse": "Amount ECSA In Use",
+        "amountSqaInUse": "Amount SQA In Use",
+        "amountEsqaInUse": "Amount ESQA In Use"
+      }
     }
   },
   "tracing": {
@@ -11807,12 +12079,21 @@
       "titleSize": "Size"
     },
     "camunda": {
-      "titleProcessId": "Root Process ID",
-      "titleProcessName": "Root Process Name",
-      "titleProcessDesc": "Root Process Description",
+      "titleBusinessKey": "Business Key",
+      "titleCaseIntanceId": "Case Instance ID",
+      "titleRootProcessUUID": "Root Process UUID",
+      "titleProcessId": "Process ID",
+      "titleProcessName": "Process Name",
       "titleActivityId": "Activity ID",
       "titleActivityName": "Activity Name",
-      "titleActivityDesc": "Activity Description"
+      "titleActivityDesc": "Activity Description",
+      "titleExternalTaskWorkerId": "External Task Worker ID",
+      "titleExternalTaskTopic": "External Task Topic",
+      "titleExternalTaskId": "External Task ID",
+      "titleExternalTaskRetries": "Retries"
+    },
+    "camunda-exit": {
+      "titleExternalTaskTopic": "External Task Topic"
     },
     "cassandra": {
       "titleKeyspace": "Keyspace",
@@ -11835,7 +12116,9 @@
       "titleCicsAttributes": "CICS Attributes",
       "titleUserId": "CICS User ID",
       "titleTaskNumber": "CICS Task Number",
-      "titleRegion": "CICS Region"
+      "titleRegion": "CICS Region",
+      "titleDestination": "Destination",
+      "titleUnknown": "unknown"
     },
     "corba": {
       "titleMethod": "Method",
@@ -11855,6 +12138,12 @@
       "titleErrorCode": "Error Code",
       "titleSQL": "SQL"
     },
+    "datagrid": {
+      "titleOperation": "Operation",
+      "titleKey": "Key",
+      "titleCacheName": "Cache Name",
+      "titleClusterName": "Cluster Name"
+    },
     "distributeme": {
       "titleService": "Service",
       "titleMethod": "Method"
@@ -11862,6 +12151,13 @@
     "distributemeClient": {
       "titleService": "Service",
       "titleMethod": "Method"
+    },
+    "dubbo": {
+      "titlePath": "Path",
+      "titleInterface": "Interface",
+      "titleProviderVersion": "Provider Version",
+      "titleConsumerVersion": "Consumer Version",
+      "titleVersion": "Protocol Version"
     },
     "dynamoDB": {
       "titleTable": "Table",
@@ -12069,7 +12365,9 @@
     "ims": {
       "titleImsAttributes": "IMS Attributes",
       "titleEventKey": "IMS Event Key",
-      "titleComponent": "IMS Component"
+      "titleComponent": "IMS Component",
+      "titleDestination": "Destination",
+      "titleUnknown": "unknown"
     },
     "jaeger": {
       "titleService": "Service",
@@ -12147,9 +12445,13 @@
       "titleThread": "Thread"
     },
     "mail": {
-      "titleAddress": "Address",
       "class": "Class",
       "method": "Method"
+    },
+    "javamail": {
+      "method": "Method",
+      "endpoint": "Endpoint",
+      "error": "Error"
     },
     "memcache": {
       "titleCommand": "Command",
@@ -12246,7 +12548,8 @@
       "operation": "Operation",
       "traceState": "Trace State",
       "error": "Error",
-      "tags": "Tags"
+      "tags": "Tags",
+      "resource": "Resource"
     },
     "pdo": {
       "driver": "Driver",
@@ -12313,6 +12616,9 @@
       "exchange": "Exchange",
       "key": "Key",
       "size": "Size"
+    },
+    "rocketmq": {
+      "topic": "Topic"
     },
     "redis": {
       "connection": "Connection",

@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { string, arrayOf, any, shape, func, bool } from 'prop-types';
+import { string, arrayOf, shape, func, bool } from 'prop-types';
 import classNames from 'classnames';
 import React from 'react';
 
@@ -15,18 +15,20 @@ import locals from 'in-alerting/components/Dropdown/Dropdown.mless';
 export default function Dropdown({
   icon,
   align = 'bottomMiddle',
-  label,
   items,
+  value,
   onChange,
   asSimpleDropdown,
   className
 }) {
+  const selectedLabel = (value && items?.find?.(item => item.value === value)?.label) ?? items[0]?.label;
   return (
     <ComboBoxBehavior
       align={align}
-      options={items.map(i => ({ value: i, label: i.label }))}
+      options={items}
+      value={value}
       onChange={newValue => {
-        if (newValue.label === label) {
+        if (newValue === value) {
           return;
         }
         onChange(newValue);
@@ -44,7 +46,7 @@ export default function Dropdown({
           icon={icon}
           expanded={isOpen}
         >
-          {label}
+          {selectedLabel}
         </DropdownButton>
       )}
     </ComboBoxBehavior>
@@ -54,13 +56,13 @@ export default function Dropdown({
 Dropdown.propTypes = {
   icon: string,
   align: string,
-  label: string.isRequired,
   items: arrayOf(
     shape({
       label: string.isRequired,
-      value: any.isRequired
+      value: string.isRequired
     })
   ).isRequired,
+  value: string.isRequired,
   onChange: func.isRequired,
   asSimpleDropdown: bool,
   className: string

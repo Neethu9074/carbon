@@ -20,7 +20,9 @@ export const MIGRATION_CONFIGS = [
     label: 'Applications',
     icon: 'lib_application',
     configs: [],
-    selected: []
+    selected: [],
+    shadowSelected: [],
+    filtered: []
   },
   {
     key: WEB_CONFIGS,
@@ -28,7 +30,9 @@ export const MIGRATION_CONFIGS = [
     label: 'Websites',
     icon: 'lib_website',
     configs: [],
-    selected: []
+    selected: [],
+    shadowSelected: [],
+    filtered: []
   },
   {
     key: MOB_CONFIGS,
@@ -36,7 +40,9 @@ export const MIGRATION_CONFIGS = [
     label: 'Mobile Apps',
     icon: 'lib_mobile_app',
     configs: [],
-    selected: []
+    selected: [],
+    shadowSelected: [],
+    filtered: []
   },
   {
     key: ALERT_CHANNEL_CONFIGS,
@@ -44,7 +50,9 @@ export const MIGRATION_CONFIGS = [
     label: 'Alert Channels',
     icon: 'lib_alerts_alert',
     configs: [],
-    selected: []
+    selected: [],
+    shadowSelected: [],
+    filtered: []
   },
 
   {
@@ -53,23 +61,29 @@ export const MIGRATION_CONFIGS = [
     label: 'Custom Events',
     icon: 'lib_help_error_warning',
     configs: [],
-    selected: []
+    selected: [],
+    shadowSelected: [],
+    filtered: []
   },
   {
     key: SMART_APP_ALERT_CONFIGS,
     type: SMART_APP_ALERT_CONFIGS,
-    label: 'Application Alerts',
+    label: 'Application Smart Alerts',
     icon: 'lib_events_critical',
     configs: [],
-    selected: []
+    selected: [],
+    shadowSelected: [],
+    filtered: []
   },
   {
     key: SMART_WEB_ALERT_CONFIGS,
     type: SMART_WEB_ALERT_CONFIGS,
-    label: 'Website Alerts',
+    label: 'Website Smart Alerts',
     icon: 'lib_events_critical',
     configs: [],
-    selected: []
+    selected: [],
+    shadowSelected: [],
+    filtered: []
   },
   {
     key: ALERT_CONFIGS,
@@ -77,7 +91,9 @@ export const MIGRATION_CONFIGS = [
     label: 'Infrastructure Alerts',
     icon: 'lib_alerts_alert',
     configs: [],
-    selected: []
+    selected: [],
+    shadowSelected: [],
+    filtered: []
   },
   {
     key: GROUP_CONFIGS,
@@ -85,6 +101,8 @@ export const MIGRATION_CONFIGS = [
     label: 'Groups',
     icon: 'lib_group_by',
     configs: [],
-    selected: []
+    selected: [],
+    shadowSelected: [],
+    filtered: []
   }
 ];

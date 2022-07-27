@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { Property } from 'csstype';
 import React from 'react';
 
 import { DateFormatterInput, DateFormatterOutput } from '@instana/format-date';
@@ -10,8 +11,13 @@ import { Observable } from '@instana/observables';
 
 import { AggregationType, FilterInterface, TimeConfig } from 'in-types';
 import { Renderer } from 'in-components/Chart/renderer/types';
+import Configuration from 'in-components/Chart/Configuration';
 import { TimeShiftOffset } from 'in-stores/time/shifting';
 import { FormatterFn } from 'in-stores/metric/formatters';
+
+export interface Chart {
+  config: Configuration;
+}
 
 export interface MetricsConfiguration {
   reverseOrder?: boolean;
@@ -26,11 +32,13 @@ export interface Metric {
   aggregation?: AggregationType;
 }
 
+export type TimeConfigAwareHref$Creator = (tc: TimeConfig) => Observable<string> | undefined;
+
 export interface ContextMenuButton {
   name: string;
   icon: string;
   label: string;
-  getHref$: (tc: TimeConfig) => Observable<string> | undefined;
+  getHref$?: TimeConfigAwareHref$Creator;
   allowClickPropagationAndDefault?: boolean;
   onClick?: () => void;
 }
@@ -64,33 +72,35 @@ interface LegendConfig {
   reverseLegendOrder?: boolean;
 }
 
-interface TooltopConfig {
+interface TooltipConfig {
   reverseTooltipOrder?: boolean;
   tooltipTimeFormatter?: (input: DateFormatterInput) => DateFormatterOutput;
 }
 
-interface ContextMenuConfig {
+export interface ContextMenuConfig {
   primaryContextMenuAction?: string;
   additionalContextMenuButtons?: ContextMenuButton[];
   excludedContextMenuActions?: string[];
 }
 
-interface ChartConfig {
-  y1?: Axis;
-  y2?: Axis;
+export interface ChartConfig {
+  y1: AxisConfiguration;
+  y2?: AxisConfiguration;
   granularity?: number;
   metricsConfiguration?: MetricsConfiguration;
   withoutPadding?: boolean;
 
   getAllDomainValues?: () => number[];
   shareMaxAxisDomain?: boolean;
+
+  width: number;
 }
 
 export type Config = ResultAwareChartConfig &
   CardConfig &
   ChartReactComponentConfig &
   LegendConfig &
-  TooltopConfig &
+  TooltipConfig &
   ContextMenuConfig &
   ChartConfig;
 
@@ -118,7 +128,8 @@ type AxisIcons = {
 export type MetricDataSeries = [number, number][];
 
 type AxisColor = string | null;
-export interface Axis {
+export type AxisName = 'y1' | 'y2';
+export interface AxisConfiguration {
   renderer: Renderer;
   metrics: MetricDataSeries[];
   timeShifts?: TimeShift[] | null;
@@ -126,17 +137,31 @@ export interface Axis {
   labels: string[];
   colors: AxisColor[];
   icons?: AxisIcons;
-  formatter?: Formatter;
+  formatter?: Formatter | FormatterObject[];
   isStaticBudget?: boolean;
   lineWidth?: number;
   min?: number;
   max?: number;
+  getMax?: (maxValue: number) => number;
 
   aggregations?: (AggregationType | undefined)[];
   defaultDisabledMetrics?: (string | null)[];
+  forceDisabledMetrics?: (string | null)[];
   tooltipFormatter?: Formatter;
   calculateStackDifferences?: boolean;
   excludedLabelsFromTooltip?: string[];
+  fixedTickPositions?: number[];
+  renderAllTickLabels?: boolean;
+  detailedFormatting?: boolean;
+
+  colors100?: Property.Color[];
+  colors50?: Property.Color[];
+
+  valuesDependOnEachOther?: boolean;
+  valuesNeedToBeStacked?: boolean;
+
+  maxDataPoints?: number;
+  minPixelsPerBlock?: number;
 }
 
 export type ChartContentPostition = 'pre' | 'post';
@@ -150,4 +175,15 @@ export interface AdditionChartContentProps {
   timeAxisHeight?: number;
   markerPaneHeight?: number;
   chartContentPosition: ChartContentPostition;
+}
+
+export interface Axis extends Omit<AxisConfiguration, 'colors100' | 'colors50' | 'colors' | 'formatter'> {
+  minValue: number;
+  maxValue: number;
+  formatter: FormatterObject[];
+  colors100: Property.Color[];
+  colors50: Property.Color[];
+  colors: Property.Color[];
+  numOfSeries: number;
+  dynamicCalculatedBlockSizeMillis?: number;
 }

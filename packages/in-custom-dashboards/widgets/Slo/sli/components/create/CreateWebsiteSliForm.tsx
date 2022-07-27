@@ -64,7 +64,8 @@ function CreateWebsiteSliFormComponent({
   const filterExpressionValid = useValidateExpressions({ sliEntity, isQueryValid });
 
   return (
-    <CreateSliForm<'WEBSITE'>
+    <CreateSliForm
+      entityType="website"
       form={form}
       updateForm={updateForm}
       setFooter={setFooter}
@@ -112,7 +113,7 @@ function useValidateExpressions({ sliEntity, isQueryValid }: UseValidateExpressi
   return sliType === websiteTimeBased ? filterExpressionValid : goodEventsValid && badEventsValid;
 }
 
-function toBackendFormat(formData: SliFormData<'WEBSITE'>): NewSliConfig<CombinedWebsiteSliEntity> {
+function toBackendFormat(formData: SliFormData<'website'>): NewSliConfig<CombinedWebsiteSliEntity> {
   const sliEntity = formData.sliEntity;
 
   if (isWebsiteTimeBasedSliEntity(sliEntity)) {

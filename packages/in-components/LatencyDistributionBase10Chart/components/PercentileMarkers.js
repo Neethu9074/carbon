@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { t } from 'in-i18n';
+
 import locals from './PercentileMarkers.mless';
 
 export default function PercentileMarkers({
@@ -60,13 +62,17 @@ function PercentileMarker({ percentiles, position, height, percentileStyle }) {
   if (!percentiles || percentiles.length === 0) {
     return null;
   }
+
   const highestPercentile = percentiles.sort()[percentiles.length - 1];
-  const label = percentiles.length > 1 ? 'p' + highestPercentile + '…' : 'p' + highestPercentile;
+  const label = t('in-components:metricConfigurator.aggregation', {
+    context: `p${highestPercentile}`.toUpperCase().replace(/_/g, '')
+  });
+
   return (
     <>
-      <div className={locals.dottedLine} style={{ left: position + 'px', height: height + 'px' }} />
-      <div className={locals.percentiles} style={{ left: position + 'px', ...percentileStyle }}>
-        {label}
+      <div className={locals.dottedLine} style={{ left: `${position}px`, height: `${height}px` }} />
+      <div className={locals.percentiles} style={{ left: `${position}px`, ...percentileStyle }}>
+        {percentiles.length > 1 ? `${label}…` : label}
       </div>
     </>
   );

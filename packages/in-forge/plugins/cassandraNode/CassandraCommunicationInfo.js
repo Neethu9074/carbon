@@ -26,6 +26,10 @@ export default function CassandraCommunicationInfo({ snapshot }) {
       <DescriptionItem title={t('in-forge:plugins.cassandraNode.titleNativeRunning')}>
         {data.get('nativeTransportRunning')}
       </DescriptionItem>
+
+      <DescriptionItem title={t('in-forge:plugins.cassandraNode.titleSeeds')}>
+        {data.get('seeds') !== undefined ? data.get('seeds').join(', ') : ''}
+      </DescriptionItem>
     </DescriptionList>
   );
 }

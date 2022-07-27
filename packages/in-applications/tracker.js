@@ -4,6 +4,12 @@
  */
 
 import {
+  ANALYZE_TRACE_VIEW_CLOSED,
+  ANALYZE_TRACE_VIEW_NAVIGATE_TO_UA,
+  ANALYZE_TRACE_VIEW_SERVICE_ENDPOINT_LIST_CLICK,
+  ANALYZE_TRACE_VIEW_TIMELINE_CALL_CLICK,
+  ANALYZE_TRACE_VIEW_TRACE_LIST_CLICK,
+  ANALYZE_TRACE_VIEW_TREE_CALL_CLICK,
   ANALYZE_UA2_API_QUERY_PRESSED,
   ANALYZE_UA2_CHART_CHANGED,
   ANALYZE_UA2_CHART_REMOVED,
@@ -60,3 +66,20 @@ export const ua2NestingDepthTracker = e => track(ANALYZE_UA2_NESTING_DEPTH, e);
 
 export const ua2FormModelChangedTracker = e => track(ANALYZE_UA2_FORMMODEL_CHANGED, e);
 export const ua2FacetsChangedTracker = e => track(ANALYZE_UA2_FACETS_CHANGED, e);
+
+export const traceViewClosedTracker = e => track(ANALYZE_TRACE_VIEW_CLOSED, e);
+export const traceViewNavigateBackToUa = e => track(ANALYZE_TRACE_VIEW_NAVIGATE_TO_UA, e);
+export const traceViewTraceListClickedTracker = e => track(ANALYZE_TRACE_VIEW_TRACE_LIST_CLICK, e);
+export const traceViewTraceServiceEndpointListClickedTracker = e =>
+  track(ANALYZE_TRACE_VIEW_SERVICE_ENDPOINT_LIST_CLICK, e);
+export const traceViewCallTimelineDetailClickedTracker = e => track(ANALYZE_TRACE_VIEW_TIMELINE_CALL_CLICK, e);
+export const traceViewCallTreeDetailClickedTracker = e => track(ANALYZE_TRACE_VIEW_TREE_CALL_CLICK, e);
+
+export const traceViewTracker = {
+  traceViewNavigateBackToUa,
+  traceViewClosedTracker,
+  traceViewTraceListClickedTracker,
+  traceViewTraceServiceEndpointListClickedTracker,
+  traceViewCallTreeDetailClickedTracker,
+  traceViewCallTimelineDetailClickedTracker
+};

@@ -132,3 +132,13 @@ function removeCloseTicks(ticks: Tick[]) {
 
   return filteredTicks;
 }
+
+export function mapTickPositions(ticks: number[], scale: ScaleType): Tick[] {
+  return ticks
+    .filter(tick => tick >= scale.domainFrom)
+    .filter(tick => tick <= scale.domainTo)
+    .map(tick => ({
+      domain: tick,
+      range: scale.getRange(tick)
+    }));
+}

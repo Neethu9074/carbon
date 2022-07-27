@@ -9,6 +9,11 @@ import React from 'react';
 import { combineLatest } from '@instana/observables';
 import { Button } from '@instana/components';
 
+import {
+  track,
+  AGENTS_RESET_ALL_AGENTS_INTERNAL_CLICKED,
+  AGENTS_UPDATE_ALL_AGENTS_INTERNAL_CLICKED
+} from 'in-services/tracking/tracking';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer/MaxWidthFullscreenContainer';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import AgentInstallationView from 'in-infrastructure/agentView/components/AgentInstallationView';
@@ -135,10 +140,22 @@ const ButtonLine = connectTo({ isInternalVisible: isInternalVisible$ }, function
     <div>
       {isInternalVisible && (
         <>
-          <Button kind="primary" onClick={() => updateAllAgents({ agentSnapshots })}>
+          <Button
+            kind="primary"
+            onClick={() => {
+              track(AGENTS_UPDATE_ALL_AGENTS_INTERNAL_CLICKED);
+              updateAllAgents({ agentSnapshots });
+            }}
+          >
             {t('in-infrastructure:agentView.updateAllAgents')}
           </Button>
-          <Button kind="secondary" onClick={() => resetAllAgents({ agentSnapshots })}>
+          <Button
+            kind="secondary"
+            onClick={() => {
+              track(AGENTS_RESET_ALL_AGENTS_INTERNAL_CLICKED);
+              resetAllAgents({ agentSnapshots });
+            }}
+          >
             {t('in-infrastructure:agentView.resetAllAgents')}
           </Button>
         </>

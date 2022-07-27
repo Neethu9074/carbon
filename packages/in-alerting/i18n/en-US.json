@@ -6,9 +6,9 @@
     "alertHeaderRestoreErrorMessage": "Failed to restore alert config revision with ID {{alertConfigID}} and version {{alertConfigCreated}}: {{errorMessage}}",
     "alertHeaderLabelBackToListOfAlerts": "Back to list of alerts",
     "alertHeaderAlert": "Alert",
-    "alertHeaderRestoreRevisionTooltip": "Restore {{description}}",
+    "alertHeaderRestoreRevisionTooltip": "Restore",
     "alertHeaderRestoreRevisionConfirmationDialogHeader": "Please Confirm",
-    "alertHeaderRestoreRevisionConfirmationDialogDescription": "Are you sure you want to restore <strong>\"{{description}}\"</strong>?",
+    "alertHeaderRestoreRevisionConfirmationDialogDescription": "Are you sure you want to restore the selected revision?",
     "alertHeaderRestoreRevisionConfirmationDialogConfirmButton": "Restore",
     "alertHeaderRestoreDeleteTooltip": "Delete",
     "alertHeaderEditTooltip": "Edit",
@@ -181,11 +181,11 @@
           "config": {
             "static": {
               "title": "Static",
-              "description": "Threshold is either a fixed or time-dependent threshold value. Instana helps you pick the right threshold value based on recent data"
+              "description": "Threshold is either a fixed or time-dependent threshold value. Instana helps you pick the right threshold value based on recent data."
             },
             "adaptive": {
               "title": "Adaptive",
-              "description": "Threshold automatically adapts to the changes of the underlying metric"
+              "description": "Threshold automatically adapts to the changes of the underlying metric."
             }
           }
         },
@@ -243,7 +243,6 @@
           "applications": "Applications:",
           "services": "Services:"
         },
-        "noChartForAdaptiveBaseline": "No preview available while this trigger is based on an adaptive threshold.",
         "noDataWithoutEndpointSelection": "Please select an endpoint to see the preview",
         "noDataAvailable": "Please select a service to see the preview"
       },
@@ -267,7 +266,7 @@
           "metricLabel": "Error Rate"
         },
         "logs": {
-          "name": "Error and Warning Logs",
+          "name": "Logs",
           "headline": "Automatic Alerts for Error and Warning Logs",
           "text": "Receive an alert when the number of calls with given error and warning log messages is higher than expected.",
           "metricLabel": "Calls",
@@ -277,7 +276,6 @@
           "name": "HTTP Status Codes",
           "headline": "Automatic Alerts for HTTP Status Codes",
           "text": "Receive an alert every time when matching HTTP Status Codes occur more often than usual.",
-          "metricLabel": "Status Code",
           "incompleteRuleMessage": "Please select a Status Code to see when this alert triggers"
         },
         "throughput": {
@@ -354,6 +352,14 @@
           "statusCodeDefault_higherEqual": "Occurrences of HTTP Status Code {{statusCodeFullText}} is higher or equal to expected.",
           "statusCodeDefault_lowerThan": "Occurrences of HTTP Status Code {{statusCodeFullText}} is lower than expected.",
           "statusCodeDefault_lowerEqual": "Occurrences of HTTP Status Code {{statusCodeFullText}} is lower or equal to expected.",
+          "statusCodeRateStaticThreshold_higherThan": "Rate of HTTP Status Code {{statusCodeFullText}} is higher than {{thresholdValue}}%.",
+          "statusCodeRateStaticThreshold_higherEqual": "Rate of HTTP Status Code {{statusCodeFullText}} is higher or equal to {{thresholdValue}}%.",
+          "statusCodeRateStaticThreshold_lowerThan": "Rate of HTTP Status Code {{statusCodeFullText}} is lower than {{thresholdValue}}.%",
+          "statusCodeRateStaticThreshold_lowerEqual": "Rate of HTTP Status Code {{statusCodeFullText}} is lower or equal to {{thresholdValue}}.%",
+          "statusCodeRateDefault_higherThan": "Rate of HTTP Status Code {{statusCodeFullText}} is higher than expected.",
+          "statusCodeRateDefault_higherEqual": "Rate of HTTP Status Code {{statusCodeFullText}} is higher or equal to expected.",
+          "statusCodeRateDefault_lowerThan": "Rate of HTTP Status Code {{statusCodeFullText}} is lower than expected.",
+          "statusCodeRateDefault_lowerEqual": "Rate of HTTP Status Code {{statusCodeFullText}} is lower or equal to expected.",
           "throughputStaticThreshold_higherThan": "The number of calls is higher than {{thresholdValue}} calls.",
           "throughputStaticThreshold_higherEqual": "The number of calls is higher or equal to {{thresholdValue}} calls.",
           "throughputStaticThreshold_lowerThan": "The number of calls is lower than {{thresholdValue}} calls.",
@@ -450,11 +456,13 @@
         "ruleStatusCodeValueOption510": "510 (Not Extended)",
         "ruleStatusCodeValueOption511": "511 (Network Authentication Required)",
         "ruleStatusCodeValueOption599": "599 (Network Connect Timeout Error)",
+        "ruleMetricNameOptionStatusCodeCount": "Status Code Count",
+        "ruleMetricNameOptionStatusCodeRate": "Status Code Rate",
         "ruleStatusCodeValueOptionCustom": "Custom Range",
-        "ruleFormErrorStatusCodeStartGTEnd": "Please select an end http status code that is greater or equal than the start http status code",
+        "ruleFormErrorStatusCodeStartGTEnd": "Please select an end HTTP status code that is greater or equal than the start HTTP status code",
         "ruleFormPleaseProvideALogMessage": "Please provide a log message",
-        "ruleFormPleaseProvideAStartStatusCode": "Please provide a start http status code",
-        "ruleFormPleaseProvideAEndStatusCode": "Please provide an end http status code",
+        "ruleFormPleaseProvideAStartStatusCode": "Please provide a valid start HTTP status code",
+        "ruleFormPleaseProvideAEndStatusCode": "Please provide a valid end HTTP status code",
         "smartAlertFormNoEntitiesSelected": "No entities selected",
         "smartAlertFormValueIsReadOnly": "The value is read only and cannot be changed",
         "thresholdFormPleaseProvideANumber0": "Please provide a number >= 0",
@@ -650,8 +658,7 @@
         "alertConfigDialogPresenterTitleEditAlert_Global": "Edit Global Smart Alert",
         "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Create New Smart Alert",
         "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Create New Global Smart Alert",
-        "alertConfigDialogPresenterTitleMigrateAlert_Local": "Migrate to Smart Alert",
-        "alertConfigDialogPresenterTitleMigrateAlert_Global": "Migrate to Global Smart Alert",
+        "alertConfigDialogPresenterTitleMigrateAlert": "Migrate to Smart Alert",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "Switch to Advanced Mode",
         "simpleAlertConfigDialogStep3Headline": "Who should get the alerts?",
         "Loading": "Loading…",
@@ -732,7 +739,6 @@
     },
     "websites": {
       "advanced": {
-        "slownessInteractiveChartThresholdValue": "Threshold Value",
         "scopeLabel": "Scope",
         "scopeTitle": "Scope: Where is the condition happening?",
         "thresholdLabel": "Threshold",
@@ -929,12 +935,14 @@
         "searchCustomEvents": "Filter Events",
         "customEventSelectionSliderTitle": "Choose Custom Event",
         "customEventNameColumnLabel": "Event Name",
+        "customEventOccurrencesColumnLabel": "Occurrences",
+        "customEventUsersColumnLabel": "Users",
         "customEventLabel": "Custom Event",
         "customEventInputPlaceholder": "Paste a custom event name or select one from the list of events",
         "searchCustomEventButtonLabel": "Select Custom Event",
         "customEventListInfoLabel": "Showing custom events that have been triggered in the last 7 days"
       },
-      "addAlert": "Add Alert"
+      "addSmartAlert": "Add Smart Alert"
     },
     "sortOptions": {
       "name": "Name",

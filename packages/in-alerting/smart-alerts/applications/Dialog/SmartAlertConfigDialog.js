@@ -28,7 +28,6 @@ import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/b
 import { applicationsAlertingStepSwitch } from 'in-alerting/smart-alerts/applications/tracker';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import FeatureFeedback from 'in-components/FeatureFeedback/FeatureFeedback';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { adaptiveBaselineEnabled } from 'in-services/featureFlags';
 
@@ -39,7 +38,7 @@ export function SmartAlertConfigDialog(props) {
 
   const alertConfigWithFormModel = form.toJS();
   const blueprintConfig = getBlueprintConfig(alertConfigWithFormModel.rule.alertType);
-  const enrichedTagFilterFormModel = getEnrichedTagFilterFormModel(
+  const { enrichedTagFilterFormModel, numeratorTagFilterFormModel } = getEnrichedTagFilterFormModel(
     isGlobalSmartAlert,
     alertConfigWithFormModel,
     blueprintConfig
@@ -48,35 +47,34 @@ export function SmartAlertConfigDialog(props) {
   return (
     <SmartAlertConfigDialogWithQueryValidation
       {...props}
-      enrichedTagFilterFormModel={enrichedTagFilterFormModel}
       alertConfigWithFormModel={alertConfigWithFormModel}
       blueprintConfig={blueprintConfig}
+      enrichedTagFilterFormModel={enrichedTagFilterFormModel}
+      numeratorTagFilterFormModel={numeratorTagFilterFormModel}
     />
   );
 }
 
 function getEnrichedTagFilterFormModel(isGlobalSmartAlert, alertConfigWithFormModel, blueprintConfig) {
-  let enrichedTagFilterFormModel = [];
   const isAdaptiveBaseline = alertConfigWithFormModel.threshold.type === ADAPTIVE_BASELINE;
 
   if (adaptiveBaselineEnabled && isAdaptiveBaseline) {
     const { applicationId, serviceId, endpointId } = alertConfigWithFormModel.hiddenFields.chartViewEntitySelection;
 
-    enrichedTagFilterFormModel = getEnhancedTagFilterFormModel(
+    return getEnhancedTagFilterFormModel(
       alertConfigWithFormModel,
       blueprintConfig,
       applicationId,
       serviceId,
       endpointId
-    ).enrichedTagFilterFormModel;
+    );
   } else if (!isGlobalSmartAlert) {
     // for the threshold (except adaptive baseline), we don't include the sub-entity filters,
     // because we perform a grouping on the entire scope
-    enrichedTagFilterFormModel = getEnhancedTagFilterFormModel(alertConfigWithFormModel, blueprintConfig)
-      .enrichedTagFilterFormModel;
+    return getEnhancedTagFilterFormModel(alertConfigWithFormModel, blueprintConfig);
   }
 
-  return enrichedTagFilterFormModel;
+  return [];
 }
 
 const FORM_ID = 'smart-alert-editor';
@@ -85,6 +83,7 @@ function SmartAlertConfigDialogWithQueryValidation({
   alertConfigWithFormModel,
   blueprintConfig,
   enrichedTagFilterFormModel,
+  numeratorTagFilterFormModel,
   ...props
 }) {
   const {
@@ -126,7 +125,8 @@ function SmartAlertConfigDialogWithQueryValidation({
     simpleMode,
     alertConfigWithFormModel,
     blueprintConfig,
-    enrichedTagFilterFormModel
+    enrichedTagFilterFormModel,
+    numeratorTagFilterFormModel
   });
 
   const { step, setStep, simpleModeStep, backOrCancel, handleSubmit } = useSimpleModePageNavigation({
@@ -176,14 +176,6 @@ function SmartAlertConfigDialogWithQueryValidation({
       simpleMode={simpleMode}
       setSimpleMode={setSimpleMode}
       thresholdResult={thresholdResult}
-      featureFeedbackElement={
-        <FeatureFeedback
-          href={`https://docs.google.com/forms/d/e/1FAIpQLSdJfdTTcWhC_X2LaVK503OuyMuZe2ruSFmMEBqb5rjYuWd_VA/viewform`}
-          styles={{
-            marginRight: '2rem'
-          }}
-        />
-      }
       SimpleModeElement={SimpleModeContainer}
       AdvancedModeElement={AdvancedModeContainer}
       isTagFilterFormModelValid={isTagFilterFormModelValid}
@@ -220,7 +212,8 @@ function resolveThresholdRequest(
   alertConfigWithFormModel,
   blueprintConfig,
   enrichedTagFilterFormModel,
-  fallbackOnError,
+  numeratorTagFilterFormModel,
+  isSimpleMode,
   isValid
 ) {
   const {
@@ -242,7 +235,9 @@ function resolveThresholdRequest(
       // request static threshold
       return null;
     }
-    return fallbackOnError ? DAILY : seasonality;
+    // In simple mode, user does not have a choice to change threshold type, so we set it to HISTORIC_BASELINE for
+    // blueprint where baseline is enabled and here we need to select DAILY seasonality as default!
+    return isSimpleMode ? DAILY : seasonality;
   };
 
   const thresholdSuggestionRequest = blueprintConfig.getThresholdSuggestionRequest(metricName);
@@ -254,12 +249,13 @@ function resolveThresholdRequest(
     metric: {
       metric: blueprintConfig.getMetricName(rule),
       granularity,
-      aggregation: blueprintConfig.getAggregation(rule)
+      aggregation: blueprintConfig.getAggregation(rule),
+      numeratorTagFilterExpression: toBackendQueryModel(numeratorTagFilterFormModel)
     },
     operator,
     seasonality: getSeasonality(),
     evaluationType: type === ADAPTIVE_BASELINE ? null : evaluationType,
-    fallbackOnError,
+    fallbackOnError: isSimpleMode,
     type
   });
 }
@@ -279,7 +275,8 @@ function useThresholdSuggestion(form, updateForm, setThresholdResult, config) {
     simpleMode,
     alertConfigWithFormModel,
     blueprintConfig,
-    enrichedTagFilterFormModel
+    enrichedTagFilterFormModel,
+    numeratorTagFilterFormModel
   } = config;
   const thresholdResult = useObservable(
     ([simpleMode, isValid]) =>
@@ -287,6 +284,7 @@ function useThresholdSuggestion(form, updateForm, setThresholdResult, config) {
         alertConfigWithFormModel,
         blueprintConfig,
         enrichedTagFilterFormModel,
+        numeratorTagFilterFormModel,
         simpleMode,
         isValid
       ),

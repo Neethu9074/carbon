@@ -217,13 +217,12 @@
     "groupedViewHeader_2": "{{formattedCount}} Groups",
     "groupedViewHeaderRetained": "Retained from {{formattedCount}}",
     "resultHeaderLoading": "Loading…",
-    "resultHeaderTooltip": "The query time range has been rounded up to nearest full minute to allow this view to load more quickly.",
     "queryProgress": {
       "preparing": "Preparing…",
       "runningQuery": "Running query…",
       "timeout": "This query has timed out.",
-      "timeoutEstimated": "The query would take too long to run.",
-      "timeoutInfo": "Select a shorter timeframe or issue a more specific query by applying more filters.",
+      "timeoutEstimated": "Your query could not be processed due to the high volume of calls.",
+      "timeoutInfo": "Please select a shorter timeframe.",
       "inputError": "There was an input error.",
       "tooManyRequests": "Too many requests",
       "tooManyRequestsInfo": "Our system is currently busy. Please try again later.",
@@ -406,20 +405,20 @@
     "labelPleaseSelect": "Please Select",
     "labelAlreadySelected": "Already selected",
     "search": "Search",
-    "aggregation_MEAN": "MEAN",
-    "aggregation_MIN": "MIN",
-    "aggregation_P25": "P25",
-    "aggregation_P50": "P50",
-    "aggregation_P75": "P75",
-    "aggregation_P90": "P90",
-    "aggregation_P95": "P95",
-    "aggregation_P98": "P98",
-    "aggregation_P99": "P99",
-    "aggregation_MAX": "MAX",
-    "aggregation_DISTINCTCOUNT": "DISTINCT_COUNT",
-    "aggregation_SUM": "SUM",
-    "aggregation_DISTRIBUTION": "DISTRIBUTION",
-    "aggregation_PERSECOND": "PER SECOND"
+    "aggregation_MEAN": "mean",
+    "aggregation_MIN": "min",
+    "aggregation_P25": "25th",
+    "aggregation_P50": "50th",
+    "aggregation_P75": "75th",
+    "aggregation_P90": "90th",
+    "aggregation_P95": "95th",
+    "aggregation_P98": "98th",
+    "aggregation_P99": "99th",
+    "aggregation_MAX": "max",
+    "aggregation_DISTINCTCOUNT": "distinct count",
+    "aggregation_SUM": "sum",
+    "aggregation_DISTRIBUTION": "distribution",
+    "aggregation_PERSECOND": "per second"
   },
   "profiling": {
     "headerColumnDefinitionsUsed": "Used",
@@ -793,5 +792,11 @@
     "retainedLabel_viewChange_0": "Approximated data ({{totalHits}} View Changes retained from {{representedHits}})",
     "retainedLabel_viewChange_1": "Approximated data ({{totalHits}} View Changes retained from {{representedHits}})",
     "retainedLabel_viewChange_2": "Approximated data ({{totalHits}} View Changes retained from {{representedHits}})"
+  },
+  "migratedTenantBanner": {
+    "title": "Migrated Tenant Unit",
+    "notice": "This tenant unit has been migrated to a new region. The unit you are currently accessing only contains historical data.",
+    "goToNewLocationLabel": "Go to New Location",
+    "exploreDataLabel": "Explore Historical Data"
   }
 }

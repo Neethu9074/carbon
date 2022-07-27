@@ -6,6 +6,9 @@
 @import '~in-themes/active.less';
 
 :local {
+  .verticalAlignedCells {
+    align-items: center;
+  }
   .optionBox {
     &.optionBox {
       border: none;
@@ -17,9 +20,7 @@
         fill: @lib__colors__N600Light;
       }
 
-      * {
-        color: @lib__colors__N600Light;
-      }
+      color: @lib__colors__N600Light;
     }
   }
 

@@ -3,15 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import React from 'react';
 
-import { ColumnizedContent, Ul, Li } from '@instana/components';
-import { toInteractiveElement } from '@instana/components';
+import { ColumnizedContent, Li, Stack, SvgIcon, toInteractiveElement, Ul } from '@instana/components';
 import { generateStableHash } from '@instana/utils';
-import { SvgIcon } from '@instana/components';
-import { Stack } from '@instana/components';
 
+import {
+  metricsPath,
+  useChartFormatterDragAndDropFormSideEffects
+} from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import ColorConfigurator from 'in-custom-dashboards/widgets/Chart/FormComponent/ColorConfigurator';
 import { getMetricId, getMetricLabel } from 'in-custom-dashboards/widgets/Chart/util';
 import { triggerHighlight } from 'in-components/SelectedElementHighlighter';
@@ -81,21 +82,26 @@ export const columnDefinitions = [
   }
 ];
 
-export function Reorderer({ onChange, children }) {
+export function Reorderer({ form, onChange, children }) {
+  const updateForm = useChartFormatterDragAndDropFormSideEffects(form, updatedForm => {
+    onChange([], () => updatedForm);
+  });
   return (
     <DragDropContext
       onDragEnd={e => {
         if (!e.destination) {
           return;
         }
-        onChange([], form => {
-          const metric = form.getIn([e.source.droppableId, 'metrics', e.source.index]);
-          return form
-            .updateIn([e.source.droppableId, 'metrics'], f => f.remove(e.source.index).setTouched(true))
-            .updateIn([e.destination.droppableId, 'metrics'], f =>
-              f.insert(e.destination.index, metric).setTouched(true)
-            );
-        });
+        updateForm(
+          form.updateIn([], form => {
+            const metric = form.getIn([e.source.droppableId, metricsPath, e.source.index]);
+            return form
+              .updateIn([e.destination.droppableId, metricsPath], f =>
+                f.insert(e.destination.index, metric).setTouched(true)
+              )
+              .updateIn([e.source.droppableId, metricsPath], f => f.remove(e.source.index).setTouched(true));
+          })
+        );
       }}
     >
       {children}
@@ -112,7 +118,7 @@ export function MetricsForAxis({
   helpText = t('in-custom-dashboards:widgets.formCompChart.metricReorderingChart.dragDropDataset2Axes')
 }) {
   const axisForm = form.get(axisName);
-  const metricsForm = axisForm.get('metrics');
+  const metricsForm = axisForm.get(metricsPath);
 
   const showHelpText = metricsForm.size === 0;
 

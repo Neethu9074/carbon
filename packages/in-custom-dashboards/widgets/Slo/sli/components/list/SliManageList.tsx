@@ -8,14 +8,19 @@ import React, { useState } from 'react';
 import { Message, Button } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
+import {
+  SLI_MANAGEMENT_CREATE_START,
+  SLI_MANAGEMENT_DELETE,
+  SLI_MANAGEMENT_EDIT_START
+} from 'in-services/tracking/eventNames';
 import { deleteSliConfiguration, getSliConfigurationsByEntity } from 'in-custom-dashboards/widgets/Slo/sli/api';
 import CreateSliFormFactory from 'in-custom-dashboards/widgets/Slo/sli/components/create/CreateSliFormFactory';
-import { trackSliCreate, trackSliViewSLI } from 'in-custom-dashboards/widgets/Slo/tracker';
-import { PaginatedResult, Result, SliConfiguration, SliEntitySliType } from 'in-types';
-import { SliConfigBySliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
+import { useSloWidgetTrackers } from 'in-custom-dashboards/widgets/Slo/components/SloWidgetTrackerProvider';
+import { SliConfigBySliType, SliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import SliList from 'in-custom-dashboards/widgets/Slo/sli/components/list/SliList';
 import SlideInView, { NoHeader } from 'in-components/SlideInView/SlideInView';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { PaginatedResult, Result, SliConfiguration } from 'in-types';
 import { isLoading, hasError } from 'in-services/util/result';
 import { containsIgnoreCase } from 'in-services/util/string';
 import { role } from 'in-stores/user';
@@ -23,14 +28,14 @@ import { Trans, t } from 'in-i18n';
 
 import locals from 'in-custom-dashboards/widgets/Slo/sli/components/list/SliManageList.mless';
 
-interface SliManageListProps<S extends Lowercase<SliEntitySliType>> {
+interface SliManageListProps<S extends SliType> {
   entityType: S;
   entityId: string;
   onChange: (sli?: Partial<SliConfigBySliType<S>>) => void;
   value?: Partial<SliConfigBySliType<S>>;
 }
 
-export default function SliManageList<S extends Lowercase<SliEntitySliType>>({
+export default function SliManageList<S extends SliType>({
   entityType,
   entityId,
   value,
@@ -62,7 +67,7 @@ export default function SliManageList<S extends Lowercase<SliEntitySliType>>({
   );
 }
 
-function SliManageListContent<S extends Lowercase<SliEntitySliType>>({
+function SliManageListContent<S extends SliType>({
   entityType,
   entityId,
   onChange
@@ -72,6 +77,7 @@ function SliManageListContent<S extends Lowercase<SliEntitySliType>>({
     () => getSliConfigurationsByEntity({ entityType, entityId }).map(searchBySliName(nameQuery)),
     [entityType, entityId, nameQuery]
   );
+  const track = useSloWidgetTrackers();
 
   return (
     <div>
@@ -91,8 +97,8 @@ function SliManageListContent<S extends Lowercase<SliEntitySliType>>({
             <Button
               kind="action"
               onClick={() => {
+                track(SLI_MANAGEMENT_CREATE_START, { entityType });
                 onChange({});
-                trackSliCreate({});
               }}
               icon="lib_openclose_add_circle_outline"
               className={locals.createButton}
@@ -103,10 +109,13 @@ function SliManageListContent<S extends Lowercase<SliEntitySliType>>({
         }
         query={nameQuery}
         selectSli={sliConfig => {
+          track(SLI_MANAGEMENT_EDIT_START, { entityType });
           onChange(sliConfig as SliConfigBySliType<S>);
-          trackSliViewSLI({ sliId: sliConfig.id, sliType: sliConfig.sliEntity?.sliType });
         }}
-        onDelete={deleteSliConfig}
+        onDelete={id => {
+          track(SLI_MANAGEMENT_DELETE, { entityType });
+          deleteSliConfig(id);
+        }}
       />
     </div>
   );

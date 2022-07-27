@@ -46,16 +46,22 @@ export default connectTo(
     };
   },
   function AlertingChartWrapper(props) {
-    return <ChartWrapper showNoDataInfoWhenEmpty={false} {...extendProps(props)} />;
+    return (
+      <ChartWrapper
+        showNoDataInfoWhenEmpty={false}
+        {...props}
+        metricsConfiguration={extendMetricConfiguration(props)}
+      />
+    );
   }
 );
 
-function extendProps(props) {
+function extendMetricConfiguration(props) {
   return {
-    ...props,
-    metricsConfiguration: {
-      ...props.metricsConfiguration,
-      metrics: { ...props.metricsConfiguration.metrics, threshold: { metric: 'threshold' } }
+    ...props.metricsConfiguration,
+    metrics: {
+      ...props.metricsConfiguration.metrics,
+      threshold: { metric: 'threshold' }
     }
   };
 }
@@ -98,25 +104,19 @@ function getThreshold(y1, thresholdType, metricData, timeConfig) {
 }
 
 function mergeResult({ result, y1, thresholdType, setMetricResultPrecision = noop, timeConfig }) {
-  const metricName = y1.metricIds[0];
-  const mergedResult = {
-    time: 0,
-    progress: finishedProgress,
-    errors: emptyArray,
-    data: {}
-  };
-
   if (result.errors.length > 0 || result.progress.loading) {
     return result;
   }
 
   setMetricResultPrecision(result?.resultPrecisionDetails?.resultPrecision);
 
+  const metricName = y1.metricIds[0];
   const metricData = result.data[metricName];
 
   return {
-    ...mergedResult,
-    time: Math.max(mergedResult.time, result.time),
+    progress: finishedProgress,
+    errors: emptyArray,
+    time: Math.max(0, result.time),
     data: {
       [metricName]: metricData,
       threshold: getThreshold(y1, thresholdType, metricData, timeConfig)

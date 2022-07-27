@@ -38,6 +38,7 @@ export default function StatusCodeRangeSelection({
             onChange={e => onStartSelectionUpdate(e.target.value)}
             hasError={startHasError}
             type="number"
+            min="1"
           />
           <TouchedMessages field={startField} />
         </Stack>
@@ -55,6 +56,7 @@ export default function StatusCodeRangeSelection({
             onChange={e => onEndSelectionUpdate(e.target.value)}
             hasError={endHasError}
             type="number"
+            min="1"
           />
           <TouchedMessages field={endField} />
         </Stack>

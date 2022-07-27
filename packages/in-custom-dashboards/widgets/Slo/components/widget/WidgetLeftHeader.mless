@@ -1,7 +1,35 @@
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
 :local {
+  .container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 0;
+  }
+
   .loadingSkeleton {
     margin-top: 0.125rem;
     height: 1rem;
     min-width: 10rem;
+  }
+
+  .title {
+    color: var(--color-gray-900);
+    font-weight: 500;
+    line-height: normal;
+    font-size: 1.375rem;
+    .ellipsis();
+
+    flex-shrink: 2;
+  }
+
+  .subtext {
+    color: @lib__colors__N600Light;
+    display: block;
+    font-size: 0.75rem;
+
+    .ellipsis();
   }
 }

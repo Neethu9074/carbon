@@ -36,7 +36,7 @@ export default connectTo(
 
     return (
       <div>
-        <h1>{t('in-internal:monitoringUnit.log.housekeeping.title')}</h1>
+        <h1>{t('in-internal:monitoringUnit.log.housekeeping.title')} 🪵</h1>
 
         <Columize>
           <DashboardSection title={t('in-internal:monitoringUnit.log.housekeeping.cleanup.success')}>
@@ -356,7 +356,7 @@ export default connectTo(
               y1={{
                 min: 0,
                 formatter: millis.fixedCompact,
-                metrics: rows.map(() => `metrics.meters.tagSetsCleanupOldService.timer.99th`),
+                metrics: rows.map(() => `metrics.timers.tagSetsCleanupOldService.timer.99th`),
                 labels: labels,
                 type: 'line'
               }}

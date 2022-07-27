@@ -33,6 +33,7 @@ export default function SimpleAlertConfigDialogStep1({
 
   const alertThreshold = form.get('threshold').toJS();
   const blueprintConfig = getSimpleModeBlueprintConfig(alertType, alertThreshold);
+  const { headline, isBeta, text } = blueprintConfig;
 
   const blueprintConfigList =
     smartAlertsLogsBlueprintEnabled || blueprintConfig?.type === 'logs'
@@ -44,7 +45,7 @@ export default function SimpleAlertConfigDialogStep1({
       <Menu
         items={blueprintConfigList}
         onItemClick={item => {
-          updateForm(createBlueprintForm(form, item.type, item.thresholdDefaults));
+          updateForm(createBlueprintForm(form, item.type, item.thresholdDefaults, true));
 
           applicationsAlertingBlueprintChanged({ newBluePrint: alertType, mode: 'Simple' });
         }}
@@ -55,7 +56,7 @@ export default function SimpleAlertConfigDialogStep1({
       <AlertTypeSwitch
         alertType={alertType}
         renderLogs={() => (
-          <SelectedBlueprintPresenter title={blueprintConfig.headline} description={blueprintConfig.text}>
+          <SelectedBlueprintPresenter title={headline} description={text} isBeta={isBeta}>
             <ProvideLogMessage
               form={form}
               updateForm={updateForm}
@@ -67,20 +68,14 @@ export default function SimpleAlertConfigDialogStep1({
             />
           </SelectedBlueprintPresenter>
         )}
-        renderSlowness={() => (
-          <SelectedBlueprintPresenter title={blueprintConfig.headline} description={blueprintConfig.text} />
-        )}
-        renderErrorRate={() => (
-          <SelectedBlueprintPresenter title={blueprintConfig.headline} description={blueprintConfig.text} />
-        )}
+        renderSlowness={() => <SelectedBlueprintPresenter title={headline} description={text} isBeta={isBeta} />}
+        renderErrorRate={() => <SelectedBlueprintPresenter title={headline} description={text} isBeta={isBeta} />}
         renderStatusCode={() => (
-          <SelectedBlueprintPresenter title={blueprintConfig.headline} description={blueprintConfig.text}>
+          <SelectedBlueprintPresenter title={headline} description={text}>
             <ProvideStatusCode form={form} updateForm={updateForm} mode="SimpleMode" />
           </SelectedBlueprintPresenter>
         )}
-        renderThroughput={() => (
-          <SelectedBlueprintPresenter title={blueprintConfig.headline} description={blueprintConfig.text} />
-        )}
+        renderThroughput={() => <SelectedBlueprintPresenter title={headline} description={text} isBeta={isBeta} />}
       />
 
       <SimpleAlertConfigDialogChart

@@ -115,7 +115,7 @@ export function WebsiteSliForm({
             (f as Field<FormModelElement[]>).setValue(fe).setTouched(true)
           )
         }
-        sliType={sliTypeField.value}
+        withAdditionalFilters={sliTypeField.value === websiteTimeBased}
       />
 
       <Divider />

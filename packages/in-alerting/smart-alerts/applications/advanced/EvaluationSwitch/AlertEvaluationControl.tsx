@@ -6,11 +6,18 @@
 import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
+import {
+  filterThresholdTypeOptionsForEvaluationType,
+  getOptionsFilterForThresholdTyp
+} from 'in-alerting/smart-alerts/applications/data/applicationThresholdFormData';
 import { AlertEvaluationControlPresenter } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/AlertEvaluationControlPresenter';
-import { ApplicationAlertType, getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
-import { PER_AP } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
-import { ADAPTIVE_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import {
+  ApplicationAlertType,
+  BluePrint,
+  getBlueprintConfig
+} from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
+import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { AlertEvaluationType, ThresholdConfig, ThresholdType } from 'in-types';
 
 interface Props {
@@ -26,26 +33,31 @@ export default function AlertEvaluationControl({ form, updateForm, isGlobalSmart
   const thresholdType = ((form.get('threshold') as MapForm).get('type') as Field<ThresholdType>)?.value;
   const isAdaptiveThreshold = thresholdType === ADAPTIVE_BASELINE;
 
-  const setEvaluationType = (type: AlertEvaluationType) => {
+  const setEvaluationType = (newEvaluationType: AlertEvaluationType) => {
     // only update, when value changed
-    if (type !== evaluationType) {
+    if (newEvaluationType !== evaluationType) {
       // we need to reset the type, if only Static Threshold is
       const blueprintConfig = getBlueprintConfig(alertType);
       const threshold = (form.get('threshold') as Field<object>).toJS();
-      const isPerAp = type === PER_AP;
 
       // reset to static threshold in case historic baseline is not supported
-      const needsStaticThresholdType =
-        !blueprintConfig?.baselineEnabled || ((!isPerAp || isGlobalSmartAlert) && !isAdaptiveThreshold);
+      const newThresholdType = getThresholdTypeForUpdatedEvaluationType(
+        blueprintConfig,
+        newEvaluationType,
+        isGlobalSmartAlert,
+        thresholdType
+      );
 
       const newThreshold = {
         ...threshold,
-        type: needsStaticThresholdType ? STATIC_THRESHOLD : thresholdType
+        type: newThresholdType
       } as ThresholdConfig;
 
       updateForm(
         form
-          .updateIn(['evaluationType'], f => (f as Field<AlertEvaluationType>).setValue(type).setTouched(true))
+          .updateIn(['evaluationType'], f =>
+            (f as Field<AlertEvaluationType>).setValue(newEvaluationType).setTouched(true)
+          )
           .put('threshold', createThresholdForm(newThreshold, alertType))
       );
     }
@@ -60,4 +72,31 @@ export default function AlertEvaluationControl({ form, updateForm, isGlobalSmart
       setEvaluationType={setEvaluationType}
     />
   );
+}
+
+export function getThresholdTypeForUpdatedEvaluationType(
+  blueprintConfig: BluePrint | undefined,
+  newEvaluationType: AlertEvaluationType,
+  isGlobalSmartAlert: boolean | undefined = false,
+  thresholdType: ThresholdType | undefined
+) {
+  const thresholdTypeOptions = blueprintConfig?.getThresholdTypeOptions() ?? [];
+
+  const options = filterThresholdTypeOptionsForEvaluationType(
+    thresholdTypeOptions,
+    newEvaluationType,
+    isGlobalSmartAlert
+  );
+
+  if (
+    thresholdType &&
+    options
+      .filter(getOptionsFilterForThresholdTyp(thresholdType))
+      .find(option => option.value.startsWith(thresholdType))
+  ) {
+    return thresholdType;
+  }
+
+  // use first entry as fallback
+  return options[0]?.value;
 }

@@ -3,7 +3,18 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { getRootPathPredicate } from 'in-stores/navigation/paths';
+
 export const syntheticsPath = '/synthetics';
 export const syntheticsDashboard = '/synthetic';
 export const syntheticsSummaryPath = `${syntheticsDashboard}/summary`;
 export const syntheticResultsListPath = `${syntheticsDashboard}/results`;
+export const syntheticDetailsPath = `/details`;
+
+export const isSyntheticMonitoringView = getRootPathPredicate(
+  syntheticsPath,
+  syntheticsDashboard,
+  syntheticsSummaryPath,
+  syntheticResultsListPath,
+  syntheticDetailsPath
+);

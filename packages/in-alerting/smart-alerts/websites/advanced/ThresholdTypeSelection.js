@@ -30,14 +30,15 @@ export default function ThresholdTypeSelection({
   thresholdType,
   thresholdTypeOptions
 }) {
+  const value = (findEntryByValue(thresholdTypeOptions, getThresholdComboBoxValue(form)) ?? thresholdTypeOptions[0])
+    ?.value;
   return (
     <>
       <Dropdown
         asSimpleDropdown
-        label={findEntryByValue(thresholdTypeOptions, getThresholdComboBoxValue(form))?.label}
         items={thresholdTypeOptions}
-        onChange={e => {
-          const newThresholdTypeWithSeasonality = e?.value ?? '';
+        value={value}
+        onChange={newThresholdTypeWithSeasonality => {
           const valueParts = newThresholdTypeWithSeasonality.split('.');
           const newThresholdType = valueParts[0];
 

@@ -12,26 +12,23 @@ import {
   websitesAlertingThresholdOperatorChanged,
   websitesAlertingThresholdValueChanged
 } from 'in-alerting/smart-alerts/websites/tracker';
+import ThresholdValueInputWithValidationMessage from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdValueWithValidationMessage';
 import { ThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdDeviationSliderForm';
 import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdConditionFormGroup';
 import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdOperatorDropDown';
 import UseSuggestedValueButton from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/UseSuggestedValueButton';
 import { thresholdTypeOptions } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/thresholdFormData';
-import ThresholdValueInput from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdValueInput';
 import { getAggregationOptions } from 'in-alerting/smart-alerts/components/smart-alert-dialog/form/ruleForm';
-import { getAggregationLabel } from 'in-alerting/smart-alerts/applications/advanced/thresholdConditionUtil';
+import { getAggregationValue } from 'in-alerting/smart-alerts/applications/advanced/thresholdConditionUtil';
 import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
 import ThresholdTypeSelection from 'in-alerting/smart-alerts/websites/advanced/ThresholdTypeSelection';
 import { defaultDeviationFactor } from 'in-alerting/smart-alerts/websites/form/thresholdForm';
 import { getMetricUnitPostfix } from 'in-alerting/smart-alerts/websites/form/formUtils';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { blueprintConfigPropType } from 'in-alerting/components/constants';
-import TouchedMessages from 'in-components/form/TouchedMessages';
 import Dropdown from 'in-alerting/components/Dropdown';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
-
-import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/shared-styles/ThresholdCondition.mless';
 
 export default function SlownessThresholdCondition({ form, updateForm, blueprintConfig, editMode }) {
   const metricName = form.get('rule').get('metricName').value;
@@ -40,7 +37,6 @@ export default function SlownessThresholdCondition({ form, updateForm, blueprint
   const blueprintType = blueprintConfig.type;
 
   const maxValue = blueprintConfig.getMaxMetricValue(metricName);
-  const thresholdField = form.get('threshold').get('value');
 
   return (
     <>
@@ -48,9 +44,9 @@ export default function SlownessThresholdCondition({ form, updateForm, blueprint
         <Label>{blueprintConfig.getMetricLabel(metricName)}</Label>
         <Dropdown
           asSimpleDropdown
-          label={getAggregationLabel(form)}
+          value={getAggregationValue(form)}
           items={getAggregationOptions(form)}
-          onChange={({ value = '' }) => {
+          onChange={value => {
             updateForm(form.updateIn(['rule', 'aggregation'], f => f.setValue(value).setTouched(true)));
             websitesAlertingAggregationChanged(getTrackingObject(form, { value }));
           }}
@@ -74,18 +70,15 @@ export default function SlownessThresholdCondition({ form, updateForm, blueprint
       {thresholdType === STATIC_THRESHOLD && (
         <ThresholdConditionFormGroup
           iconType="lib_threshold"
-          label={t('in-alerting:smartAlerts.websites.advanced.slownessInteractiveChartThresholdValue')}
+          label={t('in-alerting:smartAlerts.websites.advanced.thresholdValue')}
         >
-          <div className={locals.thresholdValueWithValidationMessage}>
-            <ThresholdValueInput
-              max={maxValue}
-              form={form}
-              updateForm={updateForm}
-              trackChange={websitesAlertingThresholdValueChanged}
-              metricUnitPostfix={metricUnitPostfix}
-            />
-            <TouchedMessages field={thresholdField} />
-          </div>
+          <ThresholdValueInputWithValidationMessage
+            max={maxValue}
+            form={form}
+            updateForm={updateForm}
+            trackChange={websitesAlertingThresholdValueChanged}
+            metricUnitPostfix={metricUnitPostfix}
+          />
           <UseSuggestedValueButton form={form} updateForm={updateForm} metricUnitPostfix={metricUnitPostfix} />
         </ThresholdConditionFormGroup>
       )}

@@ -7,19 +7,21 @@ import { useLocation } from 'react-router';
 import React, { useState } from 'react';
 import { sortBy } from 'lodash';
 
+import { useObservable } from '@instana/hooks';
+
 import {
   alreadyConvertedAnalyticsWithHiddenTagsLocation,
   isAnalyticsWithHiddenTagsLocation
 } from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeHiddenTagsViewParameterConversion/transformHelper';
 import AnalyzeHiddenTagsViewParameterConversion from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeHiddenTagsViewParameterConversion/AnalyzeHiddenTagsViewParameterConversion';
 import AnalyzeOneToTwoViewParameterConversion from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeOneToTwoViewParameterConversion/AnalyzeOneToTwoViewParameterConversion';
-import AnalyzeTwoBetaViewParameterConversion from 'in-applications/analyze/AnalyzeView2_0//components/AnalyzeTwoBetaViewParameterConversion/AnalyzeTwoBetaViewParameterConversion';
 import {
   dataSource as dataSourceName,
   dataSourceMatrixParameter,
   hiddenCallsMatrixParameter,
-  previewEnabledMatrixParameter
+  fastQueryModeEnabledMatrixParameter
 } from 'in-applications/navigation/matrix';
+import AnalyzeTwoBetaViewParameterConversion from 'in-applications/analyze/AnalyzeView2_0//components/AnalyzeTwoBetaViewParameterConversion/AnalyzeTwoBetaViewParameterConversion';
 import { isAnalyticsTwoBetaLocation } from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeTwoBetaViewParameterConversion/transformHelper';
 import { isAnalyticsOneLocation } from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeOneToTwoViewParameterConversion/transformHelper';
 import {
@@ -30,6 +32,7 @@ import { getTagCatalog as getTracesTagCatalog } from 'in-applications/analyze/co
 import { NO_VALUE, NO_VALUE_LABEL, UNSPECIFIED, UNSPECIFIED_LABEL } from 'in-analyze/components/GroupedTraces/Group';
 import { getTagCatalog as getCallsTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import FacetedFilterHiddenCalls from 'in-applications/analyze/components/FacetedSearch/FacetedFilterHiddenCalls';
+import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { createTableTimestampColumnDefinition } from 'in-components/AnalyzeView/commonTableColumnDefinitions';
 import { createListTimestampColumnDefinition } from 'in-components/AnalyzeView/commonListColumnDefinitions';
 import FacetedFilterMultiSelect from 'in-components/AnalyzeView/FacetedFilters/FacetedFilterMultiSelect';
@@ -123,8 +126,8 @@ const callsChartableMetricCatalogTransformer = createChartableMetricCatalogTrans
 const tracesChartableMetricCatalogTransformer = createChartableMetricCatalogTransformer('traces');
 
 export default function ApplicationsAnalyzeView() {
-  const [{ dataSource, hiddenCalls, previewEnabled }, onChange] = useUrlState({
-    bind: [dataSourceMatrixParameter, hiddenCallsMatrixParameter, previewEnabledMatrixParameter],
+  const [{ dataSource, hiddenCalls, fastQueryModeEnabled }, onChange] = useUrlState({
+    bind: [dataSourceMatrixParameter, hiddenCallsMatrixParameter, fastQueryModeEnabledMatrixParameter],
     replaceHistory: false
   });
 
@@ -133,12 +136,14 @@ export default function ApplicationsAnalyzeView() {
     alreadyConvertedAnalyticsWithHiddenTagsLocation(location)
   );
 
+  const internalVisible = useObservable(isInternalVisible$, []) || false;
+
   const onChangeHiddenCalls = hiddenCalls => {
     onChange({ hiddenCalls });
   };
 
-  const onChangePreviewEnabled = previewEnabled => {
-    onChange({ previewEnabled });
+  const onChangeFastQueryModeEnabled = fastQueryModeEnabled => {
+    onChange({ fastQueryModeEnabled });
   };
 
   const dataSourceConfigurations = getDataSourceConfigurations({ hiddenCalls, onChangeHiddenCalls });
@@ -158,6 +163,9 @@ export default function ApplicationsAnalyzeView() {
     return <AnalyzeHiddenTagsViewParameterConversion onConversionCompleted={setSkipHiddenTagConversion} />;
   }
 
+  // For now "fastQueryModeEnabled" should be available only in internal mode
+  const internalOnlyFastQueryModeEnabled = fastQueryModeEnabled && internalVisible;
+
   return (
     <StateManagement
       path={analyzePath}
@@ -175,8 +183,8 @@ export default function ApplicationsAnalyzeView() {
             getFacetedSearchSuggestions={params => getFacetedSearchSuggestions({ ...params, hiddenCalls })}
             hiddenCalls={hiddenCalls}
             onChangeHiddenCalls={onChangeHiddenCalls}
-            previewEnabled={previewEnabled}
-            onChangePreviewEnabled={onChangePreviewEnabled}
+            fastQueryModeEnabled={internalOnlyFastQueryModeEnabled}
+            onChangeFastQueryModeEnabled={onChangeFastQueryModeEnabled}
             useLastValidStateWhenErroneous
           />
         ) : (
@@ -185,8 +193,8 @@ export default function ApplicationsAnalyzeView() {
             getFacetedSearchSuggestions={params => getFacetedSearchSuggestions({ ...params, hiddenCalls })}
             hiddenCalls={hiddenCalls}
             onChangeHiddenCalls={onChangeHiddenCalls}
-            previewEnabled={previewEnabled}
-            onChangePreviewEnabled={onChangePreviewEnabled}
+            fastQueryModeEnabled={internalOnlyFastQueryModeEnabled}
+            onChangeFastQueryModeEnabled={onChangeFastQueryModeEnabled}
             useLastValidStateWhenErroneous
           />
         )
@@ -357,7 +365,7 @@ function getSuggestionName({ label }) {
 }
 
 function getMetric({ metrics }) {
-  return metrics?.facetedSearchMetric[0][1];
+  return metrics?.facetedSearchMetric?.[0]?.[1];
 }
 
 function getFacetedSearchItems({ dataSource, hiddenCalls, onChangeHiddenCalls }) {
@@ -380,7 +388,8 @@ function getFacetedSearchItems({ dataSource, hiddenCalls, onChangeHiddenCalls })
       customLabelMapper: () => t('in-applications:analyze.facetedSearch.showOnlyErroneous'),
       getSuggestionName,
       getMetric,
-      openByDefault: true
+      openByDefault: true,
+      fallbackValues: [{ name: t('in-applications:analyze.facetedSearch.showOnlyErroneous'), value: true }]
     },
     {
       renderer,
@@ -390,7 +399,14 @@ function getFacetedSearchItems({ dataSource, hiddenCalls, onChangeHiddenCalls })
       getItems,
       getSuggestionName,
       getMetric,
-      orderSuggestions: orderByValue
+      orderSuggestions: orderByValue,
+      fallbackValues: [
+        { name: '1xx', value: '1xx' },
+        { name: '2xx', value: '2xx' },
+        { name: '3xx', value: '3xx' },
+        { name: '4xx', value: '4xx' },
+        { name: '5xx', value: '5xx' }
+      ]
     },
     {
       renderer,

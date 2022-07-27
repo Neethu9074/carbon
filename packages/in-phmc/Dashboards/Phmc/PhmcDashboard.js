@@ -15,7 +15,7 @@ import DashboardHeader from 'in-components/DashboardHeader';
 import { phmcDashboard } from 'in-phmc/navigation/paths';
 import tabs from 'in-phmc/Dashboards/Phmc/tabs/index';
 import { getTimeConfig } from 'in-stores/time/config';
-import { PhmcBreadcrumb } from 'in-phmc/breadcrumbs';
+import { PhmcBreadcrumbs } from 'in-phmc/breadcrumbs';
 import getPhmc from 'in-phmc/subscriptions/getPhmc';
 import Footer from 'in-components/Footer';
 import { t } from 'in-i18n';
@@ -26,10 +26,9 @@ export default function PhmcDashboard({ location }) {
     viewPath: phmcDashboard,
     timeConfig: getTimeConfig(location)
   };
-
   return (
     <Fragment>
-      <Breadcrumbs items={PhmcBreadcrumb(props)} />
+      <Breadcrumbs items={PhmcBreadcrumbs(props)} />
       <ViewTrackingMeta
         data={{
           productArea: 'IBM P',

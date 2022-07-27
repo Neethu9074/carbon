@@ -14,9 +14,7 @@ import { t } from 'in-i18n';
 export function getOperatorLabel(form) {
   const operatorValue = form.get('threshold').get('operator').value;
   const options = enrichThresholdOperatorOptionsForApiConfigs(operatorValue);
-  const operatorLabel = (findEntryByValue(options, operatorValue) ?? options[0]).label;
-
-  return operatorLabel;
+  return (findEntryByValue(options, operatorValue) ?? options[0]).label;
 }
 
 export function getConfiguredThreshold(form, isGlobalSmartAlert) {
@@ -26,9 +24,17 @@ export function getConfiguredThreshold(form, isGlobalSmartAlert) {
 }
 
 export function getAggregationLabel(form) {
+  const option = getAggregationOption(form);
+  return option?.label;
+}
+
+export function getAggregationValue(form) {
+  const option = getAggregationOption(form);
+  return option?.value;
+}
+
+function getAggregationOption(form) {
   const aggregationOptions = getAggregationOptions(form);
   const aggregationValue = form.get('rule').get('aggregation').value;
-  const option = aggregationOptions.find(o => o.value === aggregationValue);
-
-  return option?.label;
+  return aggregationOptions.find(o => o.value === aggregationValue);
 }

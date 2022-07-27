@@ -264,7 +264,7 @@ export default connectTo({
             <ADHADashboardSection
               title={t('in-internal:monitoringUnit.appdata.appDataAggregator.appMetricsRetrieverReq')}
               type="stackedArea"
-              metric="metrics.meters.com.instana.appdata.health.aggregator.aggregation.request.GetApplicationMetricsRetriever.requested-metrics"
+              metric="metrics.meters.com.instana.appdata.health.aggregator.aggregation.retriever.GetApplicationMetricsRetriever.requested-metrics"
               formatter={number.perSecond.detailed}
               timeConfig={timeConfig}
               rows={rows}
@@ -273,7 +273,37 @@ export default connectTo({
             <ADHADashboardSection
               title={t('in-internal:monitoringUnit.appdata.appDataAggregator.getAppMetricsRetriever')}
               type="stackedArea"
-              metric="metrics.meters.com.instana.appdata.health.aggregator.aggregation.request.GetApplicationMetricsRetriever.answered-metric-requests"
+              metric="metrics.meters.com.instana.appdata.health.aggregator.aggregation.retriever.GetApplicationMetricsRetriever.answered-metric-requests"
+              formatter={number.perSecond.detailed}
+              timeConfig={timeConfig}
+              rows={rows}
+              labels={labels}
+            />
+          </Columize>
+
+          <Columize>
+            <ADHADashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appDataAggregator.appMetricsRetrieverNotEnoughData')}
+              type="stackedArea"
+              metric="metrics.meters.com.instana.appdata.health.aggregator.aggregation.retriever.GetApplicationMetricsRetriever.not-enough-data"
+              formatter={number.perSecond.detailed}
+              timeConfig={timeConfig}
+              rows={rows}
+              labels={labels}
+            />
+            <ADHADashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appDataAggregator.appMetricsRetrieverNotRegistered')}
+              type="stackedArea"
+              metric="metrics.meters.com.instana.appdata.health.aggregator.aggregation.retriever.GetApplicationMetricsRetriever.not-registered"
+              formatter={number.perSecond.detailed}
+              timeConfig={timeConfig}
+              rows={rows}
+              labels={labels}
+            />
+            <ADHADashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appDataAggregator.appMetricsRetrieverStateMissing')}
+              type="stackedArea"
+              metric="metrics.meters.com.instana.appdata.health.aggregator.aggregation.retriever.GetApplicationMetricsRetriever.state-missing"
               formatter={number.perSecond.detailed}
               timeConfig={timeConfig}
               rows={rows}
@@ -285,7 +315,7 @@ export default connectTo({
             <ADHADashboardSection
               title={t('in-internal:monitoringUnit.appdata.appDataAggregator.serviceMetricsRetrieverReq')}
               type="stackedArea"
-              metric="metrics.meters.com.instana.appdata.health.aggregator.aggregation.request.GetServicesWithGranularityMetricRetriever.requested-metrics"
+              metric="metrics.meters.com.instana.appdata.health.aggregator.aggregation.retriever.GetServicesWithGranularityMetricRetriever.requested-metrics"
               formatter={number.perSecond.detailed}
               timeConfig={timeConfig}
               rows={rows}
@@ -294,7 +324,37 @@ export default connectTo({
             <ADHADashboardSection
               title={t('in-internal:monitoringUnit.appdata.appDataAggregator.getServiceMetricsRetriever')}
               type="stackedArea"
-              metric="metrics.meters.com.instana.appdata.health.aggregator.aggregation.request.GetServicesWithGranularityMetricRetriever.answered-metric-requests"
+              metric="metrics.meters.com.instana.appdata.health.aggregator.aggregation.retriever.GetServicesWithGranularityMetricRetriever.answered-metric-requests"
+              formatter={number.perSecond.detailed}
+              timeConfig={timeConfig}
+              rows={rows}
+              labels={labels}
+            />
+          </Columize>
+
+          <Columize>
+            <ADHADashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appDataAggregator.serviceMetricsRetrieverNotEnoughData')}
+              type="stackedArea"
+              metric="metrics.meters.com.instana.appdata.health.aggregator.aggregation.retriever.GetServicesWithGranularityMetricRetriever.not-enough-data"
+              formatter={number.perSecond.detailed}
+              timeConfig={timeConfig}
+              rows={rows}
+              labels={labels}
+            />
+            <ADHADashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appDataAggregator.serviceMetricsRetrieverNotRegistered')}
+              type="stackedArea"
+              metric="metrics.meters.com.instana.appdata.health.aggregator.aggregation.retriever.GetServicesWithGranularityMetricRetriever.not-registered"
+              formatter={number.perSecond.detailed}
+              timeConfig={timeConfig}
+              rows={rows}
+              labels={labels}
+            />
+            <ADHADashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appDataAggregator.serviceMetricsRetrieverStateMissing')}
+              type="stackedArea"
+              metric="metrics.meters.com.instana.appdata.health.aggregator.aggregation.retriever.GetServicesWithGranularityMetricRetriever.state-missing"
               formatter={number.perSecond.detailed}
               timeConfig={timeConfig}
               rows={rows}
@@ -306,7 +366,7 @@ export default connectTo({
             <ADHADashboardSection
               title={t('in-internal:monitoringUnit.appdata.appDataAggregator.endpointMetricsRetrieverReq')}
               type="stackedArea"
-              metric="metrics.meters.com.instana.appdata.health.aggregator.aggregation.request.GetEndpointsWithGranularityMetricRetriever.requested-metrics"
+              metric="metrics.meters.com.instana.appdata.health.aggregator.aggregation.retriever.GetEndpointsWithGranularityMetricRetriever.requested-metrics"
               formatter={number.perSecond.detailed}
               timeConfig={timeConfig}
               rows={rows}
@@ -315,7 +375,7 @@ export default connectTo({
             <ADHADashboardSection
               title={t('in-internal:monitoringUnit.appdata.appDataAggregator.getEndpointMetricsRetriever')}
               type="stackedArea"
-              metric="metrics.meters.com.instana.appdata.health.aggregator.aggregation.request.GetEndpointsWithGranularityMetricRetriever.answered-metric-requests"
+              metric="metrics.meters.com.instana.appdata.health.aggregator.aggregation.retriever.GetEndpointsWithGranularityMetricRetriever.answered-metric-requests"
               formatter={number.perSecond.detailed}
               timeConfig={timeConfig}
               rows={rows}
@@ -323,6 +383,47 @@ export default connectTo({
             />
           </Columize>
 
+          <Columize>
+            <ADHADashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appDataAggregator.endpointMetricsRetrieverNotEnoughData')}
+              type="stackedArea"
+              metric="metrics.meters.com.instana.appdata.health.aggregator.aggregation.retriever.GetEndpointsWithGranularityMetricRetriever.not-enough-data"
+              formatter={number.perSecond.detailed}
+              timeConfig={timeConfig}
+              rows={rows}
+              labels={labels}
+            />
+            <ADHADashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appDataAggregator.endpointMetricsRetrieverNotRegistered')}
+              type="stackedArea"
+              metric="metrics.meters.com.instana.appdata.health.aggregator.aggregation.retriever.GetEndpointsWithGranularityMetricRetriever.not-registered"
+              formatter={number.perSecond.detailed}
+              timeConfig={timeConfig}
+              rows={rows}
+              labels={labels}
+            />
+            <ADHADashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appDataAggregator.endpointMetricsRetrieverStateMissing')}
+              type="stackedArea"
+              metric="metrics.meters.com.instana.appdata.health.aggregator.aggregation.retriever.GetEndpointsWithGranularityMetricRetriever.state-missing"
+              formatter={number.perSecond.detailed}
+              timeConfig={timeConfig}
+              rows={rows}
+              labels={labels}
+            />
+          </Columize>
+
+          <Columize>
+            <ADHADashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appDataAggregator.hazelcastInstanceShutdownTime')}
+              type="line"
+              metric="metrics.timers.com.instana.appdata.liveaggregator.cache.hazelcast.HazelcastManager.hazelcast-instance-shutdown"
+              formatter={millis.detailed}
+              timeConfig={timeConfig}
+              rows={rows}
+              labels={labels}
+            />
+          </Columize>
           <DashboardSection title={`appdata-health-aggregators (${rows.length})`}>
             <Table cols={hostViewCols} rows={rows} getRowDetails={getRowDetails} />
           </DashboardSection>

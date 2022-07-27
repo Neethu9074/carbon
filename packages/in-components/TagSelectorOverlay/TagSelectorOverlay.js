@@ -85,7 +85,7 @@ function toOptions(tagCatalog, tagTreeNodes, parentLabels = [], showTypeBadge, q
             tagName: tagTreeNode.tagName,
             icon: tagTreeNode.icon,
             children: filteredChildren,
-            tagType: tagCatalog.tagsByName[tagTreeNode.tagName]?.type
+            tagType: tagCatalog.tagsByName?.[tagTreeNode.tagName]?.type
           };
     })
     .filter(Boolean);
@@ -122,6 +122,5 @@ TagSelectorOverlay.propTypes = {
   tagCatalog: PropTypes.any.isRequired,
   showTypeBadge: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
-  close: PropTypes.func.isRequired,
-  tagType: PropTypes.string
+  close: PropTypes.func.isRequired
 };
