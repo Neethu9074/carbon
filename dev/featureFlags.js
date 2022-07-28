@@ -61,6 +61,7 @@ module.exports = {
   sliCHClusterAccessEnabled: true,
   perSecondAggregationEnabled: false,
   apdexWidgetEnabled: true,
+  applicationApdexEnabled: true,
   actionAutomationEnabled: true,
   websiteUploadConfigEnabled: true
 };

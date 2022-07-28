@@ -27,15 +27,16 @@ import { t } from 'in-i18n';
 
 import locals from './CreateApdexForm.mless';
 
-export interface CreateApdexFormComponentProps extends Omit<CreateApdexFormProps, 'entityType' | 'onClose' | 'onSave'> {
+export interface CreateApdexFormComponentProps
+  extends Omit<CreateApdexFormProps, 'entityType' | 'onClose' | 'onSave' | 'entityId' | 'apdexConfig'> {
   form: MapForm;
   wasSuccessful?: boolean;
   isSaving?: boolean;
   hasError?: boolean;
-  updateForm: (updatedForm: Item) => void;
   onChange: (path: string[], updater: (i: Item) => Item) => void;
   onSubmit: (submittedData: Item) => void;
   onCancel: VoidFunction;
+  isEditing: boolean;
 }
 
 interface CreateApdexFormProps {
@@ -66,14 +67,14 @@ export default function CreateApdexForm({
     setForm(newForm);
   }, [apdexConfig, entityId, entityType]);
 
-  const editMode = Boolean(apdexConfig.id);
+  const isEditing = Boolean(apdexConfig.id);
 
   const CreateApdexFormComponent = entityType === 'application' ? CreateApplicationApdexForm : CreateWebsiteApdexForm;
 
   const apdexName = getField<string>(form, [apdexNameKey])?.value ?? '';
 
   const onSaveSuccess = (result: Result<ApdexConfiguration>) => {
-    track(editMode ? APDEX_MANAGEMENT_EDIT_FINISH : APDEX_MANAGEMENT_CREATE_FINISH, { entityType });
+    track(isEditing ? APDEX_MANAGEMENT_EDIT_FINISH : APDEX_MANAGEMENT_CREATE_FINISH, { entityType });
     addMessage(
       {
         type: 'info',
@@ -118,16 +119,14 @@ export default function CreateApdexForm({
     <div className={locals.formWrapper}>
       <CreateApdexFormComponent
         form={form}
-        apdexConfig={apdexConfig}
-        updateForm={form => setForm(form as MapForm)}
         wasSuccessful={success}
         isSaving={saving}
         hasError={error}
         onSubmit={submittedForm => doSubmit(toApdexConfigurationInput(submittedForm), onSaveSuccess, onSaveFailure)}
         onChange={(path, updater) => setForm(form.updateIn(path, updater))}
-        entityId={entityId}
         setFooter={setFooter}
         onCancel={onClose}
+        isEditing={isEditing}
       />
     </div>
   );

@@ -270,6 +270,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'applicationApdexEnabled',
+    instanaCtlKey: 'feature.apdex.application.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'websiteUploadConfigEnabled',
     instanaCtlKey: 'feature.website.sourcemap.upload.enabled',
     defaultValue: false

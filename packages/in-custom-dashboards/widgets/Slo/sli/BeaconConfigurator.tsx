@@ -42,7 +42,7 @@ export default function BeaconConfigurator({
               title={t('in-custom-dashboards:widgets.slo.sliFormPresenter.beaconFiltersLabel')}
               actions={
                 <Button kind="subtle" icon="lib_openclose_cancel" size="compact" onClick={() => onChange([])}>
-                  {t('in-alerting:smartAlerts.components.smartAlertDialog.clearTagFilterExpressionButton')}
+                  {t('in-custom-dashboards:widgets.slo.tagFilterExpressConfig.clear')}
                 </Button>
               }
             >

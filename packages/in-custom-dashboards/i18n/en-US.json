@@ -573,6 +573,16 @@
       },
       "widgetLeftHeader": {
         "previewDataInfo": "Preview data is shown up to 7 days in the past if SLI configuration was created recently. The final widget will only include data since SLI creation"
+      },
+      "boundaryScopeConfigurator": {
+        "all": {
+          "title": "All Calls",
+          "description": "Calls performed within this application, by both consumers as well as internally."
+        },
+        "inbound": {
+          "title": "Inbound Calls",
+          "description": "Only calls that are performed by the consumers of this application."
+        }
       }
     },
     "apdex": {
@@ -599,7 +609,8 @@
       },
       "entityTypeSelector": {
         "type": "Unknown Type",
-        "type_website": "Website"
+        "type_website": "Website",
+        "type_application": "Application"
       },
       "apdexManageList": {
         "title": "Apdex List",
@@ -634,9 +645,6 @@
         "thresholdLabel": "Threshold",
         "thresholdFooter": "Threshold can not be edited after creation to prevent loss of data."
       },
-      "createApplicationApdexForm": {
-        "boundary": "Boundary"
-      },
       "entityInfo": {
         "tooltip": "Unknown Apdex",
         "tooltip_website": "Website Apdex",
@@ -645,6 +653,12 @@
       "widget": {
         "unknownEntityLabel_application": "Unknown Application",
         "unknownEntityLabel_website": "Unknown Website"
+      },
+      "applicationScopeConfigurator": {
+        "label": "Apdex Scope",
+        "boundaryScope": "Boundary",
+        "hiddenCalls": "Hidden Calls",
+        "additionalFilters": "Additional Filters"
       }
     },
     "timezone": {
