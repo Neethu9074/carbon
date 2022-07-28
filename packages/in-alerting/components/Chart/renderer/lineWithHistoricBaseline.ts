@@ -6,26 +6,18 @@
 import { Granularity } from '@instana/types';
 
 import { Highlight, renderHighlight } from 'in-alerting/components/Chart/renderer/renderThresholdAndBackgrounds';
-import { MultiMetricRenderer, MultiMetricRenderProps } from 'in-alerting/components/Chart/renderer/types';
+import { MultiMetricRenderProps, RenderAxis, Renderer } from 'in-components/Chart/renderer/types';
 import { renderHistoricBaseline } from 'in-alerting/components/Chart/renderer/historicBaseline';
-import { RenderAxis } from 'in-components/Chart/renderer/types';
 import line from 'in-components/Chart/renderer/line';
 import { HistoricBaselineData } from 'in-types';
 
-export const createLineWithHistoricBaseline = (
-  thresholdConfig: HistoricBaselineData,
-  granularity: Granularity
-): MultiMetricRenderer => {
-  return createLineWithBaselineAndPotentialProblem(thresholdConfig, granularity);
-};
-
-export const createLineWithBaselineAndPotentialProblem = (
+export const createLineWithBaselineAndOptionalPotentialProblem = (
   thresholdConfig: HistoricBaselineData,
   granularity: Granularity,
   highlight?: Highlight
-): MultiMetricRenderer => {
+): Renderer<MultiMetricRenderProps> => {
   return {
-    render: ({ colors50, colors100, scale, config, metrics }: MultiMetricRenderProps): void => {
+    render: ({ colors50, colors100, scale, config, metrics }): void => {
       const metric = metrics[0];
 
       renderHistoricBaseline(config, scale, colors50, colors100, thresholdConfig, granularity, metric);

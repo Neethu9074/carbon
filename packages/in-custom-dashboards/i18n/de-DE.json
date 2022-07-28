@@ -125,7 +125,7 @@
         "needToTurnOffPP": "Um die Gruppierung zu verwenden, müssen Sie zuerst die Hervorhebung potenzieller Probleme inaktivieren.",
         "pleaseSelect": "Bitte auswählen",
         "pleaseSelectMetric": "Wählen Sie einen Messwert aus",
-        "aggregation": "Aggregation ",
+        "aggregation": "Aggregation",
         "metric": "Messwert"
       },
       "index": {
@@ -139,7 +139,7 @@
       "formComponent": {
         "metric": "Messwert",
         "eventCount": "Ereignisanzahl",
-        "aggregation": "Aggregation ",
+        "aggregation": "Aggregation",
         "pleaseSelectMetric": "Wählen Sie einen Messwert aus",
         "pleaseSelect": "Bitte auswählen",
         "helpAction": "Eine dynamische Fokusabfrage (DFQ), wie Sie sie innerhalb der Ereignisansicht verwenden würden.",
@@ -156,15 +156,15 @@
         "query": "Abfrage",
         "helpAction": "Eine dynamische Fokusabfrage (DFQ), wie Sie sie innerhalb der Infrastrukturzuordnung verwenden würden.",
         "metric": "Messwert",
-        "count": " Anzahl   ",
-        "aggregation": "Aggregation ",
+        "count": "Anzahl",
+        "aggregation": "Aggregation",
         "pleaseSelect": "Bitte auswählen",
         "pleaseSelectMetric": "Wählen Sie einen Messwert aus"
       },
       "metricsFormComponent": {
         "metric": "Messwert",
         "selectMetric": "Messwert auswählen",
-        "aggregation": "Aggregation ",
+        "aggregation": "Aggregation",
         "crossSeriesAggregation": "SUM für die serienübergreifende Aggregation verwenden",
         "crossSeriesAggregationHelp": "Normalerweise ist die serienübergreifende Aggregation mit der zeitübergreifenden Aggregation identisch (die Methode, die zum Kombinieren von Datenpunkten in einem einzelnen Bucket verwendet wird). Wenn diese Umschaltfläche aktiviert ist, werden die Buckets über die Datenserie hinweg summiert, anstatt die angegebene Aggregation zu verwenden.",
         "crossSeriesAggregationDisabledHelp": "Nicht zutreffend für {{aggregation}}",
@@ -185,7 +185,7 @@
         "pleaseSelect": "Bitte auswählen",
         "pleaseSelectDs": "Wählen Sie eine Datenquelle aus.",
         "metric": "Messwert",
-        "aggregation": "Aggregation ",
+        "aggregation": "Aggregation",
         "pleaseSelectMetric": "Wählen Sie einen Messwert aus"
       },
       "index": {
@@ -214,7 +214,7 @@
         "metric": "Messwert",
         "selectDs": "Wählen Sie eine Datenquelle aus.",
         "selectMetric": "Wählen Sie einen Messwert aus",
-        "aggregation": "Aggregation "
+        "aggregation": "Aggregation"
       },
       "index": {
         "websitesBeacons": "Websites (Beacons)"
@@ -409,7 +409,7 @@
         "clone": "Klonen",
         "create": "Erstellen",
         "sliConfigMsg": "Die Parameter des SLI können nicht geändert werden, um eine Invalidierung der berechneten verbrauchten Budgets zu verhindern. Dies ist der Grund, warum das SLI geklont werden muss, wenn Sie einen Parameter ändern.",
-        "sliCreated": "SLI \"{{sliName}}\" wurde erstellt. "
+        "sliCreated": "SLI \"{{sliName}}\" wurde erstellt."
       },
       "endpointSelectBox": {
         "endpoint": "Endpunkt",
@@ -443,7 +443,7 @@
       "metricsForm": {
         "metricThreshold": "Messwert und Schwellenwert",
         "metric": "Messwert",
-        "aggregation": "Aggregation ",
+        "aggregation": "Aggregation",
         "valThresholdNotInvalidEmpty": "Der Wert des Schwellenwerts darf nicht ungültig oder leer sein.",
         "thresholdMs": "Schwellenwert (ms)",
         "thresholdPercent": "Schwellenwert (%)",
@@ -475,7 +475,7 @@
       "sliList": {
         "serviceLevelIndicators": "Service-Level-Indikatoren",
         "sliConfigDeleted": "SLI-Konfiguration wurde erfolgreich gelöscht.",
-        "failedDelSli": "Fehler beim Löschen des SLI. ",
+        "failedDelSli": "Fehler beim Löschen des SLI.",
         "sliType": "SLI-Typ",
         "viewCloneSliConfig": "SLI-Konfiguration anzeigen/klonen",
         "delSliConfig": "SLI-Konfiguration löschen",

@@ -6,11 +6,14 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Li, ColumnizedContent } from '@instana/components';
-import { SvgIcon } from '@instana/components';
+import { ColumnizedContent, Li, SvgIcon } from '@instana/components';
 
+import {
+  metricsPath,
+  useChartFormatterFormSideEffects
+} from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import MetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/MetricConfigurator';
-import { onChangeSource, duplicate } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
+import { duplicate, onChangeSource } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
 import { isInitiallyOpen } from 'in-custom-dashboards/widgets/Chart/FormComponent/autoOpenHelper';
 import TimeShiftingForm from 'in-custom-dashboards/widgets/Chart/FormComponent/TimeShiftingForm';
 import { source } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli';
@@ -90,6 +93,10 @@ export const columnDefinitions = [
 export default function MetricConfiguration(props) {
   const { axisName, index, indexInAxis, onChange, metricForm, form } = props;
 
+  const updateForm = useChartFormatterFormSideEffects(form, updatedForm => {
+    onChange([], () => updatedForm);
+  });
+
   return (
     <HighlightedEffect id={getMetricId(index)}>
       {({ highlighted, ref }) => (
@@ -105,12 +112,14 @@ export default function MetricConfiguration(props) {
           renderNestedContent={() => (
             <MetricConfigurator
               form={metricForm}
-              onChange={(path, fn) => onChange([axisName, 'metrics', indexInAxis, ...path], fn)}
+              onChange={(path, fn) => {
+                updateForm(form.updateIn([axisName, metricsPath, indexInAxis, ...path], fn));
+              }}
               onChangeSource={newSource =>
                 onChangeSource(
                   metricForm,
                   metricConfigurationForm =>
-                    onChange([axisName, 'metrics', indexInAxis], () => metricConfigurationForm),
+                    updateForm(form.updateIn([axisName, metricsPath, indexInAxis], () => metricConfigurationForm)),
                   newSource
                 )
               }

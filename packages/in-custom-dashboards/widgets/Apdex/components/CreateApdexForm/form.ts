@@ -4,17 +4,26 @@
  * Copyright IBM Corp. 2022
  */
 
-import { createField, createMapForm, MapForm, notBlankValidator } from 'formalistic';
+import { createField, createMapForm, Item, MapForm, notBlankValidator } from 'formalistic';
 
+import {
+  ApdexConfigurationInput,
+  ApplicationApdexEntity,
+  ApplicationBoundaryScope,
+  ApdexConfiguration,
+  ApdexEntityUnion
+} from '@instana/types';
+
+import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import emptyTagFilterExpression from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
-import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { booleanValidator, stringValidator } from 'in-services/validators/jsonType';
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { minValidator, numericValidator } from 'in-services/validators/number';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { entityIdKey } from 'in-custom-dashboards/widgets/Apdex/form';
-import { stringValidator } from 'in-services/validators/jsonType';
-import { ApdexConfiguration, ApdexEntityUnion } from 'in-types';
+import { buildEnumValidator } from 'in-services/validators/enum';
 
 export const apdexNameKey = 'apdexName';
 export const apdexEntityKey = 'apdexEntity';
@@ -22,6 +31,9 @@ export const apdexTypeKey = 'apdexType';
 export const beaconTypeKey = 'beaconType';
 export const tagFilterExpressionKey = 'tagFilterExpression';
 export const thresholdKey = 'threshold';
+export const boundaryScopeKey = 'boundaryScope';
+export const includeInternalKey = 'includeInternal';
+export const includeSyntheticKey = 'includeSynthetic';
 
 export function createForm(
   { apdexName, apdexEntity }: Partial<ApdexConfiguration>,
@@ -40,7 +52,9 @@ export function createForm(
     )
     .put(
       apdexEntityKey,
-      isWebsiteEntity ? createWebsiteEntityForm(entityId, apdexEntity ?? {}) : createApplicationEntityForm()
+      isWebsiteEntity
+        ? createWebsiteEntityForm(entityId, apdexEntity ?? {})
+        : createApplicationEntityForm(entityId, (apdexEntity as ApplicationApdexEntity) ?? {})
     );
 }
 
@@ -82,6 +96,56 @@ export function createWebsiteEntityForm(websiteId: string, apdexEntity: Partial<
     );
 }
 
-export function createApplicationEntityForm(): MapForm {
-  return createMapForm();
+export function createApplicationEntityForm(
+  applicationId: string,
+  apdexEntity: Partial<ApplicationApdexEntity>
+): MapForm {
+  return createMapForm({
+    items: {
+      [apdexTypeKey]: createField({
+        value: 'application'
+      }),
+      [entityIdKey]: createField({
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator),
+        value: applicationId
+      }),
+      [tagFilterExpressionKey]: createField({
+        value: fromBackendModel(apdexEntity.tagFilterExpression || emptyTagFilterExpression)
+      }),
+      [thresholdKey]: createField({
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, numericValidator, v =>
+          minValidator(0)(Number(v))
+        ),
+        value: apdexEntity.threshold
+      }),
+      [boundaryScopeKey]: createField({
+        validator: composeAndShortCircuitOnError(
+          notUndefinedValidator,
+          stringValidator,
+          buildEnumValidator<ApplicationBoundaryScope>(['ALL', 'INBOUND'])
+        ),
+        value: apdexEntity.boundaryScope || 'ALL'
+      }),
+      [includeInternalKey]: createField({
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator),
+        value: apdexEntity.includeInternal || false
+      }),
+      [includeSyntheticKey]: createField({
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator),
+        value: apdexEntity.includeSynthetic || false
+      })
+    }
+  });
+}
+
+export function toApdexConfigurationInput(form: Item): ApdexConfigurationInput {
+  const formData = form.toJS();
+  const { tagFilterExpression } = formData.apdexEntity;
+  return {
+    ...formData,
+    apdexEntity: {
+      ...formData.apdexEntity,
+      tagFilterExpression: toBackendQueryModel(tagFilterExpression as FormModelElement[])
+    }
+  };
 }

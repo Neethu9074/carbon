@@ -55,10 +55,10 @@ exports.getFeatureFlags = (tenant, unit) =>
 
 exports.getConfiguration = (tenant, unit) =>
   cache(`getConfiguration:${tenant}:${unit}`, () => {
-    return Promise.all(
+    return Promise.all([
       getIntSetting(tenant, unit, 'MAX_ALLOWED_ALERTINGS_CONFIGURATIONS', 200),
       getSetting(tenant, unit, 'MIGRATED_TENANT_UNIT_URL', '')
-    ).then(values => {
+    ]).then(values => {
       return {
         maxAllowedAlertingConfigurations: values[0],
         migratedTenantUnitUrl: values[1]

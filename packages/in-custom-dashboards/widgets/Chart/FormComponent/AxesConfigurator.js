@@ -25,7 +25,7 @@ import locals from './AxesConfigurator.mless';
 export default function AxesConfigurator({ form, onChange, getShortMetricKey }) {
   const [showSecondaryAxis, setShowSecondaryAxis] = useState(form.getIn(['y2', 'metrics']).size > 0);
   return (
-    <Reorderer onChange={onChange}>
+    <Reorderer form={form} onChange={onChange}>
       <div
         className={classNames(locals.wrapper, {
           [locals.dualAxis]: showSecondaryAxis
@@ -180,8 +180,8 @@ function AxisConfigurator({
                 hasError={!field.valid && field.touched}
                 additionalContent={<TouchedMessages field={field} />}
               >
-                {availableFormatters.map(({ id, label }) => (
-                  <option key={id} value={id}>
+                {availableFormatters.map(({ id, label }, index) => (
+                  <option key={`${id}-${index}`} value={id}>
                     {label}
                   </option>
                 ))}

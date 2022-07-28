@@ -6,10 +6,11 @@
 import { createField } from 'formalistic';
 import React from 'react';
 
+import { DistinctSlider } from '@instana/components';
+
 import { refresh, deleteSessionSettings, setSessionSettings } from 'in-settings/tabs/AuthSettings/api/sessionSettings';
 import { getSessionSettingsAsResultObservable } from '../../api/sessionSettings';
 import { formatDurationAccurately } from 'in-services/formatters/date';
-import DistinctSlider from 'in-components/Slider/DistinctSlider';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import { days, minutes, hours } from 'in-services/time';

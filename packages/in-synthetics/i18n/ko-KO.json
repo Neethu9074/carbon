@@ -129,7 +129,7 @@
         "serverError": "서버 오류"
       },
       "totalRuns": "{{totalRuns}}개의 총 실행",
-      "meanLatencyFor90th": "90번째에 대한 {{meanLatencyDetail}}"
+      "meanLatencyFor90th": "90번째: {{meanLatencyDetail}}"
     },
     "resultsListPage": {
       "startedColumn": "시작됨",
@@ -140,7 +140,7 @@
     },
     "noDataAvailable": {
       "resultsTitle": "사용 가능한 결과가 없음",
-      "resultsDescription": "선택한 시간 범위 동안 검색된 결과가 없습니다."
+      "resultsDescription": "선택한 시간 범위에 대해 검색된 결과가 없습니다."
     }
   }
 }

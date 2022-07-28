@@ -6,7 +6,14 @@
 
 import { isUndefined } from 'lodash';
 
-import { MetricResult, Result, TimeConfig, ApdexEntityUnion } from '@instana/types';
+import {
+  MetricResult,
+  Result,
+  TimeConfig,
+  ApdexEntityUnion,
+  WebsiteApdexEntity,
+  ApplicationApdexEntity
+} from '@instana/types';
 import { generateStableHash } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
 
@@ -16,27 +23,23 @@ import { successObservable } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
 import { FetchedState } from 'in-hooks/utils/types';
 
-export type ApdexWebsitePreviewEntity = Omit<ApdexEntityUnion, 'threshold' | 'tagFilterExpression'> &
-  Partial<Pick<ApdexEntityUnion, 'threshold' | 'tagFilterExpression'>>;
+export type WebsiteApdexPreviewEntity = Omit<WebsiteApdexEntity, 'threshold' | 'tagFilterExpression'> &
+  Partial<Pick<WebsiteApdexEntity, 'threshold' | 'tagFilterExpression'>>;
 
-export type ApdexApplicationPreviewEntity = Omit<ApdexEntityUnion, 'threshold' | 'tagFilterExpression'> &
-  Partial<Pick<ApdexEntityUnion, 'threshold' | 'tagFilterExpression'>>;
+export type ApplicationApdexPreviewEntity = Omit<ApplicationApdexEntity, 'threshold' | 'tagFilterExpression'> &
+  Partial<Pick<ApplicationApdexEntity, 'threshold' | 'tagFilterExpression'>>;
 
-export type ApdexPreviewEntityUnion = ApdexWebsitePreviewEntity | ApdexApplicationPreviewEntity;
+export type ApdexPreviewEntityUnion = WebsiteApdexPreviewEntity | ApplicationApdexPreviewEntity;
 
-interface UseApdexPreviewMetricsProps<APDEX_TYPE> {
+interface UseApdexPreviewMetricsProps {
   timeConfig: TimeConfig;
-  apdexEntity?: APDEX_TYPE;
+  apdexEntity?: ApdexPreviewEntityUnion;
 }
 
 export default function useApdexPreviewMetrics({
   timeConfig,
   apdexEntity
-}: UseApdexPreviewMetricsProps<ApdexWebsitePreviewEntity>): FetchedState<MetricResult>;
-export default function useApdexPreviewMetrics({
-  timeConfig,
-  apdexEntity
-}: UseApdexPreviewMetricsProps<ApdexApplicationPreviewEntity>): FetchedState<MetricResult> {
+}: UseApdexPreviewMetricsProps): FetchedState<MetricResult> {
   const result: Result<MetricResult> =
     useObservable(() => {
       const hasThreshold = !isUndefined(apdexEntity?.threshold);

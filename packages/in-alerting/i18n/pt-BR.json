@@ -232,7 +232,7 @@
             "title": "Propriedades de alerta adicionais"
           },
           "payloadsOptional": {
-            "label": "Carga útil",
+            "label": "Cargas úteis",
             "title": "Carga útil customizada"
           }
         }
@@ -749,7 +749,7 @@
         "propertiesLabel": "Propriedades",
         "propertiesTitle": "Propriedades de alerta adicionais",
         "thresholdValue": "Valor do limite",
-        "payloadsLabel": "Carga útil",
+        "payloadsLabel": "Cargas úteis",
         "payloadsTitle": "Cargas úteis customizadas"
       },
       "components": {

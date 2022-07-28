@@ -14,7 +14,7 @@ import Overlay from 'in-components/overlays/Overlay';
 import { t } from 'in-i18n';
 
 export default function ApplicationEntityHealthIndicatorBehavior(props) {
-  let { openIssues, maxSeverity, applicationId, serviceId, endpointId, timeConfig } = props;
+  let { openIssues, maxSeverity, applicationId, serviceId, endpointId, timeConfig, tooltipLabel } = props;
   let healthInfo = useObservable(
     fetchAndMapApplicationEntityHealthInfo({
       applicationId,
@@ -40,6 +40,7 @@ export default function ApplicationEntityHealthIndicatorBehavior(props) {
         showCheckAsNeutral
         maxSeverity={healthInfo.maxSeverity}
         openIssues={props.inContentArea ? healthInfo.openIssues : t('in-applications:noIssues')}
+        tooltipLabel={tooltipLabel}
       />
     );
   }
@@ -52,13 +53,14 @@ export default function ApplicationEntityHealthIndicatorBehavior(props) {
           IndicatorPresenter={props.IndicatorPresenter}
           refSetter={refSetter}
           toggle={toggle}
+          tooltipLabel={tooltipLabel}
         />
       )}
     </Overlay>
   );
 }
 
-function Indicator({ healthInfo, IndicatorPresenter, refSetter, toggle }) {
+function Indicator({ healthInfo, IndicatorPresenter, refSetter, toggle, tooltipLabel }) {
   const count = healthInfo?.openIssues ?? 0;
   return (
     <IndicatorPresenter
@@ -68,6 +70,7 @@ function Indicator({ healthInfo, IndicatorPresenter, refSetter, toggle }) {
       maxSeverity={healthInfo?.maxSeverity}
       onClick={toggle}
       refSetter={refSetter}
+      tooltipLabel={tooltipLabel}
     />
   );
 }

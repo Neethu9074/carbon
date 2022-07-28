@@ -1719,6 +1719,11 @@
   "tracingTypeName_mail_0": "Mail messages",
   "tracingTypeName_mail_1": "Mail message",
   "tracingTypeName_mail_2": "Mail messages",
+  "tracingTypeName_mailjavamail": "Mail message",
+  "tracingTypeName_mailjavamail_plural": "Mail messages",
+  "tracingTypeName_mailjavamail_0": "Mail messages",
+  "tracingTypeName_mailjavamail_1": "Mail message",
+  "tracingTypeName_mailjavamail_2": "Mail messages",
   "tracingTypeName_mailactionmailer": "ActionMailer message",
   "tracingTypeName_mailactionmailer_plural": "ActionMailer messages",
   "tracingTypeName_mailactionmailer_0": "ActionMailer messages",
@@ -12135,9 +12140,13 @@
       "titleThread": "Thread"
     },
     "mail": {
-      "titleAddress": "Address",
       "class": "Class",
       "method": "Method"
+    },
+    "javamail": {
+      "method": "Method",
+      "endpoint": "Endpoint",
+      "error": "Error"
     },
     "memcache": {
       "titleCommand": "Command",

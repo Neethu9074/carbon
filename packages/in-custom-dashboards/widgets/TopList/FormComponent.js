@@ -6,6 +6,14 @@
 import React from 'react';
 
 import {
+  aggregationPath,
+  formatterPath,
+  metricConfigurationPath,
+  metricPath,
+  sourcePath,
+  useFormatterFormSideEffects
+} from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
+import {
   entityCount as infrastructureEntityCount,
   metrics as infrastructureMetrics
 } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure';
@@ -19,43 +27,51 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import Header from 'in-components/workspace/Header';
 import { t } from 'in-i18n';
 
-function getMetricConfiguration(form) {
-  return form.get('metricConfiguration');
-}
-
 export default function ListWidgetFormComponent({ form, onChange }) {
-  const metricConfig = getMetricConfiguration(form);
+  const metricConfig = form.get(metricConfigurationPath);
+  const sourceField = metricConfig.get(sourcePath);
+  const metricField = metricConfig.get(metricPath);
+  const aggregationField = metricConfig.get(aggregationPath);
 
+  const source = sourceField.value;
+  const metric = metricField.value;
+  const aggregation = aggregationField.value;
+  const formatters = getFormatter(source, metric, aggregation);
+
+  const updateForm = useFormatterFormSideEffects(form, updatedForm => {
+    onChange([], () => updatedForm);
+  });
   return (
     <>
       <Header>{t('in-custom-dashboards:widgets.topList.formComp.whatULikeShow')}</Header>
       <MetricConfigurator
-        form={form.get('metricConfiguration')}
-        onChange={(path, fn) => onChange(['metricConfiguration', ...path], fn)}
+        form={metricConfig}
+        onChange={(path, fn) => {
+          updateForm(form.updateIn([metricConfigurationPath, ...path], fn));
+        }}
         onChangeSource={newSource =>
           onChangeSource(
-            form.get('metricConfiguration'),
-            metricConfigurationForm => onChange(['metricConfiguration'], () => metricConfigurationForm),
+            metricConfig,
+            metricConfigurationForm =>
+              updateForm(form.updateIn([metricConfigurationPath], () => metricConfigurationForm)),
             newSource
           )
         }
-        formatterSection={form.get('formatter').map(field => {
-          const source = metricConfig.get('source').value;
-          const metric = metricConfig.get('metric').value;
-          const aggregation = metricConfig.get('aggregation').value;
-
+        formatterSection={form.get(formatterPath).map(field => {
           return (
             <SelectInSection
               id="big-number-formatter"
               label={t('in-custom-dashboards:widgets.topList.formComp.formatter')}
               value={field.value}
-              onChange={e => onChange(['formatter'], field => field.setValue(e.target.value).setTouched(true))}
+              onChange={e =>
+                updateForm(form.updateIn([formatterPath], field => field.setValue(e.target.value).setTouched(true)))
+              }
               hasError={!field.valid && field.touched}
               additionalContent={<TouchedMessages field={field} />}
               useAlternateBg
             >
-              {getFormatter(source, metric, aggregation).map(({ id, label }) => (
-                <option key={id} value={id}>
+              {formatters.map(({ id, label }, index) => (
+                <option key={`${id}-${index}`} value={id}>
                   {label}
                 </option>
               ))}

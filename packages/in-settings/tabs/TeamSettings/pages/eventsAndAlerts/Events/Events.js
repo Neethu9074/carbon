@@ -392,7 +392,7 @@ function createFilters(hiddenIds, type, severity, entityType, enabled) {
   if (type === migratedValue) {
     filters.push(entity => Boolean(entity.migrated));
   } else if (type === deprecatedValue) {
-    filters.push(entity => !isBuiltInRule(entity) && isAppDataEntityType(entity.entityType));
+    filters.push(entity => !isBuiltInRule(entity) && isAppDataEntityType(entity.entityType) && !entity.migrated);
   } else if (type) {
     filters.push(entity => entity.type === type);
   }

@@ -144,7 +144,6 @@
       "title": "Results"
     },
     "detailsPage": {
-      "subtransactionsTitle": "Subtransactions",
       "timeLineWidget": "Timeline",
       "responseTimeChart": "Response Time",
       "subtransactionStatus": "Status",
@@ -176,8 +175,9 @@
         "responseTimingTitle": "Response Timing",
         "timingsPercentageOfTotalDurationName": "{{percentage}} of {{totalDurationName}}"
       },
+      "logs": "Logs",
       "noDataAvailable": {
-        "timelineDescription": "Timeline details not found",
+        "message": "{{component}} details not available for this test result",
         "notFound": "Not found"
       }
     },

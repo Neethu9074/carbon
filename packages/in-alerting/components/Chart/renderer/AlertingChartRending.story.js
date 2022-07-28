@@ -6,16 +6,17 @@
 import React from 'react';
 
 import {
-  createLineWithHistoricBaseline,
   createLineWithThreshold,
   createLineWithAdaptiveBaseline,
-  createLineWithBaselineAndPotentialProblem
+  createLineWithBaselineAndOptionalPotentialProblem
 } from 'in-alerting/components/Chart/renderer/Renderer';
 import { generateMetrics, fixedTimestamp, generateBaselineForMetric } from 'in-test/util/generateMetrics';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
+import { hexToRGBA } from 'in-services/formatters/color';
 import { minutes } from 'in-services/time';
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 const oneSecond = 1000;
 const oneMinute = oneSecond * 60;
@@ -48,6 +49,18 @@ const historicThreshold = {
   thresholdGranularity: minutes.toMillis(10)
 };
 
+// see PotentialProblemsChart
+const highlightColor = theme.lib.colors.chart.strokeColors100[3];
+const highlight = {
+  area: {
+    key: 'some highlight',
+    start: baselineBarWithBaseline[4][0],
+    end: baselineBarWithBaseline[8][0]
+  },
+  color: [hexToRGBA(highlightColor, 0.25), highlightColor],
+  label: t('in-alerting:potentialProblems.titlePotentialProblem')
+};
+
 export function BaselinesWithGaps() {
   const adaptiveBaseline = {
     baseline: baselineBarWithBaselineWithGaps,
@@ -55,14 +68,15 @@ export function BaselinesWithGaps() {
     operator: '>=',
     thresholdType: ADAPTIVE_BASELINE
   };
+
   return (
     <>
-      <h1>Historic Baseline</h1>
-      <Chart renderer={createLineWithHistoricBaseline(historicThreshold, granularity)} />
+      <h1>Historic Baseline without high-light</h1>
+      <Chart renderer={createLineWithBaselineAndOptionalPotentialProblem(historicThreshold, granularity)} />
+      <h1>Historic Baseline with a high-light</h1>
+      <Chart renderer={createLineWithBaselineAndOptionalPotentialProblem(historicThreshold, granularity, highlight)} />
       <h1>Adaptive Baseline</h1>
-      <Chart renderer={createLineWithAdaptiveBaseline(adaptiveBaseline, granularity)} />
-      <h1>Baseline with NO optional PotentialProblem</h1>
-      <Chart renderer={createLineWithBaselineAndPotentialProblem(historicThreshold, granularity)} />
+      <Chart renderer={createLineWithAdaptiveBaseline(adaptiveBaseline, granularity, [])} />
       <h1>Static threshold</h1>
       <Chart
         renderer={createLineWithThreshold({
