@@ -4,17 +4,18 @@
  * Copyright IBM Corp. 2022
  */
 
-import { createField, createMapForm, MapForm, notBlankValidator } from 'formalistic';
+import { createField, createMapForm, Item, MapForm, notBlankValidator } from 'formalistic';
 
+import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import emptyTagFilterExpression from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
-import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { ApdexConfiguration, ApdexConfigurationInput, ApdexEntityUnion } from 'in-types';
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { minValidator, numericValidator } from 'in-services/validators/number';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { entityIdKey } from 'in-custom-dashboards/widgets/Apdex/form';
 import { stringValidator } from 'in-services/validators/jsonType';
-import { ApdexConfiguration, ApdexEntityUnion } from 'in-types';
 
 export const apdexNameKey = 'apdexName';
 export const apdexEntityKey = 'apdexEntity';
@@ -84,4 +85,16 @@ export function createWebsiteEntityForm(websiteId: string, apdexEntity: Partial<
 
 export function createApplicationEntityForm(): MapForm {
   return createMapForm();
+}
+
+export function toApdexConfigurationInput(form: Item): ApdexConfigurationInput {
+  const formData = form.toJS();
+  const { tagFilterExpression } = formData.apdexEntity;
+  return {
+    ...formData,
+    apdexEntity: {
+      ...formData.apdexEntity,
+      tagFilterExpression: toBackendQueryModel(tagFilterExpression as FormModelElement[])
+    }
+  };
 }

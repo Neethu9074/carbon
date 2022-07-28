@@ -16,8 +16,8 @@ import {
 
 import { generateUniqueShortId } from '@instana/utils';
 
+import { CustomPayloadFieldUnion, Nullish, StaticStringField } from 'in-types';
 import { isBlank, isNotBlank } from 'in-services/util/string';
-import { Nullish, StaticStringField } from 'in-types';
 import { t } from 'in-i18n';
 
 export type FieldType = string | 'staticString' | 'dynamic'; // currently, there is no Enum type on backend side
@@ -81,7 +81,7 @@ function keyNameValidator(s: string | null): ValidationResult {
   return null;
 }
 
-function createFormFieldForField(field: StaticStringField & { id?: string }): MapForm {
+function createFormFieldForField(field: CustomPayloadFieldUnion & { id?: string }): MapForm {
   const fieldType = field.type ?? staticType;
 
   return createMapForm()
@@ -134,7 +134,7 @@ export function createNewFormEntry(): MapForm {
 }
 
 /** ListForm<MapForm>, if ListForm would be typed */
-export function createForm(payloadFields: StaticStringField[], addEmptyEntry = true): ListForm {
+export function createForm(payloadFields: CustomPayloadFieldUnion[], addEmptyEntry = true): ListForm {
   const initializeListForm: ListForm = createListForm({
     validator: onlyUniqueKeyNames
   });

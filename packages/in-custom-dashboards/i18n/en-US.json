@@ -626,7 +626,8 @@
         "apdexCreateFailedTitle": "Failed to create the Apdex configuration.",
         "apdexCreateFailedContent": "There was a problem creating this Apdex configuration: \"{{apdexName}}\"",
         "apdexNameNotEmpty": "The Apdex name cannot be empty.",
-        "thresholdNotEmpty": "The threshold cannot be empty."
+        "thresholdNotEmpty": "The threshold cannot be empty.",
+        "nameExistsError": "Apdex configuration with this name already exists. Please enter a different name."
       },
       "createWebsiteApdexForm": {
         "thresholdHeader": "Threshold Configuration",
