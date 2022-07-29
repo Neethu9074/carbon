@@ -12,22 +12,22 @@ import {
   apdexEntityKey,
   apdexNameKey,
   tagFilterExpressionKey,
-  thresholdKey
+  thresholdKey,
+  toApdexConfigurationInput
 } from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/form';
 import {
   useValidateWebsiteFilterExpression,
   useWebsiteQueryBuilder
 } from 'in-custom-dashboards/widgets/Slo/sli/hooks/useWebsiteQueryBuilder';
-import WebsiteApdexConfigPreview from 'in-custom-dashboards/widgets/Apdex/components/ApdexConfigPreview/WebsiteApdexConfigPreview';
 import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingFieldValidationMessage';
 import { CreateApdexFormComponentProps } from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/CreateApdexForm';
 import useSetFormFooterEffect from 'in-custom-dashboards/widgets/Slo/sli/hooks/useSetFormFooterEffect';
-import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import ApdexConfigPreview from 'in-custom-dashboards/widgets/Apdex/components/ApdexConfigPreview';
+import { entityIdKey, getField, setFieldValue } from 'in-custom-dashboards/widgets/Apdex/form';
 import BeaconConfigurator from 'in-custom-dashboards/widgets/Slo/sli/BeaconConfigurator';
 import PreviewHeader from 'in-custom-dashboards/widgets/Apdex/components/PreviewHeader';
 import PreviewFooter from 'in-custom-dashboards/widgets/Apdex/components/PreviewFooter';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
-import { getField, setFieldValue } from 'in-custom-dashboards/widgets/Apdex/form';
 import InputInSection from 'in-components/form/Input/InputInSection';
 import Sections from 'in-components/workspace/Sections/Sections';
 import Header from 'in-components/workspace/Header/Header';
@@ -36,15 +36,14 @@ import { t } from 'in-i18n';
 
 export default function CreateWebsiteApdexForm({
   isSaving,
-  entityId,
   form,
-  apdexConfig,
-  updateForm,
   onSubmit,
   onChange,
   onCancel,
-  setFooter
+  setFooter,
+  isEditing
 }: CreateApdexFormComponentProps) {
+  const entityId = getField<string>(form, [apdexEntityKey, entityIdKey])!.value;
   const { QueryBuilder, isQueryValid } = useWebsiteQueryBuilder({ beaconType: 'httpRequest', websiteId: entityId });
 
   const filterExpression = getField<FormModelElement[]>(form, [apdexEntityKey, tagFilterExpressionKey])?.value;
@@ -54,12 +53,12 @@ export default function CreateWebsiteApdexForm({
     isQueryValid
   });
 
-  const isEditing = !!apdexConfig?.id;
+  const canSave = form.hierarchyTouched && form.hierarchyValid && isFilterExpressionValid;
 
   useSetFormFooterEffect({
     form,
     formId: 'createApdexForm',
-    isDisabled: !isFilterExpressionValid || !form.hierarchyTouched,
+    isDisabled: !canSave,
     cloneOnly: isEditing,
     isSaving,
     onCancel,
@@ -72,7 +71,7 @@ export default function CreateWebsiteApdexForm({
   const threshold = thresholdField?.value;
 
   return (
-    <Form form={form} setForm={updateForm} onSubmit={onSubmit} formId="createApdexForm">
+    <Form form={form} setForm={f => onChange([], () => f)} onSubmit={onSubmit} formId="createApdexForm">
       <Stack gap="large">
         <Stack component="section" gap="normal">
           <Header>{t('in-custom-dashboards:widgets.apdex.createApdexForm.customizationHeader')}</Header>
@@ -123,11 +122,7 @@ export default function CreateWebsiteApdexForm({
                   />
                 }
               />
-              <WebsiteApdexConfigPreview
-                entityId={entityId}
-                threshold={threshold}
-                tagFilterExpression={toBackendQueryModel(filterExpression)}
-              />
+              <ApdexConfigPreview apdexEntity={toApdexConfigurationInput(form).apdexEntity} />
               {isEditing && <PreviewFooter />}
             </Sections>
           </Stack>

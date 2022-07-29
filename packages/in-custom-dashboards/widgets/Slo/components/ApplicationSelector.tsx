@@ -26,7 +26,7 @@ interface ApData {
 }
 interface ApplicationSelectorProps {
   apIdField: Field<string>;
-  onChange: (id: string | undefined) => void;
+  onChange: (id: string) => void;
   getApConfigs?: ObservableCreator<void, Result<ApData[]>>;
 }
 

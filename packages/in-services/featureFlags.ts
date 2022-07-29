@@ -78,6 +78,7 @@ export const perEndpointAdaptiveBaselineEnabled =
 export const websiteSloEnabled = isFeatureFlagEnabled('websiteSloEnabled', false);
 export const sliCHClusterAccessEnabled = isFeatureFlagEnabled('sliCHClusterAccessEnabled');
 export const apdexWidgetEnabled = isFeatureFlagEnabled('apdexWidgetEnabled', false);
+export const applicationApdexEnabled = isFeatureFlagEnabled('applicationApdexEnabled', false);
 
 export const websiteUploadConfigEnabled = isFeatureFlagEnabled('websiteUploadConfigEnabled', false);
 

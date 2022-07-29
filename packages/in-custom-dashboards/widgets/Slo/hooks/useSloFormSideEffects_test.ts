@@ -83,7 +83,7 @@ describe('in-custom-dashboards/widgets/Slo/hooks/useSloFormSideEffects', () => {
   });
 
   describe('#timeWindowDurationUnit', () => {
-    it('it choose the minimun value between last and actual timeWindowDuration if timeWindowDurationUnit changes.', () => {
+    it('it chooses the minimum value between last and actual timeWindowDuration if timeWindowDurationUnit changes.', () => {
       let updatedForm: { [key: string]: unknown } = {};
 
       // GIVEN

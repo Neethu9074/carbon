@@ -4,34 +4,77 @@
  * Copyright IBM Corp. 2022
  */
 
-import { Item, MapForm } from 'formalistic';
 import React from 'react';
 
-import { Stack } from '@instana/components';
+import { ApplicationBoundaryScope } from '@instana/types';
+import { Spacer, Stack } from '@instana/components';
 
-import InboundOrAllCallsOption from 'in-alerting/smart-alerts/applications/advanced/InboundOutboundCallsSwitch/InboundOrAllCallsOption';
+import {
+  apdexEntityKey,
+  apdexNameKey,
+  boundaryScopeKey,
+  tagFilterExpressionKey,
+  thresholdKey,
+  toApdexConfigurationInput
+} from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/form';
+import {
+  useApplicationQueryBuilder,
+  useValidateApplicationFilterExpression
+} from 'in-custom-dashboards/widgets/Slo/sli/hooks/useApplicationQueryBuilder';
+import ApplicationScopeConfiguratorSections from 'in-custom-dashboards/widgets/Apdex/components/ApplicationScopeConfiguratorSections';
+import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingFieldValidationMessage';
+import { CreateApdexFormComponentProps } from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/CreateApdexForm';
+import useSetFormFooterEffect from 'in-custom-dashboards/widgets/Slo/sli/hooks/useSetFormFooterEffect';
+import ApdexConfigPreview from 'in-custom-dashboards/widgets/Apdex/components/ApdexConfigPreview';
+import { entityIdKey, getField, setFieldValue } from 'in-custom-dashboards/widgets/Apdex/form';
+import PreviewHeader from 'in-custom-dashboards/widgets/Apdex/components/PreviewHeader';
+import PreviewFooter from 'in-custom-dashboards/widgets/Apdex/components/PreviewFooter';
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import InputInSection from 'in-components/form/Input/InputInSection';
 import Sections from 'in-components/workspace/Sections/Sections';
-import Section from 'in-components/workspace/Section/Section';
-import { boundaryScopes } from 'in-applications/constants';
 import Header from 'in-components/workspace/Header/Header';
-import { Col, Row } from 'in-components/layout/Grid/Grid';
 import Form from 'in-components/form/binding/Form';
-import { noop } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
 
-interface CreateApplicationFormProps {
-  form: MapForm;
-  updateForm: (updatedForm: Item) => void;
-  onSubmit: (submittedData: Item) => void;
-}
+export default function CreateApplicationApdexForm({
+  form,
+  onSubmit,
+  isEditing,
+  isSaving,
+  onCancel,
+  setFooter,
+  onChange
+}: CreateApdexFormComponentProps) {
+  const applicationId = getField<string>(form, [apdexEntityKey, entityIdKey])?.value;
+  const boundaryScope = getField<ApplicationBoundaryScope>(form, [apdexEntityKey, boundaryScopeKey])?.value;
+  const { QueryBuilder, isQueryValid } = useApplicationQueryBuilder({ applicationId, boundaryScope });
 
-export default function CreateApplicationForm({ form, updateForm, onSubmit }: CreateApplicationFormProps) {
-  // TODO: This is currently just a dummy implementation for the CreateApplicationForm
-  const boundaryScope = 'ALL';
+  const filterExpression = getField<FormModelElement[]>(form, [apdexEntityKey, tagFilterExpressionKey])?.value;
+
+  const isFilterExpressionValid = useValidateApplicationFilterExpression({
+    filterExpression,
+    isQueryValid
+  });
+
+  const canSave = form.hierarchyTouched && form.hierarchyValid && isFilterExpressionValid;
+
+  useSetFormFooterEffect({
+    form,
+    formId: 'createApdexForm',
+    isDisabled: !canSave,
+    cloneOnly: isEditing,
+    isSaving,
+    onCancel,
+    setFooter
+  });
+
+  const apdexNameField = getField<string>(form, [apdexNameKey]);
+  const thresholdField = getField<number>(form, [apdexEntityKey, thresholdKey]);
+  const apdexName = apdexNameField?.value;
+  const threshold = thresholdField?.value;
 
   return (
-    <Form form={form} setForm={updateForm} onSubmit={onSubmit} formId="createApdexForm">
+    <Form form={form} setForm={f => onChange([], () => f)} onSubmit={onSubmit} formId="createApdexForm">
       <Stack gap="large">
         <Stack component="section" gap="normal">
           <Header>{t('in-custom-dashboards:widgets.apdex.createApdexForm.customizationHeader')}</Header>
@@ -41,38 +84,48 @@ export default function CreateApplicationForm({ form, updateForm, onSubmit }: Cr
               <InputInSection
                 id="new-apdex-name"
                 label={t('in-custom-dashboards:widgets.apdex.createApdexForm.label')}
-                onChange={noop}
-                value=""
-                hasError={false}
+                onChange={e => onChange([apdexNameKey], item => setFieldValue(item, e.target.value, true))}
+                value={apdexName}
+                hasError={!apdexNameField?.valid && apdexNameField?.touched}
                 maxLength={256}
+                additionalContent={
+                  <OverridingFieldValidationMessage
+                    field={apdexNameField}
+                    message={t('in-custom-dashboards:widgets.apdex.createApdexForm.apdexNameNotEmpty')}
+                  />
+                }
               />
             </Sections>
           </Stack>
         </Stack>
 
-        <Stack gap="large">
-          <Sections>
-            <Section title={t('in-custom-dashboards:widgets.apdex.createApplicationApdexForm.boundary')}>
-              <Row>
-                <Col md={5} xs={5}>
-                  <InboundOrAllCallsOption
-                    boundaryScope={boundaryScope}
-                    onBoundaryStateChange={noop}
-                    scope={boundaryScopes.inbound}
+        <ApplicationScopeConfiguratorSections form={form} updateForm={onChange} QueryBuilder={QueryBuilder} />
+
+        <Stack component="section" gap="normal">
+          <Header>{t('in-custom-dashboards:widgets.apdex.createWebsiteApdexForm.thresholdHeader')}</Header>
+          <Stack component="section" gap="xsmall">
+            <Sections>
+              <PreviewHeader
+                threshold={threshold}
+                onChangeThreshold={threshold =>
+                  onChange([apdexEntityKey, thresholdKey], item => setFieldValue(item, threshold, true))
+                }
+                hasError={!thresholdField?.valid && thresholdField?.touched}
+                additionalContent={
+                  <OverridingFieldValidationMessage
+                    field={thresholdField}
+                    message={t('in-custom-dashboards:widgets.apdex.createApdexForm.thresholdNotEmpty')}
                   />
-                </Col>
-                <Col md={5} xs={5}>
-                  <InboundOrAllCallsOption
-                    boundaryScope={boundaryScope}
-                    onBoundaryStateChange={noop}
-                    scope={boundaryScopes.all}
-                  />
-                </Col>
-              </Row>
-            </Section>
-          </Sections>
+                }
+              />
+              <ApdexConfigPreview apdexEntity={toApdexConfigurationInput(form).apdexEntity} />
+              {isEditing && <PreviewFooter />}
+            </Sections>
+          </Stack>
         </Stack>
       </Stack>
+
+      <Spacer size="large" />
     </Form>
   );
 }
