@@ -224,14 +224,13 @@ export function saveCustomEventSpecification(eventSpecification) {
   }).map(response => fromJS(response.body));
 }
 
-export function saveActionAssociation(actionId, eventSpecification) {
+export function saveActionAssociation(eventSpecification) {
   return http({
-    method: 'POST',
+    method: 'PUT',
     maxRetries: 3,
-    url: `/api/events/settings/event-specifications/custom/${encodeURIComponent(
-      eventSpecification.id
-    )}/actions/${encodeURIComponent(actionId)}`,
-    headers: getCsrfHeader()
+    url: `/api/events/settings/event-specifications/beta/custom/${encodeURIComponent(eventSpecification.id)}`,
+    headers: getCsrfHeader(),
+    data: eventSpecification
   }).map(response => fromJS(response.body));
 }
 
@@ -250,7 +249,7 @@ export function getActionAssociationCustom(eventSpecificationId) {
   return http({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/events/settings/event-specifications/custom/${encodeURIComponent(eventSpecificationId)}/actions`,
+    url: `/api/events/settings/beta/event-specifications/custom/${encodeURIComponent(eventSpecificationId)}`,
     treat400AsError: false
   }).map(response => fromJS(response.body));
 }

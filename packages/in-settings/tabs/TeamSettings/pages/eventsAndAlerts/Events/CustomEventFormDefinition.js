@@ -59,7 +59,6 @@ function getScopeFields(isCreate, query, ruleType, tagFilter) {
     applicationName: null,
     applicationIds: [],
     actionIds: [],
-    saveActionIds: [],
     tagValueForHostAvailability: null,
     tagOperatorForHostAvailability: null
   };
@@ -82,9 +81,8 @@ function getScopeFields(isCreate, query, ruleType, tagFilter) {
 
 export function createEventFormDefinition(eventSpec, isCreate) {
   const mutableEvent = getMutableEventSpecification(eventSpec);
-  mutableEvent.actionIds = eventSpec.actionIds; // this is current actionIds value
-  mutableEvent.saveActionIds = eventSpec.actionIds; // Need this to compare saved value from current Actionids in edit page
-  const { name, entityType, query, triggering, description, expirationTime, actionIds, saveActionIds } = mutableEvent;
+  mutableEvent.actionIds = mutableEvent.actions.map(s => s.id);
+  const { name, entityType, query, triggering, description, expirationTime, actionIds } = mutableEvent;
   const ruleAttributes = getRuleAttributes(mutableEvent);
   const { ruleType, severity, tagFilter } = ruleAttributes;
 
@@ -157,7 +155,6 @@ export function createEventFormDefinition(eventSpec, isCreate) {
       })
     );
   form = putActionField(form, actionIds);
-  form = putSaveActionField(form, saveActionIds);
   if (dataSource !== dataSourceSystem) {
     form = putAllDataSourceFields(form, eventSpec);
   } else {
@@ -561,15 +558,6 @@ export function putTagValueField(form, tagValue) {
 export function putActionField(form, tagValue) {
   return form.put(
     'actionIds',
-    createField({
-      value: tagValue ?? []
-    })
-  );
-}
-
-export function putSaveActionField(form, tagValue) {
-  return form.put(
-    'saveActionIds',
     createField({
       value: tagValue ?? []
     })
