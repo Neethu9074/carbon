@@ -3,10 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import { difference } from 'lodash';
 import React from 'react';
 
-import { combineLatest } from '@instana/observables';
 import { Stack } from '@instana/components';
 
 import {
@@ -17,8 +15,7 @@ import {
   getCustomEventSpecification,
   saveCustomEventSpecification,
   getActionAssociationCustom,
-  saveActionAssociation,
-  deleteActionAssociation
+  saveActionAssociation
 } from 'in-api/eventSpecifications';
 import {
   createEventFormDefinition,
@@ -31,7 +28,6 @@ import {
   isAppDataEntityType,
   unmapConditionValue
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
-import { combineResults } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/sharedActions';
 import CustomEventForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventForm';
 import { serializeQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import { getMetricDefinition, isBuiltInDynamicMetric } from 'in-sdk/metrics/metrics';
@@ -41,6 +37,7 @@ import MigrateToSmartAlerts from 'in-alerting/migration/MigrateToSmartAlerts';
 import LegacyAppdataEventInfoMessage from './LegacyAppdataEventInfoMessage';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
+import { actionAutomationEnabled } from 'in-services/featureFlags';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
@@ -58,22 +55,17 @@ import { t } from 'in-i18n';
 export default function CustomEvent(props) {
   const entityId = props.match.params.id;
 
-  function mergeResultData() {
-    const eventDetails$ = getCustomEventSpecification(entityId);
-    const actionDetails$ = getActionAssociationCustom(entityId);
-    // calling Get Event and Get action associations call and combining results
-    return combineLatest([eventDetails$, actionDetails$]).map(([response1, response2]) =>
-      combineResults(response1, response2)
-    );
-  }
-
   return (
     <Form
       title={t('in-settings:tabs.event')}
       entityId={entityId}
       createDefaultEntity={createCustomThresholdBasedEventSpecification}
       createForm={event => createEventFormDefinition(event, !entityId)}
-      getEntityFromApi={mergeResultData}
+      getEntityFromApi={
+        role.canConfigureAutomationActions && actionAutomationEnabled
+          ? getActionAssociationCustom
+          : getCustomEventSpecification
+      }
       openEntities={() => goToPath(teamSettingsAlertingEvents)}
       saveEntity={save}
     />
@@ -173,10 +165,6 @@ function save(event, form) {
   const entityType = form.get('entityType')?.value ?? null;
   const scopeType = form.get('applyOn').value;
   const actionIds = form.get('actionIds')?.value ?? [];
-  const saveActionIds = form.get('saveActionIds')?.value ?? [];
-
-  const finalActionIds = difference(actionIds, saveActionIds); // actions ids that needs to be associated in edit page
-  const finalActionDeleteIds = difference(saveActionIds, actionIds); // actions ids that are deselected and needs to be disassociated
 
   submitEventTracker({
     scopeType,
@@ -186,18 +174,13 @@ function save(event, form) {
   });
 
   const eventSpecification = getEventSpecification(event, form);
-  const saveEvent = saveCustomEventSpecification(eventSpecification);
-  if (finalActionIds.length > 0) {
-    event.actions = combineLatest(finalActionIds.map(id => saveActionAssociation(id, eventSpecification)));
+  if (actionIds.length > 0 && role.canConfigureAutomationActions && actionAutomationEnabled) {
+    const actions = actionIds.map(value => ({ id: value }));
+    eventSpecification.actions = actions;
+    return saveActionAssociation(eventSpecification);
+  } else {
+    return saveCustomEventSpecification(eventSpecification);
   }
-
-  if (finalActionDeleteIds.length > 0) {
-    event.deleteActions = combineLatest(
-      finalActionDeleteIds.map(id => deleteActionAssociation(id, eventSpecification))
-    );
-  }
-
-  return saveEvent;
 }
 
 function getTagFilterForHostAvailability(form) {
