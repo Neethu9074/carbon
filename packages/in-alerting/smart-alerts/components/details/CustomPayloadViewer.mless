@@ -1,0 +1,17 @@
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .listItem {
+    gap: 0 1.5rem;
+    align-items: flex-start;
+
+    .keyCell {
+      width: 30%;
+    }
+
+    .valueCell {
+      width: 70%;
+    }
+  }
+}

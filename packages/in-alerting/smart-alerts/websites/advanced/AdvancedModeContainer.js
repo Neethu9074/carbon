@@ -46,6 +46,8 @@ export default function AdvancedModeContainer(props) {
     thresholdResult,
     messages,
     editMode,
+    isDynamicCustomPayloadValid,
+    TagBasedPayloadConfigurator,
     QueryBuilderComponent,
     isTagFilterFormModelValid,
     websiteLabel
@@ -196,8 +198,15 @@ export default function AdvancedModeContainer(props) {
           scrollId: '7',
           label: t('in-alerting:smartAlerts.websites.advanced.payloadsLabel'),
           title: t('in-alerting:smartAlerts.websites.advanced.payloadsTitle'),
-          valid: isCustomPayloadValidOrUntouched(form),
-          content: <AlertConfigCustomPayload form={form} setForm={updateForm} />
+          valid: isCustomPayloadValidOrUntouched(form) && isDynamicCustomPayloadValid,
+          content: (
+            <AlertConfigCustomPayload
+              form={form}
+              setForm={updateForm}
+              TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
+              supportDynamicTypes
+            />
+          )
         }
       ]}
     />

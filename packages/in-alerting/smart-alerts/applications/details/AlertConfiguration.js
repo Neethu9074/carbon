@@ -23,7 +23,7 @@ import { getLogMessageRuleOperatorLabel } from 'in-alerting/smart-alerts/applica
 import { AlertThresholdInfos } from 'in-alerting/smart-alerts/applications/details/AlertThresholdInfos';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
-import CustomPayloadCard from 'in-alerting/smart-alerts/applications/details/CustomPayloadCard';
+import CustomPayloadCard from 'in-alerting/smart-alerts/components/details/CustomPayloadCard';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import SelectedAlertTypeInfo from 'in-alerting/components/SelectedAlertTypeInfo';
 import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
