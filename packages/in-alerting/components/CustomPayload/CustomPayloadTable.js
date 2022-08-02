@@ -24,6 +24,7 @@ export default function CustomPayloadTable({
   addRow,
   deleteRow,
   updateIn,
+  TagBasedPayloadConfigurator,
   customPayloadForm,
   canConfigureAlertPayload = true,
   enabled = true,
@@ -48,6 +49,7 @@ export default function CustomPayloadTable({
         getRowIndex={getRowIndex}
         deleteRow={deleteRow}
         updateIn={updateIn}
+        TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
         enabled={enabled}
         trackChange={trackChange}
       />

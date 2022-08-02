@@ -96,6 +96,11 @@
     "deselect": "Deselect"
   },
   "tabs": {
+    "team": {
+        "customPayload": {
+          "unknownTag": "Unknown tag: {{tagName}}"
+      }
+    },
     "failedToSaveConfig": "Failed to save config: {{err}}",
     "IdPMetadataRequired": "IdP Metadata file is required",
     "IdPMetadataLargerThanTwoMega": "IdP Metadata file can't be larger than 2 megabytes",

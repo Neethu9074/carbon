@@ -11,7 +11,8 @@ import { PaginatedResult, Result, TestResultListItem } from '@instana/types/type
 import { Card } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
-import getTestResultListStatus from 'in-synthetics/utils/getTestResultListStatus';
+// @ts-expect-error
+import ExpandableCard from 'in-components/AnalyzeView/FacetedFilters/ExpandableCardWithSubtitle';
 
 import locals from 'in-synthetics/dashboards/details/components/FailedRun.mless';
 
@@ -20,7 +21,8 @@ interface FailedRunProps {
 }
 
 export default function FailedRun({ resultList }: FailedRunProps) {
-  let content;
+  let errMsg: string;
+  let stacktraceMsg: string;
 
   if (Array.isArray(resultList.data) && !resultList.data.length) {
     return (
@@ -29,17 +31,38 @@ export default function FailedRun({ resultList }: FailedRunProps) {
         <span className={locals.errorMessage}>{t('in-synthetics:dashboard.detailsPage.noFailedErrorMessage')}</span>
       </Card>
     );
-  } else if (getTestResultListStatus(resultList) === 0 && getErrors(resultList)?.length === 0) {
-    // if test failed with no error message, show "No error message"
-    content = t('in-synthetics:dashboard.detailsPage.noFailedErrorMessage');
   } else {
-    content = resultList?.data?.items[0].testResultCommonProperties.errors;
+    let start: number = getErrors(resultList).search('errorMessage=');
+    let end: number = getErrors(resultList).search('stackTrace=');
+    let len: number = getErrors(resultList)?.length;
+    errMsg = getErrors(resultList).slice(start + 'errorMessage='.length, end - '  '.length);
+    stacktraceMsg = getErrors(resultList).slice(end + 'stacktrace='.length, len - '}'.length);
   }
 
   return (
     <Card className={locals.failedTitle} title={t('in-synthetics:dashboard.detailsPage.failedRun')}>
       <h3 className={locals.errorMessageHeader}>{t('in-synthetics:dashboard.detailsPage.failedRunErrorTitle')}</h3>
-      <span className={locals.errorMessage}>{content}</span>
+      {errMsg ? (
+        <span className={locals.errorMessage}>{errMsg}</span>
+      ) : (
+        <span className={locals.errorMessage}>{t('in-synthetics:dashboard.detailsPage.noFailedErrorMessage')}</span>
+      )}
+      <ExpandableCard
+        className={locals.stacktraceHeader}
+        title={t('in-synthetics:dashboard.detailsPage.stackTraceTitle')}
+        framed={false}
+        openByDefault
+      >
+        {stacktraceMsg ? (
+          <span className={locals.stacktraceMessage}>
+            {stacktraceMsg.split('\n').map(function(msg: any, i: any) {
+              return <div key={i}>{msg}</div>;
+            })}
+          </span>
+        ) : (
+          <span className={locals.stacktraceMessage}>{t('in-synthetics:dashboard.detailsPage.noStacktrace')}</span>
+        )}
+      </ExpandableCard>
     </Card>
   );
 }

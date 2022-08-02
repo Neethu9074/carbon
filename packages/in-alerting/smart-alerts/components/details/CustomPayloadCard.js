@@ -8,17 +8,19 @@ import React from 'react';
 
 import { Message } from '@instana/components';
 
-import CustomPayloadViewer from 'in-alerting/smart-alerts/applications/details/CustomPayloadViewer';
+import CustomPayloadViewer from 'in-alerting/smart-alerts/components/details/CustomPayloadViewer';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import { t } from 'in-i18n';
+
+const cardConfig = {
+  openByDefault: true,
+  darkFrame: true
+};
 
 export default function CustomPayloadCard({
   customPayloadFields = [],
   title = t('in-alerting:components.customPayload.customPayloadTitle'),
-  cardConfig = {
-    openByDefault: true,
-    darkFrame: true
-  }
+  TagBasedPayloadConfigurator
 }) {
   const hasCustomPayload = Boolean(customPayloadFields.length);
 
@@ -30,7 +32,10 @@ export default function CustomPayloadCard({
       bodyWithoutPadding={hasCustomPayload}
     >
       {hasCustomPayload ? (
-        <CustomPayloadViewer customPayloadFields={customPayloadFields} />
+        <CustomPayloadViewer
+          customPayloadFields={customPayloadFields}
+          TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
+        />
       ) : (
         <Message small title={t('in-alerting:components.customPayload.noCustomPayloadConfigured')} />
       )}
@@ -39,10 +44,7 @@ export default function CustomPayloadCard({
 }
 
 CustomPayloadCard.propTypes = {
-  cardConfig: PropTypes.shape({
-    openByDefault: PropTypes.bool,
-    darkFrame: PropTypes.bool
-  }),
+  TagBasedPayloadConfigurator: PropTypes.node,
   customPayloadFields: PropTypes.array,
   title: PropTypes.string
 };

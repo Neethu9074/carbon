@@ -161,6 +161,8 @@
       "failedRun": "Failed Run(Exception)",
       "failedRunErrorTitle": "Error Message",
       "noFailedErrorMessage": "No error message",
+      "stackTraceTitle": "Stacktrace",
+      "noStacktrace": "No stacktrace",
       "statusKpiCard": "Status",
       "successResult": "Successful",
       "failedResult": "Failed",
