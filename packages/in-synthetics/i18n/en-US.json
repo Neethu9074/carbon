@@ -140,7 +140,7 @@
       "locationColumn": "Location",
       "responseTimeColumn": "Response Time",
       "responseSizeColumn": "Response Size",
-      "retriesColumn": "Retries",
+      "retriesColumn": "Retry Count",
       "title": "Results"
     },
     "detailsPage": {
