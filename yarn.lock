@@ -1416,10 +1416,10 @@
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha1-tSBSnsIdjllFoYUd/Rwy6U45/0U=
 
-"@instana/components@^1.48.0":
-  version "1.48.0"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/components/-/@instana/components-1.48.0.tgz#a29c3d202368e202d97c826afc56085ea8c6646d"
-  integrity sha1-opw9ICNo4gLZfIJq/FYIXqjGZG0=
+"@instana/components@^1.49.0":
+  version "1.49.0"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/components/-/@instana/components-1.49.0.tgz#d2ed6c417511f718c04b3610b337adce7e204679"
+  integrity sha512-2/VxlKxhhHXlOsN4nYofN6s7huUOXtr1LlfO7gCqubRumjgvHqWCFIEFXPyHlm/REvOYV5jWH2/2BX/Jnvv8og==
   dependencies:
     "@emotion/react" "^11.9.0"
     "@emotion/styled" "^11.8.1"
@@ -1439,30 +1439,17 @@
 
 "@instana/design-tokens@^1.12.4":
   version "1.12.4"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/design-tokens/-/@instana/design-tokens-1.12.4.tgz#c52a1ac2be5fa1d417dacdaecc213bbd755e5a03"
-  integrity sha1-xSoawr5fodQX2s2uzCE7vXVeWgM=
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/design-tokens/-/@instana/design-tokens-1.12.4.tgz#925743326a6e25cea899e3839b5c7c75a19acf0d"
+  integrity sha512-KtMNUUY/aJyRcQASMRZxbmmhoefw/5MNpY3nWVwp8VXwjLP9rx+Ky0nDJDW61gHZ/q9OrnQGMDVPIpnb5iETXA==
   dependencies:
     ts-node "^9.1.1"
     tslib "^2.1.0"
     typescript "^4.1.4"
 
-"@instana/format-date@^1.3.0":
-  version "1.3.0"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/format-date/-/@instana/format-date-1.3.0.tgz#6c48c58498770039c66771b563a6daf8decfe15f"
-  integrity sha1-bEjFhJh3ADnGZ3G1Y6ba+N7P4V8=
-  dependencies:
-    "@instana/i18n" "^1.3.0"
-    "@instana/i18n-react" "^1.2.0"
-    date-fns "^2.22.1"
-    i18next "^20.3.2"
-    ts-node "^9.1.1"
-    tslib "^2.1.0"
-    typescript "^4.1.4"
-
-"@instana/format-date@^1.3.3":
+"@instana/format-date@^1.3.0", "@instana/format-date@^1.3.3":
   version "1.3.3"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/format-date/-/@instana/format-date-1.3.3.tgz#a8df08df509c03f4058d827037b7366f06cf3cec"
-  integrity sha1-qN8I31CcA/QFjYJwN7c2bwbPPOw=
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/format-date/-/@instana/format-date-1.3.3.tgz#64a4efdd9955cd25a424cf705ae1060583833aa1"
+  integrity sha512-q0iRMq1Yo0Bh0DYsmGqGrIqJhEb31Sld1v8V0r/j2mls067aUBZM7YfSvscLMT4qG9XLcWEfmm9SC5dmc665wA==
   dependencies:
     "@instana/i18n" "^1.3.2"
     "@instana/i18n-react" "^1.2.3"
@@ -1472,61 +1459,30 @@
     tslib "^2.1.0"
     typescript "^4.1.4"
 
-"@instana/format-numbers@^1.3.0":
-  version "1.3.0"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/format-numbers/-/@instana/format-numbers-1.3.0.tgz#9da88e5ef971be0bbc30b0880fe4831bfaacc38a"
-  integrity sha1-naiOXvlxvgu8MLCID+SDG/qsw4o=
-  dependencies:
-    "@instana/i18n" "^1.3.0"
-    ts-node "^9.1.1"
-    tslib "^2.1.0"
-    typescript "^4.1.4"
-
-"@instana/format-numbers@^1.3.2":
+"@instana/format-numbers@^1.3.0", "@instana/format-numbers@^1.3.2":
   version "1.3.2"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/format-numbers/-/@instana/format-numbers-1.3.2.tgz#1ec1eced12bcc3137fd99aeb442ec9ed36a4f367"
-  integrity sha1-HsHs7RK8wxN/2ZrrRC7J7Tak82c=
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/format-numbers/-/@instana/format-numbers-1.3.2.tgz#10193f3f22d6f391a424de3b68cc6e1c0e23fbf8"
+  integrity sha512-a81isEYtqsxttOVsew93x1EckVo/d8ay26uHlBQMN8C/Pl7934mMYgxvh4ajIa0CnGvbKLVmFUDGvw+DhZdhQw==
   dependencies:
     "@instana/i18n" "^1.3.2"
     ts-node "^9.1.1"
     tslib "^2.1.0"
     typescript "^4.1.4"
 
-"@instana/hooks@^1.5.0":
-  version "1.5.0"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/hooks/-/@instana/hooks-1.5.0.tgz#4e61167a0d69980fb50b4d41d067a26fb8c1acdd"
-  integrity sha1-TmEWeg1pmA+1C01B0Geib7jBrN0=
-  dependencies:
-    "@instana/observables" "^1.5.0"
-    invariant "^2.2.4"
-    shallowequal "^1.1.0"
-
-"@instana/hooks@^1.6.1":
+"@instana/hooks@^1.5.0", "@instana/hooks@^1.6.1":
   version "1.6.1"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/hooks/-/@instana/hooks-1.6.1.tgz#eda91bfb689bbfce3e14bda31462af3bfdaa489e"
-  integrity sha1-7akb+2ibv84+FL2jFGKvO/2qSJ4=
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/hooks/-/@instana/hooks-1.6.1.tgz#cb72031f243848820f396240d03047fd6b5c428a"
+  integrity sha512-Dpmpl2jaXkmRkx+zdY4aU8qgSMXDz0TomqTr9wvdKLjcnv/u1HrdUMc0sUPQFnc62RUxhXuzEwuYiJpwwb5lHg==
   dependencies:
     "@instana/observables" "^1.5.3"
     "@mui/styles" "^5.6.2"
     invariant "^2.2.4"
     shallowequal "^1.1.0"
 
-"@instana/i18n-react@^1.2.0":
-  version "1.2.0"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/i18n-react/-/@instana/i18n-react-1.2.0.tgz#39949ebd01406bb5a51d44cd22966c67d261eabb"
-  integrity sha1-OZSevQFAa7WlHUTNIpZsZ9Jh6rs=
-  dependencies:
-    "@instana/hooks" "^1.5.0"
-    "@instana/observables" "^1.5.0"
-    "@instana/utils" "^1.2.0"
-    ts-node "^9.1.1"
-    tslib "^2.1.0"
-    typescript "^4.1.4"
-
-"@instana/i18n-react@^1.2.3":
+"@instana/i18n-react@^1.2.0", "@instana/i18n-react@^1.2.3":
   version "1.2.3"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/i18n-react/-/@instana/i18n-react-1.2.3.tgz#88688a25786b6c848455fa378293c81106bb563f"
-  integrity sha1-iGiKJXhrbISEVfo3gpPIEQa7Vj8=
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/i18n-react/-/@instana/i18n-react-1.2.3.tgz#454a63a684e2b28def216b028171c8e6425a73e6"
+  integrity sha512-5Y7jT9nFOt/Wv/ZsJtgW4hZp10mpIt/guJ5F2ZhLbrbthYHBAo8b2VhmZ0HJSAb5RVkO1h7P+K/ZKex0SlkK2g==
   dependencies:
     "@instana/hooks" "^1.6.1"
     "@instana/observables" "^1.5.3"
@@ -1535,79 +1491,56 @@
     tslib "^2.1.0"
     typescript "^4.1.4"
 
-"@instana/i18n@^1.3.0":
-  version "1.3.0"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/i18n/-/@instana/i18n-1.3.0.tgz#58bc2a8237d0155c2961c2f7ec8b761f69b7db44"
-  integrity sha1-WLwqgjfQFVwpYcL37It2H2m320Q=
-  dependencies:
-    ts-node "^9.1.1"
-    tslib "^2.1.0"
-    typescript "^4.1.4"
-
-"@instana/i18n@^1.3.2":
+"@instana/i18n@^1.3.0", "@instana/i18n@^1.3.2":
   version "1.3.2"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/i18n/-/@instana/i18n-1.3.2.tgz#ed0e777d05ae1d0eaacd32c1e5abb0531c35bfe4"
-  integrity sha1-7Q53fQWuHQ6qzTLB5auwUxw1v+Q=
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/i18n/-/@instana/i18n-1.3.2.tgz#618d8f934417ec6b79fa73073c1cf29e16f3eb44"
+  integrity sha512-jmQzJqqwe9RLdNGAjQKEmWgnjQnEJ/RE2IiU0/d9df9aqbGEXjGi57UQA+0Mt0H+l7NC8EaAYoTdP2nuk/ZZ+Q==
   dependencies:
     ts-node "^9.1.1"
     tslib "^2.1.0"
     typescript "^4.1.4"
 
-"@instana/import-sort-style-simon@1.2.0":
-  version "1.2.0"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/import-sort-style-simon/-/@instana/import-sort-style-simon-1.2.0.tgz#cea3cb215ea23cc27b48d315f515217bd0662df2"
-  integrity sha1-zqPLIV6iPMJ7SNMV9RUhe9BmLfI=
+"@instana/import-sort-style-simon@1.2.1":
+  version "1.2.1"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/import-sort-style-simon/-/@instana/import-sort-style-simon-1.2.1.tgz#9d304d4a25ea76fa72b880baf240d5ca4896e9f2"
+  integrity sha512-HH9eHYrrfhMxxucPwJt+dBciv9Gxuk9hDhJmt6lz70O3ENTiorn+60N6ixDpRtG4bWXtJgGY1j4vmj571f0tLA==
   dependencies:
     import-sort "^6.0.0"
 
-"@instana/logger@^1.2.0":
-  version "1.2.0"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/logger/-/@instana/logger-1.2.0.tgz#cf4c9851af768f451e09c6ba3cf51e37182632a1"
-  integrity sha1-z0yYUa92j0UeCca6PPUeNxgmMqE=
+"@instana/logger@^1.2.0", "@instana/logger@^1.2.1":
+  version "1.2.1"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/logger/-/@instana/logger-1.2.1.tgz#f089d5323f0c7e75bb9667c377252eb72c938d56"
+  integrity sha512-fHNj7Y2kcvoEPqvYZMSrknAHi341PODCalAv6JaGBEZHEOS5JRG2ZFt7p0PMYOz9m0tdq8qL+gZsCGd3evuF6Q==
   dependencies:
     invariant "^2.2.4"
 
-"@instana/observables@^1.5.0":
-  version "1.5.0"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/observables/-/@instana/observables-1.5.0.tgz#692129599b02c806c4ff3fb087b7f575792ba9ff"
-  integrity sha1-aSEpWZsCyAbE/z+wh7f1dXkrqf8=
-
-"@instana/observables@^1.5.3":
+"@instana/observables@^1.5.0", "@instana/observables@^1.5.3":
   version "1.5.3"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/observables/-/@instana/observables-1.5.3.tgz#46fe401f17e7041b0b5ab7cd859ec7ef9ec523c7"
-  integrity sha1-Rv5AHxfnBBsLWrfNhZ7H757FI8c=
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/observables/-/@instana/observables-1.5.3.tgz#357b9295f39549639329e9b753a5cd574b69486c"
+  integrity sha512-8Jpl/yeP4OSQADXxHkZIzh8sAyxWhoU5+xkBKGKLHsNKrTGF59fcYhayhOxYf76GlffdpwXPCXN+1GdBPWjzyw==
 
 "@instana/pseudo-translation@^1.2.0":
-  version "1.2.0"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/pseudo-translation/-/@instana/pseudo-translation-1.2.0.tgz#2d7f9b44336a97118e39727656d0bc275f05b7a6"
-  integrity sha1-LX+bRDNqlxGOOXJ2VtC8J18Ft6Y=
+  version "1.2.3"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/pseudo-translation/-/@instana/pseudo-translation-1.2.3.tgz#6c45c13e1fb4947b1e419de75cf46d6076682f87"
+  integrity sha512-TZYcfMTw31mrrGfDt29LvYpEKFNWR7knBLLL98+md+WTCtP/kITH02VVnduYZD8eyD8wlVHoJzcBDXV8eRpyRA==
 
 "@instana/roemitter@^1.2.0":
-  version "1.2.0"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/roemitter/-/@instana/roemitter-1.2.0.tgz#364c5caf54a69490ce74c3d43e972be9f795086c"
-  integrity sha1-Nkxcr1SmlJDOdMPUPpcr6feVCGw=
+  version "1.2.3"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/roemitter/-/@instana/roemitter-1.2.3.tgz#45eb90a5006f354e3694c2abf1d2ab055767f31f"
+  integrity sha512-S9uLo4H1vXyOSJPMNHIg3PTzWXsyzl+94rdOjLCSDZIf8rm94fwnJERrJr5xkpaTZQ1UfR2zgrkLOeUXSwDalg==
   dependencies:
-    "@instana/logger" "^1.2.0"
-    "@instana/observables" "^1.5.0"
+    "@instana/logger" "^1.2.1"
+    "@instana/observables" "^1.5.3"
 
-"@instana/types@1.231.225":
-  version "1.231.225"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/types/-/@instana/types-1.231.225.tgz#d1f3707bd7914549ae8a10266b8396f2459890ea"
-  integrity sha1-0fNwe9eRRUmuihAma4OW8kWYkOo=
+"@instana/types@1.232.47":
+  version "1.232.47"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/types/-/@instana/types-1.232.47.tgz#997e2fde3cf0dd85520d6d4db23b2941ed462ea3"
+  integrity sha512-iWYAelsP2nF0vNet9+7huIG9RC7uJDAjkB11z7wmv+2i9HFcqkajMbQoxwmoBjpRnwFzLpkz+R1laqVIN8Eiug==
 
-"@instana/utils@^1.1.0", "@instana/utils@^1.2.0":
-  version "1.2.0"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/utils/-/@instana/utils-1.2.0.tgz#f4dc00f8223b845d315b5f9c648a6a3ac350d3bf"
-  integrity sha1-9NwA+CI7hF0xW1+cZIpqOsNQ078=
-  dependencies:
-    ts-node "^9.1.1"
-    tslib "^2.1.0"
-    typescript "^4.1.4"
-
-"@instana/utils@^1.2.2":
+"@instana/utils@^1.1.0", "@instana/utils@^1.2.2":
   version "1.2.2"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/utils/-/@instana/utils-1.2.2.tgz#5c750eb3906835e99e3a8be537d00f1775b61d3e"
-  integrity sha1-XHUOs5BoNemeOovlN9APF3W2HT4=
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/utils/-/@instana/utils-1.2.2.tgz#1cd3e9eda67591d40c2c1df2d59118c722b95115"
+  integrity sha512-ppiFmFtdedLP8cN3A0AH+Te65qV2nyV+w8yzibfjR/o4lclG5Fl0lTcOwTPGrii2FSx6txKjDKauy+W3HdEX8A==
   dependencies:
     ts-node "^9.1.1"
     tslib "^2.1.0"
@@ -7266,8 +7199,8 @@ hey-listen@^1.0.8:
 
 history@4.7.2-ENCODING-FIX:
   version "4.7.2-ENCODING-FIX"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/history/-/history-4.7.2-ENCODING-FIX.tgz#b0f367ba89adecab7c7262527b7818778fbaeba2"
-  integrity sha1-sPNnuomt7Kt8cmJSe3gYd4+666I=
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/history/-/history-4.7.2-ENCODING-FIX.tgz#23ec0093489e904fa9152ff822390f5e43dd6b8e"
+  integrity sha512-tadQQwEfgLOHGhGAJA5IhntaQVMSMEGPTO7vj/0PG9E6BGZVrH1BSErsQsW1e5WC8VTAhSmdcPloEx1uANaQLg==
   dependencies:
     babel-runtime "^6.26.0"
     invariant "^2.2.1"
@@ -11819,8 +11752,8 @@ rechoir@^0.6.2:
 
 recompose@0.30.0-INSTANA:
   version "0.30.0-INSTANA"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/recompose/-/recompose-0.30.0-INSTANA.tgz#03ec9d7a938624fb343f3a0db8eb7cfd983592ea"
-  integrity sha1-A+ydepOGJPs0PzoNuOt8/Zg1kuo=
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/recompose/-/recompose-0.30.0-INSTANA.tgz#eba121bea29e30c8e0c4c42fdd77bd3b8752fc6a"
+  integrity sha1-66EhvqKeMMjgxMQv3Xe9O4dS/Go=
   dependencies:
     "@babel/runtime" "^7.0.0"
     change-emitter "^0.1.2"
