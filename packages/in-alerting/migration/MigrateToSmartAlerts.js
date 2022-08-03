@@ -80,9 +80,10 @@ function doMigration(eventSpecificationId, setMigrating, migrationInProgress, se
   getAlertConfigFromLegacyEvent({ eventSpecificationId })
     .filter(res => !isLoading(res))
     .map(res => res?.data ?? {})
-    .map(({ globalApplicationsAlertConfig, applicationAlertConfig, globalSmartAlert }) => ({
+    .map(({ globalApplicationsAlertConfig, applicationAlertConfig, globalSmartAlert, scopeMigrationDetails }) => ({
       globalSmartAlert,
-      config: globalSmartAlert ? globalApplicationsAlertConfig : applicationAlertConfig
+      config: globalSmartAlert ? globalApplicationsAlertConfig : applicationAlertConfig,
+      scopeMigrationDetails
     }))
     .once(
       res => showSmartAlertDialog({ eventSpecificationId, setMigrating, setMigrationInProgress, ...res }),
@@ -90,13 +91,7 @@ function doMigration(eventSpecificationId, setMigrating, migrationInProgress, se
     );
 }
 
-function showSmartAlertDialog({
-  globalSmartAlert,
-  config,
-  eventSpecificationId,
-  setMigrating,
-  setMigrationInProgress
-}) {
+function showSmartAlertDialog({ globalSmartAlert, config, scopeMigrationDetails, eventSpecificationId, setMigrating, setMigrationInProgress }) {
   if (config) {
     addActiveDialog(
       <SmartAlertConfigDialogWrapper
@@ -111,6 +106,7 @@ function showSmartAlertDialog({
           close();
         }}
         isGlobalSmartAlert={globalSmartAlert}
+        scopeMigrationDetails={scopeMigrationDetails}
         editMode
         migrationMode
       />
