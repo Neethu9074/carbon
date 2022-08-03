@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2022
  */
 
+import { get, reverse, sortBy } from 'lodash';
 import React, { ReactNode } from 'react';
-import { get } from 'lodash';
 
 import { Button, Link } from '@instana/components';
 import { Observable } from '@instana/observables';
@@ -84,6 +84,9 @@ const scoreColumn = {
   id: 'score',
   getContent(row: Action) {
     return row.score?.toFixed(2);
+  },
+  getValue(row: Action) {
+    return row.score;
   }
 };
 
@@ -158,7 +161,7 @@ export default function ActionTable({
   return (
     <List<Action>
       title={title}
-      initalOrderDir={'DESC'}
+      initalOrderDir={scored ? 'DESC' : 'ASC'}
       noDataMessage={noDataMessage}
       pageSize={pageSize}
       initialOrderBy={scored ? 'score' : 'name'}
@@ -173,6 +176,7 @@ export default function ActionTable({
       tableActions={tableActions}
       extraFilters={createFilters(hiddenIds)}
       getEntityName={getEntityName}
+      customSortEntities={sortEntities}
     />
   );
 }
@@ -187,4 +191,28 @@ function createFilters(ids: string[]): Array<(action: Action) => boolean> {
     filterFunctions.push((action: Action) => ids.indexOf(action.id) < 0);
   }
   return filterFunctions;
+}
+
+function sortEntities({
+  entities,
+  orderByState,
+  orderDirectionState
+}: {
+  entities: Action[];
+  orderByState: keyof Action;
+  orderDirectionState: 'ASC' | 'DESC';
+}): Action[] {
+  const caseInsensitiveSortIteratee = (entity: Action) => {
+    let value = entity[orderByState as keyof Action];
+    if (orderByState === 'score') {
+      return [value, entity.name.trim().toLowerCase()];
+    }
+    return typeof value === 'string' ? value.trim().toLowerCase() : value;
+  };
+
+  const sorted = sortBy(entities, caseInsensitiveSortIteratee);
+  if (orderDirectionState === 'DESC') {
+    reverse(sorted);
+  }
+  return sorted;
 }

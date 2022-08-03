@@ -44,6 +44,17 @@ interface ListProps<ItemType extends Object> {
   tableActions?: TableActions<ItemType>;
   getEntityName?: (element: ItemType) => string;
   initalOrderDir?: 'ASC' | 'DESC';
+  customSortEntities?: ({
+    entities,
+    columnDefinitions,
+    orderByState,
+    orderDirectionState
+  }: {
+    entities: ItemType[];
+    columnDefinitions: ColumnDefinition<ItemType>[];
+    orderByState: keyof ItemType;
+    orderDirectionState: 'ASC' | 'DESC';
+  }) => ItemType[];
 }
 
 declare function ListComponent<ItemType extends Object>(props: ListProps<ItemType>): JSX.Element;
