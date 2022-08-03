@@ -46,7 +46,7 @@ module.exports = {
   agentInstallViewRestrictedToIBMSaas: false,
   traceDetailViewV2Enabled: false,
   deprecateAppDataLegacyEventsEnabled: true,
-  disallowAppDataLegacyEventsEnabled: true,
+  disallowAppDataLegacyEventsEnabled: false,
   hideAppDataLegacyEventsEnabled: false,
   potentialProblemsEnabled: true,
   adaptiveBaselineEnabled: true,

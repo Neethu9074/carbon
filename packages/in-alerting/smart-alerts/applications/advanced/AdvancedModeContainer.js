@@ -50,6 +50,8 @@ export default function AdvancedModeContainer(props) {
     thresholdResult,
     messages,
     editMode,
+    migrationMode,
+    scopeMigrationDetails,
     QueryBuilderComponent,
     isTagFilterFormModelValid,
     applicationLabel,
@@ -133,6 +135,8 @@ export default function AdvancedModeContainer(props) {
                 QueryBuilderComponent={QueryBuilderComponent}
                 isGlobalSmartAlert={isGlobalSmartAlert}
                 editMode={editMode}
+                migrationMode={migrationMode}
+                scopeMigrationDetails={scopeMigrationDetails}
                 initialConfiguredApplications={initialConfiguredApplications}
                 thresholdType={thresholdType}
               />
