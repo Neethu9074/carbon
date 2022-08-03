@@ -54,6 +54,7 @@ export default function SyntheticAnalyzeView() {
   const testId = getMatrixParameter(location, syntheticDetailsPath, 'testId') ?? '';
   const resultId = getMatrixParameter(location, syntheticDetailsPath, 'id') ?? '';
   let test: TestResponse = useObservable<any, [number]>(() => getTest(testId), [0]) || dummyTest;
+  let isHTTPActionType = get(test, ['data', 'configuration', 'syntheticType']) === 'HTTPAction' ? true : false;
 
   let details: ResultDetailsResponse =
     useObservable<any, [number]>(
@@ -249,15 +250,17 @@ export default function SyntheticAnalyzeView() {
                   />
                 </Col>
               </Row>
-              <Row>
-                <Col lg={12}>
-                  <Logs
-                    testId={testId}
-                    resultId={resultId}
-                    timestamp={get(head(get(details, ['data', 'subtransactions'])), 'properties.startTime')}
-                  />
-                </Col>
-              </Row>
+              {!isHTTPActionType && (
+                <Row>
+                  <Col lg={12}>
+                    <Logs
+                      testId={testId}
+                      resultId={resultId}
+                      timestamp={get(head(get(details, ['data', 'subtransactions'])), 'properties.startTime')}
+                    />
+                  </Col>
+                </Row>
+              )}
             </Fragment>
           </LeftRightPadding>
         )}
