@@ -1416,14 +1416,14 @@
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha1-tSBSnsIdjllFoYUd/Rwy6U45/0U=
 
-"@instana/components@^1.49.0":
-  version "1.49.0"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/components/-/@instana/components-1.49.0.tgz#d2ed6c417511f718c04b3610b337adce7e204679"
-  integrity sha512-2/VxlKxhhHXlOsN4nYofN6s7huUOXtr1LlfO7gCqubRumjgvHqWCFIEFXPyHlm/REvOYV5jWH2/2BX/Jnvv8og==
+"@instana/components@^1.49.1":
+  version "1.49.1"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/components/-/@instana/components-1.49.1.tgz#ae28f219304605284094c4283f3ba19311a8d3df"
+  integrity sha512-Qn2ENlMSfDCVwMNl7UDvzQVcB62CRkhhUy//CJQt/Hue5TDXYs4lQ99/H0sRTSwbHyFt1Poe5kwVkEvgagTV+A==
   dependencies:
     "@emotion/react" "^11.9.0"
     "@emotion/styled" "^11.8.1"
-    "@instana/design-tokens" "^1.12.4"
+    "@instana/design-tokens" "^1.12.5"
     "@instana/format-date" "^1.3.3"
     "@instana/format-numbers" "^1.3.2"
     "@instana/hooks" "^1.6.1"
@@ -1437,10 +1437,10 @@
     prismjs "^1.24.1"
     react-toggle "^4.1.2"
 
-"@instana/design-tokens@^1.12.4":
-  version "1.12.4"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/design-tokens/-/@instana/design-tokens-1.12.4.tgz#925743326a6e25cea899e3839b5c7c75a19acf0d"
-  integrity sha512-KtMNUUY/aJyRcQASMRZxbmmhoefw/5MNpY3nWVwp8VXwjLP9rx+Ky0nDJDW61gHZ/q9OrnQGMDVPIpnb5iETXA==
+"@instana/design-tokens@^1.12.5":
+  version "1.12.5"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/design-tokens/-/@instana/design-tokens-1.12.5.tgz#dabbc229e44028f3b7b5fc525474f0b09cdab242"
+  integrity sha512-D4+poQayd47D9MUgQLeKfe2NgdvQtj6/yzFkWrsv13ky/0vYxsEdTv6s/vO6whwxcjeDRwPkRPqgo1AZKXwmwg==
   dependencies:
     ts-node "^9.1.1"
     tslib "^2.1.0"
@@ -2927,7 +2927,7 @@ archy@^1.0.0:
 arg@^4.1.0:
   version "4.1.3"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/arg/-/arg-4.1.3.tgz#269fc7ad5b8e42cb63c896d5666017261c144089"
-  integrity sha1-Jp/HrVuOQstjyJbVZmAXJhwUQIk=
+  integrity sha512-58S9QDqG0Xx27YwPSt9fJxivjYl432YCwfDMfZ+71RAqUrZef7LrKQZ3LHLOwCS4FLNBplP533Zx895SeOCHvA==
 
 argparse@^1.0.7:
   version "1.0.10"
@@ -3697,7 +3697,7 @@ buffer-fill@^1.0.0:
 buffer-from@^1.0.0:
   version "1.1.2"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/buffer-from/-/buffer-from-1.1.2.tgz#2b146a6fd72e80b4f55d255f35ed59a3a9a41bd5"
-  integrity sha1-KxRqb9cugLT1XSVfNe1Zo6mkG9U=
+  integrity sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==
 
 buffer-indexof@^1.0.0:
   version "1.1.1"
@@ -4524,7 +4524,7 @@ cosmiconfig@^7.0.0:
 create-require@^1.1.0:
   version "1.1.1"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/create-require/-/create-require-1.1.1.tgz#c1d7e8f1e5f6cfc9ff65f9cd352d37348756c333"
-  integrity sha1-wdfo8eX2z8n/ZfnNNS03NIdWwzM=
+  integrity sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==
 
 cross-spawn@^5.0.1:
   version "5.1.0"
@@ -5091,7 +5091,7 @@ diff-sequences@^27.5.1:
 diff@^4.0.1:
   version "4.0.2"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/diff/-/diff-4.0.2.tgz#60f3aecb89d5fae520c11aa19efc2bb982aade7d"
-  integrity sha1-YPOuy4nV+uUgwRqhnvwruYKq3n0=
+  integrity sha512-58lmxKSA4BNyLz+HHMUzlOEpg09FV+ev6ZMe3vJihgdxzgcwZ8VoEEPmALCZG9LmqfVoNMMKpttIYTVG6uDY7A==
 
 diff@^5.0.0:
   version "5.0.0"
@@ -9454,7 +9454,7 @@ make-dir@^3.0.0, make-dir@^3.0.2, make-dir@^3.1.0:
 make-error@^1.1.1:
   version "1.3.6"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/make-error/-/make-error-1.3.6.tgz#2eb2e37ea9b67c4891f684a1394799af484cf7a2"
-  integrity sha1-LrLjfqm2fEiR9oShOUeZr0hM96I=
+  integrity sha512-s8UhlNe7vPKomQhC1qFelMokr/Sc3AgNbso3n74mVPA5LTZwkB9NlXf4XPamLxJE8h0gh73rM94xvwRT2CVInw==
 
 make-iterator@^1.0.0:
   version "1.0.1"
@@ -12600,10 +12600,18 @@ source-map-resolve@^0.6.0:
     atob "^2.1.2"
     decode-uri-component "^0.2.0"
 
-source-map-support@^0.5.16, source-map-support@^0.5.17, source-map-support@^0.5.6, source-map-support@~0.5.20:
+source-map-support@^0.5.16, source-map-support@^0.5.6, source-map-support@~0.5.20:
   version "0.5.20"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/source-map-support/-/source-map-support-0.5.20.tgz#12166089f8f5e5e8c56926b377633392dd2cb6c9"
   integrity sha1-EhZgifj15ejFaSazd2Mzkt0stsk=
+  dependencies:
+    buffer-from "^1.0.0"
+    source-map "^0.6.0"
+
+source-map-support@^0.5.17:
+  version "0.5.21"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/source-map-support/-/source-map-support-0.5.21.tgz#04fe7c7f9e1ed2d662233c28cb2b35b9f63f6e4f"
+  integrity sha512-uBHU3L3czsIyYXKX88fdrGovxdSCoTGDRZ6SYXtSRxLZUzHg5P/66Ht6uoUlHu9EZod+inXhKo3qQgwXUT/y1w==
   dependencies:
     buffer-from "^1.0.0"
     source-map "^0.6.0"
@@ -12621,7 +12629,7 @@ source-map@^0.5.0, source-map@^0.5.1, source-map@^0.5.3, source-map@^0.5.6, sour
 source-map@^0.6.0, source-map@^0.6.1, source-map@~0.6.0, source-map@~0.6.1:
   version "0.6.1"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
-  integrity sha1-dHIq8y6WFOnCh6jQu95IteLxomM=
+  integrity sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==
 
 source-map@^0.7.3, source-map@~0.7.2:
   version "0.7.3"
@@ -13371,7 +13379,7 @@ trim-repeated@^1.0.0:
 ts-node@^9.1.1:
   version "9.1.1"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/ts-node/-/ts-node-9.1.1.tgz#51a9a450a3e959401bda5f004a72d54b936d376d"
-  integrity sha1-UamkUKPpWUAb2l8ASnLVS5NtN20=
+  integrity sha512-hPlt7ZACERQGf03M253ytLY3dHbGNGrAq9qIHWUY9XHYl1z7wYngSr3OQ5xmui8o2AaxsONxIzjafLUiWBo1Fg==
   dependencies:
     arg "^4.1.0"
     create-require "^1.1.0"
@@ -13395,10 +13403,15 @@ tslib@^1.10.0, tslib@^1.8.1:
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/tslib/-/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
   integrity sha1-zy04vcNKE0vK8QkcQfZhni9nLQA=
 
-tslib@^2.0.1, tslib@^2.0.3, tslib@^2.1.0, tslib@^2.2.0:
+tslib@^2.0.1, tslib@^2.0.3, tslib@^2.2.0:
   version "2.3.1"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/tslib/-/tslib-2.3.1.tgz#e8a335add5ceae51aa261d32a490158ef042ef01"
   integrity sha1-6KM1rdXOrlGqJh0ypJAVjvBC7wE=
+
+tslib@^2.1.0:
+  version "2.4.0"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/tslib/-/tslib-2.4.0.tgz#7cecaa7f073ce680a05847aa77be941098f36dc3"
+  integrity sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==
 
 tslib@~2.1.0:
   version "2.1.0"
@@ -13483,7 +13496,12 @@ typedarray@^0.0.6:
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typescript@^4.1.4, typescript@^4.3.5:
+typescript@^4.1.4:
+  version "4.7.4"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/typescript/-/typescript-4.7.4.tgz#1a88596d1cf47d59507a1bcdfb5b9dfe4d488235"
+  integrity sha512-C0WQT0gezHuw6AdY1M2jxUO83Rjf0HP7Sk1DtXj6j1EwkQNZrHAg2XPWlq62oqEhYvONq5pkC2Y9oPljWToLmQ==
+
+typescript@^4.3.5:
   version "4.4.4"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/typescript/-/typescript-4.4.4.tgz#2cd01a1a1f160704d3101fd5a58ff0f9fcb8030c"
   integrity sha1-LNAaGh8WBwTTEB/VpY/w+fy4Aww=
@@ -14237,7 +14255,7 @@ yauzl@^2.4.2:
 yn@3.1.1:
   version "3.1.1"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/yn/-/yn-3.1.1.tgz#1e87401a09d767c1d5eab26a6e4c185182d2eb50"
-  integrity sha1-HodAGgnXZ8HV6rJqbkwYUYLS61A=
+  integrity sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q==
 
 yocto-queue@^0.1.0:
   version "0.1.0"

@@ -19,9 +19,10 @@ interface WidgetHeaderProps {
   title: string;
   entityType: ApdexEntityTypes;
   entityLabel: string;
+  showPreviewDataNotice?: boolean;
 }
 
-export default function WidgetHeader({ title, entityType, entityLabel }: WidgetHeaderProps) {
+export default function WidgetHeader({ title, entityType, entityLabel, showPreviewDataNotice }: WidgetHeaderProps) {
   const iconType = {
     website: 'lib_website',
     application: 'lib_application'
@@ -29,18 +30,23 @@ export default function WidgetHeader({ title, entityType, entityLabel }: WidgetH
   const tooltipText = t('in-custom-dashboards:widgets.apdex.entityInfo.tooltip', { context: entityType });
 
   return (
-    <Stack direction="horizontal" align="center">
-      <StackItem>
-        <div className={locals.title}>{title}</div>
-      </StackItem>
-      <StackItem>
-        <Stack direction="horizontal">
-          <Tooltip content={tooltipText}>
-            <SvgIcon type={iconType} color={theme.lib.colors.N600Light} aria-label={tooltipText} />
-          </Tooltip>
-          <span className={locals.entityLabel}>{entityLabel}</span>
-        </Stack>
-      </StackItem>
+    <Stack gap="xxsmall">
+      <Stack direction="horizontal" align="center">
+        <StackItem>
+          <div className={locals.title}>{title}</div>
+        </StackItem>
+        <StackItem>
+          <Stack direction="horizontal">
+            <Tooltip content={tooltipText}>
+              <SvgIcon type={iconType} color={theme.lib.colors.N600Light} aria-label={tooltipText} />
+            </Tooltip>
+            <span className={locals.entityLabel}>{entityLabel}</span>
+          </Stack>
+        </StackItem>
+      </Stack>
+      {showPreviewDataNotice && (
+        <span className={locals.subtext}>{t('in-custom-dashboards:widgets.apdex.widget.previewDataInfo')}</span>
+      )}
     </Stack>
   );
 }

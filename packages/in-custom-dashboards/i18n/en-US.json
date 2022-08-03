@@ -572,7 +572,7 @@
         "thousandCallsFormat": "{{count}}K calls"
       },
       "widgetLeftHeader": {
-        "previewDataInfo": "Preview data is shown up to 7 days in the past if SLI configuration was created recently. The final widget will only include data since SLI creation"
+        "previewDataInfo": "Preview data is shown up to 7 days in the past if SLI configuration was created recently. The final widget will only include data since SLI creation."
       },
       "boundaryScopeConfigurator": {
         "all": {
@@ -652,7 +652,8 @@
       },
       "widget": {
         "unknownEntityLabel_application": "Unknown Application",
-        "unknownEntityLabel_website": "Unknown Website"
+        "unknownEntityLabel_website": "Unknown Website",
+        "previewDataInfo": "Preview data is shown up to 7 days in the past if Apdex configuration was created recently. The final widget will only include data since Apdex creation."
       },
       "applicationScopeConfigurator": {
         "label": "Apdex Scope",

@@ -32,6 +32,7 @@ interface ApdexWidgetProps {
   nonInteractive?: boolean;
   automaticallySize?: boolean;
   height?: number;
+  showPreviewDataNotice?: boolean;
 }
 
 export default function ApdexWidget({
@@ -49,7 +50,8 @@ export default function ApdexWidget({
   timeConfig,
   nonInteractive,
   automaticallySize,
-  height
+  height,
+  showPreviewDataNotice
 }: ApdexWidgetProps) {
   const contextMenu = useApdexWidgetContextMenu({ apdexConfig, tagCatalog });
 
@@ -58,7 +60,14 @@ export default function ApdexWidget({
       dragHandle={dragHandle}
       actions={actions}
       progress={progress}
-      header={<WidgetHeader title={title} entityType={entityType} entityLabel={entityLabel} />}
+      header={
+        <WidgetHeader
+          title={title}
+          entityType={entityType}
+          entityLabel={entityLabel}
+          showPreviewDataNotice={showPreviewDataNotice}
+        />
+      }
     >
       <ApdexChart
         metrics={metrics}
