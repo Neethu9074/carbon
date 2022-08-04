@@ -72,7 +72,7 @@ export default class extends React.Component {
 
   render() {
     return (
-      <div ref={table => (this.table = table)}>
+      <div ref={table => (this.table = table)} style={{ height: this.props.height }}>
         <ViewTrackingMeta
           data={{
             productArea: 'Events',
