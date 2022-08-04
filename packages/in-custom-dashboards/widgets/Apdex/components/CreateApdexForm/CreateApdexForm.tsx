@@ -7,6 +7,8 @@
 import React, { useEffect, useState } from 'react';
 import { Item, MapForm } from 'formalistic';
 
+import { ApdexConfiguration, Result } from '@instana/types';
+
 import {
   apdexNameKey,
   createForm,
@@ -21,7 +23,6 @@ import getTranslatedErrorMessage from 'in-custom-dashboards/widgets/Apdex/compon
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { getField } from 'in-custom-dashboards/widgets/Apdex/form';
-import { ApdexConfiguration, Result } from 'in-types';
 import { seconds } from 'in-services/time/time';
 import { t } from 'in-i18n';
 

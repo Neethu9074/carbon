@@ -7,6 +7,7 @@
 import React from 'react';
 
 import { ApdexConfiguration, TagCatalog } from '@instana/types';
+import { Error, Progress, TimeConfig } from '@instana/types';
 
 import useApdexWidgetContextMenu from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexWidgetContextMenu';
 import WidgetHeader from 'in-custom-dashboards/widgets/Apdex/components/WidgetHeader';
@@ -14,7 +15,6 @@ import WidgetCard from 'in-custom-dashboards/widgets/Apdex/components/WidgetCard
 import ApdexChart from 'in-custom-dashboards/widgets/Apdex/components/ApdexChart';
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
 import { MetricDataSeries } from 'in-components/Chart/types';
-import { Error, Progress, TimeConfig } from 'in-types';
 
 interface ApdexWidgetProps {
   title: string;
@@ -62,6 +62,7 @@ export default function ApdexWidget({
       progress={progress}
       header={
         <WidgetHeader
+          apdexConfig={apdexConfig}
           title={title}
           entityType={entityType}
           entityLabel={entityLabel}

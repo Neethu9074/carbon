@@ -11,9 +11,9 @@ import {
   isWebsiteApdexEntity,
   WebsiteApdexEntity
 } from '@instana/types';
+import { ApdexEntityApdexType } from '@instana/types';
 
 import { applicationApdexEnabled } from 'in-services/featureFlags';
-import { ApdexEntityApdexType } from 'in-types';
 
 export type ApdexEntityTypes = Lowercase<ApdexEntityApdexType>;
 export const AvailableEntityTypes: readonly ApdexEntityTypes[] = Object.freeze(

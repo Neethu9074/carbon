@@ -4,8 +4,9 @@
  * Copyright IBM Corp. 2022
  */
 
+import { Error } from '@instana/types';
+
 import { isTechnicalError } from 'in-services/util/error';
-import { Error } from 'in-types';
 import { t } from 'in-i18n';
 
 const APDEX_CONFIG_NAME_EXISTS_SERVER_ERROR = 'Apdex configuration with this name already exists';

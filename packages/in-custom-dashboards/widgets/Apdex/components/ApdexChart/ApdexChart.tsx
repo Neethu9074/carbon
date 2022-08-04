@@ -6,10 +6,11 @@
 
 import React from 'react';
 
+import { Error, Progress, TimeConfig } from '@instana/types';
+
 import useApdexLineRenderer from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexLineRenderer';
 import { ContextMenuConfig, MetricDataSeries } from 'in-components/Chart/types';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
-import { Error, Progress, TimeConfig } from 'in-types';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 

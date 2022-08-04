@@ -6,9 +6,10 @@
 
 import { useState } from 'react';
 
+import { ApdexConfiguration, ApdexConfigurationInput, Result } from '@instana/types';
+
 import { FormSubmitState } from 'in-custom-dashboards/widgets/Slo/sli/components/create/CreateSliForm';
 import { createApdexConfiguration } from 'in-custom-dashboards/widgets/Apdex/api';
-import { ApdexConfiguration, ApdexConfigurationInput, Result } from 'in-types';
 import { hasError, isLoading } from 'in-services/util/result';
 
 interface DoSubmitFunction {

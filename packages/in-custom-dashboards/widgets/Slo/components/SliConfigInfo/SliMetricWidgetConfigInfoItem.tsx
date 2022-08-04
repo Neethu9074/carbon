@@ -6,6 +6,7 @@
 import React from 'react';
 
 import { getIntlNumberFormatter } from '@instana/format-numbers';
+import { StackItem } from '@instana/components';
 
 import {
   getMetricOptions,
@@ -14,7 +15,7 @@ import {
   MetricType,
   MetricOptions
 } from 'in-custom-dashboards/widgets/Slo/sli/metricFormData';
-import SliConfigInfoItem from 'in-custom-dashboards/widgets/Slo/components/SliConfigInfo/SliConfigInfoItem';
+import WidgetConfigInfoItem from 'in-custom-dashboards/widgets/Slo/components/WidgetConfigInfo/WidgetConfigInfoItem';
 import { SliConfig, CombinedSliEntity } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/constants';
 import { Nullish, SliConfigMetricConfiguration } from 'in-types';
@@ -38,15 +39,15 @@ const getThresholdToDisplay = <S extends MonitoringSource, E extends MetricEntit
   return thresholdFormatter(thresholdToDisplay);
 };
 
-interface SliConfigInfoMetricItemProps<S extends MonitoringSource = MonitoringSource> {
+interface SliMetricWidgetConfigInfoItemProps<S extends MonitoringSource = MonitoringSource> {
   sliConfig?: SliConfig<CombinedSliEntity>;
   entityType: S;
 }
 
-export default function SliConfigInfoMetricItem<S extends MonitoringSource>({
+export default function SliMetricWidgetConfigInfoItem<S extends MonitoringSource>({
   sliConfig,
   entityType
-}: SliConfigInfoMetricItemProps<S>) {
+}: SliMetricWidgetConfigInfoItemProps<S>) {
   if (sliConfig?.metricConfiguration) {
     const { metricConfiguration, sliEntity } = sliConfig;
     const { metricName } = metricConfiguration;
@@ -57,10 +58,10 @@ export default function SliConfigInfoMetricItem<S extends MonitoringSource>({
     const metricLabel = `${t(`in-custom-dashboards:widgets.slo.sliConfig.metric`)}:`;
 
     return (
-      <>
-        <SliConfigInfoItem label={metricLabel} value={getMetricToDisplay(metricConfiguration)} />
-        <SliConfigInfoItem label={unitLabel} value={getThresholdToDisplay(metricConfiguration, metricOptions)} />
-      </>
+      <StackItem>
+        <WidgetConfigInfoItem label={metricLabel} value={getMetricToDisplay(metricConfiguration)} />
+        <WidgetConfigInfoItem label={unitLabel} value={getThresholdToDisplay(metricConfiguration, metricOptions)} />
+      </StackItem>
     );
   }
 

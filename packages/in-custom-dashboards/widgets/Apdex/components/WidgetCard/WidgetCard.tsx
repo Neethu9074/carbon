@@ -7,8 +7,7 @@
 import React from 'react';
 
 import { Card, HorizontalIndicator } from '@instana/components';
-
-import { Progress } from 'in-types';
+import { Progress } from '@instana/types';
 
 import locals from './WidgetCard.mless';
 

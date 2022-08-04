@@ -470,7 +470,7 @@
         "beaconConfigLabel": "Beacon Configuration",
         "beaconScopeLabel": "Beacon Scope",
         "httpRequestsLabel": "HTTP Requests",
-        "beaconFiltersLabel": "Beacon Filters"
+        "beaconFiltersLabel": "Beacon Filter"
       },
       "sliList": {
         "serviceLevelIndicators": "Service Level Indicators",
@@ -595,6 +595,12 @@
         "title": "Apdex for Prod",
         "entityLabel": "Robot Shop"
       },
+      "apdexConfigInfo": {
+        "tagFilterLabel": "Filter",
+        "apdexNameLabel": "Apdex Name",
+        "apdexTypeLabel": "Apdex Type",
+        "thresholdLabel": "Threshold"
+      },
       "formComponent": {
         "title": "Apdex Configuration",
         "entityTypeTitle": "Apdex Type",
@@ -659,7 +665,7 @@
         "label": "Apdex Scope",
         "boundaryScope": "Boundary",
         "hiddenCalls": "Hidden Calls",
-        "additionalFilters": "Additional Filters"
+        "additionalFilters": "Additional Filter"
       }
     },
     "timezone": {
