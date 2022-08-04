@@ -234,14 +234,13 @@ export function saveActionAssociation(eventSpecification) {
   }).map(response => fromJS(response.body));
 }
 
-export function saveActionAssociationBuiltin(actionId, eventId) {
+export function saveActionAssociationBuiltin(actions, eventId) {
   return http({
-    method: 'POST',
+    method: 'PUT',
     maxRetries: 3,
-    url: `/api/events/settings/event-specifications/built-in/${encodeURIComponent(
-      eventId
-    )}/actions/${encodeURIComponent(actionId)}`,
-    headers: getCsrfHeader()
+    url: `/api/events/settings/beta/event-specifications/built-in/${encodeURIComponent(eventId)}/actions`,
+    headers: getCsrfHeader(),
+    data: actions
   }).map(response => fromJS(response.body));
 }
 
@@ -260,17 +259,6 @@ export function getActionAssociationBuiltin(eventSpecificationId) {
     maxRetries: 3,
     url: `/api/events/settings/event-specifications/built-in/${encodeURIComponent(eventSpecificationId)}/actions`,
     treat400AsError: false
-  }).map(response => fromJS(response.body));
-}
-
-export function deleteActionAssociationBuiltin(actionId, eventId) {
-  return http({
-    method: 'DELETE',
-    maxRetries: 3,
-    url: `/api/events/settings/event-specifications/built-in/${encodeURIComponent(
-      eventId
-    )}/actions/${encodeURIComponent(actionId)}`,
-    headers: getCsrfHeader()
   }).map(response => fromJS(response.body));
 }
 

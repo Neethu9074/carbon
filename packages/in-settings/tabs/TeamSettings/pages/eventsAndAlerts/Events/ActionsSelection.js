@@ -43,15 +43,6 @@ function submitActionSelection(form, setForm, selectedIds) {
   );
 }
 
-export function combineResults(entityResult, metricResult) {
-  let actionsIds = [];
-  metricResult.toJS().forEach(action => {
-    actionsIds.push(action.id);
-  });
-  entityResult.actionIds = actionsIds;
-  return entityResult;
-}
-
 const getSelectedActionsForEvent = createMemoizedObservableForReferencedEntities(function(selectedActions) {
   if (selectedActions.length === 0) {
     return alwaysEmptyArray;
@@ -64,7 +55,7 @@ const getSelectedActionsForEvent = createMemoizedObservableForReferencedEntities
   );
 });
 
-export function ActionsSelection({ form, setForm, entity }) {
+export default function ActionsSelection({ form, setForm, entity }) {
   const selectedActions = form.get('actionIds') ? form.get('actionIds').value : [];
   const eventName = entity.get('name');
   const eventDescription = entity.get('description');

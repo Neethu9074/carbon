@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { difference } from 'lodash';
 import React from 'react';
 
 import { combineLatest } from '@instana/observables';
@@ -11,14 +10,10 @@ import { combineLatest } from '@instana/observables';
 import {
   createCustomThresholdBasedEventSpecification,
   getActionAssociationBuiltin,
-  saveActionAssociationBuiltin,
-  deleteActionAssociationBuiltin
+  saveActionAssociationBuiltin
 } from 'in-api/eventSpecifications';
 import { createBuiltinEventFormDefinition } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/BuiltinEventFormContent';
-import {
-  ActionsSelection,
-  combineResults
-} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/sharedActions';
+import ActionsSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ActionsSelection';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
@@ -60,23 +55,19 @@ export default function BuiltinEvent(props) {
     const eventDetails$ = getBuiltInEventSpecification(entityId);
     const actionDetails$ = getActionAssociationBuiltin(entityId);
     // calling Get Event and Get action associations call and combining results
-    return combineLatest([eventDetails$, actionDetails$]).map(([response1, response2]) =>
-      combineResults(response1, response2)
+    return combineLatest([eventDetails$, actionDetails$]).map(([eventResponse, actionResponse]) =>
+      eventResponse.set(
+        'actionIds',
+        actionResponse.toJS().map(action => action.id)
+      )
     );
   }
 
-  function save(event, form) {
+  function save(form) {
     const actionIds = form.get('actionIds')?.value ?? [];
-    const saveActionIds = form.get('saveActionIds')?.value ?? [];
+    const actions = actionIds.map(value => ({ id: value }));
 
-    const finalActionIds = difference(actionIds, saveActionIds); // actions ids that needs to be associated in edit page
-    const finalActionDeleteIds = difference(saveActionIds, actionIds); // actions ids that are deselected and needs to be disassociated
-
-    if (finalActionIds.length > 0 || finalActionDeleteIds.length > 0) {
-      const saveAction = combineLatest(finalActionIds.map(id => saveActionAssociationBuiltin(id, entityId)));
-      event.deleteActions = combineLatest(finalActionDeleteIds.map(id => deleteActionAssociationBuiltin(id, entityId)));
-      return saveAction;
-    }
+    return saveActionAssociationBuiltin(actions, entityId);
   }
 
   return (
@@ -87,7 +78,7 @@ export default function BuiltinEvent(props) {
       createForm={event => createBuiltinEventFormDefinition(event)}
       getEntityFromApi={mergeResultData}
       openEntities={() => goToPath(teamSettingsAlertingEvents)}
-      saveEntity={save}
+      saveEntity={(_, form) => save(form)}
     />
   );
 }

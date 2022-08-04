@@ -12,10 +12,7 @@ import { notBlankValidator } from 'in-services/validators/string';
 export function createBuiltinEventFormDefinition(eventSpec) {
   const mutableEvent = getMutableEventSpecification(eventSpec);
 
-  mutableEvent.actionIds = eventSpec.actionIds; // this is current actionIds value
-  mutableEvent.saveActionIds = eventSpec.actionIds; // Need this to compare saved value from current Actionids in edit page
-  const { name, description, actionIds, saveActionIds } = mutableEvent;
-
+  const { name, description, actionIds } = mutableEvent;
   let form = createMapForm()
     .put(
       'name',
@@ -32,7 +29,6 @@ export function createBuiltinEventFormDefinition(eventSpec) {
       })
     );
   form = putActionField(form, actionIds);
-  form = putSaveActionField(form, saveActionIds);
 
   return form;
 }
@@ -40,15 +36,6 @@ export function createBuiltinEventFormDefinition(eventSpec) {
 export function putActionField(form, tagValue) {
   return form.put(
     'actionIds',
-    createField({
-      value: tagValue ?? []
-    })
-  );
-}
-
-export function putSaveActionField(form, tagValue) {
-  return form.put(
-    'saveActionIds',
     createField({
       value: tagValue ?? []
     })
