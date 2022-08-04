@@ -13,15 +13,16 @@ export default function DubboRpcExitDetailView({ span }) {
   return (
     <div>
       <Dl>
-        <Di title={t('in-forge:tracing.rpc.procedureMethod')}>{span.getIn(['data', 'rpc', 'call'])}</Di>
-        <Di title={t('in-forge:tracing.rpc.host')}>{span.getIn(['data', 'rpc', 'host'])}</Di>
-        <Di title={t('in-forge:tracing.rpc.remotePort')}>{span.getIn(['data', 'rpc', 'port'])}</Di>
         <Di title={t('in-forge:tracing.dubbo.titlePath')}>{span.getIn(['data', 'dubbo', 'path'])}</Di>
         <Di title={t('in-forge:tracing.dubbo.titleInterface')}>{span.getIn(['data', 'dubbo', 'interface'])}</Di>
+        <Di title={t('in-forge:tracing.dubbo.titleGroup')}>{span.getIn(['data', 'dubbo', 'group'])}</Di>
+        <Di title={t('in-forge:tracing.dubbo.titleMethod')}>{span.getIn(['data', 'dubbo', 'method'])}</Di>
         <Di title={t('in-forge:tracing.dubbo.titleConsumerVersion')}>
           {span.getIn(['data', 'dubbo', 'consumer', 'version'])}
         </Di>
         <Di title={t('in-forge:tracing.dubbo.titleVersion')}>{span.getIn(['data', 'dubbo', 'version'])}</Di>
+        <Di title={t('in-forge:tracing.rpc.host')}>{span.getIn(['data', 'rpc', 'host'])}</Di>
+        <Di title={t('in-forge:tracing.rpc.remotePort')}>{span.getIn(['data', 'rpc', 'port'])}</Di>
         <ErrorDescriptionItem error={span.getIn(['data', 'rpc', 'error'])} />
       </Dl>
     </div>
