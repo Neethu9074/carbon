@@ -228,7 +228,7 @@ export function saveActionAssociation(eventSpecification) {
   return http({
     method: 'PUT',
     maxRetries: 3,
-    url: `/api/events/settings/event-specifications/beta/custom/${encodeURIComponent(eventSpecification.id)}`,
+    url: `/api/events/settings/beta/event-specifications/custom/${encodeURIComponent(eventSpecification.id)}`,
     headers: getCsrfHeader(),
     data: eventSpecification
   }).map(response => fromJS(response.body));
