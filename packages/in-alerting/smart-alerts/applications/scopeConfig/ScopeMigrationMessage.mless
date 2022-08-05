@@ -10,5 +10,6 @@
   .scope {
     white-space: pre-wrap;
     word-wrap: break-word;
+    margin: 0;
   }
 }
