@@ -51,6 +51,7 @@ export default function GroupedResults(props) {
         getData={getData}
         getLabel={getLabel}
         UngroupedView={Results}
+        customLatencyUiFormatterName={'LATENCY_WITH_DECIMALS'}
       />
     </QueryBuilderWorkspace>
   );

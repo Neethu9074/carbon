@@ -91,7 +91,8 @@ export default function GroupedAnalyzeView(props) {
     withoutChartGroupMarkers = false,
     chartedMetrics,
     groupingTagCatalog,
-    Chart
+    Chart,
+    customLatencyUiFormatterName
   } = props;
   const timeConfig = useTimeConfig();
   const fields = [...fixedFields, ...selectableFields];
@@ -124,7 +125,8 @@ export default function GroupedAnalyzeView(props) {
     fields,
     groupedViewConfiguration,
     getCustomMetricUiFormatterName,
-    metricCatalog
+    metricCatalog,
+    customLatencyUiFormatterName
   });
   const actionColumnDefinitions = actionColumns();
 
@@ -487,7 +489,8 @@ function metricColumns({
   fields,
   groupedViewConfiguration,
   getCustomMetricUiFormatterName,
-  metricCatalog
+  metricCatalog,
+  customLatencyUiFormatterName
 }) {
   return [
     ...(columnDefinitions || emptyArray),
@@ -510,6 +513,8 @@ function metricColumns({
           // break column alignment, use more dense SI prefix based formatter instead.
           formatter = isNumberFormatter(metricDefinition?.formatter)
             ? withSiPrefixOneDecimalPlace
+            : field.metricId === 'latency' && customLatencyUiFormatterName
+            ? getBackendFormatter(customLatencyUiFormatterName)
             : getBackendFormatter(metricDefinition?.formatter);
         }
         return {
