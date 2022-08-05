@@ -71,7 +71,7 @@ export function isInfraExploreView() {
   return navigationParameters$.map(location => location.pathname.indexOf(infraExplorePath) === 0);
 }
 
-export function getLinkToExplore({ tagFilterExpression, group, charts, type }) {
+export function getLinkToExplore({ tagFilterExpression, group, charts, type, metrics, order }) {
   return getModifiedUrlStream(params => {
     params.pathname = infraExplorePath;
 
@@ -89,6 +89,14 @@ export function getLinkToExplore({ tagFilterExpression, group, charts, type }) {
 
     if (type) {
       setMatrixKey(params, typeMatrixParameter, type);
+    }
+
+    if (metrics) {
+      setMatrixKey(params, metricsMatrixParameter, metrics);
+    }
+
+    if (order) {
+      setMatrixKey(params, orderMatrixParameter, order);
     }
   });
 }
