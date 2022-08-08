@@ -16,6 +16,7 @@ import { ClearTagFilterExpressionButton } from 'in-alerting/smart-alerts/compone
 import AlertFilterConfigurator from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertFilterConfigurator';
 import { createBoundedAlertQueryBuilder } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import SectionLabelWithSubtext from 'in-components/workspace/SectionLabelWithSubtext/SectionLabelWithSubtext';
+import ScopeMigrationMessage from 'in-alerting/smart-alerts/applications/scopeConfig/ScopeMigrationMessage';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import { days } from 'in-services/time';
@@ -37,6 +38,8 @@ export default function ScopeConfig({
   updateForm,
   isGlobalSmartAlert,
   editMode,
+  migrationMode,
+  scopeMigrationDetails,
   initialConfiguredApplications,
   thresholdType
 }) {
@@ -133,6 +136,9 @@ export default function ScopeConfig({
           </div>
         )}
       </div>
+      {migrationMode && scopeMigrationDetails && (
+        <ScopeMigrationMessage scopeMigrationDetails={scopeMigrationDetails} />
+      )}
     </LightCard>
   );
 }
@@ -163,6 +169,11 @@ function LightCardHeaderControls({ filterBySelectionState, setSearchQuery, setFi
 ScopeConfig.propTypes = {
   isGlobalSmartAlert: PropTypes.bool,
   editMode: PropTypes.bool,
+  migrationMode: PropTypes.bool,
+  scopeMigrationDetails: PropTypes.shape({
+    query: PropTypes.string,
+    result: PropTypes.string.isRequired
+  }),
   form: PropTypes.object.isRequired,
   updateForm: PropTypes.func.isRequired,
   initialConfiguredApplications: PropTypes.object,
