@@ -227,8 +227,8 @@ export const columnDefinitions: ColumnDefinition<TestResultListItem, testListPro
     label: t('in-synthetics:dashboard.testList.health'),
     sortable: false,
     getContent(item: TestResultListItem) {
-      const totalRuns = get(item.testResultCommonProperties, ['metrics', 'total_test_runs', 0, 1], 1);
-      const successRuns = get(item.testResultCommonProperties, ['metrics', 'successful_test_runs', 0, 1], 1);
+      const totalRuns = get(item, ['metrics', 'total_test_runs', 0, 1], 1);
+      const successRuns = get(item, ['metrics', 'successful_test_runs', 0, 1], 1);
 
       let severity = totalRuns != 0 && successRuns / totalRuns == 1 ? 0 : 10;
 
