@@ -87,26 +87,37 @@
       "mainLabel": "Synthetic Monitoring",
       "secondaryLabels": {
         "tests": "Tests",
-        "location": "Location"
+        "location": "Locations"
       },
-      "locationsSubText": "{{count}} Location",
-      "locationsSubText_plural": "{{count}} Locations",
+      "testLabel": "Name",
+      "status": "Status",
       "frequencySubText": "Every {{count}} Min",
       "frequencySubText_plural": "Every {{count}} Mins",
       "pause": "Pause the test",
-      "resume": "Resume the test"
-    },
-    "sortOptions": {
-      "name": "Name",
-      "frequency": "Frequency"
+      "resume": "Resume the test",
+      "active": "Active",
+      "paused": "Paused",
+      "type": "Type",
+      "successRate": "Success Rate",
+      "successRuns": "{{successRuns}} / {{totalRuns}} results",
+      "latency": "Latency",
+      "locationLabel": "Location",
+      "locations": "{{totalLocations}} locations",
+      "applicationLabel": "Application",
+      "health": "Health",
+      "action": "Action",
+      "delete": "Delete test",
+      "labelConfirm": "Please Confirm",
+      "labelConfirmRemoveTest": "Are you sure you want to remove the Synthetic test <strong>{{label}}</strong>?",
+      "labelRemove": "Remove"
     },
     "summary": {
-      "successRate": "Success rate",
+      "successRate": "Success Rate",
       "locations": "Locations",
       "responseTime": "Response Time",
-      "meanResponseTime": "Mean response time",
+      "meanResponseTime": "Avg. Response Time",
       "responseSize": "Response Size",
-      "avgResponseSize": "Avg. response size",
+      "avgResponseSize": "Avg. Response Size",
       "summaryTab": "Summary",
       "resultsTab": "Results",
       "startTime": "Start Time",
@@ -185,7 +196,9 @@
     },
     "noDataAvailable": {
       "resultsTitle": "No results available",
-      "resultsDescription": "There were no results retrieved for the selected time range."
+      "resultsDescription": "There were no results retrieved for the selected time range.",
+      "testSummaryTitle": "No Synthetic tests available",
+      "testSummaryDescription": "There are no Synthetic tests retrieved from the database."
     }
   }
 }
