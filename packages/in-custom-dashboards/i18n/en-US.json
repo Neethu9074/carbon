@@ -589,7 +589,8 @@
       "title": "Apdex: Chart",
       "chart": {
         "metricLabel": "Apdex",
-        "viewInAnalyze": "View in Analyze"
+        "viewInAnalyze": "View in Analyze",
+        "noDataRetentionPeriod": "Selected time range is beyond data retention period"
       },
       "demo": {
         "title": "Apdex for Prod",

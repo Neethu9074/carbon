@@ -8,9 +8,11 @@ import React from 'react';
 
 import { Error, Progress, TimeConfig } from '@instana/types';
 
+import useApdexRetentionPeriodCheck from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexRetentionPeriodCheck';
 import useApdexLineRenderer from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexLineRenderer';
 import { ContextMenuConfig, MetricDataSeries } from 'in-components/Chart/types';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -42,6 +44,16 @@ export default function ApdexChart({
   contextMenu = {}
 }: ApdexChartProps) {
   const renderer = useApdexLineRenderer(apdexAreas);
+  const isInRetentionPeriod = useApdexRetentionPeriodCheck(timeConfig);
+
+  if (!isInRetentionPeriod) {
+    return (
+      <NoDataAvailable
+        title={t('in-components:entityVersionList.noDataAvailable')}
+        text={t('in-custom-dashboards:widgets.apdex.chart.noDataRetentionPeriod')}
+      />
+    );
+  }
 
   return (
     <ResultAwareChart
