@@ -8,9 +8,12 @@ import React from 'react';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { percentage, kiloBytes } from 'in-services/formatters/number';
-import { emptyList } from 'in-services/fixedImmutables';
+import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Table from 'in-sdk/components/dashboard/Table';
+import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
+
+let snapshotMap = {};
 
 const cols = [
   {
@@ -19,6 +22,15 @@ const cols = [
     typeArgs: {
       getValue(row) {
         return row.key;
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.db2Database.autoResize'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.tableSpaceNames.get('autoResize');
       }
     }
   },
@@ -88,64 +100,78 @@ const cols = [
   }
 ];
 
-export default function TableSpaceUtil({ snapshot, timeConfig }) {
-  const snapshotId = snapshot.get('id');
-  const rows = snapshot
-    .getIn(['data', 'tableSpaceNames'], emptyList)
-    .toArray()
-    .map(name => {
-      return {
-        key: name,
-        snapshotId,
-        timeConfig
-      };
-    });
-
-  if (rows.length === 0) {
-    return null;
-  }
-
-  return (
-    <Table
-      withoutPadding
-      cardTitle={t('in-forge:plugins.db2Database.dashboard.tableSpaceUtil', { len: rows.length })}
-      cols={cols}
-      rows={rows}
-      getRowDetails={getDetails}
-    />
-  );
-}
-
-function getDetails(row) {
-  return (
-    <div>
-      <Chart
-        snapshotId={row.snapshotId}
-        timeConfig={row.timeConfig}
-        y1={{
-          min: 0,
-          formatter: kiloBytes.detailed,
-          metrics: [
-            'tablespaceutil.' + row.key + '.totalSize',
-            'tablespaceutil.' + row.key + '.usedSpace',
-            'tablespaceutil.' + row.key + '.freeSpace'
-          ],
-          labels: [
-            t('in-forge:plugins.db2Database.totalSize'),
-            t('in-forge:plugins.db2Database.usedSpace'),
-            t('in-forge:plugins.db2Database.freeSpace')
-          ],
-          type: 'line'
-        }}
-        y2={{
-          min: 0,
-          formatter: percentage.detailed,
-          metrics: ['tablespaceutil.' + row.key + '.spaceUtilPercent'],
-          labels: [t('in-forge:plugins.db2Database.spaceUtilPercent')],
-          type: 'line'
-        }}
-        renderPostChartContent={PluginDashboardsMarkerLanes}
+export default connectTo(
+  props => {
+    snapshotMap = props;
+    return {
+      data: getRawPayloadWithTimestamp(props.snapshotId, 'tableSpaceNamesSense')
+    };
+  },
+  function TableSpaceUtil({ data }) {
+    if (!data) {
+      return null;
+    }
+    const { snapshotId, timeConfig } = snapshotMap;
+    const tableSpaceNamesPayload = data.get('raw_payload');
+    const rows = tableSpaceNamesPayload
+      .keySeq()
+      .toArray()
+      .map(key => {
+        const tableSpaceNames = tableSpaceNamesPayload.get(key);
+        return {
+          key: String(key),
+          snapshotId,
+          timeConfig,
+          tableSpaceNames
+        };
+      });
+    if (rows.length === 0) {
+      return null;
+    }
+    const getDetails = row => {
+      if (!snapshotMap?.timeConfig) {
+        return;
+      }
+      return (
+        <div>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: kiloBytes.detailed,
+              metrics: [
+                'tablespaceutil.' + row.key + '.totalSize',
+                'tablespaceutil.' + row.key + '.usedSpace',
+                'tablespaceutil.' + row.key + '.freeSpace'
+              ],
+              labels: [
+                t('in-forge:plugins.db2Database.totalSize'),
+                t('in-forge:plugins.db2Database.usedSpace'),
+                t('in-forge:plugins.db2Database.freeSpace')
+              ],
+              type: 'line'
+            }}
+            y2={{
+              min: 0,
+              formatter: percentage.detailed,
+              metrics: ['tablespaceutil.' + row.key + '.spaceUtilPercent'],
+              labels: [t('in-forge:plugins.db2Database.spaceUtilPercent')],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </div>
+      );
+    };
+    return (
+      <Table
+        withoutPadding
+        cardTitle={t('in-forge:plugins.db2Database.dashboard.tableSpaceUtil', { len: rows.length })}
+        cols={cols}
+        rows={rows}
+        getRowDetails={getDetails}
       />
-    </div>
-  );
-}
+    );
+  }
+);

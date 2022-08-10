@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { number, bytes, millis, percentage, micros } from 'in-services/formatters/number';
+import { number, kiloBytes, bytes, millis, percentage, micros } from 'in-services/formatters/number';
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { t } from 'in-i18n';
 
@@ -449,32 +449,56 @@ export default [
   },
   {
     metrics: [
-      getDynamicMetricMatch('tablespaceutil', 'totalSize', t('in-forge:plugins.db2Database.dashboard.tableSpaceUtil')),
-      getDynamicMetricMatch('tablespaceutil', 'usedSpace', t('in-forge:plugins.db2Database.dashboard.tableSpaceUtil')),
-      getDynamicMetricMatch('tablespaceutil', 'freeSpace', t('in-forge:plugins.db2Database.dashboard.tableSpaceUtil'))
+      getDynamicMetricMatch(
+        'tablespaceutil',
+        'totalSize',
+        t('in-forge:plugins.db2Database.dashboard.tableSpaceOrAutoResize')
+      )
     ],
-    labels: [
-      t('in-forge:plugins.db2Database.totalSize'),
-      t('in-forge:plugins.db2Database.usedSpace'),
-      t('in-forge:plugins.db2Database.freeSpace')
-    ],
+    labels: [t('in-forge:plugins.db2Database.totalSize')],
     category: [t('in-forge:plugins.db2Database.dashboard.tableSpaceUtil')],
     min: 0,
-    formatter: bytes.detailed
+    formatter: kiloBytes
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'tablespaceutil',
+        'usedSpace',
+        t('in-forge:plugins.db2Database.dashboard.tableSpaceOrAutoResize')
+      )
+    ],
+    labels: [t('in-forge:plugins.db2Database.usedSpace')],
+    category: [t('in-forge:plugins.db2Database.dashboard.tableSpaceUtil')],
+    min: 0,
+    formatter: kiloBytes
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'tablespaceutil',
+        'freeSpace',
+        t('in-forge:plugins.db2Database.dashboard.tableSpaceOrAutoResize')
+      )
+    ],
+    labels: [t('in-forge:plugins.db2Database.freeSpace')],
+    category: [t('in-forge:plugins.db2Database.dashboard.tableSpaceUtil')],
+    min: 0,
+    formatter: kiloBytes
   },
   {
     metrics: [
       getDynamicMetricMatch(
         'tablespaceutil',
         'spaceUtilPercent',
-        t('in-forge:plugins.db2Database.dashboard.tableSpaceUtil')
+        t('in-forge:plugins.db2Database.dashboard.tableSpaceOrAutoResize')
       )
     ],
     labels: [t('in-forge:plugins.db2Database.spaceUtilPercent')],
     category: [t('in-forge:plugins.db2Database.dashboard.tableSpaceUtil')],
     min: 0,
-    max: 100,
-    formatter: percentage.detailed
+    max: 1,
+    formatter: percentage
   },
   {
     metrics: [

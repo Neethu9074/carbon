@@ -5366,6 +5366,7 @@
         "sysCatTables": "Tables Catalog View ",
         "sysCatIndex": "Index Catalog View ",
         "tableSpaceUtil": "Table Space Utilities",
+        "tableSpaceOrAutoResize": "TableSpaceName/AutoResize",
         "hadrGenerics": "HADR General",
         "hadrConnect": "HADR Connection Status",
         "hadrPrimaryLog": "HADR Primary Log Information",
@@ -5596,7 +5597,8 @@
       "sqls": "SQLs",
       "unableToConnect": "Cannot connect to {{connectionUrl}} using user {{user}}.",
       "troubleshootingDocs": "Troubleshooting docs",
-      "oldConfigUsed": "Db2 Sensor now supports monitoring of multiple instances and databases on the host where Instana Agent is running. Please refer to the docs for the new configuration format."
+      "oldConfigUsed": "Db2 Sensor now supports monitoring of multiple instances and databases on the host where Instana Agent is running. Please refer to the docs for the new configuration format.",
+      "autoResize": "Auto Resize"
     },
     "defaultEntity20": {
       "allCallsPerSecond": "All Calls per Second",
