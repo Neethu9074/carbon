@@ -30,6 +30,7 @@ import PreviewFooter from 'in-custom-dashboards/widgets/Apdex/components/Preview
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import InputInSection from 'in-components/form/Input/InputInSection';
 import Sections from 'in-components/workspace/Sections/Sections';
+import TouchedMessages from 'in-components/form/TouchedMessages';
 import Header from 'in-components/workspace/Header/Header';
 import Form from 'in-components/form/binding/Form';
 import { t } from 'in-i18n';
@@ -115,14 +116,15 @@ export default function CreateWebsiteApdexForm({
                   onChange([apdexEntityKey, thresholdKey], item => setFieldValue(item, threshold, true))
                 }
                 hasError={!thresholdField?.valid && thresholdField?.touched}
-                additionalContent={
-                  <OverridingFieldValidationMessage
-                    field={thresholdField}
-                    message={t('in-custom-dashboards:widgets.apdex.createApdexForm.thresholdNotEmpty')}
-                  />
+                additionalContent={<TouchedMessages field={thresholdField} />}
+              />
+              <ApdexConfigPreview
+                apdexEntity={
+                  isFilterExpressionValid && thresholdField?.valid
+                    ? toApdexConfigurationInput(form).apdexEntity
+                    : undefined
                 }
               />
-              <ApdexConfigPreview apdexEntity={toApdexConfigurationInput(form).apdexEntity} />
               {isEditing && <PreviewFooter />}
             </Sections>
           </Stack>

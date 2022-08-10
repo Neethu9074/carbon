@@ -7,9 +7,9 @@ import { Property } from 'csstype';
 import React from 'react';
 
 import { DateFormatterInput, DateFormatterOutput } from '@instana/format-date';
+import { AggregationType, FilterInterface, TimeConfig } from '@instana/types';
 import { Observable } from '@instana/observables';
 
-import { AggregationType, FilterInterface, TimeConfig } from 'in-types';
 import { Renderer } from 'in-components/Chart/renderer/types';
 import Configuration from 'in-components/Chart/Configuration';
 import { TimeShiftOffset } from 'in-stores/time/shifting';
@@ -23,9 +23,11 @@ export interface MetricsConfiguration {
   reverseOrder?: boolean;
   filter?: FilterInterface;
   metrics: MetricMap;
+  companionMetrics: MetricMap;
 }
 
 export type MetricMap = { [id: string]: Metric };
+
 export interface Metric {
   metric: string;
   timeShift?: TimeShiftOffset | TimeShift;
@@ -88,6 +90,7 @@ export interface ChartConfig {
   y2?: AxisConfiguration;
   granularity?: number;
   metricsConfiguration?: MetricsConfiguration;
+  companionMetricsConfiguration?: MetricsConfiguration;
   withoutPadding?: boolean;
 
   getAllDomainValues?: () => number[];
@@ -129,15 +132,19 @@ export type MetricDataSeries = [number, number][];
 
 type AxisColor = string | null;
 export type AxisName = 'y1' | 'y2';
+
 export interface AxisConfiguration {
   renderer: Renderer;
   metrics: MetricDataSeries[];
   timeShifts?: TimeShift[] | null;
   metricIds: string[];
+  companionMetricIds?: string[];
   labels: string[];
+  companionMetricLabels?: string[];
   colors: AxisColor[];
   icons?: AxisIcons;
   formatter?: Formatter | FormatterObject[];
+  companionMetricFormatter?: Formatter | Formatter[];
   isStaticBudget?: boolean;
   lineWidth?: number;
   min?: number;
@@ -162,6 +169,9 @@ export interface AxisConfiguration {
 
   maxDataPoints?: number;
   minPixelsPerBlock?: number;
+
+  companionMetrics?: MetricDataSeries[];
+  companionMetricConfigs?: CompanionMetricConfig[];
 }
 
 export type ChartContentPostition = 'pre' | 'post';

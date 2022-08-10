@@ -254,6 +254,11 @@
   "pluginName_camunda_1": "Camunda",
   "pluginName_camunda_2": "Camunda",
   "pluginName_camunda": "Camunda",
+  "pluginName_camundaexit_plural": "Camunda 出口",
+  "pluginName_camundaexit_0": "Camunda 出口",
+  "pluginName_camundaexit_1": "Camunda 出口",
+  "pluginName_camundaexit_2": "Camunda 出口",
+  "pluginName_camundaexit": "Camunda 出口",
   "pluginName_cassandraCluster_plural": "Cassandra クラスター",
   "pluginName_cassandraCluster_0": "Cassandra クラスター",
   "pluginName_cassandraCluster_1": "Cassandra クラスター",
@@ -1056,6 +1061,21 @@
   "pluginName_redisEnterpriseNode_1": "Redis Enterprise ノード",
   "pluginName_redisEnterpriseNode_2": "Redis Enterprise ノード",
   "pluginName_redisEnterpriseNode": "Redis Enterprise ノード",
+  "pluginName_rocketMqCluster_plural": "RocketMQ クラスター",
+  "pluginName_rocketMqCluster_0": "RocketMQ クラスター",
+  "pluginName_rocketMqCluster_1": "RocketMQ クラスター",
+  "pluginName_rocketMqCluster_2": "RocketMQ クラスター",
+  "pluginName_rocketMqCluster": "RocketMQ クラスター",
+  "pluginName_rocketMqBroker_plural": "RocketMQ ブローカー",
+  "pluginName_rocketMqBroker_0": "RocketMQ ブローカー",
+  "pluginName_rocketMqBroker_1": "RocketMQ ブローカー",
+  "pluginName_rocketMqBroker_2": "RocketMQ ブローカー",
+  "pluginName_rocketMqBroker": "RocketMQ ブローカー",
+  "pluginName_rocketMqTopic_plural": "RocketMQ トピック",
+  "pluginName_rocketMqTopic_0": "RocketMQ トピック",
+  "pluginName_rocketMqTopic_1": "RocketMQ トピック",
+  "pluginName_rocketMqTopic_2": "RocketMQ トピック",
+  "pluginName_rocketMqTopic": "RocketMQ トピック",
   "pluginName_rubyRuntimePlatform_plural": "Ruby アプリケーション",
   "pluginName_rubyRuntimePlatform_0": "Ruby アプリケーション",
   "pluginName_rubyRuntimePlatform_1": "Ruby アプリケーション",
@@ -1341,6 +1361,11 @@
   "tracingTypeName_camunda_0": "Camunda 呼び出し",
   "tracingTypeName_camunda_1": "Camunda 呼び出し",
   "tracingTypeName_camunda_2": "Camunda 呼び出し",
+  "tracingTypeName_camundaexit": "Camunda 外部タスク・メッセージ",
+  "tracingTypeName_camundaexit_plural": "Camunda 外部タスク・メッセージ",
+  "tracingTypeName_camundaexit_0": "Camunda 外部タスク・メッセージ",
+  "tracingTypeName_camundaexit_1": "Camunda 外部タスク・メッセージ",
+  "tracingTypeName_camundaexit_2": "Camunda 外部タスク・メッセージ",
   "tracingTypeName_cassandra": "Cassandra 照会",
   "tracingTypeName_cassandra_plural": "Cassandra 照会",
   "tracingTypeName_cassandra_0": "Cassandra 照会",
@@ -1404,6 +1429,11 @@
   "tracingTypeName_distributemeclient_0": "DistributeMe 呼び出し",
   "tracingTypeName_distributemeclient_1": "DistributeMe 呼び出し",
   "tracingTypeName_distributemeclient_2": "DistributeMe 呼び出し",
+  "tracingTypeName_datagrid": "データ・グリッドの呼び出し",
+  "tracingTypeName_datagrid_plural": "データ・グリッドの呼び出し",
+  "tracingTypeName_datagrid_0": "データ・グリッドの呼び出し",
+  "tracingTypeName_datagrid_1": "データ・グリッドの呼び出し",
+  "tracingTypeName_datagrid_2": "データ・グリッドの呼び出し",
   "tracingTypeName_django": "Django",
   "tracingTypeName_django_plural": "Django 呼び出し",
   "tracingTypeName_django_0": "Django 呼び出し",
@@ -1689,6 +1719,11 @@
   "tracingTypeName_mail_0": "メール・メッセージ",
   "tracingTypeName_mail_1": "メール・メッセージ",
   "tracingTypeName_mail_2": "メール・メッセージ",
+  "tracingTypeName_mailjavamail": "メール・メッセージ",
+  "tracingTypeName_mailjavamail_plural": "メール・メッセージ",
+  "tracingTypeName_mailjavamail_0": "メール・メッセージ",
+  "tracingTypeName_mailjavamail_1": "メール・メッセージ",
+  "tracingTypeName_mailjavamail_2": "メール・メッセージ",
   "tracingTypeName_mailactionmailer": "ActionMailer メッセージ",
   "tracingTypeName_mailactionmailer_plural": "ActionMailer メッセージ",
   "tracingTypeName_mailactionmailer_0": "ActionMailer メッセージ",
@@ -2565,6 +2600,69 @@
       "mysqIbufRequestR": "読み取り要求",
       "mysqIbufRequestW": "書き込み要求",
       "mysqIbufPoolReads": "プール読み取り"
+    },
+    "rocketMqCluster": {
+      "rocketMqClusterInfo": "RocketMQ クラスター",
+      "nameSrvAddrs": "ネーム・サーバー・アドレス",
+      "clusterName": "クラスター名",
+      "brokerName": "ブローカー名",
+      "brokerAddr": "ブローカー・アドレス",
+      "bootTimestamp": "ブローカー・ブート時間",
+      "brokerVersionDesc": "ブローカー・バージョン",
+      "brokersNumber": "ブローカー ({{count}})",
+      "brokersNumber_plural": "ブローカー ({{count}})",
+      "topicName": "トピック名",
+      "topicsNumber": "トピック ({{count}})",
+      "topicsNumber_plural": "トピック ({{count}})"
+    },
+    "rocketMqBroker": {
+      "rocketMqBrokerInfo": "RocketMQ ブローカー",
+      "brokerName": "名前",
+      "brokerId": "ID",
+      "brokerAddr": "アドレス",
+      "bootTimestamp": "ブート時間",
+      "runtime": "実行時間",
+      "brokerVersionDesc": "バージョン",
+      "msgTPS": "メッセージ TPS",
+      "putNums": "書き込みメッセージ TPS",
+      "getNums": "読み取りメッセージ TPS",
+      "elapsedTime": "経過時間",
+      "putMessageEntireTimeMax": "書き込み経過時間の最大値",
+      "getMessageEntireTimeMax": "読み取り経過時間の最大値",
+      "messageTimesTotal": "合計経過時間",
+      "putMessageTimesTotal": "書き込み経過時間の合計",
+      "messageSizeTotal": "メッセージ・サイズの合計",
+      "putMessageSizeTotal": "書き込みメッセージ・サイズの合計",
+      "putMessageFailedTimes": "書き込み失敗回数",
+      "tps60": "直近 1 分間の TPS",
+      "putTps60": "直近 1 分間の書き込み TPS",
+      "getFoundTps60": "直近 1 分間に検出された読み取り TPS",
+      "getMissTps60": "直近 1 分間に失敗した読み取り TPS",
+      "getTotalTps60": "直近 1 分間の合計の読み取り TPS",
+      "getTransferedTps60": "直近 1 分間に転送された読み取り TPS",
+      "msgTotalTodayNow": "今日のメッセージ数",
+      "msgGetTotalTodayNow": "今日の生成数",
+      "msgPutTotalTodayNow": "今日の消費数",
+      "threadPoolQueueHeadWaitTimeMills": "スレッド・プール・キュー・ヘッド・エレメントの待機時間",
+      "sendThreadPoolQueueHeadWaitTimeMills": "送信キュー・ヘッド・エレメントの待機時間",
+      "pullThreadPoolQueueHeadWaitTimeMills": "プル・キュー・ヘッド・エレメントの待機時間",
+      "queryThreadPoolQueueHeadWaitTimeMills": "照会キュー・ヘッド・エレメントの待機時間",
+      "threadPoolQueueSize": "スレッド・プール・キューのサイズ",
+      "queryThreadPoolQueueSize": "照会キューのサイズ",
+      "pullThreadPoolQueueSize": "プル・キューのサイズ",
+      "sendThreadPoolQueueSize": "送信キューのサイズ",
+      "commitLogDiskRatio": "コミット・ログ・ディスクの比率"
+    },
+    "rocketMqTopic": {
+      "rocketMqTopicInfo": "RocketMQ トピック",
+      "topicName": "名前",
+      "msgTps": "メッセージ TPS",
+      "putNums": "書き込みメッセージ TPS",
+      "getNums": "読み取りメッセージ TPS",
+      "msgSize": "メッセージ・サイズ",
+      "putMessageSize": "書き込みメッセージ・サイズ",
+      "getMessageSize": "読み取りメッセージ・サイズ",
+      "sendBackNums": "番号の差し戻し"
     },
     "ibmDataPowerAppliance": {
       "ibmDataPowerApplianceInfo": "IBM DataPower アプライアンス",
@@ -4387,6 +4485,9 @@
       "threads": "スレッド数",
       "throttlingDelay": "スロットルと遅延"
     },
+    "camunda": {
+      "camunda": "Camunda"
+    },
     "cassandraCluster": {
       "indexLabel": "Cassandra",
       "infoName": "名前",
@@ -5269,7 +5370,10 @@
         "hadrPrimaryLog": "HADR 1 次ログ情報",
         "hadrSecondaryLog": "HADR 2 次ログ情報",
         "hadrLogMetrics": "HADR ログ・メトリック",
-        "hadrTakeOverTime": "HADR 最終テークオーバー時間"
+        "hadrTakeOverTime": "HADR 最終テークオーバー時間",
+        "vmonlockStatsValue": "ロック統計 (メモリー)",
+        "vmonlockStats": "ロック統計",
+        "databaseVmondeltaStats": "トランザクション・パフォーマンス (増分値)"
       },
       "db2": "DB2",
       "processId": "プロセス ID",
@@ -5476,6 +5580,18 @@
       "sockRecvBufAct": "実際の受信バッファー",
       "logHadrWaitCur": "現在のロガー待機時間",
       "logHadrWaitTime": "合計ロガー待機時間",
+      "lockWaitTime": "ロック待機時間",
+      "lockEscals": "ロック・エスカレーション",
+      "lockListInUse": "使用中のロック・リスト",
+      "activeLockWaits": "アクティブ・ロック待機",
+      "averageLockEscalsPerAct": "アクティビティーごとの平均ロック・エスカレーション数",
+      "lockListValue": "ロック・リスト値",
+      "indexReadEfficiency": "索引読み取り効率",
+      "sorts": "合計ソート",
+      "syncReadPercentage": "同期読み取りパーセンテージ",
+      "asyncWritePercentage": "非同期書き込みパーセンテージ",
+      "sortsPerTransactions": "トランザクション数単位のソート",
+      "sqls": "SQL",
       "unableToConnect": "ユーザー {{user}} を使用して {{connectionUrl}} に接続することはできません。",
       "troubleshootingDocs": "トラブルシューティング資料",
       "oldConfigUsed": "Db2センサーは、Instana Agentが実行されているホスト上の複数インスタンスおよびデータベースのモニターをサポートするようになりました。 新しい構成形式については、Docsを参照してください。"
@@ -8860,6 +8976,10 @@
       "defaultBinding": "デフォルト・バインディング",
       "usage": "使用状況",
       "monitoring": "モニタリング",
+      "queueDescription": "キューの説明",
+      "queueDepthHighLimit": "キュー項目数の上限",
+      "queueDepthLowLimit": "キュー項目数の下限",
+      "queueServiceInterval": "キュー・サービス間隔 (ミリ秒)",
       "queueDepth": "キュー項目数",
       "oldestMessage": "最も古いメッセージ",
       "maxQueueDepth": "最大キュー項目数",
@@ -9708,6 +9828,7 @@
       "datasourceJndi": "データ・ソース JNDI"
     },
     "jbossDataGrid": {
+      "datagrid": "データ・グリッド",
       "cacheName": "キャッシュ [{{cacheName}}]",
       "jGroupsClusterName": "JGroups クラスター [{{clusterName}}]",
       "hitRatio": "ヒット率",
@@ -11653,7 +11774,14 @@
       "titleProcessName": "プロセス名",
       "titleActivityId": "アクティビティー ID",
       "titleActivityName": "アクティビティー名",
-      "titleActivityDesc": "アクティビティーの説明"
+      "titleActivityDesc": "アクティビティーの説明",
+      "titleExternalTaskWorkerId": "外部タスク・ワーカー ID",
+      "titleExternalTaskTopic": "外部タスク・トピック",
+      "titleExternalTaskId": "外部タスク ID",
+      "titleExternalTaskRetries": "再試行"
+    },
+    "camunda-exit": {
+      "titleExternalTaskTopic": "外部タスク・トピック"
     },
     "cassandra": {
       "titleKeyspace": "キー・スペース",
@@ -11698,6 +11826,12 @@
       "titleErrorCode": "エラー・コード",
       "titleSQL": "SQL"
     },
+    "datagrid": {
+      "titleOperation": "操作",
+      "titleKey": "キー",
+      "titleCacheName": "キャッシュ名",
+      "titleClusterName": "クラスター名"
+    },
     "distributeme": {
       "titleService": "サービス",
       "titleMethod": "メソッド"
@@ -11711,7 +11845,9 @@
       "titleInterface": "インターフェース",
       "titleProviderVersion": "プロバイダー・バージョン",
       "titleConsumerVersion": "コンシューマー・バージョン",
-      "titleVersion": "プロトコル・バージョン"
+      "titleVersion": "プロトコル・バージョン",
+      "titleMethod": "メソッド",
+      "titleGroup": "グループ"
     },
     "dynamoDB": {
       "titleTable": "テーブル",
@@ -11999,9 +12135,13 @@
       "titleThread": "スレッド"
     },
     "mail": {
-      "titleAddress": "アドレス",
       "class": "クラス",
       "method": "メソッド"
+    },
+    "javamail": {
+      "method": "メソッド",
+      "endpoint": "エンドポイント",
+      "error": "エラー"
     },
     "memcache": {
       "titleCommand": "コマンド",

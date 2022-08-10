@@ -254,6 +254,11 @@
   "pluginName_camunda_1": "Camunda",
   "pluginName_camunda_2": "Camunda",
   "pluginName_camunda": "Camunda",
+  "pluginName_camundaexit_plural": "Camunda 出口",
+  "pluginName_camundaexit_0": "Camunda 出口",
+  "pluginName_camundaexit_1": "Camunda 出口",
+  "pluginName_camundaexit_2": "Camunda 出口",
+  "pluginName_camundaexit": "Camunda 出口",
   "pluginName_cassandraCluster_plural": "Cassandra 叢集",
   "pluginName_cassandraCluster_0": "Cassandra 叢集",
   "pluginName_cassandraCluster_1": "Cassandra 叢集",
@@ -1056,6 +1061,21 @@
   "pluginName_redisEnterpriseNode_1": "Redis Enterprise 節點",
   "pluginName_redisEnterpriseNode_2": "Redis Enterprise 節點",
   "pluginName_redisEnterpriseNode": "Redis Enterprise 節點",
+  "pluginName_rocketMqCluster_plural": "RocketMQ 叢集",
+  "pluginName_rocketMqCluster_0": "RocketMQ 叢集",
+  "pluginName_rocketMqCluster_1": "RocketMQ 叢集",
+  "pluginName_rocketMqCluster_2": "RocketMQ 叢集",
+  "pluginName_rocketMqCluster": "RocketMQ 叢集",
+  "pluginName_rocketMqBroker_plural": "RocketMQ 分配管理系統",
+  "pluginName_rocketMqBroker_0": "RocketMQ 分配管理系統",
+  "pluginName_rocketMqBroker_1": "RocketMQ 分配管理系統",
+  "pluginName_rocketMqBroker_2": "RocketMQ 分配管理系統",
+  "pluginName_rocketMqBroker": "RocketMQ 分配管理系統",
+  "pluginName_rocketMqTopic_plural": "RocketMQ 主題",
+  "pluginName_rocketMqTopic_0": "RocketMQ 主題",
+  "pluginName_rocketMqTopic_1": "RocketMQ 主題",
+  "pluginName_rocketMqTopic_2": "RocketMQ 主題",
+  "pluginName_rocketMqTopic": "RocketMQ 主題",
   "pluginName_rubyRuntimePlatform_plural": "Ruby 應用程式",
   "pluginName_rubyRuntimePlatform_0": "Ruby 應用程式",
   "pluginName_rubyRuntimePlatform_1": "Ruby 應用程式",
@@ -1341,6 +1361,11 @@
   "tracingTypeName_camunda_0": "Camunda 呼叫",
   "tracingTypeName_camunda_1": "Camunda 呼叫",
   "tracingTypeName_camunda_2": "Camunda 呼叫",
+  "tracingTypeName_camundaexit": "Camunda 外部作業訊息",
+  "tracingTypeName_camundaexit_plural": "Camunda 外部作業訊息",
+  "tracingTypeName_camundaexit_0": "Camunda 外部作業訊息",
+  "tracingTypeName_camundaexit_1": "Camunda 外部作業訊息",
+  "tracingTypeName_camundaexit_2": "Camunda 外部作業訊息",
   "tracingTypeName_cassandra": "Cassandra 查詢",
   "tracingTypeName_cassandra_plural": "Cassandra 查詢",
   "tracingTypeName_cassandra_0": "Cassandra 查詢",
@@ -1404,6 +1429,11 @@
   "tracingTypeName_distributemeclient_0": "DistributeMe 呼叫",
   "tracingTypeName_distributemeclient_1": "DistributeMe 呼叫",
   "tracingTypeName_distributemeclient_2": "DistributeMe 呼叫",
+  "tracingTypeName_datagrid": "資料網格呼叫",
+  "tracingTypeName_datagrid_plural": "資料網格呼叫",
+  "tracingTypeName_datagrid_0": "資料網格呼叫",
+  "tracingTypeName_datagrid_1": "資料網格呼叫",
+  "tracingTypeName_datagrid_2": "資料網格呼叫",
   "tracingTypeName_django": "Django",
   "tracingTypeName_django_plural": "jango 呼叫",
   "tracingTypeName_django_0": "jango 呼叫",
@@ -1689,6 +1719,11 @@
   "tracingTypeName_mail_0": "郵件訊息",
   "tracingTypeName_mail_1": "郵件訊息",
   "tracingTypeName_mail_2": "郵件訊息",
+  "tracingTypeName_mailjavamail": "郵件訊息",
+  "tracingTypeName_mailjavamail_plural": "郵件訊息",
+  "tracingTypeName_mailjavamail_0": "郵件訊息",
+  "tracingTypeName_mailjavamail_1": "郵件訊息",
+  "tracingTypeName_mailjavamail_2": "郵件訊息",
   "tracingTypeName_mailactionmailer": "ActionMailer 訊息",
   "tracingTypeName_mailactionmailer_plural": "ActionMailer 訊息",
   "tracingTypeName_mailactionmailer_0": "ActionMailer 訊息",
@@ -2565,6 +2600,69 @@
       "mysqIbufRequestR": "讀取要求",
       "mysqIbufRequestW": "寫入要求",
       "mysqIbufPoolReads": "儲存區讀取"
+    },
+    "rocketMqCluster": {
+      "rocketMqClusterInfo": "RocketMQ 叢集",
+      "nameSrvAddrs": "名稱伺服器位址",
+      "clusterName": "叢集名稱",
+      "brokerName": "分配管理系統名稱",
+      "brokerAddr": "分配管理系統位址",
+      "bootTimestamp": "分配管理系統開機時間",
+      "brokerVersionDesc": "分配管理系統版本",
+      "brokersNumber": "分配管理系統 ({{count}})",
+      "brokersNumber_plural": "分配管理系統 ({{count}})",
+      "topicName": "主題名稱",
+      "topicsNumber": "主題 ({{count}})",
+      "topicsNumber_plural": "主題 ({{count}})"
+    },
+    "rocketMqBroker": {
+      "rocketMqBrokerInfo": "RocketMQ 分配管理系統",
+      "brokerName": "名稱",
+      "brokerId": "ID",
+      "brokerAddr": "地址",
+      "bootTimestamp": "開機時間",
+      "runtime": "運行環境",
+      "brokerVersionDesc": "版本",
+      "msgTPS": "訊息 TPS",
+      "putNums": "放置訊息 TPS",
+      "getNums": "取得訊息 TPS",
+      "elapsedTime": "經歷時間",
+      "putMessageEntireTimeMax": "放置經歷時間上限",
+      "getMessageEntireTimeMax": "取得經歷時間上限",
+      "messageTimesTotal": "經歷時間總計",
+      "putMessageTimesTotal": "放置經歷時間總計",
+      "messageSizeTotal": "訊息大小總計",
+      "putMessageSizeTotal": "放置訊息大小總計",
+      "putMessageFailedTimes": "放置失敗次數",
+      "tps60": "前 1 分鐘的 TPS",
+      "putTps60": "放置前 1 分鐘的 TPS",
+      "getFoundTps60": "取得前 1 分鐘內找到的 TPS",
+      "getMissTps60": "取得前 1 分鐘內遺漏的 TPS",
+      "getTotalTps60": "取得前 1 分鐘內的總計 TPS",
+      "getTransferedTps60": "取得前 1 分鐘內轉移的 TPS",
+      "msgTotalTodayNow": "今天的訊息計數",
+      "msgGetTotalTodayNow": "今天的產生計數",
+      "msgPutTotalTodayNow": "今天的耗用計數",
+      "threadPoolQueueHeadWaitTimeMills": "執行緒儲存區佇列標頭元素等待時間",
+      "sendThreadPoolQueueHeadWaitTimeMills": "傳送佇列標頭元素等待時間",
+      "pullThreadPoolQueueHeadWaitTimeMills": "取回佇列標頭元素等待時間",
+      "queryThreadPoolQueueHeadWaitTimeMills": "查詢佇列標頭元素等待時間",
+      "threadPoolQueueSize": "執行緒儲存區佇列大小",
+      "queryThreadPoolQueueSize": "查詢佇列大小",
+      "pullThreadPoolQueueSize": "取回佇列大小",
+      "sendThreadPoolQueueSize": "傳送佇列大小",
+      "commitLogDiskRatio": "確定日誌磁碟比例"
+    },
+    "rocketMqTopic": {
+      "rocketMqTopicInfo": "RocketMQ 主題",
+      "topicName": "名稱",
+      "msgTps": "訊息 TPS",
+      "putNums": "放置訊息 TPS",
+      "getNums": "取得訊息 TPS",
+      "msgSize": "訊息大小",
+      "putMessageSize": "放置訊息大小",
+      "getMessageSize": "取得訊息大小",
+      "sendBackNums": "傳回數字"
     },
     "ibmDataPowerAppliance": {
       "ibmDataPowerApplianceInfo": "IBM DataPower 應用裝置",
@@ -4387,6 +4485,9 @@
       "threads": "執行緒",
       "throttlingDelay": "節流控制和延遲"
     },
+    "camunda": {
+      "camunda": "Camunda"
+    },
     "cassandraCluster": {
       "indexLabel": "Cassandra",
       "infoName": "名稱",
@@ -5269,7 +5370,10 @@
         "hadrPrimaryLog": "HADR 主要日誌資訊",
         "hadrSecondaryLog": "HADR 次要日誌資訊",
         "hadrLogMetrics": "HADR 日誌度量",
-        "hadrTakeOverTime": "HADR 前次接管時間"
+        "hadrTakeOverTime": "HADR 前次接管時間",
+        "vmonlockStatsValue": "鎖定統計資料（記憶體）",
+        "vmonlockStats": "鎖定統計資料",
+        "databaseVmondeltaStats": "交易效能（增量值）"
       },
       "db2": "Db2",
       "processId": "程序 ID",
@@ -5476,6 +5580,18 @@
       "sockRecvBufAct": "實際接收緩衝區",
       "logHadrWaitCur": "現行日誌程式等待時間",
       "logHadrWaitTime": "日誌程式等待時間總計",
+      "lockWaitTime": "鎖定等待時間",
+      "lockEscals": "鎖定提升數",
+      "lockListInUse": "使用中的鎖定清單",
+      "activeLockWaits": "作用中鎖定等待",
+      "averageLockEscalsPerAct": "每個活動的平均鎖定提升次數",
+      "lockListValue": "鎖定清單值",
+      "indexReadEfficiency": "索引讀取效率",
+      "sorts": "排序總數",
+      "syncReadPercentage": "同步讀取百分比",
+      "asyncWritePercentage": "非同步寫入百分比",
+      "sortsPerTransactions": "每個交易的排序次數",
+      "sqls": "SQL",
       "unableToConnect": "無法以使用者 {{user}} 身分連接至 {{connectionUrl}}。",
       "troubleshootingDocs": "疑難排解文件",
       "oldConfigUsed": "Db2 Sensor 現在支援監視 Instana 代理程式執行所在主機上的多個實例及資料庫。 請參閱新配置格式的文件。"
@@ -8860,6 +8976,10 @@
       "defaultBinding": "預設連結",
       "usage": "用量",
       "monitoring": "監視",
+      "queueDescription": "佇列說明",
+      "queueDepthHighLimit": "佇列深度上限",
+      "queueDepthLowLimit": "佇列深度低下限",
+      "queueServiceInterval": "佇列服務間隔（毫秒）",
       "queueDepth": "佇列深度",
       "oldestMessage": "最舊訊息",
       "maxQueueDepth": "佇列深度上限",
@@ -9708,6 +9828,7 @@
       "datasourceJndi": "資料來源 JNDI"
     },
     "jbossDataGrid": {
+      "datagrid": "資料網格",
       "cacheName": "快取 [{{cacheName}}]",
       "jGroupsClusterName": "JGroups 叢集 [{{clusterName}}]",
       "hitRatio": "命中率",
@@ -11653,7 +11774,14 @@
       "titleProcessName": "程序名稱",
       "titleActivityId": "活動 ID",
       "titleActivityName": "活動名稱",
-      "titleActivityDesc": "活動說明"
+      "titleActivityDesc": "活動說明",
+      "titleExternalTaskWorkerId": "外部作業工作程式 ID",
+      "titleExternalTaskTopic": "外部作業主題",
+      "titleExternalTaskId": "外部作業 ID",
+      "titleExternalTaskRetries": "重試次數"
+    },
+    "camunda-exit": {
+      "titleExternalTaskTopic": "外部作業主題"
     },
     "cassandra": {
       "titleKeyspace": "鍵空間",
@@ -11698,6 +11826,12 @@
       "titleErrorCode": "錯誤碼",
       "titleSQL": "SQL"
     },
+    "datagrid": {
+      "titleOperation": "作業",
+      "titleKey": "索引鍵",
+      "titleCacheName": "快取名稱",
+      "titleClusterName": "叢集名稱"
+    },
     "distributeme": {
       "titleService": "服務",
       "titleMethod": "方法"
@@ -11711,7 +11845,9 @@
       "titleInterface": "介面",
       "titleProviderVersion": "提供者版本",
       "titleConsumerVersion": "消費者版本",
-      "titleVersion": "通訊協定版本"
+      "titleVersion": "通訊協定版本",
+      "titleMethod": "方法",
+      "titleGroup": "群組"
     },
     "dynamoDB": {
       "titleTable": "表格",
@@ -11999,9 +12135,13 @@
       "titleThread": "執行緒"
     },
     "mail": {
-      "titleAddress": "位址",
       "class": "類別",
       "method": "方法"
+    },
+    "javamail": {
+      "method": "方法",
+      "endpoint": "端點",
+      "error": "錯誤"
     },
     "memcache": {
       "titleCommand": "指令",

@@ -96,6 +96,11 @@
     "deselect": "Désélectionner"
   },
   "tabs": {
+    "team": {
+      "customPayload": {
+        "unknownTag": "Balise inconnue : {{tagName}}"
+      }
+    },
     "failedToSaveConfig": "Échec de la sauvegarde de la configuration : {{err}}",
     "IdPMetadataRequired": "Le fichier de métadonnées de fournisseur d'identité est requis",
     "IdPMetadataLargerThanTwoMega": "La taille du fichier de métadonnées de fournisseur d'identité ne peut pas être supérieure à 2 mégaoctets",
@@ -157,6 +162,8 @@
     "inviteUser": "Inviter un utilisateur",
     "failedToSendInvitation": "Échec de l'envoi de l'invitation : {{err}}",
     "pleaseInviteAtLeastOneUser": "Invitez au moins un utilisateur.",
+    "thisUserAlreadyExists": "Cet utilisateur existe déjà. Vous pouvez le modifier dans le menu 'Utilisateurs'.",
+    "someEmailsHaveFailedToSend": "Echec de l'envoi de certains courriers électroniques",
     "inviteUserToTenant": "Inviter l'utilisateur dans {{tenant}}",
     "anotherUser": "Autre utilisateur",
     "permissionEntityLabel": "autorisation {{entityLabel}}",
@@ -190,6 +197,7 @@
     "disabled": "Désactivé",
     "invalidQuery": "Requête non valide",
     "deprecated": "Obsolète",
+    "actionNeededRecommendMigrate": "Action requise Cet événement sera bientôt obsolète, c'est pourquoi il est recommandé de le migrer vers une alerte Smart Alert.",
     "migrated": "Migré",
     "createAlertChannelLabelAlertChannel": "Créer un canal d'alerte {{alertChannelLabel}}",
     "modifyEntityNameAlertChannel": "Modifier le canal d'alerte {{entityName}}",
@@ -459,6 +467,7 @@
     "groupMappingFailedToSave": "Echec de la sauvegarde des mappages de groupes de fournisseur d'identité",
     "thereShouldBeAtLeastOneGroupMapping": "Au moins un mappage de groupes doit être ajouté si 'Refuser l'accès lorsqu'aucun mappage n'est trouvé' est coché, sinon aucun utilisateur ne peut se connecter.",
     "failIfNoIdp": "Pour modifier ces paramètres, vous devez disposer d'un fournisseur d'identité configuré.",
+    "noActions": "Aucune action n'est configurée",
     "noGroupMapping": "Aucun mappage n'est configuré entre le fournisseur d'identité et Instana.",
     "denyUserWithNoGroup": "Refuser l'accès lorsqu'aucun mappage n'est trouvé. Si cette option n'est pas cochée, les utilisateurs sans mappages de groupes et aucun groupe trouvé sont ajoutés au groupe par défaut.",
     "twoFactor": "Deux facteurs",
@@ -484,6 +493,7 @@
     "importingConfig": "Importation des données de configuration",
     "configSuccessfullyImported": "Données de configuration importées avec succès",
     "failedToImportConfig": "Echec de l'importation des données de configuration : {{err}}",
+    "configImportResult": "Filtrer par table des données importées...",
     "settingsPageNotFound": "Page de paramètres introuvable",
     "weCouldNotFindTheSettingsPageYouWereLookingFor": "Nous n'avons pas trouvé la page de paramètres que vous recherchiez. Nous en sommes désolés. Peut-être aimeriez-vous plutôt essayer l'un des liens suivants ?",
     "pleaseSelectAtLeastOneItem": "Sélectionnez au moins un élément.",
@@ -627,6 +637,7 @@
     "configureCustomPayload": "Configurer le contenu personnalisé",
     "youAreNotPermittedToEditCustomPayloads": "Vous n'êtes pas autorisé à éditer des contenus personnalisés.",
     "unknownEvent": "Événement inconnu",
+    "unknownAction": "Action inconnue",
     "builtInEventDefinition": "Définition d'événement intégrée",
     "entityType": "Type d'entité",
     "eventInputs": "Entrées d'événement",
@@ -806,10 +817,23 @@
     "default": "Par défaut",
     "identityProviderType": "Type de fournisseur d'identité",
     "copyApiTokenToClipboardError": "Impossible de copier le jeton API dans le presse-papiers.",
-    "depreactedEventHiddenInfo": "Les événements obsolètes ne peuvent pas être ajoutés aux nouvelles configurations et sont masqués dans cette liste.",
-    "deprecatedEventMessage": "Cet événement est obsolète. Migrez-le vers une alerte intelligente ou <documentationLink>consultez notre documentation</documentationLink>.",
+    "depreactedEventHiddenInfo": "Les événements obsolètes ne peuvent plus être ajoutés aux nouvelles alertes et sont masqués dans cette liste.",
+    "deprecatedEventMessage": "Les événements personnalisés sur les types d'entité Perspective d'application, Service et Noeud final seront bientôt obsolètes. À partir d'octobre 2022, vous ne pourrez plus créer d'événement de ce type. Il est recommandé de migrer cet événement vers une alerte Smart Alert manuellement ou en utilisant le bouton <em>Migrer vers Smart Alert</em> ci-dessus. <documentationLink>Plus d'infos dans notre documentation</documentationLink>.",
     "migratedEventMessage": "Cet événement obsolète est migré. Pour plus d'informations, <documentationLink>consultez notre documentation</documentationLink>.",
-    "deprecatedEventSelectedMessage": "Les types d'entité <em>Application, Service et Noeud final</em> ont été dépréciés pour les événements personnalisés et doivent être migrés rapidement vers une alerte intelligente. Il est conseillé de configurer une alerte intelligente au lieu d'un événement personnalisé. Pour plus d'informations, <documentationLink>consultez notre documentation</documentationLink>."
+    "deprecatedEventSelectedMessage": "Les événements personnalisés sur les types d'entité Perspective d'application, Service et Noeud final seront bientôt obsolètes. À partir d'octobre 2022, vous ne pourrez plus créer d'événement de ce type. Il est recommandé de créer une alerte Smart à la place. <documentationLink>Plus d'infos dans notre documentation</documentationLink>.",
+    "automation": "Automatisation",
+    "actionCatalog": "Catalogue d'actions",
+    "action_plural": "Actions",
+    "actionWithName": "Action : {{actionName}}",
+    "actionType": "Type d'action",
+    "actionDetails": "Détails de l'action",
+    "filterActions": "Filtrer les actions",
+    "fields": "Zones",
+    "invocations": "Appels",
+    "successRate": "Taux de réussite",
+    "lastModified": "Dernière modification",
+    "docLink": "Lien vers la documentation",
+    "deletedEventMessage": "Vous recherchez une configuration d'événement supprimée. Les modifications ne sont pas possibles."
   },
   "languageSelection": {
     "language": "Langue",

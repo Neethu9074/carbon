@@ -5,11 +5,22 @@
 
 import { combineLatest, Observable } from '@instana/observables';
 
+import { GetUnifiedMetricsQuery, LabeledMetricResult, MetricResult, Result } from 'in-types';
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { GetUnifiedMetricsQuery, MetricResult, Result } from 'in-types';
 import { merge } from 'in-services/util/resultMerger';
+import { isBlank } from 'in-services/util/string';
 
-const getUnifiedMetricsInternal = createResultSubscriptionFactory<GetUnifiedMetricsQuery, Result<MetricResult[]>>({
+export type UnifiedMetricsResult = MetricResult | LabeledMetricResult;
+
+export function isLabeledMetricResult(resultData: UnifiedMetricsResult): resultData is LabeledMetricResult {
+  const possiblyLabeledResult = resultData as LabeledMetricResult;
+  return possiblyLabeledResult.label != null && !isBlank(possiblyLabeledResult.label);
+}
+
+const getUnifiedMetricsInternal = createResultSubscriptionFactory<
+  GetUnifiedMetricsQuery,
+  Result<UnifiedMetricsResult[]>
+>({
   eventId: 'getUnifiedMetrics',
   trackSubscriptionStatistics: true
 });
@@ -21,7 +32,9 @@ const getUnifiedMetricsInternal = createResultSubscriptionFactory<GetUnifiedMetr
 //
 // This in turn causes the caching to improve for scenarios where a
 // subset of the metrics may change in response to user input.
-export default function getUnifiedMetrics({ metrics }: GetUnifiedMetricsQuery): Observable<Result<MetricResult[]>> {
+export default function getUnifiedMetrics({
+  metrics
+}: GetUnifiedMetricsQuery): Observable<Result<UnifiedMetricsResult[]>> {
   const observables = Object.keys(metrics).map(metricId =>
     getUnifiedMetricsInternal({
       metrics: {
@@ -33,11 +46,11 @@ export default function getUnifiedMetrics({ metrics }: GetUnifiedMetricsQuery): 
   return combineLatest(observables).map(mergeResults);
 }
 
-function mergeResults(results: Result<MetricResult[]>[]) {
+function mergeResults(results: Result<UnifiedMetricsResult[]>[]) {
   return merge(results, mergeResultData);
 }
 
-function mergeResultData(dataSets: MetricResult[][]): MetricResult[] {
+function mergeResultData(dataSets: UnifiedMetricsResult[][]): UnifiedMetricsResult[] {
   const merged = [];
   for (const data of dataSets) {
     merged.push(...data);

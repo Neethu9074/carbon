@@ -51,8 +51,22 @@ export function MultiSelectSuggestions({
     } else {
       return <Errors errors={errors} setNumberOfPresentedRows={setNumberOfPresentedRows} />;
     }
-  } else if (!suggestions) {
-    return null;
+  } else if (!suggestions?.length && fallbackValues?.length > 0) {
+    return (
+      <Suggestions
+        tag={tag}
+        dataSource={dataSource}
+        suggestions={fallbackValues}
+        getMetric={getMetric}
+        selection={alreadySelectedValues}
+        setNumberOfPresentedRows={setNumberOfPresentedRows}
+        showMore={showMore}
+        setNextBatch={setNextBatch}
+        customLabelMapper={customLabelMapper}
+        addToSelection={addToSelection}
+        tracker={tracker}
+      />
+    );
   } else if (suggestions?.length > 0) {
     return (
       <Suggestions

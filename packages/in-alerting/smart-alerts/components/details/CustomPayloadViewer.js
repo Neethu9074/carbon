@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -21,7 +22,7 @@ export default function CustomPayloadViewer({ customPayloadFields = [], TagBased
         <KeyValue className={locals.valueCell} value={t('in-alerting:components.customPayload.value')} />
       </Li>
       {customPayloadFields.map(({ key, value }) => (
-        <Li key={key} className={locals.listItem} noAlternatingBg>
+        <Li key={key} className={classNames(locals.listItem, locals.valueItem)} noAlternatingBg>
           <KeyValue className={locals.keyCell} label={key} />
           <ValueCell value={value} />
         </Li>

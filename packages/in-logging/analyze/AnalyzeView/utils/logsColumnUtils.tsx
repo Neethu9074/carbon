@@ -12,7 +12,7 @@ import { CopyButton, CopyColumnProps } from 'in-logging/analyze/AnalyzeView/comp
 import LogHealthColumn from 'in-logging/analyze/AnalyzeView/components/LogHealthColumn';
 import { LogTag } from 'in-types';
 
-import locals from '../components/Logs.mless';
+import locals from 'in-logging/analyze/AnalyzeView/components/Logs.mless';
 
 interface LogLevelColumnProps {
   tags: LogTag[];

@@ -27,5 +27,7 @@
   "sorting": {
     "mostRecent": "Most recent first",
     "oldest": "Oldest first"
-  }
+  },
+  "cpuTotal": "CPU Total",
+  "memoryUsage": "Memory Usage"
 }

@@ -62,6 +62,8 @@
   "labelScope": "作用域",
   "labelCustomServiceRules": "定制服务规则",
   "labelSyntheticEndpoints": "合成端点",
+  "labelWarning": "警告",
+  "labelCritical": "严重",
   "titleTopServices": "排名靠前的服务",
   "titleMeanLatency": "平均等待时间",
   "titleErroneousCallRate": "错误调用率",
@@ -197,7 +199,8 @@
     "technologies": "技术",
     "httpStatusCode": "HTTP 状态",
     "hiddenCalls": "隐藏的调用",
-    "preview": "预览",
+    "fastQueryMode": "快速查询方式",
+    "fastQueryModeTooltip": "如果针对完整数据集的执行时间过长，那么快速查询方式会针对部分调用或跟踪启用查询执行。",
     "listBatchTypeTooltip": "此 {{type}} 已批处理，且表示 {{batchCount}} 个个别 {{types}}。",
     "listBatchLatencyTooltip": "{{batchCount}} 个批处理的 {{types}} 的总等待时间。",
     "traceIdTooltip": "与此跟踪相关的一些数据发生延迟，请稍后重新装入页面。可能发生此情况的一个示例如下：正在查看最近跟踪，而其部分数据仍在处理中。",
@@ -643,6 +646,7 @@
     "alternativeServicesPossibleProblem": "<bold>可能</bold>，如果当前服务和替代服务名称不是来自 HTTP“主机”头，那么它们要么是位于代理后面的服务（良好），要么是重复的服务（较差）：某些服务完全链接到基础架构，而其他服务部分链接到基础架构。"
   },
   "widgetNotActive": {
-    "title": "实时模式不支持窗口小部件"
+    "title": "实时模式不支持窗口小部件",
+    "button": "停止实时方式"
   }
 }

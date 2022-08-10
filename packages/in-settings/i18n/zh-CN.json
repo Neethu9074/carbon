@@ -96,6 +96,11 @@
     "deselect": "取消选择"
   },
   "tabs": {
+    "team": {
+      "customPayload": {
+        "unknownTag": "未知标记：{{tagName}}"
+      }
+    },
     "failedToSaveConfig": "无法保存配置：{{err}}",
     "IdPMetadataRequired": "IdP 元数据文件是必需的",
     "IdPMetadataLargerThanTwoMega": "IdP 元数据文件不能大于 2 兆字节",
@@ -157,6 +162,8 @@
     "inviteUser": "邀请用户",
     "failedToSendInvitation": "发送邀请失败：{{err}}",
     "pleaseInviteAtLeastOneUser": "请至少邀请一个用户。",
+    "thisUserAlreadyExists": "此用户已存在。 您可以在“用户”菜单上对其进行编辑。",
+    "someEmailsHaveFailedToSend": "某些电子邮件已发送失败",
     "inviteUserToTenant": "邀请用户加入 {{tenant}}",
     "anotherUser": "其他用户",
     "permissionEntityLabel": "许可权 {{entityLabel}}",
@@ -190,6 +197,7 @@
     "disabled": "已禁用",
     "invalidQuery": "无效查询",
     "deprecated": "已弃用",
+    "actionNeededRecommendMigrate": "需要采取行动！ 很快将不推荐使用此事件，因此我们建议将其迁移到智能警报。",
     "migrated": "已迁移",
     "createAlertChannelLabelAlertChannel": "创建 {{alertChannelLabel}} 警报通道",
     "modifyEntityNameAlertChannel": "修改 {{entityName}} 警报通道",
@@ -459,6 +467,7 @@
     "groupMappingFailedToSave": "未能保存 IdP 组映射",
     "thereShouldBeAtLeastOneGroupMapping": "如果选中了“找不到映射时拒绝访问”，那么应至少添加一个组映射，否则用户将无法登录。",
     "failIfNoIdp": "要更改此设置，您需要配置身份提供者。",
+    "noActions": "未配置任何操作",
     "noGroupMapping": "在身份提供者和 Instana 之间未配置映射",
     "denyUserWithNoGroup": "找不到映射时拒绝访问。 如果未选中此项，那么没有组映射且找不到组的用户将添加到缺省组。",
     "twoFactor": "双因子",
@@ -484,6 +493,7 @@
     "importingConfig": "导入配置数据",
     "configSuccessfullyImported": "已成功导入配置数据",
     "failedToImportConfig": "未能导入配置数据：{{err}}",
+    "configImportResult": "按导入结果过滤...",
     "settingsPageNotFound": "未找到设置页面",
     "weCouldNotFindTheSettingsPageYouWereLookingFor": "我们找不到您正在查找的设置页面。我们对此感到遗憾。您是否希望尝试以下链接之一 ?",
     "pleaseSelectAtLeastOneItem": "请至少选择一项。",
@@ -627,6 +637,7 @@
     "configureCustomPayload": "配置定制有效内容",
     "youAreNotPermittedToEditCustomPayloads": "不允许您编辑定制有效内容。",
     "unknownEvent": "未知事件",
+    "unknownAction": "未知操作",
     "builtInEventDefinition": "内置事件定义",
     "entityType": "实体类型",
     "eventInputs": "事件输入",
@@ -806,10 +817,23 @@
     "default": "缺省",
     "identityProviderType": "身份提供者类型",
     "copyApiTokenToClipboardError": "无法将 API 令牌复制到剪贴板。",
-    "depreactedEventHiddenInfo": "不推荐使用的事件不能再添加到新配置，并将从此列表中隐藏。",
-    "deprecatedEventMessage": "不推荐使用此事件。 请将其迁移到智能警报或<documentationLink>参阅我们的文档</documentationLink>。",
+    "depreactedEventHiddenInfo": "不推荐使用的事件无法再添加到新警报，并且将在此列表中隐藏。",
+    "deprecatedEventMessage": "很快将不推荐使用有关实体类型“应用程序透视图”、“服务”和“端点”的定制事件。 从 2022 年 10 月开始，您将无法创建此类型的新事件。 我们建议以手动方式或使用上面的<em>迁移到智能警报</em>按钮将此事件迁移到智能警报。 <documentationLink>阅读文档中的更多信息</documentationLink>。",
     "migratedEventMessage": "这将迁移此不推荐使用的事件。 有关更多信息，<documentationLink>请参阅我们的文档</documentationLink>。",
-    "deprecatedEventSelectedMessage": "对于定制事件，不推荐使用实体类型<em>应用程序、服务和端点</em>，需要尽快将其迁移到智能警报。 我们建议配置相应的智能警报，而不是定制事件。 有关更多信息，<documentationLink>请参阅我们的文档</documentationLink>。"
+    "deprecatedEventSelectedMessage": "很快将不推荐使用有关实体类型“应用程序透视图”、“服务”和“端点”的定制事件。 从 2022 年 10 月开始，您将无法创建此类型的新事件。 我们建议改为创建“智能警报”。 <documentationLink>阅读文档中的更多信息</documentationLink>。",
+    "automation": "自动化",
+    "actionCatalog": "操作目录",
+    "action_plural": "操作",
+    "actionWithName": "操作：{{actionName}}",
+    "actionType": "操作类型",
+    "actionDetails": "操作详细信息",
+    "filterActions": "过滤器操作",
+    "fields": "字段",
+    "invocations": "调用",
+    "successRate": "成功率",
+    "lastModified": "上次修改时间",
+    "docLink": "文档链接",
+    "deletedEventMessage": "您正在查看已删除的事件配置。 无法进行修改。"
   },
   "languageSelection": {
     "language": "语言",
