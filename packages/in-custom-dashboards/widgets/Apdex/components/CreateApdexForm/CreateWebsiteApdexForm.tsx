@@ -122,7 +122,9 @@ export default function CreateWebsiteApdexForm({
                   />
                 }
               />
-              <ApdexConfigPreview apdexEntity={toApdexConfigurationInput(form).apdexEntity} />
+              <ApdexConfigPreview
+                apdexEntity={isFilterExpressionValid ? toApdexConfigurationInput(form).apdexEntity : undefined}
+              />
               {isEditing && <PreviewFooter />}
             </Sections>
           </Stack>

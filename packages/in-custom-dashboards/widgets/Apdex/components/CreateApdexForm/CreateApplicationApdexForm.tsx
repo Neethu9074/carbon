@@ -118,7 +118,9 @@ export default function CreateApplicationApdexForm({
                   />
                 }
               />
-              <ApdexConfigPreview apdexEntity={toApdexConfigurationInput(form).apdexEntity} />
+              <ApdexConfigPreview
+                apdexEntity={isFilterExpressionValid ? toApdexConfigurationInput(form).apdexEntity : undefined}
+              />
               {isEditing && <PreviewFooter />}
             </Sections>
           </Stack>
