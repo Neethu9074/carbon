@@ -25,6 +25,7 @@ import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { getTest, updateTest, removeTest } from 'in-synthetics/api';
 import IconButton from 'in-components/IconButton/IconButton';
 import { dummyTest } from 'in-synthetics/utils/constants';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t, Trans } from 'in-i18n';
 
 import locals from './ListActionsColumn.mless';
@@ -117,8 +118,6 @@ export default function ListActionsColumn({ item, isLoading }: Props) {
   }
 
   return (
-    /*
-    //This block of code is to have pause/resume button outside the action menu.
     <HorizontalFlexWrapper className={locals.actions}>
       <Tooltip content={pauseResume}>
         <IconButton
@@ -143,35 +142,6 @@ export default function ListActionsColumn({ item, isLoading }: Props) {
           />
         )}
       >
-        <MoreMenuButton icon="lib_actions_delete" onClick={() => deleteTest(testId)}>
-          {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDelete')}
-        </MoreMenuButton>
-      </MoreMenu>
-    </HorizontalFlexWrapper>
-    */
-    <HorizontalFlexWrapper className={locals.actions}>
-      <MoreMenu
-        renderInteractiveElement={({ ref, toggle }: InteractiveElementsProps) => (
-          <IconButton
-            kind="info"
-            type={isMoreMenuSaving ? 'lib_actions_loading' : 'lib_menu_more_horizontal'}
-            onClick={e => {
-              stopPropagation(e);
-              toggle();
-            }}
-            ref={ref as React.MutableRefObject<HTMLButtonElement>}
-            iconSpinning={isMoreMenuSaving}
-          />
-        )}
-      >
-        <MoreMenuButton
-          icon={active ? 'lib_actions_pause' : 'lib_actions_play'}
-          iconSpinning={isMoreMenuSaving}
-          // @ts-expect-error
-          onClick={() => pauseOrResume(syntheticTest.data)}
-        >
-          {pauseResume}
-        </MoreMenuButton>
         <MoreMenuButton icon="lib_actions_delete" onClick={() => deleteTest(testId)}>
           {t('in-synthetics:dashboard.testList.delete')}
         </MoreMenuButton>

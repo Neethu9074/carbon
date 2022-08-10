@@ -106,7 +106,7 @@
       "applicationLabel": "Application",
       "health": "Health",
       "action": "Action",
-      "delete": "Delete test",
+      "delete": "Delete the test",
       "labelConfirm": "Please Confirm",
       "labelConfirmRemoveTest": "Are you sure you want to remove the Synthetic test <strong>{{label}}</strong>?",
       "labelRemove": "Remove"
