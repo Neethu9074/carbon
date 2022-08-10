@@ -50,7 +50,7 @@ pipeline {
             sh "./build/ci-shared-tools/scripts/setup.bash"
           }
 
-          isDeliveryBranch = sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/isDeliveryBranch.js") == 'true'
+          //isDeliveryBranch = sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/isDeliveryBranch.js") == 'true'
           latestReleaseBranch = getLatestReleaseBranch()
           instanaUiClientVersion = getVersion('ui-client', branchName)
           majorReleaseVersion = instanaUiClientVersion.tokenize('.')[1].toInteger()
@@ -111,11 +111,11 @@ pipeline {
         timeout(time: 10, unit: 'MINUTES') {
           timestamps {
             script {
-              if (isDeliveryBranch) {
+              //if (isDeliveryBranch) {
                 // Mark stable version in Instana's own versioning system only on delivery branches
                 // as this value is only used on further build stages on delivery branches
                 sh "./build/ci-shared-tools/scripts/markStableVersion.bash ui-client ${branchName} ${instanaUiClientVersion}"
-              }
+              //}
             }
           }
         }
@@ -133,10 +133,10 @@ pipeline {
           timeout(time: 15, unit: 'MINUTES') {
             timestamps {
               script {
-                if (isDeliveryBranch) {
+                //if (isDeliveryBranch) {
                   instanaImageVersion = sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/componentVersioning/getInstanaImageVersion.js ${branchName}").trim() + "-0"
                   buildAndPublishImages(gitCommitId, backendComponents, uiClientComponents, branchName, instanaUiClientVersion, instanaImageVersion)
-                }
+                //}
               }
             }
           }
@@ -153,9 +153,9 @@ pipeline {
           timeout(time: 30, unit: 'MINUTES') {
             timestamps {
               script {
-                if (isDeliveryBranch) {
+                //if (isDeliveryBranch) {
                   rebuildBackend(backendComponents, branchName, instanaUiClientVersion, instanaImageVersion)
-                }
+                //}
               }
             }
           }

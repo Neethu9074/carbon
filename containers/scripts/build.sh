@@ -145,7 +145,7 @@ function _scan_image() {
 
 function build_image {
   _check_prerequisites
-  _check_branch_name
+  #_check_branch_name
   _create_necessary_dirs
   _get_container_file
   _get_run_sh

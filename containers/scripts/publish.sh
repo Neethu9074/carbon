@@ -57,7 +57,7 @@ function push_image {
     _log_info "Images built locally will not be pushed to the remote registry"
     exit 0
   else
-    _check_branch_name
+    #_check_branch_name
     _docker_login
     _log_info "We are 'rebuilding' the image in this push step because docker buildx multi-arch builds require build and push to be run in the same command. \
     https://docs.docker.com/buildx/working-with-buildx/"
