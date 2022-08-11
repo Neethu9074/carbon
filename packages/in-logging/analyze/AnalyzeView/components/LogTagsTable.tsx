@@ -3,44 +3,44 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React, { useState, useMemo, forwardRef } from 'react';
+import React, { forwardRef, useMemo, useState } from 'react';
 
-import { Link, Stack, Ul, Li, ColumnizedContent } from '@instana/components';
+import { ColumnizedContent, Li, Link, Stack, Ul } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import {
-  LOG_CUSTOM_KEY_APPLICATION_IDS,
-  LOG_CUSTOM_KEY_SERVICE_ID,
-  LOG_SERVICE_NAME,
-  LOG_SPAN_ID,
   LOG_CALL_ID,
   LOG_CUSTOM_KEY_APPLICATION_ID,
+  LOG_CUSTOM_KEY_APPLICATION_IDS,
   LOG_CUSTOM_KEY_ENDPOINT_ID,
-  LOG_EXCEPTION_TYPE,
+  LOG_CUSTOM_KEY_SERVICE_ID,
+  LOG_DOCKER_SNAPSHOT_ID,
   LOG_EXCEPTION_MESSAGE,
   LOG_EXCEPTION_STACK_TRACE,
-  LOG_DOCKER_SNAPSHOT_ID
+  LOG_EXCEPTION_TYPE,
+  LOG_SERVICE_NAME,
+  LOG_SPAN_ID
 } from 'in-logging/queryBuilder';
 import {
-  ClickedTag,
-  LogTagsTableProps,
-  GetContentType,
-  TagEntryProps,
-  ResolvedLinkProps,
-  ToggleProps,
+  ApplicationProps,
   ApplicationsListProps,
+  ClickedTag,
+  GetContentType,
   GroupingTag,
-  ApplicationProps
+  LogTagsTableProps,
+  ResolvedLinkProps,
+  TagEntryProps,
+  ToggleProps
 } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable.d';
+import ContainerPerformanceSparkcharts from 'in-logging/analyze/AnalyzeView/components/ContainerPerformanceSparkcharts';
 import { filterAdded, groupAdded, logMessageTagClicked } from 'in-logging/analyze/AnalyzeView/tracker';
 import useResolvedValue from 'in-logging/analyze/AnalyzeView/components/useResolvedValue';
 import useResolvedLink from 'in-logging/analyze/AnalyzeView/components/useResolvedLink';
 import useResolvedName from 'in-logging/analyze/AnalyzeView/components/useResolvedName';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
-import ContainerPerformanceSparkcharts from './ContainerPerformanceSparkcharts';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
-import { hasError, isLoading } from 'in-services/util/result';
 import IconButton from 'in-components/IconButton/IconButton';
+import { hasError, isLoading } from 'in-services/util/result';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import IconLink from 'in-components/IconButton/IconLink';
 import { pendingResult } from 'in-services/fixedObjects';
