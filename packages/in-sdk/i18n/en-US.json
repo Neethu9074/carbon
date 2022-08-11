@@ -46,8 +46,8 @@
   },
 
   "snapshot": {
+    "unknownLabel": "Unknown",
     "registryHealth": "Health",
-
     "runtimeLabelNet": ".NET Core",
     "runtimeLabelGo": "Go",
     "runtimeLabelJava": "Java",
