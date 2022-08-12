@@ -5,26 +5,16 @@
 
 import React from 'react';
 
-import { toInteractiveElement } from '@instana/components';
+import { toInteractiveElement, Message, SvgIcon } from '@instana/components';
 import { useAutoFocus } from '@instana/hooks';
-import { SvgIcon } from '@instana/components';
 
 import { doesTagNodeNeedSecondLevelKey } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
-import {
-  STRING,
-  NUMBER,
-  BOOLEAN,
-  STRING_LIST,
-  STRING_SET,
-  KEY_VALUE_PAIR
-} from 'in-components/QueryBuilder/tagFilter/types';
 import KeyEquals from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/KeyEquals';
 import SimpleValueSelector from 'in-components/QueryBuilder/SimpleValueSelector/SimpleValueSelector';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { isNotBlank } from 'in-services/util/string';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import Pill from 'in-components/Pill';
-import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import locals from './TagBasedPayloadConfigurator.mless';
 
@@ -52,18 +42,19 @@ export default React.forwardRef(function TagBasedPayloadConfiguration(
 
   const path = tagTreeNode?.path;
   if (!path) {
-    // should we show an error or a readonly representation instead of "nothing"
-    return null;
+    return (
+      <Message type="error" small>
+        {t('in-settings:tabs.team.customPayload.unknownTag', { tagName })}
+      </Message>
+    );
   }
 
+  const interactiveProps = toInteractiveElement({
+    onDefaultInteraction: toggle
+  });
+
   return (
-    <div
-      className={locals.configurator}
-      ref={ref}
-      {...toInteractiveElement({
-        onDefaultInteraction: toggle
-      })}
-    >
+    <div className={locals.configurator} ref={ref} {...interactiveProps}>
       <span
         className={locals.tagName}
         ref={autoFocus && !doesTagNodeNeedSecondLevelKey(tagTreeNode) ? tagNameRef : undefined}
@@ -103,16 +94,6 @@ export default React.forwardRef(function TagBasedPayloadConfiguration(
         </>
       )}
       <span className={locals.spacer} />
-      <Pill color={theme.lib.colors.N600Light}>{tagTypeBadges[tagTreeNode.type]}</Pill>
     </div>
   );
 });
-
-const tagTypeBadges = {
-  [BOOLEAN]: 'boolean[]',
-  [NUMBER]: 'number[]',
-  [STRING]: 'string[]',
-  [STRING_LIST]: 'string[]',
-  [STRING_SET]: 'string[]',
-  [KEY_VALUE_PAIR]: 'string[]' // key-value tags require to provide a key, and the collected values are of type string
-};

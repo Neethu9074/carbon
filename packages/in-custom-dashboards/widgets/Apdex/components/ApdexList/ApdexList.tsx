@@ -6,17 +6,16 @@
 
 import React from 'react';
 
+import { ApdexConfiguration, PaginatedResult, Result } from '@instana/types';
 import { Button, SvgIcon } from '@instana/components';
 
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { addActiveDialog, close as closeDialog } from 'in-components/DialogPresenter/store';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
-import { ApdexConfiguration, PaginatedResult, Result } from 'in-types';
 import { millis } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { FetchedState } from 'in-hooks/utils/types';
-import { noop } from 'in-services/fixedObjects';
 import { t, Trans } from 'in-i18n';
 
 import locals from './ApdexList.mless';
@@ -31,9 +30,17 @@ interface ServerTableApdexConfiguration extends ApdexListItem, ServerTablePresen
 interface ApdexListProps extends ApdexListItem, Partial<Omit<ServerTableApdexConfiguration, 'onDelete' | 'onEdit'>> {
   fetchedConfigState: FetchedState<ApdexConfiguration[]>;
   onSelect: (item: ApdexConfiguration) => void;
+  onCreate: () => void;
 }
 
-export default function ApdexList({ fetchedConfigState, onSelect, onDelete, onEdit, onChange }: ApdexListProps) {
+export default function ApdexList({
+  fetchedConfigState,
+  onSelect,
+  onDelete,
+  onEdit,
+  onChange,
+  onCreate
+}: ApdexListProps) {
   const paginatedResult = fetchedStateToPaginatedResult(fetchedConfigState);
   const { page = 0, pageSize = 0 } = paginatedResult?.data || {};
 
@@ -55,7 +62,12 @@ export default function ApdexList({ fetchedConfigState, onSelect, onDelete, onEd
       numSkeletonRows={3}
       columnDefinitions={columnDefinitions}
       rightHeader={
-        <Button kind="action" onClick={noop} icon="lib_openclose_add_circle_outline" className={locals.createButton}>
+        <Button
+          kind="action"
+          onClick={onCreate}
+          icon="lib_openclose_add_circle_outline"
+          className={locals.createButton}
+        >
           {t('in-custom-dashboards:widgets.apdex.apdexList.createButton')}
         </Button>
       }

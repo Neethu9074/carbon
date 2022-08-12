@@ -17,7 +17,7 @@ import {
   facetedSearchMatrixParameter,
   hiddenCallsMatrixParameter,
   plugin as matrixPlugin,
-  previewEnabledMatrixParameter,
+  fastQueryModeEnabledMatrixParameter,
   serviceId as matrixServiceId,
   serviceListPrefix as serviceListMatrixPrefix,
   snapshotId as matrixSnapshotId,
@@ -55,7 +55,6 @@ import { t } from 'in-i18n';
 
 export const applicationsList = '/applications';
 export const applicationDashboard = '/application';
-export const newApplicationView = '/application/new';
 export const newApplicationWaiterView = '/application/waiter';
 
 export const alertsList = '/alerts';
@@ -98,7 +97,7 @@ export function getLinkToAnalyze({
   hiddenCalls,
   chartedMetrics,
   fields,
-  previewEnabled,
+  fastQueryModeEnabled,
   timeConfig,
   tagCatalog,
   setOnClickNotificationMessage
@@ -113,7 +112,7 @@ export function getLinkToAnalyze({
     setOrDeleteMatrixParameter(params, analyzeTwoParameters.fields, fields);
     setOrDeleteMatrixParameter(params, analyzeTwoParameters.chartedMetrics, chartedMetrics);
     setOrDeleteMatrixParameter(params, hiddenCallsMatrixParameter, hiddenCalls);
-    setOrDeleteMatrixParameter(params, previewEnabledMatrixParameter, previewEnabled);
+    setOrDeleteMatrixParameter(params, fastQueryModeEnabledMatrixParameter, fastQueryModeEnabled);
     setOrDeleteMatrixParameter(params, facetedSearchMatrixParameter, facets);
 
     if (timeConfig) {

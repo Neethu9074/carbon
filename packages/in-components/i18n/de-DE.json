@@ -11,7 +11,7 @@
     }
   },
   "chart": {
-    "chartWrapperMetricNotfound": "Messwert-ID {{metricId}} nicht gefunden. ",
+    "chartWrapperMetricNotfound": "Messwert-ID {{metricId}} nicht gefunden.",
     "chartWrapperSameAxisSameValue": "Alle Aggregationstypen für eine Achse müssen denselben Wert haben.",
     "viewInAnalyticsBtnLabel": "In Analyse anzeigen",
     "chartLendMetricTimeShifted": "Messwert-Zeitverschiebung nach {{timeShiftedLabel}}",
@@ -65,7 +65,7 @@
     "explanationHeader": "Showcase für dynamisches Diagramm",
     "explanationP1": "Die Kerntechnologie, die Instana antreibt, ist das dynamische Diagramm. Das Diagramm ist ein Modell für Ihre Anwendung, das alle physischen und logischen Abhängigkeiten von Komponenten abbildet. Auf der rechten Seite sehen Sie das dynamische Diagramm Ihrer aktuellen Umgebung!",
     "explanationP2": "Das Diagramm enthält mehr als die physischen Komponenten. Es enthält auch logische Komponenten wie Traces, Anwendungen, Services, Cluster oder Tabellenbereiche. Komponenten und ihre Abhängigkeiten werden vom Instana-Agenten und den Sensoren automatisch erkannt, sodass das Diagramm kontinuierlich auf dem neuesten Stand gehalten wird. Jeder Knoten im Diagramm wird außerdem kontinuierlich mit Statusinformationen wie Messdaten, Konfigurationsdaten und einem berechneten Wert für den Allgemeinzustand auf Basis semantischer Kenntnisse und eines maschinellen Lernansatzes aktualisiert. Mit diesem Wissen werden auch die Abhängigkeiten im Diagramm analysiert, um logische Gruppierungen wie Services und Anwendungen zu finden, Auswirkungen auf diese Ebene zu verstehen und den Schweregrad von Problemen abzuleiten. Das gesamte Diagramm ist persistent und Sie können im Zeitablauf hin- und herblättern, um die Aussagen des Diagramms für viele Anwendungsfälle zu nutzen.",
-    "explanationLink": "<linkToBlog>Rufen Sie unseren Blog auf</linkToBlog>, um weitere Informationen zu erhalten. ",
+    "explanationLink": "<linkToBlog>Rufen Sie unseren Blog auf</linkToBlog>, um weitere Informationen zu erhalten.",
     "closeBtn": "Diagramm schließen"
   },
   "gravatar": {
@@ -113,7 +113,7 @@
     "dialogRequireFilterMsg": "Geben Sie einen zu speichernden Filter an.",
     "filterConfirmRemovalHeader": "Entfernen bestätigen",
     "filterConfirmButtonLabel": "Filter entfernen",
-    "filterConfirmRemoveMsg": "Sind Sie sicher, dass Sie den Filter <strong>{{filterName}}</strong> entfernen möchten? ",
+    "filterConfirmRemoveMsg": "Sind Sie sicher, dass Sie den Filter <strong>{{filterName}}</strong> entfernen möchten?",
     "helpDialogTitleUsingTheSearchBar": "Suchleiste verwenden"
   },
   "tables": {
@@ -342,7 +342,7 @@
     "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "Offener {{eventType}} wird geladen…",
     "openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues": "Offener {{eventType}} konnte nicht geladen werden",
     "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}} offener {{eventType}}",
-    "openIssuesListPresenterHeaderDisplayingMaxIssuesToShowMostSevere": "({{maxIssuesToShow}} schwerwiegendste anzeigen) ",
+    "openIssuesListPresenterHeaderDisplayingMaxIssuesToShowMostSevere": "({{maxIssuesToShow}} schwerwiegendste anzeigen)",
     "openIssuesListPresenterIssueDescriptionOmitted": "Problembeschreibung weggelassen. Weitere Details sind in der Detailansicht des Ereignisses sichtbar.",
     "openIssuesListPresenterStarted": "Gestartet"
   },
@@ -569,7 +569,7 @@
     "companionMetricLabelCalls": "Aufrufe",
     "companionMetricLabelLatency": "Latenzzeit",
     "companionMetricLabelErroneousCalls": "Fehlerhafte Aufrufe",
-    "companionMetricLabelErroneousCallRate": "Rate fehlerhafter Aufrufe:",
+    "companionMetricLabelErroneousCallRate": "Rate fehlerhafter Aufrufe: ",
     "metricLabelCallsAndErroneousCalls": "Aufrufe und fehlerhafte Aufrufe",
     "metricLabelCallsAndLatency": "Aufrufe und Latenzzeit",
     "linkSeeAllApplications": "{{count}} {{activeTab}} Anwendung anzeigen",
@@ -584,8 +584,8 @@
     "linkSeeAllServices_1": "{{count}} {{activeTab}} Service anzeigen",
     "linkSeeAllServices_2": "Alle {{count}} {{activeTab}} Services anzeigen",
     "linkSeeService": "Service anzeigen",
-    "activeTab_upstream": "Vorgelagert",
-    "activeTab_downstream": "Nachgelagert",
+    "activeTab_upstream": "Vorgelagerte",
+    "activeTab_downstream": "Nachgelagerte",
     "labelMetric": "Messwert:",
     "upstreamText_Service": "Direkt von {{count}} Service aufgerufen",
     "upstreamText_Service_plural": "Direkt von {{count}} Services aufgerufen",
@@ -615,8 +615,8 @@
     "downstreamMessage_service": "Dieser Endpunkt hat keine nachgeordneten Aufrufe eingeleitet",
     "downstreamMessage_application": "Diese Anwendung hat keine nachgeordneten Aufrufe eingeleitet",
     "downstreamMessage_entity": "Diese Entität hat keine nachgeordneten Aufrufe eingeleitet",
-    "tabsUpstream": "Vorgelagert",
-    "tabsDownstream": "Nachgelagert",
+    "tabsUpstream": "Vorgelagerte",
+    "tabsDownstream": "Nachgelagerte",
     "buttonUpstreamDownstream": "Vorgelagert/Nachgelagert"
   },
   "withTvMode": {
@@ -680,7 +680,7 @@
     "workspaceIncludeSidebarFilters": "Filterseitenleistenelemente einschließen",
     "workspaceTitleFilter": "Filter",
     "workspaceButtonClear": "Löschen",
-    "errorWithDataYourDefinedQueryIsTooComplex": "Ihre definierte Abfrage ist zu komplex; reduzieren Sie die Verschachtelungstiefe. ",
+    "errorWithDataYourDefinedQueryIsTooComplex": "Ihre definierte Abfrage ist zu komplex; reduzieren Sie die Verschachtelungstiefe.",
     "sanitizedTagFilterValue": "Der Tagfilterwert wurde auf die maximal zulässige Länge gekürzt.",
     "sanitizedTagFilterValueAndOperator": "Der Tagfilterwert wurde auf die maximal zulässige Länge gekürzt und der Operator wurde entsprechend angepasst.",
     "source": "Quelle",

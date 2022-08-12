@@ -3,43 +3,51 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { ThresholdOperator } from '@instana/types';
+import { AdaptiveBaselineData } from '@instana/types';
 
+import {
+  DataSeries,
+  MultiMetricRenderProps,
+  RenderAxis,
+  RenderConfig,
+  Renderer
+} from 'in-components/Chart/renderer/types';
 import { renderThresholdLineAndBackgrounds } from 'in-alerting/components/Chart/renderer/renderThresholdAndBackgrounds';
 import { updateThresholdPointsIfRequired } from 'in-alerting/components/Chart/renderer/adaptiveBaseline';
+import { isGreaterOperatorOrUndefined } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { getAdaptiveBaselineValue } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { BaselineDataSeries } from 'in-alerting/components/Chart/renderer/historicBaseline';
-import { DataSeries, RenderAxis, RenderConfig } from 'in-components/Chart/renderer/types';
-import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
-import { AxisColor, MetricDataSeries } from 'in-components/Chart/types';
+import { AxisColor } from 'in-components/Chart/types';
 import line from 'in-components/Chart/renderer/line';
 import { Granularity, TimeConfig } from 'in-types';
 import { ScaleType } from 'in-services/scale';
 
-export default {
-  render: ({
-    colors50,
-    colors100,
-    scale,
-    config,
-    metrics
-  }: {
-    colors50: AxisColor[];
-    colors100: AxisColor[];
-    scale: ScaleType;
-    config: RenderConfig;
-    metrics: MetricDataSeries[];
-  }): void => {
-    const metric = metrics[0];
+export const createLineWithAdaptiveBaseline = (
+  threshold: AdaptiveBaselineData,
+  thresholdGranularity: Granularity,
+  eventBasedAdaptiveBaseline: DataSeries
+): Renderer<MultiMetricRenderProps> => {
+  return {
+    render: ({ colors50, colors100, scale, config, metrics }): void => {
+      const metric = metrics[0];
 
-    renderAdaptiveBaseline(config, scale, colors50, colors100);
+      renderAdaptiveBaseline(
+        config,
+        scale,
+        threshold,
+        eventBasedAdaptiveBaseline,
+        thresholdGranularity,
+        colors50,
+        colors100
+      );
 
-    // historical data
-    line.render({ dataSeries: metric, color: colors100[0]!, scale, config });
-  },
-  enrich: (_config: unknown, axis: RenderAxis) => {
-    axis.valuesDependOnEachOther = true;
-  }
+      // historical data
+      line.render({ dataSeries: metric, color: colors100[0]!, scale, config });
+    },
+    enrich: (_config: unknown, axis: RenderAxis) => {
+      axis.valuesDependOnEachOther = true;
+    }
+  };
 };
 
 export function getThresholdInTimeframe(
@@ -86,37 +94,25 @@ function calculateFirstBucketInChartStartTime(timeConfig: TimeConfig, granularit
   return to - timeConfig.windowSize - granularity;
 }
 
-export interface RenderAxisWithBaseline extends RenderAxis {
-  baseline: BaselineDataSeries;
-  sensitivity: number;
-  operator: ThresholdOperator;
-  eventBasedAdaptiveBaseline: DataSeries;
-  thresholdGranularity: Granularity;
-}
-
 function renderAdaptiveBaseline(
   config: RenderConfig,
   scale: ScaleType,
+  baselineData: AdaptiveBaselineData,
+  eventBasedAdaptiveBaseline: DataSeries,
+  thresholdGranularity: Granularity,
   colors50: AxisColor[],
   colors100: AxisColor[]
 ): void {
-  const { y1 } = config;
-  const {
-    baseline,
-    sensitivity,
-    operator,
-    eventBasedAdaptiveBaseline,
-    thresholdGranularity
-  } = y1 as RenderAxisWithBaseline;
+  const { baseline, deviationFactor: sensitivity, operator } = baselineData;
 
   if ((baseline ?? []).length === 0 && (eventBasedAdaptiveBaseline ?? []).length === 0) {
     return;
   }
 
-  const isGreaterOp = operator === undefined || isGreaterOperator(operator);
+  const isGreaterOp = isGreaterOperatorOrUndefined(operator);
   const thresholdInTimeframe: DataSeries = getThresholdInTimeframe(
     eventBasedAdaptiveBaseline,
-    baseline,
+    baseline as BaselineDataSeries, // need casting for number[]-> [number,number,number]
     sensitivity,
     isGreaterOp,
     thresholdGranularity

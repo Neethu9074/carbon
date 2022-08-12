@@ -116,6 +116,7 @@ export default function ApplicationEventContent({ event }) {
               endpointId={eventEntity.endpointId}
               eventBasedAdaptiveBaseline={Object.entries(adaptiveBaselineInfo).sort((a, b) => a[0] - b[0])}
               setMetricResultPrecision={setMetricResultPrecision}
+              isEventsView
             />
           </Card>
         </Col>

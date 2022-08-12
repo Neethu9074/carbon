@@ -467,10 +467,10 @@
         "includeSyntheticCalls": "Include Synthetic Calls",
         "type": "Type",
         "sliEntity": "SLI Entity",
-        "beaconConfigLabel": "Beacon Config",
+        "beaconConfigLabel": "Beacon Configuration",
         "beaconScopeLabel": "Beacon Scope",
         "httpRequestsLabel": "HTTP Requests",
-        "beaconFiltersLabel": "Beacon Filters"
+        "beaconFiltersLabel": "Beacon Filter"
       },
       "sliList": {
         "serviceLevelIndicators": "Service Level Indicators",
@@ -572,18 +572,35 @@
         "thousandCallsFormat": "{{count}}K calls"
       },
       "widgetLeftHeader": {
-        "previewDataInfo": "Preview data is shown up to 7 days in the past if SLI configuration was created recently. The final widget will only include data since SLI creation"
+        "previewDataInfo": "Preview data is shown only up to 7 days in the past. The final widget will only include data since SLI creation."
+      },
+      "boundaryScopeConfigurator": {
+        "all": {
+          "title": "All Calls",
+          "description": "Calls performed within this application, by both consumers as well as internally."
+        },
+        "inbound": {
+          "title": "Inbound Calls",
+          "description": "Only calls that are performed by the consumers of this application."
+        }
       }
     },
     "apdex": {
       "title": "Apdex: Chart",
       "chart": {
         "metricLabel": "Apdex",
-        "viewInAnalyze": "View in Analyze"
+        "viewInAnalyze": "View in Analyze",
+        "noDataRetentionPeriod": "Selected time range is beyond data retention period"
       },
       "demo": {
         "title": "Apdex for Prod",
         "entityLabel": "Robot Shop"
+      },
+      "apdexConfigInfo": {
+        "tagFilterLabel": "Filter",
+        "apdexNameLabel": "Apdex Name",
+        "apdexTypeLabel": "Apdex Type",
+        "thresholdLabel": "Threshold"
       },
       "formComponent": {
         "title": "Apdex Configuration",
@@ -599,21 +616,41 @@
       },
       "entityTypeSelector": {
         "type": "Unknown Type",
-        "type_website": "Website"
+        "type_website": "Website",
+        "type_application": "Application"
       },
       "apdexManageList": {
-        "title": "Apdex List"
+        "title": "Apdex List",
+        "deleteSuccessfulMessage": "Apdex configuration was successfully deleted.",
+        "deleteFailedMessage": "Failed to delete the Apdex configuration."
       },
       "apdexList": {
         "cardTitle": "Apdex Configuration",
         "nameColumn": "Apdex configuration",
-        "thresholdColumn": "Treshold",
+        "thresholdColumn": "Threshold",
         "confirmDeleteHeader": "Please Confirm",
         "confirmDeleteMessage": "Are you sure you want to delete {{apdex}}?",
         "editApdexTooltip": "Edit/Clone Apdex configuration",
         "deleteApdexTooltip": "Delete Apdex configuration",
         "confirmDeleteButton": "Delete",
         "createButton": "Create Apdex Configuration"
+      },
+      "createApdexForm": {
+        "title": "Create Apdex Configuration",
+        "customizationHeader": "Apdex Customization",
+        "label": "Apdex Name",
+        "apdexCreateSuccessTitle": "Apdex configuration was created successfully.",
+        "apdexCreateSuccessContent": "Apdex configuration \"{{apdexName}}\" has been created.",
+        "apdexCreateFailedTitle": "Failed to create the Apdex configuration.",
+        "apdexCreateFailedContent": "There was a problem creating this Apdex configuration: \"{{apdexName}}\"",
+        "apdexNameNotEmpty": "The Apdex name cannot be empty.",
+        "thresholdNotEmpty": "The threshold cannot be empty.",
+        "nameExistsError": "Apdex configuration with this name already exists. Please enter a different name."
+      },
+      "createWebsiteApdexForm": {
+        "thresholdHeader": "Threshold Configuration",
+        "thresholdLabel": "Threshold",
+        "thresholdFooter": "Threshold can not be edited after creation to prevent loss of data."
       },
       "entityInfo": {
         "tooltip": "Unknown Apdex",
@@ -622,7 +659,14 @@
       },
       "widget": {
         "unknownEntityLabel_application": "Unknown Application",
-        "unknownEntityLabel_website": "Unknown Website"
+        "unknownEntityLabel_website": "Unknown Website",
+        "previewDataInfo": "Preview data is shown for the last 7 days. The final widget will only include data since creation of the Apdex configuration."
+      },
+      "applicationScopeConfigurator": {
+        "label": "Apdex Scope",
+        "boundaryScope": "Boundary",
+        "hiddenCalls": "Hidden Calls",
+        "additionalFilters": "Additional Filter"
       }
     },
     "timezone": {

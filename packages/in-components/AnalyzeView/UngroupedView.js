@@ -17,6 +17,7 @@ import { getAvailableMetrics } from 'in-components/AnalyzeView/metrics';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import Header from 'in-components/QueryBuilder/components/Header';
 import useCursorPagination from 'in-hooks/useCursorPagination';
+import { traceViewTracker } from 'in-applications/tracker';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -90,6 +91,7 @@ export default function UngroupedAnalyzeView(props) {
         hasErrors={hasErrors}
         hasItems={hasItems}
         ListItemContent={SplitScreenListItemContent}
+        tracker={traceViewTracker}
       />
     );
   }

@@ -4,12 +4,14 @@
  * Copyright IBM Corp. 2022
  */
 
+import getJumpDirectlyToApplicationLikeUA2Href$ from 'in-custom-dashboards/widgets/Slo/hooks/analytics/getJumpDirectlyToApplicationLikeUA2Href';
 import useLinkToUnboundedAnalytics from 'in-custom-dashboards/widgets/Apdex/hooks/useLinkToUnboundedAnalytics';
 import getLinkToWebsiteAnalyze from 'in-custom-dashboards/widgets/Slo/hooks/analytics/getLinkToWebsiteAnalyze';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { minutes } from 'in-services/time';
 
 jest.mock('in-custom-dashboards/widgets/Slo/hooks/analytics/getLinkToWebsiteAnalyze');
+jest.mock('in-custom-dashboards/widgets/Slo/hooks/analytics/getJumpDirectlyToApplicationLikeUA2Href');
 
 describe('in-custom-dashboards/widgets/Apdex/hooks/useLinkToUnboundedAnalytics', () => {
   it('returns an empty href generator if apdexConfig is undefined', done => {
@@ -60,23 +62,6 @@ describe('in-custom-dashboards/widgets/Apdex/hooks/useLinkToUnboundedAnalytics',
     });
   });
 
-  // Replace this with a proper test once application apdex is supported
-  it('returns an empty href generator if the apdexConfig is of application type', done => {
-    // Given
-    const apdexConfig = { apdexEntity: { apdexType: 'application' } };
-    const tagCatalog = {};
-
-    // When
-    const generator = useLinkToUnboundedAnalytics({ apdexConfig, tagCatalog });
-    const actual = generator();
-
-    // Then
-    actual.once(href => {
-      expect(href).toEqual('');
-      done();
-    });
-  });
-
   it('returns a href generator that generates a link to website analyze filtered by the apdexConfig if a website apdexConfig is given', () => {
     // Given
     const entityId = 'Stans recipe website';
@@ -105,6 +90,45 @@ describe('in-custom-dashboards/widgets/Apdex/hooks/useLinkToUnboundedAnalytics',
         timeConfig,
         tagCatalog,
         filterExpression: tagFilterExpression
+      })
+    );
+  });
+
+  it('returns a href generator that generates a link to application analyze filtered by the apdexConfig if an application apdexConfig is given', () => {
+    // Given
+    const entityId = 'Stans cookie factory';
+    const boundaryScope = 'ALL';
+    const includeInternal = true;
+    const includeSynthetic = true;
+    const tagFilterExpression = tagFilter('agent.zone', 'EQUALS', 'cookies');
+    const timeConfig = { windowSize: minutes.toMillis(2), autoRefresh: false };
+    const apdexConfig = {
+      apdexEntity: {
+        apdexType: 'application',
+        entityId,
+        boundaryScope,
+        includeInternal,
+        includeSynthetic,
+        tagFilterExpression
+      }
+    };
+
+    // When
+    const generator = useLinkToUnboundedAnalytics({ apdexConfig, tagCatalog: {} });
+    generator(timeConfig);
+
+    // Then
+    expect(getJumpDirectlyToApplicationLikeUA2Href$).toHaveBeenLastCalledWith(
+      { applicationId: entityId },
+      tagFilterExpression,
+      [],
+      boundaryScope,
+      expect.objectContaining({
+        timeConfig,
+        hiddenCalls: expect.objectContaining({
+          includeInternal,
+          includeSynthetic
+        })
       })
     );
   });

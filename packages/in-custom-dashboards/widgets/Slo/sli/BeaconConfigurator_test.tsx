@@ -16,13 +16,10 @@ import { t } from 'in-i18n';
 describe('in-custom-dashboards/widgets/Slo/sli/BeaconConfigurator', () => {
   it('does not display the QueryBuilder if sliType is "websiteEventBased"', () => {
     // Given
-    const sliType = 'websiteEventBased';
     const QueryBuilder = jest.fn();
 
     // When
-    const wrapper = shallow(
-      <BeaconConfigurator QueryBuilder={QueryBuilder} onChange={noop} sliType={sliType} value={[]} />
-    );
+    const wrapper = shallow(<BeaconConfigurator QueryBuilder={QueryBuilder} onChange={noop} value={[]} />);
 
     // Then
     expect(wrapper.exists(QueryBuilder)).not.toBeTruthy();
@@ -30,7 +27,6 @@ describe('in-custom-dashboards/widgets/Slo/sli/BeaconConfigurator', () => {
 
   it('renders the QueryBuilder with the provided value', () => {
     // Given
-    const sliType = 'websiteTimeBased';
     const tagFilterExpression: FormModelElement[] = [
       {
         name: 'Snacks.Available',
@@ -44,7 +40,12 @@ describe('in-custom-dashboards/widgets/Slo/sli/BeaconConfigurator', () => {
 
     // When
     const wrapper = shallow(
-      <BeaconConfigurator QueryBuilder={QueryBuilder} onChange={noop} sliType={sliType} value={tagFilterExpression} />
+      <BeaconConfigurator
+        QueryBuilder={QueryBuilder}
+        onChange={noop}
+        value={tagFilterExpression}
+        withAdditionalFilters
+      />
     );
 
     // Then
@@ -54,7 +55,6 @@ describe('in-custom-dashboards/widgets/Slo/sli/BeaconConfigurator', () => {
 
   it('calls onChange with an empty form model when the clear button is clicked', () => {
     // Given
-    const sliType = 'websiteTimeBased';
     const tagFilterExpression: FormModelElement[] = [
       {
         name: 'Snacks.Available',
@@ -72,8 +72,8 @@ describe('in-custom-dashboards/widgets/Slo/sli/BeaconConfigurator', () => {
       <BeaconConfigurator
         QueryBuilder={QueryBuilder}
         onChange={onChange}
-        sliType={sliType}
         value={tagFilterExpression}
+        withAdditionalFilters
       />
     );
     wrapper
@@ -88,7 +88,6 @@ describe('in-custom-dashboards/widgets/Slo/sli/BeaconConfigurator', () => {
 
   it('calls onChange with the updated form model on changes in the QueryBuilder', () => {
     // Given
-    const sliType = 'websiteTimeBased';
     const tagFilterExpression: FormModelElement[] = [
       {
         name: 'Snacks.Available',
@@ -106,8 +105,8 @@ describe('in-custom-dashboards/widgets/Slo/sli/BeaconConfigurator', () => {
       <BeaconConfigurator
         QueryBuilder={QueryBuilder}
         onChange={onChange}
-        sliType={sliType}
         value={tagFilterExpression}
+        withAdditionalFilters
       />
     );
     wrapper.find(QueryBuilder).simulate('change', [

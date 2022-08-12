@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { TestResultSubtransaction } from '@instana/types/typeDefinitions';
 import { Card } from '@instana/components';
@@ -18,6 +18,7 @@ import { OverviewChartToolTipProps, ResultDetailsResponse, SubtransactionsProps 
 import SubtransactionsList from 'in-synthetics/dashboards/details/components/SubtransactionsList';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import { millis, millisToTwoDecimalSeconds } from 'in-services/formatters/number';
+import Filter from 'in-synthetics/dashboards/details/components/Filter';
 import useResizeObserverCustom from 'in-hooks/useResizeObserver';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import createScale from 'in-services/scale/scale';
@@ -29,53 +30,64 @@ const barHeight = 8;
 
 interface TimelineProps {
   details: ResultDetailsResponse;
+  startTime: number;
+  finishTime: number;
 }
 
-export default function Timeline({ details }: TimelineProps) {
-  const { errors, data } = details;
+export default function Timeline({ details, startTime, finishTime }: TimelineProps) {
+  const [filter, setFilter] = useState({ query: '' });
+
+  const { data } = details;
+  // @ts-expect-error
+  const filteredSubtransactions = data?.subtransactions?.filter(subtransaction => {
+    if (filter.query === '') {
+      return subtransaction;
+    } else if (subtransaction.metrics.httpOperation.toLowerCase().includes(filter.query.toLowerCase())) {
+      return subtransaction;
+    }
+  });
+
   return (
     <Card title={t('in-synthetics:dashboard.detailsPage.timeLineWidget')}>
-      <div className={locals.overviewChartContainer}>
-        <OverviewChart errors={errors} data={data} />
-      </div>
-      <SubtransactionsList errors={errors} data={data} />
+      {data != undefined && data != null ? (
+        <>
+          <Filter setFilter={setFilter} filter={filter} />
+          <div className={locals.overviewChartContainer}>
+            {// @ts-expect-error Object is possibly undefined
+            data.subtransactions?.length > 0 && data?.subtransactions[0].properties != null && (
+              <OverviewChart
+                subtransactions={filteredSubtransactions}
+                earliestTimestamp={startTime}
+                endTimestamp={finishTime}
+                totalDuration={data?.subtransactions?.reduce(
+                  (prev: number, current: TestResultSubtransaction) => prev + current.metrics.responseTime,
+                  0
+                )}
+              />
+            )}
+          </div>
+          <SubtransactionsList subtransactions={filteredSubtransactions} />
+        </>
+      ) : (
+        <NoDataAvailable
+          type="lib_synthetic"
+          height={160}
+          text={t('in-synthetics:dashboard.detailsPage.noDataAvailable.message', { component: 'Timeline' })}
+        />
+      )}
     </Card>
   );
 }
 
-function OverviewChart({ errors, data }: SubtransactionsProps) {
+function OverviewChart({ subtransactions, earliestTimestamp, endTimestamp }: SubtransactionsProps) {
   const { width, ref } = useResizeObserverCustom();
 
-  if (errors?.length != undefined && data != undefined) {
-    // @ts-expect-error
-    if (errors.length > 0 || data?.subtransactions[0].properties === null) {
-      return (
-        <NoDataAvailable
-          type="lib_synthetic"
-          height={160}
-          text={t('in-synthetics:dashboard.detailsPage.noDataAvailable.timelineDescription')}
-        />
-      );
-    }
-  }
-
   const scale = createScale();
-  const subData = data?.subtransactions;
-  const subStacked = applyLayout(subData);
-  // @ts-expect-error
-  const earliestTimestamp = subData[0].properties.startTime;
-  const endTimestamp = subData?.reduce(
-    (max: number, sub: TestResultSubtransaction) => Math.max(max, sub.properties.finishTime + sub.metrics.responseTime),
-    0
-  );
-  let totalDuration = 0;
-
-  subData?.map((subtransaction: TestResultSubtransaction) => {
-    totalDuration += subtransaction.metrics.responseTime;
-  });
+  const subStacked = applyLayout(subtransactions);
 
   scale.setRangeFrom(0);
   scale.setRangeTo(1);
+  // @ts-expect-error
   scale.setDomainFrom(earliestTimestamp);
   // @ts-expect-error
   scale.setDomainTo(endTimestamp);
@@ -88,7 +100,7 @@ function OverviewChart({ errors, data }: SubtransactionsProps) {
     // @ts-expect-error
     <div ref={ref}>
       {// @ts-expect-error
-      width && subData.length > 0 && (
+      width && subtransactions.length > 0 && (
         <HorizontalAxis
           align="top"
           width={width}
@@ -97,7 +109,8 @@ function OverviewChart({ errors, data }: SubtransactionsProps) {
           tickLength={8}
           tickColor={theme.lib.colors.N800Dark}
           tickLabelColor={theme.lib.colors.N800Dark}
-          scale={{ from: 0, to: totalDuration }}
+          // @ts-expect-error
+          scale={{ from: earliestTimestamp, to: endTimestamp - earliestTimestamp }}
           fixedTickPositions={[0, 0.2, 0.4, 0.6, 0.8, 1]}
         />
       )}

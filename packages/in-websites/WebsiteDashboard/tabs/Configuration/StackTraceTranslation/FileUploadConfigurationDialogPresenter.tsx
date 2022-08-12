@@ -22,6 +22,7 @@ import Dialog from 'in-components/Dialog/Dialog';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import { baseUrl } from 'in-services/config';
+import Code from 'in-components/Code';
 import { t, Trans } from 'in-i18n';
 
 import locals from './FileUploadConfigurationDialogPresenter.mless';
@@ -42,6 +43,25 @@ interface Props {
 
 export default function FileUploadConfigurationDialogPresenter(props: Props) {
   const { form, message, onSubmit, onChange, websiteId } = props;
+
+  const apiBaseUrl = `${baseUrl}/api/website-monitoring/config/${encodeURIComponent(websiteId)}/sourceMapUpload`;
+  const apiUploadUrl = `${apiBaseUrl}/${(form.get('id') as Field<string>).value}/form`;
+  const apiClearUrl = `${apiBaseUrl}/${(form.get('id') as Field<string>).value}/clear`;
+
+  const lines = [`# examples`];
+  lines.push(``);
+  lines.push(`# upload source map file`);
+  lines.push(`curl --location --request PUT \\`);
+  lines.push(`    '${apiUploadUrl}' \\`);
+  lines.push(`    --header 'authorization: apiToken xxxxxxxxxxxxxxxx' \\`);
+  lines.push(`    --form 'url="https://example.com/main.aeb907d6.js"' \\`);
+  lines.push(`    --form 'sourceMap=@"/path-to-your-sourcemap-file/main.aeb907d6.js.map"'`);
+  lines.push(``);
+  lines.push(`# remove all files in the upload configuration`);
+  lines.push(`curl --location --request PUT \\`);
+  lines.push(`    '${apiClearUrl}' \\`);
+  lines.push(`    --header 'authorization: apiToken xxxxxxxxxxxxxxxx'`);
+  const uploadAPISnippet = lines.join('\n');
 
   return (
     <Dialog
@@ -102,20 +122,30 @@ export default function FileUploadConfigurationDialogPresenter(props: Props) {
               <Col xs={12}>
                 <CopyableText
                   title={t('in-websites:websiteDashboard.tabs.configuration.fileUploadUrl')}
-                  value={`${baseUrl}/api/website-monitoring/config/${encodeURIComponent(websiteId)}/sourceMapUpload/${
-                    (form.get('id') as Field<string>).value
-                  }/form`}
+                  value={apiUploadUrl}
                   fieldName="sourceMapUploadFormUrl"
                 />
               </Col>
               <Col xs={12}>
                 <CopyableText
                   title={t('in-websites:websiteDashboard.tabs.configuration.clearUploadedFilesUrl')}
-                  value={`${baseUrl}/api/website-monitoring/config/${encodeURIComponent(websiteId)}/sourceMapUpload/${
-                    (form.get('id') as Field<string>).value
-                  }/clear`}
+                  value={apiClearUrl}
                   fieldName="sourceMapUploadClearUrl"
                 />
+              </Col>
+              <Col xs={12}>
+                <div className={locals.snippetWrapper}>
+                  <div className={locals.snippet}>
+                    <Code
+                      code={uploadAPISnippet}
+                      lang="bash"
+                      showLineNumbers={false}
+                      softWrap
+                      useDark
+                      withoutCopyButton
+                    />
+                  </div>
+                </div>
               </Col>
             </Row>
           </>

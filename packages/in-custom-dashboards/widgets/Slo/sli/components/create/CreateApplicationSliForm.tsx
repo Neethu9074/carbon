@@ -68,7 +68,8 @@ function CreateApplicationSliFormComponent({
   const filterExpressionValid = useValidateExpressions({ form, isQueryValid });
 
   return (
-    <CreateSliForm<'APPLICATION'>
+    <CreateSliForm
+      entityType="application"
       form={form}
       updateForm={updateForm}
       setFooter={setFooter}
@@ -118,7 +119,7 @@ function useValidateExpressions({ form, isQueryValid }: UseValidateExpressionsPr
   return goodEventsValid && badEventsValid;
 }
 
-function toBackendFormat(formData: SliFormData<'APPLICATION'>): NewSliConfig<CombinedApplicationSliEntity> {
+function toBackendFormat(formData: SliFormData<'application'>): NewSliConfig<CombinedApplicationSliEntity> {
   const sliEntity = formData.sliEntity;
 
   if (isAvailabilitySliEntity(sliEntity)) {

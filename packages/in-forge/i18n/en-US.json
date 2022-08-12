@@ -254,6 +254,11 @@
   "pluginName_camunda_1": "Camunda",
   "pluginName_camunda_2": "Camunda",
   "pluginName_camunda": "Camunda",
+  "pluginName_camundaexit_plural": "Camunda Exit",
+  "pluginName_camundaexit_0": "Camunda Exit",
+  "pluginName_camundaexit_1": "Camunda Exit",
+  "pluginName_camundaexit_2": "Camunda Exit",
+  "pluginName_camundaexit": "Camunda Exit",
   "pluginName_cassandraCluster_plural": "Cassandra Clusters",
   "pluginName_cassandraCluster_0": "Cassandra Clusters",
   "pluginName_cassandraCluster_1": "Cassandra Clusters",
@@ -1356,6 +1361,11 @@
   "tracingTypeName_camunda_0": "Camunda Calls",
   "tracingTypeName_camunda_1": "Camunda Call",
   "tracingTypeName_camunda_2": "Camunda Calls",
+  "tracingTypeName_camundaexit": "Camunda External Task Message",
+  "tracingTypeName_camundaexit_plural": "Camunda External Task Messages",
+  "tracingTypeName_camundaexit_0": "Camunda External Task Messages",
+  "tracingTypeName_camundaexit_1": "Camunda External Task Message",
+  "tracingTypeName_camundaexit_2": "Camunda External Task Messages",
   "tracingTypeName_cassandra": "Cassandra query",
   "tracingTypeName_cassandra_plural": "Cassandra queries",
   "tracingTypeName_cassandra_0": "Cassandra queries",
@@ -1709,6 +1719,11 @@
   "tracingTypeName_mail_0": "Mail messages",
   "tracingTypeName_mail_1": "Mail message",
   "tracingTypeName_mail_2": "Mail messages",
+  "tracingTypeName_mailjavamail": "Mail message",
+  "tracingTypeName_mailjavamail_plural": "Mail messages",
+  "tracingTypeName_mailjavamail_0": "Mail messages",
+  "tracingTypeName_mailjavamail_1": "Mail message",
+  "tracingTypeName_mailjavamail_2": "Mail messages",
   "tracingTypeName_mailactionmailer": "ActionMailer message",
   "tracingTypeName_mailactionmailer_plural": "ActionMailer messages",
   "tracingTypeName_mailactionmailer_0": "ActionMailer messages",
@@ -4471,6 +4486,9 @@
       "threads": "Threads",
       "throttlingDelay": "Throttling & Delay"
     },
+    "camunda": {
+      "camunda": "Camunda"
+    },
     "cassandraCluster": {
       "indexLabel": "Cassandra",
       "infoName": "Name",
@@ -5348,12 +5366,16 @@
         "sysCatTables": "Tables Catalog View ",
         "sysCatIndex": "Index Catalog View ",
         "tableSpaceUtil": "Table Space Utilities",
+        "tableSpaceOrAutoResize": "TableSpaceName/AutoResize",
         "hadrGenerics": "HADR General",
         "hadrConnect": "HADR Connection Status",
         "hadrPrimaryLog": "HADR Primary Log Information",
         "hadrSecondaryLog": "HADR Secondary Log Information",
         "hadrLogMetrics": "HADR Log Metrics",
-        "hadrTakeOverTime": "HADR Last Take Over Time"
+        "hadrTakeOverTime": "HADR Last Take Over Time",
+        "vmonlockStatsValue": "Lock Statistics (Memory)",
+        "vmonlockStats": "Lock Statistics",
+        "databaseVmondeltaStats": "Transaction Performance (Incremental Value)"
       },
       "db2": "DB2",
       "processId": "Process ID",
@@ -5561,9 +5583,22 @@
       "timeSinceLastRecv": "Time Since Last Receive",
       "logHadrWaitCur": "Current Logger Wait Time",
       "logHadrWaitTime": "Total Logger Wait Time",
+      "lockWaitTime": "Lock Wait Time",
+      "lockEscals": "Lock Escalations",
+      "lockListInUse": "Lock List In Use",
+      "activeLockWaits": "Active Lock Waits",
+      "averageLockEscalsPerAct": "Average Lock Escalations Per Activity",
+      "lockListValue": "Lock List Value",
+      "indexReadEfficiency":  "Index Read Efficiency",
+      "sorts":  "Total Sorts",
+      "syncReadPercentage": "Sync Read Percentage",
+      "asyncWritePercentage": "Async Write Percentage",
+      "sortsPerTransactions": "Sorts Per Transactions",
+      "sqls": "SQLs",
       "unableToConnect": "Cannot connect to {{connectionUrl}} using user {{user}}.",
       "troubleshootingDocs": "Troubleshooting docs",
-      "oldConfigUsed": "Db2 Sensor now supports monitoring of multiple instances and databases on the host where Instana Agent is running. Please refer to the docs for the new configuration format."
+      "oldConfigUsed": "Db2 Sensor now supports monitoring of multiple instances and databases on the host where Instana Agent is running. Please refer to the docs for the new configuration format.",
+      "autoResize": "Auto Resize"
     },
     "defaultEntity20": {
       "allCallsPerSecond": "All Calls per Second",
@@ -11748,7 +11783,14 @@
       "titleProcessName": "Process Name",
       "titleActivityId": "Activity ID",
       "titleActivityName": "Activity Name",
-      "titleActivityDesc": "Activity Description"
+      "titleActivityDesc": "Activity Description",
+      "titleExternalTaskWorkerId": "External Task Worker ID",
+      "titleExternalTaskTopic": "External Task Topic",
+      "titleExternalTaskId": "External Task ID",
+      "titleExternalTaskRetries": "Retries"
+    },
+    "camunda-exit": {
+      "titleExternalTaskTopic": "External Task Topic"
     },
     "cassandra": {
       "titleKeyspace": "Keyspace",
@@ -11798,7 +11840,7 @@
       "titleKey": "Key",
       "titleCacheName": "Cache Name",
       "titleClusterName": "Cluster Name"
-    },	
+    },
     "distributeme": {
       "titleService": "Service",
       "titleMethod": "Method"
@@ -11812,7 +11854,9 @@
       "titleInterface": "Interface",
       "titleProviderVersion": "Provider Version",
       "titleConsumerVersion": "Consumer Version",
-      "titleVersion": "Protocol Version"
+      "titleVersion": "Protocol Version",
+      "titleMethod": "Method",
+      "titleGroup": "Group"
     },
     "dynamoDB": {
       "titleTable": "Table",
@@ -12100,9 +12144,13 @@
       "titleThread": "Thread"
     },
     "mail": {
-      "titleAddress": "Address",
       "class": "Class",
       "method": "Method"
+    },
+    "javamail": {
+      "method": "Method",
+      "endpoint": "Endpoint",
+      "error": "Error"
     },
     "memcache": {
       "titleCommand": "Command",

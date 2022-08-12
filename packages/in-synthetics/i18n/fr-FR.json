@@ -108,7 +108,7 @@
       "summaryTab": "Récapitulatif",
       "resultsTab": "Résultats",
       "widgets": {
-        "failures": "Défaillances",
+        "failures": "Echecs",
         "responseTimes": "Temps de réponse",
         "averageResponseSize": "Taille de réponse moyenne",
         "responseStatus": "Statut de la réponse",
@@ -134,13 +134,13 @@
     "resultsListPage": {
       "startedColumn": "Démarré",
       "locationColumn": "Emplacement",
-      "responseTimeColumn": "Délai de réponse",
+      "responseTimeColumn": "Temps de réponse",
       "responseSizeColumn": "Taille de la réponse",
       "title": "Résultats"
     },
     "noDataAvailable": {
       "resultsTitle": "Aucun résultat n'est disponible",
-      "resultsDescription": "Aucun résultat n'a été extrait pour l'intervalle de temps sélectionné."
+      "resultsDescription": "Aucun résultat n'a été extrait pour la période sélectionnée"
     }
   }
 }

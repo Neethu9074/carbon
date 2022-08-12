@@ -3,47 +3,26 @@
  * (c) Copyright Instana Inc.
  */
 
-import invariant from 'invariant';
-
 import { renderStaticThresholdLineAndBackgrounds } from 'in-alerting/components/Chart/renderer/renderThresholdAndBackgrounds';
-import { AxisColor, Config, MetricDataSeries } from 'in-components/Chart/types';
-import { RenderAxis, RenderConfig } from 'in-components/Chart/renderer/types';
+import { isGreaterOperatorOrUndefined } from 'in-alerting/smart-alerts/components/utils/alertUtils';
+import { MultiMetricRenderProps, RenderAxis, Renderer } from 'in-components/Chart/renderer/types';
 import line from 'in-components/Chart/renderer/line';
-import { ScaleType } from 'in-services/scale';
+import { StaticThresholdConfig } from 'in-types';
 
-export default {
-  render: ({
-    colors50,
-    colors100,
-    scale,
-    config,
-    metrics
-  }: {
-    colors50: AxisColor[];
-    colors100: AxisColor[];
-    scale: ScaleType;
-    config: RenderConfig;
-    metrics: MetricDataSeries[];
-  }): void => {
-    validateProps(config);
-    const metric = metrics[0];
+export function createLineWithThreshold({ operator, value }: StaticThresholdConfig): Renderer<MultiMetricRenderProps> {
+  return {
+    render: ({ colors50, colors100, scale, config, metrics }): void => {
+      const metric = metrics[0];
 
-    renderStaticThresholdLineAndBackgrounds(config, scale, colors100, colors50);
+      const isGreaterOp = isGreaterOperatorOrUndefined(operator);
 
-    // historical data
-    line.render({ dataSeries: metric, color: colors100[0]!, scale, config });
-  },
-  enrich: (_config: unknown, axis: RenderAxis) => {
-    axis.valuesDependOnEachOther = true;
-  }
-} as const;
+      renderStaticThresholdLineAndBackgrounds(config, scale, colors50, colors100, value, isGreaterOp);
 
-function validateProps(config: Config) {
-  if (__DEV__) {
-    invariant(
-      // @ts-expect-error threshold it not part of current type Axis
-      Number(config.y1.threshold) >= 0,
-      'Property "threshold" is missing in config. Example: y1={{ threshold, colors:[], ... }}'
-    );
-  }
+      // historical data
+      line.render({ dataSeries: metric, color: colors100[0]!, scale, config });
+    },
+    enrich: (_config: unknown, axis: RenderAxis) => {
+      axis.valuesDependOnEachOther = true;
+    }
+  };
 }

@@ -165,8 +165,8 @@
         "metric": "Métrica",
         "selectMetric": "Seleccionar métrica",
         "aggregation": "Agregación",
-        "crossSeriesAggregation": "Utilice SUM para la suma entre series",
-        "crossSeriesAggregationHelp": "Normalmente, la suma entre series es igual a la suma entre tiempos (el método utilizado para combinar puntos de datos en un único grupo). Con este conmutador habilitado, sumaremos los grupos de varias series de datos en lugar de utilizar la suma especificada.",
+        "crossSeriesAggregation": "Utilice SUM para la agregación de series cruzadas",
+        "crossSeriesAggregationHelp": "Normalmente, la agregación entre series es igual a la suma entre tiempos (el método utilizado para combinar puntos de datos en un único grupo). Con este conmutador habilitado, sumaremos los grupos de varias series de datos en lugar de utilizar la suma especificada.",
         "crossSeriesAggregationDisabledHelp": "No aplicable a {{aggregation}}",
         "crossSeriesAggregationRestrictedHelp": "No aplicable a esta métrica"
       },

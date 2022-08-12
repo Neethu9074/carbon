@@ -38,7 +38,15 @@ function getGroupedErroneousCallsRateConfig(metricConfig) {
 }
 
 export function ChartsPresenter(props) {
-  const { hiddenCalls, groupedViewConfiguration, chartedMetrics, dataSource, isGrouped, chartableDataSeries } = props;
+  const {
+    hiddenCalls,
+    groupedViewConfiguration,
+    chartedMetrics,
+    dataSource,
+    isGrouped,
+    chartableDataSeries,
+    fastQueryModeEnabled
+  } = props;
 
   return (
     <Sections className={locals.chartWrapper}>
@@ -54,6 +62,7 @@ export function ChartsPresenter(props) {
           ...metricConfiguration,
           tagFilterExpression: metricConfiguration.tagFilterExpression,
           dataSource,
+          queryPrecision: fastQueryModeEnabled ? 'APPROXIMATE' : 'FULL',
           ...hiddenCalls
         })}
         forceLoadingIndicator={isGrouped && chartableDataSeries == null}

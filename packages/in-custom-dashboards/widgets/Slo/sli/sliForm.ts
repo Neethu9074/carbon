@@ -13,13 +13,13 @@ import {
   CombinedWebsiteSliEntity,
   CombinedApplicationSliEntity,
   SliConfig,
-  CombinedSliEntity
+  CombinedSliEntity,
+  SliType
 } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import {
   Application,
   AvailabilitySliEntity,
   SliConfigMetricConfiguration,
-  SliEntitySliType,
   TagFilterExpressionElementUnion,
   Website,
   WebsiteEventBasedSliEntity
@@ -40,10 +40,10 @@ interface EventBasedSliEntity {
   readonly goodEventFilterExpression: TagFilterExpressionElementUnion;
 }
 
-export interface SliFormData<SLI_TYPE extends SliEntitySliType> {
+export interface SliFormData<SLI_TYPE extends SliType> {
   id: string;
   sliName: string;
-  sliEntity: SLI_TYPE extends 'APPLICATION' ? ApplicationSliEntityFormData : WebsiteSliEntityFormData;
+  sliEntity: SLI_TYPE extends 'application' ? ApplicationSliEntityFormData : WebsiteSliEntityFormData;
   metricConfiguration?: SliConfigMetricConfiguration;
 }
 

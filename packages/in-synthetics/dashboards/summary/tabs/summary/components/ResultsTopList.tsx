@@ -11,11 +11,9 @@ import { formatDateTime, fromNow } from '@instana/format-date';
 import { SvgIcon } from '@instana/components';
 import { Link } from '@instana/components';
 
-//import { TestResponse } from 'in-synthetics/utils/constants';
-import useTimeConfig from 'in-hooks/useTimeConfig';
+import { syntheticResultsListPath, syntheticsDashboard, syntheticDetailsPath } from 'in-synthetics/navigation/paths';
 // @ts-ignore
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
-import { syntheticResultsListPath, syntheticsDashboard } from 'in-synthetics/navigation/paths';
 // @ts-ignore
 import { TopListWithUrlState } from 'in-components/TopListWithUrlState';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
@@ -24,6 +22,7 @@ import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { latency } from 'in-services/formatters/number';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import { TagFilter, TimeConfig } from 'in-types';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
@@ -158,7 +157,20 @@ type Lab = {
 };
 
 function Label({ item, selectedMetric }: Lab) {
-  return item.testResultCommonProperties.locationLabel + AdditionalLabel({ item, selectedMetric });
+  let testId = item.testResultCommonProperties.testId;
+  let resultId = item.testResultCommonProperties.id;
+  return (
+    <Link
+      href$={getModifiedUrlStream(resultDetailUrl => {
+        resultDetailUrl.pathname = syntheticDetailsPath;
+        setOrDeleteMatrixKey(resultDetailUrl, syntheticDetailsPath, 'testId', testId);
+        setOrDeleteMatrixKey(resultDetailUrl, syntheticDetailsPath, 'id', resultId);
+        return resultDetailUrl;
+      })}
+    >
+      {item.testResultCommonProperties.locationLabel + AdditionalLabel({ item, selectedMetric })}
+    </Link>
+  );
 }
 
 function AdditionalLabel({ item, selectedMetric }: Lab) {

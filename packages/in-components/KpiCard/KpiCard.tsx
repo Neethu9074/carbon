@@ -131,8 +131,8 @@ export default function KpiCard({
             })}
           >
             <Tooltip content={iconAction.text}>
-              <Link href$={iconAction.href$}>
-                <SvgIcon className={locals.actionIcon} type={iconAction.icon} onClick={iconAction.onClick} />
+              <Link href$={iconAction.href$} onClick={iconAction.onClick}>
+                <SvgIcon className={locals.actionIcon} type={iconAction.icon} />
               </Link>
             </Tooltip>
             <Button

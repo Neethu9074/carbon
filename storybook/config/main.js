@@ -12,5 +12,8 @@ module.exports = {
   core: {
     builder: 'webpack5'
   },
-  addons: ['@storybook/addon-essentials']
+  addons: ['@storybook/addon-essentials'],
+  features: {
+    emotionAlias: false
+  }
 };

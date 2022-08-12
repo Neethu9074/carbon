@@ -9,7 +9,6 @@ import { Link } from '@instana/components';
 
 import { noop } from 'in-services/util/function';
 import WithIcon from 'in-components/WithIcon';
-import Tooltip from 'in-components/Tooltip';
 import theme from 'in-themes';
 
 import locals from './EntityLink.mless';
@@ -21,13 +20,16 @@ const EntityLink = forwardRef(function EntityLink(
   const iconColor = href$ && theme.lib.colors.blue800;
 
   const link = (
-    <Link href$={href$} onClick={onClick}>
-      {label}
-    </Link>
+    <>
+      {specialIndicator ? <span className={locals.specialIndicator} /> : null}
+      <Link href$={href$} onClick={onClick}>
+        {label}
+      </Link>
+    </>
   );
 
   const tooltipContent = tooltip ? (
-    <Tooltip content={tooltip}>{link}</Tooltip>
+    <>{link}</>
   ) : (
     <>
       {link}
@@ -37,7 +39,7 @@ const EntityLink = forwardRef(function EntityLink(
 
   const innerContent =
     plugin || snapshot || icon ? (
-      <WithIcon plugin={plugin} snapshot={snapshot} icon={icon} iconColor={iconColor}>
+      <WithIcon plugin={plugin} snapshot={snapshot} icon={icon} iconColor={iconColor} tooltip={tooltip}>
         {tooltipContent}
       </WithIcon>
     ) : (
@@ -48,11 +50,6 @@ const EntityLink = forwardRef(function EntityLink(
     return innerContent;
   }
 
-  return (
-    <div ref={ref}>
-      <span className={locals.specialIndicator} />
-      {innerContent}
-    </div>
-  );
+  return <div ref={ref}>{innerContent}</div>;
 });
 export default EntityLink;

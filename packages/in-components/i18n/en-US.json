@@ -217,13 +217,12 @@
     "groupedViewHeader_2": "{{formattedCount}} Groups",
     "groupedViewHeaderRetained": "Retained from {{formattedCount}}",
     "resultHeaderLoading": "Loading…",
-    "resultHeaderTooltip": "The query time range has been rounded up to nearest full minute to allow this view to load more quickly.",
     "queryProgress": {
       "preparing": "Preparing…",
       "runningQuery": "Running query…",
       "timeout": "This query has timed out.",
-      "timeoutEstimated": "The query would take too long to run.",
-      "timeoutInfo": "Select a shorter timeframe or issue a more specific query by applying more filters.",
+      "timeoutEstimated": "Your query could not be processed due to the high volume of calls.",
+      "timeoutInfo": "Please select a shorter timeframe.",
       "inputError": "There was an input error.",
       "tooManyRequests": "Too many requests",
       "tooManyRequestsInfo": "Our system is currently busy. Please try again later.",
@@ -793,5 +792,11 @@
     "retainedLabel_viewChange_0": "Approximated data ({{totalHits}} View Changes retained from {{representedHits}})",
     "retainedLabel_viewChange_1": "Approximated data ({{totalHits}} View Changes retained from {{representedHits}})",
     "retainedLabel_viewChange_2": "Approximated data ({{totalHits}} View Changes retained from {{representedHits}})"
+  },
+  "migratedTenantBanner": {
+    "title": "Migrated Tenant Unit",
+    "notice": "This tenant unit has been migrated to a new region. The unit you are currently accessing only contains historical data.",
+    "goToNewLocationLabel": "Go to New Location",
+    "exploreDataLabel": "Explore Historical Data"
   }
 }

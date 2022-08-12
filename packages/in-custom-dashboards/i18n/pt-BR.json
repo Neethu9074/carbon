@@ -123,8 +123,8 @@
     "srcApp": {
       "formComponent": {
         "needToTurnOffPP": "Para usar o agrupamento é necessário desligar o destaque de Problemas potenciais primeiro.",
-        "pleaseSelect": "Selecione",
-        "pleaseSelectMetric": "Selecione uma métrica",
+        "pleaseSelect": "Selecionar",
+        "pleaseSelectMetric": "Selecionar uma métrica",
         "aggregation": "Agregação",
         "metric": "Métrica"
       },
@@ -140,8 +140,8 @@
         "metric": "Métrica",
         "eventCount": "Contagem de evento",
         "aggregation": "Agregação",
-        "pleaseSelectMetric": "Selecione uma métrica",
-        "pleaseSelect": "Selecione",
+        "pleaseSelectMetric": "Selecionar uma métrica",
+        "pleaseSelect": "Selecionar",
         "helpAction": "Uma consulta de foco dinâmico (DFQ) como você usaria dentro da visualização do evento.",
         "query": "Consulta",
         "includeK8sInfoEvents": "Incluir eventos do Kubernetes",
@@ -158,14 +158,14 @@
         "metric": "Métrica",
         "count": "Contagem",
         "aggregation": "Agregação",
-        "pleaseSelect": "Selecione",
-        "pleaseSelectMetric": "Selecione uma métrica"
+        "pleaseSelect": "Selecionar",
+        "pleaseSelectMetric": "Selecionar uma métrica"
       },
       "metricsFormComponent": {
         "metric": "Métrica",
         "selectMetric": "Selecionar métrica",
         "aggregation": "Agregação",
-        "crossSeriesAggregation": "Use SUM para agregação de séries cruzadas",
+        "crossSeriesAggregation": "Usar SUM para agregação de séries cruzadas",
         "crossSeriesAggregationHelp": "Normalmente, a agregação de série cruzada é a mesma da agregação de tempo cruzado (o método usado para combinar pontos de dados em um único depósito). Com essa alternância ativada, vamos somar os depósitos nas séries de dados, em vez de usar a agregação especificada.",
         "crossSeriesAggregationDisabledHelp": "Não aplicável a {{aggregation}}",
         "crossSeriesAggregationRestrictedHelp": "Não aplicável a esta métrica"
@@ -175,18 +175,18 @@
         "comingSoon": "(em breve)"
       },
       "typeAndMetricConfigurator": {
-        "pleaseSelectMetric": "Selecione uma métrica",
+        "pleaseSelectMetric": "Selecionar uma métrica",
         "loadingMetrics": "Carregando métricas..."
       }
     },
     "srcMobileApp": {
       "formComp": {
         "beaconType": "Tipo de indicador",
-        "pleaseSelect": "Selecione",
+        "pleaseSelect": "Selecionar",
         "pleaseSelectDs": "Selecione uma origem de dados",
         "metric": "Métrica",
         "aggregation": "Agregação",
-        "pleaseSelectMetric": "Selecione uma métrica"
+        "pleaseSelectMetric": "Selecionar uma métrica"
       },
       "index": {
         "mobileAppsBeacon": "Aplicativos móveis (indicadores)"
@@ -195,7 +195,7 @@
     "srcSli": {
       "formComp": {
         "configSli": "SLI configurado",
-        "pleaseSelect": "Selecione",
+        "pleaseSelect": "Selecionar",
         "sliConfigComputeErrBudgetSliVal": "Configuração de SLI usada para calcular o orçamento de erros e valores de SLI",
         "typeSloThreshold": "Digite o limite de SLO desejado de <code>{{compact}}</code> a <code>{{detailed}}</code>.",
         "valType": "Tipo de valor"
@@ -210,10 +210,10 @@
     "srcWebSite": {
       "formComp": {
         "beaconType": "Tipo de indicador",
-        "pleaseSelect": "Selecione",
+        "pleaseSelect": "Selecionar",
         "metric": "Métrica",
         "selectDs": "Selecione uma origem de dados",
-        "selectMetric": "Selecione uma métrica",
+        "selectMetric": "Selecionar uma métrica",
         "aggregation": "Agregação"
       },
       "index": {
@@ -222,7 +222,7 @@
     },
     "metricConfigurator": {
       "ds": "Origem de dados",
-      "pleaseSelect": "Selecione",
+      "pleaseSelect": "Selecionar",
       "name": "Nome",
       "pleaseSelectATimeShiftingConfiguration": "Selecione uma configuração de deslocamento de tempo",
       "pleaseProvideAGroup": "Forneça um grupo.",
@@ -369,7 +369,7 @@
         "chartPie": "Gráfico: pizza",
         "testTitle": "Eventos",
         "testLegendItem1": "Incidentes",
-        "testLegendItem2": "Problemas: críticos",
+        "testLegendItem2": "Problemas: crítico",
         "testLegendItem3": "Problemas: aviso"
       }
     },
@@ -386,7 +386,7 @@
         "appPerspectHelpAction": "Configure as jornadas/ofertas do usuário, modelando-as como uma Perspectiva de aplicativo na área de Aplicativos.",
         "rbacHint": "Os aplicativos mostrados podem ser limitados por permissões.",
         "noAppPerspect": "Nenhuma perspectiva de aplicativo!",
-        "pleaseSelect": "Selecione"
+        "pleaseSelect": "Selecionar"
       },
       "websiteSelector": {
         "website": "Website",
@@ -394,13 +394,13 @@
         "websiteHelpAction": "Configure os websites na área de Websites e aplicativos móveis.",
         "rbacHint": "Os websites mostrados podem ser limitados por permissões.",
         "noWebsites": "Nenhum Website encontrado",
-        "pleaseSelect": "Selecione"
+        "pleaseSelect": "Selecionar"
       },
       "sliSelectionFormComp": {
         "srvLevelIndicator": "Indicador de nível de serviço",
         "selectASli": "Selecione uma SLI.",
         "noneAvailCreateOne": "Nenhum disponível, crie um.",
-        "pleaseSelect": "Selecione"
+        "pleaseSelect": "Selecionar"
       },
       "createSliForm": {
         "sliCreateSuccess": "SLI criada com sucesso",
@@ -460,7 +460,7 @@
         "sliNameNotEmpty": "O nome da SLI não pode estar vazio.",
         "sliCustomHelpAction": "As informações sobre customização de SLI e tipos de SLI estão localizadas em nossos docs.",
         "sliTimeBasedOrAnEventBasedSli": "O tipo de SLI deve ser um baseado em tempo ou baseado em evento.",
-        "pleaseSelect": "Selecione",
+        "pleaseSelect": "Selecionar",
         "boundary": "Limite",
         "hiddenCalls": "Chamadas ocultas",
         "includeInternalCalls": "Incluir chamadas internas",
@@ -594,7 +594,7 @@
         "selectConfig": "Selecione uma configuração",
         "manageConfig": "Gerenciar o Apdex",
         "noneAvailCreateOne": "Nenhum disponível, crie um.",
-        "pleaseSelect": "Selecione"
+        "pleaseSelect": "Selecionar"
       },
       "entityTypeSelector": {
         "type": "Tipo desconhecido",

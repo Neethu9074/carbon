@@ -22,6 +22,11 @@ import {
   hostAvailabilityDetection
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import {
+  deprecateAppDataLegacyEventsEnabled,
+  disallowAppDataLegacyEventsEnabled,
+  hideAppDataLegacyEventsEnabled
+} from 'in-services/featureFlags';
+import {
   getSeverityText,
   isAppDataEntityType,
   unmapConditionValue
@@ -34,7 +39,6 @@ import MigrateToSmartAlerts from 'in-alerting/migration/MigrateToSmartAlerts';
 import LegacyAppdataEventInfoMessage from './LegacyAppdataEventInfoMessage';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
-import { deprecateAppDataLegacyEvents } from 'in-services/featureFlags';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
@@ -89,11 +93,13 @@ const Form = entityForm(function DetailsForm(props) {
   }
 
   const entityType = getPluginName(entity.get('entityType'), 1) ?? '';
-  const isOneOfMigratableEntityTypes = isAppDataEntityType(entityType);
+  const isLegacyAppDataEntityType = isAppDataEntityType(entityType);
   const hasPermissionsToEditSmartAlerts = role.canConfigureCustomAlerts && role.canConfigureGlobalAlertConfigs;
+  // FIXME This check is incorrect, because check does not consider that the EVENTS context keyword could be us as the 1..N-th
+  //       keyword, or that brackets could be used.
   const isMigrateableDfqScope = !entity.get('query')?.startsWith('event.');
 
-  const isDeprecated = deprecateAppDataLegacyEvents && isOneOfMigratableEntityTypes;
+  const isDeprecated = deprecateAppDataLegacyEventsEnabled && isLegacyAppDataEntityType;
 
   const isMigratable =
     isDeprecated &&
@@ -104,6 +110,12 @@ const Form = entityForm(function DetailsForm(props) {
 
   const isMigrated = !!entity.get('migrated');
 
+  const isDeleted = !!entity.get('deleted');
+
+  const disallowAppDataLegacyEvent =
+    isLegacyAppDataEntityType && (disallowAppDataLegacyEventsEnabled || hideAppDataLegacyEventsEnabled);
+  const readOnly = isDeleted || isMigrated || disallowAppDataLegacyEvent;
+
   return (
     <SettingsDetailPage>
       <Stack direction="horizontal" distribution="spaceBetween">
@@ -113,7 +125,7 @@ const Form = entityForm(function DetailsForm(props) {
             : t('in-settings:tabs.configureEventEntityName', { entityName: entity.get('name') })}
         </SubViewHeader>
 
-        {isMigratable && (
+        {isMigratable && !isDeleted && (
           <span style={{ alignSelf: 'center' }}>
             <MigrateToSmartAlerts eventSpecificationId={props.entityId} />
           </span>
@@ -121,7 +133,7 @@ const Form = entityForm(function DetailsForm(props) {
       </Stack>
       <SectionLine />
 
-      {isDeprecated && <LegacyAppdataEventInfoMessage migrated={isMigrated} saved />}
+      {(isDeleted || isDeprecated) && <LegacyAppdataEventInfoMessage migrated={isMigrated} saved deleted={isDeleted} />}
 
       {message ? (
         <Section>
@@ -131,13 +143,18 @@ const Form = entityForm(function DetailsForm(props) {
         </Section>
       ) : null}
 
-      <CustomEventForm {...props} />
+      <CustomEventForm
+        {...props}
+        disabled={readOnly}
+        // when we already show an information above, we need to hide another message inside the form
+        hideLegacyAppDataEventDeprecationInfo={isDeleted || isDeprecated}
+      />
 
       <SaveCancel
         form={form}
         message={message}
         loading={loading}
-        saveEnabled={saveEnabled && !isMigrated}
+        saveEnabled={saveEnabled && !readOnly}
         isCreate={isCreate}
         listPath={teamSettingsAlertingEvents}
       />

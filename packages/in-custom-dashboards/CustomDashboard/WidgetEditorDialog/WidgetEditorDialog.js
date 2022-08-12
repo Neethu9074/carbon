@@ -12,7 +12,6 @@ import { useObservable } from '@instana/hooks';
 import WidgetEditorDialogPresenter from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetEditorDialogPresenter';
 import { stringValidator, numberValidator } from 'in-services/validators/jsonType';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
-import { type as defaultType } from 'in-custom-dashboards/widgets/BigNumber';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import widgets, { enabledWidgets } from 'in-custom-dashboards/widgets';
 import { notBlankValidator } from 'in-services/validators/string';
@@ -145,7 +144,6 @@ export function getInitialState(widget) {
 }
 
 export function getInitialFormState(widget) {
-  const type = widget?.type ?? defaultType;
   let form = createMapForm()
     .put(
       'id',
@@ -192,11 +190,11 @@ export function getInitialFormState(widget) {
     .put(
       'type',
       createField({
-        value: type,
+        value: widget?.type ?? enabledWidgets[0].type,
         validator: composeAndShortCircuitOnError(
           notUndefinedValidator,
           stringValidator,
-          buildEnumValidator(Object.keys(enabledWidgets))
+          buildEnumValidator(enabledWidgets.map(({ type }) => type))
         )
       })
     );

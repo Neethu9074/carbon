@@ -40,4 +40,8 @@
     width: 100%;
     .ellipsis();
   }
+  .innerWrapper {
+    display: inline-flex;
+    align-items: center;
+  }
 }

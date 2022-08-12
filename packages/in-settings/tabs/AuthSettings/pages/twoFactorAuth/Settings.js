@@ -94,7 +94,7 @@ function TwoFactorUnverified({ form, setForm, twoFactorCredentials }) {
           id="2faToken_input"
           value={field.value || ''}
           onChange={e =>
-            setForm(form.updateIn(['2faToken'], field => field.setValue(e.target.valueAsNumber).setTouched(true)))
+            setForm(form.updateIn(['2faToken'], field => field.setValue(parseInt(e.target.value)).setTouched(true)))
           }
           autoComplete="off"
         />

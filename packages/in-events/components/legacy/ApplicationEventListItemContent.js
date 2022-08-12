@@ -80,6 +80,7 @@ export default function ApplicationEventListItemContent({ event }) {
           applicationId={eventEntity.applicationId}
           serviceId={eventEntity.serviceId}
           endpointId={eventEntity.endpointId}
+          isEventsView
         />
       </div>
       <div className={locals.sectionWrapper}>

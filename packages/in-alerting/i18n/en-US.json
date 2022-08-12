@@ -243,7 +243,6 @@
           "applications": "Applications:",
           "services": "Services:"
         },
-        "noChartForAdaptiveBaseline": "No preview available while this trigger is based on an adaptive threshold.",
         "noDataWithoutEndpointSelection": "Please select an endpoint to see the preview",
         "noDataAvailable": "Please select a service to see the preview"
       },
@@ -568,6 +567,11 @@
         "scopeConfigTitle": "Select Services/Endpoints",
         "scopeConfigSelectOneEntryMessage": "Please select at least one entry.",
         "scopeConfigTitleTooltip": "Showing available entities for the last 24 hours",
+        "scopeMigrationMessage_FAILED": "The scope could not be automatically migrated. Please pick the corresponding tag filters for the below Dynamic Focus Query:",
+        "scopeMigrationMessage_PARTIAL": "The scope could not be fully migrated. Please pick the corresponding tag filters for the below Dynamic Focus Query:",
+        "scopeMigrationMessage_FULL": "The applied scope is based on the previously used Dynamic Focus Query:",
+        "scopeMigrationMessageAllAvailableEntities": "The applied scope is based on the previously used selection of all available entities.",
+        "scopeMigrationMessageSelectedApplications": "The applied scope is based on the previously used selection of Application Perspectives.",
         "sortByUserSelectionLabel": "Sort by user selection",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage": "At least {{count}} user and {{userPercentage}} of users impacted within the last {{formattedTimeWindow}}",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_plural": "At least {{count}} users and {{userPercentage}} of users impacted within the last {{formattedTimeWindow}}",
@@ -659,8 +663,7 @@
         "alertConfigDialogPresenterTitleEditAlert_Global": "Edit Global Smart Alert",
         "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Create New Smart Alert",
         "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Create New Global Smart Alert",
-        "alertConfigDialogPresenterTitleMigrateAlert_Local": "Migrate to Smart Alert",
-        "alertConfigDialogPresenterTitleMigrateAlert_Global": "Migrate to Global Smart Alert",
+        "alertConfigDialogPresenterTitleMigrateAlert": "Migrate to Smart Alert",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "Switch to Advanced Mode",
         "simpleAlertConfigDialogStep3Headline": "Who should get the alerts?",
         "Loading": "Loading…",
@@ -957,7 +960,7 @@
     },
     "migration": {
       "migrateButton": "Migrate to Smart Alert",
-      "migrateButtonTooltip": "Opens a Smart Alert config dialog pre–filled with the migrated values from the current event to the best extend we can. Please double check the result carefully!",
+      "migrateButtonTooltip": "Opens a Smart Alert config dialog pre–filled with the migrated values from the current event to the best extent we can. Please double check the result carefully!",
       "markAsMigratedButton": "Mark as migrated",
       "markAsMigratedButtonTooltip": "Marks the Event as migrated. Please use this in case you have already configured a Smart Alert which will replace this Event.",
       "markAsMigratedButtonConfirmationTitle": "Please Confirm",

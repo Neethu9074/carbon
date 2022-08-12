@@ -20,6 +20,7 @@ import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHr
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { createChartedMetric } from 'in-analyze/navigation/paths';
+import { perSecondDetailed } from 'in-stores/metric/formatters';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import { line, stackedBar } from 'in-stores/metric/renderer';
 import { number } from 'in-services/formatters/number';
@@ -101,12 +102,57 @@ export default function HttpSections({
     }
   ];
 
+  const companionMetricConfigs = [
+    {
+      ...defaultMetricConfig,
+      metric: 'http.1xx',
+      label: 'Calls per second',
+      formatter: perSecondDetailed.formatter,
+      aggregation: 'PER_SECOND'
+    },
+    {
+      ...defaultMetricConfig,
+      metric: 'http.2xx',
+      label: 'Calls per second',
+      formatter: perSecondDetailed.formatter,
+      aggregation: 'PER_SECOND'
+    },
+    {
+      ...defaultMetricConfig,
+      metric: 'http.3xx',
+      label: 'Calls per second',
+      formatter: perSecondDetailed.formatter,
+      aggregation: 'PER_SECOND'
+    },
+    {
+      ...defaultMetricConfig,
+      metric: 'http.4xx',
+      label: 'Calls per second',
+      formatter: perSecondDetailed.formatter,
+      aggregation: 'PER_SECOND'
+    },
+    {
+      ...defaultMetricConfig,
+      metric: 'http.5xx',
+      label: 'Calls per second',
+      formatter: perSecondDetailed.formatter,
+      aggregation: 'PER_SECOND'
+    }
+  ];
+
   if (hasHttpAndOtherEndpoints) {
     chartMetrics.push({
       config: otherCallsMetricConfig,
       metric: 'calls',
       label: t('in-applications:labelNonHttp'),
       color: '#9aa5a9'
+    });
+    companionMetricConfigs.push({
+      ...otherCallsMetricConfig,
+      metric: 'calls',
+      label: 'Calls per second',
+      formatter: perSecondDetailed.formatter,
+      aggregation: 'PER_SECOND'
     });
   }
 
@@ -190,7 +236,8 @@ export default function HttpSections({
           colors: colors,
           formatter: 'number.compact',
           tooltipFormatter: number.compact,
-          renderer: renderer
+          renderer: renderer,
+          companionMetricConfigs
         },
         y2: {
           metrics: []

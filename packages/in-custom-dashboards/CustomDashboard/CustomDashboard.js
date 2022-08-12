@@ -16,7 +16,9 @@ import {
   startAddWidget,
   finishAddWidget,
   startEditWidget,
-  finishEditWidget
+  finishEditWidget,
+  deleteWidget,
+  duplicateWidget
 } from 'in-custom-dashboards/tracker';
 import WidgetEditorDialog from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetEditorDialog';
 import { getCustomDashboard, updateCustomDashboard, removeCustomDashboard } from 'in-custom-dashboards/api';
@@ -127,6 +129,7 @@ function CustomDashboardLoader(props) {
   function onDuplicateWidget(id) {
     const newConfig = deepCopy(config);
     const widget = deepCopy(find(newConfig.widgets, eachWidget => id === eachWidget.id));
+    duplicateWidget(widget);
     widget.id = generateUniqueShortId();
     newConfig.widgets.push(widget);
     setConfig(newConfig);
@@ -135,6 +138,7 @@ function CustomDashboardLoader(props) {
   function onRemoveWidget(id) {
     const newConfig = deepCopy(config);
     newConfig.widgets = newConfig.widgets.filter(widget => id !== widget.id);
+    deleteWidget(config.widgets?.find(widget => id === widget.id));
     setConfig(newConfig);
   }
 

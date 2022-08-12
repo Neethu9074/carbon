@@ -36,7 +36,7 @@ export default connectTo(
 
     return (
       <div>
-        <h1>{t('in-internal:monitoringUnit.log.housekeeping.title')}</h1>
+        <h1>{t('in-internal:monitoringUnit.log.housekeeping.title')} 🪵</h1>
 
         <Columize>
           <DashboardSection title={t('in-internal:monitoringUnit.log.housekeeping.cleanup.success')}>

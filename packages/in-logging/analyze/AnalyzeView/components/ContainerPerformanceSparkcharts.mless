@@ -1,0 +1,12 @@
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .metricValue {
+    font-weight: 600;
+  }
+
+  .metricLabel {
+    color: var(--ids-color-option-neutral-600);
+  }
+}

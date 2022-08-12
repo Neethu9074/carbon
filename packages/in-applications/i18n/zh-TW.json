@@ -439,13 +439,13 @@
     "includeSyntheticCallsDropDownSyntheticCalls": "合成呼叫：{{syntheticCallsOptionLabel}}",
     "noDataAvailable": {
       "servicesTitle": "沒有可用的服務",
-      "servicesDescription": "未擷取到所選時間範圍內的服務。",
+      "servicesDescription": "所選的時間範圍內未擷取到任何的服務。",
       "errorMessagesTitle": "沒有可用的錯誤訊息",
-      "errorMessagesDescription": "未擷取到所選時間範圍內的錯誤訊息。",
+      "errorMessagesDescription": "所選的時間範圍內未擷取到任何的錯誤訊息。",
       "logMessagesTitle": "沒有可用的日誌訊息",
-      "logMessagesDescription": "未擷取到所選時間範圍內的日誌訊息。",
+      "logMessagesDescription": "所選的時間範圍內未擷取到任何的日誌訊息。",
       "endpointsTitle": "沒有可用的端點",
-      "endpointsDescription": "未擷取到所選時間範圍內的端點。"
+      "endpointsDescription": "所選的時間範圍內未擷取到任何的端點。"
     }
   },
   "flowMap": {
@@ -477,8 +477,8 @@
     "tooltipEndpointCallsNotMatch": "將不符合前述規則的呼叫指派給這個端點",
     "titleConfigureEndpointsExtract": "配置如何從對此服務的基礎呼叫來擷取端點。",
     "descriptionConfigureEndpointsExtract": "端點規則會從上到下循序評估，並將呼叫指派給它所符合的第一項規則。配置之後，會根據已更新的規則來指派新的呼叫。",
-    "descriptionResetToDefaultRule": "如果您想重設為預設擷取規則，請使用下方的按鈕。重設可能需要數分鐘來登錄。",
-    "understandCheckboxResetToDefaultRule": "我瞭解這個動作無法復原。",
+    "descriptionResetToDefaultRule": "如果您想重設為預設擷取規則，請使用下方的按鈕。重設可能需要最多幾分鐘來登錄。",
+    "understandCheckboxResetToDefaultRule": " 我瞭解這個動作無法復原。",
     "customService": {
       "stepTitle": "新增自訂服務規則來延伸自動服務對映。",
       "descriptionTextFirstLine": "Instana 會根據廣泛的一組預先定義規則來自動對映服務。例如，如果找到 nodejs.app.name 標籤，且有呼叫的標籤是 <bold>\"nodejs.app.name=user service\"</bold> 和 <bold>\"nodejs.app.name=cart service\"</bold>，則 <bold>\"user service\"</bold> 和 <bold>\"cart service\"</bold> 會以服務形式出現。",
@@ -488,13 +488,13 @@
     },
     "newApplication": {
       "helpApplicationPerspectives": "藉由應用程式視景，可針對環境、服務集、租戶或任何事物建模。",
-      "helpRenameApplication": "「重新命名應用程式」終究仍是 Instana 系統中的一致動作。因此，對應用程式名稱的變更可能<italic>需要數分鐘</italic>，才能移入至整個系統。",
+      "helpRenameApplication": "「重新命名應用程式」終究仍是 Instana 系統中的一致動作。因此，對應用程式名稱的變更可能需要<italic>最多幾分鐘</italic>，才能移入至整個系統。",
       "descriptionApplicationName": "應用程式視景名稱應具有組織內已確立的一項定義。例如，為環境建模：\"Production Blue\"、為服務集建模：\"Payment\"，或是為租戶建模：\"ACME Customer\"。",
       "descriptionTags": "例如，其中的索引鍵是 \"docker.label\"，值為 \"environment=Production Blue\"，或索引鍵是 \"call.http.params\"，值為 \"tenant=ACMECustomer\"。請注意，會自動包含從符合這項定義的服務對 <pillDatabase>DATABASE</pillDatabase> 服務或 <pillMessage>MESSAGING</pillMessage> 服務的任何呼叫。",
       "descriptionOperatorsCreationEnabled": "AND 運算子會優先採用，並在 OR 運算子之前先評估（前提是未以方括弧分組）",
       "descriptionPrepareToMonitor": "我們正在準備一切，以監視您的應用程式視景 <bold>{{decodedLabel}}</bold>。",
       "prepareToMonitorUnauthorized": "您無權檢視應用程式視景 <bold>{{decodedLabel}}</bold>。 若要取得許可權，請聯絡您的群組管理者。",
-      "descriptionRemoveApplicationPerspective": "如果您再也不想監視應用程式視景 <strong>{{application}}</strong>，請使用下方的按鈕來移除它。移除應用程式視景可能需要幾分鐘。",
+      "descriptionRemoveApplicationPerspective": "如果您再也不想監視應用程式視景 <strong>{{application}}</strong>，請使用下方的按鈕來移除它。移除應用程式視景可能需要最多幾分鐘。",
       "stepTitleDefineApplicationName": "定義您「應用程式視景」的名稱。",
       "stepTitleApplicationName": "應用程式視景的名稱。",
       "stepTitleDefineTags": "使用一或多個標籤來定義「應用程式視景」。",
@@ -534,7 +534,7 @@
     "showApplicationsScopeWithApplicationLabel": "顯示環境定義 <linkToApplication>{{applicationLabel}}</linkToApplication> 中之 <linkToEntity>{{entityLabel}}</linkToEntity> 的應用程式 <bold>{{contextScope}}</bold>",
     "showServicesScopeWithServiceLabel": "顯示環境定義 <linkToApplication>{{applicationLabel}}</linkToApplication> 中之 <linkToEntity>{{entityLabel}}</linkToEntity> 的服務 <bold>{{contextScope}}</bold>",
     "titleNoService": "尚無服務",
-    "servicesNoData": "在選取的時間範圍內沒有任何可用的服務呼叫。 如需疑難排解資訊，請參閱 [說明文件][文件]。\n\n[文件]：https://www.ibm.com/docs/en/obi/current?topic=applications-services#why-am-i-not-seeing-any-services-listed"
+    "servicesNoData": "所選的時間範圍內沒有服務呼叫可用。 如需疑難排解資訊，請參閱 [說明文件][文件]。\n\n[文件]：https://www.ibm.com/docs/en/obi/current?topic=applications-services#why-am-i-not-seeing-any-services-listed"
   },
   "endpointTypes": {
     "batch": "Batch",
@@ -613,17 +613,17 @@
     "numberOfQualifiedReferences": "使用多少合格參照來呼叫此服務？",
     "serviceMapping": "服務對映結果",
     "serviceMappingProblemStatement": "具復原力的服務對映是否開始運作？",
-    "serviceMappingDocumentation": "包含所有可能的服務對映結果的文件：",
+    "serviceMappingDocumentation": "適於所有可能的服務對映結果的文件：",
     "infraLinking": "基礎架構鏈結結果",
     "infraLinkingProblemStatement": "是否有任何基礎架構鏈結問題？",
-    "infraLinkingDocumentation": "包含所有可能的基礎架構偵測的說明文件：",
+    "infraLinkingDocumentation": "適於所有可能的基礎架構偵測的文件：",
     "hostName": "主機",
     "hostNameProblemStatement": "是否有任何與特定主機相關的問題？",
     "httpHost": "HTTP \"Host\" 標頭",
     "httpHostProblemStatement": "是否有任何與特定 HTTP \"Host\" 標頭相關的問題？",
     "infraReferenceType": "基礎架構參照類型",
     "infraReferenceTypeProblemStatement": "使用哪些基礎架構參照類型？",
-    "infraReferenceTypeDocumentation": "包含所有可能的基礎架構參照類型的說明文件：",
+    "infraReferenceTypeDocumentation": "適於所有可能的基礎架構參照類型的文件：",
     "spanType": "跨距類型",
     "spanTypeProblemStatement": "是否有任何與特定跨距類型相關的問題？",
     "processUptime": "處理程序執行時間",
@@ -631,7 +631,7 @@
     "serviceRuleId": "服務對映規則",
     "serviceRuleIdProblemStatement": "觸發哪些服務對映規則？",
     "serviceRuleDocumentation": "預先定義服務對映規則的定義：",
-    "customServiceRuleDocumentation": "客戶可能已定義自己的自訂服務對映規則：",
+    "customServiceRuleDocumentation": "客戶可能已定義他們自己的自訂服務對映規則：",
     "customServiceRuleConfiguration": "配置自訂服務規則",
     "problem": "<bold>是</bold>，如果您看到類型的結果",
     "possibleProblem": "<bold>可能</bold>，如果您看到類型的結果",

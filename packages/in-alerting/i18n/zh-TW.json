@@ -181,7 +181,7 @@
           "config": {
             "static": {
               "title": "靜態",
-              "description": "臨界值是固定值或時間相依臨界值。 Instana 可協助您根據最近的資料來挑選正確的臨界值。"
+              "description": "臨界值是固定或時間相依的臨界值。 Instana 可協助您根據最近的資料來挑選正確的臨界值。"
             },
             "adaptive": {
               "title": "調適性",
@@ -685,12 +685,12 @@
       },
       "alertsHub": {
         "title": "警示中心",
-        "introText": "歡迎使用警示配置中心。在這裡可設定您的警示預期。",
+        "introText": "歡迎使用「警示配置中心」。在這裡可設定您的警示預期。",
         "readMore": "閱讀更多…",
         "websites": {
           "title": "網站",
           "description0": "若要設定警示，請導覽至您想對其設定警示的網站，然後使用右下角的「新增智慧型警示」按鈕。",
-          "stats": "目前您有 $t(in-alerting:smartAlerts.components.alertsHub.websites.alerts, {\"count\": {{alerts}} }) 個針對 $t(in-alerting:smartAlerts.components.alertsHub.websites.websites, {\"count\": {{websites}} }) 個網站的警示。",
+          "stats": "目前您在 $t(in-alerting:smartAlerts.components.alertsHub.websites.websites, {\"count\": {{websites}} })上有 $t(in-alerting:smartAlerts.components.alertsHub.websites.alerts, {\"count\": {{alerts}} })。",
           "alerts": "{{count}} 個網站智慧型警示",
           "alerts_plural": "{{count}} 個網站智慧型警示",
           "websites": "{{count}} 個網站",
@@ -700,7 +700,7 @@
         "applications": {
           "title": "應用程式",
           "description0": "您只能針對特定應用程式設定智慧型警示，或設定涵蓋多個應用程式的智慧型警示。",
-          "stats": "目前您有 $t(in-alerting:smartAlerts.components.alertsHub.applications.gsa, {\"count\": {{globalSmartAlerts}} }) 個廣域智慧型警示和 $t(in-alerting:smartAlerts.components.alertsHub.applications.rsa, {\"count\": {{smartAlerts}} }) 智慧型警示。",
+          "stats": "目前您有 $t(in-alerting:smartAlerts.components.alertsHub.applications.gsa, {\"count\": {{globalSmartAlerts}} })及 $t(in-alerting:smartAlerts.components.alertsHub.applications.rsa, {\"count\": {{smartAlerts}} })。",
           "gsa": "{{count}} 個廣域智慧型警示",
           "gsa_plural": "{{count}} 個廣域智慧型警示",
           "rsa": "{{count}} 個一般智慧型警示",
@@ -711,8 +711,8 @@
           "title": "基礎架構和平台",
           "description0": "「基礎架構和平台警示」使用我們的兩步驟工作流程。",
           "description1": "1) 針對特定狀況定義的事件。您可以使用我們的「內建事件」或建立您自己的「自訂事件」。",
-          "description2": "2) 警示會在發生特定事件時警示您。",
-          "stats": "目前您有 $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.events, {\"count\": {{events}} }) 個事件和 $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.alerts, {\"count\": {{alerts}} }) 個警示。",
+          "description2": "2) 每當發生特定事件時，警示就會警示您。",
+          "stats": "目前您有 $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.events, {\"count\": {{events}} })及 $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.alerts, {\"count\": {{alerts}} })。",
           "events": "{{count}} 個自訂事件",
           "events_plural": "{{count}} 個自訂事件",
           "alerts": "{{count}} 個警示",
@@ -933,7 +933,7 @@
         "customEventOccurrencesColumnLabel": "出現項目數",
         "customEventUsersColumnLabel": "使用者",
         "customEventLabel": "自訂事件",
-        "customEventInputPlaceholder": "貼上自訂事件名稱或從事件清單中選取事件名稱",
+        "customEventInputPlaceholder": "貼上自訂事件名稱或從事件清單中選取一個",
         "searchCustomEventButtonLabel": "選取自訂事件",
         "customEventListInfoLabel": "顯示過去 7 天內已觸發的自訂事件"
       },

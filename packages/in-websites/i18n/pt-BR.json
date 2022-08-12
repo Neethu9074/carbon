@@ -455,6 +455,7 @@
       "alerts": {
         "alertConfigurationListTitleAlertConfiguration": "Configuração de alerta",
         "alertConfigurationTitleTrigger": "Acionar",
+        "alertConfigurationTitleCustomEvent": "Evento customizado",
         "alertConfigurationTitleErrorMessage": "Mensagem de erro",
         "alertConfigurationTitleHTTPStatusCode": "Código de status HTTP",
         "alertConfigurationTitleScope": "Escopo",
@@ -483,10 +484,10 @@
         "saved": "Salvas",
         "ipMasking": {
           "title": "Mascaramento de IP",
-          "help": "O mascaramento de IP protege a privacidade do usuário final, mascarando (tornando anônimo) os segmentos de endereços IP. Isso acontece o mais cedo possível dentro do pipeline de ingestão do Instana para que os endereços IP completos nunca sejam armazenados. O Instana sempre mascara os endereços IP usando as regras comumente usadas no setor. Se sua organização exigir, será possível configurar regras de mascaramento IP mais rígidas.",
-          "option_DEFAULT": "O padrão mascara os últimos oito bits para o IPv4 e os últimos 80 bits para o IPv6",
-          "option_STRICT": "O estrito máscara os últimos 16 bits para o IPv4 e os últimos 96 bits para o IPv6",
-          "option_REMOVE_ALL_DETAILS": "Remova os endereços IP (apenas uma sugestão de uso de IPv4 e IPv6 permanece)"
+          "help": "O mascaramento de IP protege a privacidade do usuário final, mascarando (tornando anônimo) os segmentos de endereços IP. Isso acontece o mais cedo possível dentro do pipeline de ingestão do Instana para que os endereços IP completos nunca sejam armazenados. O Instana sempre mascara os endereços IP usando as regras comumente usadas no setor. Se sua organização exigir, será possível configurar regras de mascaramento de IP mais rígidas.",
+          "option_DEFAULT": "Padrão, mascarar os últimos oito bits para o IPv4 e os últimos 80 bits para o IPv6",
+          "option_STRICT": "Estrito, mascarar os últimos 16 bits para o IPv4 e os últimos 96 bits para o IPv6",
+          "option_REMOVE_ALL_DETAILS": "Remover os endereços IP (apenas uma sugestão de uso de IPv4 e IPv6 permanece)"
         },
         "geoDetailRemoval": {
           "title": "Remoção de detalhes geográficos",
@@ -742,7 +743,7 @@
       "indexLabelGeography": "Geografia",
       "indexLabelCustomEvents": "Eventos customizados",
       "indexLabelPages": "Páginas",
-      "indexLabelAlerts": "Alertas",
+      "indexLabelAlerts": "Alertas inteligentes",
       "indexLabelConfiguration": "Configuração",
       "pagesLabelName": "Nome",
       "pagesLabelPageViews": "Visualizações da página",
@@ -787,13 +788,13 @@
       "pagesTitle": "Nenhuma página disponível",
       "pagesDescription": "Não houve páginas recuperadas para o intervalo de tempo selecionado.",
       "customEventsTitle": "Nenhum evento customizado disponível",
-      "customEventsDescription": "Não houve eventos customizados recuperados para o intervalo de tempo selecionado.",
+      "customEventsDescription": "Não houve eventos customizados recuperados para o intervalo de tempo selecionado",
       "javascriptErrorsTitle": "Nenhum erro do JavaScript disponível",
-      "javascriptErrorsDescription": "Não houve erros do JavaScript recuperados para o intervalo de tempo selecionado.",
+      "javascriptErrorsDescription": "Não houve erros do JavaScript recuperados para o intervalo de tempo selecionado",
       "resourcesTitle": "Nenhum recurso disponível",
-      "resourcesDescription": "Não houve recursos recuperados para o intervalo de tempo selecionado.",
+      "resourcesDescription": "Não houve recursos recuperados para o intervalo de tempo selecionado",
       "httpRequestsTitle": "Nenhuma solicitação de HTTP disponível",
-      "httpRequestsDescription": "Não houve nenhuma solicitação de HTTP recuperada para o intervalo de tempo selecionado."
+      "httpRequestsDescription": "Não houve nenhuma solicitação de HTTP recuperada para o intervalo de tempo selecionado"
     }
   },
   "rename": {

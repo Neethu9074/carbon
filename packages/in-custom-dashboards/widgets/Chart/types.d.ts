@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { AxisConfiguration, ChartConfig, ContextMenuConfig, TimeShift } from 'in-components/Chart/types';
+import { AxisConfiguration, ContextMenuConfig, TimeShift } from 'in-components/Chart/types';
 import { ChartReactComponentProps } from 'in-components/Chart/ChartReactComponent';
 import { Grouping, ResultType, UnifiedMetricConfiguration } from 'in-types';
 import { TimeShiftOffset } from 'in-stores/time/shifting';
@@ -22,7 +22,14 @@ interface Config extends ContextMenuConfig {
   type: ResultType;
 }
 
-type AxisParams = 'colors' | 'min' | 'max' | 'tooltipFormatter' | 'calculateStackDifferences';
+type AxisParams =
+  | 'colors'
+  | 'min'
+  | 'max'
+  | 'tooltipFormatter'
+  | 'calculateStackDifferences'
+  | 'companionMetrics'
+  | 'companionMetricConfigs';
 type Axis = Partial<Pick<AxisConfiguration, AxisParams>> & {
   metrics: Metric[];
   formatter?: string;

@@ -140,7 +140,7 @@
     },
     "noDataAvailable": {
       "resultsTitle": "Nessun risultato disponibile",
-      "resultsDescription": "Nessun risultato richiamato per l'intervallo di tempo selezionato."
+      "resultsDescription": "Non è stato richiamato alcun risultato per l'intervallo di tempo selezionato."
     }
   }
 }
