@@ -19,8 +19,11 @@ import InternalViewWrapper from 'in-internal/components/InternalViewWrapper';
 import AppDataHealthProcessor from 'in-internal/monitoringUnit/Appdata/AppDataHealthProcessor';
 import ServerlessAcceptors from 'in-internal/monitoringUnit/serverless/ServerlessAcceptors';
 import JsStackTraceTranslator from 'in-internal/monitoringUnit/eum/JsStackTraceTranslator';
+import SyntheticsAcceptor from 'in-internal/monitoringUnit/synthetics/SyntheticsAcceptor';
 import BeeInstanaAggregators from 'in-internal/monitoringUnit/sre/BeeInstanaAggregators';
 import SnapshotVersions from 'in-internal/thisUnit/SnapshotVersions/SnapshotVersions';
+import SyntheticsReader from 'in-internal/monitoringUnit/synthetics/SyntheticsReader';
+import SyntheticsWriter from 'in-internal/monitoringUnit/synthetics/SyntheticsWriter';
 import BeeInstanaIngestors from 'in-internal/monitoringUnit/sre/BeeInstanaIngestors';
 import EumHealthProcessor from 'in-internal/monitoringUnit/eum/EumHealthProcessor';
 import SloViolations from 'in-internal/monitoringUnit/SloViolations/SloViolations';
@@ -163,6 +166,19 @@ export default function Internal() {
       <Route path="/internal/monitoringUnit/log/LogWriter" component={wrapIninternalView(LogWriter)} />
       <Route path="/internal/monitoringUnit/log/LogReader" component={wrapIninternalView(LogReader)} />
       <Route path="/internal/monitoringUnit/log/LogHousekeeping" component={wrapIninternalView(LogHousekeeping)} />
+
+      <Route
+        path="/internal/monitoringUnit/synthetics/SyntheticAcceptor"
+        component={wrapIninternalView(SyntheticsAcceptor)}
+      />
+      <Route
+        path="/internal/monitoringUnit/synthetics/SyntheticsWriter"
+        component={wrapIninternalView(SyntheticsWriter)}
+      />
+      <Route
+        path="/internal/monitoringUnit/synthetics/SyntheticsReader"
+        component={wrapIninternalView(SyntheticsReader)}
+      />
 
       <>
         <Route path="/internal/thisUnit/entityStatistics" component={EntityStatistics} />

@@ -84,7 +84,7 @@
   },
   "dashboard": {
     "testList": {
-      "mainLabel": "합성 테스트",
+      "mainLabel": "합성",
       "secondaryLabels": {
         "tests": "테스트",
         "location": "위치"
@@ -99,6 +99,48 @@
     "sortOptions": {
       "name": "이름",
       "frequency": "빈도"
+    },
+    "summary": {
+      "successRate": "성공률",
+      "locations": "위치",
+      "meanResponseTime": "평균 응답 시간",
+      "avgResponseSize": "평균 응답 크기",
+      "summaryTab": "요약",
+      "resultsTab": "결과",
+      "widgets": {
+        "failures": "실패",
+        "responseTimes": "응답 시간",
+        "averageResponseSize": "평균 응답 크기",
+        "responseStatus": "응답 상태",
+        "networkTimings": "네트워크 타이밍",
+        "blocking": "블로킹",
+        "dns": "DNS 검색",
+        "sending": "전송",
+        "waiting": "대기",
+        "receiving": "수신",
+        "slowest": "가장 느림",
+        "latest": "최신",
+        "failed": "실패함",
+        "results": "결과",
+        "linkViewAllTestResults": "모든 결과 보기",
+        "ok": "성공",
+        "redirection": "리디렉션",
+        "clientError": "클라이언트 오류",
+        "serverError": "서버 오류"
+      },
+      "totalRuns": "{{totalRuns}}개의 총 실행",
+      "meanLatencyFor90th": "90번째에 대한 {{meanLatencyDetail}}"
+    },
+    "resultsListPage": {
+      "startedColumn": "시작됨",
+      "locationColumn": "위치",
+      "responseTimeColumn": "응답 시간",
+      "responseSizeColumn": "응답 크기",
+      "title": "결과"
+    },
+    "noDataAvailable": {
+      "resultsTitle": "사용 가능한 결과가 없음",
+      "resultsDescription": "선택한 시간 범위 동안 검색된 결과가 없습니다."
     }
   }
 }

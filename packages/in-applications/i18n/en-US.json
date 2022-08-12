@@ -643,6 +643,7 @@
     "alternativeServicesPossibleProblem": "<bold>Maybe</bold>, if the current service and the alternative service names do not come from the HTTP \"Host\" header, then they are either services sitting behind a proxy (good) or they are duplicate services (bad): some of the services are fully linked to infra, while others are partially linked to infra."
   },
   "widgetNotActive": {
-    "title": "Widget is not supported in Live Mode"
+    "title": "Widget is not supported in Live Mode",
+    "button": "Stop Live Mode"
   }
 }

@@ -61,5 +61,6 @@ module.exports = {
   perSecondAggregationEnabled: false,
   baselinePreviewOnAlertPageEnabled: true,
   apdexWidgetEnabled: true,
-  actionAutomationEnabled: true
+  actionAutomationEnabled: true,
+  websiteUploadConfigEnabled: true
 };

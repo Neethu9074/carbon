@@ -288,6 +288,35 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
                       </LinkListItem>
 
                       <LinkListItem
+                        label={t('in-internal:components.landing.syntheticsMonitor')}
+                        description={t('in-internal:components.landing.syntheticsMonitorDesc')}
+                      >
+                        <LinkList>
+                          <LinkListItem
+                            label={t('in-internal:components.landing.syntheticsAcceptor')}
+                            href$={getModifiedUrlStream(
+                              params => (params.pathname = '/internal/monitoringUnit/synthetics/SyntheticAcceptor')
+                            )}
+                            description={t('in-internal:components.landing.syntheticsAcceptorDesc')}
+                          />
+                          <LinkListItem
+                            label={t('in-internal:components.landing.syntheticsMonitorWriter')}
+                            href$={getModifiedUrlStream(
+                              params => (params.pathname = '/internal/monitoringUnit/synthetics/SyntheticsWriter')
+                            )}
+                            description={t('in-internal:components.landing.syntheticsMonitorWriterDesc')}
+                          />
+                          <LinkListItem
+                            label={t('in-internal:components.landing.syntheticsMonitorReader')}
+                            href$={getModifiedUrlStream(
+                              params => (params.pathname = '/internal/monitoringUnit/synthetics/SyntheticsReader')
+                            )}
+                            description={t('in-internal:components.landing.syntheticsMonitorReaderDesc')}
+                          />
+                        </LinkList>
+                      </LinkListItem>
+
+                      <LinkListItem
                         label={t('in-internal:components.landing.infrastructureMetrics')}
                         description={t('in-internal:components.landing.infrastructureMetricsDesc')}
                       >

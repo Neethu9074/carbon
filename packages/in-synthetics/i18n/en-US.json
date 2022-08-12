@@ -103,10 +103,15 @@
     "summary": {
       "successRate": "Success rate",
       "locations": "Locations",
+      "responseTime": "Response Time",
       "meanResponseTime": "Mean response time",
+      "responseSize": "Response Size",
       "avgResponseSize": "Avg. response size",
       "summaryTab": "Summary",
       "resultsTab": "Results",
+      "startTime": "Start Time",
+      "status": "Status",
+      "requests": "Requests",
       "widgets": {
         "failures": "Failures",
         "responseTimes": "Response Times",
@@ -137,6 +142,36 @@
       "responseTimeColumn": "Response Time",
       "responseSizeColumn": "Response Size",
       "title": "Results"
+    },
+    "detailsPage": {
+      "subtransactionsTitle": "Subtransactions",
+      "timeLineWidget": "Timeline",
+      "responseTimeChart": "Response Time",
+      "subtransactionStatus": "Status",
+      "subtransactionSize": "Size",
+      "subtransactionTime": "Time",
+      "subtransactionBlocking": "Blocking",
+      "subtransactionDNS": "DNS",
+      "subtransactionConnect": "Connect",
+      "subtransactionSSL": "SSL",
+      "subtransactionSending": "Sending",
+      "subtransactionWaiting": "Waiting",
+      "subtransactionReceiving": "Receiving",
+      "showLessSubDetails": "Show Less",
+      "showMoreSubDetails": "Show More",
+      "subtransactionBody": {
+        "contentType": "Content type",
+        "size": "Size",
+        "redirectTime": "Redirect time",
+        "uploadSpeed": "Upload speed",
+        "downloadSpeed": "Download speed",
+        "requestTitle": "Request",
+        "responseTimingTitle": "Response Timing",
+        "timingsPercentageOfTotalDurationName": "{{percentage}} of {{totalDurationName}}"
+      },
+      "noDataAvailable": {
+        "timelineDescription": "Timeline details not found"
+      }
     },
     "noDataAvailable": {
       "resultsTitle": "No results available",

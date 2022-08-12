@@ -455,6 +455,7 @@
       "alerts": {
         "alertConfigurationListTitleAlertConfiguration": "アラートの構成",
         "alertConfigurationTitleTrigger": "トリガー",
+        "alertConfigurationTitleCustomEvent": "カスタム・イベント",
         "alertConfigurationTitleErrorMessage": "エラー・メッセージ",
         "alertConfigurationTitleHTTPStatusCode": "HTTP 状況コード",
         "alertConfigurationTitleScope": "スコープ",
@@ -742,7 +743,7 @@
       "indexLabelGeography": "ジオグラフィー",
       "indexLabelCustomEvents": "カスタム・イベント",
       "indexLabelPages": "ページ",
-      "indexLabelAlerts": "アラート",
+      "indexLabelAlerts": "スマート・アラート",
       "indexLabelConfiguration": "構成",
       "pagesLabelName": "名前",
       "pagesLabelPageViews": "ページ・ビュー",

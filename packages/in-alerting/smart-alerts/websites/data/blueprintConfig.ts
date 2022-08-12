@@ -202,7 +202,7 @@ const customEventBlueprintConfig: BluePrint = Object.freeze({
   headline: t('in-alerting:smartAlerts.websites.data.customEventBlueprintConfigHeadline'),
   text: t('in-alerting:smartAlerts.websites.data.customEventBlueprintConfigText'),
   getAvailableTags: () => getIncludedTags(availableFilterTags.custom),
-  baselineEnabled: false,
+  baselineEnabled: true,
   defaultMetric: 'beaconCount',
   getMetricName: () => 'beaconCount',
   getMetricLabel: () => t('in-alerting:smartAlerts.websites.data.customEventBlueprintConfigMetricLabel'),

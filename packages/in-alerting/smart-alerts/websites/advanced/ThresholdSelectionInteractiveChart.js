@@ -47,7 +47,12 @@ export default function ThresholdSelectionInteractiveChart({
           <JsErrorsThresholdCondition form={form} blueprintConfig={blueprintConfig} updateForm={updateForm} />
         )}
         renderCustomEvent={() => (
-          <CustomEventsThresholdCondition form={form} blueprintConfig={blueprintConfig} updateForm={updateForm} />
+          <CustomEventsThresholdCondition
+            form={form}
+            blueprintConfig={blueprintConfig}
+            updateForm={updateForm}
+            editMode={editMode}
+          />
         )}
         renderSlowness={() => (
           <SlownessThresholdCondition

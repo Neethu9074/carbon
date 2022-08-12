@@ -4,14 +4,12 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { Field, Item, MapForm } from 'formalistic';
+import { Item, MapForm } from 'formalistic';
 
 import { Message, Stack, Spacer } from '@instana/components';
 import { Observable } from '@instana/observables';
 
-import { trackSLICloned, trackSLIEditAbort, trackSliNewCreated } from 'in-custom-dashboards/widgets/Slo/tracker';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
-import { SliEntityType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { SliFormData } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import Form from 'in-components/form/binding/Form';
@@ -92,14 +90,7 @@ function useSetFooter({ form, filterExpressionValid, setFooter, close, saving, e
   useEffect(() => {
     setFooter(
       <FormFooter withRoundedBottomBorder>
-        <CancelButton
-          onClick={() => {
-            const sliEntityForm = form.get('sliEntity') as MapForm;
-            const sliType = (sliEntityForm?.get('sliType') as Field<SliEntityType>)?.value;
-            trackSLIEditAbort({ sliId: editMode, sliType });
-            close();
-          }}
-        />
+        <CancelButton onClick={close} />
         <SaveButton
           form={form}
           isSaving={saving}
@@ -120,7 +111,7 @@ function useSetFooter({ form, filterExpressionValid, setFooter, close, saving, e
 
 function onSaveSuccess(
   submittedFormData: SliFormData<SliEntitySliType>,
-  editMode: boolean,
+  _editMode: boolean, // Keeping this parameter around for the eventual reimplementation of mixpanel tracking
   setFormSubmitState: React.Dispatch<React.SetStateAction<FormSubmitState>>,
   close: () => void
 ): () => void {
@@ -136,11 +127,6 @@ function onSaveSuccess(
       },
       'custom-dashboard-sli'
     );
-    if (editMode) {
-      trackSLICloned({ sliType: submittedFormData.sliEntity?.sliType });
-    } else {
-      trackSliNewCreated({ sliType: submittedFormData.sliEntity?.sliType });
-    }
     setFormSubmitState(prevState => ({
       ...prevState,
       saving: false,

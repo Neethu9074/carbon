@@ -31,8 +31,8 @@ export default function DistinctSlider(props) {
     style,
     disabled = false,
     valueLabelFormat = identity,
-    valueLabelComponent,
-    valueLabelDisplay = 'on'
+    valueLabelDisplay = 'on',
+    components
   } = props;
 
   return (
@@ -45,7 +45,6 @@ export default function DistinctSlider(props) {
       }}
     >
       <StyledMuiSlider
-        valueLabelComponent={valueLabelComponent}
         disabled={disabled}
         orientation="horizontal"
         value={value}
@@ -58,6 +57,7 @@ export default function DistinctSlider(props) {
         }}
         valueLabelFormat={valueLabelFormat}
         valueLabelDisplay={valueLabelDisplay}
+        components={components}
       />
     </div>
   );
@@ -71,7 +71,6 @@ DistinctSlider.propTypes = {
     }).isRequired
   ),
   step: PropTypes.number.isRequired,
-  valueLabelComponent: PropTypes.func,
   max: PropTypes.number.isRequired,
   min: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
@@ -79,5 +78,6 @@ DistinctSlider.propTypes = {
   valueLabelDisplay: PropTypes.oneOf(['on', 'off', 'auto']),
   disabled: PropTypes.bool,
   style: PropTypes.any,
-  value: PropTypes.oneOfType([PropTypes.number.isRequired, PropTypes.array.isRequired])
+  value: PropTypes.oneOfType([PropTypes.number.isRequired, PropTypes.array.isRequired]),
+  components: PropTypes.any
 };

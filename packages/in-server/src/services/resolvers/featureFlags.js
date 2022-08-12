@@ -268,5 +268,15 @@ module.exports = exports = [
     uiClientKey: 'apdexWidgetEnabled',
     instanaCtlKey: 'feature.apdex.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'websiteUploadConfigEnabled',
+    instanaCtlKey: 'feature.website.sourcemap.upload.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'actionAutomationEnabled',
+    instanaCtlKey: 'feature.automation.enabled',
+    defaultValue: false
   }
 ];

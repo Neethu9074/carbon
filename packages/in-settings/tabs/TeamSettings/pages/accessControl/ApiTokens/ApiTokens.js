@@ -37,6 +37,7 @@ export default function ApiTokens() {
       onCreateNew={onCreateNew}
       labelNew={t('in-settings:tabs.addApiToken')}
       searchAttributes={['name', 'id', 'internalId', 'accessGrantingToken']}
+      searchPlaceholder={t('in-settings:components.search')}
       getDetailsHref={entity => getEntityHref(teamSettingsAccessControlApiTokens, entity.internalId)}
     />
   );

@@ -121,6 +121,7 @@ import './rabbitmq';
 import './rocketmq';
 import './resteasy';
 import './scalatra';
+import './datagrid';
 import './ado.net';
 import './asp.net';
 import './ehcache';

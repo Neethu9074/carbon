@@ -84,7 +84,7 @@
   },
   "dashboard": {
     "testList": {
-      "mainLabel": "合成测试",
+      "mainLabel": "合成",
       "secondaryLabels": {
         "tests": "测试",
         "location": "位置"
@@ -99,6 +99,48 @@
     "sortOptions": {
       "name": "名称",
       "frequency": "频率"
+    },
+    "summary": {
+      "successRate": "成功率",
+      "locations": "位置",
+      "meanResponseTime": "平均响应时间",
+      "avgResponseSize": "平均 响应大小",
+      "summaryTab": "目录",
+      "resultsTab": "结果",
+      "widgets": {
+        "failures": "故障",
+        "responseTimes": "响应次数",
+        "averageResponseSize": "平均响应大小",
+        "responseStatus": "响应状态",
+        "networkTimings": "网络计时",
+        "blocking": "正在阻止",
+        "dns": "DNS 查找",
+        "sending": "正在发送",
+        "waiting": "正在等待",
+        "receiving": "正在接收",
+        "slowest": "最慢",
+        "latest": "最新",
+        "failed": "失败",
+        "results": "结果",
+        "linkViewAllTestResults": "查看所有结果",
+        "ok": "成功",
+        "redirection": "重定向",
+        "clientError": "客户机错误",
+        "serverError": "服务器错误"
+      },
+      "totalRuns": "{{totalRuns}} 总运行次数",
+      "meanLatencyFor90th": "第 90 个的 {{meanLatencyDetail}}"
+    },
+    "resultsListPage": {
+      "startedColumn": "已启动",
+      "locationColumn": "位置",
+      "responseTimeColumn": "响应时间",
+      "responseSizeColumn": "响应大小",
+      "title": "结果"
+    },
+    "noDataAvailable": {
+      "resultsTitle": "无可用结果",
+      "resultsDescription": "未检索到所选时间范围的任何结果。"
     }
   }
 }
