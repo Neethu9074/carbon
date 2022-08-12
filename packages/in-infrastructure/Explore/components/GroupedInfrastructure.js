@@ -23,13 +23,13 @@ import { type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformati
 import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import createGetGroupsSubscription from 'in-infrastructure/subscriptions/getGroups';
+import { EQUALS, NOT_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getUniqueErrors } from 'in-components/Errors/ErroneousResultPresenter';
 import { LOAD_MORE_CONTEXT } from 'in-infrastructure/Explore/services/tracking';
 import { defaultOrder, pluginTag } from 'in-infrastructure/Explore/constants';
 import { emptyObject, indeterminateProgress } from 'in-services/fixedObjects';
 import MetricLabel from 'in-infrastructure/Explore/components/MetricLabel';
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
-import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getLinkToExplore } from 'in-infrastructure/navigation/paths';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import Header from 'in-components/QueryBuilder/components/Header';
@@ -344,7 +344,7 @@ function addTagsToBackendModel(backendQueryModel, tags) {
 function toTagFilters(tags, tagType, group) {
   return Object.entries(tags).map(([name, value]) => ({
     type: TAG_FILTER_TYPE,
-    operator: EQUALS,
+    operator: getOperator(value),
     name: getName(name, group),
     value: getValue(tagType, value),
     key: getKey(tagType, value, name, group)
@@ -353,12 +353,16 @@ function toTagFilters(tags, tagType, group) {
 
 const defaultGroupIcon = 'lib_views_tag';
 
+function getOperator(value) {
+  return value.indexOf('=') > 0 ? EQUALS : NOT_EMPTY;
+}
+
 function isTagAndKeyConcat(name, group) {
   return group?.groupbyTag?.concat('.', group?.groupbyTagSecondLevelKey) === name;
 }
 
-function isKeyValue(tagType) {
-  return tagType !== undefined && 'KEY_VALUE_PAIR' === tagType;
+function isKeyValue(tagType, value) {
+  return tagType !== undefined && 'KEY_VALUE_PAIR' === tagType && value.indexOf('=') > 0;
 }
 
 function getName(name, group) {
@@ -366,17 +370,17 @@ function getName(name, group) {
 }
 
 function getValue(tagType, value) {
-  return isKeyValue(tagType) ? extractValue(value) : value;
+  return isKeyValue(tagType, value) ? extractValue(value) : value;
 }
 
 function getKey(tagType, value, name, group) {
   if (isTagAndKeyConcat(name, group)) {
     return group.groupbyTagSecondLevelKey;
   }
-  if (isKeyValue(tagType)) {
+  if (isKeyValue(tagType, value)) {
     return extractKey(value, name, group);
   }
-  return undefined;
+  return value;
 }
 
 function extractKey(value) {
