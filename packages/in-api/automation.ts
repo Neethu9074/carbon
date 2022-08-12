@@ -8,6 +8,7 @@ import { fromJS, Map } from 'immutable';
 
 import { Observable } from '@instana/observables';
 
+import { DOC_LINK_TYPE } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import { Action, Field, Mutable, VolatileId, ActionAIScore } from 'in-types';
 import createAgentResponseObservable from 'in-subscription/agentResponse';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
@@ -109,7 +110,7 @@ export const createScriptFields = (value: string): Field[] => [
 
 export function createAction(
   name: string = t('in-settings:tabs.newAction'),
-  type: string = 'doc_link',
+  type: string = DOC_LINK_TYPE,
   description: string = '',
   fields: Field[] = [createDocLinkField('')],
   tags: string[] = []

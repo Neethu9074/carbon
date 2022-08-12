@@ -11,7 +11,7 @@ import { generateUniqueShortId } from '@instana/utils';
 import { SvgIcon } from '@instana/components';
 
 // @ts-expect-error
-import TagsTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/TagsTable';
+import DummyServerTablePresenter from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/DummyServerTablePresenter';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { Tag } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
@@ -20,9 +20,9 @@ import Tooltip from 'in-components/Tooltip/Tooltip';
 import Input from 'in-components/form/Input/Input';
 import { t } from 'in-i18n';
 
-import locals from './TagsWrapper.mless';
+import locals from './TagsTable.mless';
 
-interface AlertConfigCustomPayloadProps {
+interface TagsTableProps {
   form: MapForm;
   onChange: Function;
   setForm: (form: MapForm) => SetStateAction<MapForm>;
@@ -79,7 +79,7 @@ const deleteItemColumnDefinition = {
   }
 };
 
-export default function AlertConfigCustomPayload({ form, setForm, onChange }: AlertConfigCustomPayloadProps) {
+export default function TagsTable({ form, setForm, onChange }: TagsTableProps) {
   const tableColumnDefinitions = [keyColumnDefinition(form, onChange), deleteItemColumnDefinition];
   const tags = (form?.get('tags') as Field<List<Tag>>)?.value?.toJS();
   const data = {
@@ -97,7 +97,14 @@ export default function AlertConfigCustomPayload({ form, setForm, onChange }: Al
     }
   };
 
-  return <TagsTable columnDefinitions={tableColumnDefinitions} addRow={addRow} deleteRow={deleteRow} result={data} />;
+  return (
+    <DummyServerTablePresenter
+      columnDefinitions={tableColumnDefinitions}
+      addRow={addRow}
+      deleteRow={deleteRow}
+      result={data}
+    />
+  );
 
   function deleteRow(id: string) {
     const rowIndex = form

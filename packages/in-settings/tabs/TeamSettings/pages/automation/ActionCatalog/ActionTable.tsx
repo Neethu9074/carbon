@@ -10,10 +10,10 @@ import React, { ReactNode } from 'react';
 import { Button, Link } from '@instana/components';
 import { Observable } from '@instana/observables';
 
+import { getType, isDocLink, isScript } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import { teamSettingsActionCatalog, getEntityIdView } from 'in-settings/navigation/paths';
 import List, { leftHeaderWithSelectAll, TableActions } from 'in-settings/components/List';
 import Tag from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Tag';
-import { getType } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import RunAction from 'in-events/components/AutomationActions/RunAction';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { formatDateTime } from 'in-services/formatters/date';
@@ -95,7 +95,7 @@ const executeColumn = (volatileId: VolatileId) => ({
   label: 'Execute',
   getContent(row: Action) {
     const { type, fields } = row;
-    if (type === 'doc_link') {
+    if (isDocLink(type)) {
       const field = fields?.[0];
       const value = field?.value;
       return (
@@ -103,7 +103,7 @@ const executeColumn = (volatileId: VolatileId) => ({
           Launch
         </Button>
       );
-    } else if (type === 'SCRIPT') {
+    } else if (isScript(type)) {
       const field = fields?.[1];
       const value = field?.value ?? '';
       return (

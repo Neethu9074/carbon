@@ -9,6 +9,7 @@ import { List, Map } from 'immutable';
 
 import { generateUniqueShortId } from '@instana/utils';
 
+import { isDocLink, isScript, isWebhook } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import { notBlankValidator } from 'in-services/validators/string';
 import { ImmutableNewAction } from 'in-api/automation';
 import { t } from 'in-i18n';
@@ -57,28 +58,33 @@ export function createActionFormDefinition(action: ImmutableNewAction, _isCreate
         }
       })
     );
-  if (action.get('type') === 'doc_link') form = putDocLinkFields(form, action);
-  else if (action.get('type') === 'SCRIPT') form = putScriptField(form, action);
+  if (isDocLink(action.get('type') as string)) form = putDocLinkField(form, action);
+  else if (isScript(action.get('type') as string)) form = putScriptField(form, action);
+  else if (isWebhook(action.get('type') as string)) form = putWebhookFields(form, action);
   return form;
 }
 
-export function putDocLinkFields(form: MapForm, action: ImmutableNewAction) {
+export function putDocLinkField(form: MapForm, action: ImmutableNewAction) {
   const fields = action.get('fields') as List<Map<string, unknown>>;
-  const field = fields.get(0);
+  const value = isDocLink(action.get('type') as string) ? fields?.get(0)?.get('value') : '';
 
   return form.put(
-    'docLinkValue',
+    'docLink',
     createField({
-      value: field.get('value'),
+      value,
       validator: notBlankValidator
     })
   );
 }
 
+export function removeDocLinkField(form: MapForm) {
+  return form.remove('docLink');
+}
+
 export function putScriptField(form: MapForm, action: ImmutableNewAction) {
-  const fields = action.get('fields') as List<Map<string, unknown>>;
   let value = '';
-  if (fields.size === 2) {
+  if (isScript(action.get('type') as string)) {
+    const fields = action.get('fields') as List<Map<string, unknown>>;
     const field = fields.get(1);
     value = atob(field.get('value') as string);
   }
@@ -90,4 +96,128 @@ export function putScriptField(form: MapForm, action: ImmutableNewAction) {
       validator: notBlankValidator
     })
   );
+}
+
+export function removeScriptField(form: MapForm) {
+  return form.remove('script');
+}
+
+export function putWebhookFields(form: MapForm, action: ImmutableNewAction) {
+  if (!isWebhook(action.get('type') as string)) {
+    return form
+      .put('method', createField({ value: '', validator: notBlankValidator }))
+      .put('host', createField({ value: '', validator: notBlankValidator }))
+      .put('body', createField({ value: '', validator: notBlankValidator }))
+      .put('ignoreCertErrors', createField({ value: false, validator: notBlankValidator }))
+      .put('username', createField({ value: '', validator: notBlankValidator }))
+      .put('password', createField({ value: '', validator: notBlankValidator }))
+      .put('contentType', createField({ value: '', validator: notBlankValidator }))
+      .put('accept', createField({ value: '', validator: notBlankValidator }))
+      .put('acceptLanguage', createField({ value: '', validator: notBlankValidator }))
+      .put('additionalHeaders', createField({ value: List(), validator: notBlankValidator }));
+  } else {
+    const fields = action.get('fields') as List<Map<string, unknown>>;
+    const method = fields.get(0);
+    const host = fields.get(1);
+    const body = fields.get(2);
+    const headers = fields.get(3);
+    const headersValue = JSON.parse(headers.get('value') as string);
+    const ignoreCertErrors = fields.get(4);
+    const authen = fields.get(5);
+    const authenValue = JSON.parse(authen.get('value') as string);
+    const {
+      'Content-Type': contentType,
+      Accept: accept,
+      'Accept-Language': acceptLanguage,
+      ...additionalHeaders
+    } = headersValue;
+
+    return form
+      .put(
+        'method',
+        createField({
+          value: method.get('value'),
+          validator: notBlankValidator
+        })
+      )
+      .put(
+        'host',
+        createField({
+          value: host.get('value'),
+          validator: notBlankValidator
+        })
+      )
+      .put(
+        'body',
+        createField({
+          value: body.get('value'),
+          validator: notBlankValidator
+        })
+      )
+      .put(
+        'ignoreCertErrors',
+        createField({
+          value: ignoreCertErrors.get('value'),
+          validator: notBlankValidator
+        })
+      )
+      .put(
+        'username',
+        createField({
+          value: authenValue.username,
+          validator: notBlankValidator
+        })
+      )
+      .put(
+        'password',
+        createField({
+          value: authenValue.password,
+          validator: notBlankValidator
+        })
+      )
+      .put(
+        'contentType',
+        createField({
+          value: contentType,
+          validator: notBlankValidator
+        })
+      )
+      .put(
+        'accept',
+        createField({
+          value: accept,
+          validator: notBlankValidator
+        })
+      )
+      .put(
+        'acceptLanguage',
+        createField({
+          value: acceptLanguage,
+          validator: notBlankValidator
+        })
+      )
+      .put(
+        'additionalHeaders',
+        createField({
+          value: List(
+            Object.entries(additionalHeaders).map(header => ({ value: header, id: generateUniqueShortId() }))
+          ),
+          validator: notBlankValidator
+        })
+      );
+  }
+}
+
+export function removeWebhookFields(form: MapForm) {
+  return form
+    .remove('method')
+    .remove('host')
+    .remove('body')
+    .remove('ignoreCertErrors')
+    .remove('username')
+    .remove('password')
+    .remove('contentType')
+    .remove('accept')
+    .remove('acceptLanguage')
+    .remove('additionalHeaders');
 }

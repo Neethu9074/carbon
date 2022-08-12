@@ -11,6 +11,7 @@ import React from 'react';
 import { createActionFormDefinition } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionFormDefinition';
 import { createDocLinkField, createScriptFields, NewAction, saveAction, saveNewAction } from 'in-api/automation';
 import ActionForm from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionForm';
+import { isDocLink, isScript } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsActionCatalog } from 'in-settings/navigation/paths';
@@ -123,10 +124,10 @@ function getActionSpecification(form: MapForm): NewAction {
 
   const fields: Field[] = [];
 
-  if (type === 'doc_link') {
-    const docLinkValue = form?.get('docLinkValue')?.toJS();
-    fields.push(createDocLinkField(docLinkValue));
-  } else if (type === 'SCRIPT') {
+  if (isDocLink(type)) {
+    const docLink = form?.get('docLink')?.toJS();
+    fields.push(createDocLinkField(docLink));
+  } else if (isScript(type)) {
     const scriptValue = form?.get('script')?.toJS();
     fields.push(...createScriptFields(scriptValue));
   }

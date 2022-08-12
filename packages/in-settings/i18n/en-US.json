@@ -848,13 +848,17 @@
     "script": "Script",
     "http": "HTTP",
     "actionTypeHelper": "Documentation Link refers to a url, script is for linux/windows machines (only bash supported for now) and http is a webhook",
-    "docLinkValue": "Documentation Link Value",
     "docLinkDescription": "Documentation Link Description",
     "noTagsConfigured": "No Tags Configured",
     "addRow": "Add Row",
     "showsUpInTheListOfActions": "Shows up in the list of actions. Should be unique and meaningful.",
     "showsUpInTheActionDescription": "Shows up in the action description. Should be as descriptive as possible.",
-    "deletedEventMessage": "You are looking at a deleted event configuration. Modifications are not possible."
+    "deletedEventMessage": "You are looking at a deleted event configuration. Modifications are not possible.",
+    "host": "Host",
+    "method": "Method",
+    "accept": "Accept",
+    "acceptLanguage": "Accept-Language",
+    "contentType": "Content-Type"
   },
   "languageSelection": {
     "language": "Language",
