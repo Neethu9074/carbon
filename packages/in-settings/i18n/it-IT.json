@@ -96,6 +96,11 @@
     "deselect": "Deseleziona"
   },
   "tabs": {
+    "team": {
+      "customPayload": {
+        "unknownTag": "Tag sconosciuto: {{tagName}}"
+      }
+    },
     "failedToSaveConfig": "Impossibile salvare la configurazione: {{err}}",
     "IdPMetadataRequired": "Il file di metadati IdP è obbligatorio",
     "IdPMetadataLargerThanTwoMega": "Il file di metadati IdP non può avere una dimensione superiore a 2 megabyte",
@@ -157,6 +162,8 @@
     "inviteUser": "Invita utente",
     "failedToSendInvitation": "Impossibile inviare l'invito: {{err}}",
     "pleaseInviteAtLeastOneUser": "Invitare almeno un utente.",
+    "thisUserAlreadyExists": "Questo utente esiste già. È possibile modificarlo nel menu 'Utenti'.",
+    "someEmailsHaveFailedToSend": "L'invio di alcune email non è riuscito",
     "inviteUserToTenant": "Invita utente a {{tenant}}",
     "anotherUser": "Un altro utente",
     "permissionEntityLabel": "autorizzazione {{entityLabel}}",
@@ -190,6 +197,7 @@
     "disabled": "Disabilitato",
     "invalidQuery": "Query non valida",
     "deprecated": "Obsoleto",
+    "actionNeededRecommendMigrate": "È necessaria un'azione. Questo evento diventerà obsoleto presto, si consiglia di migrarlo in un avviso smart.",
     "migrated": "Migrato",
     "createAlertChannelLabelAlertChannel": "Crea canale di avviso {{alertChannelLabel}}",
     "modifyEntityNameAlertChannel": "Modifica canale di avviso {{entityName}}",
@@ -459,6 +467,7 @@
     "groupMappingFailedToSave": "Impossibile salvare le associazioni gruppo IdP",
     "thereShouldBeAtLeastOneGroupMapping": "È necessario aggiungere almeno un'associazione di gruppo se \"Negare l'accesso quando non viene trovata alcuna associazione\" è selezionato, altrimenti nessun utente potrà effettuare l'accesso.",
     "failIfNoIdp": "Per modificare queste impostazioni è necessario avere un provider di identità configurato.",
+    "noActions": "Non ci sono azioni configurate",
     "noGroupMapping": "Non ci sono associazioni configurate tra provider di identità e Instana",
     "denyUserWithNoGroup": "Negare l'accesso quando non viene trovata alcuna associazione. Se deselezionato, gli utenti senza associazioni gruppo e con nessun gruppo trovato verranno aggiunti al gruppo predefinito.",
     "twoFactor": "Due fattori",
@@ -484,6 +493,7 @@
     "importingConfig": "Importazione dei dati di configurazione",
     "configSuccessfullyImported": "I dati di configurazione sono stati importati correttamente",
     "failedToImportConfig": "Impossibile importare i dati di configurazione: {{err}}",
+    "configImportResult": "Filtra per risultato di importazione...",
     "settingsPageNotFound": "Pagina Impostazioni non trovata",
     "weCouldNotFindTheSettingsPageYouWereLookingFor": "Impossibile trovare la pagina delle impostazioni ricercata. Siamo spiacenti. Si desidera provare uno dei seguenti collegamenti?",
     "pleaseSelectAtLeastOneItem": "Selezionare almeno un elemento.",
@@ -627,6 +637,7 @@
     "configureCustomPayload": "Configura payload personalizzato",
     "youAreNotPermittedToEditCustomPayloads": "Non si è autorizzati a modificare i payload personalizzati.",
     "unknownEvent": "Evento sconosciuto",
+    "unknownAction": "Azione sconosciuta",
     "builtInEventDefinition": "Definizione evento integrata",
     "entityType": "Tipo di entità",
     "eventInputs": "Input evento",
@@ -806,10 +817,23 @@
     "default": "Impostazione predefinita",
     "identityProviderType": "Tipo provider di identità",
     "copyApiTokenToClipboardError": "Impossibile copiare il token dell'API negli appunti.",
-    "depreactedEventHiddenInfo": "Gli eventi obsoleti non possono più essere aggiunti a nuove configurazioni e sono nascosti da questo elenco.",
-    "deprecatedEventMessage": "Questo evento è obsoleto. Migrarlo in un avviso smart o <documentationLink>fare riferimento alla documentazione</documentationLink>.",
+    "depreactedEventHiddenInfo": "Gli eventi obsoleti non possono essere più aggiunti ai nuovi avvisi e sono nascosti da questo elenco.",
+    "deprecatedEventMessage": "Gli eventi personalizzati sui tipi di entità Prospettiva di applicazione, Servizio e Endpoint diventeranno obsoleti presto. Da ottobre 2022 non sarà possibile creare nuovi eventi di questo tipo. Si consiglia di migrare questo evento in un avviso smart, manualmente o utilizzando il pulsante <em>Migra in avviso smart</em> sopra. <documentationLink>Leggere di più nella nostra documentazione</documentationLink>.",
     "migratedEventMessage": "Questo evento obsoleto è stato migrato. Per ulteriori informazioni, <documentationLink>fare riferimento alla documentazione</documentationLink>.",
-    "deprecatedEventSelectedMessage": "I tipi di entità <em>Applicazione, Servizio e Endpoint</em> sono obsoleti per gli eventi personalizzati e devono essere migrati al più presto in un avviso smart. Si consiglia di configurare un corrispettivo avviso smart invece di un evento personalizzato. Per ulteriori informazioni, <documentationLink>fare riferimento alla documentazione</documentationLink>."
+    "deprecatedEventSelectedMessage": "Gli eventi personalizzati sui tipi di entità Prospettiva di applicazione, Servizio e Endpoint diventeranno obsoleti presto. Da ottobre 2022 non sarà possibile creare nuovi eventi di questo tipo. Si consiglia invece di creare un avviso smart. <documentationLink>Leggere di più nella nostra documentazione</documentationLink>.",
+    "automation": "Automation",
+    "actionCatalog": "Catalogo azioni",
+    "action_plural": "Azioni",
+    "actionWithName": "Azione: {{actionName}}",
+    "actionType": "Tipo azione",
+    "actionDetails": "Dettagli azione",
+    "filterActions": "Azioni del filtro",
+    "fields": "Campi",
+    "invocations": "Richiami",
+    "successRate": "Frequenza operazioni riuscite",
+    "lastModified": "Ultima modifica",
+    "docLink": "Link alla documentazione",
+    "deletedEventMessage": "Si sta esaminando una configurazione di evento eliminata. Le modifiche non sono possibili."
   },
   "languageSelection": {
     "language": "Lingua",

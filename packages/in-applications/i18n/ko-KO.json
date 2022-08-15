@@ -62,6 +62,8 @@
   "labelScope": "범위",
   "labelCustomServiceRules": "사용자 정의 서비스 규칙",
   "labelSyntheticEndpoints": "합성 엔드포인트",
+  "labelWarning": "경고",
+  "labelCritical": "Critical",
   "titleTopServices": "상위 서비스",
   "titleMeanLatency": "평균 대기 시간",
   "titleErroneousCallRate": "잘못된 호출 비율",
@@ -197,7 +199,8 @@
     "technologies": "기술",
     "httpStatusCode": "HTTP 상태",
     "hiddenCalls": "숨겨진 호출",
-    "preview": "미리보기",
+    "fastQueryMode": "빠른 조회 모드",
+    "fastQueryModeTooltip": "빠른 조회 모드를 사용하면 전체 데이터 세트에 대한 실행이 너무 오래 걸리는 경우 호출 또는 추적의 서브세트에 대해 조회를 실행할 수 있습니다.",
     "listBatchTypeTooltip": "이 {{type}}은(는) 일괄처리되며 {{batchCount}}개 개별 {{types}}을(를) 나타냅니다.",
     "listBatchLatencyTooltip": "일괄처리된 {{batchCount}}개 {{types}}의 총 대기 시간입니다.",
     "traceIdTooltip": "이 추적과 관련된 일부 데이터가 지연되므로 잠시 후에 페이지를 다시 로드하십시오. 이러한 경우가 발생할 수 있는 예제는 해당 데이터의 일부가 처리 중인 매우 최근 추적에서 나타나고 있습니다.",
@@ -643,6 +646,7 @@
     "alternativeServicesPossibleProblem": "<bold>아마도</bold>, 현재 서비스 및 대체 서비스 이름이 HTTP \"Host\" 헤더에서 오지 않는 경우에는 프록시 뒤에 있는 서비스(좋음) 또는 중복 서비스(나쁨)입니다. 일부 서비스는 인프라에 완전히 링크되어 있는 반면 다른 서비스는 부분적으로 링크되어 있습니다."
   },
   "widgetNotActive": {
-    "title": "라이브 모드에서는 위젯이 지원되지 않음"
+    "title": "라이브 모드에서는 위젯이 지원되지 않음",
+    "button": "라이브 모드 중지"
   }
 }
