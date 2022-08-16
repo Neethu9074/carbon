@@ -40,7 +40,7 @@ export default function PreviewHeader({
             value={threshold}
             onChange={value => onChangeThreshold(value)}
             hasError={hasError}
-            min={0}
+            min={1}
           />
           <span className={locals.thresholdUnit}>ms</span>
           {additionalContent}
