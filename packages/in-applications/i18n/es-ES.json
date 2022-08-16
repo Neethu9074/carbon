@@ -62,6 +62,8 @@
   "labelScope": "Ámbito",
   "labelCustomServiceRules": "Reglas de servicio personalizadas",
   "labelSyntheticEndpoints": "Puntos finales sintéticos",
+  "labelWarning": "Aviso",
+  "labelCritical": "Crítico",
   "titleTopServices": "Servicios principales",
   "titleMeanLatency": "Latencia media",
   "titleErroneousCallRate": "Tasa de llamadas erróneas",
@@ -197,7 +199,8 @@
     "technologies": "Tecnologías",
     "httpStatusCode": "Estado HTTP",
     "hiddenCalls": "Llamadas ocultas",
-    "preview": "Vista previa",
+    "fastQueryMode": "Modalidad de consulta rápida",
+    "fastQueryModeTooltip": "La modalidad de consulta rápida permite la ejecución de consultas en un subconjunto de llamadas o rastreos, si la ejecución en el conjunto de datos completo tardaría demasiado.",
     "listBatchTypeTooltip": "Este {{type}} está en un lote y representa {{batchCount}} {{types}} individuales.",
     "listBatchLatencyTooltip": "Latencia total de {{batchCount}} {{types}} por lotes.",
     "traceIdTooltip": "Algunos datos relacionados con este rastreo se retrasan, por lo tanto, vuelva a cargar la página más adelante. Por ejemplo, esto puede suceder cuando se visualiza un rastreo muy reciente y algunos de sus datos todavía se están procesando.",
@@ -643,6 +646,7 @@
     "alternativeServicesPossibleProblem": "<bold>Tal vez</bold>, si el servicio actual y los nombres de servicios alternativos no proceden de la cabecera HTTP \"Host\", pueda tratarse de servicios que se encuentran tras un proxy (correcto) o de servicios duplicados (incorrecto): algunos de los servicios están totalmente enlazados a la infraestructura, mientras que otros solo lo están parcialmente."
   },
   "widgetNotActive": {
-    "title": "El widget no recibe soporte en modalidad activa"
+    "title": "El widget no recibe soporte en modalidad activa",
+    "button": "Modalidad de detención en directo"
   }
 }

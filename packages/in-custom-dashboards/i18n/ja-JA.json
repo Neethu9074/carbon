@@ -467,10 +467,10 @@
         "includeSyntheticCalls": "シンセティック呼び出しを含める",
         "type": "タイプ",
         "sliEntity": "SLI エンティティー",
-        "beaconConfigLabel": "Beacon Config",
+        "beaconConfigLabel": "ビーコンの構成",
         "beaconScopeLabel": "Beacon Scope",
         "httpRequestsLabel": "HTTP リクエスト",
-        "beaconFiltersLabel": "Beacon フィルター"
+        "beaconFiltersLabel": "ビーコン・フィルター"
       },
       "sliList": {
         "serviceLevelIndicators": "サービス・レベル指標",
@@ -572,17 +572,35 @@
         "thousandCallsFormat": "{{count}}K 呼び出し"
       },
       "widgetLeftHeader": {
-        "previewDataInfo": "SLI 構成が最近作成された場合、プレビュー・データは最大 7 日前まで表示されます。 最終ウィジェットには、SLI 作成以降のデータのみが含まれます"
+        "previewDataInfo": "SLI 構成が最近作成された場合、プレビュー・データは最大 7 日前まで表示されます。 最終ウィジェットには、SLI 作成以降のデータのみが含まれます。"
+      },
+      "boundaryScopeConfigurator": {
+        "all": {
+          "title": "すべての呼び出し",
+          "description": "コンシューマーと内部の両方によって、このアプリケーション内で実行された呼び出し。"
+        },
+        "inbound": {
+          "title": "インバウンドの呼び出し",
+          "description": "このアプリケーションのコンシューマーによって実行される呼び出しのみ。"
+        }
       }
     },
     "apdex": {
       "title": "Apdex: グラフ",
       "chart": {
-        "metricLabel": "Apdex"
+        "metricLabel": "Apdex",
+        "viewInAnalyze": "分析で表示",
+        "noDataRetentionPeriod": "選択された時刻範囲はデータ保存期間を超えています"
       },
       "demo": {
         "title": "製品の Apdex",
         "entityLabel": "ロボット・ショップ"
+      },
+      "apdexConfigInfo": {
+        "tagFilterLabel": "フィルター",
+        "apdexNameLabel": "Apdex 名",
+        "apdexTypeLabel": "Apdex タイプ",
+        "thresholdLabel": "閾値"
       },
       "formComponent": {
         "title": "Apdex 構成",
@@ -598,21 +616,41 @@
       },
       "entityTypeSelector": {
         "type": "不明なタイプ",
-        "type_website": "Web サイト"
+        "type_website": "Web サイト",
+        "type_application": "アプリケーション"
       },
       "apdexManageList": {
-        "title": "Apdex リスト"
+        "title": "Apdex リスト",
+        "deleteSuccessfulMessage": "Apdex 構成が正常に削除されました。",
+        "deleteFailedMessage": "Apdex 構成の削除に失敗しました。"
       },
       "apdexList": {
         "cardTitle": "Apdex 構成",
         "nameColumn": "Apdex 構成",
-        "thresholdColumn": "しきい値",
+        "thresholdColumn": "閾値",
         "confirmDeleteHeader": "ご確認ください",
         "confirmDeleteMessage": "{{apdex}} を削除してよろしいですか?",
         "editApdexTooltip": "Apdex 構成の編集/複製",
         "deleteApdexTooltip": "Apdex 構成の削除",
         "confirmDeleteButton": "削除",
         "createButton": "Apdex 構成の作成"
+      },
+      "createApdexForm": {
+        "title": "Apdex 構成の作成",
+        "customizationHeader": "Apdex カスタマイズ",
+        "label": "Apdex 名",
+        "apdexCreateSuccessTitle": "Apdex 構成が正常に作成されました。",
+        "apdexCreateSuccessContent": "Apdex 構成「{{apdexName}}」が作成されました。",
+        "apdexCreateFailedTitle": "Apdex 構成の作成に失敗しました。",
+        "apdexCreateFailedContent": "この Apdex 構成の作成中に問題が発生しました: 「{{apdexName}}」",
+        "apdexNameNotEmpty": "Apdex 名を空にすることはできません。",
+        "thresholdNotEmpty": "しきい値を空にすることはできません。",
+        "nameExistsError": "この名前の Apdex 構成は既に存在します。 別の名前を入力してください。"
+      },
+      "createWebsiteApdexForm": {
+        "thresholdHeader": "しきい値構成",
+        "thresholdLabel": "閾値",
+        "thresholdFooter": "データの損失を防ぐため、作成後はしきい値を編集できません。"
       },
       "entityInfo": {
         "tooltip": "不明な Apdex",
@@ -621,7 +659,14 @@
       },
       "widget": {
         "unknownEntityLabel_application": "不明なアプリケーション",
-        "unknownEntityLabel_website": "不明な Web サイト"
+        "unknownEntityLabel_website": "不明な Web サイト",
+        "previewDataInfo": "Apdex 構成を最近作成した場合は、最大 7 日前までのプレビュー・データが表示されます。 最終ウィジェットには、Apdex 作成以降のデータのみが含まれます。"
+      },
+      "applicationScopeConfigurator": {
+        "label": "Apdex スコープ",
+        "boundaryScope": "境界",
+        "hiddenCalls": "非表示の呼び出し",
+        "additionalFilters": "追加フィルター"
       }
     },
     "timezone": {

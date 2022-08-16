@@ -62,6 +62,8 @@
   "labelScope": "Bereich",
   "labelCustomServiceRules": "Angepasste Serviceregeln",
   "labelSyntheticEndpoints": "Synthetische Endpunkte",
+  "labelWarning": "Warnung",
+  "labelCritical": "Kritisch",
   "titleTopServices": "Wichtigste Services",
   "titleMeanLatency": "Durchschnittliche Latenzzeit",
   "titleErroneousCallRate": "Rate fehlerhafter Aufrufe",
@@ -197,7 +199,8 @@
     "technologies": "Technologien",
     "httpStatusCode": "HTTP-Status",
     "hiddenCalls": "Verborgene Aufrufe",
-    "preview": "Vorschau",
+    "fastQueryMode": "Schneller Abfragemodus",
+    "fastQueryModeTooltip": "Der schnelle Abfragemodus ermöglicht die Abfrageausführung für eine Untergruppe von Aufrufen oder Traces, wenn die Ausführung für das vollständige Dataset zu lange dauern würde.",
     "listBatchTypeTooltip": "Dieser {{type}} wurde gebündelt und stellt {{batchCount}} einzelne {{types}} dar.",
     "listBatchLatencyTooltip": "Gesmatlatenz von {{batchCount}} gebündelten {{types}}.",
     "traceIdTooltip": "Einige Daten, die sich auf diesen Trace beziehen, sind verzögert. Bitte laden Sie die Seite etwas später erneut. Ein Beispiel, bei dem dies vorkommen kann, ist die Anzeige eines sehr aktuellen Trace, bei dem ein Teil der Daten noch verarbeitet wird.",
@@ -643,6 +646,7 @@
     "alternativeServicesPossibleProblem": "<bold>Möglicherweise</bold>, wenn der Name des aktuellen Service und der Name des alternativen Service nicht aus dem HTTP-Header \"Host\" stammen. Es handelt sich dann entweder um Services hinter einem Proxy (gut) oder um doppelte Services (schlecht): Einige der Services sind vollständig mit Infrastruktur verbunden, während andere teilweise mit Infrastruktur verbunden sind."
   },
   "widgetNotActive": {
-    "title": "Widget wird im Livemodus nicht unterstützt"
+    "title": "Widget wird im Livemodus nicht unterstützt",
+    "button": "Live-Modus stoppen"
   }
 }

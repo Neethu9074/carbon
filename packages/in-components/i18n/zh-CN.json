@@ -216,13 +216,12 @@
     "groupedViewHeader_2": "{{formattedCount}} 个组",
     "groupedViewHeaderRetained": "已保留，共 {{formattedCount}} 个",
     "resultHeaderLoading": "正在加载...",
-    "resultHeaderTooltip": "查询时间范围已四舍五入到最接近的整分钟，以便更快速地装入此视图。",
     "queryProgress": {
       "preparing": "正在准备...",
       "runningQuery": "正在运行查询...",
       "timeout": "此查询已超时。",
-      "timeoutEstimated": "此查询耗用的时间太长以致无法运行。",
-      "timeoutInfo": "请选择更短的时间范围，或者通过应用更多过滤器来发出更具体的查询。",
+      "timeoutEstimated": "由于调用量很大，因此无法处理查询。",
+      "timeoutInfo": "请选择较短的时间范围。",
       "inputError": "出现了输入错误。",
       "tooManyRequests": "请求次数太多",
       "tooManyRequestsInfo": "我们的系统当前繁忙。请稍后重试。",
@@ -792,5 +791,11 @@
     "retainedLabel_viewChange_0": "近似数据（保留了 {{totalHits}} 个视图更改，共 {{representedHits}} 个视图更改）",
     "retainedLabel_viewChange_1": "近似数据（保留了 {{totalHits}} 个视图更改，共 {{representedHits}} 个视图更改）",
     "retainedLabel_viewChange_2": "近似数据（保留了 {{totalHits}} 个视图更改，共 {{representedHits}} 个视图更改）"
+  },
+  "migratedTenantBanner": {
+    "title": "已迁移租户单元",
+    "notice": "此租户单元已迁移到新的区域。 您当前正在访问的单元仅包含历史数据。",
+    "goToNewLocationLabel": "转至新位置",
+    "exploreDataLabel": "浏览历史数据"
   }
 }
