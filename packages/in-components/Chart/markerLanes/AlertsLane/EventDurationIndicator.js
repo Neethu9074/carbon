@@ -22,7 +22,6 @@ export default function EventDurationIndicator({ color, timeAxisHeight, chartHei
   const xPosStart = xScale?.getRange(adjustedStart || start);
   const xPosEnd = end && xScale?.getRange(end);
   const durationWidth = duration ? xScale?.getRangeArea(duration) : null;
-
   if (durationWidth < 10) {
     return null;
   }
