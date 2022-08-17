@@ -12045,6 +12045,15 @@
       "yes": "Yes",
       "no": "No"
     },
+    "azf": {
+      "titleAZFAttributes": "Azure Function Attributes",
+      "titleTrigger": "Trigger",
+      "titleFunctionName": "Function Name",
+      "titleEventType": "Event Type",
+      "titleDetails": "Event Details",
+      "AZFEvent": "AZF Event(s)",
+      "AZFEventDetails": "The Trigger cannot be identified."
+    },
     "azq": {
       "queuename": "Queue Name",
       "messagesuri": "Messages Uri",
