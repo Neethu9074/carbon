@@ -590,7 +590,9 @@
       "chart": {
         "metricLabel": "Apdex",
         "viewInAnalyze": "View in Analyze",
-        "noDataRetentionPeriod": "Selected time range is beyond data retention period"
+        "noDataRetentionPeriod": "Selected time range is beyond data retention period",
+        "notFoundErrorTitle": "Configured Apdex has not been found",
+        "notFoundErrorDescription": "Please update the Apdex widget by selecting another Apdex configuration"
       },
       "demo": {
         "title": "Apdex for Prod",
