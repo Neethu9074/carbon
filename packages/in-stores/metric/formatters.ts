@@ -55,7 +55,7 @@ export const millisDetailed: Formatter = {
   label: t('in-stores:metric.formatterLabelMilliseconds', { example: millis.detailed(42.15) }),
   formatter: millis.detailed
 };
-export const latencyDetaild: Formatter = {
+export const latencyDetailed: Formatter = {
   id: 'latency.detailed',
   label: t('in-stores:metric.formatterLabelLatency', { example: latency.detailed(0) }),
   formatter: latency.detailed
@@ -97,7 +97,7 @@ export const publicFormatters: Formatter[] = [
   bytesDetailed,
   millisCompact,
   millisDetailed,
-  latencyDetaild,
+  latencyDetailed,
   siPrefixCompact,
   siPrefixDetailed
 ];

@@ -10,6 +10,7 @@ import * as markdown from 'in-custom-dashboards/widgets/Markdown';
 import * as list from 'in-custom-dashboards/widgets/TopList';
 import * as chart from 'in-custom-dashboards/widgets/Chart';
 import * as apdex from 'in-custom-dashboards/widgets/Apdex';
+import { compareIgnoreCase } from 'in-services/util/string';
 import * as pie from 'in-custom-dashboards/widgets/Pie';
 import * as slo from 'in-custom-dashboards/widgets/Slo';
 
@@ -26,4 +27,6 @@ const all = {
 };
 export default all;
 
-export const enabledWidgets = Object.fromEntries(Object.entries(all).filter(entry => entry[1].enabled));
+export const enabledWidgets = Object.values(all)
+  .filter(entry => entry.enabled)
+  .sort((a, b) => compareIgnoreCase(a.label, b.label));

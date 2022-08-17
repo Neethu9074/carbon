@@ -71,6 +71,7 @@ export default function ApdexWidgetPresenter({
       automaticallySize={!isPreview}
       nonInteractive={isPreview}
       height={height}
+      showPreviewDataNotice={isPreview}
     />
   );
 }

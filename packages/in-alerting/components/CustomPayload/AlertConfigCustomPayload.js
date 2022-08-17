@@ -8,21 +8,30 @@ import React from 'react';
 import {
   deleteItemColumnDefinition,
   valueColumnDefinition,
+  typeColumnDefinition,
   keyColumnDefinition
 } from 'in-alerting/components/CustomPayload/customPayloadColumnDefinitions';
 import { createNewFormEntry } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import CustomPayloadTable from 'in-alerting/components/CustomPayload/CustomPayloadTable';
 
-export default function AlertConfigCustomPayload({ form, setForm }) {
-  const tableColumnDefinitions = [
-    { ...keyColumnDefinition, width: '40' },
-    { ...valueColumnDefinition, width: '55' }
-  ];
+const KeyValue = [
+  { ...keyColumnDefinition, width: '40' },
+  { ...valueColumnDefinition, width: '55' },
+  { ...deleteItemColumnDefinition, width: '5' }
+];
 
+const KeyTypeValue = [
+  { ...keyColumnDefinition, width: '25' },
+  { ...typeColumnDefinition, width: '20' },
+  { ...valueColumnDefinition, width: '55' },
+  { ...deleteItemColumnDefinition, width: '5' }
+];
+
+export default function AlertConfigCustomPayload({ form, setForm, supportDynamicTypes, TagBasedPayloadConfigurator }) {
   return (
     <CustomPayloadTable
       getRowIndex={getRowIndex}
-      columnDefinitions={[...tableColumnDefinitions, deleteItemColumnDefinition]}
+      columnDefinitions={supportDynamicTypes ? KeyTypeValue : KeyValue}
       isSearchable={false}
       addRow={addRow}
       deleteRow={deleteRow}
@@ -38,6 +47,7 @@ export default function AlertConfigCustomPayload({ form, setForm }) {
         }
       }}
       customPayloadForm={form.get('customPayloadFields')}
+      TagBasedPayloadConfigurator={supportDynamicTypes ? TagBasedPayloadConfigurator : null}
     />
   );
 

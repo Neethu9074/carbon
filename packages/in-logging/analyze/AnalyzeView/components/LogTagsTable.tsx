@@ -3,57 +3,56 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React, { useState, useMemo, forwardRef } from 'react';
+import React, { forwardRef, useMemo, useState } from 'react';
 
-import { Link, Stack, Ul, Li, ColumnizedContent } from '@instana/components';
+import { ColumnizedContent, Li, Link, Stack, Ul } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import {
-  LOG_CUSTOM_KEY_APPLICATION_IDS,
-  LOG_CUSTOM_KEY_SERVICE_ID,
-  LOG_SERVICE_NAME,
-  LOG_SPAN_ID,
   LOG_CALL_ID,
   LOG_CUSTOM_KEY_APPLICATION_ID,
+  LOG_CUSTOM_KEY_APPLICATION_IDS,
   LOG_CUSTOM_KEY_ENDPOINT_ID,
-  LOG_EXCEPTION_TYPE,
+  LOG_CUSTOM_KEY_SERVICE_ID,
+  LOG_DOCKER_SNAPSHOT_ID,
   LOG_EXCEPTION_MESSAGE,
-  LOG_EXCEPTION_STACK_TRACE
+  LOG_EXCEPTION_STACK_TRACE,
+  LOG_EXCEPTION_TYPE,
+  LOG_SERVICE_NAME,
+  LOG_SPAN_ID
 } from 'in-logging/queryBuilder';
 import {
-  ClickedTag,
-  LogTagsTableProps,
-  GetContentType,
-  TagEntryProps,
-  ResolvedLinkProps,
-  ToggleProps,
+  ApplicationProps,
   ApplicationsListProps,
+  ClickedTag,
+  GetContentType,
   GroupingTag,
-  ApplicationProps
+  LogTagsTableProps,
+  ResolvedLinkProps,
+  TagEntryProps,
+  ToggleProps
 } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable.d';
+import ContainerPerformanceSparkcharts from 'in-logging/analyze/AnalyzeView/components/ContainerPerformanceSparkcharts';
 import { filterAdded, groupAdded, logMessageTagClicked } from 'in-logging/analyze/AnalyzeView/tracker';
 import useResolvedValue from 'in-logging/analyze/AnalyzeView/components/useResolvedValue';
 import useResolvedLink from 'in-logging/analyze/AnalyzeView/components/useResolvedLink';
 import useResolvedName from 'in-logging/analyze/AnalyzeView/components/useResolvedName';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
-// @ts-ignore
-import Overlay from 'in-components/overlays/Overlay';
-// @ts-ignore
-import Header from 'in-components/Dialog/Header';
 import { hasError, isLoading } from 'in-services/util/result';
 import IconButton from 'in-components/IconButton/IconButton';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import IconLink from 'in-components/IconButton/IconLink';
 import { pendingResult } from 'in-services/fixedObjects';
 import { getTagCatalog } from 'in-logging/api/catalog';
+import Overlay from 'in-components/overlays/Overlay';
 import getLog from 'in-logging/subscriptions/getLog';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import Header from 'in-components/Dialog/Header';
 import Tooltip from 'in-components/Tooltip';
 import { LogTag } from 'in-types';
 import { t } from 'in-i18n';
 
-// @ts-ignore
 import locals from './LogTagsTable.mless';
 
 const columnDefinitions = [
@@ -156,25 +155,34 @@ function TagEntry({
   getHrefToGroupedView
 }: TagEntryProps) {
   const [isHovered, setIsHovered] = useState(false);
+  const isContainerTag = tag.name === LOG_DOCKER_SNAPSHOT_ID;
+
   return (
-    <Li
-      className={locals.li}
-      size="compact"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <ColumnizedContent
-        columnDefinitions={columnDefinitions}
-        onSelectTagHref={onSelectTagHref}
-        getHrefToGroupedView={getHrefToGroupedView}
-        item={item}
-        tag={tag}
-        tagToLabelMap={tagToLabelMap}
-        allowedTagsForGrouping={allowedTagsForGrouping}
-        uniqueTagName={uniqueTagName}
-        isHovered={isHovered}
-      />
-    </Li>
+    <>
+      <Li
+        className={locals.li}
+        size="compact"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <ColumnizedContent
+          columnDefinitions={columnDefinitions}
+          onSelectTagHref={onSelectTagHref}
+          getHrefToGroupedView={getHrefToGroupedView}
+          item={item}
+          tag={tag}
+          tagToLabelMap={tagToLabelMap}
+          allowedTagsForGrouping={allowedTagsForGrouping}
+          uniqueTagName={uniqueTagName}
+          isHovered={isHovered}
+        />
+      </Li>
+      {isContainerTag && (
+        <Li className={locals.sparkchartsLi} size="normal">
+          <ContainerPerformanceSparkcharts snapshotId={tag.stringValue} />
+        </Li>
+      )}
+    </>
   );
 }
 

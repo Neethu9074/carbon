@@ -6,8 +6,7 @@
 import React from 'react';
 
 import { SideNavigation, SideNavigationItem } from 'in-components/SideNavigation/SideNavigation';
-import { compareIgnoreCase } from 'in-services/util/string';
-import widgets from 'in-custom-dashboards/widgets';
+import { enabledWidgets } from 'in-custom-dashboards/widgets';
 import Pill from 'in-components/Pill';
 
 import locals from './WidgetTypeSidebar.mless';
@@ -18,24 +17,21 @@ export default function WidgetTypeSidebar({ form, onChangeType }) {
   return (
     <SideNavigation>
       {' '}
-      {Object.keys(widgets)
-        .filter(type => widgets[type].enabled)
-        .sort((a, b) => compareIgnoreCase(widgets[a].label, widgets[b].label))
-        .map(type => (
-          <SideNavigationItem
-            key={type}
-            omitEmptyIcon
-            label={
-              <span className={locals.label}>
-                {widgets[type].label}
+      {enabledWidgets.map(({ type, label, badge }) => (
+        <SideNavigationItem
+          key={type}
+          omitEmptyIcon
+          label={
+            <span className={locals.label}>
+              {label}
 
-                {widgets[type].badge?.content && <Pill kind="primary">{widgets[type].badge.content}</Pill>}
-              </span>
-            }
-            isActive={selectedType === type}
-            onClick={() => onChangeType(type)}
-          />
-        ))}{' '}
+              {badge?.content && <Pill kind="primary">{badge.content}</Pill>}
+            </span>
+          }
+          isActive={selectedType === type}
+          onClick={() => onChangeType(type)}
+        />
+      ))}{' '}
     </SideNavigation>
   );
 }

@@ -455,6 +455,7 @@
       "alerts": {
         "alertConfigurationListTitleAlertConfiguration": "Configuración de alertas",
         "alertConfigurationTitleTrigger": "Activador",
+        "alertConfigurationTitleCustomEvent": "Suceso personalizado",
         "alertConfigurationTitleErrorMessage": "Mensaje de error",
         "alertConfigurationTitleHTTPStatusCode": "Código de estado HTTP",
         "alertConfigurationTitleScope": "Ámbito",
@@ -474,7 +475,7 @@
       },
       "configuration": {
         "configurationRemoveTitle": "Eliminar sitio web",
-        "configurationRemoveHelpParagraph": "Tenga en cuenta que ni el usuario ni el soporte de Instana pueden deshacer esta acción.",
+        "configurationRemoveHelpParagraph": "Tenga en cuenta que ni usted ni el soporte de Instana pueden deshacer esta acción.",
         "configurationRemoveInput": "Entiendo que esta acción no se puede deshacer.",
         "configurationRemoveButton": "Eliminar sitio web",
         "configurationRenameTitle": "Renombrar sitio web",
@@ -485,7 +486,7 @@
           "title": "Enmascaramiento de IP",
           "help": "El enmascaramiento de IP protege la privacidad del usuario final al enmascarar (anonimizar) segmentos de direcciones IP. Esto sucede en el punto más temprano posible dentro del conducto de ingesta de Instana de modo que nunca se almacenen direcciones IP completas. Instana siempre enmascara las direcciones IP utilizando reglas comúnmente utilizadas en la industria. Puede configurar reglas de enmascaramiento de IP más estrictas si su organización lo requiere.",
           "option_DEFAULT": "De forma predeterminada, se enmascaran los últimos 8 bits para IPv4 y los últimos 80 bits para IPv6",
-          "option_STRICT": "Con el método estricto, se enmascaran los últimos 16 bits para IPv4 y los últimos 96 bits para IPv6",
+          "option_STRICT": "Estricto, se enmascaran los últimos 16 bits para IPv4 y los últimos 96 bits para IPv6",
           "option_REMOVE_ALL_DETAILS": "Eliminar direcciones IP (solo queda una sugerencia de uso de IPv4 e IPv6)"
         },
         "geoDetailRemoval": {
@@ -538,15 +539,31 @@
         "fileDownloadConfigurationDialogLabelKey": "Clave",
         "fileDownloadConfigurationDialogLabelValue": "Valor",
         "fileDownloadConfigurationDialogButtonAddHeader": "Añadir cabecera",
+        "fileUploadConfigurationDialogTitleEdit": "Editar configuración de carga de archivo",
+        "fileUploadConfigurationDialogTitleNew": "Nueva configuración de carga de archivo",
+        "fileUploadConfigurationDialogLabelDescription": "Descripción",
+        "fileUploadConfigurationDialogHeadingDescription": "Descripción",
+        "fileUploadConfigurationDialogDescriptionHelp": "Una configuración de carga le ayudará a organizar mejor los archivos cargados.",
+        "fileUploadConfigurationDialogHeadingOpenAPI": "Carga de archivos",
+        "fileUploadConfigurationDialogOpenAPIHelp": "Cargue los archivos llamando a la API REST web de Instana. Esto se podría integrar en el proceso de interconexión para el despliegue automatizado. La explicación y el uso de la API REST web se ha definido en la <documentation>documentación</documentation>.",
+        "fileUploadUrl": "API de carga de archivo",
+        "clearUploadedFilesUrl": "Eliminar todos los archivos API",
         "stackTraceTranslationLabelConfiguration": "Configuración",
+        "stackTraceTranslationLabelFiles": "Archivos",
+        "stackTraceTranslationLabelTotalSize": "Tamaño total",
+        "stackTraceTranslationLabelLastModified": "Última modificación",
         "stackTraceTranslationExplanation": "Para mejorar la legibilidad de los rastreos de la pila JavaScript, por ejemplo, para mostrar referencias a archivos y líneas no minificadas, Instana necesita acceder a archivos JavaScript y de correlación de origen. Si aquí se añade una configuración, el servidor de Instana puede autenticar y descargar estos archivos para proporcionar más información sobre errores JavaScript.",
+        "stackTraceTranslationExplanationWithUploadFeature": "Para hacer que los rastreos de pila de JavaScript sean más legibles, por ejemplo, para mostrar referencias a archivos y líneas no minificados, Instana necesita acceder a los archivos de correlación de origen y JavaScript. La adición de una configuración de descarga aquí permite al servidor de Instana autenticar y descargar estos archivos con el fin de proporcionar más información sobre los errores de JavaScript. Si los archivos se alojan de forma privada y no se puede acceder a ellos mediante Instana, se podría utilizar una configuración de carga en este caso de ejemplo cargando los archivos manualmente a través de la API REST web.",
         "stackTraceTranslationTitleJavaScriptStackTraceTranslation": "Conversión del rastreo de pila JavaScript",
         "stackTraceTranslationLearnMoreLabel": "Más información sobre la conversión del rastreo de pila JavaScript",
         "stackTraceTranslationTitleJSStackTraceTranslationConfigurations": "Configuraciones de conversión de rastreo de la pila JS",
         "stackTraceTranslationHeaderFileDownloadConfigurations": "Configuraciones de descarga de archivos",
+        "stackTraceTranslationHeaderFileUploadConfigurations": "Configuraciones de carga de archivo",
         "stackTraceTranslationNoDataMessage": "No hay configuraciones de descarga de archivos disponibles.",
+        "stackTraceTranslationNoUploadDataMessage": "No hay configuraciones de carga de archivo disponibles.",
         "stackTraceTranslationButtonAddConfiguration": "Añadir configuración",
         "stackTraceTranslationLabelFileDownloadConfiguration": "Configuración de descarga de archivos {{config}}",
+        "stackTraceTranslationLabelFileUploadConfiguration": "Configuración de carga de archivo {{config}}",
         "stackTraceTranslationLabelOr": " o ",
         "configurationTitle": "Configuración",
         "configurationLabelOptions": "Opciones",
@@ -742,7 +759,7 @@
       "indexLabelGeography": "Geografía",
       "indexLabelCustomEvents": "Sucesos personalizados",
       "indexLabelPages": "Páginas",
-      "indexLabelAlerts": "Alertas",
+      "indexLabelAlerts": "Alertas inteligentes",
       "indexLabelConfiguration": "Configuración",
       "pagesLabelName": "Nombre",
       "pagesLabelPageViews": "Vistas de página",
@@ -797,7 +814,7 @@
     }
   },
   "rename": {
-    "help": "Cambiar el nombre de un sitio web es una acción consecuente en el sistema Instana. Por este motivo, un cambio en un nombre del sitio web puede tardar <strong>algunos minutos</strong> hasta que se haya rellenado en todo el sistema."
+    "help": "Cambiar el nombre de un sitio web es una acción consecuente en el sistema Instana. Por este motivo, un cambio en un nombre del sitio web puede tardar <strong>algunos minutos</strong> hasta que se haya completado en todo el sistema."
   },
   "trackingScript": {
     "help": "El siguiente script de rastreo es todo lo que necesita para comenzar a supervisar sitios web. Copie este script en el documento HTML <code>{{htmlElementName}}</code>. La información sobre la supervisión de sitios web y las funciones completas del script de seguimiento se encuentran <linkToDocs>en nuestros documentos</linkToDocs>."

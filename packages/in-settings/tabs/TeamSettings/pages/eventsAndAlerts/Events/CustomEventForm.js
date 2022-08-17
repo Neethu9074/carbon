@@ -66,6 +66,12 @@ import {
   scopeHostsByTag
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import {
+  actionAutomationEnabled,
+  deprecateAppDataLegacyEventsEnabled,
+  hideAppDataLegacyEventsEnabled,
+  disallowAppDataLegacyEventsEnabled
+} from 'in-services/featureFlags';
+import {
   containsMetricInList,
   getAllBuiltInMetrics,
   getMetricDefinition,
@@ -79,11 +85,6 @@ import {
   isAppDataEntityType
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import { ObserveHostHasMatchingEntitiesRunningFormGroup } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ObserveHostHasMatchingEntitiesRunningFormGroup';
-import {
-  actionAutomationEnabled,
-  deprecateAppDataLegacyEventsEnabled,
-  hideAppDataLegacyEventsEnabled
-} from 'in-services/featureFlags';
 import InputWithDFQSelectionList from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/components/InputWithDFQSelectionList';
 import BuiltInMetricSelector from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/BuiltInMetricSelector';
 import CustomMetricSelector from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/CustomMetricSelector';
@@ -693,12 +694,7 @@ function EntityTypeFormGroup({ form, pluginsWithMetricDefinitions = [], onChange
         isDisabled={disabled}
         name="event-entity-type"
         value={field.value}
-        options={pluginsWithMetricDefinitions?.filter(({ value }) => {
-          if (hideAppDataLegacyEventsEnabled) {
-            return !isAppDataEntityType(value);
-          }
-          return true;
-        })}
+        options={pluginsWithMetricDefinitions?.filter(plugin => entityTypesFilter(plugin.value, disabled))}
         onChange={e => {
           onChange('entityType', e ? e.value : null, updatedForm => {
             return updatedForm.updateIn(['metricName'], field => field.setValue(null).setTouched(false));
@@ -709,6 +705,18 @@ function EntityTypeFormGroup({ form, pluginsWithMetricDefinitions = [], onChange
       <TouchedMessages field={field} />
     </FormGroup>
   ));
+}
+
+function entityTypesFilter(entityType, readOnly) {
+  if (!isAppDataEntityType(entityType)) {
+    return true;
+  }
+
+  return (
+    (!hideAppDataLegacyEventsEnabled && !disallowAppDataLegacyEventsEnabled) ||
+    // We can always expose the deprecated type in read-only state, so that the selected option is populated correctly
+    readOnly
+  );
 }
 
 function ThresholdsFormGroup({ isPercentileMetric, form, onChange, disabled }) {

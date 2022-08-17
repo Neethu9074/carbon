@@ -20,7 +20,7 @@ import {
 import {
   dataSource as dataSourceMatrixParameterName,
   hiddenCallsMatrixParameter,
-  previewEnabledMatrixParameter
+  fastQueryModeEnabledMatrixParameter
 } from 'in-applications/navigation/matrix';
 import {
   setOrDeleteMatrixKey,
@@ -250,7 +250,8 @@ function transformChartedMetricsParameters(location, dataSourceConfiguration) {
 function transformPreviewParameters(location) {
   const previewEnabled = getMatrixParameter(location, analyzePath, 'callList.previewEnabled');
   if (previewEnabled === true || previewEnabled === 'true') {
-    setOrDeleteMatrixParameter(location, previewEnabledMatrixParameter, true);
+    // 'previewEnabled' was renamed to 'fastQueryModeEnable'
+    setOrDeleteMatrixParameter(location, fastQueryModeEnabledMatrixParameter, true);
   }
 }
 

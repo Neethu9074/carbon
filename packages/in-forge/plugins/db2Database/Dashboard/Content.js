@@ -97,7 +97,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
       <HadrGenericsTable snapshotId={snapshotId} />
       <HadrDashboard snapshotId={snapshotId} timeConfig={timeConfig} />
       {data.get('tableSpaceNames', emptyList).size > 0 && (
-        <TableSpaceUtil snapshot={snapshot} timeConfig={timeConfig} />
+        <TableSpaceUtil snapshotId={snapshotId} timeConfig={timeConfig} />
       )}
       <Columize>
         <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.rows')}>

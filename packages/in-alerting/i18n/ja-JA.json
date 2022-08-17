@@ -217,7 +217,7 @@
           "threshold": {
             "staticOrAdaptiveTitle": "しきい値のタイプ",
             "label": "閾値",
-            "title": "しきい値：条件に違反するのはいつですか？"
+            "title": "しきい値: どのような場合に条件に違反するか"
           },
           "timeThreshold": {
             "label": "時間しきい値",
@@ -243,7 +243,6 @@
           "applications": "アプリケーション:",
           "services": "サービス:"
         },
-        "noChartForAdaptiveBaseline": "このトリガーが適応しきい値に基づいている間は、プレビューは利用できません。",
         "noDataWithoutEndpointSelection": "プレビューを表示するエンドポイントを選択してください",
         "noDataAvailable": "プレビューを表示するサービスを選択してください"
       },
@@ -353,6 +352,14 @@
           "statusCodeDefault_higherEqual": "HTTP 状況コード {{statusCodeFullText}} の発生回数が予想と同じか、予想を上回っています。",
           "statusCodeDefault_lowerThan": "HTTP 状況コード {{statusCodeFullText}} の発生回数が予想を下回っています。",
           "statusCodeDefault_lowerEqual": "HTTP 状況コード {{statusCodeFullText}} の発生回数が予想と同じか、予想を下回っています。",
+          "statusCodeRateStaticThreshold_higherThan": "HTTP 状況コード {{statusCodeFullText}} の比率が {{thresholdValue}}% を上回っています。",
+          "statusCodeRateStaticThreshold_higherEqual": "HTTP 状況コード {{statusCodeFullText}} の比率が {{thresholdValue}}% 以上です。",
+          "statusCodeRateStaticThreshold_lowerThan": "HTTP 状況コード {{statusCodeFullText}} の比率が {{thresholdValue}} を下回っています。%",
+          "statusCodeRateStaticThreshold_lowerEqual": "HTTP 状況コード {{statusCodeFullText}} の比率が {{thresholdValue}} 以下です。%",
+          "statusCodeRateDefault_higherThan": "HTTP 状況コード {{statusCodeFullText}} の比率が予想した値を上回っています。",
+          "statusCodeRateDefault_higherEqual": "HTTP 状況コード {{statusCodeFullText}} の比率が予想した値以上です。",
+          "statusCodeRateDefault_lowerThan": "HTTP 状況コード {{statusCodeFullText}} の比率が予想した値を下回っています。",
+          "statusCodeRateDefault_lowerEqual": "HTTP 状況コード {{statusCodeFullText}} の比率が予期した値以下です。",
           "throughputStaticThreshold_higherThan": "呼び出し数が {{thresholdValue}} を上回っています。",
           "throughputStaticThreshold_higherEqual": "呼び出し数が {{thresholdValue}} 以上です。",
           "throughputStaticThreshold_lowerThan": "呼び出し数が {{thresholdValue}} を下回っています。",
@@ -493,8 +500,8 @@
         "labelConfirm": "ご確認ください",
         "labelConfirmRemoveConfig": "アラート<strong>{{configName}}</strong>を削除しますか？",
         "labelRemove": "削除",
-        "numberOfApplicationsSelected": "{{count}} 個のアプリケーションが選択されています",
-        "numberOfApplicationsSelected_plural": "{{count}} 個のアプリケーションが選択されています"
+        "numberOfApplicationsSelected": "{{count}} 件のアプリケーションが選択されています",
+        "numberOfApplicationsSelected_plural": "{{count}} 件のアプリケーションが選択されています"
       },
       "details": {
         "title": "アラート詳細",
@@ -560,6 +567,11 @@
         "scopeConfigTitle": "サービス/エンドポイントの選択",
         "scopeConfigSelectOneEntryMessage": "少なくとも一つのエントリーを選択してください。",
         "scopeConfigTitleTooltip": "過去 24 時間の使用可能なエンティティーを表示しています",
+        "scopeMigrationMessage_FAILED": "スコープを自動的にマイグレーションできませんでした。 以下のダイナミック・フォーカス照会に対応するタグ・フィルターを選択してください。",
+        "scopeMigrationMessage_PARTIAL": "スコープを完全にマイグレーションできませんでした。 以下のダイナミック・フォーカス照会に対応するタグ・フィルターを選択してください。",
+        "scopeMigrationMessage_FULL": "適用されるスコープは、過去に使用されたダイナミック・フォーカス照会に基づきます。",
+        "scopeMigrationMessageAllAvailableEntities": "適用されるスコープは、使用可能なすべてのエンティティーのうち、過去に使用された選択に基づきます。",
+        "scopeMigrationMessageSelectedApplications": "適用されるスコープは、過去に使用されたアプリケーション・パースペクティブの選択に基づきます。",
         "sortByUserSelectionLabel": "ユーザー選択によるソート",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage": "少なくとも {{count}} 人のユーザーと {{userPercentage}} のユーザーが過去 {{formattedTimeWindow}}以内に影響を受けました",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_plural": "少なくとも {{count}} 人のユーザーと {{userPercentage}} のユーザーが過去 {{formattedTimeWindow}}以内に影響を受けました",
@@ -651,8 +663,7 @@
         "alertConfigDialogPresenterTitleEditAlert_Global": "グローバル・スマート・アラートの編集",
         "alertConfigDialogPresenterTitleCreateNewAlert_Local": "新規スマート・アラートの作成",
         "alertConfigDialogPresenterTitleCreateNewAlert_Global": "新規グローバル・スマート・アラートの作成",
-        "alertConfigDialogPresenterTitleMigrateAlert_Local": "スマート・アラートにマイグレーション",
-        "alertConfigDialogPresenterTitleMigrateAlert_Global": "グローバル・スマート・アラートへの移行",
+        "alertConfigDialogPresenterTitleMigrateAlert": "スマート・アラートへのマイグレーション",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "拡張モードに切り替える",
         "simpleAlertConfigDialogStep3Headline": "だれがアラートを受け取りますか?",
         "Loading": "ロード中…",
@@ -690,7 +701,7 @@
         "websites": {
           "title": "Web サイト",
           "description0": "アラートを設定するには、アラートの設定対象である Web サイトに移動し、右下の「スマート・アラートの追加」ボタンをクリックしてください。",
-          "stats": "現在、$t(in-alerting:smartAlerts.components.alertsHub.websites.websites, {\"count\": {{websites}} }) に $t(in-alerting:smartAlerts.components.alertsHub.websites.alerts, {\"count\": {{alerts}} }) があります。",
+          "stats": "現在、$t(in-alerting:smartAlerts.components.alertsHub.websites.websites, {\"count\": {{websites}} })に $t(in-alerting:smartAlerts.components.alertsHub.websites.alerts, {\"count\": {{alerts}} }) があります。",
           "alerts": "{{count}} 個の Web サイト・スマート・アラート",
           "alerts_plural": "{{count}} 個の Web サイト・スマート・アラート",
           "websites": "{{count}} 個の Web サイト",
@@ -700,7 +711,7 @@
         "applications": {
           "title": "アプリケーション",
           "description0": "スマート・アラートは、特定のアプリケーションのみを対象に設定することも、複数のアプリケーションを対象に設定することもできます。",
-          "stats": "現在、$t(in-alerting:smartAlerts.components.alertsHub.applications.gsa, {\"count\": {{globalSmartAlerts}} }) および $t(in-alerting:smartAlerts.components.alertsHub.applications.rsa, {\"count\": {{smartAlerts}} }) があります。",
+          "stats": "現在、$t(in-alerting:smartAlerts.components.alertsHub.applications.gsa, {\"count\": {{globalSmartAlerts}} })および $t(in-alerting:smartAlerts.components.alertsHub.applications.rsa, {\"count\": {{smartAlerts}} })があります。",
           "gsa": "{{count}} 個のグローバル・スマート・アラート",
           "gsa_plural": "{{count}} 個のグローバル・スマート・アラート",
           "rsa": "{{count}} 個の通常スマート・アラート",
@@ -712,7 +723,7 @@
           "description0": "インフラストラクチャーとプラットフォームのアラートでは、2 ステップ・ワークフローが使用されます。",
           "description1": "1) 特定の条件に対してイベントが定義されます。 組み込みイベントを使用するか、または独自のカスタム・イベントを作成できます。",
           "description2": "2) 特定のイベントが発生するとアラートが通知されます。",
-          "stats": "現在、$t(in-alerting:smartAlerts.components.alertsHub.infrastructure.events, {\"count\": {{events}} }) および $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.alerts, {\"count\": {{alerts}} }) があります。",
+          "stats": "現在、$t(in-alerting:smartAlerts.components.alertsHub.infrastructure.events, {\"count\": {{events}} })および $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.alerts, {\"count\": {{alerts}} })があります。",
           "events": "{{count}} 件のカスタム・イベント",
           "events_plural": "{{count}} 件のカスタム・イベント",
           "alerts": "{{count}} 個のアラート",
@@ -733,11 +744,10 @@
     },
     "websites": {
       "advanced": {
-        "slownessInteractiveChartThresholdValue": "しきい値",
         "scopeLabel": "スコープ",
         "scopeTitle": "スコープ: 状況が発生している場所",
         "thresholdLabel": "閾値",
-        "thresholdTitle": "しきい値：条件に違反するのはいつですか？",
+        "thresholdTitle": "しきい値: どのような場合に条件に違反するか",
         "triggerLabel": "トリガー",
         "triggerTitle": "トリガー: アラートの対象",
         "JSErrorMessage": "JS エラー・メッセージ",
@@ -950,7 +960,7 @@
     },
     "migration": {
       "migrateButton": "スマート・アラートにマイグレーション",
-      "migrateButtonTooltip": "スマート・アラート構成ダイアログを開きます。ここには、現行のイベントから可能な限り最良の範囲までマイグレーションされた値が事前に入力されています。 結果を慎重に確認してください。",
+      "migrateButtonTooltip": "現在のイベントから最善の範囲にマイグレーションされた値が事前に入力されている「スマート・アラート構成」ダイアログを開きます。 結果をもう一度よく確認してください。",
       "markAsMigratedButton": "移行済みとしてマーク",
       "markAsMigratedButtonTooltip": "イベントを移行済みとしてマークします。 このイベントに置き換わるスマート・アラートを既に構成している場合は、これを使用してください。",
       "markAsMigratedButtonConfirmationTitle": "ご確認ください",

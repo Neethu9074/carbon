@@ -189,9 +189,9 @@ const cases = [
   },
 
   {
-    testName: 'previewEnabled',
+    testName: 'fastQueryModeEnabled',
     params: {
-      previewEnabled: true
+      fastQueryModeEnabled: true
     },
     expected: {
       pathname: '/#/analyze',
@@ -200,7 +200,7 @@ const cases = [
         '/#': {},
         '/analyze': {
           dataSource: 'calls',
-          previewEnabled: 'true'
+          fastQueryModeEnabled: 'true'
         }
       }
     }

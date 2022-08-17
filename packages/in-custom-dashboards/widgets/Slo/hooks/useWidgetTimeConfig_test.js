@@ -51,7 +51,7 @@ describe('in-custom-dashboards/widgets/Slo/hooks/useWidgetTimeConfig', () => {
 
     expect(windowSize).toBe(oneWeekInMillis);
     expect(toTimestamp).toBe(fromTimestamp + oneWeekInMillis);
-    expect(to).toBe(toTimestamp);
+    expect(to).toBe(undefined);
   });
 
   it('should return a windowSize of 7 days if timeWindowDuration is more then 7 days', () => {
@@ -70,7 +70,7 @@ describe('in-custom-dashboards/widgets/Slo/hooks/useWidgetTimeConfig', () => {
 
     expect(windowSize).toBe(oneWeekInMillis);
     expect(toTimestamp).toBe(fromTimestamp + oneWeekInMillis);
-    expect(to).toBe(toTimestamp);
+    expect(to).toBe(undefined);
   });
 
   it('should return a windowSize of 1 days if isRolling is true', () => {
@@ -122,28 +122,6 @@ describe('in-custom-dashboards/widgets/Slo/hooks/useWidgetTimeConfig', () => {
     expect(windowSize).toBe(daysInMillis);
     expect(toTimestamp).toBe(fromTimestamp + daysInMillis);
     expect(to).toBe(toTimestamp);
-  });
-
-  it('should return timeConfig with additional properties if autoRefresh is disabled ', () => {
-    // GIVEN
-    const config = { ...widgetTimeConfig, isPreview: false };
-
-    useTimeConfig.mockReturnValueOnce({
-      windowSize: days.toMillis(7),
-      autoRefresh: false
-    });
-
-    // WHEN
-    const { result } = renderHook(() => useWidgetTimeConfig(config));
-
-    // THEN
-    const { timeConfig, toTimestamp } = result.current;
-
-    expect(timeConfig.autoRefresh).toBe(false);
-    expect(timeConfig).toHaveProperty('focusedMoment');
-    expect(timeConfig).toHaveProperty('to');
-    expect(timeConfig.focusedMoment).toEqual(toTimestamp);
-    expect(timeConfig.to).toEqual(toTimestamp);
   });
 
   it('should return timeConfig without specific properties if autoRefresh is enabled ', () => {

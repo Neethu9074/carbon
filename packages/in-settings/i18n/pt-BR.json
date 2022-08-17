@@ -96,6 +96,11 @@
     "deselect": "Desmarcar"
   },
   "tabs": {
+    "team": {
+      "customPayload": {
+        "unknownTag": "Identificação desconhecida: {{tagName}}"
+      }
+    },
     "failedToSaveConfig": "Falha ao salvar configuração: {{err}}",
     "IdPMetadataRequired": "O arquivo de metadados IDP é necessário",
     "IdPMetadataLargerThanTwoMega": "O arquivo de metadados IDP não pode ter mais de dois megabytes",
@@ -157,6 +162,8 @@
     "inviteUser": "Convidar usuário",
     "failedToSendInvitation": "Falha ao enviar convite: {{err}}",
     "pleaseInviteAtLeastOneUser": "Convide pelo menos um usuário.",
+    "thisUserAlreadyExists": "Esse usuário já existe. É possível editá-lo no menu 'Usuários'.",
+    "someEmailsHaveFailedToSend": "Alguns e-mails falharam ao enviar",
     "inviteUserToTenant": "Convidar usuário para {{tenant}}",
     "anotherUser": "Outro usuário",
     "permissionEntityLabel": "permissão {{entityLabel}}",
@@ -171,7 +178,7 @@
     "userDoesNotExist": "O usuário não existe",
     "apiCall": "API",
     "userCall": "Usuário",
-    "testChannel": "Canal de teste",
+    "testChannel": "Testar canal",
     "pleaseDefineAtLeastOneEmail": "Defina pelo menos um e-mail",
     "remove": "Remover",
     "addEmail": "Incluir e-mail",
@@ -190,6 +197,7 @@
     "disabled": "Desativado",
     "invalidQuery": "Consulta inválida",
     "deprecated": "Descontinuado",
+    "actionNeededRecommendMigrate": "Ação necessária! Este evento será descontinuado em breve, portanto, recomendamos migrá-lo para um Smart Alert.",
     "migrated": "Migrado",
     "createAlertChannelLabelAlertChannel": "Criar canal de alerta {{alertChannelLabel}}",
     "modifyEntityNameAlertChannel": "Modificar canal de alerta {{entityName}}",
@@ -310,10 +318,10 @@
     "configureYourHumioSettings": "Configurar definições do Humio",
     "humioExampleForAnInternalInstance": "Exemplo: <strong>https://cloud.humio.com</strong> ou <strong>http://192.168.1.128:443</strong> para uma instância interna.",
     "configureYourLogDnaSettings": "Configurar definições do LogDNA",
-    "canBeFoundFromTheLogdnaUrl": "URL consiste em: <strong>https://base_url/account_id</strong>, por exemplo: <strong>https://app.logdna.com/123456789</strong>",
-    "canBeFoundFromTheIbmCloudUrl": "URL consiste em: <strong>https://base_url/account_id</strong>, por exemplo: <strong>https://cloud.ibm.com/observe/embedded-view/logging/123456789</strong>",
-    "enterIbmCloudAccountId": "Insira o ID de conta / painel IBM.",
-    "enterLogDnaAccountId": "Insira o ID da conta de LogDNA.",
+    "canBeFoundFromTheLogdnaUrl": "A URL consiste em: <strong>https://base_url/account_id</strong>, por exemplo: <strong>https://app.logdna.com/123456789</strong>",
+    "canBeFoundFromTheIbmCloudUrl": "A URL consiste em: <strong>https://base_url/account_id</strong>, por exemplo: <strong>https://cloud.ibm.com/observe/embedded-view/logging/123456789</strong>",
+    "enterIbmCloudAccountId": "Insira o ID da conta/painel IBM.",
+    "enterLogDnaAccountId": "Insira o ID da conta do LogDNA.",
     "logDnaDocumentationReference": "Para obter mais informações, <documentationLink>consulte a nossa documentação</documentationLink>.",
     "logDnaInstance": "Provedor",
     "invalidLogDnaId": "O ID da conta/painel deve conter apenas letras, números e -.",
@@ -459,6 +467,7 @@
     "groupMappingFailedToSave": "Falha ao salvar mapeamentos do grupo do IdP",
     "thereShouldBeAtLeastOneGroupMapping": "Pelo menos um mapeamento do grupo deve ser incluído se 'negar o acesso quando nenhum mapeamento for encontrado' for marcado, ou então nenhum usuário será capaz de efetuar login.",
     "failIfNoIdp": "Para alterar essas configurações é necessário ter um provedor de identidade configurado.",
+    "noActions": "Não há ações configuradas",
     "noGroupMapping": "Não há mapeamentos configurados entre o provedor de identidade e Instana",
     "denyUserWithNoGroup": "Negar acesso quando nenhum mapeamento for encontrado. Se desmarcado, os usuários sem mapeamentos de grupo e nenhum grupo encontrado serão adicionados ao grupo Padrão.",
     "twoFactor": "Dois fatores",
@@ -484,6 +493,7 @@
     "importingConfig": "Importando dados de configuração",
     "configSuccessfullyImported": "Dados de configuração importados com sucesso",
     "failedToImportConfig": "Falha ao importar dados de configuração: {{err}}",
+    "configImportResult": "Filtrar por Resultado de importação...",
     "settingsPageNotFound": "Página de configurações não localizada",
     "weCouldNotFindTheSettingsPageYouWereLookingFor": "Não foi possível localizar a página de configurações que você estava procurando. Desculpe. Gostaria de tentar um dos links a seguir como alternativa?",
     "pleaseSelectAtLeastOneItem": "Selecione pelo menos um item.",
@@ -627,6 +637,7 @@
     "configureCustomPayload": "Configurar carga útil customizada",
     "youAreNotPermittedToEditCustomPayloads": "Você não tem permissão para editar cargas úteis customizadas.",
     "unknownEvent": "Evento desconhecido",
+    "unknownAction": "Ação desconhecida",
     "builtInEventDefinition": "Definição de evento integrado",
     "entityType": "Tipo de entidade",
     "eventInputs": "Entradas de eventos",
@@ -806,14 +817,27 @@
     "default": "Padrão",
     "identityProviderType": "Tipo de provedor de identidade",
     "copyApiTokenToClipboardError": "Não foi possível copiar o token da API para a área de transferência.",
-    "depreactedEventHiddenInfo": "Os eventos descontinuados não podem mais ser adicionados a novas configurações e estão ocultos desta lista.",
-    "deprecatedEventMessage": "Este evento foi descontinuado. Migre-o para um Alerta Inteligente ou <documentationLink>consulte a nossa documentação</documentationLink>.",
+    "depreactedEventHiddenInfo": "Os eventos descontinuados não podem mais ser incluídos a novos alertas e são ocultos desta lista.",
+    "deprecatedEventMessage": "Eventos customizados nos tipos de entidade perspectiva de aplicativo, serviço e terminal serão descontinuados em breve. A partir de outubro de 2022, não será possível criar novos eventos deste tipo. Recomendamos migrar este evento para um Smart Alert manualmente ou usando o botão <em>Migrar para Smart Alert</em> acima. <documentationLink>Leia mais em nossa documentação</documentationLink>.",
     "migratedEventMessage": "Este evento descontinuado foi migrado. Para obter mais informações, <documentationLink>consulte a nossa documentação</documentationLink>.",
-    "deprecatedEventSelectedMessage": "Os tipos de entidade <em>Aplicativo, Serviço e Terminal</em> foram descontinuados para eventos customizados e precisam ser migrados para um Alerta Inteligente em breve. Aconselhamos configurar um respectivo Alerta Inteligente em vez de um Evento customizado. Para obter mais informações, <documentationLink>consulte a nossa documentação</documentationLink>."
+    "deprecatedEventSelectedMessage": "Eventos customizados nos tipos de entidade perspectiva de aplicativo, serviço e terminal serão descontinuados em breve. A partir de outubro de 2022, não será possível criar novos eventos deste tipo. Recomendamos criar um Smart Alert em vez disso. <documentationLink>Leia mais em nossa documentação</documentationLink>.",
+    "automation": "Automação",
+    "actionCatalog": "Catálogo de ações",
+    "action_plural": "Ações",
+    "actionWithName": "Ação: {{actionName}}",
+    "actionType": "Tipo de ação",
+    "actionDetails": "Detalhes da ação",
+    "filterActions": "Ações de filtro",
+    "fields": "Campos",
+    "invocations": "Chamadas",
+    "successRate": "Taxa de sucesso",
+    "lastModified": "Modificado pela última vez",
+    "docLink": "Link da documentação",
+    "deletedEventMessage": "Você está vendo uma configuração de evento excluído. Modificações não são possíveis."
   },
   "languageSelection": {
     "language": "Idioma",
-    "collationLanguage": "Linguagem para classificação"
+    "collationLanguage": "Idioma para classificação"
   },
   "terms": {
     "failedToSaveSettings": "falha ao salvar configurações: {{settings}} {{err}}",

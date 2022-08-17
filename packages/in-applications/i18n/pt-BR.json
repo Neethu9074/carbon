@@ -10,7 +10,7 @@
   "labelCalls": "Chamadas",
   "labelCallsPerSecondShort": "Chamadas / s",
   "labelErroneousCallsPerSecondShort": "Chamadas / s errôneas",
-  "labelCallsPerSecondFull": "Chamadas por Segundo",
+  "labelCallsPerSecondFull": "Chamadas por segundo",
   "labelTraces": "Rastreios",
   "labelErrorRate": "Taxa de erro",
   "labelDisableSizing": "Desativar dimensionamento",
@@ -56,12 +56,14 @@
   "labelTag": "Tag",
   "labelKey": "Chave",
   "labelPreview": "Visualização",
-  "labelPleaseSelect": "Selecione",
+  "labelPleaseSelect": "Selecionar",
   "labelServicesAffected": "Serviços afetados",
   "labelSaving": "Salvando…",
   "labelScope": "Escopo",
   "labelCustomServiceRules": "Regras de serviço customizado",
   "labelSyntheticEndpoints": "Terminais sintéticos",
+  "labelWarning": "Aviso",
+  "labelCritical": "Crítico",
   "titleTopServices": "Principais serviços",
   "titleMeanLatency": "Latência média",
   "titleErroneousCallRate": "Taxa de chamada errônea",
@@ -197,7 +199,8 @@
     "technologies": "Tecnologias",
     "httpStatusCode": "Status HTTP",
     "hiddenCalls": "Chamadas ocultas",
-    "preview": "Visualização",
+    "fastQueryMode": "Modo de consulta rápida",
+    "fastQueryModeTooltip": "O modo de consulta rápida possibilita a execução de consulta com relação a um subconjunto de chamadas ou rastreios, se a execução com relação ao conjunto de dados completo levaria muito tempo.",
     "listBatchTypeTooltip": "Este {{type}} está em lote e representa {{batchCount}} {{types}} individuais.",
     "listBatchLatencyTooltip": "Latência total de {{batchCount}} {{types}} em lote.",
     "traceIdTooltip": "Alguns dados relacionados a esse rastreio estão atrasados, portanto, recarregue a página um pouco mais tarde. Um exemplo no qual isso pode acontecer é visualizar um rastreio muito recente com alguns dos dados dele ainda sendo processados.",
@@ -620,7 +623,7 @@
     "hostName": "Hosts",
     "hostNameProblemStatement": "Há algum problema relacionado a um host específico?",
     "httpHost": "Cabeçalhos HTTP \"Host\"",
-    "httpHostProblemStatement": "Há algum problema relacionado a um cabeçalho \"Host\" HTTP específico?",
+    "httpHostProblemStatement": "Há algum problema relacionado a um cabeçalho HTTP \"Host\" específico?",
     "infraReferenceType": "Tipos de referência de infraestrutura",
     "infraReferenceTypeProblemStatement": "Quais tipos de referência de infraestrutura são utilizados?",
     "infraReferenceTypeDocumentation": "Documentação para todos os possíveis tipos de referência de infraestrutura:",
@@ -633,8 +636,8 @@
     "serviceRuleDocumentation": "Definições das regras de mapeamento de serviços pré-definidas:",
     "customServiceRuleDocumentation": "O cliente pode ter definido suas próprias regras de mapeamento de serviços customizados:",
     "customServiceRuleConfiguration": "Configurar regras de serviço customizado",
-    "problem": "<bold>Sim</bold>, se você consultar resultados do tipo",
-    "possibleProblem": "<bold>Possivelmente</bold>, se você consultar resultados do tipo",
+    "problem": "<bold>Sim</bold>, se você ver resultados do tipo",
+    "possibleProblem": "<bold>Possivelmente</bold>, se você ver resultados do tipo",
     "viewInAnalyze": "Abrir em análise sem limites",
     "alternativeServicesProblemStatement": "<bold>O que é um serviço alternativo?</bold>",
     "alternativeServicesExplanation": "O serviço atual e seus serviços alternativos recebem chamadas que compartilham a mesma propriedade: mesmo nome do host de destino, mesmo cabeçalho \"host\" HTTP, mesma referência de infraestrutura, etc.<br/><br/>Por exemplo, o serviço atual recebe chamadas cujo cabeçalho HTTP \"Host\" é <code>mycompany.com</code>, mas acontece que alguns outros serviços recebem chamadas cujo cabeçalho HTTP \"Host\" é <code>mycompany.com</code>.<br/><br/>Para chamadas HTTP, o cabeçalho \"Host\" é uma peça importante de informação porque é usada como a chave de cache de primeiro nível em resiliente mapeamento de serviços.",
@@ -643,6 +646,7 @@
     "alternativeServicesPossibleProblem": "<bold>Talvez</bold>, se o serviço atual e os nomes de serviços alternativos não provarem do cabeçalho HTTP \"Host\", então eles são serviços sentados atrás de um proxy (bom) ou são serviços duplicados (ruim): alguns dos serviços estão integralmente vinculados a infraestrutura, enquanto outros estão parcialmente vinculados a infraestrutura."
   },
   "widgetNotActive": {
-    "title": "O widget não é suportado no Modo Tempo Real"
+    "title": "O widget não é suportado no Modo Tempo Real",
+    "button": "Parar Modo em Tempo Real"
   }
 }

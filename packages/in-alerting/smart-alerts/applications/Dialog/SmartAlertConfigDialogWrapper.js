@@ -39,6 +39,7 @@ export default function SmartAlertConfigDialogWrapper({
   onClose,
   editMode,
   migrationMode,
+  scopeMigrationDetails,
   isGlobalSmartAlert,
   alertConfig,
   startWithSimpleMode
@@ -80,7 +81,16 @@ export default function SmartAlertConfigDialogWrapper({
   };
   const withTrackCreate = simpleMode => {
     applicationsAlertingAlertCreated({ mode: simpleMode ? 'Simple' : 'Advanced' });
-    createAlert({ form, setForm, onClose, editMode, migrationMode, isGlobalSmartAlert, setIsSaving, setMessages });
+    createOrSaveAlert({
+      form,
+      setForm,
+      onClose,
+      editMode,
+      migrationMode,
+      isGlobalSmartAlert,
+      setIsSaving,
+      setMessages
+    });
   };
 
   return (
@@ -89,6 +99,7 @@ export default function SmartAlertConfigDialogWrapper({
       isGlobalSmartAlert={isGlobalSmartAlert}
       editMode={editMode}
       migrationMode={migrationMode}
+      scopeMigrationDetails={scopeMigrationDetails}
       startWithSimpleMode={startWithSimpleMode}
       form={form}
       updateForm={updateForm}
@@ -125,6 +136,10 @@ export default function SmartAlertConfigDialogWrapper({
 SmartAlertConfigDialogWrapper.propTypes = {
   editMode: PropTypes.bool,
   migrationMode: PropTypes.bool,
+  scopeMigrationDetails: PropTypes.shape({
+    query: PropTypes.string,
+    result: PropTypes.string.isRequired
+  }),
   isGlobalSmartAlert: PropTypes.bool,
   startWithSimpleMode: PropTypes.bool,
   alertConfig: PropTypes.shape({
@@ -140,7 +155,7 @@ SmartAlertConfigDialogWrapper.propTypes = {
   onClose: PropTypes.func.isRequired
 };
 
-function createAlert({
+function createOrSaveAlert({
   form,
   setForm,
   onClose,
@@ -151,8 +166,12 @@ function createAlert({
   setMessages
 }) {
   setIsSaving(true);
+  // remove existing error messages:
   setMessages(prevMessages => prevMessages.filter(m => m.level && m.level !== 'error'));
-  const addMessage = message => prevMessages => [...prevMessages, message];
+
+  const addMessage = message => {
+    setMessages(prevMessages => [...prevMessages, message]);
+  };
 
   if (!form.hierarchyValid) {
     setForm(form.setTouched(true, { recurse: true }));
