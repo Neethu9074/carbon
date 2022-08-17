@@ -51,7 +51,7 @@ export function MultiSelectSuggestions({
     } else {
       return <Errors errors={errors} setNumberOfPresentedRows={setNumberOfPresentedRows} />;
     }
-  } else if ((!suggestions || suggestions?.length === 0) && fallbackValues?.length > 0) {
+  } else if (!suggestions?.length && fallbackValues?.length > 0) {
     return (
       <Suggestions
         tag={tag}
