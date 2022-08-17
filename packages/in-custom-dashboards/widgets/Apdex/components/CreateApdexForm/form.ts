@@ -15,9 +15,9 @@ import {
 } from '@instana/types';
 
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
-import { minValidator, numericValidator, positiveNumberValidator } from 'in-services/validators/number';
 import emptyTagFilterExpression from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { numericValidator, positiveNumberValidator } from 'in-services/validators/number';
 import { booleanValidator, stringValidator } from 'in-services/validators/jsonType';
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
@@ -114,7 +114,7 @@ export function createApplicationEntityForm(
       }),
       [thresholdKey]: createField({
         validator: composeAndShortCircuitOnError(notUndefinedValidator, numericValidator, v =>
-          minValidator(0)(Number(v))
+          positiveNumberValidator(Number(v))
         ),
         value: apdexEntity.threshold
       }),
