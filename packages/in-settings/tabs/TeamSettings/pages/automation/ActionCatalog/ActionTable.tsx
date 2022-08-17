@@ -42,20 +42,20 @@ const columnDefinitions = [
     id: 'type',
     getContent: getType
   },
-  {
-    label: t('in-settings:tabs.invocations'),
-    id: 'invocations',
-    getContent() {
-      return '0';
-    }
-  },
-  {
-    label: t('in-settings:tabs.successRate'),
-    id: 'successRate',
-    getContent() {
-      return null;
-    }
-  },
+  // {
+  //   label: t('in-settings:tabs.invocations'),
+  //   id: 'invocations',
+  //   getContent() {
+  //     return '0';
+  //   }
+  // },
+  // {
+  //   label: t('in-settings:tabs.successRate'),
+  //   id: 'successRate',
+  //   getContent() {
+  //     return null;
+  //   }
+  // },
   {
     label: t('in-settings:tabs.lastModified'),
     id: 'modifiedAt',

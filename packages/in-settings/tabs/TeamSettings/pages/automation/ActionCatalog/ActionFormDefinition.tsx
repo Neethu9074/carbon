@@ -116,15 +116,17 @@ export function putWebhookFields(form: MapForm, action: ImmutableNewAction) {
       .put('acceptLanguage', createField({ value: '', validator: notBlankValidator }))
       .put('additionalHeaders', createField({ value: List(), validator: notBlankValidator }));
   } else {
-    const fields = action.get('fields') as List<Map<string, unknown>>;
-    const method = fields.get(0);
-    const host = fields.get(1);
-    const body = fields.get(2);
-    const headers = fields.get(3);
+    const fields = (action.get('fields') as List<Map<string, unknown>>)
+      .toMap()
+      .mapKeys((_, val: Map<string, unknown> | undefined) => val?.get('name'));
+    const method = fields.get('method');
+    const host = fields.get('host');
+    const body = fields.get('body');
+    const headers = fields.get('header');
     const headersValue = JSON.parse(headers.get('value') as string);
-    const ignoreCertErrors = fields.get(4);
-    const authen = fields.get(5);
-    const authenValue = JSON.parse(authen.get('value') as string);
+    const ignoreCertErrors = fields.get('ignoreCertErrors');
+    const authen = fields.get('authen');
+    const authenValue = JSON.parse((authen?.get('value') as string) ?? '{}');
     const {
       'Content-Type': contentType,
       Accept: accept,
@@ -136,64 +138,57 @@ export function putWebhookFields(form: MapForm, action: ImmutableNewAction) {
       .put(
         'method',
         createField({
-          value: method.get('value'),
+          value: method?.get('value') ?? '',
           validator: notBlankValidator
         })
       )
       .put(
         'host',
         createField({
-          value: host.get('value'),
+          value: host?.get('value') ?? '',
           validator: notBlankValidator
         })
       )
       .put(
         'body',
         createField({
-          value: body.get('value'),
-          validator: notBlankValidator
+          value: body?.get('value') ?? ''
         })
       )
       .put(
         'ignoreCertErrors',
         createField({
-          value: ignoreCertErrors.get('value'),
-          validator: notBlankValidator
+          value: ignoreCertErrors?.get('value') ?? true
         })
       )
       .put(
         'username',
         createField({
-          value: authenValue.username,
-          validator: notBlankValidator
+          value: authenValue.username ?? ''
         })
       )
       .put(
         'password',
         createField({
-          value: authenValue.password,
-          validator: notBlankValidator
+          value: authenValue.password ?? ''
         })
       )
       .put(
         'contentType',
         createField({
-          value: contentType,
-          validator: notBlankValidator
+          value: contentType ?? ''
         })
       )
       .put(
         'accept',
         createField({
-          value: accept,
-          validator: notBlankValidator
+          value: accept ?? ''
         })
       )
       .put(
         'acceptLanguage',
         createField({
-          value: acceptLanguage,
-          validator: notBlankValidator
+          value: acceptLanguage ?? ''
         })
       )
       .put(

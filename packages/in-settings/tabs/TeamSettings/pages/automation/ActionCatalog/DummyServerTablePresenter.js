@@ -12,7 +12,7 @@ import { t } from 'in-i18n';
 
 import locals from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/TagsTable.mless';
 
-export default function TagsTable({ columnDefinitions, result, addRow, deleteRow }) {
+export default function TagsTable({ columnDefinitions, result, addRow, deleteRow, noDataMessage, leftHeader }) {
   return (
     <ServerTablePresenter
       columnDefinitions={columnDefinitions}
@@ -20,8 +20,9 @@ export default function TagsTable({ columnDefinitions, result, addRow, deleteRow
       result={result}
       isSearchable={false}
       rightHeader={<RightHeader addRow={addRow} />}
-      noDataMessage={t('in-settings:tabs.noTagsConfigured')}
+      noDataMessage={noDataMessage}
       deleteRow={deleteRow}
+      leftHeader={leftHeader}
     />
   );
 }

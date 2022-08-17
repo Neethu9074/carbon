@@ -103,6 +103,7 @@ export default function TagsTable({ form, setForm, onChange }: TagsTableProps) {
       addRow={addRow}
       deleteRow={deleteRow}
       result={data}
+      noDataMessage={t('in-settings:tabs.noTagsConfigured')}
     />
   );
 

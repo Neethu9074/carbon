@@ -8,10 +8,17 @@ import { RouteComponentProps } from 'react-router';
 import { MapForm } from 'formalistic';
 import React from 'react';
 
+import {
+  createDocLinkField,
+  createScriptFields,
+  createWebhookFields,
+  NewAction,
+  saveAction,
+  saveNewAction
+} from 'in-api/automation';
 import { createActionFormDefinition } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionFormDefinition';
-import { createDocLinkField, createScriptFields, NewAction, saveAction, saveNewAction } from 'in-api/automation';
+import { isDocLink, isScript, isWebhook } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import ActionForm from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionForm';
-import { isDocLink, isScript } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsActionCatalog } from 'in-settings/navigation/paths';
@@ -130,6 +137,29 @@ function getActionSpecification(form: MapForm): NewAction {
   } else if (isScript(type)) {
     const scriptValue = form?.get('script')?.toJS();
     fields.push(...createScriptFields(scriptValue));
+  } else if (isWebhook(type)) {
+    const host = form?.get('host')?.toJS();
+    const method = form?.get('method')?.toJS();
+    const username = form?.get('username')?.toJS();
+    const password = form?.get('password')?.toJS();
+    const accept = form?.get('accept')?.toJS();
+    const acceptLanguage = form?.get('acceptLanguage')?.toJS();
+    const contentType = form?.get('contentType')?.toJS();
+    const additionalHeaders = form?.get('additionalHeaders')?.toJS();
+    const body = form?.get('body')?.toJS();
+    fields.push(
+      ...createWebhookFields({
+        host,
+        method,
+        username,
+        password,
+        accept,
+        acceptLanguage,
+        contentType,
+        additionalHeaders,
+        body
+      })
+    );
   }
   return {
     name,

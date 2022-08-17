@@ -47,6 +47,7 @@ import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
 
 import locals from './ActionForm.mless';
+import locals2 from './TagsTable.mless';
 
 interface ActionFormProps {
   form: MapForm;
@@ -64,9 +65,9 @@ export default function ActionForm({ form, setForm, onChange, entity: action }: 
         <Col lg={8}>
           <>
             <MetaDataSection form={form} setForm={setForm} onChange={onChange} entity={action} />
-            {isDocLink(type) && <DocLinkSection form={form} onChange={onChange} entity={action} />}
-            {isScript(type) && <ScriptSection form={form} onChange={onChange} entity={action} />}
-            {isWebhook(type) && <WebhookSection form={form} setForm={setForm} onChange={onChange} entity={action} />}
+            {isDocLink(type) && <DocLinkSection form={form} onChange={onChange} />}
+            {isScript(type) && <ScriptSection form={form} onChange={onChange} />}
+            {isWebhook(type) && <WebhookSection form={form} setForm={setForm} onChange={onChange} />}
           </>
         </Col>
       </Row>
@@ -158,7 +159,7 @@ const MetaDataSection = ({ form, setForm, onChange, entity: action }: ActionForm
   );
 };
 
-const DocLinkSection = ({ form, onChange, entity: action }: Omit<ActionFormProps, 'setForm'>) => {
+const DocLinkSection = ({ form, onChange }: Omit<ActionFormProps, 'setForm' | 'entity'>) => {
   const docLink = form.get('docLink') as Field<string>;
   return docLink.map(field => (
     <FormGroup>
@@ -174,12 +175,12 @@ const DocLinkSection = ({ form, onChange, entity: action }: Omit<ActionFormProps
         maxLength={256}
       />
       <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-      <HelpText className={locals.subTextFormField}>{(action.get('fields') as any).get(0).get('description')}</HelpText>
+      <HelpText className={locals.subTextFormField}>{t('in-settings:tabs.docLinkDescription')}</HelpText>
     </FormGroup>
   ));
 };
 
-const ScriptSection = ({ form, onChange, entity: action }: Omit<ActionFormProps, 'setForm'>) => {
+const ScriptSection = ({ form, onChange }: Omit<ActionFormProps, 'setForm' | 'entity'>) => {
   const script = form.get('script') as Field<string>;
   return script.map(field => (
     <FormGroup>
@@ -188,163 +189,192 @@ const ScriptSection = ({ form, onChange, entity: action }: Omit<ActionFormProps,
       </Label>
       <Code lineNumbers mode={'shell'} value={field.value} onChange={(value: string) => onChange('script', value)} />
       <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-      <HelpText className={locals.subTextFormField}>
-        {(action.get('fields') as any)?.get(1)?.get('description')}
-      </HelpText>
+      <HelpText className={locals.subTextFormField}>{t('in-settings:tabs.scriptDescription')}</HelpText>
     </FormGroup>
   ));
 };
 
-const WebhookSection = ({ form, setForm, onChange, entity: action }: ActionFormProps) => {
+const WebhookSection = ({ form, setForm, onChange }: Omit<ActionFormProps, 'entity'>) => {
   const host = form.get('host') as Field<string>;
   const method = form.get('method') as Field<string>;
   const username = form.get('username') as Field<string>;
   const password = form.get('password') as Field<string>;
   const accept = form.get('accept') as Field<string>;
+  const body = form.get('body') as Field<string>;
   const acceptLanguage = form.get('acceptLanguage') as Field<string>;
   const contentType = form.get('contentType') as Field<string>;
+  const additionalHeaders = form.get('additionalHeaders') as Field<List<Header>>;
+
+  const renderBodyAndContentType = ['PATCH', 'PUT', 'POST'].includes(method.value);
   return (
     <>
-      {host.map(field => (
-        <FormGroup>
-          <Label htmlFor="action-host" hasError={!field.valid && field.touched}>
-            {t('in-settings:tabs.host')}
-          </Label>
-          <Input
-            id="action-host"
-            type="text"
-            value={field.value}
-            onChange={e => onChange('host', e.target.value)}
-            hasError={!field.valid && field.touched}
-            maxLength={256}
-          />
-          <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-          <HelpText className={locals.subTextFormField}>
-            {(action.get('fields') as any).get(1).get('description')}
-          </HelpText>
-        </FormGroup>
-      ))}
-      {method.map(field => (
-        <FormGroup>
-          <Label htmlFor="action-method" hasError={!field.valid && field.touched}>
-            {t('in-settings:tabs.method')}
-          </Label>
-          <Select
-            id="action-method"
-            value={field.value}
-            onChange={e => onChange('method', e.target.value)}
-            hasError={!field.valid && field.touched}
-          >
-            <option value={'GET'}>GET</option>
-            <option value={'PATCH'}>PATCH</option>
-            <option value={'POST'}>POST</option>
-            <option value={'PUT'}>PUT</option>
-            <option value={'DELETE'}>DELETE</option>
-            <option value={'OPTIONS'}>OPTIONS</option>
-            <option value={'HEAD'}>HEAD</option>
-            <option value={'TRACE'}>TRACE</option>
-          </Select>
-          <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-          <HelpText className={locals.subTextFormField}>{t('in-settings:tabs.actionTypeHelper')}</HelpText>
-        </FormGroup>
-      ))}
-      {username.map(field => (
-        <FormGroup>
-          <Label htmlFor="action-username" hasError={!field.valid && field.touched}>
-            {t('in-settings:tabs.username')}
-          </Label>
-          <Input
-            id="action-username"
-            type="text"
-            value={field.value}
-            onChange={e => onChange('username', e.target.value)}
-            hasError={!field.valid && field.touched}
-            maxLength={256}
-          />
-          <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-          <HelpText className={locals.subTextFormField}>
-            {(action.get('fields') as any).get(1).get('description')}
-          </HelpText>
-        </FormGroup>
-      ))}
-      {password.map(field => (
-        <FormGroup>
-          <Label htmlFor="action-password" hasError={!field.valid && field.touched}>
-            {t('in-settings:tabs.password')}
-          </Label>
-          <Input
-            id="action-password"
-            type="text"
-            value={field.value}
-            onChange={e => onChange('password', e.target.value)}
-            hasError={!field.valid && field.touched}
-            maxLength={256}
-          />
-          <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-          <HelpText className={locals.subTextFormField}>
-            {(action.get('fields') as any).get(1).get('description')}
-          </HelpText>
-        </FormGroup>
-      ))}
-      {accept.map(field => (
-        <FormGroup>
-          <Label htmlFor="action-accept" hasError={!field.valid && field.touched}>
-            {t('in-settings:tabs.accept')}
-          </Label>
-          <Input
-            id="action-accept"
-            type="text"
-            value={field.value}
-            onChange={e => onChange('accept', e.target.value)}
-            hasError={!field.valid && field.touched}
-            maxLength={256}
-          />
-          <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-          <HelpText className={locals.subTextFormField}>
-            {(action.get('fields') as any).get(1).get('description')}
-          </HelpText>
-        </FormGroup>
-      ))}
-      {acceptLanguage.map(field => (
-        <FormGroup>
-          <Label htmlFor="action-acceptLanguage" hasError={!field.valid && field.touched}>
-            {t('in-settings:tabs.acceptLanguage')}
-          </Label>
-          <Input
-            id="action-acceptLanguage"
-            type="text"
-            value={field.value}
-            onChange={e => onChange('acceptLanguage', e.target.value)}
-            hasError={!field.valid && field.touched}
-            maxLength={256}
-          />
-          <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-          <HelpText className={locals.subTextFormField}>
-            {(action.get('fields') as any).get(1).get('description')}
-          </HelpText>
-        </FormGroup>
-      ))}
-      {contentType.map(field => (
-        <FormGroup>
-          <Label htmlFor="action-contentType" hasError={!field.valid && field.touched}>
-            {t('in-settings:tabs.contentType')}
-          </Label>
-          <Input
-            id="action-contentType"
-            type="text"
-            value={field.value}
-            onChange={e => onChange('contentType', e.target.value)}
-            hasError={!field.valid && field.touched}
-            maxLength={256}
-          />
-          <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-          <HelpText className={locals.subTextFormField}>
-            {(action.get('fields') as any).get(1).get('description')}
-          </HelpText>
-        </FormGroup>
-      ))}
+      <Row>
+        <Col lg={10}>
+          {host.map(field => (
+            <FormGroup>
+              <Label htmlFor="action-host" hasError={!field.valid && field.touched}>
+                {t('in-settings:tabs.host')}
+              </Label>
+              <Input
+                id="action-host"
+                type="text"
+                value={field.value}
+                onChange={e => onChange('host', e.target.value)}
+                hasError={!field.valid && field.touched}
+                maxLength={256}
+              />
+              <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+            </FormGroup>
+          ))}
+        </Col>
+        <Col lg={2}>
+          {method.map(field => (
+            <FormGroup>
+              <Label htmlFor="action-method" hasError={!field.valid && field.touched}>
+                {t('in-settings:tabs.method')}
+              </Label>
+              <Select
+                id="action-method"
+                value={field.value}
+                onChange={e => onChange('method', e.target.value)}
+                hasError={!field.valid && field.touched}
+              >
+                <option value={'GET'}>GET</option>
+                <option value={'PATCH'}>PATCH</option>
+                <option value={'POST'}>POST</option>
+                <option value={'PUT'}>PUT</option>
+                <option value={'DELETE'}>DELETE</option>
+                <option value={'OPTIONS'}>OPTIONS</option>
+                <option value={'HEAD'}>HEAD</option>
+                <option value={'TRACE'}>TRACE</option>
+              </Select>
+              <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+            </FormGroup>
+          ))}
+        </Col>
+      </Row>
+      {renderBodyAndContentType && (
+        <>
+          {contentType.map(field => (
+            <FormGroup>
+              <Label htmlFor="action-contentType" hasError={!field.valid && field.touched}>
+                {t('in-settings:tabs.contentType')}
+              </Label>
+              <Input
+                id="action-contentType"
+                type="text"
+                value={field.value}
+                onChange={e => onChange('contentType', e.target.value)}
+                hasError={!field.valid && field.touched}
+                maxLength={256}
+              />
+              <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+              <HelpText className={locals.subTextFormField}>{t('in-settings:tabs.contentTypeDescription')}</HelpText>
+            </FormGroup>
+          ))}
+          {body.map(field => (
+            <FormGroup>
+              <Label htmlFor="action-body" hasError={!field.valid && field.touched}>
+                {t('in-settings:tabs.body')}
+              </Label>
+              <TextArea
+                id="action-body"
+                value={field.value}
+                onChange={({ target }: React.ChangeEvent<HTMLTextAreaElement>) => onChange('body', target.value)}
+                hasError={!field.valid && field.touched}
+              />
+              <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+              <HelpText className={locals.subTextFormField}>{t('in-settings:tabs.bodyDescription')}</HelpText>
+            </FormGroup>
+          ))}
+        </>
+      )}
+      <Row>
+        <Col lg={6}>
+          {username.map(field => (
+            <FormGroup>
+              <Label htmlFor="action-username" hasError={!field.valid && field.touched}>
+                {t('in-settings:tabs.usernameOptional')}
+              </Label>
+              <Input
+                id="action-username"
+                type="text"
+                value={field.value}
+                onChange={e => onChange('username', e.target.value)}
+                hasError={!field.valid && field.touched}
+                maxLength={256}
+              />
+              <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+              <HelpText className={locals.subTextFormField}>{t('in-settings:tabs.webookUsernameDescription')}</HelpText>
+            </FormGroup>
+          ))}
+        </Col>
+        <Col lg={6}>
+          {password.map(field => (
+            <FormGroup>
+              <Label htmlFor="action-password" hasError={!field.valid && field.touched}>
+                {t('in-settings:tabs.passwordOptional')}
+              </Label>
+              <Input
+                id="action-password"
+                type="text"
+                value={field.value}
+                onChange={e => onChange('password', e.target.value)}
+                hasError={!field.valid && field.touched}
+                maxLength={256}
+              />
+              <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+              <HelpText className={locals.subTextFormField}>{t('in-settings:tabs.webookPasswordDescription')}</HelpText>
+            </FormGroup>
+          ))}
+        </Col>
+      </Row>
+      <Row>
+        <Col lg={6}>
+          {accept.map(field => (
+            <FormGroup>
+              <Label htmlFor="action-accept" hasError={!field.valid && field.touched}>
+                {t('in-settings:tabs.accept')}
+              </Label>
+              <Input
+                id="action-accept"
+                type="text"
+                value={field.value}
+                onChange={e => onChange('accept', e.target.value)}
+                hasError={!field.valid && field.touched}
+                maxLength={256}
+              />
+              <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+              <HelpText className={locals.subTextFormField}>{t('in-settings:tabs.acceptDescription')}</HelpText>
+            </FormGroup>
+          ))}
+        </Col>
+        <Col lg={6}>
+          {acceptLanguage.map(field => (
+            <FormGroup>
+              <Label htmlFor="action-acceptLanguage" hasError={!field.valid && field.touched}>
+                {t('in-settings:tabs.acceptLanguage')}
+              </Label>
+              <Input
+                id="action-acceptLanguage"
+                type="text"
+                value={field.value}
+                onChange={e => onChange('acceptLanguage', e.target.value)}
+                hasError={!field.valid && field.touched}
+                maxLength={256}
+              />
+              <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+              <HelpText className={locals.subTextFormField}>{t('in-settings:tabs.acceptLanguageDescription')}</HelpText>
+            </FormGroup>
+          ))}
+        </Col>
+      </Row>
       <FormGroup>
-        <AdditionalHeaders form={form} setForm={setForm} onChange={onChange} />
+        {additionalHeaders.map(field => (
+          <>
+            <AdditionalHeaders field={field} form={form} setForm={setForm} onChange={onChange} />
+          </>
+        ))}
       </FormGroup>
     </>
   );
@@ -354,46 +384,45 @@ interface AdditionalHeadersProps {
   form: MapForm;
   onChange: Function;
   setForm: (form: MapForm) => SetStateAction<MapForm>;
+  field: Field<List<Header>>;
 }
 
 type Header = {
   id: string;
-  value: List<string>;
+  value: string[];
 };
 
-function AdditionalHeaders({ form, setForm, onChange }: AdditionalHeadersProps) {
+function AdditionalHeaders({ form, setForm, onChange, field }: AdditionalHeadersProps) {
   const tableColumnDefinitions = [
     {
       id: 'key',
       sortable: false,
+      size: '2',
       label: t('in-settings:tabs.key'),
       getContent(item: Header) {
         const field = form.get('additionalHeaders');
         return (
           <FormGroup>
-            <HorizontalFlexWrapper className={locals.colName}>
+            <HorizontalFlexWrapper className={locals2.colName}>
               <Input
-                className={locals.key}
-                value={item.value.get(0)}
-                hasError={!field?.valid && field?.touched && item.value.get(0) === ''}
+                className={locals2.key}
+                value={item.value[0]}
+                hasError={!field?.valid && field?.touched && item.value[0] === ''}
                 onChange={({ target }: any) => {
                   const additionalHeaders = (field as Field<List<Header>>)?.value;
+                  const index = additionalHeaders.findIndex(header => header?.id === item.id);
                   onChange(
                     'additionalHeaders',
-                    additionalHeaders.map(tag =>
-                      tag?.id === item.id
-                        ? {
-                            id: tag.id,
-                            value: target.value
-                          }
-                        : tag
-                    )
+                    additionalHeaders.set(index, {
+                      id: item.id,
+                      value: [target.value, additionalHeaders.get(index).value[1]]
+                    })
                   );
                 }}
                 maxLength={128}
               />
             </HorizontalFlexWrapper>
-            {item.value.get(0) === '' && <TouchedMessages field={field} />}
+            {item.value[0] === '' && <TouchedMessages field={field} />}
           </FormGroup>
         );
       }
@@ -401,34 +430,32 @@ function AdditionalHeaders({ form, setForm, onChange }: AdditionalHeadersProps) 
     {
       id: 'value',
       sortable: false,
+      size: '2',
       label: t('in-settings:tabs.value'),
       getContent(item: Header) {
         const field = form.get('additionalHeaders');
         return (
           <FormGroup>
-            <HorizontalFlexWrapper className={locals.colName}>
+            <HorizontalFlexWrapper className={locals2.colName}>
               <Input
-                className={locals.key}
-                value={item.value.get(1)}
-                hasError={!field?.valid && field?.touched && item.value.get(1) === ''}
+                className={locals2.key}
+                value={item.value[1]}
+                hasError={!field?.valid && field?.touched && item.value[1] === ''}
                 onChange={({ target }: any) => {
                   const additionalHeaders = (field as Field<List<Header>>)?.value;
+                  const index = additionalHeaders.findIndex(header => header?.id === item.id);
                   onChange(
                     'additionalHeaders',
-                    additionalHeaders.map(tag =>
-                      tag?.id === item.id
-                        ? {
-                            id: tag.id,
-                            value: target.value
-                          }
-                        : tag
-                    )
+                    additionalHeaders.set(index, {
+                      id: item.id,
+                      value: [additionalHeaders.get(index).value[0], target.value]
+                    })
                   );
                 }}
                 maxLength={128}
               />
             </HorizontalFlexWrapper>
-            {item.value.get(1) === '' && <TouchedMessages field={field} />}
+            {item.value[1] === '' && <TouchedMessages field={field} />}
           </FormGroup>
         );
       }
@@ -439,9 +466,9 @@ function AdditionalHeaders({ form, setForm, onChange }: AdditionalHeadersProps) 
       sortable: false,
       getContent(item: Header, { deleteRow }: { deleteRow: Function }) {
         return (
-          <div className={locals.controls}>
+          <div className={locals2.controls}>
             <Tooltip content={t('in-alerting:components.customPayload.deleteRow')}>
-              <SvgIcon type="lib_actions_delete" className={locals.delete} onClick={() => deleteRow(item.id)} />
+              <SvgIcon type="lib_actions_delete" className={locals2.delete} onClick={() => deleteRow(item.id)} />
             </Tooltip>
           </div>
         );
@@ -470,6 +497,12 @@ function AdditionalHeaders({ form, setForm, onChange }: AdditionalHeadersProps) 
       addRow={addRow}
       deleteRow={deleteRow}
       result={data}
+      noDataMessage={t('in-settings:tabs.noAdditionalHeadersConfigured')}
+      leftHeader={
+        <Label htmlFor="action-contentType" hasError={!field.valid && field.touched}>
+          {t('in-settings:tabs.additionalHeadersOptional')}
+        </Label>
+      }
     />
   );
 
@@ -494,7 +527,7 @@ function AdditionalHeaders({ form, setForm, onChange }: AdditionalHeadersProps) 
       form.updateIn(['additionalHeaders'], f => {
         const castedF = f as Field<List<Header>>;
         const value = castedF.value;
-        return castedF.setValue(value.push({ value: List(['', '']), id: generateUniqueShortId() })).setTouched(false);
+        return castedF.setValue(value.push({ value: ['', ''], id: generateUniqueShortId() })).setTouched(false);
       })
     );
   }

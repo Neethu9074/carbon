@@ -108,6 +108,81 @@ export const createScriptFields = (value: string): Field[] => [
   }
 ];
 
+type Header = {
+  id: string;
+  value: string[];
+};
+
+export const createWebhookFields = ({
+  host,
+  method,
+  username,
+  password,
+  accept,
+  acceptLanguage,
+  contentType,
+  additionalHeaders,
+  body
+}: {
+  host: string;
+  method: string;
+  username: string;
+  password: string;
+  accept: string;
+  acceptLanguage: string;
+  contentType: string;
+  additionalHeaders: Header[];
+  body: string;
+}): Field[] => [
+  {
+    description: 'method of the https request',
+    encoding: 'ascii',
+    name: 'method',
+    value: method
+  },
+  {
+    value: host,
+    description: 'url of the https request',
+    encoding: 'ascii',
+    name: 'host'
+  },
+  {
+    value: JSON.stringify({
+      Accept: accept,
+      'Accept-Language': acceptLanguage,
+      'Content-Type': contentType,
+      ...additionalHeaders.reduce(
+        (headers: Object, header: Header) => ({
+          ...headers,
+          [header.value[0]]: header.value[1]
+        }),
+        {}
+      )
+    }),
+    description: 'header of the https request',
+    encoding: 'ascii',
+    name: 'header'
+  },
+  {
+    name: 'ignoreCertErrors',
+    value: 'true',
+    encoding: 'ascii',
+    description: 'ignore certificate errors for request'
+  },
+  {
+    value: JSON.stringify({ username, password }),
+    description: 'authen of the https request',
+    encoding: 'ascii',
+    name: 'authen'
+  },
+  {
+    value: body,
+    description: 'body of the https request',
+    encoding: 'ascii',
+    name: 'body'
+  }
+];
+
 export function createAction(
   name: string = t('in-settings:tabs.newAction'),
   type: string = DOC_LINK_TYPE,
