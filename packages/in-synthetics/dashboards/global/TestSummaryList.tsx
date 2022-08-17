@@ -27,11 +27,11 @@ import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import TestConfigDialogPresenter from 'in-synthetics/components/TestConfigDialogPresenter';
 import Filters from 'in-synthetics/dashboards/global/tabs/tests/components/Filters';
+import { CONTAINS, EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import getTestSummaryList from 'in-synthetics/subscriptions/getTestSummaryList';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import { CONTAINS } from 'in-components/QueryBuilder/tagFilter/operators';
 import FloatingActionButton from 'in-components/FloatingActionButton';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -110,23 +110,40 @@ type GetTestSummaryList = {
   pageSize: number;
   query: string;
   progress: Progress;
+  context?: string;
+  appId?: string;
 };
 
-function getTestSummaryListData({
+export function getTestSummaryListData({
   timeConfig,
   orderBy = 'test_name',
   orderDirection = 'ASC',
   page = 1,
   pageSize = 20,
-  query = ''
+  query = '',
+  context = '',
+  appId = ''
 }: GetTestSummaryList) {
   let baseTagFilters: TagFilter[] = [];
+  let byAppTagFilters: TagFilter[] = [];
   if (query && query.length > 0) {
     baseTagFilters = [
       {
         stringValue: query,
         name: 'test_name',
         operator: CONTAINS,
+        entity: NOT_APPLICABLE,
+        type: 'TAG_FILTER'
+      }
+    ];
+  }
+
+  if (context == 'application') {
+    byAppTagFilters = [
+      {
+        stringValue: appId,
+        name: 'application_id',
+        operator: EQUALS,
         entity: NOT_APPLICABLE,
         type: 'TAG_FILTER'
       }
@@ -156,6 +173,6 @@ function getTestSummaryListData({
       includeSyntheticCalls: false,
       useLongTermDataOnly: false
     },
-    tagFilters: baseTagFilters
+    tagFilters: context == 'application' ? byAppTagFilters : baseTagFilters
   });
 }
