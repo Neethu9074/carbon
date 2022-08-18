@@ -4,6 +4,7 @@
  */
 
 import React, { useState } from 'react';
+import { find } from 'lodash';
 
 import { timeout } from '@instana/observables';
 

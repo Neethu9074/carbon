@@ -10,13 +10,6 @@ import { Button } from '@instana/components';
 
 import { t } from 'in-i18n';
 
-// import { withState } from 'recompose';
-
-// export default withState(
-//   'throwError',
-//   'setThrowError',
-//   false
-// )
 export default function ErrorSimulator() {
   const [throwError, setThrowError] = useState(false);
   if (throwError) {
