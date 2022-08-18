@@ -3,8 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { compose, withState, withProps } from 'recompose';
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 
 import { Button } from '@instana/components';
 import { Card } from '@instana/components';
@@ -26,32 +25,29 @@ import { getChartGranularity } from 'in-stores/metric/metric';
 import { tryGet, trySet } from 'in-services/localStorage';
 import { Row, Col } from 'in-components/layout/Grid';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import connect from 'in-hoc/connectTo';
+import connectTo from 'in-hoc/connectTo';
 import { Trans, t } from 'in-i18n';
 
 import locals from './WebsiteMonitoringData.mless';
 
 const localStorageKey = 'traceView.showWebsiteMonitoringData';
 
-export default compose(
-  connect(({ correlationId, traceId, startTime }) => {
-    return {
-      result: getCorrelatedWebsiteBeacons({ correlationId, traceId, startTime })
-    };
-  }),
-  withState('showDetails', 'setShowDetails', tryGet(localStorageKey) !== 'false'),
-  withProps(({ setShowDetails }) => ({
-    setShowDetails: show => {
-      trySet(localStorageKey, show);
-      if (show) {
-        showWebsiteDetailsInTraceView();
-      } else {
-        hideWebsiteDetailsInTraceView();
-      }
-      setShowDetails(show);
+export default connectTo(({ correlationId, traceId, startTime }) => {
+  return {
+    result: getCorrelatedWebsiteBeacons({ correlationId, traceId, startTime })
+  };
+})(function WebsiteMonitoringData({ result, traceId }) {
+  const [showDetails, setShowDetails] = useState(tryGet(localStorageKey) !== 'false');
+  const setDetails = show => {
+    trySet(localStorageKey, show);
+    if (show) {
+      showWebsiteDetailsInTraceView();
+    } else {
+      hideWebsiteDetailsInTraceView();
     }
-  }))
-)(function WebsiteMonitoringData({ result, showDetails, setShowDetails, traceId }) {
+    setShowDetails(show);
+  };
+
   const timeConfig = useTimeConfig();
 
   if (!result || result.data == null || result.data.items.length === 0) {
@@ -76,7 +72,7 @@ export default compose(
               />
             </span>
             <span>
-              <Button onClick={() => setShowDetails(!showDetails)} kind="secondary" size="compact">
+              <Button onClick={() => setDetails(!showDetails)} kind="secondary" size="compact">
                 {showDetails
                   ? t('in-analyze:traceDetail.tabs.summary.hideWebsiteInformation')
                   : t('in-analyze:traceDetail.tabs.summary.showWebsiteInformation')}

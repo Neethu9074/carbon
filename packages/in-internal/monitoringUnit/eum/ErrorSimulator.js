@@ -4,18 +4,21 @@
  */
 
 /* eslint-disable no-console */
-import React, { Fragment } from 'react';
-import { withState } from 'recompose';
+import React, { Fragment, useState } from 'react';
 
 import { Button } from '@instana/components';
 
 import { t } from 'in-i18n';
 
-export default withState(
-  'throwError',
-  'setThrowError',
-  false
-)(function ErrorSimulator({ throwError, setThrowError }) {
+// import { withState } from 'recompose';
+
+// export default withState(
+//   'throwError',
+//   'setThrowError',
+//   false
+// )
+export default function ErrorSimulator() {
+  const [throwError, setThrowError] = useState(false);
   if (throwError) {
     triggerError();
   }
@@ -33,7 +36,7 @@ export default withState(
       </Button>
     </Fragment>
   );
-});
+}
 
 function triggerError() {
   intermediateFunctionDepth1.call(this, arguments.length);

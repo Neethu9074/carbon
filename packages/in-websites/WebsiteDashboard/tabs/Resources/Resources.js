@@ -4,7 +4,6 @@
  */
 
 import React, { Fragment } from 'react';
-import { compose } from 'recompose';
 
 import { Button } from '@instana/components';
 import { Link } from '@instana/components';
@@ -119,12 +118,10 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   pathSegment: resourcesTab
 });
 
-export default compose(
-  withUrlState({
-    bind: [filterUrlParameter],
-    reducerName: 'setFilter'
-  })
-)(Resources);
+export default withUrlState({
+  bind: [filterUrlParameter],
+  reducerName: 'setFilter'
+})(Resources);
 
 function Resources({ timeConfig, tagFilters, websiteId, resourceType, setFilter, websiteLabel }) {
   const tagCatalogResourceLoad = useTagCatalog('resourceLoad');
