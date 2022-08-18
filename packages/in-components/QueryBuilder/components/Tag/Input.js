@@ -38,6 +38,12 @@ export function Input({
   const result = useDebouncedValue(value, onChange, 500);
   const suggestionsResult = useObservable(getSuggestions, fieldsToWatch);
 
+  const totalSuggestionHits = suggestionsResult?.data?.totalHits ?? 0;
+
+  if (!valid) {
+    valid = totalSuggestionHits == 0;
+  }
+
   return (
     <Typeahead
       render={render}
