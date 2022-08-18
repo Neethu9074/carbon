@@ -16,13 +16,22 @@ import { t } from 'in-i18n';
 describe('in-custom-dashboards/widgets/Apdex/components/ApdexChart/ApdexChart', () => {
   const metrics = [[1652968213439, 0.94], [1652968275439, 0.987], [1652968353439, 1][(1652968445779, 0.9)]];
 
+  jest.useFakeTimers('modern');
+
   it('should call the chart component with the corresponding props.', () => {
+    // Given
+    jest.setSystemTime(1652968505779);
+    const timeConfig = { windowSize: minutes.toMillis(30), to: 1652968505779, autoRefresh: false };
+    const progress = { loading: true };
+    const granularity = minutes.toMillis(1);
+
+    // When
     const wrapper = shallow(
       <ApdexChart
         errors={[]}
-        progress={{ loading: true }}
-        granularity={minutes.toMillis(1)}
-        timeConfig={{ windowSize: minutes.toMillis(30), to: 1652968505779, autoRefresh: false }}
+        progress={progress}
+        granularity={granularity}
+        timeConfig={timeConfig}
         metrics={metrics}
         height={10}
         nonInteractive
@@ -30,6 +39,7 @@ describe('in-custom-dashboards/widgets/Apdex/components/ApdexChart/ApdexChart', 
       />
     );
 
+    // Then
     expect(wrapper.find(ResultAwareChart).props()).toMatchObject({
       config: {
         y1: {
