@@ -31,20 +31,21 @@ export function MultiSelect(props) {
     valueFilter,
     setValueFilter,
     resetFacets,
-    tracker
+    tracker,
+    fallbackValues
   } = props;
 
   const tagSuggestions$ = useSuggestions({
     ...props,
     valueFilter
   });
-
   useEffect(() => {
     setIsDisabledWithNoValues(
       valueFilter === '' &&
         !isLoading(tagSuggestions$) &&
         selectedValues.length === 0 &&
         tagSuggestions$?.data?.items?.length === 0 &&
+        !fallbackValues &&
         !hasError(tagSuggestions$)
     );
   }, [setIsDisabledWithNoValues, valueFilter, selectedValues, tagSuggestions$]);
