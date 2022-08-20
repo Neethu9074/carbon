@@ -49,8 +49,7 @@ const ChartReactWrapper = React.forwardRef(function ChartReactWrapper(props, out
     renderPostChartContent,
     renderPreChartContent,
     nonInteractive,
-    automaticallySize,
-    wiggleRoom
+    automaticallySize
   } = props;
 
   const [preAndPostContentConfig, setPreAndPostContentConfig] = useState();
@@ -146,7 +145,6 @@ const ChartReactWrapper = React.forwardRef(function ChartReactWrapper(props, out
               reverseTooltipOrder={reverseTooltipOrder}
               metrics={props}
               nonInteractive={nonInteractive}
-              wiggleRoom={wiggleRoom}
             />
           )}
           <canvas className={locals.canvas} ref={canvasRefSetter} />
