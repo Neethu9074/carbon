@@ -87,8 +87,8 @@
       "tip": "Tip",
       "internalMonitoringUnitInstanaEmail": "Did you know that these features are also available on customer tenant units? They are hidden by                    default, but can be shown with a small trick. To enable them click 10 times (within 2 seconds) on                    the non-interactive part of our main navigation!",
       "thisTenantUnit": "This Unit** ({{configTenant}}-{{configTenantUnit}})",
-      "entityStatistics": "Entity Statistics",
-      "entityStatisticsDesc": "Shows how many infrastructure entities are monitored within this unit, broken down by plugin. This was formerly called 'Cockpit'.",
+      "entityStatistics": "Entity and Metric Statistics",
+      "entityStatisticsDesc": "Shows how many infrastructure entities and metrics are monitored within this unit, broken down by plugin.",
       "agentsDesc": "Metrics for all agents reporting to this unit.",
       "graphExplorer": "Graph Explorer",
       "graphExplorerDesc": "Use this to analyze graph relations between infrastructure entities existing within this unit.",
@@ -916,7 +916,7 @@
         "count": "Count",
         "entityCount": "Entity Count",
         "countOverTime": "Count over time",
-        "perPluginEntityCount": "Per Plugin Entity Counts"
+        "perPluginEntityCount": "Per Plugin Entity and Metric Counts"
       },
       "eum": {
         "websiteBeacons": "Website Beacons",
@@ -1116,9 +1116,10 @@
       },
       "entityStatistics": {
         "plugin": "Plugin",
+        "entityAndMetricCount": "Entity And Metric Counts",
         "entityCount": "Entity Count",
         "metricCount": "Metric Count",
-        "perPluginEntityCount": "Per Plugin Entity Counts"
+        "perPluginEntityCount": "Per Plugin Entity and Metric Counts"
       }
     }
   },
