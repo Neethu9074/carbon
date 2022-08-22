@@ -872,7 +872,8 @@
     "body": "Body (optional)",
     "additionalHeadersOptional": "Additional Headers (optional)",
     "usernameOptional": "Username (optional)",
-    "passwordOptional": "Password (optional)"
+    "passwordOptional": "Password (optional)",
+    "theValueMustBeValidMime": "The value must be a valid MIME type."
   },
   "languageSelection": {
     "language": "Language",

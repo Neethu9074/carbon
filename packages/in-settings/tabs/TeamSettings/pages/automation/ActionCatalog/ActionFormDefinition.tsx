@@ -4,15 +4,30 @@
  * Copyright IBM Corp. 2022
  */
 
-import { createField, createMapForm, MapForm } from 'formalistic';
+import { createField, createMapForm, MapForm, ValidationResult } from 'formalistic';
 import { List, Map } from 'immutable';
+import mime from 'mime/lite';
 
 import { generateUniqueShortId } from '@instana/utils';
 
 import { isDocLink, isScript, isWebhook } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import { notBlankValidator } from 'in-services/validators/string';
 import { ImmutableNewAction } from 'in-api/automation';
+import { isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
+
+function mimeValidator(str?: any): ValidationResult {
+  if (isNotBlank(str) && mime.getExtension(str) == null) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-settings:tabs.theValueMustBeValidMime')
+      }
+    ];
+  }
+
+  return null;
+}
 
 export function createActionFormDefinition(action: ImmutableNewAction, _isCreate: boolean) {
   const tags = (action.get('tags') as List<string>) ?? List();
@@ -176,13 +191,15 @@ export function putWebhookFields(form: MapForm, action: ImmutableNewAction) {
       .put(
         'contentType',
         createField({
-          value: contentType ?? ''
+          value: contentType ?? '',
+          validator: mimeValidator
         })
       )
       .put(
         'accept',
         createField({
-          value: accept ?? ''
+          value: accept ?? '',
+          validator: mimeValidator
         })
       )
       .put(
@@ -195,9 +212,23 @@ export function putWebhookFields(form: MapForm, action: ImmutableNewAction) {
         'additionalHeaders',
         createField({
           value: List(
-            Object.entries(additionalHeaders).map(header => ({ value: header, id: generateUniqueShortId() }))
+            Object.entries(additionalHeaders).map(header => ({
+              value: header as [string, string],
+              id: generateUniqueShortId()
+            }))
           ),
-          validator: notBlankValidator
+          validator: tags => {
+            const hasBlankTags = tags.reduce((hasBlank, tag) => hasBlank || (tag?.value?.includes('') ?? false), false);
+            if (hasBlankTags) {
+              return [
+                {
+                  severity: 'error',
+                  message: t('in-services:validators.theValueMustNotBeBlank')
+                }
+              ];
+            }
+            return null;
+          }
         })
       );
   }
