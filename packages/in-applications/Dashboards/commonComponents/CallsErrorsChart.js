@@ -18,6 +18,7 @@ import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHr
 import { perSecondAggregationEnabled } from 'in-services/featureFlags';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { barOverlapping, line } from 'in-stores/metric/renderer';
+import { perSecondDetailed } from 'in-stores/metric/formatters';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
@@ -76,6 +77,23 @@ export default function CallsErrorsChart({
       metric: 'erroneousCalls',
       label: erroneousCallsLabel,
       color: theme.lib.colors.failure
+    }
+  ];
+
+  const companionMetricConfigs = [
+    {
+      ...defaultMetricConfig,
+      metric: 'calls',
+      label: 'Calls per second',
+      formatter: perSecondDetailed.formatter,
+      aggregation: 'PER_SECOND'
+    },
+    {
+      ...defaultMetricConfig,
+      metric: 'erroneousCalls',
+      label: 'Erroneous calls per second',
+      formatter: perSecondDetailed.formatter,
+      aggregation: 'PER_SECOND'
     }
   ];
 
@@ -158,7 +176,8 @@ export default function CallsErrorsChart({
           reverseOrder: true,
           colors: colors,
           formatter,
-          renderer: renderer
+          renderer: renderer,
+          companionMetricConfigs
         },
         y2: {
           metrics: []

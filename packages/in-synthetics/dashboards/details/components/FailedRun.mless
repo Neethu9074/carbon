@@ -13,12 +13,26 @@
 
   .errorMessageHeader {
     position: relative;
-    min-width: 1px;
-    color: black;
+    color: #1b2733;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-top: 1rem;
+    margin-bottom: 0.75rem;
   }
   .errorMessage {
     position: relative;
-    color: black;
+    color: @lib__colors__N900Primary;
+    margin-top: auto;
+    margin-bottom: 0.75rem;
+  }
+  .stacktraceHeader {
+    position: relative;
+    margin-top: 1rem;
+    margin-bottom: 0.75rem;
+  }
+  .stacktraceMessage {
+    position: relative;
+    color: @lib__colors__N900Primary;
     margin-top: auto;
     margin-bottom: 0.75rem;
   }

@@ -4,10 +4,10 @@
  * Copyright IBM Corp. 2022
  */
 
+import { ApdexPreviewQuery, MetricResult, Result } from '@instana/types';
 import { Observable } from '@instana/observables';
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { ApdexPreviewQuery, MetricResult, Result } from 'in-types';
 
 const getApdexPreviewObservable = createResultSubscriptionFactory<Partial<ApdexPreviewQuery>, Result<MetricResult[]>>({
   eventId: 'getApdexPreview',

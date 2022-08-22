@@ -2,7 +2,7 @@
   "fileInputButton": {
     "label": {
       "chooseSingle": "Escolher arquivo…",
-      "chooseMultiple": "Escolha arquivos...",
+      "chooseMultiple": "Escolher arquivos...",
       "multipleSelected": "{{countFormatted}} arquivo selecionado",
       "multipleSelected_plural": "{{countFormatted}} arquivos selecionados",
       "multipleSelected_0": "{{countFormatted}} arquivos selecionados",
@@ -49,7 +49,7 @@
     "chartTemplates": "Modelos"
   },
   "comboBox": {
-    "placeholderSelect": "Selecione..."
+    "placeholderSelect": "Selecionar..."
   },
   "downloadBtn": {
     "downloadViewDownloadAsJsonLabel": "Fazer download como JSON",
@@ -216,13 +216,12 @@
     "groupedViewHeader_2": "{{formattedCount}} Grupos",
     "groupedViewHeaderRetained": "Retido em {{formattedCount}}",
     "resultHeaderLoading": "Carregando…",
-    "resultHeaderTooltip": "O intervalo de tempo de consulta foi arredondado para o minuto completo mais próximo para permitir que essa visualização seja carregada mais rapidamente.",
     "queryProgress": {
       "preparing": "Preparando…",
       "runningQuery": "Executando a consulta…",
       "timeout": "Essa consulta atingiu o tempo limite.",
-      "timeoutEstimated": "A consulta levaria muito tempo para ser executada.",
-      "timeoutInfo": "Selecione um intervalo de tempo mais curto ou emita uma consulta mais específica, aplicando mais filtros.",
+      "timeoutEstimated": "Sua consulta não pôde ser processada devido ao alto volume de chamadas.",
+      "timeoutInfo": "Selecione um intervalo de tempo mais curto.",
       "inputError": "Houve um erro de entrada.",
       "tooManyRequests": "Muitas solicitações",
       "tooManyRequestsInfo": "Nosso sistema está ocupado no momento. Tente novamente mais tarde.",
@@ -572,17 +571,17 @@
     "companionMetricLabelErroneousCallRate": "Taxa de chamada errônea: ",
     "metricLabelCallsAndErroneousCalls": "Chamadas e chamadas errôneas",
     "metricLabelCallsAndLatency": "Chamadas e latência",
-    "linkSeeAllApplications": "Ver todos os {{count}} {{activeTab}} aplicativos",
-    "linkSeeAllApplications_plural": "Ver todos os {{count}} {{activeTab}} aplicativos",
-    "linkSeeAllApplications_0": "Ver todos os {{count}} {{activeTab}} aplicativos",
-    "linkSeeAllApplications_1": "Ver todos os {{count}} {{activeTab}} aplicativos",
-    "linkSeeAllApplications_2": "Ver todos os {{count}} {{activeTab}} aplicativos",
+    "linkSeeAllApplications": "Ver {{count}} aplicativo de {{activeTab}}",
+    "linkSeeAllApplications_plural": "Ver todos os {{count}} aplicativos de {{activeTab}}",
+    "linkSeeAllApplications_0": "Ver todos os {{count}} aplicativos de {{activeTab}}",
+    "linkSeeAllApplications_1": "Ver {{count}} aplicativo de {{activeTab}}",
+    "linkSeeAllApplications_2": "Ver todos os {{count}} aplicativos de {{activeTab}}",
     "linkSeeApplication": "Ver aplicativo",
-    "linkSeeAllServices": "Ver todos os {{count}} {{activeTab}} serviços",
-    "linkSeeAllServices_plural": "Ver todos os {{count}} {{activeTab}} serviços",
-    "linkSeeAllServices_0": "Ver todos os {{count}} {{activeTab}} serviços",
-    "linkSeeAllServices_1": "Ver todos os {{count}} {{activeTab}} serviços",
-    "linkSeeAllServices_2": "Ver todos os {{count}} {{activeTab}} serviços",
+    "linkSeeAllServices": "Ver {{count}} serviço de {{activeTab}}",
+    "linkSeeAllServices_plural": "Ver todos os {{count}} serviços de {{activeTab}}",
+    "linkSeeAllServices_0": "Ver todos os {{count}} serviços de {{activeTab}}",
+    "linkSeeAllServices_1": "Ver {{count}} serviço de {{activeTab}}",
+    "linkSeeAllServices_2": "Ver todos os {{count}} serviços de {{activeTab}}",
     "linkSeeService": "Ver serviço",
     "activeTab_upstream": "Envio de dados",
     "activeTab_downstream": "Recebimento de dados",
@@ -792,5 +791,11 @@
     "retainedLabel_viewChange_0": "Dados aproximados ({{totalHits}} Mudanças de visualização retidas de {{representedHits}})",
     "retainedLabel_viewChange_1": "Dados aproximados ({{totalHits}} Mudanças de visualização retidas de {{representedHits}})",
     "retainedLabel_viewChange_2": "Dados aproximados ({{totalHits}} Mudanças de visualização retidas de {{representedHits}})"
+  },
+  "migratedTenantBanner": {
+    "title": "Unidade de locatário migrada",
+    "notice": "Esta unidade de locatário foi migrada para uma nova região. A unidade que você está acessando atualmente contém apenas dados históricos.",
+    "goToNewLocationLabel": "Ir para Novo Local",
+    "exploreDataLabel": "Explorar dados históricos"
   }
 }

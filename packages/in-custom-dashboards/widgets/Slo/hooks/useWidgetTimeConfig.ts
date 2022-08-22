@@ -51,6 +51,19 @@ function getSubForTimeWindowUnit(timeWindowDurationUnit: TimeWindowDuration) {
   }
 }
 
+function toFixedTimeConfig(from: number, to: number): TimeWindowConfig {
+  return {
+    timeConfig: {
+      windowSize: to - from,
+      to,
+      focusedMoment: to,
+      autoRefresh: false
+    },
+    fromTimestamp: from,
+    toTimestamp: to
+  };
+}
+
 function calculateTimeWindowConfig({
   timeConfig,
   isRolling,
@@ -60,7 +73,7 @@ function calculateTimeWindowConfig({
   timeWindowStartDate,
   timeWindowStartTime
 }: CalculateTimeWindowConfigProps): TimeWindowConfig {
-  const timeWindowConfig = { ...timeConfig };
+  let timeWindowConfig = { ...timeConfig };
 
   let fromTimestamp = (timeConfig.to ?? new Date().getTime()) - timeConfig.windowSize;
   let toTimestamp = timeConfig.to ?? fromTimestamp + timeConfig.windowSize;
@@ -68,8 +81,7 @@ function calculateTimeWindowConfig({
   if (isRolling) {
     const subtraction = getSubForTimeWindowUnit(timeWindowDurationUnit);
     fromTimestamp = subtraction(new Date(toTimestamp), timeWindowDuration).getTime();
-
-    timeWindowConfig.windowSize = toTimestamp - fromTimestamp;
+    return toFixedTimeConfig(fromTimestamp, toTimestamp);
   }
 
   if (isFixed) {
@@ -89,13 +101,8 @@ function calculateTimeWindowConfig({
 
       fromTimestamp = latestIntervalStart.getTime();
       toTimestamp = nextStart.getTime();
-      timeWindowConfig.windowSize = nextStart.getTime() - fromTimestamp;
+      return toFixedTimeConfig(fromTimestamp, toTimestamp);
     }
-  }
-
-  if (!timeConfig.autoRefresh) {
-    timeWindowConfig.to = toTimestamp;
-    timeWindowConfig.focusedMoment = toTimestamp;
   }
 
   return { timeConfig: timeWindowConfig, fromTimestamp, toTimestamp };

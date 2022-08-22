@@ -6,6 +6,8 @@
 
 import React, { useEffect, useState } from 'react';
 
+import { ApdexConfiguration } from '@instana/types';
+
 import {
   APDEX_MANAGEMENT_CREATE_START,
   APDEX_MANAGEMENT_DELETE,
@@ -21,7 +23,6 @@ import SlideInView, { NoHeader } from 'in-components/SlideInView/SlideInView';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { isLoading } from 'in-services/util/result';
 import { seconds } from 'in-services/time/time';
-import { ApdexConfiguration } from 'in-types';
 import { t } from 'in-i18n';
 
 const slideTransitionDurationMillis = 500;

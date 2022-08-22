@@ -335,21 +335,22 @@ function ValueInput({
 
   const entity = form.get('entity')?.value;
   const key = form.get('key')?.value;
+  const tagName = form.get('name')?.value;
 
   const inputProps = {
     placeholder: t('in-components:queryBuilder.components.tagPlaceholderValue'),
     onChange: onValueChange,
     valid: field.valid,
-    fieldsToWatch: [entity, timeConfig, field.value, key],
-    tagName: form.get('name').value,
+    fieldsToWatch: [tagName, entity, timeConfig, field.value, key],
+    tagName,
     getSuggestions: () =>
       getSuggestions({
         tagFilterExpression: getSuggestionsTagFilterExpression(formModel, formModelIndex),
         key,
         value: field.value,
         entity,
-        name: form.get('name').value,
-        tagName: form.get('name').value,
+        name: tagName,
+        tagName: tagName,
         timeConfig,
         propose: 'VALUES',
         ...getSuggestionsProps

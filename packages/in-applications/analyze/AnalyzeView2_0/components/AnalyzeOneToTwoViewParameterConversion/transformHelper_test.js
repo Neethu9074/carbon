@@ -165,7 +165,7 @@ const cases = [
         '/analyze': {
           chartedMetrics: '!(metricId~latency~aggregationId~DISTRIBUTION)~',
           dataSource: 'calls',
-          previewEnabled: true,
+          fastQueryModeEnabled: true,
           groupBy: '(groupbyTag~call.http.status)~',
           orderByGroups: '(by~calls*_SUM~direction~ASC)~'
         }

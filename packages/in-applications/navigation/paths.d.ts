@@ -37,7 +37,7 @@ interface GetLinkToAnalyzProps {
   hiddenCalls: unknown;
   chartedMetrics: Array<ChartedMetric | ChartedTemplateMetric>;
   fields: Array<MetricFields>;
-  previewEnabled: boolean;
+  fastQueryModeEnabled: boolean;
   timeConfig: TimeConfig;
   tagCatalog: TagCatalog;
   setOnClickNotificationMessage: (message: string) => void;

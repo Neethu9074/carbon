@@ -165,8 +165,8 @@
         "metric": "Métrica",
         "selectMetric": "Seleccionar métrica",
         "aggregation": "Agregación",
-        "crossSeriesAggregation": "Utilice SUM para la suma entre series",
-        "crossSeriesAggregationHelp": "Normalmente, la suma entre series es igual a la suma entre tiempos (el método utilizado para combinar puntos de datos en un único grupo). Con este conmutador habilitado, sumaremos los grupos de varias series de datos en lugar de utilizar la suma especificada.",
+        "crossSeriesAggregation": "Utilice SUM para la agregación de series cruzadas",
+        "crossSeriesAggregationHelp": "Normalmente, la agregación entre series es igual a la suma entre tiempos (el método utilizado para combinar puntos de datos en un único grupo). Con este conmutador habilitado, sumaremos los grupos de varias series de datos en lugar de utilizar la suma especificada.",
         "crossSeriesAggregationDisabledHelp": "No aplicable a {{aggregation}}",
         "crossSeriesAggregationRestrictedHelp": "No aplicable a esta métrica"
       },
@@ -470,7 +470,7 @@
         "beaconConfigLabel": "Configuración de baliza",
         "beaconScopeLabel": "Ámbito de baliza",
         "httpRequestsLabel": "Solicitudes HTTP",
-        "beaconFiltersLabel": "Filtros de baliza"
+        "beaconFiltersLabel": "Filtro de baliza"
       },
       "sliList": {
         "serviceLevelIndicators": "Indicadores de nivel de servicio",
@@ -572,17 +572,35 @@
         "thousandCallsFormat": "{{count}}K llamadas"
       },
       "widgetLeftHeader": {
-        "previewDataInfo": "Los datos de vista previa muestran hasta 7 días en el pasado si la configuración de SLI se ha creado recientemente. El widget final solo incluirá datos desde la creación de SLI"
+        "previewDataInfo": "Los datos de vista previa muestran hasta 7 días en el pasado si la configuración de SLI se ha creado recientemente. El widget final solo incluirá datos desde la creación de SLI."
+      },
+      "boundaryScopeConfigurator": {
+        "all": {
+          "title": "Todas las llamadas",
+          "description": "Llamadas realizadas dentro de esta aplicación, tanto por los consumidores como internamente."
+        },
+        "inbound": {
+          "title": "Llamadas entrantes",
+          "description": "Solo las llamadas realizadas por los consumidores de esta aplicación."
+        }
       }
     },
     "apdex": {
       "title": "Apdex: Gráfico",
       "chart": {
-        "metricLabel": "Apdex"
+        "metricLabel": "Apdex",
+        "viewInAnalyze": "Ver en Analizar",
+        "noDataRetentionPeriod": "El rango de tiempo seleccionado supera el periodo de retención de datos"
       },
       "demo": {
         "title": "Apdex for Prod",
         "entityLabel": "Robot Shop"
+      },
+      "apdexConfigInfo": {
+        "tagFilterLabel": "Filtro",
+        "apdexNameLabel": "Nombre de Apdex",
+        "apdexTypeLabel": "Tipo de Apdex",
+        "thresholdLabel": "Umbral"
       },
       "formComponent": {
         "title": "Configuración de Apdex",
@@ -598,10 +616,13 @@
       },
       "entityTypeSelector": {
         "type": "Tipo desconocido",
-        "type_website": "Sitio web"
+        "type_website": "Sitio web",
+        "type_application": "Aplicación"
       },
       "apdexManageList": {
-        "title": "Lista de Apdex"
+        "title": "Lista de Apdex",
+        "deleteSuccessfulMessage": "La configuración de Apdex se ha suprimido satisfactoriamente.",
+        "deleteFailedMessage": "No se ha podido suprimir la configuración de Apdex."
       },
       "apdexList": {
         "cardTitle": "Configuración de Apdex",
@@ -614,6 +635,23 @@
         "confirmDeleteButton": "Suprimir",
         "createButton": "Crear configuración de Apdex"
       },
+      "createApdexForm": {
+        "title": "Crear configuración de Apdex",
+        "customizationHeader": "Personalización de Apdex",
+        "label": "Nombre de Apdex",
+        "apdexCreateSuccessTitle": "La configuración de Apdex se ha creado satisfactoriamente.",
+        "apdexCreateSuccessContent": "Se ha creado la configuración de apdex \"{{apdexName}}\".",
+        "apdexCreateFailedTitle": "No se ha podido crear la configuración de Apdex.",
+        "apdexCreateFailedContent": "Se ha producido un problema al crear esta configuración de Apdex: \"{{apdexName}}\"",
+        "apdexNameNotEmpty": "El nombre de Apdex no puede estar vacío.",
+        "thresholdNotEmpty": "El umbral no puede estar vacío.",
+        "nameExistsError": "Ya existe una configuración de Apdex con este nombre. Escriba un nombre diferente."
+      },
+      "createWebsiteApdexForm": {
+        "thresholdHeader": "Configuración de umbral",
+        "thresholdLabel": "Umbral",
+        "thresholdFooter": "El umbral no se puede editar después de la creación para impedir la pérdida de datos."
+      },
       "entityInfo": {
         "tooltip": "Apdex desconocido",
         "tooltip_website": "Apdex de sitio web",
@@ -621,7 +659,14 @@
       },
       "widget": {
         "unknownEntityLabel_application": "Aplicación desconocida",
-        "unknownEntityLabel_website": "Sitio web desconocido"
+        "unknownEntityLabel_website": "Sitio web desconocido",
+        "previewDataInfo": "Los datos de vista previa se muestran hasta 7 días antes si la configuración de Apdex se ha creado recientemente. El widget final solo incluirá los datos desde la creación de Apdex."
+      },
+      "applicationScopeConfigurator": {
+        "label": "Ámbito de Apdex",
+        "boundaryScope": "Límite",
+        "hiddenCalls": "Llamadas ocultas",
+        "additionalFilters": "Filtro adicional"
       }
     },
     "timezone": {

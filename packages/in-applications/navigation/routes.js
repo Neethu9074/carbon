@@ -11,7 +11,6 @@ import ApplicationDashboard from 'promise-loader?global,applications!in-applicat
 import NewApplicationWaiter from 'promise-loader?global,applications!in-applications/Forms/NewApplication/NewApplicationWaiter';
 import EndpointDashboard from 'promise-loader?global,applications!in-applications/Dashboards/endpoint/EndpointDashboard';
 import ServiceDashboard from 'promise-loader?global,applications!in-applications/Dashboards/service/ServiceDashboard';
-import NewApplication from 'promise-loader?global,applications!in-applications/Forms/NewApplication/NewApplication';
 import AnalyzeView2_0 from 'promise-loader?global,applications!in-applications/analyze/AnalyzeView2_0/AnalyzeView';
 import ApplicationsList from 'promise-loader?global,applications!in-applications/lists/ApplicationsList';
 import ServicesList from 'promise-loader?global,applications!in-applications/lists/ServicesList';
@@ -26,7 +25,6 @@ import {
   configureEndpointsView,
   configureSyntheticEndpointsView,
   endpointDashboard,
-  newApplicationView,
   newApplicationWaiterView,
   newServiceView,
   serviceDashboard,
@@ -39,9 +37,6 @@ import { role } from 'in-stores/user';
 
 export default (
   <Fragment>
-    {role.canConfigureApplications && (
-      <Route path={newApplicationView} component={createAsyncViewComponent(NewApplication)} />
-    )}
     <Route
       path={`${newApplicationWaiterView}/:appId/:appName`}
       component={createAsyncViewComponent(NewApplicationWaiter)}

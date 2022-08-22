@@ -122,7 +122,7 @@
       "cursorPaginatedTableLoadMoreRowLabel": "さらにロード"
     },
     "noDataAvailable": {
-      "entititiesTitle": "使用可能なエンティティーがありません",
+      "entititiesTitle": "表示可能なエンティティーがありません",
       "entititiesDescription": "選択された時刻範囲で取得されたエンティティーはありません。"
     },
     "sharedComponents": {
@@ -216,13 +216,12 @@
     "groupedViewHeader_2": "{{formattedCount}} 個のグループ",
     "groupedViewHeaderRetained": "{{formattedCount}} から保持されました。",
     "resultHeaderLoading": "ロード中…",
-    "resultHeaderTooltip": "照会の時刻範囲は、このビューをより迅速にロードするために直近の 1 分に切り上げられています。",
     "queryProgress": {
       "preparing": "準備中…",
       "runningQuery": "照会の実行中…",
       "timeout": "この照会はタイムアウトになりました。",
-      "timeoutEstimated": "照会の実行に時間がかかりすぎます。",
-      "timeoutInfo": "より短い時間フレームを選択するか、さらにフィルターを適用して、より具体的な照会を発行してください。",
+      "timeoutEstimated": "呼び出しの量が多いため、照会を処理できませんでした。",
+      "timeoutInfo": "短い時間フレームを選択してください。",
       "inputError": "入力エラーがありました。",
       "tooManyRequests": "要求が多すぎます",
       "tooManyRequestsInfo": "システムは現在ビジーです。 後で再試行してください。",
@@ -288,7 +287,7 @@
   "entityVersionList": {
     "headingAvailableTimeRanges": "使用可能な時刻範囲",
     "explanation": "選択した時刻範囲にこのエンティティーのバージョンが見つかりませんでした。 異なる時刻範囲で他のバージョンが見つかりました:",
-    "noDataAvailable": "使用可能なデータがありません"
+    "noDataAvailable": "表示可能なデータがありません"
   },
   "entityToInstanaServiceButton": {
     "services": "サービス"
@@ -578,39 +577,39 @@
     "linkSeeAllApplications_1": "全 {{count}} 件の {{activeTab}} アプリケーションを表示",
     "linkSeeAllApplications_2": "全 {{count}} 件の {{activeTab}} アプリケーションを表示",
     "linkSeeApplication": "アプリケーションを表示",
-    "linkSeeAllServices": "全 {{count}} 件の {{activeTab}} サービスを表示",
-    "linkSeeAllServices_plural": "全 {{count}} 件の {{activeTab}} サービスを表示",
-    "linkSeeAllServices_0": "全 {{count}} 件の {{activeTab}} サービスを表示",
-    "linkSeeAllServices_1": "全 {{count}} 件の {{activeTab}} サービスを表示",
-    "linkSeeAllServices_2": "全 {{count}} 件の {{activeTab}} サービスを表示",
+    "linkSeeAllServices": "全 {{count}} 件の{{activeTab}} サービスを表示",
+    "linkSeeAllServices_plural": "全 {{count}} 件の{{activeTab}} サービスを表示",
+    "linkSeeAllServices_0": "全 {{count}} 件の{{activeTab}} サービスを表示",
+    "linkSeeAllServices_1": "全 {{count}} 件の{{activeTab}} サービスを表示",
+    "linkSeeAllServices_2": "全 {{count}} 件の{{activeTab}} サービスを表示",
     "linkSeeService": "サービスを表示",
     "activeTab_upstream": "アップストリーム",
     "activeTab_downstream": "ダウンストリーム",
     "labelMetric": "メトリック:",
-    "upstreamText_Service": "{{count}} 個のサービスからの直接呼び出し",
-    "upstreamText_Service_plural": "{{count}} 個のサービスからの直接呼び出し",
-    "upstreamText_Service_0": "{{count}} 個のサービスからの直接呼び出し",
-    "upstreamText_Service_1": "{{count}} 個のサービスからの直接呼び出し",
-    "upstreamText_Service_2": "{{count}} 個のサービスからの直接呼び出し",
-    "upstreamText_Application": "{{count}} 個のアプリケーション内からの直接呼び出し",
-    "upstreamText_Application_plural": "{{count}} 個のアプリケーション内からの直接呼び出し",
-    "upstreamText_Application_0": "{{count}} 個のアプリケーション内からの直接呼び出し",
-    "upstreamText_Application_1": "{{count}} 個のアプリケーション内からの直接呼び出し",
-    "upstreamText_Application_2": "{{count}} 個のアプリケーション内からの直接呼び出し",
+    "upstreamText_Service": "{{count}} 件のサービスからの直接呼び出し",
+    "upstreamText_Service_plural": "{{count}} 件のサービスからの直接呼び出し",
+    "upstreamText_Service_0": "{{count}} 件のサービスからの直接呼び出し",
+    "upstreamText_Service_1": "{{count}} 件のサービスからの直接呼び出し",
+    "upstreamText_Service_2": "{{count}} 件のサービスからの直接呼び出し",
+    "upstreamText_Application": "{{count}} 件のアプリケーション内からの直接呼び出し",
+    "upstreamText_Application_plural": "{{count}} 件のアプリケーション内からの直接呼び出し",
+    "upstreamText_Application_0": "{{count}} 件のアプリケーション内からの直接呼び出し",
+    "upstreamText_Application_1": "{{count}} 件のアプリケーション内からの直接呼び出し",
+    "upstreamText_Application_2": "{{count}} 件のアプリケーション内からの直接呼び出し",
     "upstreamMessage_endpoint": "このエンドポイントが受信した呼び出しはありません",
     "upstreamMessage_service": "このサービスが受信した呼び出しはありません",
     "upstreamMessage_application": "このアプリケーションが受信した呼び出しはありません",
     "upstreamMessage_entity": "このエンティティーが受信した呼び出しはありません",
-    "downstreamText_Service": "{{count}} 個のサービスの直接呼び出し",
-    "downstreamText_Service_plural": "{{count}} 個のサービスの直接呼び出し",
-    "downstreamText_Service_0": "{{count}} 個のサービスの直接呼び出し",
-    "downstreamText_Service_1": "{{count}} 個のサービスの直接呼び出し",
-    "downstreamText_Service_2": "{{count}} 個のサービスの直接呼び出し",
-    "downstreamText_Application": "{{count}} 個のアプリケーション内の直接呼び出し",
-    "downstreamText_Application_plural": "{{count}} 個のアプリケーション内の直接呼び出し",
-    "downstreamText_Application_0": "{{count}} 個のアプリケーション内の直接呼び出し",
-    "downstreamText_Application_1": "{{count}} 個のアプリケーション内の直接呼び出し",
-    "downstreamText_Application_2": "{{count}} 個のアプリケーション内の直接呼び出し",
+    "downstreamText_Service": "{{count}} 件のサービスの直接呼び出し",
+    "downstreamText_Service_plural": "{{count}} 件のサービスの直接呼び出し",
+    "downstreamText_Service_0": "{{count}} 件のサービスの直接呼び出し",
+    "downstreamText_Service_1": "{{count}} 件のサービスの直接呼び出し",
+    "downstreamText_Service_2": "{{count}} 件のサービスの直接呼び出し",
+    "downstreamText_Application": "{{count}} 件のアプリケーション内の直接呼び出し",
+    "downstreamText_Application_plural": "{{count}} 件のアプリケーション内の直接呼び出し",
+    "downstreamText_Application_0": "{{count}} 件のアプリケーション内の直接呼び出し",
+    "downstreamText_Application_1": "{{count}} 件のアプリケーション内の直接呼び出し",
+    "downstreamText_Application_2": "{{count}} 件のアプリケーション内の直接呼び出し",
     "downstreamMessage_endpoint": "このエンドポイントが開始したダウンストリーム呼び出しはありません",
     "downstreamMessage_service": "このサービスが開始したダウンストリーム呼び出しはありません",
     "downstreamMessage_application": "このアプリケーションが開始したダウンストリーム呼び出しはありません",
@@ -625,7 +624,7 @@
   "analyze": {
     "loadMoreWithCount": "さらに {{count}} 件をロード",
     "loadMore": "さらにロード",
-    "activeFacets": "{{count}} 個を選択済み",
+    "activeFacets": "選択済み: {{count}} 件",
     "clearFacets": "すべてクリア",
     "clearFacet": "クリア",
     "noResults": "提案はありません",
@@ -652,7 +651,7 @@
     }
   },
   "copyToClipboardButtonCopy": "コピー",
-  "withEmptyStateFallbackTitleNoDataAvailable": "使用可能なデータがありません",
+  "withEmptyStateFallbackTitleNoDataAvailable": "表示可能なデータがありません",
   "queryBuilder": {
     "components": {
       "tagBooleanSelectorFalse": "false",
@@ -792,5 +791,11 @@
     "retainedLabel_viewChange_0": "概算データ（{{representedHits}}から保持された{{totalHits}}ビューの変更）",
     "retainedLabel_viewChange_1": "概算データ（{{representedHits}}から保持された{{totalHits}}ビューの変更）",
     "retainedLabel_viewChange_2": "概算データ（{{representedHits}}から保持された{{totalHits}}ビューの変更）"
+  },
+  "migratedTenantBanner": {
+    "title": "マイグレーションされたテナント・ユニット",
+    "notice": "このテナント・ユニットは新しいリージョンにマイグレーションされました。 現在アクセスしているユニットには、履歴データのみが含まれています。",
+    "goToNewLocationLabel": "新規ロケーションに移動",
+    "exploreDataLabel": "履歴データの検索"
   }
 }

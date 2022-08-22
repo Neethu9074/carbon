@@ -59,12 +59,14 @@ function InputWithSelectionList({
           }}
           hasError={hasError}
         />
-        <SvgIcon
-          className={locals.icon}
-          type="lib_actions_star_filled"
-          size="s"
-          onClick={() => onToggleFiltersList(listVisible)}
-        />
+        {!disabled && (
+          <SvgIcon
+            className={locals.icon}
+            type="lib_actions_star_filled"
+            size="s"
+            onClick={() => onToggleFiltersList(listVisible)}
+          />
+        )}
       </div>
       {listVisible && (
         <ClickAwayListener onClickAway={onCloseList}>

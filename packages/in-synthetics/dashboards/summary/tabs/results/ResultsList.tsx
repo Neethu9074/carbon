@@ -33,7 +33,7 @@ import locals from 'in-synthetics/dashboards/summary/tabs/results/ResultsList.ml
 const pathSegment = '/results';
 const matrixPrefix = 'result.';
 let testId = '';
-const metrics = ['start_time', 'location_id', 'response_time', 'response_size', 'status'];
+const metrics = ['start_time', 'location_id', 'response_time', 'response_size', 'status', 'retries'];
 
 const columnDefinitions = [
   {
@@ -76,6 +76,14 @@ const columnDefinitions = [
     getContent(item: TestResultListItem) {
       const count = get(item, ['metrics', 'response_size', 0, 1], 0);
       return <span className={locals.metricLabel}>{bytesTwoDecimalPlaces(count)}</span>;
+    }
+  },
+  {
+    id: 'retries',
+    label: t('in-synthetics:dashboard.resultsListPage.retriesColumn'),
+    getContent(item: TestResultListItem) {
+      const count = get(item, ['metrics', 'retries', 0, 1], 0);
+      return <span className={locals.metricLabel}>{count}</span>;
     }
   }
 ];

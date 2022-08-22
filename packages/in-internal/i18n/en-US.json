@@ -1116,9 +1116,8 @@
       },
       "entityStatistics": {
         "plugin": "Plugin",
-        "count": "Count",
         "entityCount": "Entity Count",
-        "countOverTime": "Count over time",
+        "metricCount": "Metric Count",
         "perPluginEntityCount": "Per Plugin Entity Counts"
       }
     }

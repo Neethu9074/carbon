@@ -25,13 +25,13 @@ import { FacetedSearchPresenter } from 'in-logging/analyze/AnalyzeView/component
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
 import { ChartsPresenter } from 'in-logging/analyze/AnalyzeView/components/ChartsPresenter';
 import LogMessageColumn from 'in-logging/analyze/AnalyzeView/components/LogMessageColumn';
+import { ScrollIntoView } from 'in-logging/analyze/AnalyzeView/components/ScrollIntoView';
 import { LogTagsTable } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable';
 import UngroupedViewList from 'in-components/AnalyzeView/UngroupedViewList';
 import { TAG } from 'in-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import getLogs from 'in-logging/subscriptions/getLogs';
 import getLog from 'in-logging/subscriptions/getLog';
-import { ScrollIntoView } from './ScrollIntoView';
 import { t } from 'in-i18n';
 
 import locals from './Logs.mless';

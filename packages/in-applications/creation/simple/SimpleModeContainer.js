@@ -45,7 +45,8 @@ export default function SimpleModeContainer({
   updateForm,
   onCreate,
   isValidTagFilterExpression,
-  errorMessage
+  errorMessage,
+  isSaving
 }) {
   const [selectedBlueprint, setSelectedBlueprint] = useState(blueprintConfig[0]);
   const servicesLiveList = useObservable(getStreamData, [form, isValidTagFilterExpression]);
@@ -85,6 +86,7 @@ export default function SimpleModeContainer({
         simpleModeStep={simpleModeStep}
         stepConfigs={stepConfigs}
         onCreate={onCreate}
+        isSaving={isSaving}
         onStepChanged={(oldStep, nextStep) => applicationCreationStepSwitch({ oldStep, nextStep })}
         renderStep={step => {
           switch (step) {

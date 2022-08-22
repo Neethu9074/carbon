@@ -19,13 +19,11 @@ import locals from './ApdexConfigPreview.mless';
 
 const defaultGranularity = minutes.toMillis(1);
 
-interface ApdexConfigPreviewProps<APDEX_ENTITY> {
-  apdexEntity?: APDEX_ENTITY;
+interface ApdexConfigPreviewProps {
+  apdexEntity?: ApdexPreviewEntityUnion;
 }
 
-export default function ApdexConfigPreview<APDEX_TYPE extends ApdexPreviewEntityUnion>({
-  apdexEntity
-}: ApdexConfigPreviewProps<APDEX_TYPE>) {
+export default function ApdexConfigPreview({ apdexEntity }: ApdexConfigPreviewProps) {
   const timeConfig = useApdexWidgetTimeConfig(true);
   const [metricResult, , errors, progress] = useApdexPreviewMetrics({
     timeConfig,

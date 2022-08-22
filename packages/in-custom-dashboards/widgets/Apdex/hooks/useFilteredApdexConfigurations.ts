@@ -6,11 +6,12 @@
 
 import React, { useState } from 'react';
 
+import { ApdexConfiguration } from '@instana/types';
+
 import useApdexConfigurations from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexConfigurations';
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
 import { containsIgnoreCase } from 'in-services/util/string';
 import { FetchedState } from 'in-hooks/utils/types';
-import { ApdexConfiguration } from 'in-types';
 
 export default function useFilteredApdexConfigurations(
   entityType: ApdexEntityTypes,

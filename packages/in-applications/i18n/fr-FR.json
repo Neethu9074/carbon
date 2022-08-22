@@ -1,5 +1,5 @@
 {
-  "labelLatency": "Latence",
+  "labelLatency": "Temps d'attente",
   "labelApplication": "Application",
   "labelApplications": "Applications",
   "labelApplicationWithNum": "Application ({{numApplications}})",
@@ -16,7 +16,7 @@
   "labelDisableSizing": "Désactiver le dimensionnement",
   "labelIncomingCalling": "Appels entrants",
   "labelMaxErroneousCallRate": "Taux maximum d'appels erronés",
-  "labelMaxLatency": "Latence maximum",
+  "labelMaxLatency": "Temps d'attente maximal",
   "labelService": "Service",
   "labelName": "Nom",
   "labelSummary": "Récapitulatif",
@@ -56,14 +56,16 @@
   "labelTag": "Étiquette",
   "labelKey": "Clé",
   "labelPreview": "Aperçu",
-  "labelPleaseSelect": "Sélectionnez",
+  "labelPleaseSelect": "Effectuez une sélection",
   "labelServicesAffected": "Services affectés",
-  "labelSaving": "Enregistrement en cours...",
+  "labelSaving": "Sauvegarde en cours...",
   "labelScope": "Portée",
   "labelCustomServiceRules": "Règles de service personnalisées",
   "labelSyntheticEndpoints": "Noeuds finaux synthétiques",
+  "labelWarning": "Avertissement",
+  "labelCritical": "Critique",
   "titleTopServices": "Principaux services",
-  "titleMeanLatency": "Latence moyenne",
+  "titleMeanLatency": "Temps d'attente moyen",
   "titleErroneousCallRate": "Taux d'appels erronés",
   "titleTopStatements": "Instructions principales",
   "titleProcessingTime": "Temps de traitement",
@@ -72,7 +74,7 @@
   "titleRuleTester": "Testeur de règle",
   "titleTotalCalls": "Nombre total d'appels",
   "titleErroneousCalls": "Appels erronés",
-  "titleAvgLatency": "Moyenne Latence",
+  "titleAvgLatency": "Temps d'attente moyen",
   "titleConfigureCustomServiceRules": "Configurer des règles de service personnalisées",
   "titleCustomServiceRule": "Règle de service personnalisée",
   "titleUpdateApplicationPerspective": "Mettre à jour la perspective d'application",
@@ -101,7 +103,7 @@
   "buttonHost": "Hôte",
   "buttonConfigureEndpoints": "Configurer les noeuds finaux",
   "buttonAnalyzeMessages": "Analyser les messages",
-  "buttonSave": "Enregistrer",
+  "buttonSave": "Sauvegarder",
   "buttonAdd": "Ajouter",
   "buttonDeleteRule": "Supprimer la règle",
   "buttonAddTest": "Ajouter un test",
@@ -119,7 +121,7 @@
   "buttonShowAllServices": "Afficher tous les services",
   "buttonConfigureServices": "Configurer les services",
   "helpOptional": "(facultatif)",
-  "messageSuccessfullySaved": "Enregistré avec succès.",
+  "messageSuccessfullySaved": "La sauvegarde a abouti.",
   "messageErrorOccurred": "Une erreur s'est produite. Veuillez réessayer.",
   "linkViewAllServices": "Afficher tous les services",
   "linkViewAllEndpoints": "Afficher tous les noeuds finaux",
@@ -174,7 +176,7 @@
   },
   "analyze": {
     "quickFilter": {
-      "labelLatency": "Latence"
+      "labelLatency": "Temps d'attente"
     },
     "erroneous": "Erroné",
     "resetUnsupportedTracesFilterContainingOrConjunction": "Le filtre a été effacé car l'opérateur logique OU n'est pas pris en charge dans Analyser les traces.",
@@ -188,7 +190,7 @@
       "erroneous_false": "false",
       "erroneous_Erroneous": "Erroné"
     },
-    "latency": "Latence",
+    "latency": "Temps d'attente",
     "traceLatency": "Temps d'attente de la trace",
     "applications": "Applications",
     "services": "Services",
@@ -197,12 +199,13 @@
     "technologies": "Technologies",
     "httpStatusCode": "Statut HTTP",
     "hiddenCalls": "Appels masqués",
-    "preview": "Aperçu",
+    "fastQueryMode": "Mode requête rapide",
+    "fastQueryModeTooltip": "Le mode requête rapide permet d'exécuter des requêtes sur un sous-ensemble d'appels ou de traces si l'exécution sur le jeu de données complet risque de prendre trop de temps.",
     "listBatchTypeTooltip": "Ce {{type}} est traité par lots et représente {{batchCount}} {{types}} individuels.",
-    "listBatchLatencyTooltip": "Latence totale de {{batchCount}} {{types}} traités par lots",
-    "traceIdTooltip": "Certaines données relatives à cette trace sont en retard. Rechargez la page dans quelques instants. Cela se produit, par exemple, lorsque vous affichez une trace très récente et que certaines de ses données sont toujours en cours de traitement.",
+    "listBatchLatencyTooltip": "Temps d'attente total de {{batchCount}} {{types}} par lots.",
+    "traceIdTooltip": "Certaines données relatives à cette trace sont retardées. Rechargez la page dans quelques instants. C'est le cas, par exemple, lorsque vous affichez une trace très récente et que certaines de ses données sont toujours en cours de traitement.",
     "closeTraceDetail": "Fermer les information de trace",
-    "invalidQueryConfig": "La configuration de la requête n'est pas valide. Veuillez résoudre les échecs de validation avant de continuer.",
+    "invalidQueryConfig": "La configuration de la requête n'est pas valide. Résolvez les échecs de validation avant de continuer.",
     "errorRateLabel": "Appels erronés (taux)",
     "errorRateCategory": "Appels erronés",
     "errorMetricLabel": "Taux d'appels erronés",
@@ -244,16 +247,16 @@
     "switchSimpleMode": "Passer en mode simple",
     "switchAdvancedMode": "Passer en mode avancé",
     "simple": {
-      "step1Title": "Étape 1 : Sélectionner un modèle",
+      "step1Title": "Etape 1 : Sélectionner un modèle",
       "step1": {
         "headline": "Quel type d'application souhaitez-vous modéliser ?"
       },
-      "step2Title": "Étape 2: Spécifier l'application",
+      "step2Title": "Etape 2 : Spécifier l'application",
       "step2": {
         "headline": "Spécifier votre perspective d'application",
         "includeDownstreamServices": "Quels services en aval voulez-vous inclure ?"
       },
-      "step3Title": "Étape 3: Fournir des informations",
+      "step3Title": "Etape 3 : Fournir des informations",
       "step3": {
         "headline": "Quel est le nom de cette perspective d'application ?",
         "apName": "Nom de la perspective d'application",
@@ -264,9 +267,9 @@
         "whoShouldUse": "Qui doit l'utiliser ?",
         "tipsForUsing": "Conseils d'utilisation",
         "servicesEndpoints": {
-          "name": "Services ou nœuds finaux",
-          "headline": "Un ensemble de services ou de nœuds finaux",
-          "whenToUse": "Si les services ou les nœuds finaux sont connus et que le groupe ne changera pas rapidement. Il s'agit souvent d'une application dont une équipe spécifique est responsable, ou qui fournit une fonction unique (par exemple, Demande de paiement). Cette approche est la plus simple.",
+          "name": "Services ou noeuds finaux",
+          "headline": "Un ensemble de services ou de noeuds finaux",
+          "whenToUse": "Si les services ou les noeuds finaux sont connus et que le groupe ne changera pas rapidement. Il s'agit souvent d'une application dont une équipe spécifique est responsable, ou qui fournit une fonction unique (par exemple, Demande de paiement). Cette approche est la plus simple.",
           "whoShouldUse": "DevOps, Opérations, SRE, Développeur, QA, Support, Propriétaire de l'entreprise."
         },
         "userJourney": {
@@ -274,7 +277,7 @@
           "headline": "Un processus utilisateur critique",
           "whenToUse": {
             "userJourneyDescribes": "Un processus utilisateur critique décrit un ensemble d'interactions qu'un utilisateur a avec un service pour obtenir un résultat final.",
-            "otherTerms": "Les autres termes utilisés pour un processus utilisateur sont les cas d'utilisation métier ou les transactions commerciales. L'identification des processus utilisateur est la première étape de l'utilisation de SLI/SLO d'Instana. Par conséquent, sélectionnez le service ou les nœuds finaux qui forment le processus utilisateur critique à surveiller."
+            "otherTerms": "Les autres termes utilisés pour un processus utilisateur sont les cas d'utilisation métier ou les transactions commerciales. L'identification des processus utilisateur est la première étape de l'utilisation de SLI/SLO d'Instana. Par conséquent, sélectionnez le service ou les noeuds finaux qui forment le processus utilisateur critique à surveiller."
           },
           "whoShouldUse": "DevOps, Opérations, SRE, Propriétaire de l'entreprise."
         },
@@ -360,7 +363,7 @@
           "endToEndView": "Utilisez \"Tous les services en aval\" et \"Tous les appels\" pour la vue de bout en bout.",
           "directServices": "Utilisez \"Services immédiats en aval\" pour inclure les services directs de base de données directe ou de messagerie.",
           "useOperatorsServices": "Utilisez des opérateurs de chaîne (par exemple, \"contient\", \"commence par\") pour sélectionner plusieurs services avec un filtre.",
-          "useOperatorsEndpoints": "Utilisez des opérateurs de chaîne (par exemple, \"contient\", \"commence par\") pour sélectionner plusieurs nœuds finaux avec un filtre.",
+          "useOperatorsEndpoints": "Utilisez des opérateurs de chaîne (par exemple, \"contient\", \"commence par\") pour sélectionner plusieurs noeuds finaux avec un filtre.",
           "useOperators": "Utilisez des opérateurs de chaîne (par exemple, \"contient\", \"commence par\") pour simplifier le filtre.",
           "narrowScope": "Ajoutez une configuration, un environnement ou des étiquettes personnalisées pour réduire la portée.",
           "specifyAp": "Utilisez des paramètres de demande ou des étiquettes personnalisées pour spécifier la perspective d'application.",
@@ -439,13 +442,13 @@
     "includeSyntheticCallsDropDownSyntheticCalls": "Appels synthétiques : {{syntheticCallsOptionLabel}}",
     "noDataAvailable": {
       "servicesTitle": "Aucun service disponible",
-      "servicesDescription": "Aucun service n'a été extrait pour l'intervalle de temps sélectionné.",
+      "servicesDescription": "Aucun service n'a été extrait pour la période sélectionnée",
       "errorMessagesTitle": "Aucun message d'erreur disponible",
-      "errorMessagesDescription": "Aucun message d'erreur n'a été extrait pour l'intervalle de temps sélectionné.",
+      "errorMessagesDescription": "Aucun message d'erreur n'a été extrait pour la période sélectionnée",
       "logMessagesTitle": "Aucun message de journal disponible",
-      "logMessagesDescription": "Aucun message de journal n'a été extrait pour l'intervalle de temps sélectionné.",
+      "logMessagesDescription": "Aucun message de journal n'a été extrait pour la période sélectionnée",
       "endpointsTitle": "Aucun noeud final disponible",
-      "endpointsDescription": "Aucun noeud final n'a été extrait pour l'intervalle de temps sélectionné."
+      "endpointsDescription": "Aucun noeud final n'a été extrait pour la période sélectionnée"
     }
   },
   "flowMap": {
@@ -492,7 +495,7 @@
       "descriptionApplicationName": "Les noms de perspective d'application doivent avoir une définition bien établie au sein d'une organisation. Par exemple, pour modéliser un environnement : \"Production Blue\", pour modéliser un ensemble de services : \"Payment\", ou pour modéliser un locataire : \"ACME Customer\".",
       "descriptionTags": "Par exemple, où la clé est \"docker.label\" et la valeur est \"environment=Production Blue\" ou la clé est \"call.http.params\" et la valeur est \"tenant=ACMECustomer\". Notez que tous les appels à un service <pillDatabase>DATABASE</pillDatabase> ou <pillMessage>MESSAGING</pillMessage> à partir de services correspondant à cette définition seront automatiquement inclus.",
       "descriptionOperatorsCreationEnabled": "Les opérateurs AND sont prioritaires et sont évalués avant les opérateurs OU s'ils ne sont pas regroupés entre crochets",
-      "descriptionPrepareToMonitor": "Nous préparons tout ce qui est nécessaire à la surveillance de votre perspective d'application <bold>{{decodedLabel}}</bold>.",
+      "descriptionPrepareToMonitor": "Nous nous occupons de tout préparer pour la surveillance de votre perspective d'application <bold>{{decodedLabel}}</bold>.",
       "prepareToMonitorUnauthorized": "Vous ne disposez pas des droits nécessaires pour afficher la perspective d'application <bold>{{decodedLabel}}</bold>. Pour obtenir des droits, contactez votre administrateur de groupe.",
       "descriptionRemoveApplicationPerspective": "Si vous ne souhaitez plus surveiller la perspective d'application <strong>{{application}}</strong>, cliquez sur le bouton ci-dessous pour la retirer. Le retrait d'une perspective d'application peut prendre plusieurs minutes.",
       "stepTitleDefineApplicationName": "Définissez un nom pour votre perspective d'application.",
@@ -504,7 +507,7 @@
       "stepTitleApplicationUsesBoundaryScope": "Cette perspective d'application utilise <strong>{{boundaryScope}}</strong>",
       "readOnlyApplicationConfiguration": "Vous visualisez cette configuration de perspective d'application en mode lecture seule.",
       "stepTitleBuiltInSmartAlertsScope": "Portée des alertes intelligentes intégrées.",
-      "noBuiltInSmartAlertsActive": "Aucune alerte Smart Alert intégrée n'est active pour cette perspective d'application.",
+      "noBuiltInSmartAlertsActive": "Aucune alerte intelligente intégrée n'est active pour cette perspective d'application.",
       "optionNoDownstreamServices": "Aucun service en aval",
       "optionImmediateDownstreamServices": "Services de messagerie et de base de données en aval immédiats.",
       "optionAllDownstreamServices": "Tous les services en aval",
@@ -534,7 +537,7 @@
     "showApplicationsScopeWithApplicationLabel": "Affichage des applications <bold>{{contextScope}}</bold> de <linkToEntity>{{entityLabel}}</linkToEntity> dans le contexte de <linkToApplication>{{applicationLabel}}</linkToApplication>",
     "showServicesScopeWithServiceLabel": "Affichage des services <bold>{{contextScope}}</bold> de <linkToEntity>{{entityLabel}}</linkToEntity> dans le contexte de <linkToApplication>{{applicationLabel}}</linkToApplication>",
     "titleNoService": "Encore aucun service",
-    "servicesNoData": "Aucun appel de service n'est disponible pour la période sélectionnée. Pour plus d'informations sur le traitement des incidents, consultez la [documentation] [Docs].\n\n[Docs] : https://www.ibm.com/docs/en/obi/current?topic=applications-services#why-am-i-not-seeing-any-services-listed"
+    "servicesNoData": "Aucun appel de service n'est disponible pour la période sélectionnée Pour plus d'informations sur le traitement des incidents, consultez la [documentation] [Docs].\n\n[Docs] : https://www.ibm.com/docs/en/obi/current?topic=applications-services#why-am-i-not-seeing-any-services-listed"
   },
   "endpointTypes": {
     "batch": "Lot",
@@ -570,7 +573,7 @@
         "erroneousCalls": "Appels erronés",
         "errorLogs": "Journaux des erreurs",
         "warnLogs": "Journaux des avertissements",
-        "latency": "Latence",
+        "latency": "Temps d'attente",
         "timeline": "Chronologie",
         "serviceEndpointList": "Liste des noeuds finaux de service",
         "largeTrace": "Grande trace",
@@ -579,7 +582,7 @@
         "erroneousTrace": "Trace erronée",
         "attemptToRenderTrace": "Trace de tentative de rendu",
         "analyzeBeacons": "Analyser les balises",
-        "adjustedTimeConfig": "L'intervalle a été ajusté pour inclure la balise sélectionnée."
+        "adjustedTimeConfig": "La période a été ajustée pour inclure la balise sélectionnée."
       }
     }
   },
@@ -588,12 +591,12 @@
   },
   "metrics": {
     "calls_calls": "Appels",
-    "calls_latency": "Latence",
+    "calls_latency": "Temps d'attente",
     "calls_erroneousCalls": "Appels erronés",
     "calls_errors": "Taux d'appels erronés",
     "traces_calls": "Traces",
     "traces_traces": "Traces",
-    "traces_latency": "Latence",
+    "traces_latency": "Temps d'attente",
     "traces_erroneousCalls": "Traces erronées",
     "traces_errors": "Taux de traces erronées"
   },
@@ -613,12 +616,12 @@
     "numberOfQualifiedReferences": "Combien de références qualifiées sont utilisées pour appeler ce service ?",
     "serviceMapping": "Résultat de mappage de service",
     "serviceMappingProblemStatement": "Un mappage de service résilient a-t-il été appliqué ?",
-    "serviceMappingDocumentation": "Documentation de tous les résultats possibles du mappage de service :",
+    "serviceMappingDocumentation": "Documentation pour tous les résultats possibles du mappage de service :",
     "infraLinking": "Résultat de liaison d'atteinte",
-    "infraLinkingProblemStatement": "Y a-t-il des problèmes d'infrastructure ?",
-    "infraLinkingDocumentation": "Documentation de toutes les détections d'infrastructure possibles :",
-    "hostName": "Les hôtes",
-    "hostNameProblemStatement": "Y a-t-il des problèmes liés à un hôte particulier ?",
+    "infraLinkingProblemStatement": "Existe-t-il des problèmes d'infrastructure ?",
+    "infraLinkingDocumentation": "Documentation pour toutes les détections d'infrastructure possibles :",
+    "hostName": "Hôtes",
+    "hostNameProblemStatement": "Existe-t-il des problèmes liés à un hôte particulier ?",
     "httpHost": "En-têtes HTTP \"Host\"",
     "httpHostProblemStatement": "Existe-t-il des problèmes liés à un en-tête HTTP \"Host\" spécifique ?",
     "infraReferenceType": "Types de référence d'infrastructure",
@@ -643,6 +646,7 @@
     "alternativeServicesPossibleProblem": "<bold>Peut-être</bold>, si le service en cours et les noms de services de remplacement ne proviennent pas de l'en-tête HTTP \"Host\" ; ils sont alors soit des services placés derrière un proxy (bon), soit des services en double (mauvais) : certains des services sont entièrement liés à infra, tandis que d'autres sont partiellement liés à infra."
   },
   "widgetNotActive": {
-    "title": "Le widget n'est pas pris en charge en mode direct"
+    "title": "Le widget n'est pas pris en charge en mode interactif",
+    "button": "Arrêter le mode opérationnel"
   }
 }

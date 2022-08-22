@@ -1,6 +1,6 @@
 {
   "components": {
-    "alertHeaderToggleDisableErrorMessage": "Fehler beim Inaktivieren der Alertkonfiguration mit der ID {{alertConfigID}}: {{errorMessage}} ",
+    "alertHeaderToggleDisableErrorMessage": "Fehler beim Inaktivieren der Alertkonfiguration mit der ID {{alertConfigID}}: {{errorMessage}}",
     "alertHeaderToggleEnableErrorMessage": "Fehler beim Aktivieren der Alertkonfiguration mit der ID {{alertConfigID}}: {{errorMessage}}",
     "alertHeaderDeleteErrorMessage": "Fehler beim Entfernen der Alertkonfiguration mit der ID {{alertConfigID}}: {{errorMessage}}",
     "alertHeaderRestoreErrorMessage": "Fehler beim Wiederherstellen der Überarbeitung der Alertkonfiguration mit der ID {{alertConfigID}} und der Version {{alertConfigCreated}}: {{errorMessage}}",
@@ -16,7 +16,7 @@
     "alertHeaderRestoreDeleteConfirmationDialogHeader": "Bitte bestätigen",
     "alertHeaderRestoreDeleteConfirmationDialogDescription": "Soll der Alert <strong>{{alertConfigName}}</strong> entfernt werden?",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "Entfernen",
-    "alertHeaderIsNotLatestRevisionMessage": "Dies ist die Überarbeitung {{description}} dieser Alertkonfiguration. Wählen Sie die <latestRevisionButton>aktuelle Überarbeitung aus</latestRevisionButton> oder nehmen Sie eine <restoreRevisionButton>Wiederherstellung aus der aktuellen Überarbeitung vor</restoreRevisionButton>, wenn Sie Änderungen vornehmen möchten. ",
+    "alertHeaderIsNotLatestRevisionMessage": "Dies ist die Überarbeitung {{description}} dieser Alertkonfiguration. Wählen Sie die <latestRevisionButton>aktuelle Überarbeitung aus</latestRevisionButton> oder nehmen Sie eine <restoreRevisionButton>Wiederherstellung aus der aktuellen Überarbeitung vor</restoreRevisionButton>, wenn Sie Änderungen vornehmen möchten.",
     "alertHeaderAriaLabelSeverity": "Ereignis hat Schweregrad {{severity}}",
     "alertHistoryListTitleWithTotalRepresentedItemCount": "Erstellte Alerts ({{totalRepresentedItemCount}})",
     "alertStateActive": "aktiv",
@@ -51,14 +51,14 @@
       "chartViewConfigsLast24Hours": "Letzte 24 Stunden",
       "chartViewConfigsLast7Days": "Letzte 7 Tage"
     },
-    "alertHeaderYouAreLookingAtADeletedAlertConfigurationModificationsAreNotPossible": "Sie sehen eine gelöschte Alertkonfiguration. Es sind keine Änderungen möglich. ",
+    "alertHeaderYouAreLookingAtADeletedAlertConfigurationModificationsAreNotPossible": "Sie sehen eine gelöschte Alertkonfiguration. Es sind keine Änderungen möglich.",
     "alertPropertyInfosWarning": "Warnung",
     "alertPropertyInfosCritical": "Kritisch",
     "customPayload": {
       "deleteRow": "Zeile löschen",
       "key": "Schlüssel",
       "value": "Wert",
-      "unknownTypeTypeItCanNotBeEdited": "Unbekannter Typ: {{type}} - Typ kann nicht bearbeitet werden. ",
+      "unknownTypeTypeItCanNotBeEdited": "Unbekannter Typ: {{type}} - Typ kann nicht bearbeitet werden.",
       "customWithColon": "angepasst:",
       "valueType": "Wertetyp",
       "static": "Statisch",
@@ -68,7 +68,7 @@
       "noCustomPayloadConfigured": "Keine angepassten Nutzdaten konfiguriert",
       "keyNamesMustBeUnique": "Schlüsselnamen müssen eindeutig sein.",
       "theValueMustNotBeBlank": "Der Wert darf nicht leer sein.",
-      "onlyOrAnyAlphaNumericalAreAllowed": "Nur die Zeichen '.', '-', '_' sowie alphanumerische Zeichen sind zulässig. ",
+      "onlyOrAnyAlphaNumericalAreAllowed": "Nur die Zeichen '.', '-', '_' sowie alphanumerische Zeichen sind zulässig.",
       "aTagNeedsToBeSelected": "Es muss ein Tag ausgewählt werden.",
       "aKeyNeedsToBeSpecified": "Es muss ein Schlüssel angegeben werden.",
       "customPayloadTitle": "Angepasste Nutzdaten"
@@ -98,7 +98,7 @@
     "descriptionErrorIsHigherOrEqualTo": "Die Rate fehlerhafter Aufrufe ist größer als oder gleich {{callRate}}%.",
     "descriptionErrorIsLowerThan": "Die Rate fehlerhafter Aufrufe ist kleiner als {{callRate}}%.",
     "descriptionErrorIsLowerThanOrEqualTo": "Die Rate fehlerhafter Aufrufe ist kleiner als oder gleich {{callRate}}%.",
-    "descriptionThroughputStaticThresholdIsHigherThan": "Die Anzahl der Aufrufe ist größer als {{thresholdValue}} Aufrufe. ",
+    "descriptionThroughputStaticThresholdIsHigherThan": "Die Anzahl der Aufrufe ist größer als {{thresholdValue}} Aufrufe.",
     "descriptionThroughputStaticThresholdIsHigherOrEqualTo": "Die Anzahl der Aufrufe ist größer oder gleich {{thresholdValue}}.",
     "descriptionThroughputStaticThresholdIsLowerThan": "Die Anzahl der Aufrufe ist kleiner als {{thresholdValue}} Aufrufe.",
     "descriptionThroughputStaticThresholdIsLowerThanOrEqualTo": "Die Anzahl der Aufrufe ist kleiner als oder gleich {{thresholdValue}}.",
@@ -112,8 +112,8 @@
     "descriptionSlownessStaticThresholdAreBelowOrEqualTo": "Aufrufe sind langsamer als oder gleich {{thresholdValue}} ms basierend auf der Latenzzeit ({{aggregation}}).",
     "descriptionSlownessAreSlowerThan": "Aufrufe sind langsamer als der erwartete Wert basierend auf der Latenzzeit ({{aggregation}}).",
     "descriptionSlownessAreSlowerThanOrEqualTo": "Aufrufe sind langsamer als oder gleich dem erwarteten Wert basierend auf der Latenzzeit ({{aggregation}}).",
-    "descriptionSlownessAreBelow": "Aufrufe liegen unter dem erwarteten Wert basierend auf der Latenzzeit {{aggregation}}).",
-    "descriptionSlownessAreBelowOrEqualTo": "Aufrufe liegen unter dem oder entsprechen dem erwarteten Wert basierend auf der Latenzzeit {{aggregation}}).",
+    "descriptionSlownessAreBelow": "Aufrufe liegen unter dem erwarteten Wert basierend auf der Latenzzeit ({{aggregation}}).",
+    "descriptionSlownessAreBelowOrEqualTo": "Aufrufe liegen unter dem oder entsprechen dem erwarteten Wert basierend auf der Latenzzeit ({{aggregation}}).",
     "descriptionUnsupportedOperator": "Nicht unterstützter Operator: {{operator}}"
   },
   "smartAlerts": {
@@ -163,12 +163,12 @@
             "inbound": {
               "text": "Eingehende Aufrufe",
               "dashboard": "Nur Aufrufe, die von den Konsumenten dieser Anwendung ausgeführt werden.",
-              "overrideDefault": "Der Standardbereich für diese Anwendung ist 'Nur eingehende Aufrufe'. Sie können dies in der Konfiguration ändern. "
+              "overrideDefault": "Der Standardbereich für diese Anwendung ist 'Nur eingehende Aufrufe'. Sie können dies in der Konfiguration ändern."
             },
             "all": {
               "text": "Alle Aufrufe",
               "dashboard": "Aufrufe, die sowohl von den Konsumenten als auch intern durchgeführt werden.",
-              "overrideDefault": "Der Standardbereich für diese Anwendung ist 'Alle Aufrufe'. Sie können dies in der Konfiguration ändern. "
+              "overrideDefault": "Der Standardbereich für diese Anwendung ist 'Alle Aufrufe'. Sie können dies in der Konfiguration ändern."
             }
           },
           "confirmationDialog": {
@@ -239,11 +239,10 @@
       },
       "chart": {
         "entitySelection": {
-          "tooManyResults": "Für Ihre Suche gibt es zu viele Ergebnisse zum Anzeigen. Grenzen Sie die Ergebnisse ein, indem Sie einen spezifischeren Suchbegriff verwenden. ",
+          "tooManyResults": "Für Ihre Suche gibt es zu viele Ergebnisse zum Anzeigen. Grenzen Sie die Ergebnisse ein, indem Sie einen spezifischeren Suchbegriff verwenden.",
           "applications": "Anwendungen:",
           "services": "Services:"
         },
-        "noChartForAdaptiveBaseline": "Keine Vorschau verfügbar, wenn dieser Auslöser auf einem adaptiven Schwellenwert basiert.",
         "noDataWithoutEndpointSelection": "Wählen Sie einen Endpunkt aus, um die Vorschau anzuzeigen",
         "noDataAvailable": "Wählen Sie einen Service zum Anzeigen der Vorschau aus"
       },
@@ -258,12 +257,12 @@
         "slowness": {
           "name": "Langsame Aufrufe",
           "headline": "Automatische Alerts für langsame Aufrufe",
-          "text": "Eine Warnung erhalten, wenn Aufrufe an ausgewählte Services und Endpunkte dieser Anwendungsperspektive langsamer als üblich sind. "
+          "text": "Eine Warnung erhalten, wenn Aufrufe an ausgewählte Services und Endpunkte dieser Anwendungsperspektive langsamer als üblich sind."
         },
         "errorRate": {
           "name": "Fehlerhafte Aufrufe",
           "headline": "Automatische Alerts für fehlerhafte Aufrufe",
-          "text": "Eine Warnung erhalten, wenn die Rate der fehlerhaften Aufrufe für ausgewählte Services und Endpunkte dieser Application Perspective höher als üblich ist. ",
+          "text": "Eine Warnung erhalten, wenn die Rate der fehlerhaften Aufrufe für ausgewählte Services und Endpunkte dieser Application Perspective höher als üblich ist.",
           "metricLabel": "Fehlerrate"
         },
         "logs": {
@@ -289,7 +288,7 @@
           "unexpectedDrop": {
             "name": "Unerwartet niedrige Anzahl an Aufrufen",
             "headline": "Automatische Alerts zu anomal niedriger Anzahl an Aufrufen",
-            "text": "Alert empfangen, wenn die Anzahl der Aufrufe im Vergleich zu den verfügbaren vergangenen Daten deutlich niedriger ist als erwartet. Dies könnte ein Hinweis auf ein dieser Anwendung vorgelagertes Problem oder einen Rückgang des Benutzerdatenverkehrs zu dieser Anwendung sein. "
+            "text": "Alert empfangen, wenn die Anzahl der Aufrufe im Vergleich zu den verfügbaren vergangenen Daten deutlich niedriger ist als erwartet. Dies könnte ein Hinweis auf ein dieser Anwendung vorgelagertes Problem oder einen Rückgang des Benutzerdatenverkehrs zu dieser Anwendung sein."
           },
           "unexpectedlyHighNumber": {
             "name": "Unerwartet hohe Anzahl an Aufrufen",
@@ -322,9 +321,9 @@
           "slownessStaticThreshold_below": "Aufrufe sind langsamer als {{thresholdValue}} ms basierend auf der Latenzzeit ({{aggregationText}}).",
           "slownessStaticThreshold_belowEqual": "Aufrufe sind langsamer als oder gleich {{thresholdValue}} ms basierend auf der Latenzzeit ({{aggregationText}}).",
           "slownessDefault_slowerThan": "Aufrufe sind langsamer als der erwartete Wert basierend auf der Latenzzeit ({{aggregationText}}).",
-          "slownessDefault_slowEqual": "Aufrufe sind langsamer als oder entsprechen dem erwarteten Wert basierend auf der Latenzzeit {{aggregationText}}).",
-          "slownessDefault_below": "Aufrufe liegen unter dem erwarteten Wert basierend auf der Latenzzeit {{aggregationText}}).",
-          "slownessDefault_belowEqual": "Aufrufe liegen unter dem oder entsprechen dem erwarteten Wert basierend auf der Latenzzeit {{aggregationText}}).",
+          "slownessDefault_slowEqual": "Aufrufe sind langsamer als oder entsprechen dem erwarteten Wert basierend auf der Latenzzeit ({{aggregationText}}).",
+          "slownessDefault_below": "Aufrufe liegen unter dem erwarteten Wert basierend auf der Latenzzeit ({{aggregationText}}).",
+          "slownessDefault_belowEqual": "Aufrufe liegen unter dem oder entsprechen dem erwarteten Wert basierend auf der Latenzzeit ({{aggregationText}}).",
           "logsNotEmpty_higherThan": "Die Anzahl der Aufrufe mit {{levelText}}-Nachrichten ist höher als {{thresholdValue}}.",
           "logsNotEmpty_higherEqual": "Die Anzahl der Aufrufe mit {{levelText}}-Nachrichten ist höher als oder gleich {{thresholdValue}}.",
           "logsNotEmpty_lowerThan": "Die Anzahl der Aufrufe mit {{levelText}}-Nachrichten ist niedriger als {{thresholdValue}}.",
@@ -353,7 +352,15 @@
           "statusCodeDefault_higherEqual": "Vorkommen von HTTP-Statuscode {{statusCodeFullText}} ist größer als oder so groß wie erwartet.",
           "statusCodeDefault_lowerThan": "Vorkommen von HTTP-Statuscode {{statusCodeFullText}} ist kleiner als erwartet.",
           "statusCodeDefault_lowerEqual": "Vorkommen von HTTP-Statuscode {{statusCodeFullText}} ist kleiner als oder so klein wie erwartet.",
-          "throughputStaticThreshold_higherThan": "Die Anzahl der Aufrufe ist größer als {{thresholdValue}} Aufrufe. ",
+          "statusCodeRateStaticThreshold_higherThan": "Rate des HTTP-Statuscodes {{statusCodeFullText}} ist höher als {{thresholdValue}} %.",
+          "statusCodeRateStaticThreshold_higherEqual": "Rate des HTTP-Statuscodes {{statusCodeFullText}} ist größer-gleich {{thresholdValue}} %.",
+          "statusCodeRateStaticThreshold_lowerThan": "Rate des HTTP-Statuscodes {{statusCodeFullText}} ist niedriger als {{thresholdValue}} %.",
+          "statusCodeRateStaticThreshold_lowerEqual": "Rate des HTTP-Statuscodes {{statusCodeFullText}} ist kleiner-gleich {{thresholdValue}} %.",
+          "statusCodeRateDefault_higherThan": "Rate des HTTP-Statuscodes {{statusCodeFullText}} ist höher als erwartet.",
+          "statusCodeRateDefault_higherEqual": "Rate des HTTP-Statuscodes {{statusCodeFullText}} ist höher oder gleich dem erwarteten Wert.",
+          "statusCodeRateDefault_lowerThan": "Die Rate des HTTP-Statuscodes {{statusCodeFullText}} ist niedriger als erwartet.",
+          "statusCodeRateDefault_lowerEqual": "Die Rate des HTTP-Statuscodes {{statusCodeFullText}} ist kleiner-gleich dem erwarteten Wert.",
+          "throughputStaticThreshold_higherThan": "Die Anzahl der Aufrufe ist größer als {{thresholdValue}} Aufrufe.",
           "throughputStaticThreshold_higherEqual": "Die Anzahl der Aufrufe ist größer oder gleich {{thresholdValue}}.",
           "throughputStaticThreshold_lowerThan": "Die Anzahl der Aufrufe ist kleiner als {{thresholdValue}} Aufrufe.",
           "throughputStaticThreshold_lowerEqual": "Die Anzahl der Aufrufe ist kleiner als oder gleich {{thresholdValue}} Aufrufen.",
@@ -541,7 +548,7 @@
         "sharedListTooltip": "{{typeName}} ist nicht mehr verfügbar",
         "clearTagFilterExpressionButton": "Löschen",
         "baselineErrorMessageInsufficientDataToCompute": "Unzureichende Daten zur Berechnung der ausgewählten Referenzversion. Wählen Sie stattdessen <em>Statischer Schwellenwert</em> aus.",
-        "pleaseContactSupportToRiseLimit": "Wenden Sie sich über unser <supportLink>{{instanaSupportPortal}}</supportLink> an uns, um eine Erhöhung dieses Schwellenwerts anzufordern. ",
+        "pleaseContactSupportToRiseLimit": "Wenden Sie sich über unser <supportLink>{{instanaSupportPortal}}</supportLink> an uns, um eine Erhöhung dieses Schwellenwerts anzufordern.",
         "adaptiveBaselineErrorMessage": "Schwellenwertvorschau ist derzeit nicht verfügbar.<br />Dieser Smart Alert kann dennoch gespeichert werden.",
         "adaptiveBaselineErrorMessageNotAvailable": "Der adaptive Schwellenwert ist momentan nicht verfügbar.",
         "adaptiveBaselineErrorMessageInsufficientDataToCompute": "Nicht genügend Daten zum Berechnen des ausgewählten Schwellenwerts zu diesem Zeitpunkt.<br />Dieser Smart Alert kann dennoch gespeichert werden und die Alertausgabe beginnt, sobald mindestens zwei Wochen Daten verfügbar sind.",
@@ -560,6 +567,11 @@
         "scopeConfigTitle": "Services/Endpunkte auswählen",
         "scopeConfigSelectOneEntryMessage": "Wählen Sie mindestens einen Eintrag aus.",
         "scopeConfigTitleTooltip": "Verfügbare Entitäten für die letzten 24 Stunden anzeigen",
+        "scopeMigrationMessage_FAILED": "Der Bereich konnte nicht automatisch migriert werden. Wählen Sie die entsprechenden Tagfilter für die folgende dynamische Fokusabfrage aus:",
+        "scopeMigrationMessage_PARTIAL": "Der Bereich konnte nicht vollständig migriert werden. Wählen Sie die entsprechenden Tagfilter für die folgende dynamische Fokusabfrage aus:",
+        "scopeMigrationMessage_FULL": "Der angewendete Bereich basiert auf der zuvor verwendeten dynamischen Fokusabfrage:",
+        "scopeMigrationMessageAllAvailableEntities": "Der angewendete Bereich basiert auf der zuvor verwendeten Auswahl aller verfügbaren Einheiten.",
+        "scopeMigrationMessageSelectedApplications": "Der angewendete Bereich basiert auf der zuvor verwendeten Auswahl von Anwendungsperspektiven.",
         "sortByUserSelectionLabel": "Nach Benutzerauswahl sortieren",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage": "Mindestens {{count}} Benutzer und {{userPercentage}} der innerhalb der letzten {{formattedTimeWindow}} betroffenen Benutzer",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_plural": "Mindestens {{count}} Benutzer und {{userPercentage}} der innerhalb der letzten {{formattedTimeWindow}} betroffenen Benutzer",
@@ -651,8 +663,7 @@
         "alertConfigDialogPresenterTitleEditAlert_Global": "Globalen Smart Alert bearbeiten",
         "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Neuen Smart Alert erstellen",
         "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Neuen globalen Smart Alert erstellen",
-        "alertConfigDialogPresenterTitleMigrateAlert_Local": "Zu Smart Alert migrieren",
-        "alertConfigDialogPresenterTitleMigrateAlert_Global": "Auf globalen Smart Alert migrieren",
+        "alertConfigDialogPresenterTitleMigrateAlert": "Auf Smart Alert migrieren",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "Zum erweiterten Modus wechseln",
         "simpleAlertConfigDialogStep3Headline": "Wer sollte die Alerts bekommen?",
         "Loading": "Ladevorgang läuft...",
@@ -668,17 +679,17 @@
           "create": {
             "alert": {
               "title_Local": "Smart Alert erfolgreich erstellt",
-              "message_Local": "Smart Alert <strong>{{name}}</strong> wurde erstellt. ",
+              "message_Local": "Smart Alert <strong>{{name}}</strong> wurde erstellt.",
               "title_Global": "Globaler Smart Alert erfolgreich erstellt",
-              "message_Global": "Globaler Smart Alert <strong>{{name}}</strong> wurde erstellt. "
+              "message_Global": "Globaler Smart Alert <strong>{{name}}</strong> wurde erstellt."
             }
           },
           "edit": {
             "alert": {
               "title_Local": "Smart Alert erfolgreich geändert",
-              "message_Local": "Smart Alert <strong>{{name}}</strong> wurde geändert. ",
+              "message_Local": "Smart Alert <strong>{{name}}</strong> wurde geändert.",
               "title_Global": "Globaler Smart Alert erfolgreich geändert",
-              "message_Global": "Globaler Smart Alert <strong>{{name}}</strong> wurde geändert. "
+              "message_Global": "Globaler Smart Alert <strong>{{name}}</strong> wurde geändert."
             }
           }
         }
@@ -733,7 +744,6 @@
     },
     "websites": {
       "advanced": {
-        "slownessInteractiveChartThresholdValue": "Schwellenwert",
         "scopeLabel": "Bereich",
         "scopeTitle": "Bereich: Wo geschieht die Bedingung?",
         "thresholdLabel": "Schwellenwert",
@@ -793,7 +803,7 @@
         "customEventBlueprintConfigMetricLabel": "Vorkommen",
         "simpleModeBlueprintConfigsUnexpectedDropName": "Unerwartet niedrige Anzahl an Seitenladevorgängen",
         "simpleModeBlueprintConfigsUnexpectedDropHeadline": "Automatische Alerts bei anomal niedriger Anzahl an Seitenladevorgängen",
-        "simpleModeBlueprintConfigsUnexpectedDropText": "Alert empfangen, wenn die Anzahl der Seitenladevorgänge im Vergleich zu den verfügbaren vergangenen Daten deutlich niedriger ist als erwartet. ",
+        "simpleModeBlueprintConfigsUnexpectedDropText": "Alert empfangen, wenn die Anzahl der Seitenladevorgänge im Vergleich zu den verfügbaren vergangenen Daten deutlich niedriger ist als erwartet.",
         "simpleModeBlueprintConfigsUnexpectedlyHighNumberName": "Unerwartet hohe Anzahl an Seitenladevorgängen",
         "simpleModeBlueprintConfigsUnexpectedlyHighNumberHeadline": "Automatische Alerts bei anomal hoher Anzahl an Seitenladevorgängen",
         "simpleModeBlueprintConfigsUnexpectedlyHighNumberText": "Alert empfangen, wenn die Anzahl der Seitenladevorgänge im Vergleich zu den verfügbaren vergangenen Daten deutlich höher ist als erwartet. Dies kann ein Hinweis auf einen Angriff oder ein Bot sein, der zu viele Anforderungen an die Website generiert."
@@ -806,31 +816,31 @@
         "unsupportedAlertType": "Nicht unterstützter Alerttyp: {{alertType}}",
         "JSErrorsHaveBeenDetected": "JS-Fehler wurden erkannt.",
         "unsupportedOperator": "Nicht unterstützter Operator: {{operator}}",
-        "JSErrorTextEquals": "JS-Fehler, die gleich \"{{ruleValue}}\" sind, wurden erkannt. ",
+        "JSErrorTextEquals": "JS-Fehler, die gleich \"{{ruleValue}}\" sind, wurden erkannt.",
         "JSErrorTextContains": "JS-Fehler, die \" {{ruleValue}}\" enthalten, wurden erkannt.",
         "JSErrorTextStartsWith": "JS-Fehler, die mit \" {{ruleValue}}\" beginnen, wurden erkannt.",
         "JSErrorTextEndsWith": "JS-Fehler, die mit \" {{ruleValue}}\" enden, wurden erkannt.",
         "customEventsText": "Angepasste Ereignisse, die \"{{customEventName}}\" entsprechen, wurden erkannt.",
         "slownessSimpleHighOperatorText": "onLoad-Zeit ({{aggregationText}}) ist zu hoch",
-        "slownessSimpleLowOperatorText": "onLoad-Zeit ({{aggregationText}}) ist zu gering ",
+        "slownessSimpleLowOperatorText": "onLoad-Zeit ({{aggregationText}}) ist zu gering",
         "throughputSimpleHighOperatorText": "Anzahl der {{metricLabel}} ist anomal hoch",
         "throughputSimpleLowOperatorText": "Anzahl der {{metricLabel}} ist anomal gering",
-        "statusCodeSimpleAboveOperatorText": "Vorkommen von HTTP-Statuscode {{statusCodeLabel}} sind höher als erwartet. ",
-        "statusCodeSimpleBelowOperatorText": "Vorkommen von HTTP-Statuscode {{statusCodeLabel}} sind geringer als erwartet. ",
-        "slownessSimpleAboveOperatorText": "onLoad-Zeit {{aggregationText}}) ist höher als erwartet. ",
-        "slownessSimpleBelowOperatorText": "onLoad-Zeit {{aggregationText}}) ist geringer als erwartet. ",
+        "statusCodeSimpleAboveOperatorText": "Vorkommen von HTTP-Statuscode {{statusCodeLabel}} sind höher als erwartet.",
+        "statusCodeSimpleBelowOperatorText": "Vorkommen von HTTP-Statuscode {{statusCodeLabel}} sind geringer als erwartet.",
+        "slownessSimpleAboveOperatorText": "onLoad-Zeit ({{aggregationText}}) ist höher als erwartet.",
+        "slownessSimpleBelowOperatorText": "onLoad-Zeit ({{aggregationText}}) ist geringer als erwartet.",
         "slownessGreaterOperatorText": "onLoad-Zeit ({{aggregationText}})) ist größer als {{thresholdValue}} ms.",
         "slownessGreaterEqualsOperatorText": "onLoad-Zeit ({{aggregationText}}) ist größer als oder gleich {{thresholdValue}} ms.",
         "slownessLessOperatorText": "onLoad-Zeit ({{aggregationText}}) ist kleiner als {{thresholdValue}} ms.",
         "slownessLessEqualsOperatorText": "onLoad-Zeit ({{aggregationText}}) ist kleiner als oder gleich {{thresholdValue}} ms.",
-        "staticThresholdHigherOperatorText": "Die Anzahl der {{metricLabel}} ist größer als {{thresholdValue}} Aufrufe. ",
+        "staticThresholdHigherOperatorText": "Die Anzahl der {{metricLabel}} ist größer als {{thresholdValue}} Aufrufe.",
         "staticThresholdHigherEqualsOperatorText": "Die Anzahl der {{metricLabel}} ist größer oder gleich {{thresholdValue}}.",
         "staticThresholdLowerOperatorText": "Die Anzahl der {{metricLabel}} ist kleiner als {{thresholdValue}}.",
         "staticThresholdLowerEqualsOperatorText": "Die Anzahl der {{metricLabel}} ist kleiner oder gleich {{thresholdValue}}.",
         "thresholdHigherOperatorText": "Die Anzahl der {{metricLabel}} ist höher als erwartet.",
-        "thresholdHigherEqualsOperatorText": "Die Anzahl der {{metricLabel}} ist höher als erwartet oder wie erwartet. ",
+        "thresholdHigherEqualsOperatorText": "Die Anzahl der {{metricLabel}} ist höher als erwartet oder wie erwartet.",
         "thresholdLowerOperatorText": "Die Anzahl der {{metricLabel}} ist niedriger als erwartet.",
-        "thresholdLowerEqualsOperatorText": "Die Anzahl der {{metricLabel}} ist kleiner als erwartet oder wie erwartet. ",
+        "thresholdLowerEqualsOperatorText": "Die Anzahl der {{metricLabel}} ist kleiner als erwartet oder wie erwartet.",
         "errorPleaseProvideAnErrorMessage": "Geben Sie eine Fehlernachricht an.",
         "errorPleaseProvideANumberGreaterEqualsToZero": "Geben Sie eine Zahl >= 0 an",
         "errorPleaseProvideCustomEventName": "Geben Sie den Namen eines angepassten Ereignisses an",
@@ -950,7 +960,7 @@
     },
     "migration": {
       "migrateButton": "Zu Smart Alert migrieren",
-      "migrateButtonTooltip": "Öffnet einen Smart Alert-Konfigurationsdialog, der bereits mit den migrierten Werten aus dem aktuellen Ereignis gefüllt wurde, um die bestmögliche Erweiterung zu erzielen. Bitte überprüfen Sie das Ergebnis sorgfältig!",
+      "migrateButtonTooltip": "Öffnet einen Smart Alert-Konfigurationsdialog, der so weit wie möglich mit den migrierten Werten aus dem aktuellen Ereignis gefüllt ist. Bitte überprüfen Sie das Ergebnis sorgfältig!",
       "markAsMigratedButton": "Als migriert markieren",
       "markAsMigratedButtonTooltip": "Kennzeichnet das Ereignis als migriertes Ereignis. Verwenden Sie dies, falls Sie bereits einen Smart Alert konfiguriert haben. Das Ereignis wird dadurch ersetzt.",
       "markAsMigratedButtonConfirmationTitle": "Bitte bestätigen",

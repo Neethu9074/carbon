@@ -27,7 +27,7 @@ const cols = [
     }
   },
   {
-    title: t('in-internal:monitoringUnit.thisUnit.entityStatistics.count'),
+    title: t('in-internal:monitoringUnit.thisUnit.entityStatistics.entityCount'),
     type: 'metric',
     typeArgs: {
       getSnapshotId() {
@@ -35,6 +35,22 @@ const cols = [
       },
       getMetricName(row) {
         return `plugin.${row.plugin}`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-internal:monitoringUnit.thisUnit.entityStatistics.metricCount'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId() {
+        return ID_OF_PROCESSING_STATISTICS;
+      },
+      getMetricName(row) {
+        return `pluginMetrics.${row.plugin}`;
       },
       getContent: number.compact,
       getTimeWindowAggregation() {
@@ -63,7 +79,14 @@ export default connectTo(
               min: 0,
               formatter: number.compact,
               metrics: [`physicalEntities`],
-              labels: [t('in-internal:monitoringUnit.thisUnit.entityStatistics.countOverTime')],
+              labels: [t('in-internal:monitoringUnit.thisUnit.entityStatistics.entityCount')],
+              type: 'line'
+            }}
+            y2={{
+              min: 0,
+              formatter: number.compact,
+              metrics: [`metrics`],
+              labels: [t('in-internal:monitoringUnit.thisUnit.entityStatistics.metricCount')],
               type: 'line'
             }}
           />
@@ -91,7 +114,13 @@ function getRowDetails(row) {
       y1={{
         formatter: number.compact,
         metrics: [`plugin.${row.plugin}`],
-        labels: [t('in-internal:monitoringUnit.thisUnit.entityStatistics.countOverTime')],
+        labels: [t('in-internal:monitoringUnit.thisUnit.entityStatistics.entityCount')],
+        type: 'line'
+      }}
+      y2={{
+        formatter: number.compact,
+        metrics: [`pluginMetrics.${row.plugin}`],
+        labels: [t('in-internal:monitoringUnit.thisUnit.entityStatistics.metricCount')],
         type: 'line'
       }}
     />

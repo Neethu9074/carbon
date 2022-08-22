@@ -4,15 +4,14 @@
  */
 
 import { renderStaticThresholdLineAndBackgrounds } from 'in-alerting/components/Chart/renderer/renderThresholdAndBackgrounds';
-import { MultiMetricRenderer, MultiMetricRenderProps } from 'in-alerting/components/Chart/renderer/types';
 import { isGreaterOperatorOrUndefined } from 'in-alerting/smart-alerts/components/utils/alertUtils';
-import { RenderAxis } from 'in-components/Chart/renderer/types';
+import { MultiMetricRenderProps, RenderAxis, Renderer } from 'in-components/Chart/renderer/types';
 import line from 'in-components/Chart/renderer/line';
 import { StaticThresholdConfig } from 'in-types';
 
-export function createLineWithThreshold({ operator, value }: StaticThresholdConfig): MultiMetricRenderer {
+export function createLineWithThreshold({ operator, value }: StaticThresholdConfig): Renderer<MultiMetricRenderProps> {
   return {
-    render: ({ colors50, colors100, scale, config, metrics }: MultiMetricRenderProps): void => {
+    render: ({ colors50, colors100, scale, config, metrics }): void => {
       const metric = metrics[0];
 
       const isGreaterOp = isGreaterOperatorOrUndefined(operator);

@@ -8,9 +8,8 @@ import React from 'react';
 
 import {
   createLineWithThreshold,
-  createLineWithHistoricBaseline,
   createLineWithAdaptiveBaseline,
-  createLineWithBaselineAndPotentialProblem
+  createLineWithBaselineAndOptionalPotentialProblem
 } from 'in-alerting/components/Chart/renderer/Renderer';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import AlertsPreviewLane from 'in-alerting/components/Chart/AlertsPreviewLane/AlertsPreviewLane';
@@ -172,11 +171,7 @@ function getRendererBasedOnThresholdType(threshold, highlight, granularity, even
     case STATIC_THRESHOLD:
       return createLineWithThreshold(threshold);
     case HISTORIC_BASELINE:
-      if (highlight) {
-        return createLineWithBaselineAndPotentialProblem(threshold, granularity, highlight);
-      } else {
-        return createLineWithHistoricBaseline(threshold, granularity);
-      }
+      return createLineWithBaselineAndOptionalPotentialProblem(threshold, granularity, highlight);
     default:
       return createLineWithAdaptiveBaseline(threshold, granularity, eventBasedAdaptiveBaseline);
   }

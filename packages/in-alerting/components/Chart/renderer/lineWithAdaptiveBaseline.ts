@@ -5,14 +5,19 @@
 
 import { AdaptiveBaselineData } from '@instana/types';
 
+import {
+  DataSeries,
+  MultiMetricRenderProps,
+  RenderAxis,
+  RenderConfig,
+  Renderer
+} from 'in-components/Chart/renderer/types';
 import { renderThresholdLineAndBackgrounds } from 'in-alerting/components/Chart/renderer/renderThresholdAndBackgrounds';
 import { updateThresholdPointsIfRequired } from 'in-alerting/components/Chart/renderer/adaptiveBaseline';
 import { isGreaterOperatorOrUndefined } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { getAdaptiveBaselineValue } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { BaselineDataSeries } from 'in-alerting/components/Chart/renderer/historicBaseline';
-import { DataSeries, RenderAxis, RenderConfig } from 'in-components/Chart/renderer/types';
-import { MultiMetricRenderer } from 'in-alerting/components/Chart/renderer/types';
-import { AxisColor, MetricDataSeries } from 'in-components/Chart/types';
+import { AxisColor } from 'in-components/Chart/types';
 import line from 'in-components/Chart/renderer/line';
 import { Granularity, TimeConfig } from 'in-types';
 import { ScaleType } from 'in-services/scale';
@@ -21,21 +26,9 @@ export const createLineWithAdaptiveBaseline = (
   threshold: AdaptiveBaselineData,
   thresholdGranularity: Granularity,
   eventBasedAdaptiveBaseline: DataSeries
-): MultiMetricRenderer => {
+): Renderer<MultiMetricRenderProps> => {
   return {
-    render: ({
-      colors50,
-      colors100,
-      scale,
-      config,
-      metrics
-    }: {
-      colors50: AxisColor[];
-      colors100: AxisColor[];
-      scale: ScaleType;
-      config: RenderConfig;
-      metrics: MetricDataSeries[];
-    }): void => {
+    render: ({ colors50, colors100, scale, config, metrics }): void => {
       const metric = metrics[0];
 
       renderAdaptiveBaseline(

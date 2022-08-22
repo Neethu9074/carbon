@@ -243,7 +243,6 @@
           "applications": "Aplicaciones:",
           "services": "Servicios:"
         },
-        "noChartForAdaptiveBaseline": "No hay ninguna vista previa disponible mientras este desencadenante se base en un umbral adaptable.",
         "noDataWithoutEndpointSelection": "Seleccione un punto final para ver la vista previa",
         "noDataAvailable": "Seleccione un servicio para ver la vista previa"
       },
@@ -353,6 +352,14 @@
           "statusCodeDefault_higherEqual": "El número de apariciones del código de estado HTTP {{statusCodeFullText}} es igual o superior al previsto.",
           "statusCodeDefault_lowerThan": "El número de apariciones del código de estado HTTP {{statusCodeFullText}}es inferior al previsto.",
           "statusCodeDefault_lowerEqual": "El número de apariciones del código de estado HTTP {{statusCodeFullText}} es inferior o igual al previsto.",
+          "statusCodeRateStaticThreshold_higherThan": "La tasa de código de estado HTTP {{statusCodeFullText}} es superior al {{thresholdValue}} %.",
+          "statusCodeRateStaticThreshold_higherEqual": "La tasa de código de estado HTTP {{statusCodeFullText}} es superior o igual al {{thresholdValue}} %.",
+          "statusCodeRateStaticThreshold_lowerThan": "La tasa de código de estado HTTP {{statusCodeFullText}} es inferior al {{thresholdValue}} %.",
+          "statusCodeRateStaticThreshold_lowerEqual": "La tasa de código de estado HTTP {{statusCodeFullText}} es inferior o igual al {{thresholdValue}} %.",
+          "statusCodeRateDefault_higherThan": "La tasa de código de estado HTTP {{statusCodeFullText}} es mayor de lo esperado.",
+          "statusCodeRateDefault_higherEqual": "La tasa de código de estado HTTP {{statusCodeFullText}} es superior o igual a lo esperado.",
+          "statusCodeRateDefault_lowerThan": "La tasa de código de estado HTTP {{statusCodeFullText}} es inferior a lo esperado.",
+          "statusCodeRateDefault_lowerEqual": "La tasa de código de estado HTTP {{statusCodeFullText}} es inferior o igual a lo esperado.",
           "throughputStaticThreshold_higherThan": "El número de llamadas es superior a {{thresholdValue}} llamadas.",
           "throughputStaticThreshold_higherEqual": "El número de llamadas es superior o igual a {{thresholdValue}} llamadas.",
           "throughputStaticThreshold_lowerThan": "El número de llamadas es inferior a {{thresholdValue}} llamadas.",
@@ -560,6 +567,11 @@
         "scopeConfigTitle": "Seleccionar servicios/puntos finales",
         "scopeConfigSelectOneEntryMessage": "Seleccione, al menos, una entrada.",
         "scopeConfigTitleTooltip": "Mostrar las entidades disponibles durante las últimas 24 horas",
+        "scopeMigrationMessage_FAILED": "No se ha podido migrar automáticamente el ámbito. Seleccione los filtros de etiqueta correspondientes para la consulta de enfoque dinámico siguiente:",
+        "scopeMigrationMessage_PARTIAL": "No se ha podido migrar completamente el ámbito. Seleccione los filtros de etiqueta correspondientes para la consulta de enfoque dinámico siguiente:",
+        "scopeMigrationMessage_FULL": "El ámbito aplicado se basa en la consulta de enfoque dinámico utilizada anteriormente:",
+        "scopeMigrationMessageAllAvailableEntities": "El ámbito aplicado se basa en la selección utilizada anteriormente de todas las entidades disponibles.",
+        "scopeMigrationMessageSelectedApplications": "El ámbito aplicado se basa en la selección utilizada anteriormente de perspectivas de aplicación.",
         "sortByUserSelectionLabel": "Ordenar por selección de usuario",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage": "Al menos {{count}} usuario y {{userPercentage}} de usuarios afectados en las últimas {{formattedTimeWindow}}l",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_plural": "Al menos {{count}} usuarios y {{userPercentage}} de usuarios afectados en las útimas {{formattedTimeWindow}}",
@@ -651,8 +663,7 @@
         "alertConfigDialogPresenterTitleEditAlert_Global": "Editar alerta inteligente global",
         "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Crear nueva alerta inteligente",
         "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Crear nueva alerta inteligente global",
-        "alertConfigDialogPresenterTitleMigrateAlert_Local": "Migrar a alerta inteligente",
-        "alertConfigDialogPresenterTitleMigrateAlert_Global": "Migrar a alerta inteligente global",
+        "alertConfigDialogPresenterTitleMigrateAlert": "Migrar a alerta inteligente",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "Cambiar a modalidad avanzada",
         "simpleAlertConfigDialogStep3Headline": "¿Quién debe recibir las alertas?",
         "Loading": "Cargando…",
@@ -689,7 +700,7 @@
         "readMore": "Leer más…",
         "websites": {
           "title": "Sitios web",
-          "description0": "Para configurar una alerta, vaya al sitio web en el que desea configurar la alerta y utilice el botón \" Añadir alerta inteligente \" en la parte inferior derecha.",
+          "description0": "Para configurar una alerta, vaya al sitio web en el que desea configurar la alerta y utilice el botón \"Añadir alerta inteligente\" en la parte inferior derecha.",
           "stats": "Actualmente tiene $t(in-alerting:smartAlerts.components.alertsHub.websites.alerts, {\"count\": {{alerts}} }) en $t(in-alerting:smartAlerts.components.alertsHub.websites.websites, {\"count\": {{websites}} }).",
           "alerts": "{{count}} Alerta inteligente de sitio web",
           "alerts_plural": "{{count}} Alertas inteligentes de sitios web",
@@ -699,12 +710,12 @@
         },
         "applications": {
           "title": "Aplicaciones",
-          "description0": "Sólo puede configurar alertas inteligentes solo para una aplicación específica o configurar alertas inteligentes que cubran varias aplicaciones.",
+          "description0": "Puede configurar alertas inteligentes solo para una aplicación específica o configurar alertas inteligentes que cubran varias aplicaciones.",
           "stats": "Actualmente tiene $t(in-alerting:smartAlerts.components.alertsHub.applications.gsa, {\"count\": {{globalSmartAlerts}} }) y $t(in-alerting:smartAlerts.components.alertsHub.applications.rsa, {\"count\": {{smartAlerts}} }).",
           "gsa": "{{count}} Alerta inteligente global",
           "gsa_plural": "{{count}} Alertas inteligentes globales",
           "rsa": "{{count}} Alerta inteligente regular",
-          "rsa_plural": "{{count}} Alertas inteligentes globales",
+          "rsa_plural": "{{count}} Alertas inteligentes regulares",
           "button0": "Alertas inteligentes"
         },
         "infrastructure": {
@@ -733,7 +744,6 @@
     },
     "websites": {
       "advanced": {
-        "slownessInteractiveChartThresholdValue": "Valor de umbral",
         "scopeLabel": "Ámbito",
         "scopeTitle": "Ámbito: ¿Dónde se está produciendo la condición?",
         "thresholdLabel": "Umbral",
@@ -750,7 +760,7 @@
         "propertiesTitle": "Propiedades de alerta adicionales",
         "thresholdValue": "Valor de umbral",
         "payloadsLabel": "Cargas útiles",
-        "payloadsTitle": "Cargas personalizadas"
+        "payloadsTitle": "Cargas útiles personalizadas"
       },
       "components": {
         "provideStatusCodeStatusCode": "Código de estado",
@@ -950,7 +960,7 @@
     },
     "migration": {
       "migrateButton": "Migrar a alerta inteligente",
-      "migrateButtonTooltip": "Abre un diálogo de configuración de Alerta inteligente cargado previamente con los valores migrados del suceso actual en la mayor medida posible. Por favor, compruebe el resultado con cuidado.",
+      "migrateButtonTooltip": "Abre un diálogo de configuración de alerta inteligente que se rellena previamente con los valores migrados del suceso actual de la mejor manera posible. Por favor, compruebe el resultado cuidadosamente.",
       "markAsMigratedButton": "Marcar como migrado",
       "markAsMigratedButtonTooltip": "Marca el suceso como migrado. Por favor, utilice esta opción en caso de que ya haya configurado una alerta inteligente que vaya a sustituir este suceso.",
       "markAsMigratedButtonConfirmationTitle": "Confírmelo",

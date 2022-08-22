@@ -20,7 +20,7 @@ interface GetTagCatalogProps {
   dataSource?: DataSource;
 }
 
-export const getTagCatalog = memoize(
+export const getTagCatalog: (args: GetTagCatalogProps) => Observable<Result<TagCatalog>> = memoize(
   getTagCatalogInternal,
   // Do not take time configuration into consideration for the hash generation.
   ({ useCase, beaconType, dataSource }) =>
