@@ -64,6 +64,7 @@ interface QueryBuilderProps<ADDITIONAL_TAG_SUGGESTION_PROPS extends {} = {}> {
   withoutOrConjunction?: boolean;
   withoutBrackets?: boolean;
   readOnly?: boolean;
+  allowEmptyKey?: boolean;
 }
 
 type CreateQueryBuilderProps<ADDITIONAL_TAG_SUGGESTION_PROPS = {}> = Pick<

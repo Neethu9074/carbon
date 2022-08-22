@@ -96,8 +96,11 @@ function InfraExploreViewWithFixatedTimeConfig() {
     useObservable(getIsQueryValidObservable, [tagFilterExpression, timeConfig]) ?? pendingResult;
   const validGroupResult = useObservable(getIsGroupingValidObservable, [group, timeConfig]) ?? pendingResult;
   // in case of a pending result (validTagFilterExpressionResult.data === null) we do not want to show the user an error message
-  const isValid = validTagFilterExpressionResult.data === true && validGroupResult.data === true;
-  const isInvalid = validTagFilterExpressionResult.data === false || validGroupResult.data === false;
+  const isValid =
+    validTagFilterExpressionResult.data !== null &&
+    validTagFilterExpressionResult.data !== undefined &&
+    validGroupResult.data === true;
+  const isInvalid = validGroupResult.data === false;
 
   const backendQueryModel = useMemo(() => isValid && toBackendQueryModel(tagFilterExpression), [
     isValid,
@@ -154,6 +157,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
                 onQueryCleared: filtersClearedTracker(getInfraExploreState)
               }}
               hasError={isInvalid}
+              allowEmptyKey
             />
 
             <GroupingConfiguratorSection
