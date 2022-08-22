@@ -243,7 +243,7 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
               <Row className={indentityProvidersLocals.row}>
                 <Col xs={12}>
                   <DescriptionText>
-                    {t('in-settings:tabs.thisAccountIsAutomaticallyAssignedAnAdminRole')}
+                    {t('in-settings:tabs.thisAccountIsAutomaticallyAssignedAnAdminRoleLDAP')}
                   </DescriptionText>
                 </Col>
               </Row>

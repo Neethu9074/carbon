@@ -38,23 +38,25 @@ export function extendAlertConfigVersions(alertConfigVersions: ConfigVersion[]):
           return {
             ...cv,
             description: t('in-alerting:components.revisionDropdownButton.pause'),
-            iconType: 'lib_actions_pause',
-            disabled: true
+            iconType: 'lib_actions_pause'
           };
 
         case 'ENABLE':
           return {
             ...cv,
             description: t('in-alerting:components.revisionDropdownButton.resume'),
-            iconType: 'lib_actions_play',
-            disabled: true
+            iconType: 'lib_actions_play'
           };
 
         case 'DELETE':
           return {
             ...cv,
             description: t('in-alerting:components.revisionDropdownButton.delete'),
-            iconType: 'lib_actions_delete'
+            iconType: 'lib_actions_delete',
+            // Deleted alert configs are the only ones that we never directly link to in our product, so we can safely disable
+            // these entries as part of the revision dropdown. And there is no need for a user to manually view it,
+            // because the configuration is otherwise always identical to the previous revision.
+            disabled: true
           };
 
         case 'UPDATE':

@@ -467,10 +467,10 @@
         "includeSyntheticCalls": "Incluir chamadas sintéticas",
         "type": "Tipo",
         "sliEntity": "Entidade da SLI",
-        "beaconConfigLabel": "Configuração de Beacon",
+        "beaconConfigLabel": "Configuração do indicador",
         "beaconScopeLabel": "Escopo de Beacon",
         "httpRequestsLabel": "Solicitações HTTP",
-        "beaconFiltersLabel": "Filtros de Beacon"
+        "beaconFiltersLabel": "Filtro do indicador"
       },
       "sliList": {
         "serviceLevelIndicators": "Indicadores de nível de serviço",
@@ -572,17 +572,35 @@
         "thousandCallsFormat": "{{count}}K chamadas"
       },
       "widgetLeftHeader": {
-        "previewDataInfo": "Dados de visualização são mostrados em até 7 dias no passado caso a configuração SLI tenha sido criada recentemente. O widget final incluirá apenas dados desde a criação do SLI"
+        "previewDataInfo": "Dados de visualização são mostrados em até 7 dias no passado caso a configuração SLI tenha sido criada recentemente. O widget final incluirá apenas dados desde a criação do SLI."
+      },
+      "boundaryScopeConfigurator": {
+        "all": {
+          "title": "Todas as chamadas",
+          "description": "Chamadas executadas dentro desta aplicação, tanto pelos consumidores quanto internamente."
+        },
+        "inbound": {
+          "title": "Chamadas de entrada",
+          "description": "Apenas chamadas executadas pelos consumidores desta aplicação."
+        }
       }
     },
     "apdex": {
       "title": "Apdex: Gráfico",
       "chart": {
-        "metricLabel": "Apdex"
+        "metricLabel": "Apdex",
+        "viewInAnalyze": "Visualizar em Análises",
+        "noDataRetentionPeriod": "Intervalo de tempo selecionado está além do período de retenção de dados"
       },
       "demo": {
         "title": "Apdex para Produção",
         "entityLabel": "Loja de Robô"
+      },
+      "apdexConfigInfo": {
+        "tagFilterLabel": "Filtro",
+        "apdexNameLabel": "Nome do Apdex",
+        "apdexTypeLabel": "Tipo de Adex",
+        "thresholdLabel": "Limite"
       },
       "formComponent": {
         "title": "Configuração do Apdex",
@@ -598,10 +616,13 @@
       },
       "entityTypeSelector": {
         "type": "Tipo desconhecido",
-        "type_website": "Website"
+        "type_website": "Website",
+        "type_application": "Aplicativo"
       },
       "apdexManageList": {
-        "title": "Lista do Apdex"
+        "title": "Lista do Apdex",
+        "deleteSuccessfulMessage": "A configuração do Apdex foi excluída com sucesso.",
+        "deleteFailedMessage": "Falha ao excluir a configuração do Apdex."
       },
       "apdexList": {
         "cardTitle": "Configuração do Apdex",
@@ -614,6 +635,23 @@
         "confirmDeleteButton": "Excluir",
         "createButton": "Criar configuração do Apdex"
       },
+      "createApdexForm": {
+        "title": "Criar configuração do Apdex",
+        "customizationHeader": "Customização do Apdex",
+        "label": "Nome do Apdex",
+        "apdexCreateSuccessTitle": "A configuração do Apdex foi criada com sucesso.",
+        "apdexCreateSuccessContent": "A configuração do Apdex \"{{apdexName}}\" foi criada.",
+        "apdexCreateFailedTitle": "Falha ao criar a configuração do Apdex.",
+        "apdexCreateFailedContent": "Houve um problema ao criar esta configuração do Apdex: \"{{apdexName}}\"",
+        "apdexNameNotEmpty": "O nome do Apdex não pode estar vazio.",
+        "thresholdNotEmpty": "O limite não pode estar vazio.",
+        "nameExistsError": "Uma configuração do Apdex com este nome já existe. Insira um nome diferente."
+      },
+      "createWebsiteApdexForm": {
+        "thresholdHeader": "Configuração de limite",
+        "thresholdLabel": "Limite",
+        "thresholdFooter": "O limite não pode ser editado após a criação para evitar perda de dados."
+      },
       "entityInfo": {
         "tooltip": "Apdex desconhecido",
         "tooltip_website": "Apdex do website",
@@ -621,7 +659,14 @@
       },
       "widget": {
         "unknownEntityLabel_application": "Aplicativo desconhecido",
-        "unknownEntityLabel_website": "Website desconhecido"
+        "unknownEntityLabel_website": "Website desconhecido",
+        "previewDataInfo": "A visualização de dados é mostrada até sete dias no passado se a configuração do Apdex foi criada recentemente. O widget final incluirá apenas dados desde a criação do Apdex."
+      },
+      "applicationScopeConfigurator": {
+        "label": "Escopo do Apdex",
+        "boundaryScope": "Limite",
+        "hiddenCalls": "Chamadas ocultas",
+        "additionalFilters": "Filtro adicional"
       }
     },
     "timezone": {

@@ -4,7 +4,7 @@
  */
 
 import { createMapForm, createField } from 'formalistic';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Button } from '@instana/components';
 
@@ -20,71 +20,65 @@ import { t, Trans } from 'in-i18n';
 
 import locals from './CustomHostGroupingDialog.mless';
 
-export default class CustomHostGroupingDialog extends React.Component {
-  state = {
-    form: createMapForm().put(
-      'prefix',
-      createField({
-        value: '',
-        validator: notBlankValidator
-      })
-    )
-  };
+const initialForm = createMapForm().put(
+  'prefix',
+  createField({
+    value: '',
+    validator: notBlankValidator
+  })
+);
 
-  render() {
-    const form = this.state.form;
+export default function CustomHostGroupingDialog() {
+  const [form, setForm] = useState(initialForm);
 
-    return (
-      <Dialog title={t('in-map:customGroupingUsingTagPrefix')} onClose={close} className={locals.dialog}>
-        <p>
-          <Trans
-            i18nKey="in-map:customGroupingExample"
-            components={{
-              code: <code />
-            }}
-          />
-        </p>
-
-        <form onSubmit={this.onSubmit}>
-          {form.get('prefix').map(field => (
-            <FormGroup>
-              <Label htmlFor="grouping-tag-prefix">{t('in-map:tagPrefix')}</Label>
-              <Input
-                type="text"
-                id="grouping-tag-prefix"
-                value={field.value}
-                onChange={e => this.onChange('prefix', e.target.value)}
-                hasError={!field.valid}
-                autoFocus
-              />
-              {field.messages.map((message, i) => (
-                <ValidationBlock hasError key={i}>
-                  {message.message}
-                </ValidationBlock>
-              ))}
-            </FormGroup>
-          ))}
-
-          <Button disabled={!form.valid} type="submit">
-            {t('in-map:applyGrouping')}
-          </Button>
-        </form>
-      </Dialog>
-    );
+  function onChange(fieldName, value) {
+    setForm(form.updateIn([fieldName], field => field.setValue(value).setTouched(true)));
   }
 
-  onChange = (fieldName, value) => {
-    this.setState({
-      form: this.state.form.updateIn([fieldName], field => field.setValue(value).setTouched(true))
-    });
-  };
-
-  onSubmit = e => {
+  function onSubmit(e) {
     e.preventDefault();
 
-    if (this.state.form.hierarchyValid) {
-      setCurrentViewWithViewGrouping('vg-i', `custom-${this.state.form.get('prefix').value}`);
+    if (form.hierarchyValid) {
+      setCurrentViewWithViewGrouping('vg-i', `custom-${form.get('prefix').value}`);
       close();
     }
-  };
+  }
+
+  return (
+    <Dialog title={t('in-map:customGroupingUsingTagPrefix')} onClose={close} className={locals.dialog}>
+      <p>
+        <Trans
+          i18nKey="in-map:customGroupingExample"
+          components={{
+            code: <code />
+          }}
+        />
+      </p>
+
+      <form onSubmit={e => onSubmit(e)}>
+        {form.get('prefix').map(field => (
+          <FormGroup>
+            <Label htmlFor="grouping-tag-prefix">{t('in-map:tagPrefix')}</Label>
+            <Input
+              type="text"
+              id="grouping-tag-prefix"
+              value={field.value}
+              onChange={e => onChange('prefix', e.target.value)}
+              hasError={!field.valid}
+              autoFocus
+            />
+            {field.messages.map((message, i) => (
+              <ValidationBlock hasError key={i}>
+                {message.message}
+              </ValidationBlock>
+            ))}
+          </FormGroup>
+        ))}
+
+        <Button disabled={!form.valid} type="submit">
+          {t('in-map:applyGrouping')}
+        </Button>
+      </form>
+    </Dialog>
+  );
 }

@@ -216,13 +216,12 @@
     "groupedViewHeader_2": "{{formattedCount}} grupos",
     "groupedViewHeaderRetained": "Retenido desde {{formattedCount}}",
     "resultHeaderLoading": "Cargando…",
-    "resultHeaderTooltip": "El rango de tiempo de la consulta se ha redondeado hasta el minuto completo más próximo para permitir que esta vista se cargue más rápidamente.",
     "queryProgress": {
       "preparing": "Preparando...",
       "runningQuery": "Ejecutando consulta...",
       "timeout": "Esta consulta ha superado el tiempo de espera.",
-      "timeoutEstimated": "La consulta tardará demasiado tiempo en ejecutarse.",
-      "timeoutInfo": "Seleccione un periodo de tiempo más corto o emita una consulta más específica aplicando más filtros.",
+      "timeoutEstimated": "La consulta no se ha podido procesar debido al gran volumen de llamadas.",
+      "timeoutInfo": "Seleccione un periodo de tiempo más corto.",
       "inputError": "Se ha producido un error de entrada.",
       "tooManyRequests": "Demasiadas solicitudes",
       "tooManyRequestsInfo": "Nuestro sistema está ocupado actualmente. Vuelva a intentarlo más adelante.",
@@ -792,5 +791,11 @@
     "retainedLabel_viewChange_0": "Datos aproximados ({{totalHits}} cambios de vista retenidos de {{representedHits}})",
     "retainedLabel_viewChange_1": "Datos aproximados ({{totalHits}} cambios de vista retenidos de {{representedHits}})",
     "retainedLabel_viewChange_2": "Datos aproximados ({{totalHits}} cambios de vista retenidos de {{representedHits}})"
+  },
+  "migratedTenantBanner": {
+    "title": "Unidad de arrendatario migrada",
+    "notice": "Esta unidad de arrendatario se ha migrado a una nueva región. La unidad a la que está accediendo actualmente solo contiene datos históricos.",
+    "goToNewLocationLabel": "Ir a la nueva ubicación",
+    "exploreDataLabel": "Explorar datos históricos"
   }
 }

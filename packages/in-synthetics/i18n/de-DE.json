@@ -80,33 +80,48 @@
     "buttonLabel": "Neuen Test erstellen"
   },
   "navigation": {
-    "synthetics": "Synthetics"
+    "synthetics": "Überwachung der synthetischen Transaktionen"
   },
   "dashboard": {
     "testList": {
-      "mainLabel": "Synthetics",
+      "mainLabel": "Überwachung der synthetischen Transaktionen",
       "secondaryLabels": {
         "tests": "Tests",
-        "location": "Position"
+        "location": "Standorte"
       },
-      "locationsSubText": "{{count}} Position",
-      "locationsSubText_plural": "{{count}} Positionen",
+      "testLabel": "Name",
+      "status": "Status",
       "frequencySubText": "Jede {{count}} Min.",
       "frequencySubText_plural": "Jede {{count}} Minuten",
       "pause": "Test anhalten",
-      "resume": "Test fortsetzen"
-    },
-    "sortOptions": {
-      "name": "Name",
-      "frequency": "Frequenz"
+      "resume": "Test fortsetzen",
+      "active": "Aktiv",
+      "paused": "Angehalten",
+      "type": "Typ",
+      "successRate": "Erfolgsquote",
+      "successRuns": "{{successRuns}} / {{totalRuns}} Ergebnisse",
+      "latency": "Latenzzeit",
+      "locationLabel": "Standort",
+      "locations": "{{totalLocations}} Positionen",
+      "applicationLabel": "Anwendung",
+      "health": "Status",
+      "action": "Aktion",
+      "delete": "Test löschen",
+      "labelConfirm": "Bitte bestätigen",
+      "labelConfirmRemoveTest": "Möchten Sie den synthetischen Test <strong>{{label}}</strong> wirklich entfernen?",
+      "labelRemove": "Entfernen"
     },
     "summary": {
       "successRate": "Erfolgsquote",
       "locations": "Standorte",
-      "meanResponseTime": "Durchschnittliche Reaktionszeit",
+      "responseTime": "Antwortzeit",
+      "meanResponseTime": "Durchschn. Antwortzeit",
+      "responseSize": "Antwortgröße",
       "avgResponseSize": "Durchschn. Antwortgröße",
       "summaryTab": "Zusammenfassung",
       "resultsTab": "Ergebnisse",
+      "startTime": "Startzeit",
+      "requests": "Anforderungen",
       "widgets": {
         "failures": "Fehler",
         "responseTimes": "Antwortzeiten",
@@ -136,11 +151,54 @@
       "locationColumn": "Standort",
       "responseTimeColumn": "Antwortzeit",
       "responseSizeColumn": "Antwortgröße",
+      "retriesColumn": "Anzahl der Wiederholungen",
       "title": "Ergebnisse"
+    },
+    "detailsPage": {
+      "timeLineWidget": "Zeitachse",
+      "responseTimeChart": "Antwortzeit",
+      "subtransactionStatus": "Status",
+      "subtransactionSize": "Größe",
+      "subtransactionTime": "Zeit",
+      "subtransactionBlocking": "Blockierung",
+      "subtransactionDNS": "DNS",
+      "subtransactionConnect": "Verbindung herstellen",
+      "subtransactionSSL": "SSL-Modus",
+      "subtransactionSending": "Senden",
+      "subtransactionWaiting": "Wartet",
+      "subtransactionReceiving": "Empfangen",
+      "showLessSubDetails": "Reduzieren",
+      "showMoreSubDetails": "Erweitern",
+      "failedRun": "Fehlgeschlagene Ausführung (Ausnahme)",
+      "failedRunErrorTitle": "Fehlernachricht",
+      "noFailedErrorMessage": "Keine Fehlernachricht",
+      "stackTraceTitle": "Stack-Trace",
+      "noStacktrace": "Kein Stack-Trace",
+      "statusKpiCard": "Status",
+      "successResult": "Erfolgreich",
+      "failedResult": "Fehlgeschlagen",
+      "searchFilter": "Suchen",
+      "subtransactionBody": {
+        "contentType": "Inhaltstyp",
+        "size": "Größe",
+        "redirectTime": "Weiterleitungszeit",
+        "uploadSpeed": "Uploadgeschwindigkeit",
+        "downloadSpeed": "Downloadgeschwindigkeit",
+        "requestTitle": "Anforderung",
+        "responseTimingTitle": "Ablaufsteuerung der Antwort",
+        "timingsPercentageOfTotalDurationName": "{{percentage}} von {{totalDurationName}}"
+      },
+      "logs": "Protokolle",
+      "noDataAvailable": {
+        "message": "{{component}}-Details für dieses Testergebnis nicht verfügbar",
+        "notFound": "Nicht gefunden"
+      }
     },
     "noDataAvailable": {
       "resultsTitle": "Keine Ergebnisse verfügbar",
-      "resultsDescription": "Für den ausgewählten Zeitraum wurden keine Ergebnisse abgerufen."
+      "resultsDescription": "Für den ausgewählten Zeitraum wurden keine Ergebnisse abgerufen.",
+      "testSummaryTitle": "Keine synthetischen Tests verfügbar",
+      "testSummaryDescription": "Es wurden keine synthetischen Tests aus der Datenbank abgerufen."
     }
   }
 }

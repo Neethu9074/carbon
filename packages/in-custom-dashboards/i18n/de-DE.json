@@ -467,10 +467,10 @@
         "includeSyntheticCalls": "Synthetische Aufrufe einschließen",
         "type": "Typ",
         "sliEntity": "SLI-Entität",
-        "beaconConfigLabel": "Beaconkonfiguration",
+        "beaconConfigLabel": "Beacon-Konfiguration",
         "beaconScopeLabel": "Beaconbereich",
         "httpRequestsLabel": "HTTP-Anforderungen",
-        "beaconFiltersLabel": "Beaconfilter"
+        "beaconFiltersLabel": "Beacon-Filter"
       },
       "sliList": {
         "serviceLevelIndicators": "Service-Level-Indikatoren",
@@ -572,17 +572,35 @@
         "thousandCallsFormat": "{{count}}K Aufrufe"
       },
       "widgetLeftHeader": {
-        "previewDataInfo": "Vorschaudaten werden bis zu 7 Tage in der Vergangenheit angezeigt, wenn die SLI-Konfiguration kürzlich erstellt wurde. Das endgültige Widget enthält nur Daten seit der SLI-Erstellung"
+        "previewDataInfo": "Vorschaudaten werden bis zu 7 Tage in der Vergangenheit angezeigt, wenn die SLI-Konfiguration kürzlich erstellt wurde. Das letzte Widget enthält nur Daten seit der SLI-Erstellung."
+      },
+      "boundaryScopeConfigurator": {
+        "all": {
+          "title": "Alle Aufrufe",
+          "description": "Aufrufe, die innerhalb dieser Anwendung sowohl von Konsumenten als auch intern ausgeführt werden."
+        },
+        "inbound": {
+          "title": "Eingehende Aufrufe",
+          "description": "Nur von den Konsumenten dieser Anwendung ausgeführte Aufrufe."
+        }
       }
     },
     "apdex": {
       "title": "Apdex: Diagramm",
       "chart": {
-        "metricLabel": "Apdex"
+        "metricLabel": "Apdex",
+        "viewInAnalyze": "In Analyze anzeigen",
+        "noDataRetentionPeriod": "Ausgewählter Zeitraum liegt außerhalb des Datenaufbewahrungszeitraums"
       },
       "demo": {
         "title": "Apdex für Prod",
         "entityLabel": "Roboter-Filiale"
+      },
+      "apdexConfigInfo": {
+        "tagFilterLabel": "Filter",
+        "apdexNameLabel": "Apdex-Name",
+        "apdexTypeLabel": "Apdex-Typ",
+        "thresholdLabel": "Schwellenwert"
       },
       "formComponent": {
         "title": "Apdex-Konfiguration",
@@ -598,21 +616,41 @@
       },
       "entityTypeSelector": {
         "type": "Unbekannter Typ",
-        "type_website": "Website"
+        "type_website": "Website",
+        "type_application": "Anwendung"
       },
       "apdexManageList": {
-        "title": "Apdex-Liste"
+        "title": "Apdex-Liste",
+        "deleteSuccessfulMessage": "Die Apdex-Konfiguration wurde erfolgreich gelöscht.",
+        "deleteFailedMessage": "Die Apdex-Konfiguration konnte nicht gelöscht werden."
       },
       "apdexList": {
         "cardTitle": "Apdex-Konfiguration",
         "nameColumn": "Apdex-Konfiguration",
-        "thresholdColumn": "Schwelle",
+        "thresholdColumn": "Schwellenwert",
         "confirmDeleteHeader": "Bitte bestätigen",
         "confirmDeleteMessage": "Möchten Sie {{apdex}} wirklich löschen?",
         "editApdexTooltip": "Apdex-Konfiguration bearbeiten/klonen",
         "deleteApdexTooltip": "Apdex-Konfiguration löschen",
         "confirmDeleteButton": "Löschen",
         "createButton": "Apdex-Konfiguration erstellen"
+      },
+      "createApdexForm": {
+        "title": "Apdex-Konfiguration erstellen",
+        "customizationHeader": "Apdex-Anpassung",
+        "label": "Apdex-Name",
+        "apdexCreateSuccessTitle": "Die Apdex-Konfiguration wurde erfolgreich erstellt.",
+        "apdexCreateSuccessContent": "Die Apdex-Konfiguration \"{{apdexName}}\" wurde erstellt.",
+        "apdexCreateFailedTitle": "Die Apdex-Konfiguration konnte nicht erstellt werden.",
+        "apdexCreateFailedContent": "Beim Erstellen dieser Apdex-Konfiguration ist ein Problem aufgetreten: \"{{apdexName}}\"",
+        "apdexNameNotEmpty": "Der Apdex-Name darf nicht leer sein.",
+        "thresholdNotEmpty": "Der Schwellenwert darf nicht leer sein.",
+        "nameExistsError": "Eine Apdex-Konfiguration mit diesem Namen ist bereits vorhanden. Geben Sie einen anderen Namen ein."
+      },
+      "createWebsiteApdexForm": {
+        "thresholdHeader": "Schwellenwertkonfiguration",
+        "thresholdLabel": "Schwellenwert",
+        "thresholdFooter": "Der Schwellenwert kann nach der Erstellung nicht bearbeitet werden, um einen Datenverlust zu verhindern."
       },
       "entityInfo": {
         "tooltip": "Unbekannter Apdex",
@@ -621,7 +659,14 @@
       },
       "widget": {
         "unknownEntityLabel_application": "Unbekannte Anwendung",
-        "unknownEntityLabel_website": "Unbekannte Website"
+        "unknownEntityLabel_website": "Unbekannte Website",
+        "previewDataInfo": "Vorschaudaten werden bis zu 7 Tage in der Vergangenheit angezeigt, wenn die Apdex-Konfiguration kürzlich erstellt wurde. Das endgültige Widget enthält nur Daten seit der Apdex-Erstellung."
+      },
+      "applicationScopeConfigurator": {
+        "label": "Apdex-Bereich",
+        "boundaryScope": "Begrenzung",
+        "hiddenCalls": "Verdeckte Aufrufe",
+        "additionalFilters": "Zusätzlicher Filter"
       }
     },
     "timezone": {

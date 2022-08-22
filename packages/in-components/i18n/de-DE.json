@@ -216,13 +216,12 @@
     "groupedViewHeader_2": "{{formattedCount}} Gruppen",
     "groupedViewHeaderRetained": "Von {{formattedCount}} beibehalten",
     "resultHeaderLoading": "Ladevorgang läuft...",
-    "resultHeaderTooltip": "Die Abfragezeitspanne wurde auf die nächste volle Minute gerundet, damit diese Ansicht schneller geladen werden kann.",
     "queryProgress": {
       "preparing": "Vorbereitung läuft...",
       "runningQuery": "Abfrage wird ausgeführt...",
       "timeout": "Diese Abfrage hat das zulässige Zeitlimit überschritten.",
-      "timeoutEstimated": "Die Ausführung der Abfrage würde zu lange dauern.",
-      "timeoutInfo": "Wählen Sie einen kürzeren Zeitrahmen aus oder setzen Sie eine spezifischere Abfrage ab, indem Sie weitere Filter anwenden.",
+      "timeoutEstimated": "Ihre Abfrage konnte aufgrund der großen Anzahl von Aufrufen nicht verarbeitet werden.",
+      "timeoutInfo": "Wählen Sie einen kürzeren Zeitrahmen aus.",
       "inputError": "Es ist ein Eingabefehler aufgetreten.",
       "tooManyRequests": "Zu viele Anforderungen",
       "tooManyRequestsInfo": "Unser System ist derzeit ausgelastet. Versuchen Sie es später erneut.",
@@ -792,5 +791,11 @@
     "retainedLabel_viewChange_0": "Näherungsweise berechnete Daten ({{totalHits}} Ansichtsänderungen {{representedHits}} beibehalten)",
     "retainedLabel_viewChange_1": "Näherungsweise berechnete Daten ({{totalHits}} Ansichtsänderungen {{representedHits}} beibehalten)",
     "retainedLabel_viewChange_2": "Näherungsweise berechnete Daten ({{totalHits}} Ansichtsänderungen {{representedHits}} beibehalten)"
+  },
+  "migratedTenantBanner": {
+    "title": "Migrierte Tenanteinheit",
+    "notice": "Diese Tenanteinheit wurde in eine neue Region migriert. Die Einheit, auf die Sie momentan zugreifen, enthält nur Protokolldaten.",
+    "goToNewLocationLabel": "Zu neuer Position wechseln",
+    "exploreDataLabel": "Protokolldaten untersuchen"
   }
 }
