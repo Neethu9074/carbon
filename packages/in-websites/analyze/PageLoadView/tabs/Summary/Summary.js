@@ -27,7 +27,9 @@ import locals from './Summary.mless';
 const debouncedOpenPageLoad = debounce(openPageLoad, 1000);
 
 export default function Summary({ beacons, pageLoadLabel, pageLoadId, detailId }) {
-  const [filter, setFilter] = useState({ query: '', page: '', types: [] });
+  const [query, setQuery] = useState('');
+  const [page, setPage] = useState('');
+  const [filterTypes, setFilterTypes] = useState([]);
   // Fixing is expensive. Luckily it is easy to avoid this via memoization.
   const fixResult = useMemo(() => fixClockSkewProblems(beacons), [beacons]);
   beacons = fixResult.beacons;
@@ -103,8 +105,12 @@ export default function Summary({ beacons, pageLoadLabel, pageLoadId, detailId }
         detailId={detailId}
         pageLoad={pageLoad}
         firstBeacon={firstBeacon}
-        filter={filter}
-        setFilter={setFilter}
+        query={query}
+        setQuery={setQuery}
+        page={page}
+        setPage={setPage}
+        filterTypes={filterTypes}
+        setFilterTypes={setFilterTypes}
       />
     </ContentWrapper>
   );

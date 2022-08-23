@@ -18,21 +18,32 @@ import { t } from 'in-i18n';
 
 import locals from './Activity.mless';
 
-export default function Activity({ beacons, detailId, firstBeacon, sessionStart, filter, setFilter }) {
+export default function Activity({
+  beacons,
+  detailId,
+  firstBeacon,
+  sessionStart,
+  view,
+  setView,
+  query,
+  setQuery,
+  types,
+  setTypes
+}) {
   const filteredBeacons = beacons
     .filter(beacon => {
-      if (filter.types.length > 0 && filter.types.indexOf(getType(beacon)) === -1) {
+      if (types.length > 0 && types.indexOf(getType(beacon)) === -1) {
         return false;
       }
-      if (filter.view && filter.view.toLowerCase() !== beacon.view.toLowerCase()) {
+      if (view && view.toLowerCase() !== beacon.view.toLowerCase()) {
         return false;
       }
       if (
-        filter.query &&
+        query &&
         renderers[beacon.type]
           .getLabel(beacon)
           .toLowerCase()
-          .indexOf(filter.query) === -1
+          .indexOf(query) === -1
       ) {
         return false;
       }
@@ -41,13 +52,20 @@ export default function Activity({ beacons, detailId, firstBeacon, sessionStart,
     .sort((a, b) => a.timestamp - b.timestamp);
 
   // we want to force all expansion states to reset when filtering
-  const filterHash = generateStableHash(filter);
+  const filterHash = generateStableHash({ view, query, types });
 
   return (
     <Row>
       <Col lg={12}>
         <Card title={t('in-mobile-apps:sessionView.tabsSumActivityTitle')}>
-          <Filter setFilter={setFilter} filter={filter} beacons={beacons} />
+          <Filter
+            setQuery={setQuery}
+            view={view}
+            setView={setView}
+            filterTypes={types}
+            setTypes={setTypes}
+            beacons={beacons}
+          />
           <div className={locals.overviewChartContainer}>
             <OverviewChart
               beacons={filteredBeacons}

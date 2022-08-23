@@ -37,15 +37,15 @@ export default connectTo(({ correlationId, traceId, startTime }) => {
     result: getCorrelatedWebsiteBeacons({ correlationId, traceId, startTime })
   };
 })(function WebsiteMonitoringData({ result, traceId }) {
-  const [showDetails, setShowDetails] = useState(tryGet(localStorageKey) !== 'false');
-  const setDetails = show => {
+  const [showDetails, setDetails] = useState(tryGet(localStorageKey) !== 'false');
+  const setShowDetails = show => {
     trySet(localStorageKey, show);
     if (show) {
       showWebsiteDetailsInTraceView();
     } else {
       hideWebsiteDetailsInTraceView();
     }
-    setShowDetails(show);
+    setDetails(show);
   };
 
   const timeConfig = useTimeConfig();
@@ -72,7 +72,7 @@ export default connectTo(({ correlationId, traceId, startTime }) => {
               />
             </span>
             <span>
-              <Button onClick={() => setDetails(!showDetails)} kind="secondary" size="compact">
+              <Button onClick={() => setShowDetails(!showDetails)} kind="secondary" size="compact">
                 {showDetails
                   ? t('in-analyze:traceDetail.tabs.summary.hideWebsiteInformation')
                   : t('in-analyze:traceDetail.tabs.summary.showWebsiteInformation')}
