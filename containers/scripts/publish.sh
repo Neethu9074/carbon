@@ -36,7 +36,7 @@ docker buildx build \
     --tag $TAG \
     --progress plain \
     --cache-from $TAG \
-    --platform=linux/amd64,linux/s390x \
+    --platform=linux/amd64,linux/s390x,linux/ppc64le \
     --build-arg base_version=${BASE_VERSION} \
     --build-arg component_name=${COMPONENT_NAME} \
     --build-arg image_version=${DESIRED_IMAGE_VERSION} \
