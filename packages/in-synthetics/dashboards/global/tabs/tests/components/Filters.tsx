@@ -21,9 +21,10 @@ type filterProps = {
   syntheticTypes: string[];*/
   setFilter: any;
   props: ServerTablePresenterProps<TestResultListItem>;
+  isAppcontext?: boolean;
 };
 
-export default function Filters({ setFilter, props }: filterProps) {
+export default function Filters({ isAppcontext, setFilter, props }: filterProps) {
   const syntheticTypes: string[] = getSyntheticTypes(props);
   return (
     <Fragment>
@@ -43,14 +44,16 @@ export default function Filters({ setFilter, props }: filterProps) {
         options={[]}
         className={locals.filter}
       />
-      <ComboBox
-        value={getApplicationLabels(props)}
-        onChange={t => setFilter({ anyOption: t ? t : null })}
-        placeholder={t('in-synthetics:dashboard.testList.applicationLabel')}
-        isMulti
-        options={[]}
-        className={locals.filter}
-      />
+      {!isAppcontext && (
+        <ComboBox
+          value={getApplicationLabels(props)}
+          onChange={t => setFilter({ anyOption: t ? t : null })}
+          placeholder={t('in-synthetics:dashboard.testList.applicationLabel')}
+          isMulti
+          options={[]}
+          className={locals.filter}
+        />
+      )}
     </Fragment>
   );
 }

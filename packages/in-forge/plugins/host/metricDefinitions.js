@@ -171,8 +171,16 @@ export default [
     formatter: kiloBytes
   },
   {
-    metric: getDynamicMetricMatch('fs', 'used', t('in-forge:plugins.host.deviceOrMount')),
+    metric: getDynamicMetricMatch('fs', 'used', t('in-forge:plugins.host.device')),
     label: getFilesystemLabel('Used'),
+    category: [t('in-forge:plugins.host.filesystem')],
+    min: 0,
+    max: 1,
+    formatter: percentage
+  },
+  {
+    metric: getDynamicMetricMatch('fs_mount', 'used', t('in-forge:plugins.host.mount')),
+    label: getFilesystemLabel('Mount'),
     category: [t('in-forge:plugins.host.filesystem')],
     min: 0,
     max: 1,

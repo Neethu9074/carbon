@@ -5,15 +5,16 @@
 
 import React from 'react';
 
-import { Card } from '@instana/components';
+import { Card, HorizontalIndicator, LoadingSkeleton } from '@instana/components';
 
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
-import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { TOPLIST_METRIC_CHANGED, track } from 'in-services/tracking/tracking';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import ButtonGroup from 'in-components/ButtonGroup';
 import List from 'in-components/TopListCard/List';
 import { t } from 'in-i18n';
+
+import locals from './TopListCardPresenter.mless';
 
 export default function TopListCard(props) {
   const {
@@ -56,7 +57,7 @@ export default function TopListCard(props) {
   const height = 160;
 
   if (result.progress.loading) {
-    content = <LoadingIndicator text={t('in-components:topListCard.loadingData')} height={height} />;
+    content = <TopListSkeleton />;
     withoutPadding = true;
   } else if (result.errors.length > 0) {
     content = <NoDataAvailable height={height} />;
@@ -75,7 +76,7 @@ export default function TopListCard(props) {
       undefined
     );
 
-  return (
+  const card = (
     <Card
       title={title}
       leftHeaderContent={leftHeaderContent}
@@ -85,5 +86,26 @@ export default function TopListCard(props) {
     >
       {content}
     </Card>
+  );
+
+  if (result.progress.loading) {
+    return (
+      <div className={locals.loadingBarContainer}>
+        <HorizontalIndicator progress={result.progress} className={locals.horizontalIndicator} />
+        {card}
+      </div>
+    );
+  } else {
+    return card;
+  }
+}
+
+function TopListSkeleton() {
+  return (
+    <div className={locals.skeletonWrapper}>
+      <LoadingSkeleton className={locals.itemSkeleton} />
+      <LoadingSkeleton className={locals.itemSkeleton} />
+      <LoadingSkeleton className={locals.itemSkeleton} />
+    </div>
   );
 }

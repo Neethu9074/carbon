@@ -9,12 +9,15 @@ import PropTypes from 'prop-types';
 
 import { SvgIcon } from '@instana/components';
 
+import {
+  collectAllCompanionDataPointsAtTime,
+  collectAllDataPointsAtTime
+} from 'in-components/Chart/data/dataSearchUtils';
 import AggregationSymbol, { supportsAggregationIcon } from 'in-components/AggregationSymbol';
-import { collectAllDataPointsAtTime } from 'in-components/Chart/data/dataSearchUtils';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
-import { getTimeShiftLabel, defaultTimeShift } from 'in-stores/time/shifting';
+import { defaultTimeShift, getTimeShiftLabel } from 'in-stores/time/shifting';
 import { formatDateTime } from 'in-services/formatters/date';
-import { Trans, t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 
 import locals from './TooltipContent.mless';
 
@@ -32,6 +35,7 @@ export default function TooltipContent({
   excludedLabelsFromTooltip
 }) {
   const dataPointsAtTime = collectAllDataPointsAtTime(chart.config, timestamp);
+  const companionDataPointsAtTime = collectAllCompanionDataPointsAtTime(chart.config, timestamp);
   const scrollContainerRef = useRef();
 
   const [scrollable, setScrollable] = useState(false);
@@ -90,6 +94,7 @@ export default function TooltipContent({
           config={chart.config}
           axisName="y1"
           dataPointsAtTime={dataPointsAtTime}
+          companionDataPointsAtTime={companionDataPointsAtTime}
           reverseTooltipOrder={reverseTooltipOrder}
           excludedLabelsFromTooltip={excludedLabelsFromTooltip}
         />
@@ -97,6 +102,7 @@ export default function TooltipContent({
           config={chart.config}
           axisName="y2"
           dataPointsAtTime={dataPointsAtTime}
+          companionDataPointsAtTime={companionDataPointsAtTime}
           reverseTooltipOrder={reverseTooltipOrder}
           excludedLabelsFromTooltip={excludedLabelsFromTooltip}
         />
@@ -151,7 +157,14 @@ TooltipContent.propTypes = {
   width: PropTypes.number.isRequired
 };
 
-function MetricSeries({ config, axisName, dataPointsAtTime, reverseTooltipOrder, excludedLabelsFromTooltip = [] }) {
+function MetricSeries({
+  config,
+  axisName,
+  dataPointsAtTime,
+  companionDataPointsAtTime,
+  reverseTooltipOrder,
+  excludedLabelsFromTooltip = []
+}) {
   const axis = config[axisName];
   if (!axis) {
     return null;
@@ -170,7 +183,9 @@ function MetricSeries({ config, axisName, dataPointsAtTime, reverseTooltipOrder,
         return null;
       }
       const dataPointsForAxis = dataPointsAtTime[axisName];
+      const companionDataPointsForAxis = companionDataPointsAtTime[axisName];
       const dataPoint = dataPointsForAxis ? dataPointsForAxis[i] : null;
+      const companionDataPoint = companionDataPointsForAxis?.[i] ?? null;
 
       const aggregation = aggregations[i];
       const timeShift = axis.timeShifts?.[i] || defaultTimeShift;
@@ -187,6 +202,9 @@ function MetricSeries({ config, axisName, dataPointsAtTime, reverseTooltipOrder,
             {timeShift.offset !== 0 && <span className={locals.timeShift}>{` (${getTimeShiftLabel(timeShift)})`}</span>}
           </span>
 
+          {companionDataPoint && axis.companionMetricFormatter[i] && (
+            <span className={locals.companionValue}>({axis.companionMetricFormatter[i](companionDataPoint[1])})</span>
+          )}
           {aggregation && (
             <span
               className={classNames(locals.aggregation, {

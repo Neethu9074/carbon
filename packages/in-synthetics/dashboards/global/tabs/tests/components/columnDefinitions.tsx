@@ -178,10 +178,13 @@ export const columnDefinitions: ColumnDefinition<TestResultListItem, testListPro
           </HorizontalFlexWrapper>
         );
       } else {
-        const severities: number[] = [];
-        for (let i = 0; i < totalLocations; i++) {
-          severities.push(locationStatusList[i].successRate == 1 ? 0 : 10);
-        }
+        let severities = locationStatusList.map(location => {
+          return {
+            sev: location.successRate == 1 ? 0 : 10,
+            id: location.locationId
+          };
+        });
+
         return (
           <HorizontalFlexWrapper>
             <SvgIcon type={'lib_synthetic_location'} />
@@ -189,7 +192,9 @@ export const columnDefinitions: ColumnDefinition<TestResultListItem, testListPro
               <h4 className={locals.label}>{t('in-synthetics:dashboard.testList.locations', { totalLocations })}</h4>
               <HorizontalFlexWrapper>
                 {severities.map(severity => {
-                  return <HealthDot severity={severity} iconSize={5} className={locals.dotPadding} />;
+                  return (
+                    <HealthDot key={severity.id} severity={severity.sev} iconSize={5} className={locals.dotPadding} />
+                  );
                 })}
               </HorizontalFlexWrapper>
             </div>
@@ -227,8 +232,8 @@ export const columnDefinitions: ColumnDefinition<TestResultListItem, testListPro
     label: t('in-synthetics:dashboard.testList.health'),
     sortable: false,
     getContent(item: TestResultListItem) {
-      const totalRuns = get(item.testResultCommonProperties, ['metrics', 'total_test_runs', 0, 1], 1);
-      const successRuns = get(item.testResultCommonProperties, ['metrics', 'successful_test_runs', 0, 1], 1);
+      const totalRuns = get(item, ['metrics', 'total_test_runs', 0, 1], 1);
+      const successRuns = get(item, ['metrics', 'successful_test_runs', 0, 1], 1);
 
       let severity = totalRuns != 0 && successRuns / totalRuns == 1 ? 0 : 10;
 

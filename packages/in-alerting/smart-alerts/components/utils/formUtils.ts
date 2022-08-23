@@ -45,7 +45,7 @@ export function alertConfigWithDefaultThreshold(form: MapForm) {
     ...form.toJS(),
     threshold: {
       ...threshold?.toJS(),
-      value: thresholdValue?.value ?? 0
+      value: thresholdValue?.value ?? null
     }
   };
 }

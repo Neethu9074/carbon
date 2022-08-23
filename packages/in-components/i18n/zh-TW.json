@@ -216,13 +216,12 @@
     "groupedViewHeader_2": "{{formattedCount}} 個群組",
     "groupedViewHeaderRetained": "已從 {{formattedCount}} 保留",
     "resultHeaderLoading": "載入中...",
-    "resultHeaderTooltip": "查詢時間範圍已捨入至最接近的整分鐘，以便讓此視圖能更快載入。",
     "queryProgress": {
       "preparing": "準備中...",
       "runningQuery": "正在執行查詢...",
       "timeout": "此查詢已逾時。",
-      "timeoutEstimated": "查詢的執行時間太久。",
-      "timeoutInfo": "請選取較短的時間範圍，或套用更多過濾器以發出更具體的查詢。",
+      "timeoutEstimated": "由於大量呼叫，無法處理您的查詢。",
+      "timeoutInfo": "請選取較短的時間範圍。",
       "inputError": "發生輸入錯誤。",
       "tooManyRequests": "要求太多",
       "tooManyRequestsInfo": "我們的系統目前忙碌中。請稍後再試一次。",
@@ -792,5 +791,11 @@
     "retainedLabel_viewChange_0": "近似資料（{{totalHits}} 個從 {{representedHits}} 保留的視圖變更）",
     "retainedLabel_viewChange_1": "近似資料（{{totalHits}} 個從 {{representedHits}} 保留的視圖變更）",
     "retainedLabel_viewChange_2": "近似資料（{{totalHits}} 個從 {{representedHits}} 保留的視圖變更）"
+  },
+  "migratedTenantBanner": {
+    "title": "已移轉租戶單元",
+    "notice": "此租戶單元已移轉至新區域。 您目前正在存取的單元僅包含歷程資料。",
+    "goToNewLocationLabel": "移至新位置",
+    "exploreDataLabel": "探索歷程資料"
   }
 }

@@ -216,13 +216,12 @@
     "groupedViewHeader_2": "{{formattedCount}} groupe(s)",
     "groupedViewHeaderRetained": "Conservé sur {{formattedCount}}",
     "resultHeaderLoading": "Chargement en cours...",
-    "resultHeaderTooltip": "La période d'interrogation a été arrondie à la minute la plus proche pour permettre à cette vue de se charger plus rapidement.",
     "queryProgress": {
       "preparing": "Préparation en cours ...",
       "runningQuery": "Exécution de la requête en cours ...",
       "timeout": "Cette requête a expiré.",
-      "timeoutEstimated": "La requête prendrait trop de temps à s'exécuter.",
-      "timeoutInfo": "Sélectionnez un délai plus court ou exécutez une requête plus spécifique en appliquant plus de filtres.",
+      "timeoutEstimated": "Votre requête n'a pas pu être traitée en raison du volume élevé d'appels.",
+      "timeoutInfo": "Sélectionnez une période plus courte.",
       "inputError": "Une erreur d'entrée s'est produite.",
       "tooManyRequests": "Trop grand nombre de demandes",
       "tooManyRequestsInfo": "Notre système est actuellement occupé. Réessayez ultérieurement.",
@@ -792,5 +791,11 @@
     "retainedLabel_viewChange_0": "Données approximatives ({{totalHits}} modifications de vue conservées sur {{representedHits}})",
     "retainedLabel_viewChange_1": "Données approximatives ({{totalHits}} modifications de vue conservées sur {{representedHits}})",
     "retainedLabel_viewChange_2": "Données approximatives ({{totalHits}} modifications de vue conservées sur {{representedHits}})"
+  },
+  "migratedTenantBanner": {
+    "title": "Unité locataire migrée",
+    "notice": "Cette unité locataire a été migrée vers une nouvelle région. L'unité à laquelle vous accédez actuellement contient uniquement des données d'historique.",
+    "goToNewLocationLabel": "Accéder au nouvel emplacement",
+    "exploreDataLabel": "Explorer les données d'historique"
   }
 }

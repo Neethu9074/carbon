@@ -96,6 +96,11 @@
     "deselect": "Deseleccionar"
   },
   "tabs": {
+    "team": {
+      "customPayload": {
+        "unknownTag": "Etiqueta desconocida: {{tagName}}"
+      }
+    },
     "failedToSaveConfig": "No se ha podido guardar la configuración: {{err}}",
     "IdPMetadataRequired": "Se necesita el archivo de metadatos de IdP",
     "IdPMetadataLargerThanTwoMega": "El archivo de metadatos de IdP no puede tener más de 2 megabytes",
@@ -157,6 +162,8 @@
     "inviteUser": "Invitar a un usuario",
     "failedToSendInvitation": "No se ha podido enviar la invitación: {{err}}",
     "pleaseInviteAtLeastOneUser": "Invite al menos a un usuario.",
+    "thisUserAlreadyExists": "Este usuario ya existe. Puede editarlo en el menú \"Usuarios\".",
+    "someEmailsHaveFailedToSend": "Algunos correos electrónicos no se han podido enviar",
     "inviteUserToTenant": "Invitar al usuario a {{tenant}}",
     "anotherUser": "Otro usuario",
     "permissionEntityLabel": "permiso {{entityLabel}}",
@@ -190,6 +197,7 @@
     "disabled": "Inhabilitado",
     "invalidQuery": "Consulta no válida",
     "deprecated": "En desuso",
+    "actionNeededRecommendMigrate": "¡Es necesaria una acción! Este suceso estará en desuso pronto, por lo que recomendamos migrarlo a una alerta inteligente.",
     "migrated": "Migrado",
     "createAlertChannelLabelAlertChannel": "Crear canal de alertas {{alertChannelLabel}}",
     "modifyEntityNameAlertChannel": "Modificar canal de alertas {{entityName}}",
@@ -459,6 +467,7 @@
     "groupMappingFailedToSave": "No se han podido guardar las correlaciones de grupos IdP",
     "thereShouldBeAtLeastOneGroupMapping": "Se debe añadir al menos una correlación de grupos si se selecciona 'denegar acceso cuando no se encuentra ninguna correlación' o, de lo contrario, ningún usuario podrá iniciar la sesión.",
     "failIfNoIdp": "Para cambiar esta configuración, debe tener un proveedor de identidad configurado.",
+    "noActions": "No hay ninguna acción configurada",
     "noGroupMapping": "No se ha configurado ninguna correlación entre el proveedor de identidad e Instana",
     "denyUserWithNoGroup": "Denegar acceso cuando no se encuentre ninguna correlación. Si esta opción no está seleccionada, los usuarios sin correlaciones de grupos y sin grupos encontrados se añadirán al grupo predeterminado.",
     "twoFactor": "Bifactorial",
@@ -484,6 +493,7 @@
     "importingConfig": "Importación de datos de configuración",
     "configSuccessfullyImported": "Los datos de configuración se han importado correctamente",
     "failedToImportConfig": "No se han podido importar los datos de configuración: {{err}}",
+    "configImportResult": "Filtrar por resultado de importación...",
     "settingsPageNotFound": "No se ha encontrado la página de valores",
     "weCouldNotFindTheSettingsPageYouWereLookingFor": "No se ha podido encontrar la página de valores que está buscando. Lo sentimos. Es posible que desee probar uno de los enlaces siguientes.",
     "pleaseSelectAtLeastOneItem": "Seleccione al menos un elemento.",
@@ -627,6 +637,7 @@
     "configureCustomPayload": "Configurar carga útil personalizada",
     "youAreNotPermittedToEditCustomPayloads": "No está permitido editar las cargas útiles personalizadas.",
     "unknownEvent": "Suceso desconocido",
+    "unknownAction": "Acción desconocida",
     "builtInEventDefinition": "Definición de suceso integrado",
     "entityType": "Tipo de entidad",
     "eventInputs": "Entradas de sucesos",
@@ -806,10 +817,23 @@
     "default": "Valor predeterminado",
     "identityProviderType": "Tipo de proveedor de identidad",
     "copyApiTokenToClipboardError": "No se ha podido copiar la señal API en el portapapeles.",
-    "depreactedEventHiddenInfo": "Los sucesos en desuso ya no se pueden añadir a nuevas configuraciones y se ocultan en esta lista.",
-    "deprecatedEventMessage": "Este suceso está en desuso. Migre a una alerta inteligente o <documentationLink>consulte nuestra documentación</documentationLink>.",
+    "depreactedEventHiddenInfo": "Los sucesos en desuso ya no se pueden añadir a nuevas alertas y se ocultan de esta lista.",
+    "deprecatedEventMessage": "Los sucesos personalizados en los tipos de entidad Perspectiva de aplicación, Servicio y Punto final estarán en desuso en breve. A partir de octubre de 2022, no podrá crear nuevos sucesos de este tipo. Se recomienda migrar este suceso a una alerta inteligente manualmente o utilizando el botón <em>Migrar a alerta inteligente</em> anterior. <documentationLink>Más información en la documentación</documentationLink>.",
     "migratedEventMessage": "Este suceso en desuso se migra. Para obtener más información, <documentationLink>consulte nuestra documentación</documentationLink>.",
-    "deprecatedEventSelectedMessage": "Los tipos de entidad <em>Aplicación, servicio y punto final</em> están en desuso para los sucesos personalizados y deben migrarse lo antes posible a una alerta inteligente. Aconsejamos configurar la alerta inteligente correspondiente en lugar de un suceso personalizado. Para obtener más información, <documentationLink>consulte nuestra documentación</documentationLink>."
+    "deprecatedEventSelectedMessage": "Los sucesos personalizados en los tipos de entidad Perspectiva de aplicación, Servicio y Punto final estarán en desuso en breve. A partir de octubre de 2022, no podrá crear nuevos sucesos de este tipo. Recomendamos crear una alerta inteligente en su lugar. <documentationLink>Más información en la documentación</documentationLink>.",
+    "automation": "Automatización",
+    "actionCatalog": "Catálogo de acciones",
+    "action_plural": "Acciones",
+    "actionWithName": "Acción: {{actionName}}",
+    "actionType": "Tipo de acción",
+    "actionDetails": "Detalles de acción",
+    "filterActions": "Acciones de filtro",
+    "fields": "Campos",
+    "invocations": "Invocaciones",
+    "successRate": "Tasa de éxito",
+    "lastModified": "Última modificación",
+    "docLink": "Enlace a la documentación",
+    "deletedEventMessage": "Está buscando una configuración de suceso suprimida. Las modificaciones no son posibles."
   },
   "languageSelection": {
     "language": "Idioma",

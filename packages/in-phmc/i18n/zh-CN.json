@@ -8,8 +8,8 @@
   "ibmpPhmcs": "IBM Power HMC",
   "noMonitoringDataFound": "找不到监视数据",
   "noData": "没有可用的 pHMC 数据。",
-  "machineTypeModel": "型号*机器序列号",
-  "machineSerial": "机器类型",
+  "machineTypeModel": "机器类型-型号",
+  "machineSerial": "机器序列号",
   "available": "可用",
   "utilized": "已使用",
   "configurable": "可配置",
@@ -20,6 +20,7 @@
   "partitionId": "分区标识",
   "state": "状态",
   "utilizedMem": "已用内存",
+  "memory": "内存 (MB)",
   "mode": "方式",
   "maxVirtualProcessor": "最大虚拟处理器数",
   "max": "最大值",
@@ -36,9 +37,8 @@
   "backedPhy": "支持的物理",
   "totalIO": "总 IO",
   "mappedIO": "映射的 IO",
+  "utilizedProcNumber": "已用处理器单元",
   "utilizedProc": "已用处理器单元 (%)",
-  "utilizedProcessor": "已用处理器",
-  "assignedMemory": "分配的内存 (MB)",
   "availableProc": "可用处理器单元 (%)",
   "configurableProc": "可配置处理器单元 (%)",
   "memAvailable": "可用内存 (MB)",
@@ -123,7 +123,6 @@
     "fiberChannelAdapter": "光纤通道适配器",
     "virtualFiberChannelAdapter": "虚拟光纤通道适配器",
     "sharedStoragePool": "共享存储池",
-    "hypervisor": "系统管理程序",
     "energy": "能量"
   }
 }

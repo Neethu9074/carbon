@@ -78,12 +78,9 @@ export function BaselinesWithGaps() {
       <h1>Adaptive Baseline</h1>
       <Chart renderer={createLineWithAdaptiveBaseline(adaptiveBaseline, granularity, [])} />
       <h1>Static threshold</h1>
-      <Chart
-        renderer={createLineWithThreshold({
-          operator: '>',
-          value: 30
-        })}
-      />
+      <Chart renderer={createLineWithThreshold('>', 30)} />
+      <h1>Static threshold without value</h1>
+      <Chart renderer={createLineWithThreshold('>', null)} />
     </>
   );
 }

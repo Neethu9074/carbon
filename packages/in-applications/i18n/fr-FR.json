@@ -62,6 +62,8 @@
   "labelScope": "Portée",
   "labelCustomServiceRules": "Règles de service personnalisées",
   "labelSyntheticEndpoints": "Noeuds finaux synthétiques",
+  "labelWarning": "Avertissement",
+  "labelCritical": "Critique",
   "titleTopServices": "Principaux services",
   "titleMeanLatency": "Temps d'attente moyen",
   "titleErroneousCallRate": "Taux d'appels erronés",
@@ -197,7 +199,8 @@
     "technologies": "Technologies",
     "httpStatusCode": "Statut HTTP",
     "hiddenCalls": "Appels masqués",
-    "preview": "Aperçu",
+    "fastQueryMode": "Mode requête rapide",
+    "fastQueryModeTooltip": "Le mode requête rapide permet d'exécuter des requêtes sur un sous-ensemble d'appels ou de traces si l'exécution sur le jeu de données complet risque de prendre trop de temps.",
     "listBatchTypeTooltip": "Ce {{type}} est traité par lots et représente {{batchCount}} {{types}} individuels.",
     "listBatchLatencyTooltip": "Temps d'attente total de {{batchCount}} {{types}} par lots.",
     "traceIdTooltip": "Certaines données relatives à cette trace sont retardées. Rechargez la page dans quelques instants. C'est le cas, par exemple, lorsque vous affichez une trace très récente et que certaines de ses données sont toujours en cours de traitement.",
@@ -643,6 +646,7 @@
     "alternativeServicesPossibleProblem": "<bold>Peut-être</bold>, si le service en cours et les noms de services de remplacement ne proviennent pas de l'en-tête HTTP \"Host\" ; ils sont alors soit des services placés derrière un proxy (bon), soit des services en double (mauvais) : certains des services sont entièrement liés à infra, tandis que d'autres sont partiellement liés à infra."
   },
   "widgetNotActive": {
-    "title": "Le widget n'est pas pris en charge en mode interactif"
+    "title": "Le widget n'est pas pris en charge en mode interactif",
+    "button": "Arrêter le mode opérationnel"
   }
 }

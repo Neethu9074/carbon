@@ -572,7 +572,7 @@
         "thousandCallsFormat": "{{count}}K calls"
       },
       "widgetLeftHeader": {
-        "previewDataInfo": "Preview data is shown up to 7 days in the past if SLI configuration was created recently. The final widget will only include data since SLI creation."
+        "previewDataInfo": "Preview data is shown only up to 7 days in the past. The final widget will only include data since SLI creation."
       },
       "boundaryScopeConfigurator": {
         "all": {
@@ -590,7 +590,9 @@
       "chart": {
         "metricLabel": "Apdex",
         "viewInAnalyze": "View in Analyze",
-        "noDataRetentionPeriod": "Selected time range is beyond data retention period"
+        "noDataRetentionPeriod": "Selected time range is beyond data retention period",
+        "notFoundErrorTitle": "Configured Apdex has not been found",
+        "notFoundErrorDescription": "Please update the Apdex widget by selecting another Apdex configuration"
       },
       "demo": {
         "title": "Apdex for Prod",
@@ -644,7 +646,6 @@
         "apdexCreateFailedTitle": "Failed to create the Apdex configuration.",
         "apdexCreateFailedContent": "There was a problem creating this Apdex configuration: \"{{apdexName}}\"",
         "apdexNameNotEmpty": "The Apdex name cannot be empty.",
-        "thresholdNotEmpty": "The threshold cannot be empty.",
         "nameExistsError": "Apdex configuration with this name already exists. Please enter a different name."
       },
       "createWebsiteApdexForm": {
@@ -660,7 +661,7 @@
       "widget": {
         "unknownEntityLabel_application": "Unknown Application",
         "unknownEntityLabel_website": "Unknown Website",
-        "previewDataInfo": "Preview data is shown up to 7 days in the past if Apdex configuration was created recently. The final widget will only include data since Apdex creation."
+        "previewDataInfo": "Preview data is shown for the last 7 days. The final widget will only include data since creation of the Apdex configuration."
       },
       "applicationScopeConfigurator": {
         "label": "Apdex Scope",

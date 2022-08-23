@@ -216,13 +216,12 @@
     "groupedViewHeader_2": "Gruppi: {{formattedCount}}",
     "groupedViewHeaderRetained": "Conservato da {{formattedCount}}",
     "resultHeaderLoading": "Caricamento…",
-    "resultHeaderTooltip": "L'intervallo di tempo della query è stato arrotondato al minuto intero più vicino per consentire di caricare questa vista più rapidamente.",
     "queryProgress": {
       "preparing": "Preparazione…",
       "runningQuery": "Esecuzione query…",
       "timeout": "Questa query è scaduta.",
-      "timeoutEstimated": "La query richiederebbe troppo tempo per essere eseguita.",
-      "timeoutInfo": "Selezionare un intervallo di tempo più breve oppure immettere una query più specifica applicando ulteriori filtri.",
+      "timeoutEstimated": "Non è stato possibile elaborare la query a causa dell'elevato volume di chiamate.",
+      "timeoutInfo": "Selezionare un intervallo di tempo più breve.",
       "inputError": "Si è verificato un errore di input.",
       "tooManyRequests": "Troppe richieste",
       "tooManyRequestsInfo": "Il nostro sistema è attualmente occupato. Riprovare successivamente.",
@@ -257,8 +256,8 @@
     "titleChart": "Grafico"
   },
   "dashboardHeader": {
-    "urlShortenerTabListTextShortLink": "Collegamento breve",
-    "urlShortenerWaitTextGeneratingShortLink": "Generazione del collegamento breve.",
+    "urlShortenerTabListTextShortLink": "Link breve",
+    "urlShortenerWaitTextGeneratingShortLink": "Generazione del link breve.",
     "urlShortenerLabelLockCurrentTimeRange": "Blocca intervallo di tempo corrente",
     "urlShortenerLabelLive": "{{timeConfig}} (tempo reale)",
     "copy": "Copia"
@@ -792,5 +791,11 @@
     "retainedLabel_viewChange_0": "Dati approssimativi ({{totalHits}} modifiche di vista conservate da {{representedHits}})",
     "retainedLabel_viewChange_1": "Dati approssimativi ({{totalHits}} modifiche di vista conservate da {{representedHits}})",
     "retainedLabel_viewChange_2": "Dati approssimativi ({{totalHits}} modifiche di vista conservate da {{representedHits}})"
+  },
+  "migratedTenantBanner": {
+    "title": "Unità tenant migrata",
+    "notice": "Questa unità tenant è stata migrata in una nuova regione. L'unità a cui si sta attualmente accedendo contiene solo dati cronologici.",
+    "goToNewLocationLabel": "Vai alla nuova ubicazione",
+    "exploreDataLabel": "Esplora dati cronologici"
   }
 }

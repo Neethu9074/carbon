@@ -4,7 +4,6 @@
 :local {
   .listItem {
     gap: 0 1.5rem;
-    align-items: flex-start;
 
     .keyCell {
       width: 30%;
@@ -13,5 +12,9 @@
     .valueCell {
       width: 70%;
     }
+  }
+
+  .valueItem {
+    min-height: 3.25rem;
   }
 }
