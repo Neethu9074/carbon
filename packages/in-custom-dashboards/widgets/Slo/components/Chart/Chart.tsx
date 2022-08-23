@@ -159,7 +159,7 @@ function useTagCatalogLoader(config?: SliConfig): Parameters<typeof useTagCatalo
       return () => just(pendingResult);
     }
     if (isApplicationSliConfig(config) || isAvailabilitySliConfig(config)) {
-      return getApplicationTagCatalog({ dataSource: CALLS, useCase: 'SLI_MANAGEMENT' });
+      return getApplicationTagCatalog({ dataSource: CALLS, useCase: 'FILTERING' });
     }
     if (isWebsiteTimeBasedSliConfig(config) || isWebsiteEventBasedSliConfig(config)) {
       const {
