@@ -7,6 +7,7 @@ import React from 'react';
 
 import { KeyValue } from '@instana/components';
 
+import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/thresholdFormData';
 import { applicationThresholdTypeOptions } from 'in-alerting/smart-alerts/applications/data/applicationThresholdFormData';
 import alertEvaluationTypes from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
@@ -69,7 +70,9 @@ export function createMetricLabel(alertType, aggregation, thresholdType, value, 
   if (thresholdType === STATIC_THRESHOLD) {
     const metricFormat = blueprintConfig.getMetricFormat(metricName);
     const formattedValue = (metricFormat.short || metricFormat.compact)(value);
-    formattedMetricLabel += ` ${operator} ${formattedValue}`;
+    const humanReadableOperator = humanReadableThresholdOperator(operator);
+
+    formattedMetricLabel += ` ${humanReadableOperator} ${formattedValue}`;
   }
 
   return formattedMetricLabel;

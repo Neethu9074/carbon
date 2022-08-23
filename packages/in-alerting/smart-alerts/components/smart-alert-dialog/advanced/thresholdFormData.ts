@@ -9,16 +9,26 @@ import { ThresholdOperator } from 'in-types';
 import { t } from 'in-i18n';
 
 export const thresholdGreaterOperatorOptions = Object.freeze([
-  { value: '>=', label: '≥' },
-  { value: '>', label: '>' }
+  { value: '>=', label: humanReadableThresholdOperator('>=') },
+  { value: '>', label: humanReadableThresholdOperator('>') }
 ]);
 
 export const thresholdOperatorOptions = Object.freeze([
-  { value: '>=', label: '≥' },
-  { value: '>', label: '>' },
-  { value: '<=', label: '≤' },
-  { value: '<', label: '<' }
+  { value: '>=', label: humanReadableThresholdOperator('>=') },
+  { value: '>', label: humanReadableThresholdOperator('>') },
+  { value: '<=', label: humanReadableThresholdOperator('<=') },
+  { value: '<', label: humanReadableThresholdOperator('<') }
 ]);
+
+export function humanReadableThresholdOperator(operator: string): string {
+  if (operator === '>=') {
+    return '≥';
+  }
+  if (operator === '<=') {
+    return '≤';
+  }
+  return operator;
+}
 
 export const thresholdTypeOptions = Object.freeze([
   {
@@ -42,12 +52,8 @@ export const thresholdTypeOptions = Object.freeze([
 export function enrichThresholdOperatorOptionsForApiConfigs(operator: ThresholdOperator) {
   let legacyOperator = null;
 
-  if (operator === '<=') {
-    legacyOperator = { value: '<=', label: '≤' };
-  }
-
-  if (operator === '<') {
-    legacyOperator = { value: '<', label: '<' };
+  if (operator === '<=' || operator === '<') {
+    legacyOperator = { value: operator, label: humanReadableThresholdOperator(operator) };
   }
 
   return Object.freeze([...thresholdGreaterOperatorOptions, legacyOperator].filter(Boolean));
