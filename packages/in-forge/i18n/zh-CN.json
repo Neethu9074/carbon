@@ -254,6 +254,11 @@
   "pluginName_camunda_1": "Camunda",
   "pluginName_camunda_2": "Camunda",
   "pluginName_camunda": "Camunda",
+  "pluginName_camundaexit_plural": "Camunda 出口",
+  "pluginName_camundaexit_0": "Camunda 出口",
+  "pluginName_camundaexit_1": "Camunda 出口",
+  "pluginName_camundaexit_2": "Camunda 出口",
+  "pluginName_camundaexit": "Camunda 出口",
   "pluginName_cassandraCluster_plural": "Cassandra 集群",
   "pluginName_cassandraCluster_0": "Cassandra 集群",
   "pluginName_cassandraCluster_1": "Cassandra 集群",
@@ -1056,6 +1061,21 @@
   "pluginName_redisEnterpriseNode_1": "Redis Enterprise 节点",
   "pluginName_redisEnterpriseNode_2": "Redis Enterprise 节点",
   "pluginName_redisEnterpriseNode": "Redis Enterprise 节点",
+  "pluginName_rocketMqCluster_plural": "RocketMQ 集群",
+  "pluginName_rocketMqCluster_0": "RocketMQ 集群",
+  "pluginName_rocketMqCluster_1": "RocketMQ 集群",
+  "pluginName_rocketMqCluster_2": "RocketMQ 集群",
+  "pluginName_rocketMqCluster": "RocketMQ 集群",
+  "pluginName_rocketMqBroker_plural": "RocketMQ 代理程序",
+  "pluginName_rocketMqBroker_0": "RocketMQ 代理程序",
+  "pluginName_rocketMqBroker_1": "RocketMQ 代理程序",
+  "pluginName_rocketMqBroker_2": "RocketMQ 代理程序",
+  "pluginName_rocketMqBroker": "RocketMQ 代理程序",
+  "pluginName_rocketMqTopic_plural": "RocketMQ 主题",
+  "pluginName_rocketMqTopic_0": "RocketMQ 主题",
+  "pluginName_rocketMqTopic_1": "RocketMQ 主题",
+  "pluginName_rocketMqTopic_2": "RocketMQ 主题",
+  "pluginName_rocketMqTopic": "RocketMQ 主题",
   "pluginName_rubyRuntimePlatform_plural": "Ruby 应用程序",
   "pluginName_rubyRuntimePlatform_0": "Ruby 应用程序",
   "pluginName_rubyRuntimePlatform_1": "Ruby 应用程序",
@@ -1341,6 +1361,11 @@
   "tracingTypeName_camunda_0": "Camunda 调用",
   "tracingTypeName_camunda_1": "Camunda 调用",
   "tracingTypeName_camunda_2": "Camunda 调用",
+  "tracingTypeName_camundaexit": "Camunda 外部任务消息",
+  "tracingTypeName_camundaexit_plural": "Camunda 外部任务消息",
+  "tracingTypeName_camundaexit_0": "Camunda 外部任务消息",
+  "tracingTypeName_camundaexit_1": "Camunda 外部任务消息",
+  "tracingTypeName_camundaexit_2": "Camunda 外部任务消息",
   "tracingTypeName_cassandra": "Cassandra 查询",
   "tracingTypeName_cassandra_plural": "Cassandra 查询",
   "tracingTypeName_cassandra_0": "Cassandra 查询",
@@ -1404,6 +1429,11 @@
   "tracingTypeName_distributemeclient_0": "DistributeMe 调用",
   "tracingTypeName_distributemeclient_1": "DistributeMe 调用",
   "tracingTypeName_distributemeclient_2": "DistributeMe 调用",
+  "tracingTypeName_datagrid": "数据网格调用",
+  "tracingTypeName_datagrid_plural": "数据网格调用",
+  "tracingTypeName_datagrid_0": "数据网格调用",
+  "tracingTypeName_datagrid_1": "数据网格调用",
+  "tracingTypeName_datagrid_2": "数据网格调用",
   "tracingTypeName_django": "Django",
   "tracingTypeName_django_plural": "Django 调用",
   "tracingTypeName_django_0": "Django 调用",
@@ -1689,6 +1719,11 @@
   "tracingTypeName_mail_0": "邮件消息",
   "tracingTypeName_mail_1": "邮件消息",
   "tracingTypeName_mail_2": "邮件消息",
+  "tracingTypeName_mailjavamail": "邮件消息",
+  "tracingTypeName_mailjavamail_plural": "邮件消息",
+  "tracingTypeName_mailjavamail_0": "邮件消息",
+  "tracingTypeName_mailjavamail_1": "邮件消息",
+  "tracingTypeName_mailjavamail_2": "邮件消息",
   "tracingTypeName_mailactionmailer": "ActionMailer 消息",
   "tracingTypeName_mailactionmailer_plural": "ActionMailer 消息",
   "tracingTypeName_mailactionmailer_0": "ActionMailer 消息",
@@ -2565,6 +2600,69 @@
       "mysqIbufRequestR": "读取请求",
       "mysqIbufRequestW": "写入请求",
       "mysqIbufPoolReads": "池读取"
+    },
+    "rocketMqCluster": {
+      "rocketMqClusterInfo": "RocketMQ 集群",
+      "nameSrvAddrs": "名称服务器地址",
+      "clusterName": "集群名称",
+      "brokerName": "代理程序名称",
+      "brokerAddr": "代理程序地址",
+      "bootTimestamp": "代理程序引导时间",
+      "brokerVersionDesc": "代理程序版本",
+      "brokersNumber": "代理程序数 ({{count}})",
+      "brokersNumber_plural": "代理程序数 ({{count}})",
+      "topicName": "主题名称",
+      "topicsNumber": "主题 ({{count}})",
+      "topicsNumber_plural": "主题 ({{count}})"
+    },
+    "rocketMqBroker": {
+      "rocketMqBrokerInfo": "RocketMQ 代理程序",
+      "brokerName": "名称",
+      "brokerId": "标识",
+      "brokerAddr": "地址",
+      "bootTimestamp": "引导时间",
+      "runtime": "运行时间",
+      "brokerVersionDesc": "版本",
+      "msgTPS": "消息 TPS",
+      "putNums": "放置消息 TPS",
+      "getNums": "获取消息 TPS",
+      "elapsedTime": "耗用时间",
+      "putMessageEntireTimeMax": "最长放置耗用时间",
+      "getMessageEntireTimeMax": "最长获取耗用时间",
+      "messageTimesTotal": "耗用时间总计",
+      "putMessageTimesTotal": "放置耗用时间总计",
+      "messageSizeTotal": "总消息大小",
+      "putMessageSizeTotal": "总放置消息大小",
+      "putMessageFailedTimes": "放置失败次数",
+      "tps60": "过去 1 分钟的 TPS",
+      "putTps60": "放置过去 1 分钟的 TPS",
+      "getFoundTps60": "获取过去 1 分钟找到的 TPS",
+      "getMissTps60": "获取过去 1 分钟缺失的 TPS",
+      "getTotalTps60": "获取过去 1 分钟的总 TPS",
+      "getTransferedTps60": "获取过去 1 分钟传输的 TPS",
+      "msgTotalTodayNow": "今天的消息计数",
+      "msgGetTotalTodayNow": "今天的生产计数",
+      "msgPutTotalTodayNow": "今天的消费计数",
+      "threadPoolQueueHeadWaitTimeMills": "线程池队列头元素等待时间",
+      "sendThreadPoolQueueHeadWaitTimeMills": "发送队列头元素等待时间",
+      "pullThreadPoolQueueHeadWaitTimeMills": "拉取队列头元素等待时间",
+      "queryThreadPoolQueueHeadWaitTimeMills": "查询队列头元素等待时间",
+      "threadPoolQueueSize": "线程池队列大小",
+      "queryThreadPoolQueueSize": "查询队列大小",
+      "pullThreadPoolQueueSize": "拉取队列大小",
+      "sendThreadPoolQueueSize": "发送队列大小",
+      "commitLogDiskRatio": "落实日志磁盘比率"
+    },
+    "rocketMqTopic": {
+      "rocketMqTopicInfo": "RocketMQ 主题",
+      "topicName": "名称",
+      "msgTps": "消息 TPS",
+      "putNums": "放置消息 TPS",
+      "getNums": "获取消息 TPS",
+      "msgSize": "消息大小",
+      "putMessageSize": "放置消息大小",
+      "getMessageSize": "获取消息大小",
+      "sendBackNums": "传回数量"
     },
     "ibmDataPowerAppliance": {
       "ibmDataPowerApplianceInfo": "IBM DataPower 设备",
@@ -4387,6 +4485,9 @@
       "threads": "线程数",
       "throttlingDelay": "调速和延迟"
     },
+    "camunda": {
+      "camunda": "Camunda"
+    },
     "cassandraCluster": {
       "indexLabel": "Cassandra",
       "infoName": "名称",
@@ -5269,7 +5370,10 @@
         "hadrPrimaryLog": "HADR 主日志信息",
         "hadrSecondaryLog": "HADR 辅助日志信息",
         "hadrLogMetrics": "HADR 日志度量",
-        "hadrTakeOverTime": "HADR 上次接管时间"
+        "hadrTakeOverTime": "HADR 上次接管时间",
+        "vmonlockStatsValue": "锁定统计信息（内存）",
+        "vmonlockStats": "锁定统计信息",
+        "databaseVmondeltaStats": "事务性能（增量值）"
       },
       "db2": "Db2",
       "processId": "进程标识",
@@ -5476,6 +5580,18 @@
       "sockRecvBufAct": "实际接收缓冲区",
       "logHadrWaitCur": "当前记录器等待时间",
       "logHadrWaitTime": "记录器总等待时间",
+      "lockWaitTime": "锁定等待时间",
+      "lockEscals": "锁定升级数",
+      "lockListInUse": "正在使用的锁定列表",
+      "activeLockWaits": "活动锁定等待数",
+      "averageLockEscalsPerAct": "每个活动的平均锁定升级数",
+      "lockListValue": "锁定列表值",
+      "indexReadEfficiency": "索引读效率",
+      "sorts": "排序总数",
+      "syncReadPercentage": "同步读取百分比",
+      "asyncWritePercentage": "异步写入百分比",
+      "sortsPerTransactions": "每个事务的排序数",
+      "sqls": "SQL",
       "unableToConnect": "无法使用用户 {{user}} 连接到 {{connectionUrl}}。",
       "troubleshootingDocs": "故障诊断文档",
       "oldConfigUsed": "Db2 传感器现在支持监视正在运行 Instana 代理程序的主机上的多个实例和数据库。 请参阅文档，以了解新的配置格式。"
@@ -8860,6 +8976,10 @@
       "defaultBinding": "缺省绑定",
       "usage": "使用量",
       "monitoring": "监控",
+      "queueDescription": "队列描述",
+      "queueDepthHighLimit": "队列深度上限",
+      "queueDepthLowLimit": "队列深度下限",
+      "queueServiceInterval": "队列服务时间间隔（毫秒）",
       "queueDepth": "队列深度",
       "oldestMessage": "最早消息",
       "maxQueueDepth": "最大队列深度",
@@ -9708,6 +9828,7 @@
       "datasourceJndi": "数据源 JNDI"
     },
     "jbossDataGrid": {
+      "datagrid": "数据网格",
       "cacheName": "高速缓存 [{{cacheName}}]",
       "jGroupsClusterName": "JGroups 集群 [{{clusterName}}]",
       "hitRatio": "命中率",
@@ -11653,7 +11774,14 @@
       "titleProcessName": "进程名称",
       "titleActivityId": "活动标识",
       "titleActivityName": "活动名称",
-      "titleActivityDesc": "活动描述"
+      "titleActivityDesc": "活动描述",
+      "titleExternalTaskWorkerId": "外部任务工作程序标识",
+      "titleExternalTaskTopic": "外部任务主题",
+      "titleExternalTaskId": "外部任务标识",
+      "titleExternalTaskRetries": "重试次数"
+    },
+    "camunda-exit": {
+      "titleExternalTaskTopic": "外部任务主题"
     },
     "cassandra": {
       "titleKeyspace": "键空间",
@@ -11698,6 +11826,12 @@
       "titleErrorCode": "错误代码",
       "titleSQL": "SQL"
     },
+    "datagrid": {
+      "titleOperation": "操作",
+      "titleKey": "键",
+      "titleCacheName": "高速缓存名称",
+      "titleClusterName": "集群名称"
+    },
     "distributeme": {
       "titleService": "服务",
       "titleMethod": "方法"
@@ -11711,7 +11845,9 @@
       "titleInterface": "接口",
       "titleProviderVersion": "提供者版本",
       "titleConsumerVersion": "使用者版本",
-      "titleVersion": "协议版本"
+      "titleVersion": "协议版本",
+      "titleMethod": "方法",
+      "titleGroup": "组"
     },
     "dynamoDB": {
       "titleTable": "表格",
@@ -11999,9 +12135,13 @@
       "titleThread": "线程"
     },
     "mail": {
-      "titleAddress": "地址",
       "class": "类",
       "method": "方法"
+    },
+    "javamail": {
+      "method": "方法",
+      "endpoint": "端点",
+      "error": "错误"
     },
     "memcache": {
       "titleCommand": "命令",

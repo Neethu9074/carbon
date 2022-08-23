@@ -17,10 +17,10 @@ import {
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import emptyTagFilterExpression from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { numericValidator, positiveNumberValidator } from 'in-services/validators/number';
 import { booleanValidator, stringValidator } from 'in-services/validators/jsonType';
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
-import { minValidator, numericValidator } from 'in-services/validators/number';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { entityIdKey } from 'in-custom-dashboards/widgets/Apdex/form';
 import { buildEnumValidator } from 'in-services/validators/enum';
@@ -89,7 +89,7 @@ export function createWebsiteEntityForm(websiteId: string, apdexEntity: Partial<
       thresholdKey,
       createField({
         validator: composeAndShortCircuitOnError(notUndefinedValidator, numericValidator, v =>
-          minValidator(0)(Number(v))
+          positiveNumberValidator(Number(v))
         ),
         value: apdexEntity.threshold
       })
@@ -114,7 +114,7 @@ export function createApplicationEntityForm(
       }),
       [thresholdKey]: createField({
         validator: composeAndShortCircuitOnError(notUndefinedValidator, numericValidator, v =>
-          minValidator(0)(Number(v))
+          positiveNumberValidator(Number(v))
         ),
         value: apdexEntity.threshold
       }),

@@ -102,7 +102,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
     validGroupResult.data === true;
   const isInvalid = validGroupResult.data === false;
 
-  const backendQueryModel = useMemo(() => isValid && toBackendQueryModel(tagFilterExpression), [
+  const backendQueryModel = useMemo(() => isValid && toBackendQueryModel(tagFilterExpression) || undefined, [
     isValid,
     tagFilterExpression
   ]);

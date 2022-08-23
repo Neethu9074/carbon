@@ -114,7 +114,6 @@ export default function Widget({
             sloMetrics={sloMetrics}
             loadingErrors={errors}
             loadingProgress={progress}
-            sliConfigId={sliConfiguration?.id || ''}
             timeConfig={timeConfig}
             granularity={granularity}
             budget={budget ?? 0}

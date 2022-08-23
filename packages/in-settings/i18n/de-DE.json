@@ -96,6 +96,11 @@
     "deselect": "Abwählen"
   },
   "tabs": {
+    "team": {
+      "customPayload": {
+        "unknownTag": "Unbekannter Tag: {{tagName}}"
+      }
+    },
     "failedToSaveConfig": "Fehler beim Speichern der Konfiguration: {{err}}",
     "IdPMetadataRequired": "IdP-Metadatendatei ist erforderlich",
     "IdPMetadataLargerThanTwoMega": "IdP-Metadatendatei darf nicht größer als 2 Megabyte sein",
@@ -157,6 +162,8 @@
     "inviteUser": "Benutzer einladen",
     "failedToSendInvitation": "Fehler beim Senden der Einladung: {{err}}",
     "pleaseInviteAtLeastOneUser": "Laden Sie mindestens einen Benutzer ein.",
+    "thisUserAlreadyExists": "Dieser Benutzer ist bereits vorhanden. Sie können ihn im Menü \"Benutzer\" bearbeiten.",
+    "someEmailsHaveFailedToSend": "Einige E-Mails konnten nicht gesendet werden",
     "inviteUserToTenant": "Benutzer zu {{tenant}} einladen",
     "anotherUser": "Anderer Benutzer",
     "permissionEntityLabel": "Berechtigung {{entityLabel}}",
@@ -190,6 +197,7 @@
     "disabled": "Inaktiviert",
     "invalidQuery": "Ungültige Abfrage",
     "deprecated": "Veraltet",
+    "actionNeededRecommendMigrate": "Aktion erforderlich! Dieses Ereignis wird in Kürze veraltet sein. Daher wird empfohlen, es auf einen Smart Alert zu migrieren.",
     "migrated": "Migriert",
     "createAlertChannelLabelAlertChannel": "Alertkanal {{alertChannelLabel}} erstellen",
     "modifyEntityNameAlertChannel": "Alertkanal {{entityName}} ändern",
@@ -459,6 +467,7 @@
     "groupMappingFailedToSave": "Fehler beim Speichern von IdP-Gruppenzuordnungen",
     "thereShouldBeAtLeastOneGroupMapping": "Es muss mindestens eine Gruppenzuordnung hinzugefügt werden, wenn die Option 'Zugriff verweigern, wenn keine Zuordnung gefunden wird' ausgewählt ist. Andernfalls können sich keine Benutzer anmelden.",
     "failIfNoIdp": "Das Ändern der Einstellungen ist nur möglich, wenn ein Identitätsprovider konfiguriert ist.",
+    "noActions": "Es sind keine Aktionen konfiguriert",
     "noGroupMapping": "Es sind keine Zuordnungen zwischen Identitätsprovider und Instana konfiguriert",
     "denyUserWithNoGroup": "Zugriff verweigern, wenn keine Zuordnung gefunden wird. Ist diese Option nicht ausgewählt, werden ermittelte Benutzer ohne Gruppenzuordnungen und ohne Gruppen der Standardgruppe zugeordnet.",
     "twoFactor": "Zwei-Faktor",
@@ -484,6 +493,7 @@
     "importingConfig": "Konfigurationsdaten werden importiert",
     "configSuccessfullyImported": "Konfigurationsdaten erfolgreich importiert",
     "failedToImportConfig": "Importieren der Konfigurationsdaten fehlgeschlagen: {{err}}",
+    "configImportResult": "Nach Importergebnis filtern ...",
     "settingsPageNotFound": "Einstellungsseite nicht gefunden",
     "weCouldNotFindTheSettingsPageYouWereLookingFor": "Die Einstellungsseite, die Sie gesucht haben, konnte nicht gefunden werden. Das tut uns leid. Vielleicht möchten Sie stattdessen einen der folgenden Links ausprobieren?",
     "pleaseSelectAtLeastOneItem": "Wählen Sie mindestens ein Element aus.",
@@ -627,6 +637,7 @@
     "configureCustomPayload": "Angepasste Nutzdaten konfigurieren",
     "youAreNotPermittedToEditCustomPayloads": "Sie sind nicht berechtigt, angepasste Nutzdaten zu bearbeiten.",
     "unknownEvent": "Unbekanntes Ereignis",
+    "unknownAction": "Unbekannte Aktion",
     "builtInEventDefinition": "Integrierte Ereignisdefinition",
     "entityType": "Entitätstyp",
     "eventInputs": "Ereigniseingaben",
@@ -806,10 +817,23 @@
     "default": "Standard",
     "identityProviderType": "Identitätsprovidertyp",
     "copyApiTokenToClipboardError": "API-Token konnte nicht in die Zwischenablage kopiert werden.",
-    "depreactedEventHiddenInfo": "Veraltete Ereignisse können nicht mehr zu neuen Konfigurationen hinzugefügt werden und werden in dieser Liste ausgeblendet.",
-    "deprecatedEventMessage": "Dieses Ereignis wird nicht weiter unterstützt. Migrieren Sie es auf einen Smart Alert oder <documentationLink>ziehen Sie die Dokumentation zurate</documentationLink>.",
+    "depreactedEventHiddenInfo": "Veraltete Ereignisse können nicht mehr zu neuen Alerts hinzugefügt werden und sind in dieser Liste ausgeblendet.",
+    "deprecatedEventMessage": "Angepasste Ereignisse für die Entitätstypen \"Anwendungsperspektive\", \"Service\" und \"Endpunkt\" sind bald veraltet. Ab Oktober 2022 können Sie keine neuen Ereignisse dieses Typs erstellen. Es wird empfohlen, dieses Ereignis manuell oder über die Schaltfläche <em>Auf Smart Alert migrieren</em> auf einen Smart Alert zu migrieren. <documentationLink>Lesen Sie mehr in unserer Dokumentation</documentationLink>.",
     "migratedEventMessage": "Dieses veraltete Ereignis wird migriert. Weitere Informationen finden Sie in der <documentationLink>Dokumentation</documentationLink>.",
-    "deprecatedEventSelectedMessage": "Die Entitätstypen <em>Anwendung, Service und Endpunkt</em> werden für angepasste Ereignisse nicht weiter unterstützt und müssen in Kürze auf einen Smart Alert migriert werden. Es wird empfohlen, anstelle eines angepassten Ereignisses einen entsprechenden Smart Alert zu konfigurieren. Weitere Informationen finden Sie in der <documentationLink>Dokumentation</documentationLink>."
+    "deprecatedEventSelectedMessage": "Angepasste Ereignisse für die Entitätstypen \"Anwendungsperspektive\", \"Service\" und \"Endpunkt\" sind bald veraltet. Ab Oktober 2022 können Sie keine neuen Ereignisse dieses Typs erstellen. Es wird empfohlen, stattdessen einen Smart Alert zu erstellen. <documentationLink>Lesen Sie mehr in unserer Dokumentation</documentationLink>.",
+    "automation": "Automation",
+    "actionCatalog": "Aktionskatalog",
+    "action_plural": "Aktionen",
+    "actionWithName": "Aktion: {{actionName}}",
+    "actionType": "Aktionstyp",
+    "actionDetails": "Aktionsdetails",
+    "filterActions": "Filteraktionen",
+    "fields": "Felder",
+    "invocations": "Aufrufe",
+    "successRate": "Erfolgsquote",
+    "lastModified": "Letzte Änderung",
+    "docLink": "Dokumentationslink",
+    "deletedEventMessage": "Sie suchen eine gelöschte Ereigniskonfiguration. Änderungen sind nicht möglich."
   },
   "languageSelection": {
     "language": "Sprache",

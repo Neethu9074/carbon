@@ -62,6 +62,8 @@
   "labelScope": "スコープ",
   "labelCustomServiceRules": "カスタム・サービス・ルール",
   "labelSyntheticEndpoints": "シンセティック・エンドポイント",
+  "labelWarning": "警告",
+  "labelCritical": "クリティカル",
   "titleTopServices": "上位サービス",
   "titleMeanLatency": "平均待ち時間",
   "titleErroneousCallRate": "エラーのある呼び出し率",
@@ -197,7 +199,8 @@
     "technologies": "テクノロジー",
     "httpStatusCode": "HTTP 状況",
     "hiddenCalls": "非表示の呼び出し",
-    "preview": "プレビュー",
+    "fastQueryMode": "高速照会モード",
+    "fastQueryModeTooltip": "高速照会モードを使用すると、データ・セット全体に対する実行に時間がかかりすぎる場合に、呼び出しのサブセットまたはトレースのサブセットに対して照会を実行できます。",
     "listBatchTypeTooltip": "この {{type}} はバッチ処理され、{{batchCount}} 個の個別の {{types}} を表します。",
     "listBatchLatencyTooltip": "{{batchCount}} 個のバッチ処理された {{types}} の合計待ち時間。",
     "traceIdTooltip": "このトレースに関連するデータの一部が遅延しているため、少し時間をおいてからページを再ロードしてください。 例えば、データの一部がまだ処理中の最新のトレースを表示する場合に、このような現象が発生する場合があります。",
@@ -643,6 +646,7 @@
     "alternativeServicesPossibleProblem": "<bold>多分</bold>は、現在のサービス名と代替サービス名がHTTPの「Host」ヘッダーからのものでない場合、それらはプロキシーの後ろにあるサービス(良好)か、重複するサービス(不良)のいずれかです。一部のサービスは完全にインフラストラクチャーにリンクされ、その他のサービスは部分的にインフラストラクチャーにリンクされます。"
   },
   "widgetNotActive": {
-    "title": "ウィジェットは、ライブ・モードではサポートされません"
+    "title": "ウィジェットは、ライブ・モードではサポートされません",
+    "button": "ライブ・モードの停止"
   }
 }

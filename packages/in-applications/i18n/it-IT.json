@@ -62,6 +62,8 @@
   "labelScope": "Ambito",
   "labelCustomServiceRules": "Regole di servizio personalizzate",
   "labelSyntheticEndpoints": "Endpoint sintetici",
+  "labelWarning": "Avvertenza",
+  "labelCritical": "Critico",
   "titleTopServices": "Servizi principali",
   "titleMeanLatency": "Latenza media",
   "titleErroneousCallRate": "Tasso di chiamate con errori",
@@ -197,7 +199,8 @@
     "technologies": "Tecnologie",
     "httpStatusCode": "Stato HTTP",
     "hiddenCalls": "Chiamate nascoste",
-    "preview": "Anteprima",
+    "fastQueryMode": "Modalità di query veloce",
+    "fastQueryModeTooltip": "La modalità di query veloce consente l'esecuzione di query su un sottoinsieme di chiamate o tracce, se l'esecuzione sul dataset completo richiederebbe troppo tempo.",
     "listBatchTypeTooltip": "Questo {{type}} è stato eseguito in batch e rappresenta {{batchCount}} {{types}} singoli.",
     "listBatchLatencyTooltip": "Latenza totale di {{batchCount}} {{types}} eseguiti in batch.",
     "traceIdTooltip": "Alcuni dati correlati a questa traccia sono ritardati, pertanto ricaricare la pagina tra qualche minuto. Un esempio di questa situazione è la visualizzazione di una traccia molto recente con alcuni di tali dati ancora in fase di elaborazione.",
@@ -643,6 +646,7 @@
     "alternativeServicesPossibleProblem": "<bold>Forse</bold>, se il servizio corrente e i nomi dei servizi alternativi non provengono dall'intestazione \"Host\" HTTP, quindi sono servizi che risiedono dietro un proxy (validi) o sono servizi duplicati (non validi): alcuni dei servizi sono completamente collegati all'infrastruttura mentre altri sono collegati all'infrastruttura in modo parziale."
   },
   "widgetNotActive": {
-    "title": "Il widget non è supportato in Live Mode"
+    "title": "Il widget non è supportato in Live Mode",
+    "button": "Arresta modalità Live"
   }
 }

@@ -572,17 +572,35 @@
         "thousandCallsFormat": "{{count}}K 個呼叫"
       },
       "widgetLeftHeader": {
-        "previewDataInfo": "如果最近已建立 SLI 配置，則最多會顯示過去 7 天的預覽資料。 最後的小組件將僅包括自 SLI 建立以來的資料"
+        "previewDataInfo": "如果最近已建立 SLI 配置，則最多會顯示過去 7 天的預覽資料。 最終小組件將僅包含自建立 SLI 以來的資料。"
+      },
+      "boundaryScopeConfigurator": {
+        "all": {
+          "title": "所有呼叫",
+          "description": "消費者在此應用程式內執行的呼叫以及在內部執行的呼叫。"
+        },
+        "inbound": {
+          "title": "入埠呼叫",
+          "description": "僅此應用程式的消費者執行的呼叫。"
+        }
       }
     },
     "apdex": {
       "title": "Apdex：圖表",
       "chart": {
-        "metricLabel": "Apdex"
+        "metricLabel": "Apdex",
+        "viewInAnalyze": "分析時檢視",
+        "noDataRetentionPeriod": "選取的時間範圍超出資料保留期間"
       },
       "demo": {
         "title": "適用於正式作業的 Apdex",
         "entityLabel": "Robot Shop"
+      },
+      "apdexConfigInfo": {
+        "tagFilterLabel": "過濾器",
+        "apdexNameLabel": "Apdex 名稱",
+        "apdexTypeLabel": "Apdex 類型",
+        "thresholdLabel": "臨界值"
       },
       "formComponent": {
         "title": "Apdex 配置",
@@ -598,21 +616,41 @@
       },
       "entityTypeSelector": {
         "type": "不明類型",
-        "type_website": "網站"
+        "type_website": "網站",
+        "type_application": "應用程式"
       },
       "apdexManageList": {
-        "title": "Apdex 清單"
+        "title": "Apdex 清單",
+        "deleteSuccessfulMessage": "已順利刪除 Apdex 配置。",
+        "deleteFailedMessage": "無法刪除 Apdex 配置。"
       },
       "apdexList": {
         "cardTitle": "Apdex 配置",
         "nameColumn": "Apdex 配置",
-        "thresholdColumn": "Treshold",
+        "thresholdColumn": "臨界值",
         "confirmDeleteHeader": "請確認",
         "confirmDeleteMessage": "您確定要刪除 {{apdex}} 嗎？",
         "editApdexTooltip": "編輯/複製 Apdex 配置",
         "deleteApdexTooltip": "刪除 Apdex 配置",
         "confirmDeleteButton": "Delete",
         "createButton": "建立 Apdex 配置"
+      },
+      "createApdexForm": {
+        "title": "建立 Apdex 配置",
+        "customizationHeader": "Apdex 自訂作業",
+        "label": "Apdex 名稱",
+        "apdexCreateSuccessTitle": "已順利建立 Apdex 配置。",
+        "apdexCreateSuccessContent": "已建立 APdex 配置 \"{{apdexName}}\"。",
+        "apdexCreateFailedTitle": "無法建立 Apdex 配置。",
+        "apdexCreateFailedContent": "建立此 Apdex 配置時發生問題：\"{{apdexName}}\"",
+        "apdexNameNotEmpty": "Apdex 名稱不能是空的。",
+        "thresholdNotEmpty": "臨界值不能是空的。",
+        "nameExistsError": "具有此名稱的 Apdex 配置已存在。 請輸入其他名稱"
+      },
+      "createWebsiteApdexForm": {
+        "thresholdHeader": "臨界值配置",
+        "thresholdLabel": "臨界值",
+        "thresholdFooter": "建立之後無法編輯臨界值，以防止資料流失。"
       },
       "entityInfo": {
         "tooltip": "不明 Apdex",
@@ -621,7 +659,14 @@
       },
       "widget": {
         "unknownEntityLabel_application": "不明應用程式",
-        "unknownEntityLabel_website": "不明網站"
+        "unknownEntityLabel_website": "不明網站",
+        "previewDataInfo": "如果最近已建立 Apdex 配置，則最多會顯示過去 7 天的預覽資料。 最後的小組件將僅包括自 Apdex 建立以來的資料。"
+      },
+      "applicationScopeConfigurator": {
+        "label": "Apdex 範圍",
+        "boundaryScope": "界限",
+        "hiddenCalls": "隱藏呼叫",
+        "additionalFilters": "其他過濾器"
       }
     },
     "timezone": {
