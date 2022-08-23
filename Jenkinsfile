@@ -130,7 +130,7 @@ pipeline {
         // still waiting for the lock will be aborted
         // https://www.jenkins.io/blog/2016/10/16/stage-lock-milestone/
         lock(resource: "build-ui-client-images-${branchName}", inversePrecedence: true) {
-          timeout(time: 15, unit: 'MINUTES') {
+          timeout(time: 35, unit: 'MINUTES') {
             timestamps {
               script {
                 if (isDeliveryBranch) {
