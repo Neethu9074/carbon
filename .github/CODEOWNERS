@@ -160,3 +160,4 @@ packages/in-custom-dashboards/widgets/Apdex @pr-approval @Instana-IBM-Github-Ent
 
 # Container images
 /containers/ @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-delivery-enablement @instana/eng-ui
+/containers/ @ZaaS/zLinuxPrivateCloud

@@ -22,11 +22,6 @@ function _check_prerequisites {
   esac
 }
 
-function _cleanup_container_dir {
-  _log_info "Removing ${COMPONENTS_HOME_DIR}/.container*"
-  rm -rf "${COMPONENTS_HOME_DIR}/.container"*
-}
-
 function _create_necessary_dirs {
   mkdir -p ${COMPONENT_BUILD_DIR} \
            ${COMPONENT_WORK_DIR}
@@ -162,8 +157,6 @@ function build_image {
   _run_docker_build ${FULLY_QUALIFIED_TAG} ${CONTAINER_FILE} ${IMAGE_VERSION}
 
   _scan_image ${FULLY_QUALIFIED_TAG}
-
-  _cleanup_container_dir
 }
 
 build_image
