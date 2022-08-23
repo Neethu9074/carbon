@@ -70,4 +70,4 @@ function push_image {
   _cleanup_container_dir
 }
 
-push_image
+push_image ${FULLY_QUALIFIED_TAG}
