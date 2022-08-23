@@ -357,8 +357,8 @@ function isTagAndKeyConcat(name, group) {
   return group?.groupbyTag?.concat('.', group?.groupbyTagSecondLevelKey) === name;
 }
 
-function isKeyValue(tagType, value) {
-  return tagType !== undefined && 'KEY_VALUE_PAIR' === tagType && value.indexOf('=') > 0;
+function isKeyValue(tagType) {
+  return tagType !== undefined && 'KEY_VALUE_PAIR' === tagType;
 }
 
 function getName(name, group) {
@@ -366,17 +366,17 @@ function getName(name, group) {
 }
 
 function getValue(tagType, value) {
-  return isKeyValue(tagType, value) ? extractValue(value) : '';
+  return isKeyValue(tagType) ? extractValue(value) : value;
 }
 
 function getKey(tagType, value, name, group) {
   if (isTagAndKeyConcat(name, group)) {
     return group.groupbyTagSecondLevelKey;
   }
-  if (isKeyValue(tagType, value)) {
+  if (isKeyValue(tagType)) {
     return extractKey(value, name, group);
   }
-  return value;
+  return undefined;
 }
 
 function extractKey(value) {
