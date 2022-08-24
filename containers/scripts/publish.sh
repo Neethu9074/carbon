@@ -36,7 +36,7 @@ docker buildx build \
     --tag $1 \
     --progress plain \
     --cache-from $1 \
-    --platform=linux/s390x,linux/ppc64le \
+    --platform=linux/s390x \
     --build-arg base_version=${BASE_VERSION} \
     --build-arg component_name=${COMPONENT_NAME} \
     --build-arg image_version=${DESIRED_IMAGE_VERSION} \
@@ -61,7 +61,7 @@ function push_image {
     _docker_login
     _log_info "Pushing x86 image $1"
     docker push $1
-    _log_info "We are 'rebuilding' the image for s390x and ppc64le platforms in this push step because docker buildx multi-arch builds require build and push to be run in the same command. \
+    _log_info "We are 'rebuilding' the image for s390x platform in this push step because docker buildx multi-arch builds require build and push to be run in the same command. \
     https://docs.docker.com/buildx/working-with-buildx/"
     _run_docker_buildx $1 ${CONTAINER_FILE} ${IMAGE_VERSION}
     _remove_from_local_registry $1
