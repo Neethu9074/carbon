@@ -108,7 +108,7 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
     }
   }
 
-  const renderSyntheticIcon = () => {
+  const SyntheticIcon = () => {
     const isSynthetic = result && result.data?.synthetic;
     if (isSynthetic)
       return (
@@ -139,7 +139,7 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
                 }
               />
             ))}
-          {renderSyntheticIcon()}
+          <SyntheticIcon />
           {renderIcon ? renderIcon() : icon ? <SvgIcon className={locals.icon} type={icon} size="l" /> : null}
           {typeof label === 'string' ? (
             <Tooltip content={label} delay={500}>
