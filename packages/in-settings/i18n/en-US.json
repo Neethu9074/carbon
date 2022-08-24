@@ -96,6 +96,11 @@
     "deselect": "Deselect"
   },
   "tabs": {
+    "team": {
+        "customPayload": {
+          "unknownTag": "Unknown tag: {{tagName}}"
+      }
+    },
     "failedToSaveConfig": "Failed to save config: {{err}}",
     "IdPMetadataRequired": "IdP Metadata file is required",
     "IdPMetadataLargerThanTwoMega": "IdP Metadata file can't be larger than 2 megabytes",
@@ -375,7 +380,8 @@
     "usernameDescription": "The user to be related in Instana as owner user. A login is tried as a test before the settings are saved, the credentials are not stored.",
     "usernamePasswordDescription": "The LDAP password of the user",
     "ldapTestFailed": "LDAP test failed:",
-    "thisAccountIsAutomaticallyAssignedAnAdminRole": "This account is automatically assigned to the owner group. Please enter the account's LDAP attribute aligned to the user query search template.",
+    "thisAccountIsAutomaticallyAssignedAnAdminRole": "Enter an email to be automatically assigned to the owner group.",
+    "thisAccountIsAutomaticallyAssignedAnAdminRoleLDAP": "Enter an account to be automatically assigned to the owner group. Use the account's LDAP attribute aligned to the user query search template.",
     "optionalSettings": "Optional settings",
     "optional": "(optional)",
     "userDnMapping": "User DN Mapping",

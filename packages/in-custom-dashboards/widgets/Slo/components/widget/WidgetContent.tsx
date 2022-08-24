@@ -30,18 +30,14 @@ const filterAvailableData = (dataSeries: MetricDataSeries): MetricDataSeries => 
   return dataSeries.filter(([ts]) => ts <= now);
 };
 
-const isConfiguredSliDeleted = (sloMetricsErrors: Error[], sliConfigId: string): boolean => {
-  return (
-    sloMetricsErrors.length > 0 &&
-    sloMetricsErrors.some(({ message }) => message === `The SliConfiguration for the id ${sliConfigId} does not exist`)
-  );
+const isConfiguredSliDeleted = (sloMetricsErrors: Error[]): boolean => {
+  return sloMetricsErrors.some(({ code }) => code === 'NOT_FOUND');
 };
 
 interface WidgetContentProps {
   sloMetrics?: MetricResult[];
   loadingErrors: Error[];
   loadingProgress: Progress;
-  sliConfigId: string;
   timeConfig: TimeConfig;
   granularity: number;
   budget: number;
@@ -54,16 +50,15 @@ export default function WidgetContent({
   sloMetrics,
   loadingErrors,
   loadingProgress,
-  sliConfigId,
   ...otherChartProps
 }: WidgetContentProps) {
-  if (isConfiguredSliDeleted(loadingErrors, sliConfigId)) {
+  if (isConfiguredSliDeleted(loadingErrors)) {
     return (
       <Message
         type="error"
-        withIcon
         title={t('in-custom-dashboards:widgets.chart.errorTitleForConfiguredSliDeletion')}
         description={t('in-custom-dashboards:widgets.chart.errorDescriptionToConfigureOtherSLI')}
+        withIcon
       />
     );
   }

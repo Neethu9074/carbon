@@ -6,9 +6,10 @@
 
 import { useMemo } from 'react';
 
+import { TimeConfig } from '@instana/types';
+
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { days } from 'in-services/time/time';
-import { TimeConfig } from 'in-types';
 
 export default function useApdexWidgetTimeConfig(isPreview?: boolean): TimeConfig {
   const originalTimeConfig = useTimeConfig();

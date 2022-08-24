@@ -90,6 +90,8 @@ export const nonServicePlugins = {
   ec2: 'ec2',
   elasticsearchNode: 'elasticsearchNode',
   elasticsearchCluster: 'elasticsearchCluster',
+  entityStatistics: 'entityStatistics',
+  entityStatisticsMember: 'entityStatisticsMember',
   envoy: 'envoy',
   etcd: 'etcd',
   finagleApplicationContainer: 'finagleApplicationContainer',
@@ -219,6 +221,8 @@ export const nonServicePlugins = {
   pingDirectory: 'pingDirectory',
   postgreSqlDatabase: 'postgreSqlDatabase',
   process: 'process',
+  processingStatistics: 'processingStatistics',
+  processingStatisticsMember: 'processingStatisticsMember',
   prometheus: 'prometheus',
   pythonRuntimePlatform: 'pythonRuntimePlatform',
   rabbitMq: 'rabbitMq',
@@ -277,7 +281,11 @@ export const defaultAndUnknownPluginNames = [
   'defaultEntity20',
   'defaultLogicalConnection',
   'defaultLogicalService',
-  'defaultServiceInstance'
+  'defaultServiceInstance',
+  'entityStatistics',
+  'entityStatisticsMember',
+  'processingStatistics',
+  'processingStatisticsMember',
 ];
 
 export const customIssuesDisabledForPlugins = [...defaultAndUnknownPluginNames];
@@ -372,6 +380,8 @@ export const fullyQualifiedPlugins = {
   elasticsearchNode: 'com.instana.forge.infrastructure.database.elasticsearch.ElasticsearchNode',
   endpoint: 'com.instana.forge.application.Endpoint',
   envoy: 'com.instana.forge.infrastructure.webserver.envoy.Envoy',
+  entityStatistics: 'com.instana.forge.selfmonitoring.filler.EntityStatistics',
+  entityStatisticsMember: 'com.instana.forge.selfmonitoring.filler.EntityStatisticsMember',
   etcd: 'com.instana.forge.infrastructure.cache.etcd.Etcd',
   finagleApplicationContainer: 'com.instana.forge.infrastructure.application.finagle.FinagleApplicationContainer',
   f5: 'com.instana.forge.infrastructure.loadbalancer.F5',
@@ -516,6 +526,8 @@ export const fullyQualifiedPlugins = {
   pingDirectory: 'com.instana.forge.infrastructure.directory.pingdirectory.PingDirectory',
   postgreSqlDatabase: 'com.instana.forge.infrastructure.database.postgresql.PostgreSqlDatabase',
   process: 'com.instana.forge.infrastructure.os.process.Process',
+  processingStatistics: 'com.instana.forge.ProcessingStatistics',
+  processingStatisticsMember: 'com.instana.forge.ProcessingStatisticsMember',
   prometheus: 'com.instana.forge.infrastructure.custom.prometheus.Prometheus',
   pythonRuntimePlatform: 'com.instana.forge.infrastructure.runtime.python.PythonRuntimePlatform',
   rabbitMq: 'com.instana.forge.infrastructure.messaging.rabbitmq.RabbitMq',

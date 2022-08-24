@@ -39,6 +39,7 @@ export default function SmartAlertConfigDialogWrapper({
   onClose,
   editMode,
   migrationMode,
+  scopeMigrationDetails,
   isGlobalSmartAlert,
   alertConfig,
   startWithSimpleMode
@@ -98,6 +99,7 @@ export default function SmartAlertConfigDialogWrapper({
       isGlobalSmartAlert={isGlobalSmartAlert}
       editMode={editMode}
       migrationMode={migrationMode}
+      scopeMigrationDetails={scopeMigrationDetails}
       startWithSimpleMode={startWithSimpleMode}
       form={form}
       updateForm={updateForm}
@@ -134,6 +136,10 @@ export default function SmartAlertConfigDialogWrapper({
 SmartAlertConfigDialogWrapper.propTypes = {
   editMode: PropTypes.bool,
   migrationMode: PropTypes.bool,
+  scopeMigrationDetails: PropTypes.shape({
+    query: PropTypes.string,
+    result: PropTypes.string.isRequired
+  }),
   isGlobalSmartAlert: PropTypes.bool,
   startWithSimpleMode: PropTypes.bool,
   alertConfig: PropTypes.shape({

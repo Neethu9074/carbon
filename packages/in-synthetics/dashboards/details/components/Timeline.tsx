@@ -54,15 +54,11 @@ export default function Timeline({ details, startTime, finishTime }: TimelinePro
           <Filter setFilter={setFilter} filter={filter} />
           <div className={locals.overviewChartContainer}>
             {// @ts-expect-error Object is possibly undefined
-            data?.subtransactions[0].properties != null && (
+            data.subtransactions?.length > 0 && data?.subtransactions[0].properties != null && (
               <OverviewChart
                 subtransactions={filteredSubtransactions}
                 earliestTimestamp={startTime}
                 endTimestamp={finishTime}
-                totalDuration={data?.subtransactions?.reduce(
-                  (prev: number, current: TestResultSubtransaction) => prev + current.metrics.responseTime,
-                  0
-                )}
               />
             )}
           </div>
@@ -87,10 +83,8 @@ function OverviewChart({ subtransactions, earliestTimestamp, endTimestamp }: Sub
 
   scale.setRangeFrom(0);
   scale.setRangeTo(1);
-  // @ts-expect-error
-  scale.setDomainFrom(earliestTimestamp);
-  // @ts-expect-error
-  scale.setDomainTo(endTimestamp);
+  scale.setDomainFrom(earliestTimestamp || 0);
+  scale.setDomainTo(endTimestamp || 0);
 
   const maxDepth = subStacked?.reduce((max: number, sub: any) => Math.max(max, sub.depth), 0);
   // @ts-expect-error

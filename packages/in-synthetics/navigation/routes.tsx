@@ -4,9 +4,9 @@
  */
 
 // @ts-expect-error module need to be translated to TS
-import AnalyzeView from 'promise-loader?global,synthetics!in-synthetics/dashboards/details/AnalyzeView';
+import SyntheticsView from 'promise-loader?global,synthetics!in-synthetics/dashboards/global/TestSummaryList';
 // @ts-expect-error module need to be translated to TS
-import SyntheticsView from 'promise-loader?global,synthetics!in-synthetics/dashboards/global/Dashboard';
+import AnalyzeView from 'promise-loader?global,synthetics!in-synthetics/dashboards/details/AnalyzeView';
 //@ts-ignore
 import SyntheticSummaryDashboard from 'promise-loader?global,synthetics!in-synthetics/dashboards/summary/SyntheticSummary';
 // @ts-expect-error module need to be translated to TS

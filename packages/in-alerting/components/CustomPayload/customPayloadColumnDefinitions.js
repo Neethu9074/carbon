@@ -11,8 +11,7 @@ import { SvgIcon } from '@instana/components';
 
 import {
   toFormModel,
-  toViewModel,
-  createTagBasedPayloadConfigurator
+  toViewModel
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import {
   defaultType,
@@ -21,9 +20,7 @@ import {
   validatorForType,
   staticType
 } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
-import { getCustomPayloadTagCatalog } from 'in-settings/tabs/TeamSettings/api/customPayload';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
-import { successObservableFactory } from 'in-services/util/result';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup';
 import Select from 'in-components/form/Select';
@@ -61,7 +58,7 @@ export const valueColumnDefinition = {
 
   sortable: false,
   label: t('in-alerting:components.customPayload.value'),
-  getContent(itemForm, { getRowIndex, updateIn, enabled, trackChange }) {
+  getContent(itemForm, { getRowIndex, updateIn, enabled, trackChange, TagBasedPayloadConfigurator }) {
     function onChange(paths, f) {
       updateIn([getRowIndex(itemForm), ...paths], f);
     }
@@ -202,10 +199,3 @@ export const typeColumnDefinition = {
     );
   }
 };
-
-const { TagBasedPayloadConfigurator } = createTagBasedPayloadConfigurator({
-  getTagCatalog: getCustomPayloadTagCatalog,
-  getSuggestions: successObservableFactory({
-    suggestions: []
-  })
-});

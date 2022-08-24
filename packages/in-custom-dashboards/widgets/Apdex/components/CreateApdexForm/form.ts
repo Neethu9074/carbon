@@ -6,16 +6,24 @@
 
 import { createField, createMapForm, Item, MapForm, notBlankValidator } from 'formalistic';
 
+import {
+  ApdexConfigurationInput,
+  ApplicationApdexEntity,
+  ApplicationBoundaryScope,
+  ApdexConfiguration,
+  ApdexEntityUnion
+} from '@instana/types';
+
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import emptyTagFilterExpression from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import { ApdexConfiguration, ApdexConfigurationInput, ApdexEntityUnion } from 'in-types';
+import { numericValidator, positiveNumberValidator } from 'in-services/validators/number';
+import { booleanValidator, stringValidator } from 'in-services/validators/jsonType';
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
-import { minValidator, numericValidator } from 'in-services/validators/number';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { entityIdKey } from 'in-custom-dashboards/widgets/Apdex/form';
-import { stringValidator } from 'in-services/validators/jsonType';
+import { buildEnumValidator } from 'in-services/validators/enum';
 
 export const apdexNameKey = 'apdexName';
 export const apdexEntityKey = 'apdexEntity';
@@ -23,6 +31,9 @@ export const apdexTypeKey = 'apdexType';
 export const beaconTypeKey = 'beaconType';
 export const tagFilterExpressionKey = 'tagFilterExpression';
 export const thresholdKey = 'threshold';
+export const boundaryScopeKey = 'boundaryScope';
+export const includeInternalKey = 'includeInternal';
+export const includeSyntheticKey = 'includeSynthetic';
 
 export function createForm(
   { apdexName, apdexEntity }: Partial<ApdexConfiguration>,
@@ -41,7 +52,9 @@ export function createForm(
     )
     .put(
       apdexEntityKey,
-      isWebsiteEntity ? createWebsiteEntityForm(entityId, apdexEntity ?? {}) : createApplicationEntityForm()
+      isWebsiteEntity
+        ? createWebsiteEntityForm(entityId, apdexEntity ?? {})
+        : createApplicationEntityForm(entityId, (apdexEntity as ApplicationApdexEntity) ?? {})
     );
 }
 
@@ -76,15 +89,53 @@ export function createWebsiteEntityForm(websiteId: string, apdexEntity: Partial<
       thresholdKey,
       createField({
         validator: composeAndShortCircuitOnError(notUndefinedValidator, numericValidator, v =>
-          minValidator(0)(Number(v))
+          positiveNumberValidator(Number(v))
         ),
         value: apdexEntity.threshold
       })
     );
 }
 
-export function createApplicationEntityForm(): MapForm {
-  return createMapForm();
+export function createApplicationEntityForm(
+  applicationId: string,
+  apdexEntity: Partial<ApplicationApdexEntity>
+): MapForm {
+  return createMapForm({
+    items: {
+      [apdexTypeKey]: createField({
+        value: 'application'
+      }),
+      [entityIdKey]: createField({
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator),
+        value: applicationId
+      }),
+      [tagFilterExpressionKey]: createField({
+        value: fromBackendModel(apdexEntity.tagFilterExpression || emptyTagFilterExpression)
+      }),
+      [thresholdKey]: createField({
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, numericValidator, v =>
+          positiveNumberValidator(Number(v))
+        ),
+        value: apdexEntity.threshold
+      }),
+      [boundaryScopeKey]: createField({
+        validator: composeAndShortCircuitOnError(
+          notUndefinedValidator,
+          stringValidator,
+          buildEnumValidator<ApplicationBoundaryScope>(['ALL', 'INBOUND'])
+        ),
+        value: apdexEntity.boundaryScope || 'ALL'
+      }),
+      [includeInternalKey]: createField({
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator),
+        value: apdexEntity.includeInternal || false
+      }),
+      [includeSyntheticKey]: createField({
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator),
+        value: apdexEntity.includeSynthetic || false
+      })
+    }
+  });
 }
 
 export function toApdexConfigurationInput(form: Item): ApdexConfigurationInput {

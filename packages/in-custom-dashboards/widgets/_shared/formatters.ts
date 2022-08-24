@@ -10,7 +10,7 @@ import { AggregationType } from '@instana/types';
 import {
   defaultFormatter,
   Formatter,
-  latencyDetaild,
+  latencyDetailed,
   numberCompact,
   percentageCompact,
   percentageDetailed,
@@ -25,7 +25,7 @@ function getApplicationMetricFormatter(metric: string, aggregation: AggregationT
     }
     return [defaultFormatter, numberCompact];
   } else if (metric === 'latency') {
-    return [latencyDetaild];
+    return [latencyDetailed];
   } else if (metric === 'errors') {
     return [percentageDetailed, percentageCompact];
   }

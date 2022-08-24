@@ -166,7 +166,6 @@ export type SubtransactionsProps = {
   subtransactions?: TestResultSubtransaction[];
   earliestTimestamp?: number;
   endTimestamp?: number;
-  totalDuration?: number;
 };
 
 export type OverviewChartToolTipProps = {

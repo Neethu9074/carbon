@@ -11,11 +11,14 @@ import {
   isWebsiteApdexEntity,
   WebsiteApdexEntity
 } from '@instana/types';
+import { ApdexEntityApdexType } from '@instana/types';
 
-import { ApdexEntityApdexType } from 'in-types';
+import { applicationApdexEnabled } from 'in-services/featureFlags';
 
 export type ApdexEntityTypes = Lowercase<ApdexEntityApdexType>;
-export const AvailableEntityTypes: readonly ApdexEntityTypes[] = Object.freeze(['website'] as const);
+export const AvailableEntityTypes: readonly ApdexEntityTypes[] = Object.freeze(
+  (['website'] as ApdexEntityTypes[]).concat(applicationApdexEnabled ? ['application'] : [])
+);
 
 export interface WebsiteApdexConfiguration extends Omit<ApdexConfiguration, 'apdexEntity'> {
   apdexEntity: WebsiteApdexEntity;

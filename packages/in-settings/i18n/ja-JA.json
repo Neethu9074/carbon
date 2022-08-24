@@ -96,6 +96,11 @@
     "deselect": "選択解除"
   },
   "tabs": {
+    "team": {
+      "customPayload": {
+        "unknownTag": "不明なタグ: {{tagName}}"
+      }
+    },
     "failedToSaveConfig": "構成の保存に失敗しました: {{err}}",
     "IdPMetadataRequired": "IdP メタデータ・ファイルが必要です",
     "IdPMetadataLargerThanTwoMega": "IdPメタデータファイルは2メガバイト以上になってはなりません。",
@@ -157,6 +162,8 @@
     "inviteUser": "ユーザーの招待",
     "failedToSendInvitation": "招待の送信に失敗しました: {{err}}",
     "pleaseInviteAtLeastOneUser": "ユーザーを少なくとも 1 人招待してください。",
+    "thisUserAlreadyExists": "このユーザーは既に存在しています。 「ユーザー」メニューで編集できます。",
+    "someEmailsHaveFailedToSend": "一部の E メールの送信に失敗しました",
     "inviteUserToTenant": "{{tenant}} にユーザーを招待",
     "anotherUser": "別のユーザー",
     "permissionEntityLabel": "権限 {{entityLabel}}",
@@ -190,6 +197,7 @@
     "disabled": "無効",
     "invalidQuery": "無効なクエリー",
     "deprecated": "非推奨",
+    "actionNeededRecommendMigrate": "アクションが必要です。 このイベントはまもなく非推奨になるため、スマート・アラートにマイグレーションすることをお勧めします。",
     "migrated": "移行済み",
     "createAlertChannelLabelAlertChannel": "{{alertChannelLabel}} アラート・チャネルの作成",
     "modifyEntityNameAlertChannel": "{{entityName}} アラート・チャネルの変更",
@@ -459,6 +467,7 @@
     "groupMappingFailedToSave": "IdP グループ・マッピングは保存されませんでした",
     "thereShouldBeAtLeastOneGroupMapping": "「マッピングが見つからない場合はアクセスを拒否する」にチェック・マークが付いている場合、少なくとも 1 つのグループマッピングを追加する必要があります。そうしないと、ユーザーはログインできなくなります。",
     "failIfNoIdp": "この設定を変更するには、ID プロバイダーを構成する必要があります。",
+    "noActions": "アクションが構成されていません",
     "noGroupMapping": "ID プロバイダーと Instana の間にマッピングが構成されていません",
     "denyUserWithNoGroup": "マッピングが見つからない場合はアクセスを拒否する。 チェックを外すと、グループマッピングがなく、グループが見つからないユーザーがデフォルト・グループに追加されます。",
     "twoFactor": "2 要素",
@@ -484,6 +493,7 @@
     "importingConfig": "構成データのインポート",
     "configSuccessfullyImported": "構成データが正常にインポートされました",
     "failedToImportConfig": "構成データのインポートに失敗しました: {{err}}",
+    "configImportResult": "インポート結果でフィルター...",
     "settingsPageNotFound": "設定ページが見つかりません",
     "weCouldNotFindTheSettingsPageYouWereLookingFor": "お探しの設定ページが見つかりませんでした。 恐れ入りますが、 代わりに次のいずれかのリンクをお試しください。",
     "pleaseSelectAtLeastOneItem": "項目を少なくとも 1 つ選択してください。",
@@ -627,6 +637,7 @@
     "configureCustomPayload": "カスタム・ペイロードの構成",
     "youAreNotPermittedToEditCustomPayloads": "カスタム・ペイロードの編集は許可されていません。",
     "unknownEvent": "不明なイベント",
+    "unknownAction": "不明なアクション",
     "builtInEventDefinition": "組み込みイベント定義",
     "entityType": "エンティティー・タイプ",
     "eventInputs": "イベント入力",
@@ -806,10 +817,23 @@
     "default": "デフォルト",
     "identityProviderType": "ID プロバイダー・タイプ",
     "copyApiTokenToClipboardError": "API トークンをクリップボードにコピーできませんでした。",
-    "depreactedEventHiddenInfo": "非推奨のイベントは新しい構成に追加できなくなり、このリストから非表示になります。",
-    "deprecatedEventMessage": "このイベントは非推奨です。 スマートアラートに移行する、または <documentationLink>弊社の資料を参照してください</documentationLink>。",
+    "depreactedEventHiddenInfo": "非推奨のイベントは新しいアラートに追加できず、このリストには表示されません。",
+    "deprecatedEventMessage": "エンティティー・タイプが「アプリケーション・パースペクティブ」、「サービス」、および「エンドポイント」のカスタム・イベントは、まもなく非推奨になります。 2022 年 10 月より、このタイプのイベントは新規作成できなくなります。 手動で、または上記の「<em>スマート・アラートに移行</em>」ボタンを使用して、このイベントをスマート・アラートにマイグレーションすることをお勧めします。 <documentationLink>詳しくは資料をご覧ください</documentationLink>。",
     "migratedEventMessage": "この非推奨イベントは移行されました。 詳しくは、<documentationLink>弊社の資料を参照してください</documentationLink>。",
-    "deprecatedEventSelectedMessage": "エンティティー・タイプの<em>アプリケーション、サービス、エンドポイント</em>はカスタム・イベントでは非推奨であり、まもなくスマート・アラートに移行する必要があります。 カスタム・イベントではなく、それぞれのスマート・アラートを構成することをお勧めします。 詳しくは、<documentationLink>弊社の資料を参照してください</documentationLink>。"
+    "deprecatedEventSelectedMessage": "エンティティー・タイプが「アプリケーション・パースペクティブ」、「サービス」、および「エンドポイント」のカスタム・イベントは、まもなく非推奨になります。 2022 年 10 月より、このタイプのイベントは新規作成できなくなります。 代わりに、スマート・アラートを作成することをお勧めします。 <documentationLink>詳しくは資料をご覧ください</documentationLink>。",
+    "automation": "自動化",
+    "actionCatalog": "アクション・カタログ",
+    "action_plural": "アクション",
+    "actionWithName": "アクション: {{actionName}}",
+    "actionType": "アクション・タイプ",
+    "actionDetails": "アクションの詳細",
+    "filterActions": "フィルター・アクション",
+    "fields": "フィールド",
+    "invocations": "呼び出し",
+    "successRate": "成功率",
+    "lastModified": "最終変更日時",
+    "docLink": "資料へのリンク",
+    "deletedEventMessage": "削除されたイベント構成を表示しています。 変更することはできません。"
   },
   "languageSelection": {
     "language": "言語",

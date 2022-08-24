@@ -7,16 +7,21 @@ import { renderStaticThresholdLineAndBackgrounds } from 'in-alerting/components/
 import { isGreaterOperatorOrUndefined } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { MultiMetricRenderProps, RenderAxis, Renderer } from 'in-components/Chart/renderer/types';
 import line from 'in-components/Chart/renderer/line';
-import { StaticThresholdConfig } from 'in-types';
+import { ThresholdOperator } from 'in-types';
 
-export function createLineWithThreshold({ operator, value }: StaticThresholdConfig): Renderer<MultiMetricRenderProps> {
+export function createLineWithThreshold(
+  operator: ThresholdOperator,
+  value: number | null
+): Renderer<MultiMetricRenderProps> {
   return {
     render: ({ colors50, colors100, scale, config, metrics }): void => {
       const metric = metrics[0];
 
       const isGreaterOp = isGreaterOperatorOrUndefined(operator);
 
-      renderStaticThresholdLineAndBackgrounds(config, scale, colors50, colors100, value, isGreaterOp);
+      if (value != null) {
+        renderStaticThresholdLineAndBackgrounds(config, scale, colors50, colors100, value, isGreaterOp);
+      }
 
       // historical data
       line.render({ dataSeries: metric, color: colors100[0]!, scale, config });

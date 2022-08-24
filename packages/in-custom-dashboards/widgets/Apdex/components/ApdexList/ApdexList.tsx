@@ -6,13 +6,13 @@
 
 import React from 'react';
 
+import { ApdexConfiguration, PaginatedResult, Result } from '@instana/types';
 import { Button, SvgIcon } from '@instana/components';
 
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { addActiveDialog, close as closeDialog } from 'in-components/DialogPresenter/store';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
-import { ApdexConfiguration, PaginatedResult, Result } from 'in-types';
 import { millis } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { FetchedState } from 'in-hooks/utils/types';

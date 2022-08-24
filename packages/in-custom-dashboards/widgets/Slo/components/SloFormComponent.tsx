@@ -54,6 +54,8 @@ import { Trans, t } from 'in-i18n';
 
 import locals from './SloFormComponent.mless';
 
+export const SLO_TARGET_DECIMAL_PRECISION = 2;
+
 export interface FormComponentProps {
   form: MapForm;
   onChange: (path: string[], updater: (f: MapForm) => MapForm) => void;
@@ -197,6 +199,7 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
                   );
                 }}
                 hasError={!field.valid && field.touched}
+                decimalPrecision={SLO_TARGET_DECIMAL_PRECISION}
               />
               <span className={locals.sloUnit}>%</span>
               <OverridingFieldValidationMessage

@@ -62,6 +62,8 @@
   "labelScope": "範圍",
   "labelCustomServiceRules": "自訂服務規則",
   "labelSyntheticEndpoints": "綜合端點",
+  "labelWarning": "警告",
+  "labelCritical": "嚴重",
   "titleTopServices": "排名居前的服務",
   "titleMeanLatency": "延遲時間平均值",
   "titleErroneousCallRate": "錯誤呼叫率",
@@ -197,7 +199,8 @@
     "technologies": "技術",
     "httpStatusCode": "HTTP 狀態",
     "hiddenCalls": "隱藏的呼叫",
-    "preview": "預覽",
+    "fastQueryMode": "快速查詢模式",
+    "fastQueryModeTooltip": "如果針對完整資料集執行會花費太長時間，則快速查詢模式會針對呼叫或追蹤子集啟用查詢執行。",
     "listBatchTypeTooltip": "此 {{type}} 已批次處理，代表 {{batchCount}} 個個別的 {{types}}。",
     "listBatchLatencyTooltip": "{{batchCount}} 個批次處理 {{types}} 的延遲時間總計。",
     "traceIdTooltip": "此追蹤的某些相關資料有所延遲，請稍後再重新載入頁面。舉例來說，當正在檢視最近的追蹤時，若其某些資料仍在處理中，就可能發生此情況。",
@@ -643,6 +646,7 @@
     "alternativeServicesPossibleProblem": "<bold>可能</bold>，如果現行服務及替代服務名稱不是來自 HTTP \"Host\" 標頭，則它們是位於 Proxy 後面的服務（良好）或重複服務（不良）：部分服務完全鏈結至基礎架構，而其他服務部分鏈結至基礎架構。"
   },
   "widgetNotActive": {
-    "title": "在「即時模式」中不支援小組件"
+    "title": "在「即時模式」中不支援小組件",
+    "button": "停止即時模式"
   }
 }

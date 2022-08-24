@@ -254,6 +254,11 @@
   "pluginName_camunda_1": "Camunda",
   "pluginName_camunda_2": "Camunda",
   "pluginName_camunda": "Camunda",
+  "pluginName_camundaexit_plural": "Exit Camunda",
+  "pluginName_camundaexit_0": "Exit Camunda",
+  "pluginName_camundaexit_1": "Exit Camunda",
+  "pluginName_camundaexit_2": "Exit Camunda",
+  "pluginName_camundaexit": "Exit Camunda",
   "pluginName_cassandraCluster_plural": "Clusters Cassandra",
   "pluginName_cassandraCluster_0": "Cluster Cassandra",
   "pluginName_cassandraCluster_1": "Cluster Cassandra",
@@ -1056,6 +1061,21 @@
   "pluginName_redisEnterpriseNode_1": "Nœud Redis Enterprise",
   "pluginName_redisEnterpriseNode_2": "Nœuds Redis Enterprise",
   "pluginName_redisEnterpriseNode": "Noeuds Redis Enterprise",
+  "pluginName_rocketMqCluster_plural": "Clusters RocketMQ",
+  "pluginName_rocketMqCluster_0": "Clusters RocketMQ",
+  "pluginName_rocketMqCluster_1": "Clusters RocketMQ",
+  "pluginName_rocketMqCluster_2": "Clusters RocketMQ",
+  "pluginName_rocketMqCluster": "Cluster RocketMQ",
+  "pluginName_rocketMqBroker_plural": "Courtiers RocketMQ",
+  "pluginName_rocketMqBroker_0": "Courtiers RocketMQ",
+  "pluginName_rocketMqBroker_1": "Courtiers RocketMQ",
+  "pluginName_rocketMqBroker_2": "Courtiers RocketMQ",
+  "pluginName_rocketMqBroker": "Courtier RocketMQ",
+  "pluginName_rocketMqTopic_plural": "Rubriques RocketMQ",
+  "pluginName_rocketMqTopic_0": "Rubriques RocketMQ",
+  "pluginName_rocketMqTopic_1": "Rubriques RocketMQ",
+  "pluginName_rocketMqTopic_2": "Rubriques RocketMQ",
+  "pluginName_rocketMqTopic": "Rubrique RocketMQ",
   "pluginName_rubyRuntimePlatform_plural": "Applications Ruby",
   "pluginName_rubyRuntimePlatform_0": "Application Ruby",
   "pluginName_rubyRuntimePlatform_1": "Application Ruby",
@@ -1341,6 +1361,11 @@
   "tracingTypeName_camunda_0": "Appels Camunda",
   "tracingTypeName_camunda_1": "Appel Camunda",
   "tracingTypeName_camunda_2": "Appels Camunda",
+  "tracingTypeName_camundaexit": "Message de tâche externe Camunda",
+  "tracingTypeName_camundaexit_plural": "Messages de tâche externe Camunda",
+  "tracingTypeName_camundaexit_0": "Messages de tâche externe Camunda",
+  "tracingTypeName_camundaexit_1": "Message de tâche externe Camunda",
+  "tracingTypeName_camundaexit_2": "Messages de tâche externe Camunda",
   "tracingTypeName_cassandra": "Requête Cassandra",
   "tracingTypeName_cassandra_plural": "Requêtes Cassandra",
   "tracingTypeName_cassandra_0": "Requête Cassandra",
@@ -1404,6 +1429,11 @@
   "tracingTypeName_distributemeclient_0": "Appel DistributeMe",
   "tracingTypeName_distributemeclient_1": "Appel DistributeMe",
   "tracingTypeName_distributemeclient_2": "Appels DistributeMe",
+  "tracingTypeName_datagrid": "Appel de grille de données",
+  "tracingTypeName_datagrid_plural": "Appels de grille de données",
+  "tracingTypeName_datagrid_0": "Appels de grille de données",
+  "tracingTypeName_datagrid_1": "Appels de grille de données",
+  "tracingTypeName_datagrid_2": "Appels de grille de données",
   "tracingTypeName_django": "Django",
   "tracingTypeName_django_plural": "Appels Django",
   "tracingTypeName_django_0": "Appel Django",
@@ -1689,6 +1719,11 @@
   "tracingTypeName_mail_0": "Message électronique",
   "tracingTypeName_mail_1": "Message électronique",
   "tracingTypeName_mail_2": "Messages électroniques",
+  "tracingTypeName_mailjavamail": "Message électronique",
+  "tracingTypeName_mailjavamail_plural": "Messages électroniques",
+  "tracingTypeName_mailjavamail_0": "Messages électroniques",
+  "tracingTypeName_mailjavamail_1": "Message électronique",
+  "tracingTypeName_mailjavamail_2": "Messages électroniques",
   "tracingTypeName_mailactionmailer": "Message ActionMailer",
   "tracingTypeName_mailactionmailer_plural": "Messages ActionMailer",
   "tracingTypeName_mailactionmailer_0": "Messages ActionMailer",
@@ -2565,6 +2600,69 @@
       "mysqIbufRequestR": "Demande de lecture",
       "mysqIbufRequestW": "Demande d'écriture",
       "mysqIbufPoolReads": "Lecture du pool"
+    },
+    "rocketMqCluster": {
+      "rocketMqClusterInfo": "Cluster RocketMQ",
+      "nameSrvAddrs": "Adresse du serveur de noms",
+      "clusterName": "Nom du cluster",
+      "brokerName": "Nom du courtier",
+      "brokerAddr": "Adresse du courtier",
+      "bootTimestamp": "Temps d'initialisation du courtier",
+      "brokerVersionDesc": "Version du courtier",
+      "brokersNumber": "Courtier ({{count}})",
+      "brokersNumber_plural": "Courtiers ({{count}})",
+      "topicName": "Nom de la rubrique",
+      "topicsNumber": "Rubrique ({{count}})",
+      "topicsNumber_plural": "Rubriques ({{count}})"
+    },
+    "rocketMqBroker": {
+      "rocketMqBrokerInfo": "Courtier RocketMQ",
+      "brokerName": "Nom",
+      "brokerId": "ID",
+      "brokerAddr": "Adresse",
+      "bootTimestamp": "Temps d'initialisation",
+      "runtime": "Temps d'exécution",
+      "brokerVersionDesc": "Version",
+      "msgTPS": "TPS de message",
+      "putNums": "TPS d'insertion de message",
+      "getNums": "Obtenir les TPS de message",
+      "elapsedTime": "Temps écoulé",
+      "putMessageEntireTimeMax": "Indiquer le temps écoulé max.",
+      "getMessageEntireTimeMax": "Obtenir le temps écoulé max.",
+      "messageTimesTotal": "Temps total écoulé",
+      "putMessageTimesTotal": "Indiquer le temps écoulé total",
+      "messageSizeTotal": "Taille totale des messages",
+      "putMessageSizeTotal": "Indiquer la taille totale des messages",
+      "putMessageFailedTimes": "Indiquer le nombre d'échecs",
+      "tps60": "TPS au cours de la dernière minute",
+      "putTps60": "Indiquer les TPS au cours de la dernière minute",
+      "getFoundTps60": "Obtenir les TPS trouvées au cours de la dernière minute",
+      "getMissTps60": "Obtenir les TPS manquées au cours de la dernière minute",
+      "getTotalTps60": "Obtenir le total de TPS au cours de la dernière minute",
+      "getTransferedTps60": "Obtenir les TPS transférées au cours de la dernière minute",
+      "msgTotalTodayNow": "Nombre de messages du jour",
+      "msgGetTotalTodayNow": "Comptage production du jour",
+      "msgPutTotalTodayNow": "Comptage consommation du jour",
+      "threadPoolQueueHeadWaitTimeMills": "Temps d'attente de l'élément de tête de la file d'attente du pool d'unités d'exécution",
+      "sendThreadPoolQueueHeadWaitTimeMills": "Temps d'attente de l'élément de tête de la file d'attente d'envoi",
+      "pullThreadPoolQueueHeadWaitTimeMills": "Temps d'attente de l'élément de tête de la file d'attente d'extraction",
+      "queryThreadPoolQueueHeadWaitTimeMills": "Temps d'attente de l'élément de tête de la file d'attente de requêtes",
+      "threadPoolQueueSize": "Taille de la file d'attente du pool d'unités d'exécution",
+      "queryThreadPoolQueueSize": "Taille de la file d'attente de requêtes",
+      "pullThreadPoolQueueSize": "Taille de la file d'attente d'extraction",
+      "sendThreadPoolQueueSize": "Taille de la file d'attente d'envoi",
+      "commitLogDiskRatio": "Taux de disque des journaux de validation"
+    },
+    "rocketMqTopic": {
+      "rocketMqTopicInfo": "Rubrique RocketMQ",
+      "topicName": "Nom",
+      "msgTps": "TPS de message",
+      "putNums": "TPS d'insertion de message",
+      "getNums": "Obtenir les TPS de message",
+      "msgSize": "Taille message",
+      "putMessageSize": "Indiquer la taille de message",
+      "getMessageSize": "Obtenir la taille de message",
+      "sendBackNums": "Envoyer les numéros de retour"
     },
     "ibmDataPowerAppliance": {
       "ibmDataPowerApplianceInfo": "Dispositif IBM DataPower",
@@ -4387,6 +4485,9 @@
       "threads": "Unités d'exécution",
       "throttlingDelay": "Régulation et délai"
     },
+    "camunda": {
+      "camunda": "Camunda"
+    },
     "cassandraCluster": {
       "indexLabel": "Cassandra",
       "infoName": "Nom",
@@ -5269,7 +5370,10 @@
         "hadrPrimaryLog": "Fonction de reprise sur sinistre haute disponibilité - Informations sur le journal principal",
         "hadrSecondaryLog": "Fonction de reprise sur sinistre haute disponibilité - Informations sur le journal secondaire",
         "hadrLogMetrics": "Fonction de reprise sur sinistre haute disponibilité - Mesures du journal",
-        "hadrTakeOverTime": "Heure de la dernière exécution de la fonction de reprise sur sinistre haute disponibilité"
+        "hadrTakeOverTime": "Heure de la dernière exécution de la fonction de reprise sur sinistre haute disponibilité",
+        "vmonlockStatsValue": "Statistiques de verrouillage (mémoire)",
+        "vmonlockStats": "Statistiques de verrouillage",
+        "databaseVmondeltaStats": "Performances des transactions (valeur incrémentielle)"
       },
       "db2": "DB2",
       "processId": "ID du processus",
@@ -5476,6 +5580,18 @@
       "sockRecvBufAct": "Mémoire tampon de réception réelle",
       "logHadrWaitCur": "Temps d'attente du gestionnaire de journalisation en cours",
       "logHadrWaitTime": "Temps d'attente total du gestionnaire de journalisation",
+      "lockWaitTime": "Durée d'attente sur verrouillage",
+      "lockEscals": "Escalades de verrouillage",
+      "lockListInUse": "Liste des verrous utilisés",
+      "activeLockWaits": "Attentes de verrou actif",
+      "averageLockEscalsPerAct": "Moyenne des escalades de verrouillage par activité",
+      "lockListValue": "Valeur de la liste des verrous",
+      "indexReadEfficiency": "Efficience de lecture d'index",
+      "sorts": "Nbre total de tris",
+      "syncReadPercentage": "Pourcentage de lectures synchrones",
+      "asyncWritePercentage": "Pourcentage d'écritures asynchrones",
+      "sortsPerTransactions": "Tris par transaction",
+      "sqls": "SQL",
       "unableToConnect": "Impossible de se connecter à {{connectionUrl}} avec l'utilisateur {{user}}.",
       "troubleshootingDocs": "Documentation sur le traitement des incidents",
       "oldConfigUsed": "Le détecteur Db2 prend désormais en charge la surveillance de plusieurs instances et bases de données sur l'hôte sur lequel l'agent Instana est en cours d'exécution. Reportez-vous aux documents pour le nouveau format de configuration."
@@ -8860,6 +8976,10 @@
       "defaultBinding": "Liaison par défaut",
       "usage": "Utilisation",
       "monitoring": "Surveillance",
+      "queueDescription": "Description de file d'attente",
+      "queueDepthHighLimit": "Limite supérieure du nbre de lignes de la file d'attente",
+      "queueDepthLowLimit": "Limite inférieure du nbre de lignes de la file d'attente",
+      "queueServiceInterval": "Intervalle de service de file d'attente (ms)",
       "queueDepth": "Longueur de la file d'attente",
       "oldestMessage": "Message le plus ancien",
       "maxQueueDepth": "Longueur max de file d'attente",
@@ -9708,6 +9828,7 @@
       "datasourceJndi": "JNDI source de données"
     },
     "jbossDataGrid": {
+      "datagrid": "Grille de données",
       "cacheName": "Cache [{{cacheName}}]",
       "jGroupsClusterName": "Cluster JGroups [{{clusterName}}]",
       "hitRatio": "Taux de réussite",
@@ -11653,7 +11774,14 @@
       "titleProcessName": "Nom de processus",
       "titleActivityId": "ID activité",
       "titleActivityName": "Nom d'activité",
-      "titleActivityDesc": "Description de l'activité"
+      "titleActivityDesc": "Description de l'activité",
+      "titleExternalTaskWorkerId": "ID travailleur de tâche externe",
+      "titleExternalTaskTopic": "Rubrique de tâche externe",
+      "titleExternalTaskId": "ID tâche externe",
+      "titleExternalTaskRetries": "Nombre de nouvelles tentatives"
+    },
+    "camunda-exit": {
+      "titleExternalTaskTopic": "Rubrique de tâche externe"
     },
     "cassandra": {
       "titleKeyspace": "Espace de clé",
@@ -11698,6 +11826,12 @@
       "titleErrorCode": "Code d'erreur",
       "titleSQL": "SQL"
     },
+    "datagrid": {
+      "titleOperation": "Opération",
+      "titleKey": "Clé",
+      "titleCacheName": "Nom du cache",
+      "titleClusterName": "Nom du cluster"
+    },
     "distributeme": {
       "titleService": "Service",
       "titleMethod": "Méthode"
@@ -11711,7 +11845,9 @@
       "titleInterface": "Interface",
       "titleProviderVersion": "Version fournisseur",
       "titleConsumerVersion": "Version consommateur",
-      "titleVersion": "Version de protocole"
+      "titleVersion": "Version de protocole",
+      "titleMethod": "Méthode",
+      "titleGroup": "Groupe"
     },
     "dynamoDB": {
       "titleTable": "Table",
@@ -11999,9 +12135,13 @@
       "titleThread": "Unité d'exécution"
     },
     "mail": {
-      "titleAddress": "Adresse",
       "class": "Classe",
       "method": "Méthode"
+    },
+    "javamail": {
+      "method": "Méthode",
+      "endpoint": "Noeud final",
+      "error": "Erreur"
     },
     "memcache": {
       "titleCommand": "Commande",

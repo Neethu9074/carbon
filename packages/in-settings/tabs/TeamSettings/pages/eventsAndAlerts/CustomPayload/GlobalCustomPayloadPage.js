@@ -23,14 +23,16 @@ import {
   removeItemAlertCustomPayloadTracker,
   submitAlertCustomPayloadTracker
 } from 'in-settings/tracker';
+import { createTagBasedPayloadConfigurator } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
+import {
+  getGlobalCustomPayloadAsResultObservable,
+  getCustomPayloadTagCatalog,
+  saveGlobalCustomPayload
+} from 'in-settings/tabs/TeamSettings/api/customPayload';
 import {
   useSaveToServerHandler,
   initialState
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/useSaveToServerHandler';
-import {
-  getGlobalCustomPayloadAsResultObservable,
-  saveGlobalCustomPayload
-} from 'in-settings/tabs/TeamSettings/api/customPayload';
 import { createNewFormEntry, createForm } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import CustomPayloadTable from 'in-alerting/components/CustomPayload/CustomPayloadTable';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
@@ -58,6 +60,11 @@ export default function GlobalCustomPayloadPage() {
   return <CustomPayload result={result} save={save} savingState={savingState} />;
 }
 
+const TagBasedPayloadConfigurator = createTagBasedPayloadConfigurator({
+  getTagCatalog: getCustomPayloadTagCatalog
+});
+
+// exported only for use in storybook testing
 export function CustomPayload(props) {
   const { result, save, savingState } = props;
   const [form, setForm] = useState(createForm(result?.data?.fields ?? []));
@@ -98,6 +105,7 @@ export function CustomPayload(props) {
       <form onSubmit={onSubmit}>
         <CustomPayloadTable
           getRowIndex={getRowIndex}
+          TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
           columnDefinitions={columnDefinitions}
           isSearchable={false}
           addRow={addRow}
