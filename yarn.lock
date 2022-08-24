@@ -1416,17 +1416,10 @@
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha1-tSBSnsIdjllFoYUd/Rwy6U45/0U=
 
-<<<<<<< HEAD
-"@instana/components@1.49.0":
-  version "1.49.0"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/components/-/@instana/components-1.49.0.tgz#a2d57a07c2e54cb462af405088f6362b3b3101cc"
-  integrity sha1-otV6B8LlTLRir0BQiPY2KzsxAcw=
-=======
 "@instana/components@^1.49.1":
   version "1.49.1"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/components/-/@instana/components-1.49.1.tgz#ae28f219304605284094c4283f3ba19311a8d3df"
   integrity sha512-Qn2ENlMSfDCVwMNl7UDvzQVcB62CRkhhUy//CJQt/Hue5TDXYs4lQ99/H0sRTSwbHyFt1Poe5kwVkEvgagTV+A==
->>>>>>> origin/develop
   dependencies:
     "@emotion/react" "^11.9.0"
     "@emotion/styled" "^11.8.1"
@@ -1444,17 +1437,10 @@
     prismjs "^1.24.1"
     react-toggle "^4.1.2"
 
-<<<<<<< HEAD
-"@instana/design-tokens@^1.11.1", "@instana/design-tokens@^1.12.4":
-  version "1.12.4"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/design-tokens/-/@instana/design-tokens-1.12.4.tgz#c52a1ac2be5fa1d417dacdaecc213bbd755e5a03"
-  integrity sha1-xSoawr5fodQX2s2uzCE7vXVeWgM=
-=======
 "@instana/design-tokens@^1.12.5":
   version "1.12.5"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/design-tokens/-/@instana/design-tokens-1.12.5.tgz#dabbc229e44028f3b7b5fc525474f0b09cdab242"
   integrity sha512-D4+poQayd47D9MUgQLeKfe2NgdvQtj6/yzFkWrsv13ky/0vYxsEdTv6s/vO6whwxcjeDRwPkRPqgo1AZKXwmwg==
->>>>>>> origin/develop
   dependencies:
     ts-node "^9.1.1"
     tslib "^2.1.0"
