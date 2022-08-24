@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { number } from 'in-services/formatters/number';
+import { number, percentage } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getRawPayload } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
@@ -48,7 +48,7 @@ const cols = [
       getValue(row) {
         return row.sharedProcessorPool.get('utilizedProcUnitsPercentage');
       },
-      getContent: number.compact
+      getContent: percentage.detailed
     }
   },
   {
@@ -58,7 +58,7 @@ const cols = [
       getValue(row) {
         return row.sharedProcessorPool.get('availableProcUnitsPercentage');
       },
-      getContent: number.compact
+      getContent: percentage.detailed
     }
   }
 ];

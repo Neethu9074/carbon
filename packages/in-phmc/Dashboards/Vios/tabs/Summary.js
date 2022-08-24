@@ -41,7 +41,7 @@ export default function Summary({ timeConfig, data: vios }) {
       </KpiGridRow>
 
       <Row verticallyStretchColumns>
-        <Col lg={12}>
+        <Col lg={6}>
           <Card title={t('in-phmc:dashboards.processorUnits')} useMaxAvailableHeight>
             <Chart
               snapshotId={snapshotId}
@@ -67,7 +67,16 @@ export default function Summary({ timeConfig, data: vios }) {
                 formatter: number.detailed,
                 type: 'line'
               }}
-              y2={{
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </Card>
+        </Col>
+        <Col lg={6}>
+          <Card title={t('in-phmc:entitledProc')} useMaxAvailableHeight>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
                 metrics: ['entitledProcUnitsPercentage'],
                 labels: [t('in-phmc:entitledPercent')],
                 type: 'line',
