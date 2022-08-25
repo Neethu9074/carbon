@@ -15,6 +15,7 @@ import TimeSelection from 'in-components/time/TimeSelection/TimeSelection';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import Title from 'in-components/Title';
 import { Result } from 'in-types';
+import { t } from 'in-i18n';
 
 import locals from './DashboardHeader.mless';
 
@@ -106,6 +107,19 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
       renderIcon = getSkeletonIcon;
     }
   }
+
+  const SyntheticIcon = () => {
+    const isSynthetic = result && result.data?.synthetic;
+    if (isSynthetic)
+      return (
+        <Tooltip content={t('in-applications:labelSyntheticEndpoint')}>
+          <span className={locals.specialIndicator} />
+        </Tooltip>
+      );
+    else {
+      return null;
+    }
+  };
   return (
     <header
       className={classNames(locals.dashboardHeader, locals[theme], className, withBorderBottom && locals.borderBottom)}
@@ -127,6 +141,7 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
                 }
               />
             ))}
+          <SyntheticIcon />
           {renderIcon ? renderIcon() : icon ? <SvgIcon className={locals.icon} type={icon} size="l" /> : null}
           {typeof label === 'string' ? (
             <Tooltip content={label} delay={500}>
