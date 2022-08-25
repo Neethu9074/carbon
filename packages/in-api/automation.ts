@@ -132,7 +132,7 @@ export function runScriptAction(script: string, volatileId: VolatileId, event: E
       command: script,
       async: 'true',
       actionOperation: 'action.run',
-      event
+      event: JSON.stringify(event)
     }
   });
 }
