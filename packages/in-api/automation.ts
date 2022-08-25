@@ -8,7 +8,7 @@ import { fromJS, Map } from 'immutable';
 
 import { Observable } from '@instana/observables';
 
-import { Action, Field, Mutable, VolatileId, ActionAIScore } from 'in-types';
+import { Action, Field, Mutable, VolatileId, ActionAIScore, Event } from 'in-types';
 import createAgentResponseObservable from 'in-subscription/agentResponse';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import http from 'in-services/http';
@@ -123,7 +123,7 @@ export function createAction(
   });
 }
 
-export function runScriptAction(script: string, volatileId: VolatileId) {
+export function runScriptAction(script: string, volatileId: VolatileId, event: Event | null) {
   return createAgentResponseObservable({
     action: 'action.run',
     target: volatileId,
@@ -131,7 +131,8 @@ export function runScriptAction(script: string, volatileId: VolatileId) {
       actionType: 'SCRIPT',
       command: script,
       async: 'true',
-      actionOperation: 'action.run'
+      actionOperation: 'action.run',
+      event
     }
   });
 }

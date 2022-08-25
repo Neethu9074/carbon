@@ -24,6 +24,7 @@ export default function AssociatedActions({ event, volatileId }: { event: Map<st
       <EventSpecificationLink event={event} buttonText={t('in-events:setAssociations')} />
       <ActionTable
         showExecuteColumn
+        event={event.toJS()}
         volatileId={volatileId}
         loadEntities={() => observable(eventSpecificationId).map((response: any) => response.toJS())}
       />
