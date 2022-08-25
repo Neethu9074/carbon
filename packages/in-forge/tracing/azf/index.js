@@ -5,7 +5,6 @@
  */
 
 import { registerSpanDefinition } from 'in-sdk/tracing';
-import { t } from 'in-i18n';
 
 registerSpanDefinition({
 // we do not define a category since Azure Functions entries can belong to different categories depending on the trigger - they

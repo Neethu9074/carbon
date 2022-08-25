@@ -10,18 +10,6 @@ import { Dl, Di } from 'in-components/HorizontalDescriptionList';
 import AdditionalAttributesSection from 'in-sdk/components/traceDetails/AdditionalAttributesSection';
 import { t } from 'in-i18n';
 
-const TRIGGER_BLOB = 'Blob';
-const TRIGGER_COSMOSDB = 'CosmosDB';
-const TRIGGER_EVENTGRID = 'Event Grid';
-const TRIGGER_EVENTHUB = 'Event Hub';
-const TRIGGER_KAFKA = 'Kafka';
-const TRIGGER_HTTP = 'HTTP';
-const TRIGGER_QUEUE = 'Queue';
-const TRIGGER_RABBITMQ = 'RabbitMQ';
-const TRIGGER_SERVICEBUS = 'Service Bus';
-const TRIGGER_TABLE = 'Table';
-const TRIGGER_TIMER = 'Timer';
-
 export default function AzureFunctionsSpanDetailView({ span }) {
     return (
         <Dl>
