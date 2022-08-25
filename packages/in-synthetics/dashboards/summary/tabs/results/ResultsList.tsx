@@ -45,11 +45,22 @@ const columnDefinitions = [
         <SeverityAwareEntityLink
           severity={getSeverity(item)}
           label={getRelativeTime(item)}
-          href$={getModifiedUrlStream(detailsUrl => {
-            detailsUrl.pathname = syntheticDetailsPath;
-            setOrDeleteMatrixKey(detailsUrl, syntheticDetailsPath, 'testId', item.testResultCommonProperties.testId);
-            setOrDeleteMatrixKey(detailsUrl, syntheticDetailsPath, 'id', item.testResultCommonProperties.id);
-            return detailsUrl;
+          href$={getModifiedUrlStream(resultDetailsUrl => {
+            resultDetailsUrl.pathname = syntheticDetailsPath;
+            setOrDeleteMatrixKey(
+              resultDetailsUrl,
+              syntheticDetailsPath,
+              'testId',
+              item.testResultCommonProperties.testId
+            );
+            setOrDeleteMatrixKey(resultDetailsUrl, syntheticDetailsPath, 'id', item.testResultCommonProperties.id);
+            setOrDeleteMatrixKey(
+              resultDetailsUrl,
+              syntheticDetailsPath,
+              'start_time',
+              get(item, ['metrics', 'start_time', 0, 1])
+            );
+            return resultDetailsUrl;
           })}
         />
       );
