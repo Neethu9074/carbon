@@ -12080,11 +12080,7 @@
       "titleTrigger": "Trigger",
       "titleFunctionName": "Function Name",
       "titleRuntime": "Runtime",
-      "titleMethodName": "Method Name",
-      "titleEventType": "Event Type",
-      "titleDetails": "Event Details",
-      "AZFEvent": "AZF Event(s)",
-      "AZFEventDetails": "The Trigger cannot be identified."
+      "titleMethodName": "Method Name"
     },
     "azq": {
       "queuename": "Queue Name",
