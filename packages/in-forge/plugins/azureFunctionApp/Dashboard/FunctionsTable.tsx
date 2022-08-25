@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2022
- * (c) Copyright Instana Inc. 2022
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2022
  */
 
 import React from 'react';
@@ -8,7 +9,7 @@ import React from 'react';
 import getFunctionsForFunctionApp from 'in-forge/plugins/azureFunctionApp/subscriptions/getFunctionsForFunctionApp';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
-import { getSnapshots } from 'in-stores/snapshot';
+import { getSnapshots } from 'in-stores/snapshot/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

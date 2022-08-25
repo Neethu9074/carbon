@@ -1,12 +1,13 @@
 /*
- * (c) Copyright IBM Corp. 2022
- * (c) Copyright Instana Inc. 2022
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2022
  */
 
 import React from 'react';
 
-import { Dl, Di } from 'in-components/HorizontalDescriptionList';
-import AdditionalAttributesSection from 'in-sdk/components/traceDetails/AdditionalAttributesSection';
+import { Dl, Di } from 'in-components/HorizontalDescriptionList/HorizontalDescriptionList';
+import AdditionalAttributesSection from 'in-sdk/components/traceDetails/AdditionalAttributesSection/AdditionalAttributesSection';
 import { t } from 'in-i18n';
 
 const TRIGGER_BLOB = 'Blob';

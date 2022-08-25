@@ -16,9 +16,9 @@ import {
 } from 'in-logging/queryBuilder';
 import getApplication from 'in-applications/subscriptions/getApplication';
 // @ts-ignore
-import { getSnapshot } from 'in-stores/snapshot';
+import { getSnapshot } from 'in-stores/snapshot/snapshot';
 // @ts-ignore
-import { getLabel } from 'in-sdk/snapshot';
+import { getLabel } from 'in-sdk/snapshot/snapshot';
 import { Application, LogTag, Result } from 'in-types';
 import { t } from 'in-i18n';
 
