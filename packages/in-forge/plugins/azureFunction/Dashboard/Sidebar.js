@@ -1,12 +1,11 @@
 /*
- * IBM Confidential
- * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2022
+ * (c) Copyright IBM Corp. 2022
+ * (c) Copyright Instana Inc. 2022
  */
 
 import React, { Fragment } from 'react';
 
-import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList/ServiceInstancesList';
+import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { t } from 'in-i18n';
 import Info from '../Info';

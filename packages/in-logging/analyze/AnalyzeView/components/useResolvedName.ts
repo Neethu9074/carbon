@@ -19,7 +19,7 @@ import {
   LOG_STREAM_NAME
 } from 'in-logging/queryBuilder';
 // @ts-ignore
-import { getSnapshot } from 'in-stores/snapshot/snapshot';
+import { getSnapshot } from 'in-stores/snapshot';
 import { getPluginName } from 'in-sdk/pluginName';
 import { LogTag } from 'in-types';
 import { t } from 'in-i18n';

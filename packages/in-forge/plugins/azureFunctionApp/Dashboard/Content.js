@@ -1,7 +1,6 @@
 /*
- * IBM Confidential
- * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2022
+ * (c) Copyright IBM Corp. 2022
+ * (c) Copyright Instana Inc. 2022
  */
 
 import React from 'react';
@@ -9,7 +8,7 @@ import React from 'react';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import FunctionsTable from 'in-forge/plugins/azureFunctionApp/Dashboard/FunctionsTable.js';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection/DashboardSection';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { number, bytes, seconds } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 

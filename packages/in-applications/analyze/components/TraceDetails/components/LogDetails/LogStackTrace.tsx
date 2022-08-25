@@ -13,7 +13,7 @@ import StackTracePresentation from 'in-applications/analyze/components/TraceDeta
 import getTraceActivityTreeNodeDetails from 'in-applications/subscriptions/getTraceActivityTreeNodeDetails';
 import { LOG_CALL_ID, LOG_PROCESS_SNAPSHOT_ID, LOG_TRACE_ID } from 'in-logging/queryBuilder';
 // @ts-ignore
-import { isEntityOnline, getSnapshot } from 'in-stores/snapshot/snapshot';
+import { isEntityOnline, getSnapshot } from 'in-stores/snapshot';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import ExpandableGroup from 'in-components/ExpandableGroup';
 import { pendingResult } from 'in-services/fixedObjects';
