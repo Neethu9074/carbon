@@ -32,11 +32,12 @@ function _run_docker_buildx {
     REGISTRY_USERNAME=${ARTIFACT_RND_INSTANA_IO_USER}
     REGISTRY_PASSWORD=${ARTIFACT_RND_INSTANA_IO_PASSWORD}
   fi
-docker buildx build \
-    --tag $1 \
+  
+  docker buildx build \
+    --tag $TAG \
     --progress plain \
-    --cache-from $1 \
-    --platform=linux/s390x \
+    --cache-from $TAG \
+    --platform=linux/amd64,linux/s390x \
     --build-arg base_version=${BASE_VERSION} \
     --build-arg component_name=${COMPONENT_NAME} \
     --build-arg image_version=${DESIRED_IMAGE_VERSION} \
@@ -59,15 +60,13 @@ function push_image {
   else
     _check_branch_name
     _docker_login
-    _log_info "Pushing x86 image $1"
-    docker push $1
     _log_info "We are 'rebuilding' the image for s390x platform in this push step because docker buildx multi-arch builds require build and push to be run in the same command. \
     https://docs.docker.com/buildx/working-with-buildx/"
-    _run_docker_buildx $1 ${CONTAINER_FILE} ${IMAGE_VERSION}
-    _remove_from_local_registry $1
+    _run_docker_buildx ${FULLY_QUALIFIED_TAG} ${CONTAINER_FILE} ${IMAGE_VERSION}
+    _remove_from_local_registry ${FULLY_QUALIFIED_TAG}
   fi
 
   _cleanup_container_dir
 }
 
-push_image ${FULLY_QUALIFIED_TAG}
+push_image
