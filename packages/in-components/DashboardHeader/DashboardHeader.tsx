@@ -116,7 +116,9 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
           <span className={locals.specialIndicator} />
         </Tooltip>
       );
-    else return null;
+    else {
+      return null;
+    }
   };
   return (
     <header
