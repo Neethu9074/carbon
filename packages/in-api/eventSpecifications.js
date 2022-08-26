@@ -70,15 +70,6 @@ export function getCustomEventSpecificationMutable(eventSpecificationIds) {
   }).map(response => response.body);
 }
 
-export function getCustomEventActionAssocations(eventSpecificationIds) {
-  return http({
-    method: 'GET',
-    maxRetries: 3,
-    url: `/api/events/settings/event-specifications/custom/${encodeURIComponent(eventSpecificationIds)}/actions`,
-    treat400AsError: false
-  }).map(response => fromJS(response.body));
-}
-
 export function createCustomSystemRuleBasedEventSpecificationForEntityVerification({
   id = generateUniqueShortId(),
   name = t('in-settings:tabs.newEvent'),
