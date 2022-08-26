@@ -200,6 +200,7 @@ import './wsgi';
 import './x.hc';
 import './bull';
 import './azq';
+import './azf';
 import './ace';
 import './ejb';
 import './ftp';

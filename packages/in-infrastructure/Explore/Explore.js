@@ -43,14 +43,12 @@ import GroupingConfigurator, {
 import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
 import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConfigContextModification';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import ApiQueryAction from 'in-components/QueryBuilder/workspace/ApiQueryAction/ApiQueryAction';
 import QueryBuilder, { isQueryValid } from 'in-infrastructure/Explore/components/QueryBuilder';
 import GroupedInfrastructure from 'in-infrastructure/Explore/components/GroupedInfrastructure';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import InfraPageHeaderWithTabs from 'in-infrastructure/components/InfraPageHeaderWithTabs';
 import InfrastructureList from 'in-infrastructure/Explore/components/InfrastructureList';
 import { getMetrics, fromUrlMetrics } from 'in-infrastructure/Explore/services/metrics';
-import { ActionSection } from 'in-components/workspace/ActionSection/ActionSection';
 import { themes } from 'in-components/DashboardHeader/DashboardHeader';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -99,7 +97,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
   const isValid = validTagFilterExpressionResult.data === true && validGroupResult.data === true;
   const isInvalid = validTagFilterExpressionResult.data === false || validGroupResult.data === false;
 
-  const backendQueryModel = useMemo(() => isValid && toBackendQueryModel(tagFilterExpression), [
+  const backendQueryModel = useMemo(() => (isValid && toBackendQueryModel(tagFilterExpression)) || undefined, [
     isValid,
     tagFilterExpression
   ]);
@@ -166,8 +164,6 @@ function InfraExploreViewWithFixatedTimeConfig() {
                 onGroupRemoved: groupRemovedTracker(getInfraExploreState)
               }}
             />
-
-            <ActionSection right={<ApiQueryAction backendQueryModel={backendQueryModel} />} />
           </Sections>
 
           {isInvalid && (

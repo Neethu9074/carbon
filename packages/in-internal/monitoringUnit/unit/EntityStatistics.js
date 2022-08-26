@@ -42,6 +42,22 @@ const cols = [
         return 'mean';
       }
     }
+  },
+  {
+    title: t('in-internal:monitoringUnit.unit.entityStatistics.metricCount'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `${row.plugin}.metrics`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
   }
 ];
 
@@ -75,7 +91,14 @@ export default connectTo(
               min: 0,
               formatter: number.compact,
               metrics: [`total`],
-              labels: [t('in-internal:monitoringUnit.unit.entityStatistics.countOverTime')],
+              labels: [t('in-internal:monitoringUnit.unit.entityStatistics.count')],
+              type: 'line'
+            }}
+            y2={{
+              min: 0,
+              formatter: number.compact,
+              metrics: [`metrics`],
+              labels: [t('in-internal:monitoringUnit.unit.entityStatistics.metricCount')],
               type: 'line'
             }}
           />
@@ -104,7 +127,14 @@ function getRowDetails(row) {
         min: 0,
         formatter: number.compact,
         metrics: [row.plugin],
-        labels: [t('in-internal:monitoringUnit.unit.entityStatistics.countOverTime')],
+        labels: [t('in-internal:monitoringUnit.unit.entityStatistics.count')],
+        type: 'line'
+      }}
+      y2={{
+        min: 0,
+        formatter: number.compact,
+        metrics: [`${row.plugin}.metrics`],
+        labels: [t('in-internal:monitoringUnit.unit.entityStatistics.metricCount')],
         type: 'line'
       }}
     />

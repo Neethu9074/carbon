@@ -30,7 +30,7 @@ function createBoundedQueryBuilder({
 }: CreateBoundedQueryBuilderProps = {}): CreateQueryBuilderResponse {
   return createQueryBuilder({
     maxExpressionDepth: DEFAULT_MAX_EXPRESSION_DEPTH,
-    getTagCatalog: () => getTagCatalog({ beaconType, useCase: 'SMART_ALERTS' }),
+    getTagCatalog: () => getTagCatalog({ beaconType, useCase: 'SLI_MANAGEMENT' }),
     getSuggestions: ({ tagFilterExpression, ...args }) =>
       getWebsiteSuggestions({
         ...args,

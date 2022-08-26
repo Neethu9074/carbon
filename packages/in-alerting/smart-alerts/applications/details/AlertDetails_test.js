@@ -36,7 +36,7 @@ describe('Alert Details', () => {
     }
   };
 
-  it('should render <GlobalAlertDetails> if matrix param "configsCategory" is set to local', () => {
+  it('should render <GlobalAlertDetails> if matrix param "configsCategory" is set to global', () => {
     const location = {
       pathname: '/alerts/details',
       matrix: {
