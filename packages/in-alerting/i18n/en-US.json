@@ -675,6 +675,7 @@
         "migrationModeWarning": "Migrating this Custom Event to a Smart Alert will disable it. The event cannot be re-enabled afterwards."
       },
       "userInfo": {
+        "linkText": "View Smart Alert",
         "success": {
           "create": {
             "alert": {

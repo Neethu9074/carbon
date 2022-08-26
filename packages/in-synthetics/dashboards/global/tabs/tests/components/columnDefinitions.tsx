@@ -12,6 +12,8 @@ import { Link, SvgIcon } from '@instana/components';
 
 // @ts-expect-error Module needs to be translated to TS
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+// @ts-expect-error Module needs to be translated to TS
+import { getApplicationDashboard } from 'in-applications/navigation/paths';
 import ListActionsColumn from 'in-synthetics/dashboards/global/tabs/tests/components/ListActionsColumn';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
@@ -209,12 +211,15 @@ export const columnDefinitions: ColumnDefinition<TestResultListItem, testListPro
     sortable: false,
     getContent(item: TestResultListItem) {
       const applicationLabel = item.testResultCommonProperties?.testCommonProperties?.applicationLabel;
+      const applicationId = item.testResultCommonProperties?.testCommonProperties?.applicationId;
       if (applicationLabel != null && applicationLabel !== '') {
         return (
           <HorizontalFlexWrapper>
             <SvgIcon type={'lib_application_invert'} />
             <div>
-              <span className={locals.label}>{applicationLabel}</span>
+              <Link href$={getApplicationDashboard(applicationId)}>
+                <span className={locals.label}>{applicationLabel}</span>
+              </Link>
             </div>
           </HorizontalFlexWrapper>
         );

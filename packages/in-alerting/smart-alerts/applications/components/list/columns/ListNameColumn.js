@@ -16,6 +16,7 @@ import {
   globalAlertDetails
 } from 'in-applications/navigation/paths';
 import AlertTitleWithPlaceholderHighlighting from 'in-alerting/smart-alerts/applications/inventory/AlertTitleWithPlacholderHighlighting';
+import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/thresholdFormData';
 import {
   alertCreated as alertCreatedMatrixParam,
   alertId as alertIdMatrixParam
@@ -83,9 +84,11 @@ function getSubtitle(rule, threshold) {
   if (type === STATIC_THRESHOLD) {
     const metricFormat = blueprintConfig.getMetricFormat(metricName);
     const formattedValue = (metricFormat.short || metricFormat.compact)(value);
+    const humanReadableOperator = humanReadableThresholdOperator(operator);
+
     return t('in-alerting:smartAlerts.applications.inventory.getSubtitleForStaticThreshold', {
       metricLabel: formattedMetricLabel,
-      operator,
+      operator: humanReadableOperator,
       value: formattedValue
     });
   }

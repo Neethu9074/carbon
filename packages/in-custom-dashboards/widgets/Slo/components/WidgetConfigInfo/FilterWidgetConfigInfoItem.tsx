@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { TagFilterExpressionElementUnion } from '@instana/types';
+import { isTagFilterExpression, TagFilterExpressionElementUnion } from '@instana/types';
 import { StackItem } from '@instana/components';
 
 import { useApplicationQueryBuilder } from 'in-custom-dashboards/widgets/Slo/sli/hooks/useApplicationQueryBuilder';
@@ -67,7 +67,7 @@ export default function FilterWidgetConfigInfoItem({
   QueryBuilderComponent,
   tagFilterExpression
 }: FilterWidgetConfigInfoItemProps) {
-  if (!tagFilterExpression) return <></>;
+  if (!isValidFilterExpression(tagFilterExpression)) return <></>;
 
   return (
     <StackItem>
@@ -76,5 +76,11 @@ export default function FilterWidgetConfigInfoItem({
         <QueryBuilderComponent value={fromBackendModel(tagFilterExpression)} readOnly />
       </div>
     </StackItem>
+  );
+}
+
+function isValidFilterExpression(tagFilterExpression?: TagFilterExpressionElementUnion): boolean {
+  return (
+    !!tagFilterExpression && isTagFilterExpression(tagFilterExpression) && tagFilterExpression.elements.length !== 0
   );
 }

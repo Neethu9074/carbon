@@ -116,7 +116,6 @@ function getTableData({
   orderBy = 'label',
   orderDirection = 'ASC',
   timeConfig,
-  consoleId,
   systemId
 }) {
   return getLpars({
@@ -130,7 +129,6 @@ function getTableData({
     },
     filter: {
       label: query,
-      consoleId,
       systemId,
       timeConfig
     },

@@ -20,6 +20,7 @@ import {
 } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
 import { createAlertConfig, updateAlertConfig } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/applications/form/formUtils';
+import { getLinkToGlobalAlertConfigWithoutAPDashboard, getLinkToAlertConfig } from 'in-applications/navigation/paths';
 import { SmartAlertConfigDialog } from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialog';
 import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
 import useSmartAlertFormSideEffects from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
@@ -203,7 +204,11 @@ function createOrSaveAlert({
     (isEffectivelyGlobalSmartAlert ? createGlobalAlertConfig : createAlertConfig)(alertConfig).once(
       alertConfig => {
         onClose(alertConfig);
-        showSuccessMessage(alertConfig.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert);
+        const href$ = isEffectivelyGlobalSmartAlert
+          ? getLinkToGlobalAlertConfigWithoutAPDashboard(alertConfig.id)
+          : getLinkToAlertConfig(alertConfig.id, null, alertConfig.applicationId);
+
+        showSuccessMessage(alertConfig.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert, href$);
       },
       error => {
         logger.error(`failed to save alertConfig: ${alertConfig} ${error.message}`, error);

@@ -42,6 +42,7 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
+import KpiCard from 'in-components/KpiCard/KpiCard';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { getTest } from 'in-synthetics/api';
 
@@ -53,6 +54,7 @@ export default function SyntheticAnalyzeView() {
   let pageSize = 1;
   const testId = getMatrixParameter(location, syntheticDetailsPath, 'testId') ?? '';
   const resultId = getMatrixParameter(location, syntheticDetailsPath, 'id') ?? '';
+  const start_time = +(getMatrixParameter(location, syntheticDetailsPath, 'start_time') ?? 0);
   let test: TestResponse = useObservable<any, [number]>(() => getTest(testId), [0]) || dummyTest;
   let isHTTPActionType = get(test, ['data', 'configuration', 'syntheticType']) === 'HTTPAction' ? true : false;
 
@@ -116,7 +118,7 @@ export default function SyntheticAnalyzeView() {
             pageSize
           },
           order: { by: 'errors', direction: 'DESC' },
-          syntheticMetrics: ['errors', 'status', 'start_time'],
+          syntheticMetrics: ['errors', 'status', 'start_time', 'response_time', 'response_size'],
           filter: {
             timeConfig,
             includeInternalCalls: false,
@@ -158,42 +160,15 @@ export default function SyntheticAnalyzeView() {
             <Fragment>
               <Row>
                 <Col xs>
-                  <BigNumberKpiCard
-                    title={t('in-synthetics:dashboard.summary.startTime')}
-                    formatter={formatDateTime}
-                    useMaxAvailableHeight
-                    config={{
-                      metricConfiguration: {
-                        aggregation: 'SUM',
-                        metric: 'start_time',
-                        source: 'SYNTHETICS',
-                        // @ts-expect-error tagFilters do not fully match the TagFilter type
-                        tagFilters: tagFilters,
-                        // @ts-expect-error timeShift do not fully match the TimeShift type
-                        timeShift: timeShiftConfig.offset
-                      }
-                    }}
-                  />
+                  <KpiCard title={t('in-synthetics:dashboard.summary.startTime')} value={formatDateTime(start_time)} />
                 </Col>
                 <Col xs>
                   <StatusKpiCard testId={testId} resultId={resultId} />
                 </Col>
                 <Col xs>
-                  <BigNumberKpiCard
+                  <KpiCard
                     title={t('in-synthetics:dashboard.summary.responseTime')}
-                    formatter={meanLatency.detailed}
-                    useMaxAvailableHeight
-                    config={{
-                      metricConfiguration: {
-                        aggregation: 'MEAN',
-                        metric: 'response_time',
-                        source: 'SYNTHETICS',
-                        // @ts-expect-error tagFilters do not fully match the TagFilter type
-                        tagFilters: tagFilters,
-                        // @ts-expect-error timeShift do not fully match the TimeShift type
-                        timeShift: timeShiftConfig.offset
-                      }
-                    }}
+                    value={meanLatency.detailed(get(resultList.data?.items[0], ['metrics', 'response_time', 0, 1], 0))}
                   />
                 </Col>
                 <Col xs style={{ display: get(details, ['errors', 0, 'code'], '') === 'NOT_FOUND' ? 'none' : 'block' }}>
@@ -216,21 +191,9 @@ export default function SyntheticAnalyzeView() {
                 </Col>
 
                 <Col xs>
-                  <BigNumberKpiCard
+                  <KpiCard
                     title={t('in-synthetics:dashboard.summary.responseSize')}
-                    formatter={bytes.detailed}
-                    useMaxAvailableHeight
-                    config={{
-                      metricConfiguration: {
-                        aggregation: 'MEAN',
-                        metric: 'response_size',
-                        source: 'SYNTHETICS',
-                        // @ts-expect-error tagFilters do not fully match the TagFilter type
-                        tagFilters: tagFilters,
-                        // @ts-expect-error timeShift do not fully match the TimeShift type
-                        timeShift: timeShiftConfig.offset
-                      }
-                    }}
+                    value={bytes.detailed(get(resultList.data?.items[0], ['metrics', 'response_size', 0, 1], 0))}
                   />
                 </Col>
               </Row>

@@ -646,7 +646,11 @@
         "apdexCreateFailedTitle": "Failed to create the Apdex configuration.",
         "apdexCreateFailedContent": "There was a problem creating this Apdex configuration: \"{{apdexName}}\"",
         "apdexNameNotEmpty": "The Apdex name cannot be empty.",
-        "nameExistsError": "Apdex configuration with this name already exists. Please enter a different name."
+        "nameExistsError": "Apdex configuration with this name already exists. Please enter a different name.",
+        "limitReachedError": {
+          "website": "The maximum number of website apdex configurations ({{0}}) has been reached. Please contact Instana support to request an increase for this limit.",
+          "application": "The maximum number of application apdex configurations ({{0}}) has been reached. Please contact Instana support to request an increase for this limit."
+        }
       },
       "createWebsiteApdexForm": {
         "thresholdHeader": "Threshold Configuration",
