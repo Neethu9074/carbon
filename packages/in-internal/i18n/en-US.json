@@ -913,9 +913,9 @@
       },
       "entityStatistics": {
         "plugin": "Plugin",
-        "count": "Count",
-        "entityCount": "Entity Count",
-        "countOverTime": "Count over time",
+        "count": "Entity Count",
+        "metricCount": "Metric Count",
+        "entityCount": "Entity and Metric Counts",
         "perPluginEntityCount": "Per Plugin Entity and Metric Counts"
       },
       "eum": {
