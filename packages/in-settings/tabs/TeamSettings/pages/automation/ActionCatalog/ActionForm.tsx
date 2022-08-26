@@ -143,7 +143,7 @@ export default function ActionForm({ form, setForm, onChange, entity: action }: 
                       maxLength={256}
                     />
                     <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-                    <HelpText className={locals.subTextFormField}>{t('in-settings:tabs:docLinkDescription')}</HelpText>
+                    <HelpText className={locals.subTextFormField}>{t('in-settings:tabs.docLinkDescription')}</HelpText>
                   </FormGroup>
                 ))}
               </Fragment>
@@ -162,7 +162,7 @@ export default function ActionForm({ form, setForm, onChange, entity: action }: 
                       onChange={(value: string) => onChange('script', value)}
                     />
                     <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-                    <HelpText className={locals.subTextFormField}>{t('in-settings:tabs:scriptDescription')}</HelpText>
+                    <HelpText className={locals.subTextFormField}>{t('in-settings:tabs.scriptDescription')}</HelpText>
                   </FormGroup>
                 ))}
               </Fragment>
