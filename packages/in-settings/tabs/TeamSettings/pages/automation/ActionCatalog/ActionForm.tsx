@@ -7,8 +7,13 @@
 import React, { Fragment, SetStateAction } from 'react';
 import { Field, MapForm } from 'formalistic';
 
-import { putDocLinkFields } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionFormDefinition';
+import {
+  putDocLinkFields,
+  putScriptField
+} from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionFormDefinition';
 import TagsWrapper from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/TagsWrapper';
+// @ts-expect-error
+import Code from 'in-components/form/Code/Code';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import HelpText from 'in-components/form/HelpText/HelpText';
@@ -34,8 +39,8 @@ export default function ActionForm({ form, setForm, onChange, entity: action }: 
   const name = form.get('name') as Field<string>;
   const description = form.get('description') as Field<string>;
   const type = form.get('type') as Field<string>;
-  const docLinkDescription = form.get('docLinkDescription') as Field<string>;
   const docLinkValue = form.get('docLinkValue') as Field<string>;
+  const script = form.get('script') as Field<string>;
 
   return (
     <fieldset>
@@ -93,7 +98,11 @@ export default function ActionForm({ form, setForm, onChange, entity: action }: 
                       // WILL NEED TO UPDATE THIS FOR NEW TYPES
                       const updatedType = updatedForm?.get('type')?.toJS();
                       if (updatedType === 'doc_link') {
+                        updatedForm = updatedForm.remove('script');
                         updatedForm = putDocLinkFields(updatedForm, action);
+                      } else if (updatedType === 'SCRIPT') {
+                        updatedForm = updatedForm.remove('docLinkValue');
+                        updatedForm = putScriptField(updatedForm, action);
                       }
                       return updatedForm;
                     })
@@ -101,11 +110,11 @@ export default function ActionForm({ form, setForm, onChange, entity: action }: 
                   hasError={!field.valid && field.touched}
                 >
                   <option value={'doc_link'}>{t('in-settings:tabs.docLink')}</option>
+                  <option value={'SCRIPT'}>{t('in-settings:tabs.script')}</option>
+                  <option value={'HTTP'}>{t('in-settings:tabs.http')}</option>
                 </Select>
                 <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-                <HelpText className={locals.subTextFormField}>
-                  {t('in-settings:tabs.showsUpInTheIssueDescription')}
-                </HelpText>
+                <HelpText className={locals.subTextFormField}>{t('in-settings:tabs.actionTypeHelper')}</HelpText>
               </FormGroup>
             ))}
             <FormGroup>
@@ -128,26 +137,28 @@ export default function ActionForm({ form, setForm, onChange, entity: action }: 
                     />
                     <TouchedMessages field={field} className={locals.subErrorTextFormField} />
                     <HelpText className={locals.subTextFormField}>
-                      {t('in-settings:tabs.showsUpInTheIssueDescription')}
+                      {(action.get('fields') as any).get(0).get('description')}
                     </HelpText>
                   </FormGroup>
                 ))}
-                {docLinkDescription.map(field => (
+              </Fragment>
+            )}
+            {isScript(form) && (
+              <Fragment>
+                {script.map(field => (
                   <FormGroup>
-                    <Label htmlFor="action-docLinkDescription" hasError={!field.valid && field.touched}>
-                      {t('in-settings:tabs.docLinkDescription')}
+                    <Label htmlFor="action-script" hasError={!field.valid && field.touched}>
+                      {t('in-settings:tabs.script')}
                     </Label>
-                    <Input
-                      id="action-docLinkDescription"
-                      type="text"
+                    <Code
+                      lineNumbers
+                      mode={'shell'}
                       value={field.value}
-                      onChange={e => onChange('docLinkDescription', e.target.value)}
-                      hasError={!field.valid && field.touched}
-                      maxLength={256}
+                      onChange={(value: string) => onChange('script', value)}
                     />
                     <TouchedMessages field={field} className={locals.subErrorTextFormField} />
                     <HelpText className={locals.subTextFormField}>
-                      {t('in-settings:tabs.showsUpInTheIssueDescription')}
+                      {(action.get('fields') as any)?.get(1)?.get('description')}
                     </HelpText>
                   </FormGroup>
                 ))}
@@ -161,3 +172,4 @@ export default function ActionForm({ form, setForm, onChange, entity: action }: 
 }
 
 const isDocLink = (form: MapForm) => form.get('type')?.toJS() === 'doc_link';
+const isScript = (form: MapForm) => form.get('type')?.toJS() === 'SCRIPT';

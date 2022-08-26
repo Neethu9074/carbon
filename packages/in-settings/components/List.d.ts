@@ -8,40 +8,62 @@ import { ReactNode } from 'react';
 
 import { Observable } from '@instana/observables';
 
-interface ColumnDefinition {
-  id: number | string;
-  getContent: Function;
-}
-
-interface TableActions {
-  delete: {
-    deleteEntity: (entity) => Observable<any>;
+export interface TableActions<ItemType extends Object> {
+  deselect?: {
+    deselect: (entity: ItemType) => void;
+  };
+  delete?: {
+    deleteEntity: (entity: ItemType) => Observable<any>;
   };
 }
-interface ListProps {
+
+interface ColumnDefinition<ItemType extends Object> {
+  id: number | string;
+  label: string;
+  getContent: (entity: ItemType) => ReactNode;
+}
+
+interface ListProps<ItemType extends Object> {
   title?: ReactNode;
   noDataMessage?: string;
   pageSize?: number;
   initialOrderBy?: string;
   isSearchable?: boolean;
-  loadEntities: Function;
-  columnDefinitions: ColumnDefinition[];
-  getHeader?: Function;
+  loadEntities: () => Observable<ItemType[]>;
+  columnDefinitions: ColumnDefinition<ItemType>[];
+  getHeader?: (
+    totalHitsBeforeFilter: number,
+    totalHitsAfterFilter: number,
+    entitiesBeforePagination: number
+  ) => ReactNode;
   searchAttributes?: (string | ((entity) => string))[] | string;
   searchPlaceholder?: string;
   searchMaxWidth?: number;
+  extraFilters?: Array<(element: ItemType, index: number, array: ItemType[]) => boolean>;
   rightHeader?: ReactNode;
-  tableActions?: TableActions;
-  getEntityName: Function;
+  tableActions?: TableActions<ItemType>;
+  getEntityName?: (element: ItemType) => string;
+  initalOrderDir?: 'ASC' | 'DESC';
+  customSortEntities?: ({
+    entities,
+    columnDefinitions,
+    orderByState,
+    orderDirectionState
+  }: {
+    entities: ItemType[];
+    columnDefinitions: ColumnDefinition<ItemType>[];
+    orderByState: keyof ItemType;
+    orderDirectionState: 'ASC' | 'DESC';
+  }) => ItemType[];
 }
 
-declare function ListComponent(props: ListProps): JSX.Element;
+declare function ListComponent<ItemType extends Object>(props: ListProps<ItemType>): JSX.Element;
 
 export declare function leftHeaderWithSelectAll(
   entityName: string,
   inSelectListDialog: boolean,
-  tableActions: object
-): Function;
+  tableActions: TableActions<ItemType>
+): (totalHitsBeforeFilter: number, totalHitsAfterFilter: number, entitiesBeforePagination: number) => ReactNode;
 
 export declare function createNewEntityButton({
   labelNew,

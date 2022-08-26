@@ -9,8 +9,8 @@ import { MapForm } from 'formalistic';
 import React from 'react';
 
 import { createActionFormDefinition } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionFormDefinition';
+import { createDocLinkField, createScriptFields, NewAction, saveAction, saveNewAction } from 'in-api/automation';
 import ActionForm from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionForm';
-import { createDocLinkField, NewAction, saveAction, saveNewAction } from 'in-api/automation';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsActionCatalog } from 'in-settings/navigation/paths';
@@ -125,10 +125,11 @@ function getActionSpecification(form: MapForm): NewAction {
 
   if (type === 'doc_link') {
     const docLinkValue = form?.get('docLinkValue')?.toJS();
-    const docLinkDescription = form?.get('docLinkDescription')?.toJS();
-    fields.push(createDocLinkField(docLinkValue, docLinkDescription));
+    fields.push(createDocLinkField(docLinkValue));
+  } else if (type === 'SCRIPT') {
+    const scriptValue = form?.get('script')?.toJS();
+    fields.push(...createScriptFields(scriptValue));
   }
-
   return {
     name,
     description,

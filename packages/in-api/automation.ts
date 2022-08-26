@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import { fromJS, List, Map } from 'immutable';
+import { fromJS, Map } from 'immutable';
 
 import { Observable } from '@instana/observables';
 
@@ -13,7 +13,8 @@ import { Action, Field, Mutable } from 'in-types';
 import http from 'in-services/http';
 import { t } from 'in-i18n';
 
-const actionUrl = '/api/automation/settings/actions';
+const automationAPIBase = '/api/automation';
+const actionUrl = `${automationAPIBase}/settings/actions`;
 
 export function getAllActions(): Observable<Action[]> {
   return http<Action[]>({
@@ -61,21 +62,37 @@ export function deleteAction(actionId: string) {
 }
 
 export type NewAction = Mutable<Omit<Action, 'createdAt' | 'modifiedAt' | 'id'>>;
-export type ImmutableNewAction = Map<string, string | string[] | List<Map<string, string>>>;
 
-export const createDocLinkField = (value: string, description: string): Field => ({
+export type ImmutableNewAction = Map<string, unknown>;
+
+export const createDocLinkField = (value: string): Field => ({
   value,
-  description,
+  description: 'URL to remediation documentation',
   encoding: 'UTF8',
   name: 'URL'
 });
+
+export const createScriptFields = (value: string): Field[] => [
+  {
+    description: 'script subtype',
+    encoding: 'ascii',
+    name: 'subtype',
+    value: 'bash'
+  },
+  {
+    value: btoa(value),
+    description: 'script content',
+    encoding: 'base64',
+    name: 'script_ssh'
+  }
+];
 
 export function createAction(
   name: string = t('in-settings:tabs.newAction'),
   type: string = 'doc_link',
   description: string = '',
-  fields: Field[] = [createDocLinkField('', 'URL to remediation documentation')],
-  tags: List<string> = List()
+  fields: Field[] = [createDocLinkField('')],
+  tags: string[] = []
 ): ImmutableNewAction {
   return fromJS({
     name,
