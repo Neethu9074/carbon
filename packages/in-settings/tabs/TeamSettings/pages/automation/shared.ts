@@ -9,13 +9,21 @@ import { Action } from 'in-types';
 import { t } from 'in-i18n';
 
 export const getType = (action: Action | Nullish) => {
-  if (action?.type === 'doc_link') {
+  if (isDocLink(action?.type)) {
     return t('in-settings:tabs.docLink');
-  } else if (action?.type === 'SCRIPT') {
+  } else if (isScript(action?.type)) {
     return t('in-settings:tabs.script');
-  } else if (action?.type === 'HTTP') {
+  } else if (isWebhook(action?.type)) {
     return t('in-settings:tabs.http');
   } else {
     return action?.type;
   }
 };
+
+export const isDocLink = (type?: string) => type === DOC_LINK_TYPE;
+export const isScript = (type?: string) => type === SCRIPT_TYPE;
+export const isWebhook = (type?: string) => type === WEBHOOK_TYPE;
+
+export const DOC_LINK_TYPE = 'doc_link';
+export const SCRIPT_TYPE = 'SCRIPT';
+export const WEBHOOK_TYPE = 'HTTP';
