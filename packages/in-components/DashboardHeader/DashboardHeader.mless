@@ -122,6 +122,12 @@
   .secondaryActions {
     justify-self: flex-end;
   }
+  .specialIndicator {
+    height: 8px;
+    width: 8px;
+    background-color: @lib__colors__orange800;
+    border-radius: 50%;
+  }
 }
 
 // loading state definitions

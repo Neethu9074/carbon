@@ -18,7 +18,7 @@ import RunAction from 'in-events/components/AutomationActions/RunAction';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { formatDateTime } from 'in-services/formatters/date';
 import { getAllActions } from 'in-api/automation';
-import { VolatileId } from 'in-types';
+import { Event, VolatileId } from 'in-types';
 import { Action } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -90,7 +90,7 @@ const scoreColumn = {
   }
 };
 
-const executeColumn = (volatileId: VolatileId) => ({
+const executeColumn = (volatileId: VolatileId, event: Event | null) => ({
   id: 'execute',
   label: 'Execute',
   getContent(row: Action) {
@@ -111,7 +111,7 @@ const executeColumn = (volatileId: VolatileId) => ({
           kind="action"
           icon={'lib_actions_play'}
           // onClick={() =>runScriptAction(value, volatileId).once(console.log)}
-          onClick={() => addActiveDialog(<RunAction script={value} volatileId={volatileId} />)}
+          onClick={() => addActiveDialog(<RunAction script={value} volatileId={volatileId} event={event} />)}
           noAutoMargin
         >
           Run
@@ -135,6 +135,7 @@ export interface ActionTableProps {
   showExecuteColumn?: boolean | undefined;
   volatileId?: VolatileId;
   scored?: boolean;
+  event?: Event | null;
 }
 
 export default function ActionTable({
@@ -148,11 +149,12 @@ export default function ActionTable({
   getEntityName,
   showExecuteColumn = false,
   volatileId = {},
-  scored = false
+  scored = false,
+  event = null
 }: ActionTableProps) {
   let columnDefinitionsToShow = columnDefinitions;
   if (showExecuteColumn) {
-    columnDefinitionsToShow = [...columnDefinitions, executeColumn(volatileId)];
+    columnDefinitionsToShow = [...columnDefinitions, executeColumn(volatileId, event)];
   }
   if (scored) {
     columnDefinitionsToShow = [...columnDefinitionsToShow, scoreColumn];

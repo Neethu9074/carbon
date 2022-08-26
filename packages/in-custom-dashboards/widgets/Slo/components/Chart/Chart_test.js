@@ -50,7 +50,7 @@ describe('in-custom-dashboards/widgets/Slo/Chart', () => {
     shallow(<Chart {...defaultProps} sliConfig={sliConfig} />);
 
     // Then
-    expect(getApplicationTagCatalog).toHaveBeenLastCalledWith({ dataSource: CALLS, useCase: 'SLI_MANAGEMENT' });
+    expect(getApplicationTagCatalog).toHaveBeenLastCalledWith({ dataSource: CALLS, useCase: 'FILTERING' });
   });
 
   it('uses the application tag catalog for application event based sli configs', () => {
@@ -63,7 +63,7 @@ describe('in-custom-dashboards/widgets/Slo/Chart', () => {
     shallow(<Chart {...defaultProps} sliConfig={sliConfig} />);
 
     // Then
-    expect(getApplicationTagCatalog).toHaveBeenLastCalledWith({ dataSource: CALLS, useCase: 'SLI_MANAGEMENT' });
+    expect(getApplicationTagCatalog).toHaveBeenLastCalledWith({ dataSource: CALLS, useCase: 'FILTERING' });
   });
 
   it('uses the website tag catalog for website time based sli configs and selects the configs beacon type', () => {

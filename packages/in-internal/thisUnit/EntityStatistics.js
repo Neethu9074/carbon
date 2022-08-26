@@ -71,7 +71,7 @@ export default connectTo(
       <InternalViewWrapper>
         <h1>{t('in-internal:thisUnit.entityStatistics.cockpit')}</h1>
 
-        <DashboardSection title={t('in-internal:monitoringUnit.thisUnit.entityStatistics.entityCount')}>
+        <DashboardSection title={t('in-internal:monitoringUnit.thisUnit.entityStatistics.entityAndMetricCount')}>
           <Chart
             snapshotId={ID_OF_PROCESSING_STATISTICS}
             timeConfig={timeConfig}

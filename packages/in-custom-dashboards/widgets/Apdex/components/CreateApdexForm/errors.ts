@@ -9,20 +9,63 @@ import { Error } from '@instana/types';
 import { isTechnicalError } from 'in-services/util/error';
 import { t } from 'in-i18n';
 
-const APDEX_CONFIG_NAME_EXISTS_SERVER_ERROR = 'Apdex configuration with this name already exists';
+type TranslateCallback = (contextParams: any[]) => string;
 
-const i18nErrors: Record<string, string> = {
-  [APDEX_CONFIG_NAME_EXISTS_SERVER_ERROR]: t('in-custom-dashboards:widgets.apdex.createApdexForm.nameExistsError')
-};
+/*
+  A list for mapping server errors and translations
+
+  The first element of a tuple is the RegExp which is matched against the server error
+  and the second one is the callback function which does the actual translation.
+
+  NOTE: Second parameter has to be a callback function to make the in-i18n/translations test happy.
+*/
+const regExpErrors: Array<[RegExp, TranslateCallback]> = [
+  [
+    /Apdex configuration with this name already exists/,
+    contextParams => t('in-custom-dashboards:widgets.apdex.createApdexForm.nameExistsError', contextParams)
+  ],
+  [
+    /The maximum number of website apdex configurations \((\d+)\) has been reached/,
+    contextParams => t('in-custom-dashboards:widgets.apdex.createApdexForm.limitReachedError.website', contextParams)
+  ],
+  [
+    /The maximum number of application apdex configurations \((\d+)\) has been reached/,
+    contextParams =>
+      t('in-custom-dashboards:widgets.apdex.createApdexForm.limitReachedError.application', contextParams)
+  ]
+];
+
+/*
+  Iterates over the regExpErrors array and matches every element against the corresponding expression.
+  It'll imediatelty return the translated string if there is a match.
+
+  RegExp groups are passed as parameters array to the translate function so that they can be used
+  within the translated message.
+
+  It returns translated message or `in-components:error.erroneousResultPresenterMessage` error as a default
+*/
+function translateFromRegExpMapping(message: string): string {
+  let translatedMessage;
+
+  regExpErrors.some(([regExp, translate]) => {
+    const result = message.match(regExp);
+
+    if (result) {
+      const [, ...contextParams] = result;
+      translatedMessage = translate(contextParams);
+    }
+
+    return !!result;
+  });
+
+  return translatedMessage ?? t('in-components:error.erroneousResultPresenterMessage');
+}
 
 export default function getTranslatedErrorMessage({ code, message }: Error): string {
   if (isTechnicalError(code) && __DEV__) {
     // If it is a technical error it will return a raw error message on development
     return message;
-  } else if (message in i18nErrors) {
-    return i18nErrors[message];
   }
 
-  // returns error message like in `ErronousResultPresenter` as default
-  return t('in-components:error.erroneousResultPresenterMessage');
+  return translateFromRegExpMapping(message);
 }

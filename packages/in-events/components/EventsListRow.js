@@ -123,7 +123,7 @@ const OnEntity = connectTo(
 );
 
 function getEntity(rawEvent) {
-  const { entityType, entityId, triggeringTime, start } = rawEvent;
+  const { entityType, entityId, entityTimestamp } = rawEvent;
 
   if (isApplicationEntity(entityType)) {
     return getApplication({ id: entityId });
@@ -135,7 +135,7 @@ function getEntity(rawEvent) {
     return getWebsite({ id: entityId });
   }
 
-  return getSnapshot(entityId, getTimeConfigAtMoment(triggeringTime || start));
+  return getSnapshot(entityId, getTimeConfigAtMoment(entityTimestamp));
 }
 
 function toPercentageString(value) {
