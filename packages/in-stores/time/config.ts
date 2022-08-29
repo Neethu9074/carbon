@@ -73,7 +73,7 @@ export function fixateTimeConfig(timeConfig: TimeConfig): FixedTimeConfig {
 }
 
 export function timeConfigWithShift(timeConfig: TimeConfig, timeSkew: number) {
-  // live mode is not skewed to show the most recent data
+  // live mode needs to query with empty to field
   // historical data does not need to be skewed
   if (timeConfig.autoRefresh || timeConfig.to !== null) {
     return timeConfig;
