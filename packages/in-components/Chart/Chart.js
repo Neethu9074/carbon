@@ -37,8 +37,8 @@ export default class Chart {
   update(props) {
     this.config.update(props);
 
-    const { timeConfig, width, height } = this.config;
-    this.renderScheduler.update(timeConfig, width, height);
+    const { timeConfig, width, height, wiggleRoom } = this.config;
+    this.renderScheduler.update(timeConfig, width, height, wiggleRoom);
   }
 
   atomicRender(renderProps) {
