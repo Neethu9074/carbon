@@ -12,7 +12,8 @@ import {
   ANALYZE_LOGGING_LOG_MESSAGE_PARAMETER_CLICKED,
   ANALYZE_LOGGING_LOG_MESSAGE_TAG_CLICKED,
   ANALYZE_LOGGING_JUMP_TO_LOGS,
-  ANALYZE_LOGGING_TIME_SPENT
+  ANALYZE_LOGGING_TIME_SPENT,
+  ANALYZE_LOGGING_SORTING_CHANGED
 } from 'in-services/tracking/tracking';
 
 export const filterAdded = (e: any) => track(ANALYZE_LOGGING_QUERY_BUILDER_FILTER_ADDED, e);
@@ -23,3 +24,4 @@ export const logMessageParameterClicked = (e: any) => track(ANALYZE_LOGGING_LOG_
 export const logMessageTagClicked = (e: any) => track(ANALYZE_LOGGING_LOG_MESSAGE_TAG_CLICKED, e);
 export const jumpToLogs = (e: any) => track(ANALYZE_LOGGING_JUMP_TO_LOGS, e);
 export const timeSpent = (e: any) => track(ANALYZE_LOGGING_TIME_SPENT, e);
+export const sortingChanged = (e: Record<string, string>) => track(ANALYZE_LOGGING_SORTING_CHANGED, e);

@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import { Button } from '@instana/components';
 
@@ -30,6 +30,7 @@ import { LogTagsTable } from 'in-logging/analyze/AnalyzeView/components/LogTagsT
 import UngroupedViewList from 'in-components/AnalyzeView/UngroupedViewList';
 import { TAG } from 'in-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
+import { sortingChanged } from 'in-logging/analyze/AnalyzeView/tracker';
 import getLogs from 'in-logging/subscriptions/getLogs';
 import getLog from 'in-logging/subscriptions/getLog';
 import { t } from 'in-i18n';
@@ -129,18 +130,26 @@ function DetailView() {
 }
 
 function CustomHeaderActions({ orderBy, setOrder }) {
+  useEffect(() => {
+    const cleanup = () => sortingChanged({ source: 'end state of sorting order' });
+    window.addEventListener('beforeunload', cleanup);
+    return cleanup;
+  }, [orderBy.direction]);
+
+  const sortingButtonClickHandle = () => {
+    sortingChanged({ source: `changed sorting order to ${orderBy.direction}` });
+    setOrder({
+      by: orderBy.by,
+      direction: orderBy.direction === 'ASC' ? 'DESC' : 'ASC'
+    });
+  };
+  const sortingIcon = orderBy.direction === 'ASC' ? 'lib_actions_sort_ascending' : 'lib_actions_sort_descending';
+  const sortingButtonLabel =
+    orderBy.direction === 'ASC' ? t('in-logging:sorting.oldest') : t('in-logging:sorting.mostRecent');
+
   return (
-    <Button
-      icon={orderBy.direction === 'ASC' ? 'lib_actions_sort_ascending' : 'lib_actions_sort_descending'}
-      kind="secondary"
-      onClick={() =>
-        setOrder({
-          by: orderBy.by,
-          direction: orderBy.direction === 'ASC' ? 'DESC' : 'ASC'
-        })
-      }
-    >
-      {orderBy.direction === 'ASC' ? t('in-logging:sorting.oldest') : t('in-logging:sorting.mostRecent')}
+    <Button icon={sortingIcon} kind="secondary" onClick={sortingButtonClickHandle}>
+      {sortingButtonLabel}
     </Button>
   );
 }
