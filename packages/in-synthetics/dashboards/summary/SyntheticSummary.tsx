@@ -25,12 +25,20 @@ import { Progress, SyntheticTest } from 'in-types';
 import { updateTest } from 'in-synthetics/api';
 import { getTest } from 'in-synthetics/api';
 
+import locals from './SyntheticSummary.mless';
+
 interface SynthTestResponse {
   data: SyntheticTest;
   errors?: Error[];
   progress: Progress;
   time?: number;
 }
+
+type LocalProps = {
+  test: SynthTestResponse;
+  // eslint-disable-next-line react/no-unused-prop-types
+  setReloadCount: (count: any) => number;
+};
 
 function Header(props: DashboardHeaderProps) {
   return (
@@ -40,17 +48,22 @@ function Header(props: DashboardHeaderProps) {
       title={t('in-synthetics:dashboard.testList.mainLabel')}
       label={get(props.result, ['data', 'label'])}
       renderButtonLine={RenderButtonLine}
+      renderMetaInformation={RenderMetaInformation}
       showHistoricDataWarning={false}
     />
   );
 }
 
-function RenderButtonLine() {
-  let location = useLocation();
-  const [count, setReloadCount] = useState(0);
-  let testId = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
-  let test: SynthTestResponse = useObservable<any, [number]>(() => getTest(testId), [count]) || dummyTest;
-  let isActive = test.data?.active;
+function RenderMetaInformation({ test }: LocalProps) {
+  return (
+    <span className={locals.label}>
+      {test.data?.active ? t('in-synthetics:dashboard.testList.active') : t('in-synthetics:dashboard.testList.paused')}
+    </span>
+  );
+}
+
+function RenderButtonLine({ test, setReloadCount }: LocalProps) {
+  const isActive = test.data?.active;
 
   function pauseOrResume(test: SyntheticTest) {
     const { active } = test;
@@ -76,12 +89,17 @@ function RenderButtonLine() {
 }
 
 export default function SyntheticSummaryDashboard() {
+  const [count, setReloadCount] = useState(0);
+
   const location = useLocation();
   const testId = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
+  const test: SynthTestResponse = useObservable<any, [number]>(() => getTest(testId), [count]) || dummyTest;
 
   const props = {
     location,
-    currentTab: location.pathname.substr(location.pathname.lastIndexOf('/'))
+    currentTab: location.pathname.substr(location.pathname.lastIndexOf('/')),
+    test,
+    setReloadCount
   };
   return (
     <>
