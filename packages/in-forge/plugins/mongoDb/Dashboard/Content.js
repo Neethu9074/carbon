@@ -11,6 +11,7 @@ import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection'
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { bytes, number } from 'in-services/formatters/number';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyList } from 'in-services/fixedImmutables';
 import DatabaseSizesTable from './DatabaseSizesTable';
 import MetricValue from 'in-components/MetricValue';
@@ -97,7 +98,70 @@ export default function MongoDBDashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-
+      <Columize>
+        <DashboardSection title={t('in-forge:plugins.mongoDb.opCountersRead')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              metrics: ['opcounters.query', 'opcounters.getmore'],
+              labels: [t('in-forge:plugins.mongoDb.opQuery'), t('in-forge:plugins.mongoDb.opGetMore')],
+              type: 'stackedArea',
+              aggregation: 'sum',
+              formatter: number.compact
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+        <DashboardSection title={t('in-forge:plugins.mongoDb.opCountersWrite')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              metrics: ['opcounters.insert', 'opcounters.update', 'opcounters.delete'],
+              labels: [
+                t('in-forge:plugins.mongoDb.opInsert'),
+                t('in-forge:plugins.mongoDb.opUpdate'),
+                t('in-forge:plugins.mongoDb.opDelete')
+              ],
+              type: 'stackedArea',
+              aggregation: 'sum',
+              formatter: number.compact
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      </Columize>
+      <Columize>
+        <DashboardSection title={t('in-forge:plugins.mongoDb.readOperations')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              metrics: ['activeClientsReaders'],
+              labels: [t('in-forge:plugins.mongoDb.activeClientsReaders')],
+              type: 'stackedArea',
+              aggregation: 'sum',
+              formatter: number.compact
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+        <DashboardSection title={t('in-forge:plugins.mongoDb.writeOperations')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              metrics: ['activeClientsWriters'],
+              labels: [t('in-forge:plugins.mongoDb.activeClientsWriters')],
+              type: 'stackedArea',
+              aggregation: 'sum',
+              formatter: number.compact
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      </Columize>
       <DatabaseSizesTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );

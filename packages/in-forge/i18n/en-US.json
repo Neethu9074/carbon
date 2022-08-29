@@ -11218,6 +11218,10 @@
       "replicationPreloadIndexesTotal": "Replication Preload Indexes Total",
       "replicationLag": "Replication Lag",
       "lockQueueLength": "Lock Queue Length",
+      "activeClientsWriters": "Active Clients Writers",
+      "activeClientsReaders": "Active Clients Readers",
+      "readOperations": "Number of clients with Read operations",
+      "writeOperations": "Number of Clients with Write operations",
       "journalWriteLock": "Journal Write Lock",
       "numberOfPageFaults": "Number of Page Faults",
       "lastBackgroundFlushingLatency": "Last Background Flushing Latency",
@@ -11226,7 +11230,14 @@
       "cloudProvider": "Cloud Provider",
       "region": "Region",
       "project": "Project",
-      "organisation": "Organisation"
+      "organisation": "Organisation",
+      "opInsert": "Insert",
+      "opQuery": "Query",
+      "opUpdate": "Update",
+      "opDelete": "Delete",
+      "opGetMore": "Get More",
+      "opCountersRead": "Read Requests Per Second",
+      "opCountersWrite": "Write Requests Per Second"
     },
     "mongoDbCluster": {
       "databaseActivity": "Database Activity",
