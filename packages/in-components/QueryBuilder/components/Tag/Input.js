@@ -76,7 +76,8 @@ function render({ inputProps, getInputProps, isOpen, openMenu, ...remainingProps
     allowEmptyKey,
     ...remainingInputProps
   } = inputProps;
-  const invalidClass = !valid && !(allowEmptyKey ?? false);
+
+  const validClass = valid || (allowEmptyKey ?? false);
 
   return (
     <>
@@ -89,7 +90,7 @@ function render({ inputProps, getInputProps, isOpen, openMenu, ...remainingProps
             minWidth={32}
             inputClassName={classNames({
               [locals.input]: true,
-              [locals.invalid]: invalidClass,
+              [locals.invalid]: !validClass,
               [locals.hideValidityInformationOnFocus]: hideValidityInformationOnFocus
             })}
             {...remainingInputProps}
