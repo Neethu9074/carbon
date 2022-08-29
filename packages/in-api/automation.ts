@@ -29,7 +29,8 @@ export function getAction(actionId: string): Observable<Action> {
   return http<Action>({
     method: 'GET',
     maxRetries: 3,
-    url: `${actionUrl}/${encodeURIComponent(actionId)}`
+    url: `${actionUrl}/${encodeURIComponent(actionId)}`,
+    treat400AsError: false
   }).map(response => fromJS(response.body));
 }
 
