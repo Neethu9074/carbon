@@ -79,6 +79,8 @@ export default class Config {
 
   shareMaxAxisDomain?: boolean;
 
+  wiggleRoom?: number;
+
   constructor(props: ConfigProps) {
     this.timeAxisHeight = 30;
     this.markerPaneHeight = 22;
