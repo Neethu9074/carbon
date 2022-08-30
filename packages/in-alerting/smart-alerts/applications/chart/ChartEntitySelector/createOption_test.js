@@ -57,21 +57,21 @@ describe('in-alerting/smart-alerts/applications/chart/ChartEntitySelector/create
       const list = createOptionsList([apListWithOneEntry], [dummyId], false, isSelectServiceLevel, {});
 
       expect(list).toMatchInlineSnapshot(`
-              Array [
-                Object {
-                  "children": Array [
-                    Object {
-                      "appId": "0815",
-                      "icon": "lib_application_service",
-                      "id": "0815",
-                      "label": "testService",
-                      "type": "SERVICE",
-                    },
-                  ],
-                  "label": "Services:",
-                },
-              ]
-          `);
+        Array [
+          Object {
+            "children": Array [
+              Object {
+                "appId": "0815",
+                "icon": "lib_application_service",
+                "id": "0815",
+                "label": "testService",
+                "type": "SERVICE",
+              },
+            ],
+            "label": "Services:",
+          },
+        ]
+      `);
     });
   });
 
@@ -101,12 +101,9 @@ describe('in-alerting/smart-alerts/applications/chart/ChartEntitySelector/create
             "children": Array [
               Object {
                 "appId": "0815",
-                "breadcrumbAndLabel": "0815",
-                "children": Array [],
                 "icon": "lib_application_service",
                 "id": "0815",
                 "label": "testService",
-                "loadChildren": undefined,
                 "type": "SERVICE",
               },
             ],
@@ -137,12 +134,9 @@ describe('in-alerting/smart-alerts/applications/chart/ChartEntitySelector/create
             "children": Array [
               Object {
                 "appId": "0815",
-                "breadcrumbAndLabel": "0815",
-                "children": undefined,
                 "icon": "lib_application_service",
                 "id": "0815",
                 "label": "testService",
-                "loadChildren": [Function],
                 "type": "SERVICE",
               },
             ],
