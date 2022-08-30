@@ -405,144 +405,144 @@ export default [
   },
 
   {
-    metric: 'iorbps_co',
-    label: t('in-forge:plugins.azureFunctionApp.labelIorbpsCo'),
+    metric: 'irbps_co',
+    label: t('in-forge:plugins.azureFunctionApp.labelIrbpsCo'),
     category: [t('in-forge:plugins.azureFunctionApp.io')],
     min: 0,
     formatter: bytes
   },
   {
-    metric: 'iorbps_av',
-    label: t('in-forge:plugins.azureFunctionApp.labelIorbpsAv'),
+    metric: 'irbps_av',
+    label: t('in-forge:plugins.azureFunctionApp.labelIrbpsAv'),
     category: [t('in-forge:plugins.azureFunctionApp.io')],
     min: 0,
     formatter: bytes
   },
   {
-    metric: 'iorbps_mi',
-    label: t('in-forge:plugins.azureFunctionApp.labelIorbpsMi'),
+    metric: 'irbps_mi',
+    label: t('in-forge:plugins.azureFunctionApp.labelIrbpsMi'),
     category: [t('in-forge:plugins.azureFunctionApp.io')],
     min: 0,
     formatter: bytes
   },
   {
-    metric: 'iorbps_mx',
-    label: t('in-forge:plugins.azureFunctionApp.labelIorbpsMx'),
+    metric: 'irbps_mx',
+    label: t('in-forge:plugins.azureFunctionApp.labelIrbpsMx'),
     category: [t('in-forge:plugins.azureFunctionApp.io')],
     min: 0,
     formatter: bytes
   },
   {
-    metric: 'iorbps_to',
-    label: t('in-forge:plugins.azureFunctionApp.labelIorbpsTo'),
+    metric: 'irbps_to',
+    label: t('in-forge:plugins.azureFunctionApp.labelIrbpsTo'),
     category: [t('in-forge:plugins.azureFunctionApp.io')],
     min: 0,
     formatter: number
   },
   
   {
-    metric: 'iowbps_co',
-    label: t('in-forge:plugins.azureFunctionApp.labelIowbpsCo'),
+    metric: 'iwbps_co',
+    label: t('in-forge:plugins.azureFunctionApp.labelIwbpsCo'),
     category: [t('in-forge:plugins.azureFunctionApp.io')],
     min: 0,
     formatter: bytes
   },
   {
-    metric: 'iowbps_av',
-    label: t('in-forge:plugins.azureFunctionApp.labelIowbpsAv'),
+    metric: 'iwbps_av',
+    label: t('in-forge:plugins.azureFunctionApp.labelIwbpsAv'),
     category: [t('in-forge:plugins.azureFunctionApp.io')],
     min: 0,
     formatter: bytes
   },
   {
-    metric: 'iowbps_mi',
-    label: t('in-forge:plugins.azureFunctionApp.labelIowbpsMi'),
+    metric: 'iwbps_mi',
+    label: t('in-forge:plugins.azureFunctionApp.labelIwbpsMi'),
     category: [t('in-forge:plugins.azureFunctionApp.io')],
     min: 0,
     formatter: bytes
   },
   {
-    metric: 'iowbps_mx',
-    label: t('in-forge:plugins.azureFunctionApp.labelIowbpsMx'),
+    metric: 'iwbps_mx',
+    label: t('in-forge:plugins.azureFunctionApp.labelIwbpsMx'),
     category: [t('in-forge:plugins.azureFunctionApp.io')],
     min: 0,
     formatter: bytes
   },
   {
-    metric: 'iowbps_to',
-    label: t('in-forge:plugins.azureFunctionApp.labelIowbpsTo'),
+    metric: 'iwbps_to',
+    label: t('in-forge:plugins.azureFunctionApp.labelIwbpsTo'),
     category: [t('in-forge:plugins.azureFunctionApp.io')],
     min: 0,
     formatter: number
   },
     
   {
-    metric: 'iorops_co',
-    label: t('in-forge:plugins.azureFunctionApp.labelIoropsCo'),
+    metric: 'irobps_co',
+    label: t('in-forge:plugins.azureFunctionApp.labelIrobpsCo'),
     category: [t('in-forge:plugins.azureFunctionApp.io')],
     min: 0,
     formatter: bytes
   },
   {
-    metric: 'iorops_av',
-    label: t('in-forge:plugins.azureFunctionApp.labelIoropsAv'),
+    metric: 'irobps_av',
+    label: t('in-forge:plugins.azureFunctionApp.labelIrobpsAv'),
     category: [t('in-forge:plugins.azureFunctionApp.io')],
     min: 0,
     formatter: bytes
   },
   {
-    metric: 'iorops_mi',
-    label: t('in-forge:plugins.azureFunctionApp.labelIoropsMi'),
+    metric: 'irobps_mi',
+    label: t('in-forge:plugins.azureFunctionApp.labelIrobpsMi'),
     category: [t('in-forge:plugins.azureFunctionApp.io')],
     min: 0,
     formatter: bytes
   },
   {
-    metric: 'iorops_mx',
-    label: t('in-forge:plugins.azureFunctionApp.labelIoropsMx'),
+    metric: 'irobps_mx',
+    label: t('in-forge:plugins.azureFunctionApp.labelIrobpsMx'),
     category: [t('in-forge:plugins.azureFunctionApp.io')],
     min: 0,
     formatter: bytes
   },
   {
-    metric: 'iorops_to',
-    label: t('in-forge:plugins.azureFunctionApp.labelIoropsTo'),
+    metric: 'irobps_to',
+    label: t('in-forge:plugins.azureFunctionApp.labelIrobpsTo'),
     category: [t('in-forge:plugins.azureFunctionApp.io')],
     min: 0,
     formatter: number
   },
   
   {
-    metric: 'iowops_co',
-    label: t('in-forge:plugins.azureFunctionApp.labelIowopsCo'),
+    metric: 'iwobps_co',
+    label: t('in-forge:plugins.azureFunctionApp.labelIwobpsCo'),
     category: [t('in-forge:plugins.azureFunctionApp.io')],
     min: 0,
     formatter: bytes
   },
   {
-    metric: 'iowops_av',
-    label: t('in-forge:plugins.azureFunctionApp.labelIowopsAv'),
+    metric: 'iwobps_av',
+    label: t('in-forge:plugins.azureFunctionApp.labelIwobpsAv'),
     category: [t('in-forge:plugins.azureFunctionApp.io')],
     min: 0,
     formatter: bytes
   },
   {
-    metric: 'iowops_mi',
-    label: t('in-forge:plugins.azureFunctionApp.labelIowopsMi'),
+    metric: 'iwobps_mi',
+    label: t('in-forge:plugins.azureFunctionApp.labelIwobpsMi'),
     category: [t('in-forge:plugins.azureFunctionApp.io')],
     min: 0,
     formatter: bytes
   },
   {
-    metric: 'iowops_mx',
-    label: t('in-forge:plugins.azureFunctionApp.labelIowopsMx'),
+    metric: 'iwobps_mx',
+    label: t('in-forge:plugins.azureFunctionApp.labelIwobpsMx'),
     category: [t('in-forge:plugins.azureFunctionApp.io')],
     min: 0,
     formatter: bytes
   },
   {
-    metric: 'iowops_to',
-    label: t('in-forge:plugins.azureFunctionApp.labelIowopsTo'),
+    metric: 'iwobps_to',
+    label: t('in-forge:plugins.azureFunctionApp.labelIwobpsTo'),
     category: [t('in-forge:plugins.azureFunctionApp.io')],
     min: 0,
     formatter: number

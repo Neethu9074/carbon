@@ -300,13 +300,13 @@ export default function AzureFunctionAppDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            metrics: ['iorbps_to'],
+            metrics: ['irbps_to'],
             labels: [t('in-forge:plugins.azureFunctionApp.dashboard.labelIoReadBytesPerSecond')],
             formatter: number.detailed,
             type: 'bar'
           }}
           y2={{
-            metrics: ['iorbps_co', 'iorbps_av', 'iorbps_mi', 'iorbps_mx'],
+            metrics: ['irbps_co', 'irbps_av', 'irbps_mi', 'irbps_mx'],
             labels: [
               t('in-forge:plugins.azureFunctionApp.dashboard.labelCount'),
               t('in-forge:plugins.azureFunctionApp.dashboard.labelAverage'),
@@ -325,13 +325,13 @@ export default function AzureFunctionAppDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            metrics: ['iowbps_to'],
+            metrics: ['iwbps_to'],
             labels: [t('in-forge:plugins.azureFunctionApp.dashboard.labelIoWriteBytesPerSecond')],
             formatter: number.detailed,
             type: 'bar'
           }}
           y2={{
-            metrics: ['iowbps_co', 'iowbps_av', 'iowbps_mi', 'iowbps_mx'],
+            metrics: ['iwbps_co', 'iwbps_av', 'iwbps_mi', 'iwbps_mx'],
             labels: [
               t('in-forge:plugins.azureFunctionApp.dashboard.labelCount'),
               t('in-forge:plugins.azureFunctionApp.dashboard.labelAverage'),
@@ -350,13 +350,13 @@ export default function AzureFunctionAppDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            metrics: ['iorops_to'],
+            metrics: ['irobps_to'],
             labels: [t('in-forge:plugins.azureFunctionApp.dashboard.labelIoReadOperationsPerSecond')],
             formatter: number.detailed,
             type: 'bar'
           }}
           y2={{
-            metrics: ['iorops_co', 'iorops_av', 'iorops_mi', 'iorops_mx'],
+            metrics: ['irobps_co', 'irobps_av', 'irobps_mi', 'irobps_mx'],
             labels: [
               t('in-forge:plugins.azureFunctionApp.dashboard.labelCount'),
               t('in-forge:plugins.azureFunctionApp.dashboard.labelAverage'),
@@ -375,13 +375,13 @@ export default function AzureFunctionAppDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            metrics: ['iowops_to'],
+            metrics: ['iwobps_to'],
             labels: [t('in-forge:plugins.azureFunctionApp.dashboard.labelIoWriteOperationsPerSecond')],
             formatter: number.detailed,
             type: 'bar'
           }}
           y2={{
-            metrics: ['iowops_co', 'iowops_av', 'iowops_mi', 'iowops_mx'],
+            metrics: ['iwobps_co', 'iwobps_av', 'iwobps_mi', 'iwobps_mx'],
             labels: [
               t('in-forge:plugins.azureFunctionApp.dashboard.labelCount'),
               t('in-forge:plugins.azureFunctionApp.dashboard.labelAverage'),
