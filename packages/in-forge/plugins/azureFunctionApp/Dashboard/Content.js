@@ -25,13 +25,13 @@ export default function AzureFunctionAppDashboard({ snapshot, timeConfig }) {
         snapshotId={snapshotId}
         timeConfig={timeConfig}
         y1={{
-          metrics: ['rq_to'],
+          metrics: ['re_to'],
           labels: [t('in-forge:plugins.azureFunctionApp.dashboard.labelRequests')],
           formatter: number.detailed,
           type: 'bar'
         }}
         y2={{
-          metrics: ['rq_co', 'rq_av', 'rq_mi', 'rq_mx'],
+          metrics: ['re_co', 're_av', 're_mi', 're_mx'],
           labels: [
             t('in-forge:plugins.azureFunctionApp.dashboard.labelCount'),
             t('in-forge:plugins.azureFunctionApp.dashboard.labelAverage'),

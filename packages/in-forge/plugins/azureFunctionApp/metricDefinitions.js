@@ -9,36 +9,36 @@ import { t } from 'in-i18n';
 
 export default [
   {
-    metric: 'rq_co',
-    label: t('in-forge:plugins.azureFunctionApp.labelRqCo'),
+    metric: 're_co',
+    label: t('in-forge:plugins.azureFunctionApp.labelReCo'),
     category: [t('in-forge:plugins.azureFunctionApp.requests')],
     min: 0,
     formatter: number
   },
   {
-    metric: 'rq_av',
-    label: t('in-forge:plugins.azureFunctionApp.labelRqAv'),
+    metric: 're_av',
+    label: t('in-forge:plugins.azureFunctionApp.labelReAv'),
     category: [t('in-forge:plugins.azureFunctionApp.requests')],
     min: 0,
     formatter: number
   },
   {
-    metric: 'rq_mi',
-    label: t('in-forge:plugins.azureFunctionApp.labelRqMi'),
+    metric: 're_mi',
+    label: t('in-forge:plugins.azureFunctionApp.labelReMi'),
     category: [t('in-forge:plugins.azureFunctionApp.requests')],
     min: 0,
     formatter: number
   },
   {
-    metric: 'rq_mx',
-    label: t('in-forge:plugins.azureFunctionApp.labelRqMx'),
+    metric: 're_mx',
+    label: t('in-forge:plugins.azureFunctionApp.labelReMx'),
     category: [t('in-forge:plugins.azureFunctionApp.requests')],
     min: 0,
     formatter: number
   },
   {
-    metric: 'rq_to',
-    label: t('in-forge:plugins.azureFunctionApp.labelRqTo'),
+    metric: 're_to',
+    label: t('in-forge:plugins.azureFunctionApp.labelReTo'),
     category: [t('in-forge:plugins.azureFunctionApp.requests')],
     min: 0,
     formatter: number
