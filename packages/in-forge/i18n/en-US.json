@@ -4590,10 +4590,7 @@
       "bytes": "Bytes",
       "requests": "Requests",
       "workingSet": "WorkingSet",
-      "functionExecution": "FunctionExecution",
       "io": "IO",
-      "appDomains": "AppDomains",
-      "genCollections": "GenCollections",
       "system": "System"
     },
     "azureFunction": {
