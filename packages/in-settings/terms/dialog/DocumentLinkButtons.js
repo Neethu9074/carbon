@@ -42,7 +42,7 @@ export function PrivacyButton({ withIcon, label, fontSize }) {
       kind="action"
       icon={withIcon ? 'lib_views_external_link' : ''}
       target="_blank"
-      href="https://www.ibm.com/docs/en/SSE1JP5_current/static/instana-privacy-policy-latest.pdf"
+      href="https://www.ibm.com/us-en/privacy"
       noAutoMargin
     >
       {label ? label : t('in-settings:termsDialog.privacyProductPolicy')}
