@@ -4,9 +4,10 @@
  * Copyright IBM Corp. 2022
  */
 
+import { isUndefined } from 'lodash';
 import React from 'react';
 
-import { isTagFilterExpression, TagFilterExpressionElementUnion } from '@instana/types';
+import { isTagFilter, isTagFilterExpression, TagFilterExpressionElementUnion } from '@instana/types';
 import { StackItem } from '@instana/components';
 
 import { useApplicationQueryBuilder } from 'in-custom-dashboards/widgets/Slo/sli/hooks/useApplicationQueryBuilder';
@@ -67,7 +68,7 @@ export default function FilterWidgetConfigInfoItem({
   QueryBuilderComponent,
   tagFilterExpression
 }: FilterWidgetConfigInfoItemProps) {
-  if (!isValidFilterExpression(tagFilterExpression)) return <></>;
+  if (!isValidFilter(tagFilterExpression)) return <></>;
 
   return (
     <StackItem>
@@ -79,8 +80,12 @@ export default function FilterWidgetConfigInfoItem({
   );
 }
 
-function isValidFilterExpression(tagFilterExpression?: TagFilterExpressionElementUnion): boolean {
-  return (
-    !!tagFilterExpression && isTagFilterExpression(tagFilterExpression) && tagFilterExpression.elements.length !== 0
-  );
+function isNonEmptyTagFilterExpression(tagFilterExpression: TagFilterExpressionElementUnion): boolean {
+  return isTagFilterExpression(tagFilterExpression) && tagFilterExpression.elements.length !== 0;
+}
+
+function isValidFilter(tagFilterExpression?: TagFilterExpressionElementUnion): boolean {
+  if (isUndefined(tagFilterExpression)) return false;
+
+  return isTagFilter(tagFilterExpression) || isNonEmptyTagFilterExpression(tagFilterExpression);
 }
