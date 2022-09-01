@@ -25,7 +25,46 @@ export default function ProvideCustomEvent({ form, timeConfig, onSelectCustomEve
   const customEventNameField = form.get('rule').get('customEventName');
   const onValueChange = value =>
     updateForm(form.updateIn(['rule', 'customEventName'], f => f.setValue(value ?? '').setTouched(true)));
-  const SelectCustomEventButton = () => (
+
+  return customEventNameField.map(field => (
+    <div className={locals.container}>
+      {mode === modeAdvanced && (
+        <>
+          <HorizontalFlexWrapper className={locals.customEventWrapper}>
+            <CustomEventInput field={field} onValueChange={onValueChange} />
+            <SelectCustomEventButton
+              form={form}
+              updateForm={updateForm}
+              onSelectCustomEvent={onSelectCustomEvent}
+              timeConfig={timeConfig}
+            />
+          </HorizontalFlexWrapper>
+          <TouchedMessages field={customEventNameField} />
+        </>
+      )}
+      {mode !== modeAdvanced && (
+        <>
+          <SelectCustomEventButton
+            form={form}
+            updateForm={updateForm}
+            onSelectCustomEvent={onSelectCustomEvent}
+            timeConfig={timeConfig}
+          />
+          <FormGroup className={locals.customEventInputSimpleMode}>
+            <Label htmlFor="custom-event-name" hasError={!field.valid && field.touched}>
+              {t('in-alerting:smartAlerts.websites.customEvent.customEventLabel')}
+            </Label>
+            <CustomEventInput field={field} onValueChange={onValueChange} />
+            <TouchedMessages field={customEventNameField} />
+          </FormGroup>
+        </>
+      )}
+    </div>
+  ));
+}
+
+function SelectCustomEventButton({ form, updateForm, onSelectCustomEvent, timeConfig }) {
+  return (
     <Button
       onClick={() =>
         onSelectCustomEvent({
@@ -54,32 +93,6 @@ export default function ProvideCustomEvent({ form, timeConfig, onSelectCustomEve
       {t('in-alerting:smartAlerts.websites.customEvent.searchCustomEventButtonLabel')}
     </Button>
   );
-
-  return customEventNameField.map(field => (
-    <div className={locals.container}>
-      {mode === modeAdvanced && (
-        <>
-          <HorizontalFlexWrapper className={locals.customEventWrapper}>
-            <CustomEventInput field={field} onValueChange={onValueChange} />
-            <SelectCustomEventButton />
-          </HorizontalFlexWrapper>
-          <TouchedMessages field={customEventNameField} />
-        </>
-      )}
-      {mode !== modeAdvanced && (
-        <>
-          <SelectCustomEventButton />
-          <FormGroup className={locals.customEventInputSimpleMode}>
-            <Label htmlFor="custom-event-name" hasError={!field.valid && field.touched}>
-              {t('in-alerting:smartAlerts.websites.customEvent.customEventLabel')}
-            </Label>
-            <CustomEventInput field={field} onValueChange={onValueChange} />
-            <TouchedMessages field={customEventNameField} />
-          </FormGroup>
-        </>
-      )}
-    </div>
-  ));
 }
 
 ProvideCustomEvent.propTypes = {
