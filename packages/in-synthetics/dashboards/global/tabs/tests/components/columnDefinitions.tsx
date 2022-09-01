@@ -200,13 +200,13 @@ export const columnDefinitions: ColumnDefinition<TestResultListItem, testListPro
         }
       } else {
         let severities = locationStatusList
-          .filter(function(location) {
+          .filter(location => {
             if (location.totalTestRuns != 0) {
               return true;
             }
             return false;
           })
-          .map(function(location) {
+          .map(location => {
             return {
               sev: location.successRate == 1 ? 0 : 10,
               id: location.locationId
