@@ -1,0 +1,24 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2022
+ */
+
+import React, { Fragment } from 'react';
+
+import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import { t } from 'in-i18n';
+import Info from '../Info';
+
+export default function IbmMqMftAgentSidebar({ snapshot }) {
+  return (
+    <Fragment>
+      <Collapsible initiallyOpen>
+        <Collapsible.Header>{t('in-forge:plugins.ibmMqMftAgent.dashboard.ibmMqMftAgent')}</Collapsible.Header>
+        <Collapsible.Content>
+          <Info snapshot={snapshot} />
+        </Collapsible.Content>
+      </Collapsible>
+    </Fragment>
+  );
+}

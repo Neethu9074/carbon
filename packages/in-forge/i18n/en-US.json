@@ -742,6 +742,12 @@
   "pluginName_ibmMqSubscription_1": "IBM MQ Subscriptions",
   "pluginName_ibmMqSubscription_2": "IBM MQ Subscriptions",
   "pluginName_ibmMqSubscription": "IBM MQ Subscription",
+  "pluginName_ibmMqMftCoordiQmgr": "IBM MQ MFT Coordination Queue Manager",
+  "pluginName_ibmMqMftCoordiQmgr_plural": "IBM MQ MFT Coordination Queue Managers",
+  "pluginName_ibmMqMftZone": "IBM MQ MFT Zone",
+  "pluginName_ibmMqMftZone_plural": "IBM MQ MFT Zones",
+  "pluginName_ibmMqMftAgent": "IBM MQ MFT Agent",
+  "pluginName_ibmMqMftAgent_plural": "IBM MQ MFT Agents",
   "pluginName_ibmVsi_plural": "IBM Cloud Virtual Server Instances",
   "pluginName_ibmVsi_0": "IBM Cloud Virtual Server Instances",
   "pluginName_ibmVsi_1": "IBM Cloud Virtual Server Instances",
@@ -9210,6 +9216,70 @@
       "openInputCount": "Open Input Count",
       "openOutputCount": "Open Output Count",
       "calls": "Calls"
+    },
+    "ibmMqMftCoordiQmgr": {
+      "dashboard": {
+        "properties": "Queue Manager Properites",
+        "coordiQmgrName": "Coordination Queue Manager",
+        "coordiQmgrHost": "Host",
+        "connectionChannel": "Connection Channel",
+        "agentsWithCount": "MFT Agents ({{len}})"
+      }
+    },
+    "ibmMqMftZone": {
+      "dashboard": {
+        "ibmMqMftZone": "IBM MQ MFT Zone",
+        "instancesWithCount": "Instances ({{len}})"
+      }
+    },
+    "ibmMqMftAgent": {
+      "dashboard": {
+        "ibmMqMftAgent": "IBM MQ MFT Agent",
+        "agentName": "Name",
+        "agentStatus": "Status",
+        "queueManager": "Queue Manager",
+        "AgentStartTimeUTC": "Start Time(UTC)",
+        "maxSourceTransfers": "Source",
+        "maxDestinationTransfers": "Destination",
+        "maxQueuedTransfers": "Queued",
+        "hostName": "Host Name",
+        "agentType": "Type",
+        "agentTimeZone": "Time Zone",
+        "fileTransferLogsWithCount": "Transfer Logs ({{len}})",
+        "runningTransfers": "Running Transfers",
+        "totalCurrentTransfers": "Total Current Transfers",
+        "transferStatusWithCount": "Current Transfers ({{len}})",
+        "totalSourceTransfers": "Source Transfers",
+        "totalDestinationTransfers": "Destination Transfers"
+      }
+    },
+    "ibmMqMftFileTransferStatus": {
+      "dashboard": {
+        "sourceAgent": "Source Agent",
+        "destinationAgent": "Destination Agent",
+        "startedTime": "Started Time",
+        "fileNumber": "File Number",
+        "elapsedSeconds": "Elaspsed Time(Seconds)",
+        "statsTransferredBytes": "Transferred Bytes",
+        "sourceFileName": "Source File"
+      }
+    },
+    "ibmMqMftFileTransferLog": {
+      "dashboard": {
+        "actionStatus": "Status",
+        "sourceAgent": "Source Agent",
+        "destinationAgent": "Destination Agent",
+        "originatorUserID": "Originator",
+        "startedTime": "Started Time",
+        "transferMode": "Mode",
+        "checkSumMethod": "CheckSum Method",
+        "checkSumValue": "CheckSum Value",
+        "sourceFileName": "Source File",
+        "sourceFileSize": "Source Size",
+        "destinationFileName": "Destination File",
+        "destinationFileSize": "Destination Size",
+        "itemsWithCount": "Files ({{len}})"
+      }
     },
     "ibmMqQueueManager": {
       "dashboard": {
