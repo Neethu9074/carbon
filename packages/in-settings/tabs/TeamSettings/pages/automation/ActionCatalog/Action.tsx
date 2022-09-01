@@ -17,8 +17,6 @@ import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsActionCatalog } from 'in-settings/navigation/paths';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
-// @ts-expect-error
-import entityForm from 'in-hoc/entityForm';
 import SectionLine from 'in-settings/components/SectionLine';
 import { getAction, createAction } from 'in-api/automation';
 import SaveCancel from 'in-settings/components/SaveCancel';
@@ -26,6 +24,7 @@ import Notification from 'in-components/form/Notification';
 import { ImmutableNewAction } from 'in-api/automation';
 import Section from 'in-settings/components/Section';
 import { goToPath } from 'in-stores/navigation';
+import entityForm from 'in-hoc/entityForm';
 import { Field } from 'in-types';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
