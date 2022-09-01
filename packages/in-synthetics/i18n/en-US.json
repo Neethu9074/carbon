@@ -109,7 +109,8 @@
       "delete": "Delete the test",
       "labelConfirm": "Please Confirm",
       "labelConfirmRemoveTest": "Are you sure you want to remove the Synthetic test <strong>{{label}}</strong>?",
-      "labelRemove": "Remove"
+      "labelRemove": "Remove",
+      "na": "N/A"
     },
     "locationList": {
       "locationLabel": "Location Name",
