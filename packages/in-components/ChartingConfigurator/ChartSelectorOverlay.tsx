@@ -7,7 +7,7 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
-import { DataSourceType, getEntityNameByType, getIconByType, ProductArea } from 'in-analyze/AnalyzeView/dataSources';
+import { Entity, getEntityNameByType, getIconByType, ProductArea } from 'in-analyze/AnalyzeView/dataSources';
 import ComboBoxOverlay from 'in-components/form/ComboBox/ComboBoxOverlay';
 import Overlay from 'in-components/overlays/Overlay';
 import { MetricSource } from 'in-types';
@@ -16,7 +16,7 @@ import { t } from 'in-i18n';
 import locals from './ChartSelectorOverlay.mless';
 
 interface ChartSelectorProps {
-  dataSource: DataSourceType<ProductArea>;
+  dataSource: Entity;
   unifiedMetricsSource: MetricSource;
 
   value: ChartValue;
