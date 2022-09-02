@@ -73,7 +73,7 @@ export default class RenderScheduler<CallbackHolderType extends Partial<Renderab
     this.xScaleBackBuffer.setRangeTo(width);
     this.xScaleBackBuffer$.emit(this.xScaleBackBuffer);
     this.timeConfig = timeConfig;
-    if(wiggleRoom){
+    if (wiggleRoom) {
       this.wiggleRoom = wiggleRoom;
     }
 

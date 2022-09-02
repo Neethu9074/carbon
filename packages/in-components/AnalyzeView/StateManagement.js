@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import rpt from 'prop-types';
 
 import { useObservable } from '@instana/hooks';
@@ -251,6 +251,8 @@ function AnalyzeStateManagement({
     urlState.chartedMetrics ? urlState.chartedMetrics : defaultChartedMetrics
   );
 
+  const groupedPaginationRef = useRef({});
+
   const metricTemplatesResult =
     useObservable(() => getMetricTemplates() || noResultObservable(), [getMetricTemplates]) ?? pendingResult;
 
@@ -484,7 +486,8 @@ function AnalyzeStateManagement({
         detailId
       });
     },
-    setDetailId: detailId => onChange({ detailId })
+    setDetailId: detailId => onChange({ detailId }),
+    groupedPaginationRef
   });
 
   function getStateChangeForUngroupedView(groupValue) {

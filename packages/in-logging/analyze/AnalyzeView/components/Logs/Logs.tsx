@@ -6,13 +6,18 @@
 import React, { useEffect, useRef } from 'react';
 
 import { Button } from '@instana/components';
+import { TagFilter } from '@instana/types';
 
+// @ts-expect-error needs TS migration
+import { createPageSizeAwareLogsCursorPaginationHook } from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
 import {
   logLevelColumn,
   timestampColumn,
   centerAlignedCopyColumn,
   centerAlignedLinkColumn
 } from 'in-logging/analyze/AnalyzeView/utils/logsColumnUtils';
+// @ts-expect-error needs TS migration
+import { FacetedSearchPresenter } from 'in-logging/analyze/AnalyzeView/components/FacetedSearchPresenter';
 import {
   LOG_CUSTOM,
   LOG_EXCEPTION_MESSAGE,
@@ -20,22 +25,26 @@ import {
   LOG_EXCEPTION_TYPE,
   LOG_LEVEL
 } from 'in-logging/queryBuilder';
-import { createPageSizeAwareLogsCursorPaginationHook } from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
-import { FacetedSearchPresenter } from 'in-logging/analyze/AnalyzeView/components/FacetedSearchPresenter';
+// @ts-expect-error needs TS migration
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
+// @ts-expect-error needs TS migration
 import { ChartsPresenter } from 'in-logging/analyze/AnalyzeView/components/ChartsPresenter';
+// @ts-expect-error needs TS migration
 import LogMessageColumn from 'in-logging/analyze/AnalyzeView/components/LogMessageColumn';
+// @ts-expect-error needs ts migration
+import UngroupedViewList from 'in-components/AnalyzeView/UngroupedViewList';
+import { GetDataParams, HeaderActionProps, LogsProps } from 'in-logging/analyze/AnalyzeView/components/Logs/types';
 import { ScrollIntoView } from 'in-logging/analyze/AnalyzeView/components/ScrollIntoView';
 import { LogTagsTable } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable';
-import UngroupedViewList from 'in-components/AnalyzeView/UngroupedViewList';
 import { TAG } from 'in-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { sortingChanged } from 'in-logging/analyze/AnalyzeView/tracker';
 import getLogs from 'in-logging/subscriptions/getLogs';
 import getLog from 'in-logging/subscriptions/getLog';
+import { LogItem } from 'in-types';
 import { t } from 'in-i18n';
 
-import locals from './Logs.mless';
+import locals from 'in-logging/analyze/AnalyzeView/components/Logs.mless';
 
 const columnDefinitions = [
   logLevelColumn,
@@ -48,31 +57,66 @@ const columnDefinitions = [
   centerAlignedCopyColumn
 ];
 
-export default function Logs(props) {
+export default function Logs(props: LogsProps) {
   const {
     getHrefWithAdditionalTagFilter,
     getHrefToGroupedView,
     Sidebar = FacetedSearchPresenter,
     Chart = ChartsPresenter,
-    initialLogLines
+    initialLogLines: initialLogLinesProp,
+    groupedPaginationRef,
+    groupLabel,
+    selectedId,
+    withoutHeader,
+    detailId
   } = props;
 
+  const initialLogLines = initialLogLinesProp || groupedPaginationRef.current?.[groupLabel];
+
   const onSelectTagHref = getHrefWithAdditionalTagFilter
-    ? tag => getHrefWithAdditionalTagFilter(getTagExpressionWithTag(tag))
+    ? (tag: TagFilter) => getHrefWithAdditionalTagFilter(getTagExpressionWithTag(tag))
     : undefined;
 
   const selectedWasOpened = useRef(false);
 
-  const initiallyToggled = props.selectedId !== undefined ? [props.selectedId] : [];
+  const initiallyToggled = selectedId !== undefined ? [selectedId] : [];
   const toggledEntries = useRef(new Set(initiallyToggled));
 
-  function onToggleHandler(toggled, item) {
+  function onToggleHandler(toggled: boolean, item: LogItem) {
     const itemId = getItemId(item);
     if (toggled) {
       toggledEntries.current.add(itemId);
     } else {
       toggledEntries.current.delete(itemId);
     }
+  }
+
+  const getData = (params: GetDataParams) => {
+    if (groupedPaginationRef.current) {
+      groupedPaginationRef.current[groupLabel] = params.initialLogLines;
+    }
+    return getTableData(params);
+  };
+
+  const renderNestedContent = (_: unknown, item: LogItem) =>
+    scrollIntoViewIfSelected(
+      ref => (
+        <LogTagsTable
+          ref={ref}
+          item={item}
+          onSelectTagHref={onSelectTagHref}
+          getHrefToGroupedView={getHrefToGroupedView}
+        />
+      ),
+      item.itemId === props.selectedId
+    );
+
+  function scrollIntoViewIfSelected(renderElement: (ref: React.Ref<HTMLElement>) => JSX.Element, selected: boolean) {
+    if (selected && !selectedWasOpened.current) {
+      selectedWasOpened.current = true;
+      return <ScrollIntoView renderChildren={ref => renderElement(ref)} />;
+    }
+    return renderElement(null);
   }
 
   let content = (
@@ -83,42 +127,22 @@ export default function Logs(props) {
       useCursorPaginationStrategy={createPageSizeAwareLogsCursorPaginationHook(initialLogLines)}
       classNames={{ listItem: locals.listItem }}
       columnDefinitions={columnDefinitions}
-      getData={params => getTableData(params)}
+      getData={getData}
       getId={getItemId}
       withoutListItemLinkToDetails
       DetailView={DetailView}
-      getDetailData={detailId => getLog({ itemId: detailId })}
+      getDetailData={(detailId: string) => getLog({ itemId: detailId })}
       onSelectTagHref={onSelectTagHref}
       withCountHeader={false}
       withoutHeader={false}
       CustomHeaderActions={CustomHeaderActions}
       initiallyOpenedItemIds={[...toggledEntries.current]}
       onToggleContentRow={onToggleHandler}
-      renderNestedContent={(_, item) =>
-        scrollIntoViewIfSelected(
-          ref => (
-            <LogTagsTable
-              ref={ref}
-              item={item}
-              onSelectTagHref={onSelectTagHref}
-              getHrefToGroupedView={getHrefToGroupedView}
-            />
-          ),
-          item.itemId === props.selectedId
-        )
-      }
+      renderNestedContent={renderNestedContent}
     />
   );
 
-  function scrollIntoViewIfSelected(renderElement, selected) {
-    if (selected && !selectedWasOpened.current) {
-      selectedWasOpened.current = true;
-      return <ScrollIntoView renderChildren={ref => renderElement(ref)} />;
-    }
-    return renderElement(null);
-  }
-
-  if (!props.withoutHeader && !props.detailId) {
+  if (!withoutHeader && !detailId) {
     content = <QueryBuilderWorkspace {...props}>{content}</QueryBuilderWorkspace>;
   }
 
@@ -129,7 +153,7 @@ function DetailView() {
   return null;
 }
 
-function CustomHeaderActions({ orderBy, setOrder }) {
+function CustomHeaderActions({ orderBy, setOrder }: HeaderActionProps) {
   useEffect(() => {
     const cleanup = () => sortingChanged({ source: 'end state of sorting order' });
     window.addEventListener('beforeunload', cleanup);
@@ -154,7 +178,7 @@ function CustomHeaderActions({ orderBy, setOrder }) {
   );
 }
 
-function getTableData(props) {
+function getTableData(props: GetDataParams) {
   const { timeConfig, afterKey, backendQueryModel, retrievalSize, orderBy } = props;
 
   return getLogs({
@@ -167,7 +191,7 @@ function getTableData(props) {
   });
 }
 
-function getTagExpressionWithTag(tag) {
+function getTagExpressionWithTag(tag: TagFilter): TagFilter {
   return {
     ...tag,
     type: TAG,
@@ -175,6 +199,6 @@ function getTagExpressionWithTag(tag) {
   };
 }
 
-function getItemId(item) {
+function getItemId(item: LogItem) {
   return item.itemId;
 }

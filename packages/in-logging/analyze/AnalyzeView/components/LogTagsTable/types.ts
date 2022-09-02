@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { TagFilter } from '@instana/types';
+
 import { LogItem, LogTag } from 'in-types';
 
 export interface ClickedTag {
@@ -17,26 +19,27 @@ export interface GroupingTag {
   tagEntity?: string;
 }
 
-export type OnSelectTagHref = (tag: ClickedTag) => string;
-export type GetHrefToGroupedView = (tag: any) => string;
+export type OnSelectTagHref = (tag: TagFilter) => string;
+export type GetHrefToGroupedView = (tag: TagFilter | GroupingTag) => string;
 
 export interface LogTagsTableProps {
   item: LogItem;
   onSelectTagHref: OnSelectTagHref | undefined;
   getHrefToGroupedView: GetHrefToGroupedView | undefined;
-  tagToLabelMap: Map<string, string>;
-  allowedTagsForGrouping: Set<string>;
 }
 
 export interface GetContentType extends LogTagsTableProps {
   tag: LogTag;
   uniqueTagName: string;
   isHovered: boolean;
+  allowedTagsForGrouping?: Set<string>;
 }
 
 export interface TagEntryProps extends LogTagsTableProps {
   tag: LogTag;
   uniqueTagName: string;
+  tagToLabelMap: Map<string, string>;
+  allowedTagsForGrouping?: Set<string>;
 }
 
 export interface ResolvedLinkProps {
