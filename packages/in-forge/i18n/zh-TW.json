@@ -10449,7 +10449,6 @@
       "titleServletsErrors": "Servlet 錯誤",
       "titleServletsAverageResponseTime": "Servlet 平均回應時間",
       "titleFreeConnectionsInPool": "儲存區中的可用連線",
-      "titleWebContainerThreadPool": "Web 儲存器執行緒儲存區",
       "titleThreadsWaitingForConnection": "等待連線的執行緒",
       "titleAverageWaitingTime": "平均等待時間",
       "titleDatasourcesCount": "資料來源 ({{len}})",

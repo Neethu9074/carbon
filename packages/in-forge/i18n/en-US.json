@@ -10732,7 +10732,6 @@
       "titleServletsErrors": "Servlets Errors",
       "titleServletsAverageResponseTime": "Servlets Average Response Time",
       "titleFreeConnectionsInPool": "Free Connections in Pool",
-      "titleWebContainerThreadPool": "Web Container Thread Pool",
       "titleThreadsWaitingForConnection": "Threads Waiting for Connection",
       "titleAverageWaitingTime": "Average Waiting Time",
       "titleDatasourcesCount": "Datasources ({{len}})",

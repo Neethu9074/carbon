@@ -10449,7 +10449,6 @@
       "titleServletsErrors": "Errores de servlets",
       "titleServletsAverageResponseTime": "Tiempo promedio de respuesta de servlets",
       "titleFreeConnectionsInPool": "Conexiones libres en la agrupación",
-      "titleWebContainerThreadPool": "Agrupación de hebras del contenedor web",
       "titleThreadsWaitingForConnection": "Hebras en espera de conexión",
       "titleAverageWaitingTime": "Tiempo promedio de espera",
       "titleDatasourcesCount": "Orígenes de datos ({{len}})",

@@ -10449,7 +10449,6 @@
       "titleServletsErrors": "서블릿 오류",
       "titleServletsAverageResponseTime": "서블릿 평균 응답 시간",
       "titleFreeConnectionsInPool": "풀의 사용 가능한 연결",
-      "titleWebContainerThreadPool": "웹 컨테이너 스레드 풀",
       "titleThreadsWaitingForConnection": "연결 대기 중인 스레드",
       "titleAverageWaitingTime": "평균 대기 시간",
       "titleDatasourcesCount": "데이터 소스({{len}})",

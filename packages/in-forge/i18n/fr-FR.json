@@ -10449,7 +10449,6 @@
       "titleServletsErrors": "Erreurs de servlets",
       "titleServletsAverageResponseTime": "Temps de réponse moyen des servlets",
       "titleFreeConnectionsInPool": "Connexions disponibles dans le pool",
-      "titleWebContainerThreadPool": "Pool d'unités d'exécution du conteneur Web",
       "titleThreadsWaitingForConnection": "Unités d'exécution en attente de connexion",
       "titleAverageWaitingTime": "Temps d'attente moyen",
       "titleDatasourcesCount": "Sources de données ({{len}})",

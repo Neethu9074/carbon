@@ -10449,7 +10449,6 @@
       "titleServletsErrors": "Servlet 错误",
       "titleServletsAverageResponseTime": "Servlet 平均响应时间",
       "titleFreeConnectionsInPool": "池中的字节量/秒连接数",
-      "titleWebContainerThreadPool": "Web 容器线程池",
       "titleThreadsWaitingForConnection": "等待连接的线程数",
       "titleAverageWaitingTime": "平均等待时间",
       "titleDatasourcesCount": "数据源 ({{len}})",
