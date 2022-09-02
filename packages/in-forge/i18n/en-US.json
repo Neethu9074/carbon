@@ -10736,6 +10736,7 @@
       "titleThreadsWaitingForConnection": "Threads Waiting for Connection",
       "titleAverageWaitingTime": "Average Waiting Time",
       "titleDatasourcesCount": "Datasources ({{len}})",
+      "titleThreadPoolsCount": "Thread Pools ({{len}})",
       "titleWebModulesCount": "Web Modules ({{len}})",
       "titleEJBModulesCount": "EJB Modules ({{len}})",
       "titleEJBBeansCount": "EJB Beans ({{len}})",
