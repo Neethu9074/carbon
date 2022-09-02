@@ -139,10 +139,12 @@ function Presenter({
       ]
     : [];
   const sortOptions = groupSortOptions.concat(
-    metrics.map(({ fullyQualifiedLabel, metric, aggregation }) => ({
-      label: fullyQualifiedLabel,
-      value: getMetricKey(metric, aggregation)
-    }))
+    metrics
+      .filter(m => m.fullyQualifiedLabel !== undefined)
+      .map(({ fullyQualifiedLabel, metric, aggregation }) => ({
+        label: fullyQualifiedLabel,
+        value: getMetricKey(metric, aggregation)
+      }))
   );
 
   return (

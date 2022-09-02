@@ -85,8 +85,7 @@
       "jsErrors": "JS Errors",
       "viewTransitions2": "View Transitions",
       "calls": "Calls",
-      "traces": "Traces",
-      "console": "Console"
+      "traces": "Traces"
     }
   },
   "traceDetail": {

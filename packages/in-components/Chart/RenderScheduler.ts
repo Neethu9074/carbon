@@ -33,6 +33,7 @@ export default class RenderScheduler<CallbackHolderType extends Partial<Renderab
   timeConfig: TimeConfig | Nullish;
   isLive: boolean;
   isLive$: Subject<boolean>;
+  wiggleRoom: number;
   serverTimeOffset: number;
   serverTimeOffsetSubscription: Disposable | Nullish;
 
@@ -47,6 +48,7 @@ export default class RenderScheduler<CallbackHolderType extends Partial<Renderab
 
     this.isLive = false;
     this.isLive$ = create<boolean>().emit(this.isLive);
+    this.wiggleRoom = WIGGLE_ROOM;
 
     this.xScaleBackBuffer = createScale();
     this.xScaleBackBuffer.setRangeFrom(0);
@@ -67,10 +69,13 @@ export default class RenderScheduler<CallbackHolderType extends Partial<Renderab
     });
   }
 
-  update(timeConfig: TimeConfig, width: number) {
+  update(timeConfig: TimeConfig, width: number, wiggleRoom?: number) {
     this.xScaleBackBuffer.setRangeTo(width);
     this.xScaleBackBuffer$.emit(this.xScaleBackBuffer);
     this.timeConfig = timeConfig;
+    if (wiggleRoom) {
+      this.wiggleRoom = wiggleRoom;
+    }
 
     // we need to check if the windowSize has changed in order to adjust the scale during live mode
     const hasWindowSizeChanged = this?.timeConfig?.windowSize !== timeConfig.windowSize;
@@ -99,7 +104,7 @@ export default class RenderScheduler<CallbackHolderType extends Partial<Renderab
 
   atomicRender() {
     const timeConfig = this.timeConfig;
-    const to = timeConfig?.to ?? toServerTime(Date.now(), this.serverTimeOffset);
+    const to = timeConfig?.to ?? toServerTime(Date.now(), this.serverTimeOffset) - this.wiggleRoom;
     const windowSize = timeConfig?.windowSize ?? 0;
 
     this.xScaleBackBuffer.setDomainFrom(to - windowSize);
@@ -158,9 +163,9 @@ export default class RenderScheduler<CallbackHolderType extends Partial<Renderab
   setXDomainToLiveMode() {
     const now = Date.now();
     const windowSize = this.timeConfig?.windowSize ?? 0;
-    const to = toServerTime(now, this.serverTimeOffset);
-    this.xScaleBackBuffer.setDomainFrom(to - windowSize - WIGGLE_ROOM);
-    this.xScaleBackBuffer.setDomainTo(to - WIGGLE_ROOM);
+    const to = toServerTime(now, this.serverTimeOffset) - this.wiggleRoom;
+    this.xScaleBackBuffer.setDomainFrom(to - windowSize);
+    this.xScaleBackBuffer.setDomainTo(to);
     this.xScaleBackBuffer$.emit(this.xScaleBackBuffer);
   }
 

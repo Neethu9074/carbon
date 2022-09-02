@@ -5,8 +5,11 @@
 
 import React, { Fragment } from 'react';
 
+import { Card } from '@instana/components';
+
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import { pluginEntityMetricStatisticsEnabled } from 'in-services/featureFlags';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -81,6 +84,27 @@ export default connectTo(
     }
     const rows = Object.keys(plugins).map(key => ({ key: plugins[key], plugin: plugins[key], timeConfig, snapshotId }));
 
+    const pluginBreakdown = pluginEntityMetricStatisticsEnabled ? (
+      <Table
+        cardTitle={t('in-internal:monitoringUnit.unit.entityStatistics.perPluginEntityCount')}
+        cols={cols}
+        rows={rows}
+        getRowDetails={getRowDetails}
+        maxItemsPerPage={20}
+        initialSortColumn={1}
+        initialSortDirection="desc"
+      />
+    ) : (
+      <Card
+        title={t('in-internal:monitoringUnit.unit.entityStatistics.perPluginEntityCount')}
+        withoutPadding
+        useMaxAvailableHeight={false}
+      >
+        To enable breakdown of entity and metric statistics by plugin, turn on feature flag for this TU.
+        <pre>feature.plugin.entity.metric.statistics.enabled</pre>
+      </Card>
+    );
+
     return (
       <Fragment>
         <DashboardSection title={t('in-internal:monitoringUnit.unit.entityStatistics.entityCount')}>
@@ -104,15 +128,7 @@ export default connectTo(
           />
         </DashboardSection>
 
-        <Table
-          cardTitle={t('in-internal:monitoringUnit.unit.entityStatistics.perPluginEntityCount')}
-          cols={cols}
-          rows={rows}
-          getRowDetails={getRowDetails}
-          maxItemsPerPage={20}
-          initialSortColumn={1}
-          initialSortDirection="desc"
-        />
+        {pluginBreakdown}
       </Fragment>
     );
   }

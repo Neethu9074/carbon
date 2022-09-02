@@ -23,51 +23,75 @@ import locals from 'in-alerting/smart-alerts/websites/components/ProvideCustomEv
 
 export default function ProvideCustomEvent({ form, timeConfig, onSelectCustomEvent, mode, updateForm }) {
   const customEventNameField = form.get('rule').get('customEventName');
+  const onValueChange = value =>
+    updateForm(form.updateIn(['rule', 'customEventName'], f => f.setValue(value ?? '').setTouched(true)));
 
-  return (
+  return customEventNameField.map(field => (
     <div className={locals.container}>
-      <HorizontalFlexWrapper className={locals.customEventWrapper}>
-        {mode === modeAdvanced &&
-          customEventNameField.map(() => <CustomEventInput updateForm={updateForm} form={form} />)}
-        <Button
-          onClick={() =>
-            onSelectCustomEvent({
-              slideInConfig: {
-                component: (
-                  <AlertConfigSlideInContentWrapper>
-                    <CustomEventsList
-                      websiteId={form.get('websiteId').value}
-                      tagFilterExpression={form.get('tagFilterExpression').value}
-                      timeConfig={timeConfig}
-                      onCustomEventSelect={customEventName => {
-                        updateForm(
-                          form.updateIn(['rule', 'customEventName'], f => f.setValue(customEventName).setTouched(true))
-                        );
-                      }}
-                      slideOut={() => onSelectCustomEvent({ isVisible: false })}
-                    />
-                  </AlertConfigSlideInContentWrapper>
-                ),
-                title: t('in-alerting:smartAlerts.websites.customEvent.customEventSelectionSliderTitle')
-              },
-              isVisible: true
-            })
-          }
-        >
-          {t('in-alerting:smartAlerts.websites.customEvent.searchCustomEventButtonLabel')}
-        </Button>
-      </HorizontalFlexWrapper>
-      {mode !== modeAdvanced &&
-        customEventNameField.map(field => (
+      {mode === modeAdvanced && (
+        <>
+          <HorizontalFlexWrapper className={locals.customEventWrapper}>
+            <CustomEventInput field={field} onValueChange={onValueChange} />
+            <SelectCustomEventButton
+              form={form}
+              updateForm={updateForm}
+              onSelectCustomEvent={onSelectCustomEvent}
+              timeConfig={timeConfig}
+            />
+          </HorizontalFlexWrapper>
+          <TouchedMessages field={customEventNameField} />
+        </>
+      )}
+      {mode !== modeAdvanced && (
+        <>
+          <SelectCustomEventButton
+            form={form}
+            updateForm={updateForm}
+            onSelectCustomEvent={onSelectCustomEvent}
+            timeConfig={timeConfig}
+          />
           <FormGroup className={locals.customEventInputSimpleMode}>
             <Label htmlFor="custom-event-name" hasError={!field.valid && field.touched}>
               {t('in-alerting:smartAlerts.websites.customEvent.customEventLabel')}
             </Label>
-
-            <CustomEventInput updateForm={updateForm} form={form} />
+            <CustomEventInput field={field} onValueChange={onValueChange} />
+            <TouchedMessages field={customEventNameField} />
           </FormGroup>
-        ))}
+        </>
+      )}
     </div>
+  ));
+}
+
+function SelectCustomEventButton({ form, updateForm, onSelectCustomEvent, timeConfig }) {
+  return (
+    <Button
+      onClick={() =>
+        onSelectCustomEvent({
+          slideInConfig: {
+            component: (
+              <AlertConfigSlideInContentWrapper>
+                <CustomEventsList
+                  websiteId={form.get('websiteId').value}
+                  tagFilterExpression={form.get('tagFilterExpression').value}
+                  timeConfig={timeConfig}
+                  onCustomEventSelect={customEventName => {
+                    updateForm(
+                      form.updateIn(['rule', 'customEventName'], f => f.setValue(customEventName).setTouched(true))
+                    );
+                  }}
+                  slideOut={() => onSelectCustomEvent({ isVisible: false })}
+                />
+              </AlertConfigSlideInContentWrapper>
+            ),
+            title: t('in-alerting:smartAlerts.websites.customEvent.customEventSelectionSliderTitle')
+          },
+          isVisible: true
+        })
+      }
+    >
+      {t('in-alerting:smartAlerts.websites.customEvent.searchCustomEventButtonLabel')}
+    </Button>
   );
 }
 
@@ -79,26 +103,19 @@ ProvideCustomEvent.propTypes = {
   timeConfig: PropTypes.object.isRequired
 };
 
-function CustomEventInput({ updateForm, form }) {
-  const customEventNameField = form.get('rule').get('customEventName');
-
+function CustomEventInput({ field, onValueChange }) {
   return (
-    <>
-      <DebouncedInput
-        className={locals.customEventInput}
-        delay={300}
-        id="custom-event-name"
-        type="text"
-        onValueChange={value =>
-          updateForm(form.updateIn(['rule', 'customEventName'], f => f.setValue(value ?? '').setTouched(true)))
-        }
-        value={customEventNameField.value}
-        hasError={!customEventNameField.valid && customEventNameField.touched}
-        pure={false}
-        maxLength={512}
-        placeholder={t('in-alerting:smartAlerts.websites.customEvent.customEventInputPlaceholder')}
-      />
-      <TouchedMessages field={customEventNameField} />
-    </>
+    <DebouncedInput
+      className={locals.customEventInput}
+      delay={300}
+      id="custom-event-name"
+      type="text"
+      onValueChange={onValueChange}
+      value={field.value}
+      hasError={!field.valid && field.touched}
+      pure={false}
+      maxLength={512}
+      placeholder={t('in-alerting:smartAlerts.websites.customEvent.customEventInputPlaceholder')}
+    />
   );
 }

@@ -283,5 +283,10 @@ module.exports = exports = [
     uiClientKey: 'actionAutomationEnabled',
     instanaCtlKey: 'feature.automation.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'pluginEntityMetricStatisticsEnabled',
+    instanaCtlKey: 'feature.plugin.entity.metric.statistics.enabled',
+    defaultValue: false
   }
 ];

@@ -8,6 +8,9 @@ import { Observable } from '@instana/observables';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { BeaconType, Group, TagCatalog, TimeConfig, AggregationType } from 'in-types';
 
+export declare const analyzePath: string;
+export declare const websiteMonitoringPath: string;
+
 interface Fields {
   metricId: string;
   aggregationId: AggregationType;

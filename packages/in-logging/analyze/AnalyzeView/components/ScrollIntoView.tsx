@@ -6,9 +6,7 @@
 import React, { useEffect, useState } from 'react';
 
 export interface ScrollIntoViewProps {
-  renderChildren: (
-    ref: React.ForwardedRef<HTMLElement>
-  ) => React.ForwardRefExoticComponent<React.RefAttributes<HTMLElement>>;
+  renderChildren: (ref: React.ForwardedRef<HTMLElement>) => JSX.Element;
 }
 
 export function ScrollIntoView(props: ScrollIntoViewProps) {

@@ -18,9 +18,7 @@ import { t } from 'in-i18n';
 
 export default function ViewSwitcher() {
   const isTestsActive = useObservable(isView(paths.syntheticsPath), []);
-  /* Once the location view is fully implemented
-  and the path enabled isLocationsActive should mimic the behavior of tests navigation item. */
-  const isLocationsActive = useObservable(isView('/locations'), []);
+  const isLocationsActive = useObservable(isView(paths.syntheticLocationPath), []);
 
   return (
     <>
@@ -39,8 +37,8 @@ export default function ViewSwitcher() {
             icon={'lib_synthetic'}
           />
           <SecondLevelNavigationItem
-            href$={getModifiedUrlStream(p => (p.pathname = paths.syntheticsPath))}
-            label={t('in-synthetics:dashboard.testList.secondaryLabels.location')}
+            href$={getModifiedUrlStream(p => (p.pathname = paths.syntheticLocationPath))}
+            label={t('in-synthetics:dashboard.testList.secondaryLabels.locations')}
             isActive={isLocationsActive && !isTestsActive}
             icon={'lib_synthetic_location'}
           />

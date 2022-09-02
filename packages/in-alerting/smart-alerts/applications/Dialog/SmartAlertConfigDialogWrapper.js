@@ -46,7 +46,9 @@ export default function SmartAlertConfigDialogWrapper({
   startWithSimpleMode
 }) {
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
-  const [form, setForm] = useState(() => createSmartAlertForm(fromAlertConfig(alertConfig), editMode));
+  const [form, setForm] = useState(() =>
+    createSmartAlertForm(fromAlertConfig(alertConfig), editMode, isGlobalSmartAlert)
+  );
   const updateForm = useSmartAlertFormSideEffects(form, setForm);
   const [isSaving, setIsSaving] = useState(false);
   const [messages, setMessages] = useState([]);

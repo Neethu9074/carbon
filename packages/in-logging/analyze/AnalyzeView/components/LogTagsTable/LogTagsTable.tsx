@@ -7,6 +7,7 @@ import React, { forwardRef, useMemo, useState } from 'react';
 
 import { ColumnizedContent, Li, Link, Stack, Ul } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { TagFilter } from '@instana/types';
 
 import {
   LOG_CALL_ID,
@@ -31,7 +32,7 @@ import {
   ResolvedLinkProps,
   TagEntryProps,
   ToggleProps
-} from 'in-logging/analyze/AnalyzeView/components/LogTagsTable.d';
+} from 'in-logging/analyze/AnalyzeView/components/LogTagsTable/types';
 import ContainerPerformanceSparkcharts from 'in-logging/analyze/AnalyzeView/components/ContainerPerformanceSparkcharts';
 import { filterAdded, groupAdded, logMessageTagClicked } from 'in-logging/analyze/AnalyzeView/tracker';
 import useResolvedValue from 'in-logging/analyze/AnalyzeView/components/useResolvedValue';
@@ -53,7 +54,7 @@ import Tooltip from 'in-components/Tooltip';
 import { LogTag } from 'in-types';
 import { t } from 'in-i18n';
 
-import locals from './LogTagsTable.mless';
+import locals from 'in-logging/analyze/AnalyzeView/components/LogTagsTable.mless';
 
 const columnDefinitions = [
   {
@@ -82,7 +83,7 @@ interface LogTagMapperParams {
   label: string;
 }
 
-export const LogTagsTable = forwardRef<HTMLElement, LogTagsTableProps>(function LogTagsTable(
+const LogTagsTable = forwardRef<HTMLElement, LogTagsTableProps>(function LogTagsTable(
   { item, onSelectTagHref, getHrefToGroupedView }: LogTagsTableProps,
   ref
 ) {
@@ -145,6 +146,8 @@ export const LogTagsTable = forwardRef<HTMLElement, LogTagsTableProps>(function 
   );
 });
 
+export default LogTagsTable;
+
 function TagEntry({
   tag,
   item,
@@ -186,7 +189,7 @@ function TagEntry({
   );
 }
 
-function TagName({ tag, tagToLabelMap }: GetContentType) {
+function TagName({ tag, tagToLabelMap }: TagEntryProps) {
   return useResolvedName(tag, tagToLabelMap);
 }
 
@@ -208,7 +211,7 @@ function TagValue({
 
       {isHovered && tag.key !== LOG_CUSTOM_KEY_APPLICATION_IDS && (
         <Stack direction="horizontal" gap="disabled" align="center">
-          {allowedTagsForGrouping.has(tag.name || '') && getHrefToGroupedView && (
+          {allowedTagsForGrouping?.has(tag.name || '') && getHrefToGroupedView && (
             <Tooltip content={t('in-logging:tooltipAddAsGroup')}>
               <IconLink
                 iconSize={16}
@@ -223,7 +226,7 @@ function TagValue({
               <IconLink
                 iconSize={16}
                 type="lib_actions_filter"
-                href={onSelectTagHref(createTag(value, tag.name, tag.key))}
+                href={onSelectTagHref(createTag(value, tag.name, tag.key) as TagFilter)}
                 onClick={() => trackFilterClick(tag, value)}
               />
             </Tooltip>
@@ -325,7 +328,7 @@ function createTag(value: string, name?: string, key?: string): ClickedTag {
   return tag;
 }
 
-function createGroupingTag(name?: string, key?: string) {
+function createGroupingTag(name?: string, key?: string): GroupingTag {
   const tag: GroupingTag = { tag: name || '' };
   if (key) {
     tag.secondLevelKey = key;
