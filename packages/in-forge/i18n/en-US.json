@@ -11220,7 +11220,7 @@
       "lockQueueLength": "Lock Queue Length",
       "activeClientsWriters": "Active Clients Writers",
       "activeClientsReaders": "Active Clients Readers",
-      "readOperations": "Number of clients with Read operations",
+      "readOperations": "Number of Clients with Read operations",
       "writeOperations": "Number of Clients with Write operations",
       "journalWriteLock": "Journal Write Lock",
       "numberOfPageFaults": "Number of Page Faults",
