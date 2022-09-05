@@ -23,7 +23,7 @@ interface Config extends ContextMenuConfig {
 }
 
 type AxisParams =
-  'colors'
+  | 'colors'
   | 'min'
   | 'max'
   | 'tooltipFormatter'

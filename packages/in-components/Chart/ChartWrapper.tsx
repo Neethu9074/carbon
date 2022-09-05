@@ -71,7 +71,11 @@ export default function ChartWrapper({ result, companionResult, ...props }: Prop
   return <ResultAwareChart result={result} config={wrapProps(result, props, companionResult)} />;
 }
 
-function wrapProps(result: Result<MetricData>, props: ResultAwareChartConfig, companionResult?: Result<MetricData>): ResultAwareChartConfig {
+function wrapProps(
+  result: Result<MetricData>,
+  props: ResultAwareChartConfig,
+  companionResult?: Result<MetricData>
+): ResultAwareChartConfig {
   const metricsConfiguration = props.metricsConfiguration;
   if (__DEV__ && metricsConfiguration) {
     props.y1?.metricIds.forEach(id => {
