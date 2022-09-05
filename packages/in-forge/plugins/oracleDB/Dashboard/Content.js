@@ -11,7 +11,8 @@ import {
   micros,
   hitRateTwoDecimalPlaces,
   percentageTwoDecimalPlaces,
-  percentage
+  percentage,
+  megaBytes
 } from 'in-services/formatters/number';
 // import ProcessUtilizationTable from './ProcessUtilizationTable';
 import TablespaceUsagesTable from './TablespaceUsagesTable.js';
@@ -156,7 +157,7 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
           y1={{
-            formatter: number.compact,
+            formatter: megaBytes.detailed,
             metrics: ['usageOfSGA.total', 'usageOfSGA.used', 'usageOfSGA.free'],
             labels: [
               t('in-forge:plugins.oracleDB.total'),

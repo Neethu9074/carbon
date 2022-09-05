@@ -6,7 +6,7 @@
 import React from 'react';
 
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
-import { number } from 'in-services/formatters/number';
+import { megaBytes } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
@@ -31,7 +31,7 @@ const cols = [
       getValue(row) {
         return row.used;
       },
-      getContent: number.compact
+      getContent: megaBytes.compact
     }
   },
   {
@@ -41,7 +41,7 @@ const cols = [
       getValue(row) {
         return row.total;
       },
-      getContent: number.compact
+      getContent: megaBytes.compact
     }
   }
 ];
