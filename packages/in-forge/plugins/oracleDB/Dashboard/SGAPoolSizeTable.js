@@ -25,7 +25,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.oracleDB.used'),
+    title: t('in-forge:plugins.oracleDB.usedMemory'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -35,7 +35,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.oracleDB.total'),
+    title: t('in-forge:plugins.oracleDB.totalMemory'),
     type: 'number',
     typeArgs: {
       getValue(row) {
