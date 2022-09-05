@@ -1,5 +1,5 @@
 /*
- * (c) Copyright IBM Corp. 2021
+ * (c) Copyright IBM Corp. 2022
  * (c) Copyright Instana Inc.
  */
 
@@ -13,7 +13,7 @@ import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: t('in-forge:plugins.oracleDB.poolsInSGAPool'),
+    title: t('in-forge:plugins.oracleDB.pool'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -25,7 +25,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.oracleDB.poolsInSGAUsed'),
+    title: t('in-forge:plugins.oracleDB.used'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -35,7 +35,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.oracleDB.poolsInSGATotal'),
+    title: t('in-forge:plugins.oracleDB.total'),
     type: 'number',
     typeArgs: {
       getValue(row) {

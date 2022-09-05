@@ -151,7 +151,7 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title={t('in-forge:plugins.oracleDB.usageOfSGA')}>
+      <DashboardSection title={t('in-forge:plugins.oracleDB.sga')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -159,9 +159,9 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
             formatter: number.compact,
             metrics: ['usageOfSGA.total', 'usageOfSGA.used', 'usageOfSGA.free'],
             labels: [
-              t('in-forge:plugins.oracleDB.usageOfSGATotal'),
-              t('in-forge:plugins.oracleDB.usageOfSGAUsed'),
-              t('in-forge:plugins.oracleDB.usageOfSGAFree')
+              t('in-forge:plugins.oracleDB.total'),
+              t('in-forge:plugins.oracleDB.used'),
+              t('in-forge:plugins.oracleDB.free')
             ],
             type: 'line'
           }}
