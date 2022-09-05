@@ -41,6 +41,14 @@ const truncateTagFilterValue = value => {
   return value.slice(0, 512);
 };
 
+const validateTagFilterValue = metricConfiguration => {
+  metricConfiguration?.tagFilterExpression?.elements?.forEach(element => {
+    if (element?.value?.length > 512) {
+      element.value = truncateTagFilterValue(element?.value);
+    }
+  });
+};
+
 export function ChartsPresenter(props) {
   const {
     hiddenCalls,
@@ -63,11 +71,7 @@ export function ChartsPresenter(props) {
         }))}
         unifiedMetricsSource="APPLICATION"
         mapMetricConfiguration={(metricConfiguration, { dataSource }) => {
-          metricConfiguration.tagFilterExpression?.elements?.forEach(element => {
-            if (element?.value?.length > 512) {
-              element.value = truncateTagFilterValue(element?.value);
-            }
-          });
+          validateTagFilterValue(metricConfiguration);
           return {
             ...metricConfiguration,
             tagFilterExpression: metricConfiguration.tagFilterExpression,
