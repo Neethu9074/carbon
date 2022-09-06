@@ -8,13 +8,7 @@ import React from 'react';
 
 import { SvgIcon } from '@instana/components';
 
-import {
-  getIconByType,
-  getLabelByType,
-  ProductArea,
-  productAreaIcons,
-  productAreaLabels
-} from 'in-analyze/AnalyzeView/dataSources';
+import { getIconByType, getLabelByType, productAreaIcons, productAreaLabels } from 'in-analyze/AnalyzeView/dataSources';
 import { LabelProps } from 'in-analyze/components/AnalyzeHeader/types';
 
 import locals from './AnalyzeHeader.mless';
@@ -36,7 +30,7 @@ function Label({ activeConfiguration }: LabelProps) {
         </>
       )}
       <SvgIcon className={locals.dataSourceIcon} type={getIconByType(dataSource, productArea)} />
-      <span className={locals.dataSourceLabel}>{productAreaLabels[dataSource as ProductArea]}</span>
+      <span className={locals.dataSourceLabel}>{getLabelByType(dataSource)}</span>
     </div>
   );
 }
