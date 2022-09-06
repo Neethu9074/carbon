@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { Message } from '@instana/components';
@@ -82,6 +82,10 @@ export default function InfraExploreView() {
 }
 
 function InfraExploreViewWithFixatedTimeConfig() {
+  const [isInitPage, setIsInitPage] = useState(true);
+  const onMovingFromInitPage = () => {
+    setIsInitPage(false);
+  };
   const timeConfig = useTimeConfig();
   const [{ tagFilterExpression, group, metrics: urlMetrics, type: urlType, order }, setUrl] = useUrlState(
     urlStateDefinition
@@ -145,29 +149,33 @@ function InfraExploreViewWithFixatedTimeConfig() {
           </Message>
 
           <Sections>
-            <QueryBuilderSection
-              value={tagFilterExpression}
-              QueryBuilder={QueryBuilder}
-              onChange={onTagFilterExpressionChange}
-              tracking={{
-                onTagAdded: filterAddedTracker(getInfraExploreState),
-                onTagRemoved: filterRemovedTracker(getInfraExploreState),
-                onQueryCleared: filtersClearedTracker(getInfraExploreState)
-              }}
-              hasError={isInvalid}
-              allowEmptyKey
-            />
+            {!isInitPage && (
+              <QueryBuilderSection
+                value={tagFilterExpression}
+                QueryBuilder={QueryBuilder}
+                onChange={onTagFilterExpressionChange}
+                tracking={{
+                  onTagAdded: filterAddedTracker(getInfraExploreState),
+                  onTagRemoved: filterRemovedTracker(getInfraExploreState),
+                  onQueryCleared: filtersClearedTracker(getInfraExploreState)
+                }}
+                hasError={isInvalid}
+                allowEmptyKey
+              />
+            )}
 
-            <GroupingConfiguratorSection
-              value={group}
-              GroupingConfigurator={GroupingConfigurator}
-              tagFilterExpression={backendQueryModel || toBackendQueryModel([])}
-              onChange={onGroupChange}
-              tracking={{
-                onGroupAdded: groupAddedTracker(getInfraExploreState),
-                onGroupRemoved: groupRemovedTracker(getInfraExploreState)
-              }}
-            />
+            {!isInitPage && (
+              <GroupingConfiguratorSection
+                value={group}
+                GroupingConfigurator={GroupingConfigurator}
+                tagFilterExpression={backendQueryModel || toBackendQueryModel([])}
+                onChange={onGroupChange}
+                tracking={{
+                  onGroupAdded: groupAddedTracker(getInfraExploreState),
+                  onGroupRemoved: groupRemovedTracker(getInfraExploreState)
+                }}
+              />
+            )}
           </Sections>
 
           {isInvalid && (
@@ -199,6 +207,8 @@ function InfraExploreViewWithFixatedTimeConfig() {
 
           {isValid && group?.groupbyTag && (
             <GroupedInfrastructure
+              isInitPage={isInitPage}
+              onMovingFromInitPage={onMovingFromInitPage}
               tagFilterExpression={tagFilterExpression}
               backendQueryModel={backendQueryModel}
               availableMetrics={availableMetrics}

@@ -12,6 +12,7 @@ import {
   LiHorizontalIndicator,
   LiLoadingSkeleton,
   LiLoadMore,
+  Link,
   Message,
   SvgIcon,
   Ul
@@ -44,7 +45,7 @@ import { t } from 'in-i18n';
 import locals from './GroupedInfrastructure.mless';
 
 export default function GroupedInfrastructure(props) {
-  const { backendQueryModel, metrics, group, order, type } = props;
+  const { backendQueryModel, metrics, group, order, type, isInitPage = false, onMovingFromInitPage } = props;
   const timeConfig = useTimeConfig();
   const retrievalSize = 20;
 
@@ -78,10 +79,39 @@ export default function GroupedInfrastructure(props) {
       granularity={granularity}
       timeConfig={timeConfig}
       tagType={tagType}
+      isInitPage={isInitPage}
+      onMovingFromInitPage={onMovingFromInitPage}
       {...cursorPaginatedProps}
       {...props}
     />
   );
+}
+
+function renderNestedContent(
+  item,
+  backendQueryModel,
+  availableMetrics,
+  timeConfig,
+  metrics,
+  order,
+  type,
+  tracking,
+  isInitPage
+) {
+  return isInitPage
+    ? undefined
+    : () => (
+        <ExpandedGroup
+          backendQueryModel={backendQueryModel}
+          availableMetrics={availableMetrics}
+          timeConfig={timeConfig}
+          metrics={metrics}
+          order={order}
+          group={item}
+          type={type}
+          tracking={tracking}
+        />
+      );
 }
 
 function Presenter({
@@ -108,7 +138,9 @@ function Presenter({
   retrievalSize,
   tracking,
   tagType,
-  group
+  group,
+  isInitPage,
+  onMovingFromInitPage
 }) {
   const hasErrors = errors?.length > 0;
   const isLoading = progress?.loading;
@@ -128,7 +160,9 @@ function Presenter({
     timeConfig,
     metrics,
     type,
-    onFocusOnGroup: tracking?.onFocusOnGroup
+    onFocusOnGroup: tracking?.onFocusOnGroup,
+    isInitPage,
+    onMovingFromInitPage
   });
   const groupSortOptions = fullQualifiedGroup
     ? [
@@ -177,17 +211,16 @@ function Presenter({
               onToggleContentRow: isOpen =>
                 isOpen ? tracking?.onGroupExpanded?.(item) : tracking?.onGroupCollapsed?.(item)
             }}
-            renderNestedContent={() => (
-              <ExpandedGroup
-                backendQueryModel={backendQueryModel}
-                availableMetrics={availableMetrics}
-                timeConfig={timeConfig}
-                metrics={metrics}
-                order={order}
-                group={item}
-                type={type}
-                tracking={tracking}
-              />
+            renderNestedContent={renderNestedContent(
+              item,
+              backendQueryModel,
+              availableMetrics,
+              timeConfig,
+              metrics,
+              order,
+              type,
+              tracking,
+              isInitPage
             )}
           >
             <ColumnizedContent columnDefinitions={columnDefinitions} group={item} />
@@ -217,10 +250,20 @@ function Presenter({
   );
 }
 
-function columns({ groupBy, type, getParamsForGroup, metrics, timeConfig, granularity, onFocusOnGroup }) {
+function columns({
+  groupBy,
+  type,
+  getParamsForGroup,
+  metrics,
+  timeConfig,
+  granularity,
+  onFocusOnGroup,
+  isInitPage,
+  onMovingFromInitPage
+}) {
   const snapshotDefinition = getOptionalSnapshotDefinition(type);
   const countLabel = snapshotDefinition ? getPluginName(type, 2) : 'Count';
-  return [
+  const cols = [
     {
       width: '3rem',
       getContent({ group }) {
@@ -234,7 +277,15 @@ function columns({ groupBy, type, getParamsForGroup, metrics, timeConfig, granul
         width: getColumnWidth(groupBy, i),
         getContent({ group }) {
           const value = getGroupTagValue(group, groupKey);
-          return <KeyValue label={groupKey} value={value} accentuated />;
+          if (isInitPage) {
+            return (
+              <Link href$={getLinkToExplore(getParamsForGroup(group))} onClick={onMovingFromInitPage}>
+                {value}
+              </Link>
+            );
+          } else {
+            return <KeyValue label={groupKey} value={value} accentuated />;
+          }
         }
       }))
     )
@@ -266,8 +317,9 @@ function columns({ groupBy, type, getParamsForGroup, metrics, timeConfig, granul
           );
         }
       }))
-    )
-    .concat([
+    );
+  if (!isInitPage) {
+    cols.concat([
       {
         width: '3rem',
         getContent({ group }) {
@@ -283,6 +335,8 @@ function columns({ groupBy, type, getParamsForGroup, metrics, timeConfig, granul
         }
       }
     ]);
+  }
+  return cols;
 }
 
 function getColumnWidth(groupBy, index) {
