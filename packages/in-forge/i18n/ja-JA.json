@@ -10449,6 +10449,7 @@
       "titleServletsErrors": "サーブレット・エラー数",
       "titleServletsAverageResponseTime": "サーブレットの平均応答時間",
       "titleFreeConnectionsInPool": "プール内の空き接続数",
+      "titleWebContainerThreadPool": "Web コンテナー・スレッド・プール",
       "titleThreadsWaitingForConnection": "接続待ちのスレッド数",
       "titleAverageWaitingTime": "平均待機時間",
       "titleDatasourcesCount": "データ・ソース数 ({{len}})",
