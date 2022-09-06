@@ -16,6 +16,7 @@ import UngroupedViewList from 'in-components/AnalyzeView/UngroupedViewList';
 import { formatDateTime } from 'in-services/formatters/date';
 import getLogs from 'in-logging/subscriptions/getLogs';
 import getLog from 'in-logging/subscriptions/getLog';
+import { logTableTags } from 'in-logging/api/catalog';
 
 import locals from './RawLogs.mless';
 
@@ -49,7 +50,7 @@ export default function RawLogs(props) {
       getData={getTableData}
       getId={item => item.itemId}
       withoutListItemLinkToDetails
-      getDetailData={detailId => getLog({ itemId: detailId })}
+      getDetailData={detailId => getLog({ itemId: detailId, requestedTags: logTableTags })}
       DetailView={DetailView}
       withCountHeader={false}
       Presenter={Presenter}

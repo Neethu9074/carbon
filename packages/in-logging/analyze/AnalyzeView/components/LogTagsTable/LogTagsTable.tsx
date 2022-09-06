@@ -40,12 +40,12 @@ import useResolvedLink from 'in-logging/analyze/AnalyzeView/components/useResolv
 import useResolvedName from 'in-logging/analyze/AnalyzeView/components/useResolvedName';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
-import { hasError, isLoading } from 'in-services/util/result';
+import { getTagCatalog, logTableTags } from 'in-logging/api/catalog';
 import IconButton from 'in-components/IconButton/IconButton';
+import { hasError, isLoading } from 'in-services/util/result';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import IconLink from 'in-components/IconButton/IconLink';
 import { pendingResult } from 'in-services/fixedObjects';
-import { getTagCatalog } from 'in-logging/api/catalog';
 import Overlay from 'in-components/overlays/Overlay';
 import getLog from 'in-logging/subscriptions/getLog';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -114,7 +114,8 @@ const LogTagsTable = forwardRef<HTMLElement, LogTagsTableProps>(function LogTags
     [groupingTagCatalogResult]
   );
 
-  const logResult = useObservable(() => getLog({ itemId: item.itemId }), [item.itemId]) ?? pendingResult;
+  const logResult =
+    useObservable(() => getLog({ itemId: item.itemId, requestedTags: logTableTags }), [item.itemId]) ?? pendingResult;
 
   if (!logResult || isLoading(logResult)) {
     return <LoadingList numSkeletonRows={5} />;

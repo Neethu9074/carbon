@@ -11,10 +11,10 @@ import { TagFilter } from '@instana/types';
 // @ts-expect-error needs TS migration
 import { createPageSizeAwareLogsCursorPaginationHook } from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
 import {
-  logLevelColumn,
-  timestampColumn,
   centerAlignedCopyColumn,
-  centerAlignedLinkColumn
+  centerAlignedLinkColumn,
+  logLevelColumn,
+  timestampColumn
 } from 'in-logging/analyze/AnalyzeView/utils/logsColumnUtils';
 // @ts-expect-error needs TS migration
 import { FacetedSearchPresenter } from 'in-logging/analyze/AnalyzeView/components/FacetedSearchPresenter';
@@ -41,6 +41,7 @@ import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { sortingChanged } from 'in-logging/analyze/AnalyzeView/tracker';
 import getLogs from 'in-logging/subscriptions/getLogs';
 import getLog from 'in-logging/subscriptions/getLog';
+import { logTableTags } from 'in-logging/api/catalog';
 import { LogItem } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -131,7 +132,7 @@ export default function Logs(props: LogsProps) {
       getId={getItemId}
       withoutListItemLinkToDetails
       DetailView={DetailView}
-      getDetailData={(detailId: string) => getLog({ itemId: detailId })}
+      getDetailData={(detailId: string) => getLog({ itemId: detailId, requestedTags: logTableTags })}
       onSelectTagHref={onSelectTagHref}
       withCountHeader={false}
       withoutHeader={false}

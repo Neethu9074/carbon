@@ -15,10 +15,11 @@ import LogStackTrace from 'in-applications/analyze/components/TraceDetails/compo
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import LogMessage from 'in-logging/analyze/AnalyzeView/components/LogMessage';
 import { hasError, isLoading } from 'in-services/util/result';
-import { getSpanIdTagFilter } from 'in-logging/queryBuilder';
 import ExpandableGroup from 'in-components/ExpandableGroup';
+import { getSpanIdTagFilter } from 'in-logging/queryBuilder';
 import { pendingResult } from 'in-services/fixedObjects';
 import getLog from 'in-logging/subscriptions/getLog';
+import { logTableTags } from 'in-logging/api/catalog';
 import Tooltip from 'in-components/Tooltip';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -55,7 +56,8 @@ function LogDetails(props) {
       () =>
         getLog({
           itemId: selectedLogIdPair.logId,
-          tagFilterExpression: getSpanIdTagFilter(selectedLogIdPair.spanId)
+          tagFilterExpression: getSpanIdTagFilter(selectedLogIdPair.spanId),
+          requestedTags: logTableTags
         }),
       [selectedLogIdPair.logId, selectedLogIdPair.spanId]
     ) ?? pendingResult;
