@@ -133,6 +133,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
       theme={themes.light}
       addShadow
       addFooter
+      renderTypeSelector={!isInitPage}
     >
       <ViewTrackingMeta
         data={{
