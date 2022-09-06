@@ -13,6 +13,7 @@ env:
     GITHUB_READ_USER: "github.read.user"
     TWISTLOCK_INSTANA_IO_PASSWORD: "twistlock.instana.io.password"
     TWISTLOCK_INSTANA_IO_USER: "twistlock.instana.io.user"
+    IMAGE_SCAN_RESULTS_WRITER_SERVICE_ACCOUNT_JSON: "image.scan.results.writer.service.account.json"
 
 phases:
   install:
