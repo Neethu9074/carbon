@@ -66,7 +66,7 @@ describe('in-custom-dashboards/widgets/Apdex/components/ApdexList/ApdexList_test
 
     // Then
     expect(wrapper.first().prop('columnDefinitions')).toMatchObject([
-      { id: 'name', sortable: false, label: t('in-custom-dashboards:widgets.apdex.apdexList.nameColumn') },
+      { id: 'name', sortable: true, label: t('in-custom-dashboards:widgets.apdex.apdexList.nameColumn') },
       { id: 'threshold', sortable: false, label: t('in-custom-dashboards:widgets.apdex.apdexList.thresholdColumn') },
       { id: 'edit', label: '', sortable: false, width: '1' },
       { id: 'delete', label: '', sortable: false, width: '1' }

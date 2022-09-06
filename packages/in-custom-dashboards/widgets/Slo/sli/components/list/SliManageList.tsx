@@ -6,23 +6,21 @@
 import React, { useState } from 'react';
 
 import { Message, Button } from '@instana/components';
-import { useObservable } from '@instana/hooks';
+import { OrderDirection } from '@instana/types';
 
 import {
   SLI_MANAGEMENT_CREATE_START,
   SLI_MANAGEMENT_DELETE,
   SLI_MANAGEMENT_EDIT_START
 } from 'in-services/tracking/eventNames';
-import { deleteSliConfiguration, getSliConfigurationsByEntity } from 'in-custom-dashboards/widgets/Slo/sli/api';
+import useFilteredAndSortedSliConfigurations from 'in-custom-dashboards/widgets/Slo/hooks/useFilteredAndSortedSliConfigurations';
 import CreateSliFormFactory from 'in-custom-dashboards/widgets/Slo/sli/components/create/CreateSliFormFactory';
 import { useSloWidgetTrackers } from 'in-custom-dashboards/widgets/Slo/components/SloWidgetTrackerProvider';
 import { SliConfigBySliType, SliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import SliList from 'in-custom-dashboards/widgets/Slo/sli/components/list/SliList';
+import { deleteSliConfiguration } from 'in-custom-dashboards/widgets/Slo/sli/api';
 import SlideInView, { NoHeader } from 'in-components/SlideInView/SlideInView';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
-import { PaginatedResult, Result, SliConfiguration } from 'in-types';
-import { isLoading, hasError } from 'in-services/util/result';
-import { containsIgnoreCase } from 'in-services/util/string';
 import { role } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
 
@@ -73,10 +71,9 @@ function SliManageListContent<S extends SliType>({
   onChange
 }: Omit<SliManageListProps<S>, 'value'>) {
   const [nameQuery, setNameQuery] = useState<string>('');
-  const sliResult = useObservable(
-    () => getSliConfigurationsByEntity({ entityType, entityId }).map(searchBySliName(nameQuery)),
-    [entityType, entityId, nameQuery]
-  );
+  const [orderBy, setOrderBy] = useState<string>('name');
+  const [orderDirection, setOrderDirection] = useState<OrderDirection>('ASC');
+  const sliResult = useFilteredAndSortedSliConfigurations(entityType, entityId, nameQuery, orderBy, orderDirection);
   const track = useSloWidgetTrackers();
 
   return (
@@ -90,8 +87,12 @@ function SliManageListContent<S extends SliType>({
         </Message>
       )}
       <SliList
-        onChange={({ query }) => setNameQuery(query ?? '')}
-        result={sliResult}
+        fetchedConfigState={sliResult}
+        onChange={({ query, orderBy, orderDirection }) => {
+          setNameQuery(query ?? '');
+          setOrderBy(orderBy!);
+          setOrderDirection(orderDirection!);
+        }}
         rightHeader={
           role?.canConfigureServiceLevelIndicators && (
             <Button
@@ -108,6 +109,8 @@ function SliManageListContent<S extends SliType>({
           )
         }
         query={nameQuery}
+        orderBy={orderBy}
+        orderDirection={orderDirection}
         selectSli={sliConfig => {
           track(SLI_MANAGEMENT_EDIT_START, { entityType });
           onChange(sliConfig as SliConfigBySliType<S>);
@@ -119,25 +122,6 @@ function SliManageListContent<S extends SliType>({
       />
     </div>
   );
-}
-
-function searchBySliName(query: string): (r: Result<SliConfiguration[]>) => Result<PaginatedResult<SliConfiguration>> {
-  return (sliConfigResult: Result<SliConfiguration[]>): Result<PaginatedResult<SliConfiguration>> => {
-    if (isLoading(sliConfigResult) || hasError(sliConfigResult)) {
-      return (sliConfigResult as unknown) as Result<PaginatedResult<SliConfiguration>>;
-    }
-
-    const filtered = sliConfigResult.data!.filter(sli => containsIgnoreCase(sli.sliName, query));
-    return {
-      ...sliConfigResult,
-      data: {
-        items: filtered,
-        page: 1,
-        pageSize: filtered.length,
-        totalHits: filtered.length
-      }
-    };
-  };
 }
 
 const deleteSliConfig = (id: string): void => {
