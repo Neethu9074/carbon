@@ -32,7 +32,6 @@ export default function Summary({ beacons, sessionLabel, sessionId, detailId }) 
   beacons = fixResult.beacons;
   const sessionStart = find(beacons, b => b.type === 'sessionStart');
   const firstBeacon = sessionStart || beacons[0];
-  // const [filter, setFilter] = useState({ query: '', view: '', types: [] });
   const [query, setQuery] = useState('');
   const [view, setView] = useState('');
   const [types, setTypes] = useState([]);

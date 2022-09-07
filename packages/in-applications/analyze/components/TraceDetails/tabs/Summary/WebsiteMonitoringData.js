@@ -5,6 +5,7 @@
 
 import React, { Fragment, useState } from 'react';
 
+import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/components';
 import { Card } from '@instana/components';
 import { Link } from '@instana/components';
@@ -25,19 +26,16 @@ import { getChartGranularity } from 'in-stores/metric/metric';
 import { tryGet, trySet } from 'in-services/localStorage';
 import { Row, Col } from 'in-components/layout/Grid';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import connectTo from 'in-hoc/connectTo';
 import { Trans, t } from 'in-i18n';
 
 import locals from './WebsiteMonitoringData.mless';
 
 const localStorageKey = 'traceView.showWebsiteMonitoringData';
 
-export default connectTo(({ correlationId, traceId, startTime }) => {
-  return {
-    result: getCorrelatedWebsiteBeacons({ correlationId, traceId, startTime })
-  };
-})(function WebsiteMonitoringData({ result, traceId }) {
+export default function WebsiteMonitoringData({ traceId, startTime, correlationId }) {
   const [showDetails, setDetails] = useState(tryGet(localStorageKey) !== 'false');
+  const result = useObservable(getCorrelatedWebsiteBeacons, [{ correlationId, traceId, startTime }]);
+
   const setShowDetails = show => {
     trySet(localStorageKey, show);
     if (show) {
@@ -125,4 +123,4 @@ export default connectTo(({ correlationId, traceId, startTime }) => {
       {showDetails && <BeaconUserSummary beacon={beacon} withoutSideMargin />}
     </Fragment>
   );
-});
+}
