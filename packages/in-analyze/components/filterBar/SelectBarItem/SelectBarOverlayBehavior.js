@@ -7,16 +7,17 @@ import React, { useState } from 'react';
 import { find } from 'lodash';
 
 import { timeout } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
 
 import SelectBarOverlay from 'in-analyze/components/filterBar/SelectBarOverlay/SelectBarOverlay';
 import { isNotBlank, compareIgnoreCase } from 'in-services/util/string';
 import { emptyArray, pendingResult } from 'in-services/fixedObjects';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { identity } from 'in-services/util/function';
-import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
-export default connectTo((props, prevProps) => {
+export default function SelectBarOverlayBehavior(props) {
+  const { upsertTagFilter, removeTagFilter, pluralLabel, tag, close, itemLabelRenderer = identity } = props;
   const tagFilters = props.tagFilters.filter(f => f.name !== props.tag || f.operator !== 'EQUALS');
   const queryNotBlank = isNotBlank(props.query);
   const filterSuggestionsClientSide = props.filterSuggestionsClientSide === true;
@@ -35,41 +36,12 @@ export default connectTo((props, prevProps) => {
     tagFilters
   };
 
-  if (props.query !== prevProps.query && queryNotBlank && !filterSuggestionsClientSide) {
-    // Query changes are frequent and we need to debounce these changes.
-    // Also, while debouncing, we immediately want to turn the table state
-    // into a loading state. This is better than having the state of an input
-    // field and the state of the table differ (happens when debouncing within an input
-    // field and the table is still showing data for a previous query).
-    //
-    // The combination of a connectTo() and a timeout().flatMap is effectively
-    // a debounce implementation!
-    //
-    // Because we are debouncing only on query changes and because we are turning
-    // the table immediately into a loading state, we can use larger waiting times
-    // before retrieving data and thereby reduce backend pressure!
-    return {
-      result: timeout(800)
-        .flatMap(() => props.getSuggestions(getSuggestionsConfig))
-        .startWith(pendingResult)
-    };
-  }
-  return {
-    result: props.getSuggestions(getSuggestionsConfig)
-  };
-})(SelectBarOverlayBehavior);
+  const observable =
+    queryNotBlank && !filterSuggestionsClientSide
+      ? timeout(800).flatMap(() => props.getSuggestions(getSuggestionsConfig))
+      : props.getSuggestions(getSuggestionsConfig);
+  const result = useObservable(observable, Object.values(props)) ?? pendingResult;
 
-function SelectBarOverlayBehavior({
-  result,
-  tagFilters,
-  upsertTagFilter,
-  removeTagFilter,
-  pluralLabel,
-  tag,
-  close,
-  filterSuggestionsClientSide,
-  itemLabelRenderer = identity
-}) {
   const [query, setQuery] = useState('');
   // query, loading, onQueryChange, selectedItem, items, onSelectItem
   let items = emptyArray;
