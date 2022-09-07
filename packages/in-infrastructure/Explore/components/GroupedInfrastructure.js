@@ -279,7 +279,10 @@ function columns({
           const value = getGroupTagValue(group, groupKey);
           if (isInitPage) {
             return (
-              <Link href$={getLinkToExplore(getParamsForGroup(group))} onClick={onMovingFromInitPage}>
+              <Link
+                href$={getLinkToExplore({ type: getParamsForGroup(group).tagFilterExpression[0]?.value, group: {} })}
+                onClick={onMovingFromInitPage}
+              >
                 {value}
               </Link>
             );
