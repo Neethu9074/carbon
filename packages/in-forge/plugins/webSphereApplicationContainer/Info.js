@@ -12,6 +12,7 @@ import { t } from 'in-i18n';
 
 export default function WebSphereInfo({ snapshot }) {
   const data = snapshot.get('data');
+  const threadPools = snapshot.getIn(['data', 'threadPoolNames'], emptyList);
   const webModules = snapshot.getIn(['data', 'webModules'], emptyList);
   const datasources = snapshot.getIn(['data', 'datasourceNames'], emptyList);
   const ejbModules = snapshot.getIn(['data', 'ejbModules'], emptyList);
@@ -23,6 +24,7 @@ export default function WebSphereInfo({ snapshot }) {
       <DescriptionItem title={t('in-forge:plugins.infoTitle.serverName')}>{data.get('serverName')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.infoTitle.cellName')}>{data.get('cellName')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.infoTitle.state')}>{data.get('state')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.threadPools')}>{threadPools.size}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.infoTitle.webModules')}>{webModules.size}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.infoTitle.datasources')}>{datasources.size}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.infoTitle.ejbModules')}>{ejbModules.size}</DescriptionItem>

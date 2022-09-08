@@ -11,6 +11,7 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { zeroDecimalPlaces, millis } from 'in-services/formatters/number';
 import DatasourcesTable from './DatasourcesTable';
 import ObjectPoolsTable from './ObjectPoolsTable';
+import ThreadPoolsTable from './ThreadPoolsTable';
 import WebModulesTable from './WebModulesTable';
 import EJBModulesTable from './EJBModulesTable';
 import J2CModulesTable from './J2CModulesTable';
@@ -19,29 +20,7 @@ import { t } from 'in-i18n';
 export default function WebSphereDashboard({ snapshot, timeConfig }) {
   return (
     <div>
-      <DashboardSection title={t('in-forge:plugins.webSphereAppContainer.titleWebContainerThreadPool')}>
-        <Chart
-          snapshotId={snapshot.get('id')}
-          timeConfig={timeConfig}
-          y1={{
-            formatter: zeroDecimalPlaces,
-            metrics: [
-              'threadPools.webContainer.activeThreads',
-              'threadPools.webContainer.poolSize',
-              'threadPools.webContainer.concurrentlyHungThreads',
-              'threadPools.webContainer.declaredThreadHung'
-            ],
-            labels: [
-              t('in-forge:plugins.webSphereAppContainer.labelActiveThreads'),
-              t('in-forge:plugins.webSphereAppContainer.labelPoolSize'),
-              t('in-forge:plugins.webSphereAppContainer.labelConcurrentlyHungThreads'),
-              t('in-forge:plugins.webSphereAppContainer.labelDeclaredThreadHung')
-            ],
-            type: 'line'
-          }}
-          renderPostChartContent={PluginDashboardsMarkerLanes}
-        />
-      </DashboardSection>
+      <ThreadPoolsTable snapshot={snapshot} timeConfig={timeConfig} />
       <WebModulesTable snapshot={snapshot} timeConfig={timeConfig} />
       <DatasourcesTable snapshot={snapshot} timeConfig={timeConfig} />
       <EJBModulesTable snapshot={snapshot} timeConfig={timeConfig} />
