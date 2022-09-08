@@ -21,7 +21,7 @@ export default compose(
   getResultFromApiPing({
     url: `/api/infrastructure-monitoring/monitoring-state`,
     // users who ever had something monitoring can skip the dialog. Also engineers
-    checkResult: result => checkIfUserCanPass(result.firstKnownReportingTime)
+    checkResult: result => checkIfUserCanPass(result.hasEntities)
   }),
   connect({ keys: getUnitKeys() })
 )(InstanaOnboardingComponent);
