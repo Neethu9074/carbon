@@ -10,19 +10,19 @@ describe('in-init/steps/InstanaOnboardingComponent_test', () => {
     it('should not pass if the ff is off and the timestamp is not present', () => {
       return importWithFeatureFlags({
         skipOnboardingDialog: false
-      }).then(checkIfUserCanPass => expect(checkIfUserCanPass(0)).to.equal(false));
+      }).then(checkIfUserCanPass => expect(checkIfUserCanPass(false)).to.equal(false));
     });
 
     it('should pass if the ff is on, even when the timestamp is not present', () => {
       return importWithFeatureFlags({
         skipOnboardingDialog: true
-      }).then(checkIfUserCanPass => expect(checkIfUserCanPass(0)).to.equal(true));
+      }).then(checkIfUserCanPass => expect(checkIfUserCanPass(false)).to.equal(true));
     });
 
     it('should pass if the ff is off, but the timestamp is not present', () => {
       return importWithFeatureFlags({
         skipOnboardingDialog: false
-      }).then(checkIfUserCanPass => expect(checkIfUserCanPass(42)).to.equal(true));
+      }).then(checkIfUserCanPass => expect(checkIfUserCanPass(true)).to.equal(true));
     });
   });
 
