@@ -49,6 +49,7 @@ import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuild
 import InfraPageHeaderWithTabs from 'in-infrastructure/components/InfraPageHeaderWithTabs';
 import InfrastructureList from 'in-infrastructure/Explore/components/InfrastructureList';
 import { getMetrics, fromUrlMetrics } from 'in-infrastructure/Explore/services/metrics';
+import { defaultInfraExploreView } from 'in-infrastructure/navigation/paths';
 import { themes } from 'in-components/DashboardHeader/DashboardHeader';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -85,6 +86,9 @@ function InfraExploreViewWithFixatedTimeConfig() {
   const [isInitPage, setIsInitPage] = useState(true);
   const onMovingFromInitPage = () => {
     setIsInitPage(false);
+  };
+  const onMovingToInitPage = () => {
+    setIsInitPage(true);
   };
   const timeConfig = useTimeConfig();
   const [{ tagFilterExpression, group, metrics: urlMetrics, type: urlType, order }, setUrl] = useUrlState(
@@ -134,6 +138,8 @@ function InfraExploreViewWithFixatedTimeConfig() {
       addShadow
       addFooter
       renderTypeSelector={!isInitPage}
+      headerHref$={defaultInfraExploreView}
+      onLinkClick={onMovingToInitPage}
     >
       <ViewTrackingMeta
         data={{

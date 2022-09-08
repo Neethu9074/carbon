@@ -6,7 +6,8 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { LoadingSkeleton, SvgIcon } from '@instana/components';
+import { Link, LoadingSkeleton, SvgIcon } from '@instana/components';
+import { Observable } from '@instana/observables';
 
 // @ts-expect-error
 import UrlShortener from 'in-components/DashboardHeader/UrlShortener/UrlShortener';
@@ -60,6 +61,8 @@ export interface DashboardHeaderProps {
   contextConfigurations?: ContextConfiguration[];
   className?: string;
   withBorderBottom?: boolean;
+  headerHref$?: Observable<string>;
+  onLinkClick?: (params: any) => any;
 }
 
 const isNotLastElement = (index: number, array: any[]) => {
@@ -78,7 +81,9 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
     result,
     labelForTitle,
     hideUrlShortener,
-    withBorderBottom
+    withBorderBottom,
+    headerHref$,
+    onLinkClick
   } = props;
   let {
     label,
@@ -139,6 +144,8 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
                   // Except the last element is followed by an icon or a label
                   isNotLastElement(i, contextConfigurations) || label != null || icon != null || renderIcon != null
                 }
+                headerHref$={headerHref$}
+                onLinkClick={onLinkClick}
               />
             ))}
           <SyntheticIcon />
@@ -191,6 +198,23 @@ function getSkeletonIcon() {
 
 function Context(props: ContextProps) {
   const { renderContext, contextIcon, renderContextIcon, shouldRenderDelimiter } = props;
+
+  if (props.headerHref$ != null && props.onLinkClick != null) {
+    return (
+      <div className={locals.contextWrapper}>
+        {renderContextIcon ? (
+          renderContextIcon({ ...props, className: locals.contextIcon })
+        ) : (
+          <SvgIcon className={locals.contextIcon} size="l" type={contextIcon} />
+        )}
+        <Link href$={props.headerHref$} onClick={props.onLinkClick}>
+          {' '}
+          <span className={locals.context}>{renderContext(props)}</span>
+        </Link>
+        {shouldRenderDelimiter && <SvgIcon className={locals.contextEndIcon} size="l" type="lib_arrow_expand_right" />}
+      </div>
+    );
+  }
 
   return (
     <div className={locals.contextWrapper}>
