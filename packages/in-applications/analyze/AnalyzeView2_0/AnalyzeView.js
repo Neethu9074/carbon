@@ -46,6 +46,7 @@ import Results from 'in-applications/analyze/AnalyzeView2_0/components/Results';
 import getTagSuggestions from 'in-applications/subscriptions/getTagSuggestions';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { getMetricTemplates } from 'in-applications/api/metricTemplates';
+import { ua2FastQueryModeChangedTracker } from 'in-applications/tracker';
 import StateManagement from 'in-components/AnalyzeView/StateManagement';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import { getMetricCatalog } from 'in-applications/api/metricCatalog';
@@ -143,6 +144,7 @@ export default function ApplicationsAnalyzeView() {
   };
 
   const onChangeFastQueryModeEnabled = fastQueryModeEnabled => {
+    ua2FastQueryModeChangedTracker({ dataSource, enabled: fastQueryModeEnabled });
     onChange({ fastQueryModeEnabled });
   };
 
