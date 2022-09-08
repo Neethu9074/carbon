@@ -36,11 +36,13 @@ export default function SelectBarOverlayBehavior(props) {
     tagFilters
   };
 
-  const observable =
-    queryNotBlank && !filterSuggestionsClientSide
-      ? timeout(800).flatMap(() => props.getSuggestions(getSuggestionsConfig))
-      : props.getSuggestions(getSuggestionsConfig);
-  const result = useObservable(observable, Object.values(props)) ?? pendingResult;
+  const result =
+    useObservable(() => {
+      if (queryNotBlank && !filterSuggestionsClientSide) {
+        return timeout(800).flatMap(() => props.getSuggestions(getSuggestionsConfig));
+      }
+      return props.getSuggestions(getSuggestionsConfig);
+    }, [props.getSuggestions, queryNotBlank, filterSuggestionsClientSide]) ?? pendingResult;
 
   const [query, setQuery] = useState('');
   // query, loading, onQueryChange, selectedItem, items, onSelectItem

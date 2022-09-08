@@ -34,7 +34,11 @@ const localStorageKey = 'traceView.showWebsiteMonitoringData';
 
 export default function WebsiteMonitoringData({ traceId, startTime, correlationId }) {
   const [showDetails, setDetails] = useState(tryGet(localStorageKey) !== 'false');
-  const result = useObservable(getCorrelatedWebsiteBeacons, [{ correlationId, traceId, startTime }]);
+  const result = useObservable(() => getCorrelatedWebsiteBeacons({ correlationId, traceId, startTime }), [
+    correlationId,
+    traceId,
+    startTime
+  ]);
 
   const setShowDetails = show => {
     trySet(localStorageKey, show);

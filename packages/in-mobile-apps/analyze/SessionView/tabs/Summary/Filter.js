@@ -34,7 +34,7 @@ export default function Filter({ view, setView, query, setQuery, filterTypes, se
               if (e.target.value === '') {
                 setView('');
               } else {
-                setView('e.target.value');
+                setView(e.target.value);
               }
             }}
           >
