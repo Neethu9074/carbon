@@ -6,8 +6,6 @@
 import { createField } from 'formalistic';
 import React from 'react';
 
-import { DistinctSlider } from '@instana/components';
-
 import { refresh, deleteSessionSettings, setSessionSettings } from 'in-settings/tabs/AuthSettings/api/sessionSettings';
 import DebouncedDistinctSlider from 'in-components/Slider/DebouncedDistinctSlider';
 import { getSessionSettingsAsResultObservable } from '../../api/sessionSettings';
