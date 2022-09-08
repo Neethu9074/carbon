@@ -208,8 +208,7 @@ function Context(props: ContextProps) {
           <SvgIcon className={locals.contextIcon} size="l" type={contextIcon} />
         )}
         <Link href$={props.headerHref$} onClick={props.onLinkClick}>
-          {' '}
-          <span className={locals.context}>{renderContext(props)}</span>
+          <span className={locals.headerLink}>{renderContext(props)}</span>
         </Link>
         {shouldRenderDelimiter && <SvgIcon className={locals.contextEndIcon} size="l" type="lib_arrow_expand_right" />}
       </div>
