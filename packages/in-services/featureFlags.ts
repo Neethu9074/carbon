@@ -120,4 +120,4 @@ export const perSecondAggregationEnabled = isFeatureFlagEnabled('perSecondAggreg
 
 export const actionAutomationEnabled = isFeatureFlagEnabled('actionAutomationEnabled', false);
 
-export const pluginEntityMetricStatisticsEnabled = isFeatureFlagEnabled('pluginEntityMetricStatisticsEnabled', false);
+export const pluginMetricStatisticsEnabled = isFeatureFlagEnabled('pluginMetricStatisticsEnabled', false);
