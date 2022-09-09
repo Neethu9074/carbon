@@ -9787,10 +9787,10 @@ module-not-found-error@^1.0.1:
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/module-not-found-error/-/module-not-found-error-1.0.1.tgz#cf8b4ff4f29640674d6cdd02b0e3bc523c2bbdc0"
   integrity sha1-z4tP9PKWQGdNbN0CsOO8UjwrvcA=
 
-moment-timezone@^0.5.25:
-  version "0.5.33"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/moment-timezone/-/moment-timezone-0.5.33.tgz#b252fd6bb57f341c9b59a5ab61a8e51a73bbd22c"
-  integrity sha1-slL9a7V/NBybWaWrYajlGnO70iw=
+moment-timezone@^0.5.35:
+  version "0.5.37"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/moment-timezone/-/moment-timezone-0.5.37.tgz#adf97f719c4e458fdb12e2b4e87b8bec9f4eef1e"
+  integrity sha512-uEDzDNFhfaywRl+vwXxffjjq1q0Vzr+fcQpQ1bU0kbzorfS7zVtZnCnGc8mhWmF39d4g4YriF6kwA75mJKE/Zg==
   dependencies:
     moment ">= 2.9.0"
 
