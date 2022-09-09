@@ -20,7 +20,8 @@ export default function CountHeader({
   hasErrors,
   withGrouping = false,
   withAdjustedWindowSizeTooltip = false,
-  renderHistoricDataIndicator = false
+  renderHistoricDataIndicator = false,
+  fastQueryModeEnabled
 }) {
   if (hasErrors) {
     return <ErroneousResult />;
@@ -60,6 +61,7 @@ export default function CountHeader({
       totalRepresentedText={totalRepresentedText}
       withAdjustedWindowSizeTooltip={withAdjustedWindowSizeTooltip}
       renderHistoricDataIndicator={renderHistoricDataIndicator}
+      fastQueryModeEnabled={fastQueryModeEnabled}
     />
   );
 }
@@ -78,17 +80,27 @@ function ErroneousResult() {
   );
 }
 
-function generateTooltips(withAdjustedWindowSizeTooltip, renderHistoricDataIndicator) {
+function generateTooltips(withAdjustedWindowSizeTooltip, renderHistoricDataIndicator, fastQueryModeEnabled) {
   const lines = [];
   if (renderHistoricDataIndicator) {
-    lines.push(t('in-components:approximateDataIndicator.dataRetention'));
+    lines.push(
+      fastQueryModeEnabled
+        ? t('in-components:approximateDataIndicator.dataRetentionOrFastQueryMode')
+        : t('in-components:approximateDataIndicator.dataRetention')
+    );
   }
   if (lines.length > 0) {
     return <MultiLineToolTipIcon lines={lines} label={'Approximate Data'} iconSize="s" />;
   }
 }
 
-function Presenter({ topText, totalRepresentedText, withAdjustedWindowSizeTooltip, renderHistoricDataIndicator }) {
+function Presenter({
+  topText,
+  totalRepresentedText,
+  withAdjustedWindowSizeTooltip,
+  renderHistoricDataIndicator,
+  fastQueryModeEnabled
+}) {
   return (
     <div className={locals.header}>
       <div className={locals.topTextWithTooltip}>
@@ -96,7 +108,7 @@ function Presenter({ topText, totalRepresentedText, withAdjustedWindowSizeToolti
           {topText}{' '}
           {totalRepresentedText && <span className={locals.totalRepresentedText}>{totalRepresentedText}</span>}
         </h3>
-        {generateTooltips(withAdjustedWindowSizeTooltip, renderHistoricDataIndicator)}
+        {generateTooltips(withAdjustedWindowSizeTooltip, renderHistoricDataIndicator, fastQueryModeEnabled)}
       </div>
     </div>
   );

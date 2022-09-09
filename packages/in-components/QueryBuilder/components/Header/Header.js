@@ -34,7 +34,8 @@ export default function Header(props) {
     hasErrors,
     isLoading,
     dataSource,
-    renderHistoricDataIndicator = false
+    renderHistoricDataIndicator = false,
+    fastQueryModeEnabled
   } = props;
 
   return (
@@ -67,6 +68,7 @@ export default function Header(props) {
           withGrouping={withGrouping}
           withResultsInGroups={withResultsInGroups}
           renderHistoricDataIndicator={renderHistoricDataIndicator}
+          fastQueryModeEnabled={fastQueryModeEnabled}
         />
       )}
     </div>
