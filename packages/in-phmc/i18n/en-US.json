@@ -6,7 +6,7 @@
   "partitions": "Partitions",
   "vios": "Virtual I/O Servers",
   "ibmpPhmcs": "IBM Power HMC",
-  "noMonitoringDataFound": "No Monitoring Data Found",
+  "noMonitoringDataFound": "No Monitoxring Data Found",
   "noData": "No pHMC data is available.",
   "machineTypeModel": "Machine Type-Model",
   "machineSerial": "Machine Serial",
@@ -25,9 +25,6 @@
   "maxVirtualProcessor": "Maximum Virtual Processors",
   "max": "Max",
   "entitled": "Entitled",
-  "capped": "Capped",
-  "uncapped": "Uncapped",
-  "idle": "Idle",
   "assigned": "Assigned",
   "entitledProc": "Entitled Processor Units Used",
   "entitledPercent": "Entitled Processor Units Used (%)",
@@ -40,6 +37,7 @@
   "utilizedProcNumber" : "Utilized Processor Units",
   "utilizedProc": "Utilized Processor Units (%)",
   "availableProc": "Available Processor Units (%)",
+  "reservedProc": "Current Reserved Processor Unit",
   "configurableProc": "Configurable Processor Units (%)",
   "memAvailable": "Memory Available (MB)",
   "memAvailablePercentage": "Memory Available (%)",
@@ -84,6 +82,7 @@
   "entityId": "Entity ID",
   "entityInstance": "Entity Instance",
   "temperatureReading": "Temperature Reading",
+  "maxCpuUtilsation": "Maximum CPU Utilsation (%)",
   "breadcrumbs": {
     "phmc": "Power HMC",
     "phmcs": "Power HMCs",
@@ -123,7 +122,8 @@
     "fiberChannelAdapter": "Fiber Channel Adapters",
     "virtualFiberChannelAdapter": "Virtual Fiber Channel Adapters",
     "sharedStoragePool": "Shared Storage Pools",
-    "energy": "Energy"
+    "energy": "Energy",
+    "maxCpuUtilsation": "Maximum CPU Utilsation"
   }
 }
 
