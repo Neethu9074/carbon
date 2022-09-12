@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Route, Redirect } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import React from 'react';
 
 // features available on customer units
@@ -189,7 +189,6 @@ export default function Internal() {
       </>
 
       <Route path="/internal" component={wrapIninternalView(Landing)} />
-      <Redirect to="/internal" />
     </Switch>
   );
 }

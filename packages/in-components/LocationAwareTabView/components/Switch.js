@@ -34,7 +34,9 @@ export default function TabSwitch({ tabs, result, hasErrors, location, props, re
           render={() => <ViewWrapper tab={tab} data={result ? result.data : null} location={location} props={props} />}
         />
       ))}
-      <RedirectOnNoActiveTab tabs={tabs} location={location} />
+      <Route>
+         <RedirectOnNoActiveTab tabs={tabs} location={location} />
+      </Route>
     </Switch>
   );
 }

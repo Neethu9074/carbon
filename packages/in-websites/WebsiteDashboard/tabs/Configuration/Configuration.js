@@ -65,9 +65,11 @@ export default function Configuration(props) {
           path={configurationJsStackTraceTranslationFullyQualified}
           render={() => <StackTraceTranslation {...props} />}
         />
-        <RedirectWithHash
-          to$={getModifiedUrlStream(params => (params.pathname = configurationOptionsFullyQualified))}
-        />
+        <Route>
+          <RedirectWithHash
+            to$={getModifiedUrlStream(params => (params.pathname = configurationOptionsFullyQualified))}
+          />
+        </Route>
       </Switch>
       <Footer />
     </SidebarContainer>
