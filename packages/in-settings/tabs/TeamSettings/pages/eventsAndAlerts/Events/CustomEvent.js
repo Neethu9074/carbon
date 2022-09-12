@@ -95,16 +95,11 @@ const Form = entityForm(function DetailsForm(props) {
   const entityType = getPluginName(entity.get('entityType'), 1) ?? '';
   const isLegacyAppDataEntityType = isAppDataEntityType(entityType);
   const hasPermissionsToEditSmartAlerts = role.canConfigureCustomAlerts && role.canConfigureGlobalAlertConfigs;
-  // FIXME This check is incorrect, because check does not consider that the EVENTS context keyword could be us as the 1..N-th
-  //       keyword, or that brackets could be used.
-  const isMigrateableDfqScope = !entity.get('query')?.startsWith('event.');
-
   const isDeprecated = deprecateAppDataLegacyEventsEnabled && isLegacyAppDataEntityType;
 
   const isMigratable =
     isDeprecated &&
     hasPermissionsToEditSmartAlerts &&
-    isMigrateableDfqScope &&
     // only migrateable entities have the 'migrated' property set. For the other ones this prop is `undefined`, thus checking for false and not falsy.
     entity.get('migrated') === false;
 
