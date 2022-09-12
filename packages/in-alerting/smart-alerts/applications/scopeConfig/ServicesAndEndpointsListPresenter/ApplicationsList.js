@@ -10,23 +10,22 @@ import { isEmpty } from 'lodash';
 import { useObservable } from '@instana/hooks';
 
 import {
-  createApplicationIdTagFilter,
-  createApplicationNameTagFilter,
-  createEndpointNameTagFilter,
-  createServiceNameTagFilter
-} from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/tagFilterCreators';
-import {
   createNoMatchingEntityText,
   DEFAULT_PAGE_SIZE,
   enrichListWithStaleSelectionData,
   sortListBySelectionState
 } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/utils';
+import {
+  createApplicationNameTagFilter,
+  createEndpointNameTagFilter,
+  createServiceNameTagFilter
+} from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/tagFilterCreators';
 import { stateManagementPropType } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/sharedPropTypes';
 import { selectApplication } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/selectors';
 import ServicesList from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/ServicesList';
 import SharedList from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/SharedList';
-import { and, or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { propTypeTimeConfig } from 'in-stores/time/config';
@@ -47,7 +46,7 @@ export default function ApplicationsList({ isGlobalSmartAlert, searchQuery, ...p
 }
 
 function ApplicationListMultipleApplications({ getApplicationsCursorPaginated, ...props }) {
-  const { boundaryScope, includeSynthetic, readOnly, stateManagement, timeConfig, searchQuery } = props;
+  const { includeSynthetic, timeConfig, searchQuery } = props;
 
   let { items = [], ...tableProps } = useCursorPagination(
     ({ cursor }) =>
@@ -65,7 +64,7 @@ function ApplicationListMultipleApplications({ getApplicationsCursorPaginated, .
           timeConfig,
           includeSyntheticCalls: includeSynthetic
         },
-        tagFilterExpression: buildTagFilterExpression(searchQuery, readOnly, stateManagement.state, boundaryScope)
+        tagFilterExpression: buildTagFilterExpression(searchQuery)
       }),
     [searchQuery, includeSynthetic, timeConfig]
   );
@@ -114,7 +113,6 @@ function ApplicationBaseList({ items = [], isLoading, getStaleEntity, initiallyO
   } = props;
 
   const listData = useMemo(() => {
-    if (items.length === 0) return [];
     const restructuredItems = items.map(({ application, ...rest }) => ({ ...rest, item: application }));
     return searchQuery ? restructuredItems : enrichListWithStaleSelectionData(Object.entries(state), restructuredItems);
     // only ever recalculate if items array changes
@@ -183,7 +181,7 @@ function hasUserInteractedWithItem(state) {
   return itemTreeIds => Boolean(selectApplication(state, itemTreeIds));
 }
 
-function buildTagFilterExpression(searchQuery, readOnly, state, boundaryScope) {
+function buildTagFilterExpression(searchQuery) {
   let tfe = [];
 
   if (isNotBlank(searchQuery)) {
@@ -193,19 +191,6 @@ function buildTagFilterExpression(searchQuery, readOnly, state, boundaryScope) {
         createApplicationNameTagFilter(searchQuery),
         createServiceNameTagFilter(searchQuery),
         createEndpointNameTagFilter(searchQuery)
-      ]
-    });
-  }
-
-  if (readOnly) {
-    tfe = joinExpressions({
-      logicalOperator: and,
-      expressions: [
-        tfe,
-        joinExpressions({
-          logicalOperator: or,
-          expressions: Object.keys(state).map(id => createApplicationIdTagFilter(id, boundaryScope))
-        })
       ]
     });
   }
