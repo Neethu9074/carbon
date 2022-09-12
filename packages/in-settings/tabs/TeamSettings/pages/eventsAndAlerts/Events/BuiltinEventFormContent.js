@@ -7,28 +7,14 @@
 import { createField, createMapForm } from 'formalistic';
 
 import { createCustomThresholdBasedEventSpecification } from 'in-api/eventSpecifications';
-import { notBlankValidator } from 'in-services/validators/string';
 
 export function createBuiltinEventFormDefinition(eventSpec) {
   const mutableEvent = getMutableEventSpecification(eventSpec);
 
-  const { name, description, actionIds } = mutableEvent;
+  const { actionIds } = mutableEvent;
 
-  let form = createMapForm()
-    .put(
-      'name',
-      createField({
-        value: name,
-        validator: notBlankValidator
-      })
-    )
-    .put(
-      'description',
-      createField({
-        value: description,
-        validator: notBlankValidator
-      })
-    );
+  let form = createMapForm();
+
   form = putActionField(form, actionIds);
 
   return form;
