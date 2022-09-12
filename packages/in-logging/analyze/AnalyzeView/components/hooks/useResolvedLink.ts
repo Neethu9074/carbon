@@ -7,20 +7,26 @@ import { just, Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import {
-  LOG_TRACE_ID,
   LOG_CUSTOM,
-  LOG_SERVICE_NAME,
+  LOG_CUSTOM_KEY_APPLICATION_ID,
+  LOG_CUSTOM_KEY_ENDPOINT_ID,
+  LOG_CUSTOM_KEY_ENDPOINT_NAME,
   LOG_CUSTOM_KEY_SERVICE_ID,
-  LOG_PROCESS_SNAPSHOT_ID,
   LOG_DOCKER_SNAPSHOT_ID,
   LOG_HOST_SNAPSHOT_ID,
-  LOG_CUSTOM_KEY_APPLICATION_ID,
-  LOG_CUSTOM_KEY_ENDPOINT_NAME,
-  LOG_CUSTOM_KEY_ENDPOINT_ID
+  LOG_KUBERNETES_CLUSTER_NAME,
+  LOG_KUBERNETES_DEPLOYMENT_NAME,
+  LOG_KUBERNETES_NAMESPACE_NAME,
+  LOG_KUBERNETES_NODE_NAME,
+  LOG_KUBERNETES_POD_NAME,
+  LOG_PROCESS_SNAPSHOT_ID,
+  LOG_SERVICE_NAME,
+  LOG_TRACE_ID
 } from 'in-logging/queryBuilder';
 // This file has too many dependencies to translate yet
 // @ts-ignore
-import { getApplicationDashboard, getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
+import { getApplicationDashboard, getEndpointDashboard, getServiceDashboard } from 'in-applications/navigation/paths';
+import { getKubernetesLink } from 'in-logging/analyze/AnalyzeView/components/hooks/getKubernetesLink';
 // @ts-ignore
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
@@ -51,7 +57,12 @@ const tagValueLinkResolver = new Map<string, LinkResolver>([
   [`${LOG_CUSTOM}-${LOG_CUSTOM_KEY_SERVICE_ID}`, (t, _) => getServiceDashboard(t.stringValue)],
   [LOG_PROCESS_SNAPSHOT_ID, (t, _) => getDashboardLink(t.stringValue ?? '', { pathname: '/physical/dashboard' })],
   [LOG_DOCKER_SNAPSHOT_ID, (t, _) => getDashboardLink(t.stringValue ?? '', { pathname: '/physical/dashboard' })],
-  [LOG_HOST_SNAPSHOT_ID, (t, _) => getDashboardLink(t.stringValue ?? '', { pathname: '/physical/dashboard' })]
+  [LOG_HOST_SNAPSHOT_ID, (t, _) => getDashboardLink(t.stringValue ?? '', { pathname: '/physical/dashboard' })],
+  [LOG_KUBERNETES_CLUSTER_NAME, getKubernetesLink],
+  [LOG_KUBERNETES_POD_NAME, getKubernetesLink],
+  [LOG_KUBERNETES_NODE_NAME, getKubernetesLink],
+  [LOG_KUBERNETES_NAMESPACE_NAME, getKubernetesLink],
+  [LOG_KUBERNETES_DEPLOYMENT_NAME, getKubernetesLink]
 ]);
 
 function getServiceId(tags: LogTag[]): string | null {

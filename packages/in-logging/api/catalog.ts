@@ -31,26 +31,6 @@ interface CatalogResponse {
   tags: LogTag[];
 }
 
-// This is an interim solution! (LOL)
-export const logTableTags = [
-  'log.itemId',
-  'log.timestamp',
-  'log.level',
-  'log.message',
-  'log.streamName',
-  'log.custom',
-  'log.traceId',
-  'log.spanId',
-  'log.callId',
-  'log.processSnapshotId',
-  'log.dockerSnapshotId',
-  'log.hostSnapshotId',
-  'log.exception.type',
-  'log.exception.message',
-  'log.exception.stackTrace',
-  'log.tsFromMessage'
-];
-
 function getTagCatalogInternal({ useCase, forceIncludeInternalTags }: GetTagCatalogParams = emptyObject): Observable<
   Result<CatalogResponse>
 > {

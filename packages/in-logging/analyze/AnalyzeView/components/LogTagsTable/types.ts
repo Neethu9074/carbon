@@ -62,3 +62,15 @@ export interface ApplicationProps {
   applicationId: string;
   item: LogItem;
 }
+
+export interface TagGroupHeaderProps {
+  groupLabel: string;
+}
+
+export interface LogTagMapperParams {
+  name: string;
+  label: string;
+}
+
+type TagGroup = 'other' | 'infrastructure' | 'kubernetes';
+export type GroupedTags = Record<TagGroup, LogTag[]>;

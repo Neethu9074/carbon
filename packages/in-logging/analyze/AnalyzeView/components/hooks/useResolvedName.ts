@@ -16,7 +16,12 @@ import {
   LOG_HOST_SNAPSHOT_ID,
   LOG_CUSTOM,
   LOG_SERVICE_NAME,
-  LOG_STREAM_NAME
+  LOG_STREAM_NAME,
+  LOG_KUBERNETES_CLUSTER_NAME,
+  LOG_KUBERNETES_NODE_NAME,
+  LOG_KUBERNETES_NAMESPACE_NAME,
+  LOG_KUBERNETES_DEPLOYMENT_NAME,
+  LOG_KUBERNETES_POD_NAME
 } from 'in-logging/queryBuilder';
 // @ts-ignore
 import { getSnapshot } from 'in-stores/snapshot';
@@ -29,6 +34,11 @@ type LinkResolver = (tag: LogTag) => Observable<string>;
 const tagNameResolver = new Map<string, LinkResolver>([
   [LOG_SERVICE_NAME, () => just(t('in-logging:service'))],
   [LOG_STREAM_NAME, () => just(t('in-logging:stream'))],
+  [LOG_KUBERNETES_CLUSTER_NAME, () => just(t('in-logging:cluster'))],
+  [LOG_KUBERNETES_NODE_NAME, () => just(t('in-logging:node'))],
+  [LOG_KUBERNETES_NAMESPACE_NAME, () => just(t('in-logging:namespace'))],
+  [LOG_KUBERNETES_DEPLOYMENT_NAME, () => just(t('in-logging:deployment'))],
+  [LOG_KUBERNETES_POD_NAME, () => just(t('in-logging:pod'))],
   [LOG_CUSTOM, _t => just(getCustomKeyLabel(_t.key || ''))],
   [LOG_PROCESS_SNAPSHOT_ID, _t => resolveInfraLabel(_t.stringValue || '')],
   [LOG_DOCKER_SNAPSHOT_ID, _t => resolveInfraLabel(_t.stringValue || '')],

@@ -15,6 +15,11 @@
     max-height: 2rem;
   }
 
+  .liGroup {
+    min-height: 2.5rem;
+    max-height: 2.5rem;
+  }
+
   .sparkchartsLi {
     min-height: 5rem;
     padding: 0 1rem 0 16rem;

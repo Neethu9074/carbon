@@ -14,12 +14,11 @@ import LoadingCallDetails from 'in-applications/analyze/components/TraceDetails/
 import LogStackTrace from 'in-applications/analyze/components/TraceDetails/components/LogDetails/LogStackTrace';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import LogMessage from 'in-logging/analyze/AnalyzeView/components/LogMessage';
+import { getSpanIdTagFilter, logTableTags } from 'in-logging/queryBuilder';
 import { hasError, isLoading } from 'in-services/util/result';
 import ExpandableGroup from 'in-components/ExpandableGroup';
-import { getSpanIdTagFilter } from 'in-logging/queryBuilder';
 import { pendingResult } from 'in-services/fixedObjects';
 import getLog from 'in-logging/subscriptions/getLog';
-import { logTableTags } from 'in-logging/api/catalog';
 import Tooltip from 'in-components/Tooltip';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';

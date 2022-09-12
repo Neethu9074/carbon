@@ -11,6 +11,14 @@ import { TagFilter } from '@instana/types';
 // @ts-expect-error needs TS migration
 import { createPageSizeAwareLogsCursorPaginationHook } from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
 import {
+  LOG_CUSTOM,
+  LOG_EXCEPTION_MESSAGE,
+  LOG_EXCEPTION_STACK_TRACE,
+  LOG_EXCEPTION_TYPE,
+  LOG_LEVEL,
+  logTableTags
+} from 'in-logging/queryBuilder';
+import {
   centerAlignedCopyColumn,
   centerAlignedLinkColumn,
   logLevelColumn,
@@ -18,13 +26,6 @@ import {
 } from 'in-logging/analyze/AnalyzeView/utils/logsColumnUtils';
 // @ts-expect-error needs TS migration
 import { FacetedSearchPresenter } from 'in-logging/analyze/AnalyzeView/components/FacetedSearchPresenter';
-import {
-  LOG_CUSTOM,
-  LOG_EXCEPTION_MESSAGE,
-  LOG_EXCEPTION_STACK_TRACE,
-  LOG_EXCEPTION_TYPE,
-  LOG_LEVEL
-} from 'in-logging/queryBuilder';
 // @ts-expect-error needs TS migration
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
 // @ts-expect-error needs TS migration
@@ -41,7 +42,6 @@ import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { sortingChanged } from 'in-logging/analyze/AnalyzeView/tracker';
 import getLogs from 'in-logging/subscriptions/getLogs';
 import getLog from 'in-logging/subscriptions/getLog';
-import { logTableTags } from 'in-logging/api/catalog';
 import { LogItem } from 'in-types';
 import { t } from 'in-i18n';
 
