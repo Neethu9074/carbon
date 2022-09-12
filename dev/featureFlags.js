@@ -62,5 +62,6 @@ module.exports = {
   apdexWidgetEnabled: true,
   applicationApdexEnabled: true,
   actionAutomationEnabled: true,
-  websiteUploadConfigEnabled: true
+  websiteUploadConfigEnabled: true,
+  pluginMetricStatisticsEnabled: true
 };

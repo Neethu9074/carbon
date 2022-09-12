@@ -28,6 +28,7 @@ RUN npx yarn install --production --frozen-lockfile --cwd /opt/instana/ui-client
 FROM containers.instana.io/instana/product/nodejs:${base_version}
 
 RUN microdnf --nodocs --setopt=install_weak_deps=0 --setopt=tsflags=nodocs install -y python3 \
+    && microdnf remove -y npm \
     && microdnf clean all
 
 COPY --from=builder --chown=instana:0 /opt/instana/ui-client/target /opt/instana/ui-client

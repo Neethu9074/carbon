@@ -5,18 +5,22 @@
 
 import React from 'react';
 
+import { Message } from '@instana/components';
+
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import InternalViewWrapper from 'in-internal/components/InternalViewWrapper';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { plugins, ID_OF_PROCESSING_STATISTICS } from 'in-forge/constants';
+import { pluginMetricStatisticsEnabled } from 'in-services/featureFlags';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getPluginName } from 'in-sdk/pluginName';
+import { config } from 'in-services/config';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
-const cols = [
+const pluginAndEntityCols = [
   {
     title: t('in-internal:monitoringUnit.thisUnit.entityStatistics.plugin'),
     type: 'string',
@@ -41,24 +45,25 @@ const cols = [
         return 'mean';
       }
     }
-  },
-  {
-    title: t('in-internal:monitoringUnit.thisUnit.entityStatistics.metricCount'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId() {
-        return ID_OF_PROCESSING_STATISTICS;
-      },
-      getMetricName(row) {
-        return `pluginMetrics.${row.plugin}`;
-      },
-      getContent: number.compact,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
   }
 ];
+const metricCol = {
+  title: t('in-internal:monitoringUnit.thisUnit.entityStatistics.metricCount'),
+  type: 'metric',
+  typeArgs: {
+    getSnapshotId() {
+      return ID_OF_PROCESSING_STATISTICS;
+    },
+    getMetricName(row) {
+      return `pluginMetrics.${row.plugin}`;
+    },
+    getContent: number.compact,
+    getTimeWindowAggregation() {
+      return 'mean';
+    }
+  }
+};
+const cols = pluginMetricStatisticsEnabled ? pluginAndEntityCols.concat(metricCol) : pluginAndEntityCols;
 
 export default connectTo(
   {
@@ -71,7 +76,13 @@ export default connectTo(
       <InternalViewWrapper>
         <h1>{t('in-internal:thisUnit.entityStatistics.cockpit')}</h1>
 
-        <DashboardSection title={t('in-internal:monitoringUnit.thisUnit.entityStatistics.entityAndMetricCount')}>
+        <DashboardSection
+          title={
+            pluginMetricStatisticsEnabled
+              ? t('in-internal:monitoringUnit.thisUnit.entityStatistics.entityAndMetricCount')
+              : t('in-internal:monitoringUnit.thisUnit.entityStatistics.entityCount')
+          }
+        >
           <Chart
             snapshotId={ID_OF_PROCESSING_STATISTICS}
             timeConfig={timeConfig}
@@ -82,18 +93,34 @@ export default connectTo(
               labels: [t('in-internal:monitoringUnit.thisUnit.entityStatistics.entityCount')],
               type: 'line'
             }}
-            y2={{
-              min: 0,
-              formatter: number.compact,
-              metrics: [`metrics`],
-              labels: [t('in-internal:monitoringUnit.thisUnit.entityStatistics.metricCount')],
-              type: 'line'
-            }}
+            y2={
+              pluginMetricStatisticsEnabled && {
+                min: 0,
+                formatter: number.compact,
+                metrics: [`metrics`],
+                labels: [t('in-internal:monitoringUnit.thisUnit.entityStatistics.metricCount')],
+                type: 'line'
+              }
+            }
           />
         </DashboardSection>
 
+        {pluginMetricStatisticsEnabled || (
+          <Message small type="warning">
+            To enable breakdown of metric statistics by plugin, add{' '}
+            <strong>
+              {config.tenant}-{config.tenantUnit}
+            </strong>{' '}
+            to <strong>feature.plugin.metric.statistics.enabled</strong>
+          </Message>
+        )}
+
         <Table
-          cardTitle={t('in-internal:monitoringUnit.thisUnit.entityStatistics.perPluginEntityCount')}
+          cardTitle={
+            pluginMetricStatisticsEnabled
+              ? t('in-internal:monitoringUnit.thisUnit.entityStatistics.perPluginEntityAndMetricCount')
+              : t('in-internal:monitoringUnit.thisUnit.entityStatistics.perPluginEntityCount')
+          }
           cols={cols}
           rows={rows}
           getRowDetails={getRowDetails}
@@ -117,12 +144,14 @@ function getRowDetails(row) {
         labels: [t('in-internal:monitoringUnit.thisUnit.entityStatistics.entityCount')],
         type: 'line'
       }}
-      y2={{
-        formatter: number.compact,
-        metrics: [`pluginMetrics.${row.plugin}`],
-        labels: [t('in-internal:monitoringUnit.thisUnit.entityStatistics.metricCount')],
-        type: 'line'
-      }}
+      y2={
+        pluginMetricStatisticsEnabled && {
+          formatter: number.compact,
+          metrics: [`pluginMetrics.${row.plugin}`],
+          labels: [t('in-internal:monitoringUnit.thisUnit.entityStatistics.metricCount')],
+          type: 'line'
+        }
+      }
     />
   );
 }

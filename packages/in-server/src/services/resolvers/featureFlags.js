@@ -280,7 +280,7 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'pluginEntityMetricStatisticsEnabled',
+    uiClientKey: 'pluginMetricStatisticsEnabled',
     instanaCtlKey: 'feature.plugin.entity.metric.statistics.enabled',
     defaultValue: false
   }
