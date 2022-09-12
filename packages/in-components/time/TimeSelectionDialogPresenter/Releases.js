@@ -38,7 +38,8 @@ const columnDefinitions = [
     id: 'scope',
     label: t('in-components:time.releasesLabelScope'),
     sortable: false,
-    getContent(item) {
+    getContent: function ColumnContent(item) {
+      const [showItems, setShowItems] = useState(scopes.length > stepSize ? stepSize : scopes.length);
       if (!item.services && !item.applications) {
         return <span>{t('in-components:time.releasesLabelGlobal')}</span>;
       }
@@ -53,7 +54,6 @@ const columnDefinitions = [
         />
       ));
       const stepSize = 2;
-      const [showItems, setShowItems] = useState(scopes.length > stepSize ? stepSize : scopes.length);
       let scopesShown = scopes.slice(0, showItems);
       return (
         <>

@@ -51,7 +51,7 @@ export default function User({ match }) {
           })
         })}
         enrichForm={enrichForm}
-        render={renderUser}
+        render={UserRenderer}
         renderLoadingState={renderLoadingState}
         // additional props which are passed down
         userId={userId}
@@ -71,7 +71,7 @@ function renderLoadingState() {
   );
 }
 
-function renderUser(props) {
+function UserRenderer(props) {
   const { user, userId, setMessage } = props;
   const [form, setForm] = useState(() => createUserNameForm(user.fullName));
 
