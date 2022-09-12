@@ -36,10 +36,26 @@ import { noop } from 'in-services/util/function';
 
 export default function ApplicationsList({ isGlobalSmartAlert, searchQuery, ...props }) {
   const trimmedSearchQuery = searchQuery?.trim();
-  const getStaleEntity = props.getApplication;
+  const { getApplication: getStaleEntity, readOnly, stateManagement } = props;
+  const zeroAPsSelected = Object.keys(stateManagement.state).length === 0;
+  const staticEmptyAPList = readOnly && zeroAPsSelected;
 
   return isGlobalSmartAlert ? (
-    <ApplicationListMultipleApplications {...props} searchQuery={trimmedSearchQuery} getStaleEntity={getStaleEntity} />
+    staticEmptyAPList ? (
+      <ApplicationBaseList
+        {...props}
+        items={[]}
+        loadMore={noop}
+        getStaleEntity={getStaleEntity}
+        shouldShowPlaceholderForEmptySelection
+      />
+    ) : (
+      <ApplicationListMultipleApplications
+        {...props}
+        searchQuery={trimmedSearchQuery}
+        getStaleEntity={getStaleEntity}
+      />
+    )
   ) : (
     <ApplicationListSingleApplication {...props} searchQuery={trimmedSearchQuery} getStaleEntity={getStaleEntity} />
   );
@@ -48,7 +64,7 @@ export default function ApplicationsList({ isGlobalSmartAlert, searchQuery, ...p
 function ApplicationListMultipleApplications({ getApplicationsCursorPaginated, ...props }) {
   const { includeSynthetic, timeConfig, searchQuery } = props;
 
-  let { items = [], ...tableProps } = useCursorPagination(
+  const { items = [], ...tableProps } = useCursorPagination(
     ({ cursor }) =>
       getApplicationsCursorPaginated({
         pagination: {

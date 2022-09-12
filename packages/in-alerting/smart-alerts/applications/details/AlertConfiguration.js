@@ -191,13 +191,16 @@ function CallsScopeCard({ alertConfig }) {
 }
 
 function ServiceEndpointSelectionCard({ alertConfig, isGlobalSmartAlert }) {
+  const { applications } = alertConfig;
   const timeConfig = useTimeConfig();
   const [searchQuery, setSearchQuery] = useState(null);
+
+  const moreThanOneSelection = applications && Object.values(applications).length > 1;
 
   return (
     <LightCard
       title={t('in-alerting:smartAlerts.applications.details.applicationsServiceEndpointScopeTitle')}
-      header={<ServicesAndEndpointsSearchInput onChange={setSearchQuery} />}
+      header={moreThanOneSelection && <ServicesAndEndpointsSearchInput onChange={setSearchQuery} />}
       headerClassName={locals.lightCardHeader}
       withoutPadding
       darkFrame
