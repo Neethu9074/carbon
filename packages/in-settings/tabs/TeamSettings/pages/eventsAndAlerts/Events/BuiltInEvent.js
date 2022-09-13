@@ -9,8 +9,8 @@ import { combineLatest } from '@instana/observables';
 
 import {
   createCustomThresholdBasedEventSpecification,
-  getBuiltinEventActionAssociation,
-  saveBuiltinEventActionAssociation
+  getBuiltinEventSpecificationWithActions,
+  saveBuiltinEventSpecificationWithActions
 } from 'in-api/eventSpecifications';
 import { createBuiltinEventFormDefinition } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/BuiltinEventFormContent';
 import { ActionsSelection } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/sharedActions';
@@ -55,7 +55,7 @@ export default function BuiltinEvent(props) {
 
   function mergeResultData() {
     const eventDetails$ = getBuiltInEventSpecification(entityId);
-    const actionDetails$ = getBuiltinEventActionAssociation(entityId);
+    const actionDetails$ = getBuiltinEventSpecificationWithActions(entityId);
     // calling Get Event and Get action associations call and combining results
     return combineLatest([eventDetails$, actionDetails$]).map(([eventResponse, actionResponse]) =>
       eventResponse.set(
@@ -68,7 +68,7 @@ export default function BuiltinEvent(props) {
   function save(form) {
     const actionIds = form.get('actionIds')?.value ?? [];
     const actions = actionIds.length > 0 ? actionIds.map(value => ({ id: value })) : [];
-    return saveBuiltinEventActionAssociation(actions, entityId);
+    return saveBuiltinEventSpecificationWithActions(actions, entityId);
   }
 
   return (
