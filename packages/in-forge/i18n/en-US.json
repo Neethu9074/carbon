@@ -11774,8 +11774,6 @@
       "tablespace": "Tablespace",
       "runningProcessCount": "Running Process Count",
       "sgaMemory": "System Global Area (SGA) Memory",
-      "total": "Total",
-      "used": "Used",
       "processUtilization": "Process Utilization",
       "processLimitUsage": "Process Limit Usage",
       "processCurrentUtilization": "Current Utilization",
