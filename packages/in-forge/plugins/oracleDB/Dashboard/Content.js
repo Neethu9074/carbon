@@ -14,18 +14,17 @@ import {
   percentage,
   megaBytes
 } from 'in-services/formatters/number';
-// import ProcessUtilizationTable from './ProcessUtilizationTable';
-import TablespaceUsagesTable from './TablespaceUsagesTable.js';
 import DBmarlinNotificationMessage from 'in-forge/plugins/awsRds/Dashboard/DBmarlinNotificationMessage';
+import TablespaceUsagesTable from 'in-forge/plugins/oracleDB/Dashboard/TablespaceUsagesTable.js';
+import BlockingSessionsTable from 'in-forge/plugins/oracleDB/Dashboard/BlockingSessionsTable';
+import SGAPoolSizeTable from 'in-forge/plugins/oracleDB/Dashboard/SGAPoolSizeTable.js';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import BlockingSessionsTable from './BlockingSessionsTable';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import MetricValue from 'in-components/MetricValue';
-import SGAPoolSizeTable from './SGAPoolSizeTable';
 import { t } from 'in-i18n';
 
 export default function OracleDBDashboard({ snapshot, timeConfig }) {
@@ -171,7 +170,6 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
       </DashboardSection>
       <SGAPoolSizeTable snapshot={snapshot} />
       <BlockingSessionsTable snapshot={snapshot} />
-      {/* <ProcessUtilizationTable snapshot={snapshot}/> */}
       <DashboardSection title={t('in-forge:plugins.oracleDB.sqlExecution')}>
         <Chart
           snapshotId={snapshot.get('id')}

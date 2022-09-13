@@ -69,7 +69,6 @@ export default connectTo(
         total: sgaPool.totalSize
       };
     });
-    // console.log(data);
     return (
       <Table
         cardTitle={t('in-forge:plugins.oracleDB.poolsInSGA', { len: rows.length })}
