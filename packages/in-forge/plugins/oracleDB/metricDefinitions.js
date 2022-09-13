@@ -150,9 +150,9 @@ export default [
     formatter: megaBytes,
     metrics: ['usageOfSGA.free', 'usageOfSGA.total', 'usageOfSGA.used'],
     labels: [
-      t('in-forge:plugins.oracleDB.free'),
-      t('in-forge:plugins.oracleDB.total'),
-      t('in-forge:plugins.oracleDB.used')
+      t('in-forge:plugins.oracleDB.freeMemory'),
+      t('in-forge:plugins.oracleDB.totalMemory'),
+      t('in-forge:plugins.oracleDB.usedMemory')
     ],
     min: 0
   },
