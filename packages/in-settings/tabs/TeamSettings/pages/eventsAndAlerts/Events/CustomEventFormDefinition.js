@@ -152,10 +152,8 @@ export function createEventFormDefinition(eventSpec, isCreate) {
         validator: notBlankValidator
       })
     );
-  if (actions) {
-    const actionIds = mutableEvent.actions.map(s => s.id);
-    form = putActionField(form, actionIds);
-  }
+  const actionIds = actions?.map(s => s.id);
+  form = putActionField(form, actionIds);
 
   if (dataSource !== dataSourceSystem) {
     form = putAllDataSourceFields(form, eventSpec);
