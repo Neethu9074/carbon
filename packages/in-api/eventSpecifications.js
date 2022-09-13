@@ -224,7 +224,7 @@ export function saveCustomEventSpecification(eventSpecification) {
   }).map(response => fromJS(response.body));
 }
 
-export function saveActionAssociation(eventSpecification) {
+export function saveCustomEventActionAssociation(eventSpecification) {
   return http({
     method: 'PUT',
     maxRetries: 3,
@@ -234,7 +234,7 @@ export function saveActionAssociation(eventSpecification) {
   }).map(response => fromJS(response.body));
 }
 
-export function getActionAssociationCustom(eventSpecificationId) {
+export function getCustomEventActionAssociation(eventSpecificationId) {
   return http({
     method: 'GET',
     maxRetries: 3,
@@ -243,7 +243,7 @@ export function getActionAssociationCustom(eventSpecificationId) {
   }).map(response => fromJS(response.body));
 }
 
-export function saveActionAssociationBuiltin(actions, eventId) {
+export function saveBuiltinEventActionAssociation(actions, eventId) {
   return http({
     method: 'PUT',
     maxRetries: 3,
@@ -253,7 +253,7 @@ export function saveActionAssociationBuiltin(actions, eventId) {
   }).map(response => fromJS(response.body));
 }
 
-export function getActionAssociationBuiltin(eventSpecificationId) {
+export function getBuiltinEventActionAssociation(eventSpecificationId) {
   return http({
     method: 'GET',
     maxRetries: 3,

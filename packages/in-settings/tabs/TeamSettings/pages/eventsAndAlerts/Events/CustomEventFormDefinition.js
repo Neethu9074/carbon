@@ -59,7 +59,6 @@ function getScopeFields(isCreate, query, ruleType, tagFilter) {
     applicationName: null,
     applicationIds: [],
     tagValueForHostAvailability: null,
-    actionIds: [],
     tagOperatorForHostAvailability: null
   };
 
@@ -90,7 +89,6 @@ export function createEventFormDefinition(eventSpec, isCreate) {
     applyOn,
     applicationName,
     applicationIds,
-    actionIds,
     tagValueForHostAvailability,
     tagOperatorForHostAvailability
   } = getScopeFields(isCreate, query, ruleType, tagFilter);
@@ -156,8 +154,6 @@ export function createEventFormDefinition(eventSpec, isCreate) {
     );
   if (actions) {
     const actionIds = mutableEvent.actions.map(s => s.id);
-    form = putActionField(form, actionIds);
-  } else {
     form = putActionField(form, actionIds);
   }
 

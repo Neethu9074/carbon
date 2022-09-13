@@ -14,8 +14,8 @@ import {
   createCustomThresholdBasedEventSpecification,
   getCustomEventSpecification,
   saveCustomEventSpecification,
-  getActionAssociationCustom,
-  saveActionAssociation
+  getCustomEventActionAssociation,
+  saveCustomEventActionAssociation
 } from 'in-api/eventSpecifications';
 import {
   createEventFormDefinition,
@@ -67,7 +67,7 @@ export default function CustomEvent(props) {
       createForm={event => createEventFormDefinition(event, !entityId)}
       getEntityFromApi={
         role.canConfigureAutomationActions && actionAutomationEnabled
-          ? getActionAssociationCustom
+          ? getCustomEventActionAssociation
           : getCustomEventSpecification
       }
       openEntities={() => goToPath(teamSettingsAlertingEvents)}
@@ -182,7 +182,7 @@ function save(event, form) {
   if (actionIds.length > 0 && role.canConfigureAutomationActions && actionAutomationEnabled) {
     const actions = actionIds.map(value => ({ id: value }));
     eventSpecification.actions = actions;
-    return saveActionAssociation(eventSpecification);
+    return saveCustomEventActionAssociation(eventSpecification);
   } else {
     return saveCustomEventSpecification(eventSpecification);
   }

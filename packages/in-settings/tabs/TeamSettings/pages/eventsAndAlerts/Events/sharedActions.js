@@ -56,7 +56,7 @@ const getSelectedActionsForEvent = createMemoizedObservableForReferencedEntities
 });
 
 export function ActionsSelection({ form, setForm }) {
-  const selectedActions = form.get('actionIds') ? form.get('actionIds').value : [];
+  const selectedActions = form.get('actionIds')?.value ?? [];
 
   const RightHeader = (
     <SelectListDialogButton
