@@ -57,8 +57,26 @@ const columnDefinitions = [
             setOrDeleteMatrixKey(
               resultDetailsUrl,
               syntheticDetailsPath,
-              'start_time',
+              'startTime',
               get(item, ['metrics', 'start_time', 0, 1])
+            );
+            setOrDeleteMatrixKey(
+              resultDetailsUrl,
+              syntheticDetailsPath,
+              'status',
+              get(item, ['metrics', 'status', 0, 1], 0)
+            );
+            setOrDeleteMatrixKey(
+              resultDetailsUrl,
+              syntheticDetailsPath,
+              'responseTime',
+              get(item, ['metrics', 'response_time', 0, 1], 0)
+            );
+            setOrDeleteMatrixKey(
+              resultDetailsUrl,
+              syntheticDetailsPath,
+              'responseSize',
+              get(item, ['metrics', 'response_size', 0, 1], 0)
             );
             return resultDetailsUrl;
           })}

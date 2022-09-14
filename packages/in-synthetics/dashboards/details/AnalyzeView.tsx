@@ -25,7 +25,6 @@ import DashboardHeaderShadowModule from 'in-components/DashboardHeader/Dashboard
 // @ts-expect-error Module needs to be translated to TS
 import Sticky from 'in-components/Sticky';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
-import StatusKpiCard from 'in-synthetics/dashboards/details/components/StatusKpiCard';
 import getTestResultListStatus from 'in-synthetics/utils/getTestResultListStatus';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
@@ -33,32 +32,34 @@ import FailedRun from 'in-synthetics/dashboards/details/components/FailedRun';
 import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
 import DashboardHeader from 'in-components/DashboardHeader/DashboardHeader';
 import Timeline from 'in-synthetics/dashboards/details/components/Timeline';
-import { bytes, meanLatency, number } from 'in-services/formatters/number';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { syntheticDetailsPath } from 'in-synthetics/navigation/paths';
-import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import Logs from 'in-synthetics/dashboards/details/components/Logs';
+import { bytes, meanLatency } from 'in-services/formatters/number';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
-import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { getTest } from 'in-synthetics/api';
+import theme from 'in-themes';
 
 export default function SyntheticAnalyzeView() {
   const location = useLocation();
-  const timeShiftConfig = useTimeShiftConfig();
   const timeConfig = useTimeConfig();
-  let page = 1;
-  let pageSize = 1;
-  const testId = getMatrixParameter(location, syntheticDetailsPath, 'testId') ?? '';
-  const resultId = getMatrixParameter(location, syntheticDetailsPath, 'id') ?? '';
-  const start_time = +(getMatrixParameter(location, syntheticDetailsPath, 'start_time') ?? 0);
-  let test: TestResponse = useObservable<any, [number]>(() => getTest(testId), [0]) || dummyTest;
-  let isHTTPActionType = get(test, ['data', 'configuration', 'syntheticType']) === 'HTTPAction' ? true : false;
+  const page = 1;
+  const pageSize = 1;
+  const testId: string = getMatrixParameter(location, syntheticDetailsPath, 'testId') ?? '';
+  const resultId: string = getMatrixParameter(location, syntheticDetailsPath, 'id') ?? '';
+  const startTime: number = +(getMatrixParameter(location, syntheticDetailsPath, 'startTime') ?? 0);
+  const status: number = +(getMatrixParameter(location, syntheticDetailsPath, 'status') ?? 0);
+  const responseTime: number = +(getMatrixParameter(location, syntheticDetailsPath, 'responseTime') ?? 0);
+  const responseSize: number = +(getMatrixParameter(location, syntheticDetailsPath, 'responseSize') ?? 0);
+  const test: TestResponse = useObservable<any, [number]>(() => getTest(testId), [0]) || dummyTest;
+  const isHTTPActionType: boolean =
+    get(test, ['data', 'configuration', 'syntheticType']) === 'HTTPAction' ? true : false;
 
-  let details: ResultDetailsResponse =
+  const details: ResultDetailsResponse =
     useObservable<any, [number]>(
       () =>
         getTestResultSubtransactions({
@@ -68,7 +69,7 @@ export default function SyntheticAnalyzeView() {
       [0]
     ) || dummyResultDetails;
 
-  let tagFilters = [
+  const tagFilters = [
     {
       stringValue: testId,
       name: 'testId',
@@ -85,31 +86,7 @@ export default function SyntheticAnalyzeView() {
     }
   ];
 
-  let subTagFilters = [
-    {
-      stringValue: testId,
-      name: 'testId',
-      operator: EQUALS,
-      entity: NOT_APPLICABLE,
-      type: 'TAG_FILTER'
-    },
-    {
-      stringValue: resultId,
-      name: 'id',
-      operator: EQUALS,
-      entity: NOT_APPLICABLE,
-      type: 'TAG_FILTER'
-    },
-    {
-      stringValue: 'SUBTRANSACTIONS',
-      name: 'type',
-      operator: EQUALS,
-      entity: NOT_APPLICABLE,
-      type: 'TAG_FILTER'
-    }
-  ];
-
-  let resultList: Result<PaginatedResult<TestResultListItem>> =
+  const resultList: Result<PaginatedResult<TestResultListItem>> =
     useObservable<any, [number]>(
       () =>
         getTestResultList({
@@ -118,7 +95,7 @@ export default function SyntheticAnalyzeView() {
             pageSize
           },
           order: { by: 'errors', direction: 'DESC' },
-          syntheticMetrics: ['errors', 'status', 'start_time', 'response_time', 'response_size'],
+          syntheticMetrics: ['errors', 'status', 'start_time'],
           filter: {
             timeConfig,
             includeInternalCalls: false,
@@ -160,40 +137,40 @@ export default function SyntheticAnalyzeView() {
             <Fragment>
               <Row>
                 <Col xs>
-                  <KpiCard title={t('in-synthetics:dashboard.summary.startTime')} value={formatDateTime(start_time)} />
+                  <KpiCard title={t('in-synthetics:dashboard.summary.startTime')} value={formatDateTime(startTime)} />
                 </Col>
                 <Col xs>
-                  <StatusKpiCard testId={testId} resultId={resultId} />
+                  {status === 1 ? (
+                    <KpiCard
+                      title={t('in-synthetics:dashboard.detailsPage.statusKpiCard')}
+                      value={t('in-synthetics:dashboard.detailsPage.successResult')}
+                      color={theme.lib.colors.success}
+                    />
+                  ) : (
+                    <KpiCard
+                      title={t('in-synthetics:dashboard.detailsPage.statusKpiCard')}
+                      value={t('in-synthetics:dashboard.detailsPage.failedResult')}
+                      color={theme.lib.colors.failure}
+                    />
+                  )}
                 </Col>
                 <Col xs>
                   <KpiCard
                     title={t('in-synthetics:dashboard.summary.responseTime')}
-                    value={meanLatency.detailed(get(resultList.data?.items[0], ['metrics', 'response_time', 0, 1], 0))}
+                    value={meanLatency.detailed(responseTime)}
                   />
                 </Col>
                 <Col xs style={{ display: get(details, ['errors', 0, 'code'], '') === 'NOT_FOUND' ? 'none' : 'block' }}>
-                  <BigNumberKpiCard
+                  <KpiCard
                     title={t('in-synthetics:dashboard.summary.requests')}
-                    formatter={number.compact}
-                    useMaxAvailableHeight
-                    config={{
-                      metricConfiguration: {
-                        aggregation: 'SUM',
-                        metric: 'subtransaction',
-                        source: 'SYNTHETICS_DETAIL',
-                        // @ts-expect-error subtagFilters do not fully match the TagFilter type
-                        tagFilters: subTagFilters,
-                        // @ts-expect-error timeShift do not fully match the TimeShift type
-                        timeShift: timeShiftConfig.offset
-                      }
-                    }}
+                    value={details.data?.subtransactions?.length}
                   />
                 </Col>
 
                 <Col xs>
                   <KpiCard
                     title={t('in-synthetics:dashboard.summary.responseSize')}
-                    value={bytes.detailed(get(resultList.data?.items[0], ['metrics', 'response_size', 0, 1], 0))}
+                    value={bytes.detailed(responseSize)}
                   />
                 </Col>
               </Row>
