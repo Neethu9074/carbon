@@ -87,7 +87,7 @@ export default function Summary({ timeConfig, data: lpar }) {
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                metrics: ['maxCaPCPUUtilsation'],
+                metrics: ['maxCPUCapacityUtilisation'],
                 labels: [t('in-phmc:maxCpuUtilsation')],
                 formatter: number.compact,
                 type: 'line'

@@ -66,7 +66,7 @@ const cols = [
     type: 'number',
     typeArgs: {
       getValue(row) {
-        return row.sharedProcessorPool.get('CurrentReservedProcUnit');
+        return row.sharedProcessorPool.get('currentReservedProcessingUnits');
       },
       getContent: number.detailed
     }
