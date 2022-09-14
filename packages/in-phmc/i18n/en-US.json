@@ -6,7 +6,7 @@
   "partitions": "Partitions",
   "vios": "Virtual I/O Servers",
   "ibmpPhmcs": "IBM Power HMC",
-  "noMonitoringDataFound": "No Monitoxring Data Found",
+  "noMonitoringDataFound": "No Monitoring Data Found",
   "noData": "No pHMC data is available.",
   "machineTypeModel": "Machine Type-Model",
   "machineSerial": "Machine Serial",
