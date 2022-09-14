@@ -110,7 +110,7 @@ function getHeader() {
 function createFilters(ids: string[]): Array<(action: Action) => boolean> {
   const filterFunctions = [];
   if (ids) {
-    filterFunctions.push((action: Action) => ids.indexOf(action.id) < 0);
+    filterFunctions.push((action: Action) => !ids.includes(action.id));
   }
   return filterFunctions;
 }
