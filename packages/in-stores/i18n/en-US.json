@@ -108,6 +108,7 @@
     "metric_DISTINCT_COUNT": "distinct count",
     "metric_SUM": "sum",
     "metric_DISTRIBUTION": "distribution",
+    "metric_PER_SECOND": "rate",
 
     "formatterLabelNumber": "Number, e.g. {{example}}",
     "formatterLabelPercentage": "Percentage, e.g. {{example}}",
