@@ -3,8 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment } from 'react';
-import { withState } from 'recompose';
+import React, { Fragment, useState } from 'react';
 
 import { SvgIcon } from '@instana/components';
 
@@ -17,11 +16,8 @@ import { t } from 'in-i18n';
 
 import locals from './ExpandableStackTrace.mless';
 
-export default withState(
-  'isExpanded',
-  'setIsExpanded',
-  false
-)(function ExpandableStackTrace({ call, log, isExpanded, setIsExpanded }) {
+export default function ExpandableStackTrace({ call, log }) {
+  const [isExpanded, setIsExpanded] = useState(false);
   const logData = log.data.log;
   const msg = logData && logData.message;
   const isString = typeof msg === 'string';
@@ -83,4 +79,4 @@ export default withState(
       )}
     </div>
   );
-});
+}

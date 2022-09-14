@@ -3,9 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { compose, withState, withProps } from 'recompose';
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 
+import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/components';
 import { Card } from '@instana/components';
 import { Link } from '@instana/components';
@@ -26,32 +26,30 @@ import { getChartGranularity } from 'in-stores/metric/metric';
 import { tryGet, trySet } from 'in-services/localStorage';
 import { Row, Col } from 'in-components/layout/Grid';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import connect from 'in-hoc/connectTo';
 import { Trans, t } from 'in-i18n';
 
 import locals from './WebsiteMonitoringData.mless';
 
 const localStorageKey = 'traceView.showWebsiteMonitoringData';
 
-export default compose(
-  connect(({ correlationId, traceId, startTime }) => {
-    return {
-      result: getCorrelatedWebsiteBeacons({ correlationId, traceId, startTime })
-    };
-  }),
-  withState('showDetails', 'setShowDetails', tryGet(localStorageKey) !== 'false'),
-  withProps(({ setShowDetails }) => ({
-    setShowDetails: show => {
-      trySet(localStorageKey, show);
-      if (show) {
-        showWebsiteDetailsInTraceView();
-      } else {
-        hideWebsiteDetailsInTraceView();
-      }
-      setShowDetails(show);
+export default function WebsiteMonitoringData({ traceId, startTime, correlationId }) {
+  const [showDetails, setDetails] = useState(tryGet(localStorageKey) !== 'false');
+  const result = useObservable(() => getCorrelatedWebsiteBeacons({ correlationId, traceId, startTime }), [
+    correlationId,
+    traceId,
+    startTime
+  ]);
+
+  const setShowDetails = show => {
+    trySet(localStorageKey, show);
+    if (show) {
+      showWebsiteDetailsInTraceView();
+    } else {
+      hideWebsiteDetailsInTraceView();
     }
-  }))
-)(function WebsiteMonitoringData({ result, showDetails, setShowDetails, traceId }) {
+    setDetails(show);
+  };
+
   const timeConfig = useTimeConfig();
 
   if (!result || result.data == null || result.data.items.length === 0) {
@@ -129,4 +127,4 @@ export default compose(
       {showDetails && <BeaconUserSummary beacon={beacon} withoutSideMargin />}
     </Fragment>
   );
-});
+}

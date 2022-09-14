@@ -3,8 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { withState } from 'recompose';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Link, SvgIcon, toInteractiveElement } from '@instana/components';
 
@@ -14,9 +13,8 @@ import { t } from 'in-i18n';
 
 import locals from './BeaconViewGroup.mless';
 
-export default withState('expanded', 'setExpanded', true)(BeaconViewGroup);
-
-function BeaconViewGroup({ view, beacons, detailId, earliestTimestamp, sessionStart, expanded, setExpanded }) {
+export default function BeaconViewGroup({ view, beacons, detailId, earliestTimestamp, sessionStart }) {
+  const [expanded, setExpanded] = useState(true);
   return (
     <div className={locals.group}>
       <div

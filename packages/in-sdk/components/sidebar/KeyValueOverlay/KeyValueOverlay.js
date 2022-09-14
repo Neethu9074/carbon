@@ -3,8 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { compose, withState } from 'recompose';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { SvgIcon } from '@instana/components';
 
@@ -13,7 +12,7 @@ import Overlay from 'in-components/overlays/Overlay';
 
 import locals from './KeyValueOverlay.mless';
 
-export default compose(withState('query', 'setQuery', ''))(function KeyValueOverlay(props) {
+export default function KeyValueOverlay(props) {
   const data = props.data;
   if (data == null || data.size === 0) {
     return null;
@@ -26,7 +25,7 @@ export default compose(withState('query', 'setQuery', ''))(function KeyValueOver
       )}
     </Overlay>
   );
-});
+}
 
 function KeyValueButtonWrapper({ header, toggle, isOpen, refSetter }) {
   return (
@@ -41,7 +40,8 @@ function KeyValueButtonWrapper({ header, toggle, isOpen, refSetter }) {
   );
 }
 
-function KeyValueDialogWrapper({ header, data, query, setQuery, sort }) {
+function KeyValueDialogWrapper({ header, data, sort }) {
+  const [query, setQuery] = useState('');
   let items = data.map((v, k) => ({
     value: v,
     key: k
