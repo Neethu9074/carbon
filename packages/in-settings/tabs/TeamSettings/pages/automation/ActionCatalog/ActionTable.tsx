@@ -68,6 +68,7 @@ export interface ActionTableProps {
   loadEntities: () => Observable<Action[]>;
   tableActions?: TableActions<Action>;
   noDataMessage?: string;
+  hiddenIds?: string[];
   getEntityName?: (action: Action) => string;
 }
 
@@ -77,6 +78,7 @@ export default function ActionTable({
   rightHeader,
   loadEntities = getAllActions,
   noDataMessage,
+  hiddenIds = [],
   tableActions = {},
   getEntityName
 }: ActionTableProps) {
@@ -96,10 +98,19 @@ export default function ActionTable({
       rightHeader={rightHeader}
       tableActions={tableActions}
       getEntityName={getEntityName}
+      extraFilters={createFilters(hiddenIds)}
     />
   );
 }
 
 function getHeader() {
   return leftHeaderWithSelectAll(t('in-settings:tabs.action_plural'), false, {});
+}
+
+function createFilters(ids: string[]): Array<(action: Action) => boolean> {
+  const filterFunctions = [];
+  if (ids) {
+    filterFunctions.push((action: Action) => !ids.includes(action.id));
+  }
+  return filterFunctions;
 }
