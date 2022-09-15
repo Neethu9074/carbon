@@ -186,8 +186,8 @@ function DataLoadingWrapper({
   return (
     <ChartWrapper
       timeConfig={timeConfig}
-      y1={toAxisConfiguration(config, 'y1', config.y1, resultDataAsList)}
-      y2={toAxisConfiguration(config, 'y2', config.y2, resultDataAsList)}
+      y1={toAxisConfiguration(config, 'y1', config.y1, resultDataAsList, timeConfig)}
+      y2={toAxisConfiguration(config, 'y2', config.y2, resultDataAsList, timeConfig)}
       metricsConfiguration={toMetricsConfiguration(config, resultDataAsList, companionResultDataAsList)}
       result={remappedResult}
       companionResult={remappedCompanionResult}
@@ -256,9 +256,7 @@ function addUnifiedMetricsConfigForMetrics(
         resultType,
         granularity: adjustedGranularity,
         timeConfig: timeConfig,
-        timeShift: metricConfiguration.timeShift
-          ? translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfig)
-          : { offset: 0 }
+        timeShift: translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfig)
       } as UnifiedMetricConfigurationUnion)
   );
 }
@@ -278,9 +276,7 @@ function addUnifiedMetricsConfigForCompanionMetrics(
         resultType,
         granularity: adjustedGranularity,
         timeConfig: timeConfig,
-        timeShift: metricConfiguration.timeShift
-          ? translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfig)
-          : { offset: 0 }
+        timeShift: translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfig)
       } as UnifiedMetricConfigurationUnion)
   );
 }
@@ -447,8 +443,9 @@ export function getMetricIdForGroup(metricId: string, groupLabel: string) {
 export function toAxisConfiguration(
   chartConfig: Config,
   name: string,
-  axis?: Axis,
-  resultDataAsList?: UnifiedMetricsResult[]
+  axis: Axis | undefined,
+  resultDataAsList: UnifiedMetricsResult[] | undefined,
+  timeConfig: TimeConfig
 ): ChartAxis | undefined {
   if (!axis || axis.metrics.length === 0 || !resultDataAsList) {
     return;
@@ -538,6 +535,7 @@ export function toAxisConfiguration(
     max: axis.max,
     calculateStackDifferences: axis.calculateStackDifferences,
     metrics: [],
-    companionMetrics: []
+    companionMetrics: [],
+    timeShifts: axis.metrics.map(({ timeShift }) => translateOffsetToTimeShiftConfig(timeShift, timeConfig))
   };
 }
