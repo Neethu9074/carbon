@@ -7461,7 +7461,9 @@
       "systemHeap": "System Heap",
       "allocatedMemory": "Allocated Memory",
       "obtainedFromSystem": "Obtained From System",
-      "metrics": "Metrics"
+      "metrics": "Metrics",
+      "troubleshootingDocs": "Troubleshooting docs",
+      "goRuntimeNeedsUpdate": "An outdated version of Go runtime has been detected. This version might no longer receive updates or security fixes and might contain unfixed vulnerabilities. Please consider upgrading Go to the latest version."
     },
     "googleCloudDatastore": {
       "dashboard": {
