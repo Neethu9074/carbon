@@ -23,9 +23,10 @@ import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { dummyTest } from 'in-synthetics/utils/constants';
 import { Progress, SyntheticTest } from 'in-types';
 import { updateTest } from 'in-synthetics/api';
-import { getTest } from 'in-synthetics/api';
 
 import locals from './SyntheticSummary.mless';
+
+//import { getTest } from 'in-synthetics/api';
 
 interface SynthTestResponse {
   data: SyntheticTest;
@@ -93,7 +94,7 @@ export default function SyntheticSummaryDashboard() {
 
   const location = useLocation();
   const testId = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
-  const test: SynthTestResponse = useObservable<any, [number]>(() => getTest(testId), [count]) || dummyTest;
+  const test = useObservable<any, [number]>(() => getSyntheticTest({ testId: testId }), [count]) || dummyTest;
 
   const props = {
     location,

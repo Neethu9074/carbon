@@ -5,7 +5,6 @@
 
 import { useLocation } from 'react-router';
 import React, { Fragment } from 'react';
-import { get } from 'lodash';
 
 import { useObservable } from '@instana/hooks';
 
@@ -17,22 +16,22 @@ import ResponseSize from 'in-synthetics/dashboards/summary/tabs/summary/componen
 import Failures from 'in-synthetics/dashboards/summary/tabs/summary/components/Failures';
 import { bytes, meanLatency, number, percentage } from 'in-services/formatters/number';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
+import getSyntheticTest from 'in-synthetics/subscriptions/getSyntheticTest';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
+import { dummyTest, TestResponse } from 'in-synthetics/utils/constants';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import { syntheticsDashboard } from 'in-synthetics/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
-import { dummyTest } from 'in-synthetics/utils/constants';
 import { Col, Row } from 'in-components/layout/Grid';
-import { getTest } from 'in-synthetics/api';
 import { t } from 'in-i18n';
 
 export default function Summary() {
   const timeShiftConfig = useTimeShiftConfig();
   const location = useLocation();
-  const testId = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
-  let test = useObservable<any, []>(() => getTest(testId), []) || dummyTest;
-  let testType = get(test, ['data', 'configuration', 'syntheticType']) === 'HTTPAction' ? true : false;
+  const testId: string = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
+  let testType: boolean = getMatrixParameter(location, syntheticsDashboard, 'type') ? true : false;
+  const test: TestResponse = useObservable<any, [number]>(() => getSyntheticTest({ testId: testId }), [0]) || dummyTest;
 
   let tagFilters = [
     {
@@ -163,7 +162,7 @@ export default function Summary() {
         <Col xs>
           <ResponseTime test={test} timeShiftConfig={timeShiftConfig} />
         </Col>
-        {testType && (
+        {testType && !test.progress.loading && (
           <Col xs>
             <NetworkTimings test={test} timeShiftConfig={timeShiftConfig} />
           </Col>
