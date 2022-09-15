@@ -15,6 +15,7 @@ import {
 } from 'in-settings/navigation/paths';
 import { getMaintenanceConfigsMutable, deleteMaintenanceConfig } from 'in-api/maintenanceConfiguration';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
+import { removeMaintenenaceWindowTracker } from 'in-settings/tracker';
 import { formatDateTime } from 'in-services/formatters/date';
 import { toTitleCase } from 'in-services/util/string';
 import WithIcon from 'in-components/WithIcon';
@@ -104,7 +105,10 @@ const columnDefinitions = [
 
 const tableActions = {
   delete: {
-    deleteEntity: entity => deleteMaintenanceConfig(entity.id)
+    deleteEntity: entity => {
+      removeMaintenenaceWindowTracker();
+      return deleteMaintenanceConfig(entity.id);
+    }
   }
 };
 

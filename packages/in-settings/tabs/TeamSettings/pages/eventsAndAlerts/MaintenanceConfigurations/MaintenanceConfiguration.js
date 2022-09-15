@@ -16,6 +16,11 @@ import {
   saveMaintenanceConfig
 } from 'in-api/maintenanceConfiguration';
 import MaintenanceConfigurationForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurationForm';
+import {
+  editMaintenanceWindowTracker,
+  newMaintenanceWindowTracker,
+  submitMaintenanceWindowTracker
+} from 'in-settings/tracker';
 import { queryValidationResultValidator, queryValidationInProgressValidator, valid } from 'in-settings/validation';
 import { applicationIdsToDfq, parseQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import { teamSettingsAlertingMaintenanceConfigurations } from 'in-settings/navigation/paths';
@@ -114,6 +119,7 @@ function save(config, form) {
   // which corresponds to an empty query
   const query = getQueryFromFormField(form);
 
+  submitMaintenanceWindowTracker(); //Mixpanel tracking
   return saveMaintenanceConfig(
     fromJS(
       createMaintenanceConfig(
@@ -158,6 +164,13 @@ function createForm(config, isCreate) {
   //const applyOn = isCreate || isNotBlank(query) ? 'dfq' : 'all';
 
   const { applyOn, applicationIds } = isCreate ? { applyOn: 'dfq', applicationIds: [] } : parseQuery(query);
+
+  //mixpanel tracking
+  if (isCreate) {
+    newMaintenanceWindowTracker();
+  } else {
+    editMaintenanceWindowTracker();
+  }
 
   let form = createMapForm()
     .put(
