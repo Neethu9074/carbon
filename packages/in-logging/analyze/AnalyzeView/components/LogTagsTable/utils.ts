@@ -5,6 +5,7 @@
  */
 
 import {
+  kubernetesTags,
   LOG_DOCKER_SNAPSHOT_ID,
   LOG_HOST_SNAPSHOT_ID,
   LOG_SERVICE_NAME,
@@ -12,7 +13,8 @@ import {
 } from 'in-logging/queryBuilder';
 import { ClickedTag, GroupedTags, GroupingTag } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable/types';
 import { filterAdded, groupAdded } from 'in-logging/analyze/AnalyzeView/tracker';
-import { LogTag } from 'in-types';
+import { capitalize } from 'in-services/formatters/string';
+import { LogItem, LogTag } from 'in-types';
 
 const infraTags = [LOG_DOCKER_SNAPSHOT_ID, LOG_HOST_SNAPSHOT_ID];
 
@@ -34,6 +36,9 @@ export const groupAndSortTags = (tags: LogTag[]): GroupedTags => {
   });
 
   groupedTags.infrastructure.sort(tag => (tag.name === LOG_DOCKER_SNAPSHOT_ID ? 1 : -1));
+  groupedTags.kubernetes?.sort(
+    (tag, nextTag) => kubernetesTags.indexOf(tag.name as string) - kubernetesTags.indexOf(nextTag.name as string)
+  );
 
   return groupedTags;
 };
@@ -68,3 +73,14 @@ export function createGroupingTag(name?: string, key?: string): GroupingTag {
 export function filterTag(tag: LogTag): boolean {
   return !restrictedTags.has(tag.name || '') && !restrictedTags.has(tag.key || '');
 }
+
+export const getSnapshotId = (tag: LogTag, item: LogItem) => {
+  if (tag.name?.includes('SnapshotId')) {
+    return tag.stringValue;
+  } else if (tag.name?.includes('kubernetes')) {
+    const k8sEntityType = tag.name.split('.')[1];
+    return item.tags.find(tag => tag.name?.includes(capitalize(k8sEntityType)))?.stringValue ?? null;
+  } else {
+    return null;
+  }
+};

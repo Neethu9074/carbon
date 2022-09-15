@@ -7,6 +7,7 @@
 import React, { useState } from 'react';
 
 import { ColumnizedContent, Li, Link, Stack, Ul } from '@instana/components';
+import { useObservable } from '@instana/hooks';
 import { TagFilter } from '@instana/types';
 
 import {
@@ -21,6 +22,7 @@ import {
 import {
   createGroupingTag,
   createTag,
+  getSnapshotId,
   trackFilterClick,
   trackGroupClick
 } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable/utils';
@@ -30,11 +32,15 @@ import {
   LOG_DOCKER_SNAPSHOT_ID
 } from 'in-logging/queryBuilder';
 import ContainerPerformanceSparkcharts from 'in-logging/analyze/AnalyzeView/components/ContainerPerformanceSparkcharts';
+// @ts-expect-error needs TS migration
+import { getHealthInfoAtFocusedMoment } from 'in-stores/events';
 import { columnDefinitions } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable/constants';
 import useResolvedValue from 'in-logging/analyze/AnalyzeView/components/hooks/useResolvedValue';
 import useResolvedName from 'in-logging/analyze/AnalyzeView/components/hooks/useResolvedName';
 import useResolvedLink from 'in-logging/analyze/AnalyzeView/components/hooks/useResolvedLink';
 import { logMessageTagClicked } from 'in-logging/analyze/AnalyzeView/tracker';
+//@ts-expect-error
+import HealthDot from 'in-components/health/HealthDot';
 import IconButton from 'in-components/IconButton/IconButton';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import IconLink from 'in-components/IconButton/IconLink';
@@ -60,11 +66,14 @@ export function TagValue({
 }: GetContentType) {
   const value = tag.stringValue || '';
   const resolvedValue = useResolvedValue(uniqueTagName, tag);
+  const entitySnapshotId = getSnapshotId(tag, item);
 
   return (
     <Stack direction="horizontal" gap="xxsmall" align="center" distribution="spaceBetween">
-      <ResolvedLink tag={tag} item={item} resolvedValue={resolvedValue} uniqueTagName={uniqueTagName} />
-
+      <Stack direction="horizontal" gap="xsmall" align="center" distribution="spaceBetween">
+        {entitySnapshotId && <EntityHealthDot snapshotId={entitySnapshotId} />}
+        <ResolvedLink tag={tag} item={item} resolvedValue={resolvedValue} uniqueTagName={uniqueTagName} />
+      </Stack>
       {isHovered && tag.key !== LOG_CUSTOM_KEY_APPLICATION_IDS && (
         <Stack direction="horizontal" gap="disabled" align="center">
           {allowedTagsForGrouping?.has(tag.name || '') && getHrefToGroupedView && (
@@ -208,5 +217,26 @@ export function TagEntry({
         </Li>
       )}
     </>
+  );
+}
+
+function EntityHealthDot({ snapshotId }: { snapshotId: string }) {
+  const snapshot = useObservable<Map<string, string | number>, []>(getHealthInfoAtFocusedMoment(snapshotId), []);
+
+  if (!snapshot) return null;
+
+  const severity = snapshot.get('maxSeverity');
+  const numberOfIssues = snapshot.get('numberOfOpenEvents');
+  const tooltipText =
+    numberOfIssues === 0
+      ? t('in-logging:tooltipEntityHealthNoIssues')
+      : t('in-logging:tooltipEntityHealthIssues', { numberOfIssues });
+
+  return (
+    <Tooltip align="leftMiddle" delay={300} content={tooltipText}>
+      <div>
+        <HealthDot severity={severity} />
+      </div>
+    </Tooltip>
   );
 }

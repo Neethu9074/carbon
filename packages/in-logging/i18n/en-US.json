@@ -34,5 +34,8 @@
   "node": "Node",
   "namespace": "Namespace",
   "deployment": "Deployment",
-  "pod": "Pod"
+  "pod": "Pod",
+  "tooltipEntityHealthNoIssues": "No issues",
+  "tooltipEntityHealthIssues": "{{numberOfIssues}} Issues",
+  "container": "Container"
 }

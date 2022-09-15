@@ -41,7 +41,7 @@ const tagNameResolver = new Map<string, LinkResolver>([
   [LOG_KUBERNETES_POD_NAME, () => just(t('in-logging:pod'))],
   [LOG_CUSTOM, _t => just(getCustomKeyLabel(_t.key || ''))],
   [LOG_PROCESS_SNAPSHOT_ID, _t => resolveInfraLabel(_t.stringValue || '')],
-  [LOG_DOCKER_SNAPSHOT_ID, _t => resolveInfraLabel(_t.stringValue || '')],
+  [LOG_DOCKER_SNAPSHOT_ID, _t => just(t('in-logging:container'))],
   [LOG_HOST_SNAPSHOT_ID, _t => resolveInfraLabel(_t.stringValue || '')]
 ]);
 
