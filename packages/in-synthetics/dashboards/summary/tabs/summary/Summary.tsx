@@ -23,17 +23,15 @@ import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { Col, Row } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
-type summaryType = {
+interface summaryType {
   test: TestResponse;
-};
+}
 
-export default function Summary(props: summaryType) {
+export default function Summary({ test }: summaryType) {
   const timeShiftConfig = useTimeShiftConfig();
   const location = useLocation();
   const testId: string = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
-  let testType: boolean = getMatrixParameter(location, syntheticsDashboard, 'type') === 'HTTPAction' ? true : false;
-
-  let test: TestResponse = props.test;
+  const testType: boolean = getMatrixParameter(location, syntheticsDashboard, 'type') === 'HTTPAction' ? true : false;
 
   let tagFilters = [
     {
