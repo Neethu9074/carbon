@@ -16,8 +16,8 @@ const defaultRequiresAtLeastOneMessage = t('in-settings:tabs.pleaseSelectAtLeast
 
 export default function SelectListDialog(props) {
   const [selectedItems, setSelectedItems] = useState([]);
-  const [errorMessage, setErrorMessage] = useState(({ requiresAtLeastOneMessage }) =>
-    requiresAtLeastOneMessage ? requiresAtLeastOneMessage : defaultRequiresAtLeastOneMessage
+  const [errorMessage, setErrorMessage] = useState(
+    props.requiresAtLeastOneMessage ? props.requiresAtLeastOneMessage : defaultRequiresAtLeastOneMessage
   );
   const { title = t('in-settings:tabs.select'), renderCustomCloseBehaviour } = props;
   return (
