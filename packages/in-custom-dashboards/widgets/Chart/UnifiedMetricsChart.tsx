@@ -28,8 +28,8 @@ import {
   enforceSingleNumberResult,
   renderer as availableRenderers
 } from 'in-custom-dashboards/widgets/Chart/renderer';
-import { Grouping, LabeledMetricResult, Nullish, Result, TimeConfig, UnifiedMetricConfigurationUnion } from 'in-types';
 import getUnifiedMetrics, { isLabeledMetricResult, UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
+import { Grouping, LabeledMetricResult, Result, TimeConfig, UnifiedMetricConfigurationUnion } from 'in-types';
 import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
 import { colors } from 'in-custom-dashboards/widgets/Chart/FormComponent/colors';
 import { translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
@@ -107,19 +107,19 @@ function DataLoadingWrapper({
     config.granularity ?? getChartGranularity(timeConfigExtendedForLiveMode, suggestedNumberOfDataPoints);
   const minimumGranularity = resolvedConfig.minGranularity;
   const granularity = Math.max(minimumGranularity, configuredGranularity);
-  const resultData = useResultData(config, granularity, timeConfigExtendedForLiveMode) ?? pendingResult;
+  const resultData = useResultData(config, granularity, timeConfigExtendedForLiveMode);
 
-  const result: Result<UnifiedMetricsResult[]> | Nullish = resultData.metricResult;
-  const companionResult: Result<UnifiedMetricsResult[]> | Nullish = resultData.companionMetricResult;
+  const result: Result<UnifiedMetricsResult[]> = resultData.metricResult;
+  const companionResult: Result<UnifiedMetricsResult[]> = resultData.companionMetricResult;
 
   const renderErrorDetail = resolvedConfig.renderErrorDetail;
 
   // Transform result data structure into the structure expected by the chart
-  const resultDataAsList = result?.data;
-  const companionResultDataAsList = companionResult?.data;
+  const resultDataAsList = result.data;
+  const companionResultDataAsList = companionResult.data;
 
-  let remappedResult: Result<MetricData> = pendingResult;
-  if (result?.data) {
+  let remappedResult: Result<MetricData>;
+  if (result.data) {
     remappedResult = {
       ...result,
       // Turn the list of metric results into a map of metric results.
@@ -151,10 +151,12 @@ function DataLoadingWrapper({
         }
       }
     }
+  } else {
+    remappedResult = { ...result, data: undefined };
   }
 
-  let remappedCompanionResult: Result<MetricData> = pendingResult;
-  if (companionResult?.data) {
+  let remappedCompanionResult: Result<MetricData>;
+  if (companionResult.data) {
     remappedCompanionResult = {
       ...companionResult,
       // Turn the list of metric results into a map of metric results.
@@ -168,6 +170,8 @@ function DataLoadingWrapper({
         return agg;
       }, {} as MetricData)
     };
+  } else {
+    remappedCompanionResult = { ...companionResult, data: undefined };
   }
 
   const hasApproximateData =
@@ -198,8 +202,8 @@ function DataLoadingWrapper({
 }
 
 interface ResultData {
-  metricResult: Result<UnifiedMetricsResult[]> | Nullish;
-  companionMetricResult: Result<UnifiedMetricsResult[]> | Nullish;
+  metricResult: Result<UnifiedMetricsResult[]>;
+  companionMetricResult: Result<UnifiedMetricsResult[]>;
 }
 
 type UnifiedMetricsConfigObject = { [id: string]: UnifiedMetricConfigurationUnion };
@@ -226,11 +230,9 @@ function useResultData(config: Config, granularity: number, timeConfig: TimeConf
 
   const stableConfig = useStableObjectInstance(config);
 
-  const metricResult = useObservable(() => getUnifiedMetrics({ metrics }), [timeConfig, stableConfig]);
-  const companionMetricResult = useObservable(() => getUnifiedMetrics({ metrics: companionMetrics }), [
-    timeConfig,
-    stableConfig
-  ]);
+  const metricResult = useObservable(() => getUnifiedMetrics({ metrics }), [timeConfig, stableConfig]) ?? pendingResult;
+  const companionMetricResult =
+    useObservable(() => getUnifiedMetrics({ metrics: companionMetrics }), [timeConfig, stableConfig]) ?? pendingResult;
 
   // do not execute the query while the parent component is still loading data for the chart configuration
   return {
