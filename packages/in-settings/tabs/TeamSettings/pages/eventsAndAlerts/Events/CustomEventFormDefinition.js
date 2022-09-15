@@ -152,7 +152,9 @@ export function createEventFormDefinition(eventSpec, isCreate) {
         validator: notBlankValidator
       })
     );
-  form = putActionField(form, actions);
+  const actionIds = actions?.map(s => s.id);
+  form = putActionField(form, actionIds);
+
   if (dataSource !== dataSourceSystem) {
     form = putAllDataSourceFields(form, eventSpec);
   } else {
@@ -553,21 +555,21 @@ export function putTagValueField(form, tagValue) {
   );
 }
 
-export function putActionField(form, tagValue) {
-  return form.put(
-    'actionIds',
-    createField({
-      value: tagValue?.map(({ id }) => id) ?? []
-    })
-  );
-}
-
 export function removeTagValueField(form) {
   return form.remove('tagValue');
 }
 
 export function removeScopeByHostsField(form) {
   return form.remove('tagValue').remove('tagOperator');
+}
+
+export function putActionField(form, tagValue) {
+  return form.put(
+    'actionIds',
+    createField({
+      value: tagValue ?? []
+    })
+  );
 }
 
 export function putApplicationIdField(form, applicationIds) {

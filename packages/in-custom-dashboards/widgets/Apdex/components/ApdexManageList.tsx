@@ -6,14 +6,14 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { ApdexConfiguration } from '@instana/types';
+import { ApdexConfiguration, OrderDirection } from '@instana/types';
 
 import {
   APDEX_MANAGEMENT_CREATE_START,
   APDEX_MANAGEMENT_DELETE,
   APDEX_MANAGEMENT_EDIT_START
 } from 'in-services/tracking/eventNames';
-import useFilteredApdexConfigurations from 'in-custom-dashboards/widgets/Apdex/hooks/useFilteredApdexConfigurations';
+import useFilteredAndSortedApdexConfigurations from 'in-custom-dashboards/widgets/Apdex/hooks/useFilteredAndSortedApdexConfigurations';
 import { useApdexWidgetTrackers } from 'in-custom-dashboards/widgets/Apdex/components/ApdexWidgetTrackerProvider';
 import CreateApdexForm from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm';
 import { deleteApdexConfiguration } from 'in-custom-dashboards/widgets/Apdex/api';
@@ -44,8 +44,11 @@ export default function ApdexManageList({
   onShowCreateForm,
   onCloseCreateForm
 }: ApdexManageListProps) {
+  const [query, setQuery] = useState<string>('');
+  const [orderBy, setOrderBy] = useState<string>('name');
+  const [orderDirection, setOrderDirection] = useState<OrderDirection>('ASC');
   const [editableApdexConfig, setEditableApdexConfig] = useState<Partial<ApdexConfiguration>>({});
-  const [apdexResult, setQuery] = useFilteredApdexConfigurations(entityType, entityId);
+  const apdexResult = useFilteredAndSortedApdexConfigurations(entityType, entityId, query, orderBy, orderDirection);
   const [isCreateFormVisible, hideCreateForm] = useSlideOutDelay(showCreateForm);
 
   const track = useApdexWidgetTrackers();
@@ -92,11 +95,18 @@ export default function ApdexManageList({
       staticContent={
         <ApdexList
           fetchedConfigState={apdexResult}
-          onChange={({ query }) => setQuery(query ?? '')}
+          onChange={({ query, orderBy, orderDirection }) => {
+            setQuery(query ?? '');
+            setOrderBy(orderBy!);
+            setOrderDirection(orderDirection!);
+          }}
           onSelect={apdexConfig => onChange(apdexConfig)}
           onCreate={onCreateConfig}
           onEdit={onEditConfig}
           onDelete={onDeleteApdexConfig}
+          orderBy={orderBy}
+          orderDirection={orderDirection}
+          query={query}
         />
       }
       onAfterSlideOut={hideCreateForm}

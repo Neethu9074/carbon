@@ -44,7 +44,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/hooks/useWebsiteQueryBuilder', ()
       // Given
       const websiteId = 'someId';
       const beaconType = 'httpRequest';
-      const useCase = 'SMART_ALERTS';
+      const useCase = 'SLI_MANAGEMENT';
 
       // When
       renderHook(() =>

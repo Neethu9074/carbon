@@ -10,6 +10,7 @@ import { Observable } from '@instana/observables';
 
 import { Action, Field, Mutable, VolatileId, ActionAIScore, Event } from 'in-types';
 import createAgentResponseObservable from 'in-subscription/agentResponse';
+import { DOC_LINK_TYPE } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import http from 'in-services/http';
 import { t } from 'in-i18n';
@@ -48,7 +49,8 @@ export function getAction(actionId: string): Observable<Action> {
   return http<Action>({
     method: 'GET',
     maxRetries: 3,
-    url: `${actionUrl}/${encodeURIComponent(actionId)}`
+    url: `${actionUrl}/${encodeURIComponent(actionId)}`,
+    treat400AsError: false
   }).map(response => fromJS(response.body));
 }
 
@@ -109,7 +111,7 @@ export const createScriptFields = (value: string): Field[] => [
 
 export function createAction(
   name: string = t('in-settings:tabs.newAction'),
-  type: string = 'doc_link',
+  type: string = DOC_LINK_TYPE,
   description: string = '',
   fields: Field[] = [createDocLinkField('')],
   tags: string[] = []

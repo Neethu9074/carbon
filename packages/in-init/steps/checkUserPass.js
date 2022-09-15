@@ -5,9 +5,9 @@
 
 import { skipOnboardingDialog } from 'in-services/featureFlags';
 
-export default function checkIfUserCanPass(firstKnownReportingTime) {
+export default function checkIfUserCanPass(hasEntities) {
   if (skipOnboardingDialog) {
     return true;
   }
-  return firstKnownReportingTime > 0;
+  return hasEntities;
 }

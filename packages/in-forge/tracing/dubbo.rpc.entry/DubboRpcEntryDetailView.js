@@ -13,7 +13,6 @@ export default function DubboRpcEntryDetailView({ span }) {
   return (
     <div>
       <Dl>
-        <Di title={t('in-forge:tracing.rpc.procedureMethod')}>{span.getIn(['data', 'rpc', 'call'])}</Di>
         <Di title={t('in-forge:tracing.dubbo.titlePath')}>{span.getIn(['data', 'dubbo', 'path'])}</Di>
         <Di title={t('in-forge:tracing.dubbo.titleInterface')}>{span.getIn(['data', 'dubbo', 'interface'])}</Di>
         <Di title={t('in-forge:tracing.dubbo.titleGroup')}>{span.getIn(['data', 'dubbo', 'group'])}</Di>

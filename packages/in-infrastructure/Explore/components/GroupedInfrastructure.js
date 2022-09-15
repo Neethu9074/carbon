@@ -139,10 +139,12 @@ function Presenter({
       ]
     : [];
   const sortOptions = groupSortOptions.concat(
-    metrics.map(({ fullyQualifiedLabel, metric, aggregation }) => ({
-      label: fullyQualifiedLabel,
-      value: getMetricKey(metric, aggregation)
-    }))
+    metrics
+      .filter(m => m.fullyQualifiedLabel !== undefined)
+      .map(({ fullyQualifiedLabel, metric, aggregation }) => ({
+        label: fullyQualifiedLabel,
+        value: getMetricKey(metric, aggregation)
+      }))
   );
 
   return (
@@ -357,8 +359,12 @@ function isTagAndKeyConcat(name, group) {
   return group?.groupbyTag?.concat('.', group?.groupbyTagSecondLevelKey) === name;
 }
 
-function isKeyValue(tagType) {
-  return tagType !== undefined && 'KEY_VALUE_PAIR' === tagType;
+function isKeyValueTagType(tagType) {
+  return 'KEY_VALUE_PAIR' === tagType;
+}
+
+function isKeyValue(tagType, value) {
+  return tagType !== undefined && isKeyValueTagType(tagType) && value.indexOf('=') > 0;
 }
 
 function getName(name, group) {
@@ -366,17 +372,17 @@ function getName(name, group) {
 }
 
 function getValue(tagType, value) {
-  return isKeyValue(tagType) ? extractValue(value) : value;
+  return isKeyValue(tagType, value) ? extractValue(value) : isKeyValueTagType(tagType) ? '' : value;
 }
 
 function getKey(tagType, value, name, group) {
   if (isTagAndKeyConcat(name, group)) {
     return group.groupbyTagSecondLevelKey;
   }
-  if (isKeyValue(tagType)) {
+  if (isKeyValue(tagType, value)) {
     return extractKey(value, name, group);
   }
-  return undefined;
+  return isKeyValueTagType(tagType) ? value : undefined;
 }
 
 function extractKey(value) {

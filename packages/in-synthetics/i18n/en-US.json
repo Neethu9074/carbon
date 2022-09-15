@@ -87,7 +87,18 @@
       "mainLabel": "Synthetic Monitoring",
       "secondaryLabels": {
         "tests": "Tests",
-        "location": "Locations"
+        "locations": "Locations"
+      },
+      "popDialog": {
+        "button": "<> Deploy a PoP",
+        "simpleTab": "Simple",
+        "redisTab": "Redis TLS",
+        "title": "Synthetic PoP Commands",
+        "subTitle": "Please use these code templates as a reference",
+        "simpleCode": "helm install synthetic-pop \\\n\t./synthetic-pop \\\n\t--namespace <namespace> \\\n\t--create-namespace \\\n\t--set pullSecret.key=\"{{downloadKey}}\" \\\n\t--set\ncontroller.location=\"Name;DisplayName;Country;City;0;\n0;Location description\" \\\n\t--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n\t--set\ncontroller.instanaSyntheticEndpoint=\n\"{{syntheticAcceptorURL}}\" \\\n\t--set redis.tls.enabled=false \\\n\t--set redis.password=\"<yourpassword>\"",
+        "redisCode": "helm install synthetic-pop \\\n\t./synthetic-pop \\\n\t--namespace <namespace> \\\n\t--create-namespace \\\n\t--set downloadKey=\"{{downloadKey}}\" \\\n\t--set controller.location=\"Name;\nDisplayName;Country;City;0;0;\nLocation description\" \\\n\t--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n\t--set\ncontroller.instanaSyntheticEndpoint=\n\"{{syntheticAcceptorURL}}\" \\\n\t--set redis.tls.enabled=true",
+        "tlsInstructions": "If you want to enable Redis TLS, you need to create a\ncerts folder under Helm chart root path, and copy your\ncertificate-key pair (tls.crt, tls.key) and CA root certificate\nfile (ca.crt) into certs folder, the file names should be\nexactly matched.\n\nIf you do not have your key/cert files, you can also use\nopenssl command to generate new ones, see below\nexamples:",
+        "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key\n-days 3650 -subj\n'/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj\n'/0=Redis/CN=Server' | openssl x509\n-req -sha256 -CA ca.crt -CAkey tls.key -CAserial\nca.txt -CAcreateserial -days\n3650 -out tls.crt"
       },
       "testLabel": "Name",
       "status": "Status",
@@ -109,7 +120,15 @@
       "delete": "Delete the test",
       "labelConfirm": "Please Confirm",
       "labelConfirmRemoveTest": "Are you sure you want to remove the Synthetic test <strong>{{label}}</strong>?",
-      "labelRemove": "Remove"
+      "labelRemove": "Remove",
+      "na": "N/A"
+    },
+    "locationList": {
+      "locationLabel": "Location Name",
+      "status": "Status",
+      "type": "Type",
+      "totalTests": "No. of Tests Linked",
+      "lastRun": "Last Test Run On"
     },
     "summary": {
       "successRate": "Success Rate",
@@ -198,7 +217,9 @@
       "resultsTitle": "No results available",
       "resultsDescription": "There were no results retrieved for the selected time range.",
       "testSummaryTitle": "No Synthetic tests available",
-      "testSummaryDescription": "There are no Synthetic tests retrieved from the database."
+      "testSummaryDescription": "There are no Synthetic tests retrieved from the database.",
+      "locationListTitle": "No Synthetic locations available",
+      "locationListDescription": "There are no Synthetic locations retrieved from the database."
     }
   }
 }

@@ -14,8 +14,8 @@ import {
   createCustomThresholdBasedEventSpecification,
   getCustomEventSpecification,
   saveCustomEventSpecification,
-  getActionAssociationCustom,
-  saveActionAssociation
+  getCustomEventSpecificationWithActions,
+  saveCustomEventSpecificationWithActions
 } from 'in-api/eventSpecifications';
 import {
   createEventFormDefinition,
@@ -67,7 +67,7 @@ export default function CustomEvent(props) {
       createForm={event => createEventFormDefinition(event, !entityId)}
       getEntityFromApi={
         role.canConfigureAutomationActions && actionAutomationEnabled
-          ? getActionAssociationCustom
+          ? getCustomEventSpecificationWithActions
           : getCustomEventSpecification
       }
       openEntities={() => goToPath(teamSettingsAlertingEvents)}
@@ -102,16 +102,11 @@ const Form = entityForm(function DetailsForm(props) {
   const entityType = getPluginName(entity.get('entityType'), 1) ?? '';
   const isLegacyAppDataEntityType = isAppDataEntityType(entityType);
   const hasPermissionsToEditSmartAlerts = role.canConfigureCustomAlerts && role.canConfigureGlobalAlertConfigs;
-  // FIXME This check is incorrect, because check does not consider that the EVENTS context keyword could be us as the 1..N-th
-  //       keyword, or that brackets could be used.
-  const isMigrateableDfqScope = !entity.get('query')?.startsWith('event.');
-
   const isDeprecated = deprecateAppDataLegacyEventsEnabled && isLegacyAppDataEntityType;
 
   const isMigratable =
     isDeprecated &&
     hasPermissionsToEditSmartAlerts &&
-    isMigrateableDfqScope &&
     // only migrateable entities have the 'migrated' property set. For the other ones this prop is `undefined`, thus checking for false and not falsy.
     entity.get('migrated') === false;
 
@@ -184,10 +179,10 @@ function save(event, form) {
   });
 
   const eventSpecification = getEventSpecification(event, form);
-  if (role.canConfigureAutomationActions && actionAutomationEnabled) {
+  if (actionIds.length > 0 && role.canConfigureAutomationActions && actionAutomationEnabled) {
     const actions = actionIds.map(value => ({ id: value }));
     eventSpecification.actions = actions;
-    return saveActionAssociation(eventSpecification);
+    return saveCustomEventSpecificationWithActions(eventSpecification);
   } else {
     return saveCustomEventSpecification(eventSpecification);
   }

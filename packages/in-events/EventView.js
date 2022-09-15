@@ -18,7 +18,6 @@ import { highlightedTimeframe$ } from 'in-stores/highlightedTimeframe';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { timeConfig$, getTimeConfig } from 'in-stores/time/config';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import useResizeObserverCustom from 'in-hooks/useResizeObserver';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 import ViewSwitcher from 'in-events/components/ViewSwitcher';
@@ -125,7 +124,6 @@ function EventView(props) {
 }
 
 function EventViewComponent(props) {
-  const { ref: wrapperRef, height: wrapperHeight } = useResizeObserverCustom();
   const { eventType, staticTimeConfigToUseForTable, orderBy, orderDirection, query, eventId, timeConfig } = props;
   const tableProps = useCursorPagination(
     ({ cursor }) =>
@@ -152,7 +150,6 @@ function EventViewComponent(props) {
   );
   return (
     <Sticky
-      ref={sticky => (wrapperRef.current = sticky?.contentWrapper)}
       header={
         <>
           <DashboardHeader
@@ -169,14 +166,7 @@ function EventViewComponent(props) {
       }
     >
       {eventId ? (
-        <EventTable
-          {...props}
-          {...tableProps}
-          eventType={eventType}
-          selectedEventId={eventId}
-          // Set the EventTable height to the height of the wrapper to prevent overflow.
-          height={wrapperHeight}
-        />
+        <EventTable {...props} {...tableProps} eventType={eventType} selectedEventId={eventId} />
       ) : (
         <LeftRightPadding>
           <Row>

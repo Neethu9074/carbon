@@ -45,11 +45,40 @@ const columnDefinitions = [
         <SeverityAwareEntityLink
           severity={getSeverity(item)}
           label={getRelativeTime(item)}
-          href$={getModifiedUrlStream(detailsUrl => {
-            detailsUrl.pathname = syntheticDetailsPath;
-            setOrDeleteMatrixKey(detailsUrl, syntheticDetailsPath, 'testId', item.testResultCommonProperties.testId);
-            setOrDeleteMatrixKey(detailsUrl, syntheticDetailsPath, 'id', item.testResultCommonProperties.id);
-            return detailsUrl;
+          href$={getModifiedUrlStream(resultDetailsUrl => {
+            resultDetailsUrl.pathname = syntheticDetailsPath;
+            setOrDeleteMatrixKey(
+              resultDetailsUrl,
+              syntheticDetailsPath,
+              'testId',
+              item.testResultCommonProperties.testId
+            );
+            setOrDeleteMatrixKey(resultDetailsUrl, syntheticDetailsPath, 'id', item.testResultCommonProperties.id);
+            setOrDeleteMatrixKey(
+              resultDetailsUrl,
+              syntheticDetailsPath,
+              'startTime',
+              get(item, ['metrics', 'start_time', 0, 1])
+            );
+            setOrDeleteMatrixKey(
+              resultDetailsUrl,
+              syntheticDetailsPath,
+              'status',
+              get(item, ['metrics', 'status', 0, 1], 0)
+            );
+            setOrDeleteMatrixKey(
+              resultDetailsUrl,
+              syntheticDetailsPath,
+              'responseTime',
+              get(item, ['metrics', 'response_time', 0, 1], 0)
+            );
+            setOrDeleteMatrixKey(
+              resultDetailsUrl,
+              syntheticDetailsPath,
+              'responseSize',
+              get(item, ['metrics', 'response_size', 0, 1], 0)
+            );
+            return resultDetailsUrl;
           })}
         />
       );

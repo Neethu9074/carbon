@@ -25,6 +25,7 @@ import { createAlertConfig, updateAlertConfig } from 'in-websites/api/websiteAle
 import { modeAdvanced, modeSimple } from 'in-alerting/smart-alerts/websites/constants';
 import useWebsiteLabel from 'in-alerting/smart-alerts/websites/hooks/useWebsiteLabel';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
+import { getLinkToAlertConfig } from 'in-websites/navigation/paths';
 
 const logger = createLogger('in-websites/alerting/AlertDialog');
 const initialChartConfigIndex = 0;
@@ -134,7 +135,9 @@ function createOrSaveAlert(form, setForm, onClose, editMode, setIsSaving, setMes
     createAlertConfig(alertConfig).once(
       alertConfig => {
         onClose(alertConfig);
-        showSuccessMessage(alertConfig.name, editMode);
+        const href$ = getLinkToAlertConfig(alertConfig.id, null, alertConfig.websiteId);
+
+        showSuccessMessage(alertConfig.name, editMode, false, href$);
       },
       error => {
         logger.error(`failed to save alertConfig: ${alertConfig} ${error.message}`, error);

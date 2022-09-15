@@ -47,7 +47,8 @@ export function createSmartAlertForm(
   alertConfig: (GlobalApplicationsAlertConfigWithMetadata | ApplicationAlertConfigWithMetadata) &
     AlertConfigHiddenFields &
     UiExtraData,
-  editMode?: boolean
+  editMode?: boolean,
+  isGlobalSmartAlert?: boolean
 ): MapForm {
   const {
     applicationId,
@@ -195,11 +196,10 @@ export function createSmartAlertForm(
       createField({
         value: applications ?? {},
         validator: entitySelection => {
-          if (!isEntitySelectionValid(entitySelection, builtIn)) {
+          if (!isEntitySelectionValid(entitySelection, isGlobalSmartAlert)) {
             return [
               {
-                severity: 'error',
-                message: t('in-alerting:smartAlerts.applications.form.smartAlertFormNoEntitiesSelected')
+                severity: 'error'
               }
             ];
           } else {

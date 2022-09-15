@@ -16,6 +16,7 @@ import AddUserToGroupButton from 'in-settings/tabs/TeamSettings/pages/accessCont
 import { getEntityIdView, teamSettingsAccessControlGroups } from 'in-settings/navigation/paths';
 import { ListInsideACardRenderer } from 'in-settings/components/ApiList/renderer/renderer';
 import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
+import WithSubscript from 'in-settings/components/WithSubscript';
 import ApiList from 'in-settings/components/ApiList';
 import { t, Trans } from 'in-i18n';
 
@@ -38,7 +39,11 @@ export default function Groups({ userId, refresh }) {
 const columnDefinitions = [
   {
     getContent({ group }) {
-      return group.groupName;
+      return (
+        <WithSubscript subscript={group.limited ? t('in-settings:tabs.limitedAccess') : null}>
+          {group.groupName}
+        </WithSubscript>
+      );
     }
   },
   {

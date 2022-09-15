@@ -35,4 +35,21 @@ describe('in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/errors',
     // Then
     expect(translatedMessage).toBe(t('in-components:error.erroneousResultPresenterMessage'));
   });
+
+  it('returns translated message with context values if an message with variables is provided', () => {
+    // Given
+    const error = {
+      code: 'NOT_A_TECHNICAL_ERROR',
+      message:
+        'The maximum number of website apdex configurations (42) has been reached. Please contact Instana support to request an increase for this limit.'
+    };
+
+    // When
+    const translatedMessage = getTranslatedErrorMessage(error);
+
+    // Then
+    expect(translatedMessage).toBe(
+      t('in-custom-dashboards:widgets.apdex.createApdexForm.limitReachedError.website', [42])
+    );
+  });
 });

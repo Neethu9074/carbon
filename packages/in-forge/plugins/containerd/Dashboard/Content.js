@@ -21,7 +21,7 @@ import { t } from 'in-i18n';
 
 export default function ContainerdDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
-
+  const memoryLimitBytes = snapshot.getIn(['data', 'memory.limit']);
   return (
     <div>
       <KpiSection>
@@ -30,6 +30,13 @@ export default function ContainerdDashboard({ snapshot, timeConfig }) {
         </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.containerd.dashboard.labelMemoryUsage')}>
           <MetricValue snapshotId={snapshotId} metric="memory.usage" formatter={bytesTwoDecimalPlaces} />
+        </KpiKeyValue>
+        <KpiKeyValue label={t('in-forge:plugins.containerd.dashboard.memoryUsage')}>
+          <MetricValue
+            snapshotId={snapshotId}
+            metric="memory.used_percentage"
+            formatter={percentageZeroDecimalPlaces}
+          />
         </KpiKeyValue>
       </KpiSection>
 
@@ -70,7 +77,15 @@ export default function ContainerdDashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title={t('in-forge:plugins.containerd.dashboard.titleMemory')}>
+      <DashboardSection
+        title={
+          memoryLimitBytes
+            ? t('in-forge:plugins.containerd.dashboard.memoryLimit', {
+                limitBytes: bytesTwoDecimalPlaces(memoryLimitBytes)
+              })
+            : t('in-forge:plugins.containerd.dashboard.memory')
+        }
+      >
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -84,6 +99,13 @@ export default function ContainerdDashboard({ snapshot, timeConfig }) {
             ],
             formatter: bytesTwoDecimalPlaces,
             type: 'line'
+          }}
+          y2={{
+            min: 0,
+            metrics: ['memory.used_percentage'],
+            labels: [t('in-forge:plugins.containerd.dashboard.memoryUsage')],
+            type: 'line',
+            formatter: percentageTwoDecimalPlaces
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
@@ -99,6 +121,20 @@ export default function ContainerdDashboard({ snapshot, timeConfig }) {
               t('in-forge:plugins.containerd.dashboard.labelInactiveAnonymous'),
               t('in-forge:plugins.containerd.dashboard.labelInactiveCache')
             ],
+            formatter: bytesTwoDecimalPlaces,
+            type: 'line'
+          }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
+      </DashboardSection>
+      <DashboardSection title={t('in-forge:plugins.containerd.dashboard.blockIo')}>
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            metrics: ['blkio.blk_read', 'blkio.blk_write'],
+            labels: [t('in-forge:plugins.containerd.dashboard.read'), t('in-forge:plugins.containerd.dashboard.write')],
             formatter: bytesTwoDecimalPlaces,
             type: 'line'
           }}

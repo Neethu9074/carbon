@@ -4,7 +4,6 @@
  */
 
 import React, { Fragment } from 'react';
-import { compose } from 'recompose';
 
 import { Button } from '@instana/components';
 import { Link } from '@instana/components';
@@ -28,7 +27,7 @@ import changeExplanation from 'in-websites/emptyListExplanation';
 import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { ms, number } from 'in-services/formatters/number';
 import { isNotBlank } from 'in-services/util/string';
-import withUrlState from 'in-hoc/withUrlState';
+import useUrlState from 'in-hooks/useUrlState';
 import { t } from 'in-i18n';
 
 const columnDefinitions = [
@@ -119,14 +118,13 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   pathSegment: resourcesTab
 });
 
-export default compose(
-  withUrlState({
-    bind: [filterUrlParameter],
-    reducerName: 'setFilter'
-  })
-)(Resources);
+const urlStateDefinition = {
+  bind: [filterUrlParameter]
+};
 
-function Resources({ timeConfig, tagFilters, websiteId, resourceType, setFilter, websiteLabel }) {
+export default function Resources({ timeConfig, tagFilters, websiteId, resourceType, websiteLabel }) {
+  const [urlState, setUrlState] = useUrlState(urlStateDefinition);
+
   const tagCatalogResourceLoad = useTagCatalog('resourceLoad');
   const resourcesListRightHeader = (
     <Fragment>
@@ -149,7 +147,7 @@ function Resources({ timeConfig, tagFilters, websiteId, resourceType, setFilter,
         {t('in-websites:websiteDashboard.tabs.resources.resourcesButtonAnalyzeResources')}
       </Button>
 
-      <Filters resourceType={resourceType} setFilter={setFilter} />
+      <Filters resourceType={resourceType} setFilter={setUrlState} {...urlState} />
     </Fragment>
   );
 

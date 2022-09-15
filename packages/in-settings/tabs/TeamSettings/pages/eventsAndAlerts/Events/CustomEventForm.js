@@ -68,8 +68,8 @@ import {
 import {
   actionAutomationEnabled,
   deprecateAppDataLegacyEventsEnabled,
-  hideAppDataLegacyEventsEnabled,
-  disallowAppDataLegacyEventsEnabled
+  disallowAppDataLegacyEventsEnabled,
+  hideAppDataLegacyEventsEnabled
 } from 'in-services/featureFlags';
 import {
   containsMetricInList,
@@ -90,7 +90,7 @@ import BuiltInMetricSelector from 'in-settings/tabs/TeamSettings/pages/eventsAnd
 import CustomMetricSelector from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/CustomMetricSelector';
 import HostAvailabilityFormGroup from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/HostAvailabilityFormGroup';
 import ScopeHostsByTagFormGroup from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ScopeHostsByTagFormGroup';
-import ActionsSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ActionsSelection';
+import { ActionsSelection } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/sharedActions';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
 import { compareIgnoreCase, isBlank, isNotBlank } from 'in-services/util/string';
@@ -676,6 +676,12 @@ function EventForm({
             <TouchedMessages field={field} />
           </FormGroup>
         ))}
+      {role.canConfigureAutomationActions && actionAutomationEnabled && (
+        <>
+          <SectionHeading>{t('in-settings:tabs.4ActionAssociations')}</SectionHeading>
+          <ActionsSelection form={form} setForm={setForm} />
+        </>
+      )}
     </fieldset>
   );
 

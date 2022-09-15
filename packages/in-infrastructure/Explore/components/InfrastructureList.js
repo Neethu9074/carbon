@@ -17,7 +17,6 @@ import useCursorPagination from 'in-hooks/useCursorPagination';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { noop } from 'in-services/util/function';
-import Pill from 'in-components/Pill';
 import { t } from 'in-i18n';
 
 import locals from './InfrastructureList.mless';
@@ -131,11 +130,6 @@ function getLabelColumn({ timeConfig }, onNavigateToEntity) {
             href$={getDashboardLink(item.snapshotId, { to: offlineTime })}
             onClick={() => onNavigateToEntity?.(item.plugin)}
           />
-          {offlineTime && (
-            <Pill className={locals.pill} kind="lighter">
-              {t('in-infrastructure:explore.offline')}
-            </Pill>
-          )}
         </div>
       );
     }

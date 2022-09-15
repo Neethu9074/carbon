@@ -104,7 +104,7 @@ export default function AlertingChart({
       excludedLabelsFromTooltip: ['Violations', highlight?.label].filter(Boolean),
       nonToggleableSeries: enhanceNonToggleableSeries(metricName, highlight),
       labels: enhanceLabels(metricLabel, highlight),
-      tooltipFormatter: value => (value < 0 ? valueMissingPlaceholder : formatter.detailed(value)),
+      tooltipFormatter: value => (value < 0 || value === null ? valueMissingPlaceholder : formatter.detailed(value)),
       renderer,
       icons: {
         types: ['lib_line_chart', 'lib_threshold', 'lib_actions_stop', 'lib_actions_stop'],
@@ -169,7 +169,7 @@ export default function AlertingChart({
 function getRendererBasedOnThresholdType(threshold, highlight, granularity, eventBasedAdaptiveBaseline) {
   switch (threshold.type) {
     case STATIC_THRESHOLD:
-      return createLineWithThreshold(threshold);
+      return createLineWithThreshold(threshold.operator, threshold.value);
     case HISTORIC_BASELINE:
       return createLineWithBaselineAndOptionalPotentialProblem(threshold, granularity, highlight);
     default:
@@ -189,7 +189,7 @@ function getAlertsPreviewQuery({
   threshold,
   timeThreshold
 }) {
-  if (threshold.baseline || typeof threshold.value === 'number') {
+  if (shouldRequestAlertsPreview(threshold)) {
     return {
       tagFilterExpression: enrichedTagFilterExpression,
       includeInternal,
@@ -209,6 +209,13 @@ function getAlertsPreviewQuery({
     };
   }
   return null;
+}
+
+function shouldRequestAlertsPreview(threshold) {
+  if (threshold.type === 'staticThreshold') {
+    return threshold.value != null;
+  }
+  return threshold.baseline;
 }
 
 function enhanceLabels(label, highlight) {

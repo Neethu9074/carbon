@@ -7,6 +7,11 @@ export * from '@instana/types';
 export * from 'in-types/globals';
 export * from 'in-types/utilities';
 
+export interface ActionAIScore {
+  action: Action;
+  score: number;
+}
+
 export interface Action {
   readonly createdAt: Date;
   readonly description?: string;
@@ -18,20 +23,4 @@ export interface Action {
   readonly type: string;
   readonly tags: string[];
   score?: number;
-}
-
-export interface Field {
-  readonly description?: string;
-  readonly encoding: string;
-  readonly name: string;
-  readonly value: string;
-}
-
-export interface Parameter {
-  readonly name: string;
-}
-
-export interface ActionAIScore {
-  action: Action;
-  score: number;
 }

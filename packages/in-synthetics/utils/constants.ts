@@ -12,7 +12,8 @@ import {
   TestResultDetailData,
   TestResultListItem,
   TestResultSubtransaction,
-  Error
+  Error,
+  PoPInstallationProperties
 } from 'in-types';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import { syntheticsPath } from 'in-synthetics/navigation/paths';
@@ -74,6 +75,14 @@ export const dummyTestResultLogs: Result<ResultLogs> = {
   }
 };
 
+export const dummyPoPProperties: Result<PoPInstallationProperties> = {
+  data: {} as PoPProperties,
+  errors: [],
+  progress: {
+    loading: true
+  }
+};
+
 export interface ResultDetails {
   testId: string;
   testResultId: string;
@@ -84,6 +93,13 @@ export interface ResultLogs {
   testId: string;
   testResultId: string;
   logs: string;
+}
+
+export interface PoPProperties {
+  agentKey: string;
+  agentKeys: string[];
+  downloadKey: string;
+  syntheticAcceptorURL: string;
 }
 
 export interface UrlState {
@@ -123,6 +139,13 @@ export interface TestResultLog {
 export interface FilterProps {
   filter: { query: string };
   setFilter: (a: { query: string }) => void;
+}
+
+export interface PoPInstallationPropertiesResponse {
+  data?: PoPProperties;
+  errors?: Error[];
+  progress: Progress;
+  time?: number;
 }
 
 export const urlStateDefinition = {

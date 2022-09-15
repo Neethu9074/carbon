@@ -165,6 +165,12 @@ function Label({ item, selectedMetric }: Lab) {
         resultDetailUrl.pathname = syntheticDetailsPath;
         setOrDeleteMatrixKey(resultDetailUrl, syntheticDetailsPath, 'testId', testId);
         setOrDeleteMatrixKey(resultDetailUrl, syntheticDetailsPath, 'id', resultId);
+        setOrDeleteMatrixKey(
+          resultDetailUrl,
+          syntheticDetailsPath,
+          'start_time',
+          get(item, ['metrics', 'start_time', 0, 1])
+        );
         return resultDetailUrl;
       })}
     >

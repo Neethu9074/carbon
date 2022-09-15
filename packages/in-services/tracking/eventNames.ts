@@ -54,6 +54,7 @@ export const ANALYZE_UA2_ORDER_BY_GROUP_CHANGED = 'analyze.ua2.orderByGroup.chan
 export const ANALYZE_UA2_API_QUERY_PRESSED = 'analyze.ua2.apiQuery.pressed';
 export const ANALYZE_UA2_NESTING_DEPTH = 'analyze.ua2.nesting.depth';
 export const ANALYZE_UA2_LOAD_MORE_CLICKED = 'analyze.ua2.load.more.clicked';
+export const ANALYZE_UA2_FAST_QUERY_MODE_CHANGED = 'analyze.ua2.fastQueryMode.changed';
 
 export const ANALYZE_UA2_FORMMODEL_CHANGED = 'analyze.ua2.formmodel.changed';
 export const ANALYZE_UA2_FACETS_CHANGED = 'analyze.ua2.facets.changed';
@@ -344,6 +345,7 @@ export const ANALYZE_LOGGING_LOG_MESSAGE_TAG_CLICKED = 'analyze.logging.log.mess
 export const ANALYZE_LOGGING_JUMP_TO_LOGS = 'analyze.logging.jump.to.logs';
 export const ANALYZE_LOGGING_TIME_SPENT = 'analyze.logging.time.spent';
 export const LOGGING_LOGDNA_BUTTON_CLICKED = 'logging.logDna.clicked';
+export const ANALYZE_LOGGING_SORTING_CHANGED = 'analyze.logging.sorting.changed';
 
 // ENTERPRISE
 export const ENTERPRISE_IDP_MAPPING_FIRST = 'enterprise.idp.mapping.first';

@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { Stack } from '@instana/components';
+import { just } from '@instana/observables';
 
 import ServicesAndEndpointsListPresenter, {
   ServicesAndEndpointsSearchInput
@@ -21,6 +22,8 @@ import TimeThresholdDescription from 'in-alerting/smart-alerts/components/smart-
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import { getLogMessageRuleOperatorLabel } from 'in-alerting/smart-alerts/applications/form/ruleFormData';
 import { AlertThresholdInfos } from 'in-alerting/smart-alerts/applications/details/AlertThresholdInfos';
+import getEndpointsCursorPaginated from 'in-applications/subscriptions/getEndpointsCursorPaginated';
+import getServicesCursorPaginated from 'in-applications/subscriptions/getServicesCursorPaginated';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import CustomPayloadCard from 'in-alerting/smart-alerts/components/details/CustomPayloadCard';
@@ -28,11 +31,13 @@ import { fromBackendModel } from 'in-components/QueryBuilder/transformation/form
 import SelectedAlertTypeInfo from 'in-alerting/components/SelectedAlertTypeInfo';
 import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
 import AlertPropertyInfos from 'in-alerting/components/AlertPropertyInfos';
+import getApplication from 'in-applications/subscriptions/getApplication';
 import AlertDetailsCard from 'in-alerting/components/AlertDetailsCard';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import { operators } from 'in-analyze/applicationFilter';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import ListTitle from 'in-components/lists/Title';
+import { success } from 'in-services/util/result';
 import { noop } from 'in-services/util/function';
 import { t } from 'in-i18n';
 
@@ -186,13 +191,16 @@ function CallsScopeCard({ alertConfig }) {
 }
 
 function ServiceEndpointSelectionCard({ alertConfig, isGlobalSmartAlert }) {
+  const { applications } = alertConfig;
   const timeConfig = useTimeConfig();
   const [searchQuery, setSearchQuery] = useState(null);
+
+  const moreThanOneSelection = applications && Object.values(applications).length > 1;
 
   return (
     <LightCard
       title={t('in-alerting:smartAlerts.applications.details.applicationsServiceEndpointScopeTitle')}
-      header={<ServicesAndEndpointsSearchInput onChange={setSearchQuery} />}
+      header={moreThanOneSelection && <ServicesAndEndpointsSearchInput onChange={setSearchQuery} />}
       headerClassName={locals.lightCardHeader}
       withoutPadding
       darkFrame
@@ -208,11 +216,18 @@ function ServiceEndpointSelectionCard({ alertConfig, isGlobalSmartAlert }) {
         isGlobalSmartAlert={isGlobalSmartAlert}
         searchQuery={searchQuery}
         showInteractedItemsOnly
+        apiSubscriptions={noAppsFetchingApiSubscriptions}
         readOnly
       />
     </LightCard>
   );
 }
+const noAppsFetchingApiSubscriptions = {
+  getApplicationsCursorPaginated: () => just(success({ items: [] })),
+  getApplication,
+  getServicesCursorPaginated,
+  getEndpointsCursorPaginated
+};
 
 function AdditionalFiltersCard({ tagFilterFormModel, alertType, thresholdType }) {
   const { QueryBuilder } = getQueryBuilderForAlertType(alertType, thresholdType);

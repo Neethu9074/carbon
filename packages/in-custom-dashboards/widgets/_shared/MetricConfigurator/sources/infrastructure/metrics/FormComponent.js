@@ -158,6 +158,9 @@ export default function FormComponent({
                   if (isCrossSeriesAggregationRestricted) {
                     return field;
                   }
+                  if (e.target.value === 'PER_SECOND') {
+                    return field.setValue('SUM').setTouched(true);
+                  }
                   return field.setValue(e.target.value).setTouched(true);
                 })
             )

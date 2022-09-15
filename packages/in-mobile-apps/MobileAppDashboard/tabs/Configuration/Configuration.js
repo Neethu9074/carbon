@@ -54,9 +54,11 @@ export default function Configuration(props) {
           path={configurationCustomGeoDetailsFullyQualified}
           render={() => <MobileAppCustomGeoDetails {...props} />}
         />
-        <RedirectWithHash
-          to$={getModifiedUrlStream(params => (params.pathname = configurationOptionsFullyQualified))}
-        />
+        <Route>
+          <RedirectWithHash
+            to$={getModifiedUrlStream(params => (params.pathname = configurationOptionsFullyQualified))}
+          />
+        </Route>
       </Switch>
     </SidebarContainer>
   );

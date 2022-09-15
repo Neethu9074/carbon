@@ -9,6 +9,7 @@ import { List, Map } from 'immutable';
 
 import { generateUniqueShortId } from '@instana/utils';
 
+import { isDocLink, isScript } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import { notBlankValidator } from 'in-services/validators/string';
 import { ImmutableNewAction } from 'in-api/automation';
 import { t } from 'in-i18n';
@@ -57,28 +58,28 @@ export function createActionFormDefinition(action: ImmutableNewAction, _isCreate
         }
       })
     );
-  if (action.get('type') === 'doc_link') form = putDocLinkFields(form, action);
-  else if (action.get('type') === 'SCRIPT') form = putScriptField(form, action);
+  if (isDocLink(action.get('type') as string)) form = putDocLinkFields(form, action);
+  else if (isScript(action.get('type') as string)) form = putScriptField(form, action);
   return form;
 }
 
 export function putDocLinkFields(form: MapForm, action: ImmutableNewAction) {
   const fields = action.get('fields') as List<Map<string, unknown>>;
-  const field = fields.get(0);
+  const value = isDocLink(action.get('type') as string) ? fields?.get(0)?.get('value') : '';
 
   return form.put(
-    'docLinkValue',
+    'docLink',
     createField({
-      value: field.get('value'),
+      value,
       validator: notBlankValidator
     })
   );
 }
 
 export function putScriptField(form: MapForm, action: ImmutableNewAction) {
-  const fields = action.get('fields') as List<Map<string, unknown>>;
   let value = '';
-  if (fields.size === 2) {
+  if (isScript(action.get('type') as string)) {
+    const fields = action.get('fields') as List<Map<string, unknown>>;
     const field = fields.get(1);
     value = atob(field.get('value') as string);
   }
@@ -86,7 +87,7 @@ export function putScriptField(form: MapForm, action: ImmutableNewAction) {
   return form.put(
     'script',
     createField({
-      value: value,
+      value,
       validator: notBlankValidator
     })
   );

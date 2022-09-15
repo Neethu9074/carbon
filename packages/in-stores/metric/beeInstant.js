@@ -16,5 +16,6 @@ export const aggregationLabels = {
   P98: t('in-stores:metric.metric', { context: 'P98' }),
   P99: t('in-stores:metric.metric', { context: 'P99' }),
   MAX: t('in-stores:metric.metric', { context: 'MAX' }),
-  SUM: t('in-stores:metric.metric', { context: 'SUM' })
+  SUM: t('in-stores:metric.metric', { context: 'SUM' }),
+  PER_SECOND: t('in-stores:metric.metric', { context: 'PER_SECOND' })
 };

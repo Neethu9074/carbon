@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import { get, reverse, sortBy } from 'lodash';
+import { reverse, sortBy } from 'lodash';
 import React, { ReactNode } from 'react';
 
 import { Button, Link } from '@instana/components';
@@ -41,20 +41,6 @@ const columnDefinitions = [
     label: t('in-settings:tabs.type'),
     id: 'type',
     getContent: getType
-  },
-  {
-    label: t('in-settings:tabs.invocations'),
-    id: 'invocations',
-    getContent() {
-      return '0';
-    }
-  },
-  {
-    label: t('in-settings:tabs.successRate'),
-    id: 'successRate',
-    getContent() {
-      return null;
-    }
   },
   {
     label: t('in-settings:tabs.lastModified'),
@@ -171,7 +157,7 @@ export default function ActionTable({
       loadEntities={loadEntities}
       columnDefinitions={columnDefinitionsToShow}
       getHeader={getHeader()}
-      searchAttributes={['name', 'description', (entity: Action) => (get(entity, 'tags') ?? []).toString()]}
+      searchAttributes={['name', 'description', (entity: Action) => (entity?.tags ?? []).toString()]}
       searchPlaceholder={t('in-settings:tabs.filterActions')}
       searchMaxWidth={210}
       rightHeader={rightHeader}
@@ -190,7 +176,7 @@ function getHeader() {
 function createFilters(ids: string[]): Array<(action: Action) => boolean> {
   const filterFunctions = [];
   if (ids) {
-    filterFunctions.push((action: Action) => ids.indexOf(action.id) < 0);
+    filterFunctions.push((action: Action) => !ids.includes(action.id));
   }
   return filterFunctions;
 }

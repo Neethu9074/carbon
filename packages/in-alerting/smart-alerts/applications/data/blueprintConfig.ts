@@ -367,10 +367,10 @@ function enrichWithDefaultStaticThresholdValues(alertConfig: ApplicationAlertCon
       ...threshold,
       // as this should already be introducing the right threshold when invoked from the blueprint,
       // using casting to the different Threshold Types here should be fine, to make TS happy, and
-      // to prepare the next step to refactor this away (actually, the rendering should be resilient and
+      // to prepare the next step to refactor this away. Actually, the rendering should be resilient and
       // do not need these defaults...
       // @ts-ignore-error needs to be refactored
-      value: (threshold as StaticThresholdConfig)?.value ?? 0
+      value: (threshold as StaticThresholdConfig)?.value ?? null
     }
   };
 }
@@ -383,9 +383,9 @@ function enrichWithDefaultThresholdValuesForBaselines(alertConfig: ApplicationAl
       ...threshold,
       // as this should already be introducing the right threshold when invoked from the blueprint,
       // using casting to the different Threshold Types here should be fine, to make TS happy, and
-      // to prepare the next step to refactor this away (actually, the rendering should be resilient and
+      // to prepare the next step to refactor this away. Actually, the rendering should be resilient and
       // do not need these defaults...
-      value: (threshold as StaticThresholdConfig)?.value ?? 0,
+      value: (threshold as StaticThresholdConfig)?.value ?? null,
       // @ts-ignore-error needs to be refactored
       baseline: (threshold as HistoricBaselineConfig).baseline ?? [],
       deviationFactor: (threshold as HistoricBaselineConfig).deviationFactor ?? 0

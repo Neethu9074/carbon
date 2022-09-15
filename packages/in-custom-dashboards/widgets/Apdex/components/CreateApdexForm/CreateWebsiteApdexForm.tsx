@@ -21,6 +21,7 @@ import {
 } from 'in-custom-dashboards/widgets/Slo/sli/hooks/useWebsiteQueryBuilder';
 import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingFieldValidationMessage';
 import { CreateApdexFormComponentProps } from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/CreateApdexForm';
+import EditConfigNotice from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/EditConfigNotice';
 import useSetFormFooterEffect from 'in-custom-dashboards/widgets/Slo/sli/hooks/useSetFormFooterEffect';
 import ApdexConfigPreview from 'in-custom-dashboards/widgets/Apdex/components/ApdexConfigPreview';
 import { entityIdKey, getField, setFieldValue } from 'in-custom-dashboards/widgets/Apdex/form';
@@ -74,9 +75,9 @@ export default function CreateWebsiteApdexForm({
   return (
     <Form form={form} setForm={f => onChange([], () => f)} onSubmit={onSubmit} formId="createApdexForm">
       <Stack gap="large">
+        <EditConfigNotice />
         <Stack component="section" gap="normal">
           <Header>{t('in-custom-dashboards:widgets.apdex.createApdexForm.customizationHeader')}</Header>
-
           <Stack gap="xsmall">
             <Sections>
               <InputInSection
