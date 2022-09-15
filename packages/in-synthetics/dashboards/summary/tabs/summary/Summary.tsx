@@ -6,8 +6,6 @@
 import { useLocation } from 'react-router';
 import React, { Fragment } from 'react';
 
-import { useObservable } from '@instana/hooks';
-
 import ResultsTopList from 'in-synthetics/dashboards/summary/tabs/summary/components/ResultsTopList';
 import ResponseStatus from 'in-synthetics/dashboards/summary/tabs/summary/components/ResponseStatus';
 import NetworkTimings from 'in-synthetics/dashboards/summary/tabs/summary/components/NetworkTiming';
@@ -16,22 +14,26 @@ import ResponseSize from 'in-synthetics/dashboards/summary/tabs/summary/componen
 import Failures from 'in-synthetics/dashboards/summary/tabs/summary/components/Failures';
 import { bytes, meanLatency, number, percentage } from 'in-services/formatters/number';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
-import getSyntheticTest from 'in-synthetics/subscriptions/getSyntheticTest';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
-import { dummyTest, TestResponse } from 'in-synthetics/utils/constants';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import { syntheticsDashboard } from 'in-synthetics/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { TestResponse } from 'in-synthetics/utils/constants';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { Col, Row } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
-export default function Summary() {
+type summaryType = {
+  test: TestResponse;
+};
+
+export default function Summary(props: summaryType) {
   const timeShiftConfig = useTimeShiftConfig();
   const location = useLocation();
   const testId: string = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
-  let testType: boolean = getMatrixParameter(location, syntheticsDashboard, 'type') ? true : false;
-  const test: TestResponse = useObservable<any, [number]>(() => getSyntheticTest({ testId: testId }), [0]) || dummyTest;
+  let testType: boolean = getMatrixParameter(location, syntheticsDashboard, 'type') === 'HTTPAction' ? true : false;
+
+  let test: TestResponse = props.test;
 
   let tagFilters = [
     {

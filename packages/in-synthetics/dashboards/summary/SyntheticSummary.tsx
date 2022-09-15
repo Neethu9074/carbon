@@ -16,11 +16,11 @@ import TabView from 'in-components/LocationAwareTabView/TabView';
 import DashboardHeader, { DashboardHeaderProps } from 'in-components/DashboardHeader';
 import { showUpdateErrorMessage } from 'in-synthetics/components/utils/userFeedback';
 import getSyntheticTest from 'in-synthetics/subscriptions/getSyntheticTest';
+import { dummyTest, TestResponse } from 'in-synthetics/utils/constants';
 import { syntheticsDashboard } from 'in-synthetics/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import tabs from 'in-synthetics/dashboards/summary/tabs/index';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
-import { dummyTest } from 'in-synthetics/utils/constants';
 import { Progress, SyntheticTest } from 'in-types';
 import { updateTest } from 'in-synthetics/api';
 
@@ -94,7 +94,8 @@ export default function SyntheticSummaryDashboard() {
 
   const location = useLocation();
   const testId = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
-  const test = useObservable<any, [number]>(() => getSyntheticTest({ testId: testId }), [count]) || dummyTest;
+  const test: TestResponse =
+    useObservable<any, [number]>(() => getSyntheticTest({ testId: testId }), [count]) || dummyTest;
 
   const props = {
     location,
