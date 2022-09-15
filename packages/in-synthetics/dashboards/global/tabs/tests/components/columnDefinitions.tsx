@@ -78,6 +78,12 @@ export const columnDefinitions: ColumnDefinition<TestResultListItem, testListPro
                 'testId',
                 item?.testResultCommonProperties?.testCommonProperties?.id
               );
+              setOrDeleteMatrixKey(
+                summaryUrl,
+                syntheticsDashboard,
+                'type',
+                item?.testResultCommonProperties?.testCommonProperties?.type
+              );
               return summaryUrl;
             })}
           >
