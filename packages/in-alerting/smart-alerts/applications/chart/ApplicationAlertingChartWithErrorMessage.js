@@ -160,7 +160,7 @@ function getErrorMessage(isQB2Error, isServicesAndEndpointsSelectionError) {
     return t('in-alerting:components.chart.alertingChartMessageInvalidFilterQuery');
   }
   if (isServicesAndEndpointsSelectionError) {
-    return t('in-alerting:components.chart.alertingChartMessageEntitySelectionInvalid');
+    return t('in-alerting:components.chart.alertingChartMessageEmptyApplicationSelection');
   }
 }
 

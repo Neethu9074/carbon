@@ -39,7 +39,7 @@
       "alertingChartLabelThreshold": "Threshold",
       "alertingChartLabelViolations": "Violations",
       "alertingChartMessageInvalidFilterQuery": "Invalid filter query.",
-      "alertingChartMessageEntitySelectionInvalid": "No entities selected.",
+      "alertingChartMessageEmptyApplicationSelection": "No application selected.",
       "chartAlertsLaneErrorMessage": "Alerts could not be loaded",
       "chartAlertsPreviewLanePresenterAlertsLabel": "Alerts",
       "chartAlertsPreviewLanePresenterNoAlertsLabel": "No Alerts",
@@ -463,7 +463,6 @@
         "ruleFormPleaseProvideALogMessage": "Please provide a log message",
         "ruleFormPleaseProvideAStartStatusCode": "Please provide a valid start HTTP status code",
         "ruleFormPleaseProvideAEndStatusCode": "Please provide a valid end HTTP status code",
-        "smartAlertFormNoEntitiesSelected": "No entities selected",
         "smartAlertFormValueIsReadOnly": "The value is read only and cannot be changed",
         "thresholdFormPleaseProvideANumber0": "Please provide a number >= 0",
         "thresholdFormBaselineIsEmpty": "baseline is empty"

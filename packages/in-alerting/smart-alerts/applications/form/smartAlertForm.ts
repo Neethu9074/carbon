@@ -199,8 +199,7 @@ export function createSmartAlertForm(
           if (!isEntitySelectionValid(entitySelection, isGlobalSmartAlert)) {
             return [
               {
-                severity: 'error',
-                message: t('in-alerting:smartAlerts.applications.form.smartAlertFormNoEntitiesSelected')
+                severity: 'error'
               }
             ];
           } else {

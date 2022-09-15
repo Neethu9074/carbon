@@ -127,7 +127,7 @@ export default function SharedList({
           <Message
             className={locals.emptyListPlaceholderMessage}
             withIcon
-            title={t('in-alerting:components.chart.alertingChartMessageEntitySelectionInvalid')}
+            title={t('in-alerting:components.chart.alertingChartMessageEmptyApplicationSelection')}
           />
         </Li>
       )}
