@@ -8,10 +8,10 @@ import { fromJS, Map } from 'immutable';
 
 import { Observable } from '@instana/observables';
 
-import { Action, Field, Mutable, VolatileId, ActionAIScore, Event } from 'in-types';
-import createAgentResponseObservable from 'in-subscription/agentResponse';
 import { DOC_LINK_TYPE } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
+import createAgentResponseObservable from 'in-subscription/agentResponse';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
+import { Action, Field, Mutable, VolatileId, Event } from 'in-types';
 import http from 'in-services/http';
 import { t } from 'in-i18n';
 
@@ -23,25 +23,6 @@ export function getAllActions(): Observable<Action[]> {
     method: 'GET',
     maxRetries: 3,
     url: actionUrl
-  }).map(response => response.body);
-}
-
-export function getAllActionsWithAISuggestions(
-  eventName: string,
-  eventDescription: string
-): Observable<ActionAIScore[]> {
-  return http<ActionAIScore[]>({
-    method: 'POST',
-    maxRetries: 3,
-    url: `${automationAPIBase}/ai/action/match`,
-    data: {
-      name: eventName,
-      description: eventDescription,
-      type: 'nlp',
-      tags: ['host, database', 'performance'],
-      searchOrder: 'name'
-    },
-    headers: getCsrfHeader()
   }).map(response => response.body);
 }
 

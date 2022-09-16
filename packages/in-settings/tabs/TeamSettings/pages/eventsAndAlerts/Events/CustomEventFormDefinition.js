@@ -166,6 +166,7 @@ export function createEventFormDefinition(eventSpec, isCreate) {
       form = putHostAvailabilityDetectionFields(form, eventSpec);
     }
   }
+
   if (applyOn === scopeApplication) {
     form = putApplicationField(form, applicationName);
     form = putApplicationIdField(form, applicationIds);

@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2022
  */
 
-import { reverse, sortBy } from 'lodash';
 import React, { ReactNode } from 'react';
 
 import { Button, Link } from '@instana/components';
@@ -65,17 +64,6 @@ const columnDefinitions = [
   }
 ];
 
-const scoreColumn = {
-  label: 'AI Score',
-  id: 'score',
-  getContent(row: Action) {
-    return row.score?.toFixed(2);
-  },
-  getValue(row: Action) {
-    return row.score;
-  }
-};
-
 const executeColumn = (volatileId: VolatileId, event: Event | null) => ({
   id: 'execute',
   label: 'Execute',
@@ -120,7 +108,6 @@ export interface ActionTableProps {
   getEntityName?: (action: Action) => string;
   showExecuteColumn?: boolean | undefined;
   volatileId?: VolatileId;
-  scored?: boolean;
   event?: Event | null;
 }
 
@@ -135,24 +122,19 @@ export default function ActionTable({
   getEntityName,
   showExecuteColumn = false,
   volatileId = {},
-  scored = false,
   event = null
 }: ActionTableProps) {
   let columnDefinitionsToShow = columnDefinitions;
   if (showExecuteColumn) {
     columnDefinitionsToShow = [...columnDefinitions, executeColumn(volatileId, event)];
   }
-  if (scored) {
-    columnDefinitionsToShow = [...columnDefinitionsToShow, scoreColumn];
-  }
 
   return (
     <List<Action>
       title={title}
-      initalOrderDir={scored ? 'DESC' : 'ASC'}
       noDataMessage={noDataMessage}
       pageSize={pageSize}
-      initialOrderBy={scored ? 'score' : 'name'}
+      initialOrderBy={'name'}
       isSearchable
       loadEntities={loadEntities}
       columnDefinitions={columnDefinitionsToShow}
@@ -164,7 +146,6 @@ export default function ActionTable({
       tableActions={tableActions}
       extraFilters={createFilters(hiddenIds)}
       getEntityName={getEntityName}
-      customSortEntities={sortEntities}
     />
   );
 }
@@ -179,28 +160,4 @@ function createFilters(ids: string[]): Array<(action: Action) => boolean> {
     filterFunctions.push((action: Action) => !ids.includes(action.id));
   }
   return filterFunctions;
-}
-
-function sortEntities({
-  entities,
-  orderByState,
-  orderDirectionState
-}: {
-  entities: Action[];
-  orderByState: keyof Action;
-  orderDirectionState: 'ASC' | 'DESC';
-}): Action[] {
-  const caseInsensitiveSortIteratee = (entity: Action) => {
-    let value = entity[orderByState as keyof Action];
-    if (orderByState === 'score') {
-      return [value, entity.name.trim().toLowerCase()];
-    }
-    return typeof value === 'string' ? value.trim().toLowerCase() : value;
-  };
-
-  const sorted = sortBy(entities, caseInsensitiveSortIteratee);
-  if (orderDirectionState === 'DESC') {
-    reverse(sorted);
-  }
-  return sorted;
 }
