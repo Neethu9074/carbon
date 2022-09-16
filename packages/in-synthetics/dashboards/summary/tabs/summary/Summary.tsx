@@ -5,9 +5,6 @@
 
 import { useLocation } from 'react-router';
 import React, { Fragment } from 'react';
-import { get } from 'lodash';
-
-import { useObservable } from '@instana/hooks';
 
 import ResultsTopList from 'in-synthetics/dashboards/summary/tabs/summary/components/ResultsTopList';
 import ResponseStatus from 'in-synthetics/dashboards/summary/tabs/summary/components/ResponseStatus';
@@ -21,18 +18,20 @@ import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import { syntheticsDashboard } from 'in-synthetics/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { TestResponse } from 'in-synthetics/utils/constants';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
-import { dummyTest } from 'in-synthetics/utils/constants';
 import { Col, Row } from 'in-components/layout/Grid';
-import { getTest } from 'in-synthetics/api';
 import { t } from 'in-i18n';
 
-export default function Summary() {
+interface summaryType {
+  test: TestResponse;
+}
+
+export default function Summary({ test }: summaryType) {
   const timeShiftConfig = useTimeShiftConfig();
   const location = useLocation();
-  const testId = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
-  let test = useObservable<any, []>(() => getTest(testId), []) || dummyTest;
-  let testType = get(test, ['data', 'configuration', 'syntheticType']) === 'HTTPAction' ? true : false;
+  const testId: string = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
+  const testType: boolean = getMatrixParameter(location, syntheticsDashboard, 'type') === 'HTTPAction' ? true : false;
 
   let tagFilters = [
     {
@@ -163,7 +162,7 @@ export default function Summary() {
         <Col xs>
           <ResponseTime test={test} timeShiftConfig={timeShiftConfig} />
         </Col>
-        {testType && (
+        {testType && !test.progress.loading && (
           <Col xs>
             <NetworkTimings test={test} timeShiftConfig={timeShiftConfig} />
           </Col>

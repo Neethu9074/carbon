@@ -8286,7 +8286,6 @@
       "datacenter": "Datacenter",
       "mount": "Mount Point",
       "device": "Device",
-      "deviceOrMount": "Device/Mount Point",
       "gpuUuid": "GPU UUID"
     },
     "httpd": {
