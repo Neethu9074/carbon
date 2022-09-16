@@ -266,7 +266,7 @@ export function getCustomEventActions(eventSpecificationId) {
   return http({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/events/settings/beta/event-specifications/built-in/${encodeURIComponent(eventSpecificationId)}/actions`,
+    url: `/api/events/settings/beta/event-specifications/custom/${encodeURIComponent(eventSpecificationId)}/actions`,
     treat400AsError: false
   }).map(response => fromJS(response.body));
 }
