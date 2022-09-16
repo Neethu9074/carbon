@@ -23,7 +23,6 @@ import { isInternalVisible$ } from 'in-components/MainNavigation/components/View
 import ManagementButtonSection from 'in-forge/plugins/instanaAgent/Dashboard/ManagementButtonSection';
 import ConfigurationManagement from 'in-forge/plugins/instanaAgent/Dashboard/ConfigurationManagement';
 import InfoButtonSection from 'in-forge/plugins/instanaAgent/Dashboard/InfoButtonSection';
-import { RunActionDialog } from 'in-forge/plugins/instanaAgent/Dashboard/RunActionDialog';
 import SensorTimingList from 'in-forge/plugins/instanaAgent/Dashboard/SensorTimingList';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -39,7 +38,6 @@ import IssueList from 'in-forge/plugins/instanaAgent/Dashboard/IssueList';
 import { agentMonitoringIssuesEnabled } from 'in-services/featureFlags';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { supportsOpenFiles } from 'in-forge/plugins/host/hostUtils';
-import { actionAutomationEnabled } from 'in-services/featureFlags';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -68,22 +66,6 @@ export default connectTo(
         <Columize>
           <DashboardSection title={t('in-forge:plugins.instanaAgent.dashboard.info')}>
             <InfoButtonSection snapshot={snapshot} />
-          </DashboardSection>
-          <DashboardSection
-            title={t('in-forge:plugins.instanaAgent.dashboard.actions')}
-            button={
-              role.canConfigureAutomationActions && actionAutomationEnabled ? (
-                <ImageButton
-                  iconType="lib_actions_settings"
-                  // onClick={() => addActiveDialog(<AgentConfiguration snapshot={snapshot} />)}
-                  onClick={() => addActiveDialog(<RunActionDialog snapshot={snapshot} />)}
-                >
-                  {t('in-forge:plugins.instanaAgent.dashboard.runActions')}
-                </ImageButton>
-              ) : null
-            }
-          >
-            <p>{t('in-forge:plugins.instanaAgent.dashboard.ActionAgentInfo')}</p>
           </DashboardSection>
           <DashboardSection
             title={t('in-forge:plugins.instanaAgent.dashboard.configurationManagement')}
