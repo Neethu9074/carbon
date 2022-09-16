@@ -26,12 +26,6 @@ export default function RunAction({ script, volatileId, event }: Props) {
   return (
     <Dialog title={t('in-events:runAction')} onClose={close}>
       <>
-        {/* <Button kind="primary"
-            onClick={() =>setExpanded(expanded => !expanded)}
-            noAutoMargin>
-            {expanded && 'Hide script'}
-            {!expanded && 'Show script'}
-        </Button> */}
         <Code code={expanded ? atob(script) : ''} lang={'bash'} withoutCopyButton />
         <Button kind="primary" onClick={() => runScriptAction(script, volatileId, event).once(close)} noAutoMargin>
           Run
