@@ -10,17 +10,18 @@ import React from 'react';
 import { SvgIcon } from '@instana/components';
 
 import {
+  cancelMaintenanceWindowTracker,
+  editMaintenanceWindowTracker,
+  newMaintenanceWindowTracker,
+  submitMaintenanceWindowTracker
+} from 'in-settings/tracker';
+import {
   createMaintenanceConfig,
   createMaintenanceWindow,
   getMaintenanceConfig,
   saveMaintenanceConfig
 } from 'in-api/maintenanceConfiguration';
 import MaintenanceConfigurationForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurationForm';
-import {
-  editMaintenanceWindowTracker,
-  newMaintenanceWindowTracker,
-  submitMaintenanceWindowTracker
-} from 'in-settings/tracker';
 import { queryValidationResultValidator, queryValidationInProgressValidator, valid } from 'in-settings/validation';
 import { applicationIdsToDfq, parseQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import { teamSettingsAlertingMaintenanceConfigurations } from 'in-settings/navigation/paths';
@@ -105,6 +106,10 @@ const Form = entityForm(function MaintenanceForm(props) {
         loading={loading}
         isCreate={isCreate}
         listPath={teamSettingsAlertingMaintenanceConfigurations}
+        onClickCancelButton={() => {
+          cancelMaintenanceWindowTracker();
+          goToPath(teamSettingsAlertingMaintenanceConfigurations);
+        }}
       />
     </SettingsDetailPage>
   );
@@ -118,8 +123,16 @@ function save(config, form) {
   // the query field might not exist in case 'Apply on ALL' is selected,
   // which corresponds to an empty query
   const query = getQueryFromFormField(form);
+  const isNew = config && config.get('id') ? false : true;
 
-  submitMaintenanceWindowTracker(); //Mixpanel tracking
+  submitMaintenanceWindowTracker({
+    isNew,
+    windowStart: windowStart || null,
+    windowEnd: windowEnd || null,
+    query,
+    name: form && form.get('name') && form.get('name').value ? form.get('name').value : null
+  }); //Mixpanel tracking
+
   return saveMaintenanceConfig(
     fromJS(
       createMaintenanceConfig(

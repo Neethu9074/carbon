@@ -271,6 +271,7 @@ export const SETTINGS_MAINTENANCE_WINDOW_EDIT = 'settings.maintenance.edit';
 export const SETTINGS_MAINTENANCE_WINDOW_NEW = 'settings.maintenance.new';
 export const SETTINGS_MAINTENANCE_WINDOW_SUBMIT = 'settings.maintenance.submit';
 export const SETTINGS_MAINTENANCE_WINDOW_REMOVE = 'settings.maintenance.remove';
+export const SETTINGS_MAINTENANCE_WINDOW_CANCEL = 'settings.maintenance.cancel';
 
 export const ONBOARDING_OPENED = 'onboardingNewUnit.dialog.opened';
 export const ONBOARDING_INSTANA_BEGINNER_VIDEOS_CLICKED = 'onboardingNewUnit.instanaBeginnerVideos.clicked';
