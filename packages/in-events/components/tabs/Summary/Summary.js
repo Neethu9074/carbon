@@ -25,6 +25,7 @@ import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/Heig
 import ApplicationEventContent from 'in-events/components/EventContent/ApplicationEventContent';
 import AnalyzeIssueCallsButton from 'in-events/components/legacy/AnalyzeIssueCallsButton';
 import OfflineEventDescription from 'in-events/components/legacy/OfflineEventDescription';
+import AssociatedActions from 'in-events/components/AutomationActions/AssociatedActions';
 import WebsiteEventContent from 'in-events/components/EventContent/WebsiteEventContent';
 import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
 import SubEntityInformation from 'in-events/components/legacy/SubEntityInformation';

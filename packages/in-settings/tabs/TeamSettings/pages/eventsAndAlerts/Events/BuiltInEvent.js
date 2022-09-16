@@ -9,7 +9,7 @@ import { combineLatest } from '@instana/observables';
 
 import {
   createCustomThresholdBasedEventSpecification,
-  getBuiltinEventSpecificationWithActions,
+  getBuiltinEventActions,
   saveBuiltinEventSpecificationWithActions
 } from 'in-api/eventSpecifications';
 import { createBuiltinEventFormDefinition } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/BuiltinEventFormContent';
@@ -55,7 +55,7 @@ export default function BuiltinEvent(props) {
 
   function mergeResultData() {
     const eventDetails$ = getBuiltInEventSpecification(entityId);
-    const actionDetails$ = getBuiltinEventSpecificationWithActions(entityId);
+    const actionDetails$ = getBuiltinEventActions(entityId);
     // calling Get Event and Get action associations call and combining results
     return combineLatest([eventDetails$, actionDetails$]).map(([eventResponse, actionResponse]) =>
       eventResponse.set(

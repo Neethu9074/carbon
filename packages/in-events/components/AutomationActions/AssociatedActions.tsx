@@ -8,7 +8,7 @@ import { Map } from 'immutable';
 import React from 'react';
 
 // @ts-expect-error
-import { getActionAssociationCustom, getActionAssociationBuiltin } from 'in-api/eventSpecifications';
+import { getCustomEventActions, getBuiltinEventActions } from 'in-api/eventSpecifications';
 // @ts-expect-error
 import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
 import ActionTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionTable';
@@ -18,7 +18,7 @@ import { t } from 'in-i18n';
 export default function AssociatedActions({ event, volatileId }: { event: Map<string, any>; volatileId: VolatileId }) {
   const eventSpecificationId = event.getIn(['metadata', 'eventSpecificationId']);
   const isCustom = isCustomEvent(event);
-  const observable = isCustom ? getActionAssociationCustom : getActionAssociationBuiltin;
+  const observable = isCustom ? getCustomEventActions : getBuiltinEventActions;
   return (
     <div>
       <EventSpecificationLink event={event} buttonText={t('in-events:setAssociations')} />
