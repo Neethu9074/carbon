@@ -68,7 +68,17 @@ export function createOptionsList(
     return [
       {
         label: t('in-alerting:smartAlerts.applications.chart.entitySelection.services'),
-        children: mapServicesToOptions(app.id, services)
+        children: isSelectServiceLevel
+          ? mapServicesToOptions(app.id, services)
+          : mapServicesWithEndpointsToOptions(
+              app.id,
+              services,
+              timeConfig,
+              boundaryScope,
+              includeSynthetic,
+              tagFilterExpression,
+              applications
+            )
       }
     ];
   }
@@ -127,8 +137,8 @@ function mapServicesWithEndpointsToOptions(
   tagFilterExpression,
   applications
 ) {
-  function loadServiceEndpoints(service) {
-    return fetchEndpoints({
+  const loadServiceEndpoints = service =>
+    fetchEndpoints({
       applicationId: appId,
       serviceId: service.id,
       boundaryScope,
@@ -142,20 +152,29 @@ function mapServicesWithEndpointsToOptions(
       },
       progress
     }));
-  }
 
-  const serviceWithEndpointMetricsMapper = ({ service, metrics }) => ({
-    appId,
-    id: service.id,
-    breadcrumbAndLabel: service.id, // used as a header above endpoints-list
-    icon: 'lib_application_service',
-    label: service.label,
-    type: 'SERVICE',
-    children: hasNoEndpoints(metrics) ? [] : undefined, // undefined will be replaced in case list will have been fetched
-    loadChildren: hasNoEndpoints(metrics)
-      ? undefined // optimisation, when we already know it has no endpoints
-      : () => loadServiceEndpoints(service)
-  });
+  const serviceWithEndpointMetricsMapper = ({ service, metrics }) => {
+    const withoutEndpoint = {
+      appId,
+      id: service.id,
+      breadcrumbAndLabel: service.id, // used as a header above endpoints-list
+      icon: 'lib_application_service',
+      label: service.label,
+      type: 'SERVICE',
+      children: []
+    };
+
+    if (hasNoEndpoints(metrics)) {
+      return withoutEndpoint;
+    }
+
+    return {
+      ...withoutEndpoint,
+
+      children: undefined, // undefined will be replaced in case list will have been fetched
+      loadChildren: () => loadServiceEndpoints(service)
+    };
+  };
 
   return (services ?? []).map(serviceWithEndpointMetricsMapper);
 }
