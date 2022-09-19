@@ -106,7 +106,10 @@ const columnDefinitions = [
 const tableActions = {
   delete: {
     deleteEntity: entity => {
-      removeMaintenenaceWindowTracker();
+      removeMaintenenaceWindowTracker({
+        mwID: entity.id,
+        name: entity.name || null
+      });
       return deleteMaintenanceConfig(entity.id);
     }
   }

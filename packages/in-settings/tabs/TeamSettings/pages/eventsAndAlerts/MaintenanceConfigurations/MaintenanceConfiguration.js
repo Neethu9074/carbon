@@ -130,6 +130,7 @@ function save(config, form) {
     windowStart: windowStart || null,
     windowEnd: windowEnd || null,
     query,
+    mwID: config ? config.get('id') : null,
     name: form && form.get('name') && form.get('name').value ? form.get('name').value : null
   }); //Mixpanel tracking
 
