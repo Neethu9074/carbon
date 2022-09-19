@@ -109,6 +109,7 @@ packages/in-forge/plugins/kubernetesReplicaSet                  @pr-approval @In
 packages/in-forge/plugins/kubernetesService                     @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-k8s
 packages/in-forge/plugins/kubernetesStatefulSet                 @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-k8s
 packages/in-forge/plugins/nodeJsRuntimePlatform                 @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-nodejs
+packages/in-forge/plugins/oracleDB                              @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-ibm-isl-sensors
 packages/in-forge/plugins/phmcConsole                           @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-ibm-isl-sensors
 packages/in-forge/plugins/pythonRuntimePlatform                 @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-python
 packages/in-forge/plugins/webSphereApplicationContainer         @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-ibm-cdl-sensors
