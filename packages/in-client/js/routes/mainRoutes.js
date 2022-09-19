@@ -28,7 +28,7 @@ import {
   hasMobileAppsAccess
 } from 'in-stores/permission';
 import { agentsPath, containerPath, graphPath, physicalPath, tablePath } from 'in-stores/navigation/paths/mainPaths';
-import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
+import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import { infraExploreEnabled } from 'in-infrastructure/Explore/services/featureFlags';
 import FragmentSupportingSwitch from 'in-components/FragmentSupportingSwitch';
 import customDashboardsRoutes from 'in-custom-dashboards/navigation/routes';
@@ -55,18 +55,18 @@ import zhmcRoutes from 'in-zhmc/navigation/routes';
 
 export default (
   <FragmentSupportingSwitch>
-    <Route path={physicalPath} component={createAsyncViewComponent(Map)} />
-    <Route path={containerPath} component={createAsyncViewComponent(Map)} />
-    <Route path={tablePath} component={createAsyncViewComponent(TableView)} />
-    <Route path={graphPath} component={createAsyncViewComponent(GraphView)} />
-    {infraExploreEnabled && <Route path={infraExplorePath} component={createAsyncViewComponent(InfraExploreView)} />}
+    <Route path={physicalPath} children={renderAsyncRouteChildren(Map)} />
+    <Route path={containerPath} children={renderAsyncRouteChildren(Map)} />
+    <Route path={tablePath} children={renderAsyncRouteChildren(TableView)} />
+    <Route path={graphPath} children={renderAsyncRouteChildren(GraphView)} />
+    {infraExploreEnabled && <Route path={infraExplorePath} children={renderAsyncRouteChildren(InfraExploreView)} />}
 
     {configurationRoutes}
     {role.canConfigureAgents && (
-      <Route path={agentsPath} component={createAsyncViewComponent(AgentView)} windowTitle="Instana Agents" />
+      <Route path={agentsPath} children={renderAsyncRouteChildren(AgentView)} windowTitle="Instana Agents" />
     )}
     {(isInstanaEmail || internalMonitoringUnit) && (
-      <Route path="/internal" component={createAsyncViewComponent(InternalViews)} windowTitle="Internal" />
+      <Route path="/internal" children={renderAsyncRouteChildren(InternalViews)} windowTitle="Internal" />
     )}
 
     {eventRoutes}

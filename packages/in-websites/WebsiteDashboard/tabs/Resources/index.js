@@ -12,8 +12,12 @@ import Resource from 'in-websites/WebsiteDashboard/tabs/Resources/Resource';
 export default function ResourceIndex(props) {
   return (
     <Switch>
-      <Route path="*/details" render={() => <Resource {...props} />} />
-      <Route path="*" render={() => <Resources {...props} />} />
+      <Route path="*/details">
+        <Resource {...props} />
+      </Route>
+      <Route path="*">
+        <Resources {...props} />
+      </Route>
     </Switch>
   );
 }

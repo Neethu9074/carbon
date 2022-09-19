@@ -12,8 +12,12 @@ import HttpRequest from 'in-mobile-apps/MobileAppDashboard/tabs/HttpRequests/Htt
 export default function HttpRequestsIndex(props) {
   return (
     <Switch>
-      <Route path="*/details" render={() => <HttpRequest {...props} />} />
-      <Route path="*" render={() => <HttpRequests {...props} />} />
+      <Route path="*/details">
+        <HttpRequest {...props} />
+      </Route>
+      <Route path="*">
+        <HttpRequests {...props} />
+      </Route>
     </Switch>
   );
 }

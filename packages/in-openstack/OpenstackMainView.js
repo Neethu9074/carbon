@@ -19,7 +19,9 @@ export default function OpenstackMainView(props) {
       <Sticky header={<ViewSwitcher />}>
         <LeftRightPadding>
           <Switch>
-            <Route path={regionListFullyQualified} render={() => <RegionList {...props} />} />
+            <Route path={regionListFullyQualified}>
+              <RegionList {...props} />
+            </Route>
           </Switch>
         </LeftRightPadding>
       </Sticky>

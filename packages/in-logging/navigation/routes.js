@@ -8,12 +8,12 @@ import AnalyzeView from 'promise-loader?global,logging!in-logging/analyze/Analyz
 import { Route } from 'react-router-dom';
 import React from 'react';
 
-import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
+import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import { logsPath, rawLogsPath } from 'in-logging/navigation/paths';
 
 export default (
   <>
-    <Route path={logsPath} component={createAsyncViewComponent(AnalyzeView)} />
-    <Route path={rawLogsPath} component={createAsyncViewComponent(RawAnalyzeView)} />
+    <Route path={logsPath} children={renderAsyncRouteChildren(AnalyzeView)} />
+    <Route path={rawLogsPath} children={renderAsyncRouteChildren(RawAnalyzeView)} />
   </>
 );

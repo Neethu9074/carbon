@@ -15,14 +15,14 @@ import {
   hostDashboardFullyQualified,
   vmDashboardFullyQualified
 } from 'in-vsphere/navigation/paths';
-import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
+import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import { vsphere } from 'in-vsphere/navigation/paths';
 
 export default (
   <Fragment>
-    <Route path={datacenterDashboardFullyQualified} component={createAsyncViewComponent(DatacenterDashboard)} />
-    <Route path={hostDashboardFullyQualified} component={createAsyncViewComponent(HostDashboard)} />
-    <Route path={vmDashboardFullyQualified} component={createAsyncViewComponent(VmDashboard)} />
-    <Route path={vsphere} component={createAsyncViewComponent(VSphereMainView)} />
+    <Route path={datacenterDashboardFullyQualified} children={renderAsyncRouteChildren(DatacenterDashboard)} />
+    <Route path={hostDashboardFullyQualified} children={renderAsyncRouteChildren(HostDashboard)} />
+    <Route path={vmDashboardFullyQualified} children={renderAsyncRouteChildren(VmDashboard)} />
+    <Route path={vsphere} children={renderAsyncRouteChildren(VSphereMainView)} />
   </Fragment>
 );
