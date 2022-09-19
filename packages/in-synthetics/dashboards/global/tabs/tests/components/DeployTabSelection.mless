@@ -26,6 +26,10 @@
     border-radius: 0;
     box-shadow: none;
   }
+
+  .code {
+    max-width: 30rem;
+  }
 }
 
 :global {
