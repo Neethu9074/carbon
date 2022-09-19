@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { number, micros, millis, hitRate, percentage, bytes } from 'in-services/formatters/number';
+import { number, micros, millis, hitRate, percentage, bytes, megaBytes } from 'in-services/formatters/number';
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { t } from 'in-i18n';
 
@@ -145,5 +145,37 @@ export default [
     category: [t('in-forge:plugins.oracleDB.tablespaces')],
     min: 0,
     max: 1
+  },
+  {
+    formatter: megaBytes,
+    metrics: ['usageOfSGA.free', 'usageOfSGA.total', 'usageOfSGA.used'],
+    labels: [
+      t('in-forge:plugins.oracleDB.freeMemory'),
+      t('in-forge:plugins.oracleDB.totalMemory'),
+      t('in-forge:plugins.oracleDB.usedMemory')
+    ],
+    min: 0
+  },
+  {
+    formatter: number,
+    metrics: [
+      'processUtilization.maxUtilization',
+      'processUtilization.limitValue',
+      'processUtilization.currentUtilization',
+      'processUtilization.initialAllocation'
+    ],
+    labels: [
+      t('in-forge:plugins.oracleDB.processMaxUtilization'),
+      t('in-forge:plugins.oracleDB.processLimitValue'),
+      t('in-forge:plugins.oracleDB.processCurrentUtilization'),
+      t('in-forge:plugins.oracleDB.processInitialAllocation')
+    ],
+    min: 0
+  },
+  {
+    formatter: percentage,
+    metrics: ['processUtilization.processLimit'],
+    labels: [t('in-forge:plugins.oracleDB.processLimit')],
+    min: 0
   }
 ];
