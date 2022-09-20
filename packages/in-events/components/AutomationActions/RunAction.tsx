@@ -31,7 +31,7 @@ interface Props {
 }
 
 export default function RunAction({ action, script, volatileId, event }: Props) {
-  const [executed, setExecuted] = useState(false);
+  const [actionInstanceId, setActionInstanceId] = useState('');
   const [error, setError] = useState('');
   const timeConfig = useTimeConfig();
   let title,
@@ -44,24 +44,10 @@ export default function RunAction({ action, script, volatileId, event }: Props) 
   if (error) {
     title = 'in-events:failedToInitiate';
     content = <p>{error}</p>;
-  } else if (executed) {
+  } else if (actionInstanceId) {
     title = 'in-events:hasBeenInitiated';
-
-    const tagFilterExpression = tagFilter('log.custom', 'EQUALS', 'L9VkUHpIRfC_fLSF_35KPg', 'actionInstanceId');
-
-    // const tagFilterExpression = toBackendQueryModel([
-    //   {
-    //     type: tagFilterType,
-    //     name: 'log.custom',
-    //     key: 'actionInstanceId',
-    //     value: 'L9VkUHpIRfC_fLSF_35KPg',
-    //     operator: 'EQUALS',
-    //     entity: 'NOT_APPLICABLE'
-    //   }
-    // ]);
-
-    const link = getLinkToAnalyze({ tagFilterExpression, timeConfig });
-    console.log(link.once(console.log));
+    const tagFilterExpression = tagFilter('log.custom', 'EQUALS', actionInstanceId, 'actionInstanceId');
+    const link = getLinkToAnalyze({ tagFilterExpression: [tagFilterExpression], timeConfig });
     content = <Link href$={link}>The output of this action can be viewed in the Analytics section under logs.</Link>;
   } else {
     title = 'in-events:chosenToRun';
@@ -83,13 +69,13 @@ export default function RunAction({ action, script, volatileId, event }: Props) 
             runScriptAction(script, volatileId, event).once(data => {
               // last element of the array is either the timeout error if the agent didn't respond in time, or the agent response (error or in progress)
               // result unknown because we only care about error
-              const response: Result<unknown> | AgentResponse = data[data.length - 1];
+              const response: Result<null> | AgentResponse = data[data.length - 1];
               if ('errors' in response) {
                 setError(response.errors[0].message);
               } else if ('error' in response && response.error != null) {
                 setError(response.error);
               } else {
-                setExecuted(true);
+                setActionInstanceId(response.data.actionInstanceId);
               }
             })
           }
