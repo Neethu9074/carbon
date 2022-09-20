@@ -21,6 +21,8 @@ import { Event, VolatileId } from 'in-types';
 import { Action } from 'in-types';
 import { t } from 'in-i18n';
 
+import locals from './ActionTable.mless';
+
 const columnDefinitions = [
   {
     label: t('in-settings:tabs.name'),
@@ -33,7 +35,7 @@ const columnDefinitions = [
     label: t('in-settings:tabs.description'),
     id: 'description',
     getContent(row: Action) {
-      return row.description;
+      return <div className={locals.fourLines}>{row.description}</div>;
     }
   },
   {
@@ -84,8 +86,9 @@ const executeColumn = (volatileId: VolatileId, event: Event | null) => ({
         <Button
           kind="action"
           icon={'lib_actions_play'}
-          // onClick={() =>runScriptAction(value, volatileId).once(console.log)}
-          onClick={() => addActiveDialog(<RunAction script={value} volatileId={volatileId} event={event} />)}
+          onClick={() =>
+            addActiveDialog(<RunAction action={row} script={value} volatileId={volatileId} event={event} />)
+          }
           noAutoMargin
         >
           Run
