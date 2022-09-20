@@ -32,4 +32,9 @@
   .metricValue {
     font-size: 0.875rem;
   }
+  .link {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
 }
