@@ -64,7 +64,7 @@ export default function AlertDetails(props) {
   const { location } = props;
   const isGlobalAlertConfig =
     getMatrixParameter(location, alertsTabSegment, alertsCategoryMatrixParam) === categoryGlobal;
-  return isGlobalAlertConfig ? <GlobalAlertDetails {...props} /> : <IndividiualAlertDetails {...props} />;
+  return isGlobalAlertConfig ? <GlobalAlertDetails {...props} /> : <IndividualAlertDetails {...props} />;
 }
 
 function GlobalAlertDetails(props) {
@@ -95,7 +95,7 @@ function GlobalAlertDetails(props) {
   );
 }
 
-function IndividiualAlertDetails(props) {
+function IndividualAlertDetails(props) {
   return (
     <Alert
       {...props}

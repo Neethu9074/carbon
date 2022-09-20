@@ -13,6 +13,7 @@ import ServicesAndEndpointsListPresenter, {
   ServicesAndEndpointsSearchInput
 } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/ServicesAndEndpointsListPresenter';
 import ReadOnlyIncludeInternalOrSyntheticCallsSwitch from 'in-alerting/smart-alerts/applications/advanced/IncludeInternalOrSyntheticCallsSwitch/ReadOnlyIncludeInternalOrSyntheticCallsSwitch';
+import useTagBasedApplicationPayloadConfigurator from 'in-alerting/smart-alerts/applications/Dialog/useTagBasedApplicationPayloadConfigurator';
 import ReadOnlyInboundOrAllCalls from 'in-alerting/smart-alerts/applications/advanced/InboundOutboundCallsSwitch/ReadOnlyInboundOrAllCalls';
 import ApplicationAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/applications/chart/ApplicationAlertingChartWithErrorMessage';
 import ChartViewConfiguratorWithEntitySelection from 'in-alerting/smart-alerts/applications/chart/ChartViewConfiguratorWithEntitySelection';
@@ -62,6 +63,7 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
 
   const blueprintConfig = getBlueprintConfig(alertType);
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
+  const TagBasedPayloadConfigurator = useTagBasedApplicationPayloadConfigurator();
 
   return (
     <AlertDetailsCard>
@@ -176,7 +178,10 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
           )}
         />
       </ExpandableLightCard>
-      <CustomPayloadCard customPayloadFields={customPayloadFields} />
+      <CustomPayloadCard
+        customPayloadFields={customPayloadFields}
+        TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
+      />
     </AlertDetailsCard>
   );
 }
@@ -222,6 +227,7 @@ function ServiceEndpointSelectionCard({ alertConfig, isGlobalSmartAlert }) {
     </LightCard>
   );
 }
+
 const noAppsFetchingApiSubscriptions = {
   getApplicationsCursorPaginated: () => just(success({ items: [] })),
   getApplication,
