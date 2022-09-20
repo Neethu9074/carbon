@@ -48,7 +48,11 @@ export default function RunAction({ action, script, volatileId, event }: Props) 
     title = 'in-events:hasBeenInitiated';
     const tagFilterExpression = tagFilter('log.custom', 'EQUALS', actionInstanceId, 'actionInstanceId');
     const link = getLinkToAnalyze({ tagFilterExpression: [tagFilterExpression], timeConfig });
-    content = <Link href$={link}>The output of this action can be viewed in the Analytics section under logs.</Link>;
+    content = (
+      <p>
+        The output of this action can be viewed in <Link href$={link}>Analytics &gt; Logs.</Link>
+      </p>
+    );
   } else {
     title = 'in-events:chosenToRun';
     content = (
