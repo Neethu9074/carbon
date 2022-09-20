@@ -48,12 +48,15 @@ export default function Configuration(props) {
   return (
     <SidebarContainer sidebar={sidebar}>
       <Switch>
-        <Route path={configurationOptionsFullyQualified} render={() => <Options {...props} />} />
-        <Route path={configurationPrivacyFullyQualified} render={() => <Privacy {...props} />} />
-        <Route
-          path={configurationCustomGeoDetailsFullyQualified}
-          render={() => <MobileAppCustomGeoDetails {...props} />}
-        />
+        <Route path={configurationOptionsFullyQualified}>
+          <Options {...props} />
+        </Route>
+        <Route path={configurationPrivacyFullyQualified}>
+          <Privacy {...props} />
+        </Route>
+        <Route path={configurationCustomGeoDetailsFullyQualified}>
+          <MobileAppCustomGeoDetails {...props} />
+        </Route>
         <Route>
           <RedirectWithHash
             to$={getModifiedUrlStream(params => (params.pathname = configurationOptionsFullyQualified))}

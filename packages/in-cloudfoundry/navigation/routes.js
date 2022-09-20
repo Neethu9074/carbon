@@ -9,11 +9,11 @@ import { Route } from 'react-router-dom';
 import React, { Fragment } from 'react';
 
 import { applicationDashboardFullyQualified, cloudfoundry } from 'in-cloudfoundry/navigation/paths';
-import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
+import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 
 export default (
   <Fragment>
-    <Route path={applicationDashboardFullyQualified} component={createAsyncViewComponent(ApplicationDashboard)} />
-    <Route path={cloudfoundry} component={createAsyncViewComponent(CloudfoundryMainView)} />
+    <Route path={applicationDashboardFullyQualified} children={renderAsyncRouteChildren(ApplicationDashboard)} />
+    <Route path={cloudfoundry} children={renderAsyncRouteChildren(CloudfoundryMainView)} />
   </Fragment>
 );

@@ -18,15 +18,15 @@ import {
   newMobileAppPathFullyQualified,
   analyzePathFullyQualified
 } from 'in-mobile-apps/navigation/paths';
-import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
+import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 
 export default (
   <Fragment>
-    <Route path={mobileAppsPathFullyQualified} component={createAsyncViewComponent(MobileAppsList)} />
-    <Route path={newMobileAppPathFullyQualified} component={createAsyncViewComponent(NewMobileAppFlow)} />
-    <Route path={mobileAppPathFullyQualified} component={createAsyncViewComponent(MobileAppDashboard)} />
-    <Route path={analyzePathFullyQualified} component={createAsyncViewComponent(AnalyzeView2_0)} />
+    <Route path={mobileAppsPathFullyQualified} children={renderAsyncRouteChildren(MobileAppsList)} />
+    <Route path={newMobileAppPathFullyQualified} children={renderAsyncRouteChildren(NewMobileAppFlow)} />
+    <Route path={mobileAppPathFullyQualified} children={renderAsyncRouteChildren(MobileAppDashboard)} />
+    <Route path={analyzePathFullyQualified} children={renderAsyncRouteChildren(AnalyzeView2_0)} />
     <RedirectWithHash from={mobileAppMonitoringPath} to={mobileAppsPathFullyQualified} />
   </Fragment>
 );

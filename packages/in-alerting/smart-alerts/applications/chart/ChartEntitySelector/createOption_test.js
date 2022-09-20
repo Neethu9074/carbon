@@ -101,6 +101,8 @@ describe('in-alerting/smart-alerts/applications/chart/ChartEntitySelector/create
             "children": Array [
               Object {
                 "appId": "0815",
+                "breadcrumbAndLabel": "0815",
+                "children": Array [],
                 "icon": "lib_application_service",
                 "id": "0815",
                 "label": "testService",
@@ -112,6 +114,7 @@ describe('in-alerting/smart-alerts/applications/chart/ChartEntitySelector/create
         ]
       `);
     });
+
     it('should create list of services/endpoints when only one AP given - with one endpoint', () => {
       const apListWithOneEntry = {
         data: {
@@ -134,9 +137,12 @@ describe('in-alerting/smart-alerts/applications/chart/ChartEntitySelector/create
             "children": Array [
               Object {
                 "appId": "0815",
+                "breadcrumbAndLabel": "0815",
+                "children": undefined,
                 "icon": "lib_application_service",
                 "id": "0815",
                 "label": "testService",
+                "loadChildren": [Function],
                 "type": "SERVICE",
               },
             ],

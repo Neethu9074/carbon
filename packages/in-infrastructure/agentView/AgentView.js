@@ -75,46 +75,40 @@ export default connectTo(
         <Switch>
           <Route path={'*/dashboard'} component={Dashboard} />
 
-          <Route
-            path="/agents/installation"
-            render={() => (
-              <MaxWidthFullscreenContainer>
-                <AgentInstallationView />
-              </MaxWidthFullscreenContainer>
-            )}
-          />
+          <Route path="/agents/installation">
+            <MaxWidthFullscreenContainer>
+              <AgentInstallationView />
+            </MaxWidthFullscreenContainer>
+          </Route>
 
-          <Route
-            path="/agents"
-            render={() => (
-              <Sticky
-                header={
-                  <>
-                    <DashboardHeader
-                      title={t('in-infrastructure:agentView.agents')}
-                      contextConfigurations={[
-                        {
-                          renderContext: () => t('in-infrastructure:agentView.agents'),
-                          contextIcon: 'lib_actions_settings'
-                        }
-                      ]}
-                      renderButtonLine={renderButtonLine}
-                      agentSnapshots={agentSnapshots}
-                    />
-                    <DashboardHeaderModule withBottomBorder>
-                      <SearchBar style={{ maxWidth: 'calc(100% - 5rem)' }} theme="light" />
-                    </DashboardHeaderModule>
-                  </>
-                }
-              >
-                <LeftRightPadding>
-                  <AgentViewKpis agentSnapshots={agentSnapshots} />
-                  <AgentsPresenceChart />
-                  <AgentsTable agentSnapshots={agentSnapshots} />
-                </LeftRightPadding>
-              </Sticky>
-            )}
-          />
+          <Route path="/agents">
+            <Sticky
+              header={
+                <>
+                  <DashboardHeader
+                    title={t('in-infrastructure:agentView.agents')}
+                    contextConfigurations={[
+                      {
+                        renderContext: () => t('in-infrastructure:agentView.agents'),
+                        contextIcon: 'lib_actions_settings'
+                      }
+                    ]}
+                    renderButtonLine={renderButtonLine}
+                    agentSnapshots={agentSnapshots}
+                  />
+                  <DashboardHeaderModule withBottomBorder>
+                    <SearchBar style={{ maxWidth: 'calc(100% - 5rem)' }} theme="light" />
+                  </DashboardHeaderModule>
+                </>
+              }
+            >
+              <LeftRightPadding>
+                <AgentViewKpis agentSnapshots={agentSnapshots} />
+                <AgentsPresenceChart />
+                <AgentsTable agentSnapshots={agentSnapshots} />
+              </LeftRightPadding>
+            </Sticky>
+          </Route>
         </Switch>
 
         <Footer />

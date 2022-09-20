@@ -28,11 +28,9 @@ export default function TabSwitch({ tabs, result, hasErrors, location, props, re
   return (
     <Switch>
       {tabs.map(tab => (
-        <Route
-          key={tab.path}
-          path={tab.path}
-          render={() => <ViewWrapper tab={tab} data={result ? result.data : null} location={location} props={props} />}
-        />
+        <Route key={tab.path} path={tab.path}>
+          <ViewWrapper tab={tab} data={result ? result.data : null} location={location} props={props} />
+        </Route>
       ))}
       <Route>
          <RedirectOnNoActiveTab tabs={tabs} location={location} />

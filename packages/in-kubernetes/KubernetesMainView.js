@@ -25,9 +25,15 @@ export default function KubernetesMainView(props) {
       <Sticky header={<ViewSwitcher />}>
         <LeftRightPadding>
           <Switch>
-            <Route path={clusterListFullyQualified} render={() => <ClusterList {...props} />} />
-            <Route path={namespaceListFullyQualified} render={() => <NamespaceList {...props} />} />
-            <Route path={exploreFullyQualified} render={() => <KubernetesExplore {...props} />} />
+            <Route path={clusterListFullyQualified}>
+              <ClusterList {...props} />
+            </Route>
+            <Route path={namespaceListFullyQualified}>
+              <NamespaceList {...props} />
+            </Route>
+            <Route path={exploreFullyQualified}>
+              <KubernetesExplore {...props} />
+            </Route>
           </Switch>
         </LeftRightPadding>
       </Sticky>

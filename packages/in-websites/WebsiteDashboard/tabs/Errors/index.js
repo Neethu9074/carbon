@@ -12,8 +12,12 @@ import Error from 'in-websites/WebsiteDashboard/tabs/Errors/Error';
 export default function ErrorIndex(props) {
   return (
     <Switch>
-      <Route path="*/details" render={() => <Error {...props} />} />
-      <Route path="*" render={() => <Errors {...props} />} />
+      <Route path="*/details">
+        <Error {...props} />
+      </Route>
+      <Route path="*">
+        <Errors {...props} />
+      </Route>
     </Switch>
   );
 }

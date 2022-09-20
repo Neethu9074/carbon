@@ -63,6 +63,7 @@ export default function DeployTabSelection({ downloadKey, agentKey, syntheticAcc
       <div className={locals.content}>
         {activeTabIndex == 0 ? (
           <CodeComponent
+            wrapperClassName={locals.code}
             code={t('in-synthetics:dashboard.testList.popDialog.simpleCode', {
               downloadKey: downloadKey,
               instanaAgentKey: agentKey,

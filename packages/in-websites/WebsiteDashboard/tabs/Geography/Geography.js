@@ -46,59 +46,46 @@ export default function Geography(props) {
         <FullHeightWrapper
           render={height => (
             <Switch>
-              <Route
-                path={`${websitePathFullyQualified}/geography/globe`}
-                render={() => (
-                  <div className={locals.globeWrapper}>
-                    <GlobeView
-                      customHeight={height}
-                      tagFilters={tagFilters}
-                      timeConfig={timeConfig}
-                      getData$={getData$}
-                      getValue={v => v.beaconCount}
-                    />
-                    <Link
-                      className={locals.link}
+              <Route path={`${websitePathFullyQualified}/geography/globe`}>
+                <div className={locals.globeWrapper}>
+                  <GlobeView
+                    customHeight={height}
+                    tagFilters={tagFilters}
+                    timeConfig={timeConfig}
+                    getData$={getData$}
+                    getValue={v => v.beaconCount}
+                  />
+                  <Link
+                    className={locals.link}
+                    href$={getModifiedUrlStream(params => (params.pathname = `${websitePathFullyQualified}/geography`))}
+                  >
+                    <SvgIcon className={locals.mapSwitchIconDark} type="lib_website" />
+                  </Link>
+                  <p className={locals.footerText}>{t('in-websites:websiteDashboard.components.globViewFootertext')}</p>
+                </div>
+              </Route>
+              <Route path={`${websitePathFullyQualified}/geography`}>
+                <div>
+                  <TwoDWebsiteGeoMap
+                    tagFilters={tagFilters}
+                    timeConfig={timeConfig}
+                    height={height}
+                    controlWrapperClassName={locals.controlWrapperClassName}
+                  />
+                  <Tooltip
+                    content={t('in-websites:websiteDashboard.tabs.geography.geographyTooltip')}
+                    align="leftMiddle"
+                  >
+                    <Button
                       href$={getModifiedUrlStream(
-                        params => (params.pathname = `${websitePathFullyQualified}/geography`)
+                        params => (params.pathname = `${websitePathFullyQualified}/geography/globe`)
                       )}
-                    >
-                      <SvgIcon className={locals.mapSwitchIconDark} type="lib_website" />
-                    </Link>
-                    <p className={locals.footerText}>
-                      {t('in-websites:websiteDashboard.components.globViewFootertext')}
-                    </p>
-                  </div>
-                )}
-              />
-
-              <Route
-                path={`${websitePathFullyQualified}/geography`}
-                render={() => (
-                  <div>
-                    <TwoDWebsiteGeoMap
-                      tagFilters={tagFilters}
-                      timeConfig={timeConfig}
-                      height={height}
-                      controlWrapperClassName={locals.controlWrapperClassName}
+                      className={locals.to3D}
+                      renderContent={() => <span>{t('in-websites:websiteDashboard.tabs.geography.geography3D')}</span>}
                     />
-                    <Tooltip
-                      content={t('in-websites:websiteDashboard.tabs.geography.geographyTooltip')}
-                      align="leftMiddle"
-                    >
-                      <Button
-                        href$={getModifiedUrlStream(
-                          params => (params.pathname = `${websitePathFullyQualified}/geography/globe`)
-                        )}
-                        className={locals.to3D}
-                        renderContent={() => (
-                          <span>{t('in-websites:websiteDashboard.tabs.geography.geography3D')}</span>
-                        )}
-                      />
-                    </Tooltip>
-                  </div>
-                )}
-              />
+                  </Tooltip>
+                </div>
+              </Route>
             </Switch>
           )}
         />
