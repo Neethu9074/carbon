@@ -75,14 +75,14 @@ export default function Summary({ timeConfig, data: vios }) {
       </Row>
       <Row>
         <Col lg={6}>
-          <Card title={t('in-phmc:dashboards.maxCpuUtilsation')} useMaxAvailableHeight>
+          <Card title={t('in-phmc:dashboards.maxCpuUtilzation')} useMaxAvailableHeight>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
                 min: 0,
                 metrics: ['maxCPUCapacityUtilisation'],
-                labels: [t('in-phmc:maxCpuUtilsation')],
+                labels: [t('in-phmc:maxCpuUtilzation')],
                 formatter: number.compact,
                 type: 'line'
               }}

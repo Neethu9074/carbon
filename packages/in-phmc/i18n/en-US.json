@@ -26,22 +26,22 @@
   "max": "Max",
   "entitled": "Entitled",
   "assigned": "Assigned",
-  "entitledProc": "Entitled Processor Units Used",
-  "entitledPercent": "Entitled Processor Units Used (%)",
+  "entitledProc": "Entitled Processing Units Used",
+  "entitledPercent": "Entitled Processing Units Used (%)",
   "utilizedPercent": "Utilized (%)",
   "logicalMem": "Logical Memory (MB)",
   "logical": "Logical",
   "backedPhy": "Backed Physical",
   "totalIO": "Total IO",
   "mappedIO": "Mapped IO",
-  "utilizedProcNumber" : "Utilized Processor Units",
-  "utilizedProc": "Utilized Processor Units (%)",
-  "availableProc": "Available Processor Units (%)",
-  "reservedProc": "Current Reserved Processor Unit",
-  "configurableProc": "Configurable Processor Units (%)",
+  "utilizedProcNumber" : "Utilized Processing Units",
+  "utilizedProc": "Utilized Processing Units (%)",
+  "availableProc": "Available Processing Units (%)",
+  "reservedProc": "Current Reserved Processing Units",
+  "configurableProc": "Configurable Processing Units (%)",
   "memAvailable": "Memory Available (MB)",
   "memAvailablePercentage": "Memory Available (%)",
-  "assignedProc": "Assigned Processor Units",
+  "assignedProc": "Assigned Processing Units",
   "drc": "DRC-Index",
   "id": "ID",
   "sentPackets": "Packets Sent/s",
@@ -82,7 +82,7 @@
   "entityId": "Entity ID",
   "entityInstance": "Entity Instance",
   "temperatureReading": "Temperature Reading",
-  "maxCpuUtilsation": "Maximum CPU Utilsation (%)",
+  "maxCpuUtilzation": "Maximum CPU Utilization (%)",
   "breadcrumbs": {
     "phmc": "Power HMC",
     "phmcs": "Power HMCs",
@@ -123,7 +123,7 @@
     "virtualFiberChannelAdapter": "Virtual Fiber Channel Adapters",
     "sharedStoragePool": "Shared Storage Pools",
     "energy": "Energy",
-    "maxCpuUtilsation": "Maximum CPU Utilsation"
+    "maxCpuUtilzation": "Maximum CPU Utilization"
   }
 }
 
