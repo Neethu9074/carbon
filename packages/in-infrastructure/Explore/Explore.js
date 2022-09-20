@@ -156,8 +156,8 @@ function InfraExploreViewWithFixatedTimeConfig() {
             {t('in-infrastructure:explore.thisIsABetaVersionOfANewProductCapability')}
           </Message>
 
-          <Sections>
-            {!isInitPage && (
+          {!isInitPage && (
+            <Sections>
               <QueryBuilderSection
                 value={tagFilterExpression}
                 QueryBuilder={QueryBuilder}
@@ -170,9 +170,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
                 hasError={isInvalid}
                 allowEmptyKey
               />
-            )}
 
-            {!isInitPage && (
               <GroupingConfiguratorSection
                 value={group}
                 GroupingConfigurator={GroupingConfigurator}
@@ -183,8 +181,8 @@ function InfraExploreViewWithFixatedTimeConfig() {
                   onGroupRemoved: groupRemovedTracker(getInfraExploreState)
                 }}
               />
-            )}
-          </Sections>
+            </Sections>
+          )}
 
           {isValid && isInitPage && (
             <EntityList
@@ -227,8 +225,6 @@ function InfraExploreViewWithFixatedTimeConfig() {
 
           {isValid && !isInitPage && group?.groupbyTag && (
             <GroupedInfrastructure
-              isInitPage={isInitPage}
-              onMovingFromInitPage={onMovingFromInitPage}
               tagFilterExpression={tagFilterExpression}
               backendQueryModel={backendQueryModel}
               availableMetrics={availableMetrics}
