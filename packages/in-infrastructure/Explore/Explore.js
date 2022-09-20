@@ -50,6 +50,7 @@ import InfraPageHeaderWithTabs from 'in-infrastructure/components/InfraPageHeade
 import InfrastructureList from 'in-infrastructure/Explore/components/InfrastructureList';
 import { getMetrics, fromUrlMetrics } from 'in-infrastructure/Explore/services/metrics';
 import { defaultInfraExploreView } from 'in-infrastructure/navigation/paths';
+import EntityList from 'in-infrastructure/Explore/components/EntityList';
 import { themes } from 'in-components/DashboardHeader/DashboardHeader';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -185,13 +186,25 @@ function InfraExploreViewWithFixatedTimeConfig() {
             )}
           </Sections>
 
+          {isValid && isInitPage && (
+            <EntityList
+              backendQueryModel={backendQueryModel}
+              timeConfig={timeConfig}
+              group={group}
+              order={order}
+              type={type}
+              headerHref$={defaultInfraExploreView}
+              onMovingFromInitPage={onMovingFromInitPage}
+            />
+          )}
+
           {isInvalid && (
             <Message type="error" withIcon small>
               {t('in-infrastructure:explore.theQueryConfigurationIsInvalid')}
             </Message>
           )}
 
-          {isValid && !group?.groupbyTag && (
+          {isValid && !isInitPage && !group?.groupbyTag && (
             <InfrastructureList
               backendQueryModel={backendQueryModel}
               availableMetrics={availableMetrics}
@@ -212,7 +225,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
             />
           )}
 
-          {isValid && group?.groupbyTag && (
+          {isValid && !isInitPage && group?.groupbyTag && (
             <GroupedInfrastructure
               isInitPage={isInitPage}
               onMovingFromInitPage={onMovingFromInitPage}
