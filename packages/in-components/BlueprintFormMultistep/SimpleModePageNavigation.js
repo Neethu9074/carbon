@@ -6,18 +6,15 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { useObservable } from '@instana/hooks';
-
-import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/AlertingChartWrapper';
-import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
+import { SimpleDialogFooter } from 'in-components/BlueprintFormMultistep/SimpleDialogFooter';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import StepProgressBar from 'in-components/StepProgressBar/StepProgressBar';
-import { t } from 'in-i18n';
 
 import locals from './SimpleModePageNavigation.mless';
 
 export default function SimpleModePageNavigation({
   form,
+  formId,
   onClose,
   onCreate,
   setSimpleModeStep,
@@ -30,7 +27,6 @@ export default function SimpleModePageNavigation({
   additionalStepCheck = () => true
 }) {
   const [step, setStep] = useState(0);
-  const isCalculatingThreshold = useObservable(thresholdOrBaselineLoadingSignal$, []);
 
   if (simpleModeStep && simpleModeStep > step) {
     setStep(simpleModeStep);
@@ -69,32 +65,21 @@ export default function SimpleModePageNavigation({
     }
   };
 
-  const isDisabled =
-    (step === stepConfigs.length - 1 && !form.hierarchyValid) ||
-    isStepValid(step, stepConfigs, form) ||
-    !additionalStepCheck(step);
-
   return (
     <>
       <StepProgressBar stepTitles={mapTitles(stepConfigs)} step={step} />
 
-      <form onSubmit={e => handleSubmit(e, step)} className={locals.form}>
+      <form onSubmit={e => handleSubmit(e, step)} className={locals.form} id={formId}>
         {renderStep(step)}
-        <DialogFooter
+
+        <SimpleDialogFooter
           form={form}
-          primaryActionText={
-            step === stepConfigs.length - 1
-              ? t('in-components:blueprintFormMultistep.buttonCreate')
-              : t('in-components:blueprintFormMultistep.buttonNext')
-          }
-          onSecondaryActionClick={() => backOrCancel(step)}
-          secondaryActionText={
-            step === 0
-              ? t('in-components:blueprintFormMultistep.buttonCancel')
-              : t('in-components:blueprintFormMultistep.buttonBack')
-          }
-          primaryActionDisabled={(isDisabled || isCalculatingThreshold) && step !== 0}
-          saving={isSaving}
+          formId={formId}
+          additionalStepCheck={additionalStepCheck}
+          backOrCancel={backOrCancel}
+          isSaving={isSaving}
+          step={step}
+          stepConfigs={stepConfigs}
         />
       </form>
     </>
@@ -103,6 +88,7 @@ export default function SimpleModePageNavigation({
 
 SimpleModePageNavigation.propTypes = {
   form: PropTypes.object.isRequired,
+  formId: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired,
   onCreate: PropTypes.func.isRequired,
   updateForm: PropTypes.func.isRequired,
@@ -137,26 +123,6 @@ function validateStep(step, stepConfigs, form, updateForm) {
       if (field && !field.valid) {
         updateForm(form.updateIn(fieldPath, f => f.setTouched(true)));
         valid = false;
-      }
-    } catch (ignore) {
-      // don't validate if field not present
-    }
-  });
-  return valid;
-}
-
-function isStepValid(step, stepConfigs, form) {
-  const fieldsToValidate = stepConfigs[step].validateIntermediately;
-  if (!fieldsToValidate || fieldsToValidate.length === 0) {
-    return false;
-  }
-
-  let valid = false;
-  fieldsToValidate.forEach(fieldPath => {
-    try {
-      const field = form.getIn(fieldPath);
-      if (field && !field.valid) {
-        valid = true;
       }
     } catch (ignore) {
       // don't validate if field not present
