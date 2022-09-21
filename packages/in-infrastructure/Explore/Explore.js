@@ -189,6 +189,10 @@ function InfraExploreViewWithFixatedTimeConfig() {
               backendQueryModel={backendQueryModel}
               timeConfig={timeConfig}
               group={group}
+              setOrder={order => {
+                setOrder(order);
+                sortingTracker(getInfraExploreState)(order, SORTING_CONTEXT.GROUPS);
+              }}
               order={order}
               type={type}
               headerHref$={defaultInfraExploreView}

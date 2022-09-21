@@ -45,6 +45,7 @@ export default function EntityList({
       id: 'label',
       width: '8rem',
       label: t('in-infrastructure:explore.name'),
+      sortable: true,
       getContent(item) {
         const value = getGroupTagValue(item, 'type');
         return (
@@ -64,6 +65,7 @@ export default function EntityList({
       id: 'count',
       width: '8rem',
       label: t('in-infrastructure:explore.count'),
+      sortable: true,
       getContent(item) {
         return (
           <>
