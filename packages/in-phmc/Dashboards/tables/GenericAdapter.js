@@ -21,12 +21,11 @@ let snapshotMap = {};
 const cols = [
   {
     title: t('in-phmc:id'),
-    type: 'number',
+    type: 'string',
     typeArgs: {
       getValue(row) {
         return row.genericAdapter.get('id');
-      },
-      getContent: number.detailed
+      }
     }
   },
   {
@@ -54,7 +53,7 @@ const cols = [
       getValue(row) {
         return row.genericAdapter.get('sentPackets');
       },
-      getContent: number.compact
+      getContent: number.detailed
     }
   },
   {
@@ -64,7 +63,7 @@ const cols = [
       getValue(row) {
         return row.genericAdapter.get('receivedPackets');
       },
-      getContent: number.compact
+      getContent: number.detailed
     }
   },
   {
@@ -74,7 +73,7 @@ const cols = [
       getValue(row) {
         return row.genericAdapter.get('droppedPackets');
       },
-      getContent: number.compact
+      getContent: number.detailed
     }
   },
   {

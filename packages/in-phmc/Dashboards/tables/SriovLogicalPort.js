@@ -44,7 +44,7 @@ const cols = [
       getValue(row) {
         return row.sriovLogicalPort.get('sentPackets');
       },
-      getContent: number.compact
+      getContent: number.detailed
     }
   },
   {
@@ -54,7 +54,7 @@ const cols = [
       getValue(row) {
         return row.sriovLogicalPort.get('receivedPackets');
       },
-      getContent: number.compact
+      getContent: number.detailed
     }
   },
   {
