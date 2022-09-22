@@ -6,16 +6,18 @@
 import rpt from 'prop-types';
 import React from 'react';
 
-import { trackingProps as metricConfiguratorTrackingProps } from 'in-components/MetricConfigurator/MetricConfigurator';
-import { average, defaultFormatter, getGranularity, getMetricKey } from 'in-infrastructure/Explore/services/metrics';
+import MetricCatalogAndSortingConfigurator from 'in-infrastructure/components/MetricCatalogAndSortingConfigurator/MetricCatalogAndSortingConfigurator';
+import { trackingProps as metricConfiguratorTrackingProps } from 'in-infrastructure/components/MetricCatalogConfigurator/MetricCatalogConfigurator';
+import { average, getGranularity, getMetricKey } from 'in-infrastructure/Explore/services/metrics';
+import { default as MetricLabel } from 'in-infrastructure/Explore/components/MetricLabel';
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
-import MetricLabel from 'in-infrastructure/Explore/components/MetricLabel';
 import getEntities from 'in-infrastructure/subscriptions/getEntities';
 import Header from 'in-components/QueryBuilder/components/Header';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { mapData } from 'in-services/util/result';
 import { noop } from 'in-services/util/function';
 import { t } from 'in-i18n';
 
@@ -26,13 +28,16 @@ export default function InfrastructureList({
   numSkeletonRows = 3,
   backendQueryModel,
   showHeader = false,
-  availableMetrics,
   setMetrics,
   setOrder = noop,
-  metrics,
-  order,
   type,
-  tracking
+  metrics,
+  metricMetadatas,
+  order,
+  tracking,
+  metricCatalog,
+  query,
+  onQueryChange
 }) {
   const timeConfig = useTimeConfig();
   const {
@@ -55,14 +60,13 @@ export default function InfrastructureList({
 
   const columnDefinitions = [
     getLabelColumn({ timeConfig }, tracking?.onNavigateToEntity),
-    ...getMetricColumns({ metrics, sortable: showHeader })
+    ...getMetricColumns({ metrics, sortable: showHeader, metricMetadatas })
   ];
 
   return (
     <>
       {showHeader && (
         <Header
-          availableMetrics={availableMetrics}
           setMetrics={setMetrics}
           totalRepresentedItemCount={totalRepresentedItemCount}
           totalRetainedItemCount={totalRetainedItemCount}
@@ -70,7 +74,14 @@ export default function InfrastructureList({
           hasErrors={hasErrors}
           isLoading={isLoading}
           metrics={metrics}
+          metricMetadatas={metricMetadatas}
           tracking={tracking}
+          CustomHeaderActions={getHeaderActions}
+          type={type}
+          backendQueryModel={backendQueryModel}
+          metricCatalog={metricCatalog}
+          query={query}
+          onQueryChange={onQueryChange}
         />
       )}
       <CursorPaginatedTable
@@ -141,10 +152,10 @@ InfrastructureList.propTypes = {
   numSkeletonRows: rpt.number,
   backendQueryModel: rpt.object,
   showHeader: rpt.bool,
-  availableMetrics: rpt.array,
   setMetrics: rpt.func,
   setOrder: rpt.func,
   metrics: rpt.array,
+  metricMetadatas: rpt.object,
   order: rpt.shape({
     by: rpt.string.isRequired,
     direction: rpt.string.isRequired
@@ -154,26 +165,46 @@ InfrastructureList.propTypes = {
     onLoadMore: rpt.func,
     onNavigateToEntity: rpt.func,
     ...metricConfiguratorTrackingProps
-  })
+  }),
+  query: rpt.string,
+  onQueryChange: rpt.func,
+  metricCatalog: rpt.object
 };
 
-function getMetricColumns({ metrics, sortable }) {
-  return metrics.map(({ metric, aggregation, label, fullyQualifiedLabel, formatter = defaultFormatter, isKpi }) => ({
-    id: getMetricKey(metric, aggregation),
-    label: fullyQualifiedLabel ?? label,
-    renderLabel: MetricLabel,
-    sortable,
-    width: '15rem',
-    widthInAbsoluteUnit: true,
-    optional: true,
-    defaultDisabled: !isKpi,
-    getContent(item) {
-      const kpi = average(item.metrics[getMetricKey(metric, aggregation)]);
-      return <span>{kpi !== undefined ? formatter(kpi) : '--'}</span>;
-    }
-  }));
+function getMetricColumns({ metrics, sortable, metricMetadatas }) {
+  return metrics.map(({ metric, aggregation }) => {
+    const id = getMetricKey(metric, aggregation);
+    const metadata = mapData(metricMetadatas, data => data[metric]);
+    const label = mapData(metadata, data => data?.label);
+    const formatter = mapData(metadata, data => data?.formatter).data;
+    const isKpi = mapData(metadata, data => data?.isKpi).data || false;
+    return {
+      id,
+      metric,
+      label,
+      aggregation: aggregation,
+      renderLabel: MetricLabel,
+      sortable,
+      width: '15rem',
+      widthInAbsoluteUnit: true,
+      optional: true,
+      defaultDisabled: !isKpi,
+      headCellProps: { className: locals.metricLabel },
+      getContent(item) {
+        const kpi = average(item.metrics[id]);
+        return <span>{(kpi && formatter && formatter(kpi)) || '--'}</span>;
+      }
+    };
+  });
 }
 
 export function pagesLoaded(offset, itemsPerPage) {
   return (offset || 0) / itemsPerPage + 2; // we are on page 1 when offset is 0, so nextPageNumber == 2
+}
+
+function getHeaderActions(props) {
+  if (props.type === null) {
+    return <></>;
+  }
+  return <MetricCatalogAndSortingConfigurator {...props} />;
 }

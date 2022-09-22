@@ -3,8 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import { AvailableMetrics, GetAvailableMetricsQuery, Result } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
-export default createResultSubscriptionFactory({
+export default createResultSubscriptionFactory<GetAvailableMetricsQuery, Result<AvailableMetrics>>({
   eventId: 'infrastructure.getAvailableMetrics'
 });
