@@ -164,7 +164,8 @@ type LabelProps = {
 function Label({ item, selectedMetric, locationsMap }: LabelProps) {
   const testId = item.testResultCommonProperties.testId;
   const resultId = item.testResultCommonProperties.id;
-  const location = locationsMap.get(item.testResultCommonProperties.locationId) || '';
+  const location =
+    (item.testResultCommonProperties.locationId && locationsMap.get(item.testResultCommonProperties.locationId)) || '';
   return (
     <Link
       href$={getModifiedUrlStream(resultDetailUrl => {
