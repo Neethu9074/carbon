@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { Message } from '@instana/components';
@@ -84,13 +84,6 @@ export default function InfraExploreView() {
 }
 
 function InfraExploreViewWithFixatedTimeConfig() {
-  const [isInitPage, setIsInitPage] = useState(true);
-  const onMovingFromInitPage = () => {
-    setIsInitPage(false);
-  };
-  const onMovingToInitPage = () => {
-    setIsInitPage(true);
-  };
   const timeConfig = useTimeConfig();
   const [{ tagFilterExpression, group, metrics: urlMetrics, type: urlType, order }, setUrl] = useUrlState(
     urlStateDefinition
@@ -131,6 +124,16 @@ function InfraExploreViewWithFixatedTimeConfig() {
     onMetricAggregationChanged: metricAggregationChangedTracker(getInfraExploreState)
   };
 
+  function resetParams() {
+    setUrl({ tagFilterExpression: [], group: { groupbyTag: 'type', ar: true }, metrics: [], type: 'all' });
+  }
+
+  const isInitPage =
+    !type &&
+    (!group || group?.groupbyTag == 'type') &&
+    (!metrics || metrics?.length == 0) &&
+    (!tagFilterExpression || tagFilterExpression?.length == 0);
+
   return (
     <InfraPageHeaderWithTabs
       onTypeSelected={typeSelectorChangedTracker(getInfraExploreState)}
@@ -140,7 +143,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
       addFooter
       renderTypeSelector={!isInitPage}
       headerHref$={defaultInfraExploreView}
-      onLinkClick={onMovingToInitPage}
+      onHeaderClick={resetParams}
     >
       <ViewTrackingMeta
         data={{
@@ -196,7 +199,6 @@ function InfraExploreViewWithFixatedTimeConfig() {
               order={order}
               type={type}
               headerHref$={defaultInfraExploreView}
-              onMovingFromInitPage={onMovingFromInitPage}
             />
           )}
 

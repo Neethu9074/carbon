@@ -29,7 +29,7 @@ export default function InfraPageHeaderWithTabs({
   onTypeSelected = noop,
   renderTypeSelector = true,
   headerHref$,
-  onLinkClick
+  onHeaderClick
 }) {
   const isInfraExploreActive = useObservable(isInfraExploreView, []);
 
@@ -59,7 +59,7 @@ export default function InfraPageHeaderWithTabs({
                       )
                     }
                     headerHref$={headerHref$}
-                    onLinkClick={onLinkClick}
+                    onHeaderClick={onHeaderClick}
                   />
                   <DashboardHeaderModule theme={theme} withBottomBorder>
                     <ViewSwitcher theme={theme} showSearchBar={showSearchBar} />

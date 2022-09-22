@@ -62,7 +62,7 @@ export interface DashboardHeaderProps {
   className?: string;
   withBorderBottom?: boolean;
   headerHref$?: Observable<string>;
-  onLinkClick?: (params: any) => any;
+  onHeaderClick?: (params: any) => any;
 }
 
 const isNotLastElement = (index: number, array: any[]) => {
@@ -83,7 +83,7 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
     hideUrlShortener,
     withBorderBottom,
     headerHref$,
-    onLinkClick
+    onHeaderClick
   } = props;
   let {
     label,
@@ -145,7 +145,7 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
                   isNotLastElement(i, contextConfigurations) || label != null || icon != null || renderIcon != null
                 }
                 headerHref$={headerHref$}
-                onLinkClick={onLinkClick}
+                onHeaderClick={onHeaderClick}
               />
             ))}
           <SyntheticIcon />
@@ -199,7 +199,7 @@ function getSkeletonIcon() {
 function Context(props: ContextProps) {
   const { renderContext, contextIcon, renderContextIcon, shouldRenderDelimiter } = props;
 
-  if (props.headerHref$ != null && props.onLinkClick != null) {
+  if (props.headerHref$ != null && props.onHeaderClick != null) {
     return (
       <div className={locals.contextWrapper}>
         {renderContextIcon ? (
@@ -207,7 +207,7 @@ function Context(props: ContextProps) {
         ) : (
           <SvgIcon className={locals.contextIcon} size="l" type={contextIcon} />
         )}
-        <Link href$={props.headerHref$} onClick={props.onLinkClick}>
+        <Link href$={props.headerHref$} onClick={props.onHeaderClick}>
           <span className={locals.headerLink}>{renderContext(props)}</span>
         </Link>
         {shouldRenderDelimiter && <SvgIcon className={locals.contextEndIcon} size="l" type="lib_arrow_expand_right" />}

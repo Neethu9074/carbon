@@ -24,8 +24,7 @@ export default function EntityList({
   setOrder = noop,
   order,
   type,
-  tracking,
-  onMovingFromInitPage
+  tracking
 }) {
   const {
     items,
@@ -54,7 +53,6 @@ export default function EntityList({
               label={value}
               plugin={item.tags['type']}
               href$={getLinkToExplore({ type: item.tags['type'], group: {} })}
-              onClick={onMovingFromInitPage}
             />
           </div>
         );
