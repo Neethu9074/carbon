@@ -56,6 +56,7 @@ export default function AdvancedModeContainer(props) {
     isTagFilterFormModelValid,
     applicationLabel,
     isGlobalSmartAlert,
+    TagBasedPayloadConfigurator,
     initialConfiguredApplications = {}
   } = props;
   const description = form.get('description').value;
@@ -250,7 +251,14 @@ export default function AdvancedModeContainer(props) {
           label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.payloadsOptional.label'),
           title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.payloadsOptional.title'),
           valid: isCustomPayloadValidOrUntouched(form),
-          content: <AlertConfigCustomPayload form={form} setForm={updateForm} />
+          content: (
+            <AlertConfigCustomPayload
+              form={form}
+              setForm={updateForm}
+              TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
+              supportDynamicTypes
+            />
+          )
         }
       ]}
     />

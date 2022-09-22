@@ -18,7 +18,7 @@ import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/smar
 import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/applications/components/useSimpleModePageNavigation';
 import { AdvancedModeFooter } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AdvancedModeFooter';
 import { triggerScrollToInvalidItem } from 'in-alerting/smart-alerts/applications/hooks/useScrollToFirstInvalidNavItem';
-import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/websites/details/useTagBasedPayloadConfigurator';
+import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/websites/hooks/useTagBasedPayloadConfigurator';
 import SimpleModeContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/simple/SimpleModeContainer';
 import { getEnhancedTagFilterFormModel } from 'in-alerting/smart-alerts/components/utils/tagfilterEnrichmentUtil';
 import { stepConfigs, stepRenderers } from 'in-alerting/smart-alerts/websites/simple/simpleModeSteps';

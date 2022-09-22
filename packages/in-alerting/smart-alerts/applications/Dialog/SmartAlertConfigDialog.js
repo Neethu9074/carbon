@@ -9,6 +9,7 @@ import { useObservable } from '@instana/hooks';
 import { empty } from '@instana/observables';
 
 import { useRemoveInvalidTagsFromFilterExpression } from 'in-alerting/smart-alerts/applications/hooks/useRemoveInvalidTagsFromFilterExpression';
+import useTagBasedApplicationPayloadConfigurator from 'in-alerting/smart-alerts/applications/hooks/useTagBasedApplicationPayloadConfigurator';
 import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertConfigDialogPresenter';
 import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/applications/components/useSimpleModePageNavigation';
 import { AdvancedModeFooter } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AdvancedModeFooter';
@@ -166,6 +167,8 @@ function SmartAlertConfigDialogWithQueryValidation({
     />
   );
 
+  const TagBasedPayloadConfigurator = useTagBasedApplicationPayloadConfigurator();
+
   return (
     <AlertConfigDialogPresenter
       {...props}
@@ -178,6 +181,7 @@ function SmartAlertConfigDialogWithQueryValidation({
       simpleMode={simpleMode}
       setSimpleMode={setSimpleMode}
       thresholdResult={thresholdResult}
+      TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
       SimpleModeElement={SimpleModeContainer}
       AdvancedModeElement={AdvancedModeContainer}
       isTagFilterFormModelValid={isTagFilterFormModelValid}
