@@ -92,7 +92,11 @@ const columnDefinitions = [
     label: t('in-synthetics:dashboard.resultsListPage.locationColumn'),
     getContent(item: TestResultListItem) {
       return (
-        <span className={locals.metricLabel}>{locationsMap.get(item.testResultCommonProperties.locationId) || ''}</span>
+        item.testResultCommonProperties.locationId && (
+          <span className={locals.metricLabel}>
+            {locationsMap.get(item.testResultCommonProperties.locationId) || ''}
+          </span>
+        )
       );
     }
   },
