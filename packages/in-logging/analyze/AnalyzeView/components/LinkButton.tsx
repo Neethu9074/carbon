@@ -8,6 +8,7 @@ import React from 'react';
 import { SvgIconSizes } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
+import { maxInitialLogLines } from 'in-logging/analyze/AnalyzeView/components/constants';
 import { buildJsonSerializer, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { fixateTimeConfig, getTimeConfig, setTimeConfig } from 'in-stores/time/config';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
@@ -43,7 +44,9 @@ function toAbsoluteUrl(partialUrl: string) {
 function getURLText(itemId: string, time: number, initialLogLines: number) {
   // Rare case: if log messages are produced with time offset after the link creation
   // the itemId might be not in the initialLogLines, thats why we load 20 more lines
-  initialLogLines += 20;
+  if (initialLogLines <= maxInitialLogLines - 20) {
+    initialLogLines += 20;
+  }
   return getModifiedUrlStream(location => {
     const timeConfig = getTimeConfig(location);
     setTimeConfig(
