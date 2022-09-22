@@ -102,7 +102,7 @@ export function registerMetricDefinition(plugin, metricDefinition) {
       getMin: getMin(metricDefinition),
       getMax: getMax(metricDefinition),
       formatter,
-      isPercentile: metricDefinition.isPercentile
+      isBackendAggregatedPercentile: metricDefinition.isBackendAggregatedPercentile
     });
   }
 }
@@ -298,7 +298,7 @@ function insertMetric(node, metricDefinitionForPlugin, category, type = 'metric'
       metric: metricDefinitionForPlugin.metric,
       formatter: metricDefinitionForPlugin.formatter,
       type,
-      isPercentile: metricDefinitionForPlugin.isPercentile
+      isBackendAggregatedPercentile: metricDefinitionForPlugin.isBackendAggregatedPercentile
     });
     return;
   }
@@ -360,7 +360,7 @@ export function getDynamicMetricMatch(pre, post, placeholderLabel = 'Placeholder
   };
 }
 
-export function isMetricPercentile(plugin, metricName) {
+export function isBackendAggregatedPercentileMetric(plugin, metricName) {
   if (!plugin || !metricName) {
     return false;
   }
@@ -370,22 +370,22 @@ export function isMetricPercentile(plugin, metricName) {
     return false;
   }
 
-  let isPercentile = false;
+  let isBackendAggregatedPercentile = false;
   categories.forEach(category => {
     if (category.children) {
       category.children.forEach(child => {
-        if (metricName === child.metric && child.isPercentile) {
-          isPercentile = true;
+        if (metricName === child.metric && child.isBackendAggregatedPercentile) {
+          isBackendAggregatedPercentile = true;
           return;
         }
       });
-    } else if (metricName === category.metric && category.isPercentile) {
-      isPercentile = true;
+    } else if (metricName === category.metric && category.isBackendAggregatedPercentile) {
+      isBackendAggregatedPercentile = true;
     }
 
-    if (isPercentile) {
+    if (isBackendAggregatedPercentile) {
       return;
     }
   });
-  return isPercentile;
+  return isBackendAggregatedPercentile;
 }

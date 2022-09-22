@@ -19,8 +19,7 @@ export default [
     labels: ['99th Percentile', '95th Percentile', '50th Percentile'],
     min: 0,
     category: [t('in-forge:plugins.googleCloudRunServiceRevision.requestLatency')],
-    formatter: millis.compact,
-    isPercentile: true
+    formatter: millis.compact
   },
   {
     metrics: ['container_billable_instance_time'],
@@ -42,7 +41,6 @@ export default [
       t('in-forge:plugins.googleCloudRunServiceRevision.95thPercentile'),
       t('in-forge:plugins.googleCloudRunServiceRevision.50thPercentile')
     ],
-    formatter: percentage.compact,
-    isPercentile: true
+    formatter: percentage.compact
   }
 ];

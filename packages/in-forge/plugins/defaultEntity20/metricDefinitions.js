@@ -45,7 +45,7 @@ export default [
     category: [t('in-forge:plugins.defaultEntity20.allCallsLatency')],
     min: 0,
     formatter: ms,
-    isPercentile: true
+    isBackendAggregatedPercentile: true
   },
   {
     metric: 'error_rate',

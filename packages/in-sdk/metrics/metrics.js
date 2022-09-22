@@ -17,7 +17,7 @@ export {
   getCategories,
   getDynamicMetricCategories,
   hasCategory,
-  isMetricPercentile
+  isBackendAggregatedPercentileMetric
 } from 'in-sdk/metrics/metricDefinitions';
 
 import { getCategories, getDynamicMetricCategories } from 'in-sdk/metrics/metricDefinitions';
