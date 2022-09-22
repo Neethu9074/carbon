@@ -15,9 +15,13 @@ import {
   Error,
   PoPInstallationProperties
 } from 'in-types';
+import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import { syntheticsPath } from 'in-synthetics/navigation/paths';
 import { Options } from 'in-hooks/useUrlState';
+
+export const pathSegment = '/synthetics';
+export const matrixPrefix = '';
 
 export const dummyLocations = {
   data: [],
@@ -194,3 +198,50 @@ export type SubtransactionsProps = {
 export type OverviewChartToolTipProps = {
   subtransaction: TestResultSubtransaction;
 };
+
+export interface filterState {
+  syntheticTypes: string[];
+  locationIds: string[];
+  applicationIds?: string[];
+}
+
+export interface filterProps extends filterState {
+  setFilter: (x: Object) => void;
+  isAppcontext?: boolean;
+  result?: Result<PaginatedResult<TestResultListItem>>;
+}
+
+export type currentState = {
+  syntheticTypes?: string[];
+  locationIds?: string[];
+  applicationIds?: string[];
+};
+
+export const filterUrlStateDefinition = {
+  bind: [
+    {
+      path: pathSegment,
+      name: 'syntheticTypes',
+      as: 'syntheticTypes',
+      initialState: [],
+      parser: buildJsonParser([]),
+      serializer: buildJsonSerializer()
+    },
+    {
+      path: pathSegment,
+      name: 'locationIds',
+      as: 'locationIds',
+      initialState: [],
+      parser: buildJsonParser([]),
+      serializer: buildJsonSerializer()
+    },
+    {
+      path: pathSegment,
+      name: 'applicationIds',
+      as: 'applicationIds',
+      initialState: [],
+      parser: buildJsonParser([]),
+      serializer: buildJsonSerializer()
+    }
+  ]
+} as Options<UrlState>;
