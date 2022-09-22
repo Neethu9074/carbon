@@ -607,7 +607,9 @@
       "formComponent": {
         "title": "Apdex Configuration",
         "entityTypeTitle": "Apdex Type",
-        "manageListTitle": "Apdex Management"
+        "manageListTitle": "Apdex Management",
+        "createApdex": "Create Apdex Configuration",
+        "editApdex": "Edit Apdex Configuration"
       },
       "configurationSelector": {
         "label": "Apdex Configuration",
@@ -638,7 +640,6 @@
         "createButton": "Create Apdex Configuration"
       },
       "createApdexForm": {
-        "title": "Create Apdex Configuration",
         "customizationHeader": "Apdex Customization",
         "label": "Apdex Name",
         "apdexCreateSuccessTitle": "Apdex configuration was created successfully.",

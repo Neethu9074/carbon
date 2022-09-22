@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { ApdexConfiguration, OrderDirection } from '@instana/types';
 
@@ -16,6 +16,7 @@ import {
 import useFilteredAndSortedApdexConfigurations from 'in-custom-dashboards/widgets/Apdex/hooks/useFilteredAndSortedApdexConfigurations';
 import { useApdexWidgetTrackers } from 'in-custom-dashboards/widgets/Apdex/components/ApdexWidgetTrackerProvider';
 import CreateApdexForm from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm';
+import { useSlideOutDelay } from 'in-custom-dashboards/widgets/Slo/hooks/useSlideOutDelay';
 import { deleteApdexConfiguration } from 'in-custom-dashboards/widgets/Apdex/api';
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
 import ApdexList from 'in-custom-dashboards/widgets/Apdex/components/ApdexList';
@@ -25,13 +26,11 @@ import { isLoading } from 'in-services/util/result';
 import { seconds } from 'in-services/time/time';
 import { t } from 'in-i18n';
 
-const slideTransitionDurationMillis = 500;
-
 interface ApdexManageListProps {
   entityType: ApdexEntityTypes;
   entityId: string;
   showCreateForm?: boolean;
-  onShowCreateForm: VoidFunction;
+  onShowCreateForm: (isEditing: boolean) => void;
   onCloseCreateForm: VoidFunction;
   onChange: (apdex?: Partial<ApdexConfiguration>) => void;
 }
@@ -49,7 +48,8 @@ export default function ApdexManageList({
   const [orderDirection, setOrderDirection] = useState<OrderDirection>('ASC');
   const [editableApdexConfig, setEditableApdexConfig] = useState<Partial<ApdexConfiguration>>({});
   const apdexResult = useFilteredAndSortedApdexConfigurations(entityType, entityId, query, orderBy, orderDirection);
-  const [isCreateFormVisible, hideCreateForm] = useSlideOutDelay(showCreateForm);
+  const transitionDelay = 500;
+  const [isCreateFormVisible, hideCreateForm] = useSlideOutDelay(showCreateForm, transitionDelay);
 
   const track = useApdexWidgetTrackers();
 
@@ -57,12 +57,12 @@ export default function ApdexManageList({
   const onCreateConfig = () => {
     track(APDEX_MANAGEMENT_CREATE_START, { entityType });
     setEditableApdexConfig({});
-    onShowCreateForm();
+    onShowCreateForm(false);
   };
   const onEditConfig = (config: ApdexConfiguration) => {
     track(APDEX_MANAGEMENT_EDIT_START, { entityType });
     setEditableApdexConfig(config);
-    onShowCreateForm();
+    onShowCreateForm(true);
   };
   const onDeleteApdexConfig = (id: string) => {
     track(APDEX_MANAGEMENT_DELETE, { entityType });
@@ -76,7 +76,7 @@ export default function ApdexManageList({
       onShowSlideInContentChange={onShowSlideInContentChange}
       showSlideInContent={showCreateForm}
       HeaderComponent={NoHeader}
-      slideTransitionDurationMillis={slideTransitionDurationMillis}
+      slideTransitionDurationMillis={transitionDelay}
       slideInContentTitle={t('in-custom-dashboards:widgets.apdex.apdexManageList.title')}
       renderSlideInContent={setFooter => {
         // Hide the form if the slide is out to not have the scroll-shadow visible afterwards
@@ -135,26 +135,4 @@ function onDeleteFailed() {
     },
     'custom-dashboard-apdex-delete-error'
   );
-}
-
-/*
- * This hook is used to render the create form only if it's opened and the
- * slide-transition was finished. It should prevent the SlideInView from render
- * a shadow if the content has been scrolled.
- */
-function useSlideOutDelay(
-  visibility?: boolean,
-  transitionDelay = slideTransitionDurationMillis
-): [boolean, VoidFunction] {
-  const [isVisible, setIsVisible] = useState(!!visibility);
-
-  useEffect(() => {
-    if (visibility) setIsVisible(true);
-  }, [visibility]);
-
-  function hide() {
-    setTimeout(() => setIsVisible(false), transitionDelay);
-  }
-
-  return [isVisible, hide];
 }
