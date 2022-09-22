@@ -11,6 +11,7 @@ import { Spacer, Stack } from '@instana/components';
 import {
   apdexEntityKey,
   apdexNameKey,
+  beaconTypeKey,
   tagFilterExpressionKey,
   thresholdKey,
   toApdexConfigurationInput
@@ -25,9 +26,11 @@ import EditConfigNotice from 'in-custom-dashboards/widgets/Apdex/components/Crea
 import useSetFormFooterEffect from 'in-custom-dashboards/widgets/Slo/sli/hooks/useSetFormFooterEffect';
 import ApdexConfigPreview from 'in-custom-dashboards/widgets/Apdex/components/ApdexConfigPreview';
 import { entityIdKey, getField, setFieldValue } from 'in-custom-dashboards/widgets/Apdex/form';
+import { AvailableApdexBeaconTypes } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import BeaconConfigurator from 'in-custom-dashboards/widgets/Slo/sli/BeaconConfigurator';
 import PreviewHeader from 'in-custom-dashboards/widgets/Apdex/components/PreviewHeader';
 import PreviewFooter from 'in-custom-dashboards/widgets/Apdex/components/PreviewFooter';
+import { enabledApdexBeaconTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import InputInSection from 'in-components/form/Input/InputInSection';
 import Sections from 'in-components/workspace/Sections/Sections';
@@ -45,13 +48,18 @@ export default function CreateWebsiteApdexForm({
   setFooter,
   isEditing
 }: CreateApdexFormComponentProps) {
-  const entityId = getField<string>(form, [apdexEntityKey, entityIdKey])!.value;
-  const { QueryBuilder, isQueryValid } = useWebsiteQueryBuilder({ beaconType: 'httpRequest', websiteId: entityId });
+  const beaconTypeField = getField<AvailableApdexBeaconTypes>(form, [apdexEntityKey, beaconTypeKey]);
+  const filterExpressionField = getField<FormModelElement[]>(form, [apdexEntityKey, tagFilterExpressionKey]);
 
-  const filterExpression = getField<FormModelElement[]>(form, [apdexEntityKey, tagFilterExpressionKey])?.value;
+  const entityId = getField<string>(form, [apdexEntityKey, entityIdKey])!.value;
+
+  const { QueryBuilder, isQueryValid } = useWebsiteQueryBuilder({
+    beaconType: beaconTypeField?.value,
+    websiteId: entityId
+  });
 
   const isFilterExpressionValid = useValidateWebsiteFilterExpression({
-    filterExpression,
+    filterExpression: filterExpressionField?.value,
     isQueryValid
   });
 
@@ -99,10 +107,15 @@ export default function CreateWebsiteApdexForm({
         </Stack>
 
         <BeaconConfigurator
+          beaconOptions={enabledApdexBeaconTypes}
           QueryBuilder={QueryBuilder}
-          value={filterExpression ?? []}
-          onChange={expression =>
-            onChange([apdexEntityKey, tagFilterExpressionKey], item => setFieldValue(item, expression, true))
+          tagFilterExpressionField={filterExpressionField}
+          beaconTypeField={beaconTypeField}
+          onChangeBeaconType={newBeaconType =>
+            onChange([apdexEntityKey, beaconTypeKey], item => setFieldValue(item, newBeaconType, true))
+          }
+          onChangeTagFilterExpression={newFilterExpression =>
+            onChange([apdexEntityKey, tagFilterExpressionKey], item => setFieldValue(item, newFilterExpression, true))
           }
           withAdditionalFilters
         />

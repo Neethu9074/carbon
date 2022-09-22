@@ -15,7 +15,15 @@ import {
   SliEntitySliType,
   SliEntityUnion
 } from 'in-types';
+import { enabledApdexBeaconTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
+import { deepFreeze } from 'in-services/util/object';
 import { t } from 'in-i18n';
+
+export const enabledSliBeaconTypes = deepFreeze(['httpRequest'] as const);
+
+export type AvailableSliBeaconTypes = typeof enabledSliBeaconTypes[number];
+export type AvailableApdexBeaconTypes = typeof enabledApdexBeaconTypes[number];
+export type AvailableBeaconTypes = AvailableApdexBeaconTypes | AvailableSliBeaconTypes;
 
 export const applicationType = 'application';
 export const availabilityType = 'availability';
