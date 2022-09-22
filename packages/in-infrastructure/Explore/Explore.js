@@ -40,9 +40,9 @@ import {
 import GroupingConfigurator, {
   isGroupingConfigurationValid
 } from 'in-infrastructure/Explore/components/GroupingConfigurator';
+import { EMPTY_EXPRESSION, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
 import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConfigContextModification';
-import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import QueryBuilder, { isQueryValid } from 'in-infrastructure/Explore/components/QueryBuilder';
 import GroupedInfrastructure from 'in-infrastructure/Explore/components/GroupedInfrastructure';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
@@ -94,13 +94,10 @@ function InfraExploreViewWithFixatedTimeConfig() {
     useObservable(getIsQueryValidObservable, [tagFilterExpression, timeConfig]) ?? pendingResult;
   const validGroupResult = useObservable(getIsGroupingValidObservable, [group, timeConfig]) ?? pendingResult;
   // in case of a pending result (validTagFilterExpressionResult.data === null) we do not want to show the user an error message
-  const isValid =
-    validTagFilterExpressionResult.data !== null &&
-    validTagFilterExpressionResult.data !== undefined &&
-    validGroupResult.data === true;
+  const isValid = validTagFilterExpressionResult.data === true && validGroupResult.data === true;
   const isInvalid = validGroupResult.data === false;
 
-  const backendQueryModel = useMemo(() => (isValid && toBackendQueryModel(tagFilterExpression)) || undefined, [
+  const backendQueryModel = useMemo(() => (isValid && toBackendQueryModel(tagFilterExpression)) || EMPTY_EXPRESSION, [
     isValid,
     tagFilterExpression
   ]);
