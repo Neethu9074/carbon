@@ -82,7 +82,7 @@
   "entityId": "Entity ID",
   "entityInstance": "Entity Instance",
   "temperatureReading": "Temperature Reading",
-  "maxCpuUtilzation": "Maximum CPU Utilization (%)",
+  "maxCpuUtilzation": "Maximum CPU Capacity Utilization (%)",
   "breadcrumbs": {
     "phmc": "Power HMC",
     "phmcs": "Power HMCs",
@@ -123,7 +123,7 @@
     "virtualFiberChannelAdapter": "Virtual Fiber Channel Adapters",
     "sharedStoragePool": "Shared Storage Pools",
     "energy": "Energy",
-    "maxCpuUtilzation": "Maximum CPU Utilization"
+    "maxCpuUtilzation": "Maximum CPU Capacity"
   }
 }
 

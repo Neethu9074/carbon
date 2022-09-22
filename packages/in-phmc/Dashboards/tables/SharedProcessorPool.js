@@ -68,7 +68,7 @@ const cols = [
       getValue(row) {
         return row.sharedProcessorPool.get('currentReservedProcessingUnits');
       },
-      getContent: number.detailed
+      getContent: number.compact
     }
   }
 ];

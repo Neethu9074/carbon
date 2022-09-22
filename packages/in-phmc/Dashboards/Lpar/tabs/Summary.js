@@ -53,12 +53,6 @@ export default function Summary({ timeConfig, data: lpar }) {
                 formatter: number.detailed,
                 type: 'line'
               }}
-              y2={{
-                metrics: ['entitledProcUnitsPercentage'],
-                labels: [t('in-phmc:entitledPercent')],
-                type: 'line',
-                formatter: percentage.detailed
-              }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           </Card>
