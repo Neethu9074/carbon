@@ -71,6 +71,8 @@ You will need an account for our [artifact-rnd.instana.io](https://artifact-rnd.
 Please follow either approach and come back here once you have access. Then execute the following snippet on your terminal. Please select the proposed defaults for the first two questions. Answer the third and fourth question with your Artifactory credentials. The following picture shows how to find your user name and API token within Artifactory.
 
 ```sh
+# Question 0 is "Ok to proceed? (y)". Type y and enter,
+# end then there will be 4 further questions.
 # You can accept the defaults proposed for the first two questions.
 # Answer the third and fourth question with your Artifactory credentials.
 REGISTRY="https://artifact-rnd.instana.io" \
