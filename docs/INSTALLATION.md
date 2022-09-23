@@ -46,6 +46,15 @@ xcode-select --install
 # Use and install our preferred Node.js version
 nvm install
 nvm use
+
+# For Ubuntu users, install Yarn:
+nvm install node
+sudo apt remove cmdtest
+sudo apt remove yarn
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+sudo apt update && sudo apt install --no-install-recommends yarn
+yarn --version
 ```
 
 ## Configure Access to our Artifact Registry
