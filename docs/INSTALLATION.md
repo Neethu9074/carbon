@@ -46,6 +46,15 @@ xcode-select --install
 # Use and install our preferred Node.js version
 nvm install
 nvm use
+
+# For Ubuntu users, install Yarn:
+nvm install node
+sudo apt remove cmdtest
+sudo apt remove yarn
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+sudo apt update && sudo apt install --no-install-recommends yarn
+yarn --version
 ```
 
 ## Configure Access to our Artifact Registry
@@ -62,6 +71,8 @@ You will need an account for our [artifact-rnd.instana.io](https://artifact-rnd.
 Please follow either approach and come back here once you have access. Then execute the following snippet on your terminal. Please select the proposed defaults for the first two questions. Answer the third and fourth question with your Artifactory credentials. The following picture shows how to find your user name and API token within Artifactory.
 
 ```sh
+# Question 0 is "Ok to proceed? (y)". Type y and enter,
+# end then there will be 4 further questions.
 # You can accept the defaults proposed for the first two questions.
 # Answer the third and fourth question with your Artifactory credentials.
 REGISTRY="https://artifact-rnd.instana.io" \
