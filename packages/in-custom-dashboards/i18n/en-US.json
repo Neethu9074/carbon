@@ -655,7 +655,7 @@
           "website": "The maximum number of website apdex configurations ({{0}}) has been reached. Please contact Instana support to request an increase for this limit.",
           "application": "The maximum number of application apdex configurations ({{0}}) has been reached. Please contact Instana support to request an increase for this limit."
         },
-        "editConfigNotice": "Configuration can not be edited after creation to prevent loss of data.",
+        "editConfigNotice": "To avoid data loss, the configuration cannot be edited once it has been created; it can only be adjusted as a copy.",
         "apdexCloneName": "Copy of {{apdexName}}"
       },
       "createWebsiteApdexForm": {
