@@ -71,7 +71,11 @@ export default function ChartWrapper({ result, companionResult, ...props }: Prop
   return <ResultAwareChart result={result} config={wrapProps(result, props, companionResult)} />;
 }
 
-function wrapProps(result: Result<MetricData>, props: ResultAwareChartConfig, companionResult?: Result<MetricData>): ResultAwareChartConfig {
+function wrapProps(
+  result: Result<MetricData>,
+  props: ResultAwareChartConfig,
+  companionResult?: Result<MetricData>
+): ResultAwareChartConfig {
   const metricsConfiguration = props.metricsConfiguration;
   if (__DEV__ && metricsConfiguration) {
     props.y1?.metricIds.forEach(id => {
@@ -170,7 +174,7 @@ function getSmallestTimeShift(y1?: AxisConfiguration, y2?: AxisConfiguration): n
   if (!y1 || !y1?.timeShifts) {
     return 0;
   }
-  let smallestTimeShift = y1.timeShifts.reduce(getSmallestTimeShiftReducer, 0);
+  let smallestTimeShift = y1.timeShifts.reduce(getSmallestTimeShiftReducer, Number.MIN_SAFE_INTEGER);
 
   if (!y2 || !y2.timeShifts) {
     return smallestTimeShift;

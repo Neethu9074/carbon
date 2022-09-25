@@ -55,7 +55,7 @@ export default metricDefinitions
       category: [t('in-forge:plugins.application.inboundCallsLatency')],
       min: 0,
       formatter: ms,
-      isPercentile: true
+      isBackendAggregatedPercentile: true
     },
     {
       metric: 'inbound_error_rate',

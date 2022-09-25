@@ -165,11 +165,6 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'kubernetesLoggingEnabled',
-    instanaCtlKey: 'feature.kubernetes.logging.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'enableTroubleshootingMode',
     instanaCtlKey: 'feature.troubleshooting.mode.enabled',
     defaultValue: false
@@ -285,7 +280,7 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'pluginEntityMetricStatisticsEnabled',
+    uiClientKey: 'pluginMetricStatisticsEnabled',
     instanaCtlKey: 'feature.plugin.entity.metric.statistics.enabled',
     defaultValue: false
   }

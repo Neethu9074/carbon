@@ -40,23 +40,30 @@ import {
 import GroupingConfigurator, {
   isGroupingConfigurationValid
 } from 'in-infrastructure/Explore/components/GroupingConfigurator';
+import { EMPTY_EXPRESSION, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
 import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConfigContextModification';
-import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import QueryBuilder, { isQueryValid } from 'in-infrastructure/Explore/components/QueryBuilder';
 import GroupedInfrastructure from 'in-infrastructure/Explore/components/GroupedInfrastructure';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import InfraPageHeaderWithTabs from 'in-infrastructure/components/InfraPageHeaderWithTabs';
+import { getMetricKey, fromUrlMetrics } from 'in-infrastructure/Explore/services/metrics';
 import InfrastructureList from 'in-infrastructure/Explore/components/InfrastructureList';
-import { getMetrics, fromUrlMetrics } from 'in-infrastructure/Explore/services/metrics';
+import getMetricCatalog from 'in-infrastructure/subscriptions/getMetricCatalog';
 import { defaultInfraExploreView } from 'in-infrastructure/navigation/paths';
+import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
 import EntityList from 'in-infrastructure/Explore/components/EntityList';
+import useMetricCatalog from 'in-infrastructure/hooks/useMetricCatalog';
 import { themes } from 'in-components/DashboardHeader/DashboardHeader';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import { defaultOrder } from 'in-infrastructure/Explore/constants';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { pendingResult } from 'in-services/fixedObjects';
 import Sections from 'in-components/workspace/Sections';
+import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { noop } from 'in-services/util/function';
 import useUrlState from 'in-hooks/useUrlState';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
@@ -85,30 +92,43 @@ export default function InfraExploreView() {
 
 function InfraExploreViewWithFixatedTimeConfig() {
   const timeConfig = useTimeConfig();
-  const [{ tagFilterExpression, group, metrics: urlMetrics, type: urlType, order }, setUrl] = useUrlState(
+  const [{ tagFilterExpression, group, metrics: urlMetrics, type: urlType, order: urlOrder }, setUrl] = useUrlState(
     urlStateDefinition
   );
   const type = urlType === 'all' ? null : urlType;
-  const setMetrics = useCallback(metrics => setUrl({ metrics }), [setUrl]);
+  const setMetrics = useCallback(
+    metrics => {
+      const sortedMetric = metrics.find(metric => order.by.startsWith(metric.metric));
+      const newOrder =
+        (sortedMetric && {
+          by: getMetricKey(sortedMetric.metric, sortedMetric.aggregation),
+          direction: order.direction
+        }) ??
+        defaultOrder;
+      setUrl({ metrics, order: newOrder });
+    },
+    [setUrl]
+  );
   const setOrder = useCallback(order => setUrl({ order }), [setUrl]);
 
   const validTagFilterExpressionResult =
     useObservable(getIsQueryValidObservable, [tagFilterExpression, timeConfig]) ?? pendingResult;
   const validGroupResult = useObservable(getIsGroupingValidObservable, [group, timeConfig]) ?? pendingResult;
   // in case of a pending result (validTagFilterExpressionResult.data === null) we do not want to show the user an error message
-  const isValid =
-    validTagFilterExpressionResult.data !== null &&
-    validTagFilterExpressionResult.data !== undefined &&
-    validGroupResult.data === true;
+  const isValid = validTagFilterExpressionResult.data === true && validGroupResult.data === true;
   const isInvalid = validGroupResult.data === false;
 
-  const backendQueryModel = useMemo(() => (isValid && toBackendQueryModel(tagFilterExpression)) || undefined, [
+  const backendQueryModel = useMemo(() => (isValid && toBackendQueryModel(tagFilterExpression)) || EMPTY_EXPRESSION, [
     isValid,
     tagFilterExpression
   ]);
 
-  const availableMetrics = useObservable(getMetricsObservable, [timeConfig, backendQueryModel, type]) || [];
-  const metrics = fromUrlMetrics({ urlMetrics, availableMetrics });
+  const order = urlOrder ?? defaultOrder;
+
+  const kpiDefinitions = getKpiDefinitions(type);
+  const metrics = fromUrlMetrics({ urlMetrics, kpiDefinitions });
+
+  const metricMetadatas = useMetricMetadatas({ type, metrics, kpiDefinitions });
 
   const onTagFilterExpressionChange = useCallback(tagFilterExpression => setUrl({ tagFilterExpression }), [setUrl]);
   const onGroupChange = useCallback(group => setUrl({ group }), [setUrl]);
@@ -134,6 +154,15 @@ function InfraExploreViewWithFixatedTimeConfig() {
     (!metrics || metrics?.length == 0) &&
     (!tagFilterExpression || tagFilterExpression?.length == 0);
 
+  const catalogQuery = useDebouncedValue('', noop, 800);
+
+  const metricCatalog = useMetricCatalog({
+    getMetricCatalog,
+    tagFilterExpression: backendQueryModel,
+    type,
+    query: catalogQuery.debouncedValue
+  });
+
   return (
     <InfraPageHeaderWithTabs
       onTypeSelected={typeSelectorChangedTracker(getInfraExploreState)}
@@ -141,7 +170,6 @@ function InfraExploreViewWithFixatedTimeConfig() {
       theme={themes.light}
       addShadow
       addFooter
-      renderTypeSelector={!isInitPage}
       headerHref$={defaultInfraExploreView}
       onHeaderClick={resetParams}
     >
@@ -211,21 +239,24 @@ function InfraExploreViewWithFixatedTimeConfig() {
           {isValid && !isInitPage && !group?.groupbyTag && (
             <InfrastructureList
               backendQueryModel={backendQueryModel}
-              availableMetrics={availableMetrics}
               timeConfig={timeConfig}
               setMetrics={setMetrics}
               setOrder={order => {
                 setOrder(order);
                 sortingTracker(getInfraExploreState)(order, SORTING_CONTEXT.ENTITIES);
               }}
-              metrics={metrics}
               type={type}
+              metrics={metrics}
+              metricMetadatas={metricMetadatas}
               order={order}
               showHeader
               tracking={{
                 onLoadMore: page => loadMoreTracker(getInfraExploreState)(page, LOAD_MORE_CONTEXT.UNGROUPED_ENTITIES),
                 ...infrastructureListTrackingConfig
               }}
+              metricCatalog={(catalogQuery.value === catalogQuery.debouncedValue && metricCatalog) || pendingResult}
+              query={catalogQuery.value}
+              onQueryChange={catalogQuery.onChange}
             />
           )}
 
@@ -233,7 +264,6 @@ function InfraExploreViewWithFixatedTimeConfig() {
             <GroupedInfrastructure
               tagFilterExpression={tagFilterExpression}
               backendQueryModel={backendQueryModel}
-              availableMetrics={availableMetrics}
               timeConfig={timeConfig}
               setMetrics={setMetrics}
               setOrder={order => {
@@ -241,6 +271,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
                 sortingTracker(getInfraExploreState)(order, SORTING_CONTEXT.GROUPS);
               }}
               metrics={metrics}
+              metricMetadatas={metricMetadatas}
               type={type}
               group={group}
               order={order}
@@ -251,6 +282,9 @@ function InfraExploreViewWithFixatedTimeConfig() {
                 onLoadMore: loadMoreTracker(getInfraExploreState),
                 ...infrastructureListTrackingConfig
               }}
+              metricCatalog={(catalogQuery.value === catalogQuery.debouncedValue && metricCatalog) || pendingResult}
+              query={catalogQuery.value}
+              onQueryChange={catalogQuery.onChange}
             />
           )}
         </Stack>
@@ -265,8 +299,4 @@ function getIsQueryValidObservable([tagFilterExpression, timeConfig]) {
 
 function getIsGroupingValidObservable([group, timeConfig]) {
   return isGroupingConfigurationValid(group, timeConfig);
-}
-
-function getMetricsObservable([timeConfig, backendQueryModel, type]) {
-  return getMetrics({ timeConfig, tagFilterExpression: backendQueryModel, type });
 }

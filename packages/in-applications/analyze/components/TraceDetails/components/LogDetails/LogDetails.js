@@ -14,8 +14,8 @@ import LoadingCallDetails from 'in-applications/analyze/components/TraceDetails/
 import LogStackTrace from 'in-applications/analyze/components/TraceDetails/components/LogDetails/LogStackTrace';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import LogMessage from 'in-logging/analyze/AnalyzeView/components/LogMessage';
+import { getSpanIdTagFilter, logTableTags } from 'in-logging/queryBuilder';
 import { hasError, isLoading } from 'in-services/util/result';
-import { getSpanIdTagFilter } from 'in-logging/queryBuilder';
 import ExpandableGroup from 'in-components/ExpandableGroup';
 import { pendingResult } from 'in-services/fixedObjects';
 import getLog from 'in-logging/subscriptions/getLog';
@@ -55,7 +55,8 @@ function LogDetails(props) {
       () =>
         getLog({
           itemId: selectedLogIdPair.logId,
-          tagFilterExpression: getSpanIdTagFilter(selectedLogIdPair.spanId)
+          tagFilterExpression: getSpanIdTagFilter(selectedLogIdPair.spanId),
+          requestedTags: logTableTags
         }),
       [selectedLogIdPair.logId, selectedLogIdPair.spanId]
     ) ?? pendingResult;

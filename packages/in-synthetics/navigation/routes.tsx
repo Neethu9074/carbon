@@ -16,7 +16,7 @@ import { Route } from 'react-router-dom';
 import React, { Fragment } from 'react';
 
 // @ts-expect-error module need to be translated to TS
-import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
+import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import {
   syntheticsPath,
   syntheticLocationPath,
@@ -26,9 +26,13 @@ import {
 
 export default (
   <Fragment>
-    <Route exact path={syntheticsPath} component={createAsyncViewComponent(SyntheticsView)} />
-    <Route exact path={syntheticLocationPath} component={createAsyncViewComponent(SyntheticLocationView)} />
-    <Route path={syntheticsDashboard} component={createAsyncViewComponent(SyntheticSummaryDashboard)} />
-    <Route path={syntheticDetailsPath} component={createAsyncViewComponent(AnalyzeView)} />
+    <Route exact path={syntheticsPath}>
+      {renderAsyncRouteChildren(SyntheticsView)}
+    </Route>
+    <Route exact path={syntheticLocationPath}>
+      {renderAsyncRouteChildren(SyntheticLocationView)}
+    </Route>
+    <Route path={syntheticsDashboard}>{renderAsyncRouteChildren(SyntheticSummaryDashboard)}</Route>
+    <Route path={syntheticDetailsPath}>{renderAsyncRouteChildren(AnalyzeView)}</Route>
   </Fragment>
 );

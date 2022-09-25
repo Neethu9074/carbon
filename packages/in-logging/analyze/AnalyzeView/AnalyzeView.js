@@ -15,9 +15,9 @@ import RestrictedAccessMessage from 'in-components/rbac/RestrictedAccessMessage'
 import GroupedLogs from 'in-logging/analyze/AnalyzeView/components/GroupedLogs';
 import useTimeSpentInsideComponent from 'in-hooks/useTimeSpentInsideComponent';
 import StateManagement from 'in-components/AnalyzeView/StateManagement';
+import { Logs } from 'in-logging/analyze/AnalyzeView/components/Logs';
 import { logIdMatrixParameter } from 'in-logging/navigation/matrix';
 import { getMetricTemplates } from 'in-logging/api/metricTemplates';
-import Logs from 'in-logging/analyze/AnalyzeView/components/Logs';
 import getLogGroups from 'in-logging/subscriptions/getLogGroups';
 import { getTagCatalog } from 'in-logging/api/catalog';
 import { logsPath } from 'in-logging/navigation/paths';

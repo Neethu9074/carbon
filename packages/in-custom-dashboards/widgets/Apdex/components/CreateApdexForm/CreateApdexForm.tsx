@@ -4,22 +4,22 @@
  * Copyright IBM Corp. 2022
  */
 
-import React, { useEffect, useState } from 'react';
 import { Item, MapForm } from 'formalistic';
+import React from 'react';
 
 import { ApdexConfiguration, Result } from '@instana/types';
 
+import CreateApplicationApdexForm from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/CreateApplicationApdexForm';
 import {
   apdexNameKey,
-  createForm,
   toApdexConfigurationInput
 } from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/form';
-import CreateApplicationApdexForm from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/CreateApplicationApdexForm';
 import CreateWebsiteApdexForm from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/CreateWebsiteApdexForm';
 import { useApdexWidgetTrackers } from 'in-custom-dashboards/widgets/Apdex/components/ApdexWidgetTrackerProvider';
 import useCreateApdexConfiguration from 'in-custom-dashboards/widgets/Apdex/hooks/useCreateApdexConfiguration';
 import { APDEX_MANAGEMENT_CREATE_FINISH, APDEX_MANAGEMENT_EDIT_FINISH } from 'in-services/tracking/eventNames';
 import getTranslatedErrorMessage from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/errors';
+import useCreateApdexForm from 'in-custom-dashboards/widgets/Apdex/hooks/useCreateApdexForm';
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { getField } from 'in-custom-dashboards/widgets/Apdex/form';
@@ -57,16 +57,10 @@ export default function CreateApdexForm({
   onClose,
   onSave
 }: CreateApdexFormProps) {
-  const [form, setForm] = useState<MapForm>(createForm(apdexConfig, entityType, entityId));
+  const [form, setForm] = useCreateApdexForm(apdexConfig, entityType, entityId);
   const [{ success, saving, error }, doSubmit] = useCreateApdexConfiguration();
 
   const track = useApdexWidgetTrackers();
-
-  useEffect(() => {
-    // Re-initialize form if apdexConfig has changed
-    const newForm = createForm(apdexConfig, entityType, entityId);
-    setForm(newForm);
-  }, [apdexConfig, entityId, entityType]);
 
   const isEditing = Boolean(apdexConfig.id);
 

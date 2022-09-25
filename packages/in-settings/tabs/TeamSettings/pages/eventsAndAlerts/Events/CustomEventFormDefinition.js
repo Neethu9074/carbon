@@ -9,7 +9,7 @@ import {
   getAllBuiltInMetrics,
   isBuiltInDynamicMetric,
   isBuiltInPlainMetric,
-  isMetricPercentile,
+  isBackendAggregatedPercentileMetric,
   toDynamicMetricStringValue,
   getMetricDefinition
 } from 'in-sdk/metrics';
@@ -80,7 +80,7 @@ function getScopeFields(isCreate, query, ruleType, tagFilter) {
 
 export function createEventFormDefinition(eventSpec, isCreate) {
   const mutableEvent = getMutableEventSpecification(eventSpec);
-  const { name, entityType, query, triggering, description, expirationTime } = mutableEvent;
+  const { name, entityType, query, triggering, description, expirationTime, actions } = mutableEvent;
   const ruleAttributes = getRuleAttributes(mutableEvent);
   const { ruleType, severity, tagFilter } = ruleAttributes;
 
@@ -152,6 +152,8 @@ export function createEventFormDefinition(eventSpec, isCreate) {
         validator: notBlankValidator
       })
     );
+  const actionIds = actions?.map(s => s.id);
+  form = putActionField(form, actionIds);
 
   if (dataSource !== dataSourceSystem) {
     form = putAllDataSourceFields(form, eventSpec);
@@ -269,7 +271,7 @@ function putAllDataSourceFields(form, eventSpec) {
       })
     );
 
-  if (isMetricPercentile(entityType, metricName)) {
+  if (isBackendAggregatedPercentileMetric(entityType, metricName)) {
     form = putRollupField(form, eventSpec);
   } else {
     form = putWindowField(form, eventSpec);
@@ -560,6 +562,15 @@ export function removeTagValueField(form) {
 
 export function removeScopeByHostsField(form) {
   return form.remove('tagValue').remove('tagOperator');
+}
+
+export function putActionField(form, tagValue) {
+  return form.put(
+    'actionIds',
+    createField({
+      value: tagValue ?? []
+    })
+  );
 }
 
 export function putApplicationIdField(form, applicationIds) {

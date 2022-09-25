@@ -5,13 +5,15 @@
 
 import React, { Fragment } from 'react';
 
+import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
 
 import { timeByMillisTwoDecimalPlaces, withSiMultiplyPrefixThreeDecimalPlaces } from 'in-services/formatters/number';
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import subscribeMetricIds from 'in-infrastructure/subscriptions/getMetricIds';
 import { snapshotIdUrlParameter } from 'in-stores/snapshot/urlParameters';
-import { emptyList } from 'in-services/fixedImmutables';
+import { pendingResult } from 'in-services/fixedObjects';
 import Table from 'in-sdk/components/dashboard/Table';
 import withUrlState from 'in-hoc/withUrlState';
 import Tooltip from 'in-components/Tooltip';
@@ -126,9 +128,20 @@ export default withUrlState({
 })(CustomMetricsV2);
 
 function CustomMetricsV2(props) {
-  const { titlePrefix, pinnedMetrics, postProcessRow, getRows = getDefaultRows, customColumns } = props;
+  const {
+    titlePrefix,
+    pinnedMetrics,
+    postProcessRow,
+    getRows = getDefaultRows,
+    customColumns,
+    timeConfig,
+    snapshot
+  } = props;
 
-  const rows = getRows(props);
+  const metricIdsResult =
+    useObservable(subscribeMetricIds({ snapshotId: snapshot.get('id'), timeConfig }), [snapshot]) ?? pendingResult;
+
+  const rows = getRows({ metricIdsResult, ...props });
 
   if (postProcessRow) {
     rows.forEach(postProcessRow);
@@ -213,60 +226,46 @@ function getDetails(row) {
 export function getDefaultRows({
   snapshot,
   timeConfig,
+  metricIdsResult,
   setPinnedMetrics,
   pinnedMetrics,
-  noExpandSubMetrics = false,
   specs = DEFAULT_SPECS
 }) {
   const snapshotId = snapshot.get('id');
-  const expandSubMetrics = !noExpandSubMetrics;
 
-  const metrics = getMetricIds(snapshot, expandSubMetrics, specs).reduce((acc, id) => {
-    const metric = expandMetric(id, expandSubMetrics, specs);
-    if (!metric) {
+  const metrics =
+    metricIdsResult.data?.reduce((acc, id) => {
+      const metric = expandMetric(id, specs);
+      if (!metric) {
+        return acc;
+      }
+      const { i, key, name, type, color, tableMetric, label, formatter } = metric;
+      acc[key] = acc[key] || {
+        key,
+        name,
+        type,
+        color,
+        tableMetric,
+        snapshotId,
+        timeConfig,
+        setPinnedMetrics,
+        pinnedMetrics,
+        metrics: []
+      };
+      acc[key].metrics.push({
+        name: id,
+        label,
+        formatter,
+        i
+      });
+      acc[key].metrics.sort((l, r) => l.i - r.i);
       return acc;
-    }
-    const { i, key, name, type, color, tableMetric, label, formatter } = metric;
-    acc[key] = acc[key] || {
-      key,
-      name,
-      type,
-      color,
-      tableMetric,
-      snapshotId,
-      timeConfig,
-      setPinnedMetrics,
-      pinnedMetrics,
-      metrics: []
-    };
-    acc[key].metrics.push({
-      name: id,
-      label,
-      formatter,
-      i
-    });
-    acc[key].metrics.sort((l, r) => l.i - r.i);
-    return acc;
-  }, {});
+    }, {}) || [];
 
   return Object.values(metrics);
 }
 
-function getMetricIds(snapshot, expandSubMetrics, specs) {
-  const metricIds = snapshot.get('metricIds');
-  if (metricIds) {
-    return metricIds;
-  }
-
-  return specs.flatMap(({ prefix, path, metrics }) =>
-    snapshot
-      .getIn(path, emptyList)
-      .flatMap(metric => metrics.map(metrics => prefix + metric + (metrics.suffix || '')))
-      .toJS()
-  );
-}
-
-function expandMetric(id, expandSubMetrics, specs) {
+function expandMetric(id, specs) {
   const spec = specs.find(spec => id.startsWith(spec.prefix));
   if (!spec) return null;
 
@@ -293,7 +292,6 @@ function expandMetric(id, expandSubMetrics, specs) {
 export const AVAILABLE_SPECS = {
   COUNTER: {
     prefix: 'metrics.counters.',
-    path: ['data', 'metrics.counters'],
     type: 'counter',
     color: '#00CC66',
     metrics: [
@@ -305,7 +303,6 @@ export const AVAILABLE_SPECS = {
   },
   GAUGE: {
     prefix: 'metrics.gauges.',
-    path: ['data', 'metrics.gauges'],
     type: 'gauge',
     color: '#D90368',
     metrics: [
@@ -317,7 +314,6 @@ export const AVAILABLE_SPECS = {
   },
   HISTOGRAM: {
     prefix: 'metrics.histograms.',
-    path: ['data', 'metrics.histograms'],
     type: 'histogram',
     color: '#F1C40F',
     metrics: [
@@ -329,7 +325,6 @@ export const AVAILABLE_SPECS = {
   },
   EXPANDED_HISTOGRAM: {
     prefix: 'metrics.histograms.',
-    path: ['data', 'metrics.histograms'],
     type: 'histogram',
     color: '#F1C40F',
     metrics: [
@@ -352,7 +347,6 @@ export const AVAILABLE_SPECS = {
   },
   METER: {
     prefix: 'metrics.meters.',
-    path: ['data', 'metrics.meters'],
     type: 'meter',
     color: '#2274A5',
     metrics: [
@@ -364,7 +358,6 @@ export const AVAILABLE_SPECS = {
   },
   TIMER: {
     prefix: 'metrics.timers.',
-    path: ['data', 'metrics.timers'],
     type: 'timer',
     color: '#F75C03',
     metrics: [
@@ -376,7 +369,6 @@ export const AVAILABLE_SPECS = {
   },
   EXPANDED_TIMER: {
     prefix: 'metrics.timers.',
-    path: ['data', 'metrics.timers'],
     type: 'timer',
     color: '#F75C03',
     tableMetric: 1,
@@ -405,7 +397,6 @@ export const AVAILABLE_SPECS = {
   },
   SUMMARY: {
     prefix: 'metrics.summaries.',
-    path: ['data', 'metrics.summaries'],
     type: 'summary',
     color: '#f75c03',
     metrics: [

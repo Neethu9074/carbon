@@ -14,6 +14,7 @@ export interface CreateSliFormProps<SLI_TYPE extends SliType> {
   close: () => void;
   sliConfig?: Partial<SliConfigBySliType<SLI_TYPE>>;
   setFooter: (footer: React.ReactNode) => void;
+  onSave: (config: SliConfigBySliType<SLI_TYPE>) => void;
 }
 
 interface CreateSliFormFactoryProps<SLI_TYPE extends SliType> extends CreateSliFormProps<SLI_TYPE> {

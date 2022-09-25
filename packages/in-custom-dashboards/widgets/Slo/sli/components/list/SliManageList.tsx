@@ -5,64 +5,92 @@
 
 import React, { useState } from 'react';
 
-import { Message, Button } from '@instana/components';
-import { useObservable } from '@instana/hooks';
+import { Button, Message } from '@instana/components';
+import { OrderDirection } from '@instana/types';
 
 import {
   SLI_MANAGEMENT_CREATE_START,
   SLI_MANAGEMENT_DELETE,
   SLI_MANAGEMENT_EDIT_START
 } from 'in-services/tracking/eventNames';
-import { deleteSliConfiguration, getSliConfigurationsByEntity } from 'in-custom-dashboards/widgets/Slo/sli/api';
+import useFilteredAndSortedSliConfigurations from 'in-custom-dashboards/widgets/Slo/hooks/useFilteredAndSortedSliConfigurations';
 import CreateSliFormFactory from 'in-custom-dashboards/widgets/Slo/sli/components/create/CreateSliFormFactory';
 import { useSloWidgetTrackers } from 'in-custom-dashboards/widgets/Slo/components/SloWidgetTrackerProvider';
 import { SliConfigBySliType, SliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
+import { useSlideOutDelay } from 'in-custom-dashboards/widgets/Slo/hooks/useSlideOutDelay';
 import SliList from 'in-custom-dashboards/widgets/Slo/sli/components/list/SliList';
+import { deleteSliConfiguration } from 'in-custom-dashboards/widgets/Slo/sli/api';
 import SlideInView, { NoHeader } from 'in-components/SlideInView/SlideInView';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
-import { PaginatedResult, Result, SliConfiguration } from 'in-types';
-import { isLoading, hasError } from 'in-services/util/result';
-import { containsIgnoreCase } from 'in-services/util/string';
 import { role } from 'in-stores/user';
-import { Trans, t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 
 import locals from 'in-custom-dashboards/widgets/Slo/sli/components/list/SliManageList.mless';
 
-interface SliManageListProps<S extends SliType> {
+interface SliManageListProps<S extends SliType> extends SliManageListContentProps<S> {
+  showCreateForm?: boolean;
+  onCloseCreateForm: VoidFunction;
+}
+
+interface SliManageListContentProps<S extends SliType> {
   entityType: S;
   entityId: string;
   onChange: (sli?: Partial<SliConfigBySliType<S>>) => void;
-  value?: Partial<SliConfigBySliType<S>>;
+  onShowCreateForm: (isEditing: boolean) => void;
+}
+
+interface InternalContentProps<S extends SliType> {
+  setSliConfigToEdit: React.Dispatch<React.SetStateAction<Partial<SliConfigBySliType<S>>>>;
 }
 
 export default function SliManageList<S extends SliType>({
   entityType,
   entityId,
-  value,
-  onChange
+  onChange,
+  showCreateForm,
+  onShowCreateForm,
+  onCloseCreateForm
 }: SliManageListProps<S>) {
-  const close = () => onChange(undefined);
+  const [sliConfigToEdit, setSliConfigToEdit] = useState<Partial<SliConfigBySliType<S>>>({});
+  const transitionDelay = 500;
+  const [isCreateFormVisible, hideCreateForm] = useSlideOutDelay(showCreateForm, transitionDelay);
+  const onShowSlideInContentChange = () => onChange(undefined);
 
   return (
     <SlideInView
-      onShowSlideInContentChange={close}
-      showSlideInContent={Boolean(value)}
+      onShowSlideInContentChange={onShowSlideInContentChange}
+      showSlideInContent={showCreateForm}
       HeaderComponent={NoHeader}
-      slideTransitionDurationMillis={500}
+      slideTransitionDurationMillis={transitionDelay}
       slideInContentTitle={t('in-custom-dashboards:widgets.slo.sliManageList.sliList')}
-      renderSlideInContent={setFooter => (
-        <div className={locals.formWrapper}>
-          <CreateSliFormFactory<S>
-            entityType={entityType}
-            entityId={entityId}
-            close={close}
-            setFooter={setFooter}
-            sliConfig={value}
-          />
-        </div>
-      )}
-      staticContent={<SliManageListContent entityId={entityId} entityType={entityType} onChange={onChange} />}
+      renderSlideInContent={setFooter => {
+        // Hide the form if the slide is out to not have the scroll-shadow visible afterwards
+        if (!isCreateFormVisible) return <></>;
+
+        return (
+          <div className={locals.formWrapper}>
+            <CreateSliFormFactory<S>
+              entityType={entityType}
+              entityId={entityId}
+              close={onCloseCreateForm}
+              setFooter={setFooter}
+              sliConfig={sliConfigToEdit}
+              onSave={onChange}
+            />
+          </div>
+        );
+      }}
+      staticContent={
+        <SliManageListContent
+          entityId={entityId}
+          entityType={entityType}
+          onChange={onChange}
+          onShowCreateForm={onShowCreateForm}
+          setSliConfigToEdit={setSliConfigToEdit}
+        />
+      }
       enforceMaxHeightForStaticContent
+      onAfterSlideOut={hideCreateForm}
     />
   );
 }
@@ -70,14 +98,30 @@ export default function SliManageList<S extends SliType>({
 function SliManageListContent<S extends SliType>({
   entityType,
   entityId,
-  onChange
-}: Omit<SliManageListProps<S>, 'value'>) {
+  onChange,
+  setSliConfigToEdit,
+  onShowCreateForm
+}: SliManageListContentProps<S> & InternalContentProps<S>) {
   const [nameQuery, setNameQuery] = useState<string>('');
-  const sliResult = useObservable(
-    () => getSliConfigurationsByEntity({ entityType, entityId }).map(searchBySliName(nameQuery)),
-    [entityType, entityId, nameQuery]
-  );
+  const [orderBy, setOrderBy] = useState<string>('name');
+  const [orderDirection, setOrderDirection] = useState<OrderDirection>('ASC');
+  const sliResult = useFilteredAndSortedSliConfigurations(entityType, entityId, nameQuery, orderBy, orderDirection);
   const track = useSloWidgetTrackers();
+
+  const onCreateConfig = () => {
+    track(SLI_MANAGEMENT_CREATE_START, { entityType });
+    setSliConfigToEdit({});
+    onShowCreateForm(false);
+  };
+  const onEditConfig = (config: SliConfigBySliType<S>) => {
+    track(SLI_MANAGEMENT_EDIT_START, { entityType });
+    setSliConfigToEdit(config);
+    onShowCreateForm(true);
+  };
+  const onDeleteConfig = (id: string) => {
+    track(SLI_MANAGEMENT_DELETE, { entityType });
+    deleteSliConfiguration(id).once(onDeleteSuccess, onDeleteFailed);
+  };
 
   return (
     <div>
@@ -90,15 +134,19 @@ function SliManageListContent<S extends SliType>({
         </Message>
       )}
       <SliList
-        onChange={({ query }) => setNameQuery(query ?? '')}
-        result={sliResult}
+        fetchedConfigState={sliResult}
+        onChange={({ query, orderBy, orderDirection }) => {
+          setNameQuery(query ?? '');
+          setOrderBy(orderBy!);
+          setOrderDirection(orderDirection!);
+        }}
         rightHeader={
           role?.canConfigureServiceLevelIndicators && (
             <Button
               kind="action"
               onClick={() => {
                 track(SLI_MANAGEMENT_CREATE_START, { entityType });
-                onChange({});
+                onCreateConfig();
               }}
               icon="lib_openclose_add_circle_outline"
               className={locals.createButton}
@@ -108,59 +156,34 @@ function SliManageListContent<S extends SliType>({
           )
         }
         query={nameQuery}
-        selectSli={sliConfig => {
-          track(SLI_MANAGEMENT_EDIT_START, { entityType });
-          onChange(sliConfig as SliConfigBySliType<S>);
-        }}
-        onDelete={id => {
-          track(SLI_MANAGEMENT_DELETE, { entityType });
-          deleteSliConfig(id);
-        }}
+        orderBy={orderBy}
+        orderDirection={orderDirection}
+        selectSli={sli => onChange(sli as SliConfigBySliType<S>)}
+        onDelete={onDeleteConfig}
+        onEdit={sli => onEditConfig(sli as SliConfigBySliType<S>)}
       />
     </div>
   );
 }
 
-function searchBySliName(query: string): (r: Result<SliConfiguration[]>) => Result<PaginatedResult<SliConfiguration>> {
-  return (sliConfigResult: Result<SliConfiguration[]>): Result<PaginatedResult<SliConfiguration>> => {
-    if (isLoading(sliConfigResult) || hasError(sliConfigResult)) {
-      return (sliConfigResult as unknown) as Result<PaginatedResult<SliConfiguration>>;
-    }
-
-    const filtered = sliConfigResult.data!.filter(sli => containsIgnoreCase(sli.sliName, query));
-    return {
-      ...sliConfigResult,
-      data: {
-        items: filtered,
-        page: 1,
-        pageSize: filtered.length,
-        totalHits: filtered.length
-      }
-    };
-  };
+function onDeleteSuccess() {
+  addMessage(
+    {
+      type: 'info',
+      timeout: 2000,
+      content: t('in-custom-dashboards:widgets.slo.sliList.sliConfigDeleted')
+    },
+    'custom-dashboard-info'
+  );
 }
 
-const deleteSliConfig = (id: string): void => {
-  deleteSliConfiguration(id).once(
-    () => {
-      addMessage(
-        {
-          type: 'info',
-          timeout: 2000,
-          content: t('in-custom-dashboards:widgets.slo.sliList.sliConfigDeleted')
-        },
-        'custom-dashboard-info'
-      );
+function onDeleteFailed() {
+  addMessage(
+    {
+      type: 'danger',
+      timeout: 3000,
+      content: t('in-custom-dashboards:widgets.slo.sliList.failedDelSli')
     },
-    () => {
-      addMessage(
-        {
-          type: 'danger',
-          timeout: 3000,
-          content: t('in-custom-dashboards:widgets.slo.sliList.failedDelSli')
-        },
-        'custom-dashboard-error'
-      );
-    }
+    'custom-dashboard-error'
   );
-};
+}

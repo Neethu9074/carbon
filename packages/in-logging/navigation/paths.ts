@@ -43,14 +43,6 @@ export function getLinkToAnalyze({ tagFilterExpression, timeConfig }: GetLinkToA
   });
 }
 
-export function getLinkToRawLogs() {
-  return getModifiedUrlStream(location => {
-    location.pathname = rawLogsPath;
-
-    setOrDeleteMatrixKey(location, rawLogsPath, 'dataSource', 'rawlogs');
-  });
-}
-
 export const isAnalyzeView = navigationParameters$.map(
   location => location.pathname.indexOf(logsPath) === 0 || location.pathname.indexOf(rawLogsPath) === 0
 );

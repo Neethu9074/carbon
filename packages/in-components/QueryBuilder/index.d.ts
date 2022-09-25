@@ -20,7 +20,7 @@ import { FormModelElement } from './transformation/formModel';
 
 export type GetSuggestionsProps = { [key: string]: unknown };
 
-interface GetTagSuggestionsProps<ADDITIONAL_PROPS extends {} = {}> extends ADDITIONAL_PROPS {
+export interface GetTagSuggestionsProps<ADDITIONAL_PROPS extends {} = {}> extends ADDITIONAL_PROPS {
   tagFilterExpression: TagFilterExpression;
   name: string;
   tagName: string;

@@ -62,10 +62,8 @@
     "allInfrastructure": "All Infrastructure",
     "name": "Name",
     "search": "Search",
-    "count": "Count",
     "explore": "Explore",
-    "cpuUser": "CPU (user)",
-    "memoryFree": "Memory Free"
+    "count": "Count"
   },
   "tableView": {
     "showCountsAndAveragesAcrossTheCurrentTimeWindow": "Show counts and averages across the current time window.",

@@ -10,6 +10,7 @@ import { Card } from '@instana/components';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import OpenEventsCountChartWrapper from 'in-events/components/OpenEventsCountChartWrapper';
 import { LinkList, LinkListItem } from 'in-internal/components/LinkList/LinkList';
+import { pluginMetricStatisticsEnabled } from 'in-services/featureFlags';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { internalMonitoringUnit } from 'in-services/featureFlags';
 import Renderer from 'in-components/Chart/renderer/Renderer';
@@ -498,9 +499,17 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
               >
                 <LinkList>
                   <LinkListItem
-                    label={t('in-internal:components.landing.entityStatistics')}
+                    label={
+                      pluginMetricStatisticsEnabled
+                        ? t('in-internal:components.landing.entityAndMetricStatistics')
+                        : t('in-internal:components.landing.entityStatistics')
+                    }
                     href$={getModifiedUrlStream(params => (params.pathname = '/internal/thisUnit/entityStatistics'))}
-                    description={t('in-internal:components.landing.entityStatisticsDesc')}
+                    description={
+                      pluginMetricStatisticsEnabled
+                        ? t('in-internal:components.landing.entityAndMetricStatisticsDesc')
+                        : t('in-internal:components.landing.entityStatisticsDesc')
+                    }
                   />
                   <LinkListItem
                     label={t('in-internal:components.landing.agents')}

@@ -39,7 +39,10 @@ export default function ApdexList({
   onDelete,
   onEdit,
   onChange,
-  onCreate
+  onCreate,
+  query,
+  orderBy = 'name',
+  orderDirection = 'ASC'
 }: ApdexListProps) {
   const paginatedResult = fetchedStateToPaginatedResult(fetchedConfigState);
   const { page = 0, pageSize = 0 } = paginatedResult?.data || {};
@@ -52,8 +55,9 @@ export default function ApdexList({
       })}
       page={page}
       pageSize={pageSize}
-      orderBy="name"
-      orderDirection="ASC"
+      query={query}
+      orderBy={orderBy}
+      orderDirection={orderDirection}
       cardTitle={t('in-custom-dashboards:widgets.apdex.apdexList.cardTitle')}
       onRowClick={onSelect}
       onDelete={onDelete}
@@ -79,7 +83,7 @@ export default function ApdexList({
 const columnDefinitions: ColumnDefinition<ApdexConfiguration, ServerTableApdexConfiguration>[] = [
   {
     id: 'name',
-    sortable: false,
+    sortable: true,
     label: t('in-custom-dashboards:widgets.apdex.apdexList.nameColumn'),
     getContent(item) {
       return item.apdexName;

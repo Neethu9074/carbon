@@ -9,14 +9,15 @@ import React, { useState } from 'react';
 import { Observable } from '@instana/observables';
 
 import {
+  CombinedApplicationSliEntity,
+  isAvailabilitySliEntity,
+  NewSliConfig,
+  SliConfigBySliType
+} from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
+import {
   useValidateApplicationFilterExpression,
   useApplicationQueryBuilder
 } from 'in-custom-dashboards/widgets/Slo/sli/hooks/useApplicationQueryBuilder';
-import {
-  CombinedApplicationSliEntity,
-  isAvailabilitySliEntity,
-  NewSliConfig
-} from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { useApplicationSliFormSideEffects } from 'in-custom-dashboards/widgets/Slo/sli/hooks/useSliFormSideEffects';
 import { CreateSliFormProps } from 'in-custom-dashboards/widgets/Slo/sli/components/create/CreateSliFormFactory';
 import { Application, ApplicationBoundaryScope, ApplicationSliEntity, Result, TimeConfig } from 'in-types';
@@ -33,7 +34,8 @@ export default function CreateApplicationSliForm({
   entityId,
   close,
   sliConfig,
-  setFooter
+  setFooter,
+  onSave
 }: CreateSliFormProps<'application'>) {
   const [application, status] = useApplication(entityId);
 
@@ -47,6 +49,7 @@ export default function CreateApplicationSliForm({
       close={close}
       sliConfig={sliConfig}
       setFooter={setFooter}
+      onSave={onSave}
     />
   );
 }
@@ -56,7 +59,8 @@ function CreateApplicationSliFormComponent({
   application,
   close,
   sliConfig,
-  setFooter
+  setFooter,
+  onSave
 }: CreateSliFormProps<'application'> & { application: Application }) {
   const [form, setForm] = useState(createForm('application', sliConfig ?? {}, entityId, application));
   const updateForm = useApplicationSliFormSideEffects(form, setForm as (f: Item) => void);
@@ -79,6 +83,8 @@ function CreateApplicationSliFormComponent({
       onSubmit={submittedFormData =>
         createSliConfiguration({
           ...toBackendFormat(submittedFormData)
+        }).tap(data => {
+          if (data.status < 400) onSave(data.body as SliConfigBySliType<'application'>);
         })
       }
     >

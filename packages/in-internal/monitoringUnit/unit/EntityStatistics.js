@@ -5,11 +5,10 @@
 
 import React, { Fragment } from 'react';
 
-import { Card } from '@instana/components';
+import { Message } from '@instana/components';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
-import { pluginEntityMetricStatisticsEnabled } from 'in-services/featureFlags';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -78,36 +77,15 @@ export default connectTo(
         .map(snapshotsIds => snapshotsIds && snapshotsIds.first())
     )
   }),
-  function Cockpit({ timeConfig, snapshotId }) {
+  function Cockpit({ timeConfig, snapshotId, tenant, unit }) {
     if (!snapshotId) {
       return <LoadingIndicator />;
     }
     const rows = Object.keys(plugins).map(key => ({ key: plugins[key], plugin: plugins[key], timeConfig, snapshotId }));
 
-    const pluginBreakdown = pluginEntityMetricStatisticsEnabled ? (
-      <Table
-        cardTitle={t('in-internal:monitoringUnit.unit.entityStatistics.perPluginEntityCount')}
-        cols={cols}
-        rows={rows}
-        getRowDetails={getRowDetails}
-        maxItemsPerPage={20}
-        initialSortColumn={1}
-        initialSortDirection="desc"
-      />
-    ) : (
-      <Card
-        title={t('in-internal:monitoringUnit.unit.entityStatistics.perPluginEntityCount')}
-        withoutPadding
-        useMaxAvailableHeight={false}
-      >
-        To enable breakdown of entity and metric statistics by plugin, turn on feature flag for this TU.
-        <pre>feature.plugin.entity.metric.statistics.enabled</pre>
-      </Card>
-    );
-
     return (
       <Fragment>
-        <DashboardSection title={t('in-internal:monitoringUnit.unit.entityStatistics.entityCount')}>
+        <DashboardSection title={t('in-internal:monitoringUnit.unit.entityStatistics.entityAndMetricCount')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -128,7 +106,24 @@ export default connectTo(
           />
         </DashboardSection>
 
-        {pluginBreakdown}
+        <Message small type="warning">
+          To enable breakdown of metric statistics by plugin, add{' '}
+          <strong>
+            {tenant}-{unit}
+          </strong>{' '}
+          to
+          <strong>feature.plugin.metric.statistics.enabled</strong>
+        </Message>
+
+        <Table
+          cardTitle={t('in-internal:monitoringUnit.unit.entityStatistics.perPluginEntityAndMetricCount')}
+          cols={cols}
+          rows={rows}
+          getRowDetails={getRowDetails}
+          maxItemsPerPage={20}
+          initialSortColumn={1}
+          initialSortDirection="desc"
+        />
       </Fragment>
     );
   }

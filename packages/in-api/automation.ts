@@ -4,24 +4,103 @@
  * Copyright IBM Corp. 2022
  */
 
+import { fromJS, Map } from 'immutable';
+
 import { Observable } from '@instana/observables';
 
-import { Action, Result } from 'in-types';
+import { DOC_LINK_TYPE } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
+import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
+import { Action, Field, Mutable } from 'in-types';
 import http from 'in-services/http';
+import { t } from 'in-i18n';
+
+const automationAPIBase = '/api/automation';
+const actionUrl = `${automationAPIBase}/settings/actions`;
 
 export function getAllActions(): Observable<Action[]> {
   return http<Action[]>({
     method: 'GET',
     maxRetries: 3,
-    url: '/api/automation/settings/actions'
+    url: actionUrl
   }).map(response => response.body);
 }
 
-export function getAction(actionId: string): Observable<Result<Action>> {
+export function getAction(actionId: string): Observable<Action> {
   return http<Action>({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/automation/settings/actions/${encodeURIComponent(actionId)}`,
-    mapToResultObject: true
+    url: `${actionUrl}/${encodeURIComponent(actionId)}`,
+    treat400AsError: false
+  }).map(response => fromJS(response.body));
+}
+
+export function saveNewAction(actionSpecification: NewAction) {
+  return http({
+    method: 'POST',
+    maxRetries: 3,
+    url: actionUrl,
+    headers: getCsrfHeader(),
+    data: actionSpecification
+  }).map(response => fromJS(response.body));
+}
+
+export function saveAction(actionSpecification: NewAction, id: string) {
+  return http({
+    method: 'PUT',
+    maxRetries: 3,
+    url: `${actionUrl}/${encodeURIComponent(id)}`,
+    headers: getCsrfHeader(),
+    data: actionSpecification
+  }).map(response => fromJS(response.body));
+}
+
+export function deleteAction(actionId: string) {
+  return http<Action>({
+    method: 'DELETE',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${actionUrl}/${encodeURIComponent(actionId)}`
+  }).map(response => fromJS(response.body));
+}
+
+export type NewAction = Mutable<Omit<Action, 'createdAt' | 'modifiedAt' | 'id'>>;
+
+export type ImmutableNewAction = Map<string, unknown>;
+
+export const createDocLinkField = (value: string): Field => ({
+  value,
+  description: 'URL to remediation documentation',
+  encoding: 'UTF8',
+  name: 'URL'
+});
+
+export const createScriptFields = (value: string): Field[] => [
+  {
+    description: 'script subtype',
+    encoding: 'ascii',
+    name: 'subtype',
+    value: 'bash'
+  },
+  {
+    value: btoa(value),
+    description: 'script content',
+    encoding: 'base64',
+    name: 'script_ssh'
+  }
+];
+
+export function createAction(
+  name: string = t('in-settings:tabs.newAction'),
+  type: string = DOC_LINK_TYPE,
+  description: string = '',
+  fields: Field[] = [createDocLinkField('')],
+  tags: string[] = []
+): ImmutableNewAction {
+  return fromJS({
+    name,
+    type,
+    description,
+    fields,
+    tags
   });
 }

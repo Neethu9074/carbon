@@ -83,7 +83,7 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
     hideUrlShortener,
     withBorderBottom,
     headerHref$,
-    onHeaderClick
+    onHeaderClick = () => {}
   } = props;
   let {
     label,
@@ -199,7 +199,7 @@ function getSkeletonIcon() {
 function Context(props: ContextProps) {
   const { renderContext, contextIcon, renderContextIcon, shouldRenderDelimiter } = props;
 
-  if (props.headerHref$ != null && props.onHeaderClick != null) {
+  if (props.headerHref$ != null) {
     return (
       <div className={locals.contextWrapper}>
         {renderContextIcon ? (
@@ -213,17 +213,17 @@ function Context(props: ContextProps) {
         {shouldRenderDelimiter && <SvgIcon className={locals.contextEndIcon} size="l" type="lib_arrow_expand_right" />}
       </div>
     );
+  } else {
+    return (
+      <div className={locals.contextWrapper}>
+        {renderContextIcon ? (
+          renderContextIcon({ ...props, className: locals.contextIcon })
+        ) : (
+          <SvgIcon className={locals.contextIcon} size="l" type={contextIcon} />
+        )}
+        <span className={locals.context}>{renderContext(props)}</span>
+        {shouldRenderDelimiter && <SvgIcon className={locals.contextEndIcon} size="l" type="lib_arrow_expand_right" />}
+      </div>
+    );
   }
-
-  return (
-    <div className={locals.contextWrapper}>
-      {renderContextIcon ? (
-        renderContextIcon({ ...props, className: locals.contextIcon })
-      ) : (
-        <SvgIcon className={locals.contextIcon} size="l" type={contextIcon} />
-      )}
-      <span className={locals.context}>{renderContext(props)}</span>
-      {shouldRenderDelimiter && <SvgIcon className={locals.contextEndIcon} size="l" type="lib_arrow_expand_right" />}
-    </div>
-  );
 }

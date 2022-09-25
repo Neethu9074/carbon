@@ -737,6 +737,7 @@
   },
   "approximateDataIndicator": {
     "dataRetention": "You are viewing approximate data due to the data retention settings.",
+    "dataRetentionOrFastQueryMode": "You are viewing approximate data due to the data retention settings or the fast query mode.",
     "retainedLabel": "Approximated data ({{totalHits}} result retained from {{representedHits}})",
     "retainedLabel_plural": "Approximated data ({{totalHits}} results retained from {{representedHits}})",
     "retainedLabel_0": "Approximated data ({{totalHits}} results retained from {{representedHits}})",

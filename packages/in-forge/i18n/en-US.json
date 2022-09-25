@@ -742,6 +742,12 @@
   "pluginName_ibmMqSubscription_1": "IBM MQ Subscriptions",
   "pluginName_ibmMqSubscription_2": "IBM MQ Subscriptions",
   "pluginName_ibmMqSubscription": "IBM MQ Subscription",
+  "pluginName_ibmMqMftCoordiQmgr": "IBM MQ MFT Coordination Queue Manager",
+  "pluginName_ibmMqMftCoordiQmgr_plural": "IBM MQ MFT Coordination Queue Managers",
+  "pluginName_ibmMqMftZone": "IBM MQ MFT Zone",
+  "pluginName_ibmMqMftZone_plural": "IBM MQ MFT Zones",
+  "pluginName_ibmMqMftAgent": "IBM MQ MFT Agent",
+  "pluginName_ibmMqMftAgent_plural": "IBM MQ MFT Agents",
   "pluginName_ibmVsi_plural": "IBM Cloud Virtual Server Instances",
   "pluginName_ibmVsi_0": "IBM Cloud Virtual Server Instances",
   "pluginName_ibmVsi_1": "IBM Cloud Virtual Server Instances",
@@ -5265,7 +5271,12 @@
         "labelUserTime": "User",
         "labelThrottlingCount": "Throttling count",
         "labelThrottlingTime": "Throttling time",
-        "titleMemory": "Memory",
+        "blockIo": "Block IO",
+        "read": "Read",
+        "write": "Write",
+        "memoryUsage": "Memory Usage %",
+        "memoryLimit": "Memory (Limit: {{limitBytes}})",
+        "memory": "Memory",
         "labelUsage": "Usage",
         "labelRSS": "RSS",
         "labelCache": "Cache",
@@ -8275,7 +8286,6 @@
       "datacenter": "Datacenter",
       "mount": "Mount Point",
       "device": "Device",
-      "deviceOrMount": "Device/Mount Point",
       "gpuUuid": "GPU UUID"
     },
     "httpd": {
@@ -9210,6 +9220,70 @@
       "openInputCount": "Open Input Count",
       "openOutputCount": "Open Output Count",
       "calls": "Calls"
+    },
+    "ibmMqMftCoordiQmgr": {
+      "dashboard": {
+        "properties": "Queue Manager Properites",
+        "coordiQmgrName": "Coordination Queue Manager",
+        "coordiQmgrHost": "Host",
+        "connectionChannel": "Connection Channel",
+        "agentsWithCount": "MFT Agents ({{len}})"
+      }
+    },
+    "ibmMqMftZone": {
+      "dashboard": {
+        "ibmMqMftZone": "IBM MQ MFT Zone",
+        "instancesWithCount": "Instances ({{len}})"
+      }
+    },
+    "ibmMqMftAgent": {
+      "dashboard": {
+        "ibmMqMftAgent": "IBM MQ MFT Agent",
+        "agentName": "Name",
+        "agentStatus": "Status",
+        "queueManager": "Queue Manager",
+        "AgentStartTimeUTC": "Start Time(UTC)",
+        "maxSourceTransfers": "Source",
+        "maxDestinationTransfers": "Destination",
+        "maxQueuedTransfers": "Queued",
+        "hostName": "Host Name",
+        "agentType": "Type",
+        "agentTimeZone": "Time Zone",
+        "fileTransferLogsWithCount": "Transfer Logs ({{len}})",
+        "runningTransfers": "Running Transfers",
+        "totalCurrentTransfers": "Total Current Transfers",
+        "transferStatusWithCount": "Current Transfers ({{len}})",
+        "totalSourceTransfers": "Source Transfers",
+        "totalDestinationTransfers": "Destination Transfers"
+      }
+    },
+    "ibmMqMftFileTransferStatus": {
+      "dashboard": {
+        "sourceAgent": "Source Agent",
+        "destinationAgent": "Destination Agent",
+        "startedTime": "Started Time",
+        "fileNumber": "File Number",
+        "elapsedSeconds": "Elaspsed Time(Seconds)",
+        "statsTransferredBytes": "Transferred Bytes",
+        "sourceFileName": "Source File"
+      }
+    },
+    "ibmMqMftFileTransferLog": {
+      "dashboard": {
+        "actionStatus": "Status",
+        "sourceAgent": "Source Agent",
+        "destinationAgent": "Destination Agent",
+        "originatorUserID": "Originator",
+        "startedTime": "Started Time",
+        "transferMode": "Mode",
+        "checkSumMethod": "CheckSum Method",
+        "checkSumValue": "CheckSum Value",
+        "sourceFileName": "Source File",
+        "sourceFileSize": "Source Size",
+        "destinationFileName": "Destination File",
+        "destinationFileSize": "Destination Size",
+        "itemsWithCount": "Files ({{len}})"
+      }
     },
     "ibmMqQueueManager": {
       "dashboard": {
@@ -10662,10 +10736,10 @@
       "titleServletsErrors": "Servlets Errors",
       "titleServletsAverageResponseTime": "Servlets Average Response Time",
       "titleFreeConnectionsInPool": "Free Connections in Pool",
-      "titleWebContainerThreadPool": "Web Container Thread Pool",
       "titleThreadsWaitingForConnection": "Threads Waiting for Connection",
       "titleAverageWaitingTime": "Average Waiting Time",
       "titleDatasourcesCount": "Datasources ({{len}})",
+      "titleThreadPoolsCount": "Thread Pools ({{len}})",
       "titleWebModulesCount": "Web Modules ({{len}})",
       "titleEJBModulesCount": "EJB Modules ({{len}})",
       "titleEJBBeansCount": "EJB Beans ({{len}})",
@@ -11084,6 +11158,10 @@
       "replicationPreloadIndexesTotal": "Replication Preload Indexes Total",
       "replicationLag": "Replication Lag",
       "lockQueueLength": "Lock Queue Length",
+      "activeClientsWriters": "Active Clients Writers",
+      "activeClientsReaders": "Active Clients Readers",
+      "readOperations": "Number of Clients with Read operations",
+      "writeOperations": "Number of Clients with Write operations",
       "journalWriteLock": "Journal Write Lock",
       "numberOfPageFaults": "Number of Page Faults",
       "lastBackgroundFlushingLatency": "Last Background Flushing Latency",
@@ -11092,7 +11170,14 @@
       "cloudProvider": "Cloud Provider",
       "region": "Region",
       "project": "Project",
-      "organisation": "Organisation"
+      "organisation": "Organisation",
+      "opInsert": "Insert",
+      "opQuery": "Query",
+      "opUpdate": "Update",
+      "opDelete": "Delete",
+      "opGetMore": "Get More",
+      "opCountersRead": "Read Requests Per Second",
+      "opCountersWrite": "Write Requests Per Second"
     },
     "mongoDbCluster": {
       "databaseActivity": "Database Activity",
@@ -11701,7 +11786,23 @@
       "backgroundSessions": "Background Sessions",
       "tablespaces": "Tablespaces",
       "dbCpuTime": "DB CPU Time",
-      "tablespace": "Tablespace"
+      "tablespace": "Tablespace",
+      "runningProcessCount": "Running Process Count",
+      "sgaMemory": "System Global Area (SGA) Memory",
+      "processUtilization": "Process Utilization",
+      "processLimitUsage": "Process Limit Usage",
+      "processCurrentUtilization": "Current Utilization",
+      "processInitialAllocation": "Initial Allocation",
+      "processMaxUtilization": "Max Utilization",
+      "processLimitValue": "Limit Value",
+      "processLimit": "Process Limit",
+      "poolsInSGA": "SGA Pool Size",
+      "pool": "Pool",
+      "freeMemory": "Free Memory",
+      "usedMemory": "Used Memory",
+      "totalMemory": "Total Memory",
+      "currentBlockingSessions": "Current Blocking Sessions",
+      "currentBlockingSessionsStatus": "Blocking Status"
     },
     "azureCosmosDb": {
       "totalRequests": "Total Requests",

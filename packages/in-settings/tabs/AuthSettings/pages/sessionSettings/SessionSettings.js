@@ -6,9 +6,8 @@
 import { createField } from 'formalistic';
 import React from 'react';
 
-import { DistinctSlider } from '@instana/components';
-
 import { refresh, deleteSessionSettings, setSessionSettings } from 'in-settings/tabs/AuthSettings/api/sessionSettings';
+import DebouncedDistinctSlider from 'in-components/Slider/DebouncedDistinctSlider';
 import { getSessionSettingsAsResultObservable } from '../../api/sessionSettings';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
@@ -130,7 +129,7 @@ function FormInput({ form, fieldName, labeledTicks, label, description, onChange
       <Label>{description}</Label>
 
       <div className={locals.slider}>
-        <DistinctSlider
+        <DebouncedDistinctSlider
           valueLabelDisplay="auto"
           valueLabelFormat={valueLabelFormat}
           marks={labeledTicks}

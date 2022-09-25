@@ -60,6 +60,16 @@ const cols = [
       },
       getContent: percentage.detailed
     }
+  },
+  {
+    title: t('in-phmc:reservedProc'),
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.sharedProcessorPool.get('currentReservedProcessingUnits');
+      },
+      getContent: number.compact
+    }
   }
 ];
 

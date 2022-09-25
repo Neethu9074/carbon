@@ -327,6 +327,7 @@ function openRestoreConfirmationDialog(alertRevision, doRestore) {
       header={t('in-alerting:components.alertHeaderRestoreRevisionConfirmationDialogHeader')}
       description={t('in-alerting:components.alertHeaderRestoreRevisionConfirmationDialogDescription')}
       confirmButtonLabel={t('in-alerting:components.alertHeaderRestoreRevisionConfirmationDialogConfirmButton')}
+      confirmButtonKind="primary"
       onSubmit={() => {
         close();
         doRestore();

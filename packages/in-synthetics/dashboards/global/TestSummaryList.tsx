@@ -6,15 +6,15 @@
 
 import React from 'react';
 
-import {
-  OrderDirection,
-  Progress,
-  SyntheticMetricConfiguration,
-  TagFilter,
-  TestResultListItem,
-  TimeConfig
-} from '@instana/types';
+import { OrderDirection, Progress, SyntheticMetricConfiguration, TagFilter, TimeConfig } from '@instana/types';
 
+import {
+  currentState,
+  filterState,
+  filterUrlStateDefinition,
+  matrixPrefix,
+  pathSegment
+} from 'in-synthetics/utils/constants';
 // @ts-expect-error
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { columnDefinitions } from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions';
@@ -22,7 +22,6 @@ import { columnDefinitions } from 'in-synthetics/dashboards/global/tabs/tests/co
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 // @ts-expect-error Module needs to be translated to TS
 import Sticky from 'in-components/Sticky';
-import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import TestConfigDialogPresenter from 'in-synthetics/components/TestConfigDialogPresenter';
@@ -37,11 +36,18 @@ import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-components/Footer';
 import { t } from 'in-i18n';
 
-const pathSegment = '/synthetics';
-const matrixPrefix = '';
+const urlStateDefinition = {
+  bind: filterUrlStateDefinition.bind,
+  reducer: (prevState: filterState, { syntheticTypes, locationIds, applicationIds }: currentState) => ({
+    syntheticTypes: syntheticTypes || prevState.syntheticTypes,
+    locationIds: locationIds || prevState.locationIds,
+    applicationIds: applicationIds || prevState.applicationIds
+  })
+};
 
 const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({
@@ -57,8 +63,9 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   matrixPrefix
 });
 
-export default function TestSummaryList(props: ServerTablePresenterProps<TestResultListItem>) {
+export default function TestSummaryList() {
   const timeConfig = useTimeConfig();
+  const [{ syntheticTypes, locationIds, applicationIds }, setFilter] = useUrlState(urlStateDefinition);
 
   function reloadTests() {}
 
@@ -73,7 +80,25 @@ export default function TestSummaryList(props: ServerTablePresenterProps<TestRes
     );
   }
 
-  const rightHeader = <Filters setFilter props={props} />;
+  function useFilterHeader(isFilterAllowed: boolean) {
+    return function Filter(props: any) {
+      if (!isFilterAllowed) {
+        return undefined;
+      } else {
+        return (
+          <Filters
+            result={props.result}
+            setFilter={setFilter}
+            syntheticTypes={props.syntheticTypes}
+            locationIds={props.locationIds}
+            applicationIds={props.applicationIds}
+          />
+        );
+      }
+    };
+  }
+
+  const rightHeader = useFilterHeader(true);
 
   return (
     <Sticky header={<ViewSwitcher />}>
@@ -89,6 +114,9 @@ export default function TestSummaryList(props: ServerTablePresenterProps<TestRes
           timeConfig={timeConfig}
           rightHeader={rightHeader}
           cardTitle={t('in-synthetics:dashboard.testList.secondaryLabels.tests')}
+          syntheticTypes={syntheticTypes}
+          locationIds={locationIds}
+          applicationIds={applicationIds}
         />
       </LeftRightPadding>
       <Footer />
@@ -112,6 +140,9 @@ type GetTestSummaryList = {
   progress: Progress;
   context?: string;
   appId?: string;
+  syntheticTypes?: string[];
+  locationIds?: string[];
+  applicationIds?: string[];
 };
 
 export function getTestSummaryListData({
@@ -122,7 +153,10 @@ export function getTestSummaryListData({
   pageSize = 20,
   query = '',
   context = '',
-  appId = ''
+  appId = '',
+  syntheticTypes = [],
+  locationIds = [],
+  applicationIds = []
 }: GetTestSummaryList) {
   let baseTagFilters: TagFilter[] = [];
   let byAppTagFilters: TagFilter[] = [];
@@ -138,6 +172,42 @@ export function getTestSummaryListData({
     ];
   }
 
+  if (syntheticTypes.length !== 0 && Array.isArray(syntheticTypes)) {
+    syntheticTypes.forEach(syntheticType => {
+      baseTagFilters.push({
+        value: syntheticType,
+        name: 'synthetic_type',
+        operator: EQUALS,
+        entity: NOT_APPLICABLE,
+        type: 'TAG_FILTER'
+      });
+    });
+  }
+
+  if (locationIds.length !== 0 && Array.isArray(locationIds)) {
+    locationIds.forEach(locationId => {
+      baseTagFilters.push({
+        value: locationId,
+        name: 'location_id',
+        operator: EQUALS,
+        entity: NOT_APPLICABLE,
+        type: 'TAG_FILTER'
+      });
+    });
+  }
+
+  if (applicationIds.length !== 0 && Array.isArray(applicationIds)) {
+    applicationIds.forEach(applicationId => {
+      baseTagFilters.push({
+        value: applicationId,
+        name: 'application_id',
+        operator: CONTAINS,
+        entity: NOT_APPLICABLE,
+        type: 'TAG_FILTER'
+      });
+    });
+  }
+
   if (context == 'application') {
     byAppTagFilters = [
       {
@@ -148,6 +218,30 @@ export function getTestSummaryListData({
         type: 'TAG_FILTER'
       }
     ];
+
+    if (syntheticTypes.length !== 0 && Array.isArray(syntheticTypes)) {
+      syntheticTypes.forEach(syntheticType => {
+        byAppTagFilters.push({
+          value: syntheticType,
+          name: 'synthetic_type',
+          operator: EQUALS,
+          entity: NOT_APPLICABLE,
+          type: 'TAG_FILTER'
+        });
+      });
+    }
+
+    if (locationIds.length !== 0 && Array.isArray(locationIds)) {
+      locationIds.forEach(locationId => {
+        byAppTagFilters.push({
+          value: locationId,
+          name: 'location_id',
+          operator: EQUALS,
+          entity: NOT_APPLICABLE,
+          type: 'TAG_FILTER'
+        });
+      });
+    }
   }
 
   const sparkChartGranularity = getChartGranularity(timeConfig);

@@ -43,7 +43,6 @@ export const vsphereEnabled = isFeatureFlagEnabled('vsphereEnabled');
 export const openstackEnabled = isFeatureFlagEnabled('openstackEnabled');
 export const zhmcEnabled = isFeatureFlagEnabled('zhmcEnabled');
 export const loggingEnabled = isFeatureFlagEnabled('loggingEnabled');
-export const kubernetesLoggingEnabled = isFeatureFlagEnabled('kubernetesLoggingEnabled', false);
 
 export const enableTroubleshootingMode = isFeatureFlagEnabled('enableTroubleshootingMode', false);
 export const syntheticCallsEnabled = isFeatureFlagEnabled('syntheticCallsEnabled');
@@ -120,4 +119,4 @@ export const perSecondAggregationEnabled = isFeatureFlagEnabled('perSecondAggreg
 
 export const actionAutomationEnabled = isFeatureFlagEnabled('actionAutomationEnabled', false);
 
-export const pluginEntityMetricStatisticsEnabled = isFeatureFlagEnabled('pluginEntityMetricStatisticsEnabled', false);
+export const pluginMetricStatisticsEnabled = isFeatureFlagEnabled('pluginMetricStatisticsEnabled', false);

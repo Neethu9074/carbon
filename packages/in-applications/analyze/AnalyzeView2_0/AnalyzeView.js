@@ -7,8 +7,6 @@ import { useLocation } from 'react-router';
 import React, { useState } from 'react';
 import { sortBy } from 'lodash';
 
-import { useObservable } from '@instana/hooks';
-
 import {
   alreadyConvertedAnalyticsWithHiddenTagsLocation,
   isAnalyticsWithHiddenTagsLocation
@@ -32,7 +30,6 @@ import { getTagCatalog as getTracesTagCatalog } from 'in-applications/analyze/co
 import { NO_VALUE, NO_VALUE_LABEL, UNSPECIFIED, UNSPECIFIED_LABEL } from 'in-analyze/components/GroupedTraces/Group';
 import { getTagCatalog as getCallsTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import FacetedFilterHiddenCalls from 'in-applications/analyze/components/FacetedSearch/FacetedFilterHiddenCalls';
-import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { createTableTimestampColumnDefinition } from 'in-components/AnalyzeView/commonTableColumnDefinitions';
 import { createListTimestampColumnDefinition } from 'in-components/AnalyzeView/commonListColumnDefinitions';
 import FacetedFilterMultiSelect from 'in-components/AnalyzeView/FacetedFilters/FacetedFilterMultiSelect';
@@ -46,6 +43,7 @@ import Results from 'in-applications/analyze/AnalyzeView2_0/components/Results';
 import getTagSuggestions from 'in-applications/subscriptions/getTagSuggestions';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { getMetricTemplates } from 'in-applications/api/metricTemplates';
+import { ua2FastQueryModeChangedTracker } from 'in-applications/tracker';
 import StateManagement from 'in-components/AnalyzeView/StateManagement';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import { getMetricCatalog } from 'in-applications/api/metricCatalog';
@@ -136,13 +134,12 @@ export default function ApplicationsAnalyzeView() {
     alreadyConvertedAnalyticsWithHiddenTagsLocation(location)
   );
 
-  const internalVisible = useObservable(isInternalVisible$, []) || false;
-
   const onChangeHiddenCalls = hiddenCalls => {
     onChange({ hiddenCalls });
   };
 
   const onChangeFastQueryModeEnabled = fastQueryModeEnabled => {
+    ua2FastQueryModeChangedTracker({ dataSource, enabled: fastQueryModeEnabled });
     onChange({ fastQueryModeEnabled });
   };
 
@@ -163,9 +160,6 @@ export default function ApplicationsAnalyzeView() {
     return <AnalyzeHiddenTagsViewParameterConversion onConversionCompleted={setSkipHiddenTagConversion} />;
   }
 
-  // For now "fastQueryModeEnabled" should be available only in internal mode
-  const internalOnlyFastQueryModeEnabled = fastQueryModeEnabled && internalVisible;
-
   return (
     <StateManagement
       path={analyzePath}
@@ -183,7 +177,7 @@ export default function ApplicationsAnalyzeView() {
             getFacetedSearchSuggestions={params => getFacetedSearchSuggestions({ ...params, hiddenCalls })}
             hiddenCalls={hiddenCalls}
             onChangeHiddenCalls={onChangeHiddenCalls}
-            fastQueryModeEnabled={internalOnlyFastQueryModeEnabled}
+            fastQueryModeEnabled={fastQueryModeEnabled}
             onChangeFastQueryModeEnabled={onChangeFastQueryModeEnabled}
             useLastValidStateWhenErroneous
           />
@@ -193,7 +187,7 @@ export default function ApplicationsAnalyzeView() {
             getFacetedSearchSuggestions={params => getFacetedSearchSuggestions({ ...params, hiddenCalls })}
             hiddenCalls={hiddenCalls}
             onChangeHiddenCalls={onChangeHiddenCalls}
-            fastQueryModeEnabled={internalOnlyFastQueryModeEnabled}
+            fastQueryModeEnabled={fastQueryModeEnabled}
             onChangeFastQueryModeEnabled={onChangeFastQueryModeEnabled}
             useLastValidStateWhenErroneous
           />

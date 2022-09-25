@@ -13,7 +13,9 @@ import {
   createCustomSystemRuleBasedHostAvailability,
   createCustomThresholdBasedEventSpecification,
   getCustomEventSpecification,
-  saveCustomEventSpecification
+  saveCustomEventSpecification,
+  getCustomEventSpecificationWithActions,
+  saveCustomEventSpecificationWithActions
 } from 'in-api/eventSpecifications';
 import {
   createEventFormDefinition,
@@ -39,6 +41,7 @@ import MigrateToSmartAlerts from 'in-alerting/migration/MigrateToSmartAlerts';
 import LegacyAppdataEventInfoMessage from './LegacyAppdataEventInfoMessage';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
+import { actionAutomationEnabled } from 'in-services/featureFlags';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
@@ -62,7 +65,11 @@ export default function CustomEvent(props) {
       entityId={entityId}
       createDefaultEntity={createCustomThresholdBasedEventSpecification}
       createForm={event => createEventFormDefinition(event, !entityId)}
-      getEntityFromApi={getCustomEventSpecification}
+      getEntityFromApi={
+        role.canConfigureAutomationActions && actionAutomationEnabled
+          ? getCustomEventSpecificationWithActions
+          : getCustomEventSpecification
+      }
       openEntities={() => goToPath(teamSettingsAlertingEvents)}
       saveEntity={save}
     />
@@ -95,16 +102,11 @@ const Form = entityForm(function DetailsForm(props) {
   const entityType = getPluginName(entity.get('entityType'), 1) ?? '';
   const isLegacyAppDataEntityType = isAppDataEntityType(entityType);
   const hasPermissionsToEditSmartAlerts = role.canConfigureCustomAlerts && role.canConfigureGlobalAlertConfigs;
-  // FIXME This check is incorrect, because check does not consider that the EVENTS context keyword could be us as the 1..N-th
-  //       keyword, or that brackets could be used.
-  const isMigrateableDfqScope = !entity.get('query')?.startsWith('event.');
-
   const isDeprecated = deprecateAppDataLegacyEventsEnabled && isLegacyAppDataEntityType;
 
   const isMigratable =
     isDeprecated &&
     hasPermissionsToEditSmartAlerts &&
-    isMigrateableDfqScope &&
     // only migrateable entities have the 'migrated' property set. For the other ones this prop is `undefined`, thus checking for false and not falsy.
     entity.get('migrated') === false;
 
@@ -167,6 +169,7 @@ function save(event, form) {
   const severity = Number(form.get('severity')?.value ?? 0);
   const entityType = form.get('entityType')?.value ?? null;
   const scopeType = form.get('applyOn').value;
+  const actionIds = form.get('actionIds')?.value ?? [];
 
   submitEventTracker({
     scopeType,
@@ -176,7 +179,13 @@ function save(event, form) {
   });
 
   const eventSpecification = getEventSpecification(event, form);
-  return saveCustomEventSpecification(eventSpecification);
+  if (actionIds.length > 0 && role.canConfigureAutomationActions && actionAutomationEnabled) {
+    const actions = actionIds.map(value => ({ id: value }));
+    eventSpecification.actions = actions;
+    return saveCustomEventSpecificationWithActions(eventSpecification);
+  } else {
+    return saveCustomEventSpecification(eventSpecification);
+  }
 }
 
 function getTagFilterForHostAvailability(form) {

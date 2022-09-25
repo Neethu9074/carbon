@@ -38,7 +38,6 @@ module.exports = {
   ampEnabled: true,
   persistentVolumeSupportEnabled: true,
   loggingEnabled: true,
-  kubernetesLoggingEnabled: true,
   pseudoLanguageEnabled: true,
   syntheticCallsEnabled: true,
   applicationHealthOverviewEnabled: true,
@@ -63,5 +62,6 @@ module.exports = {
   apdexWidgetEnabled: true,
   applicationApdexEnabled: true,
   actionAutomationEnabled: true,
-  websiteUploadConfigEnabled: true
+  websiteUploadConfigEnabled: true,
+  pluginMetricStatisticsEnabled: true
 };

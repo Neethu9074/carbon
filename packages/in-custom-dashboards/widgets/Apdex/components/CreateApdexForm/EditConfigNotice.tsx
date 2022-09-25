@@ -15,14 +15,7 @@ export default function EditConfigNotice() {
   const theme = useTheme();
 
   return (
-    <Message
-      withIcon
-      iconType="lib_help_error_info_outline"
-      iconColor={
-        // @ts-expect-error DefaultTheme currently misses our design tokens but theme will populated correctly on runtime
-        theme.ids.color.option.neutral[600]
-      }
-    >
+    <Message withIcon iconType="lib_help_error_info_outline" iconColor={theme.ids.color.option.neutral[600]}>
       {t('in-custom-dashboards:widgets.apdex.createApdexForm.editConfigNotice')}
     </Message>
   );

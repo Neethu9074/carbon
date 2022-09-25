@@ -55,7 +55,7 @@ const cols = [
       getValue(row) {
         return row.virtualEthernetAdapter.get('sentPackets');
       },
-      getContent: number.compact
+      getContent: number.detailed
     }
   },
   {
@@ -65,7 +65,7 @@ const cols = [
       getValue(row) {
         return row.virtualEthernetAdapter.get('receivedPackets');
       },
-      getContent: number.compact
+      getContent: number.detailed
     }
   },
   {
@@ -75,7 +75,7 @@ const cols = [
       getValue(row) {
         return row.virtualEthernetAdapter.get('droppedPackets');
       },
-      getContent: number.compact
+      getContent: number.detailed
     }
   },
   {

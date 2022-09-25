@@ -17,17 +17,18 @@ import {
   Ul
 } from '@instana/components';
 
-import { average, defaultFormatter, getGranularity, getMetricKey } from 'in-infrastructure/Explore/services/metrics';
+import MetricCatalogAndSortingConfigurator from 'in-infrastructure/components/MetricCatalogAndSortingConfigurator/MetricCatalogAndSortingConfigurator';
 import InfrastructureList, { pagesLoaded } from 'in-infrastructure/Explore/components/InfrastructureList';
+import { average, getGranularity, getMetricKey } from 'in-infrastructure/Explore/services/metrics';
 import { type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { default as MetricLabel } from 'in-infrastructure/Explore/components/MetricLabel';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import createGetGroupsSubscription from 'in-infrastructure/subscriptions/getGroups';
 import { getUniqueErrors } from 'in-components/Errors/ErroneousResultPresenter';
 import { LOAD_MORE_CONTEXT } from 'in-infrastructure/Explore/services/tracking';
 import { defaultOrder, pluginTag } from 'in-infrastructure/Explore/constants';
 import { emptyObject, indeterminateProgress } from 'in-services/fixedObjects';
-import MetricLabel from 'in-infrastructure/Explore/components/MetricLabel';
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getLinkToExplore } from 'in-infrastructure/navigation/paths';
@@ -38,6 +39,7 @@ import IconLink from 'in-components/IconButton/IconLink';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { getPluginName } from 'in-sdk/pluginName';
+import { mapData } from 'in-services/util/result';
 import SparkChart from 'in-components/SparkChart';
 import { t } from 'in-i18n';
 
@@ -90,7 +92,6 @@ function Presenter({
   tagFilterExpression,
   fullQualifiedGroup,
   backendQueryModel,
-  availableMetrics,
   canLoadMore,
   granularity,
   timeConfig,
@@ -100,6 +101,7 @@ function Presenter({
   cursor,
   progress,
   metrics,
+  metricMetadatas,
   errors,
   order,
   items,
@@ -108,7 +110,10 @@ function Presenter({
   retrievalSize,
   tracking,
   tagType,
-  group
+  group,
+  metricCatalog,
+  query,
+  onQueryChange
 }) {
   const hasErrors = errors?.length > 0;
   const isLoading = progress?.loading;
@@ -128,7 +133,8 @@ function Presenter({
     timeConfig,
     metrics,
     type,
-    onFocusOnGroup: tracking?.onFocusOnGroup
+    onFocusOnGroup: tracking?.onFocusOnGroup,
+    metricMetadatas
   });
   const groupSortOptions = fullQualifiedGroup
     ? [
@@ -139,12 +145,14 @@ function Presenter({
       ]
     : [];
   const sortOptions = groupSortOptions.concat(
-    metrics
-      .filter(m => m.fullyQualifiedLabel !== undefined)
-      .map(({ fullyQualifiedLabel, metric, aggregation }) => ({
-        label: fullyQualifiedLabel,
-        value: getMetricKey(metric, aggregation)
-      }))
+    mapData(metricMetadatas, metadatas => {
+      return metrics.map(({ metric, aggregation }) => {
+        return {
+          label: `${metadatas[metric].label} (${aggregation})`,
+          value: getMetricKey(metric, aggregation)
+        };
+      });
+    }).data || []
   );
 
   return (
@@ -154,7 +162,6 @@ function Presenter({
         totalRetainedItemCount={totalRetainedItemCount}
         hasErrors={hasErrors}
         isLoading={isLoading}
-        availableMetrics={availableMetrics}
         sortOptions={sortOptions}
         setMetrics={setMetrics}
         totalHits={totalHits}
@@ -162,8 +169,15 @@ function Presenter({
         withResultsInGroups
         setOrder={setOrder}
         metrics={metrics}
+        metricMetadatas={metricMetadatas}
         order={order}
         tracking={tracking}
+        type={type}
+        CustomHeaderActions={getHeaderActions}
+        backendQueryModel={backendQueryModel}
+        metricCatalog={metricCatalog}
+        query={query}
+        onQueryChange={onQueryChange}
       />
       <Ul space="xsmall">
         {items.map((item, rowIndex) => (
@@ -180,12 +194,12 @@ function Presenter({
             renderNestedContent={() => (
               <ExpandedGroup
                 backendQueryModel={backendQueryModel}
-                availableMetrics={availableMetrics}
                 timeConfig={timeConfig}
                 metrics={metrics}
                 order={order}
                 group={item}
                 type={type}
+                metricMetadatas={metricMetadatas}
                 tracking={tracking}
               />
             )}
@@ -217,7 +231,16 @@ function Presenter({
   );
 }
 
-function columns({ groupBy, type, getParamsForGroup, metrics, timeConfig, granularity, onFocusOnGroup }) {
+function columns({
+  groupBy,
+  type,
+  getParamsForGroup,
+  metrics,
+  timeConfig,
+  granularity,
+  onFocusOnGroup,
+  metricMetadatas
+}) {
   const snapshotDefinition = getOptionalSnapshotDefinition(type);
   const countLabel = snapshotDefinition ? getPluginName(type, 2) : 'Count';
   const cols = [
@@ -247,16 +270,21 @@ function columns({ groupBy, type, getParamsForGroup, metrics, timeConfig, granul
       }
     ])
     .concat(
-      metrics.map(({ label, metric, formatter = defaultFormatter, aggregation, percentageMetric }) => ({
+      metrics.map(({ metric, aggregation }) => ({
         width: '12rem',
         getContent({ group }) {
-          const kpi = average(group.metrics[getMetricKey(metric, aggregation)]);
-          const renderedLabel = <MetricLabel label={label} />;
+          const id = getMetricKey(metric, aggregation);
+          const metadata = mapData(metricMetadatas, data => data[metric]);
+          const label = mapData(metadata, data => data?.label);
+          const renderedLabel = <MetricLabel label={label} aggregation={aggregation} />;
+          const formatter = mapData(metadata, data => data?.formatter).data;
+          const kpi = average(group.metrics[id]);
+          const percentageMetric = mapData(metadata, data => data?.percentageMetric).data;
           return (
             <SparkChart
-              horizontalMetricValue={kpi !== undefined ? formatter(kpi) : '--'}
+              horizontalMetricValue={(kpi && formatter && formatter(kpi)) || '--'}
               percentageMetric={percentageMetric}
-              metrics={group.metrics[getMetricKey(metric, aggregation)]}
+              metrics={group.metrics[id]}
               tooltipFormatter={formatter}
               aggregation={aggregation}
               timeConfig={timeConfig}
@@ -321,18 +349,18 @@ function getGroups({ timeConfig, backendQueryModel, group, cursor, type, order, 
   });
 }
 
-function ExpandedGroup({ group, backendQueryModel, timeConfig, type, metrics, availableMetrics, order, tracking }) {
+function ExpandedGroup({ group, backendQueryModel, timeConfig, type, metrics, order, tracking, metricMetadatas }) {
   const numberOfEntitiesPerGroup = 20;
   return (
     <InfrastructureList
       backendQueryModel={addTagsToBackendModel(backendQueryModel, group.tags)}
       numSkeletonRows={Math.min(group.count, numberOfEntitiesPerGroup)}
       retrievalSize={numberOfEntitiesPerGroup}
-      availableMetrics={availableMetrics}
       timeConfig={timeConfig}
       metrics={metrics}
       order={order}
       type={type}
+      metricMetadatas={metricMetadatas}
       tracking={{
         onNavigateToEntity: tracking?.onNavigateToEntity,
         onLoadMore: page => tracking?.onLoadMore?.(page, LOAD_MORE_CONTEXT.ENTITIES_IN_GROUP)
@@ -361,8 +389,12 @@ function isTagAndKeyConcat(name, group) {
   return group?.groupbyTag?.concat('.', group?.groupbyTagSecondLevelKey) === name;
 }
 
-function isKeyValue(tagType) {
-  return tagType !== undefined && 'KEY_VALUE_PAIR' === tagType;
+function isKeyValueTagType(tagType) {
+  return 'KEY_VALUE_PAIR' === tagType;
+}
+
+function isKeyValue(tagType, value) {
+  return tagType !== undefined && isKeyValueTagType(tagType) && value.indexOf('=') > 0;
 }
 
 function getName(name, group) {
@@ -370,17 +402,17 @@ function getName(name, group) {
 }
 
 function getValue(tagType, value) {
-  return isKeyValue(tagType) ? extractValue(value) : value;
+  return isKeyValue(tagType, value) ? extractValue(value) : isKeyValueTagType(tagType) ? '' : value;
 }
 
 function getKey(tagType, value, name, group) {
   if (isTagAndKeyConcat(name, group)) {
     return group.groupbyTagSecondLevelKey;
   }
-  if (isKeyValue(tagType)) {
+  if (isKeyValue(tagType, value)) {
     return extractKey(value, name, group);
   }
-  return undefined;
+  return isKeyValueTagType(tagType) ? value : undefined;
 }
 
 function extractKey(value) {
@@ -416,4 +448,12 @@ export function getGroupTagValue(group, key) {
   } else {
     return group.tags[key];
   }
+}
+
+function getHeaderActions(props) {
+  if (props.type === null) {
+    // no sorting and grouping for All Infrastructure
+    return <></>;
+  }
+  return <MetricCatalogAndSortingConfigurator {...props} />;
 }

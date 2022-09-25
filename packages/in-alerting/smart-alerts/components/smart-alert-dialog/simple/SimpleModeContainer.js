@@ -6,27 +6,33 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
+import { SmartAlertErrorMessages } from 'in-alerting/smart-alerts/components/smart-alert-dialog/components/SmartAlertErrorMessages';
 import StepProgressBar from 'in-components/StepProgressBar';
 
 import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/simple/SimpleModeContainer.mless';
 
 export default function SimpleModeContainer(props) {
-  const { stepConfigs, stepRenderers, step, error } = props;
+  const { stepConfigs, stepRenderers, step, messages } = props;
 
   return (
     <div className={locals.container}>
-      <>
-        <StepProgressBar stepTitles={mapTitles(stepConfigs)} step={step} />
+      {stepRenderers.map(
+        (renderer, idx) =>
+          step === idx && (
+            <div className={locals.scrollWrapper} key={idx}>
+              <StepProgressBar stepTitles={mapTitles(stepConfigs)} step={step} />
+              <div className={locals.minStableHeight}>
+                {/* need to wrap this with an additional element, because
+                 a shared component used here is using 100% height of the parent. */
+                renderer(props)}
+              </div>
+            </div>
+          )
+      )}
 
-        <div>{stepRenderers[step](props)}</div>
-
-        {error && (
-          <div className={locals.errorInfo}>
-            <ErroneousResultPresenter errors={[error]} />
-          </div>
-        )}
-      </>
+      <div className={locals.errorInfo}>
+        <SmartAlertErrorMessages messages={messages} />
+      </div>
     </div>
   );
 }
@@ -44,5 +50,5 @@ SimpleModeContainer.propTypes = {
     })
   ).isRequired,
   stepRenderers: PropTypes.arrayOf(PropTypes.func).isRequired,
-  error: PropTypes.object
+  messages: PropTypes.arrayOf(PropTypes.object).isRequired
 };
