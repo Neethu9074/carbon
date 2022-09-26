@@ -18,7 +18,6 @@ import { t } from 'in-i18n';
 
 export default function EntityList({
   retrievalSize = 20,
-  numSkeletonRows = 3,
   backendQueryModel,
   timeConfig,
   setOrder = noop,
@@ -28,7 +27,6 @@ export default function EntityList({
 }) {
   const {
     items,
-    totalHits,
     loadMore: cursorPaginationDefaultLoadMore,
     cursor,
     errors,
@@ -79,18 +77,10 @@ export default function EntityList({
 
   return (
     <>
-      <Header
-        totalRepresentedItemCount={totalHits}
-        totalRetainedItemCount={totalHits}
-        totalHits={totalHits}
-        hasErrors={hasErrors}
-        isLoading={isLoading}
-      />
+      <Header totalHits={5} hasErrors={hasErrors} isLoading={isLoading} />
 
       <CursorPaginatedTable
         columnDefinitions={columnDefinitions}
-        numSkeletonRows={numSkeletonRows}
-        totalHits={5}
         onChange={({ orderBy, orderDirection }) => setOrder({ by: orderBy, direction: orderDirection })}
         loadMore={() => {
           cursorPaginationDefaultLoadMore();
