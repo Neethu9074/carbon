@@ -16,6 +16,7 @@ import { bytes, meanLatency, number, percentage } from 'in-services/formatters/n
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
+import buildLocationsMap from 'in-synthetics/utils/buildLocationsMap';
 import { syntheticsDashboard } from 'in-synthetics/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { TestResponse } from 'in-synthetics/utils/constants';
@@ -23,11 +24,17 @@ import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { Col, Row } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
-interface summaryType {
+interface SummaryProps {
   test: TestResponse;
 }
 
-export default function Summary({ test }: summaryType) {
+export default function Summary({ test }: SummaryProps) {
+  const locationLabels = test.data?.locationLabels || [];
+  const locations = test.data?.locations || [];
+  const locationsMap =
+    locationLabels.length === locations.length
+      ? buildLocationsMap(locations, locationLabels)
+      : new Map<string, string>();
   const timeShiftConfig = useTimeShiftConfig();
   const location = useLocation();
   const testId: string = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
@@ -169,12 +176,16 @@ export default function Summary({ test }: summaryType) {
         )}
       </Row>
       <Row>
-        <Col lg={testType ? 4 : 6}>
-          <ResponseSize test={test} timeShiftConfig={timeShiftConfig} />
-        </Col>
-        <Col lg={testType ? 4 : 6}>
-          <ResultsTopList testId={testId} />
-        </Col>
+        {!test.progress.loading && (
+          <>
+            <Col lg={testType ? 4 : 6}>
+              <ResponseSize test={test} timeShiftConfig={timeShiftConfig} />
+            </Col>
+            <Col lg={testType ? 4 : 6}>
+              <ResultsTopList testId={testId} locationsMap={locationsMap} />
+            </Col>
+          </>
+        )}
         {testType && (
           <Col lg={4}>
             <ResponseStatus test={test} timeShiftConfig={timeShiftConfig} />

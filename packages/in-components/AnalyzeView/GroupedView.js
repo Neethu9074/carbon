@@ -26,6 +26,7 @@ import {
   groupName
 } from 'in-components/AnalyzeView/metrics';
 import { addGroupingCriteriaToFormModel, childrenArgsAsPropTypes } from 'in-components/AnalyzeView/StateManagement';
+import MetricAndSortingConfigurator from 'in-components/MetricAndSortingConfigurator/MetricAndSortingConfigurator';
 import { ua2MetricAddedTracker, ua2MetricRemovedTracker, ua2LoadMoreClicked } from 'in-components/tracker';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { custom as customType, metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
@@ -292,6 +293,7 @@ export default function GroupedAnalyzeView(props) {
               onMetricRemoved: ({ metric, aggregation }) => ua2MetricRemovedTracker({ dataSource, metric, aggregation })
             }}
             renderHistoricDataIndicator={resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE'}
+            CustomHeaderActions={getHeaderActions}
           />
           {hasItems && (
             <Ul>
@@ -573,6 +575,11 @@ function actionColumns() {
 
 function defaultColorFunction(_, index) {
   return GROUP_COLORS[index];
+}
+
+function getHeaderActions(props) {
+  // should also include CustomHeaderActions if present
+  return <MetricAndSortingConfigurator {...props} metricOptions={props.availableMetrics} />;
 }
 
 GroupedAnalyzeView.propTypes = {

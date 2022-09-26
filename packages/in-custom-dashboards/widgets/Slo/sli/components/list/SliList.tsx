@@ -43,6 +43,7 @@ interface SliListProps extends Omit<ServerTablePresenterProps<SliConfiguration>,
   selectSli: (item: SliConfiguration) => void;
   onDelete: (id: string) => void;
   fetchedConfigState: FetchedState<SliConfigurationWithLastUpdated[]>;
+  onEdit: (item: SliConfiguration) => void;
 }
 
 type InternalSliListProps = SliListProps &
@@ -108,18 +109,18 @@ const columnDefinitions: ColumnDefinition<SliConfiguration, InternalSliListProps
     }
   },
   {
-    id: 'view',
+    id: 'edit',
     label: '',
     sortable: false,
     width: '1',
-    getContent(item, { selectSli }) {
+    getContent(item, { onEdit }) {
       if (!role?.canConfigureServiceLevelIndicators) {
         return null;
       }
       return (
         <div className={locals.controls}>
           <Tooltip content={t('in-custom-dashboards:widgets.slo.sliList.viewCloneSliConfig')}>
-            <SvgIcon type="lib_actions_edit" className={locals.iconButton} onClick={() => selectSli(item)} />
+            <SvgIcon type="lib_actions_edit" className={locals.iconButton} onClick={() => onEdit(item)} />
           </Tooltip>
         </div>
       );

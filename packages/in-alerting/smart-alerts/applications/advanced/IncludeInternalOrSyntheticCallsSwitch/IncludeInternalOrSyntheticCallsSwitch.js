@@ -62,6 +62,7 @@ export default function IncludeInternalOrSyntheticCallsSwitch({ form, updateForm
           confirmButtonLabel={t(
             'in-alerting:smartAlerts.applications.advanced.includeInternalOrSyntheticCalls.confirmationDialog.confirmButtonLabel'
           )}
+          confirmButtonKind="primary"
           onSubmit={() => {
             updateFieldAndResetSelection(fieldName, !currentValue);
             close();

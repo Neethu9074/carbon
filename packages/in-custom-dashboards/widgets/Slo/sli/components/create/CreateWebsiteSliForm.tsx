@@ -13,6 +13,7 @@ import {
   isWebsiteEventBasedSliEntity,
   isWebsiteTimeBasedSliEntity,
   NewSliConfig,
+  SliConfigBySliType,
   websiteTimeBased
 } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import {
@@ -31,7 +32,13 @@ import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { Result, TimeConfig, Website } from 'in-types';
 import useWebsite from 'in-websites/hooks/useWebsite';
 
-export default function CreateWebsiteSliForm({ entityId, close, sliConfig, setFooter }: CreateSliFormProps<'website'>) {
+export default function CreateWebsiteSliForm({
+  entityId,
+  close,
+  sliConfig,
+  setFooter,
+  onSave
+}: CreateSliFormProps<'website'>) {
   const [website, status] = useWebsite(entityId);
 
   if (status !== 'resolved' || sliConfig == null) {
@@ -44,6 +51,7 @@ export default function CreateWebsiteSliForm({ entityId, close, sliConfig, setFo
       close={close}
       sliConfig={sliConfig}
       setFooter={setFooter}
+      onSave={onSave}
     />
   );
 }
@@ -53,7 +61,8 @@ function CreateWebsiteSliFormComponent({
   website,
   sliConfig,
   close,
-  setFooter
+  setFooter,
+  onSave
 }: CreateSliFormProps<'website'> & { website: Website }) {
   const [form, setForm] = useState(createForm('website', sliConfig ?? {}, entityId, website));
   const updateForm = useWebsiteSliFormSideEffects(form, setForm as (f: Item) => void);
@@ -75,6 +84,8 @@ function CreateWebsiteSliFormComponent({
       onSubmit={submittedFormData =>
         createSliConfiguration({
           ...toBackendFormat(submittedFormData)
+        }).tap(data => {
+          if (data.status < 400) onSave(data.body as SliConfigBySliType<'website'>);
         })
       }
     >

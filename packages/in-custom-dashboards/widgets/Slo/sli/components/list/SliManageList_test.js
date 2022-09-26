@@ -132,8 +132,15 @@ describe('in-custom-dashboards/widgets/Slo/sli/components/list/SliManageList', (
 
   it('displays the slideIn content when create sli is clicked', () => {
     // Given
-    const onChange = jest.fn();
-    const manageListWrapper = shallow(<SliManageList onChange={onChange} entityType={'application'} entityId={''} />);
+    const onShowCreateForm = jest.fn();
+    const manageListWrapper = shallow(
+      <SliManageList
+        onChange={jest.fn()}
+        entityType={'application'}
+        entityId={''}
+        onShowCreateForm={onShowCreateForm}
+      />
+    );
     const staticContent = manageListWrapper.prop('staticContent');
     const listWrapper = shallow(staticContent);
     const wrapper = shallow(listWrapper.find(SliList).prop('rightHeader'));
@@ -145,10 +152,10 @@ describe('in-custom-dashboards/widgets/Slo/sli/components/list/SliManageList', (
       .onClick();
 
     // Then
-    expect(onChange).toHaveBeenLastCalledWith({});
+    expect(onShowCreateForm).toHaveBeenCalled();
   });
 
-  it('displays the slideIn content for that specific sli when it is selected', () => {
+  it('calls onChange for a specific sli when it is selected', () => {
     // Given
     const onChange = jest.fn();
     const sliConfig = { sliName: 'Hidden typos' };

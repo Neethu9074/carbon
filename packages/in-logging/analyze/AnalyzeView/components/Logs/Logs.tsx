@@ -11,6 +11,12 @@ import { TagFilter } from '@instana/types';
 // @ts-expect-error needs TS migration
 import { createPageSizeAwareLogsCursorPaginationHook } from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
 import {
+  centerAlignedCopyColumn,
+  centerAlignedLinkColumn,
+  logLevelColumn,
+  timestampColumn
+} from 'in-logging/analyze/AnalyzeView/utils/logsColumnUtils';
+import {
   LOG_CUSTOM,
   LOG_EXCEPTION_MESSAGE,
   LOG_EXCEPTION_STACK_TRACE,
@@ -18,12 +24,6 @@ import {
   LOG_LEVEL,
   logTableTags
 } from 'in-logging/queryBuilder';
-import {
-  centerAlignedCopyColumn,
-  centerAlignedLinkColumn,
-  logLevelColumn,
-  timestampColumn
-} from 'in-logging/analyze/AnalyzeView/utils/logsColumnUtils';
 // @ts-expect-error needs TS migration
 import { FacetedSearchPresenter } from 'in-logging/analyze/AnalyzeView/components/FacetedSearchPresenter';
 // @ts-expect-error needs TS migration
@@ -80,8 +80,14 @@ export default function Logs(props: LogsProps) {
 
   const selectedWasOpened = useRef(false);
 
-  const initiallyToggled = selectedId !== undefined ? [selectedId] : [];
+  useEffect(() => {
+    selectedWasOpened.current = false;
+  }, [selectedId]);
+
+  const initiallyToggled = selectedId ? [selectedId] : [];
   const toggledEntries = useRef(new Set(initiallyToggled));
+
+  const initiallyOpenedItemIds = Array.from(new Set([...initiallyToggled, ...toggledEntries.current]));
 
   function onToggleHandler(toggled: boolean, item: LogItem) {
     const itemId = getItemId(item);
@@ -137,7 +143,7 @@ export default function Logs(props: LogsProps) {
       withCountHeader={false}
       withoutHeader={false}
       CustomHeaderActions={CustomHeaderActions}
-      initiallyOpenedItemIds={[...toggledEntries.current]}
+      initiallyOpenedItemIds={initiallyOpenedItemIds}
       onToggleContentRow={onToggleHandler}
       renderNestedContent={renderNestedContent}
     />

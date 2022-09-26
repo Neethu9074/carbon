@@ -135,8 +135,10 @@ packages/in-mobile-apps             @pr-approval @Instana-IBM-GitHub-Enterprise 
 # No clear ownership: Fallback to eng-ui
 packages/in-profiling               @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-sdk                     @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
+packages/in-sdk/metrics             @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
 packages/in-server                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-services                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
+packages/in-services/metrics        @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
 packages/in-settings                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-service-levels @instana/eng-issue-detection @instana/eng-enterprise @instana/eng-application
 packages/in-settings/tabs/TeamSettings/pages/automation @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-remediation
 packages/in-stores                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui

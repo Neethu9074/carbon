@@ -8,7 +8,6 @@ import { ReactNode, useMemo } from 'react';
 
 import { Observable } from '@instana/observables';
 
-// @ts-expect-error this was not yet converted to typescript
 import { createTagBasedPayloadConfigurator } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import { getTagCatalog } from 'in-websites/api/tagCatalog';
 import { BeaconType, Result, TagCatalog } from 'in-types';

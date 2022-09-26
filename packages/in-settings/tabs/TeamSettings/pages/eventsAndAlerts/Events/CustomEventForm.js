@@ -66,19 +66,19 @@ import {
   scopeHostsByTag
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import {
-  actionAutomationEnabled,
-  deprecateAppDataLegacyEventsEnabled,
-  disallowAppDataLegacyEventsEnabled,
-  hideAppDataLegacyEventsEnabled
-} from 'in-services/featureFlags';
-import {
   containsMetricInList,
   getAllBuiltInMetrics,
   getMetricDefinition,
   isBuiltInDynamicMetric,
   isBuiltInPlainMetric,
-  isMetricPercentile
+  isBackendAggregatedPercentileMetric
 } from 'in-sdk/metrics';
+import {
+  actionAutomationEnabled,
+  deprecateAppDataLegacyEventsEnabled,
+  disallowAppDataLegacyEventsEnabled,
+  hideAppDataLegacyEventsEnabled
+} from 'in-services/featureFlags';
 import {
   formatterTypeToDefinition,
   getEntityTypeOptionsOfBuiltInMetrics,
@@ -1054,7 +1054,7 @@ function isPercentile(form) {
 
   const metricName = form.get('metricName').value;
   const entityType = form.get('entityType').value;
-  return isMetricPercentile(entityType, metricName);
+  return isBackendAggregatedPercentileMetric(entityType, metricName);
 }
 
 function createIssueForPreview(form) {

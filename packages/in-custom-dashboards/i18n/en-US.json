@@ -469,7 +469,10 @@
         "sliEntity": "SLI Entity",
         "beaconConfigLabel": "Beacon Configuration",
         "beaconScopeLabel": "Beacon Scope",
-        "httpRequestsLabel": "HTTP Requests",
+        "beaconLabel": "Unknown Beacon Type",
+        "beaconLabel_httpRequest": "HTTP Requests",
+        "beaconLabel_pageLoad": "Website Page Loads",
+        "beaconLabel_custom": "Website Custom Events",
         "beaconFiltersLabel": "Beacon Filter"
       },
       "sliList": {
@@ -607,7 +610,9 @@
       "formComponent": {
         "title": "Apdex Configuration",
         "entityTypeTitle": "Apdex Type",
-        "manageListTitle": "Apdex Management"
+        "manageListTitle": "Apdex Management",
+        "createApdex": "Create Apdex Configuration",
+        "editApdex": "Edit Apdex Configuration"
       },
       "configurationSelector": {
         "label": "Apdex Configuration",
@@ -638,7 +643,6 @@
         "createButton": "Create Apdex Configuration"
       },
       "createApdexForm": {
-        "title": "Create Apdex Configuration",
         "customizationHeader": "Apdex Customization",
         "label": "Apdex Name",
         "apdexCreateSuccessTitle": "Apdex configuration was created successfully.",
@@ -651,7 +655,7 @@
           "website": "The maximum number of website apdex configurations ({{0}}) has been reached. Please contact Instana support to request an increase for this limit.",
           "application": "The maximum number of application apdex configurations ({{0}}) has been reached. Please contact Instana support to request an increase for this limit."
         },
-        "editConfigNotice": "Configuration can not be edited after creation to prevent loss of data.",
+        "editConfigNotice": "To avoid data loss, the configuration cannot be edited once it has been created; it can only be adjusted as a copy.",
         "apdexCloneName": "Copy of {{apdexName}}"
       },
       "createWebsiteApdexForm": {

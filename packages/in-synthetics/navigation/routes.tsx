@@ -26,9 +26,13 @@ import {
 
 export default (
   <Fragment>
-    <Route exact path={syntheticsPath} children={renderAsyncRouteChildren(SyntheticsView)} />
-    <Route exact path={syntheticLocationPath} children={renderAsyncRouteChildren(SyntheticLocationView)} />
-    <Route path={syntheticsDashboard} children={renderAsyncRouteChildren(SyntheticSummaryDashboard)} />
-    <Route path={syntheticDetailsPath} children={renderAsyncRouteChildren(AnalyzeView)} />
+    <Route exact path={syntheticsPath}>
+      {renderAsyncRouteChildren(SyntheticsView)}
+    </Route>
+    <Route exact path={syntheticLocationPath}>
+      {renderAsyncRouteChildren(SyntheticLocationView)}
+    </Route>
+    <Route path={syntheticsDashboard}>{renderAsyncRouteChildren(SyntheticSummaryDashboard)}</Route>
+    <Route path={syntheticDetailsPath}>{renderAsyncRouteChildren(AnalyzeView)}</Route>
   </Fragment>
 );

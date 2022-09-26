@@ -9,7 +9,7 @@ import {
   getAllBuiltInMetrics,
   isBuiltInDynamicMetric,
   isBuiltInPlainMetric,
-  isMetricPercentile,
+  isBackendAggregatedPercentileMetric,
   toDynamicMetricStringValue,
   getMetricDefinition
 } from 'in-sdk/metrics';
@@ -271,7 +271,7 @@ function putAllDataSourceFields(form, eventSpec) {
       })
     );
 
-  if (isMetricPercentile(entityType, metricName)) {
+  if (isBackendAggregatedPercentileMetric(entityType, metricName)) {
     form = putRollupField(form, eventSpec);
   } else {
     form = putWindowField(form, eventSpec);

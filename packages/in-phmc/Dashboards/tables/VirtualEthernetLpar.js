@@ -20,11 +20,12 @@ let snapshotMap = {};
 const cols = [
   {
     title: t('in-phmc:vlanId'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.virtualEthernetAdapter.get('vlanId');
-      }
+      },
+      getContent: number.compact
     }
   },
   {
@@ -43,16 +44,17 @@ const cols = [
       getValue(row) {
         return row.virtualEthernetAdapter.get('viosId');
       },
-      getContent: number.detailed
+      getContent: number.compact
     }
   },
   {
     title: t('in-phmc:vswitchId'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.virtualEthernetAdapter.get('vswitchId');
-      }
+      },
+      getContent: number.compact
     }
   },
   {

@@ -12,7 +12,7 @@ import locals from './SelectedBlueprintPresenter.mless';
 interface Props {
   title: string;
   description?: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   isBeta?: boolean;
 }
 
