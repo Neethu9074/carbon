@@ -9,11 +9,12 @@ import React from 'react';
 import { OrderDirection, Progress, SyntheticMetricConfiguration, TagFilter, TimeConfig } from '@instana/types';
 
 import {
-  currentState,
-  filterState,
+  CurrentState,
+  FilterState,
   filterUrlStateDefinition,
   matrixPrefix,
-  pathSegment
+  pathSegment,
+  PresenterProps
 } from 'in-synthetics/utils/constants';
 // @ts-expect-error
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
@@ -42,7 +43,7 @@ import { t } from 'in-i18n';
 
 const urlStateDefinition = {
   bind: filterUrlStateDefinition.bind,
-  reducer: (prevState: filterState, { syntheticTypes, locationIds, applicationIds }: currentState) => ({
+  reducer: (prevState: FilterState, { syntheticTypes, locationIds, applicationIds }: CurrentState) => ({
     syntheticTypes: syntheticTypes || prevState.syntheticTypes,
     locationIds: locationIds || prevState.locationIds,
     applicationIds: applicationIds || prevState.applicationIds
@@ -81,17 +82,17 @@ export default function TestSummaryList() {
   }
 
   function useFilterHeader(isFilterAllowed: boolean) {
-    return function Filter(props: any) {
+    return function Filter({ result, syntheticTypes, locationIds, applicationIds }: PresenterProps) {
       if (!isFilterAllowed) {
         return undefined;
       } else {
         return (
           <Filters
-            result={props.result}
+            result={result}
             setFilter={setFilter}
-            syntheticTypes={props.syntheticTypes}
-            locationIds={props.locationIds}
-            applicationIds={props.applicationIds}
+            syntheticTypes={syntheticTypes}
+            locationIds={locationIds}
+            applicationIds={applicationIds}
           />
         );
       }

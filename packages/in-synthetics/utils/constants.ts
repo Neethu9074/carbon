@@ -199,19 +199,19 @@ export type OverviewChartToolTipProps = {
   subtransaction: TestResultSubtransaction;
 };
 
-export interface filterState {
+export interface FilterState {
   syntheticTypes: string[];
   locationIds: string[];
   applicationIds?: string[];
 }
 
-export interface filterProps extends filterState {
+export interface FilterSectionProps extends FilterState {
   setFilter: (x: Object) => void;
   isAppcontext?: boolean;
   result?: Result<PaginatedResult<TestResultListItem>>;
 }
 
-export type currentState = {
+export type CurrentState = {
   syntheticTypes?: string[];
   locationIds?: string[];
   applicationIds?: string[];
@@ -245,3 +245,7 @@ export const filterUrlStateDefinition = {
     }
   ]
 } as Options<UrlState>;
+
+export interface PresenterProps extends FilterState {
+  result: Result<PaginatedResult<TestResultListItem>>;
+}

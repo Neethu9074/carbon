@@ -10,11 +10,12 @@ import React from 'react';
 import { t } from '@instana/i18n-react';
 
 import {
-  currentState,
-  filterState,
+  CurrentState,
+  FilterState,
   filterUrlStateDefinition,
   matrixPrefix,
-  pathSegment
+  pathSegment,
+  PresenterProps
 } from 'in-synthetics/utils/constants';
 // @ts-expect-error
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
@@ -33,7 +34,7 @@ const isAppcontext = true;
 
 const urlStateDefinition = {
   bind: filterUrlStateDefinition.bind,
-  reducer: (prevState: filterState, { syntheticTypes, locationIds }: currentState) => ({
+  reducer: (prevState: FilterState, { syntheticTypes, locationIds }: CurrentState) => ({
     syntheticTypes: syntheticTypes || prevState.syntheticTypes,
     locationIds: locationIds || prevState.locationIds
   })
@@ -60,17 +61,17 @@ export default function SyntheticList() {
   const [{ syntheticTypes, locationIds }, setFilter] = useUrlState(urlStateDefinition);
 
   function useFilterHeader(isFilterAllowed: boolean) {
-    return function Filter(props: any) {
+    return function Filter({ result, syntheticTypes, locationIds }: PresenterProps) {
       if (!isFilterAllowed) {
         return undefined;
       } else {
         return (
           <Filters
-            result={props.result}
+            result={result}
             setFilter={setFilter}
             isAppcontext={isAppcontext}
-            syntheticTypes={props.syntheticTypes}
-            locationIds={props.locationIds}
+            syntheticTypes={syntheticTypes}
+            locationIds={locationIds}
           />
         );
       }

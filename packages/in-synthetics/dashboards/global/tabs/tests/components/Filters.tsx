@@ -7,7 +7,7 @@
 import React, { Fragment } from 'react';
 
 import { PaginatedResult, Result, TestResultListItem } from 'in-types';
-import { filterProps } from 'in-synthetics/utils/constants';
+import { FilterSectionProps } from 'in-synthetics/utils/constants';
 import ComboBox from 'in-components/ComboBox';
 import { t } from 'in-i18n';
 
@@ -20,7 +20,7 @@ export default function Filters({
   syntheticTypes,
   locationIds,
   applicationIds = []
-}: filterProps) {
+}: FilterSectionProps) {
   return (
     <Fragment>
       <ComboBox
