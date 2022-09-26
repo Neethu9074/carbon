@@ -101,6 +101,9 @@
         "unknownTag": "Unknown tag: {{tagName}}"
       }
     },
+    "linkToActionLogs": "The output of this action can be viewed in <logsLink>Analytics > Logs.</logsLink>",
+    "run": "Run",
+    "launch": "Launch",
     "failedToSaveConfig": "Failed to save config: {{err}}",
     "IdPMetadataRequired": "IdP Metadata file is required",
     "IdPMetadataLargerThanTwoMega": "IdP Metadata file can't be larger than 2 megabytes",

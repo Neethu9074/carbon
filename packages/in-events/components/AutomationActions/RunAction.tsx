@@ -8,9 +8,6 @@ import React, { useState } from 'react';
 
 import { Button, Link } from '@instana/components';
 
-// import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-// import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
-import useTimeConfig from 'in-hooks/useTimeConfig';
 import { DescriptionItem, DescriptionList } from 'in-components/DescriptionList/DescriptionList';
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
@@ -19,9 +16,10 @@ import { AgentResponse } from 'in-subscription/agentResponse';
 import { Action, Event, Result, VolatileId } from 'in-types';
 import { close } from 'in-components/DialogPresenter/store';
 import { runScriptAction } from 'in-api/automation';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import Dialog from 'in-components/Dialog/Dialog';
 import Code from 'in-components/Code';
-import { t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 
 interface Props {
   script: string;
@@ -51,7 +49,13 @@ export default function RunAction({ action, script, volatileId, event }: Props) 
     const link = getLinkToAnalyze({ tagFilterExpression: [tagFilterExpression], timeConfig });
     content = (
       <p>
-        The output of this action can be viewed in <Link href$={link}>Analytics &gt; Logs.</Link>
+        <Trans
+          i18nKey="in-settings:tabs.linkToActionLogs"
+          components={{
+            // @ts-expect-error
+            logsLink: <Link href$={link} />
+          }}
+        />
       </p>
     );
   } else {

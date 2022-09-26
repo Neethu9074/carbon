@@ -76,7 +76,7 @@ const executeColumn = (volatileId: VolatileId, event: Event | null) => ({
       const value = field?.value;
       return (
         <Button kind="action" icon={'lib_views_external_link'} target="_blank" href={value} noAutoMargin>
-          Launch
+          {t('in-settings:tabs.launch')}
         </Button>
       );
     } else if (type === 'SCRIPT') {
@@ -91,11 +91,11 @@ const executeColumn = (volatileId: VolatileId, event: Event | null) => ({
           }
           noAutoMargin
         >
-          Run
+          {t('in-settings:tabs.run')}
         </Button>
       );
     } else {
-      return <div>Run</div>;
+      return <div>{t('in-settings:tabs.run')}</div>;
     }
   }
 });
