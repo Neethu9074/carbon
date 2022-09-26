@@ -34,6 +34,7 @@ export default function RunAction({ action, script, volatileId, event }: Props) 
   const [actionInstanceId, setActionInstanceId] = useState('');
   const [error, setError] = useState('');
   const timeConfig = useTimeConfig();
+  const actionName = action.name;
   let title,
     content,
     footer = (
@@ -70,7 +71,7 @@ export default function RunAction({ action, script, volatileId, event }: Props) 
         <Button
           kind="primary"
           onClick={() =>
-            runScriptAction(script, volatileId, event).once(data => {
+            runScriptAction(script, volatileId, event, actionName).once(data => {
               // last element of the array is either the timeout error if the agent didn't respond in time, or the agent response (error or in progress)
               // result unknown because we only care about error
               const response: Result<null> | AgentResponse = data[data.length - 1];

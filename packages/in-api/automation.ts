@@ -108,7 +108,7 @@ export function createAction(
 }
 
 // We are using a timeout here to prevent the UI from hanging if the agent is not responding (sensor not installed).
-export function runScriptAction(script: string, volatileId: VolatileId, event: Event | null) {
+export function runScriptAction(script: string, volatileId: VolatileId, event: Event | null, actionName: string) {
   return combineLatest(
     [
       timeout(5000).flatMap(() =>
@@ -130,7 +130,10 @@ export function runScriptAction(script: string, volatileId: VolatileId, event: E
           command: script,
           async: 'true',
           actionOperation: 'action.run',
-          event: JSON.stringify(event)
+          event: JSON.stringify(event),
+          problemId: event?.problem?.id,
+          problemText: event?.problem?.problemText,
+          actionName
         }
       })
     ],
