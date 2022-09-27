@@ -259,7 +259,7 @@ export function getBuiltinEventActions(eventSpecificationId) {
     maxRetries: 3,
     url: `/api/events/settings/beta/event-specifications/built-in/${encodeURIComponent(eventSpecificationId)}/actions`,
     treat400AsError: false
-  }).map(response => fromJS(response.body));
+  }).map(response => response.body);
 }
 
 export function getCustomEventActions(eventSpecificationId) {
@@ -268,7 +268,7 @@ export function getCustomEventActions(eventSpecificationId) {
     maxRetries: 3,
     url: `/api/events/settings/beta/event-specifications/custom/${encodeURIComponent(eventSpecificationId)}/actions`,
     treat400AsError: false
-  }).map(response => fromJS(response.body));
+  }).map(response => response.body);
 }
 
 export function setBuiltInEventSpecificationsEnabled(eventSpecificationId, enabled) {

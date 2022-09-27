@@ -60,7 +60,7 @@ export default function BuiltinEvent(props) {
     return combineLatest([eventDetails$, actionDetails$]).map(([eventResponse, actionResponse]) =>
       eventResponse.set(
         'actionIds',
-        actionResponse.toJS().map(action => action.id)
+        actionResponse.map(action => action.id)
       )
     );
   }

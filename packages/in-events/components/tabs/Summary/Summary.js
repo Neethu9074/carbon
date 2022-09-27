@@ -174,7 +174,7 @@ const EventContent = connectTo(
           <Row withoutSideMargin>
             <Col xs>
               <Card title={t('in-events:associatedActions')}>
-                <AssociatedActions volatileId={snapshot?.get('volatileId') ?? {}} event={event} />
+                <AssociatedActions volatileId={snapshot?.get('volatileId') ?? {}} event={event.toJS()} />
               </Card>
             </Col>
           </Row>
