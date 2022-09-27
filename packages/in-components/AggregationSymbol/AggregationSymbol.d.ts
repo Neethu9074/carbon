@@ -4,4 +4,4 @@
  * Copyright IBM Corp. 2022
  */
 
-export default function AggregationSymbol({ aggregation }: {aggregation: string});
+export default function AggregationSymbol({ aggregation }: { aggregation: string });

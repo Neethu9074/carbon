@@ -128,11 +128,20 @@ export default withUrlState({
 })(CustomMetricsV2);
 
 function CustomMetricsV2(props) {
-  const { titlePrefix, pinnedMetrics, postProcessRow, getRows = getDefaultRows, customColumns, timeConfig, snapshot } = props;
+  const {
+    titlePrefix,
+    pinnedMetrics,
+    postProcessRow,
+    getRows = getDefaultRows,
+    customColumns,
+    timeConfig,
+    snapshot
+  } = props;
 
-  const metricIdsResult = useObservable(subscribeMetricIds({snapshotId: snapshot.get('id'), timeConfig}), [snapshot]) ?? pendingResult;
+  const metricIdsResult =
+    useObservable(subscribeMetricIds({ snapshotId: snapshot.get('id'), timeConfig }), [snapshot]) ?? pendingResult;
 
-  const rows = getRows({metricIdsResult, ...props});
+  const rows = getRows({ metricIdsResult, ...props });
 
   if (postProcessRow) {
     rows.forEach(postProcessRow);
@@ -224,33 +233,34 @@ export function getDefaultRows({
 }) {
   const snapshotId = snapshot.get('id');
 
-  const metrics = metricIdsResult.data?.reduce((acc, id) => {
-    const metric = expandMetric(id, specs);
-    if (!metric) {
+  const metrics =
+    metricIdsResult.data?.reduce((acc, id) => {
+      const metric = expandMetric(id, specs);
+      if (!metric) {
+        return acc;
+      }
+      const { i, key, name, type, color, tableMetric, label, formatter } = metric;
+      acc[key] = acc[key] || {
+        key,
+        name,
+        type,
+        color,
+        tableMetric,
+        snapshotId,
+        timeConfig,
+        setPinnedMetrics,
+        pinnedMetrics,
+        metrics: []
+      };
+      acc[key].metrics.push({
+        name: id,
+        label,
+        formatter,
+        i
+      });
+      acc[key].metrics.sort((l, r) => l.i - r.i);
       return acc;
-    }
-    const { i, key, name, type, color, tableMetric, label, formatter } = metric;
-    acc[key] = acc[key] || {
-      key,
-      name,
-      type,
-      color,
-      tableMetric,
-      snapshotId,
-      timeConfig,
-      setPinnedMetrics,
-      pinnedMetrics,
-      metrics: []
-    };
-    acc[key].metrics.push({
-      name: id,
-      label,
-      formatter,
-      i
-    });
-    acc[key].metrics.sort((l, r) => l.i - r.i);
-    return acc;
-  }, {}) || [];
+    }, {}) || [];
 
   return Object.values(metrics);
 }

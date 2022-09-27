@@ -19,7 +19,7 @@ import { t } from 'in-i18n';
 import locals from './Beacon.mless';
 
 export default function Beacon(props) {
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(false);
   const { detailId, beacon } = props;
 
   useEffect(() => {

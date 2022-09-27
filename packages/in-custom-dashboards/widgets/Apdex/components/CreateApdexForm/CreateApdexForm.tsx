@@ -4,16 +4,16 @@
  * Copyright IBM Corp. 2022
  */
 
-import React from 'react';
 import { Item, MapForm } from 'formalistic';
+import React from 'react';
 
 import { ApdexConfiguration, Result } from '@instana/types';
 
+import CreateApplicationApdexForm from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/CreateApplicationApdexForm';
 import {
   apdexNameKey,
   toApdexConfigurationInput
 } from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/form';
-import CreateApplicationApdexForm from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/CreateApplicationApdexForm';
 import CreateWebsiteApdexForm from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/CreateWebsiteApdexForm';
 import { useApdexWidgetTrackers } from 'in-custom-dashboards/widgets/Apdex/components/ApdexWidgetTrackerProvider';
 import useCreateApdexConfiguration from 'in-custom-dashboards/widgets/Apdex/hooks/useCreateApdexConfiguration';

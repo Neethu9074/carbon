@@ -4,8 +4,9 @@
  * Copyright IBM Corp. 2022
  */
 
-import SelectedBlueprintPresenter from 'in-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
 import React from 'react';
+
+import SelectedBlueprintPresenter from 'in-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
 
 export default {
   component: SelectedBlueprintPresenter

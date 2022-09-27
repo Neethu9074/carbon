@@ -15,8 +15,8 @@ import { getUniqueErrors } from 'in-components/Errors/ErroneousResultPresenter';
 import UngroupedViewList from 'in-components/AnalyzeView/UngroupedViewList';
 import { formatDateTime } from 'in-services/formatters/date';
 import getLogs from 'in-logging/subscriptions/getLogs';
-import getLog from 'in-logging/subscriptions/getLog';
 import { logTableTags } from 'in-logging/queryBuilder';
+import getLog from 'in-logging/subscriptions/getLog';
 
 import locals from './RawLogs.mless';
 

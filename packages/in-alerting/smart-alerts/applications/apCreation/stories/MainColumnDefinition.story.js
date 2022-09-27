@@ -10,20 +10,24 @@ import MainColumn from 'in-alerting/smart-alerts/applications/apCreation/MainCol
 import LabelText from 'in-alerting/smart-alerts/applications/apCreation/LabelText';
 
 export default {
-  component: MainColumn
+  component: MainColumn,
+  argTypes: {
+    onItemSelect: { action: 'onItemSelect' }
+  }
 };
 
-export function mainColumnDefinition() {
-  return <MainColumn name="Erroneous call rate for XYZ too high" {...globalBuitInAlerts[0]} />;
+export const MainColumnDefinition = (...args) => {
+  return <MainColumn {...args} name="Erroneous call rate for XYZ too high" {...globalBuitInAlerts[0]} />;
+};
+
+export function MainColumnDefinitionWithPartiallyApSelection(...args) {
+  return <MainColumn {...args} name="Erroneous call rate for ABC too high 2" {...globalBuitInAlerts[2]} />;
 }
 
-export function mainColumnDefinitionWithPartiallyApSelection() {
-  return <MainColumn name="Erroneous call rate for ABC too high 2" {...globalBuitInAlerts[2]} />;
-}
-
-export function mainColumnDefinitionWithCustomLabel() {
+export function MainColumnDefinitionWithCustomLabel(...args) {
   return (
     <MainColumn
+      {...args}
       name="Erroneous call rate for XYZ too high"
       customLabel={() => (
         <div>

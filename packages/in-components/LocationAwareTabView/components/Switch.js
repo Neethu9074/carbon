@@ -33,7 +33,7 @@ export default function TabSwitch({ tabs, result, hasErrors, location, props, re
         </Route>
       ))}
       <Route>
-         <RedirectOnNoActiveTab tabs={tabs} location={location} />
+        <RedirectOnNoActiveTab tabs={tabs} location={location} />
       </Route>
     </Switch>
   );
