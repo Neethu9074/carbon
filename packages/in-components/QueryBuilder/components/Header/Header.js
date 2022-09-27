@@ -31,9 +31,7 @@ export default function Header(props) {
 
   return (
     <div className={locals.wrapper}>
-      <HorizontalFlexWrapper>
-        {CustomHeaderActions && <CustomHeaderActions {...props} />}
-      </HorizontalFlexWrapper>
+      <HorizontalFlexWrapper>{CustomHeaderActions && <CustomHeaderActions {...props} />}</HorizontalFlexWrapper>
 
       {withCountHeader && (
         <CountHeader

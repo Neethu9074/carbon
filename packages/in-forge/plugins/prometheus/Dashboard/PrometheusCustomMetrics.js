@@ -24,15 +24,15 @@ export default function PrometheusCustomMetrics({ snapshot, timeConfig, titlePre
 }
 
 const gaugeHistogram = {
-    prefix: 'metrics.gauge_histograms.',
-    type: 'gauge_histogram',
-    color: '#F1C40F',
-    metrics: [
-      {
-        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
-        formatter: withSiMultiplyPrefixThreeDecimalPlaces
-      }
-    ]
+  prefix: 'metrics.gauge_histograms.',
+  type: 'gauge_histogram',
+  color: '#F1C40F',
+  metrics: [
+    {
+      label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
+      formatter: withSiMultiplyPrefixThreeDecimalPlaces
+    }
+  ]
 };
 
 const stateSet = {
@@ -42,7 +42,7 @@ const stateSet = {
   metrics: [
     {
       label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
-      formatter: withSiMultiplyPrefixThreeDecimalPlaces,
+      formatter: withSiMultiplyPrefixThreeDecimalPlaces
     }
   ]
 };
@@ -54,7 +54,7 @@ const info = {
   metrics: [
     {
       label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
-      formatter: withSiMultiplyPrefixThreeDecimalPlaces,
+      formatter: withSiMultiplyPrefixThreeDecimalPlaces
     }
   ]
 };

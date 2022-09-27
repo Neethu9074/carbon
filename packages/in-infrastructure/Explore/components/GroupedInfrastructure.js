@@ -243,7 +243,7 @@ function columns({
 }) {
   const snapshotDefinition = getOptionalSnapshotDefinition(type);
   const countLabel = snapshotDefinition ? getPluginName(type, 2) : 'Count';
-  return [
+  const cols = [
     {
       width: '3rem',
       getContent({ group }) {
@@ -311,6 +311,8 @@ function columns({
         }
       }
     ]);
+
+  return cols;
 }
 
 function getColumnWidth(groupBy, index) {
@@ -371,7 +373,7 @@ function addTagsToBackendModel(backendQueryModel, tags) {
   return addTagFilters(backendQueryModel, toTagFilters(tags));
 }
 
-function toTagFilters(tags, tagType, group) {
+export function toTagFilters(tags, tagType, group) {
   return Object.entries(tags).map(([name, value]) => ({
     type: TAG_FILTER_TYPE,
     operator: EQUALS,
@@ -434,12 +436,12 @@ function getGroupPlugin(group) {
   return plugin ? getOptionalSnapshotDefinition(plugin) : null;
 }
 
-function getGroupIcon(group) {
+export function getGroupIcon(group) {
   const plugin = getGroupPlugin(group);
   return plugin ? `lib_infra_${plugin.plugin}` : defaultGroupIcon;
 }
 
-function getGroupTagValue(group, key) {
+export function getGroupTagValue(group, key) {
   if (key === pluginTag) {
     const plugin = getGroupPlugin(group);
     return plugin ? getPluginName(group.tags[pluginTag]) : group.tags[key];

@@ -13,25 +13,25 @@ import { SPECS as PROMETHEUS_SPECS } from 'in-forge/plugins/prometheus/Dashboard
 import { getDefaultRows } from './CustomMetricsV2';
 import { success } from 'in-services/util/result';
 
-const snapshot = fromJS({'id': 'snapshot-1'});
+const snapshot = fromJS({ id: 'snapshot-1' });
 const timeConfig = {};
 
 describe('CustomMetricsV2', () => {
   describe('getDefaultRows', () => {
     it('should return rows from metric ids', () => {
       const metricIdsResult = success([
-          'metrics.counters.one',
-          'metrics.gauges.two',
-          'metrics.histograms.three.99th',
-          'metrics.histograms.three.mean',
-          'metrics.histograms.three.50th',
-          'metrics.meters.four',
-          'metrics.timers.five.50th',
-          'metrics.timers.five.mean',
-          'metrics.timers.five.rate',
-          'metrics.timers.five.99th',
-          'metrics.summaries.six'
-        ]);
+        'metrics.counters.one',
+        'metrics.gauges.two',
+        'metrics.histograms.three.99th',
+        'metrics.histograms.three.mean',
+        'metrics.histograms.three.50th',
+        'metrics.meters.four',
+        'metrics.timers.five.50th',
+        'metrics.timers.five.mean',
+        'metrics.timers.five.rate',
+        'metrics.timers.five.99th',
+        'metrics.summaries.six'
+      ]);
 
       const rows = getDefaultRows({ snapshot, timeConfig, metricIdsResult });
 
@@ -97,7 +97,12 @@ describe('CustomMetricsV2', () => {
     });
 
     it('should return rows from metric ids without expanded sub-metrics', () => {
-      const metricIdsResult = success(['metrics.counters.one', 'metrics.gauges.two', 'metrics.histograms.three', 'metrics.summaries.four']);
+      const metricIdsResult = success([
+        'metrics.counters.one',
+        'metrics.gauges.two',
+        'metrics.histograms.three',
+        'metrics.summaries.four'
+      ]);
 
       const rows = getDefaultRows({ snapshot, timeConfig, specs: PROMETHEUS_SPECS, metricIdsResult });
 
@@ -137,15 +142,15 @@ describe('CustomMetricsV2', () => {
 
     it('should return rows for micrometer metrics', () => {
       const metricIdsResult = success([
-          'micrometer.metrics.gauge.one',
-          'micrometer.metrics.timeGauge.two',
-          'micrometer.metrics.counter.three',
-          'micrometer.metrics.functionCounter.four',
-          'micrometer.metrics.timer.five',
-          'micrometer.metrics.functionTimer.six',
-          'micrometer.metrics.longTaskTimer.seven',
-          'micrometer.metrics.distributionSummary.eight'
-        ]);
+        'micrometer.metrics.gauge.one',
+        'micrometer.metrics.timeGauge.two',
+        'micrometer.metrics.counter.three',
+        'micrometer.metrics.functionCounter.four',
+        'micrometer.metrics.timer.five',
+        'micrometer.metrics.functionTimer.six',
+        'micrometer.metrics.longTaskTimer.seven',
+        'micrometer.metrics.distributionSummary.eight'
+      ]);
 
       const rows = getDefaultRows({ snapshot, timeConfig, specs: MICROMETER_SPECS, metricIdsResult });
 

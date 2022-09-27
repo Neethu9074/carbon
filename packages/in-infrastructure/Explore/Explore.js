@@ -50,7 +50,9 @@ import InfraPageHeaderWithTabs from 'in-infrastructure/components/InfraPageHeade
 import { getMetricKey, fromUrlMetrics } from 'in-infrastructure/Explore/services/metrics';
 import InfrastructureList from 'in-infrastructure/Explore/components/InfrastructureList';
 import getMetricCatalog from 'in-infrastructure/subscriptions/getMetricCatalog';
+import { defaultInfraExploreView } from 'in-infrastructure/navigation/paths';
 import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
+import EntityList from 'in-infrastructure/Explore/components/EntityList';
 import useMetricCatalog from 'in-infrastructure/hooks/useMetricCatalog';
 import { themes } from 'in-components/DashboardHeader/DashboardHeader';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
@@ -142,6 +144,16 @@ function InfraExploreViewWithFixatedTimeConfig() {
     onMetricAggregationChanged: metricAggregationChangedTracker(getInfraExploreState)
   };
 
+  function resetParams() {
+    setUrl({ tagFilterExpression: [], group: { groupbyTag: 'type', ar: true }, metrics: [], type: 'all' });
+  }
+
+  const isInitPage =
+    !type &&
+    (!group || group?.groupbyTag == 'type') &&
+    (!metrics || metrics?.length == 0) &&
+    (!tagFilterExpression || tagFilterExpression?.length == 0);
+
   const catalogQuery = useDebouncedValue('', noop, 800);
 
   const metricCatalog = useMetricCatalog({
@@ -158,6 +170,8 @@ function InfraExploreViewWithFixatedTimeConfig() {
       theme={themes.light}
       addShadow
       addFooter
+      headerHref$={defaultInfraExploreView}
+      onHeaderClick={resetParams}
     >
       <ViewTrackingMeta
         data={{
@@ -173,31 +187,48 @@ function InfraExploreViewWithFixatedTimeConfig() {
             {t('in-infrastructure:explore.thisIsABetaVersionOfANewProductCapability')}
           </Message>
 
-          <Sections>
-            <QueryBuilderSection
-              value={tagFilterExpression}
-              QueryBuilder={QueryBuilder}
-              onChange={onTagFilterExpressionChange}
-              tracking={{
-                onTagAdded: filterAddedTracker(getInfraExploreState),
-                onTagRemoved: filterRemovedTracker(getInfraExploreState),
-                onQueryCleared: filtersClearedTracker(getInfraExploreState)
-              }}
-              hasError={isInvalid}
-              allowEmptyKey
-            />
+          {!isInitPage && (
+            <Sections>
+              <QueryBuilderSection
+                value={tagFilterExpression}
+                QueryBuilder={QueryBuilder}
+                onChange={onTagFilterExpressionChange}
+                tracking={{
+                  onTagAdded: filterAddedTracker(getInfraExploreState),
+                  onTagRemoved: filterRemovedTracker(getInfraExploreState),
+                  onQueryCleared: filtersClearedTracker(getInfraExploreState)
+                }}
+                hasError={isInvalid}
+                allowEmptyKey
+              />
 
-            <GroupingConfiguratorSection
-              value={group}
-              GroupingConfigurator={GroupingConfigurator}
-              tagFilterExpression={backendQueryModel || toBackendQueryModel([])}
-              onChange={onGroupChange}
-              tracking={{
-                onGroupAdded: groupAddedTracker(getInfraExploreState),
-                onGroupRemoved: groupRemovedTracker(getInfraExploreState)
+              <GroupingConfiguratorSection
+                value={group}
+                GroupingConfigurator={GroupingConfigurator}
+                tagFilterExpression={backendQueryModel || toBackendQueryModel([])}
+                onChange={onGroupChange}
+                tracking={{
+                  onGroupAdded: groupAddedTracker(getInfraExploreState),
+                  onGroupRemoved: groupRemovedTracker(getInfraExploreState)
+                }}
+              />
+            </Sections>
+          )}
+
+          {isValid && isInitPage && (
+            <EntityList
+              backendQueryModel={backendQueryModel}
+              timeConfig={timeConfig}
+              group={group}
+              setOrder={order => {
+                setOrder(order);
+                sortingTracker(getInfraExploreState)(order, SORTING_CONTEXT.GROUPS);
               }}
+              order={order}
+              type={type}
+              headerHref$={defaultInfraExploreView}
             />
-          </Sections>
+          )}
 
           {isInvalid && (
             <Message type="error" withIcon small>
@@ -205,7 +236,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
             </Message>
           )}
 
-          {isValid && !group?.groupbyTag && (
+          {isValid && !isInitPage && !group?.groupbyTag && (
             <InfrastructureList
               backendQueryModel={backendQueryModel}
               timeConfig={timeConfig}
@@ -229,7 +260,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
             />
           )}
 
-          {isValid && group?.groupbyTag && (
+          {isValid && !isInitPage && group?.groupbyTag && (
             <GroupedInfrastructure
               tagFilterExpression={tagFilterExpression}
               backendQueryModel={backendQueryModel}
