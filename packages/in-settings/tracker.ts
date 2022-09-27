@@ -19,7 +19,10 @@ import {
   SETTINGS_ALERT_CUSTOM_PAYLOAD_EDIT_ITEM,
   SETTINGS_ALERT_CUSTOM_PAYLOAD_REMOVE_ITEM,
   SETTINGS_EVENT_SUBMIT,
-  SETTINGS_EVENT_OPEN_SUBMIT_FORM
+  SETTINGS_EVENT_OPEN_SUBMIT_FORM,
+  SETTINGS_AUTOMATION_ACTION_CREATE,
+  SETTINGS_AUTOMATION_ACTION_EDIT,
+  SETTINGS_AUTOMATION_ACTION_DELETE
 } from 'in-services/tracking/tracking';
 
 export const submitInviteUserTracker = (e: Object) => track(SETTINGS_USER_INVITE_SUBMIT, e);
@@ -42,3 +45,7 @@ export const removeItemAlertCustomPayloadTracker = (e: Object) => track(SETTINGS
 export const submitEventTracker = (e: Object) => track(SETTINGS_EVENT_SUBMIT, e);
 export const openEventSubmitFormTracker = (e: Object) => track(SETTINGS_EVENT_OPEN_SUBMIT_FORM, e);
 export const viewEventTracker = (e: Object) => track(SETTINGS_EVENT_VIEW, e);
+
+export const createActionTracker = (e: Object) => track(SETTINGS_AUTOMATION_ACTION_CREATE, e);
+export const editActionTracker = (e: Object) => track(SETTINGS_AUTOMATION_ACTION_EDIT, e);
+export const deleteActionTracker = (e: Object) => track(SETTINGS_AUTOMATION_ACTION_DELETE, e);

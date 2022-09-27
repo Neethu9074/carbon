@@ -13,6 +13,7 @@ import { createDocLinkField, createScriptFields, NewAction, saveAction, saveNewA
 import ActionForm from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionForm';
 import { isDocLink, isScript } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import { createActionTracker, editActionTracker } from 'in-settings/tracker';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsActionCatalog } from 'in-settings/navigation/paths';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
@@ -114,8 +115,18 @@ function save(form: MapForm, id?: string) {
   const actionSpecification = getActionSpecification(form);
   const isCreate = !id;
   if (isCreate) {
+    createActionTracker({
+      actionType: actionSpecification.type,
+      actionName: actionSpecification.name,
+      tags: actionSpecification.tags
+    });
     return saveNewAction(actionSpecification);
   } else {
+    editActionTracker({
+      actionType: actionSpecification.type,
+      actionName: actionSpecification.name,
+      tags: actionSpecification.tags
+    });
     return saveAction(actionSpecification, id);
   }
 }

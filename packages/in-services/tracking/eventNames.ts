@@ -267,6 +267,9 @@ export const SETTINGS_ALERT_CUSTOM_PAYLOAD_REMOVE_ITEM = 'settings.alert.customP
 export const SETTINGS_EVENT_VIEW = 'settings.event.custom.view';
 export const SETTINGS_EVENT_SUBMIT = 'settings.event.submit';
 export const SETTINGS_EVENT_OPEN_SUBMIT_FORM = 'settings.event.new';
+export const SETTINGS_AUTOMATION_ACTION_CREATE = 'settings.automation.action.create';
+export const SETTINGS_AUTOMATION_ACTION_EDIT = 'settings.automation.action.edit';
+export const SETTINGS_AUTOMATION_ACTION_DELETE = 'settings.automation.action.delete';
 
 export const ONBOARDING_OPENED = 'onboardingNewUnit.dialog.opened';
 export const ONBOARDING_INSTANA_BEGINNER_VIDEOS_CLICKED = 'onboardingNewUnit.instanaBeginnerVideos.clicked';
