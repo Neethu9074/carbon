@@ -13,16 +13,17 @@ import {
   teamSettingsAlertingEventCustom
 } from 'in-settings/navigation/paths';
 import { role } from 'in-stores/user';
+import { Event } from 'in-types';
 import { t } from 'in-i18n';
 
-export default function EventSpecificationLink({ event }) {
-  if (!role.canConfigureCustomAlerts) {
+export default function EventSpecificationLink({ event }: { event: Event }) {
+  if (!role?.canConfigureCustomAlerts) {
     // at the moment the link of this button generally does not work when the canConfigureCustomAlerts permission is missing,
     // because we generally hide the Events & Alerts section, including the build-in events.
     return null;
   }
 
-  const eventSpecificationId = event.getIn(['metadata', 'eventSpecificationId']);
+  const eventSpecificationId: string = event.metadata?.eventSpecificationId;
   if (!eventSpecificationId) {
     return null;
   }
@@ -39,10 +40,10 @@ export default function EventSpecificationLink({ event }) {
   );
 }
 
-function getEventSpecificationSettingsBasePath(isCustom) {
+function getEventSpecificationSettingsBasePath(isCustom: boolean) {
   return isCustom ? teamSettingsAlertingEventCustom : teamSettingsAlertingEventBuiltIn;
 }
 
-function isCustomEvent(event) {
-  return event.getIn(['metadata', 'custom_issue'], false);
+function isCustomEvent(event: Event): boolean {
+  return event.metadata?.custom_issue ?? false;
 }

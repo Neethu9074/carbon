@@ -6,12 +6,10 @@
 
 import React from 'react';
 
-// @ts-expect-error
-import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
 import ActionTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionTable';
 import { getCustomEventActions, getBuiltinEventActions } from 'in-api/eventSpecifications';
+import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
 import { Event, VolatileId } from 'in-types';
-import { t } from 'in-i18n';
 
 interface Props {
   event: Event;
@@ -23,7 +21,7 @@ export default function AssociatedActions({ event, volatileId }: Props) {
   const observable = isCustom ? getCustomEventActions : getBuiltinEventActions;
   return (
     <div>
-      <EventSpecificationLink event={event} buttonText={t('in-events:setAssociations')} />
+      <EventSpecificationLink event={event} />
       <ActionTable
         showExecuteColumn
         event={event}
