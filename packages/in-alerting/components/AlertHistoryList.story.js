@@ -60,6 +60,7 @@ export function incidents() {
 
 const eventsWithType = type => {
   return [0, 5, 6, 10].map(severity => ({
+    id: 'event-id-' + severity,
     type,
     entityId: 'XkLX4CD7RfKLYa70wqZSdQ',
     severity,
