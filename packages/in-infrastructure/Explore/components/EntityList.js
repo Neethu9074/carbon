@@ -77,7 +77,7 @@ export default function EntityList({
 
   return (
     <>
-      <Header totalHits={5} hasErrors={hasErrors} isLoading={isLoading} />
+      <Header totalRetainedItemCount={items.length} hasErrors={hasErrors} isLoading={isLoading} dataSource='entity' />
 
       <CursorPaginatedTable
         columnDefinitions={columnDefinitions}
