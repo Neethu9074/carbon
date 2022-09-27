@@ -145,7 +145,7 @@ function SuggestionsList({
             close={close}
             value={item}
           >
-            <Tooltip content={getSuggestionLabel({ item, tagName })} align={'rightMiddle'}>
+            <Tooltip content={getSuggestionLabel({ item, tagName })} align={'rightMiddle'} delay={300}>
               <span className={locals.ellipsis}>{getSuggestionLabel({ item, tagName })}</span>
             </Tooltip>
           </OverlayOption>
