@@ -203,11 +203,12 @@ function ServiceEndpointSelectionCard({ alertConfig, isGlobalSmartAlert }) {
   const moreThanOneSelection = applications && Object.values(applications).length > 1;
 
   return (
-    <LightCard
+    <ExpandableLightCard
       title={t('in-alerting:smartAlerts.applications.details.applicationsServiceEndpointScopeTitle')}
       header={moreThanOneSelection && <ServicesAndEndpointsSearchInput onChange={setSearchQuery} />}
       headerClassName={locals.lightCardHeader}
-      withoutPadding
+      openByDefault
+      bodyWithoutPadding
       darkFrame
       framed
     >
@@ -224,7 +225,7 @@ function ServiceEndpointSelectionCard({ alertConfig, isGlobalSmartAlert }) {
         apiSubscriptions={noAppsFetchingApiSubscriptions}
         readOnly
       />
-    </LightCard>
+    </ExpandableLightCard>
   );
 }
 
