@@ -41,10 +41,10 @@ export default function RunAction({ action, script, volatileId, event }: Props) 
       </Button>
     );
   if (error) {
-    title = 'in-events:failedToInitiate';
+    title = t('in-events:failedToInitiate', { actionName: action.name });
     content = <p>{error}</p>;
   } else if (actionInstanceId) {
-    title = 'in-events:hasBeenInitiated';
+    title = t('in-events:hasBeenInitiated', { actionName: action.name });
     const tagFilterExpression = tagFilter('log.custom', 'EQUALS', actionInstanceId, 'actionInstanceId');
     const link = getLinkToAnalyze({ tagFilterExpression: [tagFilterExpression], timeConfig });
     content = (
@@ -59,7 +59,7 @@ export default function RunAction({ action, script, volatileId, event }: Props) 
       </p>
     );
   } else {
-    title = 'in-events:chosenToRun';
+    title = t('in-events:chosenToRun', { actionName: action.name });
     content = (
       <>
         <DescriptionList>
@@ -95,12 +95,7 @@ export default function RunAction({ action, script, volatileId, event }: Props) 
     );
   }
   return (
-    <Dialog
-      titleIconType={'lib_help_error_error_circle'}
-      title={t(title, { actionName: action.name })}
-      onClose={close}
-      withoutBodyPadding
-    >
+    <Dialog titleIconType={'lib_help_error_error_circle'} title={title} onClose={close} withoutBodyPadding>
       <>
         <div style={{ padding: '0 1.5rem 1.5rem' }}>{content}</div>
         <FormFooter>{footer}</FormFooter>
