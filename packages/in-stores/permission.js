@@ -144,6 +144,13 @@ function getProductPermissions() {
       description: t('in-stores:permissionCanConfigureAutomationActionsDescription'),
       category: t('in-stores:permissionCanConfigureAutomationActionsCategory')
     },
+    {
+      keyForGroupApi: 'CAN_RUN_AUTOMATION_ACTIONS',
+      keyForApiTokenApi: 'canRunAutomationActions',
+      label: t('in-stores:permissionCanRunAutomationActionsLabel'),
+      description: t('in-stores:permissionCanRunAutomationActionsDescription'),
+      category: t('in-stores:permissionCanRunAutomationActionsCategory')
+    },
     /* Custom Dashboards */
     {
       keyForGroupApi: 'CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS',

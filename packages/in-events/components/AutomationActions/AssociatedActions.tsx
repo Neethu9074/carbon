@@ -16,7 +16,7 @@ interface Props {
   volatileId: VolatileId;
 }
 export default function AssociatedActions({ event, volatileId }: Props) {
-  const eventSpecificationId: string = event?.metadata?.eventSpecificationId ?? '';
+  const eventSpecificationId: string = event?.metadata?.eventSpecificationId;
   const isCustom = isCustomEvent(event);
   const observable = isCustom ? getCustomEventActions : getBuiltinEventActions;
   return (

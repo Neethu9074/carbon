@@ -37,6 +37,7 @@ import PopulationChart from 'in-events/components/legacy/PopulationChart';
 import IncidentEventListRows from 'in-events/components/legacy/EventList';
 import { getSnapshot, getSnapshotVersions } from 'in-stores/snapshot';
 import EventDetailsKPIs from 'in-events/components/EventDetailsKPIs';
+import { actionAutomationEnabled } from 'in-services/featureFlags';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { getEventType, EVENT_TYPES } from 'in-stores/events';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
@@ -45,6 +46,7 @@ import { emptyList } from 'in-services/fixedImmutables';
 import getRecentEvents$ from 'in-events/recentEvents';
 import { Row, Col } from 'in-components/layout/Grid';
 import connectTo from 'in-hoc/connectTo';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './Summary.mless';
@@ -101,7 +103,7 @@ const EventContent = connectTo(
 
     const eventType = getEventType(event);
     const isIssue = eventType === EVENT_TYPES.ISSUE_WARNING || eventType === EVENT_TYPES.ISSUE_CRITICAL;
-
+    const hasEventSpec = event.getIn(['metadata', 'eventSpecificationId'], '') !== '';
     return (
       <>
         <ViewTrackingMeta
@@ -170,7 +172,7 @@ const EventContent = connectTo(
             )}
           </>
         )}
-        {isIssue && (
+        {actionAutomationEnabled && role.canConfigureAutomationActions && isIssue && hasEventSpec && (
           <Row withoutSideMargin>
             <Col xs>
               <Card title={t('in-events:associatedActions')}>
