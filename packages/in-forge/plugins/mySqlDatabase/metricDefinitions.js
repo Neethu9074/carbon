@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { millis, number, percentage, seconds } from 'in-services/formatters/number';
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
-import { millis, number, seconds } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 export default [
@@ -44,6 +44,49 @@ export default [
     ],
     min: 0,
     category: [t('in-forge:plugins.mySqlDatabase.clients')],
+    formatter: number
+  },
+  {
+    metrics: [
+      'status.INNODB_BUFFER_POOL_PAGES_TOTAL',
+      'status.INNODB_BUFFER_POOL_PAGES_FREE',
+      'status.INNODB_BUFFER_POOL_PAGES_DATA',
+      'status.INNODB_BUFFER_POOL_READ_REQUESTS',
+      'status.INNODB_PAGES_READ',
+      'status.INNODB_PAGE_SIZE'
+    ],
+    labels: [
+      t('in-forge:plugins.mySqlDatabase.bufferPoolPagesTotal'),
+      t('in-forge:plugins.mySqlDatabase.bufferPoolPagesFree'),
+      t('in-forge:plugins.mySqlDatabase.bufferPoolPagesData'),
+      t('in-forge:plugins.mySqlDatabase.bufferPoolReadRequests'),
+      t('in-forge:plugins.mySqlDatabase.pagesRead'),
+      t('in-forge:plugins.mySqlDatabase.pageSize')
+    ],
+    min: 0,
+    category: [t('in-forge:plugins.mySqlDatabase.bufferMemory')],
+    formatter: number
+  },
+  {
+    metric: 'status.INNODB_CACHE_HIT_RATE',
+    label: t('in-forge:plugins.mySqlDatabase.cacheHitRate'),
+    min: 0,
+    max: 1,
+    category: [t('in-forge:plugins.mySqlDatabase.cache')],
+    formatter: percentage
+  },
+  {
+    metric: 'status.AVG_TRANSACTION_RESPONSE_TIME',
+    label: t('in-forge:plugins.mySqlDatabase.avgTransactionResponseTime'),
+    min: 0,
+    category: [t('in-forge:plugins.mySqlDatabase.transactions')],
+    formatter: millis
+  },
+  {
+    metric: 'status.TOTAL_TRANSACTIONS',
+    label: t('in-forge:plugins.mySqlDatabase.totalTransactions'),
+    min: 0,
+    category: [t('in-forge:plugins.mySqlDatabase.transactions')],
     formatter: number
   },
   {
