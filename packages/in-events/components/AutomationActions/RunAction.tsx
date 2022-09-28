@@ -5,6 +5,7 @@
  */
 
 import React, { useState } from 'react';
+import classNames from 'classnames';
 
 import { Button, Link } from '@instana/components';
 
@@ -65,7 +66,10 @@ export default function RunAction({ action, script, volatileId, event }: Props) 
     content = (
       <>
         <DescriptionList>
-          <DescriptionItem className={locals.actionModalFontSize} title={t('in-events:titleDescription')}>
+          <DescriptionItem
+            className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+            title={t('in-events:titleDescription')}
+          >
             {action.description}
           </DescriptionItem>
         </DescriptionList>
