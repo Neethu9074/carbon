@@ -44,13 +44,13 @@ export default function RunAction({ action, script, volatileId, event }: Props) 
     );
   if (error) {
     title = t('in-events:failedToInitiate', { actionName: action.name });
-    content = <p>{error}</p>;
+    content = <p className={locals.actionModalFontSize}>{error}</p>;
   } else if (actionInstanceId) {
     title = t('in-events:hasBeenInitiated', { actionName: action.name });
     const tagFilterExpression = tagFilter('log.custom', 'EQUALS', actionInstanceId, 'actionInstanceId');
     const link = getLinkToAnalyze({ tagFilterExpression: [tagFilterExpression], timeConfig });
     content = (
-      <p>
+      <p className={locals.actionModalFontSize}>
         <Trans
           i18nKey="in-settings:tabs.linkToActionLogs"
           components={{
@@ -65,10 +65,12 @@ export default function RunAction({ action, script, volatileId, event }: Props) 
     content = (
       <>
         <DescriptionList>
-          <DescriptionItem title={t('in-events:titleDescription')}>{action.description}</DescriptionItem>
+          <DescriptionItem className={locals.actionModalFontSize} title={t('in-events:titleDescription')}>
+            {action.description}
+          </DescriptionItem>
         </DescriptionList>
-        <Code code={atob(script)} lang={'bash'} withoutCopyButton />
-        <p>{t('in-events:actionCannotBeUndone')}</p>
+        <Code code={atob(script)} lang={'bash'} withoutCopyButton softWrap />
+        <p className={locals.actionModalFontSize}>{t('in-events:actionCannotBeUndone')}</p>
       </>
     );
     footer = (
@@ -97,9 +99,15 @@ export default function RunAction({ action, script, volatileId, event }: Props) 
     );
   }
   return (
-    <Dialog titleIconType={'lib_help_error_error_circle'} title={title} onClose={close} withoutBodyPadding>
+    <Dialog
+      className={locals.dialog}
+      titleIconType={'lib_help_error_error_circle'}
+      title={title}
+      onClose={close}
+      withoutBodyPadding
+    >
       <>
-        <div className={locals.modalPadding}>{content}</div>
+        <div className={locals.actionModalPadding}>{content}</div>
         <FormFooter>{footer}</FormFooter>
       </>
     </Dialog>

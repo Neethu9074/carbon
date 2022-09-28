@@ -5,7 +5,13 @@
  */
 
 :local {
-  .modalPadding {
+  .actionModalPadding {
     padding: 0 1.5rem 1.5rem;
+  }
+  .actionModalFontSize {
+    font-size: 0.8rem;
+  }
+  .dialog {
+    max-width: 65%;
   }
 }
