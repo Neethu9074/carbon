@@ -17,6 +17,7 @@ export function getLocations(): Observable<unknown> {
   return http({
     method: 'GET',
     maxRetries: 3,
+    headers: getCsrfHeader(),
     url: locationUrl,
     mapToResultObject: true
   }).map(response => deepFreeze(response));
@@ -26,6 +27,17 @@ export function getLocation(locationId: string): Observable<unknown> {
   return http({
     method: 'GET',
     maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: locationUrl + '/' + locationId,
+    mapToResultObject: true
+  }).map(response => deepFreeze(response));
+}
+
+export function deleteLocation(locationId: string): Observable<unknown> {
+  return http({
+    method: 'DELETE',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
     url: locationUrl + '/' + locationId,
     mapToResultObject: true
   }).map(response => deepFreeze(response));

@@ -6,10 +6,11 @@
 
 import React from 'react';
 
+import { LocationListItem, PaginatedResult, Result } from '@instana/types';
 import { formatDateTime } from '@instana/format-date';
-import { LocationListItem } from '@instana/types';
 import { SvgIcon } from '@instana/components';
 
+import LocationListActionsColumn from 'in-synthetics/dashboards/global/tabs/locations/components/LocationListActionsColumn';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { t } from 'in-i18n';
 
@@ -76,6 +77,20 @@ export const columnDefinitions = [
         <div>
           <h4 className={locals.label}>{formatDateTime(item.lastRunOn)}</h4>
         </div>
+      );
+    }
+  },
+  {
+    id: 'action',
+    label: t('in-synthetics:dashboard.testList.action'),
+    sortable: false,
+    getContent(item: LocationListItem, { progress }: Result<PaginatedResult<LocationListItem>>) {
+      return (
+        <HorizontalFlexWrapper>
+          <div>
+            <LocationListActionsColumn item={item} isLoading={progress?.loading ?? false} />
+          </div>
+        </HorizontalFlexWrapper>
       );
     }
   }
