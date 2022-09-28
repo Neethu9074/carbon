@@ -21,6 +21,8 @@ import Dialog from 'in-components/Dialog/Dialog';
 import Code from 'in-components/Code';
 import { t, Trans } from 'in-i18n';
 
+import locals from './RunAction.mless';
+
 interface Props {
   script: string;
   volatileId: VolatileId;
@@ -97,7 +99,7 @@ export default function RunAction({ action, script, volatileId, event }: Props) 
   return (
     <Dialog titleIconType={'lib_help_error_error_circle'} title={title} onClose={close} withoutBodyPadding>
       <>
-        <div style={{ padding: '0 1.5rem 1.5rem' }}>{content}</div>
+        <div className={locals.modalPadding}>{content}</div>
         <FormFooter>{footer}</FormFooter>
       </>
     </Dialog>
