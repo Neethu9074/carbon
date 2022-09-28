@@ -247,7 +247,7 @@ function renderApplicationContext(props) {
 
 function filterByType(types) {
   if (types.length) {
-    let filterExpression = [];
+    const filterExpression = [];
     types.forEach((type, index) => {
       if (index !== 0) {
         filterExpression.push({ type: 'CONJUNCTION', logicalOperator: 'OR' });
