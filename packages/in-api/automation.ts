@@ -115,8 +115,7 @@ export function runScriptAction(script: string, volatileId: VolatileId, event: E
         just(
           error<null>([
             {
-              message:
-                'Could not handle the backend request. Check your agent configuration to make sure the Action sensor is installed.',
+              message: t('in-events:actionSensorTimeout'),
               code: 'TIMEOUT'
             }
           ])
