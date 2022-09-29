@@ -90,12 +90,13 @@ function getLocationLabels(result: Result<PaginatedResult<TestResultListItem>> |
 
   // Get locationLabels and locationIds from result
   if (!result?.progress?.loading) {
-    result?.data?.items?.forEach(function(item) {
-      const locationitem = {
-        label: item.testResultCommonProperties?.locationLabel ?? '',
-        value: item.testResultCommonProperties?.locationId ?? ''
-      };
-      locationLabelOptions.push(locationitem);
+    result?.data?.items?.forEach((item: TestResultListItem) => {
+      if (item.testResultCommonProperties.testCommonProperties?.locationLabels) {
+        locationLabelOptions.push({
+          label: item.testResultCommonProperties.testCommonProperties.locationLabels[0] ?? '',
+          value: item.testResultCommonProperties.locationId ?? ''
+        });
+      }
     });
 
     // Clean up duplicate and empty array elements
