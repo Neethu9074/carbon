@@ -170,8 +170,9 @@ function InfraExploreViewWithFixatedTimeConfig() {
       theme={themes.light}
       addShadow
       addFooter
-      headerHref$={defaultInfraExploreView}
+      headerHref$={isInitPage ? null : defaultInfraExploreView}
       onHeaderClick={resetParams}
+      renderTypeSelector={!isInitPage}
     >
       <ViewTrackingMeta
         data={{

@@ -28,7 +28,8 @@ export default function InfraPageHeaderWithTabs({
   addFooter,
   onTypeSelected = noop,
   headerHref$,
-  onHeaderClick
+  onHeaderClick,
+  renderTypeSelector = true
 }) {
   const isInfraExploreActive = useObservable(isInfraExploreView, []);
 
@@ -47,7 +48,7 @@ export default function InfraPageHeaderWithTabs({
                     contextIcon: 'lib_infrastructure'
                   }
                 ]}
-                label={isInfraExploreActive ? <TypeSelector onTypeSelected={onTypeSelected} /> : undefined}
+                label={isInfraExploreActive && renderTypeSelector && <TypeSelector onTypeSelected={onTypeSelected} />}
                 headerHref$={headerHref$}
                 onHeaderClick={onHeaderClick}
               />

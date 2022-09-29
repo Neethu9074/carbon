@@ -62,7 +62,7 @@ export default function EntityList({
       id: 'count',
       width: '8rem',
       label: t('in-infrastructure:explore.count'),
-      sortable: true,
+      sortable: false,
       getContent(item) {
         return (
           <>
@@ -78,7 +78,7 @@ export default function EntityList({
 
   return (
     <>
-      <Header totalRetainedItemCount={totalHits} hasErrors={hasErrors} isLoading={isLoading} dataSource="entity" />
+      <Header totalRetainedItemCount={totalHits} hasErrors={hasErrors} isLoading={isLoading} dataSource="entityType" />
 
       <CursorPaginatedTable
         columnDefinitions={columnDefinitions}
