@@ -24,7 +24,7 @@ export default function EventListItemContent({ event, latestSnapshot }) {
       <SubEntityInformation event={event} />
       <ProblemDescription event={event} />
       <DescriptionButtons>
-        <EventSpecificationLink event={event} />
+        <EventSpecificationLink event={event.toJS()} />
         <AnalyzeIssueCallsButton event={event} />
       </DescriptionButtons>
       <Spacer vertical="normal" />

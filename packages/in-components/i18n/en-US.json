@@ -213,6 +213,11 @@
     "resultTitle_entity_0": "Entities",
     "resultTitle_entity_1": "Entities",
     "resultTitle_entity_2": "Entities",
+    "resultTitle_entityType": "Entity Type",
+    "resultTitle_entityType_plural": "Entity Types",
+    "resultTitle_entityType_0": "Entity Types",
+    "resultTitle_entityType_1": "Entity Types",
+    "resultTitle_entityType_2": "Entity Types",
 
     "result": "{{formattedCount}} $t(in-components:analyzeView.resultTitle, { \"context\": \"{{dataSource}}\" })",
     "groupedViewHeader": "{{formattedCount}} Groups",

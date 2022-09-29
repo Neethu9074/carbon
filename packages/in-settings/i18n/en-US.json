@@ -101,6 +101,9 @@
         "unknownTag": "Unknown tag: {{tagName}}"
       }
     },
+    "linkToActionLogs": "The output of this action can be viewed in <logsLink>Analytics > Logs.</logsLink>",
+    "run": "Run",
+    "launch": "Launch",
     "failedToSaveConfig": "Failed to save config: {{err}}",
     "IdPMetadataRequired": "IdP Metadata file is required",
     "IdPMetadataLargerThanTwoMega": "IdP Metadata file can't be larger than 2 megabytes",
@@ -204,10 +207,18 @@
     "alertChannels": "Alert Channels",
     "alertChannelEntityName": "alert channel {{entityName}}",
     "noEventsSelected": "No Events Selected",
+    "noActionsSelected": "No Actions Selected",
+    "addActions": "Add Actions",
     "addEvents": "Add Events",
     "pleaseSelectAtLeastOneEvent": "Please select at least one event.",
+    "pleaseSelectAtLeastOneAction": "Please select at least one action.",
     "addNumberOfItemsEvent": "Add {{count}} Event",
     "addNumberOfItemsEvent_plural": "Add {{count}} Events",
+    "addNumberOfItemsAction": "Add {{count}} Action",
+    "addNumberOfItemsAction_plural": "Add {{count}} Actions",
+    "addNumberOfItemsAction_0": "Add {{count}} Actions",
+    "addNumberOfItemsAction_1": "Add {{count}} Actions",
+    "addNumberOfItemsAction_2": "Add {{count}} Actions",
     "addNumberOfItemsEvent_0": "Add {{count}} Events",
     "addNumberOfItemsEvent_1": "Add {{count}} Events",
     "addNumberOfItemsEvent_2": "Add {{count}} Events",
@@ -481,7 +492,7 @@
     "groupMappingFailedToSave": "Failed to save IdP group mappings",
     "thereShouldBeAtLeastOneGroupMapping": "At least one group mapping should be added if 'deny access when no mapping is found' is checked, or else no user will be able to log in.",
     "failIfNoIdp": "To change this settings you need to have an identity provider configured.",
-    "noActions": "There are no actions configured",
+    "noActions": "There are no actions configured.",
     "noGroupMapping": "There are no mappings configured between identity provider and Instana",
     "denyUserWithNoGroup": "Deny access when no mapping is found. If unchecked, users with no group mappings and no groups found will be added to the Default group.",
     "twoFactor": "Two-Factor",
@@ -853,7 +864,8 @@
     "showsUpInTheListOfActions": "Shows up in the list of actions. Should be unique and meaningful.",
     "showsUpInTheActionDescription": "Shows up in the action description. Should be as descriptive as possible.",
     "docLinkDescription": "URL to remediation content.",
-    "scriptDescription": "Script content."
+    "scriptDescription": "Script content.",
+    "execute": "Execute"
   },
   "languageSelection": {
     "language": "Language",

@@ -10,12 +10,13 @@ import { Link } from '@instana/components';
 import DBmarlinNotificationMessage from 'in-forge/plugins/awsRds/Dashboard/DBmarlinNotificationMessage';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import DatabasesTable from 'in-forge/plugins/mySqlDatabase/Dashboard/DatabasesTable';
+import { number, millis, seconds, percentage } from 'in-services/formatters/number';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import { isPerformanceDataAvailable } from 'in-forge/plugins/mySqlDatabase/util';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import { number, millis, seconds } from 'in-services/formatters/number';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyList } from 'in-services/fixedImmutables';
 import MetricValue from 'in-components/MetricValue';
 import { t, Trans } from 'in-i18n';
@@ -199,6 +200,87 @@ export default function MySqlDashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
+
+      <Columize>
+        <DashboardSection title={t('in-forge:plugins.mySqlDatabase.bufferMemory')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: [
+                'status.INNODB_BUFFER_POOL_PAGES_TOTAL',
+                'status.INNODB_BUFFER_POOL_PAGES_FREE',
+                'status.INNODB_BUFFER_POOL_PAGES_DATA',
+                'status.INNODB_BUFFER_POOL_READ_REQUESTS',
+                'status.INNODB_PAGES_READ',
+                'status.INNODB_PAGE_SIZE'
+              ],
+              labels: [
+                t('in-forge:plugins.mySqlDatabase.bufferPoolPagesTotal'),
+                t('in-forge:plugins.mySqlDatabase.bufferPoolPagesFree'),
+                t('in-forge:plugins.mySqlDatabase.bufferPoolPagesData'),
+                t('in-forge:plugins.mySqlDatabase.bufferPoolReadRequests'),
+                t('in-forge:plugins.mySqlDatabase.pagesRead'),
+                t('in-forge:plugins.mySqlDatabase.pageSize')
+              ],
+              formatter: number.compact,
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+
+        <DashboardSection title={t('in-forge:plugins.mySqlDatabase.cache')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['status.INNODB_CACHE_HIT_RATE'],
+              labels: [t('in-forge:plugins.mySqlDatabase.cacheHitRate')],
+              formatter: percentage.detailed,
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      </Columize>
+
+      <Columize>
+        <DashboardSection title={t('in-forge:plugins.mySqlDatabase.transactions')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['status.TOTAL_TRANSACTIONS'],
+              labels: [t('in-forge:plugins.mySqlDatabase.totalTransactions')],
+              formatter: number.compact,
+              type: 'stackedArea'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+
+        {performanceDataAvailable ? (
+          <DashboardSection title={t('in-forge:plugins.mySqlDatabase.transactionResponseTime')}>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                metrics: ['status.AVG_TRANSACTION_RESPONSE_TIME'],
+                labels: [t('in-forge:plugins.mySqlDatabase.avgTransactionResponseTime')],
+                formatter: millis.compact,
+                type: 'stackedArea'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </DashboardSection>
+        ) : null}
+      </Columize>
+
       {performanceDataAvailable && data.get('dbs', emptyList).size > 0 ? (
         <DatabasesTable snapshot={snapshot} timeConfig={timeConfig} />
       ) : null}

@@ -93,7 +93,8 @@ export default function GroupedAnalyzeView(props) {
     chartedMetrics,
     groupingTagCatalog,
     Chart,
-    customLatencyUiFormatterName
+    customLatencyUiFormatterName,
+    CustomHeaderActions
   } = props;
   const timeConfig = useTimeConfig();
   const fields = [...fixedFields, ...selectableFields];
@@ -293,15 +294,17 @@ export default function GroupedAnalyzeView(props) {
               onMetricRemoved: ({ metric, aggregation }) => ua2MetricRemovedTracker({ dataSource, metric, aggregation })
             }}
             renderHistoricDataIndicator={resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE'}
-            CustomHeaderActions={getHeaderActions}
+            CustomHeaderActions={CustomHeaderActions || getHeaderActions}
           />
           {hasItems && (
             <Ul>
               {items.map((item, index) => {
                 const label = getLabel(item);
+                const key = `${label}-${index}`;
                 return (
                   <Li
-                    key={`${label}-${index}`}
+                    initiallyOpen={props.selectedGroup === key}
+                    key={key}
                     toggleContentOnRowClick
                     renderNestedContent={() => {
                       const formModelForUnGroupedView = addGroupingCriteriaToFormModel(
@@ -335,6 +338,7 @@ export default function GroupedAnalyzeView(props) {
                           withEmbeddedApproximateDataIndicator
                           Chart={null}
                           Sidebar={null}
+                          groupKey={key}
                         />
                       );
                     }}

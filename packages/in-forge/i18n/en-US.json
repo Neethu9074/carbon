@@ -7461,7 +7461,9 @@
       "systemHeap": "System Heap",
       "allocatedMemory": "Allocated Memory",
       "obtainedFromSystem": "Obtained From System",
-      "metrics": "Metrics"
+      "metrics": "Metrics",
+      "troubleshootingDocs": "Troubleshooting docs",
+      "goRuntimeNeedsUpdate": "An outdated version of Go runtime has been detected. This version might no longer receive updates or security fixes and might contain unfixed vulnerabilities. Please consider upgrading Go to the latest version."
     },
     "googleCloudDatastore": {
       "dashboard": {
@@ -11065,7 +11067,22 @@
       "waitSynchCond": "wait/synch/cond",
       "waitSynchMutex": "wait/synch/mutex",
       "waitSynchRwlock": "wait/synch/rwlock",
-      "threadsCconnected": "Threads connected"
+      "threadsCconnected": "Threads connected",
+      "bufferMemory": "Buffer Memory",
+      "bufferPoolPagesTotal": "Pool Pages Total",
+      "bufferPoolPagesFree": "Pool Pages Free",
+      "bufferPoolPagesData": "Pool Pages Data",
+      "bufferPoolReadRequests": "Pool Read Requests",
+      "pagesRead": "Pages Read",
+      "pageSize": "Page Size",
+      "cache": "Cache",
+      "cacheHitRate": "Hit Rate",
+      "transactionResponseTime": "Response Time",
+      "avgTransactionResponseTime": "Average",
+      "transactions": "Transactions",
+      "totalTransactions": "Total",
+      "innodbTrxMetricsNotEnabledIssueDescription": "Transaction counters [<code>{{columns}}</code>] are set to <strong>disabled</strong>. Please make sure the status of these counters is set to <strong>enabled</strong>.",
+      "troubleshootingDocs":"Troubleshooting docs"
     },
     "mariaDbDatabase": {
       "queries": "Queries",

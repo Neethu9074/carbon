@@ -246,9 +246,14 @@ function renderApplicationContext(props) {
 }
 
 function filterByType(types) {
-  if (types.length === 1) {
-    return [tagFilter('call.type', EQUALS, types[0])];
-  } else {
-    return [];
+  if (types.length) {
+    const filterExpression = [];
+    types.forEach((type, index) => {
+      if (index !== 0) {
+        filterExpression.push({ type: 'CONJUNCTION', logicalOperator: 'OR' });
+      }
+      filterExpression.push(tagFilter('call.type', EQUALS, type));
+    });
+    return filterExpression;
   }
 }

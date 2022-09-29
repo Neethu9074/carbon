@@ -6,6 +6,7 @@
 import React from 'react';
 
 import DebouncedDistinctSlider from 'in-components/Slider/DebouncedDistinctSlider';
+import { round } from 'in-alerting/smart-alerts/components/utils/formatUtils';
 import { t } from 'in-i18n';
 
 export const DebouncedSensitivitySlider = ({ value, defaultValue, onChange }) => {
@@ -24,7 +25,8 @@ export const DebouncedSensitivitySlider = ({ value, defaultValue, onChange }) =>
   return (
     <DebouncedDistinctSlider
       debounceMaxWait={5000}
-      valueLabelDisplay="off"
+      valueLabelFormat={valueLabelFormat}
+      valueLabelDisplay="auto"
       marks={labeledTicks}
       min={linearScaleMin}
       max={linearScaleMax}
@@ -35,6 +37,12 @@ export const DebouncedSensitivitySlider = ({ value, defaultValue, onChange }) =>
       }}
     />
   );
+
+  function valueLabelFormat(value) {
+    return t('in-alerting:smartAlerts.components.smartAlertDialog.sensitivitySliderValueLabel', {
+      count: round(toSensitivityScale(value), 2, true)
+    });
+  }
 
   function roundToInterval(value, stepInterval) {
     const inverseStepInterval = parseInt(1 / stepInterval);

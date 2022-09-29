@@ -11,7 +11,7 @@
   }
 
   .fullHeight {
-    @height: 26.5rem;
+    @height: 26.75rem;
     min-height: @height;
     height: @height;
     max-height: @height;

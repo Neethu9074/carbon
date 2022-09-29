@@ -6,11 +6,13 @@
 
 import { fromJS, Map } from 'immutable';
 
-import { Observable } from '@instana/observables';
+import { combineLatest, just, Observable, timeout } from '@instana/observables';
 
 import { DOC_LINK_TYPE } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
+import createAgentResponseObservable from 'in-subscription/agentResponse';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
-import { Action, Field, Mutable } from 'in-types';
+import { Action, Field, Mutable, VolatileId, Event } from 'in-types';
+import { error } from 'in-services/util/result';
 import http from 'in-services/http';
 import { t } from 'in-i18n';
 
@@ -103,4 +105,37 @@ export function createAction(
     fields,
     tags
   });
+}
+
+// We are using a timeout here to prevent the UI from hanging if the agent is not responding (sensor not installed).
+export function runScriptAction(script: string, volatileId: VolatileId, event: Event | null, actionName: string) {
+  return combineLatest(
+    [
+      timeout(5000).flatMap(() =>
+        just(
+          error<null>([
+            {
+              message: t('in-events:actionSensorTimeout'),
+              code: 'TIMEOUT'
+            }
+          ])
+        )
+      ),
+      createAgentResponseObservable({
+        action: 'action.run',
+        target: volatileId,
+        args: {
+          actionType: 'SCRIPT',
+          command: script,
+          async: 'true',
+          actionOperation: 'action.run',
+          event: JSON.stringify(event),
+          problemId: event?.problem?.id,
+          problemText: event?.problem?.problemText,
+          actionName
+        }
+      })
+    ],
+    false
+  );
 }

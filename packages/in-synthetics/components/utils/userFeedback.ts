@@ -8,14 +8,19 @@ import { t } from 'in-i18n';
 
 type ActionType = 'create' | 'delete' | 'update';
 
-export function showSuccessMessage(type?: ActionType): void {
+// Contexts available will be "test" deletion dialog and "location" deletion dialog
+
+export function showSuccessMessage(type?: ActionType, context?: string): void {
   let message = '';
   switch (type) {
     case 'create':
       message = t('in-synthetics:dialog.feedback.successMessageCreate');
       break;
     case 'delete':
-      message = t('in-synthetics:dialog.feedback.successMessageDelete');
+      message =
+        context === 'locations'
+          ? t('in-synthetics:dialog.locationFeedback.successMessageDelete')
+          : t('in-synthetics:dialog.feedback.successMessageDelete');
       break;
     default:
       message = '';
@@ -29,7 +34,7 @@ export function showSuccessMessage(type?: ActionType): void {
   });
 }
 
-export function showErrorMessage(type?: ActionType): void {
+export function showErrorMessage(type?: ActionType, context?: string): void {
   let message = '';
   switch (type) {
     case 'create':
@@ -39,7 +44,10 @@ export function showErrorMessage(type?: ActionType): void {
       message = t('in-synthetics:dialog.feedback.failureMessageUpdate');
       break;
     case 'delete':
-      message = t('in-synthetics:dialog.feedback.failuteMesssageDelete');
+      message =
+        context === 'locations'
+          ? t('in-synthetics:dialog.locationFeedback.failureMesssageDelete')
+          : t('in-synthetics:dialog.feedback.failuteMesssageDelete');
       break;
     default:
       message = '';
@@ -57,8 +65,8 @@ export const showCreateErrorMessage = () => showErrorMessage('create');
 
 export const showUpdateErrorMessage = () => showErrorMessage('update');
 
-export const showDeleteErrorMessage = () => showErrorMessage('delete');
+export const showDeleteErrorMessage = (context?: string) => showErrorMessage('delete', context);
 
 export const showCreateSuccessMessage = () => showSuccessMessage('create');
 
-export const showDeleteSuccessMessage = () => showSuccessMessage('delete');
+export const showDeleteSuccessMessage = (context?: string) => showSuccessMessage('delete', context);

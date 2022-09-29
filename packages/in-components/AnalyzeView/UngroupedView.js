@@ -49,7 +49,8 @@ export default function UngroupedAnalyzeView(props) {
     ungroupedViewConfiguration,
     hideMetricAndSortingConfigurator,
     Chart,
-    withOverflow = false
+    withOverflow = false,
+    CustomHeaderActions
   } = props;
 
   const timeConfig = useTimeConfig();
@@ -145,7 +146,7 @@ export default function UngroupedAnalyzeView(props) {
               />
             )}
             renderHistoricDataIndicator={resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE'}
-            CustomHeaderActions={getHeaderActions}
+            CustomHeaderActions={CustomHeaderActions || getHeaderActions}
           />
         )}
         <Presenter

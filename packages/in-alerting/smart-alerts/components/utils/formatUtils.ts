@@ -3,8 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-export function round(value: number | string, decimals: number): number {
-  return parseFloat(Number.parseFloat(`${value}`).toPrecision(decimals));
+export function round(value: number | string, decimals: number, fixed: boolean = false): number {
+  const parsedValue = Number.parseFloat(`${value}`);
+
+  if (fixed) {
+    return parseFloat(parsedValue.toFixed(decimals));
+  }
+
+  return parseFloat(parsedValue.toPrecision(decimals));
 }
 
 export function getValueRoundedToDecimals(value: number | null, percentageMetric: boolean) {

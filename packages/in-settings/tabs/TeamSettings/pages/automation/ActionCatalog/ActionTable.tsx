@@ -6,17 +6,22 @@
 
 import React, { ReactNode } from 'react';
 
+import { Button, Link } from '@instana/components';
 import { Observable } from '@instana/observables';
-import { Link } from '@instana/components';
 
 import { teamSettingsActionCatalog, getEntityIdView } from 'in-settings/navigation/paths';
 import List, { leftHeaderWithSelectAll, TableActions } from 'in-settings/components/List';
 import Tag from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Tag';
 import { getType } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
+import RunAction from 'in-events/components/AutomationActions/RunAction';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { formatDateTime } from 'in-services/formatters/date';
 import { getAllActions } from 'in-api/automation';
+import { Event, VolatileId } from 'in-types';
 import { Action } from 'in-types';
 import { t } from 'in-i18n';
+
+import locals from './ActionTable.mless';
 
 const columnDefinitions = [
   {
@@ -30,7 +35,7 @@ const columnDefinitions = [
     label: t('in-settings:tabs.description'),
     id: 'description',
     getContent(row: Action) {
-      return row.description;
+      return <div className={locals.fourLines}>{row.description}</div>;
     }
   },
   {
@@ -61,6 +66,40 @@ const columnDefinitions = [
   }
 ];
 
+const executeColumn = (volatileId: VolatileId, event: Event | null) => ({
+  id: 'execute',
+  label: t('in-settings:tabs.execute'),
+  getContent(row: Action) {
+    const { type, fields } = row;
+    if (type === 'doc_link') {
+      const field = fields?.[0];
+      const value = field?.value;
+      return (
+        <Button kind="action" icon={'lib_views_external_link'} target="_blank" href={value} noAutoMargin>
+          {t('in-settings:tabs.launch')}
+        </Button>
+      );
+    } else if (type === 'SCRIPT') {
+      const field = fields?.[1];
+      const value = field?.value ?? '';
+      return (
+        <Button
+          kind="action"
+          icon={'lib_actions_play'}
+          onClick={() =>
+            addActiveDialog(<RunAction action={row} script={value} volatileId={volatileId} event={event} />)
+          }
+          noAutoMargin
+        >
+          {t('in-settings:tabs.run')}
+        </Button>
+      );
+    } else {
+      return <div>{t('in-settings:tabs.run')}</div>;
+    }
+  }
+});
+
 export interface ActionTableProps {
   title?: string;
   pageSize?: number;
@@ -70,6 +109,9 @@ export interface ActionTableProps {
   noDataMessage?: string;
   hiddenIds?: string[];
   getEntityName?: (action: Action) => string;
+  showExecuteColumn?: boolean | undefined;
+  volatileId?: VolatileId;
+  event?: Event | null;
 }
 
 export default function ActionTable({
@@ -78,10 +120,18 @@ export default function ActionTable({
   rightHeader,
   loadEntities = getAllActions,
   noDataMessage,
-  hiddenIds = [],
   tableActions = {},
-  getEntityName
+  hiddenIds = [],
+  getEntityName,
+  showExecuteColumn = false,
+  volatileId = {},
+  event = null
 }: ActionTableProps) {
+  let columnDefinitionsToShow = columnDefinitions;
+  if (showExecuteColumn) {
+    columnDefinitionsToShow = [...columnDefinitions, executeColumn(volatileId, event)];
+  }
+
   return (
     <List<Action>
       title={title}
@@ -90,15 +140,15 @@ export default function ActionTable({
       initialOrderBy={'name'}
       isSearchable
       loadEntities={loadEntities}
-      columnDefinitions={columnDefinitions}
+      columnDefinitions={columnDefinitionsToShow}
       getHeader={getHeader()}
       searchAttributes={['name', 'description', (entity: Action) => (entity?.tags ?? []).toString()]}
       searchPlaceholder={t('in-settings:tabs.filterActions')}
       searchMaxWidth={210}
       rightHeader={rightHeader}
       tableActions={tableActions}
-      getEntityName={getEntityName}
       extraFilters={createFilters(hiddenIds)}
+      getEntityName={getEntityName}
     />
   );
 }

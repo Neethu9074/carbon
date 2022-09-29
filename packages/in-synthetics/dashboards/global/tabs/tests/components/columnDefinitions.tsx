@@ -14,13 +14,13 @@ import { Link, SvgIcon } from '@instana/components';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 // @ts-expect-error Module needs to be translated to TS
 import { getApplicationDashboard } from 'in-applications/navigation/paths';
+// @ts-expect-error Could not find a declaration file
+import HealthDot from 'in-components/health/HealthDot';
 import ListActionsColumn from 'in-synthetics/dashboards/global/tabs/tests/components/ListActionsColumn';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { meanLatencyFixed, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { syntheticsSummaryPath, syntheticsDashboard } from 'in-synthetics/navigation/paths';
-// @ts-expect-error
-import HealthDot from 'in-components/health/HealthDot';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getChartGranularity } from 'in-stores/metric/metric';
@@ -189,7 +189,10 @@ export const columnDefinitions: ColumnDefinition<TestResultListItem, testListPro
             <HorizontalFlexWrapper>
               <SvgIcon type={'lib_synthetic_location'} />
               <div>
-                <h4 className={locals.label}>{item?.testResultCommonProperties?.locationLabel}</h4>
+                <h4 className={locals.label}>
+                  {item.testResultCommonProperties.testCommonProperties?.locationLabels &&
+                    item.testResultCommonProperties.testCommonProperties?.locationLabels[0]}
+                </h4>
                 <HealthDot severity={severity} iconSize={5} />
               </div>
             </HorizontalFlexWrapper>
@@ -199,7 +202,10 @@ export const columnDefinitions: ColumnDefinition<TestResultListItem, testListPro
             <HorizontalFlexWrapper>
               <SvgIcon type={'lib_synthetic_location'} />
               <div>
-                <h4 className={locals.label}>{item?.testResultCommonProperties?.locationLabel}</h4>
+                <h4 className={locals.label}>
+                  {item.testResultCommonProperties.testCommonProperties?.locationLabels &&
+                    item.testResultCommonProperties.testCommonProperties?.locationLabels[0]}
+                </h4>
               </div>
             </HorizontalFlexWrapper>
           );

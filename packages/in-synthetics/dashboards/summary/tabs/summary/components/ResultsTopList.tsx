@@ -175,8 +175,26 @@ function Label({ item, selectedMetric, locationsMap }: LabelProps) {
         setOrDeleteMatrixKey(
           resultDetailUrl,
           syntheticDetailsPath,
-          'start_time',
+          'startTime',
           get(item, ['metrics', 'start_time', 0, 1])
+        );
+        setOrDeleteMatrixKey(
+          resultDetailUrl,
+          syntheticDetailsPath,
+          'status',
+          get(item, ['metrics', 'status', 0, 1], 0)
+        );
+        setOrDeleteMatrixKey(
+          resultDetailUrl,
+          syntheticDetailsPath,
+          'responseTime',
+          get(item, ['metrics', 'response_time', 0, 1], 0)
+        );
+        setOrDeleteMatrixKey(
+          resultDetailUrl,
+          syntheticDetailsPath,
+          'responseSize',
+          get(item, ['metrics', 'response_size', 0, 1], 0)
         );
         return resultDetailUrl;
       })}

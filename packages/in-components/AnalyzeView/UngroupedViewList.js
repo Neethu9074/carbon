@@ -48,6 +48,7 @@ function List(props) {
     progress,
     withEmbeddedLoadingIndicator = false,
     initiallyOpenedItemIds,
+    groupKey,
     onToggleContentRow // (toogled: boolean, item: any) => void
   } = props;
   return (
@@ -56,17 +57,18 @@ function List(props) {
         <Ul space="disabled">
           {items.map(item => {
             const id = getId(item);
+            const extendedItem = { ...item, groupKey };
             return (
               <Li
                 key={generateStableHash(id)}
                 className={classNames?.listItem}
                 size="compact"
                 href={withoutListItemLinkToDetails ? undefined : getHrefToDetailId(id, groupLabel)}
-                renderNestedContent={renderNestedContent ? () => renderNestedContent(id, item) : undefined}
+                renderNestedContent={renderNestedContent ? () => renderNestedContent(id, extendedItem) : undefined}
                 initiallyOpen={initiallyOpenedItemIds.includes(id)}
-                tracking={{ onToggleContentRow: toggled => onToggleContentRow(toggled, item) }}
+                tracking={{ onToggleContentRow: toggled => onToggleContentRow(toggled, extendedItem) }}
               >
-                <ColumnizedContent columnDefinitions={columnDefinitions} {...item} {...props} />
+                <ColumnizedContent columnDefinitions={columnDefinitions} {...extendedItem} {...props} />
               </Li>
             );
           })}
