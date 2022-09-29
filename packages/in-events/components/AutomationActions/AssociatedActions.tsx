@@ -6,6 +6,8 @@
 
 import React from 'react';
 
+import { t } from '@instana/i18n-react';
+
 import ActionTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionTable';
 import { getCustomEventActions, getBuiltinEventActions } from 'in-api/eventSpecifications';
 import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
@@ -21,7 +23,7 @@ export default function AssociatedActions({ event, volatileId }: Props) {
   const observable = isCustom ? getCustomEventActions : getBuiltinEventActions;
   return (
     <div>
-      <EventSpecificationLink event={event} />
+      <EventSpecificationLink buttonText={t('in-events:setAssociations')} event={event} />
       <ActionTable
         showExecuteColumn
         event={event}
