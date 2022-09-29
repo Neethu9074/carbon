@@ -93,7 +93,8 @@ export default function GroupedAnalyzeView(props) {
     chartedMetrics,
     groupingTagCatalog,
     Chart,
-    customLatencyUiFormatterName
+    customLatencyUiFormatterName,
+    CustomHeaderActions
   } = props;
   const timeConfig = useTimeConfig();
   const fields = [...fixedFields, ...selectableFields];
@@ -293,7 +294,7 @@ export default function GroupedAnalyzeView(props) {
               onMetricRemoved: ({ metric, aggregation }) => ua2MetricRemovedTracker({ dataSource, metric, aggregation })
             }}
             renderHistoricDataIndicator={resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE'}
-            CustomHeaderActions={getHeaderActions}
+            CustomHeaderActions={CustomHeaderActions || getHeaderActions}
           />
           {hasItems && (
             <Ul>
