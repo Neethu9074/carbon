@@ -49,10 +49,10 @@ export const timestampColumn = {
 export const centerAlignedLinkColumn = {
   id: 'linkIcon',
   width: '2.5rem',
-  getContent({ itemId, time, initialLogLines }: LinkButtonProps) {
+  getContent({ itemId, time, initialLogLines, groupKey }: LinkButtonProps) {
     return (
       <div className={locals.centeredCopyButtonWrapper}>
-        <LinkButton itemId={itemId} time={time} initialLogLines={initialLogLines} />
+        <LinkButton itemId={itemId} time={time} initialLogLines={initialLogLines} groupKey={groupKey} />
       </div>
     );
   }

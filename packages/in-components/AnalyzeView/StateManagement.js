@@ -244,6 +244,7 @@ function AnalyzeStateManagement({
   const groupBy = useStableObjectInstance(urlState.groupBy);
   const detailId = useStableObjectInstance(urlState.detailId);
   const selectedId = useStableObjectInstance(urlState.selectedId);
+  const selectedGroup = useStableObjectInstance(urlState.selectedGroup);
   const initialLogLines = useStableObjectInstance(urlState.initialLogLines);
   const selectableFields = useStableObjectInstance(urlState.fields ?? defaultSelectableFields);
   // charts should be shown, even if not explicitly selected
@@ -417,6 +418,7 @@ function AnalyzeStateManagement({
     filteringTagCatalog: filteringTagCatalogResult.data,
     isGrouped,
     groupBy,
+    selectedGroup,
     onGroupByChange: groupBy => onChange({ groupBy }),
     getHrefToUngroupedView(groupValue) {
       return getChangeAsUrl({

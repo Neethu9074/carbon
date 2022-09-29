@@ -61,6 +61,13 @@ export function createParameters(path: string) {
       parser: buildJsonParser(null)
     },
 
+    selectedGroup: {
+      path,
+      name: 'selectedGroup',
+      serializer: buildJsonSerializer(),
+      parser: buildJsonParser(null)
+    },
+
     initialLogLines: {
       path,
       name: 'initialLogLines',

@@ -299,9 +299,11 @@ export default function GroupedAnalyzeView(props) {
             <Ul>
               {items.map((item, index) => {
                 const label = getLabel(item);
+                const key = `${label}-${index}`;
                 return (
                   <Li
-                    key={`${label}-${index}`}
+                    initiallyOpen={props.selectedGroup === key}
+                    key={key}
                     toggleContentOnRowClick
                     renderNestedContent={() => {
                       const formModelForUnGroupedView = addGroupingCriteriaToFormModel(
@@ -335,6 +337,7 @@ export default function GroupedAnalyzeView(props) {
                           withEmbeddedApproximateDataIndicator
                           Chart={null}
                           Sidebar={null}
+                          groupKey={key}
                         />
                       );
                     }}
