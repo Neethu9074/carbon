@@ -20,6 +20,7 @@ export interface Role {
   id: string;
   canSeeInternalTags: boolean;
   canConfigureServiceLevelIndicators: boolean;
+  canConfigureCustomAlerts: boolean;
 }
 
 export interface User {

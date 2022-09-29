@@ -80,7 +80,7 @@ export function KubernetesEventContent({ event, timeConfig }) {
               <ProblemDescription event={event} className="in-event-view-event-content" />
             )}
             <DescriptionButtons>
-              <EventSpecificationLink event={event} />
+              <EventSpecificationLink event={event.toJS()} />
               <AnalyzeIssueCallsButton event={event} />
             </DescriptionButtons>
           </Card>
