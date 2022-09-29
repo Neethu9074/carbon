@@ -68,7 +68,7 @@ const columnDefinitions = [
 
 const executeColumn = (volatileId: VolatileId, event: Event | null) => ({
   id: 'execute',
-  label: 'Execute',
+  label: t('in-settings:tabs.execute'),
   getContent(row: Action) {
     const { type, fields } = row;
     if (type === 'doc_link') {
