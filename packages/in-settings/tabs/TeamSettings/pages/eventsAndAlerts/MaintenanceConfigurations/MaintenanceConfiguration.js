@@ -123,7 +123,8 @@ function save(config, form) {
   // the query field might not exist in case 'Apply on ALL' is selected,
   // which corresponds to an empty query
   const query = getQueryFromFormField(form);
-  const isNew = config && config.get('name') && config.get('name') === 'New Maintenance Configuration';
+  const isNew =
+    config && config.get('name') && config.get('name') === t('in-settings:api.newMaintenanceWindowDefaultName');
 
   submitMaintenanceWindowTracker({
     isNew,

@@ -9,6 +9,7 @@ import { generateUniqueShortId } from '@instana/utils';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import http from 'in-services/http';
+import { t } from 'in-i18n';
 
 export function getMaintenanceConfigs() {
   return getMaintenanceConfigsMutable().map(fromJS);
@@ -50,7 +51,12 @@ export function deleteMaintenanceConfig(id) {
   }).map(response => fromJS(response.body));
 }
 
-export function createMaintenanceConfig(id, name = 'New Maintenance Configuration', query = '', windows = []) {
+export function createMaintenanceConfig(
+  id,
+  name = t('in-settings:api.newMaintenanceWindowDefaultName'),
+  query = '',
+  windows = []
+) {
   return {
     id: id || generateUniqueShortId(),
     name,
