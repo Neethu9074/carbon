@@ -190,8 +190,8 @@ export const columnDefinitions: ColumnDefinition<TestResultListItem, testListPro
               <SvgIcon type={'lib_synthetic_location'} />
               <div>
                 <h4 className={locals.label}>
-                  {item.testResultCommonProperties.testCommonProperties?.locationLabels &&
-                    item.testResultCommonProperties.testCommonProperties?.locationLabels[0]}
+                  {item.testResultCommonProperties.testCommonProperties?.locationDisplayLabels &&
+                    item.testResultCommonProperties.testCommonProperties?.locationDisplayLabels[0]}
                 </h4>
                 <HealthDot severity={severity} iconSize={5} />
               </div>
@@ -203,8 +203,8 @@ export const columnDefinitions: ColumnDefinition<TestResultListItem, testListPro
               <SvgIcon type={'lib_synthetic_location'} />
               <div>
                 <h4 className={locals.label}>
-                  {item.testResultCommonProperties.testCommonProperties?.locationLabels &&
-                    item.testResultCommonProperties.testCommonProperties?.locationLabels[0]}
+                  {item.testResultCommonProperties.testCommonProperties?.locationDisplayLabels &&
+                    item.testResultCommonProperties.testCommonProperties?.locationDisplayLabels[0]}
                 </h4>
               </div>
             </HorizontalFlexWrapper>
