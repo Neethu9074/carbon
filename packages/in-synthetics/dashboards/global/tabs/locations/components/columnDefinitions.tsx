@@ -33,6 +33,18 @@ export const columnDefinitions = [
     }
   },
   {
+    id: 'location_label',
+    sortable: false,
+    label: t('in-synthetics:dashboard.locationList.locationDisplayLabel'),
+    getContent(item: LocationListItem) {
+      return (
+        <div>
+          <h4 className={locals.label}>{item.displayLabel}</h4>
+        </div>
+      );
+    }
+  },
+  {
     id: 'status',
     label: t('in-synthetics:dashboard.locationList.status'),
     sortable: false,

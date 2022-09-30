@@ -129,6 +129,7 @@
     },
     "locationList": {
       "locationLabel": "Location Name",
+      "locationDisplayLabel": "Display Name",
       "status": "Status",
       "type": "Type",
       "totalTests": "No. of Tests Linked",
