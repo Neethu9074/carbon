@@ -84,6 +84,7 @@ export function ActionsSelection({ form, setForm }) {
         tableActions={actionSelectionTableActions(form, setForm)}
         pageSize={10}
         rightHeader={RightHeader}
+        showEventLink
       />
       <TouchedMessages field={form.get('selectedActions')} />
       <Spacer vertical="large" />

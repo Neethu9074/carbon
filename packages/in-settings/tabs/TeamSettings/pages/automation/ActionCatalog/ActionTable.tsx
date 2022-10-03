@@ -25,13 +25,6 @@ import locals from './ActionTable.mless';
 
 const columnDefinitions = [
   {
-    label: t('in-settings:tabs.name'),
-    id: 'name',
-    getContent(row: Action) {
-      return <Link href$={getEntityIdView(teamSettingsActionCatalog, row.id)}>{row.name}</Link>;
-    }
-  },
-  {
     label: t('in-settings:tabs.description'),
     id: 'description',
     getContent(row: Action) {
@@ -100,6 +93,18 @@ const executeColumn = (volatileId: VolatileId, event: Event | null) => ({
   }
 });
 
+const nameColumn = (eventLink: boolean) => ({
+  label: t('in-settings:tabs.name'),
+  id: 'name',
+  getContent(row: Action) {
+    if (eventLink) {
+      return <Link href$={getEntityIdView(teamSettingsActionCatalog, row.id)}>{row.name}</Link>;
+    } else {
+      return <div>{row.description}</div>;
+    }
+  }
+});
+
 export interface ActionTableProps {
   title?: string;
   pageSize?: number;
@@ -112,6 +117,7 @@ export interface ActionTableProps {
   showExecuteColumn?: boolean | undefined;
   volatileId?: VolatileId;
   event?: Event | null;
+  showEventLink?: boolean | undefined;
 }
 
 export default function ActionTable({
@@ -125,11 +131,12 @@ export default function ActionTable({
   getEntityName,
   showExecuteColumn = false,
   volatileId = {},
+  showEventLink = false,
   event = null
 }: ActionTableProps) {
-  let columnDefinitionsToShow = columnDefinitions;
+  let columnDefinitionsToShow = [nameColumn(showEventLink), ...columnDefinitions];
   if (showExecuteColumn) {
-    columnDefinitionsToShow = [...columnDefinitions, executeColumn(volatileId, event)];
+    columnDefinitionsToShow = [...columnDefinitionsToShow, executeColumn(volatileId, event)];
   }
 
   return (

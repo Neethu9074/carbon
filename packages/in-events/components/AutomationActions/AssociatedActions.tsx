@@ -26,6 +26,7 @@ export default function AssociatedActions({ event, volatileId }: Props) {
       <EventSpecificationLink buttonText={t('in-events:setAssociations')} event={event} />
       <ActionTable
         showExecuteColumn
+        showEventLink
         event={event}
         volatileId={volatileId}
         loadEntities={() => observable(eventSpecificationId)}
