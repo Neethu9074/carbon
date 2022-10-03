@@ -334,13 +334,14 @@ function getGroups({ timeConfig, backendQueryModel, group, cursor, type, order, 
     groupBy: [group],
     type,
     metrics: Object.fromEntries(
-      metrics.flatMap(({ metric, aggregation }) => [
+      metrics.flatMap(({ metric, aggregation, crossSeriesAggregation }) => [
         [
           getMetricKey(metric, aggregation),
           {
             metric,
             granularity,
-            aggregation
+            aggregation,
+            crossSeriesAggregation
           }
         ]
       ])

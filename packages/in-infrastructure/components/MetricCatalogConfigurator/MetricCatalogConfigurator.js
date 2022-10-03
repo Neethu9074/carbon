@@ -69,7 +69,8 @@ MetricCatalogConfigurator.propTypes = {
   values: PropTypes.arrayOf(
     PropTypes.shape({
       metric: PropTypes.string.isRequired,
-      aggregation: PropTypes.oneOf(Object.keys(aggregationLabels)).isRequired
+      aggregation: PropTypes.oneOf(Object.keys(aggregationLabels)).isRequired,
+      crossSeriesAggregation: PropTypes.oneOf(Object.keys(aggregationLabels))
     })
   ).isRequired,
   tracking: PropTypes.shape(trackingProps),
