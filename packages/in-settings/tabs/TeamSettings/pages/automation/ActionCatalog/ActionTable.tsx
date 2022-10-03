@@ -117,7 +117,7 @@ export interface ActionTableProps {
   showExecuteColumn?: boolean | undefined;
   volatileId?: VolatileId;
   event?: Event | null;
-  showEventLink?: boolean | undefined;
+  showActionLink?: boolean | undefined;
 }
 
 export default function ActionTable({
@@ -131,10 +131,10 @@ export default function ActionTable({
   getEntityName,
   showExecuteColumn = false,
   volatileId = {},
-  showEventLink = false,
+  showActionLink = false,
   event = null
 }: ActionTableProps) {
-  let columnDefinitionsToShow = [nameColumn(showEventLink), ...columnDefinitions];
+  let columnDefinitionsToShow = [nameColumn(showActionLink), ...columnDefinitions];
   if (showExecuteColumn) {
     columnDefinitionsToShow = [...columnDefinitionsToShow, executeColumn(volatileId, event)];
   }
