@@ -216,7 +216,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
             </Sections>
           )}
 
-          {isValid && isInitPage && (
+          {!isInvalid && isInitPage && (
             <EntityList
               backendQueryModel={backendQueryModel}
               timeConfig={timeConfig}
@@ -237,7 +237,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
             </Message>
           )}
 
-          {isValid && !isInitPage && !group?.groupbyTag && (
+          {!isInvalid && !isInitPage && !group?.groupbyTag && (
             <InfrastructureList
               backendQueryModel={backendQueryModel}
               timeConfig={timeConfig}
@@ -261,7 +261,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
             />
           )}
 
-          {isValid && !isInitPage && group?.groupbyTag && (
+          {!isInvalid && !isInitPage && group?.groupbyTag && (
             <GroupedInfrastructure
               tagFilterExpression={tagFilterExpression}
               backendQueryModel={backendQueryModel}
