@@ -93,14 +93,14 @@ const executeColumn = (volatileId: VolatileId, event: Event | null) => ({
   }
 });
 
-const nameColumn = (eventLink: boolean) => ({
+const nameColumn = (showActionLink: boolean) => ({
   label: t('in-settings:tabs.name'),
   id: 'name',
   getContent(row: Action) {
-    if (eventLink) {
+    if (showActionLink) {
       return <Link href$={getEntityIdView(teamSettingsActionCatalog, row.id)}>{row.name}</Link>;
     } else {
-      return <div>{row.description}</div>;
+      return <div>{row.name}</div>;
     }
   }
 });
