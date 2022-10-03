@@ -22,6 +22,7 @@ import { Options } from 'in-hooks/useUrlState';
 
 export const pathSegment = '/synthetics';
 export const matrixPrefix = '';
+export const getOperation = 'GET';
 
 export const dummyLocations = {
   data: [],
@@ -141,8 +142,8 @@ export interface TestResultLog {
 }
 
 export interface FilterProps {
-  filter: { query: string };
-  setFilter: (a: { query: string }) => void;
+  filter: { query: string; type: string };
+  setFilter: (a: { query: string; type: string }) => void;
 }
 
 export interface PoPInstallationPropertiesResponse {

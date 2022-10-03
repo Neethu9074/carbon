@@ -205,6 +205,12 @@
       "successResult": "Successful",
       "failedResult": "Failed",
       "searchFilter": "Search",
+      "typesFilter": "Types",
+      "typesFilterValues": {
+        "getType": "GET",
+        "allType": "All",
+        "othersType": "Other"
+      },
       "subtransactionBody": {
         "contentType": "Content type",
         "size": "Size",
