@@ -3,14 +3,22 @@
  * (c) Copyright Instana Inc.
  */
 
-import { fromJS } from 'immutable';
+import { Result, AgentSnapshot, TimeConfig } from 'in-types';
 
 import createSubscription from 'in-subscription/subscription';
 
-export default createSubscription({
-  eventId: 'getAgentSnapshotsInTimeframe',
+interface IN {
+  timeConfig: TimeConfig;
+  query: string;
+}
 
-  transform(observable) {
-    return observable.map(fromJS);
-  }
+interface Data {
+  offline: AgentSnapshot[];
+  online: AgentSnapshot[];
+}
+
+type OUT = Result<Data>;
+
+export default createSubscription<IN, OUT>({
+  eventId: 'getAgentSnapshotsInTimeframe'
 });
