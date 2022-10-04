@@ -87,6 +87,7 @@ export function getLinkToAnalyze({
   serviceName,
   endpointName,
   boundaryScope = boundaryScopes.inbound,
+  contextScope,
   jumpToSource,
   dataSource = 'calls',
   groupBy,
@@ -147,7 +148,7 @@ export function getLinkToAnalyze({
             name: SERVICE.name,
             value: serviceName,
             operator: operators.EQUALS,
-            entity: entityTypes.DESTINATION
+            entity: contextScope === 'DOWNSTREAM' ? entityTypes.SOURCE : entityTypes.DESTINATION
           }
         ]
       });

@@ -4,6 +4,7 @@
  */
 
 import React, { Fragment } from 'react';
+import { get } from 'lodash';
 
 import { Button } from '@instana/components';
 
@@ -13,14 +14,29 @@ import { joinExpressions } from 'in-components/QueryBuilder/transformation/formM
 import { CONTAINS, EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getTechnologyComboBoxItems } from 'in-applications/technologyRegistry';
 import { getEndpointTypesComboBoxItems } from 'in-applications/endpointTypes';
+import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
+import getApplication from 'in-applications/subscriptions/getApplication';
 import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import ComboBox from 'in-components/ComboBox';
+import connect from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 import locals from './Filters.mless';
 
-export default function Filters({
+export default connect(({ applicationId, serviceId }) => {
+  const observables = {};
+  if (applicationId) {
+    observables.applicationName = getApplication({ id: applicationId }).map(getLabel);
+    observables.boundaryScope = getApplication({ id: applicationId }).map(getBoundaryScope);
+  }
+  if (serviceId) {
+    observables.serviceName = getServiceLabel({ id: serviceId }).map(getLabel);
+  }
+
+  return observables;
+})(Filters);
+function Filters({
   endpointTypes,
   restrictedEndpointTypes,
   technologies,
@@ -28,6 +44,7 @@ export default function Filters({
   setFilter,
   buttonLabel,
   applicationName,
+  contextScope,
   serviceName,
   endpointName,
   boundaryScope,
@@ -87,6 +104,7 @@ export default function Filters({
           dataSource: 'calls',
           groupBy,
           boundaryScope,
+          contextScope,
           formModel: joinExpressions({ expressions: [queryFilter, endpointFilters, technologyFilters] })
         })}
       >
@@ -110,4 +128,12 @@ export default function Filters({
       />
     </Fragment>
   );
+}
+
+function getLabel(result) {
+  return get(result, ['data', 'label'], null);
+}
+
+function getBoundaryScope(result) {
+  return get(result, ['data', 'boundaryScope'], null);
 }
