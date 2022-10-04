@@ -11,6 +11,8 @@ import classNames from 'classnames';
 import { Button, Link } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
+// import { pendingResult } from 'in-services/fixedObjects';
+import Select from 'in-components/form/Select/Select';
 import { DescriptionItem, DescriptionList } from 'in-components/DescriptionList/DescriptionList';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';

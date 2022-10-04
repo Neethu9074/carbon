@@ -3,9 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Result, AgentSnapshot, TimeConfig } from 'in-types';
-
 import createSubscription from 'in-subscription/subscription';
+import { Result, AgentSnapshot, TimeConfig } from 'in-types';
 
 interface IN {
   timeConfig: TimeConfig;
@@ -17,7 +16,7 @@ interface Data {
   online: AgentSnapshot[];
 }
 
-type OUT = Result<Data>;
+export type OUT = Result<Data>;
 
 export default createSubscription<IN, OUT>({
   eventId: 'getAgentSnapshotsInTimeframe'
