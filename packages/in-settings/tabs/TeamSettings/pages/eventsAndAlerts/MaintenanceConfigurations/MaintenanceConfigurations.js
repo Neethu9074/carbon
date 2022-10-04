@@ -13,9 +13,13 @@ import {
   teamSettingsAlertingMaintenanceConfigurations,
   teamSettingsAlertingMaintenanceConfigurationNew
 } from 'in-settings/navigation/paths';
+import {
+  editMaintenanceWindowTracker,
+  newMaintenanceWindowTracker,
+  removeMaintenanceWindowTracker
+} from 'in-settings/tracker';
 import { getMaintenanceConfigsMutable, deleteMaintenanceConfig } from 'in-api/maintenanceConfiguration';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
-import { removeMaintenanceWindowTracker } from 'in-settings/tracker';
 import { formatDateTime } from 'in-services/formatters/date';
 import { toTitleCase } from 'in-services/util/string';
 import WithIcon from 'in-components/WithIcon';
@@ -37,6 +41,7 @@ export default function MaintenanceWindows() {
       initialOrderBy="name"
       labelNew={t('in-settings:tabs.scheduleMaintenanceWindow')}
       pathNew={teamSettingsAlertingMaintenanceConfigurationNew}
+      trackEvent={newMaintenanceWindowTracker}
       searchAttributes={['name', 'query', getStartAsString, getEndAsString, 'status']}
       getDetailsHref={entity => getEntityHref(teamSettingsAlertingMaintenanceConfigurations, entity.id)}
     />
@@ -50,7 +55,10 @@ const columnDefinitions = [
     getContent(entity) {
       return (
         <Tooltip content={entity.name} align="topLeft" delay={500}>
-          <Link href$={getEntityIdView(teamSettingsAlertingMaintenanceConfigurations, entity.id)}>
+          <Link
+            href$={getEntityIdView(teamSettingsAlertingMaintenanceConfigurations, entity.id)}
+            onClick={editMaintenanceWindowTracker}
+          >
             <WithIcon icon="lib_actions_build_outline" iconColor={theme.lib.colors.primary2} ellipsis>
               {entity.name}
             </WithIcon>

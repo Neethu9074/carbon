@@ -10,12 +10,6 @@ import React from 'react';
 import { SvgIcon } from '@instana/components';
 
 import {
-  cancelMaintenanceWindowTracker,
-  editMaintenanceWindowTracker,
-  newMaintenanceWindowTracker,
-  submitMaintenanceWindowTracker
-} from 'in-settings/tracker';
-import {
   createMaintenanceConfig,
   createMaintenanceWindow,
   getMaintenanceConfig,
@@ -24,6 +18,7 @@ import {
 import MaintenanceConfigurationForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurationForm';
 import { queryValidationResultValidator, queryValidationInProgressValidator, valid } from 'in-settings/validation';
 import { applicationIdsToDfq, parseQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
+import { cancelMaintenanceWindowTracker, submitMaintenanceWindowTracker } from 'in-settings/tracker';
 import { teamSettingsAlertingMaintenanceConfigurations } from 'in-settings/navigation/paths';
 import { formatTime, formatDate, parseDateTime } from 'in-services/formatters/date';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -177,13 +172,6 @@ function createForm(config, isCreate) {
   //const applyOn = isCreate || isNotBlank(query) ? 'dfq' : 'all';
 
   const { applyOn, applicationIds } = isCreate ? { applyOn: 'dfq', applicationIds: [] } : parseQuery(query);
-
-  //mixpanel tracking
-  if (isCreate) {
-    newMaintenanceWindowTracker();
-  } else {
-    editMaintenanceWindowTracker();
-  }
 
   let form = createMapForm()
     .put(
