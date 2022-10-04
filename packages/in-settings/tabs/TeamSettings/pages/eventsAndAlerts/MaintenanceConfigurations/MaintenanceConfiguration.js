@@ -54,7 +54,7 @@ export default function MaintenanceConfiguration(props) {
       createForm={config => createForm(config, !entityId)}
       getEntityFromApi={getMaintenanceConfig}
       openEntities={() => goToPath(teamSettingsAlertingMaintenanceConfigurations)}
-      saveEntity={save}
+      saveEntity={(config, form) => save(config, form, !entityId)}
     />
   );
 }
@@ -115,7 +115,7 @@ const Form = entityForm(function MaintenanceForm(props) {
   );
 });
 
-function save(config, form) {
+function save(config, form, isNew) {
   const window = form.get('window');
   const windowStart = getTime(window.get('start'));
   const windowEnd = getTime(window.get('end'));
@@ -123,8 +123,6 @@ function save(config, form) {
   // the query field might not exist in case 'Apply on ALL' is selected,
   // which corresponds to an empty query
   const query = getQueryFromFormField(form);
-  const isNew =
-    config && config.get('name') && config.get('name') === t('in-settings:api.newMaintenanceWindowDefaultName');
 
   submitMaintenanceWindowTracker({
     isNew,
