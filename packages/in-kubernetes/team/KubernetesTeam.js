@@ -7,40 +7,29 @@ import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 
-import exploreK8sMansoorInTeam from '../subscriptions/exploreK8sMansoorInTeam';
-import exploreK8sNateInTeam from '../subscriptions/exploreK8sNateInTeam';
-import { Col, Row } from '../../in-components/layout/Grid';
-import TeamMember from './TeamMember';
+import exploreK8sMansoorInTeam from 'in-kubernetes/subscriptions/exploreK8sMansoorInTeam';
+import exploreK8sNateInTeam from 'in-kubernetes/subscriptions/exploreK8sNateInTeam';
+import { Col, Row } from 'in-components/layout/Grid';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 
 export const mainCols = 12;
 
 export default function KubernetesTeam() {
+  const timeConfig = useTimeConfig();
   // Adding Nate
-  const nateStartingEpoch = 1558089743; // Start date in Epoch
-  const nateTimeConfig = {
-    to: nateStartingEpoch,
-    focusedMoment: nateStartingEpoch,
-    windowSize: 600000
-  };
-  const nateResult = useObservable(exploreK8sNateInTeam({ timeConfig: nateTimeConfig }), []);
+  const nateResult = useObservable(exploreK8sNateInTeam({ timeConfig }), [timeConfig]);
   const nateData = nateResult?.data;
 
   // Add Mansoor
-  const mansoorStartingEpoch = 1621248143; // Start date in Epoch
-  const mansoorTimeConfig = {
-    to: mansoorStartingEpoch,
-    focusedMoment: mansoorStartingEpoch,
-    windowSize: 600000
-  };
-  const mansoorResult = useObservable(exploreK8sMansoorInTeam({ timeConfig: mansoorTimeConfig }), []);
+  const mansoorResult = useObservable(exploreK8sMansoorInTeam({ timeConfig }), [timeConfig]);
   const mansoorData = mansoorResult?.data;
 
   return (
     <div>
       <Row>
         <Col md={mainCols}>
-          {nateData && <TeamMember {...nateData} />}
-          {mansoorData && <TeamMember {...mansoorData} />}
+          {nateData && <p> {nateData.name} </p>}
+          {mansoorData && <p> {mansoorData.name} </p>}
         </Col>
       </Row>
     </div>
