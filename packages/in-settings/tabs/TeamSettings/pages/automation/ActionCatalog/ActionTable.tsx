@@ -121,7 +121,7 @@ export interface ActionTableProps {
 }
 
 export default function ActionTable({
-  title = 'in-settings:tabs.action_plural',
+  title = t('in-settings:tabs.action_plural'),
   pageSize = 20,
   rightHeader,
   loadEntities = getAllActions,
@@ -160,7 +160,7 @@ export default function ActionTable({
 }
 
 function getHeader(title: string) {
-  return leftHeaderWithSelectAll(t(title), false, {});
+  return leftHeaderWithSelectAll(title, false, {});
 }
 
 function createFilters(ids: string[]): Array<(action: Action) => boolean> {

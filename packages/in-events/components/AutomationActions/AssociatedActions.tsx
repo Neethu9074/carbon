@@ -25,7 +25,7 @@ export default function AssociatedActions({ event, volatileId }: Props) {
   return (
     <div>
       <ActionTable
-        title="in-events:associatedActions"
+        title={t('in-events:associatedActions')}
         showExecuteColumn
         showActionLink
         event={event}
