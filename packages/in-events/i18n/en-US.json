@@ -8,7 +8,6 @@
   "associatedActions": "Associated Actions",
   "yes": "Yes",
   "ok": "Ok",
-  "setAssociations": "Set Associations",
   "actionSensorTimeout": "Could not handle the backend request. Check your agent configuration to make sure the Action sensor is installed.",
   "chosenToRun": "You have chosen {{actionName}} from your Action Catalog.",
   "failedToInitiate": "{{actionName}} failed to initiate.",
