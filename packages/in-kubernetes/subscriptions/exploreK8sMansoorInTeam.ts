@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import { KubernetesExploreQuery } from './exploreKubernetes';
+import { KubernetesExploreQuery } from 'in-kubernetes/subscriptions/exploreKubernetes';
 import createSubscription from 'in-subscription/subscription';
 import { Result } from 'in-types';
 
