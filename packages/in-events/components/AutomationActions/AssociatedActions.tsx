@@ -8,7 +8,11 @@ import React from 'react';
 
 import ActionTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionTable';
 import { getCustomEventActions, getBuiltinEventActions } from 'in-api/eventSpecifications';
+import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
 import { Event, VolatileId } from 'in-types';
+import { t } from 'in-i18n';
+
+import locals from './AssociatedActions.mless';
 
 interface Props {
   event: Event;
@@ -25,6 +29,13 @@ export default function AssociatedActions({ event, volatileId }: Props) {
         showExecuteColumn
         showActionLink
         event={event}
+        rightHeader={
+          <EventSpecificationLink
+            className={locals.setAssocationMargin}
+            buttonText={t('in-events:setAssociations')}
+            event={event}
+          />
+        }
         volatileId={volatileId}
         loadEntities={() => observable(eventSpecificationId)}
       />
