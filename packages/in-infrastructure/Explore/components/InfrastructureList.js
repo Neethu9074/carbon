@@ -6,6 +6,8 @@
 import rpt from 'prop-types';
 import React from 'react';
 
+import { Message } from '@instana/components';
+
 import MetricCatalogAndSortingConfigurator from 'in-infrastructure/components/MetricCatalogAndSortingConfigurator/MetricCatalogAndSortingConfigurator';
 import { trackingProps as metricConfiguratorTrackingProps } from 'in-infrastructure/components/MetricCatalogConfigurator/MetricCatalogConfigurator';
 import { average, getGranularity, getMetricKey } from 'in-infrastructure/Explore/services/metrics';
@@ -84,6 +86,12 @@ export default function InfrastructureList({
           onQueryChange={onQueryChange}
         />
       )}
+
+      {hasErrors && (
+        <Message type="error" withIcon small>
+          {getErrorMessage(errors[0].message)}
+        </Message>
+      )}
       <CursorPaginatedTable
         columnDefinitions={columnDefinitions}
         numSkeletonRows={numSkeletonRows}
@@ -102,6 +110,12 @@ export default function InfrastructureList({
       />
     </>
   );
+}
+
+function getErrorMessage(err) {
+  if (err.includes('more than the maximum number of groups')) {
+    return t('in-infrastructure:explore.errors.maximumNumberOfGroups');
+  }
 }
 
 function getTableData({ timeConfig, retrievalSize, backendQueryModel, type, order, metrics, cursor }) {
