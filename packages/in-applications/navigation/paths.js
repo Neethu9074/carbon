@@ -135,7 +135,7 @@ export function getLinkToAnalyze({
               name: APPLICATION.name,
               value: applicationName,
               operator: operators.EQUALS,
-              entity: entityTypes.DESTINATION
+              entity: contextScope === 'DOWNSTREAM' ? entityTypes.SOURCE : entityTypes.DESTINATION
             };
       extendingFormModel = joinExpressions({ expressions: [extendingFormModel, applicationFilter] });
     }
