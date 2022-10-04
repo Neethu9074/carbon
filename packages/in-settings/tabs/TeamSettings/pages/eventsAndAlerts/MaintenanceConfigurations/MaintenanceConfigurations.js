@@ -57,7 +57,7 @@ const columnDefinitions = [
         <Tooltip content={entity.name} align="topLeft" delay={500}>
           <Link
             href$={getEntityIdView(teamSettingsAlertingMaintenanceConfigurations, entity.id)}
-            onClick={editMaintenanceWindowTracker}
+            onClick={() => editMaintenanceWindowTracker()}
           >
             <WithIcon icon="lib_actions_build_outline" iconColor={theme.lib.colors.primary2} ellipsis>
               {entity.name}
