@@ -21,7 +21,7 @@ const tableActions = {
 export default function ActionCatalog() {
   return (
     <ActionTable
-      title={t('in-settings:tabs.actionCatalog')}
+      title={'in-settings:tabs.actionCatalog'}
       noDataMessage={t('in-settings:tabs.noActions')}
       getEntityName={(action: Action) => t('in-settings:tabs.actionWithNameForDelete', { actionName: action.name })}
       tableActions={tableActions}

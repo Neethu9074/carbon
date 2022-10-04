@@ -121,7 +121,7 @@ export interface ActionTableProps {
 }
 
 export default function ActionTable({
-  title,
+  title = 'in-settings:tabs.action_plural',
   pageSize = 20,
   rightHeader,
   loadEntities = getAllActions,
@@ -141,14 +141,13 @@ export default function ActionTable({
 
   return (
     <List<Action>
-      title={title}
       noDataMessage={noDataMessage}
       pageSize={pageSize}
       initialOrderBy={'name'}
       isSearchable
       loadEntities={loadEntities}
       columnDefinitions={columnDefinitionsToShow}
-      getHeader={getHeader()}
+      getHeader={getHeader(title)}
       searchAttributes={['name', 'description', (entity: Action) => (entity?.tags ?? []).toString()]}
       searchPlaceholder={t('in-settings:tabs.filterActions')}
       searchMaxWidth={210}
@@ -160,8 +159,8 @@ export default function ActionTable({
   );
 }
 
-function getHeader() {
-  return leftHeaderWithSelectAll(t('in-settings:tabs.action_plural'), false, {});
+function getHeader(title: string) {
+  return leftHeaderWithSelectAll(t(title), false, {});
 }
 
 function createFilters(ids: string[]): Array<(action: Action) => boolean> {

@@ -175,7 +175,7 @@ const EventContent = connectTo(
         {actionAutomationEnabled && role.canConfigureAutomationActions && isIssue && hasEventSpec && (
           <Row withoutSideMargin>
             <Col xs>
-              <Card title={t('in-events:associatedActions')}>
+              <Card>
                 <AssociatedActions volatileId={snapshot?.get('volatileId') ?? {}} event={event.toJS()} />
               </Card>
             </Col>
