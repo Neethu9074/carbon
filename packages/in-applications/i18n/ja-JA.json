@@ -123,6 +123,7 @@
   "helpOptional": "(オプション)",
   "messageSuccessfullySaved": "正常に保存されました。",
   "messageErrorOccurred": "エラーが発生しました。再試行してください。",
+  "messageWaitForChanges": "変更が適用されるまでしばらく時間がかかる場合があります。",
   "linkViewAllServices": "すべてのサービスを表示",
   "linkViewAllEndpoints": "すべてのエンドポイントを表示",
   "lineViewInAnalyze": "分析で表示",

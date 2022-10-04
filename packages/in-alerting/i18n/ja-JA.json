@@ -501,7 +501,10 @@
         "labelConfirmRemoveConfig": "アラート<strong>{{configName}}</strong>を削除しますか？",
         "labelRemove": "削除",
         "numberOfApplicationsSelected": "{{count}} 件のアプリケーションが選択されています",
-        "numberOfApplicationsSelected_plural": "{{count}} 件のアプリケーションが選択されています"
+        "numberOfApplicationsSelected_plural": "{{count}} 件のアプリケーションが選択されています",
+        "numberOfApplicationsSelected_0": "{{count}} 件のアプリケーションが選択されています",
+        "numberOfApplicationsSelected_1": "{{count}} 件のアプリケーションが選択されています",
+        "numberOfApplicationsSelected_2": "{{count}} 件のアプリケーションが選択されています"
       },
       "details": {
         "title": "アラート詳細",
@@ -562,6 +565,9 @@
         "alertChannelSelectTypeTitle": "アラート・チャネルのタイプ",
         "addChannel": "{{count}} 個のチャネルを追加",
         "addChannel_plural": "{{count}} 個のチャネルを追加",
+        "addChannel_0": "{{count}} 個のチャネルの追加",
+        "addChannel_1": "{{count}} 個のチャネルの追加",
+        "addChannel_2": "{{count}} 個のチャネルの追加",
         "add": "追加",
         "scopeConfigTitleWithApplications": "アプリケーション/サービス/エンドポイントの選択",
         "scopeConfigTitle": "サービス/エンドポイントの選択",
@@ -675,6 +681,7 @@
         "migrationModeWarning": "このカスタム・イベントをスマート・アラートに移行すると、無効になります。 後でイベントを再度有効にすることはできません。"
       },
       "userInfo": {
+        "linkText": "スマート・アラートの表示",
         "success": {
           "create": {
             "alert": {
@@ -701,21 +708,33 @@
         "websites": {
           "title": "Web サイト",
           "description0": "アラートを設定するには、アラートの設定対象である Web サイトに移動し、右下の「スマート・アラートの追加」ボタンをクリックしてください。",
-          "stats": "現在、$t(in-alerting:smartAlerts.components.alertsHub.websites.websites, {\"count\": {{websites}} })に $t(in-alerting:smartAlerts.components.alertsHub.websites.alerts, {\"count\": {{alerts}} }) があります。",
+          "stats": "現在、$t(in-alerting:smartAlerts.components.alertsHub.websites.alerts, {\"count\": {{alerts}} }) が $t(in-alerting:smartAlerts.components.alertsHub.websites.websites, {\"count\": {{websites}} }) にあります。",
           "alerts": "{{count}} 個の Web サイト・スマート・アラート",
           "alerts_plural": "{{count}} 個の Web サイト・スマート・アラート",
+          "alerts_0": "{{count}} 個の Web サイト・スマート・アラート",
+          "alerts_1": "{{count}} 個の Web サイト・スマート・アラート",
+          "alerts_2": "{{count}} 個の Web サイト・スマート・アラート",
           "websites": "{{count}} 個の Web サイト",
           "websites_plural": "{{count}} 個の Web サイト",
+          "websites_0": "{{count}} 個の Web サイト",
+          "websites_1": "{{count}} 個の Web サイト",
+          "websites_2": "{{count}} 個の Web サイト",
           "button0": "Web サイト"
         },
         "applications": {
           "title": "アプリケーション",
           "description0": "スマート・アラートは、特定のアプリケーションのみを対象に設定することも、複数のアプリケーションを対象に設定することもできます。",
-          "stats": "現在、$t(in-alerting:smartAlerts.components.alertsHub.applications.gsa, {\"count\": {{globalSmartAlerts}} })および $t(in-alerting:smartAlerts.components.alertsHub.applications.rsa, {\"count\": {{smartAlerts}} })があります。",
+          "stats": "現在、$t(in-alerting:smartAlerts.components.alertsHub.applications.gsa, {\"count\": {{globalSmartAlerts}} }) および $t(in-alerting:smartAlerts.components.alertsHub.applications.rsa, {\"count\": {{smartAlerts}} }) があります。",
           "gsa": "{{count}} 個のグローバル・スマート・アラート",
           "gsa_plural": "{{count}} 個のグローバル・スマート・アラート",
+          "gsa_0": "{{count}} 個のグローバル・スマート・アラート",
+          "gsa_1": "{{count}} 個のグローバル・スマート・アラート",
+          "gsa_2": "{{count}} 個のグローバル・スマート・アラート",
           "rsa": "{{count}} 個の通常スマート・アラート",
           "rsa_plural": "{{count}} 個の通常スマート・アラート",
+          "rsa_0": "{{count}} 個の通常スマート・アラート",
+          "rsa_1": "{{count}} 個の通常スマート・アラート",
+          "rsa_2": "{{count}} 個の通常スマート・アラート",
           "button0": "スマート・アラート"
         },
         "infrastructure": {
@@ -723,11 +742,17 @@
           "description0": "インフラストラクチャーとプラットフォームのアラートでは、2 ステップ・ワークフローが使用されます。",
           "description1": "1) 特定の条件に対してイベントが定義されます。 組み込みイベントを使用するか、または独自のカスタム・イベントを作成できます。",
           "description2": "2) 特定のイベントが発生するとアラートが通知されます。",
-          "stats": "現在、$t(in-alerting:smartAlerts.components.alertsHub.infrastructure.events, {\"count\": {{events}} })および $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.alerts, {\"count\": {{alerts}} })があります。",
+          "stats": "現在、$t(in-alerting:smartAlerts.components.alertsHub.infrastructure.events, {\"count\": {{events}} }) および $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.alerts, {\"count\": {{alerts}} }) があります。",
           "events": "{{count}} 件のカスタム・イベント",
           "events_plural": "{{count}} 件のカスタム・イベント",
+          "events_0": "{{count}} 件のカスタム・イベント",
+          "events_1": "{{count}} 件のカスタム・イベント",
+          "events_2": "{{count}} 件のカスタム・イベント",
           "alerts": "{{count}} 個のアラート",
           "alerts_plural": "{{count}} 個のアラート",
+          "alerts_0": "{{count}} 個のアラート",
+          "alerts_1": "{{count}} 個のアラート",
+          "alerts_2": "{{count}} 個のアラート",
           "button0": "アラート",
           "button1": "イベント"
         }

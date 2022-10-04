@@ -43,6 +43,7 @@
     "errorDescription": "오류"
   },
   "snapshot": {
+    "unknownLabel": "알 수 없음",
     "registryHealth": "상태",
     "runtimeLabelNet": ".NET Core",
     "runtimeLabelGo": "Go",

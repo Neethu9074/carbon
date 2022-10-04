@@ -572,7 +572,7 @@
         "thousandCallsFormat": "{{count}} chiamate"
       },
       "widgetLeftHeader": {
-        "previewDataInfo": "Se la configurazione SLI è stata creata di recente, viene visualizzata un'anteprima dei dati mostrati nei 7 giorni precedenti. Il widget finale includerà solo i dati dalla creazione SLI."
+        "previewDataInfo": "I dati di anteprima vengono mostrati solo fino a 7 giorni in passato. Il widget finale includerà solo i dati dalla creazione SLI."
       },
       "boundaryScopeConfigurator": {
         "all": {
@@ -590,7 +590,9 @@
       "chart": {
         "metricLabel": "Apdex",
         "viewInAnalyze": "Visualizza in Analizza",
-        "noDataRetentionPeriod": "L'intervallo di tempo selezionato è oltre il periodo di conservazione dei dati"
+        "noDataRetentionPeriod": "L'intervallo di tempo selezionato è oltre il periodo di conservazione dei dati",
+        "notFoundErrorTitle": "Apdex configurato non è stato trovato",
+        "notFoundErrorDescription": "Si prega di aggiornare il widget Apdex selezionando un'altra configurazione Apdex"
       },
       "demo": {
         "title": "Apdex for Prod",
@@ -644,13 +646,16 @@
         "apdexCreateFailedTitle": "Impossibile creare la configurazione Apdex.",
         "apdexCreateFailedContent": "Si è verificato un problema durante la creazione di questa configurazione Apdex: \"{{apdexName}}\"",
         "apdexNameNotEmpty": "Il nome Apdex non può essere vuoto.",
-        "thresholdNotEmpty": "La soglia non può essere vuota.",
-        "nameExistsError": "Una configurazione Apdex con questo nome esiste già. Immettere un nome diverso."
+        "nameExistsError": "Una configurazione Apdex con questo nome esiste già. Immettere un nome diverso.",
+        "limitReachedError": {
+          "website": "È stato raggiunto il numero massimo di configurazioni apdex del sito web ({{0}}). Si prega di contattare l'assistenza Instana per richiedere un aumento per questo limite.",
+          "application": "È stato raggiunto il numero massimo di configurazioni apdex delle applicazioni ({{0}}). Si prega di contattare l'assistenza Instana per richiedere un aumento per questo limite."
+        },
+        "editConfigNotice": "La configurazione non può essere modificata dopo la creazione per impedire la perdita di dati."
       },
       "createWebsiteApdexForm": {
         "thresholdHeader": "Configurazione soglia",
-        "thresholdLabel": "Soglia",
-        "thresholdFooter": "La soglia non può essere modificata dopo la creazione per impedire la perdita di dati."
+        "thresholdLabel": "Soglia"
       },
       "entityInfo": {
         "tooltip": "Apdex sconosciuto",
@@ -660,7 +665,7 @@
       "widget": {
         "unknownEntityLabel_application": "Applicazione sconosciuta",
         "unknownEntityLabel_website": "Sito sconosciuto",
-        "previewDataInfo": "I dati di anteprima vengono mostrati fino a 7 giorni nel passato se la configurazione Apdex è stata creata di recente. Il widget finale includerà solo i dati dalla creazione di Apdex."
+        "previewDataInfo": "I dati di anteprima vengono mostrati per gli ultimi 7 giorni. Il widget finale includerà solo i dati dalla creazione della configurazione Apdex."
       },
       "applicationScopeConfigurator": {
         "label": "Ambito Apdex",

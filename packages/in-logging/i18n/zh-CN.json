@@ -27,5 +27,7 @@
   "sorting": {
     "mostRecent": "最新的放在最前面",
     "oldest": "最旧的放在最前面"
-  }
+  },
+  "cpuTotal": "CPU 总计",
+  "memoryUsage": "内存使用情况"
 }

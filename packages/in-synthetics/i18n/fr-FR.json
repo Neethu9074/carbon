@@ -87,7 +87,7 @@
       "mainLabel": "Surveillance synthétique",
       "secondaryLabels": {
         "tests": "Tests",
-        "location": "Emplacements"
+        "locations": "Emplacements"
       },
       "testLabel": "Nom",
       "status": "Statut",
@@ -109,7 +109,15 @@
       "delete": "Supprimer le test",
       "labelConfirm": "Veuillez confirmer",
       "labelConfirmRemoveTest": "Voulez-vous vraiment supprimer le test synthétique <strong>{{label}}</strong> ?",
-      "labelRemove": "Supprimer"
+      "labelRemove": "Supprimer",
+      "na": "Non disponible"
+    },
+    "locationList": {
+      "locationLabel": "Nom de l'emplacement",
+      "status": "Statut",
+      "type": "Type",
+      "totalTests": "Nbre de tests liés",
+      "lastRun": "Dernière exécution de test le"
     },
     "summary": {
       "successRate": "Taux de réussite",
@@ -198,7 +206,9 @@
       "resultsTitle": "Aucun résultat n'est disponible",
       "resultsDescription": "Aucun résultat n'a été extrait pour la période sélectionnée",
       "testSummaryTitle": "Aucun test synthétique disponible",
-      "testSummaryDescription": "Aucun test synthétique n'a été extrait de la base de données."
+      "testSummaryDescription": "Aucun test synthétique n'a été extrait de la base de données.",
+      "locationListTitle": "Aucun emplacement synthétique disponible",
+      "locationListDescription": "Aucun emplacement synthétique n'est extrait de la base de données."
     }
   }
 }

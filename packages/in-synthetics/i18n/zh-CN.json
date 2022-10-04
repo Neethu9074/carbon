@@ -87,7 +87,7 @@
       "mainLabel": "合成监视",
       "secondaryLabels": {
         "tests": "测试",
-        "location": "位置"
+        "locations": "位置"
       },
       "testLabel": "名称",
       "status": "状态",
@@ -109,7 +109,15 @@
       "delete": "删除测试",
       "labelConfirm": "请确认",
       "labelConfirmRemoveTest": "是否确定要除去合成测试 <strong>{{label}}</strong>？",
-      "labelRemove": "除去"
+      "labelRemove": "除去",
+      "na": "不适用"
+    },
+    "locationList": {
+      "locationLabel": "位置名称",
+      "status": "状态",
+      "type": "Type",
+      "totalTests": "链接的测试数",
+      "lastRun": "上次测试运行时间"
     },
     "summary": {
       "successRate": "成功率",
@@ -198,7 +206,9 @@
       "resultsTitle": "无可用结果",
       "resultsDescription": "在所选时间范围内未检索到任何结果。",
       "testSummaryTitle": "没有可用的合成测试",
-      "testSummaryDescription": "未从数据库检索到任何合成测试。"
+      "testSummaryDescription": "未从数据库检索到任何合成测试。",
+      "locationListTitle": "没有可用的合成位置",
+      "locationListDescription": "没有从数据库中检索到合成位置。"
     }
   }
 }

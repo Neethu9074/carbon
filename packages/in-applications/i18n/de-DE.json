@@ -123,6 +123,7 @@
   "helpOptional": "(optional)",
   "messageSuccessfullySaved": "Erfolgreich gespeichert.",
   "messageErrorOccurred": "Es ist ein Fehler aufgetreten. Versuchen Sie es erneut.",
+  "messageWaitForChanges": "Es kann einige Zeit dauern, bis Ihre Änderungen wirksam werden.",
   "linkViewAllServices": "Alle Services anzeigen",
   "linkViewAllEndpoints": "Alle Endpunkte anzeigen",
   "lineViewInAnalyze": "In Analyse anzeigen",

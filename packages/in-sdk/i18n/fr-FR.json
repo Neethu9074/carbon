@@ -43,6 +43,7 @@
     "errorDescription": "Erreur"
   },
   "snapshot": {
+    "unknownLabel": "Inconnu",
     "registryHealth": "Intégrité",
     "runtimeLabelNet": ".NET Core",
     "runtimeLabelGo": "Exécuter",

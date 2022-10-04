@@ -27,5 +27,7 @@
   "sorting": {
     "mostRecent": "Le plus récent en premier",
     "oldest": "Les plus anciens en premier"
-  }
+  },
+  "cpuTotal": "Total UC",
+  "memoryUsage": "Utilisation de la mémoire"
 }

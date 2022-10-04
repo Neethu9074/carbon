@@ -27,5 +27,7 @@
   "sorting": {
     "mostRecent": "新しい順",
     "oldest": "古い順"
-  }
+  },
+  "cpuTotal": "CPU 合計",
+  "memoryUsage": "メモリー使用量"
 }
