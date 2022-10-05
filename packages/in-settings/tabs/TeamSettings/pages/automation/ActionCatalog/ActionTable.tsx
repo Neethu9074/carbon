@@ -121,7 +121,7 @@ export interface ActionTableProps {
 }
 
 export default function ActionTable({
-  title = t('in-settings:tabs.action_plural'),
+  title = t('in-settings:tabs.actions'),
   pageSize = 20,
   rightHeader,
   loadEntities = getAllActions,
