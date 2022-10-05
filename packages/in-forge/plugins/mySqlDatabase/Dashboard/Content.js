@@ -148,11 +148,17 @@ export default function MySqlDashboard({ snapshot, timeConfig }) {
           timeConfig={timeConfig}
           y1={{
             min: 0,
-            metrics: ['status.THREADS_CONNECTED', 'status.MAX_USED_CONNECTIONS', 'status.ABORTED_CONNECTS'],
+            metrics: [
+              'status.THREADS_CONNECTED',
+              'status.MAX_USED_CONNECTIONS',
+              'status.ABORTED_CONNECTS',
+              'status.CONNECTION_ERRORS_MAX_CONNECTIONS'
+            ],
             labels: [
               t('in-forge:plugins.mySqlDatabase.threadsCconnected'),
               t('in-forge:plugins.mySqlDatabase.maxUsedConnections'),
-              t('in-forge:plugins.mySqlDatabase.abortedConnects')
+              t('in-forge:plugins.mySqlDatabase.abortedConnects'),
+              t('in-forge:plugins.mySqlDatabase.connectionErrorsMaxConnections')
             ],
             type: 'line',
             formatter: number.compact
@@ -200,6 +206,38 @@ export default function MySqlDashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
+
+      <Columize>
+        <DashboardSection title={t('in-forge:plugins.mySqlDatabase.rowLocks')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['status.INNODB_ROW_LOCK_CURRENT_WAITS'],
+              labels: [t('in-forge:plugins.mySqlDatabase.innoDbRowLockCurrentWaits')],
+              formatter: number.compact,
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+
+        <DashboardSection title={t('in-forge:plugins.mySqlDatabase.rowLocksTime')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['status.INNODB_ROW_LOCK_TIME_AVG'],
+              labels: [t('in-forge:plugins.mySqlDatabase.innoDbRowLockTimeAvg')],
+              formatter: millis.detailed,
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      </Columize>
 
       <Columize>
         <DashboardSection title={t('in-forge:plugins.mySqlDatabase.bufferMemory')}>
