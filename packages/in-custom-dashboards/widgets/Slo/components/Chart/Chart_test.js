@@ -8,7 +8,7 @@ import React from 'react';
 
 import { Message } from '@instana/components';
 
-import PostChartContent from 'in-custom-dashboards/widgets/Slo/components/Chart/PostChartContent';
+import ChartMarkerLanes from 'in-custom-dashboards/widgets/Slo/components/ChartMarkerLanes/ChartMarkerLanes';
 import { getTagCatalog as getWebsiteTagCatalog } from 'in-websites/api/tagCatalog';
 import Chart from 'in-custom-dashboards/widgets/Slo/components/Chart/Chart';
 import { getApplicationTagCatalog } from 'in-applications/api/catalog';
@@ -182,7 +182,11 @@ describe('in-custom-dashboards/widgets/Slo/Chart', () => {
     const wrapper = shallow(<Chart {...defaultProps} sliConfig={sliConfig} timeConfig={timeConfig} />);
 
     // Then
-    expect(wrapper.find(Message).prop('title')).toEqual(t('in-custom-dashboards:widgets.slo.chart.missingDataInfo'));
+    expect(wrapper.find(Message).prop('title')).toEqual(
+      t('in-custom-dashboards:widgets.slo.chart.missingDataInfo', {
+        configType: t('in-custom-dashboards:widgets.slo.chart.configType')
+      })
+    );
   });
 
   it('does not render a missing data info message when the sli was created within the configured timeWindow, but the result is loading', () => {
@@ -233,7 +237,11 @@ describe('in-custom-dashboards/widgets/Slo/Chart', () => {
     const wrapper = shallow(<Chart {...defaultProps} sliConfig={sliConfig} timeConfig={timeConfig} />);
 
     // Then
-    expect(wrapper.find(Message).prop('title')).toEqual(t('in-custom-dashboards:widgets.slo.chart.missingDataInfo'));
+    expect(wrapper.find(Message).prop('title')).toEqual(
+      t('in-custom-dashboards:widgets.slo.chart.missingDataInfo', {
+        configType: t('in-custom-dashboards:widgets.slo.chart.configType')
+      })
+    );
   });
 
   it('does not render a missing data info message when the sli was created outside the configured timeWindow and live mode is enabled', () => {
@@ -253,7 +261,7 @@ describe('in-custom-dashboards/widgets/Slo/Chart', () => {
     expect(wrapper.containsMatchingElement(<Message />)).toBeFalsy();
   });
 
-  it('renders the sli PostChartContent when the sli was created within the configured timeWindow', () => {
+  it('renders the sli ChartMarkerLanes when the sli was created within the configured timeWindow', () => {
     // Given
     const sliConfig = {
       sliEntity: { sliType: 'availability' },
@@ -263,20 +271,20 @@ describe('in-custom-dashboards/widgets/Slo/Chart', () => {
 
     // When
     const wrapper = shallow(<Chart {...defaultProps} sliConfig={sliConfig} timeConfig={timeConfig} />);
-    const RenderPostChartContent = wrapper.find(ResultAwareChart).prop('config').renderPostChartContent;
+    const RenderChartMarkerLanes = wrapper.find(ResultAwareChart).prop('config').renderPostChartContent;
     const postChartContentWrapper = shallow(
-      <RenderPostChartContent timeConfig={timeConfig} chartContentPosition={'post'} />
+      <RenderChartMarkerLanes timeConfig={timeConfig} chartContentPosition={'post'} />
     );
 
     // Then
     expect(
       postChartContentWrapper.containsMatchingElement(
-        <PostChartContent sliConfig={sliConfig} timeConfig={timeConfig} chartContentPosition={'post'} />
+        <ChartMarkerLanes tooltipContent={null} timeConfig={timeConfig} chartContentPosition={'post'} />
       )
     ).toBeTruthy();
   });
 
-  it('does not render the sli PostChartContent when the sli was created within the configured timeWindow, but the result is loading', () => {
+  it('does not render the sli ChartMarkerLanes when the sli was created within the configured timeWindow, but the result is loading', () => {
     // Given
     const result = pendingResult;
     const sliConfig = {
@@ -287,20 +295,20 @@ describe('in-custom-dashboards/widgets/Slo/Chart', () => {
 
     // When
     const wrapper = shallow(<Chart {...defaultProps} result={result} sliConfig={sliConfig} timeConfig={timeConfig} />);
-    const RenderPostChartContent = wrapper.find(ResultAwareChart).prop('config').renderPostChartContent;
+    const RenderChartMarkerLanes = wrapper.find(ResultAwareChart).prop('config').renderPostChartContent;
     const postChartContentWrapper = shallow(
-      <RenderPostChartContent timeConfig={timeConfig} chartContentPosition={'post'} />
+      <RenderChartMarkerLanes timeConfig={timeConfig} chartContentPosition={'post'} />
     );
 
     // Then
     expect(
       postChartContentWrapper.containsMatchingElement(
-        <PostChartContent sliConfig={sliConfig} timeConfig={timeConfig} chartContentPosition={'post'} />
+        <ChartMarkerLanes tooltipContent={null} timeConfig={timeConfig} chartContentPosition={'post'} />
       )
     ).toBeFalsy();
   });
 
-  it('does not render the sli PostChartContent when the sli was created within the configured timeWindow, but isPreview is true', () => {
+  it('does not render the sli ChartMarkerLanes when the sli was created within the configured timeWindow, but isPreview is true', () => {
     // Given
     const isPreview = true;
     const sliConfig = {
@@ -313,15 +321,15 @@ describe('in-custom-dashboards/widgets/Slo/Chart', () => {
     const wrapper = shallow(
       <Chart {...defaultProps} nonInteractive={isPreview} sliConfig={sliConfig} timeConfig={timeConfig} />
     );
-    const RenderPostChartContent = wrapper.find(ResultAwareChart).prop('config').renderPostChartContent;
+    const RenderChartMarkerLanes = wrapper.find(ResultAwareChart).prop('config').renderPostChartContent;
     const postChartContentWrapper = shallow(
-      <RenderPostChartContent timeConfig={timeConfig} chartContentPosition={'post'} />
+      <RenderChartMarkerLanes timeConfig={timeConfig} chartContentPosition={'post'} />
     );
 
     // Then
     expect(
       postChartContentWrapper.containsMatchingElement(
-        <PostChartContent sliConfig={sliConfig} timeConfig={timeConfig} chartContentPosition={'post'} />
+        <ChartMarkerLanes tooltipContent={null} timeConfig={timeConfig} chartContentPosition={'post'} />
       )
     ).toBeFalsy();
   });

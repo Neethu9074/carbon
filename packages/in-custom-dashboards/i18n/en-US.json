@@ -503,8 +503,10 @@
         "spent": "Spent",
         "budget": "Budget",
         "viewInAnalyze": "View in Analyze",
-        "initialEvaluation": "SLI created",
-        "missingDataInfo": "The time of creation for this SLI is within the displayed time range. Data prior to the SLI's creation will be missing."
+        "configType": "SLI",
+        "configType_apdex": "Apdex",
+        "initialEvaluation": "{{configType}} created",
+        "missingDataInfo": "The time of creation for this {{configType}} is within the displayed time range. Data prior to the {{configType}} creation will be missing."
       },
       "formComponent": {
         "sliManagement": "SLI Management",

@@ -3,11 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
+import {
+  renderMissingDataIndicator,
+  timeWindowIncludesFirstCollectionTimestamp
+} from 'in-custom-dashboards/widgets/Slo/renderer/missingDataIndicator';
 import { RenderConfig, RenderProps, Renderer } from 'in-components/Chart/renderer/types';
 import { drawPoint } from 'in-components/Chart/renderer/point';
 import { ScaleType } from 'in-services/scale';
-import { TimeConfig } from 'in-types';
-import theme from 'in-themes';
 
 export const hourlyBudgetMetricId = 'hourlyBudget';
 
@@ -124,7 +126,7 @@ function generateVertices(
   return lineVertices;
 }
 
-function getLineWidth(config: RenderConfig) {
+export function getLineWidth(config: RenderConfig) {
   return config.y1?.lineWidth ?? 2;
 }
 
@@ -156,30 +158,6 @@ function fillTopBackground(
   config.backBufferCtx.lineTo(startVertex[0], markerPaneHeight);
   config.backBufferCtx.closePath();
   config.backBufferCtx.fill();
-  config.backBufferCtx.restore();
-}
-
-function timeWindowIncludesFirstCollectionTimestamp(
-  firstCollectionTimestamp: number,
-  timeConfig?: TimeConfig
-): boolean {
-  const start = (timeConfig?.to ?? 0) - (timeConfig?.windowSize ?? 0);
-  return start < firstCollectionTimestamp;
-}
-
-function renderMissingDataIndicator(config: RenderConfig, endTimestamp: number) {
-  config.backBufferCtx.save();
-
-  config.backBufferCtx.fillStyle = theme.lib.colors.N300;
-
-  const borderWidth = getLineWidth(config) * 0.5;
-  const endX = config.xScaleBackBuffer.getRange(endTimestamp);
-  const startY = config.markerPaneHeight - borderWidth;
-  const height = config.height - config.markerPaneHeight - config.timeAxisHeight + borderWidth;
-
-  config.backBufferCtx.fillRect(0, startY, endX, height);
-  config.backBufferCtx.lineTo(0, endX);
-
   config.backBufferCtx.restore();
 }
 

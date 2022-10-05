@@ -8,13 +8,16 @@ import React from 'react';
 
 import { ApdexConfiguration, TagCatalog } from '@instana/types';
 import { Error, Progress, TimeConfig } from '@instana/types';
+import { Message, Stack } from '@instana/components';
 
+import useShouldShowMissingDataIndicator from 'in-custom-dashboards/widgets/Slo/hooks/useShouldShowMissingDataIndicator';
 import useApdexWidgetContextMenu from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexWidgetContextMenu';
 import WidgetHeader from 'in-custom-dashboards/widgets/Apdex/components/WidgetHeader';
 import WidgetCard from 'in-custom-dashboards/widgets/Apdex/components/WidgetCard';
 import ApdexChart from 'in-custom-dashboards/widgets/Apdex/components/ApdexChart';
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
 import { MetricDataSeries } from 'in-components/Chart/types';
+import { t } from 'in-i18n';
 
 interface ApdexWidgetProps {
   title: string;
@@ -55,6 +58,13 @@ export default function ApdexWidget({
 }: ApdexWidgetProps) {
   const contextMenu = useApdexWidgetContextMenu({ apdexConfig, tagCatalog });
 
+  const showMissingDataIndicators = useShouldShowMissingDataIndicator({
+    initialEvaluationTimestamp: apdexConfig?.createdAt,
+    progress,
+    timeConfig,
+    nonInteractive
+  });
+
   return (
     <WidgetCard
       dragHandle={dragHandle}
@@ -70,17 +80,38 @@ export default function ApdexWidget({
         />
       }
     >
-      <ApdexChart
-        metrics={metrics}
-        errors={errors}
-        progress={progress}
-        granularity={granularity}
-        timeConfig={timeConfig}
-        nonInteractive={nonInteractive}
-        contextMenu={contextMenu}
-        automaticallySize={automaticallySize}
-        height={height}
-      />
+      <Stack
+        direction="vertical"
+        component={({ children, style, props }) => (
+          <div {...props} style={{ height: '100%', ...style }}>
+            {children}
+          </div>
+        )}
+      >
+        <ApdexChart
+          apdexConfig={apdexConfig}
+          metrics={metrics}
+          errors={errors}
+          progress={progress}
+          granularity={granularity}
+          timeConfig={timeConfig}
+          showMissingDataIndicators={showMissingDataIndicators}
+          nonInteractive={nonInteractive}
+          contextMenu={contextMenu}
+          automaticallySize={automaticallySize}
+          height={height}
+        />
+        {showMissingDataIndicators && (
+          <Message
+            title={t('in-custom-dashboards:widgets.slo.chart.missingDataInfo', {
+              configType: t('in-custom-dashboards:widgets.slo.chart.configType', { context: 'apdex' })
+            })}
+            withIcon
+            dismissible
+            small
+          />
+        )}
+      </Stack>
     </WidgetCard>
   );
 }

@@ -5,18 +5,17 @@
 
 import React, { ForwardedRef, forwardRef } from 'react';
 
-import { SliCreationMarkerLaneEvent } from 'in-custom-dashboards/widgets/Slo/components/Chart/SliCreationMarkerLane';
+import { LaneItemProps, MarkerLaneEvent } from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
 import SingleMarkerLaneItem from 'in-components/Chart/markerLanes/MarkerLane/SingleMarkerLaneItem';
-import { LaneItemProps } from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
 import LaneIcon from 'in-components/Chart/markerLanes/MarkerLane/LaneIcon';
 import theme from 'in-themes';
 
 export default forwardRef(function SliCreationMarkerLaneItem(
-  props: LaneItemProps<SliCreationMarkerLaneEvent>,
+  props: LaneItemProps<MarkerLaneEvent>,
   ref: ForwardedRef<HTMLDivElement>
 ) {
   return (
-    <SingleMarkerLaneItem<SliCreationMarkerLaneEvent>
+    <SingleMarkerLaneItem<MarkerLaneEvent>
       ref={ref}
       renderMarkerItem={p => (
         <LaneIcon
