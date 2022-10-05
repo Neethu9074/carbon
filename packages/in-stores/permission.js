@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { actionAutomationEnabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -137,20 +138,25 @@ function getProductPermissions() {
       category: t('in-stores:permissionCanConfigureGlobalAlertConfigsCategory')
     },
     /* Automation */
-    {
-      keyForGroupApi: 'CAN_CONFIGURE_AUTOMATION_ACTIONS',
-      keyForApiTokenApi: 'canConfigureAutomationActions',
-      label: t('in-stores:permissionCanConfigureAutomationActionsLabel'),
-      description: t('in-stores:permissionCanConfigureAutomationActionsDescription'),
-      category: t('in-stores:permissionCanConfigureAutomationActionsCategory')
-    },
-    {
-      keyForGroupApi: 'CAN_RUN_AUTOMATION_ACTIONS',
-      keyForApiTokenApi: 'canRunAutomationActions',
-      label: t('in-stores:permissionCanRunAutomationActionsLabel'),
-      description: t('in-stores:permissionCanRunAutomationActionsDescription'),
-      category: t('in-stores:permissionCanRunAutomationActionsCategory')
-    },
+    ...(actionAutomationEnabled
+      ? [
+          /* Automation */
+          {
+            keyForGroupApi: 'CAN_CONFIGURE_AUTOMATION_ACTIONS',
+            keyForApiTokenApi: 'canConfigureAutomationActions',
+            label: t('in-stores:permissionCanConfigureAutomationActionsLabel'),
+            description: t('in-stores:permissionCanConfigureAutomationActionsDescription'),
+            category: t('in-stores:permissionCanConfigureAutomationActionsCategory')
+          },
+          {
+            keyForGroupApi: 'CAN_RUN_AUTOMATION_ACTIONS',
+            keyForApiTokenApi: 'canRunAutomationActions',
+            label: t('in-stores:permissionCanRunAutomationActionsLabel'),
+            description: t('in-stores:permissionCanRunAutomationActionsDescription'),
+            category: t('in-stores:permissionCanRunAutomationActionsCategory')
+          }
+        ]
+      : []),
     /* Custom Dashboards */
     {
       keyForGroupApi: 'CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS',
