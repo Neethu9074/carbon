@@ -77,7 +77,9 @@ export default function BuiltinEvent(props) {
       entityId={entityId}
       createDefaultEntity={createCustomThresholdBasedEventSpecification}
       createForm={event => createBuiltinEventFormDefinition(event)}
-      getEntityFromApi={mergeResultData}
+      getEntityFromApi={
+        role.canConfigureAutomationActions && actionAutomationEnabled ? mergeResultData : getBuiltInEventSpecification
+      }
       openEntities={() => goToPath(teamSettingsAlertingEvents)}
       saveEntity={(_, form) => save(form)}
     />
