@@ -205,6 +205,9 @@ function getMetricColumns({ metrics, sortable, metricMetadatas }) {
       defaultDisabled: !isKpi,
       headCellProps: { className: locals.metricLabel },
       getContent(item) {
+        if (metric === 'count') {
+          return <span>1</span>;
+        }
         const kpi = average(item.metrics[id]);
         return <span>{(kpi && formatter && formatter(kpi)) || '--'}</span>;
       }
