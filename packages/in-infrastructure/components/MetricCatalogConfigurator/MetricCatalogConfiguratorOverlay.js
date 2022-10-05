@@ -37,6 +37,12 @@ export default function MetricCatalogConfiguratorOverlay({
     }
   }, [form]);
 
+  useEffect(() => {
+    if (form.size === 0 && values.length !== 0) {
+      setForm(getInitialForm(values, maximumNumberOfMetrics));
+    }
+  }, [values]);
+
   return (
     <MetricCatalogConfiguratorOverlayPresenter
       form={form}
@@ -98,7 +104,9 @@ export default function MetricCatalogConfiguratorOverlay({
         return null;
       },
 
-      items: values.map(({ metric, aggregation, crossSeriesAggregation }) => getMetricItem({metric, aggregation, crossSeriesAggregation}))
+      items: values.map(({ metric, aggregation, crossSeriesAggregation }) =>
+        getMetricItem({ metric, aggregation, crossSeriesAggregation })
+      )
     });
   }
 
