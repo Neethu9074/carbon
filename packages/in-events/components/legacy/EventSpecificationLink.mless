@@ -5,7 +5,7 @@
  */
 
 :local {
-  .setAssocationMargin {
+  .hasMarginRight {
     margin-right: 0.5rem;
   }
 }

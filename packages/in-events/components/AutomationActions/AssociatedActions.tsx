@@ -12,8 +12,6 @@ import EventSpecificationLink from 'in-events/components/legacy/EventSpecificati
 import { Event, VolatileId } from 'in-types';
 import { t } from 'in-i18n';
 
-import locals from './AssociatedActions.mless';
-
 interface Props {
   event: Event;
   volatileId: VolatileId;
@@ -30,11 +28,7 @@ export default function AssociatedActions({ event, volatileId }: Props) {
         showActionLink
         event={event}
         rightHeader={
-          <EventSpecificationLink
-            className={locals.setAssocationMargin}
-            buttonText={t('in-events:setAssociations')}
-            event={event}
-          />
+          <EventSpecificationLink hasMarginRight buttonText={t('in-events:setAssociations')} event={event} />
         }
         volatileId={volatileId}
         loadEntities={() => observable(eventSpecificationId)}
