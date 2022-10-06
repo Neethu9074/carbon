@@ -10,7 +10,7 @@
   "ok": "Ok",
   "setAssociations": "Set Associations",
   "targetAgent": "Target Agent",
-  "defaultAgent": "{{hostname}} (default)",
+  "triggeringAgent": "{{hostname}} (triggering agent)",
   "pleaseSelect": "Please select",
   "actionSensorTimeout": "Could not handle the backend request. Check your agent configuration to make sure the Action sensor is installed.",
   "chosenToRun": "You have chosen {{actionName}} from your Action Catalog.",
