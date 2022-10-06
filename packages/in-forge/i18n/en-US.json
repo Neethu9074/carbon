@@ -11267,10 +11267,8 @@
       "replicationPreloadIndexesTotal": "Replication Preload Indexes Total",
       "memberCpuHealth": "Member CPU Health",
       "slaveDelaysCount": "Slave Delays Count",
-      "optimesCount": "Optimes Count",
       "monitoredMembersCount": "Monitored Members Count",
-      "slaveDelays": "Slave Delays",
-      "optimes": "Optimes"
+      "slaveDelays": "Slave Delays"
     },
     "msiis": {
       "name": "Name",
