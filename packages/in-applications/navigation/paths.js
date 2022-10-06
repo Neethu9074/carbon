@@ -123,7 +123,7 @@ export function getLinkToAnalyze({
     let extendingFormModel = [];
     if (applicationName != null) {
       const applicationFilter =
-        boundaryScope === boundaryScopes.inbound
+        boundaryScope === boundaryScopes.inbound && !contextScope
           ? {
               type: TAG_FILTER,
               name: APPLICATION_INBOUND.name,

@@ -28,7 +28,6 @@ export default connect(({ applicationId, serviceId }) => {
   const observables = {};
   if (applicationId) {
     observables.applicationName = getApplication({ id: applicationId }).map(getLabel);
-    observables.boundaryScope = getApplication({ id: applicationId }).map(getBoundaryScope);
   }
   if (serviceId) {
     observables.serviceName = getServiceLabel({ id: serviceId }).map(getLabel);
@@ -132,8 +131,4 @@ function Filters({
 
 function getLabel(result) {
   return get(result, ['data', 'label'], null);
-}
-
-function getBoundaryScope(result) {
-  return get(result, ['data', 'boundaryScope'], null);
 }
