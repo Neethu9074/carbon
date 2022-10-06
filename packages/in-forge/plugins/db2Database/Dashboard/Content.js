@@ -13,7 +13,6 @@ import LogDiskWaitTable from 'in-forge/plugins/db2Database/Dashboard/LogDiskWait
 import DbUtilitiesTable from 'in-forge/plugins/db2Database/Dashboard/DbUtilitiesTable';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import TopQueriesTable from 'in-forge/plugins/db2Database/Dashboard//TopQueriesTable';
-import ContainersTable from 'in-forge/plugins/db2Database/Dashboard/ContainersTable';
 import DatabasesTable from 'in-forge/plugins/db2Database/Dashboard/DatabasesTable';
 import DbmConfigTable from 'in-forge/plugins/db2Database/Dashboard/DbmConfigTable';
 import LockWaitsTable from 'in-forge/plugins/db2Database/Dashboard/LockWaitsTable';
@@ -616,9 +615,6 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
 
       {data.get('databaseNames', emptyList).size > 0 && <DatabasesTable snapshot={snapshot} timeConfig={timeConfig} />}
 
-      {data.get('containerNames', emptyList).size > 0 && (
-        <ContainersTable snapshot={snapshot} timeConfig={timeConfig} />
-      )}
       <TopTotalStmtsTable snapshotId={snapshotId} snapshot={snapshot} timeConfig={timeConfig} />
       <LogDiskWaitTable snapshotId={snapshotId} snapshot={snapshot} timeConfig={timeConfig} />
       <UOWTable snapshotId={snapshotId} />

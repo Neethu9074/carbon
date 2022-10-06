@@ -240,36 +240,6 @@ export default [
     category: [t('in-forge:plugins.db2Database.log')]
   },
   {
-    metrics: [
-      getDynamicMetricMatch('containers', 'totalSize', t('in-forge:plugins.db2Database.Container')),
-      getDynamicMetricMatch('containers', 'usedSize', t('in-forge:plugins.db2Database.Container'))
-    ],
-    labels: [t('in-forge:plugins.db2Database.fileSystemSize'), t('in-forge:plugins.db2Database.fileSystemUsed')],
-    category: [t('in-forge:plugins.db2Database.containers')],
-    min: 0,
-    formatter: bytes
-  },
-  {
-    metrics: [
-      getDynamicMetricMatch('containers', 'pagesRead', t('in-forge:plugins.db2Database.Container')),
-      getDynamicMetricMatch('containers', 'pagesWritten', t('in-forge:plugins.db2Database.Container'))
-    ],
-    labels: [t('in-forge:plugins.db2Database.pagesRead'), t('in-forge:plugins.db2Database.pagesWritten')],
-    category: [t('in-forge:plugins.db2Database.containers')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metrics: [
-      getDynamicMetricMatch('containers', 'poolReadTime', t('in-forge:plugins.db2Database.Container')),
-      getDynamicMetricMatch('containers', 'poolWriteTime', t('in-forge:plugins.db2Database.Container'))
-    ],
-    labels: [t('in-forge:plugins.db2Database.poolReadTime'), t('in-forge:plugins.db2Database.poolWriteTime')],
-    category: [t('in-forge:plugins.db2Database.containers')],
-    min: 0,
-    formatter: millis
-  },
-  {
     metrics: ['topqueriesstats.topQueriesCount'],
     labels: [t('in-forge:plugins.db2Database.topQueriesCount')],
     min: 0,
