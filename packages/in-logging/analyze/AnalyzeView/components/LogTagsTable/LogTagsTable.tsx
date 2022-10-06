@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React, { forwardRef, useMemo } from 'react';
+import React, { useMemo } from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { Ul } from '@instana/components';
@@ -14,20 +14,20 @@ import { TagEntry, TagGroupHeader } from 'in-logging/analyze/AnalyzeView/compone
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import { LOG_DOCKER_SNAPSHOT_ID, logTableTags } from 'in-logging/queryBuilder';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { hasError, isLoading } from 'in-services/util/result';
 import { capitalize } from 'in-services/formatters/string';
 import { pendingResult } from 'in-services/fixedObjects';
 import { getTagCatalog } from 'in-logging/api/catalog';
+import { logsPath } from 'in-logging/navigation/paths';
 import getLog from 'in-logging/subscriptions/getLog';
+import { useScrollIntoView } from 'in-logging/hooks';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { mutateUrl } from 'in-stores/navigation';
 import { LogTag } from 'in-types';
 
-const LogTagsTable = forwardRef<HTMLElement, LogTagsTableProps>(function LogTagsTable(
-  { item, onSelectTagHref, getHrefToGroupedView }: LogTagsTableProps,
-  ref
-) {
+const LogTagsTable = ({ item, selectedId, onSelectTagHref, getHrefToGroupedView }: LogTagsTableProps) => {
   const timeConfig = useTimeConfig();
-
   const internalFilteringTagCatalogResult =
     useObservable(() => getTagCatalog({ useCase: 'FILTERING', forceIncludeInternalTags: true }), [
       getTagCatalog,
@@ -55,6 +55,14 @@ const LogTagsTable = forwardRef<HTMLElement, LogTagsTableProps>(function LogTags
 
   const logResult =
     useObservable(() => getLog({ itemId: item.itemId, requestedTags: logTableTags }), [item.itemId]) ?? pendingResult;
+
+  const scrollCondition = logResult.data && selectedId === item.itemId;
+
+  const ref = useScrollIntoView([logResult.data], scrollCondition, () => {
+    mutateUrl(location => {
+      setTimeout(() => setOrDeleteMatrixKey(location, logsPath, 'selectedId', null));
+    });
+  });
 
   if (!logResult || isLoading(logResult)) {
     return <LoadingList numSkeletonRows={5} />;
@@ -97,7 +105,7 @@ const LogTagsTable = forwardRef<HTMLElement, LogTagsTableProps>(function LogTags
       })
     : mapTags(tags);
 
-  return <Ul ref={ref}>{MappedTags}</Ul>;
-});
+  return <Ul ref={ref as React.Ref<HTMLElement>}>{MappedTags}</Ul>;
+};
 
 export default LogTagsTable;

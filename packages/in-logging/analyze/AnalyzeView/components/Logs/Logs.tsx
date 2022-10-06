@@ -35,7 +35,6 @@ import LogMessageColumn from 'in-logging/analyze/AnalyzeView/components/LogMessa
 // @ts-expect-error needs ts migration
 import UngroupedViewList from 'in-components/AnalyzeView/UngroupedViewList';
 import { GetDataParams, HeaderActionProps, LogsProps } from 'in-logging/analyze/AnalyzeView/components/Logs/types';
-import { ScrollIntoView } from 'in-logging/analyze/AnalyzeView/components/ScrollIntoView';
 import { LogTagsTable } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable';
 import { TAG } from 'in-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
@@ -105,26 +104,14 @@ export default function Logs(props: LogsProps) {
     return getTableData(params);
   };
 
-  const renderNestedContent = (_: unknown, item: LogItem) =>
-    scrollIntoViewIfSelected(
-      ref => (
-        <LogTagsTable
-          ref={ref}
-          item={item}
-          onSelectTagHref={onSelectTagHref}
-          getHrefToGroupedView={getHrefToGroupedView}
-        />
-      ),
-      item.itemId === props.selectedId
-    );
-
-  function scrollIntoViewIfSelected(renderElement: (ref: React.Ref<HTMLElement>) => JSX.Element, selected: boolean) {
-    if (selected && !selectedWasOpened.current) {
-      selectedWasOpened.current = true;
-      return <ScrollIntoView renderChildren={ref => renderElement(ref)} />;
-    }
-    return renderElement(null);
-  }
+  const renderNestedContent = (_: unknown, item: LogItem) => (
+    <LogTagsTable
+      item={item}
+      selectedId={selectedId}
+      onSelectTagHref={onSelectTagHref}
+      getHrefToGroupedView={getHrefToGroupedView}
+    />
+  );
 
   let content = (
     <UngroupedViewList
