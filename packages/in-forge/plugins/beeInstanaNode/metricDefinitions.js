@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { number, bytes, nanos } from 'in-services/formatters/number';
+import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 export default [
