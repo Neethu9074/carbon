@@ -166,9 +166,14 @@
         "results": "Results",
         "linkViewAllTestResults": "View all results",
         "ok": "Success",
-        "redirection": "Redirection",
-        "clientError": "Client Error",
-        "serverError": "Server Error"
+        "created": "Created",
+        "accepted": "Accepted",
+        "forbidden": "Forbidden",
+        "notFound": "Not Found",
+        "serverError": "Server Error",
+        "badRequest": "Bad Request",
+        "badGateway": "Bad Gateway",
+        "gatewayTimeout": "Gateway Timeout"
       },
       "totalRuns": "{{totalRuns}} total runs",
       "meanLatencyFor90th": "{{meanLatencyDetail}} for 90th"

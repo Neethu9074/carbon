@@ -188,7 +188,7 @@ export default function Summary({ test }: SummaryProps) {
         )}
         {testType && (
           <Col lg={4}>
-            <ResponseStatus test={test} timeShiftConfig={timeShiftConfig} />
+            <ResponseStatus test={test} />
           </Col>
         )}
       </Row>
