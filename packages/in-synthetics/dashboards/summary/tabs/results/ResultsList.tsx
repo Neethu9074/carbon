@@ -147,11 +147,11 @@ interface ResultListProps {
 export default function ResultsList({ test }: ResultListProps) {
   const timeConfig = useTimeConfig();
   const location = useLocation();
-  const locationLabels = test.data?.locationLabels || [];
+  const locationDisplayLabels = test.data?.locationDisplayLabels || [];
   const locations = test.data?.locations || [];
   locationsMap =
-    locationLabels.length === locations.length
-      ? buildLocationsMap(locations, locationLabels)
+    locationDisplayLabels.length === locations.length
+      ? buildLocationsMap(locations, locationDisplayLabels)
       : new Map<string, string>();
   testId = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
 
