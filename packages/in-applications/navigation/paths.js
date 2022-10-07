@@ -122,6 +122,7 @@ export function getLinkToAnalyze({
 
     let extendingFormModel = [];
     if (applicationName != null) {
+      //boundary scope is ignored when context scope is present
       const applicationFilter =
         boundaryScope === boundaryScopes.inbound && !contextScope
           ? {
