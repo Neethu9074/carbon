@@ -20,7 +20,8 @@
 
   .scrollWrapper {
     grid-area: content;
-    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
 
   .minStableHeight {
