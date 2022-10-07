@@ -895,6 +895,9 @@
     "whatIsYourRole": "What is your role?",
     "roleMissing": "Role missing"
   },
+  "api": {
+    "newMaintenanceWindowDefaultName": "New Maintenance Configuration"
+  },
   "settings": "Settings",
   "pleaseDefineAValidQuery": "Please define a valid query",
   "queryValidationStillInProgress": "Query validation still in progress",
