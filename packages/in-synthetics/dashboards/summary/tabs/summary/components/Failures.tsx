@@ -49,15 +49,15 @@ export default function Failures({ test, timeShiftConfig }: Props) {
 
 function renderChart(test: TestResponse, timeShiftConfig: TimeShift) {
   const locations: string[] = get(test, ['data', 'locations']);
-  const locationLabels: string[] = get(test, ['data', 'locationLabels']);
+  const locationDisplayLabels: string[] = get(test, ['data', 'locationDisplayLabels']);
   const id = get(test, ['data', 'id']);
 
   let tagFilters = [];
   let testMetricConfigs: Metric[] = [];
-  var locationLabel: string;
+  var locationDisplayLabel: string;
   let colors = [];
   for (let i = 0; i < locations.length; i++) {
-    locationLabel = `${locationLabels[i]}`;
+    locationDisplayLabel = `${locationDisplayLabels[i]}`;
     tagFilters = [
       {
         stringValue: id,
@@ -82,7 +82,7 @@ function renderChart(test: TestResponse, timeShiftConfig: TimeShift) {
       tagFilters: tagFilters,
       timeShift: timeShiftConfig.offset,
       metric: 'id',
-      label: locationLabel
+      label: locationDisplayLabel
     };
 
     colors[i] = theme.lib.colors.chart.strokeColors25[i];
