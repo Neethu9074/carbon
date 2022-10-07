@@ -135,7 +135,14 @@ const Form = entityForm(function DetailsForm(props) {
       </Stack>
       <SectionLine />
 
-      {(isDeleted || isDeprecated) && <LegacyAppdataEventInfoMessage migrated={isMigrated} saved deleted={isDeleted} />}
+      {(isDeleted || isDeprecated) && (
+        <LegacyAppdataEventInfoMessage
+          migrated={isMigrated}
+          saved
+          disallowed={disallowAppDataLegacyEventsEnabled}
+          deleted={isDeleted}
+        />
+      )}
 
       {message ? (
         <Section>
