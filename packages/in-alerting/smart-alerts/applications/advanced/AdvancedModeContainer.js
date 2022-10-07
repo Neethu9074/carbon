@@ -139,7 +139,6 @@ export default function AdvancedModeContainer(props) {
                 migrationMode={migrationMode}
                 scopeMigrationDetails={scopeMigrationDetails}
                 initialConfiguredApplications={initialConfiguredApplications}
-                thresholdType={thresholdType}
               />
             </>
           )
