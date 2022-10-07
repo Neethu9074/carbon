@@ -4657,7 +4657,26 @@
         "label1m": "1m period",
         "label5m": "5m period",
         "label1h": "1h period",
-        "titlePrunedObservations": "Pruned observations"
+        "titlePrunedObservations": "Pruned observations",
+        "labelGetMetricsMaxLatency": "GetMetrics Max Latency",
+        "labelGetMetricsMinLatency": "GetMetrics Min Latency",
+        "labelGetMetricsRequestCount": "GetMetrics Request Count",
+        "labelGetMetricDataMaxLatency": "GetMetricData Max Latency",
+        "labelGetMetricDataMinLatency": "GetMetricData Min Latency",
+        "labelGetMetricDataRequestCount": "GetMetricData Request Count",
+        "labelPruneDuration10s": "Prune duration for 10s period",
+        "labelPruneDuration1m": "Prune duration for 1min period",
+        "labelPruneDuration5m": "Prune duration for 5min period",
+        "labelPruneDuration1h": "Prune duration for 1h period",
+        "labelPrunedObservations10s": "Number of pruned observations for 10s period",
+        "labelPrunedObservations1m": "Number of pruned observations for 1min period",
+        "labelPrunedObservations5m": "Number of pruned observations for 5min period",
+        "labelPrunedObservations1h": "Number of pruned observations for 1h period",
+        "labelOpenedDbs10s": "Number of opended dbs for 10s period",
+        "labelOpenedDbs1m": "Number of opended dbs for 1min period",
+        "labelOpenedDbs5m": "Number of opended dbs for 5min period",
+        "labelOpenedDbs1h": "Number of opended dbs for 1h period",
+        "labelEmergencyFlush": "Number of emergency flushes"
       }
     },
     "bizTalk": {
