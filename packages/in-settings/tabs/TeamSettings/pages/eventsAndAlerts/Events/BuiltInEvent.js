@@ -174,7 +174,7 @@ const Form = entityForm(function DetailsForm(props) {
           </Notification>
         </Section>
       ) : null}
-      {role.canConfigureAutomationActions && actionAutomationEnabled && (
+      {role.canConfigureAutomationActions && actionAutomationEnabled && !entity.get('triggering') && (
         <>
           <SectionHeading>{t('in-settings:tabs.ActionAssociations')}</SectionHeading>
           <ActionsSelection form={form} setForm={setForm} entityId={entity} />
@@ -184,7 +184,9 @@ const Form = entityForm(function DetailsForm(props) {
         form={form}
         message={message}
         loading={!entity}
-        hasSaveButton={saveEnabled && role.canConfigureAutomationActions && actionAutomationEnabled}
+        hasSaveButton={
+          saveEnabled && role.canConfigureAutomationActions && actionAutomationEnabled && !entity.get('triggering')
+        }
         isCreate={isCreate}
         listPath={teamSettingsAlertingEvents}
         cancelButtonLabel={t('in-settings:tabs.back')}

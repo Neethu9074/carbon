@@ -669,7 +669,7 @@ function EventForm({
             <TouchedMessages field={field} />
           </FormGroup>
         ))}
-      {role.canConfigureAutomationActions && actionAutomationEnabled && (
+      {role.canConfigureAutomationActions && actionAutomationEnabled && !form.get('triggering').value && (
         <>
           <SectionHeading>{t('in-settings:tabs.4ActionAssociations')}</SectionHeading>
           <ActionsSelection form={form} setForm={setForm} />
