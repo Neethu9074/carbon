@@ -37,7 +37,7 @@ const formSideEffects = [
   },
   {
     path: [entityType],
-    effects: [cleanEntityId as EffectFunction]
+    effects: [cleanEntityId as EffectFunction, clearSliConfigId as EffectFunction]
   }
 ];
 

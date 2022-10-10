@@ -63,12 +63,10 @@ export default function CreateWebsiteApdexForm({
     isQueryValid
   });
 
-  const canSave = form.hierarchyTouched && form.hierarchyValid && isFilterExpressionValid;
-
   useSetFormFooterEffect({
     form,
     formId: 'createApdexForm',
-    isDisabled: !canSave,
+    isDisabled: form.touched && (!form.hierarchyValid || !isFilterExpressionValid),
     cloneOnly: isEditing,
     isSaving,
     onCancel,
@@ -83,7 +81,7 @@ export default function CreateWebsiteApdexForm({
   return (
     <Form form={form} setForm={f => onChange([], () => f)} onSubmit={onSubmit} formId="createApdexForm">
       <Stack gap="large">
-        <EditConfigNotice />
+        {isEditing && <EditConfigNotice />}
         <Stack component="section" gap="normal">
           <Header>{t('in-custom-dashboards:widgets.apdex.createApdexForm.customizationHeader')}</Header>
           <Stack gap="xsmall">

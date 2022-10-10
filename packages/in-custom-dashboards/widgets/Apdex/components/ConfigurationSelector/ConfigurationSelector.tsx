@@ -14,6 +14,7 @@ import useApdexConfigurations from 'in-custom-dashboards/widgets/Apdex/hooks/use
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import { compareIgnoreCase } from 'in-services/util/string';
+import Section from 'in-components/workspace/Section';
 import { t } from 'in-i18n';
 
 interface ConfigurationSelectorProps {
@@ -39,12 +40,27 @@ export default function ConfigurationSelector({
   const isResolved = status === 'resolved';
   const hasSomeConfig = apdexConfigurations?.length !== 0;
   const configId = field?.value;
+  const disabled = !entityId;
+
+  const actions = (
+    <Button disabled={!entityId} kind="primary" onClick={onOpenConfigurationManager}>
+      {t('in-custom-dashboards:widgets.apdex.configurationSelector.manageConfig')}
+    </Button>
+  );
+
+  if (!disabled && isResolved && !hasSomeConfig) {
+    return (
+      <Section title={t('in-custom-dashboards:widgets.apdex.configurationSelector.label')} actions={actions}>
+        {t('in-custom-dashboards:widgets.apdex.configurationSelector.noneAvailCreateOne')}
+      </Section>
+    );
+  }
 
   return (
     <SelectInSection
       label={t('in-custom-dashboards:widgets.apdex.configurationSelector.label')}
-      disabled={!entityId}
-      value={configId}
+      disabled={disabled}
+      value={configId ?? ''}
       onChange={e => onChange(e.target.value)}
       hasError={hasError}
       additionalContent={
@@ -53,19 +69,11 @@ export default function ConfigurationSelector({
           message={t('in-custom-dashboards:widgets.apdex.configurationSelector.selectConfig')}
         />
       }
-      actions={
-        <Button disabled={!entityId} kind="primary" onClick={onOpenConfigurationManager}>
-          {t('in-custom-dashboards:widgets.apdex.configurationSelector.manageConfig')}
-        </Button>
-      }
+      actions={actions}
     >
-      {(!isResolved || hasSomeConfig) && (
-        <option>{t('in-custom-dashboards:widgets.apdex.configurationSelector.pleaseSelect')}</option>
-      )}
-
-      {isResolved && !hasSomeConfig && (
-        <option>{t('in-custom-dashboards:widgets.apdex.configurationSelector.noneAvailCreateOne')}</option>
-      )}
+      <option value="" disabled hidden>
+        {t('in-custom-dashboards:widgets.apdex.configurationSelector.pleaseSelect')}
+      </option>
 
       {isResolved &&
         [...apdexConfigurations!]

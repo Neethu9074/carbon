@@ -68,6 +68,11 @@ export default function CreateApdexForm({
 
   const apdexName = getField<string>(form, [apdexNameKey])?.value ?? '';
 
+  const onSubmit = (submittedForm: Item) => {
+    setForm(form.setTouched(true));
+    doSubmit(toApdexConfigurationInput(submittedForm), onSaveSuccess, onSaveFailure);
+  };
+
   const onSaveSuccess = (result: Result<ApdexConfiguration>) => {
     track(isEditing ? APDEX_MANAGEMENT_EDIT_FINISH : APDEX_MANAGEMENT_CREATE_FINISH, { entityType });
     addMessage(
@@ -117,7 +122,7 @@ export default function CreateApdexForm({
         wasSuccessful={success}
         isSaving={saving}
         hasError={error}
-        onSubmit={submittedForm => doSubmit(toApdexConfigurationInput(submittedForm), onSaveSuccess, onSaveFailure)}
+        onSubmit={onSubmit}
         onChange={(path, updater) => setForm(form.updateIn(path, updater))}
         setFooter={setFooter}
         onCancel={onClose}

@@ -13,8 +13,8 @@ import BeaconSelectInSection from 'in-custom-dashboards/widgets/Slo/sli/BeaconSe
 import BeaconConfigurator from 'in-custom-dashboards/widgets/Slo/sli/BeaconConfigurator';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { AvailableBeaconTypes } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
+import Section from 'in-components/workspace/Section';
 import { noop } from 'in-services/util/function';
-import { t } from 'in-i18n';
 
 describe('in-custom-dashboards/widgets/Slo/sli/BeaconConfigurator', () => {
   it('renders beacon type selection in non-erroneous state if beacon type field is valid and was touched', () => {
@@ -148,7 +148,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/BeaconConfigurator', () => {
       />
     );
     wrapper
-      .find({ title: t('in-custom-dashboards:widgets.slo.sliFormPresenter.beaconFiltersLabel') })
+      .find(Section)
       .dive()
       .find(Button)
       .simulate('click', {});

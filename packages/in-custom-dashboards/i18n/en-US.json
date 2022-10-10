@@ -473,7 +473,8 @@
         "beaconLabel_httpRequest": "HTTP Requests",
         "beaconLabel_pageLoad": "Website Page Loads",
         "beaconLabel_custom": "Website Custom Events",
-        "beaconFiltersLabel": "Beacon Filter"
+        "beaconFiltersLabel": "Beacon Filter",
+        "beaconFiltersSubtext": "Optional"
       },
       "sliList": {
         "serviceLevelIndicators": "Service Level Indicators",
