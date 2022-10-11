@@ -133,6 +133,8 @@ export default function Logs(props: LogsProps) {
       initiallyOpenedItemIds={initiallyOpenedItemIds}
       onToggleContentRow={onToggleHandler}
       renderNestedContent={renderNestedContent}
+      initialLines={initialLogLines}
+      withEmbeddedLoadingIndicator
     />
   );
 

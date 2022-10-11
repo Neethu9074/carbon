@@ -11,6 +11,7 @@ import { generateStableHash } from '@instana/utils';
 
 import QueryProgressIndicator from 'in-components/AnalyzeView/QueryProgressIndicator';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
+import { retrievalSize } from 'in-components/AnalyzeView/UngroupedView';
 import UngroupedView from 'in-components/AnalyzeView/UngroupedView';
 import { ua2LoadMoreClicked } from 'in-components/tracker';
 
@@ -51,6 +52,9 @@ function List(props) {
     groupKey,
     onToggleContentRow // (toogled: boolean, item: any) => void
   } = props;
+
+  const numSkeletonRows = items.length === 0 ? props.initialLines : retrievalSize;
+
   return (
     <>
       {hasItems && (
@@ -83,7 +87,7 @@ function List(props) {
         </Ul>
       )}
       {withEmbeddedLoadingIndicator && isLoading ? (
-        <LoadingList numSkeletonRows={3} />
+        <LoadingList numSkeletonRows={numSkeletonRows} />
       ) : (
         <QueryProgressIndicator progress={{ ...progress, loading: isLoading }} errors={result?.errors} items={items} />
       )}
