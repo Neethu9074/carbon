@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
 import { Button } from '@instana/components';
@@ -16,7 +17,17 @@ import { role } from 'in-stores/user';
 import { Event } from 'in-types';
 import { t } from 'in-i18n';
 
-export default function EventSpecificationLink({ event, buttonText }: { event: Event; buttonText?: string }) {
+import locals from './EventSpecificationLink.mless';
+
+export default function EventSpecificationLink({
+  event,
+  buttonText,
+  hasMarginRight
+}: {
+  event: Event;
+  buttonText?: string;
+  hasMarginRight?: boolean;
+}) {
   if (!role?.canConfigureCustomAlerts) {
     // at the moment the link of this button generally does not work when the canConfigureCustomAlerts permission is missing,
     // because we generally hide the Events & Alerts section, including the build-in events.
@@ -33,6 +44,9 @@ export default function EventSpecificationLink({ event, buttonText }: { event: E
   const defaultButtonText = isCustom ? t('in-events:buttonViewCustomEvent') : t('in-events:buttonViewBuiltInEvent');
   return (
     <Button
+      className={classNames({
+        [locals.hasMarginRight]: hasMarginRight
+      })}
       kind="secondary"
       href$={getEntityIdView(getEventSpecificationSettingsBasePath(isCustom), eventSpecificationId)}
     >

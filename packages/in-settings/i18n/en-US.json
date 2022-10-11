@@ -850,7 +850,7 @@
     "deprecatedEventSelectedMessage": "Custom events on entity types Application Perspective, Service and Endpoint will be deprecated soon. From January 2023, you will not be able to create new events of this type. We recommend to create a Smart Alert instead. <documentationLink>Read more in our documentation</documentationLink>.",
     "automation": "Automation",
     "actionCatalog": "Action Catalog",
-    "action_plural": "Actions",
+    "actions": "Actions",
     "action": "action",
     "actionWithNameForDelete": "action {{actionName}}",
     "filterActions": "Filter Actions",
