@@ -31,6 +31,7 @@ packages/in-custom-dashboards       @pr-approval @Instana-IBM-GitHub-Enterprise 
 packages/in-custom-dashboards/widgets @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-eum @instana/eng-ui @instana/eng-issue-detection
 packages/in-custom-dashboards/widgets/Slo @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-eum @instana/eng-ui @instana/eng-service-levels
 packages/in-events                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-service-levels @instana/eng-ui @instana/eng-issue-detection
+packages/in-events/components/AutomationActions @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-remediation
 # Shared ownership
 # packages/in-forge
 
