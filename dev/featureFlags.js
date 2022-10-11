@@ -64,5 +64,6 @@ module.exports = {
   applicationApdexEnabled: true,
   actionAutomationEnabled: true,
   websiteUploadConfigEnabled: true,
-  pluginMetricStatisticsEnabled: true
+  pluginMetricStatisticsEnabled: true,
+  mobileAppCrashBeaconEnabled: true
 };

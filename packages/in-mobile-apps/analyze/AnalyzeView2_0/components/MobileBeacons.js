@@ -158,6 +158,38 @@ const columnsPerDataSource = {
       }
     },
     mobileAppColumnDefinition
+  ],
+  crash: [
+    erroneousColumnDefinition,
+    {
+      id: 'crash',
+      label: t('in-mobile-apps:mobileBeacons.crash'),
+      sortable: false,
+      getContent({ beacon }, { getHrefToDetailId, groupLabel }) {
+        return (
+          <div className={locals.batchedLine}>
+            <LinkToDetailPage
+              beacon={beacon}
+              getHrefToDetailId={getHrefToDetailId}
+              linkLabel={beacon.errorMessage}
+              groupLabel={groupLabel}
+            />
+            <BatchingIndicator
+              batchCount={beacon.batchSize}
+              tooltipContent={t(
+                'in-mobile-apps:analyzeView.perBeaconTypeConfigs.customBatchingIndicatorTooltipContent',
+                {
+                  size: beacon.batchSize
+                }
+              )}
+              tooltipAlign="rightMiddle"
+              noTopPosition
+            />
+          </div>
+        );
+      }
+    },
+    mobileAppColumnDefinition
   ]
 };
 

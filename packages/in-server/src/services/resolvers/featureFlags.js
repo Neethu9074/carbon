@@ -288,5 +288,10 @@ module.exports = exports = [
     uiClientKey: 'pluginMetricStatisticsEnabled',
     instanaCtlKey: 'feature.plugin.entity.metric.statistics.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'mobileAppCrashBeaconEnabled',
+    instanaCtlKey: 'feature.mobile.app.crash.beacon.enabled',
+    defaultValue: false
   }
 ];

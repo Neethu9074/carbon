@@ -81,6 +81,7 @@ export const apdexWidgetEnabled = isFeatureFlagEnabled('apdexWidgetEnabled', fal
 export const applicationApdexEnabled = isFeatureFlagEnabled('applicationApdexEnabled', false);
 
 export const websiteUploadConfigEnabled = isFeatureFlagEnabled('websiteUploadConfigEnabled', false);
+export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashBeaconEnabled', false);
 
 // SmartAlerts, Strontium-cloudberry:
 // Logs-Blueprint behind FF, Closed-Beta, only for customers already using it

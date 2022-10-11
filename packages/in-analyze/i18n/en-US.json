@@ -25,6 +25,11 @@
         "counter_custom_0": "{{number}} Custom Events",
         "counter_custom_1": "{{number}} Custom Events",
         "counter_custom_2": "{{number}} Custom Events",
+        "counter_crash": "{{number}} Crash",
+        "counter_crash_plural": "{{number}} Crashes",
+        "counter_crash_0": "{{number}} Crashes",
+        "counter_crash_1": "{{number}} Crashes",
+        "counter_crash_2": "{{number}} Crashes",
         "counter_Row": "{{number}} Row",
         "counter_Row_plural": "{{number}} Rows",
         "counter_Row_0": "{{number}} Rows",
@@ -85,7 +90,8 @@
       "jsErrors": "JS Errors",
       "viewTransitions2": "View Transitions",
       "calls": "Calls",
-      "traces": "Traces"
+      "traces": "Traces",
+      "crashes": "Crashes"
     }
   },
   "traceDetail": {

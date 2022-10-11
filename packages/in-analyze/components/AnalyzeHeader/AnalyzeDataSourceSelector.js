@@ -31,7 +31,7 @@ import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
-import { loggingEnabled } from 'in-services/featureFlags';
+import { loggingEnabled, mobileAppCrashBeaconEnabled } from 'in-services/featureFlags';
 import Pill from 'in-components/Pill';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -196,6 +196,18 @@ const productAreas = [
             beaconType: 'custom',
             tagCatalog
           })
+      },
+      {
+        dataSource: 'crash',
+        enabled: mobileAppCrashBeaconEnabled,
+        getHref$: ({ isGrouped, formModel, mobileTagCatalogCrash: tagCatalog }) =>
+          tagCatalog &&
+          getLinkToMobileAppAnalyze({
+            groupBy: isGrouped ? defaultMobileAppGroupings.crash : emptyObject,
+            formModel,
+            beaconType: 'crash',
+            tagCatalog
+          })
       }
     ]
   },
@@ -224,7 +236,8 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
     mobileTagCatalogSessionStart: useMobileTagCatalog('sessionStart'),
     mobileTagCatalogViewChange: useMobileTagCatalog('viewChange'),
     mobileTagCatalogHttpRequest: useMobileTagCatalog('httpRequest'),
-    mobileTagCatalogCustom: useMobileTagCatalog('custom')
+    mobileTagCatalogCustom: useMobileTagCatalog('custom'),
+    mobileTagCatalogCrash: useMobileTagCatalog('crash')
   };
   const callsTagCatalog = useApplicationTagCatalog(getCallsTagCatalog);
   const tracesTagCatalog = useApplicationTagCatalog(getTracesTagCatalog);
