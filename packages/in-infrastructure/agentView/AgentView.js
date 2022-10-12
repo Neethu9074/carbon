@@ -41,7 +41,6 @@ import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
-import { fromJS } from 'immutable';
 
 export default connectTo(
   props => {
@@ -49,7 +48,7 @@ export default connectTo(
     if (!props.agentSnapshotsResult) {
       observables.agentSnapshotsResult = combineLatest([timeConfig$, debouncedQuery$]).flatMap(
         ([timeConfig, query]) => {
-          return getAgentSnapshotsInTimeframe({ timeConfig, query }).map(fromJS);
+          return getAgentSnapshotsInTimeframe({ timeConfig, query });
         }
       );
     }

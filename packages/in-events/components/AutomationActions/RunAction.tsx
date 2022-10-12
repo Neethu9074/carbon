@@ -12,7 +12,7 @@ import { Button, Link } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import { DescriptionItem, DescriptionList } from 'in-components/DescriptionList/DescriptionList';
-import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
+import getAgentSnapshotsInTimeframe from 'in-subscription/getAgentSnapshotsInTimeframe';
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
@@ -149,9 +149,9 @@ export default function RunAction({ action, script, volatileId, event }: Props) 
   );
 }
 
-const createForm = (volatileId: VolatileId, agentSnapShots: OUT) => {
+const createForm = (volatileId: VolatileId, agentSnapShots: any) => {
   const defaultValue =
-    agentSnapShots?.data?.online?.find(agent => agent.volatileId?.host_id === volatileId.host_id)?.volatileId
+    agentSnapShots?.data?.online?.find((agent: any) => agent.volatileId?.host_id === volatileId.host_id)?.volatileId
       ?.host_id ?? '';
   return createMapForm().put(
     'targetAgent',
@@ -166,7 +166,7 @@ interface AgentSelectionProps {
   targetAgent: Field<string>;
   form: MapForm | undefined;
   setForm: React.Dispatch<React.SetStateAction<MapForm | undefined>>;
-  agentSnapShots: OUT | null | undefined;
+  agentSnapShots: any | null | undefined;
   volatileId: VolatileId;
 }
 
@@ -193,7 +193,7 @@ const AgentSelection = ({ targetAgent, form, setForm, agentSnapShots, volatileId
               <option hidden value="">
                 {t('in-events:pleaseSelect')}
               </option>
-              {agentSnapShots?.data?.online?.map(agent => {
+              {agentSnapShots?.data?.online?.map((agent: any) => {
                 const hostname = agent.data?.hostname;
                 const label =
                   agent.volatileId?.host_id === volatileId.host_id
