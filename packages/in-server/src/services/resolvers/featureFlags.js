@@ -293,5 +293,10 @@ module.exports = exports = [
     uiClientKey: 'mobileAppCrashBeaconEnabled',
     instanaCtlKey: 'feature.mobile.app.crash.beacon.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'k8sTimeShiftEnabled',
+    instanaCtlKey: 'feature.kubernetes.timeshift.enabled',
+    defaultValue: false
   }
 ];

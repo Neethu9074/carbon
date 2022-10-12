@@ -65,5 +65,6 @@ module.exports = {
   actionAutomationEnabled: true,
   websiteUploadConfigEnabled: true,
   pluginMetricStatisticsEnabled: true,
-  mobileAppCrashBeaconEnabled: true
+  mobileAppCrashBeaconEnabled: true,
+  k8sTimeShiftEnabled: true
 };
