@@ -1,16 +1,24 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2022
  */
 
-import { fromJS } from 'immutable';
-
 import createSubscription from 'in-subscription/subscription';
+import { Result, AgentSnapshot, TimeConfig } from 'in-types';
 
-export default createSubscription({
-  eventId: 'getAgentSnapshotsInTimeframe',
+interface IN {
+  timeConfig: TimeConfig;
+  query: string;
+}
 
-  transform(observable) {
-    return observable.map(fromJS);
-  }
+interface Data {
+  offline: AgentSnapshot[];
+  online: AgentSnapshot[];
+}
+
+export type OUT = Result<Data>;
+
+export default createSubscription<IN, OUT>({
+  eventId: 'getAgentSnapshotsInTimeframe'
 });
