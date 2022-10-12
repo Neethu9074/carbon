@@ -39,11 +39,14 @@ const columnDefinitions = [
     label: t('in-components:time.releasesLabelScope'),
     sortable: false,
     getContent: function ColumnContent(item) {
-      const [showItems, setShowItems] = useState(scopes.length > stepSize ? stepSize : scopes.length);
+      const stepSize = 2;
+      const itemScopes = convertToScopes(item);
+      const [showItems, setShowItems] = useState(itemScopes.length > stepSize ? stepSize : itemScopes.length);
+
       if (!item.services && !item.applications) {
         return <span>{t('in-components:time.releasesLabelGlobal')}</span>;
       }
-      const itemScopes = convertToScopes(item);
+
       const scopes = itemScopes.map((scope, i) => (
         <ReleaseScope
           key={i}
@@ -53,7 +56,6 @@ const columnDefinitions = [
           applicationName={scope.applicationName}
         />
       ));
-      const stepSize = 2;
       let scopesShown = scopes.slice(0, showItems);
       return (
         <>
