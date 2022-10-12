@@ -7,6 +7,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import AnalyzeCallsButton, { getFilters } from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
+import RenderButtonLineSecondary from 'in-kubernetes/Dashboards/commonComponents/RenderButtonLineSecondary';
 import DashboardButtonLine from 'in-kubernetes/Dashboards/commonComponents/DashboardButtonLine';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
@@ -98,6 +99,7 @@ export default function NamespaceDashboard({ location }) {
 }
 
 function Header(props) {
+  const { namespaceId, timeConfig } = props;
   return (
     <DashboardHeader
       {...props}
@@ -105,6 +107,7 @@ function Header(props) {
       icon="lib_kubernetes_namespace"
       label={get(props.result, ['data', 'label'])}
       renderButtonLine={renderButtonLine}
+      renderButtonLineSecondary={() => <RenderButtonLineSecondary timeConfig={timeConfig} snapshotId={namespaceId} />}
       renderMetaInformation={renderMetaInformation}
     />
   );

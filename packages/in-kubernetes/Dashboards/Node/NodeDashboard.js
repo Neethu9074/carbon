@@ -6,6 +6,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import RenderButtonLineSecondary from 'in-kubernetes/Dashboards/commonComponents/RenderButtonLineSecondary';
 import DashboardButtonLine from 'in-kubernetes/Dashboards/commonComponents/DashboardButtonLine';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
@@ -89,6 +90,7 @@ export default function NodeDashboard({ location }) {
 }
 
 function Header(props) {
+  const { timeConfig, nodeId } = props;
   return (
     <DashboardHeader
       {...props}
@@ -96,6 +98,7 @@ function Header(props) {
       icon="lib_kubernetes_node"
       label={get(props.result, ['data', 'name'])}
       renderButtonLine={renderButtonLine}
+      renderButtonLineSecondary={() => <RenderButtonLineSecondary timeConfig={timeConfig} snapshotId={nodeId} />}
       renderMetaInformation={renderMetaInformation}
     />
   );

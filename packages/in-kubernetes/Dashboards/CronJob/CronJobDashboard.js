@@ -6,6 +6,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import RenderButtonLineSecondary from 'in-kubernetes/Dashboards/commonComponents/RenderButtonLineSecondary';
 import DashboardButtonLine from 'in-kubernetes/Dashboards/commonComponents/DashboardButtonLine';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
@@ -92,6 +93,7 @@ export default function CronJobDashboard({ location }) {
 }
 
 function Header(props) {
+  const { timeConfig, cronJobId } = props;
   return (
     <DashboardHeader
       {...props}
@@ -99,6 +101,7 @@ function Header(props) {
       icon="lib_kubernetes_workload"
       label={get(props.result, ['data', 'name'])}
       renderButtonLine={renderButtonLine}
+      renderButtonLineSecondary={() => <RenderButtonLineSecondary timeConfig={timeConfig} snapshotId={cronJobId} />}
       renderMetaInformation={renderMetaInformation}
     />
   );
