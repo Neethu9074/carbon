@@ -20,7 +20,7 @@ import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import { syntheticsPath } from 'in-synthetics/navigation/paths';
 import { Options } from 'in-hooks/useUrlState';
 
-export const pathSegment = '/synthetics';
+export const pathSegment = '/syntheticTests';
 export const matrixPrefix = '';
 export const getOperation = 'GET';
 
