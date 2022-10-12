@@ -3,6 +3,7 @@
  * PID 5737-N85, 5900-AG5
  * Copyright IBM Corp. 2022
  */
+@import '~in-themes/active.less';
 
 :local {
   .actionModalPadding {
@@ -12,9 +13,18 @@
     font-size: 0.8rem;
   }
   .dialog {
-    max-width: 65%;
+    width: 65%;
   }
   .actionDescriptionMargin dt {
     margin-bottom: 0.25rem;
+  }
+
+  .subTextFormField {
+    color: @lib__colors__N600Light;
+    margin: 0.5rem 0 0 0.5rem;
+  }
+
+  .subErrorTextFormField {
+    margin-left: 0.5rem;
   }
 }
