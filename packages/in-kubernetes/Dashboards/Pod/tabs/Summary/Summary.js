@@ -26,6 +26,7 @@ import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarker
 import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
+import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';
@@ -51,15 +52,18 @@ export default function Summary({ data: pod, timeConfig }) {
   const clusterTag = kubernetesClusterTagEquals(pod.clusterId);
   const nsTag = kubernetesNamespaceTagEquals(pod.namespace);
   const podTag = tagEquals('kubernetes.pod.name', pod.label);
+  const tagFilterExpression = toBackendQueryModel(andQuery(clusterTag, nsTag, podTag));
+
+  const type = plugins.kubernetesPod;
 
   const defaultMetricConfig = {
     granularity: getChartGranularity(timeConfig),
     aggregation: 'MEAN',
     source: source,
-    tagFilterExpression: toBackendQueryModel(andQuery(clusterTag, nsTag, podTag)),
-    timeConfig: timeConfig,
+    tagFilterExpression,
+    timeConfig,
     timeShift: 0,
-    type: plugins.kubernetesPod
+    type
   };
 
   const metricConfigs = [
@@ -75,12 +79,12 @@ export default function Summary({ data: pod, timeConfig }) {
     {
       metric: 'cpuRequests',
       label: t('in-kubernetes:dashboards.requests'),
-      ...defaultMetricConfig,
+      ...defaultMetricConfig
     },
     {
       metric: 'cpuLimits',
       label: t('in-kubernetes:dashboards.limits'),
-      ...defaultMetricConfig,
+      ...defaultMetricConfig
     }
   ];
 
@@ -136,9 +140,17 @@ export default function Summary({ data: pod, timeConfig }) {
 
       <Row>
         <Col lg={kpiWidth}>
-          <KpiCard
+          <BigNumberKpiCard
             title={t('in-kubernetes:dashboards.cpuUsage')}
-            value={<MetricValue snapshotId={pod.id} metric="cpu.total_usage" formatter={twoDecimalPlaces} />}
+            formatter={twoDecimalPlaces}
+            config={{
+              metricConfiguration: {
+                source: 'INFRASTRUCTURE_METRICS',
+                metric: 'cpu.total_usage',
+                aggregation: 'MEAN',
+                tagFilterExpression
+              }
+            }}
             raw
           />
         </Col>
