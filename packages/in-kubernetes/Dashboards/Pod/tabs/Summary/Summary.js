@@ -204,7 +204,7 @@ export default function Summary({ data: pod, timeConfig }) {
           />
         </Col>
         <Col lg={kpiWidth}>
-          {/* TO DO */}
+          {/* TO DO: WIP */}
           <BigNumberKpiCard
             title={t('in-kubernetes:dashboards.memoryUsage')}
             formatter={bytesTwoDecimalPlaces}
@@ -213,7 +213,7 @@ export default function Summary({ data: pod, timeConfig }) {
                 source: 'INFRASTRUCTURE_METRICS',
                 metric: 'memory.usage',
                 aggregation: 'MEAN',
-                // crossSeriesAggregation: 'SUM',
+                crossSeriesAggregation: 'SUM',
                 tagFilterExpression
               }
             }}
@@ -239,11 +239,6 @@ export default function Summary({ data: pod, timeConfig }) {
             }}
             raw
           />
-          {/* <KpiCard
-            title={t('in-kubernetes:dashboards.memoryRequests')}
-            value={<MetricValue snapshotId={pod.id} metric="memoryRequests" formatter={resourceQuotaBytes} />}
-            raw
-          /> */}
         </Col>
         <Col lg={kpiWidth}>
           <BigNumberKpiCard
@@ -259,11 +254,6 @@ export default function Summary({ data: pod, timeConfig }) {
             }}
             raw
           />
-          {/* <KpiCard
-            title={t('in-kubernetes:dashboards.memoryLimits')}
-            value={<MetricValue snapshotId={pod.id} metric="memoryLimits" formatter={resourceQuotaBytes} />}
-            raw
-          /> */}
         </Col>
       </Row>
 
