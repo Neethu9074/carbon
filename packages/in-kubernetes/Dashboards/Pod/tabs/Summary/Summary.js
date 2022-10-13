@@ -174,39 +174,96 @@ export default function Summary({ data: pod, timeConfig }) {
           />
         </Col>
         <Col lg={kpiWidth}>
-          <KpiCard
+          <BigNumberKpiCard
             title={t('in-kubernetes:dashboards.cpuRequests')}
-            value={<MetricValue snapshotId={pod.id} metric="cpuRequests" formatter={resourceQuotaNumber} />}
+            formatter={resourceQuotaNumber}
+            config={{
+              metricConfiguration: {
+                source: 'INFRASTRUCTURE_METRICS',
+                metric: 'cpuRequests',
+                aggregation: 'MEAN',
+                tagFilterExpression
+              }
+            }}
             raw
           />
         </Col>
         <Col lg={kpiWidth}>
-          <KpiCard
+          <BigNumberKpiCard
             title={t('in-kubernetes:dashboards.cpuLimits')}
-            value={<MetricValue snapshotId={pod.id} metric="cpuLimits" formatter={resourceQuotaNumber} />}
+            formatter={resourceQuotaNumber}
+            config={{
+              metricConfiguration: {
+                source: 'INFRASTRUCTURE_METRICS',
+                metric: 'cpuLimits',
+                aggregation: 'MEAN',
+                tagFilterExpression
+              }
+            }}
             raw
           />
         </Col>
         <Col lg={kpiWidth}>
-          <KpiCard
+          {/* TO DO */}
+          <BigNumberKpiCard
+            title={t('in-kubernetes:dashboards.memoryUsage')}
+            formatter={bytesTwoDecimalPlaces}
+            config={{
+              metricConfiguration: {
+                source: 'INFRASTRUCTURE_METRICS',
+                metric: 'memory.usage',
+                aggregation: 'MEAN',
+                // crossSeriesAggregation: 'SUM',
+                tagFilterExpression
+              }
+            }}
+            raw
+          />
+          {/* <KpiCard
             title={t('in-kubernetes:dashboards.memoryUsage')}
             value={<MetricValue snapshotId={pod.id} metric="memory.usage" formatter={bytesTwoDecimalPlaces} />}
             raw
-          />
+          /> */}
         </Col>
         <Col lg={kpiWidth}>
-          <KpiCard
+          <BigNumberKpiCard
+            title={t('in-kubernetes:dashboards.memoryRequests')}
+            formatter={resourceQuotaBytes}
+            config={{
+              metricConfiguration: {
+                source: 'INFRASTRUCTURE_METRICS',
+                metric: 'memoryRequests',
+                aggregation: 'MEAN',
+                tagFilterExpression
+              }
+            }}
+            raw
+          />
+          {/* <KpiCard
             title={t('in-kubernetes:dashboards.memoryRequests')}
             value={<MetricValue snapshotId={pod.id} metric="memoryRequests" formatter={resourceQuotaBytes} />}
             raw
-          />
+          /> */}
         </Col>
         <Col lg={kpiWidth}>
-          <KpiCard
+          <BigNumberKpiCard
+            title={t('in-kubernetes:dashboards.memoryLimits')}
+            formatter={resourceQuotaBytes}
+            config={{
+              metricConfiguration: {
+                source: 'INFRASTRUCTURE_METRICS',
+                metric: 'memoryLimits',
+                aggregation: 'MEAN',
+                tagFilterExpression
+              }
+            }}
+            raw
+          />
+          {/* <KpiCard
             title={t('in-kubernetes:dashboards.memoryLimits')}
             value={<MetricValue snapshotId={pod.id} metric="memoryLimits" formatter={resourceQuotaBytes} />}
             raw
-          />
+          /> */}
         </Col>
       </Row>
 
