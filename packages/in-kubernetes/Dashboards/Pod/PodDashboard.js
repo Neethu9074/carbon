@@ -22,6 +22,7 @@ import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
+import { k8sTimeShiftEnabled } from 'in-services/featureFlags';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { podDashboard } from 'in-kubernetes/navigation/paths';
 import DashboardHeader from 'in-components/DashboardHeader';
@@ -96,7 +97,6 @@ export default function PodDashboard({ location }) {
 }
 
 function Header(props) {
-  // const { timeConfig, podId } = props;
   return (
     <DashboardHeader
       {...props}
@@ -140,17 +140,18 @@ function renderButtonLineSecondary({
 }) {
   return (
     <>
-      <TimeShiftDropdown
-        // disabled={currentTab !== summaryTab}
-        onChange={offset =>
-          applicationTimeShiftSelectTracker({
-            area: 'pod',
-            offset: getTimeShiftLabel({ offset: offset }),
-            windowSize: timeConfig.windowSize,
-            autoRefresh: timeConfig.autoRefresh
-          })
-        }
-      />
+      {k8sTimeShiftEnabled && (
+        <TimeShiftDropdown
+          onChange={offset =>
+            applicationTimeShiftSelectTracker({
+              area: 'pod',
+              offset: getTimeShiftLabel({ offset: offset }),
+              windowSize: timeConfig.windowSize,
+              autoRefresh: timeConfig.autoRefresh
+            })
+          }
+        />
+      )}
       <RenderButtonLineSecondary timeConfig={timeConfig} snapshotId={podId} />
     </>
   );
