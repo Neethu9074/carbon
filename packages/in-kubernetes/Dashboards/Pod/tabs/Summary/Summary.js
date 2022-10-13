@@ -15,9 +15,12 @@ import {
   kubernetesClusterTagEquals,
   kubernetesNamespaceTagEquals
 } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
+import { source } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/metrics';
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
+import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import ContainerStates from 'in-kubernetes/Dashboards/Pod/tabs/Summary/ContainerStates';
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
@@ -26,16 +29,19 @@ import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';
+import { getChartGranularity } from 'in-stores/metric';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import MetricValue from 'in-components/MetricValue';
 import Capitalize from 'in-components/Capitalize';
+import { line } from 'in-stores/metric/renderer';
+import { plugins } from 'in-forge/constants';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './Summary.mless';
 
-export default function SummaryWithoutTimeShift({ data: pod, timeConfig }) {
+export default function Summary({ data: pod, timeConfig }) {
   const snapshotId = pod.id;
   const message = get(pod, ['status', 'message']);
   const containerStatuses = get(pod, ['status', 'containerStatuses'], []);
@@ -45,6 +51,38 @@ export default function SummaryWithoutTimeShift({ data: pod, timeConfig }) {
   const clusterTag = kubernetesClusterTagEquals(pod.clusterId);
   const nsTag = kubernetesNamespaceTagEquals(pod.namespace);
   const podTag = tagEquals('kubernetes.pod.name', pod.label);
+
+  const defaultMetricConfig = {
+    granularity: getChartGranularity(timeConfig),
+    aggregation: 'MEAN',
+    source: source,
+    tagFilterExpression: toBackendQueryModel(andQuery(clusterTag, nsTag, podTag)),
+    timeConfig: timeConfig,
+    timeShift: 0,
+    type: plugins.kubernetesPod
+  };
+
+  const metricConfigs = [
+    {
+      metric: 'cpu.total_usage',
+      label: t('in-kubernetes:dashboards.usage'),
+      ...defaultMetricConfig,
+      /* this metric is on containers for this pod which can be of type docker, containerd or crio
+      type filtering must be disabled and cross series aggregation uses SUM */
+      type: undefined,
+      crossSeriesAggregation: 'SUM'
+    },
+    {
+      metric: 'cpuRequests',
+      label: t('in-kubernetes:dashboards.requests'),
+      ...defaultMetricConfig,
+    },
+    {
+      metric: 'cpuLimits',
+      label: t('in-kubernetes:dashboards.limits'),
+      ...defaultMetricConfig,
+    }
+  ];
 
   return (
     <Fragment>
@@ -143,25 +181,21 @@ export default function SummaryWithoutTimeShift({ data: pod, timeConfig }) {
 
       <Row>
         <Col lg={6}>
-          <Card title={t('in-kubernetes:dashboards.cpuResources')}>
-            <Chart
-              snapshotId={snapshotId}
-              timeConfig={timeConfig}
-              y1={{
+          <UnifiedMetricsChart
+            title={t('in-kubernetes:dashboards.cpuResources')}
+            timeConfig={timeConfig}
+            config={{
+              y1: {
+                metrics: metricConfigs,
                 formatter: resourceQuotaNumber,
-                metrics: ['cpu.total_usage', 'cpuRequests', 'cpuLimits'],
-                labels: [
-                  t('in-kubernetes:dashboards.usage'),
-                  t('in-kubernetes:dashboards.requests'),
-                  t('in-kubernetes:dashboards.limits')
-                ],
-                type: 'line',
-                colors: [usage, requests, limits]
-              }}
-              renderPostChartContent={K8DashboardsMarkerLanes}
-              minRollup={10000}
-            />
-          </Card>
+                tooltipFormatter: resourceQuotaNumber,
+                renderer: line.id
+              },
+              reverseOrder: true,
+              type: 'TIME_SERIES'
+            }}
+            renderPostChartContent={K8DashboardsMarkerLanes}
+          />
         </Col>
         <Col lg={6}>
           <Card title={t('in-kubernetes:dashboards.memoryResources')}>
