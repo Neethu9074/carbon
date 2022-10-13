@@ -41,6 +41,12 @@ import { t } from 'in-i18n';
 
 import locals from './Summary.mless';
 
+//TODO: WIP
+// import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
+// import useUrlState from 'in-hooks/useUrlState';
+// import { summaryTab } from 'in-applications/navigation/paths';
+// import { urlParameter as timeShiftUrlParameter } from 'in-stores/time/shifting';
+
 export default function Summary({ data: pod, timeConfig }) {
   const snapshotId = pod.id;
   const message = get(pod, ['status', 'message']);
@@ -116,6 +122,77 @@ export default function Summary({ data: pod, timeConfig }) {
       ...defaultChartMetricConfig
     }
   ];
+
+  //TODO: WIP
+  // const {path, paramTab, paramMetric} = { path: summaryTab, paramTab: 'callsTab', paramMetric: 'callsMetric' }
+  // const urlStateDefinition = {
+  //   bind: [
+  //     {
+  //       path: summaryTab,
+  //       name: path,
+  //       as: path
+  //     },
+  //     // {
+  //     //   path: summaryTab,
+  //     //   name: paramMetric,
+  //     //   as: paramMetric
+  //     // }
+  //   ],
+  //   resets: [
+  //     {
+  //       bind: [timeShiftUrlParameter],
+  //       reset: ({ timeShiftOffset }) => {
+  //         if (timeShiftOffset === 0) {
+  //           return { [paramTab]: getActiveTab(), [paramMetric]: null };
+  //         } else {
+  //           return { [paramMetric]: getActiveMetric(), [paramTab]: null };
+  //         }
+  //       }
+  //     }
+  //   ]
+  // };
+  // const [{ [paramTab]: activeTab, [paramMetric]: activeMetric }, setUrlState] = useUrlState(urlStateDefinition);
+  // const timeShiftConfig = useTimeShiftConfig();
+  // let metricConfigs;
+  // let renderer;
+  // let colors;
+  // if (timeShiftConfig.offset) {
+  //   const findDefaultMetricByTab = tabId =>
+  //   metrics.find(m => m.tab === tabId && m.tabDefault)?.id ??
+  //   // otherwise, take the default metric of the first tab
+  //   metrics.find(m => m.tab === tabs[0].id && m.tabDefault)?.id ??
+  //   // otherwise, take the first metric of the first tab
+  //   metrics.find(m => m.tab === tabs[0].id).id;
+  //   const getActiveMetric = () => activeMetric ?? findDefaultMetricByTab(activeTab);
+
+  //   timeShiftMetric = metrics.find(m => m.id === getActiveMetric())?.value
+  //   const timeShiftChartMetric = chartMetrics.find(m => m.metric === timeShiftMetric) ?? chartMetrics[0];
+  //   const timeShiftMetricConfig = {
+  //     metric: timeShiftChartMetric.metric,
+  //     label: timeShiftChartMetric.label,
+  //     ...timeShiftChartMetric.config
+  //   };
+  //   metricConfigs = [
+  //     {
+  //       ...timeShiftMetricConfig,
+  //       timeShift: timeShiftConfig.offset
+  //     },
+  //     // make sure the main metric renders over the time shifted metric
+  //     {
+  //       ...timeShiftMetricConfig
+  //     }
+  //   ];
+  //   colors = [theme.lib.colors.timeShift, timeShiftChartMetric.color];
+  //   renderer = line.id;
+  // } else {
+  //   metricConfigs = chartMetrics.map(m => ({
+  //     metric: m.metric,
+  //     label: m.label,
+  //     ...m.config
+  //   }));
+  //   colors = chartMetrics.map(m => m.color);
+  //   renderer = stackedBar.id;
+  // }
 
   return (
     <Fragment>
