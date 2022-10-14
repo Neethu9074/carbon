@@ -34,6 +34,10 @@ export interface KpiCardProps {
   value?: any;
   actions?: ReactNode;
   companionValue?: ReactNode;
+  /* 
+  When true, print out the whole value without special formatting
+  When false, the numeric value will have a greater font size than the rest, usually the unit
+  */
   raw?: boolean;
   renderValue?: (value?: any) => ReactNode;
   children?: ReactNode;
