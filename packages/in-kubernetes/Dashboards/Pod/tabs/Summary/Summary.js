@@ -36,6 +36,7 @@ import MetricValue from 'in-components/MetricValue';
 import Capitalize from 'in-components/Capitalize';
 import { line } from 'in-stores/metric/renderer';
 import { plugins } from 'in-forge/constants';
+import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './Summary.mless';
@@ -44,6 +45,7 @@ export default function Summary({ data: pod, timeConfig }) {
   const snapshotId = pod.id;
   const message = get(pod, ['status', 'message']);
   const containerStatuses = get(pod, ['status', 'containerStatuses'], []);
+  const { orange800: limits, lime800: requests, lightBlue800: usage } = theme.lib.colors;
   const kpiWidth = 2;
 
   const clusterTag = kubernetesClusterTagEquals(pod.clusterId);
@@ -264,7 +266,8 @@ export default function Summary({ data: pod, timeConfig }) {
                 metrics: metricConfigsCpuResources,
                 formatter: resourceQuotaNumber,
                 tooltipFormatter: resourceQuotaNumber,
-                renderer: line.id
+                renderer: line.id,
+                colors: [usage, requests, limits]
               },
               reverseOrder: true,
               type: 'TIME_SERIES'
@@ -281,7 +284,8 @@ export default function Summary({ data: pod, timeConfig }) {
                 metrics: metricConfigsMemoryResources,
                 formatter: resourceQuotaNumber,
                 tooltipFormatter: resourceQuotaNumber,
-                renderer: line.id
+                renderer: line.id,
+                colors: [usage, requests, limits]
               },
               reverseOrder: true,
               type: 'TIME_SERIES'
