@@ -53,7 +53,7 @@ export default function Summary({ data: pod, timeConfig }) {
 
   const type = plugins.kubernetesPod;
 
-  const defaultMetricConfig = {
+  const defaultChartMetricConfig = {
     granularity: getChartGranularity(timeConfig),
     aggregation: 'MEAN',
     source: source,
@@ -63,25 +63,36 @@ export default function Summary({ data: pod, timeConfig }) {
     type
   };
 
+  const defaultBigNumberMetricConfig = {
+    source: 'INFRASTRUCTURE_METRICS',
+    aggregation: 'MEAN',
+    tagFilterExpression,
+    type
+  };
+
+  const isContainerMetric = {
+    /* use this configuration on containers of this pod (which can be of type docker, containerd or crio)
+      type filtering must be disabled and cross series aggregation uses SUM */
+    type: undefined,
+    crossSeriesAggregation: 'SUM'
+  };
+
   const metricConfigsCpuResources = [
     {
       metric: 'cpu.total_usage',
       label: t('in-kubernetes:dashboards.usage'),
-      ...defaultMetricConfig,
-      /* this metric is on containers for this pod which can be of type docker, containerd or crio
-      type filtering must be disabled and cross series aggregation uses SUM */
-      type: undefined,
-      crossSeriesAggregation: 'SUM'
+      ...defaultChartMetricConfig,
+      ...isContainerMetric
     },
     {
       metric: 'cpuRequests',
       label: t('in-kubernetes:dashboards.requests'),
-      ...defaultMetricConfig
+      ...defaultChartMetricConfig
     },
     {
       metric: 'cpuLimits',
       label: t('in-kubernetes:dashboards.limits'),
-      ...defaultMetricConfig
+      ...defaultChartMetricConfig
     }
   ];
 
@@ -89,21 +100,18 @@ export default function Summary({ data: pod, timeConfig }) {
     {
       metric: 'memory.usage',
       label: t('in-kubernetes:dashboards.usage'),
-      ...defaultMetricConfig,
-      /* this metric is on containers for this pod which can be of type docker, containerd or crio
-      type filtering must be disabled and cross series aggregation uses SUM */
-      type: undefined,
-      crossSeriesAggregation: 'SUM'
+      ...defaultChartMetricConfig,
+      ...isContainerMetric
     },
     {
       metric: 'memoryRequests',
       label: t('in-kubernetes:dashboards.requests'),
-      ...defaultMetricConfig
+      ...defaultChartMetricConfig
     },
     {
       metric: 'memoryLimits',
       label: t('in-kubernetes:dashboards.limits'),
-      ...defaultMetricConfig
+      ...defaultChartMetricConfig
     }
   ];
 
@@ -164,10 +172,9 @@ export default function Summary({ data: pod, timeConfig }) {
             formatter={twoDecimalPlaces}
             config={{
               metricConfiguration: {
-                source: 'INFRASTRUCTURE_METRICS',
                 metric: 'cpu.total_usage',
-                aggregation: 'MEAN',
-                tagFilterExpression
+                ...defaultBigNumberMetricConfig,
+                ...isContainerMetric
               }
             }}
             raw
@@ -179,10 +186,8 @@ export default function Summary({ data: pod, timeConfig }) {
             formatter={resourceQuotaNumber}
             config={{
               metricConfiguration: {
-                source: 'INFRASTRUCTURE_METRICS',
                 metric: 'cpuRequests',
-                aggregation: 'MEAN',
-                tagFilterExpression
+                ...defaultBigNumberMetricConfig
               }
             }}
             raw
@@ -194,10 +199,8 @@ export default function Summary({ data: pod, timeConfig }) {
             formatter={resourceQuotaNumber}
             config={{
               metricConfiguration: {
-                source: 'INFRASTRUCTURE_METRICS',
                 metric: 'cpuLimits',
-                aggregation: 'MEAN',
-                tagFilterExpression
+                ...defaultBigNumberMetricConfig
               }
             }}
             raw
@@ -210,11 +213,9 @@ export default function Summary({ data: pod, timeConfig }) {
             formatter={bytesTwoDecimalPlaces}
             config={{
               metricConfiguration: {
-                source: 'INFRASTRUCTURE_METRICS',
                 metric: 'memory.usage',
-                aggregation: 'MEAN',
-                crossSeriesAggregation: 'SUM',
-                tagFilterExpression
+                ...defaultBigNumberMetricConfig,
+                ...isContainerMetric
               }
             }}
             raw
@@ -231,10 +232,8 @@ export default function Summary({ data: pod, timeConfig }) {
             formatter={resourceQuotaBytes}
             config={{
               metricConfiguration: {
-                source: 'INFRASTRUCTURE_METRICS',
                 metric: 'memoryRequests',
-                aggregation: 'MEAN',
-                tagFilterExpression
+                ...defaultBigNumberMetricConfig
               }
             }}
             raw
@@ -246,10 +245,8 @@ export default function Summary({ data: pod, timeConfig }) {
             formatter={resourceQuotaBytes}
             config={{
               metricConfiguration: {
-                source: 'INFRASTRUCTURE_METRICS',
                 metric: 'memoryLimits',
-                aggregation: 'MEAN',
-                tagFilterExpression
+                ...defaultBigNumberMetricConfig
               }
             }}
             raw
