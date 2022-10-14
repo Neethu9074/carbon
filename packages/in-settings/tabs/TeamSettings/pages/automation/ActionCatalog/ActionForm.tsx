@@ -19,8 +19,6 @@ import {
   putScriptField
 } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionFormDefinition';
 import TagsWrapper from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/TagsWrapper';
-// @ts-expect-error
-import Code from 'in-components/form/Code/Code';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import HelpText from 'in-components/form/HelpText/HelpText';
@@ -28,6 +26,7 @@ import { Col, Row } from 'in-components/layout/Grid/Grid';
 import FormGroup from 'in-settings/components/FormGroup';
 import { ImmutableNewAction } from 'in-api/automation';
 import TextArea from 'in-components/form/TextArea';
+import Code from 'in-components/form/Code/Code';
 import Select from 'in-components/form/Select';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';

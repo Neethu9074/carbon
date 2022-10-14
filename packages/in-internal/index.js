@@ -41,6 +41,7 @@ import ErrorSimulator from 'in-internal/monitoringUnit/eum/ErrorSimulator';
 import SpansCassandra from 'in-internal/monitoringUnit/sre/SpansCassandra';
 import StateCassandra from 'in-internal/monitoringUnit/sre/StateCassandra';
 import ClickhouseLogs from 'in-internal/monitoringUnit/sre/ClickhouseLogs';
+import { WsApiTester } from 'in-internal/thisUnit/WsApiTester/WsApiTester';
 import MetaElasticNG from 'in-internal/monitoringUnit/sre/MetaElasticNG';
 import EumProcessor from 'in-internal/monitoringUnit/eum/EumProcessor';
 import LogProcessor from 'in-internal/monitoringUnit/log/LogProcessor';
@@ -184,6 +185,7 @@ export default function Internal() {
         <Route path="/internal/thisUnit/snapshotVersions" children={wrapInInternalView(SnapshotVersions)} />
         <Route path="/internal/thisUnit/internalEvents" children={wrapInInternalView(InternalEvents)} />
         <Route path="/internal/thisUnit/agents" component={Agents} />
+        <Route path="/internal/thisUnit/wsApiTester" children={wrapInInternalView(WsApiTester)} />
       </>
 
       <Route path="/internal" children={wrapInInternalView(Landing)} />

@@ -531,6 +531,11 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
                     href$={getModifiedUrlStream(params => (params.pathname = '/internal/thisUnit/internalEvents'))}
                     description={t('in-internal:components.landing.internalEventsDesc')}
                   />
+                  <LinkListItem
+                    label={t('in-internal:components.landing.wsTesterTitle')}
+                    href$={getModifiedUrlStream(params => (params.pathname = '/internal/thisUnit/wsApiTester'))}
+                    description={t('in-internal:components.landing.wsTesterDescription')}
+                  />
                 </LinkList>
               </Card>
             </Col>
