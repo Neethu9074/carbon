@@ -3,8 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { forwardRef } from 'react';
+import React, { ForwardedRef, forwardRef } from 'react';
+import * as Immutable from 'immutable';
 
+import { EventPlaceholder } from '@instana/components/types/components/SvgIcon/types';
+import { Observable } from '@instana/observables';
 import { Link } from '@instana/components';
 
 import { noop } from 'in-services/util/function';
@@ -13,9 +16,31 @@ import theme from 'in-themes';
 
 import locals from './EntityLink.mless';
 
+type EntityLinkProps = {
+  label: string;
+  plugin?: string;
+  snapshot?: Immutable.Map<string, unknown>;
+  icon: string;
+  tooltip?: string;
+  href$: Observable<string>;
+  specialIndicator?: JSX.Element;
+  subscriptComponent?: JSX.Element;
+  onClick?: (e: EventPlaceholder) => void;
+};
+
 const EntityLink = forwardRef(function EntityLink(
-  { label, plugin, snapshot, icon, tooltip, href$, specialIndicator, subscriptComponent, onClick = noop },
-  ref
+  {
+    label,
+    plugin,
+    snapshot,
+    icon,
+    tooltip,
+    href$,
+    specialIndicator,
+    subscriptComponent,
+    onClick = noop
+  }: EntityLinkProps,
+  ref: ForwardedRef<HTMLDivElement>
 ) {
   const iconColor = href$ && theme.lib.colors.blue800;
 

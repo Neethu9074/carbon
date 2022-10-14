@@ -26,6 +26,7 @@ import { getVSphereDatacentersWithDefaults } from 'in-vsphere/subscriptions/getV
 import getCloudfoundryApplication from 'in-cloudfoundry/subscriptions/getCloudfoundryApplication';
 import { getOpenstackRegionsWithDefaults } from 'in-openstack/subscriptions/getOpenstackRegions';
 import HistoricMetricSparkChart from 'in-components/SparkChart/HistoricMetricSparkChart';
+import { useNavigateToApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
 import getKubernetesCluster from 'in-kubernetes/subscriptions/getKubernetesCluster';
 import { bytesZeroDecimalPlaces, percentage } from 'in-services/formatters/number';
 import getVsphereDatacenter from 'in-vsphere/subscriptions/getVsphereDatacenter';
@@ -33,7 +34,6 @@ import getOpenstackRegion from 'in-openstack/subscriptions/getOpenstackRegion';
 import InstanceMetric from 'in-cloudfoundry/commonComponents/InstanceMetric';
 import { getVsphereDatacenterDashboard } from 'in-vsphere/navigation/paths';
 import { getOpenstackRegionDashboard } from 'in-openstack/navigation/paths';
-import { getApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
 import { toTitleCase, compareIgnoreCase } from 'in-services/util/string';
 import mergeResults from 'in-cockpit/widgets/TopListWidget/mergeResults';
 import { getZhmcsWithDefaults } from 'in-zhmc/subscriptions/getZhmcs';
@@ -62,6 +62,8 @@ export default function PlatformsTopList({ config }) {
     zhmcEnabled && zhmcServerType
   ].filter(Boolean);
 
+  const getApplicationDashboardLink = useNavigateToApplicationDashboard();
+
   return (
     <TopListWidget
       {...config}
@@ -82,7 +84,7 @@ export default function PlatformsTopList({ config }) {
         return (item.isKubernetes
           ? getClusterDashboard
           : item.isPcf
-          ? getApplicationDashboard
+          ? getApplicationDashboardLink
           : item.isZhmc
           ? getIbmzZhmcDashboard
           : item.isOpenstack
