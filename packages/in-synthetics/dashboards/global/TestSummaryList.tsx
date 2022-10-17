@@ -252,7 +252,6 @@ export function getTestSummaryListData({
     granularity: sparkChartGranularity,
     aggregation: 'MEAN'
   };
-
   return getTestSummaryList({
     pagination: {
       page,
