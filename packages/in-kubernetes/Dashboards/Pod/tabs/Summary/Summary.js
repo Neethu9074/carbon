@@ -31,6 +31,7 @@ import { summaryTab } from 'in-applications/navigation/paths';
 import { number, bytes } from 'in-services/formatters/number';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';
+import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { getChartGranularity } from 'in-stores/metric';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
@@ -52,6 +53,7 @@ export default function Summary({ data: pod, timeConfig }) {
   const nsTag = kubernetesNamespaceTagEquals(pod.namespace);
   const podTag = tagEquals('kubernetes.pod.name', pod.label);
   const tagFilterExpression = toBackendQueryModel(andQuery(clusterTag, nsTag, podTag));
+  const timeShift = useTimeShiftConfig();
 
   const type = plugins.kubernetesPod;
 
@@ -258,7 +260,8 @@ export default function Summary({ data: pod, timeConfig }) {
               metricConfiguration: {
                 metric: 'cpu.total_usage',
                 ...defaultBigNumberMetricConfig,
-                ...isContainerMetric
+                ...isContainerMetric,
+                timeShift: timeShift.offset
               }
             }}
             raw
@@ -271,7 +274,8 @@ export default function Summary({ data: pod, timeConfig }) {
             config={{
               metricConfiguration: {
                 metric: 'cpuRequests',
-                ...defaultBigNumberMetricConfig
+                ...defaultBigNumberMetricConfig,
+                timeShift: timeShift.offset
               }
             }}
             raw
@@ -284,7 +288,8 @@ export default function Summary({ data: pod, timeConfig }) {
             config={{
               metricConfiguration: {
                 metric: 'cpuLimits',
-                ...defaultBigNumberMetricConfig
+                ...defaultBigNumberMetricConfig,
+                timeShift: timeShift.offset
               }
             }}
             raw
@@ -299,7 +304,8 @@ export default function Summary({ data: pod, timeConfig }) {
               metricConfiguration: {
                 metric: 'memory.usage',
                 ...defaultBigNumberMetricConfig,
-                ...isContainerMetric
+                ...isContainerMetric,
+                timeShift: timeShift.offset
               }
             }}
             raw
@@ -312,7 +318,8 @@ export default function Summary({ data: pod, timeConfig }) {
             config={{
               metricConfiguration: {
                 metric: 'memoryRequests',
-                ...defaultBigNumberMetricConfig
+                ...defaultBigNumberMetricConfig,
+                timeShift: timeShift.offset
               }
             }}
             raw
@@ -325,7 +332,8 @@ export default function Summary({ data: pod, timeConfig }) {
             config={{
               metricConfiguration: {
                 metric: 'memoryLimits',
-                ...defaultBigNumberMetricConfig
+                ...defaultBigNumberMetricConfig,
+                timeShift: timeShift.offset
               }
             }}
             raw
