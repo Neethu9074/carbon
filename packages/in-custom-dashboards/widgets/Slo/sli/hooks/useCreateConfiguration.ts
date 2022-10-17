@@ -6,35 +6,37 @@
 
 import { useState } from 'react';
 
-import { ApdexConfiguration, ApdexConfigurationInput, Result } from '@instana/types';
+import { Observable } from '@instana/observables';
+import { Result } from '@instana/types';
 
-import { FormSubmitState } from 'in-custom-dashboards/widgets/Slo/sli/components/create/CreateSliForm';
-import { createApdexConfiguration } from 'in-custom-dashboards/widgets/Apdex/api';
+import { FormSubmitState } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
 import { hasError, isLoading } from 'in-services/util/result';
 
-interface DoSubmitFunction {
-  (
-    apdexConfig: ApdexConfigurationInput,
-    onSuccess: (data: Result<ApdexConfiguration>) => void,
-    onError: (data?: Result<ApdexConfiguration>) => void
-  ): void;
+interface DoSubmitFunctionProps<CONFIG_INPUT, RESULT_TYPE> {
+  config: CONFIG_INPUT;
+  onSuccess: (data: Result<RESULT_TYPE>) => void;
+  onError: (data?: Result<RESULT_TYPE>) => void;
 }
 
-export default function useCreateApdexConfiguration(): [FormSubmitState, DoSubmitFunction] {
+type DoSubmitFunction<CONFIG_INPUT, RESULT_TYPE> = (props: DoSubmitFunctionProps<CONFIG_INPUT, RESULT_TYPE>) => void;
+
+export function useCreateConfiguration<CONFIG_INPUT, RESULT_TYPE>(
+  createConfigFunc: (config: CONFIG_INPUT) => Observable<Result<RESULT_TYPE>>
+): [FormSubmitState, DoSubmitFunction<CONFIG_INPUT, RESULT_TYPE>] {
   const [formSubmitState, setFormSubmitState] = useState<FormSubmitState>({
     success: false,
     saving: false,
     error: false
   });
 
-  const doSubmit: DoSubmitFunction = (apdexConfig, onSuccess, onError) => {
+  const doSubmit: DoSubmitFunction<CONFIG_INPUT, RESULT_TYPE> = ({ config, onSuccess, onError }) => {
     setFormSubmitState({
       saving: true,
       success: false,
       error: false
     });
 
-    const onSuccessHandler = (data: Result<ApdexConfiguration>) => {
+    const onSuccessHandler = (data: Result<RESULT_TYPE>) => {
       const errored = hasError(data);
       setFormSubmitState({
         saving: false,
@@ -54,7 +56,7 @@ export default function useCreateApdexConfiguration(): [FormSubmitState, DoSubmi
       onError();
     };
 
-    createApdexConfiguration(apdexConfig)
+    createConfigFunc(config)
       .filter(result => !isLoading(result))
       .once(onSuccessHandler, onErrorHandler);
   };

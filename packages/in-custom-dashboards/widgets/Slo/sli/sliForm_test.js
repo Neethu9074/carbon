@@ -3,7 +3,18 @@
  * (c) Copyright Instana Inc. 2022
  */
 
-import { createForm } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
+import {
+  applicationType,
+  availabilityType,
+  websiteTimeBased,
+  websiteEventBased
+} from 'in-custom-dashboards/widgets/Slo/sli/sliTypes.ts';
+import {
+  createForm,
+  toApplicationSliConfiguration,
+  toWebsiteSliConfiguration
+} from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 
 describe('in-custom-dashboards/widgets/Slo/sli/sliForm', () => {
   expect.extend({
@@ -275,6 +286,137 @@ describe('in-custom-dashboards/widgets/Slo/sli/sliForm', () => {
       expect(form.items.sliEntity).toHaveProperty('items');
       expect(form.items.sliEntity.items.goodEventFilterExpression).toBeFormField();
       expect(form.items.sliEntity.items.badEventFilterExpression).toBeFormField();
+    });
+  });
+
+  describe('toWebsiteSliConfiguration', () => {
+    it('returns сorrect filterExpression, if website time based SLI entity is provided', () => {
+      // Given
+      const mockFilterExpresstion = tagFilter('beacon.http.status', 'EQUALS', '200');
+      const mockWebsiteTimeBasedFormData = {
+        sliName: 'someWebsiteSliName',
+        sliEntity: {
+          sliType: websiteTimeBased,
+          applicationId: '123456',
+          filterExpression: [mockFilterExpresstion]
+        },
+        metricConfiguration: {
+          metricName: 'latency',
+          metricAggregation: 'P90',
+          threshold: 80
+        }
+      };
+
+      // When
+      const output = toWebsiteSliConfiguration(mockWebsiteTimeBasedFormData);
+
+      // Then
+      expect(output.sliEntity).toHaveProperty('filterExpression');
+      expect(output.sliEntity.filterExpression).toEqual(mockFilterExpresstion);
+    });
+
+    it('returns сorrect goodEventFilterExpression and badEventFilterExpression, if website event based SLI entity is provided', () => {
+      // Given
+      const mockGoodEventFilterExpression = tagFilter('beacon.http.status', 'EQUALS', '200');
+      const mockBadEventFilterExpression = tagFilter('beacon.http.status', 'NOT_EQUAL', '200');
+      const mockWebsiteEventBasedFormData = {
+        sliName: 'someWebsiteSliName',
+        sliEntity: {
+          sliType: websiteEventBased,
+          applicationId: '123456',
+          goodEventFilterExpression: [mockGoodEventFilterExpression],
+          badEventFilterExpression: [mockBadEventFilterExpression]
+        },
+        metricConfiguration: {
+          metricName: 'latency',
+          metricAggregation: 'P90',
+          threshold: 80
+        }
+      };
+
+      // When
+      const output = toWebsiteSliConfiguration(mockWebsiteEventBasedFormData);
+
+      // Then
+      expect(output.sliEntity).toHaveProperty('goodEventFilterExpression');
+      expect(output.sliEntity).toHaveProperty('badEventFilterExpression');
+      expect(output.sliEntity.goodEventFilterExpression).toEqual(mockGoodEventFilterExpression);
+      expect(output.sliEntity.badEventFilterExpression).toEqual(mockBadEventFilterExpression);
+    });
+
+    it('returns undefined, if SLI entity is neither a website time based SLI, nor website event based SLI', () => {
+      // Given
+      const mockApplicationTypeFormData = {
+        sliName: 'someWebsiteSliName',
+        sliEntity: {
+          sliType: applicationType,
+          applicationId: '123456'
+        },
+        metricConfiguration: {
+          metricName: 'latency',
+          metricAggregation: 'P90',
+          threshold: 80
+        }
+      };
+
+      // When
+      const output = toWebsiteSliConfiguration(mockApplicationTypeFormData);
+
+      //Then
+      expect(output).toEqual(undefined);
+    });
+  });
+
+  describe('toApplicationSliConfiguration', () => {
+    it('returns сorrect goodEventFilterExpression and badEventFilterExpression, if application availability type SLI entity is provided', () => {
+      // Given
+      const mockGoodEventFilterExpression = tagFilter('beacon.http.status', 'EQUALS', '200');
+      const mockBadEventFilterExpression = tagFilter('beacon.http.status', 'NOT_EQUAL', '200');
+      const mockAvailabilityTypeFormData = {
+        sliName: 'someWebsiteSliName',
+        sliEntity: {
+          sliType: availabilityType,
+          applicationId: '123456',
+          goodEventFilterExpression: [mockGoodEventFilterExpression],
+          badEventFilterExpression: [mockBadEventFilterExpression]
+        },
+        metricConfiguration: {
+          metricName: 'latency',
+          metricAggregation: 'P90',
+          threshold: 80
+        }
+      };
+
+      // When
+      const output = toApplicationSliConfiguration(mockAvailabilityTypeFormData);
+
+      // Then
+      expect(output.sliEntity).toHaveProperty('goodEventFilterExpression');
+      expect(output.sliEntity).toHaveProperty('badEventFilterExpression');
+      expect(output.sliEntity.goodEventFilterExpression).toEqual(mockGoodEventFilterExpression);
+      expect(output.sliEntity.badEventFilterExpression).toEqual(mockBadEventFilterExpression);
+    });
+
+    it('returns unchanged SLI form data, if a provided SLI entity is not an application availability type SLI entity', () => {
+      // Given
+      const mockApplicationTypeFormData = {
+        sliName: 'someWebsiteSliName',
+        sliEntity: {
+          sliType: websiteEventBased,
+          applicationId: '123456'
+        },
+        metricConfiguration: {
+          metricName: 'latency',
+          metricAggregation: 'P90',
+          threshold: 80
+        }
+      };
+
+      // When
+      const output = toApplicationSliConfiguration(mockApplicationTypeFormData);
+
+      // Then
+      expect(output).toEqual(mockApplicationTypeFormData);
     });
   });
 });

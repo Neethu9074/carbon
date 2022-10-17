@@ -9,25 +9,16 @@ import { Item } from 'formalistic';
 import { Observable } from '@instana/observables';
 
 import {
-  CombinedWebsiteSliEntity,
-  isWebsiteEventBasedSliEntity,
-  isWebsiteTimeBasedSliEntity,
-  NewSliConfig,
-  SliConfigBySliType,
-  websiteTimeBased
-} from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
-import {
   useValidateWebsiteFilterExpression,
   useWebsiteQueryBuilder
 } from 'in-custom-dashboards/widgets/Slo/sli/hooks/useWebsiteQueryBuilder';
-import { createForm, SliFormData, WebsiteSliEntityFormData } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
 import { CreateSliFormProps } from 'in-custom-dashboards/widgets/Slo/sli/components/create/CreateSliFormFactory';
 import { useWebsiteSliFormSideEffects } from 'in-custom-dashboards/widgets/Slo/sli/hooks/useSliFormSideEffects';
-import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { createForm, WebsiteSliEntityFormData } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
 import CreateSliForm from 'in-custom-dashboards/widgets/Slo/sli/components/create/CreateSliForm';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { WebsiteSliForm } from 'in-custom-dashboards/widgets/Slo/sli/WebsiteSliForm';
-import { createSliConfiguration } from 'in-custom-dashboards/widgets/Slo/sli/api';
+import { websiteTimeBased } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { Result, TimeConfig, Website } from 'in-types';
 import useWebsite from 'in-websites/hooks/useWebsite';
@@ -81,13 +72,7 @@ function CreateWebsiteSliFormComponent({
       editMode={!!sliConfig?.id}
       close={close}
       filterExpressionValid={filterExpressionValid}
-      onSubmit={submittedFormData =>
-        createSliConfiguration({
-          ...toBackendFormat(submittedFormData)
-        }).tap(data => {
-          if (data.status < 400) onSave(data.body as SliConfigBySliType<'website'>);
-        })
-      }
+      onSave={onSave}
     >
       <WebsiteSliForm
         form={form}
@@ -122,39 +107,4 @@ function useValidateExpressions({ sliEntity, isQueryValid }: UseValidateExpressi
   });
 
   return sliType === websiteTimeBased ? filterExpressionValid : goodEventsValid && badEventsValid;
-}
-
-function toBackendFormat(formData: SliFormData<'website'>): NewSliConfig<CombinedWebsiteSliEntity> {
-  const sliEntity = formData.sliEntity;
-
-  if (isWebsiteTimeBasedSliEntity(sliEntity)) {
-    const { filterExpression, ...entity } = sliEntity as Omit<
-      WebsiteSliEntityFormData,
-      'goodEventFilterExpression' | 'badEventFilterExpression'
-    >;
-    return {
-      ...formData,
-      sliEntity: {
-        ...entity,
-        filterExpression: toBackendQueryModel(filterExpression)
-      }
-    };
-  }
-
-  if (isWebsiteEventBasedSliEntity(sliEntity)) {
-    const { goodEventFilterExpression, badEventFilterExpression, ...entity } = sliEntity as Omit<
-      WebsiteSliEntityFormData,
-      'filterExpression'
-    >;
-    return {
-      ...formData,
-      sliEntity: {
-        ...entity,
-        goodEventFilterExpression: toBackendQueryModel(goodEventFilterExpression),
-        badEventFilterExpression: toBackendQueryModel(badEventFilterExpression)
-      }
-    };
-  }
-
-  return undefined as never;
 }
