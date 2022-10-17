@@ -555,6 +555,8 @@
   "pluginName_httpd": "Apache HTTPd",
   "pluginName_ibmCics": "IBM CICS",
   "pluginName_ibmCics_plural": "IBM CICS",
+  "pluginName_ibmCtg": "IBM CTG",
+  "pluginName_ibmCtg_plural": "IBM CTG",
   "pluginName_ibmCloudClinicalData_plural": "IBM Clinical Datas",
   "pluginName_ibmCloudClinicalData_0": "IBM Clinical Datas",
   "pluginName_ibmCloudClinicalData_1": "IBM Clnical Datas",
@@ -1431,6 +1433,8 @@
   "tracingTypeName_cicshttpexit": "CICS HTTP Call",
   "tracingTypeName_cicsrpcentry": "CICS RPC Call",
   "tracingTypeName_cicsrpcexit": "CICS RPC Call",
+  "tracingTypeName_ctgrpcentry": "CTG RPC Call",
+  "tracingTypeName_ctgrpcexit": "CTG RPC Call",
   "tracingTypeName_cicsmqentry": "CICS MQ Message",
   "tracingTypeName_cicsmqexit": "CICS MQ Message",
   "tracingTypeName_imsmqentry": "IMS MQ Message",
@@ -12162,6 +12166,14 @@
       "titleRegion": "CICS Region",
       "titleDestination": "Destination",
       "titleUnknown": "unknown"
+    },
+    "ctg": {
+      "titleCtgAttributes": "CTG Attributes",
+      "ctgReturnCode" : "CTG Return Code",
+      "cicsReturnCode" : "CICS Return Code",
+      "transactionName" : "Transaction Name",
+      "titleCalls": "Calls",
+      "calls": "{{call}}"
     },
     "corba": {
       "titleMethod": "Method",
