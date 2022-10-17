@@ -259,8 +259,8 @@ export default function Summary({ data: pod, timeConfig }) {
             config={{
               y1: {
                 metrics: metricConfigsCpuResources,
-                formatter: resourceQuotaNumber,
-                tooltipFormatter: resourceQuotaNumber,
+                formatter: 'number.detailed',
+                tooltipFormatter: 'number.detailed',
                 renderer: line.id,
                 colors: [usage, requests, limits]
               },
@@ -277,8 +277,8 @@ export default function Summary({ data: pod, timeConfig }) {
             config={{
               y1: {
                 metrics: metricConfigsMemoryResources,
-                formatter: resourceQuotaNumber,
-                tooltipFormatter: resourceQuotaNumber,
+                formatter: 'bytes.detailed',
+                tooltipFormatter: 'bytes.detailed',
                 renderer: line.id,
                 colors: [usage, requests, limits]
               },
