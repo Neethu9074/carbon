@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { combineLatest } from '@instana/observables';
 import { Stack } from '@instana/components';
 
 import {
@@ -14,7 +15,7 @@ import {
   createCustomThresholdBasedEventSpecification,
   getCustomEventSpecification,
   saveCustomEventSpecification,
-  getCustomEventSpecificationWithActions,
+  getCustomEventActions,
   saveCustomEventSpecificationWithActions
 } from 'in-api/eventSpecifications';
 import {
@@ -59,6 +60,18 @@ import { t } from 'in-i18n';
 export default function CustomEvent(props) {
   const entityId = props.match.params.id;
 
+  function mergeResultData() {
+    const eventDetails$ = getCustomEventSpecification(entityId);
+    const actionDetails$ = getCustomEventActions(entityId);
+    // calling Get Event and Get action associations call and combining results
+    return combineLatest([eventDetails$, actionDetails$]).map(([eventResponse, actionResponse]) =>
+      eventResponse.set(
+        'actionIds',
+        actionResponse.map(action => action.id)
+      )
+    );
+  }
+
   return (
     <Form
       title={t('in-settings:tabs.event')}
@@ -66,9 +79,7 @@ export default function CustomEvent(props) {
       createDefaultEntity={createCustomThresholdBasedEventSpecification}
       createForm={event => createEventFormDefinition(event, !entityId)}
       getEntityFromApi={
-        role.canConfigureAutomationActions && actionAutomationEnabled
-          ? getCustomEventSpecificationWithActions
-          : getCustomEventSpecification
+        role.canConfigureAutomationActions && actionAutomationEnabled ? mergeResultData : getCustomEventSpecification
       }
       openEntities={() => goToPath(teamSettingsAlertingEvents)}
       saveEntity={save}
