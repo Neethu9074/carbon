@@ -198,8 +198,7 @@ function save(event, form) {
 
   const eventSpecification = getEventSpecification(event, form);
   if (role.canConfigureAutomationActions && actionAutomationEnabled && !isTriggering) {
-    const actions = actionIds?.map(value => ({ id: value }));
-    eventSpecification.actions = actions;
+    eventSpecification.actions = actionIds?.map(value => ({ id: value }));
     return saveCustomEventSpecificationWithActions(eventSpecification);
   } else {
     return saveCustomEventSpecification(eventSpecification);
