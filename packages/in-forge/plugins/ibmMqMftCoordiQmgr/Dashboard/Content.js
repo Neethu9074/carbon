@@ -6,16 +6,44 @@
 
 import React from 'react';
 
-import FileTransferStatusTable from 'in-forge/plugins/ibmMqMftCoordiQmgr/Dashboard/FileTransferStatusTable';
-import FileTransferLogsTable from 'in-forge/plugins/ibmMqMftCoordiQmgr/Dashboard/FileTransferLogsTable';
 import AgentsTable from 'in-forge/plugins/ibmMqMftCoordiQmgr/Dashboard/AgentsTable';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { number } from 'in-services/formatters/number';
+import MetricValue from 'in-components/MetricValue';
+import { t } from 'in-i18n';
 
 export default function IbmMqMftCoordiQmgrDashboard({ snapshot, timeConfig }) {
+  const snapshotId = snapshot.get('id');
   return (
     <div>
+      <KpiSection>
+        <KpiKeyValue label={t('in-forge:plugins.ibmMqMftCoordiQmgr.dashboard.currentTransfers')}>
+          <MetricValue snapshotId={snapshotId} metric="currentTransfers" formatter={number.compact} />
+        </KpiKeyValue>
+        <KpiKeyValue label={t('in-forge:plugins.ibmMqMftCoordiQmgr.dashboard.totalTransfers')}>
+          <MetricValue snapshotId={snapshotId} metric="totalTransfers" formatter={number.compact} />
+        </KpiKeyValue>
+      </KpiSection>
+      <DashboardSection title={t('in-forge:plugins.ibmMqMftCoordiQmgr.dashboard.transfers')}>
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            formatter: number.detailed,
+            tooltipFormatter: number.detailed,
+            metrics: [`successfulTransfers`, `failedTransfers`, `partiallySuccessfulTransfers`],
+            labels: [
+              t('in-forge:plugins.ibmMqMftCoordiQmgr.dashboard.successfulTransfers'),
+              t('in-forge:plugins.ibmMqMftCoordiQmgr.dashboard.failedTransfers'),
+              t('in-forge:plugins.ibmMqMftCoordiQmgr.dashboard.partiallySuccessfulTransfers')
+            ],
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
       <AgentsTable snapshot={snapshot} timeConfig={timeConfig} />
-      <FileTransferStatusTable snapshot={snapshot} timeConfig={timeConfig} />
-      <FileTransferLogsTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }

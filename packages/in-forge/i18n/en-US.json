@@ -9237,7 +9237,13 @@
         "coordiQmgrName": "Coordination Queue Manager",
         "coordiQmgrHost": "Host",
         "connectionChannel": "Connection Channel",
-        "agentsWithCount": "MFT Agents ({{len}})"
+        "agentsWithCount": "MFT Agents ({{len}})",
+        "transfers": "Transfers",
+        "currentTransfers": "Current Transfers",
+        "totalTransfers": "Total Transfers",
+        "successfulTransfers": "Successful Transfers",
+        "failedTransfers": "Failed Transfers",
+        "partiallySuccessfulTransfers": "Partially Successful Transfers"
       }
     },
     "ibmMqMftZone": {
@@ -9253,46 +9259,18 @@
         "agentStatus": "Status",
         "queueManager": "Queue Manager",
         "AgentStartTimeUTC": "Start Time(UTC)",
-        "maxSourceTransfers": "Source",
-        "maxDestinationTransfers": "Destination",
-        "maxQueuedTransfers": "Queued",
+        "maxSourceTransfers": "Max Source Transfers",
+        "maxDestinationTransfers": "Max Destination Transfers",
+        "maxQueuedTransfers": "Max Queued Transfers",
         "hostName": "Host Name",
         "agentType": "Type",
         "agentTimeZone": "Time Zone",
-        "fileTransferLogsWithCount": "Transfer Logs ({{len}})",
         "runningTransfers": "Running Transfers",
         "totalCurrentTransfers": "Total Current Transfers",
-        "transferStatusWithCount": "Current Transfers ({{len}})",
         "totalSourceTransfers": "Source Transfers",
-        "totalDestinationTransfers": "Destination Transfers"
-      }
-    },
-    "ibmMqMftFileTransferStatus": {
-      "dashboard": {
-        "sourceAgent": "Source Agent",
-        "destinationAgent": "Destination Agent",
-        "startedTime": "Started Time",
-        "fileNumber": "File Number",
-        "elapsedSeconds": "Elaspsed Time(Seconds)",
-        "statsTransferredBytes": "Transferred Bytes",
-        "sourceFileName": "Source File"
-      }
-    },
-    "ibmMqMftFileTransferLog": {
-      "dashboard": {
-        "actionStatus": "Status",
-        "sourceAgent": "Source Agent",
-        "destinationAgent": "Destination Agent",
-        "originatorUserID": "Originator",
-        "startedTime": "Started Time",
-        "transferMode": "Mode",
-        "checkSumMethod": "CheckSum Method",
-        "checkSumValue": "CheckSum Value",
-        "sourceFileName": "Source File",
-        "sourceFileSize": "Source Size",
-        "destinationFileName": "Destination File",
-        "destinationFileSize": "Destination Size",
-        "itemsWithCount": "Files ({{len}})"
+        "totalDestinationTransfers": "Destination Transfers",
+        "statusRunning": "Running",
+        "statusUnknown": "Unknown"
       }
     },
     "ibmMqQueueManager": {
