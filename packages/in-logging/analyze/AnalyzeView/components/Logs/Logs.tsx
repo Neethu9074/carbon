@@ -46,17 +46,6 @@ import { t } from 'in-i18n';
 
 import locals from 'in-logging/analyze/AnalyzeView/components/Logs.mless';
 
-const columnDefinitions = [
-  logLevelColumn,
-  timestampColumn,
-  {
-    id: 'log',
-    getContent: LogMessageColumn
-  },
-  centerAlignedLinkColumn,
-  centerAlignedCopyColumn
-];
-
 export default function Logs(props: LogsProps) {
   const {
     getHrefWithAdditionalTagFilter,
@@ -103,6 +92,17 @@ export default function Logs(props: LogsProps) {
     }
     return getTableData(params);
   };
+
+  const columnDefinitions = [
+    logLevelColumn,
+    timestampColumn,
+    {
+      id: 'log',
+      getContent: (item: LogItem) => <LogMessageColumn {...item} />
+    },
+    centerAlignedLinkColumn,
+    centerAlignedCopyColumn
+  ];
 
   const renderNestedContent = (_: unknown, item: LogItem) => (
     <LogTagsTable

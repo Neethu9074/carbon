@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import React, { useState } from 'react';
 import rpt from 'prop-types';
-import React from 'react';
 
 import { LiLoadMore, ColumnizedContent, Ul, Li } from '@instana/components';
 import { generateStableHash } from '@instana/utils';
@@ -28,6 +28,44 @@ UngroupedAnalyzeViewList.propTypes = {
     listItem: rpt.string
   }),
   renderNestedContent: rpt.func
+};
+
+const ListItem = props => {
+  const {
+    id,
+    item,
+    getHrefToDetailId,
+    classNames,
+    groupLabel,
+    columnDefinitions,
+    renderNestedContent,
+    withoutListItemLinkToDetails,
+    initiallyOpenedItemIds,
+    groupKey,
+    onToggleContentRow // (toogled: boolean, item: any) => void
+  } = props;
+
+  const [isToggled, setIsToggled] = useState(initiallyOpenedItemIds.includes(id));
+
+  const extendedItem = { ...item, groupKey };
+  return (
+    <Li
+      className={classNames?.listItem}
+      size="compact"
+      href={withoutListItemLinkToDetails ? undefined : getHrefToDetailId(id, groupLabel)}
+      renderNestedContent={renderNestedContent ? () => renderNestedContent(id, extendedItem) : undefined}
+      initiallyOpen={initiallyOpenedItemIds.includes(id)}
+      tracking={{
+        onToggleContentRow: toggled => {
+          onToggleContentRow(toggled, extendedItem);
+          setIsToggled(toggled);
+        }
+      }}
+      toggleContentOnRowClick
+    >
+      <ColumnizedContent columnDefinitions={columnDefinitions} isToggled={isToggled} {...extendedItem} {...props} />
+    </Li>
+  );
 };
 
 function List(props) {
@@ -55,26 +93,26 @@ function List(props) {
 
   const numSkeletonRows = items.length === 0 ? props.initialLines : retrievalSize;
 
+  const itemProps = {
+    getHrefToDetailId,
+    getId,
+    classNames,
+    groupLabel,
+    columnDefinitions,
+    renderNestedContent,
+    withoutListItemLinkToDetails,
+    initiallyOpenedItemIds,
+    groupKey,
+    onToggleContentRow // (toogled: boolean, item: any) => void
+  };
+
   return (
     <>
       {hasItems && (
         <Ul space="disabled">
           {items.map(item => {
             const id = getId(item);
-            const extendedItem = { ...item, groupKey };
-            return (
-              <Li
-                key={generateStableHash(id)}
-                className={classNames?.listItem}
-                size="compact"
-                href={withoutListItemLinkToDetails ? undefined : getHrefToDetailId(id, groupLabel)}
-                renderNestedContent={renderNestedContent ? () => renderNestedContent(id, extendedItem) : undefined}
-                initiallyOpen={initiallyOpenedItemIds.includes(id)}
-                tracking={{ onToggleContentRow: toggled => onToggleContentRow(toggled, extendedItem) }}
-              >
-                <ColumnizedContent columnDefinitions={columnDefinitions} {...extendedItem} {...props} />
-              </Li>
-            );
+            return <ListItem {...props} {...itemProps} item={item} key={generateStableHash(id)} id={id} />;
           })}
           {canLoadMore && (
             <LiLoadMore
