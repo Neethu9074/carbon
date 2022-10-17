@@ -108,7 +108,7 @@ export default function RunAction({ action, script, volatileId, event }: Props) 
     );
     footer = (
       <>
-        <CancelButton onClick={close} />
+        <CancelButton isSaving={isSaving} onClick={close} />
         <SaveButton
           kind="primary"
           form={form}
