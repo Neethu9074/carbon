@@ -17,6 +17,7 @@ import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFoot
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { notBlankValidator } from 'in-services/validators/string';
+import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import { getLinkToAnalyze } from 'in-logging/navigation/paths';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { AgentResponse } from 'in-subscription/agentResponse';
@@ -43,6 +44,7 @@ interface Props {
 export default function RunAction({ action, script, volatileId, event }: Props) {
   const [actionInstanceId, setActionInstanceId] = useState('');
   const [error, setError] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
   const timeConfig = useTimeConfig();
   const [form, setForm] = useState<MapForm>();
   const targetAgent = form?.get('targetAgent') as Field<string>;
@@ -106,15 +108,19 @@ export default function RunAction({ action, script, volatileId, event }: Props) 
     );
     footer = (
       <>
-        <CancelButton onClick={close} />
-        <Button
+        <CancelButton isSaving={isSaving} onClick={close} />
+        <SaveButton
           kind="primary"
+          form={form}
+          isSaving={isSaving}
           onClick={() => {
             if (!form?.hierarchyValid) {
               setForm(form?.setTouched(true, { recurse: true }));
               return;
             }
+            setIsSaving(true);
             runScriptAction(script, volatileId, event, actionName).once(data => {
+              setIsSaving(false);
               // last element of the array is either the timeout error if the agent didn't respond in time, or the agent response (error or in progress)
               // result unknown because we only care about error
               const response: Result<null> | AgentResponse = data[data.length - 1];
@@ -129,7 +135,7 @@ export default function RunAction({ action, script, volatileId, event }: Props) 
           }}
         >
           {t('in-events:yes')}
-        </Button>
+        </SaveButton>
       </>
     );
   }
