@@ -565,11 +565,11 @@ export function removeScopeByHostsField(form) {
   return form.remove('tagValue').remove('tagOperator');
 }
 
-export function putActionField(form, tagValue) {
+export function putActionField(form, actionIds) {
   return form.put(
     'actionIds',
     createField({
-      value: tagValue ?? []
+      value: actionIds ?? []
     })
   );
 }
