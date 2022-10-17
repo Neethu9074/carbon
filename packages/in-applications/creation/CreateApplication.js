@@ -27,7 +27,7 @@ export default function CreateApplication({
 }) {
   const entityResult = useObservable(getConfig, [applicationId]);
   useEffect(() => {
-    if (location.pathname === '/applications/newAP' && entityResult) {
+    if (location.pathname === '/applications/new' && entityResult) {
       applicationCreationOpenDialogClick({ status: 'Open Creation Dialog' });
       addActiveDialog(
         <CreateApplicationDialog
