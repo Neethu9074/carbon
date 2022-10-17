@@ -222,11 +222,6 @@ export default function Summary({ data: pod, timeConfig }) {
             }}
             raw
           />
-          {/* <KpiCard
-            title={t('in-kubernetes:dashboards.memoryUsage')}
-            value={<MetricValue snapshotId={pod.id} metric="memory.usage" formatter={bytesTwoDecimalPlaces} />}
-            raw
-          /> */}
         </Col>
         <Col lg={kpiWidth}>
           <BigNumberKpiCard
