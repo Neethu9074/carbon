@@ -1,0 +1,57 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+import React from 'react';
+
+import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
+import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
+import { AxisColor, Formatter, TimeShift } from 'in-components/Chart/types';
+import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
+import { line } from 'in-stores/metric/renderer';
+import theme from 'in-themes';
+
+interface PodChartPresentProps {
+  selectedMetricValue: string; // passed implicitly by TimeShiftAwareChartSelectorWithUrlState
+  timeShiftConfig: TimeShift; // passed implicitly by TimeShiftAwareChartSelectorWithUrlState
+  selectorComponent: JSX.Element;
+  metrics: Metric[];
+  title: string;
+  colors: AxisColor[];
+  formatter: string;
+  tooltipFormatter?: Formatter;
+}
+
+export default function PodsChartPresenter({
+  selectedMetricValue,
+  timeShiftConfig,
+  selectorComponent,
+  metrics,
+  title,
+  colors,
+  formatter,
+  tooltipFormatter
+}: PodChartPresentProps) {
+  const selectedMetric = metrics.find(m => m.metric === selectedMetricValue) ?? metrics[0];
+  return (
+    <UnifiedMetricsChart
+      rightHeaderContent={selectorComponent}
+      title={title}
+      config={{
+        y1: {
+          metrics: timeShiftConfig.offset
+            ? [selectedMetric, { ...selectedMetric, timeShift: timeShiftConfig.offset }]
+            : metrics,
+          formatter,
+          tooltipFormatter,
+          colors: timeShiftConfig.offset ? ([selectedMetric.color, theme.lib.colors.timeShift] as AxisColor[]) : colors,
+          renderer: line.id
+        },
+        reverseOrder: true,
+        type: 'TIME_SERIES'
+      }}
+      renderPostChartContent={K8DashboardsMarkerLanes}
+    />
+  );
+}
