@@ -61,7 +61,7 @@ pipeline {
           backendComponents = getBackendComponents()
               .findAll { it.isIncludedInRelease(majorReleaseVersion) && !(it.name ==~ /^ui-client.*/) }
               .collect { it.name }
-              .plus(['ingress', 'ingress-global'])
+              .plus(['ingress', 'ingress-global', 'ingress-otlp-acceptor'])
           uiClientComponents = getBackendComponents()
               .findAll { it.isIncludedInRelease(majorReleaseVersion) && (it.name ==~ /^ui-client.*/) }
               .collect { it.name }
