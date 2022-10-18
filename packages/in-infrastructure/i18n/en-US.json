@@ -100,7 +100,7 @@
     "collapseAll": "Collapse All",
     "map": "Map",
     "comparisonTable": "Comparison Table",
-    "entityExploreBeta": "Entity Explore (Beta)",
+    "entityExplore": "Entity Explore",
     "infrastructureComparisonTable": "Infrastructure Comparison Table"
   }
 }

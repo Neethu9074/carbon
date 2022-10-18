@@ -48,7 +48,7 @@ export default connectTo(
           {infraExploreEnabled && (
             <SecondLevelNavigationItem
               href$={defaultInfraExploreView}
-              label={t('in-infrastructure:tableView.entityExploreBeta')}
+              label={t('in-infrastructure:tableView.entityExplore')}
               isActive={isInfraExploreActive}
             />
           )}
