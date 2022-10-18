@@ -18,6 +18,7 @@ import getEntities from 'in-infrastructure/subscriptions/getEntities';
 import Header from 'in-components/QueryBuilder/components/Header';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import EntityLink from 'in-components/EntityLink/EntityLink';
+import { isTechnicalError } from 'in-services/util/error';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { mapData } from 'in-services/util/result';
 import { noop } from 'in-services/util/function';
@@ -89,7 +90,7 @@ export default function InfrastructureList({
 
       {hasErrors && (
         <Message type="error" withIcon small>
-          {getErrorMessage(errors[0].message)}
+          {getErrorMessage(errors[0])}
         </Message>
       )}
       <CursorPaginatedTable
@@ -113,9 +114,15 @@ export default function InfrastructureList({
 }
 
 function getErrorMessage(err) {
-  if (err.includes('more than the maximum number of groups')) {
+  if (err.message?.includes('more than the maximum number of groups')) {
     return t('in-infrastructure:explore.errors.maximumNumberOfGroups');
   }
+
+  if (isTechnicalError(err.code) && !__DEV__) {
+    return t('in-components:error.erroneousResultPresenterMessage');
+  }
+
+  return t('in-infrastructure:explore.errors.generalError');
 }
 
 function getTableData({ timeConfig, retrievalSize, backendQueryModel, type, order, metrics, cursor }) {
