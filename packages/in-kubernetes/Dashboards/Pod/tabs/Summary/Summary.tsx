@@ -1,11 +1,15 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2022
  */
+
+// @ts-nocheck - block imports cannot be excluded unfortunately - https://github.com/Microsoft/TypeScript/issues/19573
 
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
+import { AggregationType, KubernetesPod, ResultType, TimeConfig } from '@instana/types';
 import { Card } from '@instana/components';
 
 import {
@@ -25,17 +29,17 @@ import PodsChartPresenter from 'in-kubernetes/Dashboards/Pod/tabs/Summary/PodsCh
 import ContainerStates from 'in-kubernetes/Dashboards/Pod/tabs/Summary/ContainerStates';
 import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
+import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
+import { getPodDashboard, summaryTab } from 'in-kubernetes/navigation/paths';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
-import { getPodDashboard } from 'in-kubernetes/navigation/paths';
-import { summaryTab } from 'in-applications/navigation/paths';
 import { number, bytes } from 'in-services/formatters/number';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { getChartGranularity } from 'in-stores/metric';
 import { Row, Col } from 'in-components/layout/Grid';
-import KpiCard from 'in-components/KpiCard/KpiCard';
 import MetricValue from 'in-components/MetricValue';
+import KpiCard from 'in-components/KpiCard/KpiCard';
 import Capitalize from 'in-components/Capitalize';
 import { plugins } from 'in-forge/constants';
 import theme from 'in-themes';
@@ -43,10 +47,15 @@ import { t } from 'in-i18n';
 
 import locals from './Summary.mless';
 
-export default function Summary({ data: pod, timeConfig }) {
+interface SummaryProps {
+  data: KubernetesPod;
+  timeConfig: TimeConfig;
+}
+
+export default function Summary({ data: pod, timeConfig }: SummaryProps) {
   const snapshotId = pod.id;
   const message = get(pod, ['status', 'message']);
-  const containerStatuses = get(pod, ['status', 'containerStatuses'], []);
+  const containerStatuses = pod.status?.containerStatuses || [];
   const kpiWidth = 2;
 
   const clusterTag = kubernetesClusterTagEquals(pod.clusterId);
@@ -57,24 +66,32 @@ export default function Summary({ data: pod, timeConfig }) {
 
   const type = plugins.kubernetesPod;
 
+  const comparisonColors = {
+    comparisonDecreaseColor: blue.id,
+    comparisonIncreaseColor: blue.id
+  };
+
   const defaultBigNumberMetricConfig = {
-    source: 'INFRASTRUCTURE_METRICS',
-    aggregation: 'MEAN',
+    source: 'INFRASTRUCTURE_METRICS' as any,
+    aggregation: 'MEAN' as AggregationType,
     tagFilterExpression,
-    type,
-    timeShift: timeShift.offset
+    type: type,
+    timeShift,
+    timeConfig,
+    resultType: 'SINGLE_NUMBER' as ResultType
   };
 
   const isContainerMetric = {
     /* use this configuration on containers of this pod (which can be of type docker, containerd or crio)
       type filtering must be disabled and cross series aggregation uses SUM */
-    type: undefined,
+    //@ts-expect-error wait until type definitions are updated with an optional type field in InfraMetricConfiguration
+    type: undefined as string,
     crossSeriesAggregation: 'SUM'
   };
 
   const defaultMetricConfig = {
     granularity: getChartGranularity(timeConfig),
-    aggregation: 'MEAN',
+    aggregation: 'MEAN' as AggregationType,
     source: source,
     tagFilterExpression,
     timeConfig,
@@ -215,7 +232,7 @@ export default function Summary({ data: pod, timeConfig }) {
         />
         <KpiCard
           title={t('in-kubernetes:dashboards.phase')}
-          value={<Capitalize>{get(pod, ['status', 'phase'], pod.phase)}</Capitalize>}
+          value={<Capitalize>{get(pod, ['status', 'phase'], pod.status?.phase)}</Capitalize>}
           borderless
           raw
         />
@@ -262,7 +279,8 @@ export default function Summary({ data: pod, timeConfig }) {
                 metric: 'cpu.total_usage',
                 ...defaultBigNumberMetricConfig,
                 ...isContainerMetric
-              }
+              },
+              ...comparisonColors
             }}
             raw
           />
@@ -275,7 +293,8 @@ export default function Summary({ data: pod, timeConfig }) {
               metricConfiguration: {
                 metric: 'cpuRequests',
                 ...defaultBigNumberMetricConfig
-              }
+              },
+              ...comparisonColors
             }}
             raw
           />
@@ -288,7 +307,8 @@ export default function Summary({ data: pod, timeConfig }) {
               metricConfiguration: {
                 metric: 'cpuLimits',
                 ...defaultBigNumberMetricConfig
-              }
+              },
+              ...comparisonColors
             }}
             raw
           />
@@ -303,7 +323,8 @@ export default function Summary({ data: pod, timeConfig }) {
                 metric: 'memory.usage',
                 ...defaultBigNumberMetricConfig,
                 ...isContainerMetric
-              }
+              },
+              ...comparisonColors
             }}
             raw
           />
@@ -316,7 +337,8 @@ export default function Summary({ data: pod, timeConfig }) {
               metricConfiguration: {
                 metric: 'memoryRequests',
                 ...defaultBigNumberMetricConfig
-              }
+              },
+              ...comparisonColors
             }}
             raw
           />
@@ -329,7 +351,8 @@ export default function Summary({ data: pod, timeConfig }) {
               metricConfiguration: {
                 metric: 'memoryLimits',
                 ...defaultBigNumberMetricConfig
-              }
+              },
+              ...comparisonColors
             }}
             raw
           />
@@ -346,7 +369,6 @@ export default function Summary({ data: pod, timeConfig }) {
             <PodsChartPresenter
               metrics={metricConfigsCpuResources}
               title={t('in-kubernetes:dashboards.cpuResources')}
-              timeConfig={timeConfig}
               colors={colors}
               formatter="number.detailed"
               tooltipFormatter={number.detailed}
@@ -363,7 +385,6 @@ export default function Summary({ data: pod, timeConfig }) {
             <PodsChartPresenter
               metrics={metricConfigsMemoryResources}
               title={t('in-kubernetes:dashboards.memoryResources')}
-              timeConfig={timeConfig}
               colors={colors}
               formatter="bytes.detailed"
               tooltipFormatter={bytes.detailed}
