@@ -60,17 +60,22 @@ export default function GlobalCustomPayloadPage() {
   return <CustomPayload result={result} save={save} savingState={savingState} />;
 }
 
-const TagBasedPayloadConfigurator = createTagBasedPayloadConfigurator({
+const GlobalTagBasedPayloadConfigurator = createTagBasedPayloadConfigurator({
   getTagCatalog: getCustomPayloadTagCatalog
 });
 
 // exported only for use in storybook testing
 export function CustomPayload(props) {
-  const { result, save, savingState } = props;
+  const {
+    result,
+    save,
+    savingState,
+    TagBasedPayloadConfigurator = GlobalTagBasedPayloadConfigurator,
+    canConfigureGlobalAlertPayload = role.canConfigureGlobalAlertPayload
+  } = props;
   const [form, setForm] = useState(createForm(result?.data?.fields ?? []));
   const { message, error, storing } = savingState ?? initialState;
 
-  const { canConfigureGlobalAlertPayload } = role;
   const tableColumnDefinitions = [keyColumnDefinition, typeColumnDefinition, valueColumnDefinition];
   const columnDefinitions = canConfigureGlobalAlertPayload
     ? [...tableColumnDefinitions, deleteItemColumnDefinition]

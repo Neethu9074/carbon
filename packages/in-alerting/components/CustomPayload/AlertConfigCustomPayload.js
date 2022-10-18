@@ -23,7 +23,7 @@ const KeyValue = [
 const KeyTypeValue = [
   { ...keyColumnDefinition, width: '25' },
   { ...typeColumnDefinition, width: '20' },
-  { ...valueColumnDefinition, width: '55' },
+  { ...valueColumnDefinition, width: '50' },
   { ...deleteItemColumnDefinition, width: '5' }
 ];
 

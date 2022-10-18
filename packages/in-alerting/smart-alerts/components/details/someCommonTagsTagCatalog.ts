@@ -53,6 +53,45 @@ export const someCommonTags: TagCatalog = {
       queryable: false
     },
     {
+      label: 'Commonly Used',
+      description: undefined,
+      icon: undefined,
+      children: [
+        {
+          label: 'Pod label',
+          description: 'Custom meta data.',
+          tagName: 'kubernetes.pod.label',
+          type: 'TAG'
+        }
+      ],
+      type: 'LEVEL',
+      queryable: false
+    },
+    {
+      label: 'Platform',
+      description: undefined,
+      icon: undefined,
+      children: [
+        {
+          label: 'OpenShift',
+          description: undefined,
+          icon: undefined,
+          children: [
+            {
+              label: 'Deployment Config Label',
+              description: 'Deployment Config Label. bla. bla.',
+              tagName: 'openshift.deploymentconfig.label',
+              type: 'TAG'
+            }
+          ],
+          type: 'LEVEL',
+          queryable: false
+        }
+      ],
+      type: 'LEVEL',
+      queryable: false
+    },
+    {
       label: 'Location',
       description: undefined,
       icon: undefined,
@@ -127,6 +166,30 @@ export const someCommonTags: TagCatalog = {
   ],
   tags: [
     {
+      name: 'beacon.user.language',
+      label: 'Language',
+      type: 'STRING',
+      description: 'The end-users understood languages as configured within her web browser.',
+      canApplyToSource: false,
+      canApplyToDestination: false
+    },
+    {
+      name: 'beacon.location.url',
+      label: 'URL',
+      type: 'STRING',
+      description: 'The fully qualified URL of the HTML document as seen in the browser address bar.',
+      canApplyToSource: false,
+      canApplyToDestination: false
+    },
+    {
+      name: 'beacon.page.name',
+      label: 'Page Name',
+      type: 'STRING',
+      description: "The name of the page as defined via our JavaScript agent's page API.",
+      canApplyToSource: false,
+      canApplyToDestination: false
+    },
+    {
       name: 'beacon.browser.name',
       label: 'Name',
       type: 'STRING',
@@ -183,10 +246,26 @@ export const someCommonTags: TagCatalog = {
       canApplyToDestination: false
     },
     {
+      name: 'kubernetes.pod.label',
+      label: 'Pod label',
+      type: 'KEY_VALUE_PAIR',
+      description: 'Custom pod label.',
+      canApplyToSource: false,
+      canApplyToDestination: false
+    },
+    {
       name: 'beacon.website.name',
       label: 'Name',
       type: 'STRING',
       description: 'Name of the website as configured within the Instana user interface.',
+      canApplyToSource: false,
+      canApplyToDestination: false
+    },
+    {
+      name: 'openshift.deploymentconfig.label',
+      label: 'Deployment Config Label',
+      type: 'KEY_VALUE_PAIR',
+      description: 'Deployment Config Label. bla. bla.',
       canApplyToSource: false,
       canApplyToDestination: false
     }

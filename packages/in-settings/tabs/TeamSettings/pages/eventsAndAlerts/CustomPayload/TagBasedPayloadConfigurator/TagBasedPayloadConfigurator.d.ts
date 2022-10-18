@@ -16,3 +16,9 @@ export function createTagBasedPayloadConfigurator({
   getTagCatalog: () => Observable<Result<TagCatalog>>;
   getSuggestions?: (args: GetTagSuggestionsProps) => Observable<Result<TagSuggestions>>;
 });
+
+interface TagNodeLike {
+  type?: string;
+}
+
+export function doesTagNodeNeedSecondLevelKey(tagNode: TagNodeLike): boolean;

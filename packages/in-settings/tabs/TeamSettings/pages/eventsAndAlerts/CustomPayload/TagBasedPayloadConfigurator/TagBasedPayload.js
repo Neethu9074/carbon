@@ -3,22 +3,23 @@
  * (c) Copyright Instana Inc.
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
 import { toInteractiveElement, Message, SvgIcon } from '@instana/components';
 import { useAutoFocus } from '@instana/hooks';
 
 import { doesTagNodeNeedSecondLevelKey } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
-import KeyEquals from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/KeyEquals';
-import SimpleValueSelector from 'in-components/QueryBuilder/SimpleValueSelector/SimpleValueSelector';
+import SecondKeyValueSelector from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/SecondKeyValueSelector';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { isNotBlank } from 'in-services/util/string';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from './TagBasedPayloadConfigurator.mless';
 
-export default React.forwardRef(function TagBasedPayloadConfiguration(
+export default React.forwardRef(function TagBasedPayload(
   {
     onChange,
     tagFilterExpression,
@@ -54,46 +55,65 @@ export default React.forwardRef(function TagBasedPayloadConfiguration(
   });
 
   return (
-    <div className={locals.configurator} ref={ref} {...interactiveProps}>
-      <span
-        className={locals.tagName}
-        ref={autoFocus && !doesTagNodeNeedSecondLevelKey(tagTreeNode) ? tagNameRef : undefined}
+    <div
+      className={classNames({
+        [locals.configurator]: true,
+        [locals.configuratorWithSecondLevelKey]: doesTagNodeNeedSecondLevelKey(tagTreeNode)
+      })}
+      ref={ref}
+      {...interactiveProps}
+    >
+      <Tooltip
+        content={
+          <>
+            {path
+              .slice(0, path.length - 1)
+              .map(node => node.label)
+              .join(' ')}
+            <SvgIcon className={locals.icon} type="lib_arrow_drop_right" />
+            {path[path.length - 1].label}
+          </>
+        }
+        align="bottomMiddle"
+        delay={500}
       >
-        {path
-          .slice(0, path.length - 1)
-          .map(node => node.label)
-          .join(' ')}
-        <SvgIcon className={locals.icon} type="lib_arrow_drop_right" />
-        {path[path.length - 1].label}
-      </span>
+        <span
+          className={locals.tagName}
+          ref={autoFocus && !doesTagNodeNeedSecondLevelKey(tagTreeNode) ? tagNameRef : undefined}
+        >
+          <span>{path.slice(path.length - 2, path.length - 1).map(node => node.label)}</span>
+          <SvgIcon className={locals.icon} type="lib_arrow_drop_right" />
+          {path[path.length - 1].label}
+        </span>
+      </Tooltip>
       {doesTagNodeNeedSecondLevelKey(tagTreeNode) && (
         <>
           <KeyEquals />
-          <SimpleValueSelector
-            onChange={secondLevelKeyState.onChange}
-            value={secondLevelKeyState.value}
-            close={() => {}}
-            getSuggestions={() =>
-              getSuggestions({
-                tagFilterExpression,
-                name: tagName,
-                entity: payloadTagEntity,
-                timeConfig,
-                propose: 'KEYS'
-              })
-            }
-            fieldsToWatch={[tagFilterExpression, tagName, payloadTagEntity, timeConfig]}
-            inputProps={{
-              maxLength: 512,
-              type: 'text',
-              valid: isNotBlank(secondLevelKeyState.value),
-              ref: autoFocus ? tagNameRef : undefined,
-              placeholder: 'Key'
-            }}
-          />
+          <div className={locals.keyNameValue}>
+            <SecondKeyValueSelector
+              onChange={secondLevelKeyState.onChange}
+              value={secondLevelKeyState.value}
+              valid={isNotBlank(secondLevelKeyState.value)}
+              ref={autoFocus ? tagNameRef : undefined}
+              autoFocus={autoFocus}
+              getSuggestions={() =>
+                getSuggestions({
+                  tagFilterExpression,
+                  name: tagName,
+                  entity: payloadTagEntity,
+                  timeConfig,
+                  propose: 'KEYS'
+                })
+              }
+              fieldsToWatch={[tagFilterExpression, tagName, payloadTagEntity, timeConfig]}
+            />
+          </div>
         </>
       )}
-      <span className={locals.spacer} />
     </div>
   );
 });
+
+export function KeyEquals() {
+  return <div className={locals.keyEqualsOperator}>{t('in-settings:tabs.keyEquals')}</div>;
+}

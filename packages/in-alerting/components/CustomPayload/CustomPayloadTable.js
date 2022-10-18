@@ -33,6 +33,7 @@ export default function CustomPayloadTable({
   return (
     <div>
       <ServerTablePresenter
+        isScrollableTable={false}
         columnDefinitions={columnDefinitions}
         getRowProps={getRowProps}
         result={result}

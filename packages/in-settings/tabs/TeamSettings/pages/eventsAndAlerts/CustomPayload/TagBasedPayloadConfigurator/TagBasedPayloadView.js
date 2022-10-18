@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
 import { createTagForm, getFormPresentationInformation } from 'in-components/QueryBuilder/validation/tagForm';
@@ -13,14 +14,12 @@ import EntityReadOnly from 'in-components/QueryBuilder/components/Tag/EntityRead
 import NameReadOnly from 'in-components/QueryBuilder/components/Tag/NameReadOnly';
 import useThemedLocals from 'in-hooks/useThemedLocals';
 
+import locals from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadView.mless';
 import styleDefs from 'in-components/QueryBuilder/components/Tag/Tag.mless';
 
 /**
  * While there is no way to avoid to always show an operator, this component was
  * cloning the TagReadOnly component to implement this behavior.
- *
- * TODO: as a follow-up, let's extend either the readonly-view of the QueryBuilder or
- * extend the TagReadOnly view to make it reuse-able for our purpose.
  */
 export default function TagBasedPayloadView(props) {
   const { tagCatalog, payloadValue, doesTagNodeNeedSecondLevelKey } = props;
@@ -32,28 +31,18 @@ export default function TagBasedPayloadView(props) {
   const form = createTagForm(tagCatalog, element);
   const { type: tagType } = getFormPresentationInformation(tagCatalog, form);
 
-  const locals = useThemedLocals(styleDefs);
+  const tagBaseLocals = useThemedLocals(styleDefs);
 
   return (
-    <div className={locals.tag} style={{ cursor: 'not-allowed' }}>
+    <div className={classNames(tagBaseLocals.tag, locals.main)}>
       {form.get('entity')?.map(field => (
         <EntityReadOnly entity={field.value} />
       ))}
-      <NameReadOnly {...props} element={element} />
-      <KeyInput form={form} />
+      <NameReadOnly {...props} element={element} showFullPath={false} />
       {doesTagNodeNeedSecondLevelKey && <OperatorReadOnly element={element} tagType={tagType} />}
       <ValueInput form={form} />
     </div>
   );
-
-  function KeyInput({ form }) {
-    const field = form.get('key');
-    if (!field) {
-      return null;
-    }
-
-    return <InputValueViewerReadOnly value={field.value || ''} />;
-  }
 
   function ValueInput({ form }) {
     const field = form.get('value');
@@ -61,6 +50,6 @@ export default function TagBasedPayloadView(props) {
       return null;
     }
 
-    return <InputValueViewerReadOnly value={field.value || ''} />;
+    return <InputValueViewerReadOnly value={field.value || ''} className={locals.valueField} />;
   }
 }
