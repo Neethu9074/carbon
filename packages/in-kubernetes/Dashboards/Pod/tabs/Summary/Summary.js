@@ -61,7 +61,8 @@ export default function Summary({ data: pod, timeConfig }) {
     source: 'INFRASTRUCTURE_METRICS',
     aggregation: 'MEAN',
     tagFilterExpression,
-    type
+    type,
+    timeShift: timeShift.offset
   };
 
   const isContainerMetric = {
@@ -260,8 +261,7 @@ export default function Summary({ data: pod, timeConfig }) {
               metricConfiguration: {
                 metric: 'cpu.total_usage',
                 ...defaultBigNumberMetricConfig,
-                ...isContainerMetric,
-                timeShift: timeShift.offset
+                ...isContainerMetric
               }
             }}
             raw
@@ -274,8 +274,7 @@ export default function Summary({ data: pod, timeConfig }) {
             config={{
               metricConfiguration: {
                 metric: 'cpuRequests',
-                ...defaultBigNumberMetricConfig,
-                timeShift: timeShift.offset
+                ...defaultBigNumberMetricConfig
               }
             }}
             raw
@@ -288,8 +287,7 @@ export default function Summary({ data: pod, timeConfig }) {
             config={{
               metricConfiguration: {
                 metric: 'cpuLimits',
-                ...defaultBigNumberMetricConfig,
-                timeShift: timeShift.offset
+                ...defaultBigNumberMetricConfig
               }
             }}
             raw
@@ -304,8 +302,7 @@ export default function Summary({ data: pod, timeConfig }) {
               metricConfiguration: {
                 metric: 'memory.usage',
                 ...defaultBigNumberMetricConfig,
-                ...isContainerMetric,
-                timeShift: timeShift.offset
+                ...isContainerMetric
               }
             }}
             raw
@@ -318,8 +315,7 @@ export default function Summary({ data: pod, timeConfig }) {
             config={{
               metricConfiguration: {
                 metric: 'memoryRequests',
-                ...defaultBigNumberMetricConfig,
-                timeShift: timeShift.offset
+                ...defaultBigNumberMetricConfig
               }
             }}
             raw
@@ -332,8 +328,7 @@ export default function Summary({ data: pod, timeConfig }) {
             config={{
               metricConfiguration: {
                 metric: 'memoryLimits',
-                ...defaultBigNumberMetricConfig,
-                timeShift: timeShift.offset
+                ...defaultBigNumberMetricConfig
               }
             }}
             raw
