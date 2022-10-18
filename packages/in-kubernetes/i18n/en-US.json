@@ -227,8 +227,6 @@
       "endpointsDescription": "There were no endpoints retrieved for the selected time range."
     }
   },
-  "labelCpuResources": "CPU Resources",
-  "labelMemoryResources": "Memory Resources",
   "viewAllEntityName_unknownEntity_plural": "all",
   "viewAllEntityName_unknownEntity_0": "all",
   "viewAllEntityName_unknownEntity_1": "all",

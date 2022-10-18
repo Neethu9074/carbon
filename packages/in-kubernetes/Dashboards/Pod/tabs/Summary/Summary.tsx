@@ -52,8 +52,8 @@ interface SummaryProps {
 }
 
 export default function Summary({ data: pod, timeConfig }: SummaryProps) {
-  const snapshotId = pod.id;
-  const message = pod.status?.message;
+  const timeShift = useTimeShiftConfig();
+
   const containerStatuses = pod.status?.containerStatuses || [];
   const kpiWidth = 2;
 
@@ -61,161 +61,43 @@ export default function Summary({ data: pod, timeConfig }: SummaryProps) {
   const nsTag = kubernetesNamespaceTagEquals(pod.namespace);
   const podTag = tagEquals('kubernetes.pod.name', pod.label);
   const tagFilterExpression = toBackendQueryModel(andQuery(clusterTag, nsTag, podTag));
-  const timeShift = useTimeShiftConfig();
-
   const type = plugins.kubernetesPod;
-
-  const comparisonColors = {
-    comparisonDecreaseColor: blue.id,
-    comparisonIncreaseColor: blue.id
-  };
 
   const defaultBigNumberMetricConfig = {
     source,
     aggregation: 'MEAN' as AggregationType,
     tagFilterExpression,
-    type: type,
+    type,
     timeShift,
     timeConfig,
     resultType: 'SINGLE_NUMBER' as ResultType
+  };
+
+  const defaultMetricConfig = {
+    granularity: getChartGranularity(timeConfig),
+    aggregation: 'MEAN' as AggregationType,
+    source,
+    tagFilterExpression,
+    timeConfig,
+    timeShift: 0,
+    type
   };
 
   const isContainerMetric = {
     /* use this configuration on containers of this pod (which can be of type docker, containerd or crio)
       type filtering must be disabled and cross series aggregation uses SUM */
     type: undefined,
-    crossSeriesAggregation: 'SUM'
+    crossSeriesAggregation: 'SUM' as AggregationType
   };
 
-  const defaultMetricConfig = {
-    granularity: getChartGranularity(timeConfig),
-    aggregation: 'MEAN' as AggregationType,
-    source: source,
-    tagFilterExpression,
-    timeConfig,
-    timeShift: 0,
-    type
-  };
   const { orange800: limits, lime800: requests, lightBlue800: usage } = theme.lib.colors;
-  let colors = [usage, requests, limits];
-
-  const tabCpuResourcesCodes = {
-    id: 'cpuResources',
-    label: t('in-kubernetes:labelCpuResources')
+  const comparisonColors = {
+    comparisonDecreaseColor: blue.id,
+    comparisonIncreaseColor: blue.id
   };
 
-  const tabMemoryResourcesCodes = {
-    id: 'memoryResources',
-    label: t('in-kubernetes:labelMemoryResources')
-  };
-
-  const cpuMetrics = [
-    {
-      id: 'cpuUsage',
-      label: t('in-kubernetes:dashboards.usage'),
-      value: 'cpu.total_usage',
-      tab: tabCpuResourcesCodes.id,
-      tabDefault: true
-    },
-    {
-      id: 'cpuRequests',
-      label: t('in-kubernetes:dashboards.requests'),
-      value: 'cpuRequests',
-      tab: tabCpuResourcesCodes.id
-    },
-    {
-      id: 'cpuLimits',
-      label: t('in-kubernetes:dashboards.cpuLimits'),
-      value: 'cpuLimits',
-      tab: tabCpuResourcesCodes.id
-    }
-  ];
-
-  const memoryMetrics = [
-    {
-      id: 'memoryUsage',
-      label: t('in-kubernetes:dashboards.usage'),
-      value: 'memory.total_usage',
-      tab: tabMemoryResourcesCodes.id,
-      tabDefault: true
-    },
-    {
-      id: 'memoryRequests',
-      label: t('in-kubernetes:dashboards.requests'),
-      value: 'memoryRequests',
-      tab: tabMemoryResourcesCodes.id
-    },
-    {
-      id: 'memoryLimits',
-      label: t('in-kubernetes:dashboards.memoryLimits'),
-      value: 'memoryLimits',
-      tab: tabMemoryResourcesCodes.id
-    }
-  ];
-
-  let metricConfigsCpuResources = [
-    {
-      metric: 'cpu.total_usage',
-      label: t('in-kubernetes:dashboards.usage'),
-      ...defaultMetricConfig,
-      /* this metric is on containers for this pod which can be of type docker, containerd or crio
-      type filtering must be disabled and cross series aggregation uses SUM */
-      type: undefined,
-      crossSeriesAggregation: 'SUM'
-    },
-    {
-      metric: 'cpuRequests',
-      label: t('in-kubernetes:dashboards.requests'),
-      ...defaultMetricConfig
-    },
-    {
-      metric: 'cpuLimits',
-      label: t('in-kubernetes:dashboards.limits'),
-      ...defaultMetricConfig
-    }
-  ];
-
-  const metricConfigsMemoryResources = [
-    {
-      metric: 'memory.usage',
-      label: t('in-kubernetes:dashboards.usage'),
-      ...defaultMetricConfig,
-      /* this metric is on containers for this pod which can be of type docker, containerd or crio
-      type filtering must be disabled and cross series aggregation uses SUM */
-      type: undefined,
-      crossSeriesAggregation: 'SUM',
-      color: usage
-    },
-    {
-      metric: 'memoryRequests',
-      label: t('in-kubernetes:dashboards.requests'),
-      ...defaultMetricConfig,
-      color: requests
-    },
-    {
-      metric: 'memoryLimits',
-      label: t('in-kubernetes:dashboards.limits'),
-      ...defaultMetricConfig,
-      color: limits
-    }
-  ];
-
-  const urlMatrixParamConfigCpu = { path: summaryTab, paramTab: 'cpuTab', paramMetric: 'cpuMetric' };
-  const urlMatrixParamConfigMemory = { path: summaryTab, paramTab: 'memoryTab', paramMetric: 'memoryMetric' };
-  const tabCpu = {
-    id: 'cpuResources',
-    label: t('in-kubernetes:labelCpuResources')
-  };
-
-  const tabMemory = {
-    id: 'memoryResources',
-    label: t('in-kubernetes:labelMemoryResources')
-  };
-
-  const cpuOnlyTab = [tabCpu];
-  const memoryOnlyTab = [tabMemory];
-  const cpuCardTitle = t('in-kubernetes:labelCpuResources');
-  const memoryCardTitle = t('in-kubernetes:labelMemoryResources');
+  const cpuResourcesTabId = 'cpuResources';
+  const memoryResourcesTabId = 'memoryResources';
 
   return (
     <Fragment>
@@ -254,13 +136,13 @@ export default function Summary({ data: pod, timeConfig }: SummaryProps) {
         />
       </KpiGridRow>
 
-      {message && (
+      {pod.status?.message && (
         <Row>
           <Col lg={12}>
             <KpiCard
               title={t('in-kubernetes:dashboards.statusMessage')}
               valuesClassName={locals.message}
-              value={message}
+              value={pod.status?.message}
               raw
             />
           </Col>
@@ -358,15 +240,60 @@ export default function Summary({ data: pod, timeConfig }: SummaryProps) {
       <Row>
         <Col lg={6}>
           <TimeShiftAwareChartSelectorWithUrlState
-            cardTitle={cpuCardTitle}
-            tabs={cpuOnlyTab}
-            metrics={cpuMetrics}
-            urlMatrixParamConfig={urlMatrixParamConfigCpu}
+            cardTitle={t('in-kubernetes:labelCpuResources')}
+            tabs={[
+              {
+                id: 'cpuResources',
+                label: t('in-kubernetes:labelCpuResources')
+              }
+            ]}
+            metrics={[
+              {
+                id: 'cpuUsage',
+                label: t('in-kubernetes:dashboards.usage'),
+                value: 'cpu.total_usage',
+                tab: cpuResourcesTabId,
+                tabDefault: true
+              },
+              {
+                id: 'cpuRequests',
+                label: t('in-kubernetes:dashboards.requests'),
+                value: 'cpuRequests',
+                tab: cpuResourcesTabId
+              },
+              {
+                id: 'cpuLimits',
+                label: t('in-kubernetes:dashboards.cpuLimits'),
+                value: 'cpuLimits',
+                tab: cpuResourcesTabId
+              }
+            ]}
+            urlMatrixParamConfig={{ path: summaryTab, paramTab: 'cpuTab', paramMetric: 'cpuMetric' }}
           >
             <PodsChartPresenter
-              metrics={metricConfigsCpuResources}
+              metrics={[
+                {
+                  metric: 'cpu.total_usage',
+                  label: t('in-kubernetes:dashboards.usage'),
+                  color: usage,
+                  ...defaultMetricConfig,
+                  ...isContainerMetric
+                },
+                {
+                  metric: 'cpuRequests',
+                  label: t('in-kubernetes:dashboards.requests'),
+                  color: requests,
+                  ...defaultMetricConfig
+                },
+                {
+                  metric: 'cpuLimits',
+                  label: t('in-kubernetes:dashboards.limits'),
+                  color: limits,
+                  ...defaultMetricConfig
+                }
+              ]}
               title={t('in-kubernetes:dashboards.cpuResources')}
-              colors={colors}
+              colors={[usage, requests, limits]}
               formatter="number.detailed"
               tooltipFormatter={number.detailed}
             />
@@ -374,15 +301,60 @@ export default function Summary({ data: pod, timeConfig }: SummaryProps) {
         </Col>
         <Col lg={6}>
           <TimeShiftAwareChartSelectorWithUrlState
-            cardTitle={memoryCardTitle}
-            tabs={memoryOnlyTab}
-            metrics={memoryMetrics}
-            urlMatrixParamConfig={urlMatrixParamConfigMemory}
+            cardTitle={t('in-kubernetes:labelMemoryResources')}
+            tabs={[
+              {
+                id: 'memoryResources',
+                label: t('in-kubernetes:labelMemoryResources')
+              }
+            ]}
+            metrics={[
+              {
+                id: 'memoryUsage',
+                label: t('in-kubernetes:dashboards.usage'),
+                value: 'memory.total_usage',
+                tab: memoryResourcesTabId,
+                tabDefault: true
+              },
+              {
+                id: 'memoryRequests',
+                label: t('in-kubernetes:dashboards.requests'),
+                value: 'memoryRequests',
+                tab: memoryResourcesTabId
+              },
+              {
+                id: 'memoryLimits',
+                label: t('in-kubernetes:dashboards.memoryLimits'),
+                value: 'memoryLimits',
+                tab: memoryResourcesTabId
+              }
+            ]}
+            urlMatrixParamConfig={{ path: summaryTab, paramTab: 'memoryTab', paramMetric: 'memoryMetric' }}
           >
             <PodsChartPresenter
-              metrics={metricConfigsMemoryResources}
+              metrics={[
+                {
+                  metric: 'memory.usage',
+                  label: t('in-kubernetes:dashboards.usage'),
+                  color: usage,
+                  ...defaultMetricConfig,
+                  ...isContainerMetric
+                },
+                {
+                  metric: 'memoryRequests',
+                  label: t('in-kubernetes:dashboards.requests'),
+                  color: requests,
+                  ...defaultMetricConfig
+                },
+                {
+                  metric: 'memoryLimits',
+                  label: t('in-kubernetes:dashboards.limits'),
+                  color: limits,
+                  ...defaultMetricConfig
+                }
+              ]}
               title={t('in-kubernetes:dashboards.memoryResources')}
-              colors={colors}
+              colors={[usage, requests, limits]}
               formatter="bytes.detailed"
               tooltipFormatter={bytes.detailed}
             />
@@ -410,7 +382,7 @@ export default function Summary({ data: pod, timeConfig }: SummaryProps) {
         <Col lg={12}>
           <ConditionsTableCard
             conditions={pod.conditions}
-            viewAllHref$={getPodDashboard(snapshotId, { tab: '/conditions' })}
+            viewAllHref$={getPodDashboard(pod.id, { tab: '/conditions' })}
           />
         </Col>
       </Row>
