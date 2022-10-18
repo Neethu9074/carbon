@@ -83,8 +83,7 @@ export default function Summary({ data: pod, timeConfig }: SummaryProps) {
   const isContainerMetric = {
     /* use this configuration on containers of this pod (which can be of type docker, containerd or crio)
       type filtering must be disabled and cross series aggregation uses SUM */
-    //@ts-expect-error wait until type definitions are updated with an optional type field in InfraMetricConfiguration
-    type: undefined as string,
+    type: undefined,
     crossSeriesAggregation: 'SUM'
   };
 
