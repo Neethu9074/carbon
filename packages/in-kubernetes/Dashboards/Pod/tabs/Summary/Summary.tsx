@@ -313,7 +313,6 @@ export default function Summary({ data: pod, timeConfig }: SummaryProps) {
           />
         </Col>
         <Col lg={kpiWidth}>
-          {/* TO DO: WIP */}
           <BigNumberKpiCard
             title={t('in-kubernetes:dashboards.memoryUsage')}
             formatter={bytesTwoDecimalPlaces}
