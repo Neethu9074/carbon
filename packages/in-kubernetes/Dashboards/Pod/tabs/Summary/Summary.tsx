@@ -7,7 +7,6 @@
 // @ts-nocheck - block imports cannot be excluded unfortunately - https://github.com/Microsoft/TypeScript/issues/19573
 
 import React, { Fragment } from 'react';
-import { get } from 'lodash';
 
 import { AggregationType, KubernetesPod, ResultType, TimeConfig } from '@instana/types';
 import { Card } from '@instana/components';
@@ -54,7 +53,7 @@ interface SummaryProps {
 
 export default function Summary({ data: pod, timeConfig }: SummaryProps) {
   const snapshotId = pod.id;
-  const message = get(pod, ['status', 'message']);
+  const message = pod.status?.message;
   const containerStatuses = pod.status?.containerStatuses || [];
   const kpiWidth = 2;
 
@@ -226,13 +225,13 @@ export default function Summary({ data: pod, timeConfig }: SummaryProps) {
       <KpiGridRow sizes={[3, 3, 2, 2, 2]}>
         <KpiCard
           title={t('in-kubernetes:dashboards.status')}
-          value={<Capitalize>{get(pod, ['status', 'statusSummary'], valueMissingPlaceholder)}</Capitalize>}
+          value={<Capitalize>{pod.status?.statusSummary || valueMissingPlaceholder}</Capitalize>}
           borderless
           raw
         />
         <KpiCard
           title={t('in-kubernetes:dashboards.phase')}
-          value={<Capitalize>{get(pod, ['status', 'phase'], pod.status?.phase)}</Capitalize>}
+          value={<Capitalize>{pod.status?.phase || valueMissingPlaceholder}</Capitalize>}
           borderless
           raw
         />
