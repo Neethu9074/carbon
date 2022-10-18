@@ -6,6 +6,7 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
+import { KubernetesNamespace, TimeConfig } from '@instana/types';
 import { Card } from '@instana/components';
 
 import {
@@ -20,16 +21,24 @@ import {
   resourceQuotaBytes,
   resourceQuotaZeroDecimalPlaces
 } from 'in-kubernetes/formatters';
+// @ts-expect-error
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
+// @ts-expect-error
 import TopDeploymentsList from 'in-kubernetes/Dashboards/commonComponents/TopDeploymentsList';
+// @ts-expect-error
 import MetricFilterChart from 'in-kubernetes/Dashboards/commonComponents/MetricFilterChart';
-import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
+// @ts-expect-error
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
+// @ts-expect-error
 import TopPodsList from 'in-kubernetes/Dashboards/commonComponents/TopPodsList';
+// @ts-expect-error
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
+// @ts-expect-error
 import { getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
+import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
+// @ts-expect-error
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';
 import { Row, Col } from 'in-components/layout/Grid';
@@ -37,9 +46,14 @@ import KpiCard from 'in-components/KpiCard/KpiCard';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
-const resourceQuotaSet = v => v !== -1;
+const resourceQuotaSet = (v: number) => v !== -1;
 
-export default function Summary({ timeConfig, data: namespace }) {
+interface SummaryProps {
+  timeConfig: TimeConfig;
+  data: KubernetesNamespace;
+}
+
+export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
   const snapshotId = namespace.id;
   const {
     indigo800: hardLimits,
