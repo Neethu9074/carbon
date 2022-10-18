@@ -38,7 +38,9 @@ function SelectListDialogContent({
   limit = Number.MAX_VALUE, // unlimited by default
   pageSize = 7,
   preventCloseOnSubmit,
-  renderCustomFormActions
+  renderCustomFormActions,
+  loadEntities,
+  scored
 }) {
   limit = limit - hiddenIds.length; // take the items that are already selected into account
   const ListComponent = listComponent;
@@ -91,6 +93,8 @@ function SelectListDialogContent({
           }}
           rightHeader={listComponentRightHeader}
           inSelectListDialog
+          loadEntities={loadEntities}
+          scored={scored}
         />
         {errorMessage && <ValidationBlock className={locals.errorMessage}>{errorMessage}</ValidationBlock>}
       </FormGroup>

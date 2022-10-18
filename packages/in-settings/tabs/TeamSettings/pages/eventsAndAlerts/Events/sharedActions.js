@@ -14,7 +14,7 @@ import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/Sel
 import ActionTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionTable';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
-import { getAllActions } from 'in-api/automation';
+import { getAllActions, getAllActionsWithAISuggestions } from 'in-api/automation';
 import { t } from 'in-i18n';
 
 function actionSelectionTableActions(form, setForm) {
@@ -55,8 +55,10 @@ const getSelectedActionsForEvent = createMemoizedObservableForReferencedEntities
   );
 });
 
-export function ActionsSelection({ form, setForm }) {
+export function ActionsSelection({ form, setForm, entity }) {
   const selectedActions = form.get('actionIds')?.value ?? [];
+  const eventName = entity.get('name');
+  const eventDescription = entity.get('description');
 
   const RightHeader = (
     <SelectListDialogButton
@@ -66,6 +68,12 @@ export function ActionsSelection({ form, setForm }) {
       label={t('in-settings:tabs.addActions')}
       listComponent={ActionTable}
       limit={10}
+      scored
+      loadEntities={() =>
+        getAllActionsWithAISuggestions(eventName, eventDescription).map(actionAIScores =>
+          actionAIScores.map(({ action, score, color }) => ({ ...action, score, color }))
+        )
+      }
       hiddenIds={selectedActions}
       createSubmitLabel={numberOfItems =>
         numberOfItems > 0

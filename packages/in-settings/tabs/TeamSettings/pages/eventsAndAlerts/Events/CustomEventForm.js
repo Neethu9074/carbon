@@ -205,7 +205,8 @@ function EventForm({
   setSaveEnabled,
   hideLegacyAppDataEventDeprecationInfo,
   existingApplication,
-  disabled
+  disabled,
+  entity
 }) {
   applyQueryValidationResult(queryValidationResult, form, onChange);
 
@@ -672,7 +673,7 @@ function EventForm({
       {role.canConfigureAutomationActions && actionAutomationEnabled && !form.get('triggering').value && (
         <>
           <SectionHeading>{t('in-settings:tabs.4ActionAssociations')}</SectionHeading>
-          <ActionsSelection form={form} setForm={setForm} />
+          <ActionsSelection form={form} setForm={setForm} entity={entity} />
         </>
       )}
     </fieldset>

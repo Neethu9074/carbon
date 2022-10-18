@@ -78,7 +78,9 @@ export default compose(
     };
   }),
   withState('orderByState', 'setOrderBy', ({ initialOrderBy }) => (initialOrderBy ? initialOrderBy : 'name')),
-  withState('orderDirectionState', 'setOrderDirection', 'ASC'),
+  withState('orderDirectionState', 'setOrderDirection', ({ initalOrderDir }) =>
+    initalOrderDir ? initalOrderDir : 'ASC'
+  ),
   withState('queryState', 'setQuery', ''),
   withState('pageState', 'setPage', ({ initialPageNumber = 1 }) => initialPageNumber),
   lifecycle({

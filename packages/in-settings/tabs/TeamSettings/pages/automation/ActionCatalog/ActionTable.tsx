@@ -22,6 +22,7 @@ import { Action } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './ActionTable.mless';
+import { reverse, sortBy } from 'lodash';
 
 const columnDefinitions = [
   {
@@ -105,6 +106,25 @@ const nameColumn = (showActionLink: boolean) => ({
   }
 });
 
+interface ScoredAction extends Action {
+  score: number;
+  color: string;
+}
+
+const scoreColumn = {
+  label: t('in-settings:tabs.confidence'),
+  id: 'color',
+  getContent(row: ScoredAction) {
+    if (row.color == 'low') return t('in-settings:tabs.low');
+    else if (row.color == 'medium') return t('in-settings:tabs.medium');
+    else if (row.color == 'high') return t('in-settings:tabs.high');
+    else return row.color;
+  },
+  getValue(row: ScoredAction) {
+    return row.score;
+  }
+};
+
 export interface ActionTableProps {
   title?: string;
   pageSize?: number;
@@ -118,6 +138,7 @@ export interface ActionTableProps {
   volatileId?: VolatileId;
   event?: Event | null;
   showActionLink?: boolean | undefined;
+  scored?: boolean | undefined;
 }
 
 export default function ActionTable({
@@ -132,18 +153,23 @@ export default function ActionTable({
   showExecuteColumn = false,
   volatileId = {},
   showActionLink = false,
-  event = null
+  event = null,
+  scored = false
 }: ActionTableProps) {
   let columnDefinitionsToShow = [nameColumn(showActionLink), ...columnDefinitions];
   if (showExecuteColumn) {
     columnDefinitionsToShow = [...columnDefinitionsToShow, executeColumn(volatileId, event)];
+  }
+  if (scored) {
+    columnDefinitionsToShow = [...columnDefinitionsToShow, scoreColumn];
   }
 
   return (
     <List<Action>
       noDataMessage={noDataMessage}
       pageSize={pageSize}
-      initialOrderBy={'name'}
+      initalOrderDir={scored ? 'DESC' : 'ASC'}
+      initialOrderBy={scored ? 'color' : 'name'}
       isSearchable
       loadEntities={loadEntities}
       columnDefinitions={columnDefinitionsToShow}
@@ -155,6 +181,7 @@ export default function ActionTable({
       tableActions={tableActions}
       extraFilters={createFilters(hiddenIds)}
       getEntityName={getEntityName}
+      customSortEntities={sortEntities}
     />
   );
 }
@@ -169,4 +196,32 @@ function createFilters(ids: string[]): Array<(action: Action) => boolean> {
     filterFunctions.push((action: Action) => !ids.includes(action.id));
   }
   return filterFunctions;
+}
+
+function sortEntities({
+  entities,
+  orderByState,
+  orderDirectionState
+}: {
+  entities: Action[];
+  orderByState: keyof ScoredAction;
+  orderDirectionState: 'ASC' | 'DESC';
+}) {
+  const caseInsensitiveSortIteratee = (entity: ScoredAction) => {
+    let value = entity[orderByState];
+    if (orderByState === 'color') {
+      let sortValue;
+      if (value == 'low') sortValue = 0;
+      else if (value == 'medium') sortValue = 1;
+      else if (value == 'high') sortValue = 2;
+      return [sortValue, entity.name.trim().toLowerCase()];
+    }
+    return typeof value === 'string' ? value.trim().toLowerCase() : value;
+  };
+
+  const sorted = sortBy(entities, caseInsensitiveSortIteratee);
+  if (orderDirectionState === 'DESC') {
+    reverse(sorted);
+  }
+  return sorted as Action[];
 }
