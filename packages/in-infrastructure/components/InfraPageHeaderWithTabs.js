@@ -51,6 +51,7 @@ export default function InfraPageHeaderWithTabs({
                 label={isInfraExploreActive && renderTypeSelector && <TypeSelector onTypeSelected={onTypeSelected} />}
                 headerHref$={headerHref$}
                 onHeaderClick={onHeaderClick}
+                renderDelimiter={headerHref$ != null}
               />
               <DashboardHeaderModule theme={theme} withBottomBorder>
                 <ViewSwitcher theme={theme} showSearchBar={showSearchBar} />
