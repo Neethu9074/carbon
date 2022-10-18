@@ -16,6 +16,7 @@ import ClickhouseTotalTableSizes from 'in-internal/monitoringUnit/sre/Clickhouse
 import AppDataHealthAggregator from 'in-internal/monitoringUnit/Appdata/AppDataHealthAggregator';
 // General imports
 import InternalViewWrapper from 'in-internal/components/InternalViewWrapper';
+import AdaptiveBaselineModel from 'in-internal/thisUnit/AdaptiveBaseline/AdaptiveBaselineModel';
 import AppDataHealthProcessor from 'in-internal/monitoringUnit/Appdata/AppDataHealthProcessor';
 import ServerlessAcceptors from 'in-internal/monitoringUnit/serverless/ServerlessAcceptors';
 import JsStackTraceTranslator from 'in-internal/monitoringUnit/eum/JsStackTraceTranslator';
@@ -186,6 +187,7 @@ export default function Internal() {
         <Route path="/internal/thisUnit/internalEvents" children={wrapInInternalView(InternalEvents)} />
         <Route path="/internal/thisUnit/agents" component={Agents} />
         <Route path="/internal/thisUnit/wsApiTester" children={wrapInInternalView(WsApiTester)} />
+        <Route path="/internal/thisUnit/adaptiveBaselineModel" children={wrapInInternalView(AdaptiveBaselineModel)} />
       </>
 
       <Route path="/internal" children={wrapInInternalView(Landing)} />
