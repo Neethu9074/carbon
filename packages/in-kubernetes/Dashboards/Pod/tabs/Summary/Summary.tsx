@@ -71,7 +71,7 @@ export default function Summary({ data: pod, timeConfig }: SummaryProps) {
   };
 
   const defaultBigNumberMetricConfig = {
-    source: 'INFRASTRUCTURE_METRICS' as any,
+    source,
     aggregation: 'MEAN' as AggregationType,
     tagFilterExpression,
     type: type,
@@ -225,13 +225,13 @@ export default function Summary({ data: pod, timeConfig }: SummaryProps) {
       <KpiGridRow sizes={[3, 3, 2, 2, 2]}>
         <KpiCard
           title={t('in-kubernetes:dashboards.status')}
-          value={<Capitalize>{pod.status?.statusSummary || valueMissingPlaceholder}</Capitalize>}
+          value={<Capitalize><>{pod.status?.statusSummary || valueMissingPlaceholder}</></Capitalize>}
           borderless
           raw
         />
         <KpiCard
           title={t('in-kubernetes:dashboards.phase')}
-          value={<Capitalize>{pod.status?.phase || valueMissingPlaceholder}</Capitalize>}
+          value={<Capitalize><>{pod.status?.phase || valueMissingPlaceholder}</></Capitalize>}
           borderless
           raw
         />
