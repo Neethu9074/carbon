@@ -6,7 +6,7 @@
 
 import React, { useState } from 'react';
 
-import { ColumnizedContent, Li, Link, Stack, Ul } from '@instana/components';
+import { ColumnizedContent, Li, Link, Ul } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { TagFilter } from '@instana/types';
 
@@ -52,7 +52,9 @@ import { t } from 'in-i18n';
 import locals from 'in-logging/analyze/AnalyzeView/components/LogTagsTable.mless';
 
 export function TagName({ tag, tagToLabelMap }: TagEntryProps) {
-  return useResolvedName(tag, tagToLabelMap);
+  const name = useResolvedName(tag, tagToLabelMap);
+
+  return <span className={locals.tagName}>{name}</span>;
 }
 
 export function TagValue({
@@ -69,13 +71,13 @@ export function TagValue({
   const entitySnapshotId = getSnapshotId(tag, item);
 
   return (
-    <Stack direction="horizontal" gap="xxsmall" align="center" distribution="spaceBetween">
-      <Stack direction="horizontal" gap="xsmall" align="center" distribution="spaceBetween">
+    <div className={locals.tagValue}>
+      <div className={locals.tagLink}>
         {entitySnapshotId && <EntityHealthDot snapshotId={entitySnapshotId} />}
         <ResolvedLink tag={tag} item={item} resolvedValue={resolvedValue} uniqueTagName={uniqueTagName} />
-      </Stack>
+      </div>
       {isHovered && tag.key !== LOG_CUSTOM_KEY_APPLICATION_IDS && (
-        <Stack direction="horizontal" gap="disabled" align="center">
+        <div className={locals.tagActions}>
           {allowedTagsForGrouping?.has(tag.name || '') && getHrefToGroupedView && (
             <Tooltip content={t('in-logging:tooltipAddAsGroup')}>
               <IconLink
@@ -101,9 +103,9 @@ export function TagValue({
               {copyToClipboardRef => <IconButton ref={copyToClipboardRef} iconSize={'xs'} type="lib_actions_copy" />}
             </CopyToClipboard>
           </Tooltip>
-        </Stack>
+        </div>
       )}
-    </Stack>
+    </div>
   );
 }
 
