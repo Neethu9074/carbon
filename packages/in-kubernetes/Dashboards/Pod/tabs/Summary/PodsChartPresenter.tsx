@@ -13,25 +13,26 @@ import { line } from 'in-stores/metric/renderer';
 import theme from 'in-themes';
 
 interface PodChartPresentProps {
-  selectedMetricValue: string; // passed implicitly by TimeShiftAwareChartSelectorWithUrlState
-  timeShiftConfig: TimeShift; // passed implicitly by TimeShiftAwareChartSelectorWithUrlState
-  selectorComponent: JSX.Element;
   metrics: Metric[];
   title: string;
   colors: AxisColor[];
   formatter: string;
   tooltipFormatter?: Formatter;
+  // following fields are passed implicitly by TimeShiftAwareChartSelectorWithUrlState
+  selectedMetricValue?: string;
+  timeShiftConfig?: TimeShift;
+  selectorComponent?: JSX.Element;
 }
 
 export default function PodsChartPresenter({
-  selectedMetricValue,
-  timeShiftConfig,
-  selectorComponent,
   metrics,
   title,
   colors,
   formatter,
-  tooltipFormatter
+  tooltipFormatter,
+  selectedMetricValue,
+  timeShiftConfig,
+  selectorComponent
 }: PodChartPresentProps) {
   const selectedMetric = metrics.find(m => m.metric === selectedMetricValue) ?? metrics[0];
   return (
@@ -40,12 +41,14 @@ export default function PodsChartPresenter({
       title={title}
       config={{
         y1: {
-          metrics: timeShiftConfig.offset
+          metrics: timeShiftConfig?.offset
             ? [selectedMetric, { ...selectedMetric, timeShift: timeShiftConfig.offset }]
             : metrics,
           formatter,
           tooltipFormatter,
-          colors: timeShiftConfig.offset ? ([selectedMetric.color, theme.lib.colors.timeShift] as AxisColor[]) : colors,
+          colors: timeShiftConfig?.offset
+            ? ([selectedMetric.color, theme.lib.colors.timeShift] as AxisColor[])
+            : colors,
           renderer: line.id
         },
         reverseOrder: true,

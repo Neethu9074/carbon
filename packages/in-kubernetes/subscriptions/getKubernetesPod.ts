@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
+import { GetKubernetesPodQuery, KubernetesPod, Result } from '@instana/types';
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
-export default createResultSubscriptionFactory({
+export default createResultSubscriptionFactory<GetKubernetesPodQuery, Result<KubernetesPod>>({
   eventId: 'getKubernetesPod'
 });
