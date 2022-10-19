@@ -8952,6 +8952,11 @@
                 "activeThreads": "Active Threads",
                 "ineligibleThreads": "Ineligible Threads",
                 "maxActiveThreads": "Max Active Threads"
+              },
+              "pagesFaultRate": {
+                "elapsedDatabaseFaults": "Elapsed Database Faults",
+                "elapsedTotalFaults": "Elapsed Total Faults",
+                "elapsedNonDatabaseFaults": "Elapsed Non Database Faults"
               }
             }
           },
