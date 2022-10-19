@@ -63,7 +63,6 @@ export interface DashboardHeaderProps {
   withBorderBottom?: boolean;
   headerHref$?: Observable<string>;
   onHeaderClick?: (params: any) => any;
-  renderDelimiter?: boolean;
 }
 
 const isNotLastElement = (index: number, array: any[]) => {
@@ -84,8 +83,7 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
     hideUrlShortener,
     withBorderBottom,
     headerHref$,
-    onHeaderClick = () => {},
-    renderDelimiter = true
+    onHeaderClick = () => {}
   } = props;
   let {
     label,
@@ -144,8 +142,8 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
                 shouldRenderDelimiter={
                   // Render the delimiter for all context items except the last one
                   // Except the last element is followed by an icon or a label
-                  renderDelimiter &&
-                  (isNotLastElement(i, contextConfigurations) || label != null || icon != null || renderIcon != null)
+
+                  isNotLastElement(i, contextConfigurations) || label != null || icon != null || renderIcon != null
                 }
                 headerHref$={headerHref$}
                 onHeaderClick={onHeaderClick}
