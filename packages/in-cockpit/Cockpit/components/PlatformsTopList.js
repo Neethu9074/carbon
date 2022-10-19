@@ -40,6 +40,7 @@ import { getZhmcsWithDefaults } from 'in-zhmc/subscriptions/getZhmcs';
 import { getPhmcsWithDefaults } from 'in-phmc/subscriptions/getPhmcs';
 import { getClusterDashboard } from 'in-kubernetes/navigation/paths';
 import HealthDot from 'in-components/health/HealthDot/HealthDot';
+import { getIbmpPhmcDashboard } from 'in-phmc/navigation/paths';
 import { getIbmzZhmcDashboard } from 'in-zhmc/navigation/paths';
 import { hasError, isLoading } from 'in-services/util/result';
 import TopListWidget from 'in-cockpit/widgets/TopListWidget';
@@ -87,6 +88,8 @@ export default function PlatformsTopList({ config }) {
           ? getApplicationDashboardLink
           : item.isZhmc
           ? getIbmzZhmcDashboard
+          : item.isPhmc
+          ? getIbmpPhmcDashboard
           : item.isOpenstack
           ? getOpenstackRegionDashboard
           : getVsphereDatacenterDashboard)(getId(item));
@@ -208,7 +211,7 @@ const columnDefinitions = [
   {
     width: '6rem',
     getContent({ item }) {
-      if (item.isPcf || item.isKubernetes) {
+      if (item.isPcf || item.isKubernetes || item.isPhmc || item.isZhmc || item.isOpenstack) {
         return null;
       }
       return <KeyValue label={t('in-cockpit:component.platformsTopList.esXiHosts')} value={item.hosts} accentuated />;
@@ -218,6 +221,10 @@ const columnDefinitions = [
     width: '6rem',
     getContent({ item }) {
       if (item.isPcf) {
+        return null;
+      } else if (item.isPhmc || item.isZhmc) {
+        return <KeyValue label={t('in-cockpit:component.platformsTopList.systems')} value={item.systems} accentuated />;
+      } else if (item.isOpenstack) {
         return null;
       }
       return item.isKubernetes ? (
@@ -238,6 +245,12 @@ const columnDefinitions = [
             accentuated
           />
         );
+      } else if (item.isPhmc || item.isZhmc) {
+        return (
+          <KeyValue label={t('in-cockpit:component.platformsTopList.partitions')} value={item.partitions} accentuated />
+        );
+      } else if (item.isOpenstack) {
+        return null;
       }
       return item.isKubernetes ? (
         <KeyValue label={t('in-cockpit:component.platformsTopList.namespaces')} value={item.namespaces} accentuated />
@@ -263,6 +276,12 @@ const columnDefinitions = [
             accentuated
           />
         );
+      } else if (item.isZhmc) {
+        return (
+          <KeyValue label={t('in-cockpit:component.platformsTopList.adapters')} value={item.adapters} accentuated />
+        );
+      } else if (item.isPhmc) {
+        return <KeyValue label={t('in-cockpit:component.platformsTopList.vios')} value={item.vios} accentuated />;
       }
       return item.isKubernetes ? (
         <KeyValue label={t('in-cockpit:component.platformsTopList.pods')} value={item.workloads.pods} accentuated />
