@@ -25,6 +25,7 @@ export default function EntityList({ retrievalSize = 20, backendQueryModel, time
 
   const [data, setResultData] = useState(createResultData(items));
   const [orderDir, setOrderDirection] = useState('ASC');
+  const [orderByCol, setOrderByColumn] = useState('label');
 
   const onChangeItems = items => {
     setResultData(createResultData(items));
@@ -71,7 +72,7 @@ export default function EntityList({ retrievalSize = 20, backendQueryModel, time
       id: 'count',
       width: '8rem',
       label: t('in-infrastructure:explore.count'),
-      sortable: false,
+      sortable: true,
       getContent(item) {
         return (
           <>
@@ -85,7 +86,7 @@ export default function EntityList({ retrievalSize = 20, backendQueryModel, time
   return (
     <>
       <ServerTablePresenter
-        orderBy="label"
+        orderBy={orderByCol}
         orderDirection={orderDir}
         result={data}
         columnDefinitions={columnDefinitions}
@@ -105,6 +106,21 @@ export default function EntityList({ retrievalSize = 20, backendQueryModel, time
                 }
                 return 0;
               });
+              setOrderByColumn(orderBy);
+              setOrderDirection(orderDirection);
+              setResultData(p);
+            }
+            if (orderBy === 'count') {
+              const p = items.sort((a, b) => {
+                if (a.count < b.count) {
+                  return orderDirection === 'DESC' ? 1 : -1;
+                }
+                if (a.count > b.count) {
+                  return orderDirection === 'DESC' ? -1 : 1;
+                }
+                return 0;
+              });
+              setOrderByColumn(orderBy);
               setOrderDirection(orderDirection);
               setResultData(p);
             }
