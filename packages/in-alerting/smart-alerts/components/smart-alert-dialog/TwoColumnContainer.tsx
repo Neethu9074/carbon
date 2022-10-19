@@ -3,13 +3,23 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import React from 'react';
 
 import { Message } from '@instana/components';
 
 import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/TwoColumnContainer.mless';
+
+interface TwoColumnContainerProps {
+  mainContent: ReactNode;
+  mainContentHeadline: string;
+  moveMainAreaRight?: boolean;
+  removePaddingSecondaryArea?: boolean;
+  secondaryContent: ReactNode;
+  warnMessage?: ReactNode;
+  removeMainAreaContentBorder?: boolean;
+}
 
 export default function TwoColumnContainer({
   mainContent,
@@ -19,7 +29,7 @@ export default function TwoColumnContainer({
   removePaddingSecondaryArea,
   warnMessage,
   removeMainAreaContentBorder
-}) {
+}: TwoColumnContainerProps) {
   return (
     <div
       className={classNames({
