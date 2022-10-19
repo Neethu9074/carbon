@@ -9080,7 +9080,7 @@
 
           },
           "spinningDiskType": {
-            "name": "Disk Info",
+            "name": "Spinning Disk Info",
             "resourceName" : "Resource Name",
             "unitStorageCapacity" : "Storage Capacity",
             "percentUsed" : "Percent Used",
