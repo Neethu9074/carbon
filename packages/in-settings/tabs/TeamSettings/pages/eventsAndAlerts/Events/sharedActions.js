@@ -59,8 +59,8 @@ const getSelectedActionsForEvent = createMemoizedObservableForReferencedEntities
   );
 });
 
-function curriedActionTable(eventName, eventDescription) {
-  return function ActionTableWrapper(props) {
+function getScoredActionTable(eventName, eventDescription) {
+  return function ScoredActionTable(props) {
     return (
       <ActionTable {...props} loadEntities={() => getAllActionsWithAISuggestions(eventName, eventDescription)} scored />
     );
@@ -78,7 +78,7 @@ export function ActionsSelection({ form, setForm, entity }) {
       onSubmit={selectedIds => submitActionSelection(form, setForm, selectedIds)}
       title={t('in-settings:tabs.addActions')}
       label={t('in-settings:tabs.addActions')}
-      listComponent={curriedActionTable(eventName, eventDescription)}
+      listComponent={getScoredActionTable(eventName, eventDescription)}
       limit={10}
       hiddenIds={selectedActions}
       createSubmitLabel={numberOfItems =>
