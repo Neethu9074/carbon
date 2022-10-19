@@ -96,34 +96,11 @@ export default function EntityList({ retrievalSize = 20, backendQueryModel, time
             onChangeItems(items.filter(item => item.tags.type.toLowerCase().includes(query?.toLowerCase())));
           } else {
             //sort
-            if (orderBy === 'label') {
-              const p = items.sort((a, b) => {
-                if (a.tags.type < b.tags.type) {
-                  return orderDirection === 'DESC' ? 1 : -1;
-                }
-                if (a.tags.type > b.tags.type) {
-                  return orderDirection === 'DESC' ? -1 : 1;
-                }
-                return 0;
-              });
-              setOrderByColumn(orderBy);
-              setOrderDirection(orderDirection);
-              setResultData(p);
-            }
-            if (orderBy === 'count') {
-              const p = items.sort((a, b) => {
-                if (a.count < b.count) {
-                  return orderDirection === 'DESC' ? 1 : -1;
-                }
-                if (a.count > b.count) {
-                  return orderDirection === 'DESC' ? -1 : 1;
-                }
-                return 0;
-              });
-              setOrderByColumn(orderBy);
-              setOrderDirection(orderDirection);
-              setResultData(p);
-            }
+            const sortedItems = sortItems(items, orderBy, orderDirection);
+
+            setOrderByColumn(orderBy);
+            setOrderDirection(orderDirection);
+            setResultData(sortedItems);
           }
         }}
         searchPlaceholder={t('in-infrastructure:explore.search')}
@@ -138,6 +115,31 @@ export default function EntityList({ retrievalSize = 20, backendQueryModel, time
       />
     </>
   );
+}
+
+function sortItems(items, orderBy, orderDirection) {
+  if (orderBy === 'label') {
+    return items.sort((a, b) => {
+      if (a.tags.type < b.tags.type) {
+        return orderDirection === 'DESC' ? 1 : -1;
+      }
+      if (a.tags.type > b.tags.type) {
+        return orderDirection === 'DESC' ? -1 : 1;
+      }
+      return 0;
+    });
+  }
+  if (orderBy === 'count') {
+    return items.sort((a, b) => {
+      if (a.count < b.count) {
+        return orderDirection === 'DESC' ? 1 : -1;
+      }
+      if (a.count > b.count) {
+        return orderDirection === 'DESC' ? -1 : 1;
+      }
+      return 0;
+    });
+  }
 }
 
 function getTableData(params) {
