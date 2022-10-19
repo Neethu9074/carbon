@@ -13,6 +13,8 @@ import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsF
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import getKubernetesNode from 'in-kubernetes/subscriptions/getKubernetesNode';
+import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
+import { applicationTimeShiftSelectTracker } from 'in-applications/tracker';
 import { nodeId as matrixNodeId } from 'in-kubernetes/navigation/matrix';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -20,10 +22,12 @@ import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import { nodeDashboard } from 'in-kubernetes/navigation/paths';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { k8sTimeShiftEnabled } from 'in-services/featureFlags';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { NodeBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import tabs from 'in-kubernetes/Dashboards/Node/tabs/index';
 import BadgeList from 'in-components/BadgeList/BadgeList';
+import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import { getTimeConfig } from 'in-stores/time/config';
 import { nodeTabChange } from 'in-kubernetes/tracker';
 import { plugins } from 'in-forge/constants';
@@ -90,7 +94,6 @@ export default function NodeDashboard({ location }) {
 }
 
 function Header(props) {
-  const { timeConfig, nodeId } = props;
   return (
     <DashboardHeader
       {...props}
@@ -98,7 +101,7 @@ function Header(props) {
       icon="lib_kubernetes_node"
       label={get(props.result, ['data', 'name'])}
       renderButtonLine={renderButtonLine}
-      renderButtonLineSecondary={() => <RenderButtonLineSecondary timeConfig={timeConfig} snapshotId={nodeId} />}
+      renderButtonLineSecondary={renderButtonLineSecondary}
       renderMetaInformation={renderMetaInformation}
     />
   );
@@ -115,6 +118,26 @@ function renderButtonLine({ nodeId, timeConfig, result }) {
         { name: 'kubernetes.cluster.name', value: result.data?.clusterId, operator: 'EQUALS', entity: 'DESTINATION' }
       ]}
     />
+  );
+}
+
+function renderButtonLineSecondary({ nodeId, timeConfig }) {
+  return (
+    <>
+      {k8sTimeShiftEnabled && (
+        <TimeShiftDropdown
+          onChange={offset =>
+            applicationTimeShiftSelectTracker({
+              area: 'pod',
+              offset: getTimeShiftLabel({ offset: offset }),
+              windowSize: timeConfig.windowSize,
+              autoRefresh: timeConfig.autoRefresh
+            })
+          }
+        />
+      )}
+      <RenderButtonLineSecondary timeConfig={timeConfig} snapshotId={nodeId} />
+    </>
   );
 }
 
