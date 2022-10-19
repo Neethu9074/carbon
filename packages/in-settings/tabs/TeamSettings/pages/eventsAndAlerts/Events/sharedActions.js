@@ -43,17 +43,29 @@ function submitActionSelection(form, setForm, selectedIds) {
   );
 }
 
-const getSelectedActionsForEvent = createMemoizedObservableForReferencedEntities(function(selectedActions) {
+const getSelectedActionsForEvent = createMemoizedObservableForReferencedEntities(function(
+  selectedActions,
+  eventName,
+  eventDescription
+) {
   if (selectedActions.length === 0) {
     return alwaysEmptyArray;
   }
   // null is treated as a pending result when converting the HTTP response into a result
-  return getAllActionsWithAISuggestions().map(action =>
+  return getAllActionsWithAISuggestions(eventName, eventDescription).map(action =>
     filter(action, function(app) {
       return selectedActions.indexOf(app.id) >= 0;
     })
   );
 });
+
+function curriedActionTable(eventName, eventDescription) {
+  return function ActionTableWrapper(props) {
+    return (
+      <ActionTable {...props} loadEntities={() => getAllActionsWithAISuggestions(eventName, eventDescription)} scored />
+    );
+  };
+}
 
 export function ActionsSelection({ form, setForm, entity }) {
   const selectedActions = form.get('actionIds')?.value ?? [];
@@ -66,10 +78,8 @@ export function ActionsSelection({ form, setForm, entity }) {
       onSubmit={selectedIds => submitActionSelection(form, setForm, selectedIds)}
       title={t('in-settings:tabs.addActions')}
       label={t('in-settings:tabs.addActions')}
-      listComponent={ActionTable}
+      listComponent={curriedActionTable(eventName, eventDescription)}
       limit={10}
-      scored
-      loadEntities={() => getAllActionsWithAISuggestions(eventName, eventDescription)}
       hiddenIds={selectedActions}
       createSubmitLabel={numberOfItems =>
         numberOfItems > 0
@@ -83,7 +93,7 @@ export function ActionsSelection({ form, setForm, entity }) {
   return (
     <Fragment>
       <ActionTable
-        loadEntities={() => getSelectedActionsForEvent(selectedActions)}
+        loadEntities={() => getSelectedActionsForEvent(selectedActions, eventName, eventDescription)}
         noDataMessage={t('in-settings:tabs.noActionsSelected')}
         tableActions={actionSelectionTableActions(form, setForm)}
         pageSize={10}
