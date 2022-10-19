@@ -5601,6 +5601,8 @@
         "hadrSecondaryLog": "HADR Secondary Log Information",
         "hadrLogMetrics": "HADR Log Metrics",
         "hadrTakeOverTime": "HADR Last Take Over Time",
+        "hadrConnectStatusOrStandbyId": "hadrConnectStatus/StandbyID",
+        "hadr": "hadr",
         "vmonlockStatsValue": "Lock Statistics (Memory)",
         "vmonlockStats": "Lock Statistics",
         "databaseVmondeltaStats": "Transaction Performance (Incremental Value)"
@@ -5795,6 +5797,7 @@
       "secLogPage": "Secondary Log Page",
       "secLogPos": "Secondary Log Position",
       "secLogTime": "Secondary Log Time",
+      "HADR_CONNECT_STATUS": "HADR connect Status",
       "hadrWaitsTotal": "HADR Waits Total",
       "sockSendBufReq": "Requested Send Buffer",
       "sockSendBufActual": "Actual Send Buffer",
