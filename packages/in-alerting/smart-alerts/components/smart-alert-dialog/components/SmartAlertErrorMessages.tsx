@@ -10,7 +10,7 @@ import { Message, MessageTypes } from '@instana/components';
 
 import { compareIgnoreCase } from 'in-services/util/string';
 
-type MessageType = {
+export type MessageType = {
   message: string;
 
   /** @type: defaults to "error", if not set */
@@ -18,6 +18,7 @@ type MessageType = {
 };
 
 interface SmartAlertErrorMessagesProps {
+  className?: string;
   messages: MessageType[];
 }
 
@@ -27,13 +28,19 @@ const withDefaultLevel = (m: MessageType) => ({
 });
 
 /**
- * Renders the messages, after grouping/sorting by level (reverse alphabetically! - so warning comes first)
- * @param messages
- * @constructor
+ * Renders the messages block, after grouping/sorting by level (reverse alphabetically! - so warning comes first)
+ * If no messages exist, there won't be anything rendered to avoid adding any empty spacer.
  */
-export const SmartAlertErrorMessages = ({ messages = [] }: SmartAlertErrorMessagesProps) => {
-  return messages
-    .map(withDefaultLevel)
-    .sort((a, b) => -1 * compareIgnoreCase(a.level, b.level))
-    .map((m, i) => <Message key={i} title={m.message} type={m.level} withIcon small />);
+export const SmartAlertErrorMessages = ({ className, messages = [] }: SmartAlertErrorMessagesProps) => {
+  if (messages.length == 0) return null;
+  return (
+    <div className={className}>
+      {messages
+        .map(withDefaultLevel)
+        .sort((a, b) => -1 * compareIgnoreCase(a.level, b.level))
+        .map((m, i) => (
+          <Message key={i} title={m.message} type={m.level} withIcon small />
+        ))}
+    </div>
+  );
 };

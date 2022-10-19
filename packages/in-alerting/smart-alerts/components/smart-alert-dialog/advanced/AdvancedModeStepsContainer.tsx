@@ -6,18 +6,24 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
-import { SvgIcon, Stack } from '@instana/components';
+import { SvgIcon, Stack, MessageTypes } from '@instana/components';
 
 import { SmartAlertErrorMessages } from 'in-alerting/smart-alerts/components/smart-alert-dialog/components/SmartAlertErrorMessages';
 import { useScrollToFirstInvalidNavItem } from 'in-alerting/smart-alerts/applications/hooks/useScrollToFirstInvalidNavItem';
 import ScrollStep from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ScrollStep';
+import SideNav, { NavItem } from 'in-components/SideNav';
 import Divider from 'in-components/workspace/Divider';
 import Header from 'in-components/workspace/Header';
-import SideNav from 'in-components/SideNav';
 
 import locals from './AdvancedModeStepsContainer.mless';
 
-export default function AdvancedModeStepsContainer({ navItems, messages = [] }) {
+export default function AdvancedModeStepsContainer({
+  navItems,
+  messages = []
+}: {
+  navItems: NavItem[];
+  messages?: { message: string; level?: keyof typeof MessageTypes }[];
+}) {
   useScrollToFirstInvalidNavItem(navItems);
 
   return (
@@ -42,9 +48,7 @@ export default function AdvancedModeStepsContainer({ navItems, messages = [] }) 
       <div className={locals.sideNav}>
         <SideNav navItems={navItems} renderPostIcon={renderIcon} />
       </div>
-      <div className={locals.errorInfo}>
-        <SmartAlertErrorMessages messages={messages} />
-      </div>
+      <SmartAlertErrorMessages className={locals.errorInfo} messages={messages} />
     </nav>
   );
 }
@@ -69,7 +73,7 @@ AdvancedModeStepsContainer.propTypes = {
   )
 };
 
-function renderIcon({ valid }) {
+function renderIcon({ valid }: NavItem) {
   if (valid) return null;
 
   return <SvgIcon className={locals.icon} type="lib_help_error_error_circle" size="xs" />;

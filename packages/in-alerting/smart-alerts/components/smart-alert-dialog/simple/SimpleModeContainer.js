@@ -30,9 +30,7 @@ export default function SimpleModeContainer(props) {
           )
       )}
 
-      <div className={locals.errorInfo}>
-        <SmartAlertErrorMessages messages={messages} />
-      </div>
+      <SmartAlertErrorMessages className={locals.errorInfo} messages={messages} />
     </div>
   );
 }
