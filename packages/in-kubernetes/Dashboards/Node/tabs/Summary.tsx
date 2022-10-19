@@ -12,15 +12,12 @@ import { source } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/
 // @ts-expect-error
 import { TimeShiftAwareChartSelectorWithUrlState } from 'in-applications/Dashboards/commonComponents/ChartSelectors';
 // @ts-expect-error
+import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 import { LogsChartInteractionWrapper } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 // @ts-expect-error
-import { kubernetesClusterTagEquals } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
-// @ts-expect-error
-import { tagEquals, andQuery } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
-// @ts-expect-error
-import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
-// @ts-expect-error
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
+import { kubernetesClusterTagEquals } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
+import { tagEquals, andQuery } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 // @ts-expect-error
 import { getNodeDashboard, summaryTab } from 'in-kubernetes/navigation/paths';
