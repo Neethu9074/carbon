@@ -3,11 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
+// @ts-nocheck - block imports cannot be excluded unfortunately - https://github.com/Microsoft/TypeScript/issues/19573
+
 import React, { Fragment } from 'react';
 
-// TODO: will use this with TSX
-// import {AggregationType, ResultType} from "@instana/types";
-import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
+import { AggregationType, KubernetesNode, ResultType, TimeConfig } from '@instana/types';
+
 import {
   LogsChartInteractionWrapper,
   andQuery,
@@ -21,6 +22,7 @@ import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/b
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
 import PodsChartPresenter from 'in-kubernetes/Dashboards/Pod/tabs/Summary/PodsChartPresenter';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
+import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import { getNodeDashboard, summaryTab } from 'in-kubernetes/navigation/paths';
 import { percentage, number, bytes } from 'in-services/formatters/number';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
@@ -35,7 +37,12 @@ import { plugins } from 'in-forge/constants';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
-export default function Summary({ timeConfig, data: node }) {
+interface SummaryProps {
+  data: KubernetesNode;
+  timeConfig: TimeConfig;
+}
+
+export default function Summary({ timeConfig, data: node }: SummaryProps) {
   const snapshotId = node.id;
   const { teal800: capacity, orange800: limits, lime800: requests, lightBlue800: usage } = theme.lib.colors;
 
@@ -47,40 +54,19 @@ export default function Summary({ timeConfig, data: node }) {
 
   const kpiWidth = 2;
 
-  // TODO: Use for tsx
-  // const defaultBigNumberMetricConfig = {
-  //   source,
-  //   aggregation: 'MEAN' as AggregationType,
-  //   tagFilterExpression,
-  //   type,
-  //   timeShift,
-  //   timeConfig,
-  //   resultType: 'SINGLE_NUMBER' as ResultType
-  // };
   const defaultBigNumberMetricConfig = {
     source,
-    aggregation: 'MEAN',
+    aggregation: 'MEAN' as AggregationType,
     tagFilterExpression,
     type,
     timeShift,
     timeConfig,
-    resultType: 'SINGLE_NUMBER'
+    resultType: 'SINGLE_NUMBER' as ResultType
   };
-
-  // TODO: Use for tsx
-  // const defaultMetricConfig = {
-  //   granularity: getChartGranularity(timeConfig),
-  //   aggregation: 'MEAN' as AggregationType,
-  //   source,
-  //   tagFilterExpression,
-  //   timeConfig,
-  //   timeShift: 0,
-  //   type
-  // };
 
   const defaultMetricConfig = {
     granularity: getChartGranularity(timeConfig),
-    aggregation: 'MEAN',
+    aggregation: 'MEAN' as AggregationType,
     source,
     tagFilterExpression,
     timeConfig,
@@ -88,20 +74,9 @@ export default function Summary({ timeConfig, data: node }) {
     type
   };
 
-  // TODO: Use for tsx
-  //  rename to isNodeMetric and change the type maybe
-  // const isContainerMetric = {
-  //   /* use this configuration on containers of this pod (which can be of type docker, containerd or crio)
-  //     type filtering must be disabled and cross series aggregation uses SUM */
-  //   type: undefined,
-  //   crossSeriesAggregation: 'SUM' as AggregationType
-  // };
-
-  const isContainerMetric = {
-    /* use this configuration on containers of this pod (which can be of type docker, containerd or crio)
-      type filtering must be disabled and cross series aggregation uses SUM */
+  const isNodeMetric = {
     type: type,
-    crossSeriesAggregation: 'SUM'
+    crossSeriesAggregation: 'SUM' as AggregationType
   };
 
   const comparisonColors = {
@@ -132,7 +107,7 @@ export default function Summary({ timeConfig, data: node }) {
         />
         <KpiCard
           title={t('in-kubernetes:dashboards.age')}
-          value={<Capitalize>{node.age ? formatDuration(node.age) : valueMissingPlaceholder}</Capitalize>}
+          value={node.age ? formatDuration(node.age) : valueMissingPlaceholder}
           raw
           borderless
         />
@@ -146,7 +121,7 @@ export default function Summary({ timeConfig, data: node }) {
               metricConfiguration: {
                 metric: 'required_cpu_percentage',
                 ...defaultBigNumberMetricConfig,
-                ...isContainerMetric
+                ...isNodeMetric
               },
               ...comparisonColors
             }}
@@ -161,7 +136,7 @@ export default function Summary({ timeConfig, data: node }) {
               metricConfiguration: {
                 metric: 'limit_cpu_percentage',
                 ...defaultBigNumberMetricConfig,
-                ...isContainerMetric
+                ...isNodeMetric
               },
               ...comparisonColors
             }}
@@ -176,7 +151,7 @@ export default function Summary({ timeConfig, data: node }) {
               metricConfiguration: {
                 metric: 'required_mem_percentage',
                 ...defaultBigNumberMetricConfig,
-                ...isContainerMetric
+                ...isNodeMetric
               },
               ...comparisonColors
             }}
@@ -191,7 +166,7 @@ export default function Summary({ timeConfig, data: node }) {
               metricConfiguration: {
                 metric: 'limit_mem_percentage',
                 ...defaultBigNumberMetricConfig,
-                ...isContainerMetric
+                ...isNodeMetric
               },
               ...comparisonColors
             }}
@@ -206,7 +181,7 @@ export default function Summary({ timeConfig, data: node }) {
               metricConfiguration: {
                 metric: 'alloc_pods_percentage',
                 ...defaultBigNumberMetricConfig,
-                ...isContainerMetric
+                ...isNodeMetric
               },
               ...comparisonColors
             }}
@@ -261,28 +236,28 @@ export default function Summary({ timeConfig, data: node }) {
                   label: t('in-kubernetes:dashboards.usage'),
                   color: usage,
                   ...defaultMetricConfig,
-                  ...isContainerMetric
+                  ...isNodeMetric
                 },
                 {
                   metric: 'required_cpu',
                   label: t('in-kubernetes:dashboards.requests'),
                   color: requests,
                   ...defaultMetricConfig,
-                  ...isContainerMetric
+                  ...isNodeMetric
                 },
                 {
                   metric: 'limit_cpu',
                   label: t('in-kubernetes:dashboards.limits'),
                   color: limits,
                   ...defaultMetricConfig,
-                  ...isContainerMetric
+                  ...isNodeMetric
                 },
                 {
                   metric: 'cap_cpu',
                   label: t('in-kubernetes:dashboards.capacity'),
                   color: capacity,
                   ...defaultMetricConfig,
-                  ...isContainerMetric
+                  ...isNodeMetric
                 }
               ]}
               title={t('in-kubernetes:dashboards.cpuResources')}
@@ -337,28 +312,28 @@ export default function Summary({ timeConfig, data: node }) {
                   label: t('in-kubernetes:dashboards.usage'),
                   color: usage,
                   ...defaultMetricConfig,
-                  ...isContainerMetric
+                  ...isNodeMetric
                 },
                 {
                   metric: 'required_mem',
                   label: t('in-kubernetes:dashboards.requests'),
                   color: requests,
                   ...defaultMetricConfig,
-                  ...isContainerMetric
+                  ...isNodeMetric
                 },
                 {
                   metric: 'limit_mem',
                   label: t('in-kubernetes:dashboards.limits'),
                   color: limits,
                   ...defaultMetricConfig,
-                  ...isContainerMetric
+                  ...isNodeMetric
                 },
                 {
                   metric: 'cap_mem',
                   label: t('in-kubernetes:dashboards.capacity'),
                   color: capacity,
                   ...defaultMetricConfig,
-                  ...isContainerMetric
+                  ...isNodeMetric
                 }
               ]}
               title={t('in-kubernetes:dashboards.memoryResources')}
@@ -401,14 +376,14 @@ export default function Summary({ timeConfig, data: node }) {
                   label: t('in-kubernetes:dashboards.allocated'),
                   color: usage,
                   ...defaultMetricConfig,
-                  ...isContainerMetric
+                  ...isNodeMetric
                 },
                 {
                   metric: 'cap_pods',
                   label: t('in-kubernetes:dashboards.capacity'),
                   color: capacity,
                   ...defaultMetricConfig,
-                  ...isContainerMetric
+                  ...isNodeMetric
                 }
               ]}
               title={t('in-kubernetes:dashboards.podsAllocation')}
