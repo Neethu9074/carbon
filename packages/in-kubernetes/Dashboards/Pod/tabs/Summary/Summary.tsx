@@ -4,8 +4,6 @@
  * Copyright IBM Corp. 2022
  */
 
-// @ts-nocheck - block imports cannot be excluded unfortunately - https://github.com/Microsoft/TypeScript/issues/19573
-
 import React, { Fragment } from 'react';
 
 import { AggregationType, KubernetesPod, ResultType, TimeConfig } from '@instana/types';
@@ -18,29 +16,38 @@ import {
   kubernetesClusterTagEquals,
   kubernetesNamespaceTagEquals
 } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
+// @ts-expect-error
 import { source } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/metrics';
+// @ts-expect-error
 import { TimeShiftAwareChartSelectorWithUrlState } from 'in-applications/Dashboards/commonComponents/ChartSelectors';
-import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+// @ts-expect-error
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
-import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+// @ts-expect-error
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
-import PodsChartPresenter from 'in-kubernetes/Dashboards/Pod/tabs/Summary/PodsChartPresenter';
+// @ts-expect-error
 import ContainerStates from 'in-kubernetes/Dashboards/Pod/tabs/Summary/ContainerStates';
+import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+// @ts-expect-error
 import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+// @ts-expect-error
+import { getPodDashboard, summaryTab } from 'in-kubernetes/navigation/paths';
+import PodsChartPresenter from 'in-kubernetes/Dashboards/Pod/tabs/Summary/PodsChartPresenter';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
-import { getPodDashboard, summaryTab } from 'in-kubernetes/navigation/paths';
+// @ts-expect-error
+import MetricValue from 'in-components/MetricValue';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
+// @ts-expect-error
+import { plugins } from 'in-forge/constants';
 import { number, bytes } from 'in-services/formatters/number';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { getChartGranularity } from 'in-stores/metric';
 import { Row, Col } from 'in-components/layout/Grid';
-import MetricValue from 'in-components/MetricValue';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import Capitalize from 'in-components/Capitalize';
-import { plugins } from 'in-forge/constants';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
