@@ -24,12 +24,13 @@ export default function EntityList({ retrievalSize = 20, backendQueryModel, time
   const isLoading = progress?.loading;
 
   const [data, setResultData] = useState(createResultData(items));
+  const [orderDir, setOrderDirection] = useState('ASC');
 
   const onChangeItems = items => {
     setResultData(createResultData(items));
   };
 
-  if (!isLoading && data.progress.loading === true) {
+  if (!isLoading && (data.progress === undefined || data.progress?.loading === true)) {
     onChangeItems(items);
   }
 
@@ -85,11 +86,29 @@ export default function EntityList({ retrievalSize = 20, backendQueryModel, time
     <>
       <ServerTablePresenter
         orderBy="label"
-        orderDirection="ASC"
+        orderDirection={orderDir}
         result={data}
         columnDefinitions={columnDefinitions}
-        onChange={({ query }) => {
-          onChangeItems(items.filter(item => item.tags.type.toLowerCase().includes(query?.toLowerCase())));
+        onChange={({ query, orderBy, orderDirection }) => {
+          if (query !== undefined) {
+            //search
+            onChangeItems(items.filter(item => item.tags.type.toLowerCase().includes(query?.toLowerCase())));
+          } else {
+            //sort
+            if (orderBy === 'label') {
+              const p = items.sort((a, b) => {
+                if (a.tags.type < b.tags.type) {
+                  return orderDirection === 'DESC' ? 1 : -1;
+                }
+                if (a.tags.type > b.tags.type) {
+                  return orderDirection === 'DESC' ? -1 : 1;
+                }
+                return 0;
+              });
+              setOrderDirection(orderDirection);
+              setResultData(p);
+            }
+          }
         }}
         searchPlaceholder={t('in-infrastructure:explore.search')}
         leftHeader={
