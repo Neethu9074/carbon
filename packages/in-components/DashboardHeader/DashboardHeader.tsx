@@ -142,6 +142,7 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
                 shouldRenderDelimiter={
                   // Render the delimiter for all context items except the last one
                   // Except the last element is followed by an icon or a label
+
                   isNotLastElement(i, contextConfigurations) || label != null || icon != null || renderIcon != null
                 }
                 headerHref$={headerHref$}
