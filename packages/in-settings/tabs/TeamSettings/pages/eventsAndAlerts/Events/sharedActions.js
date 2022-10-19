@@ -12,9 +12,9 @@ import { Spacer } from '@instana/components';
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import ActionTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionTable';
+import { getAllActionsWithAISuggestions } from 'in-api/automation';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
-import { getAllActions, getAllActionsWithAISuggestions } from 'in-api/automation';
 import { t } from 'in-i18n';
 
 function actionSelectionTableActions(form, setForm) {
@@ -48,7 +48,7 @@ const getSelectedActionsForEvent = createMemoizedObservableForReferencedEntities
     return alwaysEmptyArray;
   }
   // null is treated as a pending result when converting the HTTP response into a result
-  return getAllActions().map(action =>
+  return getAllActionsWithAISuggestions().map(action =>
     filter(action, function(app) {
       return selectedActions.indexOf(app.id) >= 0;
     })
@@ -69,11 +69,7 @@ export function ActionsSelection({ form, setForm, entity }) {
       listComponent={ActionTable}
       limit={10}
       scored
-      loadEntities={() =>
-        getAllActionsWithAISuggestions(eventName, eventDescription).map(actionAIScores =>
-          actionAIScores.map(({ action, score, color }) => ({ ...action, score, color }))
-        )
-      }
+      loadEntities={() => getAllActionsWithAISuggestions(eventName, eventDescription)}
       hiddenIds={selectedActions}
       createSubmitLabel={numberOfItems =>
         numberOfItems > 0
@@ -93,6 +89,7 @@ export function ActionsSelection({ form, setForm, entity }) {
         pageSize={10}
         rightHeader={RightHeader}
         showActionLink
+        scored
       />
       <TouchedMessages field={form.get('selectedActions')} />
       <Spacer vertical="large" />
