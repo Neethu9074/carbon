@@ -3,29 +3,34 @@
  * (c) Copyright Instana Inc.
  */
 
-// @ts-nocheck - block imports cannot be excluded unfortunately - https://github.com/Microsoft/TypeScript/issues/19573
-
 import React, { Fragment } from 'react';
 
 import { AggregationType, KubernetesNode, ResultType, TimeConfig } from '@instana/types';
 
-import {
-  LogsChartInteractionWrapper,
-  andQuery,
-  kubernetesClusterTagEquals,
-  tagEquals
-} from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
+// @ts-expect-error
 import { source } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/metrics';
+// @ts-expect-error
 import { TimeShiftAwareChartSelectorWithUrlState } from 'in-applications/Dashboards/commonComponents/ChartSelectors';
+// @ts-expect-error
+import { LogsChartInteractionWrapper } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
+// @ts-expect-error
+import { kubernetesClusterTagEquals } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
+// @ts-expect-error
+import { tagEquals, andQuery } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
+// @ts-expect-error
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
-import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+// @ts-expect-error
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
-import PodsChartPresenter from 'in-kubernetes/Dashboards/Pod/tabs/Summary/PodsChartPresenter';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+// @ts-expect-error
+import { getNodeDashboard, summaryTab } from 'in-kubernetes/navigation/paths';
+import NodesChartPresenter from 'in-kubernetes/Dashboards/Node/tabs/NodesChartPresenter';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
-import { getNodeDashboard, summaryTab } from 'in-kubernetes/navigation/paths';
 import { percentage, number, bytes } from 'in-services/formatters/number';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
+// @ts-expect-error
+import { plugins } from 'in-forge/constants';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
@@ -33,7 +38,6 @@ import { getChartGranularity } from 'in-stores/metric';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import Capitalize from 'in-components/Capitalize';
-import { plugins } from 'in-forge/constants';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -43,13 +47,14 @@ interface SummaryProps {
 }
 
 export default function Summary({ timeConfig, data: node }: SummaryProps) {
+  const timeShift = useTimeShiftConfig();
   const snapshotId = node.id;
-  const { teal800: capacity, orange800: limits, lime800: requests, lightBlue800: usage } = theme.lib.colors;
 
+  const { teal800: capacity, orange800: limits, lime800: requests, lightBlue800: usage } = theme.lib.colors;
   const clusterTag = kubernetesClusterTagEquals(node.clusterId);
   const workloadTag = tagEquals('kubernetes.node.name', node.name);
-  const tagFilterExpression = toBackendQueryModel(andQuery(clusterTag, workloadTag));
-  const timeShift = useTimeShiftConfig();
+  const query = andQuery(clusterTag, workloadTag);
+  const tagFilterExpression = toBackendQueryModel(query);
   const type = plugins.kubernetesNode;
 
   const kpiWidth = 2;
@@ -72,11 +77,6 @@ export default function Summary({ timeConfig, data: node }: SummaryProps) {
     timeConfig,
     timeShift: 0,
     type
-  };
-
-  const isNodeMetric = {
-    type: type,
-    crossSeriesAggregation: 'SUM' as AggregationType
   };
 
   const comparisonColors = {
@@ -120,8 +120,7 @@ export default function Summary({ timeConfig, data: node }: SummaryProps) {
             config={{
               metricConfiguration: {
                 metric: 'required_cpu_percentage',
-                ...defaultBigNumberMetricConfig,
-                ...isNodeMetric
+                ...defaultBigNumberMetricConfig
               },
               ...comparisonColors
             }}
@@ -135,8 +134,7 @@ export default function Summary({ timeConfig, data: node }: SummaryProps) {
             config={{
               metricConfiguration: {
                 metric: 'limit_cpu_percentage',
-                ...defaultBigNumberMetricConfig,
-                ...isNodeMetric
+                ...defaultBigNumberMetricConfig
               },
               ...comparisonColors
             }}
@@ -150,8 +148,7 @@ export default function Summary({ timeConfig, data: node }: SummaryProps) {
             config={{
               metricConfiguration: {
                 metric: 'required_mem_percentage',
-                ...defaultBigNumberMetricConfig,
-                ...isNodeMetric
+                ...defaultBigNumberMetricConfig
               },
               ...comparisonColors
             }}
@@ -165,8 +162,7 @@ export default function Summary({ timeConfig, data: node }: SummaryProps) {
             config={{
               metricConfiguration: {
                 metric: 'limit_mem_percentage',
-                ...defaultBigNumberMetricConfig,
-                ...isNodeMetric
+                ...defaultBigNumberMetricConfig
               },
               ...comparisonColors
             }}
@@ -180,8 +176,7 @@ export default function Summary({ timeConfig, data: node }: SummaryProps) {
             config={{
               metricConfiguration: {
                 metric: 'alloc_pods_percentage',
-                ...defaultBigNumberMetricConfig,
-                ...isNodeMetric
+                ...defaultBigNumberMetricConfig
               },
               ...comparisonColors
             }}
@@ -196,7 +191,7 @@ export default function Summary({ timeConfig, data: node }: SummaryProps) {
             cardTitle={t('in-kubernetes:labelCpuResources')}
             tabs={[
               {
-                id: 'cpuResources',
+                id: cpuResourcesTabId,
                 label: t('in-kubernetes:labelCpuResources')
               }
             ]}
@@ -229,35 +224,31 @@ export default function Summary({ timeConfig, data: node }: SummaryProps) {
             ]}
             urlMatrixParamConfig={{ path: summaryTab, paramTab: 'cpuTab', paramMetric: 'cpuMetric' }}
           >
-            <PodsChartPresenter
+            <NodesChartPresenter
               metrics={[
                 {
                   metric: 'cpu.total_usage',
                   label: t('in-kubernetes:dashboards.usage'),
                   color: usage,
-                  ...defaultMetricConfig,
-                  ...isNodeMetric
+                  ...defaultMetricConfig
                 },
                 {
                   metric: 'required_cpu',
                   label: t('in-kubernetes:dashboards.requests'),
                   color: requests,
-                  ...defaultMetricConfig,
-                  ...isNodeMetric
+                  ...defaultMetricConfig
                 },
                 {
                   metric: 'limit_cpu',
                   label: t('in-kubernetes:dashboards.limits'),
                   color: limits,
-                  ...defaultMetricConfig,
-                  ...isNodeMetric
+                  ...defaultMetricConfig
                 },
                 {
                   metric: 'cap_cpu',
                   label: t('in-kubernetes:dashboards.capacity'),
                   color: capacity,
-                  ...defaultMetricConfig,
-                  ...isNodeMetric
+                  ...defaultMetricConfig
                 }
               ]}
               title={t('in-kubernetes:dashboards.cpuResources')}
@@ -272,7 +263,7 @@ export default function Summary({ timeConfig, data: node }: SummaryProps) {
             cardTitle={t('in-kubernetes:labelMemoryResources')}
             tabs={[
               {
-                id: 'memoryResources',
+                id: memoryResourcesTabId,
                 label: t('in-kubernetes:labelMemoryResources')
               }
             ]}
@@ -305,35 +296,31 @@ export default function Summary({ timeConfig, data: node }: SummaryProps) {
             ]}
             urlMatrixParamConfig={{ path: summaryTab, paramTab: 'memoryTab', paramMetric: 'memoryMetric' }}
           >
-            <PodsChartPresenter
+            <NodesChartPresenter
               metrics={[
                 {
                   metric: 'memory.usage',
                   label: t('in-kubernetes:dashboards.usage'),
                   color: usage,
-                  ...defaultMetricConfig,
-                  ...isNodeMetric
+                  ...defaultMetricConfig
                 },
                 {
                   metric: 'required_mem',
                   label: t('in-kubernetes:dashboards.requests'),
                   color: requests,
-                  ...defaultMetricConfig,
-                  ...isNodeMetric
+                  ...defaultMetricConfig
                 },
                 {
                   metric: 'limit_mem',
                   label: t('in-kubernetes:dashboards.limits'),
                   color: limits,
-                  ...defaultMetricConfig,
-                  ...isNodeMetric
+                  ...defaultMetricConfig
                 },
                 {
                   metric: 'cap_mem',
                   label: t('in-kubernetes:dashboards.capacity'),
                   color: capacity,
-                  ...defaultMetricConfig,
-                  ...isNodeMetric
+                  ...defaultMetricConfig
                 }
               ]}
               title={t('in-kubernetes:dashboards.memoryResources')}
@@ -369,21 +356,19 @@ export default function Summary({ timeConfig, data: node }: SummaryProps) {
             ]}
             urlMatrixParamConfig={{ path: summaryTab, paramTab: 'allocTab', paramMetric: 'allocMetric' }}
           >
-            <PodsChartPresenter
+            <NodesChartPresenter
               metrics={[
                 {
                   metric: 'allocatedPods',
                   label: t('in-kubernetes:dashboards.allocated'),
                   color: usage,
-                  ...defaultMetricConfig,
-                  ...isNodeMetric
+                  ...defaultMetricConfig
                 },
                 {
                   metric: 'cap_pods',
                   label: t('in-kubernetes:dashboards.capacity'),
                   color: capacity,
-                  ...defaultMetricConfig,
-                  ...isNodeMetric
+                  ...defaultMetricConfig
                 }
               ]}
               title={t('in-kubernetes:dashboards.podsAllocation')}
@@ -397,10 +382,7 @@ export default function Summary({ timeConfig, data: node }: SummaryProps) {
 
       <Row>
         <Col lg={12}>
-          <LogsChartInteractionWrapper
-            tagFilterExpression={andQuery(clusterTag, workloadTag)}
-            timeConfig={timeConfig}
-          />
+          <LogsChartInteractionWrapper tagFilterExpression={query} timeConfig={timeConfig} />
         </Col>
       </Row>
 
