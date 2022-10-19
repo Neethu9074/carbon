@@ -12,32 +12,34 @@ import CustomPayloadViewer from 'in-alerting/smart-alerts/components/details/Cus
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import { t } from 'in-i18n';
 
-const cardConfig = {
-  openByDefault: true,
-  darkFrame: true
-};
-
 export default function CustomPayloadCard({
   customPayloadFields = [],
-  title = t('in-alerting:components.customPayload.customPayloadTitle'),
+  title = t('in-alerting:components.customPayload.additionalCustomPayloadTitle', {
+    count: customPayloadFields?.length
+  }),
+  noCustomPayloadConfiguredText = t('in-alerting:components.customPayload.noCustomPayloadConfigured'),
+  openByDefault = false,
+  alternatingBg,
   TagBasedPayloadConfigurator
 }) {
   const hasCustomPayload = Boolean(customPayloadFields.length);
 
   return (
     <ExpandableLightCard
-      {...cardConfig}
       title={title}
       useMaxAvailableHeight={false}
       bodyWithoutPadding={hasCustomPayload}
+      openByDefault={openByDefault}
+      darkFrame
     >
       {hasCustomPayload ? (
         <CustomPayloadViewer
           customPayloadFields={customPayloadFields}
           TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
+          alternatingBg={alternatingBg}
         />
       ) : (
-        <Message small title={t('in-alerting:components.customPayload.noCustomPayloadConfigured')} />
+        <Message small title={noCustomPayloadConfiguredText} />
       )}
     </ExpandableLightCard>
   );
@@ -46,5 +48,8 @@ export default function CustomPayloadCard({
 CustomPayloadCard.propTypes = {
   TagBasedPayloadConfigurator: PropTypes.node,
   customPayloadFields: PropTypes.array,
-  title: PropTypes.string
+  title: PropTypes.string,
+  noCustomPayloadConfiguredText: PropTypes.string,
+  openByDefault: PropTypes.bool,
+  alternatingBg: PropTypes.bool
 };

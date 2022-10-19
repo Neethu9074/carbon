@@ -71,7 +71,12 @@
       "onlyOrAnyAlphaNumericalAreAllowed": "Only '.', '-', '_' or any alpha-numerical are allowed.",
       "aTagNeedsToBeSelected": "A tag needs to be selected.",
       "aKeyNeedsToBeSpecified": "A key needs to be specified.",
-      "customPayloadTitle": "Custom Payloads"
+      "additionalCustomPayload": "Additional Custom Payloads",
+      "globalCustomPayload": "Global Custom Payloads",
+      "additionalCustomPayloadTitle": "Additional Custom Payloads ({{count}})",
+      "globalCustomPayloadTitle": "Global Custom Payloads ({{count}})",
+      "globalCustomPayloadRetrieveFailed": "Something went wrong. Could not retrieve Global Custom Payloads.",
+      "noGlobalCustomPayloadConfigured": "No Global Custom Payloads Configured"
     }
   },
   "potentialProblems": {

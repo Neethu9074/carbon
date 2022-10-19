@@ -21,6 +21,7 @@ import AlertTitleWithPlaceholderHighlighting from 'in-alerting/smart-alerts/appl
 import ReadOnlyAlertEvaluation from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/ReadOnlyAlertEvaluation';
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/smart-alert-dialog/TimeThresholdDescription';
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
+import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import { getLogMessageRuleOperatorLabel } from 'in-alerting/smart-alerts/applications/form/ruleFormData';
 import { AlertThresholdInfos } from 'in-alerting/smart-alerts/applications/details/AlertThresholdInfos';
 import getEndpointsCursorPaginated from 'in-applications/subscriptions/getEndpointsCursorPaginated';
@@ -178,9 +179,11 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
           )}
         />
       </ExpandableLightCard>
+      <GlobalCustomPayloadCard context="APPLICATION" />
       <CustomPayloadCard
         customPayloadFields={customPayloadFields}
         TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
+        openByDefault
       />
     </AlertDetailsCard>
   );

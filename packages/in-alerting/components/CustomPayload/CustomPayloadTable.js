@@ -28,6 +28,7 @@ export default function CustomPayloadTable({
   customPayloadForm,
   canConfigureAlertPayload = true,
   enabled = true,
+  leftHeader,
   trackChange = () => {}
 }) {
   return (
@@ -38,6 +39,7 @@ export default function CustomPayloadTable({
         getRowProps={getRowProps}
         result={result}
         isSearchable={false}
+        leftHeader={leftHeader}
         rightHeader={
           <RightHeader
             canConfigureAlertPayload={canConfigureAlertPayload}

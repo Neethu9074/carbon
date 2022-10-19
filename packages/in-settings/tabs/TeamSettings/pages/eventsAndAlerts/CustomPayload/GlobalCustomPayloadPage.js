@@ -60,7 +60,7 @@ export default function GlobalCustomPayloadPage() {
   return <CustomPayload result={result} save={save} savingState={savingState} />;
 }
 
-const GlobalTagBasedPayloadConfigurator = createTagBasedPayloadConfigurator({
+export const GlobalTagBasedPayloadConfigurator = createTagBasedPayloadConfigurator({
   getTagCatalog: getCustomPayloadTagCatalog
 });
 
