@@ -5,6 +5,7 @@
  */
 
 import React, { ReactNode } from 'react';
+import { reverse, sortBy } from 'lodash';
 
 import { Button, Link } from '@instana/components';
 import { Observable } from '@instana/observables';
@@ -15,14 +16,13 @@ import Tag from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Ta
 import { getType } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import RunAction from 'in-events/components/AutomationActions/RunAction';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { getAllActions, ScoredAction } from 'in-api/automation';
 import { formatDateTime } from 'in-services/formatters/date';
-import { getAllActions } from 'in-api/automation';
 import { Event, VolatileId } from 'in-types';
 import { Action } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './ActionTable.mless';
-import { reverse, sortBy } from 'lodash';
 
 const columnDefinitions = [
   {
@@ -105,11 +105,6 @@ const nameColumn = (showActionLink: boolean) => ({
     }
   }
 });
-
-interface ScoredAction extends Action {
-  score: number;
-  color: string;
-}
 
 const scoreColumn = {
   label: t('in-settings:tabs.confidence'),
