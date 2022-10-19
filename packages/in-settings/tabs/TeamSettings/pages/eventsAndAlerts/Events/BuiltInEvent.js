@@ -177,7 +177,7 @@ const Form = entityForm(function DetailsForm(props) {
       {role.canConfigureAutomationActions && actionAutomationEnabled && !entity.get('triggering') && (
         <>
           <SectionHeading>{t('in-settings:tabs.ActionAssociations')}</SectionHeading>
-          <ActionsSelection form={form} setForm={setForm} entity={entity} />
+          <ActionsSelection form={form} setForm={setForm} entity={entity.toJS()} />
         </>
       )}
       <SaveCancel
