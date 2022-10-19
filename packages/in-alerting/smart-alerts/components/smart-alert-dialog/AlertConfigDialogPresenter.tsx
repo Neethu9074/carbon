@@ -3,7 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
+import { Field, MapForm } from 'formalistic';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -12,12 +13,54 @@ import { Button } from '@instana/components';
 import BuiltInIndicator from 'in-alerting/smart-alerts/components/details/BuiltInIndicator';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
+import { StepConfigs } from 'in-components/BlueprintFormMultistep/StepConfigs';
 import { Title } from 'in-components/Dialog/Header';
 import { t } from 'in-i18n';
 
 import locals from './AlertConfigDialogPresenter.mless';
 
-export default function AlertConfigDialogPresenter(props) {
+type MainDialogControl = {
+  onCreate: () => void;
+  onClose: (step: number | false | undefined) => void;
+  setSliderState: ({ slideInConfig, isVisible }: SliderState) => void;
+  setSimpleModeStep: (step: number) => void;
+  setCustomSlideInHeaderConfig: (state: { title: string | null; onClose: (() => void) | null }) => void;
+};
+
+interface AlertConfigDialogPresenterProps {
+  stepConfigs?: StepConfigs;
+  step?: number;
+  stepRenderers: (() => ReactNode)[];
+  AdvancedModeElement: (props: AlertConfigDialogPresenterProps & MainDialogControl) => JSX.Element;
+  form: MapForm;
+  handleSubmit: () => void;
+  formId: string;
+  SimpleModeElement: (props: AlertConfigDialogPresenterProps & MainDialogControl) => JSX.Element;
+  footer?: () => ReactNode;
+  trackModeSwitch: (simpleMode: boolean, simpleModeStep: number, form: MapForm) => void;
+  updateForm?: (form: MapForm) => void;
+  withTrackClose: (step: number | false | undefined) => void;
+  withTrackCreate: () => void;
+  simpleMode?: boolean;
+  setSimpleMode: (simpleMode: boolean) => void;
+  editMode?: boolean;
+  migrationMode?: boolean;
+  featureFeedbackElement?: () => ReactNode;
+  initialConfiguredApplications?: object;
+  isGlobalSmartAlert?: boolean;
+}
+
+interface SlideInConfig {
+  title?: string;
+  component?: ReactNode;
+}
+
+interface SliderState {
+  slideInConfig?: SlideInConfig;
+  isVisible: boolean;
+}
+
+export default function AlertConfigDialogPresenter(props: AlertConfigDialogPresenterProps) {
   const {
     editMode,
     migrationMode,
@@ -36,18 +79,21 @@ export default function AlertConfigDialogPresenter(props) {
     isGlobalSmartAlert
   } = props;
 
-  const [slideInViewVisible, setSlideInViewVisible] = useState(false);
-  const [slideInConfig, setSlideInConfig] = useState(null);
-  const [simpleModeStep, setSimpleModeStep] = useState(0);
+  const [slideInViewVisible, setSlideInViewVisible] = useState<boolean>(false);
+  const [slideInConfig, setSlideInConfig] = useState<SlideInConfig | null>(null);
+  const [simpleModeStep, setSimpleModeStep] = useState<number>(0);
 
-  const [customSlideInHeaderConfig, setCustomSlideInHeaderConfig] = useState({
+  const [customSlideInHeaderConfig, setCustomSlideInHeaderConfig] = useState<{
+    title: string | null;
+    onClose: (() => void) | null;
+  }>({
     title: null,
     onClose: null
   });
 
-  const builtIn = form.get('builtIn')?.value;
+  const builtIn: boolean = (form.get('builtIn') as Field<boolean>)?.value;
 
-  const setSliderState = ({ slideInConfig, isVisible }) => {
+  const setSliderState = ({ slideInConfig, isVisible }: SliderState) => {
     if (slideInConfig) {
       setSlideInConfig(slideInConfig);
     }
@@ -58,7 +104,7 @@ export default function AlertConfigDialogPresenter(props) {
     <DialogWithSlideInView
       footer={footer}
       title={getDialogTitle({ isGlobalSmartAlert, editMode, migrationMode, builtIn })}
-      slideInViewTitle={customSlideInHeaderConfig.title ?? slideInConfig?.title}
+      slideInViewTitle={customSlideInHeaderConfig?.title ?? slideInConfig?.title}
       onSlideInViewTitleClick={() =>
         customSlideInHeaderConfig.onClose
           ? customSlideInHeaderConfig.onClose()
@@ -131,18 +177,32 @@ export default function AlertConfigDialogPresenter(props) {
    */
   function resetFormDirtyState() {
     if (!form.hierarchyValid) {
-      updateForm(form.setTouched(false, { recurse: true }));
+      updateForm?.(form.setTouched(false, { recurse: true }));
     }
   }
 }
 
-function getDialogTitle({ isGlobalSmartAlert, editMode, migrationMode, builtIn }) {
+// TODO this is specific to alerting area, and most all properties should be moved out of this module instead of
+// setting the dialog title here
+function getDialogTitle({
+  isGlobalSmartAlert,
+  editMode,
+  migrationMode,
+  builtIn
+}: {
+  editMode?: boolean;
+  migrationMode?: boolean;
+  isGlobalSmartAlert?: boolean;
+  builtIn: boolean;
+}) {
   const mode = isGlobalSmartAlert ? 'Global' : 'Local';
   let title = t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleCreateNewAlert', {
     context: mode
   });
   if (migrationMode) {
-    title = t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleMigrateAlert');
+    title = t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleMigrateAlert', {
+      context: mode
+    });
   } else if (editMode) {
     title = t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleEditAlert', {
       context: mode
