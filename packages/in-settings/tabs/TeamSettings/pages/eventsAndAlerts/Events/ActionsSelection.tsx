@@ -4,28 +4,35 @@
  * Copyright IBM Corp. 2022
  */
 
+import { Field, MapForm } from 'formalistic';
 import React, { Fragment } from 'react';
 import { filter } from 'lodash';
 
 import { Spacer } from '@instana/components';
 
+// @ts-expect-error
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
+import ActionTable, {
+  ActionTableProps
+} from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionTable';
+// @ts-expect-error
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
-import ActionTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionTable';
 import { getAllActionsWithAISuggestions } from 'in-api/automation';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
+import { Action, EventSpecificationInfo } from 'in-types';
 import { t } from 'in-i18n';
 
-function actionSelectionTableActions(form, setForm) {
+type SetForm = React.Dispatch<React.SetStateAction<MapForm>>;
+function actionSelectionTableActions(form: MapForm, setForm: SetForm) {
   return {
     deselect: {
-      deselect: deselectedEntity => {
+      deselect: (deselectedEntity: Action) => {
         if (deselectedEntity) {
           setForm(
             form.updateIn(['actionIds'], field => {
-              return field
-                .setValue(field.value.filter(referencedId => referencedId !== deselectedEntity.id))
+              return (field as Field<string[]>)
+                .setValue((field as Field<string[]>).value.filter(referencedId => referencedId !== deselectedEntity.id))
                 .setTouched(true);
             })
           );
@@ -35,18 +42,18 @@ function actionSelectionTableActions(form, setForm) {
   };
 }
 
-function submitActionSelection(form, setForm, selectedIds) {
+function submitActionSelection(form: MapForm, setForm: SetForm, selectedIds: string[]) {
   setForm(
     form.updateIn(['actionIds'], field => {
-      return field.setValue(field.value.concat(selectedIds)).setTouched(true);
+      return (field as Field<string[]>).setValue((field as Field<string[]>).value.concat(selectedIds)).setTouched(true);
     })
   );
 }
 
 const getSelectedActionsForEvent = createMemoizedObservableForReferencedEntities(function(
-  selectedActions,
-  eventName,
-  eventDescription
+  selectedActions: string[],
+  eventName: string,
+  eventDescription: string
 ) {
   if (selectedActions.length === 0) {
     return alwaysEmptyArray;
@@ -59,29 +66,34 @@ const getSelectedActionsForEvent = createMemoizedObservableForReferencedEntities
   );
 });
 
-function getScoredActionTable(eventName, eventDescription) {
-  return function ScoredActionTable(props) {
+function getScoredActionTable(eventName: string, eventDescription: string) {
+  return function ScoredActionTable(props: ActionTableProps) {
     return (
       <ActionTable {...props} loadEntities={() => getAllActionsWithAISuggestions(eventName, eventDescription)} scored />
     );
   };
 }
 
-export function ActionsSelection({ form, setForm, entity }) {
-  const selectedActions = form.get('actionIds')?.value ?? [];
-  const eventName = entity.get('name');
-  const eventDescription = entity.get('description');
+interface ActionsSelectionProps {
+  form: MapForm;
+  setForm: SetForm;
+  entity: EventSpecificationInfo;
+}
+export default function ActionsSelection({ form, setForm, entity }: ActionsSelectionProps) {
+  const selectedActions = (form.get('actionIds') as Field<string[]>)?.value ?? [];
+  const eventName = entity.name;
+  const eventDescription = entity.description ?? '';
 
   const RightHeader = (
     <SelectListDialogButton
       form={form}
-      onSubmit={selectedIds => submitActionSelection(form, setForm, selectedIds)}
+      onSubmit={(selectedIds: string[]) => submitActionSelection(form, setForm, selectedIds)}
       title={t('in-settings:tabs.addActions')}
       label={t('in-settings:tabs.addActions')}
       listComponent={getScoredActionTable(eventName, eventDescription)}
       limit={10}
       hiddenIds={selectedActions}
-      createSubmitLabel={numberOfItems =>
+      createSubmitLabel={(numberOfItems: number) =>
         numberOfItems > 0
           ? t('in-settings:tabs.addNumberOfItemsAction', { count: numberOfItems })
           : t('in-settings:tabs.addActions')
