@@ -42,18 +42,19 @@ export default function PodsChartPresenter({
       config={{
         y1: {
           metrics: timeShiftConfig?.offset
-            ? [selectedMetric, { ...selectedMetric, timeShift: timeShiftConfig.offset }]
+            ? [{ ...selectedMetric, timeShift: timeShiftConfig.offset }, selectedMetric]
             : metrics,
           formatter,
           tooltipFormatter,
           colors: timeShiftConfig?.offset
-            ? ([selectedMetric.color, theme.lib.colors.timeShift] as AxisColor[])
+            ? ([theme.lib.colors.timeShift, selectedMetric.color] as AxisColor[])
             : colors,
           renderer: line.id
         },
-        reverseOrder: true,
         type: 'TIME_SERIES'
       }}
+      reverseTooltipOrder
+      reverseLegendOrder
       renderPostChartContent={K8DashboardsMarkerLanes}
     />
   );
