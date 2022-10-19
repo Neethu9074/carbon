@@ -229,6 +229,7 @@
   },
   "labelCpuResources": "CPU Resources",
   "labelMemoryResources": "Memory Resources",
+  "labelAllocatedPods": "Allocated Pods",
   "viewAllEntityName_unknownEntity_plural": "all",
   "viewAllEntityName_unknownEntity_0": "all",
   "viewAllEntityName_unknownEntity_1": "all",

@@ -5,8 +5,6 @@
 
 import React, { Fragment } from 'react';
 
-import { Card } from '@instana/components';
-
 // TODO: will use this with TSX
 // import {AggregationType, ResultType} from "@instana/types";
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
@@ -17,19 +15,19 @@ import {
   tagEquals
 } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 import { source } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/metrics';
+import { TimeShiftAwareChartSelectorWithUrlState } from 'in-applications/Dashboards/commonComponents/ChartSelectors';
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
-import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
-import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import PodsChartPresenter from 'in-kubernetes/Dashboards/Pod/tabs/Summary/PodsChartPresenter';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
-import { zeroDecimalPlaces, percentage } from 'in-services/formatters/number';
+import { getNodeDashboard, summaryTab } from 'in-kubernetes/navigation/paths';
+import { percentage, number, bytes } from 'in-services/formatters/number';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
-import { getNodeDashboard } from 'in-kubernetes/navigation/paths';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
+import { getChartGranularity } from 'in-stores/metric';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import Capitalize from 'in-components/Capitalize';
@@ -70,6 +68,27 @@ export default function Summary({ timeConfig, data: node }) {
   };
 
   // TODO: Use for tsx
+  // const defaultMetricConfig = {
+  //   granularity: getChartGranularity(timeConfig),
+  //   aggregation: 'MEAN' as AggregationType,
+  //   source,
+  //   tagFilterExpression,
+  //   timeConfig,
+  //   timeShift: 0,
+  //   type
+  // };
+
+  const defaultMetricConfig = {
+    granularity: getChartGranularity(timeConfig),
+    aggregation: 'MEAN',
+    source,
+    tagFilterExpression,
+    timeConfig,
+    timeShift: 0,
+    type
+  };
+
+  // TODO: Use for tsx
   //  rename to isNodeMetric and change the type maybe
   // const isContainerMetric = {
   //   /* use this configuration on containers of this pod (which can be of type docker, containerd or crio)
@@ -81,7 +100,7 @@ export default function Summary({ timeConfig, data: node }) {
   const isContainerMetric = {
     /* use this configuration on containers of this pod (which can be of type docker, containerd or crio)
       type filtering must be disabled and cross series aggregation uses SUM */
-    type: undefined,
+    type: type,
     crossSeriesAggregation: 'SUM'
   };
 
@@ -89,6 +108,10 @@ export default function Summary({ timeConfig, data: node }) {
     comparisonDecreaseColor: blue.id,
     comparisonIncreaseColor: blue.id
   };
+
+  const cpuResourcesTabId = 'cpuResources';
+  const memoryResourcesTabId = 'memoryResources';
+  const podAllocTabId = 'podAllocation';
 
   return (
     <Fragment>
@@ -117,7 +140,7 @@ export default function Summary({ timeConfig, data: node }) {
       <Row>
         <Col lg={kpiWidth}>
           <BigNumberKpiCard
-            title={t('in-kubernetes:dashboards.cpuRequestsAlloc')}
+            title={t('in-kubernetes:dashboards.cpuRequests')}
             formatter={percentage.detailed}
             config={{
               metricConfiguration: {
@@ -132,7 +155,7 @@ export default function Summary({ timeConfig, data: node }) {
         </Col>
         <Col lg={kpiWidth}>
           <BigNumberKpiCard
-            title={t('in-kubernetes:dashboards.cpuLimitsAlloc')}
+            title={t('in-kubernetes:dashboards.cpuLimits')}
             formatter={percentage.detailed}
             config={{
               metricConfiguration: {
@@ -147,7 +170,7 @@ export default function Summary({ timeConfig, data: node }) {
         </Col>
         <Col lg={kpiWidth}>
           <BigNumberKpiCard
-            title={t('in-kubernetes:dashboards.memoryRequestsAlloc')}
+            title={t('in-kubernetes:dashboards.memoryRequests')}
             formatter={percentage.detailed}
             config={{
               metricConfiguration: {
@@ -194,63 +217,206 @@ export default function Summary({ timeConfig, data: node }) {
 
       <Row>
         <Col lg={4}>
-          <Card title={t('in-kubernetes:dashboards.cpuResources')}>
-            <Chart
-              snapshotId={snapshotId}
-              timeConfig={timeConfig}
-              y1={{
-                formatter: resourceQuotaNumber,
-                metrics: ['cpu.total_usage', 'required_cpu', 'limit_cpu', 'cap_cpu'].filter(Boolean),
-                labels: [
-                  t('in-kubernetes:dashboards.usage'),
-                  t('in-kubernetes:dashboards.requests'),
-                  t('in-kubernetes:dashboards.limits'),
-                  t('in-kubernetes:dashboards.capacity')
-                ].filter(Boolean),
-                type: 'line',
-                colors: [usage, requests, limits, capacity].filter(Boolean)
-              }}
-              renderPostChartContent={K8DashboardsMarkerLanes}
-              minRollup={10000}
+          <TimeShiftAwareChartSelectorWithUrlState
+            cardTitle={t('in-kubernetes:labelCpuResources')}
+            tabs={[
+              {
+                id: 'cpuResources',
+                label: t('in-kubernetes:labelCpuResources')
+              }
+            ]}
+            metrics={[
+              {
+                id: 'cpuUsage',
+                label: t('in-kubernetes:dashboards.usage'),
+                value: 'cpu.total_usage',
+                tab: cpuResourcesTabId,
+                tabDefault: true
+              },
+              {
+                id: 'cpuRequests',
+                label: t('in-kubernetes:dashboards.requests'),
+                value: 'required_cpu',
+                tab: cpuResourcesTabId
+              },
+              {
+                id: 'cpuLimits',
+                label: t('in-kubernetes:dashboards.limits'),
+                value: 'limit_cpu',
+                tab: cpuResourcesTabId
+              },
+              {
+                id: 'cpuCapacity',
+                label: t('in-kubernetes:dashboards.capacity'),
+                value: 'cap_cpu',
+                tab: cpuResourcesTabId
+              }
+            ]}
+            urlMatrixParamConfig={{ path: summaryTab, paramTab: 'cpuTab', paramMetric: 'cpuMetric' }}
+          >
+            <PodsChartPresenter
+              metrics={[
+                {
+                  metric: 'cpu.total_usage',
+                  label: t('in-kubernetes:dashboards.usage'),
+                  color: usage,
+                  ...defaultMetricConfig,
+                  ...isContainerMetric
+                },
+                {
+                  metric: 'required_cpu',
+                  label: t('in-kubernetes:dashboards.requests'),
+                  color: requests,
+                  ...defaultMetricConfig,
+                  ...isContainerMetric
+                },
+                {
+                  metric: 'limit_cpu',
+                  label: t('in-kubernetes:dashboards.limits'),
+                  color: limits,
+                  ...defaultMetricConfig,
+                  ...isContainerMetric
+                },
+                {
+                  metric: 'cap_cpu',
+                  label: t('in-kubernetes:dashboards.capacity'),
+                  color: capacity,
+                  ...defaultMetricConfig,
+                  ...isContainerMetric
+                }
+              ]}
+              title={t('in-kubernetes:dashboards.cpuResources')}
+              colors={[usage, requests, limits, capacity]}
+              formatter="number.detailed"
+              tooltipFormatter={number.detailed}
             />
-          </Card>
+          </TimeShiftAwareChartSelectorWithUrlState>
         </Col>
         <Col lg={4}>
-          <Card title={t('in-kubernetes:dashboards.memoryResources')}>
-            <Chart
-              snapshotId={snapshotId}
-              timeConfig={timeConfig}
-              y1={{
-                formatter: resourceQuotaBytes,
-                metrics: ['memory.usage', 'required_mem', 'limit_mem', 'cap_mem'].filter(Boolean),
-                labels: [
-                  t('in-kubernetes:dashboards.usage'),
-                  t('in-kubernetes:dashboards.requests'),
-                  t('in-kubernetes:dashboards.limits'),
-                  t('in-kubernetes:dashboards.capacity')
-                ].filter(Boolean),
-                type: 'line',
-                colors: [usage, requests, limits, capacity].filter(Boolean)
-              }}
-              renderPostChartContent={K8DashboardsMarkerLanes}
-              minRollup={10000}
+          <TimeShiftAwareChartSelectorWithUrlState
+            cardTitle={t('in-kubernetes:labelMemoryResources')}
+            tabs={[
+              {
+                id: 'memoryResources',
+                label: t('in-kubernetes:labelMemoryResources')
+              }
+            ]}
+            metrics={[
+              {
+                id: 'memoryUsage',
+                label: t('in-kubernetes:dashboards.usage'),
+                value: 'memory.usage',
+                tab: memoryResourcesTabId,
+                tabDefault: true
+              },
+              {
+                id: 'memoryRequests',
+                label: t('in-kubernetes:dashboards.requests'),
+                value: 'required_mem',
+                tab: memoryResourcesTabId
+              },
+              {
+                id: 'memoryLimits',
+                label: t('in-kubernetes:dashboards.limits'),
+                value: 'limit_mem',
+                tab: memoryResourcesTabId
+              },
+              {
+                id: 'memoryCapacity',
+                label: t('in-kubernetes:dashboards.capacity'),
+                value: 'cap_mem',
+                tab: memoryResourcesTabId
+              }
+            ]}
+            urlMatrixParamConfig={{ path: summaryTab, paramTab: 'memoryTab', paramMetric: 'memoryMetric' }}
+          >
+            <PodsChartPresenter
+              metrics={[
+                {
+                  metric: 'memory.usage',
+                  label: t('in-kubernetes:dashboards.usage'),
+                  color: usage,
+                  ...defaultMetricConfig,
+                  ...isContainerMetric
+                },
+                {
+                  metric: 'required_mem',
+                  label: t('in-kubernetes:dashboards.requests'),
+                  color: requests,
+                  ...defaultMetricConfig,
+                  ...isContainerMetric
+                },
+                {
+                  metric: 'limit_mem',
+                  label: t('in-kubernetes:dashboards.limits'),
+                  color: limits,
+                  ...defaultMetricConfig,
+                  ...isContainerMetric
+                },
+                {
+                  metric: 'cap_mem',
+                  label: t('in-kubernetes:dashboards.capacity'),
+                  color: capacity,
+                  ...defaultMetricConfig,
+                  ...isContainerMetric
+                }
+              ]}
+              title={t('in-kubernetes:dashboards.memoryResources')}
+              colors={[usage, requests, limits, capacity]}
+              formatter="bytes.detailed"
+              tooltipFormatter={bytes.detailed}
             />
-          </Card>
+          </TimeShiftAwareChartSelectorWithUrlState>
         </Col>
         <Col lg={4}>
-          <Card title={t('in-kubernetes:dashboards.podsAllocation')}>
-            <Chart
-              snapshotId={snapshotId}
-              timeConfig={timeConfig}
-              y1={{
-                formatter: zeroDecimalPlaces,
-                metrics: ['allocatedPods', 'cap_pods'],
-                labels: [t('in-kubernetes:dashboards.allocated'), t('in-kubernetes:dashboards.capacity')],
-                type: 'line'
-              }}
-              renderPostChartContent={K8DashboardsMarkerLanes}
+          <TimeShiftAwareChartSelectorWithUrlState
+            cardTitle={t('in-kubernetes:labelAllocatedPods')}
+            tabs={[
+              {
+                id: podAllocTabId,
+                label: t('in-kubernetes:labelAllocatedPods')
+              }
+            ]}
+            metrics={[
+              {
+                id: 'podAllocation',
+                label: t('in-kubernetes:dashboards.allocated'),
+                value: 'allocatedPods',
+                tab: podAllocTabId,
+                tabDefault: true
+              },
+              {
+                id: 'capacityPods',
+                label: t('in-kubernetes:dashboards.capacity'),
+                value: 'cap_pods',
+                tab: podAllocTabId
+              }
+            ]}
+            urlMatrixParamConfig={{ path: summaryTab, paramTab: 'allocTab', paramMetric: 'allocMetric' }}
+          >
+            <PodsChartPresenter
+              metrics={[
+                {
+                  metric: 'allocatedPods',
+                  label: t('in-kubernetes:dashboards.allocated'),
+                  color: usage,
+                  ...defaultMetricConfig,
+                  ...isContainerMetric
+                },
+                {
+                  metric: 'cap_pods',
+                  label: t('in-kubernetes:dashboards.capacity'),
+                  color: capacity,
+                  ...defaultMetricConfig,
+                  ...isContainerMetric
+                }
+              ]}
+              title={t('in-kubernetes:dashboards.podsAllocation')}
+              colors={[usage, capacity]}
+              formatter="number.compact"
+              tooltipFormatter={number.compact}
             />
-          </Card>
+          </TimeShiftAwareChartSelectorWithUrlState>
         </Col>
       </Row>
 
