@@ -24,12 +24,14 @@ export default function EntityList({ retrievalSize = 20, backendQueryModel, time
   const isLoading = progress?.loading;
 
   const [data, setResultData] = useState(createResultData(items));
+  const [orderDir, setOrderDirection] = useState('ASC');
+  const [orderByCol, setOrderByColumn] = useState('label');
 
   const onChangeItems = items => {
     setResultData(createResultData(items));
   };
 
-  if (!isLoading && data.progress.loading === true) {
+  if (!isLoading && (data.progress === undefined || data.progress?.loading === true)) {
     onChangeItems(items);
   }
 
@@ -70,7 +72,7 @@ export default function EntityList({ retrievalSize = 20, backendQueryModel, time
       id: 'count',
       width: '8rem',
       label: t('in-infrastructure:explore.count'),
-      sortable: false,
+      sortable: true,
       getContent(item) {
         return (
           <>
@@ -84,12 +86,22 @@ export default function EntityList({ retrievalSize = 20, backendQueryModel, time
   return (
     <>
       <ServerTablePresenter
-        orderBy="label"
-        orderDirection="ASC"
+        orderBy={orderByCol}
+        orderDirection={orderDir}
         result={data}
         columnDefinitions={columnDefinitions}
-        onChange={({ query }) => {
-          onChangeItems(items.filter(item => item.tags.type.toLowerCase().includes(query?.toLowerCase())));
+        onChange={({ query, orderBy, orderDirection }) => {
+          if (query !== undefined) {
+            //search
+            onChangeItems(items.filter(item => item.tags.type.toLowerCase().includes(query?.toLowerCase())));
+          } else {
+            //sort
+            const sortedItems = sortItems(items, orderBy, orderDirection);
+
+            setOrderByColumn(orderBy);
+            setOrderDirection(orderDirection);
+            setResultData(sortedItems);
+          }
         }}
         searchPlaceholder={t('in-infrastructure:explore.search')}
         leftHeader={
@@ -103,6 +115,31 @@ export default function EntityList({ retrievalSize = 20, backendQueryModel, time
       />
     </>
   );
+}
+
+function sortItems(items, orderBy, orderDirection) {
+  if (orderBy === 'label') {
+    return items.sort((a, b) => {
+      if (a.tags.type < b.tags.type) {
+        return orderDirection === 'DESC' ? 1 : -1;
+      }
+      if (a.tags.type > b.tags.type) {
+        return orderDirection === 'DESC' ? -1 : 1;
+      }
+      return 0;
+    });
+  }
+  if (orderBy === 'count') {
+    return items.sort((a, b) => {
+      if (a.count < b.count) {
+        return orderDirection === 'DESC' ? 1 : -1;
+      }
+      if (a.count > b.count) {
+        return orderDirection === 'DESC' ? -1 : 1;
+      }
+      return 0;
+    });
+  }
 }
 
 function getTableData(params) {
