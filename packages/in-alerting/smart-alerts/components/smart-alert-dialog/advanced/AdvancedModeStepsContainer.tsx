@@ -55,6 +55,7 @@ AdvancedModeStepsContainer.propTypes = {
       scrollId: PropTypes.string.isRequired,
       label: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
+      checked: PropTypes.bool,
       valid: PropTypes.bool,
       content: PropTypes.element
     })
