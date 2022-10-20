@@ -234,7 +234,8 @@ export default function Summary({ timeConfig, data: node }: SummaryProps) {
                   metric: 'cpu.total_usage',
                   label: t('in-kubernetes:dashboards.usage'),
                   color: usage,
-                  ...defaultMetricConfig
+                  ...defaultMetricConfig,
+                  ...isContainerMetric
                 },
                 {
                   metric: 'required_cpu',
