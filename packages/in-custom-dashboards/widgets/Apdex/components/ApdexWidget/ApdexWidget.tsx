@@ -8,7 +8,7 @@ import React from 'react';
 
 import { ApdexConfiguration, TagCatalog } from '@instana/types';
 import { Error, Progress, TimeConfig } from '@instana/types';
-import { Message, Stack } from '@instana/components';
+import { Message } from '@instana/components';
 
 import useShouldShowMissingDataIndicator from 'in-custom-dashboards/widgets/Slo/hooks/useShouldShowMissingDataIndicator';
 import useApdexWidgetContextMenu from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexWidgetContextMenu';
@@ -18,6 +18,8 @@ import ApdexChart from 'in-custom-dashboards/widgets/Apdex/components/ApdexChart
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
 import { MetricDataSeries } from 'in-components/Chart/types';
 import { t } from 'in-i18n';
+
+import locals from './ApdexWidget.mless';
 
 interface ApdexWidgetProps {
   title: string;
@@ -80,14 +82,7 @@ export default function ApdexWidget({
         />
       }
     >
-      <Stack
-        direction="vertical"
-        component={({ children, style, props }) => (
-          <div {...props} style={{ height: '100%', ...style }}>
-            {children}
-          </div>
-        )}
-      >
+      <div className={locals.apdexChartWrapper}>
         <ApdexChart
           apdexConfig={apdexConfig}
           metrics={metrics}
@@ -111,7 +106,7 @@ export default function ApdexWidget({
             small
           />
         )}
-      </Stack>
+      </div>
     </WidgetCard>
   );
 }
