@@ -80,6 +80,13 @@ export default function Summary({ timeConfig, data: node }: SummaryProps) {
     comparisonDecreaseColor: blue.id,
     comparisonIncreaseColor: blue.id
   };
+  const isContainerMetric = {
+    /* use this configuration on containers of this pod (which can be of type docker, containerd or crio)
+      type filtering must be disabled and cross series aggregation uses SUM */
+    type: undefined,
+    crossSeriesAggregation: 'SUM' as AggregationType
+  };
+
 
   const cpuResourcesTabId = 'cpuResources';
   const memoryResourcesTabId = 'memoryResources';
