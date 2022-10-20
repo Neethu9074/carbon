@@ -307,7 +307,8 @@ export default function Summary({ timeConfig, data: node }: SummaryProps) {
                   metric: 'memory.usage',
                   label: t('in-kubernetes:dashboards.usage'),
                   color: usage,
-                  ...defaultMetricConfig
+                  ...defaultMetricConfig,
+                  ...isContainerMetric
                 },
                 {
                   metric: 'required_mem',
