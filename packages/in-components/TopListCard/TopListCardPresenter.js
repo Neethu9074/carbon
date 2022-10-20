@@ -60,7 +60,8 @@ export default function TopListCard(props) {
     content = <TopListSkeleton />;
     withoutPadding = true;
   } else if (result.errors.length > 0) {
-    content = <NoDataAvailable height={height} />;
+    const text = result.errors[0].message;
+    content = <NoDataAvailable text={text} height={height} />;
     withoutPadding = true;
   } else if ((result.data instanceof Array && result.data.length === 0) || result.data.totalHits === 0) {
     content = <NoDataAvailable height={height} />;
