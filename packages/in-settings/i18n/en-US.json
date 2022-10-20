@@ -867,10 +867,10 @@
     "docLinkDescription": "URL to remediation content.",
     "scriptDescription": "Script content.",
     "execute": "Execute",
-    "low": "Low",
-    "medium": "Medium",
-    "high": "High",
-    "confidence": "Confidence"
+    "confidence_low": "Low",
+    "confidence_medium": "Medium",
+    "confidence_high": "High",
+    "confidenceTitle": "Confidence"
   },
   "languageSelection": {
     "language": "Language",

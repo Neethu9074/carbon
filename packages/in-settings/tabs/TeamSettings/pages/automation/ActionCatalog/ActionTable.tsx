@@ -107,12 +107,12 @@ const nameColumn = (showActionLink: boolean) => ({
 });
 
 const scoreColumn = {
-  label: t('in-settings:tabs.confidence'),
+  label: t('in-settings:tabs.confidenceTitle'),
   id: 'color',
   getContent(row: ScoredAction) {
-    if (row.color == 'low') return t('in-settings:tabs.low');
-    else if (row.color == 'medium') return t('in-settings:tabs.medium');
-    else if (row.color == 'high') return t('in-settings:tabs.high');
+    if (row.color == 'low') return t('in-settings:tabs.confidence', { context: 'low' });
+    else if (row.color == 'medium') return t('in-settings:tabs.confidence', { context: 'medium' });
+    else if (row.color == 'high') return t('in-settings:tabs.confidence', { context: 'high' });
     else return row.color;
   },
   getValue(row: ScoredAction) {
