@@ -20,13 +20,13 @@ import {
   resourceQuotaZeroDecimalPlaces
 } from 'in-kubernetes/formatters';
 // @ts-expect-error
-import { TimeShiftAwareChartSelectorWithUrlState } from 'in-components/ChartSelectors';
-// @ts-expect-error
 import { source } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/metrics';
 // @ts-expect-error
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 // @ts-expect-error
 import TopDeploymentsList from 'in-kubernetes/Dashboards/commonComponents/TopDeploymentsList';
+// @ts-expect-error
+import { TimeShiftAwareChartSelectorWithUrlState } from 'in-components/ChartSelectors';
 // @ts-expect-error
 import { getNamespaceDashboard, summaryTab } from 'in-kubernetes/navigation/paths';
 // @ts-expect-error
@@ -38,12 +38,12 @@ import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
+// @ts-expect-error
+import { plugins } from 'in-forge/constants';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
-// @ts-expect-error
-import { plugins } from 'in-forge/constants';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import theme from 'in-themes';
@@ -244,7 +244,7 @@ export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
                 {
                   metric: 'cap_requests_cpu',
                   label: t('in-kubernetes:dashboards.hardRequests'),
-                  color: usage,
+                  color: hardRequests,
                   ...defaultMetricConfig
                 },
                 {
@@ -257,7 +257,7 @@ export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
                 {
                   metric: 'cap_limits_cpu',
                   label: t('in-kubernetes:dashboards.hardLimits'),
-                  color: limits,
+                  color: hardLimits,
                   ...defaultMetricConfig
                 },
                 {
@@ -270,7 +270,7 @@ export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
                 {
                   metric: 'cpu.total_usage',
                   label: t('in-kubernetes:dashboards.usage'),
-                  color: limits,
+                  color: usage,
                   ...defaultMetricConfig,
                   ...isContainerMetric
                 }
@@ -331,7 +331,7 @@ export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
                 {
                   metric: 'cap_requests_memory',
                   label: t('in-kubernetes:dashboards.hardRequests'),
-                  color: usage,
+                  color: hardRequests,
                   ...defaultMetricConfig
                 },
                 {
@@ -344,7 +344,7 @@ export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
                 {
                   metric: 'cap_limits_memory',
                   label: t('in-kubernetes:dashboards.hardLimits'),
-                  color: limits,
+                  color: hardLimits,
                   ...defaultMetricConfig
                 },
                 {
@@ -357,7 +357,7 @@ export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
                 {
                   metric: 'memory.usage',
                   label: t('in-kubernetes:dashboards.usage'),
-                  color: limits,
+                  color: usage,
                   ...defaultMetricConfig,
                   ...isContainerMetric
                 }
