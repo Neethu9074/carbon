@@ -8,9 +8,9 @@ import { Field, MapForm } from 'formalistic';
 import React, { Fragment } from 'react';
 import { filter } from 'lodash';
 
+import { Observable } from '@instana/observables';
 import { Spacer } from '@instana/components';
 
-// @ts-expect-error
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 import ActionTable, {
   ActionTableProps
@@ -50,22 +50,6 @@ function submitActionSelection(form: MapForm, setForm: SetForm, selectedIds: str
   );
 }
 
-const getSelectedActionsForEvent = createMemoizedObservableForReferencedEntities(function(
-  selectedActions: string[],
-  eventName: string,
-  eventDescription: string
-) {
-  if (selectedActions.length === 0) {
-    return alwaysEmptyArray;
-  }
-  // null is treated as a pending result when converting the HTTP response into a result
-  return getAllActionsWithAISuggestions(eventName, eventDescription).map(action =>
-    filter(action, function(app) {
-      return selectedActions.indexOf(app.id) >= 0;
-    })
-  );
-});
-
 function getScoredActionTable(eventName: string, eventDescription: string) {
   return function ScoredActionTable(props: ActionTableProps) {
     return (
@@ -83,6 +67,18 @@ export default function ActionsSelection({ form, setForm, entity }: ActionsSelec
   const selectedActions = (form.get('actionIds') as Field<string[]>)?.value ?? [];
   const eventName = entity.name;
   const eventDescription = entity.description ?? '';
+
+  const getSelectedActionsForEvent = createMemoizedObservableForReferencedEntities(function(selectedActions: string[]) {
+    if (selectedActions.length === 0) {
+      return (alwaysEmptyArray as unknown) as Observable<Action[]>;
+    }
+    // null is treated as a pending result when converting the HTTP response into a result
+    return getAllActionsWithAISuggestions(eventName, eventDescription).map(action =>
+      filter(action, function(app) {
+        return selectedActions.indexOf(app.id) >= 0;
+      })
+    );
+  });
 
   const RightHeader = (
     <SelectListDialogButton
@@ -105,7 +101,7 @@ export default function ActionsSelection({ form, setForm, entity }: ActionsSelec
   return (
     <Fragment>
       <ActionTable
-        loadEntities={() => getSelectedActionsForEvent(selectedActions, eventName, eventDescription)}
+        loadEntities={() => getSelectedActionsForEvent(selectedActions)}
         noDataMessage={t('in-settings:tabs.noActionsSelected')}
         tableActions={actionSelectionTableActions(form, setForm)}
         pageSize={10}

@@ -3,9 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import memoize from 'in-services/util/memoizingObservableGenerator';
+import memoize, { ObservableCreator, TtiGenerator } from 'in-services/util/memoizingObservableGenerator';
 
-export default function createMemoizedObservableForReferencedEntities(createObservable, tti = 60000) {
+export default function createMemoizedObservableForReferencedEntities<RESULT>(
+  createObservable: ObservableCreator<string[], RESULT>,
+  tti: number | TtiGenerator<string[], RESULT> = 60000
+) {
   return memoize(
     createObservable,
     // generate cache ID by concatenating all referenced IDs
