@@ -124,6 +124,14 @@
   "tooltipCloseEventDetail": "Close event detail",
   "releaseOccurName": "Release: {{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> ago)",
+  "ibmMqFileTransfer": {
+    "transferId": "Transfer ID",
+    "sourceAgent": "Source Agent",
+    "destinationAgent": "Destination Agent",
+    "originator": "Originator",
+    "status": "Status",
+    "failedFileTransfers": "Failed File Transfers"
+  },
   "navigatorSplitScreen": {
     "tooltipViewPrevious_event": "View previous event (shortcut: left arrow key)",
     "tooltipViewNext_event": "View next event (shortcut: right arrow key)",
