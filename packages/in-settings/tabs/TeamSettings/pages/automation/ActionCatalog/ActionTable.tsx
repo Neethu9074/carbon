@@ -110,7 +110,7 @@ const scoreColumn = {
   label: t('in-settings:tabs.confidenceTitle'),
   id: 'color',
   getContent(row: ScoredAction) {
-    return t('in-settings:tab.confidence', { context: row.color });
+    return t('in-settings:tabs.confidence', { context: row.color });
   },
   getValue(row: ScoredAction) {
     return row.score;
