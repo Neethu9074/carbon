@@ -34,6 +34,10 @@
     }
   }
 
+  .alignLeft {
+    left: 0;
+  }
+
   .highlighted {
     background: @lib__colors__faded-blue800;
   }

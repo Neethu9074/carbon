@@ -15,12 +15,13 @@ import Tooltip from 'in-components/Tooltip';
 import locals from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/SecondKeyValueSelector.mless';
 
 export default function SecondKeyValueSelector(props) {
-  const { onChange, valid, ref, autoFocus, value, getSuggestions, fieldsToWatch } = props;
+  const { onChange, valid, ref, autoFocus, value, getSuggestions, fieldsToWatch, alignLeft } = props;
 
   return (
     <Typeahead
       value={value}
       getSuggestions={getSuggestions}
+      alignLeft={alignLeft}
       fieldsToWatch={fieldsToWatch}
       onChange={e => onChange(e.value.trim())}
       inputProps={{
@@ -37,15 +38,32 @@ export default function SecondKeyValueSelector(props) {
 }
 
 /** There are props injected by the Downshift library, see Typeahead component */
-function RenderInputField({ inputProps, getInputProps, isOpen, openMenu, inputValue, onChange, ...remainingProps }) {
+function RenderInputField({
+  inputProps,
+  getInputProps,
+  isOpen,
+  openMenu,
+  inputValue,
+  onChange,
+  alignLeft,
+  ...remainingProps
+}) {
   const { valid, autoFocus, hideValidityInformationOnFocus, ...remainingInputProps } = inputProps;
+
+  // adapt the layout of the shared-component without cloning the component
+  const localsForList = alignLeft
+    ? {
+        ...locals,
+        list: classNames(locals.list, locals.alignLeft)
+      }
+    : locals;
 
   return (
     <>
       <Tooltip content={inputValue} align="bottomMiddle">
         <div className={locals.inputFillSpace}>
           <Input
-            {...inputProps}
+            {...remainingInputProps}
             hasError={!valid}
             onChange={event => onChange(event.target.value)}
             value={inputValue}
@@ -54,13 +72,14 @@ function RenderInputField({ inputProps, getInputProps, isOpen, openMenu, inputVa
               [locals.invalid]: !valid,
               [locals.hideValidityInformationOnFocus]: hideValidityInformationOnFocus
             })}
-            {...remainingInputProps}
             {...getInputProps({ onFocus: openMenu })}
             autoFocus={autoFocus}
           />
         </div>
       </Tooltip>
-      {isOpen && <SuggestionsList {...remainingProps} locals={locals} close={() => {}} />}
+      {isOpen && (
+        <SuggestionsList {...remainingProps} inputValue={inputValue} locals={localsForList} close={() => {}} />
+      )}
     </>
   );
 }

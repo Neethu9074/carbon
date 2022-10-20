@@ -7,7 +7,7 @@ import React from 'react';
 
 import { createTagBasedPayloadConfigurator } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import GlobalCustomPayloadPage, {
-  CustomPayload
+  GlobalCustomPayload
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/GlobalCustomPayloadPage';
 import {
   staticType,
@@ -87,6 +87,15 @@ const exampleCustomPayload = {
   lastUpdated: 1600683042893
 };
 
+const GlobalTagBasedPayloadConfigurator = createTagBasedPayloadConfigurator({
+  getTagCatalog: () => successObservable(someCommonTags),
+  getSuggestions: successObservableFactory({
+    suggestions: ['a', 'b', 'c', 'aa', 'bb', 'cc', 'aa'],
+    results: [],
+    totalHits: 20
+  })
+});
+
 export function WithAllTypesOfData(args) {
   const mockResult = success({
     fields: exampleCustomPayload.fields.map(enrichedWithUniqId)
@@ -98,18 +107,9 @@ export function WithAllTypesOfData(args) {
     args.save(payload);
   };
 
-  const GlobalTagBasedPayloadConfigurator = createTagBasedPayloadConfigurator({
-    getTagCatalog: () => successObservable(someCommonTags),
-    getSuggestions: successObservableFactory({
-      suggestions: ['a', 'b', 'c', 'aa', 'bb', 'cc', 'aa'],
-      results: [],
-      totalHits: 20
-    })
-  });
-
   return (
     <>
-      <CustomPayload
+      <GlobalCustomPayload
         {...args}
         result={mockResult}
         save={successFulSave}
@@ -127,12 +127,8 @@ export function WithAllTypesOfDataReadOnly(args) {
     fields: exampleCustomPayload.fields.map(enrichedWithUniqId)
   });
 
-  const GlobalTagBasedPayloadConfigurator = createTagBasedPayloadConfigurator({
-    getTagCatalog: () => successObservable(someCommonTags)
-  });
-
   return (
-    <CustomPayload
+    <GlobalCustomPayload
       {...args}
       result={mockResult}
       TagBasedPayloadConfigurator={GlobalTagBasedPayloadConfigurator}

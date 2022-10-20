@@ -25,6 +25,7 @@ export default React.forwardRef(function TagBasedPayload(
     tagFilterExpression,
     tagTreeNode,
     getSuggestions,
+    suggestionsAlignedLeft,
     toggle,
     payload: { payloadTagEntity, tagName, secondLevelKey },
     autoFocus
@@ -100,11 +101,11 @@ export default React.forwardRef(function TagBasedPayload(
                 getSuggestions({
                   tagFilterExpression,
                   name: tagName,
-                  entity: payloadTagEntity,
                   timeConfig,
                   propose: 'KEYS'
                 })
               }
+              alignLeft={suggestionsAlignedLeft}
               fieldsToWatch={[tagFilterExpression, tagName, payloadTagEntity, timeConfig]}
             />
           </div>

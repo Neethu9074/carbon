@@ -58,7 +58,10 @@ export const valueColumnDefinition = {
 
   sortable: false,
   label: t('in-alerting:components.customPayload.value'),
-  getContent(itemForm, { getRowIndex, updateIn, enabled, trackChange, TagBasedPayloadConfigurator }) {
+  getContent(
+    itemForm,
+    { getRowIndex, updateIn, enabled, trackChange, TagBasedPayloadConfigurator, suggestionsAlignedLeft }
+  ) {
     function onChange(paths, f) {
       updateIn([getRowIndex(itemForm), ...paths], f);
     }
@@ -103,7 +106,7 @@ export const valueColumnDefinition = {
                   disabled={!enabled}
                   value={toViewModel(value)}
                   onChange={storeIntoFormModel}
-                  tagFilterExpression={{}}
+                  suggestionsAlignedLeft={suggestionsAlignedLeft}
                 />
                 <TouchedMessages field={field} className={locals.fullWidth} />
               </>

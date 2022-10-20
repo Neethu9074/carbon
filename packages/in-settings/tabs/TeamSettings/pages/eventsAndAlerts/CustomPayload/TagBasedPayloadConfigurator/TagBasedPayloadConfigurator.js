@@ -28,6 +28,7 @@ export default function TagBasedPayloadConfigurator({
   tagFilterExpression,
   onChange,
   getTagCatalog,
+  suggestionsAlignedLeft,
   getSuggestions
 }) {
   const timeConfig = useTimeConfig();
@@ -81,6 +82,7 @@ export default function TagBasedPayloadConfigurator({
           <TagBasedPayload
             onChange={onChange}
             getSuggestions={getSuggestions}
+            suggestionsAlignedLeft={suggestionsAlignedLeft}
             payload={value}
             toggle={toggle}
             ref={refSetter}
@@ -108,13 +110,14 @@ export default function TagBasedPayloadConfigurator({
 TagBasedPayloadConfigurator.propTypes = {
   onChange: rpt.func,
   value: rpt.shape({
-    payloadTagEntity: rpt.string.isRequired,
+    payloadTagEntity: rpt.string,
     tagName: rpt.string.isRequired,
     secondLevelKey: rpt.string
   }),
   disabled: rpt.bool,
   getTagCatalog: rpt.func.isRequired,
   getSuggestions: rpt.func.isRequired,
+  suggestionsAlignedLeft: rpt.bool,
   tagFilterExpression: rpt.object
 };
 
@@ -147,7 +150,6 @@ export function createTagBasedPayloadConfigurator({
 // e.g. { tagName: 'kubernetes.pod.label', key: 'app' }
 export const toViewModel = ({ tagName = '', key }) => {
   return {
-    payloadTagEntity: tagName,
     tagName,
     secondLevelKey: key
   };

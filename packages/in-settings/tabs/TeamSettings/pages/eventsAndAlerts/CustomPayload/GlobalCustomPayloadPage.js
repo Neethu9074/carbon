@@ -6,10 +6,9 @@
 import React, { useState } from 'react';
 import { uniqBy } from 'lodash';
 
+import { Message, Link } from '@instana/components';
 import { createLogger } from '@instana/logger';
 import { useObservable } from '@instana/hooks';
-import { Message } from '@instana/components';
-import { Link } from '@instana/components';
 
 import {
   deleteItemColumnDefinition,
@@ -34,14 +33,16 @@ import {
   initialState
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/useSaveToServerHandler';
 import { createNewFormEntry, createForm } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
+import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import CustomPayloadTable from 'in-alerting/components/CustomPayload/CustomPayloadTable';
+import getTagSuggestions from 'in-applications/subscriptions/getTagSuggestions';
+import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
+import { pendingResult, emptyArray } from 'in-services/fixedObjects';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { isLoading, hasError } from 'in-services/util/result';
 import Notification from 'in-components/form/Notification';
 import SaveCancel from 'in-settings/components/SaveCancel';
-import { pendingResult } from 'in-services/fixedObjects';
-import { emptyArray } from 'in-services/fixedObjects';
 import Section from 'in-settings/components/Section';
 import Title from 'in-components/Title';
 import { role } from 'in-stores/user';
@@ -57,15 +58,27 @@ export default function GlobalCustomPayloadPage() {
     return null;
   }
 
-  return <CustomPayload result={result} save={save} savingState={savingState} />;
+  return <GlobalCustomPayload result={result} save={save} savingState={savingState} />;
 }
 
 export const GlobalTagBasedPayloadConfigurator = createTagBasedPayloadConfigurator({
-  getTagCatalog: getCustomPayloadTagCatalog
+  getTagCatalog: getCustomPayloadTagCatalog,
+  getSuggestions
 });
 
-// exported only for use in storybook testing
-export function CustomPayload(props) {
+function getSuggestions(args) {
+  return getTagSuggestions({
+    tagName: args.name,
+    entity: DESTINATION,
+    propose: args.propose,
+    filter: {
+      timeConfig: args.timeConfig
+    },
+    tagFilterExpression: args.tagFilterExpression ?? EMPTY_EXPRESSION
+  });
+}
+
+export function GlobalCustomPayload(props) {
   const {
     result,
     save,
@@ -121,6 +134,7 @@ export function CustomPayload(props) {
           canConfigureAlertPayload={canConfigureGlobalAlertPayload}
           enabled={enabled}
           trackChange={editAlertCustomPayloadTracker}
+          suggestionsAlignedLeft
         />
 
         {message ? (
