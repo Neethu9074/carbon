@@ -30,7 +30,7 @@ import Capitalize from 'in-components/Capitalize';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
-export default function Summary({ timeConfig, data: node }) {
+export default function SummaryWithoutTimeShift({ timeConfig, data: node }) {
   const snapshotId = node.id;
   const { teal800: capacity, orange800: limits, lime800: requests, lightBlue800: usage } = theme.lib.colors;
 
