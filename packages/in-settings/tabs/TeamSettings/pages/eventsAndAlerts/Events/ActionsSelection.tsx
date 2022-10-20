@@ -15,7 +15,6 @@ import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/Team
 import ActionTable, {
   ActionTableProps
 } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionTable';
-// @ts-expect-error
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import { getAllActionsWithAISuggestions } from 'in-api/automation';
 import TouchedMessages from 'in-components/form/TouchedMessages';
