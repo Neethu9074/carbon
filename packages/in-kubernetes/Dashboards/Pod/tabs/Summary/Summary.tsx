@@ -27,12 +27,11 @@ import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/Condi
 // @ts-expect-error
 import ContainerStates from 'in-kubernetes/Dashboards/Pod/tabs/Summary/ContainerStates';
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
-// @ts-expect-error
-import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 // @ts-expect-error
 import { getPodDashboard, summaryTab } from 'in-kubernetes/navigation/paths';
 import PodsChartPresenter from 'in-kubernetes/Dashboards/Pod/tabs/Summary/PodsChartPresenter';
+import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 // @ts-expect-error

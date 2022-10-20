@@ -133,11 +133,7 @@ function renderButtonLine({ podId, timeConfig, result }) {
   );
 }
 
-function renderButtonLineSecondary({
-  // currentTab,
-  timeConfig,
-  podId
-}) {
+function renderButtonLineSecondary({ timeConfig, podId }) {
   return (
     <>
       {k8sTimeShiftEnabled && (

@@ -39,7 +39,7 @@ import { t } from 'in-i18n';
 
 const resourceQuotaSet = v => v !== -1;
 
-export default function Summary({ timeConfig, data: namespace }) {
+export default function SummaryWithoutTimeShift({ timeConfig, data: namespace }) {
   const snapshotId = namespace.id;
   const {
     indigo800: hardLimits,
