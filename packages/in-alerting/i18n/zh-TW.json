@@ -501,7 +501,10 @@
         "labelConfirmRemoveConfig": "您確定要移除警示 <strong>{{configName}}</strong> 嗎？",
         "labelRemove": "移除",
         "numberOfApplicationsSelected": "已選取 {{count}} 個應用程式",
-        "numberOfApplicationsSelected_plural": "已選取 {{count}} 個應用程式"
+        "numberOfApplicationsSelected_plural": "已選取 {{count}} 個應用程式",
+        "numberOfApplicationsSelected_0": "已選取 {{count}} 個應用程式",
+        "numberOfApplicationsSelected_1": "已選取 {{count}} 個應用程式",
+        "numberOfApplicationsSelected_2": "已選取 {{count}} 個應用程式"
       },
       "details": {
         "title": "警示詳細資料",
@@ -562,6 +565,9 @@
         "alertChannelSelectTypeTitle": "警示通道類型",
         "addChannel": "新增 {{count}} 個通道",
         "addChannel_plural": "新增 {{count}} 個通道",
+        "addChannel_0": "新增 {{count}} 個通道",
+        "addChannel_1": "新增 {{count}} 個通道",
+        "addChannel_2": "新增 {{count}} 個通道",
         "add": "新增",
         "scopeConfigTitleWithApplications": "選取應用程式/服務/端點",
         "scopeConfigTitle": "選取服務/端點",
@@ -675,6 +681,7 @@
         "migrationModeWarning": "將此自訂事件移轉至智慧型警示將會停用它。 之後無法重新啟用事件。"
       },
       "userInfo": {
+        "linkText": "檢視智慧型警示",
         "success": {
           "create": {
             "alert": {
@@ -701,21 +708,33 @@
         "websites": {
           "title": "網站",
           "description0": "若要設定警示，請導覽至您想對其設定警示的網站，然後使用右下角的「新增智慧型警示」按鈕。",
-          "stats": "目前您在 $t(in-alerting:smartAlerts.components.alertsHub.websites.websites, {\"count\": {{websites}} })上有 $t(in-alerting:smartAlerts.components.alertsHub.websites.alerts, {\"count\": {{alerts}} })。",
+          "stats": "目前，您在 $t(in-alerting:smartAlerts.components.alertsHub.websites.websites, {\"count\": {{websites}} }) 上具有 $t(in-alerting:smartAlerts.components.alertsHub.websites.alerts, {\"count\": {{alerts}} })。",
           "alerts": "{{count}} 個網站智慧型警示",
           "alerts_plural": "{{count}} 個網站智慧型警示",
+          "alerts_0": "{{count}} 個網站智慧型警示",
+          "alerts_1": "{{count}} 個網站智慧型警示",
+          "alerts_2": "{{count}} 個網站智慧型警示",
           "websites": "{{count}} 個網站",
           "websites_plural": "{{count}} 個網站",
+          "websites_0": "{{count}} 個網站",
+          "websites_1": "{{count}} 個網站",
+          "websites_2": "{{count}} 個網站",
           "button0": "網站"
         },
         "applications": {
           "title": "應用程式",
           "description0": "您只能針對特定應用程式設定智慧型警示，或設定涵蓋多個應用程式的智慧型警示。",
-          "stats": "目前您有 $t(in-alerting:smartAlerts.components.alertsHub.applications.gsa, {\"count\": {{globalSmartAlerts}} })及 $t(in-alerting:smartAlerts.components.alertsHub.applications.rsa, {\"count\": {{smartAlerts}} })。",
+          "stats": "目前，您有 $t(in-alerting:smartAlerts.components.alertsHub.applications.gsa, {\"count\": {{globalSmartAlerts}} }) 和 $t(in-alerting:smartAlerts.components.alertsHub.applications.rsa, {\"count\": {{smartAlerts}} })。",
           "gsa": "{{count}} 個廣域智慧型警示",
           "gsa_plural": "{{count}} 個廣域智慧型警示",
+          "gsa_0": "{{count}} 個廣域智慧型警示",
+          "gsa_1": "{{count}} 個廣域智慧型警示",
+          "gsa_2": "{{count}} 個廣域智慧型警示",
           "rsa": "{{count}} 個一般智慧型警示",
           "rsa_plural": "{{count}} 個一般智慧型警示",
+          "rsa_0": "{{count}} 個一般智慧型警示",
+          "rsa_1": "{{count}} 個一般智慧型警示",
+          "rsa_2": "{{count}} 個一般智慧型警示",
           "button0": "智慧型警示"
         },
         "infrastructure": {
@@ -723,11 +742,17 @@
           "description0": "「基礎架構和平台警示」使用我們的兩步驟工作流程。",
           "description1": "1) 針對特定狀況定義的事件。您可以使用我們的「內建事件」或建立您自己的「自訂事件」。",
           "description2": "2) 每當發生特定事件時，警示就會警示您。",
-          "stats": "目前您有 $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.events, {\"count\": {{events}} })及 $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.alerts, {\"count\": {{alerts}} })。",
+          "stats": "目前，您有 $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.events, {\"count\": {{events}} }) 和 $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.alerts, {\"count\": {{alerts}} })。",
           "events": "{{count}} 個自訂事件",
           "events_plural": "{{count}} 個自訂事件",
+          "events_0": "{{count}} 個自訂事件",
+          "events_1": "{{count}} 個自訂事件",
+          "events_2": "{{count}} 個自訂事件",
           "alerts": "{{count}} 個警示",
           "alerts_plural": "{{count}} 個警示",
+          "alerts_0": "{{count}} 個警示",
+          "alerts_1": "{{count}} 個警示",
+          "alerts_2": "{{count}} 個警示",
           "button0": "警示",
           "button1": "事件"
         }

@@ -3,8 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { withState } from 'recompose';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Card } from '@instana/components';
 import { Link } from '@instana/components';
@@ -18,11 +17,8 @@ import { t } from 'in-i18n';
 
 import locals from './ConditionsTableCard.mless';
 
-export default withState(
-  'selectedStatus',
-  'setSelectedStatus',
-  null
-)(function ConditionsTableCard({ setSelectedStatus, selectedStatus, viewAllHref$, conditions }) {
+export default function ConditionsTableCard({ viewAllHref$, conditions }) {
+  const [selectedStatus, setSelectedStatus] = useState(null);
   if (!conditions || conditions.length === 0) {
     return <NoDataAvailable text={t('in-kubernetes:dashboards.noConditionsFound')} />;
   }
@@ -44,7 +40,7 @@ export default withState(
       </div>
     </Card>
   );
-});
+}
 
 function ViewAll({ viewAllHref$, className }) {
   return (

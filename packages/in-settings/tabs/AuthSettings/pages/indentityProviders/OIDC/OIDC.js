@@ -397,8 +397,7 @@ function enrichForm(form, { setCanDeleteItem, result: { config } }) {
           if (!str || str.trim().length === 0 || str === secretPlaceholder) {
             return [
               {
-                severity: 'error',
-                message: t('in-alerting:smartAlerts.applications.form.smartAlertFormNoEntitiesSelected')
+                severity: 'error'
               }
             ];
           }

@@ -123,6 +123,7 @@
   "helpOptional": "（可选）",
   "messageSuccessfullySaved": "已成功保存。",
   "messageErrorOccurred": "发生错误，请重试。",
+  "messageWaitForChanges": "应用更改可能需要一些时间。",
   "linkViewAllServices": "查看所有服务",
   "linkViewAllEndpoints": "查看所有端点",
   "lineViewInAnalyze": "查看分析",

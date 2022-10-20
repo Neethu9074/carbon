@@ -29,5 +29,13 @@
     "oldest": "Oldest first"
   },
   "cpuTotal": "CPU Total",
-  "memoryUsage": "Memory Usage"
+  "memoryUsage": "Memory Usage",
+  "cluster": "Cluster",
+  "node": "Node",
+  "namespace": "Namespace",
+  "deployment": "Deployment",
+  "pod": "Pod",
+  "tooltipEntityHealthNoIssues": "No issues",
+  "tooltipEntityHealthIssues": "{{numberOfIssues}} Issues",
+  "container": "Container"
 }

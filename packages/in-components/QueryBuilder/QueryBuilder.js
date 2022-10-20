@@ -67,7 +67,8 @@ function QueryBuilder({
   useLastValidStateWhenErroneous = false,
   maxExpressionDepth,
   autoFocusInput = false,
-  getSuggestionLabel
+  getSuggestionLabel,
+  allowEmptyKey
 }) {
   const timeConfig = useTimeConfig();
   const [draggedFormModelIndex$] = useState(create());
@@ -175,6 +176,7 @@ function QueryBuilder({
               withoutBrackets={withoutBrackets}
               autoFocusInput={autoFocusInput}
               getSuggestionLabel={getSuggestionLabel}
+              allowEmptyKey={allowEmptyKey}
             />
           </div>
         )}
@@ -321,7 +323,8 @@ function Elements({
   withoutOrConjunction,
   withoutBrackets,
   autoFocusInput,
-  getSuggestionLabel
+  getSuggestionLabel,
+  allowEmptyKey
 }) {
   return (
     <>
@@ -370,6 +373,7 @@ function Elements({
                 withoutBrackets={withoutBrackets}
                 autoFocusInput={autoFocusInput}
                 getSuggestionLabel={getSuggestionLabel}
+                allowEmptyKey={allowEmptyKey}
               >
                 {element.elements && (
                   <Elements
@@ -417,7 +421,8 @@ QueryBuilder.propTypes = {
   useLastValidStateWhenErroneous: rpt.bool,
   maxExpressionDepth: rpt.number,
   autoFocusInput: rpt.bool,
-  getSuggestionLabel: rpt.func
+  getSuggestionLabel: rpt.func,
+  allowEmptyKey: rpt.bool
 };
 
 function getTagCatalogObservable([getTagCatalog, timeConfig]) {

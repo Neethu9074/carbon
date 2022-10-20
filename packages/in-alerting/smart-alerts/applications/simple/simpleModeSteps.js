@@ -15,6 +15,9 @@ export const stepConfigs = [
     title: t('in-alerting:smartAlerts.applications.simple.step1Title'),
     validateIntermediately: [
       ['rule', 'message'],
+      ['rule', 'statusCode'], // fail when from > to (comparison)
+      ['rule', 'statusCode', 'statusCodeStart'], // fail on empty start field
+      ['rule', 'statusCode', 'statusCodeEnd'], // fail on empty end field
       ['rule', 'level']
     ]
   },

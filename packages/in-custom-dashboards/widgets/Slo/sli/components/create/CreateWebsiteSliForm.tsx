@@ -9,29 +9,27 @@ import { Item } from 'formalistic';
 import { Observable } from '@instana/observables';
 
 import {
-  CombinedWebsiteSliEntity,
-  isWebsiteEventBasedSliEntity,
-  isWebsiteTimeBasedSliEntity,
-  NewSliConfig,
-  websiteTimeBased
-} from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
-import {
   useValidateWebsiteFilterExpression,
   useWebsiteQueryBuilder
 } from 'in-custom-dashboards/widgets/Slo/sli/hooks/useWebsiteQueryBuilder';
-import { createForm, SliFormData, WebsiteSliEntityFormData } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
 import { CreateSliFormProps } from 'in-custom-dashboards/widgets/Slo/sli/components/create/CreateSliFormFactory';
 import { useWebsiteSliFormSideEffects } from 'in-custom-dashboards/widgets/Slo/sli/hooks/useSliFormSideEffects';
-import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { createForm, WebsiteSliEntityFormData } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
 import CreateSliForm from 'in-custom-dashboards/widgets/Slo/sli/components/create/CreateSliForm';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { WebsiteSliForm } from 'in-custom-dashboards/widgets/Slo/sli/WebsiteSliForm';
-import { createSliConfiguration } from 'in-custom-dashboards/widgets/Slo/sli/api';
+import { websiteTimeBased } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { Result, TimeConfig, Website } from 'in-types';
 import useWebsite from 'in-websites/hooks/useWebsite';
 
-export default function CreateWebsiteSliForm({ entityId, close, sliConfig, setFooter }: CreateSliFormProps<'website'>) {
+export default function CreateWebsiteSliForm({
+  entityId,
+  close,
+  sliConfig,
+  setFooter,
+  onSave
+}: CreateSliFormProps<'website'>) {
   const [website, status] = useWebsite(entityId);
 
   if (status !== 'resolved' || sliConfig == null) {
@@ -44,6 +42,7 @@ export default function CreateWebsiteSliForm({ entityId, close, sliConfig, setFo
       close={close}
       sliConfig={sliConfig}
       setFooter={setFooter}
+      onSave={onSave}
     />
   );
 }
@@ -53,7 +52,8 @@ function CreateWebsiteSliFormComponent({
   website,
   sliConfig,
   close,
-  setFooter
+  setFooter,
+  onSave
 }: CreateSliFormProps<'website'> & { website: Website }) {
   const [form, setForm] = useState(createForm('website', sliConfig ?? {}, entityId, website));
   const updateForm = useWebsiteSliFormSideEffects(form, setForm as (f: Item) => void);
@@ -72,11 +72,7 @@ function CreateWebsiteSliFormComponent({
       editMode={!!sliConfig?.id}
       close={close}
       filterExpressionValid={filterExpressionValid}
-      onSubmit={submittedFormData =>
-        createSliConfiguration({
-          ...toBackendFormat(submittedFormData)
-        })
-      }
+      onSave={onSave}
     >
       <WebsiteSliForm
         form={form}
@@ -111,39 +107,4 @@ function useValidateExpressions({ sliEntity, isQueryValid }: UseValidateExpressi
   });
 
   return sliType === websiteTimeBased ? filterExpressionValid : goodEventsValid && badEventsValid;
-}
-
-function toBackendFormat(formData: SliFormData<'website'>): NewSliConfig<CombinedWebsiteSliEntity> {
-  const sliEntity = formData.sliEntity;
-
-  if (isWebsiteTimeBasedSliEntity(sliEntity)) {
-    const { filterExpression, ...entity } = sliEntity as Omit<
-      WebsiteSliEntityFormData,
-      'goodEventFilterExpression' | 'badEventFilterExpression'
-    >;
-    return {
-      ...formData,
-      sliEntity: {
-        ...entity,
-        filterExpression: toBackendQueryModel(filterExpression)
-      }
-    };
-  }
-
-  if (isWebsiteEventBasedSliEntity(sliEntity)) {
-    const { goodEventFilterExpression, badEventFilterExpression, ...entity } = sliEntity as Omit<
-      WebsiteSliEntityFormData,
-      'filterExpression'
-    >;
-    return {
-      ...formData,
-      sliEntity: {
-        ...entity,
-        goodEventFilterExpression: toBackendQueryModel(goodEventFilterExpression),
-        badEventFilterExpression: toBackendQueryModel(badEventFilterExpression)
-      }
-    };
-  }
-
-  return undefined as never;
 }

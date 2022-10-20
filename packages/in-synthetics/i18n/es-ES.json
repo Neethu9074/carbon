@@ -87,7 +87,7 @@
       "mainLabel": "Supervisión sintética",
       "secondaryLabels": {
         "tests": "Pruebas",
-        "location": "Ubicaciones"
+        "locations": "Ubicaciones"
       },
       "testLabel": "Nombre",
       "status": "Estado",
@@ -106,10 +106,18 @@
       "applicationLabel": "Aplicación",
       "health": "Estado",
       "action": "Acción",
-      "delete": "Suprimir prueba",
+      "delete": "Suprimir la prueba",
       "labelConfirm": "Confírmelo",
       "labelConfirmRemoveTest": "¿Está seguro de que desea eliminar la prueba sintética <strong>{{label}}</strong>?",
-      "labelRemove": "Eliminar"
+      "labelRemove": "Eliminar",
+      "na": "N/A"
+    },
+    "locationList": {
+      "locationLabel": "Nombre de ubicación",
+      "status": "Estado",
+      "type": "Tipo",
+      "totalTests": "Número de pruebas enlazadas",
+      "lastRun": "Última ejecución de la prueba el"
     },
     "summary": {
       "successRate": "Tasa de éxito",
@@ -198,7 +206,9 @@
       "resultsTitle": "No hay resultados disponibles",
       "resultsDescription": "No se han recuperado resultados para el intervalo de tiempo seleccionado.",
       "testSummaryTitle": "No hay pruebas sintéticas disponibles",
-      "testSummaryDescription": "No hay pruebas sintéticas recuperadas de la base de datos."
+      "testSummaryDescription": "No hay pruebas sintéticas recuperadas de la base de datos.",
+      "locationListTitle": "No hay ubicaciones de Synthetic disponibles",
+      "locationListDescription": "No hay ubicaciones de Synthetic recuperadas de la base de datos."
     }
   }
 }

@@ -14,4 +14,5 @@ To get started with UI development we recommend that you check out the following
  - [Support Matrix](./docs/supportMatrix.md)
  - [Storybook / Component Catalog](https://playground-ui-client.instana.io/index.html)
  - [Instana Test Environments](https://github.ibm.com/instana/backend#test-environments)
+ - [PR Workflow](./docs/PR_WORKFLOW.md)
 

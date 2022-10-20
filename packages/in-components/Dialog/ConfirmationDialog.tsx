@@ -6,6 +6,8 @@
 import React, { ReactElement } from 'react';
 import { Item } from 'formalistic';
 
+import { ButtonKinds } from '@instana/components';
+
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import { close } from 'in-components/DialogPresenter/store';
 import CancelButton from 'in-components/form/CancelButton';
@@ -22,6 +24,7 @@ export interface Props {
   headerIcon?: string;
   description?: string | ReactElement;
   confirmButtonLabel?: string;
+  confirmButtonKind?: keyof typeof ButtonKinds;
   onSubmit: () => void;
   field?: Item;
   isSaving?: boolean;
@@ -34,6 +37,7 @@ export default function ConfirmationDialog({
   headerIcon,
   description,
   confirmButtonLabel = t('in-components:dialog.confirmationDialogLabelConfirm'),
+  confirmButtonKind = 'danger',
   onSubmit,
   field,
   isSaving,
@@ -55,7 +59,7 @@ export default function ConfirmationDialog({
         <Actions>
           {/** @ts-expect-error Needs upstream fix in ui-foundation */}
           <CancelButton onClick={close} isSaving={isSaving} autoFocus />
-          <SaveButton form={field} isSaving={isSaving} kind="danger">
+          <SaveButton form={field} isSaving={isSaving} kind={confirmButtonKind}>
             {confirmButtonLabel}
           </SaveButton>
         </Actions>

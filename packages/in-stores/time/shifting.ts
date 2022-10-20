@@ -5,7 +5,7 @@
 
 import { ParameterDefinition } from 'in-stores/navigation/types';
 import { formatDuration } from 'in-services/formatters/date';
-import { TimeConfig, TimeShift } from 'in-types';
+import { Nullish, TimeConfig, TimeShift } from 'in-types';
 import { days, hours } from 'in-services/time';
 import { t } from 'in-i18n';
 
@@ -87,7 +87,7 @@ const defaultTimeShiftConfig: TimeShift = {
   offset: 0
 };
 export function translateOffsetToTimeShiftConfig(
-  timeShift: TimeShiftOffset | TimeShift,
+  timeShift: TimeShiftOffset | TimeShift | Nullish,
   timeConfig: TimeConfig
 ): TimeShift {
   if (timeShift == null) {

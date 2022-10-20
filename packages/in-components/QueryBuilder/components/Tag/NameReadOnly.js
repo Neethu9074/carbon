@@ -9,7 +9,7 @@ import { SvgIcon } from '@instana/components';
 
 import locals from './Name.mless';
 
-export default function NameReadOnly({ tagCatalog, element: { name } }) {
+export default function NameReadOnly({ tagCatalog, element: { name }, showFullPath = true }) {
   const tagTreeNode = tagCatalog.tagsByName[name];
   const path = tagTreeNode?.path;
 
@@ -20,10 +20,10 @@ export default function NameReadOnly({ tagCatalog, element: { name } }) {
   return (
     <div className={locals.name} style={{ cursor: 'not-allowed' }}>
       {path
-        .slice(0, path.length - 1)
+        .slice(showFullPath ? 0 : path.length - 2, path.length - 1)
         .map(node => node.label)
         .join(' ')}
-      <SvgIcon className={locals.icon} type="lib_arrow_drop_right" />
+      {path.length > 1 && <SvgIcon className={locals.icon} type="lib_arrow_drop_right" />}
       {path[path.length - 1].label}
     </div>
   );

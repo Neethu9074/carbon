@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2022
  */
 
-import { get, reverse, sortBy } from 'lodash';
 import React, { ReactNode } from 'react';
 
 import { Button, Link } from '@instana/components';
@@ -22,19 +21,14 @@ import { Event, VolatileId } from 'in-types';
 import { Action } from 'in-types';
 import { t } from 'in-i18n';
 
+import locals from './ActionTable.mless';
+
 const columnDefinitions = [
-  {
-    label: t('in-settings:tabs.name'),
-    id: 'name',
-    getContent(row: Action) {
-      return <Link href$={getEntityIdView(teamSettingsActionCatalog, row.id)}>{row.name}</Link>;
-    }
-  },
   {
     label: t('in-settings:tabs.description'),
     id: 'description',
     getContent(row: Action) {
-      return row.description;
+      return <div className={locals.fourLines}>{row.description}</div>;
     }
   },
   {
@@ -42,20 +36,6 @@ const columnDefinitions = [
     id: 'type',
     getContent: getType
   },
-  // {
-  //   label: t('in-settings:tabs.invocations'),
-  //   id: 'invocations',
-  //   getContent() {
-  //     return '0';
-  //   }
-  // },
-  // {
-  //   label: t('in-settings:tabs.successRate'),
-  //   id: 'successRate',
-  //   getContent() {
-  //     return null;
-  //   }
-  // },
   {
     label: t('in-settings:tabs.lastModified'),
     id: 'modifiedAt',
@@ -79,20 +59,9 @@ const columnDefinitions = [
   }
 ];
 
-const scoreColumn = {
-  label: 'AI Score',
-  id: 'score',
-  getContent(row: Action) {
-    return row.score?.toFixed(2);
-  },
-  getValue(row: Action) {
-    return row.score;
-  }
-};
-
 const executeColumn = (volatileId: VolatileId, event: Event | null) => ({
   id: 'execute',
-  label: 'Execute',
+  label: t('in-settings:tabs.execute'),
   getContent(row: Action) {
     const { type, fields } = row;
     if (isDocLink(type)) {
@@ -100,7 +69,7 @@ const executeColumn = (volatileId: VolatileId, event: Event | null) => ({
       const value = field?.value;
       return (
         <Button kind="action" icon={'lib_views_external_link'} target="_blank" href={value} noAutoMargin>
-          Launch
+          {t('in-settings:tabs.launch')}
         </Button>
       );
     } else if (isScript(type)) {
@@ -110,15 +79,28 @@ const executeColumn = (volatileId: VolatileId, event: Event | null) => ({
         <Button
           kind="action"
           icon={'lib_actions_play'}
-          // onClick={() =>runScriptAction(value, volatileId).once(console.log)}
-          onClick={() => addActiveDialog(<RunAction script={value} volatileId={volatileId} event={event} />)}
+          onClick={() =>
+            addActiveDialog(<RunAction action={row} script={value} volatileId={volatileId} event={event} />)
+          }
           noAutoMargin
         >
-          Run
+          {t('in-settings:tabs.run')}
         </Button>
       );
     } else {
-      return <div>Run</div>;
+      return <div>{t('in-settings:tabs.run')}</div>;
+    }
+  }
+});
+
+const nameColumn = (showActionLink: boolean) => ({
+  label: t('in-settings:tabs.name'),
+  id: 'name',
+  getContent(row: Action) {
+    if (showActionLink) {
+      return <Link href$={getEntityIdView(teamSettingsActionCatalog, row.id)}>{row.name}</Link>;
+    } else {
+      return <div>{row.name}</div>;
     }
   }
 });
@@ -134,12 +116,12 @@ export interface ActionTableProps {
   getEntityName?: (action: Action) => string;
   showExecuteColumn?: boolean | undefined;
   volatileId?: VolatileId;
-  scored?: boolean;
   event?: Event | null;
+  showActionLink?: boolean | undefined;
 }
 
 export default function ActionTable({
-  title,
+  title = t('in-settings:tabs.actions'),
   pageSize = 20,
   rightHeader,
   loadEntities = getAllActions,
@@ -149,72 +131,42 @@ export default function ActionTable({
   getEntityName,
   showExecuteColumn = false,
   volatileId = {},
-  scored = false,
+  showActionLink = false,
   event = null
 }: ActionTableProps) {
-  let columnDefinitionsToShow = columnDefinitions;
+  let columnDefinitionsToShow = [nameColumn(showActionLink), ...columnDefinitions];
   if (showExecuteColumn) {
-    columnDefinitionsToShow = [...columnDefinitions, executeColumn(volatileId, event)];
-  }
-  if (scored) {
-    columnDefinitionsToShow = [...columnDefinitionsToShow, scoreColumn];
+    columnDefinitionsToShow = [...columnDefinitionsToShow, executeColumn(volatileId, event)];
   }
 
   return (
     <List<Action>
-      title={title}
-      initalOrderDir={scored ? 'DESC' : 'ASC'}
       noDataMessage={noDataMessage}
       pageSize={pageSize}
-      initialOrderBy={scored ? 'score' : 'name'}
+      initialOrderBy={'name'}
       isSearchable
       loadEntities={loadEntities}
       columnDefinitions={columnDefinitionsToShow}
-      getHeader={getHeader()}
-      searchAttributes={['name', 'description', (entity: Action) => (get(entity, 'tags') ?? []).toString()]}
+      getHeader={getHeader(title)}
+      searchAttributes={['name', 'description', (entity: Action) => (entity?.tags ?? []).toString()]}
       searchPlaceholder={t('in-settings:tabs.filterActions')}
       searchMaxWidth={210}
       rightHeader={rightHeader}
       tableActions={tableActions}
       extraFilters={createFilters(hiddenIds)}
       getEntityName={getEntityName}
-      customSortEntities={sortEntities}
     />
   );
 }
 
-function getHeader() {
-  return leftHeaderWithSelectAll(t('in-settings:tabs.action_plural'), false, {});
+function getHeader(title: string) {
+  return leftHeaderWithSelectAll(title, false, {});
 }
 
 function createFilters(ids: string[]): Array<(action: Action) => boolean> {
   const filterFunctions = [];
   if (ids) {
-    filterFunctions.push((action: Action) => ids.indexOf(action.id) < 0);
+    filterFunctions.push((action: Action) => !ids.includes(action.id));
   }
   return filterFunctions;
-}
-
-function sortEntities({
-  entities,
-  orderByState,
-  orderDirectionState
-}: {
-  entities: Action[];
-  orderByState: keyof Action;
-  orderDirectionState: 'ASC' | 'DESC';
-}): Action[] {
-  const caseInsensitiveSortIteratee = (entity: Action) => {
-    let value = entity[orderByState as keyof Action];
-    if (orderByState === 'score') {
-      return [value, entity.name.trim().toLowerCase()];
-    }
-    return typeof value === 'string' ? value.trim().toLowerCase() : value;
-  };
-
-  const sorted = sortBy(entities, caseInsensitiveSortIteratee);
-  if (orderDirectionState === 'DESC') {
-    reverse(sorted);
-  }
-  return sorted;
 }

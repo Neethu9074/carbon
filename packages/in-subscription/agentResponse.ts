@@ -6,7 +6,12 @@
 
 import createSubscription from 'in-subscription/subscription';
 
-export default createSubscription({
+export default createSubscription<any, AgentResponse>({
   eventId: 'subscribe-agent-response',
   memoizeFor: 100
 });
+
+export type AgentResponse = {
+  data: any;
+  error: string;
+};

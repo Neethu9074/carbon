@@ -87,7 +87,7 @@
       "mainLabel": "綜合監視",
       "secondaryLabels": {
         "tests": "測試",
-        "location": "位置"
+        "locations": "位置"
       },
       "testLabel": "名稱",
       "status": "狀態",
@@ -109,7 +109,15 @@
       "delete": "刪除測試",
       "labelConfirm": "請確認",
       "labelConfirmRemoveTest": "您確定要移除綜合測試 <strong>{{label}}</strong> 嗎？",
-      "labelRemove": "移除"
+      "labelRemove": "移除",
+      "na": "N/A"
+    },
+    "locationList": {
+      "locationLabel": "位置名稱",
+      "status": "狀態",
+      "type": "類型",
+      "totalTests": "鏈結的測試數目",
+      "lastRun": "前次測試執行時間"
     },
     "summary": {
       "successRate": "成功率",
@@ -198,7 +206,9 @@
       "resultsTitle": "無可用的結果",
       "resultsDescription": "所選的時間範圍內未擷取到任何的結果。",
       "testSummaryTitle": "沒有可用的綜合測試",
-      "testSummaryDescription": "未從資料庫擷取綜合測試。"
+      "testSummaryDescription": "未從資料庫擷取綜合測試。",
+      "locationListTitle": "沒有可用的綜合位置",
+      "locationListDescription": "沒有從資料庫擷取的綜合位置。"
     }
   }
 }

@@ -10,13 +10,13 @@ import { Route } from 'react-router-dom';
 import React, { Fragment } from 'react';
 
 import { zhmcDashboardFullyQualified, cpcDashboardFullyQualified } from 'in-zhmc/navigation/paths';
-import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
+import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import { ibmz } from 'in-zhmc/navigation/paths';
 
 export default (
   <Fragment>
-    <Route path={zhmcDashboardFullyQualified} component={createAsyncViewComponent(ZhmcDashboard)} />
-    <Route path={cpcDashboardFullyQualified} component={createAsyncViewComponent(SystemDashboard)} />
-    <Route path={ibmz} component={createAsyncViewComponent(ZhmcMainView)} />
+    <Route path={zhmcDashboardFullyQualified} children={renderAsyncRouteChildren(ZhmcDashboard)} />
+    <Route path={cpcDashboardFullyQualified} children={renderAsyncRouteChildren(SystemDashboard)} />
+    <Route path={ibmz} children={renderAsyncRouteChildren(ZhmcMainView)} />
   </Fragment>
 );

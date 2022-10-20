@@ -15,14 +15,14 @@ import {
   hypervisorDashboardFullyQualified,
   instanceDashboardFullyQualified
 } from 'in-openstack/navigation/paths';
-import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
+import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import { openstack } from 'in-openstack/navigation/paths';
 
 export default (
   <Fragment>
-    <Route path={regionDashboardFullyQualified} component={createAsyncViewComponent(RegionDashboard)} />
-    <Route path={hypervisorDashboardFullyQualified} component={createAsyncViewComponent(HypervisorDashboard)} />
-    <Route path={instanceDashboardFullyQualified} component={createAsyncViewComponent(InstanceDashboard)} />
-    <Route path={openstack} component={createAsyncViewComponent(OpenstackMainView)} />
+    <Route path={regionDashboardFullyQualified} children={renderAsyncRouteChildren(RegionDashboard)} />
+    <Route path={hypervisorDashboardFullyQualified} children={renderAsyncRouteChildren(HypervisorDashboard)} />
+    <Route path={instanceDashboardFullyQualified} children={renderAsyncRouteChildren(InstanceDashboard)} />
+    <Route path={openstack} children={renderAsyncRouteChildren(OpenstackMainView)} />
   </Fragment>
 );

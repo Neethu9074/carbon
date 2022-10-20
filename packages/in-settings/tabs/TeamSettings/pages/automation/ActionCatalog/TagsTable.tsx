@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2022
  */
 
 import React, { SetStateAction } from 'react';
@@ -10,7 +11,6 @@ import { List } from 'immutable';
 import { generateUniqueShortId } from '@instana/utils';
 import { SvgIcon } from '@instana/components';
 
-// @ts-expect-error
 import DummyServerTablePresenter from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/DummyServerTablePresenter';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { Tag } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
@@ -68,6 +68,7 @@ const deleteItemColumnDefinition = {
   id: 'deleteRow',
   width: '5',
   sortable: false,
+  label: '',
   getContent(item: Tag, { deleteRow }: { deleteRow: Function }) {
     return (
       <div className={locals.controls}>
@@ -82,27 +83,13 @@ const deleteItemColumnDefinition = {
 export default function TagsTable({ form, setForm, onChange }: TagsTableProps) {
   const tableColumnDefinitions = [keyColumnDefinition(form, onChange), deleteItemColumnDefinition];
   const tags = (form?.get('tags') as Field<List<Tag>>)?.value?.toJS();
-  const data = {
-    // Parent component would only render if 'result has no errors' or 'result not loading'. Passing loading and errors param accordingly.
-    progress: {
-      loading: false
-    },
-    errors: [],
-    data: {
-      items: tags ?? [],
-      // Show all tags
-      page: 1,
-      pageSize: tags?.length ?? 0,
-      totalHits: tags?.length ?? 0
-    }
-  };
 
   return (
-    <DummyServerTablePresenter
+    <DummyServerTablePresenter<Tag>
       columnDefinitions={tableColumnDefinitions}
       addRow={addRow}
       deleteRow={deleteRow}
-      result={data}
+      data={tags}
       noDataMessage={t('in-settings:tabs.noTagsConfigured')}
     />
   );

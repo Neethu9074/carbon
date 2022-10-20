@@ -87,7 +87,7 @@
       "mainLabel": "합성 모니터링",
       "secondaryLabels": {
         "tests": "테스트",
-        "location": "위치"
+        "locations": "위치"
       },
       "testLabel": "이름",
       "status": "상태",
@@ -106,10 +106,18 @@
       "applicationLabel": "애플리케이션",
       "health": "상태",
       "action": "조치",
-      "delete": "테스트 삭제",
+      "delete": "이 테스트를 삭제",
       "labelConfirm": "확인하십시오.",
       "labelConfirmRemoveTest": "합성 테스트 <strong>{{label}}</strong>을(를) 제거하시겠습니까?",
-      "labelRemove": "제거"
+      "labelRemove": "제거",
+      "na": "해당사항 없음"
+    },
+    "locationList": {
+      "locationLabel": "위치 이름",
+      "status": "상태",
+      "type": "유형",
+      "totalTests": "링크된 테스트의 수",
+      "lastRun": "마지막 테스트 실행 시간"
     },
     "summary": {
       "successRate": "성공률",
@@ -198,7 +206,9 @@
       "resultsTitle": "사용 가능한 결과가 없음",
       "resultsDescription": "선택한 시간 범위에 대해 검색된 결과가 없습니다.",
       "testSummaryTitle": "사용 가능한 합성 테스트 없음",
-      "testSummaryDescription": "데이터베이스에서 검색된 합성 테스트가 없습니다."
+      "testSummaryDescription": "데이터베이스에서 검색된 합성 테스트가 없습니다.",
+      "locationListTitle": "사용 가능한 합성 위치가 없음",
+      "locationListDescription": "데이터베이스에서 검색된 합성 위치가 없습니다."
     }
   }
 }

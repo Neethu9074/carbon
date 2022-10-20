@@ -6,11 +6,11 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
-import { SvgIcon, Stack, Message } from '@instana/components';
+import { SvgIcon, Stack } from '@instana/components';
 
+import { SmartAlertErrorMessages } from 'in-alerting/smart-alerts/components/smart-alert-dialog/components/SmartAlertErrorMessages';
 import { useScrollToFirstInvalidNavItem } from 'in-alerting/smart-alerts/applications/hooks/useScrollToFirstInvalidNavItem';
 import ScrollStep from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ScrollStep';
-import { compareIgnoreCase } from 'in-services/util/string';
 import Divider from 'in-components/workspace/Divider';
 import Header from 'in-components/workspace/Header';
 import SideNav from 'in-components/SideNav';
@@ -42,15 +42,9 @@ export default function AdvancedModeStepsContainer({ navItems, messages = [] }) 
       <div className={locals.sideNav}>
         <SideNav navItems={navItems} renderPostIcon={renderIcon} />
       </div>
-      {!!messages.length && (
-        <div className={locals.errorInfo}>
-          {messages
-            .sort((a, b) => -1 * compareIgnoreCase(a.level, b.level))
-            .map((m, i) => (
-              <Message key={i} title={m.message} type={m.level ?? 'error'} withIcon small />
-            ))}
-        </div>
-      )}
+      <div className={locals.errorInfo}>
+        <SmartAlertErrorMessages messages={messages} />
+      </div>
     </nav>
   );
 }

@@ -5,6 +5,8 @@
 
 import React, { Fragment } from 'react';
 
+import { Message } from '@instana/components';
+
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -75,7 +77,7 @@ export default connectTo(
         .map(snapshotsIds => snapshotsIds && snapshotsIds.first())
     )
   }),
-  function Cockpit({ timeConfig, snapshotId }) {
+  function Cockpit({ timeConfig, snapshotId, tenant, unit }) {
     if (!snapshotId) {
       return <LoadingIndicator />;
     }
@@ -83,7 +85,7 @@ export default connectTo(
 
     return (
       <Fragment>
-        <DashboardSection title={t('in-internal:monitoringUnit.unit.entityStatistics.entityCount')}>
+        <DashboardSection title={t('in-internal:monitoringUnit.unit.entityStatistics.entityAndMetricCount')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -104,8 +106,17 @@ export default connectTo(
           />
         </DashboardSection>
 
+        <Message small type="warning">
+          To enable breakdown of metric statistics by plugin, add{' '}
+          <strong>
+            {tenant}-{unit}
+          </strong>{' '}
+          to
+          <strong>feature.plugin.metric.statistics.enabled</strong>
+        </Message>
+
         <Table
-          cardTitle={t('in-internal:monitoringUnit.unit.entityStatistics.perPluginEntityCount')}
+          cardTitle={t('in-internal:monitoringUnit.unit.entityStatistics.perPluginEntityAndMetricCount')}
           cols={cols}
           rows={rows}
           getRowDetails={getRowDetails}

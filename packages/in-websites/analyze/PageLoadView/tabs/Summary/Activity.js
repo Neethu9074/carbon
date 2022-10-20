@@ -18,21 +18,32 @@ import { t } from 'in-i18n';
 
 import locals from './Activity.mless';
 
-export default function Activity({ detailId, beacons, firstBeacon, pageLoad, filter, setFilter }) {
+export default function Activity({
+  detailId,
+  beacons,
+  firstBeacon,
+  pageLoad,
+  query,
+  setQuery,
+  page,
+  setPage,
+  filterTypes,
+  setFilterTypes
+}) {
   const filteredBeacons = beacons
     .filter(beacon => {
-      if (filter.types.length > 0 && filter.types.indexOf(getType(beacon)) === -1) {
+      if (filterTypes.length > 0 && filterTypes.indexOf(getType(beacon)) === -1) {
         return false;
       }
-      if (filter.page && filter.page.toLowerCase() !== beacon.page.toLowerCase()) {
+      if (page && page.toLowerCase() !== beacon.page.toLowerCase()) {
         return false;
       }
       if (
-        filter.query &&
+        query &&
         renderers[beacon.type]
           .getLabel(beacon)
           .toLowerCase()
-          .indexOf(filter.query) === -1
+          .indexOf(query) === -1
       ) {
         return false;
       }
@@ -41,13 +52,21 @@ export default function Activity({ detailId, beacons, firstBeacon, pageLoad, fil
     .sort((a, b) => a.timestamp - b.timestamp);
 
   // we want to force all expansion states to reset when filtering
-  const filterHash = generateStableHash(filter);
+  const filterHash = generateStableHash({ page, query, filterTypes });
 
   return (
     <Row>
       <Col lg={12}>
         <Card title={t('in-websites:analyze.analyzeView.pageLoadView.activityTitle')}>
-          <Filter setFilter={setFilter} filter={filter} beacons={beacons} />
+          <Filter
+            query={query}
+            setQuery={setQuery}
+            page={page}
+            setPage={setPage}
+            filterTypes={filterTypes}
+            setFilterTypes={setFilterTypes}
+            beacons={beacons}
+          />
           <div className={locals.overviewChartContainer}>
             <OverviewChart
               beacons={filteredBeacons}

@@ -14,15 +14,19 @@ import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/details/CustomPayloadViewer.mless';
 
-export default function CustomPayloadViewer({ customPayloadFields = [], TagBasedPayloadConfigurator }) {
+export default function CustomPayloadViewer({
+  customPayloadFields = [],
+  TagBasedPayloadConfigurator,
+  alternatingBg = false
+}) {
   return (
-    <Ul>
+    <Ul framed={false}>
       <Li className={locals.listItem} noAlternatingBg>
         <KeyValue className={locals.keyCell} value={t('in-alerting:components.customPayload.key')} />
         <KeyValue className={locals.valueCell} value={t('in-alerting:components.customPayload.value')} />
       </Li>
       {customPayloadFields.map(({ key, value }) => (
-        <Li key={key} className={classNames(locals.listItem, locals.valueItem)} noAlternatingBg>
+        <Li key={key} className={classNames(locals.listItem, locals.valueItem)} noAlternatingBg={!alternatingBg}>
           <KeyValue className={locals.keyCell} label={key} />
           <ValueCell value={value} />
         </Li>
@@ -54,5 +58,6 @@ CustomPayloadViewer.propTypes = {
       type: PropTypes.string.isRequired,
       value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired
     })
-  )
+  ),
+  alternatingBg: PropTypes.bool
 };

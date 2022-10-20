@@ -12,8 +12,8 @@ import { Button } from '@instana/components';
 
 import getCloudfoundryApplicationForInstanaApplication from 'in-cloudfoundry/subscriptions/getCloudfoundryApplicationForInstanaApplication';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
+import { useNavigateToApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
-import { getApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
 import EntityWithType from 'in-components/EntityWithType';
 import Overlay from 'in-components/overlays/Overlay';
 import connectTo from 'in-hoc/connectTo';
@@ -75,6 +75,8 @@ export function InstanaServiceToCloudfoundryApplicationButton({ pcfApplications 
 }
 
 function ServiceList({ pcfApplications }) {
+  const getApplicationDashboardLink = useNavigateToApplicationDashboard();
+
   return (
     <div className={locals.tableWrapper}>
       <Table>
@@ -86,7 +88,7 @@ function ServiceList({ pcfApplications }) {
                   icon="lib_cloudfoundry_application"
                   label={pcfApp.name}
                   severity={get(pcfApp, ['entityHealthInfo', 'maxSeverity'], 0)}
-                  href$={getApplicationDashboard(pcfApp.snapshotId)}
+                  href$={getApplicationDashboardLink(pcfApp.snapshotId)}
                 />
               </Td>
               <Td>

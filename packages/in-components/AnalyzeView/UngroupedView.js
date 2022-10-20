@@ -10,6 +10,7 @@ import React from 'react';
 import { Stack, SvgIcon } from '@instana/components';
 import { empty } from '@instana/observables';
 
+import MetricAndSortingConfigurator from 'in-components/MetricAndSortingConfigurator/MetricAndSortingConfigurator';
 import { ua2MetricAddedTracker, ua2MetricRemovedTracker } from 'in-components/tracker';
 import { childrenArgsAsPropTypes } from 'in-components/AnalyzeView/StateManagement';
 import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
@@ -48,7 +49,8 @@ export default function UngroupedAnalyzeView(props) {
     ungroupedViewConfiguration,
     hideMetricAndSortingConfigurator,
     Chart,
-    withOverflow = false
+    withOverflow = false,
+    CustomHeaderActions
   } = props;
 
   const timeConfig = useTimeConfig();
@@ -144,6 +146,7 @@ export default function UngroupedAnalyzeView(props) {
               />
             )}
             renderHistoricDataIndicator={resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE'}
+            CustomHeaderActions={CustomHeaderActions || getHeaderActions}
           />
         )}
         <Presenter
@@ -168,6 +171,11 @@ function GroupedViewOnlyIndicator({ metricId, metricCatalog, getHasRawValue }) {
       <SvgIcon type="lib_help_error_help_outline" size="s" className={locals.helpIcon} />
     </Tooltip>
   );
+}
+
+function getHeaderActions(props) {
+  // should also include CustomHeaderActions if present
+  return <MetricAndSortingConfigurator {...props} metricOptions={props.availableMetrics} />;
 }
 
 UngroupedAnalyzeView.propTypes = {

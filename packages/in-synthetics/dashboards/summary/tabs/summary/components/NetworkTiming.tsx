@@ -34,14 +34,14 @@ type Options = Option[];
 
 export default function NetworkTimings({ test, timeShiftConfig }: NetworkTimingProps) {
   const locations: string[] = get(test, ['data', 'locations']) || [];
-  const locationLabels: string[] = get(test, ['data', 'locationLabels']) || [];
+  const locationDisplayLabels: string[] = get(test, ['data', 'locationDisplayLabels']) || [];
   const id = get(test, ['data', 'id']);
-  const options: Options = createOptions(locations, locationLabels);
+  const options: Options = createOptions(locations, locationDisplayLabels);
   const defaultLocation: Option = options[0];
 
   const [location, setLocation] = useState(defaultLocation);
 
-  if (locations.length === 0 || locationLabels.length === 0) {
+  if (locations.length === 0 || locationDisplayLabels.length === 0) {
     return (
       <UnifiedMetricsChart
         title={t('in-synthetics:dashboard.summary.widgets.networkTimings')}

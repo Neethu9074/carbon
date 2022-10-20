@@ -18,6 +18,7 @@ export default function ResultHeader({
   getItemName,
   totalRepresentedItemCount,
   totalHits,
+  fastQueryModeEnabled,
   isLoading = true,
   resultPrecisionDetails
 }) {
@@ -37,7 +38,14 @@ export default function ResultHeader({
         <>
           {getItemName && <span className={locals.number}>{getItemName({ count: resultCount })}</span>}
           {isApproximateData && (
-            <Tooltip content={t('in-components:approximateDataIndicator.dataRetention')} align="rightMiddle">
+            <Tooltip
+              content={
+                fastQueryModeEnabled
+                  ? t('in-components:approximateDataIndicator.dataRetentionOrFastQueryMode')
+                  : t('in-components:approximateDataIndicator.dataRetention')
+              }
+              align="rightMiddle"
+            >
               <SvgIcon className={locals.adjustmentIcon} type="lib_approximately_equal" />
             </Tooltip>
           )}
@@ -52,7 +60,7 @@ ResultHeader.propTypes = {
   getItemName: rpt.func,
   totalRepresentedItemCount: rpt.number,
   totalHits: rpt.number,
-  adjustedWindowSize: rpt.number,
+  fastQueryModeEnabled: rpt.bool,
   isLoading: rpt.bool,
   resultPrecisionDetails: rpt.shape({
     resultPrecision: rpt.string

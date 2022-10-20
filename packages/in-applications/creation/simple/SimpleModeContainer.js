@@ -80,6 +80,7 @@ export default function SimpleModeContainer({
     <div className={locals.container}>
       <SimpleModePageNavigation
         form={form}
+        formId="create-application"
         updateForm={updateForm}
         onClose={onClose}
         setSimpleModeStep={setSimpleModeStep}

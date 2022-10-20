@@ -105,6 +105,7 @@ export default function AlertingChart({
       nonToggleableSeries: enhanceNonToggleableSeries(metricName, highlight),
       labels: enhanceLabels(metricLabel, highlight),
       tooltipFormatter: value => (value < 0 || value === null ? valueMissingPlaceholder : formatter.detailed(value)),
+      formatter: value => formatter.detailed(value),
       renderer,
       icons: {
         types: ['lib_line_chart', 'lib_threshold', 'lib_actions_stop', 'lib_actions_stop'],

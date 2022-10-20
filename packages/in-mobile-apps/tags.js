@@ -43,7 +43,8 @@ export const dataSourceTitles = {
   sessionStart: t('in-mobile-apps:tags.sessionStart'),
   viewChange: t('in-mobile-apps:tags.viewChange'),
   httpRequest: t('in-mobile-apps:tags.httpRequest'),
-  custom: t('in-mobile-apps:tags.custom')
+  custom: t('in-mobile-apps:tags.custom'),
+  crash: t('in-mobile-apps:tags.crash')
 };
 
 export const defaultGroupings = {
@@ -58,6 +59,9 @@ export const defaultGroupings = {
   },
   custom: {
     groupbyTag: 'mobileBeacon.customEvent.name'
+  },
+  crash: {
+    groupbyTag: 'mobileBeacon.error.message'
   }
 };
 
@@ -101,7 +105,13 @@ export const availableGroupingTags = {
     'mobileBeacon.http.path',
     'mobileBeacon.http.status'
   ].sort(),
-  custom: [...commonGroupingTags, 'mobileBeacon.customEvent.name', 'mobileBeacon.error.message'].sort()
+  custom: [...commonGroupingTags, 'mobileBeacon.customEvent.name', 'mobileBeacon.error.message'].sort(),
+  crash: [
+    ...commonGroupingTags,
+    'mobileBeacon.error.message',
+    'mobileBeacon.error.type',
+    'mobileBeacon.stackTrace'
+  ].sort()
 };
 
 const commonFilterTags = ['mobileBeacon.id', 'mobileBeacon.sessionId'];
@@ -110,5 +120,6 @@ export const availableFilterTags = {
   sessionStart: [...availableGroupingTags.sessionStart, ...commonFilterTags].sort(),
   viewChange: [...availableGroupingTags.viewChange, ...commonFilterTags].sort(),
   httpRequest: [...availableGroupingTags.httpRequest, 'mobileBeacon.backend.traceId', ...commonFilterTags].sort(),
-  custom: [...availableGroupingTags.custom, ...commonFilterTags].sort()
+  custom: [...availableGroupingTags.custom, ...commonFilterTags].sort(),
+  crash: [...availableGroupingTags.crash, 'mobileBeacon.error.id', ...commonFilterTags].sort()
 };

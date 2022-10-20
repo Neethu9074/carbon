@@ -9,7 +9,7 @@ import {
   getAllBuiltInMetrics,
   isBuiltInDynamicMetric,
   isBuiltInPlainMetric,
-  isMetricPercentile,
+  isBackendAggregatedPercentileMetric,
   toDynamicMetricStringValue,
   getMetricDefinition
 } from 'in-sdk/metrics';
@@ -80,7 +80,7 @@ function getScopeFields(isCreate, query, ruleType, tagFilter) {
 
 export function createEventFormDefinition(eventSpec, isCreate) {
   const mutableEvent = getMutableEventSpecification(eventSpec);
-  const { name, entityType, query, triggering, description, expirationTime, actions } = mutableEvent;
+  const { name, entityType, query, triggering, description, expirationTime } = mutableEvent;
   const ruleAttributes = getRuleAttributes(mutableEvent);
   const { ruleType, severity, tagFilter } = ruleAttributes;
 
@@ -152,7 +152,9 @@ export function createEventFormDefinition(eventSpec, isCreate) {
         validator: notBlankValidator
       })
     );
-  form = putActionField(form, actions);
+
+  form = putActionField(form, mutableEvent.actionIds);
+
   if (dataSource !== dataSourceSystem) {
     form = putAllDataSourceFields(form, eventSpec);
   } else {
@@ -164,6 +166,7 @@ export function createEventFormDefinition(eventSpec, isCreate) {
       form = putHostAvailabilityDetectionFields(form, eventSpec);
     }
   }
+
   if (applyOn === scopeApplication) {
     form = putApplicationField(form, applicationName);
     form = putApplicationIdField(form, applicationIds);
@@ -268,7 +271,7 @@ function putAllDataSourceFields(form, eventSpec) {
       })
     );
 
-  if (isMetricPercentile(entityType, metricName)) {
+  if (isBackendAggregatedPercentileMetric(entityType, metricName)) {
     form = putRollupField(form, eventSpec);
   } else {
     form = putWindowField(form, eventSpec);
@@ -553,21 +556,21 @@ export function putTagValueField(form, tagValue) {
   );
 }
 
-export function putActionField(form, tagValue) {
-  return form.put(
-    'actionIds',
-    createField({
-      value: tagValue?.map(({ id }) => id) ?? []
-    })
-  );
-}
-
 export function removeTagValueField(form) {
   return form.remove('tagValue');
 }
 
 export function removeScopeByHostsField(form) {
   return form.remove('tagValue').remove('tagOperator');
+}
+
+export function putActionField(form, actionIds) {
+  return form.put(
+    'actionIds',
+    createField({
+      value: actionIds ?? []
+    })
+  );
 }
 
 export function putApplicationIdField(form, applicationIds) {

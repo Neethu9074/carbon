@@ -11,19 +11,19 @@ import { formatDateTime, fromNow } from '@instana/format-date';
 import { SvgIcon } from '@instana/components';
 import { Link } from '@instana/components';
 
-import { syntheticResultsListPath, syntheticsDashboard, syntheticDetailsPath } from 'in-synthetics/navigation/paths';
-// @ts-ignore
+// @ts-expect-error Could not find a declaration file for module
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
-// @ts-ignore
+// @ts-expect-error Could not find a declaration file for module
 import { TopListWithUrlState } from 'in-components/TopListWithUrlState';
+import { syntheticResultsListPath, syntheticsDashboard, syntheticDetailsPath } from 'in-synthetics/navigation/paths';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { TagFilter, TestResultListItem, TimeConfig } from 'in-types';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { latency } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { TagFilter, TimeConfig } from 'in-types';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -47,11 +47,12 @@ const companionMetrics = [null, null, null];
 const companionFormatters = [null, null, null];
 const colors = [null, null, theme.lib.colors.failure];
 
-type Props = {
+interface ResultsTopListProps {
   testId: string;
-};
+  locationsMap: Map<string, string>;
+}
 
-export default function ResultsTopList({ testId }: Props) {
+export default function ResultsTopList({ testId, locationsMap }: ResultsTopListProps) {
   const timeConfig = useTimeConfig();
 
   const urlMatrixParamConfig = {
@@ -71,6 +72,7 @@ export default function ResultsTopList({ testId }: Props) {
       ViewAll={ViewAll}
       timeConfig={timeConfig}
       testId={testId}
+      locationsMap={locationsMap}
       renderHistoricDataIndicator
       getList={getList}
       Renderer={TopListCardPresenter}
@@ -88,7 +90,7 @@ type GetList = {
 };
 
 function getList({ testId, timeConfig, selectedMetric }: GetList) {
-  let baseTagFilters: TagFilter[] = [
+  const baseTagFilters: TagFilter[] = [
     {
       stringValue: testId,
       name: 'testId',
@@ -98,7 +100,7 @@ function getList({ testId, timeConfig, selectedMetric }: GetList) {
     }
   ];
 
-  let statusTagFilters: TagFilter[] = [
+  const statusTagFilters: TagFilter[] = [
     {
       stringValue: testId,
       name: 'testId',
@@ -115,16 +117,15 @@ function getList({ testId, timeConfig, selectedMetric }: GetList) {
     }
   ];
 
-  let tagFilters = [baseTagFilters, baseTagFilters, statusTagFilters];
+  const tagFilters = [baseTagFilters, baseTagFilters, statusTagFilters];
 
   return getTestResultList({
     pagination: {
       page: 1,
       pageSize: 5
     },
-    // @ts-ignore
+    // @ts-expect-error The expected type comes from property 'order' which is declared here on type 'GetTestResultListQuery'
     order: orders[metrics.indexOf(selectedMetric)],
-    // @ts-ignore
     syntheticMetrics: metrics,
     filter: {
       timeConfig,
@@ -132,12 +133,15 @@ function getList({ testId, timeConfig, selectedMetric }: GetList) {
       includeSyntheticCalls: false,
       useLongTermDataOnly: false
     },
-    // @ts-ignore
     tagFilters: tagFilters[metrics.indexOf(selectedMetric)]
   });
 }
 
-function ViewAll({ testId }: Props) {
+interface ViewAllProps {
+  testId: string;
+}
+
+function ViewAll({ testId }: ViewAllProps) {
   return (
     <Link
       href$={getModifiedUrlStream(resultListUrl => {
@@ -151,14 +155,17 @@ function ViewAll({ testId }: Props) {
   );
 }
 
-type Lab = {
-  item: any;
+type LabelProps = {
+  item: TestResultListItem;
   selectedMetric: string;
+  locationsMap: Map<string, string>;
 };
 
-function Label({ item, selectedMetric }: Lab) {
-  let testId = item.testResultCommonProperties.testId;
-  let resultId = item.testResultCommonProperties.id;
+function Label({ item, selectedMetric, locationsMap }: LabelProps) {
+  const testId = item.testResultCommonProperties.testId;
+  const resultId = item.testResultCommonProperties.id;
+  const location =
+    (item.testResultCommonProperties.locationId && locationsMap.get(item.testResultCommonProperties.locationId)) || '';
   return (
     <Link
       href$={getModifiedUrlStream(resultDetailUrl => {
@@ -168,18 +175,41 @@ function Label({ item, selectedMetric }: Lab) {
         setOrDeleteMatrixKey(
           resultDetailUrl,
           syntheticDetailsPath,
-          'start_time',
+          'startTime',
           get(item, ['metrics', 'start_time', 0, 1])
+        );
+        setOrDeleteMatrixKey(
+          resultDetailUrl,
+          syntheticDetailsPath,
+          'status',
+          get(item, ['metrics', 'status', 0, 1], 0)
+        );
+        setOrDeleteMatrixKey(
+          resultDetailUrl,
+          syntheticDetailsPath,
+          'responseTime',
+          get(item, ['metrics', 'response_time', 0, 1], 0)
+        );
+        setOrDeleteMatrixKey(
+          resultDetailUrl,
+          syntheticDetailsPath,
+          'responseSize',
+          get(item, ['metrics', 'response_size', 0, 1], 0)
         );
         return resultDetailUrl;
       })}
     >
-      {item.testResultCommonProperties.locationLabel + AdditionalLabel({ item, selectedMetric })}
+      {location + AdditionalLabel({ item, selectedMetric })}
     </Link>
   );
 }
 
-function AdditionalLabel({ item, selectedMetric }: Lab) {
+interface AdditionalLabelProps {
+  item: TestResultListItem;
+  selectedMetric: string;
+}
+
+function AdditionalLabel({ item, selectedMetric }: AdditionalLabelProps) {
   let additionalLabel = '';
   let formattedTime = '';
   if (selectedMetric === 'response_time') {
@@ -196,14 +226,14 @@ function AdditionalLabel({ item, selectedMetric }: Lab) {
   return additionalLabel;
 }
 
-type Met = {
+type MetricProps = {
   formattedMetricValue: any;
-  item: any;
+  item: TestResultListItem;
   selectedMetric: string;
 };
 
-function Metric({ formattedMetricValue, item, selectedMetric }: Met) {
-  let status = get(item, ['metrics', 'status', 0, 1], 0);
+function Metric({ formattedMetricValue, item, selectedMetric }: MetricProps) {
+  const status = get(item, ['metrics', 'status', 0, 1], 0);
   if (selectedMetric !== 'status') {
     if (status === 1) {
       return formattedMetricValue;

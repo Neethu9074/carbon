@@ -288,8 +288,8 @@ function getHigherOrLowerOperatorDescriptionContext(operatorDescription, operato
   }
 }
 
-export function isEntitySelectionValid(entitySelection, isBuiltInAlert) {
-  if (isBuiltInAlert) {
+export function isEntitySelectionValid(entitySelection, isGlobalAlert) {
+  if (isGlobalAlert) {
     return true;
   }
 

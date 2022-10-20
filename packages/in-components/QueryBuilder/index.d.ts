@@ -20,7 +20,7 @@ import { FormModelElement } from './transformation/formModel';
 
 export type GetSuggestionsProps = { [key: string]: unknown };
 
-interface GetTagSuggestionsProps<ADDITIONAL_PROPS extends {} = {}> extends ADDITIONAL_PROPS {
+export interface GetTagSuggestionsProps<ADDITIONAL_PROPS extends {} = {}> extends ADDITIONAL_PROPS {
   tagFilterExpression: TagFilterExpression;
   name: string;
   tagName: string;
@@ -64,6 +64,7 @@ interface QueryBuilderProps<ADDITIONAL_TAG_SUGGESTION_PROPS extends {} = {}> {
   withoutOrConjunction?: boolean;
   withoutBrackets?: boolean;
   readOnly?: boolean;
+  allowEmptyKey?: boolean;
 }
 
 type CreateQueryBuilderProps<ADDITIONAL_TAG_SUGGESTION_PROPS = {}> = Pick<

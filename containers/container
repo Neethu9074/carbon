@@ -9,7 +9,7 @@ ARG registry_password
 
 COPY build/ /
 
-RUN microdnf --nodocs --setopt=install_weak_deps=0 --setopt=tsflags=nodocs install -y gcc gcc-c++ python3 make
+RUN microdnf --nodocs --setopt=install_weak_deps=0 --setopt=tsflags=nodocs install -y gcc gcc-c++ python3 make npm
 
 RUN REGISTRY=${registry} \
             REPOSITORY_KEY=${repository_key} \
@@ -26,9 +26,6 @@ registry=${registry}/artifactory/api/npm/${repository_key}/ \
 RUN npx yarn install --production --frozen-lockfile --cwd /opt/instana/ui-client/target
 
 FROM containers.instana.io/instana/product/nodejs:${base_version}
-
-RUN microdnf --nodocs --setopt=install_weak_deps=0 --setopt=tsflags=nodocs install -y python3 \
-    && microdnf clean all
 
 COPY --from=builder --chown=instana:0 /opt/instana/ui-client/target /opt/instana/ui-client
 COPY --from=builder /usr/bin/run.sh /usr/bin/run.sh

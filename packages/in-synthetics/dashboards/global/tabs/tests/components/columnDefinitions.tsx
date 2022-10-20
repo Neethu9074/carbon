@@ -14,13 +14,13 @@ import { Link, SvgIcon } from '@instana/components';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 // @ts-expect-error Module needs to be translated to TS
 import { getApplicationDashboard } from 'in-applications/navigation/paths';
+// @ts-expect-error Could not find a declaration file
+import HealthDot from 'in-components/health/HealthDot';
 import ListActionsColumn from 'in-synthetics/dashboards/global/tabs/tests/components/ListActionsColumn';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { meanLatencyFixed, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { syntheticsSummaryPath, syntheticsDashboard } from 'in-synthetics/navigation/paths';
-// @ts-expect-error
-import HealthDot from 'in-components/health/HealthDot';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getChartGranularity } from 'in-stores/metric/metric';
@@ -78,6 +78,12 @@ export const columnDefinitions: ColumnDefinition<TestResultListItem, testListPro
                 'testId',
                 item?.testResultCommonProperties?.testCommonProperties?.id
               );
+              setOrDeleteMatrixKey(
+                summaryUrl,
+                syntheticsDashboard,
+                'type',
+                item?.testResultCommonProperties?.testCommonProperties?.type
+              );
               return summaryUrl;
             })}
           >
@@ -90,7 +96,7 @@ export const columnDefinitions: ColumnDefinition<TestResultListItem, testListPro
   {
     id: 'status',
     label: t('in-synthetics:dashboard.testList.status'),
-    sortable: false,
+    defaultOrderDirection: 'ASC',
     getContent(item: TestResultListItem) {
       const status = item?.testResultCommonProperties?.testCommonProperties?.active
         ? t('in-synthetics:dashboard.testList.active')
@@ -105,6 +111,7 @@ export const columnDefinitions: ColumnDefinition<TestResultListItem, testListPro
   {
     id: 'synthetic_type',
     label: t('in-synthetics:dashboard.testList.type'),
+    defaultOrderDirection: 'ASC',
     getContent(item: TestResultListItem) {
       return (
         <div>
@@ -121,28 +128,35 @@ export const columnDefinitions: ColumnDefinition<TestResultListItem, testListPro
   {
     id: 'successRate',
     label: t('in-synthetics:dashboard.testList.successRate'),
-    sortable: false,
+    defaultOrderDirection: 'ASC',
     getContent(item: TestResultListItem) {
-      const totalRuns = get(item, ['metrics', 'total_test_runs', 0, 1], 1);
-      const successRuns = get(item, ['metrics', 'successful_test_runs', 0, 1], 1);
-      return (
-        <div>
-          <h4 className={locals.label}>{percentageTwoDecimalPlaces(successRuns / totalRuns)}</h4>
-          <span className={locals.secText}>
-            {t('in-synthetics:dashboard.testList.successRuns', {
-              successRuns: successRuns,
-              totalRuns: totalRuns
-            })}
-          </span>
-        </div>
-      );
+      const totalRuns = get(item, ['metrics', 'total_test_runs', 0, 1], 0);
+      const successRuns = get(item, ['metrics', 'successful_test_runs', 0, 1], 0);
+      if (totalRuns != 0) {
+        return (
+          <div>
+            <h4 className={locals.label}>{percentageTwoDecimalPlaces(successRuns / totalRuns)}</h4>
+            <span className={locals.secText}>
+              {t('in-synthetics:dashboard.testList.successRuns', {
+                successRuns: successRuns,
+                totalRuns: totalRuns
+              })}
+            </span>
+          </div>
+        );
+      } else {
+        return (
+          <div>
+            <h4 className={locals.label}>{t('in-synthetics:dashboard.testList.na')}</h4>
+          </div>
+        );
+      }
     }
   },
   {
     id: 'avg_response_time',
     label: t('in-synthetics:dashboard.testList.latency'),
-    sortable: false,
-    //defaultOrderDirection: 'DESC',
+    defaultOrderDirection: 'DESC',
     getContent(item: TestResultListItem, { result, timeConfig }) {
       return (
         <SparkChart
@@ -161,31 +175,55 @@ export const columnDefinitions: ColumnDefinition<TestResultListItem, testListPro
   {
     id: 'location',
     label: t('in-synthetics:dashboard.testList.locationLabel'),
-    sortable: false,
+    defaultOrderDirection: 'ASC',
     getContent(item: TestResultListItem) {
       const locationStatusList: LocationStatus[] =
         item?.testResultCommonProperties?.testCommonProperties?.locationStatusList ?? [];
-      const totalLocations = locationStatusList.length;
+      const totalLocations = locationStatusList.length == 0 ? 0 : locationStatusList.length;
 
       if (totalLocations === 1) {
         const locationStatus: LocationStatus = locationStatusList[0];
         const severity = locationStatus.successRate == 1 ? 0 : 10;
-        return (
-          <HorizontalFlexWrapper>
-            <SvgIcon type={'lib_synthetic_location'} />
-            <div>
-              <h4 className={locals.label}>{item?.testResultCommonProperties?.locationLabel}</h4>
-              <HealthDot severity={severity} iconSize={5} />
-            </div>
-          </HorizontalFlexWrapper>
-        );
+        if (locationStatus.totalTestRuns != 0) {
+          return (
+            <HorizontalFlexWrapper>
+              <SvgIcon type={'lib_synthetic_location'} />
+              <div>
+                <h4 className={locals.label}>
+                  {item.testResultCommonProperties.testCommonProperties?.locationDisplayLabels &&
+                    item.testResultCommonProperties.testCommonProperties?.locationDisplayLabels[0]}
+                </h4>
+                <HealthDot severity={severity} iconSize={5} />
+              </div>
+            </HorizontalFlexWrapper>
+          );
+        } else {
+          return (
+            <HorizontalFlexWrapper>
+              <SvgIcon type={'lib_synthetic_location'} />
+              <div>
+                <h4 className={locals.label}>
+                  {item.testResultCommonProperties.testCommonProperties?.locationDisplayLabels &&
+                    item.testResultCommonProperties.testCommonProperties?.locationDisplayLabels[0]}
+                </h4>
+              </div>
+            </HorizontalFlexWrapper>
+          );
+        }
       } else {
-        let severities = locationStatusList.map(location => {
-          return {
-            sev: location.successRate == 1 ? 0 : 10,
-            id: location.locationId
-          };
-        });
+        let severities = locationStatusList
+          .filter(location => {
+            if (location.totalTestRuns != 0) {
+              return true;
+            }
+            return false;
+          })
+          .map(location => {
+            return {
+              sev: location.successRate == 1 ? 0 : 10,
+              id: location.locationId
+            };
+          });
 
         return (
           <HorizontalFlexWrapper>
@@ -208,7 +246,7 @@ export const columnDefinitions: ColumnDefinition<TestResultListItem, testListPro
   {
     id: 'applicationLabel',
     label: t('in-synthetics:dashboard.testList.applicationLabel'),
-    sortable: false,
+    defaultOrderDirection: 'ASC',
     getContent(item: TestResultListItem) {
       const applicationLabel = item.testResultCommonProperties?.testCommonProperties?.applicationLabel;
       const applicationId = item.testResultCommonProperties?.testCommonProperties?.applicationId;
@@ -235,10 +273,10 @@ export const columnDefinitions: ColumnDefinition<TestResultListItem, testListPro
   {
     id: 'health',
     label: t('in-synthetics:dashboard.testList.health'),
-    sortable: false,
+    defaultOrderDirection: 'ASC',
     getContent(item: TestResultListItem) {
-      const totalRuns = get(item, ['metrics', 'total_test_runs', 0, 1], 1);
-      const successRuns = get(item, ['metrics', 'successful_test_runs', 0, 1], 1);
+      const totalRuns = get(item, ['metrics', 'total_test_runs', 0, 1], 0);
+      const successRuns = get(item, ['metrics', 'successful_test_runs', 0, 1], 0);
 
       let severity = totalRuns != 0 && successRuns / totalRuns == 1 ? 0 : 10;
 
@@ -249,11 +287,19 @@ export const columnDefinitions: ColumnDefinition<TestResultListItem, testListPro
           </div>
         );
       } else {
-        return (
-          <div>
-            <SvgIcon type="lib_help_error_warning" color={theme.lib.colors.warning} className={locals.icon} />
-          </div>
-        );
+        if (totalRuns != 0) {
+          return (
+            <div>
+              <SvgIcon type="lib_help_error_warning" color={theme.lib.colors.warning} className={locals.icon} />
+            </div>
+          );
+        } else {
+          return (
+            <div>
+              <h4 className={locals.label}>{t('in-synthetics:dashboard.testList.na')}</h4>
+            </div>
+          );
+        }
       }
     }
   },

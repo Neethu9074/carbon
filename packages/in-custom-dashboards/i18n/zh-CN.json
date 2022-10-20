@@ -572,7 +572,7 @@
         "thousandCallsFormat": "{{count}}000 个调用"
       },
       "widgetLeftHeader": {
-        "previewDataInfo": "如果最近创建了 SLI 配置，则最多显示过去 7 天的预览数据。 最终窗口小部件将仅包含自 SLI 创建以来的数据。"
+        "previewDataInfo": "最多仅显示过去 7 天的预览数据。 最终窗口小部件将仅包含自 SLI 创建以来的数据。"
       },
       "boundaryScopeConfigurator": {
         "all": {
@@ -590,7 +590,9 @@
       "chart": {
         "metricLabel": "Apdex",
         "viewInAnalyze": "在分析中查看",
-        "noDataRetentionPeriod": "所选时间范围超出数据保留期"
+        "noDataRetentionPeriod": "所选时间范围超出数据保留期",
+        "notFoundErrorTitle": "找不到已配置的 Apdex",
+        "notFoundErrorDescription": "请通过选择其他 Apdex 配置来更新 Apdex 窗口小部件"
       },
       "demo": {
         "title": "Apdex 用于生产",
@@ -644,13 +646,16 @@
         "apdexCreateFailedTitle": "未能创建 Apdex 配置。",
         "apdexCreateFailedContent": "创建此 Apdex 配置时发生问题：“{{apdexName}}”",
         "apdexNameNotEmpty": "Apdex 名称不能为空。",
-        "thresholdNotEmpty": "阈值不能为空。",
-        "nameExistsError": "具有此名称的 Apdex 配置已存在。 请输入其他名称。"
+        "nameExistsError": "具有此名称的 Apdex 配置已存在。 请输入其他名称。",
+        "limitReachedError": {
+          "website": "已达到 Web 站点 Apdex 配置 ({{0}}) 的最大数量。 请联系 Instana 支持人员以请求提高此限量。",
+          "application": "已达到应用程序 Apdex 配置 ({{0}}) 的最大数量。 请联系 Instana 支持人员以请求提高此限量。"
+        },
+        "editConfigNotice": "创建后无法编辑配置以防止数据丢失。"
       },
       "createWebsiteApdexForm": {
         "thresholdHeader": "阈值配置",
-        "thresholdLabel": "阈值",
-        "thresholdFooter": "创建后无法编辑阈值以防止数据丢失。"
+        "thresholdLabel": "阈值"
       },
       "entityInfo": {
         "tooltip": "未知 Apdex",
@@ -660,7 +665,7 @@
       "widget": {
         "unknownEntityLabel_application": "未知应用程序",
         "unknownEntityLabel_website": "未知 Web 站点",
-        "previewDataInfo": "如果最近创建了 Apdex 配置，则最多显示过去 7 天的预览数据。 最终窗口小部件将仅包含自 Apdex 创建以来的数据。"
+        "previewDataInfo": "显示过去 7 天的预览数据。 最终窗口小部件将仅包含自 Apdex 配置创建以来的数据。"
       },
       "applicationScopeConfigurator": {
         "label": "Apdex 作用域",

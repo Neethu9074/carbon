@@ -265,6 +265,7 @@ class InfrastructureMetricChartBehavior extends React.Component {
         renderPostChartContent={renderPostChartContent}
         originalTimeConfig={originalTimeConfig ?? this.props.timeConfig}
         additionalContextMenuButtons={additionalContextMenuButtons}
+        wiggleRoom={10000}
       />
     );
   }

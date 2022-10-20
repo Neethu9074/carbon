@@ -87,7 +87,7 @@
       "mainLabel": "Monitoramento sintético",
       "secondaryLabels": {
         "tests": "Testes",
-        "location": "Locais"
+        "locations": "Locais"
       },
       "testLabel": "Nome",
       "status": "Status",
@@ -106,10 +106,18 @@
       "applicationLabel": "Aplicativo",
       "health": "Funcionamento",
       "action": "Ação",
-      "delete": "Excluir teste",
+      "delete": "Excluir o teste",
       "labelConfirm": "Confirme",
       "labelConfirmRemoveTest": "Tem certeza de que deseja remover o teste sintético <strong>{{label}}</strong>?",
-      "labelRemove": "Remover"
+      "labelRemove": "Remover",
+      "na": "N/D"
+    },
+    "locationList": {
+      "locationLabel": "Nome do local",
+      "status": "Status",
+      "type": "Tipo",
+      "totalTests": "Nº. de testes vinculados",
+      "lastRun": "Última execução de teste em"
     },
     "summary": {
       "successRate": "Taxa de sucesso",
@@ -198,7 +206,9 @@
       "resultsTitle": "Nenhum resultado disponível",
       "resultsDescription": "Não houve resultados recuperados para o intervalo de tempo selecionado.",
       "testSummaryTitle": "Nenhum teste sintético disponível",
-      "testSummaryDescription": "Não há testes sintéticos recuperados do banco de dados."
+      "testSummaryDescription": "Não há testes sintéticos recuperados do banco de dados.",
+      "locationListTitle": "Nenhum local sintético disponível",
+      "locationListDescription": "Não há locais sintéticos recuperados do banco de dados."
     }
   }
 }

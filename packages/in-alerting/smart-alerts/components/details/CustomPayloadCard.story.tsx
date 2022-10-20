@@ -6,11 +6,9 @@
 
 import { CustomPayloadFieldUnion } from '@instana/types';
 
-// @ts-expect-error this is not yet converted to TS
 import { createTagBasedPayloadConfigurator } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
-// @ts-expect-error this is not yet converted to TS
+import { someCommonTags } from 'in-alerting/smart-alerts/components/details/someCommonTagsTagCatalog';
 import CustomPayloadCard from 'in-alerting/smart-alerts/components/details/CustomPayloadCard';
-import someCommonTags from 'in-alerting/smart-alerts/components/details/SomeCommonTagsTagCatalog.json';
 import { successObservable } from 'in-services/util/result';
 
 export default {

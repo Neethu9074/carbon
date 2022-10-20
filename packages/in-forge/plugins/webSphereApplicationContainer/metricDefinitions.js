@@ -51,6 +51,50 @@ export default [
   },
   {
     metric: getDynamicMetricMatch(
+      'threadPools',
+      'activeThreads',
+      t('in-forge:plugins.webSphereAppContainer.labelWebModule')
+    ),
+    label: t('in-forge:plugins.webSphereAppContainer.labelActiveThreads'),
+    category: [t('in-forge:plugins.webSphereAppContainer.categoryThreadPool')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: getDynamicMetricMatch(
+      'threadPools',
+      'poolSize',
+      t('in-forge:plugins.webSphereAppContainer.labelWebModule')
+    ),
+    label: t('in-forge:plugins.webSphereAppContainer.labelActiveThreads'),
+    category: [t('in-forge:plugins.webSphereAppContainer.categoryThreadPool')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: getDynamicMetricMatch(
+      'threadPools',
+      'concurrentlyHungThreads',
+      t('in-forge:plugins.webSphereAppContainer.labelWebModule')
+    ),
+    label: t('in-forge:plugins.webSphereAppContainer.labelConcurrentlyHungThreads'),
+    category: [t('in-forge:plugins.webSphereAppContainer.categoryThreadPool')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: getDynamicMetricMatch(
+      'threadPools',
+      'declaredThreadHung',
+      t('in-forge:plugins.webSphereAppContainer.labelWebModule')
+    ),
+    label: t('in-forge:plugins.webSphereAppContainer.labelDeclaredThreadHung'),
+    category: [t('in-forge:plugins.webSphereAppContainer.categoryThreadPool')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: getDynamicMetricMatch(
       'sessionManagers',
       'activeCount',
       t('in-forge:plugins.webSphereAppContainer.labelWebModule')

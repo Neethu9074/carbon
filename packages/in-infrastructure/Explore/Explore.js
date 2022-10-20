@@ -40,21 +40,30 @@ import {
 import GroupingConfigurator, {
   isGroupingConfigurationValid
 } from 'in-infrastructure/Explore/components/GroupingConfigurator';
+import { EMPTY_EXPRESSION, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
 import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConfigContextModification';
-import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import QueryBuilder, { isQueryValid } from 'in-infrastructure/Explore/components/QueryBuilder';
 import GroupedInfrastructure from 'in-infrastructure/Explore/components/GroupedInfrastructure';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import InfraPageHeaderWithTabs from 'in-infrastructure/components/InfraPageHeaderWithTabs';
+import { getMetricKey, fromUrlMetrics } from 'in-infrastructure/Explore/services/metrics';
 import InfrastructureList from 'in-infrastructure/Explore/components/InfrastructureList';
-import { getMetrics, fromUrlMetrics } from 'in-infrastructure/Explore/services/metrics';
+import getMetricCatalog from 'in-infrastructure/subscriptions/getMetricCatalog';
+import { defaultInfraExploreView } from 'in-infrastructure/navigation/paths';
+import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
+import EntityList from 'in-infrastructure/Explore/components/EntityList';
+import useMetricCatalog from 'in-infrastructure/hooks/useMetricCatalog';
 import { themes } from 'in-components/DashboardHeader/DashboardHeader';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import { defaultOrder } from 'in-infrastructure/Explore/constants';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { pendingResult } from 'in-services/fixedObjects';
 import Sections from 'in-components/workspace/Sections';
+import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { noop } from 'in-services/util/function';
 import useUrlState from 'in-hooks/useUrlState';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
@@ -83,30 +92,22 @@ export default function InfraExploreView() {
 
 function InfraExploreViewWithFixatedTimeConfig() {
   const timeConfig = useTimeConfig();
-  const [{ tagFilterExpression, group, metrics: urlMetrics, type: urlType, order }, setUrl] = useUrlState(
+  const [{ tagFilterExpression, group, metrics: urlMetrics, type: urlType, order: urlOrder }, setUrl] = useUrlState(
     urlStateDefinition
   );
   const type = urlType === 'all' ? null : urlType;
-  const setMetrics = useCallback(metrics => setUrl({ metrics }), [setUrl]);
-  const setOrder = useCallback(order => setUrl({ order }), [setUrl]);
 
   const validTagFilterExpressionResult =
     useObservable(getIsQueryValidObservable, [tagFilterExpression, timeConfig]) ?? pendingResult;
   const validGroupResult = useObservable(getIsGroupingValidObservable, [group, timeConfig]) ?? pendingResult;
   // in case of a pending result (validTagFilterExpressionResult.data === null) we do not want to show the user an error message
   const isValid = validTagFilterExpressionResult.data === true && validGroupResult.data === true;
-  const isInvalid = validTagFilterExpressionResult.data === false || validGroupResult.data === false;
+  const isInvalid = validGroupResult.data === false;
 
-  const backendQueryModel = useMemo(() => (isValid && toBackendQueryModel(tagFilterExpression)) || undefined, [
-    isValid,
-    tagFilterExpression
-  ]);
+  const order = urlOrder ?? defaultOrder;
 
-  const availableMetrics = useObservable(getMetricsObservable, [timeConfig, backendQueryModel, type]) || [];
-  const metrics = fromUrlMetrics({ urlMetrics, availableMetrics });
-
-  const onTagFilterExpressionChange = useCallback(tagFilterExpression => setUrl({ tagFilterExpression }), [setUrl]);
-  const onGroupChange = useCallback(group => setUrl({ group }), [setUrl]);
+  const kpiDefinitions = getKpiDefinitions(type);
+  const metrics = fromUrlMetrics({ urlMetrics, kpiDefinitions });
 
   const getInfraExploreState = () => {
     return { type, tagFilterExpression, group, metrics, order };
@@ -119,6 +120,16 @@ function InfraExploreViewWithFixatedTimeConfig() {
     onMetricAggregationChanged: metricAggregationChangedTracker(getInfraExploreState)
   };
 
+  function resetParams() {
+    setUrl({ tagFilterExpression: [], group: { groupbyTag: 'type', ar: true }, metrics: [], type: 'all' });
+  }
+
+  const isInitPage =
+    !type &&
+    (!group || group?.groupbyTag == 'type') &&
+    (!metrics || metrics?.length == 0) &&
+    (!tagFilterExpression || tagFilterExpression?.length == 0);
+
   return (
     <InfraPageHeaderWithTabs
       onTypeSelected={typeSelectorChangedTracker(getInfraExploreState)}
@@ -126,6 +137,9 @@ function InfraExploreViewWithFixatedTimeConfig() {
       theme={themes.light}
       addShadow
       addFooter
+      headerHref$={isInitPage ? null : defaultInfraExploreView}
+      onHeaderClick={resetParams}
+      renderTypeSelector={!isInitPage}
     >
       <ViewTrackingMeta
         data={{
@@ -140,86 +154,223 @@ function InfraExploreViewWithFixatedTimeConfig() {
           <Message type="warning" withIcon small>
             {t('in-infrastructure:explore.thisIsABetaVersionOfANewProductCapability')}
           </Message>
-
-          <Sections>
-            <QueryBuilderSection
-              value={tagFilterExpression}
-              QueryBuilder={QueryBuilder}
-              onChange={onTagFilterExpressionChange}
-              tracking={{
-                onTagAdded: filterAddedTracker(getInfraExploreState),
-                onTagRemoved: filterRemovedTracker(getInfraExploreState),
-                onQueryCleared: filtersClearedTracker(getInfraExploreState)
-              }}
-              hasError={isInvalid}
-            />
-
-            <GroupingConfiguratorSection
-              value={group}
-              GroupingConfigurator={GroupingConfigurator}
-              tagFilterExpression={backendQueryModel || toBackendQueryModel([])}
-              onChange={onGroupChange}
-              tracking={{
-                onGroupAdded: groupAddedTracker(getInfraExploreState),
-                onGroupRemoved: groupRemovedTracker(getInfraExploreState)
-              }}
-            />
-          </Sections>
-
-          {isInvalid && (
-            <Message type="error" withIcon small>
-              {t('in-infrastructure:explore.theQueryConfigurationIsInvalid')}
-            </Message>
-          )}
-
-          {isValid && !group?.groupbyTag && (
-            <InfrastructureList
-              backendQueryModel={backendQueryModel}
-              availableMetrics={availableMetrics}
-              timeConfig={timeConfig}
-              setMetrics={setMetrics}
-              setOrder={order => {
-                setOrder(order);
-                sortingTracker(getInfraExploreState)(order, SORTING_CONTEXT.ENTITIES);
-              }}
-              metrics={metrics}
-              type={type}
-              order={order}
-              showHeader
-              tracking={{
-                onLoadMore: page => loadMoreTracker(getInfraExploreState)(page, LOAD_MORE_CONTEXT.UNGROUPED_ENTITIES),
-                ...infrastructureListTrackingConfig
-              }}
-            />
-          )}
-
-          {isValid && group?.groupbyTag && (
-            <GroupedInfrastructure
-              tagFilterExpression={tagFilterExpression}
-              backendQueryModel={backendQueryModel}
-              availableMetrics={availableMetrics}
-              timeConfig={timeConfig}
-              setMetrics={setMetrics}
-              setOrder={order => {
-                setOrder(order);
-                sortingTracker(getInfraExploreState)(order, SORTING_CONTEXT.GROUPS);
-              }}
-              metrics={metrics}
-              type={type}
-              group={group}
-              order={order}
-              tracking={{
-                onFocusOnGroup: groupFocusedOnTracker(getInfraExploreState),
-                onGroupExpanded: groupExpandedTracker(getInfraExploreState),
-                onGroupCollapsed: groupCollapsedTracker(getInfraExploreState),
-                onLoadMore: loadMoreTracker(getInfraExploreState),
-                ...infrastructureListTrackingConfig
-              }}
-            />
-          )}
+          <Content
+            setUrl={setUrl}
+            type={type}
+            metrics={metrics}
+            group={group}
+            order={order}
+            tagFilterExpression={tagFilterExpression}
+            isInitPage={isInitPage}
+            isValid={isValid}
+            isInvalid={isInvalid}
+            timeConfig={timeConfig}
+            infrastructureListTrackingConfig={infrastructureListTrackingConfig}
+            getInfraExploreState={getInfraExploreState}
+            kpiDefinitions={kpiDefinitions}
+          />
         </Stack>
       </LeftRightPadding>
     </InfraPageHeaderWithTabs>
+  );
+}
+
+function Content({
+  setUrl,
+  type,
+  metrics,
+  group,
+  order,
+  tagFilterExpression,
+  isInitPage,
+  isValid,
+  isInvalid,
+  timeConfig,
+  infrastructureListTrackingConfig,
+  getInfraExploreState,
+  kpiDefinitions
+}) {
+  const setMetrics = useCallback(
+    metrics => {
+      const sortedMetric = metrics.find(metric => order.by.startsWith(metric.metric));
+      const newOrder =
+        (sortedMetric && {
+          by: getMetricKey(sortedMetric.metric, sortedMetric.aggregation),
+          direction: order.direction
+        }) ??
+        defaultOrder;
+      setUrl({ metrics, order: newOrder });
+    },
+    [setUrl]
+  );
+  const setOrder = useCallback(order => setUrl({ order }), [setUrl]);
+
+  const onTagFilterExpressionChange = useCallback(tagFilterExpression => setUrl({ tagFilterExpression }), [setUrl]);
+  const onGroupChange = useCallback(group => setUrl({ group }), [setUrl]);
+
+  const backendQueryModel = useMemo(() => (isValid && toBackendQueryModel(tagFilterExpression)) || EMPTY_EXPRESSION, [
+    isValid,
+    tagFilterExpression
+  ]);
+  const catalogQuery = useDebouncedValue('', noop, 800);
+  const metricCatalog = useMetricCatalog({
+    getMetricCatalog,
+    tagFilterExpression: backendQueryModel,
+    type,
+    query: catalogQuery.debouncedValue
+  });
+  const metricMetadatas = useMetricMetadatas({ type, metrics, kpiDefinitions });
+
+  const topSection = !isInitPage && (
+    <Sections>
+      <QueryBuilderSection
+        value={tagFilterExpression}
+        QueryBuilder={QueryBuilder}
+        onChange={onTagFilterExpressionChange}
+        tracking={{
+          onTagAdded: filterAddedTracker(getInfraExploreState),
+          onTagRemoved: filterRemovedTracker(getInfraExploreState),
+          onQueryCleared: filtersClearedTracker(getInfraExploreState)
+        }}
+        hasError={isInvalid}
+        allowEmptyKey
+      />
+
+      <GroupingConfiguratorSection
+        value={group}
+        GroupingConfigurator={GroupingConfigurator}
+        tagFilterExpression={backendQueryModel || toBackendQueryModel([])}
+        onChange={onGroupChange}
+        tracking={{
+          onGroupAdded: groupAddedTracker(getInfraExploreState),
+          onGroupRemoved: groupRemovedTracker(getInfraExploreState)
+        }}
+      />
+    </Sections>
+  );
+
+  const errorMessage = (
+    <Message type="error" withIcon small>
+      {t('in-infrastructure:explore.theQueryConfigurationIsInvalid')}
+    </Message>
+  );
+
+  const bottomSection = isInvalid ? (
+    errorMessage
+  ) : (
+    <List
+      type={type}
+      metrics={metrics}
+      group={group}
+      order={order}
+      tagFilterExpression={tagFilterExpression}
+      isInitPage={isInitPage}
+      timeConfig={timeConfig}
+      infrastructureListTrackingConfig={infrastructureListTrackingConfig}
+      getInfraExploreState={getInfraExploreState}
+      metricCatalog={metricCatalog}
+      setOrder={setOrder}
+      metricMetadatas={metricMetadatas}
+      backendQueryModel={backendQueryModel}
+      setMetrics={setMetrics}
+      catalogQuery={catalogQuery}
+    />
+  );
+
+  return (
+    <>
+      {topSection}
+      {bottomSection}
+    </>
+  );
+}
+
+function List({
+  type,
+  metrics,
+  group,
+  order,
+  tagFilterExpression,
+  isInitPage,
+  timeConfig,
+  infrastructureListTrackingConfig,
+  getInfraExploreState,
+  metricCatalog,
+  setOrder,
+  metricMetadatas,
+  backendQueryModel,
+  setMetrics,
+  catalogQuery
+}) {
+  if (isInitPage) {
+    return (
+      <EntityList
+        backendQueryModel={backendQueryModel}
+        timeConfig={timeConfig}
+        group={group}
+        setOrder={order => {
+          setOrder(order);
+          sortingTracker(getInfraExploreState)(order, SORTING_CONTEXT.GROUPS);
+        }}
+        order={order}
+        type={type}
+        headerHref$={defaultInfraExploreView}
+      />
+    );
+  }
+
+  if (group?.groupbyTag) {
+    return (
+      <GroupedInfrastructure
+        tagFilterExpression={tagFilterExpression}
+        backendQueryModel={backendQueryModel}
+        timeConfig={timeConfig}
+        setMetrics={setMetrics}
+        setOrder={order => {
+          setOrder(order);
+          sortingTracker(getInfraExploreState)(order, SORTING_CONTEXT.GROUPS);
+        }}
+        metrics={metrics}
+        metricMetadatas={metricMetadatas}
+        type={type}
+        group={group}
+        order={order}
+        tracking={{
+          onFocusOnGroup: groupFocusedOnTracker(getInfraExploreState),
+          onGroupExpanded: groupExpandedTracker(getInfraExploreState),
+          onGroupCollapsed: groupCollapsedTracker(getInfraExploreState),
+          onLoadMore: loadMoreTracker(getInfraExploreState),
+          ...infrastructureListTrackingConfig
+        }}
+        metricCatalog={(catalogQuery.value === catalogQuery.debouncedValue && metricCatalog) || pendingResult}
+        query={catalogQuery.value}
+        onQueryChange={catalogQuery.onChange}
+      />
+    );
+  }
+
+  return (
+    <InfrastructureList
+      backendQueryModel={backendQueryModel}
+      timeConfig={timeConfig}
+      setMetrics={setMetrics}
+      setOrder={order => {
+        setOrder(order);
+        sortingTracker(getInfraExploreState)(order, SORTING_CONTEXT.ENTITIES);
+      }}
+      type={type}
+      metrics={metrics}
+      metricMetadatas={metricMetadatas}
+      order={order}
+      showHeader
+      tracking={{
+        onLoadMore: page => loadMoreTracker(getInfraExploreState)(page, LOAD_MORE_CONTEXT.UNGROUPED_ENTITIES),
+        ...infrastructureListTrackingConfig
+      }}
+      metricCatalog={(catalogQuery.value === catalogQuery.debouncedValue && metricCatalog) || pendingResult}
+      query={catalogQuery.value}
+      onQueryChange={catalogQuery.onChange}
+    />
   );
 }
 
@@ -229,8 +380,4 @@ function getIsQueryValidObservable([tagFilterExpression, timeConfig]) {
 
 function getIsGroupingValidObservable([group, timeConfig]) {
   return isGroupingConfigurationValid(group, timeConfig);
-}
-
-function getMetricsObservable([timeConfig, backendQueryModel, type]) {
-  return getMetrics({ timeConfig, tagFilterExpression: backendQueryModel, type });
 }

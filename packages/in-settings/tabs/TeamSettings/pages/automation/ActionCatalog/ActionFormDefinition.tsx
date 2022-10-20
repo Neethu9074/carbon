@@ -107,7 +107,7 @@ export function putScriptField(form: MapForm, action: ImmutableNewAction) {
   return form.put(
     'script',
     createField({
-      value: value,
+      value,
       validator: notBlankValidator
     })
   );

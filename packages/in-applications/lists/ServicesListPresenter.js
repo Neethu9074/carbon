@@ -214,12 +214,19 @@ export default function ServicesList({
         </Button>
       )}
       <Filters
+        applicationId={applicationId}
+        contextScope={contextScope}
         endpointTypes={endpointTypes}
         technologies={technologies}
         setFilter={setFilter}
+        serviceId={serviceId}
         query={query}
         buttonLabel={t('in-applications:buttonAnalyzeServices')}
-        groupBy={createGroupBy('service.name', entityTypes.DESTINATION)}
+        groupBy={
+          !contextScope || contextScope === 'DOWNSTREAM'
+            ? createGroupBy('service.name', entityTypes.DESTINATION)
+            : createGroupBy('service.name', entityTypes.SOURCE)
+        }
       />
     </>
   );

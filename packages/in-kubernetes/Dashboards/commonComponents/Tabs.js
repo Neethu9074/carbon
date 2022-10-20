@@ -19,7 +19,7 @@ import getKubernetesNode from 'in-kubernetes/subscriptions/getKubernetesNode';
 import getKubernetesPod from 'in-kubernetes/subscriptions/getKubernetesPod';
 import { pendingResult } from 'in-services/fixedObjects';
 
-function observe(fn, obj) {
+function useObservableValues(fn, obj) {
   return useObservable(fn(obj), Object.values(obj));
 }
 
@@ -37,72 +37,75 @@ export default function TabLabelWithCounter({ label, counters, valueExtractor })
 }
 
 export function ClusterTab({ clusterId, label, timeConfig, valueExtractor }) {
-  const result = observe(getKubernetesClusterItemCounters, { clusterId, timeConfig }) ?? pendingResult;
+  const result = useObservableValues(getKubernetesClusterItemCounters, { clusterId, timeConfig }) ?? pendingResult;
   return <TabLabelWithCounter counters={result?.data} label={label} valueExtractor={valueExtractor} />;
 }
 
 export function NamespaceTab({ namespaceId, label, timeConfig, valueExtractor }) {
-  const result = observe(getKubernetesNamespaceItemCounters, { namespaceId, timeConfig }) ?? pendingResult;
+  const result = useObservableValues(getKubernetesNamespaceItemCounters, { namespaceId, timeConfig }) ?? pendingResult;
   return <TabLabelWithCounter counters={result?.data} label={label} valueExtractor={valueExtractor} />;
 }
 
 export function WorkloadTab({ workloadControllerId, label, timeConfig, valueExtractor }) {
   const result =
-    observe(getKubernetesWorkloadControllerItemCounters, { workloadControllerId, timeConfig }) ?? pendingResult;
+    useObservableValues(getKubernetesWorkloadControllerItemCounters, { workloadControllerId, timeConfig }) ??
+    pendingResult;
   return <TabLabelWithCounter counters={result?.data} label={label} valueExtractor={valueExtractor} />;
 }
 
 export function ServiceTab({ serviceId, label, timeConfig, valueExtractor }) {
-  const result = observe(getKubernetesServiceItemCounters, { serviceId, timeConfig }) ?? pendingResult;
+  const result = useObservableValues(getKubernetesServiceItemCounters, { serviceId, timeConfig }) ?? pendingResult;
   return <TabLabelWithCounter counters={result?.data} label={label} valueExtractor={valueExtractor} />;
 }
 
 export function NodePodTab({ nodeId, tab, timeConfig }) {
-  const result = observe(getKubernetesNodeItemCounters, { nodeId, timeConfig });
+  const result = useObservableValues(getKubernetesNodeItemCounters, { nodeId, timeConfig });
   return <TabLabelWithCounter counters={result?.data} label={tab.label} valueExtractor={v => v.pods} />;
 }
 
 export function CronJobPodTab({ cronJobId, tab, timeConfig }) {
-  const result = observe(getKubernetesCronJobItemCounters, { cronJobId, timeConfig });
+  const result = useObservableValues(getKubernetesCronJobItemCounters, { cronJobId, timeConfig });
   return <TabLabelWithCounter counters={result?.data} label={tab.label} valueExtractor={v => v.pods} />;
 }
 
 export function PodTab({ cronJobId, tab, timeConfig }) {
-  const result = observe(getKubernetesCronJobItemCounters, { cronJobId, timeConfig });
+  const result = useObservableValues(getKubernetesCronJobItemCounters, { cronJobId, timeConfig });
   return <TabLabelWithCounter counters={result?.data} label={tab.label} valueExtractor={v => v.pods} />;
 }
 
 export function PodVolumesTab({ podId, tab, timeConfig }) {
-  const result = observe(getKubernetesPod, { id: podId, timeConfig });
+  const result = useObservableValues(getKubernetesPod, { id: podId, timeConfig });
   return <TabLabelWithCounter counters={result?.data} label={tab.label} valueExtractor={v => v?.volumes} />;
 }
 
 export function PodConditionsTab({ podId, tab, timeConfig }) {
-  const result = observe(getKubernetesPod, { id: podId, timeConfig }) ?? pendingResult;
+  const result = useObservableValues(getKubernetesPod, { id: podId, timeConfig }) ?? pendingResult;
   return <TabLabelWithCounter counters={result?.data} label={tab.label} valueExtractor={v => v?.conditions.length} />;
 }
 
 export function NodeConditionsTab({ nodeId, tab, timeConfig }) {
-  const result = observe(getKubernetesNode, { id: nodeId, timeConfig }) ?? pendingResult;
+  const result = useObservableValues(getKubernetesNode, { id: nodeId, timeConfig }) ?? pendingResult;
   return <TabLabelWithCounter counters={result?.data} label={tab.label} valueExtractor={v => v?.conditions.length} />;
 }
 
 export function NodeVolumesTab({ nodeId, tab, timeConfig }) {
-  const result = observe(getKubernetesNodeItemCounters, { nodeId, timeConfig });
+  const result = useObservableValues(getKubernetesNodeItemCounters, { nodeId, timeConfig });
   return <TabLabelWithCounter counters={result?.data} label={tab.label} valueExtractor={v => v?.volumes} />;
 }
 
 export function CronJobConditionsTab({ cronJobId, tab, timeConfig }) {
-  const result = observe(getKubernetesCronJob, { id: cronJobId, timeConfig }) ?? pendingResult;
+  const result = useObservableValues(getKubernetesCronJob, { id: cronJobId, timeConfig }) ?? pendingResult;
   return <TabLabelWithCounter counters={result?.data} label={tab.label} valueExtractor={v => v?.conditions.length} />;
 }
 
 export function DeploymentConfigConditionsTab({ deploymentConfigId, tab, timeConfig }) {
-  const result = observe(getKubernetesWorkloadController, { id: deploymentConfigId, timeConfig }) ?? pendingResult;
+  const result =
+    useObservableValues(getKubernetesWorkloadController, { id: deploymentConfigId, timeConfig }) ?? pendingResult;
   return <TabLabelWithCounter counters={result?.data} label={tab.label} valueExtractor={v => v?.conditions.length} />;
 }
 
 export function DeploymentConditionsTab({ deploymentId, tab, timeConfig }) {
-  const result = observe(getKubernetesWorkloadController, { id: deploymentId, timeConfig }) ?? pendingResult;
+  const result =
+    useObservableValues(getKubernetesWorkloadController, { id: deploymentId, timeConfig }) ?? pendingResult;
   return <TabLabelWithCounter counters={result?.data} label={tab.label} valueExtractor={v => v?.conditions.length} />;
 }

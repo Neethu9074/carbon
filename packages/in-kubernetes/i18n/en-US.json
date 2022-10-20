@@ -227,6 +227,9 @@
       "endpointsDescription": "There were no endpoints retrieved for the selected time range."
     }
   },
+  "labelCpuResources": "CPU Resources",
+  "labelMemoryResources": "Memory Resources",
+  "labelAllocatedPods": "Allocated Pods",
   "viewAllEntityName_unknownEntity_plural": "all",
   "viewAllEntityName_unknownEntity_0": "all",
   "viewAllEntityName_unknownEntity_1": "all",
@@ -270,6 +273,7 @@
   "health": "Health",
   "clusters": "Clusters",
   "explore": "Explore (Tech Preview)",
+  "k8sTeam": "K8s Team",
   "noMonitoringDataFound": "No Monitoring Data Found",
   "clusterName": "Cluster Name",
   "running": "Running",

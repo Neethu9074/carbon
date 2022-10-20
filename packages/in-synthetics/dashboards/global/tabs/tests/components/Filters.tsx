@@ -6,51 +6,46 @@
 
 import React, { Fragment } from 'react';
 
-import { TestResultListItem } from '@instana/types';
-
-import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
+import { PaginatedResult, Result, TestResultListItem } from 'in-types';
+import { FilterSectionProps } from 'in-synthetics/utils/constants';
 import ComboBox from 'in-components/ComboBox';
 import { t } from 'in-i18n';
 
 import locals from './Filters.mless';
 
-type filterProps = {
-  /*
-  locationLabels: string[];
-  applicationLabels: string[];
-  syntheticTypes: string[];*/
-  setFilter: any;
-  props: ServerTablePresenterProps<TestResultListItem>;
-  isAppcontext?: boolean;
-};
-
-export default function Filters({ isAppcontext, setFilter, props }: filterProps) {
-  const syntheticTypes: string[] = getSyntheticTypes(props);
+export default function Filters({
+  isAppcontext,
+  setFilter,
+  result,
+  syntheticTypes,
+  locationIds,
+  applicationIds = []
+}: FilterSectionProps) {
   return (
     <Fragment>
       <ComboBox
         value={syntheticTypes}
-        onChange={t => setFilter({ anyOption: t ? t : '' })}
+        onChange={t => Array.isArray(t) && setFilter({ syntheticTypes: t.map(a => a.value) })}
         placeholder={t('in-synthetics:dashboard.testList.type')}
         isMulti
-        options={getSyntheticTypeComboboxItems(syntheticTypes)}
+        options={getSyntheticTypes(result)}
         className={locals.filter}
       />
       <ComboBox
-        value={getLocationLabels(props)}
-        onChange={t => setFilter({ anyOption: t ? t : '' })}
+        value={locationIds}
+        onChange={t => Array.isArray(t) && setFilter({ locationIds: t.map(a => a.value) })}
         placeholder={t('in-synthetics:dashboard.testList.locationLabel')}
         isMulti
-        options={[]}
+        options={getLocationLabels(result)}
         className={locals.filter}
       />
       {!isAppcontext && (
         <ComboBox
-          value={getApplicationLabels(props)}
-          onChange={t => setFilter({ anyOption: t ? t : null })}
+          value={applicationIds}
+          onChange={t => Array.isArray(t) && setFilter({ applicationIds: t.map(a => a.value) })}
           placeholder={t('in-synthetics:dashboard.testList.applicationLabel')}
           isMulti
-          options={[]}
+          options={getApplicationLabels(result)}
           className={locals.filter}
         />
       )}
@@ -63,59 +58,84 @@ type Option = {
   value: string;
 };
 
-function getSyntheticTypeComboboxItems(syntheticTypes: string[]) {
-  let syntheticTypeOptions: Option[] = syntheticTypes?.map(syntheticType => {
-    return {
-      label: syntheticType,
-      value: syntheticType
-    };
-  });
+function getSyntheticTypes(result: Result<PaginatedResult<TestResultListItem>> | undefined) {
+  let syntheticTypeOptions: Option[] = [];
+
+  // Get syntheticTypes from result
+  if (!result?.progress?.loading) {
+    let syntheticTypes: string[] = [];
+    result?.data?.items?.forEach(function(item) {
+      syntheticTypes.push(item.testResultCommonProperties?.testCommonProperties?.type ?? '');
+    });
+
+    // Clean up duplicate and empty array elements
+    syntheticTypes = syntheticTypes.filter(function(item, index, arrayRef) {
+      return arrayRef.indexOf(item) === index && item !== '';
+    });
+
+    syntheticTypeOptions = syntheticTypes?.map(syntheticType => {
+      return {
+        label: syntheticType,
+        value: syntheticType
+      };
+    });
+  }
+
+  // return syntheticTypeOptions;
   return syntheticTypeOptions;
 }
 
-function getSyntheticTypes(props: ServerTablePresenterProps<TestResultListItem>) {
-  let syntheticTypes: string[] = [];
+function getLocationLabels(result: Result<PaginatedResult<TestResultListItem>> | undefined) {
+  let locationLabelOptions: Option[] = [];
 
-  //Get labels from results
-  if (!props.result?.progress) {
-    props?.result?.data?.items?.forEach(function(item) {
-      syntheticTypes.push(item.testResultCommonProperties?.testCommonProperties?.type ?? '');
+  // Get locationDisplayLabels and locationIds from result
+  if (!result?.progress?.loading) {
+    result?.data?.items?.forEach((item: TestResultListItem) => {
+      if (item.testResultCommonProperties.testCommonProperties?.locationDisplayLabels) {
+        item.testResultCommonProperties.testCommonProperties?.locationDisplayLabels.forEach(
+          (locationDisplayLabel, i) => {
+            locationLabelOptions.push({
+              label: locationDisplayLabel,
+              value: item.testResultCommonProperties.testCommonProperties?.locationIds?.at(i) ?? ''
+            });
+          }
+        );
+      }
     });
+
+    // Clean up duplicate and empty array elements
+    locationLabelOptions = locationLabelOptions.filter(
+      (item, index, arrayRef) =>
+        index ===
+        arrayRef.findIndex(t => t.label === item.label && t.value === item.value && (t.label !== '' || t.value !== ''))
+    );
   }
-  //Clean up duplicate array elements
-  syntheticTypes = syntheticTypes.filter(function(item, index, arrayRef) {
-    return arrayRef.indexOf(item) === index;
-  });
 
-  return syntheticTypes;
+  // return location display labels and ids;
+  return locationLabelOptions;
 }
 
-function getLocationLabels(props: ServerTablePresenterProps<TestResultListItem>) {
-  let locationLabels: string[] = [];
+function getApplicationLabels(result: Result<PaginatedResult<TestResultListItem>> | undefined) {
+  let applicationLabelOptions: Option[] = [];
 
-  //Get labels from results
-  props?.result?.data?.items?.forEach(function(item) {
-    locationLabels.push(item.testResultCommonProperties?.locationLabel ?? '');
-  });
-  //Clean up duplicate array elements
-  locationLabels = locationLabels.filter(function(item, index, arrayRef) {
-    return arrayRef.indexOf(item) === index;
-  });
+  // Get applicationLabels and applicationIds from result
+  if (!result?.progress?.loading) {
+    result?.data?.items?.forEach(function(item) {
+      const applicationitem = {
+        label: item.testResultCommonProperties.testCommonProperties?.applicationLabel ?? '',
+        value: item.testResultCommonProperties.testCommonProperties?.applicationId ?? ''
+      };
+      applicationLabelOptions.push(applicationitem);
+    });
 
-  return locationLabels;
-}
+    // Clean up duplicate and empty array elements
+    applicationLabelOptions = applicationLabelOptions.filter(
+      (item, index, arrayRef) =>
+        index ===
+        arrayRef.findIndex(t => t.label === item.label && t.value === item.value && (t.label !== '' || t.value !== ''))
+    );
+  }
 
-function getApplicationLabels(props: ServerTablePresenterProps<TestResultListItem>) {
-  let applicationLabels: string[] = [];
-
-  //Get labels from results
-  props?.result?.data?.items?.forEach(function(item) {
-    applicationLabels.push(item.testResultCommonProperties.testCommonProperties?.applicationLabel ?? '');
-  });
-  //Clean up duplicate array elements
-  applicationLabels = applicationLabels.filter(function(item, index, arrayRef) {
-    return arrayRef.indexOf(item) === index;
-  });
-
-  return applicationLabels;
+  // return application labels and ids;
+  return applicationLabelOptions;
 }

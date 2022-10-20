@@ -86,10 +86,7 @@ function ApplicationAlertingChartWithErrorMessageAndData(props) {
   // If a user deselected all entities from entitySelection we have an empty object
   // If a user has never interacted with entitySelection or is in websites smart alert, the value is undefined
   // For example we don't want to hide the chart when we are in simple mode step 1
-  const isServicesAndEndpointsSelectionValid = isEntitySelectionValid(
-    entitySelection,
-    alertConfigWithFormModel.builtIn
-  );
+  const isServicesAndEndpointsSelectionValid = isEntitySelectionValid(entitySelection, false);
 
   return (
     <AlertingChartWithErrorMessage
@@ -163,7 +160,7 @@ function getErrorMessage(isQB2Error, isServicesAndEndpointsSelectionError) {
     return t('in-alerting:components.chart.alertingChartMessageInvalidFilterQuery');
   }
   if (isServicesAndEndpointsSelectionError) {
-    return t('in-alerting:components.chart.alertingChartMessageEntitySelectionInvalid');
+    return t('in-alerting:components.chart.alertingChartMessageEmptyApplicationSelection');
   }
 }
 
@@ -180,6 +177,7 @@ ApplicationAlertingChartWithErrorMessage.propTypes = {
     boundaryScope: PropTypes.string,
     threshold: PropTypes.object,
     builtIn: PropTypes.bool,
+    global: PropTypes.bool,
     evaluationType: PropTypes.string.isRequired
   }).isRequired,
 

@@ -19,7 +19,6 @@ import {
   defaultEntityType,
   entityIdKey,
   entityTypeKey,
-  getField,
   setFieldValue
 } from 'in-custom-dashboards/widgets/Apdex/form';
 import { APDEX_MANAGEMENT_EXIT, APDEX_MANAGEMENT_VIEW, APDEX_WIDGET_EDIT_START } from 'in-services/tracking/eventNames';
@@ -32,6 +31,7 @@ import ApplicationSelector from 'in-custom-dashboards/widgets/Slo/components/App
 import ApdexManageList from 'in-custom-dashboards/widgets/Apdex/components/ApdexManageList';
 import WebsiteSelector from 'in-custom-dashboards/widgets/Slo/components/WebsiteSelector';
 import Sections from 'in-components/workspace/Sections/Sections';
+import { getField } from 'in-custom-dashboards/widgets/Slo/form';
 import Section from 'in-components/workspace/Section/Section';
 import Header from 'in-components/workspace/Header';
 import { t } from 'in-i18n';
@@ -39,7 +39,7 @@ import { t } from 'in-i18n';
 export interface FormComponentProps {
   form: MapForm;
   onChange: (path: string[], updater: (f: Item) => Item) => void;
-  setSlideInView: (view: SlideInViewConfig<boolean>) => void;
+  setSlideInView: (view: SlideInViewConfig<'CREATE' | 'EDIT' | undefined>) => void;
 }
 
 export default function ApdexWidgetFormComponent({ form, onChange, setSlideInView }: FormComponentProps) {
@@ -111,20 +111,23 @@ function getSlideInViewConfig(
   entityId: string,
   onChange: (value: string) => void,
   track: ReturnType<typeof useApdexWidgetTrackers>
-): SlideInViewConfig<boolean> {
+): SlideInViewConfig<'CREATE' | 'EDIT' | undefined> {
   return {
-    renderTitle(showCreateForm): string {
-      if (showCreateForm) return t('in-custom-dashboards:widgets.apdex.createApdexForm.title');
-      return t('in-custom-dashboards:widgets.apdex.formComponent.manageListTitle');
+    renderTitle(showCreateFormState): string {
+      if (!showCreateFormState) return t('in-custom-dashboards:widgets.apdex.formComponent.manageListTitle');
+
+      return showCreateFormState === 'EDIT'
+        ? t('in-custom-dashboards:widgets.apdex.formComponent.editApdex')
+        : t('in-custom-dashboards:widgets.apdex.formComponent.createApdex');
     },
-    slideOutHandler(slideOut, [showCreateForm, setShowCreateForm]): () => void {
-      if (showCreateForm) return () => setShowCreateForm(false);
+    slideOutHandler(slideOut, [showCreateFormState, setShowCreateFormState]): () => void {
+      if (showCreateFormState) return () => setShowCreateFormState(undefined);
       return () => {
         track(APDEX_MANAGEMENT_EXIT, { entityType });
         slideOut();
       };
     },
-    getContent({ slideOut, subSlideState: [showCreateForm, setShowCreateForm] }) {
+    getContent({ slideOut, subSlideState: [showCreateFormState, setShowCreateFormState] }) {
       return (
         <ApdexWidgetTrackerProvider value={defaultTrackers}>
           <ApdexManageList
@@ -136,9 +139,9 @@ function getSlideInViewConfig(
               slideOut();
               if (value?.id) onChange(value.id);
             }}
-            showCreateForm={showCreateForm}
-            onShowCreateForm={() => setShowCreateForm(true)}
-            onCloseCreateForm={() => setShowCreateForm(false)}
+            showCreateForm={Boolean(showCreateFormState)}
+            onShowCreateForm={isEditing => setShowCreateFormState(isEditing ? 'EDIT' : 'CREATE')}
+            onCloseCreateForm={() => setShowCreateFormState(undefined)}
           />
         </ApdexWidgetTrackerProvider>
       );

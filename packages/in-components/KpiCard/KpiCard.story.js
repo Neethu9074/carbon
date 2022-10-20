@@ -19,6 +19,9 @@ Default.args = { disabled: false };
 export const WithTitle = ({ disabled }) => <KpiCard title="Title" value="Value" borderless={disabled} />;
 WithTitle.args = { disabled: false };
 
+export const WithRaw = ({ disabled }) => <KpiCard title="Title" value="10ms" borderless={disabled} raw />;
+WithTitle.args = { disabled: false };
+
 export const WithColor = () => <KpiCard title="Errors" value="10" color={theme.lib.colors.failure} />;
 export const WithCompanionValue = () => <KpiCard title="Title" value="Value" companionValue="Companion Value" />;
 export const withActions = () => <KpiCard title="Title" value="Value" actions={<div>Action</div>} />;

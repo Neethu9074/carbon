@@ -163,7 +163,15 @@ export default [
     formatter: percentage
   },
   {
-    metric: getDynamicMetricMatch('fs', 'free', t('in-forge:plugins.host.deviceOrMount')),
+    metric: getDynamicMetricMatch('fs', 'free', t('in-forge:plugins.host.device')),
+    label: getFilesystemLabel('Free'),
+    category: [t('in-forge:plugins.host.filesystem')],
+    min: 0,
+    max: getMaxFilesystemCapacity,
+    formatter: kiloBytes
+  },
+  {
+    metric: getDynamicMetricMatch('fs_mount', 'free', t('in-forge:plugins.host.mount')),
     label: getFilesystemLabel('Free'),
     category: [t('in-forge:plugins.host.filesystem')],
     min: 0,
@@ -187,7 +195,7 @@ export default [
     formatter: percentage
   },
   {
-    metric: getDynamicMetricMatch('fs', 'leaked', t('in-forge:plugins.host.deviceOrMount')),
+    metric: getDynamicMetricMatch('fs', 'leaked', t('in-forge:plugins.host.device')),
     label: getFilesystemLabel('Leaked'),
     category: [t('in-forge:plugins.host.filesystem')],
     min: 0,
@@ -195,7 +203,15 @@ export default [
     formatter: kiloBytes
   },
   {
-    metric: getDynamicMetricMatch('fs', 'inodeUsage', t('in-forge:plugins.host.deviceOrMount')),
+    metric: getDynamicMetricMatch('fs_mount', 'leaked', t('in-forge:plugins.host.mount')),
+    label: getFilesystemLabel('Leaked'),
+    category: [t('in-forge:plugins.host.filesystem')],
+    min: 0,
+    max: getMaxFilesystemCapacity,
+    formatter: kiloBytes
+  },
+  {
+    metric: getDynamicMetricMatch('fs', 'inodeUsage', t('in-forge:plugins.host.device')),
     label: getFilesystemLabel('Inode usage'),
     category: [t('in-forge:plugins.host.filesystem')],
     min: 0,
@@ -203,7 +219,15 @@ export default [
     formatter: percentage
   },
   {
-    metric: getDynamicMetricMatch('fs', 'ifree', t('in-forge:plugins.host.deviceOrMount')),
+    metric: getDynamicMetricMatch('fs_mount', 'inodeUsage', t('in-forge:plugins.host.mount')),
+    label: getFilesystemLabel('Inode usage'),
+    category: [t('in-forge:plugins.host.filesystem')],
+    min: 0,
+    max: 1,
+    formatter: percentage
+  },
+  {
+    metric: getDynamicMetricMatch('fs', 'ifree', t('in-forge:plugins.host.device')),
     label: getFilesystemLabel('iFree'),
     category: [t('in-forge:plugins.host.filesystem')],
     min: 0,
@@ -211,28 +235,64 @@ export default [
     formatter: siMultiplyPrefix
   },
   {
-    metric: getDynamicMetricMatch('fs', 'reads', t('in-forge:plugins.host.deviceOrMount')),
+    metric: getDynamicMetricMatch('fs_mount', 'ifree', t('in-forge:plugins.host.mount')),
+    label: getFilesystemLabel('iFree'),
+    category: [t('in-forge:plugins.host.filesystem')],
+    min: 0,
+    max: getMaxFilesystemICapacity,
+    formatter: siMultiplyPrefix
+  },
+  {
+    metric: getDynamicMetricMatch('fs', 'reads', t('in-forge:plugins.host.device')),
     label: getFilesystemLabel('Reads/s'),
     category: [t('in-forge:plugins.host.filesystem')],
     min: 0,
     formatter: siMultiplyPrefix
   },
   {
-    metric: getDynamicMetricMatch('fs', 'writes', t('in-forge:plugins.host.deviceOrMount')),
+    metric: getDynamicMetricMatch('fs_mount', 'reads', t('in-forge:plugins.host.mount')),
+    label: getFilesystemLabel('Reads/s'),
+    category: [t('in-forge:plugins.host.filesystem')],
+    min: 0,
+    formatter: siMultiplyPrefix
+  },
+  {
+    metric: getDynamicMetricMatch('fs', 'writes', t('in-forge:plugins.host.device')),
     label: getFilesystemLabel('Writes/s'),
     category: [t('in-forge:plugins.host.filesystem')],
     min: 0,
     formatter: siMultiplyPrefix
   },
   {
-    metric: getDynamicMetricMatch('fs', 'readBytes', t('in-forge:plugins.host.deviceOrMount')),
+    metric: getDynamicMetricMatch('fs_mount', 'writes', t('in-forge:plugins.host.mount')),
+    label: getFilesystemLabel('Writes/s'),
+    category: [t('in-forge:plugins.host.filesystem')],
+    min: 0,
+    formatter: siMultiplyPrefix
+  },
+  {
+    metric: getDynamicMetricMatch('fs', 'readBytes', t('in-forge:plugins.host.device')),
     label: getFilesystemLabel('Bytes Read/s'),
     category: [t('in-forge:plugins.host.filesystem')],
     min: 0,
     formatter: kiloBytes
   },
   {
-    metric: getDynamicMetricMatch('fs', 'writeBytes', t('in-forge:plugins.host.deviceOrMount')),
+    metric: getDynamicMetricMatch('fs_mount', 'readBytes', t('in-forge:plugins.host.mount')),
+    label: getFilesystemLabel('Bytes Read/s'),
+    category: [t('in-forge:plugins.host.filesystem')],
+    min: 0,
+    formatter: kiloBytes
+  },
+  {
+    metric: getDynamicMetricMatch('fs', 'writeBytes', t('in-forge:plugins.host.device')),
+    label: getFilesystemLabel('Bytes Written/s'),
+    category: [t('in-forge:plugins.host.filesystem')],
+    min: 0,
+    formatter: kiloBytes
+  },
+  {
+    metric: getDynamicMetricMatch('fs_mount', 'writeBytes', t('in-forge:plugins.host.mount')),
     label: getFilesystemLabel('Bytes Written/s'),
     category: [t('in-forge:plugins.host.filesystem')],
     min: 0,

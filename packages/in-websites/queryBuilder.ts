@@ -36,12 +36,12 @@ function create(beaconType: string): CreateQueryBuilderResponse {
   });
 }
 
-interface Suggestions {
+export interface Suggestions {
   suggestions: string[];
   totalHits: number;
 }
 
-interface GetSuggestionsProps {
+export interface GetSuggestionsProps {
   name: string;
   key?: string;
   timeConfig: TimeConfig;

@@ -25,18 +25,22 @@ export default function CustomPayloadTable({
   deleteRow,
   updateIn,
   TagBasedPayloadConfigurator,
+  suggestionsAlignedLeft,
   customPayloadForm,
   canConfigureAlertPayload = true,
   enabled = true,
+  leftHeader,
   trackChange = () => {}
 }) {
   return (
     <div>
       <ServerTablePresenter
+        isScrollableTable={false}
         columnDefinitions={columnDefinitions}
         getRowProps={getRowProps}
         result={result}
         isSearchable={false}
+        leftHeader={leftHeader}
         rightHeader={
           <RightHeader
             canConfigureAlertPayload={canConfigureAlertPayload}
@@ -50,6 +54,7 @@ export default function CustomPayloadTable({
         deleteRow={deleteRow}
         updateIn={updateIn}
         TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
+        suggestionsAlignedLeft={suggestionsAlignedLeft}
         enabled={enabled}
         trackChange={trackChange}
       />

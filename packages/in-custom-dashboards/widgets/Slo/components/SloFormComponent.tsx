@@ -6,20 +6,20 @@
 import React, { useEffect, useState } from 'react';
 import { Field, MapForm } from 'formalistic';
 
-import { Button } from '@instana/components';
-import { Stack } from '@instana/components';
+import { Button, Stack } from '@instana/components';
 
 import {
-  sloTarget,
-  timeWindowType,
-  timeWindowDuration,
-  timeWindowDurationUnit,
-  timeWindowStart,
   entityId,
   entityType,
   getMaxTimeWindowDurationValue,
-  TimeWindowType,
-  TimeWindowDuration
+  sliConfigId,
+  sloTarget,
+  timeWindowDuration,
+  TimeWindowDuration,
+  timeWindowDurationUnit,
+  timeWindowStart,
+  timeWindowType,
+  TimeWindowType
 } from 'in-custom-dashboards/widgets/Slo/form';
 import {
   defaultTrackers,
@@ -35,11 +35,11 @@ import { SlideInViewConfig } from 'in-custom-dashboards/CustomDashboard/WidgetEd
 import formatInputTime from 'in-components/time/TimeSelectionDialogPresenter/timeInputFormatter';
 import useSloFormSideEffects from 'in-custom-dashboards/widgets/Slo/hooks/useSloFormSideEffects';
 import SliManageList from 'in-custom-dashboards/widgets/Slo/sli/components/list/SliManageList';
-import { SliConfigBySliType, SliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import PercentageInput from 'in-custom-dashboards/widgets/Slo/components/PercentageInput';
 import WebsiteSelector from 'in-custom-dashboards/widgets/Slo/components/WebsiteSelector';
-import SliSelectionForm from 'in-custom-dashboards/widgets/Slo/components/SliSelector';
+import SliSelector from 'in-custom-dashboards/widgets/Slo/components/SliSelector';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
+import { SliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { websiteSloEnabled } from 'in-services/featureFlags';
@@ -50,7 +50,7 @@ import Select from 'in-components/form/Select/Select';
 import DateInput from 'in-components/form/DateInput';
 import Input from 'in-components/form/Input/Input';
 import { Nullish } from 'in-types';
-import { Trans, t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 
 import locals from './SloFormComponent.mless';
 
@@ -59,7 +59,7 @@ export const SLO_TARGET_DECIMAL_PRECISION = 2;
 export interface FormComponentProps {
   form: MapForm;
   onChange: (path: string[], updater: (f: MapForm) => MapForm) => void;
-  setSlideInView: (view: SlideInViewConfig<Partial<SliConfigBySliType<'application' | 'website'>>>) => void;
+  setSlideInView: (view: SlideInViewConfig<'CREATE' | 'EDIT' | undefined>) => void;
 }
 
 export default function FormComponent({ form, onChange: originalOnChange, setSlideInView }: FormComponentProps) {
@@ -104,29 +104,41 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
   function activateManageSliSlideIn() {
     track(SLI_MANAGEMENT_VIEW, { entityType: entityTypeValue });
     return setSlideInView({
-      renderTitle(sliSelected) {
-        if (sliSelected === null) {
+      renderTitle(showCreateFormState) {
+        if (!showCreateFormState) {
           return t('in-custom-dashboards:widgets.slo.formComponent.sliManagement');
         }
-        return sliSelected?.id
+        return showCreateFormState === 'EDIT'
           ? t('in-custom-dashboards:widgets.slo.formComponent.editSli')
           : t('in-custom-dashboards:widgets.slo.formComponent.createSli');
       },
-      slideOutHandler(slideOut, [sliSelected, selectSli]) {
+      slideOutHandler(slideOut, [showCreateFormState, setShowCreateFormState]) {
+        if (showCreateFormState) return () => setShowCreateFormState(undefined);
         return () => {
-          if (sliSelected == null) {
-            track(SLI_MANAGEMENT_EXIT, { entityType: entityTypeValue });
-            slideOut(); // close list
-          } else {
-            // "cancel"/close, go back to list
-            selectSli(undefined);
-          }
+          track(SLI_MANAGEMENT_EXIT, { entityType: entityTypeValue });
+          slideOut();
         };
       },
-      getContent({ subSlideState: [value, onChange] }) {
+      getContent({ slideOut, subSlideState: [showCreateFormState, setShowCreateFormState] }) {
         return (
           <SloWidgetTrackerProvider value={defaultTrackers}>
-            <SliManageList entityType={entityTypeValue} entityId={entityIdValue} value={value} onChange={onChange} />
+            <SliManageList
+              entityType={entityTypeValue}
+              entityId={entityIdValue}
+              onChange={value => {
+                // It is important to call slideOut() before onChange(), otherwise
+                // the new state of the form will be overwritten by an old state
+                slideOut();
+                if (value?.id) {
+                  updateForm(
+                    form.updateIn([sliConfigId], field => (field as Field<string>).setValue(value.id!).setTouched(true))
+                  );
+                }
+              }}
+              showCreateForm={Boolean(showCreateFormState)}
+              onShowCreateForm={isEditing => setShowCreateFormState(isEditing ? 'EDIT' : 'CREATE')}
+              onCloseCreateForm={() => setShowCreateFormState(undefined)}
+            />
           </SloWidgetTrackerProvider>
         );
       }
@@ -171,7 +183,7 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
           />
         )}
 
-        <SliSelectionForm
+        <SliSelector
           form={form}
           entityType={entityTypeValue}
           entityId={entityIdValue}

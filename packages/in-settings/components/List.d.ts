@@ -36,7 +36,7 @@ interface ListProps<ItemType extends Object> {
     totalHitsAfterFilter: number,
     entitiesBeforePagination: number
   ) => ReactNode;
-  searchAttributes?: (string | ((entity) => string))[] | string;
+  searchAttributes?: string | ((entity: ItemType) => string) | (string | ((entity: ItemType) => string))[];
   searchPlaceholder?: string;
   searchMaxWidth?: number;
   extraFilters?: Array<(element: ItemType, index: number, array: ItemType[]) => boolean>;

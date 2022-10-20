@@ -18,12 +18,13 @@ import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/smar
 import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/applications/components/useSimpleModePageNavigation';
 import { AdvancedModeFooter } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AdvancedModeFooter';
 import { triggerScrollToInvalidItem } from 'in-alerting/smart-alerts/applications/hooks/useScrollToFirstInvalidNavItem';
-import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/websites/details/useTagBasedPayloadConfigurator';
+import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/websites/hooks/useTagBasedPayloadConfigurator';
 import SimpleModeContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/simple/SimpleModeContainer';
 import { getEnhancedTagFilterFormModel } from 'in-alerting/smart-alerts/components/utils/tagfilterEnrichmentUtil';
-import { SimpleDialogFooter } from 'in-alerting/smart-alerts/applications/components/SimpleDialogFooter';
 import { stepConfigs, stepRenderers } from 'in-alerting/smart-alerts/websites/simple/simpleModeSteps';
+import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/AlertingChartWrapper';
 import AdvancedModeContainer from 'in-alerting/smart-alerts/websites/advanced/AdvancedModeContainer';
+import { SimpleDialogFooter } from 'in-components/BlueprintFormMultistep/SimpleDialogFooter';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { websitesAlertingStepSwitch } from 'in-alerting/smart-alerts/websites/tracker';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -106,7 +107,7 @@ function SmartAlertConfigDialogWithQueryValidation({
     alertConfigWithFormModel.customPayloadFields
   );
 
-  const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator(beaconType);
+  const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator(beaconType, websiteId);
 
   const { step, setStep, simpleModeStep, backOrCancel, handleSubmit } = useSimpleModePageNavigation({
     stepConfigs,
@@ -116,6 +117,8 @@ function SmartAlertConfigDialogWithQueryValidation({
     onClose: withTrackClose,
     onStepChanged: (oldStep, nextStep) => websitesAlertingStepSwitch({ oldStep, nextStep })
   });
+
+  const isCalculatingThreshold = useObservable(thresholdOrBaselineLoadingSignal$, []);
 
   const footer = simpleMode ? (
     <SimpleDialogFooter
@@ -127,7 +130,7 @@ function SmartAlertConfigDialogWithQueryValidation({
       form={form}
       isSaving={isSaving}
       formId={FORM_ID}
-      additionalStepCheck={step => (step === 1 ? true : isTagFilterFormModelValid)}
+      additionalStepCheck={step => (step === 1 ? true : isTagFilterFormModelValid) && !isCalculatingThreshold}
     />
   ) : (
     <AdvancedModeFooter

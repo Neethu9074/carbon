@@ -1,0 +1,57 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2022
+ */
+
+import { MapForm } from 'formalistic';
+import React from 'react';
+
+import { isStepInvalid, StepConfigs } from 'in-components/BlueprintFormMultistep/StepConfigs';
+import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
+import { t } from 'in-i18n';
+
+interface SimpleDialogFooterProps {
+  backOrCancel: (step: number) => void;
+  form: MapForm;
+  formId: string;
+  step: number;
+  stepConfigs: StepConfigs;
+  isSaving?: boolean;
+  additionalStepCheck?: (step: number) => boolean;
+}
+
+export function SimpleDialogFooter({
+  step,
+  formId,
+  backOrCancel,
+  form,
+  stepConfigs,
+  isSaving,
+  additionalStepCheck = () => true
+}: SimpleDialogFooterProps) {
+  const isDisabled =
+    (step === stepConfigs.length - 1 && !form.hierarchyValid) ||
+    isStepInvalid(step, stepConfigs, form) ||
+    !additionalStepCheck(step);
+
+  return (
+    <DialogFooter
+      form={form}
+      formId={formId}
+      primaryActionText={
+        step === stepConfigs.length - 1
+          ? t('in-components:blueprintFormMultistep.buttonCreate')
+          : t('in-components:blueprintFormMultistep.buttonNext')
+      }
+      onSecondaryActionClick={() => backOrCancel(step)}
+      secondaryActionText={
+        step === 0
+          ? t('in-components:blueprintFormMultistep.buttonCancel')
+          : t('in-components:blueprintFormMultistep.buttonBack')
+      }
+      primaryActionDisabled={isDisabled && step !== 0}
+      saving={isSaving}
+    />
+  );
+}

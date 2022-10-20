@@ -24,9 +24,7 @@ export default function SelectListDialogButton({
   limit,
   renderCustomCloseBehaviour,
   createSubmitLabel,
-  requiresAtLeastOneMessage,
-  loadEntities,
-  scored
+  requiresAtLeastOneMessage
 }) {
   const disabled = hiddenIds.length >= limit;
 
@@ -44,8 +42,6 @@ export default function SelectListDialogButton({
             hiddenIds={hiddenIds}
             limit={limit}
             onSubmit={onSubmit}
-            loadEntities={loadEntities}
-            scored={scored}
             createSubmitLabel={createSubmitLabel}
             requiresAtLeastOneMessage={requiresAtLeastOneMessage}
             renderCustomCloseBehaviour={renderCustomCloseBehaviour}

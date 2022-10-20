@@ -15,18 +15,17 @@ import {
   phmcDashboardFullyQualified,
   systemDashboardFullyQualified,
   viosDashboardFullyQualified,
-  lparDashboardFullyQualified
+  lparDashboardFullyQualified,
+  ibmp
 } from 'in-phmc/navigation/paths';
-import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
-import { ibmp } from 'in-phmc/navigation/paths';
+import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 
 export default (
   <Fragment>
-    <Route path={phmcDashboardFullyQualified} component={createAsyncViewComponent(PhmcDashboard)} />
-    <Route path={systemDashboardFullyQualified} component={createAsyncViewComponent(SystemDashboard)} />
-    <Route path={viosDashboardFullyQualified} component={createAsyncViewComponent(ViosDashboard)} />
-    <Route path={lparDashboardFullyQualified} component={createAsyncViewComponent(LparDashboard)} />
-
-    <Route path={ibmp} component={createAsyncViewComponent(PhmcMainView)} />
+    <Route path={phmcDashboardFullyQualified} children={renderAsyncRouteChildren(PhmcDashboard)} />
+    <Route path={systemDashboardFullyQualified} children={renderAsyncRouteChildren(SystemDashboard)} />
+    <Route path={viosDashboardFullyQualified} children={renderAsyncRouteChildren(ViosDashboard)} />
+    <Route path={lparDashboardFullyQualified} children={renderAsyncRouteChildren(LparDashboard)} />
+    <Route path={ibmp} children={renderAsyncRouteChildren(PhmcMainView)} />
   </Fragment>
 );

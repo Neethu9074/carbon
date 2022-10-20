@@ -3,8 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { compose, withState } from 'recompose';
-import React from 'react';
+import React, { useState } from 'react';
 
 import SelectListDialogContent from 'in-settings/tabs/TeamSettings/components/SelectListDialogContent';
 import { close } from 'in-components/DialogPresenter/store';
@@ -15,14 +14,11 @@ import locals from './SelectListDialog.mless';
 
 const defaultRequiresAtLeastOneMessage = t('in-settings:tabs.pleaseSelectAtLeastOneItem');
 
-export default compose(
-  withState('selectedItems', 'setSelectedItems', []),
-  withState('errorMessage', 'setErrorMessage', ({ requiresAtLeastOneMessage }) =>
-    requiresAtLeastOneMessage ? requiresAtLeastOneMessage : defaultRequiresAtLeastOneMessage
-  )
-)(SelectListDialog);
-
-function SelectListDialog(props) {
+export default function SelectListDialog(props) {
+  const [selectedItems, setSelectedItems] = useState([]);
+  const [errorMessage, setErrorMessage] = useState(
+    props.requiresAtLeastOneMessage ? props.requiresAtLeastOneMessage : defaultRequiresAtLeastOneMessage
+  );
   const { title = t('in-settings:tabs.select'), renderCustomCloseBehaviour } = props;
   return (
     <Dialog
@@ -31,7 +27,13 @@ function SelectListDialog(props) {
       onClose={close}
       className={locals.dialog}
     >
-      <SelectListDialogContent {...props} />
+      <SelectListDialogContent
+        selectedItems={selectedItems}
+        setSelectedItems={setSelectedItems}
+        errorMessage={errorMessage}
+        setErrorMessage={setErrorMessage}
+        {...props}
+      />
     </Dialog>
   );
 }

@@ -15,7 +15,8 @@
   }
 
   .scrollWrapper {
-    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
     grid-area: content;
   }
 

@@ -160,13 +160,13 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'loggingEnabled',
-    instanaCtlKey: 'feature.logging.enabled',
-    defaultValue: true
+    uiClientKey: 'kubernetesTeamEnabled',
+    instanaCtlKey: 'feature.kubernetes.explore.enabled',
+    defaultValue: false
   },
   {
-    uiClientKey: 'kubernetesLoggingEnabled',
-    instanaCtlKey: 'feature.kubernetes.logging.enabled',
+    uiClientKey: 'loggingEnabled',
+    instanaCtlKey: 'feature.logging.enabled',
     defaultValue: true
   },
   {
@@ -282,6 +282,21 @@ module.exports = exports = [
   {
     uiClientKey: 'actionAutomationEnabled',
     instanaCtlKey: 'feature.automation.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'pluginMetricStatisticsEnabled',
+    instanaCtlKey: 'feature.plugin.entity.metric.statistics.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'mobileAppCrashBeaconEnabled',
+    instanaCtlKey: 'feature.mobile.app.crash.beacon.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'k8sTimeShiftEnabled',
+    instanaCtlKey: 'feature.kubernetes.timeshift.enabled',
     defaultValue: false
   }
 ];

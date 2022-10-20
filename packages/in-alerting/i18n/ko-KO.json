@@ -501,7 +501,10 @@
         "labelConfirmRemoveConfig": "<strong>{{configName}}</strong> 경보를 제거하시겠습니까?",
         "labelRemove": "제거",
         "numberOfApplicationsSelected": "{{count}}개 애플리케이션이 선택됨",
-        "numberOfApplicationsSelected_plural": "{{count}}개 애플리케이션이 선택됨"
+        "numberOfApplicationsSelected_plural": "{{count}}개 애플리케이션이 선택됨",
+        "numberOfApplicationsSelected_0": "{{count}}개 애플리케이션이 선택됨",
+        "numberOfApplicationsSelected_1": "{{count}}개 애플리케이션이 선택됨",
+        "numberOfApplicationsSelected_2": "{{count}}개 애플리케이션이 선택됨"
       },
       "details": {
         "title": "경보 세부사항",
@@ -562,6 +565,9 @@
         "alertChannelSelectTypeTitle": "경보 채널 유형",
         "addChannel": "{{count}}개 채널 추가",
         "addChannel_plural": "{{count}}개 채널 추가",
+        "addChannel_0": "{{count}}개 채널 추가",
+        "addChannel_1": "{{count}}개 채널 추가",
+        "addChannel_2": "{{count}}개 채널 추가",
         "add": "추가",
         "scopeConfigTitleWithApplications": "애플리케이션/서비스/엔드포인트 선택",
         "scopeConfigTitle": "서비스/엔드포인트 선택",
@@ -675,6 +681,7 @@
         "migrationModeWarning": "이 사용자 정의 이벤트를 스마트 경보로 마이그레이션하면 사용 안함으로 설정됩니다. 이벤트는 나중에 다시 사용으로 설정할 수 없습니다."
       },
       "userInfo": {
+        "linkText": "스마트 경보 보기",
         "success": {
           "create": {
             "alert": {
@@ -701,21 +708,33 @@
         "websites": {
           "title": "웹 사이트",
           "description0": "경보를 설정하려면 경보를 설정할 웹 사이트로 이동하여 오른쪽 하단에 있는 \"스마트 경보 추가\" 단추를 사용하십시오.",
-          "stats": "현재 $t(in-alerting:smartAlerts.components.alertsHub.websites.websites, {\"count\": {{websites}} })에 $t(in-alerting:smartAlerts.components.alertsHub.websites.alerts, {\"count\": {{alerts}} })가 있습니다.",
+          "stats": "현재 $t(in-alerting:smartAlerts.components.alertsHub.websites.websites, {\"count\": {{websites}} })에 대해 $t(in-alerting:smartAlerts.components.alertsHub.websites.alerts, {\"count\": {{alerts}} })이(가) 있습니다.",
           "alerts": "{{count}}개 웹 사이트 스마트 경보",
           "alerts_plural": "{{count}}개 웹 사이트 스마트 경보",
+          "alerts_0": "{{count}}개 웹 사이트 스마트 경보",
+          "alerts_1": "{{count}}개 웹 사이트 스마트 경보",
+          "alerts_2": "{{count}}개 웹 사이트 스마트 경보",
           "websites": "{{count}}개 웹 사이트",
           "websites_plural": "{{count}}개 웹 사이트",
+          "websites_0": "{{count}}개 웹 사이트",
+          "websites_1": "{{count}}개 웹 사이트",
+          "websites_2": "{{count}}개 웹 사이트",
           "button0": "웹 사이트"
         },
         "applications": {
           "title": "애플리케이션",
           "description0": "특정한 하나의 애플리케이션에 대한 스마트 경보만 설정하거나 여러 애플리케이션에 대한 스마트 경보를 설정할 수 있습니다.",
-          "stats": "현재 $t(in-alerting:smartAlerts.components.alertsHub.applications.gsa, {\"count\": {{globalSmartAlerts}} }) 및 $t(in-alerting:smartAlerts.components.alertsHub.applications.rsa, {\"count\": {{smartAlerts}} })가 있습니다.",
+          "stats": "현재 $t(in-alerting:smartAlerts.components.alertsHub.applications.gsa, {\"count\": {{globalSmartAlerts}} }) 및 $t(in-alerting:smartAlerts.components.alertsHub.applications.rsa, {\"count\": {{smartAlerts}} })이(가) 있습니다.",
           "gsa": "{{count}}개 글로벌 스마트 경보",
           "gsa_plural": "{{count}}개 글로벌 스마트 경보",
+          "gsa_0": "{{count}}개 글로벌 스마트 경보",
+          "gsa_1": "{{count}}개 글로벌 스마트 경보",
+          "gsa_2": "{{count}}개 글로벌 스마트 경보",
           "rsa": "{{count}}개 일반 스마트 경보",
           "rsa_plural": "{{count}}개 일반 스마트 경보",
+          "rsa_0": "{{count}}개 일반 스마트 경보",
+          "rsa_1": "{{count}}개 일반 스마트 경보",
+          "rsa_2": "{{count}}개 일반 스마트 경보",
           "button0": "스마트 경보"
         },
         "infrastructure": {
@@ -723,11 +742,17 @@
           "description0": "인프라 및 플랫폼에 대한 경보는 2단계 워크플로우를 활용합니다.",
           "description1": "1) 특정 조건에 대한 이벤트가 정의됩니다. 기본 제공 이벤트를 사용하거나 고유한 사용자 정의 이벤트를 작성할 수 있습니다.",
           "description2": "2) 그런 다음 특정 이벤트가 발생할 때마다 경보를 표시합니다.",
-          "stats": "현재 $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.events, {\"count\": {{events}} }) 및 $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.alerts, {\"count\": {{alerts}} })가 있습니다.",
+          "stats": "현재 $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.events, {\"count\": {{events}} }) 및 $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.alerts, {\"count\": {{alerts}} })이(가) 있습니다.",
           "events": "{{count}}개 사용자 정의 이벤트",
           "events_plural": "{{count}}개 사용자 정의 이벤트",
+          "events_0": "{{count}}개 사용자 정의 이벤트",
+          "events_1": "{{count}}개 사용자 정의 이벤트",
+          "events_2": "{{count}}개 사용자 정의 이벤트",
           "alerts": "{{count}}개 경보",
           "alerts_plural": "{{count}}개 경보",
+          "alerts_0": "{{count}}개 경보",
+          "alerts_1": "{{count}}개 경보",
+          "alerts_2": "{{count}}개 경보",
           "button0": "경보",
           "button1": "이벤트"
         }

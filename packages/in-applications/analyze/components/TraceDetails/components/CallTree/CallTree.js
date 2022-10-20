@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { useMemo } from 'react';
 import { get } from 'lodash';
-import React from 'react';
 
+import searchForPathToSelectedNode from 'in-applications/analyze/components/TraceDetails/components/CallTree/searchForPathToSelectedNode';
 import TreeHeader from 'in-applications/analyze/components/TraceDetails/components/CallTree/components/TreeHeader';
 import { getStart, getEnd } from 'in-applications/analyze/components/TraceDetails/components/callStartAndEndTime';
 import LoadingCallTree from 'in-applications/analyze/components/TraceDetails/components/CallTree/LoadingCallTree';
@@ -22,7 +23,11 @@ import locals from './CallTree.mless';
 const scale = createScale();
 
 export default function CallTree(props) {
-  const { callTreeResult, getColor = () => '#e6e6e6' } = props;
+  const { callTreeResult, getColor = () => '#e6e6e6', openedCallId } = props;
+  const initialExpandedNodeIds = useMemo(
+    () => searchForPathToSelectedNode(callTreeResult.data, node => node.id === openedCallId),
+    [callTreeResult.data, openedCallId]
+  );
 
   const isLoading = get(callTreeResult, ['progress', 'loading'], false);
   if (isLoading) {
@@ -46,7 +51,13 @@ export default function CallTree(props) {
   return (
     <div className={locals.callTree}>
       <TreeHeader rootCall={rootCall} scale={scale} />
-      <Row {...props} call={rootCall} getColor={getColor} scale={scale} />
+      <Row
+        {...props}
+        call={rootCall}
+        getColor={getColor}
+        scale={scale}
+        initialExpandedNodeIds={initialExpandedNodeIds}
+      />
     </div>
   );
 }

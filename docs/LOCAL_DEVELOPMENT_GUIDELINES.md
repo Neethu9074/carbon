@@ -28,6 +28,21 @@ Tasks are defined in the `package.json`. They can be executed via `yarn run <tas
   dilligence. *You probably don't need this.*
 - `npx browserslist`: Gets you a list of browsers that we are supporting.
 
+
+### Note for Linux users
+If executing tasks like `yarn dev` fails with a similar message:
+
+````
+[...]
+Error: ENOSPC: System limit for number of file watchers reached, watch '...ui-client/packages/in-forge/tracing/...'
+[...]
+error Command failed with exit code 1.
+````
+Then you need to increase the `max_user_watches` limit:
+````bash
+echo fs.inotify.max_user_watches=393210 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+````
+
 ## End to End Tests
 
 We do have end to end tests for the Instana user interface. We started maintaining these within

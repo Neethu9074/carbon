@@ -501,7 +501,10 @@
         "labelConfirmRemoveConfig": "Tem certeza de que deseja remover o alerta <strong>{{configName}}</strong>?",
         "labelRemove": "Remover",
         "numberOfApplicationsSelected": "{{count}} aplicativo selecionado",
-        "numberOfApplicationsSelected_plural": "{{count}} aplicativos selecionados"
+        "numberOfApplicationsSelected_plural": "{{count}} aplicativos selecionados",
+        "numberOfApplicationsSelected_0": "{{count}} aplicativos selecionados",
+        "numberOfApplicationsSelected_1": "{{count}} aplicativos selecionados",
+        "numberOfApplicationsSelected_2": "{{count}} aplicativos selecionados"
       },
       "details": {
         "title": "Detalhes do alerta",
@@ -562,6 +565,9 @@
         "alertChannelSelectTypeTitle": "Tipo de canal de alerta",
         "addChannel": "Incluir {{count}} canal",
         "addChannel_plural": "Incluir {{count}} canais",
+        "addChannel_0": "Incluir {{count}} canais",
+        "addChannel_1": "Incluir {{count}} canais",
+        "addChannel_2": "Incluir {{count}} canais",
         "add": "Incluir",
         "scopeConfigTitleWithApplications": "Selecionar Aplicativos/Serviços/Terminais",
         "scopeConfigTitle": "Selecionar serviços/terminais",
@@ -675,6 +681,7 @@
         "migrationModeWarning": "Migrar este Evento customizado para um Alerta inteligente o desativará. O evento não poderá ser reativado posteriormente."
       },
       "userInfo": {
+        "linkText": "Visualizar alerta inteligente",
         "success": {
           "create": {
             "alert": {
@@ -701,11 +708,17 @@
         "websites": {
           "title": "Websites",
           "description0": "Para configurar um alerta, navegue até o website no qual você deseja configurar o alerta e use o botão \"Incluir alerta inteligente\" na parte inferior direita.",
-          "stats": "Atualmente, você tem $t(in-alerting:smartAlerts.components.alertsHub.websites.alerts, {\"count\": {{alerts}} }) em $t(in-alerting:smartAlerts.components.alertsHub.websites.websites, {\"count\": {{websites}} }).",
+          "stats": "Atualmente, você tem $t(in-alerting:smartAlerts.components.alertsHub.websites.alerts, {\"count\": {{alerts}} }) no $t(in-alerting:smartAlerts.components.alertsHub.websites.websites, {\"count\": {{websites}} }).",
           "alerts": "{{count}} Alerta inteligente de website",
           "alerts_plural": "{{count}} Alertas inteligentes de website",
+          "alerts_0": "{{count}} Alertas inteligentes de website",
+          "alerts_1": "{{count}} Alertas inteligentes de website",
+          "alerts_2": "{{count}} Alertas inteligentes de website",
           "websites": "{{count}} website",
           "websites_plural": "{{count}} websites",
+          "websites_0": "{{count}} Websites",
+          "websites_1": "{{count}} Websites",
+          "websites_2": "{{count}} Websites",
           "button0": "Websites"
         },
         "applications": {
@@ -714,8 +727,14 @@
           "stats": "Atualmente, você tem $t(in-alerting:smartAlerts.components.alertsHub.applications.gsa, {\"count\": {{globalSmartAlerts}} }) e $t(in-alerting:smartAlerts.components.alertsHub.applications.rsa, {\"count\": {{smartAlerts}} }).",
           "gsa": "{{count}} Alerta inteligente global",
           "gsa_plural": "{{count}} Alertas inteligentes globais",
+          "gsa_0": "{{count}} Alertas inteligentes globais",
+          "gsa_1": "{{count}} Alertas inteligentes globais",
+          "gsa_2": "{{count}} Alertas inteligentes globais",
           "rsa": "{{count}} Alerta inteligente regular",
           "rsa_plural": "{{count}} Alertas inteligentes regulares",
+          "rsa_0": "{{count}} alertas inteligentes regulares",
+          "rsa_1": "{{count}} alertas inteligentes regulares",
+          "rsa_2": "{{count}} alertas inteligentes regulares",
           "button0": "Alertas inteligentes"
         },
         "infrastructure": {
@@ -726,8 +745,14 @@
           "stats": "Atualmente, você tem $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.events, {\"count\": {{events}} }) e $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.alerts, {\"count\": {{alerts}} }).",
           "events": "{{count}} evento customizado",
           "events_plural": "{{count}} eventos customizados",
+          "events_0": "{{count}} Eventos customizados",
+          "events_1": "{{count}} Eventos customizados",
+          "events_2": "{{count}} Eventos customizados",
           "alerts": "{{count}} Alerta",
           "alerts_plural": "{{count}} Alertas",
+          "alerts_0": "{{count}} Alertas",
+          "alerts_1": "{{count}} Alertas",
+          "alerts_2": "{{count}} Alertas",
           "button0": "Alertas",
           "button1": "Eventos"
         }

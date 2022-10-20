@@ -1,0 +1,119 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2022
+ */
+
+import React, { ReactNode, useEffect, useRef, useState } from 'react';
+import { get } from 'lodash';
+
+import { Disposable } from '@instana/observables';
+import { Button } from '@instana/components';
+import { Card } from '@instana/components';
+
+// @ts-expect-error needs migration to TS
+import { removeWebsite as removeWebsiteTracker } from 'in-websites/tracker';
+// @ts-expect-error needs migration to TS
+import { websitesPathFullyQualified } from 'in-websites/navigation/paths';
+import HelpParagraph from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/HelpParagraph';
+import { goToPath } from 'in-stores/navigation/navigation';
+import { combineDataAndError } from 'in-services/util/ro';
+import { removeWebsite } from 'in-websites/api/websites';
+import SaveError from 'in-components/form/SaveError';
+import { Trans, t } from 'in-i18n';
+
+import locals from './Remove.mless';
+
+interface Props {
+  websiteLabel: string;
+  websiteId: string;
+  data: {
+    label: string;
+  };
+}
+
+interface State {
+  checkboxChecked: boolean;
+  removeError?: ReactNode;
+  loading: boolean;
+}
+
+const initialState = {
+  checkboxChecked: false,
+  removeError: null,
+  loading: false
+};
+
+const Remove = (props: Props) => {
+  const {
+    data: { label },
+    websiteLabel,
+    websiteId
+  } = props;
+
+  const [state, setState] = useState<State>(initialState);
+  const { checkboxChecked, removeError, loading } = state;
+
+  const subscriptionRef = useRef<Disposable | null>(null);
+
+  useEffect(() => () => subscriptionRef.current?.dispose(), []);
+
+  const onTickChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setState(prevState => ({ ...prevState, checkboxChecked: e.target.checked }));
+  };
+
+  const onRemove = (e: React.MouseEvent) => {
+    e.preventDefault();
+
+    setState(prevState => ({
+      ...prevState,
+      loading: true,
+      removeError: null
+    }));
+
+    removeWebsiteTracker({
+      websiteName: websiteLabel
+    });
+
+    subscriptionRef.current = combineDataAndError(removeWebsite(websiteId)).once(({ error }) => {
+      if (error) {
+        setState(prevState => ({
+          ...prevState,
+          loading: false,
+          saveError: get(error, ['response', 'body', 'errors', 0]) || String(error)
+        }));
+      } else {
+        goToPath(websitesPathFullyQualified);
+      }
+    });
+  };
+
+  return (
+    <Card title={t('in-websites:websiteDashboard.tabs.configuration.configurationRemoveTitle')}>
+      <HelpParagraph>
+        <Trans i18nKey="in-websites:delete.disclaimer" values={{ websiteName: label }} />
+      </HelpParagraph>
+      <HelpParagraph>
+        <strong>{t('in-websites:websiteDashboard.tabs.configuration.configurationRemoveHelpParagraph')}</strong>
+      </HelpParagraph>
+
+      <div className={locals.confirmWrapper}>
+        <input
+          type="checkbox"
+          checked={checkboxChecked}
+          onChange={onTickChange}
+          disabled={loading}
+          className={locals.confirm}
+        />
+        {t('in-websites:websiteDashboard.tabs.configuration.configurationRemoveInput')}
+      </div>
+
+      {removeError && <SaveError>{removeError}</SaveError>}
+      <Button kind="danger" disabled={loading || !checkboxChecked} onClick={onRemove} className={locals.button}>
+        {t('in-websites:websiteDashboard.tabs.configuration.configurationRemoveButton')}
+      </Button>
+    </Card>
+  );
+};
+
+export default Remove;

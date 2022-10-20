@@ -572,7 +572,7 @@
         "thousandCallsFormat": "{{count}}K 呼び出し"
       },
       "widgetLeftHeader": {
-        "previewDataInfo": "SLI 構成が最近作成された場合、プレビュー・データは最大 7 日前まで表示されます。 最終ウィジェットには、SLI 作成以降のデータのみが含まれます。"
+        "previewDataInfo": "プレビュー・データは、過去 7 日分までしか表示されません。 最終ウィジェットには、SLI 作成以降のデータのみが含まれます。"
       },
       "boundaryScopeConfigurator": {
         "all": {
@@ -590,7 +590,9 @@
       "chart": {
         "metricLabel": "Apdex",
         "viewInAnalyze": "分析で表示",
-        "noDataRetentionPeriod": "選択された時刻範囲はデータ保存期間を超えています"
+        "noDataRetentionPeriod": "選択された時刻範囲はデータ保存期間を超えています",
+        "notFoundErrorTitle": "構成された Apdex が見つかりませんでした",
+        "notFoundErrorDescription": "別の Apdex 構成を選択して Apdex ウィジェットを更新してください"
       },
       "demo": {
         "title": "製品の Apdex",
@@ -644,13 +646,16 @@
         "apdexCreateFailedTitle": "Apdex 構成の作成に失敗しました。",
         "apdexCreateFailedContent": "この Apdex 構成の作成中に問題が発生しました: 「{{apdexName}}」",
         "apdexNameNotEmpty": "Apdex 名を空にすることはできません。",
-        "thresholdNotEmpty": "しきい値を空にすることはできません。",
-        "nameExistsError": "この名前の Apdex 構成は既に存在します。 別の名前を入力してください。"
+        "nameExistsError": "この名前の Apdex 構成は既に存在します。 別の名前を入力してください。",
+        "limitReachedError": {
+          "website": "Web サイトの Apdex 構成の最大数 ({{0}}) に達しました。 この制限の引き上げを要求する場合は、Instana サポートにお問い合わせください。",
+          "application": "アプリケーションの Apdex 構成の最大数 ({{0}}) に達しました。 この制限の引き上げを要求する場合は、Instana サポートにお問い合わせください。"
+        },
+        "editConfigNotice": "データの損失を防ぐために、作成後に構成を編集することはできません。"
       },
       "createWebsiteApdexForm": {
         "thresholdHeader": "しきい値構成",
-        "thresholdLabel": "閾値",
-        "thresholdFooter": "データの損失を防ぐため、作成後はしきい値を編集できません。"
+        "thresholdLabel": "閾値"
       },
       "entityInfo": {
         "tooltip": "不明な Apdex",
@@ -660,7 +665,7 @@
       "widget": {
         "unknownEntityLabel_application": "不明なアプリケーション",
         "unknownEntityLabel_website": "不明な Web サイト",
-        "previewDataInfo": "Apdex 構成を最近作成した場合は、最大 7 日前までのプレビュー・データが表示されます。 最終ウィジェットには、Apdex 作成以降のデータのみが含まれます。"
+        "previewDataInfo": "過去 7 日間のプレビュー・データが表示されます。 最終ウィジェットには、Apdex 構成を作成した後のデータのみが含まれます。"
       },
       "applicationScopeConfigurator": {
         "label": "Apdex スコープ",

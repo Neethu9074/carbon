@@ -21,6 +21,7 @@ import {
   ANALYZE_UA2_FACETED_SEARCH_INTERNAL_CALLS_TOGGLED,
   ANALYZE_UA2_FACETED_SEARCH_SYNTHETIC_CALLS_TOGGLED,
   ANALYZE_UA2_FACETS_CHANGED,
+  ANALYZE_UA2_FAST_QUERY_MODE_CHANGED,
   ANALYZE_UA2_FORMMODEL_CHANGED,
   ANALYZE_UA2_GROUP_CHANGED,
   ANALYZE_UA2_METRIC_ADDED,
@@ -63,6 +64,7 @@ export const ua2OrderByChangedTracker = e => track(ANALYZE_UA2_ORDER_BY_CHANGED,
 export const ua2OrderByGroupChangedTracker = e => track(ANALYZE_UA2_ORDER_BY_GROUP_CHANGED, e);
 export const ua2ApiQueryPressedTracker = e => track(ANALYZE_UA2_API_QUERY_PRESSED, e);
 export const ua2NestingDepthTracker = e => track(ANALYZE_UA2_NESTING_DEPTH, e);
+export const ua2FastQueryModeChangedTracker = e => track(ANALYZE_UA2_FAST_QUERY_MODE_CHANGED, e);
 
 export const ua2FormModelChangedTracker = e => track(ANALYZE_UA2_FORMMODEL_CHANGED, e);
 export const ua2FacetsChangedTracker = e => track(ANALYZE_UA2_FACETS_CHANGED, e);

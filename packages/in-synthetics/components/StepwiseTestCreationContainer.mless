@@ -5,7 +5,8 @@
 
 :local {
   .container {
-    height: 35rem;
-    overflow: auto;
+    min-height: 100%;
+    overflow: scroll;
+    margin-bottom: 50px;
   }
 }

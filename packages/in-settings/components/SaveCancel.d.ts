@@ -8,15 +8,14 @@ import { MapForm } from 'formalistic';
 
 interface SaveCancelProps {
   loading?: boolean;
-  form?: object;
   listPath?: string;
   cancelButtonLabel?: string;
   hasSaveButton?: boolean;
-  message?: string;
-  saveEnabled?: boolean;
   isCreate?: boolean;
   form?: MapForm;
   onClickCancelButton?: (e: React.MouseEvent<Element, MouseEvent>) => void;
+  message?: string;
+  saveEnabled?: boolean;
 }
 
 declare function SaveCancelComponent(props: SaveCancelProps): JSX.Element;

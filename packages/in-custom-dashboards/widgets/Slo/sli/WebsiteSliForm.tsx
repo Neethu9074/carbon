@@ -12,13 +12,14 @@ import {
   websiteSliTypeOptions,
   websiteEventBased,
   websiteTimeBased,
-  SliEntityType
+  SliEntityType,
+  enabledSliBeaconTypes,
+  AvailableSliBeaconTypes
 } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingFieldValidationMessage';
 import GoodBadEventsConfigurator from 'in-custom-dashboards/widgets/Slo/sli/GoodBadEventsConfigurator';
 import BeaconConfigurator from 'in-custom-dashboards/widgets/Slo/sli/BeaconConfigurator';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
-import { MetricEntityType } from 'in-custom-dashboards/widgets/Slo/sli/metricFormData';
 import { MetricsForm } from 'in-custom-dashboards/widgets/Slo/sli/MetricsForm';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import InputInSection from 'in-components/form/Input/InputInSection';
@@ -46,6 +47,7 @@ export function WebsiteSliForm({
   const sliNameField = form.get('sliName') as Field<string>;
 
   const sliTypeField = sliEntityForm.get('sliType') as Field<SliEntityType>;
+  const beaconTypeField = sliEntityForm.get('beaconType') as Field<AvailableSliBeaconTypes>;
 
   return (
     <Stack gap="large">
@@ -108,11 +110,16 @@ export function WebsiteSliForm({
       <Divider />
 
       <BeaconConfigurator
+        beaconOptions={enabledSliBeaconTypes}
         QueryBuilder={QueryBuilder}
-        value={(sliEntityForm.get('filterExpression') as Field<FormModelElement[]>).value}
-        onChange={fe =>
+        beaconTypeField={beaconTypeField}
+        tagFilterExpressionField={sliEntityForm.get('filterExpression') as Field<FormModelElement[]>}
+        onChangeBeaconType={newBeaconType =>
+          onChange(['sliEntity', 'beaconType'], f => (f as Field<string>).setValue(newBeaconType).setTouched(true))
+        }
+        onChangeTagFilterExpression={newFilterExpression =>
           onChange(['sliEntity', 'filterExpression'], f =>
-            (f as Field<FormModelElement[]>).setValue(fe).setTouched(true)
+            (f as Field<FormModelElement[]>).setValue(newFilterExpression).setTouched(true)
           )
         }
         withAdditionalFilters={sliTypeField.value === websiteTimeBased}
@@ -123,7 +130,7 @@ export function WebsiteSliForm({
       {sliTypeField.value === websiteTimeBased && (
         <MetricsForm
           entityType="website"
-          metricEntityType={(sliEntityForm.get('beaconType') as Field<MetricEntityType<'website'>>).value}
+          metricEntityType={beaconTypeField?.value}
           form={form.get('metricConfiguration') as MapForm}
           onChange={mc => onChange([], f => (f as MapForm).put('metricConfiguration', mc))}
         />
@@ -134,7 +141,9 @@ export function WebsiteSliForm({
           entityType="website"
           label={t('in-custom-dashboards:widgets.slo.goodBadEventsForm.websitesFilterLabel', {
             websiteLabel: websiteName,
-            beaconType: t('in-custom-dashboards:widgets.slo.sliFormPresenter.httpRequestsLabel')
+            beaconType: t('in-custom-dashboards:widgets.slo.sliFormPresenter.beaconLabel', {
+              context: beaconTypeField?.value
+            })
           })}
           form={sliEntityForm}
           updateForm={updatedForm => onChange([], f => (f as MapForm).put('sliEntity', updatedForm))}

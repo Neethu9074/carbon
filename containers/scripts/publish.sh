@@ -26,25 +26,47 @@ function _run_docker_buildx {
   local REGISTRY_PASSWORD
 
   if [[ ${ARTIFACT_VERSION} == 'local' ]]; then
-    REGISTRY_AUTH=$(yarn config get '//artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/:_auth' | base64 -d)
+    REGISTRY_AUTH=$(yarn config get '//delivery.instana.io/artifactory/api/npm/int-npm-virtual/:_auth' | base64 -d)
     IFS=':' read -r REGISTRY_USERNAME REGISTRY_PASSWORD <<< "$REGISTRY_AUTH"
   else
-    REGISTRY_USERNAME=${ARTIFACT_RND_INSTANA_IO_USER}
-    REGISTRY_PASSWORD=${ARTIFACT_RND_INSTANA_IO_PASSWORD}
+    REGISTRY_USERNAME=${INSTANA_ARTIFACTORY_USERNAME}
+    REGISTRY_PASSWORD=${INSTANA_ARTIFACTORY_PASSWORD}
   fi
-  
+
+  # just building for one more platform: s390x
+  # without pushing
   docker buildx build \
     --tag $TAG \
     --progress plain \
     --cache-from $TAG \
-    --platform=linux/amd64,linux/s390x \
+    --platform=linux/s390x \
     --build-arg base_version=${BASE_VERSION} \
     --build-arg component_name=${COMPONENT_NAME} \
     --build-arg image_version=${DESIRED_IMAGE_VERSION} \
     --build-arg branch=${BRANCH_NAME} \
     --build-arg commit_id=${COMMIT_ID} \
-    --build-arg registry='https://artifact-rnd.instana.io' \
-    --build-arg repository_key='npm-virtual-internal' \
+    --build-arg registry='https://delivery.instana.io' \
+    --build-arg repository_key='int-npm-virtual' \
+    --build-arg registry_username=${REGISTRY_USERNAME} \
+    --build-arg registry_password=${REGISTRY_PASSWORD} \
+    -f ${PATH_TO_CONTAINER_FILE} \
+    -t ${TAG} \
+    ${COMPONENT_CONTAINER_DIR}
+
+  # building missing platforms (here: ppc64le)
+  # and pushing all of them, with creating the correct manifest for all 3 platforms.
+  docker buildx build \
+    --tag $TAG \
+    --progress plain \
+    --cache-from $TAG \
+    --platform=linux/amd64,linux/s390x,linux/ppc64le \
+    --build-arg base_version=${BASE_VERSION} \
+    --build-arg component_name=${COMPONENT_NAME} \
+    --build-arg image_version=${DESIRED_IMAGE_VERSION} \
+    --build-arg branch=${BRANCH_NAME} \
+    --build-arg commit_id=${COMMIT_ID} \
+    --build-arg registry='https://delivery.instana.io' \
+    --build-arg repository_key='int-npm-virtual' \
     --build-arg registry_username=${REGISTRY_USERNAME} \
     --build-arg registry_password=${REGISTRY_PASSWORD} \
     -f ${PATH_TO_CONTAINER_FILE} \
@@ -60,7 +82,7 @@ function push_image {
   else
     _check_branch_name
     _docker_login
-    _log_info "We are 'rebuilding' the image for s390x platform in this push step because docker buildx multi-arch builds require build and push to be run in the same command. \
+    _log_info "We are building the s390x and ppc64le platform in this push step because docker buildx multi-arch build requires build and push to be run in the same command. \
     https://docs.docker.com/buildx/working-with-buildx/"
     _run_docker_buildx ${FULLY_QUALIFIED_TAG} ${CONTAINER_FILE} ${IMAGE_VERSION}
     _remove_from_local_registry ${FULLY_QUALIFIED_TAG}

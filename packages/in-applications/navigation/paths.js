@@ -87,6 +87,7 @@ export function getLinkToAnalyze({
   serviceName,
   endpointName,
   boundaryScope = boundaryScopes.inbound,
+  contextScope,
   jumpToSource,
   dataSource = 'calls',
   groupBy,
@@ -121,8 +122,9 @@ export function getLinkToAnalyze({
 
     let extendingFormModel = [];
     if (applicationName != null) {
+      //boundary scope is ignored when context scope is present
       const applicationFilter =
-        boundaryScope === boundaryScopes.inbound
+        boundaryScope === boundaryScopes.inbound && !contextScope
           ? {
               type: TAG_FILTER,
               name: APPLICATION_INBOUND.name,
@@ -134,7 +136,7 @@ export function getLinkToAnalyze({
               name: APPLICATION.name,
               value: applicationName,
               operator: operators.EQUALS,
-              entity: entityTypes.DESTINATION
+              entity: contextScope === 'DOWNSTREAM' ? entityTypes.SOURCE : entityTypes.DESTINATION
             };
       extendingFormModel = joinExpressions({ expressions: [extendingFormModel, applicationFilter] });
     }
@@ -147,7 +149,7 @@ export function getLinkToAnalyze({
             name: SERVICE.name,
             value: serviceName,
             operator: operators.EQUALS,
-            entity: entityTypes.DESTINATION
+            entity: contextScope === 'DOWNSTREAM' ? entityTypes.SOURCE : entityTypes.DESTINATION
           }
         ]
       });

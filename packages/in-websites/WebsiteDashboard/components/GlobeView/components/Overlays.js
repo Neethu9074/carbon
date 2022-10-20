@@ -3,8 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { withState, compose } from 'recompose';
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import ReactDOM from 'react-dom';
 
 import { create } from '@instana/observables';
@@ -55,24 +54,10 @@ export default class OverlaysReactComponentMounter {
   }
 }
 
-const OverlaysReactComponent = compose(
-  withState('showLabels', 'setShowLabels', false),
-  withState('showHeatMap', 'setShowHeatMap', true),
-  withState('autoRotate', 'setAutoRotate', true)
-)(OverlaysReactComponentFn);
-
-function OverlaysReactComponentFn({
-  update$,
-  showLabels,
-  setShowLabels,
-  showHeatMap,
-  setShowHeatMap,
-  globeView,
-  data$,
-  autoRotate,
-  setAutoRotate,
-  getValue
-}) {
+function OverlaysReactComponent({ update$, globeView, data$, getValue }) {
+  const [showLabels, setShowLabels] = useState(false);
+  const [showHeatMap, setShowHeatMap] = useState(true);
+  const [autoRotate, setAutoRotate] = useState(true);
   return (
     <Fragment>
       {showHeatMap && <CountryList data$={data$} getValue={getValue} />}

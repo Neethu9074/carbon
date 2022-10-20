@@ -25,7 +25,8 @@ export default connectTo(
       sessionStart: useTagCatalog('sessionStart'),
       viewChange: useTagCatalog('viewChange'),
       httpRequest: useTagCatalog('httpRequest'),
-      custom: useTagCatalog('custom')
+      custom: useTagCatalog('custom'),
+      crash: useTagCatalog('crash')
     };
 
     const hasApproximateData = props?.result?.resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE';

@@ -174,7 +174,7 @@ function getSmallestTimeShift(y1?: AxisConfiguration, y2?: AxisConfiguration): n
   if (!y1 || !y1?.timeShifts) {
     return 0;
   }
-  let smallestTimeShift = y1.timeShifts.reduce(getSmallestTimeShiftReducer, 0);
+  let smallestTimeShift = y1.timeShifts.reduce(getSmallestTimeShiftReducer, Number.MIN_SAFE_INTEGER);
 
   if (!y2 || !y2.timeShifts) {
     return smallestTimeShift;

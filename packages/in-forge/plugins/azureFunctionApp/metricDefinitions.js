@@ -9,6 +9,42 @@ import { t } from 'in-i18n';
 
 export default [
   {
+    metric: 're_co',
+    label: t('in-forge:plugins.azureFunctionApp.labelReCo'),
+    category: [t('in-forge:plugins.azureFunctionApp.requests')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: 're_av',
+    label: t('in-forge:plugins.azureFunctionApp.labelReAv'),
+    category: [t('in-forge:plugins.azureFunctionApp.requests')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: 're_mi',
+    label: t('in-forge:plugins.azureFunctionApp.labelReMi'),
+    category: [t('in-forge:plugins.azureFunctionApp.requests')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: 're_mx',
+    label: t('in-forge:plugins.azureFunctionApp.labelReMx'),
+    category: [t('in-forge:plugins.azureFunctionApp.requests')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: 're_to',
+    label: t('in-forge:plugins.azureFunctionApp.labelReTo'),
+    category: [t('in-forge:plugins.azureFunctionApp.requests')],
+    min: 0,
+    formatter: number
+  },
+
+  {
     metric: 'br_co',
     label: t('in-forge:plugins.azureFunctionApp.labelBrCo'),
     category: [t('in-forge:plugins.azureFunctionApp.bytes')],
@@ -76,78 +112,6 @@ export default [
     metric: 'bs_to',
     label: t('in-forge:plugins.azureFunctionApp.labelBsTo'),
     category: [t('in-forge:plugins.azureFunctionApp.bytes')],
-    min: 0,
-    formatter: number
-  },
-
-  {
-    metric: 'pb_co',
-    label: t('in-forge:plugins.azureFunctionApp.labelPbCo'),
-    category: [t('in-forge:plugins.azureFunctionApp.bytes')],
-    min: 0,
-    formatter: bytes
-  },
-  {
-    metric: 'pb_av',
-    label: t('in-forge:plugins.azureFunctionApp.labelPbAv'),
-    category: [t('in-forge:plugins.azureFunctionApp.bytes')],
-    min: 0,
-    formatter: bytes
-  },
-  {
-    metric: 'pb_mi',
-    label: t('in-forge:plugins.azureFunctionApp.labelPbMi'),
-    category: [t('in-forge:plugins.azureFunctionApp.bytes')],
-    min: 0,
-    formatter: bytes
-  },
-  {
-    metric: 'pb_mx',
-    label: t('in-forge:plugins.azureFunctionApp.labelPbMx'),
-    category: [t('in-forge:plugins.azureFunctionApp.bytes')],
-    min: 0,
-    formatter: bytes
-  },
-  {
-    metric: 'pb_to',
-    label: t('in-forge:plugins.azureFunctionApp.labelPbTo'),
-    category: [t('in-forge:plugins.azureFunctionApp.bytes')],
-    min: 0,
-    formatter: number
-  },
-
-  {
-    metric: 'rq_co',
-    label: t('in-forge:plugins.azureFunctionApp.labelRqCo'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'rq_av',
-    label: t('in-forge:plugins.azureFunctionApp.labelRqAv'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'rq_mi',
-    label: t('in-forge:plugins.azureFunctionApp.labelRqMi'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'rq_mx',
-    label: t('in-forge:plugins.azureFunctionApp.labelRqMx'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'rq_to',
-    label: t('in-forge:plugins.azureFunctionApp.labelRqTo'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
     min: 0,
     formatter: number
   },
@@ -261,150 +225,6 @@ export default [
   },
 
   {
-    metric: 'h41_co',
-    label: t('in-forge:plugins.azureFunctionApp.labelH41Co'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'h41_av',
-    label: t('in-forge:plugins.azureFunctionApp.labelH41Av'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'h41_mi',
-    label: t('in-forge:plugins.azureFunctionApp.labelH41Mi'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'h41_mx',
-    label: t('in-forge:plugins.azureFunctionApp.labelH41Mx'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'h41_to',
-    label: t('in-forge:plugins.azureFunctionApp.labelH41To'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: number
-  },
-
-  {
-    metric: 'h43_co',
-    label: t('in-forge:plugins.azureFunctionApp.labelH43Co'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'h43_av',
-    label: t('in-forge:plugins.azureFunctionApp.labelH43Av'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'h43_mi',
-    label: t('in-forge:plugins.azureFunctionApp.labelH43Mi'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'h43_mx',
-    label: t('in-forge:plugins.azureFunctionApp.labelH43Mx'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'h43_to',
-    label: t('in-forge:plugins.azureFunctionApp.labelH43To'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: number
-  },
-
-  {
-    metric: 'h44_co',
-    label: t('in-forge:plugins.azureFunctionApp.labelH44Co'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'h44_av',
-    label: t('in-forge:plugins.azureFunctionApp.labelH44Av'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'h44_mi',
-    label: t('in-forge:plugins.azureFunctionApp.labelH44Mi'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'h44_mx',
-    label: t('in-forge:plugins.azureFunctionApp.labelH44Mx'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'h44_to',
-    label: t('in-forge:plugins.azureFunctionApp.labelH44To'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: number
-  },
-
-  {
-    metric: 'h46_co',
-    label: t('in-forge:plugins.azureFunctionApp.labelH46Co'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'h46_av',
-    label: t('in-forge:plugins.azureFunctionApp.labelH46Av'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'h46_mi',
-    label: t('in-forge:plugins.azureFunctionApp.labelH46Mi'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'h46_mx',
-    label: t('in-forge:plugins.azureFunctionApp.labelH46Mx'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'h46_to',
-    label: t('in-forge:plugins.azureFunctionApp.labelH46To'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: number
-  },
-
-  {
     metric: 'h4_co',
     label: t('in-forge:plugins.azureFunctionApp.labelH4Co'),
     category: [t('in-forge:plugins.azureFunctionApp.requests')],
@@ -471,186 +291,6 @@ export default [
   {
     metric: 'h5_to',
     label: t('in-forge:plugins.azureFunctionApp.labelH5To'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: number
-  },
-
-  {
-    metric: 'art_co',
-    label: t('in-forge:plugins.azureFunctionApp.labelArtCo'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: seconds
-  },
-  {
-    metric: 'art_av',
-    label: t('in-forge:plugins.azureFunctionApp.labelArtAv'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: seconds
-  },
-  {
-    metric: 'art_mi',
-    label: t('in-forge:plugins.azureFunctionApp.labelArtMi'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: seconds
-  },
-  {
-    metric: 'art_mx',
-    label: t('in-forge:plugins.azureFunctionApp.labelArtMx'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: seconds
-  },
-  {
-    metric: 'art_to',
-    label: t('in-forge:plugins.azureFunctionApp.labelArtTo'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: number
-  },
-
-  {
-    metric: 'hrt_co',
-    label: t('in-forge:plugins.azureFunctionApp.labelHrtCo'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: seconds
-  },
-  {
-    metric: 'hrt_av',
-    label: t('in-forge:plugins.azureFunctionApp.labelHrtAv'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: seconds
-  },
-  {
-    metric: 'hrt_mi',
-    label: t('in-forge:plugins.azureFunctionApp.labelHrtMi'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: seconds
-  },
-  {
-    metric: 'hrt_mx',
-    label: t('in-forge:plugins.azureFunctionApp.labelHrtMx'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: seconds
-  },
-  {
-    metric: 'hrt_to',
-    label: t('in-forge:plugins.azureFunctionApp.labelHrtTo'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: number
-  },
-
-  {
-    metric: 'ha_co',
-    label: t('in-forge:plugins.azureFunctionApp.labelHaCo'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'ha_av',
-    label: t('in-forge:plugins.azureFunctionApp.labelHaAv'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'ha_mi',
-    label: t('in-forge:plugins.azureFunctionApp.labelHaMi'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'ha_mx',
-    label: t('in-forge:plugins.azureFunctionApp.labelHaMx'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'ha_to',
-    label: t('in-forge:plugins.azureFunctionApp.labelHaTo'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: number
-  },
-
-  {
-    metric: 'th_co',
-    label: t('in-forge:plugins.azureFunctionApp.labelThCo'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'th_av',
-    label: t('in-forge:plugins.azureFunctionApp.labelThAv'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'th_mi',
-    label: t('in-forge:plugins.azureFunctionApp.labelThMi'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'th_mx',
-    label: t('in-forge:plugins.azureFunctionApp.labelThMx'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'th_to',
-    label: t('in-forge:plugins.azureFunctionApp.labelThTo'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: number
-  },
-
-  {
-    metric: 'riaq_co',
-    label: t('in-forge:plugins.azureFunctionApp.labelRiaqCo'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'riaq_av',
-    label: t('in-forge:plugins.azureFunctionApp.labelRiaqAv'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'riaq_mi',
-    label: t('in-forge:plugins.azureFunctionApp.labelRiaqMi'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'riaq_mx',
-    label: t('in-forge:plugins.azureFunctionApp.labelRiaqMx'),
-    category: [t('in-forge:plugins.azureFunctionApp.requests')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'riaq_to',
-    label: t('in-forge:plugins.azureFunctionApp.labelRiaqTo'),
     category: [t('in-forge:plugins.azureFunctionApp.requests')],
     min: 0,
     formatter: number
@@ -729,534 +369,217 @@ export default [
   },
 
   {
-    metric: 'feu_co',
-    label: t('in-forge:plugins.azureFunctionApp.labelFeuCo'),
-    category: [t('in-forge:plugins.azureFunctionApp.functionExecution')],
+    metric: 'hrt_co',
+    label: t('in-forge:plugins.azureFunctionApp.labelHrtCo'),
+    category: [t('in-forge:plugins.azureFunctionApp.requests')],
     min: 0,
-    formatter: number
+    formatter: seconds
   },
   {
-    metric: 'feu_av',
-    label: t('in-forge:plugins.azureFunctionApp.labelFeuAv'),
-    category: [t('in-forge:plugins.azureFunctionApp.functionExecution')],
+    metric: 'hrt_av',
+    label: t('in-forge:plugins.azureFunctionApp.labelHrtAv'),
+    category: [t('in-forge:plugins.azureFunctionApp.requests')],
     min: 0,
-    formatter: number
+    formatter: seconds
   },
   {
-    metric: 'feu_mi',
-    label: t('in-forge:plugins.azureFunctionApp.labelFeuMi'),
-    category: [t('in-forge:plugins.azureFunctionApp.functionExecution')],
+    metric: 'hrt_mi',
+    label: t('in-forge:plugins.azureFunctionApp.labelHrtMi'),
+    category: [t('in-forge:plugins.azureFunctionApp.requests')],
     min: 0,
-    formatter: number
+    formatter: seconds
   },
   {
-    metric: 'feu_mx',
-    label: t('in-forge:plugins.azureFunctionApp.labelFeuMx'),
-    category: [t('in-forge:plugins.azureFunctionApp.functionExecution')],
+    metric: 'hrt_mx',
+    label: t('in-forge:plugins.azureFunctionApp.labelHrtMx'),
+    category: [t('in-forge:plugins.azureFunctionApp.requests')],
     min: 0,
-    formatter: number
+    formatter: seconds
   },
   {
-    metric: 'feu_to',
-    label: t('in-forge:plugins.azureFunctionApp.labelFeuTo'),
-    category: [t('in-forge:plugins.azureFunctionApp.functionExecution')],
-    min: 0,
-    formatter: number
-  },
-
-  {
-    metric: 'fec_co',
-    label: t('in-forge:plugins.azureFunctionApp.labelFecCo'),
-    category: [t('in-forge:plugins.azureFunctionApp.functionExecution')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'fec_av',
-    label: t('in-forge:plugins.azureFunctionApp.labelFecAv'),
-    category: [t('in-forge:plugins.azureFunctionApp.functionExecution')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'fec_mi',
-    label: t('in-forge:plugins.azureFunctionApp.labelFecMi'),
-    category: [t('in-forge:plugins.azureFunctionApp.functionExecution')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'fec_mx',
-    label: t('in-forge:plugins.azureFunctionApp.labelFecMx'),
-    category: [t('in-forge:plugins.azureFunctionApp.functionExecution')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'fec_to',
-    label: t('in-forge:plugins.azureFunctionApp.labelFecTo'),
-    category: [t('in-forge:plugins.azureFunctionApp.functionExecution')],
+    metric: 'hrt_to',
+    label: t('in-forge:plugins.azureFunctionApp.labelHrtTo'),
+    category: [t('in-forge:plugins.azureFunctionApp.requests')],
     min: 0,
     formatter: number
   },
 
   {
-    metric: 'iorbps_co',
-    label: t('in-forge:plugins.azureFunctionApp.labelIorbpsCo'),
+    metric: 'irbps_co',
+    label: t('in-forge:plugins.azureFunctionApp.labelIrbpsCo'),
     category: [t('in-forge:plugins.azureFunctionApp.io')],
     min: 0,
     formatter: bytes
   },
   {
-    metric: 'iorbps_av',
-    label: t('in-forge:plugins.azureFunctionApp.labelIorbpsAv'),
+    metric: 'irbps_av',
+    label: t('in-forge:plugins.azureFunctionApp.labelIrbpsAv'),
     category: [t('in-forge:plugins.azureFunctionApp.io')],
     min: 0,
     formatter: bytes
   },
   {
-    metric: 'iorbps_mi',
-    label: t('in-forge:plugins.azureFunctionApp.labelIorbpsMi'),
+    metric: 'irbps_mi',
+    label: t('in-forge:plugins.azureFunctionApp.labelIrbpsMi'),
     category: [t('in-forge:plugins.azureFunctionApp.io')],
     min: 0,
     formatter: bytes
   },
   {
-    metric: 'iorbps_mx',
-    label: t('in-forge:plugins.azureFunctionApp.labelIorbpsMx'),
+    metric: 'irbps_mx',
+    label: t('in-forge:plugins.azureFunctionApp.labelIrbpsMx'),
     category: [t('in-forge:plugins.azureFunctionApp.io')],
     min: 0,
     formatter: bytes
   },
   {
-    metric: 'iorbps_to',
-    label: t('in-forge:plugins.azureFunctionApp.labelIorbpsTo'),
+    metric: 'irbps_to',
+    label: t('in-forge:plugins.azureFunctionApp.labelIrbpsTo'),
     category: [t('in-forge:plugins.azureFunctionApp.io')],
     min: 0,
     formatter: number
   },
 
   {
-    metric: 'iowbps_co',
-    label: t('in-forge:plugins.azureFunctionApp.labelIowbpsCo'),
+    metric: 'iwbps_co',
+    label: t('in-forge:plugins.azureFunctionApp.labelIwbpsCo'),
     category: [t('in-forge:plugins.azureFunctionApp.io')],
     min: 0,
     formatter: bytes
   },
   {
-    metric: 'iowbps_av',
-    label: t('in-forge:plugins.azureFunctionApp.labelIowbpsAv'),
+    metric: 'iwbps_av',
+    label: t('in-forge:plugins.azureFunctionApp.labelIwbpsAv'),
     category: [t('in-forge:plugins.azureFunctionApp.io')],
     min: 0,
     formatter: bytes
   },
   {
-    metric: 'iowbps_mi',
-    label: t('in-forge:plugins.azureFunctionApp.labelIowbpsMi'),
+    metric: 'iwbps_mi',
+    label: t('in-forge:plugins.azureFunctionApp.labelIwbpsMi'),
     category: [t('in-forge:plugins.azureFunctionApp.io')],
     min: 0,
     formatter: bytes
   },
   {
-    metric: 'iowbps_mx',
-    label: t('in-forge:plugins.azureFunctionApp.labelIowbpsMx'),
+    metric: 'iwbps_mx',
+    label: t('in-forge:plugins.azureFunctionApp.labelIwbpsMx'),
     category: [t('in-forge:plugins.azureFunctionApp.io')],
     min: 0,
     formatter: bytes
   },
   {
-    metric: 'iowbps_to',
-    label: t('in-forge:plugins.azureFunctionApp.labelIowbpsTo'),
+    metric: 'iwbps_to',
+    label: t('in-forge:plugins.azureFunctionApp.labelIwbpsTo'),
     category: [t('in-forge:plugins.azureFunctionApp.io')],
     min: 0,
     formatter: number
   },
 
   {
-    metric: 'ioobps_co',
-    label: t('in-forge:plugins.azureFunctionApp.labelIoobpsCo'),
+    metric: 'irobps_co',
+    label: t('in-forge:plugins.azureFunctionApp.labelIrobpsCo'),
     category: [t('in-forge:plugins.azureFunctionApp.io')],
     min: 0,
     formatter: bytes
   },
   {
-    metric: 'ioobps_av',
-    label: t('in-forge:plugins.azureFunctionApp.labelIoobpsAv'),
+    metric: 'irobps_av',
+    label: t('in-forge:plugins.azureFunctionApp.labelIrobpsAv'),
     category: [t('in-forge:plugins.azureFunctionApp.io')],
     min: 0,
     formatter: bytes
   },
   {
-    metric: 'ioobps_mi',
-    label: t('in-forge:plugins.azureFunctionApp.labelIoobpsMi'),
+    metric: 'irobps_mi',
+    label: t('in-forge:plugins.azureFunctionApp.labelIrobpsMi'),
     category: [t('in-forge:plugins.azureFunctionApp.io')],
     min: 0,
     formatter: bytes
   },
   {
-    metric: 'ioobps_mx',
-    label: t('in-forge:plugins.azureFunctionApp.labelIoobpsMx'),
+    metric: 'irobps_mx',
+    label: t('in-forge:plugins.azureFunctionApp.labelIrobpsMx'),
     category: [t('in-forge:plugins.azureFunctionApp.io')],
     min: 0,
     formatter: bytes
   },
   {
-    metric: 'ioobps_to',
-    label: t('in-forge:plugins.azureFunctionApp.labelIoobpsTo'),
+    metric: 'irobps_to',
+    label: t('in-forge:plugins.azureFunctionApp.labelIrobpsTo'),
     category: [t('in-forge:plugins.azureFunctionApp.io')],
     min: 0,
     formatter: number
   },
 
   {
-    metric: 'iorops_co',
-    label: t('in-forge:plugins.azureFunctionApp.labelIoropsCo'),
+    metric: 'iwobps_co',
+    label: t('in-forge:plugins.azureFunctionApp.labelIwobpsCo'),
     category: [t('in-forge:plugins.azureFunctionApp.io')],
     min: 0,
     formatter: bytes
   },
   {
-    metric: 'iorops_av',
-    label: t('in-forge:plugins.azureFunctionApp.labelIoropsAv'),
+    metric: 'iwobps_av',
+    label: t('in-forge:plugins.azureFunctionApp.labelIwobpsAv'),
     category: [t('in-forge:plugins.azureFunctionApp.io')],
     min: 0,
     formatter: bytes
   },
   {
-    metric: 'iorops_mi',
-    label: t('in-forge:plugins.azureFunctionApp.labelIoropsMi'),
+    metric: 'iwobps_mi',
+    label: t('in-forge:plugins.azureFunctionApp.labelIwobpsMi'),
     category: [t('in-forge:plugins.azureFunctionApp.io')],
     min: 0,
     formatter: bytes
   },
   {
-    metric: 'iorops_mx',
-    label: t('in-forge:plugins.azureFunctionApp.labelIoropsMx'),
+    metric: 'iwobps_mx',
+    label: t('in-forge:plugins.azureFunctionApp.labelIwobpsMx'),
     category: [t('in-forge:plugins.azureFunctionApp.io')],
     min: 0,
     formatter: bytes
   },
   {
-    metric: 'iorops_to',
-    label: t('in-forge:plugins.azureFunctionApp.labelIoropsTo'),
+    metric: 'iwobps_to',
+    label: t('in-forge:plugins.azureFunctionApp.labelIwobpsTo'),
     category: [t('in-forge:plugins.azureFunctionApp.io')],
     min: 0,
     formatter: number
   },
 
   {
-    metric: 'iowops_co',
-    label: t('in-forge:plugins.azureFunctionApp.labelIowopsCo'),
-    category: [t('in-forge:plugins.azureFunctionApp.io')],
-    min: 0,
-    formatter: bytes
-  },
-  {
-    metric: 'iowops_av',
-    label: t('in-forge:plugins.azureFunctionApp.labelIowopsAv'),
-    category: [t('in-forge:plugins.azureFunctionApp.io')],
-    min: 0,
-    formatter: bytes
-  },
-  {
-    metric: 'iowops_mi',
-    label: t('in-forge:plugins.azureFunctionApp.labelIowopsMi'),
-    category: [t('in-forge:plugins.azureFunctionApp.io')],
-    min: 0,
-    formatter: bytes
-  },
-  {
-    metric: 'iowops_mx',
-    label: t('in-forge:plugins.azureFunctionApp.labelIowopsMx'),
-    category: [t('in-forge:plugins.azureFunctionApp.io')],
-    min: 0,
-    formatter: bytes
-  },
-  {
-    metric: 'iowops_to',
-    label: t('in-forge:plugins.azureFunctionApp.labelIowopsTo'),
-    category: [t('in-forge:plugins.azureFunctionApp.io')],
-    min: 0,
-    formatter: number
-  },
-
-  {
-    metric: 'iooops_co',
-    label: t('in-forge:plugins.azureFunctionApp.labelIooopsCo'),
-    category: [t('in-forge:plugins.azureFunctionApp.io')],
-    min: 0,
-    formatter: bytes
-  },
-  {
-    metric: 'iooops_av',
-    label: t('in-forge:plugins.azureFunctionApp.labelIooopsAv'),
-    category: [t('in-forge:plugins.azureFunctionApp.io')],
-    min: 0,
-    formatter: bytes
-  },
-  {
-    metric: 'iooops_mi',
-    label: t('in-forge:plugins.azureFunctionApp.labelIooopsMi'),
-    category: [t('in-forge:plugins.azureFunctionApp.io')],
-    min: 0,
-    formatter: bytes
-  },
-  {
-    metric: 'iooops_mx',
-    label: t('in-forge:plugins.azureFunctionApp.labelIooopsMx'),
-    category: [t('in-forge:plugins.azureFunctionApp.io')],
-    min: 0,
-    formatter: bytes
-  },
-  {
-    metric: 'iooops_to',
-    label: t('in-forge:plugins.azureFunctionApp.labelIooopsTo'),
-    category: [t('in-forge:plugins.azureFunctionApp.io')],
-    min: 0,
-    formatter: number
-  },
-
-  {
-    metric: 'tad_co',
-    label: t('in-forge:plugins.azureFunctionApp.labelTadCo'),
-    category: [t('in-forge:plugins.azureFunctionApp.appDomains')],
+    metric: 'riaq_co',
+    label: t('in-forge:plugins.azureFunctionApp.labelRiaqCo'),
+    category: [t('in-forge:plugins.azureFunctionApp.requests')],
     min: 0,
     formatter: number
   },
   {
-    metric: 'tad_av',
-    label: t('in-forge:plugins.azureFunctionApp.labelTadAv'),
-    category: [t('in-forge:plugins.azureFunctionApp.appDomains')],
+    metric: 'riaq_av',
+    label: t('in-forge:plugins.azureFunctionApp.labelRiaqAv'),
+    category: [t('in-forge:plugins.azureFunctionApp.requests')],
     min: 0,
     formatter: number
   },
   {
-    metric: 'tad_mi',
-    label: t('in-forge:plugins.azureFunctionApp.labelTadMi'),
-    category: [t('in-forge:plugins.azureFunctionApp.appDomains')],
+    metric: 'riaq_mi',
+    label: t('in-forge:plugins.azureFunctionApp.labelRiaqMi'),
+    category: [t('in-forge:plugins.azureFunctionApp.requests')],
     min: 0,
     formatter: number
   },
   {
-    metric: 'tad_mx',
-    label: t('in-forge:plugins.azureFunctionApp.labelTadMx'),
-    category: [t('in-forge:plugins.azureFunctionApp.appDomains')],
+    metric: 'riaq_mx',
+    label: t('in-forge:plugins.azureFunctionApp.labelRiaqMx'),
+    category: [t('in-forge:plugins.azureFunctionApp.requests')],
     min: 0,
     formatter: number
   },
   {
-    metric: 'tad_to',
-    label: t('in-forge:plugins.azureFunctionApp.labelTadTo'),
-    category: [t('in-forge:plugins.azureFunctionApp.appDomains')],
-    min: 0,
-    formatter: number
-  },
-
-  {
-    metric: 'tadu_co',
-    label: t('in-forge:plugins.azureFunctionApp.labelTaduCo'),
-    category: [t('in-forge:plugins.azureFunctionApp.appDomains')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'tadu_av',
-    label: t('in-forge:plugins.azureFunctionApp.labelTaduAv'),
-    category: [t('in-forge:plugins.azureFunctionApp.appDomains')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'tadu_mi',
-    label: t('in-forge:plugins.azureFunctionApp.labelTaduMi'),
-    category: [t('in-forge:plugins.azureFunctionApp.appDomains')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'tadu_mx',
-    label: t('in-forge:plugins.azureFunctionApp.labelTaduMx'),
-    category: [t('in-forge:plugins.azureFunctionApp.appDomains')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'tadu_to',
-    label: t('in-forge:plugins.azureFunctionApp.labelTaduTo'),
-    category: [t('in-forge:plugins.azureFunctionApp.appDomains')],
-    min: 0,
-    formatter: number
-  },
-
-  {
-    metric: 'g0c_co',
-    label: t('in-forge:plugins.azureFunctionApp.labelG0cCo'),
-    category: [t('in-forge:plugins.azureFunctionApp.genCollections')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'g0c_av',
-    label: t('in-forge:plugins.azureFunctionApp.labelG0cAv'),
-    category: [t('in-forge:plugins.azureFunctionApp.genCollections')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'g0c_mi',
-    label: t('in-forge:plugins.azureFunctionApp.labelG0cMi'),
-    category: [t('in-forge:plugins.azureFunctionApp.genCollections')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'g0c_mx',
-    label: t('in-forge:plugins.azureFunctionApp.labelG0cMx'),
-    category: [t('in-forge:plugins.azureFunctionApp.genCollections')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'g0c_to',
-    label: t('in-forge:plugins.azureFunctionApp.labelG0cTo'),
-    category: [t('in-forge:plugins.azureFunctionApp.genCollections')],
-    min: 0,
-    formatter: number
-  },
-
-  {
-    metric: 'g1c_co',
-    label: t('in-forge:plugins.azureFunctionApp.labelG1cCo'),
-    category: [t('in-forge:plugins.azureFunctionApp.genCollections')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'g1c_av',
-    label: t('in-forge:plugins.azureFunctionApp.labelG1cAv'),
-    category: [t('in-forge:plugins.azureFunctionApp.genCollections')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'g1c_mi',
-    label: t('in-forge:plugins.azureFunctionApp.labelG1cMi'),
-    category: [t('in-forge:plugins.azureFunctionApp.genCollections')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'g1c_mx',
-    label: t('in-forge:plugins.azureFunctionApp.labelG1cMx'),
-    category: [t('in-forge:plugins.azureFunctionApp.genCollections')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'g1c_to',
-    label: t('in-forge:plugins.azureFunctionApp.labelG1cTo'),
-    category: [t('in-forge:plugins.azureFunctionApp.genCollections')],
-    min: 0,
-    formatter: number
-  },
-
-  {
-    metric: 'g2c_co',
-    label: t('in-forge:plugins.azureFunctionApp.labelG2cCo'),
-    category: [t('in-forge:plugins.azureFunctionApp.genCollections')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'g2c_av',
-    label: t('in-forge:plugins.azureFunctionApp.labelG2cAv'),
-    category: [t('in-forge:plugins.azureFunctionApp.genCollections')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'g2c_mi',
-    label: t('in-forge:plugins.azureFunctionApp.labelG2cMi'),
-    category: [t('in-forge:plugins.azureFunctionApp.genCollections')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'g2c_mx',
-    label: t('in-forge:plugins.azureFunctionApp.labelG2cMx'),
-    category: [t('in-forge:plugins.azureFunctionApp.genCollections')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'g2c_to',
-    label: t('in-forge:plugins.azureFunctionApp.labelG2cTo'),
-    category: [t('in-forge:plugins.azureFunctionApp.genCollections')],
-    min: 0,
-    formatter: number
-  },
-
-  {
-    metric: 'ac_co',
-    label: t('in-forge:plugins.azureFunctionApp.labelAcCo'),
-    category: [t('in-forge:plugins.azureFunctionApp.system')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'ac_av',
-    label: t('in-forge:plugins.azureFunctionApp.labelAcAv'),
-    category: [t('in-forge:plugins.azureFunctionApp.system')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'ac_mi',
-    label: t('in-forge:plugins.azureFunctionApp.labelAcMi'),
-    category: [t('in-forge:plugins.azureFunctionApp.system')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'ac_mx',
-    label: t('in-forge:plugins.azureFunctionApp.labelAcMx'),
-    category: [t('in-forge:plugins.azureFunctionApp.system')],
-    min: 0,
-    formatter: number
-  },
-
-  {
-    metric: 'ca_co',
-    label: t('in-forge:plugins.azureFunctionApp.labelCaCo'),
-    category: [t('in-forge:plugins.azureFunctionApp.system')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'ca_av',
-    label: t('in-forge:plugins.azureFunctionApp.labelCaAv'),
-    category: [t('in-forge:plugins.azureFunctionApp.system')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'ca_mi',
-    label: t('in-forge:plugins.azureFunctionApp.labelCaMi'),
-    category: [t('in-forge:plugins.azureFunctionApp.system')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'ca_mx',
-    label: t('in-forge:plugins.azureFunctionApp.labelCaMx'),
-    category: [t('in-forge:plugins.azureFunctionApp.system')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metric: 'ca_to',
-    label: t('in-forge:plugins.azureFunctionApp.labelCaTo'),
-    category: [t('in-forge:plugins.azureFunctionApp.system')],
+    metric: 'riaq_to',
+    label: t('in-forge:plugins.azureFunctionApp.labelRiaqTo'),
+    category: [t('in-forge:plugins.azureFunctionApp.requests')],
     min: 0,
     formatter: number
   },

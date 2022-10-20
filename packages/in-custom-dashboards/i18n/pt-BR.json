@@ -572,7 +572,7 @@
         "thousandCallsFormat": "{{count}}K chamadas"
       },
       "widgetLeftHeader": {
-        "previewDataInfo": "Dados de visualização são mostrados em até 7 dias no passado caso a configuração SLI tenha sido criada recentemente. O widget final incluirá apenas dados desde a criação do SLI."
+        "previewDataInfo": "Os dados de visualização são mostrados apenas até 7 dias no passado. O widget final incluirá apenas dados desde a criação do SLI."
       },
       "boundaryScopeConfigurator": {
         "all": {
@@ -590,7 +590,9 @@
       "chart": {
         "metricLabel": "Apdex",
         "viewInAnalyze": "Visualizar em Análises",
-        "noDataRetentionPeriod": "Intervalo de tempo selecionado está além do período de retenção de dados"
+        "noDataRetentionPeriod": "Intervalo de tempo selecionado está além do período de retenção de dados",
+        "notFoundErrorTitle": "O Apdex configurado não foi localizado",
+        "notFoundErrorDescription": "Atualize o widget Apdex selecionando outra configuração do Apdex"
       },
       "demo": {
         "title": "Apdex para Produção",
@@ -644,13 +646,16 @@
         "apdexCreateFailedTitle": "Falha ao criar a configuração do Apdex.",
         "apdexCreateFailedContent": "Houve um problema ao criar esta configuração do Apdex: \"{{apdexName}}\"",
         "apdexNameNotEmpty": "O nome do Apdex não pode estar vazio.",
-        "thresholdNotEmpty": "O limite não pode estar vazio.",
-        "nameExistsError": "Uma configuração do Apdex com este nome já existe. Insira um nome diferente."
+        "nameExistsError": "Uma configuração do Apdex com este nome já existe. Insira um nome diferente.",
+        "limitReachedError": {
+          "website": "O número máximo de configurações de Apdex do website ({{0}}) foi alcançado. Entre em contato com o suporte Instana para solicitar um aumento para este limite.",
+          "application": "O número máximo de configurações de Apdex do aplicativo ({{0}}) foi alcançado. Entre em contato com o suporte Instana para solicitar um aumento para este limite."
+        },
+        "editConfigNotice": "A configuração não pode ser editada após a criação para evitar perda de dados."
       },
       "createWebsiteApdexForm": {
         "thresholdHeader": "Configuração de limite",
-        "thresholdLabel": "Limite",
-        "thresholdFooter": "O limite não pode ser editado após a criação para evitar perda de dados."
+        "thresholdLabel": "Limite"
       },
       "entityInfo": {
         "tooltip": "Apdex desconhecido",
@@ -660,7 +665,7 @@
       "widget": {
         "unknownEntityLabel_application": "Aplicativo desconhecido",
         "unknownEntityLabel_website": "Website desconhecido",
-        "previewDataInfo": "A visualização de dados é mostrada até sete dias no passado se a configuração do Apdex foi criada recentemente. O widget final incluirá apenas dados desde a criação do Apdex."
+        "previewDataInfo": "Os dados da visualização são mostrados para os últimos 7 dias. O widget final incluirá apenas dados desde a criação da configuração do Apdex."
       },
       "applicationScopeConfigurator": {
         "label": "Escopo do Apdex",

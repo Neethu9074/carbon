@@ -11,11 +11,11 @@ import { OrderDirection, TagFilter, TestResultListItem, TimeConfig } from '@inst
 import { formatDateTime, fromNow } from '@instana/format-date';
 import { t } from '@instana/i18n-react';
 
-// @ts-expect-error
+// @ts-expect-error Could not find declaration type
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-// @ts-expect-error
+// @ts-expect-error Could not find declaration type
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
-// @ts-expect-error
+// @ts-expect-error Could not find declaration type
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { bytesTwoDecimalPlaces, timeByMillisZeroDecimalPlaces } from 'in-services/formatters/number';
 import { syntheticsDashboard, syntheticDetailsPath } from 'in-synthetics/navigation/paths';
@@ -25,6 +25,8 @@ import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config'
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import buildLocationsMap from 'in-synthetics/utils/buildLocationsMap';
+import { TestResponse } from 'in-synthetics/utils/constants';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Footer from 'in-components/Footer/Footer';
 
@@ -32,8 +34,9 @@ import locals from 'in-synthetics/dashboards/summary/tabs/results/ResultsList.ml
 
 const pathSegment = '/results';
 const matrixPrefix = 'result.';
-let testId = '';
 const metrics = ['start_time', 'location_id', 'response_time', 'response_size', 'status', 'retries'];
+let testId = '';
+let locationsMap = new Map<string, string>();
 
 const columnDefinitions = [
   {
@@ -57,8 +60,26 @@ const columnDefinitions = [
             setOrDeleteMatrixKey(
               resultDetailsUrl,
               syntheticDetailsPath,
-              'start_time',
+              'startTime',
               get(item, ['metrics', 'start_time', 0, 1])
+            );
+            setOrDeleteMatrixKey(
+              resultDetailsUrl,
+              syntheticDetailsPath,
+              'status',
+              get(item, ['metrics', 'status', 0, 1], 0)
+            );
+            setOrDeleteMatrixKey(
+              resultDetailsUrl,
+              syntheticDetailsPath,
+              'responseTime',
+              get(item, ['metrics', 'response_time', 0, 1], 0)
+            );
+            setOrDeleteMatrixKey(
+              resultDetailsUrl,
+              syntheticDetailsPath,
+              'responseSize',
+              get(item, ['metrics', 'response_size', 0, 1], 0)
             );
             return resultDetailsUrl;
           })}
@@ -70,7 +91,13 @@ const columnDefinitions = [
     id: 'location_id',
     label: t('in-synthetics:dashboard.resultsListPage.locationColumn'),
     getContent(item: TestResultListItem) {
-      return <span className={locals.metricLabel}>{item.testResultCommonProperties.locationLabel}</span>;
+      return (
+        item.testResultCommonProperties.locationId && (
+          <span className={locals.metricLabel}>
+            {locationsMap.get(item.testResultCommonProperties.locationId) || ''}
+          </span>
+        )
+      );
     }
   },
   {
@@ -113,9 +140,19 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   matrixPrefix
 });
 
-export default function ResultsList() {
+interface ResultListProps {
+  test: TestResponse;
+}
+
+export default function ResultsList({ test }: ResultListProps) {
   const timeConfig = useTimeConfig();
   const location = useLocation();
+  const locationDisplayLabels = test.data?.locationDisplayLabels || [];
+  const locations = test.data?.locations || [];
+  locationsMap =
+    locationDisplayLabels.length === locations.length
+      ? buildLocationsMap(locations, locationDisplayLabels)
+      : new Map<string, string>();
   testId = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
 
   return (

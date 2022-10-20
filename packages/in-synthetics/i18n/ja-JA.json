@@ -87,7 +87,7 @@
       "mainLabel": "合成モニタリング",
       "secondaryLabels": {
         "tests": "テスト",
-        "location": "ロケーション"
+        "locations": "ロケーション"
       },
       "testLabel": "名前",
       "status": "状況",
@@ -106,10 +106,18 @@
       "applicationLabel": "アプリケーション",
       "health": "正常性",
       "action": "アクション",
-      "delete": "テストを削除",
+      "delete": "テストの削除",
       "labelConfirm": "ご確認ください",
       "labelConfirmRemoveTest": "シンセティック・テスト <strong>{{label}}</strong> を削除しますか?",
-      "labelRemove": "削除"
+      "labelRemove": "削除",
+      "na": "該当なし"
+    },
+    "locationList": {
+      "locationLabel": "ロケーション名",
+      "status": "状況",
+      "type": "タイプ",
+      "totalTests": "リンクされているテストの数",
+      "lastRun": "最終テスト実行日"
     },
     "summary": {
       "successRate": "成功率",
@@ -198,7 +206,9 @@
       "resultsTitle": "表示可能な結果はありません",
       "resultsDescription": "選択した時刻範囲について、取得された結果はありませんでした。",
       "testSummaryTitle": "使用可能なシンセティック・テストがありません",
-      "testSummaryDescription": "データベースから取得されたシンセティック・テストはありません。"
+      "testSummaryDescription": "データベースから取得されたシンセティック・テストはありません。",
+      "locationListTitle": "使用可能な合成ロケーションがありません",
+      "locationListDescription": "データベースから取得された合成ロケーションがありません。"
     }
   }
 }

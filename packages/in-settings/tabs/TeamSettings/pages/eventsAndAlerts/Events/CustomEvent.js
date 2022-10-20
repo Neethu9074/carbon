@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { combineLatest } from '@instana/observables';
 import { Stack } from '@instana/components';
 
 import {
@@ -14,8 +15,8 @@ import {
   createCustomThresholdBasedEventSpecification,
   getCustomEventSpecification,
   saveCustomEventSpecification,
-  getActionAssociationCustom,
-  saveActionAssociation
+  getCustomEventActions,
+  saveCustomEventSpecificationWithActions
 } from 'in-api/eventSpecifications';
 import {
   createEventFormDefinition,
@@ -59,6 +60,18 @@ import { t } from 'in-i18n';
 export default function CustomEvent(props) {
   const entityId = props.match.params.id;
 
+  function mergeResultData() {
+    const eventDetails$ = getCustomEventSpecification(entityId);
+    const actionDetails$ = getCustomEventActions(entityId);
+    // calling Get Event and Get action associations call and combining results
+    return combineLatest([eventDetails$, actionDetails$]).map(([eventResponse, actionResponse]) =>
+      eventResponse.set(
+        'actionIds',
+        actionResponse.map(action => action.id)
+      )
+    );
+  }
+
   return (
     <Form
       title={t('in-settings:tabs.event')}
@@ -66,9 +79,7 @@ export default function CustomEvent(props) {
       createDefaultEntity={createCustomThresholdBasedEventSpecification}
       createForm={event => createEventFormDefinition(event, !entityId)}
       getEntityFromApi={
-        role.canConfigureAutomationActions && actionAutomationEnabled
-          ? getActionAssociationCustom
-          : getCustomEventSpecification
+        role.canConfigureAutomationActions && actionAutomationEnabled ? mergeResultData : getCustomEventSpecification
       }
       openEntities={() => goToPath(teamSettingsAlertingEvents)}
       saveEntity={save}
@@ -102,16 +113,11 @@ const Form = entityForm(function DetailsForm(props) {
   const entityType = getPluginName(entity.get('entityType'), 1) ?? '';
   const isLegacyAppDataEntityType = isAppDataEntityType(entityType);
   const hasPermissionsToEditSmartAlerts = role.canConfigureCustomAlerts && role.canConfigureGlobalAlertConfigs;
-  // FIXME This check is incorrect, because check does not consider that the EVENTS context keyword could be us as the 1..N-th
-  //       keyword, or that brackets could be used.
-  const isMigrateableDfqScope = !entity.get('query')?.startsWith('event.');
-
   const isDeprecated = deprecateAppDataLegacyEventsEnabled && isLegacyAppDataEntityType;
 
   const isMigratable =
     isDeprecated &&
     hasPermissionsToEditSmartAlerts &&
-    isMigrateableDfqScope &&
     // only migrateable entities have the 'migrated' property set. For the other ones this prop is `undefined`, thus checking for false and not falsy.
     entity.get('migrated') === false;
 
@@ -140,7 +146,14 @@ const Form = entityForm(function DetailsForm(props) {
       </Stack>
       <SectionLine />
 
-      {(isDeleted || isDeprecated) && <LegacyAppdataEventInfoMessage migrated={isMigrated} saved deleted={isDeleted} />}
+      {(isDeleted || isDeprecated) && (
+        <LegacyAppdataEventInfoMessage
+          migrated={isMigrated}
+          saved
+          disallowed={disallowAppDataLegacyEventsEnabled}
+          deleted={isDeleted}
+        />
+      )}
 
       {message ? (
         <Section>
@@ -184,10 +197,9 @@ function save(event, form) {
   });
 
   const eventSpecification = getEventSpecification(event, form);
-  if (role.canConfigureAutomationActions && actionAutomationEnabled) {
-    const actions = actionIds.map(value => ({ id: value }));
-    eventSpecification.actions = actions;
-    return saveActionAssociation(eventSpecification);
+  if (role.canConfigureAutomationActions && actionAutomationEnabled && !isTriggering) {
+    eventSpecification.actions = actionIds?.map(value => ({ id: value }));
+    return saveCustomEventSpecificationWithActions(eventSpecification);
   } else {
     return saveCustomEventSpecification(eventSpecification);
   }

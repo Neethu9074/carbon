@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useLocation } from 'react-router';
 import { Route } from 'react-router-dom';
 import React from 'react';
 
@@ -14,9 +15,10 @@ import RedirectWithHash from 'in-components/RedirectWithHash';
 
 const path = '/dl';
 
-export default <Route path={path} component={DeepLink} />;
+export default <Route path={path} children={<DeepLink />} />;
 
-function DeepLink({ location }) {
+function DeepLink() {
+  const location = useLocation();
   const to$ =
     resolveApplicationsTraceIdDeepLink(location) ||
     resolveWebsitesPageLoadIdDeepLink(location) ||

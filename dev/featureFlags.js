@@ -38,7 +38,6 @@ module.exports = {
   ampEnabled: true,
   persistentVolumeSupportEnabled: true,
   loggingEnabled: true,
-  kubernetesLoggingEnabled: true,
   pseudoLanguageEnabled: true,
   syntheticCallsEnabled: true,
   applicationHealthOverviewEnabled: true,
@@ -57,11 +56,15 @@ module.exports = {
   smartAlertsLogsBlueprintEnabled: true,
   syntheticsTestEnabled: true,
   kubernetesExploreEnabled: true,
+  kubernetesTeamEnabled: true,
   configMigrationFeatureEnabled: true,
   sliCHClusterAccessEnabled: true,
   perSecondAggregationEnabled: false,
   apdexWidgetEnabled: true,
   applicationApdexEnabled: true,
   actionAutomationEnabled: true,
-  websiteUploadConfigEnabled: true
+  websiteUploadConfigEnabled: true,
+  pluginMetricStatisticsEnabled: true,
+  mobileAppCrashBeaconEnabled: true,
+  k8sTimeShiftEnabled: true
 };

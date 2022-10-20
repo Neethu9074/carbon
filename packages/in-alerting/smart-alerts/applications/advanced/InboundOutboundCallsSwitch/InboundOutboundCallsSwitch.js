@@ -71,6 +71,7 @@ export default function InboundOutboundCallsSwitch({ form, updateForm, isGlobalS
           confirmButtonLabel={t(
             'in-alerting:smartAlerts.applications.advanced.inboundOutboundCalls.confirmationDialog.confirmButtonLabel'
           )}
+          confirmButtonKind="primary"
           onSubmit={() => {
             updateBoundaryScopeAndResetSelection(boundaryScopes.inbound);
             close();

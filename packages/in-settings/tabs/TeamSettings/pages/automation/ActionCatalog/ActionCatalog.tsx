@@ -18,7 +18,6 @@ const tableActions = {
     deleteEntity: (action: Action) => deleteAction(action.id)
   }
 };
-
 export default function ActionCatalog() {
   return (
     <ActionTable
@@ -28,6 +27,7 @@ export default function ActionCatalog() {
       tableActions={tableActions}
       rightHeader={rightHeader()}
       loadEntities={getAllActions}
+      showActionLink
     />
   );
 }

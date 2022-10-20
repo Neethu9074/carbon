@@ -3,8 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { withState } from 'recompose';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { SIGNALS } from 'in-applications/ApplicationMap/serviceLocator/EventBusServiceLocator/EventBusService';
 import { getServiceLocators } from 'in-applications/ApplicationMap/serviceLocator/serviceLocator';
@@ -12,8 +11,8 @@ import SearchInput from 'in-components/SearchInput';
 
 import locals from './SearchBar.mless';
 
-export default withState('value', 'setValue', '')(SearchBar);
-function SearchBar({ serviceLocatorUid, value, setValue }) {
+export default function SearchBar({ serviceLocatorUid }) {
+  const [value, setValue] = useState('');
   const eventBusServiceLocator = getServiceLocators(serviceLocatorUid).eventBusServiceLocator;
 
   return (

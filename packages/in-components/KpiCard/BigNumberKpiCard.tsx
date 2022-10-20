@@ -33,6 +33,7 @@ export interface BigNumberKpiCardProps {
   config: Config | ConfigWithCompanionMetric;
   actions?: ReactNode;
   dragHandle?: ReactNode;
+  raw?: boolean;
 }
 
 export default function BigNumberKpiCard({
@@ -43,7 +44,8 @@ export default function BigNumberKpiCard({
   iconAction,
   config,
   actions,
-  dragHandle
+  dragHandle,
+  raw
 }: BigNumberKpiCardProps) {
   const timeConfig = useTimeConfig();
 
@@ -99,6 +101,7 @@ export default function BigNumberKpiCard({
           undefined
         )
       }
+      raw={raw}
     />
   );
 }

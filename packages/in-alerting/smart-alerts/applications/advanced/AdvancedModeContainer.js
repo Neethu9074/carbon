@@ -30,6 +30,7 @@ import { blueprintConfigs, getBlueprintConfig } from 'in-alerting/smart-alerts/a
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/smart-alert-dialog/ConfigureAlertChannel';
 import BluePrintSelectionSection from 'in-alerting/smart-alerts/applications/advanced/BluePrintSelectionSection';
 import { ApplicationAlertPreview } from 'in-alerting/smart-alerts/applications/advanced/ApplicationAlertPreview';
+import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { smartAlertsLogsBlueprintEnabled, adaptiveBaselineEnabled } from 'in-services/featureFlags';
@@ -56,6 +57,7 @@ export default function AdvancedModeContainer(props) {
     isTagFilterFormModelValid,
     applicationLabel,
     isGlobalSmartAlert,
+    TagBasedPayloadConfigurator,
     initialConfiguredApplications = {}
   } = props;
   const description = form.get('description').value;
@@ -138,7 +140,6 @@ export default function AdvancedModeContainer(props) {
                 migrationMode={migrationMode}
                 scopeMigrationDetails={scopeMigrationDetails}
                 initialConfiguredApplications={initialConfiguredApplications}
-                thresholdType={thresholdType}
               />
             </>
           )
@@ -250,7 +251,18 @@ export default function AdvancedModeContainer(props) {
           label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.payloadsOptional.label'),
           title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.payloadsOptional.title'),
           valid: isCustomPayloadValidOrUntouched(form),
-          content: <AlertConfigCustomPayload form={form} setForm={updateForm} />
+          content: (
+            <>
+              <GlobalCustomPayloadCard context="APPLICATION" />
+
+              <AlertConfigCustomPayload
+                form={form}
+                setForm={updateForm}
+                TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
+                supportDynamicTypes
+              />
+            </>
+          )
         }
       ]}
     />

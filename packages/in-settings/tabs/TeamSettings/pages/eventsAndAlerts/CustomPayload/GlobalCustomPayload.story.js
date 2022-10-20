@@ -5,31 +5,32 @@
 
 import React from 'react';
 
+import { createTagBasedPayloadConfigurator } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import GlobalCustomPayloadPage, {
-  CustomPayload
+  GlobalCustomPayload
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/GlobalCustomPayloadPage';
 import {
   staticType,
   dynamicType,
   enrichedWithUniqId
 } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
+import { error, success, successObservable, successObservableFactory } from 'in-services/util/result';
+import { someCommonTags } from 'in-alerting/smart-alerts/components/details/someCommonTagsTagCatalog';
 import { pendingResult } from 'in-services/fixedObjects';
-import { error, success } from 'in-services/util/result';
 import Code from 'in-components/Code';
 
 export default {
-  component: GlobalCustomPayloadPage
+  component: GlobalCustomPayloadPage,
+  argTypes: { save: { action: 'save' } }
 };
 
 export const Pending = {
-  argTypes: { save: { action: 'save' } },
   args: {
     result: pendingResult
   }
 };
 
 export const Failed_Data_Retrieval = {
-  argTypes: { save: { action: 'save' } },
   args: {
     result: error([
       {
@@ -41,7 +42,6 @@ export const Failed_Data_Retrieval = {
 };
 
 export const Empty = {
-  argTypes: { save: { action: 'save' } },
   args: {
     result: success({
       items: []
@@ -49,37 +49,54 @@ export const Empty = {
   }
 };
 
-export function WithAllTypesOfData(args) {
-  const exampleCustomPayload = {
-    fields: [
-      { type: staticType, key: 'testString', value: 'some value' },
-      { type: staticType, key: 'testBool', value: 'true' },
-      { type: staticType, key: 'testNumber', value: '42' },
-      {
-        type: dynamicType,
-        key: 'dynamicK8sClusterName',
-        value: { tagName: 'kubernetes.cluster.label', key: null }
-      },
-      {
-        key: 'myDynamicPayload',
-        type: dynamicType,
-        value: {
-          tagName: 'kubernetes.pod.label',
-          key: 'app' // key-matching is always EQUALS
-        }
-      },
-      {
-        key: 'mySecondDynamicPayload',
-        type: dynamicType,
-        value: {
-          tag: 'kubernetes.cluster.name',
-          key: null // only non-null for key-value pairs
-        }
+const exampleCustomPayload = {
+  fields: [
+    { type: staticType, key: 'testString', value: 'some value' },
+    { type: staticType, key: 'testBool', value: 'true' },
+    { type: staticType, key: 'testNumber', value: '42' },
+    {
+      type: dynamicType,
+      key: 'dynamicK8sClusterName',
+      value: { tagName: 'kubernetes.cluster.label', key: null }
+    },
+    {
+      key: 'long_tag_name',
+      type: dynamicType,
+      value: {
+        tagName: 'openshift.deploymentconfig.label',
+        key: 'Very long name usually not fit well.'
       }
-    ],
-    lastUpdated: 1600683042893
-  };
+    },
+    {
+      key: 'myDynamicPayload',
+      type: dynamicType,
+      value: {
+        tagName: 'kubernetes.pod.label',
+        key: 'applicationSprintMainClass'
+      }
+    },
+    {
+      key: 'mySecondDynamicPayload',
+      type: dynamicType,
+      value: {
+        tag: 'kubernetes.cluster.name',
+        key: null // only non-null for key-value pairs
+      }
+    }
+  ],
+  lastUpdated: 1600683042893
+};
 
+const GlobalTagBasedPayloadConfigurator = createTagBasedPayloadConfigurator({
+  getTagCatalog: () => successObservable(someCommonTags),
+  getSuggestions: successObservableFactory({
+    suggestions: ['a', 'b', 'c', 'aa', 'bb', 'cc', 'aa'],
+    results: [],
+    totalHits: 20
+  })
+});
+
+export function WithAllTypesOfData(args) {
   const mockResult = success({
     fields: exampleCustomPayload.fields.map(enrichedWithUniqId)
   });
@@ -92,11 +109,30 @@ export function WithAllTypesOfData(args) {
 
   return (
     <>
-      <CustomPayload {...args} result={mockResult} save={successFulSave} />
+      <GlobalCustomPayload
+        {...args}
+        result={mockResult}
+        save={successFulSave}
+        TagBasedPayloadConfigurator={GlobalTagBasedPayloadConfigurator}
+      />
 
       <p>For debugging purpose, this will be filled after saving:</p>
       <Code lang="json" code={JSON.stringify(payload, null, 4)} softWrap showLineNumbers />
     </>
   );
 }
-WithAllTypesOfData.argTypes = { save: { action: 'save' } };
+
+export function WithAllTypesOfDataReadOnly(args) {
+  const mockResult = success({
+    fields: exampleCustomPayload.fields.map(enrichedWithUniqId)
+  });
+
+  return (
+    <GlobalCustomPayload
+      {...args}
+      result={mockResult}
+      TagBasedPayloadConfigurator={GlobalTagBasedPayloadConfigurator}
+      canConfigureGlobalAlertPayload={false}
+    />
+  );
+}

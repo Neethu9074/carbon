@@ -6,8 +6,8 @@
 
 import React from 'react';
 
+import useApdexConfigWithPreview from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexConfigWithPreview';
 import useApdexWidgetTimeConfig from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexWidgetTimeConfig';
-import useApdexConfiguration from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexConfiguration';
 import useTagCatalogLoader from 'in-custom-dashboards/widgets/Apdex/hooks/useTagCatalogLoader';
 import useMonitoredEntity from 'in-custom-dashboards/widgets/Slo/hooks/useMonitoredEntity';
 import useApdexMetrics from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexMetrics';
@@ -31,7 +31,7 @@ export default function ApdexWidgetPresenter({
   const originalTimeConfig = useApdexWidgetTimeConfig(isPreview);
 
   const { entityType, entityId, apdexConfigId } = config;
-  const [apdexConfig, , , configProgress] = useApdexConfiguration(apdexConfigId);
+  const [apdexConfig, , , configProgress] = useApdexConfigWithPreview(apdexConfigId, isPreview);
 
   const tagCatalogLoader = useTagCatalogLoader(apdexConfig);
   const tagCatalog = useTagCatalog(tagCatalogLoader);

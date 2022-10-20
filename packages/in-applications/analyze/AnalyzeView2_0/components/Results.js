@@ -118,6 +118,9 @@ export default function Results(props) {
   return content;
 }
 
+const truncateTagFilterValue = value => {
+  return value.slice(0, 512);
+};
 function getTableData({
   timeConfig,
   backendQueryModel,
@@ -129,6 +132,11 @@ function getTableData({
 }) {
   const { includeSynthetic = false, includeInternal = false } = hiddenCalls;
   const getData = getDataPerDataSource[dataSource];
+  backendQueryModel?.elements?.forEach(element => {
+    if (element.value?.length > 512) {
+      element.value = truncateTagFilterValue(element.value);
+    }
+  });
   return getData({
     pagination: {
       cursor,

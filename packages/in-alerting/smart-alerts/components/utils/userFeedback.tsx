@@ -21,7 +21,7 @@ export function showSuccessMessage(
 
   addMessage({
     type: 'info',
-    timeout: 4000,
+    timeout: 10000,
     title: t(
       editMode
         ? 'in-alerting:smartAlerts.components.userInfo.success.edit.alert.title'

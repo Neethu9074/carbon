@@ -16,9 +16,11 @@ import {
   isAgentMonitoringIssueEvent,
   isApplicationSmartAlertEvent,
   isWebsiteSmartAlertEvent,
-  getTimeConfigForSnapshotRetrieval
+  getTimeConfigForSnapshotRetrieval,
+  isIbmMqFileTransferIssueEvent
 } from 'in-events/components/eventUtil';
 import { KubernetesEventContent, isKubernetesEvent } from 'in-events/components/EventContent/KubernetesEventContent';
+import IbmMqFileTransferMetadataTable from 'in-events/components/tabs/Summary/IbmMqFileTransferMetadataTable';
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
 import AgentMonitoringIssueDescription from 'in-events/components/legacy/AgentMonitoringIssueDescription';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
@@ -37,6 +39,7 @@ import PopulationChart from 'in-events/components/legacy/PopulationChart';
 import IncidentEventListRows from 'in-events/components/legacy/EventList';
 import { getSnapshot, getSnapshotVersions } from 'in-stores/snapshot';
 import EventDetailsKPIs from 'in-events/components/EventDetailsKPIs';
+import { actionAutomationEnabled } from 'in-services/featureFlags';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { getEventType, EVENT_TYPES } from 'in-stores/events';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
@@ -45,6 +48,7 @@ import { emptyList } from 'in-services/fixedImmutables';
 import getRecentEvents$ from 'in-events/recentEvents';
 import { Row, Col } from 'in-components/layout/Grid';
 import connectTo from 'in-hoc/connectTo';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './Summary.mless';
@@ -101,6 +105,7 @@ const EventContent = connectTo(
 
     const eventType = getEventType(event);
     const isIssue = eventType === EVENT_TYPES.ISSUE_WARNING || eventType === EVENT_TYPES.ISSUE_CRITICAL;
+    const hasEventSpec = event.getIn(['metadata', 'eventSpecificationId'], '') !== '';
 
     return (
       <>
@@ -132,13 +137,12 @@ const EventContent = connectTo(
                 <ProblemDescription event={event} className="in-event-view-event-content" />
               )}
               <DescriptionButtons>
-                <EventSpecificationLink event={event} />
+                <EventSpecificationLink event={event.toJS()} />
                 <AnalyzeIssueCallsButton event={event} />
               </DescriptionButtons>
             </Card>
           </Col>
         </Row>
-
         {isEntityVerificationEvent(event) || isHostAvailabilityEvent(event) ? (
           <Row withoutSideMargin>
             <Col xs>
@@ -171,11 +175,20 @@ const EventContent = connectTo(
             )}
           </>
         )}
-        {isIssue && (
+        {isIssue && isIbmMqFileTransferIssueEvent(event) && (
           <Row withoutSideMargin>
             <Col xs>
-              <Card title={t('in-events:associatedActions')}>
-                <AssociatedActions volatileId={snapshot?.get('volatileId') ?? {}} event={event} />
+              <IbmMqFileTransferMetadataTable
+                ibmMqFileTransferMetadata={event?.getIn(['metadata', 'ibmMqFileTransfer'], emptyList)?.toJS() ?? []}
+              />
+            </Col>
+          </Row>
+        )}
+        {actionAutomationEnabled && role.canConfigureAutomationActions && isIssue && hasEventSpec && (
+          <Row withoutSideMargin>
+            <Col xs>
+              <Card>
+                <AssociatedActions volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={event?.toJS()} />
               </Card>
             </Col>
           </Row>

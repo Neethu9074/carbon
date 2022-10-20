@@ -26,7 +26,7 @@ import { t } from 'in-i18n';
 
 import locals from './ServerTablePresenter.mless';
 
-interface ListItem extends Object {
+export interface ListItem extends Object {
   id?: string;
 }
 
@@ -38,6 +38,7 @@ export interface ServerTablePresenterProps<ItemType extends ListItem> extends Ta
   result?: Result<PaginatedResult<ItemType>> | Nullish;
   renderPagination?: (p: TableState) => React.ReactNode;
   fixedLayout?: boolean;
+  isScrollableTable?: boolean;
   rightHeader?: ((p: ServerTablePresenterProps<ItemType>) => React.ReactNode) | React.ReactNode;
   leftHeader?: React.ReactNode;
   isSearchable?: boolean;
@@ -66,6 +67,7 @@ export default function ServerTablePresenter<
     onRowClick,
     renderPagination,
     fixedLayout,
+    isScrollableTable = true,
     rightHeader,
     leftHeader,
     numSkeletonRows = 3,
@@ -126,7 +128,7 @@ export default function ServerTablePresenter<
   }
 
   const tableElement = (
-    <div className={locals.scrollableTable}>
+    <div className={classNames({ [locals.scrollableTable]: isScrollableTable })}>
       <Table fixedLayout={fixedLayout} tableInCard={tableInCard || cardTitle != null} className="">
         <Thead>
           <Columns

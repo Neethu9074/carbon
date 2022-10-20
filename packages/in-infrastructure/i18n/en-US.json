@@ -63,8 +63,11 @@
     "name": "Name",
     "search": "Search",
     "explore": "Explore",
-    "cpuUser": "CPU (user)",
-    "memoryFree": "Memory Free"
+    "count": "Count",
+    "errors": {
+      "maximumNumberOfGroups": "This query has too many results. Please narrow down using a more restrictive filter or broader groups",
+      "generalError": "An unexpected error occurred. Please narrown down using a more restrictive filter and try again"
+    }
   },
   "tableView": {
     "showCountsAndAveragesAcrossTheCurrentTimeWindow": "Show counts and averages across the current time window.",

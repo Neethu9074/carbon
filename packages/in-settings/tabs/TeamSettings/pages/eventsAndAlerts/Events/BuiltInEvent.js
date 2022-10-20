@@ -9,11 +9,11 @@ import { combineLatest } from '@instana/observables';
 
 import {
   createCustomThresholdBasedEventSpecification,
-  getActionAssociationBuiltin,
-  saveActionAssociationBuiltin
+  getBuiltinEventActions,
+  saveBuiltinEventSpecificationWithActions
 } from 'in-api/eventSpecifications';
 import { createBuiltinEventFormDefinition } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/BuiltinEventFormContent';
-import ActionsSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ActionsSelection';
+import { ActionsSelection } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/sharedActions';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
@@ -25,8 +25,10 @@ import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
 import SaveCancel from 'in-settings/components/SaveCancel';
+import Notification from 'in-components/form/Notification';
 import FormGroup from 'in-settings/components/FormGroup';
 import Table from 'in-sdk/components/dashboard/Table';
+import Section from 'in-settings/components/Section';
 import { getPlainMetricList } from 'in-sdk/metrics';
 import { compare } from 'in-services/util/number';
 import PluginIcon from 'in-components/PluginIcon';
@@ -53,21 +55,20 @@ export default function BuiltinEvent(props) {
 
   function mergeResultData() {
     const eventDetails$ = getBuiltInEventSpecification(entityId);
-    const actionDetails$ = getActionAssociationBuiltin(entityId);
+    const actionDetails$ = getBuiltinEventActions(entityId);
     // calling Get Event and Get action associations call and combining results
     return combineLatest([eventDetails$, actionDetails$]).map(([eventResponse, actionResponse]) =>
       eventResponse.set(
         'actionIds',
-        actionResponse.toJS().map(action => action.id)
+        actionResponse.map(action => action.id)
       )
     );
   }
 
   function save(form) {
     const actionIds = form.get('actionIds')?.value ?? [];
-    const actions = actionIds.map(value => ({ id: value }));
-
-    return saveActionAssociationBuiltin(actions, entityId);
+    const actions = actionIds.length > 0 ? actionIds.map(value => ({ id: value })) : [];
+    return saveBuiltinEventSpecificationWithActions(actions, entityId);
   }
 
   return (
@@ -76,7 +77,9 @@ export default function BuiltinEvent(props) {
       entityId={entityId}
       createDefaultEntity={createCustomThresholdBasedEventSpecification}
       createForm={event => createBuiltinEventFormDefinition(event)}
-      getEntityFromApi={mergeResultData}
+      getEntityFromApi={
+        role.canConfigureAutomationActions && actionAutomationEnabled ? mergeResultData : getBuiltInEventSpecification
+      }
       openEntities={() => goToPath(teamSettingsAlertingEvents)}
       saveEntity={(_, form) => save(form)}
     />
@@ -84,7 +87,7 @@ export default function BuiltinEvent(props) {
 }
 
 const Form = entityForm(function DetailsForm(props) {
-  const { entity, form, setForm, isCreate, saveEnabled } = props;
+  const { entity, form, setForm, isCreate, saveEnabled, message, error, loading } = props;
 
   if (!entity || !form) {
     return <LoadingIndicator />;
@@ -164,17 +167,26 @@ const Form = entityForm(function DetailsForm(props) {
         <Label>{t('in-settings:tabs.parameters')}</Label>
         <Table cols={paramCols} rows={paramRows} />
       </FormGroup>
-      {role.canConfigureAutomationActions && actionAutomationEnabled && (
+      {message ? (
+        <Section>
+          <Notification failure={error} loading={loading}>
+            {message}
+          </Notification>
+        </Section>
+      ) : null}
+      {role.canConfigureAutomationActions && actionAutomationEnabled && !entity.get('triggering') && (
         <>
           <SectionHeading>{t('in-settings:tabs.ActionAssociations')}</SectionHeading>
-          <ActionsSelection form={form} setForm={setForm} entity={entity} />
+          <ActionsSelection form={form} setForm={setForm} entityId={entity} />
         </>
       )}
       <SaveCancel
         form={form}
-        message=""
+        message={message}
         loading={!entity}
-        saveEnabled={saveEnabled && role.canConfigureAutomationActions && actionAutomationEnabled}
+        hasSaveButton={
+          saveEnabled && role.canConfigureAutomationActions && actionAutomationEnabled && !entity.get('triggering')
+        }
         isCreate={isCreate}
         listPath={teamSettingsAlertingEvents}
         cancelButtonLabel={t('in-settings:tabs.back')}

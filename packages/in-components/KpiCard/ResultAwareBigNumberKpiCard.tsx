@@ -44,6 +44,7 @@ export interface ResultAwareBigNumberKpiCardProps {
   actions?: ReactNode;
   dragHandle?: ReactNode;
   result: Result<MetricResult[]>;
+  raw?: boolean;
 }
 
 export function isConfigWithCompanionMetric(
@@ -61,7 +62,8 @@ export default function ResultAwareBigNumberKpiCard({
   config,
   actions,
   dragHandle,
-  result
+  result,
+  raw
 }: ResultAwareBigNumberKpiCardProps) {
   const timeConfig = useTimeConfig();
 
@@ -91,7 +93,8 @@ export default function ResultAwareBigNumberKpiCard({
           iconAction,
           actions,
           dragHandle,
-          useMaxAvailableHeight
+          useMaxAvailableHeight,
+          raw
         )
       }
     />
@@ -108,7 +111,8 @@ export function renderKpiCard(
   iconAction: IconAction | undefined,
   actions: ReactNode,
   dragHandle: ReactNode,
-  useMaxAvailableHeight: boolean | undefined
+  useMaxAvailableHeight: boolean | undefined,
+  raw: boolean | undefined
 ) {
   let value = null;
   const dataPoint = find(result.data, ({ id }) => id === metricKey);
@@ -147,6 +151,7 @@ export function renderKpiCard(
       }
       iconAction={iconAction}
       resultPrecision={resultPrecisions}
+      raw={raw}
     />
   );
 }

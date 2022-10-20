@@ -32,7 +32,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/components/list/SliList', () => {
     const selectSli = jest.fn();
 
     // When
-    const wrapper = shallow(<SliList selectSli={selectSli} />);
+    const wrapper = shallow(<SliList selectSli={selectSli} fetchedConfigState={[]} />);
 
     // Then
     expect(wrapper.first().prop('onRowClick')).toBeUndefined();
@@ -49,7 +49,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/components/list/SliList', () => {
       };
 
       // When
-      const listWrapper = shallow(<SliList />);
+      const listWrapper = shallow(<SliList fetchedConfigState={[]} />);
       const columnDefinitions = listWrapper.first().prop('columnDefinitions');
       const nameColumn = columnDefinitions.find(definition => definition.id === 'name');
       const wrapper = shallow(nameColumn.getContent(config));
@@ -71,7 +71,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/components/list/SliList', () => {
       };
 
       // When
-      const listWrapper = shallow(<SliList />);
+      const listWrapper = shallow(<SliList fetchedConfigState={[]} />);
       const columnDefinitions = listWrapper.first().prop('columnDefinitions');
       const nameColumn = columnDefinitions.find(definition => definition.id === 'name');
       const wrapper = shallow(nameColumn.getContent(config));
@@ -92,7 +92,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/components/list/SliList', () => {
       };
 
       // When
-      const listWrapper = shallow(<SliList />);
+      const listWrapper = shallow(<SliList fetchedConfigState={[]} />);
       const columnDefinitions = listWrapper.first().prop('columnDefinitions');
       const nameColumn = columnDefinitions.find(definition => definition.id === 'name');
       const wrapper = shallow(nameColumn.getContent(config));
@@ -112,7 +112,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/components/list/SliList', () => {
       };
 
       // When
-      const listWrapper = shallow(<SliList />);
+      const listWrapper = shallow(<SliList fetchedConfigState={[]} />);
       const columnDefinitions = listWrapper.first().prop('columnDefinitions');
       const nameColumn = columnDefinitions.find(definition => definition.id === 'name');
       const wrapper = shallow(nameColumn.getContent(config));
@@ -137,7 +137,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/components/list/SliList', () => {
       };
 
       // When
-      const listWrapper = shallow(<SliList />);
+      const listWrapper = shallow(<SliList fetchedConfigState={[]} />);
       const columnDefinitions = listWrapper.first().prop('columnDefinitions');
       const metricColumn = columnDefinitions.find(definition => definition.id === 'metric');
       const content = metricColumn.getContent(config);
@@ -162,7 +162,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/components/list/SliList', () => {
       };
 
       // When
-      const listWrapper = shallow(<SliList />);
+      const listWrapper = shallow(<SliList fetchedConfigState={[]} />);
       const columnDefinitions = listWrapper.first().prop('columnDefinitions');
       const metricColumn = columnDefinitions.find(definition => definition.id === 'metric');
       const content = metricColumn.getContent(config);
@@ -186,7 +186,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/components/list/SliList', () => {
       };
 
       // When
-      const listWrapper = shallow(<SliList />);
+      const listWrapper = shallow(<SliList fetchedConfigState={[]} />);
       const columnDefinitions = listWrapper.first().prop('columnDefinitions');
       const metricColumn = columnDefinitions.find(definition => definition.id === 'metric');
       const content = metricColumn.getContent(config);
@@ -211,7 +211,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/components/list/SliList', () => {
         };
 
         // When
-        const listWrapper = shallow(<SliList />);
+        const listWrapper = shallow(<SliList fetchedConfigState={[]} />);
         const columnDefinitions = listWrapper.first().prop('columnDefinitions');
         const metricColumn = columnDefinitions.find(definition => definition.id === 'metric');
         const content = metricColumn.getContent(config);
@@ -229,7 +229,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/components/list/SliList', () => {
       const onDelete = jest.fn();
 
       // When
-      const listWrapper = shallow(<SliList />);
+      const listWrapper = shallow(<SliList fetchedConfigState={[]} />);
       const columnDefinitions = listWrapper.first().prop('columnDefinitions');
       const deleteColumn = columnDefinitions.find(definition => definition.id === 'delete');
       const content = deleteColumn.getContent({}, { onDelete });

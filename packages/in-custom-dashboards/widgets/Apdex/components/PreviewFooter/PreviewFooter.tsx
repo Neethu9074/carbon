@@ -16,8 +16,8 @@ export default function PreviewFooter() {
   return (
     <div className={locals.wrapper}>
       <Stack direction="horizontal" align="center">
-        <SvgIcon type="lib_help_error_warning_outline" />
-        {t('in-custom-dashboards:widgets.apdex.createWebsiteApdexForm.thresholdFooter')}
+        <SvgIcon type="lib_help_error_info_outline" />
+        {t('in-custom-dashboards:widgets.apdex.widget.previewDataInfo')}
       </Stack>
     </div>
   );

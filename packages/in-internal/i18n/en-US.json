@@ -87,8 +87,10 @@
       "tip": "Tip",
       "internalMonitoringUnitInstanaEmail": "Did you know that these features are also available on customer tenant units? They are hidden by                    default, but can be shown with a small trick. To enable them click 10 times (within 2 seconds) on                    the non-interactive part of our main navigation!",
       "thisTenantUnit": "This Unit** ({{configTenant}}-{{configTenantUnit}})",
-      "entityStatistics": "Entity and Metric Statistics",
-      "entityStatisticsDesc": "Shows how many infrastructure entities and metrics are monitored within this unit, broken down by plugin.",
+      "entityStatistics": "Entity Statistics",
+      "entityAndMetricStatistics": "Entity and Metric Statistics",
+      "entityStatisticsDesc": "Shows how many infrastructure entities are monitored within this unit, broken down by plugin.",
+      "entityAndMetricStatisticsDesc": "Shows how many infrastructure entities and metrics are monitored within this unit, broken down by plugin.",
       "agentsDesc": "Metrics for all agents reporting to this unit.",
       "graphExplorer": "Graph Explorer",
       "graphExplorerDesc": "Use this to analyze graph relations between infrastructure entities existing within this unit.",
@@ -136,7 +138,9 @@
       "elasticsearchNg": "ElasticsearchNG",
       "kafka": "Kafka",
       "demous": "demous",
-      "demoeu": "demoeu"
+      "demoeu": "demoeu",
+      "wsTesterTitle": "Websocket Api Tester",
+      "wsTesterDescription": "Tool for testing WebSocket subscriptions"
     },
     "internalViewWrapper": {
       "internal": "Internal"
@@ -915,8 +919,8 @@
         "plugin": "Plugin",
         "count": "Entity Count",
         "metricCount": "Metric Count",
-        "entityCount": "Entity and Metric Counts",
-        "perPluginEntityCount": "Per Plugin Entity and Metric Counts"
+        "entityAndMetricCount": "Entity and Metric Counts",
+        "perPluginEntityAndMetricCount": "Per Plugin Entity and Metric Counts"
       },
       "eum": {
         "websiteBeacons": "Website Beacons",
@@ -1119,7 +1123,8 @@
         "entityAndMetricCount": "Entity And Metric Counts",
         "entityCount": "Entity Count",
         "metricCount": "Metric Count",
-        "perPluginEntityCount": "Per Plugin Entity and Metric Counts"
+        "perPluginEntityCount": "Per Plugin Entity Counts",
+        "perPluginEntityAndMetricCount": "Per Plugin Entity and Metric Counts"
       }
     }
   },
@@ -1133,6 +1138,19 @@
     "snapshotVersions": {
       "snapshotId": "snapshotId...",
       "refresh": "Refresh"
+    },
+    "wsApiTester": {
+      "title": "Websocket Api Tester",
+      "subscriptionConfigHeader": "Subscription Configuration",
+      "eventIdInputLabel": "Event Id",
+      "eventParametersLabel": "Event Parameters",
+      "responsesHeader": "Responses",
+      "subscribeButtonLabel": "Subscribe",
+      "disconnectButtonLabel": "Disconnect",
+      "subscriptionFailureMessage": "Failed to create subscription",
+      "latencyLabel": "Latency",
+      "prettyPrintButtonLabel": "Pretty Print",
+      "errorNotice": "NOTE: Due to limitations in ui-clients subscription handling, some errors will only show up in your browsers console. Please check there if you are not getting any responses to your subscription. In production builds errors might be hidden completely, please check the raw websocket messages in that case."
     }
   }
 }

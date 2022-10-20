@@ -106,15 +106,11 @@ const infrastructureLogging = isDevModeBuild ? { level: 'warn' } : undefined;
 const webpackFontsRules = [
   {
     test: /\.(ttf|eot|obj)$/i,
-    use: [{ loader: 'url-loader?limit=3000' }]
+    type: 'asset/resource'
   },
   {
     test: /\.woff?$/,
-    use: [
-      {
-        loader: 'url-loader?limit=3000&mimetype=application/font-woff'
-      }
-    ]
+    type: 'asset/resource'
   }
 ];
 
@@ -135,7 +131,7 @@ const webpackStyleRules = [
 
 const webpackImageRule = {
   test: /\.(jpe?g|gif|png|svg)$/i,
-  use: [{ loader: 'url-loader?limit=3000!image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false' }]
+  type: 'asset/resource'
 };
 
 const webpackShaderRule = {

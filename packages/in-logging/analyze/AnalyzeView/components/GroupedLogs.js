@@ -11,7 +11,7 @@ import { FacetedSearchPresenter } from 'in-logging/analyze/AnalyzeView/component
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
 import { ChartsPresenter } from 'in-logging/analyze/AnalyzeView/components/ChartsPresenter';
 import GroupedView, { GROUP_COLORS } from 'in-components/AnalyzeView/GroupedView';
-import Logs from 'in-logging/analyze/AnalyzeView/components/Logs';
+import { Logs } from 'in-logging/analyze/AnalyzeView/components/Logs';
 import getLogGroups from 'in-logging/subscriptions/getLogGroups';
 import { percentage } from 'in-services/formatters/number';
 import { LOG_LEVEL } from 'in-logging/queryBuilder';

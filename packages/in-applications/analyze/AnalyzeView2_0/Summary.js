@@ -278,22 +278,6 @@ export default function Summary({
           </Row>
         )}
 
-        <Row singleRowTopMargin withoutSideMargin>
-          <Col lg={12}>
-            <Card title={t('in-applications:traceDetail.tabs.summary.serviceEndpointList')}>
-              <ServiceEndpointList
-                traceId={traceId}
-                getColor={getColor}
-                onListItemMouseEnter={service => hoveredServiceEndpoint$.emit(service)}
-                onListItemMouseLeave={() => hoveredServiceEndpoint$.emit(null)}
-                onClickTracker={e => {
-                  tracker.traceViewTraceServiceEndpointListClickedTracker(e);
-                }}
-              />
-            </Card>
-          </Col>
-        </Row>
-
         {isLargeTrace && !showLargeTrace && (
           <Row withoutSideMargin>
             <Col lg={12}>
@@ -395,6 +379,21 @@ export default function Summary({
             </Row>
           </ErrorBoundary>
         )}
+        <Row singleRowTopMargin withoutSideMargin>
+          <Col lg={12}>
+            <Card title={t('in-applications:traceDetail.tabs.summary.serviceEndpointList')}>
+              <ServiceEndpointList
+                traceId={traceId}
+                getColor={getColor}
+                onListItemMouseEnter={service => hoveredServiceEndpoint$.emit(service)}
+                onListItemMouseLeave={() => hoveredServiceEndpoint$.emit(null)}
+                onClickTracker={e => {
+                  tracker.traceViewTraceServiceEndpointListClickedTracker(e);
+                }}
+              />
+            </Card>
+          </Col>
+        </Row>
       </div>
     </ContentWrapper>
   );

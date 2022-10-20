@@ -6,21 +6,13 @@
 import React from 'react';
 
 import { Toggle, Spacer } from '@instana/components';
-import { useObservable } from '@instana/hooks';
 
-import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from './FastQueryModeToggle.mless';
 
 export default function FastQueryModeToggle({ fastQueryModeEnabled, onChangeFastQueryModeEnabled }) {
-  const internalVisible = useObservable(isInternalVisible$, []) || false;
-
-  if (!internalVisible) {
-    return null;
-  }
-
   return (
     <div className={locals.preview}>
       <Tooltip content={t('in-applications:analyze.fastQueryModeTooltip')} delay={500}>

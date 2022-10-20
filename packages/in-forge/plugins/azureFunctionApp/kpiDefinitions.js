@@ -9,8 +9,8 @@ import { t } from 'in-i18n';
 
 export default [
   {
-    label: t('in-forge:plugins.azureFunctionApp.labelRqTo'),
-    metric: 'rq_to',
+    label: t('in-forge:plugins.azureFunctionApp.labelReTo'),
+    metric: 're_to',
     formatter: number.detailed
   },
   {

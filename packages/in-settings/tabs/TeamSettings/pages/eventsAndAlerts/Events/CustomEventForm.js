@@ -66,19 +66,19 @@ import {
   scopeHostsByTag
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import {
-  actionAutomationEnabled,
-  deprecateAppDataLegacyEventsEnabled,
-  hideAppDataLegacyEventsEnabled,
-  disallowAppDataLegacyEventsEnabled
-} from 'in-services/featureFlags';
-import {
   containsMetricInList,
   getAllBuiltInMetrics,
   getMetricDefinition,
   isBuiltInDynamicMetric,
   isBuiltInPlainMetric,
-  isMetricPercentile
+  isBackendAggregatedPercentileMetric
 } from 'in-sdk/metrics';
+import {
+  actionAutomationEnabled,
+  deprecateAppDataLegacyEventsEnabled,
+  disallowAppDataLegacyEventsEnabled,
+  hideAppDataLegacyEventsEnabled
+} from 'in-services/featureFlags';
 import {
   formatterTypeToDefinition,
   getEntityTypeOptionsOfBuiltInMetrics,
@@ -90,7 +90,7 @@ import BuiltInMetricSelector from 'in-settings/tabs/TeamSettings/pages/eventsAnd
 import CustomMetricSelector from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/CustomMetricSelector';
 import HostAvailabilityFormGroup from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/HostAvailabilityFormGroup';
 import ScopeHostsByTagFormGroup from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ScopeHostsByTagFormGroup';
-import ActionsSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ActionsSelection';
+import { ActionsSelection } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/sharedActions';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
 import { compareIgnoreCase, isBlank, isNotBlank } from 'in-services/util/string';
@@ -205,8 +205,7 @@ function EventForm({
   setSaveEnabled,
   hideLegacyAppDataEventDeprecationInfo,
   existingApplication,
-  disabled,
-  entity
+  disabled
 }) {
   applyQueryValidationResult(queryValidationResult, form, onChange);
 
@@ -637,12 +636,6 @@ function EventForm({
           )}
         </Col>
       </Row>
-      {role.canConfigureAutomationActions && actionAutomationEnabled && (
-        <>
-          <SectionHeading>{t('in-settings:tabs.4ActionAssociations')}</SectionHeading>
-          <ActionsSelection form={form} setForm={setForm} entity={entity} />
-        </>
-      )}
       {form.get('applyOn').value === scopeApplication &&
         form.get('applicationIds').map(field => (
           <FormGroup>
@@ -676,6 +669,12 @@ function EventForm({
             <TouchedMessages field={field} />
           </FormGroup>
         ))}
+      {role.canConfigureAutomationActions && actionAutomationEnabled && !form.get('triggering').value && (
+        <>
+          <SectionHeading>{t('in-settings:tabs.4ActionAssociations')}</SectionHeading>
+          <ActionsSelection form={form} setForm={setForm} />
+        </>
+      )}
     </fieldset>
   );
 
@@ -1055,7 +1054,7 @@ function isPercentile(form) {
 
   const metricName = form.get('metricName').value;
   const entityType = form.get('entityType').value;
-  return isMetricPercentile(entityType, metricName);
+  return isBackendAggregatedPercentileMetric(entityType, metricName);
 }
 
 function createIssueForPreview(form) {

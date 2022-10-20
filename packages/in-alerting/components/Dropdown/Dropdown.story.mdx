@@ -1,9 +1,9 @@
 import { Meta, Story, Preview, Props } from '@storybook/addon-docs';
 import { action as storybookAction } from '@storybook/addon-actions';
 import { useState } from 'react';
+import { Stack } from '@instana/components';
 
 import Dropdown from 'in-alerting/components/Dropdown';
-
 
 <Meta title="auto-generated" component={Dropdown} />
 
@@ -15,25 +15,27 @@ Check out `MoreMenu` for a ready-made solution or `Combobox` which allows custom
 
 <Preview>
   <Story name="default">
-    <>
-      <p>
-        <Dropdown value="plain" items={[{ value: 'plain', label: 'Plain Dropdown' }]} />
-      </p>
-      <p>
-        <Dropdown icon="lib_actions_settings" value="with_icon" items={[{ value: 'with_icon', label: 'Dropdown With Icon' }]} />
-      </p>
-      <p>
-        <Dropdown icon="lib_actions_settings" value="simple_style" asSimpleDropdown items={[{ value: 'simple_style', label: 'Dropdown in \'Simple\' Style' }]} />
-      </p>
-    </>
+    <Stack direction="vertical" align="start">
+      <Dropdown value="plain" items={[{ value: 'plain', label: 'Plain Dropdown' }]} />
+      <Dropdown
+        icon="lib_actions_settings"
+        value="with_icon"
+        items={[{ value: 'with_icon', label: 'Dropdown With Icon' }]}
+      />
+      <Dropdown
+        icon="lib_actions_settings"
+        value="simple_style"
+        asSimpleDropdown
+        items={[{ value: 'simple_style', label: "Dropdown in 'Simple' Style" }]}
+      />
+    </Stack>
   </Story>
 </Preview>
 
-
 ## Triggering onChange and handling duplicates:
 
-* When selecting the **currently selected** item, this component **ignores** to call the onChange callback.
-* When there are duplicated values, it **will not switch** to a different entry when the **value was equal**.
+- When selecting the **currently selected** item, this component **ignores** to call the onChange callback.
+- When there are duplicated values, it **will not switch** to a different entry when the **value was equal**.
 
 You can test this by watching the results in Storybook's Action addon tab.
 
@@ -42,29 +44,28 @@ You can test this by watching the results in Storybook's Action addon tab.
     {() => {
       const [currentValue, setCurrentValue] = useState(3);
       return (
-        <>
-          <p>
-            <Dropdown
-              value={currentValue}
-              onChange={value => {
-                storybookAction('onChange')(value);
-                setCurrentValue(value);
-              }}
-              items={[
-                { value: 1, label: 'Foobar' },
-                { value: 2, label: 'Baz' },
-                { value: 3, label: 'Duplicate A' },
-                { value: 3, label: 'Duplicate B' }
-              ]}
-            />
-          </p>
-          <dt>Selected item value:</dt>
-          <dd>{current.value}</dd>
-        </>
+        <Stack direction="vertical" align="start">
+          <Dropdown
+            value={currentValue}
+            onChange={value => {
+              storybookAction('onChange')(value);
+              setCurrentValue(value);
+            }}
+            items={[
+              { value: 1, label: 'Foobar (value: 1)' },
+              { value: 2, label: 'Baz (value: 2)' },
+              { value: 3, label: 'Duplicate A (value: 3)' },
+              { value: 3, label: 'Duplicate B (value: 3)' }
+            ]}
+          />
+          <dt>Selected item's value:</dt>
+          <dd>{currentValue}</dd>
+        </Stack>
       );
     }}
   </Story>
 </Preview>
 
 ### Props
+
 <Props of={Dropdown} />

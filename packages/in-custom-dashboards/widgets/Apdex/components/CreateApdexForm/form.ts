@@ -11,7 +11,7 @@ import {
   ApplicationApdexEntity,
   ApplicationBoundaryScope,
   ApdexConfiguration,
-  ApdexEntityUnion
+  WebsiteApdexEntity
 } from '@instana/types';
 
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
@@ -53,12 +53,12 @@ export function createForm(
     .put(
       apdexEntityKey,
       isWebsiteEntity
-        ? createWebsiteEntityForm(entityId, apdexEntity ?? {})
+        ? createWebsiteEntityForm(entityId, (apdexEntity as WebsiteApdexEntity) ?? {})
         : createApplicationEntityForm(entityId, (apdexEntity as ApplicationApdexEntity) ?? {})
     );
 }
 
-export function createWebsiteEntityForm(websiteId: string, apdexEntity: Partial<ApdexEntityUnion>): MapForm {
+export function createWebsiteEntityForm(websiteId: string, apdexEntity: Partial<WebsiteApdexEntity>): MapForm {
   return createMapForm()
     .put(
       entityIdKey,
@@ -76,7 +76,7 @@ export function createWebsiteEntityForm(websiteId: string, apdexEntity: Partial<
     .put(
       beaconTypeKey,
       createField({
-        value: 'httpRequest'
+        value: apdexEntity.beaconType ?? 'httpRequest'
       })
     )
     .put(

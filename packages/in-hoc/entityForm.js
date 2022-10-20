@@ -114,6 +114,7 @@ export default function entityForm(ComposedComponent) {
 
     function onSubmit(e) {
       e.preventDefault();
+
       const { entity, form } = state;
 
       if (!form.hierarchyValid) {
@@ -145,7 +146,23 @@ export default function entityForm(ComposedComponent) {
       });
 
       errorSubscription.current = result$.errors().once(error => {
-        showErrorMessages(error);
+        let message = error.message;
+        if (
+          error.response &&
+          error.response.body &&
+          error.response.body.errors &&
+          error.response.body.errors.length > 0
+        ) {
+          message = error.response.body.errors.join(', ');
+        }
+        scrollToTopSmoothly();
+        props.onSaveError?.(message);
+        setState({
+          ...state,
+          loading: false,
+          error: true,
+          message: t('in-hoc:entityFormFailedToSave', { SaveFailureMessage: message })
+        });
       });
     }
 
@@ -157,26 +174,6 @@ export default function entityForm(ComposedComponent) {
       if (errorSubscription.current) {
         errorSubscription.current.dispose();
       }
-    }
-
-    function showErrorMessages(error) {
-      let message = error.message;
-      if (
-        error.response &&
-        error.response.body &&
-        error.response.body.errors &&
-        error.response.body.errors.length > 0
-      ) {
-        message = error.response.body.errors.join(', ');
-      }
-      scrollToTopSmoothly();
-      props.onSaveError?.(message);
-      setState({
-        ...state,
-        loading: false,
-        error: true,
-        message: t('in-hoc:entityFormFailedToSave', { SaveFailureMessage: message })
-      });
     }
 
     function onChange(fieldName, value, updateFormDefinition, forceSetValue) {

@@ -9,6 +9,7 @@ import { useObservable } from '@instana/hooks';
 import { empty } from '@instana/observables';
 
 import { useRemoveInvalidTagsFromFilterExpression } from 'in-alerting/smart-alerts/applications/hooks/useRemoveInvalidTagsFromFilterExpression';
+import useTagBasedApplicationPayloadConfigurator from 'in-alerting/smart-alerts/applications/hooks/useTagBasedApplicationPayloadConfigurator';
 import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertConfigDialogPresenter';
 import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/applications/components/useSimpleModePageNavigation';
 import { AdvancedModeFooter } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AdvancedModeFooter';
@@ -19,13 +20,13 @@ import { getEnhancedTagFilterFormModel } from 'in-alerting/smart-alerts/componen
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import { updateThresholdInForm } from 'in-alerting/smart-alerts/components/smart-alert-dialog/sharedFunctions';
 import { stepConfigs, stepRenderers } from 'in-alerting/smart-alerts/applications/simple/simpleModeSteps';
-import { SimpleDialogFooter } from 'in-alerting/smart-alerts/applications/components/SimpleDialogFooter';
 import AdvancedModeContainer from 'in-alerting/smart-alerts/applications/advanced/AdvancedModeContainer';
 import { isValidChartViewEntitySelection } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/AlertingChartWrapper';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { applicationsAlertingStepSwitch } from 'in-alerting/smart-alerts/applications/tracker';
+import { SimpleDialogFooter } from 'in-components/BlueprintFormMultistep/SimpleDialogFooter';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
@@ -138,6 +139,8 @@ function SmartAlertConfigDialogWithQueryValidation({
     onStepChanged: (oldStep, nextStep) => applicationsAlertingStepSwitch({ oldStep, nextStep })
   });
 
+  const isCalculatingThreshold = useObservable(thresholdOrBaselineLoadingSignal$, []);
+
   const footer = simpleMode ? (
     <SimpleDialogFooter
       step={step}
@@ -148,7 +151,7 @@ function SmartAlertConfigDialogWithQueryValidation({
       form={form}
       isSaving={isSaving}
       formId={FORM_ID}
-      additionalStepCheck={step => (step === 1 ? true : isTagFilterFormModelValid)}
+      additionalStepCheck={step => (step === 1 ? true : isTagFilterFormModelValid) && !isCalculatingThreshold}
     />
   ) : (
     <AdvancedModeFooter
@@ -164,6 +167,10 @@ function SmartAlertConfigDialogWithQueryValidation({
     />
   );
 
+  const boundaryScope = form.get('boundaryScope')?.value || 'ALL';
+  const applications = form.get('applications')?.value || {};
+  const TagBasedPayloadConfigurator = useTagBasedApplicationPayloadConfigurator(applications, boundaryScope);
+
   return (
     <AlertConfigDialogPresenter
       {...props}
@@ -176,6 +183,7 @@ function SmartAlertConfigDialogWithQueryValidation({
       simpleMode={simpleMode}
       setSimpleMode={setSimpleMode}
       thresholdResult={thresholdResult}
+      TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
       SimpleModeElement={SimpleModeContainer}
       AdvancedModeElement={AdvancedModeContainer}
       isTagFilterFormModelValid={isTagFilterFormModelValid}

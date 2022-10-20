@@ -68,6 +68,7 @@ global.window.instana.user = {
         canConfigureTeams: true,
         canConfigureCustomAlerts: true,
         canConfigureAutomationActions: true,
+        canRunAutomationActions: true,
         canConfigureApiTokens: true,
         canConfigurePersonalApiTokens: true,
         canConfigureAgentRunMode: true,

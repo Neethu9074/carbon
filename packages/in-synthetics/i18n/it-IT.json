@@ -87,7 +87,7 @@
       "mainLabel": "Monitoraggio sintetico",
       "secondaryLabels": {
         "tests": "Test",
-        "location": "Ubicazioni"
+        "locations": "Ubicazioni"
       },
       "testLabel": "Nome",
       "status": "Stato",
@@ -106,10 +106,18 @@
       "applicationLabel": "Applicazione",
       "health": "Integrità",
       "action": "Azione",
-      "delete": "Elimina test",
+      "delete": "Elimina il test",
       "labelConfirm": "Confermare",
       "labelConfirmRemoveTest": "Si è sicuri di voler rimuovere il test sintetico <strong>{{label}}</strong>?",
-      "labelRemove": "Rimuovi"
+      "labelRemove": "Rimuovi",
+      "na": "N/D"
+    },
+    "locationList": {
+      "locationLabel": "Nome ubicazione",
+      "status": "Stato",
+      "type": "Immettere",
+      "totalTests": "N. di verifiche collegate",
+      "lastRun": "Ultima esecuzione verifica su"
     },
     "summary": {
       "successRate": "Frequenza operazioni riuscite",
@@ -198,7 +206,9 @@
       "resultsTitle": "Nessun risultato disponibile",
       "resultsDescription": "Non è stato richiamato alcun risultato per l'intervallo di tempo selezionato.",
       "testSummaryTitle": "Nessun test sintetico disponibile",
-      "testSummaryDescription": "Non ci sono test sintetici richiamati dal database."
+      "testSummaryDescription": "Non ci sono test sintetici richiamati dal database.",
+      "locationListTitle": "Posizioni Non Sintetiche disponibili",
+      "locationListDescription": "Non ci sono posizioni Synthetic richiamate dal database."
     }
   }
 }

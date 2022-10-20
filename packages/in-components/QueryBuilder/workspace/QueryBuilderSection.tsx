@@ -33,6 +33,7 @@ interface QueryBuilderSectionProps {
 
   actions?: ReactNode;
   withoutIcon?: boolean;
+  allowEmptyKey?: boolean;
 }
 
 export default function QueryBuilderSection({
@@ -46,7 +47,8 @@ export default function QueryBuilderSection({
   hasError: hasExteralError,
   errors: exteralErrors,
   getSuggestionsProps = {},
-  getSuggestionLabel
+  getSuggestionLabel,
+  allowEmptyKey
 }: QueryBuilderSectionProps) {
   const [{ hasError: hasInternalError, errors: internalErrors }, setInternalError] = useState<{
     hasError?: boolean;
@@ -96,6 +98,7 @@ export default function QueryBuilderSection({
             useLastValidStateWhenErroneous={useLastValidStateWhenErroneous}
             getSuggestionsProps={getSuggestionsProps}
             getSuggestionLabel={getSuggestionLabel}
+            allowEmptyKey={allowEmptyKey}
           />
         </div>
         {hasInternalError &&

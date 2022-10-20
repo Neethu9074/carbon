@@ -6,12 +6,13 @@
 
 import { fromJS, Map } from 'immutable';
 
-import { Observable } from '@instana/observables';
+import { combineLatest, just, Observable, timeout } from '@instana/observables';
 
 import { DOC_LINK_TYPE } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
-import { Action, Field, Mutable, VolatileId, ActionAIScore, Event } from 'in-types';
 import createAgentResponseObservable from 'in-subscription/agentResponse';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
+import { Action, Field, Mutable, VolatileId, Event } from 'in-types';
+import { error } from 'in-services/util/result';
 import http from 'in-services/http';
 import { t } from 'in-i18n';
 
@@ -26,30 +27,12 @@ export function getAllActions(): Observable<Action[]> {
   }).map(response => response.body);
 }
 
-export function getAllActionsWithAISuggestions(
-  eventName: string,
-  eventDescription: string
-): Observable<ActionAIScore[]> {
-  return http<ActionAIScore[]>({
-    method: 'POST',
-    maxRetries: 3,
-    url: `${automationAPIBase}/ai/action/match`,
-    data: {
-      name: eventName,
-      description: eventDescription,
-      type: 'nlp',
-      tags: ['host, database', 'performance'],
-      searchOrder: 'name'
-    },
-    headers: getCsrfHeader()
-  }).map(response => response.body);
-}
-
 export function getAction(actionId: string): Observable<Action> {
   return http<Action>({
     method: 'GET',
     maxRetries: 3,
-    url: `${actionUrl}/${encodeURIComponent(actionId)}`
+    url: `${actionUrl}/${encodeURIComponent(actionId)}`,
+    treat400AsError: false
   }).map(response => fromJS(response.body));
 }
 
@@ -199,16 +182,35 @@ export function createAction(
   });
 }
 
-export function runScriptAction(script: string, volatileId: VolatileId, event: Event | null) {
-  return createAgentResponseObservable({
-    action: 'action.run',
-    target: volatileId,
-    args: {
-      actionType: 'SCRIPT',
-      command: script,
-      async: 'true',
-      actionOperation: 'action.run',
-      event: JSON.stringify(event)
-    }
-  });
+// We are using a timeout here to prevent the UI from hanging if the agent is not responding (sensor not installed).
+export function runScriptAction(script: string, volatileId: VolatileId, event: Event | null, actionName: string) {
+  return combineLatest(
+    [
+      timeout(5000).flatMap(() =>
+        just(
+          error<null>([
+            {
+              message: t('in-events:actionSensorTimeout'),
+              code: 'TIMEOUT'
+            }
+          ])
+        )
+      ),
+      createAgentResponseObservable({
+        action: 'action.run',
+        target: volatileId,
+        args: {
+          actionType: 'SCRIPT',
+          command: script,
+          async: 'true',
+          actionOperation: 'action.run',
+          event: JSON.stringify(event),
+          problemId: event?.problem?.id,
+          problemText: event?.problem?.problemText,
+          actionName
+        }
+      })
+    ],
+    false
+  );
 }
