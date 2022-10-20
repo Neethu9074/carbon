@@ -90,6 +90,7 @@ export const DFQ_FILTER_REMOVED = 'dfq.filter.removed';
 export const DFQ_FILTER_SELECTED = 'dfq.filter.selected';
 
 export const KUBERNETES_DASHBOARD_TAB_CHANGE = 'kubernetes.dashboard.tabChange';
+export const KUBERNETES_TIME_SHIFT_SELECT = 'kubernetes.timeShift.select';
 export const IS_MONITORING_HOSTS = 'isMonitoringHosts';
 export const MAP_GROUPING_CHANGED = 'map.grouping.change';
 export const MAP_METRICS_AGGREGATION = 'map.metrics.aggregation';
