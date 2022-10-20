@@ -870,6 +870,7 @@
     "confidence_low": "Low",
     "confidence_medium": "Medium",
     "confidence_high": "High",
+    "confidence": "{{context}}",
     "confidenceTitle": "Confidence"
   },
   "languageSelection": {
