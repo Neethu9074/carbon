@@ -14,20 +14,20 @@ import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadge
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import getKubernetesNode from 'in-kubernetes/subscriptions/getKubernetesNode';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
-import { applicationTimeShiftSelectTracker } from 'in-applications/tracker';
+import { kubernetesTimeShiftSelectTracker } from 'in-kubernetes/tracker';
 import { nodeId as matrixNodeId } from 'in-kubernetes/navigation/matrix';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import { nodeDashboard } from 'in-kubernetes/navigation/paths';
-import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { k8sTimeShiftEnabled } from 'in-services/featureFlags';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { NodeBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import tabs from 'in-kubernetes/Dashboards/Node/tabs/index';
-import BadgeList from 'in-components/BadgeList/BadgeList';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
+import BadgeList from 'in-components/BadgeList/BadgeList';
 import { getTimeConfig } from 'in-stores/time/config';
 import { nodeTabChange } from 'in-kubernetes/tracker';
 import { plugins } from 'in-forge/constants';
@@ -127,7 +127,7 @@ function renderButtonLineSecondary({ nodeId, timeConfig }) {
       {k8sTimeShiftEnabled && (
         <TimeShiftDropdown
           onChange={offset =>
-            applicationTimeShiftSelectTracker({
+            kubernetesTimeShiftSelectTracker({
               area: 'pod',
               offset: getTimeShiftLabel({ offset: offset }),
               windowSize: timeConfig.windowSize,

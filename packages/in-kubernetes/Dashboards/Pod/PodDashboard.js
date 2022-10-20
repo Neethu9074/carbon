@@ -15,8 +15,8 @@ import LoggingIntegrationButtons from 'in-integrations/logging/LoggingIntegratio
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import getKubernetesPod from 'in-kubernetes/subscriptions/getKubernetesPod';
-import { applicationTimeShiftSelectTracker } from 'in-applications/tracker';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
+import { kubernetesTimeShiftSelectTracker } from 'in-kubernetes/tracker';
 import { podId as matrixPodId } from 'in-kubernetes/navigation/matrix';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -143,7 +143,7 @@ function renderButtonLineSecondary({
       {k8sTimeShiftEnabled && (
         <TimeShiftDropdown
           onChange={offset =>
-            applicationTimeShiftSelectTracker({
+            kubernetesTimeShiftSelectTracker({
               area: 'pod',
               offset: getTimeShiftLabel({ offset: offset }),
               windowSize: timeConfig.windowSize,
