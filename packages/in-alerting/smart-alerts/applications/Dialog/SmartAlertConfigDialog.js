@@ -167,7 +167,9 @@ function SmartAlertConfigDialogWithQueryValidation({
     />
   );
 
-  const TagBasedPayloadConfigurator = useTagBasedApplicationPayloadConfigurator();
+  const boundaryScope = form.get('boundaryScope')?.value || 'ALL';
+  const applications = form.get('applications')?.value || {};
+  const TagBasedPayloadConfigurator = useTagBasedApplicationPayloadConfigurator(applications, boundaryScope);
 
   return (
     <AlertConfigDialogPresenter

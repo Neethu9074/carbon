@@ -59,12 +59,14 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
     timeThreshold,
     alertChannelIds,
     tagFilterExpression,
+    applications,
+    boundaryScope,
     customPayloadFields
   } = alertConfig;
 
   const blueprintConfig = getBlueprintConfig(alertType);
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
-  const TagBasedPayloadConfigurator = useTagBasedApplicationPayloadConfigurator();
+  const TagBasedPayloadConfigurator = useTagBasedApplicationPayloadConfigurator(applications, boundaryScope);
 
   return (
     <AlertDetailsCard>

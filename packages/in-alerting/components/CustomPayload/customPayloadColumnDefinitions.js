@@ -6,6 +6,7 @@
 import { createField } from 'formalistic';
 import classNames from 'classnames';
 import React from 'react';
+import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 
 import { SvgIcon } from '@instana/components';
 
@@ -107,6 +108,7 @@ export const valueColumnDefinition = {
                   value={toViewModel(value)}
                   onChange={storeIntoFormModel}
                   suggestionsAlignedLeft={suggestionsAlignedLeft}
+                  tagFilterExpression={EMPTY_EXPRESSION}
                 />
                 <TouchedMessages field={field} className={locals.fullWidth} />
               </>

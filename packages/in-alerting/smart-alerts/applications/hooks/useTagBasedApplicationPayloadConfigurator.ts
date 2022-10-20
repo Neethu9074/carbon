@@ -6,13 +6,18 @@
 
 import { ReactNode, useMemo } from 'react';
 
-import { createTagBasedPayloadConfigurator } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
+import { createTagBasedApplicationPayloadConfigurator } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
+import { getApplicationTagSuggestions } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
+import { ApplicationBoundaryScope, ApplicationNode, TimeConfig } from 'in-types';
+import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { getApplicationTagCatalog } from 'in-applications/api/catalog';
 import { CALLS } from 'in-applications/analyze/metrics';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { TimeConfig } from 'in-types';
 
-export default function useTagBasedApplicationPayloadConfigurator(): ReactNode {
+export default function useTagBasedApplicationPayloadConfigurator(
+  applications: Record<string, ApplicationNode>,
+  boundaryScope: ApplicationBoundaryScope
+): ReactNode {
   const timeConfig: TimeConfig = useTimeConfig();
 
   return useMemo(() => {
@@ -21,8 +26,11 @@ export default function useTagBasedApplicationPayloadConfigurator(): ReactNode {
       useCase: 'SMART_ALERTS_CUSTOM_PAYLOAD'
     })({ timeConfig });
 
-    return createTagBasedPayloadConfigurator({
-      getTagCatalog: () => applicationTagCatalog
+    return createTagBasedApplicationPayloadConfigurator({
+      getTagCatalog: () => applicationTagCatalog,
+      getSuggestions: args => {
+        return getApplicationTagSuggestions({ ...args, entity: DESTINATION }, undefined, applications, boundaryScope);
+      }
     });
-  }, [timeConfig]);
+  }, [applications, boundaryScope, timeConfig]);
 }

@@ -121,6 +121,14 @@ TagBasedPayloadConfigurator.propTypes = {
   tagFilterExpression: rpt.object
 };
 
+export function createTagBasedApplicationPayloadConfigurator({ getTagCatalog, getSuggestions }) {
+  return createTagBasedPayloadConfigurator({ getTagCatalog, getSuggestions });
+}
+
+export function createTagBasedWebsitePayloadConfigurator({ getTagCatalog, getSuggestions }) {
+  return createTagBasedPayloadConfigurator({ getTagCatalog, getSuggestions });
+}
+
 export function createTagBasedPayloadConfigurator({
   getTagCatalog: originalGetTagCatalog,
   getSuggestions: optionalOriginalGetSuggestions

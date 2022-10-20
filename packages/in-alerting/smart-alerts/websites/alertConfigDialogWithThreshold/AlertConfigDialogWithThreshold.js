@@ -107,7 +107,7 @@ function SmartAlertConfigDialogWithQueryValidation({
     alertConfigWithFormModel.customPayloadFields
   );
 
-  const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator(beaconType);
+  const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator(beaconType, websiteId);
 
   const { step, setStep, simpleModeStep, backOrCancel, handleSubmit } = useSimpleModePageNavigation({
     stepConfigs,
