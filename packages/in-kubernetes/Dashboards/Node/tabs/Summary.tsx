@@ -10,7 +10,7 @@ import { AggregationType, KubernetesNode, ResultType, TimeConfig } from '@instan
 // @ts-expect-error
 import { source } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/metrics';
 // @ts-expect-error
-import { TimeShiftAwareChartSelectorWithUrlState } from 'in-applications/Dashboards/commonComponents/ChartSelectors';
+import { TimeShiftAwareChartSelectorWithUrlState } from 'in-components/ChartSelectors/ChartSelectors';
 // @ts-expect-error
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 import { LogsChartInteractionWrapper } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
@@ -86,7 +86,6 @@ export default function Summary({ timeConfig, data: node }: SummaryProps) {
     type: undefined,
     crossSeriesAggregation: 'SUM' as AggregationType
   };
-
 
   const cpuResourcesTabId = 'cpuResources';
   const memoryResourcesTabId = 'memoryResources';
