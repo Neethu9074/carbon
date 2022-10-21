@@ -4000,20 +4000,9 @@ caniuse-db@^1.0.30000529, caniuse-db@^1.0.30000634, caniuse-db@^1.0.30000639:
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/caniuse-db/-/caniuse-db-1.0.30001278.tgz#93faad7b20164754cc1302dac5dc36dfa44e2758"
   integrity sha1-k/qteyAWR1TMEwLaxdw236ROJ1g=
 
-caniuse-lite@^1.0.30001272:
-  version "1.0.30001283"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/caniuse-lite/-/caniuse-lite-1.0.30001283.tgz#8573685bdae4d733ef18f78d44ba0ca5fe9e896b"
-  integrity sha1-hXNoW9rk1zPvGPeNRLoMpf6eiWs=
-
-caniuse-lite@^1.0.30001274:
-  version "1.0.30001278"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/caniuse-lite/-/caniuse-lite-1.0.30001278.tgz#51cafc858df77d966b17f59b5839250b24417fff"
-  integrity sha1-Ucr8hY33fZZrF/WbWDklCyRBf/8=
-
-caniuse-lite@^1.0.30001280:
-  version "1.0.30001286"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/caniuse-lite/-/caniuse-lite-1.0.30001286.tgz#3e9debad420419618cfdf52dc9b6572b28a8fff6"
-  integrity sha1-Pp3rrUIEGWGM/fUtybZXKyio//Y=
+caniuse-lite@^1.0.30001272, caniuse-lite@^1.0.30001274, caniuse-lite@^1.0.30001280:
+  version "1.0.30001352"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/caniuse-lite/-/caniuse-lite-1.0.30001352.tgz"
 
 case-sensitive-paths-webpack-plugin@^2.3.0:
   version "2.4.0"
