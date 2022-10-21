@@ -90,7 +90,7 @@ import BuiltInMetricSelector from 'in-settings/tabs/TeamSettings/pages/eventsAnd
 import CustomMetricSelector from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/CustomMetricSelector';
 import HostAvailabilityFormGroup from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/HostAvailabilityFormGroup';
 import ScopeHostsByTagFormGroup from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ScopeHostsByTagFormGroup';
-import { ActionsSelection } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/sharedActions';
+import ActionsSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ActionsSelection';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
 import { compareIgnoreCase, isBlank, isNotBlank } from 'in-services/util/string';
@@ -205,7 +205,8 @@ function EventForm({
   setSaveEnabled,
   hideLegacyAppDataEventDeprecationInfo,
   existingApplication,
-  disabled
+  disabled,
+  entity
 }) {
   applyQueryValidationResult(queryValidationResult, form, onChange);
 
@@ -672,7 +673,7 @@ function EventForm({
       {role.canConfigureAutomationActions && actionAutomationEnabled && !form.get('triggering').value && (
         <>
           <SectionHeading>{t('in-settings:tabs.4ActionAssociations')}</SectionHeading>
-          <ActionsSelection form={form} setForm={setForm} />
+          <ActionsSelection form={form} setForm={setForm} entity={entity.toJS()} />
         </>
       )}
     </fieldset>

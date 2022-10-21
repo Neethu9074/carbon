@@ -5,6 +5,7 @@
  */
 
 import React, { ReactNode } from 'react';
+import { reverse, sortBy } from 'lodash';
 
 import { Button, Link } from '@instana/components';
 import { Observable } from '@instana/observables';
@@ -15,8 +16,8 @@ import Tag from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Ta
 import { getType } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import RunAction from 'in-events/components/AutomationActions/RunAction';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { getAllActions, ScoredAction } from 'in-api/automation';
 import { formatDateTime } from 'in-services/formatters/date';
-import { getAllActions } from 'in-api/automation';
 import { Event, VolatileId } from 'in-types';
 import { Action } from 'in-types';
 import { t } from 'in-i18n';
@@ -105,6 +106,17 @@ const nameColumn = (showActionLink: boolean) => ({
   }
 });
 
+const scoreColumn = {
+  label: t('in-settings:tabs.confidenceTitle'),
+  id: 'color',
+  getContent(row: ScoredAction) {
+    return t('in-settings:tabs.confidence', { context: row.color });
+  },
+  getValue(row: ScoredAction) {
+    return row.score;
+  }
+};
+
 export interface ActionTableProps {
   title?: string;
   pageSize?: number;
@@ -118,6 +130,7 @@ export interface ActionTableProps {
   volatileId?: VolatileId;
   event?: Event | null;
   showActionLink?: boolean | undefined;
+  scored?: boolean | undefined;
 }
 
 export default function ActionTable({
@@ -132,18 +145,23 @@ export default function ActionTable({
   showExecuteColumn = false,
   volatileId = {},
   showActionLink = false,
-  event = null
+  event = null,
+  scored = false
 }: ActionTableProps) {
   let columnDefinitionsToShow = [nameColumn(showActionLink), ...columnDefinitions];
   if (showExecuteColumn) {
     columnDefinitionsToShow = [...columnDefinitionsToShow, executeColumn(volatileId, event)];
+  }
+  if (scored) {
+    columnDefinitionsToShow = [...columnDefinitionsToShow, scoreColumn];
   }
 
   return (
     <List<Action>
       noDataMessage={noDataMessage}
       pageSize={pageSize}
-      initialOrderBy={'name'}
+      initalOrderDir={scored ? 'DESC' : 'ASC'}
+      initialOrderBy={scored ? 'color' : 'name'}
       isSearchable
       loadEntities={loadEntities}
       columnDefinitions={columnDefinitionsToShow}
@@ -155,6 +173,7 @@ export default function ActionTable({
       tableActions={tableActions}
       extraFilters={createFilters(hiddenIds)}
       getEntityName={getEntityName}
+      customSortEntities={sortEntities}
     />
   );
 }
@@ -169,4 +188,32 @@ function createFilters(ids: string[]): Array<(action: Action) => boolean> {
     filterFunctions.push((action: Action) => !ids.includes(action.id));
   }
   return filterFunctions;
+}
+
+function sortEntities({
+  entities,
+  orderByState,
+  orderDirectionState
+}: {
+  entities: Action[];
+  orderByState: keyof ScoredAction;
+  orderDirectionState: 'ASC' | 'DESC';
+}) {
+  const caseInsensitiveSortIteratee = (entity: ScoredAction) => {
+    let value = entity[orderByState];
+    if (orderByState === 'color') {
+      let sortValue;
+      if (value == 'low') sortValue = 0;
+      else if (value == 'medium') sortValue = 1;
+      else if (value == 'high') sortValue = 2;
+      return [sortValue, entity.name.trim().toLowerCase()];
+    }
+    return typeof value === 'string' ? value.trim().toLowerCase() : value;
+  };
+
+  const sorted = sortBy(entities, caseInsensitiveSortIteratee);
+  if (orderDirectionState === 'DESC') {
+    reverse(sorted);
+  }
+  return sorted as Action[];
 }
