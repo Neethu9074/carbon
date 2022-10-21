@@ -57,6 +57,7 @@ export default function LatencyDistributionChart({
       title={title}
       aggregation={aggregation}
       showHeader={showHeader}
+      fastQueryModeEnabled={fastQueryModeEnabled}
       onSelectionChanged={selection =>
         updateLatencySelection({
           dataSource: dataSource,
