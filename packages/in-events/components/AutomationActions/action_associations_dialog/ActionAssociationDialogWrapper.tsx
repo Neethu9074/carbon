@@ -36,7 +36,7 @@ interface CreateOrSaveActionProps {
   eventId?: string;
   isCustom: boolean;
   onClose: () => void;
-  setIsSaving: (t: boolean) => void;
+  setIsSaving: React.Dispatch<React.SetStateAction<boolean>>;
   setMessages: React.Dispatch<React.SetStateAction<MessageType[]>>;
   form: MapForm;
   setForm: React.Dispatch<React.SetStateAction<MapForm>>;
