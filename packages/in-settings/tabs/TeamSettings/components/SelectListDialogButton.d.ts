@@ -13,7 +13,7 @@ interface SelectListDialogButtonProps {
   title: string;
   label: string;
   listComponent: ReactNode;
-  limit: number;
+  limit?: number;
   hiddenIds: string[];
   createSubmitLabel: (numberOfItems: number) => string;
   requiresAtLeastOneMessage: string;
