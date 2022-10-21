@@ -3,10 +3,10 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import locals from './AlertConfigSlideInContentWrapper.mless';
 
-export default function AlertConfigSlideInContentWrapper({ children }) {
+export default function AlertConfigSlideInContentWrapper({ children }: { children: ReactNode }) {
   return <div className={locals.slideInContentWrapper}>{children}</div>;
 }

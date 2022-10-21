@@ -3,12 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { ReactNode } from 'react';
 import PropTypes from 'prop-types';
-import React from 'react';
 
 import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ScrollStep.mless';
 
-export default function ScrollStep({ id, children }) {
+export type ScrollStepProps = { id?: string; children: ReactNode };
+export default function ScrollStep({ id, children }: ScrollStepProps) {
   return (
     <section id={id} className={locals.container}>
       {children}

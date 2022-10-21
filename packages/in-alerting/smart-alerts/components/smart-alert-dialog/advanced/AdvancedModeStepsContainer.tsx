@@ -6,18 +6,27 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
-import { SvgIcon, Stack } from '@instana/components';
+import { Stack, SvgIcon } from '@instana/components';
 
-import { SmartAlertErrorMessages } from 'in-alerting/smart-alerts/components/smart-alert-dialog/components/SmartAlertErrorMessages';
+import {
+  MessageType,
+  SmartAlertErrorMessages
+} from 'in-alerting/smart-alerts/components/smart-alert-dialog/components/SmartAlertErrorMessages';
 import { useScrollToFirstInvalidNavItem } from 'in-alerting/smart-alerts/applications/hooks/useScrollToFirstInvalidNavItem';
 import ScrollStep from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ScrollStep';
+import SideNav, { NavItem } from 'in-components/SideNav';
 import Divider from 'in-components/workspace/Divider';
 import Header from 'in-components/workspace/Header';
-import SideNav from 'in-components/SideNav';
 
 import locals from './AdvancedModeStepsContainer.mless';
 
-export default function AdvancedModeStepsContainer({ navItems, messages = [] }) {
+export default function AdvancedModeStepsContainer({
+  navItems,
+  messages = []
+}: {
+  navItems: NavItem[];
+  messages?: MessageType[];
+}) {
   useScrollToFirstInvalidNavItem(navItems);
 
   return (
@@ -42,9 +51,7 @@ export default function AdvancedModeStepsContainer({ navItems, messages = [] }) 
       <div className={locals.sideNav}>
         <SideNav navItems={navItems} renderPostIcon={renderIcon} />
       </div>
-      <div className={locals.errorInfo}>
-        <SmartAlertErrorMessages messages={messages} />
-      </div>
+      <SmartAlertErrorMessages className={locals.errorInfo} messages={messages} />
     </nav>
   );
 }
@@ -55,6 +62,7 @@ AdvancedModeStepsContainer.propTypes = {
       scrollId: PropTypes.string.isRequired,
       label: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
+      checked: PropTypes.bool,
       valid: PropTypes.bool,
       content: PropTypes.element
     })
@@ -68,7 +76,7 @@ AdvancedModeStepsContainer.propTypes = {
   )
 };
 
-function renderIcon({ valid }) {
+function renderIcon({ valid }: NavItem) {
   if (valid) return null;
 
   return <SvgIcon className={locals.icon} type="lib_help_error_error_circle" size="xs" />;

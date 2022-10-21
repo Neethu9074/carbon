@@ -6,12 +6,23 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { SmartAlertErrorMessages } from 'in-alerting/smart-alerts/components/smart-alert-dialog/components/SmartAlertErrorMessages';
+import {
+  MessageType,
+  SmartAlertErrorMessages
+} from 'in-alerting/smart-alerts/components/smart-alert-dialog/components/SmartAlertErrorMessages';
+import { StepConfigs } from 'in-components/BlueprintFormMultistep/StepConfigs';
 import StepProgressBar from 'in-components/StepProgressBar';
 
 import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/simple/SimpleModeContainer.mless';
 
-export default function SimpleModeContainer(props) {
+interface SimpleModeContainerProps {
+  step: number;
+  stepConfigs: StepConfigs;
+  stepRenderers: ((props?: SimpleModeContainerProps) => React.ReactNode)[];
+  messages: MessageType[];
+}
+
+export default function SimpleModeContainer(props: SimpleModeContainerProps) {
   const { stepConfigs, stepRenderers, step, messages } = props;
 
   return (
@@ -30,14 +41,12 @@ export default function SimpleModeContainer(props) {
           )
       )}
 
-      <div className={locals.errorInfo}>
-        <SmartAlertErrorMessages messages={messages} />
-      </div>
+      <SmartAlertErrorMessages className={locals.errorInfo} messages={messages} />
     </div>
   );
 }
 
-function mapTitles(stepConfigs) {
+function mapTitles(stepConfigs: StepConfigs) {
   return stepConfigs.map(stepConfig => stepConfig.title);
 }
 
