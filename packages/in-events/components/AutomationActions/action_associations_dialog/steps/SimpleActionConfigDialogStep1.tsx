@@ -7,8 +7,8 @@
 import React, { useState } from 'react';
 
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
-import SelectedBlueprintPresenter from 'in-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
 import { BluePrint } from 'in-events/components/AutomationActions/action_associations_dialog/SharedTypes';
+import SelectedBlueprintPresenter from 'in-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import Menu from 'in-components/Menu';
 import { t } from 'in-i18n';
@@ -19,10 +19,6 @@ interface ConfigProps {
   blueprintConfig: readonly BluePrint[];
 }
 
-interface DescriptionProps {
-  htmlContent: string;
-  headline: string;
-}
 export default function SimpleActionConfigDialogStep1(props: ConfigProps) {
   const blueprintConfig: readonly BluePrint[] = props.blueprintConfig;
   const [selectedBlueprint, setSelectedBlueprint] = useState(blueprintConfig[0]);
@@ -38,7 +34,7 @@ export default function SimpleActionConfigDialogStep1(props: ConfigProps) {
       />
       <div className={locals.presenterWrapper}>
         <SelectedBlueprintPresenter title={selectedBlueprint.headline}>
-          {selectedBlueprint.description?.map((paragraph: DescriptionProps) => {
+          {selectedBlueprint.description?.map(paragraph => {
             return (
               <div key={paragraph.headline}>
                 <div className={locals.descriptionHeadline}>{paragraph.headline}</div>
