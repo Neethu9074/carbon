@@ -6,15 +6,15 @@
 
 import React from 'react';
 
-import { Message, MessageTypes } from '@instana/components';
+import { Message } from '@instana/components';
 
 import { compareIgnoreCase } from 'in-services/util/string';
+import { ErrorCode } from 'in-types';
 
 export type MessageType = {
   message: string;
-
-  /** @type: defaults to "error", if not set */
-  level?: keyof typeof MessageTypes;
+  level?: 'warning' | 'error';
+  code?: ErrorCode;
 };
 
 interface SmartAlertErrorMessagesProps {

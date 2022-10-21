@@ -6,9 +6,12 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
-import { SvgIcon, Stack, MessageTypes } from '@instana/components';
+import { Stack, SvgIcon } from '@instana/components';
 
-import { SmartAlertErrorMessages } from 'in-alerting/smart-alerts/components/smart-alert-dialog/components/SmartAlertErrorMessages';
+import {
+  MessageType,
+  SmartAlertErrorMessages
+} from 'in-alerting/smart-alerts/components/smart-alert-dialog/components/SmartAlertErrorMessages';
 import { useScrollToFirstInvalidNavItem } from 'in-alerting/smart-alerts/applications/hooks/useScrollToFirstInvalidNavItem';
 import ScrollStep from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ScrollStep';
 import SideNav, { NavItem } from 'in-components/SideNav';
@@ -22,7 +25,7 @@ export default function AdvancedModeStepsContainer({
   messages = []
 }: {
   navItems: NavItem[];
-  messages?: { message: string; level?: keyof typeof MessageTypes }[];
+  messages?: MessageType[];
 }) {
   useScrollToFirstInvalidNavItem(navItems);
 
