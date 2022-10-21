@@ -25,7 +25,7 @@ interface ActionTableProps {
 }
 
 interface SelectListDialogContentProps {
-  limit: number;
+  limit?: number;
   listComponent: ({
     title,
     pageSize,
