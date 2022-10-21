@@ -35,26 +35,27 @@ export default function PodsChartPresenter({
   selectorComponent
 }: PodChartPresentProps) {
   const selectedMetric = metrics.find(m => m.metric === selectedMetricValue) ?? metrics[0];
+  const timeShiftActive = timeShiftConfig?.offset !== 0;
   return (
     <UnifiedMetricsChart
       rightHeaderContent={selectorComponent}
       title={title}
       config={{
         y1: {
-          metrics: timeShiftConfig?.offset
-            ? [{ ...selectedMetric, timeShift: timeShiftConfig.offset }, selectedMetric]
+          metrics: timeShiftActive
+            ? [{ ...selectedMetric, timeShift: timeShiftConfig?.offset }, selectedMetric]
             : metrics,
           formatter,
           tooltipFormatter,
-          colors: timeShiftConfig?.offset
+          colors: timeShiftActive
             ? ([theme.lib.colors.timeShift, selectedMetric.color] as AxisColor[])
             : colors,
           renderer: line.id
         },
         type: 'TIME_SERIES'
       }}
-      reverseTooltipOrder
-      reverseLegendOrder
+      reverseTooltipOrder={timeShiftActive}
+      reverseLegendOrder={timeShiftActive}
       renderPostChartContent={K8DashboardsMarkerLanes}
     />
   );
