@@ -1939,6 +1939,11 @@
   "tracingTypeName_postgres_0": "PostgreSQL Calls",
   "tracingTypeName_postgres_1": "PostgreSQL Call",
   "tracingTypeName_postgres_2": "PostgreSQL Calls",
+  "tracingTypeName_prisma": "Prisma Call",
+  "tracingTypeName_prisma_plural": "Prisma Calls",
+  "tracingTypeName_prisma_0": "Prisma Calls",
+  "tracingTypeName_prisma_1": "Prisma Call",
+  "tracingTypeName_prisma_2": "Prisma Calls",
   "tracingTypeName_pyhc": "HTTP Call",
   "tracingTypeName_pyhc_plural": "HTTP Calls",
   "tracingTypeName_pyhc_0": "HTTP Calls",
@@ -12669,6 +12674,11 @@
       "database": "Database",
       "user": "User",
       "query": "Query"
+    },
+    "prisma": {
+      "url": "Datasource URL",
+      "provider": "Database Type",
+      "model_action": "Model/Action"
     },
     "quartz": {
       "group": "Group",
