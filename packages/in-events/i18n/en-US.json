@@ -22,7 +22,6 @@
   "saveButton": "Save",
   "yes": "Yes",
   "ok": "Ok",
-  "setAssociations": "Set Associations",
   "targetAgent": "Target Agent",
   "triggeringAgent": "{{hostname}} (triggering agent)",
   "targetAgentDescription": "An Agent encapsulates 1..* Sensors, who in turn are able to raise Events to the Instana backend. A triggering Agent contains the Sensor that raised this particular Event.",
