@@ -5,16 +5,18 @@
 
 import React, { useMemo } from 'react';
 
-import { KeyValue } from '@instana/components';
+import { KeyValue, Stack } from '@instana/components';
 
 import { FacetedSearchPresenter } from 'in-logging/analyze/AnalyzeView/components/FacetedSearchPresenter';
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
+import { percentage, number, withSiPrefixOneDecimalPlace } from 'in-services/formatters/number';
 import { ChartsPresenter } from 'in-logging/analyze/AnalyzeView/components/ChartsPresenter';
 import GroupedView, { GROUP_COLORS } from 'in-components/AnalyzeView/GroupedView';
 import { Logs } from 'in-logging/analyze/AnalyzeView/components/Logs';
 import getLogGroups from 'in-logging/subscriptions/getLogGroups';
-import { percentage } from 'in-services/formatters/number';
+import AggregationSymbol from 'in-components/AggregationSymbol';
 import { LOG_LEVEL } from 'in-logging/queryBuilder';
+import Tooltip from 'in-components/Tooltip';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -38,7 +40,19 @@ const columnDefinitions = [
     width: '8rem',
     widthInAbsoluteUnit: true,
     getContent({ item }) {
-      return <KeyValue label={t('in-logging:numberOfLogs')} value={item.numberOfLogs} accentuated />;
+      const { numberOfLogs } = item;
+      const formattedNumber = number.forcedCompact.compact(numberOfLogs);
+
+      const Value = (
+        <Stack align="center" gap="xxsmall" direction="horizontal">
+          <AggregationSymbol aggregation="SUM" />
+          <Tooltip content={formattedNumber} align="mousePosition">
+            <span>{withSiPrefixOneDecimalPlace(numberOfLogs)}</span>
+          </Tooltip>
+        </Stack>
+      );
+
+      return <KeyValue label={t('in-logging:numberOfLogs')} value={Value} accentuated />;
     }
   }
 ];
