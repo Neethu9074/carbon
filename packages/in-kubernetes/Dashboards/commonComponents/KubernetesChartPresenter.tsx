@@ -12,7 +12,7 @@ import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
 import { line } from 'in-stores/metric/renderer';
 import theme from 'in-themes';
 
-interface PodChartPresentProps {
+interface KubernetesChartPresenterProps {
   metrics: Metric[];
   title: string;
   colors: AxisColor[];
@@ -24,7 +24,7 @@ interface PodChartPresentProps {
   selectorComponent?: JSX.Element;
 }
 
-export default function PodsChartPresenter({
+export default function KubernetesChartPresenter({
   metrics,
   title,
   colors,
@@ -33,7 +33,7 @@ export default function PodsChartPresenter({
   selectedMetricValue,
   timeShiftConfig,
   selectorComponent
-}: PodChartPresentProps) {
+}: KubernetesChartPresenterProps) {
   const selectedMetric = metrics.find(m => m.metric === selectedMetricValue) ?? metrics[0];
   const timeShiftActive = timeShiftConfig?.offset !== 0;
   return (
