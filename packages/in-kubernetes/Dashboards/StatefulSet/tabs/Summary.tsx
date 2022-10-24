@@ -51,7 +51,7 @@ export default function Summary({ timeConfig, data: statefulSet }: any) {
   const clusterTag = kubernetesClusterTagEquals(statefulSet.clusterId);
   const nsTag = kubernetesNamespaceTagEquals(statefulSet.namespace);
   const workloadTag = tagEquals('kubernetes.statefulset.name', statefulSet.name);
-  const tagFilterExpression = toBackendQueryModel(andQuery(clusterTag, nsTag));
+  const tagFilterExpression = toBackendQueryModel(andQuery(clusterTag, nsTag, workloadTag));
 
   const type = plugins.kubernetesStatefulSet;
 
