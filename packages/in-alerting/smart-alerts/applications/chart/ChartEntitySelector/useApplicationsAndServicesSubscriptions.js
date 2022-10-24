@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { combineLatest } from '@instana/observables';
+import { combineLatest, just } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -15,6 +15,7 @@ import { getEntitySelectionAsTagFilterFormModel } from 'in-alerting/smart-alerts
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import getApplication from 'in-applications/subscriptions/getApplication';
+import { pendingResult } from 'in-services/fixedObjects';
 
 export default function useApplicationsAndServicesSubscriptions({
   alertConfigWithFormModel,
@@ -45,32 +46,33 @@ export default function useApplicationsAndServicesSubscriptions({
     });
   }
 
-  const fetchAppsOnly = applicationIds //
-    .map(applicationId =>
-      getApplication({ id: applicationId }) //
-        .map(result => ({
-          ...result,
-          data: {
-            app: result.data,
-            services: () =>
-              getServiceList(queryWindowSize, scopedDownTagFilterExpression(applicationId), includeSynthetic)
-          }
-        }))
-    );
+  const getServiceListIfValid = applicationId => {
+    return isTagFilterFormModelValid
+      ? getServiceList(queryWindowSize, scopedDownTagFilterExpression(applicationId), includeSynthetic)
+      : just(pendingResult);
+  };
 
-  const fetchAppsServices = applicationIds //
-    .map(applicationId =>
-      getServiceList(queryWindowSize, scopedDownTagFilterExpression(applicationId), includeSynthetic) //
-        .map(result => ({
-          ...result,
-          data: {
-            app: {
-              id: applicationId
-            },
-            services: result?.data?.items ?? []
-          }
-        }))
-    );
+  const fetchAppsOnly = applicationIds.map(applicationId =>
+    getApplication({ id: applicationId }).map(result => ({
+      ...result,
+      data: {
+        app: result.data,
+        services: () => getServiceListIfValid(applicationId)
+      }
+    }))
+  );
+
+  const fetchAppsServices = applicationIds.map(applicationId =>
+    getServiceListIfValid(applicationId).map(result => ({
+      ...result,
+      data: {
+        app: {
+          id: applicationId
+        },
+        services: result?.data?.items ?? []
+      }
+    }))
+  );
 
   const isOnlyOneAP = applicationIds.length === 1;
 
