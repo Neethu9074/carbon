@@ -177,11 +177,11 @@ export default function Summary({ timeConfig, data: deployment }) {
       <Row>
         <Col lg={4}>
           <TimeShiftAwareChartSelectorWithUrlState
-            cardTitle={t('in-kubernetes:labelCpuResources')}
+            cardTitle={t('in-kubernetes:dashboards.cpuResources')}
             tabs={[
               {
                 id: 'cpuResources',
-                label: t('in-kubernetes:labelCpuResources')
+                label: t('in-kubernetes:dashboards.cpuResources')
               }
             ]}
             metrics={[
