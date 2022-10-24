@@ -103,6 +103,10 @@ export default function UngroupedAnalyzeView(props) {
     fixedFields
   });
 
+  const headerActions =
+    CustomHeaderActions ||
+    (props => <MetricAndSortingConfigurator {...props} metricOptions={props.availableMetrics} />);
+
   return (
     <Stack direction={'horizontal'} gap={'disabled'}>
       {Sidebar && <Sidebar {...props} />}
@@ -146,7 +150,7 @@ export default function UngroupedAnalyzeView(props) {
               />
             )}
             renderHistoricDataIndicator={resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE'}
-            CustomHeaderActions={CustomHeaderActions || getHeaderActions}
+            CustomHeaderActions={headerActions}
           />
         )}
         <Presenter
@@ -172,12 +176,6 @@ function GroupedViewOnlyIndicator({ metricId, metricCatalog, getHasRawValue }) {
     </Tooltip>
   );
 }
-
-function getHeaderActions(props) {
-  // should also include CustomHeaderActions if present
-  return <MetricAndSortingConfigurator {...props} metricOptions={props.availableMetrics} />;
-}
-
 UngroupedAnalyzeView.propTypes = {
   ...childrenArgsAsPropTypes,
 

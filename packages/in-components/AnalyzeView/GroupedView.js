@@ -250,6 +250,10 @@ export default function GroupedAnalyzeView(props) {
     return excludeMissingGroupTagFilter;
   }, [groupBy, groupingTagCatalog]);
 
+  const headerActions =
+    CustomHeaderActions ||
+    (props => <MetricAndSortingConfigurator {...props} metricOptions={props.availableMetrics} />);
+
   return (
     <>
       <Stack direction={'horizontal'} gap={'disabled'}>
@@ -294,7 +298,7 @@ export default function GroupedAnalyzeView(props) {
               onMetricRemoved: ({ metric, aggregation }) => ua2MetricRemovedTracker({ dataSource, metric, aggregation })
             }}
             renderHistoricDataIndicator={resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE'}
-            CustomHeaderActions={CustomHeaderActions || getHeaderActions}
+            CustomHeaderActions={headerActions}
           />
           {hasItems && (
             <Ul>
@@ -580,12 +584,6 @@ function actionColumns() {
 function defaultColorFunction(_, index) {
   return GROUP_COLORS[index];
 }
-
-function getHeaderActions(props) {
-  // should also include CustomHeaderActions if present
-  return <MetricAndSortingConfigurator {...props} metricOptions={props.availableMetrics} />;
-}
-
 GroupedAnalyzeView.propTypes = {
   ...childrenArgsAsPropTypes,
 
