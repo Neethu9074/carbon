@@ -53,7 +53,7 @@ const cols = [
       getValue(row) {
         return row.sriovAdapter.get('sentPackets');
       },
-      getContent: bytes.compact
+      getContent: number.detailed
     }
   },
   {
@@ -63,7 +63,7 @@ const cols = [
       getValue(row) {
         return row.sriovAdapter.get('receivedPackets');
       },
-      getContent: bytes.compact
+      getContent: number.detailed
     }
   },
   {
@@ -158,7 +158,7 @@ export default connectTo(
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                formatter: number,
+                formatter: number.detailed,
                 metrics: ['sriovAdapters.' + row.key + '.sentPackets', 'sriovAdapters.' + row.key + '.receivedPackets'],
                 labels: [t('in-phmc:sentPackets'), t('in-phmc:recievedPackets')],
                 type: 'line'

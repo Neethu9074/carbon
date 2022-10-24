@@ -16,6 +16,7 @@ import {
   globalAlertDetails
 } from 'in-applications/navigation/paths';
 import AlertTitleWithPlaceholderHighlighting from 'in-alerting/smart-alerts/applications/inventory/AlertTitleWithPlacholderHighlighting';
+import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/thresholdFormData';
 import {
   alertCreated as alertCreatedMatrixParam,
   alertId as alertIdMatrixParam
@@ -73,19 +74,21 @@ export function ListNameColumn({ config, configsCategory, additionalMatrixKeys =
 }
 
 function getSubtitle(rule, threshold) {
-  const { alertType, aggregation } = rule;
+  const { alertType, aggregation, metricName } = rule;
   const blueprintConfig = getBlueprintConfig(alertType);
-  const metricLabel = blueprintConfig.getMetricLabel();
+  const metricLabel = blueprintConfig.getMetricLabel(metricName);
   const formattedMetricLabel =
     alertType === 'slowness' ? `${metricLabel} (${getAggregationText(aggregation)})` : metricLabel;
 
   const { operator, seasonality, type, value } = threshold;
   if (type === STATIC_THRESHOLD) {
-    const metricFormat = blueprintConfig.getMetricFormat();
-    const formattedValue = metricFormat.compact(value);
+    const metricFormat = blueprintConfig.getMetricFormat(metricName);
+    const formattedValue = (metricFormat.short || metricFormat.compact)(value);
+    const humanReadableOperator = humanReadableThresholdOperator(operator);
+
     return t('in-alerting:smartAlerts.applications.inventory.getSubtitleForStaticThreshold', {
       metricLabel: formattedMetricLabel,
-      operator,
+      operator: humanReadableOperator,
       value: formattedValue
     });
   }

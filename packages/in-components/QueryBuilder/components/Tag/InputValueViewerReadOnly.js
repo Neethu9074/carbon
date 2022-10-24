@@ -11,13 +11,13 @@ import Tooltip from 'in-components/Tooltip';
 
 import styleDefs from './InputValueViewerReadOnly.mless';
 
-export default function InputValueViewerReadOnly({ value = '' }) {
+export default function InputValueViewerReadOnly({ value = '', className }) {
   const locals = useThemedLocals(styleDefs);
   value = String(value);
 
   return (
     <Tooltip content={<span>{value}</span>}>
-      <div className={classNames(locals.inputValueViewer, locals.inputValueViewerBackground)}>{value}</div>
+      <div className={classNames(locals.inputValueViewer, locals.inputValueViewerBackground, className)}>{value}</div>
     </Tooltip>
   );
 }

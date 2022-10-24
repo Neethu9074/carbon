@@ -12,6 +12,7 @@ import getMobileApps from 'in-mobile-apps/subscriptions/getMobileApps';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { collationLanguage } from 'in-i18n';
+import Tooltip from 'in-components/Tooltip';
 
 const columnDefinitions = [
   {
@@ -23,7 +24,11 @@ const columnDefinitions = [
   },
   {
     getContent({ item }) {
-      return item.mobileApp.label;
+      return (
+        <Tooltip content={item.mobileApp.label} align="topLeft" delay={500}>
+          <div>{item.mobileApp.label}</div>
+        </Tooltip>
+      );
     }
   }
 ];

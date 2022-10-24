@@ -3,31 +3,30 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
-import { empty } from '@instana/observables';
 
+import useCalculateThresholdOnBackendSignalEmitter from 'in-alerting/smart-alerts/websites/alertConfigDialogWithThreshold/useCalculateThresholdOnBackendSignalEmitter';
+import useVerifyCustomPayloadItemsWithTagCatalog from 'in-alerting/smart-alerts/websites/alertConfigDialogWithThreshold/useVerifyCustomPayloadItemsWithTagCatalog';
 import {
   createBoundedAlertQueryBuilder,
   createIsAlertQueryValid
 } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
+import useThresholdSuggestion from 'in-alerting/smart-alerts/websites/alertConfigDialogWithThreshold/useThresholdSuggestion';
 import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertConfigDialogPresenter';
 import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/applications/components/useSimpleModePageNavigation';
 import { AdvancedModeFooter } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AdvancedModeFooter';
 import { triggerScrollToInvalidItem } from 'in-alerting/smart-alerts/applications/hooks/useScrollToFirstInvalidNavItem';
+import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/websites/hooks/useTagBasedPayloadConfigurator';
 import SimpleModeContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/simple/SimpleModeContainer';
 import { getEnhancedTagFilterFormModel } from 'in-alerting/smart-alerts/components/utils/tagfilterEnrichmentUtil';
-import { updateThresholdInForm } from 'in-alerting/smart-alerts/components/smart-alert-dialog/sharedFunctions';
-import { SimpleDialogFooter } from 'in-alerting/smart-alerts/applications/components/SimpleDialogFooter';
 import { stepConfigs, stepRenderers } from 'in-alerting/smart-alerts/websites/simple/simpleModeSteps';
 import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/AlertingChartWrapper';
 import AdvancedModeContainer from 'in-alerting/smart-alerts/websites/advanced/AdvancedModeContainer';
-import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { SimpleDialogFooter } from 'in-components/BlueprintFormMultistep/SimpleDialogFooter';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
-import createThresholdForm from 'in-alerting/smart-alerts/websites/form/thresholdForm';
 import { websitesAlertingStepSwitch } from 'in-alerting/smart-alerts/websites/tracker';
-import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { days } from 'in-services/time';
@@ -103,6 +102,13 @@ function SmartAlertConfigDialogWithQueryValidation({
     numeratorTagFilterFormModel
   });
 
+  const hasCustomPayloadValidDynamicTags = useVerifyCustomPayloadItemsWithTagCatalog(
+    beaconType,
+    alertConfigWithFormModel.customPayloadFields
+  );
+
+  const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator(beaconType, websiteId);
+
   const { step, setStep, simpleModeStep, backOrCancel, handleSubmit } = useSimpleModePageNavigation({
     stepConfigs,
     form,
@@ -111,6 +117,8 @@ function SmartAlertConfigDialogWithQueryValidation({
     onClose: withTrackClose,
     onStepChanged: (oldStep, nextStep) => websitesAlertingStepSwitch({ oldStep, nextStep })
   });
+
+  const isCalculatingThreshold = useObservable(thresholdOrBaselineLoadingSignal$, []);
 
   const footer = simpleMode ? (
     <SimpleDialogFooter
@@ -122,7 +130,7 @@ function SmartAlertConfigDialogWithQueryValidation({
       form={form}
       isSaving={isSaving}
       formId={FORM_ID}
-      additionalStepCheck={step => (step === 1 ? true : isTagFilterFormModelValid)}
+      additionalStepCheck={step => (step === 1 ? true : isTagFilterFormModelValid) && !isCalculatingThreshold}
     />
   ) : (
     <AdvancedModeFooter
@@ -149,6 +157,8 @@ function SmartAlertConfigDialogWithQueryValidation({
       simpleMode={simpleMode}
       setSimpleMode={setSimpleMode}
       thresholdResult={thresholdResult}
+      TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
+      isDynamicCustomPayloadValid={hasCustomPayloadValidDynamicTags}
       QueryBuilderComponent={AlertQueryBuilder}
       SimpleModeElement={SimpleModeContainer}
       AdvancedModeElement={AdvancedModeContainer}
@@ -157,93 +167,8 @@ function SmartAlertConfigDialogWithQueryValidation({
   );
 }
 
-function resolveThresholdRequest(
-  alertConfigWithFormModel,
-  blueprintConfig,
-  enrichedTagFilterFormModel,
-  numeratorTagFilterFormModel,
-  fallbackOnError,
-  isValid
-) {
-  const {
-    rule: { metricName },
-    rule,
-    threshold: { operator, seasonality = null },
-    granularity,
-    hiddenFields: { calculateThresholdOnBackend }
-  } = alertConfigWithFormModel;
-
-  if (!isValid || !calculateThresholdOnBackend) {
-    return empty;
-  }
-
-  const getSeasonality = () => {
-    if (!blueprintConfig.baselineEnabled) {
-      // request static threshold
-      return null;
-    }
-    return fallbackOnError ? DAILY : seasonality;
-  };
-
-  const thresholdSuggestionRequest = blueprintConfig.getThresholdSuggestionRequest(metricName);
-  return thresholdSuggestionRequest({
-    tagFilterExpression: toBackendQueryModel(enrichedTagFilterFormModel),
-    metric: {
-      metric: blueprintConfig.getMetricName(rule),
-      granularity,
-      aggregation: blueprintConfig.getAggregation(rule),
-      numeratorTagFilterExpression: toBackendQueryModel(numeratorTagFilterFormModel)
-    },
-    operator,
-    seasonality: getSeasonality(),
-    fallbackOnError
-  });
-}
-
-function useCalculateThresholdOnBackendSignalEmitter(form) {
-  const calculateThresholdOnBackend = form.get('hiddenFields').get('calculateThresholdOnBackend').value;
-
-  useEffect(() => {
-    thresholdOrBaselineLoadingSignal$.emit(calculateThresholdOnBackend);
-  }, [calculateThresholdOnBackend]);
-}
-
 function useIsTagFilterFormModelValid(tagFilterFormModel, isAlertQueryValid) {
   const timeConfig = useTimeConfig();
   const result = useObservable(args => isAlertQueryValid(args), [tagFilterFormModel, timeConfig]) ?? pendingResult;
   return !!result?.data;
-}
-
-function useThresholdSuggestion(form, updateForm, setThresholdResult, config) {
-  const {
-    isValid,
-    simpleMode,
-    alertConfigWithFormModel,
-    blueprintConfig,
-    enrichedTagFilterFormModel,
-    numeratorTagFilterFormModel
-  } = config;
-  const thresholdResult = useObservable(
-    ([simpleMode, isValid]) =>
-      resolveThresholdRequest(
-        alertConfigWithFormModel,
-        blueprintConfig,
-        enrichedTagFilterFormModel,
-        numeratorTagFilterFormModel,
-        simpleMode,
-        isValid
-      ),
-    [simpleMode, isValid, form]
-  );
-
-  useEffect(() => {
-    if (!thresholdResult || thresholdResult.progress?.loading) return;
-
-    setThresholdResult(thresholdResult);
-    const { data, errors, time } = thresholdResult;
-    if (isValid) {
-      updateThresholdInForm(createThresholdForm, form, updateForm, data, errors, time, simpleMode);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [thresholdResult, form.get('hiddenFields').get('calculateThresholdOnBackend').value]);
 }

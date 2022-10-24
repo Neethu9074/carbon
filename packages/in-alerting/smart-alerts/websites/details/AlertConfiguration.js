@@ -8,11 +8,13 @@ import PropTypes from 'prop-types';
 
 import WebsitesAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/websites/chart/WebsitesAlertingChartWithErrorMessage';
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/smart-alert-dialog/TimeThresholdDescription';
+import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/websites/hooks/useTagBasedPayloadConfigurator';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/smart-alert-dialog/ChartViewConfigurator';
 import { getStatusCodeLabel, getRuleOperatorLabel } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
+import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
-import CustomPayloadCard from 'in-alerting/smart-alerts/applications/details/CustomPayloadCard';
+import CustomPayloadCard from 'in-alerting/smart-alerts/components/details/CustomPayloadCard';
 import WebsiteScopePath from 'in-alerting/smart-alerts/websites/components/WebsiteScopePath';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
@@ -46,6 +48,8 @@ export default function AlertConfiguration({ alertConfig }) {
 
   const blueprintConfig = getBlueprintConfig(alertType);
   const beaconType = blueprintConfig.getBeaconType(metricName);
+
+  const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator(beaconType, websiteId);
   const AlertQueryBuilder = getQueryBuilderForBeaconType(beaconType).QueryBuilder;
 
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
@@ -151,7 +155,12 @@ export default function AlertConfiguration({ alertConfig }) {
         <AlertPropertyInfos alertConfig={alertConfig} />
       </ExpandableLightCard>
 
-      <CustomPayloadCard customPayloadFields={customPayloadFields} />
+      <GlobalCustomPayloadCard context="WEBSITE" />
+      <CustomPayloadCard
+        TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
+        customPayloadFields={customPayloadFields}
+        openByDefault
+      />
     </AlertDetailsCard>
   );
 }

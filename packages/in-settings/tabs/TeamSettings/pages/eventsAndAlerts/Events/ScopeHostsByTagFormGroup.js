@@ -7,6 +7,7 @@ import React from 'react';
 
 import { just } from '@instana/observables';
 
+import HostScopeDefinitionReadOnlyView from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/HostScopeDefinitionReadOnlyView';
 import {
   putTagValueField,
   removeTagValueField
@@ -21,27 +22,36 @@ import FormGroup from 'in-settings/components/FormGroup';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
 
-export default function ScopeHostsByTagFormGroup({ form, onChange }) {
+export default function ScopeHostsByTagFormGroup({ form, onChange, disabled }) {
   const tagValueField = form.get('tagValue');
 
   return (
     <FormGroup>
       <Label hasError={hasError()}>{t('in-settings:tabs.scopeHostsByTag')}</Label>
-      <HostScopeDefinitionSelector
-        tagTreeNode={infraTagTreeNode}
-        getSuggestions={() =>
-          just({
-            data: {
-              suggestions: []
-            }
-          })
-        }
-        tagValueField={tagValueField}
-        setTagValue={updatedTagValue => onChange('tagValue', updatedTagValue)}
-        operator={form.get('tagOperator')?.value ?? EQUALS}
-        setOperator={handleOperatorChange}
-        handleCancel={() => onChangeApplyOn(scopeEverything, onChange)}
-      />
+      {!disabled && (
+        <HostScopeDefinitionSelector
+          tagTreeNode={infraTagTreeNode}
+          getSuggestions={() =>
+            just({
+              data: {
+                suggestions: []
+              }
+            })
+          }
+          tagValueField={tagValueField}
+          setTagValue={updatedTagValue => onChange('tagValue', updatedTagValue)}
+          operator={form.get('tagOperator')?.value ?? EQUALS}
+          setOperator={handleOperatorChange}
+          handleCancel={() => onChangeApplyOn(scopeEverything, onChange)}
+        />
+      )}
+      {disabled && (
+        <HostScopeDefinitionReadOnlyView
+          tagTreeNode={infraTagTreeNode}
+          tagValueField={tagValueField}
+          operator={form.get('tagOperator')?.value ?? EQUALS}
+        />
+      )}
       {tagValueField ? <TouchedMessages field={tagValueField} /> : null}
     </FormGroup>
   );

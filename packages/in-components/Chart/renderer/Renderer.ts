@@ -14,12 +14,11 @@ import integral from 'in-components/Chart/renderer/integral';
 // @ts-expect-error
 import area from 'in-components/Chart/renderer/area';
 // @ts-expect-error
-import line from 'in-components/Chart/renderer/line';
-// @ts-expect-error
 import bar from 'in-components/Chart/renderer/bar';
 // @ts-expect-error
 import pie from 'in-components/Chart/renderer/pie';
 import point from 'in-components/Chart/renderer/point';
+import line from 'in-components/Chart/renderer/line';
 import { Renderer } from './types';
 
 export default {
@@ -27,7 +26,7 @@ export default {
   bar: bar as Renderer,
   barOverlapping: barOverlapping as Renderer,
   integral: integral as Renderer,
-  line: line as Renderer,
+  line,
   point,
   stackedArea: stackedArea as Renderer,
   stackedBar: stackedBar as Renderer,

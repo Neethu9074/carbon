@@ -141,6 +141,8 @@ const columnDefinitions = [
     label: t('in-applications:labelHealth'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
+      let openIssues = get(item, ['metrics', 'openIssues', 0, 1], 0);
+      let maxSeverity = get(item, ['metrics', 'maxSeverity', 0, 1], 0);
       return (
         <ApplicationEntityHealthIndicatorBehavior
           applicationId={item.application.id}
@@ -149,6 +151,7 @@ const columnDefinitions = [
           IndicatorPresenter={HealthIndicatorPresenter}
           timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
           inContentArea
+          tooltipLabel={getTooltipLabel(openIssues, maxSeverity)}
         />
       );
     }
@@ -173,7 +176,8 @@ export default function ApplicationsListPresenter({
   contextScope,
   tagFilters,
   snapshotId,
-  plugin
+  plugin,
+  location
 }) {
   const scopeNotification = (applicationId || serviceId || endpointId || tagFilters) && contextScope && (
     <ScopeNotification
@@ -232,7 +236,9 @@ export default function ApplicationsListPresenter({
       <Footer />
       <FloatingActionButtons>
         <FloatingActionButtonMenu>
-          {role.canConfigureApplications && <CreateApplication icon="lib_openclose_add_box" kind="primaryv2" />}
+          {role.canConfigureApplications && (
+            <CreateApplication icon="lib_openclose_add_box" kind="primaryv2" location={location} />
+          )}
 
           {role.canConfigureGlobalAlertConfigs && applicationSmartAlertsEnabled && (
             <CreateGlobalSmartAlertButton renderAsSimpleButton />
@@ -275,4 +281,16 @@ function getTableData({
 
 function getHasDataToRender(timeConfig) {
   return getApplicationsWithDefaults({ timeConfig }).map(result => !result.data || result.data.totalHits > 0);
+}
+
+function getTooltipLabel(openIssues, maxSeverity) {
+  if (openIssues === 0) {
+    return t('in-applications:noIssues');
+  } else {
+    if (maxSeverity > 5) {
+      return t('in-applications:labelCritical');
+    } else {
+      return t('in-applications:labelWarning');
+    }
+  }
 }

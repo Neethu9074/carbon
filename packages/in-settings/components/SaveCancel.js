@@ -30,7 +30,6 @@ export default function SaveCancel({
   const saving = loading && message === entityFormSavingMessage;
   const saveButtonLabel = isCreate ? t('forms.actions.create') : t('forms.actions.save');
   const savingStateName = t('forms.states.saving');
-
   return (
     <Fragment>
       <Section className={locals.line}>

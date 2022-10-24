@@ -25,6 +25,7 @@ export type NumberFormatter =
   | {
       compact?: (...args: any) => string;
       detailed?: (...args: any) => string;
+      short?: (...args: any) => string;
 
       // More properties may be defined, but we ignore them.
       [other: string]: any;
@@ -53,6 +54,7 @@ export function markAsFormatterType<T extends NumberFormatter>(formatter: T, typ
   mark(formatter, type);
   mark((formatter as any).compact, type);
   mark((formatter as any).detailed, type);
+  mark((formatter as any).short, type);
   return formatter;
 }
 
@@ -70,7 +72,11 @@ function mark(obj: any, type: FormatterType) {
  */
 export function getFormatterType(formatter?: NumberFormatter): FormatterType {
   return (
-    get(formatter) || get((formatter as any)?.compact) || get((formatter as any)?.detailed) || UNDEFINED_FORMATTER_TYPE
+    get(formatter) ||
+    get((formatter as any)?.compact) ||
+    get((formatter as any)?.short) ||
+    get((formatter as any)?.detailed) ||
+    UNDEFINED_FORMATTER_TYPE
   );
 }
 

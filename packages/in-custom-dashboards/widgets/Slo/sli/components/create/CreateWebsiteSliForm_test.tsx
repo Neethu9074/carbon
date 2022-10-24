@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc. 2022
  */
 
-import { MapForm } from 'formalistic';
 import { shallow } from 'enzyme';
 import { isMatch } from 'lodash';
 import React from 'react';
@@ -14,7 +13,6 @@ import CreateWebsiteSliForm from 'in-custom-dashboards/widgets/Slo/sli/component
 import CreateSliForm from 'in-custom-dashboards/widgets/Slo/sli/components/create/CreateSliForm';
 import { Website, WebsiteEventBasedSliEntity, WebsiteTimeBasedSliEntity } from 'in-types';
 import { WebsiteSliForm } from 'in-custom-dashboards/widgets/Slo/sli/WebsiteSliForm';
-import { createSliConfiguration } from 'in-custom-dashboards/widgets/Slo/sli/api';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import uW from 'in-websites/hooks/useWebsite';
@@ -28,7 +26,7 @@ jest.mock('in-custom-dashboards/widgets/Slo/sli/hooks/useWebsiteQueryBuilder', (
   useValidateWebsiteFilterExpression: jest.fn(() => false)
 }));
 jest.mock('in-custom-dashboards/widgets/Slo/sli/api', () => ({
-  createSliConfiguration: jest.fn()
+  createSliConfiguration: jest.fn(() => ({ tap: jest.fn() }))
 }));
 
 const useWebsite = uW as jest.MockedFunction<typeof uW>;
@@ -47,7 +45,9 @@ describe('in-custom-dashboards/widgets/Slo/sli/create/CreateWebsiteSliForm', () 
     useWebsite.mockReturnValueOnce([undefined, 'pending', [], { loading: false }]);
 
     // When
-    const wrapper = shallow(<CreateWebsiteSliForm entityId="someString" close={jest.fn()} setFooter={jest.fn()} />);
+    const wrapper = shallow(
+      <CreateWebsiteSliForm entityId="someString" close={jest.fn()} setFooter={jest.fn()} onSave={jest.fn()} />
+    );
 
     // Then
     // @ts-expect-error
@@ -61,7 +61,13 @@ describe('in-custom-dashboards/widgets/Slo/sli/create/CreateWebsiteSliForm', () 
 
     // When
     const wrapper = shallow(
-      <CreateWebsiteSliForm sliConfig={sliConfig} entityId="someString" close={jest.fn()} setFooter={jest.fn()} />
+      <CreateWebsiteSliForm
+        sliConfig={sliConfig}
+        entityId="someString"
+        close={jest.fn()}
+        setFooter={jest.fn()}
+        onSave={jest.fn()}
+      />
     );
 
     // Then
@@ -92,7 +98,13 @@ describe('in-custom-dashboards/widgets/Slo/sli/create/CreateWebsiteSliForm', () 
 
     // When
     const wrapper = shallow(
-      <CreateWebsiteSliForm sliConfig={sliConfig} entityId="someString" close={jest.fn()} setFooter={jest.fn()} />
+      <CreateWebsiteSliForm
+        sliConfig={sliConfig}
+        entityId="someString"
+        close={jest.fn()}
+        setFooter={jest.fn()}
+        onSave={jest.fn()}
+      />
     ).dive();
 
     // Then
@@ -127,7 +139,13 @@ describe('in-custom-dashboards/widgets/Slo/sli/create/CreateWebsiteSliForm', () 
 
     // When
     const wrapper = shallow(
-      <CreateWebsiteSliForm sliConfig={sliConfig} entityId="someString" close={jest.fn()} setFooter={jest.fn()} />
+      <CreateWebsiteSliForm
+        sliConfig={sliConfig}
+        entityId="someString"
+        close={jest.fn()}
+        setFooter={jest.fn()}
+        onSave={jest.fn()}
+      />
     ).dive();
 
     // Then
@@ -162,7 +180,13 @@ describe('in-custom-dashboards/widgets/Slo/sli/create/CreateWebsiteSliForm', () 
 
     // When
     const wrapper = shallow(
-      <CreateWebsiteSliForm sliConfig={sliConfig} entityId="someString" close={jest.fn()} setFooter={jest.fn()} />
+      <CreateWebsiteSliForm
+        sliConfig={sliConfig}
+        entityId="someString"
+        close={jest.fn()}
+        setFooter={jest.fn()}
+        onSave={jest.fn()}
+      />
     ).dive();
 
     // Then
@@ -196,7 +220,13 @@ describe('in-custom-dashboards/widgets/Slo/sli/create/CreateWebsiteSliForm', () 
 
     // When
     const wrapper = shallow(
-      <CreateWebsiteSliForm sliConfig={sliConfig} entityId="someString" close={jest.fn()} setFooter={jest.fn()} />
+      <CreateWebsiteSliForm
+        sliConfig={sliConfig}
+        entityId="someString"
+        close={jest.fn()}
+        setFooter={jest.fn()}
+        onSave={jest.fn()}
+      />
     ).dive();
 
     // Then
@@ -209,73 +239,5 @@ describe('in-custom-dashboards/widgets/Slo/sli/create/CreateWebsiteSliForm', () 
         </CreateSliForm>
       )
     ).toBeTruthy();
-  });
-
-  it('correctly maps the form data for an website event based sli entity to a SliConfig on submit', () => {
-    // Given
-    useWebsite.mockReturnValueOnce([mockWebsite, 'resolved', [], { loading: false }]);
-    const sliConfig: SliConfig<WebsiteEventBasedSliEntity> = {
-      sliName: 'someSli',
-      sliEntity: {
-        sliType: websiteEventBased,
-        goodEventFilterExpression: tagFilter('beacon.http.status', 'EQUALS', '200'),
-        badEventFilterExpression: tagFilter('beacon.http.status', 'NOT_EQUAL', '200'),
-        beaconType: 'httpRequest'
-      },
-      id: 'someId',
-      initialEvaluationTimestamp: 0
-    };
-    const wrapper = shallow(
-      <CreateWebsiteSliForm sliConfig={sliConfig} entityId="someString" close={jest.fn()} setFooter={jest.fn()} />
-    ).dive();
-
-    // When
-    const form = wrapper.first().prop('form') as MapForm;
-    wrapper.first().simulate('submit', form.toJS());
-
-    // Then
-    expect(createSliConfiguration).toHaveBeenLastCalledWith(
-      expect.objectContaining({
-        sliEntity: expect.objectContaining({
-          goodEventFilterExpression: expect.objectContaining(tagFilter('beacon.http.status', 'EQUALS', '200')),
-          badEventFilterExpression: expect.objectContaining(tagFilter('beacon.http.status', 'NOT_EQUAL', '200'))
-        })
-      })
-    );
-  });
-
-  it('correctly maps the form data for an website time based sli entity to a SliConfig on submit', () => {
-    // Given
-    useWebsite.mockReturnValueOnce([mockWebsite, 'resolved', [], { loading: false }]);
-    const sliConfig: SliConfig<WebsiteTimeBasedSliEntity> = {
-      sliName: 'someSli',
-      sliEntity: {
-        sliType: websiteTimeBased,
-        filterExpression: tagFilter('beacon.http.status', 'EQUALS', '200'),
-        beaconType: 'httpRequest'
-      },
-      metricConfiguration: {
-        metricName: 'some.metric',
-        threshold: 99
-      },
-      id: 'someId',
-      initialEvaluationTimestamp: 0
-    };
-    const wrapper = shallow(
-      <CreateWebsiteSliForm sliConfig={sliConfig} entityId="someString" close={jest.fn()} setFooter={jest.fn()} />
-    ).dive();
-
-    // When
-    const form = wrapper.first().prop('form') as MapForm;
-    wrapper.first().simulate('submit', form.toJS());
-
-    // Then
-    expect(createSliConfiguration).toHaveBeenLastCalledWith(
-      expect.objectContaining({
-        sliEntity: expect.objectContaining({
-          filterExpression: expect.objectContaining(tagFilter('beacon.http.status', 'EQUALS', '200'))
-        })
-      })
-    );
   });
 });

@@ -80,25 +80,135 @@
     "buttonLabel": "建立新的測試"
   },
   "navigation": {
-    "synthetics": "綜合"
+    "synthetics": "綜合監視"
   },
   "dashboard": {
     "testList": {
-      "mainLabel": "虛構測試",
+      "mainLabel": "綜合監視",
       "secondaryLabels": {
         "tests": "測試",
-        "location": "位置"
+        "locations": "位置"
       },
-      "locationsSubText": "{{count}} 個位置",
-      "locationsSubText_plural": "{{count}} 個位置",
+      "testLabel": "名稱",
+      "status": "狀態",
       "frequencySubText": "每 {{count}} 分鐘",
       "frequencySubText_plural": "每 {{count}} 分鐘",
       "pause": "暫停測試",
-      "resume": "回復測試"
+      "resume": "回復測試",
+      "active": "作用中",
+      "paused": "已暫停",
+      "type": "類型",
+      "successRate": "成功率",
+      "successRuns": "{{successRuns}} / {{totalRuns}} 個結果",
+      "latency": "延遲",
+      "locationLabel": "位置",
+      "locations": "{{totalLocations}} 個位置",
+      "applicationLabel": "應用程式",
+      "health": "性能",
+      "action": "動作",
+      "delete": "刪除測試",
+      "labelConfirm": "請確認",
+      "labelConfirmRemoveTest": "您確定要移除綜合測試 <strong>{{label}}</strong> 嗎？",
+      "labelRemove": "移除",
+      "na": "N/A"
     },
-    "sortOptions": {
-      "name": "名稱",
-      "frequency": "頻率"
+    "locationList": {
+      "locationLabel": "位置名稱",
+      "status": "狀態",
+      "type": "類型",
+      "totalTests": "鏈結的測試數目",
+      "lastRun": "前次測試執行時間"
+    },
+    "summary": {
+      "successRate": "成功率",
+      "locations": "位置",
+      "responseTime": "回應時間",
+      "meanResponseTime": "平均 回應時間",
+      "responseSize": "回應大小",
+      "avgResponseSize": "平均 回應大小",
+      "summaryTab": "摘要",
+      "resultsTab": "結果",
+      "startTime": "開始時間",
+      "requests": "要求",
+      "widgets": {
+        "failures": "失敗",
+        "responseTimes": "回應時間",
+        "averageResponseSize": "平均回應大小",
+        "responseStatus": "回應狀態",
+        "networkTimings": "網路計時",
+        "blocking": "封鎖中",
+        "dns": "DNS 查閱",
+        "sending": "傳送中",
+        "waiting": "等待中",
+        "receiving": "接收中",
+        "slowest": "最慢",
+        "latest": "最新",
+        "failed": "失敗",
+        "results": "結果",
+        "linkViewAllTestResults": "檢視所有結果",
+        "ok": "成功",
+        "redirection": "重新導向",
+        "clientError": "用戶端錯誤",
+        "serverError": "伺服器錯誤"
+      },
+      "totalRuns": "{{totalRuns}} 執行總數",
+      "meanLatencyFor90th": "第 90 個的 {{meanLatencyDetail}}"
+    },
+    "resultsListPage": {
+      "startedColumn": "已開始",
+      "locationColumn": "位置",
+      "responseTimeColumn": "回應時間",
+      "responseSizeColumn": "回應大小",
+      "retriesColumn": "重試次數",
+      "title": "結果"
+    },
+    "detailsPage": {
+      "timeLineWidget": "時間表",
+      "responseTimeChart": "回應時間",
+      "subtransactionStatus": "狀態",
+      "subtransactionSize": "大小",
+      "subtransactionTime": "時間",
+      "subtransactionBlocking": "封鎖",
+      "subtransactionDNS": "DNS",
+      "subtransactionConnect": "連接",
+      "subtransactionSSL": "SSL",
+      "subtransactionSending": "傳送中",
+      "subtransactionWaiting": "等待中",
+      "subtransactionReceiving": "接收中",
+      "showLessSubDetails": "顯示更少",
+      "showMoreSubDetails": "顯示更多",
+      "failedRun": "執行失敗（異常狀況）",
+      "failedRunErrorTitle": "錯誤訊息",
+      "noFailedErrorMessage": "沒有錯誤訊息",
+      "stackTraceTitle": "堆疊追蹤",
+      "noStacktrace": "無堆疊追蹤",
+      "statusKpiCard": "狀態",
+      "successResult": "成功",
+      "failedResult": "失敗",
+      "searchFilter": "搜尋",
+      "subtransactionBody": {
+        "contentType": "內容類型",
+        "size": "大小",
+        "redirectTime": "重新導向時間",
+        "uploadSpeed": "上傳速度",
+        "downloadSpeed": "下載速度",
+        "requestTitle": "要求",
+        "responseTimingTitle": "回應計時",
+        "timingsPercentageOfTotalDurationName": "{{totalDurationName}} 的 {{percentage}}"
+      },
+      "logs": "日誌",
+      "noDataAvailable": {
+        "message": "此測試結果無法使用 {{component}} 詳細資料",
+        "notFound": "找不到"
+      }
+    },
+    "noDataAvailable": {
+      "resultsTitle": "無可用的結果",
+      "resultsDescription": "所選的時間範圍內未擷取到任何的結果。",
+      "testSummaryTitle": "沒有可用的綜合測試",
+      "testSummaryDescription": "未從資料庫擷取綜合測試。",
+      "locationListTitle": "沒有可用的綜合位置",
+      "locationListDescription": "沒有從資料庫擷取的綜合位置。"
     }
   }
 }

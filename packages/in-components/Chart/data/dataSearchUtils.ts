@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Axis, MetricDataSeries } from 'in-components/Chart/types';
 import Configuration from 'in-components/Chart/Configuration';
-import { Axis } from 'in-components/Chart/types';
 
 export function getNearestDataPointDomainForTimestamp(config: Configuration, timestamp: number, floor = false) {
   if (timeIsNotDefined(timestamp)) {
@@ -31,9 +31,34 @@ export function getNearestDataPointDomainForTimestamp(config: Configuration, tim
   return nearestDomain;
 }
 
-interface DataPoints {
+export const AxisNames = ['y1', 'y2'] as const;
+export type AxisName = typeof AxisNames[number];
+
+type DataPoints = {
   y1?: [number, number][];
   y2?: [number, number][];
+};
+
+function collectDataPointsForAxis(
+  axisName: AxisName,
+  metricDataSeries: MetricDataSeries[] | undefined,
+  timestamp: number,
+  dataPointsCollection: DataPoints
+) {
+  if (metricDataSeries == null) {
+    return;
+  }
+  for (let i = 0; i < metricDataSeries.length; i++) {
+    const dataSeries = metricDataSeries[i];
+    const dataPointAtTime = getDataPointAtTimeForDataSeries(timestamp, dataSeries);
+    if (dataPointAtTime) {
+      if (!dataPointsCollection[axisName]) {
+        dataPointsCollection[axisName] = [];
+      }
+      // We previously created an empty array if the axis is not yet present, so we are sure it exists
+      dataPointsCollection[axisName]![i] = dataPointAtTime;
+    }
+  }
 }
 
 export function collectAllDataPointsAtTime(config: Configuration, timestamp: number) {
@@ -42,28 +67,23 @@ export function collectAllDataPointsAtTime(config: Configuration, timestamp: num
   }
 
   const dataPointsCollection: DataPoints = {};
-  if (config.y1) {
-    for (let i = 0; i < config.y1.metrics.length; i++) {
-      const dataSeries = config.y1.metrics[i];
-      const dataPointAtTime = getDataPointAtTimeForDataSeries(timestamp, dataSeries);
-      if (dataPointAtTime) {
-        if (!dataPointsCollection.y1) {
-          dataPointsCollection.y1 = [];
-        }
-        dataPointsCollection.y1[i] = dataPointAtTime;
-      }
+  for (const axis of AxisNames) {
+    if (config[axis]) {
+      collectDataPointsForAxis(axis, config[axis]?.metrics, timestamp, dataPointsCollection);
     }
   }
-  if (config.y2) {
-    for (let i = 0; i < config.y2.metrics.length; i++) {
-      const dataSeries = config.y2.metrics[i];
-      const dataPointAtTime = getDataPointAtTimeForDataSeries(timestamp, dataSeries);
-      if (dataPointAtTime) {
-        if (!dataPointsCollection.y2) {
-          dataPointsCollection.y2 = [];
-        }
-        dataPointsCollection.y2[i] = dataPointAtTime;
-      }
+  return dataPointsCollection;
+}
+
+export function collectAllCompanionDataPointsAtTime(config: Configuration, timestamp: number) {
+  if (timeIsNotDefined(timestamp)) {
+    return null;
+  }
+
+  const dataPointsCollection: DataPoints = {};
+  for (const axis of AxisNames) {
+    if (config[axis] && config[axis]?.companionMetrics) {
+      collectDataPointsForAxis(axis, config[axis]?.companionMetrics, timestamp, dataPointsCollection);
     }
   }
   return dataPointsCollection;

@@ -1,0 +1,17 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2022
+ */
+
+:local {
+  .fourLines {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4; /* number of lines to show */
+    line-height: 1.15rem; /* fallback */
+    max-height: 4.6rem; /* fallback, line-height x number of lines */
+  }
+}

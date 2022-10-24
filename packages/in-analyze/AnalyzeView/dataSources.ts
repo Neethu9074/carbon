@@ -12,7 +12,7 @@ import { entityTypes } from 'in-analyze/applicationFilter';
 import { deepFreeze } from 'in-services/util/object';
 import { t } from 'in-i18n';
 
-type AnalyzeDataSource = Lowercase<DataSource | 'profiles'>;
+export type AnalyzeDataSource = Lowercase<DataSource | 'profiles'>;
 interface FilterTagKeysConfig {
   filterTagKeys: ReturnType<typeof getAnalyzeFilterTagKeys>;
 }
@@ -102,7 +102,7 @@ export const groupByServiceName = {
   entity: entityTypes.DESTINATION
 } as const;
 
-export const productAreaLabels = Object.freeze({
+export const productAreaLabels = Object.freeze<Record<ProductArea, string>>({
   application: t('in-analyze:analyzeView.dataSources.applications'),
   website: t('in-analyze:analyzeView.dataSources.websites'),
   mobileApp: t('in-analyze:analyzeView.dataSources.mobileApps'),
@@ -118,15 +118,80 @@ export const productAreaTrackingNames = Object.freeze({
   logs: t('in-analyze:analyzeView.dataSources.logs')
 } as const);
 
-export const productAreaIcons = Object.freeze({
+enum ProductAreaEnum {
+  application,
+  website,
+  mobileApp,
+  profiles,
+  logs
+}
+
+enum EntityEnum {
+  pageLoad,
+  pageChange,
+  resourceLoad,
+  httpRequest,
+  error,
+  custom,
+  profiles,
+  calls,
+  traces,
+  logs,
+  sessionStart,
+  viewChange,
+  crash
+}
+
+type Icon = Record<string, string>;
+
+export type ProductArea = keyof typeof ProductAreaEnum;
+export type DataSourceType<T extends ProductArea> = keyof typeof icons[T];
+export type Entity = keyof typeof EntityEnum;
+
+export const entityNames = Object.freeze<Record<Entity, string>>({
+  pageLoad: t('in-analyze:analyzeView.dataSources.pageLoads'),
+  pageChange: t('in-analyze:analyzeView.dataSources.pageTransitions'),
+  resourceLoad: t('in-analyze:analyzeView.dataSources.resources'),
+  httpRequest: t('in-analyze:analyzeView.dataSources.httpRequests'),
+  error: t('in-analyze:analyzeView.dataSources.javaScriptErrors'),
+  custom: t('in-analyze:analyzeView.dataSources.customEvents'),
+  profiles: t('in-analyze:analyzeView.dataSources.profiles'),
+  calls: t('in-analyze:analyzeView.dataSources.calls'),
+  traces: t('in-analyze:analyzeView.dataSources.traces'),
+  logs: t('in-analyze:analyzeView.dataSources.logs'),
+  sessionStart: t('in-analyze:analyzeView.dataSources.sessionStarts'),
+  viewChange: t('in-analyze:analyzeView.dataSources.viewTransitions'),
+  crash: t('in-analyze:analyzeView.dataSources.crashes')
+});
+
+export const entityLabels = Object.freeze<Record<Entity, string>>({
+  pageLoad: t('in-analyze:analyzeView.dataSources.pageLoads2'),
+  pageChange: t('in-analyze:analyzeView.dataSources.pageTransitions2'),
+  resourceLoad: t('in-analyze:analyzeView.dataSources.resources'),
+  httpRequest: t('in-analyze:analyzeView.dataSources.httpRequests2'),
+  error: t('in-analyze:analyzeView.dataSources.jsErrors'),
+  custom: t('in-analyze:analyzeView.dataSources.customEvents2'),
+  sessionStart: t('in-analyze:analyzeView.dataSources.sessionStarts'),
+  viewChange: t('in-analyze:analyzeView.dataSources.viewTransitions2'),
+  profiles: t('in-analyze:analyzeView.dataSources.profiles'),
+  calls: t('in-analyze:analyzeView.dataSources.calls'),
+  traces: t('in-analyze:analyzeView.dataSources.traces'),
+  logs: t('in-analyze:analyzeView.dataSources.logs'),
+  crash: t('in-analyze:analyzeView.dataSources.crashes')
+});
+
+export const getEntityNameByType = (type: Entity): string => entityNames[type] || type;
+export const getLabelByType = (type: Entity): string => entityLabels[type] || type;
+
+export const productAreaIcons = Object.freeze<Record<ProductArea, string>>({
   application: 'lib_application_invert',
   website: 'lib_website',
   mobileApp: 'lib_mobile_app',
   profiles: 'lib_profiling',
   logs: 'lib_application_logging'
-} as const);
+});
 
-const icons = deepFreeze({
+const icons = deepFreeze<Record<ProductArea, Icon>>({
   application: {
     traces: 'lib_application_trace',
     calls: 'lib_application_call',
@@ -147,78 +212,15 @@ const icons = deepFreeze({
     sessionStart: 'lib_mobile_app_session',
     viewChange: 'lib_mobile_app',
     httpRequest: 'lib_mobile_app_request',
-    custom: 'lib_mobile_app_custom_event'
+    custom: 'lib_mobile_app_custom_event',
+    crash: 'lib_mobile_app'
   },
   profiles: {
     profiles: 'lib_profiling'
-  }
-} as const);
-
-export type ProductArea = keyof typeof icons;
-export type DataSourceType<T extends ProductArea> = keyof typeof icons[T];
+  },
+  logs: {}
+});
 
 export function getIconByType<P extends ProductArea>(type: DataSourceType<P>, productArea: P): string {
   return (get<typeof icons, P, DataSourceType<P>>(icons, [productArea, type]) as unknown) as string;
-}
-
-export function getEntityNameByType(type: DataSourceType<ProductArea>): string {
-  if (type === 'pageLoad') {
-    return t('in-analyze:analyzeView.dataSources.pageLoads');
-  } else if (type === 'pageChange') {
-    return t('in-analyze:analyzeView.dataSources.pageTransitions');
-  } else if (type === 'resourceLoad') {
-    return t('in-analyze:analyzeView.dataSources.resources');
-  } else if (type === 'httpRequest') {
-    return t('in-analyze:analyzeView.dataSources.httpRequests');
-  } else if (type === 'error') {
-    return t('in-analyze:analyzeView.dataSources.javaScriptErrors');
-  } else if (type === 'custom') {
-    return t('in-analyze:analyzeView.dataSources.customEvents');
-  } else if (type === 'profiles') {
-    return t('in-analyze:analyzeView.dataSources.profiles');
-  } else if (type === 'calls') {
-    return t('in-analyze:analyzeView.dataSources.calls');
-  } else if (type === 'traces') {
-    return t('in-analyze:analyzeView.dataSources.traces');
-  } else if (type === 'logs' || type === 'rawlogs') {
-    return t('in-analyze:analyzeView.dataSources.logs');
-  } else if (type === 'sessionStart') {
-    return t('in-analyze:analyzeView.dataSources.sessionStarts');
-  } else if (type === 'viewChange') {
-    return t('in-analyze:analyzeView.dataSources.viewTransitions');
-  }
-
-  return type;
-}
-
-export function getLabelByType(type: DataSourceType<ProductArea>): string {
-  if (type === 'pageLoad') {
-    return t('in-analyze:analyzeView.dataSources.pageLoads2');
-  } else if (type === 'pageChange') {
-    return t('in-analyze:analyzeView.dataSources.pageTransitions2');
-  } else if (type === 'resourceLoad') {
-    return t('in-analyze:analyzeView.dataSources.resources');
-  } else if (type === 'httpRequest') {
-    return t('in-analyze:analyzeView.dataSources.httpRequests2');
-  } else if (type === 'error') {
-    return t('in-analyze:analyzeView.dataSources.jsErrors');
-  } else if (type === 'custom') {
-    return t('in-analyze:analyzeView.dataSources.customEvents2');
-  } else if (type === 'sessionStart') {
-    return t('in-analyze:analyzeView.dataSources.sessionStarts');
-  } else if (type === 'viewChange') {
-    return t('in-analyze:analyzeView.dataSources.viewTransitions2');
-  } else if (type === 'profiles') {
-    return t('in-analyze:analyzeView.dataSources.profiles');
-  } else if (type === 'calls') {
-    return t('in-analyze:analyzeView.dataSources.calls');
-  } else if (type === 'traces') {
-    return t('in-analyze:analyzeView.dataSources.traces');
-  } else if (type === 'logs') {
-    return t('in-analyze:analyzeView.dataSources.logs');
-  } else if (type === 'rawlogs') {
-    return t('in-analyze:analyzeView.dataSources.console');
-  }
-
-  return type;
 }

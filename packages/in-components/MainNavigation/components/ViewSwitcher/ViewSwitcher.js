@@ -49,6 +49,7 @@ import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from '
 import { isAnalyzeView as isProfileAnalyzeView } from 'in-components/Profiling/navigation/paths';
 import { physicalPath, containerPath, isTableView } from 'in-stores/navigation/paths/mainPaths';
 import { SubViewItem } from 'in-components/MainNavigation/components/ViewSwitcher/SubView';
+import { isSyntheticMonitoringView, syntheticsPath } from 'in-synthetics/navigation/paths';
 import { urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
 import { getView, isView, getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { regionListFullyQualified, openstack } from 'in-openstack/navigation/paths';
@@ -64,7 +65,6 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { cockpit as cockpitPath } from 'in-cockpit/navigation/paths';
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
 import Stan from 'in-components/MainNavigation/components/Stan';
-import { syntheticsPath } from 'in-synthetics/navigation/paths';
 import { isAnalyzeView } from 'in-analyze/navigation/paths';
 import { openEventsAtServerTime$ } from 'in-stores/events';
 import { showReleaseNotes } from 'in-stores/releaseNotes';
@@ -294,7 +294,7 @@ function Synthetics(props) {
       id="main-nav-synthetics"
       label={t('in-synthetics:navigation.synthetics')}
       icon={'lib_synthetic'}
-      isActive$={isView(syntheticsPath)}
+      isActive$={isView(isSyntheticMonitoringView)}
       href$={getView(syntheticsPath)}
       {...props}
     />

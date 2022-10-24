@@ -73,6 +73,7 @@ export default function CreateApplicationDialog({ formData, timeConfig, onClose,
       onClose={onClose}
       onCreate={onCreate}
       simpleMode={simpleMode}
+      isSaving={isSaving}
       setSimpleMode={setSimpleMode}
       trackModeSwitch={(simpleMode, step) => {
         applicationCreationModeSwitch(

@@ -55,19 +55,23 @@ export default function Configuration(props) {
   return (
     <SidebarContainer sidebar={sidebar}>
       <Switch>
-        <Route path={configurationOptionsFullyQualified} render={() => <Options {...props} />} />
-        <Route path={configurationPrivacyFullyQualified} render={() => <Privacy {...props} />} />
-        <Route
-          path={configurationCustomGeoDetailsFullyQualified}
-          render={() => <WebsiteCustomGeoDetails {...props} />}
-        />
-        <Route
-          path={configurationJsStackTraceTranslationFullyQualified}
-          render={() => <StackTraceTranslation {...props} />}
-        />
-        <RedirectWithHash
-          to$={getModifiedUrlStream(params => (params.pathname = configurationOptionsFullyQualified))}
-        />
+        <Route path={configurationOptionsFullyQualified}>
+          <Options {...props} />
+        </Route>
+        <Route path={configurationPrivacyFullyQualified}>
+          <Privacy {...props} />
+        </Route>
+        <Route path={configurationCustomGeoDetailsFullyQualified}>
+          <WebsiteCustomGeoDetails {...props} />
+        </Route>
+        <Route path={configurationJsStackTraceTranslationFullyQualified}>
+          <StackTraceTranslation {...props} />
+        </Route>
+        <Route>
+          <RedirectWithHash
+            to$={getModifiedUrlStream(params => (params.pathname = configurationOptionsFullyQualified))}
+          />
+        </Route>
       </Switch>
       <Footer />
     </SidebarContainer>

@@ -167,14 +167,16 @@
         "aggregation": "聚集",
         "crossSeriesAggregation": "使用 SUM 進行跨系列聚集",
         "crossSeriesAggregationHelp": "通常，跨系列聚集與跨時間聚集（用於將資料點結合至單一儲存區的方法）相同。 啟用此切換開關後，我們將加總所有資料系列之間的儲存區，而不是使用指定的聚集。",
-        "crossSeriesAggregationDisabledHelp": "不適用於 {{aggregation}}"
+        "crossSeriesAggregationDisabledHelp": "不適用於 {{aggregation}}",
+        "crossSeriesAggregationRestrictedHelp": "不適用於此度量"
       },
       "metrics": {
         "infrastructurePlatforms": "基礎架構和平台",
         "comingSoon": "（即將推出）"
       },
       "typeAndMetricConfigurator": {
-        "pleaseSelectMetric": "請選取度量"
+        "pleaseSelectMetric": "請選取度量",
+        "loadingMetrics": "正在載入度量..."
       }
     },
     "srcMobileApp": {
@@ -374,6 +376,7 @@
     "slo": {
       "demo": {
         "title": "SLO 標題",
+        "sliName": "範例 Sli",
         "appName": "範例應用程式名稱"
       },
       "apConfigFormComp": {
@@ -478,7 +481,9 @@
         "delSliConfig": "刪除 SLI 配置",
         "pleaseConfirm": "請確認",
         "pleaseConfirmMsg": "您確定要刪除 <strong>{{sliName}}</strong> 嗎？",
-        "delete": "刪除"
+        "delete": "刪除",
+        "eventBasedSli": "事件型",
+        "timeBasedSli": "時間型，{{metricNameLabel}}"
       },
       "sliManageList": {
         "configSrvLevelIndicatorsMsg": "您沒有必要的 <em>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</em> 權限來建立或編輯 SLI。",
@@ -494,7 +499,9 @@
       "chart": {
         "spent": "耗費",
         "budget": "預算",
-        "viewInAnalyze": "在分析中檢視"
+        "viewInAnalyze": "在分析中檢視",
+        "initialEvaluation": "已建立 SLI",
+        "missingDataInfo": "此 SLI 的建立時間在顯示的時間範圍內。 將遺漏 SLI 建立之前的資料。"
       },
       "formComponent": {
         "sliManagement": "SLI 管理",
@@ -521,15 +528,16 @@
         "enterDateFormatYyyyMmDd": "請輸入 YYYY-MM-DD 格式的日期。",
         "enterTimeInFormatHhMmSs": "請輸入 HH:mm:ss 格式的時間。"
       },
-      "widgetHeader": {
+      "sliSummary": {
         "status": "狀態",
         "target": "目標：",
         "errorBudgetSpent": "所耗費的錯誤預算",
         "errorBudget": "錯誤預算：",
         "timeWindow": "時間範圍",
-        "dynamicTimeWindow": "動態時間範圍",
-        "rollingTimeWindow": "輪詢時間範圍",
-        "fixedTimeWindow": "固定時間範圍"
+        "timeWindowType": "不明時間範圍",
+        "timeWindowType_dynamic": "動態時間範圍",
+        "timeWindowType_rolling": "輪詢時間範圍",
+        "timeWindowType_fixed": "固定時間範圍"
       },
       "sloEntityInfo": {
         "tooltip": {
@@ -551,7 +559,9 @@
       "slo": "SLO",
       "monitoringSourceSelector": {
         "source_application": "應用程式",
-        "source_website": "網站"
+        "source_website": "網站（測試版）",
+        "callOut_application": "排除您無法控制的因素，例如一般使用者的網際網路連線功能不佳，但可能無法精確反映一般使用者體驗",
+        "callOut_website": "最精確地反映一般使用者體驗，但不排除您無法控制的因素，例如一般使用者的網際網路連線功能不佳"
       },
       "sliFormatter": {
         "unit": "呼叫",
@@ -560,6 +570,108 @@
         "unit_1": "呼叫",
         "unit_2": "呼叫",
         "thousandCallsFormat": "{{count}}K 個呼叫"
+      },
+      "widgetLeftHeader": {
+        "previewDataInfo": "預覽資料在過去最多只會顯示 7 天。 最終小組件將僅包含自建立 SLI 以來的資料。"
+      },
+      "boundaryScopeConfigurator": {
+        "all": {
+          "title": "所有呼叫",
+          "description": "消費者在此應用程式內執行的呼叫以及在內部執行的呼叫。"
+        },
+        "inbound": {
+          "title": "入埠呼叫",
+          "description": "僅此應用程式的消費者執行的呼叫。"
+        }
+      }
+    },
+    "apdex": {
+      "title": "Apdex：圖表",
+      "chart": {
+        "metricLabel": "Apdex",
+        "viewInAnalyze": "分析時檢視",
+        "noDataRetentionPeriod": "選取的時間範圍超出資料保留期間",
+        "notFoundErrorTitle": "找不到已配置的 Apdex",
+        "notFoundErrorDescription": "請選取另一個 Apdex 配置來更新 Apdex 小組件"
+      },
+      "demo": {
+        "title": "適用於正式作業的 Apdex",
+        "entityLabel": "Robot Shop"
+      },
+      "apdexConfigInfo": {
+        "tagFilterLabel": "過濾器",
+        "apdexNameLabel": "Apdex 名稱",
+        "apdexTypeLabel": "Apdex 類型",
+        "thresholdLabel": "臨界值"
+      },
+      "formComponent": {
+        "title": "Apdex 配置",
+        "entityTypeTitle": "Apdex 類型",
+        "manageListTitle": "Apdex 管理"
+      },
+      "configurationSelector": {
+        "label": "Apdex 配置",
+        "selectConfig": "請選取配置",
+        "manageConfig": "管理 Apdex",
+        "noneAvailCreateOne": "沒有可用的，請建立一個。",
+        "pleaseSelect": "請選取"
+      },
+      "entityTypeSelector": {
+        "type": "不明類型",
+        "type_website": "網站",
+        "type_application": "應用程式"
+      },
+      "apdexManageList": {
+        "title": "Apdex 清單",
+        "deleteSuccessfulMessage": "已順利刪除 Apdex 配置。",
+        "deleteFailedMessage": "無法刪除 Apdex 配置。"
+      },
+      "apdexList": {
+        "cardTitle": "Apdex 配置",
+        "nameColumn": "Apdex 配置",
+        "thresholdColumn": "臨界值",
+        "confirmDeleteHeader": "請確認",
+        "confirmDeleteMessage": "您確定要刪除 {{apdex}} 嗎？",
+        "editApdexTooltip": "編輯/複製 Apdex 配置",
+        "deleteApdexTooltip": "刪除 Apdex 配置",
+        "confirmDeleteButton": "Delete",
+        "createButton": "建立 Apdex 配置"
+      },
+      "createApdexForm": {
+        "title": "建立 Apdex 配置",
+        "customizationHeader": "Apdex 自訂作業",
+        "label": "Apdex 名稱",
+        "apdexCreateSuccessTitle": "已順利建立 Apdex 配置。",
+        "apdexCreateSuccessContent": "已建立 APdex 配置 \"{{apdexName}}\"。",
+        "apdexCreateFailedTitle": "無法建立 Apdex 配置。",
+        "apdexCreateFailedContent": "建立此 Apdex 配置時發生問題：\"{{apdexName}}\"",
+        "apdexNameNotEmpty": "Apdex 名稱不能是空的。",
+        "nameExistsError": "具有此名稱的 Apdex 配置已存在。 請輸入其他名稱",
+        "limitReachedError": {
+          "website": "已達到網站 apdex 配置數上限 ({{0}})。 請聯絡 Instana 支援中心，以要求增加此限制。",
+          "application": "已達到應用程式 apdex 配置數目上限 ({{0}})。 請聯絡 Instana 支援中心，以要求增加此限制。"
+        },
+        "editConfigNotice": "建立之後無法編輯配置以防止資料流失。"
+      },
+      "createWebsiteApdexForm": {
+        "thresholdHeader": "臨界值配置",
+        "thresholdLabel": "臨界值"
+      },
+      "entityInfo": {
+        "tooltip": "不明 Apdex",
+        "tooltip_website": "網站 Apdex",
+        "tooltip_application": "應用程式 Apdex"
+      },
+      "widget": {
+        "unknownEntityLabel_application": "不明應用程式",
+        "unknownEntityLabel_website": "不明網站",
+        "previewDataInfo": "顯示過去 7 天的預覽資料。 最終小組件只會包含自建立 Apdex 配置以來的資料。"
+      },
+      "applicationScopeConfigurator": {
+        "label": "Apdex 範圍",
+        "boundaryScope": "界限",
+        "hiddenCalls": "隱藏呼叫",
+        "additionalFilters": "其他過濾器"
       }
     },
     "timezone": {

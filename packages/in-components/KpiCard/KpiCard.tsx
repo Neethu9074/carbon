@@ -34,6 +34,10 @@ export interface KpiCardProps {
   value?: any;
   actions?: ReactNode;
   companionValue?: ReactNode;
+  /* 
+  When true, print out the whole value without special formatting
+  When false, the numeric value will have a greater font size than the rest, usually the unit
+  */
   raw?: boolean;
   renderValue?: (value?: any) => ReactNode;
   children?: ReactNode;
@@ -131,8 +135,8 @@ export default function KpiCard({
             })}
           >
             <Tooltip content={iconAction.text}>
-              <Link href$={iconAction.href$}>
-                <SvgIcon className={locals.actionIcon} type={iconAction.icon} onClick={iconAction.onClick} />
+              <Link href$={iconAction.href$} onClick={iconAction.onClick}>
+                <SvgIcon className={locals.actionIcon} type={iconAction.icon} />
               </Link>
             </Tooltip>
             <Button

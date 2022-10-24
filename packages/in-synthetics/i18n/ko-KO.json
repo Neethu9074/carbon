@@ -80,25 +80,135 @@
     "buttonLabel": "새 테스트 작성"
   },
   "navigation": {
-    "synthetics": "합성"
+    "synthetics": "합성 모니터링"
   },
   "dashboard": {
     "testList": {
-      "mainLabel": "합성 테스트",
+      "mainLabel": "합성 모니터링",
       "secondaryLabels": {
         "tests": "테스트",
-        "location": "위치"
+        "locations": "위치"
       },
-      "locationsSubText": "{{count}}개의 위치",
-      "locationsSubText_plural": "{{count}}개의 위치",
+      "testLabel": "이름",
+      "status": "상태",
       "frequencySubText": "{{count}}분마다",
       "frequencySubText_plural": "{{count}}분마다",
       "pause": "테스트 일시정지",
-      "resume": "테스트 재개"
+      "resume": "테스트 재개",
+      "active": "활성",
+      "paused": "일시중지됨",
+      "type": "유형",
+      "successRate": "성공률",
+      "successRuns": "{{successRuns}}/{{totalRuns}}개의 결과",
+      "latency": "대기 시간",
+      "locationLabel": "위치",
+      "locations": "{{totalLocations}}개의 위치",
+      "applicationLabel": "애플리케이션",
+      "health": "상태",
+      "action": "조치",
+      "delete": "이 테스트를 삭제",
+      "labelConfirm": "확인하십시오.",
+      "labelConfirmRemoveTest": "합성 테스트 <strong>{{label}}</strong>을(를) 제거하시겠습니까?",
+      "labelRemove": "제거",
+      "na": "해당사항 없음"
     },
-    "sortOptions": {
-      "name": "이름",
-      "frequency": "빈도"
+    "locationList": {
+      "locationLabel": "위치 이름",
+      "status": "상태",
+      "type": "유형",
+      "totalTests": "링크된 테스트의 수",
+      "lastRun": "마지막 테스트 실행 시간"
+    },
+    "summary": {
+      "successRate": "성공률",
+      "locations": "위치",
+      "responseTime": "응답 시간",
+      "meanResponseTime": "평균 응답 시간",
+      "responseSize": "응답 크기",
+      "avgResponseSize": "평균 응답 크기",
+      "summaryTab": "요약",
+      "resultsTab": "결과",
+      "startTime": "시작 시간",
+      "requests": "요청",
+      "widgets": {
+        "failures": "실패",
+        "responseTimes": "응답 시간",
+        "averageResponseSize": "평균 응답 크기",
+        "responseStatus": "응답 상태",
+        "networkTimings": "네트워크 타이밍",
+        "blocking": "블로킹",
+        "dns": "DNS 검색",
+        "sending": "전송",
+        "waiting": "대기",
+        "receiving": "수신",
+        "slowest": "가장 느림",
+        "latest": "최신",
+        "failed": "실패함",
+        "results": "결과",
+        "linkViewAllTestResults": "모든 결과 보기",
+        "ok": "성공",
+        "redirection": "리디렉션",
+        "clientError": "클라이언트 오류",
+        "serverError": "서버 오류"
+      },
+      "totalRuns": "{{totalRuns}}개의 총 실행",
+      "meanLatencyFor90th": "90번째: {{meanLatencyDetail}}"
+    },
+    "resultsListPage": {
+      "startedColumn": "시작됨",
+      "locationColumn": "위치",
+      "responseTimeColumn": "응답 시간",
+      "responseSizeColumn": "응답 크기",
+      "retriesColumn": "재시도 횟수",
+      "title": "결과"
+    },
+    "detailsPage": {
+      "timeLineWidget": "타임라인",
+      "responseTimeChart": "응답 시간",
+      "subtransactionStatus": "상태",
+      "subtransactionSize": "크기",
+      "subtransactionTime": "시간",
+      "subtransactionBlocking": "블로킹",
+      "subtransactionDNS": "DNS",
+      "subtransactionConnect": "연결",
+      "subtransactionSSL": "SSL",
+      "subtransactionSending": "전송",
+      "subtransactionWaiting": "대기",
+      "subtransactionReceiving": "수신",
+      "showLessSubDetails": "간략히 보기",
+      "showMoreSubDetails": "자세히 보기",
+      "failedRun": "실패한 실행(예외)",
+      "failedRunErrorTitle": "오류 메시지",
+      "noFailedErrorMessage": "오류 메시지 없음",
+      "stackTraceTitle": "스택 추적",
+      "noStacktrace": "스택 추적 없음",
+      "statusKpiCard": "상태",
+      "successResult": "성공",
+      "failedResult": "실패함",
+      "searchFilter": "검색",
+      "subtransactionBody": {
+        "contentType": "컨텐츠 유형",
+        "size": "크기",
+        "redirectTime": "경로 재지정 시간",
+        "uploadSpeed": "업로드 속도",
+        "downloadSpeed": "다운로드 속도",
+        "requestTitle": "요청",
+        "responseTimingTitle": "응답 타이밍",
+        "timingsPercentageOfTotalDurationName": "{{totalDurationName}}의 {{percentage}}"
+      },
+      "logs": "로그",
+      "noDataAvailable": {
+        "message": "이 테스트 결과에 대한 {{component}} 세부사항을 사용할 수 없음",
+        "notFound": "찾을 수 없음"
+      }
+    },
+    "noDataAvailable": {
+      "resultsTitle": "사용 가능한 결과가 없음",
+      "resultsDescription": "선택한 시간 범위에 대해 검색된 결과가 없습니다.",
+      "testSummaryTitle": "사용 가능한 합성 테스트 없음",
+      "testSummaryDescription": "데이터베이스에서 검색된 합성 테스트가 없습니다.",
+      "locationListTitle": "사용 가능한 합성 위치가 없음",
+      "locationListDescription": "데이터베이스에서 검색된 합성 위치가 없습니다."
     }
   }
 }

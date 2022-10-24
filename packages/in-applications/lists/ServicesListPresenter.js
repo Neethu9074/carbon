@@ -158,6 +158,8 @@ const columnDefinitions = [
     label: t('in-applications:labelHealth'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
+      let openIssues = get(item, ['metrics', 'openIssues', 0, 1], 0);
+      let maxSeverity = get(item, ['metrics', 'maxSeverity', 0, 1], 0);
       return (
         <ApplicationEntityHealthIndicatorBehavior
           serviceId={item.service.id}
@@ -166,6 +168,7 @@ const columnDefinitions = [
           IndicatorPresenter={HealthIndicatorPresenter}
           timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
           inContentArea
+          tooltipLabel={getTooltipLabel(openIssues, maxSeverity)}
         />
       );
     }
@@ -211,12 +214,19 @@ export default function ServicesList({
         </Button>
       )}
       <Filters
+        applicationId={applicationId}
+        contextScope={contextScope}
         endpointTypes={endpointTypes}
         technologies={technologies}
         setFilter={setFilter}
+        serviceId={serviceId}
         query={query}
         buttonLabel={t('in-applications:buttonAnalyzeServices')}
-        groupBy={createGroupBy('service.name', entityTypes.DESTINATION)}
+        groupBy={
+          !contextScope || contextScope === 'DOWNSTREAM'
+            ? createGroupBy('service.name', entityTypes.DESTINATION)
+            : createGroupBy('service.name', entityTypes.SOURCE)
+        }
       />
     </>
   );
@@ -290,4 +300,16 @@ function getTableData(params) {
 
 function getHasDataToRender(timeConfig) {
   return getServicesWithDefaults({ timeConfig }).map(result => !result.data || result.data.totalHits > 0);
+}
+
+function getTooltipLabel(openIssues, maxSeverity) {
+  if (openIssues === 0) {
+    return t('in-applications:noIssues');
+  } else {
+    if (maxSeverity > 5) {
+      return t('in-applications:labelCritical');
+    } else {
+      return t('in-applications:labelWarning');
+    }
+  }
 }

@@ -11,10 +11,11 @@ import ComboBox from 'in-components/ComboBox';
 
 import locals from './BuiltInMetricSelector.mless';
 
-export default function BuiltInMetricSelector({ id, plugin, onChange, value, isClearable = true }) {
+export default function BuiltInMetricSelector({ id, plugin, onChange, value, isClearable = true, disabled }) {
   const metricsList = getAllBuiltInMetrics(plugin);
   return (
     <ComboBox
+      isDisabled={disabled}
       name={id}
       value={value}
       options={metricsList}

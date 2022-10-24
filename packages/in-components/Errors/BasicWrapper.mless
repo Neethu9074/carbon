@@ -20,6 +20,7 @@
 
   .title {
     margin-bottom: 1rem;
+    color: @lib__colors__N500;
   }
 
   .text {

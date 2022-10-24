@@ -7,9 +7,9 @@ import { Property } from 'csstype';
 import React from 'react';
 
 import { DateFormatterInput, DateFormatterOutput } from '@instana/format-date';
+import { AggregationType, FilterInterface, TimeConfig } from '@instana/types';
 import { Observable } from '@instana/observables';
 
-import { AggregationType, FilterInterface, TimeConfig } from 'in-types';
 import { Renderer } from 'in-components/Chart/renderer/types';
 import Configuration from 'in-components/Chart/Configuration';
 import { TimeShiftOffset } from 'in-stores/time/shifting';
@@ -23,20 +23,24 @@ export interface MetricsConfiguration {
   reverseOrder?: boolean;
   filter?: FilterInterface;
   metrics: MetricMap;
+  companionMetrics: MetricMap;
 }
 
 export type MetricMap = { [id: string]: Metric };
+
 export interface Metric {
   metric: string;
   timeShift?: TimeShiftOffset | TimeShift;
   aggregation?: AggregationType;
 }
 
+export type TimeConfigAwareHref$Creator = (tc: TimeConfig) => Observable<string> | undefined;
+
 export interface ContextMenuButton {
   name: string;
   icon: string;
   label: string;
-  getHref$: (tc: TimeConfig) => Observable<string> | undefined;
+  getHref$?: TimeConfigAwareHref$Creator;
   allowClickPropagationAndDefault?: boolean;
   onClick?: () => void;
 }
@@ -75,7 +79,7 @@ interface TooltipConfig {
   tooltipTimeFormatter?: (input: DateFormatterInput) => DateFormatterOutput;
 }
 
-interface ContextMenuConfig {
+export interface ContextMenuConfig {
   primaryContextMenuAction?: string;
   additionalContextMenuButtons?: ContextMenuButton[];
   excludedContextMenuActions?: string[];
@@ -86,6 +90,7 @@ export interface ChartConfig {
   y2?: AxisConfiguration;
   granularity?: number;
   metricsConfiguration?: MetricsConfiguration;
+  companionMetricsConfiguration?: MetricsConfiguration;
   withoutPadding?: boolean;
 
   getAllDomainValues?: () => number[];
@@ -127,15 +132,19 @@ export type MetricDataSeries = [number, number][];
 
 type AxisColor = string | null;
 export type AxisName = 'y1' | 'y2';
+
 export interface AxisConfiguration {
   renderer: Renderer;
   metrics: MetricDataSeries[];
   timeShifts?: TimeShift[] | null;
   metricIds: string[];
+  companionMetricIds?: string[];
   labels: string[];
+  companionMetricLabels?: string[];
   colors: AxisColor[];
   icons?: AxisIcons;
   formatter?: Formatter | FormatterObject[];
+  companionMetricFormatter?: Formatter | Formatter[];
   isStaticBudget?: boolean;
   lineWidth?: number;
   min?: number;
@@ -154,13 +163,15 @@ export interface AxisConfiguration {
 
   colors100?: Property.Color[];
   colors50?: Property.Color[];
-  colors?: Property.Color[];
 
   valuesDependOnEachOther?: boolean;
   valuesNeedToBeStacked?: boolean;
 
   maxDataPoints?: number;
   minPixelsPerBlock?: number;
+
+  companionMetrics?: MetricDataSeries[];
+  companionMetricConfigs?: CompanionMetricConfig[];
 }
 
 export type ChartContentPostition = 'pre' | 'post';

@@ -28,6 +28,7 @@ import { ListInsideACardRenderer } from 'in-settings/components/ApiList/renderer
 import withSelectableItems from 'in-settings/components/withSelectableItems';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
+import { RESTRICTED_ACCESS } from 'in-stores/permission';
 import { success } from 'in-services/util/result';
 import Dialog from 'in-components/Dialog/Dialog';
 import { t } from 'in-i18n';
@@ -36,10 +37,17 @@ import locals from './Areas.mless';
 
 export default function Areas({ update, permissionSet, removeId, removeDfq, readOnly }) {
   const [page, setPage] = useState(1);
-
+  const message = needsToShowRestricAccessedWarning(permissionSet)
+    ? {
+        text: t('in-stores:permissionRestrictedWarning'),
+        type: 'warning'
+      }
+    : null;
   return (
     <ListInsideACardRenderer
       itemName="Area"
+      message={message}
+      retainMessagesAfter={7 * 24 * 60 * 60 * 1000}
       page={page}
       setPage={setPage}
       update={update}
@@ -74,6 +82,21 @@ export default function Areas({ update, permissionSet, removeId, removeDfq, read
 
 function renderAdditionalHeaderContent(props) {
   return <AddAreaButton {...props} preSelectedItems={props.itemsResult.data} />;
+}
+
+export function needsToShowRestricAccessedWarning(permissionSet) {
+  return hasAreas(permissionSet) && !permissionSet.permissions?.includes(RESTRICTED_ACCESS);
+}
+
+function hasAreas(permissionSet) {
+  return (
+    permissionSet.applicationIds?.length > 0 ||
+    permissionSet.kubernetesClusterUUIDs?.length > 0 ||
+    permissionSet.kubernetesNamespaceUIDs?.length > 0 ||
+    permissionSet.websiteIds?.length > 0 ||
+    permissionSet.mobileAppIds?.length > 0 ||
+    permissionSet.infraDfqFilter.scopeId !== ''
+  );
 }
 
 function ReadOnlyListRenderer({ items }) {

@@ -44,7 +44,7 @@ export default function SimpleAlertConfigDialogStep1({
       <Menu
         items={simpleModeBlueprintConfigs}
         onItemClick={item => {
-          updateForm(createBlueprintForm(form, item.type, item.thresholdDefaults));
+          updateForm(createBlueprintForm(form, item.type, item.thresholdDefaults, true));
 
           websitesAlertingBlueprintChanged({ newBluePrint: alertType, mode: modeSimple });
         }}

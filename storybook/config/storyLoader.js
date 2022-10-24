@@ -5,7 +5,16 @@
 
 /* eslint-env node */
 
-const internalStoryLoader = require.context('../../packages', true, /\.story\.(js|ts|tsx|mdx)$/);
+const { IS_TEST } = process.env;
+
+const isTest = IS_TEST === 'true';
+
+// mdx files are not properly supported in the current version of storybook-snapshots-addon,
+// So they will be ignored when running yarn test:storybook (which sets IS_TEST=true)
+
+const internalStoryLoader = isTest
+  ? require.context('../../packages', true, /\.story\.(js|ts|tsx)$/)
+  : require.context('../../packages', true, /\.story\.(js|ts|tsx|mdx)$/);
 
 export function loadStory(id) {
   const storyExports = internalStoryLoader(id);

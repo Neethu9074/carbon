@@ -19,7 +19,9 @@ export default function VSphereMainView(props) {
       <Sticky header={<ViewSwitcher />}>
         <LeftRightPadding>
           <Switch>
-            <Route path={datacenterListFullyQualified} render={() => <DatacenterList {...props} />} />
+            <Route path={datacenterListFullyQualified}>
+              <DatacenterList {...props} />
+            </Route>
           </Switch>
         </LeftRightPadding>
       </Sticky>

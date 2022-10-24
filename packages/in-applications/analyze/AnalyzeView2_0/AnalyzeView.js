@@ -13,13 +13,13 @@ import {
 } from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeHiddenTagsViewParameterConversion/transformHelper';
 import AnalyzeHiddenTagsViewParameterConversion from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeHiddenTagsViewParameterConversion/AnalyzeHiddenTagsViewParameterConversion';
 import AnalyzeOneToTwoViewParameterConversion from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeOneToTwoViewParameterConversion/AnalyzeOneToTwoViewParameterConversion';
-import AnalyzeTwoBetaViewParameterConversion from 'in-applications/analyze/AnalyzeView2_0//components/AnalyzeTwoBetaViewParameterConversion/AnalyzeTwoBetaViewParameterConversion';
 import {
   dataSource as dataSourceName,
   dataSourceMatrixParameter,
   hiddenCallsMatrixParameter,
-  previewEnabledMatrixParameter
+  fastQueryModeEnabledMatrixParameter
 } from 'in-applications/navigation/matrix';
+import AnalyzeTwoBetaViewParameterConversion from 'in-applications/analyze/AnalyzeView2_0//components/AnalyzeTwoBetaViewParameterConversion/AnalyzeTwoBetaViewParameterConversion';
 import { isAnalyticsTwoBetaLocation } from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeTwoBetaViewParameterConversion/transformHelper';
 import { isAnalyticsOneLocation } from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeOneToTwoViewParameterConversion/transformHelper';
 import {
@@ -43,6 +43,7 @@ import Results from 'in-applications/analyze/AnalyzeView2_0/components/Results';
 import getTagSuggestions from 'in-applications/subscriptions/getTagSuggestions';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { getMetricTemplates } from 'in-applications/api/metricTemplates';
+import { ua2FastQueryModeChangedTracker } from 'in-applications/tracker';
 import StateManagement from 'in-components/AnalyzeView/StateManagement';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import { getMetricCatalog } from 'in-applications/api/metricCatalog';
@@ -123,8 +124,8 @@ const callsChartableMetricCatalogTransformer = createChartableMetricCatalogTrans
 const tracesChartableMetricCatalogTransformer = createChartableMetricCatalogTransformer('traces');
 
 export default function ApplicationsAnalyzeView() {
-  const [{ dataSource, hiddenCalls, previewEnabled }, onChange] = useUrlState({
-    bind: [dataSourceMatrixParameter, hiddenCallsMatrixParameter, previewEnabledMatrixParameter],
+  const [{ dataSource, hiddenCalls, fastQueryModeEnabled }, onChange] = useUrlState({
+    bind: [dataSourceMatrixParameter, hiddenCallsMatrixParameter, fastQueryModeEnabledMatrixParameter],
     replaceHistory: false
   });
 
@@ -137,8 +138,9 @@ export default function ApplicationsAnalyzeView() {
     onChange({ hiddenCalls });
   };
 
-  const onChangePreviewEnabled = previewEnabled => {
-    onChange({ previewEnabled });
+  const onChangeFastQueryModeEnabled = fastQueryModeEnabled => {
+    ua2FastQueryModeChangedTracker({ dataSource, enabled: fastQueryModeEnabled });
+    onChange({ fastQueryModeEnabled });
   };
 
   const dataSourceConfigurations = getDataSourceConfigurations({ hiddenCalls, onChangeHiddenCalls });
@@ -175,8 +177,8 @@ export default function ApplicationsAnalyzeView() {
             getFacetedSearchSuggestions={params => getFacetedSearchSuggestions({ ...params, hiddenCalls })}
             hiddenCalls={hiddenCalls}
             onChangeHiddenCalls={onChangeHiddenCalls}
-            previewEnabled={previewEnabled}
-            onChangePreviewEnabled={onChangePreviewEnabled}
+            fastQueryModeEnabled={fastQueryModeEnabled}
+            onChangeFastQueryModeEnabled={onChangeFastQueryModeEnabled}
             useLastValidStateWhenErroneous
           />
         ) : (
@@ -185,8 +187,8 @@ export default function ApplicationsAnalyzeView() {
             getFacetedSearchSuggestions={params => getFacetedSearchSuggestions({ ...params, hiddenCalls })}
             hiddenCalls={hiddenCalls}
             onChangeHiddenCalls={onChangeHiddenCalls}
-            previewEnabled={previewEnabled}
-            onChangePreviewEnabled={onChangePreviewEnabled}
+            fastQueryModeEnabled={fastQueryModeEnabled}
+            onChangeFastQueryModeEnabled={onChangeFastQueryModeEnabled}
             useLastValidStateWhenErroneous
           />
         )

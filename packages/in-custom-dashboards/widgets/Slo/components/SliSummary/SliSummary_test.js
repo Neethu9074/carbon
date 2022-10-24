@@ -69,31 +69,36 @@ describe('in-custom-dashboards/widgets/Slo/components/SliSummary', () => {
     ).toEqual(false);
   });
 
-  it('should have value set to 100% on first SloTile if slo and metricSli are given', () => {
-    useSliFormatter.mockReturnValueOnce(() => 'foo');
+  it.each`
+    expectedTarget | expectedStatus | givenSlo      | givenMetricSli
+    ${'100.00%'}   | ${'100.00%'}   | ${1}          | ${1}
+    ${'99.888%'}   | ${'99.9911%'}  | ${0.99888}    | ${0.999911}
+    ${'99.9995%'}  | ${'99.9996%'}  | ${0.999995}   | ${0.999996}
+    ${'99.9999%'}  | ${'100.00%'}   | ${0.999999}   | ${1}
+    ${'100.00%'}   | ${'100.00%'}   | ${0.99999995} | ${1}
+    ${'300.00%'}   | ${'299.95%'}   | ${3}          | ${2.99948}
+  `(
+    'should have target of $expectedTarget and status of $expectedStatus if slo is $givenSlo and metricSli is $givenMetricSli',
+    ({ expectedTarget, expectedStatus, givenSlo, givenMetricSli }) => {
+      useSliFormatter.mockReturnValueOnce(() => 'foo');
 
-    const wrapper = shallow(<SliSummary {...defaultProps} slo={3} metricSli={1} />);
+      const wrapper = shallow(<SliSummary {...defaultProps} slo={givenSlo} metricSli={givenMetricSli} />);
 
-    expect(
-      wrapper
-        .find(SloTile)
-        .first()
-        .prop('value')
-    ).toEqual('100.00%');
-  });
+      expect(
+        wrapper
+          .find(SloTile)
+          .first()
+          .prop('value')
+      ).toEqual(expectedStatus);
 
-  it('should have budget set to 300% on first SloTile if slo and metricSli are given', () => {
-    useSliFormatter.mockReturnValueOnce(() => 'foo');
-
-    const wrapper = shallow(<SliSummary {...defaultProps} slo={3} metricSli={1} />);
-
-    expect(
-      wrapper
-        .find(SloTile)
-        .first()
-        .prop('budget')
-    ).toEqual('300.00%');
-  });
+      expect(
+        wrapper
+          .find(SloTile)
+          .first()
+          .prop('budget')
+      ).toEqual(expectedTarget);
+    }
+  );
 
   it('should have budgetSpent set to true on first SloTile if slo and metricSli are given', () => {
     useSliFormatter.mockReturnValueOnce(() => 'foo');

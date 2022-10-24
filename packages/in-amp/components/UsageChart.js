@@ -23,7 +23,7 @@ export default function UsageChart({ windowSize, showAggregatedMetrics, y1, y2 }
   };
 
   let tooltipTimeFormatter = formatDateTime;
-  if (windowSize >= days.toMillis(30)) {
+  if (windowSize >= days.toMillis(15)) {
     tooltipTimeFormatter = formatDate;
   }
 

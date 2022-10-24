@@ -6,11 +6,13 @@
 import React from 'react';
 
 import {
+  megaBytes,
   zeroDecimalPlaces,
   bytesZeroDecimalPlaces,
   bytesTwoDecimalPlaces,
   msZeroDecimalPlaces,
-  msTwoDecimalPlaces
+  msTwoDecimalPlaces,
+  percentagePlainTwoDecimalPlaces
 } from 'in-services/formatters/number';
 import DBmarlinNotificationMessage from 'in-forge/plugins/awsRds/Dashboard/DBmarlinNotificationMessage';
 import TopQueriesTable from 'in-forge/plugins/msSqlDatabase/Dashboard/TopQueriesTable';
@@ -35,8 +37,11 @@ export default function MsSqlDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            metrics: ['generalstats._total.user_connections'],
-            labels: [t('in-forge:plugins.msSqlDatabase.userConnections')],
+            metrics: ['generalstats._total.user_connections', 'generalstats._total.maximum_connections'],
+            labels: [
+              t('in-forge:plugins.msSqlDatabase.userConnections'),
+              t('in-forge:plugins.msSqlDatabase.max_connections')
+            ],
             type: 'line',
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces
@@ -141,6 +146,65 @@ export default function MsSqlDashboard({ snapshot, timeConfig }) {
             type: 'line',
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces
+          }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
+      </DashboardSection>
+
+      <DashboardSection title={t('in-forge:plugins.msSqlDatabase.dbMemory')}>
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            metrics: ['dbmemorystats.db_memory.used', 'dbmemorystats.db_memory.capacity'],
+            labels: [
+              t('in-forge:plugins.msSqlDatabase.dbmemory_used'),
+              t('in-forge:plugins.msSqlDatabase.dbmemory_capacity')
+            ],
+            type: 'line',
+            formatter: megaBytes.detailed,
+            tooltipFormatter: megaBytes.detailed
+          }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
+      </DashboardSection>
+      <DashboardSection title={t('in-forge:plugins.msSqlDatabase.virtualMemoryUsed')}>
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            metrics: ['vmemstats.virtual_memory.vmem_used'],
+            labels: [t('in-forge:plugins.msSqlDatabase.vmem_used')],
+            type: 'line',
+            formatter: megaBytes.detailed,
+            tooltipFormatter: megaBytes.detailed
+          }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
+      </DashboardSection>
+      <DashboardSection title={t('in-forge:plugins.msSqlDatabase.responseTime')}>
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            metrics: ['resptimestats.response_time.avg_resp_time'],
+            labels: [t('in-forge:plugins.msSqlDatabase.response_time_avg')],
+            type: 'line',
+            formatter: msZeroDecimalPlaces,
+            tooltipFormatter: msZeroDecimalPlaces
+          }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
+      </DashboardSection>
+      <DashboardSection title={t('in-forge:plugins.msSqlDatabase.dbCacheHit')}>
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            metrics: ['dbcachehitstats.db_cache_hit.rate'],
+            labels: [t('in-forge:plugins.msSqlDatabase.db_cache_hit_rate')],
+            type: 'line',
+            formatter: percentagePlainTwoDecimalPlaces
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />

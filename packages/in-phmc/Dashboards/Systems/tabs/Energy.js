@@ -33,13 +33,13 @@ export default function Energy({ timeConfig, data: system }) {
           formatter={number.compact}
         />
         <KpiCard
-          title={t('in-phmc:machineSerial')}
+          title={t('in-phmc:machineTypeModel')}
           value={system.energy.machineTypeModel || valueMissingPlaceholder}
           raw
           borderless
         />
         <KpiCard
-          title={t('in-phmc:machineTypeModel')}
+          title={t('in-phmc:machineSerial')}
           value={system.energy.machineSerial || valueMissingPlaceholder}
           raw
           borderless

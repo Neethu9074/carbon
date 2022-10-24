@@ -8,7 +8,6 @@
 :local {
   .pill {
     min-width: 3.125rem;
-    max-width: 3.125rem;
 
     .ellipsis();
   }

@@ -3,8 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect, useMemo } from 'react';
-import { compose, withState } from 'recompose';
+import React, { useEffect, useMemo, useState } from 'react';
 import { debounce, find } from 'lodash';
 
 import { Link, Message } from '@instana/components';
@@ -27,9 +26,10 @@ import locals from './Summary.mless';
 // views very quickly.
 const debouncedOpenPageLoad = debounce(openPageLoad, 1000);
 
-export default compose(withState('filter', 'setFilter', { query: '', page: '', types: [] }))(Summary);
-
-function Summary({ beacons, filter, setFilter, pageLoadLabel, pageLoadId, detailId }) {
+export default function Summary({ beacons, pageLoadLabel, pageLoadId, detailId }) {
+  const [query, setQuery] = useState('');
+  const [page, setPage] = useState('');
+  const [filterTypes, setFilterTypes] = useState([]);
   // Fixing is expensive. Luckily it is easy to avoid this via memoization.
   const fixResult = useMemo(() => fixClockSkewProblems(beacons), [beacons]);
   beacons = fixResult.beacons;
@@ -105,8 +105,12 @@ function Summary({ beacons, filter, setFilter, pageLoadLabel, pageLoadId, detail
         detailId={detailId}
         pageLoad={pageLoad}
         firstBeacon={firstBeacon}
-        filter={filter}
-        setFilter={setFilter}
+        query={query}
+        setQuery={setQuery}
+        page={page}
+        setPage={setPage}
+        filterTypes={filterTypes}
+        setFilterTypes={setFilterTypes}
       />
     </ContentWrapper>
   );

@@ -114,10 +114,9 @@ export default function Widget({
             sloMetrics={sloMetrics}
             loadingErrors={errors}
             loadingProgress={progress}
-            sliConfigId={sliConfiguration?.id || ''}
             timeConfig={timeConfig}
             granularity={granularity}
-            budget={budget}
+            budget={budget ?? 0}
             sliConfig={sliConfiguration}
             nonInteractive={isPreview || nonInteractive}
             disableZooming={disableZooming}
@@ -128,6 +127,6 @@ export default function Widget({
   );
 }
 
-const getMetricValue = (metric: MetricDataSeries = []): number => {
+const getMetricValue = (metric: MetricDataSeries = []): number | undefined => {
   return metric[0]?.[1];
 };

@@ -7,11 +7,11 @@
 
 :local {
   .overlay {
-    width: 26rem;
+    width: 30rem;
   }
 
   .fullHeight {
-    @height: 30rem;
+    @height: 26.75rem;
     min-height: @height;
     height: @height;
     max-height: @height;

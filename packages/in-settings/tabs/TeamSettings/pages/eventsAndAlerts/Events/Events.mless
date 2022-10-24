@@ -43,7 +43,9 @@
   }
 
   .deprecated {
-    color: @lib__colors__red800;
+    /* @lib__colors__warning_dark  does not yet exist in this release (227) and will be provided
+    in our design tokens soon */
+    color: #b38c00;
   }
 
   .migrated {

@@ -26,6 +26,7 @@ import WebsiteAlertPropertiesTitleRow from 'in-alerting/smart-alerts/websites/ad
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/websites/form/formUtils';
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/smart-alert-dialog/ConfigureAlertChannel';
 import BluePrintSelectionSection from 'in-alerting/smart-alerts/websites/advanced/BluePrintSelectionSection';
+import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import TimeThresholdConfig from 'in-alerting/smart-alerts/websites/advanced/TimeThresholdConfig';
 import { ThresholdSection } from 'in-alerting/smart-alerts/websites/advanced/ThresholdSection';
@@ -46,6 +47,8 @@ export default function AdvancedModeContainer(props) {
     thresholdResult,
     messages,
     editMode,
+    isDynamicCustomPayloadValid,
+    TagBasedPayloadConfigurator,
     QueryBuilderComponent,
     isTagFilterFormModelValid,
     websiteLabel
@@ -196,8 +199,19 @@ export default function AdvancedModeContainer(props) {
           scrollId: '7',
           label: t('in-alerting:smartAlerts.websites.advanced.payloadsLabel'),
           title: t('in-alerting:smartAlerts.websites.advanced.payloadsTitle'),
-          valid: isCustomPayloadValidOrUntouched(form),
-          content: <AlertConfigCustomPayload form={form} setForm={updateForm} />
+          valid: isCustomPayloadValidOrUntouched(form) && isDynamicCustomPayloadValid,
+          content: (
+            <>
+              <GlobalCustomPayloadCard context="WEBSITE" />
+
+              <AlertConfigCustomPayload
+                form={form}
+                setForm={updateForm}
+                TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
+                supportDynamicTypes
+              />
+            </>
+          )
         }
       ]}
     />

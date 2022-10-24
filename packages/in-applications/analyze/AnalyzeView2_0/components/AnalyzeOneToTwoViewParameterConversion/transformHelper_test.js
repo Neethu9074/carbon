@@ -68,7 +68,7 @@ const cases = [
           chartedMetrics: '!(metricId~latency~aggregationId~MEAN)~',
           groupBy: '(groupbyTag~endpoint.name~groupbyTagEntity~DESTINATION)~',
           tagFilterExpression:
-            '!(name~service.name~value~backbone~operator~EQUALS~entity~DESTINATION~type~TAG*_FILTER)~',
+            '!(type~TAG*_FILTER~name~service.name~operator~EQUALS~entity~DESTINATION~value~backbone)~',
           orderBy: '(by~latency~direction~DESC)~',
           orderByGroups: '(by~latency*_MEAN~direction~DESC)~'
         }
@@ -136,7 +136,7 @@ const cases = [
             '!(type~metric~metricId~latency~aggregationId~MEAN)(type~metric~metricId~errors~aggregationId~MEAN)(type~metric~metricId~latency~aggregationId~P50)~',
           groupBy: '(groupbyTag~call.http.status)~',
           tagFilterExpression:
-            '!(name~service.name~value~Apache_Tomcat_Bootstrap~operator~EQUALS~entity~DESTINATION~type~TAG*_FILTER)(type~CONJUNCTION~logicalOperator~AND)(name~call.erroneous~value~~operator~EQUALS~type~TAG*_FILTER)~',
+            '!(type~TAG*_FILTER~name~service.name~operator~EQUALS~entity~DESTINATION~value~Apache_Tomcat_Bootstrap)(type~CONJUNCTION~logicalOperator~AND)(type~TAG*_FILTER~name~call.erroneous~operator~EQUALS~value)~',
           orderByGroups: '(by~group~direction~DESC)~',
           hiddenCalls: '(includeInternal~~includeSynthetic)~'
         }
@@ -165,7 +165,7 @@ const cases = [
         '/analyze': {
           chartedMetrics: '!(metricId~latency~aggregationId~DISTRIBUTION)~',
           dataSource: 'calls',
-          previewEnabled: true,
+          fastQueryModeEnabled: true,
           groupBy: '(groupbyTag~call.http.status)~',
           orderByGroups: '(by~calls*_SUM~direction~ASC)~'
         }
@@ -202,7 +202,7 @@ const cases = [
           fields:
             '!(type~metric~metricId~latency~aggregationId~MEAN)(type~metric~metricId~errors~aggregationId~MEAN)(type~metric~metricId~latency~aggregationId~P98)~',
           groupBy: '(groupbyTag~trace.endpoint.name)~',
-          tagFilterExpression: '!(name~call.type~value~BATCH~operator~EQUALS~type~TAG*_FILTER)~',
+          tagFilterExpression: '!(type~TAG*_FILTER~name~call.type~operator~EQUALS~value~BATCH)~',
           orderByGroups: '(by~traces*_SUM~direction~DESC)~'
         }
       }
@@ -268,7 +268,7 @@ const cases = [
           fields:
             '!(type~metric~metricId~latency~aggregationId~MEAN)(type~metric~metricId~errors~aggregationId~MEAN)(type~metric~metricId~latency~aggregationId~P98)~',
           groupBy: '(groupbyTag~trace.endpoint.name)~',
-          tagFilterExpression: '!(name~call.type~value~BATCH~operator~EQUALS~type~TAG*_FILTER)~',
+          tagFilterExpression: '!(type~TAG*_FILTER~name~call.type~operator~EQUALS~value~BATCH)~',
           orderByGroups: '(by~traces*_SUM~direction~DESC)~',
           detailId: '(traceId~*0000000000000000ae5511eda9237a73~colorCode~byServiceAndEndpoint)~'
         }
@@ -359,7 +359,7 @@ const dataSourceConfig = {
 describe('in-applications/analyze/AnalyzeView2_0/components/AnalyzeOneToTwoViewParameterConversion/transformHelper', () => {
   describe('transformOneZeroToTwoZero', () => {
     cases.forEach(({ name, one, two }) => {
-      it.skip(`must convert ${name}`, () => {
+      it(`must convert ${name}`, () => {
         const transformed = cloneLocation(one);
         transformOneZeroToTwoZero(transformed, tagCatalog, dataSourceConfig);
         expect(transformed).to.deep.equal(two);

@@ -17,7 +17,7 @@ import ComboBox from 'in-components/ComboBox';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
 
-export default function HostAvailabilityFormGroup({ form, onChange }) {
+export default function HostAvailabilityFormGroup({ form, onChange, disabled }) {
   const offlineDuration = form.get('offlineDuration');
   const closeAfter = form.get('closeAfter');
 
@@ -30,6 +30,7 @@ export default function HostAvailabilityFormGroup({ form, onChange }) {
               {t('in-settings:tabs.offlineFor')}
             </Label>
             <ComboBox
+              isDisabled={disabled}
               name="offline-duration"
               value={offlineDuration.value}
               options={hostAvailabilityOfflineDurationOptions}
@@ -48,6 +49,7 @@ export default function HostAvailabilityFormGroup({ form, onChange }) {
             </Label>
             <Helpify helpText={t('in-settings:tabs.closeAfterHelperDescription')}>
               <ComboBox
+                isDisabled={disabled}
                 name="automaticallyCloseAfter"
                 value={closeAfter.value}
                 options={automaticallyCloseAfterOptions}

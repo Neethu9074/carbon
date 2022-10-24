@@ -16,7 +16,8 @@ import {
   SliConfig
 } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { useLinkToUnboundedAnalytics } from 'in-custom-dashboards/widgets/Slo/hooks/analytics/useLinkToUnboundedAnalytics';
-import PostChartContent from 'in-custom-dashboards/widgets/Slo/components/Chart/PostChartContent';
+import useShouldShowMissingDataIndicator from 'in-custom-dashboards/widgets/Slo/hooks/useShouldShowMissingDataIndicator';
+import ChartMarkerLanes from 'in-custom-dashboards/widgets/Slo/components/ChartMarkerLanes/ChartMarkerLanes';
 import { useStairwayRenderer } from 'in-custom-dashboards/widgets/Slo/renderer/stairway';
 import { useSliFormatter } from 'in-custom-dashboards/widgets/Slo/hooks/useSliFormatter';
 import { getTagCatalog as getWebsiteTagCatalog } from 'in-websites/api/tagCatalog';
@@ -26,9 +27,9 @@ import { sliCHClusterAccessEnabled } from 'in-services/featureFlags';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { MetricDataSeries } from 'in-components/Chart/types';
-import { error, isLoading } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
 import { CALLS } from 'in-applications/analyze/metrics';
+import { error } from 'in-services/util/result';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -69,10 +70,12 @@ export default function Chart({
   const linkToUnboundAnalytics = useLinkToUnboundedAnalytics(sliConfig, tagCatalog);
 
   const showMissingDataIndicators =
-    sliCHClusterAccessEnabled &&
-    !isLoading(result) &&
-    !nonInteractive &&
-    sliCreatedWithinTimeWindow(sliConfig, timeConfig);
+    useShouldShowMissingDataIndicator({
+      initialEvaluationTimestamp: sliConfig?.initialEvaluationTimestamp,
+      progress: result.progress,
+      timeConfig,
+      nonInteractive
+    }) && sliCHClusterAccessEnabled;
 
   let metrics: MetricDataSeries[] = [consumed, hourlyBudget];
 
@@ -114,12 +117,27 @@ export default function Chart({
           },
           nonInteractive: nonInteractive,
           renderPostChartContent: props =>
-            showMissingDataIndicators && <PostChartContent sliConfig={sliConfig} {...props} />,
+            showMissingDataIndicators && (
+              <ChartMarkerLanes
+                tooltipContent={t('in-custom-dashboards:widgets.slo.chart.initialEvaluation', {
+                  configType: t('in-custom-dashboards:widgets.slo.chart.configType')
+                })}
+                initialEvaluationTimestamp={sliConfig?.initialEvaluationTimestamp}
+                {...props}
+              />
+            ),
           ...getCustomAnalyzeContextMenuProperties(linkToUnboundAnalytics, sliConfig, disableZooming, trackers)
         }}
       />
       {showMissingDataIndicators && (
-        <Message title={t('in-custom-dashboards:widgets.slo.chart.missingDataInfo')} withIcon dismissible small />
+        <Message
+          title={t('in-custom-dashboards:widgets.slo.chart.missingDataInfo', {
+            configType: t('in-custom-dashboards:widgets.slo.chart.configType')
+          })}
+          withIcon
+          dismissible
+          small
+        />
       )}
     </div>
   );
@@ -159,7 +177,7 @@ function useTagCatalogLoader(config?: SliConfig): Parameters<typeof useTagCatalo
       return () => just(pendingResult);
     }
     if (isApplicationSliConfig(config) || isAvailabilitySliConfig(config)) {
-      return getApplicationTagCatalog({ dataSource: CALLS, useCase: 'SLI_MANAGEMENT' });
+      return getApplicationTagCatalog({ dataSource: CALLS, useCase: 'FILTERING' });
     }
     if (isWebsiteTimeBasedSliConfig(config) || isWebsiteEventBasedSliConfig(config)) {
       const {
@@ -169,10 +187,4 @@ function useTagCatalogLoader(config?: SliConfig): Parameters<typeof useTagCatalo
     }
     return () => just(error([]));
   }, [config]);
-}
-
-function sliCreatedWithinTimeWindow(sliConfig: SliConfig | undefined, timeConfig: TimeConfig): boolean {
-  return (
-    Boolean(sliConfig) && sliConfig!.initialEvaluationTimestamp >= (timeConfig.to ?? Date.now()) - timeConfig.windowSize
-  );
 }

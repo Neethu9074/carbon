@@ -3,37 +3,29 @@
  * (c) Copyright Instana Inc.
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
-import { toInteractiveElement } from '@instana/components';
+import { toInteractiveElement, Message, SvgIcon } from '@instana/components';
 import { useAutoFocus } from '@instana/hooks';
-import { SvgIcon } from '@instana/components';
 
 import { doesTagNodeNeedSecondLevelKey } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
-import {
-  STRING,
-  NUMBER,
-  BOOLEAN,
-  STRING_LIST,
-  STRING_SET,
-  KEY_VALUE_PAIR
-} from 'in-components/QueryBuilder/tagFilter/types';
-import KeyEquals from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/KeyEquals';
-import SimpleValueSelector from 'in-components/QueryBuilder/SimpleValueSelector/SimpleValueSelector';
+import SecondKeyValueSelector from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/SecondKeyValueSelector';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { isNotBlank } from 'in-services/util/string';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import Pill from 'in-components/Pill';
-import theme from 'in-themes';
+import Tooltip from 'in-components/Tooltip';
+import { t } from 'in-i18n';
 
 import locals from './TagBasedPayloadConfigurator.mless';
 
-export default React.forwardRef(function TagBasedPayloadConfiguration(
+export default React.forwardRef(function TagBasedPayload(
   {
     onChange,
     tagFilterExpression,
     tagTreeNode,
     getSuggestions,
+    suggestionsAlignedLeft,
     toggle,
     payload: { payloadTagEntity, tagName, secondLevelKey },
     autoFocus
@@ -52,67 +44,77 @@ export default React.forwardRef(function TagBasedPayloadConfiguration(
 
   const path = tagTreeNode?.path;
   if (!path) {
-    // should we show an error or a readonly representation instead of "nothing"
-    return null;
+    return (
+      <Message type="error" small>
+        {t('in-settings:tabs.team.customPayload.unknownTag', { tagName })}
+      </Message>
+    );
   }
+
+  const interactiveProps = toInteractiveElement({
+    onDefaultInteraction: toggle
+  });
 
   return (
     <div
-      className={locals.configurator}
-      ref={ref}
-      {...toInteractiveElement({
-        onDefaultInteraction: toggle
+      className={classNames({
+        [locals.configurator]: true,
+        [locals.configuratorWithSecondLevelKey]: doesTagNodeNeedSecondLevelKey(tagTreeNode)
       })}
+      ref={ref}
+      {...interactiveProps}
     >
-      <span
-        className={locals.tagName}
-        ref={autoFocus && !doesTagNodeNeedSecondLevelKey(tagTreeNode) ? tagNameRef : undefined}
+      <Tooltip
+        content={
+          <>
+            {path
+              .slice(0, path.length - 1)
+              .map(node => node.label)
+              .join(' ')}
+            <SvgIcon className={locals.icon} type="lib_arrow_drop_right" />
+            {path[path.length - 1].label}
+          </>
+        }
+        align="bottomMiddle"
+        delay={500}
       >
-        {path
-          .slice(0, path.length - 1)
-          .map(node => node.label)
-          .join(' ')}
-        <SvgIcon className={locals.icon} type="lib_arrow_drop_right" />
-        {path[path.length - 1].label}
-      </span>
+        <span
+          className={locals.tagName}
+          ref={autoFocus && !doesTagNodeNeedSecondLevelKey(tagTreeNode) ? tagNameRef : undefined}
+        >
+          <span>{path.slice(path.length - 2, path.length - 1).map(node => node.label)}</span>
+          <SvgIcon className={locals.icon} type="lib_arrow_drop_right" />
+          {path[path.length - 1].label}
+        </span>
+      </Tooltip>
       {doesTagNodeNeedSecondLevelKey(tagTreeNode) && (
         <>
           <KeyEquals />
-          <SimpleValueSelector
-            onChange={secondLevelKeyState.onChange}
-            value={secondLevelKeyState.value}
-            close={() => {}}
-            getSuggestions={() =>
-              getSuggestions({
-                tagFilterExpression,
-                name: tagName,
-                entity: payloadTagEntity,
-                timeConfig,
-                propose: 'KEYS'
-              })
-            }
-            fieldsToWatch={[tagFilterExpression, tagName, payloadTagEntity, timeConfig]}
-            inputProps={{
-              maxLength: 512,
-              type: 'text',
-              valid: isNotBlank(secondLevelKeyState.value),
-              ref: autoFocus ? tagNameRef : undefined,
-              placeholder: 'Key'
-            }}
-          />
+          <div className={locals.keyNameValue}>
+            <SecondKeyValueSelector
+              onChange={secondLevelKeyState.onChange}
+              value={secondLevelKeyState.value}
+              valid={isNotBlank(secondLevelKeyState.value)}
+              ref={autoFocus ? tagNameRef : undefined}
+              autoFocus={autoFocus}
+              getSuggestions={() =>
+                getSuggestions({
+                  tagFilterExpression,
+                  name: tagName,
+                  timeConfig,
+                  propose: 'KEYS'
+                })
+              }
+              alignLeft={suggestionsAlignedLeft}
+              fieldsToWatch={[tagFilterExpression, tagName, payloadTagEntity, timeConfig]}
+            />
+          </div>
         </>
       )}
-      <span className={locals.spacer} />
-      <Pill color={theme.lib.colors.N600Light}>{tagTypeBadges[tagTreeNode.type]}</Pill>
     </div>
   );
 });
 
-const tagTypeBadges = {
-  [BOOLEAN]: 'boolean[]',
-  [NUMBER]: 'number[]',
-  [STRING]: 'string[]',
-  [STRING_LIST]: 'string[]',
-  [STRING_SET]: 'string[]',
-  [KEY_VALUE_PAIR]: 'string[]' // key-value tags require to provide a key, and the collected values are of type string
-};
+export function KeyEquals() {
+  return <div className={locals.keyEqualsOperator}>{t('in-settings:tabs.keyEquals')}</div>;
+}

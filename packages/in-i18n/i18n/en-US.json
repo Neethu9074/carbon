@@ -12,6 +12,12 @@
       "tableLoadMoreRow": {
         "loadMore": "Load More"
       }
+    },
+    "code": {
+      "copy": "Copy",
+      "copied": "Copied!",
+      "showMore": "Show more",
+      "showLess": "Show less"
     }
   },
   "formatDate": {

@@ -12,8 +12,12 @@ import CustomEvent from 'in-mobile-apps/MobileAppDashboard/tabs/CustomEvents/Cus
 export default function CustomEventIndex(props) {
   return (
     <Switch>
-      <Route path="*/details" render={() => <CustomEvent {...props} />} />
-      <Route path="*" render={() => <CustomEvents {...props} />} />
+      <Route path="*/details">
+        <CustomEvent {...props} />
+      </Route>
+      <Route path="*">
+        <CustomEvents {...props} />
+      </Route>
     </Switch>
   );
 }

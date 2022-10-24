@@ -5,6 +5,7 @@
 
 import { createMapForm, createField, composeValidators, ValidationResult, MapForm, Field } from 'formalistic';
 import { isValid, parse } from 'date-fns';
+import { isArray } from 'lodash';
 
 import { dateTimeFormat, formatDate, formatTime, parseDateTime } from 'in-services/formatters/date';
 import { numericValidator, positiveNumberValidator } from 'in-services/validators/number';
@@ -252,4 +253,9 @@ export function sloValidator(v?: number): ValidationResult {
     return sloValidatorFailureMessage;
   }
   return;
+}
+
+export function getField<T>(form: MapForm, path: string[] | string): Field<T> | undefined {
+  const item = isArray(path) ? form.getIn(path) : form.get(path);
+  return item as Field<T> | undefined;
 }

@@ -10,7 +10,7 @@ export const applicationId = 'appId';
 export const serviceId = 'serviceId';
 export const endpointId = 'endpointId';
 export const expandId = 'expanded';
-export const previewEnabled = 'previewEnabled';
+export const fastQueryModeEnabled = 'fastQueryModeEnabled';
 export const showGraph = 'showGraph';
 export const focusedMetric = 'focusedMetric';
 

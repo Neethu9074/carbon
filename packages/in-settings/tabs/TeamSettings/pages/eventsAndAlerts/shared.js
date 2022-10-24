@@ -41,7 +41,6 @@ export function parseQuery(query) {
       }
     });
   }
-  const applicationScopeMatch = applicationScopeQueryRegex.exec(query);
 
   if (applicationIds.length > 0) {
     return {
@@ -51,6 +50,7 @@ export function parseQuery(query) {
     };
   }
 
+  const applicationScopeMatch = applicationScopeQueryRegex.exec(query);
   if (applicationScopeMatch) {
     return {
       applyOn: scopeDfq,

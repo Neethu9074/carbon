@@ -12,8 +12,12 @@ import Alerts from 'in-applications/Dashboards/application/tabs/Alerts/Alerts';
 export default function AlertsIndex(props) {
   return (
     <Switch>
-      <Route path="*/details" render={() => <AlertDetails {...props} />} />
-      <Route path="*" render={() => <Alerts {...props} />} />
+      <Route path="*/details">
+        <AlertDetails {...props} />
+      </Route>
+      <Route path="*">
+        <Alerts {...props} />
+      </Route>
     </Switch>
   );
 }

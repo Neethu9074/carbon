@@ -13,7 +13,12 @@ import {
   productAreaPermissions,
   productPermissions,
   productRestrictions,
-  productOwnerPermissions
+  productOwnerPermissions,
+  RESTRICTED_ACCESS,
+  ACCESS_APPLICATIONS,
+  ACCESS_KUBERNETES,
+  ACCESS_WEBSITES,
+  ACCESS_MOBILE_APPS
 } from 'in-stores/permission';
 import {
   getGroupWithIdpFlagAsResultObservable,
@@ -33,6 +38,7 @@ import { notBlankValidator } from 'in-services/validators/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import { ownerRoleId, defaultRoleId } from 'in-stores/user';
+import IconLabel from 'in-alerting/components/IconLabel';
 import FormGroup from 'in-settings/components/FormGroup';
 import { Row, Col } from 'in-components/layout/Grid';
 import Dialog from 'in-components/Dialog/Dialog';
@@ -78,6 +84,16 @@ function renderGroup(props) {
   const isOwnerGroup = group.id === ownerRoleId;
   const isSystemGroup = isOwnerGroup || group.id === defaultRoleId;
 
+  const accessRestrictionWarning = needsToShowRestricAccessedWarning(form.get('permissionSet').value) ? (
+    <div className="message message-small message-warning">
+      <IconLabel
+        noBottomMargin
+        text={t('in-stores:permissionRestrictedWarning')}
+        color="var(--colors-semantic-warning-dark)"
+        type="lib_help_error_warning_outline"
+      />
+    </div>
+  ) : null;
   return (
     <>
       <Row>
@@ -166,6 +182,7 @@ function renderGroup(props) {
           {form.get('permissionSet').map(field => (
             <FormGroup>
               <Label>{t('in-settings:tabs.permissionScope')}</Label>
+              {accessRestrictionWarning}
               {productAreaPermissions.map(({ value, label }) => (
                 <HorizontalFormGroup
                   key={label}
@@ -245,6 +262,19 @@ function renderGroup(props) {
         </Col>
       </Row>
     </>
+  );
+}
+
+export function needsToShowRestricAccessedWarning(permissionSet) {
+  return hasScopes(permissionSet) && !permissionSet.permissions?.includes(RESTRICTED_ACCESS);
+}
+
+function hasScopes(permissionSet) {
+  return (
+    permissionSet.permissions?.includes(ACCESS_APPLICATIONS) ||
+    permissionSet.permissions?.includes(ACCESS_KUBERNETES) ||
+    permissionSet.permissions?.includes(ACCESS_WEBSITES) ||
+    permissionSet.permissions?.includes(ACCESS_MOBILE_APPS)
   );
 }
 

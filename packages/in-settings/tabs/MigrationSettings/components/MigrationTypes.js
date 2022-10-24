@@ -68,7 +68,7 @@ export const MIGRATION_CONFIGS = [
   {
     key: SMART_APP_ALERT_CONFIGS,
     type: SMART_APP_ALERT_CONFIGS,
-    label: 'Application Alerts',
+    label: 'Application Smart Alerts',
     icon: 'lib_events_critical',
     configs: [],
     selected: [],
@@ -78,7 +78,7 @@ export const MIGRATION_CONFIGS = [
   {
     key: SMART_WEB_ALERT_CONFIGS,
     type: SMART_WEB_ALERT_CONFIGS,
-    label: 'Website Alerts',
+    label: 'Website Smart Alerts',
     icon: 'lib_events_critical',
     configs: [],
     selected: [],

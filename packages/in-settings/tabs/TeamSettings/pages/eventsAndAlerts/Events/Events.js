@@ -6,8 +6,8 @@
 import React, { Fragment, useState } from 'react';
 import classNames from 'classnames';
 
+import { Link, Spacer } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Link } from '@instana/components';
 
 import {
   builtInEnumValue,
@@ -17,7 +17,8 @@ import {
   getSeverityText,
   isAppDataEntityType,
   isBuiltInRule,
-  migratedValue
+  migratedValue,
+  needsMigrationAction
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import {
   getEntityHref,
@@ -33,7 +34,7 @@ import {
   setCustomEventSpecificationsEnabled
 } from 'in-api/eventSpecifications';
 import { getPluginsWithCustomMetricsOptionsObservable } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customMetricUtils';
-import { deprecateAppDataLegacyEvents, disableAppDataLegacyEvents } from 'in-services/featureFlags';
+import { deprecateAppDataLegacyEventsEnabled, hideAppDataLegacyEventsEnabled } from 'in-services/featureFlags';
 import List, { createNewEntityButton, leftHeaderWithSelectAll } from 'in-settings/components/List';
 import { openEventSubmitFormTracker, viewEventTracker } from 'in-settings/tracker';
 import WithSubscript from 'in-settings/components/WithSubscript';
@@ -60,7 +61,7 @@ const severityOptions = [
   { value: 10, label: t('in-settings:tabs.critical') }
 ];
 
-const entityTypeOptionsOfBuiltInMetrics = getEntityTypeOptionsOfBuiltInMetrics();
+const entityTypeOptionsOfBuiltInMetrics = getEntityTypeOptionsOfBuiltInMetrics(false);
 
 const enabledOptions = Object.freeze([
   { value: true, label: t('in-settings:tabs.enabled') },
@@ -81,10 +82,10 @@ export default function Events({
   inSelectListDialog = false,
   getHeader = defaultGetHeader(inSelectListDialog, tableActions),
   /**
-   * 1. Removes filter items for deprected/migrated events
+   * 1. Removes filter items for deprecated/migrated events
    * 2. Filters out deprecated/migrated events
    */
-  withoutDeprecatedEvents
+  withoutAppDataLegacyEvents
 }) {
   const [type, setType] = useState(null);
   const [severity, setSeverity] = useState(null);
@@ -93,12 +94,12 @@ export default function Events({
 
   const entityTypeOptionsOfCustomMetrics = useObservable(getPluginsWithCustomMetricsOptionsObservable, []);
   const allEntityTypeOptions = filterEntityTypeOptions(
-    withoutDeprecatedEvents,
+    withoutAppDataLegacyEvents,
     combineAndSortByLabel(entityTypeOptionsOfBuiltInMetrics, entityTypeOptionsOfCustomMetrics)
   );
 
-  const loadEvents = useLoadEventsFunction(withoutDeprecatedEvents, loadEntities);
-  adjustTypeOptions(withoutDeprecatedEvents);
+  const loadEvents = useLoadEventsFunction(withoutAppDataLegacyEvents, loadEntities);
+  adjustTypeOptions(withoutAppDataLegacyEvents);
 
   return (
     <List
@@ -201,11 +202,22 @@ function columnDefinitions(hasRowNavigation) {
       label: t('in-settings:tabs.name'),
       width: 40,
       getContent(entity) {
+        const { name } = entity;
+
         const icon = getIcon(entity);
 
+        const tooltipContent = needsMigrationAction(entity) ? (
+          <>
+            {name}
+            <Spacer vertical="normal" />
+            {t('in-settings:tabs.actionNeededRecommendMigrate')}
+          </>
+        ) : (
+          name
+        );
         return (
           <WithIcon icon={icon.icon} iconColor={icon.color}>
-            <Tooltip content={entity.name} align="topLeft" delay={500}>
+            <Tooltip content={tooltipContent} align="topLeft" delay={500}>
               <WithSubscript subscript={<Subscript entity={entity} />}>
                 {hasRowNavigation ? (
                   <Link
@@ -220,10 +232,10 @@ function columnDefinitions(hasRowNavigation) {
                       })
                     }
                   >
-                    {entity.name}
+                    {name}
                   </Link>
                 ) : (
-                  <span className={locals.ellipsis}>{entity.name}</span>
+                  <span className={locals.ellipsis}>{name}</span>
                 )}
               </WithSubscript>
             </Tooltip>
@@ -354,7 +366,7 @@ function Subscript({ entity }) {
   }
 
   function showDeprecated() {
-    return deprecateAppDataLegacyEvents && isAppDataEntityType(entity.entityType) ? (
+    return deprecateAppDataLegacyEventsEnabled && !isBuiltInRule(entity) && isAppDataEntityType(entity.entityType) ? (
       <span key="deprecated" className={locals.deprecated}>
         {t('in-settings:tabs.deprecated')}
       </span>
@@ -380,7 +392,7 @@ function createFilters(hiddenIds, type, severity, entityType, enabled) {
   if (type === migratedValue) {
     filters.push(entity => Boolean(entity.migrated));
   } else if (type === deprecatedValue) {
-    filters.push(entity => isAppDataEntityType(entity.entityType));
+    filters.push(entity => !isBuiltInRule(entity) && isAppDataEntityType(entity.entityType) && !entity.migrated);
   } else if (type) {
     filters.push(entity => entity.type === type);
   }
@@ -402,10 +414,10 @@ function createFilters(hiddenIds, type, severity, entityType, enabled) {
   return filters;
 }
 
-function useLoadEventsFunction(withoutDeprecatedEvents, loadEntities) {
+function useLoadEventsFunction(withoutAppDataLegacyEvents, loadEntities) {
   const loadEventsFunc = loadEntities ? loadEntities : getEventSpecificationsMutable;
 
-  if (disableAppDataLegacyEvents || (deprecateAppDataLegacyEvents && withoutDeprecatedEvents)) {
+  if (hideAppDataLegacyEventsEnabled || withoutAppDataLegacyEvents) {
     return () =>
       loadEventsFunc().map(es => {
         return es.filter(({ entityType }) => !isAppDataEntityType(entityType));
@@ -415,8 +427,8 @@ function useLoadEventsFunction(withoutDeprecatedEvents, loadEntities) {
   return loadEventsFunc;
 }
 
-function adjustTypeOptions(withoutDeprecatedEvents) {
-  if (disableAppDataLegacyEvents || (deprecateAppDataLegacyEvents && withoutDeprecatedEvents)) {
+function adjustTypeOptions(withoutAppDataLegacyEvents) {
+  if (hideAppDataLegacyEventsEnabled || withoutAppDataLegacyEvents) {
     typeOptions = typeOptions.filter(({ value }) => [builtInEnumValue, customEnumValue].includes(value));
   } else {
     if (!typeOptions.some(({ value }) => value === deprecatedValue)) {
@@ -428,8 +440,8 @@ function adjustTypeOptions(withoutDeprecatedEvents) {
   }
 }
 
-function filterEntityTypeOptions(withoutDeprecatedEvents, options) {
-  if (disableAppDataLegacyEvents || (deprecateAppDataLegacyEvents && withoutDeprecatedEvents)) {
+function filterEntityTypeOptions(withoutAppDataLegacyEvents, options) {
+  if (hideAppDataLegacyEventsEnabled || withoutAppDataLegacyEvents) {
     return options.filter(({ value }) => !['application', 'service', 'endpoint'].includes(value));
   }
   return options;

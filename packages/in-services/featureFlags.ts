@@ -43,7 +43,6 @@ export const vsphereEnabled = isFeatureFlagEnabled('vsphereEnabled');
 export const openstackEnabled = isFeatureFlagEnabled('openstackEnabled');
 export const zhmcEnabled = isFeatureFlagEnabled('zhmcEnabled');
 export const loggingEnabled = isFeatureFlagEnabled('loggingEnabled');
-export const kubernetesLoggingEnabled = isFeatureFlagEnabled('kubernetesLoggingEnabled', false);
 
 export const enableTroubleshootingMode = isFeatureFlagEnabled('enableTroubleshootingMode', false);
 export const syntheticCallsEnabled = isFeatureFlagEnabled('syntheticCallsEnabled');
@@ -62,22 +61,27 @@ export const builtInGlobalApplicationSmartAlertsEnabled =
   applicationSmartAlertsEnabled && isFeatureFlagEnabled('builtInGlobalApplicationSmartAlertsEnabled');
 export const potentialProblemsEnabled =
   applicationSmartAlertsEnabled && isFeatureFlagEnabled('potentialProblemsEnabled', true);
-export const deprecateAppDataLegacyEvents =
-  applicationSmartAlertsEnabled && isFeatureFlagEnabled('deprecateAppDataLegacyEvents');
 export const adaptiveBaselineEnabled = applicationSmartAlertsEnabled && isFeatureFlagEnabled('adaptiveBaselineEnabled');
 export const kubernetesExploreEnabled = isFeatureFlagEnabled('kubernetesExploreEnabled', false);
-export const disableAppDataLegacyEvents =
-  applicationSmartAlertsEnabled && isFeatureFlagEnabled('disableAppDataLegacyEvents');
+export const kubernetesTeamEnabled = isFeatureFlagEnabled('kubernetesTeamEnabled', false);
+export const deprecateAppDataLegacyEventsEnabled =
+  applicationSmartAlertsEnabled && isFeatureFlagEnabled('deprecateAppDataLegacyEventsEnabled', true);
+export const disallowAppDataLegacyEventsEnabled =
+  applicationSmartAlertsEnabled && isFeatureFlagEnabled('disallowAppDataLegacyEventsEnabled');
+export const hideAppDataLegacyEventsEnabled =
+  applicationSmartAlertsEnabled && isFeatureFlagEnabled('hideAppDataLegacyEventsEnabled');
 export const perServiceAdaptiveBaselineEnabled =
   applicationSmartAlertsEnabled && isFeatureFlagEnabled('perServiceAdaptiveBaselineEnabled', true);
 export const perEndpointAdaptiveBaselineEnabled =
   applicationSmartAlertsEnabled && isFeatureFlagEnabled('perEndpointAdaptiveBaselineEnabled', false);
-export const baselinePreviewOnAlertPageEnabled =
-  adaptiveBaselineEnabled && isFeatureFlagEnabled('baselinePreviewOnAlertPageEnabled', false);
 
 export const websiteSloEnabled = isFeatureFlagEnabled('websiteSloEnabled', false);
 export const sliCHClusterAccessEnabled = isFeatureFlagEnabled('sliCHClusterAccessEnabled');
 export const apdexWidgetEnabled = isFeatureFlagEnabled('apdexWidgetEnabled', false);
+export const applicationApdexEnabled = isFeatureFlagEnabled('applicationApdexEnabled', false);
+
+export const websiteUploadConfigEnabled = isFeatureFlagEnabled('websiteUploadConfigEnabled', false);
+export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashBeaconEnabled', false);
 
 // SmartAlerts, Strontium-cloudberry:
 // Logs-Blueprint behind FF, Closed-Beta, only for customers already using it
@@ -114,3 +118,9 @@ export const allowedMultiplesOfRollupSizeMissingInCharts = 4;
 export const allowDownloadMetricsFromCharts = isInstanaEmail;
 
 export const perSecondAggregationEnabled = isFeatureFlagEnabled('perSecondAggregationEnabled', false);
+
+export const actionAutomationEnabled = isFeatureFlagEnabled('actionAutomationEnabled', false);
+
+export const pluginMetricStatisticsEnabled = isFeatureFlagEnabled('pluginMetricStatisticsEnabled', false);
+
+export const k8sTimeShiftEnabled = isFeatureFlagEnabled('k8sTimeShiftEnabled', false);

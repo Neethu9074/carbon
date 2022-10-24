@@ -70,6 +70,15 @@ export default {
     explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
     explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-java-virtual-machine#restart-needed`
   },
+  jvm_attach_directory: {
+    issueDescription: {
+      Component: function jvmAttachDirectory() {
+        return <span>{t('in-forge:plugins.process.jvmAttachDirectoryIssueDescription')}</span>;
+      }
+    },
+    explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-java-virtual-machine#attach-directory-failure`
+  },
   jvm_attach_network: {
     issueDescription: {
       Component: function jvmAttachNetwork({ agentHostAddresses }) {

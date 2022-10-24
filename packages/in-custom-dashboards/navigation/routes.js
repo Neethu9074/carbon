@@ -9,13 +9,13 @@ import { Route } from 'react-router-dom';
 import React, { Fragment } from 'react';
 
 import { viewPathFullyQualified, customDashboardsPath } from 'in-custom-dashboards/navigation/url';
-import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
+import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 import { cockpit } from 'in-cockpit/navigation/paths';
 
 export default (
   <Fragment>
-    <Route path={viewPathFullyQualified} component={createAsyncViewComponent(CustomDashboard)} />
+    <Route path={viewPathFullyQualified} children={renderAsyncRouteChildren(CustomDashboard)} />
     <RedirectWithHash from={customDashboardsPath} to={cockpit} />
   </Fragment>
 );

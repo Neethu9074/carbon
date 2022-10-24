@@ -24,6 +24,10 @@ const stateFormatter = state => {
       return 'VARIED_OFF';
     case 4:
       return 'VARIED_ON';
+    case 5:
+      return 'AVAILABLE';
+    case 6:
+      return 'FAILED';
     default:
       return '-';
   }

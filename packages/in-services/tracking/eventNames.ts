@@ -13,9 +13,11 @@ export const CUSTOM_DASHBOARD_EDIT = 'custom.dashboard.edit';
 export const CUSTOM_DASHBOARD_DELETE = 'custom.dashboard.delete';
 export const CUSTOM_DASHBOARD_ADD_WIDGET_START = 'custom.dashboard.add.widget.start';
 export const CUSTOM_DASHBOARD_ADD_WIDGET_FINISH = 'custom.dashboard.add.widget.finish';
+export const CUSTOM_DASHBOARD_ADD_WIDGET_DUPLICATE = 'custom.dashboard.add.widget.duplicate';
 export const CUSTOM_DASHBOARD_EDIT_WIDGET_START = 'custom.dashboard.edit.widget.start';
 export const CUSTOM_DASHBOARD_EDIT_WIDGET_CANCEL = 'custom.dashboard.edit.widget.cancel';
 export const CUSTOM_DASHBOARD_EDIT_WIDGET_FINISH = 'custom.dashboard.edit.widget.finish';
+export const CUSTOM_DASHBOARD_DELETE_WIDGET = 'custom.dashboard.delete.widget';
 export const CUSTOM_DASHBOARD_VIEW_WIDGET = 'custom.dashboard.view.widget';
 
 export const ANALYZE_VIEW_SELECTED = 'analyze.view.selected';
@@ -52,9 +54,17 @@ export const ANALYZE_UA2_ORDER_BY_GROUP_CHANGED = 'analyze.ua2.orderByGroup.chan
 export const ANALYZE_UA2_API_QUERY_PRESSED = 'analyze.ua2.apiQuery.pressed';
 export const ANALYZE_UA2_NESTING_DEPTH = 'analyze.ua2.nesting.depth';
 export const ANALYZE_UA2_LOAD_MORE_CLICKED = 'analyze.ua2.load.more.clicked';
+export const ANALYZE_UA2_FAST_QUERY_MODE_CHANGED = 'analyze.ua2.fastQueryMode.changed';
 
 export const ANALYZE_UA2_FORMMODEL_CHANGED = 'analyze.ua2.formmodel.changed';
 export const ANALYZE_UA2_FACETS_CHANGED = 'analyze.ua2.facets.changed';
+
+export const ANALYZE_TRACE_VIEW_CLOSED = 'analyze.trace.view.closed';
+export const ANALYZE_TRACE_VIEW_NAVIGATE_TO_UA = 'analyze.trace.view.navigate.ua';
+export const ANALYZE_TRACE_VIEW_TRACE_LIST_CLICK = 'analyze.trace.view.trace.list.click';
+export const ANALYZE_TRACE_VIEW_SERVICE_ENDPOINT_LIST_CLICK = 'analyze.trace.view.service.endpoint.list.click';
+export const ANALYZE_TRACE_VIEW_TREE_CALL_CLICK = 'analyze.trace.view.call.tree.click';
+export const ANALYZE_TRACE_VIEW_TIMELINE_CALL_CLICK = 'analyze.trace.view.call.timeline.click';
 
 export const APPLICATION_CLICK_CREATE = 'application.click.create';
 export const APPLICATION_CLICK_SUBMIT = 'application.click.submit';
@@ -80,6 +90,7 @@ export const DFQ_FILTER_REMOVED = 'dfq.filter.removed';
 export const DFQ_FILTER_SELECTED = 'dfq.filter.selected';
 
 export const KUBERNETES_DASHBOARD_TAB_CHANGE = 'kubernetes.dashboard.tabChange';
+export const KUBERNETES_TIME_SHIFT_SELECT = 'kubernetes.timeShift.select';
 export const IS_MONITORING_HOSTS = 'isMonitoringHosts';
 export const MAP_GROUPING_CHANGED = 'map.grouping.change';
 export const MAP_METRICS_AGGREGATION = 'map.metrics.aggregation';
@@ -257,6 +268,11 @@ export const SETTINGS_ALERT_CUSTOM_PAYLOAD_REMOVE_ITEM = 'settings.alert.customP
 export const SETTINGS_EVENT_VIEW = 'settings.event.custom.view';
 export const SETTINGS_EVENT_SUBMIT = 'settings.event.submit';
 export const SETTINGS_EVENT_OPEN_SUBMIT_FORM = 'settings.event.new';
+export const SETTINGS_MAINTENANCE_WINDOW_EDIT = 'settings.maintenance.edit';
+export const SETTINGS_MAINTENANCE_WINDOW_NEW = 'settings.maintenance.new';
+export const SETTINGS_MAINTENANCE_WINDOW_SUBMIT = 'settings.maintenance.submit';
+export const SETTINGS_MAINTENANCE_WINDOW_REMOVE = 'settings.maintenance.remove';
+export const SETTINGS_MAINTENANCE_WINDOW_CANCEL = 'settings.maintenance.cancel';
 
 export const ONBOARDING_OPENED = 'onboardingNewUnit.dialog.opened';
 export const ONBOARDING_INSTANA_BEGINNER_VIDEOS_CLICKED = 'onboardingNewUnit.instanaBeginnerVideos.clicked';
@@ -316,19 +332,14 @@ export const POTENTIAL_PROBLEMS_DIALOG_CLOSED = 'potential.problems.dialog.close
 export const ALERT_PREVIEW_MARKER_FETCH_RETRY = 'alert.preview.marker.fetch.retry';
 
 // SLI Widget and SLI Management
-export const SLI_WIDGET_JUMP_TO_UNBOUNDED_ANALYTICS = 'sli.widget.chart.jumpToUA';
-export const SLI_WIDGET_START_EDITING = 'sli.widget.editStart';
-export const SLI_WIDGET_AP_CHANGED = 'sli.widget.apChanged';
-export const SLI_WIDGET_SLI_CHANGED = 'sli.widget.sliChanged';
-export const SLI_WIDGET_SLO_CHANGED = 'sli.widget.sloChanged';
-export const SLI_WIDGET_TIME_WINDOW_TYPE_CHANGED = 'sli.widget.timeWindowChanged';
-export const SLI_WIDGET_OPEN_SLI_MANAGEMENT = 'sli.widget.openSliManagement';
-export const SLI_MANAGEMENT_CREATE = 'sli.management.create';
-export const SLI_MANAGEMENT_VIEW = 'sli.management.view';
-export const SLI_MANAGEMENT_DELETED = 'sli.management.deleted';
-export const SLI_MANAGEMENT_NEW_CREATED = 'sli.management.sliCreated';
-export const SLI_MANAGEMENT_CLONED = 'sli.management.cloned';
-export const SLI_MANAGEMENT_EDIT_ABORT = 'sli.management.editAbort';
+export const SLO_WIDGET_EDIT_START = 'slo.widget.edit.start';
+export const SLI_MANAGEMENT_VIEW = 'sli.v2.management.view';
+export const SLI_MANAGEMENT_EXIT = 'sli.v2.management.exit';
+export const SLI_MANAGEMENT_CREATE_START = 'sli.v2.management.create.start';
+export const SLI_MANAGEMENT_CREATE_FINISH = 'sli.v2.management.create.finish';
+export const SLI_MANAGEMENT_EDIT_START = 'sli.v2.management.edit.start';
+export const SLI_MANAGEMENT_EDIT_FINISH = 'sli.v2.management.edit.finish';
+export const SLI_MANAGEMENT_DELETE = 'sli.v2.management.delete';
 
 // Logging
 export const ANALYZE_LOGGING_QUERY_BUILDER_FILTER_ADDED = 'analyze.logging.queryBuilder.filter.added';
@@ -340,6 +351,7 @@ export const ANALYZE_LOGGING_LOG_MESSAGE_TAG_CLICKED = 'analyze.logging.log.mess
 export const ANALYZE_LOGGING_JUMP_TO_LOGS = 'analyze.logging.jump.to.logs';
 export const ANALYZE_LOGGING_TIME_SPENT = 'analyze.logging.time.spent';
 export const LOGGING_LOGDNA_BUTTON_CLICKED = 'logging.logDna.clicked';
+export const ANALYZE_LOGGING_SORTING_CHANGED = 'analyze.logging.sorting.changed';
 
 // ENTERPRISE
 export const ENTERPRISE_IDP_MAPPING_FIRST = 'enterprise.idp.mapping.first';
@@ -347,3 +359,13 @@ export const ENTERPRISE_IDP_MAPPING_CHANGED = 'enterprise.idp.mapping.changed';
 export const ENTERPRISE_IDP_MAPPING_REMOVED = 'enterprise.idp.mapping.removed';
 export const ENTERPRISE_IDP_MAPPING_RESTRICT_ACCESS = 'enterprise.idp.mapping.restrictAccess';
 export const ENTERPRISE_IDP_MAPPING_RESTRICT_ACCESS_REMOVE = 'enterprise.idp.mapping.restrictAccess.remove';
+
+// Apdex Widget and Apdex Management
+export const APDEX_WIDGET_EDIT_START = 'apdex.widget.edit.start';
+export const APDEX_MANAGEMENT_VIEW = 'apdex.management.view';
+export const APDEX_MANAGEMENT_EXIT = 'apdex.management.exit';
+export const APDEX_MANAGEMENT_CREATE_START = 'apdex.management.create.start';
+export const APDEX_MANAGEMENT_CREATE_FINISH = 'apdex.management.create.finish';
+export const APDEX_MANAGEMENT_EDIT_START = 'apdex.management.edit.start';
+export const APDEX_MANAGEMENT_EDIT_FINISH = 'apdex.management.edit.finish';
+export const APDEX_MANAGEMENT_DELETE = 'apdex.management.delete';

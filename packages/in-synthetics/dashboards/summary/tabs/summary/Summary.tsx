@@ -5,11 +5,9 @@
 
 import { useLocation } from 'react-router';
 import React, { Fragment } from 'react';
-import { get } from 'lodash';
-
-import { useObservable } from '@instana/hooks';
 
 import ResultsTopList from 'in-synthetics/dashboards/summary/tabs/summary/components/ResultsTopList';
+import ResponseStatus from 'in-synthetics/dashboards/summary/tabs/summary/components/ResponseStatus';
 import NetworkTimings from 'in-synthetics/dashboards/summary/tabs/summary/components/NetworkTiming';
 import ResponseTime from 'in-synthetics/dashboards/summary/tabs/summary/components/ResponseTime';
 import ResponseSize from 'in-synthetics/dashboards/summary/tabs/summary/components/ResponseSize';
@@ -18,21 +16,29 @@ import { bytes, meanLatency, number, percentage } from 'in-services/formatters/n
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
+import buildLocationsMap from 'in-synthetics/utils/buildLocationsMap';
 import { syntheticsDashboard } from 'in-synthetics/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { TestResponse } from 'in-synthetics/utils/constants';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
-import { dummyTest } from 'in-synthetics/utils/constants';
-import ResponseStatus from './components/ResponseStatus';
 import { Col, Row } from 'in-components/layout/Grid';
-import { getTest } from 'in-synthetics/api';
 import { t } from 'in-i18n';
 
-export default function Summary() {
+interface SummaryProps {
+  test: TestResponse;
+}
+
+export default function Summary({ test }: SummaryProps) {
+  const locationDisplayLabels = test.data?.locationDisplayLabels || [];
+  const locations = test.data?.locations || [];
+  const locationsMap =
+    locationDisplayLabels.length === locations.length
+      ? buildLocationsMap(locations, locationDisplayLabels)
+      : new Map<string, string>();
   const timeShiftConfig = useTimeShiftConfig();
   const location = useLocation();
-  const testId = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
-  let test = useObservable<any, []>(() => getTest(testId), []) || dummyTest;
-  let testType = get(test, ['data', 'configuration', 'syntheticType']) === 'HTTPAction' ? true : false;
+  const testId: string = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
+  const testType: boolean = getMatrixParameter(location, syntheticsDashboard, 'type') === 'HTTPAction' ? true : false;
 
   let tagFilters = [
     {
@@ -163,22 +169,26 @@ export default function Summary() {
         <Col xs>
           <ResponseTime test={test} timeShiftConfig={timeShiftConfig} />
         </Col>
-        {testType && (
+        {testType && !test.progress.loading && (
           <Col xs>
             <NetworkTimings test={test} timeShiftConfig={timeShiftConfig} />
           </Col>
         )}
       </Row>
       <Row>
-        <Col lg={testType ? 4 : 6}>
-          <ResponseSize test={test} timeShiftConfig={timeShiftConfig} />
-        </Col>
-        <Col lg={testType ? 4 : 6}>
-          <ResultsTopList testId={testId} />
-        </Col>
+        {!test.progress.loading && (
+          <>
+            <Col lg={testType ? 4 : 6}>
+              <ResponseSize test={test} timeShiftConfig={timeShiftConfig} />
+            </Col>
+            <Col lg={testType ? 4 : 6}>
+              <ResultsTopList testId={testId} locationsMap={locationsMap} />
+            </Col>
+          </>
+        )}
         {testType && (
           <Col lg={4}>
-            <ResponseStatus test={test} timeShiftConfig={timeShiftConfig} />
+            <ResponseStatus test={test} />
           </Col>
         )}
       </Row>

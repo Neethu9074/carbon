@@ -6,35 +6,45 @@
 import React, { useRef } from 'react';
 import rpt from 'prop-types';
 
+import { Button, Message } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/components';
 
+import TagBasedPayloadView from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadView';
 import TagBasedPayload from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayload';
+import { hasError, success, successObservableFactory } from 'in-services/util/result';
 import TagSelectorOverlay from 'in-components/TagSelectorOverlay/TagSelectorOverlay';
+import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import LoadingIndicator from 'in-components/GroupingConfigurator/LoadingIndicator';
 import { getTagCatalogOnce, enrichTagCatalog } from 'in-services/tags/tagCatalog';
 import Overlay from 'in-components/overlays/Overlay';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { success } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
-import locals from './TagBasedPayloadConfigurator.mless';
+import locals from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator.mless';
 
 export default function TagBasedPayloadConfigurator({
   value,
+  disabled,
   tagFilterExpression,
   onChange,
   getTagCatalog,
+  suggestionsAlignedLeft,
   getSuggestions
 }) {
   const timeConfig = useTimeConfig();
   const tagCatalogResult = useObservable(getTagCatalog({ timeConfig }), [getTagCatalog]);
   const autoFocus = useRef();
 
+  if (hasError(tagCatalogResult)) {
+    return <ErroneousResultPresenter errors={tagCatalogResult.errors} />;
+  }
+
   const tagCatalog = tagCatalogResult?.data;
   if (!tagCatalog || !tagCatalog.tagsByName) {
     return <LoadingIndicator />;
   }
+
+  const tagPath = tagCatalog.tagsByName[value.tagName];
 
   return (
     <Overlay
@@ -56,10 +66,23 @@ export default function TagBasedPayloadConfigurator({
       withoutWrapper
     >
       {({ toggle, refSetter }) =>
-        value?.tagName ? (
+        disabled ? (
+          tagPath ? (
+            <TagBasedPayloadView
+              tagCatalog={tagCatalog}
+              payloadValue={value}
+              doesTagNodeNeedSecondLevelKey={doesTagNodeNeedSecondLevelKey(tagPath)}
+            />
+          ) : (
+            <Message type="error" small>
+              {t('in-settings:tabs.team.customPayload.unknownTag', { tagName: value?.tagName })}
+            </Message>
+          )
+        ) : value?.tagName ? (
           <TagBasedPayload
             onChange={onChange}
             getSuggestions={getSuggestions}
+            suggestionsAlignedLeft={suggestionsAlignedLeft}
             payload={value}
             toggle={toggle}
             ref={refSetter}
@@ -85,18 +108,31 @@ export default function TagBasedPayloadConfigurator({
 }
 
 TagBasedPayloadConfigurator.propTypes = {
-  onChange: rpt.func.isRequired,
+  onChange: rpt.func,
   value: rpt.shape({
-    payloadTagEntity: rpt.string.isRequired,
+    payloadTagEntity: rpt.string,
     tagName: rpt.string.isRequired,
     secondLevelKey: rpt.string
   }),
+  disabled: rpt.bool,
   getTagCatalog: rpt.func.isRequired,
   getSuggestions: rpt.func.isRequired,
+  suggestionsAlignedLeft: rpt.bool,
   tagFilterExpression: rpt.object
 };
 
-export function createTagBasedPayloadConfigurator({ getTagCatalog: originalGetTagCatalog, getSuggestions }) {
+export function createTagBasedApplicationPayloadConfigurator({ getTagCatalog, getSuggestions }) {
+  return createTagBasedPayloadConfigurator({ getTagCatalog, getSuggestions });
+}
+
+export function createTagBasedWebsitePayloadConfigurator({ getTagCatalog, getSuggestions }) {
+  return createTagBasedPayloadConfigurator({ getTagCatalog, getSuggestions });
+}
+
+export function createTagBasedPayloadConfigurator({
+  getTagCatalog: originalGetTagCatalog,
+  getSuggestions: optionalOriginalGetSuggestions
+}) {
   const getEnrichedCatalog = props =>
     originalGetTagCatalog(props).map(result => {
       if (result.data) {
@@ -105,17 +141,23 @@ export function createTagBasedPayloadConfigurator({ getTagCatalog: originalGetTa
       return result;
     });
   const getTagCatalog = getTagCatalogOnce(getEnrichedCatalog);
-  return {
-    TagBasedPayloadConfigurator: function CreatedTagBasedPayloadConfigurator(props) {
-      return <TagBasedPayloadConfigurator {...props} getTagCatalog={getTagCatalog} getSuggestions={getSuggestions} />;
-    }
+
+  const getEmptySuggestions = successObservableFactory({
+    suggestions: [],
+    results: [],
+    totalHits: 0
+  });
+
+  const getSuggestions = optionalOriginalGetSuggestions ?? getEmptySuggestions;
+
+  return function TagBasedPayloadConfiguratorWithCatalog(props) {
+    return <TagBasedPayloadConfigurator {...props} getTagCatalog={getTagCatalog} getSuggestions={getSuggestions} />;
   };
 }
 
 // e.g. { tagName: 'kubernetes.pod.label', key: 'app' }
 export const toViewModel = ({ tagName = '', key }) => {
   return {
-    payloadTagEntity: tagName,
     tagName,
     secondLevelKey: key
   };

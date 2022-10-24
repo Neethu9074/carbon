@@ -85,7 +85,7 @@ interface MarkersLaneProps<EventType extends MarkerLaneEvent> extends Partial<Pr
   width: number;
   events: EventType[];
   TooltipContent?: React.JSXElementConstructor<EventType>;
-  label: string;
+  label?: string;
   chartContentPosition: ChartContentPostition;
   LaneItem: React.JSXElementConstructor<LaneItemProps<EventType>>;
   HoverOverlay?: React.JSXElementConstructor<MarkerLaneHoverOverlayConfig>;
@@ -163,11 +163,11 @@ function MarkersLanePresenter<EventType extends MarkerLaneEvent>({
         {(hoveredEventData || selectedEventData) &&
           (() => {
             const eventDataTimestamp = hoveredEventData?.timestamp ?? selectedEventData!.timestamp;
-            const xPos = isClustered ? getXposCluster(eventDataTimestamp) : xScale?.getRange(eventDataTimestamp);
+            const xPos = getClampedXPos(eventDataTimestamp);
             const config: MarkerLaneHoverOverlayConfig = {
               xPos,
-              fromXPos: Math.max(0, xPos! - clusterAreaWidth / 2),
-              toXPos: Math.min(xPos! + clusterAreaWidth / 2, xScale?.getRangeTo() ?? 0),
+              fromXPos: Math.max(0, xPos - clusterAreaWidth / 2),
+              toXPos: Math.min(xPos + clusterAreaWidth / 2, xScale?.getRangeTo() ?? 0),
               chartContentPosition,
               eventData: hoveredEventData ?? selectedEventData!,
               xScale,
@@ -193,8 +193,7 @@ function MarkersLanePresenter<EventType extends MarkerLaneEvent>({
         {!errorMessage &&
           events.map(eventData => {
             const showIconForCluster = (eventData?.count ?? 0) > 1;
-            const xPos = isClustered ? getXposCluster(eventData.timestamp) : xScale?.getRange(eventData.timestamp);
-
+            const xPos = getClampedXPos(eventData.timestamp);
             return (
               <Tooltip
                 align={getTooltipAlignmentForChartContentPosition(chartContentPosition)}
@@ -243,8 +242,14 @@ function MarkersLanePresenter<EventType extends MarkerLaneEvent>({
     </>
   );
 
-  function getXposCluster(timestamp: number) {
+  function getXPosCluster(timestamp: number): number {
     return (xScale?.getRange(timestamp) ?? 0) + clusterAreaWidth / 2 - remainingProps.chartBucketWidth! / 2;
+  }
+
+  function getClampedXPos(timestamp: number): number {
+    const rangeTo = xScale?.getRangeTo() ?? 0;
+    const xPos = isClustered ? getXPosCluster(timestamp) : xScale?.getRange(timestamp) ?? 0;
+    return Math.max(0, Math.min(rangeTo, xPos));
   }
 
   function getTooltipAlignmentForChartContentPosition(chartContentPosition: ChartContentPostition) {

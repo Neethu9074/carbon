@@ -32,11 +32,14 @@ export function Input({
   valid,
   autoFocus = false,
   tagName,
-  getSuggestionLabel
+  getSuggestionLabel,
+  allowEmptyKey
 }) {
   const locals = useThemedLocals(styleDefs);
   const result = useDebouncedValue(value, onChange, 500);
   const suggestionsResult = useObservable(getSuggestions, fieldsToWatch);
+
+  valid = valid || (allowEmptyKey ?? false);
 
   return (
     <Typeahead
@@ -51,7 +54,8 @@ export function Input({
         placeholder,
         hideValidityInformationOnFocus: true,
         autoFocus,
-        locals
+        locals,
+        allowEmptyKey
       }}
       suggestionsResult={suggestionsResult}
       getSuggestionLabel={getSuggestionLabel}
@@ -64,7 +68,16 @@ export function Input({
 
 function render({ inputProps, getInputProps, isOpen, openMenu, ...remainingProps }) {
   const { inputValue } = remainingProps;
-  const { locals, valid, hideValidityInformationOnFocus, autoFocus, ...remainingInputProps } = inputProps;
+  const {
+    locals,
+    valid,
+    hideValidityInformationOnFocus,
+    autoFocus,
+    allowEmptyKey,
+    ...remainingInputProps
+  } = inputProps;
+
+  const validClass = valid || (allowEmptyKey ?? false);
 
   return (
     <>
@@ -77,7 +90,7 @@ function render({ inputProps, getInputProps, isOpen, openMenu, ...remainingProps
             minWidth={32}
             inputClassName={classNames({
               [locals.input]: true,
-              [locals.invalid]: !valid,
+              [locals.invalid]: !validClass,
               [locals.hideValidityInformationOnFocus]: hideValidityInformationOnFocus
             })}
             {...remainingInputProps}
@@ -153,7 +166,7 @@ function SuggestionsList({
             close={close}
             value={item}
           >
-            <Tooltip content={getSuggestionLabel({ item, tagName })} align={'rightMiddle'}>
+            <Tooltip content={getSuggestionLabel({ item, tagName })} align={'rightMiddle'} delay={300}>
               <span className={locals.ellipsis}>{getSuggestionLabel({ item, tagName })}</span>
             </Tooltip>
           </OverlayOption>

@@ -18,7 +18,7 @@ import { t } from 'in-i18n';
 
 import locals from './Filter.mless';
 
-export default function Filter({ filter, setFilter, beacons }) {
+export default function Filter({ query, setQuery, page, setPage, filterTypes, setFilterTypes, beacons }) {
   const pages = useMemo(() => getPages(beacons), [beacons]);
 
   return (
@@ -27,20 +27,14 @@ export default function Filter({ filter, setFilter, beacons }) {
         <FilterBlock title={t('in-websites:analyze.analyzeView.pageLoadView.filterTitlePages')}>
           <Select
             id="page-filter"
-            value={filter.page || ''}
+            value={page || ''}
             className={locals.pageFilter}
             onChange={e => {
               stopPropagationAndPreventDefault(e);
               if (e.target.value === '') {
-                setFilter({
-                  ...filter,
-                  page: ''
-                });
+                setPage('');
               } else {
-                setFilter({
-                  ...filter,
-                  page: e.target.value
-                });
+                setPage(e.target.value);
               }
             }}
           >
@@ -57,18 +51,12 @@ export default function Filter({ filter, setFilter, beacons }) {
       <FilterBlock title={t('in-websites:analyze.analyzeView.pageLoadView.filterTitleSearch')}>
         <SearchInput
           maxWidth="10rem"
-          query={filter.query}
+          query={query}
           onChange={query => {
             if (isNotBlank(query)) {
-              setFilter({
-                ...filter,
-                query
-              });
+              setQuery(query);
             } else {
-              setFilter({
-                ...filter,
-                query: ''
-              });
+              setQuery('');
             }
           }}
         />
@@ -82,14 +70,11 @@ export default function Filter({ filter, setFilter, beacons }) {
               style={{ '--type-color': theme.lib.colors.lightBlue800 }}
               className={classNames({
                 [locals.typeFilterLink]: true,
-                [locals.active]: filter.types.length === 0
+                [locals.active]: filterTypes.length === 0
               })}
               onClick={e => {
                 stopPropagationAndPreventDefault(e);
-                setFilter({
-                  ...filter,
-                  types: []
-                });
+                setFilterTypes([]);
               }}
             >
               {t('in-websites:analyze.analyzeView.pageLoadView.filterOptionAll')}
@@ -99,7 +84,7 @@ export default function Filter({ filter, setFilter, beacons }) {
           {Object.keys(types)
             .filter(k => types[k])
             .map(type => (
-              <FilterItem key={type} filter={filter} setFilter={setFilter} type={type} />
+              <FilterItem key={type} filterTypes={filterTypes} setFilterTypes={setFilterTypes} type={type} />
             ))}
         </ul>
       </FilterBlock>
@@ -107,8 +92,8 @@ export default function Filter({ filter, setFilter, beacons }) {
   );
 }
 
-function FilterItem({ filter, setFilter, type }) {
-  const isActive = filter.types.indexOf(type) !== -1;
+function FilterItem({ filterTypes, setFilterTypes, type }) {
+  const isActive = filterTypes.indexOf(type) !== -1;
   return (
     <li key={type} className={locals.typeFilter}>
       <Tooltip content={types[type].long} align="bottomMiddle">
@@ -123,14 +108,11 @@ function FilterItem({ filter, setFilter, type }) {
             stopPropagationAndPreventDefault(e);
             let newTypeFilters;
             if (isActive) {
-              newTypeFilters = filter.types.filter(t => t !== type);
+              newTypeFilters = filterTypes.filter(t => t !== type);
             } else {
-              newTypeFilters = filter.types.concat(type);
+              newTypeFilters = filterTypes.concat(type);
             }
-            setFilter({
-              ...filter,
-              types: newTypeFilters
-            });
+            setFilterTypes(newTypeFilters);
           }}
         >
           {types[type].short}

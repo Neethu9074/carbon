@@ -22,8 +22,12 @@ export default connectTo(
   function ProfiledProcesses(props) {
     return (
       <Switch>
-        <Route path={analyzeProfilePathFullyQualified} render={() => <ProfilesView {...props} />} />
-        <Route path="*" render={() => <ProfiledProcessesComponent {...props} />} />
+        <Route path={analyzeProfilePathFullyQualified}>
+          <ProfilesView {...props} />
+        </Route>
+        <Route path="*">
+          <ProfiledProcessesComponent {...props} />
+        </Route>
       </Switch>
     );
   }

@@ -1,18 +1,29 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc. 2021
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2022
  */
 
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
-
-import SliConfigInfoTooltip from 'in-custom-dashboards/widgets/Slo/components/SliConfigInfo/SliConfigInfoTooltip';
-import { SliConfig, CombinedSliEntity } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
+import {
+  ApplicationFilterWidgetConfigInfoItem,
+  WebsiteFilterWidgetConfigInfoItem
+} from 'in-custom-dashboards/widgets/Slo/components/WidgetConfigInfo/FilterWidgetConfigInfoItem';
+import {
+  applicationType,
+  availabilityType,
+  CombinedSliEntity,
+  SliConfig,
+  websiteEventBased,
+  websiteTimeBased
+} from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
+import SliMetricWidgetConfigInfoItem from 'in-custom-dashboards/widgets/Slo/components/SliConfigInfo/SliMetricWidgetConfigInfoItem';
+import WidgetConfigInfoItem from 'in-custom-dashboards/widgets/Slo/components/WidgetConfigInfo/WidgetConfigInfoItem';
+import WidgetConfigInfo from 'in-custom-dashboards/widgets/Slo/components/WidgetConfigInfo';
 import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/constants';
-import Tooltip from 'in-components/Tooltip';
-
-import locals from './SliConfigInfo.mless';
+import { SliEntity } from 'in-types';
+import { t } from 'in-i18n';
 
 interface SliConfigInfoProps<S extends MonitoringSource = MonitoringSource> {
   sliConfig?: SliConfig<CombinedSliEntity>;
@@ -24,14 +35,40 @@ export default function SliConfigInfo({ sliConfig, entityType }: SliConfigInfoPr
     return null;
   }
 
+  const sliType = sliConfig.sliEntity.sliType;
+  const filterLabel = `${t(`in-custom-dashboards:widgets.slo.sliConfig.badEventsFilter`)}:`;
+
   return (
-    <Tooltip
-      themeStyle="light"
-      content={<SliConfigInfoTooltip sliConfig={sliConfig} entityType={entityType} />}
-      align="bottomMiddle"
-      delay={250}
-    >
-      <SvgIcon className={locals.sliInfo} type="lib_help_error_info_outline" size="s" />
-    </Tooltip>
+    <WidgetConfigInfo>
+      <WidgetConfigInfoItem
+        label={`${t(`in-custom-dashboards:widgets.slo.sliConfig.sliName`)}:`}
+        value={sliConfig.sliName}
+      />
+      <WidgetConfigInfoItem
+        label={`${t(`in-custom-dashboards:widgets.slo.sliConfig.sliType`)}:`}
+        value={getSliTypeToDisplay(sliType)}
+      />
+      <SliMetricWidgetConfigInfoItem entityType={entityType} sliConfig={sliConfig} />
+      {sliType === availabilityType && (
+        <ApplicationFilterWidgetConfigInfoItem
+          label={filterLabel}
+          tagFilterExpression={sliConfig.sliEntity.badEventFilterExpression}
+        />
+      )}
+      {sliType === websiteEventBased && (
+        <WebsiteFilterWidgetConfigInfoItem
+          label={filterLabel}
+          beaconType={sliConfig.sliEntity.beaconType}
+          websiteId={sliConfig.sliEntity.websiteId}
+          tagFilterExpression={sliConfig.sliEntity.badEventFilterExpression}
+        />
+      )}
+    </WidgetConfigInfo>
   );
 }
+
+const getSliTypeToDisplay = (sliType: SliEntity['sliType']): string => {
+  const sliTypeKey = sliType === applicationType || sliType === websiteTimeBased ? 'timeBased' : 'eventBased';
+
+  return t(`in-custom-dashboards:widgets.slo.${sliTypeKey}`);
+};

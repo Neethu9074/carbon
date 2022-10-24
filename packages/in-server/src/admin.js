@@ -17,3 +17,5 @@ const server = app.listen(serverConfig.adminPort, '0.0.0.0', () => {
   const port = server.address().port;
   logger.info('ui-client admin server listening at http://%s:%s', host, port);
 });
+
+module.exports = server;

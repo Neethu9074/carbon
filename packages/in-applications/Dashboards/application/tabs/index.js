@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import SyntheticsList from 'in-applications/Dashboards/application/tabs/SyntheticsMonitoring/SyntheticsList';
 import ReadOnlyConfiguration from 'in-applications/Dashboards/application/tabs/ReadOnlyConfiguration';
 import ErrorMessagesTab from 'in-applications/Dashboards/commonTabs/messages/ErrorMessages';
 import LogMessagesTab from 'in-applications/Dashboards/commonTabs/messages/LogMessages';
@@ -14,6 +15,7 @@ import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import Alerts from 'in-applications/Dashboards/application/tabs/Alerts';
 import { applicationDashboard } from 'in-applications/navigation/paths';
 import Map from 'in-applications/Dashboards/application/tabs/Map';
+import { syntheticsTestEnabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -50,6 +52,11 @@ export default [
     label: t('in-applications:labelInfrastructure'),
     path: `${applicationDashboard}/infrastructure`,
     component: InfrastructureTab
+  },
+  syntheticsTestEnabled && {
+    label: t('in-synthetics:dashboard.testList.mainLabel'),
+    path: `${applicationDashboard}/synthetics`,
+    component: SyntheticsList
   },
   applicationSmartAlertsEnabled && {
     label: t('in-applications:labelSmartAlerts'),

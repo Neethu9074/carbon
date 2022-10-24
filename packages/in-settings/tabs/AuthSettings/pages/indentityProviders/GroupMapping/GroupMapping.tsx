@@ -46,10 +46,9 @@ import { getConfigAsResultObservable as samlConfig } from 'in-settings/tabs/Auth
 // @ts-expect-error
 import { getGroupsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/groups';
 // @ts-expect-error
-import SubViewHeader from 'in-settings/components/SubViewHeader';
-// @ts-expect-error
 import ApiItemView from 'in-settings/components/ApiItemView';
 import { notBlankValidator } from 'in-services/validators/string';
+import SubViewHeader from 'in-settings/components/SubViewHeader';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import FormGroup from 'in-components/form/FormGroup';

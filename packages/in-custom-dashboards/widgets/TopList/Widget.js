@@ -14,11 +14,13 @@ import { getTagCatalog } from 'in-applications/analyze/components/workspace/Call
 import { getLinkToAnalyze as getLinkToWebsiteAnalyze } from 'in-websites/navigation/paths';
 import { type as TAG_FILTER } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { default as useMobileAppTagCatalog } from 'in-mobile-apps/hooks/useTagCatalog';
+import { infraExploreEnabled } from 'in-infrastructure/Explore/services/featureFlags';
 import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/tags';
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 import { default as useWebsiteTagCatalog } from 'in-websites/hooks/useTagCatalog';
 import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
 import { getLinkToAnalyzeDeprecated } from 'in-analyze/navigation/paths';
+import { getLinkToExplore } from 'in-infrastructure/navigation/paths';
 import { NO_VALUE } from 'in-analyze/components/GroupedTraces/Group';
 import { extendWindowSizeOnLiveMode } from 'in-applications/metrics';
 import { getLinkToAnalyze } from 'in-applications/navigation/paths';
@@ -214,6 +216,9 @@ function Label({ item, config, result, tagCatalog }) {
         tagCatalog
       });
       break;
+    case 'INFRASTRUCTURE_METRICS':
+      link = (infraExploreEnabled && getLinkToEntityExplore(config, formModel)) || '';
+      break;
   }
 
   return (
@@ -273,4 +278,30 @@ function getConvertedValue(value) {
     return JSON.parse(value);
   }
   return value;
+}
+
+function getLinkToEntityExplore(config, formModel) {
+  return getLinkToExplore({
+    type: config.metricConfiguration.type,
+    ...infraMetrics(config),
+    tagFilterExpression: formModel
+  });
+}
+
+function infraMetrics(config) {
+  if (config.metricConfiguration.metric === 'count') {
+    return {};
+  }
+  return {
+    order: {
+      by: `${config.metricConfiguration.metric}.${config.metricConfiguration.aggregation}`,
+      direction: config.metricConfiguration.grouping[0].direction
+    },
+    metrics: [
+      {
+        metric: config.metricConfiguration.metric,
+        aggregation: config.metricConfiguration.aggregation
+      }
+    ]
+  };
 }

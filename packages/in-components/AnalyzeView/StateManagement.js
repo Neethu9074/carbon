@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import rpt from 'prop-types';
 
 import { useObservable } from '@instana/hooks';
@@ -244,12 +244,15 @@ function AnalyzeStateManagement({
   const groupBy = useStableObjectInstance(urlState.groupBy);
   const detailId = useStableObjectInstance(urlState.detailId);
   const selectedId = useStableObjectInstance(urlState.selectedId);
+  const selectedGroup = useStableObjectInstance(urlState.selectedGroup);
   const initialLogLines = useStableObjectInstance(urlState.initialLogLines);
   const selectableFields = useStableObjectInstance(urlState.fields ?? defaultSelectableFields);
   // charts should be shown, even if not explicitly selected
   const chartedMetricData = useStableObjectInstance(
     urlState.chartedMetrics ? urlState.chartedMetrics : defaultChartedMetrics
   );
+
+  const groupedPaginationRef = useRef({});
 
   const metricTemplatesResult =
     useObservable(() => getMetricTemplates() || noResultObservable(), [getMetricTemplates]) ?? pendingResult;
@@ -415,6 +418,7 @@ function AnalyzeStateManagement({
     filteringTagCatalog: filteringTagCatalogResult.data,
     isGrouped,
     groupBy,
+    selectedGroup,
     onGroupByChange: groupBy => onChange({ groupBy }),
     getHrefToUngroupedView(groupValue) {
       return getChangeAsUrl({
@@ -484,7 +488,8 @@ function AnalyzeStateManagement({
         detailId
       });
     },
-    setDetailId: detailId => onChange({ detailId })
+    setDetailId: detailId => onChange({ detailId }),
+    groupedPaginationRef
   });
 
   function getStateChangeForUngroupedView(groupValue) {

@@ -203,11 +203,26 @@
     "resultTitle_sessionStart_0": "Session Starts",
     "resultTitle_sessionStart_1": "Session Starts",
     "resultTitle_sessionStart_2": "Session Starts",
+    "resultTitle_crash": "Crash",
+    "resultTitle_crash_plural": "Crashes",
+    "resultTitle_crash_0": "Crashes",
+    "resultTitle_crash_1": "Crashes",
+    "resultTitle_crash_2": "Crashes",
     "resultTitle_viewChange": "View Transition",
     "resultTitle_viewChange_plural": "View Transitions",
     "resultTitle_viewChange_0": "View Transitions",
     "resultTitle_viewChange_1": "View Transitions",
     "resultTitle_viewChange_2": "View Transitions",
+    "resultTitle_entity": "Entity",
+    "resultTitle_entity_plural": "Entities",
+    "resultTitle_entity_0": "Entities",
+    "resultTitle_entity_1": "Entities",
+    "resultTitle_entity_2": "Entities",
+    "resultTitle_entityType": "Entity Type",
+    "resultTitle_entityType_plural": "Entity Types",
+    "resultTitle_entityType_0": "Entity Types",
+    "resultTitle_entityType_1": "Entity Types",
+    "resultTitle_entityType_2": "Entity Types",
 
     "result": "{{formattedCount}} $t(in-components:analyzeView.resultTitle, { \"context\": \"{{dataSource}}\" })",
     "groupedViewHeader": "{{formattedCount}} Groups",
@@ -217,13 +232,12 @@
     "groupedViewHeader_2": "{{formattedCount}} Groups",
     "groupedViewHeaderRetained": "Retained from {{formattedCount}}",
     "resultHeaderLoading": "Loading…",
-    "resultHeaderTooltip": "The query time range has been rounded up to nearest full minute to allow this view to load more quickly.",
     "queryProgress": {
       "preparing": "Preparing…",
       "runningQuery": "Running query…",
       "timeout": "This query has timed out.",
-      "timeoutEstimated": "The query would take too long to run.",
-      "timeoutInfo": "Select a shorter timeframe or issue a more specific query by applying more filters.",
+      "timeoutEstimated": "Your query could not be processed due to the high volume of calls.",
+      "timeoutInfo": "Please select a shorter timeframe.",
       "inputError": "There was an input error.",
       "tooManyRequests": "Too many requests",
       "tooManyRequestsInfo": "Our system is currently busy. Please try again later.",
@@ -738,6 +752,7 @@
   },
   "approximateDataIndicator": {
     "dataRetention": "You are viewing approximate data due to the data retention settings.",
+    "dataRetentionOrFastQueryMode": "You are viewing approximate data due to the data retention settings or the fast query mode.",
     "retainedLabel": "Approximated data ({{totalHits}} result retained from {{representedHits}})",
     "retainedLabel_plural": "Approximated data ({{totalHits}} results retained from {{representedHits}})",
     "retainedLabel_0": "Approximated data ({{totalHits}} results retained from {{representedHits}})",
@@ -793,5 +808,11 @@
     "retainedLabel_viewChange_0": "Approximated data ({{totalHits}} View Changes retained from {{representedHits}})",
     "retainedLabel_viewChange_1": "Approximated data ({{totalHits}} View Changes retained from {{representedHits}})",
     "retainedLabel_viewChange_2": "Approximated data ({{totalHits}} View Changes retained from {{representedHits}})"
+  },
+  "migratedTenantBanner": {
+    "title": "Migrated Tenant Unit",
+    "notice": "This tenant unit has been migrated to a new region. The unit you are currently accessing only contains historical data.",
+    "goToNewLocationLabel": "Go to New Location",
+    "exploreDataLabel": "Explore Historical Data"
   }
 }

@@ -7,6 +7,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { create } from '@instana/observables';
+import { Message } from '@instana/components';
 
 import PercentileMenu, {
   ALL_PERCENTILES
@@ -51,6 +52,7 @@ export default function LatencyDistributionBase10ChartPresenter({
   title,
   aggregation,
   showHeader,
+  fastQueryModeEnabled,
   setApproximateData = noop
 }) {
   // which metrics to hide on the chart
@@ -85,7 +87,12 @@ export default function LatencyDistributionBase10ChartPresenter({
   ) {
     return (
       <div className={locals.container}>
-        <NoDataAvailable width={chartWidth} height={chartHeight} />
+        <Message
+          type="warning"
+          withIcon
+          title={t('in-components:chart.resultAwareChartSomethingWentWrong')}
+          description={t('in-components:chart.resultAwareChartPleaseTryAgainLater')}
+        />
       </div>
     );
   } else if (
@@ -189,7 +196,11 @@ export default function LatencyDistributionBase10ChartPresenter({
           </span>
           {hasApproximateData && (
             <MultiLineToolTipIcon
-              lines={[t('in-components:approximateDataIndicator.dataRetention')]}
+              lines={[
+                fastQueryModeEnabled
+                  ? t('in-components:approximateDataIndicator.dataRetentionOrFastQueryMode')
+                  : t('in-components:approximateDataIndicator.dataRetention')
+              ]}
               withMargin
               iconSize="xs"
             />

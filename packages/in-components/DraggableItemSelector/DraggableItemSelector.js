@@ -18,7 +18,7 @@ import { t } from 'in-i18n';
 import locals from './DraggableItemSelector.mless';
 
 export default function DraggableItemSelector(props) {
-  const { items, Content, disabled, onSwap, onRemove, SlideInContent, slideInContentTitle } = props;
+  const { items, Content, disabled, onSwap, onRemove, SlideInContent, slideInContentTitle, className } = props;
   const [showSlideInContent, onShowSlideInContentChange] = useState(false);
 
   return (
@@ -27,7 +27,8 @@ export default function DraggableItemSelector(props) {
         <form
           className={classNames({
             [locals.overlay]: true,
-            [locals.fullHeight]: showSlideInContent
+            [locals.fullHeight]: showSlideInContent,
+            [className]: true
           })}
         >
           <DragDropContext
@@ -101,5 +102,6 @@ DraggableItemSelector.propTypes = {
   onRemove: rpt.func.isRequired,
   items: rpt.array.isRequired,
   onSwap: rpt.func,
-  disabled: rpt.bool
+  disabled: rpt.bool,
+  className: rpt.string
 };

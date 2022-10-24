@@ -35,6 +35,48 @@ export default {
   component: ServicesAndEndpointsListPresenter
 };
 
+export function WithEmptyReadonlyGlobalAlerts() {
+  return (
+    <ServicesAndEndpointsListPresenter
+      apiSubscriptions={{
+        getApplicationsCursorPaginated: () => just(getApplicationsResult),
+        getApplication: () => just(getApplicationResult),
+        getServicesCursorPaginated: () => just(getServicesResult),
+        getEndpointsCursorPaginated: () => just(getEndpointsResult)
+      }}
+      applicationsSelection={{}}
+      boundaryScope="INBOUND"
+      timeConfig={oneDayTimeConfig}
+      onChange={noop}
+      includeSynthetic
+      isGlobalSmartAlert
+      readOnly
+    />
+  );
+}
+export function WithReadonlyGlobalAlerts() {
+  return (
+    <ServicesAndEndpointsListPresenter
+      apiSubscriptions={{
+        getApplicationsCursorPaginated: () => just(getApplicationsResult),
+        getApplication: () => just(getApplicationResult),
+        getServicesCursorPaginated: () => just(getServicesResult),
+        getEndpointsCursorPaginated: () => just(getEndpointsResult)
+      }}
+      applicationsSelection={{
+        fTiSRhKaTKO2hLIy2V1Ylg: { applicationId: 'fTiSRhKaTKO2hLIy2V1Ylg', inclusive: true, services: {} },
+        gCT5YKIQRhmj20Y5lZP58Q: { applicationId: 'gCT5YKIQRhmj20Y5lZP58Q', inclusive: true, services: {} }
+      }}
+      boundaryScope="INBOUND"
+      timeConfig={oneDayTimeConfig}
+      onChange={noop}
+      includeSynthetic
+      isGlobalSmartAlert
+      readOnly
+    />
+  );
+}
+
 export function WithGlobalAlerts() {
   return (
     <ServicesAndEndpointsListPresenter

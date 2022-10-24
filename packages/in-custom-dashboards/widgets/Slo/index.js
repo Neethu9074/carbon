@@ -15,3 +15,4 @@ export const label = t('in-custom-dashboards:widgets.slo.slo');
 export const minimumWidth = 6;
 export const minimumHeight = 18;
 export const enabled = true;
+export const trackViews = true;

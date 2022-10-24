@@ -16,9 +16,10 @@ module.exports = {
   transformIgnorePatterns: [
     '.jest/register-context.js',
     'node_modules/jest-runner/build/runTest.js',
-    'node_modules/.*',
+    'node_modules/(?!(@instana/types)/)', // Specifically enable @instana/types to be transformed since its ts only
     '/node_modules/jest-runner/build/index.js'
   ],
+  moduleFileExtensions: ['js', 'mjs', 'cjs', 'jsx', 'ts', 'tsx', 'd.ts', 'json', 'node'],
   moduleNameMapper: {
     '\\.png$': '<rootDir>/packages/in-test/styleMock.js',
     '\\.less$': '<rootDir>/packages/in-test/styleMock.js',

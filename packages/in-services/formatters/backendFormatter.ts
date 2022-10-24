@@ -18,6 +18,7 @@ interface FormatterWithDefault {
   (v: number): unknown;
   compact: (v: number) => string;
   detailed: (v: number) => string;
+  varying: (v: number) => string;
 }
 
 export type BackendFormatterType =
@@ -29,7 +30,8 @@ export type BackendFormatterType =
   | 'NUMBER'
   | 'PERCENTAGE'
   | 'RATE'
-  | 'SECONDS';
+  | 'SECONDS'
+  | 'LATENCY_WITH_DECIMALS';
 
 export type InternalFormatterTypes = 'NUMBER' | 'PERCENTAGE' | 'BYTES' | 'MILLIS' | 'LATENCY';
 
@@ -48,7 +50,8 @@ const mappings: {
 
   MICROS: createFormatterWithDefault(micros, 'compact'),
   MILLIS: createFormatterWithDefault(millis, 'compact'),
-  SECONDS: createFormatterWithDefault(seconds, 'fixedCompact')
+  SECONDS: createFormatterWithDefault(seconds, 'fixedCompact'),
+  LATENCY_WITH_DECIMALS: createFormatterWithDefault(millis, 'varying')
 };
 
 export function getFormatter(backendType: BackendFormatterType): FormatterWithDefault {
@@ -57,7 +60,7 @@ export function getFormatter(backendType: BackendFormatterType): FormatterWithDe
 
 function createFormatterWithDefault<T extends NumberFormatter>(
   formatters: Extract<T, { compact?: (v: number) => string; detailed?: (v: number) => string }>,
-  preferred: 'compact' | 'detailed' | 'fixedCompact'
+  preferred: 'compact' | 'detailed' | 'fixedCompact' | 'varying'
 ): FormatterWithDefault {
   const result = (v: number) => formatters[preferred](v);
   result.compact = formatters.compact;

@@ -166,15 +166,17 @@
         "selectMetric": "메트릭 선택",
         "aggregation": "집계",
         "crossSeriesAggregation": "교차 계열 집계에 SUM 사용",
-        "crossSeriesAggregationHelp": "일반적으로 교차 계열 집계는 교차 시간 집계(데이터 점을 단일 버킷으로 결합하는 데 사용되는 방법)와 동일합니다. 이 토글을 사용으로 설정하면 지정된 집계를 사용하는 대신 데이터 시리즈의 버킷을 합산합니다.",
-        "crossSeriesAggregationDisabledHelp": "{{aggregation}}에 적용할 수 없음"
+        "crossSeriesAggregationHelp": "일반적으로 교차 계열 집계는 교차 시간 집계(데이터 점을 단일 버킷으로 결합하는 데 사용되는 방법)와 동일합니다. 이 토글을 사용으로 설정하면 지정된 집계를 사용하는 대신 데이터 계열의 버킷을 합산합니다.",
+        "crossSeriesAggregationDisabledHelp": "{{aggregation}}에 적용할 수 없음",
+        "crossSeriesAggregationRestrictedHelp": "이 메트릭에 적용할 수 없음"
       },
       "metrics": {
         "infrastructurePlatforms": "인프라 및 플랫폼",
         "comingSoon": "(곧 출시 예정)"
       },
       "typeAndMetricConfigurator": {
-        "pleaseSelectMetric": "메트릭을 선택하십시오."
+        "pleaseSelectMetric": "메트릭을 선택하십시오.",
+        "loadingMetrics": "메트릭 로드 중..."
       }
     },
     "srcMobileApp": {
@@ -194,7 +196,7 @@
       "formComp": {
         "configSli": "구성된 SLI",
         "pleaseSelect": "선택하십시오.",
-        "sliConfigComputeErrBudgetSliVal": "오류 허용치 및 SLI 값을 계산하는 데 사용되는 SLI 구성",
+        "sliConfigComputeErrBudgetSliVal": "오류 예산 및 SLI 값을 계산하는 데 사용되는 SLI 구성",
         "typeSloThreshold": "<code>{{compact}}</code> - <code>{{detailed}}</code> 사이의 원하는 SLO 임계값을 입력하십시오.",
         "valType": "값 유형"
       },
@@ -202,7 +204,7 @@
         "srvLevelIndicator": "SLI(Service-Level Indicator)"
       },
       "serviceLevelIndicators": {
-        "remainErrBudget": "나머지 오류 허용치"
+        "remainErrBudget": "나머지 오류 예산"
       }
     },
     "srcWebSite": {
@@ -316,8 +318,8 @@
       },
       "timeShiftingFormChart": {
         "timeShift": "시간 이동",
-        "applyTimeShiftDs": "이 데이터 시리즈에 시간 이동 적용",
-        "timeShiftHelpAction": "<strong>현재 값 표시</strong>를 선택하면 이 데이터 시리즈가 동일한 축에 자동으로 복제됩니다. 첫 번째 데이터 시리즈의 시간 이동은 비활성화되며 두 번째 시리즈의 시간 이동이 사용으로 설정됩니다.",
+        "applyTimeShiftDs": "이 데이터 계열에 시간 이동 적용",
+        "timeShiftHelpAction": "<strong>현재 값 표시</strong>를 선택하면 이 데이터 계열이 동일한 축에 자동으로 복제됩니다. 첫 번째 데이터 계열의 시간 이동은 비활성화되며 두 번째 계열의 시간 이동이 사용으로 설정됩니다.",
         "timeShiftDisabledWhilePPon": "시간 이동을 사용하려면 먼저 잠재적 문제점 강조표시를 꺼야 합니다.",
         "displayCurrentValues": "현재 값 표시"
       },
@@ -374,6 +376,7 @@
     "slo": {
       "demo": {
         "title": "SLO 제목",
+        "sliName": "예 Sli",
         "appName": "예제 애플리케이션 이름"
       },
       "apConfigFormComp": {
@@ -464,10 +467,10 @@
         "includeSyntheticCalls": "합성 호출 포함",
         "type": "유형",
         "sliEntity": "SLI 엔티티",
-        "beaconConfigLabel": "비콘 구성",
+        "beaconConfigLabel": "비컨 구성",
         "beaconScopeLabel": "비콘 범위",
         "httpRequestsLabel": "HTTP 요청",
-        "beaconFiltersLabel": "비콘 필터"
+        "beaconFiltersLabel": "비컨 필터"
       },
       "sliList": {
         "serviceLevelIndicators": "SLI(Service Level Indicator)",
@@ -478,7 +481,9 @@
         "delSliConfig": "SLI 구성 삭제",
         "pleaseConfirm": "확인하시기 바랍니다.",
         "pleaseConfirmMsg": "<strong>{{sliName}}</strong>을(를) 삭제하시겠습니까?",
-        "delete": "삭제"
+        "delete": "삭제",
+        "eventBasedSli": "이벤트 기반",
+        "timeBasedSli": "시간 기반, {{metricNameLabel}}"
       },
       "sliManageList": {
         "configSrvLevelIndicatorsMsg": "SLI를 작성하거나 편집하기 위한 필수 <em>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</em> 권한이 없습니다.",
@@ -494,7 +499,9 @@
       "chart": {
         "spent": "사용",
         "budget": "예산",
-        "viewInAnalyze": "분석으로 보기"
+        "viewInAnalyze": "분석으로 보기",
+        "initialEvaluation": "SLI 작성됨",
+        "missingDataInfo": "이 SLI에 대한 작성 시간이 표시된 시간 범위 내에 있습니다. SLI 작성 전의 데이터가 누락됩니다."
       },
       "formComponent": {
         "sliManagement": "SLI 관리",
@@ -521,15 +528,16 @@
         "enterDateFormatYyyyMmDd": "날짜를 YYYY-MM-DD 형식으로 입력하십시오.",
         "enterTimeInFormatHhMmSs": "시간을 HH:mm:ss 형식으로 입력하십시오."
       },
-      "widgetHeader": {
+      "sliSummary": {
         "status": "상태",
         "target": "대상:",
-        "errorBudgetSpent": "사용된 오류 허용치",
-        "errorBudget": "오류 허용치:",
-        "timeWindow": "시간 창",
-        "dynamicTimeWindow": "동적 시간 창",
-        "rollingTimeWindow": "롤링 시간 창",
-        "fixedTimeWindow": "고정 시간 창"
+        "errorBudgetSpent": "사용된 오류 예산",
+        "errorBudget": "오류 예산:",
+        "timeWindow": "기간",
+        "timeWindowType": "알 수 없는 기간",
+        "timeWindowType_dynamic": "동적 시간 창",
+        "timeWindowType_rolling": "롤링 시간 창",
+        "timeWindowType_fixed": "고정 시간 창"
       },
       "sloEntityInfo": {
         "tooltip": {
@@ -551,7 +559,9 @@
       "slo": "SLO",
       "monitoringSourceSelector": {
         "source_application": "애플리케이션",
-        "source_website": "웹 사이트"
+        "source_website": "웹사이트(베타)",
+        "callOut_application": "일반 사용자의 낮은 인터넷 연결과 같은 제어 이상의 요인을 제외하지만 일반 사용자의 경험을 정확하게 반영하지 않을 수도 있음",
+        "callOut_website": "가장 정확하게는 일반 사용자 경험을 반영하지만 일반 사용자의 낮은 인터넷 연결과 같은 요인을 배제하지 않음"
       },
       "sliFormatter": {
         "unit": "호출",
@@ -559,7 +569,109 @@
         "unit_0": "호출",
         "unit_1": "호출",
         "unit_2": "호출",
-        "thousandCallsFormat": "{{count}}개의 K 호출"
+        "thousandCallsFormat": "{{count}}K개의 호출"
+      },
+      "widgetLeftHeader": {
+        "previewDataInfo": "미리보기 데이터는 과거에 대해 7일까지만 표시됩니다. 최종 위젯에는 SLI 작성 이후의 데이터만 포함됩니다."
+      },
+      "boundaryScopeConfigurator": {
+        "all": {
+          "title": "모든 호출",
+          "description": "이 애플리케이션 내에서 이용자가 수행한 호출 및 내부적으로 수행된 호출입니다."
+        },
+        "inbound": {
+          "title": "인바운드 호출",
+          "description": "이 애플리케이션의 이용자가 수행한 호출만 해당됩니다."
+        }
+      }
+    },
+    "apdex": {
+      "title": "Apdex: 차트",
+      "chart": {
+        "metricLabel": "Apdex",
+        "viewInAnalyze": "분석 보기",
+        "noDataRetentionPeriod": "선택한 시간 범위가 데이터 보존 기간을 벗어났습니다.",
+        "notFoundErrorTitle": "구성된 Apdex를 찾을 수 없음",
+        "notFoundErrorDescription": "다른 Apdex 구성을 선택하여 Apdex 위젯을 업데이트하십시오"
+      },
+      "demo": {
+        "title": "Prod용 Apdex",
+        "entityLabel": "Robot Shop"
+      },
+      "apdexConfigInfo": {
+        "tagFilterLabel": "필터",
+        "apdexNameLabel": "Apdex 이름",
+        "apdexTypeLabel": "Apdex 유형",
+        "thresholdLabel": "임계값"
+      },
+      "formComponent": {
+        "title": "Apdex 구성",
+        "entityTypeTitle": "Apdex 유형",
+        "manageListTitle": "Apdex 관리"
+      },
+      "configurationSelector": {
+        "label": "Apdex 구성",
+        "selectConfig": "구성 선택",
+        "manageConfig": "Apdex 관리",
+        "noneAvailCreateOne": "사용할 수 없습니다. 하나를 작성하십시오.",
+        "pleaseSelect": "선택"
+      },
+      "entityTypeSelector": {
+        "type": "알 수 없는 유형",
+        "type_website": "웹 사이트",
+        "type_application": "애플리케이션"
+      },
+      "apdexManageList": {
+        "title": "Apdex 목록",
+        "deleteSuccessfulMessage": "Apdex 구성이 삭제되었습니다.",
+        "deleteFailedMessage": "Apdex 구성을 삭제하는 데 실패했습니다."
+      },
+      "apdexList": {
+        "cardTitle": "Apdex 구성",
+        "nameColumn": "Apdex 구성",
+        "thresholdColumn": "임계값",
+        "confirmDeleteHeader": "확인하십시오.",
+        "confirmDeleteMessage": "{{apdex}}을(를) 삭제하시겠습니까?",
+        "editApdexTooltip": "Apdex 구성 편집",
+        "deleteApdexTooltip": "Apdex 구성 삭제",
+        "confirmDeleteButton": "삭제",
+        "createButton": "Apdex 구성 작성"
+      },
+      "createApdexForm": {
+        "title": "Apdex 구성 작성",
+        "customizationHeader": "Apdex 사용자 정의",
+        "label": "Apdex 이름",
+        "apdexCreateSuccessTitle": "Apdex 구성이 작성되었습니다.",
+        "apdexCreateSuccessContent": "Apdex 구성 \"{{apdexName}}\"이(가) 작성되었습니다.",
+        "apdexCreateFailedTitle": "Apdex 구성을 작성하는 데 실패했습니다.",
+        "apdexCreateFailedContent": "이 Apdex 구성 \"{{apdexName}}\"을(를) 작성하는 중에 문제점이 발생했습니다.",
+        "apdexNameNotEmpty": "Apdex 이름은 비워 둘 수 없습니다.",
+        "nameExistsError": "이 이름의 Apdex 구성이 이미 있습니다. 다른 이름을 입력하십시오.",
+        "limitReachedError": {
+          "website": "웹 사이트 Apdex 구성의 최대 수({{0}})에 도달했습니다. 이 한계를 늘리도록 요청하려면 Instana 지원에 문의하십시오.",
+          "application": "애플리케이션 Apdex 구성의 최대 수({{0}})에 도달했습니다. 이 한계를 늘리도록 요청하려면 Instana 지원에 문의하십시오."
+        },
+        "editConfigNotice": "데이터 손실을 방지하기 위해 작성 후에는 구성을 편집할 수 없습니다."
+      },
+      "createWebsiteApdexForm": {
+        "thresholdHeader": "임계값 구성",
+        "thresholdLabel": "임계값"
+      },
+      "entityInfo": {
+        "tooltip": "알 수 없는 Apdex",
+        "tooltip_website": "웹 사이트 Apdex",
+        "tooltip_application": "애플리케이션 Apdex"
+      },
+      "widget": {
+        "unknownEntityLabel_application": "알 수 없는 애플리케이션",
+        "unknownEntityLabel_website": "알 수 없는 웹 사이트",
+        "previewDataInfo": "미리보기 데이터는 지난 7일에 대해 표시됩니다. 최종 위젯은 Apdex 구성을 작성한 이후의 데이터만 포함합니다."
+      },
+      "applicationScopeConfigurator": {
+        "label": "Apdex 범위",
+        "boundaryScope": "경계",
+        "hiddenCalls": "숨겨진 호출",
+        "additionalFilters": "추가 필터"
       }
     },
     "timezone": {

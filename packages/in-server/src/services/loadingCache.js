@@ -8,7 +8,8 @@ exports.createLoadingCache = ({ ttl = 10000 }) => {
   let cache = {};
 
   // clear the cache periodically
-  setInterval(() => (cache = {}), ttl);
+  // unref() ensures the process is not blocked from exiting on SIGTERM or SIGINT.
+  setInterval(() => (cache = {}), ttl).unref();
 
   return (key, load) => {
     if (cache[key]) {

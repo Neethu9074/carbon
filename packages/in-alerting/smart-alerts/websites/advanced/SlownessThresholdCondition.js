@@ -70,7 +70,7 @@ export default function SlownessThresholdCondition({ form, updateForm, blueprint
       {thresholdType === STATIC_THRESHOLD && (
         <ThresholdConditionFormGroup
           iconType="lib_threshold"
-          label={t('in-alerting:smartAlerts.websites.advanced.slownessInteractiveChartThresholdValue')}
+          label={t('in-alerting:smartAlerts.websites.advanced.thresholdValue')}
         >
           <ThresholdValueInputWithValidationMessage
             max={maxValue}

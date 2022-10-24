@@ -41,5 +41,10 @@ export const metricRenderers = {
     beaconCount: 'stackedBar',
     beaconDuration: 'stackedArea',
     uniqueUsers: 'stackedBar'
+  },
+  crash: {
+    beaconCount: 'stackedBar',
+    beaconDuration: 'stackedArea',
+    uniqueUsers: 'stackedBar'
   }
 };

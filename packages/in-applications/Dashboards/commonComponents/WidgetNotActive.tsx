@@ -33,7 +33,7 @@ export default function WidgetNotActive({ title, rightHeaderContent }: WidgetNot
     <Card title={title} useMaxAvailableHeight size="l" rightHeaderContent={rightHeaderContent}>
       <div className={locals.disabledWidget}>
         <p className={locals.disabledText}>{t('in-applications:widgetNotActive.title')}</p>
-        <Button href$={href$}>Stop Live Mode</Button>
+        <Button href$={href$}>{t('in-applications:widgetNotActive.button')}</Button>
       </div>
     </Card>
   );

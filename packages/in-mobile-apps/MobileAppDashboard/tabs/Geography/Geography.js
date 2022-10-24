@@ -44,52 +44,45 @@ export default function Geography(props) {
         <FullHeightWrapper
           render={height => (
             <Switch>
-              <Route
-                path={`${mobileAppPathFullyQualified}/geography/globe`}
-                render={() => (
-                  <div className={locals.globeWrapper}>
-                    <GlobeView
-                      customHeight={height}
-                      tagFilters={tagFilters}
-                      timeConfig={timeConfig}
-                      getData$={getData$}
-                      getValue={v => v.sessions}
-                    />
-                    <Link
-                      className={locals.link}
+              <Route path={`${mobileAppPathFullyQualified}/geography/globe`}>
+                <div className={locals.globeWrapper}>
+                  <GlobeView
+                    customHeight={height}
+                    tagFilters={tagFilters}
+                    timeConfig={timeConfig}
+                    getData$={getData$}
+                    getValue={v => v.sessions}
+                  />
+                  <Link
+                    className={locals.link}
+                    href$={getModifiedUrlStream(
+                      params => (params.pathname = `${mobileAppPathFullyQualified}/geography`)
+                    )}
+                  >
+                    <SvgIcon className={locals.mapSwitchIconDark} type="lib_website" />
+                  </Link>
+                  <p className={locals.footerText}>{t('in-mobile-apps:dashboard.tabs.globViewFootertext')}</p>
+                </div>
+              </Route>
+              <Route path={`${mobileAppPathFullyQualified}/geography`}>
+                <div>
+                  <TwoDMobileAppGeoMap
+                    tagFilters={tagFilters}
+                    timeConfig={timeConfig}
+                    height={height}
+                    controlWrapperClassName={locals.controlWrapperClassName}
+                  />
+                  <Tooltip content={t('in-mobile-apps:dashboard.tabs.switchTo3DTooltip')} align="leftMiddle">
+                    <Button
                       href$={getModifiedUrlStream(
-                        params => (params.pathname = `${mobileAppPathFullyQualified}/geography`)
+                        params => (params.pathname = `${mobileAppPathFullyQualified}/geography/globe`)
                       )}
-                    >
-                      <SvgIcon className={locals.mapSwitchIconDark} type="lib_website" />
-                    </Link>
-                    <p className={locals.footerText}>{t('in-mobile-apps:dashboard.tabs.globViewFootertext')}</p>
-                  </div>
-                )}
-              />
-
-              <Route
-                path={`${mobileAppPathFullyQualified}/geography`}
-                render={() => (
-                  <div>
-                    <TwoDMobileAppGeoMap
-                      tagFilters={tagFilters}
-                      timeConfig={timeConfig}
-                      height={height}
-                      controlWrapperClassName={locals.controlWrapperClassName}
+                      className={locals.to3D}
+                      renderContent={() => <span>{t('in-mobile-apps:dashboard.tabs.3DBtn')}</span>}
                     />
-                    <Tooltip content={t('in-mobile-apps:dashboard.tabs.switchTo3DTooltip')} align="leftMiddle">
-                      <Button
-                        href$={getModifiedUrlStream(
-                          params => (params.pathname = `${mobileAppPathFullyQualified}/geography/globe`)
-                        )}
-                        className={locals.to3D}
-                        renderContent={() => <span>{t('in-mobile-apps:dashboard.tabs.3DBtn')}</span>}
-                      />
-                    </Tooltip>
-                  </div>
-                )}
-              />
+                  </Tooltip>
+                </div>
+              </Route>
             </Switch>
           )}
         />

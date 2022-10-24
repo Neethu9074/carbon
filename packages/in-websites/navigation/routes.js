@@ -18,15 +18,15 @@ import {
   newWebsitePathFullyQualified,
   analyzePathFullyQualified
 } from 'in-websites/navigation/paths';
-import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
+import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 
 export default (
   <Fragment>
-    <Route path={websitesPathFullyQualified} component={createAsyncViewComponent(WebsitesList)} />
-    <Route path={websitePathFullyQualified} component={createAsyncViewComponent(WebsiteDashboard)} />
-    <Route path={newWebsitePathFullyQualified} component={createAsyncViewComponent(NewWebsiteFlow)} />
-    <Route path={analyzePathFullyQualified} component={createAsyncViewComponent(AnalyzeView2_0)} />
+    <Route path={websitesPathFullyQualified} children={renderAsyncRouteChildren(WebsitesList)} />
+    <Route path={websitePathFullyQualified} children={renderAsyncRouteChildren(WebsiteDashboard)} />
+    <Route path={newWebsitePathFullyQualified} children={renderAsyncRouteChildren(NewWebsiteFlow)} />
+    <Route path={analyzePathFullyQualified} children={renderAsyncRouteChildren(AnalyzeView2_0)} />
     <RedirectWithHash from={websiteMonitoringPath} to={websitesPathFullyQualified} />
   </Fragment>
 );

@@ -10,40 +10,28 @@ import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
 import { Li, Ul } from '@instana/components';
 
-// eslint-disable-next-line no-restricted-imports
-import { getTagCatalog as getTracesTagCatalog } from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
-// eslint-disable-next-line no-restricted-imports
-import { getTagCatalog as getCallsTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
-// eslint-disable-next-line no-restricted-imports
-import { getLinkToAnalyze as getLinkToLogsAnalyze, getLinkToRawLogs } from 'in-logging/navigation/paths';
-// eslint-disable-next-line no-restricted-imports
-import { getLinkToAnalyze as getLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
-// eslint-disable-next-line no-restricted-imports
-import { getLinkToAnalyze as getLinkToMobileAppAnalyze } from 'in-mobile-apps/navigation/paths';
-// eslint-disable-next-line no-restricted-imports
-import { getLinkToAnalyze as getLinkToWebsiteAnalyze } from 'in-websites/navigation/paths';
-// eslint-disable-next-line no-restricted-imports
-import { default as useApplicationTagCatalog } from 'in-applications/hooks/useTagCatalog';
-// eslint-disable-next-line no-restricted-imports
-import { defaultGroupings as defaultApplicationGroupings } from 'in-applications/tags';
-// eslint-disable-next-line no-restricted-imports
-import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/tags';
-// eslint-disable-next-line no-restricted-imports
-import { default as useMobileTagCatalog } from 'in-mobile-apps/hooks/useTagCatalog';
-// eslint-disable-next-line no-restricted-imports
-import { default as useWebsiteTagCatalog } from 'in-websites/hooks/useTagCatalog';
-// eslint-disable-next-line no-restricted-imports
-import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
+/* eslint-enable no-restricted-imports */
 import { getIconByType, getLabelByType, productAreaIcons, productAreaLabels } from 'in-analyze/AnalyzeView/dataSources';
-// eslint-disable-next-line no-restricted-imports
-import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
-import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
+/* eslint-disable no-restricted-imports */
+import { getTagCatalog as getTracesTagCatalog } from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
+import { getTagCatalog as getCallsTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { getLinkToAnalyze as getLinkToProfilesAnalyze } from 'in-components/Profiling/navigation/paths';
 import { hasApplicationsAccess, hasMobileAppsAccess, hasWebsitesAccess } from 'in-stores/permission';
+import { getLinkToAnalyze as getLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
+import { getLinkToAnalyze as getLinkToMobileAppAnalyze } from 'in-mobile-apps/navigation/paths';
+import { getLinkToAnalyze as getLinkToWebsiteAnalyze } from 'in-websites/navigation/paths';
+import { default as useApplicationTagCatalog } from 'in-applications/hooks/useTagCatalog';
+import { getLinkToAnalyze as getLinkToLogsAnalyze } from 'in-logging/navigation/paths';
+import { defaultGroupings as defaultApplicationGroupings } from 'in-applications/tags';
+import { default as useMobileTagCatalog } from 'in-mobile-apps/hooks/useTagCatalog';
+import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/tags';
+import { default as useWebsiteTagCatalog } from 'in-websites/hooks/useTagCatalog';
 import { analyzeViewSelected } from 'in-analyze/components/AnalyzeHeader/tracker';
+import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
-import { loggingEnabled } from 'in-services/featureFlags';
+import { loggingEnabled, mobileAppCrashBeaconEnabled } from 'in-services/featureFlags';
 import Pill from 'in-components/Pill';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -85,13 +73,6 @@ const productAreas = [
         beta: loggingEnabled,
         enabled: loggingEnabled && role.canViewLogs,
         getHref$: getLinkToLogsAnalyze,
-        onClickSideEffect: () => jumpToLogs({ source: 'navigation' })
-      },
-      {
-        dataSource: 'rawlogs',
-        beta: loggingEnabled,
-        getHref$: getLinkToRawLogs,
-        enabled$: isInternalVisible$.map(isInternalVisible => isInternalVisible && loggingEnabled && role.canViewLogs),
         onClickSideEffect: () => jumpToLogs({ source: 'navigation' })
       }
     ]
@@ -215,6 +196,18 @@ const productAreas = [
             beaconType: 'custom',
             tagCatalog
           })
+      },
+      {
+        dataSource: 'crash',
+        enabled: mobileAppCrashBeaconEnabled,
+        getHref$: ({ isGrouped, formModel, mobileTagCatalogCrash: tagCatalog }) =>
+          tagCatalog &&
+          getLinkToMobileAppAnalyze({
+            groupBy: isGrouped ? defaultMobileAppGroupings.crash : emptyObject,
+            formModel,
+            beaconType: 'crash',
+            tagCatalog
+          })
       }
     ]
   },
@@ -243,7 +236,8 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
     mobileTagCatalogSessionStart: useMobileTagCatalog('sessionStart'),
     mobileTagCatalogViewChange: useMobileTagCatalog('viewChange'),
     mobileTagCatalogHttpRequest: useMobileTagCatalog('httpRequest'),
-    mobileTagCatalogCustom: useMobileTagCatalog('custom')
+    mobileTagCatalogCustom: useMobileTagCatalog('custom'),
+    mobileTagCatalogCrash: useMobileTagCatalog('crash')
   };
   const callsTagCatalog = useApplicationTagCatalog(getCallsTagCatalog);
   const tracesTagCatalog = useApplicationTagCatalog(getTracesTagCatalog);

@@ -10,14 +10,21 @@ import {
   millis,
   micros,
   hitRateTwoDecimalPlaces,
-  percentageTwoDecimalPlaces
+  percentageTwoDecimalPlaces,
+  percentage,
+  megaBytes
 } from 'in-services/formatters/number';
 import DBmarlinNotificationMessage from 'in-forge/plugins/awsRds/Dashboard/DBmarlinNotificationMessage';
+import TablespaceUsagesTable from 'in-forge/plugins/oracleDB/Dashboard/TablespaceUsagesTable.js';
+import BlockingSessionsTable from 'in-forge/plugins/oracleDB/Dashboard/BlockingSessionsTable';
+import SGAPoolSizeTable from 'in-forge/plugins/oracleDB/Dashboard/SGAPoolSizeTable.js';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import TablespaceUsagesTable from './TablespaceUsagesTable.js';
+import Columize from 'in-sdk/components/dashboard/Columize';
+import MetricValue from 'in-components/MetricValue';
 import { t } from 'in-i18n';
 
 export default function OracleDBDashboard({ snapshot, timeConfig }) {
@@ -26,8 +33,54 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
     return <DashboardNotification type="info">{sensorConnectionStatus}</DashboardNotification>;
   }
 
+  const snapshotId = snapshot.get('id');
   return (
     <div>
+      <KpiSection>
+        <KpiKeyValue label={t('in-forge:plugins.oracleDB.runningProcessCount')}>
+          <MetricValue snapshotId={snapshotId} metric="stats.runningProcessCount" formatter={number.compact} />
+        </KpiKeyValue>
+      </KpiSection>
+      <Columize>
+        <DashboardSection title={t('in-forge:plugins.oracleDB.processUtilization')}>
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: number.compact,
+              metrics: [
+                'processUtilization.maxUtilization',
+                'processUtilization.currentUtilization',
+                'processUtilization.initialAllocation',
+                'processUtilization.limitValue'
+              ],
+              labels: [
+                t('in-forge:plugins.oracleDB.processMaxUtilization'),
+                t('in-forge:plugins.oracleDB.processCurrentUtilization'),
+                t('in-forge:plugins.oracleDB.processInitialAllocation'),
+                t('in-forge:plugins.oracleDB.processLimitValue')
+              ],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+        <DashboardSection title={t('in-forge:plugins.oracleDB.processLimitUsage')}>
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: percentage.detailed,
+              min: 0,
+              max: 1,
+              metrics: ['processUtilization.processLimit'],
+              labels: [t('in-forge:plugins.oracleDB.processLimit')],
+              type: 'area'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      </Columize>
       <DashboardSection title={t('in-forge:plugins.oracleDB.dbTimePerSecond')}>
         <Chart
           snapshotId={snapshot.get('id')}
@@ -98,6 +151,25 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
+      <DashboardSection title={t('in-forge:plugins.oracleDB.sgaMemory')}>
+        <Chart
+          snapshotId={snapshot.get('id')}
+          timeConfig={timeConfig}
+          y1={{
+            formatter: megaBytes.detailed,
+            metrics: ['usageOfSGA.total', 'usageOfSGA.used', 'usageOfSGA.free'],
+            labels: [
+              t('in-forge:plugins.oracleDB.totalMemory'),
+              t('in-forge:plugins.oracleDB.usedMemory'),
+              t('in-forge:plugins.oracleDB.freeMemory')
+            ],
+            type: 'line'
+          }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
+      </DashboardSection>
+      <SGAPoolSizeTable snapshot={snapshot} />
+      <BlockingSessionsTable snapshot={snapshot} />
       <DashboardSection title={t('in-forge:plugins.oracleDB.sqlExecution')}>
         <Chart
           snapshotId={snapshot.get('id')}

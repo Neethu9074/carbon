@@ -37,8 +37,28 @@ function getGroupedErroneousCallsRateConfig(metricConfig) {
   };
 }
 
+const truncateTagFilterValue = value => {
+  return value.slice(0, 512);
+};
+
+const validateTagFilterValue = metricConfiguration => {
+  metricConfiguration?.tagFilterExpression?.elements?.forEach(element => {
+    if (element?.value?.length > 512) {
+      element.value = truncateTagFilterValue(element?.value);
+    }
+  });
+};
+
 export function ChartsPresenter(props) {
-  const { hiddenCalls, groupedViewConfiguration, chartedMetrics, dataSource, isGrouped, chartableDataSeries } = props;
+  const {
+    hiddenCalls,
+    groupedViewConfiguration,
+    chartedMetrics,
+    dataSource,
+    isGrouped,
+    chartableDataSeries,
+    fastQueryModeEnabled
+  } = props;
 
   return (
     <Sections className={locals.chartWrapper}>
@@ -50,12 +70,16 @@ export function ChartsPresenter(props) {
           rendererId: metricRenderers[dataSource][chartedMetric.metricId] ?? 'stackedBar'
         }))}
         unifiedMetricsSource="APPLICATION"
-        mapMetricConfiguration={(metricConfiguration, { dataSource }) => ({
-          ...metricConfiguration,
-          tagFilterExpression: metricConfiguration.tagFilterExpression,
-          dataSource,
-          ...hiddenCalls
-        })}
+        mapMetricConfiguration={(metricConfiguration, { dataSource }) => {
+          validateTagFilterValue(metricConfiguration);
+          return {
+            ...metricConfiguration,
+            tagFilterExpression: metricConfiguration.tagFilterExpression,
+            dataSource,
+            queryPrecision: fastQueryModeEnabled ? 'APPROXIMATE' : 'FULL',
+            ...hiddenCalls
+          };
+        }}
         forceLoadingIndicator={isGrouped && chartableDataSeries == null}
         disableClose={false}
         hideRenderer

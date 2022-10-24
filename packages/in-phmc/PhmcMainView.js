@@ -20,8 +20,12 @@ export default function PhmcMainView(props) {
       <Sticky header={<ViewSwitcher />}>
         <LeftRightPadding>
           <Switch>
-            <Route path={phmcListFullyQualified} render={() => <PhmcList {...props} />} />
-            <Route path={systemListFullyQualified} render={() => <SystemList {...props} />} />
+            <Route path={phmcListFullyQualified}>
+              <PhmcList {...props} />
+            </Route>
+            <Route path={systemListFullyQualified}>
+              <SystemList {...props} />
+            </Route>
           </Switch>
         </LeftRightPadding>
       </Sticky>

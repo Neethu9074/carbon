@@ -12,8 +12,8 @@ import AnalyzeLogsButton from 'in-kubernetes/Dashboards/commonComponents/Analyze
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import LogsChart from 'in-kubernetes/Dashboards/commonComponents/LogsChart';
-import { kubernetesLoggingEnabled } from 'in-services/featureFlags';
 import { getLinkToAnalyze } from 'in-logging/navigation/paths';
+import { loggingEnabled } from 'in-services/featureFlags';
 import RestrictedAccessMessage from 'in-components/rbac';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -47,7 +47,7 @@ export const kubernetesNamespaceTagEquals = namespaceName => {
 export function LogsChartInteractionWrapper({ tagFilterExpression, timeConfig }) {
   const [isHovered$] = useState(create().emit(false));
 
-  if (!kubernetesLoggingEnabled) {
+  if (!loggingEnabled) {
     return <></>;
   }
 

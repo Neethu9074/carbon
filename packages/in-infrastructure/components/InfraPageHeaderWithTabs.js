@@ -26,43 +26,49 @@ export default function InfraPageHeaderWithTabs({
   theme = themes.dark,
   addShadow,
   addFooter,
-  onTypeSelected = noop
+  onTypeSelected = noop,
+  headerHref$,
+  onHeaderClick,
+  renderTypeSelector = true
 }) {
   const isInfraExploreActive = useObservable(isInfraExploreView, []);
 
   return (
     <Switch>
       <Route path={'*/dashboard'} component={Dashboard} />
-      <Route
-        path="/*"
-        render={() => {
-          return (
-            <Sticky
-              header={
-                <>
-                  <DashboardHeader
-                    theme={theme}
-                    contextConfigurations={[
-                      {
-                        renderContext: () => t('in-infrastructure:dashboard.infrastructure'),
-                        contextIcon: 'lib_infrastructure'
-                      }
-                    ]}
-                    label={isInfraExploreActive ? <TypeSelector onTypeSelected={onTypeSelected} /> : undefined}
-                  />
-                  <DashboardHeaderModule theme={theme} withBottomBorder>
-                    <ViewSwitcher theme={theme} showSearchBar={showSearchBar} />
-                  </DashboardHeaderModule>
-                  {addShadow && <DashboardHeaderShadowModule />}
-                </>
-              }
-            >
-              {children}
-              {addFooter && <Footer />}
-            </Sticky>
-          );
-        }}
-      />
+      <Route path="/*">
+        <Sticky
+          header={
+            <>
+              <DashboardHeader
+                theme={theme}
+                contextConfigurations={[
+                  {
+                    renderContext: () => t('in-infrastructure:dashboard.infrastructure'),
+                    contextIcon: 'lib_infrastructure'
+                  }
+                ]}
+                label={
+                  isInfraExploreActive && renderTypeSelector ? (
+                    <TypeSelector onTypeSelected={onTypeSelected} />
+                  ) : (
+                    undefined
+                  )
+                }
+                headerHref$={headerHref$}
+                onHeaderClick={onHeaderClick}
+              />
+              <DashboardHeaderModule theme={theme} withBottomBorder>
+                <ViewSwitcher theme={theme} showSearchBar={showSearchBar} />
+              </DashboardHeaderModule>
+              {addShadow && <DashboardHeaderShadowModule />}
+            </>
+          }
+        >
+          {children}
+          {addFooter && <Footer />}
+        </Sticky>
+      </Route>
     </Switch>
   );
 }

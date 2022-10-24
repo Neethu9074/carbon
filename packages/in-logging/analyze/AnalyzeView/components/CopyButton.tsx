@@ -5,8 +5,6 @@
 
 import React from 'react';
 
-import { SvgIconSizes } from '@instana/components';
-
 import IconButton from 'in-components/IconButton/IconButton';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import Tooltip from 'in-components/Tooltip';
@@ -21,7 +19,7 @@ export function CopyButton({ message }: CopyColumnProps) {
     <Tooltip content={t('in-logging:tooltipCopyToClipboard')}>
       <CopyToClipboard getText={() => message}>
         {(copyToClipboardRef: React.ForwardedRef<HTMLButtonElement>) => (
-          <IconButton ref={copyToClipboardRef} iconSize={SvgIconSizes.xs} type="lib_actions_copy" />
+          <IconButton ref={copyToClipboardRef} iconSize={'xs'} type="lib_actions_copy" />
         )}
       </CopyToClipboard>
     </Tooltip>

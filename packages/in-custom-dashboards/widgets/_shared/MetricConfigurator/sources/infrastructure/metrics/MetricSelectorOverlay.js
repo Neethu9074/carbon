@@ -15,7 +15,10 @@ import { emptyArray } from 'in-services/fixedObjects';
 import locals from './MetricSelectorOverlay.mless';
 
 export default function MetricSelectorOverlay({ metricCatalog, loading, onChange, close, query, onQueryChange }) {
-  const options = useMemo(() => (loading ? emptyArray : toOptions(metricCatalog.tree, [])), [metricCatalog, loading]);
+  const options = useMemo(
+    () => (metricCatalog && metricCatalog.tree ? toOptions(metricCatalog.tree, []) : emptyArray),
+    [metricCatalog]
+  );
 
   useDisabledBodyScroll();
 

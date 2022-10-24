@@ -20,3 +20,7 @@ export const enabled = apdexWidgetEnabled;
 export const badge = {
   content: 'BETA'
 };
+
+// For the future we would like to have this value calculated from the minimumHeight of the
+// grid-config but for now we are just using a hard coded height for the preview chart.
+export const widgetPreviewHeight = 262;

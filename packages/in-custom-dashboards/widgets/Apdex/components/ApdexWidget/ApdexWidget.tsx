@@ -6,22 +6,27 @@
 
 import React from 'react';
 
-import useApdexLineRenderer from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexLineRenderer';
+import { ApdexConfiguration, TagCatalog } from '@instana/types';
+import { Error, Progress, TimeConfig } from '@instana/types';
+import { Message } from '@instana/components';
+
+import useShouldShowMissingDataIndicator from 'in-custom-dashboards/widgets/Slo/hooks/useShouldShowMissingDataIndicator';
+import useApdexWidgetContextMenu from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexWidgetContextMenu';
 import WidgetHeader from 'in-custom-dashboards/widgets/Apdex/components/WidgetHeader';
 import WidgetCard from 'in-custom-dashboards/widgets/Apdex/components/WidgetCard';
+import ApdexChart from 'in-custom-dashboards/widgets/Apdex/components/ApdexChart';
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
-import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { MetricDataSeries } from 'in-components/Chart/types';
-import { Error, Progress, TimeConfig } from 'in-types';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
-const apdexAreas = [0, 0.7, 0.9, 1] as const;
+import locals from './ApdexWidget.mless';
 
 interface ApdexWidgetProps {
   title: string;
   entityType: ApdexEntityTypes;
   entityLabel: string;
+  apdexConfig?: ApdexConfiguration;
+  tagCatalog?: TagCatalog;
   dragHandle: React.ReactNode;
   actions: React.ReactNode;
   metrics: MetricDataSeries[];
@@ -30,6 +35,9 @@ interface ApdexWidgetProps {
   granularity: number;
   timeConfig: TimeConfig;
   nonInteractive?: boolean;
+  automaticallySize?: boolean;
+  height?: number;
+  showPreviewDataNotice?: boolean;
 }
 
 export default function ApdexWidget({
@@ -38,45 +46,67 @@ export default function ApdexWidget({
   actions,
   entityLabel,
   entityType,
+  apdexConfig,
+  tagCatalog,
   metrics,
   errors,
   progress,
   granularity,
   timeConfig,
-  nonInteractive
+  nonInteractive,
+  automaticallySize,
+  height,
+  showPreviewDataNotice
 }: ApdexWidgetProps) {
-  const renderer = useApdexLineRenderer(apdexAreas);
+  const contextMenu = useApdexWidgetContextMenu({ apdexConfig, tagCatalog });
+
+  const showMissingDataIndicators = useShouldShowMissingDataIndicator({
+    initialEvaluationTimestamp: apdexConfig?.createdAt,
+    progress,
+    timeConfig,
+    nonInteractive
+  });
 
   return (
     <WidgetCard
       dragHandle={dragHandle}
       actions={actions}
       progress={progress}
-      header={<WidgetHeader title={title} entityType={entityType} entityLabel={entityLabel} />}
+      header={
+        <WidgetHeader
+          apdexConfig={apdexConfig}
+          title={title}
+          entityType={entityType}
+          entityLabel={entityLabel}
+          showPreviewDataNotice={showPreviewDataNotice}
+        />
+      }
     >
-      <ResultAwareChart
-        config={{
-          y1: {
-            metricIds: ['apdex'],
-            labels: [t('in-custom-dashboards:widgets.apdex.chart.metricLabel')],
-            colors: [theme.lib.colors.lightBlue800],
-            renderer,
-            metrics,
-            fixedTickPositions: [...apdexAreas],
-            detailedFormatting: true,
-            renderAllTickLabels: true
-          },
-          granularity,
-          automaticallySize: true,
-          nonInteractive,
-          timeConfig
-        }}
-        result={{
-          errors,
-          progress
-        }}
-        renderLegend
-      />
+      <div className={locals.apdexChartWrapper}>
+        <ApdexChart
+          apdexConfig={apdexConfig}
+          metrics={metrics}
+          errors={errors}
+          progress={progress}
+          granularity={granularity}
+          timeConfig={timeConfig}
+          showMissingDataIndicators={showMissingDataIndicators}
+          nonInteractive={nonInteractive}
+          contextMenu={contextMenu}
+          automaticallySize={automaticallySize}
+          height={height}
+        />
+        {showMissingDataIndicators && (
+          <Message
+            title={t('in-custom-dashboards:widgets.slo.chart.missingDataInfo', {
+              configType: t('in-custom-dashboards:widgets.slo.chart.configType', { context: 'apdex' })
+            })}
+            withIcon
+            dismissible
+            small
+          />
+        )}
+      </div>
     </WidgetCard>
   );
 }

@@ -10,7 +10,7 @@ import { useObservable } from '@instana/hooks';
 
 import TypeAndMetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/TypeAndMetricConfigurator';
 import { useTagFilterExpressionState } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/useTagFilterExpressionState';
-import getMetricMetadata from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/getMetricMetadata';
+import getMetricInCatalog from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/getMetricInCatalog';
 import {
   onChangeGrouping,
   isRequiringGroupingConfiguration
@@ -81,7 +81,7 @@ export default function FormComponent({
   });
   useEffect(() => {
     if (metricCatalog.data) {
-      const metadata = getMetricMetadata({
+      const metadata = getMetricInCatalog({
         metricCatalog: metricCatalog.data,
         type: typeField.value,
         metric: metricField.value
@@ -89,11 +89,11 @@ export default function FormComponent({
       if (metadata) {
         onChange([], form => {
           var f = form.updateIn(['metricPath'], field => field.setValue(metadata.path).setTouched(true));
-          if(f.containsKey('metricLabel')){
+          if (f.containsKey('metricLabel')) {
             f = f.updateIn(['metricLabel'], field => field.setValue(metadata.label).setTouched(true));
           }
           return f;
-      });
+        });
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -133,12 +133,11 @@ export default function FormComponent({
                   .updateIn(['allowedCrossSeriesAggregations'], field =>
                     field.setValue(allowedCrossSeriesAggregations).setTouched(true)
                   );
-                  if(f.containsKey('metricLabel')){
-                    f = f.updateIn(['metricLabel'], field => field.setValue(label).setTouched(true));
-                  }
-                  return f;
+                if (f.containsKey('metricLabel')) {
+                  f = f.updateIn(['metricLabel'], field => field.setValue(label).setTouched(true));
                 }
-              );
+                return f;
+              });
             }}
             query={catalogQuery.value}
             onQueryChange={catalogQuery.onChange}
@@ -157,6 +156,9 @@ export default function FormComponent({
                 .updateIn(['crossSeriesAggregation'], field => {
                   if (isCrossSeriesAggregationRestricted) {
                     return field;
+                  }
+                  if (e.target.value === 'PER_SECOND') {
+                    return field.setValue('SUM').setTouched(true);
                   }
                   return field.setValue(e.target.value).setTouched(true);
                 })

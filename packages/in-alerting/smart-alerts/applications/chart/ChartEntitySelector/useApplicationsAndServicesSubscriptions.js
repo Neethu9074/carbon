@@ -3,9 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { useMemo } from 'react';
-
-import { combineLatest, just } from '@instana/observables';
+import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -16,9 +14,7 @@ import useIsTagFilterFormModelValid from 'in-alerting/smart-alerts/applications/
 import { getEntitySelectionAsTagFilterFormModel } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
-import { isLoading, hasError, errorWithData, success } from 'in-services/util/result';
 import getApplication from 'in-applications/subscriptions/getApplication';
-import { pendingResult } from 'in-services/fixedObjects';
 
 export default function useApplicationsAndServicesSubscriptions({
   alertConfigWithFormModel,
@@ -34,41 +30,51 @@ export default function useApplicationsAndServicesSubscriptions({
     threshold
   } = alertConfigWithFormModel;
 
+  const { isQueryValid } = getQueryBuilderForAlertType(rule.alertType, threshold.type);
+
   // only pass the user-defined part of the query, because the generated part is valid anyway, and the validation
   // would reject the entity-filter anyway, because the user is not allowed to use them
-  const { isQueryValid } = useMemo(() => {
-    return getQueryBuilderForAlertType(rule.alertType, threshold.type);
-  }, [rule.alertType, threshold.type]);
   const isTagFilterFormModelValid = useIsTagFilterFormModelValid(tagFilterExpression, isQueryValid);
 
-  const fetchAppsAndServices = applicationIds.map(applicationId => {
-    const scopeDownEnrichedTagFilterFormModel = joinExpressions({
+  function scopedDownTagFilterExpression(applicationId) {
+    return joinExpressions({
       expressions: [
         getEnrichedFiltersForApplication(alertConfigWithFormModel, applicationId),
-        getEntitySelectionAsTagFilterFormModel(applications, boundaryScope)
+        getEntitySelectionAsTagFilterFormModel(applications, boundaryScope, applicationId)
       ]
     });
-    return combineLatest([
-      getApplication({ id: applicationId }),
-      isTagFilterFormModelValid
-        ? getServiceList(queryWindowSize, scopeDownEnrichedTagFilterFormModel, includeSynthetic)
-        : just(pendingResult)
-    ]).map(([app, services]) => {
-      if (isLoading(app) || isLoading(services)) return pendingResult;
-      if (hasError(app) || hasError(services)) {
-        return errorWithData([...app.errors, ...services.errors], {
-          app: app.data,
-          services: services.data?.items
-        });
-      }
-      return success({
-        app: app.data,
-        services: services.data?.items
-      });
-    });
-  });
+  }
 
-  return useObservable(combineLatest(fetchAppsAndServices), [
+  const fetchAppsOnly = applicationIds //
+    .map(applicationId =>
+      getApplication({ id: applicationId }) //
+        .map(result => ({
+          ...result,
+          data: {
+            app: result.data,
+            services: () =>
+              getServiceList(queryWindowSize, scopedDownTagFilterExpression(applicationId), includeSynthetic)
+          }
+        }))
+    );
+
+  const fetchAppsServices = applicationIds //
+    .map(applicationId =>
+      getServiceList(queryWindowSize, scopedDownTagFilterExpression(applicationId), includeSynthetic) //
+        .map(result => ({
+          ...result,
+          data: {
+            app: {
+              id: applicationId
+            },
+            services: result?.data?.items ?? []
+          }
+        }))
+    );
+
+  const isOnlyOneAP = applicationIds.length === 1;
+
+  return useObservable(isTagFilterFormModelValid && combineLatest(isOnlyOneAP ? fetchAppsServices : fetchAppsOnly), [
     isTagFilterFormModelValid,
     applications,
     isQueryValid,

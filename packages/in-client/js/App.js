@@ -3,10 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useLocation } from 'react-router';
 import React from 'react';
 
+import { ThemeProvider } from '@instana/components';
 import '@instana/components/esm/index.css';
 
 import FloatingActionButtonPresenter from 'in-components/FloatingActionButton/FloatingActionButtonPresenter';
@@ -24,15 +24,13 @@ import GlobalTheme from 'in-themes/GlobalTheme';
 import 'in-themes/foundation.less';
 import locals from './App.mless';
 
-const defaultTheme = createTheme();
-
 export default function App() {
   const location = useLocation();
 
   return (
     <ErrorBoundary name="app">
       <GlobalTheme>
-        <ThemeProvider theme={defaultTheme}>
+        <ThemeProvider theme="default">
           <GlobalTimeConfig location={location}>
             <ErrorBoundary name="main-navigation">
               <MainNavigation />

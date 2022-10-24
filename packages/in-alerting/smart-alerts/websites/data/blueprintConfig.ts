@@ -14,7 +14,8 @@ import {
   ThresholdConfig,
   ThresholdOperator,
   WebsiteAlertConfig,
-  WebsiteAlertRule
+  WebsiteAlertRule,
+  BeaconType
 } from '@instana/types';
 
 import getWebsiteRateMetricThresholdSuggestion from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteRateMetricThresholdSuggestion';
@@ -202,7 +203,7 @@ const customEventBlueprintConfig: BluePrint = Object.freeze({
   headline: t('in-alerting:smartAlerts.websites.data.customEventBlueprintConfigHeadline'),
   text: t('in-alerting:smartAlerts.websites.data.customEventBlueprintConfigText'),
   getAvailableTags: () => getIncludedTags(availableFilterTags.custom),
-  baselineEnabled: false,
+  baselineEnabled: true,
   defaultMetric: 'beaconCount',
   getMetricName: () => 'beaconCount',
   getMetricLabel: () => t('in-alerting:smartAlerts.websites.data.customEventBlueprintConfigMetricLabel'),
@@ -262,7 +263,7 @@ interface BluePrint extends BluePrintBase {
   readonly incompleteRuleMessage?: string;
   readonly getAvailableTags: (metricName: MetricName) => string[];
   readonly baselineEnabled: boolean;
-  readonly getBeaconType: (metricName: MetricName) => string;
+  readonly getBeaconType: (metricName: MetricName) => BeaconType;
   readonly defaultMetric: MetricName;
   readonly getMetricName: (alertRule: WebsiteAlertRule) => string; // TODO figure out if the backend type could be a enum which could map to MetricName?
   readonly getMetricLabel: (metricName: MetricName) => string;

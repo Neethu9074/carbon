@@ -12,7 +12,9 @@ export default function JavamailSpanDetailView({ span }) {
   return (
     <div>
       <Dl>
-        <Di title={t('in-forge:tracing.mail.titleAddress')}>{span.getIn(['data', 'mail', 'error'])}</Di>
+        <Di title={t('in-forge:tracing.javamail.method')}>{span.getIn(['data', 'mail', 'type'])}</Di>
+        <Di title={t('in-forge:tracing.javamail.endpoint')}>{span.getIn(['data', 'mail', 'endpoint'])}</Di>
+        <Di title={t('in-forge:tracing.javamail.error')}>{span.getIn(['data', 'mail', 'error'])}</Di>
       </Dl>
     </div>
   );

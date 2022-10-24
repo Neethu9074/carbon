@@ -16,8 +16,9 @@ import { ClearTagFilterExpressionButton } from 'in-alerting/smart-alerts/compone
 import AlertFilterConfigurator from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertFilterConfigurator';
 import { createBoundedAlertQueryBuilder } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import SectionLabelWithSubtext from 'in-components/workspace/SectionLabelWithSubtext/SectionLabelWithSubtext';
+import ScopeMigrationMessage from 'in-alerting/smart-alerts/applications/scopeConfig/ScopeMigrationMessage';
+import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
-import LightCard from 'in-alerting/components/LightCard/LightCard';
 import { days } from 'in-services/time';
 import { t } from 'in-i18n';
 
@@ -37,8 +38,9 @@ export default function ScopeConfig({
   updateForm,
   isGlobalSmartAlert,
   editMode,
-  initialConfiguredApplications,
-  thresholdType
+  migrationMode,
+  scopeMigrationDetails,
+  initialConfiguredApplications
 }) {
   const applications = form.get('applications').value;
   const boundaryScope = form.get('boundaryScope').value;
@@ -47,6 +49,7 @@ export default function ScopeConfig({
   const includeSynthetic = form.get('includeSynthetic').value;
   const isBuiltIn = form.get('builtIn').value;
   const alertType = form.get('rule').get('alertType').value;
+  const thresholdType = form.get('threshold').get('type').value;
 
   const [searchQuery, setSearchQuery] = useState('');
   const [filterBySelectionState, setFilterBySelectionState] = useState(Boolean(editMode));
@@ -63,7 +66,7 @@ export default function ScopeConfig({
   }, [applications, boundaryScope, thresholdType, alertType]);
 
   return (
-    <LightCard
+    <ExpandableLightCard
       title={
         <SectionLabelWithSubtext
           subtext={t('in-alerting:smartAlerts.components.smartAlertDialog.scopeConfigTitleTooltip')}
@@ -83,7 +86,8 @@ export default function ScopeConfig({
           setFilterBySelectionState={setFilterBySelectionState}
         />
       }
-      withoutPadding
+      bodyWithoutPadding
+      openByDefault
       darkFrame
       framed
     >
@@ -133,7 +137,10 @@ export default function ScopeConfig({
           </div>
         )}
       </div>
-    </LightCard>
+      {migrationMode && scopeMigrationDetails && (
+        <ScopeMigrationMessage scopeMigrationDetails={scopeMigrationDetails} />
+      )}
+    </ExpandableLightCard>
   );
 }
 
@@ -163,8 +170,12 @@ function LightCardHeaderControls({ filterBySelectionState, setSearchQuery, setFi
 ScopeConfig.propTypes = {
   isGlobalSmartAlert: PropTypes.bool,
   editMode: PropTypes.bool,
+  migrationMode: PropTypes.bool,
+  scopeMigrationDetails: PropTypes.shape({
+    query: PropTypes.string,
+    result: PropTypes.string.isRequired
+  }),
   form: PropTypes.object.isRequired,
   updateForm: PropTypes.func.isRequired,
-  initialConfiguredApplications: PropTypes.object,
-  thresholdType: PropTypes.string.isRequired
+  initialConfiguredApplications: PropTypes.object
 };

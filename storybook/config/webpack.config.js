@@ -78,7 +78,11 @@ const necessaryLoaders = [
   },
   {
     test: /\.(js|ts|tsx)$/i,
-    exclude: /node_modules/,
+    exclude: {
+      // Explicitly enable transpilation of @instana/types, because it purely consists of automatically generated typescript
+      // code that can't easily be transpiled upon creation
+      and: [/node_modules/, { not: [path.resolve(__dirname, '..', '..', 'node_modules', '@instana', 'types')] }]
+    },
     use: [
       {
         options: { cacheDirectory: true },
@@ -149,7 +153,7 @@ module.exports = async ({ config }) => {
 
   config.module.rules = necessaryLoaders;
 
-  config.resolve.extensions.push('.ts', '.tsx');
+  config.resolve.extensions.push('.ts', '.tsx', '.d.ts');
   config.resolve.modules.push(path.join(__dirname, '..', 'node_modules'));
 
   return config;

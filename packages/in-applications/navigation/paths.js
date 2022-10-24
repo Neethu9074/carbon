@@ -17,7 +17,7 @@ import {
   facetedSearchMatrixParameter,
   hiddenCallsMatrixParameter,
   plugin as matrixPlugin,
-  previewEnabledMatrixParameter,
+  fastQueryModeEnabledMatrixParameter,
   serviceId as matrixServiceId,
   serviceListPrefix as serviceListMatrixPrefix,
   snapshotId as matrixSnapshotId,
@@ -55,7 +55,6 @@ import { t } from 'in-i18n';
 
 export const applicationsList = '/applications';
 export const applicationDashboard = '/application';
-export const newApplicationView = '/application/new';
 export const newApplicationWaiterView = '/application/waiter';
 
 export const alertsList = '/alerts';
@@ -88,6 +87,7 @@ export function getLinkToAnalyze({
   serviceName,
   endpointName,
   boundaryScope = boundaryScopes.inbound,
+  contextScope,
   jumpToSource,
   dataSource = 'calls',
   groupBy,
@@ -98,7 +98,7 @@ export function getLinkToAnalyze({
   hiddenCalls,
   chartedMetrics,
   fields,
-  previewEnabled,
+  fastQueryModeEnabled,
   timeConfig,
   tagCatalog,
   setOnClickNotificationMessage
@@ -113,7 +113,7 @@ export function getLinkToAnalyze({
     setOrDeleteMatrixParameter(params, analyzeTwoParameters.fields, fields);
     setOrDeleteMatrixParameter(params, analyzeTwoParameters.chartedMetrics, chartedMetrics);
     setOrDeleteMatrixParameter(params, hiddenCallsMatrixParameter, hiddenCalls);
-    setOrDeleteMatrixParameter(params, previewEnabledMatrixParameter, previewEnabled);
+    setOrDeleteMatrixParameter(params, fastQueryModeEnabledMatrixParameter, fastQueryModeEnabled);
     setOrDeleteMatrixParameter(params, facetedSearchMatrixParameter, facets);
 
     if (timeConfig) {
@@ -122,8 +122,9 @@ export function getLinkToAnalyze({
 
     let extendingFormModel = [];
     if (applicationName != null) {
+      //boundary scope is ignored when context scope is present
       const applicationFilter =
-        boundaryScope === boundaryScopes.inbound
+        boundaryScope === boundaryScopes.inbound && !contextScope
           ? {
               type: TAG_FILTER,
               name: APPLICATION_INBOUND.name,
@@ -135,7 +136,7 @@ export function getLinkToAnalyze({
               name: APPLICATION.name,
               value: applicationName,
               operator: operators.EQUALS,
-              entity: entityTypes.DESTINATION
+              entity: contextScope === 'DOWNSTREAM' ? entityTypes.SOURCE : entityTypes.DESTINATION
             };
       extendingFormModel = joinExpressions({ expressions: [extendingFormModel, applicationFilter] });
     }
@@ -148,7 +149,7 @@ export function getLinkToAnalyze({
             name: SERVICE.name,
             value: serviceName,
             operator: operators.EQUALS,
-            entity: entityTypes.DESTINATION
+            entity: contextScope === 'DOWNSTREAM' ? entityTypes.SOURCE : entityTypes.DESTINATION
           }
         ]
       });

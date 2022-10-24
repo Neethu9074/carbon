@@ -80,65 +80,45 @@ export default connectTo(({ location }) => {
 
           {tenantUnitId && (
             <Switch>
-              <Route
-                path="/internal/monitoringUnit/unit/entityStatistics"
-                render={() => (
-                  <EntityStatistics timeConfig={timeConfig} tenantUnitId={tenantUnitId} tenant={tenant} unit={unit} />
-                )}
-              />
-              <Route
-                path="/internal/monitoringUnit/unit/applicationDataStatistics"
-                render={() => (
-                  <ApplicationDataStatistics
-                    timeConfig={timeConfig}
-                    tenantUnitId={tenantUnitId}
-                    tenant={tenant}
-                    unit={unit}
-                  />
-                )}
-              />
-              <Route
-                path="/internal/monitoringUnit/unit/eum"
-                render={() => <Eum timeConfig={timeConfig} tenantUnitId={tenantUnitId} tenant={tenant} unit={unit} />}
-              />
-              <Route
-                path="/internal/monitoringUnit/unit/logging"
-                render={() => (
-                  <Logging timeConfig={timeConfig} tenantUnitId={tenantUnitId} tenant={tenant} unit={unit} />
-                )}
-              />
-              <Route
-                path="/internal/monitoringUnit/unit/infrastructureDataStatistics"
-                render={() => (
-                  <InfrastructureDataStatistics
-                    timeConfig={timeConfig}
-                    tenantUnitId={tenantUnitId}
-                    tenant={tenant}
-                    unit={unit}
-                  />
-                )}
-              />
-              <Route
-                path="/internal/monitoringUnit/unit/profileDataStatistics"
-                render={() => (
-                  <ProfileDataStatistics
-                    timeConfig={timeConfig}
-                    tenantUnitId={tenantUnitId}
-                    tenant={tenant}
-                    unit={unit}
-                  />
-                )}
-              />
-              <Route
-                path="/internal/monitoringUnit/unit/stan"
-                render={() => <Stan timeConfig={timeConfig} tenantUnitId={tenantUnitId} tenant={tenant} unit={unit} />}
-              />
-              <Route
-                path="/internal/monitoringUnit/unit"
-                render={() => (
-                  <Landing timeConfig={timeConfig} tenantUnitId={tenantUnitId} tenant={tenant} unit={unit} />
-                )}
-              />
+              <Route path="/internal/monitoringUnit/unit/entityStatistics">
+                <EntityStatistics timeConfig={timeConfig} tenantUnitId={tenantUnitId} tenant={tenant} unit={unit} />
+              </Route>
+              <Route path="/internal/monitoringUnit/unit/applicationDataStatistics">
+                <ApplicationDataStatistics
+                  timeConfig={timeConfig}
+                  tenantUnitId={tenantUnitId}
+                  tenant={tenant}
+                  unit={unit}
+                />
+              </Route>
+              <Route path="/internal/monitoringUnit/unit/eum">
+                <Eum timeConfig={timeConfig} tenantUnitId={tenantUnitId} tenant={tenant} unit={unit} />
+              </Route>
+              <Route path="/internal/monitoringUnit/unit/logging">
+                <Logging timeConfig={timeConfig} tenantUnitId={tenantUnitId} tenant={tenant} unit={unit} />
+              </Route>
+              <Route path="/internal/monitoringUnit/unit/infrastructureDataStatistics">
+                <InfrastructureDataStatistics
+                  timeConfig={timeConfig}
+                  tenantUnitId={tenantUnitId}
+                  tenant={tenant}
+                  unit={unit}
+                />
+              </Route>
+              <Route path="/internal/monitoringUnit/unit/profileDataStatistics">
+                <ProfileDataStatistics
+                  timeConfig={timeConfig}
+                  tenantUnitId={tenantUnitId}
+                  tenant={tenant}
+                  unit={unit}
+                />
+              </Route>
+              <Route path="/internal/monitoringUnit/unit/stan">
+                <Stan timeConfig={timeConfig} tenantUnitId={tenantUnitId} tenant={tenant} unit={unit} />
+              </Route>
+              <Route path="/internal/monitoringUnit/unit">
+                <Landing timeConfig={timeConfig} tenantUnitId={tenantUnitId} tenant={tenant} unit={unit} />
+              </Route>
             </Switch>
           )}
         </div>

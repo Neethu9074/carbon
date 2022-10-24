@@ -3,7 +3,7 @@
     "sessionStart": "Démarrage de session",
     "viewChange": "Transition de vue",
     "httpRequest": "Demande HTTP",
-    "custom": "Événement personnalisé"
+    "custom": "Evénement personnalisé"
   },
   "analyzeView": {
     "uniqueUsers": "Utilisateurs uniques",
@@ -67,11 +67,11 @@
       "platformLabel_0": "Plateforme",
       "platformLabel_1": "Plateforme",
       "platformLabel_2": "Plateformes",
-      "osLabel": "OS",
-      "osLabel_plural": "OS",
-      "osLabel_0": "OS",
-      "osLabel_1": "OS",
-      "osLabel_2": "OS",
+      "osLabel": "SE",
+      "osLabel_plural": "SE",
+      "osLabel_0": "SE",
+      "osLabel_1": "SE",
+      "osLabel_2": "SE",
       "bundleLabel": "Bundle",
       "bundleLabel_plural": "Bundles",
       "bundleLabel_0": "Bundle",
@@ -106,7 +106,7 @@
     "appTitle": "Application",
     "osTitle": "Système d'exploitation",
     "deviceTitle": "Appareil",
-    "viewportResolutionTitle": "Résolution Viewport",
+    "viewportResolutionTitle": "Résolution de la fenêtre d'affichage",
     "preferredLanguagesTitle": "Langues préférées",
     "ipTitle": "Adresse IP",
     "carrierTitle": "Opérateur",
@@ -156,7 +156,7 @@
       "traLong": "Transitions de vue",
       "cusShort": "Per",
       "cusBadgeLabel": "Per",
-      "cusLong": "Événements personnalisés"
+      "cusLong": "Evénements personnalisés"
     },
     "tabsSumOverviewChartTooltipStartTime": "Heure de début",
     "tabsSummary": {
@@ -193,10 +193,10 @@
     },
     "tabsSumBatchIndicatorTooltip": "{{number}} occurrences",
     "tabsSumCustomEventBeacon": {
-      "customEventLabel": "Événement personnalisé",
+      "customEventLabel": "Evénement personnalisé",
       "startTimeLabel": "Heure de début",
       "durationLabel": "Durée",
-      "customEventHeader": "Événement personnalisé",
+      "customEventHeader": "Evénement personnalisé",
       "eventNameTitle": "Nom de l'événement",
       "errMsgTitle": "Message d'erreur",
       "metaHeader": "Méta"
@@ -208,6 +208,7 @@
       "retrievalTimeLabel": "Temps d'extraction",
       "callDetailsHeader": "Informations sur l'appel",
       "httpCallURITitle": "URI de l'appel HTTP",
+      "httpHeadersHeader": "En-têtes HTTP",
       "httpMethodTitle": "Méthode HTTP",
       "httpStatusTitle": "Statut HTTP",
       "errMsgTitle": "Message d'erreur",
@@ -236,7 +237,7 @@
       "summaryLabel": "Récapitulatif",
       "httpRequestLabel": "Demandes HTTP",
       "geographyLabel": "Géographie",
-      "customEventsLabel": "Événements personnalisés",
+      "customEventsLabel": "Evénements personnalisés",
       "viewsLabel": "Vues",
       "configurationLabel": "Configuration",
       "nameLabel": "Nom",
@@ -249,16 +250,16 @@
       "keyLabel": "Clé",
       "reportingURLLabel": "URL de production de rapports",
       "removeAppTitle": "Retirer l'application mobile",
-      "removeAppHelp1": "Si vous ne souhaitez plus surveiller l'application mobile <strong>{{label}}</strong> à l'aide d'Instana, utilisez ce formulaire pour la retirer. Le retrait d'une application mobile est une action cohérente. Le retrait d'une application mobile peut ainsi prendre <strong>quelques minutes</strong> jusqu'au retrait complet.",
-      "removeAppHelp2": "Veuillez noter que ni vous, ni le support Instana ne pouvez annuler cette action.",
+      "removeAppHelp1": "Si vous ne souhaitez plus surveiller l'application mobile <strong>{{label}}</strong> à l'aide d'Instana, utilisez ce formulaire pour la retirer. Le retrait d'une application mobile est une action cohérente. Ainsi, le retrait d'une application mobile peut prendre <strong>quelques minutes</strong> jusqu'au retrait complet.",
+      "removeAppHelp2": "Notez que ni vous ni le support Instana ne pouvez annuler cette action.",
       "confirmUndone": "Je comprends que cette action ne peut pas être annulée.",
       "removeAppBtn": "Retirer l'application mobile",
       "renameAppTitle": "Renommer l'application mobile",
-      "renameAppHelp": "Le fait de renommer une application mobile est une action cohérente dans le système Instana. La modification du nom d'une application mobile peut ainsi prendre <strong>quelques minutes</strong> jusqu'à ce qu'elle ait été répercutée dans l'ensemble du système.",
+      "renameAppHelp": "Le fait de renommer une application mobile est une action cohérente dans le système Instana. Ainsi, la modification du nom d'une application mobile peut prendre <strong>quelques minutes</strong> jusqu'à ce qu'elle ait été répercutée dans l'ensemble du système.",
       "renameAppBtn": "Renommer",
       "noSessionTitle": "Aucune session disponible",
-      "noSessionExplanation": "Aucune session n'a été trouvée pour la période sélectionnée.",
-      "noSessionExplanationWithFilters": "Aucune session n'a été trouvée pour la période sélectionnée correspondant à vos filtres.",
+      "noSessionExplanation": "Aucune session n'a été trouvée pour la période sélectionnée",
+      "noSessionExplanationWithFilters": "Aucune session correspondant à vos filtres n'a été trouvée pour la période sélectionnée",
       "switchTo3DTooltip": "Passer au globe 3D",
       "3DBtn": "3D",
       "errorTypesTitle": "Types d'erreur",
@@ -269,7 +270,7 @@
       "erroneousCallsLabel": "Appels erronés",
       "erroneousCallRateTitle": "Taux d'appels erronés",
       "erroneousCallRateLabel": "Taux d'appels erronés",
-      "latencyCardTitle": "Latence",
+      "latencyCardTitle": "Temps d'attente",
       "50thLabel": "50e",
       "90thLabel": "90e",
       "95thLabel": "95e",
@@ -282,7 +283,7 @@
       "BackToListOfHTTPRequestOriginsLabel": "Retour à la liste des origines des demandes HTTP",
       "AnalyzeHTTPRequestOriginBtn": "Analyser l'origine des demandes HTTP",
       "originLabel": "Origine",
-      "latencyLabel": "Latence",
+      "latencyLabel": "Temps d'attente",
       "errorsLabel": "Erreurs",
       "analyzeHTTPRequestsBtn": "Analyser les demandes HTTP",
       "pathsTitle": "Chemins",
@@ -306,7 +307,7 @@
         "customEventButtonAnalyzeCustomEvent": "Analyser l'événement personnalisé",
         "customEventTitleOccurrences": "Occurrences",
         "customEventTitleUsers": "Utilisateurs",
-        "customEventTitleCustomEvent": "Événement personnalisé",
+        "customEventTitleCustomEvent": "Evénement personnalisé",
         "customEventTitleDuration": "Durée",
         "customEventLabelViewInAnalyze": "Afficher dans l'analyse",
         "customEventLabelOccurrences": "Occurrences",
@@ -337,11 +338,11 @@
     },
     "noDataAvailable": {
       "viewsTitle": "Aucune vue disponible",
-      "viewsDescription": "Aucune vue n'a été extraite pour l'intervalle de temps sélectionné.",
+      "viewsDescription": "Aucune vue n'a été extraite pour la période sélectionnée",
       "httpRequestsTitle": "Aucune demande HTTP disponible",
-      "httpRequestsDescription": "Aucune demande HTTP n'a été extraite pour l'intervalle de temps sélectionné.",
+      "httpRequestsDescription": "Aucune demande HTTP n'a été extraite pour la période sélectionnée",
       "customEventsTitle": "Aucun événement personnalisé disponible",
-      "customEventsDescription": "Aucun événement personnalisé n'a été extrait pour l'intervalle de temps sélectionné."
+      "customEventsDescription": "Aucun événement personnalisé n'a été extrait pour la période sélectionnée"
     }
   },
   "appsList": {
@@ -353,7 +354,7 @@
   },
   "newAppFlow": {
     "addMobileAppTitle": "Ajouter une application mobile",
-    "addMobileAppDesc": "Démarrez avec la surveillance des applications mobiles pour mieux comprendre l'impact des performances de vos applications mobiles sur l'expérience utilisateur. La configuration est simple !",
+    "addMobileAppDesc": "Initiez-vous à la surveillance des applications mobiles pour mieux comprendre l'impact des performances de vos applications mobiles sur l'expérience utilisateur. La configuration est simple !",
     "mobileAppNameLabel": "Nom de l'application mobile",
     "addMobileAppBtn": "Ajouter une application mobile",
     "newMobileAppTitle": "Nouvelle application mobile",
@@ -363,8 +364,8 @@
     "reportingURLLabel": "URL de production de rapports",
     "installationInstructionsBtn": "Instructions d'installation",
     "GoToMobileAppDashboardBtn": "Accéder au tableau de bord de l'application mobile",
-    "workingTitle": "Travail en cours...",
-    "workingMsg": "Nous préparons tout pour surveiller votre application mobile <strong>{{mobileAppName}}</strong>. Pendant que nous le faisons, <linkToInstallation>ajoutez l'agent à votre application mobile.</linkToInstallation>.",
+    "workingTitle": "En cours de préparation...",
+    "workingMsg": "Nous nous occupons de tout préparer pour la surveillance de votre application mobile <strong>{{mobileAppName}}</strong>. Pendant ce temps, <linkToInstallation>ajoutez l'agent à votre application mobile</linkToInstallation>.",
     "enablingMonitoringBtn": "Activation de la surveillance ..."
   },
   "mobileBeacons": {
@@ -398,13 +399,13 @@
     "mobileApp": "Application mobile",
     "view": "Vue",
     "platform": "Plateforme",
-    "os": "OS",
+    "os": "SE",
     "bundle": "Bundle",
     "version": "Version",
     "country": "Pays",
     "subdivision": "Sous-division"
   },
-  "queryInvalid": "La configuration de la requête n'est pas valide. Veuillez résoudre les échecs de validation avant de continuer.",
+  "queryInvalid": "La configuration de la requête n'est pas valide. Résolvez les échecs de validation avant de continuer.",
   "containsErrors": "Contient des erreurs",
   "noErrors": "Aucune erreur"
 }

@@ -53,6 +53,11 @@ export default connectTo(
   }),
   function InstanaAgentDashboard({ snapshot, timeConfig, isInternalVisible, hostSnapshot }) {
     const snapshotId = snapshot.get('id');
+    const metricIds = snapshot.get('metricIds');
+    const collectors = metricIds
+      .filter(metric => metric.startsWith('gc') && metric.endsWith('count'))
+      .map(metric => metric.substring(3, metric.length - 6))
+      .toArray();
     return (
       <Fragment>
         <DashboardSection title={t('in-forge:plugins.instanaAgent.dashboard.management')}>
@@ -209,31 +214,36 @@ export default connectTo(
             />
           </DashboardSection>
         ) : null}
-        <DashboardSection title={t('in-forge:plugins.instanaAgent.dashboard.garbageCollection')}>
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              formatter: time,
-              metrics: ['gc.Copy.time', 'gc.MarkSweepCompact.time'],
-              labels: [
-                t('in-forge:plugins.instanaAgent.dashboard.copyTime'),
-                t('in-forge:plugins.instanaAgent.dashboard.markSweepCompactTime')
-              ],
-              type: 'line'
-            }}
-            y2={{
-              formatter: twoDecimalPlaces,
-              metrics: ['gc.Copy.count', 'gc.MarkSweepCompact.count'],
-              labels: [
-                t('in-forge:plugins.instanaAgent.dashboard.copyInvocation'),
-                t('in-forge:plugins.instanaAgent.dashboard.markSweepCompactInvocation')
-              ],
-              type: 'point'
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
+        {collectors ? (
+          <DashboardSection title={t('in-forge:plugins.jvmRuntimePlatform.garbageCollection')}>
+            <ChartExplanation>
+              {t(
+                'in-forge:plugins.jvmRuntimePlatform.garbageCollectorsWillReportTheirActivationAndRuntimeAfterTheyHaveFinished'
+              )}
+            </ChartExplanation>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                metrics: collectors.map(name => 'gc.' + name + '.time'),
+                labels: collectors.map(name => t('in-forge:plugins.jvmRuntimePlatform.nameTime', { name: name })),
+                type: 'line',
+                aggregation: 'sum',
+                formatter: time
+              }}
+              y2={{
+                metrics: collectors.map(name => 'gc.' + name + '.count'),
+                labels: collectors.map(name =>
+                  t('in-forge:plugins.jvmRuntimePlatform.nameInvocations', { name: name })
+                ),
+                type: 'point',
+                aggregation: 'sum',
+                formatter: twoDecimalPlaces
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </DashboardSection>
+        ) : null}
         {snapshot.getIn(['data', 'hasProcessData']) && hostSnapshot && supportsOpenFiles(hostSnapshot) && (
           <DashboardSection title={t('in-forge:plugins.process.dashboard.openFiles')}>
             <Chart

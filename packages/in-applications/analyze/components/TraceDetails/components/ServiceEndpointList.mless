@@ -32,4 +32,7 @@
   .metricValue {
     font-size: 0.875rem;
   }
+  .link {
+    .ellipsis();
+  }
 }

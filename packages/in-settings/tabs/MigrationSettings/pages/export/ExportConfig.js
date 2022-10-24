@@ -44,7 +44,9 @@ function getSelectedConfigIds(selectedConfigs) {
   if (selectedConfigs) {
     let configIds = Object.keys(selectedConfigs);
     Object.values(selectedConfigs).forEach((config, index) => {
-      if (config.value) selectedIds.push(configIds[index]);
+      if (config.value) {
+        selectedIds.push(configIds[index]);
+      }
     });
   }
   return selectedIds;
@@ -102,13 +104,16 @@ function render({ form, setForm, setCanSaveItem }) {
                   checked={field.value}
                   onChange={e => {
                     setForm(form.updateIn([config.type], f => f.setValue(e.target.checked).setTouched(true)));
-                    if (e.target.checked) setCanSaveItem(e.target.checked);
-                    else {
+                    if (e.target.checked) {
+                      setCanSaveItem(e.target.checked);
+                    } else {
                       // need to check that at least one other configuration type is selected to enable Save button
                       let selectedIds = getSelectedConfigIds(form.items);
-                      if (selectedIds.length > 1 || (selectedIds.length === 1 && !selectedIds.includes(config.type)))
+                      if (selectedIds.length > 1 || (selectedIds.length === 1 && !selectedIds.includes(config.type))) {
                         setCanSaveItem(true);
-                      else setCanSaveItem(false);
+                      } else {
+                        setCanSaveItem(false);
+                      }
                     }
                   }}
                   size="larger"

@@ -49,7 +49,8 @@ const ChartReactWrapper = React.forwardRef(function ChartReactWrapper(props, out
     renderPostChartContent,
     renderPreChartContent,
     nonInteractive,
-    automaticallySize
+    automaticallySize,
+    wiggleRoom
   } = props;
 
   const [preAndPostContentConfig, setPreAndPostContentConfig] = useState();
@@ -107,10 +108,9 @@ const ChartReactWrapper = React.forwardRef(function ChartReactWrapper(props, out
     }
   });
 
-  // We need to execute a dispose call when the chart changes. This is already handled within
-  // canvasRefSetter. With this effect we only want to handle unmounting of the component.
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => () => chart?.dispose(), []);
+  // With this effect we only want to handle to properly dispose the chart when unmounting the component.
+  // The handling of disposing the chart when it changes is handled within canvasRefSetter above.
+  useEffect(() => () => chart?.dispose(), [chart]);
 
   const heightOfDrawableCanvas = chart ? chartHeight - chart.config.timeAxisHeight - chart.config.markerPaneHeight : 0;
 
@@ -146,6 +146,7 @@ const ChartReactWrapper = React.forwardRef(function ChartReactWrapper(props, out
               reverseTooltipOrder={reverseTooltipOrder}
               metrics={props}
               nonInteractive={nonInteractive}
+              wiggleRoom={wiggleRoom}
             />
           )}
           <canvas className={locals.canvas} ref={canvasRefSetter} />
