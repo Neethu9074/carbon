@@ -7,10 +7,10 @@ import React from 'react';
 
 import { Link } from '@instana/components';
 
+import UngroupedViewTable, { retrievalSize } from 'in-components/AnalyzeView/UngroupedView/UngroupedViewTable';
 import { FacetedSearchPresenter } from 'in-websites/analyze/AnalyzeView2_0/components/FacetedSearchPresenter';
 import QueryBuilderWorkspace from 'in-websites/analyze/AnalyzeView2_0/components/QueryBuilderWorkspace';
 import getWebsiteBeaconsForPageLoad from 'in-websites/subscriptions/getWebsiteBeaconsForPageLoad';
-import UngroupedViewTable, { retrievalSize } from 'in-components/AnalyzeView/UngroupedViewTable';
 import { addDataSourceToBackendQueryModel } from 'in-websites/analyze/AnalyzeView2_0/util';
 import getWebsiteBeacons from 'in-websites/subscriptions/getWebsiteBeacons';
 import PageLoadView from 'in-websites/analyze/PageLoadView/PageLoadView';

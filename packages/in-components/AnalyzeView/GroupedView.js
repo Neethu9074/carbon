@@ -32,6 +32,7 @@ import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/b
 import { custom as customType, metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import { or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { getFormatter as getBackendFormatter } from 'in-services/formatters/backendFormatter';
+import { GROUP_COLORS, getLabel as defaultGetLabel } from 'in-components/AnalyzeView/utils.ts';
 import { joinExpressions, TAG } from 'in-components/QueryBuilder/transformation/formModel';
 import QueryProgressIndicator from 'in-components/AnalyzeView/QueryProgressIndicator';
 import { BOOLEAN, KEY_VALUE_PAIR } from 'in-components/QueryBuilder/tagFilter/types';
@@ -53,15 +54,9 @@ import { identity } from 'in-services/util/function';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { scrollToTop } from 'in-services/util/dom';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './GroupedView.mless';
-
-export const GROUP_COLORS = (() => {
-  const maxGroupsOnChart = Math.min(5, theme.lib.colors.chart.strokeColors100.length);
-  return theme.lib.colors.chart.strokeColors100.slice(0, maxGroupsOnChart);
-})();
 
 export default function GroupedAnalyzeView(props) {
   const {
@@ -75,7 +70,7 @@ export default function GroupedAnalyzeView(props) {
     getHrefToUngroupedView,
     UngroupedView,
     Sidebar,
-    getLabel = ({ name }) => JSON.parse(name),
+    getLabel = defaultGetLabel,
     isValid,
     selectableFields,
     fixedFields,

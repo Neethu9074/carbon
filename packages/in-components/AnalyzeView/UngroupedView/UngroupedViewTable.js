@@ -5,9 +5,9 @@
 
 import React, { useEffect, useState } from 'react';
 
+import UngroupedView, { retrievalSize } from 'in-components/AnalyzeView/UngroupedView/UngroupedView';
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
-import UngroupedView, { retrievalSize } from 'in-components/AnalyzeView/UngroupedView';
 import QueryProgressIndicator from 'in-components/AnalyzeView/QueryProgressIndicator';
 import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
@@ -17,7 +17,7 @@ import { t } from 'in-i18n';
 
 import locals from './UngroupedViewTable.mless';
 
-export { detailViewProps, retrievalSize } from 'in-components/AnalyzeView/UngroupedView';
+export { detailViewProps, retrievalSize } from 'in-components/AnalyzeView/UngroupedView/UngroupedView';
 
 export default function UngroupedAnalyzeViewTable(props) {
   return <UngroupedView {...props} Presenter={Table} />;
