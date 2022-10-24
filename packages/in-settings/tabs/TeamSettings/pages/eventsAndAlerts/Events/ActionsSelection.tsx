@@ -86,7 +86,6 @@ export default function ActionsSelection({ form, setForm, entity }: ActionsSelec
       title={t('in-settings:tabs.addActions')}
       label={t('in-settings:tabs.addActions')}
       listComponent={getScoredActionTable(eventName, eventDescription)}
-      limit={10}
       hiddenIds={selectedActions}
       createSubmitLabel={(numberOfItems: number) =>
         numberOfItems > 0
