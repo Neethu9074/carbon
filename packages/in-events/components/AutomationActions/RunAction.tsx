@@ -119,7 +119,13 @@ export default function RunAction({ action, script, volatileId, event }: Props) 
               return;
             }
             setIsSaving(true);
-            runScriptAction(script, volatileId, event, actionName).once(data => {
+            runScriptAction(
+              script,
+              agentSnapShots?.data?.online?.find(agent => agent.volatileId?.host_id === targetAgent.value)
+                ?.volatileId ?? {},
+              event,
+              actionName
+            ).once(data => {
               setIsSaving(false);
               // last element of the array is either the timeout error if the agent didn't respond in time, or the agent response (error or in progress)
               // result unknown because we only care about error
