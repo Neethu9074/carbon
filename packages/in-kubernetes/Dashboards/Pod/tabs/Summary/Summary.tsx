@@ -67,24 +67,22 @@ export default function Summary({ data: pod, timeConfig }: SummaryProps) {
   const tagFilterExpression = toBackendQueryModel(andQuery(clusterTag, nsTag, podTag));
   const type = plugins.kubernetesPod;
 
-  const defaultBigNumberMetricConfig = {
+  const defaultConfig = {
     source,
+    type,
     aggregation: 'MEAN' as AggregationType,
     tagFilterExpression,
-    type,
-    timeShift,
     timeConfig,
+    timeShift
+  };
+  const defaultBigNumberMetricConfig = {
+    ...defaultConfig,
     resultType: 'SINGLE_NUMBER' as ResultType
   };
 
-  const defaultMetricConfig = {
-    granularity: getChartGranularity(timeConfig),
-    aggregation: 'MEAN' as AggregationType,
-    source,
-    tagFilterExpression,
-    timeConfig,
-    timeShift: 0,
-    type
+  const defaultChartMetricConfig = {
+    ...defaultConfig,
+    granularity: getChartGranularity(timeConfig)
   };
 
   const isContainerMetric = {
@@ -246,20 +244,20 @@ export default function Summary({ data: pod, timeConfig }: SummaryProps) {
                 metric: 'cpu.total_usage',
                 label: t('in-kubernetes:dashboards.usage'),
                 color: usage,
-                ...defaultMetricConfig,
+                ...defaultChartMetricConfig,
                 ...isContainerMetric
               },
               {
                 metric: 'cpuRequests',
                 label: t('in-kubernetes:dashboards.requests'),
                 color: requests,
-                ...defaultMetricConfig
+                ...defaultChartMetricConfig
               },
               {
                 metric: 'cpuLimits',
                 label: t('in-kubernetes:dashboards.limits'),
                 color: limits,
-                ...defaultMetricConfig
+                ...defaultChartMetricConfig
               }
             ]}
             title={t('in-kubernetes:dashboards.cpuResources')}
@@ -278,20 +276,20 @@ export default function Summary({ data: pod, timeConfig }: SummaryProps) {
                 metric: 'memory.usage',
                 label: t('in-kubernetes:dashboards.usage'),
                 color: usage,
-                ...defaultMetricConfig,
+                ...defaultChartMetricConfig,
                 ...isContainerMetric
               },
               {
                 metric: 'memoryRequests',
                 label: t('in-kubernetes:dashboards.requests'),
                 color: requests,
-                ...defaultMetricConfig
+                ...defaultChartMetricConfig
               },
               {
                 metric: 'memoryLimits',
                 label: t('in-kubernetes:dashboards.limits'),
                 color: limits,
-                ...defaultMetricConfig
+                ...defaultChartMetricConfig
               }
             ]}
             title={t('in-kubernetes:dashboards.memoryResources')}

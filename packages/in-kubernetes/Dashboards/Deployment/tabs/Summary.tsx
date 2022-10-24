@@ -72,24 +72,23 @@ export default function Summary({ timeConfig, data: deployment }: SummaryProps) 
   const workloadTag = tagEquals('kubernetes.deployment.name', deployment.name);
   const tagFilterExpression = toBackendQueryModel(andQuery(clusterTag, nsTag, workloadTag));
   const type = plugins.kubernetesDeployment;
-  const defaultBigNumberMetricConfig = {
+
+  const defaultConfig = {
     source,
+    type,
     aggregation: 'MEAN' as AggregationType,
     tagFilterExpression,
-    type,
-    timeShift,
     timeConfig,
+    timeShift
+  };
+  const defaultBigNumberMetricConfig = {
+    ...defaultConfig,
     resultType: 'SINGLE_NUMBER' as ResultType
   };
 
-  const defaultMetricConfig = {
-    granularity: getChartGranularity(timeConfig),
-    aggregation: 'MEAN' as AggregationType,
-    source,
-    tagFilterExpression,
-    timeConfig,
-    timeShift: 0,
-    type
+  const defaultChartMetricConfig = {
+    ...defaultConfig,
+    granularity: getChartGranularity(timeConfig)
   };
 
   const isContainerMetric = {
@@ -184,20 +183,20 @@ export default function Summary({ timeConfig, data: deployment }: SummaryProps) 
                 metric: 'cpu.total_usage',
                 label: t('in-kubernetes:dashboards.usage'),
                 color: usage,
-                ...defaultMetricConfig,
+                ...defaultChartMetricConfig,
                 ...isContainerMetric
               },
               {
                 metric: 'pods.required_cpu',
                 label: t('in-kubernetes:dashboards.requests'),
                 color: requests,
-                ...defaultMetricConfig
+                ...defaultChartMetricConfig
               },
               {
                 metric: 'pods.limit_cpu',
                 label: t('in-kubernetes:dashboards.limits'),
                 color: limits,
-                ...defaultMetricConfig
+                ...defaultChartMetricConfig
               }
             ]}
             title={t('in-kubernetes:dashboards.cpuResources')}
@@ -217,20 +216,20 @@ export default function Summary({ timeConfig, data: deployment }: SummaryProps) 
                 metric: 'memory.usage',
                 label: t('in-kubernetes:dashboards.usage'),
                 color: usage,
-                ...defaultMetricConfig,
+                ...defaultChartMetricConfig,
                 ...isContainerMetric
               },
               {
                 metric: 'pods.required_mem',
                 label: t('in-kubernetes:dashboards.requests'),
                 color: requests,
-                ...defaultMetricConfig
+                ...defaultChartMetricConfig
               },
               {
                 metric: 'pods.limit_mem',
                 label: t('in-kubernetes:dashboards.limits'),
                 color: limits,
-                ...defaultMetricConfig
+                ...defaultChartMetricConfig
               }
             ]}
             title={t('in-kubernetes:dashboards.memoryResources')}
@@ -249,25 +248,25 @@ export default function Summary({ timeConfig, data: deployment }: SummaryProps) 
                 metric: 'pods.count',
                 label: t('in-kubernetes:dashboards.allocated'),
                 color: allocated,
-                ...defaultMetricConfig
+                ...defaultChartMetricConfig
               },
               {
                 metric: 'phase.Pending.count',
                 label: t('in-kubernetes:dashboards.pending'),
                 color: pending,
-                ...defaultMetricConfig
+                ...defaultChartMetricConfig
               },
               {
                 metric: 'conditions.PodScheduled.False',
                 label: t('in-kubernetes:dashboards.unscheduled'),
                 color: unscheduled,
-                ...defaultMetricConfig
+                ...defaultChartMetricConfig
               },
               {
                 metric: 'conditions.Ready.False',
                 label: t('in-kubernetes:dashboards.unready'),
                 color: unready,
-                ...defaultMetricConfig
+                ...defaultChartMetricConfig
               }
             ]}
             title={t('in-kubernetes:dashboards.pods')}
@@ -297,12 +296,12 @@ export default function Summary({ timeConfig, data: deployment }: SummaryProps) 
               {
                 metric: 'availableReplicas',
                 label: t('in-kubernetes:dashboards.available'),
-                ...defaultMetricConfig
+                ...defaultChartMetricConfig
               },
               {
                 metric: 'desiredReplicas',
                 label: t('in-kubernetes:dashboards.desired'),
-                ...defaultMetricConfig,
+                ...defaultChartMetricConfig,
                 color: desired
               }
             ]}
@@ -322,7 +321,7 @@ export default function Summary({ timeConfig, data: deployment }: SummaryProps) 
                 metric: 'duration',
                 label: t('in-kubernetes:dashboards.pendingPhaseDuration'),
                 color: allocated,
-                ...defaultMetricConfig
+                ...defaultChartMetricConfig
               }
             ]}
             title={t('in-kubernetes:dashboards.pendingPhaseDuration')}
