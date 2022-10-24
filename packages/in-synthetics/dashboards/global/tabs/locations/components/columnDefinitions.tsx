@@ -23,7 +23,7 @@ export const columnDefinitions = [
     sortable: false,
     label: t('in-synthetics:dashboard.locationList.locationLabel'),
     getContent(item: LocationListItem) {
-      const locationDescription: string = item.description ?? t('in-synthetics:dashboard.locationList.noDescription');
+      const locationDescription: string = item.description ?? t('in-synthetics:dashboard.locationList.notAvailable');
       return (
         <HorizontalFlexWrapper>
           <SvgIcon type={'lib_synthetic_location'} />
