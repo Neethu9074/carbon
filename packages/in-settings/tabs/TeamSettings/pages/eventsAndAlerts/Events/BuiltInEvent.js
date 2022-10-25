@@ -10,7 +10,7 @@ import { combineLatest } from '@instana/observables';
 import {
   createCustomThresholdBasedEventSpecification,
   getBuiltinEventActions,
-  saveBuiltinEventSpecificationWithActions
+  updateActionsAssignedToBuiltInEvent
 } from 'in-api/eventSpecifications';
 import { createBuiltinEventFormDefinition } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/BuiltinEventFormContent';
 import ActionsSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ActionsSelection';
@@ -68,7 +68,7 @@ export default function BuiltinEvent(props) {
   function save(form) {
     const actionIds = form.get('actionIds')?.value ?? [];
     const actions = actionIds.length > 0 ? actionIds.map(value => ({ id: value })) : [];
-    return saveBuiltinEventSpecificationWithActions(actions, entityId);
+    return updateActionsAssignedToBuiltInEvent(actions, entityId);
   }
 
   return (
