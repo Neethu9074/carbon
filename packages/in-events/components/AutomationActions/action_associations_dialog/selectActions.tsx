@@ -145,7 +145,7 @@ function SelectListDialogContentView({
                       isVisible: false
                     })
                   }
-                  secondaryActionText={t('in-event:cancelButton')}
+                  secondaryActionText={t('in-events:cancelButton')}
                   renderCustomSaveAction={() => (
                     <SaveButton type="submit" kind="create" disabled={!numberOfItems}>
                       {numberOfItems
