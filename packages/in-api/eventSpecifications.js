@@ -243,7 +243,7 @@ export function getCustomEventSpecificationWithActions(eventSpecificationId) {
   }).map(response => fromJS(response.body));
 }
 
-export function saveBuiltinEventSpecificationWithActions(actions, eventId) {
+export function updateActionsAssignedToBuiltInEvent(actions, eventId) {
   return http({
     method: 'PUT',
     maxRetries: 3,

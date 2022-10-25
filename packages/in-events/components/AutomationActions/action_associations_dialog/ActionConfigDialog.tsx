@@ -33,12 +33,7 @@ interface ActionConfigDialogProps {
 }
 
 export default function ActionConfigDialog(props: ActionConfigDialogProps) {
-  return <ActionConfigDialogWithQueryValidation {...props} />;
-}
-
-const ACTION_ASSOCIATION_FORM_ID = 'action-association-editor';
-
-function ActionConfigDialogWithQueryValidation(props: ActionConfigDialogProps) {
+  const ACTION_ASSOCIATION_FORM_ID = 'action-association-editor';
   const { form, setForm, withTrackCreate, withTrackClose, isSaving } = props;
 
   const { step, backOrCancel, handleSubmit } = useSimpleModePageNavigation({

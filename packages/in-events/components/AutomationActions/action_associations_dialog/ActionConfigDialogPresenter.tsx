@@ -8,7 +8,10 @@ import React, { useState, ReactNode } from 'react';
 import { MapForm } from 'formalistic';
 import classNames from 'classnames';
 
-import { MessageType } from 'in-events/components/AutomationActions/action_associations_dialog/SharedTypes';
+import {
+  MessageType,
+  SetSliderStateProps
+} from 'in-events/components/AutomationActions/action_associations_dialog/SharedTypes';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import { emptyObject } from 'in-services/fixedObjects';
 import { Action } from 'in-types';
@@ -26,13 +29,7 @@ interface SimpleModeElementProps {
   stepRenderers: ((props: any) => JSX.Element)[];
   onCreate: () => void;
   onClose: () => void;
-  setSliderState: ({
-    slideInConfig,
-    isVisible
-  }: {
-    slideInConfig: { component?: ReactNode; title?: string };
-    isVisible: boolean;
-  }) => void;
+  setSliderState: ({ slideInConfig, isVisible }: SetSliderStateProps) => void;
   setCustomSlideInHeaderConfig: React.Dispatch<
     React.SetStateAction<{
       title: null;
@@ -73,13 +70,7 @@ export default function ActionConfigDialogPresenter(props: ActionConfigDialogPre
     onClose: null
   });
 
-  const setSliderState = ({
-    slideInConfig,
-    isVisible
-  }: {
-    slideInConfig: { component?: ReactNode; title?: string };
-    isVisible: boolean;
-  }) => {
+  const setSliderState = ({ slideInConfig, isVisible }: SetSliderStateProps) => {
     if (slideInConfig) {
       setSlideInConfig(slideInConfig);
     }

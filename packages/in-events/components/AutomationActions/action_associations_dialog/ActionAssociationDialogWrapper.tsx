@@ -12,7 +12,7 @@ import { Error } from '@instana/components/types/util/dataRetrieval';
 import { createLogger } from '@instana/logger';
 
 import {
-  saveBuiltinEventSpecificationWithActions,
+  updateActionsAssignedToBuiltInEvent,
   saveCustomEventSpecificationWithActions,
   getCustomEventSpecificationWithActions
 } from 'in-api/eventSpecifications';
@@ -23,7 +23,9 @@ import { close } from 'in-components/DialogPresenter/store';
 import { Action } from 'in-types';
 import { t } from 'in-i18n';
 
-const logger = createLogger('in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialog');
+const logger = createLogger(
+  'in-events/components/AutomationActions/action_associations_dialog/ActionAssociationDialogWrapper'
+);
 
 interface ActionAssociationDialogWrapperProps {
   eventId?: string;
@@ -125,7 +127,7 @@ function createOrSaveAction({ form, setForm, isCustom, eventId, setIsSaving, set
       }
     );
   } else {
-    saveBuiltinEventSpecificationWithActions(actions, eventId).once(
+    updateActionsAssignedToBuiltInEvent(actions, eventId).once(
       () => {
         close();
         window.location.reload();
