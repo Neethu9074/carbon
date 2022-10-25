@@ -51,6 +51,8 @@ export default function Summary({ timeConfig, data: statefulSet }: any) {
   const clusterTag = kubernetesClusterTagEquals(statefulSet.clusterId);
   const nsTag = kubernetesNamespaceTagEquals(statefulSet.namespace);
   const workloadTag = tagEquals('kubernetes.statefulset.name', statefulSet.name);
+  const runningPod = tagEquals('kubernetes.pod.phase', 'Running');
+  const tagFilterExpressionRunningPod = toBackendQueryModel(andQuery(clusterTag, nsTag, runningPod));
   const tagFilterExpression = toBackendQueryModel(andQuery(clusterTag, nsTag, workloadTag));
 
   const type = plugins.kubernetesStatefulSet;
@@ -63,11 +65,33 @@ export default function Summary({ timeConfig, data: statefulSet }: any) {
     timeConfig,
     timeShift
   };
-  const defaultBigNumberMetricConfig = {
+
+  const isPodMetric = {
+    type: plugins.kubernetesPod,
+    crossSeriesAggregation: 'SUM' as AggregationType
+  };
+  const isPodCountMetric = {
+    type: plugins.kubernetesPod,
+    crossSeriesAggregation: 'DISTINCT_COUNT' as AggregationType
+  };
+  // const defaultBigNumberMetricConfig = {
+  //   ...defaultConfig,
+  //   resultType: 'SINGLE_NUMBER' as ResultType
+  // };
+
+  const runningPodBigNumberMetricConfig = {
     ...defaultConfig,
+    ...isPodMetric,
+    tagFilterExpression: tagFilterExpressionRunningPod,
     resultType: 'SINGLE_NUMBER' as ResultType
   };
 
+  const runningPodCountBigNumberMetricConfig = {
+    ...defaultConfig,
+    ...isPodCountMetric,
+    tagFilterExpression: tagFilterExpressionRunningPod,
+    resultType: 'SINGLE_NUMBER' as ResultType
+  };
   const defaultChartMetricConfig = {
     ...defaultConfig,
     granularity: getChartGranularity(timeConfig)
@@ -95,8 +119,8 @@ export default function Summary({ timeConfig, data: statefulSet }: any) {
             formatter={resourceQuotaNumber}
             config={{
               metricConfiguration: {
-                metric: 'pods.required_cpu',
-                ...defaultBigNumberMetricConfig
+                metric: 'cpuRequests',
+                ...runningPodBigNumberMetricConfig
               },
               ...comparisonColors
             }}
@@ -109,8 +133,8 @@ export default function Summary({ timeConfig, data: statefulSet }: any) {
             formatter={resourceQuotaNumber}
             config={{
               metricConfiguration: {
-                metric: 'pods.limit_cpu',
-                ...defaultBigNumberMetricConfig
+                metric: 'cpuLimits',
+                ...runningPodBigNumberMetricConfig
               },
               ...comparisonColors
             }}
@@ -123,8 +147,8 @@ export default function Summary({ timeConfig, data: statefulSet }: any) {
             formatter={resourceQuotaBytes}
             config={{
               metricConfiguration: {
-                metric: 'pods.required_mem',
-                ...defaultBigNumberMetricConfig
+                metric: 'memoryRequests',
+                ...runningPodBigNumberMetricConfig
               },
               ...comparisonColors
             }}
@@ -137,8 +161,8 @@ export default function Summary({ timeConfig, data: statefulSet }: any) {
             formatter={resourceQuotaBytes}
             config={{
               metricConfiguration: {
-                metric: 'pods.limit_mem',
-                ...defaultBigNumberMetricConfig
+                metric: 'memoryLimits',
+                ...runningPodBigNumberMetricConfig
               },
               ...comparisonColors
             }}
@@ -152,7 +176,7 @@ export default function Summary({ timeConfig, data: statefulSet }: any) {
             config={{
               metricConfiguration: {
                 metric: 'pods.count',
-                ...defaultBigNumberMetricConfig
+                ...runningPodCountBigNumberMetricConfig
               },
               ...comparisonColors
             }}
