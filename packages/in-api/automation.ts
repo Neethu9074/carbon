@@ -132,7 +132,7 @@ export function createAction(
 export function runScriptAction(script: string, volatileId: VolatileId, event: Event | null, actionName: string) {
   return combineLatest(
     [
-      timeout(5000).flatMap(() =>
+      timeout(10000).flatMap(() =>
         just(
           error<null>([
             {
@@ -153,7 +153,8 @@ export function runScriptAction(script: string, volatileId: VolatileId, event: E
           event: JSON.stringify(event),
           problemId: event?.problem?.id,
           problemText: event?.problem?.problemText,
-          actionName
+          actionName,
+          timeout: '300'
         }
       })
     ],
