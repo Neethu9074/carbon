@@ -15,7 +15,7 @@ import EntityLink from 'in-components/EntityLink/EntityLink';
 import { t } from 'in-i18n';
 
 export default function EntityList({ retrievalSize = 20, backendQueryModel, timeConfig, order, type }) {
-  const { items, errors, progress, totalHits } = useCursorPagination(
+  const { items, errors, progress } = useCursorPagination(
     ({ cursor }) => getTableData({ timeConfig, retrievalSize, backendQueryModel, order, type, cursor }),
     [timeConfig, retrievalSize, backendQueryModel, type, order]
   );
@@ -23,7 +23,7 @@ export default function EntityList({ retrievalSize = 20, backendQueryModel, time
   const hasErrors = errors?.length > 0;
   const isLoading = progress?.loading;
 
-  const [data, setResultData] = useState(createResultData(items));
+  const [result, setResultData] = useState(createResultData(items));
   const [orderDir, setOrderDirection] = useState('ASC');
   const [orderByCol, setOrderByColumn] = useState('label');
 
@@ -31,7 +31,7 @@ export default function EntityList({ retrievalSize = 20, backendQueryModel, time
     setResultData(createResultData(items));
   };
 
-  if (!isLoading && (data.progress === undefined || data.progress?.loading === true)) {
+  if (!isLoading && (result.progress === undefined || result.progress?.loading === true)) {
     onChangeItems(items);
   }
 
@@ -88,12 +88,18 @@ export default function EntityList({ retrievalSize = 20, backendQueryModel, time
       <ServerTablePresenter
         orderBy={orderByCol}
         orderDirection={orderDir}
-        result={data}
+        result={result}
         columnDefinitions={columnDefinitions}
         onChange={({ query, orderBy, orderDirection }) => {
           if (query !== undefined) {
             //search
-            onChangeItems(items.filter(item => item.tags.type.toLowerCase().includes(query?.toLowerCase())));
+            onChangeItems(
+              items.filter(item =>
+                getGroupTagValue(item, 'type')
+                  .toLowerCase()
+                  .includes(query?.toLowerCase())
+              )
+            );
           } else {
             //sort
             const sortedItems = sortItems(items, orderBy, orderDirection);
@@ -106,7 +112,7 @@ export default function EntityList({ retrievalSize = 20, backendQueryModel, time
         searchPlaceholder={t('in-infrastructure:explore.search')}
         leftHeader={
           <Header
-            totalRetainedItemCount={totalHits}
+            totalRetainedItemCount={result?.data?.items?.length}
             hasErrors={hasErrors}
             isLoading={isLoading}
             dataSource="entityType"
