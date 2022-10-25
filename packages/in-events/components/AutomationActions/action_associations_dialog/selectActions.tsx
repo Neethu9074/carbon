@@ -145,7 +145,7 @@ function SelectListDialogContentView({
                       isVisible: false
                     })
                   }
-                  secondaryActionText={t('in-alerting:smartAlerts.components.smartAlertDialog.cancelTitle')}
+                  secondaryActionText={t('in-event:cancelButton')}
                   renderCustomSaveAction={() => (
                     <SaveButton type="submit" kind="create" disabled={!numberOfItems}>
                       {numberOfItems

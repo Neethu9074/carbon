@@ -20,6 +20,7 @@
   "whatAreActionAssociationsText": "Actions can be associated with built-in or custom event types and can be run or launched from the occurrence of an event.",
   "actionsAssociationsNote":"Note that action associations are saved with the definition of the event.",
   "saveButton": "Save",
+  "cancelButton":"Cancel",
   "yes": "Yes",
   "ok": "Ok",
   "targetAgent": "Target Agent",
