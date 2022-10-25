@@ -8,7 +8,6 @@ import React, { Fragment, SetStateAction } from 'react';
 import { Field, MapForm } from 'formalistic';
 
 import { Button } from '@instana/components';
-import { Action } from '@instana/types';
 
 import {
   DOC_LINK_TYPE,
@@ -35,6 +34,7 @@ import Code from 'in-components/form/Code/Code';
 import Select from 'in-components/form/Select';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
+import { Action } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './ActionForm.mless';
