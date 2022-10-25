@@ -7,6 +7,9 @@
 import React, { Fragment, SetStateAction } from 'react';
 import { Field, MapForm } from 'formalistic';
 
+import { Button } from '@instana/components';
+import { Action } from '@instana/types';
+
 import {
   DOC_LINK_TYPE,
   isDocLink,
@@ -19,6 +22,8 @@ import {
   putScriptField
 } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionFormDefinition';
 import TagsWrapper from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/TagsWrapper';
+import RunAction from 'in-events/components/AutomationActions/RunAction';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import HelpText from 'in-components/form/HelpText/HelpText';
@@ -164,6 +169,20 @@ export default function ActionForm({ form, setForm, onChange, entity: action }: 
                     <HelpText className={locals.subTextFormField}>{t('in-settings:tabs.scriptDescription')}</HelpText>
                   </FormGroup>
                 ))}
+                <Button
+                  onClick={() =>
+                    addActiveDialog(
+                      <RunAction
+                        action={{ name: name.value, description: description.value } as Action}
+                        script={btoa(script.value)}
+                        volatileId={{}}
+                        event={null}
+                      />
+                    )
+                  }
+                >
+                  Test
+                </Button>
               </Fragment>
             )}
           </Fragment>
