@@ -14,7 +14,7 @@ import {
 } from 'in-events/components/AutomationActions/action_associations_dialog/SharedTypes';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import { emptyObject } from 'in-services/fixedObjects';
-import { Action } from 'in-types';
+import { Action, Event } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './ActionConfigDialogPresenter.mless';
@@ -40,6 +40,7 @@ interface SimpleModeElementProps {
 
 interface ActionConfigDialogPresenterProps {
   actions: Action[];
+  event: Event;
   withTrackClose: () => void;
   applicationLabel: string;
   messages: MessageType[];

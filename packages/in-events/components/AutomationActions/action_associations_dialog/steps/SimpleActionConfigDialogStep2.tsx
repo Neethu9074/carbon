@@ -9,13 +9,14 @@ import { MapForm } from 'formalistic';
 
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import SelectActions from 'in-events/components/AutomationActions/action_associations_dialog/selectActions';
-import { Action } from 'in-types';
+import { Action, Event } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './SimpleActionConfigDialogStep2.mless';
 
 interface SelectActionsProps {
   actions?: Action[];
+  event: Event;
   setSliderState: (component: ReactNode) => void;
   setCustomSlideInHeaderConfig: React.Dispatch<
     React.SetStateAction<{

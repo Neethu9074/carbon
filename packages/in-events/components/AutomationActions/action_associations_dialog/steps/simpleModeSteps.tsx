@@ -11,11 +11,12 @@ import React from 'react';
 import SimpleActionConfigDialogStep1 from 'in-events/components/AutomationActions/action_associations_dialog/steps/SimpleActionConfigDialogStep1';
 import SimpleActionConfigDialogStep2 from 'in-events/components/AutomationActions/action_associations_dialog/steps/SimpleActionConfigDialogStep2';
 import { blueprintConfig } from 'in-events/components/AutomationActions/action_associations_dialog/steps/simpleModeBluePrints';
-import { Action } from 'in-types';
+import { Action, Event } from 'in-types';
 import { t } from 'in-i18n';
 
 interface SelectActionsParentProps {
   actions?: Action[];
+  event: Event;
   slideInConfig: { component?: ReactNode; title?: string };
   setCustomSlideInHeaderConfig: React.Dispatch<
     React.SetStateAction<{

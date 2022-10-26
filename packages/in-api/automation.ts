@@ -33,8 +33,8 @@ export interface ScoredAction extends Action {
 }
 
 export function getAllActionsWithAISuggestions(
-  eventName: string,
-  eventDescription: string
+  eventName: string | undefined,
+  eventDescription: string | undefined
 ): Observable<ScoredAction[]> {
   return http<ActionMatch[]>({
     method: 'POST',

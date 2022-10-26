@@ -22,7 +22,7 @@ interface Props {
 }
 
 interface RightHeaderProps {
-  eventId: string;
+  event: Event;
   actions: Action[];
   isCustom: boolean;
 }
@@ -41,23 +41,24 @@ export default function AssociatedActions({ event, volatileId }: Props) {
         showExecuteColumn
         showActionLink
         event={event}
-        rightHeader={<RightHeader eventId={eventSpecificationId} actions={actions} isCustom={isCustom} />}
+        rightHeader={<RightHeader event={event} actions={actions} isCustom={isCustom} />}
         volatileId={volatileId}
         loadEntities={() => observable(eventSpecificationId)}
+        scored
       />
     </div>
   );
 }
 
 export const RightHeader = (props: RightHeaderProps) => {
-  const { eventId, actions, isCustom } = props;
+  const { event, actions, isCustom } = props;
   return (
     <Button
       kind="action"
       icon="lib_openclose_add_circle_outline"
       onClick={() => {
         addActiveDialog(
-          <ActionAssociationDialogWrapper eventId={eventId} actions={actions} isCustom={isCustom} onClose={close} />
+          <ActionAssociationDialogWrapper event={event} actions={actions} isCustom={isCustom} onClose={close} />
         );
       }}
     >

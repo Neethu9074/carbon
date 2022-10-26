@@ -16,11 +16,11 @@ import SelectListDialogContent from 'in-settings/tabs/TeamSettings/components/Se
 import ActionTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionTable';
 import SlideInView, { NoHeader } from 'in-components/SlideInView/SlideInView';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
+import { getAllActionsWithAISuggestions } from 'in-api/automation';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import SaveButton from 'in-components/form/SaveButton';
-import { getAllActions } from 'in-api/automation';
-import { Action } from 'in-types';
+import { Action, Event } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './selectActions.mless';
@@ -36,6 +36,7 @@ interface SelectActionsProps {
   form: MapForm;
   setForm: React.Dispatch<React.SetStateAction<MapForm>>;
   numberOfActionChannelListRows: number;
+  event: Event;
 }
 
 interface SelectListDialogContentViewProps {
@@ -56,14 +57,17 @@ export default function SelectActions({
   setForm,
   setSliderState,
   setCustomSlideInHeaderConfig,
+  event,
   numberOfActionChannelListRows = 5
 }: SelectActionsProps) {
   const selectedActions = (form.get('actionIds') as Field<string[]>)?.value ?? [];
+  const eventName: string | undefined = event?.problem?.problemText;
+  const eventDescription: string | undefined = event?.problem?.fixSuggestion;
   const getSelectedActionsForEvent = (selectedActions: string[]) => {
     if (selectedActions.length === 0) {
       return (alwaysEmptyArray as unknown) as Observable<Action[]>;
     }
-    return getAllActions().map(action =>
+    return getAllActionsWithAISuggestions(eventName, eventDescription).map(action =>
       filter(action, function(app: Action) {
         return selectedActions.indexOf(app.id) >= 0;
       })
@@ -111,6 +115,7 @@ export default function SelectActions({
             {t('in-events:addActions')}
           </Button>
         }
+        scored
       />
       <TouchedMessages field={form.get('actionIds')} />
     </>
@@ -133,7 +138,6 @@ function SelectListDialogContentView({
           <SelectListDialogContent
             listComponent={ActionTable}
             hiddenIds={(form.get('actionIds') as Field<string[]>).value}
-            limit={100}
             onSubmit={onSubmit}
             requiresAtLeastOneMessage={t('in-settings:tabs.pleaseSelectAtLeastOneAction')}
             renderCustomFormActions={(numberOfItems: number) => {

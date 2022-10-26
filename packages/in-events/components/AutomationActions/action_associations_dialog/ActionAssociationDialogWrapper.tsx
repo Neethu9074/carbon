@@ -20,7 +20,7 @@ import ActionConfigDialog from 'in-events/components/AutomationActions/action_as
 import { addActionForm } from 'in-events/components/AutomationActions/action_associations_dialog/addActionForm';
 import { MessageType } from 'in-events/components/AutomationActions/action_associations_dialog/SharedTypes';
 import { close } from 'in-components/DialogPresenter/store';
-import { Action } from 'in-types';
+import { Event, Action } from 'in-types';
 import { t } from 'in-i18n';
 
 const logger = createLogger(
@@ -28,7 +28,7 @@ const logger = createLogger(
 );
 
 interface ActionAssociationDialogWrapperProps {
-  eventId?: string;
+  event: Event;
   actions: Action[];
   isCustom: boolean;
   onClose: () => void;
@@ -45,7 +45,7 @@ interface CreateOrSaveActionProps {
 }
 
 export default function ActionAssociationDialogWrapper({
-  eventId,
+  event,
   actions,
   isCustom,
   onClose
@@ -53,7 +53,7 @@ export default function ActionAssociationDialogWrapper({
   const [form, setForm] = useState(addActionForm(actions));
   const [isSaving, setIsSaving] = useState(false);
   const [messages, setMessages] = useState<MessageType[]>([]);
-
+  const eventId: string = event?.metadata?.eventSpecificationId;
   const withTrackCreate = () => {
     createOrSaveAction({
       form,
@@ -75,6 +75,7 @@ export default function ActionAssociationDialogWrapper({
       withTrackCreate={withTrackCreate}
       isSaving={isSaving}
       actions={actions}
+      event={event}
       messages={messages}
       setMessages={setMessages}
     />
