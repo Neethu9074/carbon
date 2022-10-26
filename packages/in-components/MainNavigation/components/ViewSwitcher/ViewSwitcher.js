@@ -9,6 +9,20 @@ import React from 'react';
 import { Spacer } from '@instana/components';
 
 import {
+  hasApplicationsAccess,
+  hasWebsitesAccess,
+  hasKubernetesAccess,
+  hasAnalyzeAccess,
+  hasMobileAppsAccess,
+  hasInfrastructureAccess,
+  hasSyntheticsAccess,
+  hasVSphereAccess,
+  hasPHMCAccess,
+  hasZHMCAccess,
+  hasPCFAccess,
+  hasOpenStackAccess
+} from 'in-stores/permission';
+import {
   pcfEnabled,
   phmcEnabled,
   vsphereEnabled,
@@ -28,13 +42,6 @@ import {
   getLinkToAnalyze as getLinkToWebsiteAnalyze,
   isAnalyzeView as isWebsiteAnalyzeView
 } from 'in-websites/navigation/paths';
-import {
-  hasApplicationsAccess,
-  hasWebsitesAccess,
-  hasKubernetesAccess,
-  hasAnalyzeAccess,
-  hasMobileAppsAccess
-} from 'in-stores/permission';
 import {
   applicationsList,
   getLinkToAnalyze as getLinkToApplicationsAnalyze,
@@ -275,6 +282,9 @@ function SignOut() {
 }
 
 function Infrastructure(props) {
+  if (!hasInfrastructureAccess) {
+    return null;
+  }
   return (
     <View
       id="main-nav-infrastructure"
@@ -288,7 +298,9 @@ function Infrastructure(props) {
 }
 
 function Synthetics(props) {
-  if (!syntheticsTestEnabled) return null;
+  if (!syntheticsTestEnabled || !hasSyntheticsAccess) {
+    return null;
+  }
   return (
     <View
       id="main-nav-synthetics"
@@ -415,12 +427,12 @@ function Platforms(props) {
   const { expandedSubMenu, setExpandedSubMenu, sidebarIsExpanded, onMouseEnter, onMouseLeave } = props;
 
   let numPlatformsAvailable = 0;
-  if (openstackEnabled) numPlatformsAvailable++;
-  if (pcfEnabled) numPlatformsAvailable++;
-  if (phmcEnabled) numPlatformsAvailable++;
-  if (zhmcEnabled) numPlatformsAvailable++;
+  if (openstackEnabled && hasOpenStackAccess) numPlatformsAvailable++;
+  if (pcfEnabled && hasPCFAccess) numPlatformsAvailable++;
+  if (phmcEnabled && hasPHMCAccess) numPlatformsAvailable++;
+  if (zhmcEnabled && hasZHMCAccess) numPlatformsAvailable++;
   if (hasKubernetesAccess) numPlatformsAvailable++;
-  if (vsphereEnabled) numPlatformsAvailable++;
+  if (vsphereEnabled && hasVSphereAccess) numPlatformsAvailable++;
   if (numPlatformsAvailable === 0) {
     return null;
   }
@@ -429,7 +441,7 @@ function Platforms(props) {
   const platforms = (
     <>
       {/* Keep the list of platforms sorted alphabetically */}
-      {pcfEnabled && (
+      {pcfEnabled && hasPCFAccess && (
         <ViewItemForPlatforms
           id="main-nav-cloudfoundry"
           label={t('in-components:mainNavigation.viewSwitcherLabelCloudFoundry')}
@@ -439,7 +451,7 @@ function Platforms(props) {
           {...props}
         />
       )}
-      {openstackEnabled && (
+      {openstackEnabled && hasOpenStackAccess && (
         <ViewItemForPlatforms
           id="main-nav-openstack"
           label={t('in-components:mainNavigation.viewSwitcherLabelOpenstack')}
@@ -449,7 +461,7 @@ function Platforms(props) {
           {...props}
         />
       )}
-      {phmcEnabled && (
+      {phmcEnabled && hasPHMCAccess && (
         <ViewItemForPlatforms
           id="main-nav-phmc"
           label={t('in-components:mainNavigation.viewSwitcherLabelphmc')}
@@ -459,7 +471,7 @@ function Platforms(props) {
           {...props}
         />
       )}
-      {zhmcEnabled && (
+      {zhmcEnabled && hasZHMCAccess && (
         <ViewItemForPlatforms
           id="main-nav-zhmc"
           label={t('in-components:mainNavigation.viewSwitcherLabelzhmc')}
@@ -479,7 +491,7 @@ function Platforms(props) {
           {...props}
         />
       )}
-      {vsphereEnabled && (
+      {vsphereEnabled && hasVSphereAccess && (
         <ViewItemForPlatforms
           id="main-nav-vsphere"
           label={t('in-components:mainNavigation.viewSwitcherLabelvSphere')}

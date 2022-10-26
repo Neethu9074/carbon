@@ -5,17 +5,17 @@
 
 import SyntheticsList from 'in-applications/Dashboards/application/tabs/SyntheticsMonitoring/SyntheticsList';
 import ReadOnlyConfiguration from 'in-applications/Dashboards/application/tabs/ReadOnlyConfiguration';
+import { applicationSmartAlertsEnabled, syntheticsTestEnabled } from 'in-services/featureFlags';
 import ErrorMessagesTab from 'in-applications/Dashboards/commonTabs/messages/ErrorMessages';
 import LogMessagesTab from 'in-applications/Dashboards/commonTabs/messages/LogMessages';
 import Configuration from 'in-applications/Dashboards/application/tabs/Configuration';
 import InfrastructureTab from 'in-applications/Dashboards/commonTabs/Infrastructure';
+import { hasInfrastructureAccess, hasSyntheticsAccess } from 'in-stores/permission';
 import Summary from 'in-applications/Dashboards/application/tabs/Summary/Summary';
 import Services from 'in-applications/Dashboards/application/tabs/Services';
-import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import Alerts from 'in-applications/Dashboards/application/tabs/Alerts';
 import { applicationDashboard } from 'in-applications/navigation/paths';
 import Map from 'in-applications/Dashboards/application/tabs/Map';
-import { syntheticsTestEnabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -48,16 +48,17 @@ export default [
     path: `${applicationDashboard}/logMessages`,
     component: LogMessagesTab
   },
-  {
+  hasInfrastructureAccess && {
     label: t('in-applications:labelInfrastructure'),
     path: `${applicationDashboard}/infrastructure`,
     component: InfrastructureTab
   },
-  syntheticsTestEnabled && {
-    label: t('in-synthetics:dashboard.testList.mainLabel'),
-    path: `${applicationDashboard}/synthetics`,
-    component: SyntheticsList
-  },
+  syntheticsTestEnabled &&
+    hasSyntheticsAccess && {
+      label: t('in-synthetics:dashboard.testList.mainLabel'),
+      path: `${applicationDashboard}/synthetics`,
+      component: SyntheticsList
+    },
   applicationSmartAlertsEnabled && {
     label: t('in-applications:labelSmartAlerts'),
     path: `${applicationDashboard}/alerts`,
