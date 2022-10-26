@@ -6,7 +6,7 @@
   "permissionAccessInfrastructureLabel": "Infrastrcuture",
   "permissionAccessSyntheticsLabel": "Synthetics",
   "permissionAccessVSphereLabel": "vSphere",
-  "permissionAccessPHMCLabel": "IBM P",
+  "permissionAccessPHMCLabel": "IBM Power",
   "permissionAccessZHMCLabel": "IBM Z",
   "permissionAccessPCFLabel": "Cloud Foundry",
   "permissionAccessOpenStackLabel": "OpenStack",
