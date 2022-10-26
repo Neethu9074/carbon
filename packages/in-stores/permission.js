@@ -57,13 +57,8 @@ export const productRestrictions = getProductRestrictions();
 
 export const apiTokenPermissions = getProductPermissions().filter(permission => permission.keyForApiTokenApi != '');
 
-/**
- *
-  if (
- */
-
 function getProductAreaPermissions() {
-  const productAreaPermissions = [
+  const areaPermissions = [
     { value: ACCESS_WEBSITES, label: t('in-stores:permissionAccessWebsitesLabel') },
     { value: ACCESS_MOBILE_APPS, label: t('in-stores:permissionAccessMobileAppsLabel') },
     { value: ACCESS_APPLICATIONS, label: t('in-stores:permissionAccessApplicationsLabel') },
@@ -71,27 +66,27 @@ function getProductAreaPermissions() {
     { value: ACCESS_INFRASTRUCTURE, label: t('in-stores:permissionAccessInfrastructureLabel') }
   ];
   if (openstackEnabled) {
-    productAreaPermissions.push({ value: ACCESS_OPENSTACK, label: t('in-stores:permissionAccessOpenStackLabel') });
+    areaPermissions.push({ value: ACCESS_OPENSTACK, label: t('in-stores:permissionAccessOpenStackLabel') });
   }
   if (pcfEnabled) {
-    productAreaPermissions.push({ value: ACCESS_PCF, label: t('in-stores:permissionAccessPCFLabel') });
+    areaPermissions.push({ value: ACCESS_PCF, label: t('in-stores:permissionAccessPCFLabel') });
   }
   if (phmcEnabled) {
-    productAreaPermissions.push({ value: ACCESS_PHMC, label: t('in-stores:permissionAccessPHMCLabel') });
+    areaPermissions.push({ value: ACCESS_PHMC, label: t('in-stores:permissionAccessPHMCLabel') });
   }
 
   if (zhmcEnabled) {
-    productAreaPermissions.push({ value: ACCESS_ZHMC, label: t('in-stores:permissionAccessZHMCLabel') });
+    areaPermissions.push({ value: ACCESS_ZHMC, label: t('in-stores:permissionAccessZHMCLabel') });
   }
 
   if (vsphereEnabled) {
-    productAreaPermissions.push({ value: ACCESS_VSPHERE, label: t('in-stores:permissionAccessVSphereLabel') });
+    areaPermissions.push({ value: ACCESS_VSPHERE, label: t('in-stores:permissionAccessVSphereLabel') });
   }
 
   if (syntheticsTestEnabled) {
-    productAreaPermissions.push({ value: ACCESS_SYNTHETICS, label: t('in-stores:permissionAccessSyntheticsLabel') });
+    areaPermissions.push({ value: ACCESS_SYNTHETICS, label: t('in-stores:permissionAccessSyntheticsLabel') });
   }
-  return productAreaPermissions;
+  return areaPermissions;
 }
 
 function getProductPermissions() {
