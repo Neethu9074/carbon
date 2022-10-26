@@ -3,7 +3,7 @@
   "permissionAccessMobileAppsLabel": "Mobile Apps",
   "permissionAccessApplicationsLabel": "Applications",
   "permissionAccessKubernetesLabel": "Kubernetes",
-  "permissionAccessInfrastructureLabel": "Infrastrcuture",
+  "permissionAccessInfrastructureLabel": "Infrastructure",
   "permissionAccessSyntheticsLabel": "Synthetics",
   "permissionAccessVSphereLabel": "vSphere",
   "permissionAccessPHMCLabel": "IBM Power",
