@@ -62,29 +62,29 @@ function getProductAreaPermissions() {
     { value: ACCESS_WEBSITES, label: t('in-stores:permissionAccessWebsitesLabel') },
     { value: ACCESS_MOBILE_APPS, label: t('in-stores:permissionAccessMobileAppsLabel') },
     { value: ACCESS_APPLICATIONS, label: t('in-stores:permissionAccessApplicationsLabel') },
-    { value: ACCESS_KUBERNETES, label: t('in-stores:permissionAccessKubernetesLabel') },
-    { value: ACCESS_INFRASTRUCTURE, label: t('in-stores:permissionAccessInfrastructureLabel') }
+    { value: ACCESS_INFRASTRUCTURE, label: t('in-stores:permissionAccessInfrastructureLabel')},
   ];
-  if (openstackEnabled) {
-    areaPermissions.push({ value: ACCESS_OPENSTACK, label: t('in-stores:permissionAccessOpenStackLabel') });
-  }
   if (pcfEnabled) {
-    areaPermissions.push({ value: ACCESS_PCF, label: t('in-stores:permissionAccessPCFLabel') });
+    areaPermissions.push({ value: ACCESS_PCF, label: t('in-stores:permissionAccessPCFLabel')});
+  }
+  if (openstackEnabled) {
+    areaPermissions.push({ value: ACCESS_OPENSTACK, label: t('in-stores:permissionAccessOpenStackLabel')});
   }
   if (phmcEnabled) {
-    areaPermissions.push({ value: ACCESS_PHMC, label: t('in-stores:permissionAccessPHMCLabel') });
+    areaPermissions.push({ value: ACCESS_PHMC, label: t('in-stores:permissionAccessPHMCLabel')});
+  }
+  if (zhmcEnabled) {
+    areaPermissions.push({ value: ACCESS_ZHMC, label: t('in-stores:permissionAccessZHMCLabel')});
   }
 
-  if (zhmcEnabled) {
-    areaPermissions.push({ value: ACCESS_ZHMC, label: t('in-stores:permissionAccessZHMCLabel') });
-  }
+  areaPermissions.push({ value: ACCESS_KUBERNETES, label: t('in-stores:permissionAccessKubernetesLabel')});
 
   if (vsphereEnabled) {
-    areaPermissions.push({ value: ACCESS_VSPHERE, label: t('in-stores:permissionAccessVSphereLabel') });
+    areaPermissions.push({ value: ACCESS_VSPHERE, label: t('in-stores:permissionAccessVSphereLabel')});
   }
 
   if (syntheticsTestEnabled) {
-    areaPermissions.push({ value: ACCESS_SYNTHETICS, label: t('in-stores:permissionAccessSyntheticsLabel') });
+    areaPermissions.push({ value: ACCESS_SYNTHETICS, label: t('in-stores:permissionAccessSyntheticsLabel')});
   }
   return areaPermissions;
 }
