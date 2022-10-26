@@ -25,6 +25,11 @@ export default [
     component: k8sTimeShiftEnabled ? Summary : SummaryWithoutTimeShift
   },
   {
+    label: 'SummaryWithoutTimeShift',
+    path: `${statefulSetDashboardFullyQualified}/summary2`,
+    component: k8sTimeShiftEnabled ? SummaryWithoutTimeShift : SummaryWithoutTimeShift
+  },
+  {
     label: t('in-kubernetes:dashboards.details'),
     path: `${statefulSetDashboardFullyQualified}/details`,
     component: Details

@@ -53,7 +53,7 @@ export default function Summary({ timeConfig, data: statefulSet }: any) {
   const workloadTag = tagEquals('kubernetes.statefulset.name', statefulSet.name);
   const runningPod = tagEquals('kubernetes.pod.phase', 'Running');
   const tagFilterExpressionRunningPod = toBackendQueryModel(andQuery(clusterTag, nsTag, runningPod));
-  const tagFilterExpression = toBackendQueryModel(andQuery(clusterTag, nsTag, workloadTag));
+  // const tagFilterExpression = toBackendQueryModel(andQuery(clusterTag, nsTag, workloadTag));
 
   const type = plugins.kubernetesStatefulSet;
 
@@ -61,7 +61,7 @@ export default function Summary({ timeConfig, data: statefulSet }: any) {
     source,
     type,
     aggregation: 'MEAN' as AggregationType,
-    tagFilterExpression,
+    tagFilterExpression: tagFilterExpressionRunningPod,
     timeConfig,
     timeShift
   };
@@ -193,20 +193,22 @@ export default function Summary({ timeConfig, data: statefulSet }: any) {
                 metric: 'cpu.total_usage',
                 label: t('in-kubernetes:dashboards.usage'),
                 color: usage,
-                ...defaultChartMetricConfig
-              },
-              {
-                metric: 'pods.required_cpu',
-                label: t('in-kubernetes:dashboards.requests'),
-                color: requests,
                 ...defaultChartMetricConfig,
                 ...isContainerMetric
               },
               {
-                metric: 'pods.limit_cpu',
+                metric: 'cpuRequests',
+                label: t('in-kubernetes:dashboards.requests'),
+                color: requests,
+                ...defaultChartMetricConfig,
+                ...isPodMetric
+              },
+              {
+                metric: 'cpuLimits',
                 label: t('in-kubernetes:dashboards.limits'),
                 color: limits,
-                ...defaultChartMetricConfig
+                ...defaultChartMetricConfig,
+                ...isPodMetric
               }
             ]}
             title={t('in-kubernetes:dashboards.cpuResources')}
@@ -225,20 +227,22 @@ export default function Summary({ timeConfig, data: statefulSet }: any) {
                 metric: 'memory.usage',
                 label: t('in-kubernetes:dashboards.usage'),
                 color: usage,
-                ...defaultChartMetricConfig
-              },
-              {
-                metric: 'pods.required_mem',
-                label: t('in-kubernetes:dashboards.requests'),
-                color: requests,
                 ...defaultChartMetricConfig,
                 ...isContainerMetric
               },
               {
-                metric: 'pods.limit_mem',
+                metric: 'memoryRequests',
+                label: t('in-kubernetes:dashboards.requests'),
+                color: requests,
+                ...defaultChartMetricConfig,
+                ...isPodMetric
+              },
+              {
+                metric: 'memoryLimits',
                 label: t('in-kubernetes:dashboards.limits'),
                 color: limits,
-                ...defaultChartMetricConfig
+                ...defaultChartMetricConfig,
+                ...isPodMetric
               }
             ]}
             title={t('in-kubernetes:dashboards.memoryResources')}
@@ -263,8 +267,7 @@ export default function Summary({ timeConfig, data: statefulSet }: any) {
                 metric: 'phase.Pending.count',
                 label: t('in-kubernetes:dashboards.pending'),
                 color: pending,
-                ...defaultChartMetricConfig,
-                ...isContainerMetric
+                ...defaultChartMetricConfig
               },
               {
                 metric: 'conditions.PodScheduled.False',
@@ -313,8 +316,7 @@ export default function Summary({ timeConfig, data: statefulSet }: any) {
                 metric: 'desiredReplicas',
                 label: t('in-kubernetes:dashboards.desired'),
                 color: desired,
-                ...defaultChartMetricConfig,
-                ...isContainerMetric
+                ...defaultChartMetricConfig
               },
               {
                 metric: 'unavailableReplicas',
