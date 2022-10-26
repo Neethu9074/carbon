@@ -8,6 +8,7 @@ import React from 'react';
 import { Card, HorizontalIndicator, LoadingSkeleton } from '@instana/components';
 
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
+import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import { TOPLIST_METRIC_CHANGED, track } from 'in-services/tracking/tracking';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import ButtonGroup from 'in-components/ButtonGroup';
@@ -60,8 +61,7 @@ export default function TopListCard(props) {
     content = <TopListSkeleton />;
     withoutPadding = true;
   } else if (result.errors.length > 0) {
-    const text = result.errors[0].message;
-    content = <NoDataAvailable text={text} height={height} />;
+    content = <QueryFailed errors={result.errors} />;
     withoutPadding = true;
   } else if ((result.data instanceof Array && result.data.length === 0) || result.data.totalHits === 0) {
     content = <NoDataAvailable height={height} />;
@@ -109,4 +109,26 @@ function TopListSkeleton() {
       <LoadingSkeleton className={locals.itemSkeleton} />
     </div>
   );
+}
+
+function QueryFailed({ errors }) {
+  const [error] = errors.map(e => {
+    const [status] = e.message.split(':');
+    return { code: e.code, status: status };
+  });
+  switch (error.code) {
+    case 'TIMEOUT':
+    case 'GATEWAY_TIMEOUT': {
+      error.message = t('in-components:analyzeView.queryProgress.timeout');
+      break;
+    }
+    case 'TOO_MANY_REQUESTS':
+      error.message = t('in-components:analyzeView.queryProgress.tooManyRequestsInfo');
+      break;
+    case 'SERVER':
+    default:
+      error.message = t('in-components:analyzeView.queryProgress.serverErrorInfo');
+  }
+
+  return <ErroneousResultPresenter errors={[error]} addBottomMargin />;
 }
