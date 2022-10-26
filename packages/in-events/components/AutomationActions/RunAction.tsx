@@ -114,6 +114,7 @@ export default function RunAction({ action, script, volatileId, event }: Props) 
         <SaveButton
           kind="primary"
           form={form}
+          disabled={!form}
           isSaving={isSaving}
           onClick={() => {
             if (!form?.hierarchyValid) {

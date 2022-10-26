@@ -871,7 +871,8 @@
     "confidence_medium": "Medium",
     "confidence_high": "High",
     "confidence": "{{context}}",
-    "confidenceTitle": "Confidence"
+    "confidenceTitle": "Confidence",
+    "test": "Test"
   },
   "languageSelection": {
     "language": "Language",

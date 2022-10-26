@@ -181,7 +181,7 @@ export default function ActionForm({ form, setForm, onChange, entity: action }: 
                     )
                   }
                 >
-                  Test
+                  {t('in-settings:tabs.test')}
                 </Button>
               </Fragment>
             )}

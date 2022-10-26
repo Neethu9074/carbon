@@ -18,6 +18,7 @@ import RunAction from 'in-events/components/AutomationActions/RunAction';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getAllActions, ScoredAction } from 'in-api/automation';
 import { formatDateTime } from 'in-services/formatters/date';
+import IconButton from 'in-components/IconButton/IconButton';
 import { Event, VolatileId } from 'in-types';
 import { Action } from 'in-types';
 import { t } from 'in-i18n';
@@ -94,6 +95,29 @@ const executeColumn = (volatileId: VolatileId, event: Event | null) => ({
   }
 });
 
+const testColumn = {
+  id: 'test',
+  label: '',
+  widthInAbsoluteUnit: true,
+  width: '4rem',
+  getContent(row: Action) {
+    const { type, fields } = row;
+    if (type === 'SCRIPT') {
+      const field = fields?.[1];
+      const value = field?.value ?? '';
+      return (
+        <IconButton
+          kind="primaryv2"
+          type={'lib_actions_play'}
+          onClick={() => addActiveDialog(<RunAction action={row} script={value} volatileId={{}} event={null} />)}
+        />
+      );
+    } else {
+      return <></>;
+    }
+  }
+};
+
 const nameColumn = (showActionLink: boolean) => ({
   label: t('in-settings:tabs.name'),
   id: 'name',
@@ -131,6 +155,7 @@ export interface ActionTableProps {
   event?: Event | null;
   showActionLink?: boolean | undefined;
   scored?: boolean | undefined;
+  showTestColumn?: boolean | undefined;
 }
 
 export default function ActionTable({
@@ -146,7 +171,8 @@ export default function ActionTable({
   volatileId = {},
   showActionLink = false,
   event = null,
-  scored = false
+  scored = false,
+  showTestColumn = false
 }: ActionTableProps) {
   let columnDefinitionsToShow = [nameColumn(showActionLink), ...columnDefinitions];
   if (showExecuteColumn) {
@@ -154,6 +180,10 @@ export default function ActionTable({
   }
   if (scored) {
     columnDefinitionsToShow = [...columnDefinitionsToShow, scoreColumn];
+  }
+
+  if (showTestColumn) {
+    columnDefinitionsToShow = [...columnDefinitionsToShow, testColumn];
   }
 
   return (

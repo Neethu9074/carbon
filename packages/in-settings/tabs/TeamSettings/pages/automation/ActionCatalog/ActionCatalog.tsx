@@ -28,6 +28,7 @@ export default function ActionCatalog() {
       rightHeader={rightHeader()}
       loadEntities={getAllActions}
       showActionLink
+      showTestColumn
     />
   );
 }
