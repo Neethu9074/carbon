@@ -107,7 +107,7 @@ export default function ActionForm({ form, setForm, onChange, entity: action }: 
                   onChange={e =>
                     onChange('type', e.target.value, (updatedForm: MapForm) => {
                       // WILL NEED TO UPDATE THIS FOR NEW TYPES
-                      const updatedType = updatedForm?.get('type')?.toJS();
+                      const updatedType = (updatedForm.get('type') as Field<string>).value;
                       if (isDocLink(updatedType)) {
                         updatedForm = updatedForm.remove('script');
                         updatedForm = putDocLinkFields(updatedForm, action);
@@ -131,7 +131,7 @@ export default function ActionForm({ form, setForm, onChange, entity: action }: 
             <FormGroup>
               <TagsWrapper form={form} setForm={setForm} onChange={onChange} />
             </FormGroup>
-            {isDocLink(form.get('type')?.toJS()) && (
+            {isDocLink(type.value) && (
               <Fragment>
                 {docLink.map(field => (
                   <FormGroup>
@@ -152,7 +152,7 @@ export default function ActionForm({ form, setForm, onChange, entity: action }: 
                 ))}
               </Fragment>
             )}
-            {isScript(form.get('type')?.toJS()) && (
+            {isScript(type.value) && (
               <Fragment>
                 {script.map(field => (
                   <FormGroup>
