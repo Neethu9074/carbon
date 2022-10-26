@@ -57,21 +57,21 @@ describe('in-alerting/smart-alerts/applications/chart/ChartEntitySelector/create
       const list = createOptionsList([apListWithOneEntry], [dummyId], false, isSelectServiceLevel, {});
 
       expect(list).toMatchInlineSnapshot(`
-              Array [
-                Object {
-                  "children": Array [
-                    Object {
-                      "appId": "0815",
-                      "icon": "lib_application_service",
-                      "id": "0815",
-                      "label": "testService",
-                      "type": "SERVICE",
-                    },
-                  ],
-                  "label": "Services:",
-                },
-              ]
-          `);
+        Array [
+          Object {
+            "children": Array [
+              Object {
+                "appId": "0815",
+                "icon": "lib_application_service",
+                "id": "0815",
+                "label": "testService",
+                "type": "SERVICE",
+              },
+            ],
+            "label": "Services:",
+          },
+        ]
+      `);
     });
   });
 
@@ -106,7 +106,6 @@ describe('in-alerting/smart-alerts/applications/chart/ChartEntitySelector/create
                 "icon": "lib_application_service",
                 "id": "0815",
                 "label": "testService",
-                "loadChildren": undefined,
                 "type": "SERVICE",
               },
             ],
@@ -115,6 +114,7 @@ describe('in-alerting/smart-alerts/applications/chart/ChartEntitySelector/create
         ]
       `);
     });
+
     it('should create list of services/endpoints when only one AP given - with one endpoint', () => {
       const apListWithOneEntry = {
         data: {

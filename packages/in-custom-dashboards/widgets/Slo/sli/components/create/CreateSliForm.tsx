@@ -3,39 +3,40 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React, { useEffect, useState } from 'react';
-import { Field, Item, MapForm } from 'formalistic';
+import { Item, MapForm } from 'formalistic';
+import React from 'react';
 
+import { Result, SliConfigurationWithLastUpdated } from '@instana/types';
 import { Message, Stack, Spacer } from '@instana/components';
-import { Observable } from '@instana/observables';
 
-import { trackSLICloned, trackSLIEditAbort, trackSliNewCreated } from 'in-custom-dashboards/widgets/Slo/tracker';
-import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
-import { SliEntityType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
-import { SliFormData } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
+import { toApplicationSliConfiguration, toWebsiteSliConfiguration } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
+import { sliSliEntityKey, sliSliNameKey, sliSliTypeKey } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
+import { useSloWidgetTrackers } from 'in-custom-dashboards/widgets/Slo/components/SloWidgetTrackerProvider';
+import { SLI_MANAGEMENT_CREATE_FINISH, SLI_MANAGEMENT_EDIT_FINISH } from 'in-services/tracking/eventNames';
+import { useCreateConfiguration } from 'in-custom-dashboards/widgets/Slo/sli/hooks/useCreateConfiguration';
+import useSetFormFooterEffect from 'in-custom-dashboards/widgets/Slo/sli/hooks/useSetFormFooterEffect';
+import { SliConfigBySliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
+import { createSliConfiguration } from 'in-custom-dashboards/widgets/Slo/sli/api';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { SliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
+import { getField } from 'in-custom-dashboards/widgets/Slo/form';
 import Form from 'in-components/form/binding/Form';
-import { SliEntitySliType } from 'in-types';
 import { t } from 'in-i18n';
 
-interface FormSubmitState {
-  success: boolean;
-  saving: boolean;
-  error: boolean;
-}
-
-interface CreateSliFormProps<SLI_TYPE extends SliEntitySliType> {
+interface CreateSliFormProps<SLI_TYPE extends SliType> {
+  entityType: SLI_TYPE;
   form: MapForm;
   updateForm: (updatedForm: MapForm) => void;
   setFooter: (footer: React.ReactNode) => void;
   close: () => void;
   children: React.ReactNode;
-  onSubmit: (submittedData: SliFormData<SLI_TYPE>) => Observable<unknown>;
   filterExpressionValid?: boolean;
   editMode?: boolean;
+  onSave: (config: SliConfigBySliType<SLI_TYPE>) => void;
 }
 
-export default function CreateSliForm<SLI_TYPE extends SliEntitySliType>({
+export default function CreateSliForm<SLI_TYPE extends SliType>({
+  entityType,
   form,
   updateForm,
   editMode = false,
@@ -43,37 +44,76 @@ export default function CreateSliForm<SLI_TYPE extends SliEntitySliType>({
   close,
   children,
   filterExpressionValid,
-  onSubmit
+  onSave
 }: CreateSliFormProps<SLI_TYPE>) {
-  const [formSubmitState, setFormSubmitState] = useState<FormSubmitState>({
-    success: false,
-    saving: false,
-    error: false
+  const [{ saving }, doSubmit] = useCreateConfiguration(createSliConfiguration);
+
+  useSetFormFooterEffect({
+    form,
+    formId: 'createSliForm',
+    isDisabled: !filterExpressionValid || !form.hierarchyTouched,
+    isSaving: saving,
+    cloneOnly: editMode,
+    onCancel: close,
+    setFooter
   });
-  const { saving } = formSubmitState;
-  useSetFooter({ form, filterExpressionValid, setFooter, close, saving, editMode });
 
-  const handleSubmit = (submittedForm: MapForm) => {
-    setFormSubmitState({
-      saving: true,
-      success: false,
-      error: false
-    });
+  const track = useSloWidgetTrackers();
 
-    const submittedFormData = submittedForm.toJS() as SliFormData<SLI_TYPE>;
-    onSubmit(submittedFormData).once(
-      onSaveSuccess(submittedFormData, editMode, setFormSubmitState, close),
-      onSaveFailure(submittedFormData, setFormSubmitState)
+  const sliName = getField(form, [sliSliNameKey])?.value ?? '';
+  const formType = getField(form, [sliSliEntityKey, sliSliTypeKey])?.value;
+
+  const trackSaveSuccess = (entityType: SliType, editMode: boolean): void => {
+    const event = editMode ? SLI_MANAGEMENT_EDIT_FINISH : SLI_MANAGEMENT_CREATE_FINISH;
+    track(event, { entityType });
+  };
+
+  const normalizeFormData = (submittedForm: Item) => {
+    const jsFormData = submittedForm.toJS();
+
+    if (formType === 'website') {
+      return toWebsiteSliConfiguration(jsFormData);
+    }
+
+    return toApplicationSliConfiguration(jsFormData);
+  };
+
+  const onSaveSuccess = (result: Result<SliConfigurationWithLastUpdated>) => {
+    addMessage(
+      {
+        type: 'info',
+        timeout: 4000,
+        title: t('in-custom-dashboards:widgets.slo.createSliForm.sliCreateSuccess'),
+        content: t('in-custom-dashboards:widgets.slo.createSliForm.sliCreated', {
+          sliName
+        })
+      },
+      'custom-dashboard-sli'
+    );
+    onSave(result.data as SliConfigBySliType<SLI_TYPE>);
+    trackSaveSuccess(entityType, editMode);
+    close();
+  };
+
+  const onSaveFailure = () => {
+    addMessage(
+      {
+        type: 'danger',
+        timeout: 4000,
+        title: t('in-custom-dashboards:widgets.slo.createSliForm.failCreateSli'),
+        content: t('in-custom-dashboards:widgets.slo.createSliForm.problemCreateSli', {
+          sliName
+        })
+      },
+      'custom-dashboard-error'
     );
   };
 
+  const handleSubmit = (submittedForm: Item) =>
+    doSubmit({ config: normalizeFormData(submittedForm), onSuccess: onSaveSuccess, onError: onSaveFailure });
+
   return (
-    <Form
-      form={form}
-      setForm={updateForm as (f: Item) => void}
-      onSubmit={handleSubmit as (f: Item) => void}
-      formId="createSliForm"
-    >
+    <Form form={form} setForm={updateForm as (f: Item) => void} onSubmit={handleSubmit} formId="createSliForm">
       <Stack gap="large">
         {children}
         {editMode && <Message>{t('in-custom-dashboards:widgets.slo.createSliForm.sliConfigMsg')}</Message>}
@@ -81,95 +121,4 @@ export default function CreateSliForm<SLI_TYPE extends SliEntitySliType>({
       </Stack>
     </Form>
   );
-}
-
-type UseSetFooterProps = Pick<
-  CreateSliFormProps<SliEntitySliType>,
-  'form' | 'filterExpressionValid' | 'setFooter' | 'close' | 'editMode'
-> & { saving: boolean };
-
-function useSetFooter({ form, filterExpressionValid, setFooter, close, saving, editMode }: UseSetFooterProps): void {
-  useEffect(() => {
-    setFooter(
-      <FormFooter withRoundedBottomBorder>
-        <CancelButton
-          onClick={() => {
-            const sliEntityForm = form.get('sliEntity') as MapForm;
-            const sliType = (sliEntityForm?.get('sliType') as Field<SliEntityType>)?.value;
-            trackSLIEditAbort({ sliId: editMode, sliType });
-            close();
-          }}
-        />
-        <SaveButton
-          form={form}
-          isSaving={saving}
-          disabled={!filterExpressionValid || !form.hierarchyTouched}
-          formId="createSliForm"
-        >
-          {editMode
-            ? t('in-custom-dashboards:widgets.slo.createSliForm.clone')
-            : t('in-custom-dashboards:widgets.slo.createSliForm.create')}
-        </SaveButton>
-      </FormFooter>
-    );
-    return () => {
-      setFooter(null);
-    };
-  }, [close, form, filterExpressionValid, saving, setFooter, editMode]);
-}
-
-function onSaveSuccess(
-  submittedFormData: SliFormData<SliEntitySliType>,
-  editMode: boolean,
-  setFormSubmitState: React.Dispatch<React.SetStateAction<FormSubmitState>>,
-  close: () => void
-): () => void {
-  return () => {
-    addMessage(
-      {
-        type: 'info',
-        timeout: 4000,
-        title: t('in-custom-dashboards:widgets.slo.createSliForm.sliCreateSuccess'),
-        content: t('in-custom-dashboards:widgets.slo.createSliForm.sliCreated', {
-          sliName: submittedFormData.sliName
-        })
-      },
-      'custom-dashboard-sli'
-    );
-    if (editMode) {
-      trackSLICloned({ sliType: submittedFormData.sliEntity?.sliType });
-    } else {
-      trackSliNewCreated({ sliType: submittedFormData.sliEntity?.sliType });
-    }
-    setFormSubmitState(prevState => ({
-      ...prevState,
-      saving: false,
-      error: false
-    }));
-    close();
-  };
-}
-
-function onSaveFailure(
-  submittedFormData: SliFormData<SliEntitySliType>,
-  setFormSubmitState: React.Dispatch<React.SetStateAction<FormSubmitState>>
-): () => void {
-  return () => {
-    addMessage(
-      {
-        type: 'danger',
-        timeout: 4000,
-        title: t('in-custom-dashboards:widgets.slo.createSliForm.failCreateSli'),
-        content: t('in-custom-dashboards:widgets.slo.createSliForm.problemCreateSli', {
-          sliName: submittedFormData.sliName
-        })
-      },
-      'custom-dashboard-error'
-    );
-    setFormSubmitState(prevState => ({
-      ...prevState,
-      saving: false,
-      error: true
-    }));
-  };
 }

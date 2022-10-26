@@ -80,25 +80,135 @@
     "buttonLabel": "创建新测试"
   },
   "navigation": {
-    "synthetics": "合成"
+    "synthetics": "合成监视"
   },
   "dashboard": {
     "testList": {
-      "mainLabel": "合成测试",
+      "mainLabel": "合成监视",
       "secondaryLabels": {
         "tests": "测试",
-        "location": "位置"
+        "locations": "位置"
       },
-      "locationsSubText": "{{count}} 个位置",
-      "locationsSubText_plural": "{{count}} 个位置",
+      "testLabel": "名称",
+      "status": "状态",
       "frequencySubText": "每 {{count}} 分钟",
       "frequencySubText_plural": "每 {{count}} 分钟",
       "pause": "暂停测试",
-      "resume": "恢复测试"
+      "resume": "恢复测试",
+      "active": "活动",
+      "paused": "已暂停",
+      "type": "Type",
+      "successRate": "成功率",
+      "successRuns": "{{successRuns}} 条结果（共 {{totalRuns}} 条）",
+      "latency": "等待时间",
+      "locationLabel": "位置",
+      "locations": "{{totalLocations}} 个位置",
+      "applicationLabel": "应用程序",
+      "health": "运行状况",
+      "action": "操作",
+      "delete": "删除测试",
+      "labelConfirm": "请确认",
+      "labelConfirmRemoveTest": "是否确定要除去合成测试 <strong>{{label}}</strong>？",
+      "labelRemove": "除去",
+      "na": "不适用"
     },
-    "sortOptions": {
-      "name": "名称",
-      "frequency": "频率"
+    "locationList": {
+      "locationLabel": "位置名称",
+      "status": "状态",
+      "type": "Type",
+      "totalTests": "链接的测试数",
+      "lastRun": "上次测试运行时间"
+    },
+    "summary": {
+      "successRate": "成功率",
+      "locations": "位置",
+      "responseTime": "响应时间",
+      "meanResponseTime": "传播至 响应时间",
+      "responseSize": "响应大小",
+      "avgResponseSize": "传播至 响应大小",
+      "summaryTab": "摘要",
+      "resultsTab": "结果",
+      "startTime": "开始时间",
+      "requests": "请求数",
+      "widgets": {
+        "failures": "失败次数",
+        "responseTimes": "响应时间",
+        "averageResponseSize": "平均响应大小",
+        "responseStatus": "响应状态",
+        "networkTimings": "网络计时",
+        "blocking": "正在阻止",
+        "dns": "DNS 查找",
+        "sending": "正在发送",
+        "waiting": "正在等待",
+        "receiving": "正在接收",
+        "slowest": "最慢",
+        "latest": "最新",
+        "failed": "失败",
+        "results": "结果",
+        "linkViewAllTestResults": "查看所有结果",
+        "ok": "成功",
+        "redirection": "重定向",
+        "clientError": "客户机错误",
+        "serverError": "服务器错误"
+      },
+      "totalRuns": "{{totalRuns}} 总运行次数",
+      "meanLatencyFor90th": "第 90 个的 {{meanLatencyDetail}}"
+    },
+    "resultsListPage": {
+      "startedColumn": "已启动",
+      "locationColumn": "位置",
+      "responseTimeColumn": "响应时间",
+      "responseSizeColumn": "响应大小",
+      "retriesColumn": "重试计数",
+      "title": "结果"
+    },
+    "detailsPage": {
+      "timeLineWidget": "时间线",
+      "responseTimeChart": "响应时间",
+      "subtransactionStatus": "状态",
+      "subtransactionSize": "大小",
+      "subtransactionTime": "时间",
+      "subtransactionBlocking": "阻止",
+      "subtransactionDNS": "DNS",
+      "subtransactionConnect": "连接",
+      "subtransactionSSL": "SSL",
+      "subtransactionSending": "正在发送",
+      "subtransactionWaiting": "正在等待",
+      "subtransactionReceiving": "正在接收",
+      "showLessSubDetails": "显示更少",
+      "showMoreSubDetails": "显示更多",
+      "failedRun": "运行失败（异常）",
+      "failedRunErrorTitle": "错误消息",
+      "noFailedErrorMessage": "没有错误消息",
+      "stackTraceTitle": "堆栈跟踪",
+      "noStacktrace": "无堆栈跟踪",
+      "statusKpiCard": "状态",
+      "successResult": "成功",
+      "failedResult": "失败",
+      "searchFilter": "搜索",
+      "subtransactionBody": {
+        "contentType": "内容类型",
+        "size": "大小",
+        "redirectTime": "重定向时间",
+        "uploadSpeed": "上载速度",
+        "downloadSpeed": "下载速度",
+        "requestTitle": "请求",
+        "responseTimingTitle": "响应计时",
+        "timingsPercentageOfTotalDurationName": "{{totalDurationName}} 的 {{percentage}}"
+      },
+      "logs": "日志",
+      "noDataAvailable": {
+        "message": "{{component}} 详细信息不可用于此测试结果",
+        "notFound": "找不到"
+      }
+    },
+    "noDataAvailable": {
+      "resultsTitle": "无可用结果",
+      "resultsDescription": "在所选时间范围内未检索到任何结果。",
+      "testSummaryTitle": "没有可用的合成测试",
+      "testSummaryDescription": "未从数据库检索到任何合成测试。",
+      "locationListTitle": "没有可用的合成位置",
+      "locationListDescription": "没有从数据库中检索到合成位置。"
     }
   }
 }

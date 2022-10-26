@@ -162,7 +162,7 @@ export default function AlertHeader({
             {t('in-alerting:components.alertHeaderAlert')}
           </Pill>
 
-          {extendedAlertConfigVersions.length > 1 && (
+          {extendedAlertConfigVersions.length > 0 && (
             <>
               <RevisionDropdown
                 alertConfigVersions={extendedAlertConfigVersions}
@@ -327,6 +327,7 @@ function openRestoreConfirmationDialog(alertRevision, doRestore) {
       header={t('in-alerting:components.alertHeaderRestoreRevisionConfirmationDialogHeader')}
       description={t('in-alerting:components.alertHeaderRestoreRevisionConfirmationDialogDescription')}
       confirmButtonLabel={t('in-alerting:components.alertHeaderRestoreRevisionConfirmationDialogConfirmButton')}
+      confirmButtonKind="primary"
       onSubmit={() => {
         close();
         doRestore();

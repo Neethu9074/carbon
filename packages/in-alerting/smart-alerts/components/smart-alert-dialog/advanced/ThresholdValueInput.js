@@ -37,7 +37,7 @@ export default function ThresholdValueInput({
 }) {
   const onValueChange = targetValue => {
     const value =
-      targetValue === '' ? '' : getThresholdValueForPercentageMetric(Math.abs(targetValue), percentageMetric);
+      targetValue !== '' ? getThresholdValueForPercentageMetric(Math.abs(targetValue), percentageMetric) : null;
     if (value > max) {
       return;
     }

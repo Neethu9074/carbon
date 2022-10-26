@@ -41,33 +41,28 @@ export default function Summary({ timeConfig, data: vios }) {
       </KpiGridRow>
 
       <Row verticallyStretchColumns>
-        <Col lg={12}>
+        <Col lg={6}>
           <Card title={t('in-phmc:dashboards.processorUnits')} useMaxAvailableHeight>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                metrics: [
-                  'utilizedProcUnits',
-                  'maxProcUnits',
-                  'entitledProcUnits',
-                  'utilizedCappedProcUnits',
-                  'utilizedUncappedProcUnits',
-                  'idleProcUnits'
-                ],
-                labels: [
-                  t('in-phmc:utilized'),
-                  t('in-phmc:max'),
-                  t('in-phmc:entitled'),
-                  t('in-phmc:capped'),
-                  t('in-phmc:uncapped'),
-                  t('in-phmc:idle')
-                ],
+                metrics: ['utilizedProcUnits', 'maxProcUnits', 'entitledProcUnits'],
+                labels: [t('in-phmc:utilized'), t('in-phmc:max'), t('in-phmc:entitled')],
                 formatter: number.detailed,
                 type: 'line'
               }}
-              y2={{
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </Card>
+        </Col>
+        <Col lg={6}>
+          <Card title={t('in-phmc:entitledProc')} useMaxAvailableHeight>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
                 metrics: ['entitledProcUnitsPercentage'],
                 labels: [t('in-phmc:entitledPercent')],
                 type: 'line',
@@ -79,7 +74,23 @@ export default function Summary({ timeConfig, data: vios }) {
         </Col>
       </Row>
       <Row>
-        <Col lg={12}>
+        <Col lg={6}>
+          <Card title={t('in-phmc:dashboards.maxCpuUtilzation')} useMaxAvailableHeight>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                metrics: ['maxCPUCapacityUtilisation'],
+                labels: [t('in-phmc:maxCpuUtilzation')],
+                formatter: number.compact,
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </Card>
+        </Col>
+        <Col lg={6}>
           <Card title={t('in-phmc:dashboards.memoryUsage')} useMaxAvailableHeight>
             <Chart
               snapshotId={snapshotId}

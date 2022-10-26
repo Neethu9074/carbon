@@ -8,8 +8,8 @@
   "ibmpPhmcs": "IBM 전원 HMC",
   "noMonitoringDataFound": "모니터링 데이터를 찾을 수 없음",
   "noData": "사용 가능한 pHMC 데이터가 없습니다.",
-  "machineTypeModel": "모델 *머신 일련번호",
-  "machineSerial": "머신 유형",
+  "machineTypeModel": "머신 유형-모델",
+  "machineSerial": "기계 일련 번호",
   "available": "사용 가능",
   "utilized": "활용",
   "configurable": "구성 가능",
@@ -20,6 +20,7 @@
   "partitionId": "파티션 ID",
   "state": "상태",
   "utilizedMem": "사용된 메모리",
+  "memory": "메모리(MB)",
   "mode": "모드",
   "maxVirtualProcessor": "최대 가상 프로세서",
   "max": "최대값",
@@ -36,9 +37,8 @@
   "backedPhy": "백업된 실제",
   "totalIO": "IO 총계",
   "mappedIO": "맵핑된 IO",
+  "utilizedProcNumber": "사용된 프로세서 장치",
   "utilizedProc": "사용된 프로세서 장치(%)",
-  "utilizedProcessor": "사용된 프로세서",
-  "assignedMemory": "지정된 메모리(MB)",
   "availableProc": "사용 가능한 프로세서 장치(%)",
   "configurableProc": "구성 가능한 프로세서 장치(%)",
   "memAvailable": "사용 가능한 메모리(MB)",
@@ -123,7 +123,6 @@
     "fiberChannelAdapter": "광섬유 채널 어댑터",
     "virtualFiberChannelAdapter": "가상 파이버 채널 어댑터",
     "sharedStoragePool": "공유 스토리지 풀",
-    "hypervisor": "하이퍼바이저",
     "energy": "에너지"
   }
 }

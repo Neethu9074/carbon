@@ -12,8 +12,12 @@ import XhrRequest from 'in-websites/WebsiteDashboard/tabs/Ajax/XhrRequest';
 export default function ResourceIndex(props) {
   return (
     <Switch>
-      <Route path="*/details" render={() => <XhrRequest {...props} />} />
-      <Route path="*" render={() => <XhrRequests {...props} />} />
+      <Route path="*/details">
+        <XhrRequest {...props} />
+      </Route>
+      <Route path="*">
+        <XhrRequests {...props} />
+      </Route>
     </Switch>
   );
 }

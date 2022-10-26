@@ -30,7 +30,7 @@ export default function entityForm(ComposedComponent) {
     const errorSubscription = useRef();
 
     const { title, entityId } = props;
-    const { form, entity, saveEnabled } = state;
+    const { form, entity, saveEnabled, loading } = state;
 
     useLayoutEffect(() => {
       load(props);
@@ -41,7 +41,7 @@ export default function entityForm(ComposedComponent) {
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [entityId]);
 
-    if (!entity) {
+    if (!entity && loading) {
       return <LoadingIndicator />;
     }
 
@@ -126,7 +126,6 @@ export default function entityForm(ComposedComponent) {
       }
 
       const result$ = props.saveEntity(entity, form);
-
       disposeAsyncAction();
 
       setState({

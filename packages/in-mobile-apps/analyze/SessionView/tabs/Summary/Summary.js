@@ -3,8 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect, useMemo } from 'react';
-import { compose, withState } from 'recompose';
+import React, { useEffect, useMemo, useState } from 'react';
 import { debounce, find } from 'lodash';
 
 import { Link, Message } from '@instana/components';
@@ -27,14 +26,15 @@ import locals from './Summary.mless';
 // views very quickly.
 const debouncedOpenSession = debounce(openSession, 1000);
 
-export default compose(withState('filter', 'setFilter', { query: '', view: '', types: [] }))(Summary);
-
-function Summary({ beacons, filter, setFilter, sessionLabel, sessionId, detailId }) {
+export default function Summary({ beacons, sessionLabel, sessionId, detailId }) {
   // Fixing is expensive. Luckily it is easy to avoid this via memoization.
   const fixResult = useMemo(() => fixClockSkewProblems(beacons), [beacons]);
   beacons = fixResult.beacons;
   const sessionStart = find(beacons, b => b.type === 'sessionStart');
   const firstBeacon = sessionStart || beacons[0];
+  const [query, setQuery] = useState('');
+  const [view, setView] = useState('');
+  const [types, setTypes] = useState([]);
 
   useEffect(() => {
     debouncedOpenSession({
@@ -90,8 +90,12 @@ function Summary({ beacons, filter, setFilter, sessionLabel, sessionId, detailId
         detailId={detailId}
         sessionStart={sessionStart}
         firstBeacon={firstBeacon}
-        filter={filter}
-        setFilter={setFilter}
+        query={query}
+        setQuery={setQuery}
+        view={view}
+        setView={setView}
+        types={types}
+        setTypes={setTypes}
       />
     </ContentWrapper>
   );

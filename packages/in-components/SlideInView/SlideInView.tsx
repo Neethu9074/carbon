@@ -4,12 +4,11 @@
  */
 
 import React, { ReactNode, useCallback, useLayoutEffect, useRef, useState } from 'react';
+import { useTransition } from 'transition-hook';
 import classNames from 'classnames';
 
 import DialogHeaderComponent from 'in-components/SlideInView/internalComponents/DialogHeader';
 import ListHeaderComponent from 'in-components/SlideInView/internalComponents/ListHeader';
-import { supportsFocussingWithPreventedScrolling } from 'in-services/util/domFocus';
-import { slideInStates, slideOutStates } from 'in-components/SlideInView/states';
 import { getInteractiveElements } from 'in-services/util/dom';
 
 import locals from './SlideInView.mless';
@@ -68,6 +67,7 @@ export default function SlideInView({
   // component users. Not doing this causes the state to be different and therefore a transition
   // to trigger in unwanted cases.
   showSlideInContent = Boolean(showSlideInContent);
+  const { stage } = useTransition(showSlideInContent, slideTransitionDurationMillis);
 
   const headerSize = HeaderComponent === NoHeader ? 0 : HeaderComponent === DialogHeader ? '5rem' : '3.5rem'; // TODO: use dynamic sizing here
 
@@ -78,53 +78,13 @@ export default function SlideInView({
 
   // An optional side effect that should be executed after a React render, but before
   // the browser render cycle ends.
-  const afterStateChangeEffect = useRef<(() => void) | null>();
-  useLayoutEffect(() => afterStateChangeEffect.current?.(), [afterStateChangeEffect.current]);
-
-  const [state, setState] = useState(slideOutStates.after(slideTransitionDurationMillis));
-  useLayoutEffect(() => {
-    if (showSlideInContent === state.showSlideInContent) {
-      // Nothing to do – only important for initial render call.
-      return;
-    }
-    afterStateChangeEffect.current = null;
-
-    const timeouts: ReturnType<typeof setTimeout>[] = [];
-    if (showSlideInContent) {
-      const afterStateChangeEffectFn = () => onAfterSlideIn(getInteractiveElements(slideInContentWrapperRef.current));
-      if (supportsFocussingWithPreventedScrolling) {
-        // Side-effect are very likely to make use of preventScroll: true. Unfortunately
-        // preventScroll: true is not yet supported in all web browsers. For web browsers which
-        // do not support focussing with disabled scrolling we schedule the side-effect after the
-        // transition has ended. This ensures that the web browser does not accelerate/does not break
-        // the side effect.
-        afterStateChangeEffect.current = afterStateChangeEffectFn;
-      }
-      setState(slideInStates.before(slideTransitionDurationMillis));
-      timeouts.push(setTimeout(() => setState(slideInStates.transition(slideTransitionDurationMillis)), 0));
-      timeouts.push(
-        setTimeout(() => {
-          if (!supportsFocussingWithPreventedScrolling) {
-            afterStateChangeEffect.current = afterStateChangeEffectFn;
-          }
-          setState(slideInStates.after(slideTransitionDurationMillis));
-        }, slideTransitionDurationMillis)
-      );
-    } else {
-      afterStateChangeEffect.current = () => {
-        onAfterSlideOut(getInteractiveElements(staticContentWrapperRef.current));
-      };
-      setState(slideOutStates.before(slideTransitionDurationMillis));
-      timeouts.push(setTimeout(() => setState(slideOutStates.transition(slideTransitionDurationMillis)), 0));
-      timeouts.push(
-        setTimeout(() => setState(slideOutStates.after(slideTransitionDurationMillis)), slideTransitionDurationMillis)
-      );
-    }
-
-    return () => timeouts.forEach(clearTimeout);
-    // Other props cannot be modified after the fact - this is a limitation right now of the SlideInView
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [showSlideInContent]);
+  useLayoutEffect(
+    () =>
+      showSlideInContent
+        ? onAfterSlideIn(getInteractiveElements(slideInContentWrapperRef.current))
+        : onAfterSlideOut(getInteractiveElements(staticContentWrapperRef.current)),
+    [showSlideInContent]
+  );
 
   const [showScrollShadow, setShowScrollShadow] = useState(false);
 
@@ -136,12 +96,27 @@ export default function SlideInView({
           [locals.staticContent]: true,
           [locals.enforceMaxHeightForStaticContent]: enforceMaxHeightForStaticContent
         })}
-        style={state.staticContentStyle}
+        style={{
+          transition: `${slideTransitionDurationMillis}ms`,
+          visibility: stage === 'enter' ? 'hidden' : 'visible'
+        }}
       >
         {staticContent}
       </div>
-      <div className={locals.inputBlocker} style={state.inputBlockerStyle} />
-      <div className={locals.header} style={state.headerStyle}>
+      <div
+        className={locals.inputBlocker}
+        style={{
+          transition: `${slideTransitionDurationMillis}ms`,
+          visibility: stage === 'enter' ? 'visible' : 'hidden'
+        }}
+      />
+      <div
+        className={locals.header}
+        style={{
+          transition: `${slideTransitionDurationMillis}ms`,
+          visibility: stage === 'enter' ? 'visible' : 'hidden'
+        }}
+      >
         {slideInContentTitle && (
           <HeaderComponent
             scrollShadow={showScrollShadow}
@@ -154,8 +129,14 @@ export default function SlideInView({
         ref={slideInContentWrapperRef}
         className={locals.slideInContent}
         style={{
-          ...state.slideInContentStyle,
-          top: headerSize
+          top: headerSize,
+          transition: `${slideTransitionDurationMillis}ms`,
+          visibility: stage === 'enter' ? 'visible' : 'hidden',
+          transform: {
+            from: 'translateX(0%)',
+            enter: 'translateX(-100%)',
+            leave: 'translateX(0%)'
+          }[stage]
         }}
         onScrollCapture={e => setShowScrollShadow(e.target instanceof HTMLElement && e.target.scrollTop > 0)}
       >

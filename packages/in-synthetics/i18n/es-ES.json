@@ -80,25 +80,135 @@
     "buttonLabel": "Crear prueba nueva"
   },
   "navigation": {
-    "synthetics": "Synthetics"
+    "synthetics": "Supervisión sintética"
   },
   "dashboard": {
     "testList": {
-      "mainLabel": "Pruebas sintéticas",
+      "mainLabel": "Supervisión sintética",
       "secondaryLabels": {
         "tests": "Pruebas",
-        "location": "Ubicación"
+        "locations": "Ubicaciones"
       },
-      "locationsSubText": "{{count}} ubicación",
-      "locationsSubText_plural": "{{count}} ubicaciones",
+      "testLabel": "Nombre",
+      "status": "Estado",
       "frequencySubText": "Cada {{count}} min",
       "frequencySubText_plural": "Cada {{count}} minutos",
       "pause": "Pausar la prueba",
-      "resume": "Reanudar la prueba"
+      "resume": "Reanudar la prueba",
+      "active": "Activo",
+      "paused": "En pausa",
+      "type": "Tipo",
+      "successRate": "Tasa de éxito",
+      "successRuns": "Resultados de {{successRuns}} / {{totalRuns}}",
+      "latency": "Latencia",
+      "locationLabel": "Ubicación",
+      "locations": "{{totalLocations}} ubicaciones",
+      "applicationLabel": "Aplicación",
+      "health": "Estado",
+      "action": "Acción",
+      "delete": "Suprimir la prueba",
+      "labelConfirm": "Confírmelo",
+      "labelConfirmRemoveTest": "¿Está seguro de que desea eliminar la prueba sintética <strong>{{label}}</strong>?",
+      "labelRemove": "Eliminar",
+      "na": "N/A"
     },
-    "sortOptions": {
-      "name": "Nombre",
-      "frequency": "Frecuencia"
+    "locationList": {
+      "locationLabel": "Nombre de ubicación",
+      "status": "Estado",
+      "type": "Tipo",
+      "totalTests": "Número de pruebas enlazadas",
+      "lastRun": "Última ejecución de la prueba el"
+    },
+    "summary": {
+      "successRate": "Tasa de éxito",
+      "locations": "Ubicaciones",
+      "responseTime": "Tiempo de respuesta",
+      "meanResponseTime": "Promedio de Tiempo de respuesta",
+      "responseSize": "Tamaño de respuesta",
+      "avgResponseSize": "Promedio de Tamaño de respuesta",
+      "summaryTab": "Resumen",
+      "resultsTab": "Resultados",
+      "startTime": "Hora de inicio",
+      "requests": "Solicitudes",
+      "widgets": {
+        "failures": "Anomalías",
+        "responseTimes": "Tiempos de respuesta",
+        "averageResponseSize": "Tamaño de respuesta promedio",
+        "responseStatus": "Estado de respuesta",
+        "networkTimings": "Temporizadores de red",
+        "blocking": "Bloqueando",
+        "dns": "Búsqueda de DNS",
+        "sending": "Enviando",
+        "waiting": "En espera",
+        "receiving": "Recibiendo",
+        "slowest": "Más lento",
+        "latest": "Más reciente",
+        "failed": "Fallido",
+        "results": "Resultados",
+        "linkViewAllTestResults": "Ver todos los resultados",
+        "ok": "Correcto",
+        "redirection": "Redirección",
+        "clientError": "Error de cliente",
+        "serverError": "Error de servidor."
+      },
+      "totalRuns": "{{totalRuns}} ejecuciones en total",
+      "meanLatencyFor90th": "{{meanLatencyDetail}} para 90º"
+    },
+    "resultsListPage": {
+      "startedColumn": "Iniciado",
+      "locationColumn": "Ubicación",
+      "responseTimeColumn": "Tiempo de respuesta",
+      "responseSizeColumn": "Tamaño de respuesta",
+      "retriesColumn": "Número de reintentos",
+      "title": "Resultados"
+    },
+    "detailsPage": {
+      "timeLineWidget": "Línea temporal",
+      "responseTimeChart": "Tiempo de respuesta",
+      "subtransactionStatus": "Estado",
+      "subtransactionSize": "Tamaño",
+      "subtransactionTime": "Hora",
+      "subtransactionBlocking": "Bloqueo",
+      "subtransactionDNS": "DNS",
+      "subtransactionConnect": "Conectar",
+      "subtransactionSSL": "SSL",
+      "subtransactionSending": "Enviando",
+      "subtransactionWaiting": "En espera",
+      "subtransactionReceiving": "Recibiendo",
+      "showLessSubDetails": "Mostrar menos",
+      "showMoreSubDetails": "Mostrar más",
+      "failedRun": "Error de ejecución (excepción)",
+      "failedRunErrorTitle": "Mensaje de error",
+      "noFailedErrorMessage": "Ningún mensaje de error",
+      "stackTraceTitle": "Seguimiento de pila",
+      "noStacktrace": "Ningún seguimiento de pila",
+      "statusKpiCard": "Estado",
+      "successResult": "Correcto",
+      "failedResult": "Fallido",
+      "searchFilter": "Búsqueda",
+      "subtransactionBody": {
+        "contentType": "Tipo de contenido",
+        "size": "Tamaño",
+        "redirectTime": "Tiempo de redirección",
+        "uploadSpeed": "Velocidad de carga",
+        "downloadSpeed": "Velocidad de descarga",
+        "requestTitle": "Solicitud",
+        "responseTimingTitle": "Tiempo de respuesta",
+        "timingsPercentageOfTotalDurationName": "{{percentage}} de {{totalDurationName}}"
+      },
+      "logs": "Registros",
+      "noDataAvailable": {
+        "message": "No hay detalles de {{component}} disponibles para este resultado de prueba",
+        "notFound": "No encontrado"
+      }
+    },
+    "noDataAvailable": {
+      "resultsTitle": "No hay resultados disponibles",
+      "resultsDescription": "No se han recuperado resultados para el intervalo de tiempo seleccionado.",
+      "testSummaryTitle": "No hay pruebas sintéticas disponibles",
+      "testSummaryDescription": "No hay pruebas sintéticas recuperadas de la base de datos.",
+      "locationListTitle": "No hay ubicaciones de Synthetic disponibles",
+      "locationListDescription": "No hay ubicaciones de Synthetic recuperadas de la base de datos."
     }
   }
 }

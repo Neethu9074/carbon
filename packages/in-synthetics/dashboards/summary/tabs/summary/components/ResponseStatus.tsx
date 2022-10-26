@@ -6,28 +6,34 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
-import { EQUALS, GREATER_OR_EQUAL_THAN, LESS_THAN } from 'in-components/QueryBuilder/tagFilter/operators';
-//@ts-ignore
-import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
+import { MetricResult, Result, TimeConfig, TimeShift, UnifiedMetricConfigurationUnion } from 'in-types';
+import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
+import { Config } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
+import { AxisColor, MetricDataSeries } from 'in-components/Chart/types';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
-import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
+import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import { TestResponse } from 'in-synthetics/utils/constants';
+import Renderer from 'in-components/Chart/renderer/Renderer';
+import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
+import { pendingResult } from 'in-services/fixedObjects';
+import { number } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { pie } from 'in-stores/metric/renderer';
-import { TimeShift } from 'in-types';
 import theme from 'in-themes';
 
 type Props = {
-  timeShiftConfig: TimeShift;
   test: TestResponse;
 };
 
-export default function ResponseStatus({ test, timeShiftConfig }: Props) {
+export default function ResponseStatus({ test }: Props) {
   const timeConfig = useTimeConfig();
+  const timeShiftConfig = useTimeShiftConfig();
+
   if (!test.progress.loading) {
-    return renderChart(test, timeShiftConfig);
+    return <RenderChart test={test} timeConfig={timeConfig} timeShiftConfig={timeShiftConfig} />;
   } else {
     return (
       <ResultAwareChart
@@ -36,7 +42,7 @@ export default function ResponseStatus({ test, timeShiftConfig }: Props) {
           y1: {
             metrics: [],
             colors: [],
-            renderer: pie.renderer,
+            renderer: Renderer.pie,
             metricIds: [],
             labels: []
           },
@@ -48,140 +54,151 @@ export default function ResponseStatus({ test, timeShiftConfig }: Props) {
   }
 }
 
-function renderChart(test: TestResponse, timeShiftConfig: TimeShift) {
+type ChartProps = {
+  test: TestResponse;
+  timeConfig: TimeConfig;
+  timeShiftConfig: TimeShift;
+};
+
+function RenderChart({ test, timeConfig, timeShiftConfig }: ChartProps) {
+  const metricKey = 'responseStatus';
   const id = get(test, ['data', 'id']);
 
-  const okTagFilters = [
-    {
-      stringValue: id,
-      name: 'testId',
-      operator: EQUALS
-    },
-    {
-      numberValue: 200,
-      name: 'status_code',
-      operator: GREATER_OR_EQUAL_THAN
-    },
-    {
-      numberValue: 300,
-      name: 'status_code',
-      operator: LESS_THAN
-    }
-  ];
-
-  const redirectTagFilters = [
-    {
-      stringValue: id,
-      name: 'testId',
-      operator: EQUALS
-    },
-    {
-      numberValue: 300,
-      name: 'status_code',
-      operator: GREATER_OR_EQUAL_THAN
-    },
-    {
-      numberValue: 400,
-      name: 'status_code',
-      operator: LESS_THAN
-    }
-  ];
-
-  const clientErrorTagFilters = [
-    {
-      stringValue: id,
-      name: 'testId',
-      operator: EQUALS
-    },
-    {
-      numberValue: 400,
-      name: 'status_code',
-      operator: GREATER_OR_EQUAL_THAN
-    },
-    {
-      numberValue: 500,
-      name: 'status_code',
-      operator: LESS_THAN
-    }
-  ];
-
-  const serverErrorTagFilters = [
-    {
-      stringValue: id,
-      name: 'testId',
-      operator: EQUALS
-    },
-    {
-      numberValue: 500,
-      name: 'status_code',
-      operator: GREATER_OR_EQUAL_THAN
-    },
-    {
-      numberValue: 600,
-      name: 'status_code',
-      operator: LESS_THAN
-    }
-  ];
-
-  let testMetricConfigs: Metric[] = [
-    {
+  const config: Config = {
+    metricConfiguration: {
       aggregation: 'DISTINCT_COUNT',
-      source: 'SYNTHETICS',
-      tagFilters: okTagFilters,
-      timeShift: timeShiftConfig.offset,
       metric: 'id',
-      label: `${t('in-synthetics:dashboard.summary.widgets.ok')}`,
-      color: theme.lib.colors.chart.strokeColors25[0]
+      source: 'SYNTHETICS',
+      order: {
+        by: 'status_code',
+        direction: 'ASC'
+      },
+      tagFilters: [
+        {
+          stringValue: id,
+          name: 'testId',
+          operator: EQUALS,
+          entity: NOT_APPLICABLE,
+          type: 'TAG_FILTER'
+        }
+      ],
+      // @ts-ignore
+      timeShift: timeShiftConfig,
+      resultType: 'SINGLE_NUMBER',
+      timeConfig: timeConfig
     },
-    {
-      aggregation: 'DISTINCT_COUNT',
-      source: 'SYNTHETICS',
-      tagFilters: redirectTagFilters,
-      timeShift: timeShiftConfig.offset,
-      metric: 'id',
-      label: `${t('in-synthetics:dashboard.summary.widgets.redirection')}`,
-      color: theme.lib.colors.chart.strokeColors25[1]
-    },
-    {
-      aggregation: 'DISTINCT_COUNT',
-      source: 'SYNTHETICS',
-      tagFilters: clientErrorTagFilters,
-      timeShift: timeShiftConfig.offset,
-      metric: 'id',
-      label: `${t('in-synthetics:dashboard.summary.widgets.clientError')}`,
-      color: theme.lib.colors.chart.strokeColors25[2]
-    },
-    {
-      aggregation: 'DISTINCT_COUNT',
-      source: 'SYNTHETICS',
-      tagFilters: serverErrorTagFilters,
-      timeShift: timeShiftConfig.offset,
-      metric: 'id',
-      label: `${t('in-synthetics:dashboard.summary.widgets.serverError')}`,
-      color: theme.lib.colors.chart.strokeColors25[3]
-    }
-  ];
+    comparisonDecreaseColor: 'redish',
+    comparisonIncreaseColor: 'greenish'
+  };
 
-  const renderer = pie.id;
+  const metrics: { [index: string]: UnifiedMetricConfigurationUnion } = {
+    [metricKey]: {
+      ...config.metricConfiguration,
+      ...config.tagFilters
+    }
+  };
+
+  const result: Result<MetricResult[]> =
+    useObservable(() => getUnifiedMetrics({ metrics }), [config.metricConfiguration.timeShift]) ?? pendingResult;
+
+  let distinctCount: number = 0;
+  if (!result.progress.loading) {
+    distinctCount = (result.data?.at(0)?.values.length ?? 0) / 2;
+  }
+
+  // labels to be shown in the widget
+  let statusCodeLabel: string[] = [];
+
+  // map to labelize each status code in the widget
+  let statusLabel = new Map();
+  statusLabel.set(200, `${t('in-synthetics:dashboard.summary.widgets.ok')}`);
+  statusLabel.set(201, `${t('in-synthetics:dashboard.summary.widgets.created')}`);
+  statusLabel.set(202, `${t('in-synthetics:dashboard.summary.widgets.accepted')}`);
+  statusLabel.set(400, `${t('in-synthetics:dashboard.summary.widgets.badRequest')}`);
+  statusLabel.set(403, `${t('in-synthetics:dashboard.summary.widgets.forbidden')}`);
+  statusLabel.set(404, `${t('in-synthetics:dashboard.summary.widgets.notFound')}`);
+  statusLabel.set(500, `${t('in-synthetics:dashboard.summary.widgets.serverError')}`);
+  statusLabel.set(502, `${t('in-synthetics:dashboard.summary.widgets.badGateway')}`);
+  statusLabel.set(504, `${t('in-synthetics:dashboard.summary.widgets.gatewayTimeout')}`);
+
+  // 2d array that contain statusCode and count pairs
+  let metricPair: [number, number][] = [];
+
+  if (!result.progress.loading) {
+    for (let i = 0; i < distinctCount * 2; i = i + 2) {
+      let count = get(result.data?.at(0), ['values', i, 1]) ?? 0;
+      let statusCode = get(result.data?.at(0), ['values', i + 1, 1]) ?? 0;
+
+      statusCodeLabel.push(statusCode?.toString() + '-' + statusLabel.get(statusCode));
+      metricPair.push([statusCode, count]);
+    }
+  }
+
+  // array of colors for labels
+  let labelColors: AxisColor[] = [];
+  for (let i = 0; i < distinctCount; i++) {
+    labelColors.push(theme.lib.colors.chart.strokeColors25[i]);
+  }
 
   return (
-    <UnifiedMetricsChart
-      renderHistoricDataIndicator
-      title={t('in-synthetics:dashboard.summary.widgets.responseStatus')}
-      automaticallySize={false}
-      reverseLegendOrder={false}
-      reverseTooltipOrder
-      shareMaxAxisDomain
+    <ResultAwareChart
+      result={constructResult(null, false)}
       config={{
+        title: t('in-synthetics:dashboard.summary.widgets.responseStatus'),
+        timeConfig: timeConfig,
         y1: {
-          renderer: renderer,
-          formatter: 'number.compact',
-          tooltipFormatter: Number.toString,
-          calculateStackDifferences: true,
-          metrics: testMetricConfigs
-        },
-        type: 'SINGLE_NUMBER'
+          renderer: Renderer.pie,
+          labels: statusCodeLabel,
+          metricIds: [],
+          metrics: generateMultipleMetrics(distinctCount, metricPair),
+          colors: labelColors,
+          formatter: number.compact
+        }
       }}
     />
   );
+}
+
+function constructResult(error: null, isLoading: boolean) {
+  return {
+    errors: error == null ? [] : [error],
+    progress: {
+      loading: isLoading
+    }
+  };
+}
+
+/* metrics data in ResultAwareChart PieChart is a 3-d array, like
+ *[
+ *  [
+ *   [200, 9]
+ *  ],
+ *  [
+ *   [400, 9]
+ *  ],
+ *  [
+ *   [500, 11]
+ *  ]
+ * ]
+ */
+function generateMultipleMetrics(numSeries: number, metricPair: [number, number][]): MetricDataSeries[] {
+  let series: [number, number][][] = [];
+
+  for (let i = 0; i < numSeries; i++) {
+    series[i] = generateMetric(metricPair);
+  }
+  return series;
+}
+
+function generateMetric(metricPair: [number, number][]): [number, number][] {
+  let metric: [number, number][] = [];
+
+  for (let i = 0; i < metricPair.length; i++) {
+    if (metricPair[i][0] != 0) {
+      metric.push([metricPair[i][0], metricPair[i][1]]);
+      metricPair.splice(i, 1);
+      break;
+    }
+  }
+  return metric;
 }

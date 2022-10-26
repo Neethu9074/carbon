@@ -36,6 +36,18 @@ export default function Info({ snapshot }) {
       <DescriptionItem title={t('in-forge:plugins.ibmMqQueue.monitoring')}>
         {data.get('queueMonitoring')}
       </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqQueue.queueDepthHighLimit')}>
+        {data.get('queueDepthHighLimit')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqQueue.queueDepthLowLimit')}>
+        {data.get('queueDepthLowLimit')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqQueue.queueServiceInterval')}>
+        {data.get('queueServiceInterval')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqQueue.queueDescription')}>
+        {data.get('queueDescription')}
+      </DescriptionItem>
     </DescriptionList>
   );
 }

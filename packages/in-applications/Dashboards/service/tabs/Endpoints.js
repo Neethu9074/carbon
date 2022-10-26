@@ -160,15 +160,20 @@ const columnDefinitions = [
     id: 'maxSeverity',
     label: t('in-applications:labelHealth'),
     defaultOrderDirection: 'DESC',
-    getContent(item, { result, timeConfig }) {
+    getContent(item, { result, applicationId, serviceId, timeConfig }) {
+      let openIssues = get(item, ['metrics', 'openIssues', 0, 1], 0);
+      let maxSeverity = get(item, ['metrics', 'maxSeverity', 0, 1], 0);
       return (
         <ApplicationEntityHealthIndicatorBehavior
+          applicationId={applicationId}
+          serviceId={serviceId}
           endpointId={item.endpoint.id}
           openIssues={get(item, ['metrics', 'openIssues', 0, 1], 0)}
           maxSeverity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
           timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
           IndicatorPresenter={HealthIndicatorPresenter}
           inContentArea
+          tooltipLabel={getTooltipLabel(openIssues, maxSeverity)}
         />
       );
     }
@@ -355,4 +360,16 @@ function getApplicationLabelObservable([id]) {
     return null;
   }
   return getApplication({ id }).map(result => result.data?.label);
+}
+
+function getTooltipLabel(openIssues, maxSeverity) {
+  if (openIssues === 0) {
+    return t('in-applications:noIssues');
+  } else {
+    if (maxSeverity > 5) {
+      return t('in-applications:labelCritical');
+    } else {
+      return t('in-applications:labelWarning');
+    }
+  }
 }

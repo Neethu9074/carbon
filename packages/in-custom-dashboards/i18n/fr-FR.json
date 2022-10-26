@@ -61,18 +61,18 @@
       "confirmDashboardDel": "Confirmer la suppression du tableau de bord",
       "delDashboard": "Supprimer le tableau de bord",
       "uWantDelDashboardConfig": "Voulez-vous vraiment supprimer le tableau de bord <strong>{{title}}</strong> ?",
-      "failDelDashboard": "Échec de la suppression du tableau de bord.",
+      "failDelDashboard": "Echec de la suppression du tableau de bord.",
       "renameDashboard": "Renommer le tableau de bord",
       "dashboardName": "Nom du tableau de bord",
       "rename": "Renommer",
-      "failSaveDashboard": "Échec de l'enregistrement du tableau de bord."
+      "failSaveDashboard": "Echec de la sauvegarde du tableau de bord."
     },
     "customDashboardPresenter": {
       "dashboardNotFound": "Tableau de bord introuvable",
-      "failure": "Échec",
+      "failure": "Echec",
       "dashboardNotFoundExplain": "Ce tableau de bord n'existe pas ou vous n'y avez pas accès.",
       "customDashboard": "Tableau de bord personnalisé",
-      "saveChange": "Enregistrer les modifications",
+      "saveChange": "Sauvegarder les modifications",
       "discardChange": "Supprimer les modifications",
       "addWidget": "Ajouter un widget",
       "tvMode": "Mode TV",
@@ -123,7 +123,7 @@
     "srcApp": {
       "formComponent": {
         "needToTurnOffPP": "Pour utiliser le regroupement, vous devez d'abord désactiver la mise en évidence des problèmes potentiels.",
-        "pleaseSelect": "Sélectionnez",
+        "pleaseSelect": "Effectuez une sélection",
         "pleaseSelectMetric": "Sélectionnez une métrique.",
         "aggregation": "Agrégation",
         "metric": "Métrique"
@@ -134,14 +134,14 @@
     },
     "srcEvent": {
       "index": {
-        "events": "Événements"
+        "events": "Evénements"
       },
       "formComponent": {
         "metric": "Métrique",
         "eventCount": "Nombre d'événements",
         "aggregation": "Agrégation",
         "pleaseSelectMetric": "Sélectionnez une métrique.",
-        "pleaseSelect": "Sélectionnez",
+        "pleaseSelect": "Effectuez une sélection",
         "helpAction": "Une requête Dynamic Focus Query (DFQ)  comme vous l'utiliseriez dans la vue des événements.",
         "query": "Requête",
         "includeK8sInfoEvents": "Inclure les événements Kubernetes",
@@ -158,29 +158,31 @@
         "metric": "Métrique",
         "count": "Nombre",
         "aggregation": "Agrégation",
-        "pleaseSelect": "Sélectionnez",
+        "pleaseSelect": "Effectuez une sélection",
         "pleaseSelectMetric": "Sélectionnez une métrique."
       },
       "metricsFormComponent": {
         "metric": "Métrique",
         "selectMetric": "Sélectionner une métrique",
         "aggregation": "Agrégation",
-        "crossSeriesAggregation": "Utiliser SUM pour l'agrégation inter-séries",
-        "crossSeriesAggregationHelp": "Normalement, l'agrégation inter-séries est identique à l'agrégation à travers le temps (méthode utilisée pour combiner les points de données en un seul intervalle). Avec ce bouton à bascule activé, nous ferons la somme des intervalles de la série de données au lieu d'utiliser l'agrégation spécifiée.",
-        "crossSeriesAggregationDisabledHelp": "Non applicable à {{aggregation}}"
+        "crossSeriesAggregation": "Utiliser SUM pour l'agrégation interséries",
+        "crossSeriesAggregationHelp": "Normalement, l'agrégation interséries est identique à l'agrégation à travers le temps (méthode utilisée pour combiner les points de données en un seul intervalle). Si ce bouton à bascule est activé, nous ferons la somme des intervalles de la série de données au lieu d'utiliser l'agrégation spécifiée.",
+        "crossSeriesAggregationDisabledHelp": "Non applicable à {{aggregation}}",
+        "crossSeriesAggregationRestrictedHelp": "Non applicable à cette métrique"
       },
       "metrics": {
         "infrastructurePlatforms": "Infrastructure et plateformes",
         "comingSoon": "(bientôt disponible)"
       },
       "typeAndMetricConfigurator": {
-        "pleaseSelectMetric": "Sélectionnez une métrique."
+        "pleaseSelectMetric": "Sélectionnez une métrique.",
+        "loadingMetrics": "Chargement des métriques..."
       }
     },
     "srcMobileApp": {
       "formComp": {
         "beaconType": "Type de balise",
-        "pleaseSelect": "Sélectionnez",
+        "pleaseSelect": "Effectuez une sélection",
         "pleaseSelectDs": "Sélectionnez une source de données.",
         "metric": "Métrique",
         "aggregation": "Agrégation",
@@ -193,7 +195,7 @@
     "srcSli": {
       "formComp": {
         "configSli": "SLI configuré",
-        "pleaseSelect": "Sélectionnez",
+        "pleaseSelect": "Effectuez une sélection",
         "sliConfigComputeErrBudgetSliVal": "Configuration SLI utilisée pour calculer le budget d'erreurs et les valeurs SLI",
         "typeSloThreshold": "Entrez le seuil SLO de votre choix entre <code>{{compact}}</code> et <code>{{detailed}}</code>.",
         "valType": "Type de valeur"
@@ -208,7 +210,7 @@
     "srcWebSite": {
       "formComp": {
         "beaconType": "Type de balise",
-        "pleaseSelect": "Sélectionnez",
+        "pleaseSelect": "Effectuez une sélection",
         "metric": "Métrique",
         "selectDs": "Sélectionnez une source de données.",
         "selectMetric": "Sélectionnez une métrique.",
@@ -220,7 +222,7 @@
     },
     "metricConfigurator": {
       "ds": "Source de donnée",
-      "pleaseSelect": "Sélectionnez",
+      "pleaseSelect": "Effectuez une sélection",
       "name": "Nom",
       "pleaseSelectATimeShiftingConfiguration": "Sélectionnez une configuration de rétrospective",
       "pleaseProvideAGroup": "Fournissez un groupe.",
@@ -261,8 +263,8 @@
         "auto": "Auto"
       },
       "atLeastOneDatasetIsRequired": "Au moins un ensemble de données est requis.",
-      "errorTitleForConfiguredSliDeletion": "La SLI configurée a été supprimée",
-      "errorDescriptionToConfigureOtherSLI": "Veuillez mettre à jour le widget SLO en sélectionnant une autre SLI",
+      "errorTitleForConfiguredSliDeletion": "L'indicateur SLI configuré a été supprimé",
+      "errorDescriptionToConfigureOtherSLI": "Mettez à jour le widget SLO en sélectionnant une autre SLI",
       "index": {
         "testTitle": "Les 5 services les plus lents",
         "testLabels": {
@@ -328,7 +330,7 @@
         "tooltip": {
           "needToTurnOffTimeShift": "Pour utiliser la mise en évidence des problèmes potentiels, vous devez d'abord désactiver le décalage horaire.",
           "needToTurnOffGrouping": "Pour utiliser la mise en évidence des problèmes potentiels, vous devez d'abord désactiver le regroupement.",
-          "needToRemoveDatasets": "Pour utiliser la mise en évidence des problèmes potentiels, vous devez d'abord supprimer tout autre jeu de données.",
+          "needToRemoveDatasets": "Pour utiliser la mise en évidence des problèmes potentiels, vous devez d'abord retirer tout autre jeu de données.",
           "needToChangeMetric": "Pour utiliser la mise en évidence des problèmes potentiels, vous devez modifier la mesure."
         },
         "onlyWorksWithOneMetricConfigured": "Uniquement pris en charge lorsqu'un seul jeu de fichiers est configuré."
@@ -365,7 +367,7 @@
       },
       "index": {
         "chartPie": "Graphique : à secteurs",
-        "testTitle": "Événements",
+        "testTitle": "Evénements",
         "testLegendItem1": "Incidents",
         "testLegendItem2": "Problèmes : Critique",
         "testLegendItem3": "Problèmes : Avertissement"
@@ -374,6 +376,7 @@
     "slo": {
       "demo": {
         "title": "Titre d'objectif de niveau de service",
+        "sliName": "Exemple de SLI",
         "appName": "Exemple de nom d'application"
       },
       "apConfigFormComp": {
@@ -383,7 +386,7 @@
         "appPerspectHelpAction": "Configurez des démarches/offres d'utilisateur en les modélisant en tant que perspective d'application dans la zone Applications.",
         "rbacHint": "Les applications affichées peuvent être limitées par droits d'accès.",
         "noAppPerspect": "Aucune perspective d'application.",
-        "pleaseSelect": "Sélectionnez"
+        "pleaseSelect": "Effectuez une sélection"
       },
       "websiteSelector": {
         "website": "Site Web",
@@ -391,17 +394,17 @@
         "websiteHelpAction": "Configurez les sites Web dans la zone Sites Web et applications mobiles.",
         "rbacHint": "Les sites Web affichés peuvent être limités par droits d'accès.",
         "noWebsites": "Aucun site Web trouvé",
-        "pleaseSelect": "Veuillez sélectionner"
+        "pleaseSelect": "Effectuez une sélection"
       },
       "sliSelectionFormComp": {
         "srvLevelIndicator": "Indicateur de niveau de service (SLI)",
         "selectASli": "Sélectionnez un SLI.",
         "noneAvailCreateOne": "Aucun disponible. Créez-en un.",
-        "pleaseSelect": "Sélectionnez"
+        "pleaseSelect": "Effectuez une sélection"
       },
       "createSliForm": {
         "sliCreateSuccess": "SLI créé avec succès",
-        "failCreateSli": "Échec de la création du SLI.",
+        "failCreateSli": "Echec de la création du SLI.",
         "problemCreateSli": "Une erreur s'est produite lors de la création du SLI : \"{{sliName}}\"",
         "clone": "Cloner",
         "create": "Créer",
@@ -409,17 +412,17 @@
         "sliCreated": "Le SLI \"{{sliName}} \" a été créé."
       },
       "endpointSelectBox": {
-        "endpoint": "Nœud final",
+        "endpoint": "Noeud final",
         "allEndpoints": "Tous les nœuds finaux",
         "loading": "<loading>"
       },
       "goodBadEventsForm": {
-        "goodEvents": "Événements corrects",
-        "badEvents": "Événements incorrects",
+        "goodEvents": "Evénements corrects",
+        "badEvents": "Evénements incorrects",
         "websitesFilterLabel": "{{websiteLabel}} / {{beaconType}}"
       },
       "metricFormData": {
-        "latency": "Latence",
+        "latency": "Temps d'attente",
         "callCount": "Nombre d'appels",
         "errorRate": "Taux d'erreurs",
         "erroneousCalls": "Appels erronés",
@@ -457,28 +460,30 @@
         "sliNameNotEmpty": "Vous devez définir un nom de SLI.",
         "sliCustomHelpAction": "Les informations relatives à la personnalisation de SLI et aux types de SLI figurent dans nos documentations.",
         "sliTimeBasedOrAnEventBasedSli": "Le type de SLI doit être basé sur le temps ou sur des événements.",
-        "pleaseSelect": "Sélectionnez",
+        "pleaseSelect": "Effectuez une sélection",
         "boundary": "Limite",
         "hiddenCalls": "Appels masqués",
         "includeInternalCalls": "Inclure les appels internes",
         "includeSyntheticCalls": "Inclure les appels synthétiques",
         "type": "Type",
         "sliEntity": "Entité SLI",
-        "beaconConfigLabel": "Configuration d'alarme",
+        "beaconConfigLabel": "Configuration de balise",
         "beaconScopeLabel": "Portée de l'alarme",
         "httpRequestsLabel": "Demandes HTTP",
-        "beaconFiltersLabel": "Filtres d'alarmes"
+        "beaconFiltersLabel": "Filtre de balises"
       },
       "sliList": {
         "serviceLevelIndicators": "Indicateurs du niveau de service (SLI)",
         "sliConfigDeleted": "La configuration SLI a été supprimée avec succès.",
-        "failedDelSli": "Échec de la suppression du SLI",
+        "failedDelSli": "Echec de la suppression de l'indicateur SLI",
         "sliType": "Type de SLI",
         "viewCloneSliConfig": "Afficher/Cloner la configuration SLI",
         "delSliConfig": "Supprimer la configuration SLI",
-        "pleaseConfirm": "Veuillez confirmer.",
+        "pleaseConfirm": "Veuillez confirmer",
         "pleaseConfirmMsg": "Voulez-vous vraiment supprimer <strong>{{sliName}}</strong> ?",
-        "delete": "Supprimer"
+        "delete": "Supprimer",
+        "eventBasedSli": "En fonction des événements",
+        "timeBasedSli": "Basées sur le temps, {{metricNameLabel}}"
       },
       "sliManageList": {
         "configSrvLevelIndicatorsMsg": "Vous ne disposez pas de l'autorisation <em>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</em> requise pour créer ou modifier les SLI.",
@@ -494,7 +499,9 @@
       "chart": {
         "spent": "Dépensé",
         "budget": "Budget",
-        "viewInAnalyze": "Afficher dans l'analyse"
+        "viewInAnalyze": "Afficher dans l'analyse",
+        "initialEvaluation": "SLI créé",
+        "missingDataInfo": "L'heure de création de ce niveau de service est dans la période affichée. Les données antérieures à la création du SLI manqueront."
       },
       "formComponent": {
         "sliManagement": "Gestion des SLI",
@@ -516,20 +523,21 @@
         "days": "jours",
         "weeks": "semaines",
         "months": "mois",
-        "pleaseSpecifyTheNumber": "Veuillez indiquer le nombre de {{timeValue}}.",
+        "pleaseSpecifyTheNumber": "Indiquez le nombre de {{timeValue}}.",
         "start": "Début",
         "enterDateFormatYyyyMmDd": "Entrez une date au format JJ/MM/AAAA.",
         "enterTimeInFormatHhMmSs": "Entrez une heure au format HH:mm:ss."
       },
-      "widgetHeader": {
+      "sliSummary": {
         "status": "Statut",
         "target": "Cible :",
         "errorBudgetSpent": "Budget d'erreurs dépensé",
         "errorBudget": "Budget d'erreurs :",
         "timeWindow": "Fenêtre de temps",
-        "dynamicTimeWindow": "Fenêtre de temps dynamique",
-        "rollingTimeWindow": "Fenêtre de temps glissante",
-        "fixedTimeWindow": "Fenêtre de temps fixe"
+        "timeWindowType": "Fenêtre de temps inconnue",
+        "timeWindowType_dynamic": "Fenêtre de temps dynamique",
+        "timeWindowType_rolling": "Fenêtre de temps glissante",
+        "timeWindowType_fixed": "Fenêtre de temps fixe"
       },
       "sloEntityInfo": {
         "tooltip": {
@@ -551,7 +559,9 @@
       "slo": "SLO",
       "monitoringSourceSelector": {
         "source_application": "Application",
-        "source_website": "Site Web"
+        "source_website": "Site Web (Bêta)",
+        "callOut_application": "Exclut les facteurs indépendants de votre contrôle, tels que la mauvaise connectivité Internet des utilisateurs finaux, mais peut ne pas refléter exactement l'expérience de l'utilisateur final",
+        "callOut_website": "La plus grande partie reflète l'expérience de l'utilisateur final, mais n'exclut pas les facteurs qui échappent à votre contrôle, tels que la mauvaise connectivité Internet des utilisateurs finaux."
       },
       "sliFormatter": {
         "unit": "appel",
@@ -560,6 +570,108 @@
         "unit_1": "appel",
         "unit_2": "appels",
         "thousandCallsFormat": "{{count}}K appels"
+      },
+      "widgetLeftHeader": {
+        "previewDataInfo": "Les données d'aperçu ne remontent que jusqu'à 7 jours. Le widget final inclura uniquement les données depuis la création de SLI."
+      },
+      "boundaryScopeConfigurator": {
+        "all": {
+          "title": "Tous les appels",
+          "description": "Appels exécutés dans cette application par les consommateurs et en interne."
+        },
+        "inbound": {
+          "title": "Appels entrants",
+          "description": "Uniquement les appels exécutés par les consommateurs de cette application."
+        }
+      }
+    },
+    "apdex": {
+      "title": "Apdex : Graphique",
+      "chart": {
+        "metricLabel": "Apdex",
+        "viewInAnalyze": "Afficher dans l'analyse",
+        "noDataRetentionPeriod": "La plage de temps sélectionnée dépasse la durée de conservation des données",
+        "notFoundErrorTitle": "L'Apdex configuré est introuvable",
+        "notFoundErrorDescription": "Mettez à jour le widget Apdex en sélectionnant une autre configuration Apdex"
+      },
+      "demo": {
+        "title": "Apdex for Prod",
+        "entityLabel": "Robot Shop"
+      },
+      "apdexConfigInfo": {
+        "tagFilterLabel": "Filtrer",
+        "apdexNameLabel": "Nom Apdex",
+        "apdexTypeLabel": "Type Apdex",
+        "thresholdLabel": "Seuil"
+      },
+      "formComponent": {
+        "title": "Configuration d'Apdex",
+        "entityTypeTitle": "Type Apdex",
+        "manageListTitle": "Gestion d'Apdex"
+      },
+      "configurationSelector": {
+        "label": "Configuration d'Apdex",
+        "selectConfig": "Sélectionnez une configuration",
+        "manageConfig": "Gérer Apdex",
+        "noneAvailCreateOne": "Aucun disponible. Créez-en un.",
+        "pleaseSelect": "Effectuez une sélection"
+      },
+      "entityTypeSelector": {
+        "type": "Type inconnu",
+        "type_website": "Site Web",
+        "type_application": "Application"
+      },
+      "apdexManageList": {
+        "title": "Liste d'Apdex",
+        "deleteSuccessfulMessage": "La configuration Apdex a été supprimée.",
+        "deleteFailedMessage": "Echec de suppression de la configuration Apdex."
+      },
+      "apdexList": {
+        "cardTitle": "Configuration d'Apdex",
+        "nameColumn": "Configuration d'Apdex",
+        "thresholdColumn": "Seuil",
+        "confirmDeleteHeader": "Veuillez confirmer",
+        "confirmDeleteMessage": "Voulez-vous vraiment supprimer {{apdex}} ?",
+        "editApdexTooltip": "Modifier/cloner la configuration d'Apdex",
+        "deleteApdexTooltip": "Supprimer la configuration d'Apdex",
+        "confirmDeleteButton": "Supprimer",
+        "createButton": "Créer la configuration d'Apdex"
+      },
+      "createApdexForm": {
+        "title": "Créer la configuration d'Apdex",
+        "customizationHeader": "Personnalisation d'Apdex",
+        "label": "Nom Apdex",
+        "apdexCreateSuccessTitle": "La configuration Apdex a été créée.",
+        "apdexCreateSuccessContent": "La configuration Apdex \"{{apdexName}}\" a été créée.",
+        "apdexCreateFailedTitle": "Echec de création de la configuration Apdex.",
+        "apdexCreateFailedContent": "Un incident s'est produit lors de la création de cette configuration Apdex : \"{{apdexName}}\"",
+        "apdexNameNotEmpty": "Le nom Apdex ne peut pas être vide.",
+        "nameExistsError": "Une configuration Apdex avec ce nom existe déjà. Entrez un autre nom.",
+        "limitReachedError": {
+          "website": "Le nombre maximal de configurations apdex de site Web ({{0}}) a été atteint. Contactez le support Instana pour demander une augmentation de cette limite.",
+          "application": "Le nombre maximal de configurations apdex d'application ({{0}}) a été atteint. Contactez le support Instana pour demander une augmentation de cette limite."
+        },
+        "editConfigNotice": "La configuration ne peut pas être éditée après la création pour éviter la perte de données."
+      },
+      "createWebsiteApdexForm": {
+        "thresholdHeader": "Configuration de seuil",
+        "thresholdLabel": "Seuil"
+      },
+      "entityInfo": {
+        "tooltip": "Apdex inconnu",
+        "tooltip_website": "Site Web Apdex",
+        "tooltip_application": "Apdex d'application"
+      },
+      "widget": {
+        "unknownEntityLabel_application": "Application inconnue",
+        "unknownEntityLabel_website": "Site Web inconnu",
+        "previewDataInfo": "Les données d'aperçu sont affichées pour les 7 derniers jours. Le widget final n'inclura que les données depuis la création de la configuration Apdex."
+      },
+      "applicationScopeConfigurator": {
+        "label": "Portée Apdex",
+        "boundaryScope": "Limite",
+        "hiddenCalls": "Appels masqués",
+        "additionalFilters": "Filtre supplémentaire"
       }
     },
     "timezone": {
@@ -622,13 +734,13 @@
     "dashboardName": "Nom du tableau de bord",
     "duplicate": "Dupliquer",
     "copyShareConfig": "Copier la configuration de partage",
-    "failedToCreateDashboard": "Échec de la création du tableau de bord."
+    "failedToCreateDashboard": "Echec de la création du tableau de bord."
   },
   "newDashboardDialog": {
     "createNewDashboard": "Créer un tableau de bord",
     "dashboardName": "Nom du tableau de bord",
     "additionalFields": "Seul vous pourrez voir ce tableau de bord. Vous pouvez choisir de le partager avec des collègues après la création.",
     "create": "Créer",
-    "failedToCreateDashboard": "Échec de la création du tableau de bord."
+    "failedToCreateDashboard": "Echec de la création du tableau de bord."
   }
 }

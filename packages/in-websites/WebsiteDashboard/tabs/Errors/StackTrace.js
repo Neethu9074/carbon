@@ -3,8 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment } from 'react';
-import { withState } from 'recompose';
+import React, { Fragment, useState } from 'react';
 
 import RawStack from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/RawStack';
 import ParsedStackTrace from 'in-websites/WebsiteDashboard/tabs/Errors/ParsedStackTrace';
@@ -15,20 +14,15 @@ import { t } from 'in-i18n';
 
 import locals from './StackTrace.mless';
 
-export default withState(
-  'forceRawStackTrace',
-  'setForceRawStackTrace',
-  false
-)(function StackTrace({
+export default function StackTrace({
   websiteId,
   stackTrace,
   parsedStackTrace,
   stackTraceParsingStatus,
-  forceRawStackTrace,
-  setForceRawStackTrace,
   buttonSize,
   children
 }) {
+  const [forceRawStackTrace, setForceRawStackTrace] = useState(false);
   const hasParsedStackTrace = stackTraceParsingStatus === 1 && parsedStackTrace.length > 0;
   const showParsedStackTrace = hasParsedStackTrace && !forceRawStackTrace;
 
@@ -75,4 +69,4 @@ export default withState(
       <RawStack stack={stackTrace} />
     )
   });
-});
+}

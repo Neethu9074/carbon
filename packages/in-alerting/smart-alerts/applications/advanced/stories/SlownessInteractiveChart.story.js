@@ -12,7 +12,7 @@ import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/b
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 
 export default {
-  component: SlownessThresholdCondition()
+  component: SlownessThresholdCondition
 };
 
 const blueprintConfig = getBlueprintConfig('slowness');

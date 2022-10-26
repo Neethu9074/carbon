@@ -29,7 +29,7 @@ const columnDefinitions = [
     id: 'label',
     label: t('in-phmc:name'),
     getContent(item) {
-      return <EntityLink label={item.label} href$={getIbmpSystemDashboard(item.id)} />;
+      return <EntityLink label={item.label} href$={getIbmpSystemDashboard(item.id, { consoleId: item.consoleId })} />;
     }
   },
   {
@@ -44,6 +44,20 @@ const columnDefinitions = [
     label: t('in-phmc:vios'),
     getContent(item) {
       return <TableEntityCounter count={item.vios} />;
+    }
+  },
+  {
+    id: 'utilizedProcUnitsNumber',
+    label: t('in-phmc:utilizedProcNumber'),
+    getContent(item, { timeConfig }) {
+      return (
+        <InfrastructureMetricSparkChart
+          snapshotId={item.id}
+          timeConfig={timeConfig}
+          formatter={number.compact}
+          metric="utilizedProcUnits"
+        />
+      );
     }
   },
   {

@@ -80,25 +80,135 @@
     "buttonLabel": "Créer un nouveau test"
   },
   "navigation": {
-    "synthetics": "Synthétiques"
+    "synthetics": "Surveillance synthétique"
   },
   "dashboard": {
     "testList": {
-      "mainLabel": "Tests synthétiques",
+      "mainLabel": "Surveillance synthétique",
       "secondaryLabels": {
         "tests": "Tests",
-        "location": "Emplacement"
+        "locations": "Emplacements"
       },
-      "locationsSubText": "{{count}} emplacement",
-      "locationsSubText_plural": "{{count}} emplacements",
+      "testLabel": "Nom",
+      "status": "Statut",
       "frequencySubText": "Chaque {{count}} minute",
       "frequencySubText_plural": "Toutes les {{count}} minutes",
       "pause": "Mettre le test en pause",
-      "resume": "Reprendre le test"
+      "resume": "Reprendre le test",
+      "active": "Active",
+      "paused": "Suspendu",
+      "type": "Type",
+      "successRate": "Taux de réussite",
+      "successRuns": "{{successRuns}} / {{totalRuns}} résultats",
+      "latency": "Temps d'attente",
+      "locationLabel": "Emplacement",
+      "locations": "{{totalLocations}} emplacements",
+      "applicationLabel": "Application",
+      "health": "Etat",
+      "action": "Action",
+      "delete": "Supprimer le test",
+      "labelConfirm": "Veuillez confirmer",
+      "labelConfirmRemoveTest": "Voulez-vous vraiment supprimer le test synthétique <strong>{{label}}</strong> ?",
+      "labelRemove": "Supprimer",
+      "na": "Non disponible"
     },
-    "sortOptions": {
-      "name": "Nom",
-      "frequency": "Fréquence"
+    "locationList": {
+      "locationLabel": "Nom de l'emplacement",
+      "status": "Statut",
+      "type": "Type",
+      "totalTests": "Nbre de tests liés",
+      "lastRun": "Dernière exécution de test le"
+    },
+    "summary": {
+      "successRate": "Taux de réussite",
+      "locations": "Emplacements",
+      "responseTime": "Temps de réponse",
+      "meanResponseTime": "moyen Temps de réponse",
+      "responseSize": "Taille de la réponse",
+      "avgResponseSize": "moyen Taille de la réponse",
+      "summaryTab": "Récapitulatif",
+      "resultsTab": "Résultats",
+      "startTime": "Heure de début",
+      "requests": "Demandes",
+      "widgets": {
+        "failures": "Echecs",
+        "responseTimes": "Temps de réponse",
+        "averageResponseSize": "Taille de réponse moyenne",
+        "responseStatus": "Statut de la réponse",
+        "networkTimings": "Délais de réseau",
+        "blocking": "Blocage",
+        "dns": "Recherche DNS",
+        "sending": "Envoi",
+        "waiting": "En attente",
+        "receiving": "Réception",
+        "slowest": "Le plus lent",
+        "latest": "Le plus récent",
+        "failed": "Echec",
+        "results": "Résultats",
+        "linkViewAllTestResults": "Afficher tous les résultats",
+        "ok": "Réussite",
+        "redirection": "Redirection",
+        "clientError": "Erreur client",
+        "serverError": "Erreur du serveur"
+      },
+      "totalRuns": "Nombre total d'exécutions {{totalRuns}}",
+      "meanLatencyFor90th": "{{meanLatencyDetail}} pour 90e"
+    },
+    "resultsListPage": {
+      "startedColumn": "Démarré",
+      "locationColumn": "Emplacement",
+      "responseTimeColumn": "Temps de réponse",
+      "responseSizeColumn": "Taille de la réponse",
+      "retriesColumn": "Nombre de tentatives",
+      "title": "Résultats"
+    },
+    "detailsPage": {
+      "timeLineWidget": "Chronologie",
+      "responseTimeChart": "Temps de réponse",
+      "subtransactionStatus": "Statut",
+      "subtransactionSize": "Taille",
+      "subtransactionTime": "Durée",
+      "subtransactionBlocking": "Blocage",
+      "subtransactionDNS": "DNS",
+      "subtransactionConnect": "Connecter",
+      "subtransactionSSL": "SSL",
+      "subtransactionSending": "Envoi",
+      "subtransactionWaiting": "En attente",
+      "subtransactionReceiving": "Réception",
+      "showLessSubDetails": "Afficher moins",
+      "showMoreSubDetails": "Afficher plus",
+      "failedRun": "Echec d'exécution (exception)",
+      "failedRunErrorTitle": "Message d'erreur",
+      "noFailedErrorMessage": "Aucun message d'erreur",
+      "stackTraceTitle": "Trace de pile",
+      "noStacktrace": "Aucune trace de pile",
+      "statusKpiCard": "Statut",
+      "successResult": "Réussi",
+      "failedResult": "Echec",
+      "searchFilter": "Rechercher",
+      "subtransactionBody": {
+        "contentType": "Type de contenu",
+        "size": "Taille",
+        "redirectTime": "Temps de redirection",
+        "uploadSpeed": "Vitesse d'importation",
+        "downloadSpeed": "Vitesse de téléchargement",
+        "requestTitle": "Demande",
+        "responseTimingTitle": "Délai de réponse",
+        "timingsPercentageOfTotalDurationName": "{{percentage}} de {{totalDurationName}}"
+      },
+      "logs": "Journaux",
+      "noDataAvailable": {
+        "message": "Détails de {{component}} non disponibles pour ce résultat de test",
+        "notFound": "Non trouvé"
+      }
+    },
+    "noDataAvailable": {
+      "resultsTitle": "Aucun résultat n'est disponible",
+      "resultsDescription": "Aucun résultat n'a été extrait pour la période sélectionnée",
+      "testSummaryTitle": "Aucun test synthétique disponible",
+      "testSummaryDescription": "Aucun test synthétique n'a été extrait de la base de données.",
+      "locationListTitle": "Aucun emplacement synthétique disponible",
+      "locationListDescription": "Aucun emplacement synthétique n'est extrait de la base de données."
     }
   }
 }

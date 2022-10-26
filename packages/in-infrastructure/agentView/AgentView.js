@@ -41,6 +41,7 @@ import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
+import { fromJS } from 'immutable';
 
 export default connectTo(
   props => {
@@ -48,7 +49,7 @@ export default connectTo(
     if (!props.agentSnapshotsResult) {
       observables.agentSnapshotsResult = combineLatest([timeConfig$, debouncedQuery$]).flatMap(
         ([timeConfig, query]) => {
-          return getAgentSnapshotsInTimeframe({ timeConfig, query });
+          return getAgentSnapshotsInTimeframe({ timeConfig, query }).map(fromJS);
         }
       );
     }
@@ -75,46 +76,40 @@ export default connectTo(
         <Switch>
           <Route path={'*/dashboard'} component={Dashboard} />
 
-          <Route
-            path="/agents/installation"
-            render={() => (
-              <MaxWidthFullscreenContainer>
-                <AgentInstallationView />
-              </MaxWidthFullscreenContainer>
-            )}
-          />
+          <Route path="/agents/installation">
+            <MaxWidthFullscreenContainer>
+              <AgentInstallationView />
+            </MaxWidthFullscreenContainer>
+          </Route>
 
-          <Route
-            path="/agents"
-            render={() => (
-              <Sticky
-                header={
-                  <>
-                    <DashboardHeader
-                      title={t('in-infrastructure:agentView.agents')}
-                      contextConfigurations={[
-                        {
-                          renderContext: () => t('in-infrastructure:agentView.agents'),
-                          contextIcon: 'lib_actions_settings'
-                        }
-                      ]}
-                      renderButtonLine={renderButtonLine}
-                      agentSnapshots={agentSnapshots}
-                    />
-                    <DashboardHeaderModule withBottomBorder>
-                      <SearchBar style={{ maxWidth: 'calc(100% - 5rem)' }} theme="light" />
-                    </DashboardHeaderModule>
-                  </>
-                }
-              >
-                <LeftRightPadding>
-                  <AgentViewKpis agentSnapshots={agentSnapshots} />
-                  <AgentsPresenceChart />
-                  <AgentsTable agentSnapshots={agentSnapshots} />
-                </LeftRightPadding>
-              </Sticky>
-            )}
-          />
+          <Route path="/agents">
+            <Sticky
+              header={
+                <>
+                  <DashboardHeader
+                    title={t('in-infrastructure:agentView.agents')}
+                    contextConfigurations={[
+                      {
+                        renderContext: () => t('in-infrastructure:agentView.agents'),
+                        contextIcon: 'lib_actions_settings'
+                      }
+                    ]}
+                    renderButtonLine={renderButtonLine}
+                    agentSnapshots={agentSnapshots}
+                  />
+                  <DashboardHeaderModule withBottomBorder>
+                    <SearchBar style={{ maxWidth: 'calc(100% - 5rem)' }} theme="light" />
+                  </DashboardHeaderModule>
+                </>
+              }
+            >
+              <LeftRightPadding>
+                <AgentViewKpis agentSnapshots={agentSnapshots} />
+                <AgentsPresenceChart />
+                <AgentsTable agentSnapshots={agentSnapshots} />
+              </LeftRightPadding>
+            </Sticky>
+          </Route>
         </Switch>
 
         <Footer />

@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { deprecateAppDataLegacyEventsEnabled } from 'in-services/featureFlags';
 import { plugins, customIssuesDisabledForPlugins } from 'in-forge/constants';
-import { deprecateAppDataLegacyEvents } from 'in-services/featureFlags';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { getPluginName } from 'in-sdk/pluginName';
 import { hasCategory } from 'in-sdk/metrics';
@@ -71,7 +71,7 @@ export function getDescription(entity) {
  * Consequently, plugins that only have custom-metrics are also not returned by this method.
  * @return {{label: string|""|string, value: *}[]} Plugin options for built-in metrics in alphabetical order.
  */
-export function getEntityTypeOptionsOfBuiltInMetrics() {
+export function getEntityTypeOptionsOfBuiltInMetrics(showDeprecatedLabel) {
   return Object.values(plugins)
     .filter(plugin => hasCategory(plugin))
     .filter(plugin => customIssuesDisabledForPlugins.indexOf(plugin) < 0)
@@ -79,19 +79,19 @@ export function getEntityTypeOptionsOfBuiltInMetrics() {
     .map(plugin => {
       return {
         value: plugin,
-        label: getLabelForPlugin(plugin)
+        label: getLabelForPlugin(plugin, showDeprecatedLabel)
       };
     });
 }
 
-function getLabelForPlugin(plugin) {
-  return shouldDisplayDeprecatedLabel(plugin)
+function getLabelForPlugin(plugin, showDeprecatedLabel) {
+  return showDeprecatedLabel && shouldDisplayDeprecatedLabel(plugin)
     ? getPluginName(plugin, 1) + ` (${t('in-settings:tabs.deprecated')})`
     : getPluginName(plugin, 1);
 }
 
 function shouldDisplayDeprecatedLabel(plugin) {
-  return deprecateAppDataLegacyEvents && isDeprecatedAppDataEntity(plugin);
+  return deprecateAppDataLegacyEventsEnabled && isDeprecatedAppDataEntity(plugin);
 }
 
 function isDeprecatedAppDataEntity(plugin) {
@@ -166,4 +166,13 @@ function round(value, decimals) {
 function getNumberOfDigits(value) {
   const [, digits] = value?.toString()?.split('.') ?? [];
   return digits?.length || 0;
+}
+
+export function needsMigrationAction(entity) {
+  return (
+    deprecateAppDataLegacyEventsEnabled &&
+    !isBuiltInRule(entity) &&
+    isAppDataEntityType(entity.entityType) &&
+    !entity.migrated
+  );
 }

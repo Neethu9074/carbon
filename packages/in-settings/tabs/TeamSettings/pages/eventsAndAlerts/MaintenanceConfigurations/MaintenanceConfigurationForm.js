@@ -6,9 +6,7 @@
 import { isValid, parse } from 'date-fns';
 import React from 'react';
 
-import { Message } from '@instana/components';
-import { Button } from '@instana/components';
-import { Link } from '@instana/components';
+import { Message, Button, Link, keyCodes } from '@instana/components';
 
 import Applications, {
   applicationSelectionTableActions,
@@ -45,7 +43,14 @@ export default function MaintenanceConfigurationForm(props) {
   const selectedApplicationIds = form.get('applicationIds') ? form.get('applicationIds').value : [];
 
   return (
-    <fieldset>
+    <fieldset
+      onKeyDown={event => {
+        // avoid pressing enter in any input field to trigger a button onClick event
+        if (keyCodes.isReturn(event)) {
+          event.preventDefault();
+        }
+      }}
+    >
       <FormDataEnrichment form={form} onChange={onChange} setForm={setForm} />
 
       {form.get('name').map(field => (

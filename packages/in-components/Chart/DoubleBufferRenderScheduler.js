@@ -28,7 +28,7 @@ export default class DoubleBufferRenderScheduler extends RenderScheduler {
     this.frontBufferCtx = frontBufferCanvas.getContext('2d');
   }
 
-  update(timeConfig, width, height) {
+  update(timeConfig, width, height, wiggleRoom) {
     const shouldResizeFrontBuffer = this.frontBufferWidth !== width || this.bufferHeight !== height;
     this.frontBufferWidth = width;
     this.bufferHeight = height;
@@ -48,7 +48,7 @@ export default class DoubleBufferRenderScheduler extends RenderScheduler {
 
     this.updateBuffer(shouldResizeFrontBuffer);
 
-    super.update(timeConfig, width);
+    super.update(timeConfig, width, wiggleRoom);
   }
 
   updateBuffer(shouldResizeFrontBuffer) {

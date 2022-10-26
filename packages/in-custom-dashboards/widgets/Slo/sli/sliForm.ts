@@ -12,19 +12,25 @@ import {
   websiteTimeBased,
   CombinedWebsiteSliEntity,
   CombinedApplicationSliEntity,
+  isAvailabilitySliEntity,
   SliConfig,
-  CombinedSliEntity
+  CombinedSliEntity,
+  SliType,
+  isWebsiteEventBasedSliEntity,
+  isWebsiteTimeBasedSliEntity,
+  NewSliConfig
 } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import {
   Application,
   AvailabilitySliEntity,
   SliConfigMetricConfiguration,
-  SliEntitySliType,
   TagFilterExpressionElementUnion,
   Website,
-  WebsiteEventBasedSliEntity
+  WebsiteEventBasedSliEntity,
+  ApplicationSliEntity
 } from 'in-types';
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { MonitoredEntity } from 'in-custom-dashboards/widgets/Slo/hooks/useMonitoredEntity';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { numericValidator, minValidator } from 'in-services/validators/number';
@@ -40,10 +46,16 @@ interface EventBasedSliEntity {
   readonly goodEventFilterExpression: TagFilterExpressionElementUnion;
 }
 
-export interface SliFormData<SLI_TYPE extends SliEntitySliType> {
+export interface FormSubmitState {
+  success: boolean;
+  saving: boolean;
+  error: boolean;
+}
+
+export interface SliFormData<SLI_TYPE extends SliType> {
   id: string;
   sliName: string;
-  sliEntity: SLI_TYPE extends 'APPLICATION' ? ApplicationSliEntityFormData : WebsiteSliEntityFormData;
+  sliEntity: SLI_TYPE extends 'application' ? ApplicationSliEntityFormData : WebsiteSliEntityFormData;
   metricConfiguration?: SliConfigMetricConfiguration;
 }
 
@@ -67,6 +79,23 @@ export const sliFieldNames = Object.freeze({
   goodEventFilterExpression: 'goodEventFilterExpression',
   badEventFilterExpression: 'badEventFilterExpression'
 } as const);
+
+export const sliApplicationIdKey = 'applicationId';
+export const sliBeasonTypeKey = 'beaconType';
+export const sliBoundaryScopeKey = 'boundaryScope';
+export const sliEndpointIdKey = 'endpointId';
+export const sliFilterExpressionKey = 'filterExpression';
+export const sliIncludeInternalKey = 'includeInternal';
+export const sliIncludeSyntheticKey = 'includeSynthetic';
+export const sliMetricAggregationKey = 'metricAggregation';
+export const sliMetricConfigurationKey = 'metricConfiguration';
+export const sliMetricNameKey = 'metricName';
+export const sliServiceIdKey = 'serviceId';
+export const sliSliEntityKey = 'sliEntity';
+export const sliSliNameKey = 'sliName';
+export const sliSliTypeKey = 'sliType';
+export const sliThresholdnKey = 'threshold';
+export const sliWebsiteIdKey = 'websiteId';
 
 export function createForm(
   entityType: 'application',
@@ -95,7 +124,7 @@ export function createForm(
   }
 
   form = form.put(
-    'sliName',
+    sliSliNameKey,
     createField({
       value: sliName ?? '',
       validator: composeAndShortCircuitOnError<string>(notUndefinedValidator, notBlankValidator)
@@ -103,17 +132,17 @@ export function createForm(
   );
 
   if (entityType === 'website') {
-    form = form.put('sliEntity', createWebsiteSliEntityForm(sliEntity as CombinedWebsiteSliEntity, entityId));
+    form = form.put(sliSliEntityKey, createWebsiteSliEntityForm(sliEntity as CombinedWebsiteSliEntity, entityId));
   } else {
     form = form.put(
-      'sliEntity',
+      sliSliEntityKey,
       createApplicationSliEntityForm(sliEntity as CombinedApplicationSliEntity, entityId, entity as Application)
     );
   }
 
   const sliType = sliEntity?.sliType;
   if (sliType === applicationType || sliType === websiteTimeBased) {
-    form = form.put('metricConfiguration', createMetricsForm(metricConfiguration ?? {}, sliType));
+    form = form.put(sliMetricConfigurationKey, createMetricsForm(metricConfiguration ?? {}, sliType));
   }
 
   return form;
@@ -127,7 +156,7 @@ function createApplicationSliEntityForm(
   const { boundaryScope: apDefaultBoundaryScope } = application;
   const form = createMapForm()
     .put(
-      'sliType',
+      sliSliTypeKey,
       createField({
         validator: composeAndShortCircuitOnError<string>(
           notUndefinedValidator,
@@ -138,25 +167,25 @@ function createApplicationSliEntityForm(
       })
     )
     .put(
-      'applicationId',
+      sliApplicationIdKey,
       createField({
         value: applicationId
       })
     )
     .put(
-      'serviceId',
+      sliServiceIdKey,
       createField({
         value: sliEntity?.serviceId ?? null
       })
     )
     .put(
-      'endpointId',
+      sliEndpointIdKey,
       createField({
         value: sliEntity?.endpointId ?? null
       })
     )
     .put(
-      'boundaryScope',
+      sliBoundaryScopeKey,
       createField({
         value:
           sliEntity?.boundaryScope ??
@@ -164,13 +193,13 @@ function createApplicationSliEntityForm(
       })
     )
     .put(
-      'includeInternal',
+      sliIncludeInternalKey,
       createField({
         value: Boolean(sliEntity?.includeInternal)
       })
     )
     .put(
-      'includeSynthetic',
+      sliIncludeSyntheticKey,
       createField({
         value: Boolean(sliEntity?.includeSynthetic)
       })
@@ -186,7 +215,7 @@ function createApplicationSliEntityForm(
 function createWebsiteSliEntityForm(sliEntity: CombinedWebsiteSliEntity, websiteId: string): MapForm {
   let form = createMapForm()
     .put(
-      'sliType',
+      sliSliTypeKey,
       createField({
         validator: composeAndShortCircuitOnError(
           notUndefinedValidator,
@@ -197,19 +226,19 @@ function createWebsiteSliEntityForm(sliEntity: CombinedWebsiteSliEntity, website
       })
     )
     .put(
-      'websiteId',
+      sliWebsiteIdKey,
       createField({
         value: websiteId
       })
     )
     .put(
-      'beaconType',
+      sliBeasonTypeKey,
       createField({
         value: sliEntity?.beaconType ?? 'httpRequest' // TODO: the default value will be removed once we add the other option to choose beacon scope
       })
     )
     .put(
-      'filterExpression',
+      sliFilterExpressionKey,
       createField({
         value: fromBackendModel(sliEntity?.filterExpression)
       })
@@ -251,21 +280,21 @@ export function createMetricsForm(
 
   return createMapForm()
     .put(
-      'metricName',
+      sliMetricNameKey,
       createField({
         validator: composeAndShortCircuitOnError(notBlankValidator, notUndefinedValidator),
         value: metricConfiguration.metricName ?? defaults.name
       })
     )
     .put(
-      'metricAggregation',
+      sliMetricAggregationKey,
       createField({
         validator: composeAndShortCircuitOnError(notBlankValidator, notUndefinedValidator),
         value: metricConfiguration.metricAggregation ?? defaults.aggregation
       })
     )
     .put(
-      'threshold',
+      sliThresholdnKey,
       createField({
         validator: composeAndShortCircuitOnError(notBlankValidator, notUndefinedValidator, numericValidator, v =>
           minValidator(0)(Number(v))
@@ -296,3 +325,57 @@ const noEmptyFilterExpressionValidator = (model: FormModelElement[]): Validation
     }
   ];
 };
+
+export function toWebsiteSliConfiguration(formData: SliFormData<'website'>): NewSliConfig<CombinedWebsiteSliEntity> {
+  const sliEntity = formData.sliEntity;
+
+  if (isWebsiteTimeBasedSliEntity(sliEntity)) {
+    const { filterExpression, ...entity } = sliEntity as Omit<
+      WebsiteSliEntityFormData,
+      'goodEventFilterExpression' | 'badEventFilterExpression'
+    >;
+    return {
+      ...formData,
+      sliEntity: {
+        ...entity,
+        filterExpression: toBackendQueryModel(filterExpression)
+      }
+    };
+  }
+
+  if (isWebsiteEventBasedSliEntity(sliEntity)) {
+    const { goodEventFilterExpression, badEventFilterExpression, ...entity } = sliEntity as Omit<
+      WebsiteSliEntityFormData,
+      'filterExpression'
+    >;
+    return {
+      ...formData,
+      sliEntity: {
+        ...entity,
+        goodEventFilterExpression: toBackendQueryModel(goodEventFilterExpression),
+        badEventFilterExpression: toBackendQueryModel(badEventFilterExpression)
+      }
+    };
+  }
+
+  return undefined as never;
+}
+
+export function toApplicationSliConfiguration(
+  formData: SliFormData<'application'>
+): NewSliConfig<CombinedApplicationSliEntity> {
+  const sliEntity = formData.sliEntity;
+
+  if (isAvailabilitySliEntity(sliEntity)) {
+    return {
+      ...formData,
+      sliEntity: {
+        ...sliEntity,
+        goodEventFilterExpression: toBackendQueryModel(sliEntity.goodEventFilterExpression),
+        badEventFilterExpression: toBackendQueryModel(sliEntity.badEventFilterExpression)
+      }
+    };
+  }
+
+  return formData as NewSliConfig<ApplicationSliEntity>;
+}

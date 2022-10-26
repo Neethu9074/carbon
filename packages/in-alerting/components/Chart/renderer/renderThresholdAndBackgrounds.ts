@@ -4,19 +4,14 @@
  * Copyright IBM Corp. 2022
  */
 
-// @ts-expect-error is not yet migrated to typescript
-import line from 'in-components/Chart/renderer/line';
-import { DataSeries, RenderAxis, RenderConfig } from 'in-components/Chart/renderer/types';
-import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
+import { DataSeries, RenderConfig } from 'in-components/Chart/renderer/types';
+import { hexToRGBA } from 'in-services/formatters/color';
 import { AxisColor } from 'in-components/Chart/types';
-import { ScaleType } from 'in-services/scale/scale';
-import { ThresholdOperator } from 'in-types';
+import line from 'in-components/Chart/renderer/line';
+import { ScaleType } from 'in-services/scale';
+import theme from 'in-themes';
 
-export type RenderAxisWithThreshold = RenderAxis & {
-  threshold: number;
-  operator: ThresholdOperator;
-  thresholdLineWidth: number;
-};
+const defaultThresholdLineWidth = 1;
 
 function renderBackground(
   xStart: number,
@@ -27,19 +22,21 @@ function renderBackground(
   scale: ScaleType,
   config: RenderConfig
 ) {
-  config.backBufferCtx.save();
-  config.backBufferCtx.fillStyle = fillStyle;
+  const { backBufferCtx } = config;
 
-  config.backBufferCtx.beginPath();
-  config.backBufferCtx.moveTo(xStart, scale.getRange(timebasePoints[0][1]));
+  backBufferCtx.save();
+  backBufferCtx.fillStyle = fillStyle;
+
+  backBufferCtx.beginPath();
+  backBufferCtx.moveTo(xStart, scale.getRange(timebasePoints[0][1]));
 
   drawLineGraph(timebasePoints.length, config, timebasePoints, scale);
 
-  config.backBufferCtx.lineTo(xEnd, yStart);
-  config.backBufferCtx.lineTo(xStart, yStart);
-  config.backBufferCtx.closePath();
-  config.backBufferCtx.fill();
-  config.backBufferCtx.restore();
+  backBufferCtx.lineTo(xEnd, yStart);
+  backBufferCtx.lineTo(xStart, yStart);
+  backBufferCtx.closePath();
+  backBufferCtx.fill();
+  backBufferCtx.restore();
 }
 
 function renderBackgroundWithGaps(
@@ -50,8 +47,9 @@ function renderBackgroundWithGaps(
   config: RenderConfig
 ) {
   segments.forEach(timebasePoints => {
-    const xStart = config.xScaleBackBuffer.getRange(timebasePoints[0][0]);
-    const xEnd = config.xScaleBackBuffer.getRange(timebasePoints[timebasePoints.length - 1][0]);
+    const { xScaleBackBuffer } = config;
+    const xStart = xScaleBackBuffer.getRange(timebasePoints[0][0]);
+    const xEnd = xScaleBackBuffer.getRange(timebasePoints[timebasePoints.length - 1][0]);
 
     renderBackground(xStart, xEnd, yStart, timebasePoints, fillStyle, scale, config);
   });
@@ -104,7 +102,7 @@ function calculateSegments(timebasePoints: DataSeries, maxDistanceBetweenDatapoi
   return segments;
 }
 
-function drawLineGraph(len: number, config: RenderConfig, metric: DataSeries, scale: ScaleType) {
+function drawLineGraph(len: number, config: RenderConfig, metric: DataSeries, scale: ScaleType): void {
   for (let i = 0; i < len; ++i) {
     config.backBufferCtx.lineTo(config.xScaleBackBuffer.getRange(metric[i][0]), scale.getRange(metric[i][1]));
   }
@@ -118,7 +116,7 @@ export function renderThresholdLineAndBackgrounds(
   oneSidedThresholdInTimeframe: DataSeries,
   isGreaterOp: boolean,
   indicateGaps: boolean = false
-) {
+): void {
   const len = oneSidedThresholdInTimeframe.length;
 
   if (len === 0) {
@@ -126,7 +124,6 @@ export function renderThresholdLineAndBackgrounds(
   }
 
   const { backBufferCtx, markerPaneHeight, y1 } = config;
-  const { thresholdLineWidth } = y1 as RenderAxisWithThreshold;
 
   const chartHeight = scale.getRangeFrom();
   const thresholdColor = colors100[1]!;
@@ -155,7 +152,7 @@ export function renderThresholdLineAndBackgrounds(
       ...config,
       y1: {
         ...y1,
-        lineWidth: thresholdLineWidth
+        lineWidth: defaultThresholdLineWidth
       }
     }
   });
@@ -166,21 +163,21 @@ export function renderStaticThresholdLineAndBackgrounds(
   config: RenderConfig,
   scale: ScaleType,
   colors50: AxisColor[],
-  colors100: AxisColor[]
-) {
-  const { backBufferCtx, markerPaneHeight, xScaleBackBuffer, y1 } = config;
-  const { operator, thresholdLineWidth } = y1 as RenderAxisWithThreshold;
+  colors100: AxisColor[],
+  thresholdValue: number,
+  isGreaterOp: boolean
+): void {
+  const { backBufferCtx, markerPaneHeight, xScaleBackBuffer } = config;
 
   // @ts-expect-error scales is not yet defined on config
   const yScale: ScaleType = config.scales.y1;
 
   const chartHeight = scale.getRangeFrom();
   const chartWidth = xScaleBackBuffer.getRangeTo();
-  const threshold = yScale.getRangeFrom() - yScale.getRange((y1 as RenderAxisWithThreshold)!.threshold);
+  const threshold = yScale.getRangeFrom() - yScale.getRange(thresholdValue);
   const thresholdColor = colors100[1]!;
   const alrightColor = colors50[0]!;
   const violationColor = colors50[1]!;
-  const isGreaterOp = operator === undefined || isGreaterOperator(operator);
 
   backBufferCtx.save();
   // Background above line
@@ -194,9 +191,82 @@ export function renderStaticThresholdLineAndBackgrounds(
   // static horizontal line
   backBufferCtx.beginPath();
   backBufferCtx.moveTo(0, chartHeight - threshold);
-  backBufferCtx.lineWidth = thresholdLineWidth;
+  backBufferCtx.lineWidth = defaultThresholdLineWidth;
   backBufferCtx.strokeStyle = thresholdColor;
   backBufferCtx.lineTo(chartWidth, chartHeight - threshold);
   backBufferCtx.stroke();
+  backBufferCtx.restore();
+}
+
+/**
+ * Render a filled box.
+ */
+export function renderHighlight(config: RenderConfig, scale: ScaleType, highlight: Highlight): void {
+  const { backBufferCtx, markerPaneHeight, xScaleBackBuffer } = config;
+
+  const { area, color } = highlight;
+
+  if (!area) {
+    return;
+  }
+
+  const { start, end } = area;
+
+  if (start && end) {
+    const chartHeight = scale.getRangeFrom();
+    const height = chartHeight - markerPaneHeight;
+    const y = markerPaneHeight;
+
+    const startX = xScaleBackBuffer.getRange(start);
+    const endX = xScaleBackBuffer.getRange(end);
+
+    backBufferCtx.fillStyle = color[0];
+    backBufferCtx.save();
+    backBufferCtx.strokeStyle = color[1];
+    backBufferCtx.lineWidth = 0.5;
+    backBufferCtx.fillRect(startX, y, endX - startX, height);
+
+    // draw the boundaries as vertical lines:
+    [startX, endX].forEach(x => {
+      backBufferCtx.beginPath();
+      backBufferCtx.moveTo(x, y);
+      backBufferCtx.lineTo(x, y + height);
+      backBufferCtx.stroke();
+    });
+    backBufferCtx.restore();
+  }
+}
+
+export interface Highlight {
+  area?: {
+    /** the start x coordinate (in the metrics x range) */
+    start?: number;
+    /** the end x coordinate (in the metrics x range) */
+    end?: number;
+  };
+  /**
+   * a pair of colors
+   * - Index 0 being the highlights fill color and
+   * - index 1 being its border color.
+   */
+  color: string[];
+  label: string;
+}
+
+// grey out portion of background for which no metric data is available
+export function renderGreyAreaAsMetricUnavailableIndicator(
+  config: RenderConfig,
+  graphAreaHeight: number,
+  lastAvailableThresholdTimestamp: number,
+  lastAvailableMetricTimestamp: number
+) {
+  const { backBufferCtx, markerPaneHeight, xScaleBackBuffer } = config;
+
+  const xStart = xScaleBackBuffer.getRange(lastAvailableMetricTimestamp);
+  const xPosEnd = xScaleBackBuffer.getRange(lastAvailableThresholdTimestamp);
+
+  backBufferCtx.save();
+  backBufferCtx.fillStyle = hexToRGBA(theme.lib.colors.N600Light, 0.15);
+  backBufferCtx.fillRect(xStart, markerPaneHeight, xPosEnd - xStart, graphAreaHeight);
   backBufferCtx.restore();
 }

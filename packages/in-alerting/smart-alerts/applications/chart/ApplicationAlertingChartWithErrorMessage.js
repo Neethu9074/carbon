@@ -19,10 +19,9 @@ import AlertingChartWithErrorMessage from 'in-alerting/components/Chart/Alerting
 import { isEntitySelectionValid } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import { chartViewConfigPropType } from 'in-alerting/components/Chart/chartViewConfig';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import { baselinePreviewOnAlertPageEnabled } from 'in-services/featureFlags';
+import { pendingResult, emptyArray } from 'in-services/fixedObjects';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { hasError, isLoading } from 'in-services/util/result';
-import { pendingResult } from 'in-services/fixedObjects';
 import { t, Trans } from 'in-i18n';
 
 const NoDataPlaceHolder = ({ text }) => <NoDataAvailable text={text} height={230} />;
@@ -32,15 +31,9 @@ export default function ApplicationAlertingChartWithErrorMessage(props) {
     alertConfigWithFormModel: { evaluationType, threshold },
     serviceId,
     endpointId,
+    isEventsView,
     isAlertDetailView
   } = props;
-
-  const usingPersistedAdaptiveBaseline = isAlertDetailView && threshold?.type === ADAPTIVE_BASELINE;
-
-  if (usingPersistedAdaptiveBaseline && !baselinePreviewOnAlertPageEnabled) {
-    // info shown as long as previews is disabled by feature flag
-    return <NoDataPlaceHolder text={t('in-alerting:smartAlerts.applications.chart.noChartForAdaptiveBaseline')} />;
-  }
 
   if (PER_AP_ENDPOINT === evaluationType && !endpointId) {
     return <NoDataPlaceHolder text={t('in-alerting:smartAlerts.applications.chart.noDataWithoutEndpointSelection')} />;
@@ -50,7 +43,8 @@ export default function ApplicationAlertingChartWithErrorMessage(props) {
     return <NoDataPlaceHolder text={t('in-alerting:smartAlerts.applications.chart.noDataAvailable')} />;
   }
 
-  if (usingPersistedAdaptiveBaseline && baselinePreviewOnAlertPageEnabled) {
+  // fetch persistent baseline?
+  if (threshold?.type === ADAPTIVE_BASELINE && (isAlertDetailView || isEventsView)) {
     return <ApplicationAlertingChartWithErrorMessageForAdaptiveBaseline {...props} />;
   }
 
@@ -58,34 +52,10 @@ export default function ApplicationAlertingChartWithErrorMessage(props) {
 }
 
 function ApplicationAlertingChartWithErrorMessageForAdaptiveBaseline(props) {
-  const {
-    alertConfigWithFormModel: { created, id },
-    viewConfig: { timeConfig },
-    applicationId,
-    serviceId,
-    endpointId
-  } = props;
-
-  const selectedEntityId = endpointId ?? serviceId ?? applicationId;
-
-  const queryParams = {
-    alertConfigId: id,
-    alertCreated: created,
-    applicationId,
-    entityId: selectedEntityId, // either endpoint or service or appId if selected
-    timeConfig
-  };
-  const fetchPersistedBaselineResult = useObservable(
-    selectedEntityId ? onSubscribeBaselinePredictions(queryParams).startWith(pendingResult) : null,
-    [id, created, applicationId, selectedEntityId, timeConfig]
-  );
-
-  const error = hasError(fetchPersistedBaselineResult);
-  const adaptiveBaseline = error || isLoading(fetchPersistedBaselineResult) ? [] : fetchPersistedBaselineResult?.data;
-
+  const { error, baseline } = useFetchAdaptiveBaselineOrUseFallbackFromEvent(props);
   return (
     <>
-      <ApplicationAlertingChartWithErrorMessageAndData {...props} eventBasedAdaptiveBaseline={adaptiveBaseline} />
+      <ApplicationAlertingChartWithErrorMessageAndData {...props} eventBasedAdaptiveBaseline={baseline} />
       {error && (
         <>
           <Spacer size="normal" />
@@ -116,10 +86,7 @@ function ApplicationAlertingChartWithErrorMessageAndData(props) {
   // If a user deselected all entities from entitySelection we have an empty object
   // If a user has never interacted with entitySelection or is in websites smart alert, the value is undefined
   // For example we don't want to hide the chart when we are in simple mode step 1
-  const isServicesAndEndpointsSelectionValid = isEntitySelectionValid(
-    entitySelection,
-    alertConfigWithFormModel.builtIn
-  );
+  const isServicesAndEndpointsSelectionValid = isEntitySelectionValid(entitySelection, false);
 
   return (
     <AlertingChartWithErrorMessage
@@ -133,12 +100,67 @@ function ApplicationAlertingChartWithErrorMessageAndData(props) {
   );
 }
 
+function useFetchAdaptiveBaselineOrUseFallbackFromEvent(props) {
+  const {
+    alertConfigWithFormModel: { created, id, granularity },
+    viewConfig: { timeConfig },
+    applicationId,
+    serviceId,
+    endpointId,
+    eventBasedAdaptiveBaseline
+  } = props;
+
+  const selectedEntityId = endpointId ?? serviceId ?? applicationId;
+
+  const queryParams = {
+    alertConfigId: id,
+    alertCreated: created,
+    applicationId,
+    entityId: selectedEntityId, // either endpoint or service or appId if selected
+    timeConfig,
+    granularity
+  };
+  const fetchPersistedBaselineResult = useObservable(
+    selectedEntityId ? onSubscribeBaselinePredictions(queryParams).startWith(pendingResult) : null,
+    [id, created, applicationId, selectedEntityId, timeConfig]
+  );
+
+  return extractBaselineFromResultsOrUseErrorFallback(fetchPersistedBaselineResult, eventBasedAdaptiveBaseline);
+}
+
+/**
+ * @param errorFallbackBaseline We use eventBasedAdaptiveBaseline as a fallback. It's possible that errorFallbackBaseline is undefined when we are in alert details view.
+ */
+function extractBaselineFromResultsOrUseErrorFallback(fetchPersistedBaselineResult, errorFallbackBaseline) {
+  const fetchError = hasError(fetchPersistedBaselineResult);
+
+  let error;
+  let baseline = [];
+
+  if (fetchError) {
+    // if a fallback baseline exists, hide the error
+    if (errorFallbackBaseline?.length > 0) {
+      baseline = errorFallbackBaseline;
+    } else {
+      error = fetchError;
+    }
+  } else if (isLoading(fetchPersistedBaselineResult)) {
+    baseline = emptyArray;
+  } else {
+    baseline = fetchPersistedBaselineResult?.data;
+    if (baseline?.length < errorFallbackBaseline?.length) {
+      baseline = errorFallbackBaseline;
+    }
+  }
+  return { error, baseline };
+}
+
 function getErrorMessage(isQB2Error, isServicesAndEndpointsSelectionError) {
   if (isQB2Error) {
     return t('in-alerting:components.chart.alertingChartMessageInvalidFilterQuery');
   }
   if (isServicesAndEndpointsSelectionError) {
-    return t('in-alerting:components.chart.alertingChartMessageEntitySelectionInvalid');
+    return t('in-alerting:components.chart.alertingChartMessageEmptyApplicationSelection');
   }
 }
 
@@ -155,6 +177,7 @@ ApplicationAlertingChartWithErrorMessage.propTypes = {
     boundaryScope: PropTypes.string,
     threshold: PropTypes.object,
     builtIn: PropTypes.bool,
+    global: PropTypes.bool,
     evaluationType: PropTypes.string.isRequired
   }).isRequired,
 
@@ -167,6 +190,9 @@ ApplicationAlertingChartWithErrorMessage.propTypes = {
    * Optional serviceId, used to scope down the metric in the chart to a single service entity
    **/
   serviceId: PropTypes.string,
+
+  // enables rendering of a persisted baseline:
+  isEventsView: PropTypes.bool,
   isAlertDetailView: PropTypes.bool,
   setMetricResultPrecision: PropTypes.func,
 

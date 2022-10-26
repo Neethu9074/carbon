@@ -1,24 +1,22 @@
 {
   "components": {
-    "alertHeaderToggleDisableErrorMessage": "Échec de la désactivation de la configuration d'alerte avec l'ID {{alertConfigID}} : {{errorMessage}}",
-    "alertHeaderToggleEnableErrorMessage": "Échec de l'activation de la configuration d'alerte avec l'ID {{alertConfigID}}: {{errorMessage}}",
-    "alertHeaderDeleteErrorMessage": "Échec du retrait de la configuration d'alerte avec l'ID {{alertConfigID}} : {{errorMessage}}",
-    "alertHeaderRestoreErrorMessage": "Échec de la restauration de la révision de configuration d'alerte avec l'ID {{alertConfigID}} et la version {{alertConfigCreated}} : {{errorMessage}}",
+    "alertHeaderToggleDisableErrorMessage": "Echec de la désactivation de la configuration d'alerte avec l'ID {{alertConfigID}} : {{errorMessage}}",
+    "alertHeaderToggleEnableErrorMessage": "Echec de l'activation de la configuration d'alerte avec l'ID {{alertConfigID}}: {{errorMessage}}",
+    "alertHeaderDeleteErrorMessage": "Echec du retrait de la configuration d'alerte avec l'ID {{alertConfigID}} : {{errorMessage}}",
+    "alertHeaderRestoreErrorMessage": "Echec de la restauration de la révision de configuration d'alerte avec l'ID {{alertConfigID}} et la version {{alertConfigCreated}} : {{errorMessage}}",
     "alertHeaderLabelBackToListOfAlerts": "Retour à la liste des alertes",
     "alertHeaderAlert": "Alerte",
-    "alertHeaderRestoreRevisionTooltip": "Restaurer {{description}}",
-    "alertHeaderRestoreRevisionConfirmationDialogHeader": "Veuillez confirmer.",
-    "alertHeaderRestoreRevisionConfirmationDialogDescription": "Voulez-vous vraiment restaurer <strong>\"{{description}}\"</strong> ?",
+    "alertHeaderRestoreRevisionTooltip": "Restaurer",
+    "alertHeaderRestoreRevisionConfirmationDialogHeader": "Veuillez confirmer",
+    "alertHeaderRestoreRevisionConfirmationDialogDescription": "Voulez-vous vraiment restaurer la révision sélectionnée ?",
     "alertHeaderRestoreRevisionConfirmationDialogConfirmButton": "Restaurer",
-    "alertHeaderDisableTooltip": " Désactiver",
-    "alertHeaderEnableTooltip": " Activer",
     "alertHeaderRestoreDeleteTooltip": "Supprimer",
     "alertHeaderEditTooltip": "Éditer",
     "alertHeaderDuplicateTooltip": "Dupliquer",
-    "alertHeaderRestoreDeleteConfirmationDialogHeader": "Veuillez confirmer.",
-    "alertHeaderRestoreDeleteConfirmationDialogDescription": "Voulez-vous vraiment supprimer l'alerte <strong>{{alertConfigName}}</strong> ?",
+    "alertHeaderRestoreDeleteConfirmationDialogHeader": "Veuillez confirmer",
+    "alertHeaderRestoreDeleteConfirmationDialogDescription": "Voulez-vous vraiment retirer l'alerte <strong>{{alertConfigName}}</strong> ?",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "Retirer",
-    "alertHeaderIsNotLatestRevisionMessage": "Vous visualisez la révision {{description}} de cette configuration d'alerte. Veuillez <latestRevisionButton>sélectionner la dernière révision</latestRevisionButton> ou <restoreRevisionButton>restaurer à partir de la révision en cours</restoreRevisionButton> si vous voulez apporter des modifications.",
+    "alertHeaderIsNotLatestRevisionMessage": "Vous visualisez la révision {{description}} de cette configuration d'alerte. <latestRevisionButton>Sélectionnez la dernière révision</latestRevisionButton> ou <restoreRevisionButton>procédez à la restauration à partir de la révision en cours</restoreRevisionButton> si vous voulez apporter des modifications.",
     "alertHeaderAriaLabelSeverity": "Evénement de gravité {{severity}}",
     "alertHistoryListTitleWithTotalRepresentedItemCount": "Alertes créées ({{totalRepresentedItemCount}})",
     "alertStateActive": "actif",
@@ -44,6 +42,12 @@
       "alertingChartMessageEntitySelectionInvalid": "Aucune entité sélectionnée.",
       "chartAlertsLaneErrorMessage": "Impossible de charger les alertes",
       "chartAlertsPreviewLanePresenterAlertsLabel": "Alertes",
+      "chartAlertsPreviewLanePresenterNoAlertsLabel": "Pas d'alertes",
+      "chartAlertsPreviewLanePresenterTooltip": "Alerte : {{count}}",
+      "chartAlertsPreviewLanePresenterTooltip_plural": "Alertes : {{count}}",
+      "chartAlertsPreviewLanePresenterTooltip_0": "Alertes : {{count}}",
+      "chartAlertsPreviewLanePresenterTooltip_1": "Alertes : {{count}}",
+      "chartAlertsPreviewLanePresenterTooltip_2": "Alertes : {{count}}",
       "chartViewConfigsLast24Hours": "Dernières 24 heures",
       "chartViewConfigsLast7Days": "7 derniers jours"
     },
@@ -61,22 +65,22 @@
       "dynamic": "Dynamique",
       "theNumberOfRowsIsRestrictedToMaximumNumberOfRows": "Le nombre de lignes est limité à {{maximumNumberOfRows}}.",
       "addRow": "Ajouter une ligne",
-      "noCustomPayloadConfigured": "Aucune charge utile personnalisée configurée",
+      "noCustomPayloadConfigured": "Aucun contenu personnalisé configuré",
       "keyNamesMustBeUnique": "Les noms de clé doivent être uniques.",
       "theValueMustNotBeBlank": "Vous devez définir une valeur.",
       "onlyOrAnyAlphaNumericalAreAllowed": "Uniquement « . », « - », « _ » ou des caractères alphanumérique sont autorisés.",
       "aTagNeedsToBeSelected": "Vous devez sélectionner une étiquette.",
       "aKeyNeedsToBeSpecified": "Vous devez spécifier une clé.",
-      "customPayloadTitle": "Charges utiles personnalisées"
+      "customPayloadTitle": "Contenus personnalisés"
     }
   },
   "potentialProblems": {
     "titleErrorRate": "Le taux d'appels erronés est supérieur à la normale.",
-    "titleSlowness": "Les appels (latence {{aggregation}}) sont plus lents que d'habitude.",
+    "titleSlowness": "Les appels (temps d'attente {{aggregation}}) sont plus lents que d'habitude.",
     "titlethroughputHigh": "Le nombre d'appels est anormalement élevé.",
     "titlethroughputLow": "Le nombre d'appels est anormalement bas.",
     "buttonInvestigate": "Enquêter",
-    "buttonAddSmartAlert": "Ajouter une Smart Alert",
+    "buttonAddSmartAlert": "Ajouter une alerte intelligente",
     "titlePotentialProblem": "Incident potentiel",
     "titlePotentialProblems": "Incidents potentiels",
     "titlePotentialProblemWithCount": "Incident potentiel ({{count}})",
@@ -102,27 +106,30 @@
     "descriptionThroughputIsHigherOrEqualThan": "Le nombre d'appels est supérieur ou égal à celui attendu.",
     "descriptionThroughputIsLowerThan": "Le nombre d'appels est plus faible que prévu.",
     "descriptionThroughputIsLowerThanOrEqualTo": "Le nombre d'appels est inférieur ou égal à celui prévu.",
-    "descriptionSlownessStaticThresholdAreSlowerThan": "Les appels prennent plus de {{thresholdValue}} ms en fonction de la latence ({{aggregation}}).",
-    "descriptionSlownessStaticThresholdAreSlowerThanOrEqualTo": "Les appels prennent {{thresholdValue}} ms ou plus de temps en fonction de la latence ({{aggregation}}).",
-    "descriptionSlownessStaticThresholdAreBelow": "Les appels prennent moins de {{thresholdValue}} ms en fonction de la latence ({{aggregation}}).",
-    "descriptionSlownessStaticThresholdAreBelowOrEqualTo": "Les appels prennent {{thresholdValue}} ms ou moins de temps en fonction de la latence ({{aggregation}}).",
-    "descriptionSlownessAreSlowerThan": "Les appels prennent plus de temps que prévu en fonction de la latence ({{aggregation}}).",
-    "descriptionSlownessAreSlowerThanOrEqualTo": "Les appels prennent le temps attendu ou plus de temps en fonction de la latence ({{aggregation}}).",
-    "descriptionSlownessAreBelow": "Les appels prennent moins de temps que prévu en fonction de la latence ({{aggregation}}).",
-    "descriptionSlownessAreBelowOrEqualTo": "Les appels prennent le temps prévu ou moins de temps en fonction de la latence ({{aggregation}}).",
+    "descriptionSlownessStaticThresholdAreSlowerThan": "Les appels prennent plus de {{thresholdValue}} ms en fonction du temps d'attente ({{aggregation}}).",
+    "descriptionSlownessStaticThresholdAreSlowerThanOrEqualTo": "Les appels prennent {{thresholdValue}} ms ou plus de temps en fonction du temps d'attente ({{aggregation}}).",
+    "descriptionSlownessStaticThresholdAreBelow": "Les appels prennent moins de {{thresholdValue}} ms en fonction du temps d'attente ({{aggregation}}).",
+    "descriptionSlownessStaticThresholdAreBelowOrEqualTo": "Les appels prennent {{thresholdValue}} ms ou moins de temps en fonction du temps d'attente ({{aggregation}}).",
+    "descriptionSlownessAreSlowerThan": "Les appels prennent plus de temps que prévu en fonction du temps d'attente ({{aggregation}}).",
+    "descriptionSlownessAreSlowerThanOrEqualTo": "Les appels prennent le temps attendu ou plus de temps en fonction du temps d'attente ({{aggregation}}).",
+    "descriptionSlownessAreBelow": "Les appels prennent moins de temps que prévu en fonction du temps d'attente ({{aggregation}}).",
+    "descriptionSlownessAreBelowOrEqualTo": "Les appels prennent le temps prévu ou moins de temps en fonction du temps d'attente ({{aggregation}}).",
     "descriptionUnsupportedOperator": "Opérateur non pris en charge : {{operator}}"
   },
   "smartAlerts": {
-    "applicationSmartAlert": "Application Smart Alert",
-    "globalApplicationSmartAlert": "Smart Alert d'application globale",
-    "titleNoSmartAlertsConfigured": "Aucune Smart Alert configurée",
-    "titleNoSmartAlertsConfiguredForSearchQuery": "Aucune configuration Smart Alert trouvée pour une recherche donnée",
-    "titleNoSmartAlertsCreated": "Aucune Smart Alert créée",
+    "applicationSmartAlert": "Alerte intelligente d'application",
+    "globalApplicationSmartAlert": "Alerte intelligente d'application globale",
+    "titleNoSmartAlertsConfigured": "Aucune alerte intelligente configurée",
+    "titleNoSmartAlertsConfiguredForSearchQuery": "Aucune configuration d'alerte intelligente trouvée pour une recherche donnée",
+    "titleNoSmartAlertsCreated": "Aucune alerte intelligente créée",
     "titleCopyOf": "(Copie de) {{smartAlertTitle}}",
     "applications": {
       "alertConfiguration": "Configuration d'alerte",
       "advanced": {
         "alertPropertyInsertPlaceholderLabel": "Insérer un espace réservé",
+        "applicationNamePlaceholder": "nom-application",
+        "serviceNamePlaceholder": "nom-service",
+        "endpointNamePlaceholder": "nom-noeud final",
         "evaluationSwitch": {
           "individual": "Alertes individuelles",
           "optionNotAvailableForAdaptiveThreshold": "Cette option n'est pas disponible avec le seuil adaptatif",
@@ -143,12 +150,12 @@
             "globalDescription": "Alerte individuelle par service dans le contexte de chaque perspective d'application"
           },
           "evaluationTypePERAPENDPOINT": {
-            "selectionText": "par nœud final pour cette perspective d'application",
-            "globalSelectionText": "par nœud final dans le contexte de chaque perspective d'application",
+            "selectionText": "par noeud final pour cette perspective d'application",
+            "globalSelectionText": "par noeud final dans le contexte de chaque perspective d'application",
             "shortText": "Par noeud final",
-            "columnText": "par nœud final",
-            "description": "Alerte individuelle par nœud final pour cette perspective d'application",
-            "globalDescription": "Alerte individuelle par nœud final dans le contexte de chaque perspective d'application"
+            "columnText": "par noeud final",
+            "description": "Alerte individuelle par noeud final pour cette perspective d'application",
+            "globalDescription": "Alerte individuelle par noeud final dans le contexte de chaque perspective d'application"
           }
         },
         "inboundOutboundCalls": {
@@ -165,7 +172,7 @@
             }
           },
           "confirmationDialog": {
-            "pleaseConfirm": "Veuillez confirmer.",
+            "pleaseConfirm": "Veuillez confirmer",
             "description": "La modification de la portée des limites réinitialise la sélection des applications.",
             "confirmButtonLabel": "Confirmer"
           }
@@ -174,17 +181,22 @@
           "config": {
             "static": {
               "title": "Statique",
-              "description": "Le seuil est une valeur de seuil fixe ou avec contrainte horaire. Instana vous aide à choisir la valeur de seuil appropriée en fonction des données récentes"
+              "description": "Le seuil est une valeur de seuil fixe ou avec contrainte horaire. Instana vous aide à choisir la valeur de seuil appropriée sur la base des données récentes."
             },
             "adaptive": {
               "title": "Adaptative",
-              "description": "Le seuil s'adapte automatiquement aux modifications de la métrique sous-jacente"
+              "description": "Le seuil s'adapte automatiquement aux modifications de la métrique sous-jacente."
             }
           }
         },
-        "includeInternalOrSynthethicCalls": {
+        "includeInternalOrSyntheticCalls": {
           "includeInternalCalls": "Inclure les appels internes",
-          "includeSyntethicCalls": "Inclure les appels synthétiques"
+          "includeSyntheticCalls": "Inclure les appels synthétiques",
+          "confirmationDialog": {
+            "pleaseConfirm": "Veuillez confirmer",
+            "description": "Si vous désélectionnez \"{{callType}}\", la sélection de l'application est réinitialisée.",
+            "confirmButtonLabel": "Confirmer"
+          }
         },
         "includeInternalOrSyntheticCallsInfo": {
           "includeOnlyInternal": "Inclure les appels internes",
@@ -205,7 +217,7 @@
           "threshold": {
             "staticOrAdaptiveTitle": "Type de seuil",
             "label": "Seuil",
-            "title": "Seuil : Quand la condition est-elle violée ?"
+            "title": "Seuil : Quand la condition n'est-elle pas respectée ?"
           },
           "timeThreshold": {
             "label": "Seuil de temps",
@@ -216,22 +228,21 @@
             "title": "Canaux d'alerte : qui doit être alerté ?"
           },
           "propertiesOptional": {
-            "label": "Propriétés (facultatif)",
-            "title": "Propriétés d'alerte supplémentaires (facultatif)"
+            "label": "Propriétés",
+            "title": "Propriétés d'alerte supplémentaires"
           },
           "payloadsOptional": {
-            "label": "Charges utiles (facultatif)",
-            "title": "Charge utile personnalisée (facultatif)"
+            "label": "Contenus",
+            "title": "Contenu personnalisé"
           }
         }
       },
       "chart": {
         "entitySelection": {
-          "tooManyResults": "Votre recherche correspond à un trop grand nombre de résultats à afficher. Veuillez réduire les résultats en utilisant un terme de recherche plus spécifique.",
+          "tooManyResults": "Votre recherche correspond à un trop grand nombre de résultats à afficher. Limitez les résultats en utilisant un terme de recherche plus spécifique.",
           "applications": "Applications :",
           "services": "Services :"
         },
-        "noChartForAdaptiveBaseline": "Aucun aperçu n'est disponible lorsque ce déclencheur est basé sur un seuil adaptatif.",
         "noDataWithoutEndpointSelection": "Sélectionnez un service pour afficher l'aperçu.",
         "noDataAvailable": "Sélectionner un service pour afficher l'aperçu"
       },
@@ -246,32 +257,31 @@
         "slowness": {
           "name": "Appels lents",
           "headline": "Alertes automatiques pour les appels lents",
-          "text": "Recevez une alerte lorsque les appels vers les services et les nœuds finaux sélectionnés de cette perspective d'application sont plus lents que d'habitude."
+          "text": "Recevez une alerte lorsque les appels vers les services et les noeuds finaux sélectionnés de cette perspective d'application sont plus lents que d'habitude."
         },
         "errorRate": {
           "name": "Appels erronés",
           "headline": "Alertes automatiques pour les appels erronés",
-          "text": "Recevez une alerte lorsque le taux d'appels erronés pour les services et les nœuds finaux sélectionnés de cette perspective d'application est supérieur à la normale.",
+          "text": "Recevez une alerte lorsque le taux d'appels erronés pour les services et les noeuds finaux sélectionnés de cette perspective d'application est supérieur à la normale.",
           "metricLabel": "Taux d'erreurs"
         },
         "logs": {
-          "name": "Journaux des erreurs et des avertissements",
+          "name": "Journaux",
           "headline": "Alertes automatiques pour les journaux des erreurs et des avertissements",
-          "text": "Recevez une alerte lorsque le nombre d'appels consignant des messages d'erreur et d'avertissement correspondants est plus élevé que prévu.",
-          "metricLabel": "Nombre de journaux",
+          "text": "Recevez une alerte lorsque le nombre d'appels associés à des messages d'erreur et d'avertissement est plus élevé que prévu.",
+          "metricLabel": "Appels",
           "incompleteRuleMessage": "Sélectionnez un message de journal pour afficher ces déclencheurs d'alerte."
         },
         "statusCode": {
           "name": "Codes de statut HTTP",
           "headline": "Alertes automatiques des codes de statut HTTP",
           "text": "Recevez une alerte chaque fois que les codes de statut HTTP correspondants sont générés plus fréquemment que d'habitude.",
-          "metricLabel": "Code de statut",
           "incompleteRuleMessage": "Sélectionnez un code de statut pour déterminer quand cette alerte se déclenche."
         },
         "throughput": {
           "name": "Débit",
           "headline": "Alertes automatiques pour le nombre d'appels",
-          "text": "Alertes automatiques sur un nombre anormalement faible ou élevé d'appels pour les services et les nœuds finaux sélectionnés de cette perspective d'application.",
+          "text": "Alertes automatiques sur un nombre anormalement faible ou élevé d'appels pour les services et les noeuds finaux sélectionnés de cette perspective d'application.",
           "metricLabel": "Appels"
         },
         "simpleMode": {
@@ -292,10 +302,10 @@
           "errorRate": "Le taux d'appels erronés est supérieur à la normale.",
           "slowness": "Les appels sont plus lents que d'habitude.",
           "logs": {
-            "notEmptyWithANY": "Trop grand nombre d'appels consignant des messages",
-            "notEmptyWithoutANY": "Trop grand nombre d'appels consignant des messages {{operatorLabel}}",
-            "withANY": "Trop grand nombre d'appels consignant des messages : \"{{message}}\"",
-            "default": "Trop grand nombre d'appels consignant des messages {{operatorLabel}} : \"{{message}}\""
+            "notEmptyWithANY": "Trop d'appels avec des messages",
+            "notEmptyWithoutANY": "Trop d'appels avec des messages {{operatorLabel}}",
+            "withANY": "Trop d'appels avec des messages : \"{{message}}\"",
+            "default": "Trop d'appels avec des messages {{operatorLabel}} : \"{{message}}\""
           },
           "statusCode": "Trop grand nombre d'appels ayant le code de statut HTTP {{statusCodeShortText}}",
           "throughputHigh": "Le nombre d'appels est anormalement élevé.",
@@ -306,34 +316,34 @@
           "errorRate_higherEqual": "Le taux d'appels erronés est supérieur ou égal à {{valueRoundedToDecimals}} %.",
           "errorRate_lowerThan": "Le taux d'appels erronés est inférieur à {{valueRoundedToDecimals}} %.",
           "errorRate_lowerEqual": "Le taux d'appel erronés est inférieur ou égal à {{valueRoundedToDecimals}} %.",
-          "slownessStaticThreshold_slowerThan": "Les appels prennent plus de {{thresholdValue}} ms en fonction de la latence ({{aggregationText}}).",
-          "slownessStaticThreshold_slowEqual": "Les appels prennent {{thresholdValue}} ms ou plus de temps en fonction de la latence ({{aggregationText}}).",
-          "slownessStaticThreshold_below": "Les appels prennent moins de {{thresholdValue}} ms en fonction de la latence ({{aggregationText}}).",
-          "slownessStaticThreshold_belowEqual": "Les appels prennent {{thresholdValue}} ms ou moins de temps en fonction de la latence ({{aggregationText}}).",
-          "slownessDefault_slowerThan": "Les appels prennent plus de temps que prévu en fonction de la latence ({{aggregationText}}).",
-          "slownessDefault_slowEqual": "Les appels sont plus lents ou prennent autant de temps que prévu en fonction de la latence ({{aggregationText}}).",
-          "slownessDefault_below": "Les appels prennent moins de temps que prévu en fonction de la latence ({{aggregationText}}).",
-          "slownessDefault_belowEqual": "Les appels prennent le temps prévu ou moins de temps en fonction de la latence ({{aggregationText}}).",
-          "logsNotEmpty_higherThan": "Le nombre d'appels de journalisation {{levelText}} est supérieur à {{thresholdValue}}.",
-          "logsNotEmpty_higherEqual": "Le nombre d'appels de journalisation {{levelText}} est supérieur ou égal à {{thresholdValue}}.",
-          "logsNotEmpty_lowerThan": "Le nombre d'appels consignant des messages {{levelText}} est inférieur à {{thresholdValue}}.",
-          "logsNotEmpty_lowerEqual": "Le nombre d'appels consignant des messages {{levelText}} est inférieur ou égal à {{thresholdValue}}.",
-          "logsDefault_equalHigherThan": "Le nombre d'appels consignant des messages {{levelText}} identiques à \"{{message}}\" est supérieur à {{thresholdValue}}.",
-          "logsDefault_equalHigherEqual": "Le nombre d'appels consignant des messages {{levelText}} identiques à \"{{message}}\" est supérieur ou égal à {{thresholdValue}}.",
-          "logsDefault_equalLowerThan": "Le nombre d'appels consignant des messages {{levelText}} identiques à \"{{message}}\" est inférieur à {{thresholdValue}}.",
-          "logsDefault_equalLowerEqual": "Le nombre d'appels consignant des messages {{levelText}} identiques à \"{{message}}\" est inférieur ou égal à {{thresholdValue}}.",
-          "logsDefault_containHigherThan": "Le nombre d'appels consignant des messages {{levelText}} qui contiennent \"{{message}}\" est supérieur à {{thresholdValue}}.",
-          "logsDefault_containHigherEqual": "Le nombre d'appels consignant des messages {{levelText}} qui contiennent \"{{message}}\" est supérieur ou égal à {{thresholdValue}}.",
-          "logsDefault_containLowerThan": "Le nombre d'appels consignant des messages {{levelText}} qui contiennent \"{{message}}\" est inférieur à {{thresholdValue}}.",
-          "logsDefault_containLowerEqual": "Le nombre d'appels consignant des messages {{levelText}} qui contiennent \"{{message}}\" est inférieur ou égal à {{thresholdValue}}.",
-          "logsDefault_startHigherThan": "Le nombre d'appels consignant des messages {{levelText}} qui commencent par \"{{message}}\" est supérieur à {{thresholdValue}}.",
-          "logsDefault_startHigherEqual": "Le nombre d'appels consignant des messages {{levelText}} qui commencent par \"{{message}}\" est supérieur ou égal à {{thresholdValue}}.",
-          "logsDefault_startLowerThan": "Le nombre d'appels consignant des messages {{levelText}} qui commencent par \"{{message}}\" est inférieur à {{thresholdValue}}.",
-          "logsDefault_startLowerEqual": "Le nombre d'appels consignant des messages {{levelText}} qui commencent par \"{{message}}\" est inférieur ou égal à {{thresholdValue}}.",
-          "logsDefault_endHigherThan": "Le nombre d'appels consignant des messages {{levelText}} qui se terminent par \"{{message}}\" est supérieur à {{thresholdValue}}.",
-          "logsDefault_endHigherEqual": "Le nombre d'appels consignant des messages {{levelText}} qui se terminent par \"{{message}}\" est supérieur ou égal à {{thresholdValue}}.",
-          "logsDefault_endLowerThan": "Le nombre d'appels consignant des messages {{levelText}} qui se terminent par \"{{message}}\" est inférieur à {{thresholdValue}}.",
-          "logsDefault_endLowerEqual": "Le nombre d'appels consignant des messages {{levelText}} qui se terminent par \"{{message}}\" est inférieur ou égal à {{thresholdValue}}.",
+          "slownessStaticThreshold_slowerThan": "Les appels prennent plus de {{thresholdValue}} ms en fonction du temps d'attente ({{aggregationText}}).",
+          "slownessStaticThreshold_slowEqual": "Les appels prennent {{thresholdValue}} ms ou plus de temps en fonction du temps d'attente ({{aggregationText}}).",
+          "slownessStaticThreshold_below": "Les appels prennent moins de {{thresholdValue}} ms en fonction du temps d'attente ({{aggregationText}}).",
+          "slownessStaticThreshold_belowEqual": "Les appels prennent {{thresholdValue}} ms ou moins de temps en fonction du temps d'attente ({{aggregationText}}).",
+          "slownessDefault_slowerThan": "Les appels prennent plus de temps que prévu en fonction du temps d'attente ({{aggregationText}}).",
+          "slownessDefault_slowEqual": "Les appels sont plus lents ou prennent autant de temps que prévu en fonction du temps d'attente ({{aggregationText}}).",
+          "slownessDefault_below": "Les appels prennent moins de temps que prévu en fonction du temps d'attente ({{aggregationText}}).",
+          "slownessDefault_belowEqual": "Les appels prennent le temps prévu ou moins de temps en fonction du temps d'attente ({{aggregationText}}).",
+          "logsNotEmpty_higherThan": "Le nombre d'appels avec des messages {{levelText}} est supérieur à {{thresholdValue}}.",
+          "logsNotEmpty_higherEqual": "Le nombre d'appels avec des messages {{levelText}} est supérieur ou égal à {{thresholdValue}}.",
+          "logsNotEmpty_lowerThan": "Le nombre d'appels avec des messages {{levelText}} est inférieur à {{thresholdValue}}.",
+          "logsNotEmpty_lowerEqual": "Le nombre d'appels avec des messages {{levelText}} est inférieur ou égal à {{thresholdValue}}.",
+          "logsDefault_equalHigherThan": "Le nombre d'appels avec des messages {{levelText}} qui équivalent à \"{{message}}\" est supérieur à {{thresholdValue}}.",
+          "logsDefault_equalHigherEqual": "Le nombre d'appels avec des messages {{levelText}} qui équivalent à \"{{message}}\" est supérieur ou égal à {{thresholdValue}}.",
+          "logsDefault_equalLowerThan": "Le nombre d'appels avec des messages {{levelText}} qui équivalent à \"{{message}}\" est inférieur à {{thresholdValue}}.",
+          "logsDefault_equalLowerEqual": "Le nombre d'appels avec des messages {{levelText}} qui équivalent à \"{{message}}\" est inférieur ou égal à {{thresholdValue}}.",
+          "logsDefault_containHigherThan": "Le nombre d'appels avec des messages {{levelText}} contenant \"{{message}}\" est supérieur à {{thresholdValue}}.",
+          "logsDefault_containHigherEqual": "Le nombre d'appels avec des messages {{levelText}} contenant \"{{message}}\" est supérieur ou égal à {{thresholdValue}}.",
+          "logsDefault_containLowerThan": "Le nombre d'appels avec des messages {{levelText}} contenant \"{{message}}\" est inférieur à {{thresholdValue}}.",
+          "logsDefault_containLowerEqual": "Le nombre d'appels avec des messages {{levelText}} contenant \"{{message}}\" est inférieur ou égal à {{thresholdValue}}.",
+          "logsDefault_startHigherThan": "Le nombre d'appels avec des messages {{levelText}} qui commencent par \"{{message}}\" est supérieur à {{thresholdValue}}.",
+          "logsDefault_startHigherEqual": "Le nombre d'appels avec des messages {{levelText}} qui commencent par \"{{message}}\" est supérieur ou égal à {{thresholdValue}}.",
+          "logsDefault_startLowerThan": "Le nombre d'appels avec des messages {{levelText}} qui commencent par \"{{message}}\" est inférieur à {{thresholdValue}}.",
+          "logsDefault_startLowerEqual": "Le nombre d'appels avec des messages {{levelText}} qui commencent par \"{{message}}\" est inférieur ou égal à {{thresholdValue}}.",
+          "logsDefault_endHigherThan": "Le nombre d'appels avec des messages {{levelText}} qui se terminent par \"{{message}}\" est supérieur à {{thresholdValue}}.",
+          "logsDefault_endHigherEqual": "Le nombre d'appels avec des messages {{levelText}} qui se terminent par \"{{message}}\" est supérieur ou égal à {{thresholdValue}}.",
+          "logsDefault_endLowerThan": "Le nombre d'appels avec des messages {{levelText}} qui se terminent par \"{{message}}\" est inférieur à {{thresholdValue}}.",
+          "logsDefault_endLowerEqual": "Le nombre d'appels avec des messages {{levelText}} qui se terminent par \"{{message}}\" est inférieur ou égal à {{thresholdValue}}.",
           "statusCodeStaticThreshold_higherThan": "Le nombre d'occurrences du code de statut HTTP {{statusCodeFullText}} est supérieur à {{thresholdValue}}.",
           "statusCodeStaticThreshold_higherEqual": "Le nombre d'occurrences du code de statut HTTP {{statusCodeFullText}} est supérieur ou égal à {{thresholdValue}}.",
           "statusCodeStaticThreshold_lowerThan": "Le nombre d'occurrences du code de statut HTTP {{statusCodeFullText}} est inférieur {{thresholdValue}}.",
@@ -342,6 +352,14 @@
           "statusCodeDefault_higherEqual": "Le nombre d'occurrences du code de statut HTTP {{statusCodeFullText}} est supérieur ou égal au nombre attendu.",
           "statusCodeDefault_lowerThan": "Le nombre d'occurrences du code de statut HTTP {{statusCodeFullText}} est inférieur au nombre attendu.",
           "statusCodeDefault_lowerEqual": "Le nombre d'occurrences du code de statut HTTP {{statusCodeFullText}} est inférieur ou égal au nombre attendu.",
+          "statusCodeRateStaticThreshold_higherThan": "Le taux de code de statut HTTP {{statusCodeFullText}} est supérieur à {{thresholdValue}} %.",
+          "statusCodeRateStaticThreshold_higherEqual": "Le taux de code de statut HTTP {{statusCodeFullText}} est supérieur ou égal à {{thresholdValue}} %.",
+          "statusCodeRateStaticThreshold_lowerThan": "Le taux de code de statut HTTP {{statusCodeFullText}} est inférieur à {{thresholdValue}} %.",
+          "statusCodeRateStaticThreshold_lowerEqual": "Le taux de code de statut HTTP {{statusCodeFullText}} est inférieur ou égal à {{thresholdValue}} %.",
+          "statusCodeRateDefault_higherThan": "Le taux de code de statut HTTP {{statusCodeFullText}} est plus élevé que prévu.",
+          "statusCodeRateDefault_higherEqual": "Le taux de code de statut HTTP {{statusCodeFullText}} est supérieur ou égal aux prévisions.",
+          "statusCodeRateDefault_lowerThan": "Le taux de code de statut HTTP {{statusCodeFullText}} moins élevé que prévu.",
+          "statusCodeRateDefault_lowerEqual": "Le taux de code de statut HTTP {{statusCodeFullText}} est inférieur ou égal aux prévisions.",
           "throughputStaticThreshold_higherThan": "Le nombre d'appels est supérieur {{thresholdValue}} appels.",
           "throughputStaticThreshold_higherEqual": "Le nombre d'appels est supérieur ou égal à {{thresholdValue}} appels.",
           "throughputStaticThreshold_lowerThan": "Le nombre d'appels est inférieur à {{thresholdValue}} appels.",
@@ -407,8 +425,8 @@
         "ruleStatusCodeValueOption409": "409 (Conflit)",
         "ruleStatusCodeValueOption410": "410 (Plus disponible)",
         "ruleStatusCodeValueOption411": "411 (Longueur requise)",
-        "ruleStatusCodeValueOption412": "412 (Échec de précondition)",
-        "ruleStatusCodeValueOption413": "413 (Charge utile trop grande)",
+        "ruleStatusCodeValueOption412": "412 (Echec de précondition)",
+        "ruleStatusCodeValueOption413": "413 (Contenu trop grand)",
         "ruleStatusCodeValueOption414": "414 (URI de demande trop long)",
         "ruleStatusCodeValueOption415": "415 (Type de support non pris en charge)",
         "ruleStatusCodeValueOption416": "416 (La plage de données ne peut pas être satisfaite)",
@@ -417,7 +435,7 @@
         "ruleStatusCodeValueOption421": "421 (Demande mal dirigée)",
         "ruleStatusCodeValueOption422": "422 (Entité intraitable)",
         "ruleStatusCodeValueOption423": "423 (Verrouillé)",
-        "ruleStatusCodeValueOption424": "424 (Échec de dépendance)",
+        "ruleStatusCodeValueOption424": "424 (Echec de dépendance)",
         "ruleStatusCodeValueOption426": "426 (Mise à niveau requise)",
         "ruleStatusCodeValueOption428": "428 (Précondition requise)",
         "ruleStatusCodeValueOption429": "429 (Trop de demandes)",
@@ -438,36 +456,38 @@
         "ruleStatusCodeValueOption510": "510 (Non étendu)",
         "ruleStatusCodeValueOption511": "511 (Authentification réseau requise)",
         "ruleStatusCodeValueOption599": "599 (Erreur de dépassement du délai d'attente de connexion réseau)",
+        "ruleMetricNameOptionStatusCodeCount": "Nombre de codes de statut",
+        "ruleMetricNameOptionStatusCodeRate": "Taux de codes de statut",
         "ruleStatusCodeValueOptionCustom": "Plage personnalisée",
-        "ruleFormErrorStatusCodeStartGTEnd": "Sélectionnez un code d'état http de fin supérieur ou égal au code d'état http de début.",
-        "ruleFormPleaseProvideALogMessage": "Veuillez fournir un message de journal.",
-        "ruleFormPleaseProvideAStartStatusCode": "Veuillez fournir un code d'état http de départ.",
-        "ruleFormPleaseProvideAEndStatusCode": "Veuillez fournir un code de statut http final.",
+        "ruleFormErrorStatusCodeStartGTEnd": "Sélectionnez un code de statut HTTP de fin supérieur ou égal au code de statut HTTP de début.",
+        "ruleFormPleaseProvideALogMessage": "Fournissez un message de journal.",
+        "ruleFormPleaseProvideAStartStatusCode": "Indiquez un code de statut HTTP de début valide",
+        "ruleFormPleaseProvideAEndStatusCode": "Indiquez un code de statut HTTP de fin valide",
         "smartAlertFormNoEntitiesSelected": "Aucune entité sélectionnée",
         "smartAlertFormValueIsReadOnly": "La valeur est en lecture seule et ne peut pas être modifiée",
-        "thresholdFormPleaseProvideANumber0": "Veuillez indiquer un nombre >= 0",
+        "thresholdFormPleaseProvideANumber0": "Indiquez un nombre >= 0",
         "thresholdFormBaselineIsEmpty": "la référence est vide"
       },
       "simple": {
         "simpleAlertStep1Headline": "Sur quoi voulez être alerté ?",
         "simpleAlertStep2Headline": "Où voulez-vous que l'alerte se déclenche ?",
-        "step1Title": "Étape 1 : Sélectionner une alerte",
-        "step2Title": "Étape 2 : Sélectionner la portée",
-        "step3Title": "Étape 3 : Sélectionner les canaux d'alerte"
+        "step1Title": "Etape 1 : Sélectionner une alerte",
+        "step2Title": "Etape 2 : Sélectionner la portée",
+        "step3Title": "Etape 3 : Sélectionner les canaux d'alerte"
       },
       "components": {
-        "createSmartAlert": "Ajouter une Smart Alert",
-        "createGlobalSmartAlert": "Ajouter une Smart Alert globale",
+        "createSmartAlert": "Ajouter une alerte intelligente",
+        "createGlobalSmartAlert": "Ajouter une alerte intelligente globale",
         "provideLogMessageSelectLogMessage": "Sélectionner un message de journal",
         "provideLogMessageLogLevel": "Niveau de journalisation",
         "provideLogMessageErrorMessage": "Message d'erreur",
         "provideStatusCodeStatusCode": "Code de statut"
       },
       "inventory": {
-        "noData": "Aucune Smart Alert définie Cliquez sur le bouton ci-dessous pour configurer votre première Smart Alert.",
-        "noPersmissionToCreateGlobalSmartAlert": "Vous n'êtes pas autorisé à configurer des Smart Alerts. Veuillez contacter votre administrateur.",
-        "labelGlobalSmartAlertsList": "Smart Alerts d'application globale ({{numberOfAlerts}})",
-        "labelSmartAlertsList": "Smart Alerts d'application ({{numberOfAlerts}})",
+        "noData": "Aucune alerte intelligente définie. Cliquez sur le bouton ci-dessous pour configurer votre première alerte intelligente.",
+        "noPersmissionToCreateGlobalSmartAlert": "Vous n'êtes pas autorisé à configurer des alertes intelligentes. Contactez votre administrateur.",
+        "labelGlobalSmartAlertsList": "Alertes intelligentes d'application globales ({{numberOfAlerts}})",
+        "labelSmartAlertsList": "Alertes intelligentes d'application ({{numberOfAlerts}})",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
         "getSubtitleForStaticThreshold": "Seuil statique, {{metricLabel}} {{operator}} {{value}}",
         "getSubtitleForStaticDailySeasonality": "Saisonnalité quotidienne statique, {{metricLabel}}",
@@ -477,11 +497,14 @@
         "labelActionButtonDuplicate": "Dupliquer",
         "labelActionButtonDelete": "Supprimer",
         "labelAlertFilters": "Filtres",
-        "labelConfirm": "Veuillez confirmer.",
-        "labelConfirmRemoveConfig": "Voulez-vous vraiment supprimer l'alerte <strong>{{configName}}</strong> ?",
+        "labelConfirm": "Veuillez confirmer",
+        "labelConfirmRemoveConfig": "Voulez-vous vraiment retirer l'alerte <strong>{{configName}}</strong> ?",
         "labelRemove": "Retirer",
         "numberOfApplicationsSelected": "{{count}} application sélectionnée",
-        "numberOfApplicationsSelected_plural": "{{count}} applications sélectionnées"
+        "numberOfApplicationsSelected_plural": "{{count}} applications sélectionnées",
+        "numberOfApplicationsSelected_0": "{{count}} applications sélectionnées",
+        "numberOfApplicationsSelected_1": "{{count}} applications sélectionnées",
+        "numberOfApplicationsSelected_2": "{{count}} applications sélectionnées"
       },
       "details": {
         "title": "Informations sur l'alerte",
@@ -490,11 +513,11 @@
         "callsScopeTitle": "Appels inclus"
       },
       "apCreation": {
-        "addToAllBuiltInAlerts": "Ajouter à toutes les ({{numAlerts}}) Smart Alert globales intégrées",
+        "addToAllBuiltInAlerts": "Ajouter aux ({{numAlerts}}) alertes intelligentes globales intégrées",
         "addToAllBuiltInAlertsSubText": "({{numDisabled}}/{{numAlerts}} alertes sont actuellement désactivées)",
         "addToAllExplanation": "Inclure cette perspective d'application dans la portée de toutes les",
-        "addToAllExplanationSubText": "Smart Alerts globales intégrées",
-        "notAllEnitiesSelected": "Tous les services/nœuds finaux ne sont pas sélectionnés",
+        "addToAllExplanationSubText": "Alertes intelligentes globales intégrées",
+        "notAllEnitiesSelected": "Tous les services/noeuds finaux ne sont pas sélectionnés",
         "alertCurrentlyDisabled": "Alerte actuellement désactivée",
         "viewAlertDetails": "Afficher les détails de l'alerte pour la configuration : {{name}}",
         "eventsWarningIcon": "Icône d'avertissement d'événements",
@@ -529,6 +552,9 @@
         "clearTagFilterExpressionButton": "Effacer",
         "baselineErrorMessageInsufficientDataToCompute": "Données insuffisantes pour calculer la référence sélectionnée. Sélectionnez <em>Seuil statique</em> à la place.",
         "pleaseContactSupportToRiseLimit": "Merci de nous contacter via notre <supportLink>{{instanaSupportPortal}}</supportLink> pour demander une augmentation de cette limite.",
+        "adaptiveBaselineErrorMessage": "L'aperçu de seuil n'est pas disponible actuellement.<br />Cette alerte intelligente peut tout de même être sauvegardée.",
+        "adaptiveBaselineErrorMessageNotAvailable": "Le seuil adaptatif est actuellement indisponible.",
+        "adaptiveBaselineErrorMessageInsufficientDataToCompute": "Données insuffisantes pour calculer le seuil sélectionné pour le moment.<br />Cette alerte intelligente peut tout de même être sauvegardée et la fonction d'alerte sera active dès que 2 semaines de données au moins seront disponibles.",
         "instanaSupportPortal": "Portail de support Instana",
         "baselineErrorMessageReason": "Cause :",
         "blueprintDescriptionButtonSelect": "Sélectionner",
@@ -539,10 +565,19 @@
         "alertChannelSelectTypeTitle": "Type de canal d'alerte",
         "addChannel": "Ajouter {{count}} canal",
         "addChannel_plural": "Ajouter {{count}} canaux",
+        "addChannel_0": "Ajouter {{count}} canaux",
+        "addChannel_1": "Ajouter {{count}} canaux",
+        "addChannel_2": "Ajouter {{count}} canaux",
         "add": "Ajouter",
-        "scopeConfigTitleWithApplications": "Sélectionner des applications, services, nœuds finaux",
-        "scopeConfigTitle": "Sélectionner les services/nœuds finaux",
+        "scopeConfigTitleWithApplications": "Sélectionner des applications, services, noeuds finaux",
+        "scopeConfigTitle": "Sélectionner les services/noeuds finaux",
+        "scopeConfigSelectOneEntryMessage": "Sélectionnez au moins une entrée.",
         "scopeConfigTitleTooltip": "Affichage des entités disponibles pour les dernières 24 heures",
+        "scopeMigrationMessage_FAILED": "La portée n'a pas pu être migrée automatiquement. Sélectionnez les filtres de balises correspondants pour la requête de mise en évidence dynamique ci-dessous :",
+        "scopeMigrationMessage_PARTIAL": "La portée n'a pas pu être migrée entièrement. Sélectionnez les filtres de balises correspondants pour la requête de mise en évidence dynamique ci-dessous :",
+        "scopeMigrationMessage_FULL": "La portée appliquée est basée sur la requête de mise en évidence dynamique précédemment utilisée :",
+        "scopeMigrationMessageAllAvailableEntities": "La portée appliquée est basée sur la sélection précédemment utilisée de toutes les entités disponibles.",
+        "scopeMigrationMessageSelectedApplications": "La portée appliquée est basée sur la sélection précédemment utilisée des perspectives d'application.",
         "sortByUserSelectionLabel": "Trier par utilisateur sélectionné",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage": "Au moins {{count}} utilisateur et {{userPercentage}} des utilisateurs affectés en {{formattedTimeWindow}}",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_plural": "Au moins {{count}} utilisateurs et {{userPercentage}} des utilisateurs affectés en {{formattedTimeWindow}}",
@@ -595,8 +630,8 @@
         "timeThresholdConfigPercentageOfUsers": "% d'utilisateurs impactés",
         "timeThresholdConfigPercentageOfImpactedUsersThreshold": "Pourcentage d'utilisateurs impactés",
         "timeThresholdConfigOff": "désactivé",
-        "timeThresholdConfigErrorPleaseProvideANumberGreaterEqualsToOne": "Veuillez indiquer un nombre >= 1",
-        "timeThresholdConfigErrorPleaseProvideANumberBetween1and100Percent": "Veuillez fournir un nombre compris entre 1 % et 100 %",
+        "timeThresholdConfigErrorPleaseProvideANumberGreaterEqualsToOne": "Indiquez un nombre >= 1",
+        "timeThresholdConfigErrorPleaseProvideANumberBetween1and100Percent": "Fournissez un nombre compris entre 1 % et 100 %",
         "timeThresholdConfigTimeThresholdLabelViolationsInSequence": "Lorsque la condition persiste sur une durée spécifiée",
         "timeThresholdConfigTimeThresholdLabelViolationsInPeriod": "Chaque fois que la condition se déclenche un nombre de fois spécifié sur une période définie",
         "timeThresholdConfigTimeThresholdLabelUserImpactOfViolationsInSequence": "Lorsqu'un certain nombre de mes utilisateurs sont affectés",
@@ -606,7 +641,7 @@
         "timeThresholdConfigTimeThresholdTitleUserImpactOfViolationsInSequence": "Impact sur les utilisateurs",
         "timeThresholdConfigTimeThresholdTitleRequestImpact": "Impact sur les demandes",
         "timeThresholdConfigNoUserSessionDetected": "Non <linkToIdentifyingUsers>utilisateurs</linkToIdentifyingUsers> ou <linkToSessionTracking>sessions</linkToSessionTracking> détecté.",
-        "timeThresholdConfigPleaseConfigureWebsiteMonitoringBeforeUsingThisOption": "Veuillez configurer la surveillance du site Web avant d'utiliser cette option.",
+        "timeThresholdConfigPleaseConfigureWebsiteMonitoringBeforeUsingThisOption": "Configurez la surveillance du site Web avant d'utiliser cette option.",
         "alertPropertiesWarning": "Avertissement",
         "alertPropertiesCritical": "Critique",
         "alertPropertiesTitle": "Titre",
@@ -614,7 +649,7 @@
         "alertPropertiesTriggersIncident": "Déclenche un incident",
         "alertPropertiesDescription": "Description",
         "alertPropertiesAlertProperties": "Propriétés d'alerte",
-        "buttonSave": "Enregistrer",
+        "buttonSave": "Sauvegarder",
         "buttonCreate": "Créer",
         "buttonMigrate": "Migrer",
         "selectedBlueprint": "Plan directeur sélectionné",
@@ -630,23 +665,23 @@
         "thresholdTypeOptionAdaptiveBaseline": "Seuil adaptatif",
         "useSuggestedvalue": "Utiliser la valeur suggérée",
         "loadingThresholdSuggestion": "Chargement de la suggestion de seuil",
-        "alertConfigDialogPresenterTitleEditAlert_Local": "Ajouter une Smart Alert",
-        "alertConfigDialogPresenterTitleEditAlert_Global": "Modifier une Smart Alert globale",
-        "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Créer une Smart Alert",
-        "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Créer une Smart Alert globale",
-        "alertConfigDialogPresenterTitleMigrateAlert_Local": "Migrer vers Smart Alert",
-        "alertConfigDialogPresenterTitleMigrateAlert_Global": "Migrer vers une alerte intelligente globale",
+        "alertConfigDialogPresenterTitleEditAlert_Local": "Ajouter une alerte intelligente",
+        "alertConfigDialogPresenterTitleEditAlert_Global": "Editer une alerte intelligente globale",
+        "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Créer une alerte intelligente",
+        "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Créer une alerte intelligente globale",
+        "alertConfigDialogPresenterTitleMigrateAlert": "Migrer vers une alerte intelligente",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "Passer en mode avancé",
         "simpleAlertConfigDialogStep3Headline": "Qui doit recevoir les alertes ?",
         "Loading": "Chargement en cours...",
         "PreviewForAP": "Aperçu de la perspective d'application :",
-        "PreviewForEndpoint": "Aperçu pour le nœud final :",
+        "PreviewForEndpoint": "Aperçu pour le noeud final :",
         "PreviewForService": "Aperçu du service :",
         "PreviewSelectLoadingEndpoints": "Chargement de la liste des noeuds finaux",
         "thresholdValue": "Valeur de seuil",
         "migrationModeWarning": "La migration de cet événement personnalisé vers une alerte intelligente a pour conséquence de le désactiver. L'événement ne peut pas être réactivé par la suite."
       },
       "userInfo": {
+        "linkText": "Afficher l'alerte intelligente",
         "success": {
           "create": {
             "alert": {
@@ -668,40 +703,58 @@
       },
       "alertsHub": {
         "title": "Centre d'alertes",
-        "introText": "Bienvenue au centre de configuration des alertes. C'est ici que vous pouvez définir vos attentes en matière d'alerte.",
+        "introText": "Bienvenue dans le centre de configuration des alertes. C'est ici que vous pouvez définir vos attentes en matière d'alerte.",
         "readMore": "En savoir plus...",
         "websites": {
           "title": "Sites Web",
-          "description0": "Pour créer une alerte, naviguez sur le site Web sur lequel vous voulez créer l'alerte et cliquez sur le bouton « Ajouter une Smart Alert » dans la partie inférieure droite.",
-          "stats": "Actuellement, vous avez $t(in-alerting:smartAlerts.components.alertsHub.websites.alerts, {\"count\": {{alerts}} }) sur $t(in-alerting:smartAlerts.components.alertsHub.websites.websites, {\"count\": {{websites}} }).",
-          "alerts": "{{count}} Smart Alert de site",
-          "alerts_plural": "{{count}} Smart Alerts de site Web",
+          "description0": "Pour créer une alerte, accédez au site Web sur lequel vous voulez configurer l'alerte, puis cliquez sur le bouton \"Ajouter une alerte intelligente\" en bas à droite.",
+          "stats": "Actuellement, vous avez $t(in-alerting:smartAlerts.components.alertsHub.websites.alerts, { \"count\": {{alertes}} }) sur $t(in-alerting:smartAlerts.components.alertsHub.websites.websites, { \"count\": {{sites web}} ).",
+          "alerts": "{{count}} alerte intelligente de site Web",
+          "alerts_plural": "{{count}} alertes intelligentes de site Web",
+          "alerts_0": "{{count}} alertes intelligentes de site Web",
+          "alerts_1": "{{count}} alertes intelligentes de site Web",
+          "alerts_2": "{{count}} alertes intelligentes de site Web",
           "websites": "{{count}} site Web",
           "websites_plural": "{{count}} sites Web",
+          "websites_0": "{{count}} sites Web",
+          "websites_1": "{{count}} sites Web",
+          "websites_2": "{{count}} sites Web",
           "button0": "Sites Web"
         },
         "applications": {
           "title": "Applications",
-          "description0": "Vous pouvez configurer des Smart pour une application spécifique uniquement, ou en configurer pour couvrir plusieurs applications.",
-          "stats": "Actuellement, vous avez $t(in-alerting:smartAlerts.components.alertsHub.applications.gsa, {\"count\": {{globalSmartAlerts}} }) et $t(in-alerting:smartAlerts.components.alertsHub.applications.rsa, {\"count\": {{smartAlerts}} }).",
-          "gsa": "{{count}} Smart Alert globale",
-          "gsa_plural": "{{count}} Smart Alerts globales",
-          "rsa": "{{count}} Smart Alert normale",
-          "rsa_plural": "{{count}} Smart Alerts normales",
-          "button0": "Smart Alerts"
+          "description0": "Vous pouvez configurer des alertes intelligentes pour une application spécifique ou pour couvrir plusieurs applications.",
+          "stats": "Actuellement, vous avez $t(in-alerting:smartAlerts.components.alertsHub.applications.gsa, { \"count\": {{alertes intelligentes globales}} }) et $t(in-alerting:smartAlerts.components.alertsHub.applications.rsa, { \"count\": {{alertes intelligentes}} }).",
+          "gsa": "{{count}} alerte intelligente globale",
+          "gsa_plural": "{{count}} alertes intelligentes globales",
+          "gsa_0": "{{count}} alertes intelligentes globales",
+          "gsa_1": "{{count}} alertes intelligentes globales",
+          "gsa_2": "{{count}} alertes intelligentes globales",
+          "rsa": "{{count}} alerte intelligente standard",
+          "rsa_plural": "{{count}} alertes intelligentes standard",
+          "rsa_0": "{{count}} alertes intelligentes standard",
+          "rsa_1": "{{count}} alertes intelligentes standard",
+          "rsa_2": "{{count}} alertes intelligentes standard",
+          "button0": "Alertes intelligentes"
         },
         "infrastructure": {
           "title": "Infrastructure et plateformes",
           "description0": "Les alertes pour l'infrastructure et les plateformes utilisent notre flux de travaux en deux étapes.",
-          "description1": "1) Événements définis pour des conditions spécifiques. Vous pouvez soit utiliser nos événements intégrés, soit créer vos propres événements personnalisés.",
-          "description2": "2) Les alertes vous préviennent ensuite lorsque des événements spécifiques se produisent.",
-          "stats": "Actuellement, vous avez $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.events, {\"count\": {{events}} }) et $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.alerts, {\"count\": {{alerts}} }).",
+          "description1": "1) Evénements définis pour des conditions spécifiques. Vous pouvez utiliser nos événements intégrés ou créer vos propres événements personnalisés.",
+          "description2": "2) Les alertes vous avertissent ensuite lorsque des événements spécifiques se produisent.",
+          "stats": "Actuellement, vous avez $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.events, { \"count\": {{événements}} }) et $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.alerts, { \"count\": {{alertes}} }).",
           "events": "{{count}} événement personnalisé",
           "events_plural": "{{count}} événements personnalisés",
+          "events_0": "{{count}} événements personnalisés",
+          "events_1": "{{count}} événements personnalisés",
+          "events_2": "{{count}} événements personnalisés",
           "alerts": "{{count}} alerte",
           "alerts_plural": "{{count}} alertes",
+          "alerts_0": "{{count}} alertes",
+          "alerts_1": "{{count}} alertes",
+          "alerts_2": "{{count}} alertes",
           "button0": "Alertes",
-          "button1": "Événements"
+          "button1": "Evénements"
         }
       },
       "utils": {
@@ -716,11 +769,10 @@
     },
     "websites": {
       "advanced": {
-        "slownessInteractiveChartThresholdValue": "Valeur de seuil",
         "scopeLabel": "Portée",
         "scopeTitle": "Porté : où cette condition se produit-elle ?",
         "thresholdLabel": "Seuil",
-        "thresholdTitle": "Seuil : Quand la condition est-elle violée ?",
+        "thresholdTitle": "Seuil : Quand la condition n'est-elle pas respectée ?",
         "triggerLabel": "Déclencheur",
         "triggerTitle": "Déclencheur : sur quoi souhaitez-vous être alerté ?",
         "JSErrorMessage": "Message d'erreur JS",
@@ -729,11 +781,11 @@
         "timeThresholdTitle": "Seuil de temps : quand voulez-vous être alerté ?",
         "alertChannelsLabel": "Canaux d'alerte",
         "alertChannelsTitle": "Canaux d'alerte : qui doit être alerté ?",
-        "propertiesLabel": "Propriétés (facultatif)",
-        "propertiesTitle": "Propriétés d'alerte supplémentaires (facultatif)",
+        "propertiesLabel": "Propriétés",
+        "propertiesTitle": "Propriétés d'alerte supplémentaires",
         "thresholdValue": "Valeur de seuil",
-        "payloadsLabel": "Charges utiles (facultatif)",
-        "payloadsTitle": "Charges utiles personnalisées (facultatif)"
+        "payloadsLabel": "Contenus",
+        "payloadsTitle": "Contenus personnalisés"
       },
       "components": {
         "provideStatusCodeStatusCode": "Code de statut",
@@ -769,6 +821,11 @@
         "throughputBlueprintConfigName": "Débit",
         "throughputBlueprintConfigHeadline": "Alertes automatiques des vues de page",
         "throughputBlueprintConfigText": "Alertes automatiques sur le nombre anormalement bas ou élevé de chargements de page ou de transitions de page pour les pages sélectionnées du site Web.",
+        "customEventBlueprintConfigName": "Evénements personnalisés",
+        "customEventBlueprintConfigHeadline": "Alertes automatiques pour les événements personnalisés",
+        "customEventBlueprintConfigText": "Recevez une alerte à chaque fois qu'un événement personnalisé spécifique se produit plus ou moins souvent qu'il ne le devrait.",
+        "customEventBlueprintConfigIncompleteRuleMessage": "Sélectionnez un événement personnalisé pour voir quand ce déclencheur d'alerte",
+        "customEventBlueprintConfigMetricLabel": "Occurrences",
         "simpleModeBlueprintConfigsUnexpectedDropName": "Nombre de chargements de page anormalement bas",
         "simpleModeBlueprintConfigsUnexpectedDropHeadline": "Alertes automatiques sur un nombre de chargements de page anormalement bas",
         "simpleModeBlueprintConfigsUnexpectedDropText": "Recevez une alerte lorsque le nombre de chargements de page est significativement inférieur au nombre attendu par rapport aux données antérieures disponibles.",
@@ -779,6 +836,7 @@
       "form": {
         "anyJSErrors": "Toutes les erreurs JS",
         "JSErrors": "Erreur(s) JS : {{errorMessage}}",
+        "customEvents": "Evénement personnalisé : {{customEventName}}",
         "HTTPStatusCodes": "Code(s) de statut HTTP : {{statusCode}}",
         "unsupportedAlertType": "Type d'alerte non pris en charge : {{alertType}}",
         "JSErrorsHaveBeenDetected": "Des erreurs JS ont été détectées.",
@@ -787,6 +845,7 @@
         "JSErrorTextContains": "Des erreurs JS qui contiennent \"{{ruleValue}}\" ont été détectées.",
         "JSErrorTextStartsWith": "Des erreurs JS qui commencent par \"{{ruleValue}}\" ont été détectées.",
         "JSErrorTextEndsWith": "Des erreurs JS qui se terminent par \"{{ruleValue}}\" ont été détectées.",
+        "customEventsText": "Des événements personnalisés correspondant à \"{{customEventName}}\" ont été détectés.",
         "slownessSimpleHighOperatorText": "La durée de chargement ({{aggregationText}}) est trop élevée.",
         "slownessSimpleLowOperatorText": "La durée de chargement ({{aggregationText}}) est trop faible.",
         "throughputSimpleHighOperatorText": "Le nombre de {{metricLabel}} est anormalement élevé.",
@@ -807,8 +866,9 @@
         "thresholdHigherEqualsOperatorText": "Le nombre de {{metricLabel}} est supérieur ou égal à celui attendu.",
         "thresholdLowerOperatorText": "Le nombre de {{metricLabel}} est inférieur à celui attendu.",
         "thresholdLowerEqualsOperatorText": "Le nombre de {{metricLabel}} est inférieur ou égal à celui attendu.",
-        "errorPleaseProvideAnErrorMessage": "Veuillez fournir un message d'erreur.",
-        "errorPleaseProvideANumberGreaterEqualsToZero": "Veuillez indiquer un nombre >= 0",
+        "errorPleaseProvideAnErrorMessage": "Fournissez un message d'erreur.",
+        "errorPleaseProvideANumberGreaterEqualsToZero": "Indiquez un nombre >= 0",
+        "errorPleaseProvideCustomEventName": "Indiquez un nom d'événement personnalisé",
         "errorBaselineIsEmpty": "la référence est vide",
         "ruleJsErrorsOperatorOptionAny": "Tous",
         "ruleJsErrorsOperatorOptionEquals": "Égal",
@@ -854,8 +914,8 @@
         "ruleStatusCodeValueOption409": "409 (Conflit)",
         "ruleStatusCodeValueOption410": "410 (Plus disponible)",
         "ruleStatusCodeValueOption411": "411 (Longueur requise)",
-        "ruleStatusCodeValueOption412": "412 (Échec de précondition)",
-        "ruleStatusCodeValueOption413": "413 (Charge utile trop grande)",
+        "ruleStatusCodeValueOption412": "412 (Echec de précondition)",
+        "ruleStatusCodeValueOption413": "413 (Contenu trop grand)",
         "ruleStatusCodeValueOption414": "414 (URI de demande trop long)",
         "ruleStatusCodeValueOption415": "415 (Type de support non pris en charge)",
         "ruleStatusCodeValueOption416": "416 (La plage de données ne peut pas être satisfaite)",
@@ -864,7 +924,7 @@
         "ruleStatusCodeValueOption421": "421 (Demande mal dirigée)",
         "ruleStatusCodeValueOption422": "422 (Entité intraitable)",
         "ruleStatusCodeValueOption423": "423 (Verrouillé)",
-        "ruleStatusCodeValueOption424": "424 (Échec de dépendance)",
+        "ruleStatusCodeValueOption424": "424 (Echec de dépendance)",
         "ruleStatusCodeValueOption426": "426 (Mise à niveau requise)",
         "ruleStatusCodeValueOption428": "428 (Précondition requise)",
         "ruleStatusCodeValueOption429": "429 (Trop de demandes)",
@@ -896,11 +956,23 @@
       "simple": {
         "simpleAlertConfigDialogStep1Headline": "Sur quoi voulez être alerté ?",
         "simpleAlertConfigDialogStep2Headline": "Où voulez-vous que l'alerte se déclenche ?",
-        "stepConfigsStep1Title": "Étape 1 : Sélectionner une alerte",
-        "stepConfigsStep2Title": "Étape 2 : Sélectionner la portée",
-        "stepConfigsStep3Title": "Étape 3 : Sélectionner les canaux d'alerte"
+        "stepConfigsStep1Title": "Etape 1 : Sélectionner une alerte",
+        "stepConfigsStep2Title": "Etape 2 : Sélectionner la portée",
+        "stepConfigsStep3Title": "Etape 3 : Sélectionner les canaux d'alerte"
       },
-      "addAlert": "Ajouter une alerte"
+      "customEvent": {
+        "noCustomEventsFound": "Aucun événement personnalisé trouvé",
+        "searchCustomEvents": "Filtrer les événements",
+        "customEventSelectionSliderTitle": "Choisir un événement personnalisé",
+        "customEventNameColumnLabel": "Nom de l'événement",
+        "customEventOccurrencesColumnLabel": "Occurrences",
+        "customEventUsersColumnLabel": "Utilisateurs",
+        "customEventLabel": "Evénement personnalisé",
+        "customEventInputPlaceholder": "Coller un nom d'événement personnalisé ou en sélectionner un dans la liste des événements",
+        "searchCustomEventButtonLabel": "Sélectionner un événement personnalisé",
+        "customEventListInfoLabel": "Affichage des événements personnalisés qui ont été déclenchés au cours des 7 derniers jours"
+      },
+      "addSmartAlert": "Ajouter une alerte intelligente"
     },
     "sortOptions": {
       "name": "Nom",
@@ -912,13 +984,15 @@
       "type": "Type"
     },
     "migration": {
-      "migrateButton": "Migrer vers Smart Alert",
-      "migrateButtonTooltip": "Ouvre une boîte de dialogue de configuration Smart Alert préremplie avec les valeurs migrées de l'événement en cours dans la mesure du possible. Veuillez vérifier attentivement le résultat !",
+      "migrateButton": "Migrer vers une alerte intelligente",
+      "migrateButtonTooltip": "Ouvre une boîte de dialogue de configuration Smart Alert préremplie avec les valeurs migrées depuis l'événement en cours, dans la mesure où cela est possible. Vérifiez attentivement les résultats.",
       "markAsMigratedButton": "Marquer comme migré",
-      "markAsMigratedButtonTooltip": "Marque l'événement comme migré. A utiliser si vous avez déjà configuré une alerte Smart Alert qui remplacera cet événement.",
-      "markAsMigratedButtonConfirmationTitle": "Veuillez confirmer.",
+      "markAsMigratedButtonTooltip": "Marque l'événement comme migré. A utiliser si vous avez déjà configuré une alerte intelligente qui remplacera cet événement.",
+      "markAsMigratedButtonConfirmationTitle": "Veuillez confirmer",
       "markAsMigratedButtonConfirmationDescription": "Le marquage de cet événement personnalisé comme migré a pour conséquence de le désactiver. L'événement ne peut pas être réactivé par la suite. Voulez-vous continuer ?",
       "markAsMigratedButtonConfirmationConfirmLabel": "Confirmer"
-    }
+    },
+    "enable": "Activer",
+    "disable": "Désactiver"
   }
 }

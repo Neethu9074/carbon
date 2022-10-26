@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { ColumnizedContent, Li, Ul } from '@instana/components';
+import { ColumnizedContent, Li, Ul, Message } from '@instana/components';
 import { LiLoadMore } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
@@ -93,6 +93,7 @@ export default function SharedList({
   canLoadMore,
   loadMore,
   isLoading,
+  shouldShowPlaceholderForEmptySelection,
   validationError,
   stateProcessors: {
     enhanceParentIdsWithChildId,
@@ -119,6 +120,15 @@ export default function SharedList({
       {validationError && (
         <Li className={locals.listItem}>
           <ValidationBlock>{validationError}</ValidationBlock>
+        </Li>
+      )}
+      {shouldShowPlaceholderForEmptySelection && listData.length === 0 && (
+        <Li>
+          <Message
+            className={locals.emptyListPlaceholderMessage}
+            withIcon
+            title={t('in-alerting:components.chart.alertingChartMessageEmptyApplicationSelection')}
+          />
         </Li>
       )}
       {listData.map(({ item }) => {
@@ -172,7 +182,9 @@ export default function SharedList({
       })}
       {canLoadMore && <LiLoadMore loadMore={loadMore} />}
       {isLoading && <LoadingList numSkeletonRows="1" />}
-      {!isLoading && !listData?.length && <NoDataAvailable text={noDataCustomText()} height={86} />}
+      {!shouldShowPlaceholderForEmptySelection && !isLoading && !listData?.length && (
+        <NoDataAvailable text={noDataCustomText()} height={86} />
+      )}
     </Ul>
   );
 }
@@ -206,6 +218,7 @@ function StaleItemPropsInjector({ getStaleEntity$, id, children, timeConfig, ite
 SharedList.propTypes = {
   canLoadMore: PropTypes.bool,
   isLoading: PropTypes.bool,
+  shouldShowPlaceholderForEmptySelection: PropTypes.bool,
   listData: PropTypes.arrayOf(
     PropTypes.shape({
       item: PropTypes.object

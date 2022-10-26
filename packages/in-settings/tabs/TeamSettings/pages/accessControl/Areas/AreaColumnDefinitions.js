@@ -17,6 +17,7 @@ import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
 import { hasError, isLoading } from 'in-services/util/result';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
 import { timeConfig$ } from 'in-stores/time/config';
+import Tooltip from 'in-components/Tooltip';
 import connecTo from 'in-hoc/connectTo';
 
 import locals from './AreaColumnDefinitions.mless';
@@ -55,7 +56,11 @@ const LabelResolver = connecTo(
     };
   },
   function LabelResolver({ type, label }) {
-    return <KeyValue label={type} customValue={label || valueMissingPlaceholder} accentuated />;
+    return (
+      <Tooltip align="topLeft" delay={500} content={label}>
+        <KeyValue label={type} customValue={label || valueMissingPlaceholder} accentuated />
+      </Tooltip>
+    );
   }
 );
 

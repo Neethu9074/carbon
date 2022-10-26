@@ -4,7 +4,6 @@
  */
 
 import WindowsInstallerUnattendedContent from 'in-waiting-for-deployment/components/OnboardingWidget/content/WindowsInstallerUnattendedContent';
-import K8sGoogleKubernetesEngineContent from 'in-waiting-for-deployment/components/OnboardingWidget/content/K8sGoogleKubernetesEngineContent';
 import ElasticComputingWindowsContent from 'in-waiting-for-deployment/components/OnboardingWidget/content/ElasticComputingWindowsContent';
 import ElasticComputingLinuxContent from 'in-waiting-for-deployment/components/OnboardingWidget/content/ElasticComputingLinuxContent';
 import GoogleComputeEngineContent from 'in-waiting-for-deployment/components/OnboardingWidget/content/GoogleComputeEngineContent';
@@ -150,11 +149,6 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
           Content: GoogleComputeEngineContent
         },
         {
-          label: t('in-waiting-for-deployment:content.googleKubernetesEngineGke'),
-          keyWords: 'googlekubernetesenginegkek8s',
-          Content: K8sGoogleKubernetesEngineContent
-        },
-        {
           label: t('in-waiting-for-deployment:content.googleCloudRun'),
           keyWords: 'googlecloudrun',
           Content: GoogleCloudRunContent
@@ -174,6 +168,11 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnologies: [
         {
+          label: t('in-waiting-for-deployment:content.operator'),
+          keywords: 'kubernetesoperatork8s',
+          Content: K8sOperatorContent
+        },
+        {
           label: t('in-waiting-for-deployment:content.helmChart'),
           keyWords: 'kuberneteshelmchartk8s',
           Content: K8sHelmChartContent
@@ -184,11 +183,6 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
           Content: K8sDaemonSetContent
         },
         {
-          label: t('in-waiting-for-deployment:content.operator'),
-          keywords: 'kubernetesoperatork8s',
-          Content: K8sOperatorContent
-        },
-        {
           label: t('in-waiting-for-deployment:content.azureKubernetesServiceAks'),
           keyWords: 'azurekubernetesserviceaksk8s',
           Content: K8sDaemonSetContent
@@ -197,11 +191,6 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
           label: t('in-waiting-for-deployment:content.awsElasticKubernetesServiceEks'),
           keyWords: 'awselastickubernetesserviceeksk8s',
           Content: K8sDaemonSetContent
-        },
-        {
-          label: t('in-waiting-for-deployment:content.googleKubernetesEngineGke'),
-          keyWords: 'googlekubernetesenginegkek8s',
-          Content: K8sGoogleKubernetesEngineContent
         }
       ]
     },
@@ -211,9 +200,9 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnologies: [
         {
-          label: t('in-waiting-for-deployment:content.yaml'),
-          keyWords: 'kubernetesdeamonsetk8s',
-          Content: OpenShiftDaemonSetContent
+          label: t('in-waiting-for-deployment:content.operator'),
+          keywords: 'kubernetesoperatork8s',
+          Content: OpenShiftOperatorContent
         },
         {
           label: t('in-waiting-for-deployment:content.helmChart'),
@@ -221,9 +210,9 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
           Content: OpenShiftHelmContent
         },
         {
-          label: t('in-waiting-for-deployment:content.operator'),
-          keywords: 'kubernetesoperatork8s',
-          Content: OpenShiftOperatorContent
+          label: t('in-waiting-for-deployment:content.yaml'),
+          keyWords: 'kubernetesdeamonsetk8s',
+          Content: OpenShiftDaemonSetContent
         }
       ]
     },

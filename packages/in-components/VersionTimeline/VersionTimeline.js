@@ -35,7 +35,9 @@ export default function VersionTimeline({ onVersionClick, getTooltip, from, to, 
               <Fragment key={i}>
                 <Tooltip
                   themeStyle="light"
-                  content={<TooltipContent from={from} to={to} getTooltip={getTooltip} version={version} />}
+                  content={
+                    <TooltipContent from={version.from} to={version.to} getTooltip={getTooltip} version={version} />
+                  }
                   align={getTooltipAlign(left)}
                 >
                   <div

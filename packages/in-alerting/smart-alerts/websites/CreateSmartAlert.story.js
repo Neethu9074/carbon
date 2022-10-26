@@ -6,14 +6,13 @@
 import React from 'react';
 
 import CreateSmartAlert from 'in-alerting/smart-alerts/websites/CreateSmartAlert';
+import history from 'in-stores/navigation/history';
 
 export default {
-  parameters: {
-    // TODO remove after fixing broken story
-    storyshots: { disable: true },
-    chromatic: { disable: true }
-  },
   component: CreateSmartAlert
 };
 
-export const CreateAlertButton = () => <CreateSmartAlert />;
+const locationWithmatrix = history.location;
+locationWithmatrix.matrix = {};
+
+export const Default = () => <CreateSmartAlert location={locationWithmatrix} websiteId={'someId'} />;

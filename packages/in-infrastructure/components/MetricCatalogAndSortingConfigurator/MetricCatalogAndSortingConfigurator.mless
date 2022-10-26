@@ -1,0 +1,10 @@
+:local {
+  .wrapper {
+    display: flex;
+    align-items: center;
+
+    div {
+      padding-left: 0.25rem;
+    }
+  }
+}

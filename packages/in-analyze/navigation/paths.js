@@ -15,7 +15,7 @@ import {
   metricsMatrixParameter,
   orderByGroupsMatrixParameter,
   orderByMatrixParameter,
-  previewEnabledMatrixParameter,
+  fastQueryModeEnabledMatrixParameter,
   tagFilterExpressionMatrixParameter
 } from 'in-applications/navigation/matrix';
 import {
@@ -30,6 +30,8 @@ import {
   NOT_STARTS_WITH,
   STARTS_WITH
 } from 'in-components/QueryBuilder/tagFilter/operators';
+// eslint-disable-next-line no-restricted-imports
+import { dataSourceConstants, getMetricAndAggregationFromMetricKey } from 'in-applications/analyze/metrics';
 import {
   sanitizeTagFilter,
   toNewTagFilterFormat,
@@ -44,7 +46,7 @@ import {
   SERVICE
 } from 'in-analyze/applicationFilter';
 // eslint-disable-next-line no-restricted-imports
-import { dataSourceConstants, getMetricAndAggregationFromMetricKey } from 'in-applications/analyze/metrics';
+import { boundaryScopes } from 'in-applications/constants';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { toNewOrderBy } from 'in-components/QueryBuilder/transformation/orderBy';
 import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
@@ -52,8 +54,6 @@ import { setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
 import { createParameters } from 'in-components/AnalyzeView/parameters';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
-// eslint-disable-next-line no-restricted-imports
-import { boundaryScopes } from 'in-applications/constants';
 import { emptyObject } from 'in-services/fixedObjects';
 import { setTimeConfig } from 'in-stores/time/config';
 import { isNotBlank } from 'in-services/util/string';
@@ -103,7 +103,7 @@ export function getLinkToAnalyzeDeprecated({
   // showGraph = true,
   focusedMetric,
   jumpToSource,
-  previewEnabled
+  fastQueryModeEnabled
 } = emptyObject) {
   if (__DEV__) {
     invariant(
@@ -122,7 +122,7 @@ export function getLinkToAnalyzeDeprecated({
     setOrderByMatrixParam(location, orderBy, orderDirection, groupByTag, dataSource);
     setMetricsMatrixParam(location, dataSource, metrics);
     setChartsMatrixParam(location, dataSource, focusedMetric);
-    setPreviewEnabledMatrixParam(location, previewEnabled);
+    setFastQueryModeEnabledMatrixParam(location, fastQueryModeEnabled);
     if (timeConfig) {
       setTimeConfig(location, timeConfig);
     }
@@ -264,8 +264,8 @@ export function setChartsMatrixParam(location, dataSource, focusedMetric) {
   setOrDeleteMatrixParameter(location, chartsMatrixParameter, charts);
 }
 
-export function setPreviewEnabledMatrixParam(location, previewEnabled) {
-  setOrDeleteMatrixParameter(location, previewEnabledMatrixParameter, previewEnabled);
+export function setFastQueryModeEnabledMatrixParam(location, fastQueryModeEnabled) {
+  setOrDeleteMatrixParameter(location, fastQueryModeEnabledMatrixParameter, fastQueryModeEnabled);
 }
 
 export function setTagFilterExpressionAndHiddenCalls(location, tagCatalog, tagFilters, tagFilterExpression = []) {

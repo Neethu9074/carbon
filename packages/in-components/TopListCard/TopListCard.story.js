@@ -201,6 +201,7 @@ function TopListItem({ title = 'Top Something', result, renderHistoricDataIndica
       Label={Label}
       Metric={Metric}
       renderHistoricDataIndicator={renderHistoricDataIndicator}
+      config={{ metricConfiguration: { grouping: [{ maxResults: 5 }] } }}
     />
   );
 }

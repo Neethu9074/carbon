@@ -30,7 +30,6 @@ export default function DominoCustomMetrics({ snapshot, timeConfig, titlePrefix 
 export const SPECS = [
   {
     prefix: 'metrics.',
-    path: ['data', 'metrics'],
     color: '#00CC66',
     metrics: [
       {

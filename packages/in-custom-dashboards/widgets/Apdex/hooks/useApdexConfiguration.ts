@@ -4,12 +4,12 @@
  * Copyright IBM Corp. 2022
  */
 
+import { ApdexConfiguration } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import { getApdexConfigurationById } from 'in-custom-dashboards/widgets/Apdex/api';
 import { FetchedState } from 'in-hooks/utils/types';
-import { ApdexConfiguration } from 'in-types';
 
 export default function useApdexConfiguration(id: string): FetchedState<ApdexConfiguration> {
   const result = useObservable(() => getApdexConfigurationById(id), [id]);

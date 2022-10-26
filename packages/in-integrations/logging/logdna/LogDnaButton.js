@@ -49,11 +49,14 @@ export function getQueryParameters(props) {
   return queryParameters;
 }
 
-function serializeHosts({ hostName }) {
+function serializeHosts({ hostName, hostFqdn }) {
   let query = '';
 
   if (hostName) {
     query = hostName;
+  }
+  if (!isBlank(hostFqdn)) {
+    query += ',' + hostFqdn;
   }
 
   return query.trim();

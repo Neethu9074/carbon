@@ -4,6 +4,8 @@ env:
   parameter-store:
     ARTIFACT_RND_INSTANA_IO_PASSWORD: "artifact-rnd.instana.io.password"
     ARTIFACT_RND_INSTANA_IO_USER: "artifact-rnd.instana.io.user"
+    INSTANA_ARTIFACTORY_USERNAME: 'delivery.instana.io.internal.rw.username'
+    INSTANA_ARTIFACTORY_PASSWORD: 'delivery.instana.io.internal.rw.password'
     AWS_ACCESS_KEY_ID: "s3.devinfra.access.key.id"
     AWS_SECRET_ACCESS_KEY: "s3.devinfra.secret.access.key"
     CONTAINERS_INSTANA_IO_PASSWORD: "containers.instana.io.password"
@@ -13,6 +15,7 @@ env:
     GITHUB_READ_USER: "github.read.user"
     TWISTLOCK_INSTANA_IO_PASSWORD: "twistlock.instana.io.password"
     TWISTLOCK_INSTANA_IO_USER: "twistlock.instana.io.user"
+    IMAGE_SCAN_RESULTS_WRITER_SERVICE_ACCOUNT_JSON: "image.scan.results.writer.service.account.json"
 
 phases:
   install:
@@ -23,6 +26,16 @@ phases:
       - ./build/download-ci-shared-tools.bash
       - 'USE_N=true ./build/ci-shared-tools/scripts/setup.bash'
       - ./build/ci-shared-tools/scripts/codebuild/setup.bash
+      - echo "$GITHUB_READ_PASSWORD" | docker login -u "$GITHUB_READ_USER" --password-stdin
+      - docker run --rm --privileged tonistiigi/binfmt --install ppc64le
+      - docker run --rm --privileged tonistiigi/binfmt --install s390x
+      # Install docker buildx
+      - wget https://github.com/docker/buildx/releases/download/v0.2.0/buildx-v0.2.0.linux-amd64
+      - chmod +x buildx-v0.2.0.linux-amd64
+      - mkdir -p ~/.docker/cli-plugins
+      - mv buildx-v0.2.0.linux-amd64 ~/.docker/cli-plugins/docker-buildx
+      - docker buildx create --name multi-arch --platform=linux/ppc64le,linux/s390x --use
+      - docker buildx inspect --bootstrap
   build:
     commands:
       - cd containers && ./scripts/build-and-publish.sh ${CONTAINER_IMAGE_NAME}

@@ -3,7 +3,8 @@
     "sessionStart": "Session Start",
     "viewChange": "View Transition",
     "httpRequest": "HTTP Request",
-    "custom": "Custom Event"
+    "custom": "Custom Event",
+    "crash": "Crash"
   },
   "analyzeView": {
     "uniqueUsers": "Unique Users",
@@ -156,7 +157,10 @@
       "traLong": "View Transitions",
       "cusShort": "Cus",
       "cusBadgeLabel": "Cus",
-      "cusLong": "Custom Events"
+      "cusLong": "Custom Events",
+      "craShort": "Cra",
+      "craBadgeLabel": "Cra",
+      "craLong": "Crash"
     },
     "tabsSumOverviewChartTooltipStartTime": "Start Time",
     "tabsSummary": {
@@ -200,6 +204,15 @@
       "eventNameTitle": "Event Name",
       "errMsgTitle": "Error Message",
       "metaHeader": "Meta"
+    },
+    "tabsSumCrashBeacon": {
+      "startTimeLabel": "Start Time",
+      "crashHeader": "Crash",
+      "errorMsg": "Error Message",
+      "errorType": "Error Type",
+      "crashLabel": "Crash",
+      "metaHeader": "Meta",
+      "stackTrace": "Stack Trace"
     },
     "tabsSumHttpRequestBeacon": {
       "retrievalTimeTooltip": "Retrieval Time",
@@ -373,7 +386,8 @@
     "sessionId": "Session ID",
     "viewName": "View Name",
     "access": "Access",
-    "eventName": "Event Name"
+    "eventName": "Event Name",
+    "crash": "Crash"
   },
   "dataSource_sessionStart": "{{formattedCount}} Session Start",
   "dataSource_sessionStart_plural": "{{formattedCount}} Session Starts",
@@ -395,6 +409,11 @@
   "dataSource_custom_0": "{{formattedCount}} Custom Events",
   "dataSource_custom_1": "{{formattedCount}} Custom Events",
   "dataSource_custom_2": "{{formattedCount}} Custom Events",
+  "dataSource_crash": "{{formattedCount}} Crash",
+  "dataSource_crash_plural": "{{formattedCount}} Crashes",
+  "dataSource_crash_0": "{{formattedCount}} Crashes",
+  "dataSource_crash_1": "{{formattedCount}} Crashes",
+  "dataSource_crash_2": "{{formattedCount}} Crashes",
   "facetedSearch": {
     "mobileApp": "Mobile App",
     "view": "View",

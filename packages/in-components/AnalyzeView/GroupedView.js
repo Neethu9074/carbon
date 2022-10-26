@@ -26,6 +26,7 @@ import {
   groupName
 } from 'in-components/AnalyzeView/metrics';
 import { addGroupingCriteriaToFormModel, childrenArgsAsPropTypes } from 'in-components/AnalyzeView/StateManagement';
+import MetricAndSortingConfigurator from 'in-components/MetricAndSortingConfigurator/MetricAndSortingConfigurator';
 import { ua2MetricAddedTracker, ua2MetricRemovedTracker, ua2LoadMoreClicked } from 'in-components/tracker';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { custom as customType, metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
@@ -91,7 +92,9 @@ export default function GroupedAnalyzeView(props) {
     withoutChartGroupMarkers = false,
     chartedMetrics,
     groupingTagCatalog,
-    Chart
+    Chart,
+    customLatencyUiFormatterName,
+    CustomHeaderActions
   } = props;
   const timeConfig = useTimeConfig();
   const fields = [...fixedFields, ...selectableFields];
@@ -124,7 +127,8 @@ export default function GroupedAnalyzeView(props) {
     fields,
     groupedViewConfiguration,
     getCustomMetricUiFormatterName,
-    metricCatalog
+    metricCatalog,
+    customLatencyUiFormatterName
   });
   const actionColumnDefinitions = actionColumns();
 
@@ -290,14 +294,17 @@ export default function GroupedAnalyzeView(props) {
               onMetricRemoved: ({ metric, aggregation }) => ua2MetricRemovedTracker({ dataSource, metric, aggregation })
             }}
             renderHistoricDataIndicator={resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE'}
+            CustomHeaderActions={CustomHeaderActions || getHeaderActions}
           />
           {hasItems && (
             <Ul>
               {items.map((item, index) => {
                 const label = getLabel(item);
+                const key = `${label}-${index}`;
                 return (
                   <Li
-                    key={`${label}-${index}`}
+                    initiallyOpen={props.selectedGroup === key}
+                    key={key}
                     toggleContentOnRowClick
                     renderNestedContent={() => {
                       const formModelForUnGroupedView = addGroupingCriteriaToFormModel(
@@ -331,6 +338,7 @@ export default function GroupedAnalyzeView(props) {
                           withEmbeddedApproximateDataIndicator
                           Chart={null}
                           Sidebar={null}
+                          groupKey={key}
                         />
                       );
                     }}
@@ -487,7 +495,8 @@ function metricColumns({
   fields,
   groupedViewConfiguration,
   getCustomMetricUiFormatterName,
-  metricCatalog
+  metricCatalog,
+  customLatencyUiFormatterName
 }) {
   return [
     ...(columnDefinitions || emptyArray),
@@ -510,6 +519,8 @@ function metricColumns({
           // break column alignment, use more dense SI prefix based formatter instead.
           formatter = isNumberFormatter(metricDefinition?.formatter)
             ? withSiPrefixOneDecimalPlace
+            : field.metricId === 'latency' && customLatencyUiFormatterName
+            ? getBackendFormatter(customLatencyUiFormatterName)
             : getBackendFormatter(metricDefinition?.formatter);
         }
         return {
@@ -568,6 +579,11 @@ function actionColumns() {
 
 function defaultColorFunction(_, index) {
   return GROUP_COLORS[index];
+}
+
+function getHeaderActions(props) {
+  // should also include CustomHeaderActions if present
+  return <MetricAndSortingConfigurator {...props} metricOptions={props.availableMetrics} />;
 }
 
 GroupedAnalyzeView.propTypes = {

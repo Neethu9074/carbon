@@ -3,14 +3,15 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import React, { useState } from 'react';
 import rpt from 'prop-types';
-import React from 'react';
 
 import { LiLoadMore, ColumnizedContent, Ul, Li } from '@instana/components';
 import { generateStableHash } from '@instana/utils';
 
 import QueryProgressIndicator from 'in-components/AnalyzeView/QueryProgressIndicator';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
+import { retrievalSize } from 'in-components/AnalyzeView/UngroupedView';
 import UngroupedView from 'in-components/AnalyzeView/UngroupedView';
 import { ua2LoadMoreClicked } from 'in-components/tracker';
 
@@ -27,6 +28,44 @@ UngroupedAnalyzeViewList.propTypes = {
     listItem: rpt.string
   }),
   renderNestedContent: rpt.func
+};
+
+const ListItem = props => {
+  const {
+    id,
+    item,
+    getHrefToDetailId,
+    classNames,
+    groupLabel,
+    columnDefinitions,
+    renderNestedContent,
+    withoutListItemLinkToDetails,
+    initiallyOpenedItemIds,
+    groupKey,
+    onToggleContentRow // (toogled: boolean, item: any) => void
+  } = props;
+
+  const [isToggled, setIsToggled] = useState(initiallyOpenedItemIds.includes(id));
+
+  const extendedItem = { ...item, groupKey };
+  return (
+    <Li
+      className={classNames?.listItem}
+      size="compact"
+      href={withoutListItemLinkToDetails ? undefined : getHrefToDetailId(id, groupLabel)}
+      renderNestedContent={renderNestedContent ? () => renderNestedContent(id, extendedItem) : undefined}
+      initiallyOpen={initiallyOpenedItemIds.includes(id)}
+      tracking={{
+        onToggleContentRow: toggled => {
+          onToggleContentRow(toggled, extendedItem);
+          setIsToggled(toggled);
+        }
+      }}
+      toggleContentOnRowClick
+    >
+      <ColumnizedContent columnDefinitions={columnDefinitions} isToggled={isToggled} {...extendedItem} {...props} />
+    </Li>
+  );
 };
 
 function List(props) {
@@ -48,27 +87,32 @@ function List(props) {
     progress,
     withEmbeddedLoadingIndicator = false,
     initiallyOpenedItemIds,
+    groupKey,
     onToggleContentRow // (toogled: boolean, item: any) => void
   } = props;
+
+  const numSkeletonRows = items.length === 0 ? props.initialLines : retrievalSize;
+
+  const itemProps = {
+    getHrefToDetailId,
+    getId,
+    classNames,
+    groupLabel,
+    columnDefinitions,
+    renderNestedContent,
+    withoutListItemLinkToDetails,
+    initiallyOpenedItemIds,
+    groupKey,
+    onToggleContentRow // (toogled: boolean, item: any) => void
+  };
+
   return (
     <>
       {hasItems && (
         <Ul space="disabled">
           {items.map(item => {
             const id = getId(item);
-            return (
-              <Li
-                key={generateStableHash(id)}
-                className={classNames?.listItem}
-                size="compact"
-                href={withoutListItemLinkToDetails ? undefined : getHrefToDetailId(id, groupLabel)}
-                renderNestedContent={renderNestedContent ? () => renderNestedContent(id, item) : undefined}
-                initiallyOpen={initiallyOpenedItemIds.includes(id)}
-                tracking={{ onToggleContentRow: toggled => onToggleContentRow(toggled, item) }}
-              >
-                <ColumnizedContent columnDefinitions={columnDefinitions} {...item} {...props} />
-              </Li>
-            );
+            return <ListItem {...props} {...itemProps} item={item} key={generateStableHash(id)} id={id} />;
           })}
           {canLoadMore && (
             <LiLoadMore
@@ -81,7 +125,7 @@ function List(props) {
         </Ul>
       )}
       {withEmbeddedLoadingIndicator && isLoading ? (
-        <LoadingList numSkeletonRows={3} />
+        <LoadingList numSkeletonRows={numSkeletonRows} />
       ) : (
         <QueryProgressIndicator progress={{ ...progress, loading: isLoading }} errors={result?.errors} items={items} />
       )}

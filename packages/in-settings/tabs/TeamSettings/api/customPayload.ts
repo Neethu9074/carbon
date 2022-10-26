@@ -5,7 +5,13 @@
 
 import { create } from '@instana/observables';
 
-import { CustomPayloadConfiguration, CustomPayloadConfigurationWithLastUpdated, Result, TagCatalog } from 'in-types';
+import {
+  CustomPayloadConfiguration,
+  CustomPayloadConfigurationWithLastUpdated,
+  Result,
+  TagCatalog,
+  CustomPayloadContext
+} from 'in-types';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
@@ -22,17 +28,21 @@ function mapAndRefresh(response: Response<CustomPayloadConfigurationWithLastUpda
 }
 
 export const getGlobalCustomPayloadAsResultObservable = memoize<
-  void,
+  CustomPayloadContext | undefined,
   Result<CustomPayloadConfigurationWithLastUpdated>
->(getGlobalCustomPayloadAsResultObservableInternal, () => '', 60000);
-function getGlobalCustomPayloadAsResultObservableInternal() {
+>(getGlobalCustomPayloadAsResultObservableInternal, context => context ?? 'ALL', 60000);
+
+function getGlobalCustomPayloadAsResultObservableInternal(context: CustomPayloadContext = 'ALL') {
   return refreshCustomPayload.flatMap(() =>
     http<CustomPayloadConfigurationWithLastUpdated>({
       mapToResultObject: true,
       method: 'GET',
       url: basePath,
       maxRetries: 3,
-      headers: getCsrfHeader()
+      headers: getCsrfHeader(),
+      queryParams: {
+        context
+      }
     })
   );
 }

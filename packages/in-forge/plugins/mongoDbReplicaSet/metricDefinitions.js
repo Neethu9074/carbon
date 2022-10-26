@@ -113,12 +113,6 @@ export default [
     formatter: number
   },
   {
-    metric: 'optimesCount',
-    label: t('in-forge:plugins.mongoDbReplicaSet.optimesCount'),
-    min: 0,
-    formatter: number
-  },
-  {
     metric: 'monitoredMembersCount',
     label: t('in-forge:plugins.mongoDbReplicaSet.monitoredMembersCount'),
     min: 0,
@@ -127,12 +121,6 @@ export default [
   {
     metric: 'slaveDelays',
     label: t('in-forge:plugins.mongoDbReplicaSet.slaveDelays'),
-    min: 0,
-    formatter: millis
-  },
-  {
-    metric: 'optimes',
-    label: t('in-forge:plugins.mongoDbReplicaSet.optimes'),
     min: 0,
     formatter: millis
   }

@@ -9,7 +9,7 @@ import {
   getAllBuiltInMetrics,
   isBuiltInDynamicMetric,
   isBuiltInPlainMetric,
-  isMetricPercentile,
+  isBackendAggregatedPercentileMetric,
   toDynamicMetricStringValue,
   getMetricDefinition
 } from 'in-sdk/metrics';
@@ -153,6 +153,8 @@ export function createEventFormDefinition(eventSpec, isCreate) {
       })
     );
 
+  form = putActionField(form, mutableEvent.actionIds);
+
   if (dataSource !== dataSourceSystem) {
     form = putAllDataSourceFields(form, eventSpec);
   } else {
@@ -269,7 +271,7 @@ function putAllDataSourceFields(form, eventSpec) {
       })
     );
 
-  if (isMetricPercentile(entityType, metricName)) {
+  if (isBackendAggregatedPercentileMetric(entityType, metricName)) {
     form = putRollupField(form, eventSpec);
   } else {
     form = putWindowField(form, eventSpec);
@@ -560,6 +562,15 @@ export function removeTagValueField(form) {
 
 export function removeScopeByHostsField(form) {
   return form.remove('tagValue').remove('tagOperator');
+}
+
+export function putActionField(form, actionIds) {
+  return form.put(
+    'actionIds',
+    createField({
+      value: actionIds ?? []
+    })
+  );
 }
 
 export function putApplicationIdField(form, applicationIds) {

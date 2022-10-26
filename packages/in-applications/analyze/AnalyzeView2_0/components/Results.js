@@ -9,10 +9,10 @@ import { Link, SvgIcon } from '@instana/components';
 
 import { FacetedSearchPresenter } from 'in-applications/analyze/AnalyzeView2_0/components/FacetedSearchPresenter';
 import QueryBuilderWorkspace from 'in-applications/analyze/AnalyzeView2_0/components/QueryBuilderWorkspace';
+import FastQueryModeToggle from 'in-applications/analyze/AnalyzeView2_0/components/FastQueryModeToggle';
 import { ChartsPresenter } from 'in-applications/analyze/AnalyzeView2_0/components/ChartsPresenter';
 import UngroupedViewTable, { retrievalSize } from 'in-components/AnalyzeView/UngroupedViewTable';
 import TraceDetailView from 'in-applications/analyze/AnalyzeView2_0/components/TraceDetailView';
-import PreviewToggle from 'in-applications/analyze/AnalyzeView2_0/components/PreviewToggle';
 import { getServerity } from 'in-applications/analyze/AnalyzeView2_0/components/utils';
 import getTraceSummary from 'in-applications/subscriptions/getTraceSummary';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
@@ -58,15 +58,15 @@ export default function Results(props) {
     Sidebar = FacetedSearchPresenter,
     dataSource,
     hiddenCalls,
-    previewEnabled,
-    onChangePreviewEnabled,
+    fastQueryModeEnabled,
+    onChangeFastQueryModeEnabled,
     withoutHeader,
     detailId
   } = props;
 
-  const getData = useCallback(params => getTableData({ ...params, hiddenCalls, previewEnabled }), [
+  const getData = useCallback(params => getTableData({ ...params, hiddenCalls, fastQueryModeEnabled }), [
     hiddenCalls,
-    previewEnabled
+    fastQueryModeEnabled
   ]);
 
   let content = (
@@ -103,7 +103,10 @@ export default function Results(props) {
     content = (
       <QueryBuilderWorkspace
         CustomAction={() => (
-          <PreviewToggle previewEnabled={previewEnabled} onChangePreviewEnabled={onChangePreviewEnabled} />
+          <FastQueryModeToggle
+            fastQueryModeEnabled={fastQueryModeEnabled}
+            onChangeFastQueryModeEnabled={onChangeFastQueryModeEnabled}
+          />
         )}
         {...props}
       >
@@ -115,9 +118,25 @@ export default function Results(props) {
   return content;
 }
 
-function getTableData({ timeConfig, backendQueryModel, orderBy, cursor, dataSource, hiddenCalls, previewEnabled }) {
+const truncateTagFilterValue = value => {
+  return value.slice(0, 512);
+};
+function getTableData({
+  timeConfig,
+  backendQueryModel,
+  orderBy,
+  cursor,
+  dataSource,
+  hiddenCalls,
+  fastQueryModeEnabled
+}) {
   const { includeSynthetic = false, includeInternal = false } = hiddenCalls;
   const getData = getDataPerDataSource[dataSource];
+  backendQueryModel?.elements?.forEach(element => {
+    if (element.value?.length > 512) {
+      element.value = truncateTagFilterValue(element.value);
+    }
+  });
   return getData({
     pagination: {
       cursor,
@@ -130,7 +149,7 @@ function getTableData({ timeConfig, backendQueryModel, orderBy, cursor, dataSour
     },
     includeSynthetic,
     includeInternal,
-    queryPrecision: previewEnabled ? 'APPROXIMATE' : 'FULL'
+    queryPrecision: fastQueryModeEnabled ? 'APPROXIMATE' : 'FULL'
   });
 }
 

@@ -48,6 +48,14 @@
       "logMonitorReaderDesc": "The log-reader queries logs from ClickHouse.",
       "logMonitorHousekeeping": "log-housekeeping (log maintenance)",
       "logMonitorHousekeepingDesc": "The log-housekeeping contains maintenance jobs that run inside log-writer.",
+      "syntheticsMonitor": "Synthetics Monitoring",
+      "syntheticsMonitorDesc": "Dashboards showing how Synthetic data are written and read.",
+      "syntheticsAcceptor": "synthetics-acceptor",
+      "syntheticsAcceptorDesc": "The synthetics-acceptor is the receiver for the Synthetic data transmitted to Instana.",
+      "syntheticsMonitorWriter": "synthetics-writer",
+      "syntheticsMonitorWriterDesc": "The synthetics-writer ingests synthetic test result data into ClickHouse.",
+      "syntheticsMonitorReader": "synthetics-reader (Synthetic querying)",
+      "syntheticsMonitorReaderDesc": "The synthetics-reader queries data from ClickHouse, Groundskeeper, and External Storage.",
       "infrastructureMetrics": "Infrastructure Metrics",
       "infrastructureMetricsDesc": "Information about our infrastructure metric pipeline.",
       "fillerMetricExtraction": "Filler (metric extraction)",
@@ -80,7 +88,9 @@
       "internalMonitoringUnitInstanaEmail": "Did you know that these features are also available on customer tenant units? They are hidden by                    default, but can be shown with a small trick. To enable them click 10 times (within 2 seconds) on                    the non-interactive part of our main navigation!",
       "thisTenantUnit": "This Unit** ({{configTenant}}-{{configTenantUnit}})",
       "entityStatistics": "Entity Statistics",
-      "entityStatisticsDesc": "Shows how many infrastructure entities are monitored within this unit, broken down by plugin. This was formerly called 'Cockpit'.",
+      "entityAndMetricStatistics": "Entity and Metric Statistics",
+      "entityStatisticsDesc": "Shows how many infrastructure entities are monitored within this unit, broken down by plugin.",
+      "entityAndMetricStatisticsDesc": "Shows how many infrastructure entities and metrics are monitored within this unit, broken down by plugin.",
       "agentsDesc": "Metrics for all agents reporting to this unit.",
       "graphExplorer": "Graph Explorer",
       "graphExplorerDesc": "Use this to analyze graph relations between infrastructure entities existing within this unit.",
@@ -128,7 +138,9 @@
       "elasticsearchNg": "ElasticsearchNG",
       "kafka": "Kafka",
       "demous": "demous",
-      "demoeu": "demoeu"
+      "demoeu": "demoeu",
+      "wsTesterTitle": "Websocket Api Tester",
+      "wsTesterDescription": "Tool for testing WebSocket subscriptions"
     },
     "internalViewWrapper": {
       "internal": "Internal"
@@ -185,10 +197,20 @@
         "gRPCErrors": "gRPC errors",
         "appMetricsRetrieverReq": "GetApplicationMetricsRetriever requested metrics",
         "getAppMetricsRetriever": "GetApplicationMetricsRetriever answered metric requests",
+        "appMetricsRetrieverNotEnoughData": "GetApplicationMetricsRetriever not enough data",
+        "appMetricsRetrieverNotRegistered": "GetApplicationMetricsRetriever not registered",
+        "appMetricsRetrieverStateMissing": "GetApplicationMetricsRetriever state missing",
         "serviceMetricsRetrieverReq": "GetServicesWithGranularityMetricRetriever requested metrics",
         "getServiceMetricsRetriever": "GetServicesWithGranularityMetricRetriever answered metric requests",
+        "serviceMetricsRetrieverNotEnoughData": "GetServicesWithGranularityMetricRetriever not enough data",
+        "serviceMetricsRetrieverNotRegistered": "GetServicesWithGranularityMetricRetriever not registered",
+        "serviceMetricsRetrieverStateMissing": "GetServicesWithGranularityMetricRetriever state missing",
         "endpointMetricsRetrieverReq": "GetEndpointsWithGranularityMetricRetriever requested metrics",
         "getEndpointMetricsRetriever": "GetEndpointsWithGranularityMetricRetriever answered metric requests",
+        "endpointMetricsRetrieverNotEnoughData": "GetEndpointsWithGranularityMetricRetriever not enough data",
+        "endpointMetricsRetrieverNotRegistered": "GetEndpointsWithGranularityMetricRetriever not registered",
+        "endpointMetricsRetrieverStateMissing": "GetEndpointsWithGranularityMetricRetriever state missing",
+        "hazelcastInstanceShutdownTime": "Hazelcast Instance Shutdown Time",
         "getMetricsRetriever": "GetMetricsRetriever requested metrics",
         "getMetricsRetrieverMetricReq": "GetMetricsRetriever answered metric requests",
         "hostLoad": "Host Load",
@@ -485,6 +507,78 @@
             "merges": "Log cold-tier skips (merges)",
             "moves": "Log cold-tier skips (moves)"
           }
+        }
+      }
+    },
+    "synthetics": {
+      "acceptor": {
+        "title": "synthetics-acceptor",
+        "host": "Host",
+        "user": "User",
+        "nice": "Nice",
+        "steal": "Steal",
+        "system": "System",
+        "wait": "Wait",
+        "networkDataReceived": "Network - data received",
+        "networkDataTransmit": "Network - data transmitted",
+        "cpuLoad": "CPU load",
+        "hostsAcceptorsLen": "Hosts ({{acceptorLen}})",
+        "cpuUsage": "CPU Usage",
+        "s3Writes": "S3 Writes",
+        "s3Err": "S3 Errors",
+        "fileWrites": "File Writes",
+        "fileErr": "File Errors"
+      },
+      "writer": {
+        "title": "synthetics-writer",
+        "hostCpuLoad": "Host CPU load",
+        "hostLoad": "Host Load",
+        "host": "Host",
+        "garbageCollection": "Garbage Collection",
+        "instances": "synthetics-writer ({{length}})",
+        "transmissions": "Batch Transmissions",
+        "transmissionRetries": "Batch Transmission Retries",
+        "clickHouse": {
+          "insert": "ClickHouse Inserts",
+          "failInsert": "ClickHouse Insert Failures",
+          "queryQueueing": "ClickHouse Query Queueing",
+          "newlyQueuedCalls": "Newly queued ClickHouse Calls",
+          "queuedCalls": "Queued ClickHouse Calls",
+          "queryLatency": "ClickHouse Query Latency",
+          "queryCalls": "ClickHouse Calls",
+          "queryErrorRate": "ClickHouse Error Rate",
+          "calls": "Calls",
+          "mean": "mean",
+          "50th": "50th",
+          "99th": "99th"
+        }
+      },
+      "reader": {
+        "title": "synthetics-reader",
+        "hostCpuLoad": "Host CPU load",
+        "hostLoad": "Host Load",
+        "host": "Host",
+        "garbageCollection": "Garbage Collection",
+        "instances": "synthetics-reader ({{length}})",
+        "gRPCCalls": "Incoming gRPC calls",
+        "gRPCErrors": "Incoming gRPC errors",
+        "s3Reads": "S3 Reads",
+        "s3Err": "S3 Errors",
+        "fileReads": "File Reads",
+        "fileErr": "File Errors",
+        "clickHouse": {
+          "select": "ClickHouse Selects",
+          "failSelect": "ClickHouse Select Failures",
+          "queryQueueing": "ClickHouse Query Queueing",
+          "newlyQueuedCalls": "Newly queued ClickHouse Calls",
+          "queuedCalls": "Queued ClickHouse Calls",
+          "queryLatency": "ClickHouse Query Latency",
+          "queryCalls": "ClickHouse Calls",
+          "queryErrorRate": "ClickHouse Error Rate",
+          "calls": "Calls",
+          "mean": "mean",
+          "50th": "50th",
+          "99th": "99th"
         }
       }
     },
@@ -823,10 +917,10 @@
       },
       "entityStatistics": {
         "plugin": "Plugin",
-        "count": "Count",
-        "entityCount": "Entity Count",
-        "countOverTime": "Count over time",
-        "perPluginEntityCount": "Per Plugin Entity Counts"
+        "count": "Entity Count",
+        "metricCount": "Metric Count",
+        "entityAndMetricCount": "Entity and Metric Counts",
+        "perPluginEntityAndMetricCount": "Per Plugin Entity and Metric Counts"
       },
       "eum": {
         "websiteBeacons": "Website Beacons",
@@ -1026,10 +1120,11 @@
       },
       "entityStatistics": {
         "plugin": "Plugin",
-        "count": "Count",
+        "entityAndMetricCount": "Entity And Metric Counts",
         "entityCount": "Entity Count",
-        "countOverTime": "Count over time",
-        "perPluginEntityCount": "Per Plugin Entity Counts"
+        "metricCount": "Metric Count",
+        "perPluginEntityCount": "Per Plugin Entity Counts",
+        "perPluginEntityAndMetricCount": "Per Plugin Entity and Metric Counts"
       }
     }
   },
@@ -1043,6 +1138,19 @@
     "snapshotVersions": {
       "snapshotId": "snapshotId...",
       "refresh": "Refresh"
+    },
+    "wsApiTester": {
+      "title": "Websocket Api Tester",
+      "subscriptionConfigHeader": "Subscription Configuration",
+      "eventIdInputLabel": "Event Id",
+      "eventParametersLabel": "Event Parameters",
+      "responsesHeader": "Responses",
+      "subscribeButtonLabel": "Subscribe",
+      "disconnectButtonLabel": "Disconnect",
+      "subscriptionFailureMessage": "Failed to create subscription",
+      "latencyLabel": "Latency",
+      "prettyPrintButtonLabel": "Pretty Print",
+      "errorNotice": "NOTE: Due to limitations in ui-clients subscription handling, some errors will only show up in your browsers console. Please check there if you are not getting any responses to your subscription. In production builds errors might be hidden completely, please check the raw websocket messages in that case."
     }
   }
 }

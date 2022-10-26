@@ -1,0 +1,72 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2022
+ */
+
+import { get } from 'lodash';
+import React from 'react';
+
+import { PaginatedResult, Result, TestResultListItem } from '@instana/types/typeDefinitions';
+import { Card } from '@instana/components';
+import { t } from '@instana/i18n-react';
+
+// @ts-expect-error
+import ExpandableCard from 'in-components/AnalyzeView/FacetedFilters/ExpandableCardWithSubtitle';
+
+import locals from 'in-synthetics/dashboards/details/components/FailedRun.mless';
+
+interface FailedRunProps {
+  resultList: Result<PaginatedResult<TestResultListItem>>;
+}
+
+export default function FailedRun({ resultList }: FailedRunProps) {
+  let errMsg: string;
+  let stacktraceMsg: string;
+
+  if (Array.isArray(resultList.data) && !resultList.data.length) {
+    return (
+      <Card className={locals.failedTitle} title={t('in-synthetics:dashboard.detailsPage.failedRun')}>
+        <h3 className={locals.errorMessageHeader}>{t('in-synthetics:dashboard.detailsPage.failedRunErrorTitle')}</h3>
+        <span className={locals.errorMessage}>{t('in-synthetics:dashboard.detailsPage.noFailedErrorMessage')}</span>
+      </Card>
+    );
+  } else {
+    let start: number = getErrors(resultList).search('errorMessage=');
+    let end: number = getErrors(resultList).search('stackTrace=');
+    let len: number = getErrors(resultList)?.length;
+    errMsg = getErrors(resultList).slice(start + 'errorMessage='.length, end - '  '.length);
+    stacktraceMsg = getErrors(resultList).slice(end + 'stacktrace='.length, len - '}'.length);
+  }
+
+  return (
+    <Card className={locals.failedTitle} title={t('in-synthetics:dashboard.detailsPage.failedRun')}>
+      <h3 className={locals.errorMessageHeader}>{t('in-synthetics:dashboard.detailsPage.failedRunErrorTitle')}</h3>
+      {errMsg ? (
+        <span className={locals.errorMessage}>{errMsg}</span>
+      ) : (
+        <span className={locals.errorMessage}>{t('in-synthetics:dashboard.detailsPage.noFailedErrorMessage')}</span>
+      )}
+      <ExpandableCard
+        className={locals.stacktraceHeader}
+        title={t('in-synthetics:dashboard.detailsPage.stackTraceTitle')}
+        framed={false}
+        openByDefault
+      >
+        {stacktraceMsg ? (
+          <span className={locals.stacktraceMessage}>
+            {stacktraceMsg.split('\n').map(function(msg: any, i: any) {
+              return <div key={i}>{msg}</div>;
+            })}
+          </span>
+        ) : (
+          <span className={locals.stacktraceMessage}>{t('in-synthetics:dashboard.detailsPage.noStacktrace')}</span>
+        )}
+      </ExpandableCard>
+    </Card>
+  );
+}
+
+function getErrors(resultList: Result<PaginatedResult<TestResultListItem>>) {
+  return get(resultList.data?.items[0], ['testResultCommonProperties', 'errors', 0], '');
+}

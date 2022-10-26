@@ -6,41 +6,37 @@
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
+import { ResultType } from '@instana/types';
 
 import {
-  Config,
-  MetricData,
-  UnifiedMetricsChartProps,
   Axis,
+  Config,
   ConfigFromDataSeries,
-  Metric
+  Metric,
+  MetricData,
+  UnifiedMetricsChartProps
 } from 'in-custom-dashboards/widgets/Chart/types';
 import {
-  defaultRenderer,
-  renderer as availableRenderers,
-  enforceSingleNumberResult
-} from 'in-custom-dashboards/widgets/Chart/renderer';
-import {
-  MetricsConfiguration,
+  AxisColor,
   AxisConfiguration as ChartAxis,
+  AxisName,
   Metric as ChartMetric,
-  AxisColor
+  MetricsConfiguration
 } from 'in-components/Chart/types';
 import {
-  Grouping,
-  LabeledMetricResult,
-  MetricResult,
-  Result,
-  TimeConfig,
-  UnifiedMetricConfigurationUnion
-} from 'in-types';
+  defaultRenderer,
+  enforceSingleNumberResult,
+  renderer as availableRenderers
+} from 'in-custom-dashboards/widgets/Chart/renderer';
+import getUnifiedMetrics, { isLabeledMetricResult, UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
+import { Grouping, LabeledMetricResult, Result, TimeConfig, UnifiedMetricConfigurationUnion } from 'in-types';
 import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
 import { colors } from 'in-custom-dashboards/widgets/Chart/FormComponent/colors';
 import { translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import { getMetricLabel } from 'in-custom-dashboards/widgets/Chart/util';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import { extendWindowSizeOnLiveMode } from 'in-applications/metrics';
-import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
+import { AxisNames } from 'in-components/Chart/data/dataSearchUtils';
 import { noop, pendingResult } from 'in-services/fixedObjects';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
@@ -111,21 +107,27 @@ function DataLoadingWrapper({
     config.granularity ?? getChartGranularity(timeConfigExtendedForLiveMode, suggestedNumberOfDataPoints);
   const minimumGranularity = resolvedConfig.minGranularity;
   const granularity = Math.max(minimumGranularity, configuredGranularity);
-  const result: Result<LabeledMetricResult[]> | undefined | null =
-    useResultData(config, granularity, timeConfigExtendedForLiveMode) ?? pendingResult;
+  const resultData = useResultData(config, granularity, timeConfigExtendedForLiveMode);
+
+  const result: Result<UnifiedMetricsResult[]> = resultData.metricResult;
+  const companionResult: Result<UnifiedMetricsResult[]> = resultData.companionMetricResult;
+
   const renderErrorDetail = resolvedConfig.renderErrorDetail;
 
   // Transform result data structure into the structure expected by the chart
-  let resultDataAsList = result?.data;
-  let remappedResult: Result<MetricData> = pendingResult;
-  if (result?.data) {
+  const resultDataAsList = result.data;
+  const companionResultDataAsList = companionResult.data;
+
+  let remappedResult: Result<MetricData>;
+  if (result.data) {
     remappedResult = {
       ...result,
       // Turn the list of metric results into a map of metric results.
-      data: result.data.reduce((agg, { id, label, values }) => {
+      data: result.data.reduce((agg, resultData) => {
         // The backend can send multiple results for the same ID. In that case we will be talking about grouped metrics.
-        if (label) {
-          id = getMetricIdForGroup(id, label);
+        let { id, values } = resultData;
+        if (isLabeledMetricResult(resultData)) {
+          id = getMetricIdForGroup(id, resultData.label);
         }
         agg[id] = values as [number, number][];
         return agg;
@@ -149,6 +151,27 @@ function DataLoadingWrapper({
         }
       }
     }
+  } else {
+    remappedResult = { ...result, data: undefined };
+  }
+
+  let remappedCompanionResult: Result<MetricData>;
+  if (companionResult.data) {
+    remappedCompanionResult = {
+      ...companionResult,
+      // Turn the list of metric results into a map of metric results.
+      data: companionResult.data.reduce((agg, resultData) => {
+        // The backend can send multiple results for the same ID. In that case we will be talking about grouped metrics.
+        let { id, values } = resultData;
+        if (isLabeledMetricResult(resultData)) {
+          id = getMetricIdForGroup(id, resultData.label);
+        }
+        agg[id] = values as [number, number][];
+        return agg;
+      }, {} as MetricData)
+    };
+  } else {
+    remappedCompanionResult = { ...companionResult, data: undefined };
   }
 
   const hasApproximateData =
@@ -163,10 +186,11 @@ function DataLoadingWrapper({
   return (
     <ChartWrapper
       timeConfig={timeConfig}
-      y1={toAxisConfiguration(config, 'y1', config.y1, resultDataAsList)}
-      y2={toAxisConfiguration(config, 'y2', config.y2, resultDataAsList)}
-      metricsConfiguration={toMetricsConfiguration(config, resultDataAsList)}
+      y1={toAxisConfiguration(config, 'y1', config.y1, resultDataAsList, timeConfig)}
+      y2={toAxisConfiguration(config, 'y2', config.y2, resultDataAsList, timeConfig)}
+      metricsConfiguration={toMetricsConfiguration(config, resultDataAsList, companionResultDataAsList)}
       result={remappedResult}
+      companionResult={remappedCompanionResult}
       granularity={granularity}
       renderErrorDetail={renderErrorDetail}
       hasApproximateData={hasApproximateData}
@@ -177,47 +201,84 @@ function DataLoadingWrapper({
   );
 }
 
-function useResultData(
-  config: Config,
-  granularity: number,
-  timeConfig: TimeConfig
-): Result<MetricResult[]> | undefined | null {
-  const metrics: { [id: string]: UnifiedMetricConfigurationUnion } = {};
+interface ResultData {
+  metricResult: Result<UnifiedMetricsResult[]>;
+  companionMetricResult: Result<UnifiedMetricsResult[]>;
+}
+
+type UnifiedMetricsConfigObject = { [id: string]: UnifiedMetricConfigurationUnion };
+
+function useResultData(config: Config, granularity: number, timeConfig: TimeConfig): ResultData {
+  const metrics: UnifiedMetricsConfigObject = {};
+  const companionMetrics: UnifiedMetricsConfigObject = {};
   const resultType = enforceSingleNumberResult.find(({ id }) => id === config?.y1.renderer)
     ? 'SINGLE_NUMBER'
     : config?.type;
   const adjustedGranularity = resultType === 'SINGLE_NUMBER' ? undefined : granularity;
 
-  config?.y1?.metrics.forEach(
-    (metricConfiguration, i) =>
-      (metrics[getMetricId('y1', i)] = {
-        ...metricConfiguration,
-        resultType,
-        granularity: adjustedGranularity,
-        timeConfig: timeConfig,
-        timeShift: metricConfiguration.timeShift
-          ? translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfig)
-          : { offset: 0 }
-      } as UnifiedMetricConfigurationUnion)
-  );
-
-  config?.y2?.metrics?.forEach(
-    (metricConfiguration, i) =>
-      (metrics[getMetricId('y2', i)] = {
-        ...metricConfiguration,
-        resultType,
-        granularity: adjustedGranularity,
-        timeConfig: timeConfig,
-        timeShift: metricConfiguration.timeShift
-          ? translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfig)
-          : { offset: 0 }
-      } as UnifiedMetricConfigurationUnion)
-  );
+  for (const axis of AxisNames) {
+    addUnifiedMetricsConfigForMetrics(axis, config, resultType, adjustedGranularity, timeConfig, metrics);
+    addUnifiedMetricsConfigForCompanionMetrics(
+      axis,
+      config,
+      resultType,
+      adjustedGranularity,
+      timeConfig,
+      companionMetrics
+    );
+  }
 
   const stableConfig = useStableObjectInstance(config);
 
+  const metricResult = useObservable(() => getUnifiedMetrics({ metrics }), [timeConfig, stableConfig]) ?? pendingResult;
+  const companionMetricResult =
+    useObservable(() => getUnifiedMetrics({ metrics: companionMetrics }), [timeConfig, stableConfig]) ?? pendingResult;
+
   // do not execute the query while the parent component is still loading data for the chart configuration
-  return useObservable(() => getUnifiedMetrics({ metrics }), [timeConfig, stableConfig]);
+  return {
+    metricResult,
+    companionMetricResult
+  };
+}
+
+function addUnifiedMetricsConfigForMetrics(
+  axisName: AxisName,
+  metricConfig: Config,
+  resultType: ResultType,
+  adjustedGranularity: number | undefined,
+  timeConfig: TimeConfig,
+  metrics: UnifiedMetricsConfigObject
+) {
+  metricConfig[axisName]?.metrics.forEach(
+    (metricConfiguration, i) =>
+      (metrics[getMetricId(axisName, i)] = {
+        ...metricConfiguration,
+        resultType,
+        granularity: adjustedGranularity,
+        timeConfig: timeConfig,
+        timeShift: translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfig)
+      } as UnifiedMetricConfigurationUnion)
+  );
+}
+
+function addUnifiedMetricsConfigForCompanionMetrics(
+  axisName: AxisName,
+  metricConfig: Config,
+  resultType: ResultType,
+  adjustedGranularity: number | undefined,
+  timeConfig: TimeConfig,
+  metrics: UnifiedMetricsConfigObject
+) {
+  metricConfig[axisName]?.companionMetricConfigs?.forEach(
+    (metricConfiguration: any, i: number) =>
+      (metrics[getMetricId(axisName, i)] = {
+        ...metricConfiguration,
+        resultType,
+        granularity: adjustedGranularity,
+        timeConfig: timeConfig,
+        timeShift: translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfig)
+      } as UnifiedMetricConfigurationUnion)
+  );
 }
 
 export function parseMetricId(metricId: string) {
@@ -278,18 +339,24 @@ function getAllMetrics(config: Config) {
 
 export function toMetricsConfiguration(
   config: Config,
-  resultDataAsList?: LabeledMetricResult[]
+  resultDataAsList?: UnifiedMetricsResult[],
+  companionResultDataAsList?: UnifiedMetricsResult[]
 ): MetricsConfiguration | undefined {
   if (!resultDataAsList) {
     return;
   }
 
   const metricsConfiguration: MetricsConfiguration = {
-    metrics: {}
+    metrics: {},
+    companionMetrics: {}
   };
 
   addForAxis(metricsConfiguration, config.y1, 'y1', resultDataAsList);
   addForAxis(metricsConfiguration, config.y2, 'y2', resultDataAsList);
+  if (companionResultDataAsList != null) {
+    addCompanionForAxis(metricsConfiguration, config.y1, 'y1', companionResultDataAsList);
+    addCompanionForAxis(metricsConfiguration, config.y2, 'y2', companionResultDataAsList);
+  }
 
   if (config.reverseOrder) {
     metricsConfiguration.reverseOrder = config.reverseOrder;
@@ -302,7 +369,7 @@ function addForAxis(
   metricsConfiguration: MetricsConfiguration,
   axis: Axis | undefined,
   axisName: string,
-  resultDataAsList: LabeledMetricResult[]
+  resultDataAsList: UnifiedMetricsResult[]
 ) {
   axis?.metrics?.forEach(({ metric, aggregation, timeShift, grouping }, i) => {
     const metricId = getMetricId(axisName, i);
@@ -316,13 +383,44 @@ function addForAxis(
     // each needs to be represented within the metric configuration object so that we stick to
     // the ChartWrapper and ResultAwareChart contracts.
     if (isGroupedMetric(grouping)) {
-      resultDataAsList.forEach(({ id, label }) => {
+      // When dealing with grouped data we always work with labeled results
+      (resultDataAsList as LabeledMetricResult[]).forEach(({ id, label }) => {
         if (id === metricId) {
           metricsConfiguration.metrics[getMetricIdForGroup(metricId, label)] = config;
         }
       });
     } else {
       metricsConfiguration.metrics[metricId] = config;
+    }
+  });
+}
+
+function addCompanionForAxis(
+  metricsConfiguration: MetricsConfiguration,
+  axis: Axis | undefined,
+  axisName: string,
+  resultDataAsList: UnifiedMetricsResult[]
+) {
+  axis?.companionMetricConfigs?.forEach(({ metric, aggregation, timeShift, grouping }, i) => {
+    const metricId = getMetricId(axisName, i);
+    const config: ChartMetric = {
+      metric,
+      aggregation,
+      timeShift
+    };
+
+    // For grouped metrics one metric configuration will result in multiple data series and
+    // each needs to be represented within the metric configuration object so that we stick to
+    // the ChartWrapper and ResultAwareChart contracts.
+    if (isGroupedMetric(grouping)) {
+      // When dealing with grouped data we always work with labeled results
+      (resultDataAsList as LabeledMetricResult[]).forEach(({ id, label }) => {
+        if (id === metricId) {
+          metricsConfiguration.companionMetrics[getMetricIdForGroup(metricId, label)] = config;
+        }
+      });
+    } else {
+      metricsConfiguration.companionMetrics[metricId] = config;
     }
   });
 }
@@ -345,8 +443,9 @@ export function getMetricIdForGroup(metricId: string, groupLabel: string) {
 export function toAxisConfiguration(
   chartConfig: Config,
   name: string,
-  axis?: Axis,
-  resultDataAsList?: LabeledMetricResult[]
+  axis: Axis | undefined,
+  resultDataAsList: UnifiedMetricsResult[] | undefined,
+  timeConfig: TimeConfig
 ): ChartAxis | undefined {
   if (!axis || axis.metrics.length === 0 || !resultDataAsList) {
     return;
@@ -382,33 +481,48 @@ export function toAxisConfiguration(
       // multiple data series and hence in multiple labels.
       if (isGroupedMetric(grouping)) {
         const metricId = getMetricId(name, i);
-        // console.log('name=', name, 'metricId', metricId, axis);
         return resultDataAsList
           .filter(({ id }) => id === metricId)
-          .map(({ label: groupLabel }): string => {
-            // 'other_group' is a special marker within the labels that should be replaced with 'Other'.
-            // Eventually we might wanna teach the backend to return the correct string right away.
-            if (groupLabel === 'other_group') {
-              return 'Other';
-            }
-            //disambiguate multi-metric, multi-series charts by prefixing the group label with the metric label
-            if (!groupLabel) {
+          .map((resultData): string => {
+            if (isLabeledMetricResult(resultData)) {
+              const { label: groupLabel } = resultData;
+              // 'other_group' is a special marker within the labels that should be replaced with 'Other'.
+              // Eventually we might wanna teach the backend to return the correct string right away.
+              if (groupLabel === 'other_group') {
+                return 'Other';
+              }
+              const isAMultiSeriesChart =
+                (chartConfig.y1.metrics.length && chartConfig.y2?.metrics?.length) || axis.metrics.length > 1;
+              return isAMultiSeriesChart ? `${metricLabel} ${groupLabel}` : groupLabel;
+            } else {
               return metricLabel ?? t('in-custom-dashboards:widgets.util.unnamMetric');
             }
-            const isAMultiSeriesChart =
-              (chartConfig.y1.metrics.length && chartConfig.y2?.metrics?.length) || axis.metrics.length > 1;
-            return isAMultiSeriesChart ? `${metricLabel} ${groupLabel}` : groupLabel;
           });
       }
       return [metricLabel];
     }),
+    companionMetricLabels: axis.companionMetricConfigs?.map(companionMetric => companionMetric.label) ?? [],
+    companionMetricFormatter: axis.companionMetricConfigs?.map(companionMetric => companionMetric.formatter) ?? [],
     colors: axis.colors,
     metricIds: axis.metrics.flatMap(({ grouping }, i) => {
       // For grouped metrics one metric configuration will result in
       // multiple data series and hence in multiple metric IDs.
       if (isGroupedMetric(grouping)) {
         const metricId = getMetricId(name, i);
-        return resultDataAsList
+        // When dealing with grouped data we always work with labeled results
+        return (resultDataAsList as LabeledMetricResult[])
+          .filter(({ id }) => id === metricId)
+          .map(({ label }) => getMetricIdForGroup(metricId, label));
+      }
+      return [getMetricId(name, i)];
+    }),
+    companionMetricIds: axis.companionMetricConfigs?.flatMap(({ grouping }, i) => {
+      // For grouped metrics one metric configuration will result in
+      // multiple data series and hence in multiple metric IDs.
+      if (isGroupedMetric(grouping)) {
+        const metricId = getMetricId(name, i);
+        // When dealing with grouped data we always work with labeled results
+        return (resultDataAsList as LabeledMetricResult[])
           .filter(({ id }) => id === metricId)
           .map(({ label }) => getMetricIdForGroup(metricId, label));
       }
@@ -420,6 +534,8 @@ export function toAxisConfiguration(
     min: axis.min,
     max: axis.max,
     calculateStackDifferences: axis.calculateStackDifferences,
-    metrics: []
+    metrics: [],
+    companionMetrics: [],
+    timeShifts: axis.metrics.map(({ timeShift }) => translateOffsetToTimeShiftConfig(timeShift, timeConfig))
   };
 }

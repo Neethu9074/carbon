@@ -72,6 +72,21 @@ export function fixateTimeConfig(timeConfig: TimeConfig): FixedTimeConfig {
   };
 }
 
+export function timeConfigWithShift(timeConfig: TimeConfig, timeSkew: number) {
+  // live mode needs to query with empty to field
+  // historical data does not need to be skewed
+  if (timeConfig.autoRefresh || timeConfig.to !== null) {
+    return timeConfig;
+  }
+  const now = Date.now() - timeSkew;
+
+  return {
+    ...timeConfig,
+    to: now,
+    focusedMoment: now
+  };
+}
+
 function getInt(query: Parameters, key: string, fallback: number): number;
 function getInt(query: Parameters, key: string, fallback: null): number | null;
 function getInt(query: Parameters, key: string, fallback: number | null): number | null {

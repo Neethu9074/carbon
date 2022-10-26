@@ -5,50 +5,77 @@
 
 import React from 'react';
 
+import {
+  aggregationPath,
+  formatterPath,
+  metricConfigurationPath,
+  metricPath,
+  sourcePath,
+  useFormatterFormSideEffects
+} from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import { entityCount as infrastructureEntityCount } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure';
-import { metrics as infrastructureMetrics } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure';
 import MetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/MetricConfigurator';
 import { source as event } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/event';
 import { source as sli } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli';
 import { onChangeSource } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
+import { getFormatter } from 'in-custom-dashboards/widgets/_shared/formatters';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import { publicFormatters } from 'in-stores/metric/formatters';
 import Header from 'in-components/workspace/Header';
 import { t } from 'in-i18n';
 
 export default function ListWidgetFormComponent({ form, onChange }) {
+  const metricConfig = form.get(metricConfigurationPath);
+  const sourceField = metricConfig.get(sourcePath);
+  const metricField = metricConfig.get(metricPath);
+  const aggregationField = metricConfig.get(aggregationPath);
+
+  const source = sourceField.value;
+  const metric = metricField.value;
+  const aggregation = aggregationField.value;
+  const formatters = getFormatter(source, metric, aggregation);
+
+  const updateForm = useFormatterFormSideEffects(form, updatedForm => {
+    onChange([], () => updatedForm);
+  });
   return (
     <>
       <Header>{t('in-custom-dashboards:widgets.topList.formComp.whatULikeShow')}</Header>
       <MetricConfigurator
-        form={form.get('metricConfiguration')}
-        onChange={(path, fn) => onChange(['metricConfiguration', ...path], fn)}
+        form={metricConfig}
+        onChange={(path, fn) => {
+          updateForm(form.updateIn([metricConfigurationPath, ...path], fn));
+        }}
         onChangeSource={newSource =>
           onChangeSource(
-            form.get('metricConfiguration'),
-            metricConfigurationForm => onChange(['metricConfiguration'], () => metricConfigurationForm),
+            metricConfig,
+            metricConfigurationForm =>
+              updateForm(form.updateIn([metricConfigurationPath], () => metricConfigurationForm)),
             newSource
           )
         }
-        formatterSection={form.get('formatter').map(field => (
-          <SelectInSection
-            id="big-number-formatter"
-            label={t('in-custom-dashboards:widgets.topList.formComp.formatter')}
-            value={field.value}
-            onChange={e => onChange(['formatter'], field => field.setValue(e.target.value).setTouched(true))}
-            hasError={!field.valid && field.touched}
-            additionalContent={<TouchedMessages field={field} />}
-            useAlternateBg
-          >
-            {publicFormatters.map(({ id, label }) => (
-              <option key={id} value={id}>
-                {label}
-              </option>
-            ))}
-          </SelectInSection>
-        ))}
-        disabledDataSources={[infrastructureMetrics.source, infrastructureEntityCount.source, event, sli]}
+        formatterSection={form.get(formatterPath).map(field => {
+          return (
+            <SelectInSection
+              id="big-number-formatter"
+              label={t('in-custom-dashboards:widgets.topList.formComp.formatter')}
+              value={field.value}
+              onChange={e =>
+                updateForm(form.updateIn([formatterPath], field => field.setValue(e.target.value).setTouched(true)))
+              }
+              hasError={!field.valid && field.touched}
+              additionalContent={<TouchedMessages field={field} />}
+              useAlternateBg
+            >
+              {formatters.map(({ id, label }, index) => (
+                <option key={`${id}-${index}`} value={id}>
+                  {label}
+                </option>
+              ))}
+            </SelectInSection>
+          );
+        })}
+        disabledDataSources={[infrastructureEntityCount.source, event, sli]}
         maxGrouping={10}
       />
     </>

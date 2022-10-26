@@ -70,11 +70,16 @@ export default class Config {
   y1?: Axis;
   y2?: Axis;
 
+  y1$: Subject<Axis | undefined>;
+  y2$: Subject<Axis | undefined>;
+
   scales?: Scales;
 
   allDomainValues?: number[] | Nullish;
 
   shareMaxAxisDomain?: boolean;
+
+  wiggleRoom?: number;
 
   constructor(props: ConfigProps) {
     this.timeAxisHeight = 30;
@@ -88,6 +93,9 @@ export default class Config {
     this.filteredDataSeries$ = create();
     this.filteredDataSeries = new Set();
     this.userFilteredDataSeries = this.getFilteredMetrics(props, 'defaultDisabledMetrics');
+
+    this.y1$ = create<Axis | undefined>().emit(undefined);
+    this.y2$ = create<Axis | undefined>().emit(undefined);
 
     this.update(props);
   }
@@ -138,6 +146,7 @@ export default class Config {
       this.scales = new Scales(this, this.filteredDataSeries);
     }
     this.scales.update();
+    this.emitAxisUpdates();
   }
 
   calculateMaxMillisBetweenDatapoints(): number {
@@ -282,6 +291,15 @@ export default class Config {
     }
     this.updateFilteredDataSeries();
     this.scales!.update();
+    this.emitAxisUpdates();
+  }
+
+  emitAxisUpdates(): void {
+    const newY1 = this.y1 ? { ...this.y1 } : undefined;
+    const newY2 = this.y2 ? { ...this.y2 } : undefined;
+
+    this.y1$.emit(newY1);
+    this.y2$.emit(newY2);
   }
 }
 

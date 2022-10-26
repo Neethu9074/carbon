@@ -43,6 +43,31 @@ export const MarkerLanesBelowChart = () => {
   );
 };
 
+export const MarkerLanesBelowChartExceedingVisibleArea = () => {
+  return (
+    <ChartWithSomeData
+      renderPostChartContent={props => (
+        <MarkerLanesPresenter {...props}>
+          {/*Alert lane can exceed left side due to alignment to metric granularity for events that started before the
+             visible timeframe. These events are added to the first cluster, which however can be outside the visible area
+             if not properly adjusted when rendering.*/}
+          <AlertsLanePresenter alerts={getSmartAlertRelativeToStart(timeConfig, -0.02)} />
+          <AlertsLanePresenter alerts={getSmartAlertRelativeToStart(timeConfig, -0.01)} />
+          <AlertsLanePresenter alerts={getSmartAlertRelativeToStart(timeConfig, 0)} />
+          <AlertsLanePresenter alerts={getSmartAlertRelativeToStart(timeConfig, 0.01)} />
+
+          <AlertsLanePresenter alerts={getSmartAlertRelativeToStart(timeConfig, 0.5)} />
+
+          <AlertsLanePresenter alerts={getSmartAlertRelativeToStart(timeConfig, 0.99)} />
+          <AlertsLanePresenter alerts={getSmartAlertRelativeToStart(timeConfig, 1.0)} />
+          <AlertsLanePresenter alerts={getSmartAlertRelativeToStart(timeConfig, 1.01)} />
+          <AlertsLanePresenter alerts={getSmartAlertRelativeToStart(timeConfig, 1.02)} />
+        </MarkerLanesPresenter>
+      )}
+    />
+  );
+};
+
 export const MarkerLanesBelowChartWithError = args => {
   return (
     <ChartWithSomeData
@@ -198,102 +223,87 @@ function getReleases(timeConfig) {
 
 function getAlertsAndIncidents(timeConfig) {
   const events = [];
-  const numEvents = 12;
+  const numEvents = 8;
   for (let i = 0; i < numEvents; i++) {
+    const timestamp = timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 9);
     events[i] = {
-      timestamp: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 9), // backend property name is "timestamp"
+      timestamp,
       smartAlerts:
         i % 2 !== 0
           ? [
-              {
-                eventId: 'ZBW7TkyST2mh6xy9foCtFA',
-                name: "I'm a cool smart alert",
-                triggeringTime: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 9),
-                start: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 8),
-                end: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 7),
-                duration:
-                  timeConfig.to -
-                  timeConfig.windowSize +
-                  timeConfig.windowSize * (i / 7) -
-                  (timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 9))
-              }
+              createEvent(
+                "I'm a cool smart alert",
+                timestamp,
+                timeConfig.windowSize * (i / 9),
+                timeConfig.windowSize * (i / 7)
+              )
             ]
           : [],
       incidents:
         i % 2 === 0
           ? [
-              {
-                eventId: 'ZBW7TkyST2mh6xy9foCtFA',
-                name: "I'm a cool Incident",
-                triggeringTime: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 9),
-                start: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 8),
-                end: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 7),
-                duration:
-                  timeConfig.to -
-                  timeConfig.windowSize +
-                  timeConfig.windowSize * (i / 7) -
-                  (timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 9))
-              },
-              {
-                eventId: 'ZBW7TkyST2mh6xy9foCtFA',
-                name: "I'm an awesome Incident",
-                triggeringTime: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 9),
-                start: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 7),
-                end: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 5),
-                duration:
-                  timeConfig.to -
-                  timeConfig.windowSize +
-                  timeConfig.windowSize * (i / 5) -
-                  (timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 9))
-              }
+              createEvent(
+                "I'm a cool Incident",
+                timestamp,
+                timeConfig.windowSize * (i / 9),
+                timeConfig.windowSize * (i / 7)
+              ),
+              createEvent(
+                "I'm an awesome Incident",
+                timestamp,
+                timeConfig.windowSize * (i / 9),
+                timeConfig.windowSize * (i / 5)
+              )
             ]
           : []
     };
   }
 
+  const timestamp = timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 9);
   events[3] = {
-    timestamp: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 9), // backend property name is "timestamp"
+    timestamp,
     smartAlerts: [
-      {
-        eventId: 'ZBW7TkyST2mh6xy9foCtFA',
-        name: "I'm a cool smart alert",
-        triggeringTime: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 9),
-        start: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 7),
-        end: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 5),
-        duration:
-          timeConfig.to -
-          timeConfig.windowSize +
-          timeConfig.windowSize * (3 / 5) -
-          (timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 9))
-      }
+      createEvent("I'm a cool smart alert", timestamp, timeConfig.windowSize * (1 / 9), timeConfig.windowSize * (3 / 9))
     ],
     incidents: [
-      {
-        eventId: 'ZBW7TkyST2mh6xy9foCtFA',
-        name: "I'm a cool Incident in a cluster",
-        triggeringTime: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 9),
-        start: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 7),
-        end: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 5),
-        duration:
-          timeConfig.to -
-          timeConfig.windowSize +
-          timeConfig.windowSize * (3 / 5) -
-          (timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 9))
-      },
-      {
-        eventId: 'ZBW7TkyST2mh6xy9foCtFA',
-        name: "I'm an awesome Incident in a cluster",
-        triggeringTime: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 9),
-        start: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 7),
-        end: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 5),
-        duration:
-          timeConfig.to -
-          timeConfig.windowSize +
-          timeConfig.windowSize * (3 / 5) -
-          (timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 9))
-      }
+      createEvent(
+        "I'm a cool Incident in a cluster",
+        timestamp,
+        timeConfig.windowSize * (2 / 9),
+        timeConfig.windowSize * (1 / 5)
+      ),
+      createEvent(
+        "I'm an awesome Incident in a cluster",
+        timestamp,
+        timeConfig.windowSize * (1 / 9),
+        timeConfig.windowSize * (1 / 9)
+      )
     ]
   };
 
   return events;
+}
+
+function getSmartAlertRelativeToStart(timeConfig, relativeStart) {
+  const timestamp = timeConfig.to - (1 - relativeStart) * timeConfig.windowSize;
+  return [
+    {
+      timestamp,
+      smartAlerts: [
+        createEvent(`I'm a smart alert`, timestamp, timeConfig.windowSize * (1 / 9), timeConfig.windowSize * (2 / 9))
+      ],
+      incidents: []
+    }
+  ];
+}
+
+function createEvent(name, timestamp, durationBefore, durationAfter) {
+  return {
+    eventId: 'ZBW7TkyST2mh6xy9foCtFA',
+    name,
+    triggeringTime: timestamp - durationBefore,
+    start: timestamp,
+    end: timestamp + durationAfter,
+    duration: durationBefore + durationAfter
+  };
 }

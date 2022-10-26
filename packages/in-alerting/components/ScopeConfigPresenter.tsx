@@ -7,10 +7,9 @@ import React, { ReactNode } from 'react';
 
 import { Stack } from '@instana/components';
 
-// @ts-expect-error this component needs to be converted to typescript
-import HelpText from 'in-components/form/HelpText';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { QueryBuilderComponent } from 'in-components/QueryBuilder';
+import HelpText from 'in-components/form/HelpText';
 import { t } from 'in-i18n';
 
 export default function ScopeConfigPresenter({

@@ -39,23 +39,19 @@ const PieChartWrapper = forwardRef((props, ref) => {
   const [hiddenMetrics, setHiddenMetrics] = useState([]);
   const sliceGap = donutRadius && metrics.length > 1 ? 0.002 : 0;
 
-  // Dependending on the chosen aggregation and data source, the backend may respond
-  // with an empty result array indicating that no source data was available. This is
-  // a valid behavior and we need to cope with this accordingly.
-  const metricsWithDataPoints = metrics.filter(eachMetric => eachMetric.length > 0);
-
   const sum = useMemo(
-    () =>
-      metricsWithDataPoints
-        .filter((_, i) => !hiddenMetrics.includes(i))
-        .reduce((acc, m2) => acc + (m2[0]?.[1] || 0), 0),
-    [metricsWithDataPoints, hiddenMetrics]
+    () => metrics.filter((_, i) => !hiddenMetrics.includes(i)).reduce((acc, m2) => acc + (m2[0]?.[1] || 0), 0),
+    [metrics, hiddenMetrics]
   );
 
   const slices = useMemo(
     () =>
-      metricsWithDataPoints.map((eachMetric, i) => {
-        if (!hiddenMetrics.includes(i)) {
+      metrics.map((eachMetric, i) => {
+        // Depending on the chosen aggregation and data source, the backend may respond
+        // with an empty result array indicating that no source data was available. This is
+        // a valid behavior, and we need to cope with this accordingly.
+        // Therefore, a metric needs to have data points and needs to not be hidden
+        if (eachMetric.length && !hiddenMetrics.includes(i)) {
           return {
             percentage: sum ? eachMetric[0][1] / sum : 0,
             value: eachMetric[0][1],
@@ -69,7 +65,7 @@ const PieChartWrapper = forwardRef((props, ref) => {
       }),
     // We only wnant to upate when the props below are changing
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [metricsWithDataPoints, props.y1.colors100, props.y1.colors50, hiddenMetrics, sum]
+    [metrics, props.y1.colors100, props.y1.colors50, hiddenMetrics, sum]
   );
   let renderedPercentage = 0;
   const customStyle = !props.automaticallySize

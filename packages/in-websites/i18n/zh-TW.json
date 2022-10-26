@@ -331,7 +331,7 @@
     "readyStepParagraphEverythingIsReadyToMonitorYourWebsite": "一切都就緒，可開始監視您的網站 <strong>{{websiteName}}</strong>。請將此 Script 複製到 HTML 文件的 <code>{{httpHeadTag}}</code>。有關網站監視和追蹤 Script 完整功能的相關資訊位於<linkToDocs>我們的文件內</linkToDocs>。",
     "readyStepButtonGoToWebsiteDashboard": "移至網站儀表板",
     "waitStepTitleWorking": "工作中...",
-    "waitStepParagraphWeArePreparingEverythingToMonitorYourWebsite": "我們正在準備一切，以監視您的網站 <strong>{{websiteName}}</strong>。正當我們這樣做之時，請將下列 Script 新增至 HTML 文件的 <code>{{httpHeadTag}}</code>。有關網站監視和追蹤 Script 完整功能的相關資訊位於<linkToDocs>我們的文件內</linkToDocs>。",
+    "waitStepParagraphWeArePreparingEverythingToMonitorYourWebsite": "我們正在準備一切，以監視您的網站 <strong>{{websiteName}}</strong>。在我們執行此動作時，請將下列 Script 新增至 HTML 文件的 <code>{{httpHeadTag}}</code>。有關網站監視和追蹤 Script 完整功能的相關資訊位於<linkToDocs>我們的文件內</linkToDocs>。",
     "waitStepButtonEnablingMonitoring": "正在啟用監視..."
   },
   "trackingSnippet": {
@@ -455,6 +455,7 @@
       "alerts": {
         "alertConfigurationListTitleAlertConfiguration": "警示配置",
         "alertConfigurationTitleTrigger": "觸發",
+        "alertConfigurationTitleCustomEvent": "自訂事件",
         "alertConfigurationTitleErrorMessage": "錯誤訊息",
         "alertConfigurationTitleHTTPStatusCode": "HTTP 狀態碼",
         "alertConfigurationTitleScope": "範圍",
@@ -498,13 +499,13 @@
         },
         "customGeoDetails": {
           "title": "自訂地理詳細資料",
-          "help1": "Instana 將一般使用者 IP 位址對映至地理詳細資料，例如城市和國家/地區名稱。 這可以透過檢查各種 HTTP 標頭以擷取一般使用者 IP 位址來達成。 然後，在 <maxmind>Maxmind 的地理資料庫</maxmind>的協助下，這些 IP 位址會轉換為地理詳細資料。 這些自訂對映規則的主要使用案例是私密網路。 例如，透過私密網路存取（自行管理的）Instana 安裝時。 在這種情況下，公用地理資料庫將永遠不會包含相關資訊，因此翻譯程序將不會提供任何結果或僅提供錯誤/無助益的結果。",
-          "help2": "自訂地理詳細資料的規則一律以逗點區隔值 (CSV) 來表示。 Web REST API 的 CSV 格式和用法在<documentation>文件</documentation>內有定義。",
+          "help1": "Instana 將一般使用者 IP 位址對映至地理詳細資料，例如城市和國家/地區名稱。 這可以透過檢查各種 HTTP 標頭以擷取一般使用者 IP 位址來達成。 然後，在 <maxmind>Maxmind 的地理資料庫</maxmind>的協助下，這些 IP 位址會轉換為地理詳細資料。 這些自訂對映規則的主要使用案例是私密網路。 例如，透過私密網路存取（自行管理的）Instana 安裝時。 在這類情況下，公用地理資料庫將永遠不會包含相關資訊，因此轉換程序將不會提供任何結果或僅提供錯誤/無助益的結果。",
+          "help2": "自訂地理詳細資料的規則一律以逗點區隔值 (CSV) 來表示。 我們的 Web REST API 的 CSV 格式和用法在我們的<documentation>文件</documentation>內有定義。",
           "download": "下載作用中配置 (CSV)",
           "documentation": "文件",
           "uploader": {
             "title": "上傳新規則",
-            "help": "自訂地理詳細資料規則是定義的 CSV 檔，透過 Web REST API 或透過此表單上傳。 如需檔案結構、限制及 Web REST API 的相關資訊，請參閱我們的<documentation>文件</documentation>。",
+            "help": "自訂地理詳細資料規則是定義的 CSV 檔，並透過我們的 Web REST API 或透過此表單上傳。 如需檔案結構、限制及 Web REST API 的相關資訊，請參閱我們的<documentation>文件</documentation>。",
             "failureToReadFileContent": "無法讀取檔案內容：{{error}}",
             "failureToCallApiForTechnicalReason": "無法執行 HTTP 呼叫：{{error}}",
             "failureToCallApiForStatusCodeReason": "HTTP 呼叫傳回錯誤結果：{{error}}"
@@ -538,16 +539,32 @@
         "fileDownloadConfigurationDialogLabelKey": "索引鍵",
         "fileDownloadConfigurationDialogLabelValue": "值",
         "fileDownloadConfigurationDialogButtonAddHeader": "新增標頭",
+        "fileUploadConfigurationDialogTitleEdit": "編輯檔案上傳配置",
+        "fileUploadConfigurationDialogTitleNew": "新建檔案上傳配置",
+        "fileUploadConfigurationDialogLabelDescription": "說明",
+        "fileUploadConfigurationDialogHeadingDescription": "說明",
+        "fileUploadConfigurationDialogDescriptionHelp": "上傳配置可協助您更妥善地組織上傳的檔案。",
+        "fileUploadConfigurationDialogHeadingOpenAPI": "正在上傳檔案",
+        "fileUploadConfigurationDialogOpenAPIHelp": "呼叫 Instana 的 Web REST API 以上傳檔案。 這可以整合到您的管線處理程序中，以進行自動化部署。 Web REST API 的說明和用法定義於<documentation>文件</documentation>內。",
+        "fileUploadUrl": "上傳檔案 API",
+        "clearUploadedFilesUrl": "移除所有檔案 API",
         "stackTraceTranslationLabelConfiguration": "配置",
+        "stackTraceTranslationLabelFiles": "檔案",
+        "stackTraceTranslationLabelTotalSize": "大小總計",
+        "stackTraceTranslationLabelLastModified": "前次修改時間",
         "stackTraceTranslationExplanation": "為了增加 JavaScript 堆疊追蹤的可讀性（例如，顯示未精簡檔案和字行的參照），Instana 需要存取 JavaScript 和原始碼對映檔。在這裡新增配置，可讓 Instana 的伺服器鑑別及下載這些檔案，以便提供 JavaScript 錯誤的深入洞察。",
+        "stackTraceTranslationExplanationWithUploadFeature": "為了讓 JavaScript 堆疊追蹤更容易讀取，例如顯示非縮製檔案和行的參照， Instana 需要存取 JavaScript 和來源對映檔。 在這裡新增下載配置可讓 Instana 伺服器鑑別及下載這些檔案，以提供 JavaScript 錯誤的更多見解。 如果您的檔案是專用管理，且無法由 Instana 存取，則可以在此實務範例中使用上傳配置，方式是透過我們的 Web REST API 手動上傳您的檔案。",
         "stackTraceTranslationTitleJavaScriptStackTraceTranslation": "JavaScript 堆疊追蹤轉換",
         "stackTraceTranslationLearnMoreLabel": "進一步瞭解 JavaScript 堆疊追蹤轉換",
         "stackTraceTranslationTitleJSStackTraceTranslationConfigurations": "JS 堆疊追蹤轉換的配置",
         "stackTraceTranslationHeaderFileDownloadConfigurations": "檔案下載配置",
+        "stackTraceTranslationHeaderFileUploadConfigurations": "檔案上傳配置",
         "stackTraceTranslationNoDataMessage": "沒有可用的檔案下載配置。",
+        "stackTraceTranslationNoUploadDataMessage": "沒有可用的檔案上傳配置。",
         "stackTraceTranslationButtonAddConfiguration": "新增配置",
         "stackTraceTranslationLabelFileDownloadConfiguration": "檔案下載配置 {{config}}",
-        "stackTraceTranslationLabelOr": " 或",
+        "stackTraceTranslationLabelFileUploadConfiguration": "檔案上傳配置 {{config}}",
+        "stackTraceTranslationLabelOr": " 或 ",
         "configurationTitle": "配置",
         "configurationLabelOptions": "選項",
         "configurationLabelPrivacy": "隱私權",
@@ -742,7 +759,7 @@
       "indexLabelGeography": "地理位置",
       "indexLabelCustomEvents": "自訂事件",
       "indexLabelPages": "頁面",
-      "indexLabelAlerts": "警示",
+      "indexLabelAlerts": "智慧型警示",
       "indexLabelConfiguration": "配置",
       "pagesLabelName": "名稱",
       "pagesLabelPageViews": "頁面檢視數",
@@ -785,25 +802,25 @@
     "websiteDashboardButtonAnalyzePageTransitions": "分析頁面轉移",
     "noDataAvailable": {
       "pagesTitle": "沒有可用的頁面",
-      "pagesDescription": "未擷取到所選時間範圍內的頁面。",
+      "pagesDescription": "所選的時間範圍內未擷取到任何的頁面。",
       "customEventsTitle": "沒有可用的自訂事件",
-      "customEventsDescription": "未擷取到所選時間範圍內的自訂事件。",
+      "customEventsDescription": "所選的時間範圍內未擷取到任何的自訂事件。",
       "javascriptErrorsTitle": "沒有可用的 JavaScript 錯誤",
-      "javascriptErrorsDescription": "未擷取到所選時間範圍內的 JavaScript 錯誤。",
+      "javascriptErrorsDescription": "所選的時間範圍內未擷取到任何的 JavaScript 錯誤。",
       "resourcesTitle": "沒有可用的資源",
-      "resourcesDescription": "未擷取到所選時間範圍內的資源。",
+      "resourcesDescription": "所選的時間範圍內未擷取到任何的資源。",
       "httpRequestsTitle": "沒有可用的 HTTP 要求",
-      "httpRequestsDescription": "未擷取到所選時間範圍內的 HTTP 要求。"
+      "httpRequestsDescription": "所選的時間範圍內未擷取到任何的 HTTP 要求。"
     }
   },
   "rename": {
-    "help": "「重新命名網站」是 Instana 系統中最終執行的一致性動作。因此，對網站名稱的變更可能<strong>需要數分鐘</strong>，才能移入至整個系統。"
+    "help": "「重新命名網站」是 Instana 系統中最終執行的一致性動作。因此，對網站名稱的變更可能需要<strong>最多幾分鐘</strong>，才能移入至整個系統。"
   },
   "trackingScript": {
     "help": "您只需要下列追蹤 Script，就可以著手進行網站監視。請將此 Script 複製到 HTML 文件的 <code>{{htmlElementName}}</code>。有關網站監視和追蹤 Script 完整功能的相關資訊位於<linkToDocs>我們的文件內</linkToDocs>。"
   },
   "delete": {
-    "disclaimer": "如果您再也不想使用 Instana 來監視網站 <strong>{{websiteName}}</strong>，請使用此表單來移除它。「移除網站」是最終執行的一致性動作。因此，移除網站可能<strong>需要數分鐘</strong>，才能完全移除。"
+    "disclaimer": "如果您再也不想使用 Instana 來監視網站 <strong>{{websiteName}}</strong>，請使用此表單來移除它。「移除網站」是最終執行的一致性動作。因此，移除網站可能需要<strong>最多幾分鐘</strong>，才能完全移除。"
   },
   "dataSource_pageLoad": "{{formattedCount}} 個頁面載入",
   "dataSource_pageLoad_plural": "{{formattedCount}} 個頁面載入",

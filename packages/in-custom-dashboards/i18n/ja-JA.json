@@ -167,14 +167,16 @@
         "aggregation": "集約",
         "crossSeriesAggregation": "クロス系列集計に SUM を使います。",
         "crossSeriesAggregationHelp": "通常、クロスシリーズアグリゲーションはクロスタイムアグリゲーション（データポイントを単一のバケット参加方法）と同じです。 このトグルを有効にすると、指定された集計を使用するのではなく、データ系列全体のバケットを参加します。",
-        "crossSeriesAggregationDisabledHelp": "{{aggregation}} には適用されません。"
+        "crossSeriesAggregationDisabledHelp": "{{aggregation}} には適用されません。",
+        "crossSeriesAggregationRestrictedHelp": "このメトリックには適用されません"
       },
       "metrics": {
         "infrastructurePlatforms": "インフラストラクチャーとプラットフォーム",
         "comingSoon": "(近日公開)"
       },
       "typeAndMetricConfigurator": {
-        "pleaseSelectMetric": "メトリックを選択してください"
+        "pleaseSelectMetric": "メトリックを選択してください",
+        "loadingMetrics": "メトリックのロード中..."
       }
     },
     "srcMobileApp": {
@@ -264,7 +266,7 @@
       "errorTitleForConfiguredSliDeletion": "構成済みの SLI が削除されました",
       "errorDescriptionToConfigureOtherSLI": "別の SLI を選択して SLO ウィジェットを更新してください",
       "index": {
-        "testTitle": "最も遅い上位 5 個のサービス",
+        "testTitle": "最も遅い上位 5 件のサービス",
         "testLabels": {
           "catalogue": "カタログ",
           "cart": "カート",
@@ -374,6 +376,7 @@
     "slo": {
       "demo": {
         "title": "SLO のタイトル",
+        "sliName": "サンプル SLI",
         "appName": "アプリケーション名の例"
       },
       "apConfigFormComp": {
@@ -405,7 +408,7 @@
         "problemCreateSli": "次の SLI の作成中に問題が発生しました: 「{{sliName}}」",
         "clone": "複製",
         "create": "作成",
-        "sliConfigMsg": "計算済みの費やされたバジェットが無効にならないようにするために、SLI のパラメーターを変更することはできません。 そのため、パラメーターを変更する場合、SLI を複製する必要があります。",
+        "sliConfigMsg": "計算済みの消費済みバジェットが無効にならないようにするために、SLI のパラメーターを変更することはできません。そのため、パラメーターを変更する場合、SLI を複製する必要があります。",
         "sliCreated": "SLI「{{sliName}}」が作成されました。"
       },
       "endpointSelectBox": {
@@ -464,10 +467,10 @@
         "includeSyntheticCalls": "シンセティック呼び出しを含める",
         "type": "タイプ",
         "sliEntity": "SLI エンティティー",
-        "beaconConfigLabel": "Beacon Config",
+        "beaconConfigLabel": "ビーコンの構成",
         "beaconScopeLabel": "Beacon Scope",
         "httpRequestsLabel": "HTTP リクエスト",
-        "beaconFiltersLabel": "Beacon フィルター"
+        "beaconFiltersLabel": "ビーコン・フィルター"
       },
       "sliList": {
         "serviceLevelIndicators": "サービス・レベル指標",
@@ -478,7 +481,9 @@
         "delSliConfig": "SLI 構成の削除",
         "pleaseConfirm": "ご確認ください",
         "pleaseConfirmMsg": "<strong>{{sliName}}</strong> を削除しますか?",
-        "delete": "削除"
+        "delete": "削除",
+        "eventBasedSli": "イベント・ベース",
+        "timeBasedSli": "時間ベース、{{metricNameLabel}}"
       },
       "sliManageList": {
         "configSrvLevelIndicatorsMsg": "SLI を作成または編集するために必要な <em>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</em> 権限がありません。",
@@ -492,9 +497,11 @@
         "sloTime": "開始: <datetime-from /><br />終了: <datetime-to />"
       },
       "chart": {
-        "spent": "費やされた",
+        "spent": "消費済み",
         "budget": "バジェット",
-        "viewInAnalyze": "分析で表示"
+        "viewInAnalyze": "分析で表示",
+        "initialEvaluation": "SLIが作成されました",
+        "missingDataInfo": "このSLIの作成時刻は、表示された時刻範囲内です。 SLIの作成前のデータが欠落します。"
       },
       "formComponent": {
         "sliManagement": "SLI 管理",
@@ -521,15 +528,16 @@
         "enterDateFormatYyyyMmDd": "YYYY-MM-DD の形式で日付を入力してください。",
         "enterTimeInFormatHhMmSs": "HH:mm:ss の形式で時刻を入力してください。"
       },
-      "widgetHeader": {
+      "sliSummary": {
         "status": "状況",
         "target": "ターゲット:",
-        "errorBudgetSpent": "費やされたエラー・バジェット",
+        "errorBudgetSpent": "消費済みエラー・バジェット",
         "errorBudget": "エラー・バジェット:",
         "timeWindow": "時間枠",
-        "dynamicTimeWindow": "動的時間枠",
-        "rollingTimeWindow": "ローリング時間枠",
-        "fixedTimeWindow": "固定時間枠"
+        "timeWindowType": "不明な時間枠",
+        "timeWindowType_dynamic": "動的時間枠",
+        "timeWindowType_rolling": "ローリング時間枠",
+        "timeWindowType_fixed": "固定時間枠"
       },
       "sloEntityInfo": {
         "tooltip": {
@@ -551,7 +559,9 @@
       "slo": "SLO",
       "monitoringSourceSelector": {
         "source_application": "アプリケーション",
-        "source_website": "ウェブサイト"
+        "source_website": "Web サイト (ベータ)",
+        "callOut_application": "エンド・ユーザーのインターネット接続の不良など、制御できない要因は除外されますが、エンド・ユーザーのエクスペリエンスが正確に反映されていない可能性があります。",
+        "callOut_website": "エンド・ユーザーのエクスペリエンスが最も正確に反映されますが、エンド・ユーザーのインターネット接続の不良など、制御できない要因は除外されません。"
       },
       "sliFormatter": {
         "unit": "コール",
@@ -560,6 +570,108 @@
         "unit_1": "コール",
         "unit_2": "呼び出し",
         "thousandCallsFormat": "{{count}}K 呼び出し"
+      },
+      "widgetLeftHeader": {
+        "previewDataInfo": "プレビュー・データは、過去 7 日分までしか表示されません。 最終ウィジェットには、SLI 作成以降のデータのみが含まれます。"
+      },
+      "boundaryScopeConfigurator": {
+        "all": {
+          "title": "すべての呼び出し",
+          "description": "コンシューマーと内部の両方によって、このアプリケーション内で実行された呼び出し。"
+        },
+        "inbound": {
+          "title": "インバウンドの呼び出し",
+          "description": "このアプリケーションのコンシューマーによって実行される呼び出しのみ。"
+        }
+      }
+    },
+    "apdex": {
+      "title": "Apdex: グラフ",
+      "chart": {
+        "metricLabel": "Apdex",
+        "viewInAnalyze": "分析で表示",
+        "noDataRetentionPeriod": "選択された時刻範囲はデータ保存期間を超えています",
+        "notFoundErrorTitle": "構成された Apdex が見つかりませんでした",
+        "notFoundErrorDescription": "別の Apdex 構成を選択して Apdex ウィジェットを更新してください"
+      },
+      "demo": {
+        "title": "製品の Apdex",
+        "entityLabel": "ロボット・ショップ"
+      },
+      "apdexConfigInfo": {
+        "tagFilterLabel": "フィルター",
+        "apdexNameLabel": "Apdex 名",
+        "apdexTypeLabel": "Apdex タイプ",
+        "thresholdLabel": "閾値"
+      },
+      "formComponent": {
+        "title": "Apdex 構成",
+        "entityTypeTitle": "Apdex タイプ",
+        "manageListTitle": "Apdex 管理"
+      },
+      "configurationSelector": {
+        "label": "Apdex 構成",
+        "selectConfig": "構成を選択してください",
+        "manageConfig": "Apdex の管理",
+        "noneAvailCreateOne": "使用可能なものがありません。作成してください。",
+        "pleaseSelect": "選択してください"
+      },
+      "entityTypeSelector": {
+        "type": "不明なタイプ",
+        "type_website": "Web サイト",
+        "type_application": "アプリケーション"
+      },
+      "apdexManageList": {
+        "title": "Apdex リスト",
+        "deleteSuccessfulMessage": "Apdex 構成が正常に削除されました。",
+        "deleteFailedMessage": "Apdex 構成の削除に失敗しました。"
+      },
+      "apdexList": {
+        "cardTitle": "Apdex 構成",
+        "nameColumn": "Apdex 構成",
+        "thresholdColumn": "閾値",
+        "confirmDeleteHeader": "ご確認ください",
+        "confirmDeleteMessage": "{{apdex}} を削除してよろしいですか?",
+        "editApdexTooltip": "Apdex 構成の編集/複製",
+        "deleteApdexTooltip": "Apdex 構成の削除",
+        "confirmDeleteButton": "削除",
+        "createButton": "Apdex 構成の作成"
+      },
+      "createApdexForm": {
+        "title": "Apdex 構成の作成",
+        "customizationHeader": "Apdex カスタマイズ",
+        "label": "Apdex 名",
+        "apdexCreateSuccessTitle": "Apdex 構成が正常に作成されました。",
+        "apdexCreateSuccessContent": "Apdex 構成「{{apdexName}}」が作成されました。",
+        "apdexCreateFailedTitle": "Apdex 構成の作成に失敗しました。",
+        "apdexCreateFailedContent": "この Apdex 構成の作成中に問題が発生しました: 「{{apdexName}}」",
+        "apdexNameNotEmpty": "Apdex 名を空にすることはできません。",
+        "nameExistsError": "この名前の Apdex 構成は既に存在します。 別の名前を入力してください。",
+        "limitReachedError": {
+          "website": "Web サイトの Apdex 構成の最大数 ({{0}}) に達しました。 この制限の引き上げを要求する場合は、Instana サポートにお問い合わせください。",
+          "application": "アプリケーションの Apdex 構成の最大数 ({{0}}) に達しました。 この制限の引き上げを要求する場合は、Instana サポートにお問い合わせください。"
+        },
+        "editConfigNotice": "データの損失を防ぐために、作成後に構成を編集することはできません。"
+      },
+      "createWebsiteApdexForm": {
+        "thresholdHeader": "しきい値構成",
+        "thresholdLabel": "閾値"
+      },
+      "entityInfo": {
+        "tooltip": "不明な Apdex",
+        "tooltip_website": "Web サイト Apdex",
+        "tooltip_application": "アプリケーション Apdex"
+      },
+      "widget": {
+        "unknownEntityLabel_application": "不明なアプリケーション",
+        "unknownEntityLabel_website": "不明な Web サイト",
+        "previewDataInfo": "過去 7 日間のプレビュー・データが表示されます。 最終ウィジェットには、Apdex 構成を作成した後のデータのみが含まれます。"
+      },
+      "applicationScopeConfigurator": {
+        "label": "Apdex スコープ",
+        "boundaryScope": "境界",
+        "hiddenCalls": "非表示の呼び出し",
+        "additionalFilters": "追加フィルター"
       }
     },
     "timezone": {

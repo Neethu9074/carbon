@@ -92,7 +92,7 @@ export default connectTo(
       const nearestTimeInMetrics = this.getNearestTimeInMetrics();
       const cursorXPosition = this.getAnimationOffsetAwareXPosition(nearestTimeInMetrics);
 
-      const showTooltip = !showContextMenu && cursorXPosition;
+      const showTooltip = !showContextMenu && cursorXPosition != null;
 
       return (
         <>

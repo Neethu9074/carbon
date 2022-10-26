@@ -1,0 +1,25 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+@import '~in-themes/active.less';
+
+:local {
+  .optionBox {
+    &.optionBox {
+      border: none;
+      border-radius: 0;
+    }
+
+    &.optionBoxUnchecked {
+      svg {
+        fill: @lib__colors__N600Light;
+      }
+
+      * {
+        color: @lib__colors__N600Light;
+      }
+    }
+  }
+}

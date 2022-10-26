@@ -34,6 +34,7 @@ export default function ShowCase() {
         granularity={granularity}
         timeConfig={{ windowSize, to, autoRefresh: false }}
         metrics={data!}
+        automaticallySize
         nonInteractive
       />
     </div>

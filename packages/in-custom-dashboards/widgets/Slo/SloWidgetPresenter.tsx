@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import useMetricAlignedWidgetTimeConfig from 'in-custom-dashboards/widgets/Slo/hooks/useMetricAlignedWidgetTimeConfig';
 import { ensureConfigBackwardCompatibility, SloWidgetConfiguration } from 'in-custom-dashboards/widgets/Slo/form';
 import useSliConfigWithPreview from 'in-custom-dashboards/widgets/Slo/hooks/useSliConfigWithPreview';
 import useWidgetTimeConfig from 'in-custom-dashboards/widgets/Slo/hooks/useWidgetTimeConfig';
@@ -75,6 +76,8 @@ export default function SloWidgetPresenter({ actions, config, isPreview, title, 
   const [firstMetric] = sloMetrics ?? [];
   const chartGranularity = firstMetric?.granularity || granularity;
 
+  const chartTimeWindowConfig = useMetricAlignedWidgetTimeConfig(timeWindowConfig, firstMetric);
+
   const unifiedStatus = allStatus(sliConfigurationStatus, entityStatus, sloMetricsStatus);
   const unifiedProgress = allProgress(sliConfigurationProgress, entityProgress, sloMetricsProgress);
 
@@ -88,7 +91,7 @@ export default function SloWidgetPresenter({ actions, config, isPreview, title, 
       sloMetrics={sloMetrics}
       granularity={chartGranularity}
       timeWindowType={timeWindowType}
-      timeWindowConfig={timeWindowConfig}
+      timeWindowConfig={chartTimeWindowConfig}
       status={unifiedStatus}
       progress={unifiedProgress}
       errors={sloMetricsError}

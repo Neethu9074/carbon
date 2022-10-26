@@ -84,7 +84,7 @@ export default function RequestResponseStep({ form, updateForm }: Props) {
         {locations.data?.filter(Boolean).map(location => (
           <CheckboxFancy
             key={location.id}
-            label={location.label}
+            label={location.displayLabel}
             checked={locationsField?.value?.includes(location.id)}
             onChange={() => onLocationSelect(location)}
           />
@@ -106,12 +106,14 @@ export default function RequestResponseStep({ form, updateForm }: Props) {
               name={'httpMethod'}
               value={methodField?.value}
               options={HTTPMethods}
-              onChange={(e: Record<string, any>) => {
-                updateForm(
-                  form.updateIn(['configuration', 'operation'], (field: Item) =>
-                    (field as Field<string>).setValue(e.value).setTouched(true)
-                  )
-                );
+              onChange={e => {
+                if (e != null && !(e instanceof Array)) {
+                  updateForm(
+                    form.updateIn(['configuration', 'operation'], (field: Item) =>
+                      (field as Field<string>).setValue(e.value).setTouched(true)
+                    )
+                  );
+                }
               }}
               defaultValue={HTTPMethods[0].value}
               isClearable={false}

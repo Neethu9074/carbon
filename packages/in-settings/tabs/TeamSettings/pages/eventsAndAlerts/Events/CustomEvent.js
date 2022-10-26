@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import { Link, Message, Stack } from '@instana/components';
+import { combineLatest } from '@instana/observables';
+import { Stack } from '@instana/components';
 
 import {
   createCustomSystemRuleBasedEventSpecification,
@@ -13,7 +14,9 @@ import {
   createCustomSystemRuleBasedHostAvailability,
   createCustomThresholdBasedEventSpecification,
   getCustomEventSpecification,
-  saveCustomEventSpecification
+  saveCustomEventSpecification,
+  getCustomEventActions,
+  saveCustomEventSpecificationWithActions
 } from 'in-api/eventSpecifications';
 import {
   createEventFormDefinition,
@@ -21,6 +24,11 @@ import {
   entityVerification,
   hostAvailabilityDetection
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
+import {
+  deprecateAppDataLegacyEventsEnabled,
+  disallowAppDataLegacyEventsEnabled,
+  hideAppDataLegacyEventsEnabled
+} from 'in-services/featureFlags';
 import {
   getSeverityText,
   isAppDataEntityType,
@@ -31,9 +39,10 @@ import { serializeQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAle
 import { getMetricDefinition, isBuiltInDynamicMetric } from 'in-sdk/metrics/metrics';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import MigrateToSmartAlerts from 'in-alerting/migration/MigrateToSmartAlerts';
+import LegacyAppdataEventInfoMessage from './LegacyAppdataEventInfoMessage';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
-import { deprecateAppDataLegacyEvents } from 'in-services/featureFlags';
+import { actionAutomationEnabled } from 'in-services/featureFlags';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
@@ -45,11 +54,23 @@ import { getPluginName } from 'in-sdk/pluginName';
 import { goToPath } from 'in-stores/navigation';
 import entityForm from 'in-hoc/entityForm';
 import { role } from 'in-stores/user';
-import { t, Trans } from 'in-i18n';
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 export default function CustomEvent(props) {
   const entityId = props.match.params.id;
+
+  function mergeResultData() {
+    const eventDetails$ = getCustomEventSpecification(entityId);
+    const actionDetails$ = getCustomEventActions(entityId);
+    // calling Get Event and Get action associations call and combining results
+    return combineLatest([eventDetails$, actionDetails$]).map(([eventResponse, actionResponse]) =>
+      eventResponse.set(
+        'actionIds',
+        actionResponse.map(action => action.id)
+      )
+    );
+  }
 
   return (
     <Form
@@ -57,7 +78,9 @@ export default function CustomEvent(props) {
       entityId={entityId}
       createDefaultEntity={createCustomThresholdBasedEventSpecification}
       createForm={event => createEventFormDefinition(event, !entityId)}
-      getEntityFromApi={getCustomEventSpecification}
+      getEntityFromApi={
+        role.canConfigureAutomationActions && actionAutomationEnabled ? mergeResultData : getCustomEventSpecification
+      }
       openEntities={() => goToPath(teamSettingsAlertingEvents)}
       saveEntity={save}
     />
@@ -88,20 +111,23 @@ const Form = entityForm(function DetailsForm(props) {
   }
 
   const entityType = getPluginName(entity.get('entityType'), 1) ?? '';
-  const isOneOfMigratableEntityTypes = isAppDataEntityType(entityType);
+  const isLegacyAppDataEntityType = isAppDataEntityType(entityType);
   const hasPermissionsToEditSmartAlerts = role.canConfigureCustomAlerts && role.canConfigureGlobalAlertConfigs;
-  const isMigrateableDfqScope = !entity.get('query')?.startsWith('event.');
-
-  const isDeprecated = deprecateAppDataLegacyEvents && isOneOfMigratableEntityTypes;
+  const isDeprecated = deprecateAppDataLegacyEventsEnabled && isLegacyAppDataEntityType;
 
   const isMigratable =
     isDeprecated &&
     hasPermissionsToEditSmartAlerts &&
-    isMigrateableDfqScope &&
     // only migrateable entities have the 'migrated' property set. For the other ones this prop is `undefined`, thus checking for false and not falsy.
     entity.get('migrated') === false;
 
   const isMigrated = !!entity.get('migrated');
+
+  const isDeleted = !!entity.get('deleted');
+
+  const disallowAppDataLegacyEvent =
+    isLegacyAppDataEntityType && (disallowAppDataLegacyEventsEnabled || hideAppDataLegacyEventsEnabled);
+  const readOnly = isDeleted || isMigrated || disallowAppDataLegacyEvent;
 
   return (
     <SettingsDetailPage>
@@ -112,7 +138,7 @@ const Form = entityForm(function DetailsForm(props) {
             : t('in-settings:tabs.configureEventEntityName', { entityName: entity.get('name') })}
         </SubViewHeader>
 
-        {isMigratable && (
+        {isMigratable && !isDeleted && (
           <span style={{ alignSelf: 'center' }}>
             <MigrateToSmartAlerts eventSpecificationId={props.entityId} />
           </span>
@@ -120,24 +146,13 @@ const Form = entityForm(function DetailsForm(props) {
       </Stack>
       <SectionLine />
 
-      {isDeprecated && (
-        <Message type="warning" withIcon small>
-          {isMigrated ? (
-            <Trans
-              i18nKey={'in-settings:tabs.migratedEventMessage'}
-              components={{
-                documentationLink: <Link href="https://www.ibm.com/docs/en/obi/current" external />
-              }}
-            />
-          ) : (
-            <Trans
-              i18nKey={'in-settings:tabs.deprecatedEventMessage'}
-              components={{
-                documentationLink: <Link href="https://www.ibm.com/docs/en/obi/current" external />
-              }}
-            />
-          )}
-        </Message>
+      {(isDeleted || isDeprecated) && (
+        <LegacyAppdataEventInfoMessage
+          migrated={isMigrated}
+          saved
+          disallowed={disallowAppDataLegacyEventsEnabled}
+          deleted={isDeleted}
+        />
       )}
 
       {message ? (
@@ -148,13 +163,18 @@ const Form = entityForm(function DetailsForm(props) {
         </Section>
       ) : null}
 
-      <CustomEventForm {...props} />
+      <CustomEventForm
+        {...props}
+        disabled={readOnly}
+        // when we already show an information above, we need to hide another message inside the form
+        hideLegacyAppDataEventDeprecationInfo={isDeleted || isDeprecated}
+      />
 
       <SaveCancel
         form={form}
         message={message}
         loading={loading}
-        saveEnabled={saveEnabled && !isMigrated}
+        saveEnabled={saveEnabled && !readOnly}
         isCreate={isCreate}
         listPath={teamSettingsAlertingEvents}
       />
@@ -167,6 +187,7 @@ function save(event, form) {
   const severity = Number(form.get('severity')?.value ?? 0);
   const entityType = form.get('entityType')?.value ?? null;
   const scopeType = form.get('applyOn').value;
+  const actionIds = form.get('actionIds')?.value ?? [];
 
   submitEventTracker({
     scopeType,
@@ -176,7 +197,12 @@ function save(event, form) {
   });
 
   const eventSpecification = getEventSpecification(event, form);
-  return saveCustomEventSpecification(eventSpecification);
+  if (role.canConfigureAutomationActions && actionAutomationEnabled && !isTriggering) {
+    eventSpecification.actions = actionIds?.map(value => ({ id: value }));
+    return saveCustomEventSpecificationWithActions(eventSpecification);
+  } else {
+    return saveCustomEventSpecification(eventSpecification);
+  }
 }
 
 function getTagFilterForHostAvailability(form) {

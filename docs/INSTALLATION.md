@@ -46,6 +46,15 @@ xcode-select --install
 # Use and install our preferred Node.js version
 nvm install
 nvm use
+
+# For Ubuntu users, install Yarn:
+nvm install node
+sudo apt remove cmdtest
+sudo apt remove yarn
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+sudo apt update && sudo apt install --no-install-recommends yarn
+yarn --version
 ```
 
 ## Configure Access to our Artifact Registry
@@ -54,7 +63,7 @@ We are using a custom artifact registry instead of the public [npmjs.com](https:
 [yarnpkg.com](https://yarnpkg.com/) registries. You will need to configure your system for access before you can
 continue to download our project dependencies.
 
-You will need an account for our [artifact-rnd.instana.io](https://artifact-rnd.instana.io) Artifactory instance.
+You will need an account for our [delivery.instana.io](https://delivery.instana.io) Artifactory instance.
 
  - Instana employees should follow the [employee onboarding guide](https://www.notion.so/instana/New-Engineering-Hire-Survival-Guide-5f4be1878333477b8d6f07739a0e259b#e18b6bf976c04bdca3f6d36de6aa209c) to gain access.
  - Others, e.g., contributors from IBM, should request access via a **Instana Slack workspace** channel they have access to. We will not grant access based on private messages.
@@ -62,10 +71,12 @@ You will need an account for our [artifact-rnd.instana.io](https://artifact-rnd.
 Please follow either approach and come back here once you have access. Then execute the following snippet on your terminal. Please select the proposed defaults for the first two questions. Answer the third and fourth question with your Artifactory credentials. The following picture shows how to find your user name and API token within Artifactory.
 
 ```sh
+# Question 0 is "Ok to proceed? (y)". Type y and enter,
+# end then there will be 4 further questions.
 # You can accept the defaults proposed for the first two questions.
 # Answer the third and fourth question with your Artifactory credentials.
-REGISTRY="https://artifact-rnd.instana.io" \
-  REPOSITORY_KEY="npm-virtual-internal" \
+REGISTRY="https://delivery.instana.io" \
+  REPOSITORY_KEY="int-npm-virtual" \
   NPM_CONFIG_REGISTRY="https://registry.npmjs.org/" \
   npx create-artifactory-access-config@1.3.0
 ```

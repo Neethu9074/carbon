@@ -35,7 +35,8 @@ export default function Chart({
   forceLoadingIndicator,
   showAggregationSelector,
   onAggregationChange,
-  aggregations
+  aggregations,
+  fastQueryModeEnabled
 }) {
   const [hasApproximateData, setApproximateData] = useState(false);
 
@@ -100,7 +101,11 @@ export default function Chart({
             <span className={locals.title}>{title}</span>
             {hasApproximateData && (
               <MultiLineToolTipIcon
-                lines={[t('in-components:approximateDataIndicator.dataRetention')]}
+                lines={[
+                  fastQueryModeEnabled
+                    ? t('in-components:approximateDataIndicator.dataRetentionOrFastQueryMode')
+                    : t('in-components:approximateDataIndicator.dataRetention')
+                ]}
                 withMargin
                 iconSize={'xs'}
               />

@@ -6,7 +6,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 import { Button, Card, Link, Message } from '@instana/components';
-import { just, create } from '@instana/observables';
+import { create, just } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import ColorCodingToggleButtons from 'in-applications/analyze/components/TraceDetails/components/ColorCodingToggleButtons';
@@ -28,21 +28,20 @@ import RestrictedAccessMessage from 'in-components/rbac/RestrictedAccessMessage'
 import { refreshWindowSizeDependingState } from 'in-services/browser';
 import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
 import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
-import { number, latency } from 'in-services/formatters/number';
+import { latency, number } from 'in-services/formatters/number';
 import { getLinkToAnalyze } from 'in-logging/navigation/paths';
-import { callDetailClickedTracker } from 'in-analyze/tracker';
-import { isLoading, hasError } from 'in-services/util/result';
+import { hasError, isLoading } from 'in-services/util/result';
 import { getTraceIdTagFilter } from 'in-logging/queryBuilder';
 import { loggingEnabled } from 'in-services/featureFlags';
 import { pendingResult } from 'in-services/fixedObjects';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import { scrollIntoView } from 'in-services/util/dom';
-import { Row, Col } from 'in-components/layout/Grid';
+import { Col, Row } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import { minutes } from 'in-services/time';
 import { connection } from 'in-connection';
 import { role } from 'in-stores/user';
-import { Trans, t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 import theme from 'in-themes';
 
 import locals from './Summary.mless';
@@ -58,7 +57,8 @@ export default function Summary({
   setCallId,
   setLogId,
   colorCodeType,
-  setColorCodeMechanism
+  setColorCodeMechanism,
+  tracker
 }) {
   // backward compatibility for old links.
   // TODO: Remove after once released
@@ -122,7 +122,7 @@ export default function Summary({
 
   const onCallClicked = call => {
     setCallId(call.id);
-    callDetailClickedTracker();
+    tracker.traceViewCallTimelineDetailClickedTracker();
   };
 
   const selectLogId = ids => {
@@ -278,19 +278,6 @@ export default function Summary({
           </Row>
         )}
 
-        <Row singleRowTopMargin withoutSideMargin>
-          <Col lg={12}>
-            <Card title={t('in-applications:traceDetail.tabs.summary.serviceEndpointList')}>
-              <ServiceEndpointList
-                traceId={traceId}
-                getColor={getColor}
-                onListItemMouseEnter={service => hoveredServiceEndpoint$.emit(service)}
-                onListItemMouseLeave={() => hoveredServiceEndpoint$.emit(null)}
-              />
-            </Card>
-          </Col>
-        </Row>
-
         {isLargeTrace && !showLargeTrace && (
           <Row withoutSideMargin>
             <Col lg={12}>
@@ -339,7 +326,7 @@ export default function Summary({
                       domElement.focus();
                       scrollIntoView(domElement);
                     }
-                    callDetailClickedTracker();
+                    tracker.traceViewCallTreeDetailClickedTracker();
                   }}
                   onCallClicked={onCallClicked}
                   openedCallId={effectiveCallId}
@@ -392,6 +379,21 @@ export default function Summary({
             </Row>
           </ErrorBoundary>
         )}
+        <Row singleRowTopMargin withoutSideMargin>
+          <Col lg={12}>
+            <Card title={t('in-applications:traceDetail.tabs.summary.serviceEndpointList')}>
+              <ServiceEndpointList
+                traceId={traceId}
+                getColor={getColor}
+                onListItemMouseEnter={service => hoveredServiceEndpoint$.emit(service)}
+                onListItemMouseLeave={() => hoveredServiceEndpoint$.emit(null)}
+                onClickTracker={e => {
+                  tracker.traceViewTraceServiceEndpointListClickedTracker(e);
+                }}
+              />
+            </Card>
+          </Col>
+        </Row>
       </div>
     </ContentWrapper>
   );

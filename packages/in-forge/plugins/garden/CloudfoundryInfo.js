@@ -3,12 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import React from 'react';
+
+import { Link } from '@instana/components';
 
 import getCloudfoundryApplication from 'in-cloudfoundry/subscriptions/getCloudfoundryApplication';
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
-import { getApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
+import { useNavigateToApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
@@ -27,6 +28,8 @@ export default connectTo(
   }),
 
   function CloudfoundryInfo({ application }) {
+    const getApplicationDashboardLink = useNavigateToApplicationDashboard();
+
     if (!application) {
       return null;
     }
@@ -38,7 +41,7 @@ export default connectTo(
         <Collapsible.Content>
           <DescriptionList>
             <DescriptionItem title={t('in-forge:plugins.garden.application')}>
-              <Link href$={getApplicationDashboard(id)}>{label}</Link>
+              <Link href$={getApplicationDashboardLink(id)}>{label}</Link>
             </DescriptionItem>
             <DescriptionItem title={t('in-forge:plugins.garden.space')}>{space}</DescriptionItem>
             <DescriptionItem title={t('in-forge:plugins.garden.organization')}>{organization}</DescriptionItem>

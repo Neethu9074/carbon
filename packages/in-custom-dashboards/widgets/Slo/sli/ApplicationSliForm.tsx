@@ -14,23 +14,21 @@ import {
   availabilityType,
   SliEntityType
 } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
-import InboundOrAllCallsOption from 'in-alerting/smart-alerts/applications/advanced/InboundOutboundCallsSwitch/InboundOrAllCallsOption';
 import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingFieldValidationMessage';
-import { boundaryScopes } from 'in-alerting/smart-alerts/applications/advanced/InboundOutboundCallsSwitch/config';
 import GoodBadEventsConfigurator from 'in-custom-dashboards/widgets/Slo/sli/GoodBadEventsConfigurator';
+import BoundaryScopeConfigurator from 'in-custom-dashboards/widgets/Slo/sli/BoundaryScopeConfigurator';
+import HiddenCallsConfigurator from 'in-custom-dashboards/widgets/Slo/sli/HiddenCallsConfigurator';
 import EndpointSelectBox from 'in-custom-dashboards/widgets/Slo/sli/EndpointSelectBox';
 import ServiceSelectBox from 'in-custom-dashboards/widgets/Slo/sli/ServiceSelectBox';
 import { MetricsForm } from 'in-custom-dashboards/widgets/Slo/sli/MetricsForm';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import InputInSection from 'in-components/form/Input/InputInSection';
 import { QueryBuilderComponent } from 'in-components/QueryBuilder';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { ApplicationBoundaryScope, Nullish } from 'in-types';
 import HelpAction from 'in-components/workspace/HelpAction';
 import Sections from 'in-components/workspace/Sections';
 import Divider from 'in-components/workspace/Divider';
 import Section from 'in-components/workspace/Section';
-import { Row, Col } from 'in-components/layout/Grid';
 import Header from 'in-components/workspace/Header';
 import { t } from 'in-i18n';
 
@@ -133,43 +131,18 @@ export function ApplicationSliForm({ form, onChange, apName, QueryBuilderCompone
         <Stack gap="xsmall">
           <Sections>
             <Section title={t('in-custom-dashboards:widgets.slo.sliFormPresenter.boundary')}>
-              <Row>
-                <Col md={5} xs={5}>
-                  <InboundOrAllCallsOption
-                    boundaryScope={boundaryScope}
-                    onBoundaryStateChange={() => onUpdateBoundaryScope(boundaryScopes.inbound)}
-                    scope={boundaryScopes.inbound}
-                  />
-                </Col>
-                <Col md={5} xs={5}>
-                  <InboundOrAllCallsOption
-                    boundaryScope={boundaryScope}
-                    onBoundaryStateChange={() => onUpdateBoundaryScope(boundaryScopes.all)}
-                    scope={boundaryScopes.all}
-                  />
-                </Col>
-              </Row>
+              <BoundaryScopeConfigurator value={boundaryScope} onChange={onUpdateBoundaryScope} />
             </Section>
           </Sections>
           {sliType === availabilityType && (
             <Sections>
               <Section title={t('in-custom-dashboards:widgets.slo.sliFormPresenter.hiddenCalls')}>
-                <Row>
-                  <Col md={5} xs={5}>
-                    <CheckboxFancy
-                      label={t('in-custom-dashboards:widgets.slo.sliFormPresenter.includeInternalCalls')}
-                      checked={includeInternal}
-                      onChange={() => onUpdateSliEntityField('includeInternal', !includeInternal)}
-                    />
-                  </Col>
-                  <Col md={5} xs={5}>
-                    <CheckboxFancy
-                      label={t('in-custom-dashboards:widgets.slo.sliFormPresenter.includeSyntheticCalls')}
-                      checked={includeSynthetic}
-                      onChange={() => onUpdateSliEntityField('includeSynthetic', !includeSynthetic)}
-                    />
-                  </Col>
-                </Row>
+                <HiddenCallsConfigurator
+                  includeInternal={includeInternal}
+                  includeSynthetic={includeSynthetic}
+                  onChangeInternal={() => onUpdateSliEntityField('includeInternal', !includeInternal)}
+                  onChangeSynthetic={() => onUpdateSliEntityField('includeSynthetic', !includeSynthetic)}
+                />
               </Section>
             </Sections>
           )}

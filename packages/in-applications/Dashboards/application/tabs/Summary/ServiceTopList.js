@@ -19,17 +19,17 @@ import { t } from 'in-i18n';
 
 import locals from './ServiceTopList.mless';
 
-const metrics = ['latency', 'calls', 'erroneousCalls'];
+const metrics = ['latency', 'calls', 'errors'];
 const labels = [
   t('in-applications:labelLatency'),
   t('in-applications:labelCalls'),
-  t('in-applications:titleErroneousCalls')
+  t('in-applications:titleErroneousCallRate')
 ];
-const aggregations = ['MEAN', 'SUM', 'SUM'];
-const formatters = [meanLatencyLargeInSeconds.compact, number.compact, number.compact];
-const companionMetrics = [null, null, 'errors'];
-const companionAggregations = [null, null, 'MEAN'];
-const companionFormatters = [null, null, percentage.detailed];
+const aggregations = ['MEAN', 'SUM', 'MEAN'];
+const formatters = [meanLatencyLargeInSeconds.compact, number.compact, percentage.detailed];
+const companionMetrics = [null, 'calls', 'erroneousCalls'];
+const companionAggregations = [null, 'PER_SECOND', 'SUM'];
+const companionFormatters = [null, number.perSecond.compact, number.compact];
 const colors = [null, null, theme.lib.colors.failure];
 
 export default function ServiceTopList({
@@ -77,6 +77,7 @@ function getList({
   selectedMetricAggregation,
   selectedCompanionMetric,
   selectedCompanionMetricAggregation,
+  selectedCompanionMetricAlias,
   syntheticCalls
 }) {
   const metrics = {
@@ -85,11 +86,19 @@ function getList({
       aggregation: selectedMetricAggregation
     }
   };
+
   if (selectedCompanionMetric) {
-    metrics[selectedCompanionMetric] = {
-      metric: selectedCompanionMetric,
-      aggregation: selectedCompanionMetricAggregation
-    };
+    if (selectedCompanionMetric === selectedMetric) {
+      metrics[selectedCompanionMetricAlias] = {
+        metric: selectedCompanionMetric,
+        aggregation: selectedCompanionMetricAggregation
+      };
+    } else {
+      metrics[selectedCompanionMetric] = {
+        metric: selectedCompanionMetric,
+        aggregation: selectedCompanionMetricAggregation
+      };
+    }
   }
 
   return getServices({

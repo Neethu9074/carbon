@@ -160,14 +160,14 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'kubernetesTeamEnabled',
+    instanaCtlKey: 'feature.kubernetes.explore.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'loggingEnabled',
     instanaCtlKey: 'feature.logging.enabled',
     defaultValue: true
-  },
-  {
-    uiClientKey: 'kubernetesLoggingEnabled',
-    instanaCtlKey: 'feature.kubernetes.logging.enabled',
-    defaultValue: false
   },
   {
     uiClientKey: 'enableTroubleshootingMode',
@@ -200,11 +200,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'deprecateAppDataLegacyEvents',
-    instanaCtlKey: 'feature.deprecated.appdata.legacy.events',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'potentialProblemsEnabled',
     instanaCtlKey: 'feature.potential.problems.enabled',
     defaultValue: true
@@ -230,8 +225,18 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'disableAppDataLegacyEvents',
-    instanaCtlKey: 'feature.disable.app.data.legacy.events',
+    uiClientKey: 'deprecateAppDataLegacyEventsEnabled',
+    instanaCtlKey: 'feature.deprecate.app.data.legacy.events.enabled',
+    defaultValue: true
+  },
+  {
+    uiClientKey: 'disallowAppDataLegacyEventsEnabled',
+    instanaCtlKey: 'feature.disallow.app.data.legacy.events.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'hideAppDataLegacyEventsEnabled',
+    instanaCtlKey: 'feature.hide.app.data.legacy.events.enabled',
     defaultValue: false
   },
   {
@@ -260,13 +265,38 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'baselinePreviewOnAlertPageEnabled',
-    instanaCtlKey: 'feature.baseline.preview.on.alert.page.enabled',
+    uiClientKey: 'apdexWidgetEnabled',
+    instanaCtlKey: 'feature.apdex.enabled',
     defaultValue: false
   },
   {
-    uiClientKey: 'apdexWidgetEnabled',
-    instanaCtlKey: 'feature.apdex.enabled',
+    uiClientKey: 'applicationApdexEnabled',
+    instanaCtlKey: 'feature.apdex.application.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'websiteUploadConfigEnabled',
+    instanaCtlKey: 'feature.website.sourcemap.upload.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'actionAutomationEnabled',
+    instanaCtlKey: 'feature.automation.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'pluginMetricStatisticsEnabled',
+    instanaCtlKey: 'feature.plugin.entity.metric.statistics.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'mobileAppCrashBeaconEnabled',
+    instanaCtlKey: 'feature.mobile.app.crash.beacon.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'k8sTimeShiftEnabled',
+    instanaCtlKey: 'feature.kubernetes.timeshift.enabled',
     defaultValue: false
   }
 ];

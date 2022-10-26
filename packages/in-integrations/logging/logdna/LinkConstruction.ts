@@ -18,7 +18,11 @@ export function constructLink(
   if (!baseUrl) {
     baseUrl = instanceType === 'LOG_DNA_SAAS' ? logDnaDefaultBaseURL : ibmCloudDefaultBaseURL;
   }
-  return instanceType === 'LOG_DNA_SAAS'
-    ? `${baseUrl}${accountId}/logs/view${toParams(queryParameters, '?', '&')}`
-    : `${baseUrl}${accountId}${toParams(queryParameters, '?', '&')}`;
+  const url =
+    instanceType === 'LOG_DNA_SAAS'
+      ? `${baseUrl}${accountId}/logs/view${toParams(queryParameters, '?', '&')}`
+      : `${baseUrl}${accountId}${toParams(queryParameters, '?', '&')}`;
+
+  // LogDNA doesn't recognize an URL-encoded , (/%2c/i) as separator, only an unencoded ,
+  return url.replace(/%2c/i, ',');
 }

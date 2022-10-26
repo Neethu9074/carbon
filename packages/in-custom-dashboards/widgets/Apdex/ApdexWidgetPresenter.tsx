@@ -6,14 +6,19 @@
 
 import React from 'react';
 
+import useApdexConfigWithPreview from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexConfigWithPreview';
+import useApdexWidgetTimeConfig from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexWidgetTimeConfig';
+import useTagCatalogLoader from 'in-custom-dashboards/widgets/Apdex/hooks/useTagCatalogLoader';
 import useMonitoredEntity from 'in-custom-dashboards/widgets/Slo/hooks/useMonitoredEntity';
+import useApdexMetrics from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexMetrics';
 import ApdexWidget from 'in-custom-dashboards/widgets/Apdex/components/ApdexWidget';
 import { ApdexWidgetConfiguration } from 'in-custom-dashboards/widgets/Apdex/form';
+import { widgetPreviewHeight } from 'in-custom-dashboards/widgets/Apdex';
 import { WidgetProps } from 'in-custom-dashboards/widgets/types';
+import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { apdexWidgetEnabled } from 'in-services/featureFlags';
-import { all as allProgress } from 'in-hooks/utils/progress';
-import useTimeConfig from 'in-hooks/useTimeConfig';
-import { minutes } from 'in-services/time/time';
+import { MetricDataSeries } from 'in-components/Chart/types';
+import { all } from 'in-hooks/utils/progress';
 import { t } from 'in-i18n';
 
 export default function ApdexWidgetPresenter({
@@ -23,35 +28,50 @@ export default function ApdexWidgetPresenter({
   isPreview,
   config
 }: WidgetProps<ApdexWidgetConfiguration>) {
-  const timeConfig = useTimeConfig();
+  const originalTimeConfig = useApdexWidgetTimeConfig(isPreview);
 
-  const { entityType, entityId } = config;
+  const { entityType, entityId, apdexConfigId } = config;
+  const [apdexConfig, , , configProgress] = useApdexConfigWithPreview(apdexConfigId, isPreview);
+
+  const tagCatalogLoader = useTagCatalogLoader(apdexConfig);
+  const tagCatalog = useTagCatalog(tagCatalogLoader);
+
   const [entity, , , entityProgress] = useMonitoredEntity({ entityType, entityId });
   const entityLabel =
     entity?.label ?? t('in-custom-dashboards:widgets.apdex.widget.unknownEntityLabel', { context: entityType });
 
-  const progress = allProgress(entityProgress);
+  const [metrics, , errors, metricProgress] = useApdexMetrics({
+    id: apdexConfigId,
+    timeConfig: originalTimeConfig,
+    isPreview
+  });
+  const granularity = metrics?.[0]?.granularity ?? 0;
+  const timeConfig = { ...originalTimeConfig, ...metrics?.[0]?.adjustedTimeframe };
+
+  const progress = all(configProgress, entityProgress, metricProgress);
+
+  const height = isPreview ? widgetPreviewHeight : undefined;
 
   if (!apdexWidgetEnabled) return;
 
-  // TODO: This block must be replaced later as the backend API connection
-  // is out of scope for the current task.
-  const granularity = minutes.toMillis(1);
-  /////////////////////////////////////////////////
-
   return (
     <ApdexWidget
+      apdexConfig={apdexConfig}
       title={title}
       actions={actions}
       dragHandle={dragHandle}
       entityLabel={entityLabel}
       entityType={entityType}
-      errors={[]}
-      metrics={[]}
+      tagCatalog={tagCatalog}
+      errors={errors}
+      metrics={metrics?.map(r => r.values as MetricDataSeries) ?? []}
       progress={progress}
       granularity={granularity}
       timeConfig={timeConfig}
+      automaticallySize={!isPreview}
       nonInteractive={isPreview}
+      height={height}
+      showPreviewDataNotice={isPreview}
     />
   );
 }

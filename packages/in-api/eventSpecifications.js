@@ -224,6 +224,53 @@ export function saveCustomEventSpecification(eventSpecification) {
   }).map(response => fromJS(response.body));
 }
 
+export function saveCustomEventSpecificationWithActions(eventSpecification) {
+  return http({
+    method: 'PUT',
+    maxRetries: 3,
+    url: `/api/events/settings/beta/event-specifications/custom/${encodeURIComponent(eventSpecification.id)}`,
+    headers: getCsrfHeader(),
+    data: eventSpecification
+  }).map(response => fromJS(response.body));
+}
+
+export function getCustomEventSpecificationWithActions(eventSpecificationId) {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    url: `/api/events/settings/beta/event-specifications/custom/${encodeURIComponent(eventSpecificationId)}`,
+    treat400AsError: false
+  }).map(response => fromJS(response.body));
+}
+
+export function saveBuiltinEventSpecificationWithActions(actions, eventId) {
+  return http({
+    method: 'PUT',
+    maxRetries: 3,
+    url: `/api/events/settings/beta/event-specifications/built-in/${encodeURIComponent(eventId)}/actions`,
+    headers: getCsrfHeader(),
+    data: actions
+  }).map(response => fromJS(response.body));
+}
+
+export function getBuiltinEventActions(eventSpecificationId) {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    url: `/api/events/settings/beta/event-specifications/built-in/${encodeURIComponent(eventSpecificationId)}/actions`,
+    treat400AsError: false
+  }).map(response => response.body);
+}
+
+export function getCustomEventActions(eventSpecificationId) {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    url: `/api/events/settings/beta/event-specifications/custom/${encodeURIComponent(eventSpecificationId)}/actions`,
+    treat400AsError: false
+  }).map(response => response.body);
+}
+
 export function setBuiltInEventSpecificationsEnabled(eventSpecificationId, enabled) {
   return http({
     method: 'POST',

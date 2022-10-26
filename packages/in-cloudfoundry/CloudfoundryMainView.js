@@ -19,7 +19,9 @@ export default function CloudfoundryMainView(props) {
       <Sticky header={<ViewSwitcher />}>
         <LeftRightPadding>
           <Switch>
-            <Route path={applicationListFullyQualified} render={() => <ApplicationList {...props} />} />
+            <Route path={applicationListFullyQualified}>
+              <ApplicationList {...props} />
+            </Route>
           </Switch>
         </LeftRightPadding>
       </Sticky>

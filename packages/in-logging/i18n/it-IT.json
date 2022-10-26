@@ -13,9 +13,9 @@
   "numberOfLogsPercentage": "Percentuale",
   "applications": "Applicazioni",
   "endpoint": "Endpoint",
-  "endpointType": "Tipo di endpoint ",
-  "messageParam": "Parametro messaggio ",
-  "applicationCounter": "{{count}} applicazioni ",
+  "endpointType": "Tipo di endpoint",
+  "messageParam": "Parametro messaggio",
+  "applicationCounter": "{{count}} applicazioni",
   "exceptionMessageHeader": "Messaggio di eccezione",
   "stackTrace": "StackTrace",
   "service": "Servizio",
@@ -26,6 +26,8 @@
   "tooltipAddAsFilter": "Aggiungi tag come filtro",
   "sorting": {
     "mostRecent": "Prima il più recente",
-    "oldest": "Prima il più vecchio"
-  }
+    "oldest": "Prima il meno recente"
+  },
+  "cpuTotal": "CPU totali",
+  "memoryUsage": "Utilizzo memoria"
 }

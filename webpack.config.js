@@ -106,15 +106,11 @@ const infrastructureLogging = isDevModeBuild ? { level: 'warn' } : undefined;
 const webpackFontsRules = [
   {
     test: /\.(ttf|eot|obj)$/i,
-    use: [{ loader: 'url-loader?limit=3000' }]
+    type: 'asset/resource'
   },
   {
     test: /\.woff?$/,
-    use: [
-      {
-        loader: 'url-loader?limit=3000&mimetype=application/font-woff'
-      }
-    ]
+    type: 'asset/resource'
   }
 ];
 
@@ -135,7 +131,7 @@ const webpackStyleRules = [
 
 const webpackImageRule = {
   test: /\.(jpe?g|gif|png|svg)$/i,
-  use: [{ loader: 'url-loader?limit=3000!image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false' }]
+  type: 'asset/resource'
 };
 
 const webpackShaderRule = {
@@ -149,7 +145,11 @@ const webpackShaderRule = {
 
 const webpackSourcesRule = {
   test: /\.(js|ts|tsx)$/i,
-  exclude: /node_modules/,
+  exclude: {
+    // Explicitly enable transpilation of @instana/types, because it purely consists of automatically generated typescript
+    // code that can't easily be transpiled upon creation
+    and: [/node_modules/, { not: [path.resolve(__dirname, 'node_modules', '@instana', 'types')] }]
+  },
   use: [
     {
       options: { cacheDirectory: true },
@@ -200,6 +200,6 @@ module.exports = {
   },
   plugins,
   resolve: {
-    extensions: ['.js', '.ts', '.tsx']
+    extensions: ['.js', '.ts', '.tsx', '.d.ts']
   }
 };

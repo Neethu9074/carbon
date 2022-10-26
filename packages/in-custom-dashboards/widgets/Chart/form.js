@@ -3,18 +3,18 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createMapForm, createField, createListForm } from 'formalistic';
+import { createField, createListForm, createMapForm } from 'formalistic';
 
-import { just, combineLatest } from '@instana/observables';
+import { combineLatest, just } from '@instana/observables';
 
 import {
   createForm as createMetricConfigurationForm,
   migrate as migrateMetricConfiguration
 } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
 import { validatePotentialProblemsConstraints } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application/potentialProblemsForm';
-import { stringValidator, numberValidator, arrayValidator, booleanValidator } from 'in-services/validators/jsonType';
-import { defaultRenderer, allRendererIds } from 'in-custom-dashboards/widgets/Chart/renderer';
-import { defaultFormatter, publicFormatterIds } from 'in-stores/metric/formatters';
+import { arrayValidator, booleanValidator, numberValidator, stringValidator } from 'in-services/validators/jsonType';
+import { allRendererIds, defaultRenderer } from 'in-custom-dashboards/widgets/Chart/renderer';
+import { allFormatterIds, defaultFormatter } from 'in-stores/metric/formatters';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { emptyArray, finishedProgress } from 'in-services/fixedObjects';
@@ -72,7 +72,7 @@ function createAxisForm(savedState, requiresAtLeastOneMetric = false) {
           notUndefinedValidator,
           stringValidator,
           notBlankValidator,
-          buildEnumValidator(publicFormatterIds)
+          buildEnumValidator(allFormatterIds)
         )
       })
     )

@@ -34,7 +34,7 @@ export function MissingData() {
 export function Loading() {
   return (
     <ResultAwareChart
-      config={{ cardTitle: 'Loading chart', customHeight: '200px' }}
+      config={{ title: 'Loading chart', customHeight: '200px' }}
       data={{}}
       result={{
         errors: [],
@@ -49,7 +49,7 @@ export function Loading() {
 export function LoadingWithPercentage(props) {
   return (
     <ResultAwareChart
-      config={{ cardTitle: 'Loading chart with percentage', customHeight: '200px' }}
+      config={{ title: 'Loading chart with percentage', customHeight: '200px' }}
       data={{}}
       result={{
         errors: [],
@@ -95,7 +95,7 @@ export function Simple() {
     <ResultAwareChart
       result={constructResult(null, false)}
       config={{
-        cardTitle: 'Simple chart',
+        title: 'Simple chart',
         granularity,
         timeConfig: timeframe,
         y1: {
@@ -127,7 +127,7 @@ export function MultipleSeries() {
     <ResultAwareChart
       result={constructResult(null, false)}
       config={{
-        cardTitle: 'Many time series',
+        title: 'Many time series',
         granularity,
         timeConfig: timeframe,
         y1: {
@@ -149,7 +149,7 @@ export function LongSeriesLabels() {
     <ResultAwareChart
       result={constructResult(null, false)}
       config={{
-        cardTitle: 'Chart with long series',
+        title: 'Chart with long series',
         granularity,
         timeConfig: timeframe,
         renderLegend: false,
@@ -180,7 +180,7 @@ export function DualAxis() {
     <ResultAwareChart
       result={constructResult(null, false)}
       config={{
-        cardTitle: 'Dual axis',
+        title: 'Dual axis',
         granularity,
         timeConfig: timeframe,
         y1: {
@@ -209,7 +209,7 @@ export function DualAxisDifferentMetricCount() {
     <ResultAwareChart
       result={constructResult(null, false)}
       config={{
-        cardTitle: 'Dual axis with different metric count',
+        title: 'Dual axis with different metric count',
         granularity,
         timeConfig: timeframe,
         y1: {
@@ -235,7 +235,7 @@ export function Gaps() {
     <ResultAwareChart
       result={constructResult(null, false)}
       config={{
-        cardTitle: 'Gaps',
+        title: 'Gaps',
         timeConfig: generateTimeframe(oneMinute),
         y1: {
           renderer: Renderer.line,
@@ -253,7 +253,7 @@ export function Bar() {
     <ResultAwareChart
       result={constructResult(null, false)}
       config={{
-        cardTitle: 'Bar',
+        title: 'Bar',
         timeConfig: generateTimeframe(oneMinute),
         y1: {
           renderer: Renderer.bar,
@@ -411,7 +411,7 @@ export function LoadingPie() {
       <ResultAwareChart
         result={constructResult(null, true)}
         config={{
-          cardTitle: 'Loading pie',
+          title: 'Loading pie',
           customHeight: '200px',
           timeConfig: generateTimeframe(oneMinute),
           y1: {
@@ -436,7 +436,7 @@ export function Pie() {
       <ResultAwareChart
         result={constructResult(null, false)}
         config={{
-          cardTitle: 'Pie',
+          title: 'Pie',
           timeConfig: generateTimeframe(oneMinute),
           y1: {
             renderer: Renderer.pie,

@@ -61,7 +61,7 @@ pipeline {
           backendComponents = getBackendComponents()
               .findAll { it.isIncludedInRelease(majorReleaseVersion) && !(it.name ==~ /^ui-client.*/) }
               .collect { it.name }
-              .plus(['ingress', 'ingress-global'])
+              .plus(['ingress', 'ingress-global', 'ingress-otlp-acceptor'])
           uiClientComponents = getBackendComponents()
               .findAll { it.isIncludedInRelease(majorReleaseVersion) && (it.name ==~ /^ui-client.*/) }
               .collect { it.name }
@@ -130,7 +130,7 @@ pipeline {
         // still waiting for the lock will be aborted
         // https://www.jenkins.io/blog/2016/10/16/stage-lock-milestone/
         lock(resource: "build-ui-client-images-${branchName}", inversePrecedence: true) {
-          timeout(time: 15, unit: 'MINUTES') {
+          timeout(time: 45, unit: 'MINUTES') {
             timestamps {
               script {
                 if (isDeliveryBranch) {

@@ -6,14 +6,14 @@
   "logsOverTime_ERROR": "Journaux des erreurs dans le temps",
   "logsOverTime_WARN": "Journaux des avertissements dans le temps",
   "logsOverTime_INFO": "Journaux d'informations dans le temps",
-  "theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing": "La configuration de la requête n'est pas valide. Veuillez résoudre les échecs de validation avant de continuer.",
+  "theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing": "La configuration de la requête n'est pas valide. Résolvez les échecs de validation avant de continuer.",
   "addAsFilter": "Ajouter comme filtre",
   "addAsGroup": "Ajouter comme groupe",
   "numberOfLogs": "Nombre de journaux",
   "numberOfLogsPercentage": "Pourcentage",
   "applications": "Applications",
-  "endpoint": "Nœud final",
-  "endpointType": "Type de noeud final ",
+  "endpoint": "Noeud final",
+  "endpointType": "Type de noeud final",
   "messageParam": "Paramètre du message",
   "applicationCounter": "{{count}} applications",
   "exceptionMessageHeader": "Message d'exception",
@@ -21,11 +21,13 @@
   "service": "Service",
   "stream": "Flux",
   "tooltipCopyToClipboard": "Copier dans le presse-papiers",
-  "tooltipCopyLinkToClipboard": "Copier le lien de journal",
+  "tooltipCopyLinkToClipboard": "Copier le lien du journal",
   "tooltipAddAsGroup": "Regrouper par indicateur",
   "tooltipAddAsFilter": "Ajouter un indicateur comme filtre",
   "sorting": {
     "mostRecent": "Le plus récent en premier",
     "oldest": "Les plus anciens en premier"
-  }
+  },
+  "cpuTotal": "Total UC",
+  "memoryUsage": "Utilisation de la mémoire"
 }

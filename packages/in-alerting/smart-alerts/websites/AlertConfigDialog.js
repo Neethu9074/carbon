@@ -25,6 +25,7 @@ import { createAlertConfig, updateAlertConfig } from 'in-websites/api/websiteAle
 import { modeAdvanced, modeSimple } from 'in-alerting/smart-alerts/websites/constants';
 import useWebsiteLabel from 'in-alerting/smart-alerts/websites/hooks/useWebsiteLabel';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
+import { getLinkToAlertConfig } from 'in-websites/navigation/paths';
 
 const logger = createLogger('in-websites/alerting/AlertDialog');
 const initialChartConfigIndex = 0;
@@ -48,7 +49,7 @@ export default function AlertConfigDialog({ onClose, alertConfig, editMode, star
   };
   const withTrackCreate = simpleMode => {
     websitesAlertingAlertCreated(getTrackingObject(form, { mode: simpleMode ? modeSimple : modeAdvanced }));
-    createAlert(form, setForm, onClose, editMode, setIsSaving, setMessages);
+    createOrSaveAlert(form, setForm, onClose, editMode, setIsSaving, setMessages);
   };
 
   return (
@@ -100,10 +101,15 @@ function createOnChange(setForm, externalForm) {
   };
 }
 
-function createAlert(form, setForm, onClose, editMode, setIsSaving, setMessages) {
+function createOrSaveAlert(form, setForm, onClose, editMode, setIsSaving, setMessages) {
   setIsSaving(true);
+
+  // remove existing error messages:
   setMessages(prevMessages => prevMessages.filter(m => m.level && m.level !== 'error'));
-  const addMessage = message => prevMessages => [...prevMessages, message];
+
+  const addMessage = message => {
+    setMessages(prevMessages => [...prevMessages, message]);
+  };
 
   if (!form.hierarchyValid) {
     setForm(form.setTouched(true, { recurse: true }));
@@ -129,7 +135,9 @@ function createAlert(form, setForm, onClose, editMode, setIsSaving, setMessages)
     createAlertConfig(alertConfig).once(
       alertConfig => {
         onClose(alertConfig);
-        showSuccessMessage(alertConfig.name, editMode);
+        const href$ = getLinkToAlertConfig(alertConfig.id, null, alertConfig.websiteId);
+
+        showSuccessMessage(alertConfig.name, editMode, false, href$);
       },
       error => {
         logger.error(`failed to save alertConfig: ${alertConfig} ${error.message}`, error);

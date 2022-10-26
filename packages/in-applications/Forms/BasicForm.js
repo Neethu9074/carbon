@@ -3,12 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
+import { Button, Spacer, SvgIcon } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { SvgIcon } from '@instana/components';
-import { Spacer } from '@instana/components';
-import { Button } from '@instana/components';
 
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -153,12 +151,15 @@ class BasicForm extends React.Component {
           </div>
         )}
 
-        {success && <TemporaryMessage message={t('in-applications:messageSuccessfullySaved')} type="success" />}
-        {error && <TemporaryMessage message={t('in-applications:messageErrorOccurred')} type="error" />}
-
         {title && <Spacer vertical="normal" />}
-
         {content}
+        {success && (
+          <TemporaryMessage
+            message={`${t('in-applications:messageSuccessfullySaved')} ${t('in-applications:messageWaitForChanges')}`}
+            type="success"
+          />
+        )}
+        {error && <TemporaryMessage message={t('in-applications:messageErrorOccurred')} type="error" />}
       </div>
     );
   }

@@ -31,6 +31,7 @@ function InputWithSelectionList({
   placeholder,
   value,
   hasError,
+  disabled,
   listVisible,
   filters,
   positionAbove,
@@ -44,6 +45,7 @@ function InputWithSelectionList({
     <div className={locals.container}>
       <div className={locals.inputWithSelectionList}>
         <Input
+          disabled={disabled}
           className={locals.input}
           id={id}
           type="text"
@@ -57,12 +59,14 @@ function InputWithSelectionList({
           }}
           hasError={hasError}
         />
-        <SvgIcon
-          className={locals.icon}
-          type="lib_actions_star_filled"
-          size="s"
-          onClick={() => onToggleFiltersList(listVisible)}
-        />
+        {!disabled && (
+          <SvgIcon
+            className={locals.icon}
+            type="lib_actions_star_filled"
+            size="s"
+            onClick={() => onToggleFiltersList(listVisible)}
+          />
+        )}
       </div>
       {listVisible && (
         <ClickAwayListener onClickAway={onCloseList}>

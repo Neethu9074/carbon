@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { LoadingSkeleton, Stack } from '@instana/components';
+import { LoadingSkeleton, Stack, StackItem } from '@instana/components';
 
 import { CombinedSliEntity, SliConfig } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { MonitoredEntity } from 'in-custom-dashboards/widgets/Slo/hooks/useMonitoredEntity';
@@ -37,20 +37,18 @@ export default function WidgetLeftHeader({
   const isLoading = status === 'pending' || !monitoredEntity;
 
   return (
-    <div className={locals.container}>
+    <Stack gap="xxsmall">
       <Stack direction="horizontal" align="center">
         <div className={locals.title}>{title}</div>
-        {isLoading && <LoadingSkeleton className={locals.loadingSkeleton} />}
-        {!isLoading && (
-          <Stack direction="horizontal" gap="xxsmall" align="center">
-            <SloEntityInfo entityType={monitoredEntityType} entity={monitoredEntity} />
-            <SliConfigInfo sliConfig={sliConfig} entityType={monitoredEntityType} />
-          </Stack>
-        )}
+        <StackItem>
+          {isLoading && <LoadingSkeleton className={locals.loadingSkeleton} />}
+          {!isLoading && <SloEntityInfo entityType={monitoredEntityType} entity={monitoredEntity} />}
+        </StackItem>
+        <SliConfigInfo sliConfig={sliConfig} entityType={monitoredEntityType} />
       </Stack>
       {isPreview && (
         <span className={locals.subtext}>{t('in-custom-dashboards:widgets.slo.widgetLeftHeader.previewDataInfo')}</span>
       )}
-    </div>
+    </Stack>
   );
 }

@@ -62,6 +62,8 @@
   "labelScope": "Scope",
   "labelCustomServiceRules": "Custom Service Rules",
   "labelSyntheticEndpoints": "Synthetic Endpoints",
+  "labelWarning": "Warning",
+  "labelCritical": "Critical",
   "titleTopServices": "Top Services",
   "titleMeanLatency": "Mean Latency",
   "titleErroneousCallRate": "Erroneous Call Rate",
@@ -121,6 +123,7 @@
   "helpOptional": "(optional)",
   "messageSuccessfullySaved": "Successfully saved.",
   "messageErrorOccurred": "An error occurred, please try again.",
+  "messageWaitForChanges": "It may take some time for your changes to apply.",
   "linkViewAllServices": "View all services",
   "linkViewAllEndpoints": "View all endpoints",
   "lineViewInAnalyze": "View in Analyze",
@@ -197,7 +200,8 @@
     "technologies": "Technologies",
     "httpStatusCode": "HTTP Status",
     "hiddenCalls": "Hidden Calls",
-    "preview": "Preview",
+    "fastQueryMode": "Fast query mode",
+    "fastQueryModeTooltip": "Fast query mode enables query execution against a subset of calls or traces, if execution against the full dataset would take too long.",
     "listBatchTypeTooltip": "This {{type}} is batched and represents {{batchCount}} individual {{types}}.",
     "listBatchLatencyTooltip": "Total latency of {{batchCount}} batched {{types}}.",
     "traceIdTooltip": "Some data related to this trace is delayed so please reload the page in a little later. An example where this may happen is viewing a very recent trace with some of its data is still being processed.",
@@ -643,6 +647,7 @@
     "alternativeServicesPossibleProblem": "<bold>Maybe</bold>, if the current service and the alternative service names do not come from the HTTP \"Host\" header, then they are either services sitting behind a proxy (good) or they are duplicate services (bad): some of the services are fully linked to infra, while others are partially linked to infra."
   },
   "widgetNotActive": {
-    "title": "Widget is not supported in Live Mode"
+    "title": "Widget is not supported in Live Mode",
+    "button": "Stop Live Mode"
   }
 }

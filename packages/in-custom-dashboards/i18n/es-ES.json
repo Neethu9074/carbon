@@ -165,16 +165,18 @@
         "metric": "Métrica",
         "selectMetric": "Seleccionar métrica",
         "aggregation": "Agregación",
-        "crossSeriesAggregation": "Utilice SUM para la suma entre series",
-        "crossSeriesAggregationHelp": "Normalmente, la suma entre series es igual a la suma entre tiempos (el método utilizado para combinar puntos de datos en un único grupo). Con este conmutador habilitado, sumaremos los grupos de varias series de datos en lugar de utilizar la suma especificada.",
-        "crossSeriesAggregationDisabledHelp": "No aplicable a {{aggregation}}"
+        "crossSeriesAggregation": "Utilice SUM para la agregación de series cruzadas",
+        "crossSeriesAggregationHelp": "Normalmente, la agregación entre series es igual a la suma entre tiempos (el método utilizado para combinar puntos de datos en un único grupo). Con este conmutador habilitado, sumaremos los grupos de varias series de datos en lugar de utilizar la suma especificada.",
+        "crossSeriesAggregationDisabledHelp": "No aplicable a {{aggregation}}",
+        "crossSeriesAggregationRestrictedHelp": "No aplicable a esta métrica"
       },
       "metrics": {
         "infrastructurePlatforms": "Infraestructura y plataformas",
         "comingSoon": "(próximamente)"
       },
       "typeAndMetricConfigurator": {
-        "pleaseSelectMetric": "Seleccione una métrica"
+        "pleaseSelectMetric": "Seleccione una métrica",
+        "loadingMetrics": "Cargando métricas..."
       }
     },
     "srcMobileApp": {
@@ -374,6 +376,7 @@
     "slo": {
       "demo": {
         "title": "Título de SLO",
+        "sliName": "Ejemplo de Sli",
         "appName": "Ejemplo de nombre de aplicación"
       },
       "apConfigFormComp": {
@@ -467,7 +470,7 @@
         "beaconConfigLabel": "Configuración de baliza",
         "beaconScopeLabel": "Ámbito de baliza",
         "httpRequestsLabel": "Solicitudes HTTP",
-        "beaconFiltersLabel": "Filtros de baliza"
+        "beaconFiltersLabel": "Filtro de baliza"
       },
       "sliList": {
         "serviceLevelIndicators": "Indicadores de nivel de servicio",
@@ -478,7 +481,9 @@
         "delSliConfig": "Suprimir configuración de SLI",
         "pleaseConfirm": "Confírmelo",
         "pleaseConfirmMsg": "¿Seguro que desea suprimir <strong>{{sliName}}</strong>?",
-        "delete": "Suprimir"
+        "delete": "Suprimir",
+        "eventBasedSli": "Basada en sucesos",
+        "timeBasedSli": "Basada en tiempo, {{metricNameLabel}}"
       },
       "sliManageList": {
         "configSrvLevelIndicatorsMsg": "No tiene el permiso necesario <em>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</em> necesario para crear o editar los SLI.",
@@ -494,7 +499,9 @@
       "chart": {
         "spent": "Gastado",
         "budget": "Presupuesto",
-        "viewInAnalyze": "Ver en Analizar"
+        "viewInAnalyze": "Ver en Analizar",
+        "initialEvaluation": "SLI creado",
+        "missingDataInfo": "La hora de creación de este SLI se encuentra en el intervalo de tiempo visualizado. Faltarán los datos anteriores a la creación del SLI."
       },
       "formComponent": {
         "sliManagement": "Gestión de SLI",
@@ -521,15 +528,16 @@
         "enterDateFormatYyyyMmDd": "Especifique una fecha con el formato AAAA-MM-DD.",
         "enterTimeInFormatHhMmSs": "Especifique una hora con el formato HH:mm:ss."
       },
-      "widgetHeader": {
+      "sliSummary": {
         "status": "Estado",
         "target": "Destino:",
         "errorBudgetSpent": "Margen de error gastado",
         "errorBudget": "Margen de error:",
         "timeWindow": "Ventana de tiempo",
-        "dynamicTimeWindow": "Ventana de tiempo dinámico",
-        "rollingTimeWindow": "Ventana de tiempo de desplazable",
-        "fixedTimeWindow": "Ventana de tiempo fijo"
+        "timeWindowType": "Ventana de tiempo desconocida",
+        "timeWindowType_dynamic": "Ventana de tiempo dinámico",
+        "timeWindowType_rolling": "Ventana de tiempo de desplazable",
+        "timeWindowType_fixed": "Ventana de tiempo fijo"
       },
       "sloEntityInfo": {
         "tooltip": {
@@ -551,7 +559,9 @@
       "slo": "SLO",
       "monitoringSourceSelector": {
         "source_application": "Aplicación",
-        "source_website": "Sitio web"
+        "source_website": "Sitio web (Beta)",
+        "callOut_application": "Excluye factores que escapan a su control, como la mala conectividad de Internet de los usuarios finales, pero puede no reflejar con precisión la experiencia del usuario final",
+        "callOut_website": "Refleja con mayor precisión la experiencia del usuario final, pero no excluye factores que escapan a su control, como la mala conectividad a Internet de los usuarios finales."
       },
       "sliFormatter": {
         "unit": "llamada",
@@ -560,6 +570,108 @@
         "unit_1": "llamada",
         "unit_2": "calls",
         "thousandCallsFormat": "{{count}}K llamadas"
+      },
+      "widgetLeftHeader": {
+        "previewDataInfo": "Los datos de vista previa muestran solo un máximo de 7 días en el pasado. El widget final solo incluirá datos desde la creación de SLI."
+      },
+      "boundaryScopeConfigurator": {
+        "all": {
+          "title": "Todas las llamadas",
+          "description": "Llamadas realizadas dentro de esta aplicación, tanto por los consumidores como internamente."
+        },
+        "inbound": {
+          "title": "Llamadas entrantes",
+          "description": "Solo las llamadas realizadas por los consumidores de esta aplicación."
+        }
+      }
+    },
+    "apdex": {
+      "title": "Apdex: Gráfico",
+      "chart": {
+        "metricLabel": "Apdex",
+        "viewInAnalyze": "Ver en Analizar",
+        "noDataRetentionPeriod": "El rango de tiempo seleccionado supera el periodo de retención de datos",
+        "notFoundErrorTitle": "No se ha encontrado el Apdex configurado",
+        "notFoundErrorDescription": "Actualice el widget Apdex seleccionando otra configuración de Apdex"
+      },
+      "demo": {
+        "title": "Apdex for Prod",
+        "entityLabel": "Robot Shop"
+      },
+      "apdexConfigInfo": {
+        "tagFilterLabel": "Filtro",
+        "apdexNameLabel": "Nombre de Apdex",
+        "apdexTypeLabel": "Tipo de Apdex",
+        "thresholdLabel": "Umbral"
+      },
+      "formComponent": {
+        "title": "Configuración de Apdex",
+        "entityTypeTitle": "Tipo de Apdex",
+        "manageListTitle": "Gestión de Apdex"
+      },
+      "configurationSelector": {
+        "label": "Configuración de Apdex",
+        "selectConfig": "Seleccione una configuración",
+        "manageConfig": "Gestionar Apdex",
+        "noneAvailCreateOne": "No hay ninguno disponible, cree uno.",
+        "pleaseSelect": "Seleccione"
+      },
+      "entityTypeSelector": {
+        "type": "Tipo desconocido",
+        "type_website": "Sitio web",
+        "type_application": "Aplicación"
+      },
+      "apdexManageList": {
+        "title": "Lista de Apdex",
+        "deleteSuccessfulMessage": "La configuración de Apdex se ha suprimido satisfactoriamente.",
+        "deleteFailedMessage": "No se ha podido suprimir la configuración de Apdex."
+      },
+      "apdexList": {
+        "cardTitle": "Configuración de Apdex",
+        "nameColumn": "Configuración de Apdex",
+        "thresholdColumn": "Umbral",
+        "confirmDeleteHeader": "Confírmelo",
+        "confirmDeleteMessage": "¿Está seguro de que desea suprimir {{apdex}}?",
+        "editApdexTooltip": "Editar/clonar configuración de Apdex",
+        "deleteApdexTooltip": "Suprimir configuración de Apdex",
+        "confirmDeleteButton": "Suprimir",
+        "createButton": "Crear configuración de Apdex"
+      },
+      "createApdexForm": {
+        "title": "Crear configuración de Apdex",
+        "customizationHeader": "Personalización de Apdex",
+        "label": "Nombre de Apdex",
+        "apdexCreateSuccessTitle": "La configuración de Apdex se ha creado satisfactoriamente.",
+        "apdexCreateSuccessContent": "Se ha creado la configuración de apdex \"{{apdexName}}\".",
+        "apdexCreateFailedTitle": "No se ha podido crear la configuración de Apdex.",
+        "apdexCreateFailedContent": "Se ha producido un problema al crear esta configuración de Apdex: \"{{apdexName}}\"",
+        "apdexNameNotEmpty": "El nombre de Apdex no puede estar vacío.",
+        "nameExistsError": "Ya existe una configuración de Apdex con este nombre. Escriba un nombre diferente.",
+        "limitReachedError": {
+          "website": "Se ha alcanzado el número máximo de configuraciones de apdex del sitio web ({{0}}). Póngase en contacto con el soporte de Instana para solicitar un aumento de este límite.",
+          "application": "Se ha alcanzado el número máximo de configuraciones de apdex de aplicación ({{0}}). Póngase en contacto con el soporte de Instana para solicitar un aumento de este límite."
+        },
+        "editConfigNotice": "Para evitar la pérdida de datos, no es posible editar la configuración después de la creación."
+      },
+      "createWebsiteApdexForm": {
+        "thresholdHeader": "Configuración de umbral",
+        "thresholdLabel": "Umbral"
+      },
+      "entityInfo": {
+        "tooltip": "Apdex desconocido",
+        "tooltip_website": "Apdex de sitio web",
+        "tooltip_application": "Apdex de aplicación"
+      },
+      "widget": {
+        "unknownEntityLabel_application": "Aplicación desconocida",
+        "unknownEntityLabel_website": "Sitio web desconocido",
+        "previewDataInfo": "Se muestran los datos de vista previa de los últimos 7 días. El widget final solo incluirá los datos desde la creación de la configuración de Apdex."
+      },
+      "applicationScopeConfigurator": {
+        "label": "Ámbito de Apdex",
+        "boundaryScope": "Límite",
+        "hiddenCalls": "Llamadas ocultas",
+        "additionalFilters": "Filtro adicional"
       }
     },
     "timezone": {

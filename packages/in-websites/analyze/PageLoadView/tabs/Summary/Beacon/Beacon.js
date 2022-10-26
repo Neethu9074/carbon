@@ -3,8 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { compose, withState } from 'recompose';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 
 import { toInteractiveElement } from '@instana/components';
@@ -19,8 +18,9 @@ import { t } from 'in-i18n';
 
 import locals from './Beacon.mless';
 
-export default compose(withState('expanded', 'setExpanded', false))(function Beacon(props) {
-  const { detailId, beacon, expanded, setExpanded } = props;
+export default function Beacon(props) {
+  const [expanded, setExpanded] = useState(false);
+  const { detailId, beacon } = props;
 
   useEffect(() => {
     if (detailId.beaconId === beacon.beaconId && beacon.type !== 'pageLoad') {
@@ -81,7 +81,7 @@ export default compose(withState('expanded', 'setExpanded', false))(function Bea
       )}
     </HighlightedEffect>
   );
-});
+}
 
 export function getHighlighterId(beaconId) {
   return `page-load-view-beacon-${beaconId}`;

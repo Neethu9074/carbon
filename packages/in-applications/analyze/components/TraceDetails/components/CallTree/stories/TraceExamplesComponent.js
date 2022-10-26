@@ -3,81 +3,73 @@
  * (c) Copyright Instana Inc.
  */
 
-import { withState } from 'recompose';
-import React from 'react';
+import React, { useState } from 'react';
 
 import traceExamples from 'in-applications/analyze/components/TraceDetails/components/CallTree/stories/traceExamples';
 import InputHeader from 'in-applications/analyze/components/TraceDetails/components/CallTree/stories/InputHeader';
 import { deepFreeze } from 'in-services/util/object';
 
-export default withState(
-  'selectedValue',
-  'setSelectedValue',
-  'custom'
-)(
-  withState(
-    'inputValue',
-    'setInputValue',
-    ''
-  )(function TraceExamplesComponent({ selectedValue, setSelectedValue, inputValue, setInputValue, render }) {
-    const options = ['custom'];
-    const exampleKeys = Object.keys(traceExamples);
-    for (let i = 0; i < exampleKeys.length; i++) {
-      const key = exampleKeys[i];
-      options.push(key);
-    }
+export default function TraceExamplesComponent({ render }) {
+  const [selectedValue, setSelectedValue] = useState('custom');
+  const [inputValue, setInputValue] = useState('');
 
-    let rootCall;
-    if (selectedValue !== 'custom') {
-      rootCall = traceExamples[selectedValue];
-    } else if (inputValue) {
-      try {
-        rootCall = deepFreeze(JSON.parse(inputValue));
-      } catch (e) {
-        rootCall = null;
-      }
-    } else {
-      rootCall = defaultTraceExample;
-    }
+  const options = ['custom'];
+  const exampleKeys = Object.keys(traceExamples);
+  for (let i = 0; i < exampleKeys.length; i++) {
+    const key = exampleKeys[i];
+    options.push(key);
+  }
 
-    return (
-      <div>
-        <InputHeader>
-          <select
-            id={1}
-            value={selectedValue}
-            placeholder=""
-            options={options}
-            onChange={e => setSelectedValue(e.target.value)}
-          >
-            {options.map(option => (
-              <option value={option} key={option}>
-                {option}
-              </option>
-            ))}
-          </select>
-          {selectedValue === 'custom' && (
-            <div>
-              <input
-                style={{
-                  width: '100%',
-                  marginTop: 16,
-                  height: '50px'
-                }}
-                type="text"
-                id={2}
-                placeholder="paste JSON here"
-                value={inputValue}
-                onChange={e => setInputValue(e.target.value)}
-              />
-            </div>
-          )}
-        </InputHeader>
-        {render(rootCall)}
-      </div>
-    );
-  })
-);
+  let rootCall;
+  if (selectedValue !== 'custom') {
+    rootCall = traceExamples[selectedValue];
+  } else if (inputValue) {
+    try {
+      rootCall = deepFreeze(JSON.parse(inputValue));
+    } catch (e) {
+      rootCall = null;
+    }
+  } else {
+    rootCall = defaultTraceExample;
+  }
+
+  return (
+    <div>
+      <InputHeader>
+        <select
+          id={1}
+          value={selectedValue}
+          placeholder=""
+          options={options}
+          onChange={e => setSelectedValue(e.target.value)}
+        >
+          {options.map(option => (
+            <option value={option} key={option}>
+              {option}
+            </option>
+          ))}
+        </select>
+        {selectedValue === 'custom' && (
+          <div>
+            <input
+              style={{
+                width: '100%',
+                marginTop: 16,
+                height: '50px'
+              }}
+              type="text"
+              id={2}
+              placeholder="paste JSON here"
+              value={inputValue}
+              onChange={e => setInputValue(e.target.value)}
+            />
+          </div>
+        )}
+      </InputHeader>
+      {render(rootCall)}
+    </div>
+  );
+}
 
 const defaultTraceExample = {
   id: 'root',

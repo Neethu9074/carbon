@@ -15,7 +15,7 @@
   "endpoint": "エンドポイント",
   "endpointType": "エンドポイント・タイプ",
   "messageParam": "メッセージ・パラメーター",
-  "applicationCounter": "{{count}} 個のアプリケーション",
+  "applicationCounter": "{{count}} 件のアプリケーション",
   "exceptionMessageHeader": "例外メッセージ",
   "stackTrace": "スタック・トレース",
   "service": "サービス",
@@ -27,5 +27,7 @@
   "sorting": {
     "mostRecent": "新しい順",
     "oldest": "古い順"
-  }
+  },
+  "cpuTotal": "CPU 合計",
+  "memoryUsage": "メモリー使用量"
 }

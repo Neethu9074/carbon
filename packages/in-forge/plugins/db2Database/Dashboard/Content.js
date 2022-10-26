@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { number, millis, bytes, micros, positiveNumber } from 'in-services/formatters/number';
+import { number, millis, bytes, micros, positiveNumber, percentage } from 'in-services/formatters/number';
 import TopTotalStmtsTable from 'in-forge/plugins/db2Database/Dashboard/TopTotalStmtsTable';
 import HadrGenericsTable from 'in-forge/plugins/db2Database/Dashboard/HadrGenericsTable';
 import DiagLogInfoTable from 'in-forge/plugins/db2Database/Dashboard//DiagLogInfoTable';
@@ -13,7 +13,6 @@ import LogDiskWaitTable from 'in-forge/plugins/db2Database/Dashboard/LogDiskWait
 import DbUtilitiesTable from 'in-forge/plugins/db2Database/Dashboard/DbUtilitiesTable';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import TopQueriesTable from 'in-forge/plugins/db2Database/Dashboard//TopQueriesTable';
-import ContainersTable from 'in-forge/plugins/db2Database/Dashboard/ContainersTable';
 import DatabasesTable from 'in-forge/plugins/db2Database/Dashboard/DatabasesTable';
 import DbmConfigTable from 'in-forge/plugins/db2Database/Dashboard/DbmConfigTable';
 import LockWaitsTable from 'in-forge/plugins/db2Database/Dashboard/LockWaitsTable';
@@ -97,7 +96,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
       <HadrGenericsTable snapshotId={snapshotId} />
       <HadrDashboard snapshotId={snapshotId} timeConfig={timeConfig} />
       {data.get('tableSpaceNames', emptyList).size > 0 && (
-        <TableSpaceUtil snapshot={snapshot} timeConfig={timeConfig} />
+        <TableSpaceUtil snapshotId={snapshotId} timeConfig={timeConfig} />
       )}
       <Columize>
         <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.rows')}>
@@ -500,20 +499,103 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.topQueriesCount')}>
+      <Columize>
+        <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.topQueriesCount')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['topqueriesstats.topQueriesCount'],
+              labels: [t('in-forge:plugins.db2Database.topQueriesCount')],
+              type: 'line',
+              formatter: number.compact
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+        <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.vmonlockStatsValue')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['vmonlockstats.lockListInUse'],
+              labels: [t('in-forge:plugins.db2Database.lockListInUse')],
+              type: 'line',
+              formatter: bytes.detailed
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      </Columize>
+      <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.vmonlockStats')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
-            metrics: ['topqueriesstats.topQueriesCount'],
-            labels: [t('in-forge:plugins.db2Database.topQueriesCount')],
+            metrics: [
+              'vmonlockstats.lockEscals',
+              'vmonlockstats.activeLockWaits',
+              'vmonlockstats.averageLockEscalsPerAct',
+              'vmonlockstats.lockListValue'
+            ],
+            labels: [
+              t('in-forge:plugins.db2Database.lockEscals'),
+              t('in-forge:plugins.db2Database.activeLockWaits'),
+              t('in-forge:plugins.db2Database.averageLockEscalsPerAct'),
+              t('in-forge:plugins.db2Database.lockListValue')
+            ],
             type: 'line',
             formatter: number.compact
+          }}
+          y2={{
+            min: 0,
+            metrics: ['vmonlockstats.lockWaitTime'],
+            labels: [t('in-forge:plugins.db2Database.lockWaitTime')],
+            type: 'line',
+            formatter: millis.detailed
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
+
+      <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.databaseVmondeltaStats')}>
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            metrics: [
+              'databasevmondeltastats.indexReadEfficiency',
+              'databasevmondeltastats.sorts',
+              'databasevmondeltastats.sortsPerTransactions',
+              'databasevmondeltastats.sqls'
+            ],
+            labels: [
+              t('in-forge:plugins.db2Database.indexReadEfficiency'),
+              t('in-forge:plugins.db2Database.sorts'),
+              t('in-forge:plugins.db2Database.sortsPerTransactions'),
+              t('in-forge:plugins.db2Database.sqls')
+            ],
+            type: 'line',
+            formatter: number.compact
+          }}
+          y2={{
+            min: 0,
+            metrics: ['databasevmondeltastats.syncReadPercentage', 'databasevmondeltastats.asyncWritePercentage'],
+            labels: [
+              t('in-forge:plugins.db2Database.syncReadPercentage'),
+              t('in-forge:plugins.db2Database.asyncWritePercentage')
+            ],
+            type: 'line',
+            formatter: percentage
+          }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
+      </DashboardSection>
+
       <TopQueriesTable snapshotId={snapshotId} />
       <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.totalLockWaitElapsedTime')}>
         <Chart
@@ -533,9 +615,6 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
 
       {data.get('databaseNames', emptyList).size > 0 && <DatabasesTable snapshot={snapshot} timeConfig={timeConfig} />}
 
-      {data.get('containerNames', emptyList).size > 0 && (
-        <ContainersTable snapshot={snapshot} timeConfig={timeConfig} />
-      )}
       <TopTotalStmtsTable snapshotId={snapshotId} snapshot={snapshot} timeConfig={timeConfig} />
       <LogDiskWaitTable snapshotId={snapshotId} snapshot={snapshot} timeConfig={timeConfig} />
       <UOWTable snapshotId={snapshotId} />

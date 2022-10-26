@@ -11,7 +11,6 @@ import ApplicationDashboard from 'promise-loader?global,applications!in-applicat
 import NewApplicationWaiter from 'promise-loader?global,applications!in-applications/Forms/NewApplication/NewApplicationWaiter';
 import EndpointDashboard from 'promise-loader?global,applications!in-applications/Dashboards/endpoint/EndpointDashboard';
 import ServiceDashboard from 'promise-loader?global,applications!in-applications/Dashboards/service/ServiceDashboard';
-import NewApplication from 'promise-loader?global,applications!in-applications/Forms/NewApplication/NewApplication';
 import AnalyzeView2_0 from 'promise-loader?global,applications!in-applications/analyze/AnalyzeView2_0/AnalyzeView';
 import ApplicationsList from 'promise-loader?global,applications!in-applications/lists/ApplicationsList';
 import ServicesList from 'promise-loader?global,applications!in-applications/lists/ServicesList';
@@ -26,44 +25,40 @@ import {
   configureEndpointsView,
   configureSyntheticEndpointsView,
   endpointDashboard,
-  newApplicationView,
   newApplicationWaiterView,
   newServiceView,
   serviceDashboard,
   servicesList,
   analyzePath
 } from 'in-applications/navigation/paths';
-import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
+import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 
 export default (
   <Fragment>
-    {role.canConfigureApplications && (
-      <Route path={newApplicationView} component={createAsyncViewComponent(NewApplication)} />
-    )}
     <Route
       path={`${newApplicationWaiterView}/:appId/:appName`}
-      component={createAsyncViewComponent(NewApplicationWaiter)}
+      children={renderAsyncRouteChildren(NewApplicationWaiter)}
     />
 
     {role.canConfigureServiceMapping && (
       <Fragment>
-        <Route path={newServiceView} component={createAsyncViewComponent(CustomServiceMapping)} />
-        <Route path={configureSyntheticEndpointsView} component={createAsyncViewComponent(SyntheticCallConfig)} />
-        <Route path={configureEndpointsView} component={createAsyncViewComponent(CustomEndpointMapping)} />
+        <Route path={newServiceView} children={renderAsyncRouteChildren(CustomServiceMapping)} />
+        <Route path={configureSyntheticEndpointsView} children={renderAsyncRouteChildren(SyntheticCallConfig)} />
+        <Route path={configureEndpointsView} children={renderAsyncRouteChildren(CustomEndpointMapping)} />
       </Fragment>
     )}
 
-    <Route path={applicationsList} component={createAsyncViewComponent(ApplicationsList)} />
-    <Route path={applicationDashboard} component={createAsyncViewComponent(ApplicationDashboard)} />
-    <Route path={servicesList} component={createAsyncViewComponent(ServicesList)} />
-    <Route path={serviceDashboard} component={createAsyncViewComponent(ServiceDashboard)} />
-    <Route path={endpointDashboard} component={createAsyncViewComponent(EndpointDashboard)} />
+    <Route path={applicationsList} children={renderAsyncRouteChildren(ApplicationsList)} />
+    <Route path={applicationDashboard} children={renderAsyncRouteChildren(ApplicationDashboard)} />
+    <Route path={servicesList} children={renderAsyncRouteChildren(ServicesList)} />
+    <Route path={serviceDashboard} children={renderAsyncRouteChildren(ServiceDashboard)} />
+    <Route path={endpointDashboard} children={renderAsyncRouteChildren(EndpointDashboard)} />
     {applicationSmartAlertsEnabled && (
-      <Route path={alertsList} component={createAsyncViewComponent(GlobalSmartAlertsTab)} />
+      <Route path={alertsList} children={renderAsyncRouteChildren(GlobalSmartAlertsTab)} />
     )}
 
-    <Route path={analyzePath} component={createAsyncViewComponent(AnalyzeView2_0)} />
+    <Route path={analyzePath} children={renderAsyncRouteChildren(AnalyzeView2_0)} />
   </Fragment>
 );

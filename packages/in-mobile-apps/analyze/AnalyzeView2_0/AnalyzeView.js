@@ -195,6 +195,14 @@ const dataSourceConfigurations = {
     ungroupedView,
     fixedFields,
     defaultChartedMetrics
+  },
+  crash: {
+    metricCatalogTransformer: createMetricCatalogTransformer('crash'),
+    facetedSearchItems,
+    groupedView,
+    ungroupedView,
+    fixedFields,
+    defaultChartedMetrics
   }
 };
 

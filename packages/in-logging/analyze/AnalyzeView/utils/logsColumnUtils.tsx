@@ -12,7 +12,7 @@ import { CopyButton, CopyColumnProps } from 'in-logging/analyze/AnalyzeView/comp
 import LogHealthColumn from 'in-logging/analyze/AnalyzeView/components/LogHealthColumn';
 import { LogTag } from 'in-types';
 
-import locals from '../components/Logs.mless';
+import locals from 'in-logging/analyze/AnalyzeView/components/Logs.mless';
 
 interface LogLevelColumnProps {
   tags: LogTag[];
@@ -49,10 +49,10 @@ export const timestampColumn = {
 export const centerAlignedLinkColumn = {
   id: 'linkIcon',
   width: '2.5rem',
-  getContent({ itemId, time, initialLogLines }: LinkButtonProps) {
+  getContent({ itemId, time, initialLogLines, groupKey }: LinkButtonProps) {
     return (
       <div className={locals.centeredCopyButtonWrapper}>
-        <LinkButton itemId={itemId} time={time} initialLogLines={initialLogLines} />
+        <LinkButton itemId={itemId} time={time} initialLogLines={initialLogLines} groupKey={groupKey} />
       </div>
     );
   }

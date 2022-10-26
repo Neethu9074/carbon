@@ -22,9 +22,9 @@ import {
 } from 'in-services/formatters/date';
 import { formatDateWithActiveLanguage } from 'in-services/formatters/dateFnsFormatWrapper';
 import DateTimeInput from 'in-components/time/TimeSelectionDialogPresenter/DateTimeInput';
+import DebouncedDistinctSlider from 'in-components/Slider/DebouncedDistinctSlider';
 import Section from 'in-components/time/TimeSelectionDialogPresenter/Section';
 import { dateValidator, timeValidator } from 'in-services/validators/date';
-import DistinctSlider from 'in-components/Slider/DebouncedDistinctSlider';
 import { notBlankValidator } from 'in-services/validators/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { days, hours, minutes } from 'in-services/time';
@@ -80,20 +80,24 @@ export default function CustomTime({ timeConfig, onChange }) {
     const tickPositions = useMemo(() => getTickPositions(now), [now]);
 
     return (
-      <DistinctSlider
+      <DebouncedDistinctSlider
         valueLabelDisplay="auto"
-        valueLabelComponent={TimeSliderTooltip}
+        components={{
+          ValueLabel: TimeSliderTooltip
+        }}
         marks={tickPositions}
         min={tickPositions[0].value}
         max={tickPositions[tickPositions.length - 1].value}
         debounceMaxWait={minutes.toMillis(1)}
         step={oneHour}
         value={[from, to]}
-        onChange={([_from, _to]) => {
-          let updateForm = form.updateIn(['from', 'date'], item => item.setValue(formatDate(_from)).setTouched(true));
-          updateForm = updateForm.updateIn(['from', 'time'], item => item.setValue(formatTime(_from)).setTouched(true));
-          updateForm = updateForm.updateIn(['to', 'date'], item => item.setValue(formatDate(_to)).setTouched(true));
-          updateForm = updateForm.updateIn(['to', 'time'], item => item.setValue(formatTime(_to)).setTouched(true));
+        onChange={([newFrom, newTo]) => {
+          let updateForm = form.updateIn(['from', 'date'], item => item.setValue(formatDate(newFrom)).setTouched(true));
+          updateForm = updateForm.updateIn(['from', 'time'], item =>
+            item.setValue(formatTime(newFrom)).setTouched(true)
+          );
+          updateForm = updateForm.updateIn(['to', 'date'], item => item.setValue(formatDate(newTo)).setTouched(true));
+          updateForm = updateForm.updateIn(['to', 'time'], item => item.setValue(formatTime(newTo)).setTouched(true));
           setForm(updateForm);
         }}
       />

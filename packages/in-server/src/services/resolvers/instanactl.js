@@ -55,11 +55,15 @@ exports.getFeatureFlags = (tenant, unit) =>
 
 exports.getConfiguration = (tenant, unit) =>
   cache(`getConfiguration:${tenant}:${unit}`, () => {
-    return getIntSetting(tenant, unit, 'MAX_ALLOWED_ALERTINGS_CONFIGURATIONS', 200).then(
-      maxAllowedAlertingConfigurations => ({
-        maxAllowedAlertingConfigurations
-      })
-    );
+    return Promise.all([
+      getIntSetting(tenant, unit, 'MAX_ALLOWED_ALERTINGS_CONFIGURATIONS', 200),
+      getSetting(tenant, unit, 'MIGRATED_TENANT_UNIT_URL', '')
+    ]).then(values => {
+      return {
+        maxAllowedAlertingConfigurations: values[0],
+        migratedTenantUnitUrl: values[1]
+      };
+    });
   });
 
 exports.getReportingEndpoints = (req, tenant, unit) => {
@@ -207,3 +211,10 @@ function resolvePathToFileContent(key, path) {
   }
   return {};
 }
+
+/** end connection pool and close any connections */
+exports.shutdown = async () => {
+  logger.info(`Trigger instanactl-resolver db connection pool closing.`);
+  await pool.end();
+  logger.info(`Instanactl-resolver db connection pool closed.`);
+};

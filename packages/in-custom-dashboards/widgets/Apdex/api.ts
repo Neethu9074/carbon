@@ -76,6 +76,7 @@ export function createApdexConfiguration(
     method: 'POST',
     url: '/api/settings/apdex',
     data: configuration,
+    treat400AsError: true,
     maxRetries: 3,
     headers: getCsrfHeader(),
     mapToResultObject: true

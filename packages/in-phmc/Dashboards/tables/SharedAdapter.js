@@ -56,13 +56,23 @@ const cols = [
     }
   },
   {
+    title: t('in-phmc:sentPackets'),
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.sharedAdapter.get('sentPackets');
+      },
+      getContent: number.detailed
+    }
+  },
+  {
     title: t('in-phmc:recievedPackets'),
     type: 'number',
     typeArgs: {
       getValue(row) {
         return row.sharedAdapter.get('receivedPackets');
       },
-      getContent: number.compact
+      getContent: number.detailed
     }
   },
   {
@@ -72,7 +82,7 @@ const cols = [
       getValue(row) {
         return row.sharedAdapter.get('droppedPackets');
       },
-      getContent: number.compact
+      getContent: number.detailed
     }
   },
   {

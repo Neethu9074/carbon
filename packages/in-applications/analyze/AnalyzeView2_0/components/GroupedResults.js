@@ -7,8 +7,8 @@ import React, { useCallback } from 'react';
 
 import { FacetedSearchPresenter } from 'in-applications/analyze/AnalyzeView2_0/components/FacetedSearchPresenter';
 import QueryBuilderWorkspace from 'in-applications/analyze/AnalyzeView2_0/components/QueryBuilderWorkspace';
+import FastQueryModeToggle from 'in-applications/analyze/AnalyzeView2_0/components/FastQueryModeToggle';
 import { ChartsPresenter } from 'in-applications/analyze/AnalyzeView2_0/components/ChartsPresenter';
-import PreviewToggle from 'in-applications/analyze/AnalyzeView2_0/components/PreviewToggle';
 import Results from 'in-applications/analyze/AnalyzeView2_0/components/Results';
 import getTraceGroups from 'in-applications/subscriptions/getTraceGroups';
 import getCallGroups from 'in-applications/subscriptions/getCallGroups';
@@ -23,21 +23,24 @@ const getDataPerDataSource = {
 export default function GroupedResults(props) {
   const {
     hiddenCalls,
-    previewEnabled,
-    onChangePreviewEnabled,
+    fastQueryModeEnabled,
+    onChangeFastQueryModeEnabled,
     Sidebar = FacetedSearchPresenter,
     Chart = ChartsPresenter
   } = props;
 
-  const getData = useCallback(params => getTableData({ ...params, hiddenCalls, previewEnabled }), [
+  const getData = useCallback(params => getTableData({ ...params, hiddenCalls, fastQueryModeEnabled }), [
     hiddenCalls,
-    previewEnabled
+    fastQueryModeEnabled
   ]);
   return (
     <QueryBuilderWorkspace
       {...props}
       CustomAction={() => (
-        <PreviewToggle previewEnabled={previewEnabled} onChangePreviewEnabled={onChangePreviewEnabled} />
+        <FastQueryModeToggle
+          fastQueryModeEnabled={fastQueryModeEnabled}
+          onChangeFastQueryModeEnabled={onChangeFastQueryModeEnabled}
+        />
       )}
     >
       <GroupedView
@@ -48,6 +51,7 @@ export default function GroupedResults(props) {
         getData={getData}
         getLabel={getLabel}
         UngroupedView={Results}
+        customLatencyUiFormatterName={'LATENCY_WITH_DECIMALS'}
       />
     </QueryBuilderWorkspace>
   );
@@ -66,7 +70,7 @@ function getTableData({
   metrics,
   dataSource,
   hiddenCalls,
-  previewEnabled
+  fastQueryModeEnabled
 }) {
   const { includeSynthetic = false, includeInternal = false } = hiddenCalls;
   const getData = getDataPerDataSource[dataSource];
@@ -84,6 +88,6 @@ function getTableData({
     metrics,
     includeSynthetic,
     includeInternal,
-    queryPrecision: previewEnabled ? 'APPROXIMATE' : 'FULL'
+    queryPrecision: fastQueryModeEnabled ? 'APPROXIMATE' : 'FULL'
   });
 }

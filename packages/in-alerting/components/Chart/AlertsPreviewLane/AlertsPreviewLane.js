@@ -27,13 +27,14 @@ export default function AlertsPreviewLanePropsChecker(props) {
 function AlertsPreviewLane({ alertsPreviewConfiguration, getAlertsPreview, ...remainingProps }) {
   const [retryCounter, setRetryCounter] = React.useState(0);
 
-  const result = useObservable(getAlertsPreviewObservable, [
-    getAlertsPreview,
-    alertsPreviewConfiguration,
-    remainingProps.clusterSizeMillis,
-    // we use this counter also to trigger the reloading when the counter was changed.
-    retryCounter
-  ]);
+  const result =
+    useObservable(getAlertsPreviewObservable, [
+      getAlertsPreview,
+      alertsPreviewConfiguration,
+      remainingProps.clusterSizeMillis,
+      // we use this counter also to trigger the reloading when the counter was changed.
+      retryCounter
+    ]) ?? pendingResult;
 
   const onRetry = () => {
     trackAlertPreviewMarkerFetchRetry(retryCounter + 1);

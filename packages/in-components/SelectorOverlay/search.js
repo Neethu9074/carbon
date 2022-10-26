@@ -7,7 +7,6 @@ import fuzzysort from 'fuzzysort';
 
 // Taken from docs at https://github.com/farzher/fuzzysort#how-to-go-fast--performance-tips
 const FUZZY_SEARCH_THRESHOLD = 10_000;
-const FUZZY_SEARCH_MARGIN = FUZZY_SEARCH_THRESHOLD * 1.5;
 
 export function search(nodes, query) {
   if (!query) {
@@ -27,14 +26,8 @@ function searchNodes(nodes, query, result) {
 function searchNode(node, query, result) {
   if (node.children == null || node.children.length === 0) {
     const matchResult = matches(node, query);
-    if (matchResult.validResults?.length > 0) {
+    if (matchResult?.length > 0) {
       result.push(node);
-    } else if (matchResult.marginResults?.length > 0) {
-      // TODO: Remove this part once we're finished evaluating fuzzy search precision
-      result.push({
-        ...node,
-        disabled: true
-      });
     }
   } else {
     searchNodes(node.children, query, result);
@@ -43,14 +36,7 @@ function searchNode(node, query, result) {
 
 function matches(leaf, query) {
   // Uses https://github.com/farzher/fuzzysort
-  const result = fuzzysort.go(query, [leaf.label, leaf.keywords, leaf.description, leaf.tagName], {
-    threshold: -FUZZY_SEARCH_MARGIN // Don't return matches worse than this (higher is faster)
+  return fuzzysort.go(query, [leaf.label, leaf.keywords, leaf.description, leaf.tagName], {
+    threshold: -FUZZY_SEARCH_THRESHOLD // Don't return matches worse than this (higher is faster)
   });
-
-  const validResults = result.filter(res => res.score > -FUZZY_SEARCH_THRESHOLD);
-  const marginResults = result.filter(res => res.score <= -FUZZY_SEARCH_THRESHOLD);
-  return {
-    validResults,
-    marginResults
-  };
 }

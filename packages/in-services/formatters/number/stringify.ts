@@ -51,11 +51,14 @@ export const decimalSeparator = (isLocaleAware && window.instana.numberLocale?.d
 export const thousandsSeparator = (isLocaleAware && window.instana.numberLocale?.thousands) || ',';
 
 export const zeroDecimalPlaces = format(',.0f');
+export const oneDecimalPlaces = format(',.1f');
 export const twoDecimalPlaces = format(',.2f');
+export const upToTwoDecimalPlaces = format(',.2~f');
 export const fourDecimalPlaces = format(',.4f');
 export const number = markAsFormatterType(
   {
     compact: zeroDecimalPlaces,
+    short: oneDecimalPlaces,
     detailed: twoDecimalPlaces,
     perSecond: markAsFormatterType(
       {
@@ -100,10 +103,13 @@ export const percentageZeroDecimalPlaces = (d: number) =>
   t('in-services:formatters.percent', { num: zeroDecimalPlaces(d * 100) });
 export const percentageTwoDecimalPlaces = (d: number) =>
   t('in-services:formatters.percent', { num: twoDecimalPlaces(d * 100) });
+export const percentageUpToTwoDecimalPlaces = (d: number) =>
+  t('in-services:formatters.percent', { num: upToTwoDecimalPlaces(d * 100) });
 export const percentage = markAsFormatterType(
   {
     compact: percentageZeroDecimalPlaces,
-    detailed: percentageTwoDecimalPlaces
+    detailed: percentageTwoDecimalPlaces,
+    short: percentageUpToTwoDecimalPlaces
   },
   PERCENTAGE_FORMATTER_TYPE
 );
@@ -170,6 +176,7 @@ export const millis = markAsFormatterType(
       (v: number) => t('in-services:formatters.timeUnits', { context: 'ms', num: number.compact(v) }),
       MILLIS_FORMATTER_TYPE
     ),
+    varying: (v: number) => conditionallyFormatTimeValues(v, timeMilliUnits),
     detailed: timeByMillisTwoDecimalPlaces,
     fixedDetailed: markAsFormatterType(
       (v: number) => t('in-services:formatters.timeUnits', { context: 'ms', num: number.detailed(v) }),
@@ -592,5 +599,25 @@ function formatTime(v: number, units: TimeUnit[], formatNumber: (v: number) => s
     v /= unit.range;
   }
 
+  return t('in-services:formatters.timeUnits', { context: units[units.length - 1].unit, num: formatNumber(v) });
+}
+
+function conditionallyFormatTimeValues(v: number, units: TimeUnit[]) {
+  let formatNumber: any;
+  if (typeof v !== 'number' || isNaN(v)) {
+    return t('in-services:formatters.timeUnits', { context: 'us', num: 0 });
+  }
+  for (let i = 0; i < units.length; i++) {
+    const unit = units[i];
+    if (v.toString().split('.')[0].length > 2) {
+      formatNumber = number.compact;
+    } else {
+      formatNumber = v.toString().split('.')[0].length === 1 ? number.detailed : number.short;
+    }
+    if (v < unit.range) {
+      return t('in-services:formatters.timeUnits', { context: unit.unit, num: formatNumber(v) });
+    }
+    v /= unit.range;
+  }
   return t('in-services:formatters.timeUnits', { context: units[units.length - 1].unit, num: formatNumber(v) });
 }

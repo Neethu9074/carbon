@@ -10,7 +10,7 @@ import { Link } from '@instana/components';
 
 import { t, Trans } from 'in-i18n';
 
-interface EnrichedError {
+export interface EnrichedError {
   level: string;
   message: string | JSX.Element;
   code?: string;

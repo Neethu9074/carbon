@@ -11,6 +11,7 @@ export const sessionStart = create('sessionStart');
 export const viewChange = create('viewChange');
 export const httpRequest = create('httpRequest');
 export const custom = create('custom');
+export const crash = create('crash');
 
 function create(beaconType) {
   return createGroupingConfigurator({

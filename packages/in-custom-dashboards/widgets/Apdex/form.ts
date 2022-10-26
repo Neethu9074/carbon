@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import { createField, createMapForm, Field, Item, MapForm, notBlankValidator } from 'formalistic';
+import { createField, createMapForm, Field, Item, notBlankValidator } from 'formalistic';
 
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
@@ -48,16 +48,8 @@ export function createForm(savedState: Partial<ApdexWidgetConfiguration> = {}) {
     );
 }
 
-export function getField<T>(form: MapForm, field: string): Field<T> | undefined {
-  return form.get(field) as Field<T> | undefined;
-}
-
 export function setFieldValue<T>(field: Item, value: T, isTouched = false): Field<T> {
   const updatedField = (field as Field<T>).setValue(value);
   if (!isTouched) return updatedField;
   return updatedField.setTouched(true);
-}
-
-export function updateFormField<T>(form: MapForm, path: string, value: T, isTouched = false) {
-  return form.updateIn([path], field => setFieldValue<T>(field, value, isTouched));
 }

@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { createMapForm, createField } from 'formalistic';
+import { createField, createListForm, createMapForm } from 'formalistic';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
@@ -51,6 +51,36 @@ describe('in-alerting/smart-alerts/hooks/useFormSideEffects', () => {
 
       expect(execute.callCount).to.equal(1);
       expect(dontExecute.callCount).to.equal(0);
+    });
+
+    it('allows effects to match via RegEx', () => {
+      const customForm = createMapForm().put(
+        'users',
+        createListForm({
+          items: [
+            createField({ value: 'Indiana Jones' }),
+            createField({ value: 'Hoagie' }),
+            createField({ value: 'Guybrush Threepwood' }),
+            createField({ value: 'Sam' })
+          ]
+        })
+      );
+
+      const execute = sinon.fake();
+      const effects = [
+        {
+          path: ['users', /[0-2]/],
+          effects: [execute]
+        }
+      ];
+
+      const updateForm = useFormSideEffects({ form: customForm, setForm: sinon.fake(), effects });
+
+      updateForm(customForm.updateIn(['users', '0'], f => f.setValue('Indy')));
+      updateForm(customForm.updateIn(['users', '1'], f => f.setValue('Laverne')));
+      updateForm(customForm.updateIn(['users', '2'], f => f.setValue('Mighty Pirate')));
+
+      expect(execute.callCount).to.equal(3);
     });
 
     it('also executes effects if the changed path is a sub path', () => {

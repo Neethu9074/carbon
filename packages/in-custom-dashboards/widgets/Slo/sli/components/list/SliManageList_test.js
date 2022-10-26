@@ -91,10 +91,10 @@ describe('in-custom-dashboards/widgets/Slo/sli/components/list/SliManageList', (
     // When
     onFilter({ query: 'typo' });
     wrapper.rerender();
-    const sliResult = wrapper.find(SliList).prop('result');
+    const [sliResult] = wrapper.find(SliList).prop('fetchedConfigState');
 
     // Then
-    expect(sliResult.data).toEqual(expect.objectContaining({ items: [{ sliName: 'Uncaught typos' }] }));
+    expect(sliResult).toEqual([expect.objectContaining({ sliName: 'Uncaught typos' })]);
   });
 
   it('displays an info message if role.canConfigureServiceLevelIndicators if false', () => {
@@ -132,8 +132,15 @@ describe('in-custom-dashboards/widgets/Slo/sli/components/list/SliManageList', (
 
   it('displays the slideIn content when create sli is clicked', () => {
     // Given
-    const onChange = jest.fn();
-    const manageListWrapper = shallow(<SliManageList onChange={onChange} entityType={'application'} entityId={''} />);
+    const onShowCreateForm = jest.fn();
+    const manageListWrapper = shallow(
+      <SliManageList
+        onChange={jest.fn()}
+        entityType={'application'}
+        entityId={''}
+        onShowCreateForm={onShowCreateForm}
+      />
+    );
     const staticContent = manageListWrapper.prop('staticContent');
     const listWrapper = shallow(staticContent);
     const wrapper = shallow(listWrapper.find(SliList).prop('rightHeader'));
@@ -145,10 +152,10 @@ describe('in-custom-dashboards/widgets/Slo/sli/components/list/SliManageList', (
       .onClick();
 
     // Then
-    expect(onChange).toHaveBeenLastCalledWith({});
+    expect(onShowCreateForm).toHaveBeenCalled();
   });
 
-  it('displays the slideIn content for that specific sli when it is selected', () => {
+  it('calls onChange for a specific sli when it is selected', () => {
     // Given
     const onChange = jest.fn();
     const sliConfig = { sliName: 'Hidden typos' };
@@ -181,7 +188,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/components/list/SliManageList', (
     const wrapper = shallow(staticContent);
 
     // Then
-    expect(wrapper.find(SliList).prop('result')).toEqual(expect.objectContaining(pendingResult));
+    expect(wrapper.find(SliList).prop('fetchedConfigState')).toEqual(expect.arrayContaining(['pending']));
   });
 
   it('passes an erroneous result to SliList of getSliConfigurationsByEntity returns one', () => {
@@ -200,6 +207,6 @@ describe('in-custom-dashboards/widgets/Slo/sli/components/list/SliManageList', (
     const wrapper = shallow(staticContent);
 
     // Then
-    expect(wrapper.find(SliList).prop('result')).toHaveError();
+    expect(wrapper.find(SliList).prop('fetchedConfigState')).toEqual(expect.arrayContaining(['rejected']));
   });
 });

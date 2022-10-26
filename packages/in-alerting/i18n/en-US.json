@@ -39,7 +39,7 @@
       "alertingChartLabelThreshold": "Threshold",
       "alertingChartLabelViolations": "Violations",
       "alertingChartMessageInvalidFilterQuery": "Invalid filter query.",
-      "alertingChartMessageEntitySelectionInvalid": "No entities selected.",
+      "alertingChartMessageEmptyApplicationSelection": "No application selected.",
       "chartAlertsLaneErrorMessage": "Alerts could not be loaded",
       "chartAlertsPreviewLanePresenterAlertsLabel": "Alerts",
       "chartAlertsPreviewLanePresenterNoAlertsLabel": "No Alerts",
@@ -71,7 +71,12 @@
       "onlyOrAnyAlphaNumericalAreAllowed": "Only '.', '-', '_' or any alpha-numerical are allowed.",
       "aTagNeedsToBeSelected": "A tag needs to be selected.",
       "aKeyNeedsToBeSpecified": "A key needs to be specified.",
-      "customPayloadTitle": "Custom Payloads"
+      "additionalCustomPayload": "Additional Custom Payloads",
+      "globalCustomPayload": "Global Custom Payloads",
+      "additionalCustomPayloadTitle": "Additional Custom Payloads ({{count}})",
+      "globalCustomPayloadTitle": "Global Custom Payloads ({{count}})",
+      "globalCustomPayloadRetrieveFailed": "Something went wrong. Could not retrieve Global Custom Payloads.",
+      "noGlobalCustomPayloadConfigured": "No Global Custom Payloads Configured"
     }
   },
   "potentialProblems": {
@@ -243,7 +248,6 @@
           "applications": "Applications:",
           "services": "Services:"
         },
-        "noChartForAdaptiveBaseline": "No preview available while this trigger is based on an adaptive threshold.",
         "noDataWithoutEndpointSelection": "Please select an endpoint to see the preview",
         "noDataAvailable": "Please select a service to see the preview"
       },
@@ -353,6 +357,14 @@
           "statusCodeDefault_higherEqual": "Occurrences of HTTP Status Code {{statusCodeFullText}} is higher or equal to expected.",
           "statusCodeDefault_lowerThan": "Occurrences of HTTP Status Code {{statusCodeFullText}} is lower than expected.",
           "statusCodeDefault_lowerEqual": "Occurrences of HTTP Status Code {{statusCodeFullText}} is lower or equal to expected.",
+          "statusCodeRateStaticThreshold_higherThan": "Rate of HTTP Status Code {{statusCodeFullText}} is higher than {{thresholdValue}}%.",
+          "statusCodeRateStaticThreshold_higherEqual": "Rate of HTTP Status Code {{statusCodeFullText}} is higher or equal to {{thresholdValue}}%.",
+          "statusCodeRateStaticThreshold_lowerThan": "Rate of HTTP Status Code {{statusCodeFullText}} is lower than {{thresholdValue}}.%",
+          "statusCodeRateStaticThreshold_lowerEqual": "Rate of HTTP Status Code {{statusCodeFullText}} is lower or equal to {{thresholdValue}}.%",
+          "statusCodeRateDefault_higherThan": "Rate of HTTP Status Code {{statusCodeFullText}} is higher than expected.",
+          "statusCodeRateDefault_higherEqual": "Rate of HTTP Status Code {{statusCodeFullText}} is higher or equal to expected.",
+          "statusCodeRateDefault_lowerThan": "Rate of HTTP Status Code {{statusCodeFullText}} is lower than expected.",
+          "statusCodeRateDefault_lowerEqual": "Rate of HTTP Status Code {{statusCodeFullText}} is lower or equal to expected.",
           "throughputStaticThreshold_higherThan": "The number of calls is higher than {{thresholdValue}} calls.",
           "throughputStaticThreshold_higherEqual": "The number of calls is higher or equal to {{thresholdValue}} calls.",
           "throughputStaticThreshold_lowerThan": "The number of calls is lower than {{thresholdValue}} calls.",
@@ -456,7 +468,6 @@
         "ruleFormPleaseProvideALogMessage": "Please provide a log message",
         "ruleFormPleaseProvideAStartStatusCode": "Please provide a valid start HTTP status code",
         "ruleFormPleaseProvideAEndStatusCode": "Please provide a valid end HTTP status code",
-        "smartAlertFormNoEntitiesSelected": "No entities selected",
         "smartAlertFormValueIsReadOnly": "The value is read only and cannot be changed",
         "thresholdFormPleaseProvideANumber0": "Please provide a number >= 0",
         "thresholdFormBaselineIsEmpty": "baseline is empty"
@@ -494,7 +505,10 @@
         "labelConfirmRemoveConfig": "Are you sure you want to remove the alert <strong>{{configName}}</strong>?",
         "labelRemove": "Remove",
         "numberOfApplicationsSelected": "{{count}} application selected",
-        "numberOfApplicationsSelected_plural": "{{count}} applications selected"
+        "numberOfApplicationsSelected_plural": "{{count}} applications selected",
+        "numberOfApplicationsSelected_0": "{{count}} applications selected",
+        "numberOfApplicationsSelected_1": "{{count}} applications selected",
+        "numberOfApplicationsSelected_2": "{{count}} applications selected"
       },
       "details": {
         "title": "Alert Details",
@@ -555,11 +569,19 @@
         "alertChannelSelectTypeTitle": "Alert Channel type",
         "addChannel": "Add {{count}} Channel",
         "addChannel_plural": "Add {{count}} Channels",
+        "addChannel_0": "Add {{count}} Channels",
+        "addChannel_1": "Add {{count}} Channels",
+        "addChannel_2": "Add {{count}} Channels",
         "add": "Add",
         "scopeConfigTitleWithApplications": "Select Applications/Services/Endpoints",
         "scopeConfigTitle": "Select Services/Endpoints",
         "scopeConfigSelectOneEntryMessage": "Please select at least one entry.",
         "scopeConfigTitleTooltip": "Showing available entities for the last 24 hours",
+        "scopeMigrationMessage_FAILED": "The scope could not be automatically migrated. Please pick the corresponding tag filters for the below Dynamic Focus Query:",
+        "scopeMigrationMessage_PARTIAL": "The scope could not be fully migrated. Please pick the corresponding tag filters for the below Dynamic Focus Query:",
+        "scopeMigrationMessage_FULL": "The applied scope is based on the previously used Dynamic Focus Query:",
+        "scopeMigrationMessageAllAvailableEntities": "The applied scope is based on the previously used selection of all available entities.",
+        "scopeMigrationMessageSelectedApplications": "The applied scope is based on the previously used selection of Application Perspectives.",
         "sortByUserSelectionLabel": "Sort by user selection",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage": "At least {{count}} user and {{userPercentage}} of users impacted within the last {{formattedTimeWindow}}",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_plural": "At least {{count}} users and {{userPercentage}} of users impacted within the last {{formattedTimeWindow}}",
@@ -638,6 +660,11 @@
         "buttonRecalculateBaseline": "Recalculate Baseline",
         "sensitivitySliderLow": "low",
         "sensitivitySliderHigh": "high",
+        "sensitivitySliderValueLabel": "{{count}} standard deviation",
+        "sensitivitySliderValueLabel_plural": "{{count}} standard deviations",
+        "sensitivitySliderValueLabel_0": "{{count}} standard deviations",
+        "sensitivitySliderValueLabel_1": "{{count}} standard deviations",
+        "sensitivitySliderValueLabel_2": "{{count}} standard deviations",
         "labelThreshold": "Threshold",
         "labelSensitivity": "Sensitivity",
         "staticThresholdTypeOptionsTooltip": "A Static Daily / Weekly Threshold is a time dependent threshold based on historical data. The threshold does not change automatically and can be manually recalculated if required.",
@@ -651,8 +678,7 @@
         "alertConfigDialogPresenterTitleEditAlert_Global": "Edit Global Smart Alert",
         "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Create New Smart Alert",
         "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Create New Global Smart Alert",
-        "alertConfigDialogPresenterTitleMigrateAlert_Local": "Migrate to Smart Alert",
-        "alertConfigDialogPresenterTitleMigrateAlert_Global": "Migrate to Global Smart Alert",
+        "alertConfigDialogPresenterTitleMigrateAlert": "Migrate to Smart Alert",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "Switch to Advanced Mode",
         "simpleAlertConfigDialogStep3Headline": "Who should get the alerts?",
         "Loading": "Loading…",
@@ -664,6 +690,7 @@
         "migrationModeWarning": "Migrating this Custom Event to a Smart Alert will disable it. The event cannot be re-enabled afterwards."
       },
       "userInfo": {
+        "linkText": "View Smart Alert",
         "success": {
           "create": {
             "alert": {
@@ -690,21 +717,33 @@
         "websites": {
           "title": "Websites",
           "description0": "To set up an alert navigate to the website you want to set up the alert on and use the \"Add Smart Alert\" button on the bottom right.",
-          "stats": "Currently you have $t(in-alerting:smartAlerts.components.alertsHub.websites.alerts, {\"count\": {{alerts}} }) on $t(in-alerting:smartAlerts.components.alertsHub.websites.websites, {\"count\": {{websites}} }).",
+          "stats": "Currently, you have $t(in-alerting:smartAlerts.components.alertsHub.websites.alerts, {\"count\": {{alerts}} }) on $t(in-alerting:smartAlerts.components.alertsHub.websites.websites, {\"count\": {{websites}} }).",
           "alerts": "{{count}} Website Smart Alert",
           "alerts_plural": "{{count}} Website Smart Alerts",
+          "alerts_0": "{{count}} Website Smart Alerts",
+          "alerts_1": "{{count}} Website Smart Alerts",
+          "alerts_2": "{{count}} Website Smart Alerts",
           "websites": "{{count}} Website",
           "websites_plural": "{{count}} Websites",
+          "websites_0": "{{count}} Websites",
+          "websites_1": "{{count}} Websites",
+          "websites_2": "{{count}} Websites",
           "button0": "Websites"
         },
         "applications": {
           "title": "Applications",
           "description0": "You can set up Smart Alerts for a specific Application only, or set up Smart Alerts covering multiple Applications.",
-          "stats": "Currently you have $t(in-alerting:smartAlerts.components.alertsHub.applications.gsa, {\"count\": {{globalSmartAlerts}} }) and $t(in-alerting:smartAlerts.components.alertsHub.applications.rsa, {\"count\": {{smartAlerts}} }).",
+          "stats": "Currently, you have $t(in-alerting:smartAlerts.components.alertsHub.applications.gsa, {\"count\": {{globalSmartAlerts}} }) and $t(in-alerting:smartAlerts.components.alertsHub.applications.rsa, {\"count\": {{smartAlerts}} }).",
           "gsa": "{{count}} Global Smart Alert",
           "gsa_plural": "{{count}} Global Smart Alerts",
+          "gsa_0": "{{count}} Global Smart Alerts",
+          "gsa_1": "{{count}} Global Smart Alerts",
+          "gsa_2": "{{count}} Global Smart Alerts",
           "rsa": "{{count}} Regular Smart Alert",
           "rsa_plural": "{{count}} Regular Smart Alerts",
+          "rsa_0": "{{count}} Regular Smart Alerts",
+          "rsa_1": "{{count}} Regular Smart Alerts",
+          "rsa_2": "{{count}} Regular Smart Alerts",
           "button0": "Smart Alerts"
         },
         "infrastructure": {
@@ -712,11 +751,17 @@
           "description0": "Alerts for Infrastructure & Platforms utilize our 2-step workflow.",
           "description1": "1) Events defined for specific conditions. You can either use our Built-in Events or create your own Custom Events.",
           "description2": "2) Alerts then alert you whenever specific Events occur.",
-          "stats": "Currently you have $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.events, {\"count\": {{events}} }) and $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.alerts, {\"count\": {{alerts}} }).",
+          "stats": "Currently, you have $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.events, {\"count\": {{events}} }) and $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.alerts, {\"count\": {{alerts}} }).",
           "events": "{{count}} Custom Event",
           "events_plural": "{{count}} Custom Events",
+          "events_0": "{{count}} Custom Events",
+          "events_1": "{{count}} Custom Events",
+          "events_2": "{{count}} Custom Events",
           "alerts": "{{count}} Alert",
           "alerts_plural": "{{count}} Alerts",
+          "alerts_0": "{{count}} Alerts",
+          "alerts_1": "{{count}} Alerts",
+          "alerts_2": "{{count}} Alerts",
           "button0": "Alerts",
           "button1": "Events"
         }
@@ -733,7 +778,6 @@
     },
     "websites": {
       "advanced": {
-        "slownessInteractiveChartThresholdValue": "Threshold Value",
         "scopeLabel": "Scope",
         "scopeTitle": "Scope: Where is the condition happening?",
         "thresholdLabel": "Threshold",
@@ -950,7 +994,7 @@
     },
     "migration": {
       "migrateButton": "Migrate to Smart Alert",
-      "migrateButtonTooltip": "Opens a Smart Alert config dialog pre–filled with the migrated values from the current event to the best extend we can. Please double check the result carefully!",
+      "migrateButtonTooltip": "Opens a Smart Alert config dialog pre–filled with the migrated values from the current event to the best extent we can. Please double check the result carefully!",
       "markAsMigratedButton": "Mark as migrated",
       "markAsMigratedButtonTooltip": "Marks the Event as migrated. Please use this in case you have already configured a Smart Alert which will replace this Event.",
       "markAsMigratedButtonConfirmationTitle": "Please Confirm",

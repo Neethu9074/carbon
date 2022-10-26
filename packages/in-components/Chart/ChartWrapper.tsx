@@ -64,13 +64,18 @@ import { t } from 'in-i18n';
 
 interface Props extends ResultAwareChartConfig {
   result: Result<MetricData>;
+  companionResult?: Result<MetricData>;
 }
 
-export default function ChartWrapper({ result, ...props }: Props): React.ReactElement {
-  return <ResultAwareChart result={result} config={wrapProps(result, props)} />;
+export default function ChartWrapper({ result, companionResult, ...props }: Props): React.ReactElement {
+  return <ResultAwareChart result={result} config={wrapProps(result, props, companionResult)} />;
 }
 
-function wrapProps(result: Result<MetricData>, props: ResultAwareChartConfig): ResultAwareChartConfig {
+function wrapProps(
+  result: Result<MetricData>,
+  props: ResultAwareChartConfig,
+  companionResult?: Result<MetricData>
+): ResultAwareChartConfig {
   const metricsConfiguration = props.metricsConfiguration;
   if (__DEV__ && metricsConfiguration) {
     props.y1?.metricIds.forEach(id => {
@@ -103,6 +108,7 @@ function wrapProps(result: Result<MetricData>, props: ResultAwareChartConfig): R
     return {
       title: props.title,
       cardUseMaxAvailableHeight: props.cardUseMaxAvailableHeight,
+      customHeight: props.customHeight,
       rightHeaderContent: props.rightHeaderContent,
       renderErrorDetail: props.renderErrorDetail,
       timeConfig: props.timeConfig
@@ -121,12 +127,14 @@ function wrapProps(result: Result<MetricData>, props: ResultAwareChartConfig): R
     propsClone.y1.metrics = propsClone.y1.metricIds.map(id => result.data?.[id] || []);
     propsClone.y1.aggregations = propsClone.y1.metricIds.map(id => props.metricsConfiguration?.metrics[id].aggregation);
     determineTimeShifts(propsClone.y1, propsClone.timeConfig, props.metricsConfiguration?.metrics);
+    propsClone.y1.companionMetrics = propsClone.y1.companionMetricIds?.map(id => companionResult?.data?.[id] || []);
   }
 
   if (propsClone.y2 != null) {
     propsClone.y2.metrics = propsClone.y2.metricIds.map(id => result.data?.[id] || []);
     propsClone.y2.aggregations = propsClone.y2.metricIds.map(id => props.metricsConfiguration?.metrics[id].aggregation);
     determineTimeShifts(propsClone.y2, propsClone.timeConfig, props.metricsConfiguration?.metrics);
+    propsClone.y2.companionMetrics = propsClone.y2.companionMetricIds?.map(id => companionResult?.data?.[id] || []);
   }
 
   // result.time depends on the time configuration send to the backend. We use it to fixate the
@@ -166,7 +174,7 @@ function getSmallestTimeShift(y1?: AxisConfiguration, y2?: AxisConfiguration): n
   if (!y1 || !y1?.timeShifts) {
     return 0;
   }
-  let smallestTimeShift = y1.timeShifts.reduce(getSmallestTimeShiftReducer, 0);
+  let smallestTimeShift = y1.timeShifts.reduce(getSmallestTimeShiftReducer, Number.MIN_SAFE_INTEGER);
 
   if (!y2 || !y2.timeShifts) {
     return smallestTimeShift;
