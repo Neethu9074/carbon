@@ -19,7 +19,7 @@ export default function<T>(
   value: T,
   onChange: (v: T) => void,
   delay: number = 1000,
-  opts: DebounceOptions,
+  opts?: DebounceOptions,
   pure: boolean = true
 ): DebounceOutput<T> {
   const [value$] = useState<Subject<T>>(create());

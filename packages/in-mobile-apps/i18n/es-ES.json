@@ -3,7 +3,8 @@
     "sessionStart": "Inicio de sesión",
     "viewChange": "Ver transición",
     "httpRequest": "Solicitud HTTP",
-    "custom": "Suceso personalizado"
+    "custom": "Suceso personalizado",
+    "crash": "Caída"
   },
   "analyzeView": {
     "uniqueUsers": "Usuarios únicos",
@@ -106,7 +107,7 @@
     "appTitle": "Aplicación",
     "osTitle": "Sistema operativo",
     "deviceTitle": "Dispositivo",
-    "viewportResolutionTitle": "Resolución de puerto de vista",
+    "viewportResolutionTitle": "Resolución de la ventana gráfica",
     "preferredLanguagesTitle": "Idiomas preferidos",
     "ipTitle": "Dirección IP",
     "carrierTitle": "Proveedor",
@@ -156,7 +157,10 @@
       "traLong": "Ver transiciones",
       "cusShort": "Cus",
       "cusBadgeLabel": "Cus",
-      "cusLong": "Sucesos personalizados"
+      "cusLong": "Sucesos personalizados",
+      "craShort": "Cra",
+      "craBadgeLabel": "Cra",
+      "craLong": "Caída"
     },
     "tabsSumOverviewChartTooltipStartTime": "Hora de inicio",
     "tabsSummary": {
@@ -200,6 +204,15 @@
       "eventNameTitle": "Nombre de suceso",
       "errMsgTitle": "Mensaje de error",
       "metaHeader": "Meta"
+    },
+    "tabsSumCrashBeacon": {
+      "startTimeLabel": "Hora de inicio",
+      "crashHeader": "Caída",
+      "errorMsg": "Mensaje de error",
+      "errorType": "Tipo de error",
+      "crashLabel": "Caída",
+      "metaHeader": "Meta",
+      "stackTrace": "Rastreo de pila"
     },
     "tabsSumHttpRequestBeacon": {
       "retrievalTimeTooltip": "Hora de recuperación",
@@ -373,7 +386,8 @@
     "sessionId": "ID de sesión",
     "viewName": "Nombre de vista",
     "access": "Acceso",
-    "eventName": "Nombre de suceso"
+    "eventName": "Nombre de suceso",
+    "crash": "Caída"
   },
   "dataSource_sessionStart": "{{formattedCount}} inicio de sesión",
   "dataSource_sessionStart_plural": "{{formattedCount}} inicios de sesión",
@@ -395,6 +409,11 @@
   "dataSource_custom_0": "{{formattedCount}} sucesos personalizados",
   "dataSource_custom_1": "{{formattedCount}} sucesos personalizados",
   "dataSource_custom_2": "{{formattedCount}} sucesos personalizados",
+  "dataSource_crash": "{{formattedCount}} caída",
+  "dataSource_crash_plural": "{{formattedCount}} caídas",
+  "dataSource_crash_0": "{{formattedCount}} caídas",
+  "dataSource_crash_1": "{{formattedCount}} caídas",
+  "dataSource_crash_2": "{{formattedCount}} caídas",
   "facetedSearch": {
     "mobileApp": "Aplicación móvil",
     "view": "Vista",

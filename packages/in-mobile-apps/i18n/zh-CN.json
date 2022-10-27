@@ -3,7 +3,8 @@
     "sessionStart": "会话启动",
     "viewChange": "视图转换",
     "httpRequest": "HTTP 请求",
-    "custom": "定制事件"
+    "custom": "定制事件",
+    "crash": "崩溃"
   },
   "analyzeView": {
     "uniqueUsers": "唯一用户数",
@@ -156,7 +157,10 @@
       "traLong": "视图转换数",
       "cusShort": "Cus",
       "cusBadgeLabel": "Cus",
-      "cusLong": "定制事件"
+      "cusLong": "定制事件",
+      "craShort": "崩溃",
+      "craBadgeLabel": "崩溃",
+      "craLong": "崩溃"
     },
     "tabsSumOverviewChartTooltipStartTime": "开始时间",
     "tabsSummary": {
@@ -200,6 +204,15 @@
       "eventNameTitle": "事件名称",
       "errMsgTitle": "错误消息",
       "metaHeader": "元"
+    },
+    "tabsSumCrashBeacon": {
+      "startTimeLabel": "开始时间",
+      "crashHeader": "崩溃",
+      "errorMsg": "错误消息",
+      "errorType": "错误类型",
+      "crashLabel": "崩溃",
+      "metaHeader": "元",
+      "stackTrace": "堆栈跟踪"
     },
     "tabsSumHttpRequestBeacon": {
       "retrievalTimeTooltip": "检索时间",
@@ -373,7 +386,8 @@
     "sessionId": "会话标识",
     "viewName": "视图名称",
     "access": "访问",
-    "eventName": "事件名称"
+    "eventName": "事件名称",
+    "crash": "崩溃"
   },
   "dataSource_sessionStart": "{{formattedCount}} 次会话启动",
   "dataSource_sessionStart_plural": "{{formattedCount}} 次会话启动",
@@ -395,6 +409,11 @@
   "dataSource_custom_0": "{{formattedCount}} 个定制事件",
   "dataSource_custom_1": "{{formattedCount}} 个定制事件",
   "dataSource_custom_2": "{{formattedCount}} 个定制事件",
+  "dataSource_crash": "{{formattedCount}} 次崩溃",
+  "dataSource_crash_plural": "{{formattedCount}} 次崩溃",
+  "dataSource_crash_0": "{{formattedCount}} 次崩溃",
+  "dataSource_crash_1": "{{formattedCount}} 次崩溃",
+  "dataSource_crash_2": "{{formattedCount}} 次崩溃",
   "facetedSearch": {
     "mobileApp": "移动应用程序",
     "view": "视图",

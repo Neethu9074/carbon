@@ -469,8 +469,12 @@
         "sliEntity": "SLI 實體",
         "beaconConfigLabel": "引標配置",
         "beaconScopeLabel": "引標範圍",
-        "httpRequestsLabel": "HTTP 要求",
-        "beaconFiltersLabel": "引標過濾器"
+        "beaconLabel": "不明信號類型",
+        "beaconLabel_httpRequest": "HTTP 要求",
+        "beaconLabel_pageLoad": "網站頁面載入",
+        "beaconLabel_custom": "網站自訂事件",
+        "beaconFiltersLabel": "引標過濾器",
+        "beaconFiltersSubtext": "伺服器配接卡的"
       },
       "sliList": {
         "serviceLevelIndicators": "服務水準指標",
@@ -500,8 +504,10 @@
         "spent": "耗費",
         "budget": "預算",
         "viewInAnalyze": "在分析中檢視",
-        "initialEvaluation": "已建立 SLI",
-        "missingDataInfo": "此 SLI 的建立時間在顯示的時間範圍內。 將遺漏 SLI 建立之前的資料。"
+        "configType": "SLI",
+        "configType_apdex": "Apdex",
+        "initialEvaluation": "已建立 {{configType}}",
+        "missingDataInfo": "此 {{configType}} 的建立時間在顯示的時間範圍內。 將遺漏 {{configType}} 建立之前的資料。"
       },
       "formComponent": {
         "sliManagement": "SLI 管理",
@@ -607,7 +613,9 @@
       "formComponent": {
         "title": "Apdex 配置",
         "entityTypeTitle": "Apdex 類型",
-        "manageListTitle": "Apdex 管理"
+        "manageListTitle": "Apdex 管理",
+        "createApdex": "建立 Apdex 配置",
+        "editApdex": "編輯 Apdex 配置"
       },
       "configurationSelector": {
         "label": "Apdex 配置",
@@ -638,7 +646,6 @@
         "createButton": "建立 Apdex 配置"
       },
       "createApdexForm": {
-        "title": "建立 Apdex 配置",
         "customizationHeader": "Apdex 自訂作業",
         "label": "Apdex 名稱",
         "apdexCreateSuccessTitle": "已順利建立 Apdex 配置。",
@@ -651,7 +658,8 @@
           "website": "已達到網站 apdex 配置數上限 ({{0}})。 請聯絡 Instana 支援中心，以要求增加此限制。",
           "application": "已達到應用程式 apdex 配置數目上限 ({{0}})。 請聯絡 Instana 支援中心，以要求增加此限制。"
         },
-        "editConfigNotice": "建立之後無法編輯配置以防止資料流失。"
+        "editConfigNotice": "為了避免資料流失，一旦建立配置，就無法編輯；只能將它調整為副本。",
+        "apdexCloneName": "{{apdexName}} 的副本"
       },
       "createWebsiteApdexForm": {
         "thresholdHeader": "臨界值配置",

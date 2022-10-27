@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { fromPromise, combineLatest } from '@instana/observables';
+import { fromPromise, combineLatest, just } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import AgentMonitoringIssueNotifications from 'in-infrastructure/Dashboard/components/AgentMonitoringIssueNotifications';
@@ -19,7 +19,9 @@ import { alwaysEmptyImmutableList } from 'in-services/fixedStreams';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { getForgeComponent } from 'in-sdk/getForgeComponent';
 import { scrollToTopSmoothly } from 'in-services/util/dom';
+import DefaultDashboard from './DefaultDashboard';
 import { getPluginName } from 'in-sdk/pluginName';
+import DefaultSidebar from './DefaultSidebar';
 import { getLabel } from 'in-sdk/snapshot';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
@@ -28,6 +30,8 @@ import Jail from 'in-components/Jail';
 import { t } from 'in-i18n';
 
 import locals from './DashboardContent.mless';
+import { nonServicePlugins } from 'in-forge/constants';
+import decamelize from 'in-sdk/decamelize';
 
 export default connectTo(
   {
@@ -50,7 +54,8 @@ export default connectTo(
     versionsForFocusedMoment,
     versionsForLive
   }) {
-    const plugin = snapshot?.get('plugin');
+    const rawPlugin = snapshot?.get('plugin');
+    const plugin = nonServicePlugins[rawPlugin];
     const DashboardImpl = useObservable(getDashboardImpl, [plugin]);
     const SidebarImpl = useObservable(getSidebarImpl, [plugin]);
 
@@ -99,7 +104,7 @@ export default connectTo(
                 snapshot={snapshot}
                 timeConfig={timeConfig}
                 plugin={plugin}
-                title={getPluginName(plugin, 1)}
+                title={getPluginName(plugin, 1) ?? decamelize(rawPlugin)}
                 getLabel={() => getLabel(snapshot)}
               />
             }
@@ -131,9 +136,9 @@ function getSnapshotVersionsByTime(timeConfig) {
 }
 
 function getDashboardImpl([plugin]) {
-  return plugin && fromPromise(getForgeComponent(`./${plugin}/Dashboard/Content.js`));
+  return plugin ? fromPromise(getForgeComponent(`./${plugin}/Dashboard/Content.js`)) : just(DefaultDashboard);
 }
 
 function getSidebarImpl([plugin]) {
-  return plugin && fromPromise(getForgeComponent(`./${plugin}/Dashboard/Sidebar.js`));
+  return plugin ? fromPromise(getForgeComponent(`./${plugin}/Dashboard/Sidebar.js`)) : just(DefaultSidebar);
 }

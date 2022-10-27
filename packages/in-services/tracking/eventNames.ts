@@ -369,3 +369,6 @@ export const APDEX_MANAGEMENT_CREATE_FINISH = 'apdex.management.create.finish';
 export const APDEX_MANAGEMENT_EDIT_START = 'apdex.management.edit.start';
 export const APDEX_MANAGEMENT_EDIT_FINISH = 'apdex.management.edit.finish';
 export const APDEX_MANAGEMENT_DELETE = 'apdex.management.delete';
+
+// Action associations for events
+export const SELECT_ACTION_STEP_SWITCH = 'event.issue.select.action.step';

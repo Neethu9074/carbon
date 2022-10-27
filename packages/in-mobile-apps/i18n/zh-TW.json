@@ -3,7 +3,8 @@
     "sessionStart": "階段作業啟動",
     "viewChange": "視圖轉移",
     "httpRequest": "HTTP 要求",
-    "custom": "自訂事件"
+    "custom": "自訂事件",
+    "crash": "損毀"
   },
   "analyzeView": {
     "uniqueUsers": "唯一使用者",
@@ -156,7 +157,10 @@
       "traLong": "視圖轉移",
       "cusShort": "自訂",
       "cusBadgeLabel": "自訂",
-      "cusLong": "自訂事件"
+      "cusLong": "自訂事件",
+      "craShort": "Cra",
+      "craBadgeLabel": "Cra",
+      "craLong": "損毀"
     },
     "tabsSumOverviewChartTooltipStartTime": "開始時間",
     "tabsSummary": {
@@ -200,6 +204,15 @@
       "eventNameTitle": "事件名稱",
       "errMsgTitle": "錯誤訊息",
       "metaHeader": "Meta"
+    },
+    "tabsSumCrashBeacon": {
+      "startTimeLabel": "開始時間",
+      "crashHeader": "損毀",
+      "errorMsg": "錯誤訊息",
+      "errorType": "錯誤類型",
+      "crashLabel": "損毀",
+      "metaHeader": "Meta",
+      "stackTrace": "堆疊追蹤"
     },
     "tabsSumHttpRequestBeacon": {
       "retrievalTimeTooltip": "擷取時間",
@@ -373,7 +386,8 @@
     "sessionId": "階段作業 ID",
     "viewName": "視圖名稱",
     "access": "存取",
-    "eventName": "事件名稱"
+    "eventName": "事件名稱",
+    "crash": "損毀"
   },
   "dataSource_sessionStart": "{{formattedCount}} 個階段作業啟動",
   "dataSource_sessionStart_plural": "{{formattedCount}} 個階段作業啟動",
@@ -395,6 +409,11 @@
   "dataSource_custom_0": "{{formattedCount}} 個自訂事件",
   "dataSource_custom_1": "{{formattedCount}} 個自訂事件",
   "dataSource_custom_2": "{{formattedCount}} 個自訂事件",
+  "dataSource_crash": "{{formattedCount}} 個損毀",
+  "dataSource_crash_plural": "{{formattedCount}} 個損毀",
+  "dataSource_crash_0": "{{formattedCount}} 個損毀",
+  "dataSource_crash_1": "{{formattedCount}} 個損毀",
+  "dataSource_crash_2": "{{formattedCount}} 個損毀",
   "facetedSearch": {
     "mobileApp": "行動式應用程式",
     "view": "視圖",

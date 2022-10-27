@@ -74,6 +74,10 @@
       "failureMessageCreate": "シンセティック・テストの作成に失敗しました。 後で再試行してください",
       "failureMessageUpdate": "シンセティック・テストの更新に失敗しました。 後で再試行してください",
       "failuteMesssageDelete": "シンセティック・テストの削除に失敗しました。 後で再試行してください"
+    },
+    "locationFeedback": {
+      "successMessageDelete": "ロケーションが正常に削除されました",
+      "failureMesssageDelete": "ロケーションの削除に失敗しました。 後で再試行してください"
     }
   },
   "createTest": {
@@ -89,6 +93,17 @@
         "tests": "テスト",
         "locations": "ロケーション"
       },
+      "popDialog": {
+        "button": "<> PoP のデプロイ",
+        "simpleTab": "単純",
+        "redisTab": "Redis TLS",
+        "title": "合成 PoP コマンド",
+        "subTitle": "これらのコード・テンプレートをリファレンスとして使用してください",
+        "simpleCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"Name;DisplayName;Country;City;0;0;Location description\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<yourpassword>\"",
+        "redisCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"Name;DisplayName;Country;City;0;0;Location description\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true",
+        "tlsInstructions": "Redis TLS を有効にする場合は、Helm チャートのルート・パスの下に certs フォルダーを作成し、証明書と鍵のペア (tls.crt、tls.key) および CA ルート証明書ファイル (ca.crt) を certs フォルダーにコピーする必要があります。\n\n鍵/証明書ファイルがない場合は、openssl コマンドを使用して新しい鍵/証明書ファイルを生成することもできます。以下の例を参照してください。",
+        "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt"
+      },
       "testLabel": "名前",
       "status": "状況",
       "frequencySubText": "{{count}} 分ごと",
@@ -97,6 +112,7 @@
       "resume": "テストの再開",
       "active": "アクティブ",
       "paused": "中止",
+      "deleted": "削除",
       "type": "タイプ",
       "successRate": "成功率",
       "successRuns": "{{successRuns}} / {{totalRuns}} 件の結果",
@@ -114,10 +130,14 @@
     },
     "locationList": {
       "locationLabel": "ロケーション名",
+      "locationDisplayLabel": "表示名",
       "status": "状況",
       "type": "タイプ",
       "totalTests": "リンクされているテストの数",
-      "lastRun": "最終テスト実行日"
+      "lastRun": "最終テスト実行日",
+      "labelConfirmRemoveLocation": "<strong>{{label}}</strong> ({{status}}) の場所を削除しますか?",
+      "activeTestLinked": "ロケーション <strong>{{label}}</strong> ({{status}}) にはアクティブなテストが割り当てられています。このロケーションを削除しますか?",
+      "deleteLocation": "ロケーションの削除"
     },
     "summary": {
       "successRate": "成功率",
@@ -147,9 +167,14 @@
         "results": "結果",
         "linkViewAllTestResults": "すべての結果の表示",
         "ok": "成功",
-        "redirection": "リダイレクト",
-        "clientError": "クライアント・エラー",
-        "serverError": "サーバー・エラー"
+        "created": "作成日",
+        "accepted": "受け入れ済み",
+        "forbidden": "Forbidden",
+        "notFound": "未検出",
+        "serverError": "サーバー・エラー",
+        "badRequest": "Bad Request",
+        "badGateway": "Bad Gateway",
+        "gatewayTimeout": "ゲートウェイタイムアウト"
       },
       "totalRuns": "{{totalRuns}}の合計実行数",
       "meanLatencyFor90th": "90 パーセンタイルでは {{meanLatencyDetail}}"
@@ -186,6 +211,12 @@
       "successResult": "成功",
       "failedResult": "失敗",
       "searchFilter": "検索",
+      "typesFilter": "タイプ",
+      "typesFilterValues": {
+        "getType": "GET",
+        "allType": "すべて",
+        "othersType": "その他"
+      },
       "subtransactionBody": {
         "contentType": "コンテンツ・タイプ",
         "size": "サイズ",

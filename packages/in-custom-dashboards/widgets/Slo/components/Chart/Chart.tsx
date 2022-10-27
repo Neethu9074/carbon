@@ -5,6 +5,7 @@
 
 import React, { useMemo } from 'react';
 
+import { MetricResult, Result, SliEntity, SliConfigurationWithLastUpdated, TimeConfig } from '@instana/types';
 import { Observable, just } from '@instana/observables';
 import { Message } from '@instana/components';
 
@@ -21,7 +22,6 @@ import ChartMarkerLanes from 'in-custom-dashboards/widgets/Slo/components/ChartM
 import { useStairwayRenderer } from 'in-custom-dashboards/widgets/Slo/renderer/stairway';
 import { useSliFormatter } from 'in-custom-dashboards/widgets/Slo/hooks/useSliFormatter';
 import { getTagCatalog as getWebsiteTagCatalog } from 'in-websites/api/tagCatalog';
-import { MetricResult, Result, SliEntity, TimeConfig } from 'in-types';
 import { getApplicationTagCatalog } from 'in-applications/api/catalog';
 import { sliCHClusterAccessEnabled } from 'in-services/featureFlags';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
@@ -46,7 +46,7 @@ export interface ChartProps {
   consumed: MetricDataSeries;
   hourlyBudget: MetricDataSeries;
   budget: number;
-  sliConfig?: SliConfig;
+  sliConfig?: SliConfigurationWithLastUpdated;
   nonInteractive?: boolean;
   disableZooming?: boolean;
   trackers?: ChartTrackers;
@@ -68,10 +68,13 @@ export default function Chart({
   const tagCatalog = useTagCatalog(tagCatalogLoader);
   const isStaticBudget = hourlyBudget === null || hourlyBudget.length === 0;
   const linkToUnboundAnalytics = useLinkToUnboundedAnalytics(sliConfig, tagCatalog);
+  const initialEvaluationTimestamp = sliCHClusterAccessEnabled
+    ? sliConfig?.lastUpdated
+    : sliConfig?.initialEvaluationTimestamp;
 
   const showMissingDataIndicators =
     useShouldShowMissingDataIndicator({
-      initialEvaluationTimestamp: sliConfig?.initialEvaluationTimestamp,
+      initialEvaluationTimestamp,
       progress: result.progress,
       timeConfig,
       nonInteractive
@@ -89,7 +92,7 @@ export default function Chart({
       hourlyBudget: { fillTopBackground: true }
     },
     // Setting undefined here will disable the missing data indicator in the chart
-    firstCollectedMetricTimestamp: sliCHClusterAccessEnabled ? sliConfig?.initialEvaluationTimestamp : undefined
+    firstCollectedMetricTimestamp: initialEvaluationTimestamp ?? undefined
   });
 
   return (
@@ -122,7 +125,7 @@ export default function Chart({
                 tooltipContent={t('in-custom-dashboards:widgets.slo.chart.initialEvaluation', {
                   configType: t('in-custom-dashboards:widgets.slo.chart.configType')
                 })}
-                initialEvaluationTimestamp={sliConfig?.initialEvaluationTimestamp}
+                initialEvaluationTimestamp={initialEvaluationTimestamp}
                 {...props}
               />
             ),

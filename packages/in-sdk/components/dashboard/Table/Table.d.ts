@@ -7,6 +7,12 @@
 interface TableProps {
   cols: Array;
   rows: Array;
+  cardTitle: string;
+  withoutPadding: boolean;
+  getRowDetails: (any) => JSX.Element;
+  maxItemsPerPage: number;
+  initialSortColumn: number;
+  showExpandAll?: boolean;
 }
 
 declare function TableComponent(props: TableProps): JSX.Element;

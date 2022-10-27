@@ -7,18 +7,23 @@ import React from 'react';
 
 import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import useMetricIds from 'in-infrastructure/hooks/useMetricIds';
 import { emptyList } from 'in-services/fixedImmutables';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
 
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');
 
-  const counters = countMetrics(snapshot, 'metrics.counters');
-  const gauges = countMetrics(snapshot, 'metrics.gauges');
-  const histograms = countMetrics(snapshot, 'metrics.histograms', 3); // mean, 50th, 99th
-  const meters = countMetrics(snapshot, 'metrics.meters');
-  const summaries = countMetrics(snapshot, 'metrics.summaries');
-  const timers = countMetrics(snapshot, 'metrics.timers', 4); // rate, mean, 50th, 99th
+  const timeConfig = useTimeConfig();
+  const metricIds = useMetricIds({ snapshotId: snapshot.get('id'), timeConfig: timeConfig })
+
+  const counters = countMetrics(metricIds, snapshot, 'metrics.counters');
+  const gauges = countMetrics(metricIds, snapshot, 'metrics.gauges');
+  const histograms = countMetrics(metricIds, snapshot, 'metrics.histograms', 3); // mean, 50th, 99th
+  const meters = countMetrics(metricIds, snapshot, 'metrics.meters');
+  const summaries = countMetrics(metricIds, snapshot, 'metrics.summaries');
+  const timers = countMetrics(metricIds, snapshot, 'metrics.timers', 4); // rate, mean, 50th, 99th
 
   return (
     <DescriptionList>
@@ -47,8 +52,8 @@ export default function Info({ snapshot }) {
   );
 }
 
-function countMetrics(snapshot, prefix, subMetricsCount = 1) {
-  const metricCount = snapshot.get('metricIds', emptyList)?.filter(m => m.startsWith(prefix))?.size;
+function countMetrics(metricIds, snapshot, prefix, subMetricsCount = 1) {
+  const metricCount = metricIds.data?.filter(m => m.startsWith(prefix))?.length ?? 0;
 
   if (metricCount > 0) {
     return metricCount / subMetricsCount;

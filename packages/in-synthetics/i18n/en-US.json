@@ -137,7 +137,8 @@
       "lastRun": "Last Test Run On",
       "labelConfirmRemoveLocation": "Are you sure you want to remove <strong>{{label}}</strong> ({{status}}) location?",
       "activeTestLinked": "There are active tests assigned on location <strong>{{label}}</strong> ({{status}}), are you sure you want to remove this location?",
-      "deleteLocation": "Delete location"
+      "deleteLocation": "Delete location",
+      "notAvailable": "NA"
     },
     "summary": {
       "successRate": "Success Rate",

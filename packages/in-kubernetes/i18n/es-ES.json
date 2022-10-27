@@ -270,6 +270,7 @@
   "health": "Salud",
   "clusters": "Clústeres",
   "explore": "Explorar (Presentación técnica)",
+  "k8sTeam": "Equipo K8s",
   "noMonitoringDataFound": "No se han encontrado datos de supervisión",
   "clusterName": "Nombre del clúster",
   "running": "En ejecución",

@@ -12,6 +12,7 @@ import { SvgIcon } from '@instana/components';
 
 import LocationListActionsColumn from 'in-synthetics/dashboards/global/tabs/locations/components/LocationListActionsColumn';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from './columnDefinitions.mless';
@@ -22,12 +23,15 @@ export const columnDefinitions = [
     sortable: false,
     label: t('in-synthetics:dashboard.locationList.locationLabel'),
     getContent(item: LocationListItem) {
+      const locationDescription: string = item.description ?? t('in-synthetics:dashboard.locationList.notAvailable');
       return (
         <HorizontalFlexWrapper>
           <SvgIcon type={'lib_synthetic_location'} />
-          <div>
-            <h4 className={locals.label}>{item.label}</h4>
-          </div>
+          <Tooltip content={locationDescription}>
+            <div>
+              <h4 className={locals.label}>{item.label}</h4>
+            </div>
+          </Tooltip>
         </HorizontalFlexWrapper>
       );
     }

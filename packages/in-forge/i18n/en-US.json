@@ -8955,6 +8955,11 @@
                 "activeThreads": "Active Threads",
                 "ineligibleThreads": "Ineligible Threads",
                 "maxActiveThreads": "Max Active Threads"
+              },
+              "pagesFaultRate": {
+                "elapsedDatabaseFaults": "Elapsed Database Faults",
+                "elapsedTotalFaults": "Elapsed Total Faults",
+                "elapsedNonDatabaseFaults": "Elapsed Non Database Faults"
               }
             }
           },
@@ -9078,7 +9083,7 @@
 
           },
           "spinningDiskType": {
-            "name": "Disk Info",
+            "name": "Spinning Disk Info",
             "resourceName" : "Resource Name",
             "unitStorageCapacity" : "Storage Capacity",
             "percentUsed" : "Percent Used",

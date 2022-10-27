@@ -191,6 +191,26 @@ function getRowDetails(row) {
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
       />
+      <Chart
+        snapshotId={snapshotId}
+        timeConfig={timeConfig}
+        y1={{
+          formatter: number.detailed,
+          metrics: [
+            'memoryPoolMetrics.' + row.key + '.elapsedDatabaseFaults',
+            'memoryPoolMetrics.' + row.key + '.elapsedTotalFaults',
+            'memoryPoolMetrics.' + row.key + '.elapsedNonDatabaseFaults'
+          ],
+          labels: [
+            t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.charts.pagesFaultRate.elapsedDatabaseFaults'),
+            t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.charts.pagesFaultRate.elapsedTotalFaults'),
+            t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.charts.pagesFaultRate.elapsedNonDatabaseFaults')
+          ],
+          min: 0,
+          type: 'line'
+        }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
+      />
     </div>
   );
 }

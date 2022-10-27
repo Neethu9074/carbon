@@ -107,7 +107,7 @@ export default function RunAction({ action, script, volatileId, event }: Props) 
       </>
     );
     const selectedVolatileId =
-      agentSnapShots?.data?.online?.find(agent => agent.volatileId?.host_id === targetAgent.value)?.volatileId ?? {};
+      agentSnapShots?.data?.online?.find(agent => agent.volatileId?.host_id === targetAgent?.value)?.volatileId ?? {};
     footer = (
       <>
         <CancelButton isSaving={isSaving} onClick={close} />

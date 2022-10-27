@@ -3,26 +3,78 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment } from 'react';
+import React, { Fragment, useCallback } from 'react';
+import { Map } from 'immutable';
 
-import { useObservable } from '@instana/hooks';
+import { Result, TimeConfig } from '@instana/types';
 import { SvgIcon } from '@instana/components';
 
 import { timeByMillisTwoDecimalPlaces, withSiMultiplyPrefixThreeDecimalPlaces } from 'in-services/formatters/number';
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import subscribeMetricIds from 'in-infrastructure/subscriptions/getMetricIds';
 import { snapshotIdUrlParameter } from 'in-stores/snapshot/urlParameters';
-import { pendingResult } from 'in-services/fixedObjects';
+import useMetricIds from 'in-infrastructure/hooks/useMetricIds';
 import Table from 'in-sdk/components/dashboard/Table';
-import withUrlState from 'in-hoc/withUrlState';
+import useUrlState from 'in-hooks/useUrlState';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-components/Pill';
 import { t } from 'in-i18n';
 
 import locals from './CustomMetricsV2.mless';
 
-const rateFormatter = d => withSiMultiplyPrefixThreeDecimalPlaces(d) + '/s';
+const rateFormatter = (d: number) => withSiMultiplyPrefixThreeDecimalPlaces(d) + '/s';
+
+interface CustomMetricProps {
+  specs: MetricsSpec[];
+  timeConfig: TimeConfig;
+  snapshot: Map<string, any>;
+  titlePrefix?: string;
+  postProcessRow?: () => void;
+  getRows?: (p: GetRowsProps) => Row[];
+  customColumns?: any;
+}
+
+interface GetRowsProps extends CustomMetricProps {
+  metricIdsResult: Result<string[]>;
+  pinnedMetrics: string[];
+  setPinnedMetrics: (pinnedMetrics: string[]) => void;
+}
+
+interface MetricsSpecs {
+  [key: string]: MetricsSpec;
+}
+
+interface MetricsSpec {
+  prefix: string;
+  type: string;
+  color: string;
+  metrics: MetricSpec[]
+  tableMetric?: number;
+}
+
+interface MetricSpec {
+  label: string;
+  formatter: (v: number) => string;
+  suffix?: string;
+}
+
+interface Metric extends MetricSpec {
+name: string;
+  i: number;
+}
+
+interface Row {
+  key: string;
+  name: string;
+  type: string;
+  color: string;
+  tableMetric: number;
+  snapshotId: string;
+  timeConfig: TimeConfig;
+  metrics: Metric[]
+  pinnedMetrics: string[];
+  setPinnedMetrics: (p: string[]) => void;
+}
 
 const cols = [
   {
@@ -34,7 +86,7 @@ const cols = [
     },
     disableSorting: true,
     typeArgs: {
-      get(row) {
+      get(row: Row) {
         const index = row.pinnedMetrics.indexOf(row.key);
         const isPinned = index !== -1;
         return {
@@ -64,10 +116,10 @@ const cols = [
     type: 'string',
     width: 90,
     typeArgs: {
-      getValue(row) {
+      getValue(row: Row) {
         return row.type;
       },
-      getContent(type, row) {
+      getContent(type: string, row: Row) {
         return (
           <Pill kind="light" color={row.color} lightenOpacity={0.1} className={locals.pill}>
             {type}
@@ -80,7 +132,7 @@ const cols = [
     title: t('in-sdk:dashboard.customMetricsV2.customMetricsTitleName'),
     type: 'string',
     typeArgs: {
-      getValue(row) {
+      getValue(row: Row) {
         return row.name;
       }
     }
@@ -89,13 +141,13 @@ const cols = [
     title: t('in-sdk:dashboard.customMetricsV2.customMetricsTitleValue'),
     type: 'metric',
     typeArgs: {
-      getSnapshotId(row) {
+      getSnapshotId(row: Row) {
         return row.snapshotId;
       },
-      getMetricName(row) {
+      getMetricName(row: Row) {
         return (row.metrics[row.tableMetric] || row.metrics[0]).name;
       },
-      getContent(value, row) {
+      getContent(value: number, row: Row) {
         return (row.metrics[row.tableMetric] || row.metrics[0]).formatter(value);
       },
       getTimeWindowAggregation() {
@@ -105,8 +157,7 @@ const cols = [
   }
 ];
 
-export default withUrlState({
-  bind: [
+const bind = [
     {
       path: '/dashboard',
       name: 'pinnedMetrics',
@@ -114,23 +165,20 @@ export default withUrlState({
       serializer: buildJsonSerializer(),
       parser: buildJsonParser([])
     }
-  ],
-  resets: [
+  ];
+
+const resets = [
     {
       bind: [snapshotIdUrlParameter],
       reset: {
         pinnedMetrics: []
       }
     }
-  ],
-  reducerName: 'setPinnedMetrics',
-  reducer: (_, pinnedMetrics) => ({ pinnedMetrics })
-})(CustomMetricsV2);
+  ];
 
-function CustomMetricsV2(props) {
+export default function CustomMetricsV2(props: CustomMetricProps) {
   const {
     titlePrefix,
-    pinnedMetrics,
     postProcessRow,
     getRows = getDefaultRows,
     customColumns,
@@ -138,10 +186,18 @@ function CustomMetricsV2(props) {
     snapshot
   } = props;
 
-  const metricIdsResult =
-    useObservable(subscribeMetricIds({ snapshotId: snapshot.get('id'), timeConfig }), [snapshot]) ?? pendingResult;
+  const snapshotId = snapshot.get('id');
 
-  const rows = getRows({ metricIdsResult, ...props });
+  const [{ pinnedMetrics }, setState] = useUrlState<{pinnedMetrics: string[]}>({
+    bind,
+    resets
+  });
+
+  const setPinnedMetrics = useCallback(pinnedMetrics => setState({pinnedMetrics}), [setState]);
+
+  const metricIdsResult = useMetricIds({snapshotId, timeConfig});
+
+  const rows = getRows({ metricIdsResult, pinnedMetrics, setPinnedMetrics, ...props });
 
   if (postProcessRow) {
     rows.forEach(postProcessRow);
@@ -187,7 +243,7 @@ function CustomMetricsV2(props) {
   );
 }
 
-function getDetails(row) {
+function getDetails(row: Row) {
   const y1Formatter = row.metrics[0].formatter;
   const y1DataSeries = row.metrics.filter(m => m.formatter === y1Formatter);
   const y2DataSeries = row.metrics.filter(m => m.formatter !== y1Formatter);
@@ -230,11 +286,11 @@ export function getDefaultRows({
   setPinnedMetrics,
   pinnedMetrics,
   specs = DEFAULT_SPECS
-}) {
+}: GetRowsProps) {
   const snapshotId = snapshot.get('id');
 
   const metrics =
-    metricIdsResult.data?.reduce((acc, id) => {
+    metricIdsResult.data?.reduce<{[key: string]: Row}>((acc, id) => {
       const metric = expandMetric(id, specs);
       if (!metric) {
         return acc;
@@ -260,12 +316,12 @@ export function getDefaultRows({
       });
       acc[key].metrics.sort((l, r) => l.i - r.i);
       return acc;
-    }, {}) || [];
+    }, {}) || {};
 
   return Object.values(metrics);
 }
 
-function expandMetric(id, specs) {
+function expandMetric(id: string, specs: MetricsSpec[]) {
   const spec = specs.find(spec => id.startsWith(spec.prefix));
   if (!spec) return null;
 
@@ -289,7 +345,7 @@ function expandMetric(id, specs) {
   };
 }
 
-export const AVAILABLE_SPECS = {
+export const AVAILABLE_SPECS: MetricsSpecs = {
   COUNTER: {
     prefix: 'metrics.counters.',
     type: 'counter',
@@ -405,6 +461,17 @@ export const AVAILABLE_SPECS = {
         formatter: withSiMultiplyPrefixThreeDecimalPlaces
       }
     ]
+  },
+  GENERIC: {
+    prefix: '',
+    type: 'generic',
+    color: '#2274A5',
+    metrics: [
+      {
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
+        formatter: withSiMultiplyPrefixThreeDecimalPlaces
+      }
+    ]
   }
 };
 
@@ -414,5 +481,6 @@ export const DEFAULT_SPECS = [
   AVAILABLE_SPECS.EXPANDED_HISTOGRAM,
   AVAILABLE_SPECS.METER,
   AVAILABLE_SPECS.EXPANDED_TIMER,
-  AVAILABLE_SPECS.SUMMARY
+  AVAILABLE_SPECS.SUMMARY,
+  AVAILABLE_SPECS.GENERIC
 ];
