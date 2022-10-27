@@ -49,6 +49,7 @@ import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import { getMetricCatalog } from 'in-applications/api/metricCatalog';
 import { getTypeTextByCount } from 'in-applications/analyze/metrics';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
+import { perSecondDetailed } from 'in-stores/metric/formatters';
 import { analyzePath } from 'in-applications/navigation/paths';
 import { getTagCatalog } from 'in-applications/api/tagCatalog';
 import { latencyFixed } from 'in-services/formatters/number';
@@ -207,7 +208,11 @@ function getDataSourceConfigurations({ hiddenCalls, onChangeHiddenCalls }) {
       ungroupedView: ungroupedView.calls,
       fixedFields: fixedFields.calls,
       defaultSelectableFields,
-      defaultChartedMetrics
+      defaultChartedMetrics,
+      // the metric catalog from the backend currently provides only a single formatter per metric type,
+      // we have to override the default formatter if aggregation type 'PER_SECOND' is used
+      getCustomMetricUiFormatterName: (_metricId, aggregationId) =>
+        aggregationId === 'PER_SECOND' ? perSecondDetailed.id : null
     },
     traces: {
       metricCatalogTransformer: tracesMetricCatalogTransformer,

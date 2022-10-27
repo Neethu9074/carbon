@@ -8,11 +8,17 @@ import React from 'react';
 import CustomMetricsV2, { AVAILABLE_SPECS } from 'in-sdk/components/dashboard/CustomMetricsV2';
 import { withSiMultiplyPrefixThreeDecimalPlaces } from 'in-services/formatters/number';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import useMetricIds from 'in-infrastructure/hooks/useMetricIds';
 import { t } from 'in-i18n';
 
 export default function PrometheusCustomMetrics({ snapshot, timeConfig, titlePrefix }) {
-  const metricIds = snapshot.get('metricIds');
-  if (metricIds.size > 0) {
+  const snapshotId = snapshot.get('id');
+  const metricIdsResult = useMetricIds({snapshotId, timeConfig});
+  if (metricIdsResult.progress?.loading) {
+    return <LoadingIndicator />
+  }
+  if (metricIdsResult.data) {
     return <CustomMetricsV2 snapshot={snapshot} timeConfig={timeConfig} titlePrefix={titlePrefix} specs={SPECS} />;
   } else {
     return (

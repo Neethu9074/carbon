@@ -25,6 +25,11 @@
         "counter_custom_0": "{{number}} angepasste Ereignisse",
         "counter_custom_1": "{{number}} angepasste Ereignisse",
         "counter_custom_2": "{{number}} angepasste Ereignisse",
+        "counter_crash": "{{number}} Absturz",
+        "counter_crash_plural": "{{number}} Abstürze",
+        "counter_crash_0": "{{number}} Abstürze",
+        "counter_crash_1": "{{number}} Abstürze",
+        "counter_crash_2": "{{number}} Abstürze",
         "counter_Row": "{{number}} Zeile",
         "counter_Row_plural": "{{number}} Zeilen",
         "counter_Row_0": "{{number}} Zeilen",
@@ -86,7 +91,7 @@
       "viewTransitions2": "Anzeigewechsel",
       "calls": "Aufrufe",
       "traces": "Traces",
-      "console": "Konsole"
+      "crashes": "Abstürze"
     }
   },
   "traceDetail": {

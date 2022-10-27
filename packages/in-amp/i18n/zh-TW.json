@@ -3,7 +3,6 @@
     "accountSettings": {
       "accountSettings": "帳戶設定",
       "billingAddress": "帳單地址",
-      "shippingAddress": "出貨地址",
       "country": "國家/地區",
       "state": "州/省（縣/市）",
       "zip": "郵遞區號",
@@ -39,7 +38,7 @@
     },
     "timePresets": {
       "last7Days": "過去 7 天",
-      "last30Days": "過去 30 天",
+      "last15Days": "過去 15 天",
       "last365Days": "過去 365 天"
     },
     "usages": {

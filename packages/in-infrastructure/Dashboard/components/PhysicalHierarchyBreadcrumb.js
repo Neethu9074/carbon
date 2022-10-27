@@ -11,8 +11,10 @@ import WithInfrastructureHealthIndicationBehaviour from 'in-components/health/Wi
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getIconType } from 'in-infrastructure/infrastructureIconType';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
+import { nonServicePlugins } from 'in-forge/constants';
 import { getPluginName } from 'in-sdk/pluginName';
 import { getSnapshot } from 'in-stores/snapshot';
+import decamelize from 'in-sdk/decamelize';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
@@ -31,7 +33,8 @@ export default connectTo(
       );
     }
 
-    const plugin = snapshot.get('plugin');
+    const rawPlugin = snapshot.get('plugin');
+    const plugin = nonServicePlugins[rawPlugin];
     return (
       <WithInfrastructureHealthIndicationBehaviour
         snapshotId={snapshotId}
@@ -39,7 +42,7 @@ export default connectTo(
           <Breadcrumb
             className={className}
             href$={asLink && getDashboardLink(snapshotId)}
-            label={getPluginName(plugin, 1)}
+            label={getPluginName(plugin, 1) ?? decamelize(rawPlugin)}
             icon={getIconType(snapshot)}
             isActive={isActive}
             healthInfo={healthInfo}

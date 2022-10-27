@@ -25,6 +25,11 @@
         "counter_custom_0": "{{number}} événements personnalisés",
         "counter_custom_1": "{{number}} événements personnalisés",
         "counter_custom_2": "{{number}} événements personnalisés",
+        "counter_crash": "{{number}} panne",
+        "counter_crash_plural": "{{number}} pannes",
+        "counter_crash_0": "{{number}} pannes",
+        "counter_crash_1": "{{number}} pannes",
+        "counter_crash_2": "{{number}} pannes",
         "counter_Row": "{{number}} ligne",
         "counter_Row_plural": "{{number}} lignes",
         "counter_Row_0": "{{number}} lignes",
@@ -86,7 +91,7 @@
       "viewTransitions2": "Transitions de vue",
       "calls": "Appels",
       "traces": "Traces",
-      "console": "Console"
+      "crashes": "Pannes"
     }
   },
   "traceDetail": {

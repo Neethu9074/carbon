@@ -270,6 +270,7 @@
   "health": "Allgemeinzustand",
   "clusters": "Cluster",
   "explore": "Untersuchen (Technologievorschau)",
+  "k8sTeam": "Team K8s",
   "noMonitoringDataFound": "Keine Überwachungsdaten gefunden",
   "clusterName": "Clustername",
   "running": "Aktiv",

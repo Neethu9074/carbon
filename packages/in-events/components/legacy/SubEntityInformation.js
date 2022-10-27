@@ -11,43 +11,51 @@ import { getMetricDefinition } from 'in-sdk/metrics/metrics';
 import locals from './SubEntityInformation.mless';
 
 export default function SubEntityInformation({ event }) {
-  const metric = getFirstMetric(event);
-  if (!metric) {
+  const subEntities = extractSubEntitiesFromMetrics(event);
+
+  if (subEntities.length === 0) {
     return null;
   }
 
-  const { metricPattern } = getMetricDefinition(metric.plugin, metric.metricName);
-  const { placeholderLabel, pattern } = metricPattern ?? {};
-  if (!metricPattern || !placeholderLabel || !pattern) {
-    // only show sub-entity information for metrics which have a metricPattern definition with additional data
-    return null;
-  }
   return (
-    <div className={locals.container}>
-      <span className={locals.label}>{`${placeholderLabel}:`}</span>
-      <span className={locals.entity}>{matchPlaceholder(pattern, metric.metricName)}</span>
-    </div>
+    <>
+      {subEntities.map(subEntity => (
+        <div key={subEntity.value} className={locals.container}>
+          <span className={locals.label}>{`${subEntity.label}:`}</span>
+          <span className={locals.entity}>{subEntity.value}</span>
+        </div>
+      ))}
+    </>
   );
 }
 
-function getFirstMetric(event) {
-  const fistEventMetric = event.getIn(['metadata', 'metrics', '0']);
-  if (!fistEventMetric) {
-    return null;
-  }
+function extractSubEntitiesFromMetrics(event) {
+  const subEntities = [];
 
-  const metricName = fistEventMetric.get('metricName');
-  const fullyQualifiedPlugin = fistEventMetric.getIn(['entityId', 'pluginId']);
+  event.getIn(['metadata', 'metrics']).forEach(metric => {
+    const metricName = metric.get('metricName');
+    const fullyQualifiedPlugin = metric.getIn(['entityId', 'pluginId']);
 
-  if (!metricName || !fullyQualifiedPlugin) {
-    return null;
-  }
+    if (!metricName || !fullyQualifiedPlugin) {
+      return;
+    }
 
-  const plugin = translateFullyQualifiedPluginToShortPluginName(fullyQualifiedPlugin);
-  return {
-    plugin,
-    metricName
-  };
+    const plugin = translateFullyQualifiedPluginToShortPluginName(fullyQualifiedPlugin);
+
+    const { metricPattern } = getMetricDefinition(plugin, metricName);
+    const { placeholderLabel, pattern } = metricPattern ?? {};
+    if (!metricPattern || !placeholderLabel || !pattern) {
+      // only show sub-entity information for metrics which have a metricPattern definition with additional data
+      return;
+    }
+
+    subEntities.push({
+      label: placeholderLabel,
+      value: matchPlaceholder(pattern, metricName)
+    });
+  });
+
+  return subEntities;
 }
 
 function matchPlaceholder(metricPattern, metricName) {

@@ -60,6 +60,9 @@
       &:nth-child(2) {
         max-width: 20rem;
         width: 20rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
   }
@@ -90,6 +93,9 @@
     color: @lib__colors__N600Light;
     font-weight: 500;
     padding: 0 0 0.188rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .value {

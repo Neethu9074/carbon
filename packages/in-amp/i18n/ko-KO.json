@@ -3,7 +3,6 @@
     "accountSettings": {
       "accountSettings": "계정 설정",
       "billingAddress": "비용 청구 주소",
-      "shippingAddress": "배송 주소",
       "country": "국가",
       "state": "시/도",
       "zip": "우편번호",
@@ -39,7 +38,7 @@
     },
     "timePresets": {
       "last7Days": "지난 7일",
-      "last30Days": "지난 30일",
+      "last15Days": "최근 15일",
       "last365Days": "지난 365일"
     },
     "usages": {

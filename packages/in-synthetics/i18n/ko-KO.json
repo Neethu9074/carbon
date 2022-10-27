@@ -74,6 +74,10 @@
       "failureMessageCreate": "합성 테스트를 작성하는 데 실패했습니다. 나중에 다시 시도하십시오.",
       "failureMessageUpdate": "합성 테스트를 업데이트하는 데 실패했습니다. 나중에 다시 시도하십시오.",
       "failuteMesssageDelete": "합성 테스트를 삭제하는 데 실패했습니다. 나중에 다시 시도하십시오."
+    },
+    "locationFeedback": {
+      "successMessageDelete": "위치가 성공적으로 삭제됨",
+      "failureMesssageDelete": "위치를 삭제하는 데 실패했습니다. 나중에 다시 시도하십시오."
     }
   },
   "createTest": {
@@ -89,6 +93,17 @@
         "tests": "테스트",
         "locations": "위치"
       },
+      "popDialog": {
+        "button": "<> PoP 배치",
+        "simpleTab": "단순",
+        "redisTab": "Redis TLS",
+        "title": "합성 PoP 명령",
+        "subTitle": "이러한 코드 템플리트를 참조로 사용하십시오.",
+        "simpleCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"Name;DisplayName;Country;City;0;0;Location description\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<yourpassword>\"",
+        "redisCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"Name;DisplayName;Country;City;0;0;Location description\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true",
+        "tlsInstructions": "Redis TLS를 사용으로 설정하려면 Helm 차트 루트 경로 아래에 certs 폴더를 작성하고 인증서 키 쌍(tls.crt, tls.key) 및 CA 루트 인증서 파일(ca.crt)을 certs 폴더로 복사해야 하며 파일 이름이 정확히 일치해야 합니다.\n\n키/인증서 파일이 없는 경우 openssl 명령을 사용하여 새 파일을 생성할 수도 있습니다. 아래 예를 참조하십시오.",
+        "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt"
+      },
       "testLabel": "이름",
       "status": "상태",
       "frequencySubText": "{{count}}분마다",
@@ -97,6 +112,7 @@
       "resume": "테스트 재개",
       "active": "활성",
       "paused": "일시중지됨",
+      "deleted": "Deleted",
       "type": "유형",
       "successRate": "성공률",
       "successRuns": "{{successRuns}}/{{totalRuns}}개의 결과",
@@ -114,10 +130,14 @@
     },
     "locationList": {
       "locationLabel": "위치 이름",
+      "locationDisplayLabel": "표시 이름",
       "status": "상태",
       "type": "유형",
       "totalTests": "링크된 테스트의 수",
-      "lastRun": "마지막 테스트 실행 시간"
+      "lastRun": "마지막 테스트 실행 시간",
+      "labelConfirmRemoveLocation": "<strong>{{label}}</strong>({{status}}) 위치를 제거하시겠습니까?",
+      "activeTestLinked": "<strong>{{label}}</strong>({{status}}) 위치에 지정된 활성 테스트가 있습니다. 이 위치를 제거하시겠습니까?",
+      "deleteLocation": "위치 삭제"
     },
     "summary": {
       "successRate": "성공률",
@@ -147,9 +167,14 @@
         "results": "결과",
         "linkViewAllTestResults": "모든 결과 보기",
         "ok": "성공",
-        "redirection": "리디렉션",
-        "clientError": "클라이언트 오류",
-        "serverError": "서버 오류"
+        "created": "작성일시",
+        "accepted": "허용",
+        "forbidden": "금지",
+        "notFound": "찾을 수 없음",
+        "serverError": "서버 오류",
+        "badRequest": "잘못된 요청",
+        "badGateway": "잘못된 게이트웨이",
+        "gatewayTimeout": "게이트웨이 시간 초과"
       },
       "totalRuns": "{{totalRuns}}개의 총 실행",
       "meanLatencyFor90th": "90번째: {{meanLatencyDetail}}"
@@ -186,6 +211,12 @@
       "successResult": "성공",
       "failedResult": "실패함",
       "searchFilter": "검색",
+      "typesFilter": "유형",
+      "typesFilterValues": {
+        "getType": "GET",
+        "allType": "모두",
+        "othersType": "기타"
+      },
       "subtransactionBody": {
         "contentType": "컨텐츠 유형",
         "size": "크기",
