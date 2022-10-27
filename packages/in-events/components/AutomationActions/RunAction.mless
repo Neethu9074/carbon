@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 @import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
 
 :local {
   .actionModalPadding {
@@ -14,6 +15,9 @@
   }
   .dialog {
     width: 65%;
+    > div > div {
+      width: 95%;
+    }
   }
   .actionDescriptionMargin dt {
     margin-bottom: 0.25rem;
@@ -26,5 +30,14 @@
 
   .subErrorTextFormField {
     margin-left: 0.5rem;
+  }
+  .title {
+    color: @lib__colors__N900Primary;
+    font-size: 1.375rem;
+    font-weight: 500;
+    line-height: 2rem;
+    margin: 0;
+    padding: 0;
+    .ellipsis();
   }
 }
