@@ -31,8 +31,8 @@ import { ua2MetricAddedTracker, ua2MetricRemovedTracker, ua2LoadMoreClicked } fr
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { custom as customType, metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import { or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
-import { getFormatter as getBackendFormatter } from 'in-services/formatters/backendFormatter';
 import { GROUP_COLORS, getLabel as defaultGetLabel } from 'in-components/AnalyzeView/utils.ts';
+import { getFormatter as getBackendFormatter } from 'in-services/formatters/backendFormatter';
 import { joinExpressions, TAG } from 'in-components/QueryBuilder/transformation/formModel';
 import QueryProgressIndicator from 'in-components/AnalyzeView/QueryProgressIndicator';
 import { BOOLEAN, KEY_VALUE_PAIR } from 'in-components/QueryBuilder/tagFilter/types';
@@ -507,12 +507,10 @@ function metricColumns({
         }
 
         const metricDefinition = metricCatalog?.find(({ metricId }) => metricId === field.metricId);
-        const customFormatterId = getCustomMetricUiFormatterName?.(field.metricId);
+        const customFormatterId = getCustomMetricUiFormatterName?.(field.metricId, field.aggregationId);
         let formatter;
         if (customFormatterId != null) {
           formatter = getFormatter(customFormatterId);
-        } else if (field.aggregationId === 'PER_SECOND') {
-          formatter = getFormatter('perSecond.detailed');
         } else {
           // The width of metric values rendered using NUMBER formatter can vary significantly which may
           // break column alignment, use more dense SI prefix based formatter instead.
