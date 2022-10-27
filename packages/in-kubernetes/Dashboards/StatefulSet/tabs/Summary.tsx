@@ -335,25 +335,6 @@ export default function Summary({ timeConfig, data: statefulSet }: any) {
             paramMetric="replicaMetric"
             path={summaryTab}
           />
-          {/* <Card title={t('in-kubernetes:dashboards.replicas')}>
-            <Chart
-              snapshotId={snapshotId}
-              timeConfig={timeConfig}
-              y1={{
-                min: 0,
-                formatter: zeroDecimalPlaces,
-                metrics: ['availableReplicas', 'desiredReplicas', 'unavailableReplicas', 'misscheduledReplicas'],
-                labels: [
-                  t('in-kubernetes:dashboards.available'),
-                  t('in-kubernetes:dashboards.desired'),
-                  t('in-kubernetes:dashboards.unavailable'),
-                  t('in-kubernetes:dashboards.misscheduled')
-                ],
-                type: 'line'
-              }}
-              renderPostChartContent={K8DashboardsMarkerLanes}
-            />
-          </Card> */}
         </Col>
       </Row>
     </Fragment>
