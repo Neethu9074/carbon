@@ -8158,6 +8158,7 @@
     "host": {
       "theOperatingSystemOfThisHostDoesNotSeemToOfferTheExtendedBerkeleyPacketFilterEBpfFunctionality": "The Operating System of this host does not seem to offer the extended Berkeley Packet Filter (eBPF) functionality that is required by the Process Abnormal Termination detection.",
       "theHostAgentIsVulnerableToLog4jCVE": "The host agent is vulnerable to Log4j CVE-2021-44228 and CVE-2021-45046, please update the Agent installation to a newer version to mitigate these vulnerabilities.",
+      "messagesAreBeingFilteredFromThisHost": "Messages from this host are being filtered, please contact support to get this host un-blocked.",
       "troubleshootingDocs": "Troubleshooting docs",
       "dashboard": {
         "gpuMemoryProcess": "GPU Memory/Process",
