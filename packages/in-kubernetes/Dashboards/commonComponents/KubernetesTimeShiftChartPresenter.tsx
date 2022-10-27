@@ -101,7 +101,6 @@ function Chart({
       formatter={formatter}
       tooltipFormatter={tooltipFormatter}
       rightHeaderContent={selectorComponent}
-      reverseOrder
     />
   );
 }

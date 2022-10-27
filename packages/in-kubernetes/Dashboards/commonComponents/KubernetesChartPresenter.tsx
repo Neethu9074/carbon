@@ -18,7 +18,6 @@ interface KubernetesChartPresenterProps {
   formatter: string;
   tooltipFormatter?: Formatter;
   rightHeaderContent?: React.ReactElement;
-  reverseOrder?: boolean;
 }
 
 export default function KubernetesChartPresenter({
@@ -27,8 +26,7 @@ export default function KubernetesChartPresenter({
   colors,
   formatter,
   tooltipFormatter,
-  rightHeaderContent,
-  reverseOrder
+  rightHeaderContent
 }: KubernetesChartPresenterProps) {
   return (
     <UnifiedMetricsChart
@@ -44,8 +42,6 @@ export default function KubernetesChartPresenter({
         },
         type: 'TIME_SERIES'
       }}
-      reverseTooltipOrder={reverseOrder}
-      reverseLegendOrder={reverseOrder}
       renderPostChartContent={K8DashboardsMarkerLanes}
     />
   );
