@@ -74,6 +74,10 @@
       "failureMessageCreate": "無法建立綜合測試。 請稍後重試",
       "failureMessageUpdate": "無法更新綜合測試。 請稍後重試",
       "failuteMesssageDelete": "無法刪除綜合測試。 請稍後重試"
+    },
+    "locationFeedback": {
+      "successMessageDelete": "已順利刪除位置",
+      "failureMesssageDelete": "無法刪除位置。 請稍後重試"
     }
   },
   "createTest": {
@@ -89,6 +93,17 @@
         "tests": "測試",
         "locations": "位置"
       },
+      "popDialog": {
+        "button": "<> 部署 PoP",
+        "simpleTab": "簡式",
+        "redisTab": "Redis TLS",
+        "title": "綜合 PoP 指令",
+        "subTitle": "請使用這些程式碼範本作為參照",
+        "simpleCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"Name;DisplayName;Country;City;0;0;Location description\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<yourpassword>\"",
+        "redisCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"Name;DisplayName;Country;City;0;0;Location description\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true",
+        "tlsInstructions": "如果您想要啟用 Redis TLS，則需要在 Helm 圖表根路徑下建立 certs 資料夾，並將憑證金鑰組（tls.crt、tls.key）及 CA 主要憑證檔 (ca.crt) 複製到 certs 資料夾，檔名應該完全相符。\n\n如果您沒有金鑰/憑證檔案，也可以使用 openssl 指令來產生新的金鑰/憑證檔案，請參閱下列範例：",
+        "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt"
+      },
       "testLabel": "名稱",
       "status": "狀態",
       "frequencySubText": "每 {{count}} 分鐘",
@@ -97,6 +112,7 @@
       "resume": "回復測試",
       "active": "作用中",
       "paused": "已暫停",
+      "deleted": "已刪除",
       "type": "類型",
       "successRate": "成功率",
       "successRuns": "{{successRuns}} / {{totalRuns}} 個結果",
@@ -114,10 +130,14 @@
     },
     "locationList": {
       "locationLabel": "位置名稱",
+      "locationDisplayLabel": "顯示名稱",
       "status": "狀態",
       "type": "類型",
       "totalTests": "鏈結的測試數目",
-      "lastRun": "前次測試執行時間"
+      "lastRun": "前次測試執行時間",
+      "labelConfirmRemoveLocation": "您確定要移除 <strong>{{label}}</strong> ({{status}}) 位置嗎？",
+      "activeTestLinked": "已在位置 <strong>{{label}}</strong> ({{status}}) 上指派作用中測試，您確定要移除此位置嗎？",
+      "deleteLocation": "刪除位置"
     },
     "summary": {
       "successRate": "成功率",
@@ -147,9 +167,14 @@
         "results": "結果",
         "linkViewAllTestResults": "檢視所有結果",
         "ok": "成功",
-        "redirection": "重新導向",
-        "clientError": "用戶端錯誤",
-        "serverError": "伺服器錯誤"
+        "created": "已建立",
+        "accepted": "已接受",
+        "forbidden": "禁止",
+        "notFound": "找不到",
+        "serverError": "伺服器錯誤",
+        "badRequest": "不當的要求",
+        "badGateway": "閘道錯誤",
+        "gatewayTimeout": "閘道逾時"
       },
       "totalRuns": "{{totalRuns}} 執行總數",
       "meanLatencyFor90th": "第 90 個的 {{meanLatencyDetail}}"
@@ -186,6 +211,12 @@
       "successResult": "成功",
       "failedResult": "失敗",
       "searchFilter": "搜尋",
+      "typesFilter": "類型",
+      "typesFilterValues": {
+        "getType": "GET",
+        "allType": "全部",
+        "othersType": "其他"
+      },
       "subtransactionBody": {
         "contentType": "內容類型",
         "size": "大小",

@@ -25,6 +25,11 @@
         "counter_custom_0": "{{number}} 個自訂事件",
         "counter_custom_1": "{{number}} 個自訂事件",
         "counter_custom_2": "{{number}} 個自訂事件",
+        "counter_crash": "{{number}} 個損毀",
+        "counter_crash_plural": "{{number}} 個損毀",
+        "counter_crash_0": "{{number}} 個損毀",
+        "counter_crash_1": "{{number}} 個損毀",
+        "counter_crash_2": "{{number}} 個損毀",
         "counter_Row": "{{number}} 列",
         "counter_Row_plural": "{{number}} 列",
         "counter_Row_0": "{{number}} 列",
@@ -86,7 +91,7 @@
       "viewTransitions2": "視圖轉移",
       "calls": "呼叫",
       "traces": "追蹤",
-      "console": "主控台"
+      "crashes": "損毀"
     }
   },
   "traceDetail": {

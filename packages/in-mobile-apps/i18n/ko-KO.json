@@ -3,7 +3,8 @@
     "sessionStart": "세션 시작",
     "viewChange": "보기 전환",
     "httpRequest": "HTTP 요청",
-    "custom": "사용자 정의 이벤트"
+    "custom": "사용자 정의 이벤트",
+    "crash": "충돌"
   },
   "analyzeView": {
     "uniqueUsers": "고유 사용자",
@@ -156,7 +157,10 @@
       "traLong": "보기 전환",
       "cusShort": "Cus",
       "cusBadgeLabel": "Cus",
-      "cusLong": "사용자 정의 이벤트"
+      "cusLong": "사용자 정의 이벤트",
+      "craShort": "CRA",
+      "craBadgeLabel": "CRA",
+      "craLong": "충돌"
     },
     "tabsSumOverviewChartTooltipStartTime": "시작 시간",
     "tabsSummary": {
@@ -200,6 +204,15 @@
       "eventNameTitle": "이벤트 이름",
       "errMsgTitle": "오류 메시지",
       "metaHeader": "메타"
+    },
+    "tabsSumCrashBeacon": {
+      "startTimeLabel": "시작 시간",
+      "crashHeader": "충돌",
+      "errorMsg": "오류 메시지",
+      "errorType": "오류 유형",
+      "crashLabel": "충돌",
+      "metaHeader": "메타",
+      "stackTrace": "스택 추적"
     },
     "tabsSumHttpRequestBeacon": {
       "retrievalTimeTooltip": "검색 시간",
@@ -373,7 +386,8 @@
     "sessionId": "세션 ID",
     "viewName": "보기 이름",
     "access": "액세스",
-    "eventName": "이벤트 이름"
+    "eventName": "이벤트 이름",
+    "crash": "충돌"
   },
   "dataSource_sessionStart": "{{formattedCount}}개 세션 시작",
   "dataSource_sessionStart_plural": "{{formattedCount}}개 세션 시작",
@@ -395,6 +409,11 @@
   "dataSource_custom_0": "{{formattedCount}}개 사용자 정의 이벤트",
   "dataSource_custom_1": "{{formattedCount}}개 사용자 정의 이벤트",
   "dataSource_custom_2": "{{formattedCount}}개 사용자 정의 이벤트",
+  "dataSource_crash": "{{formattedCount}}번의 충돌",
+  "dataSource_crash_plural": "{{formattedCount}}번의 충돌",
+  "dataSource_crash_0": "{{formattedCount}}번의 충돌",
+  "dataSource_crash_1": "{{formattedCount}}번의 충돌",
+  "dataSource_crash_2": "{{formattedCount}}번의 충돌",
   "facetedSearch": {
     "mobileApp": "모바일 앱",
     "view": "보기",

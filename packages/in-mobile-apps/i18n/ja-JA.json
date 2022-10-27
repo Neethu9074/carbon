@@ -3,7 +3,8 @@
     "sessionStart": "セッション開始",
     "viewChange": "遷移の表示",
     "httpRequest": "HTTP 要求",
-    "custom": "カスタム・イベント"
+    "custom": "カスタム・イベント",
+    "crash": "異常終了"
   },
   "analyzeView": {
     "uniqueUsers": "固有ユーザー",
@@ -156,7 +157,10 @@
       "traLong": "遷移の表示",
       "cusShort": "Cus",
       "cusBadgeLabel": "Cus",
-      "cusLong": "カスタム・イベント"
+      "cusLong": "カスタム・イベント",
+      "craShort": "CRA",
+      "craBadgeLabel": "CRA",
+      "craLong": "異常終了"
     },
     "tabsSumOverviewChartTooltipStartTime": "開始時刻",
     "tabsSummary": {
@@ -200,6 +204,15 @@
       "eventNameTitle": "イベント名",
       "errMsgTitle": "エラー・メッセージ",
       "metaHeader": "メタ"
+    },
+    "tabsSumCrashBeacon": {
+      "startTimeLabel": "開始時刻",
+      "crashHeader": "異常終了",
+      "errorMsg": "エラー・メッセージ",
+      "errorType": "エラー・タイプ",
+      "crashLabel": "異常終了",
+      "metaHeader": "メタ",
+      "stackTrace": "スタック・トレース"
     },
     "tabsSumHttpRequestBeacon": {
       "retrievalTimeTooltip": "取得時間",
@@ -373,7 +386,8 @@
     "sessionId": "セッション ID",
     "viewName": "ビュー名",
     "access": "アクセス",
-    "eventName": "イベント名"
+    "eventName": "イベント名",
+    "crash": "異常終了"
   },
   "dataSource_sessionStart": "{{formattedCount}} 件のセッション開始",
   "dataSource_sessionStart_plural": "{{formattedCount}} 件のセッション開始",
@@ -395,6 +409,11 @@
   "dataSource_custom_0": "{{formattedCount}} 件のカスタム・イベント",
   "dataSource_custom_1": "{{formattedCount}} 件のカスタム・イベント",
   "dataSource_custom_2": "{{formattedCount}} 件のカスタム・イベント",
+  "dataSource_crash": "{{formattedCount}} 件の異常終了",
+  "dataSource_crash_plural": "{{formattedCount}} 件の異常終了",
+  "dataSource_crash_0": "{{formattedCount}} 件の異常終了",
+  "dataSource_crash_1": "{{formattedCount}} 件の異常終了",
+  "dataSource_crash_2": "{{formattedCount}} 件の異常終了",
   "facetedSearch": {
     "mobileApp": "モバイル・アプリケーション",
     "view": "ビュー",

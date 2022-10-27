@@ -12,6 +12,12 @@
       "tableLoadMoreRow": {
         "loadMore": "추가 로드"
       }
+    },
+    "code": {
+      "copy": "복사",
+      "copied": "복사됨!",
+      "showMore": "자세히 표시",
+      "showLess": "간략히 보기"
     }
   },
   "formatDate": {
@@ -77,5 +83,6 @@
   "aggregation_MAX": "최대",
   "aggregation_DISTINCT_COUNT": "고유 개수",
   "aggregation_SUM": "합계",
-  "aggregation_DISTRIBUTION": "분포"
+  "aggregation_DISTRIBUTION": "분포",
+  "aggregation_PER_SECOND": "초당"
 }
