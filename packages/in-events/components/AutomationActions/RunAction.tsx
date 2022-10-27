@@ -95,7 +95,7 @@ export default function RunAction({ action, script, volatileId, event }: Props) 
             {description}
           </DescriptionItem>
         </DescriptionList>
-        <Code withoutCopyButton code={atob(script)} lang={'bash'} softWrap />
+        <Code withExpandButton withoutCopyButton code={atob(script)} lang={'bash'} softWrap />
         <AgentSelection
           form={form}
           volatileId={volatileId}
