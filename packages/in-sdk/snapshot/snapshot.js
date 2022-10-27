@@ -27,7 +27,7 @@ export function getPower(snapshot) {
 }
 
 export function getShowZoneInSidebarHeader(plugin) {
-  return getSnapshotDefinition(plugin).showZoneInSidebarHeader === true;
+  return getOptionalSnapshotDefinition(plugin)?.showZoneInSidebarHeader === true;
 }
 
 export function getTechnologyLabel(plugin) {
@@ -145,8 +145,8 @@ export function getContext(snapshot) {
 }
 
 export function getDashboardHeaderActions(props) {
-  const { getDashboardHeaderActions } = getSnapshotDefinition(props.snapshot.get('plugin'));
-  return getDashboardHeaderActions ? getDashboardHeaderActions(props) : [];
+  const snapshotDefinition = getOptionalSnapshotDefinition(props.snapshot.get('plugin'))
+  return snapshotDefinition?.getDashboardHeaderActions?.(props) ?? [];
 }
 
 /**
