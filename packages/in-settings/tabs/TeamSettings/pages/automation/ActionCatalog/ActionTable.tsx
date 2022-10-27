@@ -6,6 +6,7 @@
 
 import React, { ReactNode } from 'react';
 import { reverse, sortBy } from 'lodash';
+import classNames from 'classnames';
 
 import { Button, Link } from '@instana/components';
 import { Observable } from '@instana/observables';
@@ -18,6 +19,7 @@ import RunAction from 'in-events/components/AutomationActions/RunAction';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getAllActions, ScoredAction } from 'in-api/automation';
 import { formatDateTime } from 'in-services/formatters/date';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 import { Event, VolatileId } from 'in-types';
 import { Action } from 'in-types';
 import { t } from 'in-i18n';
@@ -98,11 +100,17 @@ const nameColumn = (showActionLink: boolean) => ({
   label: t('in-settings:tabs.name'),
   id: 'name',
   getContent(row: Action) {
-    if (showActionLink) {
-      return <Link href$={getEntityIdView(teamSettingsActionCatalog, row.id)}>{row.name}</Link>;
-    } else {
-      return <div>{row.name}</div>;
-    }
+    return (
+      <Tooltip content={row.name} align="topLeft" delay={500}>
+        {showActionLink ? (
+          <Link className={locals.block} ellipsis href$={getEntityIdView(teamSettingsActionCatalog, row.id)}>
+            {row.name}
+          </Link>
+        ) : (
+          <span className={classNames(locals.ellipsis, locals.block)}>{row.name}</span>
+        )}
+      </Tooltip>
+    );
   }
 });
 
