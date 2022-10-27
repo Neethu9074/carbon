@@ -141,7 +141,6 @@ export default function RunAction({ action, script, volatileId, event }: Props) 
       </>
     );
   }
-
   return (
     <Dialog
       className={locals.dialog}
