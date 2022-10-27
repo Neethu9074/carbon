@@ -4,7 +4,7 @@
   "permissionAccessApplicationsLabel": "Applications",
   "permissionAccessKubernetesLabel": "Kubernetes",
   "permissionAccessInfrastructureLabel": "Infrastructure",
-  "permissionAccessSyntheticsLabel": "Synthetics",
+  "permissionAccessSyntheticsLabel": "Synthetic Monitoring",
   "permissionAccessVSphereLabel": "vSphere",
   "permissionAccessPHMCLabel": "IBM Power",
   "permissionAccessZHMCLabel": "IBM Z",
