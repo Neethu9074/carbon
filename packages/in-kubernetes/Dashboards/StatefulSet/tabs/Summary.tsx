@@ -51,9 +51,7 @@ export default function Summary({ timeConfig, data: statefulSet }: any) {
   const clusterTag = kubernetesClusterTagEquals(statefulSet.clusterId);
   const nsTag = kubernetesNamespaceTagEquals(statefulSet.namespace);
   const workloadTag = tagEquals('kubernetes.statefulset.name', statefulSet.name);
-  const runningPod = tagEquals('kubernetes.pod.phase', 'Running');
-  const tagFilterExpressionRunningPod = toBackendQueryModel(andQuery(clusterTag, nsTag, runningPod));
-  // const tagFilterExpression = toBackendQueryModel(andQuery(clusterTag, nsTag, workloadTag));
+  const tagFilterExpression = toBackendQueryModel(andQuery(clusterTag, nsTag, workloadTag));
 
   const type = plugins.kubernetesStatefulSet;
 
@@ -61,7 +59,7 @@ export default function Summary({ timeConfig, data: statefulSet }: any) {
     source,
     type,
     aggregation: 'MEAN' as AggregationType,
-    tagFilterExpression: tagFilterExpressionRunningPod,
+    tagFilterExpression: tagFilterExpression,
     timeConfig,
     timeShift
   };
@@ -74,22 +72,16 @@ export default function Summary({ timeConfig, data: statefulSet }: any) {
     type: plugins.kubernetesPod,
     crossSeriesAggregation: 'DISTINCT_COUNT' as AggregationType
   };
-  // const defaultBigNumberMetricConfig = {
-  //   ...defaultConfig,
-  //   resultType: 'SINGLE_NUMBER' as ResultType
-  // };
 
   const runningPodBigNumberMetricConfig = {
     ...defaultConfig,
     ...isPodMetric,
-    tagFilterExpression: tagFilterExpressionRunningPod,
     resultType: 'SINGLE_NUMBER' as ResultType
   };
 
   const runningPodCountBigNumberMetricConfig = {
     ...defaultConfig,
     ...isPodCountMetric,
-    tagFilterExpression: tagFilterExpressionRunningPod,
     resultType: 'SINGLE_NUMBER' as ResultType
   };
   const defaultChartMetricConfig = {
@@ -261,25 +253,29 @@ export default function Summary({ timeConfig, data: statefulSet }: any) {
                 metric: 'pods.count',
                 label: t('in-kubernetes:dashboards.allocated'),
                 color: allocated,
-                ...defaultChartMetricConfig
+                ...defaultChartMetricConfig,
+                ...isPodCountMetric
               },
               {
                 metric: 'phase.Pending.count',
                 label: t('in-kubernetes:dashboards.pending'),
                 color: pending,
-                ...defaultChartMetricConfig
+                ...defaultChartMetricConfig,
+                ...isPodCountMetric
               },
               {
                 metric: 'conditions.PodScheduled.False',
                 label: t('in-kubernetes:dashboards.unscheduled'),
                 color: unscheduled,
-                ...defaultChartMetricConfig
+                ...defaultChartMetricConfig,
+                ...isPodCountMetric
               },
               {
                 metric: 'conditions.Ready.False',
                 label: t('in-kubernetes:dashboards.unready'),
                 color: unready,
-                ...defaultChartMetricConfig
+                ...defaultChartMetricConfig,
+                ...isPodCountMetric
               }
             ]}
             title={t('in-kubernetes:dashboards.pods')}
