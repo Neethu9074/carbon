@@ -1,6 +1,6 @@
 {
-  "name": "CustomMetricsV2.js",
+  "name": "CustomMetricsV2",
   "version": "0.0.0",
   "private": true,
-  "main": "./CustomMetricsV2.js"
+  "main": "./CustomMetricsV2.tsx"
 }
