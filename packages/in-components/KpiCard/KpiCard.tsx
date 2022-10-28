@@ -73,9 +73,8 @@ export default function KpiCard({
 
   let content;
   if (raw || renderValue) {
-    content = (
-      <span className={classNames(locals.minor, valuesClassName)}>{renderValue ? renderValue(value) : value}</span>
-    );
+    const formattedValue = renderValue ? renderValue(value) : value ?? valueMissingPlaceholder;
+    content = <span className={classNames(locals.minor, valuesClassName)}>{formattedValue}</span>;
   } else if (children) {
     content = <span className={classNames(locals.minor, valuesClassName)}>{children}</span>;
   } else {
