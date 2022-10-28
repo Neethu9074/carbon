@@ -1,0 +1,286 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+import React, { Fragment } from 'react';
+
+import { AggregationType, KubernetesService, ResultType, TimeConfig } from '@instana/types';
+
+import {
+  LogsChartInteractionWrapper,
+  andQuery,
+  kubernetesClusterTagEquals,
+  kubernetesNamespaceTagEquals,
+  tagEquals
+} from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
+// @ts-expect-error
+import { source } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/metrics';
+// @ts-expect-error
+import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
+import KubernetesTimeShiftChartPresenter from '../../../commonComponents/KubernetesTimeShiftChartPresenter';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+// @ts-expect-error
+import Endpoints from 'in-kubernetes/Dashboards/Service/tabs/Endpoints';
+import { twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
+// @ts-expect-error
+import { summaryTab } from 'in-kubernetes/navigation/paths';
+import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
+import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
+import { getChartGranularity } from '../../../../../in-stores/metric';
+// @ts-expect-error
+import { plugins } from 'in-forge/constants';
+import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
+import { formatDuration } from 'in-services/formatters/date';
+import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
+import { Row, Col } from 'in-components/layout/Grid';
+import KpiCard from 'in-components/KpiCard/KpiCard';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
+
+interface SummaryProps {
+  data: KubernetesService;
+  timeConfig: TimeConfig;
+}
+
+export default function Summary({ timeConfig, data: service }: SummaryProps) {
+  // const snapshotId = service.id;
+  const { orange800: limits, lime800: requests, lightBlue800: usage } = theme.lib.colors;
+
+  const comparisonColors = {
+    comparisonDecreaseColor: blue.id,
+    comparisonIncreaseColor: blue.id
+  };
+
+  const clusterTag = kubernetesClusterTagEquals(service.clusterName);
+  const nsTag = kubernetesNamespaceTagEquals(service.namespace);
+  const uidTag = tagEquals('kubernetes.service.uid', service.uid);
+  const tagFilterExpression = toBackendQueryModel(andQuery(clusterTag, nsTag, uidTag));
+  const type = plugins.kubernetesService;
+  const timeShift = useTimeShiftConfig();
+
+  const defaultConfig = {
+    source,
+    type,
+    aggregation: 'MEAN' as AggregationType,
+    tagFilterExpression,
+    timeConfig,
+    timeShift
+  };
+
+  const isPodMetric = {
+    /* use this configuration on containers of this pod (which can be of type docker, containerd or crio)
+      type filtering must be disabled and cross series aggregation uses SUM */
+    type: plugins.kubernetesPod,
+    crossSeriesAggregation: 'SUM' as AggregationType
+  };
+
+  const isContainerMetric = {
+    /* use this configuration on containers of this pod (which can be of type docker, containerd or crio)
+      type filtering must be disabled and cross series aggregation uses SUM */
+    type: undefined,
+    crossSeriesAggregation: 'SUM' as AggregationType
+  };
+
+  const defaultChartMetricConfig = {
+    ...defaultConfig,
+    granularity: getChartGranularity(timeConfig)
+  };
+
+  const defaultBigNumberMetricConfig = {
+    ...defaultConfig,
+    resultType: 'SINGLE_NUMBER' as ResultType
+  };
+
+  return (
+    <Fragment>
+      <MissingK8sPermissions resourceSnapshotId={service.id} timeConfig={timeConfig} />
+
+      <KpiGridRow sizes={[4, 4, 4]}>
+        <KpiCard title={t('in-kubernetes:dashboards.type')} value={service.type} raw borderless />
+        <KpiCard title={t('in-kubernetes:dashboards.location')} value={service.location} raw borderless />
+        <KpiCard title={t('in-kubernetes:dashboards.age')} value={formatDuration(service.age)} raw borderless />
+      </KpiGridRow>
+
+      <Row>
+        <Col lg={2}>
+          <BigNumberKpiCard
+            title={t('in-kubernetes:dashboards.cpuUsage')}
+            formatter={twoDecimalPlaces}
+            config={{
+              metricConfiguration: {
+                metric: 'cpu.total_usage',
+                ...defaultBigNumberMetricConfig,
+                ...isContainerMetric
+              },
+              ...comparisonColors
+            }}
+            raw
+          />
+        </Col>
+        <Col lg={2}>
+          <BigNumberKpiCard
+            title={t('in-kubernetes:dashboards.cpuRequests')}
+            formatter={resourceQuotaNumber}
+            config={{
+              metricConfiguration: {
+                metric: 'cpuRequests',
+                ...defaultBigNumberMetricConfig,
+                ...isPodMetric
+              },
+              ...comparisonColors
+            }}
+            raw
+          />
+        </Col>
+        <Col lg={2}>
+          <BigNumberKpiCard
+            title={t('in-kubernetes:dashboards.cpuLimits')}
+            formatter={resourceQuotaNumber}
+            config={{
+              metricConfiguration: {
+                metric: 'cpuLimit',
+                ...defaultBigNumberMetricConfig,
+                ...isPodMetric
+              },
+              ...comparisonColors
+            }}
+            raw
+          />
+        </Col>
+        <Col lg={2}>
+          <BigNumberKpiCard
+            title={t('in-kubernetes:dashboards.memoryUsage')}
+            formatter={bytesTwoDecimalPlaces}
+            config={{
+              metricConfiguration: {
+                metric: 'memory.usage',
+                ...defaultBigNumberMetricConfig,
+                ...isContainerMetric
+              },
+              ...comparisonColors
+            }}
+            raw
+          />
+        </Col>
+        <Col lg={2}>
+          <BigNumberKpiCard
+            title={t('in-kubernetes:dashboards.memoryRequests')}
+            formatter={resourceQuotaBytes}
+            config={{
+              metricConfiguration: {
+                metric: 'memoryRequests',
+                ...defaultBigNumberMetricConfig,
+                ...isPodMetric
+              },
+              ...comparisonColors
+            }}
+            raw
+          />
+        </Col>
+        <Col lg={2}>
+          <BigNumberKpiCard
+            title={t('in-kubernetes:dashboards.memoryLimits')}
+            formatter={resourceQuotaBytes}
+            config={{
+              metricConfiguration: {
+                metric: 'memoryLimits',
+                ...defaultBigNumberMetricConfig,
+                ...isPodMetric
+              },
+              ...comparisonColors
+            }}
+            raw
+          />
+        </Col>
+      </Row>
+
+      <Row verticallyStretchColumns>
+        <Col lg={6}>
+          <KubernetesTimeShiftChartPresenter
+            metrics={[
+              {
+                metric: 'cpu.total_usage',
+                label: t('in-kubernetes:dashboards.usage'),
+                color: usage,
+                ...defaultChartMetricConfig,
+                ...isContainerMetric
+              },
+              {
+                metric: 'cpuRequests',
+                label: t('in-kubernetes:dashboards.requests'),
+                color: requests,
+                ...defaultChartMetricConfig,
+                ...isPodMetric
+              },
+              {
+                metric: 'cpuLimits',
+                label: t('in-kubernetes:dashboards.limits'),
+                color: limits,
+                ...defaultChartMetricConfig,
+                ...isPodMetric
+              }
+            ]}
+            title={t('in-kubernetes:dashboards.cpuResources')}
+            colors={[usage, requests, limits]}
+            formatter="number.detailed"
+            tooltipFormatter={resourceQuotaNumber}
+            paramTab="cpuTab"
+            paramMetric="cpuMetric"
+            path={summaryTab}
+          />
+        </Col>
+        <Col lg={6}>
+          <KubernetesTimeShiftChartPresenter
+            metrics={[
+              {
+                metric: 'memory.usage',
+                label: t('in-kubernetes:dashboards.usage'),
+                color: usage,
+                ...defaultChartMetricConfig,
+                ...isContainerMetric
+              },
+              {
+                metric: 'memoryRequests',
+                label: t('in-kubernetes:dashboards.requests'),
+                color: requests,
+                ...defaultChartMetricConfig,
+                ...isPodMetric
+              },
+              {
+                metric: 'memoryLimits',
+                label: t('in-kubernetes:dashboards.limits'),
+                color: limits,
+                ...defaultChartMetricConfig,
+                ...isPodMetric
+              }
+            ]}
+            title={t('in-kubernetes:dashboards.memoryResources')}
+            colors={[usage, requests, limits]}
+            formatter="bytes.detailed"
+            tooltipFormatter={resourceQuotaBytes}
+            paramTab="memTab"
+            paramMetric="memMetric"
+            path={summaryTab}
+          />
+        </Col>
+      </Row>
+
+      <Row>
+        <Col lg={12}>
+          <LogsChartInteractionWrapper
+            tagFilterExpression={andQuery(clusterTag, nsTag, uidTag)}
+            timeConfig={timeConfig}
+          />
+        </Col>
+      </Row>
+
+      <Row>
+        <Col lg={12}>
+          <Endpoints timeConfig={timeConfig} service={service} />
+        </Col>
+      </Row>
+    </Fragment>
+  );
+}
