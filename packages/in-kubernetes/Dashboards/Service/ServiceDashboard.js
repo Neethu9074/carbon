@@ -155,7 +155,7 @@ function renderButtonLineSecondary({ timeConfig, serviceId }) {
         <TimeShiftDropdown
           onChange={offset =>
             kubernetesTimeShiftSelectTracker({
-              area: 'namespace',
+              area: 'service',
               offset: getTimeShiftLabel({ offset: offset }),
               windowSize: timeConfig.windowSize,
               autoRefresh: timeConfig.autoRefresh
