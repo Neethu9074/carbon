@@ -10,7 +10,7 @@ import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
 
-const snapshot_Col1 = {
+const snapshot_ColStartTime = {
   title: t('in-forge:plugins.ibmMqQueue.dashboard.intervalStartDateTime'),
   type: 'string',
   typeArgs: {
@@ -19,7 +19,7 @@ const snapshot_Col1 = {
     }
   }
 };
-const snapshot_Col2 = {
+const snapshot_ColEndTime = {
   title: t('in-forge:plugins.ibmMqQueue.dashboard.intervalEndDateTime'),
   type: 'string',
   typeArgs: {
@@ -28,7 +28,7 @@ const snapshot_Col2 = {
     }
   }
 };
-const metric_Col1 = {
+const metric_ColPutBytes = {
   title: t('in-forge:plugins.ibmMqQueue.dashboard.persistentPutBytes'),
   type: 'metric',
   typeArgs: {
@@ -44,7 +44,7 @@ const metric_Col1 = {
     }
   }
 };
-const metric_Col2 = {
+const metric_ColNPPutBytes = {
   title: t('in-forge:plugins.ibmMqQueue.dashboard.nonPersistentPutBytes'),
   type: 'metric',
   typeArgs: {
@@ -60,7 +60,7 @@ const metric_Col2 = {
     }
   }
 };
-const metric_Col3 = {
+const metric_ColPutFail = {
   title: t('in-forge:plugins.ibmMqQueue.dashboard.putFailCount'),
   type: 'metric',
   typeArgs: {
@@ -76,7 +76,7 @@ const metric_Col3 = {
     }
   }
 };
-const metric_Col4 = {
+const metric_ColPut1Fail = {
   title: t('in-forge:plugins.ibmMqQueue.dashboard.put1FailCount'),
   type: 'metric',
   typeArgs: {
@@ -92,7 +92,7 @@ const metric_Col4 = {
     }
   }
 };
-const metric_Col5 = {
+const metric_ColGetBytes = {
   title: t('in-forge:plugins.ibmMqQueue.dashboard.persistentGetBytes'),
   type: 'metric',
   typeArgs: {
@@ -108,7 +108,7 @@ const metric_Col5 = {
     }
   }
 };
-const metric_Col6 = {
+const metric_ColNPGetBytes = {
   title: t('in-forge:plugins.ibmMqQueue.dashboard.nonPersistentGetBytes'),
   type: 'metric',
   typeArgs: {
@@ -124,7 +124,7 @@ const metric_Col6 = {
     }
   }
 };
-const metric_Col7 = {
+const metric_ColGetFail = {
   title: t('in-forge:plugins.ibmMqQueue.dashboard.getFailCount'),
   type: 'metric',
   typeArgs: {
@@ -140,7 +140,7 @@ const metric_Col7 = {
     }
   }
 };
-const metric_Col8 = {
+const metric_ColExpiredMsgCount = {
   title: t('in-forge:plugins.ibmMqQueue.dashboard.expiredMsgCount'),
   type: 'metric',
   typeArgs: {
@@ -175,16 +175,16 @@ export default function StatisticsTable({ snapshot, snapshotId, timeConfig }) {
   }
 
   const cols = [
-    snapshot_Col1,
-    snapshot_Col2,
-    metric_Col1,
-    metric_Col2,
-    metric_Col5,
-    metric_Col6,
-    metric_Col8,
-    metric_Col3,
-    metric_Col4,
-    metric_Col7
+    snapshot_ColStartTime,
+    snapshot_ColEndTime,
+    metric_ColPutBytes,
+    metric_ColNPPutBytes,
+    metric_ColGetBytes,
+    metric_ColNPGetBytes,
+    metric_ColExpiredMsgCount,
+    metric_ColPutFail,
+    metric_ColPut1Fail,
+    metric_ColGetFail
   ];
 
   return (
