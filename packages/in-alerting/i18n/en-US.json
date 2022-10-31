@@ -477,7 +477,7 @@
         "simpleAlertStep2Headline": "Where do you want the alert to trigger?",
         "step1Title": "Step 1: Select Alert",
         "step2Title": "Step 2: Select Scope",
-        "step3Title": "Step 3: Select Alerting Channels"
+        "step3Title": "Step 3: Select Alert Channels"
       },
       "components": {
         "createSmartAlert": "Add Smart Alert",
@@ -676,8 +676,8 @@
         "loadingThresholdSuggestion": "Loading threshold suggestion",
         "alertConfigDialogPresenterTitleEditAlert_Local": "Edit Smart Alert",
         "alertConfigDialogPresenterTitleEditAlert_Global": "Edit Global Smart Alert",
-        "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Create New Smart Alert",
-        "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Create New Global Smart Alert",
+        "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Create Smart Alert",
+        "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Create Global Smart Alert",
         "alertConfigDialogPresenterTitleMigrateAlert": "Migrate to Smart Alert",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "Switch to Advanced Mode",
         "simpleAlertConfigDialogStep3Headline": "Who should get the alerts?",
@@ -967,7 +967,7 @@
         "simpleAlertConfigDialogStep2Headline": "Where do you want the alert to trigger?",
         "stepConfigsStep1Title": "Step 1: Select Alert",
         "stepConfigsStep2Title": "Step 2: Select Scope",
-        "stepConfigsStep3Title": "Step 3: Select Alerting Channels"
+        "stepConfigsStep3Title": "Step 3: Select Alert Channels"
       },
       "customEvent" : {
         "noCustomEventsFound": "No custom events found",
