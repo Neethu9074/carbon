@@ -70,7 +70,7 @@ export default function Summary({ timeConfig, data: service }: SummaryProps) {
   };
 
   const isPodMetric = {
-    /* use this configuration on containers of this pod (which can be of type docker, containerd or crio)
+    /* use this configuration for metrics on pods of this service
       type filtering must be disabled and cross series aggregation uses SUM */
     type: plugins.kubernetesPod,
     crossSeriesAggregation: 'SUM' as AggregationType
