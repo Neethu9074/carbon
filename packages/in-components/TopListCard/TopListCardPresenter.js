@@ -5,10 +5,9 @@
 
 import React from 'react';
 
-import { Card, HorizontalIndicator, LoadingSkeleton } from '@instana/components';
+import { Card, HorizontalIndicator, LoadingSkeleton, Message } from '@instana/components';
 
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
-import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import { TOPLIST_METRIC_CHANGED, track } from 'in-services/tracking/tracking';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import ButtonGroup from 'in-components/ButtonGroup';
@@ -118,17 +117,34 @@ function QueryFailed({ errors }) {
   });
   switch (error.code) {
     case 'TIMEOUT':
-    case 'GATEWAY_TIMEOUT': {
-      error.message = t('in-components:analyzeView.queryProgress.timeout');
-      break;
-    }
+    case 'GATEWAY_TIMEOUT':
+      return (
+        <Message
+          type="warning"
+          withIcon
+          className={locals.bottomSpace}
+          title={t('in-components:analyzeView.queryProgress.timeout')}
+        />
+      );
+    case 'CLIENT':
     case 'TOO_MANY_REQUESTS':
-      error.message = t('in-components:analyzeView.queryProgress.tooManyRequestsInfo');
-      break;
+      return (
+        <Message
+          type="warning"
+          withIcon
+          className={locals.bottomSpace}
+          title={t('in-components:analyzeView.queryProgress.tooManyRequestsInfo')}
+        />
+      );
     case 'SERVER':
     default:
-      error.message = t('in-components:analyzeView.queryProgress.serverErrorInfo');
+      return (
+        <Message
+          type="warning"
+          withIcon
+          className={locals.bottomSpace}
+          title={t('in-components:analyzeView.queryProgress.serverErrorInfo')}
+        />
+      );
   }
-
-  return <ErroneousResultPresenter errors={[error]} addBottomMargin />;
 }
