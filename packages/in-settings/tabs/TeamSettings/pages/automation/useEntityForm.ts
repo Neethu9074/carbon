@@ -4,11 +4,13 @@
  * Copyright IBM Corp. 2022
  */
 
-import { Disposable, Observable } from '@instana/observables';
-import { Field, MapForm } from 'formalistic';
-import { t } from 'in-i18n';
-import { scrollToTopSmoothly } from 'in-services/util/dom';
 import { FormEvent, useLayoutEffect, useRef, useState } from 'react';
+import { Field, MapForm } from 'formalistic';
+
+import { Disposable, Observable } from '@instana/observables';
+
+import { scrollToTopSmoothly } from 'in-services/util/dom';
+import { t } from 'in-i18n';
 
 export const savingMessage = t('in-hoc:entityFormSaving');
 
@@ -26,6 +28,10 @@ interface Props<Entity> {
   createDefaultEntity: () => Entity;
   getEntityFromApi: (entityId: string) => Observable<Entity>;
   createForm: (entity: Entity) => MapForm;
+  onSaveSuccess?: () => void;
+  openEntities?: () => void;
+  saveEntity: (entity: Entity, mapForm: MapForm) => Observable<any>;
+  onSaveError?: (message: string) => void;
 }
 
 const initialState = {
@@ -69,14 +75,6 @@ export default function useEntityForm<Entity>(props: Props<Entity>) {
       return;
     }
 
-    setState({
-      ...state,
-      loading: true,
-      error: false,
-      message: t('in-hoc:entityFormLoading'),
-      form: null
-    });
-
     const apiEntityResult$ = getEntityFromApi(entityId);
     responseSubscription.current = apiEntityResult$.once(entity => {
       setState({
@@ -113,7 +111,7 @@ export default function useEntityForm<Entity>(props: Props<Entity>) {
       return;
     }
 
-    const result$ = props.saveEntity(entity, form);
+    const result$ = props.saveEntity(entity!, form!);
     disposeAsyncAction();
 
     setState({
@@ -133,7 +131,7 @@ export default function useEntityForm<Entity>(props: Props<Entity>) {
       props.openEntities?.();
     });
 
-    errorSubscription.current = result$.errors().once(error => {
+    errorSubscription.current = result$.errors().once((error: any) => {
       let message = error.message;
       if (
         error.response &&
@@ -167,12 +165,13 @@ export default function useEntityForm<Entity>(props: Props<Entity>) {
   function onChange<ValueType>(
     fieldName: string | ((mapForm: MapForm) => MapForm),
     value: ValueType,
-    updateFormDefinition: (mapForm: MapForm, entity: Entity) => MapForm,
-    forceSetValue: boolean = false
+    updateFormDefinition: (mapForm: MapForm, entity: Entity) => MapForm
   ) {
+    let updatedForm = state.form!;
+
     if (typeof fieldName === 'function') {
       const updater = fieldName;
-      const updatedForm = updater(state.form!);
+      updatedForm = updater(updatedForm);
 
       setState({
         ...state,
@@ -182,27 +181,12 @@ export default function useEntityForm<Entity>(props: Props<Entity>) {
       return updatedForm;
     }
 
-    const { entity } = state;
-    let updatedForm = state.form!;
-
-    function setFieldValue(value: ValueType, field: Field<ValueType>) {
-      return field.setValue(value).setTouched(true);
-    }
-
-    if (forceSetValue) {
-      updatedForm = updatedForm.put([fieldName], value);
-    } else if (Array.isArray(fieldName)) {
-      for (let i = 0, length = fieldName.length; i < length; i++) {
-        updatedForm = updatedForm.updateIn([fieldName[i]], setFieldValue(null, value[i]));
-      }
-    } else {
-      updatedForm = updatedForm.updateIn([fieldName], field =>
-        (field as Field<ValueType>).setValue(value).setTouched(true)
-      );
-    }
+    updatedForm = updatedForm.updateIn([fieldName], field =>
+      (field as Field<ValueType>).setValue(value).setTouched(true)
+    );
 
     if (updateFormDefinition) {
-      updatedForm = updateFormDefinition(updatedForm, entity!);
+      updatedForm = updateFormDefinition(updatedForm, state.entity!);
     }
 
     setState({
@@ -213,5 +197,12 @@ export default function useEntityForm<Entity>(props: Props<Entity>) {
     return updatedForm;
   }
 
-  return { ...state, onChange, onSubmit };
+  function setForm(form: MapForm) {
+    setState({
+      ...state,
+      form
+    });
+  }
+
+  return { ...state, onChange, onSubmit, isCreate: !entityId, setForm };
 }
