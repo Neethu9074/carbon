@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2022
  */
 
+import { MapForm, Field as FormField } from 'formalistic';
 import { RouteComponentProps } from 'react-router';
-import { MapForm } from 'formalistic';
 import React from 'react';
 
 import { createActionFormDefinition } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionFormDefinition';
@@ -55,7 +55,7 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
   let content: JSX.Element;
   if (loading) {
     content = <LoadingIndicator size={'xl'} />;
-  } else if (error) {
+  } else if (error && !entity) {
     content = (
       <SettingsDetailPage>
         <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.lib.colors.yellow800}>
@@ -75,23 +75,21 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
         <SubViewHeader>
           {isCreate
             ? t('in-settings:tabs.createANewAction')
-            : t('in-settings:tabs.configureActionEntityName', { entityName: entity?.name })}
+            : t('in-settings:tabs.configureActionEntityName', { entityName: entity!.name })}
         </SubViewHeader>
 
         <SectionLine />
 
         {message ? (
           <Section>
-            <Notification failure={error} loading={loading}>
-              {message}
-            </Notification>
+            <Notification failure={error}>{message}</Notification>
           </Section>
         ) : null}
 
         <ActionForm form={form!} onChange={onChange} entity={entity!} setForm={setForm} />
 
         <SaveCancel
-          form={form}
+          form={form!}
           message={message}
           loading={loading}
           saveEnabled={saveEnabled}
@@ -120,18 +118,18 @@ function save(form: MapForm, id: string | null) {
 }
 
 function getActionSpecification(form: MapForm): NewAction {
-  const name = form?.get('name')?.toJS();
-  const description = form?.get('description')?.toJS();
-  const type = form?.get('type')?.toJS();
-  const tags = form?.get('tags')?.toJS();
+  const name = (form.get('name') as FormField<string>).value;
+  const description = (form.get('description') as FormField<string>).value;
+  const type = (form.get('type') as FormField<string>).value;
+  const tags = (form.get('tags') as FormField<Tag[]>).value;
 
   const fields: Field[] = [];
 
   if (isDocLink(type)) {
-    const docLink = form?.get('docLink')?.toJS();
+    const docLink = (form.get('docLink') as FormField<string>).value;
     fields.push(createDocLinkField(docLink));
   } else if (isScript(type)) {
-    const scriptValue = form?.get('script')?.toJS();
+    const scriptValue = (form.get('script') as FormField<string>).value;
     fields.push(...createScriptFields(scriptValue));
   }
   return {

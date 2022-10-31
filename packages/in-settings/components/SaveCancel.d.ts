@@ -12,7 +12,7 @@ interface SaveCancelProps {
   cancelButtonLabel?: string;
   hasSaveButton?: boolean;
   isCreate?: boolean;
-  form: MapForm | null;
+  form?: MapForm;
   onClickCancelButton?: (e: React.MouseEvent<Element, MouseEvent>) => void;
   message?: string | null;
   saveEnabled?: boolean;
