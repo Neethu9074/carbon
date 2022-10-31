@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import StatisticsTable from 'in-forge/plugins/ibmMqQueue/Dashboard/StatisticsTable.js';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -106,6 +107,7 @@ export default function IbmMqQueueDashboard({ snapshot, timeConfig }) {
           }}
         />
       </DashboardSection>
+      <StatisticsTable snapshot={snapshot} snapshotId={snapshotId} timeConfig={timeConfig} />
     </div>
   );
 }

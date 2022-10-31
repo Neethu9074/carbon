@@ -52,5 +52,30 @@ export default [
     min: 0,
     category: [t('in-forge:plugins.ibmMqQueue.calls')],
     formatter: number
+  },
+  {
+    metrics: [
+      'nonPersistentPutBytes',
+      'persistentPutBytes',
+      'putFailCount',
+      'put1FailCount',
+      'nonPersistentGetBytes',
+      'persistentGetBytes',
+      'getFailCount',
+      'expiredMsgCount'
+    ],
+    labels: [
+      t('in-forge:plugins.ibmMqQueue.nonPersistentPutBytes'),
+      t('in-forge:plugins.ibmMqQueue.persistentPutBytes'),
+      t('in-forge:plugins.ibmMqQueue.putFailCount'),
+      t('in-forge:plugins.ibmMqQueue.put1FailCount'),
+      t('in-forge:plugins.ibmMqQueue.nonPersistentGetBytes'),
+      t('in-forge:plugins.ibmMqQueue.persistentGetBytes'),
+      t('in-forge:plugins.ibmMqQueue.getFailCount'),
+      t('in-forge:plugins.ibmMqQueue.expiredMsgCount')
+    ],
+    min: 0,
+    category: [t('in-forge:plugins.ibmMqQueue.statistics')],
+    formatter: number
   }
 ];
