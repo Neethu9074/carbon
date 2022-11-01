@@ -57,15 +57,16 @@
   },
   "explore": {
     "focusOnThisGroup": "聚焦於此群組",
-    "offline": "離線",
     "thisIsABetaVersionOfANewProductCapability": "這是新產品功能的測試版。建議您不要依賴所呈現的資料。",
     "theQueryConfigurationIsInvalid": "查詢配置無效。請先處理驗證失敗情況，再繼續進行。",
     "allInfrastructure": "所有基礎架構",
     "name": "名稱",
     "search": "搜尋",
     "explore": "瀏覽",
-    "cpuUser": "CPU（使用者）",
-    "memoryFree": "可用記憶體"
+    "count": "計數",
+    "errors": {
+      "maximumNumberOfGroups": "此查詢有太多結果。 請使用更嚴格的過濾器或更廣泛的群組來縮小範圍"
+    }
   },
   "tableView": {
     "showCountsAndAveragesAcrossTheCurrentTimeWindow": "顯示整個現行時間範圍的計數和平均值。",

@@ -24,6 +24,9 @@ import ApiList from 'in-settings/components/ApiList';
 import Title from 'in-components/Title/Title';
 import { t } from 'in-i18n';
 
+export const groupNameDefault = 'Default';
+export const groupNameOwner = 'Owner';
+
 export default function Groups() {
   return (
     <>
@@ -91,10 +94,16 @@ const columnDefinitions = [
   {
     width: '2rem',
     getContent({ group, deleteItem, currentDeletingItemIds, isDisabled }) {
+      const isDefaultOrOwnerGroup = group.name === groupNameDefault || group.name === groupNameOwner;
+      const tooltipContent = isDefaultOrOwnerGroup
+        ? t('in-settings:tabs.groupDeleteTooltip', { context: group.name })
+        : undefined;
+
       return (
         <Delete
           disabled={isDisabled}
           itemName={group.name}
+          tooltipContent={tooltipContent}
           doDelete={() => deleteItem(group.id)}
           isDeleting={currentDeletingItemIds.has(group.id)}
         />

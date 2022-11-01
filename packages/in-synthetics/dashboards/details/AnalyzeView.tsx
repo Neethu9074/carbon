@@ -20,10 +20,10 @@ import {
   ResultDetailsResponse,
   TestResponse
 } from 'in-synthetics/utils/constants';
-import getTestResultSubtransactions from 'in-synthetics/subscriptions/getTestResultSubtransactions';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 // @ts-expect-error Module needs to be translated to TS
 import Sticky from 'in-components/Sticky';
+import getTestResultDetailData from 'in-synthetics/subscriptions/getTestResultDetailData';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import getTestResultListStatus from 'in-synthetics/utils/getTestResultListStatus';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -62,9 +62,10 @@ export default function SyntheticAnalyzeView() {
   const details: ResultDetailsResponse =
     useObservable<any, [number]>(
       () =>
-        getTestResultSubtransactions({
+        getTestResultDetailData({
           testId: testId,
-          testResultId: resultId
+          testResultId: resultId,
+          type: 'SUBTRANSACTIONS'
         }),
       [0]
     ) || dummyResultDetails;

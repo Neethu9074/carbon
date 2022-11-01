@@ -11,6 +11,7 @@ import {
   getDeploymentConfigDashboard,
   getStatefulSetDashboard
 } from 'in-kubernetes/navigation/paths';
+import SummaryWithoutTimeShift from 'in-kubernetes/Dashboards/Service/tabs/Summary/SummaryWithoutTimeShift';
 import WorkloadControllers from 'in-kubernetes/Dashboards/commonComponents/commonTabs/WorkloadControllers';
 import getOpenShiftDeploymentConfigs from 'in-kubernetes/subscriptions/getOpenShiftDeploymentConfigs';
 import { EventsWithoutNamespace } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
@@ -22,13 +23,14 @@ import Pods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
 import { ServiceTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
 import Summary from 'in-kubernetes/Dashboards/Service/tabs/Summary/Summary';
 import Details from 'in-kubernetes/Dashboards/Service/tabs/Details';
+import { k8sTimeShiftEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 export default [
   {
     label: t('in-kubernetes:dashboards.summary'),
     path: `${serviceDashboardFullyQualified}/summary`,
-    component: Summary
+    component: k8sTimeShiftEnabled ? Summary : SummaryWithoutTimeShift
   },
   {
     label: t('in-kubernetes:dashboards.details'),

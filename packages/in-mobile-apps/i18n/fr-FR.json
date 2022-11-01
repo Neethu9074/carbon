@@ -3,7 +3,8 @@
     "sessionStart": "Démarrage de session",
     "viewChange": "Transition de vue",
     "httpRequest": "Demande HTTP",
-    "custom": "Evénement personnalisé"
+    "custom": "Evénement personnalisé",
+    "crash": "Panne"
   },
   "analyzeView": {
     "uniqueUsers": "Utilisateurs uniques",
@@ -156,7 +157,10 @@
       "traLong": "Transitions de vue",
       "cusShort": "Per",
       "cusBadgeLabel": "Per",
-      "cusLong": "Evénements personnalisés"
+      "cusLong": "Evénements personnalisés",
+      "craShort": "CRA",
+      "craBadgeLabel": "CRA",
+      "craLong": "Panne"
     },
     "tabsSumOverviewChartTooltipStartTime": "Heure de début",
     "tabsSummary": {
@@ -200,6 +204,15 @@
       "eventNameTitle": "Nom de l'événement",
       "errMsgTitle": "Message d'erreur",
       "metaHeader": "Méta"
+    },
+    "tabsSumCrashBeacon": {
+      "startTimeLabel": "Heure de début",
+      "crashHeader": "Panne",
+      "errorMsg": "Message d'erreur",
+      "errorType": "Type d'erreur",
+      "crashLabel": "Panne",
+      "metaHeader": "Méta",
+      "stackTrace": "StackTrace"
     },
     "tabsSumHttpRequestBeacon": {
       "retrievalTimeTooltip": "Temps d'extraction",
@@ -373,7 +386,8 @@
     "sessionId": "ID session",
     "viewName": "Nom de la vue",
     "access": "Accès",
-    "eventName": "Nom de l'événement"
+    "eventName": "Nom de l'événement",
+    "crash": "Panne"
   },
   "dataSource_sessionStart": "{{formattedCount}} démarrage de session",
   "dataSource_sessionStart_plural": "{{formattedCount}} démarrages de session",
@@ -395,6 +409,11 @@
   "dataSource_custom_0": "{{formattedCount}} événement personnalisé",
   "dataSource_custom_1": "{{formattedCount}} événement personnalisé",
   "dataSource_custom_2": "{{formattedCount}} événements personnalisés",
+  "dataSource_crash": "{{formattedCount}} panne",
+  "dataSource_crash_plural": "{{formattedCount}} pannes",
+  "dataSource_crash_0": "{{formattedCount}} pannes",
+  "dataSource_crash_1": "{{formattedCount}} pannes",
+  "dataSource_crash_2": "{{formattedCount}} pannes",
   "facetedSearch": {
     "mobileApp": "Application mobile",
     "view": "Vue",

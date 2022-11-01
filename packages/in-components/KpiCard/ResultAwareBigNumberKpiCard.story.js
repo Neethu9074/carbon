@@ -35,6 +35,24 @@ export function MissingData() {
   );
 }
 
+export function MissingDataRaw() {
+  return (
+    <ResultAwareBigNumberKpiCard
+      title="KPI card"
+      config={{}}
+      data={{}}
+      result={{
+        errors: [],
+        progress: {
+          loading: false
+        },
+        data: null
+      }}
+      raw
+    />
+  );
+}
+
 export function Loading() {
   return (
     <ResultAwareBigNumberKpiCard

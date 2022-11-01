@@ -469,8 +469,12 @@
         "sliEntity": "SLI エンティティー",
         "beaconConfigLabel": "ビーコンの構成",
         "beaconScopeLabel": "Beacon Scope",
-        "httpRequestsLabel": "HTTP リクエスト",
-        "beaconFiltersLabel": "ビーコン・フィルター"
+        "beaconLabel": "不明なビーコン・タイプ",
+        "beaconLabel_httpRequest": "HTTP リクエスト",
+        "beaconLabel_pageLoad": "Web サイト・ページのロード",
+        "beaconLabel_custom": "Web サイトのカスタム・イベント",
+        "beaconFiltersLabel": "ビーコン・フィルター",
+        "beaconFiltersSubtext": "オプション"
       },
       "sliList": {
         "serviceLevelIndicators": "サービス・レベル指標",
@@ -500,8 +504,10 @@
         "spent": "消費済み",
         "budget": "バジェット",
         "viewInAnalyze": "分析で表示",
-        "initialEvaluation": "SLIが作成されました",
-        "missingDataInfo": "このSLIの作成時刻は、表示された時刻範囲内です。 SLIの作成前のデータが欠落します。"
+        "configType": "SLI",
+        "configType_apdex": "Apdex",
+        "initialEvaluation": "{{configType}} が作成されました",
+        "missingDataInfo": "この {{configType}} の作成時刻は、表示されている時刻範囲内です。 {{configType}} の作成前のデータが欠落しています。"
       },
       "formComponent": {
         "sliManagement": "SLI 管理",
@@ -607,7 +613,9 @@
       "formComponent": {
         "title": "Apdex 構成",
         "entityTypeTitle": "Apdex タイプ",
-        "manageListTitle": "Apdex 管理"
+        "manageListTitle": "Apdex 管理",
+        "createApdex": "Apdex 構成の作成",
+        "editApdex": "Apdex 構成の編集"
       },
       "configurationSelector": {
         "label": "Apdex 構成",
@@ -638,7 +646,6 @@
         "createButton": "Apdex 構成の作成"
       },
       "createApdexForm": {
-        "title": "Apdex 構成の作成",
         "customizationHeader": "Apdex カスタマイズ",
         "label": "Apdex 名",
         "apdexCreateSuccessTitle": "Apdex 構成が正常に作成されました。",
@@ -651,7 +658,8 @@
           "website": "Web サイトの Apdex 構成の最大数 ({{0}}) に達しました。 この制限の引き上げを要求する場合は、Instana サポートにお問い合わせください。",
           "application": "アプリケーションの Apdex 構成の最大数 ({{0}}) に達しました。 この制限の引き上げを要求する場合は、Instana サポートにお問い合わせください。"
         },
-        "editConfigNotice": "データの損失を防ぐために、作成後に構成を編集することはできません。"
+        "editConfigNotice": "データ損失を回避するために、いったん作成された構成は編集できません。構成はコピーとしてのみ調整できます。",
+        "apdexCloneName": "{{apdexName}} のコピー"
       },
       "createWebsiteApdexForm": {
         "thresholdHeader": "しきい値構成",

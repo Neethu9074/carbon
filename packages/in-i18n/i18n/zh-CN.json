@@ -12,6 +12,12 @@
       "tableLoadMoreRow": {
         "loadMore": "加载更多"
       }
+    },
+    "code": {
+      "copy": "副本",
+      "copied": "已复制！",
+      "showMore": "显示更多",
+      "showLess": "显示更少内容"
     }
   },
   "formatDate": {
@@ -77,5 +83,6 @@
   "aggregation_MAX": "最大值",
   "aggregation_DISTINCT_COUNT": "不同项计数",
   "aggregation_SUM": "总和",
-  "aggregation_DISTRIBUTION": "分发"
+  "aggregation_DISTRIBUTION": "分发",
+  "aggregation_PER_SECOND": "每秒"
 }

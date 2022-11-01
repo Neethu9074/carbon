@@ -49,5 +49,5 @@ phases:
       - yarn install --frozen-lockfile
   build:
     commands:
-      - test -n "$DEPLOY_STORYBOOK" -a "$DEPLOY_STORYBOOK" = "true" && yarn run storybookBuild && npm install s3-deploy@1.4.0 -g && s3-deploy './storybookTarget/**' --cwd './storybookTarget/' --bucket instana-devinfra-ui-client-playground --deleteRemoved --invalidate || true
+      - test -n "$DEPLOY_STORYBOOK" -a "$DEPLOY_STORYBOOK" = "true" && ./build/deployStorybook.sh
       - test -n "$RUN_UI_STORYBOOK_TEST" -a "$RUN_UI_STORYBOOK_TEST" = "true" && yarn run storybookTest || true # ignore test's exit code if condition not met

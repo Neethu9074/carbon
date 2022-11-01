@@ -143,6 +143,7 @@ import './session';
 import './symfony';
 import './urllib3';
 import './camunda';
+import './prisma';
 import './ibm-mq';
 import './cosmos';
 import './django';

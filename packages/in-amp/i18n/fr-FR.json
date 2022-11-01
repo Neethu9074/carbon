@@ -3,7 +3,6 @@
     "accountSettings": {
       "accountSettings": "Paramètres du compte",
       "billingAddress": "Adresse de facturation",
-      "shippingAddress": "Adresse d'expédition",
       "country": "Pays",
       "state": "État",
       "zip": "Code postal",
@@ -39,7 +38,7 @@
     },
     "timePresets": {
       "last7Days": "7 derniers jours",
-      "last30Days": "30 derniers jours",
+      "last15Days": "Les 15 derniers jours",
       "last365Days": "365 derniers jours"
     },
     "usages": {

@@ -3,7 +3,8 @@
     "sessionStart": "Avvio sessione",
     "viewChange": "Transizione vista",
     "httpRequest": "Richiesta HTTP",
-    "custom": "Evento personalizzato"
+    "custom": "Evento personalizzato",
+    "crash": "Arresto anomalo"
   },
   "analyzeView": {
     "uniqueUsers": "Utenti univoci",
@@ -156,7 +157,10 @@
       "traLong": "Transizioni vista",
       "cusShort": "Cus",
       "cusBadgeLabel": "Cus",
-      "cusLong": "Eventi personalizzati"
+      "cusLong": "Eventi personalizzati",
+      "craShort": "Cra",
+      "craBadgeLabel": "Cra",
+      "craLong": "Arresto anomalo"
     },
     "tabsSumOverviewChartTooltipStartTime": "Data/ora di inizio",
     "tabsSummary": {
@@ -200,6 +204,15 @@
       "eventNameTitle": "Nome evento",
       "errMsgTitle": "Messaggio di errore",
       "metaHeader": "Meta"
+    },
+    "tabsSumCrashBeacon": {
+      "startTimeLabel": "Ora di inizio",
+      "crashHeader": "Arresto anomalo",
+      "errorMsg": "Messaggio di errore",
+      "errorType": "Tipo di errore",
+      "crashLabel": "Arresto anomalo",
+      "metaHeader": "Meta",
+      "stackTrace": "Traccia di stack"
     },
     "tabsSumHttpRequestBeacon": {
       "retrievalTimeTooltip": "Tempo richiamo",
@@ -373,7 +386,8 @@
     "sessionId": "ID sessione",
     "viewName": "Nome vista",
     "access": "Accesso",
-    "eventName": "Nome evento"
+    "eventName": "Nome evento",
+    "crash": "Arresto anomalo"
   },
   "dataSource_sessionStart": "{{formattedCount}} avvio sessione",
   "dataSource_sessionStart_plural": "{{formattedCount}} avvii sessione",
@@ -395,6 +409,11 @@
   "dataSource_custom_0": "{{formattedCount}} eventi personalizzati",
   "dataSource_custom_1": "{{formattedCount}} eventi personalizzati",
   "dataSource_custom_2": "{{formattedCount}} eventi personalizzati",
+  "dataSource_crash": "{{formattedCount}} arresto anomalo",
+  "dataSource_crash_plural": "{{formattedCount}} arresti anomali",
+  "dataSource_crash_0": "{{formattedCount}} arresti anomali",
+  "dataSource_crash_1": "{{formattedCount}} arresti anomali",
+  "dataSource_crash_2": "{{formattedCount}} arresti anomali",
   "facetedSearch": {
     "mobileApp": "App per dispositivi mobili",
     "view": "Vista",

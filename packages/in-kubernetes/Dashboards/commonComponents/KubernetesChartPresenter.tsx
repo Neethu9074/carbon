@@ -7,10 +7,9 @@ import React from 'react';
 
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
-import { AxisColor, Formatter, TimeShift } from 'in-components/Chart/types';
 import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
+import { AxisColor, Formatter } from 'in-components/Chart/types';
 import { line } from 'in-stores/metric/renderer';
-import theme from 'in-themes';
 
 interface KubernetesChartPresenterProps {
   metrics: Metric[];
@@ -18,10 +17,7 @@ interface KubernetesChartPresenterProps {
   colors: AxisColor[];
   formatter: string;
   tooltipFormatter?: Formatter;
-  // following fields are passed implicitly by TimeShiftAwareChartSelectorWithUrlState
-  selectedMetricValue?: string;
-  timeShiftConfig?: TimeShift;
-  selectorComponent?: JSX.Element;
+  rightHeaderContent?: React.ReactElement;
 }
 
 export default function KubernetesChartPresenter({
@@ -30,32 +26,22 @@ export default function KubernetesChartPresenter({
   colors,
   formatter,
   tooltipFormatter,
-  selectedMetricValue,
-  timeShiftConfig,
-  selectorComponent
+  rightHeaderContent
 }: KubernetesChartPresenterProps) {
-  const selectedMetric = metrics.find(m => m.metric === selectedMetricValue) ?? metrics[0];
-  const timeShiftActive = timeShiftConfig?.offset !== 0;
   return (
     <UnifiedMetricsChart
-      rightHeaderContent={selectorComponent}
+      rightHeaderContent={rightHeaderContent}
       title={title}
       config={{
         y1: {
-          metrics: timeShiftActive
-            ? [{ ...selectedMetric, timeShift: timeShiftConfig?.offset }, selectedMetric]
-            : metrics,
+          metrics: metrics,
           formatter,
           tooltipFormatter,
-          colors: timeShiftActive
-            ? ([theme.lib.colors.timeShift, selectedMetric.color] as AxisColor[])
-            : colors,
+          colors: colors,
           renderer: line.id
         },
         type: 'TIME_SERIES'
       }}
-      reverseTooltipOrder={timeShiftActive}
-      reverseLegendOrder={timeShiftActive}
       renderPostChartContent={K8DashboardsMarkerLanes}
     />
   );

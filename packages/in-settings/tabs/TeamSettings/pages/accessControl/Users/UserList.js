@@ -55,6 +55,16 @@ export const idpGroupColumn = {
   }
 };
 
+export const groupCount = {
+  width: '8rem',
+  getContent({ groups }) {
+    if (groups === undefined) {
+      return <></>;
+    }
+    return <KeyValue value={groups} label={t('in-settings:tabs.groups')} accentuated />;
+  }
+};
+
 export const deleteColumn = {
   width: '2rem',
   getContent({ user, deleteItem, currentDeletingItemIds }) {
@@ -71,7 +81,7 @@ export const deleteColumn = {
   }
 };
 
-const defaultColumnDefinitions = [iconColumn, labelColumn, deleteColumn];
+const defaultColumnDefinitions = [iconColumn, labelColumn, groupCount, deleteColumn];
 
 function DefaultListRenderer({
   items,
@@ -97,6 +107,7 @@ function DefaultListRenderer({
               user={user}
               email={user.email}
               joinedViaIdpMapping={members?.find(m => m.userId === user.id).joinedViaIdpMapping}
+              groups={user.groupCount}
               deleteItem={deleteItem}
               currentDeletingItemIds={currentDeletingItemIds}
             />
