@@ -50,8 +50,8 @@ export default function ResponseSize({ test, timeShiftConfig }: Props) {
 }
 
 function renderChart(test: TestResponse, timeShiftConfig: TimeShift) {
-  const locations: string[] = get(test, ['data', 'locations']);
-  const locationDisplayLabels: string[] = get(test, ['data', 'locationDisplayLabels']);
+  const locations: string[] = get(test, ['data', 'locations']) || [];
+  const locationDisplayLabels: string[] = get(test, ['data', 'locationDisplayLabels']) || [];
   const id = get(test, ['data', 'id']);
   let tagFilters = [];
   let testMetricConfigs: Metric[] = [];
