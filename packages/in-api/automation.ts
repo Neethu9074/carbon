@@ -69,7 +69,7 @@ export function saveAction(actionSpecification: NewAction, id: string) {
   return http({
     method: 'PUT',
     maxRetries: 3,
-    url: `${actionUrl}/${encodeURIComponent(id)}fr`,
+    url: `${actionUrl}/${encodeURIComponent(id)}`,
     headers: getCsrfHeader(),
     data: actionSpecification
   }).map(response => response.body);
