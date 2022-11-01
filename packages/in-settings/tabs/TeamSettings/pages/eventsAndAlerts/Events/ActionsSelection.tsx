@@ -19,7 +19,7 @@ import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/Sel
 import { getAllActionsWithAISuggestions } from 'in-api/automation';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
-import { Action, EventSpecificationInfo } from 'in-types';
+import { Action } from 'in-types';
 import { t } from 'in-i18n';
 
 type SetForm = React.Dispatch<React.SetStateAction<MapForm>>;
@@ -60,12 +60,11 @@ function getScoredActionTable(eventName: string, eventDescription: string) {
 interface ActionsSelectionProps {
   form: MapForm;
   setForm: SetForm;
-  entity: EventSpecificationInfo;
 }
-export default function ActionsSelection({ form, setForm, entity }: ActionsSelectionProps) {
+export default function ActionsSelection({ form, setForm }: ActionsSelectionProps) {
   const selectedActions = (form.get('actionIds') as Field<string[]>)?.value ?? [];
-  const eventName = entity.name;
-  const eventDescription = entity.description ?? '';
+  const eventName = (form.get('name') as Field<string>)?.value;
+  const eventDescription = (form.get('description') as Field<string>)?.value;
 
   const getSelectedActionsForEvent = createMemoizedObservableForReferencedEntities(function(selectedActions: string[]) {
     if (selectedActions.length === 0) {
