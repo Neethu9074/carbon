@@ -21,7 +21,7 @@ export interface SetSliderStateProps {
   slideInConfig: { component?: ReactNode; title?: string };
   isVisible: boolean;
 }
-export interface BuiltinEventProps {
+export interface EventProps {
   name: string | undefined;
   description: string | undefined;
   id: string;

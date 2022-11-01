@@ -16,10 +16,7 @@ import {
   saveCustomEventSpecificationWithActions,
   getCustomEventSpecificationWithActions
 } from 'in-api/eventSpecifications';
-import {
-  MessageType,
-  BuiltinEventProps
-} from 'in-events/components/AutomationActions/action_associations_dialog/SharedTypes';
+import { MessageType, EventProps } from 'in-events/components/AutomationActions/action_associations_dialog/SharedTypes';
 import ActionConfigDialog from 'in-events/components/AutomationActions/action_associations_dialog/ActionConfigDialog';
 import { addActionForm } from 'in-events/components/AutomationActions/action_associations_dialog/addActionForm';
 import { close } from 'in-components/DialogPresenter/store';
@@ -31,7 +28,7 @@ const logger = createLogger(
 );
 
 interface ActionAssociationDialogWrapperProps {
-  eventDetails: BuiltinEventProps;
+  eventDetails: EventProps;
   actions: Action[];
   isCustom: boolean;
   onClose: () => void;

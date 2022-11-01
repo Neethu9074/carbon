@@ -15,7 +15,7 @@ import AlertConfigSlideInContentWrapper from 'in-alerting/smart-alerts/component
 import ActionTable, {
   ActionTableProps
 } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionTable';
-import { BuiltinEventProps } from 'in-events/components/AutomationActions/action_associations_dialog/SharedTypes';
+import { EventProps } from 'in-events/components/AutomationActions/action_associations_dialog/SharedTypes';
 import SelectListDialogContent from 'in-settings/tabs/TeamSettings/components/SelectListDialogContent';
 import SlideInView, { NoHeader } from 'in-components/SlideInView/SlideInView';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
@@ -39,12 +39,12 @@ interface SelectActionsProps {
   form: MapForm;
   setForm: React.Dispatch<React.SetStateAction<MapForm>>;
   numberOfActionChannelListRows: number;
-  eventDetails: BuiltinEventProps;
+  eventDetails: EventProps;
 }
 
 interface SelectListDialogContentViewProps {
   numberOfActionChannelListRows: number;
-  eventDetails: BuiltinEventProps;
+  eventDetails: EventProps;
   setCustomSlideInHeaderConfig: React.Dispatch<
     React.SetStateAction<{
       title: null;

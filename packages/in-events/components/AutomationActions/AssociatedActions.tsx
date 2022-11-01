@@ -19,7 +19,7 @@ import {
   getBuiltinEventActions,
   getBuiltInEventSpecification
 } from 'in-api/eventSpecifications';
-import { BuiltinEventProps } from 'in-events/components/AutomationActions/action_associations_dialog/SharedTypes';
+import { EventProps } from 'in-events/components/AutomationActions/action_associations_dialog/SharedTypes';
 import ActionTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionTable';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { getAllActionsWithAISuggestions } from 'in-api/automation';
@@ -33,7 +33,7 @@ interface Props {
 }
 
 interface RightHeaderProps {
-  eventDetails: BuiltinEventProps;
+  eventDetails: EventProps;
   actions: Action[];
   isCustom: boolean;
 }

@@ -11,7 +11,7 @@ import React from 'react';
 import SimpleActionConfigDialogStep1 from 'in-events/components/AutomationActions/action_associations_dialog/steps/SimpleActionConfigDialogStep1';
 import SimpleActionConfigDialogStep2 from 'in-events/components/AutomationActions/action_associations_dialog/steps/SimpleActionConfigDialogStep2';
 import { blueprintConfig } from 'in-events/components/AutomationActions/action_associations_dialog/steps/simpleModeBluePrints';
-import { BuiltinEventProps } from 'in-events/components/AutomationActions/action_associations_dialog/SharedTypes';
+import { EventProps } from 'in-events/components/AutomationActions/action_associations_dialog/SharedTypes';
 import { Action } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -28,7 +28,7 @@ interface SelectActionsParentProps {
   setSliderState: (component: ReactNode) => void;
   setForm: React.Dispatch<React.SetStateAction<MapForm>>;
   numberOfActionChannelListRows: number;
-  eventDetails: BuiltinEventProps;
+  eventDetails: EventProps;
 }
 
 export const stepConfigs = [

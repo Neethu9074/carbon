@@ -7,9 +7,9 @@
 import React, { ReactNode } from 'react';
 import { MapForm } from 'formalistic';
 
-import { BuiltinEventProps } from 'in-events/components/AutomationActions/action_associations_dialog/SharedTypes';
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import SelectActions from 'in-events/components/AutomationActions/action_associations_dialog/selectActions';
+import { EventProps } from 'in-events/components/AutomationActions/action_associations_dialog/SharedTypes';
 import { Action } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -27,7 +27,7 @@ interface SelectActionsProps {
   form: MapForm;
   setForm: React.Dispatch<React.SetStateAction<MapForm>>;
   numberOfActionChannelListRows: number;
-  eventDetails: BuiltinEventProps;
+  eventDetails: EventProps;
 }
 
 export default function SimpleActionConfigDialogStep2(props: SelectActionsProps) {
