@@ -53,9 +53,10 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
     NewAction | Action
   >(entityFormParam);
   let content: JSX.Element;
+  const errorLoading = error && !entity;
   if (loading) {
     content = <LoadingIndicator size={'xl'} />;
-  } else if (error && !entity) {
+  } else if (errorLoading) {
     content = (
       <SettingsDetailPage>
         <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.lib.colors.yellow800}>

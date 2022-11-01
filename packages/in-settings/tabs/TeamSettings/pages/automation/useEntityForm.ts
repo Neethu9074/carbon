@@ -133,12 +133,7 @@ export default function useEntityForm<Entity>(props: Props<Entity>) {
 
     errorSubscription.current = result$.errors().once((error: any) => {
       let message = error.message;
-      if (
-        error.response &&
-        error.response.body &&
-        error.response.body.errors &&
-        error.response.body.errors.length > 0
-      ) {
+      if (error?.response?.body?.errors?.length > 0) {
         message = error.response.body.errors.join(', ');
       }
       scrollToTopSmoothly();
@@ -204,5 +199,12 @@ export default function useEntityForm<Entity>(props: Props<Entity>) {
     });
   }
 
-  return { ...state, onChange, onSubmit, isCreate: !entityId, setForm };
+  function setSaveEnabled(saveEnabled: boolean) {
+    setState({
+      ...state,
+      saveEnabled
+    });
+  }
+
+  return { ...state, onChange, onSubmit, isCreate: !entityId, setForm, setSaveEnabled };
 }
