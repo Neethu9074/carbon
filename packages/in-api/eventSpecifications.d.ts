@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import { Action, CustomEventSpecification } from 'in-types';
+import { Action, CustomEventSpecification, EventSpecificationInfo } from 'in-types';
 
 export function getCustomEventActions(eventSpecificationId: string): Observable<Action[]>;
 export function getCustomEventSpecificationWithActions(
@@ -18,4 +18,4 @@ export function updateActionsAssignedToBuiltInEvent(
   actions: { id: string }[],
   eventSpecificationId: string | undefined
 ): Observable<Action[]>;
-export function getBuiltInEventSpecification(eventSpecificationId: string): Observable<CustomEventSpecification>;
+export function getBuiltInEventSpecification(eventSpecificationId: string): Observable<EventSpecificationInfo>;
