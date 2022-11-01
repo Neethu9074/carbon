@@ -11,12 +11,12 @@ import React from 'react';
 import SimpleActionConfigDialogStep1 from 'in-events/components/AutomationActions/action_associations_dialog/steps/SimpleActionConfigDialogStep1';
 import SimpleActionConfigDialogStep2 from 'in-events/components/AutomationActions/action_associations_dialog/steps/SimpleActionConfigDialogStep2';
 import { blueprintConfig } from 'in-events/components/AutomationActions/action_associations_dialog/steps/simpleModeBluePrints';
-import { Action, Event } from 'in-types';
+import { BuiltinEventProps } from 'in-events/components/AutomationActions/action_associations_dialog/SharedTypes';
+import { Action } from 'in-types';
 import { t } from 'in-i18n';
 
 interface SelectActionsParentProps {
   actions?: Action[];
-  event: Event;
   slideInConfig: { component?: ReactNode; title?: string };
   setCustomSlideInHeaderConfig: React.Dispatch<
     React.SetStateAction<{
@@ -24,11 +24,11 @@ interface SelectActionsParentProps {
       onClose: null;
     }>
   >;
-
   form: MapForm;
   setSliderState: (component: ReactNode) => void;
   setForm: React.Dispatch<React.SetStateAction<MapForm>>;
   numberOfActionChannelListRows: number;
+  eventDetails: BuiltinEventProps;
 }
 
 export const stepConfigs = [

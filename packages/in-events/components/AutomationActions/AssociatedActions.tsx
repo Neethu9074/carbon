@@ -4,8 +4,9 @@
  * Copyright IBM Corp. 2022
  */
 
-import { filter } from 'lodash';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { filter, isEmpty } from 'lodash';
+import { MapForm } from 'formalistic';
 
 import { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
@@ -13,8 +14,13 @@ import { Button } from '@instana/components';
 
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 import ActionAssociationDialogWrapper from 'in-events/components/AutomationActions/action_associations_dialog/ActionAssociationDialogWrapper';
+import {
+  getCustomEventActions,
+  getBuiltinEventActions,
+  getBuiltInEventSpecification
+} from 'in-api/eventSpecifications';
+import { BuiltinEventProps } from 'in-events/components/AutomationActions/action_associations_dialog/SharedTypes';
 import ActionTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionTable';
-import { getCustomEventActions, getBuiltinEventActions } from 'in-api/eventSpecifications';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { getAllActionsWithAISuggestions } from 'in-api/automation';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
@@ -27,7 +33,7 @@ interface Props {
 }
 
 interface RightHeaderProps {
-  event: Event;
+  eventDetails: BuiltinEventProps;
   actions: Action[];
   isCustom: boolean;
 }
@@ -38,16 +44,38 @@ export default function AssociatedActions({ event, volatileId }: Props) {
   const observable = isCustom ? getCustomEventActions : getBuiltinEventActions;
   const actions =
     useObservable<Action[], [string]>(() => observable(eventSpecificationId), [eventSpecificationId]) ?? [];
+
   const selectedActions: string[] = actions.map(action => action.id);
-  const eventName: string | undefined = event?.problem?.problemText;
-  const eventDescription: string | undefined = event?.problem?.fixSuggestion;
+  const [eventDetails, setEventDetails] = useState({
+    name: event?.problem?.problemText,
+    description: event?.problem?.fixSuggestion,
+    id: eventSpecificationId
+  });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const eventData =
+    useObservable<Event, [string]>(() => {
+      if (!isCustom) {
+        return getBuiltInEventSpecification(eventSpecificationId);
+      }
+    }, [eventSpecificationId]) ?? {};
+
+  useEffect(() => {
+    if (!isCustom && !isEmpty(eventData)) {
+      const builtinEventdata: any = (eventData as MapForm).toJS();
+      setEventDetails({
+        name: builtinEventdata.name,
+        description: builtinEventdata.description,
+        id: eventSpecificationId
+      });
+    }
+  }, [eventData, isCustom, eventSpecificationId]);
 
   const getSelectedActionsForEvent = createMemoizedObservableForReferencedEntities(function(selectedActions: string[]) {
     if (selectedActions.length === 0) {
       return (alwaysEmptyArray as unknown) as Observable<Action[]>;
     }
     // null is treated as a pending result when converting the HTTP response into a result
-    return getAllActionsWithAISuggestions(eventName, eventDescription).map(action =>
+    return getAllActionsWithAISuggestions(eventDetails.name, eventDetails.description).map(action =>
       filter(action, function(app) {
         return selectedActions.indexOf(app.id) >= 0;
       })
@@ -61,7 +89,7 @@ export default function AssociatedActions({ event, volatileId }: Props) {
         showExecuteColumn
         showActionLink
         event={event}
-        rightHeader={<RightHeader event={event} actions={actions} isCustom={isCustom} />}
+        rightHeader={<RightHeader eventDetails={eventDetails} actions={actions} isCustom={isCustom} />}
         volatileId={volatileId}
         loadEntities={() => getSelectedActionsForEvent(selectedActions)}
         scored
@@ -71,14 +99,19 @@ export default function AssociatedActions({ event, volatileId }: Props) {
 }
 
 export const RightHeader = (props: RightHeaderProps) => {
-  const { event, actions, isCustom } = props;
+  const { eventDetails, actions, isCustom } = props;
   return (
     <Button
       kind="action"
       icon="lib_openclose_add_circle_outline"
       onClick={() => {
         addActiveDialog(
-          <ActionAssociationDialogWrapper event={event} actions={actions} isCustom={isCustom} onClose={close} />
+          <ActionAssociationDialogWrapper
+            eventDetails={eventDetails}
+            actions={actions}
+            isCustom={isCustom}
+            onClose={close}
+          />
         );
       }}
     >

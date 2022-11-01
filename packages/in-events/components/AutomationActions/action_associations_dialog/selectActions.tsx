@@ -12,6 +12,7 @@ import { Observable } from '@instana/observables';
 import { Button } from '@instana/components';
 
 import AlertConfigSlideInContentWrapper from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertConfigSlideInContentWrapper';
+import { BuiltinEventProps } from 'in-events/components/AutomationActions/action_associations_dialog/SharedTypes';
 import SelectListDialogContent from 'in-settings/tabs/TeamSettings/components/SelectListDialogContent';
 import ActionTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionTable';
 import SlideInView, { NoHeader } from 'in-components/SlideInView/SlideInView';
@@ -20,7 +21,7 @@ import { getAllActionsWithAISuggestions } from 'in-api/automation';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import SaveButton from 'in-components/form/SaveButton';
-import { Action, Event } from 'in-types';
+import { Action } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './selectActions.mless';
@@ -36,7 +37,7 @@ interface SelectActionsProps {
   form: MapForm;
   setForm: React.Dispatch<React.SetStateAction<MapForm>>;
   numberOfActionChannelListRows: number;
-  event: Event;
+  eventDetails: BuiltinEventProps;
 }
 
 interface SelectListDialogContentViewProps {
@@ -57,12 +58,12 @@ export default function SelectActions({
   setForm,
   setSliderState,
   setCustomSlideInHeaderConfig,
-  event,
+  eventDetails,
   numberOfActionChannelListRows = 5
 }: SelectActionsProps) {
   const selectedActions = (form.get('actionIds') as Field<string[]>)?.value ?? [];
-  const eventName: string | undefined = event?.problem?.problemText;
-  const eventDescription: string | undefined = event?.problem?.fixSuggestion;
+  const eventName: string | undefined = eventDetails.name;
+  const eventDescription: string | undefined = eventDetails.description;
   const getSelectedActionsForEvent = (selectedActions: string[]) => {
     if (selectedActions.length === 0) {
       return (alwaysEmptyArray as unknown) as Observable<Action[]>;

@@ -7,16 +7,16 @@
 import React, { ReactNode } from 'react';
 import { MapForm } from 'formalistic';
 
+import { BuiltinEventProps } from 'in-events/components/AutomationActions/action_associations_dialog/SharedTypes';
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import SelectActions from 'in-events/components/AutomationActions/action_associations_dialog/selectActions';
-import { Action, Event } from 'in-types';
+import { Action } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './SimpleActionConfigDialogStep2.mless';
 
 interface SelectActionsProps {
   actions?: Action[];
-  event: Event;
   setSliderState: (component: ReactNode) => void;
   setCustomSlideInHeaderConfig: React.Dispatch<
     React.SetStateAction<{
@@ -27,6 +27,7 @@ interface SelectActionsProps {
   form: MapForm;
   setForm: React.Dispatch<React.SetStateAction<MapForm>>;
   numberOfActionChannelListRows: number;
+  eventDetails: BuiltinEventProps;
 }
 
 export default function SimpleActionConfigDialogStep2(props: SelectActionsProps) {

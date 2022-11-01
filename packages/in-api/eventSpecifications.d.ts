@@ -18,3 +18,4 @@ export function updateActionsAssignedToBuiltInEvent(
   actions: { id: string }[],
   eventSpecificationId: string | undefined
 ): Observable<Action[]>;
+export function getBuiltInEventSpecification(eventSpecificationId: string): Observable<CustomEventSpecification>;
