@@ -28,7 +28,7 @@ import KpiCard from 'in-components/KpiCard/KpiCard';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
-export default function Summary({ timeConfig, data: service }) {
+export default function SummaryWithoutTimeShift({ timeConfig, data: service }) {
   const snapshotId = service.id;
   const { orange800: limits, lime800: requests, lightBlue800: usage } = theme.lib.colors;
 
