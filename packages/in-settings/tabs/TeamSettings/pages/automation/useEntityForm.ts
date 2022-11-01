@@ -168,10 +168,7 @@ export default function useEntityForm<Entity>(props: Props<Entity>) {
       const updater = fieldName;
       updatedForm = updater(updatedForm);
 
-      setState({
-        ...state,
-        form: updatedForm
-      });
+      setForm(updatedForm);
 
       return updatedForm;
     }
@@ -184,10 +181,7 @@ export default function useEntityForm<Entity>(props: Props<Entity>) {
       updatedForm = updateFormDefinition(updatedForm, state.entity!);
     }
 
-    setState({
-      ...state,
-      form: updatedForm
-    });
+    setForm(updatedForm);
 
     return updatedForm;
   }
