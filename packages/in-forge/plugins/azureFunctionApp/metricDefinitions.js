@@ -295,7 +295,7 @@ export default [
     min: 0,
     formatter: number
   },
-
+    
   {
     metric: 'mws_co',
     label: t('in-forge:plugins.azureFunctionApp.labelMwsCo'),
@@ -439,7 +439,7 @@ export default [
     min: 0,
     formatter: number
   },
-
+  
   {
     metric: 'iwbps_co',
     label: t('in-forge:plugins.azureFunctionApp.labelIwbpsCo'),
@@ -475,7 +475,7 @@ export default [
     min: 0,
     formatter: number
   },
-
+    
   {
     metric: 'irobps_co',
     label: t('in-forge:plugins.azureFunctionApp.labelIrobpsCo'),
@@ -511,7 +511,7 @@ export default [
     min: 0,
     formatter: number
   },
-
+  
   {
     metric: 'iwobps_co',
     label: t('in-forge:plugins.azureFunctionApp.labelIwobpsCo'),
@@ -547,7 +547,7 @@ export default [
     min: 0,
     formatter: number
   },
-
+  
   {
     metric: 'riaq_co',
     label: t('in-forge:plugins.azureFunctionApp.labelRiaqCo'),

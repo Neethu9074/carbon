@@ -16,12 +16,8 @@ export default function Info({ snapshot }) {
       <DescriptionItem title={t('in-forge:plugins.azureFunction.infoName')}>{data.get('name')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.azureFunction.infoType')}>{data.get('type')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.azureFunction.infoLocation')}>{data.get('location')}</DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.azureFunction.infoSubscriptionID')}>
-        {data.get('subscription')}
-      </DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.azureFunction.infoResourceGroup')}>
-        {data.get('resourceGroup')}
-      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.azureFunction.infoSubscriptionID')}>{data.get('subscription')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.azureFunction.infoResourceGroup')}>{data.get('resourceGroup')}</DescriptionItem>
     </DescriptionList>
   );
 }
