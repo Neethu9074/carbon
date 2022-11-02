@@ -353,49 +353,71 @@ function EventForm({
       </Row>
       <SectionHeading>{t('in-settings:tabs.2Condition')}</SectionHeading>
       {form.get('dataSource').map(field => (
-        <FormGroup>
-          <Label htmlFor="event-data-source" hasError={!field.valid && field.touched}>
-            {t('in-settings:tabs.source')}
-          </Label>
-          <ComboBox
-            isDisabled={disabled}
-            name="event-data-source"
-            value={field.value}
-            options={dataSourceOptions}
-            onChange={e => {
-              onChange('dataSource', e ? e.value : null, (updatedForm, eventSpec) => {
-                return updateFormDefinitionForDataSource(updatedForm, field.value, eventSpec, systemRules);
-              });
-            }}
-            isClearable={false}
-          />
-          <TouchedMessages field={field} />
-        </FormGroup>
-      ))}
-
-      {isSystemRuleDataSourceSelected(form) && (
-        <>
-          {form.get('systemRule').map(field => (
+        <Row>
+          <Col lg={6}>
             <FormGroup>
-              <Label htmlFor="event-system-rule" hasError={!field.valid && field.touched}>
-                {t('in-settings:tabs.systemRule')}
+              <Label htmlFor="event-data-source" hasError={!field.valid && field.touched}>
+                {t('in-settings:tabs.source')}
               </Label>
               <ComboBox
                 isDisabled={disabled}
-                name="event-system-rule"
+                name="event-data-source"
                 value={field.value}
-                options={systemRuleOptions(systemRules)}
+                options={dataSourceOptions}
                 onChange={e => {
-                  onChange('systemRule', e ? e.value : null, (updatedForm, eventSpec) => {
-                    return updateFormDefinitionForSystemRule(updatedForm, field.value, eventSpec, systemRules);
+                  onChange('dataSource', e ? e.value : null, (updatedForm, eventSpec) => {
+                    return updateFormDefinitionForDataSource(updatedForm, field.value, eventSpec, systemRules);
                   });
                 }}
                 isClearable={false}
               />
               <TouchedMessages field={field} />
             </FormGroup>
-          ))}
+          </Col>
+          <Col lg={6}>
+            {isSystemRuleDataSourceSelected(form) &&
+              form.get('systemRule').map(field => (
+                <FormGroup>
+                  <Label htmlFor="event-system-rule" hasError={!field.valid && field.touched}>
+                    {t('in-settings:tabs.systemRule')}
+                  </Label>
+                  <ComboBox
+                    isDisabled={disabled}
+                    name="event-system-rule"
+                    value={field.value}
+                    options={systemRuleOptions(systemRules)}
+                    onChange={e => {
+                      onChange('systemRule', e ? e.value : null, (updatedForm, eventSpec) => {
+                        return updateFormDefinitionForSystemRule(updatedForm, field.value, eventSpec, systemRules);
+                      });
+                    }}
+                    isClearable={false}
+                  />
+                  <TouchedMessages field={field} />
+                </FormGroup>
+              ))}
+            {isBuiltInDataSourceSelected(form) && (
+              <EntityTypeFormGroup
+                disabled={disabled}
+                form={form}
+                pluginsWithMetricDefinitions={pluginsWithMetricDefinitions}
+                onChange={onChange}
+              />
+            )}
+            {isCustomDataSourceSelected(form) && (
+              <EntityTypeFormGroup
+                disabled={disabled}
+                form={form}
+                pluginsWithMetricDefinitions={pluginsWithCustomMetrics}
+                onChange={onChange}
+              />
+            )}
+          </Col>
+        </Row>
+      ))}
 
+      {isSystemRuleDataSourceSelected(form) && (
+        <>
           {form.get('systemRule') && form.get('systemRule').value === entityVerification.id && (
             <ObserveHostHasMatchingEntitiesRunningFormGroup
               disabled={disabled}
@@ -413,16 +435,8 @@ function EventForm({
 
       {isBuiltInDataSourceSelected(form) && (
         <>
-          <Row>
-            <Col lg={3}>
-              <EntityTypeFormGroup
-                disabled={disabled}
-                form={form}
-                pluginsWithMetricDefinitions={pluginsWithMetricDefinitions}
-                onChange={onChange}
-              />
-            </Col>
-            <Col lg={9}>
+          <Row withoutTopMargin>
+            <Col lg={12}>
               {form.get('entityType').value &&
                 form.get('metricName').map(field => (
                   <FormGroup>
@@ -495,53 +509,44 @@ function EventForm({
 
       {isCustomDataSourceSelected(form) && (
         <>
-          <Row>
-            <Col lg={3}>
-              <EntityTypeFormGroup
-                disabled={disabled}
-                form={form}
-                pluginsWithMetricDefinitions={pluginsWithCustomMetrics}
-                onChange={onChange}
-              />
-            </Col>
-            <Col lg={9}>
-              {customMetricsForPlugin &&
-                form.get('metricName').map(field => (
-                  <FormGroup>
-                    <Label htmlFor="event-metricName" hasError={!field.valid && field.touched}>
-                      {t('in-settings:tabs.metric')}
-                    </Label>
-                    <CustomMetricSelector
-                      disabled={disabled}
-                      // Workaround to clear the selection when the entity-type change.
-                      // It is not that expensive, because it is a small component.
-                      key={Math.random()}
-                      id="event-metricName"
-                      value={form.get('metricName').value}
-                      metrics={customMetricsForPlugin}
-                      onChange={e => {
-                        if ((field.value && !e) || (e && e.value !== field.value)) {
-                          let selectedMetric = e ? e.value : '';
-                          onChange('metricName', selectedMetric, (updatedForm, eventSpec) => {
-                            updatedForm = updatedForm.remove('rollup');
-                            updatedForm = putWindowField(updatedForm, eventSpec);
-                            updatedForm = putAggregationField(updatedForm, eventSpec);
+          <Row withoutTopMargin>
+            <Col lg={12}>
+              {form.get('metricName').map(field => (
+                <FormGroup>
+                  <Label htmlFor="event-metricName" hasError={!field.valid && field.touched}>
+                    {t('in-settings:tabs.metric')}
+                  </Label>
+                  <CustomMetricSelector
+                    disabled={disabled || !customMetricsForPlugin}
+                    // Workaround to clear the selection when the entity-type change.
+                    // It is not that expensive, because it is a small component.
+                    key={Math.random()}
+                    id="event-metricName"
+                    value={form.get('metricName').value}
+                    metrics={customMetricsForPlugin}
+                    onChange={e => {
+                      if ((field.value && !e) || (e && e.value !== field.value)) {
+                        let selectedMetric = e ? e.value : '';
+                        onChange('metricName', selectedMetric, (updatedForm, eventSpec) => {
+                          updatedForm = updatedForm.remove('rollup');
+                          updatedForm = putWindowField(updatedForm, eventSpec);
+                          updatedForm = putAggregationField(updatedForm, eventSpec);
 
-                            const metricInfo = getCustomMetricInfo(customMetricsForPlugin, selectedMetric);
+                          const metricInfo = getCustomMetricInfo(customMetricsForPlugin, selectedMetric);
 
-                            updatedForm = updatedForm
-                              .updateIn(['formatter'], f => f.setValue(metricInfo.formatter))
-                              .updateIn(['conditionOperator'], f => f.setValue(null).setTouched(false))
-                              .updateIn(['conditionValue'], f => f.setValue('').setTouched(false));
+                          updatedForm = updatedForm
+                            .updateIn(['formatter'], f => f.setValue(metricInfo.formatter))
+                            .updateIn(['conditionOperator'], f => f.setValue(null).setTouched(false))
+                            .updateIn(['conditionValue'], f => f.setValue('').setTouched(false));
 
-                            return updatedForm;
-                          });
-                        }
-                      }}
-                    />
-                    <TouchedMessages field={field} />
-                  </FormGroup>
-                ))}
+                          return updatedForm;
+                        });
+                      }
+                    }}
+                  />
+                  <TouchedMessages field={field} />
+                </FormGroup>
+              ))}
             </Col>
           </Row>
 
