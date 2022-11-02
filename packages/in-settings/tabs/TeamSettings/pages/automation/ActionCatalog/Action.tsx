@@ -5,7 +5,7 @@
  */
 
 import { RouteComponentProps } from 'react-router';
-import { MapForm } from 'formalistic';
+import { MapForm, Field as FormField } from 'formalistic';
 import React from 'react';
 
 import {
@@ -36,6 +36,7 @@ import { goToPath } from 'in-stores/navigation';
 import { Field } from 'in-types';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
+import { Header } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/AdditionalHeadersTable';
 
 interface MatchParams {
   id: string;
@@ -128,29 +129,29 @@ function save(form: MapForm, id?: string) {
 }
 
 function getActionSpecification(form: MapForm): NewAction {
-  const name = form?.get('name')?.toJS();
-  const description = form?.get('description')?.toJS();
-  const type = form?.get('type')?.toJS();
-  const tags = form?.get('tags')?.toJS();
+  const name = (form.get('name') as FormField<string>).value;
+  const description = (form.get('description') as FormField<string>).value;
+  const type = (form.get('type') as FormField<string>).value;
+  const tags = (form.get('tags') as FormField<Tag[]>).value;
 
   const fields: Field[] = [];
 
   if (isDocLink(type)) {
-    const docLink = form?.get('docLink')?.toJS();
+    const docLink = (form.get('docLink') as FormField<string>).value;
     fields.push(createDocLinkField(docLink));
   } else if (isScript(type)) {
-    const scriptValue = form?.get('script')?.toJS();
+    const scriptValue = (form.get('script') as FormField<string>).value;
     fields.push(...createScriptFields(scriptValue));
   } else if (isWebhook(type)) {
-    const host = form?.get('host')?.toJS();
-    const method = form?.get('method')?.toJS();
-    const username = form?.get('username')?.toJS();
-    const password = form?.get('password')?.toJS();
-    const accept = form?.get('accept')?.toJS();
-    const acceptLanguage = form?.get('acceptLanguage')?.toJS();
-    const contentType = form?.get('contentType')?.toJS();
-    const additionalHeaders = form?.get('additionalHeaders')?.toJS();
-    const body = form?.get('body')?.toJS();
+    const host = (form.get('host') as FormField<string>).value;
+    const method = (form.get('method') as FormField<string>).value;
+    const username = (form.get('username') as FormField<string>).value;
+    const password = (form.get('password') as FormField<string>).value;
+    const accept = (form.get('accept') as FormField<string>).value;
+    const acceptLanguage = (form.get('acceptLanguage') as FormField<string>).value;
+    const contentType = (form.get('contentType') as FormField<string>).value;
+    const additionalHeaders = (form.get('additionalHeaders') as FormField<Header[]>).value;
+    const body = (form.get('body') as FormField<string>).value;
     fields.push(
       ...createWebhookFields({
         host,

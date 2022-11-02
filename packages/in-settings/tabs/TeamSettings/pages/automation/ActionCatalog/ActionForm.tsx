@@ -6,7 +6,6 @@
 
 import React, { SetStateAction } from 'react';
 import { Field, MapForm } from 'formalistic';
-import { List } from 'immutable';
 
 import {
   DOC_LINK_TYPE,
@@ -119,7 +118,7 @@ const MetaDataSection = ({ form, setForm, onChange, entity: action }: ActionForm
             onChange={e =>
               onChange('type', e.target.value, (updatedForm: MapForm) => {
                 // WILL NEED TO UPDATE THIS FOR NEW TYPES
-                const type = (updatedForm?.get('type') as Field<string>).value;
+                const type = (updatedForm.get('type') as Field<string>).value;
                 if (isDocLink(type)) {
                   updatedForm = removeScriptField(updatedForm);
                   updatedForm = removeWebhookFields(updatedForm);
@@ -197,7 +196,7 @@ const WebhookSection = ({ form, setForm, onChange }: Omit<ActionFormProps, 'enti
   const body = form.get('body') as Field<string>;
   const acceptLanguage = form.get('acceptLanguage') as Field<string>;
   const contentType = form.get('contentType') as Field<string>;
-  const additionalHeaders = form.get('additionalHeaders') as Field<List<Header>>;
+  const additionalHeaders = form.get('additionalHeaders') as Field<Header[]>;
 
   const renderBodyAndContentType = ['PATCH', 'PUT', 'POST'].includes(method.value);
   return (

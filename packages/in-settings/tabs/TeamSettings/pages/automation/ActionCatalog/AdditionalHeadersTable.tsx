@@ -4,9 +4,8 @@
  * Copyright IBM Corp. 2022
  */
 
-import React, { SetStateAction } from 'react';
+import React, { SetStateAction, ChangeEvent } from 'react';
 import { Field, MapForm } from 'formalistic';
-import { List } from 'immutable';
 
 import { generateUniqueShortId } from '@instana/utils';
 import { SvgIcon } from '@instana/components';
@@ -26,7 +25,7 @@ interface AdditionalHeadersProps {
   form: MapForm;
   onChange: Function;
   setForm: (form: MapForm) => SetStateAction<MapForm>;
-  field: Field<List<Header>>;
+  field: Field<Header[]>;
 }
 
 export interface Header {
@@ -50,16 +49,11 @@ export default function AdditionalHeadersTable({ form, setForm, onChange, field 
                 className={locals2.key}
                 value={item.value[0]}
                 hasError={!field?.valid && field?.touched && item.value[0] === ''}
-                onChange={({ target }: any) => {
-                  const additionalHeaders = (field as Field<List<Header>>)?.value;
+                onChange={({ target }: ChangeEvent<HTMLInputElement>) => {
+                  const additionalHeaders = [...(field as Field<Header[]>)?.value];
                   const index = additionalHeaders.findIndex(header => header?.id === item.id);
-                  onChange(
-                    'additionalHeaders',
-                    additionalHeaders.set(index, {
-                      id: item.id,
-                      value: [target.value, additionalHeaders.get(index).value[1]]
-                    })
-                  );
+                  additionalHeaders[index] = { id: item.id, value: [target.value, additionalHeaders[index].value[1]] };
+                  onChange('additionalHeaders', additionalHeaders);
                 }}
                 maxLength={128}
               />
@@ -83,16 +77,11 @@ export default function AdditionalHeadersTable({ form, setForm, onChange, field 
                 className={locals2.key}
                 value={item.value[1]}
                 hasError={!field?.valid && field?.touched && item.value[1] === ''}
-                onChange={({ target }: any) => {
-                  const additionalHeaders = (field as Field<List<Header>>)?.value;
+                onChange={({ target }: ChangeEvent<HTMLInputElement>) => {
+                  const additionalHeaders = [...(field as Field<Header[]>).value];
                   const index = additionalHeaders.findIndex(header => header?.id === item.id);
-                  onChange(
-                    'additionalHeaders',
-                    additionalHeaders.set(index, {
-                      id: item.id,
-                      value: [additionalHeaders.get(index).value[0], target.value]
-                    })
-                  );
+                  additionalHeaders[index] = { id: item.id, value: [additionalHeaders[index].value[0], target.value] };
+                  onChange('additionalHeaders', additionalHeaders);
                 }}
                 maxLength={128}
               />
@@ -118,7 +107,7 @@ export default function AdditionalHeadersTable({ form, setForm, onChange, field 
       }
     }
   ];
-  const additionalHeaders = (form?.get('additionalHeaders') as Field<List<Header>>)?.value.toJS();
+  const additionalHeaders = (form.get('additionalHeaders') as Field<Header[]>)?.value;
 
   return (
     <DummyServerTablePresenter<Header>
@@ -143,9 +132,10 @@ export default function AdditionalHeadersTable({ form, setForm, onChange, field 
     if (rowIndex >= 0) {
       setForm(
         form.updateIn(['additionalHeaders'], f => {
-          const castedF = f as Field<List<Header>>;
-          const value = castedF.value;
-          return castedF.setValue(value.remove(rowIndex)).setTouched(true);
+          const castedF = f as Field<Header[]>;
+          const value = [...castedF.value];
+          value.splice(rowIndex, 1);
+          return castedF.setValue(value).setTouched(true);
         })
       );
     }
@@ -154,9 +144,9 @@ export default function AdditionalHeadersTable({ form, setForm, onChange, field 
   function addRow() {
     setForm(
       form.updateIn(['additionalHeaders'], f => {
-        const castedF = f as Field<List<Header>>;
+        const castedF = f as Field<Header[]>;
         const value = castedF.value;
-        return castedF.setValue(value.push({ value: ['', ''], id: generateUniqueShortId() })).setTouched(false);
+        return castedF.setValue([...value, { value: ['', ''], id: generateUniqueShortId() }]).setTouched(false);
       })
     );
   }

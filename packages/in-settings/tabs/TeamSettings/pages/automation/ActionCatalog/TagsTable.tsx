@@ -6,7 +6,6 @@
 
 import React, { SetStateAction } from 'react';
 import { MapForm, Field } from 'formalistic';
-import { List } from 'immutable';
 
 import { generateUniqueShortId } from '@instana/utils';
 import { SvgIcon } from '@instana/components';
