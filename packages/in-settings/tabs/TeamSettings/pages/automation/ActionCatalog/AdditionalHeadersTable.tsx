@@ -4,16 +4,16 @@
  * Copyright IBM Corp. 2022
  */
 
-import React, { SetStateAction, ChangeEvent } from 'react';
 import { Field, MapForm } from 'formalistic';
+import React, { ChangeEvent } from 'react';
 
 import { generateUniqueShortId } from '@instana/utils';
 import { SvgIcon } from '@instana/components';
 
+import DummyServerTablePresenter from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/DummyServerTablePresenter';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-settings/components/FormGroup';
-import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
-import DummyServerTablePresenter from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/DummyServerTablePresenter';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
@@ -24,7 +24,7 @@ import locals2 from './TagsTable.mless';
 interface AdditionalHeadersProps {
   form: MapForm;
   onChange: Function;
-  setForm: (form: MapForm) => SetStateAction<MapForm>;
+  setForm: (form: MapForm) => void;
   field: Field<Header[]>;
 }
 

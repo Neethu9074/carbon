@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2022
  */
 
-import React, { SetStateAction } from 'react';
 import { MapForm, Field } from 'formalistic';
+import React from 'react';
 
 import { generateUniqueShortId } from '@instana/utils';
 import { SvgIcon } from '@instana/components';
@@ -24,7 +24,7 @@ import locals from './TagsTable.mless';
 interface TagsTableProps {
   form: MapForm;
   onChange: Function;
-  setForm: (form: MapForm) => SetStateAction<MapForm>;
+  setForm: (form: MapForm) => void;
 }
 
 const keyColumnDefinition = (form: MapForm, onChange: Function) => ({
@@ -41,7 +41,7 @@ const keyColumnDefinition = (form: MapForm, onChange: Function) => ({
             value={item.value}
             hasError={!tagsField?.valid && tagsField?.touched && item.value === ''}
             onChange={({ target }: any) => {
-              const tags = (tagsField as Field<List<Tag>>)?.value;
+              const tags = (tagsField as Field<Tag[]>)?.value;
               onChange(
                 'tags',
                 tags.map(tag =>
@@ -81,7 +81,7 @@ const deleteItemColumnDefinition = {
 
 export default function TagsTable({ form, setForm, onChange }: TagsTableProps) {
   const tableColumnDefinitions = [keyColumnDefinition(form, onChange), deleteItemColumnDefinition];
-  const tags = (form?.get('tags') as Field<List<Tag>>)?.value?.toJS();
+  const tags = (form.get('tags') as Field<Tag[]>).value;
 
   return (
     <DummyServerTablePresenter<Tag>
@@ -94,16 +94,17 @@ export default function TagsTable({ form, setForm, onChange }: TagsTableProps) {
   );
 
   function deleteRow(id: string) {
-    const rowIndex = form
-      ?.get('tags')
-      ?.toJS()
-      .reduce((acc: number, item: Tag, i: number) => (item.id === id ? i : acc), -1);
+    const rowIndex = (form?.get('tags') as Field<Tag[]>).value.reduce(
+      (acc: number, item: Tag, i: number) => (item.id === id ? i : acc),
+      -1
+    );
     if (rowIndex >= 0) {
       setForm(
         form.updateIn(['tags'], f => {
-          const castedF = f as Field<List<Tag>>;
-          const value = castedF.value;
-          return castedF.setValue(value.remove(rowIndex)).setTouched(true);
+          const castedF = f as Field<Tag[]>;
+          const value = [...castedF.value];
+          value.splice(rowIndex, 1);
+          return castedF.setValue(value).setTouched(true);
         })
       );
     }
@@ -112,9 +113,9 @@ export default function TagsTable({ form, setForm, onChange }: TagsTableProps) {
   function addRow() {
     setForm(
       form.updateIn(['tags'], f => {
-        const castedF = f as Field<List<Tag>>;
+        const castedF = f as Field<Tag[]>;
         const value = castedF.value;
-        return castedF.setValue(value.push({ value: '', id: generateUniqueShortId() })).setTouched(false);
+        return castedF.setValue([...value, { value: '', id: generateUniqueShortId() }]).setTouched(false);
       })
     );
   }

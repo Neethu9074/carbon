@@ -4,17 +4,9 @@
  * Copyright IBM Corp. 2022
  */
 
-import React, { SetStateAction } from 'react';
 import { Field, MapForm } from 'formalistic';
+import React from 'react';
 
-import {
-  DOC_LINK_TYPE,
-  isDocLink,
-  isScript,
-  isWebhook,
-  SCRIPT_TYPE,
-  WEBHOOK_TYPE
-} from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import {
   putDocLinkField,
   putScriptField,
@@ -23,21 +15,30 @@ import {
   removeScriptField,
   removeWebhookFields
 } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionFormDefinition';
-import TagsTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/TagsTable';
+import {
+  DOC_LINK_TYPE,
+  isDocLink,
+  isScript,
+  isWebhook,
+  SCRIPT_TYPE,
+  WEBHOOK_TYPE
+} from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import AdditionalHeadersTable, {
   Header
 } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/AdditionalHeadersTable';
+import TagsTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/TagsTable';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import FormGroup from 'in-settings/components/FormGroup';
-import { ImmutableNewAction } from 'in-api/automation';
 import TextArea from 'in-components/form/TextArea';
 import Code from 'in-components/form/Code/Code';
 import Select from 'in-components/form/Select';
+import { NewAction } from 'in-api/automation';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
+import { Action } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './ActionForm.mless';
@@ -45,8 +46,8 @@ import locals from './ActionForm.mless';
 interface ActionFormProps {
   form: MapForm;
   onChange: Function;
-  entity: ImmutableNewAction;
-  setForm: (form: MapForm) => SetStateAction<MapForm>;
+  entity: NewAction | Action;
+  setForm: (form: MapForm) => void;
 }
 
 export default function ActionForm({ form, setForm, onChange, entity: action }: ActionFormProps) {

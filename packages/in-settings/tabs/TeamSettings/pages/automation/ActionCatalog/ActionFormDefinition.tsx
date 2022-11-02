@@ -5,15 +5,15 @@
  */
 
 import { createField, createMapForm, MapForm, ValidationResult } from 'formalistic';
-import { List, Map } from 'immutable';
+import { keyBy } from 'lodash';
 import mime from 'mime/lite';
 
 import { generateUniqueShortId } from '@instana/utils';
 
 import { isDocLink, isScript, isWebhook } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import { notBlankValidator } from 'in-services/validators/string';
-import { ImmutableNewAction } from 'in-api/automation';
 import { isNotBlank } from 'in-services/util/string';
+import { NewAction } from 'in-api/automation';
 import { t } from 'in-i18n';
 
 function mimeValidator(str?: any): ValidationResult {
@@ -29,29 +29,29 @@ function mimeValidator(str?: any): ValidationResult {
   return null;
 }
 
-export function createActionFormDefinition(action: ImmutableNewAction, _isCreate: boolean) {
-  const tags = (action.get('tags') as List<string>) ?? List();
+export function createActionFormDefinition(action: NewAction, _isCreate: boolean) {
+  const tags = action.tags ?? [];
   const mappedTags = tags.map(tag => ({ value: tag, id: generateUniqueShortId() }));
 
   let form = createMapForm()
     .put(
       'name',
       createField({
-        value: action.get('name'),
+        value: action.name,
         validator: notBlankValidator
       })
     )
     .put(
       'description',
       createField({
-        value: action.get('description'),
+        value: action.description ?? '',
         validator: notBlankValidator
       })
     )
     .put(
       'type',
       createField({
-        value: action.get('type'),
+        value: action.type,
         validator: notBlankValidator
       })
     )
@@ -73,20 +73,20 @@ export function createActionFormDefinition(action: ImmutableNewAction, _isCreate
         }
       })
     );
-  if (isDocLink(action.get('type') as string)) form = putDocLinkField(form, action);
-  else if (isScript(action.get('type') as string)) form = putScriptField(form, action);
-  else if (isWebhook(action.get('type') as string)) form = putWebhookFields(form, action);
+  if (isDocLink(action.type)) form = putDocLinkField(form, action);
+  else if (isScript(action.type)) form = putScriptField(form, action);
+  else if (isWebhook(action.type)) form = putWebhookFields(form, action);
   return form;
 }
 
-export function putDocLinkField(form: MapForm, action: ImmutableNewAction) {
-  const fields = action.get('fields') as List<Map<string, unknown>>;
-  const value = isDocLink(action.get('type') as string) ? fields?.get(0)?.get('value') : '';
+export function putDocLinkField(form: MapForm, action: NewAction) {
+  const fields = action.fields;
+  const value = isDocLink(action.type) ? fields?.[0].value : '';
 
   return form.put(
     'docLink',
     createField({
-      value,
+      value: value ?? '',
       validator: notBlankValidator
     })
   );
@@ -96,12 +96,12 @@ export function removeDocLinkField(form: MapForm) {
   return form.remove('docLink');
 }
 
-export function putScriptField(form: MapForm, action: ImmutableNewAction) {
+export function putScriptField(form: MapForm, action: NewAction) {
   let value = '';
-  if (isScript(action.get('type') as string)) {
-    const fields = action.get('fields') as List<Map<string, unknown>>;
-    const field = fields.get(1);
-    value = atob(field.get('value') as string);
+  if (isScript(action.type)) {
+    const fields = action.fields;
+    const field = fields?.[1];
+    value = atob(field?.value ?? '');
   }
 
   return form.put(
@@ -117,8 +117,8 @@ export function removeScriptField(form: MapForm) {
   return form.remove('script');
 }
 
-export function putWebhookFields(form: MapForm, action: ImmutableNewAction) {
-  if (!isWebhook(action.get('type') as string)) {
+export function putWebhookFields(form: MapForm, action: NewAction) {
+  if (!isWebhook(action.type)) {
     return form
       .put('method', createField({ value: '', validator: notBlankValidator }))
       .put('host', createField({ value: '', validator: notBlankValidator }))
@@ -129,19 +129,17 @@ export function putWebhookFields(form: MapForm, action: ImmutableNewAction) {
       .put('contentType', createField({ value: '', validator: notBlankValidator }))
       .put('accept', createField({ value: '', validator: notBlankValidator }))
       .put('acceptLanguage', createField({ value: '', validator: notBlankValidator }))
-      .put('additionalHeaders', createField({ value: List(), validator: notBlankValidator }));
+      .put('additionalHeaders', createField({ value: [], validator: notBlankValidator }));
   } else {
-    const fields = (action.get('fields') as List<Map<string, unknown>>)
-      .toMap()
-      .mapKeys((_, val: Map<string, unknown> | undefined) => val?.get('name'));
-    const method = fields.get('method');
-    const host = fields.get('host');
-    const body = fields.get('body');
-    const headers = fields.get('header');
-    const headersValue = JSON.parse(headers.get('value') as string);
-    const ignoreCertErrors = fields.get('ignoreCertErrors');
-    const authen = fields.get('authen');
-    const authenValue = JSON.parse((authen?.get('value') as string) ?? '{}');
+    const fields = keyBy(action.fields, 'name');
+    const method = fields.method;
+    const host = fields.host;
+    const body = fields.body;
+    const headers = fields.header;
+    const headersValue = JSON.parse(headers.value);
+    const ignoreCertErrors = fields.ignoreCertErrors;
+    const authen = fields.authen;
+    const authenValue = JSON.parse(authen.value ?? '{}');
     const {
       'Content-Type': contentType,
       Accept: accept,
@@ -153,27 +151,27 @@ export function putWebhookFields(form: MapForm, action: ImmutableNewAction) {
       .put(
         'method',
         createField({
-          value: method?.get('value') ?? '',
+          value: method.value,
           validator: notBlankValidator
         })
       )
       .put(
         'host',
         createField({
-          value: host?.get('value') ?? '',
+          value: host.value,
           validator: notBlankValidator
         })
       )
       .put(
         'body',
         createField({
-          value: body?.get('value') ?? ''
+          value: body.value
         })
       )
       .put(
         'ignoreCertErrors',
         createField({
-          value: ignoreCertErrors?.get('value') ?? true
+          value: ignoreCertErrors.value
         })
       )
       .put(
@@ -211,12 +209,10 @@ export function putWebhookFields(form: MapForm, action: ImmutableNewAction) {
       .put(
         'additionalHeaders',
         createField({
-          value: List(
-            Object.entries(additionalHeaders).map(header => ({
-              value: header as [string, string],
-              id: generateUniqueShortId()
-            }))
-          ),
+          value: Object.entries(additionalHeaders).map(header => ({
+            value: header as [string, string],
+            id: generateUniqueShortId()
+          })),
           validator: tags => {
             const hasBlankTags = tags.reduce((hasBlank, tag) => hasBlank || (tag?.value?.includes('') ?? false), false);
             if (hasBlankTags) {

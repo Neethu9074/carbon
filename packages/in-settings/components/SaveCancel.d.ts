@@ -14,7 +14,7 @@ interface SaveCancelProps {
   isCreate?: boolean;
   form?: MapForm;
   onClickCancelButton?: (e: React.MouseEvent<Element, MouseEvent>) => void;
-  message?: string;
+  message?: string | null;
   saveEnabled?: boolean;
 }
 
