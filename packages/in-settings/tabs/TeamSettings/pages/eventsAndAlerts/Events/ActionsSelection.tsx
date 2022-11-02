@@ -60,11 +60,13 @@ function getScoredActionTable(eventName: string, eventDescription: string) {
 interface ActionsSelectionProps {
   form: MapForm;
   setForm: SetForm;
+  name?: string;
+  description?: string;
 }
-export default function ActionsSelection({ form, setForm }: ActionsSelectionProps) {
+export default function ActionsSelection({ form, setForm, name, description }: ActionsSelectionProps) {
   const selectedActions = (form.get('actionIds') as Field<string[]>)?.value ?? [];
-  const eventName = (form.get('name') as Field<string>)?.value;
-  const eventDescription = (form.get('description') as Field<string>)?.value;
+  const eventName = name ?? (form.get('name') as Field<string>)?.value;
+  const eventDescription = description ?? (form.get('description') as Field<string>)?.value;
 
   const getSelectedActionsForEvent = createMemoizedObservableForReferencedEntities(function(selectedActions: string[]) {
     if (selectedActions.length === 0) {
