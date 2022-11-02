@@ -11,11 +11,11 @@ import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
 import LogMessageColumn from 'in-synthetics/dashboards/details/components/LogMessageColumn';
+import getTestResultDetailData from 'in-synthetics/subscriptions/getTestResultDetailData';
 import { logLevelColumn, timestampColumn } from 'in-synthetics/utils/logsColumnUtils';
 import { dummyTestResultLogs, TestResultLog } from 'in-synthetics/utils/constants';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
-import getTestResultLogs from 'in-synthetics/subscriptions/getTestResultLogs';
 
 import locals from './Logs.mless';
 
@@ -38,9 +38,10 @@ export default function Logs({ testId, resultId, timestamp }: LogsProps) {
   const { data, progress }: TestResultLog =
     useObservable<any, [number]>(
       () =>
-        getTestResultLogs({
+        getTestResultDetailData({
           testId: testId,
-          testResultId: resultId
+          testResultId: resultId,
+          type: 'LOGS'
         }),
       [0]
     ) || dummyTestResultLogs;

@@ -9,9 +9,9 @@ import { fromJS, Map } from 'immutable';
 import { combineLatest, just, Observable, timeout } from '@instana/observables';
 
 import { DOC_LINK_TYPE } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
+import { Action, Field, Mutable, VolatileId, Event, ActionMatch } from 'in-types';
 import createAgentResponseObservable from 'in-subscription/agentResponse';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
-import { Action, Field, Mutable, VolatileId, Event } from 'in-types';
 import { error } from 'in-services/util/result';
 import http from 'in-services/http';
 import { t } from 'in-i18n';
@@ -25,6 +25,27 @@ export function getAllActions(): Observable<Action[]> {
     maxRetries: 3,
     url: actionUrl
   }).map(response => response.body);
+}
+
+export interface ScoredAction extends Action {
+  score: number;
+  color: string;
+}
+
+export function getAllActionsWithAISuggestions(
+  eventName: string,
+  eventDescription: string
+): Observable<ScoredAction[]> {
+  return http<ActionMatch[]>({
+    method: 'POST',
+    maxRetries: 3,
+    url: `${automationAPIBase}/ai/action/match`,
+    data: {
+      name: eventName,
+      description: eventDescription
+    },
+    headers: getCsrfHeader()
+  }).map(response => response.body.map(({ action, score, color }) => ({ ...action, score, color })));
 }
 
 export function getAction(actionId: string): Observable<Action> {
@@ -186,7 +207,7 @@ export function createAction(
 export function runScriptAction(script: string, volatileId: VolatileId, event: Event | null, actionName: string) {
   return combineLatest(
     [
-      timeout(5000).flatMap(() =>
+      timeout(10000).flatMap(() =>
         just(
           error<null>([
             {
@@ -207,7 +228,8 @@ export function runScriptAction(script: string, volatileId: VolatileId, event: E
           event: JSON.stringify(event),
           problemId: event?.problem?.id,
           problemText: event?.problem?.problemText,
-          actionName
+          actionName,
+          timeout: '300'
         }
       })
     ],

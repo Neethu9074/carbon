@@ -25,6 +25,11 @@
         "counter_custom_0": "{{number}} eventos customizados",
         "counter_custom_1": "{{number}} eventos customizados",
         "counter_custom_2": "{{number}} eventos customizados",
+        "counter_crash": "{{number}} travamento",
+        "counter_crash_plural": "{{number}} travamentos",
+        "counter_crash_0": "{{number}} travamentos",
+        "counter_crash_1": "{{number}} travamentos",
+        "counter_crash_2": "{{number}} travamentos",
         "counter_Row": "{{number}} Linha",
         "counter_Row_plural": "{{number}} Linhas",
         "counter_Row_0": "{{number}} Linhas",
@@ -86,7 +91,7 @@
       "viewTransitions2": "Transições de visualização",
       "calls": "Chamadas",
       "traces": "Rastreios",
-      "console": "Console"
+      "crashes": "Travamentos"
     }
   },
   "traceDetail": {

@@ -1425,10 +1425,10 @@
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha1-tSBSnsIdjllFoYUd/Rwy6U45/0U=
 
-"@instana/components@^1.51.0":
-  version "1.51.0"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/components/-/@instana/components-1.51.0.tgz#99d9e4dcca21c724ab6ec51d624eeab54e1c86d6"
-  integrity sha512-n8fFVEt/v8aMyFQzR+Ku5nIxdh8mkJOtPPMCkXhzdCDAsQ7tIlwXau6/lFP5JBIMpzJWTqEzX98XBVMr0XONiA==
+"@instana/components@^1.53.0":
+  version "1.53.0"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/components/-/@instana/components-1.53.0.tgz#afc390fa0627dc5c650c2d785fc68b384b5bf40a"
+  integrity sha512-lEAyxAf9t+sGv1uD332CVE54i14GcY+jcO2i8CPKrFvNgHq0Wv66/YbFKdszDcowo9Kz8JrSPlfgj5Qatd1wAA==
   dependencies:
     "@emotion/react" "^11.9.0"
     "@emotion/styled" "^11.8.1"
@@ -1559,10 +1559,10 @@
     "@instana/logger" "^1.2.1"
     "@instana/observables" "^1.5.3"
 
-"@instana/types@1.237.456":
-  version "1.237.456"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/types/-/@instana/types-1.237.456.tgz#60915ba658e5e3f0598eabcec372b1e28fa40fbb"
-  integrity sha512-C3wgSwgtWX6iGVbpZmUMw3Fq40er7Fl9GEkOwz4LKkI3ditCUKmPNCqtmawa9z3Pntv3I0lx4jEniNCjb6YOgQ==
+"@instana/types@1.238.103":
+  version "1.238.103"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/types/-/@instana/types-1.238.103.tgz#08e9b366787f0978aa1770679368f10daf661cb7"
+  integrity sha512-rQPmER8A5CJQTr2gul0ASPTCor1M2bcSIkxRXOnk4F4rVafdrZcdrOwMYeE4Une1d6LfTBC4qnyJS0yil4ySFg==
 
 "@instana/utils@^1.1.0":
   version "1.2.2"

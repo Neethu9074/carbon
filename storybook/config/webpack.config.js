@@ -50,7 +50,7 @@ const cssLoader = {
 const necessaryLoaders = [
   {
     test: /\.(ttf|eot|obj)$/i,
-    use: [{ loader: 'url-loader?limit=3000' }]
+    type: 'asset/resource'
   },
   {
     test: /\.mless$/i,
@@ -66,7 +66,7 @@ const necessaryLoaders = [
   },
   {
     test: /\.(jpe?g|gif|png|svg)$/i,
-    use: [{ loader: 'url-loader?limit=3000!image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false' }]
+    type: 'asset/resource'
   },
   {
     test: /\.glsl$/i,

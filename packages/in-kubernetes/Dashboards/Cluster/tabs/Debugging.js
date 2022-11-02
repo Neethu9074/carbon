@@ -12,10 +12,18 @@ import { clusterDashboardFullyQualified } from '../../../navigation/paths';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { t } from 'in-i18n';
 
-export default function Debugging({ cluster }) {
+export default function Debugging({ cluster, counters }) {
   const debuggingInfo =
     cluster.debuggingInfo &&
     Object.keys(cluster.debuggingInfo).map(key => ({ key, value: cluster.debuggingInfo[key] }));
+
+  if (counters && counters?.nodes != 0) {
+    const coverageRatio = ((counters.hosts / counters.nodes) * 100).toFixed(1);
+    const coverage = counters.hosts + ' of ' + counters.nodes + ' - ' + coverageRatio + '%';
+    debuggingInfo.push({ key: 'Host Coverage', value: coverage });
+  } else {
+    debuggingInfo.push({ key: 'Host Coverage', value: '-' });
+  }
 
   return (
     <Card title={t('in-kubernetes:dashboards.debuggingInformation')}>

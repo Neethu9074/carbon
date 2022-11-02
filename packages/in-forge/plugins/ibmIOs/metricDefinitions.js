@@ -76,7 +76,6 @@ export default [
     formatter: bytes,
     category: [t('in-forge:plugins.ibmIOs.dashboard.charts.totalSpoolSpace.name')]
   },
-
   {
     metrics: [
       getDynamicMetricMatch('memoryPoolMetrics', 'currSize', t('in-forge:plugins.ibmIOs.memoryPool')),
@@ -87,6 +86,21 @@ export default [
       t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.charts.storage.storageUsed'),
       t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.charts.storage.storageReserved'),
       t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.charts.storage.storageDefined')
+    ],
+    min: 0,
+    formatter: bytes,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('memoryPoolMetrics', 'elapsedDatabaseFaults', t('in-forge:plugins.ibmIOs.memoryPool')),
+      getDynamicMetricMatch('memoryPoolMetrics', 'elapsedTotalFaults', t('in-forge:plugins.ibmIOs.memoryPool')),
+      getDynamicMetricMatch('memoryPoolMetrics', 'elapsedNonDatabaseFaults', t('in-forge:plugins.ibmIOs.memoryPool'))
+    ],
+    labels: [
+      t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.charts.pagesFaultRate.elapsedDatabaseFaults'),
+      t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.charts.pagesFaultRate.elapsedTotalFaults'),
+      t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.charts.pagesFaultRate.elapsedNonDatabaseFaults')
     ],
     min: 0,
     formatter: bytes,

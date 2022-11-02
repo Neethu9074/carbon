@@ -10,10 +10,10 @@ import { combineLatest } from '@instana/observables';
 import {
   createCustomThresholdBasedEventSpecification,
   getBuiltinEventActions,
-  saveBuiltinEventSpecificationWithActions
+  updateActionsAssignedToBuiltInEvent
 } from 'in-api/eventSpecifications';
 import { createBuiltinEventFormDefinition } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/BuiltinEventFormContent';
-import { ActionsSelection } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/sharedActions';
+import ActionsSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ActionsSelection';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
@@ -68,7 +68,7 @@ export default function BuiltinEvent(props) {
   function save(form) {
     const actionIds = form.get('actionIds')?.value ?? [];
     const actions = actionIds.length > 0 ? actionIds.map(value => ({ id: value })) : [];
-    return saveBuiltinEventSpecificationWithActions(actions, entityId);
+    return updateActionsAssignedToBuiltInEvent(actions, entityId);
   }
 
   return (
@@ -177,7 +177,7 @@ const Form = entityForm(function DetailsForm(props) {
       {role.canConfigureAutomationActions && actionAutomationEnabled && !entity.get('triggering') && (
         <>
           <SectionHeading>{t('in-settings:tabs.ActionAssociations')}</SectionHeading>
-          <ActionsSelection form={form} setForm={setForm} entityId={entity} />
+          <ActionsSelection form={form} setForm={setForm} entity={entity.toJS()} />
         </>
       )}
       <SaveCancel

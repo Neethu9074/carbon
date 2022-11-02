@@ -11,12 +11,12 @@ import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHea
 import getKubernetesPodsExplore from 'in-kubernetes/subscriptions/getKubernetesPodsExplore';
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
 import QueryProgressIndicator from 'in-components/AnalyzeView/QueryProgressIndicator';
+import { retrievalSize } from 'in-components/AnalyzeView/UngroupedView/UngroupedView';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
-import { retrievalSize } from 'in-components/AnalyzeView/UngroupedView';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import useCursorPagination from 'in-hooks/useCursorPagination';

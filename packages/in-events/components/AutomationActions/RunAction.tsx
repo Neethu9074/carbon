@@ -95,7 +95,7 @@ export default function RunAction({ action, script, volatileId, event }: Props) 
             {description}
           </DescriptionItem>
         </DescriptionList>
-        <Code withoutCopyButton code={atob(script)} lang={'bash'} softWrap />
+        <Code withExpandButton withoutCopyButton code={atob(script)} lang={'bash'} softWrap />
         <AgentSelection
           form={form}
           volatileId={volatileId}
@@ -106,6 +106,8 @@ export default function RunAction({ action, script, volatileId, event }: Props) 
         <p className={locals.actionModalFontSize}>{t('in-events:actionCannotBeUndone')}</p>
       </>
     );
+    const selectedVolatileId =
+      agentSnapShots?.data?.online?.find(agent => agent.volatileId?.host_id === targetAgent?.value)?.volatileId ?? {};
     footer = (
       <>
         <CancelButton isSaving={isSaving} onClick={close} />
@@ -119,7 +121,7 @@ export default function RunAction({ action, script, volatileId, event }: Props) 
               return;
             }
             setIsSaving(true);
-            runScriptAction(script, volatileId, event, actionName).once(data => {
+            runScriptAction(script, selectedVolatileId, event, actionName).once(data => {
               setIsSaving(false);
               // last element of the array is either the timeout error if the agent didn't respond in time, or the agent response (error or in progress)
               // result unknown because we only care about error

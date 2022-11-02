@@ -270,6 +270,7 @@
   "health": "运行状况",
   "clusters": "集群",
   "explore": "浏览（技术预览）",
+  "k8sTeam": "K8s 团队",
   "noMonitoringDataFound": "找不到监视数据",
   "clusterName": "集群名称",
   "running": "正在运行",

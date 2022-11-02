@@ -25,6 +25,11 @@
         "counter_custom_0": "{{number}} eventi personalizzati",
         "counter_custom_1": "{{number}} eventi personalizzati",
         "counter_custom_2": "{{number}} eventi personalizzati",
+        "counter_crash": "{{number}} arresto anomalo",
+        "counter_crash_plural": "{{number}} arresti anomali",
+        "counter_crash_0": "{{number}} arresti anomali",
+        "counter_crash_1": "{{number}} arresti anomali",
+        "counter_crash_2": "{{number}} arresti anomali",
         "counter_Row": "{{number}} di righe",
         "counter_Row_plural": "{{number}} di righe",
         "counter_Row_0": "{{number}} di righe",
@@ -86,7 +91,7 @@
       "viewTransitions2": "Visualizza transizioni",
       "calls": "Chiamate",
       "traces": "Tracce",
-      "console": "Console"
+      "crashes": "Arresti anomali"
     }
   },
   "traceDetail": {

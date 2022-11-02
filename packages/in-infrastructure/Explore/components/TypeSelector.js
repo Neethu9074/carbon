@@ -132,10 +132,14 @@ function getType(type) {
   const snapshotDefinition = getOptionalSnapshotDefinition(type);
   return (
     snapshotDefinition &&
-    !isEmpty(snapshotDefinition) && {
+    !isEmpty(snapshotDefinition) ? {
       plugin: type,
       icon: `lib_infra_${type}`,
       name: getPluginName(type, 2)
+    } : {
+      plugin: type,
+      icon: `lib_infra_unknownIcon`,
+      name: type
     }
   );
 }

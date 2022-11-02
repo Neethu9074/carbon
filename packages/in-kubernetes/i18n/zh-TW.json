@@ -270,6 +270,7 @@
   "health": "性能",
   "clusters": "叢集",
   "explore": "探索（技術預覽）",
+  "k8sTeam": "K8s 團隊",
   "noMonitoringDataFound": "找不到監視資料",
   "clusterName": "叢集名稱",
   "running": "執行中",

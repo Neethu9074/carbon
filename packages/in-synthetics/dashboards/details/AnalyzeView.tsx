@@ -20,10 +20,10 @@ import {
   ResultDetailsResponse,
   TestResponse
 } from 'in-synthetics/utils/constants';
-import getTestResultSubtransactions from 'in-synthetics/subscriptions/getTestResultSubtransactions';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 // @ts-expect-error Module needs to be translated to TS
 import Sticky from 'in-components/Sticky';
+import getTestResultDetailData from 'in-synthetics/subscriptions/getTestResultDetailData';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import getTestResultListStatus from 'in-synthetics/utils/getTestResultListStatus';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -32,6 +32,7 @@ import FailedRun from 'in-synthetics/dashboards/details/components/FailedRun';
 import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
 import DashboardHeader from 'in-components/DashboardHeader/DashboardHeader';
 import Timeline from 'in-synthetics/dashboards/details/components/Timeline';
+import { syntheticBrowserScriptEnabled } from 'in-services/featureFlags';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { syntheticDetailsPath } from 'in-synthetics/navigation/paths';
 import Logs from 'in-synthetics/dashboards/details/components/Logs';
@@ -56,15 +57,19 @@ export default function SyntheticAnalyzeView() {
   const responseTime: number = +(getMatrixParameter(location, syntheticDetailsPath, 'responseTime') ?? 0);
   const responseSize: number = +(getMatrixParameter(location, syntheticDetailsPath, 'responseSize') ?? 0);
   const test: TestResponse = useObservable<any, [number]>(() => getTest(testId), [0]) || dummyTest;
-  const isHTTPActionType: boolean =
-    get(test, ['data', 'configuration', 'syntheticType']) === 'HTTPAction' ? true : false;
+  const testType: string = getMatrixParameter(location, syntheticDetailsPath, 'type') ?? '';
+  const isHTTPActionType: boolean = testType === 'HTTPAction';
+  // @ts-ignore Temporal while the implementations that uses this const are implemented.
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const isBrowserScriptTest: boolean = testType === 'BrowserScript' && syntheticBrowserScriptEnabled;
 
   const details: ResultDetailsResponse =
     useObservable<any, [number]>(
       () =>
-        getTestResultSubtransactions({
+        getTestResultDetailData({
           testId: testId,
-          testResultId: resultId
+          testResultId: resultId,
+          type: 'SUBTRANSACTIONS'
         }),
       [0]
     ) || dummyResultDetails;

@@ -37,7 +37,6 @@ export default function LatencyDistributionChart({
     tagToExclude: latencyTag
   });
   const subscription = getLatencyDistributionBase10({
-    maxLatencyBuckets: 80,
     includePercentiles: true,
     filter: { timeConfig },
     tagFilterExpression: backendQuery,
@@ -57,6 +56,7 @@ export default function LatencyDistributionChart({
       title={title}
       aggregation={aggregation}
       showHeader={showHeader}
+      fastQueryModeEnabled={fastQueryModeEnabled}
       onSelectionChanged={selection =>
         updateLatencySelection({
           dataSource: dataSource,

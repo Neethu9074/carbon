@@ -39,7 +39,7 @@
       "alertingChartLabelThreshold": "Schwellenwert",
       "alertingChartLabelViolations": "Verstöße",
       "alertingChartMessageInvalidFilterQuery": "Ungültige Filterabfrage.",
-      "alertingChartMessageEntitySelectionInvalid": "Keine Entitäten ausgewählt.",
+      "alertingChartMessageEmptyApplicationSelection": "Keine Anwendung ausgewählt.",
       "chartAlertsLaneErrorMessage": "Alerts konnten nicht geladen werden",
       "chartAlertsPreviewLanePresenterAlertsLabel": "Alerts",
       "chartAlertsPreviewLanePresenterNoAlertsLabel": "Keine Alerts",
@@ -463,7 +463,6 @@
         "ruleFormPleaseProvideALogMessage": "Geben Sie eine Protokollnachricht an",
         "ruleFormPleaseProvideAStartStatusCode": "Geben Sie einen gültigen HTTP-Startstatuscode an",
         "ruleFormPleaseProvideAEndStatusCode": "Geben Sie einen gültigen HTTP-Endstatuscode an",
-        "smartAlertFormNoEntitiesSelected": "Keine Entitäten ausgewählt",
         "smartAlertFormValueIsReadOnly": "Der Wert ist schreibgeschützt und kann nicht geändert werden.",
         "thresholdFormPleaseProvideANumber0": "Geben Sie eine Zahl >= 0 an",
         "thresholdFormBaselineIsEmpty": "Vergleichsdaten sind leer"
@@ -656,6 +655,11 @@
         "buttonRecalculateBaseline": "Grundlinie neu berechnen",
         "sensitivitySliderLow": "niedrig",
         "sensitivitySliderHigh": "hoch",
+        "sensitivitySliderValueLabel": "{{count}} Standardabweichung",
+        "sensitivitySliderValueLabel_plural": "{{count}} Standardabweichungen",
+        "sensitivitySliderValueLabel_0": "{{count}} Standardabweichungen",
+        "sensitivitySliderValueLabel_1": "{{count}} Standardabweichungen",
+        "sensitivitySliderValueLabel_2": "{{count}} Standardabweichungen",
         "labelThreshold": "Schwellenwert",
         "labelSensitivity": "Sensitivität",
         "staticThresholdTypeOptionsTooltip": "Ein statischer täglicher/wöchentlicher Schwellenwert ist ein zeitabhängiger Schwellenwert, der auf Protokolldaten basiert. Der Schwellenwert wird nicht automatisch geändert und kann bei Bedarf manuell neu berechnet werden.",
@@ -682,7 +686,6 @@
       },
       "userInfo": {
         "linkText": "Smart Alert anzeigen",
-
         "success": {
           "create": {
             "alert": {
@@ -710,7 +713,6 @@
           "title": "Websites",
           "description0": "Um einen Alert einzurichten, navigieren Sie zu der Website, auf der Sie den Alert einrichten möchten, und verwenden Sie die Schaltfläche \"Smart Alert hinzufügen\" unten rechts.",
           "stats": "Derzeit haben Sie $t(in-alerting:smartAlerts.components.alertsHub.websites.alerts, {\"count\": {{alerts}} }) auf $t(in-alerting:smartAlerts.components.alertsHub.websites.websites, {\"count\": {{websites}} }).",
-
           "alerts": "{{count}} Website Smart Alert",
           "alerts_plural": "{{count}} Website Smart Alerts",
           "alerts_0": "{{count}} Smart Alerts der Website",
@@ -734,9 +736,9 @@
           "gsa_2": "{{count}} Globale Smart Alerts",
           "rsa": "{{count}} Regulärer Smart Alert",
           "rsa_plural": "{{count}} Reguläre Smart Alerts",
-          "rsa_0": "{{count}} Reguläre Smart Alerts",
-          "rsa_1": "{{count}} Reguläre Smart Alerts",
-          "rsa_2": "{{count}} Reguläre Smart Alerts",
+          "rsa_0": "{{count}} Regulärer Smart Alerts",
+          "rsa_1": "{{count}} Regulärer Smart Alerts",
+          "rsa_2": "{{count}} Regulärer Smart Alerts",
           "button0": "Smart Alerts"
         },
         "infrastructure": {
@@ -745,12 +747,11 @@
           "description1": "1) Für bestimmte Bedingungen definierte Ereignisse. Sie können entweder die integrierten Ereignisse verwenden oder angepasste Ereignisse erstellen.",
           "description2": "2) Alerts alarmieren Sie dann, sobald bestimmte Ereignisse eintreten.",
           "stats": "Derzeit haben Sie $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.events, {\"count\": {{events}} }) und $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.alerts, {\"count\": {{alerts}} }).",
-
-          "events": "{{count}} angepasste Ereignis",
+          "events": "{{count}} angepasstes Ereignis",
           "events_plural": "{{count}} angepasste Ereignisse",
           "events_0": "{{count}} angepasste Ereignisse",
-          "events_1": "{{count}} angepasste Ereignisse",
-          "events_2": "{{count}} angepasste Ereignisse",
+          "events_1": "{{count}} benutzerdefinierte Ereignisse",
+          "events_2": "{{count}} benutzerdefinierte Ereignisse",
           "alerts": "{{count}} Alert",
           "alerts_plural": "{{count}} Alerts",
           "alerts_0": "{{count}} Alerts",

@@ -55,17 +55,15 @@ const columnDefinitions = [
           doDelete={() => deleteItem(invite.email)}
           isDeleting={currentDeletingItemIds.has(invite.email)}
           confirmLabel={t('in-settings:tabs.revoke')}
-          dialogMessage={() => (
-            <span>
-              <Trans
-                i18nKey="in-settings:tabs.areYouSureYouWantToRevokeTheInvitationToJoinTheTenant"
-                values={{
-                  tenant: config.tenant,
-                  email: invite.email
-                }}
-              />
-            </span>
-          )}
+          dialogMessage={
+            <Trans
+              i18nKey="in-settings:tabs.areYouSureYouWantToRevokeTheInvitationToJoinTheTenant"
+              values={{
+                tenant: config.tenant,
+                email: invite.email
+              }}
+            />
+          }
         />
       );
     }

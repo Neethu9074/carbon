@@ -57,15 +57,16 @@
   },
   "explore": {
     "focusOnThisGroup": "Axer sur ce groupe",
-    "offline": "hors ligne",
     "thisIsABetaVersionOfANewProductCapability": "Il s'agit d'une version bêta d'une nouvelle fonctionnalité du produit. Nous vous conseillons de ne pas vous fier aux données présentées.",
     "theQueryConfigurationIsInvalid": "La configuration de la requête n'est pas valide. Veuillez résoudre les échecs de validation avant de continuer.",
     "allInfrastructure": "Toutes les infrastructures",
     "name": "Nom",
     "search": "Rechercher",
     "explore": "Explorer",
-    "cpuUser": "UC (utilisateur)",
-    "memoryFree": "Mémoire disponible"
+    "count": "Nombre",
+    "errors": {
+      "maximumNumberOfGroups": "Cette requête a trop de résultats. Affinez votre recherche à l'aide d'un filtre plus restrictif ou de groupes plus larges"
+    }
   },
   "tableView": {
     "showCountsAndAveragesAcrossTheCurrentTimeWindow": "Afficher les nombres et les moyennes dans la fenêtre de temps en cours.",
