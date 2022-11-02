@@ -67,10 +67,7 @@ export default function CustomEvent(props) {
     const actionDetails$ = getCustomEventActions(entityId);
     // calling Get Event and Get action associations call and combining results
     return combineLatest([eventDetails$, actionDetails$]).map(([eventResponse, actionResponse]) =>
-      eventResponse.set(
-        'actionIds',
-        actionResponse.map(action => action.id)
-      )
+      eventResponse.set('actionIds', actionResponse?.map(action => action.id) ?? [])
     );
   }
   const entityFormParam = {
