@@ -21,28 +21,28 @@ export default function AzureFunctionAppDashboard({ snapshot, timeConfig }) {
       <FunctionsTable snapshot={snapshot} timeConfig={timeConfig} />
 
       <DashboardSection title={t('in-forge:plugins.azureFunctionApp.dashboard.titleRequests')}>
-      <Chart
-        snapshotId={snapshotId}
-        timeConfig={timeConfig}
-        y1={{
-          metrics: ['re_to'],
-          labels: [t('in-forge:plugins.azureFunctionApp.dashboard.labelRequests')],
-          formatter: number.detailed,
-          type: 'bar'
-        }}
-        y2={{
-          metrics: ['re_co', 're_av', 're_mi', 're_mx'],
-          labels: [
-            t('in-forge:plugins.azureFunctionApp.dashboard.labelCount'),
-            t('in-forge:plugins.azureFunctionApp.dashboard.labelAverage'),
-            t('in-forge:plugins.azureFunctionApp.dashboard.labelMinimum'),
-            t('in-forge:plugins.azureFunctionApp.dashboard.labelMaximum')
-          ],
-          formatter: number.detailed,
-          type: 'line'
-        }}
-        renderPostChartContent={PluginDashboardsMarkerLanes}
-      />
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            metrics: ['re_to'],
+            labels: [t('in-forge:plugins.azureFunctionApp.dashboard.labelRequests')],
+            formatter: number.detailed,
+            type: 'bar'
+          }}
+          y2={{
+            metrics: ['re_co', 're_av', 're_mi', 're_mx'],
+            labels: [
+              t('in-forge:plugins.azureFunctionApp.dashboard.labelCount'),
+              t('in-forge:plugins.azureFunctionApp.dashboard.labelAverage'),
+              t('in-forge:plugins.azureFunctionApp.dashboard.labelMinimum'),
+              t('in-forge:plugins.azureFunctionApp.dashboard.labelMaximum')
+            ],
+            formatter: number.detailed,
+            type: 'line'
+          }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
       </DashboardSection>
 
       <DashboardSection title={t('in-forge:plugins.azureFunctionApp.dashboard.titleBytesReceived')}>
