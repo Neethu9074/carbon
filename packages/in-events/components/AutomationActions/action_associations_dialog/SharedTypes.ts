@@ -22,7 +22,7 @@ export interface SetSliderStateProps {
   isVisible: boolean;
 }
 export interface EventProps {
-  name: string | undefined;
-  description: string | undefined;
+  name: string;
+  description: string;
   id: string;
 }

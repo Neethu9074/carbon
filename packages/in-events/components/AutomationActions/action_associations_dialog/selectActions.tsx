@@ -65,8 +65,8 @@ export default function SelectActions({
   numberOfActionChannelListRows = 5
 }: SelectActionsProps) {
   const selectedActions = (form.get('actionIds') as Field<string[]>)?.value ?? [];
-  const eventName: string | undefined = eventDetails.name;
-  const eventDescription: string | undefined = eventDetails.description;
+  const eventName: string = eventDetails.name;
+  const eventDescription: string = eventDetails.description;
   const getSelectedActionsForEvent = (selectedActions: string[]) => {
     if (selectedActions.length === 0) {
       return (alwaysEmptyArray as unknown) as Observable<Action[]>;
@@ -137,7 +137,7 @@ function SelectListDialogContentView({
 }: SelectListDialogContentViewProps) {
   const [slideInContentVisible, setSlideInContentVisible] = useState(false);
 
-  function getScoredActionTable(eventName: string | undefined, eventDescription: string | undefined) {
+  function getScoredActionTable(eventName: string, eventDescription: string) {
     return function ScoredActionTable(props: ActionTableProps) {
       return (
         <ActionTable

@@ -13,12 +13,13 @@ import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/components';
 
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
-import ActionAssociationDialogWrapper from 'in-events/components/AutomationActions/action_associations_dialog/ActionAssociationDialogWrapper';
 import {
   getCustomEventActions,
   getBuiltinEventActions,
-  getBuiltInEventSpecification
+  getBuiltInEventSpecification,
+  getCustomEventSpecification
 } from 'in-api/eventSpecifications';
+import ActionAssociationDialogWrapper from 'in-events/components/AutomationActions/action_associations_dialog/ActionAssociationDialogWrapper';
 import { EventProps } from 'in-events/components/AutomationActions/action_associations_dialog/SharedTypes';
 import ActionTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionTable';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -47,8 +48,8 @@ export default function AssociatedActions({ event, volatileId }: Props) {
 
   const selectedActions: string[] = actions.map(action => action.id);
   const [eventDetails, setEventDetails] = useState({
-    name: event?.problem?.problemText,
-    description: event?.problem?.fixSuggestion,
+    name: '',
+    description: '',
     id: eventSpecificationId
   });
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -56,11 +57,13 @@ export default function AssociatedActions({ event, volatileId }: Props) {
     useObservable<Event, [string]>(() => {
       if (!isCustom) {
         return getBuiltInEventSpecification(eventSpecificationId);
+      } else {
+        return getCustomEventSpecification(eventSpecificationId);
       }
     }, [eventSpecificationId]) ?? {};
 
   useEffect(() => {
-    if (!isCustom && !isEmpty(eventData)) {
+    if (!isEmpty(eventData)) {
       const builtinEventdata: any = (eventData as MapForm).toJS();
       setEventDetails({
         name: builtinEventdata.name,
