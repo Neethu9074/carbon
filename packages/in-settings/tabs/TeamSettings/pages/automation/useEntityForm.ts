@@ -14,23 +14,23 @@ import { t } from 'in-i18n';
 
 export const savingMessage = t('in-hoc:entityFormSaving');
 
-interface State<Entity> {
+interface State<ENTITY> {
   loading: boolean;
   error: boolean;
   message: string | null;
   form: MapForm | null;
   saveEnabled: boolean;
-  entity: Entity | null;
+  entity: ENTITY | null;
 }
 
-interface Props<Entity> {
+interface Parameters<ENTITY> {
   entityId: string | null;
-  createDefaultEntity: () => Entity;
-  getEntityFromApi: (entityId: string) => Observable<Entity>;
-  createForm: (entity: Entity) => MapForm;
+  createDefaultEntity: () => ENTITY;
+  getEntityFromApi: (entityId: string) => Observable<ENTITY>;
+  createForm: (entity: ENTITY) => MapForm;
   onSaveSuccess?: () => void;
   openEntities?: () => void;
-  saveEntity: (entity: Entity, mapForm: MapForm) => Observable<any>;
+  saveEntity: (entity: ENTITY, mapForm: MapForm) => Observable<any>;
   onSaveError?: (message: string) => void;
 }
 
@@ -43,8 +43,8 @@ const initialState = {
   saveEnabled: true
 };
 
-export default function useEntityForm<Entity>(props: Props<Entity>) {
-  const [state, setState] = useState<State<Entity>>(initialState);
+export default function useEntityForm<ENTITY>(props: Parameters<ENTITY>) {
+  const [state, setState] = useState<State<ENTITY>>(initialState);
   const responseSubscription = useRef<Disposable>();
   const errorSubscription = useRef<Disposable>();
 
@@ -74,6 +74,13 @@ export default function useEntityForm<Entity>(props: Props<Entity>) {
       });
       return;
     }
+
+    setState({
+      ...state,
+      loading: true,
+      error: false,
+      message: savingMessage
+    });
 
     const apiEntityResult$ = getEntityFromApi(entityId);
     responseSubscription.current = apiEntityResult$.once(entity => {
@@ -157,10 +164,10 @@ export default function useEntityForm<Entity>(props: Props<Entity>) {
     }
   }
 
-  function onChange<ValueType>(
+  function onChange<VALUETYPE>(
     fieldName: string | ((mapForm: MapForm) => MapForm),
-    value: ValueType,
-    updateFormDefinition: (mapForm: MapForm, entity: Entity) => MapForm
+    value: VALUETYPE,
+    updateFormDefinition: (mapForm: MapForm, entity: ENTITY) => MapForm
   ) {
     let updatedForm = state.form!;
 
@@ -174,7 +181,7 @@ export default function useEntityForm<Entity>(props: Props<Entity>) {
     }
 
     updatedForm = updatedForm.updateIn([fieldName], field =>
-      (field as Field<ValueType>).setValue(value).setTouched(true)
+      (field as Field<VALUETYPE>).setValue(value).setTouched(true)
     );
 
     if (updateFormDefinition) {
