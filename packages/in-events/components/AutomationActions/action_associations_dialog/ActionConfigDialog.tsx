@@ -12,11 +12,10 @@ import {
   stepRenderers
 } from 'in-events/components/AutomationActions/action_associations_dialog/steps/simpleModeSteps';
 import ActionConfigDialogPresenter from 'in-events/components/AutomationActions/action_associations_dialog/ActionConfigDialogPresenter';
-import { MessageType, EventProps } from 'in-events/components/AutomationActions/action_associations_dialog/SharedTypes';
 import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/applications/components/useSimpleModePageNavigation';
+import { MessageType, EventProps } from 'in-events/components/AutomationActions/action_associations_dialog/SharedTypes';
 import SimpleModeContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/simple/SimpleModeContainer';
 import { SimpleDialogFooter } from 'in-components/BlueprintFormMultistep/SimpleDialogFooter';
-import { selectActionsStepSwitch } from 'in-events/tracker';
 import { Action } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -43,7 +42,7 @@ export default function ActionConfigDialog(props: ActionConfigDialogProps) {
     setForm,
     onCreate: withTrackCreate,
     onClose: withTrackClose,
-    onStepChanged: (oldStep, nextStep) => selectActionsStepSwitch({ oldStep, nextStep })
+    onStepChanged: () => {}
   });
 
   const footer = (
