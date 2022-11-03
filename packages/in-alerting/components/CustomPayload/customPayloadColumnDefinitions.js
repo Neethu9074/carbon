@@ -6,6 +6,7 @@
 import { createField } from 'formalistic';
 import classNames from 'classnames';
 import React from 'react';
+import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 
 import { SvgIcon } from '@instana/components';
 
@@ -20,7 +21,6 @@ import {
   validatorForType,
   staticType
 } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
-import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup';

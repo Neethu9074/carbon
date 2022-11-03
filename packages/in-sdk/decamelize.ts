@@ -4,7 +4,7 @@
  */
 
 export default function decamelize(str: string): string {
-  const parts: string[] = [];
+  const parts: string[] = []
   for (let index = 0; index < str.length; index++) {
     if (index == 0 || isUppercase(str[index])) {
       parts.push(str[index].toUpperCase());

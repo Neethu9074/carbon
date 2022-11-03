@@ -13,7 +13,7 @@ import { t } from 'in-i18n';
 
 export default function Info({ snapshot }) {
   const timeConfig = useTimeConfig();
-  const metricIds = useMetricIds({ snapshotId: snapshot.get('id'), timeConfig: timeConfig });
+  const metricIds = useMetricIds({ snapshotId: snapshot.get('id'), timeConfig: timeConfig })
 
   const counters = countMetrics(metricIds, snapshot, 'metrics.counters');
   const gauges = countMetrics(metricIds, snapshot, 'metrics.gauges');

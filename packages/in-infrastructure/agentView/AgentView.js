@@ -4,7 +4,6 @@
  */
 
 import { Switch, Route } from 'react-router-dom';
-import { fromJS } from 'immutable';
 import React from 'react';
 
 import { combineLatest } from '@instana/observables';
@@ -42,6 +41,7 @@ import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
+import { fromJS } from 'immutable';
 
 export default connectTo(
   props => {

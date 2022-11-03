@@ -14,8 +14,8 @@ import { ChartsPresenter } from 'in-logging/analyze/AnalyzeView/components/Chart
 import { Logs } from 'in-logging/analyze/AnalyzeView/components/Logs';
 import getLogGroups from 'in-logging/subscriptions/getLogGroups';
 import GroupedView from 'in-components/AnalyzeView/GroupedView';
-import AggregationSymbol from 'in-components/AggregationSymbol';
 import { GROUP_COLORS } from 'in-components/AnalyzeView/utils';
+import AggregationSymbol from 'in-components/AggregationSymbol';
 import { LOG_LEVEL } from 'in-logging/queryBuilder';
 import Tooltip from 'in-components/Tooltip';
 import theme from 'in-themes';

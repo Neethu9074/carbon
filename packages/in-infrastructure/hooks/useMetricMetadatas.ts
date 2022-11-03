@@ -11,8 +11,8 @@ import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/back
 import { BackendFormatterType, getFormatter } from 'in-services/formatters/backendFormatter';
 import getAvailableMetrics from 'in-infrastructure/subscriptions/getAvailableMetrics';
 import { hasError, isLoading, mapData, success } from 'in-services/util/result';
-import { AggregationType, MetricMetadata, Result, TimeConfig } from 'in-types';
 import { getFormatterType } from 'in-services/formatters/number';
+import { AggregationType, MetricMetadata, Result, TimeConfig } from 'in-types';
 import { pendingResult } from 'in-services/fixedObjects';
 import { KpiDefinition } from 'in-sdk/metrics/kpis';
 import useTimeConfig from 'in-hooks/useTimeConfig';

@@ -11,6 +11,6 @@ import { getPluginName } from 'in-sdk/pluginName';
 import locals from './PluginBadge.mless';
 
 export default function PluginBadge({ plugin }) {
-  const snapshotDefinition = getOptionalSnapshotDefinition(plugin);
+  const snapshotDefinition = getOptionalSnapshotDefinition(plugin)
   return <div className={locals.pluginLabel}>{snapshotDefinition ? getPluginName(plugin, 1) : plugin}</div>;
 }

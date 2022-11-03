@@ -15,10 +15,10 @@ import {
   LOG_CUSTOM_KEY_APPLICATION_IDS
 } from 'in-logging/queryBuilder';
 import getApplication from 'in-applications/subscriptions/getApplication';
+import { getSnapshot } from 'in-stores/snapshot';
 // @ts-ignore
 import { getLabel } from 'in-sdk/snapshot';
 import { Application, LogTag, Result } from 'in-types';
-import { getSnapshot } from 'in-stores/snapshot';
 import { t } from 'in-i18n';
 
 type LinkResolver = (tag: LogTag) => Observable<string>;
