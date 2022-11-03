@@ -113,7 +113,7 @@ function createOrSaveAction({
   }
 
   const actionIds = (form.get('actionIds') as Field<string[]>)?.value ?? [];
-  const mappedActionIds = actionIds.length > 0 ? uniq(actionIds).map((value: string) => ({ id: value })) : [];
+  const actions = actionIds.length > 0 ? uniq(actionIds).map((value: string) => ({ id: value })) : [];
 
   const eventId = eventDetails.id;
   const eventName = eventDetails.name;
@@ -131,7 +131,7 @@ function createOrSaveAction({
       (response: any) => {
         if (!response.progress) {
           const eventData: any = response.toJS();
-          eventData.actions = mappedActionIds;
+          eventData.actions = actions;
           saveCustomEventSpecificationWithActions(eventData).once(
             () => {
               close();
@@ -152,7 +152,7 @@ function createOrSaveAction({
       }
     );
   } else {
-    updateActionsAssignedToBuiltInEvent(mappedActionIds, eventId).once(
+    updateActionsAssignedToBuiltInEvent(actions, eventId).once(
       () => {
         close();
         window.location.reload();
