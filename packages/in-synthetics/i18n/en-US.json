@@ -232,7 +232,8 @@
       "noDataAvailable": {
         "message": "{{component}} details not available for this test result",
         "notFound": "Not found"
-      }
+      },
+      "downloadHar": "Download HAR File"
     },
     "noDataAvailable": {
       "resultsTitle": "No results available",
