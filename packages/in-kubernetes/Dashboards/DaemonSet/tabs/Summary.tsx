@@ -26,11 +26,10 @@ import { summaryTab } from 'in-kubernetes/navigation/paths';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
-// @ts-expect-error
-import { plugins } from 'in-forge/constants';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { Row, Col } from 'in-components/layout/Grid';
+import { plugins } from 'in-forge/constants';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
