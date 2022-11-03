@@ -1,6 +1,6 @@
 /*
- * (c) Copyright IBM Corp. 2022
- * (c) Copyright Instana Inc. 2022
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
  */
 
 import InfraExploreView from 'promise-loader?global,infrastructure!in-infrastructure/Explore/Explore';
@@ -29,12 +29,12 @@ import {
 } from 'in-stores/permission';
 import { agentsPath, containerPath, graphPath, physicalPath, tablePath } from 'in-stores/navigation/paths/mainPaths';
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
+import { infraExploreEnabled } from 'in-infrastructure/Explore/services/featureFlags';
 import FragmentSupportingSwitch from 'in-components/FragmentSupportingSwitch';
 import customDashboardsRoutes from 'in-custom-dashboards/navigation/routes';
 import mobileAppMonitoringRoutes from 'in-mobile-apps/navigation/routes';
 import { infraExplorePath } from 'in-infrastructure/navigation/paths';
 import websiteMonitoringRoutes from 'in-websites/navigation/routes';
-import { infraExploreDataEnabled } from 'in-services/featureFlags';
 import cloudfoundryRoutes from 'in-cloudfoundry/navigation/routes';
 import integrationRoutes from 'in-integrations/navigation/routes';
 import applicationRoutes from 'in-applications/navigation/routes';
@@ -59,7 +59,7 @@ export default (
     <Route path={containerPath} children={renderAsyncRouteChildren(Map)} />
     <Route path={tablePath} children={renderAsyncRouteChildren(TableView)} />
     <Route path={graphPath} children={renderAsyncRouteChildren(GraphView)} />
-    {infraExploreDataEnabled && <Route path={infraExplorePath} children={renderAsyncRouteChildren(InfraExploreView)} />}
+    {infraExploreEnabled && <Route path={infraExplorePath} children={renderAsyncRouteChildren(InfraExploreView)} />}
 
     {configurationRoutes}
     {role.canConfigureAgents && (
