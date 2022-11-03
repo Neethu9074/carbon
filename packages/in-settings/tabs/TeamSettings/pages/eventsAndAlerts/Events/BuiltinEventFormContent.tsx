@@ -9,12 +9,10 @@ import { createField, createMapForm } from 'formalistic';
 export function createBuiltinEventFormDefinition(eventSpec: Map<string, unknown>) {
   const actionIds = (eventSpec?.get('actionIds') as string[]) ?? [];
 
-  let form = createMapForm().put(
+  return createMapForm().put(
     'actionIds',
     createField({
       value: actionIds
     })
   );
-
-  return form;
 }

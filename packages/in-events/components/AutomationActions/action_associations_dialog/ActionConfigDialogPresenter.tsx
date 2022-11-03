@@ -10,7 +10,8 @@ import classNames from 'classnames';
 
 import {
   MessageType,
-  SetSliderStateProps
+  SetSliderStateProps,
+  EventProps
 } from 'in-events/components/AutomationActions/action_associations_dialog/SharedTypes';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import { emptyObject } from 'in-services/fixedObjects';
@@ -40,6 +41,7 @@ interface SimpleModeElementProps {
 
 interface ActionConfigDialogPresenterProps {
   actions: Action[];
+  eventDetails: EventProps;
   withTrackClose: () => void;
   applicationLabel: string;
   messages: MessageType[];
