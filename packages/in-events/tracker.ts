@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import { track, SELECT_ACTION_STEP_SWITCH } from 'in-services/tracking/tracking';
+import { track, SELECT_ACTION_STEP_SWITCH, RUN_ACTION } from 'in-services/tracking/tracking';
 
 export const selectActionsStepSwitch = (e: any) => track(SELECT_ACTION_STEP_SWITCH, e);
+export const runAction = (e: any) => track(RUN_ACTION, e);

@@ -29,6 +29,7 @@ import { runScriptAction } from 'in-api/automation';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Label from 'in-components/form/Label/Label';
 import Dialog from 'in-components/Dialog/Dialog';
+import { runAction } from 'in-events/tracker';
 import Code from 'in-components/Code';
 import { t, Trans } from 'in-i18n';
 
@@ -121,6 +122,10 @@ export default function RunAction({ action, script, volatileId, event }: Props) 
               return;
             }
             setIsSaving(true);
+            runAction({
+              actionType: action.type,
+              actionName: action.name
+            });
             runScriptAction(script, selectedVolatileId, event, actionName).once(data => {
               setIsSaving(false);
               // last element of the array is either the timeout error if the agent didn't respond in time, or the agent response (error or in progress)

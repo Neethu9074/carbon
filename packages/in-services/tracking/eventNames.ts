@@ -376,3 +376,4 @@ export const APDEX_MANAGEMENT_DELETE = 'apdex.management.delete';
 
 // Action associations for events
 export const SELECT_ACTION_STEP_SWITCH = 'event.issue.select.action.step';
+export const RUN_ACTION = 'event.issue.run.action';

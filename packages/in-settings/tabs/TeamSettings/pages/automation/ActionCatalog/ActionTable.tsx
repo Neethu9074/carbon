@@ -20,6 +20,7 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getAllActions, ScoredAction } from 'in-api/automation';
 import { formatDateTime } from 'in-services/formatters/date';
 import Tooltip from 'in-components/Tooltip/Tooltip';
+import { runAction } from 'in-events/tracker';
 import { Event, VolatileId } from 'in-types';
 import { Action } from 'in-types';
 import { t } from 'in-i18n';
@@ -71,7 +72,19 @@ const executeColumn = (volatileId: VolatileId, event: Event | null) => ({
       const field = fields?.[0];
       const value = field?.value;
       return (
-        <Button kind="action" icon={'lib_views_external_link'} target="_blank" href={value} noAutoMargin>
+        <Button
+          kind="action"
+          icon={'lib_views_external_link'}
+          target="_blank"
+          href={value}
+          onClick={() => {
+            runAction({
+              actionType: row.type,
+              actionName: row.name
+            });
+          }}
+          noAutoMargin
+        >
           {t('in-settings:tabs.launch')}
         </Button>
       );
