@@ -12,7 +12,6 @@ import { createActionFormDefinition } from 'in-settings/tabs/TeamSettings/pages/
 import { createDocLinkField, createScriptFields, NewAction, saveAction, saveNewAction } from 'in-api/automation';
 import ActionForm from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionForm';
 import { isDocLink, isScript } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
-import useEntityForm from 'in-settings/tabs/TeamSettings/pages/automation/useEntityForm';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { createActionTracker, editActionTracker } from 'in-settings/tracker';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
@@ -21,6 +20,7 @@ import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SectionLine from 'in-settings/components/SectionLine';
 import { getAction, createAction } from 'in-api/automation';
+import useEntityForm from 'in-settings/hooks/useEntityForm';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
 import Section from 'in-settings/components/Section';
