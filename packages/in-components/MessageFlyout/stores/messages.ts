@@ -19,6 +19,7 @@ export interface Message {
   onClick?: () => void;
   isLicenseUsageMsg?: boolean;
   timeout?: number;
+  activeLicense?: string;
 }
 
 export interface MessageWithId extends Message {
@@ -45,7 +46,8 @@ export function addMessage(messageParam: Message, id: MessageId = idCounter++) {
     title: messageParam.title,
     content: messageParam.content,
     onClick: messageParam.onClick ? messageParam.onClick : () => removeMessage(id),
-    isLicenseUsageMsg: !!messageParam.isLicenseUsageMsg
+    isLicenseUsageMsg: !!messageParam.isLicenseUsageMsg,
+    activeLicense: messageParam.activeLicense
   };
 
   messagesStore.applyStateMutation(messages => {

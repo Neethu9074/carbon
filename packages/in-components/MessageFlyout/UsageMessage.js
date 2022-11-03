@@ -8,7 +8,7 @@ import React from 'react';
 
 import { SvgIcon, Button, Link } from '@instana/components';
 
-import { track, REQUEST_QUOTE_BUTTON_CLICKED } from 'in-services/tracking/tracking';
+import { track, REQUEST_QUOTE_BUTTON_CLICKED, BUY_NOW_BUTTON_CLICKED } from 'in-services/tracking/tracking';
 import { onPremLicenseInformationEnabled } from 'in-services/featureFlags';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import RequestQuoteDialog from 'in-components/RequestQuoteDialog';
@@ -56,41 +56,32 @@ export default function UsageMessage({ message }) {
       <SvgIcon type={message.icon} className={locals.icon} />
       <div className={locals.msg}>
         <Content>{message.content}</Content>
+        {onPremLicenseInformationEnabled && (
+          <Subtext>
+            <Trans
+              i18nKey="in-components:messageFlyout.alreadyHaveLicense"
+              components={{
+                linkToDocker: (
+                  <Link
+                    className={locals.link}
+                    external
+                    href="https://www.ibm.com/docs/obi/current?topic=installer-license-activation-renewal"
+                  />
+                ),
+                linkToKubernetes: (
+                  <Link
+                    className={locals.link}
+                    external
+                    href="https://www.ibm.com/docs/obi/current?topic=kubernetes-installing-operator-based-instana-setup#312-downloading-the-license-file"
+                  />
+                )
+              }}
+            />
+          </Subtext>
+        )}
         {!onPremLicenseInformationEnabled && (
           <>
-            <Button
-              className={locals.button}
-              kind="warning"
-              onClick={e => {
-                e.preventDefault();
-                e.stopPropagation();
-                track(REQUEST_QUOTE_BUTTON_CLICKED, getPageType(history.location.pathname));
-                addActiveDialog(<RequestQuoteDialog />);
-              }}
-            >
-              {t('in-components:messageFlyout.requestQuoteBtn')}
-            </Button>
-            <Subtext>
-              <Trans
-                i18nKey="in-components:messageFlyout.alreadyHaveLicense"
-                components={{
-                  linkToDocker: (
-                    <Link
-                      className={locals.link}
-                      external
-                      href="https://www.ibm.com/docs/obi/current?topic=installer-license-activation-renewal"
-                    />
-                  ),
-                  linkToKubernetes: (
-                    <Link
-                      className={locals.link}
-                      external
-                      href="https://www.ibm.com/docs/obi/current?topic=kubernetes-installing-operator-based-instana-setup#312-downloading-the-license-file"
-                    />
-                  )
-                }}
-              />
-            </Subtext>
+            <ButtonAction type={message.activeLicense} />
           </>
         )}
       </div>
@@ -104,4 +95,33 @@ function Content({ children }) {
 
 function Subtext({ children }) {
   return <div className={locals.subtext}>{children}</div>;
+}
+function ButtonAction({ type }) {
+  return type == 'selfService' ? (
+    <Button
+      className={locals.button}
+      kind="warning"
+      onClick={e => {
+        e.preventDefault();
+        e.stopPropagation();
+        track(BUY_NOW_BUTTON_CLICKED, getPageType(history.location.pathname));
+        window.open('https://aws.amazon.com/marketplace/pp/prodview-hnqy5e3t3fzda', '_blank');
+      }}
+    >
+      {t('in-components:messageFlyout.buyNowBtn')}
+    </Button>
+  ) : (
+    <Button
+      className={locals.button}
+      kind="warning"
+      onClick={e => {
+        e.preventDefault();
+        e.stopPropagation();
+        track(REQUEST_QUOTE_BUTTON_CLICKED, getPageType(history.location.pathname));
+        addActiveDialog(<RequestQuoteDialog />);
+      }}
+    >
+      {t('in-components:messageFlyout.requestQuoteBtn')}
+    </Button>
+  );
 }
