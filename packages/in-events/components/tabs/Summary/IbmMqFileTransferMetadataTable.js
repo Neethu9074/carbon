@@ -10,6 +10,8 @@ import React from 'react';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
 
+import locals from './IbmMqFileTransferMetadataTable.mless';
+
 const cols = [
   {
     title: t('in-events:ibmMqFileTransfer.transferId'),
@@ -71,9 +73,14 @@ export default function IbmMqFileTransferMetadataTable({ ibmMqFileTransferMetada
       cardTitle={t('in-events:ibmMqFileTransfer.failedFileTransfers')}
       cols={cols}
       rows={rows}
-      getRowDetails={row => row?.details ?? ''}
+      getRowDetails={row => <RowDetails row={row} />}
     />
   );
+}
+
+function RowDetails({ row }) {
+  const detailsText = row?.details ?? '';
+  return <div className={locals.details}>{detailsText}</div>;
 }
 
 IbmMqFileTransferMetadataTable.propTypes = {

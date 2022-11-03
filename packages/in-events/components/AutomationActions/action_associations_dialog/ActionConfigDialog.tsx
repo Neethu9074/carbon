@@ -12,9 +12,9 @@ import {
   stepRenderers
 } from 'in-events/components/AutomationActions/action_associations_dialog/steps/simpleModeSteps';
 import ActionConfigDialogPresenter from 'in-events/components/AutomationActions/action_associations_dialog/ActionConfigDialogPresenter';
+import { MessageType, EventProps } from 'in-events/components/AutomationActions/action_associations_dialog/SharedTypes';
 import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/applications/components/useSimpleModePageNavigation';
 import SimpleModeContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/simple/SimpleModeContainer';
-import { MessageType } from 'in-events/components/AutomationActions/action_associations_dialog/SharedTypes';
 import { SimpleDialogFooter } from 'in-components/BlueprintFormMultistep/SimpleDialogFooter';
 import { selectActionsStepSwitch } from 'in-events/tracker';
 import { Action } from 'in-types';
@@ -30,6 +30,7 @@ interface ActionConfigDialogProps {
   form: MapForm;
   setForm: React.Dispatch<React.SetStateAction<MapForm>>;
   isSaving: boolean;
+  eventDetails: EventProps;
 }
 
 export default function ActionConfigDialog(props: ActionConfigDialogProps) {

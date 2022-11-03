@@ -151,6 +151,9 @@ function InfraExploreViewWithFixatedTimeConfig() {
       <Title title={t('in-infrastructure:explore.explore')} />
       <LeftRightPadding className={locals.stack}>
         <Stack gap="gutter">
+          <Message type="warning" withIcon small>
+            {t('in-infrastructure:explore.thisIsABetaVersionOfANewProductCapability')}
+          </Message>
           <Content
             setUrl={setUrl}
             type={type}

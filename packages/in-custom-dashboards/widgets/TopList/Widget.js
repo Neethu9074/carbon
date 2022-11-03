@@ -1,6 +1,6 @@
 /*
- * (c) Copyright IBM Corp. 2022
- * (c) Copyright Instana Inc. 2022
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
  */
 
 import React from 'react';
@@ -14,6 +14,7 @@ import { getTagCatalog } from 'in-applications/analyze/components/workspace/Call
 import { getLinkToAnalyze as getLinkToWebsiteAnalyze } from 'in-websites/navigation/paths';
 import { type as TAG_FILTER } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { default as useMobileAppTagCatalog } from 'in-mobile-apps/hooks/useTagCatalog';
+import { infraExploreEnabled } from 'in-infrastructure/Explore/services/featureFlags';
 import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/tags';
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 import { default as useWebsiteTagCatalog } from 'in-websites/hooks/useTagCatalog';
@@ -23,7 +24,6 @@ import { getLinkToExplore } from 'in-infrastructure/navigation/paths';
 import { NO_VALUE } from 'in-analyze/components/GroupedTraces/Group';
 import { extendWindowSizeOnLiveMode } from 'in-applications/metrics';
 import { getLinkToAnalyze } from 'in-applications/navigation/paths';
-import { infraExploreDataEnabled } from 'in-services/featureFlags';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { isParseableAsNumber } from 'in-services/util/number';
@@ -217,7 +217,7 @@ function Label({ item, config, result, tagCatalog }) {
       });
       break;
     case 'INFRASTRUCTURE_METRICS':
-      link = (infraExploreDataEnabled && getLinkToEntityExplore(config, formModel)) || '';
+      link = (infraExploreEnabled && getLinkToEntityExplore(config, formModel)) || '';
       break;
   }
 
