@@ -37,7 +37,6 @@ import {
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import CustomEventForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventForm';
 import { serializeQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
-import useEntityForm from 'in-settings/tabs/TeamSettings/pages/automation/useEntityForm';
 import { getMetricDefinition, isBuiltInDynamicMetric } from 'in-sdk/metrics/metrics';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import MigrateToSmartAlerts from 'in-alerting/migration/MigrateToSmartAlerts';
@@ -48,6 +47,7 @@ import { actionAutomationEnabled } from 'in-services/featureFlags';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
+import useEntityForm from 'in-settings/hooks/useEntityForm';
 import Notification from 'in-components/form/Notification';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import { submitEventTracker } from 'in-settings/tracker';
