@@ -73,7 +73,7 @@ export default function CustomEvent(props) {
       eventResponse.set('actionIds', actionResponse?.map(action => action.id) ?? [])
     );
   }
-  const actions = useObservable(() => getAllActions(), []) ?? [];
+  const actions = useObservable(getAllActions, []) ?? [];
   const entityFormParam = {
     entityId,
     createDefaultEntity: createCustomThresholdBasedEventSpecification,
