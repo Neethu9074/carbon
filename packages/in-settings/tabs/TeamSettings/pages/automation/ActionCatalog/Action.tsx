@@ -115,15 +115,13 @@ function save(form: MapForm, id: string | null) {
   if (isCreate) {
     createActionTracker({
       actionType: actionSpecification.type,
-      actionName: actionSpecification.name,
-      tags: actionSpecification.tags?.toString()
+      actionName: actionSpecification.name
     });
     return saveNewAction(actionSpecification);
   } else {
     editActionTracker({
       actionType: actionSpecification.type,
-      actionName: actionSpecification.name,
-      tags: actionSpecification.tags?.toString()
+      actionName: actionSpecification.name
     });
     return saveAction(actionSpecification, id);
   }
