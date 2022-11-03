@@ -98,6 +98,7 @@ export interface ResultLogs {
   testId: string;
   testResultId: string;
   logs: string;
+  logFiles: { [index: string]: any };
 }
 
 export interface PoPProperties {

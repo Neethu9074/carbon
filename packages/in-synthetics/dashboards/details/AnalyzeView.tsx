@@ -219,6 +219,7 @@ export default function SyntheticAnalyzeView() {
                       testId={testId}
                       resultId={resultId}
                       timestamp={get(head(get(details, ['data', 'subtransactions'])), 'properties.startTime')}
+                      isBrowserTestType={isBrowserScriptTest}
                     />
                   </Col>
                 </Row>

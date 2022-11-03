@@ -23,6 +23,7 @@ interface LogsProps {
   testId: string;
   resultId: string;
   timestamp: number;
+  isBrowserTestType: boolean;
 }
 
 const columnDefinitions = [
@@ -34,7 +35,7 @@ const columnDefinitions = [
   }
 ];
 
-export default function Logs({ testId, resultId, timestamp }: LogsProps) {
+export default function Logs({ testId, resultId, timestamp, isBrowserTestType }: LogsProps) {
   const { data, progress }: TestResultLog =
     useObservable<any, [number]>(
       () =>
@@ -53,7 +54,7 @@ export default function Logs({ testId, resultId, timestamp }: LogsProps) {
   return (
     <Card title={t('in-synthetics:dashboard.detailsPage.logs')}>
       {data != undefined && data != null ? (
-        <LogDetails logs={data?.logs} timestamp={timestamp} />
+        <LogDetails logFiles={data?.logFiles} timestamp={timestamp} isBrowserTestType={isBrowserTestType} />
       ) : (
         <NoDataAvailable
           type="lib_synthetic"
@@ -66,16 +67,32 @@ export default function Logs({ testId, resultId, timestamp }: LogsProps) {
 }
 
 interface LogDetailsProps {
-  logs?: string;
+  logFiles: { [index: string]: any };
   timestamp: number;
+  isBrowserTestType: boolean;
 }
 
-function LogDetails({ logs, timestamp }: LogDetailsProps) {
+function LogDetails({ logFiles, timestamp, isBrowserTestType }: LogDetailsProps) {
   return (
     <Ul space="disabled">
       <Li key={timestamp} className={locals.selectedRow}>
-        <ColumnizedContent columnDefinitions={columnDefinitions} logs={logs} timestamp={timestamp} />
+        <ColumnizedContent
+          columnDefinitions={columnDefinitions}
+          name={t('in-synthetics:dashboard.detailsPage.consoleLogs')}
+          logs={logFiles['console.log']}
+          timestamp={timestamp}
+        />
       </Li>
+      {isBrowserTestType && (
+        <Li key={timestamp} className={locals.selectedRow}>
+          <ColumnizedContent
+            columnDefinitions={columnDefinitions}
+            name={t('in-synthetics:dashboard.detailsPage.browserLogs')}
+            logs={logFiles['browser.json']}
+            timestamp={timestamp}
+          />
+        </Li>
+      )}
     </Ul>
   );
 }
