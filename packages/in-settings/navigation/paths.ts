@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Observable } from '@instana/observables';
+
 import { settingsPath } from 'in-stores/navigation/paths/mainPaths';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getView, mutateUrl } from 'in-stores/navigation';
@@ -125,34 +127,34 @@ export const migSettings = `${settingsPath}/migration`;
 export const migExportSettings = `${migSettings}/export`;
 export const migImportSettings = `${migSettings}/import`;
 
-export function getEntityHref(path, id) {
+export function getEntityHref(path: string, id: string): string {
   if (id) {
     return `${path}/${encodeURIComponent(id)}`;
   }
   return path;
 }
 
-export function getEntityIdView(path, id) {
+export function getEntityIdView(path: string, id: string): Observable<string> {
   if (id) {
     path = `${path}/${encodeURIComponent(id)}`;
   }
   return getView(path);
 }
 
-export function goToIntegrationView(kind) {
+export function goToIntegrationView(kind: string): void {
   mutateUrl(location => {
     location.pathname = teamSettingsAlertingIntegrationNew;
     setOrDeleteMatrixKey(location, '/integrations', 'kind', kind);
   });
 }
 
-export function goToAlertChannelView(kind) {
+export function goToAlertChannelView(kind: string): void {
   mutateUrl(location => {
     location.pathname = teamSettingsAlertingAlertChannelNew;
     setOrDeleteMatrixKey(location, '/channels', 'kind', kind);
   });
 }
 
-export function getModifyAlertChannelUrl(kind, entityId) {
+export function getModifyAlertChannelUrl(kind: string, entityId: string): string {
   return `#${alerting}${channels};kind=${kind}/detail/${encodeURIComponent(entityId)}`;
 }
