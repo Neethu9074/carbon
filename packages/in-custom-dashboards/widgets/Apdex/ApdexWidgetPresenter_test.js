@@ -49,6 +49,11 @@ jest.mock('in-services/featureFlags', () => ({
   apdexWidgetEnabled: true
 }));
 
+jest.mock('react', () => ({
+  ...jest.requireActual('react'),
+  useMemo: cb => cb()
+}));
+
 describe('in-custom-dashboards/widgets/Apdex', () => {
   it('applies the adjustedTimeframe from the apdex metric subscription to the timeConfig passed to the ApdexWidget if it was provided', () => {
     // Given

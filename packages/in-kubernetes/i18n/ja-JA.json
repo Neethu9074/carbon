@@ -270,6 +270,7 @@
   "health": "正常性",
   "clusters": "クラスター",
   "explore": "探索 (テクニカル・プレビュー)",
+  "k8sTeam": "K8s チーム",
   "noMonitoringDataFound": "モニタリング・データが見つかりません",
   "clusterName": "クラスター名",
   "running": "実行中",

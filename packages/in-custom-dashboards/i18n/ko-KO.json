@@ -469,8 +469,12 @@
         "sliEntity": "SLI 엔티티",
         "beaconConfigLabel": "비컨 구성",
         "beaconScopeLabel": "비콘 범위",
-        "httpRequestsLabel": "HTTP 요청",
-        "beaconFiltersLabel": "비컨 필터"
+        "beaconLabel": "알 수 없는 비컨 유형",
+        "beaconLabel_httpRequest": "HTTP 요청",
+        "beaconLabel_pageLoad": "웹 사이트 페이지 로드",
+        "beaconLabel_custom": "웹 사이트 사용자 정의 이벤트",
+        "beaconFiltersLabel": "비컨 필터",
+        "beaconFiltersSubtext": "선택적"
       },
       "sliList": {
         "serviceLevelIndicators": "SLI(Service Level Indicator)",
@@ -500,8 +504,10 @@
         "spent": "사용",
         "budget": "예산",
         "viewInAnalyze": "분석으로 보기",
-        "initialEvaluation": "SLI 작성됨",
-        "missingDataInfo": "이 SLI에 대한 작성 시간이 표시된 시간 범위 내에 있습니다. SLI 작성 전의 데이터가 누락됩니다."
+        "configType": "SLI",
+        "configType_apdex": "Apdex",
+        "initialEvaluation": "{{configType}}이(가) 작성됨",
+        "missingDataInfo": "이 {{configType}}에 대한 작성 시간이 표시된 시간 범위 내에 있습니다. {{configType}} 작성 전의 데이터가 누락됩니다."
       },
       "formComponent": {
         "sliManagement": "SLI 관리",
@@ -572,7 +578,7 @@
         "thousandCallsFormat": "{{count}}K개의 호출"
       },
       "widgetLeftHeader": {
-        "previewDataInfo": "미리보기 데이터는 최근에 SLI 구성이 작성된 경우 과거 7일까지 표시됩니다. 최종 위젯에는 SLI 작성 이후의 데이터만 포함됩니다."
+        "previewDataInfo": "미리보기 데이터는 과거에 대해 7일까지만 표시됩니다. 최종 위젯에는 SLI 작성 이후의 데이터만 포함됩니다."
       },
       "boundaryScopeConfigurator": {
         "all": {
@@ -590,7 +596,9 @@
       "chart": {
         "metricLabel": "Apdex",
         "viewInAnalyze": "분석 보기",
-        "noDataRetentionPeriod": "선택한 시간 범위가 데이터 보존 기간을 벗어났습니다."
+        "noDataRetentionPeriod": "선택한 시간 범위가 데이터 보존 기간을 벗어났습니다.",
+        "notFoundErrorTitle": "구성된 Apdex를 찾을 수 없음",
+        "notFoundErrorDescription": "다른 Apdex 구성을 선택하여 Apdex 위젯을 업데이트하십시오"
       },
       "demo": {
         "title": "Prod용 Apdex",
@@ -605,7 +613,9 @@
       "formComponent": {
         "title": "Apdex 구성",
         "entityTypeTitle": "Apdex 유형",
-        "manageListTitle": "Apdex 관리"
+        "manageListTitle": "Apdex 관리",
+        "createApdex": "Apdex 구성 작성",
+        "editApdex": "Apdex 구성 편집"
       },
       "configurationSelector": {
         "label": "Apdex 구성",
@@ -636,7 +646,6 @@
         "createButton": "Apdex 구성 작성"
       },
       "createApdexForm": {
-        "title": "Apdex 구성 작성",
         "customizationHeader": "Apdex 사용자 정의",
         "label": "Apdex 이름",
         "apdexCreateSuccessTitle": "Apdex 구성이 작성되었습니다.",
@@ -644,13 +653,17 @@
         "apdexCreateFailedTitle": "Apdex 구성을 작성하는 데 실패했습니다.",
         "apdexCreateFailedContent": "이 Apdex 구성 \"{{apdexName}}\"을(를) 작성하는 중에 문제점이 발생했습니다.",
         "apdexNameNotEmpty": "Apdex 이름은 비워 둘 수 없습니다.",
-        "thresholdNotEmpty": "임계값은 비워 둘 수 없습니다.",
-        "nameExistsError": "이 이름의 Apdex 구성이 이미 있습니다. 다른 이름을 입력하십시오."
+        "nameExistsError": "이 이름의 Apdex 구성이 이미 있습니다. 다른 이름을 입력하십시오.",
+        "limitReachedError": {
+          "website": "웹 사이트 Apdex 구성의 최대 수({{0}})에 도달했습니다. 이 한계를 늘리도록 요청하려면 Instana 지원에 문의하십시오.",
+          "application": "애플리케이션 Apdex 구성의 최대 수({{0}})에 도달했습니다. 이 한계를 늘리도록 요청하려면 Instana 지원에 문의하십시오."
+        },
+        "editConfigNotice": "데이터 유실을 방지하기 위해 구성이 작성된 후에는 편집할 수 없습니다. 사본으로만 조정할 수 있습니다.",
+        "apdexCloneName": "{{apdexName}}의 사본"
       },
       "createWebsiteApdexForm": {
         "thresholdHeader": "임계값 구성",
-        "thresholdLabel": "임계값",
-        "thresholdFooter": "데이터 손실을 방지하기 위해 작성 후 임계값을 편집할 수 없습니다."
+        "thresholdLabel": "임계값"
       },
       "entityInfo": {
         "tooltip": "알 수 없는 Apdex",
@@ -660,7 +673,7 @@
       "widget": {
         "unknownEntityLabel_application": "알 수 없는 애플리케이션",
         "unknownEntityLabel_website": "알 수 없는 웹 사이트",
-        "previewDataInfo": "미리보기 데이터는 최근에 Apdex 구성이 작성된 경우 과거 7일까지 표시됩니다. 최종 위젯에는 Apdex 작성 이후의 데이터만 포함됩니다."
+        "previewDataInfo": "미리보기 데이터는 지난 7일에 대해 표시됩니다. 최종 위젯은 Apdex 구성을 작성한 이후의 데이터만 포함합니다."
       },
       "applicationScopeConfigurator": {
         "label": "Apdex 범위",

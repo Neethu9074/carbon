@@ -9,7 +9,7 @@ import React from 'react';
 import locals from './Capitalize.mless';
 
 export interface CapitalizeProps {
-  children: React.ReactChildren;
+  children: JSX.Element | string;
   className?: string;
 }
 

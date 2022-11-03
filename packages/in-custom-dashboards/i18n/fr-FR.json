@@ -469,8 +469,12 @@
         "sliEntity": "Entité SLI",
         "beaconConfigLabel": "Configuration de balise",
         "beaconScopeLabel": "Portée de l'alarme",
-        "httpRequestsLabel": "Demandes HTTP",
-        "beaconFiltersLabel": "Filtre de balises"
+        "beaconLabel": "Type de balise inconnu",
+        "beaconLabel_httpRequest": "Demandes HTTP",
+        "beaconLabel_pageLoad": "Chargements de page de site Web",
+        "beaconLabel_custom": "Evénements personnalisés de site Web",
+        "beaconFiltersLabel": "Filtre de balises",
+        "beaconFiltersSubtext": "Facultatif"
       },
       "sliList": {
         "serviceLevelIndicators": "Indicateurs du niveau de service (SLI)",
@@ -500,8 +504,10 @@
         "spent": "Dépensé",
         "budget": "Budget",
         "viewInAnalyze": "Afficher dans l'analyse",
-        "initialEvaluation": "SLI créé",
-        "missingDataInfo": "L'heure de création de ce niveau de service est dans la période affichée. Les données antérieures à la création du SLI manqueront."
+        "configType": "SLI",
+        "configType_apdex": "Apdex",
+        "initialEvaluation": "{{configType}} créé",
+        "missingDataInfo": "L'heure de création de ce {{configType}} est comprise dans l'intervalle affiché. Les données antérieures à la création de {{configType}} seront absentes."
       },
       "formComponent": {
         "sliManagement": "Gestion des SLI",
@@ -572,7 +578,7 @@
         "thousandCallsFormat": "{{count}}K appels"
       },
       "widgetLeftHeader": {
-        "previewDataInfo": "Des données de prévisualisation sont affichées pour les 7 derniers jours maximum si la configuration SLI a été créée récemment. Le widget final inclura uniquement les données depuis la création de SLI."
+        "previewDataInfo": "Les données d'aperçu ne remontent que jusqu'à 7 jours. Le widget final inclura uniquement les données depuis la création de SLI."
       },
       "boundaryScopeConfigurator": {
         "all": {
@@ -590,7 +596,9 @@
       "chart": {
         "metricLabel": "Apdex",
         "viewInAnalyze": "Afficher dans l'analyse",
-        "noDataRetentionPeriod": "La plage de temps sélectionnée dépasse la durée de conservation des données"
+        "noDataRetentionPeriod": "La plage de temps sélectionnée dépasse la durée de conservation des données",
+        "notFoundErrorTitle": "L'Apdex configuré est introuvable",
+        "notFoundErrorDescription": "Mettez à jour le widget Apdex en sélectionnant une autre configuration Apdex"
       },
       "demo": {
         "title": "Apdex for Prod",
@@ -605,7 +613,9 @@
       "formComponent": {
         "title": "Configuration d'Apdex",
         "entityTypeTitle": "Type Apdex",
-        "manageListTitle": "Gestion d'Apdex"
+        "manageListTitle": "Gestion d'Apdex",
+        "createApdex": "Créer la configuration d'Apdex",
+        "editApdex": "Editer la configuration Apdex"
       },
       "configurationSelector": {
         "label": "Configuration d'Apdex",
@@ -636,7 +646,6 @@
         "createButton": "Créer la configuration d'Apdex"
       },
       "createApdexForm": {
-        "title": "Créer la configuration d'Apdex",
         "customizationHeader": "Personnalisation d'Apdex",
         "label": "Nom Apdex",
         "apdexCreateSuccessTitle": "La configuration Apdex a été créée.",
@@ -644,13 +653,17 @@
         "apdexCreateFailedTitle": "Echec de création de la configuration Apdex.",
         "apdexCreateFailedContent": "Un incident s'est produit lors de la création de cette configuration Apdex : \"{{apdexName}}\"",
         "apdexNameNotEmpty": "Le nom Apdex ne peut pas être vide.",
-        "thresholdNotEmpty": "Le seuil ne peut pas être vide.",
-        "nameExistsError": "Une configuration Apdex avec ce nom existe déjà. Entrez un autre nom."
+        "nameExistsError": "Une configuration Apdex avec ce nom existe déjà. Entrez un autre nom.",
+        "limitReachedError": {
+          "website": "Le nombre maximal de configurations apdex de site Web ({{0}}) a été atteint. Contactez le support Instana pour demander une augmentation de cette limite.",
+          "application": "Le nombre maximal de configurations apdex d'application ({{0}}) a été atteint. Contactez le support Instana pour demander une augmentation de cette limite."
+        },
+        "editConfigNotice": "Pour éviter la perte de données, la configuration ne peut pas être éditée une fois qu'elle a été créée ; elle ne peut être ajustée qu'en tant que copie.",
+        "apdexCloneName": "Copie de {{apdexName}}"
       },
       "createWebsiteApdexForm": {
         "thresholdHeader": "Configuration de seuil",
-        "thresholdLabel": "Seuil",
-        "thresholdFooter": "Une fois créé, le seuil ne peut plus être modifié afin de prévenir la perte de données."
+        "thresholdLabel": "Seuil"
       },
       "entityInfo": {
         "tooltip": "Apdex inconnu",
@@ -660,7 +673,7 @@
       "widget": {
         "unknownEntityLabel_application": "Application inconnue",
         "unknownEntityLabel_website": "Site Web inconnu",
-        "previewDataInfo": "Les données de prévisualisation peuvent remonter jusqu'à 7 jours si la configuration Apdex a été créée récemment. Le widget final inclura uniquement les données depuis la création d'Apdex."
+        "previewDataInfo": "Les données d'aperçu sont affichées pour les 7 derniers jours. Le widget final n'inclura que les données depuis la création de la configuration Apdex."
       },
       "applicationScopeConfigurator": {
         "label": "Portée Apdex",

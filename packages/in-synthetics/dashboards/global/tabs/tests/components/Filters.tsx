@@ -88,14 +88,19 @@ function getSyntheticTypes(result: Result<PaginatedResult<TestResultListItem>> |
 function getLocationLabels(result: Result<PaginatedResult<TestResultListItem>> | undefined) {
   let locationLabelOptions: Option[] = [];
 
-  // Get locationLabels and locationIds from result
+  // Get locationDisplayLabels and locationIds from result
   if (!result?.progress?.loading) {
-    result?.data?.items?.forEach(function(item) {
-      const locationitem = {
-        label: item.testResultCommonProperties?.locationLabel ?? '',
-        value: item.testResultCommonProperties?.locationId ?? ''
-      };
-      locationLabelOptions.push(locationitem);
+    result?.data?.items?.forEach((item: TestResultListItem) => {
+      if (item.testResultCommonProperties.testCommonProperties?.locationDisplayLabels) {
+        item.testResultCommonProperties.testCommonProperties?.locationDisplayLabels.forEach(
+          (locationDisplayLabel, i) => {
+            locationLabelOptions.push({
+              label: locationDisplayLabel,
+              value: item.testResultCommonProperties.testCommonProperties?.locationIds?.at(i) ?? ''
+            });
+          }
+        );
+      }
     });
 
     // Clean up duplicate and empty array elements
@@ -106,7 +111,7 @@ function getLocationLabels(result: Result<PaginatedResult<TestResultListItem>> |
     );
   }
 
-  // return location labels and ids;
+  // return location display labels and ids;
   return locationLabelOptions;
 }
 

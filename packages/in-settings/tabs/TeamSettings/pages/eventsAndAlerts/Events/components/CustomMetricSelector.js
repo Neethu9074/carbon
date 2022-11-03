@@ -33,7 +33,7 @@ export default function CustomMetricSelector({ onChange, value, metrics, disable
 
 CustomMetricSelector.propTypes = {
   metrics: PropTypes.arrayOf(PropTypes.object),
-  disabled: PropTypes.boolean,
+  disabled: PropTypes.bool,
   value: PropTypes.string,
   onChange: PropTypes.func
 };

@@ -16,13 +16,14 @@ import {
 } from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/form';
 import CreateWebsiteApdexForm from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/CreateWebsiteApdexForm';
 import { useApdexWidgetTrackers } from 'in-custom-dashboards/widgets/Apdex/components/ApdexWidgetTrackerProvider';
-import useCreateApdexConfiguration from 'in-custom-dashboards/widgets/Apdex/hooks/useCreateApdexConfiguration';
 import { APDEX_MANAGEMENT_CREATE_FINISH, APDEX_MANAGEMENT_EDIT_FINISH } from 'in-services/tracking/eventNames';
 import getTranslatedErrorMessage from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/errors';
+import { useCreateConfiguration } from 'in-custom-dashboards/widgets/Slo/sli/hooks/useCreateConfiguration';
 import useCreateApdexForm from 'in-custom-dashboards/widgets/Apdex/hooks/useCreateApdexForm';
+import { createApdexConfiguration } from 'in-custom-dashboards/widgets/Apdex/api';
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
-import { getField } from 'in-custom-dashboards/widgets/Apdex/form';
+import { getField } from 'in-custom-dashboards/widgets/Slo/form';
 import { seconds } from 'in-services/time/time';
 import { t } from 'in-i18n';
 
@@ -58,7 +59,7 @@ export default function CreateApdexForm({
   onSave
 }: CreateApdexFormProps) {
   const [form, setForm] = useCreateApdexForm(apdexConfig, entityType, entityId);
-  const [{ success, saving, error }, doSubmit] = useCreateApdexConfiguration();
+  const [{ success, saving, error }, doSubmit] = useCreateConfiguration(createApdexConfiguration);
 
   const track = useApdexWidgetTrackers();
 
@@ -67,6 +68,11 @@ export default function CreateApdexForm({
   const CreateApdexFormComponent = entityType === 'application' ? CreateApplicationApdexForm : CreateWebsiteApdexForm;
 
   const apdexName = getField<string>(form, [apdexNameKey])?.value ?? '';
+
+  const onSubmit = (submittedForm: Item) => {
+    setForm(form.setTouched(true));
+    doSubmit({ config: toApdexConfigurationInput(submittedForm), onSuccess: onSaveSuccess, onError: onSaveFailure });
+  };
 
   const onSaveSuccess = (result: Result<ApdexConfiguration>) => {
     track(isEditing ? APDEX_MANAGEMENT_EDIT_FINISH : APDEX_MANAGEMENT_CREATE_FINISH, { entityType });
@@ -117,7 +123,7 @@ export default function CreateApdexForm({
         wasSuccessful={success}
         isSaving={saving}
         hasError={error}
-        onSubmit={submittedForm => doSubmit(toApdexConfigurationInput(submittedForm), onSaveSuccess, onSaveFailure)}
+        onSubmit={onSubmit}
         onChange={(path, updater) => setForm(form.updateIn(path, updater))}
         setFooter={setFooter}
         onCancel={onClose}

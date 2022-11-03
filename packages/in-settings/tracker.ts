@@ -20,6 +20,11 @@ import {
   SETTINGS_ALERT_CUSTOM_PAYLOAD_REMOVE_ITEM,
   SETTINGS_EVENT_SUBMIT,
   SETTINGS_EVENT_OPEN_SUBMIT_FORM,
+  SETTINGS_MAINTENANCE_WINDOW_NEW,
+  SETTINGS_MAINTENANCE_WINDOW_REMOVE,
+  SETTINGS_MAINTENANCE_WINDOW_EDIT,
+  SETTINGS_MAINTENANCE_WINDOW_SUBMIT,
+  SETTINGS_MAINTENANCE_WINDOW_CANCEL,
   SETTINGS_AUTOMATION_ACTION_CREATE,
   SETTINGS_AUTOMATION_ACTION_EDIT,
   SETTINGS_AUTOMATION_ACTION_DELETE
@@ -45,6 +50,12 @@ export const removeItemAlertCustomPayloadTracker = (e: Object) => track(SETTINGS
 export const submitEventTracker = (e: Object) => track(SETTINGS_EVENT_SUBMIT, e);
 export const openEventSubmitFormTracker = (e: Object) => track(SETTINGS_EVENT_OPEN_SUBMIT_FORM, e);
 export const viewEventTracker = (e: Object) => track(SETTINGS_EVENT_VIEW, e);
+
+export const newMaintenanceWindowTracker = (e: Object) => track(SETTINGS_MAINTENANCE_WINDOW_NEW, e);
+export const removeMaintenanceWindowTracker = (e: Object) => track(SETTINGS_MAINTENANCE_WINDOW_REMOVE, e);
+export const editMaintenanceWindowTracker = (e: Object) => track(SETTINGS_MAINTENANCE_WINDOW_EDIT, e);
+export const submitMaintenanceWindowTracker = (e: Object) => track(SETTINGS_MAINTENANCE_WINDOW_SUBMIT, e);
+export const cancelMaintenanceWindowTracker = (e: Object) => track(SETTINGS_MAINTENANCE_WINDOW_CANCEL, e);
 
 export const createActionTracker = (e: Object) => track(SETTINGS_AUTOMATION_ACTION_CREATE, e);
 export const editActionTracker = (e: Object) => track(SETTINGS_AUTOMATION_ACTION_EDIT, e);

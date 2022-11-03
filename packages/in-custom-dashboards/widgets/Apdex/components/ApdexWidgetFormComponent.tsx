@@ -19,7 +19,6 @@ import {
   defaultEntityType,
   entityIdKey,
   entityTypeKey,
-  getField,
   setFieldValue
 } from 'in-custom-dashboards/widgets/Apdex/form';
 import { APDEX_MANAGEMENT_EXIT, APDEX_MANAGEMENT_VIEW, APDEX_WIDGET_EDIT_START } from 'in-services/tracking/eventNames';
@@ -32,6 +31,7 @@ import ApplicationSelector from 'in-custom-dashboards/widgets/Slo/components/App
 import ApdexManageList from 'in-custom-dashboards/widgets/Apdex/components/ApdexManageList';
 import WebsiteSelector from 'in-custom-dashboards/widgets/Slo/components/WebsiteSelector';
 import Sections from 'in-components/workspace/Sections/Sections';
+import { getField } from 'in-custom-dashboards/widgets/Slo/form';
 import Section from 'in-components/workspace/Section/Section';
 import Header from 'in-components/workspace/Header';
 import { t } from 'in-i18n';

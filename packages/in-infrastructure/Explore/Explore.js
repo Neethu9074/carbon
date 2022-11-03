@@ -96,20 +96,6 @@ function InfraExploreViewWithFixatedTimeConfig() {
     urlStateDefinition
   );
   const type = urlType === 'all' ? null : urlType;
-  const setMetrics = useCallback(
-    metrics => {
-      const sortedMetric = metrics.find(metric => order.by.startsWith(metric.metric));
-      const newOrder =
-        (sortedMetric && {
-          by: getMetricKey(sortedMetric.metric, sortedMetric.aggregation),
-          direction: order.direction
-        }) ??
-        defaultOrder;
-      setUrl({ metrics, order: newOrder });
-    },
-    [setUrl]
-  );
-  const setOrder = useCallback(order => setUrl({ order }), [setUrl]);
 
   const validTagFilterExpressionResult =
     useObservable(getIsQueryValidObservable, [tagFilterExpression, timeConfig]) ?? pendingResult;
@@ -118,20 +104,10 @@ function InfraExploreViewWithFixatedTimeConfig() {
   const isValid = validTagFilterExpressionResult.data === true && validGroupResult.data === true;
   const isInvalid = validGroupResult.data === false;
 
-  const backendQueryModel = useMemo(() => (isValid && toBackendQueryModel(tagFilterExpression)) || EMPTY_EXPRESSION, [
-    isValid,
-    tagFilterExpression
-  ]);
-
   const order = urlOrder ?? defaultOrder;
 
   const kpiDefinitions = getKpiDefinitions(type);
   const metrics = fromUrlMetrics({ urlMetrics, kpiDefinitions });
-
-  const metricMetadatas = useMetricMetadatas({ type, metrics, kpiDefinitions });
-
-  const onTagFilterExpressionChange = useCallback(tagFilterExpression => setUrl({ tagFilterExpression }), [setUrl]);
-  const onGroupChange = useCallback(group => setUrl({ group }), [setUrl]);
 
   const getInfraExploreState = () => {
     return { type, tagFilterExpression, group, metrics, order };
@@ -153,15 +129,6 @@ function InfraExploreViewWithFixatedTimeConfig() {
     (!group || group?.groupbyTag == 'type') &&
     (!metrics || metrics?.length == 0) &&
     (!tagFilterExpression || tagFilterExpression?.length == 0);
-
-  const catalogQuery = useDebouncedValue('', noop, 800);
-
-  const metricCatalog = useMetricCatalog({
-    getMetricCatalog,
-    tagFilterExpression: backendQueryModel,
-    type,
-    query: catalogQuery.debouncedValue
-  });
 
   return (
     <InfraPageHeaderWithTabs
@@ -187,110 +154,223 @@ function InfraExploreViewWithFixatedTimeConfig() {
           <Message type="warning" withIcon small>
             {t('in-infrastructure:explore.thisIsABetaVersionOfANewProductCapability')}
           </Message>
-
-          {!isInitPage && (
-            <Sections>
-              <QueryBuilderSection
-                value={tagFilterExpression}
-                QueryBuilder={QueryBuilder}
-                onChange={onTagFilterExpressionChange}
-                tracking={{
-                  onTagAdded: filterAddedTracker(getInfraExploreState),
-                  onTagRemoved: filterRemovedTracker(getInfraExploreState),
-                  onQueryCleared: filtersClearedTracker(getInfraExploreState)
-                }}
-                hasError={isInvalid}
-                allowEmptyKey
-              />
-
-              <GroupingConfiguratorSection
-                value={group}
-                GroupingConfigurator={GroupingConfigurator}
-                tagFilterExpression={backendQueryModel || toBackendQueryModel([])}
-                onChange={onGroupChange}
-                tracking={{
-                  onGroupAdded: groupAddedTracker(getInfraExploreState),
-                  onGroupRemoved: groupRemovedTracker(getInfraExploreState)
-                }}
-              />
-            </Sections>
-          )}
-
-          {isValid && isInitPage && (
-            <EntityList
-              backendQueryModel={backendQueryModel}
-              timeConfig={timeConfig}
-              group={group}
-              setOrder={order => {
-                setOrder(order);
-                sortingTracker(getInfraExploreState)(order, SORTING_CONTEXT.GROUPS);
-              }}
-              order={order}
-              type={type}
-              headerHref$={defaultInfraExploreView}
-            />
-          )}
-
-          {isInvalid && (
-            <Message type="error" withIcon small>
-              {t('in-infrastructure:explore.theQueryConfigurationIsInvalid')}
-            </Message>
-          )}
-
-          {isValid && !isInitPage && !group?.groupbyTag && (
-            <InfrastructureList
-              backendQueryModel={backendQueryModel}
-              timeConfig={timeConfig}
-              setMetrics={setMetrics}
-              setOrder={order => {
-                setOrder(order);
-                sortingTracker(getInfraExploreState)(order, SORTING_CONTEXT.ENTITIES);
-              }}
-              type={type}
-              metrics={metrics}
-              metricMetadatas={metricMetadatas}
-              order={order}
-              showHeader
-              tracking={{
-                onLoadMore: page => loadMoreTracker(getInfraExploreState)(page, LOAD_MORE_CONTEXT.UNGROUPED_ENTITIES),
-                ...infrastructureListTrackingConfig
-              }}
-              metricCatalog={(catalogQuery.value === catalogQuery.debouncedValue && metricCatalog) || pendingResult}
-              query={catalogQuery.value}
-              onQueryChange={catalogQuery.onChange}
-            />
-          )}
-
-          {isValid && !isInitPage && group?.groupbyTag && (
-            <GroupedInfrastructure
-              tagFilterExpression={tagFilterExpression}
-              backendQueryModel={backendQueryModel}
-              timeConfig={timeConfig}
-              setMetrics={setMetrics}
-              setOrder={order => {
-                setOrder(order);
-                sortingTracker(getInfraExploreState)(order, SORTING_CONTEXT.GROUPS);
-              }}
-              metrics={metrics}
-              metricMetadatas={metricMetadatas}
-              type={type}
-              group={group}
-              order={order}
-              tracking={{
-                onFocusOnGroup: groupFocusedOnTracker(getInfraExploreState),
-                onGroupExpanded: groupExpandedTracker(getInfraExploreState),
-                onGroupCollapsed: groupCollapsedTracker(getInfraExploreState),
-                onLoadMore: loadMoreTracker(getInfraExploreState),
-                ...infrastructureListTrackingConfig
-              }}
-              metricCatalog={(catalogQuery.value === catalogQuery.debouncedValue && metricCatalog) || pendingResult}
-              query={catalogQuery.value}
-              onQueryChange={catalogQuery.onChange}
-            />
-          )}
+          <Content
+            setUrl={setUrl}
+            type={type}
+            metrics={metrics}
+            group={group}
+            order={order}
+            tagFilterExpression={tagFilterExpression}
+            isInitPage={isInitPage}
+            isValid={isValid}
+            isInvalid={isInvalid}
+            timeConfig={timeConfig}
+            infrastructureListTrackingConfig={infrastructureListTrackingConfig}
+            getInfraExploreState={getInfraExploreState}
+            kpiDefinitions={kpiDefinitions}
+          />
         </Stack>
       </LeftRightPadding>
     </InfraPageHeaderWithTabs>
+  );
+}
+
+function Content({
+  setUrl,
+  type,
+  metrics,
+  group,
+  order,
+  tagFilterExpression,
+  isInitPage,
+  isValid,
+  isInvalid,
+  timeConfig,
+  infrastructureListTrackingConfig,
+  getInfraExploreState,
+  kpiDefinitions
+}) {
+  const setMetrics = useCallback(
+    metrics => {
+      const sortedMetric = metrics.find(metric => order.by.startsWith(metric.metric));
+      const newOrder =
+        (sortedMetric && {
+          by: getMetricKey(sortedMetric.metric, sortedMetric.aggregation),
+          direction: order.direction
+        }) ??
+        defaultOrder;
+      setUrl({ metrics, order: newOrder });
+    },
+    [setUrl]
+  );
+  const setOrder = useCallback(order => setUrl({ order }), [setUrl]);
+
+  const onTagFilterExpressionChange = useCallback(tagFilterExpression => setUrl({ tagFilterExpression }), [setUrl]);
+  const onGroupChange = useCallback(group => setUrl({ group }), [setUrl]);
+
+  const backendQueryModel = useMemo(() => (isValid && toBackendQueryModel(tagFilterExpression)) || EMPTY_EXPRESSION, [
+    isValid,
+    tagFilterExpression
+  ]);
+  const catalogQuery = useDebouncedValue('', noop, 800);
+  const metricCatalog = useMetricCatalog({
+    getMetricCatalog,
+    tagFilterExpression: backendQueryModel,
+    type,
+    query: catalogQuery.debouncedValue
+  });
+  const metricMetadatas = useMetricMetadatas({ type, metrics, kpiDefinitions });
+
+  const topSection = !isInitPage && (
+    <Sections>
+      <QueryBuilderSection
+        value={tagFilterExpression}
+        QueryBuilder={QueryBuilder}
+        onChange={onTagFilterExpressionChange}
+        tracking={{
+          onTagAdded: filterAddedTracker(getInfraExploreState),
+          onTagRemoved: filterRemovedTracker(getInfraExploreState),
+          onQueryCleared: filtersClearedTracker(getInfraExploreState)
+        }}
+        hasError={isInvalid}
+        allowEmptyKey
+      />
+
+      <GroupingConfiguratorSection
+        value={group}
+        GroupingConfigurator={GroupingConfigurator}
+        tagFilterExpression={backendQueryModel || toBackendQueryModel([])}
+        onChange={onGroupChange}
+        tracking={{
+          onGroupAdded: groupAddedTracker(getInfraExploreState),
+          onGroupRemoved: groupRemovedTracker(getInfraExploreState)
+        }}
+      />
+    </Sections>
+  );
+
+  const errorMessage = (
+    <Message type="error" withIcon small>
+      {t('in-infrastructure:explore.theQueryConfigurationIsInvalid')}
+    </Message>
+  );
+
+  const bottomSection = isInvalid ? (
+    errorMessage
+  ) : (
+    <List
+      type={type}
+      metrics={metrics}
+      group={group}
+      order={order}
+      tagFilterExpression={tagFilterExpression}
+      isInitPage={isInitPage}
+      timeConfig={timeConfig}
+      infrastructureListTrackingConfig={infrastructureListTrackingConfig}
+      getInfraExploreState={getInfraExploreState}
+      metricCatalog={metricCatalog}
+      setOrder={setOrder}
+      metricMetadatas={metricMetadatas}
+      backendQueryModel={backendQueryModel}
+      setMetrics={setMetrics}
+      catalogQuery={catalogQuery}
+    />
+  );
+
+  return (
+    <>
+      {topSection}
+      {bottomSection}
+    </>
+  );
+}
+
+function List({
+  type,
+  metrics,
+  group,
+  order,
+  tagFilterExpression,
+  isInitPage,
+  timeConfig,
+  infrastructureListTrackingConfig,
+  getInfraExploreState,
+  metricCatalog,
+  setOrder,
+  metricMetadatas,
+  backendQueryModel,
+  setMetrics,
+  catalogQuery
+}) {
+  if (isInitPage) {
+    return (
+      <EntityList
+        backendQueryModel={backendQueryModel}
+        timeConfig={timeConfig}
+        group={group}
+        setOrder={order => {
+          setOrder(order);
+          sortingTracker(getInfraExploreState)(order, SORTING_CONTEXT.GROUPS);
+        }}
+        order={order}
+        type={type}
+        headerHref$={defaultInfraExploreView}
+      />
+    );
+  }
+
+  if (group?.groupbyTag) {
+    return (
+      <GroupedInfrastructure
+        tagFilterExpression={tagFilterExpression}
+        backendQueryModel={backendQueryModel}
+        timeConfig={timeConfig}
+        setMetrics={setMetrics}
+        setOrder={order => {
+          setOrder(order);
+          sortingTracker(getInfraExploreState)(order, SORTING_CONTEXT.GROUPS);
+        }}
+        metrics={metrics}
+        metricMetadatas={metricMetadatas}
+        type={type}
+        group={group}
+        order={order}
+        tracking={{
+          onFocusOnGroup: groupFocusedOnTracker(getInfraExploreState),
+          onGroupExpanded: groupExpandedTracker(getInfraExploreState),
+          onGroupCollapsed: groupCollapsedTracker(getInfraExploreState),
+          onLoadMore: loadMoreTracker(getInfraExploreState),
+          ...infrastructureListTrackingConfig
+        }}
+        metricCatalog={(catalogQuery.value === catalogQuery.debouncedValue && metricCatalog) || pendingResult}
+        query={catalogQuery.value}
+        onQueryChange={catalogQuery.onChange}
+      />
+    );
+  }
+
+  return (
+    <InfrastructureList
+      backendQueryModel={backendQueryModel}
+      timeConfig={timeConfig}
+      setMetrics={setMetrics}
+      setOrder={order => {
+        setOrder(order);
+        sortingTracker(getInfraExploreState)(order, SORTING_CONTEXT.ENTITIES);
+      }}
+      type={type}
+      metrics={metrics}
+      metricMetadatas={metricMetadatas}
+      order={order}
+      showHeader
+      tracking={{
+        onLoadMore: page => loadMoreTracker(getInfraExploreState)(page, LOAD_MORE_CONTEXT.UNGROUPED_ENTITIES),
+        ...infrastructureListTrackingConfig
+      }}
+      metricCatalog={(catalogQuery.value === catalogQuery.debouncedValue && metricCatalog) || pendingResult}
+      query={catalogQuery.value}
+      onQueryChange={catalogQuery.onChange}
+    />
   );
 }
 

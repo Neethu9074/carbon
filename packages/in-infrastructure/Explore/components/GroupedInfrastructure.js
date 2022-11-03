@@ -25,7 +25,6 @@ import { addTagFilters } from 'in-components/QueryBuilder/transformation/backend
 import { default as MetricLabel } from 'in-infrastructure/Explore/components/MetricLabel';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import createGetGroupsSubscription from 'in-infrastructure/subscriptions/getGroups';
-import { getUniqueErrors } from 'in-components/Errors/ErroneousResultPresenter';
 import { LOAD_MORE_CONTEXT } from 'in-infrastructure/Explore/services/tracking';
 import { defaultOrder, pluginTag } from 'in-infrastructure/Explore/constants';
 import { emptyObject, indeterminateProgress } from 'in-services/fixedObjects';
@@ -210,7 +209,7 @@ function Presenter({
         {isLoading && <LiHorizontalIndicator progress={indeterminateProgress} />}
         {isLoading && <LiLoadingSkeleton />}
         {hasErrors &&
-          getUniqueErrors(errors).map(error => (
+          getErrorMessage(errors).map(error => (
             <Li key={error}>
               <Message className={locals.message} type="error" small>
                 {error}
@@ -315,6 +314,14 @@ function columns({
   return cols;
 }
 
+function getErrorMessage(errors) {
+  if (errors[0].message?.includes('more than the maximum number of groups')) {
+    return [t('in-infrastructure:explore.errors.maximumNumberOfGroups')];
+  }
+
+  return [t('in-infrastructure:explore.errors.generalError')];
+}
+
 function getColumnWidth(groupBy, index) {
   if (index !== groupBy.length - 1) {
     return 50 / groupBy.length + 'rem';
@@ -334,13 +341,14 @@ function getGroups({ timeConfig, backendQueryModel, group, cursor, type, order, 
     groupBy: [group],
     type,
     metrics: Object.fromEntries(
-      metrics.flatMap(({ metric, aggregation }) => [
+      metrics.flatMap(({ metric, aggregation, crossSeriesAggregation }) => [
         [
           getMetricKey(metric, aggregation),
           {
             metric,
             granularity,
-            aggregation
+            aggregation,
+            crossSeriesAggregation
           }
         ]
       ])

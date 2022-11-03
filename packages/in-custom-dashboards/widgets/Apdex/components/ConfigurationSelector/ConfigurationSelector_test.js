@@ -67,7 +67,7 @@ describe('in-custom-dashboards/widgets/Apdex/components/ConfigurationSelector/Co
     ).toEqual(t('in-custom-dashboards:widgets.apdex.configurationSelector.pleaseSelect'));
   });
 
-  it('renders the correct option text if no config is available', () => {
+  it('renders a notice if no config is available', () => {
     // Given
     const entityId = 'someEntityId';
     const entityType = 'website';
@@ -86,8 +86,12 @@ describe('in-custom-dashboards/widgets/Apdex/components/ConfigurationSelector/Co
     );
 
     // Then
-    expect(wrapper.find('option').text()).toEqual(
-      t('in-custom-dashboards:widgets.apdex.configurationSelector.noneAvailCreateOne')
-    );
+    expect(
+      wrapper
+        .find('Section')
+        .children()
+        .first()
+        .text()
+    ).toEqual(t('in-custom-dashboards:widgets.apdex.configurationSelector.noneAvailCreateOne'));
   });
 });

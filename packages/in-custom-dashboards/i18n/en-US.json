@@ -473,7 +473,8 @@
         "beaconLabel_httpRequest": "HTTP Requests",
         "beaconLabel_pageLoad": "Website Page Loads",
         "beaconLabel_custom": "Website Custom Events",
-        "beaconFiltersLabel": "Beacon Filter"
+        "beaconFiltersLabel": "Beacon Filter",
+        "beaconFiltersSubtext": "Optional"
       },
       "sliList": {
         "serviceLevelIndicators": "Service Level Indicators",
@@ -503,8 +504,10 @@
         "spent": "Spent",
         "budget": "Budget",
         "viewInAnalyze": "View in Analyze",
-        "initialEvaluation": "SLI created",
-        "missingDataInfo": "The time of creation for this SLI is within the displayed time range. Data prior to the SLI's creation will be missing."
+        "configType": "SLI",
+        "configType_apdex": "Apdex",
+        "initialEvaluation": "{{configType}} created",
+        "missingDataInfo": "The time of creation for this {{configType}} is within the displayed time range. Data prior to the {{configType}} creation will be missing."
       },
       "formComponent": {
         "sliManagement": "SLI Management",
@@ -655,8 +658,7 @@
           "website": "The maximum number of website apdex configurations ({{0}}) has been reached. Please contact Instana support to request an increase for this limit.",
           "application": "The maximum number of application apdex configurations ({{0}}) has been reached. Please contact Instana support to request an increase for this limit."
         },
-        "editConfigNotice": "To avoid data loss, the configuration cannot be edited once it has been created; it can only be adjusted as a copy.",
-        "apdexCloneName": "Copy of {{apdexName}}"
+        "editConfigNotice": "To avoid data loss, the configuration cannot be edited once it has been created; it can only be adjusted as a copy."
       },
       "createWebsiteApdexForm": {
         "thresholdHeader": "Threshold Configuration",

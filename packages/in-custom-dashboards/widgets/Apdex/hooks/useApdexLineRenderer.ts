@@ -4,6 +4,10 @@
  * Copyright IBM Corp. 2022
  */
 
+import {
+  renderMissingDataIndicator,
+  timeWindowIncludesFirstCollectionTimestamp
+} from 'in-custom-dashboards/widgets/Slo/renderer/missingDataIndicator';
 import { RenderConfig, RenderProps, Renderer as RendererType } from 'in-components/Chart/renderer/types';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { lighten } from 'in-services/formatters/color';
@@ -14,7 +18,10 @@ const backgroundOpacity = 0.15;
 
 type ApdexAreas = readonly [0, number, number, 1];
 
-export default function useApdexLineRenderer([frustrated, tolerated, satisfied, end]: ApdexAreas): RendererType {
+export default function useApdexLineRenderer(
+  [frustrated, tolerated, satisfied, end]: ApdexAreas,
+  firstCollectedMetricTimestamp = 0
+): RendererType {
   return {
     id: 'apdexLine',
     render: (props: RenderProps): void => {
@@ -30,7 +37,14 @@ export default function useApdexLineRenderer([frustrated, tolerated, satisfied, 
 
       config.backBufferCtx.restore();
 
-      Renderer.line.render?.(props);
+      if (timeWindowIncludesFirstCollectionTimestamp(firstCollectedMetricTimestamp, config.timeConfig)) {
+        renderMissingDataIndicator(config, firstCollectedMetricTimestamp);
+      }
+
+      Renderer.line.render?.({
+        ...props,
+        dataSeries: props.dataSeries.filter(([timestamp]) => timestamp >= firstCollectedMetricTimestamp)
+      });
     }
   };
 }

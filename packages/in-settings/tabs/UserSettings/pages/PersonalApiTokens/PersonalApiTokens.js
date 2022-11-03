@@ -98,16 +98,9 @@ const columnDefinitions = [
           itemName={personalApiToken.name}
           doDelete={deleteItem}
           isDeleting={currentDeletingItemIds.has(personalApiToken.tokenId)}
-          dialogMessage={() => {
-            return (
-              <span>
-                <Trans
-                  i18nKey="in-settings:components.confirmRemoveEntity"
-                  values={{ entity: personalApiToken.name }}
-                />
-              </span>
-            );
-          }}
+          dialogMessage={
+            <Trans i18nKey="in-settings:components.confirmRemoveEntity" values={{ entity: personalApiToken.name }} />
+          }
         />
       );
     }

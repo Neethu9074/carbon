@@ -84,7 +84,7 @@ export default function RequestResponseStep({ form, updateForm }: Props) {
         {locations.data?.filter(Boolean).map(location => (
           <CheckboxFancy
             key={location.id}
-            label={location.label}
+            label={location.displayLabel}
             checked={locationsField?.value?.includes(location.id)}
             onChange={() => onLocationSelect(location)}
           />

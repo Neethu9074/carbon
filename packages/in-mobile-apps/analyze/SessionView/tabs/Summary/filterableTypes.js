@@ -29,6 +29,12 @@ export const types = {
     badgeLabel: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.cusBadgeLabel'),
     long: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.cusLong'),
     color: '#009e89'
+  },
+  crash: {
+    short: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.craShort'),
+    badgeLabel: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.craBadgeLabel'),
+    long: t('in-mobile-apps:sessionView.tabsSumFilterableTypes.craLong'),
+    color: 'darkred'
   }
 };
 

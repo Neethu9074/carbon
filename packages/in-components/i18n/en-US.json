@@ -77,6 +77,7 @@
     "eumPageName": "EUM",
     "settingsPageName": "Settings",
     "requestQuoteBtn": "Request a quote",
+    "buyNowBtn": "Buy Now",
     "alreadyHaveLicense": "Already have a license? Activate it on <linkToDocker>Docker</linkToDocker> or <linkToKubernetes>Kubernetes</linkToKubernetes>."
   },
   "releaseNotesDialog": {
@@ -203,6 +204,11 @@
     "resultTitle_sessionStart_0": "Session Starts",
     "resultTitle_sessionStart_1": "Session Starts",
     "resultTitle_sessionStart_2": "Session Starts",
+    "resultTitle_crash": "Crash",
+    "resultTitle_crash_plural": "Crashes",
+    "resultTitle_crash_0": "Crashes",
+    "resultTitle_crash_1": "Crashes",
+    "resultTitle_crash_2": "Crashes",
     "resultTitle_viewChange": "View Transition",
     "resultTitle_viewChange_plural": "View Transitions",
     "resultTitle_viewChange_0": "View Transitions",

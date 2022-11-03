@@ -159,7 +159,7 @@ export function createSmartAlertForm(
     .put(
       'created',
       createField({
-        value: created ?? ''
+        value: created ?? 0
       })
     )
     .put(

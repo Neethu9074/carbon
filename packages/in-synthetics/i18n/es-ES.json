@@ -74,6 +74,10 @@
       "failureMessageCreate": "No se ha podido crear una prueba sintética. Repita la operación más tarde",
       "failureMessageUpdate": "No se ha podido actualizar la prueba sintética. Inténtelo más tarde.",
       "failuteMesssageDelete": "No se ha podido suprimir la prueba sintética. Inténtelo más tarde."
+    },
+    "locationFeedback": {
+      "successMessageDelete": "La ubicación se ha suprimido correctamente",
+      "failureMesssageDelete": "No se ha podido suprimir la ubicación. Inténtelo más tarde"
     }
   },
   "createTest": {
@@ -87,7 +91,18 @@
       "mainLabel": "Supervisión sintética",
       "secondaryLabels": {
         "tests": "Pruebas",
-        "location": "Ubicaciones"
+        "locations": "Ubicaciones"
+      },
+      "popDialog": {
+        "button": "<> Desplegar un PoP",
+        "simpleTab": "Sencillo",
+        "redisTab": "Redis TLS",
+        "title": "Comandos PoP sintéticos",
+        "subTitle": "Utilice estas plantillas de código como referencia",
+        "simpleCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"Nombre;NombreVisualizacion;Pais;Ciudad;0;0;Descripcion de ubicación\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<yourpassword>\"",
+        "redisCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"Nombre;NombreVisualizacion;Pais;Ciudad;0;0;Descripción de  ubicación\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true",
+        "tlsInstructions": "Si desea habilitar Redis TLS, tendrá que crear una carpeta de certificados en la ruta raíz del diagrama Helm y copiar el par certificado-clave (tls.crt, tls.key) y el archivo de certificado raíz de CA (ca.crt) en la carpeta de certificados, los nombres de archivo tienen que coincidir plenamente.\n\nSi no tiene los archivos de clave/certificado, puede utilizar el comando openssl para generar unos nuevos. Consulte los ejemplos siguientes:",
+        "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt"
       },
       "testLabel": "Nombre",
       "status": "Estado",
@@ -97,6 +112,7 @@
       "resume": "Reanudar la prueba",
       "active": "Activo",
       "paused": "En pausa",
+      "deleted": "Suprimidos",
       "type": "Tipo",
       "successRate": "Tasa de éxito",
       "successRuns": "Resultados de {{successRuns}} / {{totalRuns}}",
@@ -106,10 +122,22 @@
       "applicationLabel": "Aplicación",
       "health": "Estado",
       "action": "Acción",
-      "delete": "Suprimir prueba",
+      "delete": "Suprimir la prueba",
       "labelConfirm": "Confírmelo",
       "labelConfirmRemoveTest": "¿Está seguro de que desea eliminar la prueba sintética <strong>{{label}}</strong>?",
-      "labelRemove": "Eliminar"
+      "labelRemove": "Eliminar",
+      "na": "N/A"
+    },
+    "locationList": {
+      "locationLabel": "Nombre de ubicación",
+      "locationDisplayLabel": "Nombre de visualización",
+      "status": "Estado",
+      "type": "Tipo",
+      "totalTests": "Número de pruebas enlazadas",
+      "lastRun": "Última ejecución de la prueba el",
+      "labelConfirmRemoveLocation": "¿Seguro que desea eliminar la ubicación <strong>{{label}}</strong> ({{status}})?",
+      "activeTestLinked": "Hay pruebas activas asignadas en la ubicación <strong>{{label}}</strong> ({{status}}), ¿seguro que desea eliminar esta ubicación?",
+      "deleteLocation": "Suprimir ubicación"
     },
     "summary": {
       "successRate": "Tasa de éxito",
@@ -139,9 +167,14 @@
         "results": "Resultados",
         "linkViewAllTestResults": "Ver todos los resultados",
         "ok": "Correcto",
-        "redirection": "Redirección",
-        "clientError": "Error de cliente",
-        "serverError": "Error de servidor."
+        "created": "Creado",
+        "accepted": "Aceptado",
+        "forbidden": "Prohibido",
+        "notFound": "No encontrado",
+        "serverError": "Error de servidor.",
+        "badRequest": "Solicitud anómala",
+        "badGateway": "Pasarela incorrecta",
+        "gatewayTimeout": "Se ha agotado el tiempo de espera de la pasarela"
       },
       "totalRuns": "{{totalRuns}} ejecuciones en total",
       "meanLatencyFor90th": "{{meanLatencyDetail}} para 90º"
@@ -178,6 +211,12 @@
       "successResult": "Correcto",
       "failedResult": "Fallido",
       "searchFilter": "Búsqueda",
+      "typesFilter": "Tipos",
+      "typesFilterValues": {
+        "getType": "GET",
+        "allType": "Todos",
+        "othersType": "Otros"
+      },
       "subtransactionBody": {
         "contentType": "Tipo de contenido",
         "size": "Tamaño",
@@ -198,7 +237,9 @@
       "resultsTitle": "No hay resultados disponibles",
       "resultsDescription": "No se han recuperado resultados para el intervalo de tiempo seleccionado.",
       "testSummaryTitle": "No hay pruebas sintéticas disponibles",
-      "testSummaryDescription": "No hay pruebas sintéticas recuperadas de la base de datos."
+      "testSummaryDescription": "No hay pruebas sintéticas recuperadas de la base de datos.",
+      "locationListTitle": "No hay ubicaciones de Synthetic disponibles",
+      "locationListDescription": "No hay ubicaciones de Synthetic recuperadas de la base de datos."
     }
   }
 }

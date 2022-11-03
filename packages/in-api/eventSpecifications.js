@@ -52,8 +52,7 @@ export function getBuiltInEventSpecificationMutable(eventSpecificationIds) {
   return http({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/events/settings/event-specifications/built-in/${encodeURIComponent(eventSpecificationIds)}`,
-    treat400AsError: false
+    url: `/api/events/settings/event-specifications/built-in/${encodeURIComponent(eventSpecificationIds)}`
   }).map(response => response.body);
 }
 
@@ -243,7 +242,7 @@ export function getCustomEventSpecificationWithActions(eventSpecificationId) {
   }).map(response => fromJS(response.body));
 }
 
-export function saveBuiltinEventSpecificationWithActions(actions, eventId) {
+export function updateActionsAssignedToBuiltInEvent(actions, eventId) {
   return http({
     method: 'PUT',
     maxRetries: 3,

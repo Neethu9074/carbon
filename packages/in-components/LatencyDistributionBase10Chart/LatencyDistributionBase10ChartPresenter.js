@@ -52,6 +52,7 @@ export default function LatencyDistributionBase10ChartPresenter({
   title,
   aggregation,
   showHeader,
+  fastQueryModeEnabled,
   setApproximateData = noop
 }) {
   // which metrics to hide on the chart
@@ -195,7 +196,11 @@ export default function LatencyDistributionBase10ChartPresenter({
           </span>
           {hasApproximateData && (
             <MultiLineToolTipIcon
-              lines={[t('in-components:approximateDataIndicator.dataRetention')]}
+              lines={[
+                fastQueryModeEnabled
+                  ? t('in-components:approximateDataIndicator.dataRetentionOrFastQueryMode')
+                  : t('in-components:approximateDataIndicator.dataRetention')
+              ]}
               withMargin
               iconSize="xs"
             />

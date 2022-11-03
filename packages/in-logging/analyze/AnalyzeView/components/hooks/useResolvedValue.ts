@@ -16,10 +16,9 @@ import {
 } from 'in-logging/queryBuilder';
 import getApplication from 'in-applications/subscriptions/getApplication';
 // @ts-ignore
-import { getSnapshot } from 'in-stores/snapshot';
-// @ts-ignore
 import { getLabel } from 'in-sdk/snapshot';
 import { Application, LogTag, Result } from 'in-types';
+import { getSnapshot } from 'in-stores/snapshot';
 import { t } from 'in-i18n';
 
 type LinkResolver = (tag: LogTag) => Observable<string>;
@@ -29,7 +28,7 @@ const tagValueResolver = new Map<string, LinkResolver>([
     LOG_CUSTOM_KEY_APPLICATION_ID,
     tag =>
       getApplication({ id: tag.stringValue || '' }).map(
-        (res: Result<Application>) => res?.data?.label || tag.stringValue
+        (res: Result<Application>) => res?.data?.label || tag.stringValue || ''
       )
   ],
   [
@@ -41,7 +40,7 @@ const tagValueResolver = new Map<string, LinkResolver>([
   [LOG_HOST_SNAPSHOT_ID, tag => resolveInfraLabel(tag.stringValue || '')]
 ]);
 
-function resolveInfraLabel(snapshotId: string) {
+function resolveInfraLabel(snapshotId: string): Observable<string> {
   return getSnapshot(snapshotId).map(getLabel);
 }
 

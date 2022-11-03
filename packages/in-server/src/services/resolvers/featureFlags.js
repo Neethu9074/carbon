@@ -160,6 +160,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'kubernetesTeamEnabled',
+    instanaCtlKey: 'feature.kubernetes.explore.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'loggingEnabled',
     instanaCtlKey: 'feature.logging.enabled',
     defaultValue: true
@@ -250,6 +255,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'syntheticBrowserScriptEnabled',
+    instanaCtlKey: 'feature.synthetics.browser.script.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'sliCHClusterAccessEnabled',
     instanaCtlKey: 'feature.sli.CHCluster.access.enabled',
     defaultValue: false
@@ -282,6 +292,16 @@ module.exports = exports = [
   {
     uiClientKey: 'pluginMetricStatisticsEnabled',
     instanaCtlKey: 'feature.plugin.entity.metric.statistics.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'mobileAppCrashBeaconEnabled',
+    instanaCtlKey: 'feature.mobile.app.crash.beacon.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'k8sTimeShiftEnabled',
+    instanaCtlKey: 'feature.kubernetes.timeshift.enabled',
     defaultValue: false
   }
 ];

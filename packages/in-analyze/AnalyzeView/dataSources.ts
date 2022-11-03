@@ -138,7 +138,8 @@ enum EntityEnum {
   traces,
   logs,
   sessionStart,
-  viewChange
+  viewChange,
+  crash
 }
 
 type Icon = Record<string, string>;
@@ -159,7 +160,8 @@ export const entityNames = Object.freeze<Record<Entity, string>>({
   traces: t('in-analyze:analyzeView.dataSources.traces'),
   logs: t('in-analyze:analyzeView.dataSources.logs'),
   sessionStart: t('in-analyze:analyzeView.dataSources.sessionStarts'),
-  viewChange: t('in-analyze:analyzeView.dataSources.viewTransitions')
+  viewChange: t('in-analyze:analyzeView.dataSources.viewTransitions'),
+  crash: t('in-analyze:analyzeView.dataSources.crashes')
 });
 
 export const entityLabels = Object.freeze<Record<Entity, string>>({
@@ -174,7 +176,8 @@ export const entityLabels = Object.freeze<Record<Entity, string>>({
   profiles: t('in-analyze:analyzeView.dataSources.profiles'),
   calls: t('in-analyze:analyzeView.dataSources.calls'),
   traces: t('in-analyze:analyzeView.dataSources.traces'),
-  logs: t('in-analyze:analyzeView.dataSources.logs')
+  logs: t('in-analyze:analyzeView.dataSources.logs'),
+  crash: t('in-analyze:analyzeView.dataSources.crashes')
 });
 
 export const getEntityNameByType = (type: Entity): string => entityNames[type] || type;
@@ -194,8 +197,7 @@ const icons = deepFreeze<Record<ProductArea, Icon>>({
     calls: 'lib_application_call',
     callsUQB: 'lib_application_call',
     tracesUQB: 'lib_application_trace',
-    logs: 'lib_application_logging',
-    rawlogs: 'lib_website_page_load'
+    logs: 'lib_application_logging'
   },
   website: {
     pageLoad: 'lib_website_page_load',
@@ -209,7 +211,8 @@ const icons = deepFreeze<Record<ProductArea, Icon>>({
     sessionStart: 'lib_mobile_app_session',
     viewChange: 'lib_mobile_app',
     httpRequest: 'lib_mobile_app_request',
-    custom: 'lib_mobile_app_custom_event'
+    custom: 'lib_mobile_app_custom_event',
+    crash: 'lib_mobile_app'
   },
   profiles: {
     profiles: 'lib_profiling'

@@ -8,10 +8,10 @@ import React from 'react';
 import { Link } from '@instana/components';
 
 import { FacetedSearchPresenter } from 'in-mobile-apps/analyze/AnalyzeView2_0/components/FacetedSearchPresenter';
+import UngroupedViewTable, { retrievalSize } from 'in-components/AnalyzeView/UngroupedView/UngroupedViewTable';
 import QueryBuilderWorkspace from 'in-mobile-apps/analyze/AnalyzeView2_0/components/QueryBuilderWorkspace';
 import getMobileAppBeaconsForSession from 'in-mobile-apps/subscriptions/getMobileAppBeaconsForSession';
 import { ChartsPresenter } from 'in-mobile-apps/analyze/AnalyzeView2_0/components/ChartsPresenter';
-import UngroupedViewTable, { retrievalSize } from 'in-components/AnalyzeView/UngroupedViewTable';
 import { addDataSourceToBackendQueryModel } from 'in-mobile-apps/analyze/AnalyzeView2_0/util';
 import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacons';
 import SessionView from 'in-mobile-apps/analyze/SessionView/SessionView';
@@ -140,6 +140,38 @@ const columnsPerDataSource = {
               beacon={beacon}
               getHrefToDetailId={getHrefToDetailId}
               linkLabel={beacon.customEventName}
+              groupLabel={groupLabel}
+            />
+            <BatchingIndicator
+              batchCount={beacon.batchSize}
+              tooltipContent={t(
+                'in-mobile-apps:analyzeView.perBeaconTypeConfigs.customBatchingIndicatorTooltipContent',
+                {
+                  size: beacon.batchSize
+                }
+              )}
+              tooltipAlign="rightMiddle"
+              noTopPosition
+            />
+          </div>
+        );
+      }
+    },
+    mobileAppColumnDefinition
+  ],
+  crash: [
+    erroneousColumnDefinition,
+    {
+      id: 'crash',
+      label: t('in-mobile-apps:mobileBeacons.crash'),
+      sortable: false,
+      getContent({ beacon }, { getHrefToDetailId, groupLabel }) {
+        return (
+          <div className={locals.batchedLine}>
+            <LinkToDetailPage
+              beacon={beacon}
+              getHrefToDetailId={getHrefToDetailId}
+              linkLabel={beacon.errorMessage}
               groupLabel={groupLabel}
             />
             <BatchingIndicator

@@ -96,7 +96,7 @@ export const columnDefinitions: ColumnDefinition<TestResultListItem, testListPro
   {
     id: 'status',
     label: t('in-synthetics:dashboard.testList.status'),
-    sortable: false,
+    defaultOrderDirection: 'ASC',
     getContent(item: TestResultListItem) {
       const status = item?.testResultCommonProperties?.testCommonProperties?.active
         ? t('in-synthetics:dashboard.testList.active')
@@ -111,6 +111,7 @@ export const columnDefinitions: ColumnDefinition<TestResultListItem, testListPro
   {
     id: 'synthetic_type',
     label: t('in-synthetics:dashboard.testList.type'),
+    defaultOrderDirection: 'ASC',
     getContent(item: TestResultListItem) {
       return (
         <div>
@@ -127,7 +128,7 @@ export const columnDefinitions: ColumnDefinition<TestResultListItem, testListPro
   {
     id: 'successRate',
     label: t('in-synthetics:dashboard.testList.successRate'),
-    sortable: false,
+    defaultOrderDirection: 'ASC',
     getContent(item: TestResultListItem) {
       const totalRuns = get(item, ['metrics', 'total_test_runs', 0, 1], 0);
       const successRuns = get(item, ['metrics', 'successful_test_runs', 0, 1], 0);
@@ -155,8 +156,7 @@ export const columnDefinitions: ColumnDefinition<TestResultListItem, testListPro
   {
     id: 'avg_response_time',
     label: t('in-synthetics:dashboard.testList.latency'),
-    sortable: false,
-    //defaultOrderDirection: 'DESC',
+    defaultOrderDirection: 'DESC',
     getContent(item: TestResultListItem, { result, timeConfig }) {
       return (
         <SparkChart
@@ -175,7 +175,7 @@ export const columnDefinitions: ColumnDefinition<TestResultListItem, testListPro
   {
     id: 'location',
     label: t('in-synthetics:dashboard.testList.locationLabel'),
-    sortable: false,
+    defaultOrderDirection: 'ASC',
     getContent(item: TestResultListItem) {
       const locationStatusList: LocationStatus[] =
         item?.testResultCommonProperties?.testCommonProperties?.locationStatusList ?? [];
@@ -190,8 +190,8 @@ export const columnDefinitions: ColumnDefinition<TestResultListItem, testListPro
               <SvgIcon type={'lib_synthetic_location'} />
               <div>
                 <h4 className={locals.label}>
-                  {item.testResultCommonProperties.testCommonProperties?.locationLabels &&
-                    item.testResultCommonProperties.testCommonProperties?.locationLabels[0]}
+                  {item.testResultCommonProperties.testCommonProperties?.locationDisplayLabels &&
+                    item.testResultCommonProperties.testCommonProperties?.locationDisplayLabels[0]}
                 </h4>
                 <HealthDot severity={severity} iconSize={5} />
               </div>
@@ -203,8 +203,8 @@ export const columnDefinitions: ColumnDefinition<TestResultListItem, testListPro
               <SvgIcon type={'lib_synthetic_location'} />
               <div>
                 <h4 className={locals.label}>
-                  {item.testResultCommonProperties.testCommonProperties?.locationLabels &&
-                    item.testResultCommonProperties.testCommonProperties?.locationLabels[0]}
+                  {item.testResultCommonProperties.testCommonProperties?.locationDisplayLabels &&
+                    item.testResultCommonProperties.testCommonProperties?.locationDisplayLabels[0]}
                 </h4>
               </div>
             </HorizontalFlexWrapper>
@@ -246,7 +246,7 @@ export const columnDefinitions: ColumnDefinition<TestResultListItem, testListPro
   {
     id: 'applicationLabel',
     label: t('in-synthetics:dashboard.testList.applicationLabel'),
-    sortable: false,
+    defaultOrderDirection: 'ASC',
     getContent(item: TestResultListItem) {
       const applicationLabel = item.testResultCommonProperties?.testCommonProperties?.applicationLabel;
       const applicationId = item.testResultCommonProperties?.testCommonProperties?.applicationId;
@@ -273,7 +273,7 @@ export const columnDefinitions: ColumnDefinition<TestResultListItem, testListPro
   {
     id: 'health',
     label: t('in-synthetics:dashboard.testList.health'),
-    sortable: false,
+    defaultOrderDirection: 'ASC',
     getContent(item: TestResultListItem) {
       const totalRuns = get(item, ['metrics', 'total_test_runs', 0, 1], 0);
       const successRuns = get(item, ['metrics', 'successful_test_runs', 0, 1], 0);

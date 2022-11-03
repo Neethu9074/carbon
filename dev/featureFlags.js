@@ -56,6 +56,7 @@ module.exports = {
   smartAlertsLogsBlueprintEnabled: true,
   syntheticsTestEnabled: true,
   kubernetesExploreEnabled: true,
+  kubernetesTeamEnabled: true,
   configMigrationFeatureEnabled: true,
   sliCHClusterAccessEnabled: true,
   perSecondAggregationEnabled: false,
@@ -63,5 +64,8 @@ module.exports = {
   applicationApdexEnabled: true,
   actionAutomationEnabled: true,
   websiteUploadConfigEnabled: true,
-  pluginMetricStatisticsEnabled: true
+  pluginMetricStatisticsEnabled: true,
+  mobileAppCrashBeaconEnabled: true,
+  k8sTimeShiftEnabled: true,
+  syntheticBrowserScriptEnabled: true
 };

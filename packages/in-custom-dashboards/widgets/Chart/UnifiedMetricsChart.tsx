@@ -30,9 +30,9 @@ import {
 } from 'in-custom-dashboards/widgets/Chart/renderer';
 import getUnifiedMetrics, { isLabeledMetricResult, UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import { Grouping, LabeledMetricResult, Result, TimeConfig, UnifiedMetricConfigurationUnion } from 'in-types';
+import { applyTimeShift, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
 import { colors } from 'in-custom-dashboards/widgets/Chart/FormComponent/colors';
-import { translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import { getMetricLabel } from 'in-custom-dashboards/widgets/Chart/util';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import { extendWindowSizeOnLiveMode } from 'in-applications/metrics';
@@ -320,7 +320,7 @@ export function duplicateTimeShiftComparedMetricsForAxis(axis: Axis): Axis {
 export function configureChart(config: Config, timeConfig: TimeConfig): ConfigFromDataSeries {
   const metrics = getAllMetrics(config);
   return metrics.reduce((acc, metric) => {
-    return sources[metric.source]?.configureChart?.(acc, timeConfig, metric) ?? acc;
+    return sources[metric.source]?.configureChart?.(acc, applyTimeShift(timeConfig, metric.timeShift), metric) ?? acc;
   }, initialChartConfig);
 }
 

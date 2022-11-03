@@ -4,6 +4,7 @@
  */
 
 import { Switch, Route } from 'react-router-dom';
+import { fromJS } from 'immutable';
 import React from 'react';
 
 import { combineLatest } from '@instana/observables';
@@ -48,7 +49,7 @@ export default connectTo(
     if (!props.agentSnapshotsResult) {
       observables.agentSnapshotsResult = combineLatest([timeConfig$, debouncedQuery$]).flatMap(
         ([timeConfig, query]) => {
-          return getAgentSnapshotsInTimeframe({ timeConfig, query });
+          return getAgentSnapshotsInTimeframe({ timeConfig, query }).map(fromJS);
         }
       );
     }

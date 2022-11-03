@@ -112,6 +112,7 @@
       "resume": "Resume the test",
       "active": "Active",
       "paused": "Paused",
+      "deleted": "Deleted",
       "type": "Type",
       "successRate": "Success Rate",
       "successRuns": "{{successRuns}} / {{totalRuns}} results",
@@ -129,10 +130,12 @@
     },
     "locationList": {
       "locationLabel": "Location Name",
+      "locationDisplayLabel": "Display Name",
       "status": "Status",
       "type": "Type",
       "totalTests": "No. of Tests Linked",
       "lastRun": "Last Test Run On",
+      "namespace": "Namespace",
       "labelConfirmRemoveLocation": "Are you sure you want to remove <strong>{{label}}</strong> ({{status}}) location?",
       "activeTestLinked": "There are active tests assigned on location <strong>{{label}}</strong> ({{status}}), are you sure you want to remove this location?",
       "deleteLocation": "Delete location"
@@ -165,9 +168,14 @@
         "results": "Results",
         "linkViewAllTestResults": "View all results",
         "ok": "Success",
-        "redirection": "Redirection",
-        "clientError": "Client Error",
-        "serverError": "Server Error"
+        "created": "Created",
+        "accepted": "Accepted",
+        "forbidden": "Forbidden",
+        "notFound": "Not Found",
+        "serverError": "Server Error",
+        "badRequest": "Bad Request",
+        "badGateway": "Bad Gateway",
+        "gatewayTimeout": "Gateway Timeout"
       },
       "totalRuns": "{{totalRuns}} total runs",
       "meanLatencyFor90th": "{{meanLatencyDetail}} for 90th"
@@ -204,6 +212,12 @@
       "successResult": "Successful",
       "failedResult": "Failed",
       "searchFilter": "Search",
+      "typesFilter": "Types",
+      "typesFilterValues": {
+        "getType": "GET",
+        "allType": "All",
+        "othersType": "Other"
+      },
       "subtransactionBody": {
         "contentType": "Content type",
         "size": "Size",
@@ -218,7 +232,10 @@
       "noDataAvailable": {
         "message": "{{component}} details not available for this test result",
         "notFound": "Not found"
-      }
+      },
+      "downloadHar": "Download HAR File",
+      "consoleLogs": "CONSOLE",
+      "browserLogs": "BROWSER"
     },
     "noDataAvailable": {
       "resultsTitle": "No results available",

@@ -16,6 +16,7 @@ import ClickhouseTotalTableSizes from 'in-internal/monitoringUnit/sre/Clickhouse
 import AppDataHealthAggregator from 'in-internal/monitoringUnit/Appdata/AppDataHealthAggregator';
 // General imports
 import InternalViewWrapper from 'in-internal/components/InternalViewWrapper';
+import AdaptiveBaselineModel from 'in-internal/thisUnit/AdaptiveBaseline/AdaptiveBaselineModel';
 import AppDataHealthProcessor from 'in-internal/monitoringUnit/Appdata/AppDataHealthProcessor';
 import ServerlessAcceptors from 'in-internal/monitoringUnit/serverless/ServerlessAcceptors';
 import JsStackTraceTranslator from 'in-internal/monitoringUnit/eum/JsStackTraceTranslator';
@@ -41,6 +42,7 @@ import ErrorSimulator from 'in-internal/monitoringUnit/eum/ErrorSimulator';
 import SpansCassandra from 'in-internal/monitoringUnit/sre/SpansCassandra';
 import StateCassandra from 'in-internal/monitoringUnit/sre/StateCassandra';
 import ClickhouseLogs from 'in-internal/monitoringUnit/sre/ClickhouseLogs';
+import { WsApiTester } from 'in-internal/thisUnit/WsApiTester/WsApiTester';
 import MetaElasticNG from 'in-internal/monitoringUnit/sre/MetaElasticNG';
 import EumProcessor from 'in-internal/monitoringUnit/eum/EumProcessor';
 import LogProcessor from 'in-internal/monitoringUnit/log/LogProcessor';
@@ -60,6 +62,7 @@ import FillerStats from 'in-internal/monitoringUnit/FillerStats';
 import Appdata from 'in-internal/monitoringUnit/Appdata/Appdata';
 import Acceptors from 'in-internal/monitoringUnit/sre/Acceptors';
 import Switch from 'in-components/FragmentSupportingSwitch';
+import Metrics from 'in-internal/thisUnit/Metrics/Metrics';
 import Kafka from 'in-internal/monitoringUnit/sre/Kafka';
 import Unit from 'in-internal/monitoringUnit/unit/Unit';
 import Region from 'in-internal/monitoringUnit/Region';
@@ -183,7 +186,10 @@ export default function Internal() {
         <Route path="/internal/thisUnit/graphExplorer" children={wrapInInternalView(GraphExplorer)} />
         <Route path="/internal/thisUnit/snapshotVersions" children={wrapInInternalView(SnapshotVersions)} />
         <Route path="/internal/thisUnit/internalEvents" children={wrapInInternalView(InternalEvents)} />
+        <Route path="/internal/thisUnit/metrics" children={wrapInInternalView(Metrics)} />
         <Route path="/internal/thisUnit/agents" component={Agents} />
+        <Route path="/internal/thisUnit/wsApiTester" children={wrapInInternalView(WsApiTester)} />
+        <Route path="/internal/thisUnit/adaptiveBaselineModel" children={wrapInInternalView(AdaptiveBaselineModel)} />
       </>
 
       <Route path="/internal" children={wrapInInternalView(Landing)} />

@@ -153,7 +153,7 @@ function Form({ form, onChange }) {
         </FormGroup>
       ))}
       {form.get('emails').map(field => (
-        <FormGroup>
+        <>
           <Label htmlFor="email" hasError={!field.valid && field.touched}>
             {t('in-settings:tabs.emails')}
           </Label>
@@ -169,12 +169,12 @@ function Form({ form, onChange }) {
                 );
               })
             : null}
-        </FormGroup>
+        </>
       ))}
       {form.get('emails').map(field => {
         const emails = field.value;
         return emails.map((email, i) => (
-          <FormGroup key={i}>
+          <div key={i}>
             <div className={`${block}__input-delete-wrapper`}>
               <Input
                 className={`${block}__input`}
@@ -201,7 +201,7 @@ function Form({ form, onChange }) {
                     </ValidationBlock>
                   ))
               : null}
-          </FormGroup>
+          </div>
         ));
       })}
       <div className={`${block}__add-button-wrapper`}>

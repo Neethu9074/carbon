@@ -50,7 +50,10 @@ export default function MetricCatalogConfiguratorOverlayPresenter({
         <MetricSelectorOverlay
           metricCatalog={metricCatalog}
           onChange={node => {
-            onAddItem({ metric: node.metric, aggregation: 'MEAN' });
+            const crossSeriesAggregation = node.allowedCrossSeriesAggregations
+              ? node.allowedCrossSeriesAggregations[0]
+              : undefined;
+            onAddItem({ metric: node.metric, aggregation: 'MEAN', crossSeriesAggregation });
             onShowSlideInContentChange(false);
           }}
           loading={loading}

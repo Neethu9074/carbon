@@ -32,36 +32,9 @@ describe('in-custom-dashboards/widgets/Apdex/hooks/useCreateApdexForm', () => {
     });
   });
 
-  it('returns a form with populated and modified apdexName if a Apdex config with an ID is provided', () => {
-    // Given
-    const entityType = 'website';
-    const entityId = 'someEntityId';
-    const apdexConfig = {
-      id: 'someId',
-      createdAt: Date.now(),
-      apdexName: 'Foo Bar Apdex',
-      apdexEntity: {}
-    };
-
-    // When
-    const { result } = renderHook(() => useCreateApdexForm(apdexConfig, entityType, entityId));
-    const [form] = result.current;
-
-    // Then
-    expect(form.toJS()).toMatchObject({
-      apdexName: 'Copy of Foo Bar Apdex',
-      apdexEntity: {
-        entityId: 'someEntityId',
-        apdexType: 'website',
-        beaconType: 'httpRequest',
-        tagFilterExpression: [],
-        threshold: undefined
-      }
-    });
-  });
-
   it('renders correctly if Apdex config has changed', () => {
     // Given
+    const apdexName = 'randomApdex';
     const entityType = 'website';
     const entityId = 'someEntityId';
 
@@ -74,7 +47,7 @@ describe('in-custom-dashboards/widgets/Apdex/hooks/useCreateApdexForm', () => {
       apdexConfig: {
         id: 'someId',
         createdAt: Date.now(),
-        apdexName: 'Foo Bar Apdex',
+        apdexName,
         apdexEntity: {}
       }
     });
@@ -83,7 +56,7 @@ describe('in-custom-dashboards/widgets/Apdex/hooks/useCreateApdexForm', () => {
 
     // Then
     expect(form.toJS()).toMatchObject({
-      apdexName: 'Copy of Foo Bar Apdex',
+      apdexName,
       apdexEntity: {
         entityId: 'someEntityId',
         apdexType: 'website',

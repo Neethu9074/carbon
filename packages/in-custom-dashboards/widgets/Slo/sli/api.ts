@@ -10,7 +10,7 @@ import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/constants';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { Result, SliConfigurationWithLastUpdated } from 'in-types';
-import http, { Response } from 'in-services/http';
+import http from 'in-services/http';
 
 const refreshSignal = create<string>().emit('');
 
@@ -67,16 +67,18 @@ function getConfiguredSliById(sliConfigId: string) {
 
 export function createSliConfiguration(
   sliConfiguration: NewSliConfig<CombinedSliEntity>
-): Observable<Response<SliConfigurationWithLastUpdated>> {
+): Observable<Result<SliConfigurationWithLastUpdated>> {
   return http<SliConfigurationWithLastUpdated>({
     method: 'POST',
     maxRetries: 3,
+    treat400AsError: true,
     url: `/api/settings/v2/sli`,
     headers: getCsrfHeader(),
-    data: sliConfiguration
+    data: sliConfiguration,
+    mapToResultObject: true
   }).map(res => {
-    if (res.body?.id) {
-      refreshSignal.emit(res.body.id);
+    if (res?.data?.id) {
+      refreshSignal.emit(res.data.id);
     }
     return res;
   });

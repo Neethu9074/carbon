@@ -36,11 +36,17 @@ export default [
     formatter: millis
   },
   {
-    metrics: ['status.THREADS_CONNECTED', 'status.MAX_USED_CONNECTIONS', 'status.ABORTED_CONNECTS'],
+    metrics: [
+      'status.THREADS_CONNECTED',
+      'status.MAX_USED_CONNECTIONS',
+      'status.ABORTED_CONNECTS',
+      'status.CONNECTION_ERRORS_MAX_CONNECTIONS'
+    ],
     labels: [
       t('in-forge:plugins.mySqlDatabase.threadsCconnected'),
       t('in-forge:plugins.mySqlDatabase.maxUsedConnections'),
-      t('in-forge:plugins.mySqlDatabase.abortedConnects')
+      t('in-forge:plugins.mySqlDatabase.abortedConnects'),
+      t('in-forge:plugins.mySqlDatabase.connectionErrorsMaxConnections')
     ],
     min: 0,
     category: [t('in-forge:plugins.mySqlDatabase.clients')],
@@ -88,6 +94,20 @@ export default [
     min: 0,
     category: [t('in-forge:plugins.mySqlDatabase.transactions')],
     formatter: number
+  },
+  {
+    metric: 'status.INNODB_ROW_LOCK_CURRENT_WAITS',
+    label: t('in-forge:plugins.mySqlDatabase.innoDbRowLockCurrentWaits'),
+    min: 0,
+    category: [t('in-forge:plugins.mySqlDatabase.rowLocks')],
+    formatter: number
+  },
+  {
+    metric: 'status.INNODB_ROW_LOCK_TIME_AVG',
+    label: t('in-forge:plugins.mySqlDatabase.innoDbRowLockTimeAvg'),
+    min: 0,
+    category: [t('in-forge:plugins.mySqlDatabase.rowLocksTime')],
+    formatter: millis
   },
   {
     metrics: ['replica.slave_io_running', 'replica.slave_sql_running'],

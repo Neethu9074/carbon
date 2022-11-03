@@ -27,5 +27,15 @@
   "sorting": {
     "mostRecent": "Neuester zuerst",
     "oldest": "Ältester zuerst"
-  }
+  },
+  "cpuTotal": "CPU insgesamt",
+  "memoryUsage": "Speichernutzung",
+  "cluster": "Cluster",
+  "node": "Knoten",
+  "namespace": "Namensbereich",
+  "deployment": "Implementierung",
+  "pod": "Pod",
+  "tooltipEntityHealthNoIssues": "Keine Probleme",
+  "tooltipEntityHealthIssues": "{{numberOfIssues}}-Probleme",
+  "container": "Container"
 }

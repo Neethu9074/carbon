@@ -18,7 +18,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.key;
+        return row.appName;
       }
     }
   },
@@ -39,7 +39,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return 'servlets.' + row.key + '.' + row.servletName + '.requests';
+        return 'servlets.' + row.appName + '.' + row.servletName + '.requests';
       },
       getContent: zeroDecimalPlaces,
       getTimeWindowAggregation() {
@@ -55,7 +55,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return 'servlets.' + row.key + '.' + row.servletName + '.avgResponseTime';
+        return 'servlets.' + row.appName + '.' + row.servletName + '.avgResponseTime';
       },
       getContent: muSecondsToMillisTwoDecimalPlaces,
       getTimeWindowAggregation() {
@@ -87,7 +87,8 @@ export default function ServletsTable({ snapshot, timeConfig }) {
 
   const rows = servlets.map(servlet => {
     return {
-      key: servlet.appName,
+      key: servlet.appName + '-' + servlet.servletName,
+      appName: servlet.appName,
       servletName: servlet.servletName,
       snapshotId: snapshot.get('id'),
       timeConfig
@@ -115,7 +116,7 @@ function getRowDetails(row) {
         timeConfig={row.timeConfig}
         y1={{
           formatter: zeroDecimalPlaces,
-          metrics: ['servlets.' + row.key + '.' + row.servletName + '.requests'],
+          metrics: ['servlets.' + row.appName + '.' + row.servletName + '.requests'],
           labels: [t('in-forge:plugins.webSphereLibertyAppContainer.titleRequests')],
           type: 'line'
         }}
@@ -126,7 +127,7 @@ function getRowDetails(row) {
         timeConfig={row.timeConfig}
         y1={{
           formatter: muSecondsToMillisTwoDecimalPlaces,
-          metrics: ['servlets.' + row.key + '.' + row.servletName + '.avgResponseTime'],
+          metrics: ['servlets.' + row.appName + '.' + row.servletName + '.avgResponseTime'],
           labels: [t('in-forge:plugins.webSphereLibertyAppContainer.titleAvgResponseTime')],
           type: 'line'
         }}

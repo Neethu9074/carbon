@@ -37,7 +37,7 @@ import useSloFormSideEffects from 'in-custom-dashboards/widgets/Slo/hooks/useSlo
 import SliManageList from 'in-custom-dashboards/widgets/Slo/sli/components/list/SliManageList';
 import PercentageInput from 'in-custom-dashboards/widgets/Slo/components/PercentageInput';
 import WebsiteSelector from 'in-custom-dashboards/widgets/Slo/components/WebsiteSelector';
-import SliSelectionForm from 'in-custom-dashboards/widgets/Slo/components/SliSelector';
+import SliSelector from 'in-custom-dashboards/widgets/Slo/components/SliSelector';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { SliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
@@ -183,7 +183,7 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
           />
         )}
 
-        <SliSelectionForm
+        <SliSelector
           form={form}
           entityType={entityTypeValue}
           entityId={entityIdValue}

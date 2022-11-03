@@ -25,7 +25,8 @@ export default function LatencyDistributionChart({
   updateFilter,
   title,
   aggregation,
-  showHeader
+  showHeader,
+  fastQueryModeEnabled
 }) {
   const timeConfig = useTimeConfig();
   const latencyTag = dataSourceConstants[dataSource].latencyTag;
@@ -36,13 +37,13 @@ export default function LatencyDistributionChart({
     tagToExclude: latencyTag
   });
   const subscription = getLatencyDistributionBase10({
-    maxLatencyBuckets: 80,
     includePercentiles: true,
     filter: { timeConfig },
     tagFilterExpression: backendQuery,
     includeInternal: hiddenCalls?.includeInternal,
     includeSynthetic: hiddenCalls?.includeSynthetic,
-    dataSource: dataSourceConstants[dataSource].backendDataSource
+    dataSource: dataSourceConstants[dataSource].backendDataSource,
+    queryPrecision: fastQueryModeEnabled ? 'APPROXIMATE' : 'FULL'
   });
 
   return (
@@ -55,6 +56,7 @@ export default function LatencyDistributionChart({
       title={title}
       aggregation={aggregation}
       showHeader={showHeader}
+      fastQueryModeEnabled={fastQueryModeEnabled}
       onSelectionChanged={selection =>
         updateLatencySelection({
           dataSource: dataSource,

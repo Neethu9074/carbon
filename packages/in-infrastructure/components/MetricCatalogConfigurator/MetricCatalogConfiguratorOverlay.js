@@ -37,6 +37,12 @@ export default function MetricCatalogConfiguratorOverlay({
     }
   }, [form]);
 
+  useEffect(() => {
+    if (form.size === 0 && values.length !== 0) {
+      setForm(getInitialForm(values, maximumNumberOfMetrics));
+    }
+  }, [values]);
+
   return (
     <MetricCatalogConfiguratorOverlayPresenter
       form={form}
@@ -62,9 +68,9 @@ export default function MetricCatalogConfiguratorOverlay({
     onChange([], form => form.remove(index).setTouched(false));
   }
 
-  function onAddItem({ metric, aggregation }) {
-    onChange([], form => form.push(getMetricItem(metric, getPossibleAggregations()[0])).setTouched(false));
-    tracking?.onMetricAdded?.({ metric, aggregation });
+  function onAddItem(metric) {
+    onChange([], form => form.push(getMetricItem(metric)).setTouched(false));
+    tracking?.onMetricAdded?.(metric);
   }
 
   function onSwap(sourceIndex, destinationIndex) {
@@ -98,11 +104,14 @@ export default function MetricCatalogConfiguratorOverlay({
         return null;
       },
 
-      items: values.map(({ metric, aggregation }) => getMetricItem(metric, aggregation))
+      items: values.map(({ metric, aggregation, crossSeriesAggregation }) =>
+        getMetricItem({ metric, aggregation, crossSeriesAggregation })
+      )
     });
   }
 
-  function getMetricItem(metric, aggregation) {
+  function getMetricItem(props) {
+    const { metric, aggregation, crossSeriesAggregation } = props;
     return createMapForm({
       validator: ({ metric, aggregation }) => {
         if (!metric.valid || !aggregation.valid) {
@@ -120,6 +129,10 @@ export default function MetricCatalogConfiguratorOverlay({
         aggregation: createField({
           value: aggregation || '',
           validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+        }),
+        crossSeriesAggregation: createField({
+          value: crossSeriesAggregation,
+          validator: composeAndShortCircuitOnError(stringValidator, notBlankValidator)
         })
       }
     });

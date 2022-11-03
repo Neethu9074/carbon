@@ -3,40 +3,50 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { getGroupTagValue } from 'in-infrastructure/Explore/components/GroupedInfrastructure';
-import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
-import { pagesLoaded } from 'in-infrastructure/Explore/components/InfrastructureList';
+import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import createGetGroupsSubscription from 'in-infrastructure/subscriptions/getGroups';
 import { getLinkToExplore } from 'in-infrastructure/navigation/paths';
 import Header from 'in-components/QueryBuilder/components/Header';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import EntityLink from 'in-components/EntityLink/EntityLink';
-import { noop } from 'in-services/util/function';
 import { t } from 'in-i18n';
 
-export default function EntityList({
-  retrievalSize = 20,
-  backendQueryModel,
-  timeConfig,
-  setOrder = noop,
-  order,
-  type,
-  tracking
-}) {
-  const {
-    items,
-    loadMore: cursorPaginationDefaultLoadMore,
-    cursor,
-    errors,
-    progress,
-    totalHits,
-    ...tableProps
-  } = useCursorPagination(
+export default function EntityList({ retrievalSize = 20, backendQueryModel, timeConfig, order, type }) {
+  const { items, errors, progress } = useCursorPagination(
     ({ cursor }) => getTableData({ timeConfig, retrievalSize, backendQueryModel, order, type, cursor }),
     [timeConfig, retrievalSize, backendQueryModel, type, order]
   );
+
+  const hasErrors = errors?.length > 0;
+  const isLoading = progress?.loading;
+
+  const [result, setResultData] = useState(createResultData(items));
+  const [orderDir, setOrderDirection] = useState('ASC');
+  const [orderByCol, setOrderByColumn] = useState('label');
+
+  const onChangeItems = items => {
+    setResultData(createResultData(items));
+  };
+
+  if (!isLoading && (result.progress === undefined || result.progress?.loading === true)) {
+    onChangeItems(items);
+  }
+
+  function createResultData(items) {
+    return {
+      progress: {
+        loading: isLoading
+      },
+      errors: errors,
+      data: {
+        items: items ?? [],
+        page: 1
+      }
+    };
+  }
 
   const columnDefinitions = [
     {
@@ -62,7 +72,7 @@ export default function EntityList({
       id: 'count',
       width: '8rem',
       label: t('in-infrastructure:explore.count'),
-      sortable: false,
+      sortable: true,
       getContent(item) {
         return (
           <>
@@ -73,43 +83,103 @@ export default function EntityList({
     }
   ]);
 
-  const hasErrors = errors?.length > 0;
-  const isLoading = progress?.loading;
-
   return (
     <>
-      <Header totalRetainedItemCount={totalHits} hasErrors={hasErrors} isLoading={isLoading} dataSource="entityType" />
-
-      <CursorPaginatedTable
+      <ServerTablePresenter
+        orderBy={orderByCol}
+        orderDirection={orderDir}
+        result={result}
         columnDefinitions={columnDefinitions}
-        onChange={({ orderBy, orderDirection }) => setOrder({ by: orderBy, direction: orderDirection })}
-        loadMore={() => {
-          cursorPaginationDefaultLoadMore();
-          tracking?.onLoadMore?.(pagesLoaded(cursor?.offset, retrievalSize));
+        onChange={({ query, orderBy, orderDirection }) => {
+          if (query !== undefined) {
+            //search
+            onChangeItems(
+              items.filter(item =>
+                getGroupTagValue(item, 'type')
+                  .toLowerCase()
+                  .includes(query?.toLowerCase())
+              )
+            );
+          } else {
+            //sort
+            const sortedItems = sortItems(items, orderBy, orderDirection);
+
+            setOrderByColumn(orderBy);
+            setOrderDirection(orderDirection);
+            setResultData(sortedItems);
+          }
         }}
-        progress={progress}
-        {...tableProps}
-        items={items}
-        fixedLayout
-        orderBy={order.by}
-        orderDirection={order.direction}
+        searchPlaceholder={t('in-infrastructure:explore.search')}
+        leftHeader={
+          <Header
+            totalRetainedItemCount={result?.data?.items?.length}
+            hasErrors={hasErrors}
+            isLoading={isLoading}
+            dataSource="entityType"
+          />
+        }
       />
     </>
   );
 }
 
-function getTableData({ timeConfig, backendQueryModel, order, retrievalSize, cursor }) {
+function sortItems(items, orderBy, orderDirection) {
+  if (orderBy === 'label') {
+    return items.sort((a, b) => {
+      if (a.tags.type < b.tags.type) {
+        return orderDirection === 'DESC' ? 1 : -1;
+      }
+      if (a.tags.type > b.tags.type) {
+        return orderDirection === 'DESC' ? -1 : 1;
+      }
+      return 0;
+    });
+  }
+  if (orderBy === 'count') {
+    return items.sort((a, b) => {
+      if (a.count < b.count) {
+        return orderDirection === 'DESC' ? 1 : -1;
+      }
+      if (a.count > b.count) {
+        return orderDirection === 'DESC' ? -1 : 1;
+      }
+      return 0;
+    });
+  }
+}
+
+function getTableData(params) {
+  return getGroupsSubscribeEvent(params);
+}
+
+function getGroupsSubscribeEvent({
+  query = '',
+  page = 1,
+  pageSize = 20,
+  orderBy = 'label',
+  orderDirection = 'ASC',
+  timeConfig,
+  backendQueryModel = {
+    type: 'EXPRESSION',
+    logicalOperator: 'AND',
+    elements: []
+  }
+}) {
   return createGetGroupsSubscription({
+    pagination: {
+      page,
+      pageSize,
+      retrievalSize: 200
+    },
+    order: {
+      by: orderBy,
+      direction: orderDirection
+    },
     filter: {
       tagFilterExpression: backendQueryModel,
+      label: query,
       timeConfig
     },
-    pagination: {
-      retrievalSize,
-      cursor
-    },
-    groupBy: ['type'],
-    type: undefined,
-    order
+    groupBy: ['type']
   });
 }

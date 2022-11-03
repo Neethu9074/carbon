@@ -11,6 +11,7 @@ import useApdexPreviewMetrics, {
 } from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexPreviewMetrics';
 import useApdexWidgetTimeConfig from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexWidgetTimeConfig';
 import ApdexChart from 'in-custom-dashboards/widgets/Apdex/components/ApdexChart';
+import useDebounce from 'in-custom-dashboards/widgets/Apdex/hooks/useDebounce';
 import { widgetPreviewHeight } from 'in-custom-dashboards/widgets/Apdex';
 import { MetricDataSeries } from 'in-components/Chart/types';
 import { minutes } from 'in-services/time/time';
@@ -24,10 +25,12 @@ interface ApdexConfigPreviewProps {
 }
 
 export default function ApdexConfigPreview({ apdexEntity }: ApdexConfigPreviewProps) {
+  // Use debouncing to decrease render cycles and data events when entering threshold values
+  const debouncedApdexEntity = useDebounce(apdexEntity);
   const timeConfig = useApdexWidgetTimeConfig(true);
   const [metricResult, , errors, progress] = useApdexPreviewMetrics({
     timeConfig,
-    apdexEntity
+    apdexEntity: debouncedApdexEntity
   });
 
   return (

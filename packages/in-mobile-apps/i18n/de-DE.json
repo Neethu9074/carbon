@@ -3,7 +3,8 @@
     "sessionStart": "Sitzungsstart",
     "viewChange": "Anzeigewechsel",
     "httpRequest": "HTTP-Anforderung",
-    "custom": "Angepasstes Ereignis"
+    "custom": "Angepasstes Ereignis",
+    "crash": "Absturz"
   },
   "analyzeView": {
     "uniqueUsers": "Eindeutige Benutzer",
@@ -156,7 +157,10 @@
       "traLong": "Anzeigewechsel",
       "cusShort": "Angep.",
       "cusBadgeLabel": "Angep.",
-      "cusLong": "Angepasste Ereignisse"
+      "cusLong": "Angepasste Ereignisse",
+      "craShort": "Cra",
+      "craBadgeLabel": "Cra",
+      "craLong": "Absturz"
     },
     "tabsSumOverviewChartTooltipStartTime": "Startzeit",
     "tabsSummary": {
@@ -200,6 +204,15 @@
       "eventNameTitle": "Ereignisname",
       "errMsgTitle": "Fehlernachricht",
       "metaHeader": "Meta"
+    },
+    "tabsSumCrashBeacon": {
+      "startTimeLabel": "Startzeit",
+      "crashHeader": "Absturz",
+      "errorMsg": "Fehlernachricht",
+      "errorType": "Fehlertyp",
+      "crashLabel": "Absturz",
+      "metaHeader": "Meta",
+      "stackTrace": "Stack-Trace"
     },
     "tabsSumHttpRequestBeacon": {
       "retrievalTimeTooltip": "Abrufzeit",
@@ -373,7 +386,8 @@
     "sessionId": "Sitzungs-ID",
     "viewName": "Anzeigename",
     "access": "Zugriff",
-    "eventName": "Ereignisname"
+    "eventName": "Ereignisname",
+    "crash": "Absturz"
   },
   "dataSource_sessionStart": "{{formattedCount}} Sitzungsstart",
   "dataSource_sessionStart_plural": "{{formattedCount}} Sitzungsstarts",
@@ -395,6 +409,11 @@
   "dataSource_custom_0": "{{formattedCount}} angepasste Ereignisse",
   "dataSource_custom_1": "{{formattedCount}} angepasste Ereignisse",
   "dataSource_custom_2": "{{formattedCount}} angepasste Ereignisse",
+  "dataSource_crash": "{{formattedCount}} Absturz",
+  "dataSource_crash_plural": "{{formattedCount}} Abstürze",
+  "dataSource_crash_0": "{{formattedCount}} Abstürze",
+  "dataSource_crash_1": "{{formattedCount}} Abstürze",
+  "dataSource_crash_2": "{{formattedCount}} Abstürze",
   "facetedSearch": {
     "mobileApp": "Mobile App",
     "view": "Ansicht",

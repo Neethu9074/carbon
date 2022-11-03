@@ -29,11 +29,11 @@ interface SummaryProps {
 }
 
 export default function Summary({ test }: SummaryProps) {
-  const locationLabels = test.data?.locationLabels || [];
+  const locationDisplayLabels = test.data?.locationDisplayLabels || [];
   const locations = test.data?.locations || [];
   const locationsMap =
-    locationLabels.length === locations.length
-      ? buildLocationsMap(locations, locationLabels)
+    locationDisplayLabels.length === locations.length
+      ? buildLocationsMap(locations, locationDisplayLabels)
       : new Map<string, string>();
   const timeShiftConfig = useTimeShiftConfig();
   const location = useLocation();
@@ -188,7 +188,7 @@ export default function Summary({ test }: SummaryProps) {
         )}
         {testType && (
           <Col lg={4}>
-            <ResponseStatus test={test} timeShiftConfig={timeShiftConfig} />
+            <ResponseStatus test={test} />
           </Col>
         )}
       </Row>

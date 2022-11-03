@@ -469,8 +469,12 @@
         "sliEntity": "SLI 实体",
         "beaconConfigLabel": "信标配置",
         "beaconScopeLabel": "信标作用域",
-        "httpRequestsLabel": "HTTP 请求",
-        "beaconFiltersLabel": "信标过滤器"
+        "beaconLabel": "未知信标类型",
+        "beaconLabel_httpRequest": "HTTP 请求",
+        "beaconLabel_pageLoad": "Web 站点页面加载次数",
+        "beaconLabel_custom": "Web 站点定制事件数",
+        "beaconFiltersLabel": "信标过滤器",
+        "beaconFiltersSubtext": "可选"
       },
       "sliList": {
         "serviceLevelIndicators": "服务级别指示符",
@@ -500,8 +504,10 @@
         "spent": "已花费",
         "budget": "预算",
         "viewInAnalyze": "查看分析",
-        "initialEvaluation": "已创建 SLI",
-        "missingDataInfo": "此 SLI 的创建时间在所显示的时间范围内。 在创建 SLI 之前的数据将缺失。"
+        "configType": "SLI",
+        "configType_apdex": "Apdex",
+        "initialEvaluation": "{{configType}} 创建时间",
+        "missingDataInfo": "此 {{configType}} 的创建时间在显示的时间范围内。 {{configType}} 创建之前的数据将缺失。"
       },
       "formComponent": {
         "sliManagement": "SLI 管理",
@@ -572,7 +578,7 @@
         "thousandCallsFormat": "{{count}}000 个调用"
       },
       "widgetLeftHeader": {
-        "previewDataInfo": "如果最近创建了 SLI 配置，则最多显示过去 7 天的预览数据。 最终窗口小部件将仅包含自 SLI 创建以来的数据。"
+        "previewDataInfo": "最多仅显示过去 7 天的预览数据。 最终窗口小部件将仅包含自 SLI 创建以来的数据。"
       },
       "boundaryScopeConfigurator": {
         "all": {
@@ -590,7 +596,9 @@
       "chart": {
         "metricLabel": "Apdex",
         "viewInAnalyze": "在分析中查看",
-        "noDataRetentionPeriod": "所选时间范围超出数据保留期"
+        "noDataRetentionPeriod": "所选时间范围超出数据保留期",
+        "notFoundErrorTitle": "找不到已配置的 Apdex",
+        "notFoundErrorDescription": "请通过选择其他 Apdex 配置来更新 Apdex 窗口小部件"
       },
       "demo": {
         "title": "Apdex 用于生产",
@@ -605,7 +613,9 @@
       "formComponent": {
         "title": "Apdex 配置",
         "entityTypeTitle": "Apdex 类型",
-        "manageListTitle": "Apdex 管理"
+        "manageListTitle": "Apdex 管理",
+        "createApdex": "创建 Apdex 配置",
+        "editApdex": "编辑 Apdex 配置"
       },
       "configurationSelector": {
         "label": "Apdex 配置",
@@ -636,7 +646,6 @@
         "createButton": "创建 Apdex 配置"
       },
       "createApdexForm": {
-        "title": "创建 Apdex 配置",
         "customizationHeader": "Apdex 定制",
         "label": "Apdex 名称",
         "apdexCreateSuccessTitle": "已成功创建 Apdex 配置。",
@@ -644,13 +653,17 @@
         "apdexCreateFailedTitle": "未能创建 Apdex 配置。",
         "apdexCreateFailedContent": "创建此 Apdex 配置时发生问题：“{{apdexName}}”",
         "apdexNameNotEmpty": "Apdex 名称不能为空。",
-        "thresholdNotEmpty": "阈值不能为空。",
-        "nameExistsError": "具有此名称的 Apdex 配置已存在。 请输入其他名称。"
+        "nameExistsError": "具有此名称的 Apdex 配置已存在。 请输入其他名称。",
+        "limitReachedError": {
+          "website": "已达到 Web 站点 Apdex 配置 ({{0}}) 的最大数量。 请联系 Instana 支持人员以请求提高此限量。",
+          "application": "已达到应用程序 Apdex 配置 ({{0}}) 的最大数量。 请联系 Instana 支持人员以请求提高此限量。"
+        },
+        "editConfigNotice": "为避免数据丢失，配置一旦创建就无法编辑，只能作为副本进行调整。",
+        "apdexCloneName": "{{apdexName}} 的副本"
       },
       "createWebsiteApdexForm": {
         "thresholdHeader": "阈值配置",
-        "thresholdLabel": "阈值",
-        "thresholdFooter": "创建后无法编辑阈值以防止数据丢失。"
+        "thresholdLabel": "阈值"
       },
       "entityInfo": {
         "tooltip": "未知 Apdex",
@@ -660,7 +673,7 @@
       "widget": {
         "unknownEntityLabel_application": "未知应用程序",
         "unknownEntityLabel_website": "未知 Web 站点",
-        "previewDataInfo": "如果最近创建了 Apdex 配置，则最多显示过去 7 天的预览数据。 最终窗口小部件将仅包含自 Apdex 创建以来的数据。"
+        "previewDataInfo": "显示过去 7 天的预览数据。 最终窗口小部件将仅包含自 Apdex 配置创建以来的数据。"
       },
       "applicationScopeConfigurator": {
         "label": "Apdex 作用域",

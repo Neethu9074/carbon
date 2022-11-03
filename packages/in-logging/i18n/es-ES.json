@@ -27,5 +27,15 @@
   "sorting": {
     "mostRecent": "Más reciente primero",
     "oldest": "Más antiguo primero"
-  }
+  },
+  "cpuTotal": "Total de CPU",
+  "memoryUsage": "Uso de memoria",
+  "cluster": "Clúster",
+  "node": "Nodo",
+  "namespace": "Espacio de nombres",
+  "deployment": "Despliegue",
+  "pod": "Pod",
+  "tooltipEntityHealthNoIssues": "No hay ningún problema",
+  "tooltipEntityHealthIssues": "{{numberOfIssues}} problemas",
+  "container": "Contenedor"
 }

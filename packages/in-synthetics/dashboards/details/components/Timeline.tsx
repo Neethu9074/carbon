@@ -12,9 +12,14 @@ import { t } from '@instana/i18n-react';
 
 // @ts-expect-error Module needs to be translated to TS
 import { isOverlappedWith } from 'in-applications/analyze/components/TraceDetails/components/IcicleChart/TimeRangeHelper';
+import {
+  getOperation,
+  OverviewChartToolTipProps,
+  ResultDetailsResponse,
+  SubtransactionsProps
+} from 'in-synthetics/utils/constants';
 // @ts-expect-error Module needs to be translated to TS
 import HorizontalAxis from 'in-components/Axis/HorizontalAxis';
-import { OverviewChartToolTipProps, ResultDetailsResponse, SubtransactionsProps } from 'in-synthetics/utils/constants';
 import SubtransactionsList from 'in-synthetics/dashboards/details/components/SubtransactionsList';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import { millis, millisToTwoDecimalSeconds } from 'in-services/formatters/number';
@@ -35,15 +40,25 @@ interface TimelineProps {
 }
 
 export default function Timeline({ details, startTime, finishTime }: TimelineProps) {
-  const [filter, setFilter] = useState({ query: '' });
+  const [filter, setFilter] = useState({ query: '', type: 'ALL' });
 
   const { data } = details;
   // @ts-expect-error
-  const filteredSubtransactions = data?.subtransactions?.filter(subtransaction => {
+  let filteredSubtransactions = data?.subtransactions?.filter(subtransaction => {
     if (filter.query === '') {
       return subtransaction;
     } else if (subtransaction.metrics.httpOperation.toLowerCase().includes(filter.query.toLowerCase())) {
       return subtransaction;
+    }
+  });
+
+  filteredSubtransactions = filteredSubtransactions?.filter(filteredSubtransaction => {
+    if (filter.type === 'GET') {
+      return filteredSubtransaction.metrics.httpOperation.toLowerCase() === getOperation.toLowerCase();
+    } else if (filter.type === 'OTHERS') {
+      return filteredSubtransaction.metrics.httpOperation.toLowerCase() !== getOperation.toLowerCase();
+    } else {
+      return filteredSubtransaction;
     }
   });
 

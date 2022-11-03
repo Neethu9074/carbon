@@ -270,6 +270,7 @@
   "health": "Intégrité",
   "clusters": "Clusters",
   "explore": "Exploration (aperçu technique)",
+  "k8sTeam": "Equipe K8s",
   "noMonitoringDataFound": "Aucune donnée de surveillance trouvée",
   "clusterName": "Nom de cluster",
   "running": "En cours d'exécution",

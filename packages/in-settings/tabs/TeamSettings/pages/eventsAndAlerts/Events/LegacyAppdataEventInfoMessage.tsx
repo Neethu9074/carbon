@@ -13,6 +13,7 @@ import { Trans } from 'in-i18n';
 interface Props {
   migrated?: boolean;
   saved?: boolean;
+  disallowed?: boolean;
   deleted?: boolean;
 }
 
@@ -20,15 +21,15 @@ const smartAlertMigrationUrl =
   'https://www.ibm.com/docs/en/obi/current?topic=applications-smart-alerts' +
   '#how-to-migrate-a-custom-event-on-application-service-or-endpoint-metrics-to-smart-alerts';
 
-export default function LegacyAppdataEventInfoMessage({ migrated, saved, deleted }: Props) {
+export default function LegacyAppdataEventInfoMessage({ migrated, saved, disallowed, deleted }: Props) {
   return (
     <Message type="neutral" withIcon small>
-      <TransContent migrated={migrated} saved={saved} deleted={deleted} />
+      <TransContent migrated={migrated} saved={saved} disallowed={disallowed} deleted={deleted} />
     </Message>
   );
 }
 
-function TransContent({ migrated, saved, deleted }: Props) {
+function TransContent({ migrated, saved, disallowed, deleted }: Props) {
   const docsLink = (
     <Link href={smartAlertMigrationUrl} external>
       &nbsp;
@@ -50,6 +51,17 @@ function TransContent({ migrated, saved, deleted }: Props) {
     );
   }
   if (saved) {
+    if (disallowed) {
+      return (
+        <Trans
+          i18nKey="in-settings:tabs.disallowedEventMessage"
+          components={{
+            documentationLink: docsLink
+          }}
+        />
+      );
+    }
+
     return (
       <Trans
         i18nKey="in-settings:tabs.deprecatedEventMessage"

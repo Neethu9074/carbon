@@ -31,6 +31,7 @@ import { ua2MetricAddedTracker, ua2MetricRemovedTracker, ua2LoadMoreClicked } fr
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { custom as customType, metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import { or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
+import { GROUP_COLORS, getLabel as defaultGetLabel } from 'in-components/AnalyzeView/utils.ts';
 import { getFormatter as getBackendFormatter } from 'in-services/formatters/backendFormatter';
 import { joinExpressions, TAG } from 'in-components/QueryBuilder/transformation/formModel';
 import QueryProgressIndicator from 'in-components/AnalyzeView/QueryProgressIndicator';
@@ -53,15 +54,9 @@ import { identity } from 'in-services/util/function';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { scrollToTop } from 'in-services/util/dom';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './GroupedView.mless';
-
-export const GROUP_COLORS = (() => {
-  const maxGroupsOnChart = Math.min(5, theme.lib.colors.chart.strokeColors100.length);
-  return theme.lib.colors.chart.strokeColors100.slice(0, maxGroupsOnChart);
-})();
 
 export default function GroupedAnalyzeView(props) {
   const {
@@ -75,7 +70,7 @@ export default function GroupedAnalyzeView(props) {
     getHrefToUngroupedView,
     UngroupedView,
     Sidebar,
-    getLabel = ({ name }) => JSON.parse(name),
+    getLabel = defaultGetLabel,
     isValid,
     selectableFields,
     fixedFields,
@@ -250,6 +245,10 @@ export default function GroupedAnalyzeView(props) {
     return excludeMissingGroupTagFilter;
   }, [groupBy, groupingTagCatalog]);
 
+  const headerActions =
+    CustomHeaderActions ||
+    (props => <MetricAndSortingConfigurator {...props} metricOptions={props.availableMetrics} />);
+
   return (
     <>
       <Stack direction={'horizontal'} gap={'disabled'}>
@@ -294,7 +293,7 @@ export default function GroupedAnalyzeView(props) {
               onMetricRemoved: ({ metric, aggregation }) => ua2MetricRemovedTracker({ dataSource, metric, aggregation })
             }}
             renderHistoricDataIndicator={resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE'}
-            CustomHeaderActions={CustomHeaderActions || getHeaderActions}
+            CustomHeaderActions={headerActions}
           />
           {hasItems && (
             <Ul>
@@ -508,12 +507,10 @@ function metricColumns({
         }
 
         const metricDefinition = metricCatalog?.find(({ metricId }) => metricId === field.metricId);
-        const customFormatterId = getCustomMetricUiFormatterName?.(field.metricId);
+        const customFormatterId = getCustomMetricUiFormatterName?.(field.metricId, field.aggregationId);
         let formatter;
         if (customFormatterId != null) {
           formatter = getFormatter(customFormatterId);
-        } else if (field.aggregationId === 'PER_SECOND') {
-          formatter = getFormatter('perSecond.detailed');
         } else {
           // The width of metric values rendered using NUMBER formatter can vary significantly which may
           // break column alignment, use more dense SI prefix based formatter instead.
@@ -580,12 +577,6 @@ function actionColumns() {
 function defaultColorFunction(_, index) {
   return GROUP_COLORS[index];
 }
-
-function getHeaderActions(props) {
-  // should also include CustomHeaderActions if present
-  return <MetricAndSortingConfigurator {...props} metricOptions={props.availableMetrics} />;
-}
-
 GroupedAnalyzeView.propTypes = {
   ...childrenArgsAsPropTypes,
 

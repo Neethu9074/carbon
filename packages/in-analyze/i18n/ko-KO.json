@@ -25,6 +25,11 @@
         "counter_custom_0": "{{number}}개 사용자 정의 이벤트",
         "counter_custom_1": "{{number}}개 사용자 정의 이벤트",
         "counter_custom_2": "{{number}}개 사용자 정의 이벤트",
+        "counter_crash": "{{number}}번의 충돌",
+        "counter_crash_plural": "{{number}}번의 충돌",
+        "counter_crash_0": "{{number}}번의 충돌",
+        "counter_crash_1": "{{number}}번의 충돌",
+        "counter_crash_2": "{{number}}번의 충돌",
         "counter_Row": "{{number}}개 행",
         "counter_Row_plural": "{{number}}개 행",
         "counter_Row_0": "{{number}}개 행",
@@ -86,7 +91,7 @@
       "viewTransitions2": "보기 전환",
       "calls": "호출",
       "traces": "추적",
-      "console": "콘솔"
+      "crashes": "충돌"
     }
   },
   "traceDetail": {

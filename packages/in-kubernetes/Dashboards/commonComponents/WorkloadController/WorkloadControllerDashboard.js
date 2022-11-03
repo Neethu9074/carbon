@@ -7,19 +7,24 @@ import { get } from 'lodash';
 import React from 'react';
 
 import AnalyzeCallsButton, { getFilters } from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
+import RenderButtonLineSecondary from 'in-kubernetes/Dashboards/commonComponents/RenderButtonLineSecondary';
 import DashboardButtonLine from 'in-kubernetes/Dashboards/commonComponents/DashboardButtonLine';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
+import { applicationTimeShiftSelectTracker } from 'in-applications/tracker';
+import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
+import { k8sTimeShiftEnabled } from 'in-services/featureFlags';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { createGroupBy } from 'in-analyze/navigation/paths';
+import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import { getTimeConfig } from 'in-stores/time/config';
 import Footer from 'in-components/Footer';
 import { t } from 'in-i18n';
@@ -116,11 +121,35 @@ function Header(props) {
       icon="lib_kubernetes_workload"
       label={get(props.result, ['data', 'name'])}
       renderButtonLine={renderButtonLine}
+      renderButtonLineSecondary={renderButtonLineSecondary}
       renderMetaInformation={renderMetaInformation}
     />
   );
 }
 
+function renderButtonLineSecondary({
+  // currentTab,
+  timeConfig,
+  podId
+}) {
+  return (
+    <>
+      {k8sTimeShiftEnabled && (
+        <TimeShiftDropdown
+          onChange={offset =>
+            applicationTimeShiftSelectTracker({
+              area: 'pod',
+              offset: getTimeShiftLabel({ offset: offset }),
+              windowSize: timeConfig.windowSize,
+              autoRefresh: timeConfig.autoRefresh
+            })
+          }
+        />
+      )}
+      <RenderButtonLineSecondary timeConfig={timeConfig} snapshotId={podId} />
+    </>
+  );
+}
 function renderButtonLine({ workloadControllerType, workloadControllerId, timeConfig, plugin, result }) {
   const clusterName = result.data?.clusterId;
   const namespaceName = result.data?.namespace;

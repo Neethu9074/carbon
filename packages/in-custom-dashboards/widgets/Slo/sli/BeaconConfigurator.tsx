@@ -10,6 +10,7 @@ import { Stack, Button } from '@instana/components';
 
 import BeaconSelectInSection from 'in-custom-dashboards/widgets/Slo/sli/BeaconSelectInSection';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import SectionLabelWithSubtext from 'in-components/workspace/SectionLabelWithSubtext';
 import { AvailableBeaconTypes } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { QueryBuilderComponent } from 'in-components/QueryBuilder';
 import Sections from 'in-components/workspace/Sections';
@@ -51,7 +52,13 @@ export default function BeaconConfigurator({
         {withAdditionalFilters && (
           <Sections>
             <Section
-              title={t('in-custom-dashboards:widgets.slo.sliFormPresenter.beaconFiltersLabel')}
+              title={
+                <SectionLabelWithSubtext
+                  subtext={t('in-custom-dashboards:widgets.slo.sliFormPresenter.beaconFiltersSubtext')}
+                >
+                  {t('in-custom-dashboards:widgets.slo.sliFormPresenter.beaconFiltersLabel')}
+                </SectionLabelWithSubtext>
+              }
               actions={
                 <Button
                   kind="subtle"

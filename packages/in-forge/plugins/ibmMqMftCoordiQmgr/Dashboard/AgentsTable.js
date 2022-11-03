@@ -79,15 +79,9 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        var status;
-        switch (row.snapshot.getIn(['data', 'agentStatus'])) {
-          case 'Started':
-          case 'Running':
-            status = 'Ready';
-            break;
-          case 'Unreachable':
-          default:
-            status = 'Unknown';
+        var status = t('in-forge:plugins.ibmMqMftAgent.dashboard.statusUnknown');
+        if (row.snapshot.getIn(['data', 'agentStatus']) == 'Started') {
+          status = t('in-forge:plugins.ibmMqMftAgent.dashboard.statusRunning');
         }
         return status;
       }

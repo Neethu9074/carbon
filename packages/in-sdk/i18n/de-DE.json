@@ -43,6 +43,7 @@
     "errorDescription": "Fehler"
   },
   "snapshot": {
+    "unknownLabel": "Unbekannt",
     "registryHealth": "Allgemeinzustand",
     "runtimeLabelNet": ".NET Core",
     "runtimeLabelGo": "Go",

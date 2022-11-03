@@ -39,7 +39,7 @@
       "alertingChartLabelThreshold": "阈值",
       "alertingChartLabelViolations": "违例",
       "alertingChartMessageInvalidFilterQuery": "过滤器查询无效。",
-      "alertingChartMessageEntitySelectionInvalid": "未选择任何实体。",
+      "alertingChartMessageEmptyApplicationSelection": "未选择应用程序。",
       "chartAlertsLaneErrorMessage": "无法装入警告",
       "chartAlertsPreviewLanePresenterAlertsLabel": "警报",
       "chartAlertsPreviewLanePresenterNoAlertsLabel": "无警报",
@@ -463,7 +463,6 @@
         "ruleFormPleaseProvideALogMessage": "请提供日志消息",
         "ruleFormPleaseProvideAStartStatusCode": "请提供有效的起始 HTTP 状态码",
         "ruleFormPleaseProvideAEndStatusCode": "请提供有效的结束 HTTP 状态码",
-        "smartAlertFormNoEntitiesSelected": "未选择任何实体",
         "smartAlertFormValueIsReadOnly": "该值为只读值，无法更改",
         "thresholdFormPleaseProvideANumber0": "请提供大于或等于 0 的数字",
         "thresholdFormBaselineIsEmpty": "基线为空"
@@ -501,7 +500,10 @@
         "labelConfirmRemoveConfig": "确定要除去警报 <strong>{{configName}}</strong> 吗？",
         "labelRemove": "移除",
         "numberOfApplicationsSelected": "已选择 {{count}} 个应用程序",
-        "numberOfApplicationsSelected_plural": "已选定 {{count}} 个应用程序"
+        "numberOfApplicationsSelected_plural": "已选定 {{count}} 个应用程序",
+        "numberOfApplicationsSelected_0": "已选择 {{count}} 个应用程序",
+        "numberOfApplicationsSelected_1": "已选择 {{count}} 个应用程序",
+        "numberOfApplicationsSelected_2": "已选择 {{count}} 个应用程序"
       },
       "details": {
         "title": "警报详细信息",
@@ -562,6 +564,9 @@
         "alertChannelSelectTypeTitle": "警报通道类型",
         "addChannel": "添加 {{count}} 个通道",
         "addChannel_plural": "添加 {{count}} 个通道",
+        "addChannel_0": "添加 {{count}} 个通道",
+        "addChannel_1": "添加 {{count}} 个通道",
+        "addChannel_2": "添加 {{count}} 个通道",
         "add": "添加",
         "scopeConfigTitleWithApplications": "选择应用程序/服务/端点",
         "scopeConfigTitle": "选择服务/端点",
@@ -650,6 +655,11 @@
         "buttonRecalculateBaseline": "重新计算基线",
         "sensitivitySliderLow": "低",
         "sensitivitySliderHigh": "高",
+        "sensitivitySliderValueLabel": "{{count}} 个标准差",
+        "sensitivitySliderValueLabel_plural": "{{count}} 个标准差",
+        "sensitivitySliderValueLabel_0": "{{count}} 个标准差",
+        "sensitivitySliderValueLabel_1": "{{count}} 个标准差",
+        "sensitivitySliderValueLabel_2": "{{count}} 个标准差",
         "labelThreshold": "阈值",
         "labelSensitivity": "敏感度",
         "staticThresholdTypeOptionsTooltip": "“静态每日/每周阈值”是基于历史数据的时间相关阈值。 此阈值不会自动更改，可以根据需要手动重新计算。",
@@ -675,6 +685,7 @@
         "migrationModeWarning": "将此定制事件迁移到智能警报将禁用此事件。 在此之后无法重新启用此事件。"
       },
       "userInfo": {
+        "linkText": "查看智能警报",
         "success": {
           "create": {
             "alert": {
@@ -701,21 +712,33 @@
         "websites": {
           "title": "Web 站点",
           "description0": "要设置警报，请导航至要对其设置警报的 Web 站点，然后使用右下方的“添加智能警报”按钮。",
-          "stats": "目前，您在 $t(in-alerting:smartAlerts.components.alertsHub.websites.websites, {\"count\": {{websites}} })上有 $t(in-alerting:smartAlerts.components.alertsHub.websites.alerts, {\"count\": {{alerts}} })。",
+          "stats": "目前，您具有 $t(in-alerting:smartAlerts.components.alertsHub.websites.alerts, {\"count\": {{alerts}} })，位于 $t(in-alerting:smartAlerts.components.alertsHub.websites.websites, {\"count\": {{websites}} }) 上。",
           "alerts": "{{count}} 个 Web 站点智能警报",
           "alerts_plural": "{{count}} 个 Web 站点智能警报",
+          "alerts_0": "{{count}} 个 Web 站点智能警报",
+          "alerts_1": "{{count}} 个 Web 站点智能警报",
+          "alerts_2": "{{count}} 个 Web 站点智能警报",
           "websites": "{{count}} 个 Web 站点",
           "websites_plural": "{{count}} 个 Web 站点",
+          "websites_0": "{{count}} 个 Web 站点",
+          "websites_1": "{{count}} 个 Web 站点",
+          "websites_2": "{{count}} 个 Web 站点",
           "button0": "Web 站点"
         },
         "applications": {
           "title": "应用程序",
           "description0": "您只能为特定应用程序设置智能警报，或设置应用于多个应用程序的智能警报。",
-          "stats": "目前，您有 $t(in-alerting:smartAlerts.components.alertsHub.applications.gsa, {\"count\": {{globalSmartAlerts}} })和 $t(in-alerting:smartAlerts.components.alertsHub.applications.rsa, {\"count\": {{smartAlerts}} })。",
+          "stats": "目前，您具有 $t(in-alerting:smartAlerts.components.alertsHub.applications.gsa, {\"count\": {{globalSmartAlerts}} }) 和 $t(in-alerting:smartAlerts.components.alertsHub.applications.rsa, {\"count\": {{smartAlerts}} })。",
           "gsa": "{{count}} 个全局智能警报",
           "gsa_plural": "{{count}} 个全局智能警报",
+          "gsa_0": "{{count}} 个全局智能警报",
+          "gsa_1": "{{count}} 个全局智能警报",
+          "gsa_2": "{{count}} 个全局智能警报",
           "rsa": "{{count}} 个定期智能警报",
           "rsa_plural": "{{count}} 个定期智能警报",
+          "rsa_0": "{{count}} 个常规智能警报",
+          "rsa_1": "{{count}} 个常规智能警报",
+          "rsa_2": "{{count}} 个常规智能警报",
           "button0": "智能警报"
         },
         "infrastructure": {
@@ -723,11 +746,17 @@
           "description0": "基础架构和平台的警报采用我们的两步工作流程。",
           "description1": "1) 针对特定条件定义事件。您可以使用内置事件或创建自己的定制事件。",
           "description2": "2) 接下来，在发生特定事件时警报会向您发出提醒。",
-          "stats": "目前，您有 $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.events, {\"count\": {{events}} })和$t(in-alerting:smartAlerts.components.alertsHub.infrastructure.alerts, {\"count\": {{alerts}} })。",
+          "stats": "目前，您具有 $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.events, {\"count\": {{events}} }) 和 $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.alerts, {\"count\": {{alerts}} })。",
           "events": "{{count}} 个定制事件",
           "events_plural": "{{count}} 个定制事件",
+          "events_0": "{{count}} 个定制事件",
+          "events_1": "{{count}} 个定制事件",
+          "events_2": "{{count}} 个定制事件",
           "alerts": "{{count}} 个警报",
           "alerts_plural": "{{count}} 个警报",
+          "alerts_0": "{{count}} 个警报",
+          "alerts_1": "{{count}} 个警报",
+          "alerts_2": "{{count}} 个警报",
           "button0": "警报",
           "button1": "事件"
         }

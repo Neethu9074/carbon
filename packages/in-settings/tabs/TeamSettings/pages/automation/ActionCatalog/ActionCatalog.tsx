@@ -31,6 +31,7 @@ export default function ActionCatalog() {
       tableActions={tableActions}
       rightHeader={rightHeader()}
       loadEntities={getAllActions}
+      showActionLink
     />
   );
 }

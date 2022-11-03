@@ -8,7 +8,9 @@ import React from 'react';
 
 import { Message } from '@instana/components';
 
-import PostChartContent from 'in-custom-dashboards/widgets/Slo/components/Chart/PostChartContent';
+import useShouldShowMissingDataIndicator from 'in-custom-dashboards/widgets/Slo/hooks/useShouldShowMissingDataIndicator';
+import ChartMarkerLanes from 'in-custom-dashboards/widgets/Slo/components/ChartMarkerLanes/ChartMarkerLanes';
+import { useStairwayRenderer } from 'in-custom-dashboards/widgets/Slo/renderer/stairway';
 import { getTagCatalog as getWebsiteTagCatalog } from 'in-websites/api/tagCatalog';
 import Chart from 'in-custom-dashboards/widgets/Slo/components/Chart/Chart';
 import { getApplicationTagCatalog } from 'in-applications/api/catalog';
@@ -16,7 +18,6 @@ import { emptyArray, pendingResult } from 'in-services/fixedObjects';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { CALLS } from 'in-applications/analyze/metrics';
 import { success } from 'in-services/util/result';
-import { t } from 'in-i18n';
 
 jest.mock('in-applications/api/catalog', () => ({
   getApplicationTagCatalog: jest.fn(() => () => ({ tags: [] }))
@@ -27,6 +28,8 @@ jest.mock('in-websites/api/tagCatalog', () => ({
 jest.mock('in-services/featureFlags', () => ({
   sliCHClusterAccessEnabled: true
 }));
+jest.mock('in-custom-dashboards/widgets/Slo/renderer/stairway');
+jest.mock('in-custom-dashboards/widgets/Slo/hooks/useShouldShowMissingDataIndicator');
 
 describe('in-custom-dashboards/widgets/Slo/Chart', () => {
   beforeEach(jest.clearAllMocks);
@@ -170,45 +173,14 @@ describe('in-custom-dashboards/widgets/Slo/Chart', () => {
     );
   });
 
-  it('renders a missing data info message when the sli was created within the configured timeWindow', () => {
-    // Given
-    const sliConfig = {
-      sliEntity: { sliType: 'availability' },
-      initialEvaluationTimestamp: 3
-    };
-    const timeConfig = { to: 10, windowSize: 9, autoRefresh: false };
-
-    // When
-    const wrapper = shallow(<Chart {...defaultProps} sliConfig={sliConfig} timeConfig={timeConfig} />);
-
-    // Then
-    expect(wrapper.find(Message).prop('title')).toEqual(t('in-custom-dashboards:widgets.slo.chart.missingDataInfo'));
-  });
-
-  it('does not render a missing data info message when the sli was created within the configured timeWindow, but the result is loading', () => {
-    // Given
-    const result = pendingResult;
-    const sliConfig = {
-      sliEntity: { sliType: 'availability' },
-      initialEvaluationTimestamp: 3
-    };
-    const timeConfig = { to: 10, windowSize: 9, autoRefresh: false };
-
-    // When
-    const wrapper = shallow(<Chart {...defaultProps} result={result} sliConfig={sliConfig} timeConfig={timeConfig} />);
-
-    // Then
-    expect(wrapper.containsMatchingElement(<Message />)).toBeFalsy();
-  });
-
-  it('does not render a missing data info message when the sli was created within the configured timeWindow, but isPreview is true', () => {
+  it('does not render a missing data info message when showMissingDataIndicators is false', () => {
     // Given
     const isPreview = true;
     const sliConfig = {
-      sliEntity: { sliType: 'availability' },
-      initialEvaluationTimestamp: 3
+      sliEntity: { sliType: 'availability' }
     };
     const timeConfig = { to: 10, windowSize: 9, autoRefresh: false };
+    useShouldShowMissingDataIndicator.mockReturnValueOnce(false);
 
     // When
     const wrapper = shallow(
@@ -219,93 +191,76 @@ describe('in-custom-dashboards/widgets/Slo/Chart', () => {
     expect(wrapper.containsMatchingElement(<Message />)).toBeFalsy();
   });
 
-  it('does renders a missing data info message when the sli when the sli was created within now and the timeConfigs windowSize when live mode is enabled', () => {
+  it('renders a missing data info message when showMissingDataIndicators is true', () => {
     // Given
-    jest.useFakeTimers();
+    const isPreview = true;
     const sliConfig = {
-      sliEntity: { sliType: 'availability' },
-      initialEvaluationTimestamp: 7
-    };
-    const timeConfig = { windowSize: 5, autoRefresh: true };
-    jest.setSystemTime(10);
-
-    // When
-    const wrapper = shallow(<Chart {...defaultProps} sliConfig={sliConfig} timeConfig={timeConfig} />);
-
-    // Then
-    expect(wrapper.find(Message).prop('title')).toEqual(t('in-custom-dashboards:widgets.slo.chart.missingDataInfo'));
-  });
-
-  it('does not render a missing data info message when the sli was created outside the configured timeWindow and live mode is enabled', () => {
-    jest.useFakeTimers();
-    // Given
-    const sliConfig = {
-      sliEntity: { sliType: 'availability' },
-      initialEvaluationTimestamp: 1
-    };
-    const timeConfig = { windowSize: 5, autoRefresh: true };
-    jest.setSystemTime(10);
-
-    // When
-    const wrapper = shallow(<Chart {...defaultProps} sliConfig={sliConfig} timeConfig={timeConfig} />);
-
-    // Then
-    expect(wrapper.containsMatchingElement(<Message />)).toBeFalsy();
-  });
-
-  it('renders the sli PostChartContent when the sli was created within the configured timeWindow', () => {
-    // Given
-    const sliConfig = {
-      sliEntity: { sliType: 'availability' },
-      initialEvaluationTimestamp: 3
+      sliEntity: { sliType: 'availability' }
     };
     const timeConfig = { to: 10, windowSize: 9, autoRefresh: false };
+    useShouldShowMissingDataIndicator.mockReturnValueOnce(true);
+
+    // When
+    const wrapper = shallow(
+      <Chart {...defaultProps} nonInteractive={isPreview} sliConfig={sliConfig} timeConfig={timeConfig} />
+    );
+
+    // Then
+    expect(wrapper.containsMatchingElement(<Message />)).toBeTruthy();
+  });
+
+  it('renders the sli ChartMarkerLanes when the sli was created within the configured timeWindow', () => {
+    // Given
+    const sliConfig = {
+      sliEntity: { sliType: 'availability' },
+      lastUpdated: 3
+    };
+    const timeConfig = { to: 10, windowSize: 9, autoRefresh: false };
+    useShouldShowMissingDataIndicator.mockReturnValueOnce(true);
 
     // When
     const wrapper = shallow(<Chart {...defaultProps} sliConfig={sliConfig} timeConfig={timeConfig} />);
-    const RenderPostChartContent = wrapper.find(ResultAwareChart).prop('config').renderPostChartContent;
+    const RenderChartMarkerLanes = wrapper.find(ResultAwareChart).prop('config').renderPostChartContent;
     const postChartContentWrapper = shallow(
-      <RenderPostChartContent timeConfig={timeConfig} chartContentPosition={'post'} />
+      <RenderChartMarkerLanes timeConfig={timeConfig} chartContentPosition={'post'} />
     );
 
     // Then
     expect(
       postChartContentWrapper.containsMatchingElement(
-        <PostChartContent sliConfig={sliConfig} timeConfig={timeConfig} chartContentPosition={'post'} />
+        <ChartMarkerLanes tooltipContent={null} timeConfig={timeConfig} chartContentPosition={'post'} />
       )
     ).toBeTruthy();
   });
 
-  it('does not render the sli PostChartContent when the sli was created within the configured timeWindow, but the result is loading', () => {
+  it('does not render the sli ChartMarkerLanes when the sli was created within the configured timeWindow, but the result is loading', () => {
     // Given
     const result = pendingResult;
     const sliConfig = {
-      sliEntity: { sliType: 'availability' },
-      initialEvaluationTimestamp: 3
+      sliEntity: { sliType: 'availability' }
     };
     const timeConfig = { to: 10, windowSize: 9, autoRefresh: false };
 
     // When
     const wrapper = shallow(<Chart {...defaultProps} result={result} sliConfig={sliConfig} timeConfig={timeConfig} />);
-    const RenderPostChartContent = wrapper.find(ResultAwareChart).prop('config').renderPostChartContent;
+    const RenderChartMarkerLanes = wrapper.find(ResultAwareChart).prop('config').renderPostChartContent;
     const postChartContentWrapper = shallow(
-      <RenderPostChartContent timeConfig={timeConfig} chartContentPosition={'post'} />
+      <RenderChartMarkerLanes timeConfig={timeConfig} chartContentPosition={'post'} />
     );
 
     // Then
     expect(
       postChartContentWrapper.containsMatchingElement(
-        <PostChartContent sliConfig={sliConfig} timeConfig={timeConfig} chartContentPosition={'post'} />
+        <ChartMarkerLanes tooltipContent={null} timeConfig={timeConfig} chartContentPosition={'post'} />
       )
     ).toBeFalsy();
   });
 
-  it('does not render the sli PostChartContent when the sli was created within the configured timeWindow, but isPreview is true', () => {
+  it('does not render the sli ChartMarkerLanes when the sli was created within the configured timeWindow, but isPreview is true', () => {
     // Given
     const isPreview = true;
     const sliConfig = {
-      sliEntity: { sliType: 'availability' },
-      initialEvaluationTimestamp: 3
+      sliEntity: { sliType: 'availability' }
     };
     const timeConfig = { to: 10, windowSize: 9, autoRefresh: false };
 
@@ -313,16 +268,128 @@ describe('in-custom-dashboards/widgets/Slo/Chart', () => {
     const wrapper = shallow(
       <Chart {...defaultProps} nonInteractive={isPreview} sliConfig={sliConfig} timeConfig={timeConfig} />
     );
-    const RenderPostChartContent = wrapper.find(ResultAwareChart).prop('config').renderPostChartContent;
+    const RenderChartMarkerLanes = wrapper.find(ResultAwareChart).prop('config').renderPostChartContent;
     const postChartContentWrapper = shallow(
-      <RenderPostChartContent timeConfig={timeConfig} chartContentPosition={'post'} />
+      <RenderChartMarkerLanes timeConfig={timeConfig} chartContentPosition={'post'} />
     );
 
     // Then
     expect(
       postChartContentWrapper.containsMatchingElement(
-        <PostChartContent sliConfig={sliConfig} timeConfig={timeConfig} chartContentPosition={'post'} />
+        <ChartMarkerLanes tooltipContent={null} timeConfig={timeConfig} chartContentPosition={'post'} />
       )
     ).toBeFalsy();
+  });
+
+  it('uses lastUpdated value from sliConfig when calling useShouldShowMissingDataIndicator, if sliCHClusterAccessEnabled is set to true', () => {
+    // Given
+    const isPreview = true;
+    const lastUpdated = 3;
+    const sliConfig = {
+      sliEntity: { sliType: 'availability' },
+      lastUpdated,
+      initialEvaluationTimestamp: 4
+    };
+    const timeConfig = { to: 10, windowSize: 9, autoRefresh: false };
+    useShouldShowMissingDataIndicator.mockReturnValueOnce(true);
+
+    // When
+    shallow(<Chart {...defaultProps} nonInteractive={isPreview} sliConfig={sliConfig} timeConfig={timeConfig} />);
+
+    // Then
+    expect(useShouldShowMissingDataIndicator).toHaveBeenLastCalledWith(
+      expect.objectContaining({ initialEvaluationTimestamp: lastUpdated })
+    );
+  });
+
+  it('uses initialEvaluationTimestamp value from sliConfig when calling useShouldShowMissingDataIndicator, if sliCHClusterAccessEnabled is set to false', async () => {
+    jest.resetModules();
+    jest.doMock('in-services/featureFlags', () => ({
+      sliCHClusterAccessEnabled: false
+    }));
+    jest.doMock('react', () => {
+      const react = jest.requireActual('react');
+
+      return {
+        ...react,
+        useMemo: jest.fn(fn => fn())
+      };
+    });
+    jest.doMock('in-applications/hooks/useTagCatalog');
+    jest.doMock('in-custom-dashboards/widgets/Slo/hooks/useShouldShowMissingDataIndicator');
+
+    const { default: Chart } = await import('in-custom-dashboards/widgets/Slo/components/Chart/Chart');
+    const { default: useShouldShowMissingDataIndicator } = await import(
+      'in-custom-dashboards/widgets/Slo/hooks/useShouldShowMissingDataIndicator'
+    );
+
+    const isPreview = true;
+    const initialEvaluationTimestamp = 4;
+    const sliConfig = {
+      sliEntity: { sliType: 'availability' },
+      lastUpdated: 3,
+      initialEvaluationTimestamp
+    };
+    const timeConfig = { to: 10, windowSize: 9, autoRefresh: false };
+
+    useShouldShowMissingDataIndicator.mockReturnValueOnce(true);
+
+    // When
+    shallow(<Chart {...defaultProps} nonInteractive={isPreview} sliConfig={sliConfig} timeConfig={timeConfig} />);
+
+    // Then
+    expect(useShouldShowMissingDataIndicator).toHaveBeenLastCalledWith(
+      expect.objectContaining({ initialEvaluationTimestamp })
+    );
+  });
+
+  it('uses lastUpdated value from sliConfig when calling useStairwayRenderer, if sliCHClusterAccessEnabled is set to true', () => {
+    // Given
+    const isPreview = true;
+    const lastUpdated = 3;
+    const sliConfig = {
+      sliEntity: { sliType: 'availability' },
+      lastUpdated,
+      initialEvaluationTimestamp: 4
+    };
+    const timeConfig = { to: 10, windowSize: 9, autoRefresh: false };
+    useStairwayRenderer.mockReturnValueOnce(true);
+
+    // When
+    shallow(<Chart {...defaultProps} nonInteractive={isPreview} sliConfig={sliConfig} timeConfig={timeConfig} />);
+
+    // Then
+    expect(useStairwayRenderer).toHaveBeenLastCalledWith(
+      expect.objectContaining({ firstCollectedMetricTimestamp: lastUpdated })
+    );
+  });
+
+  it('uses initialEvaluationTimestamp value from sliConfig when calling useStairwayRenderer, if sliCHClusterAccessEnabled is set to false', async () => {
+    jest.resetModules();
+    jest.doMock('in-services/featureFlags', () => ({
+      sliCHClusterAccessEnabled: false
+    }));
+
+    const { default: Chart } = await import('in-custom-dashboards/widgets/Slo/components/Chart/Chart');
+    const { useStairwayRenderer } = await import('in-custom-dashboards/widgets/Slo/renderer/stairway');
+
+    const isPreview = true;
+    const initialEvaluationTimestamp = 4;
+    const sliConfig = {
+      sliEntity: { sliType: 'availability' },
+      lastUpdated: 3,
+      initialEvaluationTimestamp
+    };
+    const timeConfig = { to: 10, windowSize: 9, autoRefresh: false };
+
+    useStairwayRenderer.mockReturnValueOnce(true);
+
+    // When
+    shallow(<Chart {...defaultProps} nonInteractive={isPreview} sliConfig={sliConfig} timeConfig={timeConfig} />);
+
+    // Then
+    expect(useStairwayRenderer).toHaveBeenLastCalledWith(
+      expect.objectContaining({ firstCollectedMetricTimestamp: initialEvaluationTimestamp })
+    );
   });
 });

@@ -104,4 +104,42 @@ describe('in-events/components/legacy/SubEntityInformation', () => {
     expect(wrapper.text()).toContain('myMetricLabel');
     expect(wrapper.text()).toContain('Snacks Available');
   });
+
+  it('renders placeholderLabels and matched metric names if metric definition provides multiple labels and patterns', () => {
+    // Given
+    const event = fromJS({
+      metadata: {
+        metrics: [
+          {
+            metricName: 'prefix.foo.postfix',
+            entityId: { pluginId: 'stans-stash' }
+          },
+          {
+            metricName: 'pre.bar',
+            entityId: { pluginId: 'stans-stash' }
+          }
+        ]
+      }
+    });
+    getMetricDefinition.mockReturnValueOnce({
+      metricPattern: {
+        placeholderLabel: 'Sub-entity',
+        pattern: /prefix.(.*).postfix/
+      }
+    });
+    getMetricDefinition.mockReturnValueOnce({
+      metricPattern: {
+        placeholderLabel: 'Sub-entity',
+        pattern: /pre.(.*)/
+      }
+    });
+
+    // When
+    const wrapper = shallow(<SubEntityInformation event={event} />);
+
+    // Then
+    expect(wrapper.text()).toContain('Sub-entity:');
+    expect(wrapper.text()).toContain('foo');
+    expect(wrapper.text()).toContain('bar');
+  });
 });

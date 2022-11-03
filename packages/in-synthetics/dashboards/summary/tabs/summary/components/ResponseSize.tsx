@@ -50,14 +50,14 @@ export default function ResponseSize({ test, timeShiftConfig }: Props) {
 }
 
 function renderChart(test: TestResponse, timeShiftConfig: TimeShift) {
-  const locations: string[] = get(test, ['data', 'locations']);
-  const locationLabels: string[] = get(test, ['data', 'locationLabels']);
+  const locations: string[] = get(test, ['data', 'locations']) || [];
+  const locationDisplayLabels: string[] = get(test, ['data', 'locationDisplayLabels']) || [];
   const id = get(test, ['data', 'id']);
   let tagFilters = [];
   let testMetricConfigs: Metric[] = [];
-  var locationLabel: string;
+  var locationDisplayLabel: string;
   for (let i = 0; i < locations.length; i++) {
-    locationLabel = `${locationLabels[i]}`;
+    locationDisplayLabel = `${locationDisplayLabels[i]}`;
     tagFilters = [
       {
         stringValue: id,
@@ -77,7 +77,7 @@ function renderChart(test: TestResponse, timeShiftConfig: TimeShift) {
       tagFilters: tagFilters,
       timeShift: timeShiftConfig.offset,
       metric: 'response_size',
-      label: locationLabel,
+      label: locationDisplayLabel,
       color: theme.lib.colors.chart.strokeColors25[i]
     };
   }

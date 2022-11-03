@@ -4,7 +4,19 @@
  * Copyright IBM Corp. 2022
  */
 
-import { Action } from 'in-types';
+import { Action, CustomEventSpecification, EventSpecificationInfo } from 'in-types';
 
 export function getCustomEventActions(eventSpecificationId: string): Observable<Action[]>;
+export function getCustomEventSpecificationWithActions(
+  eventSpecificationId: string
+): Observable<CustomEventSpecification>;
 export function getBuiltinEventActions(eventSpecificationId: string): Observable<Action[]>;
+export function saveCustomEventSpecificationWithActions(
+  eventSpecification: CustomEventSpecification
+): Observable<CustomEventSpecification>;
+export function updateActionsAssignedToBuiltInEvent(
+  actions: { id: string }[],
+  eventSpecificationId: string | undefined
+): Observable<Action[]>;
+export function getBuiltInEventSpecificationMutable(eventSpecificationId: string): Observable<EventSpecificationInfo>;
+export function getCustomEventSpecificationMutable(eventSpecificationId: string): Observable<CustomEventSpecification>;

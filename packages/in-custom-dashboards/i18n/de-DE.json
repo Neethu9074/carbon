@@ -469,8 +469,12 @@
         "sliEntity": "SLI-Entität",
         "beaconConfigLabel": "Beacon-Konfiguration",
         "beaconScopeLabel": "Beaconbereich",
-        "httpRequestsLabel": "HTTP-Anforderungen",
-        "beaconFiltersLabel": "Beacon-Filter"
+        "beaconLabel": "Unbekannter Beacon-Typ",
+        "beaconLabel_httpRequest": "HTTP-Anforderungen",
+        "beaconLabel_pageLoad": "Laden von Websites",
+        "beaconLabel_custom": "Benutzerdefinierte Websiteereignisse",
+        "beaconFiltersLabel": "Beacon-Filter",
+        "beaconFiltersSubtext": "Optionale"
       },
       "sliList": {
         "serviceLevelIndicators": "Service-Level-Indikatoren",
@@ -500,8 +504,10 @@
         "spent": "Verbraucht",
         "budget": "Budget",
         "viewInAnalyze": "In Analyse anzeigen",
-        "initialEvaluation": "SLI erstellt",
-        "missingDataInfo": "Die Erstellungszeit für diesen SLI liegt innerhalb des angezeigten Zeitraums. Daten vor der SLI-Erstellung fehlen."
+        "configType": "SLI",
+        "configType_apdex": "Apdex",
+        "initialEvaluation": "{{configType}} erstellt",
+        "missingDataInfo": "Die Erstellungszeit für {{configType}} liegt innerhalb des angezeigten Zeitraums. Daten vor der Erstellung von {{configType}} fehlen."
       },
       "formComponent": {
         "sliManagement": "SLI-Management",
@@ -572,7 +578,7 @@
         "thousandCallsFormat": "{{count}}K Aufrufe"
       },
       "widgetLeftHeader": {
-        "previewDataInfo": "Vorschaudaten werden bis zu 7 Tage in der Vergangenheit angezeigt, wenn die SLI-Konfiguration kürzlich erstellt wurde. Das letzte Widget enthält nur Daten seit der SLI-Erstellung."
+        "previewDataInfo": "Vorschaudaten werden nur bis zu 7 Tage in der Vergangenheit angezeigt. Das letzte Widget enthält nur Daten seit der SLI-Erstellung."
       },
       "boundaryScopeConfigurator": {
         "all": {
@@ -590,7 +596,9 @@
       "chart": {
         "metricLabel": "Apdex",
         "viewInAnalyze": "In Analyze anzeigen",
-        "noDataRetentionPeriod": "Ausgewählter Zeitraum liegt außerhalb des Datenaufbewahrungszeitraums"
+        "noDataRetentionPeriod": "Ausgewählter Zeitraum liegt außerhalb des Datenaufbewahrungszeitraums",
+        "notFoundErrorTitle": "Konfigurierter Apdex wurde nicht gefunden",
+        "notFoundErrorDescription": "Aktualisieren Sie das Apdex-Widget durch Auswahl einer anderen Apdex-Konfiguration"
       },
       "demo": {
         "title": "Apdex für Prod",
@@ -605,7 +613,9 @@
       "formComponent": {
         "title": "Apdex-Konfiguration",
         "entityTypeTitle": "Apdex-Typ",
-        "manageListTitle": "Apdex-Management"
+        "manageListTitle": "Apdex-Management",
+        "createApdex": "Apdex-Konfiguration erstellen",
+        "editApdex": "Apdex-Konfiguration bearbeiten"
       },
       "configurationSelector": {
         "label": "Apdex-Konfiguration",
@@ -636,7 +646,6 @@
         "createButton": "Apdex-Konfiguration erstellen"
       },
       "createApdexForm": {
-        "title": "Apdex-Konfiguration erstellen",
         "customizationHeader": "Apdex-Anpassung",
         "label": "Apdex-Name",
         "apdexCreateSuccessTitle": "Die Apdex-Konfiguration wurde erfolgreich erstellt.",
@@ -644,13 +653,17 @@
         "apdexCreateFailedTitle": "Die Apdex-Konfiguration konnte nicht erstellt werden.",
         "apdexCreateFailedContent": "Beim Erstellen dieser Apdex-Konfiguration ist ein Problem aufgetreten: \"{{apdexName}}\"",
         "apdexNameNotEmpty": "Der Apdex-Name darf nicht leer sein.",
-        "thresholdNotEmpty": "Der Schwellenwert darf nicht leer sein.",
-        "nameExistsError": "Eine Apdex-Konfiguration mit diesem Namen ist bereits vorhanden. Geben Sie einen anderen Namen ein."
+        "nameExistsError": "Eine Apdex-Konfiguration mit diesem Namen ist bereits vorhanden. Geben Sie einen anderen Namen ein.",
+        "limitReachedError": {
+          "website": "Die maximale Anzahl von Website-Apdex-Konfigurationen ({{0}}) wurde erreicht. Wenden Sie sich an Instana Support, um eine Erhöhung dieses Grenzwerts anzufordern.",
+          "application": "Die maximale Anzahl von Apdex-Anwendungskonfigurationen ({{0}}) wurde erreicht. Wenden Sie sich an Instana Support, um eine Erhöhung dieses Grenzwerts anzufordern."
+        },
+        "editConfigNotice": "Um Datenverlust zu vermeiden, kann die Konfiguration nicht bearbeitet werden, nachdem sie erstellt wurde; sie kann nur als Kopie angepasst werden.",
+        "apdexCloneName": "Kopie von {{apdexName}}"
       },
       "createWebsiteApdexForm": {
         "thresholdHeader": "Schwellenwertkonfiguration",
-        "thresholdLabel": "Schwellenwert",
-        "thresholdFooter": "Der Schwellenwert kann nach der Erstellung nicht bearbeitet werden, um einen Datenverlust zu verhindern."
+        "thresholdLabel": "Schwellenwert"
       },
       "entityInfo": {
         "tooltip": "Unbekannter Apdex",
@@ -660,7 +673,7 @@
       "widget": {
         "unknownEntityLabel_application": "Unbekannte Anwendung",
         "unknownEntityLabel_website": "Unbekannte Website",
-        "previewDataInfo": "Vorschaudaten werden bis zu 7 Tage in der Vergangenheit angezeigt, wenn die Apdex-Konfiguration kürzlich erstellt wurde. Das endgültige Widget enthält nur Daten seit der Apdex-Erstellung."
+        "previewDataInfo": "Für die letzten 7 Tage werden Vorschaudaten angezeigt. Das endgültige Widget enthält nur Daten seit der Erstellung der Apdex-Konfiguration."
       },
       "applicationScopeConfigurator": {
         "label": "Apdex-Bereich",

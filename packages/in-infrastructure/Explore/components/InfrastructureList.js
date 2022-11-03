@@ -6,6 +6,8 @@
 import rpt from 'prop-types';
 import React from 'react';
 
+import { Message } from '@instana/components';
+
 import MetricCatalogAndSortingConfigurator from 'in-infrastructure/components/MetricCatalogAndSortingConfigurator/MetricCatalogAndSortingConfigurator';
 import { trackingProps as metricConfiguratorTrackingProps } from 'in-infrastructure/components/MetricCatalogConfigurator/MetricCatalogConfigurator';
 import { average, getGranularity, getMetricKey } from 'in-infrastructure/Explore/services/metrics';
@@ -16,6 +18,7 @@ import getEntities from 'in-infrastructure/subscriptions/getEntities';
 import Header from 'in-components/QueryBuilder/components/Header';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import EntityLink from 'in-components/EntityLink/EntityLink';
+import { isTechnicalError } from 'in-services/util/error';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { mapData } from 'in-services/util/result';
 import { noop } from 'in-services/util/function';
@@ -84,6 +87,12 @@ export default function InfrastructureList({
           onQueryChange={onQueryChange}
         />
       )}
+
+      {hasErrors && (
+        <Message type="error" withIcon small>
+          {getErrorMessage(errors[0])}
+        </Message>
+      )}
       <CursorPaginatedTable
         columnDefinitions={columnDefinitions}
         numSkeletonRows={numSkeletonRows}
@@ -102,6 +111,18 @@ export default function InfrastructureList({
       />
     </>
   );
+}
+
+function getErrorMessage(err) {
+  if (err.message?.includes('more than the maximum number of groups')) {
+    return t('in-infrastructure:explore.errors.maximumNumberOfGroups');
+  }
+
+  if (isTechnicalError(err.code) && !__DEV__) {
+    return t('in-components:error.erroneousResultPresenterMessage');
+  }
+
+  return t('in-infrastructure:explore.errors.generalError');
 }
 
 function getTableData({ timeConfig, retrievalSize, backendQueryModel, type, order, metrics, cursor }) {
@@ -191,6 +212,9 @@ function getMetricColumns({ metrics, sortable, metricMetadatas }) {
       defaultDisabled: !isKpi,
       headCellProps: { className: locals.metricLabel },
       getContent(item) {
+        if (metric === 'count') {
+          return <span>1</span>;
+        }
         const kpi = average(item.metrics[id]);
         return <span>{(kpi && formatter && formatter(kpi)) || '--'}</span>;
       }

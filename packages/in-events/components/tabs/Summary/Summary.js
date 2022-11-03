@@ -16,9 +16,11 @@ import {
   isAgentMonitoringIssueEvent,
   isApplicationSmartAlertEvent,
   isWebsiteSmartAlertEvent,
-  getTimeConfigForSnapshotRetrieval
+  getTimeConfigForSnapshotRetrieval,
+  isIbmMqFileTransferIssueEvent
 } from 'in-events/components/eventUtil';
 import { KubernetesEventContent, isKubernetesEvent } from 'in-events/components/EventContent/KubernetesEventContent';
+import IbmMqFileTransferMetadataTable from 'in-events/components/tabs/Summary/IbmMqFileTransferMetadataTable';
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
 import AgentMonitoringIssueDescription from 'in-events/components/legacy/AgentMonitoringIssueDescription';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
@@ -104,6 +106,7 @@ const EventContent = connectTo(
     const eventType = getEventType(event);
     const isIssue = eventType === EVENT_TYPES.ISSUE_WARNING || eventType === EVENT_TYPES.ISSUE_CRITICAL;
     const hasEventSpec = event.getIn(['metadata', 'eventSpecificationId'], '') !== '';
+
     return (
       <>
         <ViewTrackingMeta
@@ -172,11 +175,20 @@ const EventContent = connectTo(
             )}
           </>
         )}
+        {isIssue && isIbmMqFileTransferIssueEvent(event) && (
+          <Row withoutSideMargin>
+            <Col xs>
+              <IbmMqFileTransferMetadataTable
+                ibmMqFileTransferMetadata={event?.getIn(['metadata', 'ibmMqFileTransfer'], emptyList)?.toJS() ?? []}
+              />
+            </Col>
+          </Row>
+        )}
         {actionAutomationEnabled && role.canConfigureAutomationActions && isIssue && hasEventSpec && (
           <Row withoutSideMargin>
             <Col xs>
-              <Card title={t('in-events:associatedActions')}>
-                <AssociatedActions volatileId={snapshot?.get('volatileId') ?? {}} event={event.toJS()} />
+              <Card>
+                <AssociatedActions volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={event?.toJS()} />
               </Card>
             </Col>
           </Row>

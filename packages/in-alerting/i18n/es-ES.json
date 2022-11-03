@@ -39,7 +39,7 @@
       "alertingChartLabelThreshold": "Umbral",
       "alertingChartLabelViolations": "Infracciones",
       "alertingChartMessageInvalidFilterQuery": "Consulta de filtro no válida.",
-      "alertingChartMessageEntitySelectionInvalid": "No se han seleccionado entidades.",
+      "alertingChartMessageEmptyApplicationSelection": "No se ha seleccionado ninguna aplicación.",
       "chartAlertsLaneErrorMessage": "No se han podido cargar las alertas",
       "chartAlertsPreviewLanePresenterAlertsLabel": "Alertas",
       "chartAlertsPreviewLanePresenterNoAlertsLabel": "No hay alertas",
@@ -463,7 +463,6 @@
         "ruleFormPleaseProvideALogMessage": "Proporcione un mensaje de registro",
         "ruleFormPleaseProvideAStartStatusCode": "Proporcione un código de estado HTTP inicial válido",
         "ruleFormPleaseProvideAEndStatusCode": "Proporcione un código de estado HTTP final válido",
-        "smartAlertFormNoEntitiesSelected": "No se ha seleccionado ninguna entidad",
         "smartAlertFormValueIsReadOnly": "El valor es de sólo lectura y no se puede cambiar",
         "thresholdFormPleaseProvideANumber0": "Proporcione un número >= 0",
         "thresholdFormBaselineIsEmpty": "la línea base está vacía"
@@ -501,7 +500,10 @@
         "labelConfirmRemoveConfig": "¿Está seguro de que desea eliminar la alerta <strong>{{configName}}</strong>?",
         "labelRemove": "Eliminar",
         "numberOfApplicationsSelected": "{{count}} aplicación seleccionada",
-        "numberOfApplicationsSelected_plural": "{{count}} aplicaciones seleccionadas"
+        "numberOfApplicationsSelected_plural": "{{count}} aplicaciones seleccionadas",
+        "numberOfApplicationsSelected_0": "{{count}} aplicaciones seleccionadas",
+        "numberOfApplicationsSelected_1": "{{count}} aplicaciones seleccionadas",
+        "numberOfApplicationsSelected_2": "{{count}} aplicaciones seleccionadas"
       },
       "details": {
         "title": "Detalles de alerta",
@@ -562,6 +564,9 @@
         "alertChannelSelectTypeTitle": "Tipo de canal de alerta",
         "addChannel": "Añadir {{count}} canal",
         "addChannel_plural": "Añadir {{count}} canales",
+        "addChannel_0": "Añadir {{count}} canales",
+        "addChannel_1": "Añadir {{count}} canales",
+        "addChannel_2": "Añadir {{count}} canales",
         "add": "Añadir",
         "scopeConfigTitleWithApplications": "Seleccionar Aplicaciones/Servicios/Puntos finales",
         "scopeConfigTitle": "Seleccionar servicios/puntos finales",
@@ -650,6 +655,11 @@
         "buttonRecalculateBaseline": "Volver a calcular línea base",
         "sensitivitySliderLow": "bajo",
         "sensitivitySliderHigh": "alto",
+        "sensitivitySliderValueLabel": "{{count}} desviación estándar",
+        "sensitivitySliderValueLabel_plural": "{{count}} desviaciones estándar",
+        "sensitivitySliderValueLabel_0": "{{count}} desviaciones estándar",
+        "sensitivitySliderValueLabel_1": "{{count}} desviaciones estándar",
+        "sensitivitySliderValueLabel_2": "{{count}} desviaciones estándar",
         "labelThreshold": "Umbral",
         "labelSensitivity": "Confidencialidad",
         "staticThresholdTypeOptionsTooltip": "Un umbral diario / semanal estático es un umbral dependiente del tiempo basado en datos históricos. El umbral no cambia automáticamente y se puede volver a calcular manualmente si es necesario.",
@@ -675,6 +685,7 @@
         "migrationModeWarning": "Si se migra este este suceso personalizado a una alerta inteligente, se inhabilitará. El suceso no se puede volver a habilitar después."
       },
       "userInfo": {
+        "linkText": "Ver alerta inteligente",
         "success": {
           "create": {
             "alert": {
@@ -701,21 +712,33 @@
         "websites": {
           "title": "Sitios web",
           "description0": "Para configurar una alerta, vaya al sitio web en el que desea configurar la alerta y utilice el botón \"Añadir alerta inteligente\" en la parte inferior derecha.",
-          "stats": "Actualmente tiene $t(in-alerting:smartAlerts.components.alertsHub.websites.alerts, {\"count\": {{alerts}} }) en $t(in-alerting:smartAlerts.components.alertsHub.websites.websites, {\"count\": {{websites}} }).",
+          "stats": "Actualmente, tiene $t(in-alerting:smartAlerts.components.alertsHub.websites.alerts, {\"count\": {{alerts}} }) en $t(in-alerting:smartAlerts.components.alertsHub.websites.websites, {\"count\": {{websites}} }).",
           "alerts": "{{count}} Alerta inteligente de sitio web",
           "alerts_plural": "{{count}} Alertas inteligentes de sitios web",
+          "alerts_0": "{{count}} alertas inteligentes de sitio web",
+          "alerts_1": "{{count}} alertas inteligentes de sitio web",
+          "alerts_2": "{{count}} alertas inteligentes de sitio web",
           "websites": "{{count}} Sitio web",
           "websites_plural": "{{count}} Sitios web",
+          "websites_0": "{{count}} sitios web",
+          "websites_1": "{{count}} sitios web",
+          "websites_2": "{{count}} sitios web",
           "button0": "Sitios web"
         },
         "applications": {
           "title": "Aplicaciones",
           "description0": "Puede configurar alertas inteligentes solo para una aplicación específica o configurar alertas inteligentes que cubran varias aplicaciones.",
-          "stats": "Actualmente tiene $t(in-alerting:smartAlerts.components.alertsHub.applications.gsa, {\"count\": {{globalSmartAlerts}} }) y $t(in-alerting:smartAlerts.components.alertsHub.applications.rsa, {\"count\": {{smartAlerts}} }).",
+          "stats": "Actualmente, tiene $t(in-alerting:smartAlerts.components.alertsHub.applications.gsa, {\"count\": {{globalSmartAlerts}} }) y $t(in-alerting:smartAlerts.components.alertsHub.applications.rsa, {\"count\": {{smartAlerts}} }).",
           "gsa": "{{count}} Alerta inteligente global",
           "gsa_plural": "{{count}} Alertas inteligentes globales",
+          "gsa_0": "{{count}} alertas inteligentes globales",
+          "gsa_1": "{{count}} alertas inteligentes globales",
+          "gsa_2": "{{count}} alertas inteligentes globales",
           "rsa": "{{count}} Alerta inteligente regular",
           "rsa_plural": "{{count}} Alertas inteligentes regulares",
+          "rsa_0": "{{count}} Alertas inteligentes regulares",
+          "rsa_1": "{{count}} Alertas inteligentes regulares",
+          "rsa_2": "{{count}} Alertas inteligentes regulares",
           "button0": "Alertas inteligentes"
         },
         "infrastructure": {
@@ -723,11 +746,17 @@
           "description0": "Las alertas para la infraestructura y las plataformas utilizan el flujo de trabajo de 2 pasos.",
           "description1": "1) Sucesos definidos para condiciones específicas. Puede utilizar nuestros sucesos incluidos o crear sus propios sucesos personalizados.",
           "description2": "2) A continuación, las alertas le avisan cuando se producen sucesos específicos.",
-          "stats": "Actualmente tiene $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.events, {\"count\": {{events}} }) y $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.alerts, {\"count\": {{alerts}} }).",
+          "stats": "Actualmente, tiene $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.events, {\"count\": {{events}} }) y $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.alerts, {\"count\": {{alerts}} }).",
           "events": "{{count}} suceso personalizado",
           "events_plural": "{{count}} sucesos personalizados",
+          "events_0": "{{count}} eventos personalizados",
+          "events_1": "{{count}} eventos personalizados",
+          "events_2": "{{count}} eventos personalizados",
           "alerts": "{{count}} Alerta",
           "alerts_plural": "{{count}} Alertas",
+          "alerts_0": "{{count}} alertas",
+          "alerts_1": "{{count}} alertas",
+          "alerts_2": "{{count}} alertas",
           "button0": "Alertas",
           "button1": "Sucesos"
         }

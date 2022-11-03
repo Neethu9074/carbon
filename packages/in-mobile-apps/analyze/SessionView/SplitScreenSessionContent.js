@@ -60,6 +60,7 @@ function getValuePerDataSource(beacon, dataSource) {
     sessionStart: beacon.sessionId,
     viewChange: beacon.view,
     httpRequest: `${beacon.httpCallMethod} ${beacon.httpCallUrl}`,
-    custom: beacon.customEventName
+    custom: beacon.customEventName,
+    crash: beacon.errorMessage
   }[dataSource];
 }

@@ -27,5 +27,15 @@
   "sorting": {
     "mostRecent": "最近的優先",
     "oldest": "最久的優先"
-  }
+  },
+  "cpuTotal": "CPU 總計",
+  "memoryUsage": "記憶體用量",
+  "cluster": "叢集",
+  "node": "節點",
+  "namespace": "名稱空間",
+  "deployment": "部署",
+  "pod": "Pod",
+  "tooltipEntityHealthNoIssues": "沒有問題",
+  "tooltipEntityHealthIssues": "{{numberOfIssues}} 問題",
+  "container": "儲存器"
 }

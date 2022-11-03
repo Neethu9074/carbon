@@ -80,7 +80,7 @@ function render({ inputProps, getInputProps, isOpen, openMenu, ...remainingProps
   );
 }
 
-function SuggestionsList({
+export function SuggestionsList({
   lowerCaseInputValue,
   inputValue,
   getMenuProps,

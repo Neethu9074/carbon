@@ -40,8 +40,7 @@ export default function ScopeConfig({
   editMode,
   migrationMode,
   scopeMigrationDetails,
-  initialConfiguredApplications,
-  thresholdType
+  initialConfiguredApplications
 }) {
   const applications = form.get('applications').value;
   const boundaryScope = form.get('boundaryScope').value;
@@ -50,6 +49,7 @@ export default function ScopeConfig({
   const includeSynthetic = form.get('includeSynthetic').value;
   const isBuiltIn = form.get('builtIn').value;
   const alertType = form.get('rule').get('alertType').value;
+  const thresholdType = form.get('threshold').get('type').value;
 
   const [searchQuery, setSearchQuery] = useState('');
   const [filterBySelectionState, setFilterBySelectionState] = useState(Boolean(editMode));
@@ -177,6 +177,5 @@ ScopeConfig.propTypes = {
   }),
   form: PropTypes.object.isRequired,
   updateForm: PropTypes.func.isRequired,
-  initialConfiguredApplications: PropTypes.object,
-  thresholdType: PropTypes.string.isRequired
+  initialConfiguredApplications: PropTypes.object
 };

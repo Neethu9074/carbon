@@ -25,6 +25,11 @@
         "counter_custom_0": "{{number}} sucesos personalizados",
         "counter_custom_1": "{{number}} sucesos personalizados",
         "counter_custom_2": "{{number}} sucesos personalizados",
+        "counter_crash": "{{number}} caída",
+        "counter_crash_plural": "{{number}} caídas",
+        "counter_crash_0": "{{number}} caídas",
+        "counter_crash_1": "{{number}} caídas",
+        "counter_crash_2": "{{number}} caídas",
         "counter_Row": "{{number}} Fila",
         "counter_Row_plural": "{{number}} filas",
         "counter_Row_0": "{{number}} filas",
@@ -86,7 +91,7 @@
       "viewTransitions2": "Ver transiciones",
       "calls": "Llamadas",
       "traces": "Rastreos",
-      "console": "Consola"
+      "crashes": "Caídas"
     }
   },
   "traceDetail": {

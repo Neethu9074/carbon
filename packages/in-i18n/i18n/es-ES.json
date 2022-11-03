@@ -12,6 +12,12 @@
       "tableLoadMoreRow": {
         "loadMore": "Cargar más"
       }
+    },
+    "code": {
+      "copy": "Copiar",
+      "copied": "Copiado",
+      "showMore": "Mostrar más",
+      "showLess": "Mostrar menos"
     }
   },
   "formatDate": {
@@ -77,5 +83,6 @@
   "aggregation_MAX": "máx",
   "aggregation_DISTINCT_COUNT": "recuento distinto",
   "aggregation_SUM": "suma",
-  "aggregation_DISTRIBUTION": "distribución"
+  "aggregation_DISTRIBUTION": "distribución",
+  "aggregation_PER_SECOND": "por segundo"
 }

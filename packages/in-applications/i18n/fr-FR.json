@@ -123,6 +123,7 @@
   "helpOptional": "(facultatif)",
   "messageSuccessfullySaved": "La sauvegarde a abouti.",
   "messageErrorOccurred": "Une erreur s'est produite. Veuillez réessayer.",
+  "messageWaitForChanges": "L'application de vos modifications peut prendre un certain temps.",
   "linkViewAllServices": "Afficher tous les services",
   "linkViewAllEndpoints": "Afficher tous les noeuds finaux",
   "lineViewInAnalyze": "Afficher dans l'analyse",

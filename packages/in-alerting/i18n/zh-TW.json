@@ -39,7 +39,7 @@
       "alertingChartLabelThreshold": "臨界值",
       "alertingChartLabelViolations": "違規",
       "alertingChartMessageInvalidFilterQuery": "無效的過濾查詢。",
-      "alertingChartMessageEntitySelectionInvalid": "未選取實體。",
+      "alertingChartMessageEmptyApplicationSelection": "未選取應用程式。",
       "chartAlertsLaneErrorMessage": "無法載入警示",
       "chartAlertsPreviewLanePresenterAlertsLabel": "警示",
       "chartAlertsPreviewLanePresenterNoAlertsLabel": "無警示",
@@ -463,7 +463,6 @@
         "ruleFormPleaseProvideALogMessage": "請提供日誌訊息",
         "ruleFormPleaseProvideAStartStatusCode": "請提供有效的開始 HTTP 狀態碼",
         "ruleFormPleaseProvideAEndStatusCode": "請提供有效的結束 HTTP 狀態碼",
-        "smartAlertFormNoEntitiesSelected": "未選取實體",
         "smartAlertFormValueIsReadOnly": "值是唯讀的，無法變更",
         "thresholdFormPleaseProvideANumber0": "請提供大於等於 0 的數字",
         "thresholdFormBaselineIsEmpty": "基準線是空的"
@@ -501,7 +500,10 @@
         "labelConfirmRemoveConfig": "您確定要移除警示 <strong>{{configName}}</strong> 嗎？",
         "labelRemove": "移除",
         "numberOfApplicationsSelected": "已選取 {{count}} 個應用程式",
-        "numberOfApplicationsSelected_plural": "已選取 {{count}} 個應用程式"
+        "numberOfApplicationsSelected_plural": "已選取 {{count}} 個應用程式",
+        "numberOfApplicationsSelected_0": "已選取 {{count}} 個應用程式",
+        "numberOfApplicationsSelected_1": "已選取 {{count}} 個應用程式",
+        "numberOfApplicationsSelected_2": "已選取 {{count}} 個應用程式"
       },
       "details": {
         "title": "警示詳細資料",
@@ -562,6 +564,9 @@
         "alertChannelSelectTypeTitle": "警示通道類型",
         "addChannel": "新增 {{count}} 個通道",
         "addChannel_plural": "新增 {{count}} 個通道",
+        "addChannel_0": "新增 {{count}} 個通道",
+        "addChannel_1": "新增 {{count}} 個通道",
+        "addChannel_2": "新增 {{count}} 個通道",
         "add": "新增",
         "scopeConfigTitleWithApplications": "選取應用程式/服務/端點",
         "scopeConfigTitle": "選取服務/端點",
@@ -650,6 +655,11 @@
         "buttonRecalculateBaseline": "重新計算基準線",
         "sensitivitySliderLow": "低",
         "sensitivitySliderHigh": "高",
+        "sensitivitySliderValueLabel": "{{count}} 個標準差",
+        "sensitivitySliderValueLabel_plural": "{{count}} 個標準差",
+        "sensitivitySliderValueLabel_0": "{{count}} 個標準差",
+        "sensitivitySliderValueLabel_1": "{{count}} 個標準差",
+        "sensitivitySliderValueLabel_2": "{{count}} 個標準差",
         "labelThreshold": "臨界值",
         "labelSensitivity": "靈敏度",
         "staticThresholdTypeOptionsTooltip": "「靜態每日/每週臨界值」是基於歷程資料的時間相依臨界值。 臨界值不會自動變更，必要時可以手動重新計算。",
@@ -675,6 +685,7 @@
         "migrationModeWarning": "將此自訂事件移轉至智慧型警示將會停用它。 之後無法重新啟用事件。"
       },
       "userInfo": {
+        "linkText": "檢視智慧型警示",
         "success": {
           "create": {
             "alert": {
@@ -701,21 +712,33 @@
         "websites": {
           "title": "網站",
           "description0": "若要設定警示，請導覽至您想對其設定警示的網站，然後使用右下角的「新增智慧型警示」按鈕。",
-          "stats": "目前您在 $t(in-alerting:smartAlerts.components.alertsHub.websites.websites, {\"count\": {{websites}} })上有 $t(in-alerting:smartAlerts.components.alertsHub.websites.alerts, {\"count\": {{alerts}} })。",
+          "stats": "目前，您在 $t(in-alerting:smartAlerts.components.alertsHub.websites.websites, {\"count\": {{websites}} }) 上具有 $t(in-alerting:smartAlerts.components.alertsHub.websites.alerts, {\"count\": {{alerts}} })。",
           "alerts": "{{count}} 個網站智慧型警示",
           "alerts_plural": "{{count}} 個網站智慧型警示",
+          "alerts_0": "{{count}} 個網站智慧型警示",
+          "alerts_1": "{{count}} 個網站智慧型警示",
+          "alerts_2": "{{count}} 個網站智慧型警示",
           "websites": "{{count}} 個網站",
           "websites_plural": "{{count}} 個網站",
+          "websites_0": "{{count}} 個網站",
+          "websites_1": "{{count}} 個網站",
+          "websites_2": "{{count}} 個網站",
           "button0": "網站"
         },
         "applications": {
           "title": "應用程式",
           "description0": "您只能針對特定應用程式設定智慧型警示，或設定涵蓋多個應用程式的智慧型警示。",
-          "stats": "目前您有 $t(in-alerting:smartAlerts.components.alertsHub.applications.gsa, {\"count\": {{globalSmartAlerts}} })及 $t(in-alerting:smartAlerts.components.alertsHub.applications.rsa, {\"count\": {{smartAlerts}} })。",
+          "stats": "目前，您有 $t(in-alerting:smartAlerts.components.alertsHub.applications.gsa, {\"count\": {{globalSmartAlerts}} }) 和 $t(in-alerting:smartAlerts.components.alertsHub.applications.rsa, {\"count\": {{smartAlerts}} })。",
           "gsa": "{{count}} 個廣域智慧型警示",
           "gsa_plural": "{{count}} 個廣域智慧型警示",
+          "gsa_0": "{{count}} 個廣域智慧型警示",
+          "gsa_1": "{{count}} 個廣域智慧型警示",
+          "gsa_2": "{{count}} 個廣域智慧型警示",
           "rsa": "{{count}} 個一般智慧型警示",
           "rsa_plural": "{{count}} 個一般智慧型警示",
+          "rsa_0": "{{count}} 個一般智慧型警示",
+          "rsa_1": "{{count}} 個一般智慧型警示",
+          "rsa_2": "{{count}} 個一般智慧型警示",
           "button0": "智慧型警示"
         },
         "infrastructure": {
@@ -723,11 +746,17 @@
           "description0": "「基礎架構和平台警示」使用我們的兩步驟工作流程。",
           "description1": "1) 針對特定狀況定義的事件。您可以使用我們的「內建事件」或建立您自己的「自訂事件」。",
           "description2": "2) 每當發生特定事件時，警示就會警示您。",
-          "stats": "目前您有 $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.events, {\"count\": {{events}} })及 $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.alerts, {\"count\": {{alerts}} })。",
+          "stats": "目前，您有 $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.events, {\"count\": {{events}} }) 和 $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.alerts, {\"count\": {{alerts}} })。",
           "events": "{{count}} 個自訂事件",
           "events_plural": "{{count}} 個自訂事件",
+          "events_0": "{{count}} 個自訂事件",
+          "events_1": "{{count}} 個自訂事件",
+          "events_2": "{{count}} 個自訂事件",
           "alerts": "{{count}} 個警示",
           "alerts_plural": "{{count}} 個警示",
+          "alerts_0": "{{count}} 個警示",
+          "alerts_1": "{{count}} 個警示",
+          "alerts_2": "{{count}} 個警示",
           "button0": "警示",
           "button1": "事件"
         }

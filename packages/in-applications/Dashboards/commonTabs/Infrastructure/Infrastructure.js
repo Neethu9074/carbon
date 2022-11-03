@@ -23,12 +23,12 @@ import { getSnapshot, shouldStayInCurrentTimeModeForNavigationToSnapshot } from 
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { meanLatencyFixed, number, percentage } from 'in-services/formatters/number';
+import { useNavigateToApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getInfrastructure from 'in-applications/subscriptions/getInfrastructure';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getVsphereDatacenterDashboard } from 'in-vsphere/navigation/paths';
 import { getOpenstackRegionDashboard } from 'in-openstack/navigation/paths';
-import { getApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
 import { getIbmzZhmcDashboard } from 'in-zhmc/navigation/paths';
 import { getIbmpPhmcDashboard } from 'in-phmc/navigation/paths';
@@ -160,6 +160,8 @@ function WithKubernetesPhysicalContext({
 }
 
 function WithCloudfoundryPhysicalContext({ children, application, space, organization, cfInstanceIndex }) {
+  const getApplicationDashboardLink = useNavigateToApplicationDashboard();
+
   return (
     <div className={locals.linkWithMetaEntities}>
       {children}
@@ -174,7 +176,7 @@ function WithCloudfoundryPhysicalContext({ children, application, space, organiz
                 entityLink: (
                   <Link
                     className={locals.entityLink}
-                    href$={pcfEnabled ? getApplicationDashboard(application.id) : null}
+                    href$={pcfEnabled ? getApplicationDashboardLink(application.id) : null}
                   />
                 )
               }}
