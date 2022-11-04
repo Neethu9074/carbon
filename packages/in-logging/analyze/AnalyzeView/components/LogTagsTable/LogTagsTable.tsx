@@ -24,6 +24,7 @@ import getLog from 'in-logging/subscriptions/getLog';
 import { useScrollIntoView } from 'in-logging/hooks';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { mutateUrl } from 'in-stores/navigation';
+import decamelize from 'in-sdk/decamelize';
 import { LogTag } from 'in-types';
 
 const LogTagsTable = ({ item, selectedId, onSelectTagHref, getHrefToGroupedView }: LogTagsTableProps) => {
@@ -96,7 +97,10 @@ const LogTagsTable = ({ item, selectedId, onSelectTagHref, getHrefToGroupedView 
     ? Object.entries(groupAndSortTags(tags)).flatMap(([key, value]) => {
         const isTagGroup = key !== 'other' && value.length > 0;
         if (isTagGroup) {
-          const groupLabel = capitalize(key);
+          const groupLabel = decamelize(key)
+            .split(' ')
+            .map(word => capitalize(word))
+            .join(' ');
           const GroupTags = mapTags(value);
           const GroupHeaderTag = <TagGroupHeader key={groupLabel} groupLabel={groupLabel} />;
 
