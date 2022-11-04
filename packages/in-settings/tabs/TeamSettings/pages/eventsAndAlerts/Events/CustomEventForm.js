@@ -187,8 +187,8 @@ export default compose(
     componentDidMount() {
       const { entity } = this.props;
       // Validate the query once initially after loading an event specification.
-      if (isNotBlank(entity.get('query'))) {
-        queryInput.emit(entity.get('query'));
+      if (isNotBlank(entity.query)) {
+        queryInput.emit(entity.query);
       }
     }
   })
