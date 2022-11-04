@@ -26,6 +26,7 @@ import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
+import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import FormGroup from 'in-settings/components/FormGroup';
 import Table from 'in-sdk/components/dashboard/Table';
 import Section from 'in-settings/components/Section';
@@ -176,7 +177,10 @@ const Form = entityForm(function DetailsForm(props) {
       ) : null}
       {role.canConfigureAutomationActions && actionAutomationEnabled && !entity.get('triggering') && (
         <>
-          <SectionHeading>{t('in-settings:tabs.ActionAssociations')}</SectionHeading>
+          <div className={locals.titleWithBetatag}>
+            <SectionHeading>{t('in-settings:tabs.ActionAssociations')}</SectionHeading>
+            <BetaBadge />
+          </div>
           <ActionsSelection
             form={form}
             setForm={setForm}

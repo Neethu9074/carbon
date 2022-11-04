@@ -88,6 +88,7 @@ export default function AssociatedActions({ event, volatileId }: Props) {
         volatileId={volatileId}
         loadEntities={() => getSelectedActionsForEvent(selectedActions)}
         scored
+        isBeta
       />
     </div>
   );

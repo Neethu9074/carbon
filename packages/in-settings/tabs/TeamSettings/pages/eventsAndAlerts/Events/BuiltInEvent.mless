@@ -14,4 +14,13 @@
     display: flex;
     align-items: center;
   }
+
+  .titleWithBetatag {
+    display: inline-flex;
+    span {
+      height: fit-content;
+      margin-top: 1.125rem;
+      margin-left: 0.5rem;
+    }
+  }
 }

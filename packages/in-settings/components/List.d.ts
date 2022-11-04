@@ -62,7 +62,8 @@ declare function ListComponent<ItemType extends Object>(props: ListProps<ItemTyp
 export declare function leftHeaderWithSelectAll(
   entityName: string,
   inSelectListDialog: boolean,
-  tableActions: TableActions<ItemType>
+  tableActions: TableActions<ItemType>,
+  isBeta?: boolean
 ): (totalHitsBeforeFilter: number, totalHitsAfterFilter: number, entitiesBeforePagination: number) => ReactNode;
 
 export declare function createNewEntityButton({
