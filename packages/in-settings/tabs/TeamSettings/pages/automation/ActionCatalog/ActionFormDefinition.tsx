@@ -16,7 +16,7 @@ import { notBlankValidator } from 'in-services/validators/string';
 import { isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
-function mimeValidator(str?: any): ValidationResult {
+function mimeValidator(str: string): ValidationResult {
   if (isNotBlank(str) && mime.getExtension(str) == null) {
     return [
       {

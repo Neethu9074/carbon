@@ -5,7 +5,7 @@
  */
 
 import { MapForm, Field } from 'formalistic';
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 
 import { SvgIcon } from '@instana/components';
 
@@ -14,8 +14,8 @@ import DummyServerTablePresenter, {
 } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/DummyServerTablePresenter';
 import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
-import { OnChange, SetForm } from 'in-settings/tabs/TeamSettings/pages/automation/useEntityForm';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
+import { OnChange, SetForm } from 'in-settings/hooks/useEntityForm';
 import FormGroup from 'in-settings/components/FormGroup';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import Input from 'in-components/form/Input/Input';
@@ -48,7 +48,7 @@ const getColumnDefinitions = ({ form, onChange }: Omit<TagsTableProps, 'setForm'
               className={locals.key}
               value={item.value}
               hasError={!tagsField?.valid && tagsField?.touched && item.value === ''}
-              onChange={({ target }: any) => {
+              onChange={({ target }: ChangeEvent<HTMLInputElement>) => {
                 const tags = (tagsField as Field<Tag[]>)?.value;
                 onChange(
                   'tags',

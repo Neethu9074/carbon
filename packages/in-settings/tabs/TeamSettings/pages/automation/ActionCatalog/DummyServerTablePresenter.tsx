@@ -11,8 +11,8 @@ import { generateUniqueShortId } from '@instana/utils';
 import { Button } from '@instana/components';
 
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
-import { SetForm } from 'in-settings/tabs/TeamSettings/pages/automation/useEntityForm';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
+import { SetForm } from 'in-settings/hooks/useEntityForm';
 import { t } from 'in-i18n';
 
 import locals from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/DummyServerTablePresenter.mless';

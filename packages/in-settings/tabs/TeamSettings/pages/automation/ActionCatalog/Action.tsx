@@ -21,7 +21,6 @@ import { Header } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCat
 import { isDocLink, isScript, isWebhook } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import ActionForm from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionForm';
 import { Tag } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/TagsTable';
-import useEntityForm from 'in-settings/tabs/TeamSettings/pages/automation/useEntityForm';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsActionCatalog } from 'in-settings/navigation/paths';
@@ -29,6 +28,7 @@ import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SectionLine from 'in-settings/components/SectionLine';
 import { getAction, createAction } from 'in-api/automation';
+import useEntityForm from 'in-settings/hooks/useEntityForm';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
 import Section from 'in-settings/components/Section';

@@ -26,8 +26,8 @@ import {
 } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import AdditionalHeadersTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/AdditionalHeadersTable';
 import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
-import { OnChange, SetForm } from 'in-settings/tabs/TeamSettings/pages/automation/useEntityForm';
 import TagsTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/TagsTable';
+import { OnChange, SetForm } from 'in-settings/hooks/useEntityForm';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import HelpText from 'in-components/form/HelpText/HelpText';

@@ -26,7 +26,7 @@ import { t } from 'in-i18n';
 
 import locals from './ServerTablePresenter.mless';
 
-export interface ListItem extends Object {
+interface ListItem extends Object {
   id?: string;
 }
 
