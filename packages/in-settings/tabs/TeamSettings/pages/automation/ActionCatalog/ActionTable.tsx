@@ -152,6 +152,7 @@ export interface ActionTableProps {
   event?: Event | null;
   showActionLink?: boolean | undefined;
   scored?: boolean | undefined;
+  isBeta?: boolean;
 }
 
 export default function ActionTable({
@@ -167,7 +168,8 @@ export default function ActionTable({
   volatileId = {},
   showActionLink = false,
   event = null,
-  scored = false
+  scored = false,
+  isBeta = false
 }: ActionTableProps) {
   let columnDefinitionsToShow = [nameColumn(showActionLink), ...columnDefinitions];
   if (showExecuteColumn) {
@@ -186,7 +188,7 @@ export default function ActionTable({
       isSearchable
       loadEntities={loadEntities}
       columnDefinitions={columnDefinitionsToShow}
-      getHeader={getHeader(title)}
+      getHeader={getHeader(title, isBeta)}
       searchAttributes={['name', 'description', (entity: Action) => (entity?.tags ?? []).toString()]}
       searchPlaceholder={t('in-settings:tabs.filterActions')}
       searchMaxWidth={210}
@@ -199,8 +201,8 @@ export default function ActionTable({
   );
 }
 
-function getHeader(title: string) {
-  return leftHeaderWithSelectAll(title, false, {});
+function getHeader(title: string, isBeta: boolean) {
+  return leftHeaderWithSelectAll(title, false, {}, isBeta);
 }
 
 function createFilters(ids: string[]): Array<(action: Action) => boolean> {
