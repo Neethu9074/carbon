@@ -27,3 +27,5 @@ export const isWebhook = (type?: string) => type === WEBHOOK_TYPE;
 export const DOC_LINK_TYPE = 'doc_link';
 export const SCRIPT_TYPE = 'SCRIPT';
 export const WEBHOOK_TYPE = 'HTTP';
+
+export const HTTP_METHODS = Object.freeze(['GET', 'PATCH', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'HEAD', 'TRACE']);

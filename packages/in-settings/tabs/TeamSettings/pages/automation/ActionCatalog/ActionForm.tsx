@@ -17,6 +17,7 @@ import {
 } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionFormDefinition';
 import {
   DOC_LINK_TYPE,
+  HTTP_METHODS,
   isDocLink,
   isScript,
   isWebhook,
@@ -26,6 +27,7 @@ import {
 import AdditionalHeadersTable, {
   Header
 } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/AdditionalHeadersTable';
+import { OnChange, SetForm } from 'in-settings/tabs/TeamSettings/pages/automation/useEntityForm';
 import TagsTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/TagsTable';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -45,9 +47,9 @@ import locals from './ActionForm.mless';
 
 interface ActionFormProps {
   form: MapForm;
-  onChange: Function;
+  onChange: OnChange<NewAction | Action>;
   entity: NewAction | Action;
-  setForm: (form: MapForm) => void;
+  setForm: SetForm;
 }
 
 export default function ActionForm({ form, setForm, onChange, entity: action }: ActionFormProps) {
@@ -233,14 +235,9 @@ const WebhookSection = ({ form, setForm, onChange }: Omit<ActionFormProps, 'enti
                 onChange={e => onChange('method', e.target.value)}
                 hasError={!field.valid && field.touched}
               >
-                <option value={'GET'}>GET</option>
-                <option value={'PATCH'}>PATCH</option>
-                <option value={'POST'}>POST</option>
-                <option value={'PUT'}>PUT</option>
-                <option value={'DELETE'}>DELETE</option>
-                <option value={'OPTIONS'}>OPTIONS</option>
-                <option value={'HEAD'}>HEAD</option>
-                <option value={'TRACE'}>TRACE</option>
+                {HTTP_METHODS.map(method => (
+                  <option value={method}>{method}</option>
+                ))}
               </Select>
               <TouchedMessages field={field} className={locals.subErrorTextFormField} />
             </FormGroup>
@@ -365,9 +362,7 @@ const WebhookSection = ({ form, setForm, onChange }: Omit<ActionFormProps, 'enti
       </Row>
       <FormGroup>
         {additionalHeaders.map(field => (
-          <>
-            <AdditionalHeadersTable field={field} form={form} setForm={setForm} onChange={onChange} />
-          </>
+          <AdditionalHeadersTable field={field} form={form} setForm={setForm} onChange={onChange} />
         ))}
       </FormGroup>
     </>

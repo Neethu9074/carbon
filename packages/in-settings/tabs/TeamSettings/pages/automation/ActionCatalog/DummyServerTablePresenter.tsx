@@ -9,10 +9,10 @@ import React from 'react';
 import { Button } from '@instana/components';
 
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
+import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { t } from 'in-i18n';
 
-import locals from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/TagsTable.mless';
-import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
+import locals from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/DummyServerTablePresenter.mless';
 
 interface DummyServerTablePresenterListItem {
   deleteRow: (id: string) => void;

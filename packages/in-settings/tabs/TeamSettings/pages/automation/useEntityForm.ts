@@ -14,6 +14,14 @@ import { t } from 'in-i18n';
 
 export const savingMessage = t('in-hoc:entityFormSaving');
 
+export type OnChange<ENTITY> = <VALUETYPE>(
+  fieldName: string | ((mapForm: MapForm) => MapForm),
+  value: VALUETYPE,
+  updateFormDefinition?: (mapForm: MapForm, entity: ENTITY) => MapForm
+) => MapForm;
+
+export type SetForm = (form: MapForm) => void;
+
 interface State<ENTITY> {
   loading: boolean;
   error: boolean;
@@ -164,11 +172,7 @@ export default function useEntityForm<ENTITY>(props: Parameters<ENTITY>) {
     }
   }
 
-  function onChange<VALUETYPE>(
-    fieldName: string | ((mapForm: MapForm) => MapForm),
-    value: VALUETYPE,
-    updateFormDefinition: (mapForm: MapForm, entity: ENTITY) => MapForm
-  ) {
+  const onChange: OnChange<ENTITY> = function(fieldName, value, updateFormDefinition) {
     let updatedForm = state.form!;
 
     if (typeof fieldName === 'function') {
@@ -181,24 +185,22 @@ export default function useEntityForm<ENTITY>(props: Parameters<ENTITY>) {
     }
 
     updatedForm = updatedForm.updateIn([fieldName], field =>
-      (field as Field<VALUETYPE>).setValue(value).setTouched(true)
+      (field as Field<typeof value>).setValue(value).setTouched(true)
     );
 
-    if (updateFormDefinition) {
-      updatedForm = updateFormDefinition(updatedForm, state.entity!);
-    }
+    updatedForm = updateFormDefinition?.(updatedForm, state.entity!) ?? updatedForm;
 
     setForm(updatedForm);
 
     return updatedForm;
-  }
+  };
 
-  function setForm(form: MapForm) {
+  const setForm: SetForm = function(form) {
     setState({
       ...state,
       form
     });
-  }
+  };
 
   function setSaveEnabled(saveEnabled: boolean) {
     setState({
