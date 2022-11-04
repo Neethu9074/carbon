@@ -11,9 +11,9 @@ import mime from 'mime/lite';
 import { generateUniqueShortId } from '@instana/utils';
 
 import { isDocLink, isScript, isWebhook } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
+import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import { notBlankValidator } from 'in-services/validators/string';
 import { isNotBlank } from 'in-services/util/string';
-import { NewAction } from 'in-api/automation';
 import { t } from 'in-i18n';
 
 function mimeValidator(str?: any): ValidationResult {
@@ -29,7 +29,7 @@ function mimeValidator(str?: any): ValidationResult {
   return null;
 }
 
-export function createActionFormDefinition(action: NewAction, _isCreate: boolean) {
+export function createActionFormDefinition(action: ActionFormEntity, _isCreate: boolean) {
   const tags = action.tags ?? [];
   const mappedTags = tags.map(tag => ({ value: tag, id: generateUniqueShortId() }));
 
@@ -60,7 +60,7 @@ export function createActionFormDefinition(action: NewAction, _isCreate: boolean
       createField({
         value: mappedTags,
         validator: tags => {
-          const hasBlankTags = tags.reduce((hasBlank, tag) => hasBlank || tag?.value === '', false);
+          const hasBlankTags = tags.reduce((hasBlank, tag) => hasBlank || tag.value === '', false);
           if (hasBlankTags) {
             return [
               {
@@ -79,7 +79,7 @@ export function createActionFormDefinition(action: NewAction, _isCreate: boolean
   return form;
 }
 
-export function putDocLinkField(form: MapForm, action: NewAction) {
+export function putDocLinkField(form: MapForm, action: ActionFormEntity) {
   const fields = action.fields;
   const value = isDocLink(action.type) ? fields?.[0].value : '';
 
@@ -96,7 +96,7 @@ export function removeDocLinkField(form: MapForm) {
   return form.remove('docLink');
 }
 
-export function putScriptField(form: MapForm, action: NewAction) {
+export function putScriptField(form: MapForm, action: ActionFormEntity) {
   let value = '';
   if (isScript(action.type)) {
     const fields = action.fields;
@@ -117,7 +117,7 @@ export function removeScriptField(form: MapForm) {
   return form.remove('script');
 }
 
-export function putWebhookFields(form: MapForm, action: NewAction) {
+export function putWebhookFields(form: MapForm, action: ActionFormEntity) {
   if (!isWebhook(action.type)) {
     return form
       .put('method', createField({ value: '', validator: notBlankValidator }))
@@ -136,10 +136,10 @@ export function putWebhookFields(form: MapForm, action: NewAction) {
     const host = fields.host;
     const body = fields.body;
     const headers = fields.header;
-    const headersValue = JSON.parse(headers.value);
+    const headersValue = JSON.parse(headers.value) as { [k: string]: string };
     const ignoreCertErrors = fields.ignoreCertErrors;
     const authen = fields.authen;
-    const authenValue = JSON.parse(authen.value ?? '{}');
+    const authenValue = JSON.parse(authen.value ?? '{}') as { username: string; password: string };
     const {
       'Content-Type': contentType,
       Accept: accept,
@@ -210,12 +210,15 @@ export function putWebhookFields(form: MapForm, action: NewAction) {
         'additionalHeaders',
         createField({
           value: Object.entries(additionalHeaders).map(header => ({
-            value: header as [string, string],
+            value: header,
             id: generateUniqueShortId()
           })),
-          validator: tags => {
-            const hasBlankTags = tags.reduce((hasBlank, tag) => hasBlank || (tag?.value?.includes('') ?? false), false);
-            if (hasBlankTags) {
+          validator: additionalHeaders => {
+            const hasBlankAdditionalHeaders = additionalHeaders.reduce(
+              (hasBlank, additionalHeader) => hasBlank || additionalHeader.value.includes(''),
+              false
+            );
+            if (hasBlankAdditionalHeaders) {
               return [
                 {
                   severity: 'error',

@@ -7,28 +7,25 @@
 import { Field, MapForm } from 'formalistic';
 import React, { ChangeEvent } from 'react';
 
-import { generateUniqueShortId } from '@instana/utils';
 import { SvgIcon } from '@instana/components';
 
 import DummyServerTablePresenter from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/DummyServerTablePresenter';
+import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { OnChange, SetForm } from 'in-settings/tabs/TeamSettings/pages/automation/useEntityForm';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-settings/components/FormGroup';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import { NewAction } from 'in-api/automation';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
-import { Action } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './DummyServerTablePresenterConsumer.mless';
 
 interface AdditionalHeadersProps {
   form: MapForm;
-  onChange: OnChange<Action | NewAction>;
+  onChange: OnChange<ActionFormEntity>;
   setForm: SetForm;
-  field: Field<Header[]>;
 }
 
 export interface Header {
@@ -36,7 +33,7 @@ export interface Header {
   value: string[];
 }
 
-const getColumnDefinitions = (form: MapForm, onChange: OnChange<Action | NewAction>) => [
+const getColumnDefinitions = ({ form, onChange }: Omit<AdditionalHeadersProps, 'setForm'>) => [
   {
     id: 'key',
     sortable: false,
@@ -109,16 +106,19 @@ const getColumnDefinitions = (form: MapForm, onChange: OnChange<Action | NewActi
     }
   }
 ];
-export default function AdditionalHeadersTable({ form, setForm, onChange, field }: AdditionalHeadersProps) {
-  const columnDefinitions = getColumnDefinitions(form, onChange);
-  const additionalHeaders = (form.get('additionalHeaders') as Field<Header[]>).value;
+export default function AdditionalHeadersTable({ form, setForm, onChange }: AdditionalHeadersProps) {
+  const columnDefinitions = getColumnDefinitions({ form, onChange });
+  const field = form.get('additionalHeaders') as Field<Header[]>;
+  const additionalHeaders = field.value;
 
   return (
-    <DummyServerTablePresenter<Header>
+    <DummyServerTablePresenter
       columnDefinitions={columnDefinitions}
-      addRow={addRow}
-      deleteRow={deleteRow}
       data={additionalHeaders}
+      form={form}
+      formKey="additionalHeaders"
+      defaultRow={['', '']}
+      setForm={setForm}
       noDataMessage={t('in-settings:tabs.noAdditionalHeadersConfigured')}
       leftHeader={
         <Label htmlFor="action-contentType" hasError={!field.valid && field.touched}>
@@ -127,31 +127,4 @@ export default function AdditionalHeadersTable({ form, setForm, onChange, field 
       }
     />
   );
-
-  function deleteRow(id: string) {
-    const rowIndex = form
-      ?.get('additionalHeaders')
-      ?.toJS()
-      .reduce((acc: number, item: Header, i: number) => (item.id === id ? i : acc), -1);
-    if (rowIndex >= 0) {
-      setForm(
-        form.updateIn(['additionalHeaders'], f => {
-          const castedF = f as Field<Header[]>;
-          const value = [...castedF.value];
-          value.splice(rowIndex, 1);
-          return castedF.setValue(value).setTouched(true);
-        })
-      );
-    }
-  }
-
-  function addRow() {
-    setForm(
-      form.updateIn(['additionalHeaders'], f => {
-        const castedF = f as Field<Header[]>;
-        const value = castedF.value;
-        return castedF.setValue([...value, { value: ['', ''], id: generateUniqueShortId() }]).setTouched(false);
-      })
-    );
-  }
 }

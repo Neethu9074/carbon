@@ -7,30 +7,34 @@
 import { MapForm, Field } from 'formalistic';
 import React from 'react';
 
-import { generateUniqueShortId } from '@instana/utils';
 import { SvgIcon } from '@instana/components';
 
-import DummyServerTablePresenter from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/DummyServerTablePresenter';
+import DummyServerTablePresenter, {
+  DeleteRow
+} from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/DummyServerTablePresenter';
+import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { OnChange, SetForm } from 'in-settings/tabs/TeamSettings/pages/automation/useEntityForm';
-import { Tag } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import FormGroup from 'in-settings/components/FormGroup';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import Input from 'in-components/form/Input/Input';
-import { NewAction } from 'in-api/automation';
-import { Action } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './DummyServerTablePresenterConsumer.mless';
 
 interface TagsTableProps {
   form: MapForm;
-  onChange: OnChange<Action | NewAction>;
+  onChange: OnChange<ActionFormEntity>;
   setForm: SetForm;
 }
 
-const getColumnDefinitions = (form: MapForm, onChange: OnChange<Action | NewAction>) => [
+export interface Tag {
+  id: string;
+  value: string;
+}
+
+const getColumnDefinitions = ({ form, onChange }: Omit<TagsTableProps, 'setForm'>) => [
   {
     id: 'id',
     sortable: false,
@@ -71,7 +75,7 @@ const getColumnDefinitions = (form: MapForm, onChange: OnChange<Action | NewActi
     width: '5',
     sortable: false,
     label: '',
-    getContent(item: Tag, { deleteRow }: { deleteRow: Function }) {
+    getContent(item: Tag, { deleteRow }: { deleteRow: DeleteRow }) {
       return (
         <div className={locals.controls}>
           <Tooltip content={t('in-alerting:components.customPayload.deleteRow')}>
@@ -84,43 +88,18 @@ const getColumnDefinitions = (form: MapForm, onChange: OnChange<Action | NewActi
 ];
 
 export default function TagsTable({ form, setForm, onChange }: TagsTableProps) {
-  const columnDefinitions = getColumnDefinitions(form, onChange);
+  const columnDefinitions = getColumnDefinitions({ form, onChange });
   const tags = (form.get('tags') as Field<Tag[]>).value;
 
   return (
-    <DummyServerTablePresenter<Tag>
+    <DummyServerTablePresenter
       columnDefinitions={columnDefinitions}
-      addRow={addRow}
-      deleteRow={deleteRow}
       data={tags}
+      form={form}
+      formKey="tags"
+      defaultRow={''}
+      setForm={setForm}
       noDataMessage={t('in-settings:tabs.noTagsConfigured')}
     />
   );
-
-  function deleteRow(id: string) {
-    const rowIndex = (form?.get('tags') as Field<Tag[]>).value.reduce(
-      (acc: number, item: Tag, i: number) => (item.id === id ? i : acc),
-      -1
-    );
-    if (rowIndex >= 0) {
-      setForm(
-        form.updateIn(['tags'], f => {
-          const castedF = f as Field<Tag[]>;
-          const value = [...castedF.value];
-          value.splice(rowIndex, 1);
-          return castedF.setValue(value).setTouched(true);
-        })
-      );
-    }
-  }
-
-  function addRow() {
-    setForm(
-      form.updateIn(['tags'], f => {
-        const castedF = f as Field<Tag[]>;
-        const value = castedF.value;
-        return castedF.setValue([...value, { value: '', id: generateUniqueShortId() }]).setTouched(false);
-      })
-    );
-  }
 }

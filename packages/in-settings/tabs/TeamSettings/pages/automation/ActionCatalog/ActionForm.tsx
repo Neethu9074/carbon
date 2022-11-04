@@ -24,9 +24,8 @@ import {
   SCRIPT_TYPE,
   WEBHOOK_TYPE
 } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
-import AdditionalHeadersTable, {
-  Header
-} from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/AdditionalHeadersTable';
+import AdditionalHeadersTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/AdditionalHeadersTable';
+import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import { OnChange, SetForm } from 'in-settings/tabs/TeamSettings/pages/automation/useEntityForm';
 import TagsTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/TagsTable';
 import SectionHeading from 'in-settings/components/SectionHeading';
@@ -37,18 +36,16 @@ import FormGroup from 'in-settings/components/FormGroup';
 import TextArea from 'in-components/form/TextArea';
 import Code from 'in-components/form/Code/Code';
 import Select from 'in-components/form/Select';
-import { NewAction } from 'in-api/automation';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
-import { Action } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './ActionForm.mless';
 
 interface ActionFormProps {
   form: MapForm;
-  onChange: OnChange<NewAction | Action>;
-  entity: NewAction | Action;
+  onChange: OnChange<ActionFormEntity>;
+  entity: ActionFormEntity;
   setForm: SetForm;
 }
 
@@ -119,7 +116,7 @@ const MetaDataSection = ({ form, setForm, onChange, entity: action }: ActionForm
             id="action-type"
             value={field.value}
             onChange={e =>
-              onChange('type', e.target.value, (updatedForm: MapForm) => {
+              onChange('type', e.target.value, updatedForm => {
                 // WILL NEED TO UPDATE THIS FOR NEW TYPES
                 const type = (updatedForm.get('type') as Field<string>).value;
                 if (isDocLink(type)) {
@@ -199,7 +196,6 @@ const WebhookSection = ({ form, setForm, onChange }: Omit<ActionFormProps, 'enti
   const body = form.get('body') as Field<string>;
   const acceptLanguage = form.get('acceptLanguage') as Field<string>;
   const contentType = form.get('contentType') as Field<string>;
-  const additionalHeaders = form.get('additionalHeaders') as Field<Header[]>;
 
   const renderBodyAndContentType = ['PATCH', 'PUT', 'POST'].includes(method.value);
   return (
@@ -236,7 +232,9 @@ const WebhookSection = ({ form, setForm, onChange }: Omit<ActionFormProps, 'enti
                 hasError={!field.valid && field.touched}
               >
                 {HTTP_METHODS.map(method => (
-                  <option value={method}>{method}</option>
+                  <option key={method} value={method}>
+                    {method}
+                  </option>
                 ))}
               </Select>
               <TouchedMessages field={field} className={locals.subErrorTextFormField} />
@@ -361,9 +359,7 @@ const WebhookSection = ({ form, setForm, onChange }: Omit<ActionFormProps, 'enti
         </Col>
       </Row>
       <FormGroup>
-        {additionalHeaders.map(field => (
-          <AdditionalHeadersTable field={field} form={form} setForm={setForm} onChange={onChange} />
-        ))}
+        <AdditionalHeadersTable form={form} setForm={setForm} onChange={onChange} />
       </FormGroup>
     </>
   );
