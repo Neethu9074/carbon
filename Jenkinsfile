@@ -191,7 +191,7 @@ pipeline {
         timeout(time: 30, unit: 'MINUTES') {
           timestamps {
             script {
-              if (isDeliveryBranch) {
+              if (branchName == 'develop') {
                   try {
                     awsCodeBuild credentialsType: 'jenkins',
                       credentialsId: 'codebuild',
@@ -199,7 +199,6 @@ pipeline {
                       region: 'us-west-2',
                       imageOverride: 'aws/codebuild/standard:5.0',
                       sourceControlType: 'project',
-                      envVariables: '[ {DEPLOY_STORYBOOK, true} ]',
                       sourceVersion: gitCommitId,
                       privilegedModeOverride: 'True'
                     if ( currentBuild.currentResult == 'SUCCESS' ) {
