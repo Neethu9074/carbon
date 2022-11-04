@@ -156,7 +156,13 @@ function getActionSpecification(form: MapForm): NewAction {
         accept,
         acceptLanguage,
         contentType,
-        additionalHeaders,
+        additionalHeaders: additionalHeaders.reduce(
+          (headers: { [k: string]: string }, header) => ({
+            ...headers,
+            [header.value[0]]: header.value[1]
+          }),
+          {}
+        ),
         body
       })
     );

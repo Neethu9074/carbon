@@ -107,11 +107,6 @@ export const createScriptFields = (value: string): Field[] => [
   }
 ];
 
-type Header = {
-  id: string;
-  value: string[];
-};
-
 export const createWebhookFields = ({
   host,
   method,
@@ -130,7 +125,7 @@ export const createWebhookFields = ({
   accept: string;
   acceptLanguage: string;
   contentType: string;
-  additionalHeaders: Header[];
+  additionalHeaders: { [k: string]: string };
   body: string;
 }): Field[] => [
   {
@@ -150,13 +145,7 @@ export const createWebhookFields = ({
       Accept: accept,
       'Accept-Language': acceptLanguage,
       'Content-Type': contentType,
-      ...additionalHeaders.reduce(
-        (headers: Object, header: Header) => ({
-          ...headers,
-          [header.value[0]]: header.value[1]
-        }),
-        {}
-      )
+      ...additionalHeaders
     }),
     description: 'header of the https request',
     encoding: 'ascii',
