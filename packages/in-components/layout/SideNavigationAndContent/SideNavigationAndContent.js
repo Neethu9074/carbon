@@ -85,7 +85,6 @@ function SideNavigationPane({ navigationTree, hasIcons, ...otherProps }) {
               onClick={scrollToTopSmoothly}
               key={page.path}
               icon={page.icon}
-              isBeta={page.isBeta ?? false}
               omitEmptyIcon={!hasIcons}
               label={page.label ? page.label : page.renderLabel(otherProps)}
               path={page.path}

@@ -74,6 +74,7 @@ import ElkPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Elk/Elk';
 import { findFirstPermittedTeamPage } from 'in-settings/tabs/permissions';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
+import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import SetBodyColor from 'in-components/SetBodyColor';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -248,8 +249,12 @@ function navigationTreeForRole(role) {
       pages: [
         {
           path: teamSettingsActionCatalog,
-          label: t('in-settings:tabs.actionCatalog'),
-          isBeta: true,
+          renderLabel: () => (
+            <div>
+              <span>{t('in-settings:tabs.actionCatalog')} </span>
+              <BetaBadge />
+            </div>
+          ),
           component: ActionCatalogPage,
           subPages: [
             {
