@@ -29,3 +29,10 @@ export const SCRIPT_TYPE = 'SCRIPT';
 export const WEBHOOK_TYPE = 'HTTP';
 
 export const HTTP_METHODS = Object.freeze(['GET', 'PATCH', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'HEAD', 'TRACE']);
+
+export const AUTH_TYPES = Object.freeze([
+  { value: 'noAuth', translation: t('in-settings:tabs.noAuth') },
+  { value: 'basicAuth', translation: t('in-settings:tabs.basicAuth') },
+  { value: 'bearerToken', translation: t('in-settings:tabs.bearerToken') },
+  { value: 'apiKey', translation: t('in-settings:tabs.apiKey') }
+]);

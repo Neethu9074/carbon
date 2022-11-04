@@ -7,15 +7,24 @@
 import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
+import { Toggle } from '@instana/components';
+
 import {
+  putApiKeyFields,
+  putBasicFields,
+  putBearerField,
   putDocLinkField,
   putScriptField,
   putWebhookFields,
+  removeApiKeyFields,
+  removeBasicFields,
+  removeBearerField,
   removeDocLinkField,
   removeScriptField,
   removeWebhookFields
 } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionFormDefinition';
 import {
+  AUTH_TYPES,
   DOC_LINK_TYPE,
   HTTP_METHODS,
   isDocLink,
@@ -60,7 +69,7 @@ export default function ActionForm({ form, setForm, onChange, entity: action }: 
             <MetaDataSection form={form} setForm={setForm} onChange={onChange} entity={action} />
             {isDocLink(type) && <DocLinkSection form={form} onChange={onChange} />}
             {isScript(type) && <ScriptSection form={form} onChange={onChange} />}
-            {isWebhook(type) && <WebhookSection setForm={setForm} form={form} onChange={onChange} />}
+            {isWebhook(type) && <WebhookSection setForm={setForm} form={form} onChange={onChange} entity={action} />}
           </>
         </Col>
       </Row>
@@ -187,7 +196,7 @@ const ScriptSection = ({ form, onChange }: Omit<ActionFormProps, 'setForm' | 'en
   ));
 };
 
-const WebhookSection = ({ form, setForm, onChange }: Omit<ActionFormProps, 'entity'>) => {
+const WebhookSection = ({ form, setForm, onChange, entity: action }: ActionFormProps) => {
   const host = form.get('host') as Field<string>;
   const method = form.get('method') as Field<string>;
   const username = form.get('username') as Field<string>;
@@ -196,6 +205,12 @@ const WebhookSection = ({ form, setForm, onChange }: Omit<ActionFormProps, 'enti
   const body = form.get('body') as Field<string>;
   const acceptLanguage = form.get('acceptLanguage') as Field<string>;
   const contentType = form.get('contentType') as Field<string>;
+  const ignoreCertErrors = form.get('ignoreCertErrors') as Field<boolean>;
+  const authType = form.get('authType') as Field<string>;
+  const bearerToken = form.get('bearerToken') as Field<string>;
+  const apiKey = form.get('apiKey') as Field<string>;
+  const apiKeyValue = form.get('apiKeyValue') as Field<string>;
+  const apiKeyAddTo = form.get('apiKeyAddTo') as Field<string>;
 
   const renderBodyAndContentType = ['PATCH', 'PUT', 'POST'].includes(method.value);
   return (
@@ -280,44 +295,175 @@ const WebhookSection = ({ form, setForm, onChange }: Omit<ActionFormProps, 'enti
       )}
       <Row>
         <Col lg={6}>
-          {username.map(field => (
+          {ignoreCertErrors.map(field => (
             <FormGroup>
-              <Label htmlFor="action-username" hasError={!field.valid && field.touched}>
-                {t('in-settings:tabs.usernameOptional')}
+              <Label htmlFor="action-ignoreCertErrors" hasError={!field.valid && field.touched}>
+                {t('in-settings:tabs.ignoreCertErrors')}
               </Label>
-              <Input
-                id="action-username"
-                type="text"
-                value={field.value}
-                onChange={e => onChange('username', e.target.value)}
-                hasError={!field.valid && field.touched}
-                maxLength={256}
-              />
-              <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-              <HelpText className={locals.subTextFormField}>{t('in-settings:tabs.webookUsernameDescription')}</HelpText>
+              <Toggle checked={field.value} onChange={e => onChange('ignoreCertErrors', e.target.checked)} />
             </FormGroup>
           ))}
         </Col>
         <Col lg={6}>
-          {password.map(field => (
+          {authType.map(field => (
             <FormGroup>
-              <Label htmlFor="action-password" hasError={!field.valid && field.touched}>
-                {t('in-settings:tabs.passwordOptional')}
+              <Label htmlFor="action-authType" hasError={!field.valid && field.touched}>
+                {t('in-settings:tabs.authType')}
               </Label>
-              <Input
-                id="action-password"
-                type="text"
+              <Select
+                id="action-authType"
                 value={field.value}
-                onChange={e => onChange('password', e.target.value)}
+                onChange={e =>
+                  onChange('authType', e.target.value, updatedForm => {
+                    const authType = (updatedForm.get('authType') as Field<string>).value;
+                    if (authType == 'none') {
+                      updatedForm = removeBasicFields(updatedForm);
+                      updatedForm = removeBearerField(updatedForm);
+                      updatedForm = removeApiKeyFields(updatedForm);
+                    } else if (authType == 'basicAuth') {
+                      updatedForm = putBasicFields(updatedForm, action);
+                    } else if (authType == 'bearerToken') {
+                      updatedForm = putBearerField(updatedForm, action);
+                    } else if (authType == 'apiKey') {
+                      updatedForm = putApiKeyFields(updatedForm, action);
+                    }
+                    return updatedForm;
+                  })
+                }
                 hasError={!field.valid && field.touched}
-                maxLength={256}
-              />
+              >
+                {AUTH_TYPES.map(({ value, translation }) => (
+                  <option key={value} value={value}>
+                    {translation}
+                  </option>
+                ))}
+              </Select>
               <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-              <HelpText className={locals.subTextFormField}>{t('in-settings:tabs.webookPasswordDescription')}</HelpText>
             </FormGroup>
           ))}
         </Col>
       </Row>
+      {authType.value === 'basicAuth' && (
+        <Row>
+          <Col lg={6}>
+            {username.map(field => (
+              <FormGroup>
+                <Label htmlFor="action-username" hasError={!field.valid && field.touched}>
+                  {t('in-settings:tabs.username')}
+                </Label>
+                <Input
+                  id="action-username"
+                  type="text"
+                  value={field.value}
+                  onChange={e => onChange('username', e.target.value)}
+                  hasError={!field.valid && field.touched}
+                  maxLength={256}
+                />
+                <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+              </FormGroup>
+            ))}
+          </Col>
+          <Col lg={6}>
+            {password.map(field => (
+              <FormGroup>
+                <Label htmlFor="action-password" hasError={!field.valid && field.touched}>
+                  {t('in-settings:tabs.password')}
+                </Label>
+                <Input
+                  id="action-password"
+                  type="text"
+                  value={field.value}
+                  onChange={e => onChange('password', e.target.value)}
+                  hasError={!field.valid && field.touched}
+                  maxLength={256}
+                />
+                <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+              </FormGroup>
+            ))}
+          </Col>
+        </Row>
+      )}
+      {authType.value === 'bearerToken' && (
+        <Row>
+          <Col lg={12}>
+            {bearerToken.map(field => (
+              <FormGroup>
+                <Label htmlFor="action-bearerToken" hasError={!field.valid && field.touched}>
+                  {t('in-settings:tabs.bearerToken')}
+                </Label>
+                <Input
+                  id="action-bearerToken"
+                  type="text"
+                  value={field.value}
+                  onChange={e => onChange('bearerToken', e.target.value)}
+                  hasError={!field.valid && field.touched}
+                  maxLength={256}
+                />
+                <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+              </FormGroup>
+            ))}
+          </Col>
+        </Row>
+      )}
+      {authType.value === 'apiKey' && (
+        <Row>
+          <Col lg={4}>
+            {apiKey.map(field => (
+              <FormGroup>
+                <Label htmlFor="action-apiKey" hasError={!field.valid && field.touched}>
+                  {t('in-settings:tabs.key')}
+                </Label>
+                <Input
+                  id="action-apiKey"
+                  type="text"
+                  value={field.value}
+                  onChange={e => onChange('apiKey', e.target.value)}
+                  hasError={!field.valid && field.touched}
+                  maxLength={256}
+                />
+                <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+              </FormGroup>
+            ))}
+          </Col>
+          <Col lg={6}>
+            {apiKeyValue.map(field => (
+              <FormGroup>
+                <Label htmlFor="action-apiKeyValue" hasError={!field.valid && field.touched}>
+                  {t('in-settings:tabs.value')}
+                </Label>
+                <Input
+                  id="action-apiKeyValue"
+                  type="text"
+                  value={field.value}
+                  onChange={e => onChange('apiKeyValue', e.target.value)}
+                  hasError={!field.valid && field.touched}
+                  maxLength={256}
+                />
+                <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+              </FormGroup>
+            ))}
+          </Col>
+          <Col lg={2}>
+            {apiKeyAddTo.map(field => (
+              <FormGroup>
+                <Label htmlFor="action-apiKeyAddTo" hasError={!field.valid && field.touched}>
+                  {t('in-settings:tabs.apiKeyAddTo')}
+                </Label>
+                <Select
+                  id="action-apiKeyAddTo"
+                  value={field.value}
+                  onChange={e => onChange('apiKeyAddTo', e.target.value)}
+                  hasError={!field.valid && field.touched}
+                >
+                  <option value="header">{t('in-settings:tabs.header')}</option>
+                  <option value="query">{t('in-settings:tabs.queryParam')}</option>
+                </Select>
+                <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+              </FormGroup>
+            ))}
+          </Col>
+        </Row>
+      )}
       <Row>
         <Col lg={6}>
           {accept.map(field => (
