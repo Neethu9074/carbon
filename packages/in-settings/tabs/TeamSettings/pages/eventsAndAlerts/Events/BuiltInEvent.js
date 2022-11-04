@@ -25,7 +25,7 @@ import SectionHeading from 'in-settings/components/SectionHeading';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
-import { actionsAssociatedToEvent } from 'in-events/tracker';
+import { associateActionsTracker } from 'in-events/tracker';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
 import FormGroup from 'in-settings/components/FormGroup';
@@ -77,7 +77,7 @@ export default function BuiltinEvent(props) {
       []
     );
 
-    actionsAssociatedToEvent({
+    associateActionsTracker({
       eventName: event.get('name').value,
       actionNames: actionNames
     });

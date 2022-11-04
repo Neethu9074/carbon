@@ -25,11 +25,11 @@ import { Action, Event, Result, VolatileId } from 'in-types';
 import { close } from 'in-components/DialogPresenter/store';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import Select from 'in-components/form/Select/Select';
+import { runActionTracker } from 'in-events/tracker';
 import { runScriptAction } from 'in-api/automation';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Label from 'in-components/form/Label/Label';
 import Dialog from 'in-components/Dialog/Dialog';
-import { runAction } from 'in-events/tracker';
 import Code from 'in-components/Code';
 import { t, Trans } from 'in-i18n';
 
@@ -122,7 +122,7 @@ export default function RunAction({ action, script, volatileId, event }: Props) 
               return;
             }
             setIsSaving(true);
-            runAction({
+            runActionTracker({
               actionType: action.type,
               actionName: action.name
             });

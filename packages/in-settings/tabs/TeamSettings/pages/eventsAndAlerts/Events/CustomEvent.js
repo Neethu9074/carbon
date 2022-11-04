@@ -48,7 +48,7 @@ import { actionAutomationEnabled } from 'in-services/featureFlags';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
-import { actionsAssociatedToEvent } from 'in-events/tracker';
+import { associateActionsTracker } from 'in-events/tracker';
 import useEntityForm from 'in-settings/hooks/useEntityForm';
 import Notification from 'in-components/form/Notification';
 import SaveCancel from 'in-settings/components/SaveCancel';
@@ -219,7 +219,7 @@ function save(event, form, actions) {
     []
   );
 
-  actionsAssociatedToEvent({
+  associateActionsTracker({
     eventName: form.get('name').value,
     actionNames: actionNames
   });

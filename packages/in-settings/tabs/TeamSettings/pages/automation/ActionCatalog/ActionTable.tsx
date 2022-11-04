@@ -19,8 +19,8 @@ import RunAction from 'in-events/components/AutomationActions/RunAction';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getAllActions, ScoredAction } from 'in-api/automation';
 import { formatDateTime } from 'in-services/formatters/date';
+import { runActionTracker } from 'in-events/tracker';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import { runAction } from 'in-events/tracker';
 import { Event, VolatileId } from 'in-types';
 import { Action } from 'in-types';
 import { t } from 'in-i18n';
@@ -78,7 +78,7 @@ const executeColumn = (volatileId: VolatileId, event: Event | null) => ({
           target="_blank"
           href={value}
           onClick={() => {
-            runAction({
+            runActionTracker({
               actionType: row.type,
               actionName: row.name
             });

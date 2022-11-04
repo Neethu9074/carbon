@@ -6,5 +6,5 @@
 
 import { track, REMEDIATION_ASSOCIATE_ACTION, REMEDIATION_RUN_ACTION } from 'in-services/tracking/tracking';
 
-export const actionsAssociatedToEvent = (e: any) => track(REMEDIATION_ASSOCIATE_ACTION, e);
-export const runAction = (e: any) => track(REMEDIATION_RUN_ACTION, e);
+export const associateActionsTracker = (e: any) => track(REMEDIATION_ASSOCIATE_ACTION, e);
+export const runActionTracker = (e: any) => track(REMEDIATION_RUN_ACTION, e);

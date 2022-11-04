@@ -20,7 +20,7 @@ import {
 import { MessageType, EventProps } from 'in-events/components/AutomationActions/action_associations_dialog/SharedTypes';
 import ActionConfigDialog from 'in-events/components/AutomationActions/action_associations_dialog/ActionConfigDialog';
 import { addActionForm } from 'in-events/components/AutomationActions/action_associations_dialog/addActionForm';
-import { actionsAssociatedToEvent } from 'in-events/tracker';
+import { associateActionsTracker } from 'in-events/tracker';
 import { close } from 'in-components/DialogPresenter/store';
 import { getAllActions } from 'in-api/automation';
 import { Action } from 'in-types';
@@ -121,7 +121,7 @@ function createOrSaveAction({
     (acc, action) => [...acc, ...(actionIds.includes(action.id) ? [action.name] : [])],
     []
   );
-  actionsAssociatedToEvent({
+  associateActionsTracker({
     eventName,
     actionNames
   });
