@@ -7,6 +7,7 @@ import { fromJS } from 'immutable';
 import React from 'react';
 
 import { combineLatest } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
 import { Stack } from '@instana/components';
 
 import {
@@ -47,12 +48,14 @@ import { actionAutomationEnabled } from 'in-services/featureFlags';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
+import { associateActionsTracker } from 'in-events/tracker';
 import useEntityForm from 'in-settings/hooks/useEntityForm';
 import Notification from 'in-components/form/Notification';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import { submitEventTracker } from 'in-settings/tracker';
 import Section from 'in-settings/components/Section';
 import { getPluginName } from 'in-sdk/pluginName';
+import { getAllActions } from 'in-api/automation';
 import { goToPath } from 'in-stores/navigation';
 import Title from 'in-components/Title/Title';
 import { role } from 'in-stores/user';
@@ -70,13 +73,14 @@ export default function CustomEvent(props) {
       eventResponse.set('actionIds', actionResponse?.map(action => action.id) ?? [])
     );
   }
+  const actions = useObservable(getAllActions, []) ?? [];
   const entityFormParam = {
     entityId,
     createDefaultEntity: createCustomThresholdBasedEventSpecification,
     createForm: event => createEventFormDefinition(fromJS(event), !entityId),
     getEntityFromApi:
       role.canConfigureAutomationActions && actionAutomationEnabled ? mergeResultData : getCustomEventSpecification,
-    saveEntity: (event, form) => save(fromJS(event), form),
+    saveEntity: (event, form) => save(fromJS(event), form, actions),
     openEntities: () => goToPath(teamSettingsAlertingEvents)
   };
   const {
@@ -196,7 +200,7 @@ export default function CustomEvent(props) {
   );
 }
 
-function save(event, form) {
+function save(event, form, actions) {
   const isTriggering = form.get('triggering').value;
   const severity = Number(form.get('severity')?.value ?? 0);
   const entityType = form.get('entityType')?.value ?? null;
@@ -208,6 +212,16 @@ function save(event, form) {
     entityType,
     type: isTriggering ? 'Incident' : 'None',
     severity: getSeverityText(severity)
+  });
+
+  const actionNames = actions.reduce(
+    (acc, action) => [...acc, ...(actionIds.includes(action.id) ? [action.name] : [])],
+    []
+  );
+
+  associateActionsTracker({
+    eventName: form.get('name').value,
+    actionNames: actionNames
   });
 
   const eventSpecification = getEventSpecification(event, form);
