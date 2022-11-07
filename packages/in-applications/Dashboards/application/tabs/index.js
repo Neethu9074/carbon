@@ -5,7 +5,6 @@
 
 import SyntheticsList from 'in-applications/Dashboards/application/tabs/SyntheticsMonitoring/SyntheticsList';
 import ReadOnlyConfiguration from 'in-applications/Dashboards/application/tabs/ReadOnlyConfiguration';
-import { applicationSmartAlertsEnabled, syntheticsTestEnabled } from 'in-services/featureFlags';
 import ErrorMessagesTab from 'in-applications/Dashboards/commonTabs/messages/ErrorMessages';
 import LogMessagesTab from 'in-applications/Dashboards/commonTabs/messages/LogMessages';
 import Configuration from 'in-applications/Dashboards/application/tabs/Configuration';
@@ -13,6 +12,7 @@ import InfrastructureTab from 'in-applications/Dashboards/commonTabs/Infrastruct
 import { hasInfrastructureAccess, hasSyntheticsAccess } from 'in-stores/permission';
 import Summary from 'in-applications/Dashboards/application/tabs/Summary/Summary';
 import Services from 'in-applications/Dashboards/application/tabs/Services';
+import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import Alerts from 'in-applications/Dashboards/application/tabs/Alerts';
 import { applicationDashboard } from 'in-applications/navigation/paths';
 import Map from 'in-applications/Dashboards/application/tabs/Map';
@@ -53,12 +53,11 @@ export default [
     path: `${applicationDashboard}/infrastructure`,
     component: InfrastructureTab
   },
-  syntheticsTestEnabled &&
-    hasSyntheticsAccess && {
-      label: t('in-synthetics:dashboard.testList.mainLabel'),
-      path: `${applicationDashboard}/synthetics`,
-      component: SyntheticsList
-    },
+  hasSyntheticsAccess && {
+    label: t('in-synthetics:dashboard.testList.mainLabel'),
+    path: `${applicationDashboard}/synthetics`,
+    component: SyntheticsList
+  },
   applicationSmartAlertsEnabled && {
     label: t('in-applications:labelSmartAlerts'),
     path: `${applicationDashboard}/alerts`,

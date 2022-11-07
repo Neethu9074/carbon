@@ -17,17 +17,10 @@ import {
   hasSyntheticsAccess,
   hasVSphereAccess,
   hasPHMCAccess,
-  hasZHMCAccess
+  hasZHMCAccess,
+  hasPCFAccess,
+  hasOpenStackAccess
 } from 'in-stores/permission';
-import {
-  pcfEnabled,
-  vsphereEnabled,
-  openstackEnabled,
-  phmcEnabled,
-  zhmcEnabled,
-  internalMonitoringUnit,
-  syntheticsTestEnabled
-} from 'in-services/featureFlags';
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import FragmentSupportingSwitch from 'in-components/FragmentSupportingSwitch';
 import customDashboardsRoutes from 'in-custom-dashboards/navigation/routes';
@@ -35,6 +28,7 @@ import mobileAppMonitoringRoutes from 'in-mobile-apps/navigation/routes';
 import infrastructureRoutes from 'in-infrastructure/navigation/routes';
 import websiteMonitoringRoutes from 'in-websites/navigation/routes';
 import cloudfoundryRoutes from 'in-cloudfoundry/navigation/routes';
+import { internalMonitoringUnit } from 'in-services/featureFlags';
 import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
 import integrationRoutes from 'in-integrations/navigation/routes';
 import applicationRoutes from 'in-applications/navigation/routes';
@@ -66,14 +60,14 @@ export default (
 
     {eventRoutes}
 
-    {syntheticsTestEnabled && hasSyntheticsAccess && syntheticsRoutes}
+    {hasSyntheticsAccess && syntheticsRoutes}
     {hasApplicationsAccess && applicationRoutes}
     {hasKubernetesAccess && kubernetesRoutes}
-    {pcfEnabled && cloudfoundryRoutes}
-    {phmcEnabled && hasPHMCAccess && phmcRoutes}
-    {vsphereEnabled && hasVSphereAccess && vsphereRoutes}
-    {openstackEnabled && openstackRoutes}
-    {zhmcEnabled && hasZHMCAccess && zhmcRoutes}
+    {hasPCFAccess && cloudfoundryRoutes}
+    {hasPHMCAccess && phmcRoutes}
+    {hasVSphereAccess && vsphereRoutes}
+    {hasOpenStackAccess && openstackRoutes}
+    {hasZHMCAccess && zhmcRoutes}
     {hasWebsitesAccess && websiteMonitoringRoutes}
     {hasMobileAppsAccess && mobileAppMonitoringRoutes}
     {integrationRoutes}

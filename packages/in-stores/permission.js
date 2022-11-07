@@ -43,12 +43,14 @@ export const hasWebsitesAccess = hasPermission(ACCESS_WEBSITES);
 export const hasMobileAppsAccess = hasPermission(ACCESS_MOBILE_APPS);
 export const hasAnalyzeAccess = hasApplicationsAccess || hasWebsitesAccess || hasMobileAppsAccess;
 export const hasInfrastructureAccess = hasPermission(ACCESS_INFRASTRUCTURE);
-export const hasSyntheticsAccess = hasPermission(ACCESS_SYNTHETICS);
-export const hasVSphereAccess = hasPermission(ACCESS_VSPHERE);
-export const hasPHMCAccess = hasPermission(ACCESS_PHMC);
-export const hasZHMCAccess = hasPermission(ACCESS_ZHMC);
-export const hasPCFAccess = hasPermission(ACCESS_PCF);
-export const hasOpenStackAccess = hasPermission(ACCESS_OPENSTACK);
+export const hasSyntheticsAccess = hasPermission(ACCESS_SYNTHETICS) && syntheticsTestEnabled;
+export const hasVSphereAccess = hasPermission(ACCESS_VSPHERE) && vsphereEnabled;
+export const hasPHMCAccess = hasPermission(ACCESS_PHMC) && phmcEnabled;
+export const hasZHMCAccess = hasPermission(ACCESS_ZHMC) && zhmcEnabled;
+export const hasPCFAccess = hasPermission(ACCESS_PCF) && pcfEnabled;
+export const hasOpenStackAccess = hasPermission(ACCESS_OPENSTACK) && openstackEnabled;
+export const hasAPlatformAccess =
+  hasVSphereAccess || hasPHMCAccess || hasZHMCAccess || hasPCFAccess || hasOpenStackAccess || hasKubernetesAccess;
 
 export const productAreaPermissions = getProductAreaPermissions();
 export const productPermissions = getProductPermissions();
@@ -61,30 +63,31 @@ function getProductAreaPermissions() {
   const areaPermissions = [
     { value: ACCESS_WEBSITES, label: t('in-stores:permissionAccessWebsitesLabel') },
     { value: ACCESS_MOBILE_APPS, label: t('in-stores:permissionAccessMobileAppsLabel') },
-    { value: ACCESS_APPLICATIONS, label: t('in-stores:permissionAccessApplicationsLabel') },
-    { value: ACCESS_INFRASTRUCTURE, label: t('in-stores:permissionAccessInfrastructureLabel')},
+    { value: ACCESS_APPLICATIONS, label: t('in-stores:permissionAccessApplicationsLabel') }
   ];
   if (pcfEnabled) {
-    areaPermissions.push({ value: ACCESS_PCF, label: t('in-stores:permissionAccessPCFLabel')});
+    areaPermissions.push({ value: ACCESS_PCF, label: t('in-stores:permissionAccessPCFLabel') });
   }
   if (openstackEnabled) {
-    areaPermissions.push({ value: ACCESS_OPENSTACK, label: t('in-stores:permissionAccessOpenStackLabel')});
+    areaPermissions.push({ value: ACCESS_OPENSTACK, label: t('in-stores:permissionAccessOpenStackLabel') });
   }
   if (phmcEnabled) {
-    areaPermissions.push({ value: ACCESS_PHMC, label: t('in-stores:permissionAccessPHMCLabel')});
+    areaPermissions.push({ value: ACCESS_PHMC, label: t('in-stores:permissionAccessPHMCLabel') });
   }
   if (zhmcEnabled) {
-    areaPermissions.push({ value: ACCESS_ZHMC, label: t('in-stores:permissionAccessZHMCLabel')});
+    areaPermissions.push({ value: ACCESS_ZHMC, label: t('in-stores:permissionAccessZHMCLabel') });
   }
 
-  areaPermissions.push({ value: ACCESS_KUBERNETES, label: t('in-stores:permissionAccessKubernetesLabel')});
+  areaPermissions.push({ value: ACCESS_KUBERNETES, label: t('in-stores:permissionAccessKubernetesLabel') });
 
   if (vsphereEnabled) {
-    areaPermissions.push({ value: ACCESS_VSPHERE, label: t('in-stores:permissionAccessVSphereLabel')});
+    areaPermissions.push({ value: ACCESS_VSPHERE, label: t('in-stores:permissionAccessVSphereLabel') });
   }
 
+  areaPermissions.push({ value: ACCESS_INFRASTRUCTURE, label: t('in-stores:permissionAccessInfrastructureLabel') });
+
   if (syntheticsTestEnabled) {
-    areaPermissions.push({ value: ACCESS_SYNTHETICS, label: t('in-stores:permissionAccessSyntheticsLabel')});
+    areaPermissions.push({ value: ACCESS_SYNTHETICS, label: t('in-stores:permissionAccessSyntheticsLabel') });
   }
   return areaPermissions;
 }
