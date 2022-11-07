@@ -50,7 +50,11 @@ export function init() {
 
         interpolation: {
           // React already escapes values
-          escapeValue: false
+          escapeValue: false,
+          format: function(value, format) {
+            if (format === 'parenthesis') return value ? `(${value})` : null;
+            return value;
+          }
         },
 
         // needs to be true to support the missingKeyHandler
