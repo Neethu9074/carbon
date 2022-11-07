@@ -456,7 +456,7 @@ const WebhookSection = ({ form, setForm, onChange, entity: action }: ActionFormP
                   hasError={!field.valid && field.touched}
                 >
                   <option value="header">{t('in-settings:tabs.header')}</option>
-                  <option value="query">{t('in-settings:tabs.queryParam')}</option>
+                  <option value="query">{t('in-settings:tabs.queryParams')}</option>
                 </Select>
                 <TouchedMessages field={field} className={locals.subErrorTextFormField} />
               </FormGroup>

@@ -13,7 +13,9 @@ import { generateUniqueShortId } from '@instana/utils';
 import { isDocLink, isScript, isWebhook } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import { notBlankValidator } from 'in-services/validators/string';
+import { AdditionalHeaders, Authen } from 'in-api/automation';
 import { isNotBlank } from 'in-services/util/string';
+import { Header } from './AdditionalHeadersTable';
 import { Field } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -27,6 +29,22 @@ function mimeValidator(str: string): ValidationResult {
     ];
   }
 
+  return null;
+}
+
+function additionalHeadersValidator(additionalHeaders: Header[]): ValidationResult {
+  const hasBlankAdditionalHeaders = additionalHeaders.reduce(
+    (hasBlank, additionalHeader) => hasBlank || additionalHeader.value.includes(''),
+    false
+  );
+  if (hasBlankAdditionalHeaders) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-services:validators.theValueMustNotBeBlank')
+      }
+    ];
+  }
   return null;
 }
 
@@ -84,6 +102,7 @@ export function putDocLinkField(form: MapForm, action: ActionFormEntity) {
   const fields = action.fields;
   const value = isDocLink(action.type) ? fields?.[0].value ?? '' : '';
 
+  // TODO: add validator for URL???
   return form.put(
     'docLink',
     createField({
@@ -123,33 +142,30 @@ export function putWebhookFields(form: MapForm, action: ActionFormEntity) {
     return form
       .put('method', createField({ value: '', validator: notBlankValidator }))
       .put('host', createField({ value: '', validator: notBlankValidator }))
-      .put('body', createField({ value: '', validator: notBlankValidator }))
-      .put('ignoreCertErrors', createField({ value: false, validator: notBlankValidator }))
-      .put('authType', createField({ value: 'none', validator: notBlankValidator }))
-      .put('username', createField({ value: '', validator: notBlankValidator }))
-      .put('password', createField({ value: '', validator: notBlankValidator }))
-      .put('contentType', createField({ value: '', validator: notBlankValidator }))
-      .put('accept', createField({ value: '', validator: notBlankValidator }))
-      .put('acceptLanguage', createField({ value: '', validator: notBlankValidator }))
-      .put('additionalHeaders', createField({ value: [], validator: notBlankValidator }));
+      .put('body', createField({ value: '' }))
+      .put('ignoreCertErrors', createField({ value: false }))
+      .put('authType', createField({ value: 'none' }))
+      .put('contentType', createField({ value: '', validator: mimeValidator }))
+      .put('accept', createField({ value: '', validator: mimeValidator }))
+      .put('acceptLanguage', createField({ value: '' }))
+      .put('additionalHeaders', createField({ value: [], validator: additionalHeadersValidator }));
   } else {
-    const fields = keyBy(action.fields, 'name') as Record<string, Field | null>;
+    const fields: Record<string, Field | null> = keyBy(action.fields, 'name');
     const method = fields.method;
     const host = fields.host;
     const body = fields.body;
     const headers = fields.header;
-    const headersValue = JSON.parse(headers?.value ?? '{}') as { [k: string]: string };
+    const headersValue: AdditionalHeaders = JSON.parse(headers?.value ?? '{}');
     const ignoreCertErrors = fields.ignoreCertErrors;
     const authen = fields.authen;
-    const authenValue = JSON.parse(authen?.value ?? '{}') as { type: string };
+    const authenValue: Authen = JSON.parse(authen?.value ?? '{ "type": "none" }');
     const {
       'Content-Type': contentType,
       Accept: accept,
       'Accept-Language': acceptLanguage,
       ...additionalHeaders
     } = headersValue;
-
-    let form = createMapForm()
+    form = form
       .put(
         'method',
         createField({
@@ -157,6 +173,7 @@ export function putWebhookFields(form: MapForm, action: ActionFormEntity) {
           validator: notBlankValidator
         })
       )
+      // TODO: add validator for URL???
       .put(
         'host',
         createField({
@@ -173,13 +190,14 @@ export function putWebhookFields(form: MapForm, action: ActionFormEntity) {
       .put(
         'ignoreCertErrors',
         createField({
-          value: ignoreCertErrors?.value ?? false
+          value: Boolean(ignoreCertErrors?.value) ?? false
         })
       )
       .put(
         'authType',
         createField({
-          value: authenValue.type ?? 'none'
+          value: authenValue.type ?? 'none',
+          validator: notBlankValidator
         })
       )
       .put(
@@ -209,21 +227,7 @@ export function putWebhookFields(form: MapForm, action: ActionFormEntity) {
             value: header,
             id: generateUniqueShortId()
           })),
-          validator: additionalHeaders => {
-            const hasBlankAdditionalHeaders = additionalHeaders.reduce(
-              (hasBlank, additionalHeader) => hasBlank || additionalHeader.value.includes(''),
-              false
-            );
-            if (hasBlankAdditionalHeaders) {
-              return [
-                {
-                  severity: 'error',
-                  message: t('in-services:validators.theValueMustNotBeBlank')
-                }
-              ];
-            }
-            return null;
-          }
+          validator: additionalHeadersValidator
         })
       );
     if (authenValue.type == 'basicAuth') form = putBasicFields(form, action);
@@ -248,65 +252,67 @@ export function removeWebhookFields(form: MapForm) {
 }
 
 export function putBasicFields(form: MapForm, action: ActionFormEntity) {
-  const fields = keyBy(action.fields, 'name') as Record<string, Field | null>;
+  const fields: Record<string, Field | null> = keyBy(action.fields, 'name');
   const authen = fields.authen;
-  const authenValue = JSON.parse(authen?.value ?? '{}') as { username?: string; password?: string };
+  const authenValue: Authen = JSON.parse(authen?.value ?? '{}');
   form = removeApiKeyFields(form);
   form = removeBearerField(form);
   return form
     .put(
       'username',
       createField({
-        value: authenValue.username ?? ''
+        value: authenValue.username ?? '',
+        validator: notBlankValidator
       })
     )
     .put(
       'password',
       createField({
-        value: authenValue.password ?? ''
+        value: authenValue.password ?? '',
+        validator: notBlankValidator
       })
     );
 }
 export function putBearerField(form: MapForm, action: ActionFormEntity) {
-  const fields = keyBy(action.fields, 'name') as Record<string, Field | null>;
+  const fields: Record<string, Field | null> = keyBy(action.fields, 'name');
   const authen = fields.authen;
-  const authenValue = JSON.parse(authen?.value ?? '{}') as { bearerToken?: string };
+  const authenValue: Authen = JSON.parse(authen?.value ?? '{}');
   form = removeBasicFields(form);
   form = removeApiKeyFields(form);
   return form.put(
     'bearerToken',
     createField({
-      value: authenValue.bearerToken ?? ''
+      value: authenValue.bearerToken ?? '',
+      validator: notBlankValidator
     })
   );
 }
 export function putApiKeyFields(form: MapForm, action: ActionFormEntity) {
-  const fields = keyBy(action.fields, 'name') as Record<string, Field | null>;
+  const fields: Record<string, Field | null> = keyBy(action.fields, 'name');
   const authen = fields.authen;
-  const authenValue = JSON.parse(authen?.value ?? '{}') as {
-    apiKey?: string;
-    apiKeyValue?: string;
-    apiKeyAddTo?: string;
-  };
+  const authenValue: Authen = JSON.parse(authen?.value ?? '{}');
   form = removeBasicFields(form);
   form = removeBearerField(form);
   return form
     .put(
       'apiKey',
       createField({
-        value: authenValue.apiKey ?? ''
+        value: authenValue.apiKey ?? '',
+        validator: notBlankValidator
       })
     )
     .put(
       'apiKeyValue',
       createField({
-        value: authenValue.apiKeyValue ?? ''
+        value: authenValue.apiKeyValue ?? '',
+        validator: notBlankValidator
       })
     )
     .put(
       'apiKeyAddTo',
       createField({
-        value: authenValue.apiKeyAddTo ?? 'header'
+        value: authenValue.apiKeyAddTo ?? 'header',
+        validator: notBlankValidator
       })
     );
 }

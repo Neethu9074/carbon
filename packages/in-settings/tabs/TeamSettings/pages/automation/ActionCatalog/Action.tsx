@@ -9,6 +9,8 @@ import { RouteComponentProps } from 'react-router';
 import React from 'react';
 
 import {
+  AdditionalHeaders,
+  Authen,
   createDocLinkField,
   createScriptFields,
   createWebhookFields,
@@ -156,6 +158,29 @@ function getActionSpecification(form: MapForm): NewAction {
     const contentType = (form.get('contentType') as FormField<string>).value;
     const additionalHeaders = (form.get('additionalHeaders') as FormField<Header[]>).value;
     const body = (form.get('body') as FormField<string>).value;
+    const authType = (form.get('authType') as FormField<string>).value;
+    const authen: Authen = {
+      type: 'none'
+    };
+    if (authType === 'basicAuth') {
+      const username = (form.get('username') as FormField<string>).value;
+      const password = (form.get('password') as FormField<string>).value;
+      authen['username'] = username;
+      authen['password'] = password;
+      authen['type'] = 'basicAuth';
+    } else if (authType === 'bearerToken') {
+      const bearerToken = (form.get('bearerToken') as FormField<string>).value;
+      authen['bearerToken'] = bearerToken;
+      authen['type'] = 'bearerToken';
+    } else if (authType === 'apiKey') {
+      const apiKey = (form.get('apiKey') as FormField<string>).value;
+      const apiKeyValue = (form.get('apiKeyValue') as FormField<string>).value;
+      const apiKeyAddTo = (form.get('apiKeyAddTo') as FormField<string>).value;
+      authen['apiKey'] = apiKey;
+      authen['apiKeyValue'] = apiKeyValue;
+      authen['apiKeyAddTo'] = apiKeyAddTo;
+      authen['type'] = 'apiKey';
+    }
     fields.push(
       ...createWebhookFields({
         host,
@@ -166,13 +191,14 @@ function getActionSpecification(form: MapForm): NewAction {
         acceptLanguage,
         contentType,
         additionalHeaders: additionalHeaders.reduce(
-          (headers: { [k: string]: string }, header) => ({
+          (headers: AdditionalHeaders, header) => ({
             ...headers,
             [header.value[0]]: header.value[1]
           }),
           {}
         ),
-        body
+        body,
+        authen
       })
     );
   }

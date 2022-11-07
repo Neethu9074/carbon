@@ -107,16 +107,26 @@ export const createScriptFields = (value: string): Field[] => [
   }
 ];
 
+export type Authen = {
+  type: 'none' | 'basicAuth' | 'bearerToken' | 'apiKey';
+  username?: string;
+  password?: string;
+  bearerToken?: string;
+  apiKey?: string;
+  apiKeyValue?: string;
+  apiKeyAddTo?: string;
+};
+
+export type AdditionalHeaders = { [k: string]: string };
 export const createWebhookFields = ({
   host,
   method,
-  username,
-  password,
   accept,
   acceptLanguage,
   contentType,
   additionalHeaders,
-  body
+  body,
+  authen
 }: {
   host: string;
   method: string;
@@ -125,8 +135,9 @@ export const createWebhookFields = ({
   accept: string;
   acceptLanguage: string;
   contentType: string;
-  additionalHeaders: { [k: string]: string };
+  additionalHeaders: AdditionalHeaders;
   body: string;
+  authen: Authen;
 }): Field[] => [
   {
     description: 'method of the https request',
@@ -158,7 +169,7 @@ export const createWebhookFields = ({
     description: 'ignore certificate errors for request'
   },
   {
-    value: JSON.stringify({ username, password }),
+    value: JSON.stringify(authen),
     description: 'authen of the https request',
     encoding: 'ascii',
     name: 'authen'
@@ -188,7 +199,13 @@ export function createAction(
 }
 
 // We are using a timeout here to prevent the UI from hanging if the agent is not responding (sensor not installed).
-export function runScriptAction(script: string, volatileId: VolatileId, event: Event | null, actionName: string) {
+export function runScriptAction(
+  script: string,
+  volatileId: VolatileId,
+  event: Event | null,
+  actionName: string,
+  interpreter: string
+) {
   return combineLatest(
     [
       timeout(10000).flatMap(() =>
@@ -205,18 +222,46 @@ export function runScriptAction(script: string, volatileId: VolatileId, event: E
         action: 'action.run',
         target: volatileId,
         args: {
-          actionType: 'SCRIPT',
-          command: script,
+          type: 'SCRIPT',
           async: 'true',
-          actionOperation: 'action.run',
           event: JSON.stringify(event),
           problemId: event?.problem?.id,
           problemText: event?.problem?.problemText,
           actionName,
-          timeout: '300'
+          timeout: '300',
+          request: [
+            {
+              name: 'script',
+              value: script,
+              encoded: 'base64'
+            },
+
+            {
+              name: 'interpreter',
+              value: interpreter,
+              encoded: 'base64'
+            }
+          ]
         }
       })
     ],
     false
   );
+}
+
+export function runWebhookAction(webhook: string, volatileId: VolatileId, event: Event | null, actionName: string) {
+  return createAgentResponseObservable({
+    action: 'action.run',
+    target: volatileId,
+    args: {
+      type: 'HTTP',
+      command: webhook,
+      async: 'true',
+      event: JSON.stringify(event),
+      problemId: event?.problem?.id,
+      problemText: event?.problem?.problemText,
+      actionName,
+      timeout: '300'
+    }
+  });
 }
