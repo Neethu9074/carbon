@@ -9,15 +9,19 @@ import React from 'react';
 import { Spacer } from '@instana/components';
 
 import {
-  pcfEnabled,
-  phmcEnabled,
-  vsphereEnabled,
-  openstackEnabled,
-  zhmcEnabled,
-  releaseNotesEnabled,
-  tenantSwitcherEnabled,
-  syntheticsTestEnabled
-} from 'in-services/featureFlags';
+  hasApplicationsAccess,
+  hasWebsitesAccess,
+  hasKubernetesAccess,
+  hasAnalyzeAccess,
+  hasMobileAppsAccess,
+  hasInfrastructureAccess,
+  hasSyntheticsAccess,
+  hasVSphereAccess,
+  hasPHMCAccess,
+  hasZHMCAccess,
+  hasPCFAccess,
+  hasOpenStackAccess
+} from 'in-stores/permission';
 import {
   mobileAppMonitoringPath,
   getLinkToAnalyze as getLinkToMobileAppAnalyze,
@@ -28,13 +32,6 @@ import {
   getLinkToAnalyze as getLinkToWebsiteAnalyze,
   isAnalyzeView as isWebsiteAnalyzeView
 } from 'in-websites/navigation/paths';
-import {
-  hasApplicationsAccess,
-  hasWebsitesAccess,
-  hasKubernetesAccess,
-  hasAnalyzeAccess,
-  hasMobileAppsAccess
-} from 'in-stores/permission';
 import {
   applicationsList,
   getLinkToAnalyze as getLinkToApplicationsAnalyze,
@@ -48,6 +45,7 @@ import { isInternalVisible$ } from 'in-components/MainNavigation/components/View
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
 import { isAnalyzeView as isProfileAnalyzeView } from 'in-components/Profiling/navigation/paths';
 import { physicalPath, containerPath, isTableView } from 'in-stores/navigation/paths/mainPaths';
+import { releaseNotesEnabled, tenantSwitcherEnabled } from 'in-services/featureFlags';
 import { SubViewItem } from 'in-components/MainNavigation/components/ViewSwitcher/SubView';
 import { isSyntheticMonitoringView, syntheticsPath } from 'in-synthetics/navigation/paths';
 import { urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
@@ -275,6 +273,9 @@ function SignOut() {
 }
 
 function Infrastructure(props) {
+  if (!hasInfrastructureAccess) {
+    return null;
+  }
   return (
     <View
       id="main-nav-infrastructure"
@@ -288,7 +289,9 @@ function Infrastructure(props) {
 }
 
 function Synthetics(props) {
-  if (!syntheticsTestEnabled) return null;
+  if (!hasSyntheticsAccess) {
+    return null;
+  }
   return (
     <View
       id="main-nav-synthetics"
@@ -415,12 +418,12 @@ function Platforms(props) {
   const { expandedSubMenu, setExpandedSubMenu, sidebarIsExpanded, onMouseEnter, onMouseLeave } = props;
 
   let numPlatformsAvailable = 0;
-  if (openstackEnabled) numPlatformsAvailable++;
-  if (pcfEnabled) numPlatformsAvailable++;
-  if (phmcEnabled) numPlatformsAvailable++;
-  if (zhmcEnabled) numPlatformsAvailable++;
+  if (hasOpenStackAccess) numPlatformsAvailable++;
+  if (hasPCFAccess) numPlatformsAvailable++;
+  if (hasPHMCAccess) numPlatformsAvailable++;
+  if (hasZHMCAccess) numPlatformsAvailable++;
   if (hasKubernetesAccess) numPlatformsAvailable++;
-  if (vsphereEnabled) numPlatformsAvailable++;
+  if (hasVSphereAccess) numPlatformsAvailable++;
   if (numPlatformsAvailable === 0) {
     return null;
   }
@@ -429,7 +432,7 @@ function Platforms(props) {
   const platforms = (
     <>
       {/* Keep the list of platforms sorted alphabetically */}
-      {pcfEnabled && (
+      {hasPCFAccess && (
         <ViewItemForPlatforms
           id="main-nav-cloudfoundry"
           label={t('in-components:mainNavigation.viewSwitcherLabelCloudFoundry')}
@@ -439,7 +442,7 @@ function Platforms(props) {
           {...props}
         />
       )}
-      {openstackEnabled && (
+      {hasOpenStackAccess && (
         <ViewItemForPlatforms
           id="main-nav-openstack"
           label={t('in-components:mainNavigation.viewSwitcherLabelOpenstack')}
@@ -449,7 +452,7 @@ function Platforms(props) {
           {...props}
         />
       )}
-      {phmcEnabled && (
+      {hasPHMCAccess && (
         <ViewItemForPlatforms
           id="main-nav-phmc"
           label={t('in-components:mainNavigation.viewSwitcherLabelphmc')}
@@ -459,7 +462,7 @@ function Platforms(props) {
           {...props}
         />
       )}
-      {zhmcEnabled && (
+      {hasZHMCAccess && (
         <ViewItemForPlatforms
           id="main-nav-zhmc"
           label={t('in-components:mainNavigation.viewSwitcherLabelzhmc')}
@@ -479,7 +482,7 @@ function Platforms(props) {
           {...props}
         />
       )}
-      {vsphereEnabled && (
+      {hasVSphereAccess && (
         <ViewItemForPlatforms
           id="main-nav-vsphere"
           label={t('in-components:mainNavigation.viewSwitcherLabelvSphere')}
