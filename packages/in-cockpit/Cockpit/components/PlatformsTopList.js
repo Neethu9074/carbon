@@ -18,8 +18,15 @@ import {
   phmcServer as phmcServerType,
   zhmcServer as zhmcServerType
 } from 'in-cockpit/starredItems/types';
+import {
+  hasKubernetesAccess,
+  hasOpenStackAccess,
+  hasPCFAccess,
+  hasPHMCAccess,
+  hasVSphereAccess,
+  hasZHMCAccess
+} from 'in-stores/permission';
 import { getCloudfoundryApplicationsWithDefaults } from 'in-cloudfoundry/subscriptions/getCloudfoundryApplications';
-import { pcfEnabled, vsphereEnabled, openstackEnabled, phmcEnabled, zhmcEnabled } from 'in-services/featureFlags';
 import getKubernetesClusterItemCounters from 'in-kubernetes/subscriptions/getKubernetesClusterItemCounters';
 import { getKubernetesClustersWithDefaults } from 'in-kubernetes/subscriptions/getKubernetesClusters';
 import { getVSphereDatacentersWithDefaults } from 'in-vsphere/subscriptions/getVsphereDatacenters';
@@ -44,7 +51,6 @@ import { getIbmpPhmcDashboard } from 'in-phmc/navigation/paths';
 import { getIbmzZhmcDashboard } from 'in-zhmc/navigation/paths';
 import { hasError, isLoading } from 'in-services/util/result';
 import TopListWidget from 'in-cockpit/widgets/TopListWidget';
-import { hasKubernetesAccess } from 'in-stores/permission';
 import { add, remove } from 'in-cockpit/starredItems';
 import getPhmc from 'in-phmc/subscriptions/getPhmc';
 import getZhmc from 'in-zhmc/subscriptions/getZhmc';
@@ -56,11 +62,11 @@ import { t } from 'in-i18n';
 export default function PlatformsTopList({ config }) {
   const pinnedTypes = [
     hasKubernetesAccess && kubernetesClusterType,
-    pcfEnabled && pcfApplicationType,
-    vsphereEnabled && vsphereDatacenterType,
-    openstackEnabled && openstackRegionType,
-    phmcEnabled && phmcServerType,
-    zhmcEnabled && zhmcServerType
+    hasPCFAccess && pcfApplicationType,
+    hasVSphereAccess && vsphereDatacenterType,
+    hasOpenStackAccess && openstackRegionType,
+    hasPHMCAccess && phmcServerType,
+    hasZHMCAccess && zhmcServerType
   ].filter(Boolean);
 
   const getApplicationDashboardLink = useNavigateToApplicationDashboard();
@@ -126,16 +132,16 @@ function getMergedData(params) {
     [
       hasKubernetesAccess && getKubernetesClustersWithDefaults(params),
       hasKubernetesAccess && 'isKubernetes',
-      pcfEnabled && getCloudfoundryApplicationsWithDefaults(params),
-      pcfEnabled && 'isPcf',
-      vsphereEnabled && getVSphereDatacentersWithDefaults(params),
-      vsphereEnabled && 'isVsphere',
-      openstackEnabled && getOpenstackRegionsWithDefaults(params),
-      openstackEnabled && 'isOpenstack',
-      phmcEnabled && getPhmcsWithDefaults(params),
-      phmcEnabled && 'isPhmc',
-      zhmcEnabled && getZhmcsWithDefaults(params),
-      zhmcEnabled && 'isZhmc'
+      hasPCFAccess && getCloudfoundryApplicationsWithDefaults(params),
+      hasPCFAccess && 'isPcf',
+      hasVSphereAccess && getVSphereDatacentersWithDefaults(params),
+      hasVSphereAccess && 'isVsphere',
+      hasOpenStackAccess && getOpenstackRegionsWithDefaults(params),
+      hasOpenStackAccess && 'isOpenstack',
+      hasPHMCAccess && getPhmcsWithDefaults(params),
+      hasPHMCAccess && 'isPhmc',
+      hasZHMCAccess && getZhmcsWithDefaults(params),
+      hasPHMCAccess && 'isZhmc'
     ].filter(Boolean)
   )((a, b) => compareIgnoreCase(getLabel(a), getLabel(b)));
 }
