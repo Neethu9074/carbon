@@ -35,7 +35,12 @@ export function SideNavigationItem({ isActive, href$, href, onClick, icon, omitE
       >
         {(icon || !omitEmptyIcon) && <SvgIcon className={locals.icon} type={icon} />}
         {label}
-        <div className={locals.betaTag}>{isBeta && <BetaBadge />}</div>
+        {isBeta && (
+          <div className={locals.betaTag}>
+            {' '}
+            <BetaBadge />
+          </div>
+        )}
       </div>
     </Link>
   );
