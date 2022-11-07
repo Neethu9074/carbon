@@ -141,7 +141,7 @@ function getMergedData(params) {
       hasPHMCAccess && getPhmcsWithDefaults(params),
       hasPHMCAccess && 'isPhmc',
       hasZHMCAccess && getZhmcsWithDefaults(params),
-      hasPHMCAccess && 'isZhmc'
+      hasZHMCAccess && 'isZhmc'
     ].filter(Boolean)
   )((a, b) => compareIgnoreCase(getLabel(a), getLabel(b)));
 }
