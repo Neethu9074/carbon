@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, createMapForm } from 'formalistic';
+import { createField, createMapForm, createListForm } from 'formalistic';
 
 import {
   getAllBuiltInMetrics,
@@ -94,7 +94,34 @@ export function createEventFormDefinition(mutableEventOptional, isCreate) {
     tagOperatorForHostAvailability
   } = getScopeFields(isCreate, query, ruleType, tagFilter);
 
-  let form = createMapForm()
+  const rulesFormList = (mutableEvent.rules ?? [])
+    .map(() => createMapForm(/*empty, because not yet used*/))
+    .reduce(
+      (listForm, subForm) => listForm.push(subForm),
+      createListForm({
+        touched: true,
+        validator: rules => {
+          if (rules?.length > 1) {
+            return [
+              {
+                severity: 'error',
+                // message will be removed anyway in a couple of days, so there is no i18n needed.
+                message:
+                  'There are more than one conditions configured. You need to use the API to edit this configuration.'
+              }
+            ];
+          }
+          return null;
+        }
+      })
+    );
+
+  let form = createMapForm({
+    items: {
+      rules: rulesFormList
+    },
+    touched: mutableEvent.rules?.length >= 1
+  })
     .put(
       'name',
       createField({
@@ -670,7 +697,9 @@ function getRuleAttributes(eventSpec) {
     closeAfter,
     tagFilter;
 
-  if (rules && rules.length === 1) {
+  /* to avoid breaking existing form, just use first rule, and
+   * ignore other rules here */
+  if (rules && rules.length >= 1) {
     ruleType = rules[0].ruleType;
 
     if (rules[0].metricName) {
@@ -707,10 +736,6 @@ function getRuleAttributes(eventSpec) {
     offlineDuration = rules[0].offlineDuration;
     closeAfter = rules[0].closeAfter;
     tagFilter = rules[0].tagFilter;
-  } else if (rules && rules.length > 1) {
-    if (__DEV__) {
-      throw new Error('Multiple rules per event are not supported yet.');
-    }
   } else if (rule) {
     // TODO: this case should not exist in the future - need more rework
     ruleType = rule.ruleType;

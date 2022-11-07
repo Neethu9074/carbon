@@ -352,6 +352,13 @@ function EventForm({
         </Col>
       </Row>
       <SectionHeading>{t('in-settings:tabs.2Condition')}</SectionHeading>
+
+      <Row>
+        <Col lg={12}>
+          <TouchedMessages field={form.get('rules')} />
+        </Col>
+      </Row>
+
       {form.get('dataSource').map(field => (
         <Row>
           <Col lg={6}>
