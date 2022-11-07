@@ -70,6 +70,7 @@ function buildQuery(
       ...pagination
     },
     tagFilterExpression,
-    contextScope: contextScope ?? 'NONE'
+    contextScope: contextScope ?? 'NONE',
+    includeProcessSnapshotIds: false
   };
 }
