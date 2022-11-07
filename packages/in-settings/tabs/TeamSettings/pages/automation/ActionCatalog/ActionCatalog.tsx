@@ -10,12 +10,16 @@ import ActionTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCa
 import { teamSettingsActionDetailsNew } from 'in-settings/navigation/paths';
 import { createNewEntityButton } from 'in-settings/components/List';
 import { deleteAction, getAllActions } from 'in-api/automation';
+import { deleteActionTracker } from 'in-settings/tracker';
 import { Action } from 'in-types';
 import { t } from 'in-i18n';
 
 const tableActions = {
   delete: {
-    deleteEntity: (action: Action) => deleteAction(action.id)
+    deleteEntity: (action: Action) => {
+      deleteActionTracker({ actionName: action.name, actionType: action.type });
+      return deleteAction(action.id);
+    }
   }
 };
 export default function ActionCatalog() {
@@ -28,6 +32,7 @@ export default function ActionCatalog() {
       rightHeader={rightHeader()}
       loadEntities={getAllActions}
       showActionLink
+      isBeta
     />
   );
 }

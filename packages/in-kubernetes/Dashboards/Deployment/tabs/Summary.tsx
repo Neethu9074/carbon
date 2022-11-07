@@ -31,11 +31,10 @@ import { resourceQuotaNumber, resourceQuotaBytes } from 'in-kubernetes/formatter
 import { summaryTab } from 'in-kubernetes/navigation/paths';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
-// @ts-expect-error
-import { plugins } from 'in-forge/constants';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { getChartGranularity } from 'in-stores/metric';
 import { Row, Col } from 'in-components/layout/Grid';
+import { plugins } from 'in-forge/constants';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 

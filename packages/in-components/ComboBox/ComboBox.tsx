@@ -12,21 +12,23 @@ import { t } from 'in-i18n';
 import './DropDownDirection.less';
 import './ComboBox.less';
 
-interface Option {
+export interface Option {
   label: string;
   value: string;
 }
+
+export type Options = ReadonlyArray<Option>;
 
 interface ComboBoxProps {
   id?: string;
   name?: string;
   isClearable?: boolean;
-  options: ReadonlyArray<Option>;
+  options: Options;
   value: string | ReadonlyArray<string> | null;
   defaultValue?: any;
   className?: string;
   placeholder?: React.ReactNode;
-  onChange: (option: Option | ReadonlyArray<Option> | null) => void;
+  onChange: (option: Option | Options | null) => void;
   autoComplete?: string;
   autoFocus?: boolean;
   openMenuOnFocus?: boolean;
@@ -50,7 +52,7 @@ export default function ComboBox({ isClearable = true, ...props }: ComboBoxProps
       classNamePrefix="Select"
       className={`${props.className} Select`}
       placeholder={props.placeholder ? props.placeholder : t('in-components:comboBox.placeholderSelect')}
-      onChange={(option: Option | ReadonlyArray<Option> | null) => {
+      onChange={(option: Option | Options | null) => {
         // Do not propagate the event, unless the value really changed. This will prevent unnecessary reloads.
         if (Array.isArray(option)) {
           if (

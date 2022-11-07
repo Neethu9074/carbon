@@ -103,6 +103,7 @@ import DescriptionText from 'in-components/form/DescriptionText';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { getFormatterType } from 'in-services/formatters/number';
 import HelpText from 'in-components/form/HelpText/HelpText';
+import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import FormGroup from 'in-settings/components/FormGroup';
 import TextArea from 'in-components/form/TextArea';
@@ -186,8 +187,8 @@ export default compose(
     componentDidMount() {
       const { entity } = this.props;
       // Validate the query once initially after loading an event specification.
-      if (isNotBlank(entity.get('query'))) {
-        queryInput.emit(entity.get('query'));
+      if (isNotBlank(entity.query)) {
+        queryInput.emit(entity.query);
       }
     }
   })
@@ -676,7 +677,9 @@ function EventForm({
         ))}
       {role.canConfigureAutomationActions && actionAutomationEnabled && !form.get('triggering').value && (
         <>
-          <SectionHeading>{t('in-settings:tabs.4ActionAssociations')}</SectionHeading>
+          <div className={locals.titleWithBetatag}>
+            <SectionHeading>{t('in-settings:tabs.4ActionAssociations')}</SectionHeading> <BetaBadge />
+          </div>
           <ActionsSelection form={form} setForm={setForm} />
         </>
       )}

@@ -36,14 +36,13 @@ import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
-// @ts-expect-error
-import { plugins } from 'in-forge/constants';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
+import { plugins } from 'in-forge/constants';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 

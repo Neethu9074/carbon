@@ -4,5 +4,4 @@
  * Copyright IBM Corp. 2022
  */
 
-export const maxInitialLogLines = 200;
-export const customChartHeight = 215;
+export function hasCategory(plugin: string): boolean;

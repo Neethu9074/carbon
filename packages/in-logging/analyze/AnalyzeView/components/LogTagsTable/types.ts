@@ -73,5 +73,5 @@ export interface LogTagMapperParams {
   label: string;
 }
 
-type TagGroup = 'other' | 'infrastructure' | 'kubernetes';
+export type TagGroup = 'other' | 'infrastructure' | 'kubernetes' | 'customTags';
 export type GroupedTags = Record<TagGroup, LogTag[]>;

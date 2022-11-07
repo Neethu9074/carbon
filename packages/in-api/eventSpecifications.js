@@ -56,10 +56,6 @@ export function getBuiltInEventSpecificationMutable(eventSpecificationIds) {
   }).map(response => response.body);
 }
 
-export function getCustomEventSpecification(eventSpecificationIds) {
-  return getCustomEventSpecificationMutable(eventSpecificationIds).map(fromJS);
-}
-
 export function getCustomEventSpecificationMutable(eventSpecificationIds) {
   return http({
     method: 'GET',
@@ -220,7 +216,7 @@ export function saveCustomEventSpecification(eventSpecification) {
     url: `/api/events/settings/event-specifications/custom/${encodeURIComponent(eventSpecification.id)}`,
     headers: getCsrfHeader(),
     data: eventSpecification
-  }).map(response => fromJS(response.body));
+  }).map(response => response.body);
 }
 
 export function saveCustomEventSpecificationWithActions(eventSpecification) {

@@ -3,9 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { assign } from 'lodash';
-
-/* eslint-disable max-len */
 export const ID_OF_UNMONITORED_ZONE = '5nXT64z0gY0pShCaT5VQ7wGu-0E';
 export const ID_OF_PROCESSING_STATISTICS = '_9Ct9EsdanGCFtGIG_j7wNKr5hE';
 // host: "region" - pluginId: "com.instana.forge.selfmonitoring.RegionEntity" - steadyId: "region"
@@ -277,7 +274,7 @@ export const applicationPlugins = {
   service: 'service'
 };
 
-export const plugins = assign({}, applicationPlugins, nonServicePlugins);
+export const plugins = { ...applicationPlugins, ...nonServicePlugins };
 
 export const defaultAndUnknownPluginNames = [
   'unknownService',
@@ -580,13 +577,10 @@ export const fullyQualifiedPlugins = {
   zCics: 'com.instana.forge.ibm.ibmz.cics.ZCics'
 };
 
-export function translateFullyQualifiedPluginToShortPluginName(fullyQualifiedPlugin) {
-  const keys = Object.keys(fullyQualifiedPlugins);
-  for (let i = 0; i < keys.length; i++) {
-    const key = keys[i];
-    if (fullyQualifiedPlugins[key] === fullyQualifiedPlugin) {
-      return key;
-    }
-  }
-  return null;
+export function translateFullyQualifiedPluginToShortPluginName(fullyQualifiedPlugin: string): string | null {
+  return (
+    Object.entries(fullyQualifiedPlugins).find(
+      ([_key, fullyQualifiedName]) => fullyQualifiedName === fullyQualifiedPlugin
+    )?.[0] ?? null
+  );
 }

@@ -78,8 +78,9 @@ function getScopeFields(isCreate, query, ruleType, tagFilter) {
   }
 }
 
-export function createEventFormDefinition(eventSpec, isCreate) {
-  const mutableEvent = getMutableEventSpecification(eventSpec);
+export function createEventFormDefinition(mutableEventOptional, isCreate) {
+  const mutableEvent = mutableEventOptional ?? createCustomThresholdBasedEventSpecification();
+  const eventSpec = mutableEvent; // TODO refactor in next step.
   const { name, entityType, query, triggering, description, expirationTime } = mutableEvent;
   const ruleAttributes = getRuleAttributes(mutableEvent);
   const { ruleType, severity, tagFilter } = ruleAttributes;
@@ -180,8 +181,7 @@ export function createEventFormDefinition(eventSpec, isCreate) {
 }
 
 function putAllDataSourceFields(form, eventSpec) {
-  const mutableEvent = getMutableEventSpecification(eventSpec);
-  const { entityType } = mutableEvent;
+  const { entityType } = eventSpec;
   const {
     metricName,
     metricPlaceholderValue,
@@ -189,11 +189,12 @@ function putAllDataSourceFields(form, eventSpec) {
     metricFormat,
     conditionOperator,
     conditionValue: originalConditionValue
-  } = getRuleAttributes(mutableEvent);
+  } = getRuleAttributes(eventSpec);
 
   let formatter = metricFormat;
   // FIXME fallback is only needed as long as not all plugins define a built-in metrics-catalog in the backend
   if (eventSpec && formatter === 'UNDEFINED') {
+    // TODO: simplify: When is mutableEvent undefined, and why do we only need to get the formatter in this case?
     const metricList = getAllBuiltInMetrics(entityType);
     const metricItem = find(metricList, _metric => _metric.value === metricName);
 
@@ -217,7 +218,7 @@ function putAllDataSourceFields(form, eventSpec) {
       createField({
         value: metricName,
         validator: metricName => {
-          return metricName && metricName != '' && metricName.length > 0
+          return metricName && metricName !== '' && metricName.length > 0
             ? null
             : [
                 {
@@ -309,9 +310,7 @@ export function putMetricPatternPlaceholder(form, metricPlaceholderValue) {
 }
 
 function putAllEntityVerificationFields(form, event) {
-  const { matchingEntityType, matchingOperator, matchingEntityLabel, offlineDuration } = getRuleAttributes(
-    getMutableEventSpecification(event)
-  );
+  const { matchingEntityType, matchingOperator, matchingEntityLabel, offlineDuration } = getRuleAttributes(event);
 
   return form
     .put(
@@ -345,7 +344,7 @@ function putAllEntityVerificationFields(form, event) {
 }
 
 function putHostAvailabilityDetectionFields(form, event) {
-  const { offlineDuration, closeAfter } = getRuleAttributes(getMutableEventSpecification(event));
+  const { offlineDuration, closeAfter } = getRuleAttributes(event);
 
   return form
     .put(
@@ -368,7 +367,7 @@ export function putWindowField(form, eventSpec) {
   return form.put(
     'window',
     createField({
-      value: String(getRuleAttribute(eventSpec, 'window', '')),
+      value: String(eventSpec?.rules?.[0]?.window ?? ''),
       validator: notBlankValidator
     })
   );
@@ -378,7 +377,7 @@ export function putRollupField(form, eventSpec) {
   return form.put(
     'rollup',
     createField({
-      value: String(getRuleAttribute(eventSpec, 'rollup', '')),
+      value: String(eventSpec?.rules?.[0]?.rollup ?? ''),
       validator: notBlankValidator
     })
   );
@@ -388,7 +387,7 @@ export function putAggregationField(form, eventSpec) {
   return form.put(
     'aggregation',
     createField({
-      value: getRuleAttribute(eventSpec, 'aggregation', ''),
+      value: eventSpec?.rules?.[0]?.aggregation ?? '',
       validator: notBlankValidator
     })
   );
@@ -428,6 +427,7 @@ function removeAllMetricPatternFields(form) {
 }
 
 function putSystemRuleSelection(form, ruleAttributes, systemRules) {
+  // TODO: simpify this logic with all its edge cases
   let systemRule = ruleAttributes.systemRuleId;
   if (!systemRule && systemRules && systemRules.length > 0) {
     systemRule = systemRules[0].id;
@@ -480,7 +480,7 @@ export function updateFormDefinitionForDataSource(form, previousDataSource, even
   const nextDataSource = form.get('dataSource')?.value;
 
   if (previousDataSource !== dataSourceSystem && nextDataSource === dataSourceSystem) {
-    const { ruleType } = getRuleAttributes(getMutableEventSpecification(eventSpec));
+    const { ruleType } = getRuleAttributes(eventSpec);
     form = removeAllDataSourceFields(form);
 
     if (ruleType === ruleTypeEntityVerification) {
@@ -609,7 +609,7 @@ export function putQueryFields(form, eventSpec) {
     .put(
       'query',
       createField({
-        value: eventSpec.get('query', ''),
+        value: eventSpec.query ?? '',
         validator: notBlankValidator
       })
     )
@@ -646,10 +646,6 @@ function isSystemDataSource(ruleType) {
 
 export function isDeprecatedEntityType(entityType) {
   return Boolean(!plugins[entityType]);
-}
-
-function getMutableEventSpecification(eventSpec) {
-  return eventSpec ? eventSpec.toJS() : createCustomThresholdBasedEventSpecification();
 }
 
 function getRuleAttributes(eventSpec) {
@@ -716,6 +712,7 @@ function getRuleAttributes(eventSpec) {
       throw new Error('Multiple rules per event are not supported yet.');
     }
   } else if (rule) {
+    // TODO: this case should not exist in the future - need more rework
     ruleType = rule.ruleType;
     systemRuleId = rule.systemRuleId;
     severity = rule.severity;
@@ -741,16 +738,4 @@ function getRuleAttributes(eventSpec) {
     closeAfter,
     tagFilter
   };
-}
-
-function getRuleAttribute(eventSpec, key, fallback) {
-  if (!eventSpec) {
-    return fallback;
-  }
-
-  const fromRules = eventSpec.getIn(['rules', '0', key]);
-  if (fromRules != null) {
-    return fromRules;
-  }
-  return eventSpec.getIn(['rule', key], fallback);
 }

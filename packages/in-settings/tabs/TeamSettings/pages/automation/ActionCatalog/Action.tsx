@@ -22,6 +22,7 @@ import { isDocLink, isScript, isWebhook } from 'in-settings/tabs/TeamSettings/pa
 import ActionForm from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionForm';
 import { Tag } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/TagsTable';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import { createActionTracker, editActionTracker } from 'in-settings/tracker';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsActionCatalog } from 'in-settings/navigation/paths';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
@@ -117,8 +118,16 @@ function save(form: MapForm, id: string | null) {
   const actionSpecification = getActionSpecification(form);
   const isCreate = !id;
   if (isCreate) {
+    createActionTracker({
+      actionType: actionSpecification.type,
+      actionName: actionSpecification.name
+    });
     return saveNewAction(actionSpecification);
   } else {
+    editActionTracker({
+      actionType: actionSpecification.type,
+      actionName: actionSpecification.name
+    });
     return saveAction(actionSpecification, id);
   }
 }
