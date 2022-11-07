@@ -88,6 +88,7 @@ function SideNavigationPane({ navigationTree, hasIcons, ...otherProps }) {
               omitEmptyIcon={!hasIcons}
               label={page.label ? page.label : page.renderLabel(otherProps)}
               path={page.path}
+              isBeta={page.isBeta ?? false}
               subPages={page.subPages}
               {...otherProps}
             />
