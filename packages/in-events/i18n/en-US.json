@@ -139,7 +139,7 @@
   "releaseOccurName": "Release: {{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> ago)",
   "ibmMqFileTransfer": {
-    "transferId": "Transfer ID",
+    "transferID": "Transfer ID",
     "sourceAgent": "Source Agent",
     "destinationAgent": "Destination Agent",
     "originator": "Originator",
