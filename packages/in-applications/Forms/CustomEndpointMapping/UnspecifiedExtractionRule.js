@@ -5,15 +5,18 @@
 
 import React, { forwardRef } from 'react';
 
+import Rule from 'in-applications/Forms/components/Rule';
 import { t } from 'in-i18n';
-
-import locals from './UnspecifiedExtractionRule.mless';
 
 const UnspecifiedExtractionRule = forwardRef(function UnspecifiedExtractionRule(props, ref) {
   return (
-    <div className={locals.unspecifiedExtractionRule} ref={ref}>
-      <span className={locals.query}>{t('in-applications:forms.unspecified')}</span>
-    </div>
+    <Rule
+      name={t('in-applications:forms.unspecified')}
+      expandableContent={false}
+      isInstanaDefaultRule
+      onToggleEnable
+      ref={ref}
+    />
   );
 });
 export default UnspecifiedExtractionRule;
