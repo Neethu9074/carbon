@@ -27,7 +27,6 @@
   .tab {
     display: flex;
     align-items: center;
-
     color: @lib__colors__N700Medium;
     font-size: 0.875rem;
     height: 2.25rem;
@@ -35,6 +34,7 @@
     margin: 0.125rem 0;
     border-radius: @lib__shapes__radius_small;
     cursor: pointer;
+    gap: 0.5rem;
 
     &:hover {
       background: @lib__colors__N300;
