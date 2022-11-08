@@ -12,8 +12,10 @@ const UnspecifiedExtractionRule = forwardRef(function UnspecifiedExtractionRule(
   return (
     <Rule
       name={t('in-applications:forms.unspecified')}
+      enabled
       expandableContent={false}
       isInstanaDefaultRule
+      isUnspecified
       onToggleEnable
       ref={ref}
     />

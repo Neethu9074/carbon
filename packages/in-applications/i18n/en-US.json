@@ -478,7 +478,7 @@
     "tooltipExtractsEndpointsAsSpecified": "Extracts endpoints as specified in detected framework (if accessible)",
     "tooltipExtractsEndpointsOnFirstPath": "Extracts endpoints based on first path parameter",
     "tooltipExtractsEndpointsOnRouteId": "Extracts endpoints based on route ID",
-    "tooltipEndpointCallsNotMatch": "Calls that do not match a preceding rule are assigned to this endpoint",
+    "tooltipEndpointCallsNotMatch": "Calls that do not match a preceding rule are assigned to this endpoint. Since this is the fallback rule, it cannot be disabled.",
     "titleConfigureEndpointsExtract": "Configure how endpoints are extracted from the underlying calls to this service.",
     "descriptionConfigureEndpointsExtract": "Endpoint rules are evaluated sequentially, from top to bottom, and a call is assigned to the first rule it matches. Once configured, new calls will be assigned according to updated rules.",
     "descriptionResetToDefaultRule": "If you wish to reset to default extractions rules, please use the button below. Resetting may take up to a few minutes to register.",
