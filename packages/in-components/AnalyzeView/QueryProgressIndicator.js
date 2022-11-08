@@ -69,12 +69,12 @@ function QueryFailed({ errors }) {
           </div>
           <div className={locals.progressText}>
             {error.description?.includes('The query would take too long to run.')
-              ? t('in-components:analyzeView.queryProgress.timeoutEstimated')
-              : t('in-components:analyzeView.queryProgress.timeout')}
+              ? t('in-components:error.timeoutEstimated')
+              : t('in-components:error.timeout')}
           </div>
           <div className={locals.infoBlock}>
             <SvgIcon className={locals.icon} type="lib_help_error_help_outline" />
-            <span>{t('in-components:analyzeView.queryProgress.timeoutInfo')}</span>
+            <span>{t('in-components:error.timeoutInfo')}</span>
           </div>
         </div>
       );
@@ -95,8 +95,8 @@ function QueryFailed({ errors }) {
           <div className={locals.bigIconContainer}>
             <SvgIcon size={iconSize} className={locals.warnIcon} type="lib_help_error_error_circle" />
           </div>
-          <div className={locals.progressText}>{t('in-components:analyzeView.queryProgress.tooManyRequests')}</div>
-          <span className={locals.description}>{t('in-components:analyzeView.queryProgress.tooManyRequestsInfo')}</span>
+          <div className={locals.progressText}>{t('in-components:error.tooManyRequests')}</div>
+          <span className={locals.description}>{t('in-components:error.tooManyRequestsInfo')}</span>
         </div>
       );
     case 'SERVER':
@@ -111,8 +111,8 @@ function QueryFailed({ errors }) {
               style={{ fill: theme.lib.colors.failure }}
             />
           </div>
-          <div className={locals.progressText}>{t('in-components:analyzeView.queryProgress.serverError')}</div>
-          <span className={locals.description}>{t('in-components:analyzeView.queryProgress.serverErrorInfo')}</span>
+          <div className={locals.progressText}>{t('in-components:error.serverError')}</div>
+          <span className={locals.description}>{t('in-components:error.serverErrorInfo')}</span>
         </div>
       );
   }

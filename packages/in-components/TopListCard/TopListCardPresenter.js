@@ -112,8 +112,8 @@ function TopListSkeleton() {
 
 function QueryFailed({ errors }) {
   const [error] = errors.map(e => {
-    const [status] = e.message.split(':');
-    return { code: e.code, status: status };
+    const [status, message] = e.message.split(':');
+    return { code: e.code, message: message, status: status };
   });
   switch (error.code) {
     case 'TIMEOUT':
@@ -123,7 +123,12 @@ function QueryFailed({ errors }) {
           type="warning"
           withIcon
           className={locals.bottomSpace}
-          title={t('in-components:analyzeView.queryProgress.timeout')}
+          title={
+            error.message?.includes('The query would take too long to run.')
+              ? t('in-components:error.timeoutEstimated')
+              : t('in-components:error.timeout')
+          }
+          description={t('in-components:error.timeoutInfo')}
         />
       );
     case 'CLIENT':
@@ -133,7 +138,8 @@ function QueryFailed({ errors }) {
           type="warning"
           withIcon
           className={locals.bottomSpace}
-          title={t('in-components:analyzeView.queryProgress.tooManyRequestsInfo')}
+          title={t('in-components:error.tooManyRequests')}
+          description={t('in-components:error.tooManyRequestsInfo')}
         />
       );
     case 'SERVER':
@@ -143,7 +149,8 @@ function QueryFailed({ errors }) {
           type="warning"
           withIcon
           className={locals.bottomSpace}
-          title={t('in-components:analyzeView.queryProgress.serverErrorInfo')}
+          title={t('in-components:error.serverError')}
+          description={t('in-components:error.serverErrorInfo')}
         />
       );
   }
