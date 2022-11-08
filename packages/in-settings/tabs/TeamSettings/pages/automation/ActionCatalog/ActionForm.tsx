@@ -8,16 +8,10 @@ import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
 import {
-  DOC_LINK_TYPE,
-  isDocLink,
-  isScript,
-  SCRIPT_TYPE,
-  WEBHOOK_TYPE
-} from 'in-settings/tabs/TeamSettings/pages/automation/shared';
-import {
   putDocLinkFields,
   putScriptField
 } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionFormDefinition';
+import { DOC_LINK_TYPE, isDocLink, isScript, SCRIPT_TYPE } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import TagsWrapper from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/TagsWrapper';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -118,7 +112,6 @@ export default function ActionForm({ form, setForm, onChange, entity: action }: 
                 >
                   <option value={DOC_LINK_TYPE}>{t('in-settings:tabs.docLink')}</option>
                   <option value={SCRIPT_TYPE}>{t('in-settings:tabs.script')}</option>
-                  <option value={WEBHOOK_TYPE}>{t('in-settings:tabs.http')}</option>
                 </Select>
                 <TouchedMessages field={field} className={locals.subErrorTextFormField} />
                 <HelpText className={locals.subTextFormField}>{t('in-settings:tabs.actionTypeHelper')}</HelpText>
