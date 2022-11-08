@@ -6,10 +6,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {
-  MessageType,
-  SmartAlertErrorMessages
-} from 'in-alerting/smart-alerts/components/smart-alert-dialog/components/SmartAlertErrorMessages';
+import MessagesStack, { MessageType } from 'in-components/MessageStack/MessageStack';
 import { StepConfigs } from 'in-components/BlueprintFormMultistep/StepConfigs';
 import StepProgressBar from 'in-components/StepProgressBar';
 
@@ -41,7 +38,7 @@ export default function SimpleModeContainer(props: SimpleModeContainerProps) {
           )
       )}
 
-      <SmartAlertErrorMessages className={locals.errorInfo} messages={messages} />
+      <MessagesStack className={locals.errorInfo} messages={messages} />
     </div>
   );
 }

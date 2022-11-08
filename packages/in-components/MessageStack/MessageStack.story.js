@@ -4,39 +4,26 @@
  * Copyright IBM Corp. 2022
  */
 
-import {
-  PLEASE_CONTACT_INSTANA_SUPPORT_ERROR_MSG_PHRASE,
-  enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError
-} from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
-import { SmartAlertErrorMessages } from 'in-alerting/smart-alerts/components/smart-alert-dialog/components/SmartAlertErrorMessages';
+import MessagesStack from 'in-components/MessageStack/MessageStack';
 
 export default {
-  component: SmartAlertErrorMessages
+  component: MessagesStack
 };
 
 export const Default = {
   args: {
     messages: [
-      { message: 'warning 1', level: 'warning' },
-      { message: 'error 1' },
-      { message: 'warning 2', level: 'warning' },
-      { message: 'error 2', level: 'error' }
-    ]
-  }
-};
-
-const dummyTestErrorMessageContainingAskSupport =
-  'The maximum number of website alert configurations (9990000) has been reached. Please contact Instana support to request an increase for this limit.';
-
-export const SmartAlertQuotaError = {
-  args: {
-    messages: [
-      enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError({
-        message: dummyTestErrorMessageContainingAskSupport
-      }),
       {
-        message: PLEASE_CONTACT_INSTANA_SUPPORT_ERROR_MSG_PHRASE,
+        message: 'Thundercats are on the move, Thundercats are loose.',
         level: 'warning'
+      },
+      {
+        message: 'Feel the magic, hear the roar, Thundercats are loose.',
+        level: 'warning'
+      },
+      {
+        message: 'Thunder, thunder, thunder, Thundercats! Thunder, thunder, thunder, Thundercats!',
+        level: 'error'
       }
     ]
   }

@@ -4,11 +4,14 @@
  */
 
 import React, { ReactNode } from 'react';
-import PropTypes from 'prop-types';
 
 import locals from './ScrollStep.mless';
 
-export type ScrollStepProps = { id?: string; children: ReactNode };
+export interface ScrollStepProps {
+  id?: string;
+  children: ReactNode;
+}
+
 export default function ScrollStep({ id, children }: ScrollStepProps) {
   return (
     <section id={id} className={locals.container}>
@@ -16,8 +19,3 @@ export default function ScrollStep({ id, children }: ScrollStepProps) {
     </section>
   );
 }
-
-ScrollStep.propTypes = {
-  children: PropTypes.node.isRequired,
-  id: PropTypes.string
-};

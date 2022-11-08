@@ -5,13 +5,13 @@
 
 import React from 'react';
 
-import AdvancedModeStepsContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AdvancedModeStepsContainer';
+import StepsContainer from 'in-components/StepsContainer/StepsContainer';
 
 export default {
-  component: AdvancedModeStepsContainer
+  component: StepsContainer
 };
 
-export const Default = props => <AdvancedModeStepsContainer {...props} />;
+export const Default = props => <StepsContainer {...props} />;
 
 Default.args = {
   navItems: [
