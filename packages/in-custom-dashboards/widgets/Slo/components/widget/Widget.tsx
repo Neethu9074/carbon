@@ -17,6 +17,7 @@ import { MonitoredEntity } from 'in-custom-dashboards/widgets/Slo/hooks/useMonit
 import SliSummary from 'in-custom-dashboards/widgets/Slo/components/SliSummary';
 import { SliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { TimeWindowType } from 'in-custom-dashboards/widgets/Slo/form';
+import { widgetPreviewHeight } from 'in-custom-dashboards/widgets/Slo';
 import { findMetric } from 'in-custom-dashboards/widgets/Slo/metric';
 import { MetricDataSeries } from 'in-components/Chart/types';
 import { FetchStatus } from 'in-hooks/utils/types';
@@ -97,19 +98,19 @@ export default function Widget({
           />
         }
       >
-        <SliSummary
-          status={status}
-          slo={slo}
-          budget={budget}
-          timeWindowType={timeWindowType ?? 'dynamic'}
-          fromTimestamp={fromTimestamp}
-          toTimestamp={toTimestamp}
-          sliEntity={sliConfiguration?.sliEntity}
-          metricSpent={spent}
-          metricSli={sli}
-          metricRemaining={remaining}
-        />
         <div className={locals.chart}>
+          <SliSummary
+            status={status}
+            slo={slo}
+            budget={budget}
+            timeWindowType={timeWindowType ?? 'dynamic'}
+            fromTimestamp={fromTimestamp}
+            toTimestamp={toTimestamp}
+            sliEntity={sliConfiguration?.sliEntity}
+            metricSpent={spent}
+            metricSli={sli}
+            metricRemaining={remaining}
+          />
           <WidgetContent
             sloMetrics={sloMetrics}
             loadingErrors={errors}
@@ -120,6 +121,7 @@ export default function Widget({
             sliConfig={sliConfiguration}
             nonInteractive={isPreview || nonInteractive}
             disableZooming={disableZooming}
+            customHeight={isPreview ? widgetPreviewHeight : undefined}
           />
         </div>
       </Card>

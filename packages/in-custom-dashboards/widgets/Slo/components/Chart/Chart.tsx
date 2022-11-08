@@ -50,6 +50,7 @@ export interface ChartProps {
   nonInteractive?: boolean;
   disableZooming?: boolean;
   trackers?: ChartTrackers;
+  customHeight?: number;
 }
 
 export default function Chart({
@@ -62,7 +63,8 @@ export default function Chart({
   sliConfig,
   nonInteractive,
   disableZooming,
-  trackers
+  trackers,
+  customHeight
 }: ChartProps) {
   const tagCatalogLoader = useTagCatalogLoader(sliConfig);
   const tagCatalog = useTagCatalog(tagCatalogLoader);
@@ -100,6 +102,7 @@ export default function Chart({
       <ResultAwareChart
         result={result}
         config={{
+          customHeight,
           automaticallySize: !nonInteractive,
           granularity,
           timeConfig,

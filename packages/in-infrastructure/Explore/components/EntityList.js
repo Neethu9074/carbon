@@ -6,10 +6,10 @@
 import React, { useState } from 'react';
 
 import { getGroupTagValue } from 'in-infrastructure/Explore/components/GroupedInfrastructure';
+import { ErroneousResult } from 'in-components/QueryBuilder/components/Header/CountHeader';
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import createGetGroupsSubscription from 'in-infrastructure/subscriptions/getGroups';
 import { getLinkToExplore } from 'in-infrastructure/navigation/paths';
-import Header from 'in-components/QueryBuilder/components/Header';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 import { t } from 'in-i18n';
@@ -85,11 +85,13 @@ export default function EntityList({ retrievalSize = 20, backendQueryModel, time
 
   return (
     <>
+      {hasErrors && <ErroneousResult />}
       <ServerTablePresenter
         orderBy={orderByCol}
         orderDirection={orderDir}
         result={result}
         columnDefinitions={columnDefinitions}
+        cardTitle={t('in-infrastructure:explore.entityTypes', { count: result?.data?.items?.length ?? '' })}
         onChange={({ query, orderBy, orderDirection }) => {
           if (query !== undefined) {
             //search
@@ -110,14 +112,6 @@ export default function EntityList({ retrievalSize = 20, backendQueryModel, time
           }
         }}
         searchPlaceholder={t('in-infrastructure:explore.search')}
-        leftHeader={
-          <Header
-            totalRetainedItemCount={result?.data?.items?.length}
-            hasErrors={hasErrors}
-            isLoading={isLoading}
-            dataSource="entityType"
-          />
-        }
       />
     </>
   );

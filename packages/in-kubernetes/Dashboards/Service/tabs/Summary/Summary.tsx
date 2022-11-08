@@ -5,7 +5,7 @@
 
 import React, { Fragment } from 'react';
 
-import { AggregationType, ResultType } from '@instana/types';
+import { AggregationType, KubernetesService, ResultType, TimeConfig } from '@instana/types';
 
 import {
   LogsChartInteractionWrapper,
@@ -20,37 +20,44 @@ import KubernetesTimeShiftChartPresenter from 'in-kubernetes/Dashboards/commonCo
 // @ts-expect-error
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import { resourceQuotaNumber, resourceQuotaBytes } from 'in-kubernetes/formatters';
+// @ts-expect-error
+import Endpoints from 'in-kubernetes/Dashboards/Service/tabs/Endpoints';
+import { twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 // @ts-expect-error
 import { summaryTab } from 'in-kubernetes/navigation/paths';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
-import { zeroDecimalPlaces } from 'in-services/formatters/number';
-import { getChartGranularity } from 'in-stores/metric/metric';
+import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
+import { formatDuration } from 'in-services/formatters/date';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
+import { getChartGranularity } from 'in-stores/metric';
 import { Row, Col } from 'in-components/layout/Grid';
+import KpiCard from 'in-components/KpiCard/KpiCard';
 import { plugins } from 'in-forge/constants';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
-export default function Summary({ timeConfig, data: daemonSet }: any) {
+interface SummaryProps {
+  data: KubernetesService;
+  timeConfig: TimeConfig;
+}
+
+export default function Summary({ timeConfig, data: service }: SummaryProps) {
+  // const snapshotId = service.id;
+  const { orange800: limits, lime800: requests, lightBlue800: usage } = theme.lib.colors;
+
+  const comparisonColors = {
+    comparisonDecreaseColor: blue.id,
+    comparisonIncreaseColor: blue.id
+  };
+
+  const clusterTag = kubernetesClusterTagEquals(service.clusterName);
+  const nsTag = kubernetesNamespaceTagEquals(service.namespace);
+  const uidTag = tagEquals('kubernetes.service.uid', service.uid);
+  const tagFilterExpression = toBackendQueryModel(andQuery(clusterTag, nsTag, uidTag));
+  const type = plugins.kubernetesService;
   const timeShift = useTimeShiftConfig();
-  const {
-    orange800: limits,
-    lime800: requests,
-    lightBlue800: usage,
-    orange800: pending,
-    lightBlue800: allocated,
-    deepPurple800: unscheduled,
-    pink800: unready
-  } = theme.lib.colors;
-
-  const clusterTag = kubernetesClusterTagEquals(daemonSet.clusterId);
-  const nsTag = kubernetesNamespaceTagEquals(daemonSet.namespace);
-  const workloadTag = tagEquals('kubernetes.daemonset.name', daemonSet.name);
-
-  const tagFilterExpression = toBackendQueryModel(andQuery(clusterTag, nsTag, workloadTag));
-  const type = plugins.kubernetesDaemonSet;
 
   const defaultConfig = {
     source,
@@ -62,28 +69,10 @@ export default function Summary({ timeConfig, data: daemonSet }: any) {
   };
 
   const isPodMetric = {
+    /* use this configuration for metrics on pods of this service
+      type filtering must be disabled and cross series aggregation uses SUM */
     type: plugins.kubernetesPod,
     crossSeriesAggregation: 'SUM' as AggregationType
-  };
-  const isPodCountMetric = {
-    type: plugins.kubernetesPod,
-    crossSeriesAggregation: 'DISTINCT_COUNT' as AggregationType
-  };
-
-  const runningPodBigNumberMetricConfig = {
-    ...defaultConfig,
-    ...isPodMetric,
-    resultType: 'SINGLE_NUMBER' as ResultType
-  };
-
-  const runningPodCountBigNumberMetricConfig = {
-    ...defaultConfig,
-    ...isPodCountMetric,
-    resultType: 'SINGLE_NUMBER' as ResultType
-  };
-  const defaultChartMetricConfig = {
-    ...defaultConfig,
-    granularity: getChartGranularity(timeConfig)
   };
 
   const isContainerMetric = {
@@ -93,16 +82,42 @@ export default function Summary({ timeConfig, data: daemonSet }: any) {
     crossSeriesAggregation: 'SUM' as AggregationType
   };
 
-  const comparisonColors = {
-    comparisonDecreaseColor: blue.id,
-    comparisonIncreaseColor: blue.id
+  const defaultChartMetricConfig = {
+    ...defaultConfig,
+    granularity: getChartGranularity(timeConfig)
+  };
+
+  const defaultBigNumberMetricConfig = {
+    ...defaultConfig,
+    resultType: 'SINGLE_NUMBER' as ResultType
   };
 
   return (
     <Fragment>
-      <MissingK8sPermissions resourceSnapshotId={daemonSet.id} timeConfig={timeConfig} />
+      <MissingK8sPermissions resourceSnapshotId={service.id} timeConfig={timeConfig} />
+
+      <KpiGridRow sizes={[4, 4, 4]}>
+        <KpiCard title={t('in-kubernetes:dashboards.type')} value={service.type} raw borderless />
+        <KpiCard title={t('in-kubernetes:dashboards.location')} value={service.location} raw borderless />
+        <KpiCard title={t('in-kubernetes:dashboards.age')} value={formatDuration(service.age)} raw borderless />
+      </KpiGridRow>
 
       <Row>
+        <Col lg={2}>
+          <BigNumberKpiCard
+            title={t('in-kubernetes:dashboards.cpuUsage')}
+            formatter={twoDecimalPlaces}
+            config={{
+              metricConfiguration: {
+                metric: 'cpu.total_usage',
+                ...defaultBigNumberMetricConfig,
+                ...isContainerMetric
+              },
+              ...comparisonColors
+            }}
+            raw
+          />
+        </Col>
         <Col lg={2}>
           <BigNumberKpiCard
             title={t('in-kubernetes:dashboards.cpuRequests')}
@@ -110,7 +125,8 @@ export default function Summary({ timeConfig, data: daemonSet }: any) {
             config={{
               metricConfiguration: {
                 metric: 'cpuRequests',
-                ...runningPodBigNumberMetricConfig
+                ...defaultBigNumberMetricConfig,
+                ...isPodMetric
               },
               ...comparisonColors
             }}
@@ -123,8 +139,24 @@ export default function Summary({ timeConfig, data: daemonSet }: any) {
             formatter={resourceQuotaNumber}
             config={{
               metricConfiguration: {
-                metric: 'cpuLimits',
-                ...runningPodBigNumberMetricConfig
+                metric: 'cpuLimit',
+                ...defaultBigNumberMetricConfig,
+                ...isPodMetric
+              },
+              ...comparisonColors
+            }}
+            raw
+          />
+        </Col>
+        <Col lg={2}>
+          <BigNumberKpiCard
+            title={t('in-kubernetes:dashboards.memoryUsage')}
+            formatter={bytesTwoDecimalPlaces}
+            config={{
+              metricConfiguration: {
+                metric: 'memory.usage',
+                ...defaultBigNumberMetricConfig,
+                ...isContainerMetric
               },
               ...comparisonColors
             }}
@@ -138,7 +170,8 @@ export default function Summary({ timeConfig, data: daemonSet }: any) {
             config={{
               metricConfiguration: {
                 metric: 'memoryRequests',
-                ...runningPodBigNumberMetricConfig
+                ...defaultBigNumberMetricConfig,
+                ...isPodMetric
               },
               ...comparisonColors
             }}
@@ -152,21 +185,8 @@ export default function Summary({ timeConfig, data: daemonSet }: any) {
             config={{
               metricConfiguration: {
                 metric: 'memoryLimits',
-                ...runningPodBigNumberMetricConfig
-              },
-              ...comparisonColors
-            }}
-            raw
-          />
-        </Col>
-        <Col lg={4}>
-          <BigNumberKpiCard
-            title={t('in-kubernetes:dashboards.podsAlloc')}
-            formatter={zeroDecimalPlaces}
-            config={{
-              metricConfiguration: {
-                metric: 'pods.count',
-                ...runningPodCountBigNumberMetricConfig
+                ...defaultBigNumberMetricConfig,
+                ...isPodMetric
               },
               ...comparisonColors
             }}
@@ -175,8 +195,8 @@ export default function Summary({ timeConfig, data: daemonSet }: any) {
         </Col>
       </Row>
 
-      <Row>
-        <Col lg={4}>
+      <Row verticallyStretchColumns>
+        <Col lg={6}>
           <KubernetesTimeShiftChartPresenter
             metrics={[
               {
@@ -203,14 +223,14 @@ export default function Summary({ timeConfig, data: daemonSet }: any) {
             ]}
             title={t('in-kubernetes:dashboards.cpuResources')}
             colors={[usage, requests, limits]}
-            formatter="numbers.detailed"
+            formatter="number.detailed"
             tooltipFormatter={resourceQuotaNumber}
             paramTab="cpuTab"
             paramMetric="cpuMetric"
             path={summaryTab}
           />
         </Col>
-        <Col lg={4}>
+        <Col lg={6}>
           <KubernetesTimeShiftChartPresenter
             metrics={[
               {
@@ -239,49 +259,8 @@ export default function Summary({ timeConfig, data: daemonSet }: any) {
             colors={[usage, requests, limits]}
             formatter="bytes.detailed"
             tooltipFormatter={resourceQuotaBytes}
-            paramTab="memoryTab"
-            paramMetric="memoryMetric"
-            path={summaryTab}
-          />
-        </Col>
-        <Col lg={4}>
-          <KubernetesTimeShiftChartPresenter
-            metrics={[
-              {
-                metric: 'pods.count',
-                label: t('in-kubernetes:dashboards.allocated'),
-                color: allocated,
-                ...defaultChartMetricConfig,
-                ...isPodCountMetric
-              },
-              {
-                metric: 'phase.Pending.count',
-                label: t('in-kubernetes:dashboards.pending'),
-                color: pending,
-                ...defaultChartMetricConfig,
-                ...isPodCountMetric
-              },
-              {
-                metric: 'conditions.PodScheduled.False',
-                label: t('in-kubernetes:dashboards.unscheduled'),
-                color: unscheduled,
-                ...defaultChartMetricConfig,
-                ...isPodCountMetric
-              },
-              {
-                metric: 'conditions.Ready.False',
-                label: t('in-kubernetes:dashboards.unready'),
-                color: unready,
-                ...defaultChartMetricConfig,
-                ...isPodCountMetric
-              }
-            ]}
-            title={t('in-kubernetes:dashboards.pods')}
-            colors={[allocated, pending, unscheduled, unready]}
-            formatter="number.compact"
-            tooltipFormatter={zeroDecimalPlaces}
-            paramTab="podTab"
-            paramMetric="podMetric"
+            paramTab="memTab"
+            paramMetric="memMetric"
             path={summaryTab}
           />
         </Col>
@@ -290,7 +269,7 @@ export default function Summary({ timeConfig, data: daemonSet }: any) {
       <Row>
         <Col lg={12}>
           <LogsChartInteractionWrapper
-            tagFilterExpression={andQuery(clusterTag, nsTag, workloadTag)}
+            tagFilterExpression={andQuery(clusterTag, nsTag, uidTag)}
             timeConfig={timeConfig}
           />
         </Col>
@@ -298,42 +277,7 @@ export default function Summary({ timeConfig, data: daemonSet }: any) {
 
       <Row>
         <Col lg={12}>
-          <KubernetesTimeShiftChartPresenter
-            metrics={[
-              {
-                metric: 'availableReplicas',
-                label: t('in-kubernetes:dashboards.available'),
-                color: usage,
-                ...defaultChartMetricConfig
-              },
-              {
-                metric: 'desiredReplicas',
-                label: t('in-kubernetes:dashboards.desired'),
-                color: requests,
-                ...defaultChartMetricConfig,
-                ...isContainerMetric
-              },
-              {
-                metric: 'unavailableReplicas',
-                label: t('in-kubernetes:dashboards.unavailable'),
-                color: limits,
-                ...defaultChartMetricConfig
-              },
-              {
-                metric: 'misscheduledReplicas',
-                label: t('in-kubernetes:dashboards.misscheduled'),
-                color: limits,
-                ...defaultChartMetricConfig
-              }
-            ]}
-            title={t('in-kubernetes:dashboards.replicas')}
-            colors={[allocated, pending, unscheduled, unready]}
-            formatter="number.compact"
-            tooltipFormatter={zeroDecimalPlaces}
-            paramTab="replicaTab"
-            paramMetric="replicaMetric"
-            path={summaryTab}
-          />
+          <Endpoints timeConfig={timeConfig} service={service} />
         </Col>
       </Row>
     </Fragment>

@@ -4,8 +4,9 @@
  */
 
 /* eslint-disable react/no-danger */
-import { combineLatest } from '@instana/observables';
 import React from 'react';
+
+import { combineLatest } from '@instana/observables';
 
 import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
 import { onPremLicenseInformationEnabled } from 'in-services/featureFlags';
@@ -50,7 +51,8 @@ export function init() {
         icon: 'info',
         content: <DangerousHtmlPresenter html={toHtml(filterContentIfNotOnprem(usageInfo.note))} />,
         onClick: hideUsageInfo,
-        isLicenseUsageMsg: true
+        isLicenseUsageMsg: true,
+        activeLicense: usageInfo.activeLicenseType
       },
       messageId
     );

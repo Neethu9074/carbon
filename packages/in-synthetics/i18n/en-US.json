@@ -232,7 +232,10 @@
       "noDataAvailable": {
         "message": "{{component}} details not available for this test result",
         "notFound": "Not found"
-      }
+      },
+      "downloadHar": "Download HAR File",
+      "consoleLogs": "CONSOLE",
+      "browserLogs": "BROWSER"
     },
     "noDataAvailable": {
       "resultsTitle": "No results available",

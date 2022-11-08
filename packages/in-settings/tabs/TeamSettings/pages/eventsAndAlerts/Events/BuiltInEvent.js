@@ -6,6 +6,7 @@
 import React from 'react';
 
 import { combineLatest } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
 
 import {
   createCustomThresholdBasedEventSpecification,
@@ -24,8 +25,10 @@ import SectionHeading from 'in-settings/components/SectionHeading';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
+import { associateActionsTracker } from 'in-events/tracker';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
+import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import FormGroup from 'in-settings/components/FormGroup';
 import Table from 'in-sdk/components/dashboard/Table';
 import Section from 'in-settings/components/Section';
@@ -33,6 +36,7 @@ import { getPlainMetricList } from 'in-sdk/metrics';
 import { compare } from 'in-services/util/number';
 import PluginIcon from 'in-components/PluginIcon';
 import { getPluginName } from 'in-sdk/pluginName';
+import { getAllActions } from 'in-api/automation';
 import { goToPath } from 'in-stores/navigation';
 import { find } from 'in-services/arrayUtils';
 import Label from 'in-components/form/Label';
@@ -64,11 +68,21 @@ export default function BuiltinEvent(props) {
       )
     );
   }
+  const actions = useObservable(getAllActions, []) ?? [];
 
-  function save(form) {
+  function save(event, form) {
     const actionIds = form.get('actionIds')?.value ?? [];
-    const actions = actionIds.length > 0 ? actionIds.map(value => ({ id: value })) : [];
-    return updateActionsAssignedToBuiltInEvent(actions, entityId);
+    const mappedActionIds = actionIds.length > 0 ? actionIds.map(value => ({ id: value })) : [];
+    const actionNames = actions.reduce(
+      (acc, action) => [...acc, ...(actionIds.includes(action.id) ? [action.name] : [])],
+      []
+    );
+
+    associateActionsTracker({
+      eventName: event.get('name').value,
+      actionNames: actionNames
+    });
+    return updateActionsAssignedToBuiltInEvent(mappedActionIds, entityId);
   }
 
   return (
@@ -81,7 +95,7 @@ export default function BuiltinEvent(props) {
         role.canConfigureAutomationActions && actionAutomationEnabled ? mergeResultData : getBuiltInEventSpecification
       }
       openEntities={() => goToPath(teamSettingsAlertingEvents)}
-      saveEntity={(_, form) => save(form)}
+      saveEntity={(entity, form) => save(entity, form)}
     />
   );
 }
@@ -176,8 +190,16 @@ const Form = entityForm(function DetailsForm(props) {
       ) : null}
       {role.canConfigureAutomationActions && actionAutomationEnabled && !entity.get('triggering') && (
         <>
-          <SectionHeading>{t('in-settings:tabs.ActionAssociations')}</SectionHeading>
-          <ActionsSelection form={form} setForm={setForm} entity={entity.toJS()} />
+          <div className={locals.titleWithBetatag}>
+            <SectionHeading>{t('in-settings:tabs.ActionAssociations')}</SectionHeading>
+            <BetaBadge />
+          </div>
+          <ActionsSelection
+            form={form}
+            setForm={setForm}
+            name={entity.get('name')}
+            descrption={entity.get('description')}
+          />
         </>
       )}
       <SaveCancel

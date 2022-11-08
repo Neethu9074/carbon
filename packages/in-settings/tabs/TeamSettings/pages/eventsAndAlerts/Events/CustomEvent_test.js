@@ -4,7 +4,6 @@
  */
 
 import { render } from '@testing-library/react';
-import { Map } from 'immutable';
 import React from 'react';
 
 import { createCustomThresholdBasedEventSpecification } from 'in-api/eventSpecifications';
@@ -18,10 +17,10 @@ jest.mock('in-api/eventSpecifications', () => {
   };
 });
 
-describe('in-settings/components/SaveCancel', () => {
+describe('in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEvent', () => {
   it('Disables submit button if legacy event is already migrated.', () => {
     // GIVEN
-    const migratedEntity = Map({ migrated: true });
+    const migratedEntity = { migrated: true };
     createCustomThresholdBasedEventSpecification.mockReturnValueOnce(migratedEntity);
 
     const props = {

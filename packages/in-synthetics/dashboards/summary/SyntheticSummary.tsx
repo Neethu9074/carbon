@@ -17,18 +17,16 @@ import TabView from 'in-components/LocationAwareTabView/TabView';
 import DashboardHeader, { DashboardHeaderProps } from 'in-components/DashboardHeader';
 import { showUpdateErrorMessage } from 'in-synthetics/components/utils/userFeedback';
 import getSyntheticTest from 'in-synthetics/subscriptions/getSyntheticTest';
-import { dummyTest, TestResponse } from 'in-synthetics/utils/constants';
 import { syntheticsDashboard } from 'in-synthetics/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import tabs from 'in-synthetics/dashboards/summary/tabs/index';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { dummyTest } from 'in-synthetics/utils/constants';
 import { getTest, updateTest } from 'in-synthetics/api';
 import { Location } from 'in-stores/navigation/types';
 import { Progress, SyntheticTest } from 'in-types';
 
 import locals from './SyntheticSummary.mless';
-
-//import { getTest } from 'in-synthetics/api';
 
 interface SynthTestResponse {
   data: SyntheticTest;
@@ -39,7 +37,6 @@ interface SynthTestResponse {
 
 type LocalProps = {
   test: SynthTestResponse;
-  testResponse: SynthTestResponse;
   // eslint-disable-next-line react/no-unused-prop-types
   setReloadCount: (count: any) => number;
 };
@@ -58,9 +55,9 @@ function Header(props: DashboardHeaderProps) {
   );
 }
 
-function RenderMetaInformation({ test, testResponse }: LocalProps) {
+function RenderMetaInformation({ test }: LocalProps) {
   const isActive: boolean = test.data?.active;
-  const errorCode: string = get(testResponse.errors?.at(0), ['code']);
+  const errorCode: string = get(test.errors?.at(0), ['code']);
 
   return errorCode === 'NOT_FOUND' ? (
     <span className={locals.label}>{t('in-synthetics:dashboard.testList.deleted')}</span>
@@ -71,9 +68,9 @@ function RenderMetaInformation({ test, testResponse }: LocalProps) {
   );
 }
 
-function RenderButtonLine({ test, testResponse, setReloadCount }: LocalProps) {
+function RenderButtonLine({ test, setReloadCount }: LocalProps) {
   const isActive: boolean = test.data?.active;
-  const errorCode: string = get(testResponse.errors?.at(0), ['code']);
+  const errorCode: string = get(test.errors?.at(0), ['code']);
 
   function pauseOrResume(test: SyntheticTest) {
     const { active } = test;
@@ -108,16 +105,12 @@ export default function SyntheticSummaryDashboard() {
 
   const location: Location = useLocation();
   const testId: string = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
-  const test: TestResponse =
-    useObservable<any, [number]>(() => getSyntheticTest({ testId: testId }), [count]) || dummyTest;
-
-  const testResponse: SynthTestResponse = useObservable<any, [number]>(() => getTest(testId), [count]) || dummyTest;
+  const test: SynthTestResponse = useObservable<any, [number]>(() => getTest(testId), [count]) || dummyTest;
 
   const props = {
     location,
     currentTab: location.pathname.substr(location.pathname.lastIndexOf('/')),
     test,
-    testResponse,
     setReloadCount
   };
   return (

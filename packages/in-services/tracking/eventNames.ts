@@ -97,12 +97,13 @@ export const MAP_METRICS_AGGREGATION = 'map.metrics.aggregation';
 export const MAP_METRICS_SHOW = 'map.metrics.show';
 export const MAP_SELECT_ENTITY = 'map.select.entity';
 export const NAVIGATION_BREADCRUMB = 'navigation.breadcrumb';
-export const REQUEST_QUOTE_BUTTON_CLICKED = 'requestQuote.buttonClicked';
+export const REQUEST_QUOTE_BUTTON_CLICKED = 'purchaseIntent.quote';
 export const REQUEST_QUOTE_SUBMITTED = 'requestQuote.submitted';
 export const TIME_WINDOW_SIZE_VIA_PICKER = 'time.windowSize.viaPicker';
 export const TOPLIST_METRIC_CHANGED = 'toplist.metricChanged';
 export const TOPLIST_ROW_NAVIGATION = 'toplist.rowNavigation';
 export const USER_INVITE = 'user.invite';
+export const BUY_NOW_BUTTON_CLICKED = 'purchaseIntent.aws';
 
 export const TABLE_ENTITY_ADDED = 'table.entity.added';
 export const TABLE_ENTITY_CLEARED = 'table.entity.cleared';
@@ -268,6 +269,9 @@ export const SETTINGS_ALERT_CUSTOM_PAYLOAD_REMOVE_ITEM = 'settings.alert.customP
 export const SETTINGS_EVENT_VIEW = 'settings.event.custom.view';
 export const SETTINGS_EVENT_SUBMIT = 'settings.event.submit';
 export const SETTINGS_EVENT_OPEN_SUBMIT_FORM = 'settings.event.new';
+export const SETTINGS_AUTOMATION_ACTION_CREATE = 'settings.automation.action.create';
+export const SETTINGS_AUTOMATION_ACTION_EDIT = 'settings.automation.action.edit';
+export const SETTINGS_AUTOMATION_ACTION_DELETE = 'settings.automation.action.delete';
 export const SETTINGS_MAINTENANCE_WINDOW_EDIT = 'settings.maintenance.edit';
 export const SETTINGS_MAINTENANCE_WINDOW_NEW = 'settings.maintenance.new';
 export const SETTINGS_MAINTENANCE_WINDOW_SUBMIT = 'settings.maintenance.submit';
@@ -371,4 +375,5 @@ export const APDEX_MANAGEMENT_EDIT_FINISH = 'apdex.management.edit.finish';
 export const APDEX_MANAGEMENT_DELETE = 'apdex.management.delete';
 
 // Action associations for events
-export const SELECT_ACTION_STEP_SWITCH = 'event.issue.select.action.step';
+export const REMEDIATION_ASSOCIATE_ACTION = 'event.issue.action.associate';
+export const REMEDIATION_RUN_ACTION = 'event.issue.action.run';

@@ -7,6 +7,7 @@ import React from 'react';
 
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
 import { getMetricDefinition } from 'in-sdk/metrics/metrics';
+import { emptyList } from 'in-services/fixedImmutables';
 
 import locals from './SubEntityInformation.mless';
 
@@ -32,7 +33,7 @@ export default function SubEntityInformation({ event }) {
 function extractSubEntitiesFromMetrics(event) {
   const subEntities = [];
 
-  event.getIn(['metadata', 'metrics']).forEach(metric => {
+  event.getIn(['metadata', 'metrics'], emptyList).forEach(metric => {
     const metricName = metric.get('metricName');
     const fullyQualifiedPlugin = metric.getIn(['entityId', 'pluginId']);
 

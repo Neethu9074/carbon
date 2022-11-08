@@ -4,15 +4,18 @@
  */
 
 import { deprecateAppDataLegacyEventsEnabled } from 'in-services/featureFlags';
-import { plugins, customIssuesDisabledForPlugins } from 'in-forge/constants';
+import { customIssuesDisabledForPlugins, plugins } from 'in-forge/constants';
+import { EventSpecificationInfo, EventSpecificationType } from 'in-types';
+import { FormatterType } from 'in-services/formatters/number';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { getPluginName } from 'in-sdk/pluginName';
+import { Option } from 'in-components/ComboBox';
 import { hasCategory } from 'in-sdk/metrics';
 import { t } from 'in-i18n';
 
 // event specification type enum names that the back end uses
-export const builtInEnumValue = 'BUILT_IN';
-export const customEnumValue = 'CUSTOM';
+export const builtInEnumValue: EventSpecificationType = 'BUILT_IN';
+export const customEnumValue: EventSpecificationType = 'CUSTOM';
 
 export const builtInValue = 'built-in';
 export const customValue = 'custom';
@@ -20,24 +23,15 @@ export const customValue = 'custom';
 export const deprecatedValue = 'deprecated';
 export const migratedValue = 'migrated';
 
-export function isBuiltInRule(entity) {
+export function isBuiltInRule(entity: EventSpecificationInfo): boolean {
   return isBuiltInRuleType(entity.type);
 }
 
-export function isBuiltInRuleType(type) {
+export function isBuiltInRuleType(type: string): boolean {
   return type === builtInEnumValue || type === builtInValue;
 }
 
-export function isTriggering(entity) {
-  if (isBuiltInRule(entity)) {
-    return entity.triggering;
-  } else if (entity.event) {
-    return entity.event.triggering;
-  }
-  return false;
-}
-
-export function getSeverityText(severity) {
+export function getSeverityText(severity: number): string {
   switch (severity) {
     case 10:
       return t('in-settings:tabs.critical');
@@ -48,30 +42,7 @@ export function getSeverityText(severity) {
   }
 }
 
-export function getSeverity(entity) {
-  if (isBuiltInRule(entity)) {
-    return entity.severity;
-  } else if (entity.event) {
-    return entity.event.severity;
-  }
-  return 0;
-}
-
-export function getDescription(entity) {
-  if (isBuiltInRule(entity)) {
-    return entity.description;
-  } else if (entity.event) {
-    return entity.event.description;
-  }
-  return null;
-}
-
-/**
- * Gets entity type options for entities that have at least one built-in metric definition and is not listed as a disabled plugin.
- * Consequently, plugins that only have custom-metrics are also not returned by this method.
- * @return {{label: string|""|string, value: *}[]} Plugin options for built-in metrics in alphabetical order.
- */
-export function getEntityTypeOptionsOfBuiltInMetrics(showDeprecatedLabel) {
+export function getEntityTypeOptionsOfBuiltInMetrics(showDeprecatedLabel: boolean): Option[] {
   return Object.values(plugins)
     .filter(plugin => hasCategory(plugin))
     .filter(plugin => customIssuesDisabledForPlugins.indexOf(plugin) < 0)
@@ -84,21 +55,21 @@ export function getEntityTypeOptionsOfBuiltInMetrics(showDeprecatedLabel) {
     });
 }
 
-function getLabelForPlugin(plugin, showDeprecatedLabel) {
+function getLabelForPlugin(plugin: string, showDeprecatedLabel: boolean): string {
   return showDeprecatedLabel && shouldDisplayDeprecatedLabel(plugin)
     ? getPluginName(plugin, 1) + ` (${t('in-settings:tabs.deprecated')})`
     : getPluginName(plugin, 1);
 }
 
-function shouldDisplayDeprecatedLabel(plugin) {
+function shouldDisplayDeprecatedLabel(plugin: string): boolean {
   return deprecateAppDataLegacyEventsEnabled && isDeprecatedAppDataEntity(plugin);
 }
 
-function isDeprecatedAppDataEntity(plugin) {
+function isDeprecatedAppDataEntity(plugin: string): boolean {
   return plugin === 'application' || plugin === 'service' || plugin === 'endpoint';
 }
 
-export function formatterTypeToDefinition(formatterType) {
+export function formatterTypeToDefinition(formatterType: FormatterType) {
   switch (formatterType) {
     case 'LATENCY':
     case 'MILLIS':
@@ -130,7 +101,7 @@ export function formatterTypeToDefinition(formatterType) {
   }
 }
 
-export function mapConditionValue(value, formatterType) {
+export function mapConditionValue(value: number, formatterType: FormatterType): number {
   if (formatterType === 'PERCENTAGE') {
     // we use a scale of [0, 100.0], but we only store the value in range [0, 1.0]
     value = formatNumber(value, getNumberOfDigits(value));
@@ -141,7 +112,7 @@ export function mapConditionValue(value, formatterType) {
   return value;
 }
 
-export function unmapConditionValue(value, formatterType) {
+export function unmapConditionValue(value: number, formatterType: FormatterType): number {
   if (formatterType === 'PERCENTAGE') {
     value = round(value / 100, getNumberOfDigits(value) + 2);
   } else if (formatterType === 'MICROS') {
@@ -151,24 +122,25 @@ export function unmapConditionValue(value, formatterType) {
 }
 
 const migrateableEntityTypes = ['application', 'service', 'endpoint'];
-export function isAppDataEntityType(entityType = '') {
+
+export function isAppDataEntityType(entityType: string = '') {
   return migrateableEntityTypes.includes(entityType.toLowerCase());
 }
 
-function formatNumber(value, decimalPrecision) {
+function formatNumber(value: number, decimalPrecision: number): number {
   return round(value * 100, decimalPrecision);
 }
 
-function round(value, decimals) {
+function round(value: string | number, decimals: number): number {
   return parseFloat(Number.parseFloat(`${value}`).toFixed(decimals));
 }
 
-function getNumberOfDigits(value) {
+function getNumberOfDigits(value: string | number): number {
   const [, digits] = value?.toString()?.split('.') ?? [];
   return digits?.length || 0;
 }
 
-export function needsMigrationAction(entity) {
+export function needsMigrationAction(entity: EventSpecificationInfo): boolean {
   return (
     deprecateAppDataLegacyEventsEnabled &&
     !isBuiltInRule(entity) &&

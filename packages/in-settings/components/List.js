@@ -22,6 +22,7 @@ import { listSuccess, loading } from 'in-services/util/result';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import IconButton from 'in-components/IconButton/IconButton';
 import Delete from 'in-settings/components/actions/Delete';
+import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import { identity } from 'in-services/util/function';
 import ListTitle from 'in-components/lists/Title';
 import { isBlank } from 'in-services/util/string';
@@ -538,7 +539,7 @@ function areAllRowsSelected(entities, tableActions, startIndex, endIndex) {
   return true;
 }
 
-export function leftHeaderWithSelectAll(entityName, inSelectListDialog, tableActions) {
+export function leftHeaderWithSelectAll(entityName, inSelectListDialog, tableActions, isBeta = false) {
   return function LeftHeaderWithSelectAll(totalHits, filteredHits, entitiesBeforePagination) {
     const allSelected = areAllRowsOnAllPagesSelected(entitiesBeforePagination, tableActions);
     if (
@@ -565,7 +566,11 @@ export function leftHeaderWithSelectAll(entityName, inSelectListDialog, tableAct
       return entityName;
     } else {
       const getHeaderFunction = defaultHeaderWithCount(entityName);
-      return getHeaderFunction(totalHits, filteredHits);
+      return (
+        <div>
+          {getHeaderFunction(totalHits, filteredHits)} {isBeta && <BetaBadge />}
+        </div>
+      );
     }
   };
 }
