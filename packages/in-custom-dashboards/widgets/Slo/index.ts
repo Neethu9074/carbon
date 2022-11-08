@@ -16,3 +16,8 @@ export const minimumWidth = 6;
 export const minimumHeight = 18;
 export const enabled = true;
 export const trackViews = true;
+
+// For the future we would like to have this value calculated from the minimumHeight of the
+// grid-config but for now we are just using a hard coded height for the preview chart.
+// We did the same for in-custom-dashboards/widgets/Apdex.
+export const widgetPreviewHeight = 210;
