@@ -6,6 +6,7 @@
 import React from 'react';
 
 import { ColumnizedContent, Ul, Li } from '@instana/components';
+import { useObservable } from '@instana/hooks';
 
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
@@ -14,7 +15,7 @@ import { hasError, isLoading } from 'in-services/util/result';
 import locals from './ItemList.mless';
 
 export default function ItemList({ get, columnDefinitions, timeConfig, getItemLink, numSkeletonRows }) {
-  const result = get ? { result: get() } : {};
+  const result = useObservable(get ? get() : {}, [get]) ?? {};
   if (!result || isLoading(result)) {
     return <LoadingList className={locals.list} numSkeletonRows={numSkeletonRows} />;
   }
@@ -24,7 +25,7 @@ export default function ItemList({ get, columnDefinitions, timeConfig, getItemLi
 
   return (
     <Ul className={locals.list}>
-      {result.data.items.map((item, rowIndex) => (
+      {result.data?.items.map((item, rowIndex) => (
         <Li key={rowIndex} href$={getItemLink(item)}>
           <ColumnizedContent
             columnDefinitions={columnDefinitions}
