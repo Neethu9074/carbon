@@ -86,7 +86,7 @@ function RowDetails({ row }) {
 IbmMqFileTransferMetadataTable.propTypes = {
   ibmMqFileTransferMetadata: PropTypes.arrayOf(
     PropTypes.shape({
-      transferId: PropTypes.string,
+      transferID: PropTypes.string,
       sourceAgent: PropTypes.string,
       destinationAgent: PropTypes.string,
       originator: PropTypes.string,
