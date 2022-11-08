@@ -12,13 +12,13 @@ import {
   MessageType,
   SmartAlertErrorMessages
 } from 'in-alerting/smart-alerts/components/smart-alert-dialog/components/SmartAlertErrorMessages';
-import { useScrollToFirstInvalidNavItem } from 'in-alerting/smart-alerts/applications/hooks/useScrollToFirstInvalidNavItem';
 import ScrollStep from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ScrollStep';
 import SideNav, { NavItem } from 'in-components/SideNav';
 import Divider from 'in-components/workspace/Divider';
 import Header from 'in-components/workspace/Header';
 
 import locals from './AdvancedModeStepsContainer.mless';
+import { useScrollToFirstInvalidNavItem } from 'in-components/StepsContainer/useScrollToFirstInvalidNavItem';
 
 export default function AdvancedModeStepsContainer({
   navItems,
