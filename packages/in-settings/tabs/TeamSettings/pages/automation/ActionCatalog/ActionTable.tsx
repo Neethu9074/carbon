@@ -121,11 +121,13 @@ const testColumn = {
       const field = fields?.[1];
       const value = field?.value ?? '';
       return (
-        <IconButton
-          kind="primaryv2"
-          type={'lib_actions_play'}
-          onClick={() => addActiveDialog(<RunAction test action={row} script={value} volatileId={{}} event={null} />)}
-        />
+        <Tooltip content={t('in-settings:tabs.test')} delay={500}>
+          <IconButton
+            kind="primaryv2"
+            type={'lib_actions_play'}
+            onClick={() => addActiveDialog(<RunAction test action={row} script={value} volatileId={{}} event={null} />)}
+          />
+        </Tooltip>
       );
     } else {
       return <></>;
