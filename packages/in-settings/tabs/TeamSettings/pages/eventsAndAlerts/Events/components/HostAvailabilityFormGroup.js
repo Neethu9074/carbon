@@ -10,9 +10,9 @@ import {
   hostAvailabilityOfflineDurationOptions
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customEventFormUtil';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import { Row, Col } from 'in-components/layout/Grid/Grid';
 import FormGroup from 'in-settings/components/FormGroup';
-import Helpify from 'in-components/form/Helpify/Helpify';
+import { Row, Col } from 'in-components/layout/Grid';
+import Helpify from 'in-components/form/Helpify';
 import ComboBox from 'in-components/ComboBox';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';

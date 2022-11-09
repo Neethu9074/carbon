@@ -7,14 +7,14 @@ import React from 'react';
 
 import { just } from '@instana/observables';
 
-import HostScopeDefinitionReadOnlyView from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/HostScopeDefinitionReadOnlyView';
 import {
   putTagValueField,
+  onChangeApplyOn,
   removeTagValueField
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
+import HostScopeDefinitionReadOnlyView from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/HostScopeDefinitionReadOnlyView';
 import HostScopeDefinitionSelector from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/HostScopeDefinitionSelector';
 import { infraTagTreeNode } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customEventFormUtil';
-import { onChangeApplyOn } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventForm';
 import { scopeEverything } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import { EQUALS, IS_EMPTY, NOT_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
 import TouchedMessages from 'in-components/form/TouchedMessages';

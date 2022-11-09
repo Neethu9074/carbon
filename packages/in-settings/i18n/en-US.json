@@ -97,6 +97,10 @@
   },
   "tabs": {
     "team": {
+      "events": {
+        "withDeprecatedSuffix": "{{pluginName}} (deprecated)",
+        "placeholder": "Placeholder"
+      },
       "customPayload": {
         "unknownTag": "Unknown tag: {{tagName}}"
       }
