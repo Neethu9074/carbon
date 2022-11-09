@@ -11863,9 +11863,6 @@
       "filesOpenedForRead": "Files opened for Read",
       "beeInstana": "BeeInstana"
     },
-    "webSphereApplicationContainer": {
-      "sessions": "Sessions"
-    },
     "webSphereLibertyApplicationContainer": {
       "requests": "Requests",
       "averageResponseTime": "Average Response Time"
