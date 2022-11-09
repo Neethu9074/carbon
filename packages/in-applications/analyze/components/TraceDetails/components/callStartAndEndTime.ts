@@ -3,7 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-export function getStart(call) {
+import { TraceActivityTreeNode } from '@instana/types/index';
+
+import { GeneratedNode } from 'in-applications/analyze/AnalyzeView2_0/buildTraceActivityTree';
+
+export function getStart(call: TraceActivityTreeNode | GeneratedNode) {
   let earliestStart = call.start;
   if (call.children) {
     for (let i = 0; i < call.children.length; i++) {
@@ -13,7 +17,7 @@ export function getStart(call) {
   return earliestStart;
 }
 
-export function getEnd(call) {
+export function getEnd(call: TraceActivityTreeNode | GeneratedNode) {
   let latestEnd = call.start + call.duration;
   if (call.children) {
     for (let i = 0; i < call.children.length; i++) {
