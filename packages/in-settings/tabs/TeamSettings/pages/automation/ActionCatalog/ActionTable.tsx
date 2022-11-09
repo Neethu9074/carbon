@@ -124,7 +124,7 @@ const testColumn = {
         <IconButton
           kind="primaryv2"
           type={'lib_actions_play'}
-          onClick={() => addActiveDialog(<RunAction action={row} script={value} volatileId={{}} event={null} />)}
+          onClick={() => addActiveDialog(<RunAction test action={row} script={value} volatileId={{}} event={null} />)}
         />
       );
     } else {
