@@ -4,24 +4,28 @@
  * Copyright IBM Corp. 2022
  */
 
-import { keyBy, reverse, sortBy } from 'lodash';
+import { reverse, sortBy } from 'lodash';
 import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 
 import { Button, Link } from '@instana/components';
 import { Observable } from '@instana/observables';
 
+import {
+  getDocLinkFromFields,
+  getScriptFromFields,
+  getType
+} from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import { teamSettingsActionCatalog, getEntityIdView } from 'in-settings/navigation/paths';
 import List, { leftHeaderWithSelectAll, TableActions } from 'in-settings/components/List';
 import Tag from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Tag';
-import { getType } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import RunAction from 'in-events/components/AutomationActions/RunAction';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getAllActions, ScoredAction } from 'in-api/automation';
 import { formatDateTime } from 'in-services/formatters/date';
 import { runActionTracker } from 'in-events/tracker';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import { Event, Field, VolatileId } from 'in-types';
+import { Event, VolatileId } from 'in-types';
 import { Action } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -69,8 +73,7 @@ const executeColumn = (volatileId: VolatileId, event: Event | null) => ({
   getContent(row: Action) {
     const { type, fields } = row;
     if (type === 'doc_link') {
-      const fieldsByName: Record<string, Field | null> = keyBy(fields, 'name');
-      const field = fieldsByName?.URL;
+      const field = getDocLinkFromFields(fields);
       const value = field?.value;
       return (
         <Button
@@ -90,8 +93,7 @@ const executeColumn = (volatileId: VolatileId, event: Event | null) => ({
         </Button>
       );
     } else if (type === 'SCRIPT') {
-      const fieldsByName: Record<string, Field | null> = keyBy(fields, 'name');
-      const field = fieldsByName?.script_ssh;
+      const field = getScriptFromFields(fields);
       const value = field?.value ?? '';
       return (
         <Button
