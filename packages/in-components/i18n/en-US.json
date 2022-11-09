@@ -77,6 +77,7 @@
     "eumPageName": "EUM",
     "settingsPageName": "Settings",
     "requestQuoteBtn": "Request a quote",
+    "buyNowBtn": "Buy Now",
     "alreadyHaveLicense": "Already have a license? Activate it on <linkToDocker>Docker</linkToDocker> or <linkToKubernetes>Kubernetes</linkToKubernetes>."
   },
   "releaseNotesDialog": {

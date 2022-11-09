@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, createMapForm } from 'formalistic';
+import { createField, createMapForm, createListForm } from 'formalistic';
 
 import {
   getAllBuiltInMetrics,
@@ -78,8 +78,9 @@ function getScopeFields(isCreate, query, ruleType, tagFilter) {
   }
 }
 
-export function createEventFormDefinition(eventSpec, isCreate) {
-  const mutableEvent = getMutableEventSpecification(eventSpec);
+export function createEventFormDefinition(mutableEventOptional, isCreate) {
+  const mutableEvent = mutableEventOptional ?? createCustomThresholdBasedEventSpecification();
+  const eventSpec = mutableEvent; // TODO refactor in next step.
   const { name, entityType, query, triggering, description, expirationTime } = mutableEvent;
   const ruleAttributes = getRuleAttributes(mutableEvent);
   const { ruleType, severity, tagFilter } = ruleAttributes;
@@ -93,7 +94,34 @@ export function createEventFormDefinition(eventSpec, isCreate) {
     tagOperatorForHostAvailability
   } = getScopeFields(isCreate, query, ruleType, tagFilter);
 
-  let form = createMapForm()
+  const rulesFormList = (mutableEvent.rules ?? [])
+    .map(() => createMapForm(/*empty, because not yet used*/))
+    .reduce(
+      (listForm, subForm) => listForm.push(subForm),
+      createListForm({
+        touched: true,
+        validator: rules => {
+          if (rules?.length > 1) {
+            return [
+              {
+                severity: 'error',
+                // message will be removed anyway in a couple of days, so there is no i18n needed.
+                message:
+                  'There are more than one conditions configured. You need to use the API to edit this configuration.'
+              }
+            ];
+          }
+          return null;
+        }
+      })
+    );
+
+  let form = createMapForm({
+    items: {
+      rules: rulesFormList
+    },
+    touched: mutableEvent.rules?.length >= 1
+  })
     .put(
       'name',
       createField({
@@ -180,8 +208,7 @@ export function createEventFormDefinition(eventSpec, isCreate) {
 }
 
 function putAllDataSourceFields(form, eventSpec) {
-  const mutableEvent = getMutableEventSpecification(eventSpec);
-  const { entityType } = mutableEvent;
+  const { entityType } = eventSpec;
   const {
     metricName,
     metricPlaceholderValue,
@@ -189,11 +216,12 @@ function putAllDataSourceFields(form, eventSpec) {
     metricFormat,
     conditionOperator,
     conditionValue: originalConditionValue
-  } = getRuleAttributes(mutableEvent);
+  } = getRuleAttributes(eventSpec);
 
   let formatter = metricFormat;
   // FIXME fallback is only needed as long as not all plugins define a built-in metrics-catalog in the backend
   if (eventSpec && formatter === 'UNDEFINED') {
+    // TODO: simplify: When is mutableEvent undefined, and why do we only need to get the formatter in this case?
     const metricList = getAllBuiltInMetrics(entityType);
     const metricItem = find(metricList, _metric => _metric.value === metricName);
 
@@ -217,7 +245,7 @@ function putAllDataSourceFields(form, eventSpec) {
       createField({
         value: metricName,
         validator: metricName => {
-          return metricName && metricName != '' && metricName.length > 0
+          return metricName && metricName !== '' && metricName.length > 0
             ? null
             : [
                 {
@@ -309,9 +337,7 @@ export function putMetricPatternPlaceholder(form, metricPlaceholderValue) {
 }
 
 function putAllEntityVerificationFields(form, event) {
-  const { matchingEntityType, matchingOperator, matchingEntityLabel, offlineDuration } = getRuleAttributes(
-    getMutableEventSpecification(event)
-  );
+  const { matchingEntityType, matchingOperator, matchingEntityLabel, offlineDuration } = getRuleAttributes(event);
 
   return form
     .put(
@@ -345,7 +371,7 @@ function putAllEntityVerificationFields(form, event) {
 }
 
 function putHostAvailabilityDetectionFields(form, event) {
-  const { offlineDuration, closeAfter } = getRuleAttributes(getMutableEventSpecification(event));
+  const { offlineDuration, closeAfter } = getRuleAttributes(event);
 
   return form
     .put(
@@ -368,7 +394,7 @@ export function putWindowField(form, eventSpec) {
   return form.put(
     'window',
     createField({
-      value: String(getRuleAttribute(eventSpec, 'window', '')),
+      value: String(eventSpec?.rules?.[0]?.window ?? ''),
       validator: notBlankValidator
     })
   );
@@ -378,7 +404,7 @@ export function putRollupField(form, eventSpec) {
   return form.put(
     'rollup',
     createField({
-      value: String(getRuleAttribute(eventSpec, 'rollup', '')),
+      value: String(eventSpec?.rules?.[0]?.rollup ?? ''),
       validator: notBlankValidator
     })
   );
@@ -388,7 +414,7 @@ export function putAggregationField(form, eventSpec) {
   return form.put(
     'aggregation',
     createField({
-      value: getRuleAttribute(eventSpec, 'aggregation', ''),
+      value: eventSpec?.rules?.[0]?.aggregation ?? '',
       validator: notBlankValidator
     })
   );
@@ -428,6 +454,7 @@ function removeAllMetricPatternFields(form) {
 }
 
 function putSystemRuleSelection(form, ruleAttributes, systemRules) {
+  // TODO: simpify this logic with all its edge cases
   let systemRule = ruleAttributes.systemRuleId;
   if (!systemRule && systemRules && systemRules.length > 0) {
     systemRule = systemRules[0].id;
@@ -480,7 +507,7 @@ export function updateFormDefinitionForDataSource(form, previousDataSource, even
   const nextDataSource = form.get('dataSource')?.value;
 
   if (previousDataSource !== dataSourceSystem && nextDataSource === dataSourceSystem) {
-    const { ruleType } = getRuleAttributes(getMutableEventSpecification(eventSpec));
+    const { ruleType } = getRuleAttributes(eventSpec);
     form = removeAllDataSourceFields(form);
 
     if (ruleType === ruleTypeEntityVerification) {
@@ -609,7 +636,7 @@ export function putQueryFields(form, eventSpec) {
     .put(
       'query',
       createField({
-        value: eventSpec.get('query', ''),
+        value: eventSpec.query ?? '',
         validator: notBlankValidator
       })
     )
@@ -644,12 +671,12 @@ function isSystemDataSource(ruleType) {
   return ruleType === 'system' || ruleType === ruleTypeEntityVerification || ruleType === ruleTypeHostAvailability;
 }
 
-export function isDeprecatedEntityType(entityType) {
-  return Boolean(!plugins[entityType]);
+export function isHostAvailabilitySystemRule(form) {
+  return form.get('systemRule')?.value === hostAvailabilityDetection.id;
 }
 
-function getMutableEventSpecification(eventSpec) {
-  return eventSpec ? eventSpec.toJS() : createCustomThresholdBasedEventSpecification();
+export function isDeprecatedEntityType(entityType) {
+  return Boolean(!plugins[entityType]);
 }
 
 function getRuleAttributes(eventSpec) {
@@ -674,7 +701,9 @@ function getRuleAttributes(eventSpec) {
     closeAfter,
     tagFilter;
 
-  if (rules && rules.length === 1) {
+  /* to avoid breaking existing form, just use first rule, and
+   * ignore other rules here */
+  if (rules && rules.length >= 1) {
     ruleType = rules[0].ruleType;
 
     if (rules[0].metricName) {
@@ -711,11 +740,8 @@ function getRuleAttributes(eventSpec) {
     offlineDuration = rules[0].offlineDuration;
     closeAfter = rules[0].closeAfter;
     tagFilter = rules[0].tagFilter;
-  } else if (rules && rules.length > 1) {
-    if (__DEV__) {
-      throw new Error('Multiple rules per event are not supported yet.');
-    }
   } else if (rule) {
+    // TODO: this case should not exist in the future - need more rework
     ruleType = rule.ruleType;
     systemRuleId = rule.systemRuleId;
     severity = rule.severity;
@@ -743,14 +769,67 @@ function getRuleAttributes(eventSpec) {
   };
 }
 
-function getRuleAttribute(eventSpec, key, fallback) {
-  if (!eventSpec) {
-    return fallback;
+export function isPercentile(form) {
+  if (!form || !form.get('entityType') || !form.get('metricName')) {
+    return false;
   }
 
-  const fromRules = eventSpec.getIn(['rules', '0', key]);
-  if (fromRules != null) {
-    return fromRules;
+  const metricName = form.get('metricName').value;
+  const entityType = form.get('entityType').value;
+  return isBackendAggregatedPercentileMetric(entityType, metricName);
+}
+
+export function isBuiltInDataSourceSelected(form) {
+  return form.get('dataSource').value === dataSourceBuiltIn;
+}
+
+export function isCustomDataSourceSelected(form) {
+  return form.get('dataSource').value === dataSourceCustom;
+}
+
+export function isSystemRuleDataSourceSelected(form) {
+  return form.get('dataSource').value === dataSourceSystem;
+}
+
+export function onChangeApplyOn(applyOn, onChange) {
+  let updateFormDefinition;
+
+  if (applyOn === scopeDfq) {
+    updateFormDefinition = (form, eventSpec) => {
+      form = form.remove('application');
+      form = removeScopeByHostsField(form);
+      form = putQueryFields(form, eventSpec);
+      return form.updateIn(['query'], f => {
+        return f.setValue('');
+      });
+    };
+  } else if (applyOn === scopeApplication) {
+    updateFormDefinition = form => {
+      form = removeQueryFields(form);
+      form = removeScopeByHostsField(form);
+      form = putApplicationField(form, null);
+      form = putApplicationIdField(form, []);
+      return form;
+    };
+  } else if (applyOn === scopeHostsByTag) {
+    updateFormDefinition = form => {
+      form = removeQueryFields(form);
+      form = form.remove('application');
+      form = form.remove('applicationIds');
+      form = putScopeByHostsFields(form);
+
+      return form;
+    };
+  } else {
+    // applyOn === scopeEverything or not selected
+    updateFormDefinition = form => {
+      form = removeQueryFields(form);
+      form = form.remove('application');
+      form = form.remove('applicationIds');
+      form = removeScopeByHostsField(form);
+
+      return form;
+    };
   }
-  return eventSpec.getIn(['rule', key], fallback);
+  onChange('applyOn', applyOn, updateFormDefinition);
 }

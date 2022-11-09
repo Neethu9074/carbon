@@ -41,7 +41,7 @@ export function getTestSummaryListWithDefaults({
   query = '',
   page = 1,
   pageSize = 20,
-  orderBy = 'test_name',
+  orderBy = 'successRate',
   orderDirection = 'ASC',
   timeConfig,
   tagFilters = []

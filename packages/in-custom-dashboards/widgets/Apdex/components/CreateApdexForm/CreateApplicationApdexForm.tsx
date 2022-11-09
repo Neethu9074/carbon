@@ -62,7 +62,7 @@ export default function CreateApplicationApdexForm({
   useSetFormFooterEffect({
     form,
     formId: 'createApdexForm',
-    isDisabled: form.touched && (!form.hierarchyValid || !isFilterExpressionValid),
+    isDisabled: !form.hierarchyTouched || !form.hierarchyValid || !isFilterExpressionValid,
     cloneOnly: isEditing,
     isSaving,
     onCancel,

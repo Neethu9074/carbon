@@ -70,7 +70,7 @@ function Placeholder() {
   return <Presenter topText={t('in-components:analyzeView.resultHeaderLoading')} />;
 }
 
-function ErroneousResult() {
+export function ErroneousResult() {
   return (
     <div className={locals.header}>
       <div className={locals.topTextWithTooltip}>

@@ -58,7 +58,7 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   }),
   paginationResettingUrlParameters: [...timeConfigUrlParameters],
   columnDefinitions: columnDefinitions,
-  defaultOrderBy: 'test_name',
+  defaultOrderBy: 'successRate',
   defaultOrderDirection: 'ASC',
   pathSegment,
   matrixPrefix
@@ -148,7 +148,7 @@ type GetTestSummaryList = {
 
 export function getTestSummaryListData({
   timeConfig,
-  orderBy = 'test_name',
+  orderBy = 'successRate',
   orderDirection = 'ASC',
   page = 1,
   pageSize = 20,

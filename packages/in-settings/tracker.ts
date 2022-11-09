@@ -24,7 +24,10 @@ import {
   SETTINGS_MAINTENANCE_WINDOW_REMOVE,
   SETTINGS_MAINTENANCE_WINDOW_EDIT,
   SETTINGS_MAINTENANCE_WINDOW_SUBMIT,
-  SETTINGS_MAINTENANCE_WINDOW_CANCEL
+  SETTINGS_MAINTENANCE_WINDOW_CANCEL,
+  SETTINGS_AUTOMATION_ACTION_CREATE,
+  SETTINGS_AUTOMATION_ACTION_EDIT,
+  SETTINGS_AUTOMATION_ACTION_DELETE
 } from 'in-services/tracking/tracking';
 
 export const submitInviteUserTracker = (e: Object) => track(SETTINGS_USER_INVITE_SUBMIT, e);
@@ -53,3 +56,7 @@ export const removeMaintenanceWindowTracker = (e: Object) => track(SETTINGS_MAIN
 export const editMaintenanceWindowTracker = (e: Object) => track(SETTINGS_MAINTENANCE_WINDOW_EDIT, e);
 export const submitMaintenanceWindowTracker = (e: Object) => track(SETTINGS_MAINTENANCE_WINDOW_SUBMIT, e);
 export const cancelMaintenanceWindowTracker = (e: Object) => track(SETTINGS_MAINTENANCE_WINDOW_CANCEL, e);
+
+export const createActionTracker = (e: Object) => track(SETTINGS_AUTOMATION_ACTION_CREATE, e);
+export const editActionTracker = (e: Object) => track(SETTINGS_AUTOMATION_ACTION_EDIT, e);
+export const deleteActionTracker = (e: Object) => track(SETTINGS_AUTOMATION_ACTION_DELETE, e);

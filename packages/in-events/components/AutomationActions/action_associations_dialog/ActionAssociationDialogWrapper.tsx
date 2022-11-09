@@ -10,16 +10,19 @@ import { uniq } from 'lodash';
 
 import { Error } from '@instana/components/types/util/dataRetrieval';
 import { createLogger } from '@instana/logger';
+import { useObservable } from '@instana/hooks';
 
 import {
   updateActionsAssignedToBuiltInEvent,
   saveCustomEventSpecificationWithActions,
   getCustomEventSpecificationWithActions
 } from 'in-api/eventSpecifications';
+import { MessageType, EventProps } from 'in-events/components/AutomationActions/action_associations_dialog/SharedTypes';
 import ActionConfigDialog from 'in-events/components/AutomationActions/action_associations_dialog/ActionConfigDialog';
 import { addActionForm } from 'in-events/components/AutomationActions/action_associations_dialog/addActionForm';
-import { MessageType } from 'in-events/components/AutomationActions/action_associations_dialog/SharedTypes';
+import { associateActionsTracker } from 'in-events/tracker';
 import { close } from 'in-components/DialogPresenter/store';
+import { getAllActions } from 'in-api/automation';
 import { Action } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -28,24 +31,25 @@ const logger = createLogger(
 );
 
 interface ActionAssociationDialogWrapperProps {
-  eventId?: string;
+  eventDetails: EventProps;
   actions: Action[];
   isCustom: boolean;
   onClose: () => void;
 }
 
 interface CreateOrSaveActionProps {
-  eventId?: string;
+  eventDetails: EventProps;
   isCustom: boolean;
   onClose: () => void;
   setIsSaving: React.Dispatch<React.SetStateAction<boolean>>;
   setMessages: React.Dispatch<React.SetStateAction<MessageType[]>>;
   form: MapForm;
   setForm: React.Dispatch<React.SetStateAction<MapForm>>;
+  allActions: Action[];
 }
 
 export default function ActionAssociationDialogWrapper({
-  eventId,
+  eventDetails,
   actions,
   isCustom,
   onClose
@@ -53,16 +57,17 @@ export default function ActionAssociationDialogWrapper({
   const [form, setForm] = useState(addActionForm(actions));
   const [isSaving, setIsSaving] = useState(false);
   const [messages, setMessages] = useState<MessageType[]>([]);
-
+  const allActions = useObservable(getAllActions, []) ?? [];
   const withTrackCreate = () => {
     createOrSaveAction({
       form,
       setForm,
       isCustom,
-      eventId,
       onClose,
       setIsSaving,
-      setMessages
+      setMessages,
+      eventDetails,
+      allActions
     });
   };
 
@@ -75,13 +80,22 @@ export default function ActionAssociationDialogWrapper({
       withTrackCreate={withTrackCreate}
       isSaving={isSaving}
       actions={actions}
+      eventDetails={eventDetails}
       messages={messages}
       setMessages={setMessages}
     />
   );
 }
 
-function createOrSaveAction({ form, setForm, isCustom, eventId, setIsSaving, setMessages }: CreateOrSaveActionProps) {
+function createOrSaveAction({
+  form,
+  setForm,
+  isCustom,
+  eventDetails,
+  setIsSaving,
+  setMessages,
+  allActions
+}: CreateOrSaveActionProps) {
   setIsSaving(true);
   //remove existing error messages:
   setMessages((prevMessages: MessageType[]) =>
@@ -101,8 +115,19 @@ function createOrSaveAction({ form, setForm, isCustom, eventId, setIsSaving, set
   const actionIds = (form.get('actionIds') as Field<string[]>)?.value ?? [];
   const actions = actionIds.length > 0 ? uniq(actionIds).map((value: string) => ({ id: value })) : [];
 
+  const eventId = eventDetails.id;
+  const eventName = eventDetails.name;
+  const actionNames = allActions.reduce<string[]>(
+    (acc, action) => [...acc, ...(actionIds.includes(action.id) ? [action.name] : [])],
+    []
+  );
+  associateActionsTracker({
+    eventName,
+    actionNames
+  });
+
   if (isCustom) {
-    getCustomEventSpecificationWithActions(eventId as string).once(
+    getCustomEventSpecificationWithActions(eventId).once(
       (response: any) => {
         if (!response.progress) {
           const eventData: any = response.toJS();

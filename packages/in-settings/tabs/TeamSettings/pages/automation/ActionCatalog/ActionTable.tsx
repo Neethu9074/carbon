@@ -6,6 +6,7 @@
 
 import React, { ReactNode } from 'react';
 import { reverse, sortBy } from 'lodash';
+import classNames from 'classnames';
 
 import { Button, Link } from '@instana/components';
 import { Observable } from '@instana/observables';
@@ -19,6 +20,8 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getAllActions, ScoredAction } from 'in-api/automation';
 import { formatDateTime } from 'in-services/formatters/date';
 import IconButton from 'in-components/IconButton/IconButton';
+import { runActionTracker } from 'in-events/tracker';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 import { Event, VolatileId } from 'in-types';
 import { Action } from 'in-types';
 import { t } from 'in-i18n';
@@ -70,7 +73,19 @@ const executeColumn = (volatileId: VolatileId, event: Event | null) => ({
       const field = fields?.[0];
       const value = field?.value;
       return (
-        <Button kind="action" icon={'lib_views_external_link'} target="_blank" href={value} noAutoMargin>
+        <Button
+          kind="action"
+          icon={'lib_views_external_link'}
+          target="_blank"
+          href={value}
+          onClick={() => {
+            runActionTracker({
+              actionType: row.type,
+              actionName: row.name
+            });
+          }}
+          noAutoMargin
+        >
           {t('in-settings:tabs.launch')}
         </Button>
       );
@@ -122,11 +137,17 @@ const nameColumn = (showActionLink: boolean) => ({
   label: t('in-settings:tabs.name'),
   id: 'name',
   getContent(row: Action) {
-    if (showActionLink) {
-      return <Link href$={getEntityIdView(teamSettingsActionCatalog, row.id)}>{row.name}</Link>;
-    } else {
-      return <div>{row.name}</div>;
-    }
+    return (
+      <Tooltip content={row.name} align="topLeft" delay={500}>
+        {showActionLink ? (
+          <Link className={locals.block} ellipsis href$={getEntityIdView(teamSettingsActionCatalog, row.id)}>
+            {row.name}
+          </Link>
+        ) : (
+          <span className={classNames(locals.ellipsis, locals.block)}>{row.name}</span>
+        )}
+      </Tooltip>
+    );
   }
 });
 
@@ -156,6 +177,7 @@ export interface ActionTableProps {
   showActionLink?: boolean | undefined;
   scored?: boolean | undefined;
   showTestColumn?: boolean | undefined;
+  isBeta?: boolean;
 }
 
 export default function ActionTable({
@@ -172,7 +194,8 @@ export default function ActionTable({
   showActionLink = false,
   event = null,
   scored = false,
-  showTestColumn = false
+  showTestColumn = false,
+  isBeta = false
 }: ActionTableProps) {
   let columnDefinitionsToShow = [nameColumn(showActionLink), ...columnDefinitions];
   if (showExecuteColumn) {
@@ -195,7 +218,7 @@ export default function ActionTable({
       isSearchable
       loadEntities={loadEntities}
       columnDefinitions={columnDefinitionsToShow}
-      getHeader={getHeader(title)}
+      getHeader={getHeader(title, isBeta)}
       searchAttributes={['name', 'description', (entity: Action) => (entity?.tags ?? []).toString()]}
       searchPlaceholder={t('in-settings:tabs.filterActions')}
       searchMaxWidth={210}
@@ -208,8 +231,8 @@ export default function ActionTable({
   );
 }
 
-function getHeader(title: string) {
-  return leftHeaderWithSelectAll(title, false, {});
+function getHeader(title: string, isBeta: boolean) {
+  return leftHeaderWithSelectAll(title, false, {}, isBeta);
 }
 
 function createFilters(ids: string[]): Array<(action: Action) => boolean> {

@@ -25,6 +25,11 @@
         "counter_custom_0": "{{number}} 件のカスタム・イベント",
         "counter_custom_1": "{{number}} 件のカスタム・イベント",
         "counter_custom_2": "{{number}} 件のカスタム・イベント",
+        "counter_crash": "{{number}} 件の異常終了",
+        "counter_crash_plural": "{{number}} 件の異常終了",
+        "counter_crash_0": "{{number}} 件の異常終了",
+        "counter_crash_1": "{{number}} 件の異常終了",
+        "counter_crash_2": "{{number}} 件の異常終了",
         "counter_Row": "{{number}} 行",
         "counter_Row_plural": "{{number}} 行",
         "counter_Row_0": "{{number}} 行",
@@ -86,7 +91,7 @@
       "viewTransitions2": "遷移の表示",
       "calls": "呼び出し",
       "traces": "トレース",
-      "console": "コンソール"
+      "crashes": "異常終了"
     }
   },
   "traceDetail": {

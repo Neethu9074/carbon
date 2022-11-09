@@ -8,8 +8,11 @@ import React from 'react';
 
 import { LocationListItem, PaginatedResult, Result } from '@instana/types';
 import { formatDateTime } from '@instana/format-date';
-import { SvgIcon } from '@instana/components';
+import { Link, SvgIcon } from '@instana/components';
 
+// @ts-expect-error Module needs to be translated to TS
+// eslint-disable-next-line no-restricted-imports
+import { getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
 import LocationListActionsColumn from 'in-synthetics/dashboards/global/tabs/locations/components/LocationListActionsColumn';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import Tooltip from 'in-components/Tooltip/Tooltip';
@@ -20,11 +23,19 @@ import locals from './columnDefinitions.mless';
 export const columnDefinitions = [
   {
     id: 'location_name',
-    sortable: false,
+    sortable: true,
+    defaultOrderDirection: 'ASC',
     label: t('in-synthetics:dashboard.locationList.locationLabel'),
     getContent(item: LocationListItem) {
-      const locationDescription: string = item.description ?? t('in-synthetics:dashboard.locationList.notAvailable');
-      return (
+      const locationDescription: string = item.description ?? '';
+      return locationDescription === '' ? (
+        <HorizontalFlexWrapper>
+          <SvgIcon type={'lib_synthetic_location'} />
+          <div>
+            <h4 className={locals.label}>{item.label}</h4>
+          </div>
+        </HorizontalFlexWrapper>
+      ) : (
         <HorizontalFlexWrapper>
           <SvgIcon type={'lib_synthetic_location'} />
           <Tooltip content={locationDescription}>
@@ -51,7 +62,8 @@ export const columnDefinitions = [
   {
     id: 'status',
     label: t('in-synthetics:dashboard.locationList.status'),
-    sortable: false,
+    sortable: true,
+    defaultOrderDirection: 'DESC',
     getContent(item: LocationListItem) {
       return (
         <div>
@@ -63,7 +75,8 @@ export const columnDefinitions = [
   {
     id: 'type',
     label: t('in-synthetics:dashboard.locationList.type'),
-    sortable: false,
+    sortable: true,
+    defaultOrderDirection: 'ASC',
     getContent(item: LocationListItem) {
       return (
         <div>
@@ -75,7 +88,8 @@ export const columnDefinitions = [
   {
     id: 'total_tests',
     label: t('in-synthetics:dashboard.locationList.totalTests'),
-    sortable: false,
+    sortable: true,
+    defaultOrderDirection: 'DESC',
     getContent(item: LocationListItem) {
       return (
         <div>
@@ -94,6 +108,42 @@ export const columnDefinitions = [
           <h4 className={locals.label}>{formatDateTime(item.lastRunOn)}</h4>
         </div>
       );
+    }
+  },
+  {
+    id: 'namespace',
+    label: t('in-synthetics:dashboard.locationList.namespace'),
+    sortable: false,
+    getContent(item: LocationListItem) {
+      const namespaceId: string = item.namespaceId ?? '';
+      const namespace: string = item.namespace ?? '';
+      if (namespace === '') {
+        return (
+          <HorizontalFlexWrapper>
+            <div>
+              <span className={locals.label}>{namespace}</span>
+            </div>
+          </HorizontalFlexWrapper>
+        );
+      } else {
+        return namespaceId === '' ? (
+          <HorizontalFlexWrapper>
+            <SvgIcon type={'lib_kubernetes_namespace'} />
+            <div>
+              <span className={locals.label}>{namespace}</span>
+            </div>
+          </HorizontalFlexWrapper>
+        ) : (
+          <HorizontalFlexWrapper>
+            <SvgIcon type={'lib_kubernetes_namespace'} />
+            <div>
+              <Link href$={getNamespaceDashboard(namespaceId)}>
+                <span className={locals.label}>{namespace}</span>
+              </Link>
+            </div>
+          </HorizontalFlexWrapper>
+        );
+      }
     }
   },
   {

@@ -469,8 +469,12 @@
         "sliEntity": "SLI 实体",
         "beaconConfigLabel": "信标配置",
         "beaconScopeLabel": "信标作用域",
-        "httpRequestsLabel": "HTTP 请求",
-        "beaconFiltersLabel": "信标过滤器"
+        "beaconLabel": "未知信标类型",
+        "beaconLabel_httpRequest": "HTTP 请求",
+        "beaconLabel_pageLoad": "Web 站点页面加载次数",
+        "beaconLabel_custom": "Web 站点定制事件数",
+        "beaconFiltersLabel": "信标过滤器",
+        "beaconFiltersSubtext": "可选"
       },
       "sliList": {
         "serviceLevelIndicators": "服务级别指示符",
@@ -500,8 +504,10 @@
         "spent": "已花费",
         "budget": "预算",
         "viewInAnalyze": "查看分析",
-        "initialEvaluation": "已创建 SLI",
-        "missingDataInfo": "此 SLI 的创建时间在所显示的时间范围内。 在创建 SLI 之前的数据将缺失。"
+        "configType": "SLI",
+        "configType_apdex": "Apdex",
+        "initialEvaluation": "{{configType}} 创建时间",
+        "missingDataInfo": "此 {{configType}} 的创建时间在显示的时间范围内。 {{configType}} 创建之前的数据将缺失。"
       },
       "formComponent": {
         "sliManagement": "SLI 管理",
@@ -607,7 +613,9 @@
       "formComponent": {
         "title": "Apdex 配置",
         "entityTypeTitle": "Apdex 类型",
-        "manageListTitle": "Apdex 管理"
+        "manageListTitle": "Apdex 管理",
+        "createApdex": "创建 Apdex 配置",
+        "editApdex": "编辑 Apdex 配置"
       },
       "configurationSelector": {
         "label": "Apdex 配置",
@@ -638,7 +646,6 @@
         "createButton": "创建 Apdex 配置"
       },
       "createApdexForm": {
-        "title": "创建 Apdex 配置",
         "customizationHeader": "Apdex 定制",
         "label": "Apdex 名称",
         "apdexCreateSuccessTitle": "已成功创建 Apdex 配置。",
@@ -651,7 +658,8 @@
           "website": "已达到 Web 站点 Apdex 配置 ({{0}}) 的最大数量。 请联系 Instana 支持人员以请求提高此限量。",
           "application": "已达到应用程序 Apdex 配置 ({{0}}) 的最大数量。 请联系 Instana 支持人员以请求提高此限量。"
         },
-        "editConfigNotice": "创建后无法编辑配置以防止数据丢失。"
+        "editConfigNotice": "为避免数据丢失，配置一旦创建就无法编辑，只能作为副本进行调整。",
+        "apdexCloneName": "{{apdexName}} 的副本"
       },
       "createWebsiteApdexForm": {
         "thresholdHeader": "阈值配置",

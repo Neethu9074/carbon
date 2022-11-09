@@ -469,8 +469,12 @@
         "sliEntity": "Entidad de SLI",
         "beaconConfigLabel": "Configuración de baliza",
         "beaconScopeLabel": "Ámbito de baliza",
-        "httpRequestsLabel": "Solicitudes HTTP",
-        "beaconFiltersLabel": "Filtro de baliza"
+        "beaconLabel": "Tipo de baliza desconocido",
+        "beaconLabel_httpRequest": "Solicitudes HTTP",
+        "beaconLabel_pageLoad": "Cargas de página de sitio web",
+        "beaconLabel_custom": "Eventos personalizados de sitio web",
+        "beaconFiltersLabel": "Filtro de baliza",
+        "beaconFiltersSubtext": "Opcional"
       },
       "sliList": {
         "serviceLevelIndicators": "Indicadores de nivel de servicio",
@@ -500,8 +504,10 @@
         "spent": "Gastado",
         "budget": "Presupuesto",
         "viewInAnalyze": "Ver en Analizar",
-        "initialEvaluation": "SLI creado",
-        "missingDataInfo": "La hora de creación de este SLI se encuentra en el intervalo de tiempo visualizado. Faltarán los datos anteriores a la creación del SLI."
+        "configType": "SLI",
+        "configType_apdex": "Apdex",
+        "initialEvaluation": "{{configType}} creado",
+        "missingDataInfo": "La hora de creación de este {{configType}} entra en el rango temporal visualizado. Faltarán los datos anteriores a la creación de {{configType}}."
       },
       "formComponent": {
         "sliManagement": "Gestión de SLI",
@@ -607,7 +613,9 @@
       "formComponent": {
         "title": "Configuración de Apdex",
         "entityTypeTitle": "Tipo de Apdex",
-        "manageListTitle": "Gestión de Apdex"
+        "manageListTitle": "Gestión de Apdex",
+        "createApdex": "Crear configuración de Apdex",
+        "editApdex": "Editar configuración de Apdex"
       },
       "configurationSelector": {
         "label": "Configuración de Apdex",
@@ -638,7 +646,6 @@
         "createButton": "Crear configuración de Apdex"
       },
       "createApdexForm": {
-        "title": "Crear configuración de Apdex",
         "customizationHeader": "Personalización de Apdex",
         "label": "Nombre de Apdex",
         "apdexCreateSuccessTitle": "La configuración de Apdex se ha creado satisfactoriamente.",
@@ -651,7 +658,8 @@
           "website": "Se ha alcanzado el número máximo de configuraciones de apdex del sitio web ({{0}}). Póngase en contacto con el soporte de Instana para solicitar un aumento de este límite.",
           "application": "Se ha alcanzado el número máximo de configuraciones de apdex de aplicación ({{0}}). Póngase en contacto con el soporte de Instana para solicitar un aumento de este límite."
         },
-        "editConfigNotice": "Para evitar la pérdida de datos, no es posible editar la configuración después de la creación."
+        "editConfigNotice": "Para evitar pérdidas de datos, la configuración no se podrá editar una vez creada; solo se podrá ajustar como copia.",
+        "apdexCloneName": "Copia de {{apdexName}}"
       },
       "createWebsiteApdexForm": {
         "thresholdHeader": "Configuración de umbral",

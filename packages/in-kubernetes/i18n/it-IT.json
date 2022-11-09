@@ -270,6 +270,7 @@
   "health": "Condizioni",
   "clusters": "Cluster",
   "explore": "Esplora (anteprima tecnica)",
+  "k8sTeam": "Team K8s",
   "noMonitoringDataFound": "Nessun dato di monitoraggio trovato",
   "clusterName": "Nome del cluster",
   "running": "In esecuzione",

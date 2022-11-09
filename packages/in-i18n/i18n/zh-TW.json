@@ -12,6 +12,12 @@
       "tableLoadMoreRow": {
         "loadMore": "載入更多"
       }
+    },
+    "code": {
+      "copy": "複製",
+      "copied": "已複製！",
+      "showMore": "顯示更多",
+      "showLess": "顯示簡略資訊"
     }
   },
   "formatDate": {
@@ -77,5 +83,6 @@
   "aggregation_MAX": "最大值",
   "aggregation_DISTINCT_COUNT": "個別的計數",
   "aggregation_SUM": "總和",
-  "aggregation_DISTRIBUTION": "分佈"
+  "aggregation_DISTRIBUTION": "分佈",
+  "aggregation_PER_SECOND": "每秒"
 }

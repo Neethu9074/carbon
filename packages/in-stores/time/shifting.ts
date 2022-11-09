@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { fixateTimeConfig, FixedTimeConfig } from 'in-stores/time/config';
 import { ParameterDefinition } from 'in-stores/navigation/types';
 import { formatDuration } from 'in-services/formatters/date';
 import { Nullish, TimeConfig, TimeShift } from 'in-types';
@@ -121,4 +122,15 @@ export function getTimeShiftLabel(timeShift: TimeShift): string {
   }
 
   return t('in-stores:time.shiftingCustomDuration', { duration: formatDuration(Math.abs(timeShift.offset)) });
+}
+
+export function applyTimeShift(
+  timeConfig: TimeConfig,
+  timeShift: TimeShiftOffset | TimeShift | Nullish
+): FixedTimeConfig {
+  const fixatedTimeConfig = fixateTimeConfig(timeConfig);
+  return {
+    ...fixatedTimeConfig,
+    to: fixatedTimeConfig.to + translateOffsetToTimeShiftConfig(timeShift, timeConfig).offset
+  };
 }

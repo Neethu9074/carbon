@@ -6,10 +6,11 @@
 import { createField, createMapForm } from 'formalistic';
 import React, { useState } from 'react';
 
-import { Button, SvgIcon, LoadingSkeleton } from '@instana/components';
+import { LoadingSkeleton } from '@instana/components';
 
 import UserPermissions from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/UserPermissions';
 import { success as successResult, error as errorResult } from 'in-services/util/result';
+import InlineEditorRow from 'in-settings/tabs/TeamSettings/components/InlineEditorRow';
 import Groups from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Groups';
 import Areas from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Areas';
 import { teamSettingsAccessControlUsers } from 'in-settings/navigation/paths';
@@ -22,7 +23,6 @@ import { getUsersAsResultObservable } from 'in-api/users';
 import { Row, Col } from 'in-components/layout/Grid';
 import Title from 'in-components/Title/Title';
 import Gravatar from 'in-components/Gravatar';
-import Input from 'in-components/form/Input';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -77,14 +77,19 @@ function UserRenderer(props) {
 
   return (
     <>
-      <Row>
-        <Col lg>
-          <div className={locals.headline}>
-            <Gravatar className={locals.avatar} email={user.email} size="l" />
-            <Headline user={user} form={form} updateForm={setForm} setMessage={setMessage} />
-          </div>
-        </Col>
-      </Row>
+      <InlineEditorRow
+        canEdit={role.canConfigureUsers}
+        label={user.fullName}
+        extra={user.email}
+        avatar={<Gravatar className={locals.avatar} email={user.email} size="l" />}
+        inputValue={form.get('fullName').value}
+        onInputChange={value => setForm(form.updateIn(['fullName'], field => field.setValue(value).setTouched(true)))}
+        hasError={!form.get('fullName').valid && form.get('fullName').touched}
+        onClickSave={() => changeUserName(user.email, form, setForm, setMessage)}
+        onClickCancel={() =>
+          setForm(form.updateIn(['fullName'], field => field.setValue(user.fullName).setTouched(false)))
+        }
+      />
 
       <Row>
         <Col lg={6}>
@@ -113,53 +118,6 @@ function enrichForm(form, { result: { user } }) {
   );
 }
 
-function Headline({ user, form, updateForm, setMessage }) {
-  const [isEditMode, setEditMode] = useState(false);
-
-  return role.canConfigureUsers ? (
-    isEditMode ? (
-      <>
-        <Input
-          type="text"
-          value={form.get('fullName').value}
-          className={locals.name}
-          onChange={e =>
-            updateForm(form.updateIn(['fullName'], field => field.setValue(e.target.value || '').setTouched(true)))
-          }
-          autoComplete="off"
-          hasError={!form.get('fullName').valid && form.get('fullName').touched}
-        />
-
-        <Button
-          kind="action"
-          onClick={e => changeUserName(e, user.email, form, updateForm, setMessage)}
-          className={locals.editUserSaveButton}
-          noAutoMargin
-        >
-          {t('in-settings:tabs.save')}
-        </Button>
-
-        <Button kind="subtle" onClick={() => setEditMode(false)} className={locals.editUserCancelButton} noAutoMargin>
-          {t('in-settings:tabs.cancel')}
-        </Button>
-      </>
-    ) : (
-      <>
-        <span className={locals.name}>{user.fullName}</span>
-
-        <SvgIcon type="lib_actions_edit" className={locals.editIcon} onClick={() => setEditMode(!isEditMode)} />
-
-        <span className={locals.email}>{user.email}</span>
-      </>
-    )
-  ) : (
-    <>
-      <span className={locals.name}>{user.fullName}</span>
-      <span className={locals.email}>{user.email}</span>
-    </>
-  );
-}
-
 function createUserNameForm(fullName) {
   return createMapForm().put(
     'fullName',
@@ -170,9 +128,7 @@ function createUserNameForm(fullName) {
   );
 }
 
-function changeUserName(e, userMail, form, updateForm, setMessage) {
-  e.preventDefault();
-
+function changeUserName(userMail, form, updateForm, setMessage) {
   if (!form.hierarchyValid) {
     return updateForm(form.setTouched(true, { recurse: true }));
   }

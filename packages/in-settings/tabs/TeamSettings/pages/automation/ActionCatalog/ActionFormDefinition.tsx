@@ -5,38 +5,37 @@
  */
 
 import { createField, createMapForm, MapForm } from 'formalistic';
-import { List, Map } from 'immutable';
 
 import { generateUniqueShortId } from '@instana/utils';
 
 import { isDocLink, isScript } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import { notBlankValidator } from 'in-services/validators/string';
-import { ImmutableNewAction } from 'in-api/automation';
+import { NewAction } from 'in-api/automation';
 import { t } from 'in-i18n';
 
-export function createActionFormDefinition(action: ImmutableNewAction, _isCreate: boolean) {
-  const tags = (action.get('tags') as List<string>) ?? List();
+export function createActionFormDefinition(action: NewAction, _isCreate: boolean) {
+  const tags = action.tags ?? [];
   const mappedTags = tags.map(tag => ({ value: tag, id: generateUniqueShortId() }));
 
   let form = createMapForm()
     .put(
       'name',
       createField({
-        value: action.get('name'),
+        value: action.name,
         validator: notBlankValidator
       })
     )
     .put(
       'description',
       createField({
-        value: action.get('description'),
+        value: action.description ?? '',
         validator: notBlankValidator
       })
     )
     .put(
       'type',
       createField({
-        value: action.get('type'),
+        value: action.type,
         validator: notBlankValidator
       })
     )
@@ -58,30 +57,30 @@ export function createActionFormDefinition(action: ImmutableNewAction, _isCreate
         }
       })
     );
-  if (isDocLink(action.get('type') as string)) form = putDocLinkFields(form, action);
-  else if (isScript(action.get('type') as string)) form = putScriptField(form, action);
+  if (isDocLink(action.type)) form = putDocLinkFields(form, action);
+  else if (isScript(action.type)) form = putScriptField(form, action);
   return form;
 }
 
-export function putDocLinkFields(form: MapForm, action: ImmutableNewAction) {
-  const fields = action.get('fields') as List<Map<string, unknown>>;
-  const value = isDocLink(action.get('type') as string) ? fields?.get(0)?.get('value') : '';
+export function putDocLinkFields(form: MapForm, action: NewAction) {
+  const fields = action.fields;
+  const value = isDocLink(action.type) ? fields?.[0].value : '';
 
   return form.put(
     'docLink',
     createField({
-      value,
+      value: value ?? '',
       validator: notBlankValidator
     })
   );
 }
 
-export function putScriptField(form: MapForm, action: ImmutableNewAction) {
+export function putScriptField(form: MapForm, action: NewAction) {
   let value = '';
-  if (isScript(action.get('type') as string)) {
-    const fields = action.get('fields') as List<Map<string, unknown>>;
-    const field = fields.get(1);
-    value = atob(field.get('value') as string);
+  if (isScript(action.type)) {
+    const fields = action.fields;
+    const field = fields?.[1];
+    value = atob(field?.value ?? '');
   }
 
   return form.put(

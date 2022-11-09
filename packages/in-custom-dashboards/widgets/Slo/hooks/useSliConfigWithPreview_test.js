@@ -11,11 +11,15 @@ jest.mock('in-custom-dashboards/widgets/Slo/hooks/useSliConfiguration', () => ({
   __esModule: true,
   default: jest.fn(() => [])
 }));
+jest.mock('in-services/featureFlags', () => ({
+  sliCHClusterAccessEnabled: false
+}));
 
 describe('in-custom-dashboards/widgets/Slo/hooks/useSliConfigWithPreview', () => {
   beforeEach(jest.clearAllMocks);
 
   it('returns pending and no data if useSliConfiguration returns a pending status', () => {
+    // Given
     const status = 'pending';
     const sliConfig = undefined;
     const errors = [];
@@ -23,12 +27,15 @@ describe('in-custom-dashboards/widgets/Slo/hooks/useSliConfigWithPreview', () =>
 
     useSliConfiguration.mockReturnValueOnce([sliConfig, status, errors, progress]);
 
+    // When
     const actual = useSliConfigWithPreview('someId');
 
+    // Then
     expect(actual).toEqual([undefined, 'pending', [], progress]);
   });
 
   it('returns rejected and errors if useSliConfiguration returns a rejected status', () => {
+    // Given
     const status = 'rejected';
     const sliConfig = undefined;
     const errors = [{ code: 42, message: 'the answer' }];
@@ -36,27 +43,37 @@ describe('in-custom-dashboards/widgets/Slo/hooks/useSliConfigWithPreview', () =>
 
     useSliConfiguration.mockReturnValueOnce([sliConfig, status, errors, progress]);
 
+    // When
     const actual = useSliConfigWithPreview('someId');
 
+    // Then
     expect(actual).toEqual([undefined, 'rejected', [{ code: 42, message: 'the answer' }], progress]);
   });
 
   describe('If status is resolved', () => {
-    const sliConfig = {
-      sliName: 'someSliName',
-      initialEvaluationTimestamp: days.toMillis(10)
-    };
-    const progress = { loading: false };
-
     it('isPreview is false returns sliConfiguration unchanged', () => {
+      // Given
+      const initialEvaluationTimestamp = days.toMillis(2);
+      const lastUpdated = days.toMillis(5);
+
+      const sliConfig = {
+        sliName: 'someSliName',
+        initialEvaluationTimestamp,
+        lastUpdated
+      };
+
+      const progress = { loading: false };
+
       useSliConfiguration.mockReturnValueOnce([sliConfig, 'resolved', [], progress]);
 
       const isPreview = false;
 
-      const actual = useSliConfigWithPreview('someId', {}, isPreview);
+      // When
+      const actual = useSliConfigWithPreview('someId', isPreview);
 
+      // Then
       expect(actual).toEqual([
-        { sliName: 'someSliName', initialEvaluationTimestamp: days.toMillis(10) },
+        { sliName: 'someSliName', initialEvaluationTimestamp, lastUpdated },
         'resolved',
         [],
         { loading: false }
@@ -64,38 +81,174 @@ describe('in-custom-dashboards/widgets/Slo/hooks/useSliConfigWithPreview', () =>
     });
 
     describe('If isPreview is true', () => {
-      const isPreview = true;
+      describe('if sliCHClusterAccessEnabled is set to false', () => {
+        it('returns sliConfiguration with initialEvaluationTimestamp value for both initialEvaluationTimestamp and lastUpdated, if initialEvaluationTimestamp is more than 7 days from the current date', () => {
+          // Given
+          const initialEvaluationTimestamp = days.toMillis(4);
+          const lastUpdated = days.toMillis(2);
+          const sliConfig = {
+            sliName: 'someSliName',
+            initialEvaluationTimestamp,
+            lastUpdated
+          };
 
-      it('returns sliConfiguration unchanged if initialEvaluationTimestamp is seven days before the current date', () => {
-        useSliConfiguration.mockReturnValueOnce([sliConfig, 'resolved', [], progress]);
+          const progress = { loading: false };
 
-        jest.useFakeTimers();
-        jest.setSystemTime(days.toMillis(18));
+          useSliConfiguration.mockReturnValueOnce([sliConfig, 'resolved', [], progress]);
 
-        const actual = useSliConfigWithPreview('someId', isPreview);
+          jest.useFakeTimers();
+          jest.setSystemTime(days.toMillis(18));
 
-        expect(actual).toEqual([
-          { sliName: 'someSliName', initialEvaluationTimestamp: days.toMillis(10) },
-          'resolved',
-          [],
-          { loading: false }
-        ]);
+          // When
+          const actual = useSliConfigWithPreview('someId', true);
+
+          // Then
+          expect(actual).toEqual([
+            {
+              sliName: 'someSliName',
+              initialEvaluationTimestamp: initialEvaluationTimestamp,
+              lastUpdated: initialEvaluationTimestamp
+            },
+            'resolved',
+            [],
+            { loading: false }
+          ]);
+        });
+
+        it('returns sliConfiguration with the difference between current time and 7 days as value for initialEvaluationTimestamp and lastUpdated, if initialEvaluationTimestamp value is less than 7 days from the current date', () => {
+          // Given
+          const initialEvaluationTimestamp = days.toMillis(8);
+          const lastUpdated = days.toMillis(2);
+          const currentTime = days.toMillis(11);
+          const differenceBetweenEvaluationAndWeek = currentTime - days.toMillis(7);
+          const sliConfig = {
+            sliName: 'someSliName',
+            initialEvaluationTimestamp,
+            lastUpdated
+          };
+
+          const progress = { loading: false };
+
+          useSliConfiguration.mockReturnValueOnce([sliConfig, 'resolved', [], progress]);
+
+          jest.useFakeTimers();
+          jest.setSystemTime(currentTime);
+
+          // When
+          const actual = useSliConfigWithPreview('someId', true);
+
+          // Then
+          expect(actual).toEqual([
+            {
+              sliName: 'someSliName',
+              initialEvaluationTimestamp: differenceBetweenEvaluationAndWeek,
+              lastUpdated: differenceBetweenEvaluationAndWeek
+            },
+            'resolved',
+            [],
+            { loading: false }
+          ]);
+        });
       });
 
-      it('returns sliConfiguration with overwritten initialEvaluationTimestamp if the original is less then seven days before the current date', () => {
-        useSliConfiguration.mockReturnValueOnce([sliConfig, 'resolved', [], progress]);
+      describe('if sliCHClusterAccessEnabled is set to true', () => {
+        it('returns sliConfiguration with lastUpdated value for both initialEvaluationTimestamp and lastUpdated, if the lastUpdated value is more than seven days before the current date', async () => {
+          // Given
+          jest.resetModules();
+          jest.doMock('in-services/featureFlags', () => ({
+            sliCHClusterAccessEnabled: true
+          }));
+          jest.doMock('in-custom-dashboards/widgets/Slo/hooks/useSliConfiguration', () => ({
+            __esModule: true,
+            default: jest.fn(() => [])
+          }));
+          const initialEvaluationTimestamp = days.toMillis(11);
+          const lastUpdated = days.toMillis(10);
+          const sliConfig = {
+            sliName: 'someSliName',
+            initialEvaluationTimestamp,
+            lastUpdated
+          };
 
-        jest.useFakeTimers();
-        jest.setSystemTime(days.toMillis(11));
+          const { default: useSliConfiguration } = await import(
+            'in-custom-dashboards/widgets/Slo/hooks/useSliConfiguration'
+          );
+          const { default: useSliConfigWithPreview } = await import(
+            'in-custom-dashboards/widgets/Slo/hooks/useSliConfigWithPreview'
+          );
 
-        const actual = useSliConfigWithPreview('someId', isPreview);
+          const progress = { loading: false };
 
-        expect(actual).toEqual([
-          { sliName: 'someSliName', initialEvaluationTimestamp: days.toMillis(4) },
-          'resolved',
-          [],
-          { loading: false }
-        ]);
+          useSliConfiguration.mockReturnValueOnce([sliConfig, 'resolved', [], progress]);
+
+          jest.useFakeTimers();
+          jest.setSystemTime(days.toMillis(18));
+
+          // When
+          const actual = useSliConfigWithPreview('someId', true);
+
+          // Then
+          expect(actual).toEqual([
+            {
+              sliName: 'someSliName',
+              initialEvaluationTimestamp: lastUpdated,
+              lastUpdated: lastUpdated
+            },
+            'resolved',
+            [],
+            { loading: false }
+          ]);
+        });
+
+        it('returns sliConfiguration with the difference between current time and 7 days as value for initialEvaluationTimestamp and lastUpdated, if initialEvaluationTimestamp value is less than 7 days from the current date', async () => {
+          // Given
+          jest.resetModules();
+          jest.doMock('in-services/featureFlags', () => ({
+            sliCHClusterAccessEnabled: true
+          }));
+          jest.doMock('in-custom-dashboards/widgets/Slo/hooks/useSliConfiguration', () => ({
+            __esModule: true,
+            default: jest.fn(() => [])
+          }));
+          const initialEvaluationTimestamp = days.toMillis(8);
+          const lastUpdated = days.toMillis(9);
+          const currentTime = days.toMillis(12);
+          const differenceBetweenEvaluationAndWeek = currentTime - days.toMillis(7);
+          const sliConfig = {
+            sliName: 'someSliName',
+            initialEvaluationTimestamp,
+            lastUpdated
+          };
+
+          const { default: useSliConfiguration } = await import(
+            'in-custom-dashboards/widgets/Slo/hooks/useSliConfiguration'
+          );
+          const { default: useSliConfigWithPreview } = await import(
+            'in-custom-dashboards/widgets/Slo/hooks/useSliConfigWithPreview'
+          );
+
+          const progress = { loading: false };
+
+          useSliConfiguration.mockReturnValueOnce([sliConfig, 'resolved', [], progress]);
+
+          jest.useFakeTimers();
+          jest.setSystemTime(currentTime);
+
+          // When
+          const actual = useSliConfigWithPreview('someId', true);
+
+          // Then
+          expect(actual).toEqual([
+            {
+              sliName: 'someSliName',
+              initialEvaluationTimestamp: differenceBetweenEvaluationAndWeek,
+              lastUpdated: differenceBetweenEvaluationAndWeek
+            },
+            'resolved',
+            [],
+            { loading: false }
+          ]);
+        });
       });
     });
   });

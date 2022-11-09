@@ -4,22 +4,16 @@
  * Copyright IBM Corp. 2022
  */
 
-import React, { Fragment, SetStateAction } from 'react';
 import { Field, MapForm } from 'formalistic';
+import React from 'react';
 
 import { Button } from '@instana/components';
 
 import {
-  DOC_LINK_TYPE,
-  isDocLink,
-  isScript,
-  SCRIPT_TYPE,
-  WEBHOOK_TYPE
-} from 'in-settings/tabs/TeamSettings/pages/automation/shared';
-import {
   putDocLinkFields,
   putScriptField
 } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionFormDefinition';
+import { DOC_LINK_TYPE, isDocLink, isScript, SCRIPT_TYPE } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import TagsWrapper from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/TagsWrapper';
 import RunAction from 'in-events/components/AutomationActions/RunAction';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
@@ -28,10 +22,10 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import FormGroup from 'in-settings/components/FormGroup';
-import { ImmutableNewAction } from 'in-api/automation';
 import TextArea from 'in-components/form/TextArea';
 import Code from 'in-components/form/Code/Code';
 import Select from 'in-components/form/Select';
+import { NewAction } from 'in-api/automation';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import { Action } from 'in-types';
@@ -42,8 +36,8 @@ import locals from './ActionForm.mless';
 interface ActionFormProps {
   form: MapForm;
   onChange: Function;
-  entity: ImmutableNewAction;
-  setForm: (form: MapForm) => SetStateAction<MapForm>;
+  entity: NewAction | Action;
+  setForm: (form: MapForm) => void;
 }
 
 export default function ActionForm({ form, setForm, onChange, entity: action }: ActionFormProps) {
@@ -58,7 +52,7 @@ export default function ActionForm({ form, setForm, onChange, entity: action }: 
       <SectionHeading>{t('in-settings:tabs.1ActionDetails')}</SectionHeading>
       <Row>
         <Col lg={8}>
-          <Fragment>
+          <>
             {name.map(field => (
               <FormGroup>
                 <Label htmlFor="action-name" hasError={!field.valid && field.touched}>
@@ -122,7 +116,6 @@ export default function ActionForm({ form, setForm, onChange, entity: action }: 
                 >
                   <option value={DOC_LINK_TYPE}>{t('in-settings:tabs.docLink')}</option>
                   <option value={SCRIPT_TYPE}>{t('in-settings:tabs.script')}</option>
-                  <option value={WEBHOOK_TYPE}>{t('in-settings:tabs.http')}</option>
                 </Select>
                 <TouchedMessages field={field} className={locals.subErrorTextFormField} />
                 <HelpText className={locals.subTextFormField}>{t('in-settings:tabs.actionTypeHelper')}</HelpText>
@@ -132,7 +125,7 @@ export default function ActionForm({ form, setForm, onChange, entity: action }: 
               <TagsWrapper form={form} setForm={setForm} onChange={onChange} />
             </FormGroup>
             {isDocLink(type.value) && (
-              <Fragment>
+              <>
                 {docLink.map(field => (
                   <FormGroup>
                     <Label htmlFor="action-docLink" hasError={!field.valid && field.touched}>
@@ -150,10 +143,10 @@ export default function ActionForm({ form, setForm, onChange, entity: action }: 
                     <HelpText className={locals.subTextFormField}>{t('in-settings:tabs.docLinkDescription')}</HelpText>
                   </FormGroup>
                 ))}
-              </Fragment>
+              </>
             )}
             {isScript(type.value) && (
-              <Fragment>
+              <>
                 {script.map(field => (
                   <FormGroup>
                     <Label htmlFor="action-script" hasError={!field.valid && field.touched}>
@@ -183,9 +176,9 @@ export default function ActionForm({ form, setForm, onChange, entity: action }: 
                 >
                   {t('in-settings:tabs.test')}
                 </Button>
-              </Fragment>
+              </>
             )}
-          </Fragment>
+          </>
         </Col>
       </Row>
     </fieldset>

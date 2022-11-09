@@ -25,6 +25,7 @@ import { Action, Event, Result, VolatileId } from 'in-types';
 import { close } from 'in-components/DialogPresenter/store';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import Select from 'in-components/form/Select/Select';
+import { runActionTracker } from 'in-events/tracker';
 import { runScriptAction } from 'in-api/automation';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Label from 'in-components/form/Label/Label';
@@ -95,7 +96,7 @@ export default function RunAction({ action, script, volatileId, event }: Props) 
             {description}
           </DescriptionItem>
         </DescriptionList>
-        <Code withoutCopyButton code={atob(script)} lang={'bash'} softWrap />
+        <Code withExpandButton withoutCopyButton code={atob(script)} lang={'bash'} softWrap />
         <AgentSelection
           form={form}
           volatileId={volatileId}
@@ -122,6 +123,10 @@ export default function RunAction({ action, script, volatileId, event }: Props) 
               return;
             }
             setIsSaving(true);
+            runActionTracker({
+              actionType: action.type,
+              actionName: action.name
+            });
             runScriptAction(script, selectedVolatileId, event, actionName).once(data => {
               setIsSaving(false);
               // last element of the array is either the timeout error if the agent didn't respond in time, or the agent response (error or in progress)

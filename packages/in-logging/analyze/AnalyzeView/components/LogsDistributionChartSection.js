@@ -8,6 +8,7 @@ import React from 'react';
 import ChartingConfiguratorSection from 'in-components/ChartingConfigurator/ChartingConfiguratorSection';
 import GroupedChartingConfigurator from 'in-components/ChartingConfigurator/GroupedChartingConfigurator';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
+import { customChartHeight } from 'in-logging/analyze/AnalyzeView/components/constants';
 import { getValueMatchTagFilter, LOG_LEVEL } from 'in-logging/queryBuilder';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import getLogGroups from 'in-logging/subscriptions/getLogGroups';
@@ -54,25 +55,18 @@ export default function LogsDistributionChartSection(props) {
         hideRenderer={hideRenderer}
         disableClose={disableClose}
       />
-
-      {chartedMetrics?.length > 0 && (
-        <div className={locals.chartWrapper}>
-          <Chart {...props} metric={chartedMetrics?.[0]} />
-        </div>
-      )}
+      <div className={locals.chartWrapper}>
+        <Chart {...props} metric={chartedMetrics?.[0]} />
+      </div>
     </Sections>
   );
 }
 
 function Chart(props) {
-  const { isLoading, isGrouped, metric } = props;
-
-  if (!metric) {
-    return null;
-  }
+  const { isLoading, isGrouped } = props;
 
   if (isLoading) {
-    return <ResultAwareChart result={pendingResult} config={{ customHeight: 215 }} />;
+    return <ResultAwareChart result={pendingResult} config={{ customHeight: customChartHeight }} />;
   }
 
   if (isGrouped) {
@@ -82,56 +76,47 @@ function Chart(props) {
   return <LogsChart {...props} />;
 }
 
-function LogsChart({ backendQueryModelWithFacets, metric, showHeader }) {
-  const header = showHeader && (
-    <div className={locals.header}>
-      <span className={locals.title}>
-        {t('in-logging:logs')} ({t('in-logging:sum')})
-      </span>
-    </div>
-  );
-
+function LogsChart({ backendQueryModelWithFacets, metric }) {
   return (
-    <>
-      {header}
-      <UnifiedMetricsChart
-        automaticallySize={false}
-        renderLegend={false}
-        excludedContextMenuActions={['globalHighlight', 'download']}
-        config={{
-          y1: {
-            metrics: [
-              getMetricConfig({
-                backendQueryModelWithFacets,
-                metric,
-                tag: LOG_LEVEL,
-                value: 'ERROR',
-                label: t('in-logging:logsOverTime', { context: 'ERROR' })
-              }),
-              getMetricConfig({
-                backendQueryModelWithFacets,
-                metric,
-                tag: LOG_LEVEL,
-                value: 'WARN',
-                label: t('in-logging:logsOverTime', { context: 'WARN' })
-              }),
-              getMetricConfig({
-                backendQueryModelWithFacets,
-                metric,
-                tag: LOG_LEVEL,
-                value: 'INFO',
-                label: t('in-logging:logsOverTime', { context: 'INFO' })
-              })
-            ],
-            colors: [theme.lib.colors.failure, theme.lib.colors.warning, theme.lib.colors.lightBlue800],
-            formatter: 'number.compact',
-            renderer: 'stackedBar'
-          },
-          y2: { metrics: [] },
-          type: 'TIME_SERIES'
-        }}
-      />
-    </>
+    <UnifiedMetricsChart
+      renderPreChartContent={LogsChartLegend}
+      customHeight={customChartHeight}
+      automaticallySize={false}
+      renderLegend={false}
+      excludedContextMenuActions={['globalHighlight', 'download']}
+      config={{
+        y1: {
+          metrics: [
+            getMetricConfig({
+              backendQueryModelWithFacets,
+              metric,
+              tag: LOG_LEVEL,
+              value: 'ERROR',
+              label: t('in-logging:logsOverTime', { context: 'ERROR' })
+            }),
+            getMetricConfig({
+              backendQueryModelWithFacets,
+              metric,
+              tag: LOG_LEVEL,
+              value: 'WARN',
+              label: t('in-logging:logsOverTime', { context: 'WARN' })
+            }),
+            getMetricConfig({
+              backendQueryModelWithFacets,
+              metric,
+              tag: LOG_LEVEL,
+              value: 'INFO',
+              label: t('in-logging:logsOverTime', { context: 'INFO' })
+            })
+          ],
+          colors: [theme.lib.colors.failure, theme.lib.colors.warning, theme.lib.colors.lightBlue800],
+          formatter: 'number.compact',
+          renderer: 'stackedBar'
+        },
+        y2: { metrics: [] },
+        type: 'TIME_SERIES'
+      }}
+    />
   );
 }
 
@@ -143,9 +128,9 @@ function GroupedLogsChart({ filteringTagCatalog, metric, groupBy, getColor, back
   );
 
   if (progress.loading) {
-    return <ResultAwareChart result={pendingResult} config={{ customHeight: 215 }} />;
+    return <ResultAwareChart result={pendingResult} config={{ customHeight: customChartHeight }} />;
   } else if (errors && errors.length > 0) {
-    return <ResultAwareChart result={error(errors)} config={{ customHeight: 215 }} />;
+    return <ResultAwareChart result={error(errors)} config={{ customHeight: customChartHeight }} />;
   }
 
   const topItems = items.slice(0, 5);
@@ -158,6 +143,8 @@ function GroupedLogsChart({ filteringTagCatalog, metric, groupBy, getColor, back
 
   return (
     <UnifiedMetricsChart
+      renderPreChartContent={LogsChartLegend}
+      customHeight={customChartHeight}
       automaticallySize={false}
       renderLegend={false}
       config={{
@@ -173,6 +160,16 @@ function GroupedLogsChart({ filteringTagCatalog, metric, groupBy, getColor, back
         type: 'TIME_SERIES'
       }}
     />
+  );
+}
+
+function LogsChartLegend() {
+  return (
+    <div className={locals.header}>
+      <span className={locals.title}>
+        {t('in-logging:logs')} ({t('in-logging:sum')})
+      </span>
+    </div>
   );
 }
 

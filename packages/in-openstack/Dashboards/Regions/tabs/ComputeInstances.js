@@ -12,7 +12,7 @@ import getOpenstackInstances from 'in-openstack/subscriptions/getOpenstackInstan
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { getOpenstackInstanceDashboard } from 'in-openstack/navigation/paths';
 import { regionIdUrlParameter } from 'in-openstack/navigation/urlParameters';
-import { number, percentage } from 'in-services/formatters/number';
+import { bytes, number, percentage } from 'in-services/formatters/number';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 import { plugins } from 'in-forge/constants';
@@ -25,9 +25,30 @@ const columnDefinitions = [
   {
     id: 'label',
     label: t('in-openstack:dashboards.name'),
-    getContent(item) {
-      const regionId = item.regionId;
+    getContent(item, props) {
+      const regionId = props.regionId;
       return <EntityLink label={item.label} href$={getOpenstackInstanceDashboard(item.id, { regionId })} />;
+    }
+  },
+  {
+    id: 'project',
+    label: t('in-openstack:project'),
+    getContent(item) {
+      return item.openstackItem.project;
+    }
+  },
+  {
+    id: 'host',
+    label: t('in-openstack:hostName'),
+    getContent(item) {
+      return item.openstackItem.host;
+    }
+  },
+  {
+    id: 'hostIP',
+    label: t('in-openstack:hostIP'),
+    getContent(item) {
+      return item.openstackItem.hostIP;
     }
   },
   {
@@ -46,8 +67,8 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'cpuResources',
-    label: t('in-openstack:cpuResources'),
+    id: 'totalCpu',
+    label: t('in-openstack:totalCpu'),
     sortable: true,
     getContent(item, props, columnId) {
       return (
@@ -76,8 +97,8 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'memoryResources',
-    label: t('in-openstack:memoryResources'),
+    id: 'totalMemory',
+    label: t('in-openstack:totalMemory'),
     sortable: true,
     getContent(item, props, columnId) {
       return (
@@ -85,9 +106,37 @@ const columnDefinitions = [
           snapshotId={item.id}
           metric="memoryResources"
           sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
-          formatter={number.compact}
+          formatter={bytes.detailed}
         />
       );
+    }
+  },
+  {
+    id: 'user',
+    label: t('in-openstack:user'),
+    getContent(item) {
+      return item.openstackItem.user;
+    }
+  },
+  {
+    id: 'flavor',
+    label: t('in-openstack:flavor'),
+    getContent(item) {
+      return item.openstackItem.flavor;
+    }
+  },
+  {
+    id: 'availabilityZone',
+    label: t('in-openstack:availabilityZone'),
+    getContent(item) {
+      return item.openstackItem.availabilityZone;
+    }
+  },
+  {
+    id: 'status',
+    label: t('in-openstack:status'),
+    getContent(item) {
+      return item.openstackItem.status;
     }
   }
 ];
@@ -96,8 +145,8 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({
     columnDefinitions,
     plugin: plugins.openstackHypervisor,
-    title: t('in-openstack:dashboards.noDataAvailable.hypervisorTitle'),
-    description: t('in-openstack:dashboards.noDataAvailable.hypervisorDescription')
+    title: t('in-openstack:dashboards.noDataAvailable.instanceTitle'),
+    description: t('in-openstack:dashboards.noDataAvailable.instanceDescription')
   }),
   paginationResettingUrlParameters: [...timeConfigUrlParameters, regionIdUrlParameter],
   columnDefinitions,

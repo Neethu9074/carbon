@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import { track, SELECT_ACTION_STEP_SWITCH } from 'in-services/tracking/tracking';
+import { track, REMEDIATION_ASSOCIATE_ACTION, REMEDIATION_RUN_ACTION } from 'in-services/tracking/tracking';
 
-export const selectActionsStepSwitch = (e: any) => track(SELECT_ACTION_STEP_SWITCH, e);
+export const associateActionsTracker = (e: any) => track(REMEDIATION_ASSOCIATE_ACTION, e);
+export const runActionTracker = (e: any) => track(REMEDIATION_RUN_ACTION, e);

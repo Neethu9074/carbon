@@ -96,7 +96,7 @@ function LeftHeader({ subtransaction }: SubtransactionProps) {
 
 function KeyValueHeader({ label, value }: KeyValueProps) {
   return (
-    <Tooltip content={''} align="leftMiddle">
+    <Tooltip content={label} align="leftMiddle">
       <div className={locals.subHeader}>
         <span className={locals.key}>{label}</span>
         <span className={locals.value}>{value}</span>

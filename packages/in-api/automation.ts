@@ -4,13 +4,11 @@
  * Copyright IBM Corp. 2022
  */
 
-import { fromJS, Map } from 'immutable';
-
 import { combineLatest, just, Observable, timeout } from '@instana/observables';
 
 import { DOC_LINK_TYPE } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
-import { Action, Field, Mutable, VolatileId, Event, ActionMatch } from 'in-types';
 import createAgentResponseObservable from 'in-subscription/agentResponse';
+import { Action, Field, VolatileId, Event, ActionMatch } from 'in-types';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { error } from 'in-services/util/result';
 import http from 'in-services/http';
@@ -52,9 +50,8 @@ export function getAction(actionId: string): Observable<Action> {
   return http<Action>({
     method: 'GET',
     maxRetries: 3,
-    url: `${actionUrl}/${encodeURIComponent(actionId)}`,
-    treat400AsError: false
-  }).map(response => fromJS(response.body));
+    url: `${actionUrl}/${encodeURIComponent(actionId)}`
+  }).map(response => response.body);
 }
 
 export function saveNewAction(actionSpecification: NewAction) {
@@ -64,7 +61,7 @@ export function saveNewAction(actionSpecification: NewAction) {
     url: actionUrl,
     headers: getCsrfHeader(),
     data: actionSpecification
-  }).map(response => fromJS(response.body));
+  }).map(response => response.body);
 }
 
 export function saveAction(actionSpecification: NewAction, id: string) {
@@ -74,7 +71,7 @@ export function saveAction(actionSpecification: NewAction, id: string) {
     url: `${actionUrl}/${encodeURIComponent(id)}`,
     headers: getCsrfHeader(),
     data: actionSpecification
-  }).map(response => fromJS(response.body));
+  }).map(response => response.body);
 }
 
 export function deleteAction(actionId: string) {
@@ -83,12 +80,10 @@ export function deleteAction(actionId: string) {
     maxRetries: 3,
     headers: getCsrfHeader(),
     url: `${actionUrl}/${encodeURIComponent(actionId)}`
-  }).map(response => fromJS(response.body));
+  }).map(response => response.body);
 }
 
-export type NewAction = Mutable<Omit<Action, 'createdAt' | 'modifiedAt' | 'id'>>;
-
-export type ImmutableNewAction = Map<string, unknown>;
+export type NewAction = Omit<Action, 'createdAt' | 'modifiedAt' | 'id'>;
 
 export const createDocLinkField = (value: string): Field => ({
   value,
@@ -118,21 +113,21 @@ export function createAction(
   description: string = '',
   fields: Field[] = [createDocLinkField('')],
   tags: string[] = []
-): ImmutableNewAction {
-  return fromJS({
+): NewAction {
+  return {
     name,
     type,
     description,
     fields,
     tags
-  });
+  };
 }
 
 // We are using a timeout here to prevent the UI from hanging if the agent is not responding (sensor not installed).
 export function runScriptAction(script: string, volatileId: VolatileId, event: Event | null, actionName: string) {
   return combineLatest(
     [
-      timeout(5000).flatMap(() =>
+      timeout(10000).flatMap(() =>
         just(
           error<null>([
             {
@@ -153,7 +148,8 @@ export function runScriptAction(script: string, volatileId: VolatileId, event: E
           event: JSON.stringify(event),
           problemId: event?.problem?.id,
           problemText: event?.problem?.problemText,
-          actionName
+          actionName,
+          timeout: '300'
         }
       })
     ],

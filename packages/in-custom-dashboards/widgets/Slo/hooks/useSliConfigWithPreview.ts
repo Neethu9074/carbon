@@ -3,8 +3,10 @@
  * (c) Copyright Instana Inc. 2022
  */
 
+import { SliConfigurationWithLastUpdated } from '@instana/types';
+
 import useSliConfiguration from 'in-custom-dashboards/widgets/Slo/hooks/useSliConfiguration';
-import { SliConfigurationWithLastUpdated } from 'in-types';
+import { sliCHClusterAccessEnabled } from 'in-services/featureFlags';
 import { FetchedState } from 'in-hooks/utils/types';
 import { days } from 'in-services/time/time';
 
@@ -14,10 +16,11 @@ function applyPreviewOverrides(
 ): SliConfigurationWithLastUpdated {
   if (!isPreview) return sliConfig;
 
-  const { initialEvaluationTimestamp } = sliConfig;
+  const { initialEvaluationTimestamp, lastUpdated } = sliConfig;
   const newSliStartTimestamp = Date.now() - days.toMillis(7);
-  const previewStartTimestamp = Math.min(initialEvaluationTimestamp, newSliStartTimestamp);
-  return { ...sliConfig, initialEvaluationTimestamp: previewStartTimestamp };
+  const initialTimestamp = sliCHClusterAccessEnabled ? lastUpdated : initialEvaluationTimestamp;
+  const previewStartTimestamp = Math.min(initialTimestamp, newSliStartTimestamp);
+  return { ...sliConfig, initialEvaluationTimestamp: previewStartTimestamp, lastUpdated: previewStartTimestamp };
 }
 
 export default function useSliConfigWithPreview(

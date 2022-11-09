@@ -83,7 +83,8 @@ export default function ApplicationMapReactComponentStateWrapper(props) {
                 // when we want to see all services, remove the application filter
                 application: urlState.traffic ? null : applicationId,
                 applicationBoundaryScope: boundaryScope
-              }
+              },
+              includeHealthInfo: true
             }).nextFrame() // avoids firing the intermediate progress result if the subscription is re-used
         ),
       [boundaryScope, applicationId, urlState.traffic]
@@ -212,7 +213,8 @@ function getHasDataToRender({ traffic, applicationId, boundaryScope }) {
             // when we want to see all services, remove the application filter
             application: traffic ? null : applicationId,
             applicationBoundaryScope: boundaryScope
-          }
+          },
+          includeHealthInfo: true
         }).nextFrame() // avoids firing the intermediate progress result if the subscription is re-used
     )
     .map(result => !result.data || (result.data.services && result.data.services.length > 0))

@@ -25,6 +25,11 @@
         "counter_custom_0": "{{number}} 个定制事件",
         "counter_custom_1": "{{number}} 个定制事件",
         "counter_custom_2": "{{number}} 个定制事件",
+        "counter_crash": "{{number}} 次崩溃",
+        "counter_crash_plural": "{{number}} 次崩溃",
+        "counter_crash_0": "{{number}} 次崩溃",
+        "counter_crash_1": "{{number}} 次崩溃",
+        "counter_crash_2": "{{number}} 次崩溃",
         "counter_Row": "{{number}} 行",
         "counter_Row_plural": "{{number}} 行",
         "counter_Row_0": "{{number}} 行",
@@ -86,7 +91,7 @@
       "viewTransitions2": "视图转换",
       "calls": "调用次数",
       "traces": "跟踪",
-      "console": "控制台"
+      "crashes": "崩溃"
     }
   },
   "traceDetail": {

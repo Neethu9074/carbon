@@ -6,6 +6,7 @@
 import React from 'react';
 
 import { combineLatest } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
 import { Stack } from '@instana/components';
 
 import {
@@ -13,7 +14,7 @@ import {
   createCustomSystemRuleBasedEventSpecificationForEntityVerification,
   createCustomSystemRuleBasedHostAvailability,
   createCustomThresholdBasedEventSpecification,
-  getCustomEventSpecification,
+  getCustomEventSpecificationMutable,
   saveCustomEventSpecification,
   getCustomEventActions,
   saveCustomEventSpecificationWithActions
@@ -27,32 +28,35 @@ import {
 import {
   deprecateAppDataLegacyEventsEnabled,
   disallowAppDataLegacyEventsEnabled,
-  hideAppDataLegacyEventsEnabled
+  hideAppDataLegacyEventsEnabled,
+  actionAutomationEnabled
 } from 'in-services/featureFlags';
 import {
   getSeverityText,
   isAppDataEntityType,
   unmapConditionValue
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
+import LegacyAppdataEventInfoMessage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
 import CustomEventForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventForm';
 import { serializeQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import { getMetricDefinition, isBuiltInDynamicMetric } from 'in-sdk/metrics/metrics';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import MigrateToSmartAlerts from 'in-alerting/migration/MigrateToSmartAlerts';
-import LegacyAppdataEventInfoMessage from './LegacyAppdataEventInfoMessage';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
-import { actionAutomationEnabled } from 'in-services/featureFlags';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
+import { associateActionsTracker } from 'in-events/tracker';
+import useEntityForm from 'in-settings/hooks/useEntityForm';
 import Notification from 'in-components/form/Notification';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import { submitEventTracker } from 'in-settings/tracker';
 import Section from 'in-settings/components/Section';
 import { getPluginName } from 'in-sdk/pluginName';
+import { getAllActions } from 'in-api/automation';
 import { goToPath } from 'in-stores/navigation';
-import entityForm from 'in-hoc/entityForm';
+import Title from 'in-components/Title/Title';
 import { role } from 'in-stores/user';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
@@ -61,128 +65,147 @@ export default function CustomEvent(props) {
   const entityId = props.match.params.id;
 
   function mergeResultData() {
-    const eventDetails$ = getCustomEventSpecification(entityId);
+    const eventDetails$ = getCustomEventSpecificationMutable(entityId);
     const actionDetails$ = getCustomEventActions(entityId);
     // calling Get Event and Get action associations call and combining results
-    return combineLatest([eventDetails$, actionDetails$]).map(([eventResponse, actionResponse]) =>
-      eventResponse.set(
-        'actionIds',
-        actionResponse.map(action => action.id)
-      )
-    );
+    return combineLatest([eventDetails$, actionDetails$]).map(([eventResponse, actionResponse]) => ({
+      ...eventResponse,
+      actionIds: actionResponse?.map(action => action.id) ?? []
+    }));
   }
+  const actions = useObservable(getAllActions, []) ?? [];
+  const entityFormParam = {
+    entityId,
+    createDefaultEntity: createCustomThresholdBasedEventSpecification,
+    createForm: event => createEventFormDefinition(event, !entityId),
+    getEntityFromApi:
+      role.canConfigureAutomationActions && actionAutomationEnabled
+        ? mergeResultData
+        : getCustomEventSpecificationMutable,
+    saveEntity: (event, form) => save(event, form, actions),
+    openEntities: () => goToPath(teamSettingsAlertingEvents)
+  };
 
-  return (
-    <Form
-      title={t('in-settings:tabs.event')}
-      entityId={entityId}
-      createDefaultEntity={createCustomThresholdBasedEventSpecification}
-      createForm={event => createEventFormDefinition(event, !entityId)}
-      getEntityFromApi={
-        role.canConfigureAutomationActions && actionAutomationEnabled ? mergeResultData : getCustomEventSpecification
-      }
-      openEntities={() => goToPath(teamSettingsAlertingEvents)}
-      saveEntity={save}
-    />
-  );
-}
+  const {
+    entity,
+    form,
+    isCreate,
+    saveEnabled,
+    loading,
+    error,
+    message,
+    onSubmit,
+    setForm,
+    onChange,
+    setSaveEnabled
+  } = useEntityForm(entityFormParam);
 
-const Form = entityForm(function DetailsForm(props) {
-  const { entity, form, message, error, loading, isCreate, saveEnabled } = props;
+  const errorLoading = error && !entity;
 
-  if (!entity || !form) {
-    return <LoadingIndicator />;
-  }
+  let content = null;
 
-  if (entity && entity.get('errors')) {
-    return (
+  if (loading) {
+    content = <LoadingIndicator />;
+  } else if (errorLoading) {
+    content = (
       <SettingsDetailPage>
         <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.lib.colors.yellow800}>
           {t('in-settings:tabs.unknownEvent')}
         </SubViewHeader>
         <SectionLine />
         <DescriptionText>
-          {entity.get('errors').get(0)}
+          {message}
           <br />
           {t('in-settings:tabs.ifYouFollowedALinkToGetHereItHasMostLikelyBeenDeleted')}
         </DescriptionText>
       </SettingsDetailPage>
     );
+  } else {
+    const entityType = getPluginName(entity.entityType, 1) ?? '';
+    const isLegacyAppDataEntityType = isAppDataEntityType(entityType);
+    const hasPermissionsToEditSmartAlerts = role.canConfigureCustomAlerts && role.canConfigureGlobalAlertConfigs;
+    const isDeprecated = deprecateAppDataLegacyEventsEnabled && isLegacyAppDataEntityType;
+
+    const isMigratable =
+      isDeprecated &&
+      hasPermissionsToEditSmartAlerts &&
+      // only migrateable entities have the 'migrated' property set. For the other ones this prop is `undefined`, thus checking for false and not falsy.
+      entity.migrated === false;
+
+    const isMigrated = !!entity.migrated;
+
+    const isDeleted = !!entity.deleted;
+
+    const disallowAppDataLegacyEvent =
+      isLegacyAppDataEntityType && (disallowAppDataLegacyEventsEnabled || hideAppDataLegacyEventsEnabled);
+    const readOnly = isDeleted || isMigrated || disallowAppDataLegacyEvent;
+
+    content = (
+      <SettingsDetailPage>
+        <Stack direction="horizontal" distribution="spaceBetween">
+          <SubViewHeader>
+            {isCreate
+              ? t('in-settings:tabs.createANewEvent')
+              : t('in-settings:tabs.configureEventEntityName', { entityName: entity.name })}
+          </SubViewHeader>
+
+          {isMigratable && !isDeleted && (
+            <span style={{ alignSelf: 'center' }}>
+              <MigrateToSmartAlerts eventSpecificationId={props.entityId} />
+            </span>
+          )}
+        </Stack>
+        <SectionLine />
+
+        {(isDeleted || isDeprecated) && (
+          <LegacyAppdataEventInfoMessage
+            migrated={isMigrated}
+            saved
+            disallowed={disallowAppDataLegacyEventsEnabled}
+            deleted={isDeleted}
+          />
+        )}
+
+        {message ? (
+          <Section>
+            <Notification failure={error} loading={loading}>
+              {message}
+            </Notification>
+          </Section>
+        ) : null}
+
+        <CustomEventForm
+          disabled={readOnly}
+          form={form}
+          setForm={setForm}
+          onChange={onChange}
+          entity={entity}
+          setSaveEnabled={setSaveEnabled}
+          // when we already show an information above, we need to hide another message inside the form
+          hideLegacyAppDataEventDeprecationInfo={isDeleted || isDeprecated}
+        />
+
+        <SaveCancel
+          form={form}
+          message={message}
+          loading={loading}
+          saveEnabled={saveEnabled && !readOnly}
+          isCreate={isCreate}
+          listPath={teamSettingsAlertingEvents}
+        />
+      </SettingsDetailPage>
+    );
   }
 
-  const entityType = getPluginName(entity.get('entityType'), 1) ?? '';
-  const isLegacyAppDataEntityType = isAppDataEntityType(entityType);
-  const hasPermissionsToEditSmartAlerts = role.canConfigureCustomAlerts && role.canConfigureGlobalAlertConfigs;
-  const isDeprecated = deprecateAppDataLegacyEventsEnabled && isLegacyAppDataEntityType;
-
-  const isMigratable =
-    isDeprecated &&
-    hasPermissionsToEditSmartAlerts &&
-    // only migrateable entities have the 'migrated' property set. For the other ones this prop is `undefined`, thus checking for false and not falsy.
-    entity.get('migrated') === false;
-
-  const isMigrated = !!entity.get('migrated');
-
-  const isDeleted = !!entity.get('deleted');
-
-  const disallowAppDataLegacyEvent =
-    isLegacyAppDataEntityType && (disallowAppDataLegacyEventsEnabled || hideAppDataLegacyEventsEnabled);
-  const readOnly = isDeleted || isMigrated || disallowAppDataLegacyEvent;
-
   return (
-    <SettingsDetailPage>
-      <Stack direction="horizontal" distribution="spaceBetween">
-        <SubViewHeader>
-          {isCreate
-            ? t('in-settings:tabs.createANewEvent')
-            : t('in-settings:tabs.configureEventEntityName', { entityName: entity.get('name') })}
-        </SubViewHeader>
-
-        {isMigratable && !isDeleted && (
-          <span style={{ alignSelf: 'center' }}>
-            <MigrateToSmartAlerts eventSpecificationId={props.entityId} />
-          </span>
-        )}
-      </Stack>
-      <SectionLine />
-
-      {(isDeleted || isDeprecated) && (
-        <LegacyAppdataEventInfoMessage
-          migrated={isMigrated}
-          saved
-          disallowed={disallowAppDataLegacyEventsEnabled}
-          deleted={isDeleted}
-        />
-      )}
-
-      {message ? (
-        <Section>
-          <Notification failure={error} loading={loading}>
-            {message}
-          </Notification>
-        </Section>
-      ) : null}
-
-      <CustomEventForm
-        {...props}
-        disabled={readOnly}
-        // when we already show an information above, we need to hide another message inside the form
-        hideLegacyAppDataEventDeprecationInfo={isDeleted || isDeprecated}
-      />
-
-      <SaveCancel
-        form={form}
-        message={message}
-        loading={loading}
-        saveEnabled={saveEnabled && !readOnly}
-        isCreate={isCreate}
-        listPath={teamSettingsAlertingEvents}
-      />
-    </SettingsDetailPage>
+    <>
+      <Title title={t('in-settings:tabs.event')} />
+      <form onSubmit={onSubmit}>{content}</form>
+    </>
   );
-});
+}
 
-function save(event, form) {
+function save(event, form, actions) {
   const isTriggering = form.get('triggering').value;
   const severity = Number(form.get('severity')?.value ?? 0);
   const entityType = form.get('entityType')?.value ?? null;
@@ -194,6 +217,16 @@ function save(event, form) {
     entityType,
     type: isTriggering ? 'Incident' : 'None',
     severity: getSeverityText(severity)
+  });
+
+  const actionNames = actions.reduce(
+    (acc, action) => [...acc, ...(actionIds.includes(action.id) ? [action.name] : [])],
+    []
+  );
+
+  associateActionsTracker({
+    eventName: form.get('name').value,
+    actionNames: actionNames
   });
 
   const eventSpecification = getEventSpecification(event, form);
@@ -219,7 +252,7 @@ function getTagFilterForHostAvailability(form) {
 
 function getHostAvailabilityEventSpecification(form, event) {
   const hostAvailabilityFields = {
-    id: event ? event.get('id') : null,
+    id: event?.id ?? null,
     name: form.get('name').value,
     triggering: form.get('triggering').value,
     description: form.get('description').value,
@@ -227,7 +260,7 @@ function getHostAvailabilityEventSpecification(form, event) {
     tagFilter: getTagFilterForHostAvailability(form),
     offlineDuration: Number(form.get('offlineDuration')?.value ?? 0),
     closeAfter: Number(form.get('closeAfter')?.value ?? 0),
-    enabled: event ? event.get('enabled') : true,
+    enabled: event?.enabled ?? true,
     severity: Number(form.get('severity')?.value ?? 0)
   };
 
@@ -236,13 +269,13 @@ function getHostAvailabilityEventSpecification(form, event) {
 
 function getEntityVerificationEventSpecification(form, query, event) {
   const entityVerificationFields = {
-    id: event ? event.get('id') : null,
+    id: event?.id ?? null,
     name: form.get('name').value,
     query,
     triggering: form.get('triggering').value,
     description: form.get('description').value,
     expirationTime: form.get('gracePeriod').value,
-    enabled: event ? event.get('enabled') : true,
+    enabled: event?.enabled ?? true,
     severity: Number(form.get('severity')?.value ?? 0),
     matchingEntityType: form.get('matchingEntityType')?.value ?? null,
     matchingOperator: form.get('matchingOperator')?.value ?? null,
@@ -255,7 +288,7 @@ function getEntityVerificationEventSpecification(form, query, event) {
 
 function getCustomSystemRuleBasedEventSpecification(form, query, event) {
   return createCustomSystemRuleBasedEventSpecification(
-    event ? event.get('id') : null,
+    event?.id ?? null,
     form.get('name').value,
     // For now, all system rule based events use 'any' as their entity type. It does not make any sense to have this
     // attribute at all but the back end validation requires a value.
@@ -264,7 +297,7 @@ function getCustomSystemRuleBasedEventSpecification(form, query, event) {
     form.get('triggering').value,
     form.get('description').value,
     form.get('gracePeriod').value,
-    event ? event.get('enabled') : true,
+    event?.enabled ?? true,
     'system',
     Number(form.get('severity')?.value ?? 0),
     form.get('systemRule')?.value ?? null
@@ -310,14 +343,14 @@ function getEventSpecification(event, form) {
     }
 
     return createCustomThresholdBasedEventSpecification(
-      event ? event.get('id') : null,
+      event?.id ?? null,
       form.get('name').value,
       form.get('entityType')?.value ?? null,
       query,
       form.get('triggering').value,
       form.get('description').value,
       form.get('gracePeriod').value,
-      event ? event.get('enabled') : true,
+      event?.enabled ?? true,
       ruleType,
       metricName,
       metricPattern,

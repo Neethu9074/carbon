@@ -5,6 +5,7 @@ def branchName          = env.BRANCH_NAME
 def isDeliveryBranch    = null
 def gitCommitId         = null
 def gitCommitAuthor     = null
+def gitCommitAuthorName = null
 def gitMessage          = null
 def instanaUiClientVersion = null
 def instanaImageVersion = null
@@ -56,6 +57,7 @@ pipeline {
           majorReleaseVersion = instanaUiClientVersion.tokenize('.')[1].toInteger()
           gitCommitId         = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
           gitCommitAuthor     = sh(returnStdout: true, script: "git --no-pager show -s --format='%ae' $gitCommitId").trim()
+          gitCommitAuthorName = sh(returnStdout: true, script: "git show -s --pretty=%an").trim()
           gitMessage          = sh(returnStdout: true, script: "git log -1 --pretty=format:'%an (<https://github.ibm.com/instana/ui-client/commit/%h|%h>): %s'").trim()
           // https://github.ibm.com/instana/jenkins/blob/develop/vars/getBackendComponents.groovy
           backendComponents = getBackendComponents()
@@ -95,7 +97,7 @@ pipeline {
               } catch (e) {
                 setBuildStatus('Build Failure', 'FAILURE')
                 if ( branchName.startsWith('typescript-typedefinitions-')) {
-                  notifyTsUpdateFailure(branchName)
+                  notifyTsUpdateFailure(branchName,gitCommitId,gitCommitAuthorName,gitCommitAuthor)
                 }
                 throw e
               }
@@ -191,7 +193,7 @@ pipeline {
         timeout(time: 30, unit: 'MINUTES') {
           timestamps {
             script {
-              if (isDeliveryBranch) {
+              if (branchName == 'develop') {
                   try {
                     awsCodeBuild credentialsType: 'jenkins',
                       credentialsId: 'codebuild',
@@ -199,7 +201,6 @@ pipeline {
                       region: 'us-west-2',
                       imageOverride: 'aws/codebuild/standard:5.0',
                       sourceControlType: 'project',
-                      envVariables: '[ {DEPLOY_STORYBOOK, true} ]',
                       sourceVersion: gitCommitId,
                       privilegedModeOverride: 'True'
                     if ( currentBuild.currentResult == 'SUCCESS' ) {
@@ -351,11 +352,13 @@ def notifyFailure(channel, message) {
   slackSend channel: channel, color: 'danger', message: message
 }
 
-def notifyTsUpdateFailure(branchName) {
+def notifyTsUpdateFailure(branchName,gitCommitId,gitCommitAuthorName,gitCommitAuthor) {
   def message = new StringBuilder()
   message.append(":typescript: update failed on `${branchName}` :boom:\n")
   message.append("<https://github.ibm.com/instana/ui-client/pulls?q=is%3Apr+is%3Aopen+%5BTypeDefs%5D|:octocat: View PR on github>\n")
-  message.append("<${env.BUILD_URL}|:mag: Open jenkins build #${env.BUILD_NUMBER}>")
+  message.append("<${env.BUILD_URL}|:mag: Open jenkins build #${env.BUILD_NUMBER}>\n")
+  message.append("<https://github.ibm.com/instana/ui-client/commit/${gitCommitId}|:merge: Commit ${gitCommitId.take(8)}>\n")
+  message.append(":books: Author `${gitCommitAuthorName}`, ${gitCommitAuthor}")
 
   notifyFailure('tech-ui-dev', message.toString())
 }

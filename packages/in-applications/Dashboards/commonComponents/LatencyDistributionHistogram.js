@@ -49,7 +49,6 @@ export default function LatencyDistributionHistogram({
     !selectedLatencyRange.from && !selectedLatencyRange.to ? emptyObject : { 'call.latency': [selectedLatencyRange] };
 
   const latencyDistRequest = {
-    maxLatencyBuckets: 80,
     includePercentiles: true,
     ...hiddenCalls,
     filter: {
