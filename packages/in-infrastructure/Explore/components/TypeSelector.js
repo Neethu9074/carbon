@@ -130,17 +130,18 @@ function getType(type) {
     return allInfrastructureType;
   }
   const snapshotDefinition = getOptionalSnapshotDefinition(type);
-  return snapshotDefinition && !isEmpty(snapshotDefinition)
-    ? {
-        plugin: type,
-        icon: `lib_infra_${type}`,
-        name: getPluginName(type, 2)
-      }
-    : {
-        plugin: type,
-        icon: `lib_infra_unknownIcon`,
-        name: type
-      };
+  return (
+    snapshotDefinition &&
+    !isEmpty(snapshotDefinition) ? {
+      plugin: type,
+      icon: `lib_infra_${type}`,
+      name: getPluginName(type, 2)
+    } : {
+      plugin: type,
+      icon: `lib_infra_unknownIcon`,
+      name: type
+    }
+  );
 }
 
 function updatedGroup(group, type) {

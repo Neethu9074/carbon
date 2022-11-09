@@ -19,12 +19,10 @@ import { alwaysEmptyImmutableList } from 'in-services/fixedStreams';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { getForgeComponent } from 'in-sdk/getForgeComponent';
 import { scrollToTopSmoothly } from 'in-services/util/dom';
-import { nonServicePlugins } from 'in-forge/constants';
 import DefaultDashboard from './DefaultDashboard';
 import { getPluginName } from 'in-sdk/pluginName';
 import DefaultSidebar from './DefaultSidebar';
 import { getLabel } from 'in-sdk/snapshot';
-import decamelize from 'in-sdk/decamelize';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
@@ -32,6 +30,8 @@ import Jail from 'in-components/Jail';
 import { t } from 'in-i18n';
 
 import locals from './DashboardContent.mless';
+import { nonServicePlugins } from 'in-forge/constants';
+import decamelize from 'in-sdk/decamelize';
 
 export default connectTo(
   {

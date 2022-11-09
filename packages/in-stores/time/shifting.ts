@@ -124,13 +124,11 @@ export function getTimeShiftLabel(timeShift: TimeShift): string {
   return t('in-stores:time.shiftingCustomDuration', { duration: formatDuration(Math.abs(timeShift.offset)) });
 }
 
-export function applyTimeShift(
-  timeConfig: TimeConfig,
-  timeShift: TimeShiftOffset | TimeShift | Nullish
-): FixedTimeConfig {
+
+export function applyTimeShift(timeConfig: TimeConfig, timeShift: TimeShiftOffset | TimeShift | Nullish): FixedTimeConfig {
   const fixatedTimeConfig = fixateTimeConfig(timeConfig);
   return {
     ...fixatedTimeConfig,
     to: fixatedTimeConfig.to + translateOffsetToTimeShiftConfig(timeShift, timeConfig).offset
-  };
+  }
 }
