@@ -5,12 +5,14 @@
  */
 
 import { createField, createMapForm, MapForm } from 'formalistic';
+import { keyBy } from 'lodash';
 
 import { generateUniqueShortId } from '@instana/utils';
 
 import { isDocLink, isScript } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import { notBlankValidator } from 'in-services/validators/string';
 import { NewAction } from 'in-api/automation';
+import { Field } from 'in-types';
 import { t } from 'in-i18n';
 
 export function createActionFormDefinition(action: NewAction, _isCreate: boolean) {
@@ -63,8 +65,8 @@ export function createActionFormDefinition(action: NewAction, _isCreate: boolean
 }
 
 export function putDocLinkFields(form: MapForm, action: NewAction) {
-  const fields = action.fields;
-  const value = isDocLink(action.type) ? fields?.[0].value : '';
+  const fields: Record<string, Field | null> = keyBy(action.fields, 'name');
+  const value = isDocLink(action.type) ? fields?.URL?.value : '';
 
   return form.put(
     'docLink',
@@ -78,8 +80,8 @@ export function putDocLinkFields(form: MapForm, action: NewAction) {
 export function putScriptField(form: MapForm, action: NewAction) {
   let value = '';
   if (isScript(action.type)) {
-    const fields = action.fields;
-    const field = fields?.[1];
+    const fields: Record<string, Field | null> = keyBy(action.fields, 'name');
+    const field = fields?.script_ssh;
     value = atob(field?.value ?? '');
   }
 

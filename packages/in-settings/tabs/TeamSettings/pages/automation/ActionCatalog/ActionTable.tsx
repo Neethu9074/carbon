@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2022
  */
 
+import { keyBy, reverse, sortBy } from 'lodash';
 import React, { ReactNode } from 'react';
-import { reverse, sortBy } from 'lodash';
 import classNames from 'classnames';
 
 import { Button, Link } from '@instana/components';
@@ -21,7 +21,7 @@ import { getAllActions, ScoredAction } from 'in-api/automation';
 import { formatDateTime } from 'in-services/formatters/date';
 import { runActionTracker } from 'in-events/tracker';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import { Event, VolatileId } from 'in-types';
+import { Event, Field, VolatileId } from 'in-types';
 import { Action } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -69,7 +69,8 @@ const executeColumn = (volatileId: VolatileId, event: Event | null) => ({
   getContent(row: Action) {
     const { type, fields } = row;
     if (type === 'doc_link') {
-      const field = fields?.[0];
+      const fieldsByName: Record<string, Field | null> = keyBy(fields, 'name');
+      const field = fieldsByName?.URL;
       const value = field?.value;
       return (
         <Button
@@ -89,7 +90,8 @@ const executeColumn = (volatileId: VolatileId, event: Event | null) => ({
         </Button>
       );
     } else if (type === 'SCRIPT') {
-      const field = fields?.[1];
+      const fieldsByName: Record<string, Field | null> = keyBy(fields, 'name');
+      const field = fieldsByName?.script_ssh;
       const value = field?.value ?? '';
       return (
         <Button
