@@ -14,10 +14,10 @@ import {
   showDeleteSuccessMessage,
   showDeleteErrorMessage
 } from 'in-synthetics/components/utils/userFeedback';
+// @ts-expect-error Could not find a declaration file for this module
+import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
 //import Tooltip from 'in-components/Tooltip/Tooltip';
 import { stopPropagation } from 'in-services/util/function';
-// @ts-expect-error
-import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { InteractiveElementsProps } from 'in-components/MoreMenu/MoreMenu';
@@ -35,26 +35,27 @@ type Props = {
   isLoading: boolean;
 };
 
+type TestResponse = {
+  data?: SyntheticTest;
+  errors?: Error[];
+  progress: Progress;
+  time?: number;
+};
+
 export default function ListActionsColumn({ item, isLoading }: Props) {
   const [isSaving, setIsSaving] = useState(false);
   const [isMoreMenuSaving, setIsMoreMenuSaving] = useState(false);
   const [edittingTests, setEdittingTests] = useState<Record<string, boolean>>({});
   const [reloadCount, setReloadCount] = useState(0);
+
   const testId: string = item?.testResultCommonProperties?.testCommonProperties?.id ?? '';
   const testLabel: string = item?.testResultCommonProperties?.testCommonProperties?.label ?? '';
-  const active: boolean = item?.testResultCommonProperties?.testCommonProperties?.active ?? true;
+
+  const syntheticTest: TestResponse = useObservable<any, [number]>(() => getTest(testId), [reloadCount]) || dummyTest;
+  const active: boolean = syntheticTest.data?.active || false;
   const pauseResume: string = active
     ? `${t('in-synthetics:dashboard.testList.pause')}`
     : `${t('in-synthetics:dashboard.testList.resume')}`;
-
-  type TestResponse = {
-    data?: SyntheticTest;
-    errors?: Error[];
-    progress: Progress;
-    time?: number;
-  };
-
-  const syntheticTest: TestResponse = useObservable<any, [number]>(() => getTest(testId), [reloadCount]) || dummyTest;
 
   function reloadTests() {
     setReloadCount(count => ++count);
@@ -124,7 +125,7 @@ export default function ListActionsColumn({ item, isLoading }: Props) {
           kind="primaryv2"
           type={isMoreMenuSaving ? 'lib_actions_loading' : active ? 'lib_actions_pause' : 'lib_actions_play'}
           iconSpinning={isMoreMenuSaving}
-          // @ts-expect-error
+          // @ts-expect-error Type 'undefined' is not assignable to type 'SyntheticTest'.
           onClick={() => pauseOrResume(syntheticTest.data)}
           alignment="right"
         />
