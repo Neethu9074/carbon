@@ -4,17 +4,21 @@
  * Copyright IBM Corp. 2022
  */
 
-import React, { ReactNode } from 'react';
 import { reverse, sortBy } from 'lodash';
+import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 
 import { Button, Link } from '@instana/components';
 import { Observable } from '@instana/observables';
 
+import {
+  getDocLinkFromFields,
+  getScriptFromFields,
+  getType
+} from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import { teamSettingsActionCatalog, getEntityIdView } from 'in-settings/navigation/paths';
 import List, { leftHeaderWithSelectAll, TableActions } from 'in-settings/components/List';
 import Tag from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Tag';
-import { getType } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import RunAction from 'in-events/components/AutomationActions/RunAction';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getAllActions, ScoredAction } from 'in-api/automation';
@@ -69,7 +73,7 @@ const executeColumn = (volatileId: VolatileId, event: Event | null) => ({
   getContent(row: Action) {
     const { type, fields } = row;
     if (type === 'doc_link') {
-      const field = fields?.[0];
+      const field = getDocLinkFromFields(fields);
       const value = field?.value;
       return (
         <Button
@@ -89,7 +93,7 @@ const executeColumn = (volatileId: VolatileId, event: Event | null) => ({
         </Button>
       );
     } else if (type === 'SCRIPT') {
-      const field = fields?.[1];
+      const field = getScriptFromFields(fields);
       const value = field?.value ?? '';
       return (
         <Button
