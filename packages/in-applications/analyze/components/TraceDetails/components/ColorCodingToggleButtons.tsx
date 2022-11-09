@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2022
  */
 
 import React from 'react';
@@ -10,7 +11,12 @@ import { t } from 'in-i18n';
 
 import locals from './ColorCodingToggleButtons.mless';
 
-export default function ColorCodingToggleButtons({ setColorCodeMechanism, colorCodeType }) {
+interface Props {
+  setColorCodeMechanism: (colorCode: string) => void;
+  colorCodeType: string;
+}
+
+export default function ColorCodingToggleButtons({ setColorCodeMechanism, colorCodeType }: Props) {
   return (
     <div className={locals.wrapper}>
       <label className={locals.label}>
