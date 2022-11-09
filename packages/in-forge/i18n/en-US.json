@@ -10885,6 +10885,7 @@
       "headerPorts": "Ports",
       "labelActiveThreads": "Active Threads",
       "labelPoolSize": "Pool Size",
+      "labelSessions": "Sessions",
       "labelSession": "Session",
       "labelConnectionPools": "Connection Pools",
       "labelServlet": "Servlet",
@@ -11861,9 +11862,6 @@
     "beeInstanaNode": {
       "filesOpenedForRead": "Files opened for Read",
       "beeInstana": "BeeInstana"
-    },
-    "webSphereApplicationContainer": {
-      "sessions": "Sessions"
     },
     "webSphereLibertyApplicationContainer": {
       "requests": "Requests",
