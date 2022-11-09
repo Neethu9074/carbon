@@ -563,7 +563,11 @@ export function leftHeaderWithSelectAll(entityName, inSelectListDialog, tableAct
         </Fragment>
       );
     } else if (inSelectListDialog || !totalHits) {
-      return entityName;
+      return (
+        <div>
+          {entityName} {isBeta && <BetaBadge />}
+        </div>
+      );
     } else {
       const getHeaderFunction = defaultHeaderWithCount(entityName);
       return (

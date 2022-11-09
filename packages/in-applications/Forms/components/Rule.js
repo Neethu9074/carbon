@@ -11,7 +11,18 @@ import { Toggle, Spacer, SvgIcon } from '@instana/components';
 import locals from './Rule.mless';
 
 const Rule = forwardRef(function Rule(
-  { name, content, expandableContent, enabled, reorderable, isInstanaDefaultRule, onToggleEnable, onEdit, onRemove },
+  {
+    name,
+    content,
+    expandableContent,
+    enabled,
+    reorderable,
+    isInstanaDefaultRule,
+    isUnspecified,
+    onToggleEnable,
+    onEdit,
+    onRemove
+  },
   ref
 ) {
   const [expand, setExpand] = useState(false);
@@ -60,7 +71,12 @@ const Rule = forwardRef(function Rule(
           )}
           {onToggleEnable && (
             <>
-              <Toggle className={locals.toggle} checked={enabled} onChange={e => onToggleEnable(e.target.checked)} />
+              <Toggle
+                className={locals.toggle}
+                checked={enabled}
+                disabled={isUnspecified}
+                onChange={e => onToggleEnable(e.target.checked)}
+              />
               <Spacer horizontal="xxsmall" />
             </>
           )}

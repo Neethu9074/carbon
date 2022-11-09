@@ -23,7 +23,8 @@ import locals from './columnDefinitions.mless';
 export const columnDefinitions = [
   {
     id: 'location_name',
-    sortable: false,
+    sortable: true,
+    defaultOrderDirection: 'ASC',
     label: t('in-synthetics:dashboard.locationList.locationLabel'),
     getContent(item: LocationListItem) {
       const locationDescription: string = item.description ?? '';
@@ -61,7 +62,8 @@ export const columnDefinitions = [
   {
     id: 'status',
     label: t('in-synthetics:dashboard.locationList.status'),
-    sortable: false,
+    sortable: true,
+    defaultOrderDirection: 'DESC',
     getContent(item: LocationListItem) {
       return (
         <div>
@@ -73,7 +75,8 @@ export const columnDefinitions = [
   {
     id: 'type',
     label: t('in-synthetics:dashboard.locationList.type'),
-    sortable: false,
+    sortable: true,
+    defaultOrderDirection: 'ASC',
     getContent(item: LocationListItem) {
       return (
         <div>
@@ -85,7 +88,8 @@ export const columnDefinitions = [
   {
     id: 'total_tests',
     label: t('in-synthetics:dashboard.locationList.totalTests'),
-    sortable: false,
+    sortable: true,
+    defaultOrderDirection: 'DESC',
     getContent(item: LocationListItem) {
       return (
         <div>
