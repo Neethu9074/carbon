@@ -51,6 +51,7 @@ export const hasPCFAccess = hasPermission(ACCESS_PCF) && pcfEnabled;
 export const hasOpenStackAccess = hasPermission(ACCESS_OPENSTACK) && openstackEnabled;
 export const hasAPlatformAccess =
   hasVSphereAccess || hasPHMCAccess || hasZHMCAccess || hasPCFAccess || hasOpenStackAccess || hasKubernetesAccess;
+export const hasEventsAccess = hasWebsitesAccess || hasApplicationsAccess || hasAPlatformAccess || hasInfrastructureAccess;
 
 export const productAreaPermissions = getProductAreaPermissions();
 export const productPermissions = getProductPermissions();

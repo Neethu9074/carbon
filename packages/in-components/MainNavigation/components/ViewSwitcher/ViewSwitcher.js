@@ -20,7 +20,9 @@ import {
   hasPHMCAccess,
   hasZHMCAccess,
   hasPCFAccess,
-  hasOpenStackAccess
+  hasOpenStackAccess,
+  hasEventsAccess,
+  hasAPlatformAccess
 } from 'in-stores/permission';
 import {
   mobileAppMonitoringPath,
@@ -45,11 +47,11 @@ import { isInternalVisible$ } from 'in-components/MainNavigation/components/View
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
 import { isAnalyzeView as isProfileAnalyzeView } from 'in-components/Profiling/navigation/paths';
 import { physicalPath, containerPath, isTableView } from 'in-stores/navigation/paths/mainPaths';
-import { releaseNotesEnabled, tenantSwitcherEnabled } from 'in-services/featureFlags';
 import { SubViewItem } from 'in-components/MainNavigation/components/ViewSwitcher/SubView';
 import { isSyntheticMonitoringView, syntheticsPath } from 'in-synthetics/navigation/paths';
 import { urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
 import { getView, isView, getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { releaseNotesEnabled, tenantSwitcherEnabled } from 'in-services/featureFlags';
 import { regionListFullyQualified, openstack } from 'in-openstack/navigation/paths';
 import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
 import { isAnalyzeView as isLogsAnalyzeView } from 'in-logging/navigation/paths';
@@ -78,6 +80,14 @@ import locals from './ViewSwitcher.mless';
 
 const tenantSwitcherLink = `https://${config.tenantUnitDomainSuffix}/tenantSwitcher`;
 
+const hasFirstSectionAccess =
+  hasWebsitesAccess ||
+  hasMobileAppsAccess ||
+  hasApplicationsAccess ||
+  hasAPlatformAccess ||
+  hasInfrastructureAccess ||
+  hasSyntheticsAccess;
+const hasSecondSectionAcccess = hasAnalyzeAccess || hasEventsAccess;
 export default function ViewSwitcher({
   isExpanded,
   expandedSubMenu,
@@ -116,10 +126,10 @@ export default function ViewSwitcher({
       />
       <Infrastructure {...commonProps} />
       <Synthetics {...commonProps} />
-      <SpacerListItem />
+      {hasFirstSectionAccess && <SpacerListItem />}
       <Analyze {...commonProps} />
-      <Incidents {...commonProps} />
-      <SpacerListItem />
+      {hasEventsAccess && (<Incidents {...commonProps} />)}
+      {hasSecondSectionAcccess && <SpacerListItem />}
       <View
         id="main-nav-settings"
         label={t('in-components:mainNavigation.viewSwitcherLabelSettings')}

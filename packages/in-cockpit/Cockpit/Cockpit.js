@@ -12,6 +12,7 @@ import { Button, SvgIcon } from '@instana/components';
 import {
   hasAPlatformAccess,
   hasApplicationsAccess,
+  hasEventsAccess,
   hasInfrastructureAccess,
   hasKubernetesAccess,
   hasMobileAppsAccess,
@@ -105,7 +106,15 @@ if (hasInfrastructureAccess) {
   };
 }
 
-itemIds.push({ id: '5' });
+if (hasEventsAccess) {
+  itemIds.push({ id: '5' });
+  LUT['5'] = EventChartCard;
+  configEnrichmentLookUpTable['5'] = {
+    label: t('in-cockpit:cockpit.events'),
+    icon: 'lib_events_inverted',
+    cardIcon: 'lib_events_inverted'
+  };
+}
 
 export default connectTo(
   {

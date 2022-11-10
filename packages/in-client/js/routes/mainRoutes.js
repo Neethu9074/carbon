@@ -19,7 +19,8 @@ import {
   hasPHMCAccess,
   hasZHMCAccess,
   hasPCFAccess,
-  hasOpenStackAccess
+  hasOpenStackAccess,
+  hasEventsAccess
 } from 'in-stores/permission';
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import FragmentSupportingSwitch from 'in-components/FragmentSupportingSwitch';
@@ -58,7 +59,7 @@ export default (
       <Route path="/internal" children={renderAsyncRouteChildren(InternalViews)} windowTitle="Internal" />
     )}
 
-    {eventRoutes}
+    {hasEventsAccess && eventRoutes}
 
     {hasSyntheticsAccess && syntheticsRoutes}
     {hasApplicationsAccess && applicationRoutes}
