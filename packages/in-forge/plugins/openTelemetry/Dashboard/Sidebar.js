@@ -7,6 +7,6 @@ import React from 'react';
 
 import DefaultSidebar from 'in-infrastructure/Dashboard/components/DefaultSidebar';
 
-export default function PerfCountersSidebar({ snapshot }) {
+export default function OpenTelemetrySidebar({ snapshot }) {
   return <DefaultSidebar snapshot={snapshot} />;
 }

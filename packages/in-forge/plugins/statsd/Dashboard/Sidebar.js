@@ -5,19 +5,8 @@
 
 import React from 'react';
 
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import { t } from 'in-i18n';
-import Info from '../Info';
+import DefaultSidebar from 'in-infrastructure/Dashboard/components/DefaultSidebar';
 
 export default function StatsdSidebar({ snapshot }) {
-  return (
-    <div>
-      <Collapsible initiallyOpen>
-        <Collapsible.Header>{t('in-forge:plugins.statsd.headerInformation')}</Collapsible.Header>
-        <Collapsible.Content>
-          <Info snapshot={snapshot} />
-        </Collapsible.Content>
-      </Collapsible>
-    </div>
-  );
+  return <DefaultSidebar snapshot={snapshot} />;
 }
