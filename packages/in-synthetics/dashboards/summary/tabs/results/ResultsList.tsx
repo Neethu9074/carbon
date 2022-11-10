@@ -156,7 +156,7 @@ export default function ResultsList({ test }: ResultListProps) {
       ? buildLocationsMap(locations, locationDisplayLabels)
       : new Map<string, string>();
   testId = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
-  testType = test.data?.configuration.syntheticType || '';
+  testType = test.data?.configuration?.syntheticType || '';
 
   return (
     <>
