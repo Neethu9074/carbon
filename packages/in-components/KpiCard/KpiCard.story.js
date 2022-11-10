@@ -20,7 +20,16 @@ export const WithTitle = ({ disabled }) => <KpiCard title="Title" value="Value" 
 WithTitle.args = { disabled: false };
 
 export const WithRaw = ({ disabled }) => <KpiCard title="Title" value="10ms" borderless={disabled} raw />;
-WithTitle.args = { disabled: false };
+WithRaw.args = { disabled: false };
+
+export const UndefinedValue = () => <KpiCard title="Title" />;
+export const UndefinedValueRaw = () => <KpiCard title="Title" raw />;
+
+export const NullValue = () => <KpiCard title="Title" value={null} />;
+export const NullValueRaw = () => <KpiCard title="Title" value={null} raw />;
+
+export const FalseValue = () => <KpiCard title="Title" value={false} />;
+export const FalseValueRaw = () => <KpiCard title="Title" value={false} raw />;
 
 export const WithColor = () => <KpiCard title="Errors" value="10" color={theme.lib.colors.failure} />;
 export const WithCompanionValue = () => <KpiCard title="Title" value="Value" companionValue="Companion Value" />;

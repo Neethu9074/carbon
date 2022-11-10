@@ -7,7 +7,7 @@
 import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
-import { Toggle } from '@instana/components';
+import { Toggle, Button } from '@instana/components';
 
 import {
   putApiKeyFields,
@@ -37,6 +37,8 @@ import AdditionalHeadersTable from 'in-settings/tabs/TeamSettings/pages/automati
 import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import TagsTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/TagsTable';
 import { OnChange, SetForm } from 'in-settings/hooks/useEntityForm';
+import RunAction from 'in-events/components/AutomationActions/RunAction';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import HelpText from 'in-components/form/HelpText/HelpText';
@@ -50,6 +52,7 @@ import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
 
 import locals from './ActionForm.mless';
+import { Action } from 'in-types';
 
 interface ActionFormProps {
   form: MapForm;
@@ -184,16 +187,41 @@ const DocLinkSection = ({ form, onChange }: Omit<ActionFormProps, 'setForm' | 'e
 
 const ScriptSection = ({ form, onChange }: Omit<ActionFormProps, 'setForm' | 'entity'>) => {
   const script = form.get('script') as Field<string>;
-  return script.map(field => (
-    <FormGroup>
-      <Label htmlFor="action-script" hasError={!field.valid && field.touched}>
-        {t('in-settings:tabs.script')}
-      </Label>
-      <Code lineNumbers mode={'shell'} value={field.value} onChange={value => onChange('script', value)} />
-      <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-      <HelpText className={locals.subTextFormField}>{t('in-settings:tabs.scriptDescription')}</HelpText>
-    </FormGroup>
-  ));
+  const name = form.get('name') as Field<string>;
+  const description = form.get('description') as Field<string>;
+  return (
+    <>
+      {script.map(field => (
+        <FormGroup>
+          <Label htmlFor="action-script" hasError={!field.valid && field.touched}>
+            {t('in-settings:tabs.script')}
+          </Label>
+          <Code
+            lineNumbers
+            mode={'shell'}
+            value={field.value}
+            onChange={(value: string) => onChange('script', value)}
+          />
+          <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+          <HelpText className={locals.subTextFormField}>{t('in-settings:tabs.scriptDescription')}</HelpText>
+        </FormGroup>
+      ))}
+      <Button
+        onClick={() =>
+          addActiveDialog(
+            <RunAction
+              action={{ name: name.value, description: description.value } as Action}
+              script={btoa(script.value)}
+              volatileId={{}}
+              test
+            />
+          )
+        }
+      >
+        {t('in-settings:tabs.test')}
+      </Button>
+    </>
+  );
 };
 
 const WebhookSection = ({ form, setForm, onChange, entity: action }: ActionFormProps) => {

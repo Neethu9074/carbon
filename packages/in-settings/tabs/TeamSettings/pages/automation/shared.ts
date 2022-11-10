@@ -4,7 +4,9 @@
  * Copyright IBM Corp. 2022
  */
 
-import { Nullish } from 'in-types';
+import { keyBy } from 'lodash';
+
+import { Field, Nullish } from 'in-types';
 import { Action } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -14,11 +16,15 @@ export const getType = (action: Action | Nullish) => {
   } else if (isScript(action?.type)) {
     return t('in-settings:tabs.script');
   } else if (isWebhook(action?.type)) {
-    return t('in-settings:tabs.http');
+    return t('in-settings:tabs.HTTP');
   } else {
     return action?.type;
   }
 };
+
+const getFieldsByNames = (fields: Field[] | undefined): Record<string, Field | null> => keyBy(fields, 'name');
+export const getScriptFromFields = (fields: Field[] | undefined) => getFieldsByNames(fields)?.script_ssh;
+export const getDocLinkFromFields = (fields: Field[] | undefined) => getFieldsByNames(fields)?.URL;
 
 export const isDocLink = (type?: string) => type === DOC_LINK_TYPE;
 export const isScript = (type?: string) => type === SCRIPT_TYPE;

@@ -4,14 +4,21 @@
  * Copyright IBM Corp. 2022
  */
 
-import React, { ReactNode } from 'react';
 import { reverse, sortBy } from 'lodash';
+import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 
 import { Button, Link } from '@instana/components';
 import { Observable } from '@instana/observables';
 
-import { getType, isDocLink, isScript, isWebhook } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
+import {
+  getType,
+  isDocLink,
+  isScript,
+  isWebhook,
+  getDocLinkFromFields,
+  getScriptFromFields
+} from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import { teamSettingsActionCatalog, getEntityIdView } from 'in-settings/navigation/paths';
 import List, { leftHeaderWithSelectAll, TableActions } from 'in-settings/components/List';
 import Tag from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Tag';
@@ -19,6 +26,7 @@ import RunAction from 'in-events/components/AutomationActions/RunAction';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getAllActions, ScoredAction } from 'in-api/automation';
 import { formatDateTime } from 'in-services/formatters/date';
+import IconButton from 'in-components/IconButton/IconButton';
 import { runActionTracker } from 'in-events/tracker';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { Event, VolatileId } from 'in-types';
@@ -63,13 +71,13 @@ const columnDefinitions = [
   }
 ];
 
-const executeColumn = (volatileId: VolatileId, event: Event | null) => ({
+const executeColumn = (volatileId: VolatileId, event?: Event) => ({
   id: 'execute',
   label: t('in-settings:tabs.execute'),
   getContent(row: Action) {
     const { type, fields } = row;
     if (isDocLink(type)) {
-      const field = fields?.[0];
+      const field = getDocLinkFromFields(fields);
       const value = field?.value;
       return (
         <Button
@@ -89,7 +97,7 @@ const executeColumn = (volatileId: VolatileId, event: Event | null) => ({
         </Button>
       );
     } else if (isScript(type)) {
-      const field = fields?.[1];
+      const field = getScriptFromFields(fields);
       const value = field?.value ?? '';
       return (
         <Button
@@ -123,6 +131,31 @@ const executeColumn = (volatileId: VolatileId, event: Event | null) => ({
     }
   }
 });
+
+const testColumn = {
+  id: 'test',
+  label: '',
+  widthInAbsoluteUnit: true,
+  width: '4rem',
+  getContent(row: Action) {
+    const { type, fields } = row;
+    if (type === 'SCRIPT') {
+      const field = fields?.[1];
+      const value = field?.value ?? '';
+      return (
+        <Tooltip content={t('in-settings:tabs.test')} delay={500}>
+          <IconButton
+            kind="primaryv2"
+            type={'lib_actions_play'}
+            onClick={() => addActiveDialog(<RunAction test action={row} script={value} volatileId={{}} />)}
+          />
+        </Tooltip>
+      );
+    } else {
+      return <></>;
+    }
+  }
+};
 
 const nameColumn = (showActionLink: boolean) => ({
   label: t('in-settings:tabs.name'),
@@ -164,9 +197,10 @@ export interface ActionTableProps {
   getEntityName?: (action: Action) => string;
   showExecuteColumn?: boolean | undefined;
   volatileId?: VolatileId;
-  event?: Event | null;
+  event?: Event;
   showActionLink?: boolean | undefined;
   scored?: boolean | undefined;
+  showTestColumn?: boolean | undefined;
   isBeta?: boolean;
 }
 
@@ -182,8 +216,9 @@ export default function ActionTable({
   showExecuteColumn = false,
   volatileId = {},
   showActionLink = false,
-  event = null,
+  event,
   scored = false,
+  showTestColumn = false,
   isBeta = false
 }: ActionTableProps) {
   let columnDefinitionsToShow = [nameColumn(showActionLink), ...columnDefinitions];
@@ -192,6 +227,10 @@ export default function ActionTable({
   }
   if (scored) {
     columnDefinitionsToShow = [...columnDefinitionsToShow, scoreColumn];
+  }
+
+  if (showTestColumn) {
+    columnDefinitionsToShow = [...columnDefinitionsToShow, testColumn];
   }
 
   return (

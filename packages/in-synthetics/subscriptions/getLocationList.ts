@@ -41,7 +41,7 @@ export function getLocationListWithDefaults({
   query = '',
   page = 1,
   pageSize = 20,
-  orderBy = 'location_id',
+  orderBy = 'location_name',
   orderDirection = 'ASC',
   timeConfig,
   tagFilters = []

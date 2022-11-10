@@ -9,12 +9,11 @@ import { Card } from '@instana/components';
 
 import { number, bytesZeroDecimalPlaces, percentage, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
+import { capitalizeValue } from 'in-components/Capitalize';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
-import Capitalize from 'in-components/Capitalize';
 import DatastoreTable from './DatastoreTable';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
@@ -34,7 +33,8 @@ export default function Summary({ timeConfig, data: host }) {
         />
         <KpiCard
           title={t('in-vsphere:dashboards.cpuTotal')}
-          value={<Capitalize>{host.cpuTotal || valueMissingPlaceholder}</Capitalize>}
+          value={host.cpuTotal}
+          renderValue={capitalizeValue}
           raw
           borderless
         />
@@ -46,7 +46,8 @@ export default function Summary({ timeConfig, data: host }) {
         />
         <KpiCard
           title={t('in-vsphere:dashboards.memoryTotal')}
-          value={<Capitalize>{bytesTwoDecimalPlaces(host.memoryTotal) || valueMissingPlaceholder}</Capitalize>}
+          value={host.memoryTotal}
+          renderValue={value => capitalizeValue(bytesTwoDecimalPlaces(value))}
           raw
           borderless
         />

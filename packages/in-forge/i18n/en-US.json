@@ -10391,10 +10391,6 @@
       "descriptionActuatorConfigured": "Spring Boot monitoring requires that Spring Boot Actuator is configured:",
       "descriptionEnableJMX": "For Spring Boot 2.2.x and later it is necessary to enable JMX. Set <codeTag><bold>spring.jmx.enabled=true</bold></codeTag> in the <codeTag><bold>application.properties</bold></codeTag> file."
     },
-    "statsd": {
-      "headerInformation": "Information",
-      "infoNoFurtherEntityInfo": "There is no further information about this entity."
-    },
     "sybase": {
       "titleDiskReadsWrites": "Disk Reads & Writes",
       "titleConnections": "Connections",
@@ -11862,9 +11858,6 @@
     "beeInstanaNode": {
       "filesOpenedForRead": "Files opened for Read",
       "beeInstana": "BeeInstana"
-    },
-    "webSphereApplicationContainer": {
-      "sessions": "Sessions"
     },
     "webSphereLibertyApplicationContainer": {
       "requests": "Requests",

@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, createMapForm } from 'formalistic';
+import { createField, createMapForm, createListForm } from 'formalistic';
 
 import {
   getAllBuiltInMetrics,
@@ -94,7 +94,34 @@ export function createEventFormDefinition(mutableEventOptional, isCreate) {
     tagOperatorForHostAvailability
   } = getScopeFields(isCreate, query, ruleType, tagFilter);
 
-  let form = createMapForm()
+  const rulesFormList = (mutableEvent.rules ?? [])
+    .map(() => createMapForm(/*empty, because not yet used*/))
+    .reduce(
+      (listForm, subForm) => listForm.push(subForm),
+      createListForm({
+        touched: true,
+        validator: rules => {
+          if (rules?.length > 1) {
+            return [
+              {
+                severity: 'error',
+                // message will be removed anyway in a couple of days, so there is no i18n needed.
+                message:
+                  'There are more than one conditions configured. You need to use the API to edit this configuration.'
+              }
+            ];
+          }
+          return null;
+        }
+      })
+    );
+
+  let form = createMapForm({
+    items: {
+      rules: rulesFormList
+    },
+    touched: mutableEvent.rules?.length >= 1
+  })
     .put(
       'name',
       createField({
@@ -644,6 +671,10 @@ function isSystemDataSource(ruleType) {
   return ruleType === 'system' || ruleType === ruleTypeEntityVerification || ruleType === ruleTypeHostAvailability;
 }
 
+export function isHostAvailabilitySystemRule(form) {
+  return form.get('systemRule')?.value === hostAvailabilityDetection.id;
+}
+
 export function isDeprecatedEntityType(entityType) {
   return Boolean(!plugins[entityType]);
 }
@@ -670,7 +701,9 @@ function getRuleAttributes(eventSpec) {
     closeAfter,
     tagFilter;
 
-  if (rules && rules.length === 1) {
+  /* to avoid breaking existing form, just use first rule, and
+   * ignore other rules here */
+  if (rules && rules.length >= 1) {
     ruleType = rules[0].ruleType;
 
     if (rules[0].metricName) {
@@ -707,10 +740,6 @@ function getRuleAttributes(eventSpec) {
     offlineDuration = rules[0].offlineDuration;
     closeAfter = rules[0].closeAfter;
     tagFilter = rules[0].tagFilter;
-  } else if (rules && rules.length > 1) {
-    if (__DEV__) {
-      throw new Error('Multiple rules per event are not supported yet.');
-    }
   } else if (rule) {
     // TODO: this case should not exist in the future - need more rework
     ruleType = rule.ruleType;
@@ -738,4 +767,69 @@ function getRuleAttributes(eventSpec) {
     closeAfter,
     tagFilter
   };
+}
+
+export function isPercentile(form) {
+  if (!form || !form.get('entityType') || !form.get('metricName')) {
+    return false;
+  }
+
+  const metricName = form.get('metricName').value;
+  const entityType = form.get('entityType').value;
+  return isBackendAggregatedPercentileMetric(entityType, metricName);
+}
+
+export function isBuiltInDataSourceSelected(form) {
+  return form.get('dataSource').value === dataSourceBuiltIn;
+}
+
+export function isCustomDataSourceSelected(form) {
+  return form.get('dataSource').value === dataSourceCustom;
+}
+
+export function isSystemRuleDataSourceSelected(form) {
+  return form.get('dataSource').value === dataSourceSystem;
+}
+
+export function onChangeApplyOn(applyOn, onChange) {
+  let updateFormDefinition;
+
+  if (applyOn === scopeDfq) {
+    updateFormDefinition = (form, eventSpec) => {
+      form = form.remove('application');
+      form = removeScopeByHostsField(form);
+      form = putQueryFields(form, eventSpec);
+      return form.updateIn(['query'], f => {
+        return f.setValue('');
+      });
+    };
+  } else if (applyOn === scopeApplication) {
+    updateFormDefinition = form => {
+      form = removeQueryFields(form);
+      form = removeScopeByHostsField(form);
+      form = putApplicationField(form, null);
+      form = putApplicationIdField(form, []);
+      return form;
+    };
+  } else if (applyOn === scopeHostsByTag) {
+    updateFormDefinition = form => {
+      form = removeQueryFields(form);
+      form = form.remove('application');
+      form = form.remove('applicationIds');
+      form = putScopeByHostsFields(form);
+
+      return form;
+    };
+  } else {
+    // applyOn === scopeEverything or not selected
+    updateFormDefinition = form => {
+      form = removeQueryFields(form);
+      form = form.remove('application');
+      form = form.remove('applicationIds');
+      form = removeScopeByHostsField(form);
+
+      return form;
+    };
+  }
+  onChange('applyOn', applyOn, updateFormDefinition);
 }

@@ -10,7 +10,13 @@ import mime from 'mime/lite';
 
 import { generateUniqueShortId } from '@instana/utils';
 
-import { isDocLink, isScript, isWebhook } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
+import {
+  getDocLinkFromFields,
+  getScriptFromFields,
+  isDocLink,
+  isScript,
+  isWebhook
+} from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import { notBlankValidator } from 'in-services/validators/string';
 import { AdditionalHeaders, Authen } from 'in-api/automation';
@@ -99,8 +105,8 @@ export function createActionFormDefinition(action: ActionFormEntity, _isCreate: 
 }
 
 export function putDocLinkField(form: MapForm, action: ActionFormEntity) {
-  const fields = action.fields;
-  const value = isDocLink(action.type) ? fields?.[0].value ?? '' : '';
+  const field = getDocLinkFromFields(action.fields);
+  const value = isDocLink(action.type) ? field?.value : '';
 
   // TODO: add validator for URL???
   return form.put(
@@ -119,8 +125,7 @@ export function removeDocLinkField(form: MapForm) {
 export function putScriptField(form: MapForm, action: ActionFormEntity) {
   let value = '';
   if (isScript(action.type)) {
-    const fields = action.fields;
-    const field = fields?.[1];
+    const field = getScriptFromFields(action.fields);
     value = atob(field?.value ?? '');
   }
 

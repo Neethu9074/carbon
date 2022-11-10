@@ -197,7 +197,10 @@ export default function CustomEndpointMappingDialog({ location }) {
                         <Tooltip
                           align="topMiddle"
                           themeStyle="light"
-                          content={t('in-applications:forms.tooltipEndpointCallsNotMatch')}
+                          content={[
+                            t('in-applications:forms.tooltipEndpointCallsNotMatch'),
+                            t('in-applications:forms.tooltipEndpointFallbackRule')
+                          ]}
                         >
                           <UnspecifiedExtractionRule />
                         </Tooltip>

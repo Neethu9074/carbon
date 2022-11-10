@@ -22,14 +22,13 @@ import ContainerStates from 'in-kubernetes/Dashboards/Pod/tabs/Summary/Container
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';
+import { capitalizeValue } from 'in-components/Capitalize';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import MetricValue from 'in-components/MetricValue';
-import Capitalize from 'in-components/Capitalize';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -53,13 +52,15 @@ export default function SummaryWithoutTimeShift({ data: pod, timeConfig }) {
       <KpiGridRow sizes={[3, 3, 2, 2, 2]}>
         <KpiCard
           title={t('in-kubernetes:dashboards.status')}
-          value={<Capitalize>{get(pod, ['status', 'statusSummary'], valueMissingPlaceholder)}</Capitalize>}
+          value={get(pod, ['status', 'statusSummary'])}
+          renderValue={capitalizeValue}
           borderless
           raw
         />
         <KpiCard
           title={t('in-kubernetes:dashboards.phase')}
-          value={<Capitalize>{get(pod, ['status', 'phase'], pod.phase)}</Capitalize>}
+          value={get(pod, ['status', 'phase'], pod.phase)}
+          renderValue={capitalizeValue}
           borderless
           raw
         />
@@ -71,13 +72,15 @@ export default function SummaryWithoutTimeShift({ data: pod, timeConfig }) {
         />
         <KpiCard
           title={t('in-kubernetes:dashboards.restarts')}
-          value={<MetricValue snapshotId={pod.id} metric="restartCount" formatter={zeroDecimalPlaces} />}
+          value={pod.id}
+          renderValue={podId => <MetricValue snapshotId={podId} metric="restartCount" formatter={zeroDecimalPlaces} />}
           borderless
           raw
         />
         <KpiCard
           title={t('in-kubernetes:dashboards.age')}
-          value={pod.age ? formatDuration(pod.age) : valueMissingPlaceholder}
+          value={pod.age}
+          renderValue={formatDuration}
           borderless
           raw
         />
@@ -100,42 +103,58 @@ export default function SummaryWithoutTimeShift({ data: pod, timeConfig }) {
         <Col lg={kpiWidth}>
           <KpiCard
             title={t('in-kubernetes:dashboards.cpuUsage')}
-            value={<MetricValue snapshotId={pod.id} metric="cpu.total_usage" formatter={twoDecimalPlaces} />}
+            value={pod.id}
+            renderValue={podId => (
+              <MetricValue snapshotId={podId} metric="cpu.total_usage" formatter={twoDecimalPlaces} />
+            )}
             raw
           />
         </Col>
         <Col lg={kpiWidth}>
           <KpiCard
             title={t('in-kubernetes:dashboards.cpuRequests')}
-            value={<MetricValue snapshotId={pod.id} metric="cpuRequests" formatter={resourceQuotaNumber} />}
+            value={pod.id}
+            renderValue={podId => (
+              <MetricValue snapshotId={podId} metric="cpuRequests" formatter={resourceQuotaNumber} />
+            )}
             raw
           />
         </Col>
         <Col lg={kpiWidth}>
           <KpiCard
             title={t('in-kubernetes:dashboards.cpuLimits')}
-            value={<MetricValue snapshotId={pod.id} metric="cpuLimits" formatter={resourceQuotaNumber} />}
+            value={pod.id}
+            renderValue={podId => <MetricValue snapshotId={podId} metric="cpuLimits" formatter={resourceQuotaNumber} />}
             raw
           />
         </Col>
         <Col lg={kpiWidth}>
           <KpiCard
             title={t('in-kubernetes:dashboards.memoryUsage')}
-            value={<MetricValue snapshotId={pod.id} metric="memory.usage" formatter={bytesTwoDecimalPlaces} />}
+            value={pod.id}
+            renderValue={podId => (
+              <MetricValue snapshotId={podId} metric="memory.usage" formatter={bytesTwoDecimalPlaces} />
+            )}
             raw
           />
         </Col>
         <Col lg={kpiWidth}>
           <KpiCard
             title={t('in-kubernetes:dashboards.memoryRequests')}
-            value={<MetricValue snapshotId={pod.id} metric="memoryRequests" formatter={resourceQuotaBytes} />}
+            value={pod.id}
+            renderValue={podId => (
+              <MetricValue snapshotId={podId} metric="memoryRequests" formatter={resourceQuotaBytes} />
+            )}
             raw
           />
         </Col>
         <Col lg={kpiWidth}>
           <KpiCard
             title={t('in-kubernetes:dashboards.memoryLimits')}
-            value={<MetricValue snapshotId={pod.id} metric="memoryLimits" formatter={resourceQuotaBytes} />}
+            value={pod.id}
+            renderValue={podId => (
+              <MetricValue snapshotId={podId} metric="memoryLimits" formatter={resourceQuotaBytes} />
+            )}
             raw
           />
         </Col>

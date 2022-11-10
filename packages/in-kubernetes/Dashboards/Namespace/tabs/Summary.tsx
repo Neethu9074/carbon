@@ -33,7 +33,6 @@ import TopPodsList from 'in-kubernetes/Dashboards/commonComponents/TopPodsList';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 // @ts-expect-error
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
-import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import { getChartGranularity } from 'in-stores/metric/metric';
@@ -106,7 +105,7 @@ export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
         <KpiCard title={t('in-kubernetes:dashboards.status')} value={namespace.status} raw borderless />
         <KpiCard
           title={t('in-kubernetes:dashboards.age')}
-          value={namespace.age ? formatDuration(namespace.age) : valueMissingPlaceholder}
+          value={namespace.age ? formatDuration(namespace.age) : null}
           raw
           borderless
         />

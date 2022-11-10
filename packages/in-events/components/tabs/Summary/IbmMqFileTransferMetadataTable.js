@@ -14,11 +14,11 @@ import locals from './IbmMqFileTransferMetadataTable.mless';
 
 const cols = [
   {
-    title: t('in-events:ibmMqFileTransfer.transferId'),
+    title: t('in-events:ibmMqFileTransfer.transferID'),
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.transferId ?? '';
+        return row.transferID ?? '';
       }
     }
   },
@@ -86,7 +86,7 @@ function RowDetails({ row }) {
 IbmMqFileTransferMetadataTable.propTypes = {
   ibmMqFileTransferMetadata: PropTypes.arrayOf(
     PropTypes.shape({
-      transferId: PropTypes.string,
+      transferID: PropTypes.string,
       sourceAgent: PropTypes.string,
       destinationAgent: PropTypes.string,
       originator: PropTypes.string,

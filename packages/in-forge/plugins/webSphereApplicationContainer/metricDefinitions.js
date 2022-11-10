@@ -66,7 +66,7 @@ export default [
       'poolSize',
       t('in-forge:plugins.webSphereAppContainer.labelWebModule')
     ),
-    label: t('in-forge:plugins.webSphereAppContainer.labelActiveThreads'),
+    label: t('in-forge:plugins.webSphereAppContainer.labelPoolSize'),
     category: [t('in-forge:plugins.webSphereAppContainer.categoryThreadPool')],
     min: 0,
     formatter: number
@@ -99,7 +99,7 @@ export default [
       'activeCount',
       t('in-forge:plugins.webSphereAppContainer.labelWebModule')
     ),
-    label: t('in-forge:plugins.webSphereApplicationContainer.sessions'),
+    label: t('in-forge:plugins.webSphereAppContainer.labelSessions'),
     category: [t('in-forge:plugins.webSphereAppContainer.labelWebModule')],
     min: 0,
     formatter: number
@@ -110,7 +110,7 @@ export default [
       'createCount',
       t('in-forge:plugins.webSphereAppContainer.labelWebModule')
     ),
-    label: t('in-forge:plugins.webSphereApplicationContainer.sessions'),
+    label: t('in-forge:plugins.webSphereAppContainer.labelSessionsCreateCount'),
     category: [t('in-forge:plugins.webSphereAppContainer.labelWebModule')],
     min: 0,
     formatter: number
@@ -121,7 +121,7 @@ export default [
       'invalidateCount',
       t('in-forge:plugins.webSphereAppContainer.labelWebModule')
     ),
-    label: t('in-forge:plugins.webSphereApplicationContainer.sessions'),
+    label: t('in-forge:plugins.webSphereAppContainer.labelSessionsInvalidateCount'),
     category: [t('in-forge:plugins.webSphereAppContainer.labelWebModule')],
     min: 0,
     formatter: number

@@ -202,7 +202,7 @@ export function createAction(
 export function runScriptAction(
   script: string,
   volatileId: VolatileId,
-  event: Event | null,
+  event: Event | undefined,
   actionName: string,
   interpreter: string
 ) {
@@ -251,7 +251,7 @@ export function runScriptAction(
 
 export function runWebhookAction(
   volatileId: VolatileId,
-  event: Event | null,
+  event: Event | undefined,
   actionName: string,
   method: string,
   host: string,

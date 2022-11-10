@@ -97,6 +97,10 @@
   },
   "tabs": {
     "team": {
+      "events": {
+        "withDeprecatedSuffix": "{{pluginName}} (deprecated)",
+        "placeholder": "Placeholder"
+      },
       "customPayload": {
         "unknownTag": "Unknown tag: {{tagName}}"
       }
@@ -850,7 +854,6 @@
     "filterActions": "Filter Actions",
     "lastModified": "Last Modified",
     "script": "Script",
-    "http": "HTTP",
     "docLink": "Documentation Link",
     "deletedEventMessage": "You are looking at a deleted event configuration. Modifications are not possible.",
     "actionTypeHelper": "Documentation Link refers to a url, script is for linux/windows machines (only bash supported for now) and http is a webhook.",
@@ -891,7 +894,9 @@
     "bearerToken": "Bearer Token",
     "apiKeyAddTo": "Add to",
     "header": "Header",
-    "queryParams": "Query Params"
+    "queryParams": "Query Params",
+    "test": "Test",
+    "HTTP": "HTTP"
   },
   "languageSelection": {
     "language": "Language",
