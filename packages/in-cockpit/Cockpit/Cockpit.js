@@ -10,12 +10,19 @@ import classNames from 'classnames';
 import { Button, SvgIcon } from '@instana/components';
 
 import {
+  hasAPlatformAccess,
   hasApplicationsAccess,
+  hasEventsAccess,
+  hasInfrastructureAccess,
   hasKubernetesAccess,
   hasMobileAppsAccess,
-  hasWebsitesAccess
+  hasOpenStackAccess,
+  hasPCFAccess,
+  hasPHMCAccess,
+  hasVSphereAccess,
+  hasWebsitesAccess,
+  hasZHMCAccess
 } from 'in-stores/permission';
-import { pcfEnabled, vsphereEnabled, openstackEnabled, phmcEnabled, zhmcEnabled } from 'in-services/featureFlags';
 import { isLandingPage, setLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/cockpit';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import WebsitesAndMobileTopList from 'in-cockpit/Cockpit/components/WebsitesAndMobileTopList';
@@ -42,44 +49,72 @@ import locals from './Cockpit.mless';
 
 const settingsKey = 'cockpit_widget_ordering';
 
-const itemIds = [{ id: '1' }, { id: '2' }, { id: '3' }, { id: '4' }, { id: '5' }];
+const itemIds = [];
 
 const LUT = {
-  '1': WebsitesAndMobileTopList,
-  '2': ApplicationsTopList,
-  '3': PlatformsTopList,
-  '4': InfrastructureTopList,
   '5': EventChartCard
 };
 
 const configEnrichmentLookUpTable = {
-  '1': {
-    label: getWebsiteAndMobileLabel(),
-    icon: getWebsiteAndMobileIcon(),
-    cardIcon: `${getWebsiteAndMobileIcon()}_inverted`
-  },
-  '2': {
-    label: t('in-cockpit:cockpit.applications'),
-    icon: 'lib_application',
-    cardIcon: 'lib_application_invert'
-  },
-  '3': {
-    label: getPlatformsTitle(),
-    icon: `${getPlatformCardIcon()}`,
-    cardIcon: `${getPlatformCardIcon()}_inverted`
-  },
-
-  '4': {
-    label: t('in-cockpit:cockpit.infrastructure'),
-    icon: 'lib_infrastructure',
-    cardIcon: 'lib_infrastructure_inverted'
-  },
   '5': {
     label: t('in-cockpit:cockpit.events'),
     icon: 'lib_events_inverted',
     cardIcon: 'lib_events_inverted'
   }
 };
+
+if (hasMobileAppsAccess || hasWebsitesAccess) {
+  itemIds.push({ id: '1' });
+  LUT['1'] = WebsitesAndMobileTopList;
+
+  configEnrichmentLookUpTable['1'] = {
+    label: getWebsiteAndMobileLabel(),
+    icon: getWebsiteAndMobileIcon(),
+    cardIcon: `${getWebsiteAndMobileIcon()}_inverted`
+  };
+}
+
+if (hasApplicationsAccess) {
+  itemIds.push({ id: '2' });
+  LUT['2'] = ApplicationsTopList;
+
+  configEnrichmentLookUpTable['2'] = {
+    label: t('in-cockpit:cockpit.applications'),
+    icon: 'lib_application',
+    cardIcon: 'lib_application_invert'
+  };
+}
+
+if (hasAPlatformAccess) {
+  itemIds.push({ id: '3' });
+  LUT['3'] = PlatformsTopList;
+
+  configEnrichmentLookUpTable['3'] = {
+    label: getPlatformsTitle(),
+    icon: `${getPlatformCardIcon()}`,
+    cardIcon: `${getPlatformCardIcon()}_inverted`
+  };
+}
+
+if (hasInfrastructureAccess) {
+  itemIds.push({ id: '4' });
+  LUT['4'] = InfrastructureTopList;
+  configEnrichmentLookUpTable['4'] = {
+    label: t('in-cockpit:cockpit.infrastructure'),
+    icon: 'lib_infrastructure',
+    cardIcon: 'lib_infrastructure_inverted'
+  };
+}
+
+if (hasEventsAccess) {
+  itemIds.push({ id: '5' });
+  LUT['5'] = EventChartCard;
+  configEnrichmentLookUpTable['5'] = {
+    label: t('in-cockpit:cockpit.events'),
+    icon: 'lib_events_inverted',
+    cardIcon: 'lib_events_inverted'
+  };
+}
 
 export default connectTo(
   {
@@ -301,60 +336,66 @@ function filterItems(orderedItems) {
 function getPlatformsTitle() {
   let numPlatformsAvailable = 0;
   if (hasKubernetesAccess) numPlatformsAvailable++;
-  if (pcfEnabled) numPlatformsAvailable++;
-  if (vsphereEnabled) numPlatformsAvailable++;
-  if (openstackEnabled) numPlatformsAvailable++;
-  if (phmcEnabled) numPlatformsAvailable++;
-  if (zhmcEnabled) numPlatformsAvailable++;
+  if (hasPCFAccess) numPlatformsAvailable++;
+  if (hasVSphereAccess) numPlatformsAvailable++;
+  if (hasOpenStackAccess) numPlatformsAvailable++;
+  if (hasPHMCAccess) numPlatformsAvailable++;
+  if (hasZHMCAccess) numPlatformsAvailable++;
   if (numPlatformsAvailable > 1) {
     return t('in-cockpit:cockpit.platforms');
   }
 
-  if (pcfEnabled) {
+  if (hasPCFAccess) {
     return t('in-cockpit:cockpit.cloudFoundry');
   }
-  if (vsphereEnabled) {
+  if (hasVSphereAccess) {
     return t('in-cockpit:cockpit.vsphere');
   }
-  if (openstackEnabled) {
+  if (hasOpenStackAccess) {
     return t('in-cockpit:cockpit.openstack');
   }
-  if (phmcEnabled) {
+  if (hasPHMCAccess) {
     return t('in-cockpit:cockpit.ibmp');
   }
-  if (zhmcEnabled) {
+  if (hasZHMCAccess) {
     return t('in-cockpit:cockpit.ibmz');
   }
-  return t('in-cockpit:cockpit.kubernetes');
+  if (hasKubernetesAccess) {
+    return t('in-cockpit:cockpit.kubernetes');
+  }
+  return null;
 }
 
 function getPlatformCardIcon() {
   let numPlatformsAvailable = 0;
   if (hasKubernetesAccess) numPlatformsAvailable++;
-  if (pcfEnabled) numPlatformsAvailable++;
-  if (vsphereEnabled) numPlatformsAvailable++;
-  if (openstackEnabled) numPlatformsAvailable++;
-  if (phmcEnabled) numPlatformsAvailable++;
-  if (zhmcEnabled) numPlatformsAvailable++;
+  if (hasPCFAccess) numPlatformsAvailable++;
+  if (hasVSphereAccess) numPlatformsAvailable++;
+  if (hasOpenStackAccess) numPlatformsAvailable++;
+  if (hasPHMCAccess) numPlatformsAvailable++;
+  if (hasZHMCAccess) numPlatformsAvailable++;
   if (numPlatformsAvailable > 1) {
     return 'lib_platforms';
   }
-  if (pcfEnabled) {
+  if (hasPCFAccess) {
     return 'lib_cloudfoundry';
   }
-  if (vsphereEnabled) {
+  if (hasVSphereAccess) {
     return 'lib_vsphere';
   }
-  if (openstackEnabled) {
+  if (hasOpenStackAccess) {
     return 'lib_openstack';
   }
-  if (phmcEnabled) {
+  if (hasPHMCAccess) {
     return 'lib_phmc_console';
   }
-  if (zhmcEnabled) {
+  if (hasZHMCAccess) {
     return 'lib_zhmcConsole';
   }
-  return 'lib_kubernetes';
+  if (hasKubernetesAccess) {
+    return 'lib_kubernetes';
+  }
+  return null;
 }
 
 function getWebsiteAndMobileIcon() {
