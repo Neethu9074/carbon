@@ -60,9 +60,7 @@ export default function HierarchicalLink({
   const hierarchySnapshots =
     useObservable(() => {
       if (useSnapshotFromHierarchyCallback) {
-        return hierarchy.flatMap(hierarchy =>
-          combineLatest(hierarchy.toArray().map(id => getSnapshot(id, timeConfig)))
-        );
+        return hierarchy.flatMap(item => combineLatest(item.toArray().map(id => getSnapshot(id, timeConfig))));
       }
     }, [snapshotId, timeConfig]) ?? pendingResult;
 

@@ -42,6 +42,15 @@ export default function MobileAppMonitoringData({ traceId, startTime }) {
         windowSize: minutes.toMillis(20),
         to: startTime + minutes.toMillis(10),
         focusedMoment: startTime + minutes.toMillis(10)
+      },
+      order: {
+        by: 'mobileBeacon.timestamp',
+        // Get the oldest beacon, which is most likely the one that triggered this trace. Please note that if a request
+        // is served from a cache, the given beacon will be linked to the old trace (the one whose response was cached).
+        direction: 'ASC'
+      },
+      pagination: {
+        retrievalSize: 1
       }
     });
   }, [traceId, startTime]);

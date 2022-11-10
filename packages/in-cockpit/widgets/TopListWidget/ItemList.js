@@ -14,7 +14,6 @@ import { hasError, isLoading } from 'in-services/util/result';
 import locals from './ItemList.mless';
 
 export default function ItemList({ result, columnDefinitions, timeConfig, getItemLink, numSkeletonRows }) {
-  result = result ?? {};
   if (!result || isLoading(result)) {
     return <LoadingList className={locals.list} numSkeletonRows={numSkeletonRows} />;
   }
