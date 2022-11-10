@@ -64,7 +64,7 @@ const columnDefinitions = [
   }
 ];
 
-const executeColumn = (volatileId: VolatileId, event: Event | null) => ({
+const executeColumn = (volatileId: VolatileId, event?: Event) => ({
   id: 'execute',
   label: t('in-settings:tabs.execute'),
   getContent(row: Action) {
@@ -125,7 +125,7 @@ const testColumn = {
           <IconButton
             kind="primaryv2"
             type={'lib_actions_play'}
-            onClick={() => addActiveDialog(<RunAction test action={row} script={value} volatileId={{}} event={null} />)}
+            onClick={() => addActiveDialog(<RunAction test action={row} script={value} volatileId={{}} />)}
           />
         </Tooltip>
       );
@@ -175,7 +175,7 @@ export interface ActionTableProps {
   getEntityName?: (action: Action) => string;
   showExecuteColumn?: boolean | undefined;
   volatileId?: VolatileId;
-  event?: Event | null;
+  event?: Event;
   showActionLink?: boolean | undefined;
   scored?: boolean | undefined;
   showTestColumn?: boolean | undefined;
@@ -194,7 +194,7 @@ export default function ActionTable({
   showExecuteColumn = false,
   volatileId = {},
   showActionLink = false,
-  event = null,
+  event,
   scored = false,
   showTestColumn = false,
   isBeta = false

@@ -169,7 +169,6 @@ export default function ActionForm({ form, setForm, onChange, entity: action }: 
                         action={{ name: name.value, description: description.value } as Action}
                         script={btoa(script.value)}
                         volatileId={{}}
-                        event={null}
                         test
                       />
                     )

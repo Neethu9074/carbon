@@ -21,7 +21,7 @@ interface ActionTableProps {
   getEntityName?: (action: Action) => string;
   showExecuteColumn?: boolean | undefined;
   volatileId?: VolatileId;
-  event?: Event | null;
+  event?: Event;
 }
 
 interface SelectListDialogContentProps {

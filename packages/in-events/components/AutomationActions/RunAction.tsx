@@ -38,7 +38,7 @@ import locals from './RunAction.mless';
 interface Props {
   script: string;
   volatileId: VolatileId;
-  event: Event | null;
+  event?: Event;
   action: Action;
   test?: boolean;
 }
