@@ -3,8 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { compose, withState } from 'recompose';
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { get } from 'lodash';
 
 import { Link } from '@instana/components';
@@ -36,9 +35,8 @@ const enabledOptions = Object.freeze([
   { value: false, label: t('in-settings:tabs.disabled') }
 ]);
 
-export default compose(withState('enabled', 'setEnabled', null))(Alerts);
-
-function Alerts({ enabled, setEnabled }) {
+export default function Alerts() {
+  const [enabled, setEnabled] = useState(null);
   return (
     <List
       title={t('in-settings:tabs.alerts')}
