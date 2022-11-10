@@ -8,6 +8,7 @@ import { createMapForm, createField, ValidationResult } from 'formalistic';
 import { arrayValidator, numberValidator, stringValidator } from 'in-services/validators/jsonType';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
+import { BluePrint } from 'in-synthetics/data/simpleModeBluePrints';
 import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
 import { minValidator } from 'in-services/validators/number';
@@ -19,11 +20,16 @@ interface HTTPMethodType {
   isdisabled?: boolean;
 }
 
-export function createForm(savedState?: Record<string, any>) {
+export function createForm(selectedBlueprint?: BluePrint, savedState?: Record<string, any>) {
   return createMapForm({
     validator: syntheticFormValidator
   })
-    .put('configuration', createConfigurationForm(savedState ?? {}))
+    .put(
+      'configuration',
+      selectedBlueprint?.type === 'Script API'
+        ? createScriptConfigurationForm(savedState ?? {})
+        : createActionConfigurationForm(savedState ?? {})
+    )
     .put(
       'response',
       createField({
@@ -68,7 +74,7 @@ export function createForm(savedState?: Record<string, any>) {
     );
 }
 
-function createConfigurationForm(savedState?: Record<string, any>) {
+function createActionConfigurationForm(savedState?: Record<string, any>) {
   return createMapForm()
     .put(
       'syntheticType',
@@ -94,6 +100,23 @@ function createConfigurationForm(savedState?: Record<string, any>) {
           notBlankValidator,
           buildEnumValidator(HTTPMethods.map(method => method.value))
         )
+      })
+    );
+}
+
+function createScriptConfigurationForm(savedState?: Record<string, any>) {
+  return createMapForm()
+    .put(
+      'syntheticType',
+      createField({
+        value: savedState?.syntheticType ?? 'HTTPScript',
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'script',
+      createField({
+        value: savedState?.fileContent
       })
     );
 }
