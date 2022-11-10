@@ -25,7 +25,6 @@ import TopDeploymentsList from 'in-kubernetes/Dashboards/commonComponents/TopDep
 import MetricFilterChart from 'in-kubernetes/Dashboards/commonComponents/MetricFilterChart';
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import TopPodsList from 'in-kubernetes/Dashboards/commonComponents/TopPodsList';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import { getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
@@ -61,7 +60,7 @@ export default function SummaryWithoutTimeShift({ timeConfig, data: namespace })
         <KpiCard title={t('in-kubernetes:dashboards.status')} value={namespace.status} raw borderless />
         <KpiCard
           title={t('in-kubernetes:dashboards.age')}
-          value={namespace.age ? formatDuration(namespace.age) : valueMissingPlaceholder}
+          value={namespace.age ? formatDuration(namespace.age) : null}
           raw
           borderless
         />

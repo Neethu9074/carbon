@@ -73,18 +73,28 @@ export default function KpiCard({
 
   let content;
   if (raw || renderValue) {
-    const formattedValue = renderValue ? renderValue(value) : value ?? valueMissingPlaceholder;
+    let formattedValue;
+    if (value === undefined) {
+      formattedValue = '';
+    } else if (value === null) {
+      formattedValue = valueMissingPlaceholder;
+    } else {
+      formattedValue = renderValue ? renderValue(value) : value.toString();
+    }
     content = <span className={classNames(locals.minor, valuesClassName)}>{formattedValue}</span>;
   } else if (children) {
     content = <span className={classNames(locals.minor, valuesClassName)}>{children}</span>;
   } else {
-    let major = valueMissingPlaceholder;
+    let major;
     let minor = null;
-
-    if (value != null) {
+    if (value === undefined) {
+      major = '';
+    } else if (value === null) {
+      major = valueMissingPlaceholder;
+    } else {
       const match = String(value).match(valueSplitRegExp);
       if (!match) {
-        major = value;
+        major = value.toString();
       } else {
         major = match[1];
         minor = match[2];

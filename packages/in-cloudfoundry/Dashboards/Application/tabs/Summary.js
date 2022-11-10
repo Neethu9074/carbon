@@ -37,7 +37,7 @@ export default function Summary({ data: application, timeConfig }) {
         />
         <KpiCard
           title={t('in-cloudfoundry:dashboards.memoryLimit')}
-          value={application.memoryLimit ? bytesZeroDecimalPlaces(application.memoryLimit) : valueMissingPlaceholder}
+          value={application.memoryLimit ? bytesZeroDecimalPlaces(application.memoryLimit) : null}
           borderless
           raw
         />
@@ -69,16 +69,14 @@ export default function Summary({ data: application, timeConfig }) {
               <Tooltip themeStyle="light" align="bottomLeft" content={joinedRoutes}>
                 <span>{joinedRoutes}</span>
               </Tooltip>
-            ) : (
-              valueMissingPlaceholder
-            )
+            ) : null
           }
           borderless
           raw
         />
         <KpiCard
           title={t('in-cloudfoundry:dashboards.diskLimit')}
-          value={application.diskLimit ? bytesZeroDecimalPlaces(application.diskLimit) : valueMissingPlaceholder}
+          value={application.diskLimit ? bytesZeroDecimalPlaces(application.diskLimit) : null}
           borderless
           raw
         />

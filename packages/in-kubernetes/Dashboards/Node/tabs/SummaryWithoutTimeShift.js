@@ -18,15 +18,14 @@ import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/Condi
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { zeroDecimalPlaces, percentage } from 'in-services/formatters/number';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import { getNodeDashboard } from 'in-kubernetes/navigation/paths';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';
+import { capitalizeValue } from 'in-components/Capitalize';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
-import Capitalize from 'in-components/Capitalize';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -44,19 +43,22 @@ export default function SummaryWithoutTimeShift({ timeConfig, data: node }) {
       <KpiGridRow sizes={[4, 4, 4]}>
         <KpiCard
           title={t('in-kubernetes:dashboards.status')}
-          value={<Capitalize>{node.status || valueMissingPlaceholder}</Capitalize>}
+          value={node.status}
+          renderValue={capitalizeValue}
           raw
           borderless
         />
         <KpiCard
           title={t('in-kubernetes:dashboards.roles')}
-          value={<Capitalize>{node.roles || valueMissingPlaceholder}</Capitalize>}
+          value={node.roles}
+          renderValue={capitalizeValue}
           raw
           borderless
         />
         <KpiCard
           title={t('in-kubernetes:dashboards.age')}
-          value={<Capitalize>{node.age ? formatDuration(node.age) : valueMissingPlaceholder}</Capitalize>}
+          value={node.age}
+          renderValue={nodeAge => capitalizeValue(formatDuration(nodeAge))}
           raw
           borderless
         />

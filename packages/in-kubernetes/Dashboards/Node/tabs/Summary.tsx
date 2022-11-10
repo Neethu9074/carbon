@@ -20,17 +20,16 @@ import { tagEquals, andQuery } from 'in-kubernetes/Dashboards/commonComponents/L
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 // @ts-expect-error
 import { getNodeDashboard, summaryTab } from 'in-kubernetes/navigation/paths';
-import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import { percentage, number, bytes } from 'in-services/formatters/number';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
+import { capitalizeValue } from 'in-components/Capitalize';
 import { getChartGranularity } from 'in-stores/metric';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
-import Capitalize from 'in-components/Capitalize';
 import { plugins } from 'in-forge/constants';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
@@ -89,19 +88,22 @@ export default function Summary({ timeConfig, data: node }: SummaryProps) {
       <KpiGridRow sizes={[4, 4, 4]}>
         <KpiCard
           title={t('in-kubernetes:dashboards.status')}
-          value={<Capitalize>{node.status || valueMissingPlaceholder}</Capitalize>}
+          value={node.status}
+          renderValue={capitalizeValue}
           raw
           borderless
         />
         <KpiCard
           title={t('in-kubernetes:dashboards.roles')}
-          value={<Capitalize>{node.roles || valueMissingPlaceholder}</Capitalize>}
+          value={node.roles}
+          renderValue={capitalizeValue}
           raw
           borderless
         />
         <KpiCard
           title={t('in-kubernetes:dashboards.age')}
-          value={node.age ? formatDuration(node.age) : valueMissingPlaceholder}
+          value={node.age}
+          renderValue={nodeAge => capitalizeValue(formatDuration(nodeAge))}
           raw
           borderless
         />

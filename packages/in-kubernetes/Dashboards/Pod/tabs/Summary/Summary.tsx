@@ -30,7 +30,6 @@ import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/b
 // @ts-expect-error
 import { getPodDashboard, summaryTab } from 'in-kubernetes/navigation/paths';
 import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
-import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 // @ts-expect-error
 import MetricValue from 'in-components/MetricValue';
@@ -39,10 +38,10 @@ import { number, bytes } from 'in-services/formatters/number';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
+import { capitalizeValue } from 'in-components/Capitalize';
 import { getChartGranularity } from 'in-stores/metric';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
-import Capitalize from 'in-components/Capitalize';
 import { plugins } from 'in-forge/constants';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
@@ -104,13 +103,15 @@ export default function Summary({ data: pod, timeConfig }: SummaryProps) {
       <KpiGridRow sizes={[3, 3, 2, 2, 2]}>
         <KpiCard
           title={t('in-kubernetes:dashboards.status')}
-          value={<Capitalize>{pod.status?.statusSummary || valueMissingPlaceholder}</Capitalize>}
+          value={pod.status?.statusSummary}
+          renderValue={capitalizeValue}
           borderless
           raw
         />
         <KpiCard
           title={t('in-kubernetes:dashboards.phase')}
-          value={<Capitalize>{pod.status?.phase || valueMissingPlaceholder}</Capitalize>}
+          value={pod.status?.phase}
+          renderValue={capitalizeValue}
           borderless
           raw
         />
@@ -122,13 +123,15 @@ export default function Summary({ data: pod, timeConfig }: SummaryProps) {
         />
         <KpiCard
           title={t('in-kubernetes:dashboards.restarts')}
-          value={<MetricValue snapshotId={pod.id} metric="restartCount" formatter={zeroDecimalPlaces} />}
+          value={pod.id}
+          renderValue={podId => <MetricValue snapshotId={podId} metric="restartCount" formatter={zeroDecimalPlaces} />}
           borderless
           raw
         />
         <KpiCard
           title={t('in-kubernetes:dashboards.age')}
-          value={pod.age ? formatDuration(pod.age) : valueMissingPlaceholder}
+          value={pod.age}
+          renderValue={formatDuration}
           borderless
           raw
         />

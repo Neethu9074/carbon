@@ -162,12 +162,14 @@ const Duration = connectTo(
     };
   },
   function Duration({ event, config }) {
-    let value = valueMissingPlaceholder;
-    if (config) {
-      value = formatDurationAccurately(config.to - event.get('start'), 1000);
-    }
-
-    return <KpiCard title={t('in-events:titleDuration')} value={value} raw />;
+    return (
+      <KpiCard
+        title={t('in-events:titleDuration')}
+        value={config}
+        renderValue={config => formatDurationAccurately(config.to - event.get('start'), 1000)}
+        raw
+      />
+    );
   }
 );
 
