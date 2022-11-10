@@ -3,10 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { compose, withState, withHandlers } from 'recompose';
 import { createMapForm, createField } from 'formalistic';
+import React, { useState, useCallback } from 'react';
 import { fromJS, List } from 'immutable';
-import React from 'react';
 
 import {
   modeEventTypes,
@@ -58,8 +57,36 @@ export default function Alert(props) {
   );
 }
 
-function DetailsForm(props) {
+const Form = entityForm(function DetailsForm(props) {
   const { entity, form, message, error, loading, isCreate } = props;
+  const [eventTypes, setEventTypes] = useState(null);
+  const [selectedEvents, setSelectedEvents] = useState(null);
+  const [applicationAlertConfigIds, setApplicationAlertConfigIds] = useState(null);
+  const onChangeEventSelectionMode = useCallback(
+    (form, eventSelectionMode) => {
+      let updatedForm = onChangeEventSelectionModeFunc(form, eventSelectionMode);
+      if (eventSelectionMode === modeSelectedEvents) {
+        const eventTypes = form.get('eventTypes') ? form.get('eventTypes').value : null;
+        setEventTypes(eventTypes);
+        updatedForm = putSelectedEventsField(updatedForm, selectedEvents);
+      }
+      if (eventSelectionMode === modeEventTypes) {
+        const selectedEvents = form.get('selectedEvents') ? form.get('selectedEvents').value : List([]);
+        setSelectedEvents(selectedEvents);
+        updatedForm = putEventTypesField(updatedForm, eventTypes);
+      }
+      if (eventSelectionMode === modeSelectedSmartAlerts) {
+        const selectedApplicationAlertConfigs = form.get('applicationAlertConfigIds')?.value ?? List([]);
+        setApplicationAlertConfigIds(selectedApplicationAlertConfigs);
+        updatedForm = putSelectedSmartAlertsField(updatedForm, applicationAlertConfigIds);
+        if (form.get('applyOn')?.value === scopeDfq) {
+          updatedForm = onChangeApplyOn(updatedForm, scopeApplication);
+        }
+      }
+      return updatedForm;
+    },
+    [applicationAlertConfigIds, eventTypes, selectedEvents]
+  );
 
   if (!entity || !form) {
     return <LoadingIndicator />;
@@ -94,7 +121,7 @@ function DetailsForm(props) {
         </Section>
       )}
 
-      <AlertForm onChangeApplyOn={onChangeApplyOn} {...props} />
+      <AlertForm onChangeApplyOn={onChangeApplyOn} onChangeEventSelectionMode={onChangeEventSelectionMode} {...props} />
 
       <SaveCancel
         form={form}
@@ -105,47 +132,7 @@ function DetailsForm(props) {
       />
     </SettingsDetailPage>
   );
-}
-
-const Form = entityForm(
-  compose(
-    withState('eventTypes', 'setEventTypes', null),
-    withState('selectedEvents', 'setSelectedEvents', null),
-    withState('applicationAlertConfigIds', 'setApplicationAlertConfigIds', null),
-    withHandlers({
-      onChangeEventSelectionMode: ({
-        eventTypes,
-        setEventTypes,
-        selectedEvents,
-        setSelectedEvents,
-        applicationAlertConfigIds,
-        setApplicationAlertConfigIds
-      }) => (form, eventSelectionMode) => {
-        let updatedForm = onChangeEventSelectionMode(form, eventSelectionMode);
-
-        if (eventSelectionMode === modeSelectedEvents) {
-          const eventTypes = form.get('eventTypes') ? form.get('eventTypes').value : null;
-          setEventTypes(eventTypes);
-          updatedForm = putSelectedEventsField(updatedForm, selectedEvents);
-        }
-        if (eventSelectionMode === modeEventTypes) {
-          const selectedEvents = form.get('selectedEvents') ? form.get('selectedEvents').value : List([]);
-          setSelectedEvents(selectedEvents);
-          updatedForm = putEventTypesField(updatedForm, eventTypes);
-        }
-        if (eventSelectionMode === modeSelectedSmartAlerts) {
-          const selectedApplicationAlertConfigs = form.get('applicationAlertConfigIds')?.value ?? List([]);
-          setApplicationAlertConfigIds(selectedApplicationAlertConfigs);
-          updatedForm = putSelectedSmartAlertsField(updatedForm, applicationAlertConfigIds);
-          if (form.get('applyOn')?.value === scopeDfq) {
-            updatedForm = onChangeApplyOn(updatedForm, scopeApplication);
-          }
-        }
-        return updatedForm;
-      }
-    })
-  )(DetailsForm)
-);
+});
 
 function createForm(alertEntity, isCreate) {
   const eventTypes = alertEntity.getIn(['eventFilteringConfiguration', 'eventTypes'], List([])) ?? List([]);
@@ -320,7 +307,7 @@ export function putApplicationIdField(form, applicationIds) {
     })
   );
 }
-function onChangeEventSelectionMode(form, eventSelectionMode) {
+function onChangeEventSelectionModeFunc(form, eventSelectionMode) {
   if (!eventSelectionMode) {
     return;
   }
