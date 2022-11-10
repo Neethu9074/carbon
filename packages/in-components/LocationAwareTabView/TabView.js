@@ -33,12 +33,12 @@ function TabView({
   tabChangeTracker,
   isInternalVisible,
   isTroubleshootingModeEnabled,
-  WithProps
+  withProps: customWithPropsExtension
 }) {
-  if (WithProps && !result.progress.loading) {
+  if (customWithPropsExtension) {
     props = {
       ...props,
-      ...WithProps({ result, ...props })
+      ...customWithPropsExtension({ result, ...props })
     };
   }
   const filteredTabs = tabs.filter(filterTabByResult(result)).filter(tab => {
