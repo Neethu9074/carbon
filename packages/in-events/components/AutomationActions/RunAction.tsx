@@ -38,11 +38,12 @@ import locals from './RunAction.mless';
 interface Props {
   script: string;
   volatileId: VolatileId;
-  event: Event | null;
+  event?: Event;
   action: Action;
+  test?: boolean;
 }
 
-export default function RunAction({ action, script, volatileId, event }: Props) {
+export default function RunAction({ action, script, volatileId, event, test }: Props) {
   const [actionInstanceId, setActionInstanceId] = useState('');
   const [error, setError] = useState('');
   const [isSaving, setIsSaving] = useState(false);
@@ -85,7 +86,7 @@ export default function RunAction({ action, script, volatileId, event }: Props) 
       </p>
     );
   } else {
-    title = t('in-events:chosenToRun', { actionName });
+    title = test ? t('in-events:chosenToTest', { actionName }) : t('in-events:chosenToRun', { actionName });
     content = (
       <>
         <DescriptionList>
@@ -115,6 +116,7 @@ export default function RunAction({ action, script, volatileId, event }: Props) 
         <SaveButton
           kind="primary"
           form={form}
+          disabled={!form}
           isSaving={isSaving}
           onClick={() => {
             if (!form?.hierarchyValid) {

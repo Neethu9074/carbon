@@ -7,12 +7,16 @@
 import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import {
   putDocLinkFields,
   putScriptField
 } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionFormDefinition';
 import { DOC_LINK_TYPE, isDocLink, isScript, SCRIPT_TYPE } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import TagsWrapper from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/TagsWrapper';
+import RunAction from 'in-events/components/AutomationActions/RunAction';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import HelpText from 'in-components/form/HelpText/HelpText';
@@ -97,7 +101,7 @@ export default function ActionForm({ form, setForm, onChange, entity: action }: 
                   onChange={e =>
                     onChange('type', e.target.value, (updatedForm: MapForm) => {
                       // WILL NEED TO UPDATE THIS FOR NEW TYPES
-                      const updatedType = updatedForm?.get('type')?.toJS();
+                      const updatedType = (updatedForm.get('type') as Field<string>).value;
                       if (isDocLink(updatedType)) {
                         updatedForm = updatedForm.remove('script');
                         updatedForm = putDocLinkFields(updatedForm, action);
@@ -120,7 +124,7 @@ export default function ActionForm({ form, setForm, onChange, entity: action }: 
             <FormGroup>
               <TagsWrapper form={form} setForm={setForm} onChange={onChange} />
             </FormGroup>
-            {isDocLink(form.get('type')?.toJS()) && (
+            {isDocLink(type.value) && (
               <>
                 {docLink.map(field => (
                   <FormGroup>
@@ -141,7 +145,7 @@ export default function ActionForm({ form, setForm, onChange, entity: action }: 
                 ))}
               </>
             )}
-            {isScript(form.get('type')?.toJS()) && (
+            {isScript(type.value) && (
               <>
                 {script.map(field => (
                   <FormGroup>
@@ -158,6 +162,20 @@ export default function ActionForm({ form, setForm, onChange, entity: action }: 
                     <HelpText className={locals.subTextFormField}>{t('in-settings:tabs.scriptDescription')}</HelpText>
                   </FormGroup>
                 ))}
+                <Button
+                  onClick={() =>
+                    addActiveDialog(
+                      <RunAction
+                        action={{ name: name.value, description: description.value } as Action}
+                        script={btoa(script.value)}
+                        volatileId={{}}
+                        test
+                      />
+                    )
+                  }
+                >
+                  {t('in-settings:tabs.test')}
+                </Button>
               </>
             )}
           </>
