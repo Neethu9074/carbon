@@ -49,7 +49,8 @@ export const columnDefinitions = [
   },
   {
     id: 'location_label',
-    sortable: false,
+    sortable: true,
+    defaultOrderDirection: 'ASC',
     label: t('in-synthetics:dashboard.locationList.locationDisplayLabel'),
     getContent(item: LocationListItem) {
       return (
@@ -101,19 +102,29 @@ export const columnDefinitions = [
   {
     id: 'last_test_run',
     label: t('in-synthetics:dashboard.locationList.lastRun'),
-    sortable: false,
+    sortable: true,
+    defaultOrderDirection: 'DESC',
     getContent(item: LocationListItem) {
-      return (
-        <div>
-          <h4 className={locals.label}>{formatDateTime(item.lastRunOn)}</h4>
-        </div>
-      );
+      if (item.lastRunOn > 0) {
+        return (
+          <div>
+            <h4 className={locals.label}>{formatDateTime(item.lastRunOn)}</h4>
+          </div>
+        );
+      } else {
+        return (
+          <div>
+            <h4 className={locals.label} />
+          </div>
+        );
+      }
     }
   },
   {
     id: 'namespace',
     label: t('in-synthetics:dashboard.locationList.namespace'),
-    sortable: false,
+    sortable: true,
+    defaultOrderDirection: 'ASC',
     getContent(item: LocationListItem) {
       const namespaceId: string = item.namespaceId ?? '';
       const namespace: string = item.namespace ?? '';

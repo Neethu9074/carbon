@@ -26,9 +26,15 @@ export default function StepwiseTestCreationContainer({ step, form, updateForm }
   function renderSteps() {
     switch (step) {
       case 0:
-        return <SelectTestStep selectedBlueprint={selectedBlueprint} onSelectBluePrint={setSelectedBlueprint} />;
+        return (
+          <SelectTestStep
+            selectedBlueprint={selectedBlueprint}
+            onSelectBluePrint={setSelectedBlueprint}
+            updateForm={updateForm}
+          />
+        );
       case 1:
-        return <RequestResponseStep form={form} updateForm={updateForm} />;
+        return <RequestResponseStep selectedBlueprint={selectedBlueprint} form={form} updateForm={updateForm} />;
       case 2:
         return <SelectScheduleStep form={form} updateForm={updateForm} />;
       case 3:

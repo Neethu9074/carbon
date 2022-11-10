@@ -88,7 +88,7 @@ export function getLocationData({
     baseTagFilters = [
       {
         stringValue: query,
-        name: 'location_id',
+        name: 'location_name',
         operator: CONTAINS,
         entity: NOT_APPLICABLE,
         type: 'TAG_FILTER'
