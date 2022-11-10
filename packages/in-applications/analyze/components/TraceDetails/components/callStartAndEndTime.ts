@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { TraceActivityTreeNode } from '@instana/types/index';
+import { TraceActivityTreeNode } from '@instana/types';
 
 import { GeneratedNode } from 'in-applications/analyze/AnalyzeView2_0/buildTraceActivityTree';
 
