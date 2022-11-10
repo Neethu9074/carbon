@@ -249,19 +249,56 @@ export function runScriptAction(
   );
 }
 
-export function runWebhookAction(webhook: string, volatileId: VolatileId, event: Event | null, actionName: string) {
+export function runWebhookAction(
+  volatileId: VolatileId,
+  event: Event | null,
+  actionName: string,
+  method: string,
+  host: string,
+  body: string,
+  ignoreCertErrors: string,
+  header: string
+) {
   return createAgentResponseObservable({
     action: 'action.run',
     target: volatileId,
     args: {
       type: 'HTTP',
-      command: webhook,
       async: 'true',
       event: JSON.stringify(event),
       problemId: event?.problem?.id,
       problemText: event?.problem?.problemText,
       actionName,
-      timeout: '300'
+      timeout: '300',
+      request: [
+        {
+          name: 'method',
+          value: method,
+          encoded: 'ascii'
+        },
+
+        {
+          name: 'host',
+          value: host,
+          encoded: 'base64'
+        },
+
+        {
+          name: 'body',
+          value: body,
+          encoding: 'base64'
+        },
+        {
+          name: 'ignoreCertErrors',
+          value: ignoreCertErrors,
+          encoding: 'ascii'
+        },
+        {
+          name: 'header',
+          value: header,
+          encoding: 'base64'
+        }
+      ]
     }
   });
 }

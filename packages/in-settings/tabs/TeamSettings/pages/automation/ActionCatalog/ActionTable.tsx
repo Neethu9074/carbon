@@ -11,7 +11,7 @@ import classNames from 'classnames';
 import { Button, Link } from '@instana/components';
 import { Observable } from '@instana/observables';
 
-import { getType, isDocLink, isScript } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
+import { getType, isDocLink, isScript, isWebhook } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import { teamSettingsActionCatalog, getEntityIdView } from 'in-settings/navigation/paths';
 import List, { leftHeaderWithSelectAll, TableActions } from 'in-settings/components/List';
 import Tag from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Tag';
@@ -89,6 +89,21 @@ const executeColumn = (volatileId: VolatileId, event: Event | null) => ({
         </Button>
       );
     } else if (isScript(type)) {
+      const field = fields?.[1];
+      const value = field?.value ?? '';
+      return (
+        <Button
+          kind="action"
+          icon={'lib_actions_play'}
+          onClick={() =>
+            addActiveDialog(<RunAction action={row} script={value} volatileId={volatileId} event={event} />)
+          }
+          noAutoMargin
+        >
+          {t('in-settings:tabs.run')}
+        </Button>
+      );
+    } else if (isWebhook(type)) {
       const field = fields?.[1];
       const value = field?.value ?? '';
       return (
