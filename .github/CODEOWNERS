@@ -35,7 +35,7 @@ packages/in-events/components/AutomationActions @pr-approval @Instana-IBM-GitHub
 # Shared ownership
 # packages/in-forge
 
-packages/in-forge/plugins           @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors
+packages/in-forge/plugins           @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
 # Specific ownerships for different sensors
 packages/in-forge/plugins/aceIntegrationNode                    @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-ibm-cdl-sensors
 packages/in-forge/plugins/aceIntegrationServer                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-ibm-cdl-sensors
