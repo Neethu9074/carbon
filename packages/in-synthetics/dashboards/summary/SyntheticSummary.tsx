@@ -71,6 +71,7 @@ function RenderMetaInformation({ test }: LocalProps) {
 function RenderButtonLine({ test, setReloadCount }: LocalProps) {
   const isActive: boolean = test.data?.active;
   const errorCode: string = get(test.errors?.at(0), ['code']);
+  const totalLocations: number = test.data?.locations?.length ?? 0;
 
   function pauseOrResume(test: SyntheticTest) {
     const { active } = test;
@@ -90,10 +91,12 @@ function RenderButtonLine({ test, setReloadCount }: LocalProps) {
       {t('in-synthetics:dashboard.testList.deleted')}
     </Button>
   ) : (
+    //If a test has no location(s) associated with it, disable Pause/Resume button
     <Button
       kind="primary"
       icon={isActive ? 'lib_actions_pause' : 'lib_actions_play'}
       onClick={() => pauseOrResume(test.data)}
+      disabled={totalLocations > 0 ? false : true}
     >
       {isActive ? t('in-synthetics:dashboard.testList.pause') : t('in-synthetics:dashboard.testList.resume')}
     </Button>

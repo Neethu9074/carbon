@@ -50,6 +50,7 @@ export default function ListActionsColumn({ item, isLoading }: Props) {
 
   const testId: string = item?.testResultCommonProperties?.testCommonProperties?.id ?? '';
   const testLabel: string = item?.testResultCommonProperties?.testCommonProperties?.label ?? '';
+  const totalLocations: number = item?.testResultCommonProperties?.testCommonProperties?.locationIds?.length ?? 0;
 
   const syntheticTest: TestResponse = useObservable<any, [number]>(() => getTest(testId), [reloadCount]) || dummyTest;
   const active: boolean = syntheticTest.data?.active || false;
@@ -118,6 +119,7 @@ export default function ListActionsColumn({ item, isLoading }: Props) {
     );
   }
 
+  // For tests without location(s), disable the Pause/Resume button
   return (
     <HorizontalFlexWrapper className={locals.actions}>
       <Tooltip content={pauseResume}>
@@ -128,6 +130,7 @@ export default function ListActionsColumn({ item, isLoading }: Props) {
           // @ts-expect-error Type 'undefined' is not assignable to type 'SyntheticTest'.
           onClick={() => pauseOrResume(syntheticTest.data)}
           alignment="right"
+          disabled={totalLocations > 0 ? false : true}
         />
       </Tooltip>
       <MoreMenu
