@@ -145,7 +145,7 @@ export function removeScriptField(form: MapForm) {
 export function putWebhookFields(form: MapForm, action: ActionFormEntity) {
   if (!isWebhook(action.type)) {
     return form
-      .put('method', createField({ value: '', validator: notBlankValidator }))
+      .put('method', createField({ value: 'GET', validator: notBlankValidator }))
       .put('host', createField({ value: '', validator: notBlankValidator }))
       .put('body', createField({ value: '' }))
       .put('ignoreCertErrors', createField({ value: false }))
@@ -174,7 +174,7 @@ export function putWebhookFields(form: MapForm, action: ActionFormEntity) {
       .put(
         'method',
         createField({
-          value: method?.value ?? '',
+          value: method?.value ?? 'GET',
           validator: notBlankValidator
         })
       )

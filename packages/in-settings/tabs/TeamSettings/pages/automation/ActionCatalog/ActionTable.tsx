@@ -16,8 +16,7 @@ import {
   isDocLink,
   isScript,
   isWebhook,
-  getDocLinkFromFields,
-  getScriptFromFields
+  getDocLinkFromFields
 } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import { teamSettingsActionCatalog, getEntityIdView } from 'in-settings/navigation/paths';
 import List, { leftHeaderWithSelectAll, TableActions } from 'in-settings/components/List';
@@ -96,31 +95,12 @@ const executeColumn = (volatileId: VolatileId, event?: Event) => ({
           {t('in-settings:tabs.launch')}
         </Button>
       );
-    } else if (isScript(type)) {
-      const field = getScriptFromFields(fields);
-      const value = field?.value ?? '';
+    } else if (isScript(type) || isWebhook(type)) {
       return (
         <Button
           kind="action"
           icon={'lib_actions_play'}
-          onClick={() =>
-            addActiveDialog(<RunAction action={row} script={value} volatileId={volatileId} event={event} />)
-          }
-          noAutoMargin
-        >
-          {t('in-settings:tabs.run')}
-        </Button>
-      );
-    } else if (isWebhook(type)) {
-      const field = fields?.[1];
-      const value = field?.value ?? '';
-      return (
-        <Button
-          kind="action"
-          icon={'lib_actions_play'}
-          onClick={() =>
-            addActiveDialog(<RunAction action={row} script={value} volatileId={volatileId} event={event} />)
-          }
+          onClick={() => addActiveDialog(<RunAction action={row} volatileId={volatileId} event={event} />)}
           noAutoMargin
         >
           {t('in-settings:tabs.run')}
@@ -138,16 +118,14 @@ const testColumn = {
   widthInAbsoluteUnit: true,
   width: '4rem',
   getContent(row: Action) {
-    const { type, fields } = row;
+    const { type } = row;
     if (type === 'SCRIPT') {
-      const field = fields?.[1];
-      const value = field?.value ?? '';
       return (
         <Tooltip content={t('in-settings:tabs.test')} delay={500}>
           <IconButton
             kind="primaryv2"
             type={'lib_actions_play'}
-            onClick={() => addActiveDialog(<RunAction test action={row} script={value} volatileId={{}} />)}
+            onClick={() => addActiveDialog(<RunAction test action={row} volatileId={{}} />)}
           />
         </Tooltip>
       );

@@ -6,7 +6,7 @@
 
 import { combineLatest, just, Observable, timeout } from '@instana/observables';
 
-import { DOC_LINK_TYPE } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
+import { DOC_LINK_TYPE, HTTP_METHODS_WITH_BODY } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import createAgentResponseObservable from 'in-subscription/agentResponse';
 import { Action, Field, VolatileId, Event, ActionMatch } from 'in-types';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
@@ -130,8 +130,6 @@ export const createWebhookFields = ({
 }: {
   host: string;
   method: string;
-  username: string;
-  password: string;
   accept: string;
   acceptLanguage: string;
   contentType: string;
@@ -155,7 +153,7 @@ export const createWebhookFields = ({
     value: JSON.stringify({
       Accept: accept,
       'Accept-Language': acceptLanguage,
-      'Content-Type': contentType,
+      ...(HTTP_METHODS_WITH_BODY.includes(method) ? { 'Content-Type': contentType } : {}),
       ...additionalHeaders
     }),
     description: 'header of the https request',
@@ -249,56 +247,79 @@ export function runScriptAction(
   );
 }
 
-export function runWebhookAction(
-  volatileId: VolatileId,
-  event: Event | undefined,
-  actionName: string,
-  method: string,
-  host: string,
-  body: string,
-  ignoreCertErrors: string,
-  header: string
-) {
-  return createAgentResponseObservable({
-    action: 'action.run',
-    target: volatileId,
-    args: {
-      type: 'HTTP',
-      async: 'true',
-      event: JSON.stringify(event),
-      problemId: event?.problem?.id,
-      problemText: event?.problem?.problemText,
-      actionName,
-      timeout: '300',
-      request: [
-        {
-          name: 'method',
-          value: method,
-          encoded: 'ascii'
-        },
+interface RunWebhookActionParams {
+  volatileId: VolatileId;
+  event: Event | undefined;
+  actionName: string;
+  method: string;
+  host: string;
+  body: string;
+  ignoreCertErrors: string;
+  header: string;
+}
 
-        {
-          name: 'host',
-          value: host,
-          encoded: 'base64'
-        },
+export function runWebhookAction({
+  volatileId,
+  event,
+  actionName,
+  method,
+  host,
+  body,
+  ignoreCertErrors,
+  header
+}: RunWebhookActionParams) {
+  return combineLatest([
+    timeout(10000).flatMap(() =>
+      just(
+        error<null>([
+          {
+            message: t('in-events:actionSensorTimeout'),
+            code: 'TIMEOUT'
+          }
+        ])
+      )
+    ),
+    createAgentResponseObservable({
+      action: 'action.run',
+      target: volatileId,
+      args: {
+        type: 'HTTP',
+        async: 'true',
+        event: JSON.stringify(event),
+        problemId: event?.problem?.id,
+        problemText: event?.problem?.problemText,
+        actionName,
+        timeout: '300',
+        request: [
+          {
+            name: 'method',
+            value: method,
+            encoded: 'ascii'
+          },
 
-        {
-          name: 'body',
-          value: body,
-          encoding: 'base64'
-        },
-        {
-          name: 'ignoreCertErrors',
-          value: ignoreCertErrors,
-          encoding: 'ascii'
-        },
-        {
-          name: 'header',
-          value: header,
-          encoding: 'base64'
-        }
-      ]
-    }
-  });
+          {
+            name: 'host',
+            value: btoa(host),
+            encoded: 'base64'
+          },
+
+          {
+            name: 'body',
+            value: btoa(body),
+            encoding: 'base64'
+          },
+          {
+            name: 'ignoreCertErrors',
+            value: ignoreCertErrors,
+            encoding: 'ascii'
+          },
+          {
+            name: 'header',
+            value: btoa(header),
+            encoding: 'base64'
+          }
+        ]
+      }
+    })
+  ]);
 }

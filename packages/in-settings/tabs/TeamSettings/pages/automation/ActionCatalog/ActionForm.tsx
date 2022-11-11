@@ -27,6 +27,7 @@ import {
   AUTH_TYPES,
   DOC_LINK_TYPE,
   HTTP_METHODS,
+  HTTP_METHODS_WITH_BODY,
   isDocLink,
   isScript,
   isWebhook,
@@ -36,9 +37,9 @@ import {
 import AdditionalHeadersTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/AdditionalHeadersTable';
 import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import TagsTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/TagsTable';
-import { OnChange, SetForm } from 'in-settings/hooks/useEntityForm';
 import RunAction from 'in-events/components/AutomationActions/RunAction';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { OnChange, SetForm } from 'in-settings/hooks/useEntityForm';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import HelpText from 'in-components/form/HelpText/HelpText';
@@ -49,10 +50,10 @@ import Code from 'in-components/form/Code/Code';
 import Select from 'in-components/form/Select';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
+import { Action } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './ActionForm.mless';
-import { Action } from 'in-types';
 
 interface ActionFormProps {
   form: MapForm;
@@ -210,8 +211,14 @@ const ScriptSection = ({ form, onChange }: Omit<ActionFormProps, 'setForm' | 'en
         onClick={() =>
           addActiveDialog(
             <RunAction
-              action={{ name: name.value, description: description.value } as Action}
-              script={btoa(script.value)}
+              action={
+                {
+                  name: name.value,
+                  description: description.value,
+                  type: SCRIPT_TYPE,
+                  fields: [{ name: 'script_ssh', value: btoa(script.value), encoding: 'base64' }]
+                } as Action
+              }
               volatileId={{}}
               test
             />
@@ -240,7 +247,7 @@ const WebhookSection = ({ form, setForm, onChange, entity: action }: ActionFormP
   const apiKeyValue = form.get('apiKeyValue') as Field<string>;
   const apiKeyAddTo = form.get('apiKeyAddTo') as Field<string>;
 
-  const renderBodyAndContentType = ['PATCH', 'PUT', 'POST'].includes(method.value);
+  const renderBodyAndContentType = HTTP_METHODS_WITH_BODY.includes(method.value);
   return (
     <>
       <Row>

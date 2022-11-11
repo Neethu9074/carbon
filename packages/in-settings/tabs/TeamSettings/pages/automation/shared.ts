@@ -16,7 +16,7 @@ export const getType = (action: Action | Nullish) => {
   } else if (isScript(action?.type)) {
     return t('in-settings:tabs.script');
   } else if (isWebhook(action?.type)) {
-    return t('in-settings:tabs.HTTP');
+    return t('in-settings:tabs.http');
   } else {
     return action?.type;
   }
@@ -24,7 +24,15 @@ export const getType = (action: Action | Nullish) => {
 
 const getFieldsByNames = (fields: Field[] | undefined): Record<string, Field | null> => keyBy(fields, 'name');
 export const getScriptFromFields = (fields: Field[] | undefined) => getFieldsByNames(fields)?.script_ssh;
+export const getInterpreterFromFields = (fields: Field[] | undefined) => getFieldsByNames(fields)?.interpreter;
 export const getDocLinkFromFields = (fields: Field[] | undefined) => getFieldsByNames(fields)?.URL;
+export const getBodyFromFields = (fields: Field[] | undefined) => getFieldsByNames(fields)?.body;
+export const getHeaderFromFields = (fields: Field[] | undefined) => getFieldsByNames(fields)?.header;
+export const getMethodFromFields = (fields: Field[] | undefined) => getFieldsByNames(fields)?.method;
+export const getHostFromFields = (fields: Field[] | undefined) => getFieldsByNames(fields)?.host;
+export const getIgnoreCertErrorsFromFields = (fields: Field[] | undefined) =>
+  getFieldsByNames(fields)?.ignoreCertErrors;
+export const getAuthenFromFields = (fields: Field[] | undefined) => getFieldsByNames(fields)?.authen;
 
 export const isDocLink = (type?: string) => type === DOC_LINK_TYPE;
 export const isScript = (type?: string) => type === SCRIPT_TYPE;
@@ -34,7 +42,8 @@ export const DOC_LINK_TYPE = 'doc_link';
 export const SCRIPT_TYPE = 'SCRIPT';
 export const WEBHOOK_TYPE = 'HTTP';
 
-export const HTTP_METHODS = Object.freeze(['GET', 'PATCH', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'HEAD', 'TRACE']);
+export const HTTP_METHODS = Object.freeze(['GET', 'POST', 'PUT', 'DELETE']);
+export const HTTP_METHODS_WITH_BODY = Object.freeze(['POST', 'PUT']);
 
 export const AUTH_TYPES = Object.freeze([
   { value: 'noAuth', translation: t('in-settings:tabs.noAuth') },

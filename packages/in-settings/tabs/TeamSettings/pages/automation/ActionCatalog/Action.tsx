@@ -151,8 +151,6 @@ function getActionSpecification(form: MapForm): NewAction {
   } else if (isWebhook(type)) {
     const host = (form.get('host') as FormField<string>).value;
     const method = (form.get('method') as FormField<string>).value;
-    const username = (form.get('username') as FormField<string>).value;
-    const password = (form.get('password') as FormField<string>).value;
     const accept = (form.get('accept') as FormField<string>).value;
     const acceptLanguage = (form.get('acceptLanguage') as FormField<string>).value;
     const contentType = (form.get('contentType') as FormField<string>).value;
@@ -185,8 +183,6 @@ function getActionSpecification(form: MapForm): NewAction {
       ...createWebhookFields({
         host,
         method,
-        username,
-        password,
         accept,
         acceptLanguage,
         contentType,

@@ -896,7 +896,7 @@
     "header": "Header",
     "queryParams": "Query Params",
     "test": "Test",
-    "HTTP": "HTTP"
+    "http": "HTTP"
   },
   "languageSelection": {
     "language": "Language",
