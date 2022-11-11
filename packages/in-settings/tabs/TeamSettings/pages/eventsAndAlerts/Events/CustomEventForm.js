@@ -25,6 +25,8 @@ import {
 import { getSelectedApplicationConfigsByName } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/components/Applications';
 import { getEntityTypeOptionsOfBuiltInMetrics } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import { EventDetailsSection } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/EventDetailsSection';
+// import { pendingResult } from 'in-services/fixedObjects';
+import { containsMetricInList } from 'in-sdk/metrics';
 import { ConditionsSection } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ConditionsSection';
 import ActionsSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ActionsSelection';
 import ScopeSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ScopeSelection';
@@ -37,8 +39,6 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import { isBlank, isNotBlank } from 'in-services/util/string';
 import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
-import { pendingResult } from 'in-services/fixedObjects';
-import { containsMetricInList } from 'in-sdk/metrics';
 import { validate } from 'in-api/search';
 import { t } from 'in-i18n';
 
@@ -51,83 +51,60 @@ const queryIsValid = just([true, true]);
 // start showing the progress indicator for the query validation and prohibit saving the form as long as the query
 // validation is in progress.
 const queryInput = create();
-// 2. queryValidationFinished emits when the subscription doing the validation has produced a new result, thus we now
-// can stop the progress indicator for the query validation and enable saving the form again.
-
-// export default compose(
-//   connectTo(({ form }) => {
-//     const observables = {};
-//     if (isCustomDataSourceSelected(form)) {
-//       observables.pluginsWithCustomMetrics = getPluginsWithCustomMetricsOptionsObservable();
-//       const entityType = form.get('entityType').value;
-//       if (entityType) {
-//         observables.customMetricsForPlugin = getCustomMetricsOptionsForPluginObservable(entityType);
-//       }
-//     }
-//     return observables;
-//   }),
-//   connectTo({
-//     // Maintenance notice: Do no use a function to create the connectTo-observable here, only use an object literal.
-//     // Otherwise the observable will be recreated all the time leading to continuuos validation requests.
-//     queryValidationResult: queryInput
-//       .distinct()
-//       .debounce(1000)
-//       .flatMap(query => {
-//         if (isNotBlank(query)) {
-//           return validate(query);
-//         } else {
-//           return queryIsValid;
-//         }
-//       })
-//       .tap(() => queryValidationFinished.emit(true))
-//   }),
-//   connectTo(props => {
-//     const selectedApplicationName = props.form.get('application') ? props.form.get('application').value : '';
-//     if (selectedApplicationName === null || isBlank(selectedApplicationName)) {
-//       return {
-//         existingApplication: null
-//       };
-//     }
-//     return {
-//       existingApplication: getSelectedApplicationConfigsByName(selectedApplicationName)
-//     };
-//   }),
-//   withState('queryValidationInProgress', 'setQueryValidationInProgress', false),
-//   connectTo(({ setQueryValidationInProgress, setSaveEnabled }) => ({
-//     queryValidationFinished: queryValidationFinished.distinct().tap(finished => {
-//       if (finished) {
-//         setQueryValidationProgressState(false, setQueryValidationInProgress, setSaveEnabled);
-//       }
-//       queryValidationFinished.emit(false);
-//     })
-//   })),
-//   lifecycle({
-//     componentDidMount() {
-//       const { entity } = this.props;
-//       // Validate the query once initially after loading an event specification.
-//       if (isNotBlank(entity.query)) {
-//         queryInput.emit(entity.query);
-//       }
-//     }
-//   })
-// )(EventForm);
 
 export default function EventForm({
   form,
   setForm,
   onChange,
-  // pluginsWithCustomMetrics,
-  // customMetricsForPlugin,
-  // queryValidationResult,
-  // queryValidationInProgress,
-  // setQueryValidationInProgress,
   setSaveEnabled,
   hideLegacyAppDataEventDeprecationInfo,
-  // existingApplication,
   disabled,
   entity
 }) {
   let queryValidationFinished = create();
+  const entityType = form.get('entityType')?.value;
+
+  const pluginsWithCustomMetrics = useObservable(() => {
+    if (isCustomDataSourceSelected(form)) {
+      return getPluginsWithCustomMetricsOptionsObservable();
+    }
+  }, [form]);
+
+  const customMetricsForPlugin = useObservable(() => {
+    if (entityType) {
+      return getCustomMetricsOptionsForPluginObservable(entityType);
+    }
+  }, [entityType]);
+
+  const queryValidationResult = useObservable(
+    queryInput
+      .distinct()
+      .debounce(1000)
+      .flatMap(query => {
+        if (isNotBlank(query)) {
+          return validate(query);
+        } else {
+          return queryIsValid;
+        }
+      })
+      .tap(() => queryValidationFinished.emit(true)),
+    []
+  );
+  const [queryValidationInProgress, setQueryValidationInProgress] = useState(false);
+  queryValidationFinished = useObservable(
+    queryValidationFinished.distinct().tap(finished => {
+      if (finished) {
+        setQueryValidationProgressState(false, setQueryValidationInProgress, setSaveEnabled);
+      }
+      queryValidationFinished.emit(false);
+    }),
+    [setQueryValidationInProgress, setSaveEnabled]
+  );
+  const selectedApplicationName = form.get('application') ? form.get('application').value : '';
+  const existingApplication =
+    selectedApplicationName === null || isBlank(selectedApplicationName)
+      ? null
+      : getSelectedApplicationConfigsByName(selectedApplicationName);
   useEffect(() => {
     if (isNotBlank(entity.query)) {
       queryInput.emit(entity.query);
@@ -135,89 +112,6 @@ export default function EventForm({
     // Deliberately executing Mixpanel tracking on these prop changes
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [entity, queryInput]);
-
-  const entityType = form.get('entityType').value;
-
-  const pluginsWithCustomMetrics =
-    useObservable(() => {
-      if (isCustomDataSourceSelected(form)) {
-        getPluginsWithCustomMetricsOptionsObservable();
-      }
-    }, [form]) ?? pendingResult;
-  const customMetricsForPlugin =
-    useObservable(() => {
-      if (entityType) {
-        getCustomMetricsOptionsForPluginObservable(entityType);
-      }
-    }, [entityType]) ?? pendingResult;
-
-  const queryValidationResult =
-    useObservable(
-      queryInput
-        .distinct()
-        .debounce(1000)
-        .flatMap(query => {
-          if (isNotBlank(query)) {
-            return validate(query);
-          } else {
-            return queryIsValid;
-          }
-        })
-        .tap(() => queryValidationFinished.emit(true)),
-      []
-    ) ?? pendingResult;
-  const [queryValidationInProgress, setQueryValidationInProgress] = useState(false);
-  queryValidationFinished =
-    useObservable(
-      queryValidationFinished.distinct().tap(finished => {
-        if (finished) {
-          setQueryValidationProgressState(false, setQueryValidationInProgress, setSaveEnabled);
-        }
-        queryValidationFinished.emit(false);
-      }),
-      [setQueryValidationInProgress, setSaveEnabled]
-    ) ?? pendingResult;
-  const selectedApplicationName = form.get('application') ? form.get('application').value : '';
-  const existingApplication =
-    selectedApplicationName === null || isBlank(selectedApplicationName)
-      ? null
-      : getSelectedApplicationConfigsByName(selectedApplicationName);
-
-  //   connectTo({
-  //     // Maintenance notice: Do no use a function to create the connectTo-observable here, only use an object literal.
-  //     // Otherwise the observable will be recreated all the time leading to continuuos validation requests.
-  //     queryValidationResult: queryInput
-  //       .distinct()
-  //       .debounce(1000)
-  //       .flatMap(query => {
-  //         if (isNotBlank(query)) {
-  //           return validate(query);
-  //         } else {
-  //           return queryIsValid;
-  //         }
-  //       })
-  //       .tap(() => queryValidationFinished.emit(true))
-  //   }),
-
-  // const serviceNodes = useObservable(
-  //   getServiceLocators(props.serviceLocatorUid)
-  //     .nodesServiceLocator.getNodes()
-  //     .stream.debounce(100)
-  //     .map(nodes => {
-  //       if (!nodes || nodes.size === 0) {
-  //         return null;
-  //       }
-
-  //       const nodeSceneObjects = nodes.values();
-  //       const nodesArray = [];
-  //       let arrayIndex = 0;
-  //       for (const node of nodeSceneObjects) {
-  //         nodesArray[arrayIndex++] = node;
-  //       }
-  //       return nodesArray;
-  //     }),
-  //   [props.serviceLocatorUid]
-  // );
 
   addCurrentCustomMetricToListIfMissing(customMetricsForPlugin, form);
 
