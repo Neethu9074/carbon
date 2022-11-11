@@ -39,19 +39,20 @@ export interface Tag {
   value: string;
 }
 
+export type ActionFormEntity = NewAction | Action;
 export default function ActionEntityForm(props: RouteComponentProps<MatchParams>) {
   const id = props.match.params.id;
   const entityId = id === 'new' ? null : id;
   const entityFormParam = {
     entityId,
     createDefaultEntity: createAction,
-    createForm: (action: NewAction | Action) => createActionFormDefinition(action, !entityId),
+    createForm: (action: ActionFormEntity) => createActionFormDefinition(action, !entityId),
     getEntityFromApi: getAction,
-    saveEntity: (_: NewAction | Action, form: MapForm) => save(form, entityId),
+    saveEntity: (_: ActionFormEntity, form: MapForm) => save(form, entityId),
     openEntities: () => goToPath(teamSettingsActionCatalog)
   };
   const { entity, form, isCreate, saveEnabled, loading, error, message, onSubmit, setForm, onChange } = useEntityForm<
-    NewAction | Action
+    ActionFormEntity
   >(entityFormParam);
   let content: JSX.Element;
   const errorLoading = error && !entity;

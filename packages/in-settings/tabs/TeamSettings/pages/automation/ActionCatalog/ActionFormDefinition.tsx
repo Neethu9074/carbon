@@ -8,6 +8,7 @@ import { createField, createMapForm, MapForm } from 'formalistic';
 
 import { generateUniqueShortId } from '@instana/utils';
 
+import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import {
   getDocLinkFromFields,
   getScriptFromFields,
@@ -15,10 +16,9 @@ import {
   isScript
 } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import { notBlankValidator } from 'in-services/validators/string';
-import { NewAction } from 'in-api/automation';
 import { t } from 'in-i18n';
 
-export function createActionFormDefinition(action: NewAction, _isCreate: boolean) {
+export function createActionFormDefinition(action: ActionFormEntity, _isCreate: boolean) {
   const tags = action.tags ?? [];
   const mappedTags = tags.map(tag => ({ value: tag, id: generateUniqueShortId() }));
 
@@ -67,7 +67,7 @@ export function createActionFormDefinition(action: NewAction, _isCreate: boolean
   return form;
 }
 
-export function putDocLinkFields(form: MapForm, action: NewAction) {
+export function putDocLinkFields(form: MapForm, action: ActionFormEntity) {
   const field = getDocLinkFromFields(action.fields);
   const value = isDocLink(action.type) ? field?.value : '';
 
@@ -80,7 +80,7 @@ export function putDocLinkFields(form: MapForm, action: NewAction) {
   );
 }
 
-export function putScriptField(form: MapForm, action: NewAction) {
+export function putScriptField(form: MapForm, action: ActionFormEntity) {
   let value = '';
   if (isScript(action.type)) {
     const field = getScriptFromFields(action.fields);

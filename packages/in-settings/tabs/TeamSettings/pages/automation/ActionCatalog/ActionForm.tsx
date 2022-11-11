@@ -14,29 +14,29 @@ import {
   putScriptField
 } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionFormDefinition';
 import { DOC_LINK_TYPE, isDocLink, isScript, SCRIPT_TYPE } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
+import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import TagsWrapper from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/TagsWrapper';
 import RunAction from 'in-events/components/AutomationActions/RunAction';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import { OnEntityChange } from 'in-settings/hooks/useEntityForm';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import FormGroup from 'in-settings/components/FormGroup';
 import TextArea from 'in-components/form/TextArea';
 import Code from 'in-components/form/Code/Code';
 import Select from 'in-components/form/Select';
-import { NewAction } from 'in-api/automation';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
-import { Action } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './ActionForm.mless';
 
 interface ActionFormProps {
   form: MapForm;
-  onChange: Function;
-  entity: NewAction | Action;
+  onChange: OnEntityChange<ActionFormEntity>;
+  entity: ActionFormEntity;
   setForm: (form: MapForm) => void;
 }
 
