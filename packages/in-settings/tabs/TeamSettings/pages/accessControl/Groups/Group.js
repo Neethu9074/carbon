@@ -46,6 +46,8 @@ import { goToPath } from 'in-stores/navigation';
 import { noop } from 'in-services/fixedObjects';
 import Title from 'in-components/Title/Title';
 import Label from 'in-components/form/Label';
+import Pill from 'in-components/Pill';
+import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './Group.mless';
@@ -162,12 +164,17 @@ function renderGroup(props) {
             <FormGroup>
               <Label>{t('in-settings:tabs.permissionScope')}</Label>
               {accessRestrictionWarning}
-              {productAreaPermissions.map(({ value, label }) => (
+              {productAreaPermissions.map(({ value, label, isNew }) => (
                 <HorizontalFormGroup
                   key={label}
                   helpText={t('in-settings:tabs.permitsAccessToLabelMonitoringFunctionality', { label: label })}
                 >
-                  <Label htmlFor={`permission-${value}`}>{label}</Label>
+                  <span>
+                    <Label htmlFor={`permission-${value}`}>{label}</Label>
+                    {isNew && (
+                      <Pill kind="inverted" color={theme.lib.colors.blue800}>{t('in-stores:permissionNewLabel')}</Pill>
+                    )}
+                  </span>
                   <Toggle
                     id={`permission-${value}`}
                     checked={field.value.permissions.includes(value)}

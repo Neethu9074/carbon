@@ -100,6 +100,7 @@
   "permissionCanViewAccountAndBillingInformationLabel": "Access to account and billing information",
   "permissionCanViewAccountAndBillingInformationDescription": "Permits access to account and billing information.",
   "permissionCanViewAccountAndBillingInformationCategory": "Account Information",
+  "permissionNewLabel": "NEW",
   "permissionRestrictedLabel": "Limit access by Areas and Scopes",
   "permissionRestrictedHelp": "When toggled on, limited access is enabled and the configured areas and scopes are applied.",
   "permissionRestrictedWarning": "Toggle on 'Limit access by Areas and Scopes' to apply access limitation for the group.",
