@@ -851,7 +851,7 @@
     "actions": "Actions",
     "action": "action",
     "actionWithNameForDelete": "action {{actionName}}",
-    "filterActions": "Filter Actions",
+    "searchActions": "Search Actions",
     "lastModified": "Last Modified",
     "script": "Script",
     "docLink": "Documentation Link",
