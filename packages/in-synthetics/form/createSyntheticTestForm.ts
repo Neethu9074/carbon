@@ -116,7 +116,8 @@ function createScriptConfigurationForm(savedState?: Record<string, any>) {
     .put(
       'script',
       createField({
-        value: savedState?.fileContent
+        value: savedState?.fileContent,
+        validator: notUndefinedValidator
       })
     );
 }
