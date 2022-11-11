@@ -8,7 +8,7 @@ import HostDashboard from 'promise-loader?global,vsphere!in-vsphere/Dashboards/H
 import VmDashboard from 'promise-loader?global,vsphere!in-vsphere/Dashboards/Vm/VmDashboard';
 import VSphereMainView from 'promise-loader?global,vsphere!in-vsphere/VSphereMainView';
 import { Route } from 'react-router-dom';
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import {
   datacenterDashboardFullyQualified,
@@ -18,11 +18,9 @@ import {
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import { vsphere } from 'in-vsphere/navigation/paths';
 
-export default (
-  <Fragment>
-    <Route path={datacenterDashboardFullyQualified} children={renderAsyncRouteChildren(DatacenterDashboard)} />
-    <Route path={hostDashboardFullyQualified} children={renderAsyncRouteChildren(HostDashboard)} />
-    <Route path={vmDashboardFullyQualified} children={renderAsyncRouteChildren(VmDashboard)} />
-    <Route path={vsphere} children={renderAsyncRouteChildren(VSphereMainView)} />
-  </Fragment>
-);
+export default [
+  <Route path={datacenterDashboardFullyQualified} children={renderAsyncRouteChildren(DatacenterDashboard)} />,
+  <Route path={hostDashboardFullyQualified} children={renderAsyncRouteChildren(HostDashboard)} />,
+  <Route path={vmDashboardFullyQualified} children={renderAsyncRouteChildren(VmDashboard)} />,
+  <Route path={vsphere} children={renderAsyncRouteChildren(VSphereMainView)} />
+];

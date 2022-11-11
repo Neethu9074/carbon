@@ -9,7 +9,7 @@ import AnalyzeView2_0 from 'promise-loader?global,websites!in-websites/analyze/A
 import NewWebsiteFlow from 'promise-loader?global,websites!in-websites/NewWebsiteFlow/NewWebsiteFlow';
 import WebsitesList from 'promise-loader?global,websites!in-websites/WebsitesList/WebsitesList';
 import { Route } from 'react-router-dom';
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import {
   websitesPathFullyQualified,
@@ -21,12 +21,10 @@ import {
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 
-export default (
-  <Fragment>
-    <Route path={websitesPathFullyQualified} children={renderAsyncRouteChildren(WebsitesList)} />
-    <Route path={websitePathFullyQualified} children={renderAsyncRouteChildren(WebsiteDashboard)} />
-    <Route path={newWebsitePathFullyQualified} children={renderAsyncRouteChildren(NewWebsiteFlow)} />
-    <Route path={analyzePathFullyQualified} children={renderAsyncRouteChildren(AnalyzeView2_0)} />
-    <RedirectWithHash from={websiteMonitoringPath} to={websitesPathFullyQualified} />
-  </Fragment>
-);
+export default [
+  <Route path={websitesPathFullyQualified} children={renderAsyncRouteChildren(WebsitesList)} />,
+  <Route path={websitePathFullyQualified} children={renderAsyncRouteChildren(WebsiteDashboard)} />,
+  <Route path={newWebsitePathFullyQualified} children={renderAsyncRouteChildren(NewWebsiteFlow)} />,
+  <Route path={analyzePathFullyQualified} children={renderAsyncRouteChildren(AnalyzeView2_0)} />,
+  <RedirectWithHash from={websiteMonitoringPath} to={websitesPathFullyQualified} />
+];

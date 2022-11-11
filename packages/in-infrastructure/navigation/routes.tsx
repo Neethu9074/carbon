@@ -13,7 +13,7 @@ import GraphView from 'promise-loader?global,graph-view!in-components/graphView/
 import Map from 'promise-loader?global,infrastructure!in-map/index';
 // @ts-expect-error module need to be translated to TS
 import { Route } from 'react-router-dom';
-import React, { Fragment } from 'react';
+import React from 'react';
 
 // @ts-expect-error module need to be translated to TS
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
@@ -23,12 +23,13 @@ import { infraExploreEnabled } from 'in-infrastructure/Explore/services/featureF
 import { infraExplorePath } from 'in-infrastructure/navigation/paths';
 import { containerPath, graphPath, physicalPath, tablePath } from 'in-stores/navigation/paths/mainPaths';
 
-export default (
-  <Fragment>
-    <Route path={physicalPath} children={renderAsyncRouteChildren(Map)} />
-    <Route path={containerPath} children={renderAsyncRouteChildren(Map)} />
-    <Route path={tablePath} children={renderAsyncRouteChildren(TableView)} />
-    <Route path={graphPath} children={renderAsyncRouteChildren(GraphView)} />
-    {infraExploreEnabled && <Route path={infraExplorePath} children={renderAsyncRouteChildren(InfraExploreView)} />}
-  </Fragment>
-);
+const infrastructureRoutes = [
+  <Route path={physicalPath} children={renderAsyncRouteChildren(Map)} />,
+  <Route path={containerPath} children={renderAsyncRouteChildren(Map)} />,
+  <Route path={tablePath} children={renderAsyncRouteChildren(TableView)} />,
+  <Route path={graphPath} children={renderAsyncRouteChildren(GraphView)} />
+];
+if (infraExploreEnabled) {
+  infrastructureRoutes.push(<Route path={infraExplorePath} children={renderAsyncRouteChildren(InfraExploreView)} />);
+}
+export default infraExploreEnabled;

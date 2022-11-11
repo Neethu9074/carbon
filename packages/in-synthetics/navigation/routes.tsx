@@ -13,7 +13,7 @@ import AnalyzeView from 'promise-loader?global,synthetics!in-synthetics/dashboar
 import SyntheticSummaryDashboard from 'promise-loader?global,synthetics!in-synthetics/dashboards/summary/SyntheticSummary';
 // @ts-expect-error module need to be translated to TS
 import { Route } from 'react-router-dom';
-import React, { Fragment } from 'react';
+import React from 'react';
 
 // @ts-expect-error module need to be translated to TS
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
@@ -24,15 +24,13 @@ import {
   syntheticDetailsPath
 } from 'in-synthetics/navigation/paths';
 
-export default (
-  <Fragment>
-    <Route exact path={syntheticsPath}>
-      {renderAsyncRouteChildren(SyntheticsView)}
-    </Route>
-    <Route exact path={syntheticLocationPath}>
-      {renderAsyncRouteChildren(SyntheticLocationView)}
-    </Route>
-    <Route path={syntheticsDashboard}>{renderAsyncRouteChildren(SyntheticSummaryDashboard)}</Route>
-    <Route path={syntheticDetailsPath}>{renderAsyncRouteChildren(AnalyzeView)}</Route>
-  </Fragment>
-);
+export default [
+  <Route exact path={syntheticsPath}>
+    {renderAsyncRouteChildren(SyntheticsView)}
+  </Route>,
+  <Route exact path={syntheticLocationPath}>
+    {renderAsyncRouteChildren(SyntheticLocationView)}
+  </Route>,
+  <Route path={syntheticsDashboard}>{renderAsyncRouteChildren(SyntheticSummaryDashboard)}</Route>,
+  <Route path={syntheticDetailsPath}>{renderAsyncRouteChildren(AnalyzeView)}</Route>
+];

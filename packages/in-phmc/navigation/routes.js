@@ -9,7 +9,7 @@ import ViosDashboard from 'promise-loader?global,phmc!in-phmc/Dashboards/Vios/Vi
 import LparDashboard from 'promise-loader?global,phmc!in-phmc/Dashboards/Lpar/LparDashboard';
 import PhmcMainView from 'promise-loader?global,phmc!in-phmc/PhmcMainView';
 import { Route } from 'react-router-dom';
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import {
   phmcDashboardFullyQualified,
@@ -20,12 +20,10 @@ import {
 } from 'in-phmc/navigation/paths';
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 
-export default (
-  <Fragment>
-    <Route path={phmcDashboardFullyQualified} children={renderAsyncRouteChildren(PhmcDashboard)} />
-    <Route path={systemDashboardFullyQualified} children={renderAsyncRouteChildren(SystemDashboard)} />
-    <Route path={viosDashboardFullyQualified} children={renderAsyncRouteChildren(ViosDashboard)} />
-    <Route path={lparDashboardFullyQualified} children={renderAsyncRouteChildren(LparDashboard)} />
-    <Route path={ibmp} children={renderAsyncRouteChildren(PhmcMainView)} />
-  </Fragment>
-);
+export default [
+  <Route path={phmcDashboardFullyQualified} children={renderAsyncRouteChildren(PhmcDashboard)} />,
+  <Route path={systemDashboardFullyQualified} children={renderAsyncRouteChildren(SystemDashboard)} />,
+  <Route path={viosDashboardFullyQualified} children={renderAsyncRouteChildren(ViosDashboard)} />,
+  <Route path={lparDashboardFullyQualified} children={renderAsyncRouteChildren(LparDashboard)} />,
+  <Route path={ibmp} children={renderAsyncRouteChildren(PhmcMainView)} />
+];

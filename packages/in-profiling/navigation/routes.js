@@ -11,9 +11,7 @@ import { analyzePathFullyQualified, profilingPath, analyzePath } from 'in-compon
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 
-export default (
-  <>
-    <Route path={analyzePathFullyQualified} children={renderAsyncRouteChildren(AnalyzeView)} />
-    <RedirectWithHash from={profilingPath} to={analyzePath} />
-  </>
-);
+export default [
+  <Route path={analyzePathFullyQualified} children={renderAsyncRouteChildren(AnalyzeView)} />,
+  <RedirectWithHash from={profilingPath} to={analyzePath} />
+];

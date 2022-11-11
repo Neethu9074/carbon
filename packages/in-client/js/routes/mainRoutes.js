@@ -5,7 +5,7 @@
 
 import AgentView from 'promise-loader?global,infrastructure!in-infrastructure/agentView/AgentView';
 import InternalViews from 'promise-loader?global,internal!in-internal';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import React from 'react';
 
 import {
@@ -23,7 +23,6 @@ import {
   hasEventsAccess
 } from 'in-stores/permission';
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
-import FragmentSupportingSwitch from 'in-components/FragmentSupportingSwitch';
 import customDashboardsRoutes from 'in-custom-dashboards/navigation/routes';
 import mobileAppMonitoringRoutes from 'in-mobile-apps/navigation/routes';
 import infrastructureRoutes from 'in-infrastructure/navigation/routes';
@@ -49,7 +48,7 @@ import phmcRoutes from 'in-phmc/navigation/routes';
 import zhmcRoutes from 'in-zhmc/navigation/routes';
 
 export default (
-  <FragmentSupportingSwitch>
+  <Switch>
     {hasInfrastructureAccess && infrastructureRoutes}
     {configurationRoutes}
     {role.canConfigureAgents && (
@@ -62,7 +61,7 @@ export default (
     {hasEventsAccess && eventRoutes}
 
     {hasSyntheticsAccess && syntheticsRoutes}
-    {hasApplicationsAccess && applicationRoutes}
+    {hasApplicationsAccess && applicationRoutes()}
     {hasKubernetesAccess && kubernetesRoutes}
     {hasPCFAccess && cloudfoundryRoutes}
     {hasPHMCAccess && phmcRoutes}
@@ -80,5 +79,5 @@ export default (
 
     {/* The landing page must be the very last item as it dynamically redirects */}
     <Route path="/" component={LandingPage} />
-  </FragmentSupportingSwitch>
+  </Switch>
 );

@@ -8,7 +8,7 @@ import InstanceDashboard from 'promise-loader?global,openstack!in-openstack/Dash
 import RegionDashboard from 'promise-loader?global,openstack!in-openstack/Dashboards/Regions/RegionDashboard';
 import OpenstackMainView from 'promise-loader?global,openstack!in-openstack/OpenstackMainView';
 import { Route } from 'react-router-dom';
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import {
   regionDashboardFullyQualified,
@@ -18,11 +18,9 @@ import {
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import { openstack } from 'in-openstack/navigation/paths';
 
-export default (
-  <Fragment>
-    <Route path={regionDashboardFullyQualified} children={renderAsyncRouteChildren(RegionDashboard)} />
-    <Route path={hypervisorDashboardFullyQualified} children={renderAsyncRouteChildren(HypervisorDashboard)} />
-    <Route path={instanceDashboardFullyQualified} children={renderAsyncRouteChildren(InstanceDashboard)} />
-    <Route path={openstack} children={renderAsyncRouteChildren(OpenstackMainView)} />
-  </Fragment>
-);
+export default [
+  <Route path={regionDashboardFullyQualified} children={renderAsyncRouteChildren(RegionDashboard)} />,
+  <Route path={hypervisorDashboardFullyQualified} children={renderAsyncRouteChildren(HypervisorDashboard)} />,
+  <Route path={instanceDashboardFullyQualified} children={renderAsyncRouteChildren(InstanceDashboard)} />,
+  <Route path={openstack} children={renderAsyncRouteChildren(OpenstackMainView)} />
+];
