@@ -32,7 +32,7 @@ export default function CallDetails(props) {
         traceId: traceId,
         nodeId: callId
       });
-    }, [traceId, callId, rootCall]) ?? pendingResult;
+    }, [traceId, callId]) ?? pendingResult;
 
   const websiteBeaconResult =
     useObservable(() => {
@@ -43,7 +43,7 @@ export default function CallDetails(props) {
           startTime
         });
       }
-    }, [traceId, correlationType, correlationId, startTime]) ?? pendingResult;
+    }, [traceId, correlationType, correlationId, startTime, rootCall, callId]) ?? pendingResult;
 
   const mobileAppBeaconResult =
     useObservable(() => {
@@ -54,10 +54,18 @@ export default function CallDetails(props) {
             windowSize: minutes.toMillis(20),
             to: startTime + minutes.toMillis(10),
             focusedMoment: startTime + minutes.toMillis(10)
+          },
+          order: {
+            by: 'mobileBeacon.timestamp', // Get the oldest beacon, which is most likely the one that triggered this trace. Please note that if a request
+            // is served from a cache, the given beacon will be linked to the old trace (the one whose response was cached).
+            direction: 'ASC'
+          },
+          pagination: {
+            retrievalSize: 1
           }
         });
       }
-    }, [traceId, minutes, startTime]) ?? pendingResult;
+    }, [traceId, minutes, startTime, rootCall, callId]) ?? pendingResult;
 
   const websiteBeacon = get(websiteBeaconResult, ['data', 'items', 0, 'beacon'], null);
   const mobileAppBeacon = get(mobileAppBeaconResult, ['data', 'items', 0, 'beacon'], null);

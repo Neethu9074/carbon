@@ -55,14 +55,14 @@ export default function HierarchicalLink({
   const hierarchy =
     useObservable(() => {
       return calculateHierarchy ? getPhysicalHierarchy({ snapshotId, includeCluster: false, timeConfig }) : alwaysNull;
-    }, [snapshotId, timeConfig]) ?? pendingResult;
+    }, [snapshotId, timeConfig, calculateHierarchy]) ?? pendingResult;
 
   const hierarchySnapshots =
     useObservable(() => {
       if (useSnapshotFromHierarchyCallback) {
         return hierarchy.flatMap(item => combineLatest(item.toArray().map(id => getSnapshot(id, timeConfig))));
       }
-    }, [snapshotId, timeConfig]) ?? pendingResult;
+    }, [snapshotId, timeConfig, useSnapshotFromHierarchyCallback, hierarchy]) ?? pendingResult;
 
   if (getSnapshotFromHierarchyCallback) {
     snapshot = getSnapshotFromHierarchyCallback(snapshot, hierarchySnapshots);
