@@ -32,4 +32,5 @@ const infrastructureRoutes = [
 if (infraExploreEnabled) {
   infrastructureRoutes.push(<Route path={infraExplorePath} children={renderAsyncRouteChildren(InfraExploreView)} />);
 }
-export default infraExploreEnabled;
+
+export default infrastructureRoutes;
