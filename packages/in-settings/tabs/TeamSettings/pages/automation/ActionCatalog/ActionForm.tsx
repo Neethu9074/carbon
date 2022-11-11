@@ -8,6 +8,7 @@ import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
 import { Button } from '@instana/components';
+import { Action } from '@instana/types';
 
 import {
   putDocLinkFields,
