@@ -138,7 +138,8 @@ export const createWebhookFields = ({
   contentType,
   additionalHeaders,
   body,
-  authen
+  authen,
+  ignoreCertErrors
 }: {
   host: string;
   method: string;
@@ -148,6 +149,7 @@ export const createWebhookFields = ({
   additionalHeaders: AdditionalHeaders;
   body: string;
   authen: Authen;
+  ignoreCertErrors: boolean;
 }): Field[] => [
   {
     description: 'method of the https request',
@@ -174,7 +176,7 @@ export const createWebhookFields = ({
   },
   {
     name: 'ignoreCertErrors',
-    value: 'true',
+    value: ignoreCertErrors ? 'true' : 'false',
     encoding: 'ascii',
     description: 'ignore certificate errors for request'
   },

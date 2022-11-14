@@ -23,16 +23,18 @@ export const getType = (action: Action | Nullish) => {
 };
 
 const getFieldsByNames = (fields: Field[] | undefined): Record<string, Field | null> => keyBy(fields, 'name');
-export const getScriptFromFields = (fields: Field[] | undefined) => getFieldsByNames(fields)?.script_ssh;
-export const getInterpreterFromFields = (fields: Field[] | undefined) => getFieldsByNames(fields)?.interpreter;
-export const getDocLinkFromFields = (fields: Field[] | undefined) => getFieldsByNames(fields)?.URL;
-export const getBodyFromFields = (fields: Field[] | undefined) => getFieldsByNames(fields)?.body;
-export const getHeaderFromFields = (fields: Field[] | undefined) => getFieldsByNames(fields)?.header;
-export const getMethodFromFields = (fields: Field[] | undefined) => getFieldsByNames(fields)?.method;
-export const getHostFromFields = (fields: Field[] | undefined) => getFieldsByNames(fields)?.host;
+export const getScriptFromFields = (fields: Field[] | undefined) => getFieldsByNames(fields)?.script_ssh?.value ?? '';
+export const getInterpreterFromFields = (fields: Field[] | undefined) =>
+  getFieldsByNames(fields)?.interpreter?.value ?? '';
+export const getDocLinkFromFields = (fields: Field[] | undefined) => getFieldsByNames(fields)?.URL?.value ?? '';
+export const getBodyFromFields = (fields: Field[] | undefined) => getFieldsByNames(fields)?.body?.value ?? '';
+export const getHeaderFromFields = (fields: Field[] | undefined) => getFieldsByNames(fields)?.header?.value ?? '{}';
+export const getMethodFromFields = (fields: Field[] | undefined) => getFieldsByNames(fields)?.method?.value ?? 'GET';
+export const getHostFromFields = (fields: Field[] | undefined) => getFieldsByNames(fields)?.host?.value ?? '';
 export const getIgnoreCertErrorsFromFields = (fields: Field[] | undefined) =>
-  getFieldsByNames(fields)?.ignoreCertErrors;
-export const getAuthenFromFields = (fields: Field[] | undefined) => getFieldsByNames(fields)?.authen;
+  getFieldsByNames(fields)?.ignoreCertErrors?.value ?? 'false';
+export const getAuthenFromFields = (fields: Field[] | undefined) =>
+  getFieldsByNames(fields)?.authen?.value ?? `{'type':'${NO_AUTH}'}`;
 
 export const isDocLink = (type?: string) => type === DOC_LINK_TYPE;
 export const isScript = (type?: string) => type === SCRIPT_TYPE;

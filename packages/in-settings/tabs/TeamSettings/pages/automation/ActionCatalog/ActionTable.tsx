@@ -76,8 +76,7 @@ const executeColumn = (volatileId: VolatileId, event?: Event) => ({
   getContent(row: Action) {
     const { type, fields } = row;
     if (isDocLink(type)) {
-      const field = getDocLinkFromFields(fields);
-      const value = field?.value;
+      const value = getDocLinkFromFields(fields);
       return (
         <Button
           kind="action"
@@ -119,7 +118,7 @@ const testColumn = {
   width: '4rem',
   getContent(row: Action) {
     const { type } = row;
-    if (type === 'SCRIPT') {
+    if (isScript(type) || isWebhook(type)) {
       return (
         <Tooltip content={t('in-settings:tabs.test')} delay={500}>
           <IconButton

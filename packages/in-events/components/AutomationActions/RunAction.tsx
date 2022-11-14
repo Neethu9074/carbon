@@ -12,6 +12,9 @@ import { Button, Link } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import {
+  API_KEY,
+  BASIC_AUTH,
+  BEARER_TOKEN,
   getAuthenFromFields,
   getBodyFromFields,
   getHeaderFromFields,
@@ -25,10 +28,10 @@ import {
 } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import { DescriptionItem, DescriptionList } from 'in-components/DescriptionList/DescriptionList';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
+import { AdditionalHeaders, Authen, runScriptAction, runWebhookAction } from 'in-api/automation';
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
-import { Authen, runScriptAction, runWebhookAction } from 'in-api/automation';
 import { notBlankValidator } from 'in-services/validators/string';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import { getLinkToAnalyze } from 'in-logging/navigation/paths';
@@ -100,8 +103,7 @@ export default function RunAction({ action, volatileId, event, test }: Props) {
     title = test ? t('in-events:chosenToTest', { actionName }) : t('in-events:chosenToRun', { actionName });
     let actionContent: JSX.Element = <></>;
     if (isScript(action.type)) {
-      const scriptField = getScriptFromFields(action.fields);
-      const script = scriptField?.value ?? '';
+      const script = getScriptFromFields(action.fields);
       actionContent = <Code withExpandButton withoutCopyButton code={atob(script)} lang={'bash'} softWrap />;
     } else if (isWebhook(action.type)) {
       const { host, method, body, ignoreCertErrors, header } = getWebhookFields();
@@ -156,7 +158,42 @@ export default function RunAction({ action, volatileId, event, test }: Props) {
               actionType: action.type,
               actionName: action.name
             });
-            runAction();
+            const selectedVolatileId =
+              agentSnapShots?.data?.online?.find(agent => agent.volatileId?.host_id === targetAgent?.value)
+                ?.volatileId ?? {};
+            const handleActionResponse = (data: [Result<null>, AgentResponse]) => {
+              setIsSaving(false);
+              // last element of the array is either the timeout error if the agent didn't respond in time, or the agent response (error or in progress)
+              // result unknown because we only care about error
+              const response: Result<null> | AgentResponse = data[data.length - 1];
+              if ('errors' in response) {
+                setError(response.errors[0].message);
+              } else if ('error' in response && response.error != null) {
+                setError(response.error);
+              } else {
+                setActionInstanceId(response.data.actionInstanceId);
+              }
+            };
+
+            if (isScript(action.type)) {
+              const script = getScriptFromFields(action.fields);
+              const interpreter = getInterpreterFromFields(action.fields);
+              runScriptAction({ script, volatileId: selectedVolatileId, event, actionName, interpreter }).once(
+                handleActionResponse
+              );
+            } else if (isWebhook(action.type)) {
+              const { host, method, body, ignoreCertErrors, header } = getWebhookFields();
+              runWebhookAction({
+                volatileId: selectedVolatileId,
+                event,
+                actionName,
+                host,
+                method,
+                body,
+                ignoreCertErrors,
+                header
+              }).once(handleActionResponse);
+            }
           }}
         >
           {t('in-events:yes')}
@@ -178,75 +215,24 @@ export default function RunAction({ action, volatileId, event, test }: Props) {
       </>
     </Dialog>
   );
-  function runAction() {
-    const selectedVolatileId =
-      agentSnapShots?.data?.online?.find(agent => agent.volatileId?.host_id === targetAgent?.value)?.volatileId ?? {};
-    if (isScript(action.type)) {
-      const scriptField = getScriptFromFields(action.fields);
-      const script = scriptField?.value ?? '';
-      const interpreterField = getInterpreterFromFields(action.fields);
-      const interpreter = interpreterField?.value ?? '';
-      runScriptAction({ script, volatileId: selectedVolatileId, event, actionName, interpreter }).once(data => {
-        setIsSaving(false);
-        // last element of the array is either the timeout error if the agent didn't respond in time, or the agent response (error or in progress)
-        // result unknown because we only care about error
-        const response: Result<null> | AgentResponse = data[data.length - 1];
-        if ('errors' in response) {
-          setError(response.errors[0].message);
-        } else if ('error' in response && response.error != null) {
-          setError(response.error);
-        } else {
-          setActionInstanceId(response.data.actionInstanceId);
-        }
-      });
-    } else if (isWebhook(action.type)) {
-      const { host, method, body, ignoreCertErrors, header } = getWebhookFields();
-      runWebhookAction({
-        volatileId: selectedVolatileId,
-        event,
-        actionName,
-        host,
-        method,
-        body,
-        ignoreCertErrors,
-        header
-      }).once(data => {
-        setIsSaving(false);
-        // last element of the array is either the timeout error if the agent didn't respond in time, or the agent response (error or in progress)
-        // result unknown because we only care about error
-        const response: Result<null> | AgentResponse = data[data.length - 1];
-        if ('errors' in response) {
-          setError(response.errors[0].message);
-        } else if ('error' in response && response.error != null) {
-          setError(response.error);
-        } else {
-          setActionInstanceId(response.data.actionInstanceId);
-        }
-      });
-    }
-  }
   function getWebhookFields() {
-    const hostField = getHostFromFields(action.fields);
-    let host = hostField?.value ?? '';
-    const methodField = getMethodFromFields(action.fields);
-    const method = methodField?.value ?? '';
-    const bodyField = getBodyFromFields(action.fields);
-    const body = bodyField?.value ?? '';
-    const ignoreCertErrorsField = getIgnoreCertErrorsFromFields(action.fields);
-    const ignoreCertErrors = ignoreCertErrorsField?.value ?? 'false';
-    const headerField = getHeaderFromFields(action.fields);
-    const header: { [k: string]: string } = JSON.parse(headerField?.value ?? '{}');
-    const authenField = getAuthenFromFields(action.fields);
-    const authen: Authen = JSON.parse(authenField?.value ?? '{}');
-    if (authen.type === 'basicAuth') {
+    let host = getHostFromFields(action.fields);
+    const method = getMethodFromFields(action.fields);
+    const body = getBodyFromFields(action.fields);
+    const ignoreCertErrors = getIgnoreCertErrorsFromFields(action.fields);
+    const headerString = getHeaderFromFields(action.fields);
+    const header: AdditionalHeaders = JSON.parse(headerString);
+    const authenString = getAuthenFromFields(action.fields);
+    const authen: Authen = JSON.parse(authenString);
+    if (authen.type === BASIC_AUTH) {
       const { username, password } = authen;
       const authenString = `Basic ${btoa(`${username}:${password}`)}`;
       header['Authorization'] = authenString;
-    } else if (authen.type === 'bearerToken') {
+    } else if (authen.type === BEARER_TOKEN) {
       const { bearerToken } = authen;
       const authenString = `Bearer ${bearerToken}`;
       header['Authorization'] = authenString;
-    } else if (authen.type === 'apiKey') {
+    } else if (authen.type === API_KEY) {
       const { apiKey, apiKeyAddTo, apiKeyValue } = authen;
       if (apiKeyAddTo === 'header') {
         header[apiKey!] = apiKeyValue!;

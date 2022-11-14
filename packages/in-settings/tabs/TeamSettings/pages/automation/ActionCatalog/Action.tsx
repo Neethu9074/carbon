@@ -164,6 +164,7 @@ function getActionSpecification(form: MapForm): NewAction {
     const contentType = (form.get('contentType') as FormField<string>).value;
     const additionalHeaders = (form.get('additionalHeaders') as FormField<Header[]>).value;
     const body = (form.get('body') as FormField<string>).value;
+    const ignoreCertErrors = (form.get('ignoreCertErrors') as FormField<boolean>).value;
     const authType = (form.get('authType') as FormField<string>).value;
     let authen: Authen = {
       type: NO_AUTH
@@ -208,7 +209,8 @@ function getActionSpecification(form: MapForm): NewAction {
           {}
         ),
         body,
-        authen
+        authen,
+        ignoreCertErrors
       })
     );
   }
