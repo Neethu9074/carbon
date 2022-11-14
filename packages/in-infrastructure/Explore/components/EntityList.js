@@ -14,7 +14,7 @@ import useCursorPagination from 'in-hooks/useCursorPagination';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 import { t } from 'in-i18n';
 
-export default function EntityList({ retrievalSize = 20, backendQueryModel, timeConfig, order, type }) {
+export default function EntityList({ retrievalSize = 20, backendQueryModel, timeConfig, order, type, setOrder }) {
   const { items, errors, progress } = useCursorPagination(
     ({ cursor }) => getTableData({ timeConfig, retrievalSize, backendQueryModel, order, type, cursor }),
     [timeConfig, retrievalSize, backendQueryModel, type, order]
@@ -24,15 +24,21 @@ export default function EntityList({ retrievalSize = 20, backendQueryModel, time
   const isLoading = progress?.loading;
 
   const [result, setResultData] = useState(createResultData(items));
-  const [orderDir, setOrderDirection] = useState('ASC');
-  const [orderByCol, setOrderByColumn] = useState('label');
 
   const onChangeItems = items => {
-    setResultData(createResultData(items));
+    return setResultData(createResultData(items));
   };
 
-  if (!isLoading && (result.progress === undefined || result.progress?.loading === true)) {
-    onChangeItems(items);
+  if (isLoading && result.data.items.length > 0 && items.length === 0) {
+    onChangeItems([]);
+  }
+
+  if (!isLoading && result.progress.loading && items.length > 0 && result.data.items.length === 0) {
+    if (order.by === 'count') {
+      onChangeItems(sortItems(items, order.by, order.direction));
+    } else {
+      onChangeItems(items);
+    }
   }
 
   function createResultData(items) {
@@ -83,38 +89,38 @@ export default function EntityList({ retrievalSize = 20, backendQueryModel, time
     }
   ]);
 
-  return (
-    <>
-      {hasErrors && <ErroneousResult />}
-      <ServerTablePresenter
-        orderBy={orderByCol}
-        orderDirection={orderDir}
-        result={result}
-        columnDefinitions={columnDefinitions}
-        cardTitle={t('in-infrastructure:explore.entityTypes', { count: result?.data?.items?.length ?? '' })}
-        onChange={({ query, orderBy, orderDirection }) => {
-          if (query !== undefined) {
-            //search
-            onChangeItems(
-              items.filter(item =>
-                getGroupTagValue(item, 'type')
-                  .toLowerCase()
-                  .includes(query?.toLowerCase())
-              )
-            );
-          } else {
-            //sort
-            const sortedItems = sortItems(items, orderBy, orderDirection);
-
-            setOrderByColumn(orderBy);
-            setOrderDirection(orderDirection);
-            setResultData(sortedItems);
-          }
-        }}
-        searchPlaceholder={t('in-infrastructure:explore.search')}
-      />
-    </>
-  );
+  if (!isLoading) {
+    return (
+      <>
+        {hasErrors && <ErroneousResult />}
+        <ServerTablePresenter
+          orderBy={order.by}
+          orderDirection={order.direction}
+          result={result}
+          columnDefinitions={columnDefinitions}
+          cardTitle={t('in-infrastructure:explore.entityTypes', { count: items?.data?.items?.length ?? '' })}
+          onChange={({ query, orderBy, orderDirection }) => {
+            if (query !== undefined) {
+              //search
+              onChangeItems(
+                items.filter(item =>
+                  getGroupTagValue(item, 'type')
+                    .toLowerCase()
+                    .includes(query?.toLowerCase())
+                )
+              );
+            } else {
+              //sort
+              setOrder({ by: orderBy, direction: orderDirection });
+            }
+          }}
+          searchPlaceholder={t('in-infrastructure:explore.search')}
+        />
+      </>
+    );
+  } else {
+    return <></>;
+  }
 }
 
 function sortItems(items, orderBy, orderDirection) {
@@ -150,8 +156,7 @@ function getGroupsSubscribeEvent({
   query = '',
   page = 1,
   pageSize = 20,
-  orderBy = 'label',
-  orderDirection = 'ASC',
+  order,
   timeConfig,
   backendQueryModel = {
     type: 'EXPRESSION',
@@ -166,8 +171,8 @@ function getGroupsSubscribeEvent({
       retrievalSize: 200
     },
     order: {
-      by: orderBy,
-      direction: orderDirection
+      by: order.by,
+      direction: order.direction
     },
     filter: {
       tagFilterExpression: backendQueryModel,
