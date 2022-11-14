@@ -7,17 +7,12 @@
 import { Field, MapForm } from 'formalistic';
 import React, { ChangeEvent } from 'react';
 
-import { SvgIcon } from '@instana/components';
-
-import DummyServerTablePresenter, {
-  DeleteRow
-} from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/DummyServerTablePresenter';
+import DummyServerTablePresenter from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/DummyServerTablePresenter';
 import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { OnEntityChange, SetForm } from 'in-settings/hooks/useEntityForm';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-settings/components/FormGroup';
-import Tooltip from 'in-components/Tooltip/Tooltip';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
@@ -89,21 +84,6 @@ const getColumnDefinitions = ({ form, onChange }: Omit<AdditionalHeadersProps, '
           </HorizontalFlexWrapper>
           {item.value[1] === '' && <TouchedMessages field={field} />}
         </FormGroup>
-      );
-    }
-  },
-  {
-    id: 'deleteRow',
-    width: '5',
-    sortable: false,
-    label: '',
-    getContent(item: Header, { deleteRow }: { deleteRow: DeleteRow }) {
-      return (
-        <div className={locals.controls}>
-          <Tooltip content={t('in-alerting:components.customPayload.deleteRow')}>
-            <SvgIcon type="lib_actions_delete" className={locals.delete} onClick={() => deleteRow(item.id)} />
-          </Tooltip>
-        </div>
       );
     }
   }

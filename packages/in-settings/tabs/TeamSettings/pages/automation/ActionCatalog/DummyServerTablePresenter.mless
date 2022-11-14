@@ -7,4 +7,18 @@
   .row {
     vertical-align: top;
   }
+  .delete {
+    cursor: pointer;
+    fill: @lib__colors__primary2;
+
+    &:hover {
+      fill: @lib__colors__N700Medium;
+    }
+  }
+
+  .controls {
+    display: flex;
+    align-items: center;
+    height: 2rem;
+  }
 }
