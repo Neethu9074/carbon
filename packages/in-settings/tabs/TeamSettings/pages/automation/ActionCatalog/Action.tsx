@@ -18,8 +18,6 @@ import {
   saveAction,
   saveNewAction
 } from 'in-api/automation';
-import { createActionFormDefinition } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionFormDefinition';
-import { Header } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/AdditionalHeadersTable';
 import {
   API_KEY,
   BASIC_AUTH,
@@ -29,6 +27,8 @@ import {
   isWebhook,
   NO_AUTH
 } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
+import { createActionFormDefinition } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionFormDefinition';
+import { Header } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/AdditionalHeadersTable';
 import ActionForm from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionForm';
 import { Tag } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/TagsTable';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -212,7 +212,6 @@ function getActionSpecification(form: MapForm): NewAction {
       })
     );
   }
-  console.log(fields);
   return {
     name,
     description,

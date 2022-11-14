@@ -78,7 +78,6 @@ export default function RunAction({ action, volatileId, event, test }: Props) {
         {t('in-events:ok')}
       </Button>
     );
-  console.log(actionInstanceId);
   if (error) {
     title = t('in-events:failedToInitiate', { actionName });
     content = <p className={locals.actionModalFontSize}>{error}</p>;
@@ -216,7 +215,6 @@ export default function RunAction({ action, volatileId, event, test }: Props) {
         // last element of the array is either the timeout error if the agent didn't respond in time, or the agent response (error or in progress)
         // result unknown because we only care about error
         const response: Result<null> | AgentResponse = data[data.length - 1];
-        console.log(response);
         if ('errors' in response) {
           setError(response.errors[0].message);
         } else if ('error' in response && response.error != null) {
