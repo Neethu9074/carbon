@@ -4,10 +4,10 @@
  * Copyright IBM Corp. 2022
  */
 
-import MessagesStack from 'in-components/MessageStack/MessageStack';
+import MessageStack from 'in-components/MessageStack/MessageStack';
 
 export default {
-  component: MessagesStack
+  component: MessageStack
 };
 
 export const Default = {

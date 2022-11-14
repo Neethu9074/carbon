@@ -6,7 +6,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import MessagesStack, { MessageType } from 'in-components/MessageStack/MessageStack';
+import MessageStack, { MessageType } from 'in-components/MessageStack/MessageStack';
 import { StepConfigs } from 'in-components/BlueprintFormMultistep/StepConfigs';
 import StepProgressBar from 'in-components/StepProgressBar';
 
@@ -38,7 +38,7 @@ export default function SimpleModeContainer(props: SimpleModeContainerProps) {
           )
       )}
 
-      <MessagesStack className={locals.errorInfo} messages={messages} />
+      <MessageStack className={locals.errorInfo} messages={messages} />
     </div>
   );
 }

@@ -31,7 +31,7 @@ const withDefaultLevel = (m: MessageType) => ({
  * Renders the messages block, after grouping/sorting by level (reverse alphabetically! - so warning comes first)
  * If no messages exist, there won't be anything rendered to avoid adding any empty spacer.
  */
-export default function MessagesStack({ className, messages = [] }: MessageStackProps) {
+export default function MessageStack({ className, messages = [] }: MessageStackProps) {
   if (messages.length == 0) return null;
   return (
     <div className={className}>
