@@ -15,7 +15,6 @@ import {
   AlertPreviewHeadline
 } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertPreview';
 import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertPropertiesContainer';
-import AdvancedModeStepsContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AdvancedModeStepsContainer';
 import {
   isCustomPayloadValidOrUntouched,
   fieldTouchedAndInvalid
@@ -32,6 +31,7 @@ import TimeThresholdConfig from 'in-alerting/smart-alerts/websites/advanced/Time
 import { ThresholdSection } from 'in-alerting/smart-alerts/websites/advanced/ThresholdSection';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import StepsContainer from 'in-components/StepsContainer';
 import { t } from 'in-i18n';
 
 export default function AdvancedModeContainer(props) {
@@ -61,7 +61,7 @@ export default function AdvancedModeContainer(props) {
   const isCustomEvent = blueprintConfig.type === 'customEvent';
 
   return (
-    <AdvancedModeStepsContainer
+    <StepsContainer
       messages={messages}
       navItems={[
         {

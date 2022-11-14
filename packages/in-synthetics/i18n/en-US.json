@@ -26,7 +26,9 @@
         "subTitle": "Endpoint",
         "labelOperation": "HTTP Method",
         "labelUrl": "URL",
-        "popSubTitle": "Point of Presence"
+        "popSubTitle": "Point of Presence",
+        "uploadScriptTitle": "Upload the script",
+        "failureToReadFileContent": "Failed to read file content: {{error}}"
       },
       "basicDetails": {
         "title": "What is the name of this ping test",
@@ -48,6 +50,23 @@
           },
           "tipsForUsing": {
             "title": "Tips for using",
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line3": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line4": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line5": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          }
+        },
+        "scriptApi": {
+          "name": "Script API",
+          "headline": "HTTP Script",
+          "whenToUse": {
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          },
+          "whoShouldUse": {
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          },
+          "tipsForUsing": {
             "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
             "line2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
             "line3": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",

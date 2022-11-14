@@ -15,7 +15,7 @@ import DummyServerTablePresenter, {
 import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
-import { OnChange, SetForm } from 'in-settings/hooks/useEntityForm';
+import { OnEntityChange, SetForm } from 'in-settings/hooks/useEntityForm';
 import FormGroup from 'in-settings/components/FormGroup';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import Input from 'in-components/form/Input/Input';
@@ -25,7 +25,7 @@ import locals from './DummyServerTablePresenterConsumer.mless';
 
 interface TagsTableProps {
   form: MapForm;
-  onChange: OnChange<ActionFormEntity>;
+  onChange: OnEntityChange<ActionFormEntity>;
   setForm: SetForm;
 }
 

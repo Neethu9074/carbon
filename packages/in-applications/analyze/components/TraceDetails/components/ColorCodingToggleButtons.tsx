@@ -10,7 +10,12 @@ import { t } from 'in-i18n';
 
 import locals from './ColorCodingToggleButtons.mless';
 
-export default function ColorCodingToggleButtons({ setColorCodeMechanism, colorCodeType }) {
+interface Props {
+  setColorCodeMechanism: (colorCode: string) => void;
+  colorCodeType: string;
+}
+
+export default function ColorCodingToggleButtons({ setColorCodeMechanism, colorCodeType }: Props) {
   return (
     <div className={locals.wrapper}>
       <label className={locals.label}>

@@ -9,7 +9,7 @@ import NewMobileAppFlow from 'promise-loader?global,mobileApps!in-mobile-apps/Ne
 import AnalyzeView2_0 from 'promise-loader?global,mobileApps!in-mobile-apps/analyze/AnalyzeView2_0/AnalyzeView';
 import MobileAppsList from 'promise-loader?global,mobileApps!in-mobile-apps/MobileAppsList/MobileAppsList';
 import { Route } from 'react-router-dom';
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import {
   mobileAppsPathFullyQualified,
@@ -21,12 +21,10 @@ import {
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 
-export default (
-  <Fragment>
-    <Route path={mobileAppsPathFullyQualified} children={renderAsyncRouteChildren(MobileAppsList)} />
-    <Route path={newMobileAppPathFullyQualified} children={renderAsyncRouteChildren(NewMobileAppFlow)} />
-    <Route path={mobileAppPathFullyQualified} children={renderAsyncRouteChildren(MobileAppDashboard)} />
-    <Route path={analyzePathFullyQualified} children={renderAsyncRouteChildren(AnalyzeView2_0)} />
-    <RedirectWithHash from={mobileAppMonitoringPath} to={mobileAppsPathFullyQualified} />
-  </Fragment>
-);
+export default [
+  <Route path={mobileAppsPathFullyQualified} children={renderAsyncRouteChildren(MobileAppsList)} />,
+  <Route path={newMobileAppPathFullyQualified} children={renderAsyncRouteChildren(NewMobileAppFlow)} />,
+  <Route path={mobileAppPathFullyQualified} children={renderAsyncRouteChildren(MobileAppDashboard)} />,
+  <Route path={analyzePathFullyQualified} children={renderAsyncRouteChildren(AnalyzeView2_0)} />,
+  <RedirectWithHash from={mobileAppMonitoringPath} to={mobileAppsPathFullyQualified} />
+];

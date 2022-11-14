@@ -8,6 +8,7 @@ import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
 import { Toggle, Button } from '@instana/components';
+import { Action } from '@instana/types';
 
 import {
   putApiKeyFields,
@@ -41,9 +42,9 @@ import {
 import AdditionalHeadersTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/AdditionalHeadersTable';
 import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import TagsTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/TagsTable';
+import { OnEntityChange, SetForm } from 'in-settings/hooks/useEntityForm';
 import RunAction from 'in-events/components/AutomationActions/RunAction';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { OnChange, SetForm } from 'in-settings/hooks/useEntityForm';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import HelpText from 'in-components/form/HelpText/HelpText';
@@ -54,14 +55,13 @@ import Code from 'in-components/form/Code/Code';
 import Select from 'in-components/form/Select';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
-import { Action } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './ActionForm.mless';
 
 interface ActionFormProps {
   form: MapForm;
-  onChange: OnChange<ActionFormEntity>;
+  onChange: OnEntityChange<ActionFormEntity>;
   entity: ActionFormEntity;
   setForm: SetForm;
 }

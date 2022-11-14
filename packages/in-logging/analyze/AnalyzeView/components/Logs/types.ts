@@ -6,7 +6,7 @@
 
 import { TimeConfig } from '@instana/types';
 
-import { StateManagementProps } from 'in-components/AnalyzeView/StateManagement';
+import { StateManagementChildProps } from 'in-components/AnalyzeView/StateManagement';
 
 export type SortDirection = 'ASC' | 'DESC';
 
@@ -15,9 +15,9 @@ export type OrderBy = {
   direction: SortDirection;
 };
 
-export interface LogsProps extends StateManagementProps {
-  withoutHeader: boolean;
-  detailId: string;
+export interface LogsProps extends StateManagementChildProps {
+  withoutHeader?: boolean;
+  detailId?: string;
 }
 
 export interface GetDataParams {

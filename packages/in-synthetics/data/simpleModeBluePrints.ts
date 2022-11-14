@@ -36,6 +36,33 @@ export const blueprintConfig: readonly BluePrint[] = Object.freeze([
         `
       }
     ]
+  },
+  {
+    type: 'Script API',
+    name: t('in-synthetics:dialog.createTest.bluePrint.scriptApi.name'),
+    headline: t('in-synthetics:dialog.createTest.bluePrint.scriptApi.headline'),
+    description: [
+      {
+        headline: whenToUse,
+        htmlContent: t('in-synthetics:dialog.createTest.bluePrint.scriptApi.whenToUse.line1')
+      },
+      {
+        headline: whoShouldUse,
+        htmlContent: t('in-synthetics:dialog.createTest.bluePrint.scriptApi.whoShouldUse.line1')
+      },
+      {
+        headline: tipsForUsing,
+        htmlContent: `
+          <ul>
+            <li>${t('in-synthetics:dialog.createTest.bluePrint.scriptApi.tipsForUsing.line1')}</li>
+            <li>${t('in-synthetics:dialog.createTest.bluePrint.scriptApi.tipsForUsing.line2')}</li>
+            <li>${t('in-synthetics:dialog.createTest.bluePrint.scriptApi.tipsForUsing.line3')}</li>
+            <li>${t('in-synthetics:dialog.createTest.bluePrint.scriptApi.tipsForUsing.line4')}</li>
+            <li>${t('in-synthetics:dialog.createTest.bluePrint.scriptApi.tipsForUsing.line5')}</li>
+          </ul>
+        `
+      }
+    ]
   }
 ]);
 

@@ -222,7 +222,7 @@ export default function ActionTable({
       columnDefinitions={columnDefinitionsToShow}
       getHeader={getHeader(title, isBeta)}
       searchAttributes={['name', 'description', (entity: Action) => (entity?.tags ?? []).toString()]}
-      searchPlaceholder={t('in-settings:tabs.filterActions')}
+      searchPlaceholder={t('in-settings:tabs.searchActions')}
       searchMaxWidth={210}
       rightHeader={rightHeader}
       tableActions={tableActions}

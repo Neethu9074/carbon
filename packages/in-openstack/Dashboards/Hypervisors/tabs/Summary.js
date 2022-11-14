@@ -8,7 +8,6 @@ import React, { Fragment } from 'react';
 import { Card } from '@instana/components';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { number, bytes } from 'in-services/formatters/number';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
@@ -23,63 +22,18 @@ export default function Summary({ timeConfig, data: hypervisor }) {
   return (
     <Fragment>
       <KpiGridRow sizes={[2, 2, 2, 2, 2, 2]}>
-        <KpiCard title={t('in-openstack:id')} value={hypervisor.id || valueMissingPlaceholder} raw borderless />
-        <KpiCard
-          title={t('in-openstack:cpuArch')}
-          value={hypervisor.openstackItem.architecture || valueMissingPlaceholder}
-          raw
-          borderless
-        />
-        <KpiCard
-          title={t('in-openstack:cpuModel')}
-          value={hypervisor.openstackItem.model || valueMissingPlaceholder}
-          raw
-          borderless
-        />
-        <KpiCard
-          title={t('in-openstack:cpuVendor')}
-          value={hypervisor.openstackItem.vendor || valueMissingPlaceholder}
-          raw
-          borderless
-        />
-        <KpiCard
-          title={t('in-openstack:cpuCores')}
-          value={hypervisor.openstackItem.cores || valueMissingPlaceholder}
-          raw
-          borderless
-        />
-        <KpiCard
-          title={t('in-openstack:status')}
-          value={hypervisor.openstackItem.status || valueMissingPlaceholder}
-          raw
-          borderless
-        />
+        <KpiCard title={t('in-openstack:id')} value={hypervisor.id} raw borderless />
+        <KpiCard title={t('in-openstack:cpuArch')} value={hypervisor.openstackItem.architecture} raw borderless />
+        <KpiCard title={t('in-openstack:cpuModel')} value={hypervisor.openstackItem.model} raw borderless />
+        <KpiCard title={t('in-openstack:cpuVendor')} value={hypervisor.openstackItem.vendor} raw borderless />
+        <KpiCard title={t('in-openstack:cpuCores')} value={hypervisor.openstackItem.cores} raw borderless />
+        <KpiCard title={t('in-openstack:status')} value={hypervisor.openstackItem.status} raw borderless />
       </KpiGridRow>
       <KpiGridRow sizes={[2, 2, 2, 2]}>
-        <KpiCard
-          title={t('in-openstack:state')}
-          value={hypervisor.openstackItem.state || valueMissingPlaceholder}
-          raw
-          borderless
-        />
-        <KpiCard
-          title={t('in-openstack:hostIP')}
-          value={hypervisor.openstackItem.hostIP || valueMissingPlaceholder}
-          raw
-          borderless
-        />
-        <KpiCard
-          title={t('in-openstack:hypervisorType')}
-          value={hypervisor.openstackItem.type || valueMissingPlaceholder}
-          raw
-          borderless
-        />
-        <KpiCard
-          title={t('in-openstack:hypervisorVersion')}
-          value={hypervisor.openstackItem.version || valueMissingPlaceholder}
-          raw
-          borderless
-        />
+        <KpiCard title={t('in-openstack:state')} value={hypervisor.openstackItem.state} raw borderless />
+        <KpiCard title={t('in-openstack:hostIP')} value={hypervisor.openstackItem.hostIP} raw borderless />
+        <KpiCard title={t('in-openstack:hypervisorType')} value={hypervisor.openstackItem.type} raw borderless />
+        <KpiCard title={t('in-openstack:hypervisorVersion')} value={hypervisor.openstackItem.version} raw borderless />
       </KpiGridRow>
       <Row verticallyStretchColumns>
         <Col lg={6}>

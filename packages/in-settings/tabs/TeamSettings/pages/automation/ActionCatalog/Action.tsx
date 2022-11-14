@@ -53,7 +53,7 @@ interface MatchParams {
   id: string;
 }
 
-export type ActionFormEntity = Action | NewAction;
+export type ActionFormEntity = NewAction | Action;
 export default function ActionEntityForm(props: RouteComponentProps<MatchParams>) {
   const id = props.match.params.id;
   const entityId = id === 'new' ? null : id;

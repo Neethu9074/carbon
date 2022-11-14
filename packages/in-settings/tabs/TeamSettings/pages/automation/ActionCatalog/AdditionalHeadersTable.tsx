@@ -14,7 +14,7 @@ import DummyServerTablePresenter, {
 } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/DummyServerTablePresenter';
 import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
-import { OnChange, SetForm } from 'in-settings/hooks/useEntityForm';
+import { OnEntityChange, SetForm } from 'in-settings/hooks/useEntityForm';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-settings/components/FormGroup';
 import Tooltip from 'in-components/Tooltip/Tooltip';
@@ -26,7 +26,7 @@ import locals from './DummyServerTablePresenterConsumer.mless';
 
 interface AdditionalHeadersProps {
   form: MapForm;
-  onChange: OnChange<ActionFormEntity>;
+  onChange: OnEntityChange<ActionFormEntity>;
   setForm: SetForm;
 }
 
