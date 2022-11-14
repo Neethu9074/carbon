@@ -189,7 +189,7 @@ export default function useEntityForm<ENTITY>(props: Parameters<ENTITY>) {
     }
 
     updatedForm = updatedForm.updateIn([fieldName], field =>
-      (field as Field<typeof value>).setValue(value).setTouched(true)
+      (field as Field<VALUETYPE>).setValue(value).setTouched(true)
     );
 
     updatedForm = updateFormDefinition?.(updatedForm, state.entity!) ?? updatedForm;

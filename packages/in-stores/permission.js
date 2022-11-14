@@ -71,11 +71,7 @@ function getProductAreaPermissions() {
     areaPermissions.push({ value: ACCESS_PCF, label: t('in-stores:permissionAccessPCFLabel'), isNew: true });
   }
   if (openstackEnabled) {
-    areaPermissions.push({
-      value: ACCESS_OPENSTACK,
-      label: t('in-stores:permissionAccessOpenStackLabel'),
-      isNew: true
-    });
+    areaPermissions.push({ value: ACCESS_OPENSTACK, label: t('in-stores:permissionAccessOpenStackLabel'), isNew: true });
   }
   if (phmcEnabled) {
     areaPermissions.push({ value: ACCESS_PHMC, label: t('in-stores:permissionAccessPHMCLabel'), isNew: true });
@@ -90,18 +86,10 @@ function getProductAreaPermissions() {
     areaPermissions.push({ value: ACCESS_VSPHERE, label: t('in-stores:permissionAccessVSphereLabel'), isNew: true });
   }
 
-  areaPermissions.push({
-    value: ACCESS_INFRASTRUCTURE,
-    label: t('in-stores:permissionAccessInfrastructureLabel'),
-    isNew: true
-  });
+  areaPermissions.push({ value: ACCESS_INFRASTRUCTURE, label: t('in-stores:permissionAccessInfrastructureLabel'), isNew: true });
 
   if (syntheticsTestEnabled) {
-    areaPermissions.push({
-      value: ACCESS_SYNTHETICS,
-      label: t('in-stores:permissionAccessSyntheticsLabel'),
-      isNew: true
-    });
+    areaPermissions.push({ value: ACCESS_SYNTHETICS, label: t('in-stores:permissionAccessSyntheticsLabel'), isNew: true });
   }
   return areaPermissions;
 }
