@@ -7,7 +7,7 @@
 import { combineLatest, just, Observable, timeout } from '@instana/observables';
 
 import { DOC_LINK_TYPE, HTTP_METHODS_WITH_BODY } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
-import createAgentResponseObservable from 'in-subscription/agentResponse';
+import createAgentResponseObservable, { AgentResponse } from 'in-subscription/agentResponse';
 import { Action, Field, VolatileId, Event, ActionMatch } from 'in-types';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { error } from 'in-services/util/result';
@@ -128,8 +128,8 @@ export interface ApiKeyAuth {
   apiKeyAddTo: string;
 }
 export type Authen = NoAuth | BasicAuth | BearerAuth | ApiKeyAuth;
-
 export type AdditionalHeaders = { [k: string]: string };
+
 export const createWebhookFields = ({
   host,
   method,
@@ -208,14 +208,18 @@ export function createAction(
   };
 }
 
-// We are using a timeout here to prevent the UI from hanging if the agent is not responding (sensor not installed).
-export function runScriptAction(
-  script: string,
-  volatileId: VolatileId,
-  event: Event | undefined,
-  actionName: string,
-  interpreter: string
-) {
+interface RunActionBaseParams {
+  volatileId: VolatileId;
+  event: Event | undefined;
+  actionName: string;
+}
+
+interface RunScriptActionParams extends RunActionBaseParams {
+  script: string;
+  interpreter: string;
+}
+
+function runAction(runActionObservable: Observable<AgentResponse>) {
   return combineLatest(
     [
       timeout(10000).flatMap(() =>
@@ -228,41 +232,45 @@ export function runScriptAction(
           ])
         )
       ),
-      createAgentResponseObservable({
-        action: 'action.run',
-        target: volatileId,
-        args: {
-          type: 'SCRIPT',
-          async: 'true',
-          event: JSON.stringify(event),
-          problemId: event?.problem?.id,
-          problemText: event?.problem?.problemText,
-          actionName,
-          timeout: '300',
-          request: [
-            {
-              name: 'script',
-              value: script,
-              encoded: 'base64'
-            },
-
-            {
-              name: 'interpreter',
-              value: interpreter,
-              encoded: 'base64'
-            }
-          ]
-        }
-      })
+      runActionObservable
     ],
     false
   );
 }
 
-interface RunWebhookActionParams {
-  volatileId: VolatileId;
-  event: Event | undefined;
-  actionName: string;
+// We are using a timeout here to prevent the UI from hanging if the agent is not responding (sensor not installed).
+export function runScriptAction({ script, volatileId, event, actionName, interpreter }: RunScriptActionParams) {
+  return runAction(
+    createAgentResponseObservable({
+      action: 'action.run',
+      target: volatileId,
+      args: {
+        type: 'SCRIPT',
+        async: 'true',
+        event: JSON.stringify(event),
+        problemId: event?.problem?.id,
+        problemText: event?.problem?.problemText,
+        actionName,
+        timeout: '300',
+        request: [
+          {
+            name: 'script',
+            value: script,
+            encoded: 'base64'
+          },
+
+          {
+            name: 'interpreter',
+            value: interpreter,
+            encoded: 'base64'
+          }
+        ]
+      }
+    })
+  );
+}
+
+interface RunWebhookActionParams extends RunActionBaseParams {
   method: string;
   host: string;
   body: string;
@@ -280,17 +288,7 @@ export function runWebhookAction({
   ignoreCertErrors,
   header
 }: RunWebhookActionParams) {
-  return combineLatest([
-    timeout(10000).flatMap(() =>
-      just(
-        error<null>([
-          {
-            message: t('in-events:actionSensorTimeout'),
-            code: 'TIMEOUT'
-          }
-        ])
-      )
-    ),
+  return runAction(
     createAgentResponseObservable({
       action: 'action.run',
       target: volatileId,
@@ -333,5 +331,5 @@ export function runWebhookAction({
         ]
       }
     })
-  ]);
+  );
 }

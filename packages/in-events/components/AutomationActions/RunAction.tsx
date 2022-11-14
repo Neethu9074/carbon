@@ -186,7 +186,7 @@ export default function RunAction({ action, volatileId, event, test }: Props) {
       const script = scriptField?.value ?? '';
       const interpreterField = getInterpreterFromFields(action.fields);
       const interpreter = interpreterField?.value ?? '';
-      runScriptAction(script, selectedVolatileId, event, actionName, interpreter).once(data => {
+      runScriptAction({ script, volatileId: selectedVolatileId, event, actionName, interpreter }).once(data => {
         setIsSaving(false);
         // last element of the array is either the timeout error if the agent didn't respond in time, or the agent response (error or in progress)
         // result unknown because we only care about error
