@@ -129,7 +129,16 @@ router.get('/', async (req, res) => {
         );
       return;
     } else if (statusCode === 403) {
-      errorPages.send403(req, res);
+      const uiClientBaseUrl = await configResolver.getBaseUrl(req.tenant, req.unit);
+      const nonce = uuidv4();
+      errorPages.send403(
+        req,
+        res,
+        getParsedUser(userStr),
+        `${uiClientBaseUrl}/auth/signOut`,
+        encodeURIComponent(uiClientBaseUrl + req.originalUrl),
+        nonce
+      );
       return;
     } else if (statusCode < 200 || statusCode > 299) {
       req.log.error(
