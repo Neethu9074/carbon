@@ -175,12 +175,8 @@ function renderButtonLine(props) {
 }
 
 const disableAllCallsDropdown = currentTab => {
-  if (
-    currentTab === dependencyMapTab ||
-    currentTab === smartAlertsTab ||
-    currentTab === syntheticsTab ||
-    currentTab === configurationTab
-  ) {
+  const disabledTabs = [dependencyMapTab, smartAlertsTab, syntheticsTab, configurationTab];
+  if (disabledTabs.includes(currentTab)) {
     return true;
   } else {
     return false;
