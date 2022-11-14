@@ -256,7 +256,7 @@ export function runScriptAction({ script, volatileId, event, actionName, interpr
         timeout: '300',
         request: [
           {
-            name: 'script',
+            name: 'script_content',
             value: script,
             encoded: 'base64'
           },
