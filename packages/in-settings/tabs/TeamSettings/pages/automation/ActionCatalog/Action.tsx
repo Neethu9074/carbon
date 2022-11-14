@@ -20,7 +20,15 @@ import {
 } from 'in-api/automation';
 import { createActionFormDefinition } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionFormDefinition';
 import { Header } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/AdditionalHeadersTable';
-import { isDocLink, isScript, isWebhook } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
+import {
+  API_KEY,
+  BASIC_AUTH,
+  BEARER_TOKEN,
+  isDocLink,
+  isScript,
+  isWebhook,
+  NO_AUTH
+} from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import ActionForm from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionForm';
 import { Tag } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/TagsTable';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -157,27 +165,33 @@ function getActionSpecification(form: MapForm): NewAction {
     const additionalHeaders = (form.get('additionalHeaders') as FormField<Header[]>).value;
     const body = (form.get('body') as FormField<string>).value;
     const authType = (form.get('authType') as FormField<string>).value;
-    const authen: Authen = {
-      type: 'none'
+    let authen: Authen = {
+      type: NO_AUTH
     };
-    if (authType === 'basicAuth') {
+    if (authType === BASIC_AUTH) {
       const username = (form.get('username') as FormField<string>).value;
       const password = (form.get('password') as FormField<string>).value;
-      authen['username'] = username;
-      authen['password'] = password;
-      authen['type'] = 'basicAuth';
-    } else if (authType === 'bearerToken') {
+      authen = {
+        type: BASIC_AUTH,
+        username,
+        password
+      };
+    } else if (authType === BEARER_TOKEN) {
       const bearerToken = (form.get('bearerToken') as FormField<string>).value;
-      authen['bearerToken'] = bearerToken;
-      authen['type'] = 'bearerToken';
-    } else if (authType === 'apiKey') {
+      authen = {
+        type: BEARER_TOKEN,
+        bearerToken
+      };
+    } else if (authType === API_KEY) {
       const apiKey = (form.get('apiKey') as FormField<string>).value;
       const apiKeyValue = (form.get('apiKeyValue') as FormField<string>).value;
       const apiKeyAddTo = (form.get('apiKeyAddTo') as FormField<string>).value;
-      authen['apiKey'] = apiKey;
-      authen['apiKeyValue'] = apiKeyValue;
-      authen['apiKeyAddTo'] = apiKeyAddTo;
-      authen['type'] = 'apiKey';
+      authen = {
+        type: API_KEY,
+        apiKey,
+        apiKeyValue,
+        apiKeyAddTo
+      };
     }
     fields.push(
       ...createWebhookFields({
@@ -198,6 +212,7 @@ function getActionSpecification(form: MapForm): NewAction {
       })
     );
   }
+  console.log(fields);
   return {
     name,
     description,

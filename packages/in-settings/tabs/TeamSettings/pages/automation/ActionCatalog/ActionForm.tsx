@@ -24,13 +24,17 @@ import {
   removeWebhookFields
 } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionFormDefinition';
 import {
+  API_KEY,
   AUTH_TYPES,
+  BASIC_AUTH,
+  BEARER_TOKEN,
   DOC_LINK_TYPE,
   HTTP_METHODS,
   HTTP_METHODS_WITH_BODY,
   isDocLink,
   isScript,
   isWebhook,
+  NO_AUTH,
   SCRIPT_TYPE,
   WEBHOOK_TYPE
 } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
@@ -351,15 +355,15 @@ const WebhookSection = ({ form, setForm, onChange, entity: action }: ActionFormP
                 onChange={e =>
                   onChange('authType', e.target.value, updatedForm => {
                     const authType = (updatedForm.get('authType') as Field<string>).value;
-                    if (authType == 'none') {
+                    if (authType == NO_AUTH) {
                       updatedForm = removeBasicFields(updatedForm);
                       updatedForm = removeBearerField(updatedForm);
                       updatedForm = removeApiKeyFields(updatedForm);
-                    } else if (authType == 'basicAuth') {
+                    } else if (authType == BASIC_AUTH) {
                       updatedForm = putBasicFields(updatedForm, action);
-                    } else if (authType == 'bearerToken') {
+                    } else if (authType == BEARER_TOKEN) {
                       updatedForm = putBearerField(updatedForm, action);
-                    } else if (authType == 'apiKey') {
+                    } else if (authType == API_KEY) {
                       updatedForm = putApiKeyFields(updatedForm, action);
                     }
                     return updatedForm;
@@ -378,7 +382,7 @@ const WebhookSection = ({ form, setForm, onChange, entity: action }: ActionFormP
           ))}
         </Col>
       </Row>
-      {authType.value === 'basicAuth' && (
+      {authType.value === BASIC_AUTH && (
         <Row>
           <Col lg={6}>
             {username.map(field => (
@@ -418,7 +422,7 @@ const WebhookSection = ({ form, setForm, onChange, entity: action }: ActionFormP
           </Col>
         </Row>
       )}
-      {authType.value === 'bearerToken' && (
+      {authType.value === BEARER_TOKEN && (
         <Row>
           <Col lg={12}>
             {bearerToken.map(field => (
@@ -440,7 +444,7 @@ const WebhookSection = ({ form, setForm, onChange, entity: action }: ActionFormP
           </Col>
         </Row>
       )}
-      {authType.value === 'apiKey' && (
+      {authType.value === API_KEY && (
         <Row>
           <Col lg={4}>
             {apiKey.map(field => (

@@ -45,9 +45,14 @@ export const WEBHOOK_TYPE = 'HTTP';
 export const HTTP_METHODS = Object.freeze(['GET', 'POST', 'PUT', 'DELETE']);
 export const HTTP_METHODS_WITH_BODY = Object.freeze(['POST', 'PUT']);
 
+export const NO_AUTH = 'noAuth';
+export const BASIC_AUTH = 'basicAuth';
+export const BEARER_TOKEN = 'bearerToken';
+export const API_KEY = 'apiKey';
+
 export const AUTH_TYPES = Object.freeze([
-  { value: 'noAuth', translation: t('in-settings:tabs.noAuth') },
-  { value: 'basicAuth', translation: t('in-settings:tabs.basicAuth') },
-  { value: 'bearerToken', translation: t('in-settings:tabs.bearerToken') },
-  { value: 'apiKey', translation: t('in-settings:tabs.apiKey') }
+  { value: NO_AUTH, translation: t('in-settings:tabs.noAuth') },
+  { value: BASIC_AUTH, translation: t('in-settings:tabs.basicAuth') },
+  { value: BEARER_TOKEN, translation: t('in-settings:tabs.bearerToken') },
+  { value: API_KEY, translation: t('in-settings:tabs.apiKey') }
 ]);

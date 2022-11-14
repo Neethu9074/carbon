@@ -107,15 +107,27 @@ export const createScriptFields = (value: string): Field[] => [
   }
 ];
 
-export type Authen = {
-  type: 'none' | 'basicAuth' | 'bearerToken' | 'apiKey';
-  username?: string;
-  password?: string;
-  bearerToken?: string;
-  apiKey?: string;
-  apiKeyValue?: string;
-  apiKeyAddTo?: string;
-};
+export interface NoAuth {
+  type: 'noAuth';
+}
+
+export interface BasicAuth {
+  type: 'basicAuth';
+  username: string;
+  password: string;
+}
+
+export interface BearerAuth {
+  type: 'bearerToken';
+  bearerToken: string;
+}
+export interface ApiKeyAuth {
+  type: 'apiKey';
+  apiKey: string;
+  apiKeyValue: string;
+  apiKeyAddTo: string;
+}
+export type Authen = NoAuth | BasicAuth | BearerAuth | ApiKeyAuth;
 
 export type AdditionalHeaders = { [k: string]: string };
 export const createWebhookFields = ({
@@ -151,8 +163,8 @@ export const createWebhookFields = ({
   },
   {
     value: JSON.stringify({
-      Accept: accept,
-      'Accept-Language': acceptLanguage,
+      ...(accept ? { Accept: accept } : {}),
+      ...(acceptLanguage ? { 'Accept-Language': acceptLanguage } : {}),
       ...(HTTP_METHODS_WITH_BODY.includes(method) ? { 'Content-Type': contentType } : {}),
       ...additionalHeaders
     }),

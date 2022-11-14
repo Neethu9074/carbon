@@ -11,15 +11,19 @@ import mime from 'mime/lite';
 import { generateUniqueShortId } from '@instana/utils';
 
 import {
+  API_KEY,
+  BASIC_AUTH,
+  BEARER_TOKEN,
   getDocLinkFromFields,
   getScriptFromFields,
   isDocLink,
   isScript,
-  isWebhook
+  isWebhook,
+  NO_AUTH
 } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import { notBlankValidator } from 'in-services/validators/string';
-import { AdditionalHeaders, Authen } from 'in-api/automation';
+import { AdditionalHeaders, ApiKeyAuth, Authen, BasicAuth, BearerAuth } from 'in-api/automation';
 import { isNotBlank } from 'in-services/util/string';
 import { Header } from './AdditionalHeadersTable';
 import { Field } from 'in-types';
@@ -149,7 +153,7 @@ export function putWebhookFields(form: MapForm, action: ActionFormEntity) {
       .put('host', createField({ value: '', validator: notBlankValidator }))
       .put('body', createField({ value: '' }))
       .put('ignoreCertErrors', createField({ value: false }))
-      .put('authType', createField({ value: 'none' }))
+      .put('authType', createField({ value: NO_AUTH }))
       .put('contentType', createField({ value: '', validator: mimeValidator }))
       .put('accept', createField({ value: '', validator: mimeValidator }))
       .put('acceptLanguage', createField({ value: '' }))
@@ -163,7 +167,7 @@ export function putWebhookFields(form: MapForm, action: ActionFormEntity) {
     const headersValue: AdditionalHeaders = JSON.parse(headers?.value ?? '{}');
     const ignoreCertErrors = fields.ignoreCertErrors;
     const authen = fields.authen;
-    const authenValue: Authen = JSON.parse(authen?.value ?? '{ "type": "none" }');
+    const authenValue: Authen = JSON.parse(authen?.value ?? '{}');
     const {
       'Content-Type': contentType,
       Accept: accept,
@@ -201,7 +205,7 @@ export function putWebhookFields(form: MapForm, action: ActionFormEntity) {
       .put(
         'authType',
         createField({
-          value: authenValue.type ?? 'none',
+          value: authenValue.type ?? NO_AUTH,
           validator: notBlankValidator
         })
       )
@@ -235,9 +239,9 @@ export function putWebhookFields(form: MapForm, action: ActionFormEntity) {
           validator: additionalHeadersValidator
         })
       );
-    if (authenValue.type == 'basicAuth') form = putBasicFields(form, action);
-    else if (authenValue.type == 'bearerToken') form = putBearerField(form, action);
-    else if (authenValue.type == 'apiKey') form = putApiKeyFields(form, action);
+    if (authenValue.type == BASIC_AUTH) form = putBasicFields(form, action);
+    else if (authenValue.type == BEARER_TOKEN) form = putBearerField(form, action);
+    else if (authenValue.type == API_KEY) form = putApiKeyFields(form, action);
     return form;
   }
 }
@@ -259,7 +263,7 @@ export function removeWebhookFields(form: MapForm) {
 export function putBasicFields(form: MapForm, action: ActionFormEntity) {
   const fields: Record<string, Field | null> = keyBy(action.fields, 'name');
   const authen = fields.authen;
-  const authenValue: Authen = JSON.parse(authen?.value ?? '{}');
+  const authenValue: BasicAuth = JSON.parse(authen?.value ?? '{}');
   form = removeApiKeyFields(form);
   form = removeBearerField(form);
   return form
@@ -281,7 +285,7 @@ export function putBasicFields(form: MapForm, action: ActionFormEntity) {
 export function putBearerField(form: MapForm, action: ActionFormEntity) {
   const fields: Record<string, Field | null> = keyBy(action.fields, 'name');
   const authen = fields.authen;
-  const authenValue: Authen = JSON.parse(authen?.value ?? '{}');
+  const authenValue: BearerAuth = JSON.parse(authen?.value ?? '{}');
   form = removeBasicFields(form);
   form = removeApiKeyFields(form);
   return form.put(
@@ -295,7 +299,7 @@ export function putBearerField(form: MapForm, action: ActionFormEntity) {
 export function putApiKeyFields(form: MapForm, action: ActionFormEntity) {
   const fields: Record<string, Field | null> = keyBy(action.fields, 'name');
   const authen = fields.authen;
-  const authenValue: Authen = JSON.parse(authen?.value ?? '{}');
+  const authenValue: ApiKeyAuth = JSON.parse(authen?.value ?? '{}');
   form = removeBasicFields(form);
   form = removeBearerField(form);
   return form
