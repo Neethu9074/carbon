@@ -24,7 +24,8 @@ import {
   getMethodFromFields,
   getScriptFromFields,
   isScript,
-  isWebhook
+  isWebhook,
+  SCRIPT_TYPE
 } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import { DescriptionItem, DescriptionList } from 'in-components/DescriptionList/DescriptionList';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
@@ -66,7 +67,7 @@ export default function RunAction({ action, volatileId, event, test }: Props) {
   const [form, setForm] = useState<MapForm>();
   const targetAgent = form?.get('targetAgent') as Field<string>;
   const query =
-    action.type === 'script' ? 'entity.agent.capability:action-script' : 'entity.agent.capability:action-http';
+    action.type === SCRIPT_TYPE ? 'entity.agent.capability:action-script' : 'entity.agent.capability:action-http';
   const agentSnapShots = useObservable(() => getAgentSnapshotsInTimeframe({ timeConfig, query }), [timeConfig]);
   useEffect(() => {
     if (agentSnapShots && !form) {
