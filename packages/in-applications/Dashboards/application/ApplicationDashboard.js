@@ -58,6 +58,8 @@ const urlStateDefinition = {
   ]
 };
 
+const disabledTabs = [dependencyMapTab, smartAlertsTab, syntheticsTab, configurationTab];
+
 export default function ApplicationDashboard({ location }) {
   const [{ appId, boundaryScope, syntheticCalls }, setUrlState] = useUrlState(urlStateDefinition);
   const timeConfig = useTimeConfig();
@@ -175,7 +177,6 @@ function renderButtonLine(props) {
 }
 
 const disableAllCallsDropdown = currentTab => {
-  const disabledTabs = [dependencyMapTab, smartAlertsTab, syntheticsTab, configurationTab];
   if (disabledTabs.includes(currentTab)) {
     return true;
   } else {
