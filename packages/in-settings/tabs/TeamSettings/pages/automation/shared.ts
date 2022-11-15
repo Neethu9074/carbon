@@ -34,7 +34,7 @@ export const getHostFromFields = (fields: Field[] | undefined) => getFieldsByNam
 export const getIgnoreCertErrorsFromFields = (fields: Field[] | undefined) =>
   getFieldsByNames(fields)?.ignoreCertErrors?.value ?? 'false';
 export const getAuthenFromFields = (fields: Field[] | undefined) =>
-  getFieldsByNames(fields)?.authen?.value ?? `{'type':'${NO_AUTH}'}`;
+  getFieldsByNames(fields)?.authen?.value ?? `{"type":"${NO_AUTH}"}`;
 
 export const isDocLink = (type?: string) => type === DOC_LINK_TYPE;
 export const isScript = (type?: string) => type === SCRIPT_TYPE;

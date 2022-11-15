@@ -184,7 +184,7 @@ export function putWebhookFields(form: MapForm, action: ActionFormEntity) {
     .put(
       'ignoreCertErrors',
       createField({
-        value: Boolean(ignoreCertErrors)
+        value: ignoreCertErrors === 'true'
       })
     )
     .put(
