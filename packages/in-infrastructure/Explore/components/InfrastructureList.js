@@ -13,6 +13,7 @@ import { trackingProps as metricConfiguratorTrackingProps } from 'in-infrastruct
 import { average, getGranularity, getMetricKey } from 'in-infrastructure/Explore/services/metrics';
 import { default as MetricLabel } from 'in-infrastructure/Explore/components/MetricLabel';
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import getEntities from 'in-infrastructure/subscriptions/getEntities';
 import Header from 'in-components/QueryBuilder/components/Header';
@@ -222,7 +223,7 @@ function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig }) {
         const granularity = getGranularity(timeConfig);
         return (
           <SparkChart
-            horizontalMetricValue={(kpi && formatter && formatter(kpi)) || '--'}
+            horizontalMetricValue={(kpi && formatter && formatter(kpi)) || valueMissingPlaceholder}
             percentageMetric={percentageMetric}
             metrics={item.metrics[id]}
             tooltipFormatter={formatter}
