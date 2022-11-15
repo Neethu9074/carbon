@@ -12,9 +12,10 @@ import { SvgIcon } from '@instana/components';
 
 // @ts-expect-error
 import TagsTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/TagsTable';
+import { ActionFormEntity, Tag } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
-import { Tag } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
+import { OnEntityChange } from 'in-settings/hooks/useEntityForm';
 import FormGroup from 'in-settings/components/FormGroup';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import Input from 'in-components/form/Input/Input';
@@ -22,13 +23,13 @@ import { t } from 'in-i18n';
 
 import locals from './TagsWrapper.mless';
 
-interface AlertConfigCustomPayloadProps {
+interface TagsWrapperProps {
   form: MapForm;
-  onChange: Function;
+  onChange: OnEntityChange<ActionFormEntity>;
   setForm: (form: MapForm) => void;
 }
 
-const keyColumnDefinition = (form: MapForm, onChange: Function) => ({
+const keyColumnDefinition = (form: MapForm, onChange: OnEntityChange<ActionFormEntity>) => ({
   id: 'id',
   sortable: false,
   label: t('in-settings:tabs.tags'),
@@ -41,7 +42,7 @@ const keyColumnDefinition = (form: MapForm, onChange: Function) => ({
             className={locals.key}
             value={item.value}
             hasError={!tagsField?.valid && tagsField?.touched && item.value === ''}
-            onChange={({ target }: any) => {
+            onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
               const tags = (tagsField as Field<Tag[]>)?.value;
               onChange(
                 'tags',
@@ -79,7 +80,7 @@ const deleteItemColumnDefinition = {
   }
 };
 
-export default function AlertConfigCustomPayload({ form, setForm, onChange }: AlertConfigCustomPayloadProps) {
+export default function TagsWrapper({ form, setForm, onChange }: TagsWrapperProps) {
   const tableColumnDefinitions = [keyColumnDefinition(form, onChange), deleteItemColumnDefinition];
   const tags = (form?.get('tags') as Field<Tag[]>).value;
   const data = {

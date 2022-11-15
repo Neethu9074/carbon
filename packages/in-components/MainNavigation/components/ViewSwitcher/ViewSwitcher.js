@@ -9,15 +9,21 @@ import React from 'react';
 import { Spacer } from '@instana/components';
 
 import {
-  pcfEnabled,
-  phmcEnabled,
-  vsphereEnabled,
-  openstackEnabled,
-  zhmcEnabled,
-  releaseNotesEnabled,
-  tenantSwitcherEnabled,
-  syntheticsTestEnabled
-} from 'in-services/featureFlags';
+  hasApplicationsAccess,
+  hasWebsitesAccess,
+  hasKubernetesAccess,
+  hasAnalyzeAccess,
+  hasMobileAppsAccess,
+  hasInfrastructureAccess,
+  hasSyntheticsAccess,
+  hasVSphereAccess,
+  hasPHMCAccess,
+  hasZHMCAccess,
+  hasPCFAccess,
+  hasOpenStackAccess,
+  hasEventsAccess,
+  hasAPlatformAccess
+} from 'in-stores/permission';
 import {
   mobileAppMonitoringPath,
   getLinkToAnalyze as getLinkToMobileAppAnalyze,
@@ -28,13 +34,6 @@ import {
   getLinkToAnalyze as getLinkToWebsiteAnalyze,
   isAnalyzeView as isWebsiteAnalyzeView
 } from 'in-websites/navigation/paths';
-import {
-  hasApplicationsAccess,
-  hasWebsitesAccess,
-  hasKubernetesAccess,
-  hasAnalyzeAccess,
-  hasMobileAppsAccess
-} from 'in-stores/permission';
 import {
   applicationsList,
   getLinkToAnalyze as getLinkToApplicationsAnalyze,
@@ -52,6 +51,7 @@ import { SubViewItem } from 'in-components/MainNavigation/components/ViewSwitche
 import { isSyntheticMonitoringView, syntheticsPath } from 'in-synthetics/navigation/paths';
 import { urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
 import { getView, isView, getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { releaseNotesEnabled, tenantSwitcherEnabled } from 'in-services/featureFlags';
 import { regionListFullyQualified, openstack } from 'in-openstack/navigation/paths';
 import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
 import { isAnalyzeView as isLogsAnalyzeView } from 'in-logging/navigation/paths';
@@ -80,6 +80,14 @@ import locals from './ViewSwitcher.mless';
 
 const tenantSwitcherLink = `https://${config.tenantUnitDomainSuffix}/tenantSwitcher`;
 
+const hasFirstSectionAccess =
+  hasWebsitesAccess ||
+  hasMobileAppsAccess ||
+  hasApplicationsAccess ||
+  hasAPlatformAccess ||
+  hasInfrastructureAccess ||
+  hasSyntheticsAccess;
+const hasSecondSectionAcccess = hasAnalyzeAccess || hasEventsAccess;
 export default function ViewSwitcher({
   isExpanded,
   expandedSubMenu,
@@ -118,10 +126,10 @@ export default function ViewSwitcher({
       />
       <Infrastructure {...commonProps} />
       <Synthetics {...commonProps} />
-      <SpacerListItem />
+      {hasFirstSectionAccess && <SpacerListItem />}
       <Analyze {...commonProps} />
-      <Incidents {...commonProps} />
-      <SpacerListItem />
+      {hasEventsAccess && <Incidents {...commonProps} />}
+      {hasSecondSectionAcccess && <SpacerListItem />}
       <View
         id="main-nav-settings"
         label={t('in-components:mainNavigation.viewSwitcherLabelSettings')}
@@ -275,6 +283,9 @@ function SignOut() {
 }
 
 function Infrastructure(props) {
+  if (!hasInfrastructureAccess) {
+    return null;
+  }
   return (
     <View
       id="main-nav-infrastructure"
@@ -288,7 +299,9 @@ function Infrastructure(props) {
 }
 
 function Synthetics(props) {
-  if (!syntheticsTestEnabled) return null;
+  if (!hasSyntheticsAccess) {
+    return null;
+  }
   return (
     <View
       id="main-nav-synthetics"
@@ -415,12 +428,12 @@ function Platforms(props) {
   const { expandedSubMenu, setExpandedSubMenu, sidebarIsExpanded, onMouseEnter, onMouseLeave } = props;
 
   let numPlatformsAvailable = 0;
-  if (openstackEnabled) numPlatformsAvailable++;
-  if (pcfEnabled) numPlatformsAvailable++;
-  if (phmcEnabled) numPlatformsAvailable++;
-  if (zhmcEnabled) numPlatformsAvailable++;
+  if (hasOpenStackAccess) numPlatformsAvailable++;
+  if (hasPCFAccess) numPlatformsAvailable++;
+  if (hasPHMCAccess) numPlatformsAvailable++;
+  if (hasZHMCAccess) numPlatformsAvailable++;
   if (hasKubernetesAccess) numPlatformsAvailable++;
-  if (vsphereEnabled) numPlatformsAvailable++;
+  if (hasVSphereAccess) numPlatformsAvailable++;
   if (numPlatformsAvailable === 0) {
     return null;
   }
@@ -429,7 +442,7 @@ function Platforms(props) {
   const platforms = (
     <>
       {/* Keep the list of platforms sorted alphabetically */}
-      {pcfEnabled && (
+      {hasPCFAccess && (
         <ViewItemForPlatforms
           id="main-nav-cloudfoundry"
           label={t('in-components:mainNavigation.viewSwitcherLabelCloudFoundry')}
@@ -439,7 +452,7 @@ function Platforms(props) {
           {...props}
         />
       )}
-      {openstackEnabled && (
+      {hasOpenStackAccess && (
         <ViewItemForPlatforms
           id="main-nav-openstack"
           label={t('in-components:mainNavigation.viewSwitcherLabelOpenstack')}
@@ -449,7 +462,7 @@ function Platforms(props) {
           {...props}
         />
       )}
-      {phmcEnabled && (
+      {hasPHMCAccess && (
         <ViewItemForPlatforms
           id="main-nav-phmc"
           label={t('in-components:mainNavigation.viewSwitcherLabelphmc')}
@@ -459,7 +472,7 @@ function Platforms(props) {
           {...props}
         />
       )}
-      {zhmcEnabled && (
+      {hasZHMCAccess && (
         <ViewItemForPlatforms
           id="main-nav-zhmc"
           label={t('in-components:mainNavigation.viewSwitcherLabelzhmc')}
@@ -479,7 +492,7 @@ function Platforms(props) {
           {...props}
         />
       )}
-      {vsphereEnabled && (
+      {hasVSphereAccess && (
         <ViewItemForPlatforms
           id="main-nav-vsphere"
           label={t('in-components:mainNavigation.viewSwitcherLabelvSphere')}

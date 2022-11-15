@@ -10,12 +10,12 @@ import { Progress, TagFilter } from '@instana/types';
 import { Observable } from '@instana/observables';
 
 import { GetDataParams, HeaderActionProps } from 'in-logging/analyze/AnalyzeView/components/Logs/types';
-import { StateManagementProps } from 'in-components/AnalyzeView/StateManagement';
+import { StateManagementChildProps } from 'in-components/AnalyzeView/StateManagement';
 
 /*
  * Interim types - correct and narrow down the types once UngroupedView.js is migrated to TS
  * */
-export interface UngroupedViewProps extends StateManagementProps {
+export interface UngroupedViewProps extends StateManagementChildProps {
   Presenter?: JSX.Element;
   useCursorPaginationStrategy: () => unknown;
   classNames: Record<string, string>;

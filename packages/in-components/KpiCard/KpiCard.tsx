@@ -94,7 +94,7 @@ export default function KpiCard({
     } else {
       const match = String(value).match(valueSplitRegExp);
       if (!match) {
-        major = value.toString();
+        major = value;
       } else {
         major = match[1];
         minor = match[2];

@@ -236,14 +236,7 @@
     "queryProgress": {
       "preparing": "Preparing…",
       "runningQuery": "Running query…",
-      "timeout": "This query has timed out.",
-      "timeoutEstimated": "Your query could not be processed due to the high volume of calls.",
-      "timeoutInfo": "Please select a shorter timeframe.",
-      "inputError": "There was an input error.",
-      "tooManyRequests": "Too many requests",
-      "tooManyRequestsInfo": "Our system is currently busy. Please try again later.",
-      "serverError": "Server Error",
-      "serverErrorInfo": "An unexpected error occurred. Please try again later or contact support to report the error."
+      "inputError": "There was an input error."
     }
   },
   "aboutInstanaDialog": {
@@ -310,7 +303,14 @@
     "services": "Services"
   },
   "error": {
-    "erroneousResultPresenterMessage": "An unexpected error occurred. Please refresh the page or try again later."
+    "erroneousResultPresenterMessage": "An unexpected error occurred. Please refresh the page or try again later.",
+    "timeout": "This query has timed out.",
+    "timeoutInfo": "Please select a shorter timeframe.",
+    "timeoutEstimated": "Your query could not be processed due to the high volume of calls.",
+    "tooManyRequests": "Too many requests",
+    "tooManyRequestsInfo": "Our system is currently busy. Please try again later.",
+    "serverError": "Server Error",
+    "serverErrorInfo": "An unexpected error occurred. Please try again later or contact support to report the error."  
   },
   "expandableCard": {
     "tooltipShowLess": "Show less",

@@ -8,7 +8,6 @@ import React, { Fragment } from 'react';
 import { Card } from '@instana/components';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import { number, percentage } from 'in-services/formatters/number';
@@ -26,52 +25,27 @@ export default function Summary({ timeConfig, data: instance }) {
   return (
     <Fragment>
       <KpiGridRow sizes={[4, 4, 4]}>
-        <KpiCard title={t('in-openstack:name')} value={instance.name || valueMissingPlaceholder} raw borderless />
-        <KpiCard title={t('in-openstack:id')} value={instance.id || valueMissingPlaceholder} raw borderless />
-        <KpiCard
-          title={t('in-openstack:hostName')}
-          value={instance.openstackItem.host || valueMissingPlaceholder}
-          raw
-          borderless
-        />
+        <KpiCard title={t('in-openstack:name')} value={instance.name} raw borderless />
+        <KpiCard title={t('in-openstack:id')} value={instance.id} raw borderless />
+        <KpiCard title={t('in-openstack:hostName')} value={instance.openstackItem.host} raw borderless />
       </KpiGridRow>
       <KpiGridRow sizes={[2, 2, 2, 2, 2, 2]}>
         <KpiCard
           title={t('in-openstack:availabilityZone')}
-          value={instance.openstackItem.availabilityZone || valueMissingPlaceholder}
+          value={instance.openstackItem.availabilityZone}
           raw
           borderless
         />
-        <KpiCard
-          title={t('in-openstack:hostId')}
-          value={instance.openstackItem.hostIP || valueMissingPlaceholder}
-          raw
-          borderless
-        />
-        <KpiCard
-          title={t('in-openstack:flavor')}
-          value={instance.openstackItem.flavor || valueMissingPlaceholder}
-          raw
-          borderless
-        />
-        <KpiCard
-          title={t('in-openstack:imageName')}
-          value={instance.openstackItem.image || valueMissingPlaceholder}
-          raw
-          borderless
-        />
+        <KpiCard title={t('in-openstack:hostId')} value={instance.openstackItem.hostIP} raw borderless />
+        <KpiCard title={t('in-openstack:flavor')} value={instance.openstackItem.flavor} raw borderless />
+        <KpiCard title={t('in-openstack:imageName')} value={instance.openstackItem.image} raw borderless />
         <InfraMetricKpiCard
           title={t('in-openstack:uptime')}
           snapshotId={snapshotId}
           metric="upTime"
           formatter={number.compact}
         />
-        <KpiCard
-          title={t('in-openstack:status')}
-          value={instance.openstackItem.status || valueMissingPlaceholder}
-          raw
-          borderless
-        />
+        <KpiCard title={t('in-openstack:status')} value={instance.openstackItem.status} raw borderless />
       </KpiGridRow>
       <Row verticallyStretchColumns>
         <Col lg={6}>

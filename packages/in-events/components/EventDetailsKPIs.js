@@ -13,7 +13,6 @@ import {
   fireCallbacksForEventAtFocusedMomentAsStream,
   getEventSeverityLabel
 } from 'in-stores/events';
-import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import DateTimeKpiCard from 'in-components/KpiCard/DateTimeKpiCard';
 import getRecentEvents$ from 'in-events/recentEvents';
@@ -118,12 +117,10 @@ const Ended = connectTo(
     };
   },
   function Ended({ event, isOpen }) {
-    return isOpen ? (
-      <KpiCard title={t('in-events:titleEnded')} value={valueMissingPlaceholder} raw />
-    ) : (
+    return (
       <DateTimeKpiCard
         title={t('in-events:titleEnded')}
-        time={event.get('start') !== event.get('end') ? event.get('end') : null}
+        time={isOpen && event.get('start') !== event.get('end') ? event.get('end') : null}
       />
     );
   }

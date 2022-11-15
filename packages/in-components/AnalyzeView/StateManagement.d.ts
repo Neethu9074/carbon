@@ -6,14 +6,25 @@
 
 import React from 'react';
 
-import { Group, MetricDescription, Result, TagSuggestions } from '@instana/types/typeDefinitions';
+import { Group, MetricDescription, Result } from '@instana/types/typeDefinitions';
 import { TagFilter, TimeConfig } from '@instana/types';
 import { Observable } from '@instana/observables';
 
 import { GroupingTag } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable/types';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import { ObservableCreator } from 'in-services/util/memoizingObservableGenerator';
+import { GetLogGroupsResponse } from 'in-logging/subscriptions/getLogGroups';
+import { GetMetricCatalog } from 'in-services/metrics/metricCatalog';
 import { EnrichedTagCatalog } from 'in-services/tags/tagCatalog';
+import { ParameterDefinition } from 'in-stores/navigation/types';
 import { TagFilterExpressionElementUnion } from 'in-types';
+import { UrlState } from 'in-synthetics/utils/constants';
+import { IngestionOffsetCursor } from 'in-types';
+import { Options } from 'in-hooks/useUrlState';
+
+export type Facets = Record<unknown, unknown>;
+
+type Direction = 'ASC' | 'DESC';
 
 type Field = {
   customFieldId?: string;
@@ -22,11 +33,9 @@ type Field = {
   aggregationId?: string;
 };
 
-type Facets = Record<unknown, unknown>;
-
 type Order = {
   by: string;
-  direction: 'ASC' | 'DESC';
+  direction: Direction;
 };
 
 interface GetHrefToGroupedViewParams {
@@ -41,21 +50,48 @@ type ChartableDataSeries = {
 
 type ChartedMetric = { metricId: string; aggregationId: string }[] | { templateId: string }[];
 
-type GetFacetedSearchSuggestionsParams = {
+export type GetFacetedSearchSuggestionsParams = {
   timeConfig: TimeConfig;
   facets: Facets;
   tag: TagFilter;
-  facetedSearchItems: unknown;
+  facetedSearchItems: FacetedSearchItem[];
   formModel: FormModelElement;
-  group: string;
+  group: Group;
   metricKey: string;
   hiddenCalls: unknown;
+  excludeMissingGroupingTagFilterExpression: boolean;
+  cursor?: IngestionOffsetCursor;
 };
+
+export interface FacetedSearchItem {
+  renderer: () => JSX.Element;
+  title: string;
+  tag: string;
+  getSuggestionName: (unknown) => unknown;
+  getMetric: (unknown) => unknown;
+  customLabelMapper?: () => string;
+  ranges?: { start: number; string: number }[];
+  key?: string;
+  getItems?: (unknown) => unknown;
+  getSuggestions?: (unknown) => unknown;
+  enableUseAsGroup?: boolean;
+  extraProps?: Record<string, unknown>;
+}
+
+interface ExtendedColumnDefinition {
+  width: string;
+  minWidth: string;
+  getContent: (unknown) => unknown;
+  verticallyCenter: boolean;
+  forceMinimumWidth: boolean;
+  shrink: boolean;
+  label: string;
+}
 
 /*
  * Interim typing, some types might be wrong - correct and narrow down the types whenever possible
  * */
-export interface StateManagementProps {
+export interface StateManagementChildProps {
   Sidebar: React.ReactNode;
   Chart: React.ReactNode;
   groupedPaginationRef: {
@@ -115,5 +151,60 @@ export interface StateManagementProps {
   onChartedMetricsChange: (chartedMetric: ChartedMetric) => void;
   getHrefToDetailId: (id: string, item: unknown) => string;
   setDetailId: (id: string) => void;
-  getFacetedSearchSuggestions: (params: GetFacetedSearchSuggestionsParams) => Observable<Result<TagSuggestions>>;
+  getFacetedSearchSuggestions: (params: GetFacetedSearchSuggestionsParams) => Observable<GetLogGroupsResponse>;
 }
+
+interface GroupedView {
+  defaultOrderBy: string;
+  defaultOrderDirection: Direction;
+  customFieldRenderingInstructions?: ExtendedColumnDefinition;
+  timestampName?: string;
+  orderByGroupName?: string;
+  getCustomGroupLabel?: (unknown) => string;
+}
+
+interface UngroupedView {
+  defaultOrderBy: string;
+  defaultOrderDirection: Direction;
+  customFieldRenderingInstructions?: ExtendedColumnDefinition;
+  timestamp?: string;
+  metricFieldExtractors?: {
+    getColumnId: (unknown) => string;
+    getColumnLabel: (unknown) => string;
+    getColumnFormatter: (unknown) => unknown;
+    getColumnValue: (unknown) => unknown;
+    ColumnContent: (unknown) => JSX.Element;
+  };
+}
+
+interface DataSourceConfiguration {
+  metricCatalogTransformer: (unknown) => unknown;
+  chartableMetricCatalogTransformer: (unknown) => unknown;
+  facetedSearchItems: FacetedSearchItem[];
+  groupedView: GroupedView;
+  ungroupedView: UngroupedView;
+  fixedFields: Field[];
+  defaultSelectableFields: Field[];
+  defaultChartedMetrics: ChartedMetric;
+  getCustomFormatter: () => unknown;
+}
+
+export interface TimeFixatingAnalyzeStateManagementProps {
+  path: string;
+  dataSourceParameter: ParameterDefinition<string>;
+  defaultDataSource: string;
+  getTagCatalog?: ObservableCreator<GetTagCatalogParams, Result<CatalogResponse>>;
+  dataSourceConfigurations: Record<string, Partial<DataSourceConfiguration>>;
+}
+
+export interface StateManagementProps extends TimeFixatingAnalyzeStateManagementProps {
+  refreshFixatedTimeConfig?: () => void;
+  defaultDataSource: string;
+  getMetricCatalog?: GetMetricCatalog;
+  getMetricTemplates?: ObservableCreator<unknown, unknown>;
+  urlStateDefinition?: Options<UrlState>;
+}
+
+declare const StateManagement: React.FC<StateManagementProps>;
+
+export default StateManagement;

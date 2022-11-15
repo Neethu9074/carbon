@@ -14,16 +14,13 @@ export default function DateTimeKpiCard({ title, time, borderless }) {
   return (
     <KpiCard
       title={title}
-      value={
-        time == undefined ? (
-          time
-        ) : (
-          <time dateTime={new Date(time).toISOString()}>
-            <span className={locals.row}>{formatDate(time)}</span>
-            <span className={locals.row}>{formatTime(time)}</span>
-          </time>
-        )
-      }
+      value={time}
+      renderValue={value => (
+        <time dateTime={new Date(value).toISOString()}>
+          <span className={locals.row}>{formatDate(value)}</span>
+          <span className={locals.row}>{formatTime(value)}</span>
+        </time>
+      )}
       borderless={borderless}
       raw
     />

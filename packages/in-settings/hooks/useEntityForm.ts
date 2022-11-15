@@ -14,6 +14,11 @@ import { t } from 'in-i18n';
 
 export const savingMessage = t('in-hoc:entityFormSaving');
 
+export type OnEntityChange<ENTITY> = <VALUETYPE>(
+  fieldName: string | ((mapForm: MapForm) => MapForm),
+  value: VALUETYPE,
+  updateFormDefinition?: (mapForm: MapForm, entity: ENTITY) => MapForm
+) => MapForm;
 interface State<ENTITY> {
   loading: boolean;
   error: boolean;
@@ -164,11 +169,11 @@ export default function useEntityForm<ENTITY>(props: Parameters<ENTITY>) {
     }
   }
 
-  function onChange<VALUETYPE>(
+  const onChange: OnEntityChange<ENTITY> = <VALUETYPE>(
     fieldName: string | ((mapForm: MapForm) => MapForm),
     value: VALUETYPE,
-    updateFormDefinition: (mapForm: MapForm, entity: ENTITY) => MapForm
-  ) {
+    updateFormDefinition?: (mapForm: MapForm, entity: ENTITY) => MapForm
+  ) => {
     let updatedForm = state.form!;
 
     if (typeof fieldName === 'function') {
@@ -191,7 +196,7 @@ export default function useEntityForm<ENTITY>(props: Parameters<ENTITY>) {
     setForm(updatedForm);
 
     return updatedForm;
-  }
+  };
 
   function setForm(form: MapForm) {
     setState({

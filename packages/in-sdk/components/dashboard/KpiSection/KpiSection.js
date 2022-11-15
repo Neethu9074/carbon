@@ -15,7 +15,9 @@ export function KpiHeading({ children }) {
 export function KpiKeyValue({ label, iconAction, children }) {
   return (
     <Col xs>
-      <KpiCard title={label} iconAction={iconAction} value={children} />
+      <KpiCard title={label} iconAction={iconAction}>
+        {children}
+      </KpiCard>
     </Col>
   );
 }

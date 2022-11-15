@@ -46,6 +46,16 @@ body {
   margin-left: 0.6rem;
 }
 
+.signout-form {
+  display: inline;
+}
+
+.signout-button {
+  font-family: inherit;
+  font-size: 1rem;
+  margin-right: 0.6rem;
+}
+
 /*
  Layout for side-by-side content / stan presentation
 */

@@ -5,13 +5,9 @@
 
 import ConfigurationView from 'promise-loader?global,configView!in-settings/ConfigurationView';
 import { Route } from 'react-router-dom';
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import { settingsBasePath } from 'in-settings/navigation/paths';
 
-export default (
-  <Fragment>
-    <Route path={settingsBasePath} children={renderAsyncRouteChildren(ConfigurationView)} />
-  </Fragment>
-);
+export default <Route path={settingsBasePath} children={renderAsyncRouteChildren(ConfigurationView)} />;

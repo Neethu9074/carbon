@@ -15,7 +15,7 @@ import AnalyzeView2_0 from 'promise-loader?global,applications!in-applications/a
 import ApplicationsList from 'promise-loader?global,applications!in-applications/lists/ApplicationsList';
 import ServicesList from 'promise-loader?global,applications!in-applications/lists/ServicesList';
 import { Route } from 'react-router-dom';
-import React, { Fragment } from 'react';
+import React from 'react';
 
 // the following components are all part of the same bundle (application)
 import {
@@ -35,30 +35,30 @@ import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncCompo
 import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 
-export default (
-  <Fragment>
+export default function applicationRoutes() {
+  let appRoutes = [
     <Route
       path={`${newApplicationWaiterView}/:appId/:appName`}
       children={renderAsyncRouteChildren(NewApplicationWaiter)}
-    />
-
-    {role.canConfigureServiceMapping && (
-      <Fragment>
-        <Route path={newServiceView} children={renderAsyncRouteChildren(CustomServiceMapping)} />
-        <Route path={configureSyntheticEndpointsView} children={renderAsyncRouteChildren(SyntheticCallConfig)} />
-        <Route path={configureEndpointsView} children={renderAsyncRouteChildren(CustomEndpointMapping)} />
-      </Fragment>
-    )}
-
-    <Route path={applicationsList} children={renderAsyncRouteChildren(ApplicationsList)} />
-    <Route path={applicationDashboard} children={renderAsyncRouteChildren(ApplicationDashboard)} />
-    <Route path={servicesList} children={renderAsyncRouteChildren(ServicesList)} />
-    <Route path={serviceDashboard} children={renderAsyncRouteChildren(ServiceDashboard)} />
-    <Route path={endpointDashboard} children={renderAsyncRouteChildren(EndpointDashboard)} />
-    {applicationSmartAlertsEnabled && (
-      <Route path={alertsList} children={renderAsyncRouteChildren(GlobalSmartAlertsTab)} />
-    )}
-
+    />,
+    <Route path={applicationsList} children={renderAsyncRouteChildren(ApplicationsList)} />,
+    <Route path={applicationDashboard} children={renderAsyncRouteChildren(ApplicationDashboard)} />,
+    <Route path={servicesList} children={renderAsyncRouteChildren(ServicesList)} />,
+    <Route path={serviceDashboard} children={renderAsyncRouteChildren(ServiceDashboard)} />,
+    <Route path={endpointDashboard} children={renderAsyncRouteChildren(EndpointDashboard)} />,
     <Route path={analyzePath} children={renderAsyncRouteChildren(AnalyzeView2_0)} />
-  </Fragment>
-);
+  ];
+
+  if (role.canConfigureServiceMapping) {
+    appRoutes.push(
+      <Route path={newServiceView} children={renderAsyncRouteChildren(CustomServiceMapping)} />,
+      <Route path={configureSyntheticEndpointsView} children={renderAsyncRouteChildren(SyntheticCallConfig)} />,
+      <Route path={configureEndpointsView} children={renderAsyncRouteChildren(CustomEndpointMapping)} />
+    );
+  }
+  if (applicationSmartAlertsEnabled) {
+    appRoutes.push(<Route path={alertsList} children={renderAsyncRouteChildren(GlobalSmartAlertsTab)} />);
+  }
+
+  return appRoutes;
+}

@@ -34,6 +34,9 @@ phases:
       - n `cat .nvmrc`
   pre_build:
     commands:
+      - git remote set-url origin "https://${GITHUB_API_TOKEN}:x-oauth-basic@github.ibm.com/instana/ui-client.git"
+      - git config --global user.email "instana.ibm.github.enterprise@ibm.com"
+      - git config --global user.name "Instana-IBM-GitHub-Enterprise"
       - |
         REGISTRY="https://delivery.instana.io" \
           REPOSITORY_KEY="int-npm-virtual" \
