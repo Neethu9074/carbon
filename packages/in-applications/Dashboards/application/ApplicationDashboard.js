@@ -58,7 +58,7 @@ const urlStateDefinition = {
   ]
 };
 
-const BoundaryScopeDropdownDisabledTabs = [dependencyMapTab, smartAlertsTab, syntheticsTab, configurationTab];
+const boundaryScopeDropdownDisabledTabs = [dependencyMapTab, smartAlertsTab, syntheticsTab, configurationTab];
 
 export default function ApplicationDashboard({ location }) {
   const [{ appId, boundaryScope, syntheticCalls }, setUrlState] = useUrlState(urlStateDefinition);
@@ -177,7 +177,7 @@ function renderButtonLine(props) {
 }
 
 const disableAllCallsDropdown = currentTab => {
-  if (BoundaryScopeDropdownDisabledTabs.includes(currentTab)) {
+  if (boundaryScopeDropdownDisabledTabs.includes(currentTab)) {
     return true;
   } else {
     return false;
