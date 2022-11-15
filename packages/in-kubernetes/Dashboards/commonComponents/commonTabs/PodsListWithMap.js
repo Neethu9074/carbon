@@ -39,6 +39,8 @@ export default function PodsListWithMap(props) {
     <Card>
       <ControlFrame
         {...props}
+        view={view}
+        setView={setView}
         groupingOptions={groupingOptions}
         render={_props => (
           <WithEmptyStateFallback getHasDataToRender={() => getHasDataToRender(props)}>
