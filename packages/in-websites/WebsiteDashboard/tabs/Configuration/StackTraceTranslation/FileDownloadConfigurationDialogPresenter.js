@@ -3,12 +3,19 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 
 import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
 import { Link } from '@instana/components';
 
+import {
+  CreateForm,
+  createMatchingRuleForm,
+  createHeaderForm,
+  deserializePattern
+} from 'in-websites/WebsiteDashboard/tabs/Configuration/StackTraceTranslation/FileDownloadConfigurationDialogForm';
+import { addSourceMapDownloadConfiguration, updateSourceMapDownloadConfiguration } from 'in-websites/api/websites';
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -28,7 +35,89 @@ import Input from 'in-components/form/Input';
 import locals from './FileDownloadConfigurationDialogPresenter.mless';
 
 export default function FileDownloadConfigurationDialogPresenter(props) {
-  const { form, message, onSubmit } = props;
+  //   withState('form', 'setForm', ({ config }) => createForm(config)),
+  //   withState('message', 'setMessage', null),
+  const { config, websiteId, onFinished } = props;
+  const [form, setForm] = useState(CreateForm(config));
+  const [message, setMessage] = useState(null);
+  function onChange(path, value) {
+    setForm(form.updateIn(path, field => field.setValue(value).setTouched(true)));
+  }
+  function addMatchingRule() {
+    setForm(form.updateIn(['matchingRules'], list => list.setTouched(true).push(createMatchingRuleForm())));
+  }
+  function removeMatchingRule(index) {
+    setForm(form.updateIn(['matchingRules'], list => list.setTouched(true).remove(index)));
+  }
+  function addHeader() {
+    setForm(form.updateIn(['headers'], list => list.setTouched(true).push(createHeaderForm())));
+  }
+  function removeHeader(index) {
+    setForm(form.updateIn(['headers'], list => list.setTouched(true).remove(index)));
+  }
+  function onSubmit(e) {
+    e.preventDefault();
+
+    if (!form.hierarchyValid) {
+      setForm(form.setTouched(true, { recurse: true }));
+      return;
+    }
+
+    const config = form.toJS();
+    // convert to expected backend structure
+    config.headers = config.headers.reduce((headers, header) => {
+      headers[header.key] = header.value;
+      return headers;
+    }, {});
+
+    config.matchingRules.forEach(rule => {
+      const host = deserializePattern(rule.host);
+      const path = deserializePattern(rule.path);
+      rule.hostPrefix = host.prefix;
+      rule.hostEquality = host.equality;
+      rule.hostSuffix = host.suffix;
+      rule.pathPrefix = path.prefix;
+      rule.pathEquality = path.equality;
+      rule.pathSuffix = path.suffix;
+    });
+
+    let response$;
+    let successMessage;
+    setMessage({
+      message: t(
+        'in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogMessageSavingConfiguration'
+      ),
+      type: 'success',
+      isSaving: true
+    });
+    if (config.id) {
+      response$ = updateSourceMapDownloadConfiguration(websiteId, config);
+      successMessage = t(
+        'in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogMessageConfigurationUpdated'
+      );
+    } else {
+      response$ = addSourceMapDownloadConfiguration(websiteId, config);
+      successMessage = t(
+        'in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogMessageNewConfigurationSaved'
+      );
+    }
+
+    response$.once(
+      () => {
+        onFinished({ message: successMessage, type: 'success' });
+        close();
+      },
+      error => {
+        setMessage({
+          message: t(
+            'in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogMessageFailedToSaveConfiguration',
+            { message: error.message }
+          ),
+          type: 'error'
+        });
+      }
+    );
+  }
   const disabled = message && message.isSaving;
 
   return (
@@ -45,9 +134,21 @@ export default function FileDownloadConfigurationDialogPresenter(props) {
         <fieldset disabled={disabled}>
           {message && <TemporaryMessage type={message.type} message={message.message} duration={5000} />}
 
-          <MatchingRules {...props} disabled={disabled} />
-          <BasicAuth {...props} />
-          <HttpHeaders {...props} disabled={disabled} />
+          <MatchingRules
+            form={form}
+            onChange={onChange}
+            addMatchingRule={addMatchingRule}
+            removeMatchingRule={removeMatchingRule}
+            disabled={disabled}
+          />
+          <BasicAuth form={form} onChange={onChange} />
+          <HttpHeaders
+            form={form}
+            onChange={onChange}
+            addHeader={addHeader}
+            removeHeader={removeHeader}
+            disabled={disabled}
+          />
 
           <SaveCancel form={form} onClickCancelButton={close} isCreate={isBlank(form.get('id').value)} />
         </fieldset>

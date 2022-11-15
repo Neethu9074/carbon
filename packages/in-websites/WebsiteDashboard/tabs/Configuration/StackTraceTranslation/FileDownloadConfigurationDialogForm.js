@@ -4,101 +4,12 @@
  */
 
 import { createMapForm, createField, createListForm, composeValidators } from 'formalistic';
-import { compose, withProps, withState } from 'recompose';
 
-import FileDownloadConfigurationDialogPresenter from 'in-websites/WebsiteDashboard/tabs/Configuration/StackTraceTranslation/FileDownloadConfigurationDialogPresenter';
-import { addSourceMapDownloadConfiguration, updateSourceMapDownloadConfiguration } from 'in-websites/api/websites';
 import { notBlankValidator } from 'in-services/validators/string';
 import { isBlank, isNotBlank } from 'in-services/util/string';
-import { close } from 'in-components/DialogPresenter/store';
 import { t } from 'in-i18n';
 
-export default compose(
-  withState('form', 'setForm', ({ config }) => createForm(config)),
-  withState('message', 'setMessage', null),
-  withProps(({ form, setForm, setMessage, websiteId, onFinished }) => ({
-    onChange(path, value) {
-      setForm(form.updateIn(path, field => field.setValue(value).setTouched(true)));
-    },
-    addMatchingRule() {
-      setForm(form.updateIn(['matchingRules'], list => list.setTouched(true).push(createMatchingRuleForm())));
-    },
-    removeMatchingRule(index) {
-      setForm(form.updateIn(['matchingRules'], list => list.setTouched(true).remove(index)));
-    },
-    addHeader() {
-      setForm(form.updateIn(['headers'], list => list.setTouched(true).push(createHeaderForm())));
-    },
-    removeHeader(index) {
-      setForm(form.updateIn(['headers'], list => list.setTouched(true).remove(index)));
-    },
-    onSubmit(e) {
-      e.preventDefault();
-
-      if (!form.hierarchyValid) {
-        setForm(form.setTouched(true, { recurse: true }));
-        return;
-      }
-
-      const config = form.toJS();
-      // convert to expected backend structure
-      config.headers = config.headers.reduce((headers, header) => {
-        headers[header.key] = header.value;
-        return headers;
-      }, {});
-
-      config.matchingRules.forEach(rule => {
-        const host = deserializePattern(rule.host);
-        const path = deserializePattern(rule.path);
-        rule.hostPrefix = host.prefix;
-        rule.hostEquality = host.equality;
-        rule.hostSuffix = host.suffix;
-        rule.pathPrefix = path.prefix;
-        rule.pathEquality = path.equality;
-        rule.pathSuffix = path.suffix;
-      });
-
-      let response$;
-      let successMessage;
-      setMessage({
-        message: t(
-          'in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogMessageSavingConfiguration'
-        ),
-        type: 'success',
-        isSaving: true
-      });
-      if (config.id) {
-        response$ = updateSourceMapDownloadConfiguration(websiteId, config);
-        successMessage = t(
-          'in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogMessageConfigurationUpdated'
-        );
-      } else {
-        response$ = addSourceMapDownloadConfiguration(websiteId, config);
-        successMessage = t(
-          'in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogMessageNewConfigurationSaved'
-        );
-      }
-
-      response$.once(
-        () => {
-          onFinished({ message: successMessage, type: 'success' });
-          close();
-        },
-        error => {
-          setMessage({
-            message: t(
-              'in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogMessageFailedToSaveConfiguration',
-              { message: error.message }
-            ),
-            type: 'error'
-          });
-        }
-      );
-    }
-  }))
-)(FileDownloadConfigurationDialogPresenter);
-
-export function createForm(config) {
+export function CreateForm(config) {
   let matchingRules = createListForm({
     validator: isAtLeastOneMatchingRuleDefinedValidator
   });
@@ -143,7 +54,7 @@ export function createForm(config) {
     .put('headers', headers);
 }
 
-function createMatchingRuleForm(rule = null) {
+export function createMatchingRuleForm(rule = null) {
   return createMapForm({
     items: {
       allowTransmissionViaInsecureChannel: createField({
@@ -207,7 +118,7 @@ function serializePathPattern(prefix, equality, suffix) {
   return value;
 }
 
-function createHeaderForm(key, value) {
+export function createHeaderForm(key, value) {
   return createMapForm()
     .put(
       'key',
@@ -284,7 +195,7 @@ function pathValidator(value) {
   ];
 }
 
-function deserializePattern(pattern) {
+export function deserializePattern(pattern) {
   if (isBlank(pattern)) {
     return {
       prefix: '',
