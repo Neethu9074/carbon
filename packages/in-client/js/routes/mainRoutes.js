@@ -38,6 +38,7 @@ import LandingPage from 'in-client/js/LandingPage/LandingPage';
 import kubernetesRoutes from 'in-kubernetes/navigation/routes';
 import profilingRoutes from 'in-profiling/navigation/routes';
 import openstackRoutes from 'in-openstack/navigation/routes';
+import AddKeyToRoutes from 'in-components/AddKeyToRoutes';
 import loggingRoutes from 'in-logging/navigation/routes';
 import cockpitRoutes from 'in-cockpit/navigation/routes';
 import vsphereRoutes from 'in-vsphere/navigation/routes';
@@ -49,7 +50,7 @@ import zhmcRoutes from 'in-zhmc/navigation/routes';
 
 export default (
   <Switch>
-    {hasInfrastructureAccess && infrastructureRoutes}
+    {hasInfrastructureAccess && AddKeyToRoutes(infrastructureRoutes)}
     {configurationRoutes}
     {role.canConfigureAgents && (
       <Route path={agentsPath} children={renderAsyncRouteChildren(AgentView)} windowTitle="Instana Agents" />
@@ -60,20 +61,20 @@ export default (
 
     {hasEventsAccess && eventRoutes}
 
-    {hasSyntheticsAccess && syntheticsRoutes}
-    {hasApplicationsAccess && applicationRoutes()}
-    {hasKubernetesAccess && kubernetesRoutes}
-    {hasPCFAccess && cloudfoundryRoutes}
-    {hasPHMCAccess && phmcRoutes}
-    {hasVSphereAccess && vsphereRoutes}
-    {hasOpenStackAccess && openstackRoutes}
-    {hasZHMCAccess && zhmcRoutes}
-    {hasWebsitesAccess && websiteMonitoringRoutes}
-    {hasMobileAppsAccess && mobileAppMonitoringRoutes}
+    {hasSyntheticsAccess && AddKeyToRoutes(syntheticsRoutes)}
+    {hasApplicationsAccess && AddKeyToRoutes(applicationRoutes())}
+    {hasKubernetesAccess && AddKeyToRoutes(kubernetesRoutes)}
+    {hasPCFAccess && AddKeyToRoutes(cloudfoundryRoutes)}
+    {hasPHMCAccess && AddKeyToRoutes(phmcRoutes)}
+    {hasVSphereAccess && AddKeyToRoutes(vsphereRoutes)}
+    {hasOpenStackAccess && AddKeyToRoutes(openstackRoutes)}
+    {hasZHMCAccess && AddKeyToRoutes(zhmcRoutes)}
+    {hasWebsitesAccess && AddKeyToRoutes(websiteMonitoringRoutes)}
+    {hasMobileAppsAccess && AddKeyToRoutes(mobileAppMonitoringRoutes)}
     {integrationRoutes}
-    {customDashboardsRoutes}
+    {AddKeyToRoutes(customDashboardsRoutes)}
     {cockpitRoutes}
-    {profilingRoutes}
+    {AddKeyToRoutes(profilingRoutes)}
     {loggingRoutes}
     {deepLinkRoutes}
 

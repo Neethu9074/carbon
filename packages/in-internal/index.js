@@ -63,6 +63,7 @@ import Appdata from 'in-internal/monitoringUnit/Appdata/Appdata';
 import Acceptors from 'in-internal/monitoringUnit/sre/Acceptors';
 import Metrics from 'in-internal/thisUnit/Metrics/Metrics';
 import Kafka from 'in-internal/monitoringUnit/sre/Kafka';
+import AddKeyToRoutes from 'in-components/AddKeyToRoutes';
 import Unit from 'in-internal/monitoringUnit/unit/Unit';
 import Region from 'in-internal/monitoringUnit/Region';
 import Landing from 'in-internal/components/Landing';
@@ -184,7 +185,7 @@ export default function Internal() {
     <Route path="/internal/thisUnit/adaptiveBaselineModel" children={wrapInInternalView(AdaptiveBaselineModel)} />,
     <Route exact path="/internal" children={wrapInInternalView(Landing)} />
   );
-  return internalRoutes;
+  return AddKeyToRoutes(internalRoutes);
 }
 
 const wrapInInternalView = Component => {

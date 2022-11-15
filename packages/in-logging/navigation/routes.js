@@ -10,4 +10,4 @@ import React from 'react';
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import { logsPath } from 'in-logging/navigation/paths';
 
-export default [<Route path={logsPath} children={renderAsyncRouteChildren(AnalyzeView)} />];
+export default <Route path={logsPath} children={renderAsyncRouteChildren(AnalyzeView)} />;
