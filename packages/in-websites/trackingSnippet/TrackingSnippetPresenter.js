@@ -5,9 +5,10 @@
 
 import React from 'react';
 
-import { SvgIcon, Toggle, Link, Spacer } from '@instana/components';
+import { SvgIcon, Link } from '@instana/components';
 
 import { getTrackingSnippet } from 'in-websites/trackingSnippet';
+import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import Label from 'in-components/form/Label';
 import Tooltip from 'in-components/Tooltip';
 import Code from 'in-components/Code';
@@ -20,12 +21,13 @@ export default function TrackingSnippetPresenter({ websiteId, trackSessions, set
 
   return (
     <div className={locals.snippetWrapper}>
-      <div className={locals.snippet}>
-        <Code code={eumSnippet} lang="html" showLineNumbers={false} />
-      </div>
-
       <div className={locals.options}>
         <div className={locals.option}>
+          <CheckboxFancy
+            id="trackSessions"
+            checked={trackSessions}
+            onChange={e => setTrackSessions(e.target.checked)}
+          />
           <Label htmlFor="trackSessions" className={locals.label}>
             {t('in-websites:trackingSnippet.trackingSnippetPresenterLabelTrackSessions')}&nbsp;
             <Tooltip content={t('in-websites:trackingSnippet.trackingSnippetPresenterTooltip')}>
@@ -38,9 +40,10 @@ export default function TrackingSnippetPresenter({ websiteId, trackSessions, set
               </Link>
             </Tooltip>
           </Label>
-          <Spacer horizontal="xxsmall" />
-          <Toggle id="trackSessions" checked={trackSessions} onChange={e => setTrackSessions(e.target.checked)} />
         </div>
+      </div>
+      <div className={locals.snippet}>
+        <Code code={eumSnippet} lang="html" showLineNumbers={false} />
       </div>
     </div>
   );
