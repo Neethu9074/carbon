@@ -97,6 +97,10 @@
   },
   "tabs": {
     "team": {
+      "events": {
+        "withDeprecatedSuffix": "{{pluginName}} (deprecated)",
+        "placeholder": "Placeholder"
+      },
       "customPayload": {
         "unknownTag": "Unknown tag: {{tagName}}"
       }
@@ -222,14 +226,6 @@
     "addNumberOfItemsEvent_0": "Add {{count}} Events",
     "addNumberOfItemsEvent_1": "Add {{count}} Events",
     "addNumberOfItemsEvent_2": "Add {{count}} Events",
-    "noActionsSelected": "No Actions Selected",
-    "addActions": "Add Actions",
-    "pleaseSelectAtLeastOneAction": "Please select at least one action.",
-    "addNumberOfItemsAction": "Add {{count}} Action",
-    "addNumberOfItemsAction_plural": "Add {{count}} Actions",
-    "addNumberOfItemsAction_0": "Add {{count}} Actions",
-    "addNumberOfItemsAction_1": "Add {{count}} Actions",
-    "addNumberOfItemsAction_2": "Add {{count}} Actions",
     "4ActionAssociations": "4. Action Associations",
     "ActionAssociations": "Action Associations",
     "allEventsThatMatchTheEventTypesWillEnterTheNotificationStream": "<strong>Caution!</strong> All events that match the event types will enter the notification stream.",
@@ -550,6 +546,8 @@
     "savingGroup": "Saving group",
     "groupSuccessfullySaved": "Group successfully saved.",
     "groups": "Groups",
+    "groupDeleteTooltip_Default": "Default group is a built-in group and can't be deleted or renamed.",
+    "groupDeleteTooltip_Owner": "Owner group is a built-in group and can't be deleted or renamed.",
     "addGroup": "Add Group",
     "pendingInvitations": "Pending Invitations",
     "revoke": "Revoke",
@@ -853,10 +851,9 @@
     "actions": "Actions",
     "action": "action",
     "actionWithNameForDelete": "action {{actionName}}",
-    "filterActions": "Filter Actions",
+    "searchActions": "Search Actions",
     "lastModified": "Last Modified",
     "script": "Script",
-    "http": "HTTP",
     "docLink": "Documentation Link",
     "deletedEventMessage": "You are looking at a deleted event configuration. Modifications are not possible.",
     "actionTypeHelper": "Documentation Link refers to a url, script is for linux/windows machines (only bash supported for now) and http is a webhook.",
@@ -866,7 +863,13 @@
     "showsUpInTheActionDescription": "Shows up in the action description. Should be as descriptive as possible.",
     "docLinkDescription": "URL to remediation content.",
     "scriptDescription": "Script content.",
-    "execute": "Execute"
+    "execute": "Execute",
+    "confidence_low": "Low",
+    "confidence_medium": "Medium",
+    "confidence_high": "High",
+    "confidence": "{{context}}",
+    "confidenceTitle": "Confidence",
+    "test": "Test"
   },
   "languageSelection": {
     "language": "Language",

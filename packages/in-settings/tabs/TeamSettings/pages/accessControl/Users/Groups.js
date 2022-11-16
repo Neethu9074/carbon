@@ -70,16 +70,12 @@ const columnDefinitions = [
           itemName={group.groupName}
           doDelete={deleteItem}
           isDeleting={currentDeletingItemIds.has(group.groupId)}
-          dialogMessage={() => {
-            return (
-              <span>
-                <Trans
-                  i18nKey="in-settings:tabs.areYouSureYouWantToDeleteThisUserFromTheGroup"
-                  values={{ groupName: group.groupName }}
-                />
-              </span>
-            );
-          }}
+          dialogMessage={
+            <Trans
+              i18nKey="in-settings:tabs.areYouSureYouWantToDeleteThisUserFromTheGroup"
+              values={{ groupName: group.groupName }}
+            />
+          }
         />
       );
     }

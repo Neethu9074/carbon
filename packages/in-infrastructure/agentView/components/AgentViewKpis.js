@@ -15,23 +15,20 @@ import locals from './AgentViewKpis.mless';
 export default function AgentViewKpis({ agentSnapshots }) {
   return (
     <div className={locals.row}>
-      <KpiCard
-        title={t('in-infrastructure:agentView.totalAgents')}
-        value={
-          <div className={locals.value}>
-            {`${agentSnapshots?.get('online', emptyList).size + agentSnapshots?.get('offline', emptyList).size || 0}`}
-            <div className={locals.twoValueBar}>
-              <TwoValueBar
-                v1={agentSnapshots?.get('online', emptyList).size}
-                v2={agentSnapshots?.get('offline', emptyList).size}
-                formatter={v => v}
-                v1Label={t('in-infrastructure:agentView.reporting')}
-                v2Label={t('in-infrastructure:agentView.notReporting')}
-              />
-            </div>
+      <KpiCard title={t('in-infrastructure:agentView.totalAgents')}>
+        <div className={locals.value}>
+          {`${agentSnapshots?.get('online', emptyList).size + agentSnapshots?.get('offline', emptyList).size || 0}`}
+          <div className={locals.twoValueBar}>
+            <TwoValueBar
+              v1={agentSnapshots?.get('online', emptyList).size}
+              v2={agentSnapshots?.get('offline', emptyList).size}
+              formatter={v => v}
+              v1Label={t('in-infrastructure:agentView.reporting')}
+              v2Label={t('in-infrastructure:agentView.notReporting')}
+            />
           </div>
-        }
-      />
+        </div>
+      </KpiCard>
     </div>
   );
 }

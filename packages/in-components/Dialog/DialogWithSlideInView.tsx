@@ -25,8 +25,8 @@ export interface DialogWithSlideInViewProps {
   withoutBodyPadding?: boolean;
   removeBottomPaddingWhenFooterIsShown?: boolean;
   doNotCloseOnOutsideClick?: boolean;
-  onSlideInViewTitleClick?: () => void;
-  slideInViewTitle?: string;
+  onSlideInViewTitleClick?: VoidFunction;
+  slideInViewTitle?: React.ReactNode;
   slideInViewComponent?: React.ReactNode;
   slideInViewVisible?: boolean;
   footer?: React.ReactNode;

@@ -11,6 +11,7 @@ import { get, head } from 'lodash';
 import { PaginatedResult, Result, TestResultListItem } from '@instana/types/typeDefinitions';
 import { formatDateTime } from '@instana/format-date';
 import { useObservable } from '@instana/hooks';
+import { Button } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import {
@@ -20,10 +21,10 @@ import {
   ResultDetailsResponse,
   TestResponse
 } from 'in-synthetics/utils/constants';
-import getTestResultSubtransactions from 'in-synthetics/subscriptions/getTestResultSubtransactions';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 // @ts-expect-error Module needs to be translated to TS
 import Sticky from 'in-components/Sticky';
+import getTestResultDetailData from 'in-synthetics/subscriptions/getTestResultDetailData';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import getTestResultListStatus from 'in-synthetics/utils/getTestResultListStatus';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -32,6 +33,7 @@ import FailedRun from 'in-synthetics/dashboards/details/components/FailedRun';
 import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
 import DashboardHeader from 'in-components/DashboardHeader/DashboardHeader';
 import Timeline from 'in-synthetics/dashboards/details/components/Timeline';
+import { syntheticBrowserScriptEnabled } from 'in-services/featureFlags';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { syntheticDetailsPath } from 'in-synthetics/navigation/paths';
 import Logs from 'in-synthetics/dashboards/details/components/Logs';
@@ -40,6 +42,7 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
+import download from 'in-synthetics/utils/download';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { getTest } from 'in-synthetics/api';
 import theme from 'in-themes';
@@ -56,15 +59,20 @@ export default function SyntheticAnalyzeView() {
   const responseTime: number = +(getMatrixParameter(location, syntheticDetailsPath, 'responseTime') ?? 0);
   const responseSize: number = +(getMatrixParameter(location, syntheticDetailsPath, 'responseSize') ?? 0);
   const test: TestResponse = useObservable<any, [number]>(() => getTest(testId), [0]) || dummyTest;
-  const isHTTPActionType: boolean =
-    get(test, ['data', 'configuration', 'syntheticType']) === 'HTTPAction' ? true : false;
+  const testType: string = getMatrixParameter(location, syntheticDetailsPath, 'type') ?? '';
+  const isHTTPActionType: boolean = testType === 'HTTPAction';
+  // @ts-ignore Temporal while the implementations that uses this const are implemented.
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const isBrowserScriptTest: boolean = testType === 'BrowserScript' && syntheticBrowserScriptEnabled;
+  const formatType: string = isBrowserScriptTest ? 'HAR' : 'SUBTRANSACTIONS';
 
   const details: ResultDetailsResponse =
     useObservable<any, [number]>(
       () =>
-        getTestResultSubtransactions({
+        getTestResultDetailData({
           testId: testId,
-          testResultId: resultId
+          testResultId: resultId,
+          type: formatType
         }),
       [0]
     ) || dummyResultDetails;
@@ -135,6 +143,15 @@ export default function SyntheticAnalyzeView() {
               }}
             />
             <Fragment>
+              {isBrowserScriptTest && (
+                <Row>
+                  <Col xs>
+                    <Button kind="secondary" icon={'lib_actions_download'} onClick={() => download(details, 'HAR')}>
+                      {t('in-synthetics:dashboard.detailsPage.downloadHar')}
+                    </Button>
+                  </Col>
+                </Row>
+              )}
               <Row>
                 <Col xs>
                   <KpiCard title={t('in-synthetics:dashboard.summary.startTime')} value={formatDateTime(startTime)} />
@@ -160,7 +177,12 @@ export default function SyntheticAnalyzeView() {
                     value={meanLatency.detailed(responseTime)}
                   />
                 </Col>
-                <Col xs style={{ display: get(details, ['errors', 0, 'code'], '') === 'NOT_FOUND' ? 'none' : 'block' }}>
+                <Col
+                  xs
+                  style={{
+                    display: get(details, ['errors', 0, 'code'], '') === 'NOT_FOUND' ? 'none' : 'block'
+                  }}
+                >
                   <KpiCard
                     title={t('in-synthetics:dashboard.summary.requests')}
                     value={details.data?.subtransactions?.length}
@@ -197,6 +219,7 @@ export default function SyntheticAnalyzeView() {
                       testId={testId}
                       resultId={resultId}
                       timestamp={get(head(get(details, ['data', 'subtransactions'])), 'properties.startTime')}
+                      isBrowserTestType={isBrowserScriptTest}
                     />
                   </Col>
                 </Row>

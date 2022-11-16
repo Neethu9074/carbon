@@ -504,6 +504,20 @@ export default [
   },
   {
     metrics: [
+      getDynamicMetricMatch(
+        'hadr',
+        'HADR_CONNECT_STATUS',
+        t('in-forge:plugins.db2Database.dashboard.hadrConnectStatusOrStandbyId')
+      )
+    ],
+    labels: [t('in-forge:plugins.db2Database.HADR_CONNECT_STATUS')],
+    category: [t('in-forge:plugins.db2Database.dashboard.hadr')],
+    min: 0,
+    max: 1,
+    formatter: number
+  },
+  {
+    metrics: [
       'vmonlockstats.lockEscals',
       'vmonlockstats.lockTimeouts',
       'vmonlockstats.lockWaitTime',

@@ -15,12 +15,11 @@ import {
   percentage
 } from 'in-services/formatters/number';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
+import { capitalizeValue } from 'in-components/Capitalize';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
-import Capitalize from 'in-components/Capitalize';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -33,7 +32,8 @@ export default function Summary({ timeConfig, data: cluster }) {
       <KpiGridRow sizes={[3, 3, 3, 3]}>
         <KpiCard
           title={t('in-vsphere:dashboards.overallStatus')}
-          value={<Capitalize>{cluster.overallStatus || valueMissingPlaceholder}</Capitalize>}
+          value={cluster.overallStatus}
+          renderValue={capitalizeValue}
           raw
           borderless
         />

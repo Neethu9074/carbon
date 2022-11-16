@@ -5,8 +5,8 @@
 
 import React from 'react';
 
-import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
+import DefaultDashboard from 'in-infrastructure/Dashboard/components/DefaultDashboard';
 
-export default function PerfCountersDashboard() {
-  return <DashboardNotification type="info">There is no further information about this entity.</DashboardNotification>;
+export default function PerfCountersDashboard({ snapshot, timeConfig }) {
+  return <DefaultDashboard snapshot={snapshot} timeConfig={timeConfig} />;
 }

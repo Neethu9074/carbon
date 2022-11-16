@@ -138,7 +138,9 @@
       "elasticsearchNg": "ElasticsearchNG",
       "kafka": "Kafka",
       "demous": "demous",
-      "demoeu": "demoeu"
+      "demoeu": "demoeu",
+      "wsTesterTitle": "Websocket Api Tester",
+      "wsTesterDescription": "Tool for testing WebSocket subscriptions"
     },
     "internalViewWrapper": {
       "internal": "Internal"
@@ -1136,6 +1138,19 @@
     "snapshotVersions": {
       "snapshotId": "snapshotId...",
       "refresh": "Refresh"
+    },
+    "wsApiTester": {
+      "title": "Websocket Api Tester",
+      "subscriptionConfigHeader": "Subscription Configuration",
+      "eventIdInputLabel": "Event Id",
+      "eventParametersLabel": "Event Parameters",
+      "responsesHeader": "Responses",
+      "subscribeButtonLabel": "Subscribe",
+      "disconnectButtonLabel": "Disconnect",
+      "subscriptionFailureMessage": "Failed to create subscription",
+      "latencyLabel": "Latency",
+      "prettyPrintButtonLabel": "Pretty Print",
+      "errorNotice": "NOTE: Due to limitations in ui-clients subscription handling, some errors will only show up in your browsers console. Please check there if you are not getting any responses to your subscription. In production builds errors might be hidden completely, please check the raw websocket messages in that case."
     }
   }
 }

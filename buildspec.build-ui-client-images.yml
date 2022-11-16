@@ -4,6 +4,8 @@ env:
   parameter-store:
     ARTIFACT_RND_INSTANA_IO_PASSWORD: "artifact-rnd.instana.io.password"
     ARTIFACT_RND_INSTANA_IO_USER: "artifact-rnd.instana.io.user"
+    INSTANA_ARTIFACTORY_USERNAME: 'delivery.instana.io.internal.rw.username'
+    INSTANA_ARTIFACTORY_PASSWORD: 'delivery.instana.io.internal.rw.password'
     AWS_ACCESS_KEY_ID: "s3.devinfra.access.key.id"
     AWS_SECRET_ACCESS_KEY: "s3.devinfra.secret.access.key"
     CONTAINERS_INSTANA_IO_PASSWORD: "containers.instana.io.password"
@@ -24,6 +26,7 @@ phases:
       - ./build/download-ci-shared-tools.bash
       - 'USE_N=true ./build/ci-shared-tools/scripts/setup.bash'
       - ./build/ci-shared-tools/scripts/codebuild/setup.bash
+      - echo "$GITHUB_READ_PASSWORD" | docker login -u "$GITHUB_READ_USER" --password-stdin
       - docker run --rm --privileged tonistiigi/binfmt --install ppc64le
       - docker run --rm --privileged tonistiigi/binfmt --install s390x
       # Install docker buildx

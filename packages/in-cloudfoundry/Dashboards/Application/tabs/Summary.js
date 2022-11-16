@@ -6,7 +6,6 @@
 import React, { Fragment } from 'react';
 
 import ApplicationState from 'in-cloudfoundry/commonComponents/ApplicationState';
-import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import Containers from 'in-cloudfoundry/Dashboards/Application/tabs/Containers';
 import InstanceMetric from 'in-cloudfoundry/commonComponents/InstanceMetric';
 import { bytesZeroDecimalPlaces } from 'in-services/formatters/number';
@@ -23,21 +22,15 @@ export default function Summary({ data: application, timeConfig }) {
   return (
     <Fragment>
       <KpiGridRow sizes={[3, 3, 3, 3]}>
-        <KpiCard
-          title={t('in-cloudfoundry:dashboards.requestedState')}
-          value={<ApplicationState state={application.status} />}
-          borderless
-          raw
-        />
-        <KpiCard
-          title={t('in-cloudfoundry:dashboards.instances')}
-          value={<InstanceMetric applicationId={application.id} />}
-          borderless
-          raw
-        />
+        <KpiCard title={t('in-cloudfoundry:dashboards.requestedState')} borderless raw>
+          <ApplicationState state={application.status} />
+        </KpiCard>
+        <KpiCard title={t('in-cloudfoundry:dashboards.instances')} borderless raw>
+          <InstanceMetric applicationId={application.id} />{' '}
+        </KpiCard>
         <KpiCard
           title={t('in-cloudfoundry:dashboards.memoryLimit')}
-          value={application.memoryLimit ? bytesZeroDecimalPlaces(application.memoryLimit) : valueMissingPlaceholder}
+          value={application.memoryLimit ? bytesZeroDecimalPlaces(application.memoryLimit) : null}
           borderless
           raw
         />
@@ -50,35 +43,29 @@ export default function Summary({ data: application, timeConfig }) {
       <KpiGridRow sizes={[3, 3, 3, 3]}>
         <KpiCard
           title={t('in-cloudfoundry:dashboards.buildpack')}
-          value={
-            application.buildpack ? (
-              <Tooltip themeStyle="light" align="bottomLeft" content={application.buildpack}>
-                <span>{application.buildpack}</span>
-              </Tooltip>
-            ) : (
-              valueMissingPlaceholder
-            )
-          }
+          value={application.buildpack}
+          renderValue={buildpack => (
+            <Tooltip themeStyle="light" align="bottomLeft" content={buildpack}>
+              <span>{buildpack}</span>
+            </Tooltip>
+          )}
           borderless
           raw
         />
         <KpiCard
           title={t('in-cloudfoundry:dashboards.routes')}
-          value={
-            joinedRoutes ? (
-              <Tooltip themeStyle="light" align="bottomLeft" content={joinedRoutes}>
-                <span>{joinedRoutes}</span>
-              </Tooltip>
-            ) : (
-              valueMissingPlaceholder
-            )
-          }
+          value={joinedRoutes}
+          renderValue={routes => (
+            <Tooltip themeStyle="light" align="bottomLeft" content={routes}>
+              <span>{routes}</span>
+            </Tooltip>
+          )}
           borderless
           raw
         />
         <KpiCard
           title={t('in-cloudfoundry:dashboards.diskLimit')}
-          value={application.diskLimit ? bytesZeroDecimalPlaces(application.diskLimit) : valueMissingPlaceholder}
+          value={application.diskLimit ? bytesZeroDecimalPlaces(application.diskLimit) : null}
           borderless
           raw
         />

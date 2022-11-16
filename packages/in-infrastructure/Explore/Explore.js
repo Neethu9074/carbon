@@ -270,6 +270,7 @@ function Content({
       getInfraExploreState={getInfraExploreState}
       metricCatalog={metricCatalog}
       setOrder={setOrder}
+      setUrl={setUrl}
       metricMetadatas={metricMetadatas}
       backendQueryModel={backendQueryModel}
       setMetrics={setMetrics}
@@ -297,6 +298,7 @@ function List({
   getInfraExploreState,
   metricCatalog,
   setOrder,
+  setUrl,
   metricMetadatas,
   backendQueryModel,
   setMetrics,
@@ -309,7 +311,7 @@ function List({
         timeConfig={timeConfig}
         group={group}
         setOrder={order => {
-          setOrder(order);
+          setUrl({ order });
           sortingTracker(getInfraExploreState)(order, SORTING_CONTEXT.GROUPS);
         }}
         order={order}

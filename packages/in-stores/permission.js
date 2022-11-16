@@ -3,7 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
-import { actionAutomationEnabled } from 'in-services/featureFlags';
+import {
+  actionAutomationEnabled,
+  openstackEnabled,
+  pcfEnabled,
+  phmcEnabled,
+  syntheticsTestEnabled,
+  vsphereEnabled,
+  zhmcEnabled
+} from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -13,6 +21,13 @@ export const ACCESS_APPLICATIONS = 'ACCESS_APPLICATIONS';
 export const ACCESS_KUBERNETES = 'ACCESS_KUBERNETES';
 export const ACCESS_WEBSITES = 'ACCESS_WEBSITES';
 export const ACCESS_MOBILE_APPS = 'ACCESS_MOBILE_APPS';
+export const ACCESS_INFRASTRUCTURE = 'ACCESS_INFRASTRUCTURE';
+export const ACCESS_SYNTHETICS = 'ACCESS_SYNTHETICS';
+export const ACCESS_VSPHERE = 'ACCESS_VSPHERE';
+export const ACCESS_PHMC = 'ACCESS_PHMC';
+export const ACCESS_ZHMC = 'ACCESS_ZHMC';
+export const ACCESS_PCF = 'ACCESS_PCF';
+export const ACCESS_OPENSTACK = 'ACCESS_OPENSTACK';
 
 const permissions = window.instana.permissions;
 
@@ -27,6 +42,17 @@ export const hasKubernetesAccess = hasPermission(ACCESS_KUBERNETES);
 export const hasWebsitesAccess = hasPermission(ACCESS_WEBSITES);
 export const hasMobileAppsAccess = hasPermission(ACCESS_MOBILE_APPS);
 export const hasAnalyzeAccess = hasApplicationsAccess || hasWebsitesAccess || hasMobileAppsAccess;
+export const hasInfrastructureAccess = hasPermission(ACCESS_INFRASTRUCTURE);
+export const hasSyntheticsAccess = hasPermission(ACCESS_SYNTHETICS) && syntheticsTestEnabled;
+export const hasVSphereAccess = hasPermission(ACCESS_VSPHERE) && vsphereEnabled;
+export const hasPHMCAccess = hasPermission(ACCESS_PHMC) && phmcEnabled;
+export const hasZHMCAccess = hasPermission(ACCESS_ZHMC) && zhmcEnabled;
+export const hasPCFAccess = hasPermission(ACCESS_PCF) && pcfEnabled;
+export const hasOpenStackAccess = hasPermission(ACCESS_OPENSTACK) && openstackEnabled;
+export const hasAPlatformAccess =
+  hasVSphereAccess || hasPHMCAccess || hasZHMCAccess || hasPCFAccess || hasOpenStackAccess || hasKubernetesAccess;
+export const hasEventsAccess =
+  hasWebsitesAccess || hasApplicationsAccess || hasAPlatformAccess || hasInfrastructureAccess;
 
 export const productAreaPermissions = getProductAreaPermissions();
 export const productPermissions = getProductPermissions();
@@ -36,12 +62,36 @@ export const productRestrictions = getProductRestrictions();
 export const apiTokenPermissions = getProductPermissions().filter(permission => permission.keyForApiTokenApi != '');
 
 function getProductAreaPermissions() {
-  return [
+  const areaPermissions = [
     { value: ACCESS_WEBSITES, label: t('in-stores:permissionAccessWebsitesLabel') },
     { value: ACCESS_MOBILE_APPS, label: t('in-stores:permissionAccessMobileAppsLabel') },
-    { value: ACCESS_APPLICATIONS, label: t('in-stores:permissionAccessApplicationsLabel') },
-    { value: ACCESS_KUBERNETES, label: t('in-stores:permissionAccessKubernetesLabel') }
+    { value: ACCESS_APPLICATIONS, label: t('in-stores:permissionAccessApplicationsLabel') }
   ];
+  if (pcfEnabled) {
+    areaPermissions.push({ value: ACCESS_PCF, label: t('in-stores:permissionAccessPCFLabel'), isNew: true });
+  }
+  if (openstackEnabled) {
+    areaPermissions.push({ value: ACCESS_OPENSTACK, label: t('in-stores:permissionAccessOpenStackLabel'), isNew: true });
+  }
+  if (phmcEnabled) {
+    areaPermissions.push({ value: ACCESS_PHMC, label: t('in-stores:permissionAccessPHMCLabel'), isNew: true });
+  }
+  if (zhmcEnabled) {
+    areaPermissions.push({ value: ACCESS_ZHMC, label: t('in-stores:permissionAccessZHMCLabel'), isNew: true });
+  }
+
+  areaPermissions.push({ value: ACCESS_KUBERNETES, label: t('in-stores:permissionAccessKubernetesLabel') });
+
+  if (vsphereEnabled) {
+    areaPermissions.push({ value: ACCESS_VSPHERE, label: t('in-stores:permissionAccessVSphereLabel'), isNew: true });
+  }
+
+  areaPermissions.push({ value: ACCESS_INFRASTRUCTURE, label: t('in-stores:permissionAccessInfrastructureLabel'), isNew: true });
+
+  if (syntheticsTestEnabled) {
+    areaPermissions.push({ value: ACCESS_SYNTHETICS, label: t('in-stores:permissionAccessSyntheticsLabel'), isNew: true });
+  }
+  return areaPermissions;
 }
 
 function getProductPermissions() {

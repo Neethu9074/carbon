@@ -37,7 +37,7 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   }),
   paginationResettingUrlParameters: [...timeConfigUrlParameters],
   columnDefinitions: columnDefinitions,
-  defaultOrderBy: 'location_id',
+  defaultOrderBy: 'location_name',
   defaultOrderDirection: 'ASC',
   pathSegment,
   matrixPrefix
@@ -77,7 +77,7 @@ type GetLocationData = {
 
 export function getLocationData({
   timeConfig,
-  orderBy = 'location_id',
+  orderBy = 'location_name',
   orderDirection = 'ASC',
   page = 1,
   pageSize = 1,
@@ -88,7 +88,7 @@ export function getLocationData({
     baseTagFilters = [
       {
         stringValue: query,
-        name: 'location_id',
+        name: 'location_name',
         operator: CONTAINS,
         entity: NOT_APPLICABLE,
         type: 'TAG_FILTER'

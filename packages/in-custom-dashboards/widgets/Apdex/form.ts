@@ -4,8 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import { createField, createMapForm, Field, Item, MapForm, notBlankValidator } from 'formalistic';
-import { isArray } from 'lodash';
+import { createField, createMapForm, Field, Item, notBlankValidator } from 'formalistic';
 
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
@@ -47,11 +46,6 @@ export function createForm(savedState: Partial<ApdexWidgetConfiguration> = {}) {
         value: savedState[apdexConfigIdKey]
       })
     );
-}
-
-export function getField<T>(form: MapForm, path: string[] | string): Field<T> | undefined {
-  const item = isArray(path) ? form.getIn(path) : form.get(path);
-  return item as Field<T> | undefined;
 }
 
 export function setFieldValue<T>(field: Item, value: T, isTouched = false): Field<T> {

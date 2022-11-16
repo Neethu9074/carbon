@@ -6,16 +6,16 @@
 import React, { useState } from 'react';
 
 import { getGroupTagValue } from 'in-infrastructure/Explore/components/GroupedInfrastructure';
+import { ErroneousResult } from 'in-components/QueryBuilder/components/Header/CountHeader';
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import createGetGroupsSubscription from 'in-infrastructure/subscriptions/getGroups';
 import { getLinkToExplore } from 'in-infrastructure/navigation/paths';
-import Header from 'in-components/QueryBuilder/components/Header';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 import { t } from 'in-i18n';
 
-export default function EntityList({ retrievalSize = 20, backendQueryModel, timeConfig, order, type }) {
-  const { items, errors, progress, totalHits } = useCursorPagination(
+export default function EntityList({ retrievalSize = 20, backendQueryModel, timeConfig, order, type, setOrder }) {
+  const { items, errors, progress } = useCursorPagination(
     ({ cursor }) => getTableData({ timeConfig, retrievalSize, backendQueryModel, order, type, cursor }),
     [timeConfig, retrievalSize, backendQueryModel, type, order]
   );
@@ -23,14 +23,22 @@ export default function EntityList({ retrievalSize = 20, backendQueryModel, time
   const hasErrors = errors?.length > 0;
   const isLoading = progress?.loading;
 
-  const [data, setResultData] = useState(createResultData(items));
+  const [result, setResultData] = useState(createResultData(items));
 
   const onChangeItems = items => {
-    setResultData(createResultData(items));
+    return setResultData(createResultData(items));
   };
 
-  if (!isLoading && data.progress.loading === true) {
-    onChangeItems(items);
+  if (isLoading && result.data.items.length > 0 && items.length === 0) {
+    onChangeItems([]);
+  }
+
+  if (!isLoading && result.progress.loading && items.length > 0 && result.data.items.length === 0) {
+    if (order.by === 'count') {
+      onChangeItems(sortItems(items, order.by, order.direction));
+    } else {
+      onChangeItems(items);
+    }
   }
 
   function createResultData(items) {
@@ -70,7 +78,7 @@ export default function EntityList({ retrievalSize = 20, backendQueryModel, time
       id: 'count',
       width: '8rem',
       label: t('in-infrastructure:explore.count'),
-      sortable: false,
+      sortable: true,
       getContent(item) {
         return (
           <>
@@ -81,28 +89,63 @@ export default function EntityList({ retrievalSize = 20, backendQueryModel, time
     }
   ]);
 
-  return (
-    <>
-      <ServerTablePresenter
-        orderBy="label"
-        orderDirection="ASC"
-        result={data}
-        columnDefinitions={columnDefinitions}
-        onChange={({ query }) => {
-          onChangeItems(items.filter(item => item.tags.type.toLowerCase().includes(query?.toLowerCase())));
-        }}
-        searchPlaceholder={t('in-infrastructure:explore.search')}
-        leftHeader={
-          <Header
-            totalRetainedItemCount={totalHits}
-            hasErrors={hasErrors}
-            isLoading={isLoading}
-            dataSource="entityType"
-          />
-        }
-      />
-    </>
-  );
+  if (!isLoading) {
+    return (
+      <>
+        {hasErrors && <ErroneousResult />}
+        <ServerTablePresenter
+          orderBy={order.by}
+          orderDirection={order.direction}
+          result={result}
+          columnDefinitions={columnDefinitions}
+          cardTitle={t('in-infrastructure:explore.entityTypes', { count: items?.data?.items?.length ?? '' })}
+          onChange={({ query, orderBy, orderDirection }) => {
+            if (query !== undefined) {
+              //search
+              onChangeItems(
+                items.filter(item =>
+                  getGroupTagValue(item, 'type')
+                    .toLowerCase()
+                    .includes(query?.toLowerCase())
+                )
+              );
+            } else {
+              //sort
+              setOrder({ by: orderBy, direction: orderDirection });
+            }
+          }}
+          searchPlaceholder={t('in-infrastructure:explore.search')}
+        />
+      </>
+    );
+  } else {
+    return <></>;
+  }
+}
+
+function sortItems(items, orderBy, orderDirection) {
+  if (orderBy === 'label') {
+    return items.sort((a, b) => {
+      if (a.tags.type < b.tags.type) {
+        return orderDirection === 'DESC' ? 1 : -1;
+      }
+      if (a.tags.type > b.tags.type) {
+        return orderDirection === 'DESC' ? -1 : 1;
+      }
+      return 0;
+    });
+  }
+  if (orderBy === 'count') {
+    return items.sort((a, b) => {
+      if (a.count < b.count) {
+        return orderDirection === 'DESC' ? 1 : -1;
+      }
+      if (a.count > b.count) {
+        return orderDirection === 'DESC' ? -1 : 1;
+      }
+      return 0;
+    });
+  }
 }
 
 function getTableData(params) {
@@ -113,8 +156,7 @@ function getGroupsSubscribeEvent({
   query = '',
   page = 1,
   pageSize = 20,
-  orderBy = 'label',
-  orderDirection = 'ASC',
+  order,
   timeConfig,
   backendQueryModel = {
     type: 'EXPRESSION',
@@ -129,8 +171,8 @@ function getGroupsSubscribeEvent({
       retrievalSize: 200
     },
     order: {
-      by: orderBy,
-      direction: orderDirection
+      by: order.by,
+      direction: order.direction
     },
     filter: {
       tagFilterExpression: backendQueryModel,

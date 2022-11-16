@@ -44,14 +44,14 @@ export function buildJsonSerializer<T>() {
   };
 }
 
-export function buildJsonParser<T>(fallback?: T): (str: string) => T {
-  return (str: string) => {
+export function buildJsonParser<T>(fallback?: T): (str?: string) => T {
+  return (str?: string) => {
     if (isBlank(str)) {
       return fallback;
     }
 
     try {
-      return parse(str);
+      return parse(str!);
     } catch (e) {
       return fallback;
     }

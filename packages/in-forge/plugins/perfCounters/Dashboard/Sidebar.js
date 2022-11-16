@@ -5,18 +5,8 @@
 
 import React from 'react';
 
-import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import Info from '../Info';
+import DefaultSidebar from 'in-infrastructure/Dashboard/components/DefaultSidebar';
 
 export default function PerfCountersSidebar({ snapshot }) {
-  return (
-    <div>
-      <Collapsible initiallyOpen>
-        <Collapsible.Header>Information</Collapsible.Header>
-        <Collapsible.Content>
-          <Info snapshot={snapshot} />
-        </Collapsible.Content>
-      </Collapsible>
-    </div>
-  );
+  return <DefaultSidebar snapshot={snapshot} />;
 }

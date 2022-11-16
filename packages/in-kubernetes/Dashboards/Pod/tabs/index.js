@@ -4,21 +4,22 @@
  */
 
 import PersistentVolumeClaims from 'in-kubernetes/Dashboards/commonComponents/pvc/PersistentVolumeClaims';
+import { k8sTimeShiftEnabled, persistentVolumeSupportEnabled } from 'in-services/featureFlags';
 import Conditions from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Conditions';
 import { PodConditionsTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
 import Events from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
 import Infrastructure from 'in-kubernetes/Dashboards/Pod/tabs/Infrastructure';
 import { podDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
-import { persistentVolumeSupportEnabled } from 'in-services/featureFlags';
 import Summary from 'in-kubernetes/Dashboards/Pod/tabs/Summary/Summary';
 import Details from 'in-kubernetes/Dashboards/Pod/tabs/Details/Details';
+import SummaryWithoutTimeShift from './Summary/SummaryWithoutTimeShift';
 import { t } from 'in-i18n';
 
 export default [
   {
     label: t('in-kubernetes:dashboards.summary'),
     path: `${podDashboardFullyQualified}/summary`,
-    component: Summary
+    component: k8sTimeShiftEnabled ? Summary : SummaryWithoutTimeShift
   },
   {
     label: t('in-kubernetes:dashboards.details'),

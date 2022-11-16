@@ -15,14 +15,18 @@ import LoggingIntegrationButtons from 'in-integrations/logging/LoggingIntegratio
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import getKubernetesPod from 'in-kubernetes/subscriptions/getKubernetesPod';
+import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
+import { kubernetesTimeShiftSelectTracker } from 'in-kubernetes/tracker';
 import { podId as matrixPodId } from 'in-kubernetes/navigation/matrix';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
+import { k8sTimeShiftEnabled } from 'in-services/featureFlags';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { podDashboard } from 'in-kubernetes/navigation/paths';
 import DashboardHeader from 'in-components/DashboardHeader';
+import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import tabs from 'in-kubernetes/Dashboards/Pod/tabs/index';
 import { PodBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { getTimeConfig } from 'in-stores/time/config';
@@ -93,7 +97,6 @@ export default function PodDashboard({ location }) {
 }
 
 function Header(props) {
-  const { timeConfig, podId } = props;
   return (
     <DashboardHeader
       {...props}
@@ -101,7 +104,7 @@ function Header(props) {
       icon="lib_kubernetes_pod"
       label={get(props.result, ['data', 'label'])}
       renderButtonLine={renderButtonLine}
-      renderButtonLineSecondary={() => <RenderButtonLineSecondary timeConfig={timeConfig} snapshotId={podId} />}
+      renderButtonLineSecondary={renderButtonLineSecondary}
       renderMetaInformation={renderMetaInformation}
     />
   );
@@ -126,6 +129,26 @@ function renderButtonLine({ podId, timeConfig, result }) {
         timeConfig={timeConfig}
       />
       <LoggingIntegrationButtons kubernetesPodName={podName} timeConfig={timeConfig} />
+    </>
+  );
+}
+
+function renderButtonLineSecondary({ timeConfig, podId }) {
+  return (
+    <>
+      {k8sTimeShiftEnabled && (
+        <TimeShiftDropdown
+          onChange={offset =>
+            kubernetesTimeShiftSelectTracker({
+              area: 'pod',
+              offset: getTimeShiftLabel({ offset: offset }),
+              windowSize: timeConfig.windowSize,
+              autoRefresh: timeConfig.autoRefresh
+            })
+          }
+        />
+      )}
+      <RenderButtonLineSecondary timeConfig={timeConfig} snapshotId={podId} />
     </>
   );
 }

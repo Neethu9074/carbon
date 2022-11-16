@@ -176,7 +176,8 @@ export default function ApplicationsListPresenter({
   contextScope,
   tagFilters,
   snapshotId,
-  plugin
+  plugin,
+  location
 }) {
   const scopeNotification = (applicationId || serviceId || endpointId || tagFilters) && contextScope && (
     <ScopeNotification
@@ -235,7 +236,9 @@ export default function ApplicationsListPresenter({
       <Footer />
       <FloatingActionButtons>
         <FloatingActionButtonMenu>
-          {role.canConfigureApplications && <CreateApplication icon="lib_openclose_add_box" kind="primaryv2" />}
+          {role.canConfigureApplications && (
+            <CreateApplication icon="lib_openclose_add_box" kind="primaryv2" location={location} />
+          )}
 
           {role.canConfigureGlobalAlertConfigs && applicationSmartAlertsEnabled && (
             <CreateGlobalSmartAlertButton renderAsSimpleButton />

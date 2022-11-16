@@ -12,14 +12,18 @@ import Pill from 'in-components/Pill/Pill';
 
 import locals from 'in-synthetics/dashboards/details/components/Logs.mless';
 
+interface LogLevelColumnProps {
+  name: string;
+}
+
 export const logLevelColumn = {
   id: 'consoleLog',
   width: '4.5rem',
   widthInAbsoluteUnit: true,
-  getContent() {
+  getContent({ name }: LogLevelColumnProps) {
     return (
       <div className={locals.healthColumn}>
-        <Pill className={locals.pill}>{'CONSOLE'}</Pill>
+        <Pill className={locals.pill}>{name}</Pill>
       </div>
     );
   }

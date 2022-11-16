@@ -5,3 +5,4 @@
  */
 
 export const maxInitialLogLines = 200;
+export const customChartHeight = 215;

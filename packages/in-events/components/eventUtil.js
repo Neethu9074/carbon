@@ -25,6 +25,10 @@ export function isAgentMonitoringIssueEvent(event) {
   return event.hasIn(['metadata', 'agent_monitoring_issue']);
 }
 
+export function isIbmMqFileTransferIssueEvent(event) {
+  return event.hasIn(['metadata', 'ibmMqFileTransfer']);
+}
+
 export function getTimeConfigForSnapshotRetrieval(event, latestSnapshot) {
   const timeConfig = getTimeConfigFromEventForSnapshotRetrieval(event);
 

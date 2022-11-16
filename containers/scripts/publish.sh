@@ -26,11 +26,11 @@ function _run_docker_buildx {
   local REGISTRY_PASSWORD
 
   if [[ ${ARTIFACT_VERSION} == 'local' ]]; then
-    REGISTRY_AUTH=$(yarn config get '//artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/:_auth' | base64 -d)
+    REGISTRY_AUTH=$(yarn config get '//delivery.instana.io/artifactory/api/npm/int-npm-virtual/:_auth' | base64 -d)
     IFS=':' read -r REGISTRY_USERNAME REGISTRY_PASSWORD <<< "$REGISTRY_AUTH"
   else
-    REGISTRY_USERNAME=${ARTIFACT_RND_INSTANA_IO_USER}
-    REGISTRY_PASSWORD=${ARTIFACT_RND_INSTANA_IO_PASSWORD}
+    REGISTRY_USERNAME=${INSTANA_ARTIFACTORY_USERNAME}
+    REGISTRY_PASSWORD=${INSTANA_ARTIFACTORY_PASSWORD}
   fi
 
   # just building for one more platform: s390x
@@ -45,8 +45,8 @@ function _run_docker_buildx {
     --build-arg image_version=${DESIRED_IMAGE_VERSION} \
     --build-arg branch=${BRANCH_NAME} \
     --build-arg commit_id=${COMMIT_ID} \
-    --build-arg registry='https://artifact-rnd.instana.io' \
-    --build-arg repository_key='npm-virtual-internal' \
+    --build-arg registry='https://delivery.instana.io' \
+    --build-arg repository_key='int-npm-virtual' \
     --build-arg registry_username=${REGISTRY_USERNAME} \
     --build-arg registry_password=${REGISTRY_PASSWORD} \
     -f ${PATH_TO_CONTAINER_FILE} \
@@ -65,8 +65,8 @@ function _run_docker_buildx {
     --build-arg image_version=${DESIRED_IMAGE_VERSION} \
     --build-arg branch=${BRANCH_NAME} \
     --build-arg commit_id=${COMMIT_ID} \
-    --build-arg registry='https://artifact-rnd.instana.io' \
-    --build-arg repository_key='npm-virtual-internal' \
+    --build-arg registry='https://delivery.instana.io' \
+    --build-arg repository_key='int-npm-virtual' \
     --build-arg registry_username=${REGISTRY_USERNAME} \
     --build-arg registry_password=${REGISTRY_PASSWORD} \
     -f ${PATH_TO_CONTAINER_FILE} \

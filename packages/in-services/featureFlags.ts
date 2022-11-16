@@ -88,8 +88,10 @@ export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashB
 export const smartAlertsLogsBlueprintEnabled = isFeatureFlagEnabled('smartAlertsLogsBlueprintEnabled', false);
 
 // Synthetics test and  dashboard
-
 export const syntheticsTestEnabled = isFeatureFlagEnabled('syntheticsTestEnabled');
+
+// Synthetic BrowserScript feature flag
+export const syntheticBrowserScriptEnabled = isFeatureFlagEnabled('syntheticBrowserScriptEnabled');
 
 // ########################################################################################
 // Dynamic focus keywords

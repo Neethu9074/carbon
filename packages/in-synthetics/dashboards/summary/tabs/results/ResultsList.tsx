@@ -37,13 +37,14 @@ const matrixPrefix = 'result.';
 const metrics = ['start_time', 'location_id', 'response_time', 'response_size', 'status', 'retries'];
 let testId = '';
 let locationsMap = new Map<string, string>();
+let testType: string;
 
 const columnDefinitions = [
   {
     id: 'start_time',
     label: t('in-synthetics:dashboard.resultsListPage.startedColumn'),
     isSortable: false,
-    getContent(item: any) {
+    getContent(item: TestResultListItem) {
       return (
         <SeverityAwareEntityLink
           severity={getSeverity(item)}
@@ -81,6 +82,7 @@ const columnDefinitions = [
               'responseSize',
               get(item, ['metrics', 'response_size', 0, 1], 0)
             );
+            setOrDeleteMatrixKey(resultDetailsUrl, syntheticDetailsPath, 'type', testType);
             return resultDetailsUrl;
           })}
         />
@@ -154,6 +156,7 @@ export default function ResultsList({ test }: ResultListProps) {
       ? buildLocationsMap(locations, locationDisplayLabels)
       : new Map<string, string>();
   testId = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
+  testType = test.data?.configuration?.syntheticType || '';
 
   return (
     <>

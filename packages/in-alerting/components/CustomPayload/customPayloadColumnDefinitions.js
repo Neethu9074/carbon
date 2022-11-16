@@ -6,6 +6,7 @@
 import { createField } from 'formalistic';
 import classNames from 'classnames';
 import React from 'react';
+import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 
 import { SvgIcon } from '@instana/components';
 
@@ -54,11 +55,14 @@ export const deleteItemColumnDefinition = {
 
 export const valueColumnDefinition = {
   id: 'value',
-  width: '45',
+  width: '50',
 
   sortable: false,
   label: t('in-alerting:components.customPayload.value'),
-  getContent(itemForm, { getRowIndex, updateIn, enabled, trackChange, TagBasedPayloadConfigurator }) {
+  getContent(
+    itemForm,
+    { getRowIndex, updateIn, enabled, trackChange, TagBasedPayloadConfigurator, suggestionsAlignedLeft }
+  ) {
     function onChange(paths, f) {
       updateIn([getRowIndex(itemForm), ...paths], f);
     }
@@ -70,16 +74,18 @@ export const valueColumnDefinition = {
     if (type === staticType) {
       return (
         <FormGroup withoutBottomMargin>
-          <Input
-            disabled={!enabled}
-            className={locals.colValue}
-            value={value}
-            hasError={!valueField?.valid && valueField?.touched}
-            onChange={({ target }) => {
-              onChange(['value'], f => f.setValue(target.value).setTouched(true));
-            }}
-            maxLength={512}
-          />
+          <Tooltip content={value} align="bottomMiddle">
+            <Input
+              disabled={!enabled}
+              className={locals.colValue}
+              value={value}
+              hasError={!valueField?.valid && valueField?.touched}
+              onChange={({ target }) => {
+                onChange(['value'], f => f.setValue(target.value).setTouched(true));
+              }}
+              maxLength={512}
+            />
+          </Tooltip>
           <TouchedMessages field={valueField} />
         </FormGroup>
       );
@@ -101,9 +107,10 @@ export const valueColumnDefinition = {
                   disabled={!enabled}
                   value={toViewModel(value)}
                   onChange={storeIntoFormModel}
-                  tagFilterExpression={{}}
+                  suggestionsAlignedLeft={suggestionsAlignedLeft}
+                  tagFilterExpression={EMPTY_EXPRESSION}
                 />
-                <TouchedMessages field={field} />
+                <TouchedMessages field={field} className={locals.fullWidth} />
               </>
             );
           })}
@@ -117,7 +124,7 @@ export const valueColumnDefinition = {
 
 export const keyColumnDefinition = {
   id: 'key',
-  width: '30',
+  width: '20',
   sortable: false,
   label: t('in-alerting:components.customPayload.key'),
   getContent(item, { getRowIndex, updateIn, enabled }) {
@@ -130,25 +137,33 @@ export const keyColumnDefinition = {
 
     return (
       <FormGroup withoutBottomMargin>
-        <HorizontalFlexWrapper className={locals.colName}>
-          <span className={locals.prefix}>{t('in-alerting:components.customPayload.customWithColon')}</span>
-          <Input
-            disabled={!enabled}
-            className={locals.key}
-            value={value}
-            hasError={!valueField?.valid && valueField?.touched}
-            onChange={({ target }) => {
-              onChange(['key'], f => f.setValue(target.value).setTouched(true));
-            }}
-            maxLength={128}
-            autoFocus={Boolean(item.get('id').value)}
-          />
-        </HorizontalFlexWrapper>
+        <Tooltip
+          content={value ? t('in-alerting:components.customPayload.customWithColon') + value : ''}
+          align="bottomMiddle"
+        >
+          <HorizontalFlexWrapper className={locals.colName}>
+            <span className={locals.prefix}>{t('in-alerting:components.customPayload.customWithColon')}</span>
+            <Input
+              disabled={!enabled}
+              className={locals.key}
+              value={value}
+              hasError={!valueField?.valid && valueField?.touched}
+              onChange={({ target }) => {
+                onChange(['key'], f => f.setValue(target.value).setTouched(true));
+              }}
+              maxLength={128}
+              autoFocus={Boolean(item.get('id').value)}
+            />
+          </HorizontalFlexWrapper>
+        </Tooltip>
         <TouchedMessages field={item.get('key')} />
       </FormGroup>
     );
   }
 };
+
+const staticLabel = t('in-alerting:components.customPayload.static');
+const dynamicLabel = t('in-alerting:components.customPayload.dynamic');
 
 export const typeColumnDefinition = {
   id: 'type',
@@ -174,27 +189,32 @@ export const typeColumnDefinition = {
 
     return (
       <FormGroup withoutBottomMargin>
-        {item.get('type').map(field => (
-          <Select
-            disabled={!enabled}
-            className={locals.colType}
-            value={field.value ?? defaultType}
-            hasError={!field?.valid && field?.touched}
-            onChange={({ target }) => {
-              onChangeType(target.value);
-              trackChange({ type: target.value, oldType: field.value });
-            }}
-          >
-            {[
-              { value: staticType, label: t('in-alerting:components.customPayload.static') },
-              { value: dynamicType, label: t('in-alerting:components.customPayload.dynamic') }
-            ].map(({ value, label }) => (
-              <option key={value} value={value}>
-                {label}
-              </option>
-            ))}
-          </Select>
-        ))}
+        {item.get('type').map(field => {
+          return (
+            <Tooltip content={field.value === staticType ? staticLabel : dynamicLabel}>
+              <Select
+                wrapperClassName={locals.colType}
+                disabled={!enabled}
+                //className={locals.colType}
+                value={field.value ?? defaultType}
+                hasError={!field?.valid && field?.touched}
+                onChange={({ target }) => {
+                  onChangeType(target.value);
+                  trackChange({ type: target.value, oldType: field.value });
+                }}
+              >
+                {[
+                  { value: staticType, label: staticLabel },
+                  { value: dynamicType, label: dynamicLabel }
+                ].map(({ value, label }) => (
+                  <option key={value} value={value}>
+                    {label}
+                  </option>
+                ))}
+              </Select>
+            </Tooltip>
+          );
+        })}
       </FormGroup>
     );
   }

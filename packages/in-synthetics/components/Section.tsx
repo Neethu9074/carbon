@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
 import locals from './Section.mless';
@@ -23,8 +24,11 @@ export default function Section({ children, headingText }: SectionProps) {
 
 interface SubTitleProps {
   children: React.ReactNode | React.ReactNode[];
+  isUploadScriptSubTitle?: boolean;
 }
 
-export function SubTitle({ children }: SubTitleProps) {
-  return <h4 className={locals.subTitle}>{children}</h4>;
+export function SubTitle({ children, isUploadScriptSubTitle }: SubTitleProps) {
+  return (
+    <h4 className={classNames(locals.subTitle, { [locals.scriptSubTitle]: isUploadScriptSubTitle })}>{children}</h4>
+  );
 }

@@ -61,12 +61,14 @@
     "theQueryConfigurationIsInvalid": "The query configuration is invalid. Please address the validation failures before continuing.",
     "allInfrastructure": "All Infrastructure",
     "name": "Name",
-    "search": "Search",
+    "search": "Search for a type",
     "explore": "Explore",
     "count": "Count",
     "errors": {
-      "maximumNumberOfGroups": "This query has too many results. Please narrow down using a more restrictive filter or broader groups"
-    }
+      "maximumNumberOfGroups": "This query has too many results. Please narrow down using a more restrictive filter or broader groups",
+      "generalError": "An unexpected error occurred. Please narrow down using a more restrictive filter and try again"
+    },
+    "entityTypes": "Entity types {{count, parenthesis}}"
   },
   "tableView": {
     "showCountsAndAveragesAcrossTheCurrentTimeWindow": "Show counts and averages across the current time window.",

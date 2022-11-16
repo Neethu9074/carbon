@@ -13,6 +13,9 @@ import {
 } from 'in-alerting/components/CustomPayload/customPayloadColumnDefinitions';
 import { createNewFormEntry } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import CustomPayloadTable from 'in-alerting/components/CustomPayload/CustomPayloadTable';
+import { t } from 'in-i18n';
+
+import locals from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload.mless';
 
 const KeyValue = [
   { ...keyColumnDefinition, width: '40' },
@@ -23,7 +26,7 @@ const KeyValue = [
 const KeyTypeValue = [
   { ...keyColumnDefinition, width: '25' },
   { ...typeColumnDefinition, width: '20' },
-  { ...valueColumnDefinition, width: '55' },
+  { ...valueColumnDefinition, width: '50' },
   { ...deleteItemColumnDefinition, width: '5' }
 ];
 
@@ -48,6 +51,9 @@ export default function AlertConfigCustomPayload({ form, setForm, supportDynamic
       }}
       customPayloadForm={form.get('customPayloadFields')}
       TagBasedPayloadConfigurator={supportDynamicTypes ? TagBasedPayloadConfigurator : null}
+      leftHeader={
+        <div className={locals.leftHeader}>{t('in-alerting:components.customPayload.additionalCustomPayload')}</div>
+      }
     />
   );
 

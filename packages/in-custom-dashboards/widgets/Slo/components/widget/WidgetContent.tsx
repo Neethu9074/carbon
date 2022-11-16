@@ -44,12 +44,14 @@ interface WidgetContentProps {
   sliConfig?: SliConfigurationWithLastUpdated;
   nonInteractive?: boolean;
   disableZooming?: boolean;
+  customHeight?: number;
 }
 
 export default function WidgetContent({
   sloMetrics,
   loadingErrors,
   loadingProgress,
+  customHeight,
   ...otherChartProps
 }: WidgetContentProps) {
   if (isConfiguredSliDeleted(loadingErrors)) {
@@ -65,6 +67,7 @@ export default function WidgetContent({
 
   return (
     <Chart
+      customHeight={customHeight}
       result={{
         data: sloMetrics,
         errors: loadingErrors,

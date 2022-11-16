@@ -19,6 +19,7 @@ interface SimpleDialogFooterProps {
   stepConfigs: StepConfigs;
   isSaving?: boolean;
   additionalStepCheck?: (step: number) => boolean;
+  customSaveButtonText?: string;
 }
 
 export function SimpleDialogFooter({
@@ -28,7 +29,8 @@ export function SimpleDialogFooter({
   form,
   stepConfigs,
   isSaving,
-  additionalStepCheck = () => true
+  additionalStepCheck = () => true,
+  customSaveButtonText = t('in-components:blueprintFormMultistep.buttonCreate')
 }: SimpleDialogFooterProps) {
   const isDisabled =
     (step === stepConfigs.length - 1 && !form.hierarchyValid) ||
@@ -40,9 +42,7 @@ export function SimpleDialogFooter({
       form={form}
       formId={formId}
       primaryActionText={
-        step === stepConfigs.length - 1
-          ? t('in-components:blueprintFormMultistep.buttonCreate')
-          : t('in-components:blueprintFormMultistep.buttonNext')
+        step === stepConfigs.length - 1 ? customSaveButtonText : t('in-components:blueprintFormMultistep.buttonNext')
       }
       onSecondaryActionClick={() => backOrCancel(step)}
       secondaryActionText={

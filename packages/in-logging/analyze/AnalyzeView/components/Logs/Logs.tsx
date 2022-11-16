@@ -32,9 +32,8 @@ import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/Que
 import { ChartsPresenter } from 'in-logging/analyze/AnalyzeView/components/ChartsPresenter';
 // @ts-expect-error needs TS migration
 import LogMessageColumn from 'in-logging/analyze/AnalyzeView/components/LogMessageColumn';
-// @ts-expect-error needs ts migration
-import UngroupedViewList from 'in-components/AnalyzeView/UngroupedViewList';
 import { GetDataParams, HeaderActionProps, LogsProps } from 'in-logging/analyze/AnalyzeView/components/Logs/types';
+import UngroupedViewList from 'in-components/AnalyzeView/UngroupedView/UngroupedViewList';
 import { LogTagsTable } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable';
 import { TAG } from 'in-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
@@ -45,17 +44,6 @@ import { LogItem } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-logging/analyze/AnalyzeView/components/Logs.mless';
-
-const columnDefinitions = [
-  logLevelColumn,
-  timestampColumn,
-  {
-    id: 'log',
-    getContent: LogMessageColumn
-  },
-  centerAlignedLinkColumn,
-  centerAlignedCopyColumn
-];
 
 export default function Logs(props: LogsProps) {
   const {
@@ -71,7 +59,7 @@ export default function Logs(props: LogsProps) {
     detailId
   } = props;
 
-  const initialLogLines = initialLogLinesProp || groupedPaginationRef.current?.[groupLabel];
+  const initialLogLines = initialLogLinesProp || groupedPaginationRef.current?.[groupLabel] || 20;
 
   const onSelectTagHref = getHrefWithAdditionalTagFilter
     ? (tag: TagFilter) => getHrefWithAdditionalTagFilter(getTagExpressionWithTag(tag))
@@ -103,6 +91,17 @@ export default function Logs(props: LogsProps) {
     }
     return getTableData(params);
   };
+
+  const columnDefinitions = [
+    logLevelColumn,
+    timestampColumn,
+    {
+      id: 'log',
+      getContent: (item: LogItem) => <LogMessageColumn {...item} />
+    },
+    centerAlignedLinkColumn,
+    centerAlignedCopyColumn
+  ];
 
   const renderNestedContent = (_: unknown, item: LogItem) => (
     <LogTagsTable

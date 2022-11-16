@@ -29,13 +29,13 @@ import PermissionsList from 'in-settings/tabs/TeamSettings/pages/accessControl/P
 import { types } from 'in-settings/tabs/TeamSettings/pages/accessControl/Areas/permissionSetResultFilter';
 import LoadingGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/LoadingGroup';
 import Areas from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/components/Areas';
+import InlineEditorRow from 'in-settings/tabs/TeamSettings/components/InlineEditorRow';
 import Users from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/Users';
 import { teamSettingsAccessControlGroups } from 'in-settings/navigation/paths';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { success as successResult } from 'in-services/util/result';
 import { notBlankValidator } from 'in-services/validators/string';
-import TouchedMessages from 'in-components/form/TouchedMessages';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import { ownerRoleId, defaultRoleId } from 'in-stores/user';
 import IconLabel from 'in-alerting/components/IconLabel';
@@ -43,9 +43,11 @@ import FormGroup from 'in-settings/components/FormGroup';
 import { Row, Col } from 'in-components/layout/Grid';
 import Dialog from 'in-components/Dialog/Dialog';
 import { goToPath } from 'in-stores/navigation';
+import { noop } from 'in-services/fixedObjects';
 import Title from 'in-components/Title/Title';
 import Label from 'in-components/form/Label';
-import Input from 'in-components/form/Input';
+import Pill from 'in-components/Pill';
+import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './Group.mless';
@@ -80,7 +82,7 @@ function renderLoadingState() {
 }
 
 function renderGroup(props) {
-  const { setForm, form, group } = props;
+  const { setForm, form, group, setMessage } = props;
   const isOwnerGroup = group.id === ownerRoleId;
   const isSystemGroup = isOwnerGroup || group.id === defaultRoleId;
 
@@ -96,37 +98,16 @@ function renderGroup(props) {
   ) : null;
   return (
     <>
-      <Row>
-        <Col lg>
-          <div className={locals.headline}>
-            <SvgIcon className={locals.icon} type="lib_alerts_user_impacted" size="l" />
-            <span className={locals.title}>{form.get('name').value}</span>
-          </div>
-        </Col>
-      </Row>
-
-      <Row>
-        <Col lg>
-          {form.get('name').map(field => (
-            <FormGroup>
-              <Label htmlFor="team-name" hasError={!field.valid && field.touched}>
-                {t('in-settings:tabs.name')}
-              </Label>
-              <Input
-                id="team-name"
-                value={field.value}
-                onChange={e => {
-                  setForm(form.updateIn(['name'], f => f.setValue(e.target.value).setTouched(true)));
-                }}
-                hasError={!field.valid && field.touched}
-                disabled={isSystemGroup}
-                autoFocus
-              />
-              <TouchedMessages field={field} />
-            </FormGroup>
-          ))}
-        </Col>
-      </Row>
+      <InlineEditorRow
+        canEdit={!isSystemGroup}
+        label={group.name}
+        avatar={<SvgIcon className={locals.icon} type="lib_alerts_user_impacted" size="l" />}
+        inputValue={form.get('name').value}
+        onInputChange={value => setForm(form.updateIn(['name'], f => f.setValue(value).setTouched(true)))}
+        hasError={!form.get('name').valid && form.get('name').touched}
+        onClickSave={() => changeGroupName(form, setForm, setMessage)}
+        onClickCancel={() => setForm(form.updateIn(['name'], f => f.setValue(group.name).setTouched(false)))}
+      />
 
       <Row>
         <Col lg={6}>
@@ -183,12 +164,17 @@ function renderGroup(props) {
             <FormGroup>
               <Label>{t('in-settings:tabs.permissionScope')}</Label>
               {accessRestrictionWarning}
-              {productAreaPermissions.map(({ value, label }) => (
+              {productAreaPermissions.map(({ value, label, isNew }) => (
                 <HorizontalFormGroup
                   key={label}
                   helpText={t('in-settings:tabs.permitsAccessToLabelMonitoringFunctionality', { label: label })}
                 >
-                  <Label htmlFor={`permission-${value}`}>{label}</Label>
+                  <span>
+                    <Label htmlFor={`permission-${value}`}>{label}</Label>
+                    {isNew && (
+                      <Pill kind="inverted" color={theme.lib.colors.blue800}>{t('in-stores:permissionNewLabel')}</Pill>
+                    )}
+                  </span>
                   <Toggle
                     id={`permission-${value}`}
                     checked={field.value.permissions.includes(value)}
@@ -390,6 +376,14 @@ function addUsers(users, form, setForm) {
 
 function copyPermissionSet(form) {
   return { ...form.get('permissionSet').value };
+}
+
+function changeGroupName(form, updateForm, setMessage) {
+  if (!form.hierarchyValid) {
+    return updateForm(form.setTouched(true, { recurse: true }));
+  }
+
+  saveItem({ form, setMessage, setCanSaveItem: noop, setForm: updateForm });
 }
 
 function saveItem({ form, setMessage, setCanSaveItem, setForm }) {

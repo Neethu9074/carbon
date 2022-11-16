@@ -3,17 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import RawAnalyzeView from 'promise-loader?global,logging!in-logging/analyze/AnalyzeView/RawAnalyzeView';
 import AnalyzeView from 'promise-loader?global,logging!in-logging/analyze/AnalyzeView/AnalyzeView';
 import { Route } from 'react-router-dom';
 import React from 'react';
 
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
-import { logsPath, rawLogsPath } from 'in-logging/navigation/paths';
+import { logsPath } from 'in-logging/navigation/paths';
 
-export default (
-  <>
-    <Route path={logsPath} children={renderAsyncRouteChildren(AnalyzeView)} />
-    <Route path={rawLogsPath} children={renderAsyncRouteChildren(RawAnalyzeView)} />
-  </>
-);
+export default [<Route path={logsPath} children={renderAsyncRouteChildren(AnalyzeView)} />];

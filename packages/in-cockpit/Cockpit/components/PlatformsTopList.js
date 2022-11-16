@@ -18,14 +18,22 @@ import {
   phmcServer as phmcServerType,
   zhmcServer as zhmcServerType
 } from 'in-cockpit/starredItems/types';
+import {
+  hasKubernetesAccess,
+  hasOpenStackAccess,
+  hasPCFAccess,
+  hasPHMCAccess,
+  hasVSphereAccess,
+  hasZHMCAccess
+} from 'in-stores/permission';
 import { getCloudfoundryApplicationsWithDefaults } from 'in-cloudfoundry/subscriptions/getCloudfoundryApplications';
-import { pcfEnabled, vsphereEnabled, openstackEnabled, phmcEnabled, zhmcEnabled } from 'in-services/featureFlags';
 import getKubernetesClusterItemCounters from 'in-kubernetes/subscriptions/getKubernetesClusterItemCounters';
 import { getKubernetesClustersWithDefaults } from 'in-kubernetes/subscriptions/getKubernetesClusters';
 import { getVSphereDatacentersWithDefaults } from 'in-vsphere/subscriptions/getVsphereDatacenters';
 import getCloudfoundryApplication from 'in-cloudfoundry/subscriptions/getCloudfoundryApplication';
 import { getOpenstackRegionsWithDefaults } from 'in-openstack/subscriptions/getOpenstackRegions';
 import HistoricMetricSparkChart from 'in-components/SparkChart/HistoricMetricSparkChart';
+import { useNavigateToApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
 import getKubernetesCluster from 'in-kubernetes/subscriptions/getKubernetesCluster';
 import { bytesZeroDecimalPlaces, percentage } from 'in-services/formatters/number';
 import getVsphereDatacenter from 'in-vsphere/subscriptions/getVsphereDatacenter';
@@ -33,17 +41,16 @@ import getOpenstackRegion from 'in-openstack/subscriptions/getOpenstackRegion';
 import InstanceMetric from 'in-cloudfoundry/commonComponents/InstanceMetric';
 import { getVsphereDatacenterDashboard } from 'in-vsphere/navigation/paths';
 import { getOpenstackRegionDashboard } from 'in-openstack/navigation/paths';
-import { getApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
 import { toTitleCase, compareIgnoreCase } from 'in-services/util/string';
 import mergeResults from 'in-cockpit/widgets/TopListWidget/mergeResults';
 import { getZhmcsWithDefaults } from 'in-zhmc/subscriptions/getZhmcs';
 import { getPhmcsWithDefaults } from 'in-phmc/subscriptions/getPhmcs';
 import { getClusterDashboard } from 'in-kubernetes/navigation/paths';
 import HealthDot from 'in-components/health/HealthDot/HealthDot';
+import { getIbmpPhmcDashboard } from 'in-phmc/navigation/paths';
 import { getIbmzZhmcDashboard } from 'in-zhmc/navigation/paths';
 import { hasError, isLoading } from 'in-services/util/result';
 import TopListWidget from 'in-cockpit/widgets/TopListWidget';
-import { hasKubernetesAccess } from 'in-stores/permission';
 import { add, remove } from 'in-cockpit/starredItems';
 import getPhmc from 'in-phmc/subscriptions/getPhmc';
 import getZhmc from 'in-zhmc/subscriptions/getZhmc';
@@ -55,12 +62,14 @@ import { t } from 'in-i18n';
 export default function PlatformsTopList({ config }) {
   const pinnedTypes = [
     hasKubernetesAccess && kubernetesClusterType,
-    pcfEnabled && pcfApplicationType,
-    vsphereEnabled && vsphereDatacenterType,
-    openstackEnabled && openstackRegionType,
-    phmcEnabled && phmcServerType,
-    zhmcEnabled && zhmcServerType
+    hasPCFAccess && pcfApplicationType,
+    hasVSphereAccess && vsphereDatacenterType,
+    hasOpenStackAccess && openstackRegionType,
+    hasPHMCAccess && phmcServerType,
+    hasZHMCAccess && zhmcServerType
   ].filter(Boolean);
+
+  const getApplicationDashboardLink = useNavigateToApplicationDashboard();
 
   return (
     <TopListWidget
@@ -82,9 +91,11 @@ export default function PlatformsTopList({ config }) {
         return (item.isKubernetes
           ? getClusterDashboard
           : item.isPcf
-          ? getApplicationDashboard
+          ? getApplicationDashboardLink
           : item.isZhmc
           ? getIbmzZhmcDashboard
+          : item.isPhmc
+          ? getIbmpPhmcDashboard
           : item.isOpenstack
           ? getOpenstackRegionDashboard
           : getVsphereDatacenterDashboard)(getId(item));
@@ -121,16 +132,16 @@ function getMergedData(params) {
     [
       hasKubernetesAccess && getKubernetesClustersWithDefaults(params),
       hasKubernetesAccess && 'isKubernetes',
-      pcfEnabled && getCloudfoundryApplicationsWithDefaults(params),
-      pcfEnabled && 'isPcf',
-      vsphereEnabled && getVSphereDatacentersWithDefaults(params),
-      vsphereEnabled && 'isVsphere',
-      openstackEnabled && getOpenstackRegionsWithDefaults(params),
-      openstackEnabled && 'isOpenstack',
-      phmcEnabled && getPhmcsWithDefaults(params),
-      phmcEnabled && 'isPhmc',
-      zhmcEnabled && getZhmcsWithDefaults(params),
-      zhmcEnabled && 'isZhmc'
+      hasPCFAccess && getCloudfoundryApplicationsWithDefaults(params),
+      hasPCFAccess && 'isPcf',
+      hasVSphereAccess && getVSphereDatacentersWithDefaults(params),
+      hasVSphereAccess && 'isVsphere',
+      hasOpenStackAccess && getOpenstackRegionsWithDefaults(params),
+      hasOpenStackAccess && 'isOpenstack',
+      hasPHMCAccess && getPhmcsWithDefaults(params),
+      hasPHMCAccess && 'isPhmc',
+      hasZHMCAccess && getZhmcsWithDefaults(params),
+      hasZHMCAccess && 'isZhmc'
     ].filter(Boolean)
   )((a, b) => compareIgnoreCase(getLabel(a), getLabel(b)));
 }
@@ -206,7 +217,7 @@ const columnDefinitions = [
   {
     width: '6rem',
     getContent({ item }) {
-      if (item.isPcf || item.isKubernetes) {
+      if (item.isPcf || item.isKubernetes || item.isPhmc || item.isZhmc || item.isOpenstack) {
         return null;
       }
       return <KeyValue label={t('in-cockpit:component.platformsTopList.esXiHosts')} value={item.hosts} accentuated />;
@@ -216,6 +227,10 @@ const columnDefinitions = [
     width: '6rem',
     getContent({ item }) {
       if (item.isPcf) {
+        return null;
+      } else if (item.isPhmc || item.isZhmc) {
+        return <KeyValue label={t('in-cockpit:component.platformsTopList.systems')} value={item.systems} accentuated />;
+      } else if (item.isOpenstack) {
         return null;
       }
       return item.isKubernetes ? (
@@ -236,6 +251,12 @@ const columnDefinitions = [
             accentuated
           />
         );
+      } else if (item.isPhmc || item.isZhmc) {
+        return (
+          <KeyValue label={t('in-cockpit:component.platformsTopList.partitions')} value={item.partitions} accentuated />
+        );
+      } else if (item.isOpenstack) {
+        return null;
       }
       return item.isKubernetes ? (
         <KeyValue label={t('in-cockpit:component.platformsTopList.namespaces')} value={item.namespaces} accentuated />
@@ -261,6 +282,12 @@ const columnDefinitions = [
             accentuated
           />
         );
+      } else if (item.isZhmc) {
+        return (
+          <KeyValue label={t('in-cockpit:component.platformsTopList.adapters')} value={item.adapters} accentuated />
+        );
+      } else if (item.isPhmc) {
+        return <KeyValue label={t('in-cockpit:component.platformsTopList.vios')} value={item.vios} accentuated />;
       }
       return item.isKubernetes ? (
         <KeyValue label={t('in-cockpit:component.platformsTopList.pods')} value={item.workloads.pods} accentuated />

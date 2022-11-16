@@ -22,4 +22,9 @@
     line-height: 1.2em;
     margin: 1rem 0rem;
   }
+
+  .scriptUpload {
+    flex: 1;
+    z-index: 0;
+  }
 }

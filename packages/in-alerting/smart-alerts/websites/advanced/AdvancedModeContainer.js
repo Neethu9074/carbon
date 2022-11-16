@@ -15,7 +15,6 @@ import {
   AlertPreviewHeadline
 } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertPreview';
 import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertPropertiesContainer';
-import AdvancedModeStepsContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AdvancedModeStepsContainer';
 import {
   isCustomPayloadValidOrUntouched,
   fieldTouchedAndInvalid
@@ -26,11 +25,13 @@ import WebsiteAlertPropertiesTitleRow from 'in-alerting/smart-alerts/websites/ad
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/websites/form/formUtils';
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/smart-alert-dialog/ConfigureAlertChannel';
 import BluePrintSelectionSection from 'in-alerting/smart-alerts/websites/advanced/BluePrintSelectionSection';
+import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import TimeThresholdConfig from 'in-alerting/smart-alerts/websites/advanced/TimeThresholdConfig';
 import { ThresholdSection } from 'in-alerting/smart-alerts/websites/advanced/ThresholdSection';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import StepsContainer from 'in-components/StepsContainer';
 import { t } from 'in-i18n';
 
 export default function AdvancedModeContainer(props) {
@@ -60,7 +61,7 @@ export default function AdvancedModeContainer(props) {
   const isCustomEvent = blueprintConfig.type === 'customEvent';
 
   return (
-    <AdvancedModeStepsContainer
+    <StepsContainer
       messages={messages}
       navItems={[
         {
@@ -200,12 +201,16 @@ export default function AdvancedModeContainer(props) {
           title: t('in-alerting:smartAlerts.websites.advanced.payloadsTitle'),
           valid: isCustomPayloadValidOrUntouched(form) && isDynamicCustomPayloadValid,
           content: (
-            <AlertConfigCustomPayload
-              form={form}
-              setForm={updateForm}
-              TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
-              supportDynamicTypes
-            />
+            <>
+              <GlobalCustomPayloadCard context="WEBSITE" />
+
+              <AlertConfigCustomPayload
+                form={form}
+                setForm={updateForm}
+                TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
+                supportDynamicTypes
+              />
+            </>
           )
         }
       ]}

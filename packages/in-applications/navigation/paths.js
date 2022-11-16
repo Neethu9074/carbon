@@ -71,6 +71,9 @@ export const summaryTab = '/summary';
 export const dependencyMapTab = '/map';
 export const errorMessagesTab = '/errorMessages';
 export const logMessagesTab = '/logMessages';
+export const syntheticsTab = '/synthetics';
+export const smartAlertsTab = '/alerts';
+export const configurationTab = '/configuration';
 
 export const alertsTab = '/alerts';
 export const alertsTabListFullyQualified = `${applicationDashboard}${alertsTab}`;

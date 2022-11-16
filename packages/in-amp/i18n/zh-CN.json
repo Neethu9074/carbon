@@ -3,7 +3,6 @@
     "accountSettings": {
       "accountSettings": "帐户设置",
       "billingAddress": "帐单地址",
-      "shippingAddress": "运送地址",
       "country": "国家或地区",
       "state": "省/直辖市/自治区",
       "zip": "邮政编码",
@@ -39,7 +38,7 @@
     },
     "timePresets": {
       "last7Days": "过去 7 天",
-      "last30Days": "过去 30 天",
+      "last15Days": "最近 15 天",
       "last365Days": "过去 365 天"
     },
     "usages": {

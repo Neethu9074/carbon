@@ -9,12 +9,11 @@ import { Card } from '@instana/components';
 
 import { number, bytes, percentage, bytesTwoDecimalPlaces, msZeroDecimalPlaces } from 'in-services/formatters/number';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
+import { capitalizeValue } from 'in-components/Capitalize';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
-import Capitalize from 'in-components/Capitalize';
 import { t } from 'in-i18n';
 
 export default function Summary({ timeConfig, data: vm }) {
@@ -31,7 +30,8 @@ export default function Summary({ timeConfig, data: vm }) {
         />
         <KpiCard
           title={t('in-vsphere:dashboards.cpuTotal')}
-          value={<Capitalize>{vm.cpuTotal || valueMissingPlaceholder}</Capitalize>}
+          value={vm.cpuTotal}
+          renderValue={capitalizeValue}
           raw
           borderless
         />
@@ -43,21 +43,18 @@ export default function Summary({ timeConfig, data: vm }) {
         />
         <KpiCard
           title={t('in-vsphere:dashboards.memoryTotal')}
-          value={<Capitalize>{bytesTwoDecimalPlaces(vm.memoryTotal) || valueMissingPlaceholder}</Capitalize>}
+          value={vm.memoryTotal}
+          capitalizeValue={value => capitalizeValue(bytesTwoDecimalPlaces(value))}
           raw
           borderless
         />
       </KpiGridRow>
       <KpiGridRow sizes={[6, 6]}>
-        <KpiCard
-          title={t('in-vsphere:dashboards.guestOs')}
-          value={vm.guestFullName || valueMissingPlaceholder}
-          raw
-          borderless
-        />
+        <KpiCard title={t('in-vsphere:dashboards.guestOs')} value={vm.guestFullName} raw borderless />
         <KpiCard
           title={t('in-vsphere:dashboards.state')}
-          value={<Capitalize>{vm.guestState || valueMissingPlaceholder}</Capitalize>}
+          value={vm.guestState}
+          renderValue={capitalizeValue}
           raw
           borderless
         />

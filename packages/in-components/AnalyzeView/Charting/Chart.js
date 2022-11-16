@@ -54,10 +54,8 @@ export default function Chart({
   const chartConfig = {
     y1: {
       formatter:
-        getCustomMetricUiFormatterName?.(metricId) ??
-        (aggregationId === 'PER_SECOND'
-          ? 'perSecond.detailed'
-          : getUiInternalFormatterName(metricDescription.formatter)),
+        getCustomMetricUiFormatterName?.(metricId, aggregationId) ??
+        getUiInternalFormatterName(metricDescription.formatter),
       renderer: rendererId,
       metrics: [],
       colors: getCustomChartColor?.()

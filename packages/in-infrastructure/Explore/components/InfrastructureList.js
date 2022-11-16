@@ -13,13 +13,16 @@ import { trackingProps as metricConfiguratorTrackingProps } from 'in-infrastruct
 import { average, getGranularity, getMetricKey } from 'in-infrastructure/Explore/services/metrics';
 import { default as MetricLabel } from 'in-infrastructure/Explore/components/MetricLabel';
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import getEntities from 'in-infrastructure/subscriptions/getEntities';
 import Header from 'in-components/QueryBuilder/components/Header';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import EntityLink from 'in-components/EntityLink/EntityLink';
+import { isTechnicalError } from 'in-services/util/error';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { mapData } from 'in-services/util/result';
+import SparkChart from 'in-components/SparkChart';
 import { noop } from 'in-services/util/function';
 import { t } from 'in-i18n';
 
@@ -62,7 +65,7 @@ export default function InfrastructureList({
 
   const columnDefinitions = [
     getLabelColumn({ timeConfig }, tracking?.onNavigateToEntity),
-    ...getMetricColumns({ metrics, sortable: showHeader, metricMetadatas })
+    ...getMetricColumns({ metrics, sortable: showHeader, metricMetadatas, timeConfig })
   ];
 
   return (
@@ -89,7 +92,7 @@ export default function InfrastructureList({
 
       {hasErrors && (
         <Message type="error" withIcon small>
-          {getErrorMessage(errors[0].message)}
+          {getErrorMessage(errors[0])}
         </Message>
       )}
       <CursorPaginatedTable
@@ -113,9 +116,15 @@ export default function InfrastructureList({
 }
 
 function getErrorMessage(err) {
-  if (err.includes('more than the maximum number of groups')) {
+  if (err.message?.includes('more than the maximum number of groups')) {
     return t('in-infrastructure:explore.errors.maximumNumberOfGroups');
   }
+
+  if (isTechnicalError(err.code) && !__DEV__) {
+    return t('in-components:error.erroneousResultPresenterMessage');
+  }
+
+  return t('in-infrastructure:explore.errors.generalError');
 }
 
 function getTableData({ timeConfig, retrievalSize, backendQueryModel, type, order, metrics, cursor }) {
@@ -185,12 +194,11 @@ InfrastructureList.propTypes = {
   metricCatalog: rpt.object
 };
 
-function getMetricColumns({ metrics, sortable, metricMetadatas }) {
+function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig }) {
   return metrics.map(({ metric, aggregation }) => {
     const id = getMetricKey(metric, aggregation);
     const metadata = mapData(metricMetadatas, data => data[metric]);
     const label = mapData(metadata, data => data?.label);
-    const formatter = mapData(metadata, data => data?.formatter).data;
     const isKpi = mapData(metadata, data => data?.isKpi).data || false;
     return {
       id,
@@ -205,11 +213,26 @@ function getMetricColumns({ metrics, sortable, metricMetadatas }) {
       defaultDisabled: !isKpi,
       headCellProps: { className: locals.metricLabel },
       getContent(item) {
-        if (metric === 'count') {
-          return <span>1</span>;
-        }
+        const id = getMetricKey(metric, aggregation);
+        const metadata = mapData(metricMetadatas, data => data[metric]);
+        const label = mapData(metadata, data => data?.label);
+        const renderedLabel = <MetricLabel label={label} aggregation={aggregation} />;
+        const formatter = mapData(metadata, data => data?.formatter).data;
         const kpi = average(item.metrics[id]);
-        return <span>{(kpi && formatter && formatter(kpi)) || '--'}</span>;
+        const percentageMetric = mapData(metadata, data => data?.percentageMetric).data;
+        const granularity = getGranularity(timeConfig);
+        return (
+          <SparkChart
+            horizontalMetricValue={(kpi && formatter && formatter(kpi)) || valueMissingPlaceholder}
+            percentageMetric={percentageMetric}
+            metrics={item.metrics[id]}
+            tooltipFormatter={formatter}
+            aggregation={aggregation}
+            timeConfig={timeConfig}
+            rollup={granularity}
+            label={renderedLabel}
+          />
+        );
       }
     };
   });

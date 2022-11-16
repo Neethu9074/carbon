@@ -4,10 +4,9 @@
  * Copyright IBM Corp. 2022
  */
 
-import { TagFilter, TimeConfig } from '@instana/types';
+import { TimeConfig } from '@instana/types';
 
-import { GetHrefToGroupedView } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable/types';
-import { StateManagementProps } from 'in-components/AnalyzeView/StateManagement';
+import { StateManagementChildProps } from 'in-components/AnalyzeView/StateManagement';
 
 export type SortDirection = 'ASC' | 'DESC';
 
@@ -16,12 +15,9 @@ export type OrderBy = {
   direction: SortDirection;
 };
 
-export interface LogsProps extends StateManagementProps {
-  withoutHeader: boolean;
-  detailId: string;
-  getHrefWithAdditionalTagFilter?: (tag: TagFilter) => string;
-  getHrefToGroupedView?: GetHrefToGroupedView;
-  initialLogLines?: number;
+export interface LogsProps extends StateManagementChildProps {
+  withoutHeader?: boolean;
+  detailId?: string;
 }
 
 export interface GetDataParams {

@@ -5,11 +5,8 @@
 
 import React from 'react';
 
-import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
-import { t } from 'in-i18n';
+import DefaultDashboard from 'in-infrastructure/Dashboard/components/DefaultDashboard';
 
-export default function StatsdDashboard() {
-  return (
-    <DashboardNotification type="info">{t('in-forge:plugins.statsd.infoNoFurtherEntityInfo')}</DashboardNotification>
-  );
+export default function StatsdDashboard({ snapshot, timeConfig }) {
+  return <DefaultDashboard snapshot={snapshot} timeConfig={timeConfig} />;
 }

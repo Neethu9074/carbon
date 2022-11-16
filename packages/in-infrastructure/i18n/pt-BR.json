@@ -57,15 +57,16 @@
   },
   "explore": {
     "focusOnThisGroup": "Foco neste grupo",
-    "offline": "off-line",
     "thisIsABetaVersionOfANewProductCapability": "Esta é uma versão beta de um novo recurso do produto. Avisamos para não contar com os dados apresentados.",
     "theQueryConfigurationIsInvalid": "A configuração da consulta é inválida. Trate as falhas de validação antes de continuar.",
     "allInfrastructure": "Todas as infraestruturas",
     "name": "Nome",
     "search": "Procurar",
     "explore": "Explorar",
-    "cpuUser": "CPU (usuário)",
-    "memoryFree": "Memória livre"
+    "count": "Contagem",
+    "errors": {
+      "maximumNumberOfGroups": "Esta consulta tem muitos resultados. Limite usando um filtro mais restritivo ou grupos mais amplos"
+    }
   },
   "tableView": {
     "showCountsAndAveragesAcrossTheCurrentTimeWindow": "Mostrar contagens e médias em todo o espaço de tempo atual.",

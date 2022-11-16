@@ -12,6 +12,7 @@ import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/websites/ho
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/smart-alert-dialog/ChartViewConfigurator';
 import { getStatusCodeLabel, getRuleOperatorLabel } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
+import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import CustomPayloadCard from 'in-alerting/smart-alerts/components/details/CustomPayloadCard';
 import WebsiteScopePath from 'in-alerting/smart-alerts/websites/components/WebsiteScopePath';
@@ -48,7 +49,7 @@ export default function AlertConfiguration({ alertConfig }) {
   const blueprintConfig = getBlueprintConfig(alertType);
   const beaconType = blueprintConfig.getBeaconType(metricName);
 
-  const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator(beaconType);
+  const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator(beaconType, websiteId);
   const AlertQueryBuilder = getQueryBuilderForBeaconType(beaconType).QueryBuilder;
 
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
@@ -154,9 +155,11 @@ export default function AlertConfiguration({ alertConfig }) {
         <AlertPropertyInfos alertConfig={alertConfig} />
       </ExpandableLightCard>
 
+      <GlobalCustomPayloadCard context="WEBSITE" />
       <CustomPayloadCard
         TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
         customPayloadFields={customPayloadFields}
+        openByDefault
       />
     </AlertDetailsCard>
   );

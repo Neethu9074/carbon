@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState, useRef, useLayoutEffect } from 'react';
+import React, { useState, useRef, useLayoutEffect, useEffect } from 'react';
 import classNames from 'classnames';
 
 import LogException from 'in-logging/analyze/AnalyzeView/components/LogException';
@@ -13,11 +13,17 @@ import useResizeObserver from 'in-hooks/useResizeObserver';
 import locals from './LogMessageColumn.mless';
 
 export default function LogMessageColumn(props) {
-  const { tags, message, timestamp, getHrefToGroupedView, getHrefWithAdditionalTagFilter } = props;
+  const { tags, message, timestamp, getHrefToGroupedView, getHrefWithAdditionalTagFilter, isToggled } = props;
 
   const [isExpanded, setIsExpanded] = useState(false);
   const [isOverflowing, setIsOverflowing] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+
+  useEffect(() => {
+    if (isToggled) {
+      setIsExpanded?.(true);
+    }
+  }, [isToggled]);
 
   const messageRef = useRef();
 

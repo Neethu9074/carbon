@@ -44,15 +44,7 @@ export function createBoundedAlertQueryBuilder(
         useCase: getUseCase(thresholdType, ruleType)
       })(props),
     getSuggestions: args =>
-      isIdTag(args.name)
-        ? null
-        : getTagSuggestions({
-            ...tagSuggestionArgs(args, suggestionTimeConfig),
-            tagFilterExpression: createTagFilterExpression(OPERATOR_AND, [
-              toBackendQueryModel(getEntitySelectionAsTagFilterFormModel(applications, boundaryScope)),
-              args.tagFilterExpression
-            ])
-          })
+      isIdTag(args.name) ? null : getApplicationTagSuggestions(args, suggestionTimeConfig, applications, boundaryScope)
   });
 
   return { QueryBuilder, isQueryValid, toFormModel, getTagCatalog };
@@ -66,6 +58,16 @@ function getUseCase(thresholdType, ruleType) {
   } else {
     return 'SMART_ALERTS';
   }
+}
+
+export function getApplicationTagSuggestions(args, suggestionTimeConfig, applications, boundaryScope) {
+  return getTagSuggestions({
+    ...tagSuggestionArgs(args, suggestionTimeConfig),
+    tagFilterExpression: createTagFilterExpression(OPERATOR_AND, [
+      toBackendQueryModel(getEntitySelectionAsTagFilterFormModel(applications, boundaryScope)),
+      args.tagFilterExpression
+    ])
+  });
 }
 
 function tagSuggestionArgs(args, suggestionTimeConfig) {

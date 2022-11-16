@@ -48,7 +48,7 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   }),
   paginationResettingUrlParameters: [...timeConfigUrlParameters],
   columnDefinitions: columnDefinitions.filter(column => column.id != 'applicationLabel'),
-  defaultOrderBy: 'test_name',
+  defaultOrderBy: 'successRate',
   defaultOrderDirection: 'ASC',
   pathSegment,
   matrixPrefix

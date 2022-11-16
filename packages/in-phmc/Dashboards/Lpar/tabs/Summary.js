@@ -8,7 +8,6 @@ import React, { Fragment } from 'react';
 import { Card } from '@instana/components';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import { number, percentage } from 'in-services/formatters/number';
@@ -22,10 +21,10 @@ export default function Summary({ timeConfig, data: lpar }) {
   return (
     <Fragment>
       <KpiGridRow sizes={[2, 2, 2, 2, 2, 2]}>
-        <KpiCard title={t('in-phmc:partitionId')} value={lpar.partitionId || valueMissingPlaceholder} raw borderless />
-        <KpiCard title={t('in-phmc:dashboards.name')} value={lpar.name || valueMissingPlaceholder} raw borderless />
-        <KpiCard title={t('in-phmc:state')} value={lpar.state || valueMissingPlaceholder} raw borderless />
-        <KpiCard title={t('in-phmc:mode')} value={lpar.mode || valueMissingPlaceholder} raw borderless />
+        <KpiCard title={t('in-phmc:partitionId')} value={lpar.partitionId} raw borderless />
+        <KpiCard title={t('in-phmc:dashboards.name')} value={lpar.name} raw borderless />
+        <KpiCard title={t('in-phmc:state')} value={lpar.state} raw borderless />
+        <KpiCard title={t('in-phmc:mode')} value={lpar.mode} raw borderless />
         <InfraMetricKpiCard
           title={t('in-phmc:logicalMem')}
           snapshotId={snapshotId}

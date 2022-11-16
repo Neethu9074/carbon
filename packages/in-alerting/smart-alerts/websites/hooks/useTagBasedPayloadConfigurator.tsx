@@ -8,19 +8,21 @@ import { ReactNode, useMemo } from 'react';
 
 import { Observable } from '@instana/observables';
 
-import { createTagBasedPayloadConfigurator } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
+import { createTagBasedWebsitePayloadConfigurator } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
+import { getWebsiteTagSuggestions } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
 import { getTagCatalog } from 'in-websites/api/tagCatalog';
 import { BeaconType, Result, TagCatalog } from 'in-types';
 
-export default function useTagBasedPayloadConfigurator(beaconType: BeaconType): ReactNode {
+export default function useTagBasedPayloadConfigurator(beaconType: BeaconType, websiteId: string): ReactNode {
   return useMemo(() => {
     const customPayloadTagCatalog: Observable<Result<TagCatalog>> = getTagCatalog({
       useCase: 'SMART_ALERTS_CUSTOM_PAYLOAD',
       beaconType
     });
 
-    return createTagBasedPayloadConfigurator({
-      getTagCatalog: () => customPayloadTagCatalog
+    return createTagBasedWebsitePayloadConfigurator({
+      getTagCatalog: () => customPayloadTagCatalog,
+      getSuggestions: args => getWebsiteTagSuggestions(args, websiteId, beaconType, undefined)
     });
-  }, [beaconType]);
+  }, [beaconType, websiteId]);
 }

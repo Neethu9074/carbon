@@ -7,7 +7,6 @@
 
 :local {
   .container {
-    display: inline-flex;
     margin: 0.25rem 0;
   }
 

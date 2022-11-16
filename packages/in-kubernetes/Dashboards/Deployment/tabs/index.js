@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import SummaryWithoutTimeShift from 'in-kubernetes/Dashboards/Deployment/tabs/SummaryWithoutTimeShift';
 import { DeploymentConditionsTab, WorkloadTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
 import { EventsWithoutNamespace } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
 import Conditions from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Conditions';
@@ -13,13 +14,14 @@ import { deploymentDashboardFullyQualified } from 'in-kubernetes/navigation/path
 import Pods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
 import Summary from 'in-kubernetes/Dashboards/Deployment/tabs/Summary';
 import Details from 'in-kubernetes/Dashboards/Deployment/tabs/Details';
+import { k8sTimeShiftEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 export default [
   {
     label: t('in-kubernetes:dashboards.summary'),
     path: `${deploymentDashboardFullyQualified}/summary`,
-    component: Summary
+    component: k8sTimeShiftEnabled ? Summary : SummaryWithoutTimeShift
   },
   {
     label: t('in-kubernetes:dashboards.details'),

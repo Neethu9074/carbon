@@ -11,17 +11,16 @@ import { getCloudfoundryApplicationsWithDefaults } from 'in-cloudfoundry/subscri
 import CloudfoundryNoDataNotification from 'in-cloudfoundry/lists/components/CloudfoundryNoDataNotification';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
-import { applicationList, getApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
+import { timeConfig$, urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
-import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import ApplicationState from 'in-cloudfoundry/commonComponents/ApplicationState';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import InstanceMetric from 'in-cloudfoundry/commonComponents/InstanceMetric';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import { bytesZeroDecimalPlaces } from 'in-services/formatters/number';
+import { applicationList } from 'in-cloudfoundry/navigation/paths';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
-import EntityLink from 'in-components/EntityLink/EntityLink';
-import { timeConfig$ } from 'in-stores/time/config';
+import { DashboardLink } from './components/DashboardLink';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
@@ -37,9 +36,7 @@ const columnDefinitions = [
     id: 'label',
     label: t('in-cloudfoundry:name'),
     getContent(item) {
-      return (
-        <EntityLink label={item.label} href$={getApplicationDashboard(item.id)} icon="lib_cloudfoundry_application" />
-      );
+      return <DashboardLink item={item} />;
     }
   },
   {

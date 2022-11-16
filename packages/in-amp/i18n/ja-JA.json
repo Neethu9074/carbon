@@ -3,7 +3,6 @@
     "accountSettings": {
       "accountSettings": "アカウント設定",
       "billingAddress": "請求先住所",
-      "shippingAddress": "配送先住所",
       "country": "国",
       "state": "都道府県/州",
       "zip": "郵便番号",
@@ -39,7 +38,7 @@
     },
     "timePresets": {
       "last7Days": "過去 7 日間",
-      "last30Days": "過去 30 日間",
+      "last15Days": "直近の 15 日間",
       "last365Days": "過去 365 日間"
     },
     "usages": {

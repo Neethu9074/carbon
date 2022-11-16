@@ -34,6 +34,13 @@ const queryBuildersByBeaconType = {
 export const createIsAlertQueryValid = isQueryValid => ([tagFilterFormModel, timeConfig]) =>
   isQueryValid(tagFilterFormModel, timeConfig);
 
+export function getWebsiteTagSuggestions(args, websiteId, beaconType, suggestionTimeConfig) {
+  return getSuggestions({
+    ...tagSuggestionArgs(withWebsiteIdFilter(args, websiteId), suggestionTimeConfig),
+    beaconType
+  });
+}
+
 /**
  * Creates a QueryBuilder that is bound to a single website and beacon-type.
  * Consequently, the suggestions shown are only part of that limited scope.
@@ -51,11 +58,7 @@ export const createIsAlertQueryValid = isQueryValid => ([tagFilterFormModel, tim
 export function createBoundedAlertQueryBuilder(websiteId, beaconType = 'pageLoad', suggestionTimeConfig) {
   return createQueryBuilder({
     getTagCatalog: () => getTagCatalog({ beaconType, useCase: 'SMART_ALERTS' }),
-    getSuggestions: args =>
-      getSuggestions({
-        ...tagSuggestionArgs(withWebsiteIdFilter(args, websiteId), suggestionTimeConfig),
-        beaconType
-      })
+    getSuggestions: args => getWebsiteTagSuggestions(args, websiteId, beaconType, suggestionTimeConfig)
   });
 }
 

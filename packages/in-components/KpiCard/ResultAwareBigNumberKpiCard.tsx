@@ -44,6 +44,7 @@ export interface ResultAwareBigNumberKpiCardProps {
   actions?: ReactNode;
   dragHandle?: ReactNode;
   result: Result<MetricResult[]>;
+  raw?: boolean;
 }
 
 export function isConfigWithCompanionMetric(
@@ -61,7 +62,8 @@ export default function ResultAwareBigNumberKpiCard({
   config,
   actions,
   dragHandle,
-  result
+  result,
+  raw
 }: ResultAwareBigNumberKpiCardProps) {
   const timeConfig = useTimeConfig();
 
@@ -91,7 +93,8 @@ export default function ResultAwareBigNumberKpiCard({
           iconAction,
           actions,
           dragHandle,
-          useMaxAvailableHeight
+          useMaxAvailableHeight,
+          raw
         )
       }
     />
@@ -108,17 +111,13 @@ export function renderKpiCard(
   iconAction: IconAction | undefined,
   actions: ReactNode,
   dragHandle: ReactNode,
-  useMaxAvailableHeight: boolean | undefined
+  useMaxAvailableHeight: boolean | undefined,
+  raw: boolean | undefined
 ) {
   let value = null;
   const dataPoint = find(result.data, ({ id }) => id === metricKey);
   if (dataPoint?.values?.length === 1) {
     value = dataPoint.values[0][1];
-  }
-
-  let formattedValue = null;
-  if (value != null) {
-    formattedValue = formatter(value);
   }
 
   // We are using the [0] selector as in this aspect we assume multiple results have the same value
@@ -128,7 +127,8 @@ export function renderKpiCard(
   return (
     <KpiCard
       title={title}
-      value={formattedValue}
+      value={value}
+      renderValue={formatter}
       useMaxAvailableHeight={useMaxAvailableHeight}
       actions={
         dragHandle || actions ? (
@@ -147,6 +147,7 @@ export function renderKpiCard(
       }
       iconAction={iconAction}
       resultPrecision={resultPrecisions}
+      raw={raw}
     />
   );
 }

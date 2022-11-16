@@ -3,13 +3,10 @@ version: 0.2
 env:
   variables:
     CODEBUILD_PROJECT_NAME: "ui-client-storybook"
-    DEPLOY_STORYBOOK: "false"
     RUN_UI_STORYBOOK_TEST: "false"
   parameter-store:
-    ARTIFACT_INSTANA_IO_PASSWORD: "artifact.instana.io.password"
-    ARTIFACT_INSTANA_IO_USER: "artifact.instana.io.user"
-    ARTIFACT_RND_INSTANA_IO_PASSWORD: 'artifact-rnd.instana.io.password'
-    ARTIFACT_RND_INSTANA_IO_USER: 'artifact-rnd.instana.io.user'
+    INSTANA_ARTIFACTORY_USERNAME: 'delivery.instana.io.internal.rw.username'
+    INSTANA_ARTIFACTORY_PASSWORD: 'delivery.instana.io.internal.rw.password'
     AWS_ACCESS_KEY_ID: "s3.devinfra.access.key.id"
     AWS_SECRET_ACCESS_KEY: "s3.devinfra.secret.access.key"
     CHROMATIC_PROJECT_TOKEN: "ui_client.chromatic.project.token"
@@ -37,11 +34,14 @@ phases:
       - n `cat .nvmrc`
   pre_build:
     commands:
+      - git remote set-url origin "https://${GITHUB_API_TOKEN}:x-oauth-basic@github.ibm.com/instana/ui-client.git"
+      - git config --global user.email "instana.ibm.github.enterprise@ibm.com"
+      - git config --global user.name "Instana-IBM-GitHub-Enterprise"
       - |
-        REGISTRY="https://artifact-rnd.instana.io" \
-          REPOSITORY_KEY="npm-virtual-internal" \
-          USERNAME="$ARTIFACT_RND_INSTANA_IO_USER" \
-          PASSWORD="$ARTIFACT_RND_INSTANA_IO_PASSWORD" \
+        REGISTRY="https://delivery.instana.io" \
+          REPOSITORY_KEY="int-npm-virtual" \
+          USERNAME="$INSTANA_ARTIFACTORY_USERNAME" \
+          PASSWORD="$INSTANA_ARTIFACTORY_PASSWORD" \
           NON_INTERACTIVE=true \
           WRITE_TO_CWD=true \
           NPM_CONFIG_REGISTRY="https://registry.npmjs.org/" \
@@ -51,5 +51,5 @@ phases:
       - yarn install --frozen-lockfile
   build:
     commands:
-      - test -n "$DEPLOY_STORYBOOK" -a "$DEPLOY_STORYBOOK" = "true" && yarn run storybookBuild && npm install s3-deploy@1.4.0 -g && s3-deploy './storybookTarget/**' --cwd './storybookTarget/' --bucket instana-devinfra-ui-client-playground --deleteRemoved --invalidate || true
+      - ./build/deployStorybook.sh
       - test -n "$RUN_UI_STORYBOOK_TEST" -a "$RUN_UI_STORYBOOK_TEST" = "true" && yarn run storybookTest || true # ignore test's exit code if condition not met

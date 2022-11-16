@@ -6,6 +6,7 @@
 
 import {
   kubernetesTags,
+  LOG_CUSTOM,
   LOG_DOCKER_SNAPSHOT_ID,
   LOG_HOST_SNAPSHOT_ID,
   LOG_SERVICE_NAME,
@@ -19,9 +20,18 @@ import { LogItem, LogTag } from 'in-types';
 const infraTags = [LOG_DOCKER_SNAPSHOT_ID, LOG_HOST_SNAPSHOT_ID];
 
 export const groupAndSortTags = (tags: LogTag[]): GroupedTags => {
-  const groupedTags: GroupedTags = { other: [], kubernetes: [], infrastructure: [] };
+  const groupedTags: GroupedTags = {
+    other: [],
+    customTags: [],
+    kubernetes: [],
+    infrastructure: []
+  };
 
   tags.forEach(tag => {
+    if (tag.name?.includes(LOG_CUSTOM)) {
+      (groupedTags.customTags as LogTag[]).push(tag);
+      return;
+    }
     if (tag.name?.includes('kubernetes')) {
       (groupedTags.kubernetes as LogTag[]).push(tag);
       return;

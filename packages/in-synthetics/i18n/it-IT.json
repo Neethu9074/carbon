@@ -74,6 +74,10 @@
       "failureMessageCreate": "Impossibile creare una prova sintetica. Riprovare successivamente",
       "failureMessageUpdate": "Impossibile aggiornare il test sintetico. Riprovare successivamente",
       "failuteMesssageDelete": "Impossibile eliminare il test sintetico. Riprovare successivamente"
+    },
+    "locationFeedback": {
+      "successMessageDelete": "Ubicazione eliminata correttamente",
+      "failureMesssageDelete": "Impossibile eliminare l'ubicazione. Riprovare più tardi"
     }
   },
   "createTest": {
@@ -89,6 +93,17 @@
         "tests": "Test",
         "locations": "Ubicazioni"
       },
+      "popDialog": {
+        "button": "<> Distribuisci un PoP",
+        "simpleTab": "Semplice",
+        "redisTab": "TLS Redis",
+        "title": "Comandi PoP sintetici",
+        "subTitle": "Utilizzare questi modelli di codice come riferimento",
+        "simpleCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"Name;DisplayName;Country;City;0;0;Location description\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<yourpassword>\"",
+        "redisCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"Name;DisplayName;Country;City;0;0;Location description\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true",
+        "tlsInstructions": "Se si desidera abilitare TLS Redis, è necessario creare una cartella certs nel percorso radice del grafico Helm e copiare la propri coppia certificato-chiave (tls.crt, tls.key) e il file di certificato radice CA (ca.crt) nella cartella certs, i nomi file devono essere esattamente corrispondenti.\n\nSe non di dispone di propri file di chiave/certificato, è anche possibile utilizzare il comando openssl per generarne di nuovi; vedere gli esempi di seguito:",
+        "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt"
+      },
       "testLabel": "Nome",
       "status": "Stato",
       "frequencySubText": "Ogni {{count}} minuto",
@@ -97,6 +112,7 @@
       "resume": "Riprendi il test",
       "active": "Attivo",
       "paused": "Sospeso",
+      "deleted": "Eliminato",
       "type": "Immettere",
       "successRate": "Frequenza operazioni riuscite",
       "successRuns": "{{successRuns}} / {{totalRuns}} risultati",
@@ -114,10 +130,14 @@
     },
     "locationList": {
       "locationLabel": "Nome ubicazione",
+      "locationDisplayLabel": "Nome di visualizzazione",
       "status": "Stato",
       "type": "Immettere",
       "totalTests": "N. di verifiche collegate",
-      "lastRun": "Ultima esecuzione verifica su"
+      "lastRun": "Ultima esecuzione verifica su",
+      "labelConfirmRemoveLocation": "Si è sicuri di voler rimuovere l'ubicazione <strong>{{label}}</strong> ({{status}})?",
+      "activeTestLinked": "Esistono dei test attivi assegnati sull'ubicazione <strong>{{label}}</strong> ({{status}}); si è sicuri di voler rimuovere questa ubicazione?",
+      "deleteLocation": "Elimina ubicazione"
     },
     "summary": {
       "successRate": "Frequenza operazioni riuscite",
@@ -147,9 +167,14 @@
         "results": "Risultati",
         "linkViewAllTestResults": "Visualizza tutti i risultati",
         "ok": "Operazione riuscita",
-        "redirection": "Reindirizzamento",
-        "clientError": "Errore del client",
-        "serverError": "Errore del server"
+        "created": "Creato",
+        "accepted": "Accettato",
+        "forbidden": "Non consentito",
+        "notFound": "Non trovato",
+        "serverError": "Errore del server",
+        "badRequest": "Richiesta errata",
+        "badGateway": "Gateway non valido",
+        "gatewayTimeout": "Timeout del gateway"
       },
       "totalRuns": "Numero totale di esecuzioni: {{totalRuns}}",
       "meanLatencyFor90th": "{{meanLatencyDetail}} per 90esimo"
@@ -186,6 +211,12 @@
       "successResult": "Riuscito",
       "failedResult": "Non riuscito",
       "searchFilter": "Ricerca",
+      "typesFilter": "Tipi",
+      "typesFilterValues": {
+        "getType": "GET",
+        "allType": "Tutti",
+        "othersType": "Altro"
+      },
       "subtransactionBody": {
         "contentType": "Tipo di contenuto",
         "size": "Dimensione",

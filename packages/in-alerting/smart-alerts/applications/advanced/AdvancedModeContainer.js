@@ -15,7 +15,6 @@ import TimeThresholdConfigPresenter from 'in-alerting/smart-alerts/components/sm
 import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertPropertiesContainer';
 import InboundOutboundCallsSwitch from 'in-alerting/smart-alerts/applications/advanced/InboundOutboundCallsSwitch/InboundOutboundCallsSwitch';
 import StaticOrAdaptiveSwitch from 'in-alerting/smart-alerts/applications/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
-import AdvancedModeStepsContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AdvancedModeStepsContainer';
 import ApplicationAlertPropertiesTitleRow from 'in-alerting/smart-alerts/applications/advanced/ApplicationAlertPropertiesTitleRow';
 import {
   fieldTouchedAndInvalid,
@@ -30,12 +29,14 @@ import { blueprintConfigs, getBlueprintConfig } from 'in-alerting/smart-alerts/a
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/smart-alert-dialog/ConfigureAlertChannel';
 import BluePrintSelectionSection from 'in-alerting/smart-alerts/applications/advanced/BluePrintSelectionSection';
 import { ApplicationAlertPreview } from 'in-alerting/smart-alerts/applications/advanced/ApplicationAlertPreview';
+import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { smartAlertsLogsBlueprintEnabled, adaptiveBaselineEnabled } from 'in-services/featureFlags';
 import { ThresholdSection } from 'in-alerting/smart-alerts/applications/advanced/ThresholdSection';
 import ScopeConfig from 'in-alerting/smart-alerts/applications/scopeConfig/ScopeConfig';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
+import StepsContainer from 'in-components/StepsContainer';
 import { t } from 'in-i18n';
 
 export default function AdvancedModeContainer(props) {
@@ -81,7 +82,7 @@ export default function AdvancedModeContainer(props) {
   const isStatusCodeBluePrint = blueprintConfig.type === 'statusCode';
 
   return (
-    <AdvancedModeStepsContainer
+    <StepsContainer
       messages={messages}
       navItems={[
         {
@@ -251,12 +252,16 @@ export default function AdvancedModeContainer(props) {
           title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.payloadsOptional.title'),
           valid: isCustomPayloadValidOrUntouched(form),
           content: (
-            <AlertConfigCustomPayload
-              form={form}
-              setForm={updateForm}
-              TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
-              supportDynamicTypes
-            />
+            <>
+              <GlobalCustomPayloadCard context="APPLICATION" />
+
+              <AlertConfigCustomPayload
+                form={form}
+                setForm={updateForm}
+                TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
+                supportDynamicTypes
+              />
+            </>
           )
         }
       ]}

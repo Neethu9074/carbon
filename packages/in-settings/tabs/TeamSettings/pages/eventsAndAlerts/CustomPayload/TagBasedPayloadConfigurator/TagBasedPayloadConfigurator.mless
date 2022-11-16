@@ -16,27 +16,39 @@
 
     color: var(--query-builder-element-color);
 
-    padding: 0.1875rem 0.3rem 0.1875rem 0.4375rem;
+    padding: 0.1875rem 0 0.1875rem 0.4375rem;
     background: @lib__colors__N050;
-    width: 100%;
+
+    flex: 1 0 8rem; // 8rem to easily fit into narrow AlertConfig dialog
 
     border: 1px solid @lib__colors__N400;
     border-radius: @lib__shapes__radius_medium;
 
     display: flex;
     align-items: center;
+    justify-content: flex-start;
 
     cursor: pointer;
   }
+  .configuratorWithSecondLevelKey {
+    border-right: none;
+  }
 
   .selectPayloadButton {
-    align-self: flex-start;
-    margin: 0.25rem 0;
   }
 
   .tagName {
     margin-right: 0.5rem;
     background: @lib__colors__transparent;
+    flex: 1 1 0%;
+    min-width: 5rem;
+    width: 5rem;
+    max-width: max-content; // to avoid unneeded extra "gap"
+
+    white-space: nowrap; // do not wrap into 2 lines, but cut overflow
+    overflow: hidden;
+    text-overflow: ellipsis;
+
     &:focus,
     &:active,
     &:hover {
@@ -56,31 +68,21 @@
     fill: @lib__colors__N400;
   }
 
-  .removeIcon {
-    // icons have a built in margin so we need to subtract it when it is used in smaller frames
-    margin: -0.5rem -0.25rem -0.5rem 0.25rem;
+  .keyEqualsOperator {
+    padding: 0.0225rem 0.3125rem;
+    margin: -0.25rem 0;
+    border: none;
+    border-left: 1px solid @lib__colors__N300;
+    line-height: 2;
 
-    fill: @lib__colors__N400;
-    cursor: pointer;
+    white-space: nowrap;
 
-    &:hover,
-    &:active,
-    &:focus {
-      fill: @lib__colors__light-blue800;
-      outline: none;
-    }
+    background: @lib__colors__N050;
   }
 
-  .spacer {
-    flex: 1;
-    min-width: 1rem;
-  }
-
-  .type {
-    margin-left: 1rem;
-    padding: 0 0.25rem;
-    border-radius: @lib__shapes__radius_medium;
-    background: @lib__colors__navy800;
-    color: @lib__colors__white;
+  // To enforce expanding and filling the possible width
+  .keyNameValue {
+    flex: 1 1 0%;
+    width: 2rem;
   }
 }

@@ -21,6 +21,7 @@ export interface Role {
   canSeeInternalTags: boolean;
   canConfigureServiceLevelIndicators: boolean;
   canConfigureCustomAlerts: boolean;
+  canViewLogs: boolean;
 }
 
 export interface User {

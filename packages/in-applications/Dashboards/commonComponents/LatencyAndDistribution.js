@@ -5,8 +5,8 @@
 
 import React from 'react';
 
-import { TimeShiftAwareChartSelectorWithUrlState } from 'in-applications/Dashboards/commonComponents/ChartSelectors';
 import LatencyDistributionHistogram from 'in-applications/Dashboards/commonComponents/LatencyDistributionHistogram';
+import { TimeShiftAwareChartSelectorWithUrlState } from 'in-components/ChartSelectors/ChartSelectors';
 import Latency from 'in-applications/Dashboards/commonComponents/Latency';
 import { t } from 'in-i18n';
 

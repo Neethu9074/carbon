@@ -249,6 +249,7 @@ function navigationTreeForRole(role) {
         {
           path: teamSettingsActionCatalog,
           label: t('in-settings:tabs.actionCatalog'),
+          isBeta: true,
           component: ActionCatalogPage,
           subPages: [
             {

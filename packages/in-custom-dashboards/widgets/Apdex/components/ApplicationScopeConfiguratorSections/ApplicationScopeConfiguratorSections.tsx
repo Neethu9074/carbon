@@ -21,8 +21,9 @@ import {
 import BoundaryScopeConfigurator from 'in-custom-dashboards/widgets/Slo/sli/BoundaryScopeConfigurator';
 import HiddenCallsConfigurator from 'in-custom-dashboards/widgets/Slo/sli/HiddenCallsConfigurator';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
-import { getField, setFieldValue } from 'in-custom-dashboards/widgets/Apdex/form';
+import { setFieldValue } from 'in-custom-dashboards/widgets/Apdex/form';
 import { QueryBuilderComponent } from 'in-components/QueryBuilder';
+import { getField } from 'in-custom-dashboards/widgets/Slo/form';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
 import Header from 'in-components/workspace/Header';

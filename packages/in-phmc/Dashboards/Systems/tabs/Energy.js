@@ -9,7 +9,6 @@ import { Card } from '@instana/components';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import BaseboardTemperature from 'in-phmc/Dashboards/tables/BaseboardTemperature';
-import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import InletTemperature from 'in-phmc/Dashboards/tables/InletTemperature';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
@@ -25,31 +24,16 @@ export default function Energy({ timeConfig, data: system }) {
   return (
     <Fragment>
       <KpiGridRow sizes={[2, 3, 2, 3, 2]}>
-        <KpiCard title={t('in-phmc:uuid')} value={system.energy.uuid || valueMissingPlaceholder} raw borderless />
+        <KpiCard title={t('in-phmc:uuid')} value={system.energy.uuid} raw borderless />
         <InfraMetricKpiCard
           title={t('in-phmc:powerConsumption')}
           snapshotId={snapshotId}
           metric="powerReading"
           formatter={number.compact}
         />
-        <KpiCard
-          title={t('in-phmc:machineTypeModel')}
-          value={system.energy.machineTypeModel || valueMissingPlaceholder}
-          raw
-          borderless
-        />
-        <KpiCard
-          title={t('in-phmc:machineSerial')}
-          value={system.energy.machineSerial || valueMissingPlaceholder}
-          raw
-          borderless
-        />
-        <KpiCard
-          title={t('in-phmc:sampleType')}
-          value={system.energy.sampleType || valueMissingPlaceholder}
-          raw
-          borderless
-        />
+        <KpiCard title={t('in-phmc:machineTypeModel')} value={system.energy.machineTypeModel} raw borderless />
+        <KpiCard title={t('in-phmc:machineSerial')} value={system.energy.machineSerial} raw borderless />
+        <KpiCard title={t('in-phmc:sampleType')} value={system.energy.sampleType} raw borderless />
       </KpiGridRow>
 
       <Row verticallyStretchColumns>

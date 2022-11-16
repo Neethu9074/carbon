@@ -527,9 +527,26 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
                     description={t('in-internal:components.landing.infrastructureEntityVerDesc')}
                   />
                   <LinkListItem
+                    label="Infrastructure Metrics"
+                    href$={getModifiedUrlStream(params => (params.pathname = '/internal/thisUnit/metrics'))}
+                    description="Browse metrics associated with an entity"
+                  />
+                  <LinkListItem
                     label={t('in-internal:components.landing.internalEvents')}
                     href$={getModifiedUrlStream(params => (params.pathname = '/internal/thisUnit/internalEvents'))}
                     description={t('in-internal:components.landing.internalEventsDesc')}
+                  />
+                  <LinkListItem
+                    label="Adaptive Baseline Model"
+                    href$={getModifiedUrlStream(
+                      params => (params.pathname = '/internal/thisUnit/adaptiveBaselineModel')
+                    )}
+                    description="Inspect an Adaptive Baseline Model for specific Appdata entity"
+                  />
+                  <LinkListItem
+                    label={t('in-internal:components.landing.wsTesterTitle')}
+                    href$={getModifiedUrlStream(params => (params.pathname = '/internal/thisUnit/wsApiTester'))}
+                    description={t('in-internal:components.landing.wsTesterDescription')}
                   />
                 </LinkList>
               </Card>

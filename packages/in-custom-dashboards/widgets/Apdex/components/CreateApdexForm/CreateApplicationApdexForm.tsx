@@ -27,13 +27,14 @@ import { CreateApdexFormComponentProps } from 'in-custom-dashboards/widgets/Apde
 import EditConfigNotice from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/EditConfigNotice';
 import useSetFormFooterEffect from 'in-custom-dashboards/widgets/Slo/sli/hooks/useSetFormFooterEffect';
 import ApdexConfigPreview from 'in-custom-dashboards/widgets/Apdex/components/ApdexConfigPreview';
-import { entityIdKey, getField, setFieldValue } from 'in-custom-dashboards/widgets/Apdex/form';
 import PreviewHeader from 'in-custom-dashboards/widgets/Apdex/components/PreviewHeader';
 import PreviewFooter from 'in-custom-dashboards/widgets/Apdex/components/PreviewFooter';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import { entityIdKey, setFieldValue } from 'in-custom-dashboards/widgets/Apdex/form';
 import InputInSection from 'in-components/form/Input/InputInSection';
 import Sections from 'in-components/workspace/Sections/Sections';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import { getField } from 'in-custom-dashboards/widgets/Slo/form';
 import Header from 'in-components/workspace/Header/Header';
 import Form from 'in-components/form/binding/Form';
 import { t } from 'in-i18n';
@@ -61,7 +62,7 @@ export default function CreateApplicationApdexForm({
   useSetFormFooterEffect({
     form,
     formId: 'createApdexForm',
-    isDisabled: form.touched && (!form.hierarchyValid || !isFilterExpressionValid),
+    isDisabled: !form.hierarchyTouched || !form.hierarchyValid || !isFilterExpressionValid,
     cloneOnly: isEditing,
     isSaving,
     onCancel,
