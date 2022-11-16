@@ -90,7 +90,8 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'location_id',
+    //location_label => location display name
+    id: 'location_label',
     label: t('in-synthetics:dashboard.resultsListPage.locationColumn'),
     getContent(item: TestResultListItem) {
       return (
@@ -197,6 +198,7 @@ function getSynthTableData({
     }
   ];
 
+  //location_label => location display name
   if (query && query.length > 0) {
     baseTagFilters = [
       {
@@ -208,7 +210,7 @@ function getSynthTableData({
       },
       {
         stringValue: query,
-        name: 'location_id',
+        name: 'location_label',
         operator: CONTAINS,
         entity: NOT_APPLICABLE,
         type: 'TAG_FILTER'
