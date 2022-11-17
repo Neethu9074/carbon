@@ -23,6 +23,7 @@ import {
   getInterpreterFromFields,
   getMethodFromFields,
   getScriptFromFields,
+  getType,
   isScript,
   isWebhook,
   SCRIPT_TYPE
@@ -46,7 +47,6 @@ import { runActionTracker } from 'in-events/tracker';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Label from 'in-components/form/Label/Label';
 import Dialog from 'in-components/Dialog/Dialog';
-import Pill from 'in-components/Pill/Pill';
 import Code from 'in-components/Code';
 import { t, Trans } from 'in-i18n';
 
@@ -105,32 +105,46 @@ export default function RunAction({ action, volatileId, event, test }: Props) {
     let actionContent: JSX.Element = <></>;
     if (isScript(action.type)) {
       const script = getScriptFromFields(action.fields);
-      actionContent = <Code withExpandButton withoutCopyButton code={atob(script)} lang={'bash'} softWrap />;
-    } else if (isWebhook(action.type)) {
-      const { host, method, body, ignoreCertErrors, header } = getWebhookFields();
       actionContent = (
-        <>
-          <Pill color={'#ABB0B8'} className={locals.type}>
-            {method}
-          </Pill>
-          <p>{host}</p>
-          <p>{body}</p>
-          <p>{ignoreCertErrors}</p>
-          <p>{header}</p>
-        </>
+        <DescriptionList>
+          <DescriptionItem
+            className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+            title={t('in-events:titleScriptContent')}
+          >
+            <Code withExpandButton withoutCopyButton code={atob(script)} lang={'bash'} softWrap />
+          </DescriptionItem>
+        </DescriptionList>
+      );
+    } else if (isWebhook(action.type)) {
+      const { host, method, body, header } = getWebhookFields();
+      const headerEntries = Object.entries(JSON.parse(header) as AdditionalHeaders);
+      actionContent = (
+        <DescriptionList>
+          <DescriptionItem
+            className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+            title={t('in-events:request')}
+          >
+            <p>Method: {method}</p>
+            <p>Host: {host}</p>
+            {body && <p>Body: {body}</p>}
+            {headerEntries?.length > 0 && (
+              <p>
+                Headers:
+                <ul>
+                  {headerEntries.map(h => (
+                    <li key={h[0]}>
+                      {h[0]}: {h[1]}
+                    </li>
+                  ))}
+                </ul>
+              </p>
+            )}
+          </DescriptionItem>
+        </DescriptionList>
       );
     }
     content = (
       <>
-        <DescriptionList>
-          <DescriptionItem
-            className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
-            title={t('in-events:titleDescription')}
-          >
-            {description}
-          </DescriptionItem>
-        </DescriptionList>
-        {actionContent}
         <AgentSelection
           form={form}
           volatileId={volatileId}
@@ -138,6 +152,22 @@ export default function RunAction({ action, volatileId, event, test }: Props) {
           setForm={setForm}
           agentSnapShots={agentSnapShots}
         />
+
+        <DescriptionList>
+          <DescriptionItem
+            className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+            title={t('in-events:titleDescription')}
+          >
+            {description}
+          </DescriptionItem>
+          <DescriptionItem
+            className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+            title={t('in-events:titleActionType')}
+          >
+            {getType(action)}
+          </DescriptionItem>
+        </DescriptionList>
+        {actionContent}
         <p className={locals.actionModalFontSize}>{t('in-events:actionCannotBeUndone')}</p>
       </>
     );

@@ -894,6 +894,7 @@
     "bearerToken": "Bearer Token",
     "apiKeyAddTo": "Add to",
     "header": "Header",
+    "headers": "Headers",
     "queryParams": "Query Params",
     "test": "Test",
     "http": "HTTP"
