@@ -12,7 +12,7 @@ import { FacetedSearchPresenter } from 'in-websites/analyze/AnalyzeView2_0/compo
 import QueryBuilderWorkspace from 'in-websites/analyze/AnalyzeView2_0/components/QueryBuilderWorkspace';
 import getWebsiteBeaconsForPageLoad from 'in-websites/subscriptions/getWebsiteBeaconsForPageLoad';
 import { addDataSourceToBackendQueryModel } from 'in-websites/analyze/AnalyzeView2_0/util';
-import getWebsiteBeacons from 'in-websites/subscriptions/getWebsiteBeacons';
+import getWebsitePartialBeacons from 'in-websites/subscriptions/getWebsitePartialBeacons';
 import PageLoadView from 'in-websites/analyze/PageLoadView/PageLoadView';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
@@ -23,6 +23,10 @@ import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from './Beacons.mless';
+
+// const BEACON_METRICS_SELECT_ALL = 'SELECT_ALL';
+// const BEACON_METRICS_SELECT_PREDEFINED = 'SELECT_PREDEFINED';
+// const BEACON_METRICS_SELECT_CUSTOMIZED = 'SELECT_CUSTOMIZED';
 
 const websiteColumnDefinition = {
   id: 'website',
@@ -277,14 +281,17 @@ export default function Beacons(props) {
 }
 
 function getTableData({ timeConfig, backendQueryModel, orderBy, cursor, dataSource }) {
-  return getWebsiteBeacons({
+  return getWebsitePartialBeacons({
     pagination: {
       cursor,
       retrievalSize
     },
     order: orderBy,
     timeConfig,
-    tagFilterExpression: addDataSourceToBackendQueryModel({ backendQueryModel, dataSource })
+    tagFilterExpression: addDataSourceToBackendQueryModel({ backendQueryModel, dataSource }),
+    metricSelector: {
+      selector: 'SELECT_PREDEFINED'
+    }
   });
 }
 
