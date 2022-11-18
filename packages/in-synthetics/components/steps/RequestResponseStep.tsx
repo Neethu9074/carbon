@@ -114,15 +114,7 @@ export default function RequestResponseStep({ form, updateForm, selectedBlueprin
 
     try {
       const text = await e.target.files[0].text();
-      setState({
-        loading: false,
-        script: text
-      });
-      updateForm(
-        form.updateIn(['configuration', 'script'], (field: Item) =>
-          (field as Field<string>).setValue(text).setTouched(true)
-        )
-      );
+      updateCode(text);
     } catch (e) {
       setState({
         loading: false,
@@ -131,6 +123,18 @@ export default function RequestResponseStep({ form, updateForm, selectedBlueprin
         })
       });
     }
+  }
+
+  function updateCode(text: string) {
+    setState({
+      loading: false,
+      script: text
+    });
+    updateForm(
+      form.updateIn(['configuration', 'script'], (field: Item) =>
+        (field as Field<string>).setValue(text).setTouched(true)
+      )
+    );
   }
 
   return (
@@ -203,7 +207,9 @@ export default function RequestResponseStep({ form, updateForm, selectedBlueprin
             {renderLocations()}
           </div>
           <div className={locals.scriptUpload}>
-            {state.script && <Code lineNumbers readOnly mode={'shell'} value={state.script} onChange={() => {}} />}
+            {state.script && (
+              <Code lineNumbers mode={'shell'} value={state.script} onChange={value => updateCode(value)} />
+            )}
           </div>
         </Stack>
       </div>
