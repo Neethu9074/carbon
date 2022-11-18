@@ -10,11 +10,11 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { bytes, number, percentage } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import QueuesTable from './QueuesTable';
+import ActiveMqQueuesTable from './ActiveMqQueuesTable';
 import TopicsTable from './TopicsTable';
 import { t } from 'in-i18n';
 
-export default function AwsMqBrokerDashboard({ snapshot, timeConfig, type }) {
+export default function ActiveMqBrokerDashboard({ snapshot, timeConfig, type }) {
   const snapshotId = snapshot.get('id');
   const instanceType = snapshot.getIn(['data', 'instance_type']);
   const broker = type === '' ? '' : 'broker' + type + '.';
@@ -171,7 +171,7 @@ export default function AwsMqBrokerDashboard({ snapshot, timeConfig, type }) {
         />
       </DashboardSection>
 
-      <QueuesTable snapshot={snapshot} timeConfig={timeConfig} type={type} />
+      <ActiveMqQueuesTable snapshot={snapshot} timeConfig={timeConfig} type={type} />
       <TopicsTable snapshot={snapshot} timeConfig={timeConfig} type={type} />
     </div>
   );
