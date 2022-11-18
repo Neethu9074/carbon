@@ -34,7 +34,13 @@ export interface UngroupedViewProps extends StateManagementChildProps {
   withCountHeader: boolean;
   withoutHeader: boolean;
   CustomHeaderActions: ({ orderBy, setOrder }: HeaderActionProps) => JSX.Element;
+  infiniteScroll: InfiniteScrollProps;
 }
+
+type InfiniteScrollProps = {
+  enabled: boolean;
+  loadingCompleteMessage?: string;
+};
 
 /*
  * Interim types - reconcile with UngroupedViewProps once UngroupedView.js is migrated to TS

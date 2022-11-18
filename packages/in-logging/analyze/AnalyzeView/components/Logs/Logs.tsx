@@ -134,6 +134,7 @@ export default function Logs(props: LogsProps) {
       renderNestedContent={renderNestedContent}
       initialLines={initialLogLines}
       withEmbeddedLoadingIndicator
+      infiniteScroll={{ enabled: true, loadingCompleteMessage: t('in-logging:endOfInfiniteScroll') }}
     />
   );
 
