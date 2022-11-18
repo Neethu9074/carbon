@@ -869,7 +869,11 @@
     "confidence_high": "High",
     "confidence": "{{context}}",
     "confidenceTitle": "Confidence",
-    "test": "Test"
+    "test": "Test",
+    "serviceNowUrl": "ServiceNow URL",
+    "serviceNow": "ServiceNow",
+    "serviceNowAlertChannel": "ServiceNow Alert Channel",
+    "serviceNowUsernameTooltip": "Username and password should be for a ServiceNow user with permission to create incidents."
   },
   "languageSelection": {
     "language": "Language",
@@ -906,5 +910,6 @@
   "queryValidationStillInProgress": "Query validation still in progress",
   "teamSettings": {
     "newGroup": "New Group"
-  }
+  },
+  "successResponse": "Alerting Channel was successfully triggered, please check the channel!"
 }

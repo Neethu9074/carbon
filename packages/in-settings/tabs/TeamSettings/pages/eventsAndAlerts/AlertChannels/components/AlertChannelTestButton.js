@@ -6,13 +6,14 @@
 import { fromJS } from 'immutable';
 import React from 'react';
 
-import { Button } from '@instana/components';
+import { Button, Message } from '@instana/components';
 
 import { fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
-import Notification from 'in-components/form/Notification';
 import { alertChannelTest } from 'in-api/alertChannels';
 import Section from 'in-settings/components/Section';
 import { t } from 'in-i18n';
+
+import './AlertChannelTestButton.less';
 
 export default class extends React.Component {
   static displayName = 'AlertChannelTestButton';
@@ -22,7 +23,8 @@ export default class extends React.Component {
     this.state = {
       error: false,
       loading: false,
-      message: null
+      message: null,
+      errorResponse: false
     };
   }
 
@@ -43,7 +45,9 @@ export default class extends React.Component {
       response => {
         this.setState({
           loading: false,
-          message: response.get('result')
+          message: response.get('result'),
+          errorResponse:
+            response.get('result') && response.get('result') === t('in-settings:successResponse') ? false : true
         });
       },
       error => {
@@ -59,17 +63,32 @@ export default class extends React.Component {
   render() {
     return (
       <div>
-        <Section>
+        <Section className="test_channel_dialog">
           <Button
-            kind="primaryv2"
+            kind="info"
             icon={this.state.loading ? 'lib_actions_loading' : null}
             iconSpinning
             onClick={() => this.test(this.props.alertChannel, this.props.form)}
             disabled={!this.props.form.hierarchyValid && this.props.form.touched}
+            className="test_channel_dialog_child"
           >
             {t('in-settings:tabs.testChannel')}
           </Button>
-          {this.state.message ? <Notification failure={this.state.error}>{this.state.message}</Notification> : null}
+          {this.state.message && !this.state.loading ? (
+            <Message
+              withIcon
+              type={this.state.errorResponse || this.state.error ? 'error' : 'success'}
+              title={this.state.errorResponse || this.state.error ? 'Test Failed' : 'Test Successful'}
+              description={
+                this.state.errorResponse || this.state.error
+                  ? this.state.message
+                  : `Test Alert sent to ${this.props.alertChannelLabel} Alert Channel`
+              }
+              className="test_channel_dialog_child"
+              bold
+              small
+            />
+          ) : null}
         </Section>
       </div>
     );
