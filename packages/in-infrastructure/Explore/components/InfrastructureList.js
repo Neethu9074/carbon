@@ -10,7 +10,7 @@ import { Message } from '@instana/components';
 
 import MetricCatalogAndSortingConfigurator from 'in-infrastructure/components/MetricCatalogAndSortingConfigurator/MetricCatalogAndSortingConfigurator';
 import { trackingProps as metricConfiguratorTrackingProps } from 'in-infrastructure/components/MetricCatalogConfigurator/MetricCatalogConfigurator';
-import { average, getGranularity, getMetricKey } from 'in-infrastructure/Explore/services/metrics';
+import { firstValue, getGranularity, getMetricKey, getSeriesKey } from 'in-infrastructure/Explore/services/metrics';
 import { default as MetricLabel } from 'in-infrastructure/Explore/components/MetricLabel';
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
@@ -45,6 +45,7 @@ export default function InfrastructureList({
   onQueryChange
 }) {
   const timeConfig = useTimeConfig();
+  const granularity = getGranularity(timeConfig);
   const {
     items,
     totalHits,
@@ -56,7 +57,7 @@ export default function InfrastructureList({
     progress,
     ...tableProps
   } = useCursorPagination(
-    ({ cursor }) => getTableData({ timeConfig, retrievalSize, backendQueryModel, order, type, metrics, cursor }),
+    ({ cursor }) => getTableData({ timeConfig, granularity, retrievalSize, backendQueryModel, order, type, metrics, cursor }),
     [timeConfig, retrievalSize, backendQueryModel, type, order, metrics]
   );
 
@@ -65,7 +66,7 @@ export default function InfrastructureList({
 
   const columnDefinitions = [
     getLabelColumn({ timeConfig }, tracking?.onNavigateToEntity),
-    ...getMetricColumns({ metrics, sortable: showHeader, metricMetadatas, timeConfig })
+    ...getMetricColumns({ metrics, sortable: showHeader, metricMetadatas, timeConfig, granularity })
   ];
 
   return (
@@ -127,7 +128,7 @@ function getErrorMessage(err) {
   return t('in-infrastructure:explore.errors.generalError');
 }
 
-function getTableData({ timeConfig, retrievalSize, backendQueryModel, type, order, metrics, cursor }) {
+function getTableData({ timeConfig, granularity, retrievalSize, backendQueryModel, type, order, metrics, cursor }) {
   return getEntities({
     filter: {
       tagFilterExpression: backendQueryModel,
@@ -140,12 +141,13 @@ function getTableData({ timeConfig, retrievalSize, backendQueryModel, type, orde
     },
     type,
     metrics: Object.fromEntries(
-      metrics.flatMap(({ metric, aggregation }) => [
-        // using a granularity smaller than window size here is a bit of a hack,
-        // because BeeInstant buckets are defined on epoch boundaries. we use a smaller
-        // granularity here to ensure this is synced up with grouped view KPIs
-        [getMetricKey(metric, aggregation), { metric, granularity: getGranularity(timeConfig), aggregation }]
-      ])
+      metrics.flatMap(({ metric, aggregation, crossSeriesAggregation }) => {
+        const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
+        const kpiGranularity = timeConfig.windowSize;
+        return [
+          [id, { metric, granularity: kpiGranularity, aggregation, crossSeriesAggregation }],
+          [getSeriesKey(id), { metric, granularity, aggregation, crossSeriesAggregation }]
+      ]})
     )
   });
 }
@@ -194,9 +196,9 @@ InfrastructureList.propTypes = {
   metricCatalog: rpt.object
 };
 
-function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig }) {
-  return metrics.map(({ metric, aggregation }) => {
-    const id = getMetricKey(metric, aggregation);
+function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, granularity }) {
+  return metrics.map(({ metric, aggregation, crossSeriesAggregation }) => {
+    const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
     const metadata = mapData(metricMetadatas, data => data[metric]);
     const label = mapData(metadata, data => data?.label);
     const isKpi = mapData(metadata, data => data?.isKpi).data || false;
@@ -213,19 +215,18 @@ function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig }) {
       defaultDisabled: !isKpi,
       headCellProps: { className: locals.metricLabel },
       getContent(item) {
-        const id = getMetricKey(metric, aggregation);
         const metadata = mapData(metricMetadatas, data => data[metric]);
         const label = mapData(metadata, data => data?.label);
         const renderedLabel = <MetricLabel label={label} aggregation={aggregation} />;
         const formatter = mapData(metadata, data => data?.formatter).data;
-        const kpi = average(item.metrics[id]);
+        const kpi = firstValue(item.metrics[id]);
+        const series = item.metrics[getSeriesKey(id)]
         const percentageMetric = mapData(metadata, data => data?.percentageMetric).data;
-        const granularity = getGranularity(timeConfig);
         return (
           <SparkChart
             horizontalMetricValue={(kpi && formatter && formatter(kpi)) || valueMissingPlaceholder}
             percentageMetric={percentageMetric}
-            metrics={item.metrics[id]}
+            metrics={series}
             tooltipFormatter={formatter}
             aggregation={aggregation}
             timeConfig={timeConfig}

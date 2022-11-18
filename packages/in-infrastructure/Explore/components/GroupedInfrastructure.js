@@ -18,8 +18,8 @@ import {
 } from '@instana/components';
 
 import MetricCatalogAndSortingConfigurator from 'in-infrastructure/components/MetricCatalogAndSortingConfigurator/MetricCatalogAndSortingConfigurator';
+import { firstValue, getGranularity, getMetricKey, getSeriesKey } from 'in-infrastructure/Explore/services/metrics';
 import InfrastructureList, { pagesLoaded } from 'in-infrastructure/Explore/components/InfrastructureList';
-import { average, getGranularity, getMetricKey } from 'in-infrastructure/Explore/services/metrics';
 import { type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { default as MetricLabel } from 'in-infrastructure/Explore/components/MetricLabel';
@@ -145,10 +145,10 @@ function Presenter({
     : [];
   const sortOptions = groupSortOptions.concat(
     mapData(metricMetadatas, metadatas => {
-      return metrics.map(({ metric, aggregation }) => {
+      return metrics.map(({ metric, aggregation, crossSeriesAggregation }) => {
         return {
           label: `${metadatas[metric].label} (${aggregation})`,
-          value: getMetricKey(metric, aggregation)
+          value: getMetricKey(metric, aggregation, crossSeriesAggregation)
         };
       });
     }).data || []
@@ -269,26 +269,27 @@ function columns({
       }
     ])
     .concat(
-      metrics.map(({ metric, aggregation }) => ({
+      metrics.map(({ metric, aggregation, crossSeriesAggregation }) => ({
         width: '12rem',
         getContent({ group }) {
-          const id = getMetricKey(metric, aggregation);
+          const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
           const metadata = mapData(metricMetadatas, data => data[metric]);
           const label = mapData(metadata, data => data?.label);
           const renderedLabel = <MetricLabel label={label} aggregation={aggregation} />;
           const formatter = mapData(metadata, data => data?.formatter).data;
-          const kpi = average(group.metrics[id]);
+          const kpi = firstValue(group.metrics[id]);
+          const series = group.metrics[getSeriesKey(id)];
           const percentageMetric = mapData(metadata, data => data?.percentageMetric).data;
           return (
             <SparkChart
               horizontalMetricValue={(kpi && formatter && formatter(kpi)) || '--'}
               percentageMetric={percentageMetric}
-              metrics={group.metrics[id]}
               tooltipFormatter={formatter}
               aggregation={aggregation}
               timeConfig={timeConfig}
-              rollup={granularity}
               label={renderedLabel}
+              rollup={granularity}
+              metrics={series}
             />
           );
         }
@@ -328,7 +329,7 @@ function getColumnWidth(groupBy, index) {
   }
 }
 
-function getGroups({ timeConfig, backendQueryModel, group, cursor, type, order, metrics, granularity, retrievalSize }) {
+function getGroups({ timeConfig, backendQueryModel, group, cursor, type, order, metrics, retrievalSize, granularity }) {
   return createGetGroupsSubscription({
     filter: {
       timeConfig,
@@ -341,9 +342,21 @@ function getGroups({ timeConfig, backendQueryModel, group, cursor, type, order, 
     groupBy: [group],
     type,
     metrics: Object.fromEntries(
-      metrics.flatMap(({ metric, aggregation, crossSeriesAggregation }) => [
+      metrics.flatMap(({ metric, aggregation, crossSeriesAggregation }) => {
+        const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
+        const kpiGranularity = timeConfig.windowSize;
+        return [
         [
-          getMetricKey(metric, aggregation),
+          id,
+          {
+            metric,
+            granularity: kpiGranularity,
+            aggregation,
+            crossSeriesAggregation
+          }
+        ],
+        [
+          getSeriesKey(id),
           {
             metric,
             granularity,
@@ -351,7 +364,7 @@ function getGroups({ timeConfig, backendQueryModel, group, cursor, type, order, 
             crossSeriesAggregation
           }
         ]
-      ])
+      ]})
     ),
     order
   });

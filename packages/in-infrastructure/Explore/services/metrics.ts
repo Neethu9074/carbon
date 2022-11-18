@@ -35,25 +35,18 @@ export function getGranularity(timeConfig: TimeConfig) {
   return getInfraGranularity(timeConfig, undefined, dataPoints);
 }
 
-export function average(series: [number, number][]) {
-  if (!series) {
-    return undefined;
-  }
-
-  const { count, sum } = series.reduce(
-    ({ count, sum }, metric) => ({
-      count: count + 1,
-      sum: sum + metric[1]
-    }),
-    {
-      count: 0,
-      sum: 0
-    }
-  );
-
-  return sum / count;
+export function getMetricKey(...parts: any[]) {
+  return parts.filter(p => p !== null && p !== undefined).join('.');
 }
 
-export function getMetricKey(metric: string, aggregation: string) {
-  return metric + '.' + aggregation;
+export function getSeriesKey(key: string) {
+  return key + ".series";
+}
+
+export function firstValue(metrics?: Number[][]) {
+  if (!metrics) {
+    return metrics;
+  }
+
+  return metrics[0][1];
 }
