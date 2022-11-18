@@ -7,6 +7,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 
 import { useObservable } from '@instana/hooks';
 
+import { maxInitialLogLines, maxRetrievalSize } from 'in-logging/analyze/AnalyzeView/components/constants';
 import { pendingResult, emptyArray, indeterminateProgress } from 'in-services/fixedObjects';
 import { shallowEquals } from 'in-services/util/object';
 
@@ -48,15 +49,17 @@ export function createPageSizeAwareLogsCursorPaginationHook(initialLogLines, ret
       currentRetrievalSize
     } = shallowEquals(prevDeps, deps) ? state : initialState;
 
-    const observable = useMemo(() => create({ afterKey, initialLogLines, retrievalSize: currentRetrievalSize }), [
-      afterKey,
-      initialLogLines,
-      ...deps
-    ]);
+    const cappedInitialLogLines = initialLogLines > maxInitialLogLines ? maxInitialLogLines : initialLogLines;
+    const cappedRetrievalSize = currentRetrievalSize > maxRetrievalSize ? maxRetrievalSize : currentRetrievalSize;
+
+    const observable = useMemo(
+      () => create({ afterKey, initialLogLines: cappedInitialLogLines, retrievalSize: cappedRetrievalSize }),
+      [afterKey, initialLogLines, ...deps]
+    );
     useEffect(() => setState(awaitItems), [observable, ...deps]);
 
     const result = useObservable(observable, [observable, ...deps]) ?? pendingResult;
-    useEffect(() => setState(prev => updateResult(prev, result, currentRetrievalSize)), [result, ...deps]);
+    useEffect(() => setState(prev => updateResult(prev, result, cappedRetrievalSize)), [result, ...deps]);
 
     const setAfterKey = useCallback(_afterKey =>
       setState(prev => ({
