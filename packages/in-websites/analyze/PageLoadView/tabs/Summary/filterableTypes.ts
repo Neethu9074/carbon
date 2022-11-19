@@ -3,7 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import { WebsiteMonitoringBeacon } from '@instana/types';
+
 import { t } from 'in-i18n';
+
 export const types = {
   xhr: {
     short: t('in-websites:analyze.analyzeView.pageLoadView.filterTypeXHRShort'),
@@ -67,9 +70,9 @@ export const types = {
   }
 };
 
-export function getType(beacon) {
-  if (types[beacon.resourceType]) {
-    return beacon.resourceType;
+export function getType(beacon: WebsiteMonitoringBeacon) {
+  if (types[beacon.resourceType as keyof typeof types]) {
+    return beacon.resourceType as keyof typeof types;
   } else if (beacon.type === 'error') {
     return 'error';
   } else if (beacon.type === 'custom') {
@@ -86,14 +89,14 @@ export function getResourceTypes() {
     Object.keys(types)
       // Errors and XHR don't make sense as resource types
       .filter(k => k && k !== 'xhr' && k !== 'error' && k !== 'custom' && k !== 'pageChange')
-      .sort()
+      .sort() as Array<keyof typeof types>
   );
 }
 
-export function getResourceTypesComboBoxItems(restrict = null) {
+export function getResourceTypesComboBoxItems(restrict: Array<string> | null = null) {
   return getResourceTypes()
     .filter(k => restrict == null || restrict.indexOf(k) !== -1)
-    .reduce(
+    .reduce<Array<{ value: string; label: string }>>(
       (agg, k) =>
         agg.concat({
           value: k,

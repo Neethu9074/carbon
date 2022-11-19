@@ -83,6 +83,12 @@ export const applicationApdexEnabled = isFeatureFlagEnabled('applicationApdexEna
 export const websiteUploadConfigEnabled = isFeatureFlagEnabled('websiteUploadConfigEnabled', false);
 export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashBeaconEnabled', false);
 
+// EUM beacon query optimization
+export const websiteBeaconQueryOptimizationEnabled = isFeatureFlagEnabled(
+  'websiteBeaconQueryOptimizationEnabled',
+  true
+);
+
 // SmartAlerts, Strontium-cloudberry:
 // Logs-Blueprint behind FF, Closed-Beta, only for customers already using it
 export const smartAlertsLogsBlueprintEnabled = isFeatureFlagEnabled('smartAlertsLogsBlueprintEnabled', false);
