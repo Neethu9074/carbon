@@ -20,6 +20,7 @@ import Header from 'in-components/QueryBuilder/components/Header';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 import { isTechnicalError } from 'in-services/util/error';
+import CsvExporter from 'in-components/CsvExporter';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { mapData } from 'in-services/util/result';
 import SparkChart from 'in-components/SparkChart';
@@ -57,7 +58,8 @@ export default function InfrastructureList({
     progress,
     ...tableProps
   } = useCursorPagination(
-    ({ cursor }) => getTableData({ timeConfig, granularity, retrievalSize, backendQueryModel, order, type, metrics, cursor }),
+    ({ cursor }) =>
+      getTableData({ timeConfig, granularity, retrievalSize: 200, backendQueryModel, order, type, metrics, cursor }),
     [timeConfig, retrievalSize, backendQueryModel, type, order, metrics]
   );
 
@@ -88,6 +90,12 @@ export default function InfrastructureList({
           metricCatalog={metricCatalog}
           query={query}
           onQueryChange={onQueryChange}
+          items={items}
+          timeConfig={timeConfig}
+          order={order}
+          cursor={cursor}
+          granularity={granularity}
+          columns={columnDefinitions}
         />
       )}
 
@@ -128,7 +136,17 @@ function getErrorMessage(err) {
   return t('in-infrastructure:explore.errors.generalError');
 }
 
-function getTableData({ timeConfig, granularity, retrievalSize, backendQueryModel, type, order, metrics, cursor }) {
+function getTableData({
+  timeConfig,
+  granularity,
+  retrievalSize,
+  backendQueryModel,
+  type,
+  order,
+  metrics,
+  cursor,
+  fullData = false
+}) {
   return getEntities({
     filter: {
       tagFilterExpression: backendQueryModel,
@@ -137,7 +155,8 @@ function getTableData({ timeConfig, granularity, retrievalSize, backendQueryMode
     order,
     pagination: {
       retrievalSize,
-      cursor
+      cursor,
+      fullData: fullData
     },
     type,
     metrics: Object.fromEntries(
@@ -147,7 +166,8 @@ function getTableData({ timeConfig, granularity, retrievalSize, backendQueryMode
         return [
           [id, { metric, granularity: kpiGranularity, aggregation, crossSeriesAggregation }],
           [getSeriesKey(id), { metric, granularity, aggregation, crossSeriesAggregation }]
-      ]})
+        ];
+      })
     )
   });
 }
@@ -215,12 +235,13 @@ function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, gran
       defaultDisabled: !isKpi,
       headCellProps: { className: locals.metricLabel },
       getContent(item) {
+        const id = getMetricKey(metric, aggregation);
         const metadata = mapData(metricMetadatas, data => data[metric]);
         const label = mapData(metadata, data => data?.label);
         const renderedLabel = <MetricLabel label={label} aggregation={aggregation} />;
         const formatter = mapData(metadata, data => data?.formatter).data;
         const kpi = firstValue(item.metrics[id]);
-        const series = item.metrics[getSeriesKey(id)]
+        const series = item.metrics[getSeriesKey(id)];
         const percentageMetric = mapData(metadata, data => data?.percentageMetric).data;
         return (
           <SparkChart
@@ -243,9 +264,67 @@ export function pagesLoaded(offset, itemsPerPage) {
   return (offset || 0) / itemsPerPage + 2; // we are on page 1 when offset is 0, so nextPageNumber == 2
 }
 
+function processData(items, columns) {
+  let csvRows = [];
+  items?.forEach(item => {
+    let row = {};
+    row['Name'] = item.label;
+
+    columns.forEach(col => {
+      let found = false;
+      Object.keys(item.metrics ?? {}).forEach(metric => {
+        if (metric === col.id) {
+          row[metric.substring(0, metric.lastIndexOf('.'))] = firstValue(item.metrics[metric]);
+          found = true;
+        }
+      });
+      if (!found && col.id !== 'label') {
+        row[col.id.substring(0, col.id.lastIndexOf('.'))] = '-';
+      }
+    });
+    csvRows.push(row);
+  });
+
+  return csvRows;
+}
+
 function getHeaderActions(props) {
   if (props.type === null) {
     return <></>;
   }
-  return <MetricCatalogAndSortingConfigurator {...props} />;
+
+  const timeConfig = props.timeConfig;
+  const backendQueryModel = props.backendQueryModel;
+  const order = props.order;
+  const type = props.type;
+  const metrics = props.metrics;
+  const cursor = props.cursor;
+  const columns = props.columns;
+  const granularity = props.granularity;
+
+  const getAllData = ({ cursor }) =>
+    getTableData({
+      timeConfig,
+      granularity,
+      retrievalSize: 10000,
+      backendQueryModel,
+      type,
+      order,
+      metrics,
+      cursor,
+      fullData: true
+    });
+
+  return (
+    <>
+      <CsvExporter
+        processData={processData}
+        fetchData={getAllData}
+        fileName={'infrastructure_entites.csv'}
+        cursor={cursor}
+        columns={columns}
+      />
+      <MetricCatalogAndSortingConfigurator {...props} />;
+    </>
+  );
 }

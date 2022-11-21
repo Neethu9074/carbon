@@ -36,6 +36,7 @@ import Header from 'in-components/QueryBuilder/components/Header';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import IconLink from 'in-components/IconButton/IconLink';
 import Tooltip from 'in-components/Tooltip/Tooltip';
+import CsvExporter from 'in-components/CsvExporter';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { getPluginName } from 'in-sdk/pluginName';
 import { mapData } from 'in-services/util/result';
@@ -177,6 +178,12 @@ function Presenter({
         metricCatalog={metricCatalog}
         query={query}
         onQueryChange={onQueryChange}
+        items={items}
+        timeConfig={timeConfig}
+        cursor={cursor}
+        columns={columnDefinitions}
+        granularity={granularity}
+        fullQualifiedGroup={fullQualifiedGroup}
       />
       <Ul space="xsmall">
         {items.map((item, rowIndex) => (
@@ -248,6 +255,9 @@ function columns({
       getContent({ group }) {
         const icon = getGroupIcon(group);
         return <SvgIcon type={icon} />;
+      },
+      getId() {
+        return 'icon';
       }
     }
   ]
@@ -257,6 +267,9 @@ function columns({
         getContent({ group }) {
           const value = getGroupTagValue(group, groupKey);
           return <KeyValue label={groupKey} value={value} accentuated />;
+        },
+        getId() {
+          return groupKey;
         }
       }))
     )
@@ -265,6 +278,12 @@ function columns({
         width: '8rem',
         getContent({ group }) {
           return <KeyValue label={countLabel} value={group.count} theme="blue" accentuated />;
+        },
+        getId() {
+          return countLabel;
+        },
+        getType() {
+          return 'count';
         }
       }
     ])
@@ -292,7 +311,11 @@ function columns({
               metrics={series}
             />
           );
-        }
+        },
+        getId() {
+          return getMetricKey(metric, aggregation);
+        },
+        exported: true
       }))
     )
     .concat([
@@ -308,6 +331,9 @@ function columns({
               />
             </Tooltip>
           );
+        },
+        getId() {
+          return 'focusOnGroup';
         }
       }
     ]);
@@ -329,7 +355,18 @@ function getColumnWidth(groupBy, index) {
   }
 }
 
-function getGroups({ timeConfig, backendQueryModel, group, cursor, type, order, metrics, retrievalSize, granularity }) {
+function getGroups({
+  timeConfig,
+  backendQueryModel,
+  group,
+  cursor,
+  type,
+  order,
+  metrics,
+  retrievalSize,
+  granularity,
+  fullData = false
+}) {
   return createGetGroupsSubscription({
     filter: {
       timeConfig,
@@ -337,7 +374,8 @@ function getGroups({ timeConfig, backendQueryModel, group, cursor, type, order, 
     },
     pagination: {
       cursor,
-      retrievalSize
+      retrievalSize,
+      fullData
     },
     groupBy: [group],
     type,
@@ -346,25 +384,26 @@ function getGroups({ timeConfig, backendQueryModel, group, cursor, type, order, 
         const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
         const kpiGranularity = timeConfig.windowSize;
         return [
-        [
-          id,
-          {
-            metric,
-            granularity: kpiGranularity,
-            aggregation,
-            crossSeriesAggregation
-          }
-        ],
-        [
-          getSeriesKey(id),
-          {
-            metric,
-            granularity,
-            aggregation,
-            crossSeriesAggregation
-          }
-        ]
-      ]})
+          [
+            id,
+            {
+              metric,
+              granularity: kpiGranularity,
+              aggregation,
+              crossSeriesAggregation
+            }
+          ],
+          [
+            getSeriesKey(id),
+            {
+              metric,
+              granularity,
+              aggregation,
+              crossSeriesAggregation
+            }
+          ]
+        ];
+      })
     ),
     order
   });
@@ -471,10 +510,76 @@ export function getGroupTagValue(group, key) {
   }
 }
 
+function processData(items, columns) {
+  let csvRows = [];
+  items?.forEach(item => {
+    let row = {};
+    Object.keys(item.tags).forEach(tagKey => (row[tagKey] = item.tags[tagKey]));
+
+    columns.forEach(col => {
+      if (col.getType !== undefined && col.getType() === 'count') {
+        row[col.getId()] = item.count;
+      }
+    });
+
+    columns.forEach(col => {
+      let found = false;
+      Object.keys(item.metrics ?? {}).forEach(metric => {
+        if (metric === col.getId()) {
+          row[metric.substring(0, metric.lastIndexOf('.'))] = firstValue(item.metrics[metric]);
+          found = true;
+        }
+      });
+      if (!found && col.exported) {
+        row[col.getId().substring(0, col.getId().lastIndexOf('.'))] = '-';
+      }
+    });
+    csvRows.push(row);
+  });
+
+  return csvRows;
+}
+
 function getHeaderActions(props) {
   if (props.type === null) {
     // no sorting and grouping for All Infrastructure
     return <></>;
   }
-  return <MetricCatalogAndSortingConfigurator {...props} />;
+
+  const timeConfig = props.timeConfig;
+  const backendQueryModel = props.backendQueryModel;
+  const order = props.order;
+  const type = props.type;
+  const metrics = props.metrics;
+  const cursor = props.cursor;
+  const columns = props.columns;
+  const granularity = props.granularity;
+  const fullQualifiedGroup = props.fullQualifiedGroup;
+
+  const getAllData = ({ cursor }) =>
+    getGroups({
+      timeConfig,
+      backendQueryModel,
+      group: fullQualifiedGroup,
+      order,
+      type,
+      metrics,
+      granularity,
+      cursor,
+      retrievalSize: 10000,
+      fullData: true
+    });
+
+  return (
+    <>
+      <CsvExporter
+        processData={processData}
+        fetchData={getAllData}
+        fileName="group_entites.csv"
+        columns={columns}
+        cursor={cursor}
+      />
+      <MetricCatalogAndSortingConfigurator {...props} />;
+    </>
+  );
 }

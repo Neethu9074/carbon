@@ -1,4 +1,8 @@
 {
+  "csvExporterButton":{
+    "label": "Export to CSV"
+  },
+  
   "fileInputButton": {
     "label": {
       "chooseSingle": "Choose file…",

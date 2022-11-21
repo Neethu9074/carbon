@@ -12,6 +12,7 @@ import createGetGroupsSubscription from 'in-infrastructure/subscriptions/getGrou
 import { getLinkToExplore } from 'in-infrastructure/navigation/paths';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import EntityLink from 'in-components/EntityLink/EntityLink';
+import CsvExporter from 'in-components/CsvExporter';
 import { t } from 'in-i18n';
 
 export default function EntityList({ retrievalSize = 20, backendQueryModel, timeConfig, order, type, setOrder }) {
@@ -54,6 +55,11 @@ export default function EntityList({ retrievalSize = 20, backendQueryModel, time
     };
   }
 
+  const headers = [
+    { label: 'Name', key: 'name' },
+    { label: 'Count', key: 'count' }
+  ];
+
   const columnDefinitions = [
     {
       id: 'label',
@@ -89,38 +95,40 @@ export default function EntityList({ retrievalSize = 20, backendQueryModel, time
     }
   ]);
 
-  if (!isLoading) {
-    return (
-      <>
-        {hasErrors && <ErroneousResult />}
-        <ServerTablePresenter
-          orderBy={order.by}
-          orderDirection={order.direction}
-          result={result}
-          columnDefinitions={columnDefinitions}
-          cardTitle={t('in-infrastructure:explore.entityTypes', { count: items?.data?.items?.length ?? '' })}
-          onChange={({ query, orderBy, orderDirection }) => {
-            if (query !== undefined) {
-              //search
-              onChangeItems(
-                items.filter(item =>
-                  getGroupTagValue(item, 'type')
-                    .toLowerCase()
-                    .includes(query?.toLowerCase())
-                )
-              );
-            } else {
-              //sort
-              setOrder({ by: orderBy, direction: orderDirection });
-            }
-          }}
-          searchPlaceholder={t('in-infrastructure:explore.search')}
-        />
-      </>
-    );
-  } else {
-    return <></>;
+  function getCsvItems() {
+    return result?.data?.items.map(item => ({ name: getGroupTagValue(item, 'type'), count: item.count })) || [];
   }
+
+  return (
+    <>
+      {hasErrors && <ErroneousResult />}
+      <ServerTablePresenter
+        orderBy={order.by}
+        orderDirection={order.direction}
+        result={result}
+        columnDefinitions={columnDefinitions}
+        cardTitle={t('in-infrastructure:explore.entityTypes', { count: items?.data?.items?.length ?? '' })}
+        onChange={({ query, orderBy, orderDirection }) => {
+          if (query !== undefined) {
+            //search
+            onChangeItems(
+              items.filter(item =>
+                getGroupTagValue(item, 'type')
+                  .toLowerCase()
+                  .includes(query?.toLowerCase())
+              )
+            );
+          } else {
+            //sort
+            setOrder({ by: orderBy, direction: orderDirection });
+          }
+        }}
+        rightHeader={<CsvExporter headers={headers} data={getCsvItems()} fileName="entity_types.csv" />}
+        searchPlaceholder={t('in-infrastructure:explore.search')}
+        withoutSearchIcon
+      />
+    </>
+  );
 }
 
 function sortItems(items, orderBy, orderDirection) {

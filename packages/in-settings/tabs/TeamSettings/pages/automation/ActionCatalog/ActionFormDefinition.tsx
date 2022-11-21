@@ -8,13 +8,13 @@ import { createField, createMapForm, MapForm } from 'formalistic';
 
 import { generateUniqueShortId } from '@instana/utils';
 
-import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import {
   getDocLinkFromFields,
   getScriptFromFields,
   isDocLink,
   isScript
 } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
+import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import { notBlankValidator } from 'in-services/validators/string';
 import { t } from 'in-i18n';
 

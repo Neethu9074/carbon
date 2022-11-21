@@ -40,7 +40,7 @@ export function getMetricKey(...parts: any[]) {
 }
 
 export function getSeriesKey(key: string) {
-  return key + ".series";
+  return key + '.series';
 }
 
 export function firstValue(metrics?: Number[][]) {
