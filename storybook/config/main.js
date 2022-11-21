@@ -6,9 +6,7 @@
 /* eslint-env node */
 
 module.exports = {
-  /* usually "stories" are defined here, but we do some
-    adaption, and configure that in preview.js
-   */
+  stories: ['../../packages/**/*.story.@(js|jsx|ts|tsx|mdx)'],
   core: {
     builder: 'webpack5'
   },
