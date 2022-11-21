@@ -67,6 +67,12 @@ const columnDefinitions = [
             setOrDeleteMatrixKey(
               resultDetailsUrl,
               syntheticDetailsPath,
+              'finishTime',
+              get(item, ['metrics', 'start_time', 0, 0])
+            );
+            setOrDeleteMatrixKey(
+              resultDetailsUrl,
+              syntheticDetailsPath,
               'status',
               get(item, ['metrics', 'status', 0, 1], 0)
             );
