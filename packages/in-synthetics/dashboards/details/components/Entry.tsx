@@ -94,7 +94,7 @@ function LeftHeader({ entry }: EntryProps) {
       />
       <KeyValueHeader
         label={t('in-synthetics:dashboard.detailsPage.browserDetails.entry.size')}
-        value={`${bytesZeroDecimalPlaces(entry.response.headersSize + entry.response.bodySize)}`}
+        value={`${bytesZeroDecimalPlaces(entry.response.size)}`}
       />
       <KeyValueHeader
         label={t('in-synthetics:dashboard.detailsPage.browserDetails.entry.time')}
@@ -106,6 +106,23 @@ function LeftHeader({ entry }: EntryProps) {
 
 function EntryBody({ entry }: EntryProps) {
   const { blocked, dns, connect, ssl, send, wait, receive } = entry.timings;
+  const {
+    url,
+    httpVersion: httpRequestVersion,
+    method,
+    headersSize: headersRequestSize,
+    bodySize: bodyRequestSize
+  } = entry.request;
+  const {
+    redirectURL,
+    httpVersion: httpResponseVersion,
+    status,
+    statusText,
+    _transferSize,
+    headersSize: headersResponseSize,
+    bodySize: bodyResponseSize,
+    content
+  } = entry.response;
 
   const timings = [
     {
@@ -147,21 +164,19 @@ function EntryBody({ entry }: EntryProps) {
           </h2>
           <Dl>
             <Di title={t('in-synthetics:dashboard.detailsPage.browserDetails.body.request.url')}>
-              <a href={entry.request.url} rel="noopener noreferrer" target="_blank">
-                {entry.request.url || t('in-synthetics:dashboard.detailsPage.noDataAvailable.notFound')}
+              <a href={url} rel="noopener noreferrer" target="_blank">
+                {url || t('in-synthetics:dashboard.detailsPage.noDataAvailable.notFound')}
               </a>
             </Di>
             <Di title={t('in-synthetics:dashboard.detailsPage.browserDetails.body.request.httpVersion')}>
-              {entry.request.httpVersion}
+              {httpRequestVersion}
             </Di>
-            <Di title={t('in-synthetics:dashboard.detailsPage.browserDetails.body.request.method')}>
-              {entry.request.method}
-            </Di>
+            <Di title={t('in-synthetics:dashboard.detailsPage.browserDetails.body.request.method')}>{method}</Di>
             <Di title={t('in-synthetics:dashboard.detailsPage.browserDetails.body.request.headerSize')}>
-              {bytesZeroDecimalPlaces(entry.request.headersSize)}
+              {bytesZeroDecimalPlaces(headersRequestSize < 0 ? 0 : headersRequestSize)}
             </Di>
             <Di title={t('in-synthetics:dashboard.detailsPage.browserDetails.body.request.bodySize')}>
-              {bytesZeroDecimalPlaces(entry.request.bodySize)}
+              {bytesZeroDecimalPlaces(bodyRequestSize < 0 ? 0 : bodyRequestSize)}
             </Di>
           </Dl>
         </Col>
@@ -170,30 +185,30 @@ function EntryBody({ entry }: EntryProps) {
             {t('in-synthetics:dashboard.detailsPage.browserDetails.body.response.title')}
           </h2>
           <Di title={t('in-synthetics:dashboard.detailsPage.browserDetails.body.response.redirectUrl')}>
-            <a href={entry.response.redirectURL} rel="noopener noreferrer" target="_blank">
-              {entry.response.redirectURL || t('in-synthetics:dashboard.detailsPage.noDataAvailable.notFound')}
+            <a href={redirectURL} rel="noopener noreferrer" target="_blank">
+              {redirectURL || t('in-synthetics:dashboard.detailsPage.noDataAvailable.notFound')}
             </a>
           </Di>
           <Di title={t('in-synthetics:dashboard.detailsPage.browserDetails.body.response.httpVersion')}>
-            {entry.response.httpVersion}
+            {httpResponseVersion}
           </Di>
           <Di title={t('in-synthetics:dashboard.detailsPage.browserDetails.body.response.status')}>
-            {`${entry.response.status} ${entry.response.statusText}`}
+            {`${status} ${statusText}`}
           </Di>
           <Di title={t('in-synthetics:dashboard.detailsPage.browserDetails.body.response.transferSize')}>
-            {bytesZeroDecimalPlaces(entry.response._transferSize)}
+            {bytesZeroDecimalPlaces(_transferSize < 0 ? 0 : _transferSize)}
           </Di>
           <Di title={t('in-synthetics:dashboard.detailsPage.browserDetails.body.response.headerSize')}>
-            {bytesZeroDecimalPlaces(entry.response.headersSize)}
+            {bytesZeroDecimalPlaces(headersResponseSize < 0 ? 0 : headersResponseSize)}
           </Di>
           <Di title={t('in-synthetics:dashboard.detailsPage.browserDetails.body.response.bodySize')}>
-            {bytesZeroDecimalPlaces(entry.response.bodySize)}
+            {bytesZeroDecimalPlaces(bodyResponseSize < 0 ? 0 : bodyResponseSize)}
           </Di>
           <Di title={t('in-synthetics:dashboard.detailsPage.browserDetails.body.response.contentType')}>
-            {entry.response.content.mimeType}
+            {content.mimeType}
           </Di>
           <Di title={t('in-synthetics:dashboard.detailsPage.browserDetails.body.response.contentSize')}>
-            {bytesZeroDecimalPlaces(entry.response.content.size)}
+            {bytesZeroDecimalPlaces(content.size < 0 ? 0 : 0)}
           </Di>
         </Col>
         <Col lg={4}>
