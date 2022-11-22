@@ -11135,8 +11135,6 @@
       "avgTransactionResponseTime": "Average",
       "transactions": "Transactions",
       "totalTransactions": "Total",
-      "innodbTrxMetricsNotEnabledIssueDescription": "Transaction counters [<code>{{columns}}</code>] are set to <strong>disabled</strong>. Please make sure the status of these counters is set to <strong>enabled</strong>.",
-      "troubleshootingDocs": "Troubleshooting docs",
       "connectionErrorsMaxConnections": "Connection Errors Max Connections",
       "rowLocks": "Row Locks",
       "innoDbRowLockCurrentWaits": "Current Waits",
