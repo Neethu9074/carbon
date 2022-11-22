@@ -53,7 +53,7 @@ export default function StepwiseTestCreationContainer({
       case 2:
         return <SelectScheduleStep form={form} updateForm={updateForm} />;
       case 3:
-        return <BasicDetailsStep form={form} updateForm={updateForm} />;
+        return <BasicDetailsStep selectedBlueprint={selectedBlueprint} form={form} updateForm={updateForm} />;
       default:
         return null;
     }

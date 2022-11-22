@@ -33,6 +33,7 @@
       },
       "basicDetails": {
         "title": "What is the name of this ping test",
+        "scriptTitle": "What is the name of this HTTP Script test",
         "labelName": "Name of the test",
         "labelDescription": "Description",
         "labelFrequency": "Frequency"
