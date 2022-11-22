@@ -52,7 +52,7 @@ function getStepSize(value: number | string): number {
 }
 
 function formatNumber(value: number | undefined, decimalPrecision: number): number | string {
-  if (typeof value !== 'number') {
+  if (typeof value !== 'number' || Number.isNaN(value)) {
     return '';
   }
 
