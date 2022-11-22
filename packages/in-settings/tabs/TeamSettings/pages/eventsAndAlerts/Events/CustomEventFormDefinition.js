@@ -537,7 +537,7 @@ export function updateFormDefinitionForDataSource(form, previousDataSource, even
 }
 
 function selectedApplicationsValidator(selectedApplications) {
-  if (selectedApplications.size === 0) {
+  if (selectedApplications.length === 0) {
     return [
       {
         severity: 'error',
