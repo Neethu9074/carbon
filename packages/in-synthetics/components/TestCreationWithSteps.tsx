@@ -21,6 +21,7 @@ export interface Props {
   updateStep: (step: number) => void;
   updateForm: (form: MapForm) => void;
   stepConfigs: readonly { title: string }[];
+  setScriptValidationStatus: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function TestCreationWithSteps({
@@ -30,7 +31,8 @@ export default function TestCreationWithSteps({
   step,
   updateStep,
   updateForm,
-  stepConfigs
+  stepConfigs,
+  setScriptValidationStatus
 }: Props) {
   const onProceed = () => {
     if (step !== stepConfigs.length - 1) {
@@ -51,7 +53,12 @@ export default function TestCreationWithSteps({
       className={locals.form}
     >
       <StepProgressBar stepTitles={mapTitles(stepConfigs)} step={step} />
-      <StepwiseTestCreationContainer step={step} form={form} updateForm={updateForm} />
+      <StepwiseTestCreationContainer
+        step={step}
+        form={form}
+        updateForm={updateForm}
+        setScriptValidationStatus={setScriptValidationStatus}
+      />
     </form>
   );
 }

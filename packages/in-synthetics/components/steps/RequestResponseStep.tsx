@@ -12,27 +12,33 @@ import { Stack } from '@instana/components';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import FileInputButton from 'in-components/form/FileInputButton/FileInputButton';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { HTTPMethods } from 'in-synthetics/form/createSyntheticTestForm';
 import Section, { SubTitle } from 'in-synthetics/components/Section';
 import { BluePrint } from 'in-synthetics/data/simpleModeBluePrints';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { dummyLocations } from 'in-synthetics/utils/constants';
+import SaveError from 'in-components/form/SaveError/SaveError';
+import { validate } from 'in-synthetics/utils/scriptUploader';
 import FormGroup from 'in-components/form/FormGroup';
 import { getLocations } from 'in-synthetics/api';
 import Code from 'in-components/form/Code/Code';
 import ComboBox from 'in-components/ComboBox';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
-import { Progress } from 'in-types';
+import { Progress, Error } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './RequestResponseStep.mless';
+
+let errors: Error[];
 
 export interface Props {
   form: MapForm;
   updateForm: (form: MapForm) => void;
   selectedBlueprint: BluePrint;
+  setScriptValidationStatus: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface LocationsResponse {
@@ -48,7 +54,7 @@ interface State {
   errorMessage?: string;
 }
 
-export default function RequestResponseStep({ form, updateForm, selectedBlueprint }: Props) {
+export default function RequestResponseStep({ form, updateForm, selectedBlueprint, setScriptValidationStatus }: Props) {
   const configForm = form.get('configuration') as MapForm;
   const methodField = configForm.get('operation') as Field<string>;
   const urlField = configForm.get('url') as Field<string>;
@@ -111,7 +117,6 @@ export default function RequestResponseStep({ form, updateForm, selectedBlueprin
       });
       return;
     }
-
     try {
       const text = await e.target.files[0].text();
       updateCode(text);
@@ -119,13 +124,19 @@ export default function RequestResponseStep({ form, updateForm, selectedBlueprin
       setState({
         loading: false,
         errorMessage: t('in-synthetics:dialog.createTest.requestStep.failureToReadFileContent', {
-          error: (e as any).message ?? 'Unknown error'
+          error: (e as { message: string }).message ?? 'Unknown error'
         })
       });
     }
   }
 
   function updateCode(text: string) {
+    errors = validate(text);
+    if (errors.length === 0) {
+      setScriptValidationStatus(true);
+    } else {
+      setScriptValidationStatus(false);
+    }
     setState({
       loading: false,
       script: text
@@ -201,6 +212,7 @@ export default function RequestResponseStep({ form, updateForm, selectedBlueprin
                   {t('in-synthetics:dialog.createTest.requestStep.uploadScriptTitle')}
                 </SubTitle>
                 <FileInputButton accept="text/javascript" onChange={onChange} disabled={state.loading} />
+                {state.errorMessage && <SaveError>{state.errorMessage}</SaveError>}
               </>
             )}
             <SubTitle>{t('in-synthetics:dialog.createTest.requestStep.popSubTitle')}</SubTitle>
@@ -208,7 +220,10 @@ export default function RequestResponseStep({ form, updateForm, selectedBlueprin
           </div>
           <div className={locals.scriptUpload}>
             {state.script && (
-              <Code lineNumbers mode={'shell'} value={state.script} onChange={value => updateCode(value)} />
+              <>
+                <Code lineNumbers mode={'shell'} value={state.script} onChange={value => updateCode(value)} />
+                {errors.length !== 0 && <ErrorList errors={errors} />}
+              </>
             )}
           </div>
         </Stack>

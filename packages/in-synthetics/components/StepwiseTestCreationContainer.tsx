@@ -18,9 +18,10 @@ export interface Props {
   step: number;
   form: MapForm;
   updateForm: (form: MapForm) => void;
+  setScriptValidationStatus: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function StepwiseTestCreationContainer({ step, form, updateForm }: Props) {
+export default function StepwiseTestCreationContainer({ step, form, updateForm, setScriptValidationStatus }: Props) {
   const [selectedBlueprint, setSelectedBlueprint] = useState(blueprintConfig[0]);
 
   function renderSteps() {
@@ -34,7 +35,14 @@ export default function StepwiseTestCreationContainer({ step, form, updateForm }
           />
         );
       case 1:
-        return <RequestResponseStep selectedBlueprint={selectedBlueprint} form={form} updateForm={updateForm} />;
+        return (
+          <RequestResponseStep
+            selectedBlueprint={selectedBlueprint}
+            form={form}
+            updateForm={updateForm}
+            setScriptValidationStatus={setScriptValidationStatus}
+          />
+        );
       case 2:
         return <SelectScheduleStep form={form} updateForm={updateForm} />;
       case 3:

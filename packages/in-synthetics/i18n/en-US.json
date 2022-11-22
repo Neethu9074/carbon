@@ -28,7 +28,8 @@
         "labelUrl": "URL",
         "popSubTitle": "Point of Presence",
         "uploadScriptTitle": "Upload the script",
-        "failureToReadFileContent": "Failed to read file content: {{error}}"
+        "failureToReadFileContent": "Failed to read file content: {{error}}",
+        "emptyScriptFileError": "Empty code. Nothing to validate."
       },
       "basicDetails": {
         "title": "What is the name of this ping test",
