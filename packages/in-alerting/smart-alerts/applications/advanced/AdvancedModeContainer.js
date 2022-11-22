@@ -148,17 +148,7 @@ export default function AdvancedModeContainer(props) {
           scrollId: '3',
           label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.threshold.label'),
           title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.threshold.title'),
-          valid:
-            !fieldTouchedAndInvalid(form.get('threshold')?.get('value')) ||
-            // when filter is invalid, baseline depends on it, avoid redundant invalidation indicator
-            (thresholdType === HISTORIC_BASELINE && !isTagFilterFormModelValid) ||
-            // when the rule definition is incomplete, we do not show a preview chart and
-            // the threshold is _per se invalid_ , so
-            // we ignore this fact to avoid an invalid step to be clearer to the user
-            !ruleComplete ||
-            // when incomplete baseline data exist, we ignore this, because the user can save it anyway
-            (thresholdType === HISTORIC_BASELINE && thresholdResult?.errors?.length > 0) ||
-            (thresholdType === ADAPTIVE_BASELINE && thresholdResult?.data?.message),
+          valid: isThresholdSectionValid(),
           content: (
             <>
               <ThresholdSection
@@ -267,4 +257,21 @@ export default function AdvancedModeContainer(props) {
       ]}
     />
   );
+
+  function isThresholdSectionValid() {
+    if (fieldTouchedAndInvalid(form.get('threshold')?.get('value'))) {
+      return false;
+    }
+    if (thresholdType === HISTORIC_BASELINE && !isTagFilterFormModelValid) {
+      return false;
+    }
+    if (!ruleComplete) {
+      return false;
+    }
+    if (thresholdType === HISTORIC_BASELINE && thresholdResult?.errors?.length > 0) {
+      return false;
+    }
+
+    return !(thresholdType === ADAPTIVE_BASELINE && thresholdResult?.data?.message);
+  }
 }
