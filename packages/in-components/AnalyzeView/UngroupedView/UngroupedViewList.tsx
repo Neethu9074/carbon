@@ -83,7 +83,7 @@ function List(props: ListProps) {
   }, [props.backendQueryModel]);
 
   useEffect(() => {
-    if (!canLoadMore && !isLoading && items.length > 0)
+    if (!canLoadMore && !isLoading && items.length > 0 && typeof infiniteScroll === 'object')
       addMessage(
         {
           type: 'info',

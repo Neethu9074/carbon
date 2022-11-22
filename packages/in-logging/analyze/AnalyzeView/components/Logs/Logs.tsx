@@ -112,6 +112,8 @@ export default function Logs(props: LogsProps) {
     />
   );
 
+  const infiniteScroll = groupLabel ? false : { loadingCompleteMessage: t('in-logging:endOfInfiniteScroll') };
+
   let content = (
     <UngroupedViewList
       {...props}
@@ -134,7 +136,7 @@ export default function Logs(props: LogsProps) {
       renderNestedContent={renderNestedContent}
       initialLines={initialLogLines}
       withEmbeddedLoadingIndicator
-      infiniteScroll={{ enabled: true, loadingCompleteMessage: t('in-logging:endOfInfiniteScroll') }}
+      infiniteScroll={infiniteScroll}
     />
   );
 
