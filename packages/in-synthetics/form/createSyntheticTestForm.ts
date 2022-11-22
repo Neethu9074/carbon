@@ -86,7 +86,7 @@ function createActionConfigurationForm(savedState?: Record<string, any>) {
     .put(
       'url',
       createField({
-        value: savedState?.url,
+        value: savedState?.url ?? '',
         validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator, validUrl)
       })
     )

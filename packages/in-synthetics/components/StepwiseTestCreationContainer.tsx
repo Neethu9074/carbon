@@ -3,14 +3,14 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React, { useState } from 'react';
 import { MapForm } from 'formalistic';
+import React from 'react';
 
 import RequestResponseStep from 'in-synthetics/components/steps/RequestResponseStep';
 import SelectScheduleStep from 'in-synthetics/components/steps/SelectScheduleStep';
 import BasicDetailsStep from 'in-synthetics/components/steps/BasicDetailsStep';
 import SelectTestStep from 'in-synthetics/components/steps/SelectTestStep';
-import { blueprintConfig } from 'in-synthetics/data/simpleModeBluePrints';
+import { BluePrint } from 'in-synthetics/data/simpleModeBluePrints';
 
 import locals from './StepwiseTestCreationContainer.mless';
 
@@ -19,11 +19,18 @@ export interface Props {
   form: MapForm;
   updateForm: (form: MapForm) => void;
   setScriptValidationStatus: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedBlueprint: BluePrint;
+  setSelectedBlueprint: (item: BluePrint) => void;
 }
 
-export default function StepwiseTestCreationContainer({ step, form, updateForm, setScriptValidationStatus }: Props) {
-  const [selectedBlueprint, setSelectedBlueprint] = useState(blueprintConfig[0]);
-
+export default function StepwiseTestCreationContainer({
+  step,
+  form,
+  updateForm,
+  setScriptValidationStatus,
+  selectedBlueprint,
+  setSelectedBlueprint
+}: Props) {
   function renderSteps() {
     switch (step) {
       case 0:

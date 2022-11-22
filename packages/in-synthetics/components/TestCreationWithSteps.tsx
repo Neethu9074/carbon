@@ -7,6 +7,7 @@ import { MapForm } from 'formalistic';
 import React from 'react';
 
 import StepwiseTestCreationContainer from 'in-synthetics/components/StepwiseTestCreationContainer';
+import { BluePrint } from 'in-synthetics/data/simpleModeBluePrints';
 import StepProgressBar from 'in-components/StepProgressBar';
 
 import locals from './TestCreationWithSteps.mless';
@@ -22,6 +23,8 @@ export interface Props {
   updateForm: (form: MapForm) => void;
   stepConfigs: readonly { title: string }[];
   setScriptValidationStatus: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedBlueprint: BluePrint;
+  setSelectedBlueprint: (item: BluePrint) => void;
 }
 
 export default function TestCreationWithSteps({
@@ -32,7 +35,9 @@ export default function TestCreationWithSteps({
   updateStep,
   updateForm,
   stepConfigs,
-  setScriptValidationStatus
+  setScriptValidationStatus,
+  selectedBlueprint,
+  setSelectedBlueprint
 }: Props) {
   const onProceed = () => {
     if (step !== stepConfigs.length - 1) {
@@ -58,6 +63,8 @@ export default function TestCreationWithSteps({
         form={form}
         updateForm={updateForm}
         setScriptValidationStatus={setScriptValidationStatus}
+        selectedBlueprint={selectedBlueprint}
+        setSelectedBlueprint={setSelectedBlueprint}
       />
     </form>
   );
