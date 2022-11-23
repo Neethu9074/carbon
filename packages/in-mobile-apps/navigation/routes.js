@@ -22,9 +22,21 @@ import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncCompo
 import RedirectWithHash from 'in-components/RedirectWithHash';
 
 export default [
-  <Route path={mobileAppsPathFullyQualified} children={renderAsyncRouteChildren(MobileAppsList)} />,
-  <Route path={newMobileAppPathFullyQualified} children={renderAsyncRouteChildren(NewMobileAppFlow)} />,
-  <Route path={mobileAppPathFullyQualified} children={renderAsyncRouteChildren(MobileAppDashboard)} />,
-  <Route path={analyzePathFullyQualified} children={renderAsyncRouteChildren(AnalyzeView2_0)} />,
-  <RedirectWithHash from={mobileAppMonitoringPath} to={mobileAppsPathFullyQualified} />
+  <Route
+    key="mobileAppsList"
+    path={mobileAppsPathFullyQualified}
+    children={renderAsyncRouteChildren(MobileAppsList)}
+  />,
+  <Route
+    key="newMobileApp"
+    path={newMobileAppPathFullyQualified}
+    children={renderAsyncRouteChildren(NewMobileAppFlow)}
+  />,
+  <Route
+    key="mobileAppDashboard"
+    path={mobileAppPathFullyQualified}
+    children={renderAsyncRouteChildren(MobileAppDashboard)}
+  />,
+  <Route key="analyzeBeacons" path={analyzePathFullyQualified} children={renderAsyncRouteChildren(AnalyzeView2_0)} />,
+  <RedirectWithHash key="redirectToMobileAppsList" from={mobileAppMonitoringPath} to={mobileAppsPathFullyQualified} />
 ];

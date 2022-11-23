@@ -14,7 +14,11 @@ import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncCompo
 import { ibmz } from 'in-zhmc/navigation/paths';
 
 export default [
-  <Route path={zhmcDashboardFullyQualified} children={renderAsyncRouteChildren(ZhmcDashboard)} />,
-  <Route path={cpcDashboardFullyQualified} children={renderAsyncRouteChildren(SystemDashboard)} />,
-  <Route path={ibmz} children={renderAsyncRouteChildren(ZhmcMainView)} />
+  <Route key="zhmcDashboard" path={zhmcDashboardFullyQualified} children={renderAsyncRouteChildren(ZhmcDashboard)} />,
+  <Route
+    key="systemDashboard"
+    path={cpcDashboardFullyQualified}
+    children={renderAsyncRouteChildren(SystemDashboard)}
+  />,
+  <Route key="zhmcMainView" path={ibmz} children={renderAsyncRouteChildren(ZhmcMainView)} />
 ];

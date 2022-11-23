@@ -12,6 +12,10 @@ import { applicationDashboardFullyQualified, cloudfoundry } from 'in-cloudfoundr
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 
 export default [
-  <Route path={applicationDashboardFullyQualified} children={renderAsyncRouteChildren(ApplicationDashboard)} />,
-  <Route path={cloudfoundry} children={renderAsyncRouteChildren(CloudfoundryMainView)} />
+  <Route
+    key="cloudfoundryApplicationDashboard"
+    path={applicationDashboardFullyQualified}
+    children={renderAsyncRouteChildren(ApplicationDashboard)}
+  />,
+  <Route key="cloudfoundryMainView" path={cloudfoundry} children={renderAsyncRouteChildren(CloudfoundryMainView)} />
 ];

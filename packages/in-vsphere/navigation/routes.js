@@ -19,8 +19,16 @@ import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncCompo
 import { vsphere } from 'in-vsphere/navigation/paths';
 
 export default [
-  <Route path={datacenterDashboardFullyQualified} children={renderAsyncRouteChildren(DatacenterDashboard)} />,
-  <Route path={hostDashboardFullyQualified} children={renderAsyncRouteChildren(HostDashboard)} />,
-  <Route path={vmDashboardFullyQualified} children={renderAsyncRouteChildren(VmDashboard)} />,
-  <Route path={vsphere} children={renderAsyncRouteChildren(VSphereMainView)} />
+  <Route
+    key="datacenterDashboard"
+    path={datacenterDashboardFullyQualified}
+    children={renderAsyncRouteChildren(DatacenterDashboard)}
+  />,
+  <Route
+    key="vsphereHostDashboard"
+    path={hostDashboardFullyQualified}
+    children={renderAsyncRouteChildren(HostDashboard)}
+  />,
+  <Route key="vmDashboard" path={vmDashboardFullyQualified} children={renderAsyncRouteChildren(VmDashboard)} />,
+  <Route key="vsphereMainView" path={vsphere} children={renderAsyncRouteChildren(VSphereMainView)} />
 ];
