@@ -875,7 +875,9 @@
     "serviceNowUrl": "ServiceNow URL",
     "serviceNow": "ServiceNow",
     "serviceNowAlertChannel": "ServiceNow Alert Channel",
-    "serviceNowUsernameTooltip": "Username and password should be for a ServiceNow user with permission to create incidents."
+    "serviceNowUsernameTooltip": "Username and password should be for a ServiceNow user with permission to create incidents.",
+    "showPasswordTooltip": "Show password",
+    "hidePasswordTooltip": "Hide password"
   },
   "languageSelection": {
     "language": "Language",

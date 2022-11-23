@@ -4,7 +4,7 @@
  */
 
 import { createField, createMapForm, notBlankValidator } from 'formalistic';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { generateUniqueShortId } from '@instana/utils';
 import { SvgIcon } from '@instana/components';
@@ -12,6 +12,7 @@ import { SvgIcon } from '@instana/components';
 import { DescriptionItem, DescriptionList } from 'in-components/DescriptionList';
 import FormGroup from 'in-settings/components/FormGroup/FormGroup';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import IconButton from 'in-components/IconButton/IconButton';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Tooltip from 'in-components/Tooltip';
@@ -65,7 +66,6 @@ export default {
           {alertChannel.get('serviceNowUrl')}
         </DescriptionItem>
         <DescriptionItem title={t('in-settings:tabs.username')}>{alertChannel.get('username')}</DescriptionItem>
-        <DescriptionItem title={t('in-settings:tabs.password')}>{alertChannel.get('password')}</DescriptionItem>
       </DescriptionList>
     );
   },
@@ -123,6 +123,8 @@ export default {
 };
 
 function Form({ form, onChange }) {
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
     <fieldset>
       {form.get('name').map(field => (
@@ -191,16 +193,35 @@ function Form({ form, onChange }) {
           <Label htmlFor="password" hasError={!field.valid && field.touched}>
             {t('in-settings:tabs.password')}
           </Label>
-          <Input
-            id="password"
-            className={`${block}__input`}
-            type="password"
-            placeholder={'*******************'}
-            value={field.value}
-            onChange={e => onChange('password', e.target.value)}
-            hasError={!field.valid && field.touched}
-            maxLength={256}
-          />
+          <div className={`${block}__input_with_icon`}>
+            <Input
+              id="password"
+              className={`${block}__input`}
+              type={showPassword ? 'text' : 'password'}
+              placeholder={'*******************'}
+              value={field.value}
+              onChange={e => onChange('password', e.target.value)}
+              hasError={!field.valid && field.touched}
+              maxLength={256}
+            />
+            <Tooltip
+              content={
+                showPassword ? t('in-settings:tabs.hidePasswordTooltip') : t('in-settings:tabs.showPasswordTooltip')
+              }
+            >
+              <IconButton
+                kind="info"
+                type={showPassword ? 'lib_views_hide' : 'lib_views_show'}
+                onClick={e => {
+                  e.preventDefault();
+                  setShowPassword(!showPassword);
+                }}
+                iconSize="xs"
+                alignment="right"
+                className="icon_button"
+              />
+            </Tooltip>
+          </div>
           <TouchedMessages field={field} />
         </FormGroup>
       ))}
