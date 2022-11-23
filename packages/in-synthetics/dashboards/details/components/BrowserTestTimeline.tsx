@@ -22,6 +22,7 @@ import { millis, millisToTwoDecimalSeconds } from 'in-services/formatters/number
 import useResizeObserverCustom from 'in-hooks/useResizeObserver';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import createScale from 'in-services/scale/scale';
+import Pill from 'in-components/Pill';
 import theme from 'in-themes';
 
 import locals from 'in-synthetics/dashboards/details/components/BrowserTestTimeline.mless';
@@ -182,15 +183,25 @@ function OverviewChart({ entries, earliestTimestamp, endTimestamp }: EntriesProp
 }
 
 function OverviewChartToolTip({ entry }: OverviewChartToolTipProps) {
+  const mimeType: string = entry.response.content.mimeType.split('/')[1];
+  const type = getType(mimeType != undefined ? mimeType : 'x-unknown');
+  // @ts-expect-error
+  const typeDefinition = types[type];
   return (
     <div className={locals.tooltipWrapper}>
       <div className={locals.labelRow}>
-        <span className={locals.label}>{entry._resourceType}</span>
+        <Pill color={typeDefinition.color} className={locals.label}>
+          {typeDefinition.short}
+        </Pill>
       </div>
 
       <dl className={locals.timings}>
         <div className={locals.timing}>
-          <dt className={locals.key}>{t('in-synthetics:dashboard.detailsPage.responseTimeChart')}</dt>
+          <dt className={locals.key}>{`URL`}</dt>
+          <dd className={locals.value}>{entry.request.url}</dd>
+        </div>
+        <div className={locals.timing}>
+          <dt className={locals.key}>{t('in-synthetics:dashboard.detailsPage.browserDetails.entry.time')}</dt>
           <dd className={locals.value}>{millisToTwoDecimalSeconds(entry.time)}</dd>
         </div>
       </dl>

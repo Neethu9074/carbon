@@ -64,6 +64,11 @@
   .value {
     color: @lib__colors__N900Primary;
     margin: 0;
+    max-width: 20rem;
+    width: 20rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .header {
