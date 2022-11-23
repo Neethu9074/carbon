@@ -77,6 +77,7 @@
     "eumPageName": "EUM",
     "settingsPageName": "設定",
     "requestQuoteBtn": "要求報價",
+    "buyNowBtn": "立即購買",
     "alreadyHaveLicense": "已有授權？ 在 <linkToDocker>Docker</linkToDocker> 或 <linkToKubernetes>Kubernetes</linkToKubernetes> 上啟動它。"
   },
   "releaseNotesDialog": {
@@ -234,14 +235,7 @@
     "queryProgress": {
       "preparing": "準備中...",
       "runningQuery": "正在執行查詢...",
-      "timeout": "此查詢已逾時。",
-      "timeoutEstimated": "由於大量呼叫，無法處理您的查詢。",
-      "timeoutInfo": "請選取較短的時間範圍。",
-      "inputError": "發生輸入錯誤。",
-      "tooManyRequests": "要求太多",
-      "tooManyRequestsInfo": "我們的系統目前忙碌中。請稍後再試一次。",
-      "serverError": "伺服器錯誤",
-      "serverErrorInfo": "發生非預期的錯誤。請稍後重試，或聯絡支援中心以報告錯誤。"
+      "inputError": "發生輸入錯誤。"
     }
   },
   "aboutInstanaDialog": {
@@ -308,7 +302,14 @@
     "services": "服務"
   },
   "error": {
-    "erroneousResultPresenterMessage": "發生非預期的錯誤。請重新整理頁面或稍後重試。"
+    "erroneousResultPresenterMessage": "發生非預期的錯誤。請重新整理頁面或稍後重試。",
+    "timeout": "此查詢已逾時。",
+    "timeoutInfo": "請選取較短的時間範圍。",
+    "timeoutEstimated": "由於大量呼叫，無法處理您的查詢。",
+    "tooManyRequests": "要求太多",
+    "tooManyRequestsInfo": "我們的系統目前忙碌中。 請稍後再試一次。",
+    "serverError": "伺服器錯誤",
+    "serverErrorInfo": "發生非預期的錯誤。 請稍後重試，或聯絡支援中心以報告錯誤。"
   },
   "expandableCard": {
     "tooltipShowLess": "顯示更少",

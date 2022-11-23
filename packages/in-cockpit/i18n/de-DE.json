@@ -34,14 +34,19 @@
       "vMs": "VMs",
       "instances": "Instanzen",
       "namespaces": "Namensbereiche",
-      "cpuUsage": "CPU-Nutzung",
+      "cpuUsage": "CPU-Auslastung",
       "memoryLimit": "Speicherlimit",
       "pods": "Pods",
-      "memoryUsage": " Speichernutzung           ",
-      "cloudFoundryApplication": "Cloud Foundry-Anwendung",
+      "memoryUsage": "Speicherbelegung",
+      "cloudFoundryApplication": "Cloud-Foundry-Anwendung",
+      "openstackRegion": "OpenStack-Region",
       "vSphereDatacenter": "vSphere-Rechenzentrum",
       "ibmz": "IBM Z HMC",
       "ibmp": "IBM Power HMC",
+      "systems": "Systeme",
+      "partitions": "Partitionen",
+      "adapters": "Adapter",
+      "vios": "Virtual I/O Server",
       "clusterSubTitle": "{{clusterDistribution}} Cluster, {{count}} Knoten, {{numberOfPods}}",
       "clusterSubTitle_plural": "{{clusterDistribution}} Cluster, {{count}} Knoten, {{numberOfPods}}",
       "clusterSubTitle_0": "{{clusterDistribution}} Cluster, {{count}} Knoten, {{numberOfPods}}",
@@ -58,7 +63,7 @@
       "addMobileApp": "Mobile App hinzufügen",
       "allWebsites": "Alle Websites",
       "allMobileApps": "Alle mobilen Apps",
-      "allWebsitesMobileApps": "Alle Websites und mobilen Apps",
+      "allWebsitesMobileApps": "Alle Websites & Mobilen Apps",
       "pageViews": "Seitenaufrufe",
       "sessions": "Sitzungen",
       "onLoadTime": "onLoad-Zeit",
@@ -79,13 +84,14 @@
     "applications": "Anwendungen",
     "infrastructure": "Infrastruktur",
     "events": "Ereignisse",
-    "home": "Home",
+    "home": "Ausgangsverzeichnis",
     "addUser": "Benutzer hinzufügen",
     "platforms": "Plattformen",
     "cloudFoundry": "Cloud Foundry",
     "ibmz": "IBM Z",
     "ibmp": "IBM Power HMC",
     "vsphere": "vSphere",
+    "openstack": "OpenStack",
     "kubernetes": "Kubernetes",
     "websites": "Websites",
     "mobileApps": "Mobile Apps",
@@ -94,20 +100,20 @@
   "widgets": {
     "columnDefinitions": {
       "numCpU": "Anzahl CPUs",
-      "cpuUsage": "CPU-Nutzung",
+      "cpuUsage": "CPU-Auslastung",
       "created": "Erstellt",
       "started": "Gestartet",
       "os": "Betriebssystem",
       "mean": "Mittelwert"
     },
     "topListWidget": {
-      "noLabelYet": "Noch keine {{nolabel}} "
+      "noLabelYet": "Noch keine {{nolabel}}"
     },
     "websites": {
       "noData": "Beginnen Sie mit der Website-Überwachung, um besser zu verstehen, wie Ihre Websiteleistung die Benutzererfahrung beeinflusst. Die Konfiguration ist einfach!",
       "createWebsite": "Website erstellen",
       "createMobileApp": "Mobile App erstellen",
-      "noLabelYet": "Noch keine {{nolabel}} "
+      "noLabelYet": "Noch keine {{nolabel}}"
     }
   }
 }

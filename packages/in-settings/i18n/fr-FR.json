@@ -97,6 +97,10 @@
   },
   "tabs": {
     "team": {
+      "events": {
+        "withDeprecatedSuffix": "{{pluginName}} (obsolète)",
+        "placeholder": "Marque de réservation"
+      },
       "customPayload": {
         "unknownTag": "Balise inconnue : {{tagName}}"
       }
@@ -542,6 +546,8 @@
     "savingGroup": "Sauvegarde du groupe",
     "groupSuccessfullySaved": "Le groupe a été sauvegardé.",
     "groups": "Groupes",
+    "groupDeleteTooltip_Default": "Le groupe par défaut est un groupe intégré qui ne peut pas être supprimé ni renommé.",
+    "groupDeleteTooltip_Owner": "Le groupe de propriétaires est un groupe intégré qui ne peut pas être supprimé ni renommé.",
     "addGroup": "Ajouter un groupe",
     "pendingInvitations": "Invitations en attente",
     "revoke": "Révoquer",
@@ -845,10 +851,9 @@
     "actions": "Actions",
     "action": "action",
     "actionWithNameForDelete": "action {{actionName}}",
-    "filterActions": "Filtrer les actions",
+    "searchActions": "Rechercher des actions",
     "lastModified": "Dernière modification",
     "script": "Script",
-    "http": "HTTP",
     "docLink": "Lien vers la documentation",
     "deletedEventMessage": "Vous recherchez une configuration d'événement supprimée. Les modifications ne sont pas possibles.",
     "actionTypeHelper": "Le lien de documentation fait référence à une URL, le script est destiné aux machines Linux / Windows (bash uniquement pour le moment) et http est un webhook.",
@@ -858,7 +863,13 @@
     "showsUpInTheActionDescription": "S'affiche dans la description de l'action. Doit être aussi descriptif que possible.",
     "docLinkDescription": "URL du contenu de résolution.",
     "scriptDescription": "Contenu du script.",
-    "execute": "Exécuter"
+    "execute": "Exécuter",
+    "confidence_low": "Faible",
+    "confidence_medium": "Moyen",
+    "confidence_high": "Élevé",
+    "confidence": "{{context}}",
+    "confidenceTitle": "Niveau de fiabilité",
+    "test": "Test"
   },
   "languageSelection": {
     "language": "Langue",

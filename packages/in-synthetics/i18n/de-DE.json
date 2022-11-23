@@ -26,7 +26,9 @@
         "subTitle": "Endpunkt",
         "labelOperation": "HTTP-Methode",
         "labelUrl": "URL",
-        "popSubTitle": "Bereitstellungspunkt"
+        "popSubTitle": "Bereitstellungspunkt",
+        "uploadScriptTitle": "Script hochladen",
+        "failureToReadFileContent": "Dateiinhalt konnte nicht gelesen werden: {{error}}"
       },
       "basicDetails": {
         "title": "Wie lautet der Name dieses Ping-Tests",
@@ -48,6 +50,23 @@
           },
           "tipsForUsing": {
             "title": "Verwendungstipps",
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line3": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line4": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line5": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          }
+        },
+        "scriptApi": {
+          "name": "Script-API",
+          "headline": "HTTP-Script",
+          "whenToUse": {
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          },
+          "whoShouldUse": {
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          },
+          "tipsForUsing": {
             "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
             "line2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
             "line3": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
@@ -135,6 +154,7 @@
       "type": "Typ",
       "totalTests": "Anzahl der verknüpften Tests",
       "lastRun": "Letzter Testlauf am",
+      "namespace": "Namensbereich",
       "labelConfirmRemoveLocation": "Möchten Sie die Position von <strong>{{label}}</strong> ({{status}}) wirklich entfernen?",
       "activeTestLinked": "An Position <strong>{{label}}</strong> ({{status}}) sind aktive Tests zugewiesen. Möchten Sie diese Position wirklich entfernen?",
       "deleteLocation": "Position löschen"
@@ -231,7 +251,10 @@
       "noDataAvailable": {
         "message": "{{component}}-Details für dieses Testergebnis nicht verfügbar",
         "notFound": "Nicht gefunden"
-      }
+      },
+      "downloadHar": "HAR-Datei herunterladen",
+      "consoleLogs": "CONSOLE",
+      "browserLogs": "BROWSER"
     },
     "noDataAvailable": {
       "resultsTitle": "Keine Ergebnisse verfügbar",

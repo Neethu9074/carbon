@@ -555,6 +555,8 @@
   "pluginName_httpd": "Apache HTTPd",
   "pluginName_ibmCics": "IBM CICS",
   "pluginName_ibmCics_plural": "IBM CICS",
+  "pluginName_ibmCtg": "IBM CTG",
+  "pluginName_ibmCtg_plural": "IBM CTG",
   "pluginName_ibmCloudClinicalData_plural": "IBM Clinical Data",
   "pluginName_ibmCloudClinicalData_0": "IBM Clinical Data",
   "pluginName_ibmCloudClinicalData_1": "IBM Clnical Data",
@@ -1431,6 +1433,8 @@
   "tracingTypeName_cicshttpexit": "CICS HTTP 呼び出し",
   "tracingTypeName_cicsrpcentry": "CICS RPC 呼び出し",
   "tracingTypeName_cicsrpcexit": "CICS RPC 呼び出し",
+  "tracingTypeName_ctgrpcentry": "CTG RPC 呼び出し",
+  "tracingTypeName_ctgrpcexit": "CTG RPC 呼び出し",
   "tracingTypeName_cicsmqentry": "CICS MQ メッセージ",
   "tracingTypeName_cicsmqexit": "CICS MQ メッセージ",
   "tracingTypeName_imsmqentry": "IMS MQ メッセージ",
@@ -1935,6 +1939,11 @@
   "tracingTypeName_postgres_0": "PostgreSQL 呼び出し",
   "tracingTypeName_postgres_1": "PostgreSQL 呼び出し",
   "tracingTypeName_postgres_2": "PostgreSQL 呼び出し",
+  "tracingTypeName_prisma": "Prisma 呼び出しl",
+  "tracingTypeName_prisma_plural": "Prisma 呼び出し",
+  "tracingTypeName_prisma_0": "Prisma 呼び出し",
+  "tracingTypeName_prisma_1": "Prisma 呼び出しl",
+  "tracingTypeName_prisma_2": "Prisma 呼び出し",
   "tracingTypeName_pyhc": "HTTP 呼び出し",
   "tracingTypeName_pyhc_plural": "HTTP 呼び出し",
   "tracingTypeName_pyhc_0": "HTTP 呼び出し",
@@ -5595,6 +5604,8 @@
         "hadrSecondaryLog": "HADR 2 次ログ情報",
         "hadrLogMetrics": "HADR ログ・メトリック",
         "hadrTakeOverTime": "HADR 最終テークオーバー時間",
+        "hadrConnectStatusOrStandbyId": "hadrConnectStatus/StandbyID",
+        "hadr": "hadr",
         "vmonlockStatsValue": "ロック統計 (メモリー)",
         "vmonlockStats": "ロック統計",
         "databaseVmondeltaStats": "トランザクション・パフォーマンス (増分値)"
@@ -5789,6 +5800,7 @@
       "secLogPage": "2 次ログページ",
       "secLogPos": "2 次ログ位置",
       "secLogTime": "2 次ログ時間",
+      "HADR_CONNECT_STATUS": "HADR 接続状況",
       "hadrWaitsTotal": "HADR 待機合計",
       "sockSendBufReq": "要求された送信バッファー",
       "sockSendBufActual": "実際の送信バッファー",
@@ -8147,6 +8159,7 @@
     "host": {
       "theOperatingSystemOfThisHostDoesNotSeemToOfferTheExtendedBerkeleyPacketFilterEBpfFunctionality": "このホストのオペレーティング・システムは、プロセス異常終了検出に必要な拡張 Berkeley Packet Filter (eBPF) 機能を提供していないようです。",
       "theHostAgentIsVulnerableToLog4jCVE": "ホストエージェントはLog4j   CVE-2021-44228およびCVE-2021-45046に対して脆弱です。これらの脆弱性を軽減するために、エージェントのインストールを新しいバージョンに更新してください。",
+      "messagesAreBeingFilteredFromThisHost": "このホストからのメッセージはフィルタリングされています。サポートに連絡して、このホストのブロックを解除してください。",
       "troubleshootingDocs": "トラブルシューティング資料",
       "dashboard": {
         "gpuMemoryProcess": "GPU メモリー/プロセス",
@@ -8941,6 +8954,11 @@
                 "activeThreads": "アクティブ・スレッド数",
                 "ineligibleThreads": "不適格スレッド数",
                 "maxActiveThreads": "最大アクティブ・スレッド数"
+              },
+              "pagesFaultRate": {
+                "elapsedDatabaseFaults": "時間が経過したデータベース障害数",
+                "elapsedTotalFaults": "時間が経過した合計障害数",
+                "elapsedNonDatabaseFaults": "時間が経過した非データベース障害数"
               }
             }
           },
@@ -9063,7 +9081,7 @@
             "messageSecondLevelText": "セカンドレベル・テキスト"
           },
           "spinningDiskType": {
-            "name": "ディスク情報",
+            "name": "スピン・ディスク情報",
             "resourceName": "リソース名",
             "unitStorageCapacity": "ストレージ容量",
             "percentUsed": "使用率(%)",
@@ -9111,8 +9129,8 @@
       "substate": "サブ状態",
       "connectionName": "接続名",
       "remoteQueueManager": "リモート・キュー・マネージャー",
-      "lastMessageDateTime": "最終メッセージの日時",
-      "startDateTime": "開始日時",
+      "lastMessageDateTime": "最終メッセージ時刻",
+      "startDateTime": "開始時刻",
       "messagesSentReceived": "送信済み/受信済みメッセージ数",
       "messagesAvailable": "使用可能なメッセージ数",
       "sentReceived": "送信済み/受信済み",
@@ -9185,7 +9203,17 @@
         "calls": "呼び出し",
         "openInputs": "オープン入力数",
         "openOutputs": "オープン出力数",
-        "ibmMqQueue": "IBM MQ キュー"
+        "ibmMqQueue": "IBM MQ キュー",
+        "intervalStartDateTime": "間隔の開始時刻",
+        "intervalEndDateTime": "間隔の終了時刻",
+        "nonPersistentPutBytes": "非永続 Put バイト数",
+        "persistentPutBytes": "永続 Put バイト数",
+        "putFailCount": "Put 失敗数",
+        "put1FailCount": "Put1 失敗数",
+        "nonPersistentGetBytes": "非永続 Get バイト数",
+        "persistentGetBytes": "永続 Get バイト数",
+        "getFailCount": "取得失敗数",
+        "expiredMsgCount": "期限切れメッセージ数"
       },
       "name": "名前",
       "type": "タイプ",
@@ -9217,7 +9245,17 @@
       "onQueueMessageTime": "キュー待機中のメッセージ時間",
       "openInputCount": "オープン入力数",
       "openOutputCount": "オープン出力数",
-      "calls": "呼び出し"
+      "calls": "呼び出し",
+      "statistics": "MQ キュー統計",
+      "nonPersistentPutBytes": "非永続 Put バイト数",
+      "persistentPutBytes": "永続 Put バイト数",
+      "putFailCount": "Put 失敗数",
+      "put1FailCount": "Put1 失敗数",
+      "nonPersistentGetBytes": "非永続 Get バイト数",
+      "persistentGetBytes": "永続 Get バイト数",
+      "getFailCount": "取得失敗数",
+      "expiredMsgCount": "期限切れメッセージ数",
+      "statisticsWithCount": "統計 ({{count}})"
     },
     "ibmMqMftCoordiQmgr": {
       "dashboard": {
@@ -9225,7 +9263,13 @@
         "coordiQmgrName": "調整キュー・マネージャー",
         "coordiQmgrHost": "ホスト",
         "connectionChannel": "接続チャネル",
-        "agentsWithCount": "MFT エージェント ({{len}})"
+        "agentsWithCount": "MFT エージェント ({{len}})",
+        "transfers": "転送",
+        "currentTransfers": "現在の転送数",
+        "totalTransfers": "合計転送数",
+        "successfulTransfers": "成功した転送数",
+        "failedTransfers": "失敗した転送数",
+        "partiallySuccessfulTransfers": "部分的に成功した転送数"
       }
     },
     "ibmMqMftZone": {
@@ -9241,46 +9285,18 @@
         "agentStatus": "状況",
         "queueManager": "キュー・マネージャー",
         "AgentStartTimeUTC": "開始時刻 (UTC)",
-        "maxSourceTransfers": "ソース",
-        "maxDestinationTransfers": "宛先",
-        "maxQueuedTransfers": "待機中",
+        "maxSourceTransfers": "ソース転送の最大数",
+        "maxDestinationTransfers": "宛先転送の最大数",
+        "maxQueuedTransfers": "キューに入れられた転送の最大数",
         "hostName": "ホスト名",
         "agentType": "タイプ",
         "agentTimeZone": "タイム・ゾーン",
-        "fileTransferLogsWithCount": "転送ログ ({{len}})",
         "runningTransfers": "転送の実行",
         "totalCurrentTransfers": "現在の転送の合計",
-        "transferStatusWithCount": "現在の転送 ({{len}})",
         "totalSourceTransfers": "ソース転送",
-        "totalDestinationTransfers": "宛先転送"
-      }
-    },
-    "ibmMqMftFileTransferStatus": {
-      "dashboard": {
-        "sourceAgent": "ソース・エージェント",
-        "destinationAgent": "宛先エージェント",
-        "startedTime": "開始時刻",
-        "fileNumber": "ファイル番号",
-        "elapsedSeconds": "経過時間 (秒)",
-        "statsTransferredBytes": "転送バイト数",
-        "sourceFileName": "ソース・ファイル"
-      }
-    },
-    "ibmMqMftFileTransferLog": {
-      "dashboard": {
-        "actionStatus": "状況",
-        "sourceAgent": "ソース・エージェント",
-        "destinationAgent": "宛先エージェント",
-        "originatorUserID": "オリジネーター",
-        "startedTime": "開始時刻",
-        "transferMode": "モード",
-        "checkSumMethod": "チェックサム方式",
-        "checkSumValue": "チェックサム値",
-        "sourceFileName": "ソース・ファイル",
-        "sourceFileSize": "ソース・サイズ",
-        "destinationFileName": "宛先ファイル",
-        "destinationFileSize": "宛先サイズ",
-        "itemsWithCount": "ファイル ({{len}})"
+        "totalDestinationTransfers": "宛先転送",
+        "statusRunning": "実行中",
+        "statusUnknown": "不明"
       }
     },
     "ibmMqQueueManager": {
@@ -9292,7 +9308,7 @@
         "connectionName": "接続名",
         "activeConversations": "アクティブ会話",
         "remoteQueueManager": "リモート・キュー・マネージャー",
-        "startDateTime": "開始日時",
+        "startDateTime": "開始時刻",
         "channelsWithCount": "チャネル数 ({{len}})",
         "connections": "接続数",
         "messagesIn": "着信メッセージ数",
@@ -10366,10 +10382,6 @@
       "warningSpringbootConfig": "詳細については、<linkToSpringboot>Spring Boot 構成ページ</linkToSpringboot>で確認できます。",
       "descriptionActuatorConfigured": "Spring Boot のモニタリングを行うには、Spring Boot Actuator が構成されている必要があります。",
       "descriptionEnableJMX": "Spring Boot 2.2.x 以降では、JMX を有効にする必要があります。 <codeTag><bold>application.properties</bold></codeTag> ファイルで <codeTag><bold>spring.jmx.enabled=true</bold></codeTag> を設定してください。"
-    },
-    "statsd": {
-      "headerInformation": "情報",
-      "infoNoFurtherEntityInfo": "このエンティティーに関する追加情報はありません。"
     },
     "sybase": {
       "titleDiskReadsWrites": "ディスクの読み取りと書き込み",
@@ -11839,9 +11851,6 @@
       "filesOpenedForRead": "読み取り用にオープンされたファイル",
       "beeInstana": "BeeInstana"
     },
-    "webSphereApplicationContainer": {
-      "sessions": "セッション"
-    },
     "webSphereLibertyApplicationContainer": {
       "requests": "要求",
       "averageResponseTime": "平均応答時間"
@@ -12154,6 +12163,14 @@
       "titleRegion": "CICS 領域",
       "titleDestination": "宛先",
       "titleUnknown": "不明"
+    },
+    "ctg": {
+      "titleCtgAttributes": "CTG 属性",
+      "ctgReturnCode": "CTG 戻りコード",
+      "cicsReturnCode": "CICS 戻りコード",
+      "transactionName": "トランザクション名",
+      "titleCalls": "呼び出し",
+      "calls": "{{call}}"
     },
     "corba": {
       "titleMethod": "メソッド",
@@ -12642,6 +12659,11 @@
       "database": "データベース",
       "user": "ユーザー",
       "query": "照会"
+    },
+    "prisma": {
+      "url": "データ・ソース URL",
+      "provider": "データベース・タイプ",
+      "model_action": "モデル/アクション"
     },
     "quartz": {
       "group": "グループ",

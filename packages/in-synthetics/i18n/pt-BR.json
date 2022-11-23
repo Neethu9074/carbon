@@ -26,7 +26,9 @@
         "subTitle": "Terminal",
         "labelOperation": "Método de HTTP",
         "labelUrl": "URL",
-        "popSubTitle": "Ponto de presença"
+        "popSubTitle": "Ponto de presença",
+        "uploadScriptTitle": "Fazer upload do script",
+        "failureToReadFileContent": "Falha ao ler o conteúdo do arquivo: {{error}}"
       },
       "basicDetails": {
         "title": "Qual é o nome deste teste de ping",
@@ -48,6 +50,23 @@
           },
           "tipsForUsing": {
             "title": "Dicas para usar",
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line3": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line4": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line5": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          }
+        },
+        "scriptApi": {
+          "name": "API de script",
+          "headline": "Script HTTP",
+          "whenToUse": {
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          },
+          "whoShouldUse": {
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          },
+          "tipsForUsing": {
             "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
             "line2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
             "line3": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
@@ -135,6 +154,7 @@
       "type": "Tipo",
       "totalTests": "Nº. de testes vinculados",
       "lastRun": "Última execução de teste em",
+      "namespace": "Namespace",
       "labelConfirmRemoveLocation": "Tem certeza de que deseja remover o local <strong>{{label}}</strong> ({{status}})?",
       "activeTestLinked": "Existem testes ativos designados ao local <strong>{{label}}</strong> ({{status}}), você tem certeza de que deseja remover esse local?",
       "deleteLocation": "Excluir local"
@@ -231,7 +251,10 @@
       "noDataAvailable": {
         "message": "Detalhes do {{component}} não estão disponíveis para este resultado de teste",
         "notFound": "Não localizadas"
-      }
+      },
+      "downloadHar": "Fazer download do arquivo HAR",
+      "consoleLogs": "CONSOLE",
+      "browserLogs": "NAVEGADOR"
     },
     "noDataAvailable": {
       "resultsTitle": "Nenhum resultado disponível",

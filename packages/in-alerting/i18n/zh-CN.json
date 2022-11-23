@@ -71,7 +71,12 @@
       "onlyOrAnyAlphaNumericalAreAllowed": "只允许使用“.”、“-”、“_” 或任何字母数字字符。",
       "aTagNeedsToBeSelected": "需要选择标记。",
       "aKeyNeedsToBeSpecified": "需要指定键。",
-      "customPayloadTitle": "定制有效内容"
+      "additionalCustomPayload": "其他定制有效内容",
+      "globalCustomPayload": "全局定制有效内容",
+      "additionalCustomPayloadTitle": "其他定制有效内容 ({{count}})",
+      "globalCustomPayloadTitle": "全局定制有效内容 ({{count}})",
+      "globalCustomPayloadRetrieveFailed": "发生错误。 无法检索全局定制有效内容。",
+      "noGlobalCustomPayloadConfigured": "未配置全局定制有效内容"
     }
   },
   "potentialProblems": {
@@ -671,8 +676,8 @@
         "loadingThresholdSuggestion": "正在加载阈值建议",
         "alertConfigDialogPresenterTitleEditAlert_Local": "编辑智能警报",
         "alertConfigDialogPresenterTitleEditAlert_Global": "编辑全局智能警报",
-        "alertConfigDialogPresenterTitleCreateNewAlert_Local": "新建智能警报",
-        "alertConfigDialogPresenterTitleCreateNewAlert_Global": "新建全局智能警报",
+        "alertConfigDialogPresenterTitleCreateNewAlert_Local": "创建智能警报",
+        "alertConfigDialogPresenterTitleCreateNewAlert_Global": "创建全局智能警报",
         "alertConfigDialogPresenterTitleMigrateAlert": "迁移到智能警报",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "切换到高级模式",
         "simpleAlertConfigDialogStep3Headline": "谁应该接收警报？",

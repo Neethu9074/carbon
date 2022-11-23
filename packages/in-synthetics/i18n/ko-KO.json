@@ -26,7 +26,9 @@
         "subTitle": "엔드포인트",
         "labelOperation": "HTTP 메소드",
         "labelUrl": "URL",
-        "popSubTitle": "인식 위치"
+        "popSubTitle": "인식 위치",
+        "uploadScriptTitle": "스크립트 업로드",
+        "failureToReadFileContent": "파일 컨텐츠 읽기 실패: {{error}}"
       },
       "basicDetails": {
         "title": "ping 테스트 이름",
@@ -48,6 +50,23 @@
           },
           "tipsForUsing": {
             "title": "사용 팁",
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line3": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line4": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line5": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          }
+        },
+        "scriptApi": {
+          "name": "스크립트 API",
+          "headline": "HTTP 스크립트",
+          "whenToUse": {
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          },
+          "whoShouldUse": {
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          },
+          "tipsForUsing": {
             "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
             "line2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
             "line3": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
@@ -135,6 +154,7 @@
       "type": "유형",
       "totalTests": "링크된 테스트의 수",
       "lastRun": "마지막 테스트 실행 시간",
+      "namespace": "네임스페이스",
       "labelConfirmRemoveLocation": "<strong>{{label}}</strong>({{status}}) 위치를 제거하시겠습니까?",
       "activeTestLinked": "<strong>{{label}}</strong>({{status}}) 위치에 지정된 활성 테스트가 있습니다. 이 위치를 제거하시겠습니까?",
       "deleteLocation": "위치 삭제"
@@ -231,7 +251,10 @@
       "noDataAvailable": {
         "message": "이 테스트 결과에 대한 {{component}} 세부사항을 사용할 수 없음",
         "notFound": "찾을 수 없음"
-      }
+      },
+      "downloadHar": "HAR 파일 다운로드",
+      "consoleLogs": "콘솔",
+      "browserLogs": "브라우저"
     },
     "noDataAvailable": {
       "resultsTitle": "사용 가능한 결과가 없음",

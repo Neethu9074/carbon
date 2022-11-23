@@ -97,6 +97,10 @@
   },
   "tabs": {
     "team": {
+      "events": {
+        "withDeprecatedSuffix": "{{pluginName}}（不推荐）",
+        "placeholder": "占位符"
+      },
       "customPayload": {
         "unknownTag": "未知标记：{{tagName}}"
       }
@@ -542,6 +546,8 @@
     "savingGroup": "正在保存组",
     "groupSuccessfullySaved": "组已成功保存。",
     "groups": "组",
+    "groupDeleteTooltip_Default": "缺省组是内置组，无法删除或重命名。",
+    "groupDeleteTooltip_Owner": "所有者组是内置组，无法删除或重命名。",
     "addGroup": "添加组",
     "pendingInvitations": "待处理邀请",
     "revoke": "撤销",
@@ -845,10 +851,9 @@
     "actions": "操作",
     "action": "操作",
     "actionWithNameForDelete": "操作 {{actionName}}",
-    "filterActions": "过滤器操作",
+    "searchActions": "搜索操作",
     "lastModified": "上次修改时间",
     "script": "脚本",
-    "http": "HTTP",
     "docLink": "文档链接",
     "deletedEventMessage": "您正在查看已删除的事件配置。 无法进行修改。",
     "actionTypeHelper": "“文档链接”是指 url，脚本用于 linux/windows 机器（目前仅支持 bash），而 http 是 Webhook。",
@@ -858,7 +863,13 @@
     "showsUpInTheActionDescription": "显示在操作描述中。 应尽可能具有描述性。",
     "docLinkDescription": "修复内容的 URL。",
     "scriptDescription": "脚本内容。",
-    "execute": "执行"
+    "execute": "执行",
+    "confidence_low": "低",
+    "confidence_medium": "中等",
+    "confidence_high": "高级",
+    "confidence": "{{context}}",
+    "confidenceTitle": "置信度",
+    "test": "测试"
   },
   "languageSelection": {
     "language": "语言",

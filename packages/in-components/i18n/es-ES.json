@@ -77,6 +77,7 @@
     "eumPageName": "EUM",
     "settingsPageName": "Valores",
     "requestQuoteBtn": "Solicitar un presupuesto",
+    "buyNowBtn": "Comprar ahora",
     "alreadyHaveLicense": "¿Ya tiene una licencia? Actívela en <linkToDocker>Docker</linkToDocker> o <linkToKubernetes>Kubernetes</linkToKubernetes>."
   },
   "releaseNotesDialog": {
@@ -234,14 +235,7 @@
     "queryProgress": {
       "preparing": "Preparando...",
       "runningQuery": "Ejecutando consulta...",
-      "timeout": "Esta consulta ha superado el tiempo de espera.",
-      "timeoutEstimated": "La consulta no se ha podido procesar debido al gran volumen de llamadas.",
-      "timeoutInfo": "Seleccione un periodo de tiempo más corto.",
-      "inputError": "Se ha producido un error de entrada.",
-      "tooManyRequests": "Demasiadas solicitudes",
-      "tooManyRequestsInfo": "Nuestro sistema está ocupado actualmente. Vuelva a intentarlo más adelante.",
-      "serverError": "Error del servidor",
-      "serverErrorInfo": "Se ha producido un error inesperado. Vuelva a intentarlo más tarde o póngase en contacto con el soporte para notificar el error."
+      "inputError": "Se ha producido un error de entrada."
     }
   },
   "aboutInstanaDialog": {
@@ -308,7 +302,14 @@
     "services": "Servicios"
   },
   "error": {
-    "erroneousResultPresenterMessage": "Se ha producido un error inesperado. Renueve la página o vuelva a intentarlo más tarde."
+    "erroneousResultPresenterMessage": "Se ha producido un error inesperado. Renueve la página o vuelva a intentarlo más tarde.",
+    "timeout": "Esta consulta ha superado el tiempo de espera.",
+    "timeoutInfo": "Seleccione un periodo de tiempo más corto.",
+    "timeoutEstimated": "La consulta no se ha podido procesar debido al gran volumen de llamadas.",
+    "tooManyRequests": "Demasiadas solicitudes",
+    "tooManyRequestsInfo": "Nuestro sistema está ocupado actualmente. Vuelva a intentarlo más adelante.",
+    "serverError": "Error de servidor.",
+    "serverErrorInfo": "Se ha producido un error inesperado. Vuelva a intentarlo más tarde o póngase en contacto con el soporte para notificar el error."
   },
   "expandableCard": {
     "tooltipShowLess": "Mostrar menos",

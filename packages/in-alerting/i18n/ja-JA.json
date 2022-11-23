@@ -71,7 +71,12 @@
       "onlyOrAnyAlphaNumericalAreAllowed": "「.」、「-」、「_」、または英数字のみを使用できます。",
       "aTagNeedsToBeSelected": "タグを選択する必要があります。",
       "aKeyNeedsToBeSpecified": "キーを指定する必要があります。",
-      "customPayloadTitle": "カスタム・ペイロード"
+      "additionalCustomPayload": "追加のカスタム・ペイロード",
+      "globalCustomPayload": "グローバル・カスタム・ペイロード",
+      "additionalCustomPayloadTitle": "追加のカスタム・ペイロード ({{count}})",
+      "globalCustomPayloadTitle": "グローバル・カスタム・ペイロード ({{count}})",
+      "globalCustomPayloadRetrieveFailed": "何らかの問題が発生しました。 グローバル・カスタム・ペイロードを取得できませんでした。",
+      "noGlobalCustomPayloadConfigured": "グローバル・カスタム・ペイロードが構成されていません"
     }
   },
   "potentialProblems": {
@@ -671,8 +676,8 @@
         "loadingThresholdSuggestion": "しきい値の提案をロード中",
         "alertConfigDialogPresenterTitleEditAlert_Local": "スマート・アラートの編集",
         "alertConfigDialogPresenterTitleEditAlert_Global": "グローバル・スマート・アラートの編集",
-        "alertConfigDialogPresenterTitleCreateNewAlert_Local": "新規スマート・アラートの作成",
-        "alertConfigDialogPresenterTitleCreateNewAlert_Global": "新規グローバル・スマート・アラートの作成",
+        "alertConfigDialogPresenterTitleCreateNewAlert_Local": "スマート・アラートの作成",
+        "alertConfigDialogPresenterTitleCreateNewAlert_Global": "グローバル・スマート・アラートの作成",
         "alertConfigDialogPresenterTitleMigrateAlert": "スマート・アラートへのマイグレーション",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "拡張モードに切り替える",
         "simpleAlertConfigDialogStep3Headline": "だれがアラートを受け取りますか?",
