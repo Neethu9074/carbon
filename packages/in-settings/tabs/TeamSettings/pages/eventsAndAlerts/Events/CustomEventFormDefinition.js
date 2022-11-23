@@ -19,9 +19,15 @@ import {
   scopeDfq,
   scopeHostsByTag
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
-import { mapConditionValue } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
+import {
+  getBuiltInMetricInfo,
+  getCustomMetricInfo
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customMetricUtils';
+import {
+  isAppDataEntityType,
+  mapConditionValue
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import { EQUALS, IS_EMPTY, NOT_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
-import { createCustomThresholdBasedEventSpecification } from 'in-api/eventSpecifications';
 import { queryValidationResultValidator, valid } from 'in-settings/validation';
 import { notBlankValidator } from 'in-services/validators/string';
 import { getFormatterType } from 'in-services/formatters/number';
@@ -78,8 +84,39 @@ function getScopeFields(isCreate, query, ruleType, tagFilter) {
   }
 }
 
-export function createEventFormDefinition(mutableEventOptional, isCreate) {
-  const mutableEvent = mutableEventOptional ?? createCustomThresholdBasedEventSpecification();
+const conditionValueValidator = function(value) {
+  if (isBlank(value)) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-settings:tabs.theValueMustNotBeBlank')
+      }
+    ];
+  }
+
+  const n = Number(value);
+  if (isNaN(n)) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-settings:tabs.pleaseEnterANumberUseAsADecimalSeparator')
+      }
+    ];
+  }
+  return null;
+};
+const metricNameValidator = metricName => {
+  return metricName && metricName !== '' && metricName.length > 0
+    ? null
+    : [
+        {
+          severity: 'error',
+          message: t('in-settings:tabs.pleaseEnterAValidMetric')
+        }
+      ];
+};
+
+export function createEventFormDefinition(mutableEvent, isCreate) {
   const eventSpec = mutableEvent; // TODO refactor in next step.
   const { name, entityType, query, triggering, description, expirationTime } = mutableEvent;
   const ruleAttributes = getRuleAttributes(mutableEvent);
@@ -94,34 +131,7 @@ export function createEventFormDefinition(mutableEventOptional, isCreate) {
     tagOperatorForHostAvailability
   } = getScopeFields(isCreate, query, ruleType, tagFilter);
 
-  const rulesFormList = (mutableEvent.rules ?? [])
-    .map(() => createMapForm(/*empty, because not yet used*/))
-    .reduce(
-      (listForm, subForm) => listForm.push(subForm),
-      createListForm({
-        touched: true,
-        validator: rules => {
-          if (rules?.length > 1) {
-            return [
-              {
-                severity: 'error',
-                // message will be removed anyway in a couple of days, so there is no i18n needed.
-                message:
-                  'There are more than one conditions configured. You need to use the API to edit this configuration.'
-              }
-            ];
-          }
-          return null;
-        }
-      })
-    );
-
-  let form = createMapForm({
-    items: {
-      rules: rulesFormList
-    },
-    touched: mutableEvent.rules?.length >= 1
-  })
+  let form = createMapForm()
     .put(
       'name',
       createField({
@@ -208,7 +218,31 @@ export function createEventFormDefinition(mutableEventOptional, isCreate) {
 }
 
 function putAllDataSourceFields(form, eventSpec) {
-  const { entityType } = eventSpec;
+  const entityType = eventSpec?.entityType ?? null;
+
+  form = form.put(
+    'entityType',
+    createField({
+      value: entityType,
+      validator: notBlankOrDeprecatedValidator
+    })
+  );
+
+  const rulesFormList = (eventSpec.rules ?? [])
+    .map(rule => putAllDataSourceFieldsForOneRule(entityType, rule))
+    .reduce(
+      (listForm, subForm) => listForm.push(subForm),
+      createListForm({
+        // TODO: add validator: ...
+      })
+    );
+
+  form = form.put('rules', rulesFormList);
+
+  return form;
+}
+
+export function putAllDataSourceFieldsForOneRule(entityType, rule) {
   const {
     metricName,
     metricPlaceholderValue,
@@ -216,23 +250,12 @@ function putAllDataSourceFields(form, eventSpec) {
     metricFormat,
     conditionOperator,
     conditionValue: originalConditionValue
-  } = getRuleAttributes(eventSpec);
+  } = getRuleAttributesForEntityType(entityType, rule);
 
-  let formatter = metricFormat;
-  // FIXME fallback is only needed as long as not all plugins define a built-in metrics-catalog in the backend
-  if (eventSpec && formatter === 'UNDEFINED') {
-    // TODO: simplify: When is mutableEvent undefined, and why do we only need to get the formatter in this case?
-    const metricList = getAllBuiltInMetrics(entityType);
-    const metricItem = find(metricList, _metric => _metric.value === metricName);
-
-    if (metricItem) {
-      formatter = getFormatterType(metricItem.formatter);
-    }
-  }
-
+  const formatter = metricTypeOrBuiltinFormatterIfMissing(metricFormat, entityType, metricName);
   const conditionValue = mapConditionValue(originalConditionValue, formatter);
 
-  form = form
+  let form = createMapForm()
     .put(
       'entityType',
       createField({
@@ -244,16 +267,7 @@ function putAllDataSourceFields(form, eventSpec) {
       'metricName',
       createField({
         value: metricName,
-        validator: metricName => {
-          return metricName && metricName !== '' && metricName.length > 0
-            ? null
-            : [
-                {
-                  severity: 'error',
-                  message: t('in-settings:tabs.pleaseEnterAValidMetric')
-                }
-              ];
-        }
+        validator: metricNameValidator
       })
     )
 
@@ -268,27 +282,7 @@ function putAllDataSourceFields(form, eventSpec) {
       'conditionValue',
       createField({
         value: conditionValue != null ? String(conditionValue) : '',
-        validator(value) {
-          if (isBlank(value)) {
-            return [
-              {
-                severity: 'error',
-                message: t('in-settings:tabs.theValueMustNotBeBlank')
-              }
-            ];
-          }
-
-          const n = Number(value);
-          if (isNaN(n)) {
-            return [
-              {
-                severity: 'error',
-                message: t('in-settings:tabs.pleaseEnterANumberUseAsADecimalSeparator')
-              }
-            ];
-          }
-          return null;
-        }
+        validator: conditionValueValidator
       })
     )
     .put(
@@ -300,10 +294,28 @@ function putAllDataSourceFields(form, eventSpec) {
     );
 
   if (isBackendAggregatedPercentileMetric(entityType, metricName)) {
-    form = putRollupField(form, eventSpec);
+    form = form.put(
+      'rollup',
+      createField({
+        value: String(rule.rollup ?? ''),
+        validator: notBlankValidator
+      })
+    );
   } else {
-    form = putWindowField(form, eventSpec);
-    form = putAggregationField(form, eventSpec);
+    form = form.put(
+      'window',
+      createField({
+        value: String(rule.window ?? ''),
+        validator: notBlankValidator
+      })
+    );
+    form = form.put(
+      'aggregation',
+      createField({
+        value: rule.aggregation ?? '',
+        validator: notBlankValidator
+      })
+    );
   }
 
   if (isBuiltInDynamicMetric(entityType, metricName)) {
@@ -424,17 +436,7 @@ function removeAllDataSourceFields(form) {
   form = removeAllEntityVerificationFields(form);
   form = removeHostAvailabilityDetectionFields(form);
   form = removeAllMetricPatternFields(form);
-  return form
-    .remove('entityType')
-    .remove('metricName')
-    .remove('metricPatternOperator')
-    .remove('metricPatternPlaceholder')
-    .remove('conditionOperator')
-    .remove('conditionValue')
-    .remove('formatter')
-    .remove('rollup')
-    .remove('window')
-    .remove('aggregation');
+  return form.remove('rules').remove('entityType');
 }
 
 function removeAllEntityVerificationFields(form) {
@@ -454,7 +456,6 @@ function removeAllMetricPatternFields(form) {
 }
 
 function putSystemRuleSelection(form, ruleAttributes, systemRules) {
-  // TODO: simpify this logic with all its edge cases
   let systemRule = ruleAttributes.systemRuleId;
   if (!systemRule && systemRules && systemRules.length > 0) {
     systemRule = systemRules[0].id;
@@ -507,6 +508,7 @@ export function updateFormDefinitionForDataSource(form, previousDataSource, even
   const nextDataSource = form.get('dataSource')?.value;
 
   if (previousDataSource !== dataSourceSystem && nextDataSource === dataSourceSystem) {
+    // switching to system rule
     const { ruleType } = getRuleAttributes(eventSpec);
     form = removeAllDataSourceFields(form);
 
@@ -520,14 +522,23 @@ export function updateFormDefinitionForDataSource(form, previousDataSource, even
 
     form = putSystemRuleSelection(form, eventSpec, systemRules);
   } else if (previousDataSource === dataSourceSystem && nextDataSource !== dataSourceSystem) {
-    form = putAllDataSourceFields(form, eventSpec);
+    // switching from system rule to built-in- or custom-rules
+    form = putAllDataSourceFields(form, {});
     form = form.remove('systemRule');
     form = removeAllEntityVerificationFields(form);
     form = removeHostAvailabilityDetectionFields(form);
   } else if (previousDataSource) {
+    // switching between built-in- and custom-rules
+
     form = removeAllMetricPatternFields(form);
+    // clear multi-conditions, when switching between non-system configs
+    form = form.put(
+      'rules',
+      createListForm({
+        // validator: TODO: add MultiRuleValidator here
+      })
+    );
     form = form.updateIn(['entityType'], field => field.setValue(null));
-    form = form.updateIn(['metricName'], field => field.setValue(null));
   }
 
   if (previousDataSource !== nextDataSource) {
@@ -680,92 +691,57 @@ export function isDeprecatedEntityType(entityType) {
 }
 
 function getRuleAttributes(eventSpec) {
-  const { rules, rule, entityType } = eventSpec;
-
-  let ruleType,
-    metricName,
-    metricPlaceholderValue,
-    metricPlaceholderOperator,
-    rollup,
-    window,
-    aggregation,
-    conditionOperator,
-    conditionValue,
-    severity,
-    systemRuleId,
-    metricFormat,
-    matchingEntityType,
-    matchingOperator,
-    matchingEntityLabel,
-    offlineDuration,
-    closeAfter,
-    tagFilter;
+  const { rules, rule } = eventSpec;
 
   /* to avoid breaking existing form, just use first rule, and
    * ignore other rules here */
   if (rules && rules.length >= 1) {
-    ruleType = rules[0].ruleType;
-
-    if (rules[0].metricName) {
-      metricName = rules[0].metricName;
-
-      // compatibility for dynamic built-in metrics using a full metric name: handle as metricPattern
-      const { metricPattern } = getMetricDefinition(entityType, rules[0].metricName);
-      if (metricPattern) {
-        const metricValueMatch = metricName.match(metricPattern.pattern);
-        if (metricValueMatch.length > 1) {
-          metricPlaceholderValue = metricValueMatch[1];
-          metricPlaceholderOperator = 'is';
-          metricName = toDynamicMetricStringValue(metricPattern.pre, metricPattern.post);
-        }
-      }
-    } else if (rules[0].metricPattern) {
-      const metricPattern = rules[0].metricPattern;
-      metricPlaceholderValue = metricPattern.placeholder;
-      metricPlaceholderOperator = metricPattern.operator;
-      metricName = toDynamicMetricStringValue(metricPattern.prefix, metricPattern.postfix);
-    }
-
-    rollup = rules[0].rollup;
-    window = rules[0].window;
-    aggregation = rules[0].aggregation;
-    conditionOperator = rules[0].conditionOperator;
-    conditionValue = rules[0].conditionValue;
-    severity = rules[0].severity;
-    systemRuleId = rules[0].systemRuleId;
-    metricFormat = rules[0].metricFormat;
-    matchingEntityType = rules[0].matchingEntityType;
-    matchingOperator = rules[0].matchingOperator;
-    matchingEntityLabel = rules[0].matchingEntityLabel;
-    offlineDuration = rules[0].offlineDuration;
-    closeAfter = rules[0].closeAfter;
-    tagFilter = rules[0].tagFilter;
+    const { entityType } = eventSpec;
+    const firstRule1 = rules[0];
+    return getRuleAttributesForEntityType(entityType, firstRule1);
   } else if (rule) {
     // TODO: this case should not exist in the future - need more rework
-    ruleType = rule.ruleType;
-    systemRuleId = rule.systemRuleId;
-    severity = rule.severity;
+
+    const { ruleType, systemRuleId, severity } = rule;
+
+    return {
+      ruleType,
+      severity,
+      systemRuleId
+    };
+  }
+  return {};
+}
+
+function getRuleAttributesForEntityType(entityType, rule) {
+  const { metricName, metricPattern } = rule;
+
+  let metricPlaceholderValue, metricPlaceholderOperator;
+  let dynamicMetricName = metricName;
+
+  if (metricName) {
+    // compatibility for dynamic built-in metrics using a full metric name: handle as metricPattern
+    const { metricPattern } = getMetricDefinition(entityType, metricName);
+
+    if (metricPattern) {
+      const metricValueMatch = metricName.match(metricPattern.pattern);
+      if (metricValueMatch.length > 1) {
+        metricPlaceholderValue = metricValueMatch[1];
+        metricPlaceholderOperator = 'is';
+        dynamicMetricName = toDynamicMetricStringValue(metricPattern.pre, metricPattern.post);
+      }
+    }
+  } else if (metricPattern) {
+    metricPlaceholderValue = metricPattern.placeholder;
+    metricPlaceholderOperator = metricPattern.operator;
+    dynamicMetricName = toDynamicMetricStringValue(metricPattern.prefix, metricPattern.postfix);
   }
 
   return {
-    ruleType,
-    metricName,
+    ...rule,
+    metricName: dynamicMetricName ?? metricName,
     metricPlaceholderValue,
-    metricPlaceholderOperator,
-    rollup,
-    window,
-    aggregation,
-    conditionOperator,
-    conditionValue,
-    severity,
-    systemRuleId,
-    metricFormat,
-    matchingEntityType,
-    matchingOperator,
-    matchingEntityLabel,
-    offlineDuration,
-    closeAfter,
-    tagFilter
+    metricPlaceholderOperator
   };
 }
 
@@ -789,6 +765,15 @@ export function isCustomDataSourceSelected(form) {
 
 export function isSystemRuleDataSourceSelected(form) {
   return form.get('dataSource').value === dataSourceSystem;
+}
+
+export function canHaveMultipleConditions(form) {
+  const entityType = form.get('entityType')?.value;
+  const appDataEntityType = isAppDataEntityType(entityType);
+  const builtInDataSourceSelected = isBuiltInDataSourceSelected(form);
+  const customDataSourceSelected = isCustomDataSourceSelected(form);
+
+  return (builtInDataSourceSelected || customDataSourceSelected) && !appDataEntityType;
 }
 
 export function onChangeApplyOn(applyOn, onChange) {
@@ -832,4 +817,78 @@ export function onChangeApplyOn(applyOn, onChange) {
     };
   }
   onChange('applyOn', applyOn, updateFormDefinition);
+}
+
+export function onBuiltInMetricChange(metricName, onChange, entityType) {
+  return e => {
+    if ((metricName && !e) || (e && e.value !== metricName)) {
+      let selectedMetric = e ? e.value : '';
+      onChange('metricName', selectedMetric, updatedForm => {
+        if (isPercentile(updatedForm)) {
+          updatedForm = updatedForm.remove('window').remove('aggregation');
+          updatedForm = putRollupField(updatedForm);
+        } else {
+          updatedForm = updatedForm.remove('rollup');
+          updatedForm = putWindowField(updatedForm);
+          updatedForm = putAggregationField(updatedForm);
+        }
+
+        const buildInMetricsList = getAllBuiltInMetrics(entityType);
+        const metricItem = find(buildInMetricsList, _metric => _metric.value === selectedMetric);
+
+        if (metricItem) {
+          if (isBuiltInPlainMetric(entityType, metricItem.value)) {
+            updatedForm = updatedForm.remove('metricPatternOperator').remove('metricPatternPlaceholder');
+          } else {
+            updatedForm = putMetricPatternOperator(updatedForm);
+            updatedForm = putMetricPatternPlaceholder(updatedForm);
+          }
+
+          const metricInfo = getBuiltInMetricInfo(metricItem);
+          updatedForm = updatedForm
+            .updateIn(['formatter'], f => f.setValue(metricInfo.formatter))
+            .updateIn(['conditionOperator'], f => f.setValue(null).setTouched(false))
+            .updateIn(['conditionValue'], f => f.setValue('').setTouched(false));
+        }
+
+        return updatedForm;
+      });
+    }
+  };
+}
+
+export function onCustomMetricChanged(metricName, onChange, customMetricsForPlugin) {
+  return e => {
+    if ((metricName && !e) || (e && e.value !== metricName)) {
+      let selectedMetric = e ? e.value : '';
+      onChange('metricName', selectedMetric, (updatedForm, eventSpec) => {
+        updatedForm = updatedForm.remove('rollup');
+        updatedForm = putWindowField(updatedForm, eventSpec);
+        updatedForm = putAggregationField(updatedForm, eventSpec);
+
+        const metricInfo = getCustomMetricInfo(customMetricsForPlugin, selectedMetric);
+
+        updatedForm = updatedForm
+          .updateIn(['formatter'], f => f.setValue(metricInfo.formatter))
+          .updateIn(['conditionOperator'], f => f.setValue(null).setTouched(false))
+          .updateIn(['conditionValue'], f => f.setValue('').setTouched(false));
+
+        return updatedForm;
+      });
+    }
+  };
+}
+
+function metricTypeOrBuiltinFormatterIfMissing(metricFormat, entityType, metricName) {
+  // FIXME This logic fallback is only needed as long as not all plugins define a built-in metrics-catalog in the backend
+  if (metricFormat === 'UNDEFINED') {
+    const metricList = getAllBuiltInMetrics(entityType);
+    const metricItem = find(metricList, _metric => _metric.value === metricName);
+
+    if (metricItem) {
+      return getFormatterType(metricItem.formatter);
+    }
+  }
+
+  return metricFormat;
 }

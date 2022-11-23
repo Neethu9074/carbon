@@ -44,61 +44,59 @@ export function DynamicBuiltInFormGroup({ form, onChange, disabled }: DynamicBui
   const metricPatternOperator = form.get('metricPatternOperator') as Field<string>;
 
   return (
-    <FormGroup noFlex>
-      <Row>
-        <Col lg={3}>
+    <Row withoutTopMargin>
+      <Col lg={3}>
+        <FormGroup>
+          <Label
+            htmlFor="event-metricPatternOperator"
+            hasError={!metricPatternOperator.valid && metricPatternOperator.touched}
+          >
+            {t('in-settings:tabs.matchingOperator')}
+          </Label>
+          <ComboBox
+            isDisabled={disabled}
+            name="event-metricPatternOperator"
+            value={metricPatternOperator.value}
+            options={metricPatternMatchingOptions}
+            onChange={e => {
+              const prevOperator = metricPatternOperator.value;
+              const newOperator = e ? (e as Option).value : '';
+              onChange('metricPatternOperator', newOperator, updatedForm => {
+                if (newOperator === 'any') {
+                  updatedForm = updatedForm.remove('metricPatternPlaceholder');
+                } else if (prevOperator === 'any') {
+                  updatedForm = putMetricPatternPlaceholder(updatedForm);
+                }
+                return updatedForm;
+              });
+            }}
+            isClearable={false}
+          />
+          <TouchedMessages field={metricPatternOperator} />
+        </FormGroup>
+      </Col>
+      <Col lg={6}>
+        {metricPatternPlaceholder && (
           <FormGroup>
             <Label
-              htmlFor="event-metricPatternOperator"
-              hasError={!metricPatternOperator.valid && metricPatternOperator.touched}
+              htmlFor="event-metricPatternPlaceholder"
+              hasError={!metricPatternPlaceholder.valid && metricPatternPlaceholder.touched}
             >
-              {t('in-settings:tabs.matchingOperator')}
+              {getPlaceholderLabel(entityType, metricName)}
             </Label>
-            <ComboBox
-              isDisabled={disabled}
-              name="event-metricPatternOperator"
-              value={metricPatternOperator.value}
-              options={metricPatternMatchingOptions}
-              onChange={e => {
-                const prevOperator = metricPatternOperator.value;
-                const newOperator = e ? (e as Option).value : '';
-                onChange('metricPatternOperator', newOperator, updatedForm => {
-                  if (newOperator === 'any') {
-                    updatedForm = updatedForm.remove('metricPatternPlaceholder');
-                  } else if (prevOperator === 'any') {
-                    updatedForm = putMetricPatternPlaceholder(updatedForm);
-                  }
-                  return updatedForm;
-                });
-              }}
-              isClearable={false}
+            <Input
+              disabled={disabled}
+              id="event-metricPatternPlaceholder"
+              type="text"
+              value={metricPatternPlaceholder.value}
+              onChange={e => onChange('metricPatternPlaceholder', e.target.value)}
+              hasError={!metricPatternPlaceholder.valid && metricPatternPlaceholder.touched}
             />
-            <TouchedMessages field={metricPatternOperator} />
+            <TouchedMessages field={metricPatternPlaceholder} />
           </FormGroup>
-        </Col>
-        <Col lg={6}>
-          {metricPatternPlaceholder && (
-            <FormGroup>
-              <Label
-                htmlFor="event-metricPatternPlaceholder"
-                hasError={!metricPatternPlaceholder.valid && metricPatternPlaceholder.touched}
-              >
-                {getPlaceholderLabel(entityType, metricName)}
-              </Label>
-              <Input
-                disabled={disabled}
-                id="event-metricPatternPlaceholder"
-                type="text"
-                value={metricPatternPlaceholder.value}
-                onChange={e => onChange('metricPatternPlaceholder', e.target.value)}
-                hasError={!metricPatternPlaceholder.valid && metricPatternPlaceholder.touched}
-              />
-              <TouchedMessages field={metricPatternPlaceholder} />
-            </FormGroup>
-          )}
-        </Col>
-      </Row>
-    </FormGroup>
+        )}
+      </Col>
+    </Row>
   );
 }
 

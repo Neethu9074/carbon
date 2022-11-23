@@ -11,15 +11,9 @@ import {
   systemRules,
   updateFormDefinitionForSystemRule,
   entityVerification,
-  putRollupField,
-  putWindowField,
-  putAggregationField,
-  putMetricPatternOperator,
-  putMetricPatternPlaceholder,
   isSystemRuleDataSourceSelected,
   isCustomDataSourceSelected,
   isBuiltInDataSourceSelected,
-  isPercentile,
   isHostAvailabilitySystemRule
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import { ObserveHostHasMatchingEntitiesRunningFormGroup } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ObserveHostHasMatchingEntitiesRunningFormGroup';
@@ -29,26 +23,17 @@ import {
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import LegacyAppdataEventInfoMessage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
 import {
-  getBuiltInMetricInfo,
-  getCustomMetricInfo
-} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customMetricUtils';
-import {
   dataSourceOptions,
   systemRuleOptions
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customEventFormUtil';
 import HostAvailabilityFormGroup from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/HostAvailabilityFormGroup';
-import { DynamicBuiltInFormGroup } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/DynamicBuiltInFormGroup';
 import { EntityTypeFormGroup } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/EntityTypeFormGroup';
-import BuiltInMetricSelector from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/BuiltInMetricSelector';
-import { ThresholdsFormGroup } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/ThresholdsFormGroup';
-import CustomMetricSelector from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/CustomMetricSelector';
+import { MultiConditions } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/MultiConditions';
 import { hideAppDataLegacyEventsEnabled, deprecateAppDataLegacyEventsEnabled } from 'in-services/featureFlags';
-import { getAllBuiltInMetrics, isBuiltInPlainMetric } from 'in-sdk/metrics';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-settings/components/FormGroup';
 import { Row, Col } from 'in-components/layout/Grid';
 import ComboBox from 'in-components/ComboBox';
-import { find } from 'in-services/arrayUtils';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
 
@@ -67,9 +52,16 @@ export function ConditionsSection({
     return null;
   }
 
-  const entityTypeField = form.get('entityType');
-  const metricNameField = form.get('metricName');
   const systemRuleField = form.get('systemRule');
+
+  const entityTypeField = form.get('entityType');
+  const entityType = entityTypeField?.value;
+
+  const rulesForm = form.get('rules');
+
+  const builtInDataSourceSelected = isBuiltInDataSourceSelected(form);
+  const customDataSourceSelected = isCustomDataSourceSelected(form);
+  const appDataEntityType = isAppDataEntityType(entityType);
 
   return (
     <>
@@ -120,7 +112,7 @@ export function ConditionsSection({
               <TouchedMessages field={systemRuleField} />
             </FormGroup>
           )}
-          {isBuiltInDataSourceSelected(form) && (
+          {builtInDataSourceSelected && (
             <EntityTypeFormGroup
               disabled={disabled}
               form={form}
@@ -128,7 +120,7 @@ export function ConditionsSection({
               onChange={onChange}
             />
           )}
-          {isCustomDataSourceSelected(form) && (
+          {customDataSourceSelected && (
             <EntityTypeFormGroup
               disabled={disabled}
               form={form}
@@ -138,6 +130,7 @@ export function ConditionsSection({
           )}
         </Col>
       </Row>
+
       {isSystemRuleDataSourceSelected(form) && (
         <>
           {systemRuleField?.value === entityVerification.id && (
@@ -155,126 +148,21 @@ export function ConditionsSection({
         </>
       )}
 
-      {isBuiltInDataSourceSelected(form) && (
-        <>
-          <Row withoutTopMargin>
-            <Col lg={12}>
-              {entityTypeField.value && (
-                <FormGroup>
-                  <Label htmlFor="event-metricName" hasError={!metricNameField.valid && metricNameField.touched}>
-                    {t('in-settings:tabs.metric')}
-                  </Label>
-                  <BuiltInMetricSelector
-                    disabled={disabled}
-                    id="event-metricName"
-                    plugin={entityTypeField.value}
-                    value={metricNameField.value}
-                    isClearable={false}
-                    onChange={e => {
-                      if ((metricNameField.value && !e) || (e && e.value !== metricNameField.value)) {
-                        let selectedMetric = e ? e.value : '';
-                        onChange('metricName', selectedMetric, updatedForm => {
-                          if (isPercentile(updatedForm)) {
-                            updatedForm = updatedForm.remove('window').remove('aggregation');
-                            updatedForm = putRollupField(updatedForm);
-                          } else {
-                            updatedForm = updatedForm.remove('rollup');
-                            updatedForm = putWindowField(updatedForm);
-                            updatedForm = putAggregationField(updatedForm);
-                          }
-
-                          const entityType = entityTypeField.value;
-                          const buildInMetricsList = getAllBuiltInMetrics(entityType);
-                          const metricItem = find(buildInMetricsList, _metric => _metric.value === selectedMetric);
-
-                          if (metricItem) {
-                            if (isBuiltInPlainMetric(entityType, metricItem.value)) {
-                              updatedForm = updatedForm
-                                .remove('metricPatternOperator')
-                                .remove('metricPatternPlaceholder');
-                            } else {
-                              updatedForm = putMetricPatternOperator(updatedForm);
-                              updatedForm = putMetricPatternPlaceholder(updatedForm);
-                            }
-
-                            const metricInfo = getBuiltInMetricInfo(metricItem);
-                            updatedForm = updatedForm
-                              .updateIn(['formatter'], f => f.setValue(metricInfo.formatter))
-                              .updateIn(['conditionOperator'], f => f.setValue(null).setTouched(false))
-                              .updateIn(['conditionValue'], f => f.setValue('').setTouched(false));
-                          }
-
-                          return updatedForm;
-                        });
-                      }
-                    }}
-                  />
-                  <TouchedMessages field={metricNameField} />
-                </FormGroup>
-              )}
-            </Col>
-          </Row>
-
-          <DynamicBuiltInFormGroup form={form} onChange={onChange} disabled={disabled} />
-
-          {entityTypeField.value && metricNameField.value && (
-            <ThresholdsFormGroup disabled={disabled} form={form} onChange={onChange} />
-          )}
-        </>
-      )}
-
-      {isCustomDataSourceSelected(form) && (
-        <>
-          <Row withoutTopMargin>
-            <Col lg={12}>
-              <FormGroup>
-                <Label htmlFor="event-metricName" hasError={!metricNameField.valid && metricNameField.touched}>
-                  {t('in-settings:tabs.metric')}
-                </Label>
-                <CustomMetricSelector
-                  disabled={disabled || !customMetricsForPlugin}
-                  // Workaround to clear the selection when the entity-type change.
-                  // It is not that expensive, because it is a small component.
-                  // It is a workaround for the underlying AutoComplete based on Downshift library,
-                  // because it was not re-rendering when the options have actually changed!
-                  key={Math.random()}
-                  id="event-metricName"
-                  value={metricNameField.value}
-                  metrics={customMetricsForPlugin}
-                  onChange={e => {
-                    if ((metricNameField.value && !e) || (e && e.value !== metricNameField.value)) {
-                      let selectedMetric = e ? e.value : '';
-                      onChange('metricName', selectedMetric, (updatedForm, eventSpec) => {
-                        updatedForm = updatedForm.remove('rollup');
-                        updatedForm = putWindowField(updatedForm, eventSpec);
-                        updatedForm = putAggregationField(updatedForm, eventSpec);
-
-                        const metricInfo = getCustomMetricInfo(customMetricsForPlugin, selectedMetric);
-
-                        updatedForm = updatedForm
-                          .updateIn(['formatter'], f => f.setValue(metricInfo.formatter))
-                          .updateIn(['conditionOperator'], f => f.setValue(null).setTouched(false))
-                          .updateIn(['conditionValue'], f => f.setValue('').setTouched(false));
-
-                        return updatedForm;
-                      });
-                    }
-                  }}
-                />
-                <TouchedMessages field={metricNameField} />
-              </FormGroup>
-            </Col>
-          </Row>
-
-          {metricNameField.value && <ThresholdsFormGroup disabled={disabled} form={form} onChange={onChange} />}
-        </>
-      )}
+      <MultiConditions
+        builtInDataSourceSelected={builtInDataSourceSelected}
+        customDataSourceSelected={customDataSourceSelected}
+        entityType={entityType}
+        rulesForm={rulesForm}
+        onChange={onChange}
+        disabled={disabled}
+        customMetricsForPlugin={customMetricsForPlugin}
+      />
 
       {!hideAppDataLegacyEventsEnabled &&
         deprecateAppDataLegacyEventsEnabled &&
         !hideLegacyAppDataEventDeprecationInfo &&
         !disabled &&
-        isAppDataEntityType(form.get('entityType')?.value ?? '') && <LegacyAppdataEventInfoMessage />}
+        appDataEntityType && <LegacyAppdataEventInfoMessage />}
     </>
   );
 }
