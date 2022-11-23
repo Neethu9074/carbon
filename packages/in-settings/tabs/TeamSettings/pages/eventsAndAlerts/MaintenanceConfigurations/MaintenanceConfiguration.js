@@ -202,7 +202,7 @@ function createForm(config, isCreate) {
 }
 
 function selectedApplicationsValidator(selectedApplications) {
-  if (selectedApplications.size === 0) {
+  if (selectedApplications.length === 0) {
     return [
       {
         severity: 'error',
