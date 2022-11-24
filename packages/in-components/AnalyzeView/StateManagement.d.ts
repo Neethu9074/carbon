@@ -10,6 +10,7 @@ import { Group, MetricDescription, Result } from '@instana/types/typeDefinitions
 import { TagFilter, TimeConfig } from '@instana/types';
 import { Observable } from '@instana/observables';
 
+import { IngestionOffsetCursor, TagFilter, TagFilterExpressionElementUnion } from 'in-types';
 import { GroupingTag } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable/types';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { ObservableCreator } from 'in-services/util/memoizingObservableGenerator';
@@ -17,9 +18,7 @@ import { GetLogGroupsResponse } from 'in-logging/subscriptions/getLogGroups';
 import { GetMetricCatalog } from 'in-services/metrics/metricCatalog';
 import { EnrichedTagCatalog } from 'in-services/tags/tagCatalog';
 import { ParameterDefinition } from 'in-stores/navigation/types';
-import { TagFilterExpressionElementUnion } from 'in-types';
 import { UrlState } from 'in-synthetics/utils/constants';
-import { IngestionOffsetCursor } from 'in-types';
 import { Options } from 'in-hooks/useUrlState';
 
 export type Facets = Record<unknown, unknown>;
@@ -49,6 +48,9 @@ type ChartableDataSeries = {
 }[];
 
 type ChartedMetric = { metricId: string; aggregationId: string }[] | { templateId: string }[];
+
+export type GetHrefWithAdditionalTagFilter = (tag: TagFilter) => string;
+export type GetHrefToGroupedView = (tag: TagFilter | GroupingTag) => string;
 
 export type GetFacetedSearchSuggestionsParams = {
   timeConfig: TimeConfig;
@@ -134,9 +136,9 @@ export interface StateManagementChildProps {
   filteringTagCatalog: EnrichedTagCatalog;
   groupingTagCatalog: EnrichedTagCatalog;
   onGroupByChange: (groupBy: Group) => void;
-  getHrefToGroupedView: (tag: TagFilter | GroupingTag) => string;
+  getHrefToGroupedView: GetHrefToGroupedView;
   getHrefToUngroupedView: (params: GetHrefToGroupedViewParams) => string;
-  getHrefWithAdditionalTagFilter: (tag: TagFilter) => string;
+  getHrefWithAdditionalTagFilter: GetHrefWithAdditionalTagFilter;
   getHrefWithTagFilterExpression: (newTagExpression: FormModelElement) => string;
   orderBy: Order;
   onOrderByChange: (order: Order) => void;
