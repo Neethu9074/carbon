@@ -9,7 +9,6 @@ env:
     INSTANA_ARTIFACTORY_PASSWORD: 'delivery.instana.io.internal.rw.password'
     AWS_ACCESS_KEY_ID: "s3.devinfra.access.key.id"
     AWS_SECRET_ACCESS_KEY: "s3.devinfra.secret.access.key"
-    CHROMATIC_PROJECT_TOKEN: "ui_client.chromatic.project.token"
     CONTAINERS_INSTANA_IO_PASSWORD: "containers.instana.io.password"
     CONTAINERS_INSTANA_IO_USER: "containers.instana.io.user"
     EFS_DATA_DIR: "efs.data.dir"

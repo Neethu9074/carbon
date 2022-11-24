@@ -12,7 +12,6 @@ const {
   localIdentName,
   getLocalIdent
 } = require('../../build/webpack/cssIdentifiers');
-const createCompiler = require('@storybook/addon-docs/mdx-compiler-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 
 const styleLoader = {
@@ -49,11 +48,8 @@ const cssLoader = {
 // and CSS names.
 const necessaryLoaders = [
   {
-    test: /\.(ttf|eot|obj)$/i,
-    type: 'asset/resource'
-  },
-  {
     test: /\.mless$/i,
+    // use the css, configured for collecting the css ident-names (see above)
     use: [styleLoader, cssLoader, postCssLoader, 'less-loader']
   },
   {
@@ -61,14 +57,7 @@ const necessaryLoaders = [
     use: ['style-loader', 'css-loader', 'less-loader']
   },
   {
-    test: /\.css$/i,
-    use: ['style-loader', 'css-loader']
-  },
-  {
-    test: /\.(jpe?g|gif|png|svg)$/i,
-    type: 'asset/resource'
-  },
-  {
+    // for webgl-shaders
     test: /\.glsl$/i,
     use: [
       {
@@ -91,58 +80,20 @@ const necessaryLoaders = [
     ]
   },
   {
+    // yaml files are used on our Welcome pages
     test: /\.yaml$/i,
     use: [
       {
         loader: 'raw-loader'
       }
     ]
-  },
-  {
-    test: /\.md$/,
-    use: [
-      {
-        loader: 'html-loader!markdown-loader'
-      }
-    ]
-  },
-  {
-    test: /\.woff?$/,
-    use: [
-      {
-        loader: 'url-loader?limit=3000&mimetype=application/font-woff'
-      }
-    ]
-  },
-  {
-    test: /\.mdx$/i,
-    use: [
-      {
-        loader: 'babel-loader'
-      },
-      {
-        // Issue: Referencing `@mdx-js/loader` (as a string) here would cause
-        // problems, because the Node root resolve dir for dependencies is technically
-        // the root ui-client dir. Referencing the dependency relative to this file
-        // provides an escape hatch.
-        loader: path.join(__dirname, '..', 'node_modules', '@mdx-js', 'loader'),
-        options: { compilers: [createCompiler({})] }
-      }
-    ]
-  },
-  {
-    // For the code view in the CSF (component story format)
-    // Only apply to stories. See https://github.com/storybookjs/storybook/pull/8773 for context
-    test: /\.story\.(js|ts|tsx)$/,
-    loader: require.resolve('@storybook/source-loader'),
-    exclude: [/node_modules/],
-    enforce: 'pre'
   }
 ];
 
 module.exports = async ({ config }) => {
   const defs = {
     // this is necessary for the React and Invariant modules
+    // it disables the invariant-checks to avoid throwing exceptions
     __DEV__: 'false',
     __HOT_RELOAD__: 'false'
   };
@@ -151,7 +102,9 @@ module.exports = async ({ config }) => {
   config.plugins.push(new CaseSensitivePathsPlugin());
   config.plugins.push(cssIdentWebpackPlugin);
 
-  config.module.rules = necessaryLoaders;
+  // there are storybook presets which contain all appropriate settings, so we can add just
+  // the necessary extra loaders:
+  necessaryLoaders.forEach(loader => config.module.rules.push(loader));
 
   config.resolve.extensions.push('.ts', '.tsx', '.d.ts');
   config.resolve.modules.push(path.join(__dirname, '..', 'node_modules'));
