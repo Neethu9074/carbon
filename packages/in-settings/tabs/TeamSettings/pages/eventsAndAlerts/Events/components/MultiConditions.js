@@ -9,6 +9,7 @@ import React from 'react';
 import { Stack, Button } from '@instana/components';
 
 import { putAllDataSourceFieldsForOneRule } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
+import { TimeWindowFormGroup } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/ThresholdsFormGroup';
 import { ConditionItem } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/ConditionItem';
 import { isAppDataEntityType } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
@@ -19,6 +20,34 @@ import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/MultiConditions.mless';
+
+function getOnChangeUpdateRuleByIdx(onChangeRoot, idx) {
+  return (ruleFieldName, value, updateFn) => {
+    if (updateFn) {
+      onChangeRoot(form =>
+        form
+          .updateIn(['rules', idx, ruleFieldName], ruleItemField => ruleItemField.setValue(value).setTouched(true))
+          .updateIn(['rules', idx], updateFn)
+      );
+    } else {
+      onChangeRoot(form =>
+        form.updateIn(['rules', idx, ruleFieldName], ruleItemField => ruleItemField.setValue(value).setTouched(true))
+      );
+    }
+  };
+}
+
+function getOnChangeUpdateAllRules(onChangeRoot) {
+  return (ruleFieldName, value) => {
+    onChangeRoot(form => {
+      let rulesForm = form.get('rules');
+      for (let i = 0; i < rulesForm.size; i++) {
+        rulesForm = rulesForm.updateIn([i, ruleFieldName], f => f.setValue(value).setTouched(true));
+      }
+      return form.put('rules', rulesForm);
+    });
+  };
+}
 
 export function MultiConditions({
   rulesForm,
@@ -37,10 +66,21 @@ export function MultiConditions({
 
   return (
     <>
+      {rulesForm?.size >= 1 && canHaveMultipleConditions && (
+        <Row withoutTopMargin>
+          <TimeWindowFormGroup
+            form={rulesForm.get(0)}
+            onChange={getOnChangeUpdateAllRules(onChangeRoot)}
+            disabled={disabled}
+            compactLayout
+          />
+        </Row>
+      )}
+
       {canHaveMultipleConditions && (
         <Row withBottomMargin>
           <Col lg={12}>
-            <Stack direction={'horizontal'} distribution="spaceBetween">
+            <Stack direction="horizontal" distribution="spaceBetween">
               <div className={locals.header}>{t('in-settings:tabs.team.events.multiConditions')}</div>
               <Button
                 kind="action"
@@ -48,7 +88,13 @@ export function MultiConditions({
                 onClick={() => {
                   onChangeRoot(form =>
                     form.updateIn(['rules'], field =>
-                      field.push(putAllDataSourceFieldsForOneRule(entityType, {})).setTouched(true)
+                      field
+                        .push(
+                          putAllDataSourceFieldsForOneRule(entityType, {
+                            window: rulesForm.get(0)?.get('window')?.value
+                          })
+                        )
+                        .setTouched(true)
                     )
                   );
                 }}
@@ -61,41 +107,24 @@ export function MultiConditions({
       )}
 
       {rulesForm.map((ruleForm, idx) => {
-        const onChange = (ruleFieldName, value, updateFn) => {
-          if (updateFn) {
-            onChangeRoot(form =>
-              form
-                .updateIn(['rules', idx, ruleFieldName], ruleItemField =>
-                  ruleItemField.setValue(value).setTouched(true)
-                )
-                .updateIn(['rules', idx], updateFn)
-            );
-          } else {
-            onChangeRoot(form =>
-              form.updateIn(['rules', idx, ruleFieldName], ruleItemField =>
-                ruleItemField.setValue(value).setTouched(true)
-              )
-            );
-          }
-        };
-
-        const content = (
+        const conditionForm = (
           <ConditionItem
             builtInDataSourceSelected={builtInDataSourceSelected}
             customDataSourceSelected={customDataSourceSelected}
             entityType={entityType}
             form={ruleForm}
-            onChange={onChange}
+            onChange={getOnChangeUpdateRuleByIdx(onChangeRoot, idx)}
             disabled={disabled}
             customMetricsForPlugin={customMetricsForPlugin}
-            compactLayout
+            compactLayout={canHaveMultipleConditions}
+            hideTimeWindow={canHaveMultipleConditions}
           />
         );
 
         const onDeleteCondition = () =>
           onChangeRoot(form => form.updateIn(['rules'], listRule => listRule.remove(idx).setTouched(true)));
 
-        if (!canHaveMultipleConditions) return content;
+        if (!canHaveMultipleConditions) return <React.Fragment key={idx}>{conditionForm}</React.Fragment>;
 
         return (
           <React.Fragment key={idx}>
@@ -109,7 +138,7 @@ export function MultiConditions({
 
             <div className={locals.ruleBoxWithBorder}>
               <Stack direction="horizontal" gap="xsmall" align="center">
-                <div className={locals.conditionWrapper}>{content}</div>
+                <div className={locals.conditionWrapper}>{conditionForm}</div>
                 <IconButton
                   disabled={disabled}
                   type="lib_actions_delete"

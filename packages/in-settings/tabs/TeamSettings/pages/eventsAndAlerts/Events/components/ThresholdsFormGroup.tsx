@@ -21,7 +21,7 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import { FormatterType } from 'in-services/formatters/number';
 import ComboBox, { Option } from 'in-components/ComboBox';
 import FormGroup from 'in-settings/components/FormGroup';
-import { Col, Row } from 'in-components/layout/Grid';
+import { Col } from 'in-components/layout/Grid';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import { t } from 'in-i18n';
@@ -33,36 +33,48 @@ interface ThresholdsFormGroupProps {
     value: string | Nullish,
     updateFormDefinition?: (mapForm: MapForm, entity: CustomEventSpecificationWithMetadata) => MapForm
   ) => MapForm;
-  compactLayout?: boolean;
+  hideTimeWindow: boolean;
   disabled: boolean;
 }
 
-export function ThresholdsFormGroup({ form, onChange, disabled, compactLayout }: ThresholdsFormGroupProps) {
+interface TimeWindowFormGroupProps {
+  form: MapForm;
+  disabled: boolean;
+  onChange: (
+    fieldName: string,
+    value: string | Nullish,
+    updateFormDefinition?: (mapForm: MapForm, entity: CustomEventSpecificationWithMetadata) => MapForm
+  ) => MapForm;
+  columnsSize?: number;
+}
+
+/**
+ * How the layout (fitting into our 12-cells-grid) will look like:
+ *
+ * with hidden time window:
+ *
+ * | metric 50% | aggr 2/12 | oper 2/12 | val 2/12 |
+ *
+ *
+ * with time window (together with compact layout)
+ *
+ * | metric 100% |
+ * | timeWindow 3/12 | aggr 3/12 | oper 3/12 | val 3/12 |
+ */
+export function ThresholdsFormGroup({ form, onChange, disabled, hideTimeWindow }: ThresholdsFormGroupProps) {
   const isPercentileMetric = isPercentile(form);
+
+  const defaultColSize = 3;
+  const reducedColSizeForFitIntoRow = 2;
+
   return (
-    <Row withoutTopMargin={compactLayout}>
-      {!isPercentileMetric && (
-        <Col lg={3}>
-          {(form.get('window') as Field<string>).map(field => (
-            <FormGroup>
-              <Label htmlFor="event-window" hasError={!field.valid && field.touched}>
-                {t('in-settings:tabs.timeWindow')}
-              </Label>
-              <ComboBox
-                isDisabled={disabled}
-                name="event-window"
-                value={field.value}
-                options={getOptionsWithAdditionalValueIfMissing(windowOptions, field.value)}
-                onChange={e => onChange('window', e ? (e as Option).value : '')}
-                isClearable={false}
-              />
-              <TouchedMessages field={field} />
-            </FormGroup>
-          ))}
-        </Col>
+    <>
+      {!isPercentileMetric && !hideTimeWindow && (
+        <TimeWindowFormGroup disabled={disabled} form={form} onChange={onChange} />
       )}
-      {isPercentileMetric && (
-        <Col lg={3}>
+
+      {isPercentileMetric && !hideTimeWindow && (
+        <Col lg={defaultColSize}>
           {(form.get('rollup') as Field<string>).map(field => (
             <FormGroup>
               <Label htmlFor="event-rollup" hasError={!field.valid && field.touched}>
@@ -81,8 +93,9 @@ export function ThresholdsFormGroup({ form, onChange, disabled, compactLayout }:
           ))}
         </Col>
       )}
+
       {!isPercentileMetric && (
-        <Col lg={3}>
+        <Col lg={hideTimeWindow ? reducedColSizeForFitIntoRow : defaultColSize}>
           {(form.get('aggregation') as Field<string>).map(field => (
             <FormGroup>
               <Label htmlFor="event-aggregation" hasError={!field.valid && field.touched}>
@@ -101,7 +114,8 @@ export function ThresholdsFormGroup({ form, onChange, disabled, compactLayout }:
           ))}
         </Col>
       )}
-      <Col lg={3}>
+
+      <Col lg={hideTimeWindow ? reducedColSizeForFitIntoRow : defaultColSize}>
         {(form.get('conditionOperator') as Field<string>).map(field => (
           <FormGroup>
             <Label htmlFor="event-conditionOperator" hasError={!field.valid && field.touched}>
@@ -119,7 +133,8 @@ export function ThresholdsFormGroup({ form, onChange, disabled, compactLayout }:
           </FormGroup>
         ))}
       </Col>
-      <Col lg={3}>
+
+      <Col lg={hideTimeWindow ? reducedColSizeForFitIntoRow : defaultColSize}>
         {(form.get('conditionValue') as Field<string>).map(field => (
           <FormGroup>
             <Label htmlFor="event-conditionValue" hasError={!field.valid && field.touched}>
@@ -137,6 +152,29 @@ export function ThresholdsFormGroup({ form, onChange, disabled, compactLayout }:
           </FormGroup>
         ))}
       </Col>
-    </Row>
+    </>
+  );
+}
+
+export function TimeWindowFormGroup({ form, disabled, onChange, columnsSize = 3 }: TimeWindowFormGroupProps) {
+  return (
+    <Col lg={columnsSize}>
+      {(form.get('window') as Field<string>)?.map(field => (
+        <FormGroup>
+          <Label htmlFor="event-window" hasError={!field.valid && field.touched}>
+            {t('in-settings:tabs.timeWindow')}
+          </Label>
+          <ComboBox
+            isDisabled={disabled}
+            name="event-window"
+            value={field.value}
+            options={getOptionsWithAdditionalValueIfMissing(windowOptions, field.value)}
+            onChange={e => onChange('window', e ? (e as Option).value : '')}
+            isClearable={false}
+          />
+          <TouchedMessages field={field} />
+        </FormGroup>
+      ))}
+    </Col>
   );
 }

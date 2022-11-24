@@ -830,7 +830,16 @@ export function onBuiltInMetricChange(metricName, onChange, entityType) {
           updatedForm = putRollupField(updatedForm);
         } else {
           updatedForm = updatedForm.remove('rollup');
-          updatedForm = putWindowField(updatedForm);
+
+          // Field can already be pre-filled with the "global" time-window form value
+          // e.g. in case of setting the metric on any added, new condition
+          if (!updatedForm.get('window')) {
+            // In case when only one condition exists, and
+            // we are switching from a Percentile metric
+            // then it must be added
+            updatedForm = putWindowField(updatedForm);
+          }
+
           updatedForm = putAggregationField(updatedForm);
         }
 
@@ -862,10 +871,18 @@ export function onCustomMetricChanged(metricName, onChange, customMetricsForPlug
   return e => {
     if ((metricName && !e) || (e && e.value !== metricName)) {
       let selectedMetric = e ? e.value : '';
-      onChange('metricName', selectedMetric, (updatedForm, eventSpec) => {
+      onChange('metricName', selectedMetric, updatedForm => {
         updatedForm = updatedForm.remove('rollup');
-        updatedForm = putWindowField(updatedForm, eventSpec);
-        updatedForm = putAggregationField(updatedForm, eventSpec);
+
+        // Field can already be pre-filled with the "global" time-window form value
+        // e.g. in case of setting the metric on any added, new condition
+        if (!updatedForm.get('window')) {
+          // it may only happen in theory
+          // Cleaning it up can be postponed,
+          // there is more things as aoon as no rollup metrics will be supported anymore
+          updatedForm = putWindowField(updatedForm);
+        }
+        updatedForm = putAggregationField(updatedForm);
 
         const metricInfo = getCustomMetricInfo(customMetricsForPlugin, selectedMetric);
 

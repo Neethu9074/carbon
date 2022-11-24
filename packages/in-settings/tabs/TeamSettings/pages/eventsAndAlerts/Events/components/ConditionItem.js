@@ -16,6 +16,7 @@ import { ThresholdsFormGroup } from 'in-settings/tabs/TeamSettings/pages/eventsA
 import CustomMetricSelector from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/CustomMetricSelector';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-settings/components/FormGroup';
+import { isBuiltInDynamicMetric } from 'in-sdk/metrics';
 import { Row, Col } from 'in-components/layout/Grid';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
@@ -25,6 +26,7 @@ export function ConditionItem({
   disabled,
   onChange,
   compactLayout,
+  hideTimeWindow,
   customMetricsForPlugin,
   entityType,
   builtInDataSourceSelected,
@@ -33,12 +35,14 @@ export function ConditionItem({
   const metricNameField = form.get('metricName');
   const metricName = metricNameField?.value;
 
+  const isNotDynamic = !entityType || !metricName || !isBuiltInDynamicMetric(entityType, metricName);
+
   return (
     <>
       {builtInDataSourceSelected && (
         <>
           <Row withoutTopMargin>
-            <Col lg={12}>
+            <Col lg={compactLayout ? (isNotDynamic ? 6 : 2) : 12}>
               {entityType && (
                 <FormGroup>
                   <Label htmlFor="event-metricName" hasError={!metricNameField.valid && metricNameField.touched}>
@@ -56,22 +60,30 @@ export function ConditionItem({
                 </FormGroup>
               )}
             </Col>
+
+            <DynamicBuiltInFormGroup
+              form={form}
+              onChange={onChange}
+              disabled={disabled}
+              compactLayout={compactLayout}
+            />
+
+            {entityType && metricName && (
+              <ThresholdsFormGroup
+                disabled={disabled}
+                form={form}
+                onChange={onChange}
+                hideTimeWindow={hideTimeWindow}
+              />
+            )}
           </Row>
-
-          <DynamicBuiltInFormGroup form={form} onChange={onChange} disabled={disabled} compactLayout={compactLayout} />
-
-          {entityType && metricName && (
-            <GroupContainer compactLayout={compactLayout}>
-              <ThresholdsFormGroup disabled={disabled} form={form} onChange={onChange} />
-            </GroupContainer>
-          )}
         </>
       )}
 
       {customDataSourceSelected && (
         <>
           <Row withoutTopMargin>
-            <Col lg={12}>
+            <Col lg={compactLayout ? 6 : 12}>
               {entityType && (
                 <FormGroup>
                   <Label htmlFor="event-metricName" hasError={!metricNameField.valid && metricNameField.touched}>
@@ -93,22 +105,18 @@ export function ConditionItem({
                 </FormGroup>
               )}
             </Col>
-          </Row>
 
-          {metricName && (
-            <GroupContainer compactLayout={compactLayout}>
-              <ThresholdsFormGroup disabled={disabled} form={form} onChange={onChange} />
-            </GroupContainer>
-          )}
+            {metricName && (
+              <ThresholdsFormGroup
+                disabled={disabled}
+                form={form}
+                onChange={onChange}
+                hideTimeWindow={hideTimeWindow}
+              />
+            )}
+          </Row>
         </>
       )}
     </>
   );
 }
-
-/* Layout depending on wrapper, FormGroup would add a bottom margin.
- * Replacing with simple a div in compact mode
- */
-const GroupContainer = ({ compactLayout, children }) => {
-  return compactLayout ? <div>{children}</div> : <FormGroup>{children}</FormGroup>;
-};

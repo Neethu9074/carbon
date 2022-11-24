@@ -14,7 +14,7 @@ import { CustomEventSpecificationWithMetadata, Nullish } from 'in-types';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import ComboBox, { Option } from 'in-components/ComboBox';
 import FormGroup from 'in-settings/components/FormGroup';
-import { Col, Row } from 'in-components/layout/Grid';
+import { Col } from 'in-components/layout/Grid';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import { t } from 'in-i18n';
@@ -44,8 +44,8 @@ export function DynamicBuiltInFormGroup({ form, onChange, disabled }: DynamicBui
   const metricPatternOperator = form.get('metricPatternOperator') as Field<string>;
 
   return (
-    <Row withoutTopMargin>
-      <Col lg={3}>
+    <>
+      <Col lg={2}>
         <FormGroup>
           <Label
             htmlFor="event-metricPatternOperator"
@@ -75,7 +75,7 @@ export function DynamicBuiltInFormGroup({ form, onChange, disabled }: DynamicBui
           <TouchedMessages field={metricPatternOperator} />
         </FormGroup>
       </Col>
-      <Col lg={6}>
+      <Col lg={2}>
         {metricPatternPlaceholder && (
           <FormGroup>
             <Label
@@ -96,7 +96,7 @@ export function DynamicBuiltInFormGroup({ form, onChange, disabled }: DynamicBui
           </FormGroup>
         )}
       </Col>
-    </Row>
+    </>
   );
 }
 
