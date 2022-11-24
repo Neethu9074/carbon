@@ -295,6 +295,8 @@
     "hostAvailabilityDetection": "Host availability detection",
     "pleaseSelectASeverity": "Please select a severity",
     "pleaseEnterAValidMetric": "Please enter a valid metric.",
+    "noMoreThanOneThresholdCanBeDefinedOnSameMetric": "No more than one threshold can be defined on the same metric.",
+    "onlyOneRuleIsAllowedToHaveDifferentOperatorThanIs": "When defining multiple metrics by pattern, only one rule is allowed to use a different matching operator from 'is'.",
     "thisEntityTypeHasBeenDeprecated": "This entity type has been deprecated. Please choose a different type.",
     "failedToSaveSettings": "Failed to save settings: {{err}}",
     "events": "Events",

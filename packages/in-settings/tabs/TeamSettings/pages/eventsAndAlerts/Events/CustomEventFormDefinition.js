@@ -23,6 +23,7 @@ import {
   getBuiltInMetricInfo,
   getCustomMetricInfo
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customMetricUtils';
+import { customEventRulesValidator } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customEventRuleValidations';
 import {
   isAppDataEntityType,
   mapConditionValue
@@ -233,7 +234,7 @@ function putAllDataSourceFields(form, eventSpec) {
     .reduce(
       (listForm, subForm) => listForm.push(subForm),
       createListForm({
-        // TODO: add validator: ...
+        validator: customEventRulesValidator
       })
     );
 
@@ -535,7 +536,7 @@ export function updateFormDefinitionForDataSource(form, previousDataSource, even
     form = form.put(
       'rules',
       createListForm({
-        // validator: TODO: add MultiRuleValidator here
+        validator: customEventRulesValidator
       })
     );
     form = form.updateIn(['entityType'], field => field.setValue(null));

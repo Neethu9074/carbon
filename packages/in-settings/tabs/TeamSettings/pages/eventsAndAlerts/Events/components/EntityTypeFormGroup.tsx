@@ -10,6 +10,7 @@ import React from 'react';
 import { putAllDataSourceFieldsForOneRule } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import { disallowAppDataLegacyEventsEnabled, hideAppDataLegacyEventsEnabled } from 'in-services/featureFlags';
 import { isAppDataEntityType } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
+import { customEventRulesValidator } from '../customEventRuleValidations';
 import { CustomEventSpecificationWithMetadata, Nullish } from 'in-types';
 import ComboBox, { Option, Options } from 'in-components/ComboBox';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -55,7 +56,7 @@ export function EntityTypeFormGroup({
             return updatedForm.put(
               'rules',
               createListForm({
-                // TODO need to add the Rules-Validator here: validator: ...
+                validator: customEventRulesValidator,
                 items: [putAllDataSourceFieldsForOneRule(newEntityType, {})]
               })
             );
