@@ -12,6 +12,8 @@ import { FacetedSearchPresenter } from 'in-websites/analyze/AnalyzeView2_0/compo
 import QueryBuilderWorkspace from 'in-websites/analyze/AnalyzeView2_0/components/QueryBuilderWorkspace';
 import getWebsiteBeaconsForPageLoad from 'in-websites/subscriptions/getWebsiteBeaconsForPageLoad';
 import { addDataSourceToBackendQueryModel } from 'in-websites/analyze/AnalyzeView2_0/util';
+import getWebsitePartialBeacons from 'in-websites/subscriptions/getWebsitePartialBeacons';
+import { websiteBeaconQueryOptimizationEnabled } from 'in-services/featureFlags';
 import getWebsiteBeacons from 'in-websites/subscriptions/getWebsiteBeacons';
 import PageLoadView from 'in-websites/analyze/PageLoadView/PageLoadView';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
@@ -277,14 +279,30 @@ export default function Beacons(props) {
 }
 
 function getTableData({ timeConfig, backendQueryModel, orderBy, cursor, dataSource }) {
-  return getWebsiteBeacons({
+  if (!websiteBeaconQueryOptimizationEnabled) {
+    // query in the old way if optimization is disabled (enabled by default)
+    return getWebsiteBeacons({
+      pagination: {
+        cursor,
+        retrievalSize
+      },
+      order: orderBy,
+      timeConfig,
+      tagFilterExpression: addDataSourceToBackendQueryModel({ backendQueryModel, dataSource })
+    });
+  }
+
+  return getWebsitePartialBeacons({
     pagination: {
       cursor,
       retrievalSize
     },
     order: orderBy,
     timeConfig,
-    tagFilterExpression: addDataSourceToBackendQueryModel({ backendQueryModel, dataSource })
+    tagFilterExpression: addDataSourceToBackendQueryModel({ backendQueryModel, dataSource }),
+    metricSelector: {
+      selector: 'SELECT_PREDEFINED'
+    }
   });
 }
 

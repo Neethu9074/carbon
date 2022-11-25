@@ -285,6 +285,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'websiteBeaconQueryOptimizationEnabled',
+    instanaCtlKey: 'feature.website.beacon.query.optimization.enabled',
+    defaultValue: true
+  },
+  {
     uiClientKey: 'actionAutomationEnabled',
     instanaCtlKey: 'feature.automation.enabled',
     defaultValue: false

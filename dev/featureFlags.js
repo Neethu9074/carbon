@@ -67,5 +67,6 @@ module.exports = {
   pluginMetricStatisticsEnabled: true,
   mobileAppCrashBeaconEnabled: true,
   k8sTimeShiftEnabled: true,
-  syntheticBrowserScriptEnabled: true
+  syntheticBrowserScriptEnabled: true,
+  websiteBeaconQueryOptimizationEnabled: true
 };
