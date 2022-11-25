@@ -122,7 +122,6 @@ export default function Internal() {
           path="/internal/monitoringUnit/appdataBatchingInsights"
           children={wrapInInternalView(BatchingInsights)}
         />,
-        <Route key="appdata" path="/internal/monitoringUnit/appdata" children={wrapInInternalView(Appdata)} />,
         <Route
           key="appdataLiveAggregator"
           path="/internal/monitoringUnit/appdataLiveAggregator"
