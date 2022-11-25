@@ -86,10 +86,10 @@ export function getType(beacon: WebsiteMonitoringBeacon) {
 
 export function getResourceTypes() {
   return (
-    Object.keys(types)
+    (Object.keys(types) as Array<keyof typeof types>)
       // Errors and XHR don't make sense as resource types
       .filter(k => k && k !== 'xhr' && k !== 'error' && k !== 'custom' && k !== 'pageChange')
-      .sort() as Array<keyof typeof types>
+      .sort()
   );
 }
 
