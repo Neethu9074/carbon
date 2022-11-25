@@ -6,6 +6,8 @@
 
 import React from 'react';
 
+import { Spacer } from '@instana/components';
+
 import {
   updateFormDefinitionForDataSource,
   systemRules,
@@ -28,6 +30,7 @@ import {
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customEventFormUtil';
 import HostAvailabilityFormGroup from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/HostAvailabilityFormGroup';
 import { EntityTypeFormGroup } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/EntityTypeFormGroup';
+import { TimeWindowFormGroup } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/ThresholdsFormGroup';
 import { MultiConditions } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/MultiConditions';
 import { hideAppDataLegacyEventsEnabled, deprecateAppDataLegacyEventsEnabled } from 'in-services/featureFlags';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -65,8 +68,16 @@ export function ConditionsSection({
 
   return (
     <>
+      {rulesForm?.hierarchyTouched && rulesForm?.valid === false && (
+        <Row withoutTopMargin>
+          <Col lg={12}>
+            <TouchedMessages field={rulesForm} />
+          </Col>
+        </Row>
+      )}
+
       <Row>
-        <Col lg={6}>
+        <Col lg={4}>
           <FormGroup>
             <Label htmlFor="event-data-source" hasError={!dataSourceField.valid && dataSourceField.touched}>
               {t('in-settings:tabs.source')}
@@ -86,7 +97,7 @@ export function ConditionsSection({
             <TouchedMessages field={dataSourceField} />
           </FormGroup>
         </Col>
-        <Col lg={6}>
+        <Col lg={4}>
           {isSystemRuleDataSourceSelected(form) && (
             <FormGroup>
               <Label htmlFor="event-system-rule" hasError={!systemRuleField.valid && systemRuleField.touched}>
@@ -129,6 +140,14 @@ export function ConditionsSection({
             />
           )}
         </Col>
+        {(builtInDataSourceSelected || customDataSourceSelected) && rulesForm?.size >= 1 && !appDataEntityType && (
+          <TimeWindowFormGroup
+            form={rulesForm.get(0)}
+            onChange={getOnTimeWindowChangeUpdateAllRules(onChange)}
+            disabled={disabled}
+            columnsSize={4}
+          />
+        )}
       </Row>
 
       {isSystemRuleDataSourceSelected(form) && (
@@ -163,6 +182,20 @@ export function ConditionsSection({
         !hideLegacyAppDataEventDeprecationInfo &&
         !disabled &&
         appDataEntityType && <LegacyAppdataEventInfoMessage />}
+
+      <Spacer vertical="normal" />
     </>
   );
+}
+
+function getOnTimeWindowChangeUpdateAllRules(onChangeRoot) {
+  return (ruleFieldName, value) => {
+    onChangeRoot(form => {
+      let rulesForm = form.get('rules');
+      for (let i = 0; i < rulesForm.size; i++) {
+        rulesForm = rulesForm.updateIn([i, ruleFieldName], f => f.setValue(value).setTouched(true));
+      }
+      return form.put('rules', rulesForm);
+    });
+  };
 }

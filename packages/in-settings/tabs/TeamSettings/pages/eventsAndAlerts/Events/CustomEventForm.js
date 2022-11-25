@@ -30,10 +30,8 @@ import ScopeSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/
 import { combinedValidationResults, valid } from 'in-settings/validation';
 import { actionAutomationEnabled } from 'in-services/featureFlags';
 import SectionHeading from 'in-settings/components/SectionHeading';
-import TouchedMessages from 'in-components/form/TouchedMessages';
 import { isBlank, isNotBlank } from 'in-services/util/string';
 import BetaBadge from 'in-components/BetaBadge/BetaBadge';
-import { Col, Row } from 'in-components/layout/Grid/Grid';
 import { containsMetricInList } from 'in-sdk/metrics';
 import { validate } from 'in-api/search';
 import connectTo from 'in-hoc/connectTo';
@@ -152,12 +150,6 @@ function EventForm({
       <EventDetailsSection disabled={disabled} form={form} onChange={onChange} />
 
       <SectionHeading>{t('in-settings:tabs.2Condition')}</SectionHeading>
-
-      <Row>
-        <Col lg={12}>
-          <TouchedMessages field={form.get('rules')} />
-        </Col>
-      </Row>
 
       <ConditionsSection
         disabled={disabled}

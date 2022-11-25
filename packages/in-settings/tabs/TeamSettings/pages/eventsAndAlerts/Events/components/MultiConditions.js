@@ -4,12 +4,12 @@
  * Copyright IBM Corp. 2022
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
 import { Stack, Button } from '@instana/components';
 
 import { putAllDataSourceFieldsForOneRule } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
-import { TimeWindowFormGroup } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/ThresholdsFormGroup';
 import { ConditionItem } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/ConditionItem';
 import { isAppDataEntityType } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
@@ -20,6 +20,8 @@ import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/MultiConditions.mless';
+
+const maxConditions = 5;
 
 function getOnChangeUpdateRuleByIdx(onChangeRoot, idx) {
   return (ruleFieldName, value, updateFn) => {
@@ -34,18 +36,6 @@ function getOnChangeUpdateRuleByIdx(onChangeRoot, idx) {
         form.updateIn(['rules', idx, ruleFieldName], ruleItemField => ruleItemField.setValue(value).setTouched(true))
       );
     }
-  };
-}
-
-function getOnChangeUpdateAllRules(onChangeRoot) {
-  return (ruleFieldName, value) => {
-    onChangeRoot(form => {
-      let rulesForm = form.get('rules');
-      for (let i = 0; i < rulesForm.size; i++) {
-        rulesForm = rulesForm.updateIn([i, ruleFieldName], f => f.setValue(value).setTouched(true));
-      }
-      return form.put('rules', rulesForm);
-    });
   };
 }
 
@@ -66,23 +56,12 @@ export function MultiConditions({
 
   return (
     <>
-      {rulesForm?.size >= 1 && canHaveMultipleConditions && (
-        <Row withoutTopMargin>
-          <TimeWindowFormGroup
-            form={rulesForm.get(0)}
-            onChange={getOnChangeUpdateAllRules(onChangeRoot)}
-            disabled={disabled}
-            compactLayout
-          />
-        </Row>
-      )}
-
       {canHaveMultipleConditions && (
-        <Row withBottomMargin>
+        <Row withoutTopMargin>
           <Col lg={12}>
-            <Stack direction="horizontal" distribution="spaceBetween">
-              <div className={locals.header}>{t('in-settings:tabs.team.events.multiConditions')}</div>
+            <Stack direction="horizontal" distribution="end">
               <Button
+                disabled={rulesForm.size >= maxConditions}
                 kind="action"
                 icon="lib_openclose_add_circle_outline"
                 onClick={() => {
@@ -129,7 +108,7 @@ export function MultiConditions({
         return (
           <React.Fragment key={idx}>
             {idx > 0 && (
-              <Row singleRowTopMargin withBottomMargin>
+              <Row className={locals.andPill}>
                 <Col lg={12}>
                   <Pill color={theme.lib.colors.primary1}>AND</Pill>
                 </Col>
@@ -140,6 +119,7 @@ export function MultiConditions({
               <Stack direction="horizontal" gap="xsmall" align="center">
                 <div className={locals.conditionWrapper}>{conditionForm}</div>
                 <IconButton
+                  className={classNames({ [locals.hidden]: rulesForm.size === 1 })}
                   disabled={disabled}
                   type="lib_actions_delete"
                   kind="primaryv2"

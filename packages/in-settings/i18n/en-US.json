@@ -98,7 +98,6 @@
   "tabs": {
     "team": {
       "events": {
-        "multiConditions": "Conditions",
         "addCondition": "Add Condition",
         "withDeprecatedSuffix": "{{pluginName}} (deprecated)",
         "placeholder": "Placeholder"

@@ -19,4 +19,13 @@
   .conditionWrapper {
     flex: 1;
   }
+
+  .hidden {
+    visibility: hidden;
+  }
+
+  .andPill {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
 }

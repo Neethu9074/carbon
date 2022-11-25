@@ -229,14 +229,10 @@ function putAllDataSourceFields(form, eventSpec) {
     })
   );
 
-  const rulesFormList = (eventSpec.rules ?? [])
-    .map(rule => putAllDataSourceFieldsForOneRule(entityType, rule))
-    .reduce(
-      (listForm, subForm) => listForm.push(subForm),
-      createListForm({
-        validator: customEventRulesValidator
-      })
-    );
+  const rulesFormList = createListForm({
+    items: (eventSpec.rules ?? []).map(rule => putAllDataSourceFieldsForOneRule(entityType, rule)),
+    validator: customEventRulesValidator
+  });
 
   form = form.put('rules', rulesFormList);
 
