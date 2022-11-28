@@ -324,7 +324,7 @@ function getHeaderActions(props) {
         cursor={cursor}
         columns={columns}
       />
-      <MetricCatalogAndSortingConfigurator {...props} />;
+      <MetricCatalogAndSortingConfigurator {...props} />
     </>
   );
 }
