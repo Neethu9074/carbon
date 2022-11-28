@@ -5,7 +5,7 @@
 
 import {
   ApplicationTimeThreshold,
-  RequestImpactApplicationTimeThreshold,
+  TraceImpactApplicationTimeThreshold,
   UserImpactWebsiteTimeThreshold,
   ViolationsInPeriodWebsiteTimeThreshold,
   WebsiteTimeThreshold
@@ -103,10 +103,10 @@ export function getDescription(
         );
       }
     }
-    case timeThresholdTypes.requestImpact: {
-      const { requests } = timeThreshold as RequestImpactApplicationTimeThreshold;
+    case timeThresholdTypes.traceImpact: {
+      const { requests } = timeThreshold as TraceImpactApplicationTimeThreshold;
 
-      return t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdDescriptionRequestImpact', {
+      return t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdDescriptionTraceImpact', {
         count: requests,
         formattedTimeWindow
       });

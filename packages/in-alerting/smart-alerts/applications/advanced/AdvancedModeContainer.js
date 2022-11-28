@@ -183,7 +183,7 @@ export default function AdvancedModeContainer(props) {
               onChange={onChange}
               updateForm={updateForm}
               impactTimeThresholdDisabled={blueprintConfig.impactTimeThresholdDisabled}
-              hasRequestImpactOption
+              hasTraceImpactOption
             />
           )
         },
