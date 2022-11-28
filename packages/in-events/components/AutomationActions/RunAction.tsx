@@ -129,7 +129,7 @@ export default function RunAction({ action, volatileId, event, test }: Props) {
             {body && <p>{t('in-events:body', { body })}</p>}
             {headerEntries?.length > 0 && (
               <p>
-                {t('in-events:headers')}:
+                {t('in-events:headers')}
                 <ul>
                   {headerEntries.map(h => (
                     <li key={h[0]}>
