@@ -148,7 +148,7 @@
     "@instana/eslint-config-commons": "^1.1.1",
     "@instana/import-sort-style-simon": "1.2.1",
     "@instana/pseudo-translation": "^1.2.5",
-    "@instana/types": "1.239.723",
+    "@instana/types": "1.239.724",
     "@testing-library/jest-dom": "^5.16.3",
     "@testing-library/react": "^12.1.4",
     "@testing-library/react-hooks": "^7.0.2",
