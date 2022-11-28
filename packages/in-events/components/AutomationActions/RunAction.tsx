@@ -124,12 +124,12 @@ export default function RunAction({ action, volatileId, event, test }: Props) {
             className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
             title={t('in-events:request')}
           >
-            <p>Method: {method}</p>
-            <p>Host: {host}</p>
-            {body && <p>Body: {body}</p>}
+            <p>{t('in-events:method', { method })}</p>
+            <p>{t('in-events:host', { host })}</p>
+            {body && <p>{t('in-events:body', { body })}</p>}
             {headerEntries?.length > 0 && (
               <p>
-                Headers:
+                {t('in-events:headers')}:
                 <ul>
                   {headerEntries.map(h => (
                     <li key={h[0]}>
