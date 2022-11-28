@@ -61,12 +61,14 @@
     "theQueryConfigurationIsInvalid": "La configurazione della query non è valida. Risolvere gli errori di convalida prima di proseguire.",
     "allInfrastructure": "Tutte le infrastrutture",
     "name": "Nome",
-    "search": "Ricerca",
+    "search": "Ricerca un tipo",
     "explore": "Esplora",
     "count": "Conteggio",
     "errors": {
-      "maximumNumberOfGroups": "Questa query ha troppi risultati. Ridurre utilizzando un filtro più restrittivo o dei gruppi più ampi"
-    }
+      "maximumNumberOfGroups": "Questa query ha troppi risultati. Ridurre utilizzando un filtro più restrittivo o dei gruppi più ampi",
+      "generalError": "Si è verificato un errore imprevisto. Limitare utilizzando un filtro più restrittivo e riprovare"
+    },
+    "entityTypes": "Tipi di entità {{count, parenthesis}}"
   },
   "tableView": {
     "showCountsAndAveragesAcrossTheCurrentTimeWindow": "Mostra i conteggi e le medie della finestra temporale corrente.",

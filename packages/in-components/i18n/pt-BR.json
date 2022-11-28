@@ -77,6 +77,7 @@
     "eumPageName": "EUM",
     "settingsPageName": "Configurações",
     "requestQuoteBtn": "Solicitar uma cotação",
+    "buyNowBtn": "Compre agora",
     "alreadyHaveLicense": "Já tem uma licença? Ative-a no <linkToDocker>Docker</linkToDocker> ou no <linkToKubernetes>Kubernetes</linkToKubernetes>."
   },
   "releaseNotesDialog": {
@@ -234,14 +235,7 @@
     "queryProgress": {
       "preparing": "Preparando…",
       "runningQuery": "Executando a consulta…",
-      "timeout": "Essa consulta atingiu o tempo limite.",
-      "timeoutEstimated": "Sua consulta não pôde ser processada devido ao alto volume de chamadas.",
-      "timeoutInfo": "Selecione um intervalo de tempo mais curto.",
-      "inputError": "Houve um erro de entrada.",
-      "tooManyRequests": "Muitas solicitações",
-      "tooManyRequestsInfo": "Nosso sistema está ocupado no momento. Tente novamente mais tarde.",
-      "serverError": "Erro do servidor",
-      "serverErrorInfo": "Ocorreu um erro inesperado. Tente novamente mais tarde ou entre em contato com o suporte para relatar o erro."
+      "inputError": "Houve um erro de entrada."
     }
   },
   "aboutInstanaDialog": {
@@ -308,7 +302,14 @@
     "services": "Serviços"
   },
   "error": {
-    "erroneousResultPresenterMessage": "Ocorreu um erro inesperado. Atualize a página ou tente novamente mais tarde."
+    "erroneousResultPresenterMessage": "Ocorreu um erro inesperado. Atualize a página ou tente novamente mais tarde.",
+    "timeout": "Essa consulta atingiu o tempo limite.",
+    "timeoutInfo": "Selecione um intervalo de tempo mais curto.",
+    "timeoutEstimated": "Sua consulta não pôde ser processada devido ao alto volume de chamadas.",
+    "tooManyRequests": "Muitas solicitações",
+    "tooManyRequestsInfo": "Nosso sistema está ocupado no momento. Tente novamente mais tarde.",
+    "serverError": "Erro do servidor",
+    "serverErrorInfo": "Ocorreu um erro inesperado. Tente novamente mais tarde ou entre em contato com o suporte para relatar o erro."
   },
   "expandableCard": {
     "tooltipShowLess": "Mostrar menos",

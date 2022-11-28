@@ -31,7 +31,7 @@ export function getDefaultTimeWindow(thresholdType: ThresholdType | undefined) {
  * its type.
  *
  * @param timeThresholdConfig has a different fields depending on its type
- * @param granularity only for requestImpact: used as the default windowType, fallback is defaultGranularity
+ * @param granularity only for trace impact (requestImpact) option: used as the default windowType, fallback is defaultGranularity
  * @param thresholdType type of threshold ('staticThreshold' | 'historicBaseline' | 'adaptiveBaseline' | undefined)
  */
 export default function createTimeThresholdForm(
@@ -45,19 +45,18 @@ export default function createTimeThresholdForm(
     case 'userImpactOfViolationsInSequence':
       return createUserImpactOfViolationsInSequenceForm(timeThresholdConfig as UserImpactTimeThreshold, thresholdType);
     case 'requestImpact':
-      return createRequestImpactForm(timeThresholdConfig as RequestImpactTimeThreshold, granularity, thresholdType);
+      return createTraceImpactForm(timeThresholdConfig as TraceImpactTimeThreshold, granularity, thresholdType);
     case 'violationsInSequence':
-    default:
       return createViolationsInSequenceForm(timeThresholdConfig as ViolationsInSequenceTimeThreshold, thresholdType);
   }
 }
 
 interface TimeThresholdConfig {
   timeWindow: number;
-  type: string;
+  type: TimeThresholdType;
 }
 
-interface RequestImpactTimeThreshold extends TimeThresholdConfig {
+interface TraceImpactTimeThreshold extends TimeThresholdConfig {
   requests?: number;
 }
 
@@ -119,8 +118,8 @@ export function createUserImpactOfViolationsInSequenceForm(
   return form;
 }
 
-export function createRequestImpactForm(
-  { requests }: RequestImpactTimeThreshold,
+export function createTraceImpactForm(
+  { requests }: TraceImpactTimeThreshold,
   granularity: number,
   thresholdType: ThresholdType | undefined
 ): MapForm {

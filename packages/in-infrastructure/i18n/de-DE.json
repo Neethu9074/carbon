@@ -61,12 +61,14 @@
     "theQueryConfigurationIsInvalid": "Die Abfragekonfiguration ist ungültig. Beheben Sie die Gültigkeitsfehler, bevor Sie fortfahren.",
     "allInfrastructure": "Gesamte Infrastruktur",
     "name": "Name",
-    "search": "Suchen",
+    "search": "Typ suchen",
     "explore": "Durchsuchen",
     "count": "Anzahl",
     "errors": {
-      "maximumNumberOfGroups": "Diese Abfrage hat zu viele Ergebnisse. Grenzen Sie die Suche mithilfe eines restriktiveren Filters oder einer breiteren Gruppe ein."
-    }
+      "maximumNumberOfGroups": "Diese Abfrage hat zu viele Ergebnisse. Grenzen Sie die Suche mithilfe eines restriktiveren Filters oder einer breiteren Gruppe ein.",
+      "generalError": "Ein unerwarteter Fehler ist aufgetreten. Verwenden Sie einen restriktiveren Filter und versuchen Sie es erneut."
+    },
+    "entityTypes": "Entitätstypen {{count, parenthesis}}"
   },
   "tableView": {
     "showCountsAndAveragesAcrossTheCurrentTimeWindow": "Zeigt Zahlen und Durchschnittswerte für das aktuelle Zeitfenster an.",

@@ -92,14 +92,14 @@ const LogTagsTable = ({ item, selectedId, onSelectTagHref, getHrefToGroupedView 
     });
 
   const MappedTags = Object.entries(groupAndSortTags(tags)).flatMap(([key, value]) => {
-        const isTagGroup = key !== 'other' && value.length > 0;
-        if (isTagGroup) {
-          const groupLabel = decamelize(key)
-            .split(' ')
-            .map(word => capitalize(word))
-            .join(' ');
-          const GroupTags = mapTags(value);
-          const GroupHeaderTag = <TagGroupHeader key={groupLabel} groupLabel={groupLabel} />;
+    const isTagGroup = key !== 'other' && value.length > 0;
+    if (isTagGroup) {
+      const groupLabel = decamelize(key)
+        .split(' ')
+        .map(word => capitalize(word))
+        .join(' ');
+      const GroupTags = mapTags(value);
+      const GroupHeaderTag = <TagGroupHeader key={groupLabel} groupLabel={groupLabel} />;
 
       return [GroupHeaderTag, ...GroupTags];
     } else return mapTags(value);

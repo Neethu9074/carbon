@@ -24,6 +24,7 @@ import {
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 // @ts-expect-error Module needs to be translated to TS
 import Sticky from 'in-components/Sticky';
+import BrowserTestTimeline from 'in-synthetics/dashboards/details/components/BrowserTestTimeline';
 import getTestResultDetailData from 'in-synthetics/subscriptions/getTestResultDetailData';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import getTestResultListStatus from 'in-synthetics/utils/getTestResultListStatus';
@@ -55,14 +56,13 @@ export default function SyntheticAnalyzeView() {
   const testId: string = getMatrixParameter(location, syntheticDetailsPath, 'testId') ?? '';
   const resultId: string = getMatrixParameter(location, syntheticDetailsPath, 'id') ?? '';
   const startTime: number = +(getMatrixParameter(location, syntheticDetailsPath, 'startTime') ?? 0);
+  const finishTime: number = +(getMatrixParameter(location, syntheticDetailsPath, 'finishTime') ?? 0);
   const status: number = +(getMatrixParameter(location, syntheticDetailsPath, 'status') ?? 0);
   const responseTime: number = +(getMatrixParameter(location, syntheticDetailsPath, 'responseTime') ?? 0);
   const responseSize: number = +(getMatrixParameter(location, syntheticDetailsPath, 'responseSize') ?? 0);
   const test: TestResponse = useObservable<any, [number]>(() => getTest(testId), [0]) || dummyTest;
   const testType: string = getMatrixParameter(location, syntheticDetailsPath, 'type') ?? '';
   const isHTTPActionType: boolean = testType === 'HTTPAction';
-  // @ts-ignore Temporal while the implementations that uses this const are implemented.
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const isBrowserScriptTest: boolean = testType === 'BrowserScript' && syntheticBrowserScriptEnabled;
   const formatType: string = isBrowserScriptTest ? 'HAR' : 'SUBTRANSACTIONS';
 
@@ -185,7 +185,11 @@ export default function SyntheticAnalyzeView() {
                 >
                   <KpiCard
                     title={t('in-synthetics:dashboard.summary.requests')}
-                    value={details.data?.subtransactions?.length}
+                    value={
+                      isBrowserScriptTest
+                        ? details.data?.har?.log.entries.length
+                        : details.data?.subtransactions?.length
+                    }
                   />
                 </Col>
 
@@ -205,11 +209,11 @@ export default function SyntheticAnalyzeView() {
               )}
               <Row>
                 <Col lg={12}>
-                  <Timeline
-                    details={details}
-                    startTime={get(resultList.data?.items[0], ['metrics', 'start_time', 0, 1], 0)}
-                    finishTime={get(resultList.data?.items[0], ['metrics', 'start_time', 0, 0], 0)}
-                  />
+                  {isBrowserScriptTest ? (
+                    <BrowserTestTimeline details={details} startTime={startTime} finishTime={finishTime} />
+                  ) : (
+                    <Timeline details={details} startTime={startTime} finishTime={finishTime} />
+                  )}
                 </Col>
               </Row>
               {!isHTTPActionType && (

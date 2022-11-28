@@ -34,11 +34,13 @@ export default {
   },
   data_processing_issue_agent_message_filtered: {
     issueDescription: {
-      Component: function ({reason}) {
-        return <>
-          <div>{t('in-forge:plugins.host.messagesAreBeingFilteredFromThisHost')}</div>
-          <div>{reason ?? 'The rationale for filtering was not provided'}</div>
-        </>
+      Component: function({ reason }) {
+        return (
+          <>
+            <div>{t('in-forge:plugins.host.messagesAreBeingFilteredFromThisHost')}</div>
+            <div>{reason ?? 'The rationale for filtering was not provided'}</div>
+          </>
+        );
       }
     },
     explanationLinkLabel: t('in-forge:plugins.host.troubleshootingDocs'),

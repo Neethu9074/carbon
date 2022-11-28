@@ -6,6 +6,7 @@
 import { fromJS } from 'immutable';
 import { expect } from 'chai';
 
+import { isInformationSchemaDataAvailable } from './util';
 import { isPerformanceDataAvailable } from './util';
 
 describe('isPerformanceDataAvailable', () => {
@@ -51,5 +52,27 @@ describe('isPerformanceDataAvailable', () => {
     });
 
     expect(isPerformanceDataAvailable(snapshot)).to.equal(false);
+  });
+});
+
+describe('isInformationSchemaDataAvailable', () => {
+  it('for valid information_schema permissions should return true', () => {
+    const snapshot = fromJS({
+      data: {
+        sensorInformationSchemaStatus: 'OK'
+      }
+    });
+
+    expect(isInformationSchemaDataAvailable(snapshot)).to.equal(true);
+  });
+
+  it('for invalid information_schema permissions should return false', () => {
+    const snapshot = fromJS({
+      data: {
+        sensorInformationSchemaStatus: "User doesn't have PROCESS permission to access information_schema database."
+      }
+    });
+
+    expect(isInformationSchemaDataAvailable(snapshot)).to.equal(false);
   });
 });

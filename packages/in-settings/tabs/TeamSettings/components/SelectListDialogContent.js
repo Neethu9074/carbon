@@ -44,6 +44,7 @@ export default function SelectListDialogContent({
       onSubmit={e => {
         e.preventDefault();
         onSubmit(selectedItems);
+        setSelectedItems([]);
         if (!preventCloseOnSubmit) close();
       }}
       autoComplete="off"

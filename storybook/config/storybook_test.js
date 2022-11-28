@@ -10,7 +10,7 @@ import path from 'path';
 import { mount } from 'enzyme';
 
 initStoryshots({
-  configPath: path.join(__dirname, '.', '.', 'preview.js'),
+  configPath: path.join(__dirname, '.'),
   framework: 'react',
   test:
     // Just render the story, don't check the output at all.

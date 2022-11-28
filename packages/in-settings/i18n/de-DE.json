@@ -97,6 +97,10 @@
   },
   "tabs": {
     "team": {
+      "events": {
+        "withDeprecatedSuffix": "{{pluginName}} (veraltet)",
+        "placeholder": "Platzhalter"
+      },
       "customPayload": {
         "unknownTag": "Unbekannter Tag: {{tagName}}"
       }
@@ -542,6 +546,8 @@
     "savingGroup": "Gruppe wird gespeichert",
     "groupSuccessfullySaved": "Gruppe wurde erfolgreich gespeichert.",
     "groups": "Gruppen",
+    "groupDeleteTooltip_Default": "Die Standardgruppe ist eine integrierte Gruppe und kann nicht gelöscht oder umbenannt werden.",
+    "groupDeleteTooltip_Owner": "Eignergruppe ist eine integrierte Gruppe und kann nicht gelöscht oder umbenannt werden.",
     "addGroup": "Gruppe hinzufügen",
     "pendingInvitations": "Anstehende Einladungen",
     "revoke": "Widerrufen",
@@ -845,10 +851,9 @@
     "actions": "Aktionen",
     "action": "Aktion",
     "actionWithNameForDelete": "Aktion {{actionName}}",
-    "filterActions": "Filteraktionen",
+    "searchActions": "Aktionen suchen",
     "lastModified": "Letzte Änderung",
     "script": "Script",
-    "http": "HTTP",
     "docLink": "Dokumentationslink",
     "deletedEventMessage": "Sie suchen eine gelöschte Ereigniskonfiguration. Änderungen sind nicht möglich.",
     "actionTypeHelper": "Der Dokumentationslink verweist auf eine URL, das Script ist für Linux-/Windows-Maschinen (nur Bash wird jetzt unterstützt) und http ist ein Webhook.",
@@ -858,7 +863,13 @@
     "showsUpInTheActionDescription": "Wird in der Aktionsbeschreibung angezeigt. Sollte so beschreibend wie möglich sein.",
     "docLinkDescription": "URL zum Korrekturinhalt.",
     "scriptDescription": "Scriptinhalt",
-    "execute": "Ausführen"
+    "execute": "Ausführen",
+    "confidence_low": "Niedrig",
+    "confidence_medium": "Mittel",
+    "confidence_high": "Hoch",
+    "confidence": "{{context}}",
+    "confidenceTitle": "Zuverlässigkeit",
+    "test": "Test"
   },
   "languageSelection": {
     "language": "Sprache",

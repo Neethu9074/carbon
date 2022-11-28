@@ -9,7 +9,6 @@ import {
 } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { thresholdTypeOptions } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/thresholdFormData';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import { adaptiveBaselineEnabled } from 'in-services/featureFlags';
 import { AlertEvaluationType, ThresholdType } from 'in-types';
 import { deepFreeze } from 'in-services/util/object';
 import { t } from 'in-i18n';
@@ -19,15 +18,13 @@ type Options = readonly Option[];
 
 const baselineTypes = [HISTORIC_BASELINE, ADAPTIVE_BASELINE];
 
-export const applicationThresholdTypeOptions: Options = adaptiveBaselineEnabled
-  ? deepFreeze([
-      ...thresholdTypeOptions,
-      {
-        value: ADAPTIVE_BASELINE,
-        label: t('in-alerting:smartAlerts.components.smartAlertDialog.thresholdTypeOptionAdaptiveBaseline')
-      }
-    ])
-  : thresholdTypeOptions;
+export const applicationThresholdTypeOptions: Options = deepFreeze([
+  ...thresholdTypeOptions,
+  {
+    value: ADAPTIVE_BASELINE,
+    label: t('in-alerting:smartAlerts.components.smartAlertDialog.thresholdTypeOptionAdaptiveBaseline')
+  }
+]);
 
 /**
  * @returns true only if thresholdType is one of types 'historicBaseline' | 'adaptiveBaseline'

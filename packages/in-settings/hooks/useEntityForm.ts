@@ -51,7 +51,15 @@ const initialState = {
   saveEnabled: true
 };
 
-export default function useEntityForm<ENTITY>(props: Parameters<ENTITY>) {
+interface EntityFormState<ENTITY> extends State<ENTITY> {
+  onSubmit: (e: FormEvent) => void;
+  onChange: OnEntityChange<ENTITY>;
+  setForm: (form: MapForm) => void;
+  setSaveEnabled: (saveEnabled: boolean) => void;
+  isCreate: boolean;
+}
+
+export default function useEntityForm<ENTITY>(props: Parameters<ENTITY>): EntityFormState<ENTITY> {
   const [state, setState] = useState<State<ENTITY>>(initialState);
   const responseSubscription = useRef<Disposable>();
   const errorSubscription = useRef<Disposable>();

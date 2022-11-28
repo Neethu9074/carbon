@@ -7,7 +7,6 @@ import { isOneOfBaselineTypes } from 'in-alerting/smart-alerts/applications/data
 import { getAggregationOptions } from 'in-alerting/smart-alerts/components/smart-alert-dialog/form/ruleForm';
 import useFormSideEffects, { CHANGE_TYPES } from 'in-alerting/smart-alerts/hooks/useFormSideEffects';
 import { ADAPTIVE_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import { adaptiveBaselineEnabled } from 'in-services/featureFlags';
 
 export default function useSmartAlertFormSideEffects(form, setForm) {
   const effects = [
@@ -111,7 +110,7 @@ function requestThresholdOnEvaluationTypeChange(form) {
 function requestThresholdOnEntitySelectionChange(form) {
   const type = form.get('threshold').get('type').value;
 
-  if (adaptiveBaselineEnabled && type === ADAPTIVE_BASELINE) {
+  if (type === ADAPTIVE_BASELINE) {
     return requestThresholdSuggestion(form);
   }
 

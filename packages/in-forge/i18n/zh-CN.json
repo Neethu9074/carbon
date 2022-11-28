@@ -555,6 +555,8 @@
   "pluginName_httpd": "Apache HTTPd",
   "pluginName_ibmCics": "IBM CICS",
   "pluginName_ibmCics_plural": "IBM CICS",
+  "pluginName_ibmCtg": "IBM CTG",
+  "pluginName_ibmCtg_plural": "IBM CTG",
   "pluginName_ibmCloudClinicalData_plural": "IBM 临床数据",
   "pluginName_ibmCloudClinicalData_0": "IBM 临床数据",
   "pluginName_ibmCloudClinicalData_1": "IBM 临床数据",
@@ -1431,6 +1433,8 @@
   "tracingTypeName_cicshttpexit": "CICS HTTP 调用",
   "tracingTypeName_cicsrpcentry": "CICS RPC 调用",
   "tracingTypeName_cicsrpcexit": "CICS RPC 调用",
+  "tracingTypeName_ctgrpcentry": "CTG RPC 调用",
+  "tracingTypeName_ctgrpcexit": "CTG RPC 调用",
   "tracingTypeName_cicsmqentry": "CICS MQ 消息",
   "tracingTypeName_cicsmqexit": "CICS MQ 消息",
   "tracingTypeName_imsmqentry": "IMS MQ 消息",
@@ -1935,6 +1939,11 @@
   "tracingTypeName_postgres_0": "PostgreSQL 调用",
   "tracingTypeName_postgres_1": "PostgreSQL 调用",
   "tracingTypeName_postgres_2": "PostgreSQL 调用",
+  "tracingTypeName_prisma": "Prisma 调用",
+  "tracingTypeName_prisma_plural": "Prisma 调用",
+  "tracingTypeName_prisma_0": "Prisma 调用",
+  "tracingTypeName_prisma_1": "Prisma 调用",
+  "tracingTypeName_prisma_2": "Prisma 调用",
   "tracingTypeName_pyhc": "HTTP 调用",
   "tracingTypeName_pyhc_plural": "HTTP 调用",
   "tracingTypeName_pyhc_0": "HTTP 调用",
@@ -5595,6 +5604,8 @@
         "hadrSecondaryLog": "HADR 辅助日志信息",
         "hadrLogMetrics": "HADR 日志度量",
         "hadrTakeOverTime": "HADR 上次接管时间",
+        "hadrConnectStatusOrStandbyId": "hadrConnectStatus/StandbyID",
+        "hadr": "hadr",
         "vmonlockStatsValue": "锁定统计信息（内存）",
         "vmonlockStats": "锁定统计信息",
         "databaseVmondeltaStats": "事务性能（增量值）"
@@ -5789,6 +5800,7 @@
       "secLogPage": "辅助日志页面",
       "secLogPos": "辅助日志位置",
       "secLogTime": "辅助日志时间",
+      "HADR_CONNECT_STATUS": "HADR 连接状态",
       "hadrWaitsTotal": "HADR 等待总计",
       "sockSendBufReq": "请求的发送缓冲区",
       "sockSendBufActual": "实际发送缓冲区",
@@ -8147,6 +8159,7 @@
     "host": {
       "theOperatingSystemOfThisHostDoesNotSeemToOfferTheExtendedBerkeleyPacketFilterEBpfFunctionality": "该主机的操作系统似乎未提供进程异常终止检测所需的扩展 Berkeley Packet Filter (eBPF) 功能。",
       "theHostAgentIsVulnerableToLog4jCVE": "主机代理程序易受 Log4j CVE-2021-44228 和 CVE-2021-45046 攻击，请将代理程序安装更新为更高版本以缓解这些漏洞。",
+      "messagesAreBeingFilteredFromThisHost": "正在过滤来自此主机的消息，请联系支持人员以取消阻止此主机。",
       "troubleshootingDocs": "故障诊断文档",
       "dashboard": {
         "gpuMemoryProcess": "GPU 内存/进程",
@@ -8941,6 +8954,11 @@
                 "activeThreads": "活动线程数",
                 "ineligibleThreads": "不合格线程数",
                 "maxActiveThreads": "最大活动线程数"
+              },
+              "pagesFaultRate": {
+                "elapsedDatabaseFaults": "发生的数据库故障数",
+                "elapsedTotalFaults": "发生的故障总数",
+                "elapsedNonDatabaseFaults": "发生的非数据库故障数"
               }
             }
           },
@@ -9063,7 +9081,7 @@
             "messageSecondLevelText": "二级文本"
           },
           "spinningDiskType": {
-            "name": "磁盘信息",
+            "name": "旋转磁盘信息",
             "resourceName": "资源名称",
             "unitStorageCapacity": "存储容量",
             "percentUsed": "已用百分比",
@@ -9111,8 +9129,8 @@
       "substate": "子状态",
       "connectionName": "连接名称",
       "remoteQueueManager": "远程队列管理器",
-      "lastMessageDateTime": "上一个消息日期/时间",
-      "startDateTime": "启动日期/时间",
+      "lastMessageDateTime": "上次消息时间",
+      "startDateTime": "开始时间",
       "messagesSentReceived": "发送/接收的消息数",
       "messagesAvailable": "可用消息数",
       "sentReceived": "已发送/已接收",
@@ -9185,7 +9203,17 @@
         "calls": "调用数",
         "openInputs": "打开输入",
         "openOutputs": "打开输出",
-        "ibmMqQueue": "IBM MQ 队列"
+        "ibmMqQueue": "IBM MQ 队列",
+        "intervalStartDateTime": "时间间隔开始时间",
+        "intervalEndDateTime": "时间间隔结束时间",
+        "nonPersistentPutBytes": "非持久 Put 字节数",
+        "persistentPutBytes": "持久 Put 字节数",
+        "putFailCount": "PUT 失败计数",
+        "put1FailCount": "PUT1 失败计数",
+        "nonPersistentGetBytes": "非持久 Get 字节数",
+        "persistentGetBytes": "持久 Get 字节数",
+        "getFailCount": "获取失败计数",
+        "expiredMsgCount": "到期消息计数"
       },
       "name": "名称",
       "type": "类型",
@@ -9217,7 +9245,17 @@
       "onQueueMessageTime": "排队消息时间",
       "openInputCount": "打开输入计数",
       "openOutputCount": "打开输出计数",
-      "calls": "调用数"
+      "calls": "调用数",
+      "statistics": "MQ 队列统计信息",
+      "nonPersistentPutBytes": "非持久 Put 字节数",
+      "persistentPutBytes": "持久 Put 字节数",
+      "putFailCount": "PUT 失败计数",
+      "put1FailCount": "PUT1 失败计数",
+      "nonPersistentGetBytes": "非持久 Get 字节数",
+      "persistentGetBytes": "持久 Get 字节数",
+      "getFailCount": "获取失败计数",
+      "expiredMsgCount": "到期消息计数",
+      "statisticsWithCount": "统计信息 ({{count}})"
     },
     "ibmMqMftCoordiQmgr": {
       "dashboard": {
@@ -9225,7 +9263,13 @@
         "coordiQmgrName": "协调队列管理器",
         "coordiQmgrHost": "主机",
         "connectionChannel": "连接通道",
-        "agentsWithCount": "MFT 代理 ({{len}})"
+        "agentsWithCount": "MFT 代理 ({{len}})",
+        "transfers": "传输数",
+        "currentTransfers": "当前传输数",
+        "totalTransfers": "传输总数",
+        "successfulTransfers": "成功传输数",
+        "failedTransfers": "失败传输数",
+        "partiallySuccessfulTransfers": "部分成功传输数"
       }
     },
     "ibmMqMftZone": {
@@ -9241,46 +9285,18 @@
         "agentStatus": "状态",
         "queueManager": "队列管理器",
         "AgentStartTimeUTC": "开始时间 (UTC)",
-        "maxSourceTransfers": "源",
-        "maxDestinationTransfers": "目标",
-        "maxQueuedTransfers": "已排队",
+        "maxSourceTransfers": "最大源传输数",
+        "maxDestinationTransfers": "最大目标传输数",
+        "maxQueuedTransfers": "最大排队传输数",
         "hostName": "主机名",
         "agentType": "Type",
         "agentTimeZone": "时区",
-        "fileTransferLogsWithCount": "传输日志 ({{len}})",
         "runningTransfers": "正在运行传输",
         "totalCurrentTransfers": "当前传输总数",
-        "transferStatusWithCount": "当前传输 ({{len}})",
         "totalSourceTransfers": "源传输",
-        "totalDestinationTransfers": "目标传输"
-      }
-    },
-    "ibmMqMftFileTransferStatus": {
-      "dashboard": {
-        "sourceAgent": "源代理",
-        "destinationAgent": "目标代理",
-        "startedTime": "开始时间",
-        "fileNumber": "文件编号",
-        "elapsedSeconds": "耗用时间（秒）",
-        "statsTransferredBytes": "传输的字节数",
-        "sourceFileName": "源文件"
-      }
-    },
-    "ibmMqMftFileTransferLog": {
-      "dashboard": {
-        "actionStatus": "状态",
-        "sourceAgent": "源代理",
-        "destinationAgent": "目标代理",
-        "originatorUserID": "发起方",
-        "startedTime": "开始时间",
-        "transferMode": "方式",
-        "checkSumMethod": "校验和方法",
-        "checkSumValue": "校验和值",
-        "sourceFileName": "源文件",
-        "sourceFileSize": "源大小",
-        "destinationFileName": "目标文件",
-        "destinationFileSize": "目标大小",
-        "itemsWithCount": "文件 ({{len}})"
+        "totalDestinationTransfers": "目标传输",
+        "statusRunning": "正在运行",
+        "statusUnknown": "未知"
       }
     },
     "ibmMqQueueManager": {
@@ -9292,7 +9308,7 @@
         "connectionName": "连接名称",
         "activeConversations": "活动对话",
         "remoteQueueManager": "远程队列管理器",
-        "startDateTime": "启动日期/时间",
+        "startDateTime": "开始时间",
         "channelsWithCount": "通道 ({{len}})",
         "connections": "连接数",
         "messagesIn": "传入消息数",
@@ -10366,10 +10382,6 @@
       "warningSpringbootConfig": "可以在 <linkToSpringboot>Spring Boot 配置页面</linkToSpringboot>中找到更多信息。",
       "descriptionActuatorConfigured": "Spring Boot 监视功能要求配置 Spring Boot Actuator：",
       "descriptionEnableJMX": "对于 Spring Boot 2.2.x 和更高版本，必须启用 JMX。在 <codeTag><bold>application.properties</bold></codeTag> 文件中设置 <codeTag><bold>spring.jmx.enabled=true</bold></codeTag>。"
-    },
-    "statsd": {
-      "headerInformation": "信息",
-      "infoNoFurtherEntityInfo": "没有关于此实体的进一步信息。"
     },
     "sybase": {
       "titleDiskReadsWrites": "磁盘读取和写入",
@@ -11839,9 +11851,6 @@
       "filesOpenedForRead": "为读取打开的文件数",
       "beeInstana": "BeeInstana"
     },
-    "webSphereApplicationContainer": {
-      "sessions": "会话数"
-    },
     "webSphereLibertyApplicationContainer": {
       "requests": "请求数",
       "averageResponseTime": "平均响应时间"
@@ -12154,6 +12163,14 @@
       "titleRegion": "CICS 区域",
       "titleDestination": "目标",
       "titleUnknown": "未知"
+    },
+    "ctg": {
+      "titleCtgAttributes": "CTG 属性",
+      "ctgReturnCode": "CTG 返回码",
+      "cicsReturnCode": "CICS 返回码",
+      "transactionName": "事务名称",
+      "titleCalls": "调用数",
+      "calls": "{{call}}"
     },
     "corba": {
       "titleMethod": "方法",
@@ -12642,6 +12659,11 @@
       "database": "数据库",
       "user": "用户",
       "query": "查询"
+    },
+    "prisma": {
+      "url": "数据源 URL",
+      "provider": "数据库类型",
+      "model_action": "模型/操作"
     },
     "quartz": {
       "group": "组",

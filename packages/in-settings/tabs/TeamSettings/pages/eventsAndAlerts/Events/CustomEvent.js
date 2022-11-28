@@ -13,7 +13,6 @@ import {
   createCustomSystemRuleBasedEventSpecification,
   createCustomSystemRuleBasedEventSpecificationForEntityVerification,
   createCustomSystemRuleBasedHostAvailability,
-  createCustomThresholdBasedEventSpecification,
   getCustomEventSpecificationMutable,
   saveCustomEventSpecification,
   getCustomEventActions,
@@ -31,6 +30,11 @@ import {
   hideAppDataLegacyEventsEnabled,
   actionAutomationEnabled
 } from 'in-services/featureFlags';
+import {
+  createCustomThresholdBasedEventSpecification,
+  createCustomMultiThresholdBasedEventSpecification,
+  createThresholdRule
+} from 'in-api/eventSpecificationsHelpers';
 import {
   getSeverityText,
   isAppDataEntityType,
@@ -77,7 +81,7 @@ export default function CustomEvent(props) {
   const entityFormParam = {
     entityId,
     createDefaultEntity: createCustomThresholdBasedEventSpecification,
-    createForm: event => createEventFormDefinition(event, !entityId),
+    createForm: event => createEventFormDefinition(event ?? createCustomThresholdBasedEventSpecification(), !entityId),
     getEntityFromApi:
       role.canConfigureAutomationActions && actionAutomationEnabled
         ? mergeResultData
@@ -231,8 +235,10 @@ function save(event, form, actions) {
 
   const eventSpecification = getEventSpecification(event, form);
   if (role.canConfigureAutomationActions && actionAutomationEnabled && !isTriggering) {
-    eventSpecification.actions = actionIds?.map(value => ({ id: value }));
-    return saveCustomEventSpecificationWithActions(eventSpecification);
+    return saveCustomEventSpecificationWithActions({
+      ...eventSpecification,
+      actions: actionIds?.map(value => ({ id: value }))
+    });
   } else {
     return saveCustomEventSpecification(eventSpecification);
   }
@@ -320,46 +326,57 @@ function getEventSpecification(event, form) {
     }
 
     return getCustomSystemRuleBasedEventSpecification(form, query, event);
-  } else {
-    const formatterType = form.get('formatter')?.value ?? null;
-    let conditionValue = Number(form.get('conditionValue')?.value ?? 0);
-    conditionValue = unmapConditionValue(conditionValue, formatterType);
-
-    const entityType = form.get('entityType')?.value ?? null;
-    let metricName = form.get('metricName')?.value ?? null;
-    let metricPattern = null;
-
-    if (isBuiltInDynamicMetric(entityType, metricName)) {
-      const metricDefinition = getMetricDefinition(entityType, metricName);
-      if (metricDefinition && metricDefinition.metricPattern) {
-        metricPattern = {
-          prefix: metricDefinition.metricPattern.pre,
-          postfix: metricDefinition.metricPattern.post,
-          operator: form.get('metricPatternOperator').value,
-          placeholder: form.get('metricPatternPlaceholder')?.value ?? null
-        };
-        metricName = null;
-      }
-    }
-
-    return createCustomThresholdBasedEventSpecification(
-      event?.id ?? null,
-      form.get('name').value,
-      form.get('entityType')?.value ?? null,
-      query,
-      form.get('triggering').value,
-      form.get('description').value,
-      form.get('gracePeriod').value,
-      event?.enabled ?? true,
-      ruleType,
-      metricName,
-      metricPattern,
-      form.get('rollup') ? Number(form.get('rollup').value) : null,
-      form.get('window') ? Number(form.get('window').value) : null,
-      form.get('aggregation')?.value ?? null,
-      form.get('conditionOperator')?.value ?? null,
-      conditionValue,
-      Number(form.get('severity')?.value ?? 0)
-    );
   }
+  return getCustomEventMultiRuleBasedEventSpecification(form, query, event);
 }
+
+function getCustomEventMultiRuleBasedEventSpecification(form, query, event) {
+  const severity = Number(form.get('severity')?.value ?? 0);
+  const entityType = form.get('entityType')?.value ?? null;
+  const rulesForm = form.get('rules');
+  const rules = rulesForm?.map(formToRuleMapper({ entityType, severity }));
+
+  return createCustomMultiThresholdBasedEventSpecification(
+    event?.id ?? null,
+    entityType,
+    form.get('gracePeriod').value,
+    rules ?? [],
+    form.get('name').value,
+    form.get('description').value,
+    query,
+    form.get('triggering').value,
+    event?.enabled
+  );
+}
+
+const formToRuleMapper = ({ severity, entityType }) => form => {
+  const formatterType = form.get('formatter')?.value ?? null;
+  let conditionValue = Number(form.get('conditionValue')?.value ?? 0);
+  conditionValue = unmapConditionValue(conditionValue, formatterType);
+
+  let metricName = form.get('metricName')?.value ?? null;
+  let metricPattern = null;
+
+  if (isBuiltInDynamicMetric(entityType, metricName)) {
+    const metricDefinition = getMetricDefinition(entityType, metricName);
+    if (metricDefinition && metricDefinition.metricPattern) {
+      metricPattern = {
+        prefix: metricDefinition.metricPattern.pre,
+        postfix: metricDefinition.metricPattern.post,
+        operator: form.get('metricPatternOperator').value,
+        placeholder: form.get('metricPatternPlaceholder')?.value ?? null
+      };
+      metricName = null;
+    }
+  }
+  return createThresholdRule(
+    metricName,
+    metricPattern,
+    form.get('rollup') ? Number(form.get('rollup').value) : 0,
+    form.get('window') ? Number(form.get('window').value) : null,
+    form.get('aggregation')?.value ?? null,
+    form.get('conditionOperator')?.value ?? null,
+    conditionValue,
+    severity
+  );
+};

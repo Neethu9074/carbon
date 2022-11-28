@@ -16,12 +16,12 @@ import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter
 // @ts-expect-error Could not find a declaration file for module
 import { TopListWithUrlState } from 'in-components/TopListWithUrlState';
 import { syntheticResultsListPath, syntheticsDashboard, syntheticDetailsPath } from 'in-synthetics/navigation/paths';
+import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { TagFilter, TestResultListItem, TimeConfig } from 'in-types';
-import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { latency } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import theme from 'in-themes';
@@ -29,7 +29,7 @@ import { t } from 'in-i18n';
 
 import locals from './ResultsTopList.mless';
 
-const metrics = ['response_time', 'start_time', 'status'];
+const metrics = ['response_time', 'response_size', 'start_time', 'status'];
 
 const orders = [
   { by: 'response_time', direction: 'DESC' },
@@ -175,8 +175,20 @@ function Label({ item, selectedMetric, locationsMap }: LabelProps) {
         setOrDeleteMatrixKey(
           resultDetailUrl,
           syntheticDetailsPath,
+          'type',
+          getMatrixParameter(resultDetailUrl, syntheticsDashboard, 'type')
+        );
+        setOrDeleteMatrixKey(
+          resultDetailUrl,
+          syntheticDetailsPath,
           'startTime',
           get(item, ['metrics', 'start_time', 0, 1])
+        );
+        setOrDeleteMatrixKey(
+          resultDetailUrl,
+          syntheticDetailsPath,
+          'finishTime',
+          get(item, ['metrics', 'start_time', 0, 0])
         );
         setOrDeleteMatrixKey(
           resultDetailUrl,

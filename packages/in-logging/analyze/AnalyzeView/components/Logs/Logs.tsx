@@ -30,11 +30,11 @@ import { FacetedSearchPresenter } from 'in-logging/analyze/AnalyzeView/component
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
 // @ts-expect-error needs TS migration
 import { ChartsPresenter } from 'in-logging/analyze/AnalyzeView/components/ChartsPresenter';
-// @ts-expect-error needs TS migration
-import LogMessageColumn from 'in-logging/analyze/AnalyzeView/components/LogMessageColumn';
 import { GetDataParams, HeaderActionProps, LogsProps } from 'in-logging/analyze/AnalyzeView/components/Logs/types';
+import LogMessageColumn from 'in-logging/analyze/AnalyzeView/components/LogMessageColumn';
 import UngroupedViewList from 'in-components/AnalyzeView/UngroupedView/UngroupedViewList';
 import { LogTagsTable } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable';
+import { ListItemProps } from 'in-components/AnalyzeView/UngroupedView/types';
 import { TAG } from 'in-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { sortingChanged } from 'in-logging/analyze/AnalyzeView/tracker';
@@ -44,6 +44,10 @@ import { LogItem } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-logging/analyze/AnalyzeView/components/Logs.mless';
+
+export interface ColumnContentProps extends ListItemProps, LogItem {
+  isToggled: boolean;
+}
 
 export default function Logs(props: LogsProps) {
   const {
@@ -97,7 +101,13 @@ export default function Logs(props: LogsProps) {
     timestampColumn,
     {
       id: 'log',
-      getContent: (item: LogItem) => <LogMessageColumn {...item} />
+      getContent: (columnContentProps: ColumnContentProps) => (
+        <LogMessageColumn
+          {...columnContentProps}
+          getHrefWithAdditionalTagFilter={getHrefWithAdditionalTagFilter}
+          getHrefToGroupedView={getHrefToGroupedView}
+        />
+      )
     },
     centerAlignedLinkColumn,
     centerAlignedCopyColumn
@@ -111,6 +121,8 @@ export default function Logs(props: LogsProps) {
       getHrefToGroupedView={getHrefToGroupedView}
     />
   );
+
+  const infiniteScroll = groupLabel ? false : { loadingCompleteMessage: t('in-logging:endOfInfiniteScroll') };
 
   let content = (
     <UngroupedViewList
@@ -134,6 +146,7 @@ export default function Logs(props: LogsProps) {
       renderNestedContent={renderNestedContent}
       initialLines={initialLogLines}
       withEmbeddedLoadingIndicator
+      infiniteScroll={infiniteScroll}
     />
   );
 

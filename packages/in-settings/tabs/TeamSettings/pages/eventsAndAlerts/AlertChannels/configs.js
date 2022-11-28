@@ -15,6 +15,7 @@ import splunkChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAl
 import slackChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/forms/slackChannelConfig';
 import emailChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/forms/emailChannelConfig';
 import watsonAIOpsWebhookChannelConfig from './forms/watsonAIOpsWebhookChannelConfig';
+import serviceNowChannelConfig from './forms/serviceNowChannelConfig';
 
 export const configs = {
   email: emailChannelConfig,
@@ -28,7 +29,8 @@ export const configs = {
   victorOps: victorOpsChannelConfig,
   prometheusWebhook: prometheusWebhookChannelConfig,
   webexTeamsWebhook: webexTeamsWebhookChannelConfig,
-  watsonAIOpsWebhook: watsonAIOpsWebhookChannelConfig
+  watsonAIOpsWebhook: watsonAIOpsWebhookChannelConfig,
+  serviceNowWebhook: serviceNowChannelConfig
 };
 
 export const fullyQualified = {
@@ -43,7 +45,8 @@ export const fullyQualified = {
   [configs.victorOps.name]: configs.victorOps,
   [configs.prometheusWebhook.name]: configs.prometheusWebhook,
   [configs.webexTeamsWebhook.name]: configs.webexTeamsWebhook,
-  [configs.watsonAIOpsWebhook.name]: configs.watsonAIOpsWebhook
+  [configs.watsonAIOpsWebhook.name]: configs.watsonAIOpsWebhook,
+  [configs.serviceNowWebhook.name]: configs.serviceNowWebhook
 };
 
 export default configs;

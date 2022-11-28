@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import React, { useState, useMemo } from 'react';
 import { useLocation } from 'react-router';
-import React, { useState } from 'react';
 import { sortBy } from 'lodash';
 
 import {
@@ -143,8 +143,7 @@ export default function ApplicationsAnalyzeView() {
     ua2FastQueryModeChangedTracker({ dataSource, enabled: fastQueryModeEnabled });
     onChange({ fastQueryModeEnabled });
   };
-
-  const dataSourceConfigurations = getDataSourceConfigurations({ hiddenCalls, onChangeHiddenCalls });
+  const dataSourceConfigurations = useMemo(() => getDataSourceConfigurations({ hiddenCalls, onChangeHiddenCalls }), []);
 
   const tagCatalog = useTagCatalog(dataSource === 'traces' ? getTracesTagCatalog : getCallsTagCatalog);
 

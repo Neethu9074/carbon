@@ -21,6 +21,14 @@
       {{message}}
     </p>
 
+    {{#if signOut}}
+      <form id="access-denied-signout-form" class="signout-form" method="post">
+        <button class="link-button signout-button" type="submit" title="{{user.email}}">
+          Sign Out
+        </button>
+      </form>
+    {{/if}}
+
     <a class="link-button" href="http://instana.statuspage.io/">
       Instana Status Page
     </a>
@@ -34,5 +42,11 @@
          alt="Stan pulling the plug (accidentally)"
          class="right-side-stan">
   {{/if}}
+
+  <script nonce="{{nonce}}">
+    if({{signOut}}) {
+      document.getElementById('access-denied-signout-form').setAttribute("action", '{{{signOutUrl}}}?returnUrl={{{returnUrlWithoutHash}}}' + encodeURIComponent(window.location.hash));      
+    }
+  </script>
 </body>
 </html>

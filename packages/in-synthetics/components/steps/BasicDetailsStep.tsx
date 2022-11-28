@@ -6,6 +6,7 @@
 import { Field, MapForm, Item } from 'formalistic';
 import React from 'react';
 
+import { BluePrint } from 'in-synthetics/data/simpleModeBluePrints';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import Section from 'in-synthetics/components/Section';
 import FormGroup from 'in-components/form/FormGroup';
@@ -19,13 +20,18 @@ import locals from './BasicDetailsStep.mless';
 export interface Props {
   form: MapForm;
   updateForm: (form: MapForm) => void;
+  selectedBlueprint: BluePrint;
 }
 
-export default function BasicDetailsStep({ form, updateForm }: Props) {
+export default function BasicDetailsStep({ form, updateForm, selectedBlueprint }: Props) {
   const labelField = form.get('label') as Field<string>;
   const descriptionField = form.get('description') as Field<string>;
+  const headingText =
+    selectedBlueprint?.type === 'Script API'
+      ? t('in-synthetics:dialog.createTest.basicDetails.scriptTitle')
+      : t('in-synthetics:dialog.createTest.basicDetails.title');
   return (
-    <Section headingText={t('in-synthetics:dialog.createTest.basicDetails.title')}>
+    <Section headingText={headingText}>
       {labelField.map(field => (
         <FormGroup className={locals.urlInput}>
           <Label htmlFor="name" hasError={!field.valid && field.touched}>

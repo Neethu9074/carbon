@@ -66,10 +66,19 @@ const styleLoader = {
   options: { injectType: 'singletonStyleTag' }
 };
 
+const lessLoader = {
+  loader: 'less-loader',
+  options: {
+    lessOptions: {
+      sourceMap: isDevModeBuild
+    }
+  }
+};
+
 const postCssLoader = {
   loader: 'postcss-loader',
   options: {
-    sourceMap: true,
+    sourceMap: isDevModeBuild,
     postcssOptions: {
       plugins: [
         require('postcss-discard-comments')({
@@ -87,7 +96,15 @@ const cssLoader = {
     modules: {
       localIdentName,
       getLocalIdent
-    }
+    },
+    sourceMap: isDevModeBuild
+  }
+};
+
+const simpleCssLoader = {
+  loader: 'css-loader',
+  options: {
+    sourceMap: isDevModeBuild
   }
 };
 
@@ -117,15 +134,15 @@ const webpackFontsRules = [
 const webpackStyleRules = [
   {
     test: /\.mless$/i,
-    use: [styleLoader, cssLoader, postCssLoader, 'less-loader']
+    use: [styleLoader, cssLoader, postCssLoader, lessLoader]
   },
   {
     test: /\.less$/i,
-    use: [styleLoader, 'css-loader', postCssLoader, 'less-loader']
+    use: [styleLoader, simpleCssLoader, postCssLoader, lessLoader]
   },
   {
     test: /\.css$/i,
-    use: [styleLoader, 'css-loader', postCssLoader]
+    use: [styleLoader, simpleCssLoader, postCssLoader]
   }
 ];
 

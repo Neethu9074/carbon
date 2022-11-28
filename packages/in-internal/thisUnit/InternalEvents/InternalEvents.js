@@ -90,7 +90,7 @@ function Event({ event, timeConfig }) {
   const cardPreview = (
     <>
       <Tooltip align="topMiddle" content={t('in-internal:monitoringUnit.thisUnit.internalEvents.triggerTimeIssue')}>
-        <span className={locals.duration}>{formatDateTime(event.triggeringTime)}</span>
+        <span className={locals.duration}>{formatDateTime(event.start)}</span>
       </Tooltip>
       <span className={locals.title}>{event.type + ' - ' + event.state}</span>
     </>

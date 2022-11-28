@@ -9,16 +9,16 @@ import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import {
-  createCustomThresholdBasedEventSpecification,
   getBuiltinEventActions,
-  updateActionsAssignedToBuiltInEvent
+  updateActionsAssignedToBuiltInEvent,
+  getBuiltInEventSpecification
 } from 'in-api/eventSpecifications';
 import { createBuiltinEventFormDefinition } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/BuiltinEventFormContent';
 import ActionsSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ActionsSelection';
+import { createCustomThresholdBasedEventSpecification } from 'in-api/eventSpecificationsHelpers';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
-import { getBuiltInEventSpecification } from 'in-api/eventSpecifications';
 import { getFormatter } from 'in-services/formatters/backendFormatter';
 import { actionAutomationEnabled } from 'in-services/featureFlags';
 import SectionHeading from 'in-settings/components/SectionHeading';

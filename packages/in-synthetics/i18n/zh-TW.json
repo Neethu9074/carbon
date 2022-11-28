@@ -26,7 +26,9 @@
         "subTitle": "端點",
         "labelOperation": "HTTP 方法",
         "labelUrl": "URL",
-        "popSubTitle": "存在點"
+        "popSubTitle": "存在點",
+        "uploadScriptTitle": "上傳 Script",
+        "failureToReadFileContent": "無法讀取檔案內容：{{error}}"
       },
       "basicDetails": {
         "title": "此連線測試的名稱為何",
@@ -48,6 +50,23 @@
           },
           "tipsForUsing": {
             "title": "使用提示",
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line3": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line4": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line5": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          }
+        },
+        "scriptApi": {
+          "name": "Script API",
+          "headline": "HTTP Script",
+          "whenToUse": {
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          },
+          "whoShouldUse": {
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          },
+          "tipsForUsing": {
             "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
             "line2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
             "line3": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
@@ -135,6 +154,7 @@
       "type": "類型",
       "totalTests": "鏈結的測試數目",
       "lastRun": "前次測試執行時間",
+      "namespace": "名稱空間",
       "labelConfirmRemoveLocation": "您確定要移除 <strong>{{label}}</strong> ({{status}}) 位置嗎？",
       "activeTestLinked": "已在位置 <strong>{{label}}</strong> ({{status}}) 上指派作用中測試，您確定要移除此位置嗎？",
       "deleteLocation": "刪除位置"
@@ -231,7 +251,10 @@
       "noDataAvailable": {
         "message": "此測試結果無法使用 {{component}} 詳細資料",
         "notFound": "找不到"
-      }
+      },
+      "downloadHar": "下載 HAR 檔",
+      "consoleLogs": "主控台",
+      "browserLogs": "瀏覽器"
     },
     "noDataAvailable": {
       "resultsTitle": "無可用的結果",

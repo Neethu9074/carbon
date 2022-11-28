@@ -131,11 +131,7 @@ const AlertChannelForm = entityForm(function AlertChannelForm(props) {
                     ddClassName={locals.rowInnerPadding}
                     dtClassName={locals.titleRow}
                   >
-                    {key === 'kind'
-                      ? getConfig(entity).label
-                      : entity.get(key) && entity.get(key).join
-                      ? entity.get(key).join(', ')
-                      : entity.get(key)}
+                    {getPropertyValue(entity, key)}
                   </Di>
                 ))}
             </Dl>
@@ -166,6 +162,22 @@ function getHeader() {
 
 function getEntityName(entity) {
   return entity.label;
+}
+
+function getPropertyValue(entity, key) {
+  if (key === 'kind') {
+    return getConfig(entity).label;
+  }
+
+  if (key === 'password') {
+    return Array(entity.get(key)?.length ?? 0).join('*');
+  }
+
+  if (entity.get(key) && entity.get(key).join) {
+    return entity.get(key).join(', ');
+  }
+
+  return entity.get(key).toString();
 }
 
 const typeLabels = Object.freeze({

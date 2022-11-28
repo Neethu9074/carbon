@@ -5,6 +5,8 @@
 
 import { Field, MapForm } from 'formalistic';
 
+import { WebsiteAlertRule } from '@instana/types';
+
 // @ts-expect-error file will need to be converted to typescript
 import { removeExcludedFilters } from 'in-alerting/smart-alerts/components/utils/tagfilterExpressionUtils';
 import { createViolationsInSequenceForm } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/form';
@@ -43,10 +45,10 @@ export default function createBlueprintForm(
 
   const metricName = blueprintConfig.defaultMetric;
   const newRuleForm = createRuleForm({
-    ...(form.get('rule') as MapForm)
+    ...((form.get('rule') as MapForm)
       .remove('operator')
       .remove('value')
-      .toJS(),
+      .toJS() as WebsiteAlertRule),
     alertType,
     metricName
   });

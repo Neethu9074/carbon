@@ -113,10 +113,10 @@ describe('in-alerting/smart-alerts/components/smart-alert-dialog/TimeThresholdDe
       });
     });
 
-    describe('of type request impact', () =>
+    describe('of type trace impact', () =>
       expect(
-        getDescription(enrichByTimeWindow({ type: timeThresholdTypes.requestImpact, requests: 5 }), GRANULARITY)
-      ).toBe('At least 5 requests impacted within the last 2 minutes'));
+        getDescription(enrichByTimeWindow({ type: timeThresholdTypes.traceImpact, requests: 5 }), GRANULARITY)
+      ).toBe('At least 5 traces impacted within the last 2 minutes'));
 
     describe('of type violations in period', () => {
       expect(

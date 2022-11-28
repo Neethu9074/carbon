@@ -11,10 +11,13 @@ import { useObservable } from '@instana/hooks';
 import {
   alertsList,
   applicationDashboard,
+  configurationTab,
   dependencyMapTab,
   errorMessagesTab,
   logMessagesTab,
-  summaryTab
+  smartAlertsTab,
+  summaryTab,
+  syntheticsTab
 } from 'in-applications/navigation/paths';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import CreateGlobalSmartAlertButton from 'in-alerting/smart-alerts/applications/components/CreateGlobalSmartAlertButton';
@@ -54,6 +57,8 @@ const urlStateDefinition = {
     applicationDashboardUrlParameters.syntheticCalls
   ]
 };
+
+const boundaryScopeDropdownDisabledTabs = [dependencyMapTab, smartAlertsTab, syntheticsTab, configurationTab];
 
 export default function ApplicationDashboard({ location }) {
   const [{ appId, boundaryScope, syntheticCalls }, setUrlState] = useUrlState(urlStateDefinition);
@@ -171,6 +176,14 @@ function renderButtonLine(props) {
   );
 }
 
+const disableAllCallsDropdown = currentTab => {
+  if (boundaryScopeDropdownDisabledTabs.includes(currentTab)) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
 function renderButtonLineSecondary({
   result,
   boundaryScope,
@@ -197,7 +210,7 @@ function renderButtonLineSecondary({
         data={result.data}
         boundaryScope={boundaryScope}
         onBoundaryStateChange={onBoundaryStateChange}
-        disabled={currentTab === dependencyMapTab}
+        disabled={disableAllCallsDropdown(currentTab)}
       />
       {syntheticCallsEnabled && (
         <IncludeSyntheticCallsDropdown

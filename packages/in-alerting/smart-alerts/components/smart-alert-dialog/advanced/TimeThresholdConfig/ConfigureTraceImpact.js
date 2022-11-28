@@ -15,15 +15,13 @@ import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/TimeThresholdConfig.mless';
 
-export default function ConfigureRequestImpact({ form, onChange }) {
+export default function ConfigureTraceImpact({ form, onChange }) {
   const timeThresholdForm = form.get('timeThreshold');
 
   return (
     <>
       <AlertThresholdConfigItemContainer iconType="lib_application_boundary_inbound_calls" noIcon>
-        <div>
-          {t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigNumberOfRequestsThreshold')}
-        </div>
+        <div>{t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigNumberOfTracesThreshold')}</div>
         <div className={locals.configureImpactControlsWrapper}>
           <div className={locals.operatorLabel}>
             {t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigAtLeast')}
@@ -31,7 +29,7 @@ export default function ConfigureRequestImpact({ form, onChange }) {
           <div>
             <FormGroup className={locals.formGroup} withoutBottomMargin>
               <Label>
-                {t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigNumberOfRequests')}
+                {t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigNumberOfTraces')}
               </Label>
               {timeThresholdForm.get('requests').map(({ value }) => (
                 <Input
@@ -63,7 +61,7 @@ export default function ConfigureRequestImpact({ form, onChange }) {
   );
 }
 
-ConfigureRequestImpact.propTypes = {
+ConfigureTraceImpact.propTypes = {
   form: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired
 };

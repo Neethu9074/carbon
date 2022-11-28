@@ -61,12 +61,14 @@
     "theQueryConfigurationIsInvalid": "조회 구성이 올바르지 않습니다. 계속하기 전에 유효성 검증 실패를 해결하십시오.",
     "allInfrastructure": "모든 인프라",
     "name": "이름",
-    "search": "검색",
+    "search": "유형 검색",
     "explore": "탐색",
     "count": "개수",
     "errors": {
-      "maximumNumberOfGroups": "이 조회의 결과가 너무 많습니다. 더 제한적인 필터 또는 더 광범위한 그룹을 사용하여 범위를 좁히십시오."
-    }
+      "maximumNumberOfGroups": "이 조회의 결과가 너무 많습니다. 더 제한적인 필터 또는 더 광범위한 그룹을 사용하여 범위를 좁히십시오.",
+      "generalError": "예상치 않은 오류가 발생했습니다. 더 제한적인 필터를 사용하여 범위를 좁힌 후 다시 시도하십시오."
+    },
+    "entityTypes": "엔티티 유형 {{count, parenthesis}}"
   },
   "tableView": {
     "showCountsAndAveragesAcrossTheCurrentTimeWindow": "현재 시간 창의 개수 및 평균을 표시합니다.",

@@ -77,10 +77,7 @@ const IncidentKPIs = connectTo(
     return (
       <Row withoutSideMargin>
         <Col xs>
-          <DateTimeKpiCard
-            title={t('in-events:titleTriggered')}
-            time={event.get('triggeringTime', event.get('start'))}
-          />
+          <DateTimeKpiCard title={t('in-events:titleTriggered')} time={event.get('start')} />
         </Col>
         <Col xs>
           <Ended event={event} />

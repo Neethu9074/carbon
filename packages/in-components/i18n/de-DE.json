@@ -77,6 +77,7 @@
     "eumPageName": "EUM",
     "settingsPageName": "Einstellungen",
     "requestQuoteBtn": "Angebot anfordern",
+    "buyNowBtn": "Jetzt kaufen",
     "alreadyHaveLicense": "Sie haben bereits eine Lizenz? Aktivieren Sie sie unter <linkToDocker>Docker</linkToDocker> oder <linkToKubernetes>Kubernetes</linkToKubernetes>."
   },
   "releaseNotesDialog": {
@@ -234,14 +235,7 @@
     "queryProgress": {
       "preparing": "Vorbereitung läuft...",
       "runningQuery": "Abfrage wird ausgeführt...",
-      "timeout": "Diese Abfrage hat das zulässige Zeitlimit überschritten.",
-      "timeoutEstimated": "Ihre Abfrage konnte aufgrund der großen Anzahl von Aufrufen nicht verarbeitet werden.",
-      "timeoutInfo": "Wählen Sie einen kürzeren Zeitrahmen aus.",
-      "inputError": "Es ist ein Eingabefehler aufgetreten.",
-      "tooManyRequests": "Zu viele Anforderungen",
-      "tooManyRequestsInfo": "Unser System ist derzeit ausgelastet. Versuchen Sie es später erneut.",
-      "serverError": "Serverfehler",
-      "serverErrorInfo": "Ein unerwarteter Fehler ist aufgetreten. Versuchen Sie es später erneut oder wenden Sie sich an den Support, um den Fehler zu melden."
+      "inputError": "Es ist ein Eingabefehler aufgetreten."
     }
   },
   "aboutInstanaDialog": {
@@ -308,7 +302,14 @@
     "services": "Services"
   },
   "error": {
-    "erroneousResultPresenterMessage": "Ein unerwarteter Fehler ist aufgetreten. Aktualisieren Sie die Seite oder versuchen Sie es später erneut."
+    "erroneousResultPresenterMessage": "Ein unerwarteter Fehler ist aufgetreten. Aktualisieren Sie die Seite oder versuchen Sie es später erneut.",
+    "timeout": "Diese Abfrage hat das zulässige Zeitlimit überschritten.",
+    "timeoutInfo": "Wählen Sie einen kürzeren Zeitrahmen aus.",
+    "timeoutEstimated": "Ihre Abfrage konnte aufgrund der großen Anzahl von Aufrufen nicht verarbeitet werden.",
+    "tooManyRequests": "Zu viele Anforderungen",
+    "tooManyRequestsInfo": "Unser System ist derzeit ausgelastet. Wiederholen Sie den Vorgang zu einem späteren Zeitpunkt.",
+    "serverError": "Serverfehler",
+    "serverErrorInfo": "Ein unerwarteter Fehler ist aufgetreten. Versuchen Sie es später erneut oder wenden Sie sich an den Support, um den Fehler zu melden."
   },
   "expandableCard": {
     "tooltipShowLess": "Weniger anzeigen",

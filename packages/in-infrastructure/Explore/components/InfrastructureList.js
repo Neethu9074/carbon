@@ -10,17 +10,20 @@ import { Message } from '@instana/components';
 
 import MetricCatalogAndSortingConfigurator from 'in-infrastructure/components/MetricCatalogAndSortingConfigurator/MetricCatalogAndSortingConfigurator';
 import { trackingProps as metricConfiguratorTrackingProps } from 'in-infrastructure/components/MetricCatalogConfigurator/MetricCatalogConfigurator';
-import { average, getGranularity, getMetricKey } from 'in-infrastructure/Explore/services/metrics';
+import { firstValue, getGranularity, getMetricKey, getSeriesKey } from 'in-infrastructure/Explore/services/metrics';
 import { default as MetricLabel } from 'in-infrastructure/Explore/components/MetricLabel';
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import getEntities from 'in-infrastructure/subscriptions/getEntities';
 import Header from 'in-components/QueryBuilder/components/Header';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 import { isTechnicalError } from 'in-services/util/error';
+import CsvExporter from 'in-components/CsvExporter';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { mapData } from 'in-services/util/result';
+import SparkChart from 'in-components/SparkChart';
 import { noop } from 'in-services/util/function';
 import { t } from 'in-i18n';
 
@@ -43,6 +46,7 @@ export default function InfrastructureList({
   onQueryChange
 }) {
   const timeConfig = useTimeConfig();
+  const granularity = getGranularity(timeConfig);
   const {
     items,
     totalHits,
@@ -54,7 +58,8 @@ export default function InfrastructureList({
     progress,
     ...tableProps
   } = useCursorPagination(
-    ({ cursor }) => getTableData({ timeConfig, retrievalSize, backendQueryModel, order, type, metrics, cursor }),
+    ({ cursor }) =>
+      getTableData({ timeConfig, granularity, retrievalSize: 200, backendQueryModel, order, type, metrics, cursor }),
     [timeConfig, retrievalSize, backendQueryModel, type, order, metrics]
   );
 
@@ -63,7 +68,7 @@ export default function InfrastructureList({
 
   const columnDefinitions = [
     getLabelColumn({ timeConfig }, tracking?.onNavigateToEntity),
-    ...getMetricColumns({ metrics, sortable: showHeader, metricMetadatas })
+    ...getMetricColumns({ metrics, sortable: showHeader, metricMetadatas, timeConfig, granularity })
   ];
 
   return (
@@ -85,6 +90,12 @@ export default function InfrastructureList({
           metricCatalog={metricCatalog}
           query={query}
           onQueryChange={onQueryChange}
+          items={items}
+          timeConfig={timeConfig}
+          order={order}
+          cursor={cursor}
+          granularity={granularity}
+          columns={columnDefinitions}
         />
       )}
 
@@ -125,7 +136,17 @@ function getErrorMessage(err) {
   return t('in-infrastructure:explore.errors.generalError');
 }
 
-function getTableData({ timeConfig, retrievalSize, backendQueryModel, type, order, metrics, cursor }) {
+function getTableData({
+  timeConfig,
+  granularity,
+  retrievalSize,
+  backendQueryModel,
+  type,
+  order,
+  metrics,
+  cursor,
+  fullData = false
+}) {
   return getEntities({
     filter: {
       tagFilterExpression: backendQueryModel,
@@ -134,16 +155,19 @@ function getTableData({ timeConfig, retrievalSize, backendQueryModel, type, orde
     order,
     pagination: {
       retrievalSize,
-      cursor
+      cursor,
+      fullData: fullData
     },
     type,
     metrics: Object.fromEntries(
-      metrics.flatMap(({ metric, aggregation }) => [
-        // using a granularity smaller than window size here is a bit of a hack,
-        // because BeeInstant buckets are defined on epoch boundaries. we use a smaller
-        // granularity here to ensure this is synced up with grouped view KPIs
-        [getMetricKey(metric, aggregation), { metric, granularity: getGranularity(timeConfig), aggregation }]
-      ])
+      metrics.flatMap(({ metric, aggregation, crossSeriesAggregation }) => {
+        const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
+        const kpiGranularity = timeConfig.windowSize;
+        return [
+          [id, { metric, granularity: kpiGranularity, aggregation, crossSeriesAggregation }],
+          [getSeriesKey(id), { metric, granularity, aggregation, crossSeriesAggregation }]
+        ];
+      })
     )
   });
 }
@@ -192,12 +216,11 @@ InfrastructureList.propTypes = {
   metricCatalog: rpt.object
 };
 
-function getMetricColumns({ metrics, sortable, metricMetadatas }) {
-  return metrics.map(({ metric, aggregation }) => {
-    const id = getMetricKey(metric, aggregation);
+function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, granularity }) {
+  return metrics.map(({ metric, aggregation, crossSeriesAggregation }) => {
+    const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
     const metadata = mapData(metricMetadatas, data => data[metric]);
     const label = mapData(metadata, data => data?.label);
-    const formatter = mapData(metadata, data => data?.formatter).data;
     const isKpi = mapData(metadata, data => data?.isKpi).data || false;
     return {
       id,
@@ -212,11 +235,28 @@ function getMetricColumns({ metrics, sortable, metricMetadatas }) {
       defaultDisabled: !isKpi,
       headCellProps: { className: locals.metricLabel },
       getContent(item) {
-        if (metric === 'count') {
-          return <span>1</span>;
-        }
-        const kpi = average(item.metrics[id]);
-        return <span>{(kpi && formatter && formatter(kpi)) || '--'}</span>;
+        const id = getMetricKey(metric, aggregation);
+        const metadata = mapData(metricMetadatas, data => data[metric]);
+        const label = mapData(metadata, data => data?.label);
+        const renderedLabel = <MetricLabel label={label} aggregation={aggregation} />;
+        const formatter = mapData(metadata, data => data?.formatter).data;
+        const kpi = firstValue(item.metrics[id]);
+        const series = item.metrics[getSeriesKey(id)];
+        const percentageMetric = mapData(metadata, data => data?.percentageMetric).data;
+        const metricValue = getMetricValue(kpi, formatter);
+
+        return (
+          <SparkChart
+            horizontalMetricValue={metricValue}
+            percentageMetric={percentageMetric}
+            metrics={series}
+            tooltipFormatter={formatter}
+            aggregation={aggregation}
+            timeConfig={timeConfig}
+            rollup={granularity}
+            label={renderedLabel}
+          />
+        );
       }
     };
   });
@@ -226,9 +266,75 @@ export function pagesLoaded(offset, itemsPerPage) {
   return (offset || 0) / itemsPerPage + 2; // we are on page 1 when offset is 0, so nextPageNumber == 2
 }
 
+function getMetricValue(kpi, formatter) {
+  if (kpi !== undefined) {
+    //checking if kpi is falsy, valid kpi can be 0 as well
+    return formatter ? formatter(kpi) : kpi;
+  }
+  return valueMissingPlaceholder;
+}
+
+function processData(items, columns) {
+  let csvRows = [];
+  items?.forEach(item => {
+    let row = {};
+    row['Name'] = item.label;
+
+    columns.forEach(col => {
+      let found = false;
+      Object.keys(item.metrics ?? {}).forEach(metric => {
+        if (metric === col.id) {
+          row[metric.substring(0, metric.lastIndexOf('.'))] = firstValue(item.metrics[metric]);
+          found = true;
+        }
+      });
+      if (!found && col.id !== 'label') {
+        row[col.id.substring(0, col.id.lastIndexOf('.'))] = '-';
+      }
+    });
+    csvRows.push(row);
+  });
+
+  return csvRows;
+}
+
 function getHeaderActions(props) {
   if (props.type === null) {
     return <></>;
   }
-  return <MetricCatalogAndSortingConfigurator {...props} />;
+
+  const timeConfig = props.timeConfig;
+  const backendQueryModel = props.backendQueryModel;
+  const order = props.order;
+  const type = props.type;
+  const metrics = props.metrics;
+  const cursor = props.cursor;
+  const columns = props.columns;
+  const granularity = props.granularity;
+
+  const getAllData = ({ cursor }) =>
+    getTableData({
+      timeConfig,
+      granularity,
+      retrievalSize: 10000,
+      backendQueryModel,
+      type,
+      order,
+      metrics,
+      cursor,
+      fullData: true
+    });
+
+  return (
+    <>
+      <CsvExporter
+        processData={processData}
+        fetchData={getAllData}
+        fileName={'infrastructure_entites.csv'}
+        cursor={cursor}
+        columns={columns}
+      />
+      <MetricCatalogAndSortingConfigurator {...props} />
+    </>
+  );
 }
