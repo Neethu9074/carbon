@@ -17,6 +17,7 @@
   }
 
   .options {
+    width: 15rem;
   }
 
   .option {
