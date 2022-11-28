@@ -17,11 +17,9 @@
   }
 
   .options {
-    width: 8.9rem;
   }
 
   .option {
-    max-width: 9rem;
     display: flex;
     justify-content: flex-start;
     margin-bottom: 12px;
@@ -34,6 +32,7 @@
   }
 
   .helpWrapper {
+    display: flex;
     align-items: center;
 
     &:active .help,
