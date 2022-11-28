@@ -104,6 +104,14 @@ export function createActionFormDefinition(action: ActionFormEntity, _isCreate: 
           return null;
         }
       })
+    )
+    .put(
+      'parameters',
+      createField({
+        value: action.parameters ?? [],
+        // TODO: add validator for parameters
+        validator: notBlankValidator
+      })
     );
   if (isDocLink(action.type)) form = putDocLinkField(form, action);
   else if (isScript(action.type)) form = putScriptField(form, action);

@@ -18,7 +18,7 @@ import { t } from 'in-i18n';
 
 import locals from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/DummyServerTablePresenter.mless';
 
-type ListItem<VALUETYPE> = { id: string; value: VALUETYPE };
+export type ListItem<VALUETYPE> = { id: string; value: VALUETYPE };
 interface DummyServerTablePresenterListItem {}
 
 interface DummyServerTablePresenterListItemConfiguration<VALUETYPE>
@@ -32,8 +32,10 @@ interface DummyServerTablePresenterProps<VALUETYPE>
   data: ListItem<VALUETYPE>[];
   form: MapForm;
   formKey: string;
-  defaultRow: VALUETYPE;
+  defaultRow?: VALUETYPE;
   setForm: SetForm;
+  customAddRow?: () => void;
+  customAddRowLabel?: string;
 }
 
 export default function DummyServerTablePresenter<VALUETYPE>({
@@ -44,7 +46,9 @@ export default function DummyServerTablePresenter<VALUETYPE>({
   form,
   formKey,
   defaultRow,
-  setForm
+  setForm,
+  customAddRow,
+  customAddRowLabel
 }: DummyServerTablePresenterProps<VALUETYPE>) {
   const result = {
     // Parent component would only render if 'result has no errors' or 'result not loading'. Passing loading and errors param accordingly.
@@ -87,8 +91,8 @@ export default function DummyServerTablePresenter<VALUETYPE>({
       pageSize={result?.data?.pageSize ?? 0}
       isSearchable={false}
       rightHeader={
-        <Button kind="action" onClick={addRow} icon="lib_openclose_add_circle_outline">
-          {t('in-settings:tabs.addRow')}
+        <Button kind="action" onClick={customAddRow ?? addRow} icon="lib_openclose_add_circle_outline">
+          {customAddRowLabel ?? t('in-settings:tabs.addRow')}
         </Button>
       }
       noDataMessage={noDataMessage}
@@ -108,7 +112,7 @@ export default function DummyServerTablePresenter<VALUETYPE>({
       form.updateIn([formKey], f => {
         const castedF = f as Field<ListItem<VALUETYPE>[]>;
         const value = castedF.value;
-        return castedF.setValue([...value, { value: defaultRow, id: generateUniqueShortId() }]).setTouched(false);
+        return castedF.setValue([...value, { value: defaultRow!, id: generateUniqueShortId() }]).setTouched(false);
       })
     );
   }

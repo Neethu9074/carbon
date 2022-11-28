@@ -897,7 +897,15 @@
     "headers": "Headers",
     "queryParams": "Query Params",
     "test": "Test",
-    "http": "HTTP"
+    "http": "HTTP",
+    "addParameter": "Add Parameter",
+    "noParametersConfigured": "No Parameters Configured",
+    "secured": "Secured",
+    "required": "Required",
+    "hiddenParam": "Hidden",
+    "valueType": "Value Type",
+    "label": "Label",
+    "defaultValue": "Default Value"
   },
   "languageSelection": {
     "language": "Language",
