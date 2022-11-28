@@ -267,7 +267,7 @@ export function pagesLoaded(offset, itemsPerPage) {
 }
 
 function getMetricValue(kpi, formatter) {
-  if (kpi !== undefined) {
+  if (kpi !== undefined && kpi !== null) {
     //checking if kpi is falsy, valid kpi can be 0 as well
     return formatter ? formatter(kpi) : kpi;
   }
