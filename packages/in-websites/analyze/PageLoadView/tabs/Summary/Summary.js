@@ -72,15 +72,11 @@ export default function Summary({ beacons, pageLoadLabel, pageLoadId, detailId }
           />
         </Col>
         <Col xs>
-          <KpiCard
-            title={t('in-websites:analyze.analyzeView.pageLoadView.summaryTitleWebsite')}
-            raw
-            value={
-              <Link href$={getLinkToWebsite(firstBeacon.websiteId)} className={locals.linkToWebsite}>
-                {firstBeacon.websiteLabel}
-              </Link>
-            }
-          />
+          <KpiCard title={t('in-websites:analyze.analyzeView.pageLoadView.summaryTitleWebsite')}>
+            <Link href$={getLinkToWebsite(firstBeacon.websiteId)} className={locals.linkToWebsite}>
+              {firstBeacon.websiteLabel}
+            </Link>
+          </KpiCard>
         </Col>
       </Row>
 
