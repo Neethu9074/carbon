@@ -4,7 +4,6 @@
  */
 
 import { perEndpointAdaptiveBaselineEnabled } from 'in-services/featureFlags';
-import { perServiceAdaptiveBaselineEnabled } from 'in-services/featureFlags';
 import { AlertEvaluationType } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -47,7 +46,7 @@ const alertEvaluationTypes: AlertEvaluationInfos = Object.freeze({
     globalSelectionText: t(
       'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAPSERVICE.globalSelectionText'
     ),
-    enabledForAdaptiveThreshold: perServiceAdaptiveBaselineEnabled,
+    enabledForAdaptiveThreshold: true,
     columnText: t(
       'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAPSERVICE.columnText'
     ),

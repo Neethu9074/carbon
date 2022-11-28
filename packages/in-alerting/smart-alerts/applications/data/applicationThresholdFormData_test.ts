@@ -17,12 +17,6 @@ import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alert
 import { DAILY, WEEKLY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { t } from 'in-i18n';
 
-jest.mock('in-services/featureFlags', () => ({
-  get adaptiveBaselineEnabled() {
-    return true;
-  }
-}));
-
 describe('in-alerting/smart-alerts/applications/data/applicationThresholdFormData::filterThresholdTypeOptionsForEvaluationType', () => {
   test('Return all options for individual smart alert', () => {
     const thresholdOpts = filterThresholdTypeOptionsForEvaluationType(applicationThresholdTypeOptions, PER_AP, false);

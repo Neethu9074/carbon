@@ -205,11 +205,6 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'adaptiveBaselineEnabled',
-    instanaCtlKey: 'feature.adaptive.baseline.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'builtInGlobalApplicationSmartAlertsEnabled',
     instanaCtlKey: 'feature.shared.application.smart.alerts.builtIn.enabled',
     defaultValue: false
@@ -238,11 +233,6 @@ module.exports = exports = [
     uiClientKey: 'hideAppDataLegacyEventsEnabled',
     instanaCtlKey: 'feature.hide.app.data.legacy.events.enabled',
     defaultValue: false
-  },
-  {
-    uiClientKey: 'perServiceAdaptiveBaselineEnabled',
-    instanaCtlKey: 'feature.adaptive.baseline.per.service.enabled',
-    defaultValue: true
   },
   {
     uiClientKey: 'perEndpointAdaptiveBaselineEnabled',
