@@ -29,7 +29,7 @@ import { t } from 'in-i18n';
 
 import locals from './ResultsTopList.mless';
 
-const metrics = ['response_time', 'response_size', 'start_time', 'status'];
+const metrics = ['response_time', 'start_time', 'status', 'response_size'];
 
 const orders = [
   { by: 'response_time', direction: 'DESC' },
