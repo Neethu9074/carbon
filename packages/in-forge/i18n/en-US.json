@@ -9293,6 +9293,7 @@
       "openOutputCount": "Open Output Count",
       "calls": "Calls",
       "statistics": "MQ Queue Statistics",
+      "statisticsRecord": "Note: Only 'any' is supported for 'Matching Operator' field!",
       "nonPersistentPutBytes": "Nonpersistent Put Bytes",
       "persistentPutBytes": "Persistent Put Bytes",
       "putFailCount": "PUT Fail Count",
