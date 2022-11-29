@@ -30,6 +30,8 @@
     margin: 0;
     display: flex;
     align-items: center;
+    color: @lib__colors__N700Medium;
+    font-size: @lib__typography__body-small__font-size;
   }
 
   .helpWrapper {
