@@ -30,7 +30,8 @@ export default function Summary({ data: application, timeConfig }) {
         </KpiCard>
         <KpiCard
           title={t('in-cloudfoundry:dashboards.memoryLimit')}
-          value={application.memoryLimit ? bytesZeroDecimalPlaces(application.memoryLimit) : null}
+          value={application.memoryLimit}
+          renderValue={bytesZeroDecimalPlaces}
           borderless
           raw
         />
@@ -65,7 +66,8 @@ export default function Summary({ data: application, timeConfig }) {
         />
         <KpiCard
           title={t('in-cloudfoundry:dashboards.diskLimit')}
-          value={application.diskLimit ? bytesZeroDecimalPlaces(application.diskLimit) : null}
+          value={application.diskLimit}
+          renderValue={bytesZeroDecimalPlaces}
           borderless
           raw
         />

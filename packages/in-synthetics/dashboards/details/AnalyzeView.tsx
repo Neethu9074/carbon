@@ -154,7 +154,11 @@ export default function SyntheticAnalyzeView() {
               )}
               <Row>
                 <Col xs>
-                  <KpiCard title={t('in-synthetics:dashboard.summary.startTime')} value={formatDateTime(startTime)} />
+                  <KpiCard
+                    title={t('in-synthetics:dashboard.summary.startTime')}
+                    value={startTime}
+                    renderValue={formatDateTime}
+                  />
                 </Col>
                 <Col xs>
                   {status === 1 ? (
@@ -174,7 +178,8 @@ export default function SyntheticAnalyzeView() {
                 <Col xs>
                   <KpiCard
                     title={t('in-synthetics:dashboard.summary.responseTime')}
-                    value={meanLatency.detailed(responseTime)}
+                    value={responseTime}
+                    renderValue={meanLatency.detailed}
                   />
                 </Col>
                 <Col
@@ -196,7 +201,8 @@ export default function SyntheticAnalyzeView() {
                 <Col xs>
                   <KpiCard
                     title={t('in-synthetics:dashboard.summary.responseSize')}
-                    value={bytes.detailed(responseSize)}
+                    value={responseSize}
+                    renderValue={bytes.detailed}
                   />
                 </Col>
               </Row>

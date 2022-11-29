@@ -43,7 +43,13 @@ export default function SummaryWithoutTimeShift({ timeConfig, data: service }) {
       <KpiGridRow sizes={[4, 4, 4]}>
         <KpiCard title={t('in-kubernetes:dashboards.type')} value={service.type} raw borderless />
         <KpiCard title={t('in-kubernetes:dashboards.location')} value={service.location} raw borderless />
-        <KpiCard title={t('in-kubernetes:dashboards.age')} value={formatDuration(service.age)} raw borderless />
+        <KpiCard
+          title={t('in-kubernetes:dashboards.age')}
+          value={service.age}
+          renderValue={formatDuration}
+          raw
+          borderless
+        />
       </KpiGridRow>
 
       <Row>
