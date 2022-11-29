@@ -10,8 +10,8 @@ import { Button } from '@instana/components';
 
 import ActiveGroupingConfiguration from 'in-components/GroupingConfigurator/ActiveGroupingConfiguration';
 import TagSelectorOverlay from 'in-components/TagSelectorOverlay/TagSelectorOverlay';
+import { DESTINATION, SOURCE } from 'in-components/QueryBuilder/tagFilter/entities';
 import LoadingIndicator from 'in-components/GroupingConfigurator/LoadingIndicator';
-import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import Overlay from 'in-components/overlays/Overlay';
 import { t } from 'in-i18n';
@@ -83,10 +83,10 @@ export default function GroupingConfigurator({
 
   function setEntityIfNecessary(groupbyTag, tagType) {
     const tagTreeNode = tagCatalog?.tagsByName[groupbyTag];
-    if (tagTreeNode.canApplyToSource && tagTreeNode.canApplyToDestination) {
+    if (tagTreeNode.canApplyToSource || tagTreeNode.canApplyToDestination) {
       return {
         groupbyTag,
-        groupbyTagEntity: DESTINATION
+        groupbyTagEntity: tagTreeNode.canApplyToDestination ? DESTINATION : SOURCE
       };
     }
 

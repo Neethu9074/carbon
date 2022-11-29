@@ -47,7 +47,7 @@ export default function Tag(props) {
     getSuggestionLabel,
     allowEmptyKey
   } = props;
-  const { renderModelIndex, formModelIndex } = element;
+  const { renderModelIndex, formModelIndex, name: tagName } = element;
   const form = createTagForm(tagCatalog, element);
   const { allowedOperators, valueType, type: tagType } = getFormPresentationInformation(tagCatalog, form);
 
@@ -73,6 +73,7 @@ export default function Tag(props) {
   const draggableElement = useRef(null);
 
   const invalidClass = !(allowEmptyKey ?? false) && !form.hierarchyValid;
+  const tagTreeNode = tagCatalog.tagsByName[tagName];
   return (
     <div
       ref={draggableElement}
@@ -96,6 +97,8 @@ export default function Tag(props) {
             focusField('entity', false);
             onChange('entity', entity);
           }}
+          sourceEnabled={tagTreeNode?.canApplyToSource}
+          destinationEnabled={tagTreeNode?.canApplyToDestination}
         />
       ))}
       <Name

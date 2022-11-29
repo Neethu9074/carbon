@@ -14,14 +14,14 @@ import Overlay from 'in-components/overlays/Overlay';
 
 import locals from './GroupingConfigurator.mless';
 
-export default function Entity({ groupbyTagEntity, onChange }) {
+export default function Entity({ groupbyTagEntity, onChange, sourceEnabled = true, destinationEnabled = true }) {
   const ref = useRef();
 
   return (
     <Overlay
       withoutWrapper
       content={SourceDestinationSelectorOverlay}
-      props={{ value: groupbyTagEntity, onChange }}
+      props={{ value: groupbyTagEntity, onChange, sourceEnabled, destinationEnabled }}
       align="bottomMiddle"
       onCloseSideEffect={() => ref.current?.focus()}
     >
