@@ -143,7 +143,9 @@ export default function ApplicationsAnalyzeView() {
     ua2FastQueryModeChangedTracker({ dataSource, enabled: fastQueryModeEnabled });
     onChange({ fastQueryModeEnabled });
   };
-  const dataSourceConfigurations = useMemo(() => getDataSourceConfigurations({ hiddenCalls, onChangeHiddenCalls }), []);
+  const dataSourceConfigurations = useMemo(() => getDataSourceConfigurations({ hiddenCalls, onChangeHiddenCalls }), [
+    hiddenCalls
+  ]);
 
   const tagCatalog = useTagCatalog(dataSource === 'traces' ? getTracesTagCatalog : getCallsTagCatalog);
 
