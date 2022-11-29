@@ -16,7 +16,7 @@ import { ibmz } from 'in-zhmc/navigation/paths';
 export default [
   <Route key="zhmcDashboard" path={zhmcDashboardFullyQualified} children={renderAsyncRouteChildren(ZhmcDashboard)} />,
   <Route
-    key="systemDashboard"
+    key="zhmcSystemDashboard"
     path={cpcDashboardFullyQualified}
     children={renderAsyncRouteChildren(SystemDashboard)}
   />,

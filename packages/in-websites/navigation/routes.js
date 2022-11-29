@@ -28,9 +28,9 @@ export default [
     path={websitePathFullyQualified}
     children={renderAsyncRouteChildren(WebsiteDashboard)}
   />,
-  <Route key="newWebsite" path={newWebsitePathFullyQualified} children={renderAsyncRouteChildren(NewWebsiteFlow)} />,
+  <Route key="websiteNew" path={newWebsitePathFullyQualified} children={renderAsyncRouteChildren(NewWebsiteFlow)} />,
   <Route
-    key="analyzeWebsiteBeacons"
+    key="websiteAnalyzeBeacons"
     path={analyzePathFullyQualified}
     children={renderAsyncRouteChildren(AnalyzeView2_0)}
   />,

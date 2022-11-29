@@ -28,7 +28,7 @@ export default [
     children={renderAsyncRouteChildren(MobileAppsList)}
   />,
   <Route
-    key="newMobileApp"
+    key="mobileAppNew"
     path={newMobileAppPathFullyQualified}
     children={renderAsyncRouteChildren(NewMobileAppFlow)}
   />,
@@ -37,6 +37,10 @@ export default [
     path={mobileAppPathFullyQualified}
     children={renderAsyncRouteChildren(MobileAppDashboard)}
   />,
-  <Route key="analyzeBeacons" path={analyzePathFullyQualified} children={renderAsyncRouteChildren(AnalyzeView2_0)} />,
+  <Route
+    key="mobileAppAnalyzeBeacons"
+    path={analyzePathFullyQualified}
+    children={renderAsyncRouteChildren(AnalyzeView2_0)}
+  />,
   <RedirectWithHash key="redirectToMobileAppsList" from={mobileAppMonitoringPath} to={mobileAppsPathFullyQualified} />
 ];

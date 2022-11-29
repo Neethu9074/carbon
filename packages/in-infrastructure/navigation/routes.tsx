@@ -23,13 +23,15 @@ import { containerPath, graphPath, physicalPath, tablePath } from 'in-stores/nav
 import { infraExploreDataEnabled } from 'in-services/featureFlags';
 
 const infrastructureRoutes = [
-  <Route key="physical" path={physicalPath} children={renderAsyncRouteChildren(Map)} />,
-  <Route key="container" path={containerPath} children={renderAsyncRouteChildren(Map)} />,
-  <Route key="table" path={tablePath} children={renderAsyncRouteChildren(TableView)} />,
-  <Route key="graph" path={graphPath} children={renderAsyncRouteChildren(GraphView)} />
+  <Route key="infraPhysical" path={physicalPath} children={renderAsyncRouteChildren(Map)} />,
+  <Route key="infraContainer" path={containerPath} children={renderAsyncRouteChildren(Map)} />,
+  <Route key="infraTable" path={tablePath} children={renderAsyncRouteChildren(TableView)} />,
+  <Route key="infraGraph" path={graphPath} children={renderAsyncRouteChildren(GraphView)} />
 ];
 if (infraExploreDataEnabled) {
-  infrastructureRoutes.push(<Route key='exploreInfra' path={infraExplorePath} children={renderAsyncRouteChildren(InfraExploreView)} />);
+  infrastructureRoutes.push(
+    <Route key="infraExplore" path={infraExplorePath} children={renderAsyncRouteChildren(InfraExploreView)} />
+  );
 }
 
 export default infrastructureRoutes;

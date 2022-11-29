@@ -35,44 +35,52 @@ import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncCompo
 
 export default [
   <Route
-    key="serviceDashboard"
+    key="kubernetesServiceDashboard"
     path={serviceDashboardFullyQualified}
     children={renderAsyncRouteChildren(ServiceDashboard)}
   />,
   <Route
-    key="clusterDashboard"
+    key="kubernetesClusterDashboard"
     path={clusterDashboardFullyQualified}
     children={renderAsyncRouteChildren(ClusterDashboard)}
   />,
   <Route
-    key="namespaceDashboard"
+    key="kubernetesNamespaceDashboard"
     path={namespaceDashboardFullyQualified}
     children={renderAsyncRouteChildren(NamespaceDashboard)}
   />,
-  <Route key="nodeDashboard" path={nodeDashboardFullyQualified} children={renderAsyncRouteChildren(NodeDashboard)} />,
-  <Route key="podDashboard" path={podDashboardFullyQualified} children={renderAsyncRouteChildren(PodDashboard)} />,
   <Route
-    key="daemonSetDashboard"
+    key="kubernetesNodeDashboard"
+    path={nodeDashboardFullyQualified}
+    children={renderAsyncRouteChildren(NodeDashboard)}
+  />,
+  <Route
+    key="kubernetesPodDashboard"
+    path={podDashboardFullyQualified}
+    children={renderAsyncRouteChildren(PodDashboard)}
+  />,
+  <Route
+    key="kubernetesDaemonSetDashboard"
     path={daemonSetDashboardFullyQualified}
     children={renderAsyncRouteChildren(DaemonSetDashboard)}
   />,
   <Route
-    key="deploymentDashboard"
+    key="kubernetesDeploymentDashboard"
     path={deploymentDashboardFullyQualified}
     children={renderAsyncRouteChildren(DeploymentDashboard)}
   />,
   <Route
-    key="statefulSetDashboard"
+    key="kubernetesStatefulSetDashboard"
     path={statefulSetDashboardFullyQualified}
     children={renderAsyncRouteChildren(StatefulSetDashboard)}
   />,
   <Route
-    key="croneJobDashboard"
+    key="kubernetesCroneJobDashboard"
     path={cronJobDashboardFullyQualified}
     children={renderAsyncRouteChildren(CronJobDashboard)}
   />,
   <Route
-    key="deploymentConfigDashboard"
+    key="kubernetesDeploymentConfigDashboard"
     path={deploymentConfigDashboardFullyQualified}
     children={renderAsyncRouteChildren(DeploymentConfigDashboard)}
   />,

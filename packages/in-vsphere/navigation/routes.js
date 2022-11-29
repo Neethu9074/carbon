@@ -20,7 +20,7 @@ import { vsphere } from 'in-vsphere/navigation/paths';
 
 export default [
   <Route
-    key="datacenterDashboard"
+    key="vsphereDatacenterDashboard"
     path={datacenterDashboardFullyQualified}
     children={renderAsyncRouteChildren(DatacenterDashboard)}
   />,
@@ -29,6 +29,6 @@ export default [
     path={hostDashboardFullyQualified}
     children={renderAsyncRouteChildren(HostDashboard)}
   />,
-  <Route key="vmDashboard" path={vmDashboardFullyQualified} children={renderAsyncRouteChildren(VmDashboard)} />,
+  <Route key="vsphereVmDashboard" path={vmDashboardFullyQualified} children={renderAsyncRouteChildren(VmDashboard)} />,
   <Route key="vsphereMainView" path={vsphere} children={renderAsyncRouteChildren(VSphereMainView)} />
 ];
