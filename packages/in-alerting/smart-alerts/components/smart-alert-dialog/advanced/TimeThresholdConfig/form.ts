@@ -47,6 +47,7 @@ export default function createTimeThresholdForm(
     case 'requestImpact':
       return createTraceImpactForm(timeThresholdConfig as TraceImpactTimeThreshold, granularity, thresholdType);
     case 'violationsInSequence':
+    default:
       return createViolationsInSequenceForm(timeThresholdConfig as ViolationsInSequenceTimeThreshold, thresholdType);
   }
 }
