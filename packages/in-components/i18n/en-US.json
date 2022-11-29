@@ -1,4 +1,8 @@
 {
+  "csvExporterButton": {
+    "label": "Export to CSV"
+  },
+
   "fileInputButton": {
     "label": {
       "chooseSingle": "Choose file…",
@@ -310,7 +314,7 @@
     "tooManyRequests": "Too many requests",
     "tooManyRequestsInfo": "Our system is currently busy. Please try again later.",
     "serverError": "Server Error",
-    "serverErrorInfo": "An unexpected error occurred. Please try again later or contact support to report the error."  
+    "serverErrorInfo": "An unexpected error occurred. Please try again later or contact support to report the error."
   },
   "expandableCard": {
     "tooltipShowLess": "Show less",
@@ -815,5 +819,9 @@
     "notice": "This tenant unit has been migrated to a new region. The unit you are currently accessing only contains historical data.",
     "goToNewLocationLabel": "Go to New Location",
     "exploreDataLabel": "Explore Historical Data"
+  },
+  "password": {
+    "hidePasswordTooltip": "Hide password",
+    "showPasswordTooltip": "Show password"
   }
 }

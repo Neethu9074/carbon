@@ -26,6 +26,7 @@ import Select from 'in-components/form/Select/Select';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import SaveCancel from 'in-settings/components/SaveCancel';
+import Password from 'in-components/form/Password/Password';
 
 interface ParameterDialogProps {
   form: MapForm;
@@ -53,6 +54,7 @@ export default function ParameterDialog({ form, setForm, onChange, nameToEdit }:
   };
   console.log(form, setForm, onChange, setParameterForm, parameterForm);
   const valueRequiredButEmpty = required.value && value.touched && value.value === '';
+  const DefaultValueInput = secured.value ? Password : Input;
   return (
     <Dialog
       titleIconType={'lib_openclose_add'}
@@ -161,9 +163,8 @@ export default function ParameterDialog({ form, setForm, onChange, nameToEdit }:
               <Label htmlFor="parameter-value" hasError={!value.valid && value.touched}>
                 {t('in-settings:tabs.defaultValue')}
               </Label>
-              <Input
+              <DefaultValueInput
                 id="parameter-value"
-                type={secured.value ? 'password' : 'text'}
                 value={value.value}
                 onChange={e => onParameterChange('value', e.target.value)}
                 hasError={valueRequiredButEmpty}
