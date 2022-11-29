@@ -120,7 +120,8 @@ export function MultiConditions({
                 <div className={locals.conditionWrapper}>{conditionForm}</div>
                 <IconButton
                   className={classNames({ [locals.hidden]: rulesForm.size === 1 })}
-                  disabled={disabled}
+                  disabled={disabled || rulesForm.size === 1}
+                  buttonType="button"
                   type="lib_actions_delete"
                   kind="primaryv2"
                   onClick={e => {
