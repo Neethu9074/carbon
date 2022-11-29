@@ -18,6 +18,7 @@ import { getInteractiveElements } from 'in-services/util/dom';
 import Node from 'in-components/SelectorOverlay/Node';
 import { isNotBlank } from 'in-services/util/string';
 import SearchInput from 'in-components/SearchInput';
+import { noop } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
 
 import locals from './SelectorOverlay.mless';
@@ -34,7 +35,8 @@ export default function SelectorOverlay({
   onChange,
   withIcons = true,
   query,
-  onQueryChange
+  onQueryChange,
+  disabled
 }) {
   const [focusedNode, setFocusedNode] = useState(null);
   const [showFocusedNode, setShowFocusedNode] = useState(false);
@@ -77,6 +79,7 @@ export default function SelectorOverlay({
           onReturn={focusOnFirstResult}
           onArrowDown={focusOnFirstResult}
           inputRef={searchElementRef}
+          disabled={disabled}
         />
       </div>
       <div className={locals.overlay}>
@@ -109,8 +112,8 @@ export default function SelectorOverlay({
                     <Node
                       key={i}
                       node={node}
-                      focusNode={focusNode}
-                      onChange={onChange}
+                      focusNode={disabled ? noop : focusNode}
+                      onChange={disabled ? noop : onChange}
                       asListGroup
                       withIcons={withIcons}
                     />
@@ -130,8 +133,8 @@ export default function SelectorOverlay({
                   <Node
                     key={i}
                     node={node}
-                    focusNode={focusNode}
-                    onChange={onChange}
+                    focusNode={disabled ? noop : focusNode}
+                    onChange={disabled ? noop : onChange}
                     asListGroup
                     withIcons={withIcons}
                     withBreadcrumbs={isNotBlank(query)}
@@ -187,5 +190,6 @@ SelectorOverlay.propTypes = {
   onChange: PropTypes.func.isRequired,
   withIcons: PropTypes.bool,
   query: PropTypes.string.isRequired,
-  onQueryChange: PropTypes.func.isRequired
+  onQueryChange: PropTypes.func.isRequired,
+  disabled: PropTypes.bool
 };

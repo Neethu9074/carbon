@@ -11,7 +11,7 @@ import {
   createViolationsInSequenceForm,
   createViolationsInPeriodForm,
   createUserImpactOfViolationsInSequenceForm,
-  createRequestImpactForm
+  createTraceImpactForm
 } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/form';
 import {
   timeThresholdTypes,
@@ -25,14 +25,14 @@ export default function SelectTimeThreshold({
   form,
   updateForm,
   hasUserImpactOption,
-  hasRequestImpactOption,
+  hasTraceImpactOption,
   impactTimeThresholdDisabled
 }) {
   const {
     violationsInSequence,
     violationsInPeriod,
     userImpactOfViolationsInSequence,
-    requestImpact
+    traceImpact
   } = timeThresholdTypes;
   const checkboxes = [
     createOption(form, updateForm, violationsInSequence),
@@ -43,8 +43,8 @@ export default function SelectTimeThreshold({
     checkboxes.push(createOption(form, updateForm, userImpactOfViolationsInSequence, impactTimeThresholdDisabled));
   }
 
-  if (hasRequestImpactOption) {
-    checkboxes.push(createOption(form, updateForm, requestImpact, impactTimeThresholdDisabled));
+  if (hasTraceImpactOption) {
+    checkboxes.push(createOption(form, updateForm, traceImpact, impactTimeThresholdDisabled));
   }
 
   return (
@@ -73,11 +73,11 @@ export default function SelectTimeThreshold({
   );
 }
 
-function createOption(form, updateForm, thresholdType, disabled = false) {
+function createOption(form, updateForm, timeThresholdType, disabled = false) {
   return {
-    label: timeThresholdLabels[thresholdType],
-    checked: form.get('timeThreshold').get('type').value === thresholdType,
-    onChange: () => updateForm(form.put('timeThreshold', getTimeThresholdFormForType(form, thresholdType))),
+    label: timeThresholdLabels[timeThresholdType],
+    checked: form.get('timeThreshold').get('type').value === timeThresholdType,
+    onChange: () => updateForm(form.put('timeThreshold', getTimeThresholdFormForType(form, timeThresholdType))),
     disabled
   };
 }
@@ -92,8 +92,8 @@ function getTimeThresholdFormForType(form, timeThresholdType) {
     return createViolationsInPeriodForm(timeThreshold, thresholdType);
   } else if (timeThresholdType === timeThresholdTypes.userImpactOfViolationsInSequence) {
     return createUserImpactOfViolationsInSequenceForm(timeThreshold, thresholdType);
-  } else if (timeThresholdType === timeThresholdTypes.requestImpact) {
-    return createRequestImpactForm(timeThreshold, form.get('granularity').value, thresholdType);
+  } else if (timeThresholdType === timeThresholdTypes.traceImpact) {
+    return createTraceImpactForm(timeThreshold, form.get('granularity').value, thresholdType);
   }
 }
 
@@ -101,6 +101,6 @@ SelectTimeThreshold.propTypes = {
   form: PropTypes.object.isRequired,
   updateForm: PropTypes.func.isRequired,
   hasUserImpactOption: PropTypes.bool,
-  hasRequestImpactOption: PropTypes.bool,
+  hasTraceImpactOption: PropTypes.bool,
   impactTimeThresholdDisabled: PropTypes.bool
 };

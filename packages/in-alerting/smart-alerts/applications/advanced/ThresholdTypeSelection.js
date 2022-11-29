@@ -12,7 +12,6 @@ import {
   filterThresholdTypeOptionsForEvaluationType,
   getOptionsFilterForThresholdTyp
 } from 'in-alerting/smart-alerts/applications/data/applicationThresholdFormData';
-import ShowStaticThresholdLabelOrDropdown from 'in-alerting/smart-alerts/applications/advanced/ShowStaticThresholdLabelOrDropdown';
 import RecalculateBaselineButton from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/RecalculateBaselineButton';
 import { getThresholdComboBoxValue } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/thresholdFormHelper';
 import { applicationsAlertingThresholdTypeHelpIconHovered } from 'in-alerting/smart-alerts/applications/tracker';
@@ -41,7 +40,7 @@ export default function ThresholdTypeSelection({
   const thresholdComboBoxValue = getThresholdComboBoxValue(form);
 
   return (
-    <ShowStaticThresholdLabelOrDropdown evaluationType={evaluationType} isGlobalSmartAlert={isGlobalSmartAlert}>
+    <>
       {options.length === 1 ? (
         <span>{options[0].label}</span>
       ) : (
@@ -65,7 +64,7 @@ export default function ThresholdTypeSelection({
           <RecalculateBaselineButton updateForm={updateForm} editMode={editMode} form={form} />
         )}
       </Stack>
-    </ShowStaticThresholdLabelOrDropdown>
+    </>
   );
 }
 

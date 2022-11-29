@@ -6,7 +6,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import ConfigureRequestImpact from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/ConfigureRequestImpact';
+import ConfigureTraceImpact from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/ConfigureTraceImpact';
 import ConfigureGranularity from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/ConfigureGranularity';
 import ConfigureTimeWindow from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/ConfigureTimeWindow';
 import ConfigureViolations from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/ConfigureViolations';
@@ -50,8 +50,8 @@ export default function ConfigureAlertingThreshold({ form, onChange, updateForm 
       );
     } else if (timeThresholdType === timeThresholdTypes.userImpactOfViolationsInSequence) {
       label = t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigNumberOfEvaluationWindows');
-    } else if (timeThresholdType === timeThresholdTypes.requestImpact) {
-      return <ConfigureRequestImpact form={form} onChange={onChange} />;
+    } else if (timeThresholdType === timeThresholdTypes.traceImpact) {
+      return <ConfigureTraceImpact form={form} onChange={onChange} />;
     }
     return (
       <ConfigureTimeWindow

@@ -9,13 +9,13 @@ export type TimeThresholdType =
   | 'violationsInSequence'
   | 'violationsInPeriod'
   | 'userImpactOfViolationsInSequence'
-  | 'requestImpact';
+  | 'requestImpact'; // the type value is still requestImpact due to backward compatibility, even though it is about traces
 
 export const timeThresholdTypes = Object.freeze({
   violationsInSequence: 'violationsInSequence',
   violationsInPeriod: 'violationsInPeriod',
   userImpactOfViolationsInSequence: 'userImpactOfViolationsInSequence',
-  requestImpact: 'requestImpact'
+  traceImpact: 'requestImpact' // the type value is requestImpact due to backward compatibility, even though it is about traces
 } as const);
 
 export const timeThresholdLabels: Record<TimeThresholdType, string> = {
@@ -29,6 +29,6 @@ export const timeThresholdLabels: Record<TimeThresholdType, string> = {
     'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigTimeThresholdLabelUserImpactOfViolationsInSequence'
   ),
   requestImpact: t(
-    'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigTimeThresholdLabelRequestImpact'
+    'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigTimeThresholdLabelTraceImpact'
   )
 };

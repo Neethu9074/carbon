@@ -32,9 +32,9 @@ import { ApplicationAlertPreview } from 'in-alerting/smart-alerts/applications/a
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import { smartAlertsLogsBlueprintEnabled, adaptiveBaselineEnabled } from 'in-services/featureFlags';
 import { ThresholdSection } from 'in-alerting/smart-alerts/applications/advanced/ThresholdSection';
 import ScopeConfig from 'in-alerting/smart-alerts/applications/scopeConfig/ScopeConfig';
+import { smartAlertsLogsBlueprintEnabled } from 'in-services/featureFlags';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import StepsContainer from 'in-components/StepsContainer';
 import { t } from 'in-i18n';
@@ -103,7 +103,7 @@ export default function AdvancedModeContainer(props) {
                 updateForm={updateForm}
                 setSliderState={setSliderState}
               />
-              {adaptiveBaselineEnabled && blueprintConfig?.baselineEnabled && (
+              {blueprintConfig?.baselineEnabled && (
                 <LightCard
                   title={t(
                     'in-alerting:smartAlerts.applications.advanced.advancedModeContainer.threshold.staticOrAdaptiveTitle'
@@ -183,7 +183,7 @@ export default function AdvancedModeContainer(props) {
               onChange={onChange}
               updateForm={updateForm}
               impactTimeThresholdDisabled={blueprintConfig.impactTimeThresholdDisabled}
-              hasRequestImpactOption
+              hasTraceImpactOption
             />
           )
         },

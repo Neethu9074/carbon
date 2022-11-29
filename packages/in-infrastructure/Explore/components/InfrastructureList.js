@@ -243,9 +243,11 @@ function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, gran
         const kpi = firstValue(item.metrics[id]);
         const series = item.metrics[getSeriesKey(id)];
         const percentageMetric = mapData(metadata, data => data?.percentageMetric).data;
+        const metricValue = getMetricValue(kpi, formatter);
+
         return (
           <SparkChart
-            horizontalMetricValue={(kpi && formatter && formatter(kpi)) || valueMissingPlaceholder}
+            horizontalMetricValue={metricValue}
             percentageMetric={percentageMetric}
             metrics={series}
             tooltipFormatter={formatter}
@@ -262,6 +264,14 @@ function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, gran
 
 export function pagesLoaded(offset, itemsPerPage) {
   return (offset || 0) / itemsPerPage + 2; // we are on page 1 when offset is 0, so nextPageNumber == 2
+}
+
+function getMetricValue(kpi, formatter) {
+  if (kpi !== undefined && kpi !== null) {
+    //checking if kpi is falsy, valid kpi can be 0 as well
+    return formatter ? formatter(kpi) : kpi;
+  }
+  return valueMissingPlaceholder;
 }
 
 function processData(items, columns) {
@@ -324,7 +334,7 @@ function getHeaderActions(props) {
         cursor={cursor}
         columns={columns}
       />
-      <MetricCatalogAndSortingConfigurator {...props} />;
+      <MetricCatalogAndSortingConfigurator {...props} />
     </>
   );
 }

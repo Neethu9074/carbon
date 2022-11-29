@@ -22,7 +22,7 @@ export const Default = props => {
 };
 
 Default.args = {
-  hasRequestImpactOption: false,
+  hasTraceImpactOption: false,
   hasUserImpactOption: false,
   impactTimeThresholdDisabled: false
 };

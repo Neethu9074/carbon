@@ -3,9 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
+import { EventSpecificationInfo, EventSpecificationType, Nullish } from 'in-types';
 import { deprecateAppDataLegacyEventsEnabled } from 'in-services/featureFlags';
 import { customIssuesDisabledForPlugins, plugins } from 'in-forge/constants';
-import { EventSpecificationInfo, EventSpecificationType, Nullish } from 'in-types';
 import { FormatterType } from 'in-services/formatters/number';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { getPluginName } from 'in-sdk/pluginName';
