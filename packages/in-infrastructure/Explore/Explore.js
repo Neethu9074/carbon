@@ -1,5 +1,5 @@
 /*
- * (c) Copyright IBM Corp. 2021
+ * (c) Copyright IBM Corp. 2022
  * (c) Copyright Instana Inc.
  */
 
@@ -151,9 +151,6 @@ function InfraExploreViewWithFixatedTimeConfig() {
       <Title title={t('in-infrastructure:explore.explore')} />
       <LeftRightPadding className={locals.stack}>
         <Stack gap="gutter">
-          <Message type="warning" withIcon small>
-            {t('in-infrastructure:explore.thisIsABetaVersionOfANewProductCapability')}
-          </Message>
           <Content
             setUrl={setUrl}
             type={type}
