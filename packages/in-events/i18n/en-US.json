@@ -28,7 +28,7 @@
   "targetAgentDescription": "An Agent encapsulates 1..* Sensors, who in turn are able to raise Events to the Instana backend. A triggering Agent contains the Sensor that raised this particular Event.",
   "pleaseSelect": "Please select",
   "actionSensorTimeout": "Could not handle the backend request. Check your agent configuration to make sure the Action sensor is installed.",
-  "chosenToRun": "You have chosen {{actionName}} from your Action Catalog.",
+  "chosenToRun": "You have chosen to run {{actionName}} from your Action Catalog.",
   "chosenToTest": "You have chosen to test {{actionName}} from your Action Catalog.",
   "failedToInitiate": "{{actionName}} failed to initiate.",
   "hasBeenInitiated": "{{actionName}} has been initiated.",
