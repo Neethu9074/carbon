@@ -79,6 +79,9 @@
       },
       "form": {
         "validUrl": "Enter a valid URL"
+      },
+      "validators": {
+        "theValueMustNotBeEmpty": "At least one location needs to be selected"
       }
     },
     "httpMethods": {
