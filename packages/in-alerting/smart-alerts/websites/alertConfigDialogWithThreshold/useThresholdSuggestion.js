@@ -59,7 +59,7 @@ function resolveThresholdRequest(
   const {
     rule: { metricName },
     rule,
-    threshold: { operator, seasonality = null },
+    threshold: { operator, seasonality = null, type },
     granularity,
     hiddenFields: { calculateThresholdOnBackend }
   } = alertConfigWithFormModel;
@@ -89,6 +89,7 @@ function resolveThresholdRequest(
     },
     operator,
     seasonality: getSeasonality(),
-    fallbackOnError: isSimpleMode
+    fallbackOnError: isSimpleMode,
+    type
   });
 }
