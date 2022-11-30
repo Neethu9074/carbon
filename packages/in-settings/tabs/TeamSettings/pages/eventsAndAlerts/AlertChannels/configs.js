@@ -23,14 +23,14 @@ export const configs = {
   opsgenie: opsgenieChannelConfig,
   pagerduty: PagerdutyChannelConfig,
   office365: office365ChannelConfig,
+  serviceNowWebhook: serviceNowChannelConfig,
   webhook: webhookChannelConfig,
   splunk: splunkChannelConfig,
   googleChat: googleChatChannelConfig,
   victorOps: victorOpsChannelConfig,
   prometheusWebhook: prometheusWebhookChannelConfig,
   webexTeamsWebhook: webexTeamsWebhookChannelConfig,
-  watsonAIOpsWebhook: watsonAIOpsWebhookChannelConfig,
-  serviceNowWebhook: serviceNowChannelConfig
+  watsonAIOpsWebhook: watsonAIOpsWebhookChannelConfig
 };
 
 export const fullyQualified = {
@@ -39,14 +39,14 @@ export const fullyQualified = {
   [configs.opsgenie.name]: configs.opsgenie,
   [configs.pagerduty.name]: configs.pagerduty,
   [configs.slack.name]: configs.slack,
+  [configs.serviceNowWebhook.name]: configs.serviceNowWebhook,
   [configs.webhook.name]: configs.webhook,
   [configs.splunk.name]: configs.splunk,
   [configs.googleChat.name]: configs.googleChat,
   [configs.victorOps.name]: configs.victorOps,
   [configs.prometheusWebhook.name]: configs.prometheusWebhook,
   [configs.webexTeamsWebhook.name]: configs.webexTeamsWebhook,
-  [configs.watsonAIOpsWebhook.name]: configs.watsonAIOpsWebhook,
-  [configs.serviceNowWebhook.name]: configs.serviceNowWebhook
+  [configs.watsonAIOpsWebhook.name]: configs.watsonAIOpsWebhook
 };
 
 export default configs;
