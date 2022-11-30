@@ -7,7 +7,7 @@
 import { Field, MapForm } from 'formalistic';
 import React, { ChangeEvent } from 'react';
 
-import DummyServerTablePresenter from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/DummyServerTablePresenter';
+import ServerTablePresenterWrapper from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ServerTablePresenterWrapper';
 import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { OnEntityChange, SetForm } from 'in-settings/hooks/useEntityForm';
@@ -17,7 +17,7 @@ import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
 
-import locals from './DummyServerTablePresenterConsumer.mless';
+import locals from './ServerTablePresenterWrapperConsumer.mless';
 
 interface AdditionalHeadersProps {
   form: MapForm;
@@ -94,7 +94,7 @@ export default function AdditionalHeadersTable({ form, setForm, onChange }: Addi
   const additionalHeaders = field.value;
 
   return (
-    <DummyServerTablePresenter
+    <ServerTablePresenterWrapper
       columnDefinitions={columnDefinitions}
       data={additionalHeaders}
       form={form}

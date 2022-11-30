@@ -16,19 +16,22 @@ import { SetForm } from 'in-settings/hooks/useEntityForm';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t } from 'in-i18n';
 
-import locals from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/DummyServerTablePresenter.mless';
+import locals from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ServerTablePresenterWrapper.mless';
 
 type ListItem<VALUETYPE> = { id: string; value: VALUETYPE };
-interface DummyServerTablePresenterListItem {}
+interface ServerTablePresenterWrapperListItem {}
 
-interface DummyServerTablePresenterListItemConfiguration<VALUETYPE>
-  extends DummyServerTablePresenterListItem,
+interface ServerTablePresenterWrapperListItemConfiguration<VALUETYPE>
+  extends ServerTablePresenterWrapperListItem,
     ServerTablePresenterProps<ListItem<VALUETYPE>> {}
 
-interface DummyServerTablePresenterProps<VALUETYPE>
-  extends DummyServerTablePresenterListItem,
-    Partial<DummyServerTablePresenterListItemConfiguration<VALUETYPE>> {
-  columnDefinitions: ColumnDefinition<ListItem<VALUETYPE>, DummyServerTablePresenterListItemConfiguration<VALUETYPE>>[];
+interface ServerTablePresenterWrapperProps<VALUETYPE>
+  extends ServerTablePresenterWrapperListItem,
+    Partial<ServerTablePresenterWrapperListItemConfiguration<VALUETYPE>> {
+  columnDefinitions: ColumnDefinition<
+    ListItem<VALUETYPE>,
+    ServerTablePresenterWrapperListItemConfiguration<VALUETYPE>
+  >[];
   data: ListItem<VALUETYPE>[];
   form: MapForm;
   formKey: string;
@@ -36,7 +39,7 @@ interface DummyServerTablePresenterProps<VALUETYPE>
   setForm: SetForm;
 }
 
-export default function DummyServerTablePresenter<VALUETYPE>({
+export default function ServerTablePresenterWrapper<VALUETYPE>({
   columnDefinitions,
   data,
   noDataMessage,
@@ -45,7 +48,7 @@ export default function DummyServerTablePresenter<VALUETYPE>({
   formKey,
   defaultRow,
   setForm
-}: DummyServerTablePresenterProps<VALUETYPE>) {
+}: ServerTablePresenterWrapperProps<VALUETYPE>) {
   const result = {
     // Parent component would only render if 'result has no errors' or 'result not loading'. Passing loading and errors param accordingly.
     progress: {
@@ -77,7 +80,7 @@ export default function DummyServerTablePresenter<VALUETYPE>({
   };
 
   return (
-    <ServerTablePresenter<ListItem<VALUETYPE>, DummyServerTablePresenterListItemConfiguration<VALUETYPE>>
+    <ServerTablePresenter<ListItem<VALUETYPE>, ServerTablePresenterWrapperListItemConfiguration<VALUETYPE>>
       columnDefinitions={[...columnDefinitions, deleteRowColumn]}
       getRowProps={getRowProps}
       result={result}
