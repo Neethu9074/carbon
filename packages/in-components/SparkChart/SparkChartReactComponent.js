@@ -52,6 +52,8 @@ export default function SparkChartReactComponent(props) {
     sparkChart = (
       <SparkChartReactWrapper
         {...props}
+        height={height}
+        width={width}
         percentageMetric={
           props.percentageMetric ?? getFormatterType(props.tooltipFormatter) === PERCENTAGE_FORMATTER_TYPE
         }
