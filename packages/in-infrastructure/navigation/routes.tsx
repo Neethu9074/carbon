@@ -18,10 +18,9 @@ import React from 'react';
 // @ts-expect-error module need to be translated to TS
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 // @ts-expect-error module need to be translated to TS
-import { infraExploreEnabled } from 'in-infrastructure/Explore/services/featureFlags';
-// @ts-expect-error module need to be translated to TS
 import { infraExplorePath } from 'in-infrastructure/navigation/paths';
 import { containerPath, graphPath, physicalPath, tablePath } from 'in-stores/navigation/paths/mainPaths';
+import { infraExploreDataEnabled } from 'in-services/featureFlags';
 
 const infrastructureRoutes = [
   <Route path={physicalPath} children={renderAsyncRouteChildren(Map)} />,
@@ -29,7 +28,7 @@ const infrastructureRoutes = [
   <Route path={tablePath} children={renderAsyncRouteChildren(TableView)} />,
   <Route path={graphPath} children={renderAsyncRouteChildren(GraphView)} />
 ];
-if (infraExploreEnabled) {
+if (infraExploreDataEnabled) {
   infrastructureRoutes.push(<Route path={infraExplorePath} children={renderAsyncRouteChildren(InfraExploreView)} />);
 }
 

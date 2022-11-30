@@ -1,6 +1,6 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * (c) Copyright IBM Corp. 2022
+ * (c) Copyright Instana Inc. 2022
  */
 
 import React from 'react';
@@ -8,9 +8,9 @@ import React from 'react';
 import { physicalTablePath, physicalPath, containerPath, isTableView } from 'in-stores/navigation/paths/mainPaths';
 import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-components/SecondLevelNavigation';
 import { isInfraExploreView, defaultInfraExploreView } from 'in-infrastructure/navigation/paths';
-import { infraExploreEnabled } from 'in-infrastructure/Explore/services/featureFlags';
 import { getModifiedUrlStream, isView } from 'in-stores/navigation/navigation';
 import { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
+import { infraExploreDataEnabled } from 'in-services/featureFlags';
 import SearchBar from 'in-components/SearchBar';
 import { any } from 'in-services/fixedStreams';
 import connectTo from 'in-hoc/connectTo';
@@ -45,7 +45,7 @@ export default connectTo(
             label={t('in-infrastructure:tableView.comparisonTable')}
             isActive={isTableActive}
           />
-          {infraExploreEnabled && (
+          {infraExploreDataEnabled && (
             <SecondLevelNavigationItem
               href$={defaultInfraExploreView}
               label={t('in-infrastructure:tableView.entityExploreBeta')}
