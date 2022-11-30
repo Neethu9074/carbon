@@ -25,8 +25,8 @@ const titleValues = {
   [timeThresholdTypes.userImpactOfViolationsInSequence]: t(
     'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigTimeThresholdTitleUserImpactOfViolationsInSequence'
   ),
-  [timeThresholdTypes.requestImpact]: t(
-    'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigTimeThresholdTitleRequestImpact'
+  [timeThresholdTypes.traceImpact]: t(
+    'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigTimeThresholdTitleTraceImpact'
   )
 };
 
@@ -35,7 +35,7 @@ export default function TimeThresholdConfigPresenter({
   onChange,
   uniqueUsersOrSessionsResult,
   updateForm,
-  hasRequestImpactOption,
+  hasTraceImpactOption,
   hasUserImpactOption,
   impactTimeThresholdDisabled
 }) {
@@ -49,7 +49,7 @@ export default function TimeThresholdConfigPresenter({
           form={form}
           updateForm={updateForm}
           hasUserImpactOption={hasUserImpactOption}
-          hasRequestImpactOption={hasRequestImpactOption}
+          hasTraceImpactOption={hasTraceImpactOption}
           impactTimeThresholdDisabled={impactTimeThresholdDisabled}
         />
       }
@@ -96,7 +96,7 @@ TimeThresholdConfigPresenter.propTypes = {
   onChange: PropTypes.func.isRequired,
   uniqueUsersOrSessionsResult: PropTypes.object,
   updateForm: PropTypes.func.isRequired,
-  hasRequestImpactOption: PropTypes.bool,
+  hasTraceImpactOption: PropTypes.bool,
   hasUserImpactOption: PropTypes.bool,
   impactTimeThresholdDisabled: PropTypes.bool
 };

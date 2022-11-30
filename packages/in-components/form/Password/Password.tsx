@@ -18,7 +18,7 @@ export default function Password(inputProps: InputProps) {
 
   return (
     <div className={locals.password_wrapper}>
-      <Input {...inputProps} />
+      <Input type={showPassword ? 'text' : 'password'} className={locals.input} {...inputProps} />
       <Tooltip
         content={
           showPassword

@@ -30,7 +30,6 @@ import { SimpleDialogFooter } from 'in-components/BlueprintFormMultistep/SimpleD
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
-import { adaptiveBaselineEnabled } from 'in-services/featureFlags';
 
 export function SmartAlertConfigDialog(props) {
   const { form, isGlobalSmartAlert } = props;
@@ -59,7 +58,7 @@ export function SmartAlertConfigDialog(props) {
 function getEnrichedTagFilterFormModel(isGlobalSmartAlert, alertConfigWithFormModel, blueprintConfig) {
   const isAdaptiveBaseline = alertConfigWithFormModel.threshold.type === ADAPTIVE_BASELINE;
 
-  if (adaptiveBaselineEnabled && isAdaptiveBaseline) {
+  if (isAdaptiveBaseline) {
     const { applicationId, serviceId, endpointId } = alertConfigWithFormModel.hiddenFields.chartViewEntitySelection;
 
     return getEnhancedTagFilterFormModel(
@@ -196,7 +195,7 @@ function isValidEntitySelection(alertConfigWithFormModel) {
     threshold: { type }
   } = alertConfigWithFormModel;
 
-  if (!adaptiveBaselineEnabled || type !== ADAPTIVE_BASELINE) {
+  if (type !== ADAPTIVE_BASELINE) {
     return true;
   }
 

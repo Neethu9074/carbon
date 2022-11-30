@@ -26,7 +26,9 @@
         "subTitle": "エンドポイント",
         "labelOperation": "HTTP メソッド",
         "labelUrl": "URL",
-        "popSubTitle": "ポイント・オブ・プレゼンス"
+        "popSubTitle": "ポイント・オブ・プレゼンス",
+        "uploadScriptTitle": "スクリプトのアップロード",
+        "failureToReadFileContent": "ファイル・コンテンツの読み取りに失敗しました: {{error}}"
       },
       "basicDetails": {
         "title": "この ping テストの名前は何ですか",
@@ -48,6 +50,23 @@
           },
           "tipsForUsing": {
             "title": "使用のヒント",
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line3": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line4": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line5": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          }
+        },
+        "scriptApi": {
+          "name": "スクリプト API",
+          "headline": "HTTP スクリプト",
+          "whenToUse": {
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          },
+          "whoShouldUse": {
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          },
+          "tipsForUsing": {
             "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
             "line2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
             "line3": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
@@ -135,6 +154,7 @@
       "type": "タイプ",
       "totalTests": "リンクされているテストの数",
       "lastRun": "最終テスト実行日",
+      "namespace": "名前空間",
       "labelConfirmRemoveLocation": "<strong>{{label}}</strong> ({{status}}) の場所を削除しますか?",
       "activeTestLinked": "ロケーション <strong>{{label}}</strong> ({{status}}) にはアクティブなテストが割り当てられています。このロケーションを削除しますか?",
       "deleteLocation": "ロケーションの削除"
@@ -231,7 +251,10 @@
       "noDataAvailable": {
         "message": "{{component}} の詳細はこのテスト結果には表示されません",
         "notFound": "見つかりませんでした"
-      }
+      },
+      "downloadHar": "HAR ファイルのダウンロード",
+      "consoleLogs": "コンソール",
+      "browserLogs": "ブラウザー"
     },
     "noDataAvailable": {
       "resultsTitle": "表示可能な結果はありません",

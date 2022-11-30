@@ -85,15 +85,15 @@ export function getTimeConfigFromEventForSnapshotRetrieval(event) {
 
   // we use the start-time for the snapshot-retrieval to-timestamp, because the snapshot has to be online
   // at that point in time, but could have been offline already shortly after.
-  const triggeringTimeOrStart = getTriggeringTimeOrStart(event);
-  const toForWs = to || triggeringTimeOrStart || Date.now();
+  const startTime = getStartTime(event);
+  const toForWs = to || startTime || Date.now();
   // ensure the windowSize is not zero, because this could result in an empty result
   // when loading endpoints
   const windowSize = Math.max(minEventEntityWindowSize, toForWs - from);
 
   return {
-    to: triggeringTimeOrStart,
-    focusedMoment: triggeringTimeOrStart,
+    to: startTime,
+    focusedMoment: startTime,
     windowSize,
     autoRefresh: false
   };
@@ -123,8 +123,6 @@ function getToOfEvent(event) {
     : null;
 }
 
-function getTriggeringTimeOrStart(event) {
-  return typeof event.get === 'function'
-    ? event.get('triggeringTime', event.get('start'))
-    : event.triggeringTime || event.start;
+function getStartTime(event) {
+  return typeof event.get === 'function' ? event.get('start') : event.start;
 }

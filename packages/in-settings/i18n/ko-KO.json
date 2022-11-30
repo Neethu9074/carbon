@@ -97,6 +97,10 @@
   },
   "tabs": {
     "team": {
+      "events": {
+        "withDeprecatedSuffix": "{{pluginName}}(더 이상 사용되지 않음)",
+        "placeholder": "플레이스 홀더"
+      },
       "customPayload": {
         "unknownTag": "알 수 없는 태그: {{tagName}}"
       }
@@ -542,6 +546,8 @@
     "savingGroup": "그룹 저장 중",
     "groupSuccessfullySaved": "그룹이 저장되었습니다.",
     "groups": "그룹",
+    "groupDeleteTooltip_Default": "기본 그룹은 기본 제공 그룹이며 삭제하거나 이름을 바꿀 수 없습니다.",
+    "groupDeleteTooltip_Owner": "소유자 그룹은 기본 제공 그룹이며 삭제하거나 이름을 바꿀 수 없습니다.",
     "addGroup": "그룹 추가",
     "pendingInvitations": "보류 중인 초대",
     "revoke": "취소",
@@ -845,10 +851,9 @@
     "actions": "조치",
     "action": "조치",
     "actionWithNameForDelete": "조치 {{actionName}}",
-    "filterActions": "필터 조치",
+    "searchActions": "조치 검색",
     "lastModified": "마지막 수정 날짜",
     "script": "스크립트",
-    "http": "HTTP",
     "docLink": "문서 링크",
     "deletedEventMessage": "삭제된 이벤트 구성을 보고 있습니다. 수정은 불가능합니다.",
     "actionTypeHelper": "문서 링크는 URL을 가리키고, 스크립트는 Linux/Windows 시스템을 위한 것(현재는 bash만 지원됨)이며 HTTP는 Webhook입니다.",
@@ -858,7 +863,13 @@
     "showsUpInTheActionDescription": "조치 설명에 표시됩니다. 가능한 한 구체적이어야 합니다.",
     "docLinkDescription": "정정 컨텐츠에 대한 URL입니다.",
     "scriptDescription": "스크립트 컨텐츠입니다.",
-    "execute": "실행"
+    "execute": "실행",
+    "confidence_low": "낮음",
+    "confidence_medium": "중간",
+    "confidence_high": "높음",
+    "confidence": "{{context}}",
+    "confidenceTitle": "신뢰도",
+    "test": "테스트"
   },
   "languageSelection": {
     "language": "언어",

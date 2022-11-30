@@ -1,0 +1,109 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2022
+ */
+
+import React, { useState, useEffect, useRef, Fragment } from 'react';
+import { CSVLink } from 'react-csv';
+import { Observable } from 'rxjs';
+
+import { Button } from '@instana/components';
+import { Cursor } from '@instana/types';
+
+import { t } from 'in-i18n';
+
+import locals from './CsvExporter.mless';
+
+export interface CsvExporterProps {
+  data?: Data;
+  fetchData?: (cursor: Cursor) => Observable<any>;
+  headers: Array<string> | undefined;
+  fileName?: string;
+  processData?: (d: object[], c: object[]) => Data;
+  asyncOnClick?: boolean | undefined;
+  cursor?: Cursor;
+  columns?: object[];
+}
+
+type Data = object[];
+
+export default function CsvExporter({
+  data,
+  headers,
+  fileName = 'data.csv',
+  processData,
+  fetchData,
+  cursor,
+  columns = [{}]
+}: CsvExporterProps) {
+  const [csvData, setCsvData]: any[] = useState([]);
+  const csvInstance = useRef<any | null>(null);
+
+  const asyncExportMethod = () => {
+    if (fetchData !== undefined) {
+      fetchData(cursor ?? { offset: 0 }).subscribe(res => {
+        if (!res.progress.loading) {
+          setCsvData(processData !== undefined ? processData(res?.data?.items, columns) : res?.data?.items);
+        }
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (csvData && csvInstance && csvInstance.current && csvInstance.current.link) {
+      setTimeout(() => {
+        csvInstance.current.link.click();
+        setCsvData([]);
+      });
+    }
+  }, [csvData]);
+
+  let processedData: Data;
+
+  if (data !== undefined) {
+    processedData = processData !== undefined ? processData(data, columns) : data;
+
+    return (
+      <CSVLink
+        style={{ textDecoration: 'none' }}
+        data={processedData}
+        headers={headers}
+        filename={fileName}
+        target="_blank"
+      >
+        <Button kind="secondary" target="_blank" className={locals.csvExporterButton}>
+          {t('in-components:csvExporterButton.label')}
+        </Button>
+      </CSVLink>
+    );
+  } else {
+    if (fetchData !== undefined) {
+      return (
+        <Fragment>
+          <div
+            onClick={() => {
+              asyncExportMethod();
+            }}
+          >
+            <Button kind="secondary" target="_blank" className={locals.csvExporterButton}>
+              {t('in-components:csvExporterButton.label')}
+            </Button>
+          </div>
+          {csvData.length > 0 ? (
+            <CSVLink
+              data={csvData}
+              headers={headers || Object.keys(csvData[0])}
+              filename={fileName}
+              ref={csvInstance}
+              target="_blank"
+            />
+          ) : (
+            undefined
+          )}
+        </Fragment>
+      );
+    }
+    return <></>;
+  }
+}

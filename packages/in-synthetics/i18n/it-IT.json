@@ -26,7 +26,9 @@
         "subTitle": "Endpoint",
         "labelOperation": "Metodo HTTP",
         "labelUrl": "URL",
-        "popSubTitle": "PoP (Point of Presence)"
+        "popSubTitle": "PoP (Point of Presence)",
+        "uploadScriptTitle": "Carica lo script",
+        "failureToReadFileContent": "Impossibile leggere il contenuto del file: {{error}}"
       },
       "basicDetails": {
         "title": "Qual è il nome di questa prova di ping",
@@ -48,6 +50,23 @@
           },
           "tipsForUsing": {
             "title": "Consigli per l'uso",
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line3": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line4": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line5": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          }
+        },
+        "scriptApi": {
+          "name": "API script",
+          "headline": "Script HTTP",
+          "whenToUse": {
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          },
+          "whoShouldUse": {
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          },
+          "tipsForUsing": {
             "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
             "line2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
             "line3": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
@@ -135,6 +154,7 @@
       "type": "Immettere",
       "totalTests": "N. di verifiche collegate",
       "lastRun": "Ultima esecuzione verifica su",
+      "namespace": "Spazio dei nomi",
       "labelConfirmRemoveLocation": "Si è sicuri di voler rimuovere l'ubicazione <strong>{{label}}</strong> ({{status}})?",
       "activeTestLinked": "Esistono dei test attivi assegnati sull'ubicazione <strong>{{label}}</strong> ({{status}}); si è sicuri di voler rimuovere questa ubicazione?",
       "deleteLocation": "Elimina ubicazione"
@@ -231,7 +251,10 @@
       "noDataAvailable": {
         "message": "Dettagli di {{component}} non disponibili per questo risultato di test",
         "notFound": "Non trovato"
-      }
+      },
+      "downloadHar": "Scarica file HAR",
+      "consoleLogs": "CONSOLE",
+      "browserLogs": "BROWSER"
     },
     "noDataAvailable": {
       "resultsTitle": "Nessun risultato disponibile",

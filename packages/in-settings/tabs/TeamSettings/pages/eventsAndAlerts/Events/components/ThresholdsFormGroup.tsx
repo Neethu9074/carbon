@@ -21,7 +21,7 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import { FormatterType } from 'in-services/formatters/number';
 import ComboBox, { Option } from 'in-components/ComboBox';
 import FormGroup from 'in-settings/components/FormGroup';
-import { Col, Row } from 'in-components/layout/Grid';
+import { Col } from 'in-components/layout/Grid';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import { t } from 'in-i18n';
@@ -33,112 +33,148 @@ interface ThresholdsFormGroupProps {
     value: string | Nullish,
     updateFormDefinition?: (mapForm: MapForm, entity: CustomEventSpecificationWithMetadata) => MapForm
   ) => MapForm;
-
+  hideTimeWindow: boolean;
   disabled: boolean;
 }
 
-export function ThresholdsFormGroup({ form, onChange, disabled }: ThresholdsFormGroupProps) {
+interface TimeWindowFormGroupProps {
+  form: MapForm;
+  disabled: boolean;
+  onChange: (
+    fieldName: string,
+    value: string | Nullish,
+    updateFormDefinition?: (mapForm: MapForm, entity: CustomEventSpecificationWithMetadata) => MapForm
+  ) => MapForm;
+  columnsSize?: number;
+}
+
+/**
+ * How the layout (fitting into our 12-cells-grid) will look like:
+ *
+ * with hidden time window:
+ *
+ * | metric 50% | aggr 2/12 | oper 2/12 | val 2/12 |
+ *
+ *
+ * with time window (together with compact layout)
+ *
+ * | metric 100% |
+ * | timeWindow 3/12 | aggr 3/12 | oper 3/12 | val 3/12 |
+ */
+export function ThresholdsFormGroup({ form, onChange, disabled, hideTimeWindow }: ThresholdsFormGroupProps) {
   const isPercentileMetric = isPercentile(form);
+
+  const defaultColSize = 3;
+  const reducedColSizeForFitIntoRow = 2;
+
   return (
-    <FormGroup noFlex>
-      <Row>
-        {!isPercentileMetric && (
-          <Col lg={3}>
-            {(form.get('window') as Field<string>).map(field => (
-              <FormGroup>
-                <Label htmlFor="event-window" hasError={!field.valid && field.touched}>
-                  {t('in-settings:tabs.timeWindow')}
-                </Label>
-                <ComboBox
-                  isDisabled={disabled}
-                  name="event-window"
-                  value={field.value}
-                  options={getOptionsWithAdditionalValueIfMissing(windowOptions, field.value)}
-                  onChange={e => onChange('window', e ? (e as Option).value : '')}
-                  isClearable={false}
-                />
-                <TouchedMessages field={field} />
-              </FormGroup>
-            ))}
-          </Col>
-        )}
-        {isPercentileMetric && (
-          <Col lg={3}>
-            {(form.get('rollup') as Field<string>).map(field => (
-              <FormGroup>
-                <Label htmlFor="event-rollup" hasError={!field.valid && field.touched}>
-                  {t('in-settings:tabs.windowSize')}
-                </Label>
-                <ComboBox
-                  isDisabled={disabled}
-                  name="event-rollup"
-                  value={field.value}
-                  options={rollupOptions}
-                  onChange={e => onChange('rollup', e ? (e as Option).value : '')}
-                  isClearable={false}
-                />
-                <TouchedMessages field={field} />
-              </FormGroup>
-            ))}
-          </Col>
-        )}
-        {!isPercentileMetric && (
-          <Col lg={3}>
-            {(form.get('aggregation') as Field<string>).map(field => (
-              <FormGroup>
-                <Label htmlFor="event-aggregation" hasError={!field.valid && field.touched}>
-                  {t('in-settings:tabs.aggregation')}
-                </Label>
-                <ComboBox
-                  isDisabled={disabled}
-                  name="event-aggregation"
-                  value={field.value}
-                  options={aggregationOptions}
-                  onChange={e => onChange('aggregation', e ? (e as Option).value : null)}
-                  isClearable={false}
-                />
-                <TouchedMessages field={field} />
-              </FormGroup>
-            ))}
-          </Col>
-        )}
-        <Col lg={3}>
-          {(form.get('conditionOperator') as Field<string>).map(field => (
+    <>
+      {!isPercentileMetric && !hideTimeWindow && (
+        <TimeWindowFormGroup disabled={disabled} form={form} onChange={onChange} />
+      )}
+
+      {isPercentileMetric && !hideTimeWindow && (
+        <Col lg={defaultColSize}>
+          {(form.get('rollup') as Field<string>).map(field => (
             <FormGroup>
-              <Label htmlFor="event-conditionOperator" hasError={!field.valid && field.touched}>
-                {t('in-settings:tabs.operator')}
+              <Label htmlFor="event-rollup" hasError={!field.valid && field.touched}>
+                {t('in-settings:tabs.windowSize')}
               </Label>
               <ComboBox
                 isDisabled={disabled}
-                name="event-conditionOperator"
+                name="event-rollup"
                 value={field.value}
-                options={conditionOperatorOptions}
-                onChange={e => onChange('conditionOperator', e ? (e as Option).value : null)}
+                options={rollupOptions}
+                onChange={e => onChange('rollup', e ? (e as Option).value : '')}
                 isClearable={false}
               />
               <TouchedMessages field={field} />
             </FormGroup>
           ))}
         </Col>
-        <Col lg={3}>
-          {(form.get('conditionValue') as Field<string>).map(field => (
+      )}
+
+      {!isPercentileMetric && (
+        <Col lg={hideTimeWindow ? reducedColSizeForFitIntoRow : defaultColSize}>
+          {(form.get('aggregation') as Field<string>).map(field => (
             <FormGroup>
-              <Label htmlFor="event-conditionValue" hasError={!field.valid && field.touched}>
-                {formatterTypeToDefinition((form.get('formatter') as Field<FormatterType>).value)}
+              <Label htmlFor="event-aggregation" hasError={!field.valid && field.touched}>
+                {t('in-settings:tabs.aggregation')}
               </Label>
-              <Input
-                disabled={disabled}
-                id="event-conditionValue"
-                type="text"
+              <ComboBox
+                isDisabled={disabled}
+                name="event-aggregation"
                 value={field.value}
-                onChange={e => onChange('conditionValue', e.target.value)}
-                hasError={!field.valid && field.touched}
+                options={aggregationOptions}
+                onChange={e => onChange('aggregation', e ? (e as Option).value : null)}
+                isClearable={false}
               />
               <TouchedMessages field={field} />
             </FormGroup>
           ))}
         </Col>
-      </Row>
-    </FormGroup>
+      )}
+
+      <Col lg={hideTimeWindow ? reducedColSizeForFitIntoRow : defaultColSize}>
+        {(form.get('conditionOperator') as Field<string>).map(field => (
+          <FormGroup>
+            <Label htmlFor="event-conditionOperator" hasError={!field.valid && field.touched}>
+              {t('in-settings:tabs.operator')}
+            </Label>
+            <ComboBox
+              isDisabled={disabled}
+              name="event-conditionOperator"
+              value={field.value}
+              options={conditionOperatorOptions}
+              onChange={e => onChange('conditionOperator', e ? (e as Option).value : null)}
+              isClearable={false}
+            />
+            <TouchedMessages field={field} />
+          </FormGroup>
+        ))}
+      </Col>
+
+      <Col lg={hideTimeWindow ? reducedColSizeForFitIntoRow : defaultColSize}>
+        {(form.get('conditionValue') as Field<string>).map(field => (
+          <FormGroup>
+            <Label htmlFor="event-conditionValue" hasError={!field.valid && field.touched}>
+              {formatterTypeToDefinition((form.get('formatter') as Field<FormatterType>).value)}
+            </Label>
+            <Input
+              disabled={disabled}
+              id="event-conditionValue"
+              type="text"
+              value={field.value}
+              onChange={e => onChange('conditionValue', e.target.value)}
+              hasError={!field.valid && field.touched}
+            />
+            <TouchedMessages field={field} />
+          </FormGroup>
+        ))}
+      </Col>
+    </>
+  );
+}
+
+export function TimeWindowFormGroup({ form, disabled, onChange, columnsSize = 3 }: TimeWindowFormGroupProps) {
+  return (
+    <Col lg={columnsSize}>
+      {(form.get('window') as Field<string>)?.map(field => (
+        <FormGroup>
+          <Label htmlFor="event-window" hasError={!field.valid && field.touched}>
+            {t('in-settings:tabs.timeWindow')}
+          </Label>
+          <ComboBox
+            isDisabled={disabled}
+            name="event-window"
+            value={field.value}
+            options={getOptionsWithAdditionalValueIfMissing(windowOptions, field.value)}
+            onChange={e => onChange('window', e ? (e as Option).value : '')}
+            isClearable={false}
+          />
+          <TouchedMessages field={field} />
+        </FormGroup>
+      ))}
+    </Col>
   );
 }

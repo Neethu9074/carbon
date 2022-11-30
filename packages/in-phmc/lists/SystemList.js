@@ -47,8 +47,9 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'utilizedProcUnitsNumber',
+    id: 'utilizedProcUnits',
     label: t('in-phmc:utilizedProcNumber'),
+    sortable: false,
     getContent(item, { timeConfig }) {
       return (
         <InfrastructureMetricSparkChart
@@ -61,8 +62,9 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'utilizedProcUnits',
+    id: 'utilizedProcUnitsPercent',
     label: t('in-phmc:utilizedProc'),
+    sortable: false,
     getContent(item, { timeConfig }) {
       return (
         <InfrastructureMetricSparkChart
@@ -77,6 +79,7 @@ const columnDefinitions = [
   {
     id: 'availableMem',
     label: t('in-phmc:memAvailable'),
+    sortable: false,
     getContent(item, { timeConfig }) {
       return (
         <InfrastructureMetricSparkChart
@@ -91,6 +94,7 @@ const columnDefinitions = [
   {
     id: 'availableMemPercentage',
     label: t('in-phmc:memAvailablePercentage'),
+    sortable: false,
     getContent(item, { timeConfig }) {
       return (
         <InfrastructureMetricSparkChart
@@ -120,7 +124,7 @@ const columnDefinitions = [
 const ServerTableWithUrlState = createServerTableWithUrlState({
   paginationResettingUrlParameters: [...timeConfigUrlParameters],
   columnDefinitions,
-  defaultOrderBy: 'name',
+  defaultOrderBy: 'label',
   defaultOrderDirection: 'ASC',
   pathSegment,
   matrixPrefix

@@ -19,11 +19,11 @@ const template404 = getCompiledTemplate('404.hbs');
 const template500 = getCompiledTemplate('500.hbs');
 const templateMaintenance = getCompiledTemplate('maintenance.hbs');
 
-exports.send403 = function send403(req, res) {
+exports.send403 = function send403(req, res, user, signOutUrl, returnUrlWithoutHash, nonce) {
   res
     .status(403)
-    .set('Content-Security-Policy', csp)
-    .send(template403({}));
+    .set('Content-Security-Policy', `default-src 'self'; script-src 'self' 'nonce-${nonce}'`)
+    .send(template403({ user, signOutUrl, returnUrlWithoutHash, nonce }));
 };
 
 exports.send404 = function send404(req, res) {

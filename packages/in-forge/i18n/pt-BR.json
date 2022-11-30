@@ -555,6 +555,8 @@
   "pluginName_httpd": "Daemon de HTTP do Apache",
   "pluginName_ibmCics": "IBM CICS",
   "pluginName_ibmCics_plural": "IBM CICS",
+  "pluginName_ibmCtg": "IBM CTG",
+  "pluginName_ibmCtg_plural": "IBM CTG",
   "pluginName_ibmCloudClinicalData_plural": "IBM Clinical Datas",
   "pluginName_ibmCloudClinicalData_0": "IBM Clinical Datas",
   "pluginName_ibmCloudClinicalData_1": "IBM Clnical Datas",
@@ -1431,6 +1433,8 @@
   "tracingTypeName_cicshttpexit": "Chamada HTTP do CICS",
   "tracingTypeName_cicsrpcentry": "Chamada de RPC do CICS",
   "tracingTypeName_cicsrpcexit": "Chamada de RPC do CICS",
+  "tracingTypeName_ctgrpcentry": "Chamada RPC do CTG",
+  "tracingTypeName_ctgrpcexit": "Chamada RPC do CTG",
   "tracingTypeName_cicsmqentry": "CICS MQ Message",
   "tracingTypeName_cicsmqexit": "CICS MQ Message",
   "tracingTypeName_imsmqentry": "IMS MQ Message",
@@ -1935,6 +1939,11 @@
   "tracingTypeName_postgres_0": "Chamadas de PostgreSQL",
   "tracingTypeName_postgres_1": "Chamada de PostgreSQL",
   "tracingTypeName_postgres_2": "Chamadas de PostgreSQL",
+  "tracingTypeName_prisma": "Chamada Prisma",
+  "tracingTypeName_prisma_plural": "Chamadas Prisma",
+  "tracingTypeName_prisma_0": "Chamadas Prisma",
+  "tracingTypeName_prisma_1": "Chamada Prisma",
+  "tracingTypeName_prisma_2": "Chamadas Prisma",
   "tracingTypeName_pyhc": "Chamada de HTTP",
   "tracingTypeName_pyhc_plural": "Chamadas de HTTP",
   "tracingTypeName_pyhc_0": "Chamadas de HTTP",
@@ -5595,6 +5604,8 @@
         "hadrSecondaryLog": "Informações do log secundário do HADR",
         "hadrLogMetrics": "Métricas do log do HADR",
         "hadrTakeOverTime": "Último tempo de controle de HADR",
+        "hadrConnectStatusOrStandbyId": "hadrConnectStatus/StandbyID",
+        "hadr": "hadr",
         "vmonlockStatsValue": "Estatísticas de bloqueio (memória)",
         "vmonlockStats": "Estatísticas de bloqueio",
         "databaseVmondeltaStats": "Desempenho da transação (valor incremental)"
@@ -5789,6 +5800,7 @@
       "secLogPage": "Página do log secundário",
       "secLogPos": "Posição do log secundário",
       "secLogTime": "Tempo do log secundário",
+      "HADR_CONNECT_STATUS": "Status de conexão de HADR",
       "hadrWaitsTotal": "Total de espera de HADR",
       "sockSendBufReq": "Buffer de envio solicitado",
       "sockSendBufActual": "Buffer de envio real",
@@ -8147,6 +8159,7 @@
     "host": {
       "theOperatingSystemOfThisHostDoesNotSeemToOfferTheExtendedBerkeleyPacketFilterEBpfFunctionality": "O sistema operacional deste host não parece oferecer a funcionalidade extended Berkeley Packet Filter (eBPF), que é necessária para a detecção de finalização anormal de processos.",
       "theHostAgentIsVulnerableToLog4jCVE": "O agente host é vulnerável a Log4j CVE-2021-44228 e CVE-2021-45046. Atualize a instalação do Agente para uma versão mais recente para minimizar essas vulnerabilidades.",
+      "messagesAreBeingFilteredFromThisHost": "As mensagens deste host estão sendo filtradas; entre em contato com o suporte para desbloqueá-lo.",
       "troubleshootingDocs": "Docs de resolução de problemas",
       "dashboard": {
         "gpuMemoryProcess": "Memória/Processo do GPU",
@@ -8941,6 +8954,11 @@
                 "activeThreads": "Encadeamentos ativos",
                 "ineligibleThreads": "Encadeamentos inelegíveis",
                 "maxActiveThreads": "Máximo de encadeamentos ativos"
+              },
+              "pagesFaultRate": {
+                "elapsedDatabaseFaults": "Falhas decorridas do banco de dados",
+                "elapsedTotalFaults": "Total de falhas decorridas",
+                "elapsedNonDatabaseFaults": "Falhas decorridas não pertencentes ao banco de dados"
               }
             }
           },
@@ -9063,7 +9081,7 @@
             "messageSecondLevelText": "Texto de segundo nível"
           },
           "spinningDiskType": {
-            "name": "Informações de disco",
+            "name": "Informações giratórias do disco",
             "resourceName": "Nome do recurso",
             "unitStorageCapacity": "Capacidade de armazenamento",
             "percentUsed": "Percentual usado",
@@ -9111,8 +9129,8 @@
       "substate": "Subestado",
       "connectionName": "Nome de conexão",
       "remoteQueueManager": "Gerenciador de filas remotas",
-      "lastMessageDateTime": "Data/hora da última mensagem",
-      "startDateTime": "Data/hora de início",
+      "lastMessageDateTime": "Horário da última mensagem",
+      "startDateTime": "Hora de Início",
       "messagesSentReceived": "Mensagens enviadas/recebidas",
       "messagesAvailable": "Mensagens disponíveis",
       "sentReceived": "Enviado/recebido",
@@ -9185,7 +9203,17 @@
         "calls": "Chamadas",
         "openInputs": "Entradas abertas",
         "openOutputs": "Saídas abertas",
-        "ibmMqQueue": "Fila do IBM MQ"
+        "ibmMqQueue": "Fila do IBM MQ",
+        "intervalStartDateTime": "Horário de início do intervalo",
+        "intervalEndDateTime": "Horário de término do intervalo",
+        "nonPersistentPutBytes": "Bytes Put não persistentes",
+        "persistentPutBytes": "Bytes Put persistentes",
+        "putFailCount": "Contagem de falhas de PUT",
+        "put1FailCount": "Contagem de falhas de PUT1",
+        "nonPersistentGetBytes": "Bytes Get não persistentes",
+        "persistentGetBytes": "Bytes Get persistentes",
+        "getFailCount": "Contagem de Falhas de Get",
+        "expiredMsgCount": "Contagem de Mensagens Expiradas"
       },
       "name": "Nome",
       "type": "Tipo",
@@ -9217,7 +9245,17 @@
       "onQueueMessageTime": "Tempo da mensagem na fila",
       "openInputCount": "Abrir contagem de entrada",
       "openOutputCount": "Abrir contagem de saída",
-      "calls": "Chamadas"
+      "calls": "Chamadas",
+      "statistics": "Estatísticas da fila MQ",
+      "nonPersistentPutBytes": "Bytes Put não persistentes",
+      "persistentPutBytes": "Bytes Put persistentes",
+      "putFailCount": "Contagem de falhas de PUT",
+      "put1FailCount": "Contagem de falhas de PUT1",
+      "nonPersistentGetBytes": "Bytes Get não persistentes",
+      "persistentGetBytes": "Bytes Get persistentes",
+      "getFailCount": "Contagem de Falhas de Get",
+      "expiredMsgCount": "Contagem de Mensagens Expiradas",
+      "statisticsWithCount": "Estatísticas ({{count}})"
     },
     "ibmMqMftCoordiQmgr": {
       "dashboard": {
@@ -9225,7 +9263,13 @@
         "coordiQmgrName": "Gerenciador de filas de coordenação",
         "coordiQmgrHost": "Host",
         "connectionChannel": "Canal de conexão",
-        "agentsWithCount": "Agentes do MFT ({{len}})"
+        "agentsWithCount": "Agentes do MFT ({{len}})",
+        "transfers": "Transferências",
+        "currentTransfers": "Transferências atuais",
+        "totalTransfers": "Total de transferências",
+        "successfulTransfers": "Transferências bem-sucedidas",
+        "failedTransfers": "Transferências com falha",
+        "partiallySuccessfulTransfers": "Transferências parcialmente bem-sucedidas"
       }
     },
     "ibmMqMftZone": {
@@ -9241,46 +9285,18 @@
         "agentStatus": "Status",
         "queueManager": "Gerenciador de filas",
         "AgentStartTimeUTC": "Horário de início (UTC)",
-        "maxSourceTransfers": "Origem",
-        "maxDestinationTransfers": "Destino",
-        "maxQueuedTransfers": "Em fila",
+        "maxSourceTransfers": "Transferências de Origem Máx.",
+        "maxDestinationTransfers": "Transferências de Destino Máx.",
+        "maxQueuedTransfers": "Transferências Enfileiradas Máx.",
         "hostName": "Nome do Host",
         "agentType": "Tipo",
         "agentTimeZone": "Fuso horário",
-        "fileTransferLogsWithCount": "Transferir logs ({{len}})",
         "runningTransfers": "Transferências em execução",
         "totalCurrentTransfers": "Total de transferências atuais",
-        "transferStatusWithCount": "Transferências atuais ({{len}})",
         "totalSourceTransfers": "Transferências de origem",
-        "totalDestinationTransfers": "Transferências de destino"
-      }
-    },
-    "ibmMqMftFileTransferStatus": {
-      "dashboard": {
-        "sourceAgent": "Agente de origem",
-        "destinationAgent": "Agente de destino",
-        "startedTime": "Horário iniciado",
-        "fileNumber": "Número do arquivo",
-        "elapsedSeconds": "Tempo decorrido (segundos)",
-        "statsTransferredBytes": "Bytes transferidos",
-        "sourceFileName": "Arquivo de origem"
-      }
-    },
-    "ibmMqMftFileTransferLog": {
-      "dashboard": {
-        "actionStatus": "Status",
-        "sourceAgent": "Agente de origem",
-        "destinationAgent": "Agente de destino",
-        "originatorUserID": "Originador",
-        "startedTime": "Horário iniciado",
-        "transferMode": "Modo",
-        "checkSumMethod": "Método de soma de verificação",
-        "checkSumValue": "Valor de soma de verificação",
-        "sourceFileName": "Arquivo de origem",
-        "sourceFileSize": "Tamanho da origem",
-        "destinationFileName": "Arquivo de destino",
-        "destinationFileSize": "Tamanho de destino",
-        "itemsWithCount": "Arquivos ({{len}})"
+        "totalDestinationTransfers": "Transferências de destino",
+        "statusRunning": "Executando",
+        "statusUnknown": "Desconhecido"
       }
     },
     "ibmMqQueueManager": {
@@ -9292,7 +9308,7 @@
         "connectionName": "Nome de conexão",
         "activeConversations": "Conversas ativas",
         "remoteQueueManager": "Gerenciador de filas remotas",
-        "startDateTime": "Data/hora de início",
+        "startDateTime": "Hora de Início",
         "channelsWithCount": "Canais ({{len}})",
         "connections": "Conexões",
         "messagesIn": "Mensagens de entrada",
@@ -10366,10 +10382,6 @@
       "warningSpringbootConfig": "Informações adicionais podem ser localizadas na <linkToSpringboot>página de configuração do Spring Boot</linkToSpringboot>.",
       "descriptionActuatorConfigured": "O monitoramento do Spring Boot requer que o Spring Boot Actuator esteja configurado:",
       "descriptionEnableJMX": "Para o Spring Boot 2.2.x e mais recente, é necessário ativar o JMX. Conjunto <codeTag><bold>spring.jmx.enabled=true</bold></codeTag> no arquivo <codeTag><bold>application.properties</bold></codeTag> ."
-    },
-    "statsd": {
-      "headerInformation": "Informações",
-      "infoNoFurtherEntityInfo": "Não há informações adicionais sobre esta entidade."
     },
     "sybase": {
       "titleDiskReadsWrites": "Leituras e gravações de disco",
@@ -11839,9 +11851,6 @@
       "filesOpenedForRead": "Arquivos abertos para leitura",
       "beeInstana": "BeeInstana"
     },
-    "webSphereApplicationContainer": {
-      "sessions": "Sessões"
-    },
     "webSphereLibertyApplicationContainer": {
       "requests": "Solicitações",
       "averageResponseTime": "Tempo médio de resposta"
@@ -12154,6 +12163,14 @@
       "titleRegion": "Região CICS",
       "titleDestination": "Destino",
       "titleUnknown": "desconhecido"
+    },
+    "ctg": {
+      "titleCtgAttributes": "Atributos do CTG",
+      "ctgReturnCode": "Código de retorno do CTG",
+      "cicsReturnCode": "Código de retorno do CICS",
+      "transactionName": "Nome da transação",
+      "titleCalls": "Chamadas",
+      "calls": "{{call}}"
     },
     "corba": {
       "titleMethod": "Método",
@@ -12642,6 +12659,11 @@
       "database": "Banco de dados",
       "user": "Usuário",
       "query": "Consulta"
+    },
+    "prisma": {
+      "url": "URL da origem de dados",
+      "provider": "Tipo de banco de dados",
+      "model_action": "Modelo/Ação"
     },
     "quartz": {
       "group": "Grupo",

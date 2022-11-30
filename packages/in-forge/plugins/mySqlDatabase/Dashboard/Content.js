@@ -7,13 +7,13 @@ import React from 'react';
 
 import { Link } from '@instana/components';
 
+import { isPerformanceDataAvailable, isInformationSchemaDataAvailable } from 'in-forge/plugins/mySqlDatabase/util';
 import DBmarlinNotificationMessage from 'in-forge/plugins/awsRds/Dashboard/DBmarlinNotificationMessage';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import DatabasesTable from 'in-forge/plugins/mySqlDatabase/Dashboard/DatabasesTable';
 import { number, millis, seconds, percentage } from 'in-services/formatters/number';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
-import { isPerformanceDataAvailable } from 'in-forge/plugins/mySqlDatabase/util';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Columize from 'in-sdk/components/dashboard/Columize';
@@ -50,6 +50,7 @@ export default function MySqlDashboard({ snapshot, timeConfig }) {
 
   const snapshotId = snapshot.get('id');
   const performanceDataAvailable = isPerformanceDataAvailable(snapshot);
+  const informationSchemaDataAvailable = isInformationSchemaDataAvailable(snapshot);
 
   return (
     <div>
@@ -286,21 +287,22 @@ export default function MySqlDashboard({ snapshot, timeConfig }) {
       </Columize>
 
       <Columize>
-        <DashboardSection title={t('in-forge:plugins.mySqlDatabase.transactions')}>
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              metrics: ['status.TOTAL_TRANSACTIONS'],
-              labels: [t('in-forge:plugins.mySqlDatabase.totalTransactions')],
-              formatter: number.compact,
-              type: 'stackedArea'
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
-
+        {informationSchemaDataAvailable ? (
+          <DashboardSection title={t('in-forge:plugins.mySqlDatabase.transactions')}>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                metrics: ['status.TOTAL_TRANSACTIONS'],
+                labels: [t('in-forge:plugins.mySqlDatabase.totalTransactions')],
+                formatter: number.compact,
+                type: 'stackedArea'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </DashboardSection>
+        ) : null}
         {performanceDataAvailable ? (
           <DashboardSection title={t('in-forge:plugins.mySqlDatabase.transactionResponseTime')}>
             <Chart

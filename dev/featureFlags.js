@@ -48,10 +48,8 @@ module.exports = {
   disallowAppDataLegacyEventsEnabled: false,
   hideAppDataLegacyEventsEnabled: false,
   potentialProblemsEnabled: true,
-  adaptiveBaselineEnabled: true,
   builtInGlobalApplicationSmartAlertsEnabled: true,
   websiteSloEnabled: true,
-  perServiceAdaptiveBaselineEnabled: true,
   perEndpointAdaptiveBaselineEnabled: false,
   smartAlertsLogsBlueprintEnabled: true,
   syntheticsTestEnabled: true,
@@ -67,5 +65,6 @@ module.exports = {
   pluginMetricStatisticsEnabled: true,
   mobileAppCrashBeaconEnabled: true,
   k8sTimeShiftEnabled: true,
-  syntheticBrowserScriptEnabled: true
+  syntheticBrowserScriptEnabled: true,
+  websiteBeaconQueryOptimizationEnabled: true
 };

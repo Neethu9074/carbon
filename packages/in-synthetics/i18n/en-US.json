@@ -28,10 +28,12 @@
         "labelUrl": "URL",
         "popSubTitle": "Point of Presence",
         "uploadScriptTitle": "Upload the script",
-        "failureToReadFileContent": "Failed to read file content: {{error}}"
+        "failureToReadFileContent": "Failed to read file content: {{error}}",
+        "emptyScriptFileError": "Empty code. Nothing to validate."
       },
       "basicDetails": {
         "title": "What is the name of this ping test",
+        "scriptTitle": "What is the name of this HTTP Script test",
         "labelName": "Name of the test",
         "labelDescription": "Description",
         "labelFrequency": "Frequency"
@@ -254,7 +256,75 @@
       },
       "downloadHar": "Download HAR File",
       "consoleLogs": "CONSOLE",
-      "browserLogs": "BROWSER"
+      "browserLogs": "BROWSER",
+      "browserDetails": {
+        "page": {
+          "request": "Request",
+          "size": "Size",
+          "time": "Time"
+        },
+        "entry": {
+          "time": "Time",
+          "status": "Status",
+          "size": "Size",
+          "types": {
+            "short": {
+              "html": "HTML",
+              "javascript": "JS",
+              "css": "CSS",
+              "plain": "DOC",
+              "image": "IMG",
+              "font": "FONT",
+              "application": "APP",
+              "unknown": "UKWN",
+              "audio": "AUDIO",
+              "other": "OTHER"
+            },
+            "long": {
+              "document": "Document",
+              "script": "Script",
+              "stylesheet": "Stylesheet",
+              "image": "Image",
+              "font": "Web Font",
+              "application": "Application",
+              "unknown": "Unknown Type",
+              "audio": "Audio",
+              "other": "Other"
+            }
+          }
+        },
+        "body": {
+          "request": {
+            "title": "Request",
+            "url": "URL",
+            "httpVersion": "HTTP Version",
+            "headerSize": "Header Size",
+            "bodySize": "Body Size",
+            "method": "Method"
+          },
+          "response": {
+            "title": "Response",
+            "transferSize": "Transfer Size",
+            "httpVersion": "HTTP Version",
+            "redirectUrl": "Redirect URL",
+            "headerSize": "Header Size",
+            "bodySize": "Body Size",
+            "contentType":"Content Type",
+            "contentSize": "Content Size",
+            "status": "Status"
+          },
+          "timings": {
+            "title": "Response Timings",
+            "receiving": "Receiving",
+            "waiting": "Waiting",
+            "blocking": "Blocking",
+            "dns": "DNS",
+            "ssl": "SSL",
+            "sending": "Sending",
+            "connect": "Connect"
+          }
+        }
+      }
     },
     "noDataAvailable": {
       "resultsTitle": "No results available",

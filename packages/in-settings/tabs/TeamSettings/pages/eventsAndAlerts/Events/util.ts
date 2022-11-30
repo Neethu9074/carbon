@@ -3,9 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
+import { EventSpecificationInfo, EventSpecificationType, Nullish } from 'in-types';
 import { deprecateAppDataLegacyEventsEnabled } from 'in-services/featureFlags';
 import { customIssuesDisabledForPlugins, plugins } from 'in-forge/constants';
-import { EventSpecificationInfo, EventSpecificationType } from 'in-types';
 import { FormatterType } from 'in-services/formatters/number';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { getPluginName } from 'in-sdk/pluginName';
@@ -123,8 +123,11 @@ export function unmapConditionValue(value: number, formatterType: FormatterType)
 
 const migrateableEntityTypes = ['application', 'service', 'endpoint'];
 
-export function isAppDataEntityType(entityType: string = '') {
-  return migrateableEntityTypes.includes(entityType.toLowerCase());
+export function isAppDataEntityType(entityType: string | Nullish) {
+  if (entityType) {
+    return migrateableEntityTypes.includes(entityType.toLowerCase());
+  }
+  return false;
 }
 
 function formatNumber(value: number, decimalPrecision: number): number {

@@ -8,7 +8,8 @@ import classNames from 'classnames';
 
 import { Li, Ul } from '@instana/components';
 
-import { toChunks, fillWithParams, MESSAGE_CHUNK } from 'in-services/util/stringToChunks';
+import { GetHrefToGroupedView, GetHrefWithAdditionalTagFilter } from 'in-components/AnalyzeView/StateManagement';
+import { fillWithParams, MESSAGE_CHUNK, toChunks } from 'in-services/util/stringToChunks';
 import { logMessageParameterClicked } from 'in-logging/analyze/AnalyzeView/tracker';
 import { TAG } from 'in-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
@@ -19,11 +20,6 @@ import { t } from 'in-i18n';
 
 import locals from './LogMessage.mless';
 
-interface GetHrefToGroupedViewParams {
-  tag?: string;
-  secondLevelKey?: string;
-}
-
 interface LogMessageProps {
   tags: LogTag[];
   message: string;
@@ -32,8 +28,8 @@ interface LogMessageProps {
   isOverflowing: boolean;
   setIsExpanded?: (v: boolean) => void;
   setIsHovered?: (v: boolean) => void;
-  getHrefWithAdditionalTagFilter?: (tag: TagFilter) => string;
-  getHrefToGroupedView?: (params: GetHrefToGroupedViewParams) => string;
+  getHrefWithAdditionalTagFilter?: GetHrefWithAdditionalTagFilter;
+  getHrefToGroupedView?: GetHrefToGroupedView;
 }
 
 export default function LogMessage({
@@ -115,8 +111,8 @@ function MessageTag({ message, setIsHovered, setIsExpanded, providesMessageExpan
 
 interface ParamTagProps {
   tag: LogTag;
-  getHrefWithAdditionalTagFilter?: (tag: TagFilter) => string;
-  getHrefToGroupedView?: (params: GetHrefToGroupedViewParams) => string;
+  getHrefWithAdditionalTagFilter?: GetHrefWithAdditionalTagFilter;
+  getHrefToGroupedView?: GetHrefToGroupedView;
 }
 
 function ParamTag({ tag, getHrefWithAdditionalTagFilter, getHrefToGroupedView }: ParamTagProps) {
@@ -137,15 +133,17 @@ function ParamTag({ tag, getHrefWithAdditionalTagFilter, getHrefToGroupedView }:
             >
               {t('in-logging:addAsFilter')}
             </Li>
-            <Li
-              className={locals.listItem}
-              href={getHrefToGroupedView({ tag: tag.name, secondLevelKey: tag.key })}
-              onDefaultHrefInteractionSideEffect={() =>
-                logMessageParameterClicked({ name: tag.name, key: tag.key, value })
-              }
-            >
-              {t('in-logging:addAsGroup')}
-            </Li>
+            {tag.name && (
+              <Li
+                className={locals.listItem}
+                href={getHrefToGroupedView({ tag: tag.name, secondLevelKey: tag.key })}
+                onDefaultHrefInteractionSideEffect={() =>
+                  logMessageParameterClicked({ name: tag.name, key: tag.key, value })
+                }
+              >
+                {t('in-logging:addAsGroup')}
+              </Li>
+            )}
           </Ul>
         )}
         withoutWrapper
@@ -156,7 +154,10 @@ function ParamTag({ tag, getHrefWithAdditionalTagFilter, getHrefToGroupedView }:
               [locals.parameterClickable]: true,
               [locals.parameterOpen]: isOpen
             })}
-            onClick={toggle}
+            onClick={event => {
+              event.stopPropagation();
+              toggle();
+            }}
             ref={refSetter as React.MutableRefObject<HTMLSpanElement>}
           >
             {value}

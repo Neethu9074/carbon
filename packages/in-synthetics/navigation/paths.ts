@@ -10,7 +10,7 @@ export const syntheticLocationPath = '/syntheticLocations';
 export const syntheticsDashboard = '/synthetic';
 export const syntheticsSummaryPath = `${syntheticsDashboard}/summary`;
 export const syntheticResultsListPath = `${syntheticsDashboard}/results`;
-export const syntheticDetailsPath = `/details`;
+export const syntheticDetailsPath = `/syntheticDetails`;
 
 export const isSyntheticMonitoringView = getRootPathPredicate(
   syntheticsPath,

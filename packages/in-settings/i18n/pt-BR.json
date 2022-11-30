@@ -97,6 +97,10 @@
   },
   "tabs": {
     "team": {
+      "events": {
+        "withDeprecatedSuffix": "{{pluginName}} (descontinuado)",
+        "placeholder": "Sinalizador"
+      },
       "customPayload": {
         "unknownTag": "Identificação desconhecida: {{tagName}}"
       }
@@ -542,6 +546,8 @@
     "savingGroup": "Salvando grupo",
     "groupSuccessfullySaved": "Grupo salvo com sucesso.",
     "groups": "Grupos",
+    "groupDeleteTooltip_Default": "O grupo padrão é um grupo integrado e não pode ser excluído ou renomeado.",
+    "groupDeleteTooltip_Owner": "O grupo proprietário é um grupo integrado e não pode ser excluído ou renomeado.",
     "addGroup": "Incluir grupo",
     "pendingInvitations": "Convites pendentes",
     "revoke": "Revogar",
@@ -845,10 +851,9 @@
     "actions": "Ações",
     "action": "ação",
     "actionWithNameForDelete": "ação {{actionName}}",
-    "filterActions": "Ações de filtro",
+    "searchActions": "Ações de procura",
     "lastModified": "Modificado pela última vez",
     "script": "Script",
-    "http": "HTTP",
     "docLink": "Link da documentação",
     "deletedEventMessage": "Você está vendo uma configuração de evento excluído. Modificações não são possíveis.",
     "actionTypeHelper": "O link da documentação refere-se a uma URL, o script é para máquinas linux/windows (apenas bash suportado por enquanto) e HTTP é um webhook.",
@@ -858,7 +863,13 @@
     "showsUpInTheActionDescription": "Aparece na descrição da ação. Deve ser o mais descritivo possível.",
     "docLinkDescription": "URL para o conteúdo de correção.",
     "scriptDescription": "Conteúdo do script.",
-    "execute": "Executar"
+    "execute": "Executar",
+    "confidence_low": "Baixa",
+    "confidence_medium": "Médio",
+    "confidence_high": "Alta",
+    "confidence": "{{context}}",
+    "confidenceTitle": "Confiança",
+    "test": "Testar"
   },
   "languageSelection": {
     "language": "Idioma",

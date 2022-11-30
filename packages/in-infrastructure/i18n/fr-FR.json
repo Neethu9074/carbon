@@ -61,12 +61,14 @@
     "theQueryConfigurationIsInvalid": "La configuration de la requête n'est pas valide. Veuillez résoudre les échecs de validation avant de continuer.",
     "allInfrastructure": "Toutes les infrastructures",
     "name": "Nom",
-    "search": "Rechercher",
+    "search": "Rechercher un type",
     "explore": "Explorer",
     "count": "Nombre",
     "errors": {
-      "maximumNumberOfGroups": "Cette requête a trop de résultats. Affinez votre recherche à l'aide d'un filtre plus restrictif ou de groupes plus larges"
-    }
+      "maximumNumberOfGroups": "Cette requête a trop de résultats. Affinez votre recherche à l'aide d'un filtre plus restrictif ou de groupes plus larges",
+      "generalError": "Une erreur inattendue s'est produite. Affinez à l'aide d'un filtre plus restrictif et réessayez."
+    },
+    "entityTypes": "Types d'entité {{count, parenthesis}}"
   },
   "tableView": {
     "showCountsAndAveragesAcrossTheCurrentTimeWindow": "Afficher les nombres et les moyennes dans la fenêtre de temps en cours.",

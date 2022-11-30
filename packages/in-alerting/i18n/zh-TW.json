@@ -71,7 +71,12 @@
       "onlyOrAnyAlphaNumericalAreAllowed": "只接受 '.'、'-'、'_' 或任何英數字元。",
       "aTagNeedsToBeSelected": "需要選取標籤。",
       "aKeyNeedsToBeSpecified": "需要指定索引鍵。",
-      "customPayloadTitle": "自訂有效負載"
+      "additionalCustomPayload": "其他自訂有效負載",
+      "globalCustomPayload": "廣域自訂有效負載",
+      "additionalCustomPayloadTitle": "其他自訂有效負載 ({{count}})",
+      "globalCustomPayloadTitle": "廣域自訂有效負載 ({{count}})",
+      "globalCustomPayloadRetrieveFailed": "發生錯誤。 無法擷取廣域自訂有效負載。",
+      "noGlobalCustomPayloadConfigured": "未配置廣域自訂有效負載"
     }
   },
   "potentialProblems": {
@@ -671,8 +676,8 @@
         "loadingThresholdSuggestion": "正在載入臨界值建議",
         "alertConfigDialogPresenterTitleEditAlert_Local": "編輯智慧型警示",
         "alertConfigDialogPresenterTitleEditAlert_Global": "編輯廣域智慧型警示",
-        "alertConfigDialogPresenterTitleCreateNewAlert_Local": "建立新的智慧型警示",
-        "alertConfigDialogPresenterTitleCreateNewAlert_Global": "建立新的廣域智慧型警示",
+        "alertConfigDialogPresenterTitleCreateNewAlert_Local": "建立智慧型警示",
+        "alertConfigDialogPresenterTitleCreateNewAlert_Global": "建立廣域智慧型警示",
         "alertConfigDialogPresenterTitleMigrateAlert": "移轉至智慧型警示",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "切換至進階模式",
         "simpleAlertConfigDialogStep3Headline": "誰應該取得警示？",

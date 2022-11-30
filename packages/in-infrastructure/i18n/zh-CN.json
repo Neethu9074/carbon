@@ -61,12 +61,14 @@
     "theQueryConfigurationIsInvalid": "查询配置无效。请在继续之前处理验证失败。",
     "allInfrastructure": "所有基础架构",
     "name": "名称",
-    "search": "搜索",
+    "search": "搜索类型",
     "explore": "浏览",
     "count": "计数",
     "errors": {
-      "maximumNumberOfGroups": "此查询的结果过多。 请使用更严格的过滤器或更广泛的组来缩小范围"
-    }
+      "maximumNumberOfGroups": "此查询的结果过多。 请使用更严格的过滤器或更广泛的组来缩小范围",
+      "generalError": "发生意外错误。 请使用更严格的过滤器缩小范围，然后重试"
+    },
+    "entityTypes": "实体类型 {{count, parenthesis}}"
   },
   "tableView": {
     "showCountsAndAveragesAcrossTheCurrentTimeWindow": "显示当前时间窗口内的计数和平均值。",

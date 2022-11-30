@@ -14,7 +14,15 @@ import { emptyArray } from 'in-services/fixedObjects';
 
 import locals from './MetricSelectorOverlay.mless';
 
-export default function MetricSelectorOverlay({ metricCatalog, loading, onChange, close, query, onQueryChange }) {
+export default function MetricSelectorOverlay({
+  metricCatalog,
+  loading,
+  onChange,
+  close,
+  query,
+  onQueryChange,
+  disabled
+}) {
   const options = useMemo(
     () => (metricCatalog && metricCatalog.tree ? toOptions(metricCatalog.tree, []) : emptyArray),
     [metricCatalog]
@@ -33,6 +41,7 @@ export default function MetricSelectorOverlay({ metricCatalog, loading, onChange
       }}
       query={query}
       onQueryChange={onQueryChange}
+      disabled={disabled}
     />
   );
 }
@@ -96,5 +105,6 @@ MetricSelectorOverlay.propTypes = {
   onChange: PropTypes.func.isRequired,
   query: PropTypes.string.isRequired,
   onQueryChange: PropTypes.func.isRequired,
-  close: PropTypes.func.isRequired
+  close: PropTypes.func.isRequired,
+  disabled: PropTypes.bool
 };

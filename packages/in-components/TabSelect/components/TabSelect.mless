@@ -1,0 +1,115 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2022
+ */
+
+:local {
+  .header {
+    grid-column-start: menu;
+    grid-column-end: panels;
+    grid-row-start: header;
+    grid-column-end: header;
+    display: flex;
+    align-items: center;
+    gap: var(--ids-border-radius-option-large);
+    padding: var(--ids-border-radius-option-large);
+    background: var(--ids-color-option-neutral-200);
+    border-left: 1px solid var(--ids-color-option-neutral-300);
+    border-right: 1px solid var(--ids-color-option-neutral-300);
+    border-bottom: 1px solid var(--ids-color-option-neutral-300);
+  }
+
+  .container {
+    display: grid;
+    grid-template-columns: [menu] auto [panels] auto;
+    grid-template-rows: [header] auto [body] auto;
+    border-top: 1px solid var(--ids-color-option-neutral-300);
+    border-top-left-radius: var(--ids-border-radius-option-small);
+    border-top-right-radius: var(--ids-border-radius-option-small);
+  }
+
+  .menu {
+    grid-column-start: menu;
+    grid-column-end: menu;
+    grid-row-start: body;
+    grid-row-end: body;
+    border-right: 1px solid var(--ids-color-option-neutral-300);
+  }
+
+  .menuList {
+    border-top: 0 !important;
+    border-right: 0 !important;
+    border-bottom-color: var(--ids-color-option-neutral-300);
+    border-left: 0 !important;
+  }
+
+  .panels {
+    grid-column-start: panels;
+    grid-column-end: panels;
+    grid-row-start: body;
+    grid-row-end: body;
+    height: 100%;
+    border-bottom: 1px solid var(--ids-color-option-neutral-300);
+    border-right: 1px solid var(--ids-color-option-neutral-300);
+  }
+
+  .item {
+    background-color: var(--ids-color-option-neutral-100);
+    border-left: 1px solid var(--ids-color-option-neutral-300);
+  }
+
+  .itemBody {
+    width: 100%;
+    height: 100%;
+
+    & > label {
+      cursor: pointer;
+    }
+  }
+
+  .itemActive {
+    position: relative;
+    background-color: var(--ids-color-option-white);
+
+    &:hover,
+    &:focus {
+      background-color: var(--ids-color-option-white) !important;
+    }
+
+    &::after {
+      position: absolute;
+      content: '';
+      height: 100%;
+      width: 1px;
+      right: -1px;
+      background-color: var(--ids-color-option-white);
+    }
+  }
+
+  .itemDisabled {
+    cursor: auto;
+    background-color: var(--ids-color-option-neutral-300);
+    color: var(--ids-color-option-neutral-600);
+
+    &:hover,
+    &:focus {
+      background-color: var(--ids-color-option-neutral-300) !important;
+    }
+
+    & > label {
+      cursor: auto;
+    }
+  }
+
+  .panel {
+    display: none;
+    background-color: var(--ids-color-option-white);
+    padding: var(--ids-border-radius-option-large);
+  }
+
+  .panelActive {
+    display: block;
+    height: 100%;
+  }
+}

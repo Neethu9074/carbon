@@ -77,6 +77,7 @@
     "eumPageName": "EUM",
     "settingsPageName": "設定",
     "requestQuoteBtn": "見積もり依頼",
+    "buyNowBtn": "今すぐ購入",
     "alreadyHaveLicense": "ライセンスをお持ちですか? <linkToDocker>Docker</linkToDocker> または <linkToKubernetes>Kubernetes</linkToKubernetes>でアクティブにします。"
   },
   "releaseNotesDialog": {
@@ -234,14 +235,7 @@
     "queryProgress": {
       "preparing": "準備中…",
       "runningQuery": "照会の実行中…",
-      "timeout": "この照会はタイムアウトになりました。",
-      "timeoutEstimated": "呼び出しの量が多いため、照会を処理できませんでした。",
-      "timeoutInfo": "短い時間フレームを選択してください。",
-      "inputError": "入力エラーがありました。",
-      "tooManyRequests": "要求が多すぎます",
-      "tooManyRequestsInfo": "システムは現在ビジーです。 後で再試行してください。",
-      "serverError": "サーバー・エラー",
-      "serverErrorInfo": "予期しないエラーが発生しました。 後で再試行するか、サポートに連絡してエラーを報告してください。"
+      "inputError": "入力エラーがありました。"
     }
   },
   "aboutInstanaDialog": {
@@ -308,7 +302,14 @@
     "services": "サービス"
   },
   "error": {
-    "erroneousResultPresenterMessage": "予期しないエラーが発生しました。 ページを最新表示するか、後で再試行してください。"
+    "erroneousResultPresenterMessage": "予期しないエラーが発生しました。 ページを最新表示するか、後で再試行してください。",
+    "timeout": "この照会はタイムアウトになりました。",
+    "timeoutInfo": "短い時間フレームを選択してください。",
+    "timeoutEstimated": "呼び出しの量が多いため、照会を処理できませんでした。",
+    "tooManyRequests": "要求が多すぎる",
+    "tooManyRequestsInfo": "システムは現在ビジーです。 しばらくしてからやり直してください。",
+    "serverError": "サーバー・エラー",
+    "serverErrorInfo": "予期しないエラーが発生しました。 後で再試行するか、サポートに連絡してエラーを報告してください。"
   },
   "expandableCard": {
     "tooltipShowLess": "表示を減らす",

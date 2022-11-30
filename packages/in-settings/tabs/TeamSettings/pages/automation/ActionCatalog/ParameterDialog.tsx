@@ -111,44 +111,16 @@ export default function ParameterDialog({ form, setForm, onChange, nameToEdit }:
             />
             <TouchedMessages field={description} className={locals.subErrorTextFormField} />
           </FormGroup>
-          <Row>
-            <Col lg={4}>
-              <FormGroup>
-                <Label htmlFor="parameter-required" hasError={!required.valid && required.touched}>
-                  {t('in-settings:tabs.required')}
-                </Label>
-                <Toggle
-                  id="parameter-required"
-                  checked={required.value}
-                  onChange={e => onParameterChange('required', e.target.checked)}
-                />
-              </FormGroup>
-            </Col>
-            <Col lg={4}>
-              <FormGroup>
-                <Label htmlFor="parameter-hidden" hasError={!hidden.valid && hidden.touched}>
-                  {t('in-settings:tabs.hiddenParam')}
-                </Label>
-                <Toggle
-                  id="parameter-hidden"
-                  checked={hidden.value}
-                  onChange={e => onParameterChange('hidden', e.target.checked)}
-                />
-              </FormGroup>
-            </Col>
-            <Col lg={4}>
-              <FormGroup>
-                <Label htmlFor="parameter-secured" hasError={!secured.valid && secured.touched}>
-                  {t('in-settings:tabs.secured')}
-                </Label>
-                <Toggle
-                  id="parameter-secured"
-                  checked={secured.value}
-                  onChange={e => onParameterChange('secured', e.target.checked)}
-                />
-              </FormGroup>
-            </Col>
-          </Row>
+          <FormGroup>
+            <Label htmlFor="parameter-required" hasError={!required.valid && required.touched}>
+              {t('in-settings:tabs.required')}
+            </Label>
+            <Toggle
+              id="parameter-required"
+              checked={required.value}
+              onChange={e => onParameterChange('required', e.target.checked)}
+            />
+          </FormGroup>
           <FormGroup>
             <Label htmlFor="parameter-valueType" hasError={!isStatic.valid && isStatic.touched}>
               {t('in-settings:tabs.valueType')}
@@ -159,21 +131,49 @@ export default function ParameterDialog({ form, setForm, onChange, nameToEdit }:
             </Select>
           </FormGroup>
           {isStatic.value && (
-            <FormGroup>
-              <Label htmlFor="parameter-value" hasError={!value.valid && value.touched}>
-                {t('in-settings:tabs.defaultValue')}
-              </Label>
-              <DefaultValueInput
-                id="parameter-value"
-                value={value.value}
-                onChange={e => onParameterChange('value', e.target.value)}
-                hasError={valueRequiredButEmpty}
-                maxLength={256}
-              />
-              {valueRequiredButEmpty && (
-                <ValidationBlock>{t('in-services:validators.theValueMustNotBeBlank')}</ValidationBlock>
-              )}
-            </FormGroup>
+            <>
+              <FormGroup>
+                <Label htmlFor="parameter-value" hasError={!value.valid && value.touched}>
+                  {t('in-settings:tabs.defaultValue')}
+                </Label>
+                <DefaultValueInput
+                  id="parameter-value"
+                  value={value.value}
+                  onChange={e => onParameterChange('value', e.target.value)}
+                  hasError={valueRequiredButEmpty}
+                  maxLength={256}
+                />
+                {valueRequiredButEmpty && (
+                  <ValidationBlock>{t('in-services:validators.theValueMustNotBeBlank')}</ValidationBlock>
+                )}
+              </FormGroup>
+              <Row>
+                <Col lg={4}>
+                  <FormGroup>
+                    <Label htmlFor="parameter-hidden" hasError={!hidden.valid && hidden.touched}>
+                      {t('in-settings:tabs.hiddenParam')}
+                    </Label>
+                    <Toggle
+                      id="parameter-hidden"
+                      checked={hidden.value}
+                      onChange={e => onParameterChange('hidden', e.target.checked)}
+                    />
+                  </FormGroup>
+                </Col>
+                <Col lg={4}>
+                  <FormGroup>
+                    <Label htmlFor="parameter-secured" hasError={!secured.valid && secured.touched}>
+                      {t('in-settings:tabs.secured')}
+                    </Label>
+                    <Toggle
+                      id="parameter-secured"
+                      checked={secured.value}
+                      onChange={e => onParameterChange('secured', e.target.checked)}
+                    />
+                  </FormGroup>
+                </Col>
+              </Row>
+            </>
           )}
           <SaveCancel form={parameterForm} onClickCancelButton={close} saveEnabled={!valueRequiredButEmpty} />
         </Form>

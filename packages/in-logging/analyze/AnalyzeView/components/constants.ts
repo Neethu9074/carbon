@@ -6,3 +6,4 @@
 
 export const maxInitialLogLines = 200;
 export const customChartHeight = 215;
+export const maxRetrievalSize = 200;

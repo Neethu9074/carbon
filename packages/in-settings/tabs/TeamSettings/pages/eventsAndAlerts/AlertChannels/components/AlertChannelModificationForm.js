@@ -72,7 +72,12 @@ function AlertChannelModificationForm(props) {
         </Section>
       ) : null}
       <Form {...props} />
-      <AlertChannelTestButton alertChannel={entity} form={form} setForm={setForm} />
+      <AlertChannelTestButton
+        alertChannel={entity}
+        form={form}
+        setForm={setForm}
+        alertChannelLabel={alertChannelLabel}
+      />
 
       {renderCustomFormActions?.({ form, loading }) ?? (
         <SaveCancel form={form} message={message} loading={loading} isCreate={isCreate} listPath={listPath} />

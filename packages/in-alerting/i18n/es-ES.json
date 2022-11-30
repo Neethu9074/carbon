@@ -71,7 +71,12 @@
       "onlyOrAnyAlphaNumericalAreAllowed": "Solo se permiten los caracteres '.', '-', '_' o cualquier carácter alfanumérico.",
       "aTagNeedsToBeSelected": "Es necesario seleccionar un código.",
       "aKeyNeedsToBeSpecified": "Es necesario especificar una clave.",
-      "customPayloadTitle": "Cargas útiles personalizadas"
+      "additionalCustomPayload": "Cargas útiles personalizadas adicionales",
+      "globalCustomPayload": "Cargas útiles personalizadas globales",
+      "additionalCustomPayloadTitle": "Cargas útiles personalizadas adicionales ({{count}})",
+      "globalCustomPayloadTitle": "Cargas útiles personalizadas globales ({{count}})",
+      "globalCustomPayloadRetrieveFailed": "Algo ha fallado. No se han podido recuperar las cargas útiles personalizadas globales.",
+      "noGlobalCustomPayloadConfigured": "No se ha configurado ninguna carga útil personalizada global"
     }
   },
   "potentialProblems": {
@@ -472,7 +477,7 @@
         "simpleAlertStep2Headline": "¿Dónde desea que se active la alerta?",
         "step1Title": "Paso 1: Seleccionar alerta",
         "step2Title": "Paso 2: Seleccionar ámbito",
-        "step3Title": "Paso 3: Seleccionar canales de alertas"
+        "step3Title": "Paso 3: Seleccionar canales de alerta"
       },
       "components": {
         "createSmartAlert": "Añadir alerta inteligente",
@@ -671,8 +676,8 @@
         "loadingThresholdSuggestion": "Cargando sugerencia de umbral",
         "alertConfigDialogPresenterTitleEditAlert_Local": "Editar alerta inteligente",
         "alertConfigDialogPresenterTitleEditAlert_Global": "Editar alerta inteligente global",
-        "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Crear nueva alerta inteligente",
-        "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Crear nueva alerta inteligente global",
+        "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Crear alerta inteligente",
+        "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Crear alerta inteligente global",
         "alertConfigDialogPresenterTitleMigrateAlert": "Migrar a alerta inteligente",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "Cambiar a modalidad avanzada",
         "simpleAlertConfigDialogStep3Headline": "¿Quién debe recibir las alertas?",
@@ -962,7 +967,7 @@
         "simpleAlertConfigDialogStep2Headline": "¿Dónde desea que se active la alerta?",
         "stepConfigsStep1Title": "Paso 1: Seleccionar alerta",
         "stepConfigsStep2Title": "Paso 2: Seleccionar ámbito",
-        "stepConfigsStep3Title": "Paso 3: Seleccionar canales de alertas"
+        "stepConfigsStep3Title": "Paso 3: Seleccionar canales de alerta"
       },
       "customEvent": {
         "noCustomEventsFound": "No se han encontrado sucesos personalizados",

@@ -37,5 +37,6 @@
   "pod": "Pod",
   "tooltipEntityHealthNoIssues": "No issues",
   "tooltipEntityHealthIssues": "{{numberOfIssues}} Issues",
-  "container": "Container"
+  "container": "Container",
+  "endOfInfiniteScroll": "No more logs available"
 }

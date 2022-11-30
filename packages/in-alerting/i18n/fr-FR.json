@@ -71,7 +71,12 @@
       "onlyOrAnyAlphaNumericalAreAllowed": "Uniquement « . », « - », « _ » ou des caractères alphanumérique sont autorisés.",
       "aTagNeedsToBeSelected": "Vous devez sélectionner une étiquette.",
       "aKeyNeedsToBeSpecified": "Vous devez spécifier une clé.",
-      "customPayloadTitle": "Contenus personnalisés"
+      "additionalCustomPayload": "Contenus personnalisés supplémentaires",
+      "globalCustomPayload": "Contenus personnalisés mondiaux",
+      "additionalCustomPayloadTitle": "Contenus personnalisés supplémentaires ({{count}})",
+      "globalCustomPayloadTitle": "Contenus personnalisés mondiaux ({{count}})",
+      "globalCustomPayloadRetrieveFailed": "Une erreur s'est produite. Impossible d'extraire les contenus personnalisés mondiaux.",
+      "noGlobalCustomPayloadConfigured": "Aucun contenu personnalisé mondial configuré"
     }
   },
   "potentialProblems": {
@@ -672,7 +677,7 @@
         "alertConfigDialogPresenterTitleEditAlert_Local": "Ajouter une alerte intelligente",
         "alertConfigDialogPresenterTitleEditAlert_Global": "Editer une alerte intelligente globale",
         "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Créer une alerte intelligente",
-        "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Créer une alerte intelligente globale",
+        "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Créer une alerte intelligente mondiale",
         "alertConfigDialogPresenterTitleMigrateAlert": "Migrer vers une alerte intelligente",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "Passer en mode avancé",
         "simpleAlertConfigDialogStep3Headline": "Qui doit recevoir les alertes ?",

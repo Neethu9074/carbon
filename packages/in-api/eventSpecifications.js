@@ -165,50 +165,6 @@ export function createCustomSystemRuleBasedEventSpecification(
   };
 }
 
-export function createCustomThresholdBasedEventSpecification(
-  id,
-  name = t('in-settings:tabs.newEvent'),
-  entityType,
-  query = '',
-  triggering = false,
-  description = '',
-  expirationTime = null,
-  enabled = true,
-  ruleType = 'threshold',
-  metricName,
-  metricPattern,
-  rollup,
-  window,
-  aggregation,
-  conditionOperator,
-  conditionValue,
-  severity = 5
-) {
-  return {
-    id: id || generateUniqueShortId(),
-    name,
-    entityType,
-    query,
-    triggering,
-    description,
-    expirationTime,
-    enabled,
-    rules: [
-      {
-        ruleType,
-        metricName,
-        metricPattern,
-        rollup,
-        window,
-        aggregation,
-        conditionOperator,
-        conditionValue,
-        severity
-      }
-    ]
-  };
-}
-
 export function saveCustomEventSpecification(eventSpecification) {
   return http({
     method: 'PUT',

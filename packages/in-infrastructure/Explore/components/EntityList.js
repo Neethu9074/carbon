@@ -12,9 +12,10 @@ import createGetGroupsSubscription from 'in-infrastructure/subscriptions/getGrou
 import { getLinkToExplore } from 'in-infrastructure/navigation/paths';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import EntityLink from 'in-components/EntityLink/EntityLink';
+import CsvExporter from 'in-components/CsvExporter';
 import { t } from 'in-i18n';
 
-export default function EntityList({ retrievalSize = 20, backendQueryModel, timeConfig, order, type }) {
+export default function EntityList({ retrievalSize = 20, backendQueryModel, timeConfig, order, type, setOrder }) {
   const { items, errors, progress } = useCursorPagination(
     ({ cursor }) => getTableData({ timeConfig, retrievalSize, backendQueryModel, order, type, cursor }),
     [timeConfig, retrievalSize, backendQueryModel, type, order]
@@ -24,15 +25,21 @@ export default function EntityList({ retrievalSize = 20, backendQueryModel, time
   const isLoading = progress?.loading;
 
   const [result, setResultData] = useState(createResultData(items));
-  const [orderDir, setOrderDirection] = useState('ASC');
-  const [orderByCol, setOrderByColumn] = useState('label');
 
   const onChangeItems = items => {
-    setResultData(createResultData(items));
+    return setResultData(createResultData(items));
   };
 
-  if (!isLoading && (result.progress === undefined || result.progress?.loading === true)) {
-    onChangeItems(items);
+  if (isLoading && result.data.items.length > 0 && items.length === 0) {
+    onChangeItems([]);
+  }
+
+  if (!isLoading && result.progress.loading && items.length > 0 && result.data.items.length === 0) {
+    if (order.by === 'count') {
+      onChangeItems(sortItems(items, order.by, order.direction));
+    } else {
+      onChangeItems(items);
+    }
   }
 
   function createResultData(items) {
@@ -47,6 +54,11 @@ export default function EntityList({ retrievalSize = 20, backendQueryModel, time
       }
     };
   }
+
+  const headers = [
+    { label: 'Name', key: 'name' },
+    { label: 'Count', key: 'count' }
+  ];
 
   const columnDefinitions = [
     {
@@ -83,15 +95,19 @@ export default function EntityList({ retrievalSize = 20, backendQueryModel, time
     }
   ]);
 
+  function getCsvItems() {
+    return result?.data?.items.map(item => ({ name: getGroupTagValue(item, 'type'), count: item.count })) || [];
+  }
+
   return (
     <>
       {hasErrors && <ErroneousResult />}
       <ServerTablePresenter
-        orderBy={orderByCol}
-        orderDirection={orderDir}
+        orderBy={order.by}
+        orderDirection={order.direction}
         result={result}
         columnDefinitions={columnDefinitions}
-        cardTitle={t('in-infrastructure:explore.entityTypes', { count: result?.data?.items?.length ?? '' })}
+        cardTitle={t('in-infrastructure:explore.entityTypes', { count: items?.data?.items?.length ?? '' })}
         onChange={({ query, orderBy, orderDirection }) => {
           if (query !== undefined) {
             //search
@@ -104,14 +120,12 @@ export default function EntityList({ retrievalSize = 20, backendQueryModel, time
             );
           } else {
             //sort
-            const sortedItems = sortItems(items, orderBy, orderDirection);
-
-            setOrderByColumn(orderBy);
-            setOrderDirection(orderDirection);
-            setResultData(sortedItems);
+            setOrder({ by: orderBy, direction: orderDirection });
           }
         }}
+        rightHeader={<CsvExporter headers={headers} data={getCsvItems()} fileName="entity_types.csv" />}
         searchPlaceholder={t('in-infrastructure:explore.search')}
+        withoutSearchIcon
       />
     </>
   );
@@ -150,8 +164,7 @@ function getGroupsSubscribeEvent({
   query = '',
   page = 1,
   pageSize = 20,
-  orderBy = 'label',
-  orderDirection = 'ASC',
+  order,
   timeConfig,
   backendQueryModel = {
     type: 'EXPRESSION',
@@ -166,8 +179,8 @@ function getGroupsSubscribeEvent({
       retrievalSize: 200
     },
     order: {
-      by: orderBy,
-      direction: orderDirection
+      by: order.by,
+      direction: order.direction
     },
     filter: {
       tagFilterExpression: backendQueryModel,

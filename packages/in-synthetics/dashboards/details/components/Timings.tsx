@@ -9,14 +9,10 @@ import React from 'react';
 import { t } from '@instana/i18n-react';
 
 import { millis, percentagePlain } from 'in-services/formatters/number';
+import { Timing } from 'in-synthetics/utils/constants';
 import Tooltip from 'in-components/Tooltip';
 
 import locals from './Timings.mless';
-
-interface Timing {
-  label: string;
-  value: number;
-}
 
 interface TimingProps {
   timings: Timing[];

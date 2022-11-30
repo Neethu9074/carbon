@@ -89,7 +89,7 @@ const cols = [
   }
 ];
 
-export default function QueuesTable({ snapshot, timeConfig, type }) {
+export default function ActiveMqQueuesTable({ snapshot, timeConfig, type }) {
   const queues = snapshot.getIn(['data', 'queues'], emptyList);
   if (queues.size === 0) {
     return null;

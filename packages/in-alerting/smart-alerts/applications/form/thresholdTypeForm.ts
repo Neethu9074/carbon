@@ -12,15 +12,14 @@ import {
 // @ts-expect-error file needs to be converted into typescript
 import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
 import {
-  PER_AP,
   PER_AP_ENDPOINT,
   PER_AP_SERVICE
 } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
-import { perEndpointAdaptiveBaselineEnabled, perServiceAdaptiveBaselineEnabled } from 'in-services/featureFlags';
 import { defaultAdaptiveBaselineGranularity } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import createRuleForm from 'in-alerting/smart-alerts/applications/form/ruleForm';
+import { perEndpointAdaptiveBaselineEnabled } from 'in-services/featureFlags';
 import { AlertEvaluationType, ThresholdType } from 'in-types';
 
 export function onThresholdTypeChange(
@@ -71,11 +70,6 @@ export function onThresholdTypeChange(
 
     if (evaluationType == PER_AP_ENDPOINT && !perEndpointAdaptiveBaselineEnabled) {
       evaluationType = PER_AP_SERVICE;
-      evaluationTypeChanged = true;
-    }
-
-    if (evaluationType == PER_AP_SERVICE && !perServiceAdaptiveBaselineEnabled) {
-      evaluationType = PER_AP;
       evaluationTypeChanged = true;
     }
 

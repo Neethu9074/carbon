@@ -71,7 +71,12 @@
       "onlyOrAnyAlphaNumericalAreAllowed": "Sono consentiti solo i caratteri '.', '-', '_' o alfanumerici.",
       "aTagNeedsToBeSelected": "È necessario selezionare un tag.",
       "aKeyNeedsToBeSpecified": "È necessario specificare una chiave.",
-      "customPayloadTitle": "Payload personalizzati"
+      "additionalCustomPayload": "Payload personalizzati aggiuntivi",
+      "globalCustomPayload": "Payload personalizzati globali",
+      "additionalCustomPayloadTitle": "Payload personalizzati aggiuntivi ({{count}})",
+      "globalCustomPayloadTitle": "Payload personalizzati globali ({{count}})",
+      "globalCustomPayloadRetrieveFailed": "Si è verificato un errore. Impossibile richiamare i payload personalizzati globali.",
+      "noGlobalCustomPayloadConfigured": "Nessun payload personalizzato globale configurato"
     }
   },
   "potentialProblems": {
@@ -671,8 +676,8 @@
         "loadingThresholdSuggestion": "Caricamento suggerimento soglia",
         "alertConfigDialogPresenterTitleEditAlert_Local": "Modifica avviso smart",
         "alertConfigDialogPresenterTitleEditAlert_Global": "Modifica avviso smart globale",
-        "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Crea nuovo avviso smart",
-        "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Crea nuovo avviso smart globale",
+        "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Crea avviso smart",
+        "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Crea avviso smart globale",
         "alertConfigDialogPresenterTitleMigrateAlert": "Migra ad avviso smart",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "Passa alla modalità avanzata",
         "simpleAlertConfigDialogStep3Headline": "Chi deve ricevere gli avvisi?",

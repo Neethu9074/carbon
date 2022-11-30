@@ -46,7 +46,7 @@ export default function MetricCatalogConfiguratorOverlayPresenter({
       onSwap={onSwap}
       onRemove={onRemoveItem}
       disabled={form.items.length >= maximumNumberOfMetrics}
-      SlideInContent={({ onShowSlideInContentChange }) => (
+      SlideInContent={({ onShowSlideInContentChange, disabled }) => (
         <MetricSelectorOverlay
           metricCatalog={metricCatalog}
           onChange={node => {
@@ -58,6 +58,7 @@ export default function MetricCatalogConfiguratorOverlayPresenter({
           query={query}
           onQueryChange={onQueryChange}
           close={noop}
+          disabled={disabled}
         />
       )}
       slideInContentTitle={t('in-components:metricConfigurator.titleAddAMetric')}
