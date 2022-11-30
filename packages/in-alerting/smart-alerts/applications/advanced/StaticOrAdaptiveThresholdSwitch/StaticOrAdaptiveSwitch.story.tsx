@@ -22,7 +22,7 @@ export const Default = ({ type }: { type: ThresholdType }) => {
     // @ts-expect-error demo data are not fully matching expected type, but here it is okay
     threshold: {
       type
-    }
+    } as const
   });
 
   return <StaticOrAdaptiveSwitch form={defaultSmartAlertForm} setForm={noop} />;
@@ -45,7 +45,7 @@ export const Adaptive = () => {
     // @ts-expect-error demo data are not fully matching expected type, but here it is okay
     threshold: {
       type: ADAPTIVE_BASELINE
-    }
+    } as const
   });
   const [form, setForm] = useState(() => smartAlertFormWithAdaptiveBaseline);
 

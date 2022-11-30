@@ -11,12 +11,9 @@ import { Button } from '@instana/components';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/applications/components/list/SmartAlertsBaseList';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialogWrapper';
 import { applicationsAlertingAddAlert } from 'in-alerting/smart-alerts/applications/tracker';
-import { defaultAlertRule } from 'in-alerting/smart-alerts/applications/form/ruleForm';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import FloatingActionButton from 'in-components/FloatingActionButton';
-import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
-import { boundaryScopes } from 'in-applications/constants';
 import { propTypeLocation } from 'in-stores/navigation';
 import { t } from 'in-i18n';
 
@@ -62,14 +59,8 @@ CreateGlobalSmartAlertButton.propTypes = {
 
 function generateAlertConfig() {
   return {
-    boundaryScope: boundaryScopes.inbound,
-    rule: defaultAlertRule,
     threshold: {
-      type: STATIC_THRESHOLD,
-      seasonality: DAILY
-    },
-    calculateThresholdOnBackend: false,
-    includeSynthetic: false,
-    applications: {}
+      type: STATIC_THRESHOLD
+    }
   };
 }
