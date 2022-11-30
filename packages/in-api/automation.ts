@@ -221,6 +221,7 @@ interface RunScriptActionParams extends RunActionBaseParams {
   interpreter: string;
 }
 
+// We are using a timeout here to prevent the UI from hanging if the agent is not responding (sensor not installed).
 function runAction(runActionObservable: Observable<AgentResponse>) {
   return combineLatest(
     [
@@ -240,7 +241,6 @@ function runAction(runActionObservable: Observable<AgentResponse>) {
   );
 }
 
-// We are using a timeout here to prevent the UI from hanging if the agent is not responding (sensor not installed).
 export function runScriptAction({ script, volatileId, event, actionName, interpreter }: RunScriptActionParams) {
   return runAction(
     createAgentResponseObservable({
