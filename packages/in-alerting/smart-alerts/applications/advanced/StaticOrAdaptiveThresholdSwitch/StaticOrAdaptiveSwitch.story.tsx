@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 
 import StaticOrAdaptiveSwitch from 'in-alerting/smart-alerts/applications/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
 import { someErrorRateFormData } from 'in-alerting/smart-alerts/applications/advanced/stories/formSampleData';
+import { onThresholdTypeChange } from 'in-alerting/smart-alerts/applications/form/thresholdTypeForm';
 import { ADAPTIVE_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { noop } from 'in-services/util/function';
@@ -25,7 +26,9 @@ export const Default = ({ type }: { type: ThresholdType }) => {
     } as const
   });
 
-  return <StaticOrAdaptiveSwitch form={defaultSmartAlertForm} setForm={noop} />;
+  return (
+    <StaticOrAdaptiveSwitch form={defaultSmartAlertForm} setForm={noop} onThresholdTypeChange={onThresholdTypeChange} />
+  );
 };
 
 Default.args = {
@@ -49,5 +52,5 @@ export const Adaptive = () => {
   });
   const [form, setForm] = useState(() => smartAlertFormWithAdaptiveBaseline);
 
-  return <StaticOrAdaptiveSwitch form={form} setForm={setForm} />;
+  return <StaticOrAdaptiveSwitch form={form} setForm={setForm} onThresholdTypeChange={onThresholdTypeChange} />;
 };
