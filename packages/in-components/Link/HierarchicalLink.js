@@ -38,10 +38,8 @@ export default function HierarchicalLink({
   const snapshotId = snapshot.get('id');
   timeConfig =
     useObservable(() => {
-      shouldStayInCurrentTimeModeForNavigationToSnapshot({ snapshotId: snapshot.get('id') }).map(stay =>
-        stay ? undefined : timeConfig
-      );
-    }, [snapshot, timeConfig]) ?? pendingResult;
+      shouldStayInCurrentTimeModeForNavigationToSnapshot({ snapshotId }).map(stay => (stay ? undefined : timeConfig));
+    }, [snapshotId, timeConfig]) ?? pendingResult;
 
   const href =
     useObservable(() => {
