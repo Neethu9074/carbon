@@ -15,6 +15,7 @@ import {
   AlertPreviewHeadline
 } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertPreview';
 import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertPropertiesContainer';
+import StaticOrAdaptiveSwitch from 'in-alerting/smart-alerts/applications/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
 import {
   isCustomPayloadValidOrUntouched,
   fieldTouchedAndInvalid
@@ -28,9 +29,12 @@ import BluePrintSelectionSection from 'in-alerting/smart-alerts/websites/advance
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import TimeThresholdConfig from 'in-alerting/smart-alerts/websites/advanced/TimeThresholdConfig';
+import { onThresholdTypeChange } from 'in-alerting/smart-alerts/websites/form/thresholdTypeForm';
 import { ThresholdSection } from 'in-alerting/smart-alerts/websites/advanced/ThresholdSection';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
+import { websiteAdaptiveBaselineSmartAlertsEnabled } from 'in-services/featureFlags';
 import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import LightCard from 'in-alerting/components/LightCard/LightCard';
 import StepsContainer from 'in-components/StepsContainer';
 import { t } from 'in-i18n';
 
@@ -73,12 +77,29 @@ export default function AdvancedModeContainer(props) {
           label: t('in-alerting:smartAlerts.websites.advanced.triggerLabel'),
           title: t('in-alerting:smartAlerts.websites.advanced.triggerTitle'),
           content: (
-            <BluePrintSelectionSection
-              alertType={alertType}
-              form={form}
-              updateForm={updateForm}
-              setSliderState={setSliderState}
-            />
+            <>
+              <BluePrintSelectionSection
+                alertType={alertType}
+                form={form}
+                updateForm={updateForm}
+                setSliderState={setSliderState}
+              />
+              {websiteAdaptiveBaselineSmartAlertsEnabled && blueprintConfig?.baselineEnabled && (
+                <LightCard
+                  title={t(
+                    'in-alerting:smartAlerts.applications.advanced.advancedModeContainer.threshold.staticOrAdaptiveTitle'
+                  )}
+                  withoutPadding
+                  darkFrame
+                >
+                  <StaticOrAdaptiveSwitch
+                    form={form}
+                    setForm={updateForm}
+                    onThresholdTypeChange={onThresholdTypeChange}
+                  />
+                </LightCard>
+              )}
+            </>
           )
         },
         {
