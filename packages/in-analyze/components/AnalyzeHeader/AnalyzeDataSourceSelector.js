@@ -23,15 +23,17 @@ import { getLinkToAnalyze as getLinkToWebsiteAnalyze } from 'in-websites/navigat
 import { default as useApplicationTagCatalog } from 'in-applications/hooks/useTagCatalog';
 import { getLinkToAnalyze as getLinkToLogsAnalyze } from 'in-logging/navigation/paths';
 import { defaultGroupings as defaultApplicationGroupings } from 'in-applications/tags';
+import { loggingEnabled, mobileAppCrashBeaconEnabled } from 'in-services/featureFlags';
 import { default as useMobileTagCatalog } from 'in-mobile-apps/hooks/useTagCatalog';
 import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/tags';
 import { default as useWebsiteTagCatalog } from 'in-websites/hooks/useTagCatalog';
 import { analyzeViewSelected } from 'in-analyze/components/AnalyzeHeader/tracker';
 import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
+import { getLinkToExploreDefault } from 'in-infrastructure/navigation/paths';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
-import { loggingEnabled, mobileAppCrashBeaconEnabled } from 'in-services/featureFlags';
+import { infraExploreDataEnabled } from 'in-services/featureFlags';
 import Pill from 'in-components/Pill';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -208,6 +210,17 @@ const productAreas = [
             beaconType: 'crash',
             tagCatalog
           })
+      }
+    ]
+  },
+  {
+    productArea: 'infrastructure',
+    hasAccess: infraExploreDataEnabled,
+    dataSources: [
+      {
+        dataSource: 'infrastructure',
+        beta: true,
+        getHref$: getLinkToExploreDefault
       }
     ]
   },
