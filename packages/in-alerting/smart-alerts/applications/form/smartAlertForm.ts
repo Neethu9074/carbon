@@ -224,7 +224,10 @@ export function createSmartAlertForm(
     .put('timeThreshold', createTimeThresholdForm(timeThreshold, granularity, threshold?.type as ThresholdType))
     .put('hiddenFields', createHiddenFieldsForm(alertConfig))
     .put('customPayloadFields', createListFormForCustomPayloads(customPayloadFields ?? [], false))
-    .put('threshold', createThresholdForm(threshold, (rule?.alertType ?? 'errorRate') as ApplicationAlertType));
+    .put(
+      'threshold',
+      createThresholdForm(threshold, (rule?.alertType ?? defaultAlertRule.alertType) as ApplicationAlertType)
+    );
 
   return applyEditMode(form, editMode ?? false);
 }
