@@ -130,6 +130,17 @@ export interface ApiKeyAuth {
 export type Authen = NoAuth | BasicAuth | BearerAuth | ApiKeyAuth;
 export type AdditionalHeaders = { [k: string]: string };
 
+interface WebhookFields {
+  host: string;
+  method: string;
+  accept: string;
+  acceptLanguage: string;
+  contentType: string;
+  additionalHeaders: AdditionalHeaders;
+  body: string;
+  authen: Authen;
+  ignoreCertErrors: boolean;
+}
 export const createWebhookFields = ({
   host,
   method,
@@ -140,17 +151,7 @@ export const createWebhookFields = ({
   body,
   authen,
   ignoreCertErrors
-}: {
-  host: string;
-  method: string;
-  accept: string;
-  acceptLanguage: string;
-  contentType: string;
-  additionalHeaders: AdditionalHeaders;
-  body: string;
-  authen: Authen;
-  ignoreCertErrors: boolean;
-}): Field[] => [
+}: WebhookFields): Field[] => [
   {
     description: 'method of the https request',
     encoding: 'ascii',
