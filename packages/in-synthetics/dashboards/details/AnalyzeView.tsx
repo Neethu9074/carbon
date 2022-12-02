@@ -216,7 +216,12 @@ export default function SyntheticAnalyzeView() {
               <Row>
                 <Col lg={12}>
                   {isBrowserScriptTest ? (
-                    <BrowserTestTimeline details={details} startTime={startTime} finishTime={finishTime} />
+                    <BrowserTestTimeline
+                      details={details}
+                      startTime={startTime}
+                      finishTime={finishTime}
+                      isBrowserType={isBrowserScriptTest}
+                    />
                   ) : (
                     <Timeline details={details} startTime={startTime} finishTime={finishTime} />
                   )}

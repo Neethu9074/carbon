@@ -68,9 +68,8 @@ export default function Entry({ entry }: EntryProps) {
 }
 
 function TypeHeader({ entry }: EntryProps) {
-  const mimeType: string = entry.response.content.mimeType.split('/')[1];
-  const type = getType(mimeType != undefined ? mimeType : 'x-unknown');
-  // @ts-expect-error
+  const type = getType(entry.response.content.type.toLowerCase());
+  // @ts-expect-error Element has any type
   const typeDefinition = types[type];
   return (
     <Tooltip content={typeDefinition.long} align="rightMiddle">
