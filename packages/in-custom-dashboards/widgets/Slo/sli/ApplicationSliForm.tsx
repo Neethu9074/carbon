@@ -52,8 +52,8 @@ export function ApplicationSliForm({ form, onChange, apName, QueryBuilderCompone
   const serviceId = serviceIdField?.value;
   const endpointId = endpointIdField?.value;
   const boundaryScope = (sliEntityForm.get('boundaryScope') as Field<ApplicationBoundaryScope>)?.value;
-  const includeInternal = (sliEntityForm.get('includeInternal') as Field<boolean>).value;
-  const includeSynthetic = (sliEntityForm.get('includeSynthetic') as Field<boolean>).value;
+  const includeInternal = (sliEntityForm.get('includeInternal') as Field<boolean>)?.value;
+  const includeSynthetic = (sliEntityForm.get('includeSynthetic') as Field<boolean>)?.value;
 
   const onUpdateBoundaryScope = (value: ApplicationBoundaryScope) => {
     onChange(['sliEntity', 'boundaryScope'], f =>
