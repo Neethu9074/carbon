@@ -25,11 +25,11 @@ import {
   isScript,
   isWebhook
 } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
+import { Header } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/AdditionalHeadersTable';
 import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import { AdditionalHeaders, ApiKeyAuth, Authen, BasicAuth, BearerAuth } from 'in-api/automation';
 import { notBlankValidator } from 'in-services/validators/string';
 import { isNotBlank } from 'in-services/util/string';
-import { Header } from './AdditionalHeadersTable';
 import { t } from 'in-i18n';
 
 function mimeValidator(str: string): ValidationResult {
