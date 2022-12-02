@@ -447,7 +447,13 @@ function labelColumns({
         return (
           <KeyValue
             label={<span className={locals.groupLabel}>{label}</span>}
-            customValue={<GroupLabelTooltip groupName={getLabel(item)} getCustomGroupLabel={getCustomGroupLabel} />}
+            customValue={
+              <GroupLabelTooltip
+                groupName={getLabel(item)}
+                getCustomGroupLabel={getCustomGroupLabel}
+                groupbyTag={groupbyTag}
+              />
+            }
             accentuated
           />
         );
@@ -456,9 +462,9 @@ function labelColumns({
   ];
 }
 
-function GroupLabelTooltip({ groupName, getCustomGroupLabel }) {
+function GroupLabelTooltip({ groupName, getCustomGroupLabel, groupbyTag }) {
   const groupLabel = getCustomGroupLabel ?? identity;
-  const label = groupLabel(groupName);
+  const label = groupLabel(groupName, groupbyTag);
   return (
     <Tooltip content={label} align="bottomLeft" delay={1000}>
       <div

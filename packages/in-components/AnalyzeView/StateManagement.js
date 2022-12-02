@@ -8,7 +8,14 @@ import rpt from 'prop-types';
 
 import { useObservable } from '@instana/hooks';
 
-import { EQUALS, IS_BLANK, IS_EMPTY, NOT_EMPTY, STARTS_WITH } from 'in-components/QueryBuilder/tagFilter/operators';
+import {
+  EQUALS,
+  IS_BLANK,
+  IS_EMPTY,
+  LESS_THAN,
+  NOT_EMPTY,
+  STARTS_WITH
+} from 'in-components/QueryBuilder/tagFilter/operators';
 import { CONJUNCTION, joinExpressions, TAG } from 'in-components/QueryBuilder/transformation/formModel';
 import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConfigContextModification';
 import { removeFacetTag, tagFiltersFromFacets } from 'in-components/AnalyzeView/FacetedFilters/facets';
@@ -632,8 +639,13 @@ export function addGroupingCriteriaToFormModel(groupBy, groupValue, formModel, g
     };
   } else {
     let value;
+    let operator = EQUALS;
     if (groupByTagType === NUMBER) {
       value = Number(groupValue);
+      if (groupBy.groupbyTag === 'call.latency' && groupValue === '0') {
+        operator = LESS_THAN;
+        value = 1;
+      }
     } else if (groupByTagType === BOOLEAN) {
       value = groupValue === 'true';
     } else {
@@ -642,7 +654,7 @@ export function addGroupingCriteriaToFormModel(groupBy, groupValue, formModel, g
     newTagFilter = {
       type: TAG,
       // If the label has this size, we don't know, if it was truncated or not, so we have to assume it was.
-      operator: value.length >= MAX_GROUP_BY_LABEL_LENGTH ? STARTS_WITH : EQUALS,
+      operator: value.length >= MAX_GROUP_BY_LABEL_LENGTH ? STARTS_WITH : operator,
       name: groupBy.groupbyTag,
       key: groupBy.groupbyTagSecondLevelKey,
       value: value,

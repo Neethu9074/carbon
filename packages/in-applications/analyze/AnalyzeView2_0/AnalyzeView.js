@@ -244,12 +244,15 @@ function getGroupedView(dataSource) {
   };
 }
 
-function getCustomGroupLabel(groupName) {
+function getCustomGroupLabel(groupName, groupbyTag) {
   if (groupName === UNSPECIFIED) {
     return UNSPECIFIED_LABEL;
   }
   if (groupName === NO_VALUE) {
     return NO_VALUE_LABEL;
+  }
+  if (groupbyTag === 'call.latency' && groupName === '0') {
+    return '< 1';
   }
   return groupName;
 }
