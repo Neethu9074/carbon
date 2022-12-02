@@ -36,8 +36,8 @@ export default function Summary({ timeConfig, data: instance }) {
           raw
           borderless
         />
-        <KpiCard title={t('in-openstack:hostId')} value={instance.openstackItem.hostIP} raw borderless />
-        <KpiCard title={t('in-openstack:flavor')} value={instance.openstackItem.flavor} raw borderless />
+        <KpiCard title={t('in-openstack:hostIP')} value={instance.openstackItem.hostIP} raw borderless />
+        <KpiCard title={t('in-openstack:flavorName')} value={instance.openstackItem.flavor} raw borderless />
         <KpiCard title={t('in-openstack:imageName')} value={instance.openstackItem.image} raw borderless />
         <InfraMetricKpiCard
           title={t('in-openstack:uptime')}
