@@ -5,9 +5,11 @@
 
 import React from 'react';
 
-import { getVsphereDatacenterDashboard } from 'in-vsphere/navigation/paths';
+import { useVspehereEntityLink } from 'in-vsphere/navigation/paths';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 
 export default function VsphereDatacenterDashboard({ snapshot }) {
+  const getVsphereDatacenterDashboard = useVspehereEntityLink('datacenter');
+
   return <RedirectWithHash to$={getVsphereDatacenterDashboard(snapshot.get('id'))} />;
 }

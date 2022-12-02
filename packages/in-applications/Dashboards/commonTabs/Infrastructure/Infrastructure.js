@@ -27,9 +27,9 @@ import { useNavigateToApplicationDashboard } from 'in-cloudfoundry/navigation/pa
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getInfrastructure from 'in-applications/subscriptions/getInfrastructure';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
-import { getVsphereDatacenterDashboard } from 'in-vsphere/navigation/paths';
 import { getOpenstackRegionDashboard } from 'in-openstack/navigation/paths';
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
+import { useVspehereEntityLink } from 'in-vsphere/navigation/paths';
 import { getIbmzZhmcDashboard } from 'in-zhmc/navigation/paths';
 import { getIbmpPhmcDashboard } from 'in-phmc/navigation/paths';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
@@ -213,6 +213,8 @@ function WithCloudfoundryPhysicalContext({ children, application, space, organiz
 }
 
 function WithVSpherePhysicalContext({ children, datacenter }) {
+  const getVsphereDatacenterDashboard = useVspehereEntityLink('datacenter');
+
   return (
     <div className={locals.linkWithMetaEntities}>
       {children}

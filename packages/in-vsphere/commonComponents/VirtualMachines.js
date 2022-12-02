@@ -14,7 +14,7 @@ import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTable
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { datacenterIdUrlParameter } from 'in-vsphere/navigation/urlParameters';
-import { getVsphereVmDashboard } from 'in-vsphere/navigation/paths';
+import { useVspehereEntityLink } from 'in-vsphere/navigation/paths';
 import getVsphereVms from 'in-vsphere/subscriptions/getVsphereVms';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import EntityLink from 'in-components/EntityLink/EntityLink';
@@ -27,21 +27,20 @@ import { t } from 'in-i18n';
 const pathSegment = '/vms';
 const matrixPrefix = 'vm.';
 
+export const VmLabel = ({ item }) => {
+  const hostId = item.hostId;
+  const datacenterId = item.datacenterId;
+
+  const getVsphereVmDashboard = useVspehereEntityLink('vm', { hostId, datacenterId });
+
+  return <EntityLink label={item.label} href$={getVsphereVmDashboard(item.id)} icon={resolveIcon(item)} />;
+};
+
 const columnDefinitions = [
   {
     id: 'label',
     label: t('in-vsphere:name'),
-    getContent(item) {
-      const hostId = item.hostId;
-      const datacenterId = item.datacenterId;
-      return (
-        <EntityLink
-          label={item.label}
-          href$={getVsphereVmDashboard(item.id, { hostId, datacenterId })}
-          icon={resolveIcon(item)}
-        />
-      );
-    }
+    getContent: item => <VmLabel item={item} />
   },
   {
     id: 'guestState',
