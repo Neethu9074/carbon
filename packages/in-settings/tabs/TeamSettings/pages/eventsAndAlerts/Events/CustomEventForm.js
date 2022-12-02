@@ -3,9 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-// import { compose, lifecycle, withState } from 'recompose';
-import { isEqual } from 'lodash';
 import React, { useState, useEffect } from 'react';
+import { isEqual } from 'lodash';
 
 import { create, just } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
@@ -25,13 +24,9 @@ import {
 import { getSelectedApplicationConfigsByName } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/components/Applications';
 import { getEntityTypeOptionsOfBuiltInMetrics } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import { EventDetailsSection } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/EventDetailsSection';
-// import { pendingResult } from 'in-services/fixedObjects';
-import { containsMetricInList } from 'in-sdk/metrics';
 import { ConditionsSection } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ConditionsSection';
 import ActionsSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ActionsSelection';
 import ScopeSelection from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ScopeSelection';
-// import connectTo from 'in-hoc/connectTo';
-import { role } from 'in-stores/user';
 import { combinedValidationResults, valid } from 'in-settings/validation';
 import { actionAutomationEnabled } from 'in-services/featureFlags';
 import SectionHeading from 'in-settings/components/SectionHeading';
@@ -39,7 +34,9 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import { isBlank, isNotBlank } from 'in-services/util/string';
 import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
+import { containsMetricInList } from 'in-sdk/metrics';
 import { validate } from 'in-api/search';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './CustomEventForm.mless';
