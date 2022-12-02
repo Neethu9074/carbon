@@ -71,118 +71,242 @@ import Agents from 'in-internal/thisUnit/Agents';
 export default function Internal() {
   const internalRoutes = internalMonitoringUnit
     ? [
-        <Route path="/internal/monitoringUnit/units" component={UnitList} />,
-        <Route path="/internal/monitoringUnit/unit" component={Unit} />,
-        <Route path="/internal/monitoringUnit/agents" component={AgentsAcrossUnits} />,
+        <Route key="internalUnitList" path="/internal/monitoringUnit/units" component={UnitList} />,
+        <Route key="internalUnit" path="/internal/monitoringUnit/unit" component={Unit} />,
+        <Route key="internalAgentAcrossUnits" path="/internal/monitoringUnit/agents" component={AgentsAcrossUnits} />,
 
-        <Route path="/internal/monitoringUnit/region" children={wrapInInternalView(Region)} />,
-        <Route path="/internal/monitoringUnit/sloViolations" children={wrapInInternalView(SloViolations)} />,
-        <Route path="/internal/monitoringUnit/eum/eum-acceptor" children={wrapInInternalView(EumAcceptor)} />,
-        <Route path="/internal/monitoringUnit/eum/eum-processor" children={wrapInInternalView(EumProcessor)} />,
-        <Route path="/internal/monitoringUnit/eum/appdata-writer" children={wrapInInternalView(AppDataWriterForEum)} />,
-        <Route path="/internal/monitoringUnit/eum/errorSimulator" children={wrapInInternalView(ErrorSimulator)} />,
+        <Route key="internalRegion" path="/internal/monitoringUnit/region" children={wrapInInternalView(Region)} />,
         <Route
+          key="internalSloViolations"
+          path="/internal/monitoringUnit/sloViolations"
+          children={wrapInInternalView(SloViolations)}
+        />,
+        <Route
+          key="internalEumAcceptor"
+          path="/internal/monitoringUnit/eum/eum-acceptor"
+          children={wrapInInternalView(EumAcceptor)}
+        />,
+        <Route
+          key="internalEumProcessor"
+          path="/internal/monitoringUnit/eum/eum-processor"
+          children={wrapInInternalView(EumProcessor)}
+        />,
+        <Route
+          key="internalAppdataWriter"
+          path="/internal/monitoringUnit/eum/appdata-writer"
+          children={wrapInInternalView(AppDataWriterForEum)}
+        />,
+        <Route
+          key="internalErrorSimulator"
+          path="/internal/monitoringUnit/eum/errorSimulator"
+          children={wrapInInternalView(ErrorSimulator)}
+        />,
+        <Route
+          key="internalJsStackTraceTranslator"
           path="/internal/monitoringUnit/eum/jsStackTraceTranslator"
           children={wrapInInternalView(JsStackTraceTranslator)}
         />,
         <Route
+          key="internalEumHealthProcessor"
           path="/internal/monitoringUnit/eum/eumHealthProcessor"
           children={wrapInInternalView(EumHealthProcessor)}
         />,
-        <Route path="/internal/monitoringUnit/eum" children={wrapInInternalView(EumOverview)} />,
-        <Route path="/internal/monitoringUnit/fillerStats" children={wrapInInternalView(FillerStats)} />,
+        <Route key="internalEum" path="/internal/monitoringUnit/eum" children={wrapInInternalView(EumOverview)} />,
         <Route
+          key="internalFillerStats"
+          path="/internal/monitoringUnit/fillerStats"
+          children={wrapInInternalView(FillerStats)}
+        />,
+        <Route
+          key="internalAppdataBatchingInsights"
           path="/internal/monitoringUnit/appdataBatchingInsights"
           children={wrapInInternalView(BatchingInsights)}
         />,
-        <Route path="/internal/monitoringUnit/appdata" children={wrapInInternalView(Appdata)} />,
         <Route
+          key="internalAppdataLiveAggregator"
           path="/internal/monitoringUnit/appdataLiveAggregator"
           children={wrapInInternalView(AppDataLiveAggregatorOverview)}
         />,
-        <Route path="/internal/monitoringUnit/appdata" children={wrapInInternalView(Appdata)} />,
+        <Route key="internalAppdata" path="/internal/monitoringUnit/appdata" children={wrapInInternalView(Appdata)} />,
         <Route
+          key="internalAppdataHealthAggregator"
           path="/internal/monitoringUnit/appdataHealthAggregator"
           children={wrapInInternalView(AppDataHealthAggregator)}
         />,
         <Route
+          key="internalAppdataHealthProcessor"
           path="/internal/monitoringUnit/appdataHealthProcessor"
           children={wrapInInternalView(AppDataHealthProcessor)}
         />,
         <Route
+          key="internalAppdataProcessing"
           path="/internal/monitoringUnit/appdataProcessing"
           children={wrapInInternalView(AppDataProcessorStatistics)}
         />,
-        <Route path="/internal/monitoringUnit/callExtraction" children={wrapInInternalView(CallExtraction)} />,
         <Route
+          key="internalCallExtraction"
+          path="/internal/monitoringUnit/callExtraction"
+          children={wrapInInternalView(CallExtraction)}
+        />,
+        <Route
+          key="internalAppDataQueryPerformance"
           path="/internal/monitoringUnit/appDataQueryPerformance"
           children={wrapInInternalView(AppDataQueryPerformance)}
         />,
-        <Route path="/internal/monitoringUnit/resilientMapping" children={wrapInInternalView(ResilientMapping)} />,
-        <Route path="/internal/monitoringUnit/sre/acceptors" children={wrapInInternalView(Acceptors)} />,
         <Route
+          key="internalResilientMapping"
+          path="/internal/monitoringUnit/resilientMapping"
+          children={wrapInInternalView(ResilientMapping)}
+        />,
+        <Route
+          key="internalAcceptors"
+          path="/internal/monitoringUnit/sre/acceptors"
+          children={wrapInInternalView(Acceptors)}
+        />,
+        <Route
+          key="internalBeeInstanaAggregators"
           path="/internal/monitoringUnit/sre/beeinstanaaggregators"
           children={wrapInInternalView(BeeInstanaAggregators)}
         />,
         <Route
+          key="internalBeeInstanaIngestors"
           path="/internal/monitoringUnit/sre/beeinstanaingestors"
           children={wrapInInternalView(BeeInstanaIngestors)}
         />,
-        <Route path="/internal/monitoringUnit/sre/metricscassandra" children={wrapInInternalView(MetricsCassandra)} />,
-        <Route path="/internal/monitoringUnit/sre/spanscassandra" children={wrapInInternalView(SpansCassandra)} />,
         <Route
+          key="internalMetricsCassandra"
+          path="/internal/monitoringUnit/sre/metricscassandra"
+          children={wrapInInternalView(MetricsCassandra)}
+        />,
+        <Route
+          key="internalSpansCassandra"
+          path="/internal/monitoringUnit/sre/spanscassandra"
+          children={wrapInInternalView(SpansCassandra)}
+        />,
+        <Route
+          key="internalProfilescassandra"
           path="/internal/monitoringUnit/sre/profilescassandra"
           children={wrapInInternalView(ProfilesCassandra)}
         />,
-        <Route path="/internal/monitoringUnit/sre/statecassandra" children={wrapInInternalView(StateCassandra)} />,
-        <Route path="/internal/monitoringUnit/sre/clickhouse" children={wrapInInternalView(Clickhouse)} />,
-        <Route path="/internal/monitoringUnit/sre/clickhouseLogs" children={wrapInInternalView(ClickhouseLogs)} />,
         <Route
+          key="internalStatecassandra"
+          path="/internal/monitoringUnit/sre/statecassandra"
+          children={wrapInInternalView(StateCassandra)}
+        />,
+        <Route
+          key="internalClickhouse"
+          path="/internal/monitoringUnit/sre/clickhouse"
+          children={wrapInInternalView(Clickhouse)}
+        />,
+        <Route
+          key="internalClickhouseLogs"
+          path="/internal/monitoringUnit/sre/clickhouseLogs"
+          children={wrapInInternalView(ClickhouseLogs)}
+        />,
+        <Route
+          key="internalClickhouseTableSizes"
           path="/internal/monitoringUnit/sre/clickhouseTableSizes"
           children={wrapInInternalView(ClickhouseTotalTableSizes)}
         />,
-        <Route path="/internal/monitoringUnit/sre/elastic" children={wrapInInternalView(MetaElastic)} />,
-        <Route path="/internal/monitoringUnit/sre/elasticng" children={wrapInInternalView(MetaElasticNG)} />,
-        <Route path="/internal/monitoringUnit/sre/kafka" children={wrapInInternalView(Kafka)} />,
         <Route
+          key="internalElastic"
+          path="/internal/monitoringUnit/sre/elastic"
+          children={wrapInInternalView(MetaElastic)}
+        />,
+        <Route
+          key="internalElasticng"
+          path="/internal/monitoringUnit/sre/elasticng"
+          children={wrapInInternalView(MetaElasticNG)}
+        />,
+        <Route key="internalKafka" path="/internal/monitoringUnit/sre/kafka" children={wrapInInternalView(Kafka)} />,
+        <Route
+          key="internalServerlessacceptors"
           path="/internal/monitoringUnit/serverless/serverlessacceptors"
           children={wrapInInternalView(ServerlessAcceptors)}
         />,
-        <Route path="/internal/monitoringUnit/cashier/cashiers" children={wrapInInternalView(Cashiers)} />,
         <Route
+          key="internalCashiers"
+          path="/internal/monitoringUnit/cashier/cashiers"
+          children={wrapInInternalView(Cashiers)}
+        />,
+        <Route
+          key="internalFiller"
           path="/internal/monitoringUnit/infrastructureMetrics/filler"
           children={wrapInInternalView(FillerInfrastructureMetrics)}
         />,
-        <Route path="/internal/monitoringUnit/hubforce" children={wrapInInternalView(Hubforce)} />
+        <Route
+          key="internalHubforce"
+          path="/internal/monitoringUnit/hubforce"
+          children={wrapInInternalView(Hubforce)}
+        />
       ]
     : [];
   internalRoutes.push(
-    <Route path="/internal/monitoringUnit/log/LogProcessor" children={wrapInInternalView(LogProcessor)} />,
-    <Route path="/internal/monitoringUnit/log/LogWriter" children={wrapInInternalView(LogWriter)} />,
-    <Route path="/internal/monitoringUnit/log/LogReader" children={wrapInInternalView(LogReader)} />,
-    <Route path="/internal/monitoringUnit/log/LogHousekeeping" children={wrapInInternalView(LogHousekeeping)} />,
+    <Route
+      key="internalLogProcessor"
+      path="/internal/monitoringUnit/log/LogProcessor"
+      children={wrapInInternalView(LogProcessor)}
+    />,
+    <Route
+      key="internalLogWriter"
+      path="/internal/monitoringUnit/log/LogWriter"
+      children={wrapInInternalView(LogWriter)}
+    />,
+    <Route
+      key="internalLogReader"
+      path="/internal/monitoringUnit/log/LogReader"
+      children={wrapInInternalView(LogReader)}
+    />,
+    <Route
+      key="internalLogHousekeeping"
+      path="/internal/monitoringUnit/log/LogHousekeeping"
+      children={wrapInInternalView(LogHousekeeping)}
+    />,
 
     <Route
+      key="internalSyntheticAcceptor"
       path="/internal/monitoringUnit/synthetics/SyntheticAcceptor"
       children={wrapInInternalView(SyntheticsAcceptor)}
     />,
     <Route
+      key="internalSyntheticsWriter"
       path="/internal/monitoringUnit/synthetics/SyntheticsWriter"
       children={wrapInInternalView(SyntheticsWriter)}
     />,
     <Route
+      key="internalSyntheticsReader"
       path="/internal/monitoringUnit/synthetics/SyntheticsReader"
       children={wrapInInternalView(SyntheticsReader)}
     />,
-    <Route path="/internal/thisUnit/entityStatistics" component={EntityStatistics} />,
-    <Route path="/internal/thisUnit/graphExplorer" children={wrapInInternalView(GraphExplorer)} />,
-    <Route path="/internal/thisUnit/snapshotVersions" children={wrapInInternalView(SnapshotVersions)} />,
-    <Route path="/internal/thisUnit/internalEvents" children={wrapInInternalView(InternalEvents)} />,
-    <Route path="/internal/thisUnit/metrics" children={wrapInInternalView(Metrics)} />,
-    <Route path="/internal/thisUnit/agents" component={Agents} />,
-    <Route path="/internal/thisUnit/wsApiTester" children={wrapInInternalView(WsApiTester)} />,
-    <Route path="/internal/thisUnit/adaptiveBaselineModel" children={wrapInInternalView(AdaptiveBaselineModel)} />,
-    <Route exact path="/internal" children={wrapInInternalView(Landing)} />
+    <Route key="internalEntityStatistics" path="/internal/thisUnit/entityStatistics" component={EntityStatistics} />,
+    <Route
+      key="internalGraphExplorer"
+      path="/internal/thisUnit/graphExplorer"
+      children={wrapInInternalView(GraphExplorer)}
+    />,
+    <Route
+      key="internalSnapshotVersions"
+      path="/internal/thisUnit/snapshotVersions"
+      children={wrapInInternalView(SnapshotVersions)}
+    />,
+    <Route
+      key="internalEvents"
+      path="/internal/thisUnit/internalEvents"
+      children={wrapInInternalView(InternalEvents)}
+    />,
+    <Route key="internalMetrics" path="/internal/thisUnit/metrics" children={wrapInInternalView(Metrics)} />,
+    <Route key="internalAgents" path="/internal/thisUnit/agents" component={Agents} />,
+    <Route
+      key="internalWsApiTester"
+      path="/internal/thisUnit/wsApiTester"
+      children={wrapInInternalView(WsApiTester)}
+    />,
+    <Route
+      key="internalAdaptiveBaselineMode"
+      path="/internal/thisUnit/adaptiveBaselineModel"
+      children={wrapInInternalView(AdaptiveBaselineModel)}
+    />,
+    <Route key="internalLanding" exact path="/internal" children={wrapInInternalView(Landing)} />
   );
   return internalRoutes;
 }

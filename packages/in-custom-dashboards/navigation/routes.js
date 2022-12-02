@@ -14,6 +14,6 @@ import RedirectWithHash from 'in-components/RedirectWithHash';
 import { cockpit } from 'in-cockpit/navigation/paths';
 
 export default [
-  <Route path={viewPathFullyQualified} children={renderAsyncRouteChildren(CustomDashboard)} />,
-  <RedirectWithHash from={customDashboardsPath} to={cockpit} />
+  <Route key="customDashboardNew" path={viewPathFullyQualified} children={renderAsyncRouteChildren(CustomDashboard)} />,
+  <RedirectWithHash key="customDashboardRedirectToHome" from={customDashboardsPath} to={cockpit} />
 ];
