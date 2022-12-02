@@ -61,7 +61,6 @@ export const builtInGlobalApplicationSmartAlertsEnabled =
   applicationSmartAlertsEnabled && isFeatureFlagEnabled('builtInGlobalApplicationSmartAlertsEnabled');
 export const potentialProblemsEnabled =
   applicationSmartAlertsEnabled && isFeatureFlagEnabled('potentialProblemsEnabled', true);
-export const adaptiveBaselineEnabled = applicationSmartAlertsEnabled && isFeatureFlagEnabled('adaptiveBaselineEnabled');
 export const kubernetesExploreEnabled = isFeatureFlagEnabled('kubernetesExploreEnabled', false);
 export const kubernetesTeamEnabled = isFeatureFlagEnabled('kubernetesTeamEnabled', false);
 export const deprecateAppDataLegacyEventsEnabled =
@@ -70,8 +69,6 @@ export const disallowAppDataLegacyEventsEnabled =
   applicationSmartAlertsEnabled && isFeatureFlagEnabled('disallowAppDataLegacyEventsEnabled');
 export const hideAppDataLegacyEventsEnabled =
   applicationSmartAlertsEnabled && isFeatureFlagEnabled('hideAppDataLegacyEventsEnabled');
-export const perServiceAdaptiveBaselineEnabled =
-  applicationSmartAlertsEnabled && isFeatureFlagEnabled('perServiceAdaptiveBaselineEnabled', true);
 export const perEndpointAdaptiveBaselineEnabled =
   applicationSmartAlertsEnabled && isFeatureFlagEnabled('perEndpointAdaptiveBaselineEnabled', false);
 
@@ -82,6 +79,12 @@ export const applicationApdexEnabled = isFeatureFlagEnabled('applicationApdexEna
 
 export const websiteUploadConfigEnabled = isFeatureFlagEnabled('websiteUploadConfigEnabled', false);
 export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashBeaconEnabled', false);
+
+// EUM beacon query optimization
+export const websiteBeaconQueryOptimizationEnabled = isFeatureFlagEnabled(
+  'websiteBeaconQueryOptimizationEnabled',
+  true
+);
 
 // SmartAlerts, Strontium-cloudberry:
 // Logs-Blueprint behind FF, Closed-Beta, only for customers already using it

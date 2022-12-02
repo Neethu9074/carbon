@@ -555,6 +555,8 @@
   "pluginName_httpd": "Apache HTTPd",
   "pluginName_ibmCics": "IBM CICS",
   "pluginName_ibmCics_plural": "IBM CICS",
+  "pluginName_ibmCtg": "IBM CTG",
+  "pluginName_ibmCtg_plural": "IBM CTG",
   "pluginName_ibmCloudClinicalData_plural": "IBM Clinical Datas",
   "pluginName_ibmCloudClinicalData_0": "IBM Clinical Datas",
   "pluginName_ibmCloudClinicalData_1": "IBM Clnical Datas",
@@ -1431,6 +1433,8 @@
   "tracingTypeName_cicshttpexit": "CICS HTTP 呼叫",
   "tracingTypeName_cicsrpcentry": "CICS RPC 呼叫",
   "tracingTypeName_cicsrpcexit": "CICS RPC 呼叫",
+  "tracingTypeName_ctgrpcentry": "CTG RPC 呼叫",
+  "tracingTypeName_ctgrpcexit": "CTG RPC 呼叫",
   "tracingTypeName_cicsmqentry": "CICS MQ 訊息",
   "tracingTypeName_cicsmqexit": "CICS MQ 訊息",
   "tracingTypeName_imsmqentry": "IMS MQ 訊息",
@@ -1935,6 +1939,11 @@
   "tracingTypeName_postgres_0": "PostgreSQL 呼叫",
   "tracingTypeName_postgres_1": "PostgreSQL 呼叫",
   "tracingTypeName_postgres_2": "PostgreSQL 呼叫",
+  "tracingTypeName_prisma": "Prisma 呼叫",
+  "tracingTypeName_prisma_plural": "Prisma 呼叫",
+  "tracingTypeName_prisma_0": "Prisma 呼叫",
+  "tracingTypeName_prisma_1": "Prisma 呼叫",
+  "tracingTypeName_prisma_2": "Prisma 呼叫",
   "tracingTypeName_pyhc": "HTTP 呼叫",
   "tracingTypeName_pyhc_plural": "HTTP 呼叫",
   "tracingTypeName_pyhc_0": "HTTP 呼叫",
@@ -5595,6 +5604,8 @@
         "hadrSecondaryLog": "HADR 次要日誌資訊",
         "hadrLogMetrics": "HADR 日誌度量",
         "hadrTakeOverTime": "HADR 前次接管時間",
+        "hadrConnectStatusOrStandbyId": "hadrConnectStatus/StandbyID",
+        "hadr": "hadr",
         "vmonlockStatsValue": "鎖定統計資料（記憶體）",
         "vmonlockStats": "鎖定統計資料",
         "databaseVmondeltaStats": "交易效能（增量值）"
@@ -5789,6 +5800,7 @@
       "secLogPage": "次要日誌頁面",
       "secLogPos": "次要日誌位置",
       "secLogTime": "次要日誌時間",
+      "HADR_CONNECT_STATUS": "HADR 連接狀態",
       "hadrWaitsTotal": "HADR 等待總計",
       "sockSendBufReq": "要求的傳送緩衝區",
       "sockSendBufActual": "實際傳送緩衝區",
@@ -8147,6 +8159,7 @@
     "host": {
       "theOperatingSystemOfThisHostDoesNotSeemToOfferTheExtendedBerkeleyPacketFilterEBpfFunctionality": "此主機的作業系統似乎沒有提供「程序異常終止」偵測所需的延伸「Berkeley 封包過濾器 (eBPF)」功能。",
       "theHostAgentIsVulnerableToLog4jCVE": "主機代理程式容易遭到 Log4j CVE-2021-44228 及 CVE-2021-45046 的攻擊，請將代理程式安裝更新至較新版本，以減輕這些漏洞。",
+      "messagesAreBeingFilteredFromThisHost": "正在過濾來自此主機的訊息，請聯絡支援中心以解除封鎖此主機。",
       "troubleshootingDocs": "疑難排解文件",
       "dashboard": {
         "gpuMemoryProcess": "GPU 記憶體/程序",
@@ -8941,6 +8954,11 @@
                 "activeThreads": "作用中執行緒",
                 "ineligibleThreads": "不合格的執行緒",
                 "maxActiveThreads": "作用中執行緒數上限"
+              },
+              "pagesFaultRate": {
+                "elapsedDatabaseFaults": "經歷的資料庫錯誤",
+                "elapsedTotalFaults": "經歷錯誤總數",
+                "elapsedNonDatabaseFaults": "經歷非資料庫錯誤"
               }
             }
           },
@@ -9063,7 +9081,7 @@
             "messageSecondLevelText": "第二層文字"
           },
           "spinningDiskType": {
-            "name": "磁碟資訊",
+            "name": "旋轉磁碟資訊",
             "resourceName": "資源名稱",
             "unitStorageCapacity": "儲存體容量",
             "percentUsed": "已用百分比",
@@ -9111,8 +9129,8 @@
       "substate": "子狀態",
       "connectionName": "連線名稱",
       "remoteQueueManager": "遠端佇列管理程式",
-      "lastMessageDateTime": "最後一個訊息日期 / 時間",
-      "startDateTime": "開始日期/時間",
+      "lastMessageDateTime": "前次訊息時間",
+      "startDateTime": "開始時間",
       "messagesSentReceived": "傳送/接收的訊息數",
       "messagesAvailable": "可用的訊息",
       "sentReceived": "已傳送/已接收",
@@ -9185,7 +9203,17 @@
         "calls": "呼叫",
         "openInputs": "開啟的輸入",
         "openOutputs": "開啟的輸出",
-        "ibmMqQueue": "IBM MQ 佇列"
+        "ibmMqQueue": "IBM MQ 佇列",
+        "intervalStartDateTime": "間隔開始時間",
+        "intervalEndDateTime": "間隔結束時間",
+        "nonPersistentPutBytes": "非持續性放置位元組數",
+        "persistentPutBytes": "持續放置位元組數",
+        "putFailCount": "放置失敗計數",
+        "put1FailCount": "PUT1 失敗計數",
+        "nonPersistentGetBytes": "非持續性取得位元組數",
+        "persistentGetBytes": "持續取得位元組數",
+        "getFailCount": "取得失敗計數",
+        "expiredMsgCount": "過期訊息計數"
       },
       "name": "名稱",
       "type": "類型",
@@ -9217,7 +9245,17 @@
       "onQueueMessageTime": "佇列上的訊息時間",
       "openInputCount": "開啟輸入計數",
       "openOutputCount": "開啟輸出計數",
-      "calls": "呼叫"
+      "calls": "呼叫",
+      "statistics": "MQ 佇列統計資料",
+      "nonPersistentPutBytes": "非持續性放置位元組數",
+      "persistentPutBytes": "持續放置位元組數",
+      "putFailCount": "放置失敗計數",
+      "put1FailCount": "PUT1 失敗計數",
+      "nonPersistentGetBytes": "非持續性取得位元組數",
+      "persistentGetBytes": "持續取得位元組數",
+      "getFailCount": "取得失敗計數",
+      "expiredMsgCount": "過期訊息計數",
+      "statisticsWithCount": "統計資料 ({{count}})"
     },
     "ibmMqMftCoordiQmgr": {
       "dashboard": {
@@ -9225,7 +9263,13 @@
         "coordiQmgrName": "協調佇列管理程式",
         "coordiQmgrHost": "主機",
         "connectionChannel": "連線通道",
-        "agentsWithCount": "MFT 代理程式 ({{len}})"
+        "agentsWithCount": "MFT 代理程式 ({{len}})",
+        "transfers": "轉移",
+        "currentTransfers": "現行傳送",
+        "totalTransfers": "傳送總數",
+        "successfulTransfers": "順利完成的傳送數",
+        "failedTransfers": "失敗的傳送數",
+        "partiallySuccessfulTransfers": "局部成功傳送數"
       }
     },
     "ibmMqMftZone": {
@@ -9241,46 +9285,18 @@
         "agentStatus": "狀態",
         "queueManager": "佇列管理程式",
         "AgentStartTimeUTC": "開始時間 (UTC)",
-        "maxSourceTransfers": "來源",
-        "maxDestinationTransfers": "目的地",
-        "maxQueuedTransfers": "已排入佇列",
+        "maxSourceTransfers": "來源傳送數上限",
+        "maxDestinationTransfers": "目的地傳送數上限",
+        "maxQueuedTransfers": "佇列傳送數上限",
         "hostName": "主機名稱",
         "agentType": "類型",
         "agentTimeZone": "時區",
-        "fileTransferLogsWithCount": "傳送日誌 ({{len}})",
         "runningTransfers": "執行中傳送",
         "totalCurrentTransfers": "現行傳送總數",
-        "transferStatusWithCount": "現行傳送數 ({{len}})",
         "totalSourceTransfers": "來源傳送",
-        "totalDestinationTransfers": "目的地傳送"
-      }
-    },
-    "ibmMqMftFileTransferStatus": {
-      "dashboard": {
-        "sourceAgent": "來源代理程式",
-        "destinationAgent": "目的地代理程式",
-        "startedTime": "開始時間",
-        "fileNumber": "檔案號碼",
-        "elapsedSeconds": "經歷時間（秒）",
-        "statsTransferredBytes": "已傳送位元組數",
-        "sourceFileName": "原始檔"
-      }
-    },
-    "ibmMqMftFileTransferLog": {
-      "dashboard": {
-        "actionStatus": "狀態",
-        "sourceAgent": "來源代理程式",
-        "destinationAgent": "目的地代理程式",
-        "originatorUserID": "發起者",
-        "startedTime": "開始時間",
-        "transferMode": "模式",
-        "checkSumMethod": "總和檢查方法",
-        "checkSumValue": "總和檢查值",
-        "sourceFileName": "原始檔",
-        "sourceFileSize": "來源大小",
-        "destinationFileName": "目的地檔案",
-        "destinationFileSize": "目的地大小",
-        "itemsWithCount": "檔案 ({{len}})"
+        "totalDestinationTransfers": "目的地傳送",
+        "statusRunning": "執行中",
+        "statusUnknown": "不明"
       }
     },
     "ibmMqQueueManager": {
@@ -9292,7 +9308,7 @@
         "connectionName": "連線名稱",
         "activeConversations": "作用中交談數",
         "remoteQueueManager": "遠端佇列管理程式",
-        "startDateTime": "開始日期/時間",
+        "startDateTime": "開始時間",
         "channelsWithCount": "通道 ({{len}})",
         "connections": "連線",
         "messagesIn": "輸入的訊息",
@@ -10366,10 +10382,6 @@
       "warningSpringbootConfig": "進一步資訊可以在 <linkToSpringboot>Spring Boot 配置頁面</linkToSpringboot>找到。",
       "descriptionActuatorConfigured": "進行 Spring Boot 監視時，需要配置 Spring Boot 掣動器：",
       "descriptionEnableJMX": "若為 Spring Boot 2.2.x 以及更新版本，則需要啟用 JMX。請在 <codeTag><bold>application.properties</bold></codeTag> 檔中設定 <codeTag><bold>spring.jmx.enabled=true</bold></codeTag>。"
-    },
-    "statsd": {
-      "headerInformation": "資訊",
-      "infoNoFurtherEntityInfo": "沒有此實體的進一步資訊。"
     },
     "sybase": {
       "titleDiskReadsWrites": "磁碟讀取及寫入",
@@ -11839,9 +11851,6 @@
       "filesOpenedForRead": "開啟來讀取的檔案",
       "beeInstana": "BeeInstana"
     },
-    "webSphereApplicationContainer": {
-      "sessions": "階段作業"
-    },
     "webSphereLibertyApplicationContainer": {
       "requests": "要求",
       "averageResponseTime": "平均回應時間"
@@ -12154,6 +12163,14 @@
       "titleRegion": "CICS 區域",
       "titleDestination": "目的地",
       "titleUnknown": "不明"
+    },
+    "ctg": {
+      "titleCtgAttributes": "CTG 屬性",
+      "ctgReturnCode": "CTG 回覆碼",
+      "cicsReturnCode": "CICS 回覆碼",
+      "transactionName": "交易名稱",
+      "titleCalls": "呼叫",
+      "calls": "{{call}}"
     },
     "corba": {
       "titleMethod": "方法",
@@ -12642,6 +12659,11 @@
       "database": "資料庫",
       "user": "使用者",
       "query": "查詢"
+    },
+    "prisma": {
+      "url": "資料來源 URL",
+      "provider": "資料庫類型",
+      "model_action": "模型/動作"
     },
     "quartz": {
       "group": "群組",

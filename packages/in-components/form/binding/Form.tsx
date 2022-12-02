@@ -15,9 +15,18 @@ interface FormProps {
   setForm: (form: Item) => void;
   formId?: string;
   disabled?: boolean;
+  'aria-label'?: string;
 }
 
-export default function Form({ onSubmit, children, form, setForm, disabled, formId }: FormProps) {
+export default function Form({
+  onSubmit,
+  children,
+  form,
+  setForm,
+  disabled,
+  formId,
+  'aria-label': ariaLabel
+}: FormProps) {
   return (
     <FormContext.Provider
       value={{
@@ -29,6 +38,7 @@ export default function Form({ onSubmit, children, form, setForm, disabled, form
     >
       <form
         id={formId}
+        aria-label={ariaLabel}
         onSubmit={event => {
           event.preventDefault();
           event.stopPropagation();

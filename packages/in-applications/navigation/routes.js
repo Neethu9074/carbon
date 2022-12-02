@@ -38,26 +38,65 @@ import { role } from 'in-stores/user';
 export default function applicationRoutes() {
   let appRoutes = [
     <Route
+      key="applicationPerspectiveNewApplicationWaiter"
       path={`${newApplicationWaiterView}/:appId/:appName`}
       children={renderAsyncRouteChildren(NewApplicationWaiter)}
     />,
-    <Route path={applicationsList} children={renderAsyncRouteChildren(ApplicationsList)} />,
-    <Route path={applicationDashboard} children={renderAsyncRouteChildren(ApplicationDashboard)} />,
-    <Route path={servicesList} children={renderAsyncRouteChildren(ServicesList)} />,
-    <Route path={serviceDashboard} children={renderAsyncRouteChildren(ServiceDashboard)} />,
-    <Route path={endpointDashboard} children={renderAsyncRouteChildren(EndpointDashboard)} />,
-    <Route path={analyzePath} children={renderAsyncRouteChildren(AnalyzeView2_0)} />
+    <Route
+      key="applicationPerspectiveApplicationslist"
+      path={applicationsList}
+      children={renderAsyncRouteChildren(ApplicationsList)}
+    />,
+    <Route
+      key="applicationPerspectiveApplicationDashboard"
+      path={applicationDashboard}
+      children={renderAsyncRouteChildren(ApplicationDashboard)}
+    />,
+    <Route
+      key="applicationPerspectiveServicesList"
+      path={servicesList}
+      children={renderAsyncRouteChildren(ServicesList)}
+    />,
+    <Route
+      key="applicationPerspectiveServiceDashboard"
+      path={serviceDashboard}
+      children={renderAsyncRouteChildren(ServiceDashboard)}
+    />,
+    <Route
+      key="applicationPerspectiveEndpointDashboard"
+      path={endpointDashboard}
+      children={renderAsyncRouteChildren(EndpointDashboard)}
+    />,
+    <Route key="applicationPerspectiveAnalyze" path={analyzePath} children={renderAsyncRouteChildren(AnalyzeView2_0)} />
   ];
 
   if (role.canConfigureServiceMapping) {
     appRoutes.push(
-      <Route path={newServiceView} children={renderAsyncRouteChildren(CustomServiceMapping)} />,
-      <Route path={configureSyntheticEndpointsView} children={renderAsyncRouteChildren(SyntheticCallConfig)} />,
-      <Route path={configureEndpointsView} children={renderAsyncRouteChildren(CustomEndpointMapping)} />
+      <Route
+        key="applicationPerspectiveNewServiceView"
+        path={newServiceView}
+        children={renderAsyncRouteChildren(CustomServiceMapping)}
+      />,
+      <Route
+        key="applicationPerspectiveConfigureSyntheticEndpoints"
+        path={configureSyntheticEndpointsView}
+        children={renderAsyncRouteChildren(SyntheticCallConfig)}
+      />,
+      <Route
+        key="applicationPerspectiveConfigureEndpoints"
+        path={configureEndpointsView}
+        children={renderAsyncRouteChildren(CustomEndpointMapping)}
+      />
     );
   }
   if (applicationSmartAlertsEnabled) {
-    appRoutes.push(<Route path={alertsList} children={renderAsyncRouteChildren(GlobalSmartAlertsTab)} />);
+    appRoutes.push(
+      <Route
+        key="applicationPerspectiveAlertsList"
+        path={alertsList}
+        children={renderAsyncRouteChildren(GlobalSmartAlertsTab)}
+      />
+    );
   }
 
   return appRoutes;

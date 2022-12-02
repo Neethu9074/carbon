@@ -25,12 +25,16 @@ import {
 } from 'in-synthetics/navigation/paths';
 
 export default [
-  <Route exact path={syntheticsPath}>
+  <Route key="syntheticTests" exact path={syntheticsPath}>
     {renderAsyncRouteChildren(SyntheticsView)}
   </Route>,
-  <Route exact path={syntheticLocationPath}>
+  <Route key="syntheticLocations" exact path={syntheticLocationPath}>
     {renderAsyncRouteChildren(SyntheticLocationView)}
   </Route>,
-  <Route path={syntheticsDashboard}>{renderAsyncRouteChildren(SyntheticSummaryDashboard)}</Route>,
-  <Route path={syntheticDetailsPath}>{renderAsyncRouteChildren(AnalyzeView)}</Route>
+  <Route key="syntheticsDashboard" path={syntheticsDashboard}>
+    {renderAsyncRouteChildren(SyntheticSummaryDashboard)}
+  </Route>,
+  <Route key="syntheticDetails" path={syntheticDetailsPath}>
+    {renderAsyncRouteChildren(AnalyzeView)}
+  </Route>
 ];

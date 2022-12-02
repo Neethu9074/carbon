@@ -34,7 +34,7 @@ function getIconType(timeThresholdType: string) {
   switch (timeThresholdType) {
     case timeThresholdTypes.userImpactOfViolationsInSequence:
       return 'lib_alerts_user_impacted';
-    case timeThresholdTypes.requestImpact:
+    case timeThresholdTypes.traceImpact:
       return 'lib_application_boundary_inbound_calls';
     case timeThresholdTypes.violationsInPeriod:
       return 'lib_alerting_threshold_icon';

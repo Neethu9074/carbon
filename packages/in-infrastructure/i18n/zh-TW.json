@@ -61,12 +61,14 @@
     "theQueryConfigurationIsInvalid": "查詢配置無效。請先處理驗證失敗情況，再繼續進行。",
     "allInfrastructure": "所有基礎架構",
     "name": "名稱",
-    "search": "搜尋",
+    "search": "搜尋類型",
     "explore": "瀏覽",
     "count": "計數",
     "errors": {
-      "maximumNumberOfGroups": "此查詢有太多結果。 請使用更嚴格的過濾器或更廣泛的群組來縮小範圍"
-    }
+      "maximumNumberOfGroups": "此查詢有太多結果。 請使用更嚴格的過濾器或更廣泛的群組來縮小範圍",
+      "generalError": "發生非預期的錯誤。 請使用更嚴格的過濾器縮小範圍，然後再試一次"
+    },
+    "entityTypes": "實體類型 {{count, parenthesis}}"
   },
   "tableView": {
     "showCountsAndAveragesAcrossTheCurrentTimeWindow": "顯示整個現行時間範圍的計數和平均值。",

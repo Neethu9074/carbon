@@ -8,6 +8,7 @@ import { createField, createMapForm, MapForm } from 'formalistic';
 import {
   ADAPTIVE_BASELINE,
   HISTORIC_BASELINE,
+  isAdaptiveBaselineConfig,
   isHistoricBaselineConfig,
   isStaticThresholdConfig
 } from 'in-alerting/smart-alerts/data/thresholdTypes';
@@ -16,7 +17,8 @@ import {
   HistoricBaselineConfig,
   StaticThresholdConfig,
   ThresholdConfig,
-  ThresholdOperator
+  ThresholdOperator,
+  ThresholdConfigUnion
 } from 'in-types';
 import { ApplicationAlertType } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
@@ -24,7 +26,15 @@ import { t } from 'in-i18n';
 
 export const defaultDeviationFactor = 3;
 
-export default function createThresholdForm(threshold: ThresholdConfig, alertType: ApplicationAlertType): MapForm {
+export default function createThresholdForm(
+  threshold: ThresholdConfigUnion | undefined,
+  alertType: ApplicationAlertType
+): MapForm {
+  if (!threshold) {
+    // use slowness by default
+    return createSlownessForm();
+  }
+
   if (alertType === 'slowness') {
     return createSlownessForm(threshold);
   }
@@ -68,7 +78,7 @@ function createStatusCodeForm(threshold: ThresholdConfig): MapForm {
   return createBaselineEnabledForm(threshold);
 }
 
-function createSlownessForm(threshold: ThresholdConfig): MapForm {
+function createSlownessForm(threshold?: ThresholdConfig): MapForm {
   return createBaselineEnabledForm(threshold);
 }
 
@@ -76,10 +86,8 @@ function createThroughputForm(threshold: ThresholdConfig): MapForm {
   return createBaselineEnabledForm(threshold);
 }
 
-function createBaselineEnabledForm(threshold: ThresholdConfig): MapForm {
-  const thresholdType = threshold.type;
-
-  if (isStaticThresholdConfig(threshold)) {
+function createBaselineEnabledForm(threshold?: ThresholdConfig): MapForm {
+  if (!threshold || isStaticThresholdConfig(threshold)) {
     return createStaticThresholdForm(threshold);
   }
 
@@ -87,18 +95,18 @@ function createBaselineEnabledForm(threshold: ThresholdConfig): MapForm {
     return createHistoricBaselineForm(threshold);
   }
 
-  if (thresholdType === ADAPTIVE_BASELINE) {
+  if (isAdaptiveBaselineConfig(threshold)) {
     return createAdaptiveBaselineForm(threshold as AdaptiveBaselineData);
   }
 
-  throw new Error(`Unknown threshold type ${thresholdType}.`);
+  throw new Error(`Unknown threshold type ${threshold?.type}.`);
 }
 
-function createStaticThresholdForm(threshold: StaticThresholdConfig): MapForm {
+function createStaticThresholdForm(threshold?: StaticThresholdConfig): MapForm {
   return createBaseForm(threshold).put(
     'value',
     createField({
-      value: threshold.value ?? null,
+      value: threshold?.value ?? null,
       validator: num => {
         if (typeof num !== 'number' || num < 0) {
           return [
@@ -164,24 +172,24 @@ function createAdaptiveBaselineForm(threshold: AdaptiveBaselineData) {
     );
 }
 
-function createBaseForm(threshold: { type?: string; operator?: ThresholdOperator; lastUpdated?: number }): MapForm {
+function createBaseForm(threshold?: { type?: string; operator?: ThresholdOperator; lastUpdated?: number }): MapForm {
   return createMapForm()
     .put(
       'type',
       createField({
-        value: threshold.type ?? HISTORIC_BASELINE
+        value: threshold?.type ?? HISTORIC_BASELINE
       })
     )
     .put(
       'operator',
       createField({
-        value: threshold.operator ?? '>='
+        value: threshold?.operator ?? '>='
       })
     )
     .put(
       'lastUpdated',
       createField({
-        value: threshold.lastUpdated ?? 0
+        value: threshold?.lastUpdated ?? 0
       })
     );
 }

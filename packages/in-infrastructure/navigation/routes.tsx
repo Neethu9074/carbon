@@ -18,19 +18,20 @@ import React from 'react';
 // @ts-expect-error module need to be translated to TS
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 // @ts-expect-error module need to be translated to TS
-import { infraExploreEnabled } from 'in-infrastructure/Explore/services/featureFlags';
-// @ts-expect-error module need to be translated to TS
 import { infraExplorePath } from 'in-infrastructure/navigation/paths';
 import { containerPath, graphPath, physicalPath, tablePath } from 'in-stores/navigation/paths/mainPaths';
+import { infraExploreDataEnabled } from 'in-services/featureFlags';
 
 const infrastructureRoutes = [
-  <Route path={physicalPath} children={renderAsyncRouteChildren(Map)} />,
-  <Route path={containerPath} children={renderAsyncRouteChildren(Map)} />,
-  <Route path={tablePath} children={renderAsyncRouteChildren(TableView)} />,
-  <Route path={graphPath} children={renderAsyncRouteChildren(GraphView)} />
+  <Route key="infraPhysical" path={physicalPath} children={renderAsyncRouteChildren(Map)} />,
+  <Route key="infraContainer" path={containerPath} children={renderAsyncRouteChildren(Map)} />,
+  <Route key="infraTable" path={tablePath} children={renderAsyncRouteChildren(TableView)} />,
+  <Route key="infraGraph" path={graphPath} children={renderAsyncRouteChildren(GraphView)} />
 ];
-if (infraExploreEnabled) {
-  infrastructureRoutes.push(<Route path={infraExplorePath} children={renderAsyncRouteChildren(InfraExploreView)} />);
+if (infraExploreDataEnabled) {
+  infrastructureRoutes.push(
+    <Route key="infraExplore" path={infraExplorePath} children={renderAsyncRouteChildren(InfraExploreView)} />
+  );
 }
 
 export default infrastructureRoutes;

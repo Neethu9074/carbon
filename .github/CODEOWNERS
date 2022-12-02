@@ -30,7 +30,7 @@ packages/in-custom-dashboards       @pr-approval @Instana-IBM-GitHub-Enterprise 
 # potential problems marker lane in metrics chart
 packages/in-custom-dashboards/widgets @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-eum @instana/eng-ui @instana/eng-issue-detection
 packages/in-custom-dashboards/widgets/Slo @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-eum @instana/eng-ui @instana/eng-service-levels
-packages/in-events                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-service-levels @instana/eng-ui @instana/eng-issue-detection
+packages/in-events                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-service-levels @instana/eng-ui @instana/eng-issue-detection @instana/eng-alert-response
 packages/in-events/components/AutomationActions @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-remediation
 # Shared ownership
 # packages/in-forge
@@ -140,8 +140,10 @@ packages/in-sdk/metrics             @pr-approval @Instana-IBM-GitHub-Enterprise 
 packages/in-server                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-services                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-services/metrics        @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
-packages/in-settings                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-service-levels @instana/eng-issue-detection @instana/eng-enterprise @instana/eng-application
+packages/in-settings                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-service-levels @instana/eng-issue-detection @instana/eng-enterprise @instana/eng-application @instana/eng-alert-response
 packages/in-settings/tabs/TeamSettings/pages/automation @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-remediation
+packages/in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-alert-response
+packages/in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-alert-response
 packages/in-stores                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-stores/snapshot         @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure
 # Deprecated: We should not make any more changes within this package (aside from code removal)

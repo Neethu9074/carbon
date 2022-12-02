@@ -18,3 +18,11 @@ export function isPerformanceDataAvailable(snapshot) {
   }
   return version8Patt.test(version);
 }
+
+export function isInformationSchemaDataAvailable(snapshot) {
+  const sensorInformationSchemaStatus = snapshot.getIn(['data', 'sensorInformationSchemaStatus']);
+  if (sensorInformationSchemaStatus !== 'OK') {
+    return false;
+  }
+  return true;
+}

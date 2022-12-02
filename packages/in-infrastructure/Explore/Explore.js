@@ -1,5 +1,5 @@
 /*
- * (c) Copyright IBM Corp. 2021
+ * (c) Copyright IBM Corp. 2022
  * (c) Copyright Instana Inc.
  */
 
@@ -46,7 +46,6 @@ import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConf
 import QueryBuilder, { isQueryValid } from 'in-infrastructure/Explore/components/QueryBuilder';
 import GroupedInfrastructure from 'in-infrastructure/Explore/components/GroupedInfrastructure';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
-import InfraPageHeaderWithTabs from 'in-infrastructure/components/InfraPageHeaderWithTabs';
 import { getMetricKey, fromUrlMetrics } from 'in-infrastructure/Explore/services/metrics';
 import InfrastructureList from 'in-infrastructure/Explore/components/InfrastructureList';
 import getMetricCatalog from 'in-infrastructure/subscriptions/getMetricCatalog';
@@ -56,6 +55,7 @@ import EntityList from 'in-infrastructure/Explore/components/EntityList';
 import useMetricCatalog from 'in-infrastructure/hooks/useMetricCatalog';
 import { themes } from 'in-components/DashboardHeader/DashboardHeader';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import EntityExploreHeader from '../components/EntityExploreHeader';
 import { defaultOrder } from 'in-infrastructure/Explore/constants';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
@@ -120,10 +120,6 @@ function InfraExploreViewWithFixatedTimeConfig() {
     onMetricAggregationChanged: metricAggregationChangedTracker(getInfraExploreState)
   };
 
-  function resetParams() {
-    setUrl({ tagFilterExpression: [], group: { groupbyTag: 'type', ar: true }, metrics: [], type: 'all' });
-  }
-
   const isInitPage =
     !type &&
     (!group || group?.groupbyTag == 'type') &&
@@ -131,14 +127,13 @@ function InfraExploreViewWithFixatedTimeConfig() {
     (!tagFilterExpression || tagFilterExpression?.length == 0);
 
   return (
-    <InfraPageHeaderWithTabs
+    <EntityExploreHeader
       onTypeSelected={typeSelectorChangedTracker(getInfraExploreState)}
       showSearchBar={false}
       theme={themes.light}
       addShadow
       addFooter
       headerHref$={isInitPage ? null : defaultInfraExploreView}
-      onHeaderClick={resetParams}
       renderTypeSelector={!isInitPage}
     >
       <ViewTrackingMeta
@@ -151,9 +146,6 @@ function InfraExploreViewWithFixatedTimeConfig() {
       <Title title={t('in-infrastructure:explore.explore')} />
       <LeftRightPadding className={locals.stack}>
         <Stack gap="gutter">
-          <Message type="warning" withIcon small>
-            {t('in-infrastructure:explore.thisIsABetaVersionOfANewProductCapability')}
-          </Message>
           <Content
             setUrl={setUrl}
             type={type}
@@ -171,7 +163,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
           />
         </Stack>
       </LeftRightPadding>
-    </InfraPageHeaderWithTabs>
+    </EntityExploreHeader>
   );
 }
 
@@ -270,6 +262,7 @@ function Content({
       getInfraExploreState={getInfraExploreState}
       metricCatalog={metricCatalog}
       setOrder={setOrder}
+      setUrl={setUrl}
       metricMetadatas={metricMetadatas}
       backendQueryModel={backendQueryModel}
       setMetrics={setMetrics}
@@ -297,6 +290,7 @@ function List({
   getInfraExploreState,
   metricCatalog,
   setOrder,
+  setUrl,
   metricMetadatas,
   backendQueryModel,
   setMetrics,
@@ -309,7 +303,7 @@ function List({
         timeConfig={timeConfig}
         group={group}
         setOrder={order => {
-          setOrder(order);
+          setUrl({ order });
           sortingTracker(getInfraExploreState)(order, SORTING_CONTEXT.GROUPS);
         }}
         order={order}

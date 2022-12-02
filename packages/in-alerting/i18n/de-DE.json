@@ -71,7 +71,12 @@
       "onlyOrAnyAlphaNumericalAreAllowed": "Nur die Zeichen '.', '-', '_' sowie alphanumerische Zeichen sind zulässig.",
       "aTagNeedsToBeSelected": "Es muss ein Tag ausgewählt werden.",
       "aKeyNeedsToBeSpecified": "Es muss ein Schlüssel angegeben werden.",
-      "customPayloadTitle": "Angepasste Nutzdaten"
+      "additionalCustomPayload": "Zusätzliche angepasste Nutzdaten",
+      "globalCustomPayload": "Globale angepasste Nutzdaten",
+      "additionalCustomPayloadTitle": "Zusätzliche benutzerdefinierte Nutzdaten ({{count}})",
+      "globalCustomPayloadTitle": "Globale angepasste Nutzdaten ({{count}})",
+      "globalCustomPayloadRetrieveFailed": "Es ist ein Fehler aufgetreten. Globale angepasste Nutzdaten konnten nicht abgerufen werden.",
+      "noGlobalCustomPayloadConfigured": "Keine globalen angepassten Nutzdaten konfiguriert"
     }
   },
   "potentialProblems": {
@@ -472,7 +477,7 @@
         "simpleAlertStep2Headline": "An welcher Stelle soll der Alert ausgelöst werden?",
         "step1Title": "Schritt 1: Alert auswählen",
         "step2Title": "Schritt 2: Bereich auswählen",
-        "step3Title": "Schritt 3: Alertingkanäle auswählen"
+        "step3Title": "Schritt 3: Alertkanäle auswählen"
       },
       "components": {
         "createSmartAlert": "Smart Alert hinzufügen",
@@ -671,8 +676,8 @@
         "loadingThresholdSuggestion": "Vorschlag für Schwellenwert",
         "alertConfigDialogPresenterTitleEditAlert_Local": "Smart Alert bearbeiten",
         "alertConfigDialogPresenterTitleEditAlert_Global": "Globalen Smart Alert bearbeiten",
-        "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Neuen Smart Alert erstellen",
-        "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Neuen globalen Smart Alert erstellen",
+        "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Smart Alert erstellen",
+        "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Globalen Smart Alert erstellen",
         "alertConfigDialogPresenterTitleMigrateAlert": "Auf Smart Alert migrieren",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "Zum erweiterten Modus wechseln",
         "simpleAlertConfigDialogStep3Headline": "Wer sollte die Alerts bekommen?",
@@ -962,7 +967,7 @@
         "simpleAlertConfigDialogStep2Headline": "An welcher Stelle soll der Alert ausgelöst werden?",
         "stepConfigsStep1Title": "Schritt 1: Alert auswählen",
         "stepConfigsStep2Title": "Schritt 2: Bereich auswählen",
-        "stepConfigsStep3Title": "Schritt 3: Alertingkanäle auswählen"
+        "stepConfigsStep3Title": "Schritt 3: Alertkanäle auswählen"
       },
       "customEvent": {
         "noCustomEventsFound": "Keine angepassten Ereignisse gefunden",

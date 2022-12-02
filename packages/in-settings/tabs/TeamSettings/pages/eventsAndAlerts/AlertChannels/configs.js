@@ -15,6 +15,7 @@ import splunkChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAl
 import slackChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/forms/slackChannelConfig';
 import emailChannelConfig from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/forms/emailChannelConfig';
 import watsonAIOpsWebhookChannelConfig from './forms/watsonAIOpsWebhookChannelConfig';
+import serviceNowChannelConfig from './forms/serviceNowChannelConfig';
 
 export const configs = {
   email: emailChannelConfig,
@@ -22,6 +23,7 @@ export const configs = {
   opsgenie: opsgenieChannelConfig,
   pagerduty: PagerdutyChannelConfig,
   office365: office365ChannelConfig,
+  serviceNowWebhook: serviceNowChannelConfig,
   webhook: webhookChannelConfig,
   splunk: splunkChannelConfig,
   googleChat: googleChatChannelConfig,
@@ -37,6 +39,7 @@ export const fullyQualified = {
   [configs.opsgenie.name]: configs.opsgenie,
   [configs.pagerduty.name]: configs.pagerduty,
   [configs.slack.name]: configs.slack,
+  [configs.serviceNowWebhook.name]: configs.serviceNowWebhook,
   [configs.webhook.name]: configs.webhook,
   [configs.splunk.name]: configs.splunk,
   [configs.googleChat.name]: configs.googleChat,

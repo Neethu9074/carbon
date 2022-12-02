@@ -67,7 +67,7 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'totalCpu',
+    id: 'cpuResources',
     label: t('in-openstack:totalCpu'),
     sortable: true,
     getContent(item, props, columnId) {
@@ -97,7 +97,7 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'totalMemory',
+    id: 'memoryResources',
     label: t('in-openstack:totalMemory'),
     sortable: true,
     getContent(item, props, columnId) {
@@ -120,7 +120,7 @@ const columnDefinitions = [
   },
   {
     id: 'flavor',
-    label: t('in-openstack:flavor'),
+    label: t('in-openstack:flavorName'),
     getContent(item) {
       return item.openstackItem.flavor;
     }

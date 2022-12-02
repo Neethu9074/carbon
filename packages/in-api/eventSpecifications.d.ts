@@ -10,9 +10,7 @@ export function getCustomEventActions(eventSpecificationId: string): Observable<
 export function getCustomEventSpecificationWithActions(
   eventSpecificationId: string
 ): Observable<CustomEventSpecification>;
-export function getCustomEventSpecificationMutable(
-  eventSpecificationId: string
-): Observable<CustomEventSpecification>;
+export function getCustomEventSpecificationMutable(eventSpecificationId: string): Observable<CustomEventSpecification>;
 export function getBuiltinEventActions(eventSpecificationId: string): Observable<Action[]>;
 export function saveCustomEventSpecificationWithActions(
   eventSpecification: CustomEventSpecification

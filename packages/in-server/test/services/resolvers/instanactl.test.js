@@ -114,7 +114,7 @@ describe('in-server/services/resolvers/instanactl', () => {
   describe('getPoolConfig', () => {
     it('supports passthrough of options in serverconfig for SSL section', () => {
       expect(instanactl.getPoolConfig()).toMatchInlineSnapshot(`
-        Object {
+        {
           "connectionTimeoutMillis": 30000,
           "database": undefined,
           "host": undefined,
@@ -122,7 +122,7 @@ describe('in-server/services/resolvers/instanactl', () => {
           "max": 64,
           "password": undefined,
           "port": undefined,
-          "ssl": Object {
+          "ssl": {
             "cert": "content of /etc/ui-client/cert",
             "certPath": "/etc/ui-client/cert",
             "dhparam": "foobar",

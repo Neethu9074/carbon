@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { defaultProps } from 'recompose';
 import React from 'react';
 
 import { KeyValue } from '@instana/components';
@@ -21,16 +20,12 @@ import { t } from 'in-i18n';
 
 import locals from './SparkChart.mless';
 
-export default defaultProps({
-  height: 24,
-  width: 72
-})(SparkChartReactComponent);
-function SparkChartReactComponent(props) {
+export default function SparkChartReactComponent(props) {
   const {
     loading,
     timeConfig,
-    width,
-    height,
+    width = 72,
+    height = 24,
     horizontalMetricValue,
     rollup,
     label,
@@ -57,6 +52,8 @@ function SparkChartReactComponent(props) {
     sparkChart = (
       <SparkChartReactWrapper
         {...props}
+        height={height}
+        width={width}
         percentageMetric={
           props.percentageMetric ?? getFormatterType(props.tooltipFormatter) === PERCENTAGE_FORMATTER_TYPE
         }

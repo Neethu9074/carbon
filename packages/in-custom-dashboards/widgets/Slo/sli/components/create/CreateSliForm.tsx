@@ -10,13 +10,13 @@ import { Result, SliConfigurationWithLastUpdated } from '@instana/types';
 import { Message, Stack, Spacer } from '@instana/components';
 
 import { toApplicationSliConfiguration, toWebsiteSliConfiguration } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
-import { sliSliEntityKey, sliSliNameKey, sliSliTypeKey } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
 import { useSloWidgetTrackers } from 'in-custom-dashboards/widgets/Slo/components/SloWidgetTrackerProvider';
 import { SLI_MANAGEMENT_CREATE_FINISH, SLI_MANAGEMENT_EDIT_FINISH } from 'in-services/tracking/eventNames';
 import { useCreateConfiguration } from 'in-custom-dashboards/widgets/Slo/sli/hooks/useCreateConfiguration';
 import useSetFormFooterEffect from 'in-custom-dashboards/widgets/Slo/sli/hooks/useSetFormFooterEffect';
 import { SliConfigBySliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { createSliConfiguration } from 'in-custom-dashboards/widgets/Slo/sli/api';
+import { sliSliNameKey } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { SliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { getField } from 'in-custom-dashboards/widgets/Slo/form';
@@ -61,7 +61,6 @@ export default function CreateSliForm<SLI_TYPE extends SliType>({
   const track = useSloWidgetTrackers();
 
   const sliName = getField(form, [sliSliNameKey])?.value ?? '';
-  const formType = getField(form, [sliSliEntityKey, sliSliTypeKey])?.value;
 
   const trackSaveSuccess = (entityType: SliType, editMode: boolean): void => {
     const event = editMode ? SLI_MANAGEMENT_EDIT_FINISH : SLI_MANAGEMENT_CREATE_FINISH;
@@ -71,7 +70,7 @@ export default function CreateSliForm<SLI_TYPE extends SliType>({
   const normalizeFormData = (submittedForm: Item) => {
     const jsFormData = submittedForm.toJS();
 
-    if (formType === 'website') {
+    if (entityType === 'website') {
       return toWebsiteSliConfiguration(jsFormData);
     }
 
@@ -113,7 +112,13 @@ export default function CreateSliForm<SLI_TYPE extends SliType>({
     doSubmit({ config: normalizeFormData(submittedForm), onSuccess: onSaveSuccess, onError: onSaveFailure });
 
   return (
-    <Form form={form} setForm={updateForm as (f: Item) => void} onSubmit={handleSubmit} formId="createSliForm">
+    <Form
+      form={form}
+      setForm={updateForm as (f: Item) => void}
+      onSubmit={handleSubmit}
+      formId="createSliForm"
+      aria-label={t('in-custom-dashboards:widgets.slo.createSliForm.formName')}
+    >
       <Stack gap="large">
         {children}
         {editMode && <Message>{t('in-custom-dashboards:widgets.slo.createSliForm.sliConfigMsg')}</Message>}

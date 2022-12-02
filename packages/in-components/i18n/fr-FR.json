@@ -77,6 +77,7 @@
     "eumPageName": "EUM",
     "settingsPageName": "Paramètres",
     "requestQuoteBtn": "Demander un devis",
+    "buyNowBtn": "Acheter maintenant",
     "alreadyHaveLicense": "Vous possédez déjà une licence ? Activez-la sous <linkToDocker>Docker</linkToDocker> ou <linkToKubernetes>Kubernetes</linkToKubernetes>."
   },
   "releaseNotesDialog": {
@@ -234,14 +235,7 @@
     "queryProgress": {
       "preparing": "Préparation en cours ...",
       "runningQuery": "Exécution de la requête en cours ...",
-      "timeout": "Cette requête a expiré.",
-      "timeoutEstimated": "Votre requête n'a pas pu être traitée en raison du volume élevé d'appels.",
-      "timeoutInfo": "Sélectionnez une période plus courte.",
-      "inputError": "Une erreur d'entrée s'est produite.",
-      "tooManyRequests": "Trop grand nombre de demandes",
-      "tooManyRequestsInfo": "Notre système est actuellement occupé. Réessayez ultérieurement.",
-      "serverError": "Erreur du serveur",
-      "serverErrorInfo": "Une erreur inattendue s'est produite. Réessayez ultérieurement ou contactez le support pour signaler l'erreur."
+      "inputError": "Une erreur d'entrée s'est produite."
     }
   },
   "aboutInstanaDialog": {
@@ -308,7 +302,14 @@
     "services": "Services"
   },
   "error": {
-    "erroneousResultPresenterMessage": "Une erreur inattendue s'est produite. Actualisez la page ou réessayez ultérieurement."
+    "erroneousResultPresenterMessage": "Une erreur inattendue s'est produite. Actualisez la page ou réessayez ultérieurement.",
+    "timeout": "Cette requête a expiré.",
+    "timeoutInfo": "Sélectionnez une période plus courte.",
+    "timeoutEstimated": "Votre requête n'a pas pu être traitée en raison du volume élevé d'appels.",
+    "tooManyRequests": "Trop de demandes",
+    "tooManyRequestsInfo": "Notre système est actuellement occupé. Réessayez ultérieurement.",
+    "serverError": "Erreur du serveur",
+    "serverErrorInfo": "Une erreur inattendue s'est produite. Réessayez ultérieurement ou contactez le support pour signaler l'erreur."
   },
   "expandableCard": {
     "tooltipShowLess": "Afficher moins",

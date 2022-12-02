@@ -6,6 +6,7 @@
 import { createMapForm, createField, ValidationResult } from 'formalistic';
 
 import { arrayValidator, numberValidator, stringValidator } from 'in-services/validators/jsonType';
+import { arrayNotEmptyValidator } from 'in-synthetics/components/validators/validator';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { BluePrint } from 'in-synthetics/data/simpleModeBluePrints';
@@ -48,7 +49,7 @@ export function createForm(selectedBlueprint?: BluePrint, savedState?: Record<st
       'locations',
       createField({
         value: savedState?.locations ?? [],
-        validator: arrayValidator
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, arrayValidator, arrayNotEmptyValidator)
       })
     )
     .put(
@@ -86,7 +87,7 @@ function createActionConfigurationForm(savedState?: Record<string, any>) {
     .put(
       'url',
       createField({
-        value: savedState?.url,
+        value: savedState?.url ?? '',
         validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator, validUrl)
       })
     )

@@ -22,9 +22,17 @@ import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncCompo
 import RedirectWithHash from 'in-components/RedirectWithHash';
 
 export default [
-  <Route path={websitesPathFullyQualified} children={renderAsyncRouteChildren(WebsitesList)} />,
-  <Route path={websitePathFullyQualified} children={renderAsyncRouteChildren(WebsiteDashboard)} />,
-  <Route path={newWebsitePathFullyQualified} children={renderAsyncRouteChildren(NewWebsiteFlow)} />,
-  <Route path={analyzePathFullyQualified} children={renderAsyncRouteChildren(AnalyzeView2_0)} />,
-  <RedirectWithHash from={websiteMonitoringPath} to={websitesPathFullyQualified} />
+  <Route key="websitesList" path={websitesPathFullyQualified} children={renderAsyncRouteChildren(WebsitesList)} />,
+  <Route
+    key="websiteDashboard"
+    path={websitePathFullyQualified}
+    children={renderAsyncRouteChildren(WebsiteDashboard)}
+  />,
+  <Route key="websiteNew" path={newWebsitePathFullyQualified} children={renderAsyncRouteChildren(NewWebsiteFlow)} />,
+  <Route
+    key="websiteAnalyzeBeacons"
+    path={analyzePathFullyQualified}
+    children={renderAsyncRouteChildren(AnalyzeView2_0)}
+  />,
+  <RedirectWithHash key="redirectToWebsitesList" from={websiteMonitoringPath} to={websitesPathFullyQualified} />
 ];

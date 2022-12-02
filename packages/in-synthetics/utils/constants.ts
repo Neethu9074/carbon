@@ -154,6 +154,30 @@ export interface PoPInstallationPropertiesResponse {
   time?: number;
 }
 
+export interface TestResultEntry {
+  cache: { [index: string]: any };
+  connection: string;
+  pageref: string;
+  request: { [index: string]: any };
+  response: { [index: string]: any };
+  serverIPAddress: string;
+  startedDateTime: string;
+  time: number;
+  timings: { [index: string]: any };
+  _resourceType: string;
+}
+
+export interface TestResultHARPage {
+  comment: string;
+  id: string;
+  pageTimings: { [index: string]: any };
+  startedDateTime: string;
+  title: string;
+  _mimeType: string;
+  _url: string;
+  totalResponseSize: number;
+}
+
 export const urlStateDefinition = {
   bind: [
     {
@@ -217,6 +241,11 @@ export type CurrentState = {
   syntheticTypes?: string[];
   locationIds?: string[];
   applicationIds?: string[];
+};
+
+export type Timing = {
+  label: string;
+  value: number;
 };
 
 export const filterUrlStateDefinition = {

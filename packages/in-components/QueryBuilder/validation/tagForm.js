@@ -32,7 +32,6 @@ import { buildEnumValidator } from 'in-services/validators/enum';
 import { enrichTagCatalog } from 'in-services/tags/tagCatalog';
 
 const allAllowedEntities = [SOURCE, DESTINATION];
-const defaultEntity = DESTINATION;
 
 export function createTagForm(tagCatalog, tagFormModel) {
   tagCatalog = enrichTagCatalog(tagCatalog);
@@ -43,7 +42,8 @@ export function createTagForm(tagCatalog, tagFormModel) {
     valueValidators,
     requiresEntity,
     allowedOperators,
-    operator
+    operator,
+    canApplyToDestination
   } = identifyFormRequirementsBasedOnPartialInput(tagCatalog, tagFormModel?.name, tagFormModel?.operator);
 
   let form = createMapForm()
@@ -127,7 +127,7 @@ export function createTagForm(tagCatalog, tagFormModel) {
     form = form.put(
       'entity',
       createField({
-        value: tagFormModel?.entity || defaultEntity,
+        value: tagFormModel?.entity || (canApplyToDestination ? DESTINATION : SOURCE),
         validator: composeAndShortCircuitOnError(stringValidator, buildEnumValidator(allAllowedEntities))
       })
     );
@@ -214,6 +214,7 @@ function identifyFormRequirementsBasedOnPartialInput(tagCatalog, tagName, operat
   result.type = tagDefinition.type;
   result.allowedOperators = typeToOperatorsMapping[tagDefinition.type];
   result.requiresEntity = tagDefinition.canApplyToSource || tagDefinition.canApplyToDestination;
+  result.canApplyToDestination = tagDefinition.canApplyToDestination;
   result.operator = operator = operator ?? (result.allowedOperators && result.allowedOperators[0]) ?? EQUALS;
 
   const combination = `${tagDefinition.type}_${result.operator}`;

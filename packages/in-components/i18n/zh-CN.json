@@ -77,6 +77,7 @@
     "eumPageName": "EUM",
     "settingsPageName": "设置",
     "requestQuoteBtn": "请求报价",
+    "buyNowBtn": "立即购买",
     "alreadyHaveLicense": "已有许可证？ 在 <linkToDocker>Docker</linkToDocker> 或 <linkToKubernetes>Kubernetes</linkToKubernetes> 上将其激活。"
   },
   "releaseNotesDialog": {
@@ -234,14 +235,7 @@
     "queryProgress": {
       "preparing": "正在准备...",
       "runningQuery": "正在运行查询...",
-      "timeout": "此查询已超时。",
-      "timeoutEstimated": "由于调用量很大，因此无法处理查询。",
-      "timeoutInfo": "请选择较短的时间范围。",
-      "inputError": "出现了输入错误。",
-      "tooManyRequests": "请求次数太多",
-      "tooManyRequestsInfo": "我们的系统当前繁忙。请稍后重试。",
-      "serverError": "服务器错误",
-      "serverErrorInfo": "发生意外错误。请稍后重试，或者联系支持人员以报告错误。"
+      "inputError": "出现了输入错误。"
     }
   },
   "aboutInstanaDialog": {
@@ -308,7 +302,14 @@
     "services": "服务"
   },
   "error": {
-    "erroneousResultPresenterMessage": "发生意外错误。请刷新页面或稍后重试。"
+    "erroneousResultPresenterMessage": "发生意外错误。请刷新页面或稍后重试。",
+    "timeout": "此查询已超时。",
+    "timeoutInfo": "请选择较短的时间范围。",
+    "timeoutEstimated": "由于调用量很大，因此无法处理查询。",
+    "tooManyRequests": "请求次数太多",
+    "tooManyRequestsInfo": "我们的系统当前繁忙。 请稍后重试。",
+    "serverError": "服务器错误",
+    "serverErrorInfo": "发生意外错误。 请稍后重试，或者联系支持人员以报告错误。"
   },
   "expandableCard": {
     "tooltipShowLess": "显示更少内容",

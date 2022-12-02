@@ -8,15 +8,11 @@ import React from 'react';
 
 import { t } from '@instana/i18n-react';
 
-import { millis, percentagePlain } from 'in-services/formatters/number';
+import { latencyFixed, percentagePlain } from 'in-services/formatters/number';
+import { Timing } from 'in-synthetics/utils/constants';
 import Tooltip from 'in-components/Tooltip';
 
 import locals from './Timings.mless';
-
-interface Timing {
-  label: string;
-  value: number;
-}
 
 interface TimingProps {
   timings: Timing[];
@@ -31,7 +27,7 @@ export default function Timings({ timings, duration }: TimingProps) {
         return (
           <div key={i} className={locals.timing}>
             <dt className={locals.label}>{label}</dt>
-            <dd className={locals.value}>{millis.compact(value)}</dd>
+            <dd className={locals.value}>{latencyFixed.compact(value)}</dd>
             <Tooltip
               align="topMiddle"
               content={t(

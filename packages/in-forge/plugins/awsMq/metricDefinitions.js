@@ -3,20 +3,26 @@
  * (c) Copyright Instana Inc.
  */
 
-import { number, percentage, millis } from 'in-services/formatters/number';
+import { number, percentage, millis, bytes } from 'in-services/formatters/number';
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { t } from 'in-i18n';
 
 export default [
+  // Common metrics for both engines
+  {
+    metrics: ['current_connections_count', 'total_message_count'],
+    labels: [t('in-forge:plugins.awsMq.currentConnectionsCount'), t('in-forge:plugins.awsMq.totalMessageCount')],
+    min: 0,
+    formatter: number
+  },
+  // ActiveMQ
   {
     metrics: [
       'cpu_credit_balance',
-      'current_connections_count',
       'journal_files_for_fast_recovery',
       'journal_files_for_full_recovery',
       'open_transactions_count',
       'total_consumer_count',
-      'total_message_count',
       'total_producer_count',
 
       'broker2.cpu_credit_balance',
@@ -30,12 +36,10 @@ export default [
     ],
     labels: [
       t('in-forge:plugins.awsMq.cpuCreditBalance'),
-      t('in-forge:plugins.awsMq.currentConnectionsCount'),
       t('in-forge:plugins.awsMq.journalFilesForFastRecovery'),
       t('in-forge:plugins.awsMq.journalFilesForFullRecovery'),
       t('in-forge:plugins.awsMq.openTransactionsCount'),
       t('in-forge:plugins.awsMq.totalConsumerCount'),
-      t('in-forge:plugins.awsMq.totalMessageCount'),
       t('in-forge:plugins.awsMq.totalProducerCount'),
 
       t('in-forge:plugins.awsMq.cpuCreditBalance2ndBroker'),
@@ -47,6 +51,7 @@ export default [
       t('in-forge:plugins.awsMq.totalMessageCount2ndBroker'),
       t('in-forge:plugins.awsMq.totalProducerCount2ndBroker')
     ],
+    category: [t('in-forge:plugins.awsMq.activeMq')],
     min: 0,
     formatter: number
   },
@@ -85,7 +90,7 @@ export default [
       t('in-forge:plugins.awsMq.producerCount2ndBroker'),
       t('in-forge:plugins.awsMq.queueSize2ndBroker')
     ],
-    category: [t('in-forge:plugins.awsMq.queues')],
+    category: [t('in-forge:plugins.awsMq.activeMqQueues')],
     min: 0,
     formatter: number
   },
@@ -120,7 +125,7 @@ export default [
       t('in-forge:plugins.awsMq.dequeueCount2ndBroker'),
       t('in-forge:plugins.awsMq.producerCount2ndBroker')
     ],
-    category: [t('in-forge:plugins.awsMq.topics')],
+    category: [t('in-forge:plugins.awsMq.activeMqTopics')],
     min: 0,
     formatter: number
   },
@@ -143,6 +148,7 @@ export default [
       t('in-forge:plugins.awsMq.heapUsage2ndBroker'),
       t('in-forge:plugins.awsMq.storePercentUsage2ndBroker')
     ],
+    category: [t('in-forge:plugins.awsMq.activeMq')],
     min: 0,
     max: 1,
     formatter: percentage
@@ -153,7 +159,7 @@ export default [
       getDynamicMetricMatch('queueMetrics2', 'memory_usage', t('in-forge:plugins.awsMq.queue'))
     ],
     labels: [t('in-forge:plugins.awsMq.memoryUsage'), t('in-forge:plugins.awsMq.memoryUsage2ndBroker')],
-    category: [t('in-forge:plugins.awsMq.queues')],
+    category: [t('in-forge:plugins.awsMq.activeMqQueues')],
     min: 0,
     max: 1,
     formatter: percentage
@@ -164,7 +170,7 @@ export default [
       getDynamicMetricMatch('topicMetrics2', 'memory_usage', t('in-forge:plugins.awsMq.topic'))
     ],
     labels: [t('in-forge:plugins.awsMq.memoryUsage'), t('in-forge:plugins.awsMq.memoryUsage2ndBroker')],
-    category: [t('in-forge:plugins.awsMq.topics')],
+    category: [t('in-forge:plugins.awsMq.activeMqTopics')],
     min: 0,
     max: 1,
     formatter: percentage
@@ -175,7 +181,7 @@ export default [
       getDynamicMetricMatch('queueMetrics2', 'enqueue_time', t('in-forge:plugins.awsMq.queue'))
     ],
     labels: [t('in-forge:plugins.awsMq.enqueueTime'), t('in-forge:plugins.awsMq.enqueueTime2ndBroker')],
-    category: [t('in-forge:plugins.awsMq.queues')],
+    category: [t('in-forge:plugins.awsMq.activeMqQueues')],
     min: 0,
     formatter: millis
   },
@@ -185,8 +191,83 @@ export default [
       getDynamicMetricMatch('topicMetrics2', 'enqueue_time', t('in-forge:plugins.awsMq.topic'))
     ],
     labels: [t('in-forge:plugins.awsMq.enqueueTime'), t('in-forge:plugins.awsMq.enqueueTime2ndBroker')],
-    category: [t('in-forge:plugins.awsMq.topics')],
+    category: [t('in-forge:plugins.awsMq.activeMqTopics')],
     min: 0,
     formatter: millis
+  },
+
+  // RabbitMQ
+  {
+    metrics: [
+      'consumer_count',
+      'messages_rate',
+      'message_ready_count',
+      'messages_ready_rate',
+      'message_unacknowledged_count',
+      'messages_unacknowledged_rate',
+      'publish_rate',
+      'confirm_rate',
+      'ack_rate'
+    ],
+    labels: [
+      t('in-forge:plugins.awsMq.consumerCount'),
+      t('in-forge:plugins.awsMq.messageRate'),
+      t('in-forge:plugins.awsMq.messageReadyCount'),
+      t('in-forge:plugins.awsMq.messageReadyRate'),
+      t('in-forge:plugins.awsMq.messageUnacknowledgedCount'),
+      t('in-forge:plugins.awsMq.messageUnacknowledgedRate'),
+      t('in-forge:plugins.awsMq.publishRate'),
+      t('in-forge:plugins.awsMq.confirmRate'),
+      t('in-forge:plugins.awsMq.ackRate')
+    ],
+    category: [t('in-forge:plugins.awsMq.rabbitMq')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: getDynamicMetricMatch('nodeMetrics', 'system_cpu_utilization', t('in-forge:plugins.awsMq.node')),
+    labels: t('in-forge:plugins.awsMq.systemCpuUtilization'),
+    category: [t('in-forge:plugins.awsMq.rabbitMqNodes')],
+    min: 0,
+    formatter: percentage
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('nodeMetrics', 'memory_limit', t('in-forge:plugins.awsMq.node')),
+      getDynamicMetricMatch('nodeMetrics', 'memory_used', t('in-forge:plugins.awsMq.node')),
+      getDynamicMetricMatch('nodeMetrics', 'disk_free_limit', t('in-forge:plugins.awsMq.node')),
+      getDynamicMetricMatch('nodeMetrics', 'disk_free', t('in-forge:plugins.awsMq.node'))
+    ],
+    labels: [
+      t('in-forge:plugins.awsMq.memoryLimit'),
+      t('in-forge:plugins.awsMq.memoryUsed'),
+      t('in-forge:plugins.awsMq.diskFreeLimit'),
+      t('in-forge:plugins.awsMq.diskFree')
+    ],
+    category: [t('in-forge:plugins.awsMq.rabbitMqNodes')],
+    min: 0,
+    formatter: bytes
+  },
+  {
+    metric: getDynamicMetricMatch('nodeMetrics', 'file_descriptors_used', t('in-forge:plugins.awsMq.node')),
+    labels: t('in-forge:plugins.awsMq.fileDescriptorsUsed'),
+    category: [t('in-forge:plugins.awsMq.rabbitMqNodes')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('queueMetrics', 'message_ready_count', t('in-forge:plugins.awsMq.queue')),
+      getDynamicMetricMatch('queueMetrics', 'message_unacknowledged_count', t('in-forge:plugins.awsMq.queue')),
+      getDynamicMetricMatch('queueMetrics', 'message_count', t('in-forge:plugins.awsMq.queue'))
+    ],
+    labels: [
+      t('in-forge:plugins.awsMq.messageReadyCount'),
+      t('in-forge:plugins.awsMq.messageUnacknowledgedCount'),
+      t('in-forge:plugins.awsMq.messageCount')
+    ],
+    category: [t('in-forge:plugins.awsMq.rabbitMqQueues')],
+    min: 0,
+    formatter: number
   }
 ];

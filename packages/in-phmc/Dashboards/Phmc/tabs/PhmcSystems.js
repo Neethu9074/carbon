@@ -44,7 +44,7 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'utilizedProcUnitsNumber',
+    id: 'utilizedProcUnits',
     label: t('in-phmc:utilizedProcNumber'),
     getContent(item, { timeConfig }) {
       return (
@@ -58,7 +58,7 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'utilizedProcUnits',
+    id: 'utilizedProcUnitsPercent',
     label: t('in-phmc:utilizedProc'),
     getContent(item, { timeConfig }) {
       return (
@@ -118,7 +118,7 @@ const columnDefinitions = [
 const ServerTableWithUrlState = createServerTableWithUrlState({
   paginationResettingUrlParameters: [...timeConfigUrlParameters, consoleIdUrlParameter],
   columnDefinitions,
-  defaultOrderBy: 'name',
+  defaultOrderBy: 'label',
   defaultOrderDirection: 'ASC',
   pathSegment,
   matrixPrefix

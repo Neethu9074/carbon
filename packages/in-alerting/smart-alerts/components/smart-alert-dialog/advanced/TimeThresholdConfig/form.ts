@@ -5,10 +5,21 @@
 
 import { createField, createMapForm, MapForm, ValidationResult } from 'formalistic';
 
+import {
+  ImpactMeasurementMethod,
+  ThresholdType,
+  ApplicationTimeThresholdUnion,
+  WebsiteTimeThresholdUnion,
+  TraceImpactApplicationTimeThreshold,
+  UserImpactWebsiteTimeThreshold,
+  ViolationsInSequenceApplicationTimeThreshold,
+  ViolationsInSequenceWebsiteTimeThreshold,
+  ViolationsInPeriodApplicationTimeThreshold,
+  ViolationsInPeriodWebsiteTimeThreshold
+} from 'in-types';
 import { TimeThresholdType } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/formData';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { defaultGranularity } from 'in-alerting/PotentialProblems/constants';
-import { ImpactMeasurementMethod, ThresholdType } from 'in-types';
 import { t } from 'in-i18n';
 
 export const percentageOfUserDefault = 0.2;
@@ -31,60 +42,35 @@ export function getDefaultTimeWindow(thresholdType: ThresholdType | undefined) {
  * its type.
  *
  * @param timeThresholdConfig has a different fields depending on its type
- * @param granularity only for requestImpact: used as the default windowType, fallback is defaultGranularity
+ * @param granularity only for trace impact (requestImpact) option: used as the default windowType, fallback is defaultGranularity
  * @param thresholdType type of threshold ('staticThreshold' | 'historicBaseline' | 'adaptiveBaseline' | undefined)
  */
 export default function createTimeThresholdForm(
-  timeThresholdConfig: TimeThresholdConfig,
-  granularity: number,
-  thresholdType: ThresholdType | undefined
+  timeThresholdConfig?: ApplicationTimeThresholdUnion | WebsiteTimeThresholdUnion,
+  granularity?: number,
+  thresholdType?: ThresholdType
 ): MapForm {
   switch (timeThresholdConfig?.type) {
     case 'violationsInPeriod':
-      return createViolationsInPeriodForm(timeThresholdConfig as ViolationsInPeriodTimeThreshold, thresholdType);
+      return createViolationsInPeriodForm(timeThresholdConfig, thresholdType);
     case 'userImpactOfViolationsInSequence':
-      return createUserImpactOfViolationsInSequenceForm(timeThresholdConfig as UserImpactTimeThreshold, thresholdType);
+      return createUserImpactOfViolationsInSequenceForm(timeThresholdConfig, thresholdType);
     case 'requestImpact':
-      return createRequestImpactForm(timeThresholdConfig as RequestImpactTimeThreshold, granularity, thresholdType);
+      return createTraceImpactForm(timeThresholdConfig, granularity, thresholdType);
     case 'violationsInSequence':
     default:
-      return createViolationsInSequenceForm(timeThresholdConfig as ViolationsInSequenceTimeThreshold, thresholdType);
+      return createViolationsInSequenceForm(timeThresholdConfig, thresholdType);
   }
 }
 
-interface TimeThresholdConfig {
-  timeWindow: number;
-  type: string;
-}
-
-interface RequestImpactTimeThreshold extends TimeThresholdConfig {
-  requests?: number;
-}
-
-interface UserImpactTimeThreshold extends TimeThresholdConfig {
-  impactMeasurementMethod?: ImpactMeasurementMethod;
-  users?: number;
-  userPercentage?: number;
-}
-
-interface ViolationsInPeriodTimeThreshold extends TimeThresholdConfig {
-  violations?: number;
-}
-
-interface ViolationsInSequenceTimeThreshold extends TimeThresholdConfig {}
-
-function createMapBase(
-  type: TimeThresholdType,
-  thresholdType: ThresholdType | undefined,
-  timeWindow?: number | undefined
-) {
+function createMapBase(type: TimeThresholdType, thresholdType?: ThresholdType, timeWindow?: number) {
   return createMapForm()
     .put('type', createField({ value: type }))
     .put('timeWindow', createField({ value: timeWindow ?? getDefaultTimeWindow(thresholdType) }));
 }
 
 export function createViolationsInPeriodForm(
-  { timeWindow, violations }: ViolationsInPeriodTimeThreshold,
+  { timeWindow, violations }: ViolationsInPeriodApplicationTimeThreshold | ViolationsInPeriodWebsiteTimeThreshold,
   thresholdType: ThresholdType | undefined
 ): MapForm {
   return createMapBase('violationsInPeriod', thresholdType, timeWindow).put(
@@ -96,8 +82,8 @@ export function createViolationsInPeriodForm(
 }
 
 export function createUserImpactOfViolationsInSequenceForm(
-  { timeWindow, impactMeasurementMethod, userPercentage, users }: UserImpactTimeThreshold,
-  thresholdType: ThresholdType | undefined
+  { timeWindow, impactMeasurementMethod, userPercentage, users }: UserImpactWebsiteTimeThreshold,
+  thresholdType?: ThresholdType
 ): MapForm {
   let form = createMapBase('userImpactOfViolationsInSequence', thresholdType, timeWindow);
 
@@ -119,10 +105,10 @@ export function createUserImpactOfViolationsInSequenceForm(
   return form;
 }
 
-export function createRequestImpactForm(
-  { requests }: RequestImpactTimeThreshold,
-  granularity: number,
-  thresholdType: ThresholdType | undefined
+export function createTraceImpactForm(
+  { requests }: TraceImpactApplicationTimeThreshold,
+  granularity?: number,
+  thresholdType?: ThresholdType
 ): MapForm {
   // For request impact timeWindow is always one bucket which means it would be same as granularity.
   return createMapBase('requestImpact', thresholdType, granularity ?? defaultGranularity).put(
@@ -135,8 +121,8 @@ export function createRequestImpactForm(
 }
 
 export function createViolationsInSequenceForm(
-  timeThresholdConfig: ViolationsInSequenceTimeThreshold | undefined,
-  thresholdType: ThresholdType | undefined
+  timeThresholdConfig?: ViolationsInSequenceApplicationTimeThreshold | ViolationsInSequenceWebsiteTimeThreshold,
+  thresholdType?: ThresholdType
 ) {
   return createMapBase('violationsInSequence', thresholdType, timeThresholdConfig?.timeWindow);
 }
@@ -155,7 +141,7 @@ const provideNumberGreaterEqualsOneValidator = (num: number | string): Validatio
   return null;
 };
 
-export function putUsersField(form: MapForm, users?: number | '' | undefined) {
+export function putUsersField(form: MapForm, users?: number | '') {
   return form.put(
     'users',
     createField({
@@ -165,7 +151,7 @@ export function putUsersField(form: MapForm, users?: number | '' | undefined) {
   );
 }
 
-export function putUserPercentageField(form: MapForm, userPercentage?: number | '' | undefined) {
+export function putUserPercentageField(form: MapForm, userPercentage?: number | '') {
   return form.put(
     'userPercentage',
     createField({

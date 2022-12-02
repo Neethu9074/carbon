@@ -61,12 +61,14 @@
     "theQueryConfigurationIsInvalid": "A configuração da consulta é inválida. Trate as falhas de validação antes de continuar.",
     "allInfrastructure": "Todas as infraestruturas",
     "name": "Nome",
-    "search": "Procurar",
+    "search": "Procurar um tipo",
     "explore": "Explorar",
     "count": "Contagem",
     "errors": {
-      "maximumNumberOfGroups": "Esta consulta tem muitos resultados. Limite usando um filtro mais restritivo ou grupos mais amplos"
-    }
+      "maximumNumberOfGroups": "Esta consulta tem muitos resultados. Limite usando um filtro mais restritivo ou grupos mais amplos",
+      "generalError": "Ocorreu um erro inesperado. Reduza usando um filtro mais restritivo e tente novamente"
+    },
+    "entityTypes": "Tipos de entidade {{count, parenthesis}}"
   },
   "tableView": {
     "showCountsAndAveragesAcrossTheCurrentTimeWindow": "Mostrar contagens e médias em todo o espaço de tempo atual.",

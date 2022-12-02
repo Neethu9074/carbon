@@ -4,6 +4,7 @@
  */
 
 import { number, seconds, micros, percentage } from 'in-services/formatters/number';
+import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { t } from 'in-i18n';
 
 export default [
@@ -55,14 +56,14 @@ export default [
   },
   {
     metrics: [
-      'nonPersistentPutBytes',
-      'persistentPutBytes',
-      'putFailCount',
-      'put1FailCount',
-      'nonPersistentGetBytes',
-      'persistentGetBytes',
-      'getFailCount',
-      'expiredMsgCount'
+      getDynamicMetricMatch('statistics', 'nonPersistentPutBytes', t('in-forge:plugins.ibmMqQueue.statisticsRecord')),
+      getDynamicMetricMatch('statistics', 'persistentPutBytes', t('in-forge:plugins.ibmMqQueue.statisticsRecord')),
+      getDynamicMetricMatch('statistics', 'putFailCount', t('in-forge:plugins.ibmMqQueue.statisticsRecord')),
+      getDynamicMetricMatch('statistics', 'put1FailCount', t('in-forge:plugins.ibmMqQueue.statisticsRecord')),
+      getDynamicMetricMatch('statistics', 'nonPersistentGetBytes', t('in-forge:plugins.ibmMqQueue.statisticsRecord')),
+      getDynamicMetricMatch('statistics', 'persistentGetBytes', t('in-forge:plugins.ibmMqQueue.statisticsRecord')),
+      getDynamicMetricMatch('statistics', 'getFailCount', t('in-forge:plugins.ibmMqQueue.statisticsRecord')),
+      getDynamicMetricMatch('statistics', 'expiredMsgCount', t('in-forge:plugins.ibmMqQueue.statisticsRecord'))
     ],
     labels: [
       t('in-forge:plugins.ibmMqQueue.nonPersistentPutBytes'),
@@ -79,3 +80,4 @@ export default [
     formatter: number
   }
 ];
+

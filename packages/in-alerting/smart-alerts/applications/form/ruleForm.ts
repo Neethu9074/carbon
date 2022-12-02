@@ -160,7 +160,6 @@ function extendForStatusCode(baseForm: MapForm, rule: StatusCodeRangeLikeApplica
   return baseForm.put('statusCode', statusCodeForm);
 }
 
-// @ts-expect-error missing field stableHash, which is only defined on backend model
 export const defaultAlertRule: SlownessApplicationAlertRule = {
   alertType: 'slowness',
   aggregation: 'P90',

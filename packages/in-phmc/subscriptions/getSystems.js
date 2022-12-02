@@ -14,7 +14,7 @@ export function getSystemsSubscribeEvent({
   query = '',
   page = 1,
   pageSize = 20,
-  orderBy = 'name',
+  orderBy = 'label',
   orderDirection = 'ASC',
   timeConfig
 }) {

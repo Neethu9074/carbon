@@ -30,7 +30,7 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'entitledProcUnits',
+    id: 'entitledProcUnitsPercentage',
     label: t('in-phmc:entitledProc'),
     sortable: true,
     getContent(item, props, columnId) {
@@ -45,7 +45,7 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'utilizedMemory',
+    id: 'utilizedMemPercentage',
     label: t('in-phmc:memory'),
     sortable: true,
     getContent(item, props, columnId) {
@@ -60,7 +60,7 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'maxVirtualProcessor',
+    id: 'maxVirtualProcessors',
     label: t('in-phmc:maxVirtualProcessor'),
     getContent(item, props, columnId) {
       return (

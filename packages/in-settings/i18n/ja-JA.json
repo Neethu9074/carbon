@@ -97,6 +97,10 @@
   },
   "tabs": {
     "team": {
+      "events": {
+        "withDeprecatedSuffix": "{{pluginName}} (非推奨)",
+        "placeholder": "プレースホルダー"
+      },
       "customPayload": {
         "unknownTag": "不明なタグ: {{tagName}}"
       }
@@ -542,6 +546,8 @@
     "savingGroup": "グループを保存しています",
     "groupSuccessfullySaved": "グループが正常に保存されました。",
     "groups": "グループ",
+    "groupDeleteTooltip_Default": "デフォルト・グループは組み込みグループであり、削除したり名前変更したりすることができません。",
+    "groupDeleteTooltip_Owner": "所有者グループは組み込みグループであり、削除したり名前変更したりすることができません。",
     "addGroup": "グループの追加",
     "pendingInvitations": "保留中の招待",
     "revoke": "取り消し",
@@ -845,10 +851,9 @@
     "actions": "アクション",
     "action": "action",
     "actionWithNameForDelete": "アクション {{actionName}}",
-    "filterActions": "フィルター・アクション",
+    "searchActions": "検索アクション",
     "lastModified": "最終変更日時",
     "script": "スクリプト",
-    "http": "HTTP",
     "docLink": "資料へのリンク",
     "deletedEventMessage": "削除されたイベント構成を表示しています。 変更することはできません。",
     "actionTypeHelper": "資料リンクは URL を参照します。スクリプトは Linux/Windows マシン用 (現時点では bash のみをサポート) であり、http は Webhook です。",
@@ -858,7 +863,13 @@
     "showsUpInTheActionDescription": "アクションの説明内に表示されます。 できるだけ分かりやすいものにする必要があります。",
     "docLinkDescription": "修復コンテンツの URL。",
     "scriptDescription": "スクリプトの内容。",
-    "execute": "実行"
+    "execute": "実行",
+    "confidence_low": "低",
+    "confidence_medium": "中間",
+    "confidence_high": "高",
+    "confidence": "{{context}}",
+    "confidenceTitle": "信頼度",
+    "test": "テスト"
   },
   "languageSelection": {
     "language": "言語",

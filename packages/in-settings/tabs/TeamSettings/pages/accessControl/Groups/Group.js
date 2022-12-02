@@ -172,7 +172,9 @@ function renderGroup(props) {
                   <span>
                     <Label htmlFor={`permission-${value}`}>{label}</Label>
                     {isNew && (
-                      <Pill kind="inverted" color={theme.lib.colors.blue800}>{t('in-stores:permissionNewLabel')}</Pill>
+                      <Pill kind="inverted" color={theme.lib.colors.blue800}>
+                        {t('in-stores:permissionNewLabel')}
+                      </Pill>
                     )}
                   </span>
                   <Toggle

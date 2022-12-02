@@ -3,51 +3,60 @@
  * (c) Copyright Instana Inc.
  */
 
-import { action } from '@storybook/addon-actions';
 import React from 'react';
 
 import IconButton from 'in-components/IconButton/IconButton';
 
-const kinds = Object.freeze(['primary', 'primaryv2', 'action', 'create', 'danger', 'warning', 'info']);
-
 export default {
-  component: IconButton
+  component: IconButton,
+  argTypes: {
+    iconSize: {
+      control: 'select',
+      options: ['xxs', 'xs', 's', 'regular', 'l', 'xl', 'xxl', 'xxxl']
+    },
+    kind: {
+      control: 'select',
+      options: ['primary', 'primaryv2', 'action', 'create', 'danger', 'warning', 'info']
+    },
+    alignment: {
+      control: 'select',
+      options: ['left', 'right']
+    },
+    size: {
+      control: 'select',
+      options: ['normal', 'compact']
+    },
+    onClick: { action: 'onClick' }
+  },
+  args: {
+    iconSpinning: false,
+    disabled: false,
+    type: 'lib_release_rocket'
+  }
 };
 
-const onClick = action('click');
+export const Default = { args: {} };
 
-export function Default() {
+export function AllKinds(args) {
   return (
     <>
-      {kinds.map(kind => (
-        <IconButton kind={kind} key={kind} onClick={onClick} type="lib_release_rocket">
-          {kind}
-        </IconButton>
+      {['primary', 'primaryv2', 'action', 'create', 'danger', 'warning', 'info'].map(kind => (
+        <IconButton key={kind} {...args} kind={kind} />
       ))}
     </>
   );
 }
 
-export function CustomIconSize() {
+export function Disabled(args) {
   return (
     <>
-      {kinds.map(kind => (
-        <IconButton kind={kind} key={kind} iconSize="xl" onClick={onClick} type="lib_release_rocket">
-          {kind}
-        </IconButton>
+      {['primary', 'primaryv2', 'action', 'create', 'danger', 'warning', 'info'].map(kind => (
+        <IconButton kind={kind} key={kind} {...args} />
       ))}
     </>
   );
 }
-
-export function Disabled() {
-  return (
-    <>
-      {kinds.map(kind => (
-        <IconButton kind={kind} key={kind} iconSize="l" onClick={onClick} type="lib_release_rocket" disabled>
-          {kind}
-        </IconButton>
-      ))}
-    </>
-  );
-}
+Disabled.args = {
+  iconSize: 'l',
+  disabled: true
+};

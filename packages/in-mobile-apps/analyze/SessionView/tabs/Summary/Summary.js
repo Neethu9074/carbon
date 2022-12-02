@@ -59,15 +59,11 @@ export default function Summary({ beacons, sessionLabel, sessionId, detailId }) 
           />
         </Col>
         <Col xs>
-          <KpiCard
-            title={t('in-mobile-apps:sessionView.tabsSummary.mobileAppTitle')}
-            raw
-            value={
-              <Link href$={getLinkToMobileApp(firstBeacon.mobileAppId)} className={locals.linkToMobileApp}>
-                {firstBeacon.mobileAppLabel}
-              </Link>
-            }
-          />
+          <KpiCard title={t('in-mobile-apps:sessionView.tabsSummary.mobileAppTitle')}>
+            <Link href$={getLinkToMobileApp(firstBeacon.mobileAppId)} className={locals.linkToMobileApp}>
+              {firstBeacon.mobileAppLabel}
+            </Link>
+          </KpiCard>
         </Col>
       </Row>
 

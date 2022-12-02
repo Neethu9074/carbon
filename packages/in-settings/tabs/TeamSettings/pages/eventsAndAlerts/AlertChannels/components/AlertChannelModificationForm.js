@@ -11,11 +11,13 @@ import React from 'react';
 import AlertChannelTestButton from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/components/AlertChannelTestButton';
 import { fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { submitAlertChannelTracker } from 'in-settings/tracker';
 import SectionLine from 'in-settings/components/SectionLine';
+import FeatureFeedback from 'in-components/FeatureFeedback';
 import Notification from 'in-components/form/Notification';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import { saveAlertChannel } from 'in-api/alertChannels';
@@ -58,11 +60,18 @@ function AlertChannelModificationForm(props) {
 
   return (
     <SettingsDetailPage>
-      <SubViewHeader>
-        {isCreate
-          ? t('in-settings:tabs.createAlertChannelLabelAlertChannel', { alertChannelLabel: alertChannelLabel })
-          : t('in-settings:tabs.modifyEntityNameAlertChannel', { entityName: entity.get('name') })}
-      </SubViewHeader>
+      <HorizontalFlexWrapper>
+        <SubViewHeader>
+          {isCreate
+            ? t('in-settings:tabs.createAlertChannelLabelAlertChannel', { alertChannelLabel: alertChannelLabel })
+            : t('in-settings:tabs.modifyEntityNameAlertChannel', { entityName: entity.get('name') })}
+        </SubViewHeader>
+        {fullyQualifiedAlertChannel?.isBeta && (
+          <div className={locals.betaMarker}>
+            <FeatureFeedback href={fullyQualifiedAlertChannel.feedbackLink} />
+          </div>
+        )}
+      </HorizontalFlexWrapper>
       <SectionLine />
       {message ? (
         <Section className={locals.messageSection}>
@@ -72,7 +81,12 @@ function AlertChannelModificationForm(props) {
         </Section>
       ) : null}
       <Form {...props} />
-      <AlertChannelTestButton alertChannel={entity} form={form} setForm={setForm} />
+      <AlertChannelTestButton
+        alertChannel={entity}
+        form={form}
+        setForm={setForm}
+        alertChannelLabel={alertChannelLabel}
+      />
 
       {renderCustomFormActions?.({ form, loading }) ?? (
         <SaveCancel form={form} message={message} loading={loading} isCreate={isCreate} listPath={listPath} />

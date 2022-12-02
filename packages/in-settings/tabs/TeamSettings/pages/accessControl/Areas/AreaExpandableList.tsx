@@ -12,7 +12,7 @@ import locals from './AreaExpandableList.mless';
 
 interface AreaExpandableListProps {
   children: React.ReactChildren;
-  firstColumnLabel: string;
+  firstColumnLabel?: string;
   firstColumnHeadline: string;
   iconType: string;
   secondColumnHeadline?: string;

@@ -43,6 +43,7 @@ export interface ServerTablePresenterProps<ItemType extends ListItem> extends Ta
   leftHeader?: React.ReactNode;
   isSearchable?: boolean;
   searchPlaceholder?: string;
+  withoutSearchIcon?: boolean;
   searchMaxWidth?: string | number;
   scopeNotification?: React.ReactNode;
   resultPrecision?: ResultPrecision;
@@ -74,6 +75,7 @@ export default function ServerTablePresenter<
     isSearchable = true,
     searchPlaceholder = '',
     searchMaxWidth,
+    withoutSearchIcon = false,
     size = 'regular',
     cardTitle,
     tableInCard = false,
@@ -158,6 +160,7 @@ export default function ServerTablePresenter<
             maxWidth={searchMaxWidth ? searchMaxWidth : 140}
             query={query}
             placeholder={searchPlaceholder}
+            withoutIcon={withoutSearchIcon}
             onChange={query => onChange({ query, orderBy, orderDirection, page: 1, pageSize })}
           />
         )}

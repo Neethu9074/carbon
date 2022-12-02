@@ -10,4 +10,4 @@ import React from 'react';
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import { eventsPath } from 'in-events/navigation/paths';
 
-export default <Route children={renderAsyncRouteChildren(EventView)} path={eventsPath} />;
+export default <Route key="eventsList" children={renderAsyncRouteChildren(EventView)} path={eventsPath} />;

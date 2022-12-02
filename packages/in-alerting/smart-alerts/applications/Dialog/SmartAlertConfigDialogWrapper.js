@@ -42,7 +42,7 @@ export default function SmartAlertConfigDialogWrapper({
   migrationMode,
   scopeMigrationDetails,
   isGlobalSmartAlert,
-  alertConfig,
+  alertConfig, // type: CreateApplicationAlertConfig
   startWithSimpleMode
 }) {
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
@@ -147,6 +147,7 @@ SmartAlertConfigDialogWrapper.propTypes = {
   startWithSimpleMode: PropTypes.bool,
   alertConfig: PropTypes.shape({
     applications: PropTypes.object,
+    threshold: PropTypes.object,
     boundaryScope: PropTypes.string,
     calculateThresholdOnBackend: PropTypes.bool,
     /**
@@ -256,7 +257,7 @@ function mapStatusCodeSelection(alertConfig) {
 }
 
 function fromAlertConfig(alertConfig) {
-  if (alertConfig.rule.alertType === 'statusCode') {
+  if (alertConfig?.rule?.alertType === 'statusCode') {
     alertConfig = mapStatusCodeConfig(alertConfig);
   }
   return alertConfig;

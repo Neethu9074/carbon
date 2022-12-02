@@ -80,7 +80,7 @@ export default connectTo(
             <Col lg={6}>
               {eventType === EVENT_TYPES.INCIDENT ? t('in-events:triggered') : t('in-events:started')}
               <br />
-              {formatDateTime(event.get('triggeringTime', event.get('start')))}
+              {formatDateTime(event.get('start'))}
             </Col>
 
             {!isOpen && start !== end ? (

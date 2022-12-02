@@ -97,6 +97,10 @@
   },
   "tabs": {
     "team": {
+      "events": {
+        "withDeprecatedSuffix": "{{pluginName}} (en desuso)",
+        "placeholder": "Marcador de posición"
+      },
       "customPayload": {
         "unknownTag": "Etiqueta desconocida: {{tagName}}"
       }
@@ -542,6 +546,8 @@
     "savingGroup": "Guardando grupo",
     "groupSuccessfullySaved": "Grupo guardado correctamente.",
     "groups": "Grupos",
+    "groupDeleteTooltip_Default": "El grupo predeterminado es un grupo incorporado y no se puede suprimir ni renombrar.",
+    "groupDeleteTooltip_Owner": "El grupo propietario es un grupo incorporado y no se puede suprimir ni renombrar.",
     "addGroup": "Añadir grupo",
     "pendingInvitations": "Invitaciones pendientes",
     "revoke": "Revocar",
@@ -845,10 +851,9 @@
     "actions": "Acciones",
     "action": "acción",
     "actionWithNameForDelete": "acción {{actionName}}",
-    "filterActions": "Acciones de filtro",
+    "searchActions": "Buscar acciones",
     "lastModified": "Última modificación",
     "script": "Script",
-    "http": "HTTP",
     "docLink": "Enlace a la documentación",
     "deletedEventMessage": "Está buscando una configuración de suceso suprimida. Las modificaciones no son posibles.",
     "actionTypeHelper": "Enlace a la documentación se refiere a un url, el script es para máquinas linux/windows (solo soporte para bash, de momento) y http es un webhook.",
@@ -858,7 +863,13 @@
     "showsUpInTheActionDescription": "Aparece en la descripción de la acción. Debe ser lo más descriptivo posible.",
     "docLinkDescription": "URL al contenido de corrección.",
     "scriptDescription": "Contenido de script.",
-    "execute": "Ejecutar"
+    "execute": "Ejecutar",
+    "confidence_low": "Bajo",
+    "confidence_medium": "Media",
+    "confidence_high": "Alto",
+    "confidence": "{{context}}",
+    "confidenceTitle": "Confianza",
+    "test": "Prueba"
   },
   "languageSelection": {
     "language": "Idioma",

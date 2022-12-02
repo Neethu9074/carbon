@@ -46,11 +46,13 @@ export default function MetricCatalogConfiguratorOverlayPresenter({
       onSwap={onSwap}
       onRemove={onRemoveItem}
       disabled={form.items.length >= maximumNumberOfMetrics}
-      SlideInContent={({ onShowSlideInContentChange }) => (
+      SlideInContent={({ onShowSlideInContentChange, disabled }) => (
         <MetricSelectorOverlay
           metricCatalog={metricCatalog}
           onChange={node => {
-            const crossSeriesAggregation = node.allowedCrossSeriesAggregations ? node.allowedCrossSeriesAggregations[0] : undefined;
+            const crossSeriesAggregation = node.allowedCrossSeriesAggregations
+              ? node.allowedCrossSeriesAggregations[0]
+              : undefined;
             onAddItem({ metric: node.metric, aggregation: 'MEAN', crossSeriesAggregation });
             onShowSlideInContentChange(false);
           }}
@@ -58,6 +60,7 @@ export default function MetricCatalogConfiguratorOverlayPresenter({
           query={query}
           onQueryChange={onQueryChange}
           close={noop}
+          disabled={disabled}
         />
       )}
       slideInContentTitle={t('in-components:metricConfigurator.titleAddAMetric')}

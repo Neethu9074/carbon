@@ -8,13 +8,13 @@ import { t } from 'in-i18n';
 
 export default [
   {
-    label: t('in-forge:plugins.awsMq.cpuCreditBalance'),
-    metric: 'cpu_credit_balance',
+    label: t('in-forge:plugins.awsMq.currentConnectionsCount'),
+    metric: 'current_connections_count',
     formatter: number.compact
   },
   {
-    label: t('in-forge:plugins.awsMq.currentConnectionsCount'),
-    metric: 'current_connections_count',
+    label: t('in-forge:plugins.awsMq.dashboard.totalMessages'),
+    metric: 'total_message_count',
     formatter: number.compact
   }
 ];

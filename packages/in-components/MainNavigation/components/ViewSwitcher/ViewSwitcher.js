@@ -59,6 +59,7 @@ import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { agentsPath, settingsPath } from 'in-stores/navigation/paths/mainPaths';
 import View from 'in-components/MainNavigation/components/ViewSwitcher/View';
 import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
+import { isInfraExploreView } from 'in-infrastructure/navigation/paths';
 import { phmcListFullyQualified, ibmp } from 'in-phmc/navigation/paths';
 import { zhmcListFullyQualified, ibmz } from 'in-zhmc/navigation/paths';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
@@ -346,7 +347,8 @@ function Analyze(props) {
         isWebsiteAnalyzeView,
         isMobileAppAnalyzeView,
         isProfileAnalyzeView,
-        isLogsAnalyzeView
+        isLogsAnalyzeView,
+        isInfraExploreView()
       )}
       href$={
         [

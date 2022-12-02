@@ -97,6 +97,10 @@
   },
   "tabs": {
     "team": {
+      "events": {
+        "withDeprecatedSuffix": "{{pluginName}}（已淘汰）",
+        "placeholder": "位置保留元"
+      },
       "customPayload": {
         "unknownTag": "不明標籤：{{tagName}}"
       }
@@ -542,6 +546,8 @@
     "savingGroup": "正在儲存群組",
     "groupSuccessfullySaved": "已順利儲存群組。",
     "groups": "群組",
+    "groupDeleteTooltip_Default": "預設群組是內建群組，無法刪除或重新命名。",
+    "groupDeleteTooltip_Owner": "擁有者群組是內建群組，無法刪除或重新命名。",
     "addGroup": "新增群組",
     "pendingInvitations": "擱置邀請",
     "revoke": "撤銷",
@@ -845,10 +851,9 @@
     "actions": "動作",
     "action": "action",
     "actionWithNameForDelete": "動作 {{actionName}}",
-    "filterActions": "過濾動作",
+    "searchActions": "搜尋動作",
     "lastModified": "前次修改時間",
     "script": "Script",
-    "http": "HTTP",
     "docLink": "說明文件鏈結",
     "deletedEventMessage": "您正在查看已刪除的事件配置。 無法修改。",
     "actionTypeHelper": "「文件鏈結」是指 URL，Script 適用於 Linux/Windows 機器（目前僅支援 Bash），而 http 是 Webhook。",
@@ -858,7 +863,13 @@
     "showsUpInTheActionDescription": "在動作說明中顯示。 應該盡可能具敘述性。",
     "docLinkDescription": "補救內容的 URL。",
     "scriptDescription": "Script 內容。",
-    "execute": "執行"
+    "execute": "執行",
+    "confidence_low": "低",
+    "confidence_medium": "中",
+    "confidence_high": "高",
+    "confidence": "{{context}}",
+    "confidenceTitle": "信賴度",
+    "test": "測試"
   },
   "languageSelection": {
     "language": "語言",

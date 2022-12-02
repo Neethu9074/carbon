@@ -5,16 +5,12 @@
 
 import React from 'react';
 
-import {
-  getVsphereDatacenterDashboard,
-  getVsphereHostDashboard,
-  getVsphereVmDashboard
-} from 'in-vsphere/navigation/paths';
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import getVsphereDatacenterByVm from 'in-vsphere/subscriptions/getVsphereDatacenterByVm';
 import VsphereSnapshotLink from 'in-components/Link/SnapshotLink/VsphereSnapshotLink';
 import getVsphereVmByVmHost from 'in-vsphere/subscriptions/getVsphereVmByVmHost';
 import getVsphereHostByVm from 'in-vsphere/subscriptions/getVsphereHostByVm';
+import { useVspehereEntityLink } from 'in-vsphere/navigation/paths';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
@@ -59,11 +55,14 @@ export default connectTo(
     };
   },
   function NodeAndDatacenterInformation({ vm, host, datacenter }) {
+    const datacenterId = datacenter?.id;
+    const hostId = host?.id;
+
+    const getVsphereDatacenterDashboard = useVspehereEntityLink('datacenter', { datacenterId, hostId });
+
     if (!vm || !host || !datacenter) {
       return null;
     }
-    const datacenterId = datacenter.id;
-    const hostId = host.id;
 
     return (
       <Collapsible>
@@ -72,22 +71,14 @@ export default connectTo(
           <DescriptionList>
             {vm && (
               <DescriptionItem title={t('in-forge:plugins.host.vm')}>
-                <VsphereSnapshotLink
-                  getVsphereViewEntityDashboard={getVsphereVmDashboard}
-                  snapshotId={vm.id}
-                  parameters={{ datacenterId, hostId }}
-                >
+                <VsphereSnapshotLink vsphereEntityType={'vm'} snapshotId={vm.id} parameters={{ datacenterId, hostId }}>
                   {vm.label}
                 </VsphereSnapshotLink>
               </DescriptionItem>
             )}
             {host && (
               <DescriptionItem title={t('in-forge:plugins.host.esXiHost')}>
-                <VsphereSnapshotLink
-                  getVsphereViewEntityDashboard={getVsphereHostDashboard}
-                  snapshotId={host.id}
-                  parameters={{ datacenterId }}
-                >
+                <VsphereSnapshotLink vsphereEntityType={'host'} snapshotId={host.id} parameters={{ datacenterId }}>
                   {host.label}
                 </VsphereSnapshotLink>
               </DescriptionItem>
@@ -95,6 +86,7 @@ export default connectTo(
             {datacenter && (
               <DescriptionItem title={t('in-forge:plugins.host.datacenter')}>
                 <VsphereSnapshotLink
+                  vsphereEntityType={'datacenter'}
                   getVsphereViewEntityDashboard={getVsphereDatacenterDashboard}
                   snapshotId={datacenter.id}
                 >

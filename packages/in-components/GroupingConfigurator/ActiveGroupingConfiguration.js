@@ -51,10 +51,12 @@ export default React.forwardRef(function ActiveGroupingConfiguration(
 
   return (
     <div className={locals.groupingConfigurator} ref={ref}>
-      {tagTreeNode.canApplyToSource && tagTreeNode.canApplyToDestination && (
+      {(tagTreeNode.canApplyToSource || tagTreeNode.canApplyToDestination) && (
         <Entity
           groupbyTagEntity={groupbyTagEntity}
           onChange={groupbyTagEntity => onChange({ groupbyTagEntity, groupbyTag, groupbyTagSecondLevelKey })}
+          sourceEnabled={tagTreeNode.canApplyToSource}
+          destinationEnabled={tagTreeNode.canApplyToDestination}
         />
       )}
 

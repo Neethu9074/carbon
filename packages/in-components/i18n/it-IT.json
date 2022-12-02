@@ -77,6 +77,7 @@
     "eumPageName": "EUM",
     "settingsPageName": "Impostazioni",
     "requestQuoteBtn": "Richiedi un preventivo",
+    "buyNowBtn": "Acquista ora",
     "alreadyHaveLicense": "Si dispone già di una licenza? Attivarla su <linkToDocker>Docker</linkToDocker> o <linkToKubernetes>Kubernetes</linkToKubernetes>."
   },
   "releaseNotesDialog": {
@@ -234,14 +235,7 @@
     "queryProgress": {
       "preparing": "Preparazione…",
       "runningQuery": "Esecuzione query…",
-      "timeout": "Questa query è scaduta.",
-      "timeoutEstimated": "Non è stato possibile elaborare la query a causa dell'elevato volume di chiamate.",
-      "timeoutInfo": "Selezionare un intervallo di tempo più breve.",
-      "inputError": "Si è verificato un errore di input.",
-      "tooManyRequests": "Troppe richieste",
-      "tooManyRequestsInfo": "Il nostro sistema è attualmente occupato. Riprovare successivamente.",
-      "serverError": "Errore del server",
-      "serverErrorInfo": "Si è verificato un errore non previsto. Riprovare successivamente oppure contattare il supporto per segnalare l'errore."
+      "inputError": "Si è verificato un errore di input."
     }
   },
   "aboutInstanaDialog": {
@@ -308,7 +302,14 @@
     "services": "Servizi"
   },
   "error": {
-    "erroneousResultPresenterMessage": "Si è verificato un errore non previsto. Aggiornare la pagina o riprovare successivamente."
+    "erroneousResultPresenterMessage": "Si è verificato un errore non previsto. Aggiornare la pagina o riprovare successivamente.",
+    "timeout": "Questa query è scaduta.",
+    "timeoutInfo": "Selezionare un intervallo di tempo più breve.",
+    "timeoutEstimated": "Non è stato possibile elaborare la query a causa dell'elevato volume di chiamate.",
+    "tooManyRequests": "Troppe richieste",
+    "tooManyRequestsInfo": "Il nostro sistema è attualmente occupato. Riprovare in seguito.",
+    "serverError": "Errore del server",
+    "serverErrorInfo": "Si è verificato un errore imprevisto. Riprovare successivamente oppure contattare il supporto per segnalare l'errore."
   },
   "expandableCard": {
     "tooltipShowLess": "Mostra meno",
