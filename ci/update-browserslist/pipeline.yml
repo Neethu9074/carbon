@@ -16,7 +16,7 @@ resources:
       uri: https://github.ibm.com/instana/ui-client.git
       username: ((ibm-github-e-api-token))
       password: x-oauth-basic
-      branch: main
+      branch: develop
 jobs:
   - name: self-update
     plan:
