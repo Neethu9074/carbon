@@ -104,7 +104,7 @@ export default connectTo(
         />
         <WithEmptyStateFallback
           getHasDataToRender={getHasDataToRender}
-          FallbackComponent={<ZhmcNoDataNotification icon="lib_zhmcConsole" />}
+          FallbackComponent={() => <ZhmcNoDataNotification icon="lib_zhmcConsole" />}
         >
           <ServerTableWithUrlState get={getTableData} timeConfig={timeConfig} />
         </WithEmptyStateFallback>

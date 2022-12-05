@@ -121,7 +121,7 @@ export default connectTo(
 
         <WithEmptyStateFallback
           getHasDataToRender={getHasDataToRender}
-          FallbackComponent={<VSphereNoDataNotification icon="lib_vsphere" />}
+          FallbackComponent={() => <VSphereNoDataNotification icon="lib_vsphere" />}
         >
           <ServerTableWithUrlState get={getTableData} timeConfig={timeConfig} />
         </WithEmptyStateFallback>
