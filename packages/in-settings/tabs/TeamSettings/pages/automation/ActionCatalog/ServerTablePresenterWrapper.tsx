@@ -12,7 +12,7 @@ import { Button, SvgIcon } from '@instana/components';
 
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
-import { SetForm } from 'in-settings/hooks/useEntityForm';
+import { SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t } from 'in-i18n';
 
@@ -36,7 +36,7 @@ interface ServerTablePresenterWrapperProps<VALUETYPE>
   form: MapForm;
   formKey: string;
   defaultRow: VALUETYPE;
-  setForm: SetForm;
+  setForm: SetFormFunction;
 }
 
 export default function ServerTablePresenterWrapper<VALUETYPE>({

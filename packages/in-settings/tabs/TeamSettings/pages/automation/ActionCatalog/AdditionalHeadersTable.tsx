@@ -10,7 +10,7 @@ import React, { ChangeEvent } from 'react';
 import ServerTablePresenterWrapper from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ServerTablePresenterWrapper';
 import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
-import { OnEntityChange, SetForm } from 'in-settings/hooks/useEntityForm';
+import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-settings/components/FormGroup';
 import Input from 'in-components/form/Input';
@@ -22,7 +22,7 @@ import locals from './ServerTablePresenterWrapperConsumer.mless';
 interface AdditionalHeadersProps {
   form: MapForm;
   onChange: OnEntityChange<ActionFormEntity>;
-  setForm: SetForm;
+  setForm: SetFormFunction;
 }
 
 export interface Header {
