@@ -19,7 +19,7 @@
   "content": {
     "ec2": "Elastic Compute Cloud (EC2)",
     "ecs": "Elastic Container Service (ECS)",
-    "agentMode": "Agent mode",
+    "agentMode": "Agent packaging",
     "dynamic": "Dynamic",
     "static": "Static",
     "agentJdk": "Agent JDK",
@@ -255,7 +255,7 @@
     "windowsZip32BitStatic": "Windows Zip (32bit, static)",
     "agentModeDynamic": "Dynamic",
     "agentModeStatic": "Static",
-    "agentModeLabel": "Agent mode",
+    "agentModeLabel": "Agent packaging",
     "agentRuntimeLabel": "Agent runtime",
     "agentInstallationModeLabel": "Installation mode",
     "agentInstallationModeInteractive": "Interactive",
