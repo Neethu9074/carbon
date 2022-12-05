@@ -13,6 +13,7 @@ import { updateThresholdInForm } from 'in-alerting/smart-alerts/components/smart
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import createThresholdForm from 'in-alerting/smart-alerts/websites/form/thresholdForm';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
+import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 
 export default function useThresholdSuggestion(form, updateForm, setThresholdResult, config) {
   const {
@@ -41,9 +42,13 @@ export default function useThresholdSuggestion(form, updateForm, setThresholdRes
 
     setThresholdResult(thresholdResult);
     const { data, errors, time } = thresholdResult;
-    if (isValid) {
+
+    const isAdaptiveBaseline = alertConfigWithFormModel.threshold.type === ADAPTIVE_BASELINE;
+
+    if (isAdaptiveBaseline && isValid) {
       updateThresholdInForm(createThresholdForm, form, updateForm, data, errors, time, simpleMode);
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [thresholdResult, form.get('hiddenFields').get('calculateThresholdOnBackend').value]);
 }
@@ -79,6 +84,7 @@ function resolveThresholdRequest(
   };
 
   const thresholdSuggestionRequest = blueprintConfig.getThresholdSuggestionRequest(metricName);
+
   return thresholdSuggestionRequest({
     tagFilterExpression: toBackendQueryModel(enrichedTagFilterFormModel),
     metric: {
