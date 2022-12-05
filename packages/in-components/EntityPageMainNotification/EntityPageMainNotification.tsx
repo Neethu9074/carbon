@@ -14,10 +14,10 @@ import { t } from 'in-i18n';
 
 import locals from './EntityPageMainNotification.mless';
 
-interface Props {
+export interface EntityPageMainNotificationProps {
   title?: string;
   explanation: () => React.ReactNode | string;
-  changeExplanation?: (explanation: string, props: Props) => React.ReactNode;
+  changeExplanation?: (explanation: string, props: EntityPageMainNotificationProps) => React.ReactNode;
   theme?: 'light' | 'dark';
   icon?: string;
   plugin?: string;
@@ -25,7 +25,7 @@ interface Props {
   withBackground?: boolean;
 }
 
-export default function EntityPageMainNotification(props: React.PropsWithChildren<Props>) {
+export default function EntityPageMainNotification(props: React.PropsWithChildren<EntityPageMainNotificationProps>) {
   const {
     title,
     explanation,
