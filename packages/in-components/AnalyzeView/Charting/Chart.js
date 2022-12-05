@@ -36,7 +36,9 @@ export default function Chart({
   showAggregationSelector,
   onAggregationChange,
   aggregations,
-  fastQueryModeEnabled
+  fastQueryModeEnabled,
+  customFormatterForZeroLatency,
+  groupBy
 }) {
   const [hasApproximateData, setApproximateData] = useState(false);
 
@@ -70,7 +72,9 @@ export default function Chart({
           metric: metricId,
           tagFilterExpression: toBackendQueryModel(formModel),
           aggregation: aggregationId,
-          label: groupLabel(label),
+          label: customFormatterForZeroLatency
+            ? customFormatterForZeroLatency(label, groupBy.groupbyTag)
+            : groupLabel(label),
           source: unifiedMetricsSource
         },
         { dataSource }

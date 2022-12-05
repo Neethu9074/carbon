@@ -8,14 +8,7 @@ import rpt from 'prop-types';
 
 import { useObservable } from '@instana/hooks';
 
-import {
-  EQUALS,
-  IS_BLANK,
-  IS_EMPTY,
-  LESS_THAN,
-  NOT_EMPTY,
-  STARTS_WITH
-} from 'in-components/QueryBuilder/tagFilter/operators';
+import { EQUALS, IS_BLANK, IS_EMPTY, NOT_EMPTY, STARTS_WITH } from 'in-components/QueryBuilder/tagFilter/operators';
 import { CONJUNCTION, joinExpressions, TAG } from 'in-components/QueryBuilder/transformation/formModel';
 import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConfigContextModification';
 import { removeFacetTag, tagFiltersFromFacets } from 'in-components/AnalyzeView/FacetedFilters/facets';
@@ -200,6 +193,7 @@ function AnalyzeStateManagement({
   getMetricTemplates,
   urlStateDefinition,
   dataSourceConfigurations,
+  customFormatterForZeroLatency,
   children
 }) {
   const timeConfig = useTimeConfig();
@@ -502,7 +496,13 @@ function AnalyzeStateManagement({
   function getStateChangeForUngroupedView(groupValue) {
     return {
       groupBy: emptyObject,
-      formModel: addGroupingCriteriaToFormModel(groupBy, groupValue, formModel, groupingTagCatalogResult.data)
+      formModel: addGroupingCriteriaToFormModel(
+        groupBy,
+        groupValue,
+        formModel,
+        groupingTagCatalogResult.data,
+        customFormatterForZeroLatency
+      )
     };
   }
 }
@@ -569,7 +569,7 @@ export const childrenArgsAsPropTypes = {
   getHrefToUngroupedView: rpt.func.isRequired,
   getHrefToGroupedView: rpt.func.isRequired,
   groupingTagCatalog: rpt.object,
-
+  customFormatterForZeroLatency: rpt.object,
   orderBy: rpt.shape({
     by: rpt.string.isRequired,
     direction: rpt.oneOf(['ASC', 'DESC']).isRequired
@@ -609,9 +609,14 @@ export const childrenArgsAsPropTypes = {
   setDetailId: rpt.func.isRequired
 };
 
-export function addGroupingCriteriaToFormModel(groupBy, groupValue, formModel, groupingTagCatalog) {
+export function addGroupingCriteriaToFormModel(
+  groupBy,
+  groupValue,
+  formModel,
+  groupingTagCatalog,
+  customFormatterForZeroLatency
+) {
   const groupByTagType = groupingTagCatalog?.tags.find(tag => tag.name === groupBy.groupbyTag)?.type;
-
   let newTagFilter;
   if (groupValue === UNSPECIFIED) {
     newTagFilter = {
@@ -642,9 +647,8 @@ export function addGroupingCriteriaToFormModel(groupBy, groupValue, formModel, g
     let operator = EQUALS;
     if (groupByTagType === NUMBER) {
       value = Number(groupValue);
-      if (groupBy.groupbyTag === 'call.latency' && groupValue === '0') {
-        operator = LESS_THAN;
-        value = 1;
+      if (customFormatterForZeroLatency) {
+        [value, operator] = customFormatterForZeroLatency(groupBy.groupbyTag, value, operator);
       }
     } else if (groupByTagType === BOOLEAN) {
       value = groupValue === 'true';

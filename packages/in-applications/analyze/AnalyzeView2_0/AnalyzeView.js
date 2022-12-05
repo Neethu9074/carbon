@@ -42,6 +42,7 @@ import { toBackendQuery } from 'in-components/AnalyzeView/FacetedFilters/facets'
 import Results from 'in-applications/analyze/AnalyzeView2_0/components/Results';
 import getTagSuggestions from 'in-applications/subscriptions/getTagSuggestions';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
+import { LESS_THAN } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getMetricTemplates } from 'in-applications/api/metricTemplates';
 import { ua2FastQueryModeChangedTracker } from 'in-applications/tracker';
 import StateManagement from 'in-components/AnalyzeView/StateManagement';
@@ -171,6 +172,7 @@ export default function ApplicationsAnalyzeView() {
       getMetricCatalog={getMetricCatalog}
       getMetricTemplates={getMetricTemplates}
       dataSourceConfigurations={dataSourceConfigurations}
+      customFormatterForZeroLatency={customFormatterForZeroLatency}
     >
       {opts =>
         opts.isGrouped ? (
@@ -197,6 +199,14 @@ export default function ApplicationsAnalyzeView() {
       }
     </StateManagement>
   );
+}
+
+function customFormatterForZeroLatency(groupbyTag, value, operator) {
+  if (groupbyTag === 'call.latency' && value === 0) {
+    return [1, LESS_THAN];
+  } else {
+    return [value, operator];
+  }
 }
 
 function getDataSourceConfigurations({ hiddenCalls, onChangeHiddenCalls }) {

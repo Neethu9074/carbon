@@ -49,6 +49,14 @@ const validateTagFilterValue = metricConfiguration => {
   });
 };
 
+function customFormatterForZeroLatency(value, groupbyTag) {
+  if (value === '0' && groupbyTag === 'call.latency') {
+    return '< 1';
+  } else {
+    return value;
+  }
+}
+
 export function ChartsPresenter(props) {
   const {
     hiddenCalls,
@@ -119,6 +127,7 @@ export function ChartsPresenter(props) {
                 getCustomChartColor={() => !chartProps.isGrouped && [theme.lib.colors.failure]}
                 key={`${metricConfig.metricId}${metricConfig.aggregationId}`}
                 chartedMetrics={[metricConfiguration]}
+                customFormatterForZeroLatency={customFormatterForZeroLatency}
               />
             );
           } else {
@@ -127,6 +136,7 @@ export function ChartsPresenter(props) {
                 {...chartProps}
                 key={`${metricConfig.metricId}${metricConfig.aggregationId}`}
                 chartedMetrics={[metricConfig]}
+                customFormatterForZeroLatency={customFormatterForZeroLatency}
               />
             );
           }
