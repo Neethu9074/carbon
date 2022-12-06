@@ -46,7 +46,7 @@ export function getEntityTypeOptionsOfBuiltInMetrics(showDeprecatedLabel: boolea
   return Object.values(plugins)
     .filter(plugin => hasCategory(plugin))
     .filter(plugin => customIssuesDisabledForPlugins.indexOf(plugin) < 0)
-    .sort((a, b) => compareIgnoreCase(getPluginName(a, 1), getPluginName(b, 1)))
+    .sort((a, b) => compareIgnoreCase(getPluginName(a, 1)!, getPluginName(b, 1)!))
     .map(plugin => {
       return {
         value: plugin,
@@ -58,7 +58,7 @@ export function getEntityTypeOptionsOfBuiltInMetrics(showDeprecatedLabel: boolea
 function getLabelForPlugin(plugin: string, showDeprecatedLabel: boolean): string {
   return showDeprecatedLabel && shouldDisplayDeprecatedLabel(plugin)
     ? getPluginName(plugin, 1) + ` (${t('in-settings:tabs.deprecated')})`
-    : getPluginName(plugin, 1);
+    : getPluginName(plugin, 1)!;
 }
 
 function shouldDisplayDeprecatedLabel(plugin: string): boolean {
