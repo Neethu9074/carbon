@@ -57,7 +57,6 @@
   },
   "explore": {
     "focusOnThisGroup": "Focus on this group",
-    "thisIsABetaVersionOfANewProductCapability": "This is a beta version of a new product capability. We advise you not to rely on the data presented.",
     "theQueryConfigurationIsInvalid": "The query configuration is invalid. Please address the validation failures before continuing.",
     "allInfrastructure": "All Infrastructure",
     "name": "Name",
@@ -101,7 +100,6 @@
     "collapseAll": "Collapse All",
     "map": "Map",
     "comparisonTable": "Comparison Table",
-    "entityExploreBeta": "Entity Explore (Beta)",
     "infrastructureComparisonTable": "Infrastructure Comparison Table"
   }
 }

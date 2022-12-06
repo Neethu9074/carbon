@@ -78,7 +78,10 @@ export default connectTo(
           }}
         />
 
-        <WithEmptyStateFallback getHasDataToRender={getHasDataToRender} FallbackComponent={<PhmcNoDataNotification />}>
+        <WithEmptyStateFallback
+          getHasDataToRender={getHasDataToRender}
+          FallbackComponent={() => <PhmcNoDataNotification />}
+        >
           <ServerTableWithUrlState get={getTableData} timeConfig={timeConfig} />
         </WithEmptyStateFallback>
       </Fragment>

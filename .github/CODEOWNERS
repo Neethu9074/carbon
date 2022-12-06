@@ -29,8 +29,7 @@ packages/in-connection              @pr-approval @Instana-IBM-GitHub-Enterprise 
 packages/in-custom-dashboards       @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-eum @instana/eng-ui
 # potential problems marker lane in metrics chart
 packages/in-custom-dashboards/widgets @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-eum @instana/eng-ui @instana/eng-issue-detection
-packages/in-custom-dashboards/widgets/Slo @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-eum @instana/eng-ui @instana/eng-service-levels
-packages/in-events                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-service-levels @instana/eng-ui @instana/eng-issue-detection @instana/eng-alert-response
+packages/in-events                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-issue-detection @instana/eng-alert-response
 packages/in-events/components/AutomationActions @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-remediation
 # Shared ownership
 # packages/in-forge
@@ -140,7 +139,7 @@ packages/in-sdk/metrics             @pr-approval @Instana-IBM-GitHub-Enterprise 
 packages/in-server                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-services                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-services/metrics        @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
-packages/in-settings                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-service-levels @instana/eng-issue-detection @instana/eng-enterprise @instana/eng-application @instana/eng-alert-response
+packages/in-settings                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-issue-detection @instana/eng-enterprise @instana/eng-application @instana/eng-alert-response
 packages/in-settings/tabs/TeamSettings/pages/automation @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-remediation
 packages/in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-alert-response
 packages/in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-alert-response
@@ -158,7 +157,7 @@ packages/in-vsphere                 @pr-approval @Instana-IBM-GitHub-Enterprise 
 packages/in-websites                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-eum @instana/eng-application @instana/eng-ui
 packages/in-websites/alerting       @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-eum @instana/eng-ui @instana/eng-issue-detection
 packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application       @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-application @instana/eng-ui
-packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/event             @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-service-levels @instana/eng-issue-detection @instana/eng-ui
+packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/event             @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-issue-detection @instana/eng-ui
 packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure    @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
 packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/mobileApp         @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-application @instana/eng-ui
 packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli               @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-service-levels @instana/eng-ui

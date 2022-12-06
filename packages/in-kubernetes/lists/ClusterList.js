@@ -159,7 +159,7 @@ export default connectTo(
 
         <WithEmptyStateFallback
           getHasDataToRender={getHasDataToRender}
-          FallbackComponent={<KubernetesNoDataNotification icon="lib_kubernetes_cluster" />}
+          FallbackComponent={() => <KubernetesNoDataNotification icon="lib_kubernetes_cluster" />}
         >
           <Card>
             <ServerTableWithUrlState

@@ -9,12 +9,12 @@ import { t } from 'in-i18n';
 export default [
   {
     label: t('in-forge:plugins.kubernetesNode.cpuRequests'),
-    metric: 'cpu.total_usage',
+    metric: 'required_cpu_percentage',
     formatter: resourceQuotaNumber
   },
   {
     label: t('in-forge:plugins.kubernetesNode.memoryRequests'),
-    metric: 'memory.usage',
+    metric: 'required_mem_percentage',
     formatter: resourceQuotaBytes
   }
 ];

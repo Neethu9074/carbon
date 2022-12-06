@@ -31,7 +31,6 @@ export const blueprintConfig: readonly BluePrint[] = Object.freeze([
             <li>${t('in-synthetics:dialog.createTest.bluePrint.pingApi.tipsForUsing.line2')}</li>
             <li>${t('in-synthetics:dialog.createTest.bluePrint.pingApi.tipsForUsing.line3')}</li>
             <li>${t('in-synthetics:dialog.createTest.bluePrint.pingApi.tipsForUsing.line4')}</li>
-            <li>${t('in-synthetics:dialog.createTest.bluePrint.pingApi.tipsForUsing.line5')}</li>
           </ul>
         `
       }
@@ -58,7 +57,6 @@ export const blueprintConfig: readonly BluePrint[] = Object.freeze([
             <li>${t('in-synthetics:dialog.createTest.bluePrint.scriptApi.tipsForUsing.line2')}</li>
             <li>${t('in-synthetics:dialog.createTest.bluePrint.scriptApi.tipsForUsing.line3')}</li>
             <li>${t('in-synthetics:dialog.createTest.bluePrint.scriptApi.tipsForUsing.line4')}</li>
-            <li>${t('in-synthetics:dialog.createTest.bluePrint.scriptApi.tipsForUsing.line5')}</li>
           </ul>
         `
       }

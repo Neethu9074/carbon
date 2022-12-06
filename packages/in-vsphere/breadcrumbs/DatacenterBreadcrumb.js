@@ -6,7 +6,7 @@
 import React from 'react';
 
 import getVsphereDatacenter from 'in-vsphere/subscriptions/getVsphereDatacenter';
-import { getVsphereDatacenterDashboard } from 'in-vsphere/navigation/paths';
+import { useVspehereEntityLink } from 'in-vsphere/navigation/paths';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
@@ -21,6 +21,8 @@ export default connectTo(
     }).map(result => result.data)
   }),
   function DatacenterBreadcrumb({ datacenter }) {
+    const getVsphereDatacenterDashboard = useVspehereEntityLink('datacenter');
+
     return (
       <>
         {datacenter && (

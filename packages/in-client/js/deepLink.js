@@ -15,7 +15,7 @@ import RedirectWithHash from 'in-components/RedirectWithHash';
 
 const path = '/dl';
 
-export default <Route path={path} children={<DeepLink />} />;
+export default <Route key="deepLink" path={path} children={<DeepLink />} />;
 
 function DeepLink() {
   const location = useLocation();

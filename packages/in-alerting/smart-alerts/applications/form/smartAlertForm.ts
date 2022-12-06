@@ -6,10 +6,10 @@
 import { createField, createMapForm, MapForm } from 'formalistic';
 
 import {
-  ApplicationAlertConfig,
   ApplicationAlertConfigWithMetadata,
   GlobalApplicationsAlertConfigWithMetadata,
-  ThresholdType
+  ThresholdType,
+  ThresholdConfigUnion
 } from 'in-types';
 // @ts-expect-error file needs to be converted
 import { isEntitySelectionValid } from 'in-alerting/smart-alerts/applications/form/formUtils';
@@ -24,6 +24,7 @@ import { MAX_LABEL_LENGTH, MAX_LONG_STRING_LENGTH } from 'in-alerting/formFieldL
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
+import { boundaryScopes } from 'in-applications/constants';
 import { t } from 'in-i18n';
 
 const defaultSeverity = 5;
@@ -43,10 +44,21 @@ export interface UiExtraData {
   builtIn?: boolean;
 }
 
+interface OptionalGlobalApplicationsAlertConfig extends Partial<GlobalApplicationsAlertConfigWithMetadata> {}
+
+interface OptionalIndividualApplicationAlertConfig extends Partial<ApplicationAlertConfigWithMetadata> {}
+
+/**
+ * Type that is used when creating an AP Smart Alert config (e.g. via floating button), where depending on the dashboard context
+ * this button is pressed, a different partial alert config can be passed, while the remaining fields are overridden with default
+ * values that are internally defined.
+ */
+type CreateApplicationAlertConfig = (OptionalGlobalApplicationsAlertConfig | OptionalIndividualApplicationAlertConfig) &
+  AlertConfigHiddenFields &
+  UiExtraData;
+
 export function createSmartAlertForm(
-  alertConfig: (GlobalApplicationsAlertConfigWithMetadata | ApplicationAlertConfigWithMetadata) &
-    AlertConfigHiddenFields &
-    UiExtraData,
+  alertConfig: CreateApplicationAlertConfig,
   editMode?: boolean,
   isGlobalSmartAlert?: boolean
 ): MapForm {
@@ -75,7 +87,7 @@ export function createSmartAlertForm(
     triggering
   } = alertConfig;
 
-  let form = createMapForm()
+  const form = createMapForm()
     .put(
       'name',
       createField({
@@ -99,7 +111,7 @@ export function createSmartAlertForm(
     .put(
       'boundaryScope',
       createField({
-        value: boundaryScope ?? 'INBOUND'
+        value: boundaryScope ?? boundaryScopes.inbound
       })
     )
     .put(
@@ -147,7 +159,7 @@ export function createSmartAlertForm(
     .put(
       'granularity',
       createField({
-        value: granularity ?? getDefaultGranularity(alertConfig)
+        value: granularity ?? getDefaultGranularity(threshold)
       })
     )
     .put(
@@ -209,18 +221,19 @@ export function createSmartAlertForm(
       })
     )
     .put('rule', createRuleForm(rule ?? defaultAlertRule))
-    .put('timeThreshold', createTimeThresholdForm(timeThreshold ?? {}, granularity, threshold?.type as ThresholdType))
+    .put('timeThreshold', createTimeThresholdForm(timeThreshold, granularity, threshold?.type as ThresholdType))
     .put('hiddenFields', createHiddenFieldsForm(alertConfig))
-    .put('customPayloadFields', createListFormForCustomPayloads(customPayloadFields ?? [], false));
-
-  const alertType = rule?.alertType ?? 'errorRate';
-  form = form.put('threshold', createThresholdForm(threshold ?? {}, alertType as ApplicationAlertType));
+    .put('customPayloadFields', createListFormForCustomPayloads(customPayloadFields ?? [], false))
+    .put(
+      'threshold',
+      createThresholdForm(threshold, (rule?.alertType ?? defaultAlertRule.alertType) as ApplicationAlertType)
+    );
 
   return applyEditMode(form, editMode ?? false);
 }
 
-function getDefaultGranularity(alertConfig: ApplicationAlertConfig) {
-  return alertConfig.threshold?.type === ADAPTIVE_BASELINE ? defaultAdaptiveBaselineGranularity : defaultGranularity;
+function getDefaultGranularity(threshold?: ThresholdConfigUnion) {
+  return threshold?.type === ADAPTIVE_BASELINE ? defaultAdaptiveBaselineGranularity : defaultGranularity;
 }
 
 function createHiddenFieldsForm({ calculateThresholdOnBackend }: AlertConfigHiddenFields) {

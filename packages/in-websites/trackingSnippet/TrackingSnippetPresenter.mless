@@ -7,7 +7,6 @@
 
 :local {
   .snippetWrapper {
-    display: flex;
     align-items: top;
     justify-content: space-between;
   }
@@ -18,20 +17,21 @@
   }
 
   .options {
-    width: 11rem;
+    width: 15rem;
   }
 
   .option {
-    max-width: 15rem;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
+    margin-bottom: 12px;
   }
 
   .label {
     margin: 0;
     display: flex;
     align-items: center;
+    color: @lib__colors__N700Medium;
+    font-size: @lib__typography__body-small__font-size;
   }
 
   .helpWrapper {

@@ -143,7 +143,10 @@ export default connectTo(
             pageRootName: t('in-phmc:ibmpPhmcs')
           }}
         />
-        <WithEmptyStateFallback getHasDataToRender={getHasDataToRender} FallbackComponent={<PhmcNoDataNotification />}>
+        <WithEmptyStateFallback
+          getHasDataToRender={getHasDataToRender}
+          FallbackComponent={() => <PhmcNoDataNotification />}
+        >
           <ServerTableWithUrlState get={getTableData} timeConfig={timeConfig} />
         </WithEmptyStateFallback>
       </Fragment>

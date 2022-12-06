@@ -19,8 +19,20 @@ import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncCompo
 import { openstack } from 'in-openstack/navigation/paths';
 
 export default [
-  <Route path={regionDashboardFullyQualified} children={renderAsyncRouteChildren(RegionDashboard)} />,
-  <Route path={hypervisorDashboardFullyQualified} children={renderAsyncRouteChildren(HypervisorDashboard)} />,
-  <Route path={instanceDashboardFullyQualified} children={renderAsyncRouteChildren(InstanceDashboard)} />,
-  <Route path={openstack} children={renderAsyncRouteChildren(OpenstackMainView)} />
+  <Route
+    key="openStackRegionDashboard"
+    path={regionDashboardFullyQualified}
+    children={renderAsyncRouteChildren(RegionDashboard)}
+  />,
+  <Route
+    key="openStackHypervisorDashboard"
+    path={hypervisorDashboardFullyQualified}
+    children={renderAsyncRouteChildren(HypervisorDashboard)}
+  />,
+  <Route
+    key="openStackInstanceDashboard"
+    path={instanceDashboardFullyQualified}
+    children={renderAsyncRouteChildren(InstanceDashboard)}
+  />,
+  <Route key="openStackMainView" path={openstack} children={renderAsyncRouteChildren(OpenstackMainView)} />
 ];

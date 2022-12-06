@@ -1174,11 +1174,11 @@
   "pluginName_tanzuFoundation_1": "Tanzu Foundations",
   "pluginName_tanzuFoundation_2": "Tanzu Foundations",
   "pluginName_tanzuFoundation": "Tanzu Foundation",
-  "pluginName_tanzuFoundationMember_plural": "Tanzu Foundations",
-  "pluginName_tanzuFoundationMember_0": "Tanzu Foundations",
-  "pluginName_tanzuFoundationMember_1": "Tanzu Foundations",
-  "pluginName_tanzuFoundationMember_2": "Tanzu Foundations",
-  "pluginName_tanzuFoundationMember": "Tanzu Foundation",
+  "pluginName_tanzuFoundationMember_plural": "Tanzu Foundations Members",
+  "pluginName_tanzuFoundationMember_0": "Tanzu Foundations Members",
+  "pluginName_tanzuFoundationMember_1": "Tanzu Foundations Members",
+  "pluginName_tanzuFoundationMember_2": "Tanzu Foundations Members",
+  "pluginName_tanzuFoundationMember": "Tanzu Foundation Member",
   "pluginName_tibcoEMS_plural": "Tibco EMS",
   "pluginName_tibcoEMS_0": "Tibco EMS",
   "pluginName_tibcoEMS_1": "Tibco EMS",
@@ -9293,6 +9293,7 @@
       "openOutputCount": "Open Output Count",
       "calls": "Calls",
       "statistics": "MQ Queue Statistics",
+      "statisticsRecord": "Note: Only 'any' is supported for 'Matching Operator' field!",
       "nonPersistentPutBytes": "Nonpersistent Put Bytes",
       "persistentPutBytes": "Persistent Put Bytes",
       "putFailCount": "PUT Fail Count",
@@ -9995,8 +9996,6 @@
       "lastJobDuration": "Last Job Duration"
     },
     "kubernetesDaemonSet": {
-      "cpuRequests": "CPU Requests",
-      "memoryRequests": "Memory Requests",
       "available": "Available",
       "desired": "Desired",
       "unavailable": "Unavailable",
@@ -10100,13 +10099,9 @@
       "memoryLimits": "Memory Limits"
     },
     "kubernetesService": {
-      "kubernetesService": "Kubernetes Service",
-      "cpuRequests": "CPU Requests",
-      "memoryRequests": "Memory Requests"
+      "kubernetesService": "Kubernetes Service"
     },
     "kubernetesStatefulSet": {
-      "cpuRequests": "CPU Requests",
-      "memoryRequests": "Memory Requests",
       "available": "Available",
       "desired": "Desired",
       "availableToDesiredPercentage": "Available to Desired Percentage"

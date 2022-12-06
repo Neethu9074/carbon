@@ -14,7 +14,7 @@ import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config'
 import { datacenterIdUrlParameter } from 'in-vsphere/navigation/urlParameters';
 import getVsphereHosts from 'in-vsphere/subscriptions/getVsphereHosts';
 import { MemoryTotal } from 'in-vsphere/commonComponents/MemoryTotal';
-import { getVsphereHostDashboard } from 'in-vsphere/navigation/paths';
+import { useVspehereEntityLink } from 'in-vsphere/navigation/paths';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 import { percentage } from 'in-services/formatters/number';
@@ -24,16 +24,19 @@ import { t } from 'in-i18n';
 const pathSegment = '/vsphere-hosts';
 const matrixPrefix = 'vhost.';
 
+export const VsphereHostLink = ({ item }) => {
+  const datacenterId = item.datacenterId;
+
+  const getVsphereHostDashboard = useVspehereEntityLink('host', { datacenterId });
+
+  return <EntityLink label={item.label} href$={getVsphereHostDashboard(item.id)} icon="lib_linux" />;
+};
+
 const columnDefinitions = [
   {
     id: 'label',
     label: t('in-vsphere:dashboards.name'),
-    getContent(item) {
-      const datacenterId = item.datacenterId;
-      return (
-        <EntityLink label={item.label} href$={getVsphereHostDashboard(item.id, { datacenterId })} icon="lib_linux" />
-      );
-    }
+    getContent: item => <VsphereHostLink item={item} />
   },
   {
     id: 'vms',

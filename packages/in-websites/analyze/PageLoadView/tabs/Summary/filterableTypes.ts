@@ -3,11 +3,27 @@
  * (c) Copyright Instana Inc.
  */
 
-import { WebsiteMonitoringBeacon } from '@instana/types';
+import { WebsiteMonitoringBeacon, WebsiteMonitoringBeaconType, WebsiteMonitoringResourceType } from '@instana/types';
 
 import { t } from 'in-i18n';
 
-export const types = {
+type FilterableType = Exclude<
+  WebsiteMonitoringBeaconType | WebsiteMonitoringResourceType,
+  'pageLoad' | 'resourceLoad' | 'httpRequest'
+>;
+
+type TypeConfig = {
+  short: string;
+  badgeLabel: string;
+  long: string;
+  color: string;
+};
+
+type TypeConfigs = {
+  [key in FilterableType]: TypeConfig;
+};
+
+export const types: TypeConfigs = {
   xhr: {
     short: t('in-websites:analyze.analyzeView.pageLoadView.filterTypeXHRShort'),
     badgeLabel: t('in-websites:analyze.analyzeView.pageLoadView.filterTypeXHRBadgeLabel'),
@@ -70,9 +86,9 @@ export const types = {
   }
 };
 
-export function getType(beacon: WebsiteMonitoringBeacon) {
-  if (types[beacon.resourceType as keyof typeof types]) {
-    return beacon.resourceType as keyof typeof types;
+export function getType(beacon: WebsiteMonitoringBeacon): FilterableType {
+  if (types[beacon.resourceType as FilterableType]) {
+    return beacon.resourceType as FilterableType;
   } else if (beacon.type === 'error') {
     return 'error';
   } else if (beacon.type === 'custom') {
@@ -84,19 +100,21 @@ export function getType(beacon: WebsiteMonitoringBeacon) {
   return 'other';
 }
 
-export function getResourceTypes() {
+export function getResourceTypes(): Array<FilterableType> {
   return (
-    (Object.keys(types) as Array<keyof typeof types>)
+    (Object.keys(types) as Array<FilterableType>)
       // Errors and XHR don't make sense as resource types
       .filter(k => k && k !== 'xhr' && k !== 'error' && k !== 'custom' && k !== 'pageChange')
       .sort()
   );
 }
 
-export function getResourceTypesComboBoxItems(restrict: Array<string> | null = null) {
+export function getResourceTypesComboBoxItems(
+  restrict: Array<FilterableType> | null = null
+): Array<{ value: FilterableType; label: string }> {
   return getResourceTypes()
     .filter(k => restrict == null || restrict.indexOf(k) !== -1)
-    .reduce<Array<{ value: string; label: string }>>(
+    .reduce<Array<{ value: FilterableType; label: string }>>(
       (agg, k) =>
         agg.concat({
           value: k,

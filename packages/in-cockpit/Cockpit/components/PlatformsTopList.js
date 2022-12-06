@@ -39,13 +39,13 @@ import { bytesZeroDecimalPlaces, percentage } from 'in-services/formatters/numbe
 import getVsphereDatacenter from 'in-vsphere/subscriptions/getVsphereDatacenter';
 import getOpenstackRegion from 'in-openstack/subscriptions/getOpenstackRegion';
 import InstanceMetric from 'in-cloudfoundry/commonComponents/InstanceMetric';
-import { getVsphereDatacenterDashboard } from 'in-vsphere/navigation/paths';
 import { getOpenstackRegionDashboard } from 'in-openstack/navigation/paths';
 import { toTitleCase, compareIgnoreCase } from 'in-services/util/string';
 import mergeResults from 'in-cockpit/widgets/TopListWidget/mergeResults';
 import { getZhmcsWithDefaults } from 'in-zhmc/subscriptions/getZhmcs';
 import { getPhmcsWithDefaults } from 'in-phmc/subscriptions/getPhmcs';
 import { getClusterDashboard } from 'in-kubernetes/navigation/paths';
+import { useVspehereEntityLink } from 'in-vsphere/navigation/paths';
 import HealthDot from 'in-components/health/HealthDot/HealthDot';
 import { getIbmpPhmcDashboard } from 'in-phmc/navigation/paths';
 import { getIbmzZhmcDashboard } from 'in-zhmc/navigation/paths';
@@ -60,6 +60,8 @@ import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 export default function PlatformsTopList({ config }) {
+  const getVsphereDatacenterDashboard = useVspehereEntityLink('datacenter');
+
   const pinnedTypes = [
     hasKubernetesAccess && kubernetesClusterType,
     hasPCFAccess && pcfApplicationType,

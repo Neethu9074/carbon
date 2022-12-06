@@ -11,4 +11,10 @@ import React from 'react';
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import { landingPathFullyQualified } from 'in-integrations/navigation/paths';
 
-export default <Route path={landingPathFullyQualified} children={renderAsyncRouteChildren(IntegrationLandingPage)} />;
+export default (
+  <Route
+    key="integrationLanding"
+    path={landingPathFullyQualified}
+    children={renderAsyncRouteChildren(IntegrationLandingPage)}
+  />
+);

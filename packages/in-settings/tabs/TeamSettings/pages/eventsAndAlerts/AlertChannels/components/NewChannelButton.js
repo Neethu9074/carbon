@@ -10,6 +10,7 @@ import { Button } from '@instana/components';
 
 import configs from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
 import { goToAlertChannelView } from 'in-settings/navigation/paths';
+import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import MultiButton from 'in-components/MultiButton';
 import { t } from 'in-i18n';
 
@@ -40,6 +41,11 @@ function AlertChannelButton({ type, className }) {
       onClick={() => goToAlertChannelView(type)}
     >
       {configs[type].label}
+      {configs[type].isBeta && (
+        <div className={locals.betaBadge}>
+          <BetaBadge />
+        </div>
+      )}
     </Button>
   );
 }

@@ -1,0 +1,22 @@
+# Why
+
+Upgrade the data about supported JS/CSS features used in
+build tools (babel/postcss/etc.) to get rid of these
+recurrent reminders in all build logs:
+
+```
+Browserslist: caniuse-lite is outdated. Please run:
+npx browserslist@latest --update-db
+
+Why you should do it regularly:
+https://github.com/browserslist/browserslist#browsers-data-updating
+```
+
+# What
+
+* Run `yarn up -R caniuse-lite`
+
+# References
+
+* https://github.com/browserslist/browserslist#readme
+* https://github.com/browserslist/update-db#readme

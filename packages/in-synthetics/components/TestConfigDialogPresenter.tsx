@@ -84,12 +84,17 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
     const syntheticTypeField = configForm.get('syntheticType') as Field<string>;
     const labelField = form.get('label') as Field<string>;
     const frequencyField = form.get('testFrequency') as Field<number>;
+    const locationsField = form.get('locations') as Field<string[]>;
 
     switch (simpleModeStep) {
       case 0:
         return !syntheticTypeField.valid;
       case 1:
-        return !configForm.hierarchyValid || (selectedBlueprint.type === 'Script API' && !scriptValidationStatus);
+        return (
+          !configForm.hierarchyValid ||
+          !locationsField.hierarchyValid ||
+          (selectedBlueprint.type === 'Script API' && !scriptValidationStatus)
+        );
       case 2:
         return !frequencyField.valid;
       case 3:

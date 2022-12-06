@@ -112,7 +112,13 @@ export default function CreateSliForm<SLI_TYPE extends SliType>({
     doSubmit({ config: normalizeFormData(submittedForm), onSuccess: onSaveSuccess, onError: onSaveFailure });
 
   return (
-    <Form form={form} setForm={updateForm as (f: Item) => void} onSubmit={handleSubmit} formId="createSliForm">
+    <Form
+      form={form}
+      setForm={updateForm as (f: Item) => void}
+      onSubmit={handleSubmit}
+      formId="createSliForm"
+      aria-label={t('in-custom-dashboards:widgets.slo.createSliForm.formName')}
+    >
       <Stack gap="large">
         {children}
         {editMode && <Message>{t('in-custom-dashboards:widgets.slo.createSliForm.sliConfigMsg')}</Message>}

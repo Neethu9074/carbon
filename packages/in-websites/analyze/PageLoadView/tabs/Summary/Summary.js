@@ -56,19 +56,22 @@ export default function Summary({ beacons, pageLoadLabel, pageLoadId, detailId }
         <Col xs>
           <KpiCard
             title={t('in-websites:analyze.analyzeView.pageLoadView.summaryTitleJSErrors')}
-            value={number.compact(getBeaconCount(beacons, 'error'))}
+            value={getBeaconCount(beacons, 'error')}
+            renderValue={number.compact}
           />
         </Col>
         <Col xs>
           <KpiCard
             title={t('in-websites:analyze.analyzeView.pageLoadView.summaryTitleResources')}
-            value={number.compact(getBeaconCount(beacons, 'resourceLoad'))}
+            value={getBeaconCount(beacons, 'resourceLoad')}
+            renderValue={number.compact}
           />
         </Col>
         <Col xs>
           <KpiCard
             title={t('in-websites:analyze.analyzeView.pageLoadView.summaryTitleHTTPRequests')}
-            value={number.compact(getBeaconCount(beacons, 'httpRequest'))}
+            value={getBeaconCount(beacons, 'httpRequest')}
+            renderValue={number.compact}
           />
         </Col>
         <Col xs>

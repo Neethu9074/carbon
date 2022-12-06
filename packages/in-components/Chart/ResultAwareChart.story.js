@@ -5,8 +5,11 @@
 
 import React, { useState } from 'react';
 
+import {
+  createLineWithThreshold,
+  createLineWithBaselineAndOptionalPotentialProblem
+} from 'in-alerting/components/Chart/renderer/Renderer';
 import { generateMetrics, fixedTimestamp, generateBaselineForMetric } from 'in-test/util/generateMetrics';
-import AlertingRenderer from 'in-alerting/components/Chart/renderer/Renderer';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
@@ -15,7 +18,6 @@ import Renderer from 'in-components/Chart/renderer/Renderer';
 import { percentage } from 'in-services/formatters/number';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
-import { minutes } from 'in-services/time';
 import theme from 'in-themes';
 
 const oneSecond = 1000;
@@ -288,7 +290,7 @@ export function BarWithThreshold() {
               theme.lib.colors.lightBlue800,
               theme.lib.colors.pink800
             ],
-            renderer: AlertingRenderer.lineWithThreshold,
+            renderer: createLineWithThreshold('>=', threshold),
             metricIds: [],
             metrics: metricsBarWithThreshold,
             labels: ['Data']
@@ -311,6 +313,15 @@ export function BarWithThreshold() {
 
 const metricsBarWithBaseline = [generateMetrics(144, 100, oneDay)];
 const baselineBarWithBaseline = generateBaselineForMetric(metricsBarWithBaseline[0], 10 * oneMinute, 2.0, 10.0, 3.0);
+const granularity = 10 * oneMinute;
+const historicThreshold = {
+  baseline: baselineBarWithBaseline,
+  sensitivity: 2,
+  deviationFactor: 2,
+  operator: '>=',
+  labels: ['Latency', 'Threshold', 'Violations'],
+  thresholdGranularity: granularity
+};
 export function BarWithBaseline() {
   const [sensitivity, setSensitivity] = useState(1.0);
   return (
@@ -319,7 +330,7 @@ export function BarWithBaseline() {
         result={constructResult(null, false)}
         config={{
           timeConfig: generateTimeframe(oneDay),
-          granularity: 10 * oneMinute,
+          granularity,
           y1: {
             sensitivity,
             getMax: metricsMaxValue => {
@@ -331,13 +342,10 @@ export function BarWithBaseline() {
               theme.lib.colors.lightBlue800,
               theme.lib.colors.pink800
             ],
-            renderer: AlertingRenderer.lineWithHistoricBaseline,
+            renderer: createLineWithBaselineAndOptionalPotentialProblem(historicThreshold, granularity),
             metricIds: [],
             metrics: metricsBarWithBaseline,
-            baseline: baselineBarWithBaseline,
-            operator: '>=',
-            labels: ['Data'],
-            thresholdGranularity: minutes.toMillis(10)
+            labels: ['Data']
           }
         }}
       />

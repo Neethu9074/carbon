@@ -160,14 +160,16 @@ function getTableData({
     },
     type,
     metrics: Object.fromEntries(
-      metrics.flatMap(({ metric, aggregation, crossSeriesAggregation }) => {
-        const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
-        const kpiGranularity = timeConfig.windowSize;
-        return [
-          [id, { metric, granularity: kpiGranularity, aggregation, crossSeriesAggregation }],
-          [getSeriesKey(id), { metric, granularity, aggregation, crossSeriesAggregation }]
-        ];
-      })
+      metrics
+        .filter(({ metric }) => metric !== undefined && metric !== null)
+        .flatMap(({ metric, aggregation, crossSeriesAggregation }) => {
+          const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
+          const kpiGranularity = timeConfig.windowSize;
+          return [
+            [id, { metric, granularity: kpiGranularity, aggregation, crossSeriesAggregation }],
+            [getSeriesKey(id), { metric, granularity, aggregation, crossSeriesAggregation }]
+          ];
+        })
     )
   });
 }
@@ -267,7 +269,7 @@ export function pagesLoaded(offset, itemsPerPage) {
 }
 
 function getMetricValue(kpi, formatter) {
-  if (kpi !== undefined) {
+  if (kpi !== undefined && kpi !== null) {
     //checking if kpi is falsy, valid kpi can be 0 as well
     return formatter ? formatter(kpi) : kpi;
   }
