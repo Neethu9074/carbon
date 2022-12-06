@@ -7,12 +7,12 @@
 import { MapForm, Field } from 'formalistic';
 import React from 'react';
 
-import DummyServerTablePresenter, {
+import ServerTablePresenterWrapper, {
   ListItem
-} from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/DummyServerTablePresenter';
+} from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ServerTablePresenterWrapper';
 import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import ParameterDialog from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ParameterDialog';
-import { OnEntityChange, SetForm } from 'in-settings/hooks/useEntityForm';
+import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import { t } from 'in-i18n';
 
 // import locals from './DummyServerTablePresenterConsumer.mless';
@@ -23,7 +23,7 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 interface ParametersTableProps {
   form: MapForm;
   onChange: OnEntityChange<ActionFormEntity>;
-  setForm: SetForm;
+  setForm: SetFormFunction;
 }
 
 const getColumnDefinitions = () => [
@@ -42,7 +42,7 @@ export default function ParametersTable({ form, setForm, onChange }: ParametersT
   const parameters = (form.get('parameters') as Field<Parameter[]>).value;
 
   return (
-    <DummyServerTablePresenter<Parameter>
+    <ServerTablePresenterWrapper<Parameter>
       customAddRowLabel={t('in-settings:tabs.addParameter')}
       columnDefinitions={columnDefinitions}
       data={parameters.map(parameter => ({ id: generateUniqueShortId(), value: parameter }))}

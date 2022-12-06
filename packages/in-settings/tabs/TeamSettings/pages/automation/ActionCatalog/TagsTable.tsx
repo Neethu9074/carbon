@@ -7,21 +7,21 @@
 import { MapForm, Field } from 'formalistic';
 import React, { ChangeEvent } from 'react';
 
-import DummyServerTablePresenter from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/DummyServerTablePresenter';
+import ServerTablePresenterWrapper from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ServerTablePresenterWrapper';
 import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
+import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
-import { OnEntityChange, SetForm } from 'in-settings/hooks/useEntityForm';
 import FormGroup from 'in-settings/components/FormGroup';
 import Input from 'in-components/form/Input/Input';
 import { t } from 'in-i18n';
 
-import locals from './DummyServerTablePresenterConsumer.mless';
+import locals from './ServerTablePresenterWrapperConsumer.mless';
 
 interface TagsTableProps {
   form: MapForm;
   onChange: OnEntityChange<ActionFormEntity>;
-  setForm: SetForm;
+  setForm: SetFormFunction;
 }
 
 export interface Tag {
@@ -72,7 +72,7 @@ export default function TagsTable({ form, setForm, onChange }: TagsTableProps) {
   const tags = (form.get('tags') as Field<Tag[]>).value;
 
   return (
-    <DummyServerTablePresenter
+    <ServerTablePresenterWrapper
       columnDefinitions={columnDefinitions}
       data={tags}
       form={form}

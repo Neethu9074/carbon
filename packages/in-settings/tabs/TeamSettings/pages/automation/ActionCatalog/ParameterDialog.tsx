@@ -9,7 +9,7 @@ import React, { useState } from 'react';
 import { close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-components/Dialog/Dialog';
 import { t } from 'in-i18n';
-import { OnEntityChange, SetForm } from 'in-settings/hooks/useEntityForm';
+import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import { createField, createMapForm, Field, MapForm } from 'formalistic';
 import { Parameter } from '@instana/types';
@@ -31,7 +31,7 @@ import Password from 'in-components/form/Password/Password';
 interface ParameterDialogProps {
   form: MapForm;
   onChange: OnEntityChange<ActionFormEntity>;
-  setForm: SetForm;
+  setForm: SetFormFunction;
   nameToEdit?: string;
 }
 

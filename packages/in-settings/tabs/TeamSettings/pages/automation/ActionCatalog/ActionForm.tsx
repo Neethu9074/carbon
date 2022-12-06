@@ -40,9 +40,10 @@ import {
   WEBHOOK_TYPE
 } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import AdditionalHeadersTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/AdditionalHeadersTable';
+import ParametersTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ParametersTable';
 import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import TagsTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/TagsTable';
-import { OnEntityChange, SetForm } from 'in-settings/hooks/useEntityForm';
+import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import RunAction from 'in-events/components/AutomationActions/RunAction';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import SectionHeading from 'in-settings/components/SectionHeading';
@@ -58,13 +59,12 @@ import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
 
 import locals from './ActionForm.mless';
-import ParametersTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ParametersTable';
 
 interface ActionFormProps {
   form: MapForm;
   onChange: OnEntityChange<ActionFormEntity>;
   entity: ActionFormEntity;
-  setForm: SetForm;
+  setForm: SetFormFunction;
 }
 
 export default function ActionForm({ form, setForm, onChange, entity: action }: ActionFormProps) {

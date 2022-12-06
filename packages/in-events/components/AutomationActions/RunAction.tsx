@@ -8,7 +8,7 @@ import { createField, createMapForm, Field, MapForm } from 'formalistic';
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 
-import { Button, Link } from '@instana/components';
+import { Button, Link, Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -75,163 +75,127 @@ export default function RunAction({ action, volatileId, event, test }: Props) {
     }
   }, [agentSnapShots, form, volatileId]);
   const { name: actionName, description } = action;
-  let title: string,
-    content: JSX.Element,
-    footer = (
+  const getDialogContent = () => {
+    const footer = (
       <Button kind="primary" onClick={close}>
         {t('in-events:ok')}
       </Button>
     );
-  if (error) {
-    title = t('in-events:failedToInitiate', { actionName });
-    content = <p className={locals.actionModalFontSize}>{error}</p>;
-  } else if (actionInstanceId) {
-    title = t('in-events:hasBeenInitiated', { actionName });
-    const tagFilterExpression = tagFilter('log.custom', 'EQUALS', actionInstanceId, 'actionInstanceId');
-    const link = getLinkToAnalyze({ tagFilterExpression: [tagFilterExpression], timeConfig });
-    content = (
-      <p className={locals.actionModalFontSize}>
-        <Trans
-          i18nKey="in-settings:tabs.linkToActionLogs"
-          components={{
-            // @ts-expect-error
-            logsLink: <Link onClick={close} href$={link} />
-          }}
-        />
-      </p>
-    );
-  } else {
-    title = test ? t('in-events:chosenToTest', { actionName }) : t('in-events:chosenToRun', { actionName });
-    let actionContent: JSX.Element = <></>;
-    if (isScript(action.type)) {
-      const script = getScriptFromFields(action.fields);
-      actionContent = (
-        <DescriptionList>
-          <DescriptionItem
-            className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
-            title={t('in-events:titleScriptContent')}
-          >
-            <Code withExpandButton withoutCopyButton code={atob(script)} lang={'bash'} softWrap />
-          </DescriptionItem>
-        </DescriptionList>
+    if (error) {
+      const title = t('in-events:failedToInitiate', { actionName });
+      const content = <Typography variant="body-small">{error}</Typography>;
+      return { title, content, footer };
+    } else if (actionInstanceId) {
+      const title = t('in-events:hasBeenInitiated', { actionName });
+      const tagFilterExpression = tagFilter('log.custom', 'EQUALS', actionInstanceId, 'actionInstanceId');
+      const link = getLinkToAnalyze({ tagFilterExpression: [tagFilterExpression], timeConfig });
+      const content = (
+        <Typography variant="body-small">
+          <Trans
+            i18nKey="in-settings:tabs.linkToActionLogs"
+            components={{
+              // @ts-expect-error
+              logsLink: <Link onClick={close} href$={link} />
+            }}
+          />
+        </Typography>
       );
-    } else if (isWebhook(action.type)) {
-      const { host, method, body, header } = getWebhookFields();
-      const headerEntries = Object.entries(JSON.parse(header) as AdditionalHeaders);
-      actionContent = (
-        <DescriptionList>
-          <DescriptionItem
-            className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
-            title={t('in-events:request')}
-          >
-            <p>Method: {method}</p>
-            <p>Host: {host}</p>
-            {body && <p>Body: {body}</p>}
-            {headerEntries?.length > 0 && (
-              <p>
-                Headers:
-                <ul>
-                  {headerEntries.map(h => (
-                    <li key={h[0]}>
-                      {h[0]}: {h[1]}
-                    </li>
-                  ))}
-                </ul>
-              </p>
-            )}
-          </DescriptionItem>
-        </DescriptionList>
-      );
-    }
-    content = (
-      <>
-        <AgentSelection
-          form={form}
-          volatileId={volatileId}
-          targetAgent={targetAgent}
-          setForm={setForm}
-          agentSnapShots={agentSnapShots}
-        />
+      return { title, content, footer };
+    } else {
+      const title = test ? t('in-events:chosenToTest', { actionName }) : t('in-events:chosenToRun', { actionName });
+      const content = (
+        <>
+          <AgentSelection
+            form={form}
+            volatileId={volatileId}
+            targetAgent={targetAgent}
+            setForm={setForm}
+            agentSnapShots={agentSnapShots}
+          />
 
-        <DescriptionList>
-          <DescriptionItem
-            className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
-            title={t('in-events:titleDescription')}
-          >
-            {description}
-          </DescriptionItem>
-          <DescriptionItem
-            className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
-            title={t('in-events:titleActionType')}
-          >
-            {getType(action)}
-          </DescriptionItem>
-        </DescriptionList>
-        {actionContent}
-        <p className={locals.actionModalFontSize}>{t('in-events:actionCannotBeUndone')}</p>
-      </>
-    );
-    footer = (
-      <>
-        <CancelButton isSaving={isSaving} onClick={close} />
-        <SaveButton
-          kind="primary"
-          form={form}
-          disabled={!form}
-          isSaving={isSaving}
-          onClick={() => {
-            if (!form?.hierarchyValid) {
-              setForm(form?.setTouched(true, { recurse: true }));
-              return;
-            }
-            setIsSaving(true);
-            runActionTracker({
-              actionType: action.type,
-              actionName: action.name
-            });
-            const selectedVolatileId =
-              agentSnapShots?.data?.online?.find(agent => agent.volatileId?.host_id === targetAgent?.value)
-                ?.volatileId ?? {};
-            const handleActionResponse = (data: [Result<null>, AgentResponse]) => {
-              setIsSaving(false);
-              // last element of the array is either the timeout error if the agent didn't respond in time, or the agent response (error or in progress)
-              // result unknown because we only care about error
-              const response: Result<null> | AgentResponse = data[data.length - 1];
-              if ('errors' in response) {
-                setError(response.errors[0].message);
-              } else if ('error' in response && response.error != null) {
-                setError(response.error);
-              } else {
-                setActionInstanceId(response.data.actionInstanceId);
+          <DescriptionList>
+            <DescriptionItem
+              className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+              title={t('in-events:titleDescription')}
+            >
+              {description}
+            </DescriptionItem>
+            <DescriptionItem
+              className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+              title={t('in-events:titleActionType')}
+            >
+              {getType(action)}
+            </DescriptionItem>
+          </DescriptionList>
+          {isScript(action.type) && <ScriptActionContent action={action} />}
+          {isWebhook(action.type) && <WebhookActionContent action={action} />}
+          <Typography variant="body-small">{t('in-events:actionCannotBeUndone')}</Typography>
+        </>
+      );
+      const footer = (
+        <>
+          <CancelButton isSaving={isSaving} onClick={close} />
+          <SaveButton
+            kind="primary"
+            form={form}
+            disabled={!form}
+            isSaving={isSaving}
+            onClick={() => {
+              if (!form?.hierarchyValid) {
+                setForm(form?.setTouched(true, { recurse: true }));
+                return;
               }
-            };
+              setIsSaving(true);
+              runActionTracker({
+                actionType: action.type,
+                actionName: action.name
+              });
+              const selectedVolatileId =
+                agentSnapShots?.data?.online?.find(agent => agent.volatileId?.host_id === targetAgent?.value)
+                  ?.volatileId ?? {};
+              const handleActionResponse = (data: [Result<null>, AgentResponse]) => {
+                setIsSaving(false);
+                // last element of the array is either the timeout error if the agent didn't respond in time, or the agent response (error or in progress)
+                // result unknown because we only care about error
+                const response: Result<null> | AgentResponse = data[data.length - 1];
+                if ('errors' in response) {
+                  setError(response.errors[0].message);
+                } else if ('error' in response && response.error != null) {
+                  setError(response.error);
+                } else {
+                  setActionInstanceId(response.data.actionInstanceId);
+                }
+              };
 
-            if (isScript(action.type)) {
-              const script = getScriptFromFields(action.fields);
-              const interpreter = getInterpreterFromFields(action.fields);
-              runScriptAction({ script, volatileId: selectedVolatileId, event, actionName, interpreter }).once(
-                handleActionResponse
-              );
-            } else if (isWebhook(action.type)) {
-              const { host, method, body, ignoreCertErrors, header } = getWebhookFields();
-              runWebhookAction({
-                volatileId: selectedVolatileId,
-                event,
-                actionName,
-                host,
-                method,
-                body,
-                ignoreCertErrors,
-                header
-              }).once(handleActionResponse);
-            }
-          }}
-        >
-          {t('in-events:yes')}
-        </SaveButton>
-      </>
-    );
-  }
+              if (isScript(action.type)) {
+                const script = getScriptFromFields(action.fields);
+                const interpreter = getInterpreterFromFields(action.fields);
+                runScriptAction({ script, volatileId: selectedVolatileId, event, actionName, interpreter }).once(
+                  handleActionResponse
+                );
+              } else if (isWebhook(action.type)) {
+                const { host, method, body, ignoreCertErrors, header } = getWebhookFields(action);
+                runWebhookAction({
+                  volatileId: selectedVolatileId,
+                  event,
+                  actionName,
+                  host,
+                  method,
+                  body,
+                  ignoreCertErrors,
+                  header
+                }).once(handleActionResponse);
+              }
+            }}
+          >
+            {t('in-events:yes')}
+          </SaveButton>
+        </>
+      );
+      return { title, content, footer };
+    }
+  };
+  const { title, content, footer } = getDialogContent();
   return (
     <Dialog
       className={locals.dialog}
@@ -246,34 +210,35 @@ export default function RunAction({ action, volatileId, event, test }: Props) {
       </>
     </Dialog>
   );
-  function getWebhookFields() {
-    let host = getHostFromFields(action.fields);
-    const method = getMethodFromFields(action.fields);
-    const body = getBodyFromFields(action.fields);
-    const ignoreCertErrors = getIgnoreCertErrorsFromFields(action.fields);
-    const headerString = getHeaderFromFields(action.fields);
-    const header: AdditionalHeaders = JSON.parse(headerString);
-    const authenString = getAuthenFromFields(action.fields);
-    const authen: Authen = JSON.parse(authenString);
-    if (authen.type === BASIC_AUTH) {
-      const { username, password } = authen;
-      const authenString = `Basic ${btoa(`${username}:${password}`)}`;
-      header['Authorization'] = authenString;
-    } else if (authen.type === BEARER_TOKEN) {
-      const { bearerToken } = authen;
-      const authenString = `Bearer ${bearerToken}`;
-      header['Authorization'] = authenString;
-    } else if (authen.type === API_KEY) {
-      const { apiKey, apiKeyAddTo, apiKeyValue } = authen;
-      if (apiKeyAddTo === 'header') {
-        header[apiKey!] = apiKeyValue!;
-      } else if (apiKeyAddTo === 'query') {
-        host = host.includes('?') ? `${host}&${apiKey}=${apiKeyValue}` : `${host}?${apiKey}=${apiKeyValue}`;
-      }
-    }
-    return { host, method, body, ignoreCertErrors, header: JSON.stringify(header), authen };
-  }
 }
+
+const getWebhookFields = (action: Action) => {
+  let host = getHostFromFields(action.fields);
+  const method = getMethodFromFields(action.fields);
+  const body = getBodyFromFields(action.fields);
+  const headerString = getHeaderFromFields(action.fields);
+  const header: AdditionalHeaders = JSON.parse(headerString);
+  const ignoreCertErrors = getIgnoreCertErrorsFromFields(action.fields);
+  const authenString = getAuthenFromFields(action.fields);
+  const authen: Authen = JSON.parse(authenString);
+  if (authen.type === BASIC_AUTH) {
+    const { username, password } = authen;
+    const authenString = `Basic ${btoa(`${username}:${password}`)}`;
+    header['Authorization'] = authenString;
+  } else if (authen.type === BEARER_TOKEN) {
+    const { bearerToken } = authen;
+    const authenString = `Bearer ${bearerToken}`;
+    header['Authorization'] = authenString;
+  } else if (authen.type === API_KEY) {
+    const { apiKey, apiKeyAddTo, apiKeyValue } = authen;
+    if (apiKeyAddTo === 'header') {
+      header[apiKey!] = apiKeyValue!;
+    } else if (apiKeyAddTo === 'query') {
+      host = host.includes('?') ? `${host}&${apiKey}=${apiKeyValue}` : `${host}?${apiKey}=${apiKeyValue}`;
+    }
+  }
+  return { host, method, body, header: JSON.stringify(header), ignoreCertErrors };
+};
 
 const createForm = (volatileId: VolatileId, agentSnapShots: OUT) => {
   const defaultValue =
@@ -338,5 +303,58 @@ const AgentSelection = ({ targetAgent, form, setForm, agentSnapShots, volatileId
         </FormGroup>
       ))}
     </>
+  );
+};
+
+const ScriptActionContent = ({ action }: { action: Action }) => {
+  const script = getScriptFromFields(action.fields);
+  return (
+    <DescriptionList>
+      <DescriptionItem
+        className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+        title={t('in-events:titleScriptContent')}
+      >
+        <Code withExpandButton withoutCopyButton code={atob(script)} lang={'bash'} softWrap />
+      </DescriptionItem>
+    </DescriptionList>
+  );
+};
+
+const WebhookActionContent = ({ action }: { action: Action }) => {
+  const { host, method, body, header } = getWebhookFields(action);
+  const headerEntries = Object.entries(JSON.parse(header) as AdditionalHeaders);
+  return (
+    <DescriptionList>
+      <DescriptionItem
+        className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+        title={t('in-events:request')}
+      >
+        <div>
+          <Typography variant="body-small">{t('in-events:method', { method })}</Typography>
+        </div>
+        <div>
+          <Typography variant="body-small">{t('in-events:host', { host })}</Typography>
+        </div>
+        {body && (
+          <div>
+            <Typography variant="body-small">{t('in-events:body', { body })}</Typography>{' '}
+          </div>
+        )}
+        {headerEntries?.length > 0 && (
+          <div>
+            <Typography variant="body-small">
+              {t('in-events:headers')}
+              <ul>
+                {headerEntries.map(h => (
+                  <li key={h[0]}>
+                    {h[0]}: {h[1]}
+                  </li>
+                ))}
+              </ul>
+            </Typography>
+          </div>
+        )}
+      </DescriptionItem>
+    </DescriptionList>
   );
 };

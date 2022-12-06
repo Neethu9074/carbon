@@ -130,6 +130,17 @@ export interface ApiKeyAuth {
 export type Authen = NoAuth | BasicAuth | BearerAuth | ApiKeyAuth;
 export type AdditionalHeaders = { [k: string]: string };
 
+interface WebhookFields {
+  host: string;
+  method: string;
+  accept: string;
+  acceptLanguage: string;
+  contentType: string;
+  additionalHeaders: AdditionalHeaders;
+  body: string;
+  authen: Authen;
+  ignoreCertErrors: boolean;
+}
 export const createWebhookFields = ({
   host,
   method,
@@ -140,17 +151,7 @@ export const createWebhookFields = ({
   body,
   authen,
   ignoreCertErrors
-}: {
-  host: string;
-  method: string;
-  accept: string;
-  acceptLanguage: string;
-  contentType: string;
-  additionalHeaders: AdditionalHeaders;
-  body: string;
-  authen: Authen;
-  ignoreCertErrors: boolean;
-}): Field[] => [
+}: WebhookFields): Field[] => [
   {
     description: 'method of the https request',
     encoding: 'ascii',
@@ -221,6 +222,7 @@ interface RunScriptActionParams extends RunActionBaseParams {
   interpreter: string;
 }
 
+// We are using a timeout here to prevent the UI from hanging if the agent is not responding (sensor not installed).
 function runAction(runActionObservable: Observable<AgentResponse>) {
   return combineLatest(
     [
@@ -240,7 +242,6 @@ function runAction(runActionObservable: Observable<AgentResponse>) {
   );
 }
 
-// We are using a timeout here to prevent the UI from hanging if the agent is not responding (sensor not installed).
 export function runScriptAction({ script, volatileId, event, actionName, interpreter }: RunScriptActionParams) {
   return runAction(
     createAgentResponseObservable({
