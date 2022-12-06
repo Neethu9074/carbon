@@ -17,7 +17,6 @@ import { ThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/component
 import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdConditionFormGroup';
 import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdOperatorDropDown';
 import UseSuggestedValueButton from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/UseSuggestedValueButton';
-import { thresholdTypeOptions } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/thresholdFormData';
 import { getAggregationOptions } from 'in-alerting/smart-alerts/components/smart-alert-dialog/form/ruleForm';
 import { getAggregationValue } from 'in-alerting/smart-alerts/applications/advanced/thresholdConditionUtil';
 import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
@@ -37,6 +36,8 @@ export default function SlownessThresholdCondition({ form, updateForm, blueprint
   const blueprintType = blueprintConfig.type;
 
   const maxValue = blueprintConfig.getMaxMetricValue(metricName);
+
+  const thresholdTypeOptions = blueprintConfig.getThresholdTypeOptions();
 
   return (
     <>
