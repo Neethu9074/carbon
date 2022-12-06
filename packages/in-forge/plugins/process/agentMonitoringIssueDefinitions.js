@@ -79,6 +79,16 @@ export default {
     explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
     explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-java-virtual-machine#attach-directory-failure`
   },
+  insufficient_disk_space_for_storing_temp_files: {
+    issueDescription: {
+      Component: function insufficientDiskMemory() {
+        return <span>{t('in-forge:plugins.process.insufficientDiskMemoryIssueDescription')}</span>;
+      }
+    },
+    explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
+    explanationLinkHref:
+      'https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-java-virtual-machine#insufficient_disk_space_for_storing_temp_files'
+  },
   jvm_attach_network: {
     issueDescription: {
       Component: function jvmAttachNetwork({ agentHostAddresses }) {
