@@ -53,6 +53,7 @@ export default function applicationRoutes() {
       children={renderAsyncRouteChildren(ApplicationDashboard)}
     />,
     <Route
+      exact
       key="applicationPerspectiveServicesList"
       path={servicesList}
       children={renderAsyncRouteChildren(ServicesList)}
