@@ -5,17 +5,14 @@
 
 import { renderHook } from '@testing-library/react-hooks';
 
-import useSloMetrics from './useSloMetrics';
-
-jest.mock('@instana/hooks', () => ({
-  useObservable: jest.fn((o, d) => o(d))
-}));
+import useSloMetrics from 'in-custom-dashboards/widgets/Slo/hooks/useSloMetrics';
 
 jest.mock('in-custom-dashboards/widgets/Slo/subscriptions/getUnifiedSloMetrics', () => {
   const { success } = jest.requireActual('in-services/util/result');
+  const { just } = jest.requireActual('@instana/observables');
   return {
     __esModule: true,
-    default: jest.fn(metricsObj => success(metricsObj))
+    default: jest.fn(metricsObj => just(success(metricsObj)))
   };
 });
 
@@ -231,5 +228,30 @@ describe('in-custom-dashboards/widgets/Slo/hooks/useSloMetrics', () => {
       expect(hourlyBudget).toHaveProperty('granularity');
       expect(hourlyBudget.granularity).toBe(1);
     });
+  });
+
+  it('returns an error if sliId is blank', () => {
+    // Given
+    const sliId = '';
+
+    // When
+    const { result } = renderHook(() =>
+      useSloMetrics({
+        ...sloMetricsProps,
+        sliId
+      })
+    );
+    const [, status, errors] = result.current;
+
+    // Then
+    expect(status).toEqual('rejected');
+    expect(errors).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          code: 'CLIENT',
+          message: expect.stringContaining('blank')
+        })
+      ])
+    );
   });
 });
