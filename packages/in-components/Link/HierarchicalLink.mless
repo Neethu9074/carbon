@@ -9,6 +9,7 @@
   .link {
     display: flex;
     font-size: 0.75rem;
+    align-items: center;
   }
 
   .pluginIcon {
