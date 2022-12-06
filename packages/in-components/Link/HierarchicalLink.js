@@ -17,7 +17,6 @@ import HealthyPluginIcon from 'in-components/health/HealthyPluginIcon';
 import { getLabel as getSnapshotLabel } from 'in-sdk/snapshot';
 import { stopPropagation } from 'in-services/util/function';
 import { getPhysicalHierarchy } from 'in-stores/snapshot';
-import { pendingResult } from 'in-services/fixedObjects';
 import { alwaysNull } from 'in-services/fixedStreams';
 import Hierarchy from 'in-components/Link/Hierarchy';
 
@@ -28,39 +27,39 @@ export default function HierarchicalLink({
   getLabel,
   kind,
   pathname,
-  timeConfig,
+  timeConfig: originalTimeConfig,
   snapshot,
   useSnapshotLink,
-  calculateHierarchy,
-  useSnapshotFromHierarchyCallback
+  calculateHierarchy
 }) {
   const [isExpanded, setExpanded] = useState(false);
   const snapshotId = snapshot.get('id');
-  timeConfig =
-    useObservable(() => {
-      shouldStayInCurrentTimeModeForNavigationToSnapshot({ snapshotId }).map(stay => (stay ? undefined : timeConfig));
-    }, [snapshotId, timeConfig]) ?? pendingResult;
+  const timeConfig = useObservable(() => {
+    shouldStayInCurrentTimeModeForNavigationToSnapshot({ snapshotId }).map(stay =>
+      stay ? undefined : originalTimeConfig
+    );
+  }, [snapshotId, originalTimeConfig]);
 
-  const href =
-    useObservable(() => {
-      return useSnapshotLink
-        ? getLinkToSnapshotInCurrentView(snapshotId, { timeConfig: timeConfig })
-        : getDashboardLink(snapshotId, {
-            pathname: pathname,
-            timeConfig: timeConfig
-          });
-    }, [snapshotId, pathname, timeConfig]) ?? pendingResult;
-  const hierarchy =
-    useObservable(() => {
-      return calculateHierarchy ? getPhysicalHierarchy({ snapshotId, includeCluster: false, timeConfig }) : alwaysNull;
-    }, [snapshotId, timeConfig, calculateHierarchy]) ?? pendingResult;
+  const href = useObservable(() => {
+    return useSnapshotLink
+      ? getLinkToSnapshotInCurrentView(snapshotId, { timeConfig: timeConfig })
+      : getDashboardLink(snapshotId, {
+          pathname: pathname,
+          timeConfig: timeConfig
+        });
+  }, [snapshotId, pathname, timeConfig]);
 
-  const hierarchySnapshots =
-    useObservable(() => {
-      if (useSnapshotFromHierarchyCallback) {
-        return hierarchy.flatMap(item => combineLatest(item.toArray().map(id => getSnapshot(id, timeConfig))));
-      }
-    }, [snapshotId, timeConfig, useSnapshotFromHierarchyCallback, hierarchy]) ?? pendingResult;
+  const $hierarchy = calculateHierarchy
+    ? getPhysicalHierarchy({ snapshotId, includeCluster: false, timeConfig })
+    : alwaysNull;
+
+  const hierarchy = useObservable($hierarchy, [snapshotId, timeConfig, calculateHierarchy]);
+
+  const hierarchySnapshots = useObservable(() => {
+    if (getSnapshotFromHierarchyCallback) {
+      return $hierarchy.flatMap(item => combineLatest(item.toArray().map(id => getSnapshot(id, timeConfig))));
+    }
+  }, [snapshotId, timeConfig, getSnapshotFromHierarchyCallback, $hierarchy]);
 
   if (getSnapshotFromHierarchyCallback) {
     snapshot = getSnapshotFromHierarchyCallback(snapshot, hierarchySnapshots);
