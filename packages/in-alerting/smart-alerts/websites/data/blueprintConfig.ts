@@ -129,7 +129,6 @@ const slownessBlueprintConfig: BluePrint = Object.freeze({
   getExtraAnalyzeLinkTagFilterFormModel: getExtraSlownessAnalyzeLinkTagFilterFormModel
 });
 
-// TODO check if we want to make this type public in constants.ts
 type NumberFormatter =
   | ((...args: any) => string)
   | {
