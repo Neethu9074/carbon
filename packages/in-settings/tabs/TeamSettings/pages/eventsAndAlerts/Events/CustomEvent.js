@@ -155,7 +155,7 @@ export default function CustomEvent(props) {
 
           {isMigratable && !isDeleted && (
             <span style={{ alignSelf: 'center' }}>
-              <MigrateToSmartAlerts eventSpecificationId={props.entityId} />
+              <MigrateToSmartAlerts eventSpecificationId={entityId} />
             </span>
           )}
         </Stack>
