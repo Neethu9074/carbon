@@ -193,7 +193,7 @@ function AnalyzeStateManagement({
   getMetricTemplates,
   urlStateDefinition,
   dataSourceConfigurations,
-  customFormatterForZeroLatency,
+  getCustomLatencyLabel,
   children
 }) {
   const timeConfig = useTimeConfig();
@@ -501,7 +501,7 @@ function AnalyzeStateManagement({
         groupValue,
         formModel,
         groupingTagCatalogResult.data,
-        customFormatterForZeroLatency
+        getCustomLatencyLabel
       )
     };
   }
@@ -569,7 +569,7 @@ export const childrenArgsAsPropTypes = {
   getHrefToUngroupedView: rpt.func.isRequired,
   getHrefToGroupedView: rpt.func.isRequired,
   groupingTagCatalog: rpt.object,
-  customFormatterForZeroLatency: rpt.object,
+  getCustomLatencyLabel: rpt.func,
   orderBy: rpt.shape({
     by: rpt.string.isRequired,
     direction: rpt.oneOf(['ASC', 'DESC']).isRequired
@@ -614,7 +614,7 @@ export function addGroupingCriteriaToFormModel(
   groupValue,
   formModel,
   groupingTagCatalog,
-  customFormatterForZeroLatency
+  getCustomLatencyLabel
 ) {
   const groupByTagType = groupingTagCatalog?.tags.find(tag => tag.name === groupBy.groupbyTag)?.type;
   let newTagFilter;
@@ -647,8 +647,8 @@ export function addGroupingCriteriaToFormModel(
     let operator = EQUALS;
     if (groupByTagType === NUMBER) {
       value = Number(groupValue);
-      if (customFormatterForZeroLatency) {
-        [value, operator] = customFormatterForZeroLatency(groupBy.groupbyTag, value, operator);
+      if (getCustomLatencyLabel) {
+        [value, operator] = getCustomLatencyLabel(groupBy.groupbyTag, value, operator);
       }
     } else if (groupByTagType === BOOLEAN) {
       value = groupValue === 'true';

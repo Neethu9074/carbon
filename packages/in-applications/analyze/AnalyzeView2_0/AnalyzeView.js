@@ -172,7 +172,7 @@ export default function ApplicationsAnalyzeView() {
       getMetricCatalog={getMetricCatalog}
       getMetricTemplates={getMetricTemplates}
       dataSourceConfigurations={dataSourceConfigurations}
-      customFormatterForZeroLatency={customFormatterForZeroLatency}
+      getCustomLatencyLabel={getCustomLatencyLabel}
     >
       {opts =>
         opts.isGrouped ? (
@@ -201,7 +201,7 @@ export default function ApplicationsAnalyzeView() {
   );
 }
 
-function customFormatterForZeroLatency(groupbyTag, value, operator) {
+function getCustomLatencyLabel(groupbyTag, value, operator) {
   if (groupbyTag === 'call.latency' && value === 0) {
     return [1, LESS_THAN];
   } else {
