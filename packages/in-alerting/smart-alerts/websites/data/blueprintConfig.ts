@@ -70,7 +70,7 @@ interface Option<VALUE_TYPE> {
   label: string;
 }
 
-type ThresholdTypeOptions = readonly Option<string>[]; // LATER replace with Option<ThresholdTypeOptions>[];
+type ThresholdTypeOptions = readonly Option<string>[];
 
 const websitesThresholdTypeOptions: ThresholdTypeOptions = deepFreeze([
   ...thresholdTypeOptions,
