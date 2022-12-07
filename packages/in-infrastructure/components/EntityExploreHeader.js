@@ -27,7 +27,7 @@ export default function EntityExploreHeader({
   const contextConfigurations = renderTypeSelector
     ? [
         {
-          renderContext: () => t('in-analyze:analyzeHeader.entityExploreTypeSelectedTitle'),
+          renderContext: () => t('in-analyze:analyzeHeader.analyzeInfrastructureSelectedTitle'),
           contextIcon: 'lib_analyze_inverted'
         }
       ]
