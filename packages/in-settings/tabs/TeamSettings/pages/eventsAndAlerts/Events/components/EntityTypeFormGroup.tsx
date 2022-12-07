@@ -8,8 +8,8 @@ import { createListForm, Field, MapForm } from 'formalistic';
 import React from 'react';
 
 import { putAllDataSourceFieldsForOneRule } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
+import { isDeprecatedAppDataEntityType } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import { disallowAppDataLegacyEventsEnabled, hideAppDataLegacyEventsEnabled } from 'in-services/featureFlags';
-import { isAppDataEntityType } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import { customEventRulesValidator } from '../customEventRuleValidations';
 import { CustomEventSpecificationWithMetadata, Nullish } from 'in-types';
 import ComboBox, { Option, Options } from 'in-components/ComboBox';
@@ -70,7 +70,7 @@ export function EntityTypeFormGroup({
 }
 
 function entityTypesFilter(entityType: string, readOnly: boolean): boolean {
-  if (!isAppDataEntityType(entityType)) {
+  if (!isDeprecatedAppDataEntityType(entityType)) {
     return true;
   }
 
