@@ -37,7 +37,7 @@ import {
 } from 'in-api/eventSpecificationsHelpers';
 import {
   getSeverityText,
-  isAppDataEntityType,
+  isDeprecatedAppDataEntityType,
   unmapConditionValue
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import LegacyAppdataEventInfoMessage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
@@ -126,7 +126,7 @@ export default function CustomEvent(props) {
     );
   } else {
     const entityType = getPluginName(entity.entityType, 1) ?? '';
-    const isLegacyAppDataEntityType = isAppDataEntityType(entityType);
+    const isLegacyAppDataEntityType = isDeprecatedAppDataEntityType(entityType);
     const hasPermissionsToEditSmartAlerts = role.canConfigureCustomAlerts && role.canConfigureGlobalAlertConfigs;
     const isDeprecated = deprecateAppDataLegacyEventsEnabled && isLegacyAppDataEntityType;
 

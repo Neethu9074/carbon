@@ -21,7 +21,7 @@ import {
 import { ObserveHostHasMatchingEntitiesRunningFormGroup } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ObserveHostHasMatchingEntitiesRunningFormGroup';
 import {
   getEntityTypeOptionsOfBuiltInMetrics,
-  isAppDataEntityType
+  isDeprecatedAppDataEntityType
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import LegacyAppdataEventInfoMessage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
 import {
@@ -64,7 +64,7 @@ export function ConditionsSection({
 
   const builtInDataSourceSelected = isBuiltInDataSourceSelected(form);
   const customDataSourceSelected = isCustomDataSourceSelected(form);
-  const appDataEntityType = isAppDataEntityType(entityType);
+  const deprecatedAppDataEntityType = isDeprecatedAppDataEntityType(entityType);
 
   return (
     <>
@@ -140,14 +140,16 @@ export function ConditionsSection({
             />
           )}
         </Col>
-        {(builtInDataSourceSelected || customDataSourceSelected) && rulesForm?.size >= 1 && !appDataEntityType && (
-          <TimeWindowFormGroup
-            form={rulesForm.get(0)}
-            onChange={getOnTimeWindowChangeUpdateAllRules(onChange)}
-            disabled={disabled}
-            columnsSize={4}
-          />
-        )}
+        {(builtInDataSourceSelected || customDataSourceSelected) &&
+          rulesForm?.size >= 1 &&
+          !deprecatedAppDataEntityType && (
+            <TimeWindowFormGroup
+              form={rulesForm.get(0)}
+              onChange={getOnTimeWindowChangeUpdateAllRules(onChange)}
+              disabled={disabled}
+              columnsSize={4}
+            />
+          )}
       </Row>
 
       {isSystemRuleDataSourceSelected(form) && (
@@ -181,7 +183,7 @@ export function ConditionsSection({
         deprecateAppDataLegacyEventsEnabled &&
         !hideLegacyAppDataEventDeprecationInfo &&
         !disabled &&
-        appDataEntityType && <LegacyAppdataEventInfoMessage />}
+        deprecatedAppDataEntityType && <LegacyAppdataEventInfoMessage />}
 
       <Spacer vertical="normal" />
     </>

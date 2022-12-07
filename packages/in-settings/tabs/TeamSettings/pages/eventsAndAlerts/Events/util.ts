@@ -3,10 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { EventSpecificationInfo, EventSpecificationType, Nullish } from 'in-types';
 import { deprecateAppDataLegacyEventsEnabled } from 'in-services/featureFlags';
 import { customIssuesDisabledForPlugins, plugins } from 'in-forge/constants';
+import { EventSpecificationInfo, EventSpecificationType } from 'in-types';
 import { FormatterType } from 'in-services/formatters/number';
+import { isAppDataType } from 'in-forge/plugins/pluginTypes';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { getPluginName } from 'in-sdk/pluginName';
 import { Option } from 'in-components/ComboBox';
@@ -62,11 +63,7 @@ function getLabelForPlugin(plugin: string, showDeprecatedLabel: boolean): string
 }
 
 function shouldDisplayDeprecatedLabel(plugin: string): boolean {
-  return deprecateAppDataLegacyEventsEnabled && isDeprecatedAppDataEntity(plugin);
-}
-
-function isDeprecatedAppDataEntity(plugin: string): boolean {
-  return plugin === 'application' || plugin === 'service' || plugin === 'endpoint';
+  return deprecateAppDataLegacyEventsEnabled && isDeprecatedAppDataEntityType(plugin);
 }
 
 export function formatterTypeToDefinition(formatterType: FormatterType) {
@@ -121,13 +118,8 @@ export function unmapConditionValue(value: number, formatterType: FormatterType)
   return value;
 }
 
-const migrateableEntityTypes = ['application', 'service', 'endpoint'];
-
-export function isAppDataEntityType(entityType: string | Nullish) {
-  if (entityType) {
-    return migrateableEntityTypes.includes(entityType.toLowerCase());
-  }
-  return false;
+export function isDeprecatedAppDataEntityType(plugin: string): boolean {
+  return isAppDataType(plugin);
 }
 
 function formatNumber(value: number, decimalPrecision: number): number {
@@ -147,7 +139,7 @@ export function needsMigrationAction(entity: EventSpecificationInfo): boolean {
   return (
     deprecateAppDataLegacyEventsEnabled &&
     !isBuiltInRule(entity) &&
-    isAppDataEntityType(entity.entityType) &&
+    isDeprecatedAppDataEntityType(entity.entityType) &&
     !entity.migrated
   );
 }
