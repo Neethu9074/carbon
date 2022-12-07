@@ -77,10 +77,7 @@ const IncidentKPIs = connectTo(
     return (
       <Row withoutSideMargin>
         <Col xs>
-          <DateTimeKpiCard
-            title={t('in-events:titleTriggered')}
-            time={event.get('start')}
-          />
+          <DateTimeKpiCard title={t('in-events:titleTriggered')} time={event.get('start')} />
         </Col>
         <Col xs>
           <Ended event={event} />
@@ -117,11 +114,9 @@ const Ended = connectTo(
     };
   },
   function Ended({ event, isOpen }) {
+    const hasDuration = event.get('start') !== event.get('end');
     return (
-      <DateTimeKpiCard
-        title={t('in-events:titleEnded')}
-        time={isOpen && event.get('start') !== event.get('end') ? event.get('end') : null}
-      />
+      <DateTimeKpiCard title={t('in-events:titleEnded')} time={!isOpen && hasDuration ? event.get('end') : null} />
     );
   }
 );
