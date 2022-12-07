@@ -10,7 +10,7 @@ import { expect } from 'chai';
 
 import { just, timeout } from '@instana/observables';
 
-import { withTimeout } from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeHiddenTagsViewParameterConversion/AnalyzeHiddenTagsViewParameterConversion';
+import { withTimeout } from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeHiddenTagsViewParameterConversion/withTimeout';
 import { pendingResult } from 'in-services/fixedObjects';
 import { success } from 'in-services/util/result';
 import { error } from 'in-services/util/result';

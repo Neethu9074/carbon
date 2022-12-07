@@ -9,6 +9,7 @@ import React from 'react';
 
 import { SvgIcon } from '@instana/components';
 
+import { findNextIndexToOpen, findPrevIndexToOpen } from 'in-events/components/NavigatorSplitScreen/FindIndex.js';
 import { leftArrowId, rightArrowId } from 'in-components/AnalyzeView/SplitScreenList/elementIds';
 import { debouncedResize$, refreshWindowSizeDependingState } from 'in-services/browser';
 import SideEffectOnPropertyChange from 'in-components/SideEffectOnPropertyChange';
@@ -204,26 +205,6 @@ function NavigatorSplitScreen({
       </div>
     </div>
   );
-}
-
-// export for test
-export function findNextIndexToOpen(currentIndex, items) {
-  for (let i = currentIndex + 1; i < items.length; i++) {
-    if (!items[i].isDisabledForOpen) {
-      return i;
-    }
-  }
-  return currentIndex;
-}
-
-// export for test
-export function findPrevIndexToOpen(currentIndex, items) {
-  for (let i = currentIndex - 1; i >= 0; i--) {
-    if (!items[i].isDisabledForOpen) {
-      return i;
-    }
-  }
-  return currentIndex;
 }
 
 function openItem(e, openItemIndex, items, canLoadMore, loadMore, progress, customOpenItem) {
