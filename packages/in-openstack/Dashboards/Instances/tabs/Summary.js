@@ -24,7 +24,7 @@ export default function Summary({ timeConfig, data: instance }) {
   const snapshotId = instance.id;
   return (
     <Fragment>
-      <KpiGridRow sizes={[4, 4, 4]}>
+      <KpiGridRow sizes={[2, 4, 2, 2, 2]}>
         <KpiCard title={t('in-openstack:name')} value={instance.name} raw borderless />
         <KpiCard title={t('in-openstack:hostName')} value={instance.openstackItem.host} raw borderless />
         <KpiCard
@@ -33,10 +33,10 @@ export default function Summary({ timeConfig, data: instance }) {
           raw
           borderless
         />
-      </KpiGridRow>
-      <KpiGridRow sizes={[2, 2, 2, 2, 2]}>
         <KpiCard title={t('in-openstack:hostIP')} value={instance.openstackItem.hostIP} raw borderless />
         <KpiCard title={t('in-openstack:flavorName')} value={instance.openstackItem.flavor} raw borderless />
+      </KpiGridRow>
+      <KpiGridRow sizes={[2, 2, 2, 2, 2]}>
         <KpiCard title={t('in-openstack:imageName')} value={instance.openstackItem.image} raw borderless />
         <InfraMetricKpiCard
           title={t('in-openstack:uptime')}
