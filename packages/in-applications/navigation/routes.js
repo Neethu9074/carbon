@@ -36,41 +36,7 @@ import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 
 export default function applicationRoutes() {
-  let appRoutes = [
-    <Route
-      key="applicationPerspectiveNewApplicationWaiter"
-      path={`${newApplicationWaiterView}/:appId/:appName`}
-      children={renderAsyncRouteChildren(NewApplicationWaiter)}
-    />,
-    <Route
-      key="applicationPerspectiveApplicationslist"
-      path={applicationsList}
-      children={renderAsyncRouteChildren(ApplicationsList)}
-    />,
-    <Route
-      key="applicationPerspectiveApplicationDashboard"
-      path={applicationDashboard}
-      children={renderAsyncRouteChildren(ApplicationDashboard)}
-    />,
-    <Route
-      exact
-      key="applicationPerspectiveServicesList"
-      path={servicesList}
-      children={renderAsyncRouteChildren(ServicesList)}
-    />,
-    <Route
-      key="applicationPerspectiveServiceDashboard"
-      path={serviceDashboard}
-      children={renderAsyncRouteChildren(ServiceDashboard)}
-    />,
-    <Route
-      key="applicationPerspectiveEndpointDashboard"
-      path={endpointDashboard}
-      children={renderAsyncRouteChildren(EndpointDashboard)}
-    />,
-    <Route key="applicationPerspectiveAnalyze" path={analyzePath} children={renderAsyncRouteChildren(AnalyzeView2_0)} />
-  ];
-
+  const appRoutes = [];
   if (role.canConfigureServiceMapping) {
     appRoutes.push(
       <Route
@@ -90,6 +56,40 @@ export default function applicationRoutes() {
       />
     );
   }
+  appRoutes.push([
+    <Route
+      key="applicationPerspectiveNewApplicationWaiter"
+      path={`${newApplicationWaiterView}/:appId/:appName`}
+      children={renderAsyncRouteChildren(NewApplicationWaiter)}
+    />,
+    <Route
+      key="applicationPerspectiveApplicationslist"
+      path={applicationsList}
+      children={renderAsyncRouteChildren(ApplicationsList)}
+    />,
+    <Route
+      key="applicationPerspectiveApplicationDashboard"
+      path={applicationDashboard}
+      children={renderAsyncRouteChildren(ApplicationDashboard)}
+    />,
+    <Route
+      key="applicationPerspectiveServicesList"
+      path={servicesList}
+      children={renderAsyncRouteChildren(ServicesList)}
+    />,
+    <Route
+      key="applicationPerspectiveServiceDashboard"
+      path={serviceDashboard}
+      children={renderAsyncRouteChildren(ServiceDashboard)}
+    />,
+    <Route
+      key="applicationPerspectiveEndpointDashboard"
+      path={endpointDashboard}
+      children={renderAsyncRouteChildren(EndpointDashboard)}
+    />,
+    <Route key="applicationPerspectiveAnalyze" path={analyzePath} children={renderAsyncRouteChildren(AnalyzeView2_0)} />
+  ]);
+
   if (applicationSmartAlertsEnabled) {
     appRoutes.push(
       <Route
