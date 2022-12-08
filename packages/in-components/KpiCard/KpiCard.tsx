@@ -34,7 +34,7 @@ export interface KpiCardProps {
   value?: any;
   actions?: ReactNode;
   companionValue?: ReactNode;
-  /* 
+  /*
   When true, print out the whole value without special formatting
   When false, the numeric value will have a greater font size than the rest, usually the unit
   */
@@ -71,30 +71,29 @@ export default function KpiCard({
   const { ref, width } = useResizeObserver<HTMLDivElement>();
   const hasApproximateData = resultPrecision === 'PRECISION_APPROXIMATE';
 
+  let formattedValue;
+  if (value === undefined) {
+    formattedValue = '';
+  } else if (value === null) {
+    formattedValue = valueMissingPlaceholder;
+  } else {
+    formattedValue = renderValue?.(value) ?? value.toString();
+  }
+
   let content;
-  if (raw || renderValue) {
-    let formattedValue;
-    if (value === undefined) {
-      formattedValue = '';
-    } else if (value === null) {
-      formattedValue = valueMissingPlaceholder;
-    } else {
-      formattedValue = renderValue ? renderValue(value) : value.toString();
-    }
+  if (raw) {
     content = <span className={classNames(locals.minor, valuesClassName)}>{formattedValue}</span>;
   } else if (children) {
     content = <span className={classNames(locals.minor, valuesClassName)}>{children}</span>;
   } else {
     let major;
     let minor = null;
-    if (value === undefined) {
-      major = '';
-    } else if (value === null) {
-      major = valueMissingPlaceholder;
+    if (value === undefined || value === null) {
+      major = formattedValue;
     } else {
-      const match = String(value).match(valueSplitRegExp);
+      const match = String(formattedValue).match(valueSplitRegExp);
       if (!match) {
-        major = value;
+        major = formattedValue;
       } else {
         major = match[1];
         minor = match[2];
