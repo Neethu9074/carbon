@@ -56,7 +56,6 @@
   "hypervisorOS": "Hypervisor OS",
   "vNics": "vNICs",
   "vCpu": "vCPU",
-  "cpus": "CPUs",
   "memory": "Memory (GB)",
   "rootDisk": "Root Disk (GB)",
   "ephemeral": "Ephemeral Disk (GB)",

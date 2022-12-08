@@ -33,16 +33,6 @@ const cols = [
     }
   },
   {
-    title: t('in-openstack:cpus'),
-    type: 'number',
-    typeArgs: {
-      getValue(row) {
-        return row.flavordetail.get('cpus');
-      },
-      getContent: number.compact
-    }
-  },
-  {
     title: t('in-openstack:memory'),
     type: 'number',
     typeArgs: {
