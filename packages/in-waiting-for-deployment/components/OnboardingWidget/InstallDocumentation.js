@@ -28,7 +28,6 @@ export default function InstallDocumentation(props) {
   }
   const categories = categorise(filteredEntities);
 
-  let index = 0;
   return (
     <div className={locals.wrapper}>
       <div className={locals.heading}>
@@ -41,8 +40,7 @@ export default function InstallDocumentation(props) {
             {categories.map(({ title, items }) => (
               <Fragment key={title}>
                 <SideNavigationSection title={title} />
-                {items.map(({ icon, label }) => {
-                  const i = index++;
+                {items.map(({ icon, label }, i) => {
                   return (
                     <SideNavigationItem
                       key={i}
