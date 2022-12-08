@@ -36,7 +36,6 @@ export default function OnboardingWidget(props) {
   const Renderer = props.Renderer || OnboardingWidgetPresenter;
   const trackingService = createTracker(props.trackingIdPrefix);
   const [{ selectedEntry, selectedSubEntry, query }, setUrlState] = useUrlState(urlStateDefinition);
-
   useEffect(() => {
     trackingService.dialogOpened();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -50,7 +49,7 @@ export default function OnboardingWidget(props) {
         trackingService={trackingService}
         selectedSubEntryIndex={selectedSubEntry}
         selectedEntryIndex={selectedEntry}
-        onEntrySelected={({ index, entryLabel }) => {
+        onEntrySelected={(index, entryLabel) => {
           setUrlState({
             selectedEntry: index,
             selectedSubEntry: null
