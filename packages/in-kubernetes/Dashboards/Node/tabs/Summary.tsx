@@ -20,9 +20,10 @@ import { tagEquals, andQuery } from 'in-kubernetes/Dashboards/commonComponents/L
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 // @ts-expect-error
 import { getNodeDashboard, summaryTab } from 'in-kubernetes/navigation/paths';
+import { zeroDecimalPlaces, percentage, number, bytes } from 'in-services/formatters/number';
+import MultiMetricBigNumberKpiCard from 'in-components/KpiCard/MultiMetricBigNumberKpiCard';
+import { resourceQuotaNumber, resourceQuotaBytes } from 'in-kubernetes/formatters';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
-import { percentage, number, bytes } from 'in-services/formatters/number';
-import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
@@ -60,6 +61,7 @@ export default function Summary({ timeConfig, data: node }: SummaryProps) {
     timeConfig,
     timeShift
   };
+
   const defaultBigNumberMetricConfig = {
     ...defaultConfig,
     resultType: 'SINGLE_NUMBER' as ResultType
@@ -108,74 +110,120 @@ export default function Summary({ timeConfig, data: node }: SummaryProps) {
           borderless
         />
       </KpiGridRow>
+      {/* required_cpu_percentage add in percentage metric instead of capacity */}
       <Row>
         <Col lg={kpiWidth}>
-          <BigNumberKpiCard
-            title={t('in-kubernetes:dashboards.cpuRequests')}
-            formatter={percentage.detailed}
-            config={{
-              metricConfiguration: {
-                metric: 'required_cpu_percentage',
-                ...defaultBigNumberMetricConfig
+          <MultiMetricBigNumberKpiCard
+            title={t('in-kubernetes:dashboards.cpuRequestsMultiMetric')}
+            formatter={[resourceQuotaNumber, percentage.detailed]}
+            config={[
+              {
+                metricConfiguration: {
+                  metric: 'required_cpu',
+                  ...defaultBigNumberMetricConfig
+                },
+                ...comparisonColors
               },
-              ...comparisonColors
-            }}
+              {
+                metricConfiguration: {
+                  metric: 'required_cpu_percentage',
+                  ...defaultBigNumberMetricConfig
+                },
+                ...comparisonColors
+              }
+            ]}
             raw
           />
         </Col>
         <Col lg={kpiWidth}>
-          <BigNumberKpiCard
-            title={t('in-kubernetes:dashboards.cpuLimits')}
-            formatter={percentage.detailed}
-            config={{
-              metricConfiguration: {
-                metric: 'limit_cpu_percentage',
-                ...defaultBigNumberMetricConfig
+          <MultiMetricBigNumberKpiCard
+            title={t('in-kubernetes:dashboards.cpuLimitsMultiMetric')}
+            formatter={[resourceQuotaNumber, percentage.detailed]}
+            config={[
+              {
+                metricConfiguration: {
+                  metric: 'limit_cpu',
+                  ...defaultBigNumberMetricConfig
+                },
+                ...comparisonColors
               },
-              ...comparisonColors
-            }}
+              {
+                metricConfiguration: {
+                  metric: 'limit_cpu_percentage',
+                  ...defaultBigNumberMetricConfig
+                },
+                ...comparisonColors
+              }
+            ]}
             raw
           />
         </Col>
         <Col lg={kpiWidth}>
-          <BigNumberKpiCard
-            title={t('in-kubernetes:dashboards.memoryRequests')}
-            formatter={percentage.detailed}
-            config={{
-              metricConfiguration: {
-                metric: 'required_mem_percentage',
-                ...defaultBigNumberMetricConfig
+          <MultiMetricBigNumberKpiCard
+            title={t('in-kubernetes:dashboards.memoryRequestsMultiMetric')}
+            formatter={[resourceQuotaBytes, percentage.detailed]}
+            config={[
+              {
+                metricConfiguration: {
+                  metric: 'required_mem',
+                  ...defaultBigNumberMetricConfig
+                },
+                ...comparisonColors
               },
-              ...comparisonColors
-            }}
+              {
+                metricConfiguration: {
+                  metric: 'required_mem_percentage',
+                  ...defaultBigNumberMetricConfig
+                },
+                ...comparisonColors
+              }
+            ]}
             raw
           />
         </Col>
         <Col lg={kpiWidth}>
-          <BigNumberKpiCard
-            title={t('in-kubernetes:dashboards.memoryLimits')}
-            formatter={percentage.detailed}
-            config={{
-              metricConfiguration: {
-                metric: 'limit_mem_percentage',
-                ...defaultBigNumberMetricConfig
+          <MultiMetricBigNumberKpiCard
+            title={t('in-kubernetes:dashboards.memoryLimitsMultiMetric')}
+            formatter={[resourceQuotaBytes, percentage.detailed]}
+            config={[
+              {
+                metricConfiguration: {
+                  metric: 'limit_mem',
+                  ...defaultBigNumberMetricConfig
+                },
+                ...comparisonColors
               },
-              ...comparisonColors
-            }}
+              {
+                metricConfiguration: {
+                  metric: 'limit_mem_percentage',
+                  ...defaultBigNumberMetricConfig
+                },
+                ...comparisonColors
+              }
+            ]}
             raw
           />
         </Col>
         <Col lg={kpiWidth}>
-          <BigNumberKpiCard
+          <MultiMetricBigNumberKpiCard
             title={t('in-kubernetes:dashboards.podsAlloc')}
-            formatter={percentage.detailed}
-            config={{
-              metricConfiguration: {
-                metric: 'alloc_pods_percentage',
-                ...defaultBigNumberMetricConfig
+            formatter={[zeroDecimalPlaces, percentage.detailed]}
+            config={[
+              {
+                metricConfiguration: {
+                  metric: 'allocatedPods',
+                  ...defaultBigNumberMetricConfig
+                },
+                ...comparisonColors
               },
-              ...comparisonColors
-            }}
+              {
+                metricConfiguration: {
+                  metric: 'alloc_pods_percentage',
+                  ...defaultBigNumberMetricConfig
+                },
+                ...comparisonColors
+              }
+            ]}
             raw
           />
         </Col>

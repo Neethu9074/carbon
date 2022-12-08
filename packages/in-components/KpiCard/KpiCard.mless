@@ -87,6 +87,10 @@
     font-size: 1.5rem;
   }
 
+  .capacity_font {
+    font-size: 1.3rem;
+  }
+
   .companion {
     color: @lib__colors__N700Medium;
     font-size: 1rem;
