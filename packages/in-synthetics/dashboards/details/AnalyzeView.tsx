@@ -11,7 +11,6 @@ import { get, head } from 'lodash';
 import { PaginatedResult, Result, TestResultListItem } from '@instana/types/typeDefinitions';
 import { formatDateTime } from '@instana/format-date';
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import {
@@ -26,6 +25,7 @@ import DashboardHeaderShadowModule from 'in-components/DashboardHeader/Dashboard
 import Sticky from 'in-components/Sticky';
 import BrowserTestTimeline from 'in-synthetics/dashboards/details/components/BrowserTestTimeline';
 import getTestResultDetailData from 'in-synthetics/subscriptions/getTestResultDetailData';
+import DownloadButton from 'in-synthetics/dashboards/details/components/DownloadButton';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import getTestResultListStatus from 'in-synthetics/utils/getTestResultListStatus';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -43,7 +43,6 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
-import download from 'in-synthetics/utils/download';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { getTest } from 'in-synthetics/api';
 import theme from 'in-themes';
@@ -65,7 +64,6 @@ export default function SyntheticAnalyzeView() {
   const isHTTPActionType: boolean = testType === 'HTTPAction';
   const isBrowserScriptTest: boolean = testType === 'BrowserScript' && syntheticBrowserScriptEnabled;
   const formatType: string = isBrowserScriptTest ? 'HAR' : 'SUBTRANSACTIONS';
-
   const details: ResultDetailsResponse =
     useObservable<any, [number]>(
       () =>
@@ -145,11 +143,7 @@ export default function SyntheticAnalyzeView() {
             <Fragment>
               {isBrowserScriptTest && (
                 <Row>
-                  <Col xs>
-                    <Button kind="secondary" icon={'lib_actions_download'} onClick={() => download(details, 'HAR')}>
-                      {t('in-synthetics:dashboard.detailsPage.downloadHar')}
-                    </Button>
-                  </Col>
+                  <DownloadButton testId={testId} resultId={resultId} />
                 </Row>
               )}
               <Row>

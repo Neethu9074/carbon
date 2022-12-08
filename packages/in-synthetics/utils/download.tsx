@@ -4,29 +4,35 @@
  * Copyright IBM Corp. 2022
  */
 
-// eslint-disable-next-line no-restricted-imports
-import { ResultDetailsResponse } from 'in-synthetics/utils/constants';
-
-export default function download(resultDetails: ResultDetailsResponse, fileType: string) {
-  let detailData;
-  let suffix = '';
+export default function download(fileType: string, ref: string) {
+  let extension = '';
 
   switch (fileType) {
     case 'HAR':
-      detailData = resultDetails.data?.har ?? '';
-      suffix = '.json';
+      extension = '.json.gz';
       break;
 
-    case 'LOG':
-      detailData = resultDetails.data?.logs;
-      suffix = '.log';
+    case 'IMAGES':
+      extension = '.tar';
+      break;
+
+    case 'VIDEOS':
+      extension = '.tar';
+      break;
+
+    case 'LOGS':
+      extension = '.tgz';
       break;
   }
 
-  const fileName: string = fileType.toLowerCase();
-
+  let fileName: string = fileType.toLowerCase();
   const a: HTMLAnchorElement = document.body.appendChild(document.createElement('a'));
-  a.download = fileName + suffix;
-  a.href = `data:text/json;charset=utf-8, ${encodeURIComponent(JSON.stringify(detailData, null, 2))}`;
+
+  a.download = fileName + extension;
+  a.href = ref;
   a.click();
+
+  // clean up 'a' element & remove ObjectURL
+  document.body.removeChild(a);
+  URL.revokeObjectURL(a.href);
 }
