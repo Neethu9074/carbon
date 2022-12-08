@@ -70,7 +70,7 @@ run:
       ACTIVE_PRS=$(gh pr list --search "Update browserslist" --author Instana-IBM-GitHub-Enterprise | cut -f1)
       if [ "$ACTIVE_PRS" = "" ] ; then
         echo "No existing PRs found, creating a new one"
-        gh pr create --head browserslist-update-pr --repo instana/ui-foundation --title "Update browserslist" --body-file update-browserslist-pr-body.txt
+        gh pr create --head browserslist-update-pr --repo instana/ui-client --title "Update browserslist" --body-file update-browserslist-pr-body.txt
       else
         echo "Stopping pipeline, because a PR already exists: $ACTIVE_PRS"
         exit 0;
