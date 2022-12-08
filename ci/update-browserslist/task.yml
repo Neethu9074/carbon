@@ -24,8 +24,8 @@ run:
       git config user.email instana.ibm.github.enterprise@ibm.com
       git config url."https://((ibm-github-e-api-token)):x-oauth-basic@github.ibm.com/".insteadOf "https://github.ibm.com/"
 
-      git config branch.main.remote origin
-      git config branch.main.merge refs/heads/main
+      git config branch.develop.remote origin
+      git config branch.develop.merge refs/heads/develop
       git config remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
 
       REGISTRY="https://delivery.instana.io" \
