@@ -22,6 +22,7 @@ export interface Role {
   canConfigureServiceLevelIndicators: boolean;
   canConfigureCustomAlerts: boolean;
   canViewLogs: boolean;
+  restrictedAccess: boolean;
 }
 
 export interface User {
@@ -36,6 +37,7 @@ declare interface InstanaGlobals {
   numberLocale?: FormatLocaleDefinition;
   dev: any;
   tags: Tag[];
+  permissions: string[];
 }
 
 declare global {

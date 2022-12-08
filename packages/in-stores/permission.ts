@@ -31,9 +31,9 @@ export const ACCESS_OPENSTACK = 'ACCESS_OPENSTACK';
 
 const permissions = window.instana.permissions;
 
-export const hasRestrictedAccess = role.restrictedAccess;
+export const hasRestrictedAccess = role?.restrictedAccess ?? false;
 
-function hasPermission(permission) {
+function hasPermission(permission: string): boolean {
   return !hasRestrictedAccess || permissions.indexOf(permission) > -1;
 }
 
@@ -61,8 +61,14 @@ export const productRestrictions = getProductRestrictions();
 
 export const apiTokenPermissions = getProductPermissions().filter(permission => permission.keyForApiTokenApi != '');
 
+interface AreaPermissionProps {
+  value: string;
+  label: string;
+  isNew?: boolean;
+}
+
 function getProductAreaPermissions() {
-  const areaPermissions = [
+  const areaPermissions: Array<AreaPermissionProps> = [
     { value: ACCESS_WEBSITES, label: t('in-stores:permissionAccessWebsitesLabel') },
     { value: ACCESS_MOBILE_APPS, label: t('in-stores:permissionAccessMobileAppsLabel') },
     { value: ACCESS_APPLICATIONS, label: t('in-stores:permissionAccessApplicationsLabel') }
