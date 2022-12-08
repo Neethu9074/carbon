@@ -474,7 +474,7 @@
         "beaconLabel_pageLoad": "웹 사이트 페이지 로드",
         "beaconLabel_custom": "웹 사이트 사용자 정의 이벤트",
         "beaconFiltersLabel": "비컨 필터",
-        "beaconFiltersSubtext": "선택적"
+        "beaconFiltersSubtext": "선택사항"
       },
       "sliList": {
         "serviceLevelIndicators": "SLI(Service Level Indicator)",
@@ -658,8 +658,7 @@
           "website": "웹 사이트 Apdex 구성의 최대 수({{0}})에 도달했습니다. 이 한계를 늘리도록 요청하려면 Instana 지원에 문의하십시오.",
           "application": "애플리케이션 Apdex 구성의 최대 수({{0}})에 도달했습니다. 이 한계를 늘리도록 요청하려면 Instana 지원에 문의하십시오."
         },
-        "editConfigNotice": "데이터 유실을 방지하기 위해 구성이 작성된 후에는 편집할 수 없습니다. 사본으로만 조정할 수 있습니다.",
-        "apdexCloneName": "{{apdexName}}의 사본"
+        "editConfigNotice": "데이터 유실을 방지하기 위해 구성이 작성된 후에는 편집할 수 없습니다. 사본으로만 조정할 수 있습니다."
       },
       "createWebsiteApdexForm": {
         "thresholdHeader": "임계값 구성",

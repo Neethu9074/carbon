@@ -616,7 +616,7 @@
     "webhooks": "Webhook",
     "genericWebhookAlertChannel": "通用 Webhook 警报通道",
     "customHttpRequestHeaders": "定制 HTTP 请求头",
-    "customHttpHeadersAreUsefulToSupportAuthenticationMechanisms": "定制 HTTP 头对于支持 HTTP 基本认证之外的其他认证机制或避开内容传递网络中通常用到的安全机制（例如，机器人检测）非常有用。",
+    "customHttpHeadersAreUsefulToSupportAuthenticationMechanisms": "定制 HTTP 头对于支持 HTTP 基本认证之外的其他认证机制或避开内容交付网络中通常用到的安全机制（例如，机器人检测）非常有用。",
     "key": "密钥",
     "alert": "警报",
     "unknownAlert": "未知警报",

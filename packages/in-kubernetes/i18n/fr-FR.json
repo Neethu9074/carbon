@@ -173,7 +173,7 @@
     "pod": "Pod",
     "kubernetesPod": "Pod Kubernetes",
     "k8SPod": "Pod K8s",
-    "hostIp": "Adresse IP de l'hôte",
+    "hostIp": "IP de l'hôte",
     "podIp": "Adresse IP du pod",
     "yes": "Oui",
     "no": "Non",

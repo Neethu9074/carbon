@@ -58,7 +58,7 @@
           }
         },
         "scriptApi": {
-          "name": "API de scripts",
+          "name": "API de script",
           "headline": "Script HTTP",
           "whenToUse": {
             "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
@@ -100,7 +100,7 @@
     }
   },
   "createTest": {
-    "buttonLabel": "Crear prueba nueva"
+    "buttonLabel": "Crear nueva prueba"
   },
   "navigation": {
     "synthetics": "Supervisión sintética"
@@ -114,13 +114,13 @@
       },
       "popDialog": {
         "button": "<> Desplegar un PoP",
-        "simpleTab": "Sencillo",
+        "simpleTab": "Simple",
         "redisTab": "Redis TLS",
-        "title": "Comandos PoP sintéticos",
+        "title": "Mandatos PoP sintéticos",
         "subTitle": "Utilice estas plantillas de código como referencia",
         "simpleCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"Nombre;NombreVisualizacion;Pais;Ciudad;0;0;Descripcion de ubicación\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<yourpassword>\"",
         "redisCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"Nombre;NombreVisualizacion;Pais;Ciudad;0;0;Descripción de  ubicación\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true",
-        "tlsInstructions": "Si desea habilitar Redis TLS, tendrá que crear una carpeta de certificados en la ruta raíz del diagrama Helm y copiar el par certificado-clave (tls.crt, tls.key) y el archivo de certificado raíz de CA (ca.crt) en la carpeta de certificados, los nombres de archivo tienen que coincidir plenamente.\n\nSi no tiene los archivos de clave/certificado, puede utilizar el comando openssl para generar unos nuevos. Consulte los ejemplos siguientes:",
+        "tlsInstructions": "Si desea habilitar Redis TLS, tendrá que crear una carpeta de certificados en la ruta raíz del diagrama Helm y copiar el par certificado-clave (tls.crt, tls.key) y el archivo de certificado raíz de CA (ca.crt) en la carpeta de certificados, los nombres de archivo tienen que coincidir exactamente.\n\nSi no tiene los archivos de clave/certificado, puede utilizar el comando openssl para generar unos nuevos. Consulte los ejemplos siguientes:",
         "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt"
       },
       "testLabel": "Nombre",

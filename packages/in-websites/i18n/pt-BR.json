@@ -454,7 +454,7 @@
       },
       "alerts": {
         "alertConfigurationListTitleAlertConfiguration": "Configuração de alerta",
-        "alertConfigurationTitleTrigger": "Acionar",
+        "alertConfigurationTitleTrigger": "Acionador",
         "alertConfigurationTitleCustomEvent": "Evento customizado",
         "alertConfigurationTitleErrorMessage": "Mensagem de erro",
         "alertConfigurationTitleHTTPStatusCode": "Código de status HTTP",
@@ -554,9 +554,9 @@
         "stackTraceTranslationLabelLastModified": "Modificado pela última vez",
         "stackTraceTranslationExplanation": "Para tornar os rastreios de pilha JavaScript mais legíveis, por exemplo, para mostrar referências a arquivos e linhas não minificados, a Instana precisa acessar arquivos JavaScript e mapas de origem. A inclusão de uma configuração aqui permite que o servidor da Instana seja autenticado e faça o download desses arquivos para fornecer mais insights sobre erros do JavaScript.",
         "stackTraceTranslationExplanationWithUploadFeature": "Para tornar os rastreios de pilha JavaScript mais legíveis, por exemplo, para mostrar referências a arquivos e linhas não minimizadas, o Instana precisa acessar arquivos JavaScript e mapas de origem. A inclusão de uma configuração de download aqui permite que o servidor do Instana seja autenticado e faça o download desses arquivos a fim de fornecer mais insights sobre erros JavaScript. Se seus arquivos estiverem hospedados de forma privada e não puderem ser acessados pelo Instana, então uma configuração de upload poderá ser usada neste cenário ao transferir por upload seus arquivos manualmente por meio de nossa API de REST da Web.",
-        "stackTraceTranslationTitleJavaScriptStackTraceTranslation": "Conversão de rastreio de pilha do JavaScript",
-        "stackTraceTranslationLearnMoreLabel": "Saiba mais sobre a conversão de rastreio de pilha do JavaScript",
-        "stackTraceTranslationTitleJSStackTraceTranslationConfigurations": "Configurações de conversão de rastreio de pilha do JS",
+        "stackTraceTranslationTitleJavaScriptStackTraceTranslation": "Conversão de rastreio de pilha JavaScript",
+        "stackTraceTranslationLearnMoreLabel": "Saiba mais sobre a conversão de rastreio de pilha JavaScript",
+        "stackTraceTranslationTitleJSStackTraceTranslationConfigurations": "Configurações de conversão de rastreio de pilha JS",
         "stackTraceTranslationHeaderFileDownloadConfigurations": "Configurações de download de arquivo",
         "stackTraceTranslationHeaderFileUploadConfigurations": "Configurações de upload de arquivo",
         "stackTraceTranslationNoDataMessage": "Nenhuma configuração de download de arquivo disponível.",
@@ -568,7 +568,7 @@
         "configurationTitle": "Configuração",
         "configurationLabelOptions": "Opções",
         "configurationLabelPrivacy": "Privacidade",
-        "configurationLabelJSStackTraceTranslation": "Conversão de rastreio de pilha do JS",
+        "configurationLabelJSStackTraceTranslation": "Conversão de rastreio de pilha JS",
         "configurationLabelCustomGeoDetails": "Detalhes geográficos customizados"
       },
       "customEvents": {

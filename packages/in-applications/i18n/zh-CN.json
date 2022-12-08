@@ -201,7 +201,7 @@
     "httpStatusCode": "HTTP 状态",
     "hiddenCalls": "隐藏的调用",
     "fastQueryMode": "快速查询方式",
-    "fastQueryModeTooltip": "如果针对完整数据集的执行时间过长，那么快速查询方式会针对部分调用或跟踪启用查询执行。",
+    "fastQueryModeTooltip": "如果针对完整数据集的查询执行时间过长，那么快速查询方式会针对部分调用或跟踪启用查询执行。",
     "listBatchTypeTooltip": "此 {{type}} 已批处理，且表示 {{batchCount}} 个个别 {{types}}。",
     "listBatchLatencyTooltip": "{{batchCount}} 个批处理的 {{types}} 的总等待时间。",
     "traceIdTooltip": "与此跟踪相关的一些数据发生延迟，请稍后重新装入页面。可能发生此情况的一个示例如下：正在查看最近跟踪，而其部分数据仍在处理中。",

@@ -221,7 +221,7 @@
           },
           "threshold": {
             "staticOrAdaptiveTitle": "しきい値のタイプ",
-            "label": "閾値",
+            "label": "しきい値",
             "title": "しきい値: どのような場合に条件に違反するか"
           },
           "timeThreshold": {
@@ -575,7 +575,7 @@
         "add": "追加",
         "scopeConfigTitleWithApplications": "アプリケーション/サービス/エンドポイントの選択",
         "scopeConfigTitle": "サービス/エンドポイントの選択",
-        "scopeConfigSelectOneEntryMessage": "少なくとも一つのエントリーを選択してください。",
+        "scopeConfigSelectOneEntryMessage": "少なくとも 1 つのエントリーを選択してください。",
         "scopeConfigTitleTooltip": "過去 24 時間の使用可能なエンティティーを表示しています",
         "scopeMigrationMessage_FAILED": "スコープを自動的にマイグレーションできませんでした。 以下のダイナミック・フォーカス照会に対応するタグ・フィルターを選択してください。",
         "scopeMigrationMessage_PARTIAL": "スコープを完全にマイグレーションできませんでした。 以下のダイナミック・フォーカス照会に対応するタグ・フィルターを選択してください。",
@@ -780,7 +780,7 @@
       "advanced": {
         "scopeLabel": "スコープ",
         "scopeTitle": "スコープ: 状況が発生している場所",
-        "thresholdLabel": "閾値",
+        "thresholdLabel": "しきい値",
         "thresholdTitle": "しきい値: どのような場合に条件に違反するか",
         "triggerLabel": "トリガー",
         "triggerTitle": "トリガー: アラートの対象",

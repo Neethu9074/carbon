@@ -89,7 +89,7 @@
     "instanceUsage": "Uso de instancia",
     "flavorDetails": "Detalles de tipo",
     "imageDetails": "Detalles de imagen",
-    "flavors": "Variantes",
+    "flavors": "Tipos",
     "images": "Imágenes",
     "noDataAvailable": {
       "hypervisorTitle": "No hay ningún hipervisor de OpenStack disponible",

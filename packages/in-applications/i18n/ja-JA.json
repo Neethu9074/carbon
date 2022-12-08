@@ -264,8 +264,8 @@
         "inboundAllCalls": "このアプリケーションの呼び出しのみを対象にするか、内部呼び出しも対象にするかを指定してください"
       },
       "blueprints": {
-        "whenToUse": "使用する状況",
-        "whoShouldUse": "使用するユーザー",
+        "whenToUse": "いつ使用しますか?",
+        "whoShouldUse": "誰が使用すべきですか?",
         "tipsForUsing": "使用のヒント",
         "servicesEndpoints": {
           "name": "サービスまたはエンドポイント",

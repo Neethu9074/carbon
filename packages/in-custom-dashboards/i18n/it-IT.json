@@ -150,7 +150,7 @@
     },
     "srcInfrastructure": {
       "entityCount": {
-        "infrastructureEntityCount": "Numero di entità piattaforma & infrastruttura"
+        "infrastructureEntityCount": "Numero di entità Infrastruttura e piattaforme"
       },
       "entityCountFormComponent": {
         "query": "Query",
@@ -171,7 +171,7 @@
         "crossSeriesAggregationRestrictedHelp": "Non applicabile a questa metrica"
       },
       "metrics": {
-        "infrastructurePlatforms": "Infrastruttura & Piattaforme",
+        "infrastructurePlatforms": "Infrastruttura e piattaforme",
         "comingSoon": "(a breve)"
       },
       "typeAndMetricConfigurator": {
@@ -385,7 +385,7 @@
         "selectAppPerspect": "Selezionare una Prospettiva Applicazione.",
         "appPerspectHelpAction": "Configurare i percorsi/offerte degli utenti modellandoli come una prospettiva dell'applicazione nell'area Applicazioni.",
         "rbacHint": "Le applicazioni mostrate possono essere limitate dalle autorizzazioni.",
-        "noAppPerspect": "Nessuna Prospettiva Applicazione.",
+        "noAppPerspect": "Nessuna prospettiva applicazione.",
         "pleaseSelect": "Selezionare"
       },
       "websiteSelector": {
@@ -435,13 +435,13 @@
         "25th": "25°",
         "50th": "50°",
         "75th": "75°",
-        "90th": "90°",
+        "90th": "90esimo",
         "95th": "95°",
         "98th": "98°",
         "99th": "99°"
       },
       "metricsForm": {
-        "metricThreshold": "Metrica & Soglia",
+        "metricThreshold": "Metrica e soglia",
         "metric": "Metrica",
         "aggregation": "Aggregazione",
         "valThresholdNotInvalidEmpty": "Il valore della soglia non deve essere null o vuoto.",
@@ -583,7 +583,7 @@
       "boundaryScopeConfigurator": {
         "all": {
           "title": "Tutte le chiamate",
-          "description": "Chiamate eseguite all'interno di questa applicazione, sia da parte dei consumer che internamente."
+          "description": "Chiamate eseguite all'interno di questa applicazione, sia da parte dei consumatori che internamente."
         },
         "inbound": {
           "title": "Chiamate in entrata",
@@ -658,8 +658,7 @@
           "website": "È stato raggiunto il numero massimo di configurazioni apdex del sito web ({{0}}). Si prega di contattare l'assistenza Instana per richiedere un aumento per questo limite.",
           "application": "È stato raggiunto il numero massimo di configurazioni apdex delle applicazioni ({{0}}). Si prega di contattare l'assistenza Instana per richiedere un aumento per questo limite."
         },
-        "editConfigNotice": "Per evitare la perdita di dati, la configurazione non può essere modificata dopo essere stata creata; può essere rettificata solo come una copia.",
-        "apdexCloneName": "Copia di {{apdexName}}"
+        "editConfigNotice": "Per evitare la perdita di dati, la configurazione non può essere modificata dopo essere stata creata; può essere rettificata solo come una copia."
       },
       "createWebsiteApdexForm": {
         "thresholdHeader": "Configurazione soglia",
