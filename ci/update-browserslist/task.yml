@@ -34,6 +34,7 @@ run:
       PASSWORD="((delivery-instana-io-internal-project-artifact-read-writer-creds.password))" \
       NON_INTERACTIVE=true \
       WRITE_TO_CWD=true \
+      NPM_CONFIG_REGISTRY="https://registry.npmjs.org/" \
       npx --yes create-artifactory-access-config
 
       # install gh
