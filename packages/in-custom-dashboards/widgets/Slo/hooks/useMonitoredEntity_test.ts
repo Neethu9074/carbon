@@ -85,4 +85,47 @@ describe('in-custom-dashboards/widgets/Slo/hooks/useMonitoredEntity', () => {
     expect(getApplication).toHaveBeenCalledWith(expect.objectContaining({ id: firstEntityId }));
     expect(getApplication).toHaveBeenCalledWith(expect.objectContaining({ id: secondEntityId }));
   });
+
+  it('returns an error if entityType is blank', () => {
+    // Given
+    const entityType = '';
+    const entityId = 'someId';
+
+    // When
+    // @ts-expect-error
+    const { result } = renderHook(() => useMonitoredEntity({ entityType, entityId }));
+    const [, status, errors] = result.current;
+
+    // Then
+    expect(status).toEqual('rejected');
+    expect(errors).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          code: 'CLIENT',
+          message: expect.stringContaining('blank')
+        })
+      ])
+    );
+  });
+
+  it('returns an error if entitiyId is blank', () => {
+    // Given
+    const entityType = 'application';
+    const entityId = '';
+
+    // When
+    const { result } = renderHook(() => useMonitoredEntity({ entityType, entityId }));
+    const [, status, errors] = result.current;
+
+    // Then
+    expect(status).toEqual('rejected');
+    expect(errors).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          code: 'CLIENT',
+          message: expect.stringContaining('blank')
+        })
+      ])
+    );
+  });
 });

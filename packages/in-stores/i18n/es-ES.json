@@ -118,7 +118,7 @@
     "metric_DISTINCT_COUNT": "recuento distinto",
     "metric_SUM": "suma",
     "metric_DISTRIBUTION": "distribución",
-    "metric_PER_SECOND": "rate",
+    "metric_PER_SECOND": "tasa",
     "formatterLabelNumber": "Número, por ejemplo {{example}}",
     "formatterLabelPercentage": "Porcentaje, por ejemplo {{example}}",
     "formatterLabelBytes": "Bytes, por ejemplo {{example}}",

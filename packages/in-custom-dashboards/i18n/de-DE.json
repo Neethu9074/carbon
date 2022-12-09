@@ -474,7 +474,7 @@
         "beaconLabel_pageLoad": "Laden von Websites",
         "beaconLabel_custom": "Benutzerdefinierte Websiteereignisse",
         "beaconFiltersLabel": "Beacon-Filter",
-        "beaconFiltersSubtext": "Optionale"
+        "beaconFiltersSubtext": "Optional"
       },
       "sliList": {
         "serviceLevelIndicators": "Service-Level-Indikatoren",
@@ -658,8 +658,7 @@
           "website": "Die maximale Anzahl von Website-Apdex-Konfigurationen ({{0}}) wurde erreicht. Wenden Sie sich an Instana Support, um eine Erhöhung dieses Grenzwerts anzufordern.",
           "application": "Die maximale Anzahl von Apdex-Anwendungskonfigurationen ({{0}}) wurde erreicht. Wenden Sie sich an Instana Support, um eine Erhöhung dieses Grenzwerts anzufordern."
         },
-        "editConfigNotice": "Um Datenverlust zu vermeiden, kann die Konfiguration nicht bearbeitet werden, nachdem sie erstellt wurde; sie kann nur als Kopie angepasst werden.",
-        "apdexCloneName": "Kopie von {{apdexName}}"
+        "editConfigNotice": "Um Datenverlust zu vermeiden, kann die Konfiguration nicht bearbeitet werden, nachdem sie erstellt wurde; sie kann nur als Kopie angepasst werden."
       },
       "createWebsiteApdexForm": {
         "thresholdHeader": "Schwellenwertkonfiguration",

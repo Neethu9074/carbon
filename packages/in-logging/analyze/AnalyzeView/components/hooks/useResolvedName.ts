@@ -23,9 +23,8 @@ import {
   LOG_KUBERNETES_DEPLOYMENT_NAME,
   LOG_KUBERNETES_POD_NAME
 } from 'in-logging/queryBuilder';
-// @ts-ignore
-import { getSnapshot } from 'in-stores/snapshot';
 import { getPluginName } from 'in-sdk/pluginName';
+import { getSnapshot } from 'in-stores/snapshot';
 import { LogTag } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -59,7 +58,7 @@ function getCustomKeyLabel(key: string): string {
 }
 
 function resolveInfraLabel(snapshotId: string) {
-  return getSnapshot(snapshotId).map((snapshot: any) => getPluginName(snapshot.get('plugin'), 1));
+  return getSnapshot(snapshotId).map((snapshot: any) => getPluginName(snapshot.get('plugin'), 1)!);
 }
 
 export default function useResolvedName(tag: LogTag, tagToLabelMap: Map<string, string>): string {

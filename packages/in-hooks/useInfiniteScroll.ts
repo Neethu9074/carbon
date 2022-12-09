@@ -18,15 +18,15 @@ const useInfiniteScroll = (
   const loadMoreContainerRef = useRef<HTMLDivElement>();
 
   useEffect(() => {
-    if (loadMoreContainerRef.current) {
-      //making this async solves flakiness when the user scrolls too fast
-      const resetObserver = () => {
-        observerRef.current?.unobserve(loadMoreContainerRef.current!);
+    //making this async solves flakiness when the user scrolls too fast
+    const resetObserver = () => {
+      if (loadMoreContainerRef.current) {
+        observerRef.current?.unobserve(loadMoreContainerRef.current);
         observerRef.current = new IntersectionObserver(callback, { root: null, threshold: 0 });
-        observerRef.current.observe(loadMoreContainerRef.current!);
-      };
-      setTimeout(resetObserver);
-    }
+        observerRef.current.observe(loadMoreContainerRef.current);
+      }
+    };
+    setTimeout(resetObserver);
   }, [...dependencies]);
 
   return [loadMoreContainerRef];

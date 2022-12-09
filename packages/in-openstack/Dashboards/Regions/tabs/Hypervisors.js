@@ -66,7 +66,7 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'totalCpu',
+    id: 'cpuResources',
     label: t('in-openstack:totalCpu'),
     sortable: true,
     getContent(item, props, columnId) {
@@ -96,7 +96,7 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'totalMemory',
+    id: 'memoryResources',
     label: t('in-openstack:totalMemory'),
     sortable: true,
     getContent(item, props, columnId) {
@@ -126,7 +126,7 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'totalStorage',
+    id: 'storageResources',
     label: t('in-openstack:totalStorage'),
     sortable: true,
     getContent(item, props, columnId) {

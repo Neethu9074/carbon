@@ -522,7 +522,7 @@
         "fileDownloadConfigurationDialogTitleNew": "Nueva configuración de descarga de archivos",
         "fileDownloadConfigurationDialogHeadingMatchingRules": "Reglas de coincidencia",
         "fileDownloadConfigurationDialogMatchingRuleHelp1": "Puede definir varias reglas de coincidencia para describir cuándo se debe incluir su configuración en las solicitudes HTTP.  Se están utilizando la autenticación básica HTTP configurada y las cabeceras HTTP personalizadas cuando al menos una de las reglas de coincidencia coincide con el URL del archivo.",
-        "fileDownloadConfigurationDialogMatchingRuleHelp2": "Se recomienda que la coincidencia solo sea para archivos del esquema <code>{{http}}</code>, de lo contrario, su configuración se transmitirán con texto sin formato.",
+        "fileDownloadConfigurationDialogMatchingRuleHelp2": "Se recomienda que la coincidencia solo sea para archivos con el esquema <code>{{http}}</code>, de lo contrario, su configuración se transmitirán con texto sin formato.",
         "fileDownloadConfigurationDialogLabelScheme": "Esquema",
         "fileDownloadConfigurationDialogLabelHTTPSOrHTTP": "https:// o http://",
         "fileDownloadConfigurationDialogLabelHost": "Host",

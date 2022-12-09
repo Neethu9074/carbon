@@ -18,22 +18,22 @@ import { TestResultEntry } from 'in-synthetics/utils/constants';
 import locals from 'in-synthetics/dashboards/details/components/EntriesList.mless';
 
 interface EntriesListProps {
-  entries?: TestResultEntry[];
+  entries: TestResultEntry[];
   pages: { [index: string]: any };
   expanded: string;
   setExpanded: Dispatch<SetStateAction<string>>;
 }
 
 export default function EntriesList({ entries, pages, expanded, setExpanded }: EntriesListProps) {
-  const render: any = [];
-  const groupByPageRef = entries?.reduce((group: any, entry: TestResultEntry) => {
+  const render: JSX.Element[] = [];
+  const groupByPageRef = entries.reduce((group: any, entry: TestResultEntry) => {
     const { pageref } = entry;
     group[pageref] = group[pageref] ?? [];
     group[pageref].push(entry);
     return group;
   }, {});
 
-  if (entries?.length === 0) {
+  if (entries.length === 0) {
     return (
       <NoDataAvailable
         type="lib_synthetic"
@@ -47,7 +47,7 @@ export default function EntriesList({ entries, pages, expanded, setExpanded }: E
     render.push(
       <EntryByPage
         key={key}
-        entries={groupByPageRef[key]}
+        entries={groupByPageRef[key] != undefined ? groupByPageRef[key] : []}
         id={key}
         expanded={expanded}
         setExpanded={setExpanded}
@@ -78,7 +78,10 @@ function EntryByPage({ entries, id, expanded, setExpanded, values }: EntryByPage
             : t('in-synthetics:dashboard.detailsPage.showMoreSubDetails'),
           onDefaultInteraction: () =>
             setExpanded((prev: string) => {
-              return prev === id ? '' : id;
+              /* TODO Setting page_x0 instead of '' makes the expanded/collapse behavior
+                not to work corectly for the first page row. We need to fix this.
+              */
+              return prev === id ? 'page_x0' : id;
             })
         })}
       >
@@ -91,6 +94,11 @@ function EntryByPage({ entries, id, expanded, setExpanded, values }: EntryByPage
             />
             <KeyValueHeader
               label={t('in-synthetics:dashboard.detailsPage.browserDetails.page.request')}
+              /* TODO Currently the initial value is zero
+                and it is dinamically changing based on filtering.
+                The dynamic behavior is correct, but we should fix the initial value
+                that should be equal to the total of requests, not zero.
+              */
               value={entries.length}
             />
             <KeyValueHeader

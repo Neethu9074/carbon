@@ -253,7 +253,7 @@
         "notFound": "Nicht gefunden"
       },
       "downloadHar": "HAR-Datei herunterladen",
-      "consoleLogs": "CONSOLE",
+      "consoleLogs": "KONSOLE",
       "browserLogs": "BROWSER"
     },
     "noDataAvailable": {

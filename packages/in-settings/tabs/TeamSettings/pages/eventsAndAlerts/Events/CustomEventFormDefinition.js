@@ -23,11 +23,11 @@ import {
   getBuiltInMetricInfo,
   getCustomMetricInfo
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customMetricUtils';
-import { customEventRulesValidator } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customEventRuleValidations';
 import {
-  isAppDataEntityType,
+  isDeprecatedAppDataEntityType,
   mapConditionValue
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
+import { customEventRulesValidator } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customEventRuleValidations';
 import { EQUALS, IS_EMPTY, NOT_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
 import { queryValidationResultValidator, valid } from 'in-settings/validation';
 import { notBlankValidator } from 'in-services/validators/string';
@@ -766,11 +766,11 @@ export function isSystemRuleDataSourceSelected(form) {
 
 export function canHaveMultipleConditions(form) {
   const entityType = form.get('entityType')?.value;
-  const appDataEntityType = isAppDataEntityType(entityType);
+  const deprecatedAppDataEntityType = isDeprecatedAppDataEntityType(entityType);
   const builtInDataSourceSelected = isBuiltInDataSourceSelected(form);
   const customDataSourceSelected = isCustomDataSourceSelected(form);
 
-  return (builtInDataSourceSelected || customDataSourceSelected) && !appDataEntityType;
+  return (builtInDataSourceSelected || customDataSourceSelected) && !deprecatedAppDataEntityType;
 }
 
 export function onChangeApplyOn(applyOn, onChange) {

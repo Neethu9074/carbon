@@ -64,7 +64,7 @@ export default connectTo(
 
         <WithEmptyStateFallback
           getHasDataToRender={getHasDataToRender}
-          FallbackComponent={<OpenstackNoDataNotification icon="lib_openstack" />}
+          FallbackComponent={() => <OpenstackNoDataNotification icon="lib_openstack" />}
         >
           <ServerTableWithUrlState get={getTableData} timeConfig={timeConfig} />
         </WithEmptyStateFallback>

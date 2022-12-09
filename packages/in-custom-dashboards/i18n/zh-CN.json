@@ -658,8 +658,7 @@
           "website": "已达到 Web 站点 Apdex 配置 ({{0}}) 的最大数量。 请联系 Instana 支持人员以请求提高此限量。",
           "application": "已达到应用程序 Apdex 配置 ({{0}}) 的最大数量。 请联系 Instana 支持人员以请求提高此限量。"
         },
-        "editConfigNotice": "为避免数据丢失，配置一旦创建就无法编辑，只能作为副本进行调整。",
-        "apdexCloneName": "{{apdexName}} 的副本"
+        "editConfigNotice": "为避免数据丢失，配置一旦创建就无法编辑，只能作为副本进行调整。"
       },
       "createWebsiteApdexForm": {
         "thresholdHeader": "阈值配置",

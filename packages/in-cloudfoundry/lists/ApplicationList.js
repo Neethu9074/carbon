@@ -143,7 +143,7 @@ export default connectTo(
 
         <WithEmptyStateFallback
           getHasDataToRender={getHasDataToRender}
-          FallbackComponent={<CloudfoundryNoDataNotification icon="lib_cloudfoundry_application" />}
+          FallbackComponent={() => <CloudfoundryNoDataNotification icon="lib_cloudfoundry_application" />}
         >
           <Card>
             <ServerTableWithUrlState get={getTableData} timeConfig={timeConfig} />

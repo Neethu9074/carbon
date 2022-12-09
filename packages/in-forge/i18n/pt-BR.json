@@ -3374,7 +3374,7 @@
       "titleDockerName": "Nome do Docker",
       "titleContainerName": "Nome do contêiner",
       "titleImage": "Imagem",
-      "titleImageId": "ID de imagem",
+      "titleImageId": "ID da imagem",
       "titleTaskARN": "Tarefa ARN",
       "titleTaskDefinitionName": "Nome da definição da tarefa",
       "titleTaskDefinitionVersion": "Versão de definição da tarefa",

@@ -21,9 +21,21 @@ import {
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 
 export default [
-  <Route path={phmcDashboardFullyQualified} children={renderAsyncRouteChildren(PhmcDashboard)} />,
-  <Route path={systemDashboardFullyQualified} children={renderAsyncRouteChildren(SystemDashboard)} />,
-  <Route path={viosDashboardFullyQualified} children={renderAsyncRouteChildren(ViosDashboard)} />,
-  <Route path={lparDashboardFullyQualified} children={renderAsyncRouteChildren(LparDashboard)} />,
-  <Route path={ibmp} children={renderAsyncRouteChildren(PhmcMainView)} />
+  <Route key="phmcDashboard" path={phmcDashboardFullyQualified} children={renderAsyncRouteChildren(PhmcDashboard)} />,
+  <Route
+    key="phmcSystemDashboard"
+    path={systemDashboardFullyQualified}
+    children={renderAsyncRouteChildren(SystemDashboard)}
+  />,
+  <Route
+    key="phmcViosDashboard"
+    path={viosDashboardFullyQualified}
+    children={renderAsyncRouteChildren(ViosDashboard)}
+  />,
+  <Route
+    key="phmcLparDashboard"
+    path={lparDashboardFullyQualified}
+    children={renderAsyncRouteChildren(LparDashboard)}
+  />,
+  <Route key="phmcMainView" path={ibmp} children={renderAsyncRouteChildren(PhmcMainView)} />
 ];

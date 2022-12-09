@@ -11,7 +11,7 @@ import { Stack, Button, SvgIcon } from '@instana/components';
 
 import { putAllDataSourceFieldsForOneRule } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import { ConditionItem } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/ConditionItem';
-import { isAppDataEntityType } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
+import { isDeprecatedAppDataEntityType } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import { Row, Col } from 'in-components/layout/Grid';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-components/Pill';
@@ -49,9 +49,10 @@ export function MultiConditions({
 }) {
   if (!rulesForm || !entityType) return null;
 
-  const appDataEntityType = isAppDataEntityType(entityType);
+  const deprecatedAppDataEntityType = isDeprecatedAppDataEntityType(entityType);
 
-  const canHaveMultipleConditions = (builtInDataSourceSelected || customDataSourceSelected) && !appDataEntityType;
+  const canHaveMultipleConditions =
+    (builtInDataSourceSelected || customDataSourceSelected) && !deprecatedAppDataEntityType;
 
   return (
     <>

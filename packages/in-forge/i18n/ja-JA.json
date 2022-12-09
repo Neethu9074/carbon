@@ -4459,7 +4459,7 @@
     "azureFunctionApp": {
       "infoName": "名前",
       "infoResourceGroup": "リソース・グループ",
-      "infoLocation": "Location",
+      "infoLocation": "ロケーション",
       "infoSubscriptionID": "サブスクリプション ID",
       "infoType": "タイプ",
       "infoKind": "種別",
@@ -4597,7 +4597,7 @@
         "labelMaximum": "最大",
         "name": "名前",
         "type": "タイプ",
-        "location": "Location",
+        "location": "ロケーション",
         "functionsWithCount": "関数 ({{len}})"
       },
       "bytes": "バイト数",
@@ -4612,7 +4612,7 @@
       },
       "infoName": "名前",
       "infoType": "タイプ",
-      "infoLocation": "Location",
+      "infoLocation": "ロケーション",
       "infoSubscriptionID": "サブスクリプション ID",
       "infoResourceGroup": "リソース・グループ"
     },

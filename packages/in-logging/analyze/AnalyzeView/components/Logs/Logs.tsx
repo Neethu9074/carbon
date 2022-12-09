@@ -5,10 +5,10 @@
 
 import React, { useEffect, useRef } from 'react';
 
-import { Button } from '@instana/components';
+import { Button, ColumnizedDefinition } from '@instana/components';
 import { TagFilter } from '@instana/types';
 
-// @ts-expect-error needs TS migration
+//@ts-expect-error needs TS migration
 import { createPageSizeAwareLogsCursorPaginationHook } from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
 import {
   centerAlignedCopyColumn,
@@ -30,11 +30,11 @@ import { FacetedSearchPresenter } from 'in-logging/analyze/AnalyzeView/component
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
 // @ts-expect-error needs TS migration
 import { ChartsPresenter } from 'in-logging/analyze/AnalyzeView/components/ChartsPresenter';
-import { GetDataParams, HeaderActionProps, LogsProps } from 'in-logging/analyze/AnalyzeView/components/Logs/types';
+import { HeaderActionProps, LogsProps } from 'in-logging/analyze/AnalyzeView/components/Logs/types';
+import { GetDataParams, ListItemProps } from 'in-components/AnalyzeView/UngroupedView/types';
 import LogMessageColumn from 'in-logging/analyze/AnalyzeView/components/LogMessageColumn';
 import UngroupedViewList from 'in-components/AnalyzeView/UngroupedView/UngroupedViewList';
 import { LogTagsTable } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable';
-import { ListItemProps } from 'in-components/AnalyzeView/UngroupedView/types';
 import { TAG } from 'in-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { sortingChanged } from 'in-logging/analyze/AnalyzeView/tracker';
@@ -90,7 +90,7 @@ export default function Logs(props: LogsProps) {
   }
 
   const getData = (params: GetDataParams) => {
-    if (groupedPaginationRef.current) {
+    if (groupedPaginationRef.current && params.initialLogLines) {
       groupedPaginationRef.current[groupLabel] = params.initialLogLines;
     }
     return getTableData(params);
@@ -111,9 +111,9 @@ export default function Logs(props: LogsProps) {
     },
     centerAlignedLinkColumn,
     centerAlignedCopyColumn
-  ];
+  ] as ColumnizedDefinition[];
 
-  const renderNestedContent = (_: unknown, item: LogItem) => (
+  const renderNestedContent = (_: string, item: LogItem) => (
     <LogTagsTable
       item={item}
       selectedId={selectedId}
@@ -125,7 +125,7 @@ export default function Logs(props: LogsProps) {
   const infiniteScroll = groupLabel ? false : { loadingCompleteMessage: t('in-logging:endOfInfiniteScroll') };
 
   let content = (
-    <UngroupedViewList
+    <UngroupedViewList<LogItem>
       {...props}
       Sidebar={Sidebar}
       Chart={Chart}
@@ -187,7 +187,7 @@ function CustomHeaderActions({ orderBy, setOrder }: HeaderActionProps) {
 }
 
 function getTableData(props: GetDataParams) {
-  const { timeConfig, afterKey, backendQueryModel, retrievalSize, orderBy } = props;
+  const { timeConfig, afterKey, backendQueryModel, retrievalSize = 20, orderBy } = props;
 
   return getLogs({
     timeConfig,

@@ -17,6 +17,7 @@ import { stringMaxLengthValidator } from 'in-services/validators/string';
 import { ThresholdType, WebsiteAlertConfigWithMetadata } from 'in-types';
 
 const severityWarning = 5;
+export const defaultAdaptiveBaselineGranularity = 1200000;
 
 export const fieldNames = Object.freeze({
   tagFilterExpression: 'tagFilterExpression',

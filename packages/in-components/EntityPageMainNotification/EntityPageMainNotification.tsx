@@ -14,7 +14,18 @@ import { t } from 'in-i18n';
 
 import locals from './EntityPageMainNotification.mless';
 
-export default function EntityPageMainNotification(props) {
+export interface EntityPageMainNotificationProps {
+  title?: string;
+  explanation: () => React.ReactNode | string;
+  changeExplanation?: (explanation: string, props: EntityPageMainNotificationProps) => React.ReactNode;
+  theme?: 'light' | 'dark';
+  icon?: string;
+  plugin?: string;
+  framed?: boolean;
+  withBackground?: boolean;
+}
+
+export default function EntityPageMainNotification(props: React.PropsWithChildren<EntityPageMainNotificationProps>) {
   const {
     title,
     explanation,

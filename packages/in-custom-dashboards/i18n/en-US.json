@@ -403,6 +403,7 @@
         "pleaseSelect": "Please select"
       },
       "createSliForm": {
+        "formName": "Create SLI Form",
         "sliCreateSuccess": "SLI created successfully",
         "failCreateSli": "Failed to create the SLI.",
         "problemCreateSli": "There was a problem creating this SLI: \"{{sliName}}\"",

@@ -256,6 +256,7 @@
         "notFound": "Not found"
       },
       "downloadHar": "Download HAR File",
+      "downloadLog": "Download Logs",
       "consoleLogs": "CONSOLE",
       "browserLogs": "BROWSER",
       "browserDetails": {
@@ -270,15 +271,12 @@
           "size": "Size",
           "types": {
             "short": {
-              "html": "HTML",
-              "javascript": "JS",
-              "css": "CSS",
-              "plain": "DOC",
+              "document": "DOC",
+              "script": "SCR",
+              "stylesheet": "CSS",
               "image": "IMG",
               "font": "FONT",
-              "application": "APP",
-              "unknown": "UKWN",
-              "audio": "AUDIO",
+              "media": "MEDIA",
               "other": "OTHER"
             },
             "long": {
@@ -286,10 +284,8 @@
               "script": "Script",
               "stylesheet": "Stylesheet",
               "image": "Image",
-              "font": "Web Font",
-              "application": "Application",
-              "unknown": "Unknown Type",
-              "audio": "Audio",
+              "font": "Font",
+              "media": "Media",
               "other": "Other"
             }
           }

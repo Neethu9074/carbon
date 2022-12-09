@@ -17,7 +17,6 @@ import { ThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/component
 import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdConditionFormGroup';
 import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdOperatorDropDown';
 import UseSuggestedValueButton from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/UseSuggestedValueButton';
-import { thresholdTypeOptions } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/thresholdFormData';
 import ThresholdTypeSelection from 'in-alerting/smart-alerts/websites/advanced/ThresholdTypeSelection';
 import { defaultDeviationFactor } from 'in-alerting/smart-alerts/websites/form/thresholdForm';
 import { getMetricUnitPostfix } from 'in-alerting/smart-alerts/websites/form/formUtils';
@@ -34,7 +33,7 @@ export default function CustomEventsThresholdCondition({ form, blueprintConfig, 
   const maxValue = blueprintConfig.getMaxMetricValue(metricName);
   const thresholdType = form.get('threshold').get('type')?.value;
   const blueprintType = blueprintConfig.type;
-
+  const thresholdTypeOptions = blueprintConfig.getThresholdTypeOptions();
   return (
     <>
       <ThresholdConditionFormGroup>

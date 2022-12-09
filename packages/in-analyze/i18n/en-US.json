@@ -248,7 +248,7 @@
   },
   "analyzeHeader": {
     "title": "Analytics",
-    "entityExploreTypeSelectedTitle": "Entity Explore"
+    "analyzeInfrastructureSelectedTitle": "Analyze Infrastructure"
   },
   "filterBar": {
     "keyValueBarItem": {

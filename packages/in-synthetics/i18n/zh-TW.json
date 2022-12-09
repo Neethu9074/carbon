@@ -41,7 +41,7 @@
           "name": "Ping API",
           "headline": "HTTP 動作",
           "whenToUse": {
-            "title": "使用時機？",
+            "title": "何時使用？",
             "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
           },
           "whoShouldUse": {
@@ -49,7 +49,7 @@
             "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
           },
           "tipsForUsing": {
-            "title": "使用提示",
+            "title": "使用秘訣",
             "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
             "line2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
             "line3": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
@@ -156,7 +156,7 @@
       "lastRun": "前次測試執行時間",
       "namespace": "名稱空間",
       "labelConfirmRemoveLocation": "您確定要移除 <strong>{{label}}</strong> ({{status}}) 位置嗎？",
-      "activeTestLinked": "已在位置 <strong>{{label}}</strong> ({{status}}) 上指派作用中測試，您確定要移除此位置嗎？",
+      "activeTestLinked": "已在位置 <strong>{{label}}</strong> ({{status}}) 上指派作用中的測試，您確定要移除此位置嗎？",
       "deleteLocation": "刪除位置"
     },
     "summary": {

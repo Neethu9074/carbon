@@ -15,7 +15,7 @@ import ButtonGroup from 'in-components/ButtonGroup';
 
 import locals from './Filter.mless';
 
-export default function Filter({ filter, setFilter }: FilterProps) {
+export default function Filter({ filter, setFilter, isBrowserType }: FilterProps) {
   const buttonPropsList = [
     {
       text: t('in-synthetics:dashboard.detailsPage.typesFilterValues.allType'),
@@ -33,6 +33,57 @@ export default function Filter({ filter, setFilter }: FilterProps) {
       text: t('in-synthetics:dashboard.detailsPage.typesFilterValues.othersType'),
       key: 'OTHERS',
       onClick: () => setFilter({ query: filter.query, type: 'OTHERS' }),
+      className: locals.buttonFocus
+    }
+  ];
+
+  const browserButtonPropsList = [
+    {
+      text: t('in-synthetics:dashboard.detailsPage.typesFilterValues.allType'),
+      key: '',
+      onClick: () => setFilter({ query: filter.query, type: '' }),
+      className: locals.buttonFocus
+    },
+    {
+      text: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.long.document'),
+      key: 'document',
+      onClick: () => setFilter({ query: filter.query, type: 'document' }),
+      className: locals.buttonFocus
+    },
+    {
+      text: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.long.stylesheet'),
+      key: 'stylesheet',
+      onClick: () => setFilter({ query: filter.query, type: 'stylesheet' }),
+      className: locals.buttonFocus
+    },
+    {
+      text: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.long.image'),
+      key: 'image',
+      onClick: () => setFilter({ query: filter.query, type: 'image' }),
+      className: locals.buttonFocus
+    },
+    {
+      text: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.long.font'),
+      key: 'font',
+      onClick: () => setFilter({ query: filter.query, type: 'font' }),
+      className: locals.buttonFocus
+    },
+    {
+      text: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.long.script'),
+      key: 'script',
+      onClick: () => setFilter({ query: filter.query, type: 'script' }),
+      className: locals.buttonFocus
+    },
+    {
+      text: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.long.media'),
+      key: 'media',
+      onClick: () => setFilter({ query: filter.query, type: 'media' }),
+      className: locals.buttonFocus
+    },
+    {
+      text: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.long.other'),
+      key: 'other',
+      onClick: () => setFilter({ query: filter.query, type: 'other' }),
       className: locals.buttonFocus
     }
   ];
@@ -59,7 +110,10 @@ export default function Filter({ filter, setFilter }: FilterProps) {
         />
       </FilterBlock>
       <FilterBlock title={t('in-synthetics:dashboard.detailsPage.typesFilter')}>
-        <ButtonGroup buttonPropsList={buttonPropsList} activeKey={filter.type} />
+        <ButtonGroup
+          buttonPropsList={isBrowserType ? browserButtonPropsList : buttonPropsList}
+          activeKey={filter.type}
+        />
       </FilterBlock>
     </div>
   );

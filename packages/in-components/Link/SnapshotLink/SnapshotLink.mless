@@ -1,0 +1,15 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+:local {
+  .inSnapshotLink {
+    cursor: pointer;
+    color: #4a90e2;
+    text-decoration: underline;
+
+    &:hover {
+      color: #1e66b8;
+    }
+  }
+}

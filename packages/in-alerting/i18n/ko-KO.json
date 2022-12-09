@@ -27,7 +27,7 @@
     "noChannelSelectedText": "현재 경보 채널을 선택하지 않았으므로 경보를 수신하지 않습니다.",
     "scopeConfigPresenterHelpTextAdditionalFilters": "추가 필터",
     "revisionDropdownButton": {
-      "revision": "{{alertRevision}} 개정",
+      "revision": "개정 {{alertRevision}}",
       "pause": "일시정지",
       "resume": "재개",
       "delete": "삭제",

@@ -1,0 +1,38 @@
+---
+resources:
+  - name: timer
+    type: time
+    icon: clock-outline
+    source:
+      days: [Wednesday]
+      start: "18:00"
+      stop: "22:00"
+      location: Europe/Berlin
+
+  - name: ui-client-repo
+    type: git
+    icon: github
+    source:
+      uri: https://github.ibm.com/instana/ui-client.git
+      username: ((ibm-github-e-api-token))
+      password: x-oauth-basic
+      branch: develop
+jobs:
+  - name: self-update
+    plan:
+      - get: timer
+        trigger: true
+      - get: ui-client-repo
+        trigger: true
+      - set_pipeline: self
+        file: ui-client-repo/ci/update-browserslist/pipeline.yml
+
+  - name: create-pr-for-browserslist-update
+    plan:
+      - get: timer
+        passed: [ self-update ]
+        trigger: true
+      - get: ui-client-repo
+        passed: [self-update]
+      - task: update-browserslist
+        file: ui-client-repo/ci/update-browserslist/task.yml

@@ -3,14 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import './CenterAlignmentColumn.less';
 
 const block = 'in-center-alignment';
 
 export interface Props {
-  children: React.ReactChildren;
+  children: ReactNode | undefined;
 }
 
 export default function CenterAlignmentColumn({ children }: Props) {

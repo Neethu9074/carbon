@@ -58,4 +58,47 @@ describe('in-custom-dashboards/widgets/Slo/hooks/useSliConfigurations', () => {
     const [sliConfigurations] = result.current;
     expect(sliConfigurations).toMatchObject(mockSli.data!);
   });
+
+  it('returns an error if entityType is blank', () => {
+    // Given
+    const entityType = '';
+    const entityId = 'some Id';
+
+    // When
+    // @ts-expect-error
+    const { result } = renderHook(() => useSliConfigurations(entityType, entityId));
+    const [, status, errors] = result.current;
+
+    // Then
+    expect(status).toEqual('rejected');
+    expect(errors).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          code: 'CLIENT',
+          message: expect.stringContaining('blank')
+        })
+      ])
+    );
+  });
+
+  it('returns an error if entityId is blank', () => {
+    // Given
+    const entityType = 'website';
+    const entityId = '';
+
+    // When
+    const { result } = renderHook(() => useSliConfigurations(entityType, entityId));
+    const [, status, errors] = result.current;
+
+    // Then
+    expect(status).toEqual('rejected');
+    expect(errors).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          code: 'CLIENT',
+          message: expect.stringContaining('blank')
+        })
+      ])
+    );
+  });
 });

@@ -210,6 +210,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'websiteSmartAlertsAdaptiveBaselineEnabled',
+    instanaCtlKey: 'feature.website.smart.alerts.adaptive.baseline.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'websiteSloEnabled',
     instanaCtlKey: 'feature.slo.websites.enabled',
     defaultValue: false

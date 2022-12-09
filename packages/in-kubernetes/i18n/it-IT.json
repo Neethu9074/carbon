@@ -48,7 +48,7 @@
     "phase": "Fase",
     "reclaimPolicy": "Politica di recupero",
     "storageCapacity": "Capacità di archiviazione",
-    "storageClassName": "Nome classe di storage",
+    "storageClassName": "Nome classe di archiviazione",
     "cpuRequests": "Richieste CPU",
     "cpuLimitsAlloc": "Assegnazione limiti CPU",
     "memoryRequests": "Richieste di memoria",

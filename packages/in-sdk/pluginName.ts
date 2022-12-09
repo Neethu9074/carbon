@@ -5,6 +5,6 @@
 
 import { t } from 'in-i18n';
 
-export function getPluginName(plugin: string, count: number) {
+export function getPluginName(plugin?: string, count: number = 1) {
   return plugin && t('in-forge:pluginName', { count, context: plugin });
 }

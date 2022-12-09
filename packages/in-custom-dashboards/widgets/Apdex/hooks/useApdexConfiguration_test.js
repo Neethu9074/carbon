@@ -32,4 +32,19 @@ describe('in-custom-dashboards/widgets/Apdex/hooks/useApdexConfiguration', () =>
     // Then
     expect(apdexConfiguration).toMatchObject(response.data);
   });
+
+  it('returns an error if id is blank', () => {
+    // Given
+    const id = '';
+
+    // When
+    const { result } = renderHook(() => useApdexConfiguration(id));
+    const [, status, errors] = result.current;
+
+    // Then
+    expect(status).toEqual('rejected');
+    expect(errors).toEqual(
+      expect.arrayContaining([expect.objectContaining({ code: 'CLIENT', message: expect.stringContaining('blank') })])
+    );
+  });
 });

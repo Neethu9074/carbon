@@ -8,6 +8,7 @@ import React from 'react';
 
 import { create } from '@instana/observables';
 
+import NotificationBarSticky from 'in-components/Sticky/NotificationBarSticky';
 import { stickyWrapperClassName } from 'in-components/Sticky/scrolling';
 import createSideEffectHook from 'in-hooks/createSideEffectHook';
 import { debouncedResize$ } from 'in-services/browser';
@@ -110,6 +111,7 @@ export default class extends React.Component {
     return (
       <section ref={r => this.setWrapper(r)} className={stickyWrapperClassName}>
         <Header setHeader={r => this.setHeader(r)} setOrder={o => this.setOrder(o)}>
+          <NotificationBarSticky />
           {this.props.header}
         </Header>
         <div ref={r => this.setContentWrapper(r)}>{this.props.children}</div>

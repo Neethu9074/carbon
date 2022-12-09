@@ -11,14 +11,14 @@ import { t } from '@instana/i18n-react';
 
 // @ts-expect-error Module needs to be translated to TS
 import { isOverlappedWith } from 'in-applications/analyze/components/TraceDetails/components/IcicleChart/TimeRangeHelper';
-//import Filter from 'in-synthetics/dashboards/details/components/Filter';
-import { getType, types } from 'in-synthetics/utils/browserFileTypes';
 // @ts-expect-error Module needs to be translated to TS
 import HorizontalAxis from 'in-components/Axis/HorizontalAxis';
 import { ResultDetailsResponse, TestResultEntry, TestResultHARPage } from 'in-synthetics/utils/constants';
+import { getFilterType, getType, types } from 'in-synthetics/utils/browserFileTypes';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import EntriesList from 'in-synthetics/dashboards/details/components/EntriesList';
 import { millis, millisToTwoDecimalSeconds } from 'in-services/formatters/number';
+import Filter from 'in-synthetics/dashboards/details/components/Filter';
 import useResizeObserverCustom from 'in-hooks/useResizeObserver';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import createScale from 'in-services/scale/scale';
@@ -34,6 +34,7 @@ interface TimelineProps {
   details: ResultDetailsResponse;
   startTime: number;
   finishTime: number;
+  isBrowserType: boolean;
 }
 
 interface EntriesProps {
@@ -44,15 +45,16 @@ interface EntriesProps {
 
 interface OverviewChartToolTipProps {
   entry: TestResultEntry;
+  type: string;
 }
 
-export default function BrowserTestTimeline({ details, startTime, finishTime }: TimelineProps) {
-  //const [filter, setFilter] = useState({ query: '', type: 'ALL' });
+export default function BrowserTestTimeline({ details, startTime, finishTime, isBrowserType }: TimelineProps) {
+  const [filter, setFilter] = useState({ query: '', type: '' });
   const [expanded, setExpanded] = useState(defaultPage);
 
   const { data } = details;
 
-  const entriesToRender = data?.har?.log.entries.filter((entry: TestResultEntry) => {
+  const entriesToRender: TestResultEntry[] = data?.har?.log.entries.filter((entry: TestResultEntry) => {
     return entry.pageref === expanded ? entry : null;
   });
 
@@ -67,40 +69,28 @@ export default function BrowserTestTimeline({ details, startTime, finishTime }: 
     ])
   );
 
-  // let filteredEntries = entriesToRender.filter((entry: TestResultEntry) => {
-  //   if (filter.query === '') {
-  //     return entry;
-  //   } else if (entry.response.content.mimeType.split("/")[0].toLowerCase().includes(filter.query.toLowerCase())) {
-  //     return entry;
-  //   }
-  // });
-
-  // filteredEntries = filteredEntries?.filter((filteredEntry: TestResultEntry) => {
-  //   if (filter.type === 'TEXT') {
-  //     return filteredEntry.response.content.mimeType.split("/")[0].toLowerCase() === getOperation.toLowerCase();
-  //   } else if (filter.type === 'OTHERS') {
-  //     return filteredEntry.response.content.mimeType.split("/")[0].toLowerCase() !== getOperation.toLowerCase();
-  //   } else {
-  //     return filteredEntry;
-  //   }
-  // });
+  let filteredEntries: TestResultEntry[] = entriesToRender.filter((entry: TestResultEntry) => {
+    const type = getFilterType(entry.response.content.type.toLowerCase()).toLowerCase();
+    if (filter.type && !type.includes(filter.type.toLowerCase())) {
+      return false;
+    }
+    if (filter.query && !type.includes(filter.query.toLowerCase())) {
+      return false;
+    }
+    return true;
+  });
 
   return (
     <Card title={t('in-synthetics:dashboard.detailsPage.timeLineWidget')}>
       {data != undefined && data != null ? (
         <>
-          {/* <Filter setFilter={setFilter} filter={filter} /> */}
+          <Filter setFilter={setFilter} filter={filter} isBrowserType={isBrowserType} />
           <div className={locals.overviewChartContainer}>
-            {entriesToRender.length > 0 && entriesToRender[0].timings != null && (
-              <OverviewChart entries={entriesToRender} earliestTimestamp={startTime} endTimestamp={finishTime} />
+            {filteredEntries.length >= 0 && (
+              <OverviewChart entries={filteredEntries} earliestTimestamp={startTime} endTimestamp={finishTime} />
             )}
           </div>
-          <EntriesList
-            entries={data?.har?.log.entries}
-            pages={pagesToMap}
-            expanded={expanded}
-            setExpanded={setExpanded}
-          />
+          <EntriesList entries={filteredEntries} pages={pagesToMap} expanded={expanded} setExpanded={setExpanded} />
         </>
       ) : (
         <NoDataAvailable
@@ -149,8 +139,7 @@ function OverviewChart({ entries, earliestTimestamp, endTimestamp }: EntriesProp
 
       <div className={locals.entries} style={{ height: `${chartHeight}px` }}>
         {subStacked?.map(({ entry, depth }: any) => {
-          const mimeType: string = entry.response.content.mimeType.split('/')[1];
-          const type = getType(mimeType != undefined ? mimeType : 'x-unknown');
+          const type = getType(entry.response.content.type.toLowerCase());
           // @ts-expect-error
           const typeDefinition = types[type];
           const msTime = new Date(entry.startedDateTime).getTime();
@@ -160,7 +149,7 @@ function OverviewChart({ entries, earliestTimestamp, endTimestamp }: EntriesProp
           return (
             <Tooltip
               themeStyle="light"
-              content={<OverviewChartToolTip entry={entry} />}
+              content={<OverviewChartToolTip entry={entry} type={type} />}
               key={entry.serverIPAddress + Math.random()}
             >
               <div
@@ -182,9 +171,7 @@ function OverviewChart({ entries, earliestTimestamp, endTimestamp }: EntriesProp
   );
 }
 
-function OverviewChartToolTip({ entry }: OverviewChartToolTipProps) {
-  const mimeType: string = entry.response.content.mimeType.split('/')[1];
-  const type = getType(mimeType != undefined ? mimeType : 'x-unknown');
+function OverviewChartToolTip({ entry, type }: OverviewChartToolTipProps) {
   // @ts-expect-error
   const typeDefinition = types[type];
   return (
