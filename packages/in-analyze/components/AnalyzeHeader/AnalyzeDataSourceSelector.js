@@ -14,9 +14,14 @@ import { Li, Ul } from '@instana/components';
 import { getIconByType, getLabelByType, productAreaIcons, productAreaLabels } from 'in-analyze/AnalyzeView/dataSources';
 /* eslint-disable no-restricted-imports */
 import { getTagCatalog as getTracesTagCatalog } from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
+import {
+  hasApplicationsAccess,
+  hasMobileAppsAccess,
+  hasWebsitesAccess,
+  hasInfrastructureAccess
+} from 'in-stores/permission';
 import { getTagCatalog as getCallsTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { getLinkToAnalyze as getLinkToProfilesAnalyze } from 'in-components/Profiling/navigation/paths';
-import { hasApplicationsAccess, hasMobileAppsAccess, hasWebsitesAccess } from 'in-stores/permission';
 import { getLinkToAnalyze as getLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { getLinkToAnalyze as getLinkToMobileAppAnalyze } from 'in-mobile-apps/navigation/paths';
 import { getLinkToAnalyze as getLinkToWebsiteAnalyze } from 'in-websites/navigation/paths';
@@ -215,7 +220,7 @@ const productAreas = [
   },
   {
     productArea: 'infrastructure',
-    hasAccess: infraExploreDataEnabled,
+    hasAccess: infraExploreDataEnabled && hasInfrastructureAccess,
     dataSources: [
       {
         dataSource: 'infrastructure',
