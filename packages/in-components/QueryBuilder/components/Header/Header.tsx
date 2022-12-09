@@ -5,12 +5,43 @@
 
 import React from 'react';
 
-import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
+import { MetricDescription } from '@instana/types/typeDefinitions';
+
+// @ts-expect-error needs TS migration
 import CountHeader from 'in-components/QueryBuilder/components/Header/CountHeader';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
+import { UngroupedViewProps } from 'in-components/AnalyzeView/UngroupedView/types';
+import { OrderBy } from 'in-logging/analyze/AnalyzeView/components/Logs/types';
 
 import locals from './Header.mless';
 
-export default function Header(props) {
+type Metric = {
+  metric: string;
+  aggregation?: string;
+};
+
+export interface HeaderProps extends UngroupedViewProps {
+  withGrouping?: boolean;
+  withAdjustedWindowSizeTooltip: boolean;
+  withResultsInGroups?: boolean;
+  renderHistoricDataIndicator: boolean;
+  hasErrors: boolean;
+  fastQueryModeEnabled?: boolean;
+  order: OrderBy;
+  totalHits?: number;
+  totalRetainedItemCount?: number;
+  totalRepresentedItemCount?: number;
+  getHitName?: () => string;
+  setOrder: (order: OrderBy) => void;
+  availableMetrics: MetricDescription[];
+  metrics: Metric[];
+  setMetrics: (metrics: Metric[]) => void;
+  tracking: Record<string, (metric: Metric) => void>;
+  withCountHeader?: boolean;
+  MetricConfiguratorHint: (props: { metricId: string }) => JSX.Element | null;
+}
+
+export default function Header(props: HeaderProps) {
   const {
     totalRepresentedItemCount,
     CustomHeaderActions,

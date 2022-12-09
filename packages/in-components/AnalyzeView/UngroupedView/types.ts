@@ -4,57 +4,86 @@
  * Copyright IBM Corp. 2022
  */
 
-import { Result, LogItem } from '@instana/types/typeDefinitions';
+import { Progress, TagFilter, TagFilterExpressionElementUnion, TimeConfig } from '@instana/types';
 import { ColumnizedDefinition } from '@instana/components';
-import { Progress, TagFilter } from '@instana/types';
 import { Observable } from '@instana/observables';
 
-import { GetDataParams, HeaderActionProps } from 'in-logging/analyze/AnalyzeView/components/Logs/types';
 import { StateManagementChildProps } from 'in-components/AnalyzeView/StateManagement';
+import { OrderBy } from 'in-logging/analyze/AnalyzeView/components/Logs/types';
+import { HeaderProps } from 'in-components/QueryBuilder/components/Header';
+import useCursorPagination from 'in-hooks/useCursorPagination';
 
-/*
- * Interim types - correct and narrow down the types once UngroupedView.js is migrated to TS
- * */
-export interface UngroupedViewProps extends StateManagementChildProps {
-  Presenter?: JSX.Element;
-  useCursorPaginationStrategy: () => unknown;
-  classNames: Record<string, string>;
-  columnDefinitions: ColumnizedDefinition[];
-  getData: (params: GetDataParams) => Observable<Result<unknown>>;
-  getId: (item: any) => string;
-  withoutListItemLinkToDetails: boolean;
-  renderNestedContent: (_: unknown, item: any) => JSX.Element;
-  withEmbeddedLoadingIndicator: boolean;
-  initiallyOpenedItemIds: string[];
-  onToggleContentRow: (toggled: boolean, item: any) => void;
-  initialLines: number;
-  DetailView: () => JSX.Element | null;
-  getDetailData: (detailId: string) => Observable<Result<LogItem>>;
-  onSelectTagHref: ((tag: TagFilter) => string) | undefined;
-  withCountHeader: boolean;
-  withoutHeader: boolean;
-  CustomHeaderActions: ({ orderBy, setOrder }: HeaderActionProps) => JSX.Element;
-  infiniteScroll?: InfiniteScrollProps;
-}
-
+type CursorPaginationStrategy = typeof useCursorPagination;
 type InfiniteScrollProps = { loadingCompleteMessage: string } | boolean;
 
-/*
- * Interim types - reconcile with UngroupedViewProps once UngroupedView.js is migrated to TS
- * */
-export interface ListProps extends UngroupedViewProps {
-  result: Result<unknown>;
+type CursorPaginationReturn = ReturnType<CursorPaginationStrategy>;
+export type Presenter = (props: PresenterProps) => JSX.Element;
+
+export interface GetDataParams {
+  timeConfig: TimeConfig;
+  orderBy: OrderBy;
+  backendQueryModel: TagFilterExpressionElementUnion;
+  dataSource: string;
+  afterKey?: string;
+  initialLogLines?: number;
+  retrievalSize?: number;
+}
+
+interface DetailViewProps extends UngroupedViewProps, CursorPaginationReturn {
+  hasErrors: boolean;
+  hasItems: boolean;
+  ListItemContent?: (props: unknown) => JSX.Element;
+  tracker: Record<string, () => void>;
+}
+
+export interface PresenterProps extends UngroupedViewProps, CursorPaginationReturn {
+  hasErrors: boolean;
   hasItems: boolean;
   items: Record<string, unknown>[];
   canLoadMore: boolean;
-  loadMore: () => void;
   progress: Progress;
-  groupKey: string;
-  time: string;
+}
+
+export interface UngroupedViewProps<Item = any> extends StateManagementChildProps {
+  withoutHeader: boolean;
+  withOverflow?: boolean;
+  hideMetricAndSortingConfigurator?: boolean;
+  detailId?: string;
+  groupLabel: string;
+  DetailView: (detailViewProps: DetailViewProps) => JSX.Element | null;
+  CustomHeaderActions: (props: HeaderProps) => JSX.Element;
+  Chart: (props: UngroupedViewProps<Item>) => JSX.Element;
+  Sidebar: (props: UngroupedViewProps<Item>) => JSX.Element;
+  Presenter: (props: PresenterProps) => JSX.Element;
+  SplitScreenListItemContent?: () => JSX.Element;
+  getItemName?: () => string;
+  getData: (params: GetDataParams) => Observable<unknown>;
+  getDetailData: (detailId: string) => Observable<any>;
+  getId: (item: Item) => string;
+  columnDefinitions: ColumnizedDefinition[];
+  useCursorPaginationStrategy: CursorPaginationStrategy;
+}
+
+export interface UngroupedViewListProps<Item> extends Omit<UngroupedViewProps, 'Presenter'> {
+  classNames: Record<string, string>;
+  renderNestedContent: (id: string, item: Item) => JSX.Element;
+  withoutListItemLinkToDetails: boolean;
+  withEmbeddedLoadingIndicator: boolean;
+  withCountHeader: boolean;
+  initiallyOpenedItemIds: string[];
+  onToggleContentRow: (toggled: boolean, item: Item) => void;
+  infiniteScroll: InfiniteScrollProps;
+  initialLines: number;
+  onSelectTagHref?: (tag: TagFilter) => string;
+}
+
+export interface UngroupedViewListPresenterProps<Item = any> extends UngroupedViewListProps<Item>, PresenterProps {
+  loadMore: () => void;
+  groupKey: unknown;
 }
 
 export interface ListItemProps {
-  isInitiallyToggled: boolean;
+  isInitiallyToggled?: boolean;
   item: unknown;
   href?: string;
   className: string;
