@@ -66,7 +66,7 @@ function shouldDisplayDeprecatedLabel(plugin: string): boolean {
   return deprecateAppDataLegacyEventsEnabled && isDeprecatedAppDataEntityType(plugin);
 }
 
-export function formatterTypeToDefinition(formatterType: FormatterType) {
+export function formatterTypeToValueLabel(formatterType: FormatterType, metricName: string) {
   switch (formatterType) {
     case 'LATENCY':
     case 'MILLIS':
@@ -90,6 +90,12 @@ export function formatterTypeToDefinition(formatterType: FormatterType) {
     case 'MEGA_BYTES':
       return t('in-settings:tabs.megabytes');
     case 'NUMBER':
+      if (metricName.toLowerCase().includes('status')) {
+        // Unfortunately, there is no separate formatter type for status values, which also use the same NUMBER format.
+        // However, using a label of "Count" for  its value would be incorrect or misleading here. Therefore, we derive the
+        // information of whether it might be a status metric out of the metric name as a heuristic, to improve this for now.
+        return t('in-settings:tabs.statusValue');
+      }
       return t('in-settings:tabs.count');
     case 'UNDEFINED':
       return t('in-settings:tabs.value');
