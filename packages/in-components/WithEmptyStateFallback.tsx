@@ -20,7 +20,7 @@ interface FallbackComponentProps {
 }
 
 interface Props extends Pick<EntityPageMainNotificationProps, 'title' | 'explanation' | 'changeExplanation'> {
-  getHasDataToRender?: () => Observable<boolean>;
+  getHasDataToRender: () => Observable<boolean>;
   center?: boolean;
   type?: string;
   FallbackComponent?: (props: FallbackComponentProps) => JSX.Element;
@@ -36,7 +36,10 @@ export default function WithEmptyStateFallback(props: React.PropsWithChildren<Pr
     explanation,
     getHasDataToRender
   } = props;
-  const hasDataToRender = useObservable(getHasDataToRender?.().distinct(), [getHasDataToRender]);
+
+  // Make sure to default to true until useObservable has supplied a value. This is to support use-cases where the
+  // fallback component triggers a navigation
+  const hasDataToRender = useObservable(getHasDataToRender().distinct(), [getHasDataToRender]) ?? true;
   if (hasDataToRender) {
     return children;
   }
