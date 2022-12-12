@@ -47,8 +47,20 @@ import locals from './AnalyzeDataSourceSelector.mless';
 
 const productAreas = [
   {
+    productArea: 'logs',
+    hasAccess: loggingEnabled && role.canViewLogs,
+    dataSources: [
+      {
+        dataSource: 'logs',
+        beta: true,
+        getHref$: getLinkToLogsAnalyze,
+        onClickSideEffect: () => jumpToLogs({ source: 'navigation' })
+      }
+    ]
+  },
+  {
     productArea: 'application',
-    hasAccess: hasApplicationsAccess || loggingEnabled,
+    hasAccess: hasApplicationsAccess,
     dataSources: [
       {
         dataSource: 'calls',
@@ -74,13 +86,6 @@ const productAreas = [
             groupBy: isGrouped ? defaultApplicationGroupings.traces : emptyObject,
             setOnClickNotificationMessage
           })
-      },
-      {
-        dataSource: 'logs',
-        beta: loggingEnabled,
-        enabled: loggingEnabled && role.canViewLogs,
-        getHref$: getLinkToLogsAnalyze,
-        onClickSideEffect: () => jumpToLogs({ source: 'navigation' })
       }
     ]
   },

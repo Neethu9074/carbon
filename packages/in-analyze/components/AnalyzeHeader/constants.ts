@@ -30,7 +30,7 @@ export const dataSourceSources: DataSourceMatrix[] = [
   {
     matrixPath: logsAnalyzePath,
     matrixParam: logsDataSourceTypeMatrixParameter,
-    productArea: 'application'
+    productArea: 'logs'
   },
   {
     pathPrefix: websiteMonitoringPath,
