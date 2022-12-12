@@ -1,6 +1,6 @@
 {
-  "name": "Dropdown",
+  "name": "dropdown",
   "version": "0.0.0",
   "private": true,
-  "main": "./Dropdown.js"
+  "main": "./Dropdown"
 }

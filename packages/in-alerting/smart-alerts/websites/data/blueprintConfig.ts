@@ -37,6 +37,7 @@ import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { FixedTimeConfig } from 'in-stores/time/config';
 import { isNotBlank } from 'in-services/util/string';
 import { deepFreeze } from 'in-services/util/object';
+import { Option } from 'in-components/ComboBox';
 import { t } from 'in-i18n';
 
 const jsErrorMetricLabelsByName: Record<string, string> = Object.freeze({
@@ -65,12 +66,7 @@ export type MetricName =
 
 export type WebsitesAlertType = 'slowness' | 'specificJsError' | 'statusCode' | 'throughput' | 'customEvent';
 
-interface Option<VALUE_TYPE> {
-  value: VALUE_TYPE;
-  label: string;
-}
-
-type ThresholdTypeOptions = readonly Option<string>[];
+type ThresholdTypeOptions = readonly Option[];
 
 const websitesThresholdTypeOptions: ThresholdTypeOptions = deepFreeze([
   ...thresholdTypeOptions,

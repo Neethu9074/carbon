@@ -11,9 +11,9 @@ import { thresholdTypeOptions } from 'in-alerting/smart-alerts/components/smart-
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { AlertEvaluationType, ThresholdType } from 'in-types';
 import { deepFreeze } from 'in-services/util/object';
+import { Option } from 'in-components/ComboBox';
 import { t } from 'in-i18n';
 
-type Option = { readonly value: string; readonly label: string };
 type Options = readonly Option[];
 
 const baselineTypes = [HISTORIC_BASELINE, ADAPTIVE_BASELINE];

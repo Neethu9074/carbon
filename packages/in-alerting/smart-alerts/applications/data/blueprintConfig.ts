@@ -40,6 +40,7 @@ import getApplicationMetrics from 'in-applications/subscriptions/getApplicationM
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { FixedTimeConfig } from 'in-stores/time/config';
 import { isNotBlank } from 'in-services/util/string';
+import { Option } from 'in-components/ComboBox';
 import { t } from 'in-i18n';
 
 const statusCodeMetricLabelsByName: Record<string, string> = Object.freeze({
@@ -73,12 +74,7 @@ interface BluePrintBase {
 
 export type ApplicationAlertType = 'slowness' | 'errorRate' | 'logs' | 'statusCode' | 'throughput';
 
-interface Option<VALUE_TYPE> {
-  value: VALUE_TYPE;
-  label: string;
-}
-
-type ThresholdTypeOptions = readonly Option<string>[]; // LATER replace with Option<ThresholdTypeOptions>[];
+type ThresholdTypeOptions = readonly Option[];
 
 export interface BluePrint extends BluePrintBase {
   readonly type: ApplicationAlertType;
