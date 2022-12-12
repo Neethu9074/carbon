@@ -30,7 +30,6 @@ export default function StatusCodeThresholdCondition({ form, blueprintConfig, up
   return (
     <ThresholdConditionFormGroup>
       <Dropdown
-        asSimpleDropdown
         value={metricName}
         items={ruleMetricNameOptions.statusCode}
         onChange={value => {

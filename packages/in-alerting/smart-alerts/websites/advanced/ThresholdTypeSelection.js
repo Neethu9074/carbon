@@ -42,7 +42,6 @@ export default function ThresholdTypeSelection({
         <span>{options[0].label}</span>
       ) : (
         <Dropdown
-          asSimpleDropdown
           items={options}
           value={value}
           onChange={newThresholdTypeWithSeasonality => {

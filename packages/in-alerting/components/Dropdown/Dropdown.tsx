@@ -3,8 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { string, arrayOf, shape, func, bool } from 'prop-types';
-import classNames from 'classnames';
+import { arrayOf, func, shape, string } from 'prop-types';
 import React from 'react';
 
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
@@ -14,31 +13,15 @@ import { Option } from 'in-components/ComboBox';
 import locals from 'in-alerting/components/Dropdown/Dropdown.mless';
 
 interface DropdownProps {
-  icon: string;
-  // this had no effect
-  // align = 'bottomMiddle',
   items: Option[];
   value: string;
   onChange: (value: string) => void;
-  asSimpleDropdown?: boolean;
-  className?: string;
 }
 
-export default function Dropdown({
-  icon,
-  // this had no effect
-  // align = 'bottomMiddle',
-  items,
-  value,
-  onChange,
-  asSimpleDropdown,
-  className
-}: DropdownProps) {
+export default function Dropdown({ items, value, onChange }: DropdownProps) {
   const selectedLabel = (value && items?.find?.(item => item.value === value)?.label) ?? items[0]?.label;
   return (
     <ComboBoxBehavior<string>
-      // broken since a while as it was not using the new props: overlayAlignment
-      // align={align}
       options={items}
       value={value}
       onChange={newValue => {
@@ -53,16 +36,7 @@ export default function Dropdown({
         // @ts-expect-error the 'ref' property does not match here against HTMLElement:
         // const DropdownButton = React.forwardRef<HTMLButtonElement, Props>(function DropdownButton(
         // Let's revamp after the DropdownButton in ui-foundation
-        <DropdownButton
-          {...elementProps}
-          className={classNames({
-            [locals.simpleDropdown]: asSimpleDropdown,
-            [className as string]: className
-          })}
-          kind={asSimpleDropdown ? 'subtle' : 'primaryv2'}
-          icon={icon}
-          expanded={isOpen}
-        >
+        <DropdownButton {...elementProps} className={locals.simpleDropdown} kind="subtle" expanded={isOpen}>
           {selectedLabel}
         </DropdownButton>
       )}
@@ -72,8 +46,6 @@ export default function Dropdown({
 
 // left for extra checking when used by javascript based components
 Dropdown.propTypes = {
-  icon: string,
-  align: string,
   items: arrayOf(
     shape({
       label: string.isRequired,
@@ -81,7 +53,5 @@ Dropdown.propTypes = {
     })
   ).isRequired,
   value: string.isRequired,
-  onChange: func.isRequired,
-  asSimpleDropdown: bool,
-  className: string
+  onChange: func.isRequired
 };

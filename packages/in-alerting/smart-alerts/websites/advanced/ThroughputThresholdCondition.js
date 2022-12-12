@@ -39,7 +39,6 @@ export default function ThroughputThresholdCondition({ form, updateForm, bluepri
     <>
       <ThresholdConditionFormGroup>
         <Dropdown
-          asSimpleDropdown
           value={metricName}
           items={ruleMetricNameOptions.throughput}
           onChange={value => {

@@ -44,7 +44,6 @@ export default function SlownessThresholdCondition({ form, updateForm, blueprint
       <ThresholdConditionFormGroup>
         <Label>{blueprintConfig.getMetricLabel(metricName)}</Label>
         <Dropdown
-          asSimpleDropdown
           value={getAggregationValue(form)}
           items={getAggregationOptions(form)}
           onChange={value => {

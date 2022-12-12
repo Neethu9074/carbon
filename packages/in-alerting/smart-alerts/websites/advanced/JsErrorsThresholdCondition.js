@@ -30,7 +30,6 @@ export default function JsErrorsThresholdCondition({ form, blueprintConfig, upda
   return (
     <ThresholdConditionFormGroup>
       <Dropdown
-        asSimpleDropdown
         value={metricName}
         items={ruleMetricNameOptions.specificJsError}
         onChange={value => {

@@ -57,7 +57,6 @@ export default function StatusCodeThresholdCondition({
         ) : (
           <>
             <Dropdown
-              asSimpleDropdown
               value={metricName}
               items={ruleMetricNameOptions.statusCode}
               onChange={value => {
