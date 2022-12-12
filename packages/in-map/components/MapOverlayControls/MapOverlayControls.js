@@ -18,7 +18,7 @@ export default function MapOverlayControls() {
     <div
       className={block}
       style={{
-        bottom: toPx(20)
+        bottom: toPx(70)
       }}
     >
       <PhysicalContent />
