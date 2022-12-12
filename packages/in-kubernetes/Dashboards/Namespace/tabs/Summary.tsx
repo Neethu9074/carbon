@@ -31,7 +31,7 @@ import { getNamespaceDashboard, summaryTab } from 'in-kubernetes/navigation/path
 // @ts-expect-error
 import TopPodsList from 'in-kubernetes/Dashboards/commonComponents/TopPodsList';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import MultiMetricBigNumberKpiCard from 'in-components/KpiCard/MultiMetricBigNumberKpiCard';
+import MultiMetricBigNumberKpiCard from 'in-kubernetes/components/MultiMetricBigNumberKpiCard';
 // @ts-expect-error
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';

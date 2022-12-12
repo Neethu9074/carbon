@@ -20,8 +20,8 @@ import { tagEquals, andQuery } from 'in-kubernetes/Dashboards/commonComponents/L
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 // @ts-expect-error
 import { getNodeDashboard, summaryTab } from 'in-kubernetes/navigation/paths';
+import MultiMetricBigNumberKpiCard from 'in-kubernetes/components/MultiMetricBigNumberKpiCard';
 import { zeroDecimalPlaces, percentage, number, bytes } from 'in-services/formatters/number';
-import MultiMetricBigNumberKpiCard from 'in-components/KpiCard/MultiMetricBigNumberKpiCard';
 import { resourceQuotaNumber, resourceQuotaBytes } from 'in-kubernetes/formatters';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';

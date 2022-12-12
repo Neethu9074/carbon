@@ -17,11 +17,11 @@ import Tooltip from 'in-components/Tooltip';
 import { ResultPrecision } from 'in-types';
 import { t } from 'in-i18n';
 
-import locals from './KpiCard.mless';
+import locals from 'in-components/KpiCard/KpiCard.mless';
 
 const valueSplitRegExp = new RegExp(`^([0-9\\${decimalSeparator}\\${thousandsSeparator}]+)(.*)$`);
 
-export interface IconAction {
+export interface KpiCardIconAction {
   text: string;
   icon: string;
   kind?: keyof typeof ButtonKinds;
@@ -47,7 +47,7 @@ export interface MultiMetricKpiCardProps {
   centerLabels?: boolean;
   color?: string;
   useMaxAvailableHeight?: boolean;
-  iconAction?: IconAction;
+  iconAction?: KpiCardIconAction;
   resultPrecision?: ResultPrecision;
 }
 
@@ -71,27 +71,27 @@ export default function MultiMetricKpiCard({
   const { ref, width } = useResizeObserver<HTMLDivElement>();
   const hasApproximateData = resultPrecision === 'PRECISION_APPROXIMATE';
 
-  let content;
   var resource;
   var percentage;
   if (value) {
     resource = value[0];
     percentage = value[1];
   }
-  if (raw || renderValue) {
-    let formattedValue;
-    if (resource === undefined) {
-      formattedValue = '';
-    } else if (resource === null) {
-      formattedValue = valueMissingPlaceholder;
-    } else {
-      formattedValue = renderValue ? renderValue(resource) : resource.toString();
-    }
+  let formattedValue;
+  if (resource === undefined) {
+    formattedValue = '';
+  } else if (resource === null) {
+    formattedValue = valueMissingPlaceholder;
+  } else {
+    formattedValue = renderValue?.(resource) ?? resource.toString();
+  }
 
+  let content;
+  if (raw) {
     if (percentage !== null) {
       var percentageNumber = percentage.replace('%', '');
       content = (
-        <span className={classNames(locals.minor, valuesClassName)}>
+        <span className={classNames(locals.unit, valuesClassName)}>
           {formattedValue}{' '}
           <span className={classNames(locals.capacity_font, valuesClassName)}>
             {'(' + Number(percentageNumber).toFixed(1) + '%)'}
@@ -99,33 +99,31 @@ export default function MultiMetricKpiCard({
         </span>
       );
     } else {
-      content = <span className={classNames(locals.minor, valuesClassName)}>{formattedValue}</span>;
+      content = <span className={classNames(locals.unit, valuesClassName)}>{formattedValue}</span>;
     }
   } else if (children) {
-    content = <span className={classNames(locals.minor, valuesClassName)}>{children}</span>;
+    content = <span className={classNames(locals.unit, valuesClassName)}>{children}</span>;
   } else {
-    let major;
-    let minor = null;
-    if (value === undefined) {
-      major = '';
-    } else if (value === null) {
-      major = valueMissingPlaceholder;
+    let value;
+    let unit = null;
+    if (value === undefined || value === null) {
+      value = formattedValue;
     } else {
-      const match = String(value).match(valueSplitRegExp);
+      const match = String(formattedValue).match(valueSplitRegExp);
       if (!match) {
-        major = value;
+        value = formattedValue;
       } else {
-        major = match[1];
-        minor = match[2];
+        value = match[1];
+        unit = match[2];
       }
     }
 
     content = (
       <>
-        <span className={locals.major} style={{ color: color }}>
-          {major}
+        <span className={locals.value} style={{ color: color }}>
+          {value}
         </span>
-        {minor && <span className={locals.minor}>{minor}</span>}
+        {unit && <span className={locals.unit}>{unit}</span>}
       </>
     );
   }

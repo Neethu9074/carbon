@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2022
  */
 
 import React, { ReactNode } from 'react';
@@ -8,7 +9,7 @@ import React, { ReactNode } from 'react';
 import MultiMetricResultAwareBigNumberKpiCard, {
   Config,
   ConfigWithCompanionMetric
-} from 'in-components/KpiCard/MultiMetricResultAwareBigNumberKpiCard';
+} from 'in-kubernetes/components/MultiMetricResultAwareBigNumberKpiCard';
 import { GetBigNumberKpiCardResult } from 'in-components/KpiCard/KpiHelper';
 import { IconAction } from 'in-components/KpiCard/KpiCard';
 import { FormatterFn } from 'in-stores/metric/formatters';

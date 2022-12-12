@@ -7,9 +7,9 @@ import React, { ReactNode } from 'react';
 import { find } from 'lodash';
 
 import { MetricResult, Result, TagFilter, TimeConfig, UnifiedMetricConfigurationUnion } from 'in-types';
-import MultiMetricResultAwareKpiCard from 'in-components/KpiCard/MultiMetricResultAwareKpiCard';
+import MultiMetricKpiCard, { KpiCardIconAction } from 'in-kubernetes/components/MultiMetricKpiCard';
+import MultiMetricResultAwareKpiCard from 'in-kubernetes/components/MultiMetricResultAwareKpiCard';
 import { getTimeShiftLabel, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
-import MultiMetricKpiCard, { IconAction } from 'in-components/KpiCard/MultiMetricKpiCard';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import Badge from 'in-custom-dashboards/widgets/BigNumber/Badge';
 import { percentage } from 'in-services/formatters/number';
@@ -39,7 +39,7 @@ export interface MultiResultAwareBigNumberKpiCardProps {
   formatter: Array<FormatterFn>;
   companionFormatter?: FormatterFn;
   useMaxAvailableHeight?: boolean;
-  iconAction?: IconAction;
+  iconAction?: KpiCardIconAction;
   config: Array<Config | ConfigWithCompanionMetric>;
   actions?: ReactNode;
   dragHandle?: ReactNode;
@@ -108,7 +108,7 @@ export function renderKpiCard(
   title: string,
   timeConfig: TimeConfig,
   companionFormatter: FormatterFn | undefined,
-  iconAction: IconAction | undefined,
+  iconAction: KpiCardIconAction | undefined,
   actions: ReactNode,
   dragHandle: ReactNode,
   useMaxAvailableHeight: boolean | undefined,
