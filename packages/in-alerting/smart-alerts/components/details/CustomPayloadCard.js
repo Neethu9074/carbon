@@ -46,7 +46,7 @@ export default function CustomPayloadCard({
 }
 
 CustomPayloadCard.propTypes = {
-  TagBasedPayloadConfigurator: PropTypes.node,
+  TagBasedPayloadConfigurator: PropTypes.func,
   customPayloadFields: PropTypes.array,
   title: PropTypes.string,
   noCustomPayloadConfiguredText: PropTypes.string,
