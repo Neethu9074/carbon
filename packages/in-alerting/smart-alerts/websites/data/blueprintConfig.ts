@@ -1,38 +1,42 @@
 /*
  * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc. 2021
+ * (c) Copyright Instana Inc.
  */
 
 import {
   AggregationType,
+  BeaconType,
+  CustomEventWebsiteAlertRule,
   HistoricBaselineData,
+  isAdaptiveBaselineConfig,
   SlownessWebsiteAlertRule,
   SpecificJsErrorsWebsiteAlertRule,
   StatusCodeWebsiteAlertRule,
-  CustomEventWebsiteAlertRule,
   TagFilterOperator,
   ThresholdConfig,
   ThresholdOperator,
   WebsiteAlertConfig,
-  WebsiteAlertRule,
-  BeaconType
+  WebsiteAlertRule
 } from '@instana/types';
 
+import {
+  getApproximatedAdaptiveBaselineThresholdValue,
+  getApproximatedHistoricBaselineThresholdValue
+} from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import getWebsiteRateMetricThresholdSuggestion from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteRateMetricThresholdSuggestion';
 import getWebsiteMetricsThresholdSuggestion from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteMetricsThresholdSuggestion';
 import getWebsiteRateMetricAlertsPreview from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteRateMetricAlertsPreview';
 import getWebsiteMetricAlertsPreview from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteMetricAlertsPreview';
 import { thresholdTypeOptions } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/thresholdFormData';
-import { getApproximatedHistoricBaselineThresholdValue } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { ADAPTIVE_BASELINE, isStaticThresholdConfig } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import getWebsiteRateMetric from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteRateMetric';
 import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 // @ts-expect-error needs conversion to TS
 import { availableFilterTags } from 'in-websites/tags';
 import { toTagFilterNumberOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
+import { millis, number, NumberFormatter, percentage } from 'in-services/formatters/number';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
-import { millis, number, percentage } from 'in-services/formatters/number';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { FixedTimeConfig } from 'in-stores/time/config';
 import { isNotBlank } from 'in-services/util/string';
@@ -64,9 +68,56 @@ export type MetricName =
   | 'errors'
   | 'beaconCount';
 
+interface BluePrintBase {
+  readonly isCustomRateMetric: typeof isCustomRateMetric;
+  readonly getMetricsRequest: (metricName: MetricName) => typeof getWebsiteRateMetric | typeof getWebsiteMetrics;
+  readonly getAlertsPreviewRequest: (
+    metricName: MetricName
+  ) => typeof getWebsiteRateMetricAlertsPreview | typeof getWebsiteMetricAlertsPreview;
+  readonly getThresholdSuggestionRequest: (
+    metricName: MetricName
+  ) => typeof getWebsiteRateMetricThresholdSuggestion | typeof getWebsiteMetricsThresholdSuggestion;
+  readonly thresholdDefaults: { readonly operator: ThresholdOperator };
+  readonly getThresholdTypeOptions: () => ThresholdTypeOptions;
+
+  readonly getEntityTagFilterFormModel: (
+    alertConfig: WebsiteAlertConfig
+  ) => { name: string; operator: TagFilterOperator; value?: any };
+
+  readonly getRuleTagFilterFormModel: (alertRule: WebsiteAlertRule) => FormModelElement[];
+  readonly getExtraAnalyzeLinkTagFilterFormModel: (
+    alertConfig: WebsiteAlertConfig,
+    timeConfig: FixedTimeConfig
+  ) => FormModelElement[];
+}
+
 export type WebsitesAlertType = 'slowness' | 'specificJsError' | 'statusCode' | 'throughput' | 'customEvent';
 
 type ThresholdTypeOptions = readonly Option[];
+
+export interface BluePrint extends BluePrintBase {
+  readonly type: WebsitesAlertType;
+  readonly name: string;
+  readonly headline?: string;
+  readonly text?: string;
+  readonly subType?: string;
+  readonly isSelected?: (alertThreshold: ThresholdConfig) => boolean;
+
+  readonly baselineEnabled: boolean;
+  readonly defaultMetric: MetricName;
+  readonly getMetricName: (alertRule: WebsiteAlertRule) => string; // TODO figure out if the backend type could be a enum which could map to MetricName?
+  readonly getMetricLabel: (metricName: MetricName) => string;
+  readonly getMetricFormat: (metricName: MetricName) => NumberFormatter;
+  readonly getMaxMetricValue: (metricName: MetricName) => number;
+
+  readonly getAvailableTags: (metricName: MetricName) => string[];
+  readonly getBeaconType: (metricName: MetricName) => BeaconType;
+  readonly getAggregation: (alertRule: WebsiteAlertRule) => AggregationType;
+
+  readonly isRuleComplete: (alertRule: WebsiteAlertRule) => boolean;
+  readonly incompleteRuleMessage?: string;
+  readonly impactTimeThresholdDisabled?: boolean;
+}
 
 const websitesThresholdTypeOptions: ThresholdTypeOptions = deepFreeze([
   ...thresholdTypeOptions,
@@ -76,7 +127,7 @@ const websitesThresholdTypeOptions: ThresholdTypeOptions = deepFreeze([
   }
 ]);
 
-const baseBlueprint: BluePrintBase = Object.freeze({
+const baseBlueprint: Readonly<BluePrintBase> = Object.freeze({
   isCustomRateMetric: isCustomRateMetric,
   getMetricsRequest: metricName => (isCustomRateMetric(metricName) ? getWebsiteRateMetric : getWebsiteMetrics),
   getAlertsPreviewRequest: metricName =>
@@ -92,7 +143,7 @@ const baseBlueprint: BluePrintBase = Object.freeze({
   getExtraAnalyzeLinkTagFilterFormModel: () => []
 });
 
-const slownessBlueprintConfig: BluePrint = Object.freeze({
+const slownessBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   ...baseBlueprint,
   type: 'slowness',
   name: t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigName'),
@@ -125,17 +176,7 @@ const slownessBlueprintConfig: BluePrint = Object.freeze({
   getExtraAnalyzeLinkTagFilterFormModel: getExtraSlownessAnalyzeLinkTagFilterFormModel
 });
 
-type NumberFormatter =
-  | ((...args: any) => string)
-  | {
-      compact?: (...args: any) => string;
-      detailed?: (...args: any) => string;
-
-      // More properties may be defined, but we ignore them.
-      [other: string]: any;
-    };
-
-const jsErrorsBlueprintConfig: BluePrint = Object.freeze({
+const jsErrorsBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   ...baseBlueprint,
   type: 'specificJsError',
   name: t('in-alerting:smartAlerts.websites.data.jsErrorsBlueprintConfigName'),
@@ -162,7 +203,7 @@ const jsErrorsBlueprintConfig: BluePrint = Object.freeze({
   getExtraAnalyzeLinkTagFilterFormModel: () => [] // TODO in AP error blueprint, we add a call.erroneous filter, to only show erroneous calls, in WebsiteSmartAlerts we never did that. Ask PM whether we want to add such filter for Websites as well.
 });
 
-const statusCodeBlueprintConfig: BluePrint = Object.freeze({
+const statusCodeBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   ...baseBlueprint,
   type: 'statusCode',
   name: t('in-alerting:smartAlerts.websites.data.statusCodeBlueprintConfigName'),
@@ -189,7 +230,7 @@ const statusCodeBlueprintConfig: BluePrint = Object.freeze({
   getBeaconType: () => 'httpRequest'
 });
 
-const throughputBlueprintConfig: BluePrint = Object.freeze({
+const throughputBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   ...baseBlueprint,
   type: 'throughput',
   name: t('in-alerting:smartAlerts.websites.data.throughputBlueprintConfigName'),
@@ -209,7 +250,7 @@ const throughputBlueprintConfig: BluePrint = Object.freeze({
   impactTimeThresholdDisabled: true
 });
 
-const customEventBlueprintConfig: BluePrint = Object.freeze({
+const customEventBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   ...baseBlueprint,
   type: 'customEvent',
   name: t('in-alerting:smartAlerts.websites.data.customEventBlueprintConfigName'),
@@ -236,7 +277,7 @@ const customEventBlueprintConfig: BluePrint = Object.freeze({
   getBeaconType: () => 'custom'
 });
 
-export const blueprintConfigs: readonly BluePrint[] = Object.freeze([
+export const blueprintConfigs: readonly Readonly<BluePrint>[] = Object.freeze([
   slownessBlueprintConfig,
   jsErrorsBlueprintConfig,
   statusCodeBlueprintConfig,
@@ -244,51 +285,7 @@ export const blueprintConfigs: readonly BluePrint[] = Object.freeze([
   customEventBlueprintConfig
 ]);
 
-interface BluePrintBase {
-  readonly thresholdDefaults: { readonly operator: ThresholdOperator };
-  readonly isCustomRateMetric: typeof isCustomRateMetric;
-  readonly getMetricsRequest: (metricName: MetricName) => typeof getWebsiteRateMetric | typeof getWebsiteMetrics;
-  readonly getAlertsPreviewRequest: (
-    metricName: MetricName
-  ) => typeof getWebsiteRateMetricAlertsPreview | typeof getWebsiteMetricAlertsPreview;
-  readonly getThresholdTypeOptions: () => ThresholdTypeOptions;
-  readonly getThresholdSuggestionRequest: (
-    metricName: MetricName
-  ) => typeof getWebsiteRateMetricThresholdSuggestion | typeof getWebsiteMetricsThresholdSuggestion;
-  readonly getEntityTagFilterFormModel: (
-    alertConfig: WebsiteAlertConfig
-  ) => { name: string; operator: TagFilterOperator; value?: any };
-  readonly getRuleTagFilterFormModel: (alertRule: WebsiteAlertRule) => FormModelElement[];
-  readonly getExtraAnalyzeLinkTagFilterFormModel: (
-    alertConfig: WebsiteAlertConfig,
-    timeConfig: FixedTimeConfig
-  ) => { name: string; type: string; operator: TagFilterOperator; value?: number }[];
-}
-
-interface BluePrint extends BluePrintBase {
-  readonly type: WebsitesAlertType;
-  readonly name: string;
-
-  readonly headline?: string;
-  readonly text?: string;
-  readonly subType?: string;
-  readonly isSelected?: (alertThreshold: ThresholdConfig) => boolean;
-
-  readonly incompleteRuleMessage?: string;
-  readonly getAvailableTags: (metricName: MetricName) => string[];
-  readonly baselineEnabled: boolean;
-  readonly getBeaconType: (metricName: MetricName) => BeaconType;
-  readonly defaultMetric: MetricName;
-  readonly getMetricName: (alertRule: WebsiteAlertRule) => string; // TODO figure out if the backend type could be a enum which could map to MetricName?
-  readonly getMetricLabel: (metricName: MetricName) => string;
-  readonly getMetricFormat: (metricName: MetricName) => NumberFormatter;
-  readonly getMaxMetricValue: (metricName: MetricName) => number;
-  readonly getAggregation: (alertRule: WebsiteAlertRule) => AggregationType;
-  readonly isRuleComplete: (alertRule: WebsiteAlertRule) => boolean;
-  readonly impactTimeThresholdDisabled?: boolean;
-}
-
-export const simpleModeBlueprintConfigs: readonly BluePrint[] = [
+export const simpleModeBlueprintConfigs: readonly Readonly<BluePrint>[] = Object.freeze([
   slownessBlueprintConfig,
   jsErrorsBlueprintConfig,
   statusCodeBlueprintConfig,
@@ -301,7 +298,7 @@ export const simpleModeBlueprintConfigs: readonly BluePrint[] = [
     thresholdDefaults: {
       operator: '<='
     },
-    isSelected: ({ operator }) => operator === '<=' || operator === '<'
+    isSelected: (alertThreshold: ThresholdConfig) => alertThreshold.operator === '<=' || alertThreshold.operator === '<'
   },
   {
     ...throughputBlueprintConfig,
@@ -309,10 +306,10 @@ export const simpleModeBlueprintConfigs: readonly BluePrint[] = [
     name: t('in-alerting:smartAlerts.websites.data.simpleModeBlueprintConfigsUnexpectedlyHighNumberName'),
     headline: t('in-alerting:smartAlerts.websites.data.simpleModeBlueprintConfigsUnexpectedlyHighNumberHeadline'),
     text: t('in-alerting:smartAlerts.websites.data.simpleModeBlueprintConfigsUnexpectedlyHighNumberText'),
-    isSelected: ({ operator }) => operator === '>=' || operator === '>'
+    isSelected: (alertThreshold: ThresholdConfig) => alertThreshold.operator === '>=' || alertThreshold.operator === '>'
   },
   customEventBlueprintConfig
-];
+]);
 
 const excludedWebsiteTags: readonly string[] = Object.freeze(['beacon.website.id', 'beacon.website.name']);
 
@@ -325,7 +322,7 @@ export function getBlueprintConfig(alertType: string): BluePrint | undefined {
 }
 
 export function getSimpleModeBlueprintConfig(
-  alertType: string,
+  alertType: WebsitesAlertType,
   alertThreshold: ThresholdConfig
 ): BluePrint | undefined {
   return simpleModeBlueprintConfigs
@@ -339,15 +336,19 @@ function isCustomRateMetric(metricName: MetricName | string): boolean {
 
 function getExtraSlownessAnalyzeLinkTagFilterFormModel(
   alertConfig: WebsiteAlertConfig,
-  timeConfig: FixedTimeConfig
-): { name: string; type: string; operator: TagFilterOperator; value?: number }[] {
+  timeConfig: FixedTimeConfig,
+  adaptiveBaselineInfo = {}
+): FormModelElement[] {
   let value: number;
 
   const { threshold } = alertConfig;
 
   if (isStaticThresholdConfig(threshold)) {
     value = threshold.value;
+  } else if (isAdaptiveBaselineConfig(threshold)) {
+    value = getApproximatedAdaptiveBaselineThresholdValue(threshold, adaptiveBaselineInfo);
   } else {
+    // HISTORIC_BASELINE
     value = getApproximatedHistoricBaselineThresholdValue(
       threshold as HistoricBaselineData,
       alertConfig.granularity,

@@ -33,10 +33,10 @@ export default function SimpleAlertConfigDialogStep1({
 
   const alertThreshold = form.get('threshold').toJS();
   const blueprintConfig = getSimpleModeBlueprintConfig(alertType, alertThreshold);
-  const { headline, isBeta, text } = blueprintConfig;
+  const { headline, isBeta, text, type } = blueprintConfig;
 
   const blueprintConfigList =
-    smartAlertsLogsBlueprintEnabled || blueprintConfig?.type === 'logs'
+    smartAlertsLogsBlueprintEnabled || type === 'logs'
       ? simpleModeBlueprintConfigs
       : simpleModeBlueprintConfigs.filter(config => config.type !== 'logs');
 
@@ -61,7 +61,7 @@ export default function SimpleAlertConfigDialogStep1({
               form={form}
               updateForm={updateForm}
               onSelectLogMessage={setLogMessagesListVisible}
-              mode="SimpleMode"
+              mode="Simple"
               timeConfig={{
                 windowSize: alertingDialogItemPickerTimeframe
               }}
@@ -72,7 +72,7 @@ export default function SimpleAlertConfigDialogStep1({
         renderErrorRate={() => <SelectedBlueprintPresenter title={headline} description={text} isBeta={isBeta} />}
         renderStatusCode={() => (
           <SelectedBlueprintPresenter title={headline} description={text}>
-            <ProvideStatusCode form={form} updateForm={updateForm} mode="SimpleMode" />
+            <ProvideStatusCode form={form} updateForm={updateForm} mode="Simple" />
           </SelectedBlueprintPresenter>
         )}
         renderThroughput={() => <SelectedBlueprintPresenter title={headline} description={text} isBeta={isBeta} />}

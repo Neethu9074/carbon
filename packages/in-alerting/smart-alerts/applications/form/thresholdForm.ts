@@ -5,21 +5,21 @@
 
 import { createField, createMapForm, MapForm } from 'formalistic';
 
-import {
-  ADAPTIVE_BASELINE,
-  HISTORIC_BASELINE,
-  isAdaptiveBaselineConfig,
-  isHistoricBaselineConfig,
-  isStaticThresholdConfig
-} from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { isAdaptiveBaselineData, ThresholdType } from '@instana/types';
+
 import {
   AdaptiveBaselineData,
   HistoricBaselineConfig,
   StaticThresholdConfig,
   ThresholdConfig,
-  ThresholdOperator,
-  ThresholdConfigUnion
+  ThresholdConfigUnion,
+  ThresholdOperator
 } from 'in-types';
+import {
+  HISTORIC_BASELINE,
+  isHistoricBaselineConfig,
+  isStaticThresholdConfig
+} from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { ApplicationAlertType } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { t } from 'in-i18n';
@@ -27,63 +27,27 @@ import { t } from 'in-i18n';
 export const defaultDeviationFactor = 3;
 
 export default function createThresholdForm(
-  threshold: ThresholdConfigUnion | undefined,
+  threshold: ThresholdConfigUnion | undefined, // supporting old javascript based code
   alertType: ApplicationAlertType
 ): MapForm {
   if (!threshold) {
-    // use slowness by default
-    return createSlownessForm();
+    return createBaselineEnabledForm();
   }
 
-  if (alertType === 'slowness') {
-    return createSlownessForm(threshold);
+  switch (alertType) {
+    case 'errorRate':
+    case 'logs':
+      return createAdaptiveOrStaticThresholdForm(threshold);
+    default:
+      return createBaselineEnabledForm(threshold);
   }
-
-  if (alertType === 'errorRate') {
-    return createErrorRateForm(threshold);
-  }
-
-  if (alertType === 'logs') {
-    return createLogsForm(threshold);
-  }
-
-  if (alertType === 'statusCode') {
-    return createStatusCodeForm(threshold);
-  }
-
-  if (alertType === 'throughput') {
-    return createThroughputForm(threshold);
-  }
-
-  return createBaselineEnabledForm(threshold);
 }
 
-function createErrorRateForm(threshold: ThresholdConfig): MapForm {
-  const thresholdType = threshold.type;
-  if (thresholdType === ADAPTIVE_BASELINE) {
-    return createAdaptiveBaselineForm(threshold as AdaptiveBaselineData);
+function createAdaptiveOrStaticThresholdForm(threshold: ThresholdConfig): MapForm {
+  if (isAdaptiveBaselineData(threshold)) {
+    return createAdaptiveBaselineForm(threshold);
   }
   return createStaticThresholdForm(threshold as StaticThresholdConfig);
-}
-
-function createLogsForm(threshold: ThresholdConfig): MapForm {
-  const thresholdType = threshold.type;
-  if (thresholdType === ADAPTIVE_BASELINE) {
-    return createAdaptiveBaselineForm(threshold as AdaptiveBaselineData);
-  }
-  return createStaticThresholdForm(threshold as StaticThresholdConfig);
-}
-
-function createStatusCodeForm(threshold: ThresholdConfig): MapForm {
-  return createBaselineEnabledForm(threshold);
-}
-
-function createSlownessForm(threshold?: ThresholdConfig): MapForm {
-  return createBaselineEnabledForm(threshold);
-}
-
-function createThroughputForm(threshold: ThresholdConfig): MapForm {
-  return createBaselineEnabledForm(threshold);
 }
 
 function createBaselineEnabledForm(threshold?: ThresholdConfig): MapForm {
@@ -95,8 +59,8 @@ function createBaselineEnabledForm(threshold?: ThresholdConfig): MapForm {
     return createHistoricBaselineForm(threshold);
   }
 
-  if (isAdaptiveBaselineConfig(threshold)) {
-    return createAdaptiveBaselineForm(threshold as AdaptiveBaselineData);
+  if (isAdaptiveBaselineData(threshold)) {
+    return createAdaptiveBaselineForm(threshold);
   }
 
   throw new Error(`Unknown threshold type ${threshold?.type}.`);
@@ -172,7 +136,11 @@ function createAdaptiveBaselineForm(threshold: AdaptiveBaselineData) {
     );
 }
 
-function createBaseForm(threshold?: { type?: string; operator?: ThresholdOperator; lastUpdated?: number }): MapForm {
+function createBaseForm(threshold?: {
+  type?: ThresholdType;
+  operator?: ThresholdOperator;
+  lastUpdated?: number;
+}): MapForm {
   return createMapForm()
     .put(
       'type',

@@ -43,7 +43,9 @@ export function onThresholdTypeChange(
     );
   }
 
-  const newRuleForm = createRuleForm({ ...rule });
+  const ruleWithoutAggregation = { ...rule, aggregation: null };
+  // aggregation will be reset to default value
+  const newRuleForm = createRuleForm(ruleWithoutAggregation);
 
   let updatedForm = form.put('threshold', newThresholdForm).put('rule', newRuleForm);
 

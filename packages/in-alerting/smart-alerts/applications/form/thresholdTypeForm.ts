@@ -26,7 +26,7 @@ export function onThresholdTypeChange(
   typeWithOptionalSeasonality: string,
   form: MapForm,
   updateForm: (form: MapForm) => void,
-  trackThresholdTypeChanged: (trackingObject: any) => void
+  trackThresholdTypeChanged?: (trackingObject: any) => void
 ): void {
   const typeSeasonalityParts = typeWithOptionalSeasonality.split('.');
   const updatedThresholdType: ThresholdType = typeSeasonalityParts[0] as ThresholdType;

@@ -4,7 +4,6 @@
  */
 
 import {
-  AdaptiveBaselineConfig,
   AggregationType,
   ApplicationAlertConfig,
   ApplicationAlertRule,
@@ -31,8 +30,8 @@ import {
   getEntitySelectionAsTagFilterFormModel
 } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import getApplicationMetricsAlertPreview from 'in-alerting/smart-alerts/applications/subscriptions/getApplicationMetricsAlertsPreview';
+import { isAdaptiveBaselineConfig, isStaticThresholdConfig } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
-import { ADAPTIVE_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { toTagFilterNumberOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { and } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { millis, number, NumberFormatter, percentage } from 'in-services/formatters/number';
@@ -57,6 +56,7 @@ interface BluePrintBase {
   readonly getThresholdSuggestionRequest: () => typeof getApplicationMetricsThresholdSuggestion;
   readonly thresholdDefaults: { readonly operator: ThresholdOperator };
   readonly enrichWithDefaultThresholdValues: (alertConfig: ApplicationAlertConfig) => ApplicationAlertConfig;
+
   readonly getEntityTagFilterFormModel: (
     alertConfig: ApplicationAlertConfig,
     applicationId: string,
@@ -64,6 +64,7 @@ interface BluePrintBase {
     serviceId?: string,
     endpointId?: string
   ) => FormModelElement[];
+
   readonly getRuleTagFilterFormModel: (alertRule: ApplicationAlertRule) => FormModelElement[];
   readonly getExtraAnalyzeLinkTagFilterFormModel: (
     alertConfig: ApplicationAlertConfig,
@@ -79,22 +80,25 @@ type ThresholdTypeOptions = readonly Option[];
 export interface BluePrint extends BluePrintBase {
   readonly type: ApplicationAlertType;
   readonly name: string;
-  readonly headline: string;
-  readonly text: string;
+  readonly headline?: string;
+  readonly text?: string;
   readonly subType?: string;
   readonly isSelected?: (alertThreshold: ThresholdConfig) => boolean;
+
   readonly baselineEnabled: boolean;
   readonly defaultMetric: MetricName;
   readonly getMetricName: (alertRule: ApplicationAlertRule) => string; // TODO figure out if the backend type could be a enum which could map to MetricName?
   readonly getMetricLabel: (metricName: MetricName) => string;
   readonly getMetricFormat: (metricName: MetricName) => NumberFormatter;
   readonly getMaxMetricValue: (metricName: MetricName) => number;
+
   readonly getAggregation: (alertRule: ApplicationAlertRule) => AggregationType;
   readonly getThresholdTypeOptions: () => ThresholdTypeOptions; // applicationThresholdTypeOptions,
+  readonly getRuleTagFilterFormModel: (alertRule: ApplicationAlertRule) => FormModelElement[];
+
   readonly isRuleComplete: (alertRule: ApplicationAlertRule) => boolean;
   readonly incompleteRuleMessage?: string;
   readonly impactTimeThresholdDisabled?: boolean;
-  readonly getRuleTagFilterFormModel: (alertRule: ApplicationAlertRule) => FormModelElement[];
 }
 
 const baseBlueprint: Readonly<BluePrintBase> = Object.freeze({
@@ -336,17 +340,18 @@ function getExtraSlownessAnalyzeLinkTagFilterFormModel(
   timeConfig: FixedTimeConfig,
   adaptiveBaselineInfo = {}
 ): FormModelElement[] {
-  let value;
+  let value: number;
 
-  if (alertConfig.threshold.type === STATIC_THRESHOLD) {
-    value = (alertConfig.threshold as StaticThresholdConfig).value;
-  } else if (alertConfig.threshold.type === ADAPTIVE_BASELINE) {
-    const threshold = alertConfig.threshold as AdaptiveBaselineConfig;
+  const { threshold } = alertConfig;
+
+  if (isStaticThresholdConfig(threshold)) {
+    value = threshold.value;
+  } else if (isAdaptiveBaselineConfig(threshold)) {
     value = getApproximatedAdaptiveBaselineThresholdValue(threshold, adaptiveBaselineInfo);
   } else {
     // HISTORIC_BASELINE
     value = getApproximatedHistoricBaselineThresholdValue(
-      alertConfig.threshold as HistoricBaselineData,
+      threshold as HistoricBaselineData,
       alertConfig.granularity,
       timeConfig
     );

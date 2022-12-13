@@ -5,9 +5,10 @@
 
 import { createField, createMapForm, MapForm } from 'formalistic';
 
-import { AdaptiveBaselineData, isAdaptiveBaselineData, ThresholdType } from '@instana/types';
+import { isAdaptiveBaselineData, ThresholdType } from '@instana/types';
 
 import {
+  AdaptiveBaselineData,
   HistoricBaselineConfig,
   StaticThresholdConfig,
   ThresholdConfig,
@@ -29,11 +30,11 @@ export default function createThresholdForm(
   threshold: ThresholdConfigUnion | undefined, // supporting old javascript based code
   alertType: WebsitesAlertType
 ): MapForm {
+  if (!threshold) {
+    return createBaselineEnabledForm();
+  }
+
   switch (alertType) {
-    case 'slowness':
-    case 'throughput':
-    case 'customEvent':
-      return createBaselineEnabledForm(threshold);
     case 'specificJsError':
     case 'statusCode':
       return createStaticThresholdForm(threshold as StaticThresholdConfig);

@@ -58,31 +58,28 @@ export default function CreateSmartAlert({ location, websiteId, tagFilters, time
   );
 
   return (
-    <>
-      <FloatingActionButton
-        icon="lib_alerts_create"
-        onClick={() => {
-          addActiveDialog(
-            <AlertConfigDialog
-              onClose={() => {
-                close();
-                if (location.pathname.includes('/websiteMonitoring/website/alerts')) {
-                  reload();
-                }
-              }}
-              alertConfig={alertConfig}
-              websiteLabel={website.label}
-              startWithSimpleMode
-            />
-          );
-
-          websitesAlertingAddAlert(location.pathname, website.label);
-        }}
-        withBoxShadow
-      >
-        {t('in-alerting:smartAlerts.websites.addSmartAlert')}
-      </FloatingActionButton>
-    </>
+    <FloatingActionButton
+      icon="lib_alerts_create"
+      onClick={() => {
+        addActiveDialog(
+          <AlertConfigDialog
+            onClose={() => {
+              close();
+              if (location.pathname.includes('/websiteMonitoring/website/alerts')) {
+                reload();
+              }
+            }}
+            alertConfig={alertConfig}
+            websiteLabel={website.label}
+            startWithSimpleMode
+          />
+        );
+        websitesAlertingAddAlert(location.pathname, website.label);
+      }}
+      withBoxShadow
+    >
+      {t('in-alerting:smartAlerts.websites.addSmartAlert')}
+    </FloatingActionButton>
   );
 }
 

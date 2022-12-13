@@ -10,7 +10,8 @@ import {
   websitesAlertingAggregationChanged,
   websitesAlertingThresholdDeviationFactorChanged,
   websitesAlertingThresholdOperatorChanged,
-  websitesAlertingThresholdValueChanged
+  websitesAlertingThresholdValueChanged,
+  websitesAlertingThresholdTypeChanged
 } from 'in-alerting/smart-alerts/websites/tracker';
 import ThresholdValueInputWithValidationMessage from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdValueWithValidationMessage';
 import { ThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdDeviationSliderForm';
@@ -19,6 +20,7 @@ import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/s
 import UseSuggestedValueButton from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/UseSuggestedValueButton';
 import { getAggregationOptions } from 'in-alerting/smart-alerts/components/smart-alert-dialog/form/ruleForm';
 import { getAggregationValue } from 'in-alerting/smart-alerts/applications/advanced/thresholdConditionUtil';
+import ThresholdLabel from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdLabel';
 import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
 import ThresholdTypeSelection from 'in-alerting/smart-alerts/websites/advanced/ThresholdTypeSelection';
 import { defaultDeviationFactor } from 'in-alerting/smart-alerts/websites/form/thresholdForm';
@@ -26,28 +28,26 @@ import { getMetricUnitPostfix } from 'in-alerting/smart-alerts/websites/form/for
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { blueprintConfigPropType } from 'in-alerting/components/constants';
 import Dropdown from 'in-alerting/components/Dropdown';
-import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
 
 export default function SlownessThresholdCondition({ form, updateForm, blueprintConfig, editMode }) {
-  const metricName = form.get('rule').get('metricName').value;
-  const thresholdType = form.get('threshold').get('type')?.value;
-  const metricUnitPostfix = getMetricUnitPostfix(metricName);
   const blueprintType = blueprintConfig.type;
-
+  const thresholdType = form.get('threshold').get('type')?.value;
+  const metricName = form.get('rule').get('metricName').value;
+  const metricUnitPostfix = getMetricUnitPostfix(metricName);
   const maxValue = blueprintConfig.getMaxMetricValue(metricName);
-
   const thresholdTypeOptions = blueprintConfig.getThresholdTypeOptions();
 
   return (
     <>
       <ThresholdConditionFormGroup>
-        <Label>{blueprintConfig.getMetricLabel(metricName)}</Label>
+        <ThresholdLabel>{blueprintConfig.getMetricLabel(metricName)}</ThresholdLabel>
         <Dropdown
           value={getAggregationValue(form)}
           items={getAggregationOptions(form)}
           onChange={value => {
             updateForm(form.updateIn(['rule', 'aggregation'], f => f.setValue(value).setTouched(true)));
+
             websitesAlertingAggregationChanged(getTrackingObject(form, { value }));
           }}
         />
@@ -56,14 +56,13 @@ export default function SlownessThresholdCondition({ form, updateForm, blueprint
           updateForm={updateForm}
           trackingCallback={websitesAlertingThresholdOperatorChanged}
         />
-
         <ThresholdTypeSelection
           form={form}
           updateForm={updateForm}
-          thresholdTypeOptions={thresholdTypeOptions}
-          thresholdType={thresholdType}
-          blueprintType={blueprintType}
           editMode={editMode}
+          trackThresholdTypeChanged={websitesAlertingThresholdTypeChanged}
+          thresholdTypeOptions={thresholdTypeOptions}
+          blueprintType={blueprintType}
         />
       </ThresholdConditionFormGroup>
 
@@ -96,7 +95,7 @@ export default function SlownessThresholdCondition({ form, updateForm, blueprint
 }
 
 SlownessThresholdCondition.propTypes = {
-  blueprintConfig: blueprintConfigPropType,
+  blueprintConfig: blueprintConfigPropType.isRequired,
   form: PropTypes.object.isRequired,
   updateForm: PropTypes.func.isRequired,
   editMode: PropTypes.bool

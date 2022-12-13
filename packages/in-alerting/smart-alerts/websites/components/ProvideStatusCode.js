@@ -25,15 +25,17 @@ export default function ProvideStatusCode({ form, mode, updateForm }) {
         .get('value')
         .map(field => (
           <FormGroup>
-            <Label htmlFor={'ruleValue'} hasError={!field.valid && field.touched}>
+            <Label htmlFor="ruleValue" hasError={!field.valid && field.touched}>
               {t('in-alerting:smartAlerts.websites.components.provideStatusCodeStatusCode')}
             </Label>
             <ComboBox
-              name={'ruleValue'}
+              id="ruleValue"
+              name="ruleValue"
               value={field.value}
               options={ruleStatusCodeValueOptions}
               onChange={e => {
                 websitesAlertingStatusCodeChanged({ mode });
+
                 updateForm(
                   form
                     .updateIn(['rule', 'value'], f => f.setValue((e && e.value) || '').setTouched(true))

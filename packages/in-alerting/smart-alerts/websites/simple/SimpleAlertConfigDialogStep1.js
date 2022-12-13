@@ -9,7 +9,10 @@ import {
   getSimpleModeBlueprintConfig,
   simpleModeBlueprintConfigs
 } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
-import { BlueprintDescription } from 'in-alerting/smart-alerts/components/smart-alert-dialog/BlueprintDescription';
+import {
+  BlueprintDescription,
+  BlueprintText
+} from 'in-alerting/smart-alerts/components/smart-alert-dialog/BlueprintDescription';
 import SimpleAlertConfigDialogChart from 'in-alerting/smart-alerts/websites/simple/SimpleAlertConfigDialogChart';
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import SelectedBlueprintPresenter from 'in-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
@@ -20,13 +23,11 @@ import { websitesAlertingBlueprintChanged } from 'in-alerting/smart-alerts/websi
 import AlertTypeSwitch from 'in-alerting/smart-alerts/websites/components/AlertTypeSwitch';
 import ProvideJsError from 'in-alerting/smart-alerts/websites/components/ProvideJsError';
 import { alertingDialogItemPickerTimeframe } from 'in-alerting/components/constants';
-import { modeSimple } from 'in-alerting/smart-alerts/websites/constants';
 import Menu from 'in-components/Menu';
 import { t } from 'in-i18n';
 
 export default function SimpleAlertConfigDialogStep1({
   form,
-  onChange,
   setSliderState,
   updateForm,
   onChartViewConfigChange,
@@ -36,6 +37,7 @@ export default function SimpleAlertConfigDialogStep1({
 
   const alertThreshold = form.get('threshold').toJS();
   const blueprintConfig = getSimpleModeBlueprintConfig(alertType, alertThreshold);
+  const { headline, text } = blueprintConfig;
 
   return (
     <SimpleModeStepContentWrapper
@@ -46,35 +48,40 @@ export default function SimpleAlertConfigDialogStep1({
         onItemClick={item => {
           updateForm(createBlueprintForm(form, item.type, item.thresholdDefaults, true));
 
-          websitesAlertingBlueprintChanged({ newBluePrint: alertType, mode: modeSimple });
+          websitesAlertingBlueprintChanged({ newBluePrint: alertType, mode: 'Simple' });
         }}
         initialItemSelected={blueprintConfig}
         addRightSeparator
       />
+
       <AlertTypeSwitch
         alertType={alertType}
         renderJsErrors={() => (
-          <SelectedBlueprintPresenter title={blueprintConfig.headline} description={blueprintConfig.text}>
+          <SelectedBlueprintPresenter title={headline} description={text}>
             <ProvideJsError
               form={form}
               updateForm={updateForm}
               onSelectJsError={setSliderState}
+              mode="Simple"
               timeConfig={{
                 windowSize: alertingDialogItemPickerTimeframe
               }}
-              mode={modeSimple}
             />
           </SelectedBlueprintPresenter>
         )}
-        renderSlowness={() => <BlueprintDescription config={blueprintConfig} isSimpleMode />}
+        renderSlowness={() => (
+          <SelectedBlueprintPresenter title={headline}>
+            <BlueprintText config={{ text }} />
+          </SelectedBlueprintPresenter>
+        )}
         renderStatusCode={() => (
-          <SelectedBlueprintPresenter title={blueprintConfig.headline} description={blueprintConfig.text}>
-            <ProvideStatusCode form={form} onChange={onChange} updateForm={updateForm} mode={modeSimple} />
+          <SelectedBlueprintPresenter title={headline} description={text}>
+            <ProvideStatusCode form={form} updateForm={updateForm} mode="Simple" />
           </SelectedBlueprintPresenter>
         )}
         renderThroughput={() => <BlueprintDescription config={blueprintConfig} isSimpleMode />}
         renderCustomEvent={() => (
-          <SelectedBlueprintPresenter title={blueprintConfig.headline} description={blueprintConfig.text}>
+          <SelectedBlueprintPresenter title={headline} description={text}>
             <ProvideCustomEvent
               form={form}
               updateForm={updateForm}
@@ -82,7 +89,7 @@ export default function SimpleAlertConfigDialogStep1({
               timeConfig={{
                 windowSize: alertingDialogItemPickerTimeframe
               }}
-              mode={modeSimple}
+              mode="Simple"
             />
           </SelectedBlueprintPresenter>
         )}

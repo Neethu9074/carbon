@@ -33,9 +33,10 @@ export const fieldNames = Object.freeze({
   customPayloadFields: 'customPayloadFields'
 });
 
-export type AlertConfigHiddenFields = {
-  calculateThresholdOnBackend?: boolean; // an optional, "hidden" from field, will not be part with server communication
-};
+export interface AlertConfigHiddenFields {
+  // an optional, "hidden" from field, will not be part with server communication
+  calculateThresholdOnBackend?: boolean;
+}
 
 export default function alertFormDefinition(
   alertConfig: WebsiteAlertConfigWithMetadata & AlertConfigHiddenFields,

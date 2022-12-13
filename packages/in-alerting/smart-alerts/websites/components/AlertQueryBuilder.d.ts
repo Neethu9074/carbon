@@ -4,9 +4,10 @@
  * Copyright IBM Corp. 2022
  */
 
-import { TimeConfig } from '@instana/types';
+import { Result, TimeConfig } from '@instana/types';
+import { Observable } from '@instana/observables';
 
-import { GetSuggestionsProps } from 'in-websites/queryBuilder';
+import { GetSuggestionsProps, Suggestions } from 'in-websites/queryBuilder';
 import { BeaconType } from 'in-types';
 
 export function getWebsiteTagSuggestions(
@@ -14,4 +15,4 @@ export function getWebsiteTagSuggestions(
   websiteId: string,
   beaconType: BeaconType,
   suggestionTimeConfig?: TimeConfig
-);
+): Observable<Result<Suggestions>>;
