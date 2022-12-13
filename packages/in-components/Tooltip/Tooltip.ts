@@ -25,6 +25,7 @@ interface TooltipState {
   isActive: boolean;
   timeoutHandle?: any;
   domNode?: HTMLElement;
+  content: ReactNode;
 }
 
 export default function Tooltip({ align = 'auto', delay = 0, themeStyle, children, content }: Props) {
@@ -38,7 +39,8 @@ export default function Tooltip({ align = 'auto', delay = 0, themeStyle, childre
   }
 
   const tooltipState = useRef<TooltipState>({
-    isActive: false
+    isActive: false,
+    content: content
   });
   const ref = useCallback(
     domNode => {
@@ -59,9 +61,9 @@ export default function Tooltip({ align = 'auto', delay = 0, themeStyle, childre
       // reset state
       tooltipState.current = {
         isActive: false,
-        domNode
+        domNode,
+        content: content
       };
-
       // set up new listeners
       if (domNode) {
         try {
@@ -99,7 +101,7 @@ export default function Tooltip({ align = 'auto', delay = 0, themeStyle, childre
         tooltipState.current.isActive = true;
         setActiveTooltip({
           focusedElement: domNode,
-          content,
+          content: tooltipState.current.content,
           themeStyle,
           align,
           mouseEvent
