@@ -10,6 +10,17 @@
 > probably sufficient. For any larger changes this should include design
 > choices.
 
+# Checklist
+
+> Please tick of these checklist items. When some of these aren't necessary for
+> this PR, remove them.
+
+- [ ] Pull request tagged with one of the `type:*` labels?
+- [ ] Feature flags added [as explained in the docs](https://www.notion.so/instana/Using-Feature-Flags-81b9bc1405b84af2854321d22519000e#684213e4679e4f8ea1cb37f046f165f0)?
+- [ ] Changes are visually consistent with current components?
+- [ ] New user facing components were discussed with our design community?
+- [ ] Add before/after screenshots.
+
 # References
 
 > Please include links to other artifacts related to this code change.
@@ -24,15 +35,11 @@
 
 > Please include one or more screenshots that show what this code change looks
 > like in the UI. Please include screenshots to highlight special / edge cases.
-> Also screenshots of various states that the UI can be in are very helpful for
-> your reviewers!
 
-# Checklist
+## After
 
-> Please tick of these checklist items. When some of these aren't necessary for
-> this PR, then please describe why.
+> Please add any screenshot here to show how it looks after applying the changes. This helps to spot the visual changes easier.
 
-- [ ] Pull request tagged with one of the `type:*` labels?
-- [ ] Feature flags added [as explained in the docs](https://www.notion.so/instana/Using-Feature-Flags-81b9bc1405b84af2854321d22519000e#684213e4679e4f8ea1cb37f046f165f0)?
-- [ ] Changes are visually consistent with current components?
-- [ ] New user facing components were discussed with our design community?
+## Before
+
+> Please add any screenshot of how it looked before the changes for easier comparison.
