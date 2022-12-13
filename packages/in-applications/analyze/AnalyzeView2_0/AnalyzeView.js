@@ -33,13 +33,13 @@ import FacetedFilterHiddenCalls from 'in-applications/analyze/components/Faceted
 import { createTableTimestampColumnDefinition } from 'in-components/AnalyzeView/commonTableColumnDefinitions';
 import { createListTimestampColumnDefinition } from 'in-components/AnalyzeView/commonListColumnDefinitions';
 import FacetedFilterMultiSelect from 'in-components/AnalyzeView/FacetedFilters/FacetedFilterMultiSelect';
-import { tagFilter, type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
 import FacetedFilterRangeInput from 'in-components/AnalyzeView/FacetedFilters/FacetedFilterRangeInput';
 import { custom as customType, metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import FacetedFilterGeneric from 'in-components/AnalyzeView/FacetedFilters/FacetedFilterGeneric';
 import GroupedResults from 'in-applications/analyze/AnalyzeView2_0/components/GroupedResults';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator/BatchingIndicator';
 import { toBackendQuery } from 'in-components/AnalyzeView/FacetedFilters/facets';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import Results from 'in-applications/analyze/AnalyzeView2_0/components/Results';
 import getTagSuggestions from 'in-applications/subscriptions/getTagSuggestions';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
@@ -58,8 +58,6 @@ import { latencyFixed } from 'in-services/formatters/number';
 import { getPluginName } from 'in-sdk/pluginName';
 import useUrlState from 'in-hooks/useUrlState';
 import { t } from 'in-i18n';
-
-export const TAG = TAG_FILTER_TYPE;
 
 const defaultSelectableFields = [
   { type: 'metric', metricId: 'latency', aggregationId: 'MEAN' },
