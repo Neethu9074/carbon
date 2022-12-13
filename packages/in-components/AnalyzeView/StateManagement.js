@@ -193,7 +193,7 @@ function AnalyzeStateManagement({
   getMetricTemplates,
   urlStateDefinition,
   dataSourceConfigurations,
-  getCustomLatencyLabel,
+  getCustomGroupingTagFilter,
   children
 }) {
   const timeConfig = useTimeConfig();
@@ -331,7 +331,9 @@ function AnalyzeStateManagement({
     return metricCatalog;
   }, [metricCatalog, metricCatalogResult, chartableMetricCatalogTransformer]);
 
-  const backendQueryModel = useMemo(() => toBackendQueryModel(formModel), [formModel]);
+  const backendQueryModel = useMemo(() => {
+    return toBackendQueryModel(formModel);
+  }, [formModel]);
 
   const formModelWithFacets = useMemo(
     () => joinExpressions({ expressions: [formModel, facetsAsTagFilterExpression] }),
@@ -501,7 +503,7 @@ function AnalyzeStateManagement({
         groupValue,
         formModel,
         groupingTagCatalogResult.data,
-        getCustomLatencyLabel
+        getCustomGroupingTagFilter
       )
     };
   }
@@ -569,7 +571,8 @@ export const childrenArgsAsPropTypes = {
   getHrefToUngroupedView: rpt.func.isRequired,
   getHrefToGroupedView: rpt.func.isRequired,
   groupingTagCatalog: rpt.object,
-  getCustomLatencyLabel: rpt.func,
+  getCustomGroupingTagFilter: rpt.func,
+  updateTest: rpt.func,
   orderBy: rpt.shape({
     by: rpt.string.isRequired,
     direction: rpt.oneOf(['ASC', 'DESC']).isRequired
@@ -614,10 +617,14 @@ export function addGroupingCriteriaToFormModel(
   groupValue,
   formModel,
   groupingTagCatalog,
-  getCustomLatencyLabel
+  getCustomGroupingTagFilter
 ) {
   const groupByTagType = groupingTagCatalog?.tags.find(tag => tag.name === groupBy.groupbyTag)?.type;
   let newTagFilter;
+  const customGroupingTagFilter = getCustomGroupingTagFilter ? getCustomGroupingTagFilter(groupBy, groupValue) : null;
+  if (customGroupingTagFilter) {
+    return joinExpressions({ expressions: [formModel, sanitizeTagFilter(customGroupingTagFilter)] });
+  }
   if (groupValue === UNSPECIFIED) {
     newTagFilter = {
       type: TAG,
@@ -647,9 +654,6 @@ export function addGroupingCriteriaToFormModel(
     let operator = EQUALS;
     if (groupByTagType === NUMBER) {
       value = Number(groupValue);
-      if (getCustomLatencyLabel) {
-        [value, operator] = getCustomLatencyLabel(groupBy.groupbyTag, value, operator);
-      }
     } else if (groupByTagType === BOOLEAN) {
       value = groupValue === 'true';
     } else {

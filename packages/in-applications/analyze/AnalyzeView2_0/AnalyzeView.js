@@ -36,13 +36,14 @@ import FacetedFilterMultiSelect from 'in-components/AnalyzeView/FacetedFilters/F
 import FacetedFilterRangeInput from 'in-components/AnalyzeView/FacetedFilters/FacetedFilterRangeInput';
 import { custom as customType, metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import FacetedFilterGeneric from 'in-components/AnalyzeView/FacetedFilters/FacetedFilterGeneric';
+import { type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
 import GroupedResults from 'in-applications/analyze/AnalyzeView2_0/components/GroupedResults';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator/BatchingIndicator';
+import { EQUALS, LESS_THAN } from 'in-components/QueryBuilder/tagFilter/operators';
 import { toBackendQuery } from 'in-components/AnalyzeView/FacetedFilters/facets';
 import Results from 'in-applications/analyze/AnalyzeView2_0/components/Results';
 import getTagSuggestions from 'in-applications/subscriptions/getTagSuggestions';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
-import { LESS_THAN } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getMetricTemplates } from 'in-applications/api/metricTemplates';
 import { ua2FastQueryModeChangedTracker } from 'in-applications/tracker';
 import StateManagement from 'in-components/AnalyzeView/StateManagement';
@@ -57,6 +58,8 @@ import { latencyFixed } from 'in-services/formatters/number';
 import { getPluginName } from 'in-sdk/pluginName';
 import useUrlState from 'in-hooks/useUrlState';
 import { t } from 'in-i18n';
+
+export const TAG = TAG_FILTER_TYPE;
 
 const defaultSelectableFields = [
   { type: 'metric', metricId: 'latency', aggregationId: 'MEAN' },
@@ -172,7 +175,7 @@ export default function ApplicationsAnalyzeView() {
       getMetricCatalog={getMetricCatalog}
       getMetricTemplates={getMetricTemplates}
       dataSourceConfigurations={dataSourceConfigurations}
-      getCustomLatencyLabel={getCustomLatencyLabel}
+      getCustomGroupingTagFilter={getCustomGroupingTagFilter}
     >
       {opts =>
         opts.isGrouped ? (
@@ -201,12 +204,19 @@ export default function ApplicationsAnalyzeView() {
   );
 }
 
-function getCustomLatencyLabel(groupbyTag, value, operator) {
-  if (groupbyTag === 'call.latency' && value === 0) {
-    return [1, LESS_THAN];
-  } else {
-    return [value, operator];
+function getCustomGroupingTagFilter(groupBy, groupValue) {
+  let newTagFilter;
+  if (groupBy.groupbyTag === 'call.latency') {
+    newTagFilter = {
+      type: TAG,
+      operator: Number(groupValue) === 0 ? LESS_THAN : EQUALS,
+      name: groupBy.groupbyTag,
+      key: groupBy.groupbyTagSecondLevelKey,
+      value: Number(groupValue) === 0 ? 1 : Number(groupValue),
+      entity: groupBy.groupbyTagEntity
+    };
   }
+  return newTagFilter;
 }
 
 function getDataSourceConfigurations({ hiddenCalls, onChangeHiddenCalls }) {
