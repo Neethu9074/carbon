@@ -39,13 +39,6 @@ export function createForm(selectedBlueprint?: BluePrint, savedState?: Record<st
       })
     )
     .put(
-      'playbackMode',
-      createField({
-        value: savedState?.response || playbackModes[0].value,
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
-      })
-    )
-    .put(
       'locations',
       createField({
         value: savedState?.locations ?? [],
@@ -149,8 +142,3 @@ export function validUrl(value: string): ValidationResult {
   }
   return undefined;
 }
-
-export const playbackModes = Object.freeze([
-  { value: 'Simultaneous', label: t('in-synthetics:dialog.createTest.scheduling.simultaneous') },
-  { value: 'Staggered', label: t('in-synthetics:dialog.createTest.scheduling.staggered') }
-]);
