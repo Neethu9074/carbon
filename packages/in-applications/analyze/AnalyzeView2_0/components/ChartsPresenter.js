@@ -9,7 +9,6 @@ import LatencyDistributionChart from 'in-applications/analyze/components/Chartin
 import { EMPTY_EXPRESSION, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { ua2ChartChangedTracker, ua2ChartRemovedTracker } from 'in-applications/tracker';
 import { metricRenderers } from 'in-applications/analyze/AnalyzeView2_0/metrics';
-import { LESS_THAN } from 'in-components/QueryBuilder/tagFilter/operators';
 import Chart from 'in-components/AnalyzeView/Charting/Chart';
 import Charting from 'in-components/AnalyzeView/Charting';
 import Sections from 'in-components/workspace/Sections';
@@ -46,10 +45,6 @@ const validateTagFilterValue = metricConfiguration => {
   metricConfiguration?.tagFilterExpression?.elements?.forEach(element => {
     if (element?.value?.length > 512) {
       element.value = truncateTagFilterValue(element?.value);
-    }
-    if (element.name === 'call.latency' && element.value === 0) {
-      element.value = 1;
-      element.operator = LESS_THAN;
     }
   });
 };

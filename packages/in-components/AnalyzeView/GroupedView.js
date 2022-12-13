@@ -33,10 +33,10 @@ import { custom as customType, metric as metricType } from 'in-components/Analyz
 import { or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { GROUP_COLORS, getLabel as defaultGetLabel } from 'in-components/AnalyzeView/utils.ts';
 import { getFormatter as getBackendFormatter } from 'in-services/formatters/backendFormatter';
+import { EQUALS, NOT_EMPTY, LESS_THAN } from 'in-components/QueryBuilder/tagFilter/operators';
 import { joinExpressions, TAG } from 'in-components/QueryBuilder/transformation/formModel';
 import QueryProgressIndicator from 'in-components/AnalyzeView/QueryProgressIndicator';
 import { BOOLEAN, KEY_VALUE_PAIR } from 'in-components/QueryBuilder/tagFilter/types';
-import { EQUALS, NOT_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
 import { NO_VALUE, UNSPECIFIED } from 'in-analyze/components/GroupedTraces/Group';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { withSiPrefixOneDecimalPlace } from 'in-services/formatters/number';
@@ -176,6 +176,12 @@ export default function GroupedView(props) {
   const hasErrors = !isLoading && errors?.length > 0;
   const hasItems = !props.isLoading && items.length > 0;
 
+  function getCustomGroupingTagFilter(groupBy, groupValue) {
+    if (groupBy.groupbyTag === 'call.latency' && groupValue === '0') {
+      return tagFilter('call.latency', LESS_THAN, 1);
+    }
+    return null;
+  }
   useEffect(() => {
     if (isLoading) {
       onChartableDataSeriesChange(null);
@@ -185,7 +191,13 @@ export default function GroupedView(props) {
       onChartableDataSeriesChange(
         items.slice(0, 5).map(item => ({
           label: getLabel(item),
-          formModel: addGroupingCriteriaToFormModel(groupBy, getLabel(item), formModelWithFacets, groupingTagCatalog)
+          formModel: addGroupingCriteriaToFormModel(
+            groupBy,
+            getLabel(item),
+            formModelWithFacets,
+            groupingTagCatalog,
+            getCustomGroupingTagFilter
+          )
         }))
       );
     }
@@ -310,13 +322,15 @@ export default function GroupedView(props) {
                         groupBy,
                         label,
                         formModel,
-                        groupingTagCatalog
+                        groupingTagCatalog,
+                        getCustomGroupingTagFilter
                       );
                       const formModelWithFacetsForUnGroupedView = addGroupingCriteriaToFormModel(
                         groupBy,
                         label,
                         formModelWithFacets,
-                        groupingTagCatalog
+                        groupingTagCatalog,
+                        getCustomGroupingTagFilter
                       );
                       return (
                         // tagFilterExpression / backendQueryModel must be separately memoized based on hash

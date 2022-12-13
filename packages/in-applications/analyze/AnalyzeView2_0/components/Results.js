@@ -15,7 +15,6 @@ import { ChartsPresenter } from 'in-applications/analyze/AnalyzeView2_0/componen
 import TraceDetailView from 'in-applications/analyze/AnalyzeView2_0/components/TraceDetailView';
 import { getServerity } from 'in-applications/analyze/AnalyzeView2_0/components/utils';
 import getTraceSummary from 'in-applications/subscriptions/getTraceSummary';
-import { LESS_THAN } from 'in-components/QueryBuilder/tagFilter/operators';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import { getTypeTextByCount } from 'in-applications/analyze/metrics';
@@ -125,11 +124,6 @@ const truncateTagFilterValue = value => {
   return value.slice(0, 512);
 };
 
-const replaceZeroFilterValueForLatency = element => {
-  element.value = 1;
-  element.operator = LESS_THAN;
-  return element;
-};
 function getTableData({
   timeConfig,
   backendQueryModel,
@@ -141,17 +135,9 @@ function getTableData({
 }) {
   const { includeSynthetic = false, includeInternal = false } = hiddenCalls;
   const getData = getDataPerDataSource[dataSource];
-  if (Object.keys(backendQueryModel) && !backendQueryModel.elements) {
-    if (backendQueryModel.name === 'call.latency' && backendQueryModel.value === 0) {
-      replaceZeroFilterValueForLatency(backendQueryModel);
-    }
-  }
   backendQueryModel?.elements?.forEach(element => {
     if (element.value?.length > 512) {
       element.value = truncateTagFilterValue(element.value);
-    }
-    if (element.name === 'call.latency' && element.value === 0) {
-      replaceZeroFilterValueForLatency(element);
     }
   });
   return getData({

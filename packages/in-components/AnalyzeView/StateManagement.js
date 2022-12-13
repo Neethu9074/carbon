@@ -619,12 +619,12 @@ export function addGroupingCriteriaToFormModel(
   groupingTagCatalog,
   getCustomGroupingTagFilter
 ) {
-  const groupByTagType = groupingTagCatalog?.tags.find(tag => tag.name === groupBy.groupbyTag)?.type;
-  let newTagFilter;
   const customGroupingTagFilter = getCustomGroupingTagFilter ? getCustomGroupingTagFilter(groupBy, groupValue) : null;
   if (customGroupingTagFilter) {
     return joinExpressions({ expressions: [formModel, sanitizeTagFilter(customGroupingTagFilter)] });
   }
+  const groupByTagType = groupingTagCatalog?.tags.find(tag => tag.name === groupBy.groupbyTag)?.type;
+  let newTagFilter;
   if (groupValue === UNSPECIFIED) {
     newTagFilter = {
       type: TAG,
@@ -651,7 +651,6 @@ export function addGroupingCriteriaToFormModel(
     };
   } else {
     let value;
-    let operator = EQUALS;
     if (groupByTagType === NUMBER) {
       value = Number(groupValue);
     } else if (groupByTagType === BOOLEAN) {
@@ -662,7 +661,7 @@ export function addGroupingCriteriaToFormModel(
     newTagFilter = {
       type: TAG,
       // If the label has this size, we don't know, if it was truncated or not, so we have to assume it was.
-      operator: value.length >= MAX_GROUP_BY_LABEL_LENGTH ? STARTS_WITH : operator,
+      operator: value.length >= MAX_GROUP_BY_LABEL_LENGTH ? STARTS_WITH : EQUALS,
       name: groupBy.groupbyTag,
       key: groupBy.groupbyTagSecondLevelKey,
       value: value,
