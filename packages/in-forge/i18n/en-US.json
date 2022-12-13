@@ -5316,6 +5316,10 @@
       "consulCluster": "Consul Cluster"
     },
     "containerd": {
+      "getContainerInfo": "Get Container Info",
+      "containerInfoIsAlwaysLive": "Container info is always live.",
+      "containerInfoCanOnlyBeRetrievedForEntitiesThatAreStillUnderMonitoringByInstana": "Container info can only be retrieved for entities that are still under monitoring by Instana.",
+      "containerInfo": "Container info",
       "infoId": "Id",
       "infoImage": "Image",
       "infoNamespace": "Containerd namespace",
