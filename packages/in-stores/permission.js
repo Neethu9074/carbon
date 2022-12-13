@@ -8,7 +8,7 @@ import {
   openstackEnabled,
   pcfEnabled,
   phmcEnabled,
-  syntheticsTestEnabled,
+  syntheticsEnabled,
   vsphereEnabled,
   zhmcEnabled
 } from 'in-services/featureFlags';
@@ -43,7 +43,7 @@ export const hasWebsitesAccess = hasPermission(ACCESS_WEBSITES);
 export const hasMobileAppsAccess = hasPermission(ACCESS_MOBILE_APPS);
 export const hasAnalyzeAccess = hasApplicationsAccess || hasWebsitesAccess || hasMobileAppsAccess;
 export const hasInfrastructureAccess = hasPermission(ACCESS_INFRASTRUCTURE);
-export const hasSyntheticsAccess = hasPermission(ACCESS_SYNTHETICS) && syntheticsTestEnabled;
+export const hasSyntheticsAccess = hasPermission(ACCESS_SYNTHETICS) && syntheticsEnabled;
 export const hasVSphereAccess = hasPermission(ACCESS_VSPHERE) && vsphereEnabled;
 export const hasPHMCAccess = hasPermission(ACCESS_PHMC) && phmcEnabled;
 export const hasZHMCAccess = hasPermission(ACCESS_ZHMC) && zhmcEnabled;
@@ -96,7 +96,7 @@ function getProductAreaPermissions() {
     isNew: true
   });
 
-  if (syntheticsTestEnabled) {
+  if (syntheticsEnabled) {
     areaPermissions.push({
       value: ACCESS_SYNTHETICS,
       label: t('in-stores:permissionAccessSyntheticsLabel'),
