@@ -187,6 +187,7 @@ export default function ApplicationsAnalyzeView() {
             fastQueryModeEnabled={fastQueryModeEnabled}
             onChangeFastQueryModeEnabled={onChangeFastQueryModeEnabled}
             useLastValidStateWhenErroneous
+            getCustomGroupingTagFilter={getCustomGroupingTagFilter}
           />
         ) : (
           <Results
