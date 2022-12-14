@@ -6,15 +6,11 @@
 
 import React, { useState } from 'react';
 
-import RawStack, {
-  RawStackFormatterType
-} from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/RawStack';
+import RawStack from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/RawStack';
 import ButtonGroup from 'in-components/ButtonGroup';
 import { t } from 'in-i18n';
 
 import locals from './StackTrace.mless';
-
-export type StackTraceFormatter = RawStackFormatterType;
 
 export interface ChildrenProp {
   content: React.ReactNode;
@@ -22,16 +18,19 @@ export interface ChildrenProp {
 }
 
 export interface StackTraceProp {
-  formatter: RawStackFormatterType;
+  raw?: boolean;
   stackTrace?: string;
   children: (props: ChildrenProp) => React.ReactElement;
 }
 
-export default function StackTrace({ stackTrace, formatter, children }: StackTraceProp) {
+export default function StackTrace({ stackTrace, raw, children }: StackTraceProp) {
+  const inconstruct = true;
   const [showRawStackTrace, setShowRawStackTrace] = useState(false);
 
   return children({
-    actions: (
+    actions: inconstruct ? (
+      <></>
+    ) : (
       <ButtonGroup
         className={locals.buttonGroup}
         buttonPropsList={[
@@ -51,6 +50,6 @@ export default function StackTrace({ stackTrace, formatter, children }: StackTra
         activeKey={showRawStackTrace ? 'raw' : 'pretty'}
       />
     ),
-    content: <RawStack formatter={showRawStackTrace ? 'raw' : formatter} stack={stackTrace} />
+    content: <RawStack raw={raw} stack={stackTrace} />
   });
 }

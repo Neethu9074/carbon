@@ -6,29 +6,24 @@
 
 import React from 'react';
 
-import {
-  getStackFormatter,
-  StackFormatterType
-} from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/RawStackFormatter';
+import { removeBlankLines } from 'in-services/util/string';
 import Code from 'in-components/Code';
 
 import locals from './RawStack.mless';
 
-export type RawStackFormatterType = StackFormatterType;
-
 interface RawStackProp {
+  raw?: boolean;
   stack?: string;
-  formatter: StackFormatterType;
 }
 
 export default function RawStack(props: RawStackProp) {
-  const formatter = getStackFormatter(props.formatter);
   return (
     <Code
       wrapperClassName={locals.code}
       showLineNumbers={false}
-      code={formatter.format(props.stack)}
-      lang={formatter.lang}
+      code={(props.raw ? props.stack : removeBlankLines(props.stack)) ?? ''}
+      // @ts-ignore Code does support Java, but the types are incomplete
+      lang={props.raw ? 'git' : 'java'}
     />
   );
 }
