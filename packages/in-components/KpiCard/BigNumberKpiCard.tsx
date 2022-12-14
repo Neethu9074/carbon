@@ -5,14 +5,20 @@
 
 import React, { ReactNode } from 'react';
 
+import { useObservable } from '@instana/hooks';
+
 import ResultAwareBigNumberKpiCard, {
   Config,
-  ConfigWithCompanionMetric
+  ConfigWithCompanionMetric,
+  isConfigWithCompanionMetric
 } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
-import { GetBigNumberKpiCardResult } from 'in-components/KpiCard/GetBigNumberKpiCardResult';
+import { MetricResult, Result, UnifiedMetricConfigurationUnion } from 'in-types';
+import { translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
+import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import { IconAction } from 'in-components/KpiCard/KpiCard';
 import { FormatterFn } from 'in-stores/metric/formatters';
-import { MetricResult, Result } from 'in-types';
+import { pendingResult } from 'in-services/fixedObjects';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 
 export const metricKey = 'bigNumber';
 export const companionMetricKey = 'companion';
@@ -41,7 +47,41 @@ export default function BigNumberKpiCard({
   dragHandle,
   raw
 }: BigNumberKpiCardProps) {
-  const result: Result<MetricResult[]> = GetBigNumberKpiCardResult({ config });
+  const timeConfig = useTimeConfig();
+
+  const metricDefaults = {
+    timeShift: {
+      offset: 0
+    },
+    timeConfig,
+    resultType: 'SINGLE_NUMBER'
+  } as const;
+
+  const metrics: { [index: string]: UnifiedMetricConfigurationUnion } = {
+    [metricKey]: {
+      ...config.metricConfiguration,
+      ...config.tagFilters,
+      ...metricDefaults
+    }
+  };
+
+  if (config.metricConfiguration.timeShift) {
+    metrics[comparisonMetricKey] = {
+      ...config.metricConfiguration,
+      ...metricDefaults,
+      timeShift: translateOffsetToTimeShiftConfig(config.metricConfiguration.timeShift, timeConfig)
+    };
+  } else if (isConfigWithCompanionMetric(config)) {
+    metrics[companionMetricKey] = {
+      ...metricDefaults,
+      ...config.companionMetricConfiguration
+    };
+  }
+
+  const result: Result<MetricResult[]> =
+    useObservable(() => getUnifiedMetrics({ metrics }), [config, timeConfig, config.metricConfiguration.timeShift]) ??
+    pendingResult;
+
   return (
     <ResultAwareBigNumberKpiCard
       title={title}

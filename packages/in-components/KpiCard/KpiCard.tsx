@@ -82,30 +82,30 @@ export default function KpiCard({
 
   let content;
   if (raw) {
-    content = <span className={classNames(locals.unit, valuesClassName)}>{formattedValue}</span>;
+    content = <span className={classNames(locals.minor, valuesClassName)}>{formattedValue}</span>;
   } else if (children) {
-    content = <span className={classNames(locals.unit, valuesClassName)}>{children}</span>;
+    content = <span className={classNames(locals.minor, valuesClassName)}>{children}</span>;
   } else {
-    let value;
-    let unit = null;
+    let major;
+    let minor = null;
     if (value === undefined || value === null) {
-      value = formattedValue;
+      major = formattedValue;
     } else {
       const match = String(formattedValue).match(valueSplitRegExp);
       if (!match) {
-        value = formattedValue;
+        major = formattedValue;
       } else {
-        value = match[1];
-        unit = match[2];
+        major = match[1];
+        minor = match[2];
       }
     }
 
     content = (
       <>
-        <span className={locals.value} style={{ color: color }}>
-          {value}
+        <span className={locals.major} style={{ color: color }}>
+          {major}
         </span>
-        {unit && <span className={locals.unit}>{unit}</span>}
+        {minor && <span className={locals.minor}>{minor}</span>}
       </>
     );
   }

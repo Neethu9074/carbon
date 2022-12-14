@@ -10,7 +10,7 @@ import MultiMetricResultAwareBigNumberKpiCard, {
   Config,
   ConfigWithCompanionMetric
 } from 'in-kubernetes/components/MultiMetricResultAwareBigNumberKpiCard';
-import { GetBigNumberKpiCardResult } from 'in-components/KpiCard/GetBigNumberKpiCardResult';
+import { GetBigNumberKpiCardResult } from './GetBigNumberKpiCardResult';
 import { IconAction } from 'in-components/KpiCard/KpiCard';
 import { FormatterFn } from 'in-stores/metric/formatters';
 import { MetricResult, Result } from 'in-types';
