@@ -13,7 +13,8 @@ import {
   TestResultListItem,
   TestResultSubtransaction,
   Error,
-  PoPInstallationProperties
+  PoPInstallationProperties,
+  TestResultMetadata
 } from 'in-types';
 import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
@@ -64,6 +65,14 @@ export const dummyResultDetails: Result<ResultDetails> = {
   }
 };
 
+export const dummyResultMetadata: Result<ResultMetadata> = {
+  data: {} as ResultMetadata,
+  errors: [],
+  progress: {
+    loading: true
+  }
+};
+
 export const dummyTestResultList: Result<PaginatedResult<TestResultListItem>[]> = {
   data: [] as PaginatedResult<TestResultListItem>[],
   errors: [],
@@ -92,6 +101,12 @@ export interface ResultDetails {
   testId: string;
   testResultId: string;
   subtransactions: TestResultSubtransaction[];
+}
+
+export interface ResultMetadata {
+  testId: string;
+  testResultId: string;
+  metadata: { [index: string]: string };
 }
 
 export interface ResultLogs {
@@ -131,6 +146,13 @@ export interface TestResponse {
 
 export interface ResultDetailsResponse {
   data?: TestResultDetailData;
+  errors?: Error[];
+  progress: Progress;
+  time?: number;
+}
+
+export interface ResultMetadataResponse {
+  data?: TestResultMetadata;
   errors?: Error[];
   progress: Progress;
   time?: number;

@@ -251,6 +251,8 @@
       },
       "downloadHar": "Download HAR File",
       "downloadLog": "Download Logs",
+      "downloadImages": "Download Screenshot",
+      "downloadVideo": "Download Recording",
       "consoleLogs": "CONSOLE",
       "browserLogs": "BROWSER",
       "browserDetails": {

@@ -12,6 +12,7 @@ import http from 'in-services/http';
 
 const testsUrl = `/api/synthetics/settings/tests`;
 const locationUrl = `/api/synthetics/settings/locations`;
+const resultUrl = `/api/synthetics/results`;
 
 export function getLocations(): Observable<unknown> {
   return http({
@@ -61,6 +62,14 @@ export function getTest(testId: string): Observable<unknown> {
   }).map(response => deepFreeze(response));
 }
 
+export function getTestResultMetadata(testId: string, testResultId: string): Observable<unknown> {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    url: resultUrl + '/' + testId + '/' + testResultId,
+    mapToResultObject: true
+  }).map(response => deepFreeze(response));
+}
 export function createTest(testConfig: SyntheticTest): Observable<unknown> {
   return http({
     method: 'POST',

@@ -15,9 +15,11 @@ import { t } from '@instana/i18n-react';
 
 import {
   dummyResultDetails,
+  dummyResultMetadata,
   dummyTest,
   dummyTestResultList,
   ResultDetailsResponse,
+  ResultMetadataResponse,
   TestResponse
 } from 'in-synthetics/utils/constants';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
@@ -39,12 +41,12 @@ import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { syntheticDetailsPath } from 'in-synthetics/navigation/paths';
 import Logs from 'in-synthetics/dashboards/details/components/Logs';
 import { bytes, meanLatency } from 'in-services/formatters/number';
+import { getTest, getTestResultMetadata } from 'in-synthetics/api';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { getTest } from 'in-synthetics/api';
 import theme from 'in-themes';
 
 export default function SyntheticAnalyzeView() {
@@ -114,6 +116,9 @@ export default function SyntheticAnalyzeView() {
       [0]
     ) || dummyTestResultList;
 
+  const testResultMetadata: ResultMetadataResponse =
+    useObservable<any, [number]>(() => getTestResultMetadata(testId, resultId), [0]) || dummyResultMetadata;
+
   return (
     <>
       <Sticky
@@ -130,7 +135,7 @@ export default function SyntheticAnalyzeView() {
           </>
         }
       >
-        {details.progress.loading || resultList.progress.loading ? (
+        {details.progress.loading || resultList.progress.loading || testResultMetadata.progress.loading ? (
           <LoadingIndicator text={t('in-components:topListCard.loadingData')} height={160} size="xxxl" />
         ) : (
           <LeftRightPadding>
@@ -143,7 +148,7 @@ export default function SyntheticAnalyzeView() {
             <Fragment>
               {isBrowserScriptTest && (
                 <Row>
-                  <DownloadButton testId={testId} resultId={resultId} />
+                  <DownloadButton testId={testId} resultId={resultId} testResultMetadata={testResultMetadata} />
                 </Row>
               )}
               <Row>

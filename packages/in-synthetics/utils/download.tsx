@@ -5,6 +5,7 @@
  */
 
 export default function download(fileType: string, ref: string) {
+  let fileName: string = fileType.toLowerCase();
   let extension = '';
 
   switch (fileType) {
@@ -17,6 +18,7 @@ export default function download(fileType: string, ref: string) {
       break;
 
     case 'VIDEOS':
+      fileName = 'recordings';
       extension = '.tar';
       break;
 
@@ -25,7 +27,6 @@ export default function download(fileType: string, ref: string) {
       break;
   }
 
-  let fileName: string = fileType.toLowerCase();
   const a: HTMLAnchorElement = document.body.appendChild(document.createElement('a'));
 
   a.download = fileName + extension;
