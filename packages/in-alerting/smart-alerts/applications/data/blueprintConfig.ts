@@ -276,8 +276,12 @@ export const simpleModeBlueprintConfigs: readonly Readonly<BluePrint>[] = Object
   }
 ]);
 
-export function getBlueprintConfig(alertType: ApplicationAlertType): BluePrint | undefined {
-  return blueprintConfigs.find(blueprint => blueprint.type === alertType);
+export function getBlueprintConfig(alertType: ApplicationAlertType): BluePrint {
+  const config = blueprintConfigs.find(blueprint => blueprint.type === alertType);
+  if (!config) {
+    throw new Error('Unknown alert type: ' + alertType);
+  }
+  return config;
 }
 
 export function getSimpleModeBlueprintConfig(

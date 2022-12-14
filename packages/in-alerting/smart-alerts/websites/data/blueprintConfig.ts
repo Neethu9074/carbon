@@ -318,7 +318,11 @@ function getIncludedTags(tagCatalog: string[]): string[] {
 }
 
 export function getBlueprintConfig(alertType: string): BluePrint | undefined {
-  return blueprintConfigs.find(blueprint => blueprint.type === alertType);
+  const config = blueprintConfigs.find(blueprint => blueprint.type === alertType);
+  if (!config) {
+    throw new Error('Unknown alert type: ' + alertType);
+  }
+  return config;
 }
 
 export function getSimpleModeBlueprintConfig(
