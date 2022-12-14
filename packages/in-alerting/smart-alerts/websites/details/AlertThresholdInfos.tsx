@@ -6,25 +6,23 @@
 import React from 'react';
 
 import {
-  AlertEvaluationType,
-  ApplicationAlertRule,
+  WebsiteAlertRule,
   ThresholdConfig,
   StaticThresholdConfig,
   AdaptiveBaselineConfig,
   HistoricBaselineConfig
 } from 'in-types';
 import { AlertThresholdInfosPresenter } from 'in-alerting/smart-alerts/components/details/AlertThresholdInfosPresenter';
-import alertEvaluationTypes from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { createMetricWithThresholdLabel } from 'in-alerting/smart-alerts/components/utils/metricWithThresholdLabel';
-import { getBlueprintConfig, MetricName } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
+import { getBlueprintConfig, MetricName } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
+import { t } from 'in-i18n';
 
 interface Props {
   threshold: ThresholdConfig & StaticThresholdConfig & AdaptiveBaselineConfig & HistoricBaselineConfig;
-  rule: ApplicationAlertRule;
-  evaluationType: AlertEvaluationType;
+  rule: WebsiteAlertRule;
 }
 
-export const AlertThresholdInfos = ({ threshold, rule, evaluationType }: Props) => {
+export const AlertThresholdInfos = ({ threshold, rule }: Props) => {
   const { operator, type: thresholdType, seasonality, value } = threshold;
   const { alertType, aggregation, metricName } = rule;
   const blueprintConfig = getBlueprintConfig(alertType);
@@ -42,12 +40,12 @@ export const AlertThresholdInfos = ({ threshold, rule, evaluationType }: Props) 
     metricFormat,
     operator
   );
-  const evaluationTypeLabel = alertEvaluationTypes[evaluationType]?.shortText;
+
   return (
     <AlertThresholdInfosPresenter
       thresholdTypeLabel={thresholdTypeLabel}
       metricLabel={metricWithThresholdLabel}
-      scopeLabel={evaluationTypeLabel}
+      scopeLabel={t('in-alerting:smartAlerts.websites.advanced.evaluationSwitch.evaluationTypePERWEBSITE.shortText')}
     />
   );
 };

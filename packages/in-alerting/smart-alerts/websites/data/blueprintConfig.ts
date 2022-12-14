@@ -35,6 +35,7 @@ import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/tr
 import { availableFilterTags } from 'in-websites/tags';
 import { toTagFilterNumberOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { millis, number, NumberFormatter, percentage } from 'in-services/formatters/number';
+import { getAggregationText } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
@@ -106,7 +107,10 @@ export interface BluePrint extends BluePrintBase {
   readonly baselineEnabled: boolean;
   readonly defaultMetric: MetricName;
   readonly getMetricName: (alertRule: WebsiteAlertRule) => string; // TODO figure out if the backend type could be a enum which could map to MetricName?
-  readonly getMetricLabel: (metricName: MetricName) => string;
+  /**
+   * Gets the human-readable metric label, optionally extended with the aggregation type only if relevant.
+   */
+  readonly getMetricLabel: (metricName: MetricName, aggregation?: AggregationType) => string;
   readonly getMetricFormat: (metricName: MetricName) => NumberFormatter;
   readonly getMaxMetricValue: (metricName: MetricName) => number;
 
@@ -164,7 +168,12 @@ const slownessBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   baselineEnabled: true,
   defaultMetric: 'onLoadTime',
   getMetricName: () => 'onLoadTime',
-  getMetricLabel: () => t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigMetricLabel'),
+  getMetricLabel: (_: MetricName, aggregation?: AggregationType) =>
+    aggregation
+      ? `${t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigMetricLabel')} (${getAggregationText(
+          aggregation
+        )})`
+      : t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigMetricLabel'),
   getMetricFormat: () => millis.forcedFixedCompact,
   getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
   getAggregation: (alertRule: WebsiteAlertRule) => {
@@ -317,7 +326,7 @@ function getIncludedTags(tagCatalog: string[]): string[] {
   return tagCatalog.filter((tag: string) => !excludedWebsiteTags.includes(tag));
 }
 
-export function getBlueprintConfig(alertType: string): BluePrint | undefined {
+export function getBlueprintConfig(alertType: WebsitesAlertType): BluePrint {
   const config = blueprintConfigs.find(blueprint => blueprint.type === alertType);
   if (!config) {
     throw new Error('Unknown alert type: ' + alertType);
