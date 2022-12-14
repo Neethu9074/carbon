@@ -15,7 +15,6 @@ import { MetricResult, Result, UnifiedMetricConfigurationUnion } from 'in-types'
 import { translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import { pendingResult } from 'in-services/fixedObjects';
-import useTimeConfig from 'in-hooks/useTimeConfig';
 
 export const metricKey = 'bigNumber';
 export const companionMetricKey = 'companion';
@@ -26,7 +25,7 @@ export interface BigNumberKpiCardProps {
 }
 
 export function GetBigNumberKpiCardResult({ config }: BigNumberKpiCardProps) {
-  const timeConfig = useTimeConfig();
+  const timeConfig = config.metricConfiguration.timeConfig;
 
   const metricDefaults = {
     timeShift: {
@@ -60,5 +59,6 @@ export function GetBigNumberKpiCardResult({ config }: BigNumberKpiCardProps) {
   const result: Result<MetricResult[]> =
     useObservable(() => getUnifiedMetrics({ metrics }), [config, timeConfig, config.metricConfiguration.timeShift]) ??
     pendingResult;
+
   return result;
 }

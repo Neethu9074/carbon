@@ -17,6 +17,7 @@ jest.mock('in-hooks/useTimeConfig', () => ({
   __esModule: true,
   default: jest.fn()
 }));
+
 jest.mock('in-applications/subscriptions/getEndpoints', () => {
   const { success } = jest.requireActual('in-services/util/result');
   const { just } = jest.requireActual('@instana/observables');

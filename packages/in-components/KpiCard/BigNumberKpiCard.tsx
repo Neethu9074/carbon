@@ -9,7 +9,7 @@ import ResultAwareBigNumberKpiCard, {
   Config,
   ConfigWithCompanionMetric
 } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
-import { GetBigNumberKpiCardResult } from 'in-components/KpiCard/KpiHelper';
+import { GetBigNumberKpiCardResult } from 'in-components/KpiCard/GetBigNumberKpiCardResult';
 import { IconAction } from 'in-components/KpiCard/KpiCard';
 import { FormatterFn } from 'in-stores/metric/formatters';
 import { MetricResult, Result } from 'in-types';
