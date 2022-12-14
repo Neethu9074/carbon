@@ -52,7 +52,7 @@ module.exports = {
   websiteSloEnabled: true,
   perEndpointAdaptiveBaselineEnabled: false,
   smartAlertsLogsBlueprintEnabled: true,
-  syntheticsTestEnabled: true,
+  syntheticsEnabled: true,
   kubernetesExploreEnabled: true,
   kubernetesTeamEnabled: true,
   configMigrationFeatureEnabled: true,
