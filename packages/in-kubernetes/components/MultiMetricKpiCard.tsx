@@ -37,7 +37,7 @@ export interface MultiMetricKpiCardProps {
   companionValue?: ReactNode;
   /* 
   When true, print out the whole value without special formatting
-  When false, the numeric value will have a greater font size than the rest, usually the unit
+  When false, the numeric value will have a greater font size than the rest, usually the minor
   */
   raw?: boolean;
   renderValue?: (value?: any) => ReactNode;
@@ -92,7 +92,7 @@ export default function MultiMetricKpiCard({
     if (percentage !== null) {
       var percentageNumber = percentage.replace('%', '');
       content = (
-        <span className={classNames(locals.unit, valuesClassName)}>
+        <span className={classNames(locals.minor, valuesClassName)}>
           {formattedValue}{' '}
           <span className={classNames(locals.capacity_font, valuesClassName)}>
             {'(' + Number(percentageNumber).toFixed(1) + '%)'}
@@ -100,31 +100,31 @@ export default function MultiMetricKpiCard({
         </span>
       );
     } else {
-      content = <span className={classNames(locals.unit, valuesClassName)}>{formattedValue}</span>;
+      content = <span className={classNames(locals.minor, valuesClassName)}>{formattedValue}</span>;
     }
   } else if (children) {
-    content = <span className={classNames(locals.unit, valuesClassName)}>{children}</span>;
+    content = <span className={classNames(locals.minor, valuesClassName)}>{children}</span>;
   } else {
-    let value;
-    let unit = null;
-    if (value === undefined || value === null) {
-      value = formattedValue;
+    let major;
+    let minor = null;
+    if (major === undefined || major === null) {
+      major = formattedValue;
     } else {
       const match = String(formattedValue).match(valueSplitRegExp);
       if (!match) {
-        value = formattedValue;
+        major = formattedValue;
       } else {
-        value = match[1];
-        unit = match[2];
+        major = match[1];
+        minor = match[2];
       }
     }
 
     content = (
       <>
-        <span className={locals.value} style={{ color: color }}>
-          {value}
+        <span className={locals.major} style={{ color: color }}>
+          {major}
         </span>
-        {unit && <span className={locals.unit}>{unit}</span>}
+        {minor && <span className={locals.minor}>{minor}</span>}
       </>
     );
   }

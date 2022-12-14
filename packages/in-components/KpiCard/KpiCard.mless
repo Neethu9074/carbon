@@ -74,16 +74,16 @@
     }
   }
 
-  .value,
-  .unit {
+  .major,
+  .minor {
     color: @lib__colors__N900Primary;
   }
 
-  .value {
+  .major {
     font-size: 2.375rem;
   }
 
-  .unit {
+  .minor {
     font-size: 1.5rem;
   }
 

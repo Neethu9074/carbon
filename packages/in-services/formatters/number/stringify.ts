@@ -353,19 +353,19 @@ export const withSiPrefixThreeDecimalPlaces = (d: number) => {
   }
 
   const sign = match[1] || '';
-  const value = match[2];
-  let unit = match[3];
+  const major = match[2];
+  let minor = match[3];
   const prefix = match[4];
 
-  while (unit.length < 3) {
-    unit += '0';
+  while (minor.length < 3) {
+    minor += '0';
   }
 
-  if (unit.length > 3) {
-    unit = unit.substring(0, 3);
+  if (minor.length > 3) {
+    minor = minor.substring(0, 3);
   }
 
-  return `${sign}${value}${decimalSeparator}${unit}${prefix}`;
+  return `${sign}${major}${decimalSeparator}${minor}${prefix}`;
 };
 export const siPrefix = {
   compact: withSiPrefixZeroDecimalPlaces,
@@ -384,14 +384,14 @@ export const withSiPrefixOneDecimalPlace = (d: number) => {
 
   const sign = match[1] || '';
   const major = match[2];
-  let unit = match[3];
+  let minor = match[3];
   const prefix = match[4];
 
-  if (unit.length > 1) {
-    unit = unit.substring(0, 1);
+  if (minor.length > 1) {
+    minor = minor.substring(0, 1);
   }
 
-  return `${sign}${major}${decimalSeparator}${unit}${prefix}`;
+  return `${sign}${major}${decimalSeparator}${minor}${prefix}`;
 };
 
 export const siPrefixPerSecond = {
