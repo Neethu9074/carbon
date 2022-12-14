@@ -7,6 +7,6 @@ import React from 'react';
 
 import locals from './BodyHeader.mless';
 
-export default function BodyHeader({ children }) {
+export default function BodyHeader({ children }: React.PropsWithChildren<{}>) {
   return <h2 className={locals.header}>{children}</h2>;
 }
