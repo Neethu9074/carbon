@@ -93,7 +93,7 @@ export const websiteBeaconQueryOptimizationEnabled = isFeatureFlagEnabled(
 export const smartAlertsLogsBlueprintEnabled = isFeatureFlagEnabled('smartAlertsLogsBlueprintEnabled', false);
 
 // Synthetics test and  dashboard
-export const syntheticsTestEnabled = isFeatureFlagEnabled('syntheticsTestEnabled');
+export const syntheticsEnabled = isFeatureFlagEnabled('syntheticsEnabled');
 
 // Synthetic BrowserScript feature flag
 export const syntheticBrowserScriptEnabled = isFeatureFlagEnabled('syntheticBrowserScriptEnabled');
