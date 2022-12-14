@@ -6,12 +6,11 @@
 
 import React from 'react';
 
-import { KeyValue, Li, SvgIcon } from '@instana/components';
+import { KeyValue, Li, SvgIcon, LiProps } from '@instana/components';
 
-import locals from './AreaExpandableList.mless';
+import locals from 'in-settings/tabs/TeamSettings/pages/accessControl/Areas/AreaExpandableListItem/AreaExpandableListItem.mless';
 
-interface AreaExpandableListProps {
-  children: React.ReactChildren;
+interface AreaExpandableListItemProps extends LiProps {
   firstColumnLabel?: string;
   firstColumnHeadline: string;
   iconType: string;
@@ -19,21 +18,29 @@ interface AreaExpandableListProps {
   secondColumnLabel?: string;
 }
 
-export const AreaExpandableList = ({
+export const AreaExpandableListItem = ({
   children,
   firstColumnLabel,
   firstColumnHeadline,
   iconType,
   secondColumnHeadline,
-  secondColumnLabel
-}: AreaExpandableListProps) => {
+  secondColumnLabel,
+  subList
+}: AreaExpandableListItemProps) => {
   const shouldRenderSecondColumn = secondColumnLabel || secondColumnHeadline;
 
+  // By default passing even undefined children to the renderNestedContent
+  // prop will make it render an empty div with padding, so we have to
+  // only pass it when children are actually there
+  const optionalProps = {
+    ...(children && { renderNestedContent: () => children })
+  };
+
   return (
-    <Li toggleContentOnRowClick renderNestedContent={() => children}>
+    <Li noAlternatingBg toggleContentOnRowClick subList={subList} {...optionalProps}>
       <div className={locals.container}>
         <div className={locals.iconContainer}>
-          <SvgIcon className={locals.icon} type={iconType} />
+          <SvgIcon type={iconType} />
         </div>
         <div className={locals.columnsContainer}>
           <KeyValue label={firstColumnLabel} customValue={firstColumnHeadline} />
