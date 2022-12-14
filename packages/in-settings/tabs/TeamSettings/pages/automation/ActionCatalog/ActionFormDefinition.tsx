@@ -64,7 +64,8 @@ function additionalHeadersValidator(additionalHeaders: Header[]): ValidationResu
 export function createActionFormDefinition(action: ActionFormEntity, _isCreate: boolean) {
   const tags = action.tags ?? [];
   const mappedTags = tags.map(tag => ({ value: tag, id: generateUniqueShortId() }));
-
+  const parameters = action.parameters ?? [];
+  const mappedParams = parameters.map(parameter => ({ id: generateUniqueShortId(), value: parameter }));
   let form = createMapForm()
     .put(
       'name',
@@ -108,7 +109,7 @@ export function createActionFormDefinition(action: ActionFormEntity, _isCreate: 
     .put(
       'parameters',
       createField({
-        value: action.parameters ?? [],
+        value: mappedParams,
         // TODO: add validator for parameters
         validator: notBlankValidator
       })

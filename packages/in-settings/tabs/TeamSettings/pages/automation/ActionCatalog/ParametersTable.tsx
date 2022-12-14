@@ -7,18 +7,16 @@
 import { MapForm, Field } from 'formalistic';
 import React from 'react';
 
-import ServerTablePresenterWrapper, {
-  ListItem
-} from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ServerTablePresenterWrapper';
-import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
-import ParameterDialog from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ParameterDialog';
-import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
-import { t } from 'in-i18n';
-
 // import locals from './DummyServerTablePresenterConsumer.mless';
 import { Parameter } from '@instana/types';
-import { generateUniqueShortId } from '@instana/utils';
+import { Link } from '@instana/components';
+
+import ServerTablePresenterWrapper from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ServerTablePresenterWrapper';
+import ParameterDialog from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ParameterDialog';
+import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
+import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { t } from 'in-i18n';
 
 interface ParametersTableProps {
   form: MapForm;
@@ -26,31 +24,77 @@ interface ParametersTableProps {
   setForm: SetFormFunction;
 }
 
-const getColumnDefinitions = () => [
+export interface MappedParameter {
+  id: string;
+  value: Parameter;
+}
+
+const getColumnDefinitions = ({ form, onChange }: Omit<ParametersTableProps, 'setForm'>) => [
   {
-    id: 'id',
-    sortable: false,
+    id: 'displayName',
+    sortable: true,
+    label: t('in-settings:tabs.displayName'),
+    getContent(item: MappedParameter) {
+      return (
+        <Link
+          href=""
+          onClick={e => {
+            e.preventDefault();
+            addActiveDialog(<ParameterDialog idToEdit={item.id} form={form} onChange={onChange} />);
+          }}
+        >
+          {item.value.name}
+        </Link>
+      );
+    }
+  },
+  {
+    id: 'name',
+    sortable: true,
     label: t('in-settings:tabs.name'),
-    getContent(item: ListItem<Parameter>) {
-      return item.value.name;
+    getContent(item: MappedParameter) {
+      return item.value.label;
+    }
+  },
+  {
+    id: 'description',
+    sortable: false,
+    label: t('in-settings:tabs.description'),
+    getContent(item: MappedParameter) {
+      return item.value.description;
+    }
+  },
+  {
+    id: 'type',
+    sortable: true,
+    label: t('in-settings:tabs.type'),
+    getContent(item: MappedParameter) {
+      if (item.value.type === 'vault') {
+        return t('in-settings:tabs.vault');
+      } else if (item.value.type === 'dynamic') {
+        return t('in-settings:tabs.dynamic');
+      } else if (item.value.type === 'static') {
+        return t('in-settings:tabs.static');
+      }
+      return null;
     }
   }
 ];
 
 export default function ParametersTable({ form, setForm, onChange }: ParametersTableProps) {
-  const columnDefinitions = getColumnDefinitions();
-  const parameters = (form.get('parameters') as Field<Parameter[]>).value;
+  const columnDefinitions = getColumnDefinitions({ form, onChange });
+  const parameters = (form.get('parameters') as Field<MappedParameter[]>).value;
 
   return (
-    <ServerTablePresenterWrapper<Parameter>
+    <ServerTablePresenterWrapper
       customAddRowLabel={t('in-settings:tabs.addParameter')}
       columnDefinitions={columnDefinitions}
-      data={parameters.map(parameter => ({ id: generateUniqueShortId(), value: parameter }))}
+      data={parameters}
       form={form}
       formKey="parameters"
       setForm={setForm}
       customAddRow={() => {
-        addActiveDialog(<ParameterDialog form={form} setForm={setForm} onChange={onChange} />);
+        addActiveDialog(<ParameterDialog form={form} onChange={onChange} />);
       }}
       noDataMessage={t('in-settings:tabs.noParametersConfigured')}
     />

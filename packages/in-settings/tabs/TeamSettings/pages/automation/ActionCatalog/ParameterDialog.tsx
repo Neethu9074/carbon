@@ -4,41 +4,43 @@
  * Copyright IBM Corp. 2022
  */
 
+import { createField, createMapForm, Field, Item, MapForm, ValidationResult } from 'formalistic';
 import React, { useState } from 'react';
 
-import { close } from 'in-components/DialogPresenter/store';
-import Dialog from 'in-components/Dialog/Dialog';
-import { t } from 'in-i18n';
-import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
-import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
-import { createField, createMapForm, Field, MapForm } from 'formalistic';
+import { generateUniqueShortId } from '@instana/utils';
 import { Parameter } from '@instana/types';
-import { notBlankValidator } from 'in-services/validators/string';
-import Form from 'in-components/form/binding/Form';
+
+import { MappedParameter } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ParametersTable';
+import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
+import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
+import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
+import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import FormGroup from 'in-settings/components/FormGroup/FormGroup';
+import { notBlankValidator } from 'in-services/validators/string';
+import { OnEntityChange } from 'in-settings/hooks/useEntityForm';
+import { close } from 'in-components/DialogPresenter/store';
+import SaveCancel from 'in-settings/components/SaveCancel';
+import { Col, Row } from 'in-components/layout/Grid/Grid';
+import Form from 'in-components/form/binding/Form';
 import Label from 'in-components/form/Label/Label';
 import Input from 'in-components/form/Input/Input';
+import Dialog from 'in-components/Dialog/Dialog';
+import { t } from 'in-i18n';
 
 import locals from './ActionForm.mless';
-import { Toggle } from '@instana/components';
-import Select from 'in-components/form/Select/Select';
-import { Col, Row } from 'in-components/layout/Grid/Grid';
-import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
-import SaveCancel from 'in-settings/components/SaveCancel';
-import Password from 'in-components/form/Password/Password';
 
 interface ParameterDialogProps {
   form: MapForm;
   onChange: OnEntityChange<ActionFormEntity>;
-  setForm: SetFormFunction;
-  nameToEdit?: string;
+  idToEdit?: string;
 }
 
-export default function ParameterDialog({ form, setForm, onChange, nameToEdit }: ParameterDialogProps) {
-  const parameter = (form.get('parameters') as Field<Parameter[]>).value.find(
-    parameter => parameter.name === nameToEdit
+export default function ParameterDialog({ form, onChange, idToEdit }: ParameterDialogProps) {
+  const parameter = (form.get('parameters') as Field<MappedParameter[]>).value.find(
+    parameter => parameter.id === idToEdit
   );
+
   const [parameterForm, setParameterForm] = useState(createForm());
 
   const name = parameterForm.get('name') as Field<string>;
@@ -46,15 +48,57 @@ export default function ParameterDialog({ form, setForm, onChange, nameToEdit }:
   const description = parameterForm.get('description') as Field<string>;
   const required = parameterForm.get('required') as Field<boolean>;
   const hidden = parameterForm.get('hidden') as Field<boolean>;
-  const secured = parameterForm.get('secured') as Field<boolean>;
-  const isStatic = parameterForm.get('isStatic') as Field<boolean>;
   const value = parameterForm.get('value') as Field<string>;
-  const onSubmit = (...args: any) => {
-    console.log(args);
+  const type = parameterForm.get('type') as Field<string>;
+  const secretKey = parameterForm.get('secretKey') as Field<string>;
+  const secretPath = parameterForm.get('secretPath') as Field<string>;
+
+  const onSubmit = (parameterForm: Item) => {
+    parameterForm = parameterForm as MapForm;
+    const name = (parameterForm.get('name') as Field<string>).value;
+    const label = (parameterForm.get('label') as Field<string>).value;
+    const description = (parameterForm.get('description') as Field<string>).value;
+    const required = (parameterForm.get('required') as Field<boolean>).value;
+    const hidden = parameterForm.get('hidden') as Field<boolean>;
+    const type = (parameterForm.get('type') as Field<string>).value;
+    let paramValue = '';
+    let valueType = '';
+    if (type === 'static') {
+      paramValue = (parameterForm.get('value') as Field<string>).value;
+      valueType = 'string';
+    } else if (type === 'vault') {
+      const secretKey = (parameterForm.get('secretKey') as Field<string>).value;
+      const secretPath = (parameterForm.get('secretPath') as Field<string>).value;
+      paramValue = JSON.stringify({ secretKey: secretKey, secretPath: secretPath });
+      valueType = 'map';
+    }
+    const parameterToSubmit: Parameter = {
+      name,
+      label,
+      description,
+      required,
+      hidden: hidden.value,
+      value: paramValue,
+      secured: false,
+      type,
+      valueType
+    };
+    if (parameter) {
+      onChange(
+        'parameters',
+        ((form.get('parameters') as Field<MappedParameter[]>).value ?? []).map(p =>
+          p.id === idToEdit ? { id: idToEdit, value: parameterToSubmit } : p
+        )
+      );
+    } else {
+      onChange('parameters', [
+        ...((form.get('parameters') as Field<MappedParameter[]>).value ?? []),
+        { id: generateUniqueShortId(), value: parameterToSubmit }
+      ]);
+    }
+    close();
   };
-  console.log(form, setForm, onChange, setParameterForm, parameterForm);
-  const valueRequiredButEmpty = required.value && value.touched && value.value === '';
-  const DefaultValueInput = secured.value ? Password : Input;
+  const valueRequiredButEmpty = type.value === 'static' && required.value && value.touched && value.value === '';
   return (
     <Dialog
       titleIconType={'lib_openclose_add'}
@@ -71,7 +115,7 @@ export default function ParameterDialog({ form, setForm, onChange, nameToEdit }:
         >
           <FormGroup>
             <Label htmlFor="parameter-name" hasError={!name.valid && name.touched}>
-              {t('in-settings:tabs.name')}
+              {t('in-settings:tabs.displayName')}
             </Label>
             <Input
               id="parameter-name"
@@ -85,7 +129,7 @@ export default function ParameterDialog({ form, setForm, onChange, nameToEdit }:
           </FormGroup>
           <FormGroup>
             <Label htmlFor="parameter-label" hasError={!label.valid && label.touched}>
-              {t('in-settings:tabs.label')}
+              {t('in-settings:tabs.name')}
             </Label>
             <Input
               id="parameter-label"
@@ -112,31 +156,48 @@ export default function ParameterDialog({ form, setForm, onChange, nameToEdit }:
             <TouchedMessages field={description} className={locals.subErrorTextFormField} />
           </FormGroup>
           <FormGroup>
-            <Label htmlFor="parameter-required" hasError={!required.valid && required.touched}>
-              {t('in-settings:tabs.required')}
-            </Label>
-            <Toggle
-              id="parameter-required"
-              checked={required.value}
-              onChange={e => onParameterChange('required', e.target.checked)}
-            />
+            <Label htmlFor="parameter-type">{t('in-settings:tabs.valueType')}</Label>
+            <Row withoutSideMargin>
+              <Col>
+                <CheckboxFancy
+                  asRadioButton
+                  checked={type.value === 'static'}
+                  label={t('in-settings:tabs.static')}
+                  onChange={() => onParameterChange('type', 'static', addStaticField)}
+                />
+              </Col>
+              <Col>
+                <CheckboxFancy
+                  asRadioButton
+                  checked={type.value === 'dynamic'}
+                  label={t('in-settings:tabs.dynamic')}
+                  onChange={() => onParameterChange('type', 'dynamic')}
+                />
+              </Col>
+              <Col>
+                <CheckboxFancy
+                  asRadioButton
+                  checked={type.value === 'vault'}
+                  label={t('in-settings:tabs.vault')}
+                  onChange={() => onParameterChange('type', 'vault', addVaultFields)}
+                />
+              </Col>
+            </Row>
           </FormGroup>
-          <FormGroup>
-            <Label htmlFor="parameter-valueType" hasError={!isStatic.valid && isStatic.touched}>
-              {t('in-settings:tabs.valueType')}
-            </Label>
-            <Select id="parameter-valueType" onChange={e => onParameterChange('isStatic', e.target.value === 'true')}>
-              <option value={'true'}>Static</option>
-              <option value={'false'}>Dynamic</option>
-            </Select>
-          </FormGroup>
-          {isStatic.value && (
+          {type.value === 'static' && (
             <>
               <FormGroup>
-                <Label htmlFor="parameter-value" hasError={!value.valid && value.touched}>
-                  {t('in-settings:tabs.defaultValue')}
+                <CheckboxFancy
+                  checked={required.value}
+                  label={t('in-settings:tabs.required')}
+                  onChange={e => onParameterChange('required', e.target.checked)}
+                />
+              </FormGroup>
+              <FormGroup>
+                <Label htmlFor="parameter-value" hasError={valueRequiredButEmpty && value.touched}>
+                  {t('in-settings:tabs.value')}
                 </Label>
-                <DefaultValueInput
+                <Input
                   id="parameter-value"
                   value={value.value}
                   onChange={e => onParameterChange('value', e.target.value)}
@@ -147,94 +208,169 @@ export default function ParameterDialog({ form, setForm, onChange, nameToEdit }:
                   <ValidationBlock>{t('in-services:validators.theValueMustNotBeBlank')}</ValidationBlock>
                 )}
               </FormGroup>
-              <Row>
-                <Col lg={4}>
-                  <FormGroup>
-                    <Label htmlFor="parameter-hidden" hasError={!hidden.valid && hidden.touched}>
-                      {t('in-settings:tabs.hiddenParam')}
-                    </Label>
-                    <Toggle
-                      id="parameter-hidden"
-                      checked={hidden.value}
-                      onChange={e => onParameterChange('hidden', e.target.checked)}
-                    />
-                  </FormGroup>
-                </Col>
-                <Col lg={4}>
-                  <FormGroup>
-                    <Label htmlFor="parameter-secured" hasError={!secured.valid && secured.touched}>
-                      {t('in-settings:tabs.secured')}
-                    </Label>
-                    <Toggle
-                      id="parameter-secured"
-                      checked={secured.value}
-                      onChange={e => onParameterChange('secured', e.target.checked)}
-                    />
-                  </FormGroup>
-                </Col>
-              </Row>
+              <FormGroup>
+                <CheckboxFancy
+                  checked={hidden.value}
+                  label={t('in-settings:tabs.hiddenParam')}
+                  onChange={e => onParameterChange('hidden', e.target.checked)}
+                />
+              </FormGroup>
             </>
           )}
+          {type.value === 'vault' && (
+            <>
+              <FormGroup>
+                <Label htmlFor="parameter-secretPath" hasError={!secretPath.valid && secretPath.touched}>
+                  {t('in-settings:tabs.secretPath')}
+                </Label>
+                <Input
+                  id="parameter-secretPath"
+                  value={secretPath.value}
+                  onChange={e => onParameterChange('secretPath', e.target.value)}
+                  hasError={!secretPath.valid && secretPath.touched}
+                  maxLength={256}
+                />
+                <TouchedMessages field={secretPath} className={locals.subErrorTextFormField} />
+              </FormGroup>
+              <FormGroup>
+                <Label htmlFor="parameter-secretKey" hasError={!secretKey.valid && secretKey.touched}>
+                  {t('in-settings:tabs.secretKey')}
+                </Label>
+                <Input
+                  id="parameter-secretKey"
+                  value={secretKey.value}
+                  onChange={e => onParameterChange('secretKey', e.target.value)}
+                  hasError={!secretKey.valid && secretKey.touched}
+                  maxLength={256}
+                />
+                <TouchedMessages field={secretKey} className={locals.subErrorTextFormField} />
+              </FormGroup>
+            </>
+          )}
+
           <SaveCancel form={parameterForm} onClickCancelButton={close} saveEnabled={!valueRequiredButEmpty} />
         </Form>
       </div>
     </Dialog>
   );
-  function onParameterChange<T>(fieldName: string, value: T) {
-    setParameterForm(form => form.updateIn([fieldName], field => (field as Field<T>).setValue(value).setTouched(true)));
+  function onParameterChange<T>(fieldName: string, value: T, updateFormDefinition?: (form: MapForm) => MapForm) {
+    setParameterForm(form => {
+      form = form.updateIn([fieldName], field => (field as Field<T>).setValue(value).setTouched(true));
+      if (updateFormDefinition) {
+        form = updateFormDefinition(form);
+      }
+      return form;
+    });
   }
   function createForm() {
-    return createMapForm()
+    let newForm = createMapForm()
       .put(
         'name',
         createField({
-          value: parameter?.name ?? '',
+          value: parameter?.value?.name ?? '',
           validator: notBlankValidator
         })
       )
       .put(
         'label',
         createField({
-          value: parameter?.label ?? '',
-          validator: notBlankValidator
+          value: parameter?.value?.label ?? '',
+          validator: composeAndShortCircuitOnError(notBlankValidator, validName, (value: string) =>
+            uniqueName((form.get('parameters') as Field<MappedParameter[]>).value, value, idToEdit ?? '')
+          )
         })
       )
       .put(
         'description',
         createField({
-          value: parameter?.description ?? '',
+          value: parameter?.value?.description ?? '',
           validator: notBlankValidator
         })
       )
       .put(
         'required',
         createField({
-          value: parameter?.required ?? false
+          value: parameter?.value?.type === 'static' ? parameter?.value?.required : null ?? false
         })
       )
       .put(
         'hidden',
         createField({
-          value: parameter?.hidden ?? false
+          value: parameter?.value?.type === 'static' ? parameter?.value?.hidden : null ?? false
         })
       )
       .put(
-        'secured',
+        'type',
         createField({
-          value: parameter?.secured ?? false
+          value: parameter?.value?.type ?? 'static'
         })
-      )
-      .put(
-        'isStatic',
-        createField({
-          value: parameter?.isStatic ?? true
-        })
-      )
+      );
+    if (parameter?.value?.type === 'vault') {
+      newForm = addVaultFields(newForm);
+    } else {
+      newForm = addStaticField(newForm);
+    }
+    return newForm;
+  }
+  function addStaticField(form: MapForm) {
+    return form
       .put(
         'value',
         createField({
-          value: parameter?.value ?? ''
+          value: parameter?.value?.type === 'static' ? parameter?.value?.value : null ?? ''
         })
-      );
+      )
+      .remove('secretKey')
+      .remove('secretPath');
   }
+  function addVaultFields(form: MapForm) {
+    const parsedVaultValue: { secretKey?: string; secretPath?: string } = (raw => {
+      try {
+        return JSON.parse(raw);
+      } catch (e) {
+        return {};
+      }
+    })(parameter?.value?.value ?? '{}');
+    const { secretKey, secretPath } = parsedVaultValue;
+    return form
+      .put(
+        'secretKey',
+        createField({
+          value: secretKey ?? '',
+          validator: notBlankValidator
+        })
+      )
+      .put(
+        'secretPath',
+        createField({
+          value: secretPath ?? '',
+          validator: notBlankValidator
+        })
+      )
+      .remove('value');
+  }
+}
+
+function validName(value: string): ValidationResult {
+  if (!/^[a-zA-Z_]{1,}[a-zA-Z0-9_]*$/.test(value)) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-settings:tabs:validName')
+      }
+    ];
+  }
+  return undefined;
+}
+
+function uniqueName(parameters: MappedParameter[], value: string, id: string): ValidationResult {
+  if (parameters.some(parameter => parameter.value.label === value && parameter.id !== id)) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-settings:tabs:uniqueName')
+      }
+    ];
+  }
+  return undefined;
 }

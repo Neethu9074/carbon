@@ -7,9 +7,6 @@
 @import '~in-themes/mixins.less';
 
 :local {
-  .row {
-    vertical-align: top;
-  }
   .delete {
     cursor: pointer;
     fill: @lib__colors__primary2;
