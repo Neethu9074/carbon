@@ -19,6 +19,7 @@ import { ResultPrecision } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-components/KpiCard/KpiCard.mless';
+import local from './MultiMetricKpiCard.mless';
 
 const valueSplitRegExp = new RegExp(`^([0-9\\${decimalSeparator}\\${thousandsSeparator}]+)(.*)$`);
 
@@ -94,7 +95,7 @@ export default function MultiMetricKpiCard({
       content = (
         <span className={classNames(locals.minor, valuesClassName)}>
           {formattedValue}{' '}
-          <span className={classNames(locals.capacity_font, valuesClassName)}>
+          <span className={classNames(local.capacity_font, valuesClassName)}>
             {'(' + Number(percentageNumber).toFixed(1) + '%)'}
           </span>
         </span>
