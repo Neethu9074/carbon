@@ -4,10 +4,10 @@
       "dialogTitle": "Créer un test synthétique",
       "noLocationFound": "Désolé ! Aucun emplacement trouvé.",
       "titles": {
-        "step1": "Etape 1 : sélectionner un type",
-        "step2": "Etape 2 : détails de la demande",
-        "step3": "Etape 3 : planification",
-        "step4": "Etape 4 : fournir des détails"
+        "step1": "Etape 1 : Sélectionner un type",
+        "step2": "Etape 2 : Détails de la demande",
+        "step3": "Etape 3 : Planification",
+        "step4": "Etape 4 : Fournir des détails"
       },
       "selectTest": {
         "title": "Quel type de test synthétique souhaitez-vous créer ?"
@@ -27,7 +27,7 @@
         "labelOperation": "Méthode HTTP",
         "labelUrl": "URL",
         "popSubTitle": "Point de présence",
-        "uploadScriptTitle": "Télécharger le script",
+        "uploadScriptTitle": "Importer le script",
         "failureToReadFileContent": "Echec de la lecture du contenu du fichier : {{error}}"
       },
       "basicDetails": {
@@ -120,7 +120,7 @@
         "subTitle": "Utilisez ces modèles de code comme référence",
         "simpleCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"Nom;NomAffichage;Pays;Ville;0;0;Emplacement description\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<yourpassword>\"",
         "redisCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"Nom;NomAffichage;Pays;Ville;0;0;Emplacement description\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true",
-        "tlsInstructions": "Si vous souhaitez activer TLS Redis , vous devez créer un dossier certs sous le chemin racine de la charte Helm et copier votre paire certificat-clé (tls.crt, tls.key) et votre fichier de certificat racine de l'autorité de certification (ca.crt) dans ce dossier, les noms de fichier devant correspondre exactement.\n\nSi vous n'avez pas vos fichiers de clé/certificat, vous pouvez également utiliser la commande openssl pour en générer de nouveaux ; voir les exemples suivants :",
+        "tlsInstructions": "Si vous souhaitez activer TLS Redis, vous devez créer un dossier certs sous le chemin racine de la charte Helm et copier votre paire certificat-clé (tls.crt, tls.key) et votre fichier de certificat racine de l'autorité de certification (ca.crt) dans ce dossier certs, les noms de fichier devant correspondre exactement.\n\nSi vous n'avez pas vos fichiers de clé/certificat, vous pouvez également utiliser la commande openssl pour en générer de nouveaux. Reportez-vous aux exemples suivants :",
         "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt"
       },
       "testLabel": "Nom",
@@ -139,25 +139,25 @@
       "locationLabel": "Emplacement",
       "locations": "{{totalLocations}} emplacements",
       "applicationLabel": "Application",
-      "health": "Etat",
+      "health": "Intégrité",
       "action": "Action",
       "delete": "Supprimer le test",
       "labelConfirm": "Veuillez confirmer",
-      "labelConfirmRemoveTest": "Voulez-vous vraiment supprimer le test synthétique <strong>{{label}}</strong> ?",
-      "labelRemove": "Supprimer",
+      "labelConfirmRemoveTest": "Voulez-vous vraiment retirer le test synthétique <strong>{{label}}</strong> ?",
+      "labelRemove": "Retirer",
       "na": "Non disponible"
     },
     "locationList": {
       "locationLabel": "Nom de l'emplacement",
-      "locationDisplayLabel": "Display Name",
+      "locationDisplayLabel": "Nom d'affichage",
       "status": "Statut",
       "type": "Type",
       "totalTests": "Nbre de tests liés",
       "lastRun": "Dernière exécution de test le",
       "namespace": "Espace de nom",
-      "labelConfirmRemoveLocation": "Voulez-vous vraiment supprimer l'emplacement <strong>{{label}}</strong> ({{status}}) ?",
-      "activeTestLinked": "Il y a des tests actifs affectés à l'emplacement <strong>{{label}}</strong> ({{status}}). Voulez-vous vraiment supprimer cet emplacement ?",
-      "deleteLocation": "Supprimer un emplacement"
+      "labelConfirmRemoveLocation": "Voulez-vous vraiment retirer l'emplacement <strong>{{label}}</strong> ({{status}}) ?",
+      "activeTestLinked": "Il y a des tests actifs affectés à l'emplacement <strong>{{label}}</strong> ({{status}}). Voulez-vous vraiment retirer cet emplacement ?",
+      "deleteLocation": "Supprimer l'emplacement"
     },
     "summary": {
       "successRate": "Taux de réussite",

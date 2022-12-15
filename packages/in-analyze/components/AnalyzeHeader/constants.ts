@@ -30,7 +30,7 @@ export const dataSourceSources: DataSourceMatrix[] = [
   {
     matrixPath: logsAnalyzePath,
     matrixParam: logsDataSourceTypeMatrixParameter,
-    productArea: 'application'
+    productArea: 'logs'
   },
   {
     pathPrefix: websiteMonitoringPath,
@@ -48,5 +48,10 @@ export const dataSourceSources: DataSourceMatrix[] = [
     matrixPath: profilingAnalyzePath,
     matrixParam: dataSourceTypeMatrixParameter,
     productArea: 'profiles'
+  },
+  {
+    matrixPath: '/explore',
+    matrixParam: dataSourceTypeMatrixParameter,
+    productArea: 'infrastructure'
   }
 ];

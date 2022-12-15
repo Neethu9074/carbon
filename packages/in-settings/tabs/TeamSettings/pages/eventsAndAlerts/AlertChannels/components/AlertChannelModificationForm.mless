@@ -11,4 +11,8 @@
     align-items: center;
     justify-content: center;
   }
+  .betaMarker {
+    margin-left: auto;
+    align-self: flex-start;
+  }
 }

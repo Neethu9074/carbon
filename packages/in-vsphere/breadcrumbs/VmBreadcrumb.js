@@ -7,6 +7,7 @@ import React from 'react';
 
 import getVsphereVm from 'in-vsphere/subscriptions/getVsphereVm';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
+import { useVspehereEntityLink } from '../navigation/paths';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
@@ -19,9 +20,16 @@ export default connectTo(
       }
     }).map(result => result.data)
   }),
-  function VmBreadcrumb({ virtualMachine }) {
+  function VmBreadcrumb(props) {
+    const { virtualMachine, datacenterId, hostId, vmId } = props;
+    const getVsphereHostDashboard = useVspehereEntityLink('vm', { datacenterId, hostId });
+
     return (
-      <Breadcrumb label={t('in-vsphere:breadcrumbs.vSphereVm')} icon="lib_vsphere_vm">
+      <Breadcrumb
+        href$={getVsphereHostDashboard(vmId)}
+        label={t('in-vsphere:breadcrumbs.vSphereVm')}
+        icon="lib_vsphere_vm"
+      >
         {virtualMachine && virtualMachine.label}
       </Breadcrumb>
     );

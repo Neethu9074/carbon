@@ -658,8 +658,7 @@
           "website": "O número máximo de configurações de Apdex do website ({{0}}) foi alcançado. Entre em contato com o suporte Instana para solicitar um aumento para este limite.",
           "application": "O número máximo de configurações de Apdex do aplicativo ({{0}}) foi alcançado. Entre em contato com o suporte Instana para solicitar um aumento para este limite."
         },
-        "editConfigNotice": "Para evitar perda de dados, a configuração não pode ser editada após ser criada; ela pode ser ajustada somente como uma cópia.",
-        "apdexCloneName": "Cópia de {{apdexName}}"
+        "editConfigNotice": "Para evitar perda de dados, a configuração não pode ser editada após ser criada; ela pode ser ajustada somente como uma cópia."
       },
       "createWebsiteApdexForm": {
         "thresholdHeader": "Configuração de limite",

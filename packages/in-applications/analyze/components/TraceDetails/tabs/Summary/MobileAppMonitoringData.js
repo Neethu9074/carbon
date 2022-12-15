@@ -3,10 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { compose, withState, withProps } from 'recompose';
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 
 import { Button, SvgIcon } from '@instana/components';
+import { useObservable } from '@instana/hooks';
 import { Card } from '@instana/components';
 import { Link } from '@instana/components';
 
@@ -27,53 +27,48 @@ import { tryGet, trySet } from 'in-services/localStorage';
 import { Row, Col } from 'in-components/layout/Grid';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { minutes } from 'in-services/time';
-import connect from 'in-hoc/connectTo';
 import { Trans, t } from 'in-i18n';
 
 import locals from './MobileAppMonitoringData.mless';
 
 const localStorageKey = 'traceView.showMobileAppMonitoringData';
 
-export default compose(
-  connect(({ traceId, startTime }) => {
-    return {
-      result: getMobileAppBeacons({
-        tagFilters: [{ name: 'mobileBeacon.backend.traceId', stringValue: traceId, operator: 'EQUALS' }],
-        timeConfig: {
-          windowSize: minutes.toMillis(20),
-          to: startTime + minutes.toMillis(10),
-          focusedMoment: startTime + minutes.toMillis(10)
-        },
-        order: {
-          by: 'mobileBeacon.timestamp',
-          // Get the oldest beacon, which is most likely the one that triggered this trace. Please note that if a request
-          // is served from a cache, the given beacon will be linked to the old trace (the one whose response was cached).
-          direction: 'ASC'
-        },
-        pagination: {
-          retrievalSize: 1
-        }
-      })
-    };
-  }),
-  withState('showDetails', 'setShowDetails', tryGet(localStorageKey) !== 'false'),
-  withProps(({ setShowDetails }) => ({
-    setShowDetails: show => {
-      trySet(localStorageKey, show);
-      if (show) {
-        showMobileAppDetailsInTraceView();
-      } else {
-        hideMobileAppDetailsInTraceView();
+export default function MobileAppMonitoringData({ traceId, startTime }) {
+  const [showDetails, setDetails] = useState(tryGet(localStorageKey) !== 'false');
+  const result = useObservable(() => {
+    return getMobileAppBeacons({
+      tagFilters: [{ name: 'mobileBeacon.backend.traceId', stringValue: traceId, operator: 'EQUALS' }],
+      timeConfig: {
+        windowSize: minutes.toMillis(20),
+        to: startTime + minutes.toMillis(10),
+        focusedMoment: startTime + minutes.toMillis(10)
+      },
+      order: {
+        by: 'mobileBeacon.timestamp',
+        // Get the oldest beacon, which is most likely the one that triggered this trace. Please note that if a request
+        // is served from a cache, the given beacon will be linked to the old trace (the one whose response was cached).
+        direction: 'ASC'
+      },
+      pagination: {
+        retrievalSize: 1
       }
-      setShowDetails(show);
+    });
+  }, [traceId, startTime]);
+
+  const setShowDetails = show => {
+    trySet(localStorageKey, show);
+    if (show) {
+      showMobileAppDetailsInTraceView();
+    } else {
+      hideMobileAppDetailsInTraceView();
     }
-  }))
-)(function MobileAppMonitoringData({ result, showDetails, setShowDetails, traceId }) {
+    setDetails(show);
+  };
+
   const timeConfig = useTimeConfig();
   if (!result || result.data == null || result.data.items.length === 0) {
     return null;
   }
-
   const beacon = result.data.items[0].beacon;
   const adjustedTimeConfig = getAdjustedTimeConfigToIncludeTimestamp(timeConfig, beacon.timestamp, getChartGranularity);
   return (
@@ -151,4 +146,4 @@ export default compose(
       {showDetails && <BeaconUserSummary beacon={beacon} />}
     </Fragment>
   );
-});
+}

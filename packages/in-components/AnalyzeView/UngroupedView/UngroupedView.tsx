@@ -4,29 +4,32 @@
  */
 
 import classNames from 'classnames';
-import rpt from 'prop-types';
 import React from 'react';
 
-import { Stack, SvgIcon } from '@instana/components';
+// @ts-expect-error export needs types
 import { empty } from '@instana/observables';
+import { Stack } from '@instana/components';
 
+// @ts-expect-error needs TS migration
 import MetricAndSortingConfigurator from 'in-components/MetricAndSortingConfigurator/MetricAndSortingConfigurator';
-import { ua2MetricAddedTracker, ua2MetricRemovedTracker } from 'in-components/tracker';
-import { childrenArgsAsPropTypes } from 'in-components/AnalyzeView/StateManagement';
-import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
+// @ts-expect-error needs TS migration
 import { getAvailableMetrics } from 'in-components/AnalyzeView/metrics';
+// @ts-expect-error needs TS migration
+import { traceViewTracker } from 'in-applications/tracker';
+import { ua2MetricAddedTracker, ua2MetricRemovedTracker } from 'in-components/tracker';
+import { UngroupedViewProps } from 'in-components/AnalyzeView/UngroupedView/types';
+import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import Header from 'in-components/QueryBuilder/components/Header';
+import GroupedViewOnlyIndicator from './GroupedViewOnlyIndicator';
 import useCursorPagination from 'in-hooks/useCursorPagination';
-import { traceViewTracker } from 'in-applications/tracker';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import Tooltip from 'in-components/Tooltip';
-import { t } from 'in-i18n';
 
 import locals from './UngroupedView.mless';
 
 export const retrievalSize = 20;
-export default function UngroupedAnalyzeView(props) {
+
+export default function UngroupedView(props: UngroupedViewProps) {
   const backendQueryModelWithFacets = useStableObjectInstance(props.backendQueryModelWithFacets);
 
   const {
@@ -46,15 +49,15 @@ export default function UngroupedAnalyzeView(props) {
     SplitScreenListItemContent,
     useCursorPaginationStrategy,
     withoutHeader,
-    ungroupedViewConfiguration,
     hideMetricAndSortingConfigurator,
     Chart,
     withOverflow = false,
-    CustomHeaderActions
+    CustomHeaderActions,
+    ungroupedViewConfiguration
   } = props;
 
   const timeConfig = useTimeConfig();
-  const cursorPaginationState = (useCursorPaginationStrategy ?? useCursorPagination)(
+  const cursorPaginationState = (useCursorPaginationStrategy ?? useCursorPagination)<never, Record<string, unknown>>(
     params =>
       isValid
         ? getData({ timeConfig, orderBy, backendQueryModel: backendQueryModelWithFacets, dataSource, ...params })
@@ -142,15 +145,15 @@ export default function UngroupedAnalyzeView(props) {
                 ua2MetricAddedTracker({ dataSource, metric, aggregation }),
               onMetricRemoved: ({ metric, aggregation }) => ua2MetricRemovedTracker({ dataSource, metric, aggregation })
             }}
+            renderHistoricDataIndicator={resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE'}
+            CustomHeaderActions={headerActions}
             MetricConfiguratorHint={({ metricId }) => (
               <GroupedViewOnlyIndicator
                 metricId={metricId}
-                getHasRawValue={ungroupedViewConfiguration.metricFieldExtractors?.hasRawValue}
+                hasRawValue={ungroupedViewConfiguration.metricFieldExtractors?.hasRawValue}
                 metricCatalog={metricCatalog}
               />
             )}
-            renderHistoricDataIndicator={resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE'}
-            CustomHeaderActions={headerActions}
           />
         )}
         <Presenter
@@ -164,49 +167,3 @@ export default function UngroupedAnalyzeView(props) {
     </Stack>
   );
 }
-
-function GroupedViewOnlyIndicator({ metricId, metricCatalog, getHasRawValue }) {
-  const metricDefinition = metricCatalog.find(metric => metric.metricId === metricId);
-  if (getHasRawValue?.({ metricDefinition })) {
-    return null;
-  }
-  return (
-    <Tooltip content={t('in-components:analyze.groupedOnly')} align="bottomRight">
-      <SvgIcon type="lib_help_error_help_outline" size="s" className={locals.helpIcon} />
-    </Tooltip>
-  );
-}
-UngroupedAnalyzeView.propTypes = {
-  ...childrenArgsAsPropTypes,
-
-  getItemName: rpt.func,
-  withoutHeader: rpt.bool,
-  getData: rpt.func.isRequired,
-  getDetailData: rpt.func.isRequired,
-  getId: rpt.func.isRequired,
-  columnDefinitions: rpt.array.isRequired,
-  DetailView: rpt.elementType.isRequired,
-  CustomHeaderActions: rpt.elementType,
-  sortOptions: rpt.arrayOf(rpt.shape({ value: rpt.string.isRequired, label: rpt.node.isRequired }).isRequired),
-  Sidebar: rpt.elementType,
-
-  // Will be auto-provided by GroupedView in the relevant scenarios.
-  groupLabel: rpt.string
-};
-
-export const detailViewProps = {
-  ...childrenArgsAsPropTypes,
-  getId: rpt.func.isRequired,
-  getItemName: rpt.func,
-
-  isLoading: rpt.bool,
-  hasErrors: rpt.bool,
-  hasItems: rpt.bool,
-
-  items: rpt.array,
-  errors: rpt.array,
-  progress: rpt.object,
-  canLoadMore: rpt.bool,
-  loadMore: rpt.func,
-  totalHits: rpt.number
-};

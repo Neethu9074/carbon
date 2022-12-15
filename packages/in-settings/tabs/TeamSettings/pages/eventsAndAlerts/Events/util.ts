@@ -3,10 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { EventSpecificationInfo, EventSpecificationType, Nullish } from 'in-types';
 import { deprecateAppDataLegacyEventsEnabled } from 'in-services/featureFlags';
 import { customIssuesDisabledForPlugins, plugins } from 'in-forge/constants';
+import { EventSpecificationInfo, EventSpecificationType } from 'in-types';
 import { FormatterType } from 'in-services/formatters/number';
+import { isAppDataType } from 'in-forge/plugins/pluginTypes';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { getPluginName } from 'in-sdk/pluginName';
 import { Option } from 'in-components/ComboBox';
@@ -46,7 +47,7 @@ export function getEntityTypeOptionsOfBuiltInMetrics(showDeprecatedLabel: boolea
   return Object.values(plugins)
     .filter(plugin => hasCategory(plugin))
     .filter(plugin => customIssuesDisabledForPlugins.indexOf(plugin) < 0)
-    .sort((a, b) => compareIgnoreCase(getPluginName(a, 1), getPluginName(b, 1)))
+    .sort((a, b) => compareIgnoreCase(getPluginName(a, 1)!, getPluginName(b, 1)!))
     .map(plugin => {
       return {
         value: plugin,
@@ -58,18 +59,14 @@ export function getEntityTypeOptionsOfBuiltInMetrics(showDeprecatedLabel: boolea
 function getLabelForPlugin(plugin: string, showDeprecatedLabel: boolean): string {
   return showDeprecatedLabel && shouldDisplayDeprecatedLabel(plugin)
     ? getPluginName(plugin, 1) + ` (${t('in-settings:tabs.deprecated')})`
-    : getPluginName(plugin, 1);
+    : getPluginName(plugin, 1)!;
 }
 
 function shouldDisplayDeprecatedLabel(plugin: string): boolean {
-  return deprecateAppDataLegacyEventsEnabled && isDeprecatedAppDataEntity(plugin);
+  return deprecateAppDataLegacyEventsEnabled && isDeprecatedAppDataEntityType(plugin);
 }
 
-function isDeprecatedAppDataEntity(plugin: string): boolean {
-  return plugin === 'application' || plugin === 'service' || plugin === 'endpoint';
-}
-
-export function formatterTypeToDefinition(formatterType: FormatterType) {
+export function formatterTypeToValueLabel(formatterType: FormatterType, metricName: string) {
   switch (formatterType) {
     case 'LATENCY':
     case 'MILLIS':
@@ -93,6 +90,12 @@ export function formatterTypeToDefinition(formatterType: FormatterType) {
     case 'MEGA_BYTES':
       return t('in-settings:tabs.megabytes');
     case 'NUMBER':
+      if (metricName.toLowerCase().includes('status')) {
+        // Unfortunately, there is no separate formatter type for status values, which also use the same NUMBER format.
+        // However, using a label of "Count" for  its value would be incorrect or misleading here. Therefore, we derive the
+        // information of whether it might be a status metric out of the metric name as a heuristic, to improve this for now.
+        return t('in-settings:tabs.statusValue');
+      }
       return t('in-settings:tabs.count');
     case 'UNDEFINED':
       return t('in-settings:tabs.value');
@@ -121,13 +124,8 @@ export function unmapConditionValue(value: number, formatterType: FormatterType)
   return value;
 }
 
-const migrateableEntityTypes = ['application', 'service', 'endpoint'];
-
-export function isAppDataEntityType(entityType: string | Nullish) {
-  if (entityType) {
-    return migrateableEntityTypes.includes(entityType.toLowerCase());
-  }
-  return false;
+export function isDeprecatedAppDataEntityType(plugin: string): boolean {
+  return isAppDataType(plugin);
 }
 
 function formatNumber(value: number, decimalPrecision: number): number {
@@ -147,7 +145,7 @@ export function needsMigrationAction(entity: EventSpecificationInfo): boolean {
   return (
     deprecateAppDataLegacyEventsEnabled &&
     !isBuiltInRule(entity) &&
-    isAppDataEntityType(entity.entityType) &&
+    isDeprecatedAppDataEntityType(entity.entityType) &&
     !entity.migrated
   );
 }

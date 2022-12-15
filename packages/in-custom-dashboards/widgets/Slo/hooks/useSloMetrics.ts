@@ -5,7 +5,9 @@
 
 import { useMemo } from 'react';
 
+import { just, Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
+import { Result } from '@instana/types';
 
 import {
   AggregationType,
@@ -20,6 +22,8 @@ import getUnifiedSloMetrics from 'in-custom-dashboards/widgets/Slo/subscriptions
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import { pendingResult } from 'in-services/fixedObjects';
 import { FetchedState } from 'in-hooks/utils/types';
+import { isBlank } from 'in-services/util/string';
+import { error } from 'in-services/util/result';
 
 interface MetricBaseConfig {
   sliConfigId: string;
@@ -100,6 +104,14 @@ export default function useSloMetrics({
     return getMetrics(metricConfig, granularity);
   }, [slo, sliId, timeConfig, granularity, isPreview]);
 
-  const result = useObservable(() => getUnifiedSloMetrics({ metrics }), [metrics]) ?? pendingResult;
+  const result = useObservable(() => loadMetrics(metrics, sliId), [metrics]) ?? pendingResult;
   return resultToFetchedStateResponse(result);
+}
+
+function loadMetrics(metrics: UnifiedMetricConfigurations, sliId: string): Observable<Result<MetricResult[]>> {
+  if (isBlank(sliId)) {
+    return just(error([{ code: 'CLIENT', message: 'sliId cannot be blank' }]));
+  }
+
+  return getUnifiedSloMetrics({ metrics });
 }

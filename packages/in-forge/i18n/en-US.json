@@ -757,6 +757,14 @@
   "pluginName_ibmVsi": "IBM Cloud Virtual Server Instance",
   "pluginName_ibmZOsConnect": "IBM z/OS Connect",
   "pluginName_ibmZOsConnect_plural": "IBM z/OS Connect Instances",
+  "pluginName_ibmOpenstack": "IBM OpenStack",
+  "pluginName_ibmOpenstack_plural": "IBM OpenStacks",
+  "pluginName_ibmOpenstackComputeInstance": "IBM OpenStack Compute Instance",
+  "pluginName_ibmOpenstackComputeInstance_plural": "IBM OpenStack Compute Instances",
+  "pluginName_ibmOpenstackHypervisor": "IBM OpenStack Hypervisor",
+  "pluginName_ibmOpenstackHypervisor_plural": "IBM OpenStack Hypervisors",
+  "pluginName_ibmOpenstackRegion": "IBM OpenStack Region",
+  "pluginName_ibmOpenstackRegion_plural": "IBM OpenStack Regions",
   "pluginName_instanaAgent_plural": "Instana Agents",
   "pluginName_instanaAgent_0": "Instana Agents",
   "pluginName_instanaAgent_1": "Instana Agents",
@@ -1174,11 +1182,11 @@
   "pluginName_tanzuFoundation_1": "Tanzu Foundations",
   "pluginName_tanzuFoundation_2": "Tanzu Foundations",
   "pluginName_tanzuFoundation": "Tanzu Foundation",
-  "pluginName_tanzuFoundationMember_plural": "Tanzu Foundations",
-  "pluginName_tanzuFoundationMember_0": "Tanzu Foundations",
-  "pluginName_tanzuFoundationMember_1": "Tanzu Foundations",
-  "pluginName_tanzuFoundationMember_2": "Tanzu Foundations",
-  "pluginName_tanzuFoundationMember": "Tanzu Foundation",
+  "pluginName_tanzuFoundationMember_plural": "Tanzu Foundations Members",
+  "pluginName_tanzuFoundationMember_0": "Tanzu Foundations Members",
+  "pluginName_tanzuFoundationMember_1": "Tanzu Foundations Members",
+  "pluginName_tanzuFoundationMember_2": "Tanzu Foundations Members",
+  "pluginName_tanzuFoundationMember": "Tanzu Foundation Member",
   "pluginName_tibcoEMS_plural": "Tibco EMS",
   "pluginName_tibcoEMS_0": "Tibco EMS",
   "pluginName_tibcoEMS_1": "Tibco EMS",
@@ -6570,6 +6578,7 @@
       "troubleshootingDocs": "Troubleshooting docs",
       "jvmAttachSocketIssueDescription": "The host agent cannot attach correctly to this Java Virtual Machine. The JVM is unable to connect to a communication socket used during dynamic attach. Please try restarting the JVM to restore its attach capability. Therefore, this process will not be traced. Refer to the host agent logs for more information as to why the attachment failed. The host agent will try to connect again to this virtual machine every ten minutes. However, until it succeeds, neither traces nor metrics will be collected for this JVM.",
       "jvmAttachDirectoryIssueDescription": "The host agent cannot attach correctly to this Java Virtual Machine. The JVM was not able to locate the attach directory during dynamic attach. Please verify that the environmental settings for temporary directories of the host agent JVM process and the target JVM process match, or make sure to use the JVM-specific system property to specify another attach directory when starting the target JVM.",
+      "insufficientDiskMemoryIssueDescription": "The host agent cannot load temporary files on the host machine or inside application containers due to the storage capacity limits. Please check the troubleshooting docs for the remediation steps.",
       "pythonAutoTraceFailedIssueDescription": "The host agent tried and failed to automatically instrument this Python process.",
       "jvmAttachContainerCommandIssueDescription": "The host agent cannot attach correctly to this Java Virtual Machine. The container command <code>{{containerCommand}} ...</code> exited with code <code>{{exitValue}}</code> when trying to attach the JVM in container <code>{{targetContainerId}}</code>. Therefore, this process will not be traced. Refer to the host agent logs for more information as to why the attachment failed. The host agent will try to connect again to this virtual machine every ten minutes. However, until it succeeds, neither traces nor metrics will be collected for this JVM.",
       "jvmAttachToolsIssueDescription": "The host agent cannot attach correctly to this Java Virtual Machine. An appropriate <code>AttachProvider</code> or <code>VirtualMachine</code> could not be found from the JDK running the attach process. The JDKs tools.jar or jdk.attach module is missing. Therefore, this process will not be traced. Refer to the host agent logs for more information as to why the attachment failed. The host agent will try to connect again to this virtual machine every ten minutes. However, until it succeeds, neither traces nor metrics will be collected for this JVM.",
@@ -9293,6 +9302,7 @@
       "openOutputCount": "Open Output Count",
       "calls": "Calls",
       "statistics": "MQ Queue Statistics",
+      "statisticsRecord": "Note: Only 'any' is supported for 'Matching Operator' field!",
       "nonPersistentPutBytes": "Nonpersistent Put Bytes",
       "persistentPutBytes": "Persistent Put Bytes",
       "putFailCount": "PUT Fail Count",
@@ -9995,8 +10005,6 @@
       "lastJobDuration": "Last Job Duration"
     },
     "kubernetesDaemonSet": {
-      "cpuRequests": "CPU Requests",
-      "memoryRequests": "Memory Requests",
       "available": "Available",
       "desired": "Desired",
       "unavailable": "Unavailable",
@@ -10100,13 +10108,9 @@
       "memoryLimits": "Memory Limits"
     },
     "kubernetesService": {
-      "kubernetesService": "Kubernetes Service",
-      "cpuRequests": "CPU Requests",
-      "memoryRequests": "Memory Requests"
+      "kubernetesService": "Kubernetes Service"
     },
     "kubernetesStatefulSet": {
-      "cpuRequests": "CPU Requests",
-      "memoryRequests": "Memory Requests",
       "available": "Available",
       "desired": "Desired",
       "availableToDesiredPercentage": "Available to Desired Percentage"

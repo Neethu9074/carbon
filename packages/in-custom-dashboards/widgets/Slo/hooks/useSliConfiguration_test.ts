@@ -46,4 +46,24 @@ describe('in-custom-dashboards/widgets/Slo/hooks/useSliConfiguration', () => {
     const [sliConfiguration] = result.current;
     expect(sliConfiguration).toMatchObject(mockSli.data!);
   });
+
+  it('returns an error if sliConfigId is blank', () => {
+    // Given
+    const sliConfigId = '';
+
+    // When
+    const { result } = renderHook(() => useSliConfiguration(sliConfigId));
+    const [, status, errors] = result.current;
+
+    // Then
+    expect(status).toEqual('rejected');
+    expect(errors).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          code: 'CLIENT',
+          message: expect.stringContaining('blank')
+        })
+      ])
+    );
+  });
 });

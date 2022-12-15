@@ -15,7 +15,7 @@ import {
   windowOptions
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customEventFormUtil';
 import { isPercentile } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
-import { formatterTypeToDefinition } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
+import { formatterTypeToValueLabel } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import { CustomEventSpecificationWithMetadata, Nullish } from 'in-types';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { FormatterType } from 'in-services/formatters/number';
@@ -138,7 +138,10 @@ export function ThresholdsFormGroup({ form, onChange, disabled, hideTimeWindow }
         {(form.get('conditionValue') as Field<string>).map(field => (
           <FormGroup>
             <Label htmlFor="event-conditionValue" hasError={!field.valid && field.touched}>
-              {formatterTypeToDefinition((form.get('formatter') as Field<FormatterType>).value)}
+              {formatterTypeToValueLabel(
+                (form.get('formatter') as Field<FormatterType>).value,
+                (form.get('metricName') as Field<string>).value
+              )}
             </Label>
             <Input
               disabled={disabled}

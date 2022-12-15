@@ -7,7 +7,6 @@ import React from 'react';
 
 import { Stack } from '@instana/components';
 
-//@ts-expect-error
 import EntityPageMainNotification from 'in-components/EntityPageMainNotification';
 import { t } from 'in-i18n';
 

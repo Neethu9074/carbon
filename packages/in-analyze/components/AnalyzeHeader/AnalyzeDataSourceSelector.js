@@ -14,24 +14,31 @@ import { Li, Ul } from '@instana/components';
 import { getIconByType, getLabelByType, productAreaIcons, productAreaLabels } from 'in-analyze/AnalyzeView/dataSources';
 /* eslint-disable no-restricted-imports */
 import { getTagCatalog as getTracesTagCatalog } from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
+import {
+  hasApplicationsAccess,
+  hasMobileAppsAccess,
+  hasWebsitesAccess,
+  hasInfrastructureAccess
+} from 'in-stores/permission';
 import { getTagCatalog as getCallsTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { getLinkToAnalyze as getLinkToProfilesAnalyze } from 'in-components/Profiling/navigation/paths';
-import { hasApplicationsAccess, hasMobileAppsAccess, hasWebsitesAccess } from 'in-stores/permission';
 import { getLinkToAnalyze as getLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { getLinkToAnalyze as getLinkToMobileAppAnalyze } from 'in-mobile-apps/navigation/paths';
 import { getLinkToAnalyze as getLinkToWebsiteAnalyze } from 'in-websites/navigation/paths';
 import { default as useApplicationTagCatalog } from 'in-applications/hooks/useTagCatalog';
 import { getLinkToAnalyze as getLinkToLogsAnalyze } from 'in-logging/navigation/paths';
 import { defaultGroupings as defaultApplicationGroupings } from 'in-applications/tags';
+import { loggingEnabled, mobileAppCrashBeaconEnabled } from 'in-services/featureFlags';
 import { default as useMobileTagCatalog } from 'in-mobile-apps/hooks/useTagCatalog';
 import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/tags';
 import { default as useWebsiteTagCatalog } from 'in-websites/hooks/useTagCatalog';
 import { analyzeViewSelected } from 'in-analyze/components/AnalyzeHeader/tracker';
 import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
+import { getLinkToExploreDefault } from 'in-infrastructure/navigation/paths';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
-import { loggingEnabled, mobileAppCrashBeaconEnabled } from 'in-services/featureFlags';
+import { infraExploreDataEnabled } from 'in-services/featureFlags';
 import Pill from 'in-components/Pill';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -40,8 +47,20 @@ import locals from './AnalyzeDataSourceSelector.mless';
 
 const productAreas = [
   {
+    productArea: 'logs',
+    hasAccess: loggingEnabled && role.canViewLogs,
+    dataSources: [
+      {
+        dataSource: 'logs',
+        beta: true,
+        getHref$: getLinkToLogsAnalyze,
+        onClickSideEffect: () => jumpToLogs({ source: 'navigation' })
+      }
+    ]
+  },
+  {
     productArea: 'application',
-    hasAccess: hasApplicationsAccess || loggingEnabled,
+    hasAccess: hasApplicationsAccess,
     dataSources: [
       {
         dataSource: 'calls',
@@ -67,13 +86,6 @@ const productAreas = [
             groupBy: isGrouped ? defaultApplicationGroupings.traces : emptyObject,
             setOnClickNotificationMessage
           })
-      },
-      {
-        dataSource: 'logs',
-        beta: loggingEnabled,
-        enabled: loggingEnabled && role.canViewLogs,
-        getHref$: getLinkToLogsAnalyze,
-        onClickSideEffect: () => jumpToLogs({ source: 'navigation' })
       }
     ]
   },
@@ -208,6 +220,17 @@ const productAreas = [
             beaconType: 'crash',
             tagCatalog
           })
+      }
+    ]
+  },
+  {
+    productArea: 'infrastructure',
+    hasAccess: infraExploreDataEnabled && hasInfrastructureAccess,
+    dataSources: [
+      {
+        dataSource: 'infrastructure',
+        beta: true,
+        getHref$: getLinkToExploreDefault
       }
     ]
   },

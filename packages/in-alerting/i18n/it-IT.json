@@ -172,7 +172,7 @@
             },
             "all": {
               "text": "Tutte le chiamate",
-              "dashboard": "Chiamate eseguite all'interno di questa applicazione, dai consumatori ed internamente.",
+              "dashboard": "Chiamate eseguite all'interno di questa applicazione, sia da parte dei consumatori che internamente.",
               "overrideDefault": "L'ambito predefinito per questa applicazione è Tutte le chiamate. È possibile modificare questa impostazione nella configurazione."
             }
           },
@@ -222,11 +222,11 @@
           "threshold": {
             "staticOrAdaptiveTitle": "Tipo di soglia",
             "label": "Soglia",
-            "title": "Soglia: Quando viene violata la condizione?"
+            "title": "Soglia: quando viene violata la condizione?"
           },
           "timeThreshold": {
             "label": "Soglia temporale",
-            "title": "Soglia temporale: Quando si desidera ricevere l'avviso?"
+            "title": "Soglia temporale: quando si desidera ricevere l'avviso?"
           },
           "alertChannel": {
             "label": "Canali di avviso",
@@ -456,7 +456,7 @@
         "ruleStatusCodeValueOption504": "504 (Gateway Timeout)",
         "ruleStatusCodeValueOption505": "505 (HTTP Version Not Supported)",
         "ruleStatusCodeValueOption506": "506 (Variant Also Negotiates)",
-        "ruleStatusCodeValueOption507": "507 (Insufficient Storage)",
+        "ruleStatusCodeValueOption507": "507 (archiviazione insufficiente)",
         "ruleStatusCodeValueOption508": "508 (Loop Detected)",
         "ruleStatusCodeValueOption510": "510 (Not Extended)",
         "ruleStatusCodeValueOption511": "511 (Network Authentication Required)",
@@ -581,7 +581,7 @@
         "scopeMigrationMessage_PARTIAL": "Non è stato possibile migrare completamente l'ambito. Scegliere i filtri di tag corrispondenti per la seguente Dynamic Focus Query:",
         "scopeMigrationMessage_FULL": "L'ambito applicato si basa sulla Dynamic Focus Query precedentemente utilizzata:",
         "scopeMigrationMessageAllAvailableEntities": "L'ambito applicato si basa sulla selezione precedentemente utilizzata di tutte entità disponibili.",
-        "scopeMigrationMessageSelectedApplications": "L'ambito applicato si basa sulla selezione precedentemente utilizzata di Prospettive di applicazione.",
+        "scopeMigrationMessageSelectedApplications": "L'ambito applicato si basa sulla selezione precedentemente utilizzata di prospettive applicazione.",
         "sortByUserSelectionLabel": "Ordina in base alla selezione dell'utente",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage": "Almeno {{count}} utente e {{userPercentage}} degli utenti interessati negli ultimi {{formattedTimeWindow}}",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_plural": "Almeno {{count}} utente e {{userPercentage}} degli utenti interessati negli ultimi {{formattedTimeWindow}}",
@@ -667,7 +667,7 @@
         "sensitivitySliderValueLabel_2": "{{count}} deviazioni standard",
         "labelThreshold": "Soglia",
         "labelSensitivity": "Sensibilità",
-        "staticThresholdTypeOptionsTooltip": "Una soglia giornaliera/settimanale statica è una soglia dipendente dal tempo basata su dati storici. La soglia non cambia automaticamente e può essere ricalcolata manualmente, se necessario.",
+        "staticThresholdTypeOptionsTooltip": "Una soglia giornaliera/settimanale statica è una soglia dipendente dal tempo basata su dati cronologici. La soglia non cambia automaticamente e può essere ricalcolata manualmente, se necessario.",
         "thresholdTypeOptionStaticThreshold": "Soglia statica",
         "thresholdTypeOptionHistoricBaselineDaily": "Stagionalità giornaliera statica",
         "thresholdTypeOptionHistoricBaselineWeekly": "Stagionalità settimanale statica",
@@ -725,9 +725,9 @@
           "alerts_2": "{{count}} Avvisi smart del sito web",
           "websites": "{{count}} siti web",
           "websites_plural": "{{count}} siti web",
-          "websites_0": "{{count}} Website",
-          "websites_1": "{{count}} Website",
-          "websites_2": "{{count}} Website",
+          "websites_0": "{{count}} siti web",
+          "websites_1": "{{count}} siti web",
+          "websites_2": "{{count}} siti web",
           "button0": "Siti web"
         },
         "applications": {
@@ -747,8 +747,8 @@
           "button0": "Avvisi smart"
         },
         "infrastructure": {
-          "title": "Infrastruttura & Piattaforme",
-          "description0": "Gli avvisi per Infrastruttura & Piattaforme utilizzano il flusso di lavoro del passo 2.",
+          "title": "Infrastruttura e piattaforme",
+          "description0": "Gli avvisi per Infrastruttura e piattaforme utilizzano il flusso di lavoro del passo 2.",
           "description1": "1) Eventi definiti per condizioni specifiche. È possibile utilizzare gli eventi integrati o creare dei propri eventi personalizzati.",
           "description2": "2) Invia una avviso quando si verificano eventi specifici.",
           "stats": "Sono attualmente disponibili $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.events, {\"count\": {{events}} }) e  $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.alerts, {\"count\": {{alerts}} }).",
@@ -781,13 +781,13 @@
         "scopeLabel": "Ambito",
         "scopeTitle": "Ambito: dove si sta verificando la condizione?",
         "thresholdLabel": "Soglia",
-        "thresholdTitle": "Soglia: Quando viene violata la condizione?",
+        "thresholdTitle": "Soglia: quando viene violata la condizione?",
         "triggerLabel": "Trigger",
         "triggerTitle": "Trigger: Per cosa si desidera ricevere l'avviso?",
         "JSErrorMessage": "Messaggio di errore JS",
         "HTTPStatusCode": "Codice di stato HTTP",
         "timeThresholdLabel": "Soglia temporale",
-        "timeThresholdTitle": "Soglia temporale: Quando si desidera ricevere l'avviso?",
+        "timeThresholdTitle": "Soglia temporale: quando si desidera ricevere l'avviso?",
         "alertChannelsLabel": "Canali di avviso",
         "alertChannelsTitle": "Canali di avviso: Chi deve ricevere l'avviso?",
         "propertiesLabel": "Proprietà",
@@ -949,7 +949,7 @@
         "ruleStatusCodeValueOption504": "504 (Gateway Timeout)",
         "ruleStatusCodeValueOption505": "505 (HTTP Version Not Supported)",
         "ruleStatusCodeValueOption506": "506 (Variant Also Negotiates)",
-        "ruleStatusCodeValueOption507": "507 (Insufficient Storage)",
+        "ruleStatusCodeValueOption507": "507 (archiviazione insufficiente)",
         "ruleStatusCodeValueOption508": "508 (Loop Detected)",
         "ruleStatusCodeValueOption510": "510 (Not Extended)",
         "ruleStatusCodeValueOption511": "511 (Network Authentication Required)",

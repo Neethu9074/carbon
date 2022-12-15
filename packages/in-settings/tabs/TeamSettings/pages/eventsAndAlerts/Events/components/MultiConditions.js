@@ -7,14 +7,13 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Stack, Button } from '@instana/components';
+import { Stack, Button, SvgIcon } from '@instana/components';
 
 import { putAllDataSourceFieldsForOneRule } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import { ConditionItem } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/ConditionItem';
-import { isAppDataEntityType } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
-import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import IconButton from 'in-components/IconButton/IconButton';
+import { isDeprecatedAppDataEntityType } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import { Row, Col } from 'in-components/layout/Grid';
+import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-components/Pill';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
@@ -50,14 +49,15 @@ export function MultiConditions({
 }) {
   if (!rulesForm || !entityType) return null;
 
-  const appDataEntityType = isAppDataEntityType(entityType);
+  const deprecatedAppDataEntityType = isDeprecatedAppDataEntityType(entityType);
 
-  const canHaveMultipleConditions = (builtInDataSourceSelected || customDataSourceSelected) && !appDataEntityType;
+  const canHaveMultipleConditions =
+    (builtInDataSourceSelected || customDataSourceSelected) && !deprecatedAppDataEntityType;
 
   return (
     <>
       {canHaveMultipleConditions && (
-        <Row withoutTopMargin>
+        <Row withoutTopMargin withBottomMargin>
           <Col lg={12}>
             <Stack direction="horizontal" distribution="end">
               <Button
@@ -105,6 +105,7 @@ export function MultiConditions({
 
         if (!canHaveMultipleConditions) return <React.Fragment key={idx}>{conditionForm}</React.Fragment>;
 
+        const buttonDisabled = disabled || rulesForm.size === 1;
         return (
           <React.Fragment key={idx}>
             {idx > 0 && (
@@ -118,16 +119,19 @@ export function MultiConditions({
             <div className={locals.ruleBoxWithBorder}>
               <Stack direction="horizontal" gap="xsmall" align="center">
                 <div className={locals.conditionWrapper}>{conditionForm}</div>
-                <IconButton
-                  className={classNames({ [locals.hidden]: rulesForm.size === 1 })}
-                  disabled={disabled}
-                  type="lib_actions_delete"
-                  kind="primaryv2"
-                  onClick={e => {
-                    stopPropagationAndPreventDefault(e);
-                    onDeleteCondition();
-                  }}
-                />
+                <Tooltip content={rulesForm.size === 1 && 'There needs to be at least one condition.'} delay={500}>
+                  <SvgIcon
+                    aria-label="delete"
+                    className={classNames({
+                      [locals.disabledDelete]: buttonDisabled
+                    })}
+                    color={buttonDisabled ? '#86cff3' : theme.lib.colors.lightBlue800}
+                    type="lib_actions_delete"
+                    onClick={() => {
+                      if (!buttonDisabled) onDeleteCondition();
+                    }}
+                  />
+                </Tooltip>
               </Stack>
             </div>
           </React.Fragment>

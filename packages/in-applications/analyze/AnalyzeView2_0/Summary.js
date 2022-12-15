@@ -203,36 +203,39 @@ export default function Summary({
           <Col xs preserveVerticalGutter>
             <KpiCard
               title={t('in-applications:traceDetail.tabs.summary.subCalls')}
-              value={number.compact(trace.callCount)}
+              value={trace.callCount}
+              renderValue={number.compact}
             />
           </Col>
           <Col xs preserveVerticalGutter>
             <KpiCard
               title={t('in-applications:traceDetail.tabs.summary.erroneousCalls')}
               color={trace.totalErrorCount > 0 ? theme.lib.colors.failure : theme.lib.colors.N900Primary}
-              value={number.compact(trace.totalErrorCount)}
+              value={trace.totalErrorCount}
+              renderValue={number.compact}
             />
           </Col>
           <Col xs preserveVerticalGutter>
             <KpiCard
               title={t('in-applications:traceDetail.tabs.summary.errorLogs')}
               color={trace.totalErrorLogCount > 0 ? theme.lib.colors.failure : theme.lib.colors.N900Primary}
-              value={number.compact(trace.totalErrorLogCount)}
+              value={trace.totalErrorLogCount}
+              renderValue={number.compact}
             />
           </Col>
           <Col xs preserveVerticalGutter>
             <KpiCard
               title={t('in-applications:traceDetail.tabs.summary.warnLogs')}
               color={trace.totalWarnLogCount > 0 ? theme.lib.colors.warning : theme.lib.colors.N900Primary}
-              value={number.compact(trace.totalWarnLogCount)}
+              value={trace.totalWarnLogCount}
+              renderValue={number.compact}
             />
           </Col>
           <Col xs preserveVerticalGutter>
             <KpiCard
               title={t('in-applications:traceDetail.tabs.summary.latency')}
-              value={
-                trace.issues && trace.issues.includes('missing_root_span') ? 'N/A' : latency.detailed(trace.duration)
-              }
+              value={trace.issues && trace.issues.includes('missing_root_span') ? undefined : trace.duration}
+              renderValue={latency.detailed}
             />
           </Col>
         </Row>

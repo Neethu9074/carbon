@@ -26,7 +26,7 @@
         "subTitle": "엔드포인트",
         "labelOperation": "HTTP 메소드",
         "labelUrl": "URL",
-        "popSubTitle": "인식 위치",
+        "popSubTitle": "접속 위치",
         "uploadScriptTitle": "스크립트 업로드",
         "failureToReadFileContent": "파일 컨텐츠 읽기 실패: {{error}}"
       },
@@ -117,7 +117,7 @@
         "simpleTab": "단순",
         "redisTab": "Redis TLS",
         "title": "합성 PoP 명령",
-        "subTitle": "이러한 코드 템플리트를 참조로 사용하십시오.",
+        "subTitle": "이 코드 템플리트를 참조로 사용하십시오.",
         "simpleCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"Name;DisplayName;Country;City;0;0;Location description\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<yourpassword>\"",
         "redisCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"Name;DisplayName;Country;City;0;0;Location description\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true",
         "tlsInstructions": "Redis TLS를 사용으로 설정하려면 Helm 차트 루트 경로 아래에 certs 폴더를 작성하고 인증서 키 쌍(tls.crt, tls.key) 및 CA 루트 인증서 파일(ca.crt)을 certs 폴더로 복사해야 하며 파일 이름이 정확히 일치해야 합니다.\n\n키/인증서 파일이 없는 경우 openssl 명령을 사용하여 새 파일을 생성할 수도 있습니다. 아래 예를 참조하십시오.",

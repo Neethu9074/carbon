@@ -4,41 +4,38 @@
  */
 
 import React, { useEffect } from 'react';
-import { compose } from 'recompose';
 
 import OnboardingWidgetPresenter from 'in-waiting-for-deployment/components/OnboardingWidget/OnboardingWidgetPresenter';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import createTracker from 'in-waiting-for-deployment/tracker';
-import withUrlState from 'in-hoc/withUrlState';
+import useUrlState from 'in-hooks/useUrlState';
 
-export default compose(
-  withUrlState({
-    bind: [
-      {
-        path: '/installation',
-        name: 'selectedEntry',
-        parser: intParser,
-        initialState: 0
-      },
-      {
-        path: '/installation',
-        name: 'selectedSubEntry',
-        parser: intParser,
-        initialState: 0
-      },
-      {
-        path: '/installation',
-        name: 'query',
-        initialState: ''
-      }
-    ],
-    reducerName: 'onChange'
-  })
-)(OnboardingWidget);
-function OnboardingWidget(props) {
+const urlStateDefinition = {
+  bind: [
+    {
+      path: '/installation',
+      name: 'selectedEntry',
+      parser: intParser,
+      initialState: 0
+    },
+    {
+      path: '/installation',
+      name: 'selectedSubEntry',
+      parser: intParser,
+      initialState: 0
+    },
+    {
+      path: '/installation',
+      name: 'query',
+      initialState: ''
+    }
+  ]
+};
+
+export default function OnboardingWidget(props) {
   const Renderer = props.Renderer || OnboardingWidgetPresenter;
   const trackingService = createTracker(props.trackingIdPrefix);
-
+  const [{ selectedEntry, selectedSubEntry, query }, setUrlState] = useUrlState(urlStateDefinition);
   useEffect(() => {
     trackingService.dialogOpened();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -48,19 +45,28 @@ function OnboardingWidget(props) {
     <>
       <Renderer
         {...props}
+        query={query}
         trackingService={trackingService}
-        selectedSubEntryIndex={props.selectedSubEntry}
-        selectedEntryIndex={props.selectedEntry}
+        selectedSubEntryIndex={selectedSubEntry}
+        selectedEntryIndex={selectedEntry}
         onEntrySelected={(index, entryLabel) => {
-          props.onChange({ selectedEntry: index, selectedSubEntry: null });
+          setUrlState({
+            selectedEntry: index,
+            selectedSubEntry: null
+          });
           trackingService.mainTopicChanged({ topic: entryLabel });
         }}
         onSubEntrySelected={(index, subEntryLabel) => {
-          props.onChange({ selectedSubEntry: index });
+          setUrlState({
+            selectedSubEntry: index
+          });
           trackingService.subTopicChanged({ subTopic: subEntryLabel });
         }}
         onQueryChange={query => {
-          props.onChange({ query, selectedEntry: 0, selectedSubEntry: null });
+          setUrlState({
+            selectedEntry: 0,
+            selectedSubEntry: null
+          });
           trackingService.searchQueryChanged({ query });
         }}
       />

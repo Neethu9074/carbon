@@ -14,10 +14,11 @@ import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
 import { Ul, Li } from '@instana/components';
 
+//TODO delete detailViewProps after migrating this to TS since PropTypes won't be needed anymore
+import { detailViewProps } from 'in-components/AnalyzeView/UngroupedView/detailViewProps';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
 import { leftArrowId, rightArrowId } from 'in-components/AnalyzeView/SplitScreenList/elementIds';
 import { debouncedResize$, refreshWindowSizeDependingState } from 'in-services/browser';
-import { detailViewProps } from 'in-components/AnalyzeView/UngroupedView/UngroupedView';
 import { childrenArgsAsPropTypes } from 'in-components/AnalyzeView/StateManagement';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';

@@ -104,11 +104,7 @@ export interface StateManagementChildProps {
   isLoading: boolean;
   isValid: boolean;
   refreshFixatedTimeConfig: () => void;
-  ungroupedViewConfiguration: {
-    defaultOrderBy: string;
-    defaultOrderDirection: string;
-    customFieldRenderingInstructions: string;
-  };
+  ungroupedViewConfiguration: UngroupedView;
   groupedViewConfiguration: {
     defaultOrderBy: string;
     defaultOrderDirection: string;
@@ -176,6 +172,7 @@ interface UngroupedView {
     getColumnFormatter: (unknown) => unknown;
     getColumnValue: (unknown) => unknown;
     ColumnContent: (unknown) => JSX.Element;
+    hasRawValue: boolean;
   };
 }
 

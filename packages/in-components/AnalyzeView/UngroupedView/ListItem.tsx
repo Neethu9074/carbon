@@ -11,7 +11,7 @@ import { ColumnizedContent, Li } from '@instana/components';
 import { ListItemProps } from 'in-components/AnalyzeView/UngroupedView/types';
 
 export const ListItem = (props: ListItemProps) => {
-  const { isInitiallyToggled, item, href, className, renderNestedContent, onToggleContentRow } = props;
+  const { isInitiallyToggled = false, item, href, className, renderNestedContent, onToggleContentRow } = props;
 
   const [isToggled, setIsToggled] = useState(isInitiallyToggled);
 

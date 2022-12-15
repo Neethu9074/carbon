@@ -145,6 +145,7 @@ export interface TestResultLog {
 export interface FilterProps {
   filter: { query: string; type: string };
   setFilter: (a: { query: string; type: string }) => void;
+  isBrowserType?: boolean;
 }
 
 export interface PoPInstallationPropertiesResponse {

@@ -2,5 +2,5 @@
   "name": "EntityPageMainNotification",
   "version": "0.0.0",
   "private": true,
-  "main": "./EntityPageMainNotification.js"
+  "main": "./EntityPageMainNotification.tsx"
 }

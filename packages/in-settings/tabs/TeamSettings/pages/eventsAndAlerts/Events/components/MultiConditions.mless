@@ -20,12 +20,15 @@
     flex: 1;
   }
 
-  .hidden {
-    visibility: hidden;
+  .disabledDelete,
+  .disabledDelete:focus,
+  .disabledDelete:hover {
+    cursor: not-allowed;
+    outline: none;
   }
 
   .andPill {
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
   }
 }

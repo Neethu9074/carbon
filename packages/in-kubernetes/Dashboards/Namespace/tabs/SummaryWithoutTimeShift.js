@@ -60,7 +60,8 @@ export default function SummaryWithoutTimeShift({ timeConfig, data: namespace })
         <KpiCard title={t('in-kubernetes:dashboards.status')} value={namespace.status} raw borderless />
         <KpiCard
           title={t('in-kubernetes:dashboards.age')}
-          value={namespace.age ? formatDuration(namespace.age) : null}
+          value={namespace.age}
+          renderValue={formatDuration}
           raw
           borderless
         />

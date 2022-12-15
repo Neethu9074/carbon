@@ -5,82 +5,43 @@
 
 import { t } from 'in-i18n';
 
-// image
-// font
-// text
-// application
-// audio
-// x-unknown
+// Document
+// Stylesheet
+// Image
+// Font
+// Script
+// Other
+// Media
 
 export const types = {
-  html: {
-    short: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.short.html'),
+  document: {
+    short: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.short.document'),
     long: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.long.document'),
     color: '#8900b3'
   },
-  javascript: {
-    short: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.short.javascript'),
-    long: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.long.script'),
-    color: '#d3bd12' // inspired by the JS logo color
-  },
-  css: {
-    short: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.short.css'),
+  stylesheet: {
+    short: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.short.stylesheet'),
     long: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.long.stylesheet'),
     color: '#2277FF' // based on the CSS logo color
   },
-  plain: {
-    short: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.short.plain'),
-    long: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.long.document'),
-    color: '#F16528' // based on the HTML logo color
-  },
-  png: {
+  image: {
     short: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.short.image'),
     long: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.long.image'),
     color: '#00b37a'
   },
-  jpeg: {
-    short: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.short.image'),
-    long: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.long.image'),
-    color: '#00b37a'
-  },
-  'svg+xml': {
-    short: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.short.image'),
-    long: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.long.image'),
-    color: '#00b37a'
-  },
-  'x-icon': {
-    short: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.short.image'),
-    long: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.long.image'),
-    color: '#00b37a'
-  },
-  gif: {
-    short: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.short.image'),
-    long: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.long.image'),
-    color: '#00b37a'
-  },
-  woff2: {
+  font: {
     short: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.short.font'),
     long: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.long.font'),
     color: '#ce1293'
   },
-  'x-javascript': {
-    short: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.short.application'),
-    long: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.long.application'),
-    color: '#009e89'
+  script: {
+    short: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.short.script'),
+    long: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.long.script'),
+    color: '#d3bd12' // inspired by the JS logo color
   },
-  json: {
-    short: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.short.application'),
-    long: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.long.application'),
-    color: '#009e89'
-  },
-  'x-unknown': {
-    short: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.short.unknown'),
-    long: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.long.unknown'),
-    color: 'darkred'
-  },
-  mpeg: {
-    short: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.short.audio'),
-    long: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.long.audio'),
+  media: {
+    short: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.short.media'),
+    long: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.long.media'),
     color: 'darkblue'
   },
   other: {
@@ -91,9 +52,18 @@ export const types = {
 };
 
 export function getType(type: string) {
-  //@ts-expect-error
+  //@ts-expect-error any type
   if (types[type]) {
     return type;
+  }
+  return 'other';
+}
+
+export function getFilterType(type: string) {
+  //@ts-expect-error any type
+  if (types[type]) {
+    //@ts-expect-error any type
+    return types[type].long;
   }
   return 'other';
 }

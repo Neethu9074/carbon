@@ -1,7 +1,7 @@
 {
   "dialog": {
     "createTest": {
-      "dialogTitle": "Crea prova sintetica",
+      "dialogTitle": "Crea test sintetico",
       "noLocationFound": "Spiacenti. Nessuna ubicazione trovata",
       "titles": {
         "step1": "Passo 1: Selezionare il tipo",
@@ -10,7 +10,7 @@
         "step4": "Passo 4: Fornire i dettagli"
       },
       "selectTest": {
-        "title": "Quale tipo di prova sintetica si desidera creare"
+        "title": "Quale tipo di test sintetico si desidera creare"
       },
       "scheduling": {
         "title": "Pianificazione",
@@ -31,8 +31,8 @@
         "failureToReadFileContent": "Impossibile leggere il contenuto del file: {{error}}"
       },
       "basicDetails": {
-        "title": "Qual è il nome di questa prova di ping",
-        "labelName": "Nome della prova",
+        "title": "Qual è il nome di questo test di ping",
+        "labelName": "Nome del test",
         "labelDescription": "Descrizione",
         "labelFrequency": "Frequenza"
       },
@@ -41,11 +41,11 @@
           "name": "API di ping",
           "headline": "Azione HTTP",
           "whenToUse": {
-            "title": "Quando utilizzare?",
+            "title": "Quando utilizzarlo?",
             "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
           },
           "whoShouldUse": {
-            "title": "Chi deve utilizzare?",
+            "title": "Chi lo deve utilizzare?",
             "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
           },
           "tipsForUsing": {
@@ -87,10 +87,10 @@
     },
     "feedback": {
       "successTitle": "Operazione riuscita.",
-      "successMessageCreate": "Prova sintetica creata correttamente",
+      "successMessageCreate": "Test sintetico creato correttamente",
       "successMessageDelete": "Test sintetico eliminato correttamente",
       "failureTitle": "Non riuscito.",
-      "failureMessageCreate": "Impossibile creare una prova sintetica. Riprovare successivamente",
+      "failureMessageCreate": "Impossibile creare un test sintetico. Riprovare successivamente",
       "failureMessageUpdate": "Impossibile aggiornare il test sintetico. Riprovare successivamente",
       "failuteMesssageDelete": "Impossibile eliminare il test sintetico. Riprovare successivamente"
     },
@@ -100,7 +100,7 @@
     }
   },
   "createTest": {
-    "buttonLabel": "Crea nuova prova"
+    "buttonLabel": "Crea nuovo test"
   },
   "navigation": {
     "synthetics": "Monitoraggio sintetico"
@@ -120,7 +120,7 @@
         "subTitle": "Utilizzare questi modelli di codice come riferimento",
         "simpleCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"Name;DisplayName;Country;City;0;0;Location description\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<yourpassword>\"",
         "redisCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"Name;DisplayName;Country;City;0;0;Location description\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true",
-        "tlsInstructions": "Se si desidera abilitare TLS Redis, è necessario creare una cartella certs nel percorso radice del grafico Helm e copiare la propri coppia certificato-chiave (tls.crt, tls.key) e il file di certificato radice CA (ca.crt) nella cartella certs, i nomi file devono essere esattamente corrispondenti.\n\nSe non di dispone di propri file di chiave/certificato, è anche possibile utilizzare il comando openssl per generarne di nuovi; vedere gli esempi di seguito:",
+        "tlsInstructions": "Se si desidera abilitare TLS Redis, è necessario creare una cartella certs nel percorso radice del grafico Helm e copiare la propria coppia certificato-chiave (tls.crt, tls.key) e il file di certificato radice CA (ca.crt) nella cartella certs; i nomi file devono essere esattamente corrispondenti.\n\nSe non di dispone di propri file di chiave/certificato, è anche possibile utilizzare il comando openssl per generarne di nuovi; vedere gli esempi di seguito:",
         "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt"
       },
       "testLabel": "Nome",
@@ -130,9 +130,9 @@
       "pause": "Sospendi il test",
       "resume": "Riprendi il test",
       "active": "Attivo",
-      "paused": "Sospeso",
+      "paused": "In pausa",
       "deleted": "Eliminato",
-      "type": "Immettere",
+      "type": "Tipo",
       "successRate": "Frequenza operazioni riuscite",
       "successRuns": "{{successRuns}} / {{totalRuns}} risultati",
       "latency": "Latenza",
@@ -151,9 +151,9 @@
       "locationLabel": "Nome ubicazione",
       "locationDisplayLabel": "Nome di visualizzazione",
       "status": "Stato",
-      "type": "Immettere",
-      "totalTests": "N. di verifiche collegate",
-      "lastRun": "Ultima esecuzione verifica su",
+      "type": "Tipo",
+      "totalTests": "N. di test collegati",
+      "lastRun": "Data/ora ultima esecuzione test",
       "namespace": "Spazio dei nomi",
       "labelConfirmRemoveLocation": "Si è sicuri di voler rimuovere l'ubicazione <strong>{{label}}</strong> ({{status}})?",
       "activeTestLinked": "Esistono dei test attivi assegnati sull'ubicazione <strong>{{label}}</strong> ({{status}}); si è sicuri di voler rimuovere questa ubicazione?",
@@ -225,8 +225,8 @@
       "failedRun": "Esecuzione non riuscita (eccezione)",
       "failedRunErrorTitle": "Messaggio di errore",
       "noFailedErrorMessage": "Nessun messaggio di errore",
-      "stackTraceTitle": "Traccia stack",
-      "noStacktrace": "Nessuna traccia stack",
+      "stackTraceTitle": "Traccia di stack",
+      "noStacktrace": "Nessuna traccia di stack",
       "statusKpiCard": "Stato",
       "successResult": "Riuscito",
       "failedResult": "Non riuscito",

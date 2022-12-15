@@ -40,4 +40,46 @@ describe('in-custom-dashboards/widgets/Apdex/hooks/useApdexConfigurations', () =
     // Then
     expect(apdexConfigurations).toMatchObject(response.data);
   });
+
+  it('returns an error if entityType is blank', () => {
+    // Given
+    const entityType = '';
+    const entityId = 'someId';
+
+    // When
+    const { result } = renderHook(() => useApdexConfigurations(entityType, entityId));
+    const [, status, errors] = result.current;
+
+    // Then
+    expect(status).toEqual('rejected');
+    expect(errors).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          code: 'CLIENT',
+          message: expect.stringContaining('blank')
+        })
+      ])
+    );
+  });
+
+  it('returns an error if entityId is blank', () => {
+    // Given
+    const entityType = 'application';
+    const entityId = '';
+
+    // When
+    const { result } = renderHook(() => useApdexConfigurations(entityType, entityId));
+    const [, status, errors] = result.current;
+
+    // Then
+    expect(status).toEqual('rejected');
+    expect(errors).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          code: 'CLIENT',
+          message: expect.stringContaining('blank')
+        })
+      ])
+    );
+  });
 });

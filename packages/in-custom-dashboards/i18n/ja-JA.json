@@ -165,7 +165,7 @@
         "metric": "メトリック",
         "selectMetric": "メトリックの選択",
         "aggregation": "集約",
-        "crossSeriesAggregation": "クロス系列集計に SUM を使います。",
+        "crossSeriesAggregation": "クロス系列集計に SUM を使用",
         "crossSeriesAggregationHelp": "通常、クロスシリーズアグリゲーションはクロスタイムアグリゲーション（データポイントを単一のバケット参加方法）と同じです。 このトグルを有効にすると、指定された集計を使用するのではなく、データ系列全体のバケットを参加します。",
         "crossSeriesAggregationDisabledHelp": "{{aggregation}} には適用されません。",
         "crossSeriesAggregationRestrictedHelp": "このメトリックには適用されません"
@@ -470,7 +470,7 @@
         "beaconConfigLabel": "ビーコンの構成",
         "beaconScopeLabel": "Beacon Scope",
         "beaconLabel": "不明なビーコン・タイプ",
-        "beaconLabel_httpRequest": "HTTP リクエスト",
+        "beaconLabel_httpRequest": "HTTP 要求",
         "beaconLabel_pageLoad": "Web サイト・ページのロード",
         "beaconLabel_custom": "Web サイトのカスタム・イベント",
         "beaconFiltersLabel": "ビーコン・フィルター",
@@ -608,7 +608,7 @@
         "tagFilterLabel": "フィルター",
         "apdexNameLabel": "Apdex 名",
         "apdexTypeLabel": "Apdex タイプ",
-        "thresholdLabel": "閾値"
+        "thresholdLabel": "しきい値"
       },
       "formComponent": {
         "title": "Apdex 構成",
@@ -637,7 +637,7 @@
       "apdexList": {
         "cardTitle": "Apdex 構成",
         "nameColumn": "Apdex 構成",
-        "thresholdColumn": "閾値",
+        "thresholdColumn": "しきい値",
         "confirmDeleteHeader": "ご確認ください",
         "confirmDeleteMessage": "{{apdex}} を削除してよろしいですか?",
         "editApdexTooltip": "Apdex 構成の編集/複製",
@@ -658,12 +658,11 @@
           "website": "Web サイトの Apdex 構成の最大数 ({{0}}) に達しました。 この制限の引き上げを要求する場合は、Instana サポートにお問い合わせください。",
           "application": "アプリケーションの Apdex 構成の最大数 ({{0}}) に達しました。 この制限の引き上げを要求する場合は、Instana サポートにお問い合わせください。"
         },
-        "editConfigNotice": "データ損失を回避するために、いったん作成された構成は編集できません。構成はコピーとしてのみ調整できます。",
-        "apdexCloneName": "{{apdexName}} のコピー"
+        "editConfigNotice": "データ損失を回避するために、いったん作成された構成は編集できません。構成はコピーとしてのみ調整できます。"
       },
       "createWebsiteApdexForm": {
         "thresholdHeader": "しきい値構成",
-        "thresholdLabel": "閾値"
+        "thresholdLabel": "しきい値"
       },
       "entityInfo": {
         "tooltip": "不明な Apdex",

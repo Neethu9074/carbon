@@ -90,7 +90,7 @@ export interface NewSliConfig<SLI_ENTITY_TYPE extends SliEntity = SliEntityUnion
 export type SliType = Lowercase<SliEntitySliType>;
 
 export type SliConfigBySliType<S extends SliType> = S extends 'website'
-  ? SliConfig<WebsiteSliEntity>
+  ? SliConfig<WebsiteTimeBasedSliEntity | WebsiteEventBasedSliEntity>
   : SliConfig<ApplicationSliEntity | AvailabilitySliEntity>;
 
 export type SliEntityType =

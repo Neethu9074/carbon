@@ -7,7 +7,7 @@ import React, { useMemo, useEffect } from 'react';
 import { useLocation } from 'react-router';
 import { isEmpty } from 'lodash';
 
-import { combineLatest, timeout } from '@instana/observables';
+import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -15,6 +15,7 @@ import {
   getServiceIds,
   transformHiddenTags
 } from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeHiddenTagsViewParameterConversion/transformHelper';
+import { withTimeout } from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeHiddenTagsViewParameterConversion/withTimeout';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { error, isLoading, noResultObservable } from 'in-services/util/result';
 import getEndpoint from 'in-applications/subscriptions/getEndpoint';
@@ -113,20 +114,4 @@ function getObservables(ids, timeConfig, getData) {
     );
   }
   return combineLatest(observables);
-}
-
-// exported for tests
-export function withTimeout(observable, millis, onTimeout) {
-  const timeoutSignal = 'signal';
-
-  return combineLatest([
-    observable.startWith(pendingResult),
-    timeout(millis)
-      .map(() => timeoutSignal)
-      .startWith(null)
-  ])
-    .map(([observable, signal]) =>
-      observable === pendingResult && signal === timeoutSignal ? onTimeout() : observable
-    )
-    .distinct();
 }

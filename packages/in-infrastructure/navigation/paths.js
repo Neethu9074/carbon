@@ -57,6 +57,12 @@ export const orderMatrixParameter = {
   initialState: defaultOrder
 };
 
+export const dataSourcerMatrixParameter = {
+  path: infraExplorePath,
+  name: 'dataSource',
+  initialState: 'infrastructure'
+};
+
 export const resetMetricsAndOrderOnTypeChange = {
   bind: [
     {
@@ -98,10 +104,21 @@ export function getLinkToExplore({ tagFilterExpression, group, charts, type, met
     if (order) {
       setMatrixKey(params, orderMatrixParameter, order);
     }
+
+    setMatrixKey(params, dataSourcerMatrixParameter, 'infrastructure');
   });
 }
 
-export const defaultInfraExploreView = getLinkToExplore({ group: defaultAllInfraGroup, type: defaultType });
+export function getLinkToExploreDefault() {
+  return getLinkToExplore({ group: defaultAllInfraGroup, type: defaultType });
+}
+
+export const defaultInfraExploreView = getLinkToExplore({
+  group: defaultAllInfraGroup,
+  type: defaultType,
+  tagFilterExpression: [],
+  metrics: []
+});
 
 function setMatrixKey(params, matrixParameter, value) {
   const serializer = matrixParameter.serializer || String;

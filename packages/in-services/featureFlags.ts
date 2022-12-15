@@ -59,6 +59,8 @@ export const configMigrationFeatureEnabled = isFeatureFlagEnabled('configMigrati
 export const applicationSmartAlertsEnabled = isFeatureFlagEnabled('applicationSmartAlertsEnabled');
 export const builtInGlobalApplicationSmartAlertsEnabled =
   applicationSmartAlertsEnabled && isFeatureFlagEnabled('builtInGlobalApplicationSmartAlertsEnabled');
+export const websiteSmartAlertsAdaptiveBaselineEnabled =
+  applicationSmartAlertsEnabled && isFeatureFlagEnabled('websiteSmartAlertsAdaptiveBaselineEnabled');
 export const potentialProblemsEnabled =
   applicationSmartAlertsEnabled && isFeatureFlagEnabled('potentialProblemsEnabled', true);
 export const kubernetesExploreEnabled = isFeatureFlagEnabled('kubernetesExploreEnabled', false);

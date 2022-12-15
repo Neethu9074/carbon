@@ -380,30 +380,32 @@ function getGroups({
     groupBy: [group],
     type,
     metrics: Object.fromEntries(
-      metrics.flatMap(({ metric, aggregation, crossSeriesAggregation }) => {
-        const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
-        const kpiGranularity = timeConfig.windowSize;
-        return [
-          [
-            id,
-            {
-              metric,
-              granularity: kpiGranularity,
-              aggregation,
-              crossSeriesAggregation
-            }
-          ],
-          [
-            getSeriesKey(id),
-            {
-              metric,
-              granularity,
-              aggregation,
-              crossSeriesAggregation
-            }
-          ]
-        ];
-      })
+      metrics
+        .filter(({ metric }) => metric !== undefined && metric !== null)
+        .flatMap(({ metric, aggregation, crossSeriesAggregation }) => {
+          const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
+          const kpiGranularity = timeConfig.windowSize;
+          return [
+            [
+              id,
+              {
+                metric,
+                granularity: kpiGranularity,
+                aggregation,
+                crossSeriesAggregation
+              }
+            ],
+            [
+              getSeriesKey(id),
+              {
+                metric,
+                granularity,
+                aggregation,
+                crossSeriesAggregation
+              }
+            ]
+          ];
+        })
     ),
     order
   });

@@ -17,8 +17,8 @@ import {
   getBlueprintConfig
 } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
+import { AlertEvaluationType, ThresholdConfigUnion, ThresholdType } from 'in-types';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import { AlertEvaluationType, ThresholdConfig, ThresholdType } from 'in-types';
 
 interface Props {
   form: MapForm;
@@ -51,7 +51,7 @@ export default function AlertEvaluationControl({ form, updateForm, isGlobalSmart
       const newThreshold = {
         ...threshold,
         type: newThresholdType
-      } as ThresholdConfig;
+      } as ThresholdConfigUnion;
 
       updateForm(
         form

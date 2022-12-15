@@ -107,7 +107,8 @@ export const productAreaLabels = Object.freeze<Record<ProductArea, string>>({
   website: t('in-analyze:analyzeView.dataSources.websites'),
   mobileApp: t('in-analyze:analyzeView.dataSources.mobileApps'),
   profiles: t('in-analyze:analyzeView.dataSources.profiles'),
-  logs: t('in-analyze:analyzeView.dataSources.logs')
+  logs: t('in-analyze:analyzeView.dataSources.logs'),
+  infrastructure: t('in-analyze:analyzeView.dataSources.infrastructure')
 } as const);
 
 export const productAreaTrackingNames = Object.freeze({
@@ -115,7 +116,8 @@ export const productAreaTrackingNames = Object.freeze({
   website: t('in-analyze:analyzeView.dataSources.eumWebsites'),
   mobileApp: t('in-analyze:analyzeView.dataSources.eumMobileApps'),
   profiles: t('in-analyze:analyzeView.dataSources.profiles'),
-  logs: t('in-analyze:analyzeView.dataSources.logs')
+  logs: t('in-analyze:analyzeView.dataSources.logs'),
+  infrastructure: t('in-analyze:analyzeView.dataSources.infrastructure')
 } as const);
 
 enum ProductAreaEnum {
@@ -123,7 +125,8 @@ enum ProductAreaEnum {
   website,
   mobileApp,
   profiles,
-  logs
+  logs,
+  infrastructure
 }
 
 enum EntityEnum {
@@ -134,6 +137,7 @@ enum EntityEnum {
   error,
   custom,
   profiles,
+  infrastructure,
   calls,
   traces,
   logs,
@@ -156,6 +160,7 @@ export const entityNames = Object.freeze<Record<Entity, string>>({
   error: t('in-analyze:analyzeView.dataSources.javaScriptErrors'),
   custom: t('in-analyze:analyzeView.dataSources.customEvents'),
   profiles: t('in-analyze:analyzeView.dataSources.profiles'),
+  infrastructure: t('in-analyze:analyzeView.dataSources.infrastructure'),
   calls: t('in-analyze:analyzeView.dataSources.calls'),
   traces: t('in-analyze:analyzeView.dataSources.traces'),
   logs: t('in-analyze:analyzeView.dataSources.logs'),
@@ -174,6 +179,7 @@ export const entityLabels = Object.freeze<Record<Entity, string>>({
   sessionStart: t('in-analyze:analyzeView.dataSources.sessionStarts'),
   viewChange: t('in-analyze:analyzeView.dataSources.viewTransitions2'),
   profiles: t('in-analyze:analyzeView.dataSources.profiles'),
+  infrastructure: t('in-analyze:analyzeView.dataSources.infrastructure'),
   calls: t('in-analyze:analyzeView.dataSources.calls'),
   traces: t('in-analyze:analyzeView.dataSources.traces'),
   logs: t('in-analyze:analyzeView.dataSources.logs'),
@@ -188,7 +194,8 @@ export const productAreaIcons = Object.freeze<Record<ProductArea, string>>({
   website: 'lib_website',
   mobileApp: 'lib_mobile_app',
   profiles: 'lib_profiling',
-  logs: 'lib_application_logging'
+  logs: 'lib_application_logging',
+  infrastructure: 'lib_infrastructure'
 });
 
 const icons = deepFreeze<Record<ProductArea, Icon>>({
@@ -196,8 +203,7 @@ const icons = deepFreeze<Record<ProductArea, Icon>>({
     traces: 'lib_application_trace',
     calls: 'lib_application_call',
     callsUQB: 'lib_application_call',
-    tracesUQB: 'lib_application_trace',
-    logs: 'lib_application_logging'
+    tracesUQB: 'lib_application_trace'
   },
   website: {
     pageLoad: 'lib_website_page_load',
@@ -214,10 +220,15 @@ const icons = deepFreeze<Record<ProductArea, Icon>>({
     custom: 'lib_mobile_app_custom_event',
     crash: 'lib_mobile_app'
   },
+  infrastructure: {
+    infrastructure: 'lib_infrastructure'
+  },
   profiles: {
     profiles: 'lib_profiling'
   },
-  logs: {}
+  logs: {
+    logs: 'lib_application_logging'
+  }
 });
 
 export function getIconByType<P extends ProductArea>(type: DataSourceType<P>, productArea: P): string {

@@ -21,8 +21,8 @@ import Suggestions, {
 } from 'in-components/QueryBuilder/components/Spacing/Suggestions';
 import ConjunctionTagSelectorOverlay from 'in-components/QueryBuilder/ConjunctionTagSelectorOverlay/ConjunctionTagSelectorOverlay';
 import { and, or, not } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
+import { DESTINATION, SOURCE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import Overlay from 'in-components/overlays/Overlay';
 
 import locals from './Spacing.mless';
@@ -95,8 +95,8 @@ export default function Spacing({
   function onAddToFormModel(opts) {
     if (opts.type === 'TAG_FILTER') {
       const tagTreeNode = tagCatalog.tagsByName[opts.name];
-      if (tagTreeNode.canApplyToSource && tagTreeNode.canApplyToDestination) {
-        opts.entity = DESTINATION;
+      if (tagTreeNode.canApplyToSource || tagTreeNode.canApplyToDestination) {
+        opts.entity = tagTreeNode.canApplyToDestination ? DESTINATION : SOURCE;
       }
     }
     lastTimeExternalAddToFormModelWasCalledRef.current = Date.now();

@@ -11,4 +11,4 @@ import React from 'react';
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import { cockpit } from 'in-cockpit/navigation/paths';
 
-export default <Route path={cockpit} children={renderAsyncRouteChildren(Cockpit)} />;
+export default <Route key="home" path={cockpit} children={renderAsyncRouteChildren(Cockpit)} />;

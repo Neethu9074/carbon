@@ -667,7 +667,7 @@
         "sensitivitySliderValueLabel_2": "{{count}} écarts types",
         "labelThreshold": "Seuil",
         "labelSensitivity": "Sensibilité",
-        "staticThresholdTypeOptionsTooltip": "Un seuil journalier/hebdomadaire statique est un seuil avec contrainte horaire basé sur des données d'historique. Le seuil ne change pas automatiquement et peut être recalculé manuellement si nécessaire.",
+        "staticThresholdTypeOptionsTooltip": "Un seuil quotidien/hebdomadaire statique est un seuil avec contrainte horaire basé sur des données d'historique. Le seuil ne change pas automatiquement et peut être recalculé manuellement si nécessaire.",
         "thresholdTypeOptionStaticThreshold": "Seuil statique",
         "thresholdTypeOptionHistoricBaselineDaily": "Saisonnalité quotidienne statique",
         "thresholdTypeOptionHistoricBaselineWeekly": "Saisonnalité hebdomadaire statique",

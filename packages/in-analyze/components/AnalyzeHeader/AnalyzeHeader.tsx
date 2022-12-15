@@ -30,32 +30,46 @@ export default function AnalyzeHeader({
   renderQuickFilterBar,
   isGrouped,
   formModel = emptyArray,
-  withoutShadow
+  withoutShadow,
+  label,
+  headerHref$,
+  onHeaderClick,
+  contextConfigurations = undefined
 }: AnalyzeHeaderProps) {
   const location = useLocation();
   const activeConfiguration = getActiveConfiguration(location) as ActiveConfiguration;
 
-  const HeaderLabel = (
-    <Overlay props={{ activeConfiguration, isGrouped, formModel }} withoutWrapper content={AnalyzeDataSourceSelector}>
-      {({ toggle, isOpen, ref }) => (
-        <DashboardHeaderButton size="normal" className={locals.button} ref={ref} onClick={toggle} expanded={isOpen}>
-          <Label activeConfiguration={activeConfiguration} />
-        </DashboardHeaderButton>
-      )}
-    </Overlay>
-  );
+  const HeaderLabel =
+    label !== undefined ? (
+      label
+    ) : (
+      <Overlay props={{ activeConfiguration, isGrouped, formModel }} withoutWrapper content={AnalyzeDataSourceSelector}>
+        {({ toggle, isOpen, ref }) => (
+          <DashboardHeaderButton size="normal" className={locals.button} ref={ref} onClick={toggle} expanded={isOpen}>
+            <Label activeConfiguration={activeConfiguration} />
+          </DashboardHeaderButton>
+        )}
+      </Overlay>
+    );
+
+  const contextConfig =
+    contextConfigurations !== undefined
+      ? contextConfigurations
+      : [
+          {
+            renderContext: () => t('in-analyze:components.analyzeHeader.analytics'),
+            contextIcon: 'lib_analyze_inverted'
+          }
+        ];
 
   const dashboardHeaderProps = {
     showHistoricDataWarning: false,
-    contextConfigurations: [
-      {
-        renderContext: () => t('in-analyze:components.analyzeHeader.analytics'),
-        contextIcon: 'lib_analyze_inverted'
-      }
-    ],
+    contextConfigurations: contextConfig,
     renderMetaInformation: activeConfiguration?.beta ? () => <BetaBadge /> : undefined,
     label: HeaderLabel,
-    title: t('in-analyze:analyzeHeader.title')
+    title: t('in-analyze:analyzeHeader.title'),
+    headerHref$: headerHref$,
+    onHeaderClick: onHeaderClick
   };
 
   return (

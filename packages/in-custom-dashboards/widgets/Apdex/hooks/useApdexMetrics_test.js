@@ -4,15 +4,14 @@
  * Copyright IBM Corp. 2022
  */
 
-import { useObservable } from '@instana/hooks';
+import { renderHook } from '@testing-library/react-hooks';
+
+import { just } from '@instana/observables';
 
 import useApdexMetrics from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexMetrics';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 
 jest.mock('in-subscription/getUnifiedMetrics');
-jest.mock('@instana/hooks', () => ({
-  useObservable: jest.fn((cb, watchers) => cb(...watchers))
-}));
 
 describe('in-custom-dashboards/widgets/Apdex/hooks/useApdexMetrics', () => {
   beforeEach(jest.clearAllMocks);
@@ -23,7 +22,7 @@ describe('in-custom-dashboards/widgets/Apdex/hooks/useApdexMetrics', () => {
     const timeConfig = { to: 12, windowSize: 5 };
 
     // When
-    useApdexMetrics({ id: apdexId, timeConfig });
+    renderHook(() => useApdexMetrics({ id: apdexId, timeConfig }));
 
     // Then
     expect(getUnifiedMetrics).toHaveBeenLastCalledWith({
@@ -44,17 +43,25 @@ describe('in-custom-dashboards/widgets/Apdex/hooks/useApdexMetrics', () => {
   it('configures the subscription to update on changes to the id, timeConfig and isPreview flag', () => {
     // Given
     const apdexId = 'someApdexId';
+    const apdexId2 = 'someOtherId';
     const timeConfig = { to: 12, windowSize: 5 };
+    const timeConfig2 = { to: 13, windowSize: 5 };
     const isPreview = true;
+    const mockObservable = just(undefined);
+    const subscribeSpy = jest.spyOn(mockObservable, 'subscribe');
+    getUnifiedMetrics.mockImplementation(() => ({ ...mockObservable, delayedStop: () => mockObservable }));
 
     // When
-    useApdexMetrics({ id: apdexId, timeConfig, isPreview });
+    const { rerender } = renderHook(props => useApdexMetrics(props), {
+      initialProps: { id: apdexId, timeConfig, isPreview }
+    });
+    rerender({ id: apdexId, timeConfig, isPreview }); // This should not cause an update
+    rerender({ id: apdexId2, timeConfig, isPreview }); // These should cause an update
+    rerender({ id: apdexId2, timeConfig: timeConfig2, isPreview });
+    rerender({ id: apdexId2, timeConfig: timeConfig2, isPreview: !isPreview });
 
     // Then
-    expect(useObservable).toHaveBeenLastCalledWith(
-      expect.anything(),
-      expect.arrayContaining([apdexId, timeConfig, isPreview])
-    );
+    expect(subscribeSpy).toHaveBeenCalledTimes(4);
   });
 
   it.each([[true], [false]])('selects the right preview state when subscribing for isPreview = %s', isPreview => {
@@ -63,7 +70,7 @@ describe('in-custom-dashboards/widgets/Apdex/hooks/useApdexMetrics', () => {
     const timeConfig = { to: 12, windowSize: 5 };
 
     // When
-    useApdexMetrics({ id: apdexId, timeConfig, isPreview });
+    renderHook(() => useApdexMetrics({ id: apdexId, timeConfig, isPreview }));
 
     // Then
     expect(getUnifiedMetrics).toHaveBeenLastCalledWith({
@@ -73,5 +80,26 @@ describe('in-custom-dashboards/widgets/Apdex/hooks/useApdexMetrics', () => {
         })
       }
     });
+  });
+
+  it('returns an error if id is blank', () => {
+    // Given
+    const apdexId = '';
+    const timeConfig = { to: 12, windowSize: 5 };
+
+    // When
+    const { result } = renderHook(() => useApdexMetrics({ id: apdexId, timeConfig }));
+    const [, status, errors] = result.current;
+
+    // Then
+    expect(status).toEqual('rejected');
+    expect(errors).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          code: 'CLIENT',
+          message: expect.stringContaining('blank')
+        })
+      ])
+    );
   });
 });

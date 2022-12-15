@@ -8,6 +8,7 @@ import { Observable } from '@instana/observables';
 import { TagCatalog } from '@instana/types';
 
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import { ContextConfiguration } from 'in-components/DashboardHeader/DashboardHeader';
 import { ProductArea, Entity } from 'in-analyze/AnalyzeView/dataSources';
 
 export interface DataSource {
@@ -28,6 +29,10 @@ export interface AnalyzeHeaderProps {
   isGrouped: boolean;
   withoutShadow: boolean;
   formModel: FormModelElement[] | readonly never[];
+  label: string | JSX.Element;
+  headerHref$?: Observable<string>;
+  onHeaderClick?: (params: any) => any;
+  contextConfigurations?: ContextConfiguration[];
 }
 
 export interface LabelProps {

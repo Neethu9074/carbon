@@ -10,7 +10,6 @@ import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/applicati
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialogWrapper';
 import { getEntitySelection } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { applicationsAlertingAddAlert } from 'in-alerting/smart-alerts/applications/tracker';
-import { defaultAlertRule } from 'in-alerting/smart-alerts/applications/form/ruleForm';
 import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import FloatingActionButton from 'in-components/FloatingActionButton';
@@ -78,7 +77,6 @@ CreateSmartAlert.propTypes = {
 export function generateAlertConfig({ boundaryScope, applicationId, serviceId, endpointId, includeSynthetic }) {
   return {
     boundaryScope,
-    rule: defaultAlertRule,
     threshold: {
       type: HISTORIC_BASELINE,
       value: 0.0,

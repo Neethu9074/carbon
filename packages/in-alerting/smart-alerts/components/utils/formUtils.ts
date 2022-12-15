@@ -33,7 +33,7 @@ type ValueLabelPair = {
   value: string;
 };
 
-export function findEntryByValue(valueLabelPairList: ValueLabelPair[], value: string): ValueLabelPair | undefined {
+export function findEntryByValue(valueLabelPairList: ValueLabelPair[], value?: string): ValueLabelPair | undefined {
   const items = valueLabelPairList ?? [];
   return items.find(item => item?.value === value);
 }
