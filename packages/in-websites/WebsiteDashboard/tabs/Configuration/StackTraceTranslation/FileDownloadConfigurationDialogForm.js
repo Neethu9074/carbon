@@ -4,12 +4,14 @@
  */
 
 import { createMapForm, createField, createListForm, composeValidators } from 'formalistic';
+import { useState } from 'react';
 
+import { addSourceMapDownloadConfiguration, updateSourceMapDownloadConfiguration } from 'in-websites/api/websites';
 import { notBlankValidator } from 'in-services/validators/string';
 import { isBlank, isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
-export function CreateForm(config) {
+export function createForm(config) {
   let matchingRules = createListForm({
     validator: isAtLeastOneMatchingRuleDefinedValidator
   });
@@ -217,5 +219,93 @@ export function deserializePattern(pattern) {
     prefix: pattern.substring(0, index),
     equality: '',
     suffix: pattern.substring(index + 1)
+  };
+}
+
+export function useForm(config, websiteId, onFinished) {
+  const [form, setForm] = useState(() => createForm(config));
+  const [message, setMessage] = useState(null);
+
+  return {
+    form,
+    message,
+    onChange(path, value) {
+      setForm(form.updateIn(path, field => field.setValue(value).setTouched(true)));
+    },
+    addMatchingRule() {
+      setForm(form.updateIn(['matchingRules'], list => list.setTouched(true).push(createMatchingRuleForm())));
+    },
+    removeMatchingRule(index) {
+      setForm(form.updateIn(['matchingRules'], list => list.setTouched(true).remove(index)));
+    },
+    addHeader() {
+      setForm(form.updateIn(['headers'], list => list.setTouched(true).push(createHeaderForm())));
+    },
+    removeHeader(index) {
+      setForm(form.updateIn(['headers'], list => list.setTouched(true).remove(index)));
+    },
+    onSubmit(e) {
+      e.preventDefault();
+
+      if (!form.hierarchyValid) {
+        setForm(form.setTouched(true, { recurse: true }));
+        return;
+      }
+
+      const config = form.toJS();
+      // convert to expected backend structure
+      config.headers = config.headers.reduce((headers, header) => {
+        headers[header.key] = header.value;
+        return headers;
+      }, {});
+
+      config.matchingRules.forEach(rule => {
+        const host = deserializePattern(rule.host);
+        const path = deserializePattern(rule.path);
+        rule.hostPrefix = host.prefix;
+        rule.hostEquality = host.equality;
+        rule.hostSuffix = host.suffix;
+        rule.pathPrefix = path.prefix;
+        rule.pathEquality = path.equality;
+        rule.pathSuffix = path.suffix;
+      });
+
+      let response$;
+      let successMessage;
+      setMessage({
+        message: t(
+          'in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogMessageSavingConfiguration'
+        ),
+        type: 'success',
+        isSaving: true
+      });
+      if (config.id) {
+        response$ = updateSourceMapDownloadConfiguration(websiteId, config);
+        successMessage = t(
+          'in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogMessageConfigurationUpdated'
+        );
+      } else {
+        response$ = addSourceMapDownloadConfiguration(websiteId, config);
+        successMessage = t(
+          'in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogMessageNewConfigurationSaved'
+        );
+      }
+
+      response$.once(
+        () => {
+          onFinished({ message: successMessage, type: 'success' });
+          close();
+        },
+        error => {
+          setMessage({
+            message: t(
+              'in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogMessageFailedToSaveConfiguration',
+              { message: error.message }
+            ),
+            type: 'error'
+          });
+        }
+      );
+    }
   };
 }

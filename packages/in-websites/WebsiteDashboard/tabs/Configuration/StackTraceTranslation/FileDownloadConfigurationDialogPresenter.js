@@ -3,19 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 
 import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
 import { Link } from '@instana/components';
 
-import {
-  CreateForm,
-  createMatchingRuleForm,
-  createHeaderForm,
-  deserializePattern
-} from 'in-websites/WebsiteDashboard/tabs/Configuration/StackTraceTranslation/FileDownloadConfigurationDialogForm';
-import { addSourceMapDownloadConfiguration, updateSourceMapDownloadConfiguration } from 'in-websites/api/websites';
+import { useForm } from 'in-websites/WebsiteDashboard/tabs/Configuration/StackTraceTranslation/FileDownloadConfigurationDialogForm';
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -35,89 +29,13 @@ import Input from 'in-components/form/Input';
 import locals from './FileDownloadConfigurationDialogPresenter.mless';
 
 export default function FileDownloadConfigurationDialogPresenter(props) {
-  //   withState('form', 'setForm', ({ config }) => createForm(config)),
-  //   withState('message', 'setMessage', null),
   const { config, websiteId, onFinished } = props;
-  const [form, setForm] = useState(CreateForm(config));
-  const [message, setMessage] = useState(null);
-  function onChange(path, value) {
-    setForm(form.updateIn(path, field => field.setValue(value).setTouched(true)));
-  }
-  function addMatchingRule() {
-    setForm(form.updateIn(['matchingRules'], list => list.setTouched(true).push(createMatchingRuleForm())));
-  }
-  function removeMatchingRule(index) {
-    setForm(form.updateIn(['matchingRules'], list => list.setTouched(true).remove(index)));
-  }
-  function addHeader() {
-    setForm(form.updateIn(['headers'], list => list.setTouched(true).push(createHeaderForm())));
-  }
-  function removeHeader(index) {
-    setForm(form.updateIn(['headers'], list => list.setTouched(true).remove(index)));
-  }
-  function onSubmit(e) {
-    e.preventDefault();
 
-    if (!form.hierarchyValid) {
-      setForm(form.setTouched(true, { recurse: true }));
-      return;
-    }
-
-    const config = form.toJS();
-    // convert to expected backend structure
-    config.headers = config.headers.reduce((headers, header) => {
-      headers[header.key] = header.value;
-      return headers;
-    }, {});
-
-    config.matchingRules.forEach(rule => {
-      const host = deserializePattern(rule.host);
-      const path = deserializePattern(rule.path);
-      rule.hostPrefix = host.prefix;
-      rule.hostEquality = host.equality;
-      rule.hostSuffix = host.suffix;
-      rule.pathPrefix = path.prefix;
-      rule.pathEquality = path.equality;
-      rule.pathSuffix = path.suffix;
-    });
-
-    let response$;
-    let successMessage;
-    setMessage({
-      message: t(
-        'in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogMessageSavingConfiguration'
-      ),
-      type: 'success',
-      isSaving: true
-    });
-    if (config.id) {
-      response$ = updateSourceMapDownloadConfiguration(websiteId, config);
-      successMessage = t(
-        'in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogMessageConfigurationUpdated'
-      );
-    } else {
-      response$ = addSourceMapDownloadConfiguration(websiteId, config);
-      successMessage = t(
-        'in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogMessageNewConfigurationSaved'
-      );
-    }
-
-    response$.once(
-      () => {
-        onFinished({ message: successMessage, type: 'success' });
-        close();
-      },
-      error => {
-        setMessage({
-          message: t(
-            'in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogMessageFailedToSaveConfiguration',
-            { message: error.message }
-          ),
-          type: 'error'
-        });
-      }
-    );
-  }
+  const { form, message, onSubmit, onChange, addMatchingRule, removeMatchingRule, addHeader, removeHeader } = useForm(
+    config,
+    websiteId,
+    onFinished
+  );
   const disabled = message && message.isSaving;
 
   return (
