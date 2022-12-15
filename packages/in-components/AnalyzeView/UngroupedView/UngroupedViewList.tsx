@@ -8,11 +8,14 @@ import React, { MutableRefObject, useCallback, useEffect } from 'react';
 import { LiLoadMore, Ul } from '@instana/components';
 import { generateStableHash } from '@instana/utils';
 
-//@ts-expect-error needs ts migration
-import UngroupedView, { retrievalSize } from 'in-components/AnalyzeView/UngroupedView/UngroupedView';
+import {
+  Presenter,
+  UngroupedViewListPresenterProps,
+  UngroupedViewListProps
+} from 'in-components/AnalyzeView/UngroupedView/types';
 //@ts-expect-error needs ts migration
 import QueryProgressIndicator from 'in-components/AnalyzeView/QueryProgressIndicator';
-import { ListProps, UngroupedViewProps } from 'in-components/AnalyzeView/UngroupedView/types';
+import UngroupedView, { retrievalSize } from 'in-components/AnalyzeView/UngroupedView/UngroupedView';
 import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import { ListItem } from 'in-components/AnalyzeView/UngroupedView/ListItem';
@@ -21,14 +24,14 @@ import { ua2LoadMoreClicked } from 'in-components/tracker';
 
 import locals from './UngroupedView.mless';
 
-export default function UngroupedAnalyzeViewList(props: UngroupedViewProps) {
-  return <UngroupedView {...props} Presenter={props.Presenter ?? List} />;
+export default function UngroupedViewList<Item>(props: UngroupedViewListProps<Item>) {
+  return <UngroupedView {...props} Presenter={List as Presenter} />;
 }
 
-function List(props: ListProps) {
+function List(props: UngroupedViewListPresenterProps) {
   const {
     getHrefToDetailId,
-    result,
+    errors,
     hasItems,
     items,
     getId,
@@ -49,11 +52,12 @@ function List(props: ListProps) {
     selectedId,
     initialLogLines,
     time,
-    infiniteScroll
+    infiniteScroll,
+    initialLines
   } = props;
 
   const itemProps = {
-    className: classNames.listItem,
+    className: classNames?.listItem,
     columnDefinitions,
     renderNestedContent,
     withoutListItemLinkToDetails,
@@ -68,7 +72,7 @@ function List(props: ListProps) {
   const infiniteScrollCallback = useCallback(
     ([element]: IntersectionObserverEntry[]) => {
       if (element.isIntersecting && !isLoading && canLoadMore) {
-        loadMore();
+        loadMore?.();
       }
     },
     [canLoadMore, isLoading, loadMore]
@@ -98,7 +102,7 @@ function List(props: ListProps) {
   const MappedListItems = items.map(item => {
     const id = getId(item);
     const key = generateStableHash(id);
-    const isInitiallyToggled = initiallyOpenedItemIds.includes(id);
+    const isInitiallyToggled = initiallyOpenedItemIds?.includes(id);
     const extendedItem = { ...item, groupKey };
     const href = withoutListItemLinkToDetails ? undefined : getHrefToDetailId(id, groupLabel);
 
@@ -106,7 +110,7 @@ function List(props: ListProps) {
       <ListItem
         {...itemProps}
         href={href}
-        renderNestedContent={() => renderNestedContent?.(id, extendedItem)}
+        renderNestedContent={renderNestedContent && (() => renderNestedContent(id, extendedItem))}
         isInitiallyToggled={isInitiallyToggled}
         item={extendedItem}
         key={key}
@@ -116,7 +120,7 @@ function List(props: ListProps) {
 
   const showLoadMoreButton = canLoadMore && !infiniteScroll;
   const showSkeleton = withEmbeddedLoadingIndicator && (progress.loading || isLoading);
-  const numSkeletonRows = items.length === 0 ? props.initialLines : retrievalSize;
+  const numSkeletonRows = items.length === 0 ? initialLines : retrievalSize;
 
   return (
     <>
@@ -127,7 +131,7 @@ function List(props: ListProps) {
             <LiLoadMore
               //@ts-expect-error bad typing in foundation component
               loadMore={() => {
-                loadMore();
+                loadMore?.();
                 ua2LoadMoreClicked({ dataSource });
               }}
             />
@@ -137,7 +141,7 @@ function List(props: ListProps) {
       {showSkeleton ? (
         <LoadingList numSkeletonRows={numSkeletonRows} />
       ) : (
-        <QueryProgressIndicator progress={{ ...progress, loading: isLoading }} errors={result?.errors} items={items} />
+        <QueryProgressIndicator progress={{ ...progress, loading: isLoading }} errors={errors} items={items} />
       )}
       {infiniteScroll && (
         <div

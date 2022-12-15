@@ -565,7 +565,7 @@
       "slo": "SLO",
       "monitoringSourceSelector": {
         "source_application": "Application",
-        "source_website": "Site Web (Bêta)",
+        "source_website": "Site Web (bêta)",
         "callOut_application": "Exclut les facteurs indépendants de votre contrôle, tels que la mauvaise connectivité Internet des utilisateurs finaux, mais peut ne pas refléter exactement l'expérience de l'utilisateur final",
         "callOut_website": "La plus grande partie reflète l'expérience de l'utilisateur final, mais n'exclut pas les facteurs qui échappent à votre contrôle, tels que la mauvaise connectivité Internet des utilisateurs finaux."
       },
@@ -658,8 +658,7 @@
           "website": "Le nombre maximal de configurations apdex de site Web ({{0}}) a été atteint. Contactez le support Instana pour demander une augmentation de cette limite.",
           "application": "Le nombre maximal de configurations apdex d'application ({{0}}) a été atteint. Contactez le support Instana pour demander une augmentation de cette limite."
         },
-        "editConfigNotice": "Pour éviter la perte de données, la configuration ne peut pas être éditée une fois qu'elle a été créée ; elle ne peut être ajustée qu'en tant que copie.",
-        "apdexCloneName": "Copie de {{apdexName}}"
+        "editConfigNotice": "Pour éviter la perte de données, la configuration ne peut pas être éditée une fois qu'elle a été créée ; elle ne peut être ajustée qu'en tant que copie."
       },
       "createWebsiteApdexForm": {
         "thresholdHeader": "Configuration de seuil",
@@ -720,7 +719,7 @@
     },
     "applicationHealth": {
       "index": {
-        "applicationHealth": "Présentation de l'état"
+        "applicationHealth": "Présentation de l'intégrité"
       },
       "form": {
         "validationError": "Sélectionnez une application.",

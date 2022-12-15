@@ -118,7 +118,7 @@
     "metric_DISTINCT_COUNT": "고유 개수",
     "metric_SUM": "합계",
     "metric_DISTRIBUTION": "분포",
-    "metric_PER_SECOND": "rate",
+    "metric_PER_SECOND": "비율",
     "formatterLabelNumber": "숫자(예: {{example}})",
     "formatterLabelPercentage": "백분율(예: {{example}})",
     "formatterLabelBytes": "바이트(예: {{example}})",

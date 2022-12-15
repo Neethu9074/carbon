@@ -43,7 +43,7 @@
   "permissionCanConfigureGlobalAlertConfigsLabel": "配置廣域智慧型警示",
   "permissionCanConfigureGlobalAlertConfigsDescription": "允許建立及配置廣域智慧型警示。",
   "permissionCanConfigureGlobalAlertConfigsCategory": "事件",
-  "permissionCanConfigureAutomationActionsLabel": "自動化動作的配置",
+  "permissionCanConfigureAutomationActionsLabel": "配置自動化動作",
   "permissionCanConfigureAutomationActionsDescription": "允許建立及配置自動化動作。",
   "permissionCanConfigureAutomationActionsCategory": "自動化",
   "permissionCanRunAutomationActionsLabel": "執行自動化動作",

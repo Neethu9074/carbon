@@ -4,9 +4,10 @@
  */
 
 import { operators } from 'in-analyze/applicationFilter';
+import { Option } from 'in-components/ComboBox';
 import { t } from 'in-i18n';
 
-export const ruleJsErrorsOperatorOptions = Object.freeze([
+export const ruleJsErrorsOperatorOptions: ReadonlyArray<Option> = Object.freeze([
   { value: operators.NOT_EMPTY, label: t('in-alerting:smartAlerts.websites.form.ruleJsErrorsOperatorOptionAny') },
   { value: operators.EQUALS, label: t('in-alerting:smartAlerts.websites.form.ruleJsErrorsOperatorOptionEquals') },
   { value: operators.CONTAINS, label: t('in-alerting:smartAlerts.websites.form.ruleJsErrorsOperatorOptionContains') },
@@ -17,7 +18,7 @@ export const ruleJsErrorsOperatorOptions = Object.freeze([
   { value: operators.ENDS_WITH, label: t('in-alerting:smartAlerts.websites.form.ruleJsErrorsOperatorOptionEndWith') }
 ]);
 
-export const ruleStatusCodeValueOptions = Object.freeze([
+export const ruleStatusCodeValueOptions: ReadonlyArray<Option> = Object.freeze([
   { value: '1', label: t('in-alerting:smartAlerts.websites.form.ruleStatusCodeValueOption1') },
   { value: '100', label: t('in-alerting:smartAlerts.websites.form.ruleStatusCodeValueOption100') },
   { value: '101', label: t('in-alerting:smartAlerts.websites.form.ruleStatusCodeValueOption101') },

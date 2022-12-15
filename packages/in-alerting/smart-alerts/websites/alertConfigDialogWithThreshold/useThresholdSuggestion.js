@@ -41,9 +41,11 @@ export default function useThresholdSuggestion(form, updateForm, setThresholdRes
 
     setThresholdResult(thresholdResult);
     const { data, errors, time } = thresholdResult;
+
     if (isValid) {
       updateThresholdInForm(createThresholdForm, form, updateForm, data, errors, time, simpleMode);
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [thresholdResult, form.get('hiddenFields').get('calculateThresholdOnBackend').value]);
 }
@@ -59,7 +61,7 @@ function resolveThresholdRequest(
   const {
     rule: { metricName },
     rule,
-    threshold: { operator, seasonality = null },
+    threshold: { operator, seasonality = null, type },
     granularity,
     hiddenFields: { calculateThresholdOnBackend }
   } = alertConfigWithFormModel;
@@ -79,6 +81,7 @@ function resolveThresholdRequest(
   };
 
   const thresholdSuggestionRequest = blueprintConfig.getThresholdSuggestionRequest(metricName);
+
   return thresholdSuggestionRequest({
     tagFilterExpression: toBackendQueryModel(enrichedTagFilterFormModel),
     metric: {
@@ -89,6 +92,7 @@ function resolveThresholdRequest(
     },
     operator,
     seasonality: getSeasonality(),
-    fallbackOnError: isSimpleMode
+    fallbackOnError: isSimpleMode,
+    type
   });
 }

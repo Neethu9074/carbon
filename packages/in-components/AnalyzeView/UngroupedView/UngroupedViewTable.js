@@ -17,13 +17,13 @@ import { t } from 'in-i18n';
 
 import locals from './UngroupedViewTable.mless';
 
-export { detailViewProps, retrievalSize } from 'in-components/AnalyzeView/UngroupedView/UngroupedView';
+export { retrievalSize } from 'in-components/AnalyzeView/UngroupedView/UngroupedView';
 
-export default function UngroupedAnalyzeViewTable(props) {
+export default function UngroupedViewTable(props) {
   return <UngroupedView {...props} Presenter={Table} />;
 }
 
-UngroupedAnalyzeViewTable.propTypes = {
+UngroupedViewTable.propTypes = {
   ...UngroupedView.propTypes
 };
 

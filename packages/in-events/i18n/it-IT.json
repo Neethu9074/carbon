@@ -117,7 +117,7 @@
   "labelMonitoringIssues": "Problemi di monitoraggio",
   "labelAll": "Tutti",
   "buttonViewCustomEvent": "Visualizza evento personalizzato",
-  "buttonViewBuiltInEvent": "Visualizza Evento integrato",
+  "buttonViewBuiltInEvent": "Visualizza evento integrato",
   "buttonCollapse": "Comprimi",
   "buttonExpandEvents": "Espandi ({{eventsLength}})",
   "buttonHideChanges": "Nascondi modifiche",

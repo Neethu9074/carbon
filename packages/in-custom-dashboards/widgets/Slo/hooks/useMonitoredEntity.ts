@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { Observable } from '@instana/observables';
+import { just, Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
@@ -12,6 +12,8 @@ import getApplication from 'in-applications/subscriptions/getApplication';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
 import { Application, Result, Website } from 'in-types';
 import { FetchedState } from 'in-hooks/utils/types';
+import { isBlank } from 'in-services/util/string';
+import { error } from 'in-services/util/result';
 
 export type MonitoredEntity = Application | Website;
 
@@ -29,6 +31,14 @@ export default function useMonitoredEntity({
 }
 
 function loadEntity(entityType: MonitoringSource, entityId: string): Observable<Result<MonitoredEntity>> {
+  if (isBlank(entityType)) {
+    return just(error([{ code: 'CLIENT', message: 'EntityType cannot be blank' }]));
+  }
+
+  if (isBlank(entityId)) {
+    return just(error([{ code: 'CLIENT', message: 'EntityId cannot be blank' }]));
+  }
+
   switch (entityType) {
     case 'application':
       return getApplication({ id: entityId });

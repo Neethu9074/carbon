@@ -24,8 +24,8 @@ run:
       git config user.email instana.ibm.github.enterprise@ibm.com
       git config url."https://((ibm-github-e-api-token)):x-oauth-basic@github.ibm.com/".insteadOf "https://github.ibm.com/"
 
-      git config branch.main.remote origin
-      git config branch.main.merge refs/heads/main
+      git config branch.develop.remote origin
+      git config branch.develop.merge refs/heads/develop
       git config remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
 
       REGISTRY="https://delivery.instana.io" \
@@ -34,6 +34,7 @@ run:
       PASSWORD="((delivery-instana-io-internal-project-artifact-read-writer-creds.password))" \
       NON_INTERACTIVE=true \
       WRITE_TO_CWD=true \
+      NPM_CONFIG_REGISTRY="https://registry.npmjs.org/" \
       npx --yes create-artifactory-access-config
 
       # install gh
@@ -59,7 +60,8 @@ run:
 
       npx --yes browserslist@latest --update-db
 
-      git commit -m "chore(browserslist): update caniuse data" yarn.lock
+      # Not verifying commit here since we only update dependencies and our typecheck has dependencies that are only generated on full build
+      git commit --no-verify --message "chore(browserslist): update caniuse data" yarn.lock
 
       git push --set-upstream origin browserslist-update-pr
 
@@ -68,7 +70,7 @@ run:
       ACTIVE_PRS=$(gh pr list --search "Update browserslist" --author Instana-IBM-GitHub-Enterprise | cut -f1)
       if [ "$ACTIVE_PRS" = "" ] ; then
         echo "No existing PRs found, creating a new one"
-        gh pr create --head browserslist-update-pr --repo instana/ui-foundation --title "Update browserslist" --body-file update-browserslist-pr-body.txt
+        gh pr create --head browserslist-update-pr --repo instana/ui-client --title "Update browserslist" --body-file update-browserslist-pr-body.txt
       else
         echo "Stopping pipeline, because a PR already exists: $ACTIVE_PRS"
         exit 0;

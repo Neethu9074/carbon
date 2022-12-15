@@ -31,6 +31,7 @@ import BluePrintSelectionSection from 'in-alerting/smart-alerts/applications/adv
 import { ApplicationAlertPreview } from 'in-alerting/smart-alerts/applications/advanced/ApplicationAlertPreview';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
+import { onThresholdTypeChange } from 'in-alerting/smart-alerts/applications/form/thresholdTypeForm';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { ThresholdSection } from 'in-alerting/smart-alerts/applications/advanced/ThresholdSection';
 import ScopeConfig from 'in-alerting/smart-alerts/applications/scopeConfig/ScopeConfig';
@@ -111,7 +112,11 @@ export default function AdvancedModeContainer(props) {
                   withoutPadding
                   darkFrame
                 >
-                  <StaticOrAdaptiveSwitch form={form} setForm={updateForm} />
+                  <StaticOrAdaptiveSwitch
+                    form={form}
+                    setForm={updateForm}
+                    onThresholdTypeChange={onThresholdTypeChange}
+                  />
                 </LightCard>
               )}
             </>

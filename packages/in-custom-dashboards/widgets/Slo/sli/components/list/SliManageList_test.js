@@ -83,7 +83,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/components/list/SliManageList', (
         map: mapper => mapper(success(sli))
       };
     });
-    const listWrapper = shallow(<SliManageList onChange={jest.fn()} entityType={'application'} entityId={''} />);
+    const listWrapper = shallow(<SliManageList onChange={jest.fn()} entityType={'application'} entityId={'someId'} />);
     const staticContent = listWrapper.prop('staticContent');
     const wrapper = shallow(staticContent);
     const onFilter = wrapper.find(SliList).prop('onChange');
@@ -183,7 +183,9 @@ describe('in-custom-dashboards/widgets/Slo/sli/components/list/SliManageList', (
     });
 
     // When
-    const manageListWrapper = shallow(<SliManageList onChange={jest.fn} entityType={'application'} entityId={''} />);
+    const manageListWrapper = shallow(
+      <SliManageList onChange={jest.fn} entityType={'application'} entityId={'someId'} />
+    );
     const staticContent = manageListWrapper.prop('staticContent');
     const wrapper = shallow(staticContent);
 
@@ -202,7 +204,9 @@ describe('in-custom-dashboards/widgets/Slo/sli/components/list/SliManageList', (
     });
 
     // When
-    const manageListWrapper = shallow(<SliManageList onChange={jest.fn} entityType={'application'} entityId={''} />);
+    const manageListWrapper = shallow(
+      <SliManageList onChange={jest.fn} entityType={'application'} entityId={'someId'} />
+    );
     const staticContent = manageListWrapper.prop('staticContent');
     const wrapper = shallow(staticContent);
 

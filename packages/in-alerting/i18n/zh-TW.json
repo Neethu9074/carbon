@@ -16,7 +16,7 @@
     "alertHeaderRestoreDeleteConfirmationDialogHeader": "請確認",
     "alertHeaderRestoreDeleteConfirmationDialogDescription": "您確定要移除警示 <strong>{{alertConfigName}}</strong> 嗎？",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "移除",
-    "alertHeaderIsNotLatestRevisionMessage": "您正在查看此警示配置的修訂 {{description}}。如需您想進行變更，請<latestRevisionButton>選取最新修訂</latestRevisionButton>或<restoreRevisionButton>從現行修訂還原</restoreRevisionButton>。",
+    "alertHeaderIsNotLatestRevisionMessage": "您正在查看此警示配置的修訂「{{description}}」。若您想要進行變更，請<latestRevisionButton>選取最新修訂</latestRevisionButton>或<restoreRevisionButton>從現行修訂還原</restoreRevisionButton>。",
     "alertHeaderAriaLabelSeverity": "事件具有嚴重性 {{severity}}",
     "alertHistoryListTitleWithTotalRepresentedItemCount": "已建立的警示 ({{totalRepresentedItemCount}})",
     "alertStateActive": "作用中",

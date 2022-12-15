@@ -36,7 +36,27 @@ import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 
 export default function applicationRoutes() {
-  let appRoutes = [
+  const appRoutes = [];
+  if (role.canConfigureServiceMapping) {
+    appRoutes.push(
+      <Route
+        key="applicationPerspectiveNewServiceView"
+        path={newServiceView}
+        children={renderAsyncRouteChildren(CustomServiceMapping)}
+      />,
+      <Route
+        key="applicationPerspectiveConfigureSyntheticEndpoints"
+        path={configureSyntheticEndpointsView}
+        children={renderAsyncRouteChildren(SyntheticCallConfig)}
+      />,
+      <Route
+        key="applicationPerspectiveConfigureEndpoints"
+        path={configureEndpointsView}
+        children={renderAsyncRouteChildren(CustomEndpointMapping)}
+      />
+    );
+  }
+  appRoutes.push([
     <Route
       key="applicationPerspectiveNewApplicationWaiter"
       path={`${newApplicationWaiterView}/:appId/:appName`}
@@ -68,27 +88,8 @@ export default function applicationRoutes() {
       children={renderAsyncRouteChildren(EndpointDashboard)}
     />,
     <Route key="applicationPerspectiveAnalyze" path={analyzePath} children={renderAsyncRouteChildren(AnalyzeView2_0)} />
-  ];
+  ]);
 
-  if (role.canConfigureServiceMapping) {
-    appRoutes.push(
-      <Route
-        key="applicationPerspectiveNewServiceView"
-        path={newServiceView}
-        children={renderAsyncRouteChildren(CustomServiceMapping)}
-      />,
-      <Route
-        key="applicationPerspectiveConfigureSyntheticEndpoints"
-        path={configureSyntheticEndpointsView}
-        children={renderAsyncRouteChildren(SyntheticCallConfig)}
-      />,
-      <Route
-        key="applicationPerspectiveConfigureEndpoints"
-        path={configureEndpointsView}
-        children={renderAsyncRouteChildren(CustomEndpointMapping)}
-      />
-    );
-  }
   if (applicationSmartAlertsEnabled) {
     appRoutes.push(
       <Route

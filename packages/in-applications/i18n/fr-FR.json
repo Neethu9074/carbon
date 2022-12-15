@@ -526,7 +526,7 @@
       "messageNoMatchRule": "Aucun noeud final correspondant à cette règle.",
       "messageNoRule": "Aucune règle n'est spécifiée.",
       "stepTitleConfigureSyntheticEndpoints": "Configurer des noeuds finaux synthétiques pour ignorer les appels qui leur sont adressés par les indicateurs clés de performance des services et des applications.",
-      "descriptionConfigureSyntheticEndpoints": "Les appels vers les noeuds finaux synthétiques continueront à être capturés, mais ne contribueront pas aux indicateurs clés de performance des services et des applications. Notre règle intégrée détectera automatiquement et ignorera vos contrôles d'intégrité, mais des noeuds finaux supplémentaires peuvent être ajoutés manuellement avec de nouvelles règles.",
+      "descriptionConfigureSyntheticEndpoints": "Les appels vers les noeuds finaux synthétiques continueront à être capturés, mais ne contribueront pas aux indicateurs clés de performance des services et des applications. Notre règle intégrée détectera automatiquement et ignorera vos diagnostics d'intégrité, mais des noeuds finaux supplémentaires peuvent être ajoutés manuellement avec de nouvelles règles.",
       "descriptionEndpointsRule": "Les appels vers les noeuds finaux correspondant à cette règle générée automatiquement ne contribuent pas à votre application ou aux indicateurs clés de performance (KPI) de service dans Instana et ne sont pas pris en compte.",
       "errorConditionRequired": "Au moins une condition de correspondance est requise."
     },

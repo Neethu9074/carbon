@@ -56,6 +56,8 @@
     "kubernetesLabels": "Kubernetes Labels"
   },
   "explore": {
+    "beta": "Beta",
+    "tryBetaInfraAnalytics": "Try the new Infrastructure analytics",
     "focusOnThisGroup": "Focus on this group",
     "theQueryConfigurationIsInvalid": "The query configuration is invalid. Please address the validation failures before continuing.",
     "allInfrastructure": "All Infrastructure",

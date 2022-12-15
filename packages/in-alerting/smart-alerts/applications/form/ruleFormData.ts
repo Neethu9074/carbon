@@ -4,15 +4,16 @@
  */
 
 import { operators } from 'in-analyze/applicationFilter';
+import { Option } from 'in-components/ComboBox';
 import { t } from 'in-i18n';
 
-export const ruleLogLevelOptions = Object.freeze([
+export const ruleLogLevelOptions: ReadonlyArray<Option> = Object.freeze([
   { value: 'ERROR', label: t('in-alerting:smartAlerts.applications.ruleForm.ruleLogLevelOptions.error') },
   { value: 'WARN', label: t('in-alerting:smartAlerts.applications.ruleForm.ruleLogLevelOptions.warning') },
   { value: 'ANY', label: t('in-alerting:smartAlerts.applications.ruleForm.ruleLogLevelOptions.any') }
 ]);
 
-export const ruleLogMessageOperatorOptions = Object.freeze([
+export const ruleLogMessageOperatorOptions: ReadonlyArray<Option> = Object.freeze([
   {
     value: operators.NOT_EMPTY,
     label: t('in-alerting:smartAlerts.applications.ruleForm.ruleLogMessageOperationOptions.notEmpty')
@@ -35,15 +36,15 @@ export const ruleLogMessageOperatorOptions = Object.freeze([
   }
 ]);
 
-export function getLogMessageRuleOperatorLabel(value) {
+export function getLogMessageRuleOperatorLabel(value: string): string {
   return ruleLogMessageOperatorOptions.filter(entry => entry.value === value)[0].label;
 }
 
-export function getLogLevelRuleOperatorLabel(value) {
+export function getLogLevelRuleOperatorLabel(value: string): string {
   return ruleLogLevelOptions.filter(entry => entry.value === value)[0].label;
 }
 
-export const ruleStatusCodeValueOptions = Object.freeze([
+export const ruleStatusCodeValueOptions: ReadonlyArray<Option> = Object.freeze([
   { value: '1', label: t('in-alerting:smartAlerts.applications.form.ruleStatusCodeValueOption1') },
   { value: '100', label: t('in-alerting:smartAlerts.applications.form.ruleStatusCodeValueOption100') },
   { value: '101', label: t('in-alerting:smartAlerts.applications.form.ruleStatusCodeValueOption101') },
@@ -130,6 +131,6 @@ export const ruleMetricNameOptions = Object.freeze({
   ]
 });
 
-export function getStatusCodeLabel(value) {
+export function getStatusCodeLabel(value: string): string {
   return ruleStatusCodeValueOptions.filter(entry => entry.value === value)[0]?.label ?? value.toString();
 }

@@ -214,7 +214,7 @@
             "title": "Escopo: onde a condição está acontecendo?"
           },
           "trigger": {
-            "label": "Acionar",
+            "label": "Acionador",
             "title": "Acionador: sobre o que você quer ser alertado?",
             "logMessageCardTitle": "Mensagem de log",
             "httpStatusCodesCardTitle": "Códigos de status HTTP"
@@ -655,7 +655,7 @@
         "alertPropertiesAlertProperties": "Propriedades de alerta",
         "buttonSave": "Salvar",
         "buttonCreate": "Criar",
-        "buttonMigrate": "Migrar o",
+        "buttonMigrate": "Migrar",
         "selectedBlueprint": "Blueprint selecionado",
         "buttonRecalculateBaseline": "Recalcular linha de base",
         "sensitivitySliderLow": "baixo",
@@ -782,7 +782,7 @@
         "scopeTitle": "Escopo: onde a condição está acontecendo?",
         "thresholdLabel": "Limite",
         "thresholdTitle": "Limite: quando a condição é violada?",
-        "triggerLabel": "Acionar",
+        "triggerLabel": "Acionador",
         "triggerTitle": "Acionador: sobre o que você quer ser alertado?",
         "JSErrorMessage": "Mensagem de Erro de JS",
         "HTTPStatusCode": "Código de status HTTP",

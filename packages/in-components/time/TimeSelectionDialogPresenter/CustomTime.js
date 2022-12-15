@@ -34,7 +34,7 @@ import { t } from 'in-i18n';
 import locals from './CustomTime.mless';
 
 const oneHour = hours.toMillis(1);
-const maximumWindow = days.toMillis(32);
+const maximumWindow = days.toMillis(31);
 
 export default function CustomTime({ timeConfig, onChange }) {
   const [form, setForm] = useState(createForm(timeConfig));

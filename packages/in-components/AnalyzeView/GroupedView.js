@@ -58,7 +58,7 @@ import { t } from 'in-i18n';
 
 import locals from './GroupedView.mless';
 
-export default function GroupedAnalyzeView(props) {
+export default function GroupedView(props) {
   const {
     backendQueryModelWithFacets,
     getData,
@@ -577,7 +577,7 @@ function actionColumns() {
 function defaultColorFunction(_, index) {
   return GROUP_COLORS[index];
 }
-GroupedAnalyzeView.propTypes = {
+GroupedView.propTypes = {
   ...childrenArgsAsPropTypes,
 
   getData: rpt.func.isRequired,

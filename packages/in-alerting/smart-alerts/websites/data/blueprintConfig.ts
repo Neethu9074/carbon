@@ -22,19 +22,22 @@ import getWebsiteRateMetricThresholdSuggestion from 'in-alerting/smart-alerts/we
 import getWebsiteMetricsThresholdSuggestion from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteMetricsThresholdSuggestion';
 import getWebsiteRateMetricAlertsPreview from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteRateMetricAlertsPreview';
 import getWebsiteMetricAlertsPreview from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteMetricAlertsPreview';
+import { thresholdTypeOptions } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/thresholdFormData';
 import { getApproximatedHistoricBaselineThresholdValue } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
+import { ADAPTIVE_BASELINE, isStaticThresholdConfig } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import getWebsiteRateMetric from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteRateMetric';
 import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 // @ts-expect-error needs conversion to TS
 import { availableFilterTags } from 'in-websites/tags';
 import { toTagFilterNumberOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
-import { isStaticThresholdConfig } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import { millis, number, percentage } from 'in-services/formatters/number';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { FixedTimeConfig } from 'in-stores/time/config';
 import { isNotBlank } from 'in-services/util/string';
+import { deepFreeze } from 'in-services/util/object';
+import { Option } from 'in-components/ComboBox';
 import { t } from 'in-i18n';
 
 const jsErrorMetricLabelsByName: Record<string, string> = Object.freeze({
@@ -63,6 +66,16 @@ export type MetricName =
 
 export type WebsitesAlertType = 'slowness' | 'specificJsError' | 'statusCode' | 'throughput' | 'customEvent';
 
+type ThresholdTypeOptions = readonly Option[];
+
+const websitesThresholdTypeOptions: ThresholdTypeOptions = deepFreeze([
+  ...thresholdTypeOptions,
+  {
+    value: ADAPTIVE_BASELINE,
+    label: t('in-alerting:smartAlerts.components.smartAlertDialog.thresholdTypeOptionAdaptiveBaseline')
+  }
+]);
+
 const baseBlueprint: BluePrintBase = Object.freeze({
   isCustomRateMetric: isCustomRateMetric,
   getMetricsRequest: metricName => (isCustomRateMetric(metricName) ? getWebsiteRateMetric : getWebsiteMetrics),
@@ -70,6 +83,7 @@ const baseBlueprint: BluePrintBase = Object.freeze({
     isCustomRateMetric(metricName) ? getWebsiteRateMetricAlertsPreview : getWebsiteMetricAlertsPreview,
   getThresholdSuggestionRequest: metricName =>
     isCustomRateMetric(metricName) ? getWebsiteRateMetricThresholdSuggestion : getWebsiteMetricsThresholdSuggestion,
+  getThresholdTypeOptions: () => websitesThresholdTypeOptions,
   thresholdDefaults: {
     operator: '>='
   },
@@ -111,7 +125,6 @@ const slownessBlueprintConfig: BluePrint = Object.freeze({
   getExtraAnalyzeLinkTagFilterFormModel: getExtraSlownessAnalyzeLinkTagFilterFormModel
 });
 
-// TODO check if we want to make this type public in constants.ts
 type NumberFormatter =
   | ((...args: any) => string)
   | {
@@ -238,6 +251,7 @@ interface BluePrintBase {
   readonly getAlertsPreviewRequest: (
     metricName: MetricName
   ) => typeof getWebsiteRateMetricAlertsPreview | typeof getWebsiteMetricAlertsPreview;
+  readonly getThresholdTypeOptions: () => ThresholdTypeOptions;
   readonly getThresholdSuggestionRequest: (
     metricName: MetricName
   ) => typeof getWebsiteRateMetricThresholdSuggestion | typeof getWebsiteMetricsThresholdSuggestion;

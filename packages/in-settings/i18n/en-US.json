@@ -315,6 +315,7 @@
     "kilobytes": "Kilobytes",
     "megabytes": "Megabytes",
     "count": "Count",
+    "statusValue": "Status Value",
     "scheduleMaintenanceWindow": "Schedule Maintenance Window",
     "changeMaintenanceWindow": "Change Maintenance Window",
     "allAlertsWillBeMutedForTheDurationOfThisMaintenanceWindow": "<strong>Caution!</strong> All alerts will be muted for the duration of this maintenance window. <strong>This might affect other users in your organization as well.</strong>",

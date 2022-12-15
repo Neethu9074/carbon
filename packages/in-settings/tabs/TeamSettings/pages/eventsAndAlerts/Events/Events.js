@@ -15,7 +15,7 @@ import {
   deprecatedValue,
   getEntityTypeOptionsOfBuiltInMetrics,
   getSeverityText,
-  isAppDataEntityType,
+  isDeprecatedAppDataEntityType,
   isBuiltInRule,
   migratedValue,
   needsMigrationAction
@@ -366,7 +366,9 @@ function Subscript({ entity }) {
   }
 
   function showDeprecated() {
-    return deprecateAppDataLegacyEventsEnabled && !isBuiltInRule(entity) && isAppDataEntityType(entity.entityType) ? (
+    return deprecateAppDataLegacyEventsEnabled &&
+      !isBuiltInRule(entity) &&
+      isDeprecatedAppDataEntityType(entity.entityType) ? (
       <span key="deprecated" className={locals.deprecated}>
         {t('in-settings:tabs.deprecated')}
       </span>
@@ -392,7 +394,9 @@ function createFilters(hiddenIds, type, severity, entityType, enabled) {
   if (type === migratedValue) {
     filters.push(entity => Boolean(entity.migrated));
   } else if (type === deprecatedValue) {
-    filters.push(entity => !isBuiltInRule(entity) && isAppDataEntityType(entity.entityType) && !entity.migrated);
+    filters.push(
+      entity => !isBuiltInRule(entity) && isDeprecatedAppDataEntityType(entity.entityType) && !entity.migrated
+    );
   } else if (type) {
     filters.push(entity => entity.type === type);
   }
@@ -420,7 +424,7 @@ function useLoadEventsFunction(withoutAppDataLegacyEvents, loadEntities) {
   if (hideAppDataLegacyEventsEnabled || withoutAppDataLegacyEvents) {
     return () =>
       loadEventsFunc().map(es => {
-        return es.filter(({ entityType }) => !isAppDataEntityType(entityType));
+        return es.filter(({ entityType }) => !isDeprecatedAppDataEntityType(entityType));
       });
   }
 
