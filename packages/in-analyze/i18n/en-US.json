@@ -248,7 +248,8 @@
   },
   "analyzeHeader": {
     "title": "Analytics",
-    "analyzeInfrastructureSelectedTitle": "Analyze Infrastructure"
+    "analyzeInfrastructureSelectedTitle": "Analyze Infrastructure",
+    "readDocs": "Read docs"
   },
   "filterBar": {
     "keyValueBarItem": {
