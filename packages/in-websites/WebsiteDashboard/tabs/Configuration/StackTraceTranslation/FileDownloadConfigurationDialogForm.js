@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { addSourceMapDownloadConfiguration, updateSourceMapDownloadConfiguration } from 'in-websites/api/websites';
 import { notBlankValidator } from 'in-services/validators/string';
 import { isBlank, isNotBlank } from 'in-services/util/string';
+import { close } from 'in-components/DialogPresenter/store';
 import { t } from 'in-i18n';
 
 export function createForm(config) {
