@@ -64,10 +64,12 @@ export default function Results(props) {
     detailId
   } = props;
 
-  const getData = useCallback(params => getTableData({ ...params, hiddenCalls, fastQueryModeEnabled }), [
-    hiddenCalls,
-    fastQueryModeEnabled
-  ]);
+  const getData = useCallback(
+    params => {
+      return getTableData({ ...params, hiddenCalls, fastQueryModeEnabled });
+    },
+    [hiddenCalls, fastQueryModeEnabled]
+  );
 
   let content = (
     <UngroupedViewTable
@@ -121,6 +123,7 @@ export default function Results(props) {
 const truncateTagFilterValue = value => {
   return value.slice(0, 512);
 };
+
 function getTableData({
   timeConfig,
   backendQueryModel,
