@@ -60,7 +60,7 @@ function RenderInputField({
 
   return (
     <>
-      <Tooltip content={inputValue} align="bottomMiddle">
+      <Tooltip content={inputValue} align="bottomMiddle" delay={500}>
         <div className={locals.inputFillSpace}>
           <Input
             {...remainingInputProps}
