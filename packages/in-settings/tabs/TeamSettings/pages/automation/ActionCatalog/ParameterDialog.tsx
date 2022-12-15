@@ -76,7 +76,7 @@ export default function ParameterDialog({ form, onChange, idToEdit }: ParameterD
       name,
       label,
       description,
-      required,
+      required: type === 'vault' ? true : required,
       hidden: hidden.value,
       value: paramValue,
       secured: false,
