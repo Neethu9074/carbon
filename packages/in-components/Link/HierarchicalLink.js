@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
@@ -49,9 +49,10 @@ export default function HierarchicalLink({
         });
   }, [snapshotId, pathname, timeConfig]);
 
-  const $hierarchy = calculateHierarchy
-    ? getPhysicalHierarchy({ snapshotId, includeCluster: false, timeConfig })
-    : alwaysNull;
+  const $hierarchy = useMemo(
+    () => (calculateHierarchy ? getPhysicalHierarchy({ snapshotId, includeCluster: false, timeConfig }) : alwaysNull),
+    [snapshotId, timeConfig, calculateHierarchy]
+  );
 
   const hierarchy = useObservable($hierarchy, [snapshotId, timeConfig, calculateHierarchy]);
 
