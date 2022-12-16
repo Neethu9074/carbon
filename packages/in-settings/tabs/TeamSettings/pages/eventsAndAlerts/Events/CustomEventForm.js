@@ -46,8 +46,11 @@ const queryIsValid = just([true, true]);
 // start showing the progress indicator for the query validation and prohibit saving the form as long as the query
 // validation is in progress.
 const queryInput = create();
+// 2. queryValidationFinished emits when the subscription doing the validation has produced a new result, thus we now
+// can stop the progress indicator for the query validation and enable saving the form again.
+const queryValidationFinished = create();
 
-export default function EventForm({
+export default function CustomEventForm({
   form,
   setForm,
   onChange,
@@ -56,9 +59,14 @@ export default function EventForm({
   disabled,
   entity
 }) {
-  let queryValidationFinished = create();
+  useEffect(() => {
+    if (isNotBlank(entity.query)) {
+      queryInput.emit(entity.query);
+    }
+    // Deliberately executing Mixpanel tracking on these prop changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const entityType = form.get('entityType')?.value;
-
   const pluginsWithCustomMetrics = useObservable(() => {
     if (isCustomDataSourceSelected(form)) {
       return getPluginsWithCustomMetricsOptionsObservable();
@@ -86,27 +94,11 @@ export default function EventForm({
     []
   );
   const [queryValidationInProgress, setQueryValidationInProgress] = useState(false);
-  queryValidationFinished = useObservable(
-    queryValidationFinished.distinct().tap(finished => {
-      if (finished) {
-        setQueryValidationProgressState(false, setQueryValidationInProgress, setSaveEnabled);
-      }
-      queryValidationFinished.emit(false);
-    }),
-    [setQueryValidationInProgress, setSaveEnabled]
-  );
   const selectedApplicationName = form.get('application') ? form.get('application').value : '';
   const existingApplication =
     selectedApplicationName === null || isBlank(selectedApplicationName)
       ? null
       : getSelectedApplicationConfigsByName(selectedApplicationName);
-  useEffect(() => {
-    if (isNotBlank(entity.query)) {
-      queryInput.emit(entity.query);
-    }
-    // Deliberately executing Mixpanel tracking on these prop changes
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [entity, queryInput]);
 
   addCurrentCustomMetricToListIfMissing(customMetricsForPlugin, form);
 
