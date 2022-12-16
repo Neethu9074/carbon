@@ -5,9 +5,9 @@
  */
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { Result, GetAdaptiveBaselineModelQuery } from 'in-types';
+import { Result, GetApplicationAdaptiveBaselineModelQuery } from 'in-types';
 
-export default createResultSubscriptionFactory<GetAdaptiveBaselineModelQuery, Result<string>>({
-  eventId: 'getAdaptiveBaselineModel',
+export default createResultSubscriptionFactory<GetApplicationAdaptiveBaselineModelQuery, Result<string>>({
+  eventId: 'getApplicationAdaptiveBaselineModel',
   memoizeFor: 1000
 });

@@ -5,11 +5,14 @@
  */
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { Result, GetAdaptiveBaselinePredictionsQuery } from 'in-types';
+import { Result, GetApplicationAdaptiveBaselinePredictionsQuery } from 'in-types';
 import { MetricDataSeries } from 'in-applications/subscriptions/types';
 
-export default createResultSubscriptionFactory<GetAdaptiveBaselinePredictionsQuery, Result<MetricDataSeries>>({
-  eventId: 'getAdaptiveBaselinePredictions',
+export default createResultSubscriptionFactory<
+  GetApplicationAdaptiveBaselinePredictionsQuery,
+  Result<MetricDataSeries>
+>({
+  eventId: 'getApplicationAdaptiveBaselinePredictions',
   memoizeFor: 0 // because subscribers rely on more than just the
   // latest value (and there is not an easy way to memoize all values of an observable)
   //
