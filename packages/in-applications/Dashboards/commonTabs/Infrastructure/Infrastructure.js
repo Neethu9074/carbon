@@ -30,7 +30,7 @@ import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getOpenstackRegionDashboard } from 'in-openstack/navigation/paths';
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
 import { useVspehereEntityLink } from 'in-vsphere/navigation/paths';
-import { getIbmzZhmcDashboard } from 'in-zhmc/navigation/paths';
+import { useIbmzZhmcDashboard } from 'in-zhmc/navigation/paths';
 import { getIbmpPhmcDashboard } from 'in-phmc/navigation/paths';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { getForgeComponent } from 'in-sdk/getForgeComponent';
@@ -292,6 +292,8 @@ function WithPhmcPhysicalContext({ children, phmc }) {
 }
 
 function WithZhmcPhysicalContext({ children, zhmc }) {
+  const getIbmzZhmcDashboard = useIbmzZhmcDashboard();
+
   return (
     <div className={locals.linkWithMetaEntities}>
       {children}

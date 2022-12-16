@@ -4,11 +4,11 @@
  */
 
 import React, { ForwardedRef, forwardRef } from 'react';
-import * as Immutable from 'immutable';
 
 import { EventPlaceholder } from '@instana/components/types/components/SvgIcon/types';
 import { Observable } from '@instana/observables';
 import { Link } from '@instana/components';
+import { Snapshot } from '@instana/types';
 
 import { noop } from 'in-services/util/function';
 import WithIcon from 'in-components/WithIcon';
@@ -16,17 +16,19 @@ import theme from 'in-themes';
 
 import locals from './EntityLink.mless';
 
-type EntityLinkProps = {
+export type SnapshotMap = Map<keyof Snapshot, Snapshot[keyof Snapshot]>;
+
+interface EntityLinkProps {
   label: string;
   plugin?: string;
-  snapshot?: Immutable.Map<string, unknown>;
-  icon: string;
+  snapshot?: SnapshotMap;
+  icon?: string;
   tooltip?: string;
   href$: Observable<string>;
   specialIndicator?: JSX.Element;
   subscriptComponent?: JSX.Element;
   onClick?: (e: EventPlaceholder) => void;
-};
+}
 
 const EntityLink = forwardRef(function EntityLink(
   {
@@ -64,7 +66,7 @@ const EntityLink = forwardRef(function EntityLink(
 
   const innerContent =
     plugin || snapshot || icon ? (
-      <WithIcon plugin={plugin} snapshot={snapshot} icon={icon} iconColor={iconColor} tooltip={tooltip}>
+      <WithIcon plugin={plugin ?? ''} snapshot={snapshot} icon={icon} iconColor={iconColor} tooltip={tooltip}>
         {tooltipContent}
       </WithIcon>
     ) : (
