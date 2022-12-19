@@ -5,6 +5,7 @@
  */
 
 import React, { useState } from 'react';
+import classNames from 'classnames';
 
 import { ColumnizedContent, Li, Link, Ul } from '@instana/components';
 import { useObservable } from '@instana/hooks';
@@ -196,7 +197,7 @@ export function TagEntry({
   return (
     <>
       <Li
-        className={locals.li}
+        className={classNames(locals.li, isContainerTag && locals.sparkchartsLi)}
         size="compact"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -212,12 +213,15 @@ export function TagEntry({
           uniqueTagName={uniqueTagName}
           isHovered={isHovered}
         />
+        {isContainerTag && (
+          <>
+            <div className={locals.break} />
+            <div className={locals.sparkcharts}>
+              <ContainerPerformanceSparkcharts snapshotId={tag.stringValue} />
+            </div>
+          </>
+        )}
       </Li>
-      {isContainerTag && (
-        <Li className={locals.sparkchartsLi} size="normal">
-          <ContainerPerformanceSparkcharts snapshotId={tag.stringValue} />
-        </Li>
-      )}
     </>
   );
 }

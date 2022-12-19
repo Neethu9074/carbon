@@ -56,10 +56,11 @@
   }
 
   .sparkchartsLi {
-    min-height: 5rem;
-    padding: 0 1rem 0 16rem;
-    background: var(--colors-white);
-    margin-top: -0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .sparkcharts {
+    padding: 0.8125rem 1rem 0.5rem 16rem;
   }
 
   .link {
@@ -79,5 +80,9 @@
 
   .applicationListOverlay {
     width: 25rem;
+  }
+
+  .break {
+    flex-basis: 100%;
   }
 }
