@@ -20,7 +20,7 @@ export const thresholdOperatorOptions = Object.freeze([
   { value: '<', label: humanReadableThresholdOperator('<') }
 ]);
 
-export function humanReadableThresholdOperator(operator: string): string {
+export function humanReadableThresholdOperator(operator: ThresholdOperator): string {
   if (operator === '>=') {
     return '≥';
   }

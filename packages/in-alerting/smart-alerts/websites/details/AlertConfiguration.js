@@ -19,6 +19,7 @@ import ChartViewConfigurator from 'in-alerting/smart-alerts/components/smart-ale
 import { getStatusCodeLabel, getRuleOperatorLabel } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
+import { AlertThresholdInfos } from 'in-alerting/smart-alerts/websites/details/AlertThresholdInfos';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import CustomPayloadCard from 'in-alerting/smart-alerts/components/details/CustomPayloadCard';
 import WebsiteScopePath from 'in-alerting/smart-alerts/websites/components/WebsiteScopePath';
@@ -40,7 +41,8 @@ const initialChartConfigIndex = 0;
 
 export default function AlertConfiguration({ alertConfig }) {
   const {
-    rule: { operator, value, alertType, metricName, customEventName },
+    rule: { operator, value, alertType, metricName, aggregation, customEventName },
+    threshold,
     timeThreshold,
     granularity,
     alertChannelIds,
@@ -68,6 +70,14 @@ export default function AlertConfiguration({ alertConfig }) {
       <ListTitle>
         {t('in-websites:websiteDashboard.tabs.alerts.alertConfigurationListTitleAlertConfiguration')}
       </ListTitle>
+      <ExpandableLightCard
+        title={t('in-alerting:smartAlerts.details.header')}
+        useMaxAvailableHeight={false}
+        openByDefault
+        darkFrame
+      >
+        <AlertThresholdInfos threshold={threshold} rule={{ alertType, aggregation, metricName }} />
+      </ExpandableLightCard>
 
       <ChartViewConfigurator
         chartViewConfigs={chartViewConfigs}
