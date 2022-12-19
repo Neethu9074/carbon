@@ -16,14 +16,15 @@ export default function WebsitesAlertingChartWithErrorMessage(props) {
   const { alertConfigWithFormModel } = props;
   const blueprintConfig = getBlueprintConfig(alertConfigWithFormModel.rule.alertType);
 
-  const websiteId = alertConfigWithFormModel.websiteId;
-  const beaconType = blueprintConfig.getBeaconType(alertConfigWithFormModel.rule.metricName);
+  const { threshold, rule, websiteId } = alertConfigWithFormModel;
+  const { metricName } = rule;
+  const beaconType = blueprintConfig.getBeaconType(metricName);
 
   const isWebsiteAlertQueryValid = useMemo(() => {
-    const { isQueryValid } = createBoundedAlertQueryBuilder(websiteId, beaconType);
+    const { isQueryValid } = createBoundedAlertQueryBuilder(websiteId, beaconType, threshold?.type);
 
     return createIsAlertQueryValid(isQueryValid);
-  }, [websiteId, beaconType]);
+  }, [websiteId, beaconType, threshold.type]);
 
   return <AlertingChartWithErrorMessage queryValidator={isWebsiteAlertQueryValid} {...props} />;
 }

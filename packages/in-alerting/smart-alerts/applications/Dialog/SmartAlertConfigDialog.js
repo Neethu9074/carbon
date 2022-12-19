@@ -7,8 +7,8 @@ import React, { useEffect, useState, useMemo } from 'react';
 
 import { useObservable } from '@instana/hooks';
 
-import { useRemoveInvalidTagsFromFilterExpression } from 'in-alerting/smart-alerts/applications/hooks/useRemoveInvalidTagsFromFilterExpression';
 import useTagBasedApplicationPayloadConfigurator from 'in-alerting/smart-alerts/applications/hooks/useTagBasedApplicationPayloadConfigurator';
+import { useRemoveInvalidTagsFromFilterExpression } from 'in-alerting/smart-alerts/hooks/useRemoveInvalidTagsFromFilterExpression';
 import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertConfigDialogPresenter';
 import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/applications/components/useSimpleModePageNavigation';
 import { AdvancedModeFooter } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AdvancedModeFooter';
@@ -97,19 +97,18 @@ function SmartAlertConfigDialogWithQueryValidation({
   // we are validating only the user-defined part, not the whole enriched form model here,
   // because only that part can ever be invalid
   const { rule, tagFilterExpression, threshold } = alertConfigWithFormModel;
-  const { isQueryValid } = useMemo(() => {
+  const { isQueryValid, getTagCatalog } = useMemo(() => {
     const thresholdType = threshold.type;
     return getQueryBuilderForAlertType(rule.alertType, thresholdType);
-  }, [rule.alertType]);
+  }, [rule.alertType, threshold.type]);
 
   const isTagFilterFormModelValid = useIsTagFilterFormModelValid(tagFilterExpression, isQueryValid);
 
   const updateTagFilterExpression = filteredTagFilterExpression => {
     updateForm(form.updateIn(['tagFilterExpression'], f => f.setValue(filteredTagFilterExpression)));
   };
-  const thresholdType = alertConfigWithFormModel.threshold.type;
 
-  useRemoveInvalidTagsFromFilterExpression(rule, thresholdType, tagFilterExpression, updateTagFilterExpression);
+  useRemoveInvalidTagsFromFilterExpression(getTagCatalog, tagFilterExpression, updateTagFilterExpression);
 
   const isValid = blueprintConfig.isRuleComplete(rule) && isTagFilterFormModelValid;
 

@@ -56,7 +56,7 @@ export default function AlertConfiguration({ alertConfig }) {
   const beaconType = blueprintConfig.getBeaconType(metricName);
 
   const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator(beaconType, websiteId);
-  const AlertQueryBuilder = getQueryBuilderForBeaconType(beaconType).QueryBuilder;
+  const AlertQueryBuilder = getQueryBuilderForBeaconType(beaconType, alertConfig.threshold.type).QueryBuilder;
 
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
 

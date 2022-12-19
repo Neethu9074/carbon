@@ -8,25 +8,21 @@ import { useEffect } from 'react';
 import { useObservable } from '@instana/hooks';
 
 // @ts-expect-error Module needs to be translated to TS
-import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
-// @ts-expect-error Module needs to be translated to TS
 import { removeExcludedFilters } from 'in-alerting/smart-alerts/components/utils/tagfilterExpressionUtils';
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { countTagFilters } from 'in-alerting/smart-alerts/components/utils/countTagFilters';
-import { ApplicationAlertRule, Result, ThresholdType } from 'in-types';
 import { EnrichedTagCatalog } from 'in-services/tags/tagCatalog';
+import { GetTagCatalog } from 'in-components/QueryBuilder';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { Result } from 'in-types';
 
 export function useRemoveInvalidTagsFromFilterExpression(
-  rule: ApplicationAlertRule,
-  thresholdType: ThresholdType,
+  getTagCatalog: GetTagCatalog,
   tagFilterExpression: FormModelElement[],
   updateTagFilterExpression: (updatedExpression: FormModelElement[]) => void
 ) {
   const timeConfig = useTimeConfig();
-
-  const { getTagCatalog } = getQueryBuilderForAlertType(rule.alertType, thresholdType);
 
   // in the background, this will automatically handle the "race-condition", when getTagCatalog was
   // changed more than once while still loading, and it will automatically safely only

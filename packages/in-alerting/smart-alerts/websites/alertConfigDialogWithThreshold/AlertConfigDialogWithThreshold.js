@@ -13,6 +13,7 @@ import {
   createBoundedAlertQueryBuilder,
   createIsAlertQueryValid
 } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
+import { useRemoveInvalidTagsFromFilterExpression } from 'in-alerting/smart-alerts/hooks/useRemoveInvalidTagsFromFilterExpression';
 import useThresholdSuggestion from 'in-alerting/smart-alerts/websites/alertConfigDialogWithThreshold/useThresholdSuggestion';
 import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertConfigDialogPresenter';
 import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/applications/components/useSimpleModePageNavigation';
@@ -74,23 +75,27 @@ function SmartAlertConfigDialogWithQueryValidation({
   const { form, updateForm, startWithSimpleMode, editMode, withTrackCreate, withTrackClose, isSaving } = props;
   const [simpleMode, setSimpleMode] = useState(startWithSimpleMode);
 
-  const websiteId = alertConfigWithFormModel.websiteId;
-  const beaconType = blueprintConfig.getBeaconType(alertConfigWithFormModel.rule.metricName);
-
-  const { QueryBuilder: AlertQueryBuilder, isQueryValid } = useMemo(
-    () => createBoundedAlertQueryBuilder(websiteId, beaconType, tagSuggestionTimeConfig),
-    [websiteId, beaconType]
-  );
   // we are validating only the user-defined part, not the whole enriched form model here,
   // because only that part can ever be invalid
+  const { rule, tagFilterExpression, threshold, websiteId } = alertConfigWithFormModel;
+  const { metricName } = rule;
+  const beaconType = blueprintConfig.getBeaconType(metricName);
+
+  const { getTagCatalog, QueryBuilder: AlertQueryBuilder, isQueryValid } = useMemo(
+    () => createBoundedAlertQueryBuilder(websiteId, beaconType, threshold.type, tagSuggestionTimeConfig),
+    [websiteId, beaconType, threshold.type]
+  );
   const isAlertQueryValid = createIsAlertQueryValid(isQueryValid);
 
-  const isTagFilterFormModelValid = useIsTagFilterFormModelValid(
-    alertConfigWithFormModel.tagFilterExpression,
-    isAlertQueryValid
-  );
+  const isTagFilterFormModelValid = useIsTagFilterFormModelValid(tagFilterExpression, isAlertQueryValid);
 
-  const isValid = blueprintConfig.isRuleComplete(alertConfigWithFormModel.rule) && isTagFilterFormModelValid;
+  const updateTagFilterExpression = filteredTagFilterExpression => {
+    updateForm(form.updateIn(['tagFilterExpression'], f => f.setValue(filteredTagFilterExpression)));
+  };
+
+  useRemoveInvalidTagsFromFilterExpression(getTagCatalog, tagFilterExpression, updateTagFilterExpression);
+
+  const isValid = blueprintConfig.isRuleComplete(rule) && isTagFilterFormModelValid;
 
   const [thresholdResult, setThresholdResult] = useState();
   useThresholdSuggestion(form, updateForm, setThresholdResult, {
@@ -106,8 +111,6 @@ function SmartAlertConfigDialogWithQueryValidation({
     beaconType,
     alertConfigWithFormModel.customPayloadFields
   );
-
-  const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator(beaconType, websiteId);
 
   const { step, setStep, simpleModeStep, backOrCancel, handleSubmit } = useSimpleModePageNavigation({
     stepConfigs,
@@ -144,6 +147,8 @@ function SmartAlertConfigDialogWithQueryValidation({
       scrollToFirstFormError={() => triggerScrollToInvalidItem()}
     />
   );
+
+  const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator(beaconType, websiteId);
 
   return (
     <AlertConfigDialogPresenter
