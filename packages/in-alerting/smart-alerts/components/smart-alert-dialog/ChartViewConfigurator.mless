@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+@import 'in-themes/active.less';
+
 :local {
   .container {
     // this magic number was found by measuring the height which is needed after
@@ -31,5 +33,9 @@
 
   .headerTransparent {
     background-color: transparent;
+  }
+
+  .singleChartViewConfig {
+    font-size: @lib__typography__body__font-size;
   }
 }

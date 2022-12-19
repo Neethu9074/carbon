@@ -6,6 +6,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
+import { isAdaptiveBaselineConfig } from '@instana/types';
+
+import {
+  chartViewConfig24hours,
+  chartViewConfigs as defaultChartViewConfigs
+} from 'in-alerting/components/Chart/chartViewConfig';
 import WebsitesAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/websites/chart/WebsitesAlertingChartWithErrorMessage';
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/smart-alert-dialog/TimeThresholdDescription';
 import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/websites/hooks/useTagBasedPayloadConfigurator';
@@ -54,6 +60,9 @@ export default function AlertConfiguration({ alertConfig }) {
 
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
 
+  const thresholdType = alertConfig.threshold;
+  const chartViewConfigs = isAdaptiveBaselineConfig(thresholdType) ? [chartViewConfig24hours] : defaultChartViewConfigs;
+
   return (
     <AlertDetailsCard>
       <ListTitle>
@@ -61,10 +70,7 @@ export default function AlertConfiguration({ alertConfig }) {
       </ListTitle>
 
       <ChartViewConfigurator
-        alertConfigWithFormModel={{
-          ...alertConfig,
-          tagFilterExpression: tagFilterFormModel
-        }}
+        chartViewConfigs={chartViewConfigs}
         onChartViewConfigChange={index => setSelectedChartViewConfigIndex(index)}
         selectedChartViewConfigIndex={selectedChartViewConfigIndex}
         className={locals.chartContainer}

@@ -6,6 +6,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { isAdaptiveBaselineConfig } from '@instana/types';
+
+import {
+  chartViewConfig24hours,
+  chartViewConfigs as defaultChartViewConfigs
+} from 'in-alerting/components/Chart/chartViewConfig';
 import WebsitesAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/websites/chart/WebsitesAlertingChartWithErrorMessage';
 import IncompleteChartPlaceholder from 'in-alerting/smart-alerts/components/smart-alert-dialog/IncompleteChartPlaceholder';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/smart-alert-dialog/ChartViewConfigurator';
@@ -18,9 +24,13 @@ export default function SimpleAlertConfigDialogChart({ form, onChartViewConfigCh
   const alertType = alertConfigWithFormModel.rule.alertType;
   const blueprintConfig = getBlueprintConfig(alertType);
   const isRuleComplete = blueprintConfig.isRuleComplete(alertConfigWithFormModel.rule);
+  const thresholdType = alertConfigWithFormModel.threshold;
+  const chartViewConfigs = isAdaptiveBaselineConfig(thresholdType) ? [chartViewConfig24hours] : defaultChartViewConfigs;
+
   return (
     <ChartViewConfigurator
       onChartViewConfigChange={onChartViewConfigChange}
+      chartViewConfigs={chartViewConfigs}
       selectedChartViewConfigIndex={selectedChartViewConfigIndex}
       className={locals.position}
       framed
