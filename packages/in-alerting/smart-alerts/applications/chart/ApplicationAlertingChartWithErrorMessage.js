@@ -9,11 +9,11 @@ import PropTypes from 'prop-types';
 import { Message, Spacer } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
+import onSubscribeBaselinePredictions from 'in-alerting/smart-alerts/applications/subscriptions/getApplicationAdaptiveBaselinePredictions';
 import {
   PER_AP_SERVICE,
   PER_AP_ENDPOINT
 } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
-import onSubscribeBaselinePredictions from 'in-alerting/smart-alerts/applications/subscriptions/getAdaptiveBaselinePredictions';
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import AlertingChartWithErrorMessage from 'in-alerting/components/Chart/AlertingChartWithErrorMessage';
 import { isEntitySelectionValid } from 'in-alerting/smart-alerts/applications/form/formUtils';

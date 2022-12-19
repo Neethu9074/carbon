@@ -9,7 +9,7 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
-import onSubscribeBaselineModel from 'in-alerting/smart-alerts/applications/subscriptions/getAdaptiveBaselineModel';
+import onSubscribeBaselineModel from 'in-alerting/smart-alerts/applications/subscriptions/getApplicationAdaptiveBaselineModel';
 import { alwaysNull } from 'in-services/fixedStreams';
 import withUrlState from 'in-hoc/withUrlState';
 import Input from 'in-components/form/Input';
@@ -135,6 +135,6 @@ function AdaptiveBaselineModel({
   );
 }
 
-export function getAdaptiveBaselineModel(alertConfigId, alertCreated, applicationId, entityId) {
+function getAdaptiveBaselineModel(alertConfigId, alertCreated, applicationId, entityId) {
   return onSubscribeBaselineModel({ alertConfigId, alertCreated, applicationId, entityId });
 }
