@@ -16,6 +16,7 @@ import {
   isAgentMonitoringIssueEvent,
   isApplicationSmartAlertEvent,
   isWebsiteSmartAlertEvent,
+  isInfraSmartAlertEvent,
   getTimeConfigForSnapshotRetrieval,
   isIbmMqFileTransferIssueEvent
 } from 'in-events/components/eventUtil';
@@ -30,6 +31,7 @@ import OfflineEventDescription from 'in-events/components/legacy/OfflineEventDes
 import AssociatedActions from 'in-events/components/AutomationActions/AssociatedActions';
 import WebsiteEventContent from 'in-events/components/EventContent/WebsiteEventContent';
 import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
+import InfraEventContent from 'in-events/components/EventContent/InfraEventContent';
 import SubEntityInformation from 'in-events/components/legacy/SubEntityInformation';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
@@ -91,6 +93,7 @@ const EventContent = connectTo(
   }),
   function EventContent({ event, latestSnapshot, snapshot }) {
     const timeConfig = getTimeConfigForSnapshotRetrieval(event, latestSnapshot);
+
     if (isWebsiteSmartAlertEvent(event)) {
       return <WebsiteEventContent event={event} />;
     }
@@ -101,6 +104,10 @@ const EventContent = connectTo(
 
     if (isKubernetesEvent(event)) {
       return <KubernetesEventContent event={event} timeConfig={timeConfig} />;
+    }
+
+    if (isInfraSmartAlertEvent(event)) {
+      return <InfraEventContent event={event} />;
     }
 
     const eventType = getEventType(event);

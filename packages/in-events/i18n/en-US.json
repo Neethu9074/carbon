@@ -160,5 +160,8 @@
     "fixSuggestion": {
       "podContainerNotReady": "The pod's container is not ready. Check that the node has capacity and/or the image can be retrieved from the specified image path."
     }
+  },
+  "infraSmartAlerts": {
+    "pseudoAggregatedEntityLabel": "{{entityName}} (aggregated)"
   }
 }

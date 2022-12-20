@@ -30,6 +30,7 @@ import { UNKNOWN_LABEL } from 'in-sdk/snapshot/legacy';
 import { isNotBlank } from 'in-services/util/string';
 import { isLoading } from 'in-services/util/result';
 import PluginIcon from 'in-components/PluginIcon';
+import { getPluginName } from 'in-sdk/pluginName';
 import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
@@ -92,13 +93,23 @@ const OnEntity = connectTo(
   props => {
     const {
       rawEvent,
-      rawEvent: { entityType, entityLabel }
+      rawEvent: { entityType, entityLabel, plugin, smartAlert }
     } = props;
 
     if (isNotBlank(entityLabel)) {
       // use entity label of the event right away if available
       return {
         label: just(entityLabel)
+      };
+    }
+
+    if (smartAlert && isInfraEntityType(entityType)) {
+      // Infra Smart Alerts use a pseudo-entity for aggregated entities
+      const pseudoEntityLabel = t('in-events:infraSmartAlerts.pseudoAggregatedEntityLabel', {
+        entityName: getPluginName(plugin, 1)
+      });
+      return {
+        label: just(pseudoEntityLabel)
       };
     }
 
