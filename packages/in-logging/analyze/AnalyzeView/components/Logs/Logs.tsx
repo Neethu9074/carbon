@@ -194,7 +194,7 @@ function getTableData(props: GetDataParams) {
     retrievalSize,
     afterKey,
     tagFilterExpression: backendQueryModel,
-    tags: [LOG_CUSTOM, LOG_LEVEL, LOG_EXCEPTION_TYPE, LOG_EXCEPTION_MESSAGE, LOG_EXCEPTION_STACK_TRACE],
+    requestedTags: [LOG_CUSTOM, LOG_LEVEL, LOG_EXCEPTION_TYPE, LOG_EXCEPTION_MESSAGE, LOG_EXCEPTION_STACK_TRACE],
     orderDirection: orderBy?.direction
   });
 }

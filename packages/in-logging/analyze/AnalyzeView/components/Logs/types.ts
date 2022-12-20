@@ -4,7 +4,9 @@
  * Copyright IBM Corp. 2022
  */
 
-import {StateManagementChildProps} from 'in-components/AnalyzeView/StateManagement';
+import {TagFilterExpressionElementUnion, TimeConfig} from '@instana/types';
+
+import { StateManagementChildProps } from 'in-components/AnalyzeView/StateManagement';
 
 export type SortDirection = 'ASC' | 'DESC';
 
@@ -16,6 +18,16 @@ export type OrderBy = {
 export interface LogsProps extends StateManagementChildProps {
   withoutHeader?: boolean;
   detailId?: string;
+}
+
+export interface GetDataParams {
+  timeConfig: TimeConfig;
+  orderBy: OrderBy;
+  backendQueryModel: TagFilterExpressionElementUnion;
+  dataSource: string;
+  initialLogLines: number;
+  retrievalSize: number;
+  afterKey?: string;
 }
 
 export type HeaderActionProps = {
