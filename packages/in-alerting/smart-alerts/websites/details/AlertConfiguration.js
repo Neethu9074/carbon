@@ -118,6 +118,7 @@ export default function AlertConfiguration({ alertConfig }) {
               }}
               viewConfig={chartViewConfig}
               blueprintConfig={blueprintConfig}
+              isAlertDetailView
             />
           </>
         )}

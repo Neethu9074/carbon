@@ -95,6 +95,7 @@ export default function WebsiteEventContent({ event }) {
               viewConfig={chartViewConfig}
               blueprintConfig={blueprintConfig}
               setMetricResultPrecision={setMetricResultPrecision}
+              isEventsView
             />
           </Card>
         </Col>
