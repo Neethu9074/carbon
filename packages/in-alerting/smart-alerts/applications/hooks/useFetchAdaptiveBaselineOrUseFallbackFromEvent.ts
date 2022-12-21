@@ -4,13 +4,30 @@
  * Copyright IBM Corp. 2022
  */
 
+import { TimeConfig, ApplicationAlertConfigWithMetadata } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import getBaselinePredictions from 'in-alerting/smart-alerts/applications/subscriptions/getApplicationAdaptiveBaselinePredictions';
 import { extractBaselineFromResultsOrUseErrorFallback } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { pendingResult } from 'in-services/fixedObjects';
 
-export function useFetchAdaptiveBaselineOrUseFallbackFromEvent(props) {
+interface useFetchAdaptiveBaselineProps {
+  alertConfigWithFormModel: ApplicationAlertConfigWithMetadata;
+  viewConfig: {
+    timeConfig: TimeConfig;
+  };
+  eventBasedAdaptiveBaseline: [number, number][];
+  applicationId: string;
+  serviceId?: string;
+  endpointId?: string;
+}
+
+export function useFetchAdaptiveBaselineOrUseFallbackFromEvent(
+  props: useFetchAdaptiveBaselineProps
+): {
+  baseline: [number, number][];
+  error?: boolean;
+} {
   const {
     alertConfigWithFormModel: { created, id, granularity },
     viewConfig: { timeConfig },

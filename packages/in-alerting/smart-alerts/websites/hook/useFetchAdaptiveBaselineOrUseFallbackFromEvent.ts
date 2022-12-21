@@ -4,13 +4,27 @@
  * Copyright IBM Corp. 2022
  */
 
+import { TimeConfig, WebsiteAlertConfigWithMetadata } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import getBaselinePredictions from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteAdaptiveBaselinePredictions';
 import { extractBaselineFromResultsOrUseErrorFallback } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { pendingResult } from 'in-services/fixedObjects';
 
-export function useFetchAdaptiveBaselineOrUseFallbackFromEvent(props) {
+interface useFetchAdaptiveBaselineProps {
+  alertConfigWithFormModel: WebsiteAlertConfigWithMetadata; //{ created; id; granularity; websiteId };
+  viewConfig: {
+    timeConfig: TimeConfig;
+  };
+  eventBasedAdaptiveBaseline: [number, number][];
+}
+
+export function useFetchAdaptiveBaselineOrUseFallbackFromEvent(
+  props: useFetchAdaptiveBaselineProps
+): {
+  baseline: [number, number][];
+  error?: boolean;
+} {
   const {
     alertConfigWithFormModel: { created, id, granularity, websiteId },
     viewConfig: { timeConfig },
