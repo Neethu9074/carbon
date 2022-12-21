@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 
 import { Spacer, Message } from '@instana/components';
 
-import { useFetchAdaptiveBaselineOrUseFallbackFromEvent } from 'in-alerting/smart-alerts/websites/hook/useFetchAdaptiveBaselineOrUseFallbackFromEvent';
+import { useFetchAdaptiveBaselineOrUseFallbackFromEvent } from 'in-alerting/smart-alerts/websites/hooks/useFetchAdaptiveBaselineOrUseFallbackFromEvent';
 import {
   createBoundedAlertQueryBuilder,
   createIsAlertQueryValid
