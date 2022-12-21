@@ -87,23 +87,18 @@ WebsitesAlertingChartWithErrorMessage.propTypes = {
     eventBasedAdaptiveBaseline: PropTypes.array,
     id: PropTypes.string.isRequired,
     created: PropTypes.number,
+    websiteId: PropTypes.string.required,
     rule: PropTypes.shape({
       alertType: PropTypes.string
     }),
-    boundaryScope: PropTypes.string,
     threshold: PropTypes.object,
     builtIn: PropTypes.bool
   }).isRequired,
 
-  /**
-   * Optional websiteId used to scope down the metric in the chart to a single application entity
-   **/
-  websiteId: PropTypes.string,
-
   // enables rendering of a persisted baseline:
   isEventsView: PropTypes.bool,
-
-  // Optional
+  // enables rendering of a persisted baseline:
   isAlertDetailView: PropTypes.bool,
+
   setMetricResultPrecision: PropTypes.func
 };
