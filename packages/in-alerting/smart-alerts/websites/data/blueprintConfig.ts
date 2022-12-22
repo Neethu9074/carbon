@@ -88,7 +88,8 @@ interface BluePrintBase {
   readonly getRuleTagFilterFormModel: (alertRule: WebsiteAlertRule) => FormModelElement[];
   readonly getExtraAnalyzeLinkTagFilterFormModel: (
     alertConfig: WebsiteAlertConfig,
-    timeConfig: FixedTimeConfig
+    timeConfig: FixedTimeConfig,
+    adaptiveBaselineInfo?: Record<string, number>
   ) => FormModelElement[];
 }
 

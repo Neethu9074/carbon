@@ -4,7 +4,6 @@
  */
 
 import React, { useState } from 'react';
-import { Map } from 'immutable';
 
 import { Card } from '@instana/components';
 
@@ -29,6 +28,7 @@ import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import { fixateTimeConfig } from 'in-stores/time/config';
+import { emptyMap } from 'in-services/fixedImmutables';
 import { Col, Row } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
@@ -44,11 +44,11 @@ export default function ApplicationEventContent({ event }) {
   }
 
   const isGlobalSmartAlert = event.getIn(['metadata', 'globalSmartAlert'], false);
-  const adaptiveBaselineInfo = event.getIn(['metadata', 'adaptiveBaselineInfo'], Map({}))?.toJS() ?? {};
+  const adaptiveBaselineInfo = event.getIn(['metadata', 'adaptiveBaselineInfo'], emptyMap).toJS();
 
   const { applicationId } = eventEntity;
   const { tagFilterExpression, rule, boundaryScope, threshold } = alertConfig;
-  const alertType = rule.alertType;
+  const { alertType } = rule;
   const thresholdType = threshold.type;
   const { QueryBuilder } = getQueryBuilderForAlertType(alertType, thresholdType);
 
