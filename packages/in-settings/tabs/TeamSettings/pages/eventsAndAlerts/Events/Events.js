@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import classNames from 'classnames';
 
 import { Link, Spacer } from '@instana/components';
@@ -41,6 +41,7 @@ import WithSubscript from 'in-settings/components/WithSubscript';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { intersperse } from 'in-services/arrayUtils';
 import { getPluginName } from 'in-sdk/pluginName';
+import useUrlState from 'in-hooks/useUrlState';
 import ComboBox from 'in-components/ComboBox';
 import WithIcon from 'in-components/WithIcon';
 import Tooltip from 'in-components/Tooltip';
@@ -87,10 +88,20 @@ export default function Events({
    */
   withoutAppDataLegacyEvents
 }) {
-  const [type, setType] = useState(null);
-  const [severity, setSeverity] = useState(null);
-  const [entityType, setEntityType] = useState(null);
-  const [enabled, setEnabled] = useState(null);
+  const path = '/events';
+  const [{ enabled, entityType, severity, type }, setState] = useUrlState({
+    bind: [
+      { path, name: 'enabled' },
+      { path, name: 'entityType' },
+      { path, name: 'severity' },
+      { path, name: 'type' }
+    ]
+  });
+
+  const setType = type => setState({ type });
+  const setSeverity = severity => setState({ severity });
+  const setEntityType = entityType => setState({ entityType });
+  const setEnabled = enabled => setState({ enabled });
 
   const entityTypeOptionsOfCustomMetrics = useObservable(getPluginsWithCustomMetricsOptionsObservable, []);
   const allEntityTypeOptions = filterEntityTypeOptions(
