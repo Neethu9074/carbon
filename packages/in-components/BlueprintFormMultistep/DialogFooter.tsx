@@ -24,6 +24,7 @@ interface DialogFooterBasicProps {
   primaryActionDisabled?: boolean;
   saving?: boolean;
   secondaryActionText: string | React.ReactElement;
+  onPrimaryActionClick?: () => void;
 }
 
 interface DialogFooterWithCustomSaveActionProps extends DialogFooterBasicProps {
@@ -46,7 +47,8 @@ export default forwardRef<HTMLElement, DialogFooterProps>(function DialogFooter(
     secondaryActionText,
     onSecondaryActionClick,
     saving,
-    renderCustomSaveAction
+    renderCustomSaveAction,
+    onPrimaryActionClick
   },
   ref
 ) {
@@ -63,6 +65,7 @@ export default forwardRef<HTMLElement, DialogFooterProps>(function DialogFooter(
           formId={formId}
           disabled={primaryActionDisabled}
           isSaving={saving}
+          onClick={onPrimaryActionClick}
         >
           {primaryActionText ?? ''}
         </SaveButton>

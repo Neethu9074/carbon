@@ -7,13 +7,14 @@
 import React, { ReactNode } from 'react';
 import { MapForm } from 'formalistic';
 
-import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
+////import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import SelectActions from 'in-events/components/AutomationActions/action_associations_dialog/selectActions';
 import { EventProps } from 'in-events/components/AutomationActions/action_associations_dialog/SharedTypes';
 import { Action } from 'in-types';
-import { t } from 'in-i18n';
 
 import locals from './SimpleActionConfigDialogStep2.mless';
+
+//import { t } from 'in-i18n';
 
 interface SelectActionsProps {
   actions?: Action[];
@@ -32,10 +33,10 @@ interface SelectActionsProps {
 
 export default function SimpleActionConfigDialogStep2(props: SelectActionsProps) {
   return (
-    <SimpleModeStepContentWrapper headline={t('in-events:actionSelectionConfigDialogStep2Headline')}>
-      <div className={locals.actionContainer}>
-        <SelectActions {...props} />
-      </div>
-    </SimpleModeStepContentWrapper>
+    // <SimpleModeStepContentWrapper headline={t('in-events:actionSelectionConfigDialogStep2Headline')}>
+    <div className={locals.actionContainer}>
+      <SelectActions {...props} />
+    </div>
+    // </SimpleModeStepContentWrapper>
   );
 }

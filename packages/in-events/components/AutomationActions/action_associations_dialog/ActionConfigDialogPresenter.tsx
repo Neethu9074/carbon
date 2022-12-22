@@ -22,10 +22,10 @@ import locals from './ActionConfigDialogPresenter.mless';
 
 interface SimpleModeElementProps {
   step: number;
-  stepConfigs: {
-    title: string;
-    validateIntermediately?: string[][];
-  }[];
+  // stepConfigs: {
+  //   title: string;
+  //   validateIntermediately?: string[][];
+  // }[];
   messages: MessageType[];
   stepRenderers: ((props: any) => JSX.Element)[];
   onCreate: () => void;
@@ -54,10 +54,10 @@ interface ActionConfigDialogPresenterProps {
   setForm: React.Dispatch<React.SetStateAction<MapForm>>;
   footer: ReactNode;
   isSaving: boolean;
-  stepConfigs: {
-    title: string;
-    validateIntermediately?: string[][];
-  }[];
+  // stepConfigs: {
+  //   title: string;
+  //   validateIntermediately?: string[][];
+  // }[];
   stepRenderers: ((props: any) => JSX.Element)[];
   SimpleModeElement: (props: SimpleModeElementProps) => JSX.Element;
 }

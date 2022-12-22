@@ -8,9 +8,9 @@ import { MapForm } from 'formalistic';
 import { ReactNode } from 'react';
 import React from 'react';
 
-import SimpleActionConfigDialogStep1 from 'in-events/components/AutomationActions/action_associations_dialog/steps/SimpleActionConfigDialogStep1';
+//import SimpleActionConfigDialogStep1 from 'in-events/components/AutomationActions/action_associations_dialog/steps/SimpleActionConfigDialogStep1';
 import SimpleActionConfigDialogStep2 from 'in-events/components/AutomationActions/action_associations_dialog/steps/SimpleActionConfigDialogStep2';
-import { blueprintConfig } from 'in-events/components/AutomationActions/action_associations_dialog/steps/simpleModeBluePrints';
+//import { blueprintConfig } from 'in-events/components/AutomationActions/action_associations_dialog/steps/simpleModeBluePrints';
 import { EventProps } from 'in-events/components/AutomationActions/action_associations_dialog/SharedTypes';
 import { Action } from 'in-types';
 import { t } from 'in-i18n';
@@ -32,17 +32,17 @@ interface SelectActionsParentProps {
 }
 
 export const stepConfigs = [
-  {
-    title: t('in-events:step1ActionAssociationsTitle')
-  },
+  // {
+  //   title: t('in-events:step1ActionAssociationsTitle')
+  // },
   {
     title: t('in-events:step2ActionAssociationsTitle'),
     validateIntermediately: [['actionIds']]
   }
 ];
 export const stepRenderers = [
-  (parentProps: SelectActionsParentProps) => (
-    <SimpleActionConfigDialogStep1 blueprintConfig={blueprintConfig} {...parentProps} />
-  ),
+  // (parentProps: SelectActionsParentProps) => (
+  //   <SimpleActionConfigDialogStep1 blueprintConfig={blueprintConfig} {...parentProps} />
+  // ),
   (parentProps: SelectActionsParentProps) => <SimpleActionConfigDialogStep2 {...parentProps} />
 ];

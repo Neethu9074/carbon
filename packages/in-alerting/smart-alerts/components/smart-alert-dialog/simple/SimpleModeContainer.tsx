@@ -14,7 +14,7 @@ import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/simpl
 
 interface SimpleModeContainerProps {
   step: number;
-  stepConfigs: StepConfigs;
+  stepConfigs?: StepConfigs;
   stepRenderers: ((props?: SimpleModeContainerProps) => React.ReactNode)[];
   messages: MessageType[];
 }
@@ -28,7 +28,7 @@ export default function SimpleModeContainer(props: SimpleModeContainerProps) {
         (renderer, idx) =>
           step === idx && (
             <div className={locals.scrollWrapper} key={idx}>
-              <StepProgressBar stepTitles={mapTitles(stepConfigs)} step={step} />
+              {stepConfigs && <StepProgressBar stepTitles={mapTitles(stepConfigs)} step={step} />}
               <div className={locals.minStableHeight}>
                 {/* need to wrap this with an additional element, because
                  a shared component used here is using 100% height of the parent. */
@@ -54,7 +54,7 @@ SimpleModeContainer.propTypes = {
       title: PropTypes.string.isRequired,
       validateIntermediately: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string))
     })
-  ).isRequired,
+  ),
   stepRenderers: PropTypes.arrayOf(PropTypes.func).isRequired,
   messages: PropTypes.arrayOf(PropTypes.object).isRequired
 };
