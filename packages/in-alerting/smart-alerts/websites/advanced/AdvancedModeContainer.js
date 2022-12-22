@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { isAdaptiveBaselineConfig } from '@instana/types';
+
 import {
   websitesAlertingAdditionalPropsAlertLevelChanged,
   websitesAlertingAdditionalPropsDescriptionChanged,
@@ -69,6 +71,13 @@ export default function AdvancedModeContainer(props) {
   const isSpecificJsErrorBlueprint = blueprintConfig.type === 'specificJsError';
   const isCustomEvent = blueprintConfig.type === 'customEvent';
 
+  const resetChartConfigSelectionWhenAdaptiveBaseline = updatedForm => {
+    if (isAdaptiveBaselineConfig(updatedForm.get('threshold').toJS())) {
+      onChartViewConfigChange(0);
+    }
+    return updateForm(updatedForm);
+  };
+
   return (
     <StepsContainer
       messages={messages}
@@ -99,7 +108,7 @@ export default function AdvancedModeContainer(props) {
                 >
                   <StaticOrAdaptiveSwitch
                     form={form}
-                    setForm={updateForm}
+                    setForm={resetChartConfigSelectionWhenAdaptiveBaseline}
                     onThresholdTypeChange={onThresholdTypeChange}
                   />
                 </LightCard>
