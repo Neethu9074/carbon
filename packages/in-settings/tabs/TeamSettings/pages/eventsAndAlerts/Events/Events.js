@@ -37,8 +37,9 @@ import { getPluginsWithCustomMetricsOptionsObservable } from 'in-settings/tabs/T
 import { deprecateAppDataLegacyEventsEnabled, hideAppDataLegacyEventsEnabled } from 'in-services/featureFlags';
 import List, { createNewEntityButton, leftHeaderWithSelectAll } from 'in-settings/components/List';
 import { openEventSubmitFormTracker, viewEventTracker } from 'in-settings/tracker';
+import { compareIgnoreCase, isBlank } from 'in-services/util/string';
+import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import WithSubscript from 'in-settings/components/WithSubscript';
-import { compareIgnoreCase } from 'in-services/util/string';
 import { intersperse } from 'in-services/arrayUtils';
 import { getPluginName } from 'in-sdk/pluginName';
 import useUrlState from 'in-hooks/useUrlState';
@@ -69,6 +70,30 @@ const enabledOptions = Object.freeze([
   { value: false, label: t('in-settings:tabs.disabled') }
 ]);
 
+function buildBooleanSerializer() {
+  return function(v) {
+    if (v === false) return 'false';
+    if (v) return 'true';
+    return undefined;
+  };
+}
+
+function buildJsonParser(fallback = null) {
+  return str => {
+    if (isBlank(str)) {
+      return fallback;
+    }
+
+    try {
+      if (str === 'false') return false;
+      if (str === 'true') return true;
+      return fallback;
+    } catch (e) {
+      return fallback;
+    }
+  };
+}
+
 export default function Events({
   setTitle = true,
   tableActions = defaultTableActions,
@@ -91,10 +116,10 @@ export default function Events({
   const path = '/events';
   const [{ enabled, entityType, severity, type }, setState] = useUrlState({
     bind: [
-      { path, name: 'enabled' },
-      { path, name: 'entityType' },
-      { path, name: 'severity' },
-      { path, name: 'type' }
+      { path, name: 'enabled', initialState: null, serializer: buildBooleanSerializer(), parser: buildJsonParser() },
+      { path, name: 'entityType', initialState: null },
+      { path, name: 'severity', initialState: null, parser: intParser },
+      { path, name: 'type', initialState: null }
     ]
   });
 
