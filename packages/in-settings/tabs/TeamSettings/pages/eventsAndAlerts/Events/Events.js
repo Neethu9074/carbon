@@ -70,29 +70,16 @@ const enabledOptions = Object.freeze([
   { value: false, label: t('in-settings:tabs.disabled') }
 ]);
 
-function buildBooleanSerializer() {
-  return function(v) {
-    if (v === false) return 'false';
-    if (v) return 'true';
-    return undefined;
-  };
-}
+const path = '/events';
 
-function buildJsonParser(fallback = null) {
-  return str => {
-    if (isBlank(str)) {
-      return fallback;
-    }
-
-    try {
-      if (str === 'false') return false;
-      if (str === 'true') return true;
-      return fallback;
-    } catch (e) {
-      return fallback;
-    }
-  };
-}
+const urlStateBinding = {
+  bind: [
+    { path, name: 'enabled', initialState: null, serializer: buildBooleanSerializer(), parser: buildJsonParser() },
+    { path, name: 'entityType', initialState: null },
+    { path, name: 'severity', initialState: null, parser: intParser },
+    { path, name: 'type', initialState: null }
+  ]
+};
 
 export default function Events({
   setTitle = true,
@@ -113,15 +100,7 @@ export default function Events({
    */
   withoutAppDataLegacyEvents
 }) {
-  const path = '/events';
-  const [{ enabled, entityType, severity, type }, setState] = useUrlState({
-    bind: [
-      { path, name: 'enabled', initialState: null, serializer: buildBooleanSerializer(), parser: buildJsonParser() },
-      { path, name: 'entityType', initialState: null },
-      { path, name: 'severity', initialState: null, parser: intParser },
-      { path, name: 'type', initialState: null }
-    ]
-  });
+  const [{ enabled, entityType, severity, type }, setState] = useUrlState(urlStateBinding);
 
   const setType = type => setState({ type });
   const setSeverity = severity => setState({ severity });
@@ -485,4 +464,28 @@ function filterEntityTypeOptions(withoutAppDataLegacyEvents, options) {
     return options.filter(({ value }) => !['application', 'service', 'endpoint'].includes(value));
   }
   return options;
+}
+
+function buildBooleanSerializer() {
+  return function(value) {
+    if (value === false) return 'false';
+    if (value) return 'true';
+    return '';
+  };
+}
+
+function buildJsonParser(fallback = null) {
+  return str => {
+    if (isBlank(str)) {
+      return fallback;
+    }
+
+    try {
+      if (str === 'false') return false;
+      if (str === 'true') return true;
+      return fallback;
+    } catch (e) {
+      return fallback;
+    }
+  };
 }
