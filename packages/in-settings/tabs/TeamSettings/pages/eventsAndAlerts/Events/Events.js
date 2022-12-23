@@ -37,9 +37,9 @@ import { getPluginsWithCustomMetricsOptionsObservable } from 'in-settings/tabs/T
 import { deprecateAppDataLegacyEventsEnabled, hideAppDataLegacyEventsEnabled } from 'in-services/featureFlags';
 import List, { createNewEntityButton, leftHeaderWithSelectAll } from 'in-settings/components/List';
 import { openEventSubmitFormTracker, viewEventTracker } from 'in-settings/tracker';
-import { compareIgnoreCase, isBlank } from 'in-services/util/string';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import WithSubscript from 'in-settings/components/WithSubscript';
+import { compareIgnoreCase } from 'in-services/util/string';
 import { intersperse } from 'in-services/arrayUtils';
 import { getPluginName } from 'in-sdk/pluginName';
 import useUrlState from 'in-hooks/useUrlState';
@@ -74,7 +74,7 @@ const path = '/events';
 
 const urlStateBinding = {
   bind: [
-    { path, name: 'enabled', initialState: null, serializer: buildBooleanSerializer(), parser: buildJsonParser() },
+    { path, name: 'enabled', initialState: null, parser: strictBooleanParser },
     { path, name: 'entityType', initialState: null },
     { path, name: 'severity', initialState: null, parser: intParser },
     { path, name: 'type', initialState: null }
@@ -466,26 +466,8 @@ function filterEntityTypeOptions(withoutAppDataLegacyEvents, options) {
   return options;
 }
 
-function buildBooleanSerializer() {
-  return function(value) {
-    if (value === false) return 'false';
-    if (value) return 'true';
-    return '';
-  };
-}
-
-function buildJsonParser(fallback = null) {
-  return str => {
-    if (isBlank(str)) {
-      return fallback;
-    }
-
-    try {
-      if (str === 'false') return false;
-      if (str === 'true') return true;
-      return fallback;
-    } catch (e) {
-      return fallback;
-    }
-  };
+function strictBooleanParser(str) {
+  if (str === 'false') return false;
+  if (str === 'true') return true;
+  return null;
 }
