@@ -1,0 +1,100 @@
+/*
+ * (c) Copyright IBM Corp. 2022
+ * (c) Copyright Instana Inc.
+ */
+
+import React from 'react';
+
+// import { megaBytes } from 'in-services/formatters/number';
+import Table from 'in-sdk/components/dashboard/Table';
+import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
+import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
+
+const cols = [
+  {
+    title: t('in-forge:plugins.oracleDB.sqlId'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.key;
+      },
+      getContent(value) {
+        return value;
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.oracleDB.userName'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.userName;
+      },
+      getContent(value) {
+        return value;
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.oracleDB.totalWaitTime'),
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.totalWaitTime / 1000;
+      },
+      getContent(value) {
+        return value;
+      }
+    }
+  }
+];
+
+export default connectTo(
+  props => {
+    return {
+      data: getRawPayloadWithTimestamp(props.snapshot.get('id'), 'topTenSQLWithHighIO1hr')
+    };
+  },
+
+  function T({ data }) {
+    if (!data || !data.get('raw_payload')) {
+      return null;
+    }
+    const TopTenSQLWithHighIOLast1HrPayload = data.get('raw_payload');
+    if (TopTenSQLWithHighIOLast1HrPayload.size === 0) {
+      return null;
+    }
+
+    const rows = TopTenSQLWithHighIOLast1HrPayload.toJS().map(sql => {
+      return {
+        key: sql.sqlId,
+        sqlText: sql.sqlText,
+        totalWaitTime: sql.totalWaitTime,
+        userName: sql.userName
+      };
+    });
+    return (
+      <Table
+        cardTitle={t('in-forge:plugins.oracleDB.topTenSQLWithHighIO1hr', { len: rows.length })}
+        withoutPadding
+        cols={cols}
+        rows={rows}
+        maxItemsPerPage={5}
+        getRowDetails={getDetails}
+        initialSortColumn={2}
+        initialSortDirection="desc"
+      />
+    );
+  }
+);
+
+function getDetails(row) {
+  return (
+    <div>
+      <label>{t('in-forge:plugins.oracleDB.sqlText')}</label>
+      <p />
+      <label>{row.sqlText}</label>
+    </div>
+  );
+}
