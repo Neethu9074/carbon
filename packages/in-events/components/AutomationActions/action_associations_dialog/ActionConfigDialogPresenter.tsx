@@ -14,6 +14,7 @@ import {
   EventProps
 } from 'in-events/components/AutomationActions/action_associations_dialog/SharedTypes';
 import SelectActions from 'in-events/components/AutomationActions/action_associations_dialog/selectActions';
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import { emptyObject } from 'in-services/fixedObjects';
 import { Action } from 'in-types';
@@ -79,6 +80,7 @@ export default function ActionConfigDialogPresenter(props: ActionConfigDialogPre
         })}
       >
         <div className={locals.actionContainer}>
+          <DashboardNotification type="info">you can place just text in here </DashboardNotification>
           <SelectActions
             setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
             numberOfActionChannelListRows={5}
