@@ -45,7 +45,6 @@ export default function ActionConfigDialog(props: ActionConfigDialogProps) {
   return (
     <ActionConfigDialogPresenter
       {...props}
-      step={0}
       formId={ACTION_ASSOCIATION_FORM_ID}
       handleSubmit={withTrackCreate}
       footer={footer}

@@ -21,20 +21,6 @@ import { t } from 'in-i18n';
 
 import locals from './ActionConfigDialogPresenter.mless';
 
-// interface SimpleModeElementProps {
-//   step: number;
-//   messages: MessageType[];
-//   onCreate: () => void;
-//   onClose: () => void;
-//   setSliderState: ({ slideInConfig, isVisible }: SetSliderStateProps) => void;
-//   setCustomSlideInHeaderConfig: React.Dispatch<
-//     React.SetStateAction<{
-//       title: null;
-//       onClose: null;
-//     }>
-//   >;
-// }
-
 interface ActionConfigDialogPresenterProps {
   actions: Action[];
   eventDetails: EventProps;
@@ -45,7 +31,6 @@ interface ActionConfigDialogPresenterProps {
   handleSubmit: () => void;
   setMessages: React.Dispatch<React.SetStateAction<MessageType[]>>;
   form: MapForm;
-  step: number;
   formId: string;
   setForm: React.Dispatch<React.SetStateAction<MapForm>>;
   footer: ReactNode;
