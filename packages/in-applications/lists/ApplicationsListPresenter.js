@@ -64,7 +64,7 @@ const columnDefinitions = [
       const iconColor = href$ && theme.lib.colors.blue800;
       if (item.application.boundaryScope) {
         return (
-          <Tooltip content={boundaryScopes.info[item.application.boundaryScope].dashboard}>
+          <Tooltip content={boundaryScopes.info[item.application.boundaryScope].dashboard} delay={500}>
             <SvgIcon type={boundaryScopes.info[item.application.boundaryScope].icon} color={iconColor} />
           </Tooltip>
         );
