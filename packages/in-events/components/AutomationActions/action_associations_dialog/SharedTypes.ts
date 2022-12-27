@@ -18,7 +18,7 @@ export interface BluePrint {
 }
 
 export interface SetSliderStateProps {
-  slideInConfig: { component?: ReactNode; title?: string };
+  slideInConfig?: { component?: ReactNode; title?: string };
   isVisible: boolean;
 }
 export interface EventProps {

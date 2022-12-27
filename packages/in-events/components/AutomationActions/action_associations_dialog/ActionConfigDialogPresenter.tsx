@@ -13,6 +13,7 @@ import {
   SetSliderStateProps,
   EventProps
 } from 'in-events/components/AutomationActions/action_associations_dialog/SharedTypes';
+import SelectActions from 'in-events/components/AutomationActions/action_associations_dialog/selectActions';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import { emptyObject } from 'in-services/fixedObjects';
 import { Action } from 'in-types';
@@ -20,24 +21,19 @@ import { t } from 'in-i18n';
 
 import locals from './ActionConfigDialogPresenter.mless';
 
-interface SimpleModeElementProps {
-  step: number;
-  // stepConfigs: {
-  //   title: string;
-  //   validateIntermediately?: string[][];
-  // }[];
-  messages: MessageType[];
-  stepRenderers: ((props: any) => JSX.Element)[];
-  onCreate: () => void;
-  onClose: () => void;
-  setSliderState: ({ slideInConfig, isVisible }: SetSliderStateProps) => void;
-  setCustomSlideInHeaderConfig: React.Dispatch<
-    React.SetStateAction<{
-      title: null;
-      onClose: null;
-    }>
-  >;
-}
+// interface SimpleModeElementProps {
+//   step: number;
+//   messages: MessageType[];
+//   onCreate: () => void;
+//   onClose: () => void;
+//   setSliderState: ({ slideInConfig, isVisible }: SetSliderStateProps) => void;
+//   setCustomSlideInHeaderConfig: React.Dispatch<
+//     React.SetStateAction<{
+//       title: null;
+//       onClose: null;
+//     }>
+//   >;
+// }
 
 interface ActionConfigDialogPresenterProps {
   actions: Action[];
@@ -54,16 +50,11 @@ interface ActionConfigDialogPresenterProps {
   setForm: React.Dispatch<React.SetStateAction<MapForm>>;
   footer: ReactNode;
   isSaving: boolean;
-  // stepConfigs: {
-  //   title: string;
-  //   validateIntermediately?: string[][];
-  // }[];
-  stepRenderers: ((props: any) => JSX.Element)[];
-  SimpleModeElement: (props: SimpleModeElementProps) => JSX.Element;
+  numberOfActionChannelListRows?: number;
 }
 
 export default function ActionConfigDialogPresenter(props: ActionConfigDialogPresenterProps) {
-  const { formId, handleSubmit, SimpleModeElement, withTrackClose, withTrackCreate, footer } = props;
+  const { formId, handleSubmit, withTrackClose, footer } = props;
 
   const [slideInViewVisible, setSlideInViewVisible] = useState(false);
   const [slideInConfig, setSlideInConfig] = useState<{ component?: ReactNode; title?: string }>(emptyObject);
@@ -102,13 +93,14 @@ export default function ActionConfigDialogPresenter(props: ActionConfigDialogPre
           [locals.dialog]: true
         })}
       >
-        <SimpleModeElement
-          {...props}
-          onCreate={withTrackCreate}
-          onClose={withTrackClose}
-          setSliderState={setSliderState}
-          setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
-        />
+        <div className={locals.actionContainer}>
+          <SelectActions
+            setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
+            numberOfActionChannelListRows={5}
+            setSliderState={setSliderState}
+            {...props}
+          />
+        </div>
       </form>
     </DialogWithSlideInView>
   );
