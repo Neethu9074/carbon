@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import classNames from 'classnames';
 
 import { Link, Spacer } from '@instana/components';
@@ -37,10 +37,12 @@ import { getPluginsWithCustomMetricsOptionsObservable } from 'in-settings/tabs/T
 import { deprecateAppDataLegacyEventsEnabled, hideAppDataLegacyEventsEnabled } from 'in-services/featureFlags';
 import List, { createNewEntityButton, leftHeaderWithSelectAll } from 'in-settings/components/List';
 import { openEventSubmitFormTracker, viewEventTracker } from 'in-settings/tracker';
+import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { intersperse } from 'in-services/arrayUtils';
 import { getPluginName } from 'in-sdk/pluginName';
+import useUrlState from 'in-hooks/useUrlState';
 import ComboBox from 'in-components/ComboBox';
 import WithIcon from 'in-components/WithIcon';
 import Tooltip from 'in-components/Tooltip';
@@ -68,6 +70,17 @@ const enabledOptions = Object.freeze([
   { value: false, label: t('in-settings:tabs.disabled') }
 ]);
 
+const path = '/events';
+
+const urlStateBinding = {
+  bind: [
+    { path, name: 'enabled', initialState: null, parser: strictBooleanParser },
+    { path, name: 'entityType', initialState: null },
+    { path, name: 'severity', initialState: null, parser: intParser },
+    { path, name: 'type', initialState: null }
+  ]
+};
+
 export default function Events({
   setTitle = true,
   tableActions = defaultTableActions,
@@ -87,10 +100,12 @@ export default function Events({
    */
   withoutAppDataLegacyEvents
 }) {
-  const [type, setType] = useState(null);
-  const [severity, setSeverity] = useState(null);
-  const [entityType, setEntityType] = useState(null);
-  const [enabled, setEnabled] = useState(null);
+  const [{ enabled, entityType, severity, type }, setState] = useUrlState(urlStateBinding);
+
+  const setType = type => setState({ type });
+  const setSeverity = severity => setState({ severity });
+  const setEntityType = entityType => setState({ entityType });
+  const setEnabled = enabled => setState({ enabled });
 
   const entityTypeOptionsOfCustomMetrics = useObservable(getPluginsWithCustomMetricsOptionsObservable, []);
   const allEntityTypeOptions = filterEntityTypeOptions(
@@ -449,4 +464,10 @@ function filterEntityTypeOptions(withoutAppDataLegacyEvents, options) {
     return options.filter(({ value }) => !['application', 'service', 'endpoint'].includes(value));
   }
   return options;
+}
+
+function strictBooleanParser(str) {
+  if (str === 'false') return false;
+  if (str === 'true') return true;
+  return null;
 }
