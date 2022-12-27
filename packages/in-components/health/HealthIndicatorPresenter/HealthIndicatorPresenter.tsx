@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { LegacyRef } from 'react';
 
 import { SvgIcon } from '@instana/components';
 
@@ -12,6 +12,15 @@ import Tooltip from 'in-components/Tooltip';
 
 import locals from './HealthIndicatorPresenter.mless';
 
+interface Props {
+  openIssues: number | string;
+  maxSeverity: number;
+  active: boolean;
+  refSetter?: LegacyRef<HTMLAnchorElement>;
+  onClick?: () => void;
+  tooltipLabel: string;
+}
+
 export default function HealthIndicatorPresenter({
   openIssues,
   maxSeverity,
@@ -19,7 +28,7 @@ export default function HealthIndicatorPresenter({
   refSetter,
   onClick,
   tooltipLabel
-}) {
+}: Props) {
   if (openIssues === 0 || openIssues === 'No Issues') {
     return (
       <Tooltip content={tooltipLabel} delay={500}>
