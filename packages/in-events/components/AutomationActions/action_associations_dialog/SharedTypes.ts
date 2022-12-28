@@ -5,6 +5,7 @@
  */
 
 import { ReactNode } from 'react';
+
 export interface MessageType {
   level?: 'warning' | 'error' | undefined;
   message: string;
