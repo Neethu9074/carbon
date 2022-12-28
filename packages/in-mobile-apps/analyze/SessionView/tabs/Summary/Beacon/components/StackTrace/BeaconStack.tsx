@@ -6,17 +6,17 @@
 
 import React, { Fragment } from 'react';
 
-import StackTrace from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/StackTrace';
+import StackTraceContainer from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/StackTrace/StackTraceContainer';
 import BodyHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BodyHeader';
 import { MobileAppMonitoringBeacon } from 'in-types';
 import { t } from 'in-i18n';
 
-import locals from './Stack.mless';
+import locals from './BeaconStack.mless';
 
-export default function Stack({ beacon }: { beacon: MobileAppMonitoringBeacon }) {
+export default function BeaconStackTrace({ beacon }: { beacon: MobileAppMonitoringBeacon }) {
   const rawData = beacon.platform === 'iOS';
   return (
-    <StackTrace raw={rawData} stackTrace={beacon.stackTrace}>
+    <StackTraceContainer raw={rawData} stackTrace={beacon.stackTrace}>
       {({ actions, content }) => (
         <Fragment>
           <div className={locals.header}>
@@ -26,6 +26,6 @@ export default function Stack({ beacon }: { beacon: MobileAppMonitoringBeacon })
           {content}
         </Fragment>
       )}
-    </StackTrace>
+    </StackTraceContainer>
   );
 }

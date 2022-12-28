@@ -6,11 +6,11 @@
 
 import React, { useState } from 'react';
 
-import RawStack from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/RawStack';
+import RawStack from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/StackTrace/RawStack';
 import ButtonGroup from 'in-components/ButtonGroup';
 import { t } from 'in-i18n';
 
-import locals from './StackTrace.mless';
+import locals from './StackTraceContainer.mless';
 
 export interface ChildrenProp {
   content: React.ReactNode;
@@ -23,14 +23,11 @@ export interface StackTraceProp {
   children: (props: ChildrenProp) => React.ReactElement;
 }
 
-export default function StackTrace({ stackTrace, raw, children }: StackTraceProp) {
-  const inconstruct = true;
+export default function StackTraceContainer({ stackTrace, raw, children }: StackTraceProp) {
   const [showRawStackTrace, setShowRawStackTrace] = useState(false);
 
   return children({
-    actions: inconstruct ? (
-      <></>
-    ) : (
+    actions: (
       <ButtonGroup
         className={locals.buttonGroup}
         buttonPropsList={[
