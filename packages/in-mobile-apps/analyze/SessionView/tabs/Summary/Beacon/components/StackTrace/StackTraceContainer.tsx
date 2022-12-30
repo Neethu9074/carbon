@@ -4,9 +4,11 @@
  * Copyright IBM Corp. 2022
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 
-import RawStack from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/StackTrace/RawStack';
+import RawStack, {
+  RawStackData
+} from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/StackTrace/RawStack';
 import ButtonGroup from 'in-components/ButtonGroup';
 import { t } from 'in-i18n';
 
@@ -17,17 +19,17 @@ export interface ChildrenProp {
   actions: React.ReactNode;
 }
 
-export interface StackTraceProp {
-  raw?: boolean;
-  stackTrace?: string;
+export type StackTraceProp = {
+  supportPretty: boolean;
+  pretty: boolean;
+  onChange: (pretty: boolean) => void;
+  data: RawStackData;
   children: (props: ChildrenProp) => React.ReactElement;
-}
+};
 
-export default function StackTraceContainer({ stackTrace, raw, children }: StackTraceProp) {
-  const [showRawStackTrace, setShowRawStackTrace] = useState(false);
-
+export default function StackTraceContainer({ data, supportPretty, onChange, pretty, children }: StackTraceProp) {
   return children({
-    actions: (
+    actions: supportPretty ? (
       <ButtonGroup
         className={locals.buttonGroup}
         buttonPropsList={[
@@ -35,18 +37,20 @@ export default function StackTraceContainer({ stackTrace, raw, children }: Stack
             text: t('in-mobile-apps:sessionView.tabsSumCrashBeacon.stackTraceButtonPrettyStackTrace'),
             key: 'pretty',
             size: 'compact',
-            onClick: () => setShowRawStackTrace(false)
+            onClick: () => onChange(true)
           },
           {
             text: t('in-mobile-apps:sessionView.tabsSumCrashBeacon.stackTraceButtonRawStackTrace'),
             key: 'raw',
             size: 'compact',
-            onClick: () => setShowRawStackTrace(true)
+            onClick: () => onChange(false)
           }
         ]}
-        activeKey={showRawStackTrace ? 'raw' : 'pretty'}
+        activeKey={pretty ? 'pretty' : 'raw'}
       />
+    ) : (
+      <></>
     ),
-    content: <RawStack raw={raw} stack={stackTrace} />
+    content: <RawStack data={data} />
   });
 }
