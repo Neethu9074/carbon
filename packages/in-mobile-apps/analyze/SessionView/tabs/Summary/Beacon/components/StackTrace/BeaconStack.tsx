@@ -19,12 +19,7 @@ export default function BeaconStackTrace({ beacon }: { beacon: MobileAppMonitori
 
   const formatedData = formatStackTrace(beacon, pretty);
   return (
-    <StackTraceContainer
-      data={formatedData}
-      supportPretty={formatedData.supportPretty}
-      pretty={pretty}
-      onChange={pretty => setPretty(pretty)}
-    >
+    <StackTraceContainer data={formatedData} pretty={pretty} onChange={pretty => setPretty(pretty)}>
       {({ actions, content }) => (
         <Fragment>
           <div className={locals.header}>

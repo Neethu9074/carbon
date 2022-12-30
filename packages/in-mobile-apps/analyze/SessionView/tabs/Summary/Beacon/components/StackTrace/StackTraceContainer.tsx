@@ -6,9 +6,8 @@
 
 import React from 'react';
 
-import RawStack, {
-  RawStackData
-} from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/StackTrace/RawStack';
+import { FormatedStackTrace } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/StackTrace/BeaconStackParser';
+import RawStack from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/StackTrace/RawStack';
 import ButtonGroup from 'in-components/ButtonGroup';
 import { t } from 'in-i18n';
 
@@ -20,16 +19,15 @@ export interface ChildrenProp {
 }
 
 export type StackTraceProp = {
-  supportPretty: boolean;
   pretty: boolean;
   onChange: (pretty: boolean) => void;
-  data: RawStackData;
+  data: FormatedStackTrace;
   children: (props: ChildrenProp) => React.ReactElement;
 };
 
-export default function StackTraceContainer({ data, supportPretty, onChange, pretty, children }: StackTraceProp) {
+export default function StackTraceContainer({ data, onChange, pretty, children }: StackTraceProp) {
   return children({
-    actions: supportPretty ? (
+    actions: data.supportPretty ? (
       <ButtonGroup
         className={locals.buttonGroup}
         buttonPropsList={[
