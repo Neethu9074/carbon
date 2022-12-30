@@ -1,11 +1,14 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2022
  */
 
-export function getTrackingObject(form, paramsObj) {
+import { Field, MapForm } from 'formalistic';
+
+export function getTrackingObject(form: MapForm, paramsObj: object): object {
   return {
-    bluePrint: form.get('rule').get('alertType').value,
+    bluePrint: (form.getIn(['rule', 'alertType']) as Field<string>).value,
     ...paramsObj
   };
 }
