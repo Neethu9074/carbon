@@ -9,13 +9,12 @@ import {
   createViolationsInSequenceForm,
   defaultAdaptiveBaselineTimeWindow
 } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/form';
-// @ts-expect-error file needs to be converted into typescript
-import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
 import {
   PER_AP_ENDPOINT,
   PER_AP_SERVICE
 } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { defaultAdaptiveBaselineGranularity } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
+import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import createRuleForm from 'in-alerting/smart-alerts/applications/form/ruleForm';
@@ -26,7 +25,7 @@ export function onThresholdTypeChange(
   typeWithOptionalSeasonality: string,
   form: MapForm,
   updateForm: (form: MapForm) => void,
-  trackThresholdTypeChanged?: (trackingObject: any) => void
+  trackThresholdTypeChanged?: (trackingObject: object) => void
 ): void {
   const typeSeasonalityParts = typeWithOptionalSeasonality.split('.');
   const updatedThresholdType: ThresholdType = typeSeasonalityParts[0] as ThresholdType;
