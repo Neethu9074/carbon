@@ -86,6 +86,7 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
   const hasROPassword = form.get('roPassword').value && form.get('roPassword').value !== '';
   const shouldShowMissingUserMessage = shouldDoROUserPassCheck && !hasROUser;
   const shouldShowMissingPasswordMessage = shouldDoROUserPassCheck && !hasROPassword;
+  //let acceptAnyCA = form.get('acceptAnyCA') === undefined ? false : form.get('acceptAnyCA').value;
 
   return (
     <>
@@ -123,6 +124,21 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
                     label={t('in-settings:tabs.url')}
                     description={t('in-settings:tabs.urlDescription')}
                   />
+                </Col>
+              </Row>
+
+              <Row className={indentityProvidersLocals.row}>
+                <Col xs={12}>
+                  {form.get('acceptAnyCA').map(field => (
+                    <CheckboxFancy
+                      label={t('in-settings:tabs.ldapsAcceptAnyCA')}
+                      checked={field.value}
+                      onChange={() => {
+                        const newValue = form.updateIn(['acceptAnyCA'], f => f.setValue(!field.value).setTouched(true));
+                        setForm(newValue);
+                      }}
+                    />
+                  ))}
                 </Col>
               </Row>
 
@@ -504,6 +520,9 @@ function enrichForm(form, { setCanDeleteItem, result: { config } }) {
       }),
       activated: createField({
         value: !!config.base
+      }),
+      acceptAnyCA: createField({
+        value: config.acceptAnyCA
       })
     }
   });
