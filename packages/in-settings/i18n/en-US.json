@@ -413,6 +413,7 @@
     "emailField": "Email Field",
     "emailFieldDescription": "The name of the attribute where to find the users email address, e.g.: mail",
     "ldapUserAccount": "LDAP user account",
+    "ldapsAcceptAnyCA": "Trust any certificate authorities whilst using ldaps",
     "username": "Username",
     "usernameDescription": "The user to be related in Instana as owner user. A login is tried as a test before the settings are saved, the credentials are not stored.",
     "usernamePasswordDescription": "The LDAP password of the user",

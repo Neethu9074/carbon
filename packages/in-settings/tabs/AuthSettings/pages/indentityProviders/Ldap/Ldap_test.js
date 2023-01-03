@@ -40,7 +40,8 @@ const mockEndpoints = () => {
       userField: '',
       emptyPass: false,
       valid: false,
-      groupMemberFieldConfigured: false
+      groupMemberFieldConfigured: false,
+      acceptAnyCA: true
     },
     errors: [],
     progress: {
@@ -110,6 +111,19 @@ describe('in-settings/tabs/AuthSettings/pages/indentityProviders/Ldap/Ldap', () 
 
     const successMessage = 'You are an LDAP pro!';
     // Mocks api returning success
+    await clickOnTestConfigurationAndSucceed(successMessage);
+  });
+
+  it('should be able to set acceptAnyCA to false', async () => {
+    render(<Ldap />);
+    const checkbox = screen.getByText(t('in-settings:tabs.ldapsAcceptAnyCA'));
+    expect(checkbox).toBeInTheDocument();
+
+    insertUserPassword();
+    const successMessage = 'You are my LDAP pro!';
+    await clickOnTestConfigurationAndSucceed(successMessage);
+
+    fireEvent.click(checkbox);
     await clickOnTestConfigurationAndSucceed(successMessage);
   });
 
