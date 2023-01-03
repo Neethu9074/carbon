@@ -86,8 +86,6 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
   const hasROPassword = form.get('roPassword').value && form.get('roPassword').value !== '';
   const shouldShowMissingUserMessage = shouldDoROUserPassCheck && !hasROUser;
   const shouldShowMissingPasswordMessage = shouldDoROUserPassCheck && !hasROPassword;
-  //let acceptAnyCA = form.get('acceptAnyCA') === undefined ? false : form.get('acceptAnyCA').value;
-
   return (
     <>
       <Title title={t('in-settings:tabs.configureLdap')} />
