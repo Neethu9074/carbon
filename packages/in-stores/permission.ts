@@ -74,39 +74,36 @@ function getProductAreaPermissions() {
     { value: ACCESS_APPLICATIONS, label: t('in-stores:permissionAccessApplicationsLabel') }
   ];
   if (pcfEnabled) {
-    areaPermissions.push({ value: ACCESS_PCF, label: t('in-stores:permissionAccessPCFLabel'), isNew: true });
+    areaPermissions.push({ value: ACCESS_PCF, label: t('in-stores:permissionAccessPCFLabel') });
   }
   if (openstackEnabled) {
     areaPermissions.push({
       value: ACCESS_OPENSTACK,
-      label: t('in-stores:permissionAccessOpenStackLabel'),
-      isNew: true
+      label: t('in-stores:permissionAccessOpenStackLabel')
     });
   }
   if (phmcEnabled) {
-    areaPermissions.push({ value: ACCESS_PHMC, label: t('in-stores:permissionAccessPHMCLabel'), isNew: true });
+    areaPermissions.push({ value: ACCESS_PHMC, label: t('in-stores:permissionAccessPHMCLabel') });
   }
   if (zhmcEnabled) {
-    areaPermissions.push({ value: ACCESS_ZHMC, label: t('in-stores:permissionAccessZHMCLabel'), isNew: true });
+    areaPermissions.push({ value: ACCESS_ZHMC, label: t('in-stores:permissionAccessZHMCLabel') });
   }
 
   areaPermissions.push({ value: ACCESS_KUBERNETES, label: t('in-stores:permissionAccessKubernetesLabel') });
 
   if (vsphereEnabled) {
-    areaPermissions.push({ value: ACCESS_VSPHERE, label: t('in-stores:permissionAccessVSphereLabel'), isNew: true });
+    areaPermissions.push({ value: ACCESS_VSPHERE, label: t('in-stores:permissionAccessVSphereLabel') });
   }
 
   areaPermissions.push({
     value: ACCESS_INFRASTRUCTURE,
-    label: t('in-stores:permissionAccessInfrastructureLabel'),
-    isNew: true
+    label: t('in-stores:permissionAccessInfrastructureLabel')
   });
 
   if (syntheticsEnabled) {
     areaPermissions.push({
       value: ACCESS_SYNTHETICS,
-      label: t('in-stores:permissionAccessSyntheticsLabel'),
-      isNew: true
+      label: t('in-stores:permissionAccessSyntheticsLabel')
     });
   }
   return areaPermissions;
