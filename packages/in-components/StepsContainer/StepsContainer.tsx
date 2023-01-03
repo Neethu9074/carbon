@@ -16,7 +16,14 @@ import Header from 'in-components/workspace/Header';
 
 import locals from './StepsContainer.mless';
 
-export default function StepsContainer({ navItems, messages = [] }: { navItems: NavItem[]; messages?: MessageType[] }) {
+interface StepsContainerProps {
+  navItems: NavItem[];
+  messages?: MessageType[];
+  noHeader?: boolean;
+  noDivider?: boolean;
+}
+
+export default function StepsContainer({ navItems, noHeader, noDivider, messages = [] }: StepsContainerProps) {
   useScrollToFirstInvalidNavItem(navItems);
 
   return (
@@ -28,11 +35,11 @@ export default function StepsContainer({ navItems, messages = [] }: { navItems: 
               <Fragment key={scrollId}>
                 <ScrollStep id={scrollId}>
                   <Stack gap="normal">
-                    <Header>{title}</Header>
+                    {!noHeader && <Header>{title}</Header>}
                     {content}
                   </Stack>
                 </ScrollStep>
-                {i + 1 < navItems.length && <Divider />}
+                {!noDivider && i + 1 < navItems.length && <Divider />}
               </Fragment>
             ))}
           </Stack>
