@@ -17,17 +17,87 @@ import { t } from 'in-i18n';
 
 export const RESTRICTED_ACCESS = 'RESTRICTED_ACCESS';
 
-export const ACCESS_APPLICATIONS = 'ACCESS_APPLICATIONS';
-export const ACCESS_KUBERNETES = 'ACCESS_KUBERNETES';
-export const ACCESS_WEBSITES = 'ACCESS_WEBSITES';
-export const ACCESS_MOBILE_APPS = 'ACCESS_MOBILE_APPS';
-export const ACCESS_INFRASTRUCTURE = 'ACCESS_INFRASTRUCTURE';
-export const ACCESS_SYNTHETICS = 'ACCESS_SYNTHETICS';
-export const ACCESS_VSPHERE = 'ACCESS_VSPHERE';
-export const ACCESS_PHMC = 'ACCESS_PHMC';
-export const ACCESS_ZHMC = 'ACCESS_ZHMC';
-export const ACCESS_PCF = 'ACCESS_PCF';
-export const ACCESS_OPENSTACK = 'ACCESS_OPENSTACK';
+export const LimitedAccessScope = Object.freeze({
+  LIMITED_APPLICATIONS_SCOPE: 'LIMITED_APPLICATIONS_SCOPE',
+  LIMITED_WEBSITES_SCOPE: 'LIMITED_WEBSITES_SCOPE',
+  LIMITED_KUBERNETES_SCOPE: 'LIMITED_KUBERNETES_SCOPE',
+  LIMITED_MOBILE_APPS_SCOPE: 'LIMITED_MOBILE_APPS_SCOPE',
+  LIMITED_INFRASTRUCTURE_SCOPE: 'LIMITED_INFRASTRUCTURE_SCOPE',
+  LIMITED_SYNTHETICS_SCOPE: 'LIMITED_SYNTHETICS_SCOPE',
+  LIMITED_VSPHERE_SCOPE: 'LIMITED_VSPHERE_SCOPE',
+  LIMITED_PHMC_SCOPE: 'LIMITED_PHMC_SCOPE',
+  LIMITED_ZHMC_SCOPE: 'LIMITED_ZHMC_SCOPE',
+  LIMITED_PCF_SCOPE: 'LIMITED_PCF_SCOPE',
+  LIMITED_OPENSTACK_SCOPE: 'LIMITED_OPENSTACK_SCOPE'
+} as const);
+export type LimitedAccessScopeType = keyof typeof LimitedAccessScope;
+export const LimitedAccessScopes = Object.freeze(Object.values(LimitedAccessScope));
+
+export const AreaPermission = Object.freeze({
+  ACCESS_WEBSITES: 'ACCESS_WEBSITES',
+  ACCESS_MOBILE_APPS: 'ACCESS_MOBILE_APPS',
+  ACCESS_APPLICATIONS: 'ACCESS_APPLICATIONS',
+  ACCESS_KUBERNETES: 'ACCESS_KUBERNETES',
+  ACCESS_INFRASTRUCTURE: 'ACCESS_INFRASTRUCTURE',
+  ACCESS_SYNTHETICS: 'ACCESS_SYNTHETICS',
+  ACCESS_VSPHERE: 'ACCESS_VSPHERE',
+  ACCESS_PHMC: 'ACCESS_PHMC',
+  ACCESS_ZHMC: 'ACCESS_ZHMC',
+  ACCESS_PCF: 'ACCESS_PCF',
+  ACCESS_OPENSTACK: 'ACCESS_OPENSTACK'
+} as const);
+export type AreaPermissionType = keyof typeof AreaPermission;
+export const AreaPermissions = Object.freeze(Object.values(AreaPermission));
+
+export const ACCESS_APPLICATIONS = AreaPermission.ACCESS_APPLICATIONS;
+export const ACCESS_KUBERNETES = AreaPermission.ACCESS_KUBERNETES;
+export const ACCESS_WEBSITES = AreaPermission.ACCESS_WEBSITES;
+export const ACCESS_MOBILE_APPS = AreaPermission.ACCESS_MOBILE_APPS;
+export const ACCESS_INFRASTRUCTURE = AreaPermission.ACCESS_INFRASTRUCTURE;
+export const ACCESS_SYNTHETICS = AreaPermission.ACCESS_SYNTHETICS;
+export const ACCESS_VSPHERE = AreaPermission.ACCESS_VSPHERE;
+export const ACCESS_PHMC = AreaPermission.ACCESS_PHMC;
+export const ACCESS_ZHMC = AreaPermission.ACCESS_ZHMC;
+export const ACCESS_PCF = AreaPermission.ACCESS_PCF;
+export const ACCESS_OPENSTACK = AreaPermission.ACCESS_OPENSTACK;
+
+export const Capability = Object.freeze({
+  CAN_CONFIGURE_EUM_APPLICATIONS: 'CAN_CONFIGURE_EUM_APPLICATIONS',
+  CAN_CONFIGURE_MOBILE_APP_MONITORING: 'CAN_CONFIGURE_MOBILE_APP_MONITORING',
+  CAN_CONFIGURE_APPLICATIONS: 'CAN_CONFIGURE_APPLICATIONS',
+  CAN_CONFIGURE_SERVICE_MAPPING: 'CAN_CONFIGURE_SERVICE_MAPPING',
+  CAN_INSTALL_NEW_AGENTS: 'CAN_INSTALL_NEW_AGENTS',
+  CAN_CONFIGURE_AGENTS: 'CAN_CONFIGURE_AGENTS',
+  CAN_CONFIGURE_AGENT_RUN_MODE: 'CAN_CONFIGURE_AGENT_RUN_MODE',
+  CAN_CONFIGURE_INTEGRATIONS: 'CAN_CONFIGURE_INTEGRATIONS',
+  CAN_CONFIGURE_CUSTOM_ALERTS: 'CAN_CONFIGURE_CUSTOM_ALERTS',
+  CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD: 'CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD',
+  CAN_CONFIGURE_GLOBAL_ALERT_CONFIGS: 'CAN_CONFIGURE_GLOBAL_ALERT_CONFIGS',
+  CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS: 'CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS',
+  CAN_EDIT_ALL_ACCESSIBLE_CUSTOM_DASHBOARDS: 'CAN_EDIT_ALL_ACCESSIBLE_CUSTOM_DASHBOARDS',
+  CAN_CONFIGURE_LOG_MANAGEMENT: 'CAN_CONFIGURE_LOG_MANAGEMENT',
+  CAN_CONFIGURE_RELEASES: 'CAN_CONFIGURE_RELEASES',
+  CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS: 'CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS',
+  CAN_CONFIGURE_USERS: 'CAN_CONFIGURE_USERS',
+  CAN_CONFIGURE_TEAMS: 'CAN_CONFIGURE_TEAMS',
+  CAN_CONFIGURE_API_TOKENS: 'CAN_CONFIGURE_API_TOKENS',
+  CAN_CONFIGURE_PERSONAL_API_TOKENS: 'CAN_CONFIGURE_PERSONAL_API_TOKENS',
+  CAN_CONFIGURE_AUTHENTICATION_METHODS: 'CAN_CONFIGURE_AUTHENTICATION_METHODS',
+  CAN_VIEW_AUDIT_LOG: 'CAN_VIEW_AUDIT_LOG',
+  CAN_CONFIGURE_SESSION_SETTINGS: 'CAN_CONFIGURE_SESSION_SETTINGS',
+  CAN_VIEW_LOGS: 'CAN_VIEW_LOGS',
+  CAN_VIEW_TRACE_DETAILS: 'CAN_VIEW_TRACE_DETAILS',
+  CAN_SEE_USAGE_INFORMATION: 'CAN_SEE_USAGE_INFORMATION',
+  CAN_SEE_ON_PREM_LICENE_INFORMATION: 'CAN_SEE_ON_PREM_LICENE_INFORMATION',
+  CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION: 'CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION',
+  CAN_CONFIGURE_AUTOMATION_ACTIONS: 'CAN_CONFIGURE_AUTOMATION_ACTIONS',
+  CAN_RUN_AUTOMATION_ACTIONS: 'CAN_RUN_AUTOMATION_ACTIONS'
+} as const);
+
+export type CapabilityType = keyof typeof Capability;
+export const Capabilities = Object.freeze(Object.values(Capability));
+
+export type PermissionsUnion = AreaPermissionType | CapabilityType | LimitedAccessScopeType;
 
 const permissions = window.instana.permissions;
 
@@ -57,63 +127,76 @@ export const hasEventsAccess =
 export const productAreaPermissions = getProductAreaPermissions();
 export const productPermissions = getProductPermissions();
 export const productOwnerPermissions = getProductPermissions().filter(permission => permission.isOwnerPermission);
+export const productNonOwnerPermissions = getProductPermissions().filter(permission => !permission.isOwnerPermission);
 export const productRestrictions = getProductRestrictions();
 
 export const apiTokenPermissions = getProductPermissions().filter(permission => permission.keyForApiTokenApi != '');
 
 interface AreaPermissionProps {
-  value: string;
+  value: AreaPermissionType;
   label: string;
   isNew?: boolean;
 }
 
-function getProductAreaPermissions() {
+function getProductAreaPermissions(): Array<AreaPermissionProps> {
   const areaPermissions: Array<AreaPermissionProps> = [
-    { value: ACCESS_WEBSITES, label: t('in-stores:permissionAccessWebsitesLabel') },
-    { value: ACCESS_MOBILE_APPS, label: t('in-stores:permissionAccessMobileAppsLabel') },
-    { value: ACCESS_APPLICATIONS, label: t('in-stores:permissionAccessApplicationsLabel') }
+    { value: AreaPermission.ACCESS_WEBSITES, label: t('in-stores:permissionAccessWebsitesLabel') },
+    { value: AreaPermission.ACCESS_MOBILE_APPS, label: t('in-stores:permissionAccessMobileAppsLabel') },
+    { value: AreaPermission.ACCESS_APPLICATIONS, label: t('in-stores:permissionAccessApplicationsLabel') }
   ];
   if (pcfEnabled) {
-    areaPermissions.push({ value: ACCESS_PCF, label: t('in-stores:permissionAccessPCFLabel') });
+    areaPermissions.push({ value: AreaPermission.ACCESS_PCF, label: t('in-stores:permissionAccessPCFLabel') });
   }
   if (openstackEnabled) {
     areaPermissions.push({
-      value: ACCESS_OPENSTACK,
+      value: AreaPermission.ACCESS_OPENSTACK,
       label: t('in-stores:permissionAccessOpenStackLabel')
     });
   }
   if (phmcEnabled) {
-    areaPermissions.push({ value: ACCESS_PHMC, label: t('in-stores:permissionAccessPHMCLabel') });
+    areaPermissions.push({ value: AreaPermission.ACCESS_PHMC, label: t('in-stores:permissionAccessPHMCLabel') });
   }
   if (zhmcEnabled) {
-    areaPermissions.push({ value: ACCESS_ZHMC, label: t('in-stores:permissionAccessZHMCLabel') });
-  }
-
-  areaPermissions.push({ value: ACCESS_KUBERNETES, label: t('in-stores:permissionAccessKubernetesLabel') });
-
-  if (vsphereEnabled) {
-    areaPermissions.push({ value: ACCESS_VSPHERE, label: t('in-stores:permissionAccessVSphereLabel') });
+    areaPermissions.push({ value: AreaPermission.ACCESS_ZHMC, label: t('in-stores:permissionAccessZHMCLabel') });
   }
 
   areaPermissions.push({
-    value: ACCESS_INFRASTRUCTURE,
+    value: AreaPermission.ACCESS_KUBERNETES,
+    label: t('in-stores:permissionAccessKubernetesLabel')
+  });
+
+  if (vsphereEnabled) {
+    areaPermissions.push({ value: AreaPermission.ACCESS_VSPHERE, label: t('in-stores:permissionAccessVSphereLabel') });
+  }
+
+  areaPermissions.push({
+    value: AreaPermission.ACCESS_INFRASTRUCTURE,
     label: t('in-stores:permissionAccessInfrastructureLabel')
   });
 
   if (syntheticsEnabled) {
     areaPermissions.push({
-      value: ACCESS_SYNTHETICS,
+      value: AreaPermission.ACCESS_SYNTHETICS,
       label: t('in-stores:permissionAccessSyntheticsLabel')
     });
   }
   return areaPermissions;
 }
 
-function getProductPermissions() {
-  return [
+interface ProductPermission {
+  keyForGroupApi: CapabilityType;
+  keyForApiTokenApi: string;
+  label: string;
+  description: string;
+  category: string;
+  isOwnerPermission?: boolean;
+}
+
+function getProductPermissions(): Array<ProductPermission> {
+  const permissions: Array<ProductPermission> = [
     /* Websites & Mobile Apps */
     {
-      keyForGroupApi: 'CAN_CONFIGURE_EUM_APPLICATIONS',
+      keyForGroupApi: Capability.CAN_CONFIGURE_EUM_APPLICATIONS,
       keyForApiTokenApi: 'canConfigureEumApplications',
       label: t('in-stores:permissionCanConfigureEumApplicationsLabel'),
       description: t('in-stores:permissionCanConfigureEumApplicationsDescription'),
@@ -121,7 +204,7 @@ function getProductPermissions() {
       isOwnerPermission: false
     },
     {
-      keyForGroupApi: 'CAN_CONFIGURE_MOBILE_APP_MONITORING',
+      keyForGroupApi: Capability.CAN_CONFIGURE_MOBILE_APP_MONITORING,
       keyForApiTokenApi: 'canConfigureMobileAppMonitoring',
       label: t('in-stores:permissionCanConfigureMobileAppMonitoringLabel'),
       description: t('in-stores:permissionCanConfigureMobileAppMonitoringDescription'),
@@ -130,7 +213,7 @@ function getProductPermissions() {
     },
 
     {
-      keyForGroupApi: 'CAN_CONFIGURE_APPLICATIONS',
+      keyForGroupApi: Capability.CAN_CONFIGURE_APPLICATIONS,
       keyForApiTokenApi: 'canConfigureApplications',
       label: t('in-stores:permissionCanConfigureApplicationsLabel'),
       description: t('in-stores:permissionCanConfigureApplicationsDescription'),
@@ -138,7 +221,7 @@ function getProductPermissions() {
       isOwnerPermission: false
     },
     {
-      keyForGroupApi: 'CAN_CONFIGURE_SERVICE_MAPPING',
+      keyForGroupApi: Capability.CAN_CONFIGURE_SERVICE_MAPPING,
       keyForApiTokenApi: 'canConfigureServiceMapping',
       label: t('in-stores:permissionCanConfigureServiceMappingLabel'),
       description: t('in-stores:permissionCanConfigureServiceMappingDescription'),
@@ -147,7 +230,7 @@ function getProductPermissions() {
     },
     /* Infrastructure */
     {
-      keyForGroupApi: 'CAN_INSTALL_NEW_AGENTS',
+      keyForGroupApi: Capability.CAN_INSTALL_NEW_AGENTS,
       keyForApiTokenApi: 'canInstallNewAgents',
       label: t('in-stores:permissionCanInstallNewAgentsLabel'),
       description: t('in-stores:permissionCanInstallNewAgentsDescription'),
@@ -155,7 +238,7 @@ function getProductPermissions() {
       isOwnerPermission: false
     },
     {
-      keyForGroupApi: 'CAN_CONFIGURE_AGENTS',
+      keyForGroupApi: Capability.CAN_CONFIGURE_AGENTS,
       keyForApiTokenApi: 'canConfigureAgents',
       label: t('in-stores:permissionCanConfigureAgentsLabel'),
       description: t('in-stores:permissionCanConfigureAgentsDescription'),
@@ -163,7 +246,7 @@ function getProductPermissions() {
       isOwnerPermission: false
     },
     {
-      keyForGroupApi: 'CAN_CONFIGURE_AGENT_RUN_MODE',
+      keyForGroupApi: Capability.CAN_CONFIGURE_AGENT_RUN_MODE,
       keyForApiTokenApi: 'canConfigureAgentRunMode',
       label: t('in-stores:permissionCanConfigureAgentRunModeLabel'),
       description: t('in-stores:permissionCanConfigureAgentRunModeDescription'),
@@ -172,7 +255,7 @@ function getProductPermissions() {
     },
     /* Events */
     {
-      keyForGroupApi: 'CAN_CONFIGURE_INTEGRATIONS',
+      keyForGroupApi: Capability.CAN_CONFIGURE_INTEGRATIONS,
       keyForApiTokenApi: 'canConfigureIntegrations',
       label: t('in-stores:permissionCanConfigureIntegrationsLabel'),
       description: t('in-stores:permissionCanConfigureIntegrationsDescription'),
@@ -180,7 +263,7 @@ function getProductPermissions() {
       isOwnerPermission: false
     },
     {
-      keyForGroupApi: 'CAN_CONFIGURE_CUSTOM_ALERTS',
+      keyForGroupApi: Capability.CAN_CONFIGURE_CUSTOM_ALERTS,
       keyForApiTokenApi: 'canConfigureCustomAlerts',
       label: t('in-stores:permissionCanConfigureCustomAlertsLabel'),
       description: t('in-stores:permissionCanConfigureCustomAlertsDescription'),
@@ -188,7 +271,7 @@ function getProductPermissions() {
       isOwnerPermission: false
     },
     {
-      keyForGroupApi: 'CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD',
+      keyForGroupApi: Capability.CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD,
       keyForApiTokenApi: 'canConfigureGlobalAlertPayload',
       label: t('in-stores:permissionCanConfigureGlobalAlertPayloadLabel'),
       description: t('in-stores:permissionCanConfigureGlobalAlertPayloadDescription'),
@@ -196,35 +279,30 @@ function getProductPermissions() {
       isOwnerPermission: false
     },
     {
-      keyForGroupApi: 'CAN_CONFIGURE_GLOBAL_ALERT_CONFIGS',
+      keyForGroupApi: Capability.CAN_CONFIGURE_GLOBAL_ALERT_CONFIGS,
       keyForApiTokenApi: 'canConfigureGlobalAlertConfigs',
       label: t('in-stores:permissionCanConfigureGlobalAlertConfigsLabel'),
       description: t('in-stores:permissionCanConfigureGlobalAlertConfigsDescription'),
       category: t('in-stores:permissionCanConfigureGlobalAlertConfigsCategory')
     },
     /* Automation */
-    ...(actionAutomationEnabled
-      ? [
-          /* Automation */
-          {
-            keyForGroupApi: 'CAN_CONFIGURE_AUTOMATION_ACTIONS',
-            keyForApiTokenApi: 'canConfigureAutomationActions',
-            label: t('in-stores:permissionCanConfigureAutomationActionsLabel'),
-            description: t('in-stores:permissionCanConfigureAutomationActionsDescription'),
-            category: t('in-stores:permissionCanConfigureAutomationActionsCategory')
-          },
-          {
-            keyForGroupApi: 'CAN_RUN_AUTOMATION_ACTIONS',
-            keyForApiTokenApi: 'canRunAutomationActions',
-            label: t('in-stores:permissionCanRunAutomationActionsLabel'),
-            description: t('in-stores:permissionCanRunAutomationActionsDescription'),
-            category: t('in-stores:permissionCanRunAutomationActionsCategory')
-          }
-        ]
-      : []),
+    {
+      keyForGroupApi: Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS,
+      keyForApiTokenApi: 'canConfigureAutomationActions',
+      label: t('in-stores:permissionCanConfigureAutomationActionsLabel'),
+      description: t('in-stores:permissionCanConfigureAutomationActionsDescription'),
+      category: t('in-stores:permissionCanConfigureAutomationActionsCategory')
+    },
+    {
+      keyForGroupApi: Capability.CAN_RUN_AUTOMATION_ACTIONS,
+      keyForApiTokenApi: 'canRunAutomationActions',
+      label: t('in-stores:permissionCanRunAutomationActionsLabel'),
+      description: t('in-stores:permissionCanRunAutomationActionsDescription'),
+      category: t('in-stores:permissionCanRunAutomationActionsCategory')
+    },
     /* Custom Dashboards */
     {
-      keyForGroupApi: 'CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS',
+      keyForGroupApi: Capability.CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS,
       keyForApiTokenApi: 'canCreatePublicCustomDashboards',
       label: t('in-stores:permissionCanCreatePublicCustomDashboardsLabel'),
       description: t('in-stores:permissionCanCreatePublicCustomDashboardsDescription'),
@@ -232,7 +310,7 @@ function getProductPermissions() {
       isOwnerPermission: true
     },
     {
-      keyForGroupApi: 'CAN_EDIT_ALL_ACCESSIBLE_CUSTOM_DASHBOARDS',
+      keyForGroupApi: Capability.CAN_EDIT_ALL_ACCESSIBLE_CUSTOM_DASHBOARDS,
       keyForApiTokenApi: 'canEditAllAccessibleCustomDashboards',
       label: t('in-stores:permissionCanEditAllAccessibleCustomDashboardsLabel'),
       description: t('in-stores:permissionCanEditAllAccessibleCustomDashboardsDescription'),
@@ -241,7 +319,7 @@ function getProductPermissions() {
     },
     /* Extensions */
     {
-      keyForGroupApi: 'CAN_CONFIGURE_LOG_MANAGEMENT',
+      keyForGroupApi: Capability.CAN_CONFIGURE_LOG_MANAGEMENT,
       keyForApiTokenApi: 'canConfigureLogManagement',
       label: t('in-stores:permissionCanConfigureLogManagementLabel'),
       description: t('in-stores:permissionCanConfigureLogManagementDescription'),
@@ -249,7 +327,7 @@ function getProductPermissions() {
       isOwnerPermission: false
     },
     {
-      keyForGroupApi: 'CAN_CONFIGURE_RELEASES',
+      keyForGroupApi: Capability.CAN_CONFIGURE_RELEASES,
       keyForApiTokenApi: 'canConfigureReleases',
       label: t('in-stores:permissionCanConfigureReleasesLabel'),
       description: t('in-stores:permissionCanConfigureReleasesDescription'),
@@ -257,7 +335,7 @@ function getProductPermissions() {
       isOwnerPermission: false
     },
     {
-      keyForGroupApi: 'CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS',
+      keyForGroupApi: Capability.CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS,
       keyForApiTokenApi: 'canConfigureServiceLevelIndicators',
       label: t('in-stores:permissionCanConfigureServiceLevelIndicatorsLabel'),
       description: t('in-stores:permissionCanConfigureServiceLevelIndicatorsDescription'),
@@ -266,7 +344,7 @@ function getProductPermissions() {
     },
     /* Access Control */
     {
-      keyForGroupApi: 'CAN_CONFIGURE_USERS',
+      keyForGroupApi: Capability.CAN_CONFIGURE_USERS,
       keyForApiTokenApi: 'canConfigureUsers',
       label: t('in-stores:permissionCanConfigureUsersLabel'),
       description: t('in-stores:permissionCanConfigureUsersDescription'),
@@ -274,7 +352,7 @@ function getProductPermissions() {
       isOwnerPermission: false
     },
     {
-      keyForGroupApi: 'CAN_CONFIGURE_TEAMS',
+      keyForGroupApi: Capability.CAN_CONFIGURE_TEAMS,
       keyForApiTokenApi: 'canConfigureTeams',
       label: t('in-stores:permissionCanConfigureTeamsLabel'),
       description: t('in-stores:permissionCanConfigureTeamsDescription'),
@@ -282,7 +360,7 @@ function getProductPermissions() {
       isOwnerPermission: true
     },
     {
-      keyForGroupApi: 'CAN_CONFIGURE_API_TOKENS',
+      keyForGroupApi: Capability.CAN_CONFIGURE_API_TOKENS,
       keyForApiTokenApi: 'canConfigureApiTokens',
       label: t('in-stores:permissionCanConfigureApiTokensLabel'),
       description: t('in-stores:permissionCanConfigureApiTokensDescription'),
@@ -290,7 +368,7 @@ function getProductPermissions() {
       isOwnerPermission: true
     },
     {
-      keyForGroupApi: 'CAN_CONFIGURE_PERSONAL_API_TOKENS',
+      keyForGroupApi: Capability.CAN_CONFIGURE_PERSONAL_API_TOKENS,
       keyForApiTokenApi: 'canConfigurePersonalApiTokens',
       label: t('in-stores:permissionCanConfigurePersonalApiTokensLabel'),
       description: t('in-stores:permissionCanConfigurePersonalApiTokensDescription'),
@@ -298,7 +376,7 @@ function getProductPermissions() {
       isOwnerPermission: false
     },
     {
-      keyForGroupApi: 'CAN_CONFIGURE_AUTHENTICATION_METHODS',
+      keyForGroupApi: Capability.CAN_CONFIGURE_AUTHENTICATION_METHODS,
       keyForApiTokenApi: 'canConfigureAuthenticationMethods',
       label: t('in-stores:permissionCanConfigureAuthenticationMethodsLabel'),
       description: t('in-stores:permissionCanConfigureAuthenticationMethodsDescription'),
@@ -306,7 +384,7 @@ function getProductPermissions() {
       isOwnerPermission: false
     },
     {
-      keyForGroupApi: 'CAN_VIEW_AUDIT_LOG',
+      keyForGroupApi: Capability.CAN_VIEW_AUDIT_LOG,
       keyForApiTokenApi: 'canViewAuditLog',
       label: t('in-stores:permissionCanViewAuditLogLabel'),
       description: t('in-stores:permissionCanViewAuditLogDescription'),
@@ -314,7 +392,7 @@ function getProductPermissions() {
       isOwnerPermission: false
     },
     {
-      keyForGroupApi: 'CAN_CONFIGURE_SESSION_SETTINGS',
+      keyForGroupApi: Capability.CAN_CONFIGURE_SESSION_SETTINGS,
       keyForApiTokenApi: 'canConfigureSessionSettings',
       label: t('in-stores:permissionCanConfigureSessionSettingsLabel'),
       description: t('in-stores:permissionCanConfigureSessionSettingsDescription'),
@@ -322,7 +400,7 @@ function getProductPermissions() {
       isOwnerPermission: false
     },
     {
-      keyForGroupApi: 'CAN_VIEW_LOGS',
+      keyForGroupApi: Capability.CAN_VIEW_LOGS,
       keyForApiTokenApi: '', // indicates that this is not a permission for a token
       label: t('in-stores:permissionCanViewLogsLabel'),
       description: t('in-stores:permissionCanViewLogsDescription'),
@@ -330,7 +408,7 @@ function getProductPermissions() {
       isOwnerPermission: false
     },
     {
-      keyForGroupApi: 'CAN_VIEW_TRACE_DETAILS',
+      keyForGroupApi: Capability.CAN_VIEW_TRACE_DETAILS,
       keyForApiTokenApi: '', // indicates that this is not a permission for a token
       label: t('in-stores:permissionCanViewTraceDetailsLabel'),
       description: t('in-stores:permissionCanViewTraceDetailsDescription'),
@@ -339,7 +417,7 @@ function getProductPermissions() {
     },
     /* Account Information */
     {
-      keyForGroupApi: 'CAN_SEE_USAGE_INFORMATION',
+      keyForGroupApi: Capability.CAN_SEE_USAGE_INFORMATION,
       keyForApiTokenApi: 'canSeeUsageInformation',
       label: t('in-stores:permissionCanSeeUsageInformationLabel'),
       description: t('in-stores:permissionCanSeeUsageInformationDescription'),
@@ -347,7 +425,7 @@ function getProductPermissions() {
       isOwnerPermission: false
     },
     {
-      keyForGroupApi: 'CAN_SEE_ON_PREM_LICENE_INFORMATION',
+      keyForGroupApi: Capability.CAN_SEE_ON_PREM_LICENE_INFORMATION,
       keyForApiTokenApi: 'canSeeOnPremLicenseInformation',
       label: t('in-stores:permissionCanSeeOnPremLicenseInformationLabel'),
       description: t('in-stores:permissionCanSeeOnPremLicenseInformationDescription'),
@@ -355,13 +433,26 @@ function getProductPermissions() {
       isOwnerPermission: false
     },
     {
-      keyForGroupApi: 'CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION',
+      keyForGroupApi: Capability.CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION,
       keyForApiTokenApi: 'canViewAccountAndBillingInformation',
       label: t('in-stores:permissionCanViewAccountAndBillingInformationLabel'),
       description: t('in-stores:permissionCanViewAccountAndBillingInformationDescription'),
       category: t('in-stores:permissionCanViewAccountAndBillingInformationCategory')
     }
   ];
+
+  if (!actionAutomationEnabled) {
+    return permissions.filter(({ keyForGroupApi }) => {
+      const automationCapabilities: Array<CapabilityType> = [
+        Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS,
+        Capability.CAN_RUN_AUTOMATION_ACTIONS
+      ];
+
+      return !automationCapabilities.includes(keyForGroupApi);
+    });
+  }
+
+  return permissions;
 }
 
 function getProductRestrictions() {

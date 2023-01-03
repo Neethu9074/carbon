@@ -53,6 +53,19 @@
       "purpose": "User Onboarding and NPS store survey."
     }
   },
+  "roleAndAccessScope": {
+    "editButton": "Edit access scope",
+    "productArea": "Role and access scope",
+    "productArea_application": "Application",
+    "productArea_platform": "Platform",
+    "productArea_website": "Website",
+    "productArea_mobile-app": "Mobile apps",
+    "productArea_kubernetes": "Kubernetes",
+    "productArea_infrastructure": "Infrastructure",
+    "productArea_analytics": "Analytics",
+    "productArea_event": "Events and Alerts",
+    "productArea_function": "Global functions"
+  },
   "cardTitle_Area": "Area",
   "cardTitle_Area_plural": "Areas",
   "cardTitle_Area_0": "Areas",

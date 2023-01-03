@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField } from 'formalistic';
 import React from 'react';
 
 import { SvgIcon, Button, Toggle } from '@instana/components';
@@ -20,6 +19,7 @@ import {
   ACCESS_WEBSITES,
   ACCESS_MOBILE_APPS
 } from 'in-stores/permission';
+import RoleAndAccessScopeColumns from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import {
   getGroupWithIdpFlagAsResultObservable,
   saveGroup,
@@ -27,6 +27,7 @@ import {
 } from 'in-settings/tabs/TeamSettings/api/groups';
 import PermissionsList from 'in-settings/tabs/TeamSettings/pages/accessControl/Permissions/PermissionsList.js';
 import { types } from 'in-settings/tabs/TeamSettings/pages/accessControl/Areas/permissionSetResultFilter';
+import { createForm } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import LoadingGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/LoadingGroup';
 import Areas from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/components/Areas';
 import InlineEditorRow from 'in-settings/tabs/TeamSettings/components/InlineEditorRow';
@@ -35,7 +36,7 @@ import { teamSettingsAccessControlGroups } from 'in-settings/navigation/paths';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { success as successResult } from 'in-services/util/result';
-import { notBlankValidator } from 'in-services/validators/string';
+import { rbacImprovementEnabled } from 'in-services/featureFlags';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import { ownerRoleId, defaultRoleId } from 'in-stores/user';
 import IconLabel from 'in-alerting/components/IconLabel';
@@ -65,7 +66,7 @@ export default function Group({ match }) {
         getObservables={() => ({
           group: groupId ? getGroupWithIdpFlagAsResultObservable(groupId) : just(successResult(createNewGroup()))
         })}
-        enrichForm={enrichForm}
+        enrichForm={createForm}
         saveItem={saveItem}
         onCancelClick={() => goToPath(teamSettingsAccessControlGroups)}
         renderLoadingState={renderLoadingState}
@@ -124,17 +125,19 @@ function renderGroup(props) {
             noDelete={isOwnerGroup && form.get('members').value.length <= 2}
           />
         </Col>
-        {form.get('permissionSet').map(field => (
-          <Col lg={6}>
-            <Areas
-              permissionSet={field.value}
-              update={(ids, dfq) => update(ids, dfq, form, setForm)}
-              removeId={(id, propertyName) => removeId(id, propertyName, form, setForm)}
-              removeDfq={() => removeDfq(form, setForm)}
-              readOnly={isOwnerGroup}
-            />
-          </Col>
-        ))}
+        {rbacImprovementEnabled && <RoleAndAccessScopeColumns form={form} setForm={setForm} readOnly={isOwnerGroup} />}
+        {!rbacImprovementEnabled &&
+          form.get('permissionSet').map(field => (
+            <Col lg={6}>
+              <Areas
+                permissionSet={field.value}
+                update={(ids, dfq) => update(ids, dfq, form, setForm)}
+                removeId={(id, propertyName) => removeId(id, propertyName, form, setForm)}
+                removeDfq={() => removeDfq(form, setForm)}
+                readOnly={isOwnerGroup}
+              />
+            </Col>
+          ))}
       </Row>
 
       <Row>
@@ -408,33 +411,4 @@ function saveItem({ form, setMessage, setCanSaveItem, setForm }) {
       setMessage({ text: t('in-settings:tabs.failedToSaveGroup', { err: error.message }), type: 'error' });
     }
   );
-}
-
-function enrichForm(form, { result: { group } }) {
-  return form
-    .put(
-      'id',
-      createField({
-        value: group.id
-      })
-    )
-    .put(
-      'name',
-      createField({
-        value: group.name,
-        validator: notBlankValidator
-      })
-    )
-    .put(
-      'members',
-      createField({
-        value: group.members
-      })
-    )
-    .put(
-      'permissionSet',
-      createField({
-        value: group.permissionSet
-      })
-    );
 }
