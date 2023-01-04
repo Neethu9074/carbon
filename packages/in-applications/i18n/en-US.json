@@ -7,6 +7,7 @@
   "labelCall": "Call",
   "labelTrace": "Trace",
   "linkDownload": "Download",
+  "linkAnalyzeCallsOfThisTrace": "Analyze Calls of this Trace",
   "labelCalls": "Calls",
   "labelCallsPerSecondShort": "Calls/s",
   "labelErroneousCallsPerSecondShort": "Erroneous Calls/s",

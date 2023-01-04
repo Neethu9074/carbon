@@ -118,6 +118,7 @@ export function getLinkToAnalyze({
     setOrDeleteMatrixParameter(params, hiddenCallsMatrixParameter, hiddenCalls);
     setOrDeleteMatrixParameter(params, fastQueryModeEnabledMatrixParameter, fastQueryModeEnabled);
     setOrDeleteMatrixParameter(params, facetedSearchMatrixParameter, facets);
+    setOrDeleteMatrixParameter(params, analyzeTwoParameters.detailId, null);
 
     if (timeConfig) {
       setTimeConfig(params, timeConfig);
