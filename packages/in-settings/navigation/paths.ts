@@ -62,12 +62,13 @@ export const ampTechnologies = `${ampSettings}/technologies`;
 export const ampActivationAdoption = `${ampSettings}/activationAdoption`;
 
 // current events & alerting configuration paths (after unification of alerting configuration in 2019-02)
-export const teamSettingsAlertingEventBuiltIn = `${alerting}/events/builtIn`;
-export const teamSettingsAlertingEventBuiltInEdit = `${alerting}/events/builtIn/:id`;
-export const teamSettingsAlertingEventCustom = `${alerting}/events/custom`;
-export const teamSettingsAlertingEventCustomEdit = `${alerting}/events/custom/:id`;
-export const teamSettingsAlertingEventCustomNew = `${alerting}/events/custom/new`;
-export const teamSettingsAlertingEvents = `${alerting}/events`;
+export const events = `/events`;
+export const teamSettingsAlertingEventBuiltIn = `${alerting}${events}/builtIn`;
+export const teamSettingsAlertingEventBuiltInEdit = `${alerting}${events}/builtIn/:id`;
+export const teamSettingsAlertingEventCustom = `${alerting}${events}/custom`;
+export const teamSettingsAlertingEventCustomEdit = `${alerting}${events}/custom/:id`;
+export const teamSettingsAlertingEventCustomNew = `${alerting}${events}/custom/new`;
+export const teamSettingsAlertingEvents = `${alerting}${events}`;
 export const teamSettingsAlertingAlertEdit = `${alerting}/alerts/:id`;
 export const teamSettingsAlertingAlertNew = `${alerting}/alerts/new`;
 export const teamSettingsAlertingAlerts = `${alerting}/alerts`;
