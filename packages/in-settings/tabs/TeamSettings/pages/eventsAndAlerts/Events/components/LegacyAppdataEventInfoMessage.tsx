@@ -17,7 +17,7 @@ interface Props {
   deleted?: boolean;
 }
 
-const smartAlertMigrationUrl =
+export const smartAlertMigrationUrl =
   'https://www.ibm.com/docs/en/obi/current?topic=applications-smart-alerts' +
   '#how-to-migrate-a-custom-event-on-application-service-or-endpoint-metrics-to-smart-alerts';
 

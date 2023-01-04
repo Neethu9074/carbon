@@ -55,7 +55,7 @@ export default function EventSpecificationLink({
   );
 }
 
-function getEventSpecificationSettingsBasePath(isCustom: boolean) {
+export function getEventSpecificationSettingsBasePath(isCustom: boolean) {
   return isCustom ? teamSettingsAlertingEventCustom : teamSettingsAlertingEventBuiltIn;
 }
 
