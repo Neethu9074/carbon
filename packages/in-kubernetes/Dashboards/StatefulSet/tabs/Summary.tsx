@@ -312,18 +312,6 @@ export default function Summary({ timeConfig, data: statefulSet }: any) {
                 label: t('in-kubernetes:dashboards.desired'),
                 color: desired,
                 ...defaultChartMetricConfig
-              },
-              {
-                metric: 'unavailableReplicas',
-                label: t('in-kubernetes:dashboards.unavailable'),
-                color: pending,
-                ...defaultChartMetricConfig
-              },
-              {
-                metric: 'misscheduledReplicas',
-                label: t('in-kubernetes:dashboards.misscheduled'),
-                color: unscheduled,
-                ...defaultChartMetricConfig
               }
             ]}
             title={t('in-kubernetes:dashboards.replicas')}
