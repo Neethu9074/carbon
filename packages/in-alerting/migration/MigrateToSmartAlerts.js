@@ -29,7 +29,7 @@ export default function MigrateToSmartAlerts({ eventSpecificationId }) {
 
   return (
     <Stack direction="horizontal" gap="xsmall">
-      <Tooltip content={t('in-alerting:smartAlerts.migration.markAsMigratedButtonTooltip')}>
+      <Tooltip content={t('in-alerting:smartAlerts.migration.markAsMigratedButtonTooltip')} delay={500}>
         <Button
           kind="secondary"
           onClick={() => showMigrationConfirmation(eventSpecificationId, setDisablingEvent)}
@@ -39,7 +39,7 @@ export default function MigrateToSmartAlerts({ eventSpecificationId }) {
           {t('in-alerting:smartAlerts.migration.markAsMigratedButton')}
         </Button>
       </Tooltip>
-      <Tooltip content={t('in-alerting:smartAlerts.migration.migrateButtonTooltip')}>
+      <Tooltip content={t('in-alerting:smartAlerts.migration.migrateButtonTooltip')} delay={500}>
         <Button
           kind="primaryv2"
           onClick={() => doMigration(eventSpecificationId, setMigrating, migrationInProgress, setMigrationInProgress)}

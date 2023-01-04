@@ -113,3 +113,7 @@ export const allFormatterIds = Object.values(allFormatters).map(c => c.id);
 export function getFormatter(formatterId?: string): FormatterFn {
   return (allFormatters.find(({ id }) => id === formatterId) || defaultFormatter).formatter;
 }
+
+export function getFormatterId(formatterFn?: FormatterFn): string {
+  return (allFormatters.find(({ formatter }) => formatter === formatterFn) || defaultFormatter).id;
+}

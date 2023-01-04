@@ -39,9 +39,11 @@ import FacetedFilterGeneric from 'in-components/AnalyzeView/FacetedFilters/Facet
 import GroupedResults from 'in-applications/analyze/AnalyzeView2_0/components/GroupedResults';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator/BatchingIndicator';
 import { toBackendQuery } from 'in-components/AnalyzeView/FacetedFilters/facets';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import Results from 'in-applications/analyze/AnalyzeView2_0/components/Results';
 import getTagSuggestions from 'in-applications/subscriptions/getTagSuggestions';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
+import { LESS_THAN } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getMetricTemplates } from 'in-applications/api/metricTemplates';
 import { ua2FastQueryModeChangedTracker } from 'in-applications/tracker';
 import StateManagement from 'in-components/AnalyzeView/StateManagement';
@@ -171,6 +173,7 @@ export default function ApplicationsAnalyzeView() {
       getMetricCatalog={getMetricCatalog}
       getMetricTemplates={getMetricTemplates}
       dataSourceConfigurations={dataSourceConfigurations}
+      getCustomGroupingTagFilter={getCustomGroupingTagFilter}
     >
       {opts =>
         opts.isGrouped ? (
@@ -182,6 +185,7 @@ export default function ApplicationsAnalyzeView() {
             fastQueryModeEnabled={fastQueryModeEnabled}
             onChangeFastQueryModeEnabled={onChangeFastQueryModeEnabled}
             useLastValidStateWhenErroneous
+            getCustomGroupingTagFilter={getCustomGroupingTagFilter}
           />
         ) : (
           <Results
@@ -197,6 +201,13 @@ export default function ApplicationsAnalyzeView() {
       }
     </StateManagement>
   );
+}
+
+function getCustomGroupingTagFilter(groupBy, groupValue) {
+  if (groupBy.groupbyTag === 'call.latency' && groupValue === '0') {
+    return tagFilter('call.latency', LESS_THAN, 1);
+  }
+  return null;
 }
 
 function getDataSourceConfigurations({ hiddenCalls, onChangeHiddenCalls }) {
@@ -244,12 +255,15 @@ function getGroupedView(dataSource) {
   };
 }
 
-function getCustomGroupLabel(groupName) {
+function getCustomGroupLabel(groupName, groupbyTag) {
   if (groupName === UNSPECIFIED) {
     return UNSPECIFIED_LABEL;
   }
   if (groupName === NO_VALUE) {
     return NO_VALUE_LABEL;
+  }
+  if (groupbyTag === 'call.latency' && groupName === '0') {
+    return '< 1';
   }
   return groupName;
 }

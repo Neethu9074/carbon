@@ -11,7 +11,7 @@ import ChartViewConfiguratorWithEntitySelection from 'in-alerting/smart-alerts/a
 import IncompleteChartPlaceholder from 'in-alerting/smart-alerts/components/smart-alert-dialog/IncompleteChartPlaceholder';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 
-import locals from 'in-alerting/smart-alerts/applications/simple/SimpleAlertConfigDialogChart.mless';
+import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/simple/SimpleAlertConfigDialogChart.mless';
 
 export default function SimpleAlertConfigDialogChart({ form, onChartViewConfigChange, selectedChartViewConfigIndex }) {
   const alertConfigWithFormModel = form.toJS();

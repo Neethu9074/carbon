@@ -193,6 +193,7 @@ function AnalyzeStateManagement({
   getMetricTemplates,
   urlStateDefinition,
   dataSourceConfigurations,
+  getCustomGroupingTagFilter,
   children
 }) {
   const timeConfig = useTimeConfig();
@@ -330,7 +331,9 @@ function AnalyzeStateManagement({
     return metricCatalog;
   }, [metricCatalog, metricCatalogResult, chartableMetricCatalogTransformer]);
 
-  const backendQueryModel = useMemo(() => toBackendQueryModel(formModel), [formModel]);
+  const backendQueryModel = useMemo(() => {
+    return toBackendQueryModel(formModel);
+  }, [formModel]);
 
   const formModelWithFacets = useMemo(
     () => joinExpressions({ expressions: [formModel, facetsAsTagFilterExpression] }),
@@ -495,7 +498,13 @@ function AnalyzeStateManagement({
   function getStateChangeForUngroupedView(groupValue) {
     return {
       groupBy: emptyObject,
-      formModel: addGroupingCriteriaToFormModel(groupBy, groupValue, formModel, groupingTagCatalogResult.data)
+      formModel: addGroupingCriteriaToFormModel(
+        groupBy,
+        groupValue,
+        formModel,
+        groupingTagCatalogResult.data,
+        getCustomGroupingTagFilter
+      )
     };
   }
 }
@@ -562,7 +571,8 @@ export const childrenArgsAsPropTypes = {
   getHrefToUngroupedView: rpt.func.isRequired,
   getHrefToGroupedView: rpt.func.isRequired,
   groupingTagCatalog: rpt.object,
-
+  getCustomGroupingTagFilter: rpt.func,
+  updateTest: rpt.func,
   orderBy: rpt.shape({
     by: rpt.string.isRequired,
     direction: rpt.oneOf(['ASC', 'DESC']).isRequired
@@ -602,9 +612,18 @@ export const childrenArgsAsPropTypes = {
   setDetailId: rpt.func.isRequired
 };
 
-export function addGroupingCriteriaToFormModel(groupBy, groupValue, formModel, groupingTagCatalog) {
+export function addGroupingCriteriaToFormModel(
+  groupBy,
+  groupValue,
+  formModel,
+  groupingTagCatalog,
+  getCustomGroupingTagFilter
+) {
+  const customGroupingTagFilter = getCustomGroupingTagFilter ? getCustomGroupingTagFilter(groupBy, groupValue) : null;
+  if (customGroupingTagFilter) {
+    return joinExpressions({ expressions: [formModel, sanitizeTagFilter(customGroupingTagFilter)] });
+  }
   const groupByTagType = groupingTagCatalog?.tags.find(tag => tag.name === groupBy.groupbyTag)?.type;
-
   let newTagFilter;
   if (groupValue === UNSPECIFIED) {
     newTagFilter = {

@@ -25,6 +25,7 @@ import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import useWebsiteEventEntity from 'in-events/hooks/useWebsiteEventEntity';
 import { fixateTimeConfig } from 'in-stores/time/config';
+import { emptyMap } from 'in-services/fixedImmutables';
 import { Row, Col } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
@@ -39,12 +40,10 @@ export default function WebsiteEventContent({ event }) {
     return null;
   }
 
-  const {
-    tagFilterExpression,
-    rule,
-    rule: { metricName }
-  } = alertConfig;
-  const alertType = rule.alertType;
+  const adaptiveBaselineInfo = event.getIn(['metadata', 'adaptiveBaselineInfo'], emptyMap).toJS();
+
+  const { tagFilterExpression, rule } = alertConfig;
+  const { alertType, metricName } = rule;
 
   const blueprintConfig = getBlueprintConfig(alertType);
   const beaconType = blueprintConfig.getBeaconType(metricName);
@@ -55,6 +54,7 @@ export default function WebsiteEventContent({ event }) {
   };
   const analyzeTimeConfig = getSmartAlertAnalyzeTimeframe(event, alertConfig);
   const fixedAnalyzeTimeConfig = fixateTimeConfig(analyzeTimeConfig);
+
   const chartViewConfig = createDefaultChartConfig(timeConfig);
 
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
@@ -70,9 +70,10 @@ export default function WebsiteEventContent({ event }) {
             <DescriptionButtons>
               <WebsiteAlertConfigButton alertConfig={alertConfig} />
               <AnalyzeWebsiteEventButton
-                alertConfig={alertConfig}
                 websiteName={eventEntity.websiteName}
+                alertConfig={alertConfig}
                 timeConfig={fixedAnalyzeTimeConfig}
+                adaptiveBaselineInfo={adaptiveBaselineInfo}
               />
             </DescriptionButtons>
           </Card>
@@ -94,7 +95,9 @@ export default function WebsiteEventContent({ event }) {
               }}
               viewConfig={chartViewConfig}
               blueprintConfig={blueprintConfig}
+              eventBasedAdaptiveBaseline={Object.entries(adaptiveBaselineInfo).sort((a, b) => a[0] - b[0])}
               setMetricResultPrecision={setMetricResultPrecision}
+              isEventsView
             />
           </Card>
         </Col>

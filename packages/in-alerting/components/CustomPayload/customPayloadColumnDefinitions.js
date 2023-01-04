@@ -6,7 +6,6 @@
 import { createField } from 'formalistic';
 import classNames from 'classnames';
 import React from 'react';
-import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 
 import { SvgIcon } from '@instana/components';
 
@@ -21,6 +20,7 @@ import {
   validatorForType,
   staticType
 } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
+import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup';
@@ -38,7 +38,7 @@ export const deleteItemColumnDefinition = {
   getContent(itemForm, { deleteRow, enabled }) {
     return (
       <div className={locals.controls}>
-        <Tooltip content={t('in-alerting:components.customPayload.deleteRow')}>
+        <Tooltip content={t('in-alerting:components.customPayload.deleteRow')} delay={500}>
           <SvgIcon
             type="lib_actions_delete"
             className={classNames({
@@ -74,7 +74,7 @@ export const valueColumnDefinition = {
     if (type === staticType) {
       return (
         <FormGroup withoutBottomMargin>
-          <Tooltip content={value} align="bottomMiddle">
+          <Tooltip content={value} align="bottomMiddle" delay={500}>
             <Input
               disabled={!enabled}
               className={locals.colValue}
@@ -140,6 +140,7 @@ export const keyColumnDefinition = {
         <Tooltip
           content={value ? t('in-alerting:components.customPayload.customWithColon') + value : ''}
           align="bottomMiddle"
+          delay={500}
         >
           <HorizontalFlexWrapper className={locals.colName}>
             <span className={locals.prefix}>{t('in-alerting:components.customPayload.customWithColon')}</span>
@@ -191,7 +192,7 @@ export const typeColumnDefinition = {
       <FormGroup withoutBottomMargin>
         {item.get('type').map(field => {
           return (
-            <Tooltip content={field.value === staticType ? staticLabel : dynamicLabel}>
+            <Tooltip content={field.value === staticType ? staticLabel : dynamicLabel} delay={500}>
               <Select
                 wrapperClassName={locals.colType}
                 disabled={!enabled}

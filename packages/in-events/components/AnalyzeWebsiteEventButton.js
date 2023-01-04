@@ -19,33 +19,28 @@ import { propTypeTimeConfig } from 'in-stores/time/config';
 import { defaultGroupings } from 'in-websites/tags';
 import { t } from 'in-i18n';
 
-export default function AnalyzeWebsiteEventButton({ alertConfig, websiteName, timeConfig }) {
-  const { rule, tagFilterExpression } = alertConfig;
-  const { alertType, metricName, aggregation } = rule;
+export default function AnalyzeWebsiteEventButton({ alertConfig, websiteName, timeConfig, adaptiveBaselineInfo }) {
+  const { rule } = alertConfig;
+  const { alertType, metricName } = rule;
 
   const blueprintConfig = getBlueprintConfig(alertType);
   const beaconType = blueprintConfig.getBeaconType(metricName);
-  const tagFilterFormModel = fromBackendModel(tagFilterExpression);
+
+  const linkToUA = getLinkToUnboundAnalytics(
+    beaconType,
+    websiteName,
+    blueprintConfig,
+    alertConfig,
+    timeConfig,
+    adaptiveBaselineInfo
+  ).map(urlWithoutQueryParameter);
 
   return (
     <Button
       kind="primary"
       icon={getIcon(alertType)}
       onClick={() => websitesAlertingEventDetailsGoToAnalyze({ beaconType })}
-      href$={getLinkToAnalyze({
-        beaconType,
-        formModel: joinExpressions({
-          expressions: [
-            [tagFilter('beacon.website.name', EQUALS, websiteName)],
-            tagFilterFormModel,
-            blueprintConfig.getRuleTagFilterFormModel(rule),
-            blueprintConfig.getExtraAnalyzeLinkTagFilterFormModel(alertConfig, timeConfig)
-          ]
-        }),
-        groupBy: getGrouping(alertType, metricName),
-        chartedMetrics: getChartedMetrics(alertType, aggregation),
-        timeConfig
-      }).map(urlWithoutQueryParameter)}
+      href$={linkToUA}
     >
       {getLinkTitle(alertType, metricName)}
     </Button>
@@ -54,9 +49,39 @@ export default function AnalyzeWebsiteEventButton({ alertConfig, websiteName, ti
 
 AnalyzeWebsiteEventButton.propTypes = {
   alertConfig: PropTypes.object.isRequired,
-  websiteName: PropTypes.string.isRequired,
-  timeConfig: propTypeTimeConfig.isRequired
+  timeConfig: propTypeTimeConfig.isRequired,
+  adaptiveBaselineInfo: PropTypes.object,
+  websiteName: PropTypes.string.isRequired
 };
+
+function getLinkToUnboundAnalytics(
+  beaconType,
+  websiteName,
+  blueprintConfig,
+  alertConfig,
+  timeConfig,
+  adaptiveBaselineInfo
+) {
+  const { rule, tagFilterExpression } = alertConfig;
+  const { alertType, metricName, aggregation } = rule;
+
+  const tagFilterFormModel = fromBackendModel(tagFilterExpression);
+
+  return getLinkToAnalyze({
+    beaconType,
+    timeConfig,
+    groupBy: getGrouping(alertType, metricName),
+    chartedMetrics: getChartedMetrics(alertType, aggregation),
+    formModel: joinExpressions({
+      expressions: [
+        [tagFilter('beacon.website.name', EQUALS, websiteName)],
+        tagFilterFormModel,
+        blueprintConfig.getRuleTagFilterFormModel(rule),
+        blueprintConfig.getExtraAnalyzeLinkTagFilterFormModel(alertConfig, timeConfig, adaptiveBaselineInfo)
+      ]
+    })
+  }).map(urlWithoutQueryParameter);
+}
 
 function getGrouping(alertType, metricName) {
   switch (alertType) {

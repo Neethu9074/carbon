@@ -4,11 +4,11 @@
  */
 
 import React, { forwardRef } from 'react';
-import * as Immutable from 'immutable';
 import classNames from 'classnames';
 
 import { SvgIcon } from '@instana/components';
 
+import { SnapshotMap } from 'in-components/EntityLink';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import PluginIcon from 'in-components/PluginIcon';
 import theme from 'in-themes';
@@ -17,7 +17,7 @@ import locals from './WithIcon.mless';
 
 interface WithPluginIconProps extends WithIconProps {
   plugin: string;
-  snapshot?: Immutable.Map<string, unknown>;
+  snapshot?: SnapshotMap;
 }
 
 interface WithLibraryIconProps extends WithIconProps {

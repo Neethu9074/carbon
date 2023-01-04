@@ -4,7 +4,6 @@
  */
 
 import {
-  AdaptiveBaselineConfig,
   AggregationType,
   ApplicationAlertConfig,
   ApplicationAlertRule,
@@ -31,11 +30,12 @@ import {
   getEntitySelectionAsTagFilterFormModel
 } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import getApplicationMetricsAlertPreview from 'in-alerting/smart-alerts/applications/subscriptions/getApplicationMetricsAlertsPreview';
+import { isAdaptiveBaselineConfig, isStaticThresholdConfig } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
-import { ADAPTIVE_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { toTagFilterNumberOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { and } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { millis, number, NumberFormatter, percentage } from 'in-services/formatters/number';
+import { getAggregationText } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import getApplicationMetrics from 'in-applications/subscriptions/getApplicationMetrics';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { FixedTimeConfig } from 'in-stores/time/config';
@@ -57,6 +57,7 @@ interface BluePrintBase {
   readonly getThresholdSuggestionRequest: () => typeof getApplicationMetricsThresholdSuggestion;
   readonly thresholdDefaults: { readonly operator: ThresholdOperator };
   readonly enrichWithDefaultThresholdValues: (alertConfig: ApplicationAlertConfig) => ApplicationAlertConfig;
+
   readonly getEntityTagFilterFormModel: (
     alertConfig: ApplicationAlertConfig,
     applicationId: string,
@@ -64,10 +65,12 @@ interface BluePrintBase {
     serviceId?: string,
     endpointId?: string
   ) => FormModelElement[];
+
   readonly getRuleTagFilterFormModel: (alertRule: ApplicationAlertRule) => FormModelElement[];
   readonly getExtraAnalyzeLinkTagFilterFormModel: (
     alertConfig: ApplicationAlertConfig,
-    timeConfig: FixedTimeConfig
+    timeConfig: FixedTimeConfig,
+    adaptiveBaselineInfo?: Record<string, number>
   ) => FormModelElement[];
   readonly isBeta: boolean;
 }
@@ -79,22 +82,28 @@ type ThresholdTypeOptions = readonly Option[];
 export interface BluePrint extends BluePrintBase {
   readonly type: ApplicationAlertType;
   readonly name: string;
-  readonly headline: string;
-  readonly text: string;
+  readonly headline?: string;
+  readonly text?: string;
   readonly subType?: string;
   readonly isSelected?: (alertThreshold: ThresholdConfig) => boolean;
+
   readonly baselineEnabled: boolean;
   readonly defaultMetric: MetricName;
   readonly getMetricName: (alertRule: ApplicationAlertRule) => string; // TODO figure out if the backend type could be a enum which could map to MetricName?
-  readonly getMetricLabel: (metricName: MetricName) => string;
+  /**
+   * Gets the human-readable metric label, optionally extended with the aggregation type only if relevant.
+   */
+  readonly getMetricLabel: (metricName: MetricName, aggregation?: AggregationType) => string;
   readonly getMetricFormat: (metricName: MetricName) => NumberFormatter;
   readonly getMaxMetricValue: (metricName: MetricName) => number;
+
   readonly getAggregation: (alertRule: ApplicationAlertRule) => AggregationType;
   readonly getThresholdTypeOptions: () => ThresholdTypeOptions; // applicationThresholdTypeOptions,
+  readonly getRuleTagFilterFormModel: (alertRule: ApplicationAlertRule) => FormModelElement[];
+
   readonly isRuleComplete: (alertRule: ApplicationAlertRule) => boolean;
   readonly incompleteRuleMessage?: string;
   readonly impactTimeThresholdDisabled?: boolean;
-  readonly getRuleTagFilterFormModel: (alertRule: ApplicationAlertRule) => FormModelElement[];
 }
 
 const baseBlueprint: Readonly<BluePrintBase> = Object.freeze({
@@ -135,7 +144,10 @@ const slownessBlueprintConfig: Readonly<BluePrint> = Object.freeze<BluePrint>({
   baselineEnabled: true,
   defaultMetric: 'latency',
   getMetricName: () => 'latency',
-  getMetricLabel: () => t('in-applications:analyze.quickFilter.labelLatency'),
+  getMetricLabel: (_: MetricName, aggregation?: AggregationType) =>
+    aggregation
+      ? `${t('in-applications:analyze.quickFilter.labelLatency')} (${getAggregationText(aggregation)})`
+      : t('in-applications:analyze.quickFilter.labelLatency'),
   getMetricFormat: () => millis.forcedFixedCompact,
   getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
   getAggregation: alertRule => alertRule.aggregation!, // for latency, there is always an aggregation set
@@ -272,8 +284,12 @@ export const simpleModeBlueprintConfigs: readonly Readonly<BluePrint>[] = Object
   }
 ]);
 
-export function getBlueprintConfig(alertType: ApplicationAlertType): BluePrint | undefined {
-  return blueprintConfigs.find(blueprint => blueprint.type === alertType);
+export function getBlueprintConfig(alertType: ApplicationAlertType): BluePrint {
+  const config = blueprintConfigs.find(blueprint => blueprint.type === alertType);
+  if (!config) {
+    throw new Error('Unknown alert type: ' + alertType);
+  }
+  return config;
 }
 
 export function getSimpleModeBlueprintConfig(
@@ -336,17 +352,18 @@ function getExtraSlownessAnalyzeLinkTagFilterFormModel(
   timeConfig: FixedTimeConfig,
   adaptiveBaselineInfo = {}
 ): FormModelElement[] {
-  let value;
+  let value: number;
 
-  if (alertConfig.threshold.type === STATIC_THRESHOLD) {
-    value = (alertConfig.threshold as StaticThresholdConfig).value;
-  } else if (alertConfig.threshold.type === ADAPTIVE_BASELINE) {
-    const threshold = alertConfig.threshold as AdaptiveBaselineConfig;
+  const { threshold } = alertConfig;
+
+  if (isStaticThresholdConfig(threshold)) {
+    value = threshold.value;
+  } else if (isAdaptiveBaselineConfig(threshold)) {
     value = getApproximatedAdaptiveBaselineThresholdValue(threshold, adaptiveBaselineInfo);
   } else {
     // HISTORIC_BASELINE
     value = getApproximatedHistoricBaselineThresholdValue(
-      alertConfig.threshold as HistoricBaselineData,
+      threshold as HistoricBaselineData,
       alertConfig.granularity,
       timeConfig
     );

@@ -67,7 +67,6 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
   const blueprintConfig = getBlueprintConfig(alertType);
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
   const TagBasedPayloadConfigurator = useTagBasedApplicationPayloadConfigurator(applications, boundaryScope);
-
   return (
     <AlertDetailsCard>
       <ListTitle>{t('in-alerting:smartAlerts.applications.alertConfiguration')} </ListTitle>

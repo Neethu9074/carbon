@@ -13,13 +13,7 @@
         "title": "What kind of synthetic test would you like to create"
       },
       "scheduling": {
-        "title": "Scheduling",
-        "playbackMode": "Playback Mode",
-        "labelPlaybackMode": "Select the playback mode",
-        "simultaneous": "Simultaneous",
-        "staggered": "Staggered",
-        "simultaneousDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-        "staggeredDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+        "title": "Scheduling"
       },
       "requestStep": {
         "title": "Specify Request",
@@ -54,7 +48,7 @@
             "title": "Tips for using",
             "line1": "Step 1: Choose the type of test which you wish to create.",
             "line2": "Step 2: Enter the HTTP method and url of the webpage you wish to test. Then choose one or more locations. A location represents a deployed Synthetic Point of Presence.",
-            "line3": "Step 3: Choose playback mode (Simultaneous: The test runs in all assigned locations in parallel, this is most commonly used. Staggered: The test runs in all assigned locations in round robin.) and test frequency (1 ~ 120 minutes).",
+            "line3": "Step 3: Choose the test frequency (1 ~ 120 minutes).",
             "line4": "Step 4: In the Name and Description section, enter a meaningful name for your test in the Name field. Add a description of the purpose of your test to the Description field."
          }
         },
@@ -68,9 +62,9 @@
             "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
           },
           "tipsForUsing": {
-            "line1": "step 1: Choose the type of test which you wish to create.",
+            "line1": "Step 1: Choose the type of test which you wish to create.",
             "line2": "Step 2: Use the Upload the script option to upload a node.js test script file. Then choose one or more locations. A location represents a deployed Synthetic Point of Presence.",
-            "line3": "Step 3: Choose playback mode (Simultaneous: The test runs in all assigned locations in parallel, this is most commonly used. Staggered: The test runs in all assigned locations in round robin.) and test frequency (1 ~ 120 minutes).",
+            "line3": "Step 3: Choose the test frequency (1 ~ 120 minutes).",
             "line4": "Step 4: In the Name of the test and Description section, enter a meaningful name for your test in the Name field. Add a description of the purpose of your test to the Description field."
           }
         }
@@ -257,6 +251,8 @@
       },
       "downloadHar": "Download HAR File",
       "downloadLog": "Download Logs",
+      "downloadImages": "Download Screenshot",
+      "downloadVideo": "Download Recording",
       "consoleLogs": "CONSOLE",
       "browserLogs": "BROWSER",
       "browserDetails": {

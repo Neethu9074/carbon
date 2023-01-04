@@ -7,6 +7,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { isAdaptiveBaselineConfig } from '@instana/types';
+
+import {
+  chartViewConfig24hours,
+  chartViewConfigs as defaultChartViewConfigs
+} from 'in-alerting/components/Chart/chartViewConfig';
 import WebsitesAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/websites/chart/WebsitesAlertingChartWithErrorMessage';
 import IncompleteChartPlaceholder from 'in-alerting/smart-alerts/components/smart-alert-dialog/IncompleteChartPlaceholder';
 import CustomEventsThresholdCondition from 'in-alerting/smart-alerts/websites/advanced/CustomEventsThresholdCondition';
@@ -30,6 +36,9 @@ export default function ThresholdSelectionInteractiveChart({
   editMode
 }) {
   const alertConfigWithFormModel = alertConfigWithDefaultThreshold(form);
+
+  const thresholdType = alertConfigWithFormModel.threshold;
+  const chartViewConfigs = isAdaptiveBaselineConfig(thresholdType) ? [chartViewConfig24hours] : defaultChartViewConfigs;
 
   if (!blueprintConfig.isRuleComplete(alertConfigWithFormModel.rule)) {
     return (
@@ -76,9 +85,9 @@ export default function ThresholdSelectionInteractiveChart({
       />
 
       <ChartViewConfigurator
-        alertConfigWithFormModel={alertConfigWithFormModel}
         onChartViewConfigChange={onChartViewConfigChange}
         selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+        chartViewConfigs={chartViewConfigs}
         headerTransparent
       >
         {chartViewConfig => (

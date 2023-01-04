@@ -48,4 +48,8 @@
   .item {
     margin-bottom: 2rem;
   }
+
+  .customEventDeprecatedWarning {
+    margin-bottom: 1.5rem;
+  }
 }

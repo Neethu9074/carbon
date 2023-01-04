@@ -794,7 +794,12 @@
         "propertiesTitle": "Additional Alert Properties",
         "thresholdValue": "Threshold Value",
         "payloadsLabel": "Payloads",
-        "payloadsTitle": "Custom Payloads"
+        "payloadsTitle": "Custom Payloads",
+        "evaluationSwitch": {
+          "evaluationTypePERWEBSITE": {
+            "shortText": "Per Website"
+          }
+        }
       },
       "components": {
         "provideStatusCodeStatusCode": "Status Code",

@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { isAdaptiveBaselineConfig } from '@instana/types';
+
 import {
   websitesAlertingAdditionalPropsAlertLevelChanged,
   websitesAlertingAdditionalPropsDescriptionChanged,
@@ -20,6 +22,8 @@ import {
   isCustomPayloadValidOrUntouched,
   fieldTouchedAndInvalid
 } from 'in-alerting/smart-alerts/components/utils/formUtils';
+import HistoricBaselineErrorMessage from 'in-alerting/smart-alerts/components/smart-alert-dialog/HistoricBaselineErrorMessage';
+import AdaptiveBaselineErrorMessage from 'in-alerting/smart-alerts/components/smart-alert-dialog/AdaptiveBaselineErrorMessage';
 import AlertProperties from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertProperties';
 import AlertTagFilterExpressionConfig from 'in-alerting/smart-alerts/websites/components/AlertTagFilterExpressionConfig';
 import WebsiteAlertPropertiesTitleRow from 'in-alerting/smart-alerts/websites/advanced/WebsiteAlertPropertiesTitleRow';
@@ -28,41 +32,51 @@ import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/smart-ale
 import BluePrintSelectionSection from 'in-alerting/smart-alerts/websites/advanced/BluePrintSelectionSection';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
+import { HISTORIC_BASELINE, ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import TimeThresholdConfig from 'in-alerting/smart-alerts/websites/advanced/TimeThresholdConfig';
 import { onThresholdTypeChange } from 'in-alerting/smart-alerts/websites/form/thresholdTypeForm';
 import { ThresholdSection } from 'in-alerting/smart-alerts/websites/advanced/ThresholdSection';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { websiteSmartAlertsAdaptiveBaselineEnabled } from 'in-services/featureFlags';
-import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import StepsContainer from 'in-components/StepsContainer';
 import { t } from 'in-i18n';
 
 export default function AdvancedModeContainer(props) {
   const {
+    onChartViewConfigChange,
+    selectedChartViewConfigIndex,
     form,
     timeConfig,
     onChange,
     setSliderState,
     setCustomSlideInHeaderConfig,
     updateForm,
-    onChartViewConfigChange,
-    selectedChartViewConfigIndex,
     thresholdResult,
     messages,
     editMode,
-    isDynamicCustomPayloadValid,
-    TagBasedPayloadConfigurator,
     QueryBuilderComponent,
     isTagFilterFormModelValid,
+    TagBasedPayloadConfigurator,
+    isDynamicCustomPayloadValid,
     websiteLabel
   } = props;
   const ruleForm = form.get('rule');
   const alertType = ruleForm.get('alertType').value;
   const thresholdType = form.get('threshold').get('type').value;
+
   const blueprintConfig = getBlueprintConfig(alertType);
+  const ruleComplete = blueprintConfig?.isRuleComplete(ruleForm.toJS());
+
   const isSpecificJsErrorBlueprint = blueprintConfig.type === 'specificJsError';
   const isCustomEvent = blueprintConfig.type === 'customEvent';
+
+  const resetChartConfigSelectionWhenAdaptiveBaseline = updatedForm => {
+    if (isAdaptiveBaselineConfig(updatedForm.get('threshold').toJS())) {
+      onChartViewConfigChange(0);
+    }
+    return updateForm(updatedForm);
+  };
 
   return (
     <StepsContainer
@@ -70,12 +84,12 @@ export default function AdvancedModeContainer(props) {
       navItems={[
         {
           scrollId: '1',
+          label: t('in-alerting:smartAlerts.websites.advanced.triggerLabel'),
+          title: t('in-alerting:smartAlerts.websites.advanced.triggerTitle'),
           valid: !(
             (isCustomEvent && fieldTouchedAndInvalid(ruleForm?.get('customEventName'))) ||
             (isSpecificJsErrorBlueprint && fieldTouchedAndInvalid(ruleForm?.get('value')))
           ),
-          label: t('in-alerting:smartAlerts.websites.advanced.triggerLabel'),
-          title: t('in-alerting:smartAlerts.websites.advanced.triggerTitle'),
           content: (
             <>
               <BluePrintSelectionSection
@@ -94,7 +108,7 @@ export default function AdvancedModeContainer(props) {
                 >
                   <StaticOrAdaptiveSwitch
                     form={form}
-                    setForm={updateForm}
+                    setForm={resetChartConfigSelectionWhenAdaptiveBaseline}
                     onThresholdTypeChange={onThresholdTypeChange}
                   />
                 </LightCard>
@@ -111,8 +125,8 @@ export default function AdvancedModeContainer(props) {
             <AlertTagFilterExpressionConfig
               form={form}
               updateForm={updateForm}
-              websiteLabel={websiteLabel}
               QueryBuilderComponent={QueryBuilderComponent}
+              websiteLabel={websiteLabel}
             />
           )
         },
@@ -122,18 +136,27 @@ export default function AdvancedModeContainer(props) {
           title: t('in-alerting:smartAlerts.websites.advanced.thresholdTitle'),
           valid: isThresholdSectionValid(),
           content: (
-            <ThresholdSection
-              alertType={alertType}
-              blueprintConfig={blueprintConfig}
-              editMode={editMode}
-              form={form}
-              onChartViewConfigChange={onChartViewConfigChange}
-              selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-              thresholdResult={thresholdResult}
-              timeConfig={timeConfig}
-              updateForm={updateForm}
-              websiteLabel={websiteLabel}
-            />
+            <>
+              <ThresholdSection
+                alertType={alertType}
+                blueprintConfig={blueprintConfig}
+                editMode={editMode}
+                form={form}
+                onChartViewConfigChange={onChartViewConfigChange}
+                selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+                updateForm={updateForm}
+                ruleComplete={ruleComplete}
+                thresholdResult={thresholdResult}
+                timeConfig={timeConfig}
+                websiteLabel={websiteLabel}
+              />
+              {thresholdType === HISTORIC_BASELINE && (
+                <HistoricBaselineErrorMessage thresholdResult={thresholdResult} />
+              )}
+              {thresholdType === ADAPTIVE_BASELINE && (
+                <AdaptiveBaselineErrorMessage thresholdResult={thresholdResult} />
+              )}
+            </>
           )
         },
         {
@@ -226,16 +249,20 @@ export default function AdvancedModeContainer(props) {
   );
 
   function isThresholdSectionValid() {
+    // LATER: check correctness: on AP it checks the value - touched state
     if (fieldTouchedAndInvalid(form.get('threshold'))) {
       return false;
     }
     if (thresholdType === HISTORIC_BASELINE && !isTagFilterFormModelValid) {
       return false;
     }
-    if (!blueprintConfig.isRuleComplete(ruleForm.toJS())) {
+    if (!ruleComplete) {
+      return false;
+    }
+    if (thresholdType === HISTORIC_BASELINE && thresholdResult?.errors?.length > 0) {
       return false;
     }
 
-    return !(thresholdType === HISTORIC_BASELINE && thresholdResult?.errors?.length > 0);
+    return !(thresholdType === ADAPTIVE_BASELINE && thresholdResult?.data?.message);
   }
 }

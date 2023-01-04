@@ -89,7 +89,8 @@ export default function GroupedView(props) {
     groupingTagCatalog,
     Chart,
     customLatencyUiFormatterName,
-    CustomHeaderActions
+    CustomHeaderActions,
+    getCustomGroupingTagFilter
   } = props;
   const timeConfig = useTimeConfig();
   const fields = [...fixedFields, ...selectableFields];
@@ -185,7 +186,13 @@ export default function GroupedView(props) {
       onChartableDataSeriesChange(
         items.slice(0, 5).map(item => ({
           label: getLabel(item),
-          formModel: addGroupingCriteriaToFormModel(groupBy, getLabel(item), formModelWithFacets, groupingTagCatalog)
+          formModel: addGroupingCriteriaToFormModel(
+            groupBy,
+            getLabel(item),
+            formModelWithFacets,
+            groupingTagCatalog,
+            getCustomGroupingTagFilter
+          )
         }))
       );
     }
@@ -310,13 +317,15 @@ export default function GroupedView(props) {
                         groupBy,
                         label,
                         formModel,
-                        groupingTagCatalog
+                        groupingTagCatalog,
+                        getCustomGroupingTagFilter
                       );
                       const formModelWithFacetsForUnGroupedView = addGroupingCriteriaToFormModel(
                         groupBy,
                         label,
                         formModelWithFacets,
-                        groupingTagCatalog
+                        groupingTagCatalog,
+                        getCustomGroupingTagFilter
                       );
                       return (
                         // tagFilterExpression / backendQueryModel must be separately memoized based on hash
@@ -447,7 +456,13 @@ function labelColumns({
         return (
           <KeyValue
             label={<span className={locals.groupLabel}>{label}</span>}
-            customValue={<GroupLabelTooltip groupName={getLabel(item)} getCustomGroupLabel={getCustomGroupLabel} />}
+            customValue={
+              <GroupLabelTooltip
+                groupName={getLabel(item)}
+                getCustomGroupLabel={getCustomGroupLabel}
+                groupbyTag={groupbyTag}
+              />
+            }
             accentuated
           />
         );
@@ -456,9 +471,9 @@ function labelColumns({
   ];
 }
 
-function GroupLabelTooltip({ groupName, getCustomGroupLabel }) {
+function GroupLabelTooltip({ groupName, getCustomGroupLabel, groupbyTag }) {
   const groupLabel = getCustomGroupLabel ?? identity;
-  const label = groupLabel(groupName);
+  const label = groupLabel(groupName, groupbyTag);
   return (
     <Tooltip content={label} align="bottomLeft" delay={1000}>
       <div

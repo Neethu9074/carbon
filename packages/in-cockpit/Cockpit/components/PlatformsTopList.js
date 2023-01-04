@@ -47,8 +47,8 @@ import { getPhmcsWithDefaults } from 'in-phmc/subscriptions/getPhmcs';
 import { getClusterDashboard } from 'in-kubernetes/navigation/paths';
 import { useVspehereEntityLink } from 'in-vsphere/navigation/paths';
 import HealthDot from 'in-components/health/HealthDot/HealthDot';
+import { useIbmzZhmcDashboard } from 'in-zhmc/navigation/paths';
 import { getIbmpPhmcDashboard } from 'in-phmc/navigation/paths';
-import { getIbmzZhmcDashboard } from 'in-zhmc/navigation/paths';
 import { hasError, isLoading } from 'in-services/util/result';
 import TopListWidget from 'in-cockpit/widgets/TopListWidget';
 import { add, remove } from 'in-cockpit/starredItems';
@@ -60,6 +60,8 @@ import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 export default function PlatformsTopList({ config }) {
+  const getIbmzZhmcDashboard = useIbmzZhmcDashboard();
+
   const getVsphereDatacenterDashboard = useVspehereEntityLink('datacenter');
 
   const pinnedTypes = [

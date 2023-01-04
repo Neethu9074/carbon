@@ -4,14 +4,28 @@
  * Copyright IBM Corp. 2022
  */
 
-import { TimeConfig } from '@instana/types';
+import { Result, ThresholdType, TimeConfig } from '@instana/types';
+import { Observable } from '@instana/observables';
 
-import { GetSuggestionsProps } from 'in-websites/queryBuilder';
-import { BeaconType } from 'in-types';
+import { GetSuggestionsProps, Suggestions } from 'in-websites/queryBuilder';
+import { CreateQueryBuilderResponse } from 'in-components/QueryBuilder';
+import { BeaconType, Nullish } from 'in-types';
+
+export function createBoundedAlertQueryBuilder(
+  websiteId: string,
+  beaconType: BeaconType | Nullish,
+  thresholdType?: ThresholdType,
+  suggestionTimeConfig?: TimeConfig
+): CreateQueryBuilderResponse;
 
 export function getWebsiteTagSuggestions(
   args: GetSuggestionsProps,
-  websiteId: string,
+  websiteId?: string | Nullish,
   beaconType: BeaconType,
   suggestionTimeConfig?: TimeConfig
-);
+): Observable<Result<Suggestions>>;
+
+export function getQueryBuilderForBeaconType(
+  beaconType: BeaconType | Nullish,
+  thresholdType?: ThresholdType
+): CreateQueryBuilderResponse;

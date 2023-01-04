@@ -16,17 +16,13 @@ Check out `MoreMenu` for a ready-made solution or `Combobox` which allows custom
 <Preview>
   <Story name="default">
     <Stack direction="vertical" align="start">
-      <Dropdown value="plain" items={[{ value: 'plain', label: 'Plain Dropdown' }]} />
       <Dropdown
-        icon="lib_actions_settings"
-        value="with_icon"
-        items={[{ value: 'with_icon', label: 'Dropdown With Icon' }]}
-      />
-      <Dropdown
-        icon="lib_actions_settings"
-        value="simple_style"
-        asSimpleDropdown
-        items={[{ value: 'simple_style', label: "Dropdown in 'Simple' Style" }]}
+        value="plain"
+        items={[
+          { value: 'plain', label: 'Plain Dropdown' },
+          { value: 'with_icon', label: 'Dropdown With Icon' }
+        ]}
+        onChange={storybookAction('onChange')}
       />
     </Stack>
   </Story>
@@ -54,8 +50,8 @@ You can test this by watching the results in Storybook's Action addon tab.
             items={[
               { value: 1, label: 'Foobar (value: 1)' },
               { value: 2, label: 'Baz (value: 2)' },
-              { value: 3, label: 'Duplicate A (value: 3)' },
-              { value: 3, label: 'Duplicate B (value: 3)' }
+              { value: 3, label: 'Value: 3 - Duplicate A' },
+              { value: 3, label: 'Value: 3 - Duplicate B' }
             ]}
           />
           <dt>Selected item's value:</dt>

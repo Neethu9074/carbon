@@ -82,6 +82,9 @@ export const applicationApdexEnabled = isFeatureFlagEnabled('applicationApdexEna
 export const websiteUploadConfigEnabled = isFeatureFlagEnabled('websiteUploadConfigEnabled', false);
 export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashBeaconEnabled', false);
 
+// RBAC usability improvements
+export const rbacImprovementEnabled = isFeatureFlagEnabled('rbacImprovementEnabled', false);
+
 // EUM beacon query optimization
 export const websiteBeaconQueryOptimizationEnabled = isFeatureFlagEnabled(
   'websiteBeaconQueryOptimizationEnabled',
@@ -93,7 +96,7 @@ export const websiteBeaconQueryOptimizationEnabled = isFeatureFlagEnabled(
 export const smartAlertsLogsBlueprintEnabled = isFeatureFlagEnabled('smartAlertsLogsBlueprintEnabled', false);
 
 // Synthetics test and  dashboard
-export const syntheticsTestEnabled = isFeatureFlagEnabled('syntheticsTestEnabled');
+export const syntheticsEnabled = isFeatureFlagEnabled('syntheticsEnabled');
 
 // Synthetic BrowserScript feature flag
 export const syntheticBrowserScriptEnabled = isFeatureFlagEnabled('syntheticBrowserScriptEnabled');

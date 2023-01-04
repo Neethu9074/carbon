@@ -15,7 +15,6 @@
     height: 2.6875rem;
     display: flex;
     align-items: center;
-    display: block;
     font-size: 0.875rem;
   }
 
@@ -25,6 +24,6 @@
 
   .betaLink {
     margin-left: 0.2rem;
-    text-decoration: none;
+    text-decoration: none !important;
   }
 }

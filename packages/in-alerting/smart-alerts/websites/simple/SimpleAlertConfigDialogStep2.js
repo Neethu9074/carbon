@@ -10,7 +10,7 @@ import SimpleAlertConfigDialogChart from 'in-alerting/smart-alerts/websites/simp
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import { t } from 'in-i18n';
 
-import locals from 'in-alerting/smart-alerts/websites/simple/SimpleAlertConfigDialogStep2.mless';
+import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/simple/SimpleAlertConfigDialogStep2.mless';
 
 export default function SimpleAlertConfigDialogStep2({
   form,
@@ -33,11 +33,13 @@ export default function SimpleAlertConfigDialogStep2({
         />
       </div>
 
-      <SimpleAlertConfigDialogChart
-        form={form}
-        onChartViewConfigChange={onChartViewConfigChange}
-        selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-      />
+      <div className={locals.stickyChart}>
+        <SimpleAlertConfigDialogChart
+          form={form}
+          onChartViewConfigChange={onChartViewConfigChange}
+          selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+        />
+      </div>
     </SimpleModeStepContentWrapper>
   );
 }

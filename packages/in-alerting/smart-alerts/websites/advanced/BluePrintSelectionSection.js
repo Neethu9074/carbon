@@ -14,7 +14,6 @@ import AlertTypeSwitch from 'in-alerting/smart-alerts/websites/components/AlertT
 import { blueprintConfigs } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import ProvideJsError from 'in-alerting/smart-alerts/websites/components/ProvideJsError';
 import { alertingDialogItemPickerTimeframe } from 'in-alerting/components/constants';
-import { modeAdvanced } from 'in-alerting/smart-alerts/websites/constants';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import { t } from 'in-i18n';
 
@@ -41,13 +40,13 @@ export default function BluePrintSelectionSection(props) {
               }}
               updateForm={updateForm}
               onSelectJsError={setSliderState}
-              mode={modeAdvanced}
+              mode="Advanced"
             />
           </LightCard>
         )}
         renderStatusCode={() => (
           <LightCard title={t('in-alerting:smartAlerts.websites.advanced.HTTPStatusCode')} withoutPadding darkFrame>
-            <ProvideStatusCode form={form} updateForm={updateForm} mode={modeAdvanced} />
+            <ProvideStatusCode form={form} updateForm={updateForm} mode="Advanced" />
           </LightCard>
         )}
         renderCustomEvent={() => (
@@ -63,7 +62,7 @@ export default function BluePrintSelectionSection(props) {
               }}
               updateForm={updateForm}
               onSelectCustomEvent={setSliderState}
-              mode={modeAdvanced}
+              mode="Advanced"
             />
           </LightCard>
         )}

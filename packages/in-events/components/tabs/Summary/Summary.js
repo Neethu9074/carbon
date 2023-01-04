@@ -16,11 +16,13 @@ import {
   isAgentMonitoringIssueEvent,
   isApplicationSmartAlertEvent,
   isWebsiteSmartAlertEvent,
+  isInfraSmartAlertEvent,
   getTimeConfigForSnapshotRetrieval,
   isIbmMqFileTransferIssueEvent
 } from 'in-events/components/eventUtil';
 import { KubernetesEventContent, isKubernetesEvent } from 'in-events/components/EventContent/KubernetesEventContent';
 import IbmMqFileTransferMetadataTable from 'in-events/components/tabs/Summary/IbmMqFileTransferMetadataTable';
+import { DeprecatedCustomEventWarning } from 'in-events/components/tabs/Summary/DeprecatedCustomEventWarning';
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
 import AgentMonitoringIssueDescription from 'in-events/components/legacy/AgentMonitoringIssueDescription';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
@@ -30,6 +32,7 @@ import OfflineEventDescription from 'in-events/components/legacy/OfflineEventDes
 import AssociatedActions from 'in-events/components/AutomationActions/AssociatedActions';
 import WebsiteEventContent from 'in-events/components/EventContent/WebsiteEventContent';
 import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
+import InfraEventContent from 'in-events/components/EventContent/InfraEventContent';
 import SubEntityInformation from 'in-events/components/legacy/SubEntityInformation';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
@@ -70,6 +73,7 @@ export default function Summary({ selectedEventId, data: event }) {
       render={() => (
         <>
           <div className={locals.content}>
+            <DeprecatedCustomEventWarning event={event.toJS()} isIncident={isIncident} />
             <EventDetailsKPIs event={event} isIncident={isIncident} />
             {isIncident ? (
               <IncidentContent incident={event} latestSnapshot={latestSnapshot} />
@@ -91,6 +95,7 @@ const EventContent = connectTo(
   }),
   function EventContent({ event, latestSnapshot, snapshot }) {
     const timeConfig = getTimeConfigForSnapshotRetrieval(event, latestSnapshot);
+
     if (isWebsiteSmartAlertEvent(event)) {
       return <WebsiteEventContent event={event} />;
     }
@@ -101,6 +106,10 @@ const EventContent = connectTo(
 
     if (isKubernetesEvent(event)) {
       return <KubernetesEventContent event={event} timeConfig={timeConfig} />;
+    }
+
+    if (isInfraSmartAlertEvent(event)) {
+      return <InfraEventContent event={event} />;
     }
 
     const eventType = getEventType(event);

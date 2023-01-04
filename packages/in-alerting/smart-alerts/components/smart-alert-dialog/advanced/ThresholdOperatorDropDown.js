@@ -21,7 +21,6 @@ export function ThresholdOperatorDropDown({ form, updateForm, customOnChange, tr
 
   return (
     <Dropdown
-      asSimpleDropdown
       value={value}
       items={options}
       onChange={value => {

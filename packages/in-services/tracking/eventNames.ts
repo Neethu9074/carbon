@@ -35,6 +35,7 @@ export const ANALYZE_METRIC_CHANGED = 'analyze.metric.changed';
 export const ANALYZE_TRACE_CLICK = 'analyze.trace.click';
 export const ANALYZE_LATENCY_PERCENTILE_MENU_CLICK = 'analyze.latency.percentile.click';
 export const ANALYZE_LATENCY_SELECTION_CHANGED = 'analyze.latency.selection.changed';
+export const ANALYZE_DOCS_LINK_OPENED = 'analyze.header.docs.click';
 
 export const ANALYZE_UA2_FACETED_SEARCH_FILTER_ADDED = 'analyze.ua2.facetedSearch.filter.added';
 export const ANALYZE_UA2_FACETED_SEARCH_GROUP_CHANGED = 'analyze.ua2.facetedSearch.group.changed';

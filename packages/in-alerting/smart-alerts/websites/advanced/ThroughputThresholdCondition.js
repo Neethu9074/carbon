@@ -10,7 +10,8 @@ import {
   websitesAlertingThresholdDeviationFactorChanged,
   websitesAlertingThresholdMetricChanged,
   websitesAlertingThresholdOperatorChanged,
-  websitesAlertingThresholdValueChanged
+  websitesAlertingThresholdValueChanged,
+  websitesAlertingThresholdTypeChanged
 } from 'in-alerting/smart-alerts/websites/tracker';
 import ThresholdValueInputWithValidationMessage from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdValueWithValidationMessage';
 import { ThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdDeviationSliderForm';
@@ -39,7 +40,6 @@ export default function ThroughputThresholdCondition({ form, updateForm, bluepri
     <>
       <ThresholdConditionFormGroup>
         <Dropdown
-          asSimpleDropdown
           value={metricName}
           items={ruleMetricNameOptions.throughput}
           onChange={value => {
@@ -59,10 +59,10 @@ export default function ThroughputThresholdCondition({ form, updateForm, bluepri
         <ThresholdTypeSelection
           form={form}
           updateForm={updateForm}
-          thresholdTypeOptions={thresholdTypeOptions}
-          thresholdType={thresholdType}
-          blueprintType={blueprintType}
           editMode={editMode}
+          thresholdTypeOptions={thresholdTypeOptions}
+          trackThresholdTypeChanged={websitesAlertingThresholdTypeChanged}
+          blueprintType={blueprintType}
         />
       </ThresholdConditionFormGroup>
 

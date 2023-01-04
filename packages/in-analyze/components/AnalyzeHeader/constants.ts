@@ -20,6 +20,7 @@ import { dataSource as logsDataSourceTypeMatrixParameter } from 'in-logging/navi
 import { dataSourceMatrixParameter } from 'in-applications/navigation/matrix';
 import { DataSourceMatrix } from 'in-analyze/components/AnalyzeHeader/types';
 import { logsPath as logsAnalyzePath } from 'in-logging/navigation/paths';
+import { Entity } from 'in-analyze/AnalyzeView/dataSources';
 
 export const dataSourceSources: DataSourceMatrix[] = [
   {
@@ -55,3 +56,7 @@ export const dataSourceSources: DataSourceMatrix[] = [
     productArea: 'infrastructure'
   }
 ];
+
+export const analyzeDocs = {
+  logs: 'https://www.ibm.com/docs/en/instana-observability/current?topic=apis-logging'
+} as Partial<Record<Entity, string>>;

@@ -3,10 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import classNames from 'classnames';
 
-import { Link, Spacer } from '@instana/components';
+import { Link, Spacer, Message } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -33,19 +33,24 @@ import {
   setBuiltInEventSpecificationsEnabled,
   setCustomEventSpecificationsEnabled
 } from 'in-api/eventSpecifications';
+import { smartAlertMigrationUrl } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
 import { getPluginsWithCustomMetricsOptionsObservable } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customMetricUtils';
 import { deprecateAppDataLegacyEventsEnabled, hideAppDataLegacyEventsEnabled } from 'in-services/featureFlags';
+import getLegacyAlertConfigStats from 'in-alerting/smart-alerts/subscriptions/getLegacyAlertConfigStats';
 import List, { createNewEntityButton, leftHeaderWithSelectAll } from 'in-settings/components/List';
 import { openEventSubmitFormTracker, viewEventTracker } from 'in-settings/tracker';
+import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { compareIgnoreCase } from 'in-services/util/string';
+import { pendingResult } from 'in-services/fixedObjects';
 import { intersperse } from 'in-services/arrayUtils';
 import { getPluginName } from 'in-sdk/pluginName';
+import useUrlState from 'in-hooks/useUrlState';
 import ComboBox from 'in-components/ComboBox';
 import WithIcon from 'in-components/WithIcon';
 import Tooltip from 'in-components/Tooltip';
+import { t, Trans } from 'in-i18n';
 import theme from 'in-themes';
-import { t } from 'in-i18n';
 
 import locals from './Events.mless';
 
@@ -68,6 +73,17 @@ const enabledOptions = Object.freeze([
   { value: false, label: t('in-settings:tabs.disabled') }
 ]);
 
+const path = '/events';
+
+const urlStateBinding = {
+  bind: [
+    { path, name: 'enabled', initialState: null, parser: strictBooleanParser },
+    { path, name: 'entityType', initialState: null },
+    { path, name: 'severity', initialState: null, parser: intParser },
+    { path, name: 'type', initialState: null }
+  ]
+};
+
 export default function Events({
   setTitle = true,
   tableActions = defaultTableActions,
@@ -87,10 +103,13 @@ export default function Events({
    */
   withoutAppDataLegacyEvents
 }) {
-  const [type, setType] = useState(null);
-  const [severity, setSeverity] = useState(null);
-  const [entityType, setEntityType] = useState(null);
-  const [enabled, setEnabled] = useState(null);
+  const [{ enabled, entityType, severity, type }, setState] = useUrlState(urlStateBinding);
+  const legacyAlertConfigStats = useObservable(getLegacyAlertConfigStats, []) ?? pendingResult;
+
+  const setType = type => setState({ type });
+  const setSeverity = severity => setState({ severity });
+  const setEntityType = entityType => setState({ entityType });
+  const setEnabled = enabled => setState({ enabled });
 
   const entityTypeOptionsOfCustomMetrics = useObservable(getPluginsWithCustomMetricsOptionsObservable, []);
   const allEntityTypeOptions = filterEntityTypeOptions(
@@ -102,28 +121,33 @@ export default function Events({
   adjustTypeOptions(withoutAppDataLegacyEvents);
 
   return (
-    <List
-      title={setTitle ? t('in-settings:tabs.events') : null}
-      getHeader={getHeader}
-      getEntityName={getEntityName}
-      columnDefinitions={columnDefinitions(hasRowNavigation)}
-      tableActions={tableActions}
-      loadEntities={loadEvents}
-      noDataMessage={noDataMessage}
-      pageSize={pageSize}
-      initialOrderBy="name"
-      rightHeader={getRightHeader()}
-      isSearchable={isSearchable}
-      searchAttributes={['name', 'description', getEntityType]}
-      extraFilters={createFilters(hiddenIds, type, severity, entityType, enabled)}
-      extraFilterValues={{ type, severity, entityType, enabled }}
-      searchPlaceholder={t('in-settings:tabs.filterEvents')}
-      searchMaxWidth={210}
-      onRowClick={onRowClick}
-      getDetailsHref={
-        onRowClick || !hasRowNavigation ? null : entity => getEntityHref(getDetailsPath(entity), entity.id)
-      }
-    />
+    <>
+      {type === deprecatedValue && legacyAlertConfigStats.data?.deprecatedCustomEvents > 0 && (
+        <CustomEventDeprecatedWarning />
+      )}
+      <List
+        title={setTitle ? t('in-settings:tabs.events') : null}
+        getHeader={getHeader}
+        getEntityName={getEntityName}
+        columnDefinitions={columnDefinitions(hasRowNavigation)}
+        tableActions={tableActions}
+        loadEntities={loadEvents}
+        noDataMessage={noDataMessage}
+        pageSize={pageSize}
+        initialOrderBy="name"
+        rightHeader={getRightHeader()}
+        isSearchable={isSearchable}
+        searchAttributes={['name', 'description', getEntityType]}
+        extraFilters={createFilters(hiddenIds, type, severity, entityType, enabled)}
+        extraFilterValues={{ type, severity, entityType, enabled }}
+        searchPlaceholder={t('in-settings:tabs.filterEvents')}
+        searchMaxWidth={210}
+        onRowClick={onRowClick}
+        getDetailsHref={
+          onRowClick || !hasRowNavigation ? null : entity => getEntityHref(getDetailsPath(entity), entity.id)
+        }
+      />
+    </>
   );
 
   function getRightHeader() {
@@ -181,6 +205,23 @@ export default function Events({
       </Fragment>
     );
   }
+}
+
+function CustomEventDeprecatedWarning() {
+  return (
+    <Message type="warning" withIcon>
+      <Trans
+        i18nKey="in-settings:tabs.customEventListDeprecatedWarning"
+        components={{
+          documentationLink: (
+            <Link href={smartAlertMigrationUrl} external>
+              &nbsp;
+            </Link>
+          )
+        }}
+      />
+    </Message>
+  );
 }
 
 function combineAndSortByLabel(array1, array2) {
@@ -449,4 +490,10 @@ function filterEntityTypeOptions(withoutAppDataLegacyEvents, options) {
     return options.filter(({ value }) => !['application', 'service', 'endpoint'].includes(value));
   }
   return options;
+}
+
+function strictBooleanParser(str) {
+  if (str === 'false') return false;
+  if (str === 'true') return true;
+  return null;
 }

@@ -51,7 +51,7 @@ export default function CustomPayloadViewer({
 }
 
 CustomPayloadViewer.propTypes = {
-  TagBasedPayloadConfigurator: PropTypes.node,
+  TagBasedPayloadConfigurator: PropTypes.func,
   customPayloadFields: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.string.isRequired,

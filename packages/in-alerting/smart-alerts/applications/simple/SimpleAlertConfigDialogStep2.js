@@ -10,7 +10,7 @@ import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/S
 import ScopeConfig from 'in-alerting/smart-alerts/applications/scopeConfig/ScopeConfig';
 import { t } from 'in-i18n';
 
-import locals from 'in-alerting/smart-alerts/applications/simple/SimpleAlertConfigDialogStep2.mless';
+import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/simple/SimpleAlertConfigDialogStep2.mless';
 
 export default function SimpleAlertConfigDialogStep2({
   form,

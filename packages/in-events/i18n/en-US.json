@@ -146,6 +146,7 @@
   "tooltipCloseEventDetail": "Close event detail",
   "releaseOccurName": "Release: {{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> ago)",
+  "deprecatedCustomEventWarning": "<strong>You will no longer receive this {{issueOrIncident}} starting from July 2023 (Build 253).</strong> <eventLink>View event configuration</eventLink> to migrate it. <documentationLink>Read more in our documentation</documentationLink>.",
   "ibmMqFileTransfer": {
     "transferID": "Transfer ID",
     "sourceAgent": "Source Agent",
@@ -167,5 +168,8 @@
     "fixSuggestion": {
       "podContainerNotReady": "The pod's container is not ready. Check that the node has capacity and/or the image can be retrieved from the specified image path."
     }
+  },
+  "infraSmartAlerts": {
+    "pseudoAggregatedEntityLabel": "{{entityName}} (aggregated)"
   }
 }

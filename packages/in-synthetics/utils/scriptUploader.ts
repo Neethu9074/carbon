@@ -41,11 +41,16 @@ export function validate(code: string) {
     }
   } catch (e) {
     let error = e as ErrorType;
-    let message = error.description + '(line number: ' + error.lineNumber + ', column number: ' + error.column + ')';
-    errors.push({
-      code: errorCode,
-      message: message
-    });
+    let errorContent = code.split('\n')[((error.lineNumber as unknown) as number) - 1];
+    let nodeJSOperatorRegex = /[?.]|[??]|[??=]/;
+    let isnodeJSErr = nodeJSOperatorRegex.test(errorContent);
+    if (!isnodeJSErr) {
+      let message = error.description + '(line number: ' + error.lineNumber + ', column number: ' + error.column + ')';
+      errors.push({
+        code: errorCode,
+        message: message
+      });
+    }
   }
   return errors;
 }

@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { getIbmzCpcDashboard } from 'in-zhmc/navigation/paths';
+import { useIbmzCpcDashboard } from 'in-zhmc/navigation/paths';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import getCpc from 'in-zhmc/subscriptions/getCpc';
 import connectTo from 'in-hoc/connectTo';
@@ -22,13 +22,12 @@ export default connectTo(
     }).map(result => result.data)
   }),
   function SystemBreadcrumb({ cpc }) {
+    const getIbmzCpcDashboard = useIbmzCpcDashboard(cpc?.consoleId);
+
     return (
       <>
         {cpc && (
-          <Breadcrumb
-            href$={getIbmzCpcDashboard(cpc.id, { consoleId: cpc.consoleId })}
-            label={t('in-zhmc:breadcrumbs.systems')}
-          >
+          <Breadcrumb href$={getIbmzCpcDashboard(cpc?.id)} label={t('in-zhmc:breadcrumbs.systems')}>
             {cpc.label}
           </Breadcrumb>
         )}

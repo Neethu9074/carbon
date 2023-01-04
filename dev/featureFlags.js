@@ -53,7 +53,7 @@ module.exports = {
   perEndpointAdaptiveBaselineEnabled: false,
   websiteSmartAlertsAdaptiveBaselineEnabled: true,
   smartAlertsLogsBlueprintEnabled: true,
-  syntheticsTestEnabled: true,
+  syntheticsEnabled: true,
   kubernetesExploreEnabled: true,
   kubernetesTeamEnabled: true,
   configMigrationFeatureEnabled: true,
@@ -67,5 +67,6 @@ module.exports = {
   mobileAppCrashBeaconEnabled: true,
   k8sTimeShiftEnabled: true,
   syntheticBrowserScriptEnabled: true,
-  websiteBeaconQueryOptimizationEnabled: true
+  websiteBeaconQueryOptimizationEnabled: true,
+  rbacImprovementEnabled: false
 };

@@ -6,8 +6,8 @@
 import React from 'react';
 
 import SimpleAlertConfigDialogStep3 from 'in-alerting/smart-alerts/components/smart-alert-dialog/simple/SimpleAlertConfigDialogStep3';
-import SimpleAlertConfigDialogStep1 from 'in-alerting/smart-alerts/websites/simple/SimpleAlertConfigDialogStep1';
 import SimpleAlertConfigDialogStep2 from 'in-alerting/smart-alerts/websites/simple/SimpleAlertConfigDialogStep2';
+import SimpleAlertConfigDialogStep1 from 'in-alerting/smart-alerts/websites/simple/SimpleAlertConfigDialogStep1';
 import { t } from 'in-i18n';
 
 export const stepConfigs = [

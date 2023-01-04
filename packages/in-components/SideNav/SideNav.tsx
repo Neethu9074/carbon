@@ -19,6 +19,7 @@ export type NavItem = {
   content: React.ReactNode;
   checked?: boolean;
   valid?: boolean;
+  hidden?: boolean;
 };
 
 interface SideNavProps {
@@ -64,25 +65,28 @@ export default class SideNav extends React.Component<SideNavProps> {
         })}
       >
         <ul className={locals.list}>
-          {navItems.map((navItem, i) => (
-            <li
-              key={i}
-              className={classNames({
-                [locals.item]: true,
-                [locals.selected]: this.state.itemSelected === i
-              })}
-              onClick={() => {
-                setItemSelected(i);
-                this.onItemClicked(navItem);
-              }}
-            >
-              <span className={locals.label}>
-                {renderPreIcon && renderPreIcon(navItem, this.state.itemSelected === i)}
-                {navItem.label}
-                {renderPostIcon && renderPostIcon(navItem)}
-              </span>
-            </li>
-          ))}
+          {navItems.map((navItem, i) => {
+            if (navItem.hidden) return;
+            return (
+              <li
+                key={i}
+                className={classNames({
+                  [locals.item]: true,
+                  [locals.selected]: this.state.itemSelected === i
+                })}
+                onClick={() => {
+                  setItemSelected(i);
+                  this.onItemClicked(navItem);
+                }}
+              >
+                <span className={locals.label}>
+                  {renderPreIcon && renderPreIcon(navItem, this.state.itemSelected === i)}
+                  {navItem.label}
+                  {renderPostIcon && renderPostIcon(navItem)}
+                </span>
+              </li>
+            );
+          })}
         </ul>
       </nav>
     );

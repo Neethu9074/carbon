@@ -245,7 +245,7 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'syntheticsTestEnabled',
+    uiClientKey: 'syntheticsEnabled',
     instanaCtlKey: 'feature.synthetics.enabled',
     defaultValue: false
   },

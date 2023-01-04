@@ -6,6 +6,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
+import { isAdaptiveBaselineConfig } from '@instana/types';
+
+import {
+  chartViewConfig24hours,
+  chartViewConfigs as defaultChartViewConfigs
+} from 'in-alerting/components/Chart/chartViewConfig';
 import WebsitesAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/websites/chart/WebsitesAlertingChartWithErrorMessage';
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/smart-alert-dialog/TimeThresholdDescription';
 import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/websites/hooks/useTagBasedPayloadConfigurator';
@@ -13,6 +19,7 @@ import ChartViewConfigurator from 'in-alerting/smart-alerts/components/smart-ale
 import { getStatusCodeLabel, getRuleOperatorLabel } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
+import { AlertThresholdInfos } from 'in-alerting/smart-alerts/websites/details/AlertThresholdInfos';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import CustomPayloadCard from 'in-alerting/smart-alerts/components/details/CustomPayloadCard';
 import WebsiteScopePath from 'in-alerting/smart-alerts/websites/components/WebsiteScopePath';
@@ -34,7 +41,8 @@ const initialChartConfigIndex = 0;
 
 export default function AlertConfiguration({ alertConfig }) {
   const {
-    rule: { operator, value, alertType, metricName, customEventName },
+    rule: { operator, value, alertType, metricName, aggregation, customEventName },
+    threshold,
     timeThreshold,
     granularity,
     alertChannelIds,
@@ -50,21 +58,29 @@ export default function AlertConfiguration({ alertConfig }) {
   const beaconType = blueprintConfig.getBeaconType(metricName);
 
   const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator(beaconType, websiteId);
-  const AlertQueryBuilder = getQueryBuilderForBeaconType(beaconType).QueryBuilder;
+  const AlertQueryBuilder = getQueryBuilderForBeaconType(beaconType, alertConfig.threshold.type).QueryBuilder;
 
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
+
+  const thresholdType = alertConfig.threshold;
+  const chartViewConfigs = isAdaptiveBaselineConfig(thresholdType) ? [chartViewConfig24hours] : defaultChartViewConfigs;
 
   return (
     <AlertDetailsCard>
       <ListTitle>
         {t('in-websites:websiteDashboard.tabs.alerts.alertConfigurationListTitleAlertConfiguration')}
       </ListTitle>
+      <ExpandableLightCard
+        title={t('in-alerting:smartAlerts.details.header')}
+        useMaxAvailableHeight={false}
+        openByDefault
+        darkFrame
+      >
+        <AlertThresholdInfos threshold={threshold} rule={{ alertType, aggregation, metricName }} />
+      </ExpandableLightCard>
 
       <ChartViewConfigurator
-        alertConfigWithFormModel={{
-          ...alertConfig,
-          tagFilterExpression: tagFilterFormModel
-        }}
+        chartViewConfigs={chartViewConfigs}
         onChartViewConfigChange={index => setSelectedChartViewConfigIndex(index)}
         selectedChartViewConfigIndex={selectedChartViewConfigIndex}
         className={locals.chartContainer}
@@ -102,6 +118,7 @@ export default function AlertConfiguration({ alertConfig }) {
               }}
               viewConfig={chartViewConfig}
               blueprintConfig={blueprintConfig}
+              isAlertDetailView
             />
           </>
         )}

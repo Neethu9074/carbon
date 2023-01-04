@@ -6,14 +6,13 @@
 import React from 'react';
 
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
-import { megaBytes } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: t('in-forge:plugins.oracleDB.pool'),
+    title: t('in-forge:plugins.oracleDB.sessionId'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -25,23 +24,27 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.oracleDB.usedMemory'),
+    title: t('in-forge:plugins.oracleDB.serialNumber'),
     type: 'number',
     typeArgs: {
       getValue(row) {
-        return row.used;
+        return row.sessionSerial;
       },
-      getContent: megaBytes.compact
+      getContent(value) {
+        return value;
+      }
     }
   },
   {
-    title: t('in-forge:plugins.oracleDB.totalMemory'),
+    title: t('in-forge:plugins.oracleDB.count'),
     type: 'number',
     typeArgs: {
       getValue(row) {
-        return row.total;
+        return row.count;
       },
-      getContent: megaBytes.compact
+      getContent(value) {
+        return value;
+      }
     }
   }
 ];
@@ -49,33 +52,35 @@ const cols = [
 export default connectTo(
   props => {
     return {
-      data: getRawPayloadWithTimestamp(props.snapshot.get('id'), 'differentPoolsInSGA')
+      data: getRawPayloadWithTimestamp(props.snapshot.get('id'), 'topCPUConsumingSessionsLast10Mints')
     };
   },
 
-  function SGAPoolSizeTable({ data }) {
+  function T({ data }) {
     if (!data || !data.get('raw_payload')) {
       return null;
     }
-    const differentPoolsInSGAPayload = data.get('raw_payload');
-    if (differentPoolsInSGAPayload.size === 0) {
+    const topTenCPUConsumingSessionsPayload = data.get('raw_payload');
+    if (topTenCPUConsumingSessionsPayload.size === 0) {
       return null;
     }
 
-    const rows = differentPoolsInSGAPayload.toJS().map(sgaPool => {
+    const rows = topTenCPUConsumingSessionsPayload.toJS().map(session => {
       return {
-        key: sgaPool.name,
-        used: sgaPool.used,
-        total: sgaPool.totalSize
+        key: session.sessionId.toString(),
+        count: session.count,
+        sessionSerial: session.sessionSerial
       };
     });
     return (
       <Table
-        cardTitle={t('in-forge:plugins.oracleDB.poolsInSGA', { len: rows.length })}
+        cardTitle={t('in-forge:plugins.oracleDB.topCPUConsumingSessionsLast10Mints', { len: rows.length })}
         withoutPadding
         cols={cols}
         rows={rows}
         maxItemsPerPage={5}
+        initialSortColumn={2}
+        initialSortDirection="desc"
       />
     );
   }

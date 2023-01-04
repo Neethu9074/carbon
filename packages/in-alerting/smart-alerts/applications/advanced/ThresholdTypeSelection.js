@@ -45,11 +45,10 @@ export default function ThresholdTypeSelection({
         <span>{options[0].label}</span>
       ) : (
         <Dropdown
-          asSimpleDropdown
           value={thresholdComboBoxValue}
           items={options}
-          onChange={value => {
-            onThresholdTypeChange(value, form, updateForm, trackThresholdTypeChanged);
+          onChange={newThresholdTypeWithSeasonality => {
+            onThresholdTypeChange(newThresholdTypeWithSeasonality, form, updateForm, trackThresholdTypeChanged);
           }}
         />
       )}

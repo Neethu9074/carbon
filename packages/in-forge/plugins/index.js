@@ -221,6 +221,7 @@ import './service';
 import './traefik';
 import './varnish';
 import './camunda';
+import './ibmCtg';
 import './ibmIOs';
 import './ibmCos';
 import './ibmVsi';

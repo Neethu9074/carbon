@@ -1,0 +1,29 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2022
+ */
+
+@import '~in-themes/active.less';
+
+:local {
+  .tilesRow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 0.5rem; // a minimal horizontal gap
+    justify-content: space-between;
+  }
+
+  .tile {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  .keyValueExtraGap {
+    gap: 0.5rem;
+  }
+}

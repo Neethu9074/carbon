@@ -7,21 +7,18 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import { Message, Spacer } from '@instana/components';
-import { useObservable } from '@instana/hooks';
 
+import { useFetchAdaptiveBaselineOrUseFallbackFromEvent } from 'in-alerting/smart-alerts/applications/hooks/useFetchAdaptiveBaselineOrUseFallbackFromEvent';
 import {
   PER_AP_SERVICE,
   PER_AP_ENDPOINT
 } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
-import onSubscribeBaselinePredictions from 'in-alerting/smart-alerts/applications/subscriptions/getAdaptiveBaselinePredictions';
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import AlertingChartWithErrorMessage from 'in-alerting/components/Chart/AlertingChartWithErrorMessage';
 import { isEntitySelectionValid } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import { chartViewConfigPropType } from 'in-alerting/components/Chart/chartViewConfig';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import { pendingResult, emptyArray } from 'in-services/fixedObjects';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
-import { hasError, isLoading } from 'in-services/util/result';
 import { t, Trans } from 'in-i18n';
 
 const NoDataPlaceHolder = ({ text }) => <NoDataAvailable text={text} height={230} />;
@@ -45,17 +42,17 @@ export default function ApplicationAlertingChartWithErrorMessage(props) {
 
   // fetch persistent baseline?
   if (threshold?.type === ADAPTIVE_BASELINE && (isAlertDetailView || isEventsView)) {
-    return <ApplicationAlertingChartWithErrorMessageForAdaptiveBaseline {...props} />;
+    return <AlertingChartWithErrorMessageForAdaptiveBaseline {...props} />;
   }
 
-  return <ApplicationAlertingChartWithErrorMessageAndData {...props} />;
+  return <ChartWithErrorMessageAndData {...props} />;
 }
 
-function ApplicationAlertingChartWithErrorMessageForAdaptiveBaseline(props) {
+function AlertingChartWithErrorMessageForAdaptiveBaseline(props) {
   const { error, baseline } = useFetchAdaptiveBaselineOrUseFallbackFromEvent(props);
   return (
     <>
-      <ApplicationAlertingChartWithErrorMessageAndData {...props} eventBasedAdaptiveBaseline={baseline} />
+      <ChartWithErrorMessageAndData {...props} eventBasedAdaptiveBaseline={baseline} />
       {error && (
         <>
           <Spacer size="normal" />
@@ -69,7 +66,7 @@ function ApplicationAlertingChartWithErrorMessageForAdaptiveBaseline(props) {
 }
 
 // Extracted, because it needs a memoization of the isQueryValid-method to avoid unneeded re-rendering
-function ApplicationAlertingChartWithErrorMessageAndData(props) {
+function ChartWithErrorMessageAndData(props) {
   const { alertConfigWithFormModel } = props;
 
   const {
@@ -98,61 +95,6 @@ function ApplicationAlertingChartWithErrorMessageAndData(props) {
       queryValidator={isApplicationAlertQueryValid}
     />
   );
-}
-
-function useFetchAdaptiveBaselineOrUseFallbackFromEvent(props) {
-  const {
-    alertConfigWithFormModel: { created, id, granularity },
-    viewConfig: { timeConfig },
-    applicationId,
-    serviceId,
-    endpointId,
-    eventBasedAdaptiveBaseline
-  } = props;
-
-  const selectedEntityId = endpointId ?? serviceId ?? applicationId;
-
-  const queryParams = {
-    alertConfigId: id,
-    alertCreated: created,
-    applicationId,
-    entityId: selectedEntityId, // either endpoint or service or appId if selected
-    timeConfig,
-    granularity
-  };
-  const fetchPersistedBaselineResult = useObservable(
-    selectedEntityId ? onSubscribeBaselinePredictions(queryParams).startWith(pendingResult) : null,
-    [id, created, applicationId, selectedEntityId, timeConfig]
-  );
-
-  return extractBaselineFromResultsOrUseErrorFallback(fetchPersistedBaselineResult, eventBasedAdaptiveBaseline);
-}
-
-/**
- * @param errorFallbackBaseline We use eventBasedAdaptiveBaseline as a fallback. It's possible that errorFallbackBaseline is undefined when we are in alert details view.
- */
-function extractBaselineFromResultsOrUseErrorFallback(fetchPersistedBaselineResult, errorFallbackBaseline) {
-  const fetchError = hasError(fetchPersistedBaselineResult);
-
-  let error;
-  let baseline = [];
-
-  if (fetchError) {
-    // if a fallback baseline exists, hide the error
-    if (errorFallbackBaseline?.length > 0) {
-      baseline = errorFallbackBaseline;
-    } else {
-      error = fetchError;
-    }
-  } else if (isLoading(fetchPersistedBaselineResult)) {
-    baseline = emptyArray;
-  } else {
-    baseline = fetchPersistedBaselineResult?.data;
-    if (baseline?.length < errorFallbackBaseline?.length) {
-      baseline = errorFallbackBaseline;
-    }
-  }
-  return { error, baseline };
 }
 
 function getErrorMessage(isQB2Error, isServicesAndEndpointsSelectionError) {

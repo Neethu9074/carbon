@@ -3,11 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import * as Immutable from 'immutable';
-
 import { ensureInfraPluginsAreEvaluated } from 'in-sdk/asyncEvaluation';
+import { SnapshotMap } from 'in-components/EntityLink';
 
-type IconTypeGetter = (plugin: string | Immutable.Map<string, unknown>) => string;
+type IconTypeGetter = (plugin: string | SnapshotMap) => string;
 const registry: Record<string, IconTypeGetter> = {};
 
 export function registerIconType(plugin: string, getIconType: IconTypeGetter): void {

@@ -21,6 +21,10 @@ export function isApplicationSmartAlertEvent(event) {
   return event.hasIn(['metadata', 'applicationId']);
 }
 
+export function isInfraSmartAlertEvent(event) {
+  return event.hasIn(['metadata', 'infraSmartAlert']);
+}
+
 export function isAgentMonitoringIssueEvent(event) {
   return event.hasIn(['metadata', 'agent_monitoring_issue']);
 }

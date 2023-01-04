@@ -62,7 +62,6 @@ export default function ErrorRateThresholdCondition({
               form={form}
               updateForm={updateForm}
               editMode={editMode}
-              thresholdType={thresholdType}
               thresholdTypeOptions={thresholdTypeOptions}
               trackThresholdTypeChanged={applicationsAlertingThresholdTypeChanged}
               isGlobalSmartAlert={isGlobalSmartAlert}

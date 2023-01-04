@@ -55,7 +55,6 @@ export default function LogsThresholdCondition({ form, updateForm, blueprintConf
               form={form}
               updateForm={updateForm}
               editMode={editMode}
-              thresholdType={thresholdType}
               thresholdTypeOptions={thresholdTypeOptions}
               trackThresholdTypeChanged={applicationsAlertingThresholdTypeChanged}
               isGlobalSmartAlert={isGlobalSmartAlert}

@@ -8,19 +8,13 @@ import React from 'react';
 
 import { Stack, Spacer } from '@instana/components';
 
-import {
-  websitesAlertingThresholdTypeHelpIconHovered,
-  websitesAlertingThresholdTypeChanged
-} from 'in-alerting/smart-alerts/websites/tracker';
 import RecalculateBaselineButton from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/RecalculateBaselineButton';
 import { getThresholdComboBoxValue } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/thresholdFormHelper';
 import { getOptionsFilterForThresholdTyp } from 'in-alerting/smart-alerts/applications/data/applicationThresholdFormData';
 import { ThresholdTypesHelp } from 'in-alerting/smart-alerts/components/smart-alert-dialog/ThresholdTypesHelp';
-import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
+import { websitesAlertingThresholdTypeHelpIconHovered } from 'in-alerting/smart-alerts/websites/tracker';
 import { HISTORIC_BASELINE, ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import { findEntryByValue } from 'in-alerting/smart-alerts/components/utils/formUtils';
-import createThresholdForm from 'in-alerting/smart-alerts/websites/form/thresholdForm';
-import createRuleForm from 'in-alerting/smart-alerts/websites/form/ruleForm';
+import { onThresholdTypeChange } from 'in-alerting/smart-alerts/websites/form/thresholdTypeForm';
 import Dropdown from 'in-alerting/components/Dropdown';
 
 export default function ThresholdTypeSelection({
@@ -28,13 +22,12 @@ export default function ThresholdTypeSelection({
   updateForm,
   editMode,
   blueprintType,
-  thresholdType,
+  trackThresholdTypeChanged,
   thresholdTypeOptions
 }) {
-  const value = (findEntryByValue(thresholdTypeOptions, getThresholdComboBoxValue(form)) ?? thresholdTypeOptions[0])
-    ?.value;
-
+  const thresholdType = form.get('threshold').get('type')?.value;
   const options = thresholdTypeOptions.filter(getOptionsFilterForThresholdTyp(thresholdType));
+  const thresholdComboBoxValue = getThresholdComboBoxValue(form);
 
   return (
     <>
@@ -42,35 +35,10 @@ export default function ThresholdTypeSelection({
         <span>{options[0].label}</span>
       ) : (
         <Dropdown
-          asSimpleDropdown
+          value={thresholdComboBoxValue}
           items={options}
-          value={value}
           onChange={newThresholdTypeWithSeasonality => {
-            const valueParts = newThresholdTypeWithSeasonality.split('.');
-            const newThresholdType = valueParts[0];
-
-            let newThresholdForm = createThresholdForm(
-              {
-                ...form.get('threshold').toJS(),
-                type: newThresholdType
-              },
-              form.get('rule').get('alertType').value
-            );
-
-            if (valueParts.length > 1) {
-              const newSeasonality = valueParts[1];
-              newThresholdForm = newThresholdForm.updateIn(['seasonality'], f =>
-                f.setValue(newSeasonality).setTouched()
-              );
-            }
-
-            const ruleWithoutAggregation = { ...form.get('rule').toJS(), aggregation: null };
-            // aggregation will be reset to default value
-            const newRuleForm = createRuleForm(ruleWithoutAggregation);
-
-            updateForm(form.put('threshold', newThresholdForm).put('rule', newRuleForm));
-
-            websitesAlertingThresholdTypeChanged(getTrackingObject(form, { value: newThresholdType }));
+            onThresholdTypeChange(newThresholdTypeWithSeasonality, form, updateForm, trackThresholdTypeChanged);
           }}
         />
       )}
@@ -100,6 +68,6 @@ ThresholdTypeSelection.propTypes = {
       label: PropTypes.string.isRequired
     })
   ).isRequired,
-  thresholdType: PropTypes.string.isRequired,
+  trackThresholdTypeChanged: PropTypes.func,
   updateForm: PropTypes.func.isRequired
 };

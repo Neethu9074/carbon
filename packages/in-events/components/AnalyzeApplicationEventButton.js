@@ -45,7 +45,7 @@ export default function AnalyzeApplicationEventButton({
     alertConfig,
     timeConfig,
     adaptiveBaselineInfo
-  }).map(urlWithoutQueryParameter);
+  });
 
   const linkDisabled = !linkToUA;
 
@@ -95,7 +95,7 @@ export function getLinkToUnboundAnalytics({
   groupingTagName = null
 }) {
   const { rule, tagFilterExpression, includeInternal, includeSynthetic, evaluationType } = alertConfig;
-  const alertType = rule.alertType;
+  const { alertType } = rule;
 
   const groupByTag = groupingTagName
     ? groupingTagName
@@ -117,7 +117,7 @@ export function getLinkToUnboundAnalytics({
     dataSource,
     timeConfig,
     groupBy: toGroupByTag(groupByTag),
-    chartedMetrics: getChartsParam(alertType),
+    chartedMetrics: getChartedMetrics(alertType),
     formModel: enrichedAnalyzeTagFilterFormModel,
     hiddenCalls: {
       includeInternal,
@@ -164,7 +164,7 @@ export function getEnrichedAnalyzeTagFilterFormModel({
   });
 }
 
-function getChartsParam(alertType) {
+function getChartedMetrics(alertType) {
   if (alertType === 'slowness') {
     return [createChartedMetric('latency', 'DISTRIBUTION')];
   }

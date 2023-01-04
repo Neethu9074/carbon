@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { getIbmzZhmcDashboard } from 'in-zhmc/navigation/paths';
+import { useIbmzZhmcDashboard } from 'in-zhmc/navigation/paths';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import getZhmc from 'in-zhmc/subscriptions/getZhmc';
 import connectTo from 'in-hoc/connectTo';
@@ -21,6 +21,8 @@ export default connectTo(
     }).map(result => result.data)
   }),
   function ZhmcBreadcrumb({ zhmc }) {
+    const getIbmzZhmcDashboard = useIbmzZhmcDashboard();
+
     return (
       <>
         {zhmc && (
