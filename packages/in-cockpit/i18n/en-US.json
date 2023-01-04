@@ -70,13 +70,6 @@
       "views": "Views",
       "website": "Website",
       "mobileApp": "Mobile App"
-    },
-    "openIncidentsButton": {
-      "numberOfIncidents": "{{count}} Incident",
-      "numberOfIncidents_plural": "{{count}} Incidents",
-      "numberOfIncidents_0": "{{count}} Incidents",
-      "numberOfIncidents_1": "{{count}} Incidents",
-      "numberOfIncidents_2": "{{count}} Incidents"
     }
   },
   "cockpit": {

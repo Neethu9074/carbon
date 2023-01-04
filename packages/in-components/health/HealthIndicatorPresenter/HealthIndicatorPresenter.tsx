@@ -9,27 +9,22 @@ import { SvgIcon } from '@instana/components';
 
 import { getDesignLibraryColorBySeverity } from 'in-stores/events';
 import Tooltip from 'in-components/Tooltip';
+import { t } from 'in-i18n';
 
 import locals from './HealthIndicatorPresenter.mless';
 
 interface Props {
-  openIssues: number | string;
+  openIssues: number;
   maxSeverity: number;
   active: boolean;
   refSetter?: LegacyRef<HTMLAnchorElement>;
   onClick?: () => void;
-  tooltipLabel: string;
 }
 
-export default function HealthIndicatorPresenter({
-  openIssues,
-  maxSeverity,
-  active,
-  refSetter,
-  onClick,
-  tooltipLabel
-}: Props) {
-  if (openIssues === 0 || openIssues === 'No Issues') {
+export default function HealthIndicatorPresenter({ openIssues, maxSeverity, active, refSetter, onClick }: Props) {
+  const tooltipLabel = getTooltipLabel(openIssues, maxSeverity);
+
+  if (openIssues === 0) {
     return (
       <Tooltip content={tooltipLabel} delay={500}>
         <SvgIcon type="lib_check" className={locals.okayIcon} />
@@ -37,10 +32,7 @@ export default function HealthIndicatorPresenter({
     );
   }
 
-  let color = getDesignLibraryColorBySeverity(maxSeverity);
-  if (active) {
-    color = '#031F29';
-  }
+  const color = active ? '#031F29' : getDesignLibraryColorBySeverity(maxSeverity);
   return (
     <a
       href=""
@@ -59,4 +51,16 @@ export default function HealthIndicatorPresenter({
       </Tooltip>
     </a>
   );
+}
+
+function getTooltipLabel(openIssues: number, maxSeverity: number): string {
+  if (openIssues === 0) {
+    return t('in-components:health.noIssues');
+  }
+
+  if (maxSeverity > 5) {
+    return t('in-components:health.labelCritical');
+  }
+
+  return t('in-components:health.labelWarning');
 }

@@ -11,10 +11,9 @@ import ApplicationEntityOpenIssuesList from 'in-applications/components/Applicat
 import getApplicationEntityHealthInfo from 'in-applications/subscriptions/getApplicationEntityHealthInfo';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import Overlay from 'in-components/overlays/Overlay';
-import { t } from 'in-i18n';
 
 export default function ApplicationEntityHealthIndicatorBehavior(props) {
-  let { openIssues, maxSeverity, applicationId, serviceId, endpointId, timeConfig, tooltipLabel } = props;
+  let { openIssues, maxSeverity, applicationId, serviceId, endpointId, timeConfig } = props;
   let healthInfo = useObservable(
     fetchAndMapApplicationEntityHealthInfo({
       applicationId,
@@ -27,7 +26,7 @@ export default function ApplicationEntityHealthIndicatorBehavior(props) {
     []
   );
 
-  // Previous values when the openIssues, maxSeverity weere undefined are needed to be replaced
+  // Previous values when the openIssues, maxSeverity where undefined are needed to be replaced
   healthInfo = openIssues != null && maxSeverity != null ? { openIssues, maxSeverity, timeConfig } : healthInfo;
 
   if (healthInfo?.openIssues == null || healthInfo?.openIssues < 0) {
@@ -39,8 +38,7 @@ export default function ApplicationEntityHealthIndicatorBehavior(props) {
       <props.IndicatorPresenter
         showCheckAsNeutral
         maxSeverity={healthInfo.maxSeverity}
-        openIssues={props.inContentArea ? healthInfo.openIssues : t('in-applications:noIssues')}
-        tooltipLabel={tooltipLabel}
+        openIssues={healthInfo.openIssues}
       />
     );
   }
@@ -48,30 +46,14 @@ export default function ApplicationEntityHealthIndicatorBehavior(props) {
   return (
     <Overlay props={{ ...props, healthInfo }} content={Content} withoutWrapper inContentArea={props.inContentArea}>
       {({ toggle, refSetter }) => (
-        <Indicator
-          healthInfo={healthInfo}
-          IndicatorPresenter={props.IndicatorPresenter}
+        <props.IndicatorPresenter
+          openIssues={healthInfo?.openIssues ?? 0}
+          maxSeverity={healthInfo?.maxSeverity ?? 0}
+          onClick={toggle}
           refSetter={refSetter}
-          toggle={toggle}
-          tooltipLabel={tooltipLabel}
         />
       )}
     </Overlay>
-  );
-}
-
-function Indicator({ healthInfo, IndicatorPresenter, refSetter, toggle, tooltipLabel }) {
-  const count = healthInfo?.openIssues ?? 0;
-  return (
-    <IndicatorPresenter
-      openIssues={t('in-applications:openIssues', {
-        count
-      })}
-      maxSeverity={healthInfo?.maxSeverity}
-      onClick={toggle}
-      refSetter={refSetter}
-      tooltipLabel={tooltipLabel}
-    />
   );
 }
 

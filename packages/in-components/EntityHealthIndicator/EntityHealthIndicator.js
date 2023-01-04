@@ -7,7 +7,6 @@ import React from 'react';
 
 import EntityOpenIssuesList from 'in-components/EntityHealthIndicator/EntityOpenIssuesList';
 import Overlay from 'in-components/overlays/Overlay';
-import { t } from 'in-i18n';
 
 import locals from './EntityHealthIndicator.mless';
 
@@ -19,22 +18,14 @@ export default function EntityHealthIndicator(props) {
   }
 
   if (openIssues === 0) {
-    return (
-      <props.IndicatorPresenter
-        showCheckAsNeutral
-        maxSeverity={maxSeverity}
-        openIssues={
-          props.inContentArea ? openIssues : t('in-components:entityHealthIndicator.indicatorPresenterNoIssues')
-        }
-      />
-    );
+    return <props.IndicatorPresenter showCheckAsNeutral maxSeverity={maxSeverity} openIssues={openIssues} />;
   }
 
   return (
     <Overlay props={props} content={Content} withoutWrapper inContentArea={props.inContentArea}>
       {({ toggle, refSetter }) => (
         <props.IndicatorPresenter
-          openIssues={t('in-components:entityHealthIndicator.indicatorPresenterOpenIssues', { count: openIssues })}
+          openIssues={openIssues}
           maxSeverity={maxSeverity}
           onClick={toggle}
           refSetter={refSetter}

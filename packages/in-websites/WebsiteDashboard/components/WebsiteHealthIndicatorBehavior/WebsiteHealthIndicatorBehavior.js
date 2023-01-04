@@ -10,7 +10,6 @@ import getWebsiteHealthInfo from 'in-websites/subscriptions/getWebsiteHealthInfo
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import Overlay from 'in-components/overlays/Overlay';
 import connectTo from 'in-hoc/connectTo';
-import { t } from 'in-i18n';
 
 export default connectTo(
   ({ websiteId, openIssues, maxSeverity, timeConfig }) => {
@@ -43,26 +42,14 @@ export default connectTo(
     }
 
     if (openIssues === 0) {
-      return (
-        <props.IndicatorPresenter
-          showCheckAsNeutral
-          maxSeverity={maxSeverity}
-          openIssues={
-            props.inContentArea
-              ? openIssues
-              : t('in-websites:websiteDashboard.components.websiteHealthIndicatorBehaviorNoIssues')
-          }
-        />
-      );
+      return <props.IndicatorPresenter showCheckAsNeutral maxSeverity={maxSeverity} openIssues={openIssues} />;
     }
 
     return (
       <Overlay props={props} content={Content} withoutWrapper inContentArea={props.inContentArea}>
         {({ toggle, refSetter }) => (
           <props.IndicatorPresenter
-            openIssues={t('in-websites:websiteDashboard.components.websiteHealthIndicatorBehaviorNumbersOfIssues', {
-              count: openIssues
-            })}
+            openIssues={openIssues}
             maxSeverity={maxSeverity}
             onClick={toggle}
             refSetter={refSetter}

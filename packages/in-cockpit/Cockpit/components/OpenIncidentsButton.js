@@ -11,7 +11,6 @@ import { openEventsAtServerTime$ } from 'in-stores/events';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 import { hours } from 'in-services/time';
-import { t } from 'in-i18n';
 
 export default connectTo(
   {
@@ -23,8 +22,7 @@ export default connectTo(
 
     return (
       <HealthIndicatorButtonPresenter
-        showCheckAsNeutral
-        openIssues={t('in-cockpit:component.openIncidentsButton.numberOfIncidents', { count: numIncidents })}
+        openIncidents={numIncidents}
         maxSeverity={maxSeverity}
         href$={timeConfig$.flatMap(timeConfig =>
           getEventsViewFilteredBy({
@@ -38,6 +36,7 @@ export default connectTo(
               : timeConfig
           })
         )}
+        showCheckAsNeutral
       />
     );
   }
