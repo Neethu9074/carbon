@@ -172,8 +172,6 @@ function getChartedMetrics(alertType) {
     // we don't show errors with MEAN aggregation here, because we already include a call.erroneous filter
     return [createChartedMetric('erroneousCalls', 'SUM')];
   }
-  // at the moment only 'latency_DISTRIBUTION' is available when no grouping is set. However, the analyze-view handles
-  // this case properly and then shows the latency-distribution chart instead.
   return [createChartedMetric('calls', 'SUM')];
 }
 
