@@ -3,17 +3,22 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Map } from 'immutable';
+
 import { getInfraGranularity } from 'in-stores/metric';
+import { TimeConfig, Event } from 'in-types';
 import { minutes } from 'in-services/time';
 
 const chartOffset = minutes.toMillis(5);
 const minEventEntityWindowSize = minutes.toMillis(3);
 
-export function getChartTimeConfigByEvent({
-  event,
-  from = event.getIn(['metadata', 'triggeringTime'], event.get('start') - minutes.toMillis(1)),
-  to = event.get('state') === 'closed' ? event.get('end') : null
-}) {
+type EventOrMap = Map<string, any> & Event;
+
+export function getChartTimeConfigByEvent(
+  event: Map<string, any>,
+  to: number = event.get('state') === 'closed' ? event.get('end') : null
+): TimeConfig {
+  const from = event.getIn(['metadata', 'triggeringTime'], event.get('start') - minutes.toMillis(1));
   const isOpen = event.get('state') === 'open';
   const timeConfig = {
     to,
@@ -32,7 +37,7 @@ export function getChartTimeConfigByEvent({
   return timeConfig;
 }
 
-export function getTimeConfigFromEvent(event) {
+export function getTimeConfigFromEvent(event: EventOrMap): TimeConfig {
   const from = getFromOfEvent(event);
   if (from === undefined) {
     throw new Error('Could not derive time config from event.');
@@ -49,7 +54,7 @@ export function getTimeConfigFromEvent(event) {
   };
 }
 
-export function getSmartAlertAnalyzeTimeframe(event, alertConfig) {
+export function getSmartAlertAnalyzeTimeframe(event: EventOrMap, alertConfig: any) {
   if (alertConfig.rule.alertType === 'throughput') {
     return getWidenedTimeConfigFromEvent(event, alertConfig.granularity);
   }
@@ -62,7 +67,7 @@ export function getSmartAlertAnalyzeTimeframe(event, alertConfig) {
  * @param event                The event to retrieve the timeframe from.
  * @param widenTimeframeMillis The time in millis to extend both sides. If to is NULL, then only the LHS is extended.
  */
-function getWidenedTimeConfigFromEvent(event, widenTimeframeMillis) {
+function getWidenedTimeConfigFromEvent(event: EventOrMap, widenTimeframeMillis: number): TimeConfig {
   const timeConfig = getTimeConfigFromEvent(event);
   // extend begin by one bucket, and end also by bucket in case the to-timestamp is fixed
   const toIsFixed = !!timeConfig.to;
@@ -75,7 +80,7 @@ function getWidenedTimeConfigFromEvent(event, widenTimeframeMillis) {
   };
 }
 
-export function getTimeConfigFromEventForSnapshotRetrieval(event) {
+export function getTimeConfigFromEventForSnapshotRetrieval(event: EventOrMap): TimeConfig {
   const from = getFromOfEvent(event);
   if (from === undefined) {
     throw new Error('Could not derive time config from event.');
@@ -99,7 +104,7 @@ export function getTimeConfigFromEventForSnapshotRetrieval(event) {
   };
 }
 
-function getFromOfEvent(event) {
+function getFromOfEvent(event: EventOrMap): number {
   let from;
   if (typeof event.getIn === 'function') {
     from = event.getIn(['metadata', 'triggeringTime']);
@@ -113,7 +118,7 @@ function getFromOfEvent(event) {
   return from;
 }
 
-function getToOfEvent(event) {
+function getToOfEvent(event: EventOrMap): number | null {
   return typeof event.get === 'function'
     ? event.get('state') === 'closed'
       ? event.get('end')
@@ -123,6 +128,6 @@ function getToOfEvent(event) {
     : null;
 }
 
-function getStartTime(event) {
+function getStartTime(event: EventOrMap): number {
   return typeof event.get === 'function' ? event.get('start') : event.start;
 }

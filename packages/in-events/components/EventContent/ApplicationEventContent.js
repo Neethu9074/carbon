@@ -54,7 +54,7 @@ export default function ApplicationEventContent({ event }) {
 
   const blueprintConfig = getBlueprintConfig(alertType);
   const timeConfig = {
-    ...getChartTimeConfigByEvent({ event }),
+    ...getChartTimeConfigByEvent(event),
     windowSize: alertingEventDetailsChartTimeframe
   };
   const analyzeTimeConfig = getSmartAlertAnalyzeTimeframe(event, alertConfig);

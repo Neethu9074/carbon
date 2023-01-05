@@ -49,7 +49,7 @@ export default function WebsiteEventContent({ event }) {
   const beaconType = blueprintConfig.getBeaconType(metricName);
   const AlertQueryBuilder = getQueryBuilderForBeaconType(beaconType).QueryBuilder;
   const timeConfig = {
-    ...getChartTimeConfigByEvent({ event }),
+    ...getChartTimeConfigByEvent(event),
     windowSize: alertingEventDetailsChartTimeframe
   };
   const analyzeTimeConfig = getSmartAlertAnalyzeTimeframe(event, alertConfig);
