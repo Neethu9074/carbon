@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-// import { compose } from 'recompose';
 import React from 'react';
 
 import { combineLatest } from '@instana/observables';
