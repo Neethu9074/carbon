@@ -12,8 +12,8 @@ import ReadOnlyInboundOrAllCalls from 'in-alerting/smart-alerts/applications/adv
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
+import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
 import AnalyzeApplicationEventButton from 'in-events/components/AnalyzeApplicationEventButton';
-import { getChartTimeConfigByEvent, getSmartAlertAnalyzeTimeframe } from 'in-events/timeframe';
 import ApplicationAlertConfigButton from 'in-events/components/ApplicationAlertConfigButton';
 import useApplicationEventAlertConfig from 'in-events/hooks/useApplicationEventAlertConfig';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
@@ -23,6 +23,7 @@ import useApplicationEventEntity from 'in-events/hooks/useApplicationEventEntity
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
+import { getChartTimeConfigByEvent } from 'in-events/timeframe';
 import { DescriptionItem } from 'in-components/DescriptionList';
 import { t } from 'in-i18n';
 
@@ -47,7 +48,7 @@ export default function ApplicationEventListItemContent({ event }) {
     ...getChartTimeConfigByEvent(event),
     windowSize: alertingEventDetailsChartTimeframe
   };
-  const analyzeTimeConfig = getSmartAlertAnalyzeTimeframe(event, alertConfig);
+
   const chartViewConfig = createDefaultChartConfig(timeConfig);
   const tagFilterFormModel = fromBackendModel(alertConfig.tagFilterExpression);
 
@@ -65,7 +66,7 @@ export default function ApplicationEventListItemContent({ event }) {
         <AnalyzeApplicationEventButton
           {...eventEntity}
           alertConfig={alertConfig}
-          timeConfig={analyzeTimeConfig}
+          timeConfig={getSmartAlertAnalyzeTimeConfig(event, alertConfig)}
           adaptiveBaselineInfo={adaptiveBaselineInfo.toJS()}
         />
       </DescriptionButtons>
