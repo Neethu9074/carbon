@@ -121,7 +121,8 @@ export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
               {
                 metricConfiguration: {
                   metric: 'cpuRequests',
-                  ...defaultBigNumberMetricConfig
+                  ...defaultBigNumberMetricConfig,
+                  ...isContainerMetric
                 },
                 ...comparisonColors
               },
@@ -139,12 +140,13 @@ export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
         <Col lg={2}>
           <MultiMetricBigNumberKpiCard
             title={t('in-kubernetes:dashboards.cpuLimitsAllocMultiMetric')}
-            formatter={[resourceQuotaNumber, resourceQuotaPercentage]}
+            formatter={[resourceQuotaBytes, resourceQuotaPercentage]}
             config={[
               {
                 metricConfiguration: {
                   metric: 'cpuLimits',
-                  ...defaultBigNumberMetricConfig
+                  ...defaultBigNumberMetricConfig,
+                  ...isContainerMetric
                 },
                 ...comparisonColors
               },
@@ -167,7 +169,8 @@ export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
               {
                 metricConfiguration: {
                   metric: 'memoryRequests',
-                  ...defaultBigNumberMetricConfig
+                  ...defaultBigNumberMetricConfig,
+                  ...isContainerMetric
                 },
                 ...comparisonColors
               },
@@ -190,7 +193,8 @@ export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
               {
                 metricConfiguration: {
                   metric: 'memoryLimits',
-                  ...defaultBigNumberMetricConfig
+                  ...defaultBigNumberMetricConfig,
+                  ...isContainerMetric
                 },
                 ...comparisonColors
               },
@@ -213,7 +217,8 @@ export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
               {
                 metricConfiguration: {
                   metric: 'pods.count',
-                  ...defaultBigNumberMetricConfig
+                  ...defaultBigNumberMetricConfig,
+                  ...isContainerMetric
                 },
                 ...comparisonColors
               },
