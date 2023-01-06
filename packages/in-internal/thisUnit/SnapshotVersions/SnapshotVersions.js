@@ -10,13 +10,12 @@ import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/components';
 
 import createSnapshotVersionsInTimeframeObservable from 'in-subscription/snapshotVersionsInTimeframe';
-// import connectTo from 'in-hoc/connectTo';
-import Code from 'in-components/Code';
 import VersionTimeline from 'in-components/VersionTimeline';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { timeConfig$ } from 'in-stores/time/config';
 import useUrlState from 'in-hooks/useUrlState';
 import Input from 'in-components/form/Input';
+import Code from 'in-components/Code';
 import { t } from 'in-i18n';
 
 import locals from './SnapshotVersions.mless';
