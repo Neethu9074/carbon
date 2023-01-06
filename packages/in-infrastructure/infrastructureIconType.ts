@@ -5,8 +5,8 @@
 
 import { getSvgIcon } from '@instana/components';
 
-import { getIconTypeCallback } from 'in-sdk/iconType';
 import { SnapshotMap } from 'in-components/EntityLink';
+import { getIconTypeCallback } from 'in-sdk/iconType';
 
 type SnapshotOrPlugin = SnapshotMap | string;
 
@@ -21,5 +21,6 @@ export function getIconType(snapshotOrPlugin: SnapshotOrPlugin): string {
   }
 
   const name = `lib_infra_${plugin}`;
-  return getSvgIcon(name) ? name : 'lib_infra_unknownIcon';
+  const nameAlt = `lib_${(plugin as String).toLowerCase()}`;
+  return getSvgIcon(name) ? name : getSvgIcon(nameAlt) ? nameAlt : 'lib_infra_unknownIcon';
 }
