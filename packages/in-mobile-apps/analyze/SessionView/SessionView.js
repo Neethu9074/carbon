@@ -27,20 +27,17 @@ import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { dataSourceTitles } from 'in-mobile-apps/tags';
 import { shorten } from 'in-services/util/string';
-import withUrlState from 'in-hoc/withUrlState';
+import useUrlState from 'in-hooks/useUrlState';
 import Tooltip from 'in-components/Tooltip';
 import Sticky from 'in-components/Sticky';
 import { t } from 'in-i18n';
 
 import locals from './SessionView.mless';
 
-export default withUrlState({
-  bind: [sessionIdUrlParameter, beaconIdUrlParameter, beaconTimestampUrlParameter],
-  reducerName: 'onChange'
-})(SessionView);
-
-function SessionView(props) {
-  const content = renderSplitScreenContent(props);
+export default function SessionView(props) {
+  const urlStateConfig = { bind: [sessionIdUrlParameter, beaconIdUrlParameter, beaconTimestampUrlParameter] };
+  const [{ sessionId, beaconId, beaconTimestamp }, onChange] = useUrlState(urlStateConfig);
+  const content = renderSplitScreenContent(sessionId, beaconId, beaconTimestamp, onChange, ...props);
   const beaconType = props.dataSource;
   return (
     <>
@@ -55,6 +52,10 @@ function SessionView(props) {
         header={
           <DashboardHeader
             {...props}
+            onChange={onChange}
+            sessionId={sessionId}
+            beaconId={beaconId}
+            beaconTimestamp={beaconTimestamp}
             className={locals.header}
             title={t('in-mobile-apps:sessionView.analyticsTitle')}
             icon="lib_mobile_app"
@@ -105,6 +106,7 @@ function renderSplitScreenContent(props) {
     detailId: { sessionId, beaconTimestamp },
     getHrefToDetailId
   } = props;
+
   return (
     <SplitScreenList
       {...props}
