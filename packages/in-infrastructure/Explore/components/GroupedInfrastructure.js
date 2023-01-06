@@ -528,12 +528,12 @@ function processData(items, columns) {
       let found = false;
       Object.keys(item.metrics ?? {}).forEach(metric => {
         if (metric === col.getId()) {
-          row[metric.substring(0, metric.lastIndexOf('.'))] = firstValue(item.metrics[metric]);
+          row[metric] = firstValue(item.metrics[metric]);
           found = true;
         }
       });
       if (!found && col.exported) {
-        row[col.getId().substring(0, col.getId().lastIndexOf('.'))] = '-';
+        row[col.getId()] = '-';
       }
     });
     csvRows.push(row);
@@ -577,7 +577,7 @@ function getHeaderActions(props) {
       <CsvExporter
         processData={processData}
         fetchData={getAllData}
-        fileName="group_entites.csv"
+        fileName={'group_entites_' + type + '.csv'}
         columns={columns}
         cursor={cursor}
       />
