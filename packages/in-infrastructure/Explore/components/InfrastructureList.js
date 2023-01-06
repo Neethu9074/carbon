@@ -313,6 +313,7 @@ function getHeaderActions(props) {
   const cursor = props.cursor;
   const columns = props.columns;
   const granularity = props.granularity;
+  const csvFileName = 'infrastructure_entites_' + type + '.csv';
 
   const getAllData = ({ cursor }) =>
     getTableData({
@@ -332,7 +333,7 @@ function getHeaderActions(props) {
       <CsvExporter
         processData={processData}
         fetchData={getAllData}
-        fileName={'infrastructure_entites_' + type + '.csv'}
+        fileName={csvFileName}
         cursor={cursor}
         columns={columns}
       />

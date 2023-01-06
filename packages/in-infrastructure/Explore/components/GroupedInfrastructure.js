@@ -557,6 +557,7 @@ function getHeaderActions(props) {
   const columns = props.columns;
   const granularity = props.granularity;
   const fullQualifiedGroup = props.fullQualifiedGroup;
+  const csvFileName = 'group_entites_' + type + '.csv';
 
   const getAllData = ({ cursor }) =>
     getGroups({
@@ -577,7 +578,7 @@ function getHeaderActions(props) {
       <CsvExporter
         processData={processData}
         fetchData={getAllData}
-        fileName={'group_entites_' + type + '.csv'}
+        fileName={csvFileName}
         columns={columns}
         cursor={cursor}
       />
