@@ -9,7 +9,7 @@ set -euo pipefail
 
 SCRIPTPATH="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
-VERSION="v0.0.13"
+VERSION="v0.1.0"
 PROJECT="ci-shared-tools"
 REPO="instana/${PROJECT}"
 ASSET_FILE="ci-shared-tools-${VERSION}.tar.gz"
