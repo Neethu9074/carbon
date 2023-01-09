@@ -24,7 +24,7 @@ describe('in-custom-dashboards/widgets/Slo/components/widget/tiles/SloTimeTile',
           new Date(2021, 0, 1, 1, 1, 1),
           new Date(2021, 1, 2, 2, 2, 1)
         )
-      ).toEqual('Jan. 01, 2021 01:01 - Feb. 02, 2021 02:02');
+      ).toEqual('Jan 01, 2021 01:01 - Feb 02, 2021 02:02');
     });
   });
 
@@ -100,10 +100,10 @@ describe('in-custom-dashboards/widgets/Slo/components/widget/tiles/SloTimeTile',
 
     // Then
     expect(
-      wrapper.containsMatchingElement(<time dateTime="2021-11-18T13:41:08.000Z">Nov. 18, 2021 14:41</time>)
+      wrapper.containsMatchingElement(<time dateTime="2021-11-18T13:41:08.000Z">Nov 18, 2021 14:41</time>)
     ).toBeTruthy();
     expect(
-      wrapper.containsMatchingElement(<time dateTime="2022-03-14T10:14:28.000Z">Mar. 14, 2022 11:14</time>)
+      wrapper.containsMatchingElement(<time dateTime="2022-03-14T10:14:28.000Z">Mar 14, 2022 11:14</time>)
     ).toBeTruthy();
   });
 });
