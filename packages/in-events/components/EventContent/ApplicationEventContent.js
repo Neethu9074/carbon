@@ -4,22 +4,22 @@
  */
 
 import React, { useState } from 'react';
-import { Map } from 'immutable';
 
 import { Card } from '@instana/components';
 
 import ReadOnlyIncludeInternalOrSyntheticCallsSwitch from 'in-alerting/smart-alerts/applications/advanced/IncludeInternalOrSyntheticCallsSwitch/ReadOnlyIncludeInternalOrSyntheticCallsSwitch';
 import ApplicationAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/applications/chart/ApplicationAlertingChartWithErrorMessage';
 import ReadOnlyInboundOrAllCalls from 'in-alerting/smart-alerts/applications/advanced/InboundOutboundCallsSwitch/ReadOnlyInboundOrAllCalls';
-import { getChartTimeConfigByEvent, getTimeConfigFromEvent, getSmartAlertAnalyzeTimeframe } from 'in-events/timeframe';
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import { SmartAlertAffectedEntities } from 'in-events/components/EventContent/SmartAlertAffectedEntities';
 import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
 import { HighlightDataRetention } from 'in-events/components/EventContent/HighlightDataRetention';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
+import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
 import AnalyzeApplicationEventButton from 'in-events/components/AnalyzeApplicationEventButton';
 import ApplicationAlertConfigButton from 'in-events/components/ApplicationAlertConfigButton';
 import useApplicationEventAlertConfig from 'in-events/hooks/useApplicationEventAlertConfig';
+import { getChartTimeConfigByEvent, getTimeConfigFromEvent } from 'in-events/timeframe';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { alertingEventDetailsChartTimeframe } from 'in-alerting/components/constants';
@@ -28,7 +28,7 @@ import useApplicationEventEntity from 'in-events/hooks/useApplicationEventEntity
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
-import { fixateTimeConfig } from 'in-stores/time/config';
+import { emptyMap } from 'in-services/fixedImmutables';
 import { Col, Row } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
@@ -44,21 +44,19 @@ export default function ApplicationEventContent({ event }) {
   }
 
   const isGlobalSmartAlert = event.getIn(['metadata', 'globalSmartAlert'], false);
-  const adaptiveBaselineInfo = event.getIn(['metadata', 'adaptiveBaselineInfo'], Map({}))?.toJS() ?? {};
+  const adaptiveBaselineInfo = event.getIn(['metadata', 'adaptiveBaselineInfo'], emptyMap).toJS();
 
   const { applicationId } = eventEntity;
   const { tagFilterExpression, rule, boundaryScope, threshold } = alertConfig;
-  const alertType = rule.alertType;
+  const { alertType } = rule;
   const thresholdType = threshold.type;
   const { QueryBuilder } = getQueryBuilderForAlertType(alertType, thresholdType);
 
   const blueprintConfig = getBlueprintConfig(alertType);
   const timeConfig = {
-    ...getChartTimeConfigByEvent({ event }),
+    ...getChartTimeConfigByEvent(event),
     windowSize: alertingEventDetailsChartTimeframe
   };
-  const analyzeTimeConfig = getSmartAlertAnalyzeTimeframe(event, alertConfig);
-  const fixedAnalyzeTimeConfig = fixateTimeConfig(analyzeTimeConfig);
 
   const chartViewConfig = createDefaultChartConfig(timeConfig);
 
@@ -88,7 +86,7 @@ export default function ApplicationEventContent({ event }) {
               <AnalyzeApplicationEventButton
                 {...eventEntity}
                 alertConfig={alertConfig}
-                timeConfig={fixedAnalyzeTimeConfig}
+                timeConfig={getSmartAlertAnalyzeTimeConfig(event, alertConfig)}
                 adaptiveBaselineInfo={adaptiveBaselineInfo}
               />
             </DescriptionButtons>

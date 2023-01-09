@@ -116,11 +116,17 @@ export default [
   },
   {
     formatter: number,
-    metrics: ['stats.activeUserSessions', 'stats.inactiveUserSessions', 'stats.backgroundSessions'],
+    metrics: [
+      'stats.activeUserSessions',
+      'stats.inactiveUserSessions',
+      'stats.backgroundSessions',
+      'stats.activeSessionsCount'
+    ],
     labels: [
       t('in-forge:plugins.oracleDB.activeUserSessions'),
       t('in-forge:plugins.oracleDB.inactiveUserSessions'),
-      t('in-forge:plugins.oracleDB.backgroundSessions')
+      t('in-forge:plugins.oracleDB.backgroundSessions'),
+      t('in-forge:plugins.oracleDB.activeSessions')
     ],
     min: 0
   },
@@ -148,7 +154,7 @@ export default [
   },
   {
     formatter: megaBytes,
-    metrics: ['usageOfSGA.free', 'usageOfSGA.total', 'usageOfSGA.used'],
+    metrics: ['stats.usageOfSGA.free', 'stats.usageOfSGA.total', 'stats.usageOfSGA.used'],
     labels: [
       t('in-forge:plugins.oracleDB.freeMemory'),
       t('in-forge:plugins.oracleDB.totalMemory'),
@@ -159,10 +165,10 @@ export default [
   {
     formatter: number,
     metrics: [
-      'processUtilization.maxUtilization',
-      'processUtilization.limitValue',
-      'processUtilization.currentUtilization',
-      'processUtilization.initialAllocation'
+      'stats.processUtilization.maxUtilization',
+      'stats.processUtilization.limitValue',
+      'stats.processUtilization.currentUtilization',
+      'stats.processUtilization.initialAllocation'
     ],
     labels: [
       t('in-forge:plugins.oracleDB.processMaxUtilization'),
@@ -174,8 +180,28 @@ export default [
   },
   {
     formatter: percentage,
-    metrics: ['processUtilization.processLimit'],
+    metrics: ['stats.processUtilization.processLimit'],
     labels: [t('in-forge:plugins.oracleDB.processLimit')],
+    min: 0
+  },
+  {
+    formatter: percentage,
+    metrics: [
+      'stats.libraryCacheHitRatios.avgLatchHitNoSleep',
+      'stats.libraryCacheHitRatios.avgLatchHitNoMiss',
+      'stats.libraryCacheHitRatios.sqlAreaGetHitRate',
+      'stats.libraryCacheHitRatios.bufferCache',
+      'stats.libraryCacheHitRatios.memorySort',
+      'stats.libraryCacheHitRatios.executeNoParse'
+    ],
+    labels: [
+      t('in-forge:plugins.oracleDB.avgLatchHitNoSleep'),
+      t('in-forge:plugins.oracleDB.avgLatchHitNoMiss'),
+      t('in-forge:plugins.oracleDB.sqlAreaGetHitRate'),
+      t('in-forge:plugins.oracleDB.bufferCache'),
+      t('in-forge:plugins.oracleDB.memorySort'),
+      t('in-forge:plugins.oracleDB.executeNoParse')
+    ],
     min: 0
   }
 ];

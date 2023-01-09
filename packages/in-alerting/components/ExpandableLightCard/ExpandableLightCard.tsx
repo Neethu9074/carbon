@@ -64,6 +64,7 @@ export default function ExpandableLightCard({
             ? t('in-components:expandableCard.tooltipShowLess')
             : t('in-components:expandableCard.tooltipShowMore'))
         }
+        delay={500}
       >
         <SvgIcon
           className={locals.icon}

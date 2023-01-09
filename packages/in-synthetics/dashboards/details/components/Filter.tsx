@@ -8,14 +8,14 @@ import React, { ReactChild } from 'react';
 
 import { t } from '@instana/i18n-react';
 
+import { defaultPage, FilterProps } from 'in-synthetics/utils/constants';
 import SearchInput from 'in-components/SearchInput/SearchInput';
-import { FilterProps } from 'in-synthetics/utils/constants';
 import { isNotBlank } from 'in-services/util/string';
 import ButtonGroup from 'in-components/ButtonGroup';
 
 import locals from './Filter.mless';
 
-export default function Filter({ filter, setFilter, isBrowserType }: FilterProps) {
+export default function Filter({ filter, setFilter, isBrowserType, setExpanded }: FilterProps) {
   const buttonPropsList = [
     {
       text: t('in-synthetics:dashboard.detailsPage.typesFilterValues.allType'),
@@ -41,49 +41,73 @@ export default function Filter({ filter, setFilter, isBrowserType }: FilterProps
     {
       text: t('in-synthetics:dashboard.detailsPage.typesFilterValues.allType'),
       key: '',
-      onClick: () => setFilter({ query: filter.query, type: '' }),
+      onClick: () => {
+        setFilter({ query: filter.query, type: '' });
+        setExpanded?.(defaultPage);
+      },
       className: locals.buttonFocus
     },
     {
       text: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.long.document'),
       key: 'document',
-      onClick: () => setFilter({ query: filter.query, type: 'document' }),
+      onClick: () => {
+        setFilter({ query: filter.query, type: 'document' });
+        setExpanded?.(defaultPage);
+      },
       className: locals.buttonFocus
     },
     {
       text: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.long.stylesheet'),
       key: 'stylesheet',
-      onClick: () => setFilter({ query: filter.query, type: 'stylesheet' }),
+      onClick: () => {
+        setFilter({ query: filter.query, type: 'stylesheet' });
+        setExpanded?.(defaultPage);
+      },
       className: locals.buttonFocus
     },
     {
       text: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.long.image'),
       key: 'image',
-      onClick: () => setFilter({ query: filter.query, type: 'image' }),
+      onClick: () => {
+        setFilter({ query: filter.query, type: 'image' });
+        setExpanded?.(defaultPage);
+      },
       className: locals.buttonFocus
     },
     {
       text: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.long.font'),
       key: 'font',
-      onClick: () => setFilter({ query: filter.query, type: 'font' }),
+      onClick: () => {
+        setFilter({ query: filter.query, type: 'font' });
+        setExpanded?.(defaultPage);
+      },
       className: locals.buttonFocus
     },
     {
       text: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.long.script'),
       key: 'script',
-      onClick: () => setFilter({ query: filter.query, type: 'script' }),
+      onClick: () => {
+        setFilter({ query: filter.query, type: 'script' });
+        setExpanded?.(defaultPage);
+      },
       className: locals.buttonFocus
     },
     {
       text: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.long.media'),
       key: 'media',
-      onClick: () => setFilter({ query: filter.query, type: 'media' }),
+      onClick: () => {
+        setFilter({ query: filter.query, type: 'media' });
+        setExpanded?.(defaultPage);
+      },
       className: locals.buttonFocus
     },
     {
       text: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.long.other'),
       key: 'other',
-      onClick: () => setFilter({ query: filter.query, type: 'other' }),
+      onClick: () => {
+        setFilter({ query: filter.query, type: 'other' });
+        setExpanded?.(defaultPage);
+      },
       className: locals.buttonFocus
     }
   ];

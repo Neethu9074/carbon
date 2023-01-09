@@ -5,23 +5,19 @@
 
 import { Field, MapForm } from 'formalistic';
 
-import {
-  createViolationsInSequenceForm,
-  defaultAdaptiveBaselineTimeWindow
-} from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/form';
-// @ts-expect-error file needs to be converted into typescript
-import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
+import { defaultAdaptiveBaselineTimeWindow } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/form';
 import { defaultAdaptiveBaselineGranularity } from 'in-alerting/smart-alerts/websites/form/alertDialogFormDefinition';
+import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import createThresholdForm from 'in-alerting/smart-alerts/websites/form/thresholdForm';
 import createRuleForm from 'in-alerting/smart-alerts/websites/form/ruleForm';
-import { ThresholdType } from 'in-types';
+import { ThresholdType, Granularity } from 'in-types';
 
 export function onThresholdTypeChange(
   typeWithOptionalSeasonality: string,
   form: MapForm,
   updateForm: (form: MapForm) => void,
-  trackThresholdTypeChanged: (trackingObject: any) => void
+  trackThresholdTypeChanged: (trackingObject: object) => void
 ): void {
   const typeSeasonalityParts = typeWithOptionalSeasonality.split('.');
   const updatedThresholdType: ThresholdType = typeSeasonalityParts[0] as ThresholdType;
@@ -49,26 +45,28 @@ export function onThresholdTypeChange(
 
   let updatedForm = form.put('threshold', newThresholdForm).put('rule', newRuleForm);
 
-  if (updatedThresholdType === ADAPTIVE_BASELINE) {
-    // resetting granularity and timeThreshold when threshold type is switched to adaptive-baseline
-    updatedForm = updatedForm.put(
-      'timeThreshold',
-      createViolationsInSequenceForm(
-        {
-          // TODO check which type we need to inject here:
-          timeWindow: defaultAdaptiveBaselineTimeWindow,
-          type: 'violationsInSequence'
-        },
-        ADAPTIVE_BASELINE
-      )
-    );
-
-    updatedForm = updatedForm.updateIn(['granularity'], f =>
-      (f as Field<number>).setValue(defaultAdaptiveBaselineGranularity).setTouched(true)
-    );
-  }
+  const granularity = (form.get('granularity') as Field<Granularity>).value;
+  updatedForm = updateFormIfAdaptiveBaseline(updatedForm, updatedThresholdType, granularity);
 
   updateForm(updatedForm);
 
   trackThresholdTypeChanged?.(getTrackingObject(form, { value: updatedThresholdType }));
+}
+
+function updateFormIfAdaptiveBaseline(form: MapForm, thresholdType: ThresholdType, granularity: Granularity): MapForm {
+  if (thresholdType != ADAPTIVE_BASELINE || granularity >= defaultAdaptiveBaselineTimeWindow) {
+    return form;
+  }
+
+  return (
+    form
+      // resetting to default granularity required
+      .updateIn(['granularity'], f =>
+        (f as Field<number>).setValue(defaultAdaptiveBaselineGranularity).setTouched(true)
+      )
+      // also adjust properties such as timeThreshold window size which depend on the used granularity
+      .updateIn(['timeThreshold', 'timeWindow'], f =>
+        (f as Field<number>).setValue(defaultAdaptiveBaselineGranularity).setTouched(true)
+      )
+  );
 }

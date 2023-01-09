@@ -82,6 +82,9 @@ export const applicationApdexEnabled = isFeatureFlagEnabled('applicationApdexEna
 export const websiteUploadConfigEnabled = isFeatureFlagEnabled('websiteUploadConfigEnabled', false);
 export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashBeaconEnabled', false);
 
+// RBAC usability improvements
+export const rbacImprovementEnabled = isFeatureFlagEnabled('rbacImprovementEnabled', false);
+
 // EUM beacon query optimization
 export const websiteBeaconQueryOptimizationEnabled = isFeatureFlagEnabled(
   'websiteBeaconQueryOptimizationEnabled',

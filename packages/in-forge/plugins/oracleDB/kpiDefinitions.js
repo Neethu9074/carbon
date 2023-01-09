@@ -16,5 +16,10 @@ export default [
     label: t('in-forge:plugins.oracleDB.dbCpuTimeDbRatio'),
     metric: 'stats.cpuTimeDbTimeRatio',
     formatter: hitRateTwoDecimalPlaces
+  },
+  {
+    label: t('in-forge:plugins.oracleDB.activeSessions'),
+    metric: 'stats.activeSessionsCount',
+    formatter: hitRateTwoDecimalPlaces
   }
 ];

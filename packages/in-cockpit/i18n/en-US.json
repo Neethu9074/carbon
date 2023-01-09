@@ -70,13 +70,6 @@
       "views": "Views",
       "website": "Website",
       "mobileApp": "Mobile App"
-    },
-    "openIncidentsButton": {
-      "numberOfIncidents": "{{count}} Incident",
-      "numberOfIncidents_plural": "{{count}} Incidents",
-      "numberOfIncidents_0": "{{count}} Incidents",
-      "numberOfIncidents_1": "{{count}} Incidents",
-      "numberOfIncidents_2": "{{count}} Incidents"
     }
   },
   "cockpit": {
@@ -95,7 +88,8 @@
     "kubernetes": "Kubernetes",
     "websites": "Websites",
     "mobileApps": "Mobile Apps",
-    "websitesMobileApps": "Websites & Mobile Apps"
+    "websitesMobileApps": "Websites & Mobile Apps",
+    "customEventDeprecatedWarning": "<strong>{{deprecatedCustomEvents}} Application, Service and Endpoint Custom Events require action</strong>. <affectedCustomEvents>View affected Custom Events</affectedCustomEvents>."
   },
   "widgets": {
     "columnDefinitions": {

@@ -48,9 +48,10 @@ const columnDefinitions = [
     id: 'serviceLabel',
     label: t('in-applications:labelName'),
     getContent(item, { applicationId, endpointId, boundaryScope, syntheticCalls }) {
+      const maxSeverity = get(item, ['metrics', 'maxSeverity', 0, 1], 0);
       return (
         <SeverityAwareEntityLink
-          severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
+          severity={maxSeverity}
           icon="lib_application_service"
           label={item.service.label}
           href$={getServiceDashboard(item.service.id, {
@@ -176,18 +177,17 @@ const columnDefinitions = [
     label: t('in-applications:labelHealth'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, applicationId, timeConfig }) {
-      let openIssues = get(item, ['metrics', 'openIssues', 0, 1], 0);
-      let maxSeverity = get(item, ['metrics', 'maxSeverity', 0, 1], 0);
+      const openIssues = get(item, ['metrics', 'openIssues', 0, 1], 0);
+      const maxSeverity = get(item, ['metrics', 'maxSeverity', 0, 1], 0);
       return (
         <ApplicationEntityHealthIndicatorBehavior
           applicationId={applicationId}
           serviceId={item.service.id}
-          openIssues={get(item, ['metrics', 'openIssues', 0, 1], 0)}
-          maxSeverity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
+          openIssues={openIssues}
+          maxSeverity={maxSeverity}
           timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
           IndicatorPresenter={HealthIndicatorPresenter}
           inContentArea
-          tooltipLabel={getTooltipLabel(openIssues, maxSeverity)}
         />
       );
     }
@@ -362,16 +362,4 @@ function getTableData({
       timeConfig
     }
   });
-}
-
-function getTooltipLabel(openIssues, maxSeverity) {
-  if (openIssues === 0) {
-    return t('in-applications:noIssues');
-  } else {
-    if (maxSeverity > 5) {
-      return t('in-applications:labelCritical');
-    } else {
-      return t('in-applications:labelWarning');
-    }
-  }
 }

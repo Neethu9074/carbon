@@ -177,7 +177,7 @@ function getPropertyValue(entity, key) {
     return entity.get(key).join(', ');
   }
 
-  return entity.get(key).toString();
+  return entity.get(key)?.toString();
 }
 
 const typeLabels = Object.freeze({

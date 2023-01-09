@@ -22,6 +22,7 @@ import {
 } from 'in-events/components/eventUtil';
 import { KubernetesEventContent, isKubernetesEvent } from 'in-events/components/EventContent/KubernetesEventContent';
 import IbmMqFileTransferMetadataTable from 'in-events/components/tabs/Summary/IbmMqFileTransferMetadataTable';
+import { DeprecatedCustomEventWarning } from 'in-events/components/tabs/Summary/DeprecatedCustomEventWarning';
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
 import AgentMonitoringIssueDescription from 'in-events/components/legacy/AgentMonitoringIssueDescription';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
@@ -72,6 +73,7 @@ export default function Summary({ selectedEventId, data: event }) {
       render={() => (
         <>
           <div className={locals.content}>
+            <DeprecatedCustomEventWarning event={event.toJS()} isIncident={isIncident} />
             <EventDetailsKPIs event={event} isIncident={isIncident} />
             {isIncident ? (
               <IncidentContent incident={event} latestSnapshot={latestSnapshot} />

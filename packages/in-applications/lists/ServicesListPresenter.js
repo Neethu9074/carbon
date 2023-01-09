@@ -55,9 +55,10 @@ const columnDefinitions = [
     id: 'serviceLabel',
     label: t('in-applications:labelName'),
     getContent(item) {
+      const maxSeverity = get(item, ['metrics', 'maxSeverity', 0, 1], 0);
       return (
-        <SeverityIndicatorCellContentWrapper severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}>
-          <Link href$={item.service.id == 'ROOT' ? null : getServiceDashboard(item.service.id)}>
+        <SeverityIndicatorCellContentWrapper severity={maxSeverity}>
+          <Link href$={item.service.id === 'ROOT' ? null : getServiceDashboard(item.service.id)}>
             {item.service.label}
           </Link>
         </SeverityIndicatorCellContentWrapper>
@@ -158,17 +159,16 @@ const columnDefinitions = [
     label: t('in-applications:labelHealth'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
-      let openIssues = get(item, ['metrics', 'openIssues', 0, 1], 0);
-      let maxSeverity = get(item, ['metrics', 'maxSeverity', 0, 1], 0);
+      const openIssues = get(item, ['metrics', 'openIssues', 0, 1], 0);
+      const maxSeverity = get(item, ['metrics', 'maxSeverity', 0, 1], 0);
       return (
         <ApplicationEntityHealthIndicatorBehavior
           serviceId={item.service.id}
-          openIssues={get(item, ['metrics', 'openIssues', 0, 1], 0)}
-          maxSeverity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
+          openIssues={openIssues}
+          maxSeverity={maxSeverity}
           IndicatorPresenter={HealthIndicatorPresenter}
           timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
           inContentArea
-          tooltipLabel={getTooltipLabel(openIssues, maxSeverity)}
         />
       );
     }
@@ -234,7 +234,7 @@ export default function ServicesList({
   const scopeNotification = (!isBlank(applicationId) || !isBlank(serviceId) || !isBlank(endpointId) || tagFilters) &&
     !isBlank(contextScope) && (
       <ScopeNotification
-        icon={contextScope == 'UPSTREAM' ? 'lib_context_guide_upstream' : 'lib_context_guide_downstream'}
+        icon={contextScope === 'UPSTREAM' ? 'lib_context_guide_upstream' : 'lib_context_guide_downstream'}
         productArea="service"
         applicationId={applicationId}
         serviceId={serviceId}
@@ -300,16 +300,4 @@ function getTableData(params) {
 
 function getHasDataToRender(timeConfig) {
   return getServicesWithDefaults({ timeConfig }).map(result => !result.data || result.data.totalHits > 0);
-}
-
-function getTooltipLabel(openIssues, maxSeverity) {
-  if (openIssues === 0) {
-    return t('in-applications:noIssues');
-  } else {
-    if (maxSeverity > 5) {
-      return t('in-applications:labelCritical');
-    } else {
-      return t('in-applications:labelWarning');
-    }
-  }
 }

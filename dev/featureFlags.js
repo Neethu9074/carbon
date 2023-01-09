@@ -67,5 +67,6 @@ module.exports = {
   mobileAppCrashBeaconEnabled: true,
   k8sTimeShiftEnabled: true,
   syntheticBrowserScriptEnabled: true,
-  websiteBeaconQueryOptimizationEnabled: true
+  websiteBeaconQueryOptimizationEnabled: true,
+  rbacImprovementEnabled: false
 };

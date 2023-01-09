@@ -178,13 +178,8 @@ export default function Summary({ timeConfig, data: statefulSet }) {
               y1={{
                 min: 0,
                 formatter: zeroDecimalPlaces,
-                metrics: ['availableReplicas', 'desiredReplicas', 'unavailableReplicas', 'misscheduledReplicas'],
-                labels: [
-                  t('in-kubernetes:dashboards.available'),
-                  t('in-kubernetes:dashboards.desired'),
-                  t('in-kubernetes:dashboards.unavailable'),
-                  t('in-kubernetes:dashboards.misscheduled')
-                ],
+                metrics: ['availableReplicas', 'desiredReplicas'],
+                labels: [t('in-kubernetes:dashboards.available'), t('in-kubernetes:dashboards.desired')],
                 type: 'line'
               }}
               renderPostChartContent={K8DashboardsMarkerLanes}

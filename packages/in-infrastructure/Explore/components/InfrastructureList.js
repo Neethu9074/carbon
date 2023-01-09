@@ -286,12 +286,12 @@ function processData(items, columns) {
       let found = false;
       Object.keys(item.metrics ?? {}).forEach(metric => {
         if (metric === col.id) {
-          row[metric.substring(0, metric.lastIndexOf('.'))] = firstValue(item.metrics[metric]);
+          row[metric] = firstValue(item.metrics[metric]);
           found = true;
         }
       });
       if (!found && col.id !== 'label') {
-        row[col.id.substring(0, col.id.lastIndexOf('.'))] = '-';
+        row[col.id] = '-';
       }
     });
     csvRows.push(row);
@@ -313,6 +313,7 @@ function getHeaderActions(props) {
   const cursor = props.cursor;
   const columns = props.columns;
   const granularity = props.granularity;
+  const csvFileName = 'infrastructure_entites_' + type + '.csv';
 
   const getAllData = ({ cursor }) =>
     getTableData({
@@ -332,7 +333,7 @@ function getHeaderActions(props) {
       <CsvExporter
         processData={processData}
         fetchData={getAllData}
-        fileName={'infrastructure_entites.csv'}
+        fileName={csvFileName}
         cursor={cursor}
         columns={columns}
       />

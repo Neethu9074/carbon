@@ -7,7 +7,8 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import React, { useMemo, useState } from 'react';
 import classNames from 'classnames';
 
-import { Button, SvgIcon } from '@instana/components';
+import { Button, Link, Message, SvgIcon } from '@instana/components';
+import { useObservable } from '@instana/hooks';
 
 import {
   hasAPlatformAccess,
@@ -23,27 +24,32 @@ import {
   hasWebsitesAccess,
   hasZHMCAccess
 } from 'in-stores/permission';
+import getLegacyAlertConfigStats from 'in-alerting/smart-alerts/subscriptions/getLegacyAlertConfigStats';
 import { isLandingPage, setLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/cockpit';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
+import { deprecatedValue } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import WebsitesAndMobileTopList from 'in-cockpit/Cockpit/components/WebsitesAndMobileTopList';
 import DashboardSwitcher from 'in-custom-dashboards/DashboardSwitcher/DashboardSwitcher';
 import InfrastructureTopList from 'in-cockpit/Cockpit/components/InfrastructureTopList';
 import ApplicationsTopList from 'in-cockpit/Cockpit/components/ApplicationsTopList';
 import OpenIncidentsButton from 'in-cockpit/Cockpit/components/OpenIncidentsButton';
+import { events, teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
 import PlatformsTopList from 'in-cockpit/Cockpit/components/PlatformsTopList';
 import EventChartCard from 'in-cockpit/Cockpit/components/EventChartCard';
 import SetAsLandingPage from 'in-client/js/LandingPage/SetAsLandingPage';
 import DashboardHeader, { themes } from 'in-components/DashboardHeader';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { setSingle, settings$ } from 'in-services/settings/settings';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import useResizeObserverCustom from 'in-hooks/useResizeObserver';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { pendingResult } from 'in-services/fixedObjects';
 import SideNav from 'in-components/SideNav';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
 import { role } from 'in-stores/user';
-import { t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 
 import locals from './Cockpit.mless';
 
@@ -201,7 +207,31 @@ function Header() {
   );
 }
 
+function CustomEventDeprecatedWarning({ legacyAlertConfigStats }) {
+  return (
+    <Message type="warning" className={locals.customEventDeprecatedWarning} withIcon>
+      <Trans
+        i18nKey="in-cockpit:cockpit.customEventDeprecatedWarning"
+        components={{
+          affectedCustomEvents: (
+            <Link
+              href$={getModifiedUrlStream(params => {
+                params.pathname = `${teamSettingsAlertingEvents}`;
+                setOrDeleteMatrixKey(params, events, 'type', deprecatedValue);
+              })}
+            >
+              &nbsp;
+            </Link>
+          )
+        }}
+        values={{ deprecatedCustomEvents: legacyAlertConfigStats.data?.deprecatedCustomEvents }}
+      />
+    </Message>
+  );
+}
+
 const Content = function Content({ itemOrder, applicationId, width }) {
+  const legacyAlertConfigStats = useObservable(getLegacyAlertConfigStats, []) ?? pendingResult;
   const [internalItemOrder, setItemOrder] = useState(itemOrder);
 
   const setNewItemOrder = items => {
@@ -210,7 +240,6 @@ const Content = function Content({ itemOrder, applicationId, width }) {
   };
 
   const renderNavigation = width > 1200;
-
   return (
     <div
       className={classNames(locals.wrapper, {
@@ -223,55 +252,60 @@ const Content = function Content({ itemOrder, applicationId, width }) {
         })}
       >
         {width && (
-          <DragDropContext
-            onDragEnd={({ source, destination }) => {
-              if (!destination) {
-                return;
-              }
+          <>
+            {role.canConfigureCustomAlerts && legacyAlertConfigStats.data?.deprecatedCustomEvents > 0 && (
+              <CustomEventDeprecatedWarning legacyAlertConfigStats={legacyAlertConfigStats} />
+            )}
+            <DragDropContext
+              onDragEnd={({ source, destination }) => {
+                if (!destination) {
+                  return;
+                }
 
-              const copiedItems = internalItemOrder.slice();
-              copiedItems[source.index] = internalItemOrder[destination.index];
-              copiedItems[destination.index] = internalItemOrder[source.index];
-              setNewItemOrder(copiedItems);
-            }}
-          >
-            <Droppable droppableId="droppable">
-              {provided => (
-                <div ref={provided.innerRef}>
-                  {internalItemOrder.map((_config, i) => {
-                    const Widget = LUT[_config.id];
-                    if (!Widget) {
-                      return null;
-                    }
+                const copiedItems = internalItemOrder.slice();
+                copiedItems[source.index] = internalItemOrder[destination.index];
+                copiedItems[destination.index] = internalItemOrder[source.index];
+                setNewItemOrder(copiedItems);
+              }}
+            >
+              <Droppable droppableId="droppable">
+                {provided => (
+                  <div ref={provided.innerRef}>
+                    {internalItemOrder.map((_config, i) => {
+                      const Widget = LUT[_config.id];
+                      if (!Widget) {
+                        return null;
+                      }
 
-                    return (
-                      <Draggable key={_config.id} draggableId={_config.id} index={i}>
-                        {provided => (
-                          <div
-                            id={_config.id}
-                            className={locals.item}
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                          >
-                            <Widget
-                              applicationId={applicationId}
-                              dragAndDropConfig={provided.dragHandleProps}
-                              config={{
-                                ...configEnrichmentLookUpTable[_config.id],
-                                dragAndDropConfig: provided.dragHandleProps
-                              }}
-                            />
-                          </div>
-                        )}
-                      </Draggable>
-                    );
-                  })}
+                      return (
+                        <Draggable key={_config.id} draggableId={_config.id} index={i}>
+                          {provided => (
+                            <div
+                              id={_config.id}
+                              className={locals.item}
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                            >
+                              <Widget
+                                applicationId={applicationId}
+                                dragAndDropConfig={provided.dragHandleProps}
+                                config={{
+                                  ...configEnrichmentLookUpTable[_config.id],
+                                  dragAndDropConfig: provided.dragHandleProps
+                                }}
+                              />
+                            </div>
+                          )}
+                        </Draggable>
+                      );
+                    })}
 
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          </DragDropContext>
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </DragDropContext>
+          </>
         )}
       </div>
       {renderNavigation && (

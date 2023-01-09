@@ -52,13 +52,14 @@ const columnDefinitions = [
     id: 'endpointLabel',
     label: t('in-applications:labelName'),
     getContent(item, { applicationId, serviceId, boundaryScope, syntheticCalls }) {
+      const maxSeverity = get(item, ['metrics', 'maxSeverity', 0, 1], 0);
       return (
         <SeverityAwareEntityLink
-          severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
+          severity={maxSeverity}
           icon="lib_application_endpoint"
           label={item.endpoint.label}
           tooltip={item.endpoint.synthetic ? t('in-applications:labelSyntheticEndpoint') : null}
-          specialIndicator={item.endpoint.synthetic ? true : false}
+          specialIndicator={!!item.endpoint.synthetic}
           href$={getEndpointDashboard(item.endpoint.id, {
             applicationId,
             serviceId,
@@ -161,19 +162,18 @@ const columnDefinitions = [
     label: t('in-applications:labelHealth'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, applicationId, serviceId, timeConfig }) {
-      let openIssues = get(item, ['metrics', 'openIssues', 0, 1], 0);
-      let maxSeverity = get(item, ['metrics', 'maxSeverity', 0, 1], 0);
+      const openIssues = get(item, ['metrics', 'openIssues', 0, 1], 0);
+      const maxSeverity = get(item, ['metrics', 'maxSeverity', 0, 1], 0);
       return (
         <ApplicationEntityHealthIndicatorBehavior
           applicationId={applicationId}
           serviceId={serviceId}
           endpointId={item.endpoint.id}
-          openIssues={get(item, ['metrics', 'openIssues', 0, 1], 0)}
-          maxSeverity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
+          openIssues={openIssues}
+          maxSeverity={maxSeverity}
           timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
           IndicatorPresenter={HealthIndicatorPresenter}
           inContentArea
-          tooltipLabel={getTooltipLabel(openIssues, maxSeverity)}
         />
       );
     }
@@ -360,16 +360,4 @@ function getApplicationLabelObservable([id]) {
     return null;
   }
   return getApplication({ id }).map(result => result.data?.label);
-}
-
-function getTooltipLabel(openIssues, maxSeverity) {
-  if (openIssues === 0) {
-    return t('in-applications:noIssues');
-  } else {
-    if (maxSeverity > 5) {
-      return t('in-applications:labelCritical');
-    } else {
-      return t('in-applications:labelWarning');
-    }
-  }
 }

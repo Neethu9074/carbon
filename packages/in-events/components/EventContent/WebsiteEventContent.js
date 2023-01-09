@@ -8,12 +8,13 @@ import React, { useState } from 'react';
 import { Card } from '@instana/components';
 
 import WebsitesAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/websites/chart/WebsitesAlertingChartWithErrorMessage';
-import { getChartTimeConfigByEvent, getTimeConfigFromEvent, getSmartAlertAnalyzeTimeframe } from 'in-events/timeframe';
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
 import { HighlightDataRetention } from 'in-events/components/EventContent/HighlightDataRetention';
+import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
 import WebsiteScopePath from 'in-alerting/smart-alerts/websites/components/WebsiteScopePath';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
+import { getChartTimeConfigByEvent, getTimeConfigFromEvent } from 'in-events/timeframe';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import AnalyzeWebsiteEventButton from 'in-events/components/AnalyzeWebsiteEventButton';
 import { alertingEventDetailsChartTimeframe } from 'in-alerting/components/constants';
@@ -24,7 +25,7 @@ import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import useWebsiteEventEntity from 'in-events/hooks/useWebsiteEventEntity';
-import { fixateTimeConfig } from 'in-stores/time/config';
+import { emptyMap } from 'in-services/fixedImmutables';
 import { Row, Col } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
@@ -39,22 +40,19 @@ export default function WebsiteEventContent({ event }) {
     return null;
   }
 
-  const {
-    tagFilterExpression,
-    rule,
-    rule: { metricName }
-  } = alertConfig;
-  const alertType = rule.alertType;
+  const adaptiveBaselineInfo = event.getIn(['metadata', 'adaptiveBaselineInfo'], emptyMap).toJS();
+
+  const { tagFilterExpression, rule } = alertConfig;
+  const { alertType, metricName } = rule;
 
   const blueprintConfig = getBlueprintConfig(alertType);
   const beaconType = blueprintConfig.getBeaconType(metricName);
   const AlertQueryBuilder = getQueryBuilderForBeaconType(beaconType).QueryBuilder;
   const timeConfig = {
-    ...getChartTimeConfigByEvent({ event }),
+    ...getChartTimeConfigByEvent(event),
     windowSize: alertingEventDetailsChartTimeframe
   };
-  const analyzeTimeConfig = getSmartAlertAnalyzeTimeframe(event, alertConfig);
-  const fixedAnalyzeTimeConfig = fixateTimeConfig(analyzeTimeConfig);
+
   const chartViewConfig = createDefaultChartConfig(timeConfig);
 
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
@@ -70,9 +68,10 @@ export default function WebsiteEventContent({ event }) {
             <DescriptionButtons>
               <WebsiteAlertConfigButton alertConfig={alertConfig} />
               <AnalyzeWebsiteEventButton
-                alertConfig={alertConfig}
                 websiteName={eventEntity.websiteName}
-                timeConfig={fixedAnalyzeTimeConfig}
+                alertConfig={alertConfig}
+                timeConfig={getSmartAlertAnalyzeTimeConfig(event, alertConfig)}
+                adaptiveBaselineInfo={adaptiveBaselineInfo}
               />
             </DescriptionButtons>
           </Card>
@@ -94,6 +93,7 @@ export default function WebsiteEventContent({ event }) {
               }}
               viewConfig={chartViewConfig}
               blueprintConfig={blueprintConfig}
+              eventBasedAdaptiveBaseline={Object.entries(adaptiveBaselineInfo).sort((a, b) => a[0] - b[0])}
               setMetricResultPrecision={setMetricResultPrecision}
               isEventsView
             />

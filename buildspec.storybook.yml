@@ -46,7 +46,7 @@ phases:
           NPM_CONFIG_REGISTRY="https://registry.npmjs.org/" \
           npx create-artifactory-access-config
       # Install project dependencies
-      - npm install -g yarn
+      - npm install -g yarn@1.22.19
       - yarn install --frozen-lockfile
   build:
     commands:

@@ -2,7 +2,7 @@
   "csvExporterButton":{
     "label": "Export to CSV"
   },
-  
+
   "fileInputButton": {
     "label": {
       "chooseSingle": "Choose file…",
@@ -286,14 +286,6 @@
   "draggableItemSelector": {
     "tooltipReorderMetrics": "Reorder metrics"
   },
-  "entityHealthIndicator": {
-    "indicatorPresenterNoIssues": "No Issues",
-    "indicatorPresenterOpenIssues": "{{count}} Issue",
-    "indicatorPresenterOpenIssues_plural": "{{count}} Issues",
-    "indicatorPresenterOpenIssues_0": "{{count}} Issues",
-    "indicatorPresenterOpenIssues_1": "{{count}} Issue",
-    "indicatorPresenterOpenIssues_2": "{{count}} Issues"
-  },
   "entityPageMainNotification": {
     "labelEntity": "Entity",
     "labelNotFound": "{{entity}} not found"
@@ -314,7 +306,7 @@
     "tooManyRequests": "Too many requests",
     "tooManyRequestsInfo": "Our system is currently busy. Please try again later.",
     "serverError": "Server Error",
-    "serverErrorInfo": "An unexpected error occurred. Please try again later or contact support to report the error."  
+    "serverErrorInfo": "An unexpected error occurred. Please try again later or contact support to report the error."
   },
   "expandableCard": {
     "tooltipShowLess": "Show less",
@@ -364,7 +356,21 @@
     "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}} Open {{eventType}}",
     "openIssuesListPresenterHeaderDisplayingMaxIssuesToShowMostSevere": "(displaying {{maxIssuesToShow}} most severe)",
     "openIssuesListPresenterIssueDescriptionOmitted": "Issue description omitted. More details are visible within the event's detail view.",
-    "openIssuesListPresenterStarted": "Started"
+    "openIssuesListPresenterStarted": "Started",
+    "noIssues": "No Issues",
+    "openIssues": "{{count}} Issue",
+    "openIssues_plural": "{{count}} Issues",
+    "openIssues_0": "{{count}} Issues",
+    "openIssues_1": "{{count}} Issue",
+    "openIssues_2": "{{count}} Issues",
+    "noIncidents": "No Incidents",
+    "openIncidents": "{{count}} Incident",
+    "openIncidents_plural": "{{count}} Incidents",
+    "openIncidents_0": "{{count}} Incidents",
+    "openIncidents_1": "{{count}} Incident",
+    "openIncidents_2": "{{count}} Incidents",
+    "labelWarning": "Warning",
+    "labelCritical": "Critical"
   },
   "inlineTabNavigation": {
     "labelSelectTab": "Select tab"

@@ -7,12 +7,17 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { Button, Link, SvgIcon } from '@instana/components';
+import { useObservable } from '@instana/hooks';
 
 import SplitScreenTraceDetailContent from 'in-applications/analyze/AnalyzeView2_0/components/SplitScreenTraceDetailContent';
+import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import SplitScreenList from 'in-components/AnalyzeView/SplitScreenList/SplitScreenList';
 import { getIconByType, getLabelByType } from 'in-analyze/AnalyzeView/dataSources';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import getTraceSummary from 'in-applications/subscriptions/getTraceSummary';
 import tabs from 'in-applications/analyze/AnalyzeView2_0/components/tabs';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
+import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getColorPool } from 'in-services/util/ColorGenerator';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -107,17 +112,51 @@ function getColorByEndpointType({ endpoint }) {
 }
 
 function Header(props) {
+  const isInternalVisible = useObservable(isInternalVisible$, []) || false;
+
   return (
     <DashboardHeader
       {...props}
       title={t('in-applications:labelTrace')}
       icon="lib_application_trace"
       label={get(props.result, ['data', 'label'])}
-      renderButtonLine={renderButtonLine}
+      renderButtonLine={isInternalVisible ? renderButtonLineInternalOnly : renderButtonLine}
       renderMetaInformation={renderMetaInformation}
       renderTimeSelection={renderTimeSelection}
       hideUrlShortener
     />
+  );
+}
+
+function renderButtonLineInternalOnly({ traceId, result }) {
+  if (!role.canViewLogs || !role.canViewTraceDetails) {
+    return null;
+  }
+
+  const traceIdInUrl = result?.data?.id ?? traceId;
+  return (
+    <>
+      {
+        <Button
+          icon="lib_analyze"
+          kind="secondary"
+          href$={getLinkToAnalyze({
+            dataSource: 'calls',
+            formModel: [tagFilter('trace.id', EQUALS, traceIdInUrl)]
+          })}
+        >
+          {t('in-applications:linkAnalyzeCallsOfThisTrace')}
+        </Button>
+      }
+      <Button
+        icon="lib_actions_download"
+        kind="secondary"
+        target="_blank"
+        href={`/api/application-monitoring/analyze/traces;id=${encodeURIComponent(traceIdInUrl)}?pretty`}
+      >
+        {t('in-applications:linkDownload')}
+      </Button>
+    </>
   );
 }
 

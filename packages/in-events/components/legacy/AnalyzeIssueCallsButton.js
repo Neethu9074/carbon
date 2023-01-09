@@ -73,7 +73,7 @@ export default connectTo(
     const groupBy = endpointName ? null : defaultApplicationGroupings[dataSource];
     const orderBy = getOrderBy(event, groupBy);
     const orderByGroups = getOrderByGroup(event, groupBy);
-    const chartedMetrics = getChartedMetrics(event, groupBy);
+    const chartedMetrics = getChartedMetrics(event);
 
     return (
       <Button
@@ -137,8 +137,8 @@ function getFormModel(isErroneous, isSynthetic) {
   return formModel;
 }
 
-function getChartedMetrics(event, groupBy) {
-  if (groupBy == null || isLatencyEvent(event)) {
+function getChartedMetrics(event) {
+  if (isLatencyEvent(event)) {
     return [createChartedMetric('latency', 'DISTRIBUTION')];
   }
   if (isErrorEvent(event)) {
