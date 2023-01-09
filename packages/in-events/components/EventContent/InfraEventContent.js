@@ -33,7 +33,7 @@ export default function InfraEventContent({ event }) {
   const entityType = alertConfig.rule.entityType;
 
   const timeConfig = {
-    ...getChartTimeConfigByEvent({ event }),
+    ...getChartTimeConfigByEvent(event),
     windowSize: alertingEventDetailsChartTimeframe
   };
 
