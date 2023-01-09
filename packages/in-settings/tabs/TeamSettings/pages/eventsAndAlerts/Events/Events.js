@@ -122,9 +122,7 @@ export default function Events({
 
   return (
     <>
-      {type === deprecatedValue && legacyAlertConfigStats.data?.deprecatedCustomEvents > 0 && (
-        <CustomEventDeprecatedWarning />
-      )}
+      {legacyAlertConfigStats.data?.deprecatedCustomEvents > 0 && <CustomEventDeprecatedWarning />}
       <List
         title={setTitle ? t('in-settings:tabs.events') : null}
         getHeader={getHeader}
