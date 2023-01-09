@@ -21,6 +21,6 @@ export function getIconType(snapshotOrPlugin: SnapshotOrPlugin): string {
   }
 
   const name = `lib_infra_${plugin}`;
-  const nameAlt = `lib_${(plugin as String).toLowerCase()}`;
+  const nameAlt = `lib_${(plugin as String)?.toLowerCase()}`;
   return getSvgIcon(name) ? name : getSvgIcon(nameAlt) ? nameAlt : 'lib_infra_unknownIcon';
 }
