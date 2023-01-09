@@ -10,9 +10,8 @@ import MetricValue from 'in-components/MetricValue';
 
 export default function InfraMetricKpiCard({ title, snapshotId, metric, formatter }) {
   return (
-    <KpiCard
-      title={title}
-      renderValue={() => <MetricValue snapshotId={snapshotId} metric={metric} formatter={formatter} />}
-    />
+    <KpiCard title={title}>
+      <MetricValue snapshotId={snapshotId} metric={metric} formatter={formatter} />
+    </KpiCard>
   );
 }
