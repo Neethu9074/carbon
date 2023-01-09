@@ -101,7 +101,11 @@ export default function MultiMetricKpiCard({
         </span>
       );
     } else {
-      content = <span className={classNames(locals.minor, valuesClassName)}>{formattedValue}</span>;
+      content = (
+        <span className={classNames(locals.minor, valuesClassName)}>
+          {formattedValue} <span className={classNames(local.capacity_font, valuesClassName)}>{'(-)'}</span>
+        </span>
+      );
     }
   } else if (children) {
     content = <span className={classNames(locals.minor, valuesClassName)}>{children}</span>;

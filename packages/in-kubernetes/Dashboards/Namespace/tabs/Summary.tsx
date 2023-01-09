@@ -140,7 +140,7 @@ export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
         <Col lg={2}>
           <MultiMetricBigNumberKpiCard
             title={t('in-kubernetes:dashboards.cpuLimitsAllocMultiMetric')}
-            formatter={[resourceQuotaBytes, resourceQuotaPercentage]}
+            formatter={[resourceQuotaNumber, resourceQuotaPercentage]}
             config={[
               {
                 metricConfiguration: {
