@@ -80,7 +80,7 @@ export default function ActionConfigDialogPresenter(props: ActionConfigDialogPre
         })}
       >
         <div className={locals.actionContainer}>
-          <DashboardNotification type="info">you can place just text in here </DashboardNotification>
+          <DashboardNotification type="info"> {t('in-events:actionsAssociationsNote')} </DashboardNotification>
           <SelectActions
             setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
             numberOfActionChannelListRows={5}
