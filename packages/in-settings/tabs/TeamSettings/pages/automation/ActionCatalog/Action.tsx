@@ -222,6 +222,6 @@ function getActionSpecification(form: MapForm): NewAction {
     fields,
     type,
     tags: tags.map((tag: Tag) => tag.value),
-    parameters: parameters.map((parameter: MappedParameter) => parameter.value)
+    inputParameters: parameters.map((parameter: MappedParameter) => parameter.value)
   };
 }

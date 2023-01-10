@@ -233,7 +233,7 @@ const createForm = (volatileId: VolatileId, agentSnapShots: OUT, action: Action)
     .put(
       'parameters',
       createMapForm({
-        items: action.parameters?.reduce((acc, parameter) => {
+        items: action.inputParameters?.reduce((acc, parameter) => {
           if (parameter.hidden) {
             return acc;
           }

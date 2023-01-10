@@ -244,11 +244,11 @@ const WebhookActionContent = ({ action }: { action: Action }) => {
 };
 
 const ParameterInput = ({ action, form, setForm }: Pick<RunActionContentProps, 'action' | 'form' | 'setForm'>) => {
-  const { parameters } = action;
+  const { inputParameters } = action;
   const parametersForm = form?.get('parameters') as MapForm | undefined;
   return (
     <Col>
-      {parameters?.map(parameter => {
+      {inputParameters?.map(parameter => {
         if (parameter.hidden) return;
         if (parameter.type === 'vault') {
           const keyField = parametersForm?.get(`${parameter.name}-key`) as Field<string> | undefined;
