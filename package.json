@@ -186,6 +186,7 @@
     "del": "^2.0.2",
     "detect-port-alt": "^1.1.6",
     "enzyme": "^3.10.0",
+    "esbuild-loader": "^2.20.0",
     "eslint": "^7.30.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-import-resolver-typescript": "^2.7.1",

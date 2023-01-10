@@ -111,6 +111,7 @@ for `yarn dev / yarn debug`:
 - `HOT_RELOAD`: If this is set to a non-empty string and the build is running in development mode, the build will
   trigger a browser reload automatically when a file is changed and saved and the project has been recompiled. Without
   this, you'll have to refresh manually.
+- `USE_ESBUILD`: If this is set to `true` then it is using `esbuild` instead of `babel` for transpiling the javascript and typescript files
 - `DONT_OPEN_BROWSER`: If this is set to a non-empty string, the UI build will not open a new browser window when the
   build is finished.
 - `DETAILED_SOURCEMAPS`: If this is set to 'true', the UI build will generate high quality source maps (should be used
