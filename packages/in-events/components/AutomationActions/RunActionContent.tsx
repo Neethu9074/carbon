@@ -261,18 +261,6 @@ const ParameterInput = ({ action, form, setForm }: Pick<RunActionContentProps, '
                   {parameter.name}
                 </Label>
                 <Input
-                  value={keyField.value}
-                  onChange={e => {
-                    const updatedForm = form?.updateIn(['parameters', `${parameter.name}-key`], field =>
-                      (field as Field<string>).setValue(e.target.value).setTouched(true)
-                    );
-                    setForm(updatedForm);
-                  }}
-                  hasError={!keyField.valid && keyField.touched}
-                />
-                <TouchedMessages field={keyField} className={locals.subErrorTextFormField} />
-                <Spacer vertical="small" />
-                <Input
                   value={pathField.value}
                   onChange={e => {
                     const updatedForm = form?.updateIn(['parameters', `${parameter.name}-path`], field =>
@@ -283,6 +271,18 @@ const ParameterInput = ({ action, form, setForm }: Pick<RunActionContentProps, '
                   hasError={!pathField.valid && pathField.touched}
                 />
                 <TouchedMessages field={pathField} className={locals.subErrorTextFormField} />
+                <Spacer vertical="small" />
+                <Input
+                  value={keyField.value}
+                  onChange={e => {
+                    const updatedForm = form?.updateIn(['parameters', `${parameter.name}-key`], field =>
+                      (field as Field<string>).setValue(e.target.value).setTouched(true)
+                    );
+                    setForm(updatedForm);
+                  }}
+                  hasError={!keyField.valid && keyField.touched}
+                />
+                <TouchedMessages field={keyField} className={locals.subErrorTextFormField} />
               </FormGroup>
             )
           );

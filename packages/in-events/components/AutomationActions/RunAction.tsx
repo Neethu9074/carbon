@@ -19,8 +19,8 @@ import {
 } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import RunActionContent, { getWebhookFields } from 'in-events/components/AutomationActions/RunActionContent';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
+import { ActionParameter, runScriptAction, runWebhookAction } from 'in-api/automation';
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
-import { runScriptAction, runWebhookAction } from 'in-api/automation';
 import { notBlankValidator } from 'in-services/validators/string';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import { AgentResponse } from 'in-subscription/agentResponse';
@@ -156,6 +156,45 @@ function onSave({
     actionName: action.name
   });
   const targetAgent = form?.get('targetAgent') as Field<string>;
+  const parameters = form?.get('parameters') as MapForm;
+
+  const inputParameters = parameters.reduce<ActionParameter[]>((acc, parameter, key) => {
+    const parameterDefinition = action.inputParameters?.find(
+      p => key === p.name || key === `${p.name}-key` || key === `${p.name}-path`
+    );
+    if (parameterDefinition?.type === 'vault') {
+      const vaultParameter = acc.find(p => p.name === parameterDefinition?.label);
+      const vaultKey = key === `${parameterDefinition.name}-key` ? 'secretKey' : 'secretPath';
+      if (vaultParameter) {
+        return [
+          ...acc.filter(p => p.name !== parameterDefinition?.label),
+          {
+            name: parameterDefinition?.label ?? '',
+            encoding: 'ascii',
+            type: 'vault',
+            value: JSON.stringify({
+              ...JSON.parse(vaultParameter.value),
+              [vaultKey]: (parameter as Field<string>).value
+            })
+          }
+        ];
+      }
+      return [
+        ...acc,
+        {
+          name: parameterDefinition?.label ?? '',
+          encoding: 'ascii',
+          type: 'vault',
+          value: JSON.stringify({ [vaultKey]: (parameter as Field<string>).value })
+        }
+      ];
+    }
+    // WILL NEED TO RESOLVE DYNAMIC PARAMS HERE
+    return [
+      ...acc,
+      { name: parameterDefinition?.label ?? '', encoding: 'ascii', value: (parameter as Field<string>).value }
+    ];
+  }, []);
   const selectedVolatileId =
     agentSnapShots?.data?.online?.find(agent => agent.volatileId?.host_id === targetAgent?.value)?.volatileId ?? {};
   const handleActionResponse = (data: [Result<null>, AgentResponse]) => {
@@ -175,7 +214,7 @@ function onSave({
   if (isScript(action.type)) {
     const script = getScriptFromFields(action.fields);
     const interpreter = getInterpreterFromFields(action.fields);
-    runScriptAction({ script, volatileId: selectedVolatileId, event, actionName, interpreter }).once(
+    runScriptAction({ script, volatileId: selectedVolatileId, event, actionName, interpreter, inputParameters }).once(
       handleActionResponse
     );
   } else if (isWebhook(action.type)) {
@@ -188,7 +227,8 @@ function onSave({
       method,
       body,
       ignoreCertErrors,
-      header
+      header,
+      inputParameters
     }).once(handleActionResponse);
   }
 }
