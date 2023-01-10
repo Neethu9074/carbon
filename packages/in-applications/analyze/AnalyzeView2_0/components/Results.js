@@ -12,15 +12,14 @@ import { FacetedSearchPresenter } from 'in-applications/analyze/AnalyzeView2_0/c
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import UngroupedViewTable, { retrievalSize } from 'in-components/AnalyzeView/UngroupedView/UngroupedViewTable';
 import QueryBuilderWorkspace from 'in-applications/analyze/AnalyzeView2_0/components/QueryBuilderWorkspace';
+import { applyTraceIdFilter, getServerity } from 'in-applications/analyze/AnalyzeView2_0/components/utils';
 import FastQueryModeToggle from 'in-applications/analyze/AnalyzeView2_0/components/FastQueryModeToggle';
 import { ChartsPresenter } from 'in-applications/analyze/AnalyzeView2_0/components/ChartsPresenter';
 import TraceDetailView from 'in-applications/analyze/AnalyzeView2_0/components/TraceDetailView';
 import { getLinkToAnalyze, getServiceDashboard } from 'in-applications/navigation/paths';
-import { getServerity } from 'in-applications/analyze/AnalyzeView2_0/components/utils';
-import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import getTraceSummary from 'in-applications/subscriptions/getTraceSummary';
+import { traceIdFilterOverrideEnabled } from 'in-services/featureFlags';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
-import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getTypeTextByCount } from 'in-applications/analyze/metrics';
 import getTraces from 'in-applications/subscriptions/getTraces';
 import getCalls from 'in-applications/subscriptions/getCalls';
@@ -64,7 +63,7 @@ const actionColumnDefinitions = [
     id: 'analyze',
     label: '',
     sortable: false,
-    getContent(item) {
+    getContent(item, cellOpts) {
       const traceId = item['call'].traceId;
       return (
         <Tooltip content={t('in-applications:analyze.analyzeCallsOfThisTrace')} align="bottomRight" delay={1000}>
@@ -74,7 +73,9 @@ const actionColumnDefinitions = [
             onClick={() => scrollToTop(window)}
             href$={getLinkToAnalyze({
               dataSource: 'calls',
-              formModel: [tagFilter('trace.id', EQUALS, traceId)]
+              formModel: applyTraceIdFilter(cellOpts.formModel, traceId),
+              facets: traceIdFilterOverrideEnabled ? null : cellOpts.facets,
+              resetUndefinedParams: false
             })}
           />
         </Tooltip>

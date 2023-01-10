@@ -68,5 +68,6 @@ module.exports = {
   k8sTimeShiftEnabled: true,
   syntheticBrowserScriptEnabled: true,
   websiteBeaconQueryOptimizationEnabled: true,
-  rbacImprovementEnabled: false
+  rbacImprovementEnabled: false,
+  traceIdFilterOverrideEnabled: true
 };
