@@ -11,6 +11,7 @@ import { t } from '@instana/i18n-react';
 
 import { bytesZeroDecimalPlaces, millisToTwoDecimalSeconds } from 'in-services/formatters/number';
 import KeyValueHeader from 'in-synthetics/dashboards/details/components/KeyValueHeader';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import Entry from 'in-synthetics/dashboards/details/components/Entry';
 import { TestResultEntry } from 'in-synthetics/utils/constants';
 
@@ -32,20 +33,28 @@ export default function EntriesList({ entries, pages, expanded, setExpanded }: E
     return group;
   }, {});
 
-  if (entries.length !== 0) {
-    pages.forEach((value: any, key: string) => {
-      render.push(
-        <EntryByPage
-          key={key}
-          entries={groupByPageRef[key] != undefined ? groupByPageRef[key] : []}
-          id={key}
-          expanded={expanded}
-          setExpanded={setExpanded}
-          values={value}
-        />
-      );
-    });
+  if (entries.length === 0) {
+    return (
+      <NoDataAvailable
+        type="lib_synthetic"
+        height={160}
+        text={t('in-synthetics:dashboard.detailsPage.noDataAvailable.message', { component: 'Timeline' })}
+      />
+    );
   }
+
+  pages.forEach((value: any, key: string) => {
+    render.push(
+      <EntryByPage
+        key={key}
+        entries={groupByPageRef[key] != undefined ? groupByPageRef[key] : []}
+        id={key}
+        expanded={expanded}
+        setExpanded={setExpanded}
+        values={value}
+      />
+    );
+  });
 
   return <>{render}</>;
 }
