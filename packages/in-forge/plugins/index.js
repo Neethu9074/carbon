@@ -113,6 +113,7 @@ import './solrCloudCluster';
 import './sparkApplication';
 import './entityStatistics';
 import './azureFunctionApp';
+import './ibmMqMftTransfer';
 import './activeMQArtemis';
 import './awsEcsContainer';
 import './azureAppService';

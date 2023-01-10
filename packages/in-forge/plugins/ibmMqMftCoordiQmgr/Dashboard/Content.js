@@ -6,6 +6,7 @@
 
 import React from 'react';
 
+import TransfersTable from 'in-forge/plugins/ibmMqMftCoordiQmgr/Dashboard/TransfersTable';
 import AgentsTable from 'in-forge/plugins/ibmMqMftCoordiQmgr/Dashboard/AgentsTable';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
@@ -26,7 +27,7 @@ export default function IbmMqMftCoordiQmgrDashboard({ snapshot, timeConfig }) {
           <MetricValue snapshotId={snapshotId} metric="totalTransfers" formatter={number.compact} />
         </KpiKeyValue>
       </KpiSection>
-      <DashboardSection title={t('in-forge:plugins.ibmMqMftCoordiQmgr.dashboard.transfers')}>
+      <DashboardSection title={t('in-forge:plugins.ibmMqMftCoordiQmgr.dashboard.transferStatistics')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -36,14 +37,15 @@ export default function IbmMqMftCoordiQmgrDashboard({ snapshot, timeConfig }) {
             metrics: [`successfulTransfers`, `failedTransfers`, `partiallySuccessfulTransfers`],
             labels: [
               t('in-forge:plugins.ibmMqMftCoordiQmgr.dashboard.successfulTransfers'),
-              t('in-forge:plugins.ibmMqMftCoordiQmgr.dashboard.failedTransfers'),
-              t('in-forge:plugins.ibmMqMftCoordiQmgr.dashboard.partiallySuccessfulTransfers')
+              t('in-forge:plugins.ibmMqMftCoordiQmgr.dashboard.partiallySuccessfulTransfers'),
+              t('in-forge:plugins.ibmMqMftCoordiQmgr.dashboard.failedTransfers')
             ],
             type: 'line'
           }}
         />
       </DashboardSection>
       <AgentsTable snapshot={snapshot} timeConfig={timeConfig} />
+      <TransfersTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }
