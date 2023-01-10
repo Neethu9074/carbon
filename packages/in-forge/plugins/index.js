@@ -143,6 +143,7 @@ import './pCFApplication';
 import './rocketMqBroker';
 import './ibmMqMftAgent';
 import './aliCloudMysql';
+import './awsApiGateway';
 import './awsEcsCluster';
 import './awsEcsService';
 import './awsMskCluster';

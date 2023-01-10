@@ -1441,6 +1441,7 @@
   version "1.56.0"
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/components/-/@instana/components-1.56.0.tgz#14776cfc163ecb2baf68c4393f46576840705899"
   integrity sha512-ZxJlFguLZ32EIOH9Ek6Cy2nSdZnEyyS3LmgxNV+5EzChq3CroDmiybnuKVJIviw0SE+sSNJHrwvJIyb0SXN1Ow==
+  
   dependencies:
     "@emotion/react" "^11.9.0"
     "@emotion/styled" "^11.8.1"

@@ -157,6 +157,7 @@
     "fieldsEntityAwsEmr": "fieldsElastic MapReduce",
     "fieldsEntityAwsLambda": "AWS Lambda",
     "fieldsEntityAwsEcs": "AWS Elastic Container Service",
+    "fieldsEntityAwsApiGateway": "AWS API Gateway",
     "fieldsEntityAzure": "Microsoft Azure",
     "fieldsEntityAzureService": "Microsoft Azure services",
     "fieldsEntityAzureServiceApim": "Azure API Management",

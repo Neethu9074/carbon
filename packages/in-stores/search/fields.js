@@ -28,6 +28,7 @@ const helpTexts = {
   'entity.aws.emr': t('in-stores:search.fieldsEntityAwsEmr'),
   'entity.aws.lambda': t('in-stores:search.fieldsEntityAwsLambda'),
   'entity.aws.ecs': t('in-stores:search.fieldsEntityAwsEcs'),
+  'entity.aws.apigateway': t('in-stores:search.fieldsEntityAwsApiGateway'),
   'entity.azure': t('in-stores:search.fieldsEntityAzure'),
   'entity.azure.service': t('in-stores:search.fieldsEntityAzureService'),
   'entity.azure.service.apim': t('in-stores:search.fieldsEntityAzureServiceApim'),

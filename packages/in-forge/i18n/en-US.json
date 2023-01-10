@@ -189,6 +189,11 @@
   "pluginName_awsSqs_1": "AWS SQSs",
   "pluginName_awsSqs_2": "AWS SQSs",
   "pluginName_awsSqs": "AWS SQS",
+  "pluginName_awsApiGateway_plural": "AWS API Gateways",
+  "pluginName_awsApiGateway_0": "AWS API Gateways",
+  "pluginName_awsApiGateway_1": "AWS API Gateways",
+  "pluginName_awsApiGateway_2": "AWS API Gateways",
+  "pluginName_awsApiGateway": "AWS API Gateway",
   "pluginName_azure_plural": "Azure Instances",
   "pluginName_azure_0": "Azure Instances",
   "pluginName_azure_1": "Azure Instances",
@@ -4061,6 +4066,37 @@
       "numberOfMessagesSent": "Number of messages sent",
       "sentMessagesSize": "Sent messages size"
     },
+
+    "awsApiGateway": {
+      "dashboard": {
+
+      },
+      "infoTitle": {
+        "protocol": "Protocol",
+        "endpointType": "Endpoint Type",
+        "createdAt": "Created at"
+      },
+      "headerApiGatewayInfo": "API Gateway Info",
+      "categoryNetwork": "Network",
+      "titleApiRequests": "API Requests",
+      "titleLatency": "Latency",
+      "title4xxErrors": "4xx Errors",
+      "title5xxErrors": "5xx Errors",
+      "titleCacheHitCount": "Cache Hit Count",
+      "titleCacheMissCount": "Cache Miss Count",
+      "titleConnect": "Connect",
+      "titleMessage": "Message",
+      "titleWebsocketErrors": "Errors",
+      "labelIntegrationLatency": "Integration",
+      "labelIntegrationError": "Integration",
+      "labelClientError": "Client",
+      "labelExecutionError": "Execution",
+      "labelLatencyTotal": "Total",
+      "labelAverage": "Average",
+      "labelSum": "Sum",
+      "labelCount": "Count"
+    },
+
     "azure": {
       "dashboard": {
         "thereIsNoFurtherInformationAboutThisEntity": "There is no further information about this entity."
