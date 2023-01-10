@@ -18,6 +18,15 @@ import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { compareIgnoreCase } from 'in-services/util/string';
 import http, { Response } from 'in-services/http';
 
+export function getWebsiteConfigurations(): Observable<Result<WebsiteConfiguration[]>> {
+  return http<WebsiteConfiguration[]>({
+    method: 'GET',
+    maxRetries: 3,
+    mapToResultObject: true,
+    url: `/api/website-monitoring/config`
+  });
+}
+
 export function getWebsites(): Observable<WebsiteConfiguration[]> {
   return http<WebsiteConfiguration[]>({
     method: 'GET',

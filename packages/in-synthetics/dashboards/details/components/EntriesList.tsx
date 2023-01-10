@@ -78,10 +78,7 @@ function EntryByPage({ entries, id, expanded, setExpanded, values }: EntryByPage
             : t('in-synthetics:dashboard.detailsPage.showMoreSubDetails'),
           onDefaultInteraction: () =>
             setExpanded((prev: string) => {
-              /* TODO Setting page_x0 instead of '' makes the expanded/collapse behavior
-                not to work corectly for the first page row. We need to fix this.
-              */
-              return prev === id ? 'page_x0' : id;
+              return prev === id ? '' : id;
             })
         })}
       >
@@ -94,11 +91,6 @@ function EntryByPage({ entries, id, expanded, setExpanded, values }: EntryByPage
             />
             <KeyValueHeader
               label={t('in-synthetics:dashboard.detailsPage.browserDetails.page.request')}
-              /* TODO Currently the initial value is zero
-                and it is dinamically changing based on filtering.
-                The dynamic behavior is correct, but we should fix the initial value
-                that should be equal to the total of requests, not zero.
-              */
               value={entries.length}
             />
             <KeyValueHeader

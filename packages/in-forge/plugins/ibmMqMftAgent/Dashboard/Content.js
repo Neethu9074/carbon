@@ -6,6 +6,8 @@
 
 import React from 'react';
 
+import DestinationTransferStatesTable from 'in-forge/plugins/ibmMqMftAgent/Dashboard/SourceTransferStatesTable';
+import SourceTransferStatesTable from 'in-forge/plugins/ibmMqMftAgent/Dashboard/DestinationTransferStatesTable';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import { number } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
@@ -23,6 +25,8 @@ export default function IbmMqMftAgentDashboard({ snapshot }) {
           <MetricValue snapshotId={snapshotId} metric="totalCurrentTransfers" formatter={number.compact} />
         </KpiKeyValue>
       </KpiSection>
+      <SourceTransferStatesTable snapshot={snapshot} />
+      <DestinationTransferStatesTable snapshot={snapshot} />
     </div>
   );
 }

@@ -49,7 +49,7 @@ export default connectTo(
       <div className={locals.wrapper}>
         {triggeringMetrics.map(metric => {
           const metricName = metric.get('metricName');
-          const timeConfig = getChartTimeConfigByEvent({ event, to });
+          const timeConfig = getChartTimeConfigByEvent(event, to);
           const rollup = getInfraGranularity(timeConfig);
           const plugin = translateFullyQualifiedPluginToShortPluginName(metric.getIn(['entityId', 'pluginId']));
 

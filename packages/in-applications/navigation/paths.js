@@ -104,20 +104,38 @@ export function getLinkToAnalyze({
   fastQueryModeEnabled,
   timeConfig,
   tagCatalog,
-  setOnClickNotificationMessage
+  setOnClickNotificationMessage,
+  resetUndefinedParams = true
 }) {
   return getModifiedUrlStream(params => {
     params.pathname = analyzePath;
 
     setOrDeleteMatrixParameter(params, dataSourceMatrixParameter, dataSource);
-    setOrDeleteMatrixParameter(params, analyzeTwoParameters.groupBy, groupBy?.groupbyTag ? groupBy : null);
-    setOrDeleteMatrixParameter(params, analyzeTwoParameters.orderBy, orderBy?.by ? orderBy : null);
-    setOrDeleteMatrixParameter(params, analyzeTwoParameters.orderByGroups, orderByGroups?.by ? orderByGroups : null);
-    setOrDeleteMatrixParameter(params, analyzeTwoParameters.fields, fields);
-    setOrDeleteMatrixParameter(params, analyzeTwoParameters.chartedMetrics, chartedMetrics);
-    setOrDeleteMatrixParameter(params, hiddenCallsMatrixParameter, hiddenCalls);
-    setOrDeleteMatrixParameter(params, fastQueryModeEnabledMatrixParameter, fastQueryModeEnabled);
-    setOrDeleteMatrixParameter(params, facetedSearchMatrixParameter, facets);
+    if (resetUndefinedParams || groupBy !== undefined) {
+      setOrDeleteMatrixParameter(params, analyzeTwoParameters.groupBy, groupBy?.groupbyTag ? groupBy : null);
+    }
+    if (resetUndefinedParams || orderBy !== undefined) {
+      setOrDeleteMatrixParameter(params, analyzeTwoParameters.orderBy, orderBy?.by ? orderBy : null);
+    }
+    if (resetUndefinedParams || orderByGroups !== undefined) {
+      setOrDeleteMatrixParameter(params, analyzeTwoParameters.orderByGroups, orderByGroups?.by ? orderByGroups : null);
+    }
+    if (resetUndefinedParams || fields !== undefined) {
+      setOrDeleteMatrixParameter(params, analyzeTwoParameters.fields, fields);
+    }
+    if (resetUndefinedParams || chartedMetrics !== undefined) {
+      setOrDeleteMatrixParameter(params, analyzeTwoParameters.chartedMetrics, chartedMetrics);
+    }
+    if (resetUndefinedParams || hiddenCalls !== undefined) {
+      setOrDeleteMatrixParameter(params, hiddenCallsMatrixParameter, hiddenCalls);
+    }
+    if (resetUndefinedParams || fastQueryModeEnabled !== undefined) {
+      setOrDeleteMatrixParameter(params, fastQueryModeEnabledMatrixParameter, fastQueryModeEnabled);
+    }
+    if (resetUndefinedParams || facets !== undefined) {
+      setOrDeleteMatrixParameter(params, facetedSearchMatrixParameter, facets);
+    }
+
     setOrDeleteMatrixParameter(params, analyzeTwoParameters.detailId, null);
 
     if (timeConfig) {
@@ -208,44 +226,46 @@ export function getLinkToAnalyze({
       }
     }
 
-    let updatedFormModel = formModel;
-    if (tagCatalog && formModel?.length > 0) {
-      const availableTags = tagCatalog.tags.map(t => t.name);
-      const allTagsSupported = formModel
-        .filter(element => element.type === TAG_FILTER)
-        .every(tagFilter => availableTags.includes(tagFilter.name));
-      if (!allTagsSupported) {
-        // reset the provided formModel if it includes unsupported tags
-        updatedFormModel = null;
+    if (resetUndefinedParams || formModel !== undefined || extendingFormModel.length > 0) {
+      let updatedFormModel = formModel;
+      if (tagCatalog && formModel?.length > 0) {
+        const availableTags = tagCatalog.tags.map(t => t.name);
+        const allTagsSupported = formModel
+          .filter(element => element.type === TAG_FILTER)
+          .every(tagFilter => availableTags.includes(tagFilter.name));
+        if (!allTagsSupported) {
+          // reset the provided formModel if it includes unsupported tags
+          updatedFormModel = null;
+        }
       }
-    }
 
-    // Trace view only supports AND conjunction. When switching from calls to traces while preserving
-    // filters, trace filters are sanitized to only contain valid conjunctions
-    if (updatedFormModel != null && dataSource === 'traces') {
-      if (updatedFormModel.some(element => element.type === CONJUNCTION_TYPE && element.logicalOperator === or)) {
-        updatedFormModel = null;
-        setOnClickNotificationMessage?.(
-          t('in-applications:analyze.resetUnsupportedTracesFilterContainingOrConjunction')
-        );
-      } else {
-        updatedFormModel = updatedFormModel.filter(
-          element => !(element.type === OPEN_BRACKET_TYPE || element.type === CLOSE_BRACKET_TYPE)
-        );
+      // Trace view only supports AND conjunction. When switching from calls to traces while preserving
+      // filters, trace filters are sanitized to only contain valid conjunctions
+      if (updatedFormModel != null && dataSource === 'traces') {
+        if (updatedFormModel.some(element => element.type === CONJUNCTION_TYPE && element.logicalOperator === or)) {
+          updatedFormModel = null;
+          setOnClickNotificationMessage?.(
+            t('in-applications:analyze.resetUnsupportedTracesFilterContainingOrConjunction')
+          );
+        } else {
+          updatedFormModel = updatedFormModel.filter(
+            element => !(element.type === OPEN_BRACKET_TYPE || element.type === CLOSE_BRACKET_TYPE)
+          );
+        }
       }
+
+      // sanitize all tag filters passed in the formModel, so that the caller doesn't have to care about it
+      updatedFormModel = updatedFormModel?.map(element =>
+        element.type === TAG_FILTER ? sanitizeTagFilter(element) : element
+      );
+
+      updatedFormModel = joinExpressions({ expressions: [extendingFormModel, updatedFormModel ?? emptyArray] });
+      setOrDeleteMatrixParameter(
+        params,
+        analyzeTwoParameters.tagFilterExpression,
+        updatedFormModel.length > 0 ? updatedFormModel : null
+      );
     }
-
-    // sanitize all tag filters passed in the formModel, so that the caller doesn't have to care about it
-    updatedFormModel = updatedFormModel?.map(element =>
-      element.type === TAG_FILTER ? sanitizeTagFilter(element) : element
-    );
-
-    updatedFormModel = joinExpressions({ expressions: [extendingFormModel, updatedFormModel ?? emptyArray] });
-    setOrDeleteMatrixParameter(
-      params,
-      analyzeTwoParameters.tagFilterExpression,
-      updatedFormModel.length > 0 ? updatedFormModel : null
-    );
   });
 }
 

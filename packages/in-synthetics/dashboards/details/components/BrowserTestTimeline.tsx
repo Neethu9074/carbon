@@ -13,7 +13,7 @@ import { t } from '@instana/i18n-react';
 import { isOverlappedWith } from 'in-applications/analyze/components/TraceDetails/components/IcicleChart/TimeRangeHelper';
 // @ts-expect-error Module needs to be translated to TS
 import HorizontalAxis from 'in-components/Axis/HorizontalAxis';
-import { ResultDetailsResponse, TestResultEntry, TestResultHARPage } from 'in-synthetics/utils/constants';
+import { defaultPage, ResultDetailsResponse, TestResultEntry, TestResultHARPage } from 'in-synthetics/utils/constants';
 import { getFilterType, getType, types } from 'in-synthetics/utils/browserFileTypes';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import EntriesList from 'in-synthetics/dashboards/details/components/EntriesList';
@@ -28,7 +28,6 @@ import theme from 'in-themes';
 import locals from 'in-synthetics/dashboards/details/components/BrowserTestTimeline.mless';
 
 const barHeight = 8;
-const defaultPage = 'page_x0';
 
 interface TimelineProps {
   details: ResultDetailsResponse;
@@ -54,7 +53,18 @@ export default function BrowserTestTimeline({ details, startTime, finishTime, is
 
   const { data } = details;
 
-  const entriesToRender: TestResultEntry[] = data?.har?.log.entries.filter((entry: TestResultEntry) => {
+  let filteredEntries: TestResultEntry[] = data?.har?.log.entries.filter((entry: TestResultEntry) => {
+    const type: string = getFilterType(entry.response.content.type.toLowerCase()).toLowerCase();
+    if (filter.type && !type.includes(filter.type.toLowerCase())) {
+      return false;
+    }
+    if (filter.query && !type.includes(filter.query.toLowerCase())) {
+      return false;
+    }
+    return true;
+  });
+
+  const entriesToRender: TestResultEntry[] = filteredEntries.filter((entry: TestResultEntry) => {
     return entry.pageref === expanded ? entry : null;
   });
 
@@ -69,25 +79,14 @@ export default function BrowserTestTimeline({ details, startTime, finishTime, is
     ])
   );
 
-  let filteredEntries: TestResultEntry[] = entriesToRender.filter((entry: TestResultEntry) => {
-    const type = getFilterType(entry.response.content.type.toLowerCase()).toLowerCase();
-    if (filter.type && !type.includes(filter.type.toLowerCase())) {
-      return false;
-    }
-    if (filter.query && !type.includes(filter.query.toLowerCase())) {
-      return false;
-    }
-    return true;
-  });
-
   return (
     <Card title={t('in-synthetics:dashboard.detailsPage.timeLineWidget')}>
       {data != undefined && data != null ? (
         <>
-          <Filter setFilter={setFilter} filter={filter} isBrowserType={isBrowserType} />
+          <Filter setFilter={setFilter} filter={filter} isBrowserType={isBrowserType} setExpanded={setExpanded} />
           <div className={locals.overviewChartContainer}>
             {filteredEntries.length >= 0 && (
-              <OverviewChart entries={filteredEntries} earliestTimestamp={startTime} endTimestamp={finishTime} />
+              <OverviewChart entries={entriesToRender} earliestTimestamp={startTime} endTimestamp={finishTime} />
             )}
           </div>
           <EntriesList entries={filteredEntries} pages={pagesToMap} expanded={expanded} setExpanded={setExpanded} />

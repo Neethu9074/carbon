@@ -92,6 +92,7 @@ export function getAreaRoleFromPermissionSet(
 
     return AreaRole.VIEWER;
   }
+
   return undefined;
 }
 
@@ -152,7 +153,7 @@ export function getScopeFromProductArea(
   const limitedScope = LimitedScopeByProductArea[productArea];
 
   const hasLimitedAccessScope = permissionSet.permissions.includes(limitedScope);
-  if (!hasLimitedAccessScope) return ScopedPermissionItem.LIMITED_ACCESS;
+  if (hasLimitedAccessScope) return ScopedPermissionItem.LIMITED_ACCESS;
 
   return ScopedPermissionItem.ACCESS_ALL;
 }

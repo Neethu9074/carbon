@@ -10,15 +10,13 @@ import React from 'react';
 import { Button, Li, Message, Ul } from '@instana/components';
 import { PermissionSetWithRoles } from '@instana/types';
 
-import {
-  PermissionAreas,
-  ProductAreas
-} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
+import EditAccessScopeDialog from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/EditAccessScope';
+import { ProductAreas } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { getField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
+import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import { RESTRICTED_ACCESS } from 'in-stores/permission';
 import { Col } from 'in-components/layout/Grid/Grid';
-import { noop } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
 
 export interface FormControlProps {
@@ -27,21 +25,36 @@ export interface FormControlProps {
 }
 interface RoleAndAccessScopeColumnsProps extends FormControlProps {
   readOnly?: boolean;
+  onSave: (form: MapForm) => void;
 }
 
-export default function RoleAndAccessScopeColumns({ form, readOnly }: RoleAndAccessScopeColumnsProps) {
+export default function RoleAndAccessScopeColumns({ form, setForm, readOnly, onSave }: RoleAndAccessScopeColumnsProps) {
   const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');
 
   const includesRestrictedAccess = permissionSetField?.value?.permissions?.includes(RESTRICTED_ACCESS);
-  const isEditable = !readOnly && includesRestrictedAccess && hasAreas(permissionSetField?.value);
+
+  const openAccessScopeDialog = () => {
+    addActiveDialog(
+      <EditAccessScopeDialog
+        form={form}
+        setForm={setForm}
+        onSave={form => {
+          onSave(form);
+          close();
+        }}
+        onCancel={close}
+        editMode
+      />
+    );
+  };
 
   return (
     <Col lg={6}>
       <LightCard
         title={t('in-settings:roleAndAccessScope.productArea')}
         header={
-          isEditable && (
-            <Button onClick={noop} kind="action">
+          !readOnly && (
+            <Button onClick={openAccessScopeDialog} kind="action">
               {t('in-settings:roleAndAccessScope.editButton')}
             </Button>
           )
@@ -60,16 +73,4 @@ export default function RoleAndAccessScopeColumns({ form, readOnly }: RoleAndAcc
       </LightCard>
     </Col>
   );
-}
-
-function hasAreas(permissionSet?: PermissionSetWithRoles): boolean {
-  if (permissionSet === undefined) return false;
-
-  return PermissionAreas.some(key => {
-    if (key == 'infraDfqFilter') {
-      return permissionSet[key]?.scopeId !== '';
-    }
-
-    return permissionSet[key]?.length > 0;
-  });
 }

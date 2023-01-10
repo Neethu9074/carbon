@@ -89,7 +89,7 @@
     "websites": "Websites",
     "mobileApps": "Mobile Apps",
     "websitesMobileApps": "Websites & Mobile Apps",
-    "customEventDeprecatedWarning": "<strong>{{deprecatedCustomEvents}} deprecated Custom Events of entity types Application Perspective, Service and Endpoint require action</strong>. You will not be able to create or update Custom Events on these three entity types from <strong>April 2023 (Build 246)</strong> onwards. Existing configs will be removed from <strong>July 2023 (Build 253)</strong> onwards. <affectedCustomEvents>View affected Custom Events</affectedCustomEvents>."
+    "customEventDeprecatedWarning": "<strong>{{deprecatedCustomEvents}} Application, Service and Endpoint Custom Events require action</strong>. <affectedCustomEvents>View affected Custom Events</affectedCustomEvents>."
   },
   "widgets": {
     "columnDefinitions": {

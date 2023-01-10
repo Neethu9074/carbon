@@ -8,6 +8,7 @@ import { defaultType, defaultAllInfraGroup, defaultOrder } from 'in-infrastructu
 import { navigationParameters$ } from 'in-stores/navigation/navigation';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
+import { setTimeConfig } from 'in-stores/time/config';
 
 export const infraExplorePath = '/explore';
 
@@ -77,7 +78,7 @@ export function isInfraExploreView() {
   return navigationParameters$.map(location => location.pathname.indexOf(infraExplorePath) === 0);
 }
 
-export function getLinkToExplore({ tagFilterExpression, group, charts, type, metrics, order }) {
+export function getLinkToExplore({ tagFilterExpression, group, charts, type, metrics, order, timeConfig }) {
   return getModifiedUrlStream(params => {
     params.pathname = infraExplorePath;
 
@@ -103,6 +104,10 @@ export function getLinkToExplore({ tagFilterExpression, group, charts, type, met
 
     if (order) {
       setMatrixKey(params, orderMatrixParameter, order);
+    }
+
+    if (timeConfig) {
+      setTimeConfig(params, timeConfig);
     }
 
     setMatrixKey(params, dataSourcerMatrixParameter, 'infrastructure');

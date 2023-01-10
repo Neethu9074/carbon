@@ -8,12 +8,17 @@ import React from 'react';
 
 import { Card } from '@instana/components';
 
+import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { alertingEventDetailsChartTimeframe } from 'in-alerting/components/constants';
+import AnalyzeInfraEventButton from 'in-events/components/AnalyzeInfraEventButton';
 import useInfraEventAlertConfig from 'in-events/hooks/useInfraEventAlertConfig';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
+import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
+import { infraExploreDataEnabled } from 'in-services/featureFlags';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
+import { hasInfrastructureAccess } from 'in-stores/permission';
 import { getFormatterId } from 'in-stores/metric/formatters';
 import { getMetricDefinition } from 'in-sdk/metrics';
 import { Row, Col } from 'in-components/layout/Grid';
@@ -33,7 +38,7 @@ export default function InfraEventContent({ event }) {
   const entityType = alertConfig.rule.entityType;
 
   const timeConfig = {
-    ...getChartTimeConfigByEvent({ event }),
+    ...getChartTimeConfigByEvent(event),
     windowSize: alertingEventDetailsChartTimeframe
   };
 
@@ -48,6 +53,15 @@ export default function InfraEventContent({ event }) {
             </HorizontalFlexWrapper>
 
             <ProblemDescription event={event} className="in-event-view-event-content" />
+
+            {infraExploreDataEnabled && hasInfrastructureAccess && (
+              <DescriptionButtons>
+                <AnalyzeInfraEventButton
+                  alertConfig={alertConfig}
+                  timeConfig={getSmartAlertAnalyzeTimeConfig(event, alertConfig)}
+                />
+              </DescriptionButtons>
+            )}
           </Card>
         </Col>
       </Row>

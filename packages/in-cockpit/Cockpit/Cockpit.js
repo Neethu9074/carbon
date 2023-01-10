@@ -219,7 +219,6 @@ function CustomEventDeprecatedWarning({ legacyAlertConfigStats }) {
                 params.pathname = `${teamSettingsAlertingEvents}`;
                 setOrDeleteMatrixKey(params, events, 'type', deprecatedValue);
               })}
-              external
             >
               &nbsp;
             </Link>

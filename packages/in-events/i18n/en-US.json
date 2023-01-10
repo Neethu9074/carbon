@@ -146,7 +146,7 @@
   "tooltipCloseEventDetail": "Close event detail",
   "releaseOccurName": "Release: {{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> ago)",
-  "deprecatedCustomEventWarning": "<strong>You will no longer receive this {{issueOrIncident}} starting from July 2023 (Build 253).</strong> <eventLink>View event configuration</eventLink> to migrate it. <documentationLink>Read more in our documentation</documentationLink>.",
+  "deprecatedCustomEventWarning": "<strong>You will no longer receive this {{issueOrIncident}} starting from July 2023 (Build 253).</strong> View event configuration to migrate it. <documentationLink>Read more in our documentation</documentationLink>.",
   "ibmMqFileTransfer": {
     "transferID": "Transfer ID",
     "sourceAgent": "Source Agent",

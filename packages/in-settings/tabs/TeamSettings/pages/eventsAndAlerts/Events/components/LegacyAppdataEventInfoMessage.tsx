@@ -23,7 +23,7 @@ export const smartAlertMigrationUrl =
 
 export default function LegacyAppdataEventInfoMessage({ migrated, saved, disallowed, deleted }: Props) {
   return (
-    <Message type="neutral" withIcon small>
+    <Message type={!deleted && !migrated && saved && !disallowed ? 'warning' : 'neutral'} withIcon small>
       <TransContent migrated={migrated} saved={saved} disallowed={disallowed} deleted={deleted} />
     </Message>
   );

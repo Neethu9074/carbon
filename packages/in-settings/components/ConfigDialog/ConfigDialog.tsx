@@ -22,7 +22,7 @@ export interface SubSlideConfig {
 
 export interface ConfigDialogProps
   extends Pick<DialogWithSlideInViewProps, 'title'>,
-    Pick<ConfigDialogFooterProps, 'onClickSave' | 'onClickCancel'> {
+    Pick<ConfigDialogFooterProps, 'onClickSave' | 'onClickCancel' | 'isSaving' | 'disabledSaveButton'> {
   navItems: Array<NavItem>;
   subSlideConfig?: SubSlideConfig;
   form?: MapForm;
@@ -45,6 +45,8 @@ export default function ConfigDialog({
   subSlideConfig,
   noHeader,
   noDivider,
+  isSaving,
+  disabledSaveButton,
   onClickCancel,
   onClickSave,
   onSubmit,
@@ -57,7 +59,15 @@ export default function ConfigDialog({
       slideInViewComponent={subSlideConfig?.content}
       slideInViewTitle={subSlideConfig?.title}
       onSlideInViewTitleClick={onCloseSubSlide}
-      footer={<ConfigDialogFooter form={form} onClickCancel={onClickCancel} onClickSave={onClickSave} />}
+      footer={
+        <ConfigDialogFooter
+          form={form}
+          isSaving={isSaving}
+          disabledSaveButton={disabledSaveButton}
+          onClickCancel={onClickCancel}
+          onClickSave={onClickSave}
+        />
+      }
     >
       <form
         id={formId}

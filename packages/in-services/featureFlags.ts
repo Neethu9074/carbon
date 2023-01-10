@@ -82,6 +82,8 @@ export const applicationApdexEnabled = isFeatureFlagEnabled('applicationApdexEna
 export const websiteUploadConfigEnabled = isFeatureFlagEnabled('websiteUploadConfigEnabled', false);
 export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashBeaconEnabled', false);
 
+export const traceIdFilterOverrideEnabled = isFeatureFlagEnabled('traceIdFilterOverrideEnabled', true);
+
 // RBAC usability improvements
 export const rbacImprovementEnabled = isFeatureFlagEnabled('rbacImprovementEnabled', false);
 

@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { Dispatch, SetStateAction } from 'react';
+
 import {
   PaginatedResult,
   Progress,
@@ -24,6 +26,7 @@ import { Options } from 'in-hooks/useUrlState';
 export const pathSegment = '/syntheticTests';
 export const matrixPrefix = '';
 export const getOperation = 'GET';
+export const defaultPage = 'page_x0';
 
 export const dummyLocations = {
   data: [],
@@ -168,6 +171,7 @@ export interface FilterProps {
   filter: { query: string; type: string };
   setFilter: (a: { query: string; type: string }) => void;
   isBrowserType?: boolean;
+  setExpanded?: Dispatch<SetStateAction<string>>;
 }
 
 export interface PoPInstallationPropertiesResponse {

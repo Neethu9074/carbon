@@ -14,7 +14,6 @@ import { useObservable } from '@instana/hooks';
 
 import { smartAlertMigrationUrl } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
 import { isDeprecatedAppDataEntityType } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
-import { getEntityIdView, teamSettingsAlertingEventCustom } from 'in-settings/navigation/paths';
 import { getCustomEventSpecificationMutable } from 'in-api/eventSpecifications';
 import { Col, Row } from 'in-components/layout/Grid';
 import { Event } from 'in-types';
@@ -55,11 +54,6 @@ export function DeprecatedCustomEventWarning({ event, isIncident }: Props) {
                 <Trans
                   i18nKey="in-events:deprecatedCustomEventWarning"
                   components={{
-                    eventLink: (
-                      <Link href$={getEntityIdView(teamSettingsAlertingEventCustom, eventId)} external>
-                        &nbsp;
-                      </Link>
-                    ),
                     documentationLink: (
                       <Link href={smartAlertMigrationUrl} external>
                         &nbsp;

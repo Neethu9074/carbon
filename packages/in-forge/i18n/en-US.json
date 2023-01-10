@@ -189,6 +189,11 @@
   "pluginName_awsSqs_1": "AWS SQSs",
   "pluginName_awsSqs_2": "AWS SQSs",
   "pluginName_awsSqs": "AWS SQS",
+  "pluginName_awsApiGateway_plural": "AWS API Gateways",
+  "pluginName_awsApiGateway_0": "AWS API Gateways",
+  "pluginName_awsApiGateway_1": "AWS API Gateways",
+  "pluginName_awsApiGateway_2": "AWS API Gateways",
+  "pluginName_awsApiGateway": "AWS API Gateway",
   "pluginName_azure_plural": "Azure Instances",
   "pluginName_azure_0": "Azure Instances",
   "pluginName_azure_1": "Azure Instances",
@@ -750,6 +755,8 @@
   "pluginName_ibmMqMftZone_plural": "IBM MQ MFT Zones",
   "pluginName_ibmMqMftAgent": "IBM MQ MFT Agent",
   "pluginName_ibmMqMftAgent_plural": "IBM MQ MFT Agents",
+  "pluginName_ibmMqMftTransfer": "IBM MQ MFT Transfer",
+  "pluginName_ibmMqMftTransfer_plural": "IBM MQ MFT Transfers",
   "pluginName_ibmVsi_plural": "IBM Cloud Virtual Server Instances",
   "pluginName_ibmVsi_0": "IBM Cloud Virtual Server Instances",
   "pluginName_ibmVsi_1": "IBM Cloud Virtual Server Instances",
@@ -4061,6 +4068,37 @@
       "numberOfMessagesSent": "Number of messages sent",
       "sentMessagesSize": "Sent messages size"
     },
+
+    "awsApiGateway": {
+      "dashboard": {
+
+      },
+      "infoTitle": {
+        "protocol": "Protocol",
+        "endpointType": "Endpoint Type",
+        "createdAt": "Created at"
+      },
+      "headerApiGatewayInfo": "API Gateway Info",
+      "categoryNetwork": "Network",
+      "titleApiRequests": "API Requests",
+      "titleLatency": "Latency",
+      "title4xxErrors": "4xx Errors",
+      "title5xxErrors": "5xx Errors",
+      "titleCacheHitCount": "Cache Hit Count",
+      "titleCacheMissCount": "Cache Miss Count",
+      "titleConnect": "Connect",
+      "titleMessage": "Message",
+      "titleWebsocketErrors": "Errors",
+      "labelIntegrationLatency": "Integration",
+      "labelIntegrationError": "Integration",
+      "labelClientError": "Client",
+      "labelExecutionError": "Execution",
+      "labelLatencyTotal": "Total",
+      "labelAverage": "Average",
+      "labelSum": "Sum",
+      "labelCount": "Count"
+    },
+
     "azure": {
       "dashboard": {
         "thereIsNoFurtherInformationAboutThisEntity": "There is no further information about this entity."
@@ -6583,6 +6621,7 @@
       "jvmAttachSocketIssueDescription": "The host agent cannot attach correctly to this Java Virtual Machine. The JVM is unable to connect to a communication socket used during dynamic attach. Please try restarting the JVM to restore its attach capability. Therefore, this process will not be traced. Refer to the host agent logs for more information as to why the attachment failed. The host agent will try to connect again to this virtual machine every ten minutes. However, until it succeeds, neither traces nor metrics will be collected for this JVM.",
       "jvmAttachDirectoryIssueDescription": "The host agent cannot attach correctly to this Java Virtual Machine. The JVM was not able to locate the attach directory during dynamic attach. Please verify that the environmental settings for temporary directories of the host agent JVM process and the target JVM process match, or make sure to use the JVM-specific system property to specify another attach directory when starting the target JVM.",
       "insufficientDiskMemoryIssueDescription": "The host agent cannot load temporary files on the host machine or inside application containers due to the storage capacity limits. Please check the troubleshooting docs for the remediation steps.",
+      "portUnavailableIssueDescription": "The agent is not able to bind to the default port 42699. Monitoring in full capacity will not be possible. For the remediation steps, please check the troubleshooting docs.",
       "pythonAutoTraceFailedIssueDescription": "The host agent tried and failed to automatically instrument this Python process.",
       "jvmAttachContainerCommandIssueDescription": "The host agent cannot attach correctly to this Java Virtual Machine. The container command <code>{{containerCommand}} ...</code> exited with code <code>{{exitValue}}</code> when trying to attach the JVM in container <code>{{targetContainerId}}</code>. Therefore, this process will not be traced. Refer to the host agent logs for more information as to why the attachment failed. The host agent will try to connect again to this virtual machine every ten minutes. However, until it succeeds, neither traces nor metrics will be collected for this JVM.",
       "jvmAttachToolsIssueDescription": "The host agent cannot attach correctly to this Java Virtual Machine. An appropriate <code>AttachProvider</code> or <code>VirtualMachine</code> could not be found from the JDK running the attach process. The JDKs tools.jar or jdk.attach module is missing. Therefore, this process will not be traced. Refer to the host agent logs for more information as to why the attachment failed. The host agent will try to connect again to this virtual machine every ten minutes. However, until it succeeds, neither traces nor metrics will be collected for this JVM.",
@@ -9324,12 +9363,13 @@
         "coordiQmgrHost": "Host",
         "connectionChannel": "Connection Channel",
         "agentsWithCount": "MFT Agents ({{len}})",
-        "transfers": "Transfers",
+        "transferStatistics": "Statistics",
         "currentTransfers": "Current Transfers",
         "totalTransfers": "Total Transfers",
         "successfulTransfers": "Successful Transfers",
         "failedTransfers": "Failed Transfers",
-        "partiallySuccessfulTransfers": "Partially Successful Transfers"
+        "partiallySuccessfulTransfers": "Partially Successful Transfers",
+        "transfersWithCount": "Current Transfers ({{len}})"
       }
     },
     "ibmMqMftZone": {
@@ -9341,6 +9381,7 @@
     "ibmMqMftAgent": {
       "dashboard": {
         "ibmMqMftAgent": "IBM MQ MFT Agent",
+        "transferID": "ID",
         "agentName": "Name",
         "agentStatus": "Status",
         "queueManager": "Queue Manager",
@@ -9356,7 +9397,33 @@
         "totalSourceTransfers": "Source Transfers",
         "totalDestinationTransfers": "Destination Transfers",
         "statusRunning": "Running",
-        "statusUnknown": "Unknown"
+        "statusUnknown": "Unknown",
+        "transferState": "State",
+        "sourceTransfersWithCount": "Source Transfers ({{len}})",
+        "destinationTransfersWithCount": "Destination Transfers ({{len}})"
+      }
+    },
+    "ibmMqMftTransfer": {
+      "dashboard": {
+        "ibmMqMftTransfer": "IBM MQ MFT Transfer",
+        "transferID": "ID",
+        "sourceAgent": "Source",
+        "destinationAgent": "Destination",
+        "startedTime": "Started Time",
+        "sourceFileName": "Source File",
+        "destinationFileName": "Destination File",
+        "transferMode": "Mode",
+        "sourceFileSize": "Source File Size",
+        "destinationFileSize": "Destination File Size",
+        "statsTransferredBytes": "Transferred(b)",
+        "progressByItem": "Progress",
+        "elapsedSeconds": "Time elapsed(s)",
+        "originator": "Originator",
+        "actionStatus": "Status",
+        "bytesSent": "Bytes Sent",
+        "currentItemSize": "Total(b)",
+        "currentFile": "Current File",
+        "itemsWithCount": "Items ({{len}})"
       }
     },
     "ibmMqQueueManager": {
