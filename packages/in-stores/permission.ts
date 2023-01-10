@@ -110,8 +110,8 @@ export const hasRestrictedAccess = role?.restrictedAccess ?? false;
  * @return true if user has permission
  */
 function hasPermission(limitedScope: string, accessPermission: string): boolean {
-  if (permissions.indexOf(limitedScope) === -1) return true;
-  return !(permissions.indexOf(accessPermission) > -1);
+  if (permissions?.indexOf(limitedScope) === -1) return true;
+  return !(permissions?.indexOf(accessPermission) > -1);
 }
 
 export const hasApplicationsAccess = hasPermission(LimitedAccessScope.LIMITED_APPLICATIONS_SCOPE, ACCESS_APPLICATIONS);
