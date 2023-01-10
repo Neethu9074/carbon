@@ -16,6 +16,7 @@ export interface ConfigDialogFooterProps {
   saveButtonText?: string;
   cancelButtonText?: string;
   isSaving?: boolean;
+  disabledSaveButton?: boolean;
 }
 
 export default function ConfigDialogFooter({
@@ -24,13 +25,14 @@ export default function ConfigDialogFooter({
   onClickSave,
   cancelButtonText,
   saveButtonText,
-  isSaving
+  isSaving,
+  disabledSaveButton
 }: ConfigDialogFooterProps) {
   return (
     <FormFooter>
       <CancelButton onClick={() => onClickCancel()}>{cancelButtonText}</CancelButton>
 
-      <SaveButton onClick={() => onClickSave(form)} isSaving={isSaving} disabled={isSaving}>
+      <SaveButton onClick={() => onClickSave(form)} isSaving={isSaving} disabled={disabledSaveButton}>
         {saveButtonText}
       </SaveButton>
     </FormFooter>

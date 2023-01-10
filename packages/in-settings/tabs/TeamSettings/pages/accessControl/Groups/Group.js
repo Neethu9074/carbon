@@ -125,7 +125,14 @@ function renderGroup(props) {
             noDelete={isOwnerGroup && form.get('members').value.length <= 2}
           />
         </Col>
-        {rbacImprovementEnabled && <RoleAndAccessScopeColumns form={form} setForm={setForm} readOnly={isOwnerGroup} />}
+        {rbacImprovementEnabled && (
+          <RoleAndAccessScopeColumns
+            form={form}
+            setForm={setForm}
+            readOnly={isOwnerGroup}
+            onSave={form => saveItem({ form, setMessage, setCanSaveItem: noop, setForm })}
+          />
+        )}
         {!rbacImprovementEnabled &&
           form.get('permissionSet').map(field => (
             <Col lg={6}>

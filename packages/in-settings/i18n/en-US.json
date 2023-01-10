@@ -54,6 +54,8 @@
     }
   },
   "roleAndAccessScope": {
+    "dialogTitle": "Create new group",
+    "dialogTitle_edit": "Edit access scope",
     "editButton": "Edit access scope",
     "productArea": "Role and access scope",
     "productArea_application": "Application",
@@ -65,6 +67,42 @@
     "productArea_analytics": "Analytics",
     "productArea_event": "Events and Alerts",
     "productArea_function": "Global functions"
+  },
+  "headingSection": {
+    "title": "Role and access scope",
+    "description": "Enable product areas for access and define access scopes for each unit.",
+    "link": "Read more about roles and permissions."
+  },
+  "groupSection": {
+    "title": "Group name",
+    "label": "Enter a name"
+  },
+  "websitePermissionSection": {
+    "title": "Websites",
+    "addButton": "Select website",
+    "description_limited_access": "Select the role for the product area and add websites below to grant access",
+    "description_access_all": "All websites can be accessed with the role selected for the product area",
+    "deleteButton": "Remove {{name}} from list"
+  },
+  "selectItemForm": {
+    "doneButton": "Done"
+  },
+  "selectWebsitesDialog": {
+    "title": "Select websites",
+    "nameColumnHead": "Name"
+  },
+  "permissionScope": {
+    "selection": "Not available",
+    "selection_access_all": "Access all",
+    "selection_limited_access": "Limited access scope",
+    "selection_no_access": "No access",
+    "description_no_access": "Can't use this area at all",
+    "description_access_all": "Access all without limitation",
+    "role": "Select a role",
+    "role_owner": "Owner",
+    "role_viewer": "Viewer",
+    "roleTooltip": "Viewer: Ability to view dashboards (configuration can't be viewed). Owner: Ability to create new entities; view, configure and delete dashboards.",
+    "roleTooltip_websites": "Viewer: Ability to view website dashboards (configuration can't be viewed). Owner: Ability to create new websites; view, configure and delete website dashboards."
   },
   "cardTitle_Area": "Area",
   "cardTitle_Area_plural": "Areas",

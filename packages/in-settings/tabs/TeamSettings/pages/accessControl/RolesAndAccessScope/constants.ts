@@ -24,7 +24,7 @@ export const AreaRole = Object.freeze({
   VIEWER: 'VIEWER'
 } as const);
 export type AreaRoleType = keyof typeof AreaRole;
-export const AreaRoles = Object.freeze(Object.values(AreaRole)) as Array<AreaRoleType>;
+export const AreaRoles = Object.freeze(Object.values(AreaRole));
 
 // These are the new product areas for the new, improved RBAC UI.
 export const ProductArea = Object.freeze({
@@ -51,9 +51,9 @@ export const PermissionAreas = Object.freeze<Array<keyof PermissionSetWithRoles>
 
 // These are the standard options to select source specific permission types
 export const ScopedPermissionItem = Object.freeze({
-  NO_ACCESS: 'NO_ACCESS',
+  ACCESS_ALL: 'ACCESS_ALL',
   LIMITED_ACCESS: 'LIMITED_ACCESS',
-  ACCESS_ALL: 'ACCESS_ALL'
+  NO_ACCESS: 'NO_ACCESS'
 } as const);
 export type ScopedPermissionType = keyof typeof ScopedPermissionItem;
 export const ScopedPermissionItems = Object.freeze(Object.values(ScopedPermissionItem)) as Array<ScopedPermissionType>;
