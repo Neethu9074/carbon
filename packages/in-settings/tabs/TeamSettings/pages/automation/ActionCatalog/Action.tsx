@@ -8,10 +8,29 @@ import { MapForm, Field as FormField } from 'formalistic';
 import { RouteComponentProps } from 'react-router';
 import React from 'react';
 
+import {
+  AdditionalHeaders,
+  Authen,
+  createDocLinkField,
+  createScriptFields,
+  createWebhookFields,
+  NewAction,
+  saveAction,
+  saveNewAction
+} from 'in-api/automation';
+import {
+  API_KEY,
+  BASIC_AUTH,
+  BEARER_TOKEN,
+  isDocLink,
+  isScript,
+  isWebhook,
+  NO_AUTH
+} from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import { createActionFormDefinition } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionFormDefinition';
-import { createDocLinkField, createScriptFields, NewAction, saveAction, saveNewAction } from 'in-api/automation';
+import { Header } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/AdditionalHeadersTable';
 import ActionForm from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionForm';
-import { isDocLink, isScript } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
+import { Tag } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/TagsTable';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { createActionTracker, editActionTracker } from 'in-settings/tracker';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
@@ -32,11 +51,6 @@ import { t } from 'in-i18n';
 
 interface MatchParams {
   id: string;
-}
-
-export interface Tag {
-  id: string;
-  value: string;
 }
 
 export type ActionFormEntity = NewAction | Action;
@@ -142,6 +156,63 @@ function getActionSpecification(form: MapForm): NewAction {
   } else if (isScript(type)) {
     const scriptValue = (form.get('script') as FormField<string>).value;
     fields.push(...createScriptFields(scriptValue));
+  } else if (isWebhook(type)) {
+    const host = (form.get('host') as FormField<string>).value;
+    const method = (form.get('method') as FormField<string>).value;
+    const accept = (form.get('accept') as FormField<string>).value;
+    const acceptLanguage = (form.get('acceptLanguage') as FormField<string>).value;
+    const contentType = (form.get('contentType') as FormField<string>).value;
+    const additionalHeaders = (form.get('additionalHeaders') as FormField<Header[]>).value;
+    const body = (form.get('body') as FormField<string>).value;
+    const ignoreCertErrors = (form.get('ignoreCertErrors') as FormField<boolean>).value;
+    const authType = (form.get('authType') as FormField<string>).value;
+    let authen: Authen = {
+      type: NO_AUTH
+    };
+    if (authType === BASIC_AUTH) {
+      const username = (form.get('username') as FormField<string>).value;
+      const password = (form.get('password') as FormField<string>).value;
+      authen = {
+        type: BASIC_AUTH,
+        username,
+        password
+      };
+    } else if (authType === BEARER_TOKEN) {
+      const bearerToken = (form.get('bearerToken') as FormField<string>).value;
+      authen = {
+        type: BEARER_TOKEN,
+        bearerToken
+      };
+    } else if (authType === API_KEY) {
+      const apiKey = (form.get('apiKey') as FormField<string>).value;
+      const apiKeyValue = (form.get('apiKeyValue') as FormField<string>).value;
+      const apiKeyAddTo = (form.get('apiKeyAddTo') as FormField<string>).value;
+      authen = {
+        type: API_KEY,
+        apiKey,
+        apiKeyValue,
+        apiKeyAddTo
+      };
+    }
+    fields.push(
+      ...createWebhookFields({
+        host,
+        method,
+        accept,
+        acceptLanguage,
+        contentType,
+        additionalHeaders: additionalHeaders.reduce(
+          (headers: AdditionalHeaders, header) => ({
+            ...headers,
+            [header.value[0]]: header.value[1]
+          }),
+          {}
+        ),
+        body,
+        authen,
+        ignoreCertErrors
+      })
+    );
   }
   return {
     name,

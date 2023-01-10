@@ -30,4 +30,8 @@
   .subErrorTextFormField {
     margin-left: 0.5rem;
   }
+  .type {
+    margin: 0 1rem 0 0;
+    text-transform: uppercase;
+  }
 }

@@ -20,6 +20,8 @@ export type OnEntityChange<ENTITY> = <VALUETYPE>(
   updateFormDefinition?: (mapForm: MapForm, entity: ENTITY) => MapForm
 ) => MapForm;
 
+export type SetFormFunction = (form: MapForm) => void;
+
 interface State<ENTITY> {
   loading: boolean;
   error: boolean;
@@ -207,12 +209,12 @@ export default function useEntityForm<ENTITY>(props: Parameters<ENTITY>): Entity
     return updatedForm;
   };
 
-  function setForm(form: MapForm) {
+  const setForm: SetFormFunction = function(form) {
     setState({
       ...state,
       form
     });
-  }
+  };
 
   function setSaveEnabled(saveEnabled: boolean) {
     setState({

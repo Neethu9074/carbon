@@ -5,7 +5,11 @@
  */
 
 :local {
-  .row {
-    vertical-align: top;
+  .colName {
+    width: 100%;
+  }
+
+  .key {
+    flex: 1;
   }
 }

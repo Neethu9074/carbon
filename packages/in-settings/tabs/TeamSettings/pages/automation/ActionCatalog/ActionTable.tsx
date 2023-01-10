@@ -12,9 +12,11 @@ import { Button, Link } from '@instana/components';
 import { Observable } from '@instana/observables';
 
 import {
-  getDocLinkFromFields,
-  getScriptFromFields,
-  getType
+  getType,
+  isDocLink,
+  isScript,
+  isWebhook,
+  getDocLinkFromFields
 } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import { teamSettingsActionCatalog, getEntityIdView } from 'in-settings/navigation/paths';
 import List, { leftHeaderWithSelectAll, TableActions } from 'in-settings/components/List';
@@ -73,9 +75,8 @@ const executeColumn = (volatileId: VolatileId, event?: Event) => ({
   label: t('in-settings:tabs.execute'),
   getContent(row: Action) {
     const { type, fields } = row;
-    if (type === 'doc_link') {
-      const field = getDocLinkFromFields(fields);
-      const value = field?.value;
+    if (isDocLink(type)) {
+      const value = getDocLinkFromFields(fields);
       return (
         <Button
           kind="action"
@@ -93,16 +94,12 @@ const executeColumn = (volatileId: VolatileId, event?: Event) => ({
           {t('in-settings:tabs.launch')}
         </Button>
       );
-    } else if (type === 'SCRIPT') {
-      const field = getScriptFromFields(fields);
-      const value = field?.value ?? '';
+    } else if (isScript(type) || isWebhook(type)) {
       return (
         <Button
           kind="action"
           icon={'lib_actions_play'}
-          onClick={() =>
-            addActiveDialog(<RunAction action={row} script={value} volatileId={volatileId} event={event} />)
-          }
+          onClick={() => addActiveDialog(<RunAction action={row} volatileId={volatileId} event={event} />)}
           noAutoMargin
         >
           {t('in-settings:tabs.run')}
@@ -120,16 +117,14 @@ const testColumn = {
   widthInAbsoluteUnit: true,
   width: '4rem',
   getContent(row: Action) {
-    const { type, fields } = row;
-    if (type === 'SCRIPT') {
-      const field = fields?.[1];
-      const value = field?.value ?? '';
+    const { type } = row;
+    if (isScript(type) || isWebhook(type)) {
       return (
         <Tooltip content={t('in-settings:tabs.test')} delay={500}>
           <IconButton
             kind="primaryv2"
             type={'lib_actions_play'}
-            onClick={() => addActiveDialog(<RunAction test action={row} script={value} volatileId={{}} />)}
+            onClick={() => addActiveDialog(<RunAction test action={row} volatileId={{}} />)}
           />
         </Tooltip>
       );
