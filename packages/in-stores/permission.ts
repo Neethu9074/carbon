@@ -99,7 +99,7 @@ export const Capabilities = Object.freeze(Object.values(Capability));
 
 export type PermissionsUnion = AreaPermissionType | CapabilityType | LimitedAccessScopeType;
 
-const permissions = window.instana.permissions;
+const permissions = window.instana?.permissions ?? [];
 
 export const hasRestrictedAccess = role?.restrictedAccess ?? false;
 
@@ -110,8 +110,8 @@ export const hasRestrictedAccess = role?.restrictedAccess ?? false;
  * @return true if user has permission
  */
 function hasPermission(limitedScope: string, accessPermission: string): boolean {
-  if (permissions?.indexOf(limitedScope) === -1) return true;
-  return !(permissions?.indexOf(accessPermission) > -1);
+  if (permissions.indexOf(limitedScope) === -1) return true;
+  return permissions.indexOf(accessPermission) !== -1;
 }
 
 export const hasApplicationsAccess = hasPermission(LimitedAccessScope.LIMITED_APPLICATIONS_SCOPE, ACCESS_APPLICATIONS);
