@@ -211,7 +211,7 @@ export function createAction(
   };
 }
 
-export interface ActionParameter {
+export interface ActionExecutionParameter {
   name: string;
   value: string;
 }
@@ -219,7 +219,7 @@ interface RunActionBaseParams {
   volatileId: VolatileId;
   event: Event | undefined;
   actionName: string;
-  inputParameters: ActionParameter[];
+  inputParameters: ActionExecutionParameter[];
 }
 
 interface RunScriptActionParams extends RunActionBaseParams {

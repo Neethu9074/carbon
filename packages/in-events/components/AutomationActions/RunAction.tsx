@@ -18,7 +18,7 @@ import {
 } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import RunActionContent, { getWebhookFields } from 'in-events/components/AutomationActions/RunActionContent';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
-import { ActionParameter, runScriptAction, runWebhookAction } from 'in-api/automation';
+import { ActionExecutionParameter, runScriptAction, runWebhookAction } from 'in-api/automation';
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import { notBlankValidator } from 'in-services/validators/string';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
@@ -88,8 +88,7 @@ export default function RunAction({ action, volatileId, event, test }: RunAction
                 agentSnapShots,
                 setError,
                 setActionInstanceId,
-                event,
-                actionName
+                event
               })
             }
           />
@@ -123,7 +122,6 @@ interface OnSaveParams extends Pick<RunActionProps, 'action' | 'event'> {
   agentSnapShots: OUT | null | undefined;
   setError: React.Dispatch<React.SetStateAction<string>>;
   setActionInstanceId: React.Dispatch<React.SetStateAction<string>>;
-  actionName: string;
 }
 
 function onSave({
@@ -134,8 +132,7 @@ function onSave({
   agentSnapShots,
   setError,
   setActionInstanceId,
-  event,
-  actionName
+  event
 }: OnSaveParams) {
   if (!form?.hierarchyValid) {
     setForm(form?.setTouched(true, { recurse: true }));
@@ -149,10 +146,9 @@ function onSave({
   const targetAgent = form?.get('targetAgent') as Field<string>;
   const parameters = form?.get('parameters') as MapForm;
 
-  const inputParameters = parameters.reduce<ActionParameter[]>((acc, parameter, key) => {
+  const inputParameters = parameters.reduce<ActionExecutionParameter[]>((acc, parameter, key) => {
     const parameterDefinition = action.inputParameters?.find(p => key === p.label);
     const name = parameterDefinition?.label ?? '';
-    const encoding = 'ascii';
     if (parameterDefinition?.type === 'vault') {
       const pathField = (parameter as ListForm).get(0) as Field<string>;
       const keyField = (parameter as ListForm).get(1) as Field<string>;
@@ -160,18 +156,16 @@ function onSave({
         ...acc,
         {
           name,
-          encoding,
           type: 'vault',
           value: JSON.stringify({ secretPath: pathField.value ?? '', secretKey: keyField.value ?? '' })
         }
       ];
     }
     // WILL NEED TO RESOLVE DYNAMIC PARAMS HERE
-    const value = (parameter as Field<string>).value;
-    return [...acc, { name, encoding, value }];
+    return [...acc, { name, value: (parameter as Field<string>).value }];
   }, []);
   const selectedVolatileId =
-    agentSnapShots?.data?.online?.find(agent => agent.volatileId?.host_id === targetAgent?.value)?.volatileId ?? {};
+    agentSnapShots?.data?.online?.find(agent => agent.volatileId?.host_id === targetAgent.value)?.volatileId ?? {};
   const handleActionResponse = (data: [Result<null>, AgentResponse]) => {
     setIsSaving(false);
     // last element of the array is either the timeout error if the agent didn't respond in time, or the agent response (error or in progress)
@@ -189,9 +183,14 @@ function onSave({
   if (isScript(action.type)) {
     const script = getScriptFromFields(action.fields);
     const interpreter = getInterpreterFromFields(action.fields);
-    runScriptAction({ script, volatileId: selectedVolatileId, event, actionName, interpreter, inputParameters }).once(
-      handleActionResponse
-    );
+    runScriptAction({
+      script,
+      volatileId: selectedVolatileId,
+      event,
+      actionName: action.name,
+      interpreter,
+      inputParameters
+    }).once(handleActionResponse);
   } else if (isWebhook(action.type)) {
     const { host, method, body, ignoreCertErrors, header } = getWebhookFields(action);
     runWebhookAction({
