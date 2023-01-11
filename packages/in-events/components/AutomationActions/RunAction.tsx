@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import { createField, createMapForm, Field, MapForm } from 'formalistic';
+import { createField, createListForm, createMapForm, Field, ListForm, MapForm } from 'formalistic';
 import React, { useEffect, useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
@@ -159,41 +159,25 @@ function onSave({
   const parameters = form?.get('parameters') as MapForm;
 
   const inputParameters = parameters.reduce<ActionParameter[]>((acc, parameter, key) => {
-    const parameterDefinition = action.inputParameters?.find(
-      p => key === p.name || key === `${p.name}-key` || key === `${p.name}-path`
-    );
+    const parameterDefinition = action.inputParameters?.find(p => key === p.name);
+    const name = parameterDefinition?.label ?? '';
+    const encoding = 'ascii';
     if (parameterDefinition?.type === 'vault') {
-      const vaultParameter = acc.find(p => p.name === parameterDefinition?.label);
-      const vaultKey = key === `${parameterDefinition.name}-key` ? 'secretKey' : 'secretPath';
-      if (vaultParameter) {
-        return [
-          ...acc.filter(p => p.name !== parameterDefinition?.label),
-          {
-            name: parameterDefinition?.label ?? '',
-            encoding: 'ascii',
-            type: 'vault',
-            value: JSON.stringify({
-              ...JSON.parse(vaultParameter.value),
-              [vaultKey]: (parameter as Field<string>).value
-            })
-          }
-        ];
-      }
+      const pathField = (parameter as ListForm).get(0) as Field<string>;
+      const keyField = (parameter as ListForm).get(1) as Field<string>;
       return [
         ...acc,
         {
-          name: parameterDefinition?.label ?? '',
-          encoding: 'ascii',
+          name,
+          encoding,
           type: 'vault',
-          value: JSON.stringify({ [vaultKey]: (parameter as Field<string>).value })
+          value: JSON.stringify({ secretPath: pathField.value ?? '', secretKey: keyField.value ?? '' })
         }
       ];
     }
     // WILL NEED TO RESOLVE DYNAMIC PARAMS HERE
-    return [
-      ...acc,
-      { name: parameterDefinition?.label ?? '', encoding: 'ascii', value: (parameter as Field<string>).value }
-    ];
+    const value = (parameter as Field<string>).value;
+    return [...acc, { name, encoding, value }];
   }, []);
   const selectedVolatileId =
     agentSnapShots?.data?.online?.find(agent => agent.volatileId?.host_id === targetAgent?.value)?.volatileId ?? {};
@@ -287,13 +271,17 @@ const createForm = (volatileId: VolatileId, agentSnapShots: OUT, action: Action)
             })(parameter?.value ?? '{}');
             return {
               ...acc,
-              [`${parameter.name}-key`]: createField({
-                value: parsedVaultValue?.secretKey ?? '',
-                validator: notBlankValidator
-              }),
-              [`${parameter.name}-path`]: createField({
-                value: parsedVaultValue?.secretPath ?? '',
-                validator: notBlankValidator
+              [parameter.name]: createListForm({
+                items: [
+                  createField({
+                    value: parsedVaultValue?.secretPath ?? '',
+                    validator: notBlankValidator
+                  }),
+                  createField({
+                    value: parsedVaultValue?.secretKey ?? '',
+                    validator: notBlankValidator
+                  })
+                ]
               })
             };
           }

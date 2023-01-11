@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import { Field, MapForm } from 'formalistic';
+import { Field, ListForm, MapForm } from 'formalistic';
 import classNames from 'classnames';
 import React from 'react';
 
@@ -251,8 +251,18 @@ const ParameterInput = ({ action, form, setForm }: Pick<RunActionContentProps, '
       {inputParameters?.map(parameter => {
         if (parameter.hidden) return;
         if (parameter.type === 'vault') {
-          const keyField = parametersForm?.get(`${parameter.name}-key`) as Field<string> | undefined;
-          const pathField = parametersForm?.get(`${parameter.name}-path`) as Field<string> | undefined;
+          const parameterField = parametersForm?.get(parameter.name) as ListForm | undefined;
+          const pathField = parameterField?.get(0) as Field<string> | undefined;
+          const keyField = parameterField?.get(1) as Field<string> | undefined;
+          const onChange = (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
+            const updatedForm = form?.updateIn(['parameters', parameter.name], field =>
+              (field as ListForm).set(
+                index,
+                ((field as ListForm).get(index) as Field<string>).setValue(e.target.value).setTouched(true)
+              )
+            );
+            setForm(updatedForm);
+          };
           return (
             keyField &&
             pathField && (
@@ -262,26 +272,12 @@ const ParameterInput = ({ action, form, setForm }: Pick<RunActionContentProps, '
                 </Label>
                 <Input
                   value={pathField.value}
-                  onChange={e => {
-                    const updatedForm = form?.updateIn(['parameters', `${parameter.name}-path`], field =>
-                      (field as Field<string>).setValue(e.target.value).setTouched(true)
-                    );
-                    setForm(updatedForm);
-                  }}
+                  onChange={onChange(0)}
                   hasError={!pathField.valid && pathField.touched}
                 />
                 <TouchedMessages field={pathField} className={locals.subErrorTextFormField} />
                 <Spacer vertical="small" />
-                <Input
-                  value={keyField.value}
-                  onChange={e => {
-                    const updatedForm = form?.updateIn(['parameters', `${parameter.name}-key`], field =>
-                      (field as Field<string>).setValue(e.target.value).setTouched(true)
-                    );
-                    setForm(updatedForm);
-                  }}
-                  hasError={!keyField.valid && keyField.touched}
-                />
+                <Input value={keyField.value} onChange={onChange(1)} hasError={!keyField.valid && keyField.touched} />
                 <TouchedMessages field={keyField} className={locals.subErrorTextFormField} />
               </FormGroup>
             )
