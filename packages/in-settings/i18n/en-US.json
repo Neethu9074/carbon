@@ -955,7 +955,7 @@
     "hiddenParam": "Hidden",
     "valueType": "Value Type",
     "displayName": "Display Name",
-    "value": "Value",
+    "defaultValue": "Default Value (optional)",
     "test": "Test",
     "serviceNowUrl": "ServiceNow URL",
     "serviceNow": "ServiceNow",

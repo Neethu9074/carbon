@@ -35,13 +35,13 @@ import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { AdditionalHeaders, Authen } from 'in-api/automation';
 import { close } from 'in-components/DialogPresenter/store';
 import HelpText from 'in-components/form/HelpText/HelpText';
+import { Action, Parameter, VolatileId } from 'in-types';
 import Select from 'in-components/form/Select/Select';
 import { Col } from 'in-components/layout/Grid/Grid';
 import { Row } from 'in-components/layout/Grid/Grid';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Label from 'in-components/form/Label/Label';
 import Input from 'in-components/form/Input/Input';
-import { Action, VolatileId } from 'in-types';
 import Code from 'in-components/Code';
 import { t, Trans } from 'in-i18n';
 
@@ -121,7 +121,7 @@ export default function RunActionContent({
   );
 }
 
-export const getWebhookFields = (action: Action) => {
+export function getWebhookFields(action: Action) {
   let host = getHostFromFields(action.fields);
   const method = getMethodFromFields(action.fields);
   const body = getBodyFromFields(action.fields);
@@ -147,14 +147,14 @@ export const getWebhookFields = (action: Action) => {
     }
   }
   return { host, method, body, header: JSON.stringify(header), ignoreCertErrors };
-};
+}
 
-const AgentSelection = ({
+function AgentSelection({
   form,
   setForm,
   agentSnapShots,
   volatileId
-}: Pick<RunActionContentProps, 'form' | 'setForm' | 'agentSnapShots' | 'volatileId'>) => {
+}: Pick<RunActionContentProps, 'form' | 'setForm' | 'agentSnapShots' | 'volatileId'>) {
   const targetAgent = form?.get('targetAgent') as Field<string> | undefined;
   return (
     <>
@@ -198,9 +198,9 @@ const AgentSelection = ({
       ))}
     </>
   );
-};
+}
 
-const ScriptActionContent = ({ action }: { action: Action }) => {
+function ScriptActionContent({ action }: Pick<RunActionContentProps, 'action'>) {
   const script = getScriptFromFields(action.fields);
   return (
     <DescriptionList>
@@ -212,11 +212,12 @@ const ScriptActionContent = ({ action }: { action: Action }) => {
       </DescriptionItem>
     </DescriptionList>
   );
-};
+}
 
-const WebhookActionContent = ({ action }: { action: Action }) => {
+function WebhookActionContent({ action }: Pick<RunActionContentProps, 'action'>) {
   const { host, method, body, header } = getWebhookFields(action);
   const headerEntries = Object.entries(JSON.parse(header) as AdditionalHeaders);
+
   return (
     <DescriptionList>
       <DescriptionItem
@@ -251,83 +252,96 @@ const WebhookActionContent = ({ action }: { action: Action }) => {
       </DescriptionItem>
     </DescriptionList>
   );
-};
+}
 
-const ParameterInput = ({ action, form, setForm }: Pick<RunActionContentProps, 'action' | 'form' | 'setForm'>) => {
+function ParameterInput({ action, form, setForm }: Pick<RunActionContentProps, 'action' | 'form' | 'setForm'>) {
   const { inputParameters } = action;
-  const parametersForm = form?.get('parameters') as MapForm | undefined;
+
   return (
     <Col>
       {inputParameters?.map(parameter => {
         if (parameter.hidden) return;
         if (parameter.type === 'vault') {
-          const parameterField = parametersForm?.get(parameter.name) as ListForm | undefined;
-          const pathField = parameterField?.get(0) as Field<string> | undefined;
-          const keyField = parameterField?.get(1) as Field<string> | undefined;
-          const onChange = (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
-            const updatedForm = form?.updateIn(['parameters', parameter.name], field =>
-              (field as ListForm).set(
-                index,
-                ((field as ListForm).get(index) as Field<string>).setValue(e.target.value).setTouched(true)
-              )
-            );
-            setForm(updatedForm);
-          };
-          return (
-            keyField &&
-            pathField && (
-              <FormGroup key={`${parameter.label}-input`}>
-                <Row withoutSideMargin className={locals.justifyContent}>
-                  <Label hasError={(!keyField.valid && keyField.touched) || (!pathField.valid && pathField.touched)}>
-                    {parameter.name}
-                  </Label>
-                  <Label>{t('in-events:vault')}</Label>
-                </Row>
-
-                <Label hasError={!pathField.valid && pathField.touched}>Secret Path</Label>
-                <Input
-                  value={pathField.value}
-                  onChange={onChange(0)}
-                  hasError={!pathField.valid && pathField.touched}
-                />
-                <TouchedMessages field={pathField} className={locals.subErrorTextFormField} />
-                <Spacer vertical="small" />
-                <Label hasError={!keyField.valid && keyField.touched}>Secret Key</Label>
-                <Input value={keyField.value} onChange={onChange(1)} hasError={!keyField.valid && keyField.touched} />
-                <TouchedMessages field={keyField} className={locals.subErrorTextFormField} />
-              </FormGroup>
-            )
-          );
+          return <VaultParameterInput key={parameter.label} form={form} parameter={parameter} setForm={setForm} />;
         }
-        const parameterField = parametersForm?.get(parameter.name) as Field<string> | undefined;
-        return (
-          <>
-            {parameterField && (
-              <FormGroup key={`${parameter.label}-input`}>
-                <Row withoutSideMargin className={locals.justifyContent}>
-                  <Label htmlFor={parameter.name} hasError={!parameterField.valid && parameterField.touched}>
-                    {parameter.required ? parameter.name : t('in-events:optional', { name: parameter.name })}
-                  </Label>
-                  <Label>{t('in-events:static')}</Label>
-                </Row>
-                <Input
-                  id={`${parameter.name}-input`}
-                  value={parameterField.value}
-                  placeholder={t('in-custom-dashboards:widgets.chart.axesConfigurator.auto')}
-                  onChange={e => {
-                    const updatedForm = form?.updateIn(['parameters', parameter.name], field =>
-                      (field as Field<string>).setValue(e.target.value).setTouched(true)
-                    );
-                    setForm(updatedForm);
-                  }}
-                  hasError={!parameterField.valid && parameterField.touched}
-                />
-                <TouchedMessages field={parameterField} className={locals.subErrorTextFormField} />
-              </FormGroup>
-            )}
-          </>
-        );
+        return <StaticParameterInput key={parameter.label} form={form} parameter={parameter} setForm={setForm} />;
       })}
     </Col>
   );
-};
+}
+
+interface ParameterInputParams extends Pick<RunActionContentProps, 'form' | 'setForm'> {
+  parameter: Parameter;
+}
+
+function VaultParameterInput({ form, parameter, setForm }: ParameterInputParams) {
+  const parametersForm = form?.get('parameters') as MapForm | undefined;
+  const parameterField = parametersForm?.get(parameter.label!) as ListForm | undefined;
+  const pathField = parameterField?.get(0) as Field<string> | undefined;
+  const keyField = parameterField?.get(1) as Field<string> | undefined;
+
+  const onChange = (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const updatedForm = form?.updateIn(['parameters', parameter.label!], field =>
+      (field as ListForm).set(
+        index,
+        ((field as ListForm).get(index) as Field<string>).setValue(e.target.value).setTouched(true)
+      )
+    );
+    setForm(updatedForm);
+  };
+
+  return (
+    <>
+      {keyField && pathField && (
+        <FormGroup key={`${parameter.label}-input`}>
+          <Row withoutSideMargin className={locals.justifyContent}>
+            <Label hasError={(!keyField.valid && keyField.touched) || (!pathField.valid && pathField.touched)}>
+              {parameter.name}
+            </Label>
+            <Label>{t('in-events:vault')}</Label>
+          </Row>
+          <Label hasError={!pathField.valid && pathField.touched}>{t('in-events:secretPath')}</Label>
+          <Input value={pathField.value} onChange={onChange(0)} hasError={!pathField.valid && pathField.touched} />
+          <TouchedMessages field={pathField} className={locals.subErrorTextFormField} />
+          <Spacer vertical="small" />
+          <Label hasError={!keyField.valid && keyField.touched}>{t('in-events:secretKey')}</Label>
+          <Input value={keyField.value} onChange={onChange(1)} hasError={!keyField.valid && keyField.touched} />
+          <TouchedMessages field={keyField} className={locals.subErrorTextFormField} />
+        </FormGroup>
+      )}
+    </>
+  );
+}
+
+function StaticParameterInput({ parameter, form, setForm }: ParameterInputParams) {
+  const parametersForm = form?.get('parameters') as MapForm | undefined;
+  const parameterField = parametersForm?.get(parameter.label!) as Field<string> | undefined;
+
+  return (
+    <>
+      {parameterField && (
+        <FormGroup key={`${parameter.label}-input`}>
+          <Row withoutSideMargin className={locals.justifyContent}>
+            <Label htmlFor={parameter.name} hasError={!parameterField.valid && parameterField.touched}>
+              {parameter.required ? parameter.name : t('in-events:optional', { name: parameter.name })}
+            </Label>
+            <Label>{t('in-events:static')}</Label>
+          </Row>
+          <Input
+            id={`${parameter.label}-input`}
+            value={parameterField.value}
+            placeholder={t('in-events:enterParameterValue')}
+            onChange={e => {
+              const updatedForm = form?.updateIn(['parameters', parameter.label!], field =>
+                (field as Field<string>).setValue(e.target.value).setTouched(true)
+              );
+              setForm(updatedForm);
+            }}
+            hasError={!parameterField.valid && parameterField.touched}
+          />
+          <TouchedMessages field={parameterField} className={locals.subErrorTextFormField} />
+        </FormGroup>
+      )}
+    </>
+  );
+}

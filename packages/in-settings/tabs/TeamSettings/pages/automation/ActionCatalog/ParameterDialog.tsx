@@ -195,7 +195,7 @@ export default function ParameterDialog({ form, onChange, idToEdit }: ParameterD
               </FormGroup>
               <FormGroup>
                 <Label htmlFor="parameter-value" hasError={valueRequiredButEmpty && value.touched}>
-                  {t('in-settings:tabs.value')}
+                  {t('in-settings:tabs.defaultValue')}
                 </Label>
                 <Input
                   id="parameter-value"

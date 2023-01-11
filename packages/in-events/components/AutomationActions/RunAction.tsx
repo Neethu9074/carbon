@@ -14,8 +14,7 @@ import {
   getInterpreterFromFields,
   getScriptFromFields,
   isScript,
-  isWebhook,
-  SCRIPT_TYPE
+  isWebhook
 } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import RunActionContent, { getWebhookFields } from 'in-events/components/AutomationActions/RunActionContent';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
@@ -32,29 +31,6 @@ import Dialog from 'in-components/Dialog/Dialog';
 import { t } from 'in-i18n';
 
 import locals from './RunAction.mless';
-
-function useAgentSnapShots({
-  action,
-  form,
-  volatileId,
-  setForm
-}: {
-  action: Action;
-  form: MapForm | undefined;
-  volatileId: VolatileId;
-  setForm: React.Dispatch<React.SetStateAction<MapForm | undefined>>;
-}) {
-  const timeConfig = useTimeConfig();
-  const query =
-    action.type === SCRIPT_TYPE ? 'entity.agent.capability:action-script' : 'entity.agent.capability:action-http';
-  const agentSnapShots = useObservable(() => getAgentSnapshotsInTimeframe({ timeConfig, query }), [timeConfig]);
-  useEffect(() => {
-    if (agentSnapShots && !form) {
-      setForm(createForm(volatileId, agentSnapShots, action));
-    }
-  }, [agentSnapShots, form, volatileId, action, setForm]);
-  return agentSnapShots;
-}
 
 interface RunActionProps {
   volatileId: VolatileId;
@@ -123,15 +99,30 @@ export default function RunAction({ action, volatileId, event, test }: RunAction
   );
 }
 
-interface OnSaveParams {
+interface UseAgentSnapShotsParams extends Pick<RunActionProps, 'action' | 'volatileId'> {
+  form: MapForm | undefined;
+  setForm: React.Dispatch<React.SetStateAction<MapForm | undefined>>;
+}
+
+function useAgentSnapShots({ action, form, volatileId, setForm }: UseAgentSnapShotsParams) {
+  const timeConfig = useTimeConfig();
+  const query = isScript(action.type) ? 'entity.agent.capability:action-script' : 'entity.agent.capability:action-http';
+  const agentSnapShots = useObservable(() => getAgentSnapshotsInTimeframe({ timeConfig, query }), [timeConfig]);
+  useEffect(() => {
+    if (agentSnapShots && !form) {
+      setForm(createForm({ volatileId, agentSnapShots, action }));
+    }
+  }, [agentSnapShots, form, volatileId, action, setForm]);
+  return agentSnapShots;
+}
+
+interface OnSaveParams extends Pick<RunActionProps, 'action' | 'event'> {
   form: MapForm | undefined;
   setForm: React.Dispatch<React.SetStateAction<MapForm | undefined>>;
   setIsSaving: React.Dispatch<React.SetStateAction<boolean>>;
-  action: Action;
   agentSnapShots: OUT | null | undefined;
   setError: React.Dispatch<React.SetStateAction<string>>;
   setActionInstanceId: React.Dispatch<React.SetStateAction<string>>;
-  event?: Event;
   actionName: string;
 }
 
@@ -159,7 +150,7 @@ function onSave({
   const parameters = form?.get('parameters') as MapForm;
 
   const inputParameters = parameters.reduce<ActionParameter[]>((acc, parameter, key) => {
-    const parameterDefinition = action.inputParameters?.find(p => key === p.name);
+    const parameterDefinition = action.inputParameters?.find(p => key === p.label);
     const name = parameterDefinition?.label ?? '';
     const encoding = 'ascii';
     if (parameterDefinition?.type === 'vault') {
@@ -242,7 +233,10 @@ function RunActionFooter({ error, actionInstanceId, isSaving, form, onSave }: Ru
   );
 }
 
-const createForm = (volatileId: VolatileId, agentSnapShots: OUT, action: Action) => {
+interface CreateFormParams extends Pick<RunActionProps, 'volatileId' | 'action'> {
+  agentSnapShots: OUT;
+}
+function createForm({ volatileId, agentSnapShots, action }: CreateFormParams) {
   const defaultValue =
     agentSnapShots?.data?.online?.find(agent => agent.volatileId?.host_id === volatileId.host_id)?.volatileId
       ?.host_id ?? '';
@@ -271,7 +265,7 @@ const createForm = (volatileId: VolatileId, agentSnapShots: OUT, action: Action)
             })(parameter?.value ?? '{}');
             return {
               ...acc,
-              [parameter.name]: createListForm({
+              [parameter.label!]: createListForm({
                 items: [
                   createField({
                     value: parsedVaultValue?.secretPath ?? '',
@@ -287,7 +281,7 @@ const createForm = (volatileId: VolatileId, agentSnapShots: OUT, action: Action)
           }
           return {
             ...acc,
-            [parameter.name]: createField({
+            [parameter.label!]: createField({
               value: parameter.value ?? '',
               validator: parameter.required ? notBlankValidator : undefined
             })
@@ -295,4 +289,4 @@ const createForm = (volatileId: VolatileId, agentSnapShots: OUT, action: Action)
         }, {})
       })
     );
-};
+}
