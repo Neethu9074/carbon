@@ -16,6 +16,7 @@ import ParameterDialog from 'in-settings/tabs/TeamSettings/pages/automation/Acti
 import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import Label from 'in-components/form/Label/Label';
 import { t } from 'in-i18n';
 
 interface ParametersTableProps {
@@ -92,6 +93,7 @@ export default function ParametersTable({ form, setForm, onChange }: ParametersT
       data={parameters}
       form={form}
       formKey="parameters"
+      leftHeader={<Label>{t('in-settings:tabs.parameters')}</Label>}
       setForm={setForm}
       customAddRow={() => {
         addActiveDialog(<ParameterDialog form={form} onChange={onChange} />);
