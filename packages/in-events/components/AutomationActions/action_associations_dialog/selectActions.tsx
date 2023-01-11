@@ -68,6 +68,7 @@ export default function SelectActions({
   const selectedActions = (form.get('actionIds') as Field<string[]>)?.value ?? [];
   const eventName: string = eventDetails.name;
   const eventDescription: string = eventDetails.description;
+
   const getSelectedActionsForEvent = (selectedActions: string[]) => {
     if (selectedActions.length === 0) {
       return (alwaysEmptyArray as unknown) as Observable<Action[]>;
@@ -85,6 +86,7 @@ export default function SelectActions({
         noDataMessage={t('in-settings:tabs.noActionsSelected')}
         loadEntities={() => getSelectedActionsForEvent(selectedActions)}
         tableActions={actionSelectionTableActions(form, setForm)}
+        pageSize={numberOfActionChannelListRows}
         rightHeader={
           <Button
             className={locals.selectButton}
@@ -143,6 +145,7 @@ function SelectListDialogContentView({
       return (
         <ActionTable
           {...props}
+          pageSize={numberOfActionChannelListRows}
           loadEntities={() => getAllActionsWithAISuggestions(eventName, eventDescription)}
           scored
         />
