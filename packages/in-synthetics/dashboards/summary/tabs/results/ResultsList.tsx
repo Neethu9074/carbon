@@ -7,10 +7,18 @@ import { useLocation } from 'react-router';
 import { get } from 'lodash';
 import React from 'react';
 
-import { OrderDirection, TagFilter, TestResultListItem, TimeConfig } from '@instana/types';
+import { OrderDirection, TagFilter, TagFilterExpression, TestResultListItem, TimeConfig } from '@instana/types';
 import { formatDateTime, fromNow } from '@instana/format-date';
 import { t } from '@instana/i18n-react';
 
+import {
+  ResultsCurrentState,
+  ResultsFilterState,
+  resultsFilterUrlStateDefinition,
+  resultsMatrixPrefix,
+  resultsPathSegment,
+  TestResponse
+} from 'in-synthetics/utils/constants';
 // @ts-expect-error Could not find declaration type
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 // @ts-expect-error Could not find declaration type
@@ -19,6 +27,7 @@ import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/Sever
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { bytesTwoDecimalPlaces, timeByMillisZeroDecimalPlaces } from 'in-services/formatters/number';
 import { syntheticsDashboard, syntheticDetailsPath } from 'in-synthetics/navigation/paths';
+import ResultFilters from 'in-synthetics/dashboards/summary/tabs/results/ResultFilters';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { CONTAINS, EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
@@ -26,14 +35,12 @@ import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import buildLocationsMap from 'in-synthetics/utils/buildLocationsMap';
-import { TestResponse } from 'in-synthetics/utils/constants';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Footer from 'in-components/Footer/Footer';
+import useUrlState from 'in-hooks/useUrlState';
 
 import locals from 'in-synthetics/dashboards/summary/tabs/results/ResultsList.mless';
 
-const pathSegment = '/results';
-const matrixPrefix = 'result.';
 const metrics = ['start_time', 'location_id', 'response_time', 'response_size', 'status', 'retries'];
 let testId = '';
 let locationsMap = new Map<string, string>();
@@ -135,6 +142,14 @@ const columnDefinitions = [
   }
 ];
 
+const urlStateDefinition = {
+  bind: resultsFilterUrlStateDefinition.bind,
+  reducer: (prevState: ResultsFilterState, { status, locationLabels }: ResultsCurrentState) => ({
+    status: status || prevState.status,
+    locationLabels: locationLabels || prevState.locationLabels
+  })
+};
+
 const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({
     columnDefinitions,
@@ -145,8 +160,8 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   columnDefinitions,
   defaultOrderBy: 'response_time',
   defaultOrderDirection: 'DESC',
-  pathSegment,
-  matrixPrefix
+  resultsPathSegment,
+  resultsMatrixPrefix
 });
 
 interface ResultListProps {
@@ -165,12 +180,21 @@ export default function ResultsList({ test }: ResultListProps) {
   testId = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
   testType = test.data?.configuration?.syntheticType || '';
 
+  const [{ status, locationLabels }, setFilter] = useUrlState(urlStateDefinition);
+
+  const rightHeader = (
+    <ResultFilters result={test} setFilter={setFilter} status={status} locationLabels={locationLabels} />
+  );
+
   return (
     <>
       <ServerTableWithUrlState
         get={getSynthTableData}
         timeConfig={timeConfig}
         cardTitle={t('in-synthetics:dashboard.resultsListPage.title')}
+        rightHeader={rightHeader}
+        status={status}
+        locationLabels={locationLabels}
       />
       <Footer />
     </>
@@ -184,6 +208,8 @@ type GetList = {
   page: number;
   pageSize: number;
   query: string;
+  status?: string[];
+  locationLabels?: string[];
 };
 
 function getSynthTableData({
@@ -192,7 +218,9 @@ function getSynthTableData({
   orderDirection = 'DESC',
   page = 1,
   pageSize = 20,
-  query = ''
+  query = '',
+  status = [],
+  locationLabels = []
 }: GetList) {
   let baseTagFilters: TagFilter[] = [
     {
@@ -203,6 +231,14 @@ function getSynthTableData({
       type: 'TAG_FILTER'
     }
   ];
+
+  let tagFilterExpression: TagFilterExpression = {
+    elements: [],
+    logicalOperator: 'OR',
+    type: 'EXPRESSION'
+  };
+
+  let locationLabelTagFilters: TagFilter[] = [];
 
   //location_label => location display name
   if (query && query.length > 0) {
@@ -224,6 +260,33 @@ function getSynthTableData({
     ];
   }
 
+  if (status.length !== 0 && Array.isArray(status)) {
+    baseTagFilters.push({
+      value: parseInt(status[0]),
+      name: 'status',
+      operator: EQUALS,
+      entity: NOT_APPLICABLE,
+      type: 'TAG_FILTER'
+    });
+  }
+
+  if (locationLabels.length !== 0 && Array.isArray(locationLabels)) {
+    locationLabels.forEach(locationLabel => {
+      locationLabelTagFilters.push({
+        stringValue: locationLabel,
+        name: 'location_label',
+        operator: EQUALS,
+        entity: NOT_APPLICABLE,
+        type: 'TAG_FILTER'
+      });
+    });
+    tagFilterExpression = {
+      elements: locationLabelTagFilters,
+      logicalOperator: 'OR',
+      type: 'EXPRESSION'
+    };
+  }
+
   return getTestResultList({
     pagination: {
       page,
@@ -237,7 +300,8 @@ function getSynthTableData({
       includeSyntheticCalls: false,
       useLongTermDataOnly: false
     },
-    tagFilters: baseTagFilters
+    tagFilters: baseTagFilters,
+    tagFilterExpression
   });
 }
 

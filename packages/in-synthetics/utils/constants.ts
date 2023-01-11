@@ -26,6 +26,9 @@ import { Options } from 'in-hooks/useUrlState';
 export const pathSegment = '/syntheticTests';
 export const matrixPrefix = '';
 export const getOperation = 'GET';
+export const resultsPathSegment = '/results';
+export const resultsMatrixPrefix = 'result.';
+export const failureValue = '0';
 export const defaultPage = 'page_x0';
 
 export const dummyLocations = {
@@ -307,3 +310,39 @@ export const filterUrlStateDefinition = {
 export interface PresenterProps extends FilterState {
   result: Result<PaginatedResult<TestResultListItem>>;
 }
+
+export interface ResultsFilterState {
+  status: string[];
+  locationLabels: string[];
+}
+
+export interface ResultsFilterSectionProps extends ResultsFilterState {
+  setFilter: (x: Object) => void;
+  result: TestResponse;
+}
+
+export type ResultsCurrentState = {
+  status?: string[];
+  locationLabels?: string[];
+};
+
+export const resultsFilterUrlStateDefinition = {
+  bind: [
+    {
+      path: resultsPathSegment,
+      name: 'status',
+      as: 'status',
+      initialState: [],
+      parser: buildJsonParser([]),
+      serializer: buildJsonSerializer()
+    },
+    {
+      path: resultsPathSegment,
+      name: 'locationLabels',
+      as: 'locationLabels',
+      initialState: [],
+      parser: buildJsonParser([]),
+      serializer: buildJsonSerializer()
+    }
+  ]
+} as Options<UrlState>;

@@ -202,7 +202,10 @@
       "responseTimeColumn": "Response Time",
       "responseSizeColumn": "Response Size",
       "retriesColumn": "Retry Count",
-      "title": "Results"
+      "title": "Results",
+      "locationLabel": "Location",
+      "failures": "Failures",
+      "status": "Status"
     },
     "detailsPage": {
       "timeLineWidget": "Timeline",
