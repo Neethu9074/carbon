@@ -7,7 +7,6 @@
 import { MapForm, Field } from 'formalistic';
 import React from 'react';
 
-// import locals from './DummyServerTablePresenterConsumer.mless';
 import { Parameter } from '@instana/types';
 import { Link } from '@instana/components';
 
