@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { Dispatch, SetStateAction } from 'react';
-
 import {
   PaginatedResult,
   Progress,
@@ -174,7 +172,6 @@ export interface FilterProps {
   filter: { query: string; type: string };
   setFilter: (a: { query: string; type: string }) => void;
   isBrowserType?: boolean;
-  setExpanded?: Dispatch<SetStateAction<string>>;
 }
 
 export interface PoPInstallationPropertiesResponse {

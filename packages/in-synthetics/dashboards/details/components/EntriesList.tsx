@@ -20,11 +20,11 @@ import locals from 'in-synthetics/dashboards/details/components/EntriesList.mles
 interface EntriesListProps {
   entries: TestResultEntry[];
   pages: { [index: string]: any };
-  expanded: string;
-  setExpanded: Dispatch<SetStateAction<string>>;
+  pageRefExpanded: string;
+  setPageRefExpanded: Dispatch<SetStateAction<string>>;
 }
 
-export default function EntriesList({ entries, pages, expanded, setExpanded }: EntriesListProps) {
+export default function EntriesList({ entries, pages, pageRefExpanded, setPageRefExpanded }: EntriesListProps) {
   const render: JSX.Element[] = [];
   const groupByPageRef = entries.reduce((group: any, entry: TestResultEntry) => {
     const { pageref } = entry;
@@ -49,8 +49,8 @@ export default function EntriesList({ entries, pages, expanded, setExpanded }: E
         key={key}
         entries={groupByPageRef[key] != undefined ? groupByPageRef[key] : []}
         id={key}
-        expanded={expanded}
-        setExpanded={setExpanded}
+        pageRefExpanded={pageRefExpanded}
+        setPageRefExpanded={setPageRefExpanded}
         values={value}
       />
     );
@@ -62,22 +62,22 @@ export default function EntriesList({ entries, pages, expanded, setExpanded }: E
 interface EntryByPageProps {
   entries: TestResultEntry[];
   id: string;
-  expanded: string;
-  setExpanded: Dispatch<SetStateAction<string>>;
+  pageRefExpanded: string;
+  setPageRefExpanded: Dispatch<SetStateAction<string>>;
   values: { [index: string]: any };
 }
 
-function EntryByPage({ entries, id, expanded, setExpanded, values }: EntryByPageProps) {
+function EntryByPage({ entries, id, pageRefExpanded, setPageRefExpanded, values }: EntryByPageProps) {
   return (
     <div className={locals.group}>
       <div
         className={locals.header}
         {...toInteractiveElement({
-          ariaLabel: expanded
+          ariaLabel: pageRefExpanded
             ? t('in-synthetics:dashboard.detailsPage.showLessSubDetails')
             : t('in-synthetics:dashboard.detailsPage.showMoreSubDetails'),
           onDefaultInteraction: () =>
-            setExpanded((prev: string) => {
+            setPageRefExpanded((prev: string) => {
               return prev === id ? '' : id;
             })
         })}
@@ -104,10 +104,10 @@ function EntryByPage({ entries, id, expanded, setExpanded, values }: EntryByPage
           </Fragment>
         </div>
         <div className={locals.right}>
-          <SvgIcon type={expanded === id ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'} size="s" />
+          <SvgIcon type={pageRefExpanded === id ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'} size="s" />
         </div>
       </div>
-      {expanded === id && (
+      {pageRefExpanded === id && (
         <div className={locals.entries}>
           {entries.map((entry: TestResultEntry, i: number) => (
             <Entry key={i} entry={entry} />
