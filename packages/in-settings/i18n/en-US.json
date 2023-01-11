@@ -950,7 +950,6 @@
     "http": "HTTP",
     "addParameter": "Add Parameter",
     "noParametersConfigured": "No Parameters Configured",
-    "secured": "Secured",
     "required": "Required",
     "hiddenParam": "Hidden",
     "valueType": "Value Type",
