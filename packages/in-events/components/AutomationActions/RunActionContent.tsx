@@ -37,6 +37,7 @@ import { close } from 'in-components/DialogPresenter/store';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import Select from 'in-components/form/Select/Select';
 import { Col } from 'in-components/layout/Grid/Grid';
+import { Row } from 'in-components/layout/Grid/Grid';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Label from 'in-components/form/Label/Label';
 import Input from 'in-components/form/Input/Input';
@@ -106,7 +107,16 @@ export default function RunActionContent({
         <Typography variant="body-small">{t('in-events:actionCannotBeUndone')}</Typography>
       </div>
       <Spacer horizontal="normal" />
-      <ParameterInput action={action} form={form} setForm={setForm} />
+      <Col style={{ overflowY: 'scroll', maxHeight: '25rem' }} lg={4}>
+        <DescriptionList>
+          <DescriptionItem
+            className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+            title={t('in-events:parameters')}
+          >
+            <ParameterInput action={action} form={form} setForm={setForm} />
+          </DescriptionItem>
+        </DescriptionList>
+      </Col>
     </HorizontalFlexWrapper>
   );
 }
@@ -267,9 +277,14 @@ const ParameterInput = ({ action, form, setForm }: Pick<RunActionContentProps, '
             keyField &&
             pathField && (
               <FormGroup key={`${parameter.label}-input`}>
-                <Label hasError={(!keyField.valid && keyField.touched) || (!pathField.valid && pathField.touched)}>
-                  {parameter.name}
-                </Label>
+                <Row withoutSideMargin className={locals.justifyContent}>
+                  <Label hasError={(!keyField.valid && keyField.touched) || (!pathField.valid && pathField.touched)}>
+                    {parameter.name}
+                  </Label>
+                  <Label>{t('in-events:vault')}</Label>
+                </Row>
+
+                <Label hasError={!pathField.valid && pathField.touched}>Secret Path</Label>
                 <Input
                   value={pathField.value}
                   onChange={onChange(0)}
@@ -277,6 +292,7 @@ const ParameterInput = ({ action, form, setForm }: Pick<RunActionContentProps, '
                 />
                 <TouchedMessages field={pathField} className={locals.subErrorTextFormField} />
                 <Spacer vertical="small" />
+                <Label hasError={!keyField.valid && keyField.touched}>Secret Key</Label>
                 <Input value={keyField.value} onChange={onChange(1)} hasError={!keyField.valid && keyField.touched} />
                 <TouchedMessages field={keyField} className={locals.subErrorTextFormField} />
               </FormGroup>
@@ -288,9 +304,12 @@ const ParameterInput = ({ action, form, setForm }: Pick<RunActionContentProps, '
           <>
             {parameterField && (
               <FormGroup key={`${parameter.label}-input`}>
-                <Label htmlFor={parameter.name} hasError={!parameterField.valid && parameterField.touched}>
-                  {parameter.name}
-                </Label>
+                <Row withoutSideMargin className={locals.justifyContent}>
+                  <Label htmlFor={parameter.name} hasError={!parameterField.valid && parameterField.touched}>
+                    {parameter.required ? parameter.name : t('in-events:optional', { name: parameter.name })}
+                  </Label>
+                  <Label>{t('in-events:static')}</Label>
+                </Row>
                 <Input
                   id={`${parameter.name}-input`}
                   value={parameterField.value}
