@@ -211,15 +211,10 @@ export function createAction(
   };
 }
 
-export interface ActionExecutionParameter {
-  name: string;
-  value: string;
-}
 interface RunActionBaseParams {
   volatileId: VolatileId;
   event: Event | undefined;
   actionName: string;
-  inputParameters: ActionExecutionParameter[];
 }
 
 interface RunScriptActionParams extends RunActionBaseParams {
@@ -247,14 +242,7 @@ function runAction(runActionObservable: Observable<AgentResponse>) {
   );
 }
 
-export function runScriptAction({
-  script,
-  volatileId,
-  event,
-  actionName,
-  interpreter,
-  inputParameters
-}: RunScriptActionParams) {
+export function runScriptAction({ script, volatileId, event, actionName, interpreter }: RunScriptActionParams) {
   return runAction(
     createAgentResponseObservable({
       action: 'action.run',
@@ -266,7 +254,6 @@ export function runScriptAction({
         problemId: event?.problem?.id,
         problemText: event?.problem?.problemText,
         actionName,
-        inputParameters,
         timeout: '300',
         request: [
           {
@@ -302,8 +289,7 @@ export function runWebhookAction({
   host,
   body,
   ignoreCertErrors,
-  header,
-  inputParameters
+  header
 }: RunWebhookActionParams) {
   return runAction(
     createAgentResponseObservable({
@@ -317,7 +303,6 @@ export function runWebhookAction({
         problemText: event?.problem?.problemText,
         actionName,
         timeout: '300',
-        inputParameters,
         request: [
           {
             name: 'method',
