@@ -99,26 +99,39 @@ export const Capabilities = Object.freeze(Object.values(Capability));
 
 export type PermissionsUnion = AreaPermissionType | CapabilityType | LimitedAccessScopeType;
 
-const permissions = window.instana.permissions;
+const permissions = window.instana?.permissions ?? [];
 
 export const hasRestrictedAccess = role?.restrictedAccess ?? false;
 
-function hasPermission(permission: string): boolean {
-  return !hasRestrictedAccess || permissions.indexOf(permission) > -1;
+/**
+ * Verifies if the current user has access with the given scope and access
+ * @param limitedScope if unlimited, then user has always access
+ * @param accessPermission if limitedScope then requires to accessPermission
+ * @return true if user has permission
+ */
+function hasPermission(limitedScope: string, accessPermission: string): boolean {
+  if (permissions.indexOf(limitedScope) === -1) return true;
+  return permissions.indexOf(accessPermission) !== -1;
 }
 
-export const hasApplicationsAccess = hasPermission(ACCESS_APPLICATIONS);
-export const hasKubernetesAccess = hasPermission(ACCESS_KUBERNETES);
-export const hasWebsitesAccess = hasPermission(ACCESS_WEBSITES);
-export const hasMobileAppsAccess = hasPermission(ACCESS_MOBILE_APPS);
+export const hasApplicationsAccess = hasPermission(LimitedAccessScope.LIMITED_APPLICATIONS_SCOPE, ACCESS_APPLICATIONS);
+export const hasKubernetesAccess = hasPermission(LimitedAccessScope.LIMITED_KUBERNETES_SCOPE, ACCESS_KUBERNETES);
+export const hasWebsitesAccess = hasPermission(LimitedAccessScope.LIMITED_WEBSITES_SCOPE, ACCESS_WEBSITES);
+export const hasMobileAppsAccess = hasPermission(LimitedAccessScope.LIMITED_MOBILE_APPS_SCOPE, ACCESS_MOBILE_APPS);
 export const hasAnalyzeAccess = hasApplicationsAccess || hasWebsitesAccess || hasMobileAppsAccess;
-export const hasInfrastructureAccess = hasPermission(ACCESS_INFRASTRUCTURE);
-export const hasSyntheticsAccess = hasPermission(ACCESS_SYNTHETICS) && syntheticsEnabled;
-export const hasVSphereAccess = hasPermission(ACCESS_VSPHERE) && vsphereEnabled;
-export const hasPHMCAccess = hasPermission(ACCESS_PHMC) && phmcEnabled;
-export const hasZHMCAccess = hasPermission(ACCESS_ZHMC) && zhmcEnabled;
-export const hasPCFAccess = hasPermission(ACCESS_PCF) && pcfEnabled;
-export const hasOpenStackAccess = hasPermission(ACCESS_OPENSTACK) && openstackEnabled;
+export const hasInfrastructureAccess = hasPermission(
+  LimitedAccessScope.LIMITED_INFRASTRUCTURE_SCOPE,
+  ACCESS_INFRASTRUCTURE
+);
+export const hasSyntheticsAccess =
+  hasPermission(LimitedAccessScope.LIMITED_SYNTHETICS_SCOPE, ACCESS_SYNTHETICS) && syntheticsEnabled;
+export const hasVSphereAccess =
+  hasPermission(LimitedAccessScope.LIMITED_VSPHERE_SCOPE, ACCESS_VSPHERE) && vsphereEnabled;
+export const hasPHMCAccess = hasPermission(LimitedAccessScope.LIMITED_PHMC_SCOPE, ACCESS_PHMC) && phmcEnabled;
+export const hasZHMCAccess = hasPermission(LimitedAccessScope.LIMITED_ZHMC_SCOPE, ACCESS_ZHMC) && zhmcEnabled;
+export const hasPCFAccess = hasPermission(LimitedAccessScope.LIMITED_PCF_SCOPE, ACCESS_PCF) && pcfEnabled;
+export const hasOpenStackAccess =
+  hasPermission(LimitedAccessScope.LIMITED_OPENSTACK_SCOPE, ACCESS_OPENSTACK) && openstackEnabled;
 export const hasAPlatformAccess =
   hasVSphereAccess || hasPHMCAccess || hasZHMCAccess || hasPCFAccess || hasOpenStackAccess || hasKubernetesAccess;
 export const hasEventsAccess =
