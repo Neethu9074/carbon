@@ -954,7 +954,8 @@
     "hiddenParam": "Hidden",
     "valueType": "Value Type",
     "displayName": "Display Name",
-    "defaultValue": "Default Value (optional)",
+    "defaultValue": "Default Value",
+    "defaultValueOptional": "Default Value (optional)",
     "test": "Test",
     "serviceNowUrl": "ServiceNow URL",
     "serviceNow": "ServiceNow",
@@ -964,11 +965,12 @@
     "hidePasswordTooltip": "Hide password",
     "secretKey": "Secret Key",
     "secretPath": "Secret Path",
-    "validName": "Parameter names may only contain a-z, A-Z, _, 0-9 and may not begin with a number.",
+    "validName": "Parameter name is not valid: check to make sure you're using only valid characters and that its unique.",
     "uniqueName": "Parameter names must be unique.",
     "static": "Static",
     "dynamic": "Dynamic",
-    "vault": "Vault"
+    "vault": "Vault",
+    "parameterNameHelp": "Parameter names may only contain a-z, A-Z, _, 0-9 and may not begin with a number."
   },
   "languageSelection": {
     "language": "Language",
