@@ -147,8 +147,8 @@ function onSave({
   const parameters = form?.get('parameters') as MapForm;
 
   const inputParameters = parameters.reduce<ActionExecutionParameter[]>((acc, parameter, key) => {
-    const parameterDefinition = action.inputParameters?.find(p => key === p.label);
-    const name = parameterDefinition?.label ?? '';
+    const parameterDefinition = action.inputParameters?.find(p => key === p.name);
+    const name = parameterDefinition?.name ?? '';
     if (parameterDefinition?.type === 'vault') {
       const pathField = (parameter as ListForm).get(0) as Field<string>;
       const keyField = (parameter as ListForm).get(1) as Field<string>;
@@ -264,7 +264,7 @@ function createForm({ volatileId, agentSnapShots, action }: CreateFormParams) {
             })(parameter?.value ?? '{}');
             return {
               ...acc,
-              [parameter.label!]: createListForm({
+              [parameter.name]: createListForm({
                 items: [
                   createField({
                     value: parsedVaultValue?.secretPath ?? '',
@@ -280,7 +280,7 @@ function createForm({ volatileId, agentSnapShots, action }: CreateFormParams) {
           }
           return {
             ...acc,
-            [parameter.label!]: createField({
+            [parameter.name]: createField({
               value: parameter.value ?? '',
               validator: parameter.required ? notBlankValidator : undefined
             })

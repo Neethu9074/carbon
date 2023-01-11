@@ -109,9 +109,7 @@ export function createActionFormDefinition(action: ActionFormEntity, _isCreate: 
     .put(
       'parameters',
       createField({
-        value: mappedParams,
-        // TODO: add validator for parameters
-        validator: notBlankValidator
+        value: mappedParams
       })
     );
   if (isDocLink(action.type)) form = putDocLinkField(form, action);

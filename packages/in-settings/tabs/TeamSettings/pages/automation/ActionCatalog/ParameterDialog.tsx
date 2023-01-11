@@ -71,22 +71,8 @@ export default function ParameterDialog({ form, onChange, idToEdit }: ParameterD
           }
         >
           <FormGroup>
-            <Label htmlFor="parameter-name" hasError={!name.valid && name.touched}>
-              {t('in-settings:tabs.displayName')}
-            </Label>
-            <Input
-              id="parameter-name"
-              type="text"
-              value={name.value}
-              onChange={e => onParameterChange('name', e.target.value, setParameterForm, parameter)}
-              hasError={!name.valid && name.touched}
-              maxLength={256}
-            />
-            <TouchedMessages field={name} className={locals.subErrorTextFormField} />
-          </FormGroup>
-          <FormGroup>
             <Label htmlFor="parameter-label" hasError={!label.valid && label.touched}>
-              {t('in-settings:tabs.name')}
+              {t('in-settings:tabs.displayName')}
             </Label>
             <Input
               id="parameter-label"
@@ -97,6 +83,20 @@ export default function ParameterDialog({ form, onChange, idToEdit }: ParameterD
               maxLength={256}
             />
             <TouchedMessages field={label} className={locals.subErrorTextFormField} />
+          </FormGroup>
+          <FormGroup>
+            <Label htmlFor="parameter-name" hasError={!name.valid && name.touched}>
+              {t('in-settings:tabs.name')}
+            </Label>
+            <Input
+              id="parameter-name"
+              type="text"
+              value={name.value}
+              onChange={e => onParameterChange('name', e.target.value, setParameterForm, parameter)}
+              hasError={!name.valid && name.touched}
+              maxLength={256}
+            />
+            <TouchedMessages field={name} className={locals.subErrorTextFormField} />
           </FormGroup>
           <FormGroup>
             <Label htmlFor="parameter-description" hasError={!description.valid && description.touched}>
@@ -288,16 +288,16 @@ function createForm({ parameter, form, idToEdit }: CreateFormParams) {
       'name',
       createField({
         value: parameter?.value?.name ?? '',
-        validator: notBlankValidator
+        validator: composeAndShortCircuitOnError(notBlankValidator, validName, (value: string) =>
+          uniqueName((form.get('parameters') as Field<MappedParameter[]>).value, value, idToEdit ?? '')
+        )
       })
     )
     .put(
       'label',
       createField({
         value: parameter?.value?.label ?? '',
-        validator: composeAndShortCircuitOnError(notBlankValidator, validName, (value: string) =>
-          uniqueName((form.get('parameters') as Field<MappedParameter[]>).value, value, idToEdit ?? '')
-        )
+        validator: notBlankValidator
       })
     )
     .put(
@@ -386,7 +386,7 @@ function validName(value: string): ValidationResult {
 }
 
 function uniqueName(parameters: MappedParameter[], value: string, id: string): ValidationResult {
-  if (parameters.some(parameter => parameter.value.label === value && parameter.id !== id)) {
+  if (parameters.some(parameter => parameter.value.name === value && parameter.id !== id)) {
     return [
       {
         severity: 'error',

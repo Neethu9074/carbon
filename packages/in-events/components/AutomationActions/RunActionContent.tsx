@@ -262,10 +262,10 @@ function ParameterInput({ action, form, setForm }: Pick<RunActionContentProps, '
       {inputParameters?.map(parameter => {
         if (parameter.hidden) return;
         if (parameter.type === 'vault') {
-          return <VaultParameterInput key={parameter.label} form={form} parameter={parameter} setForm={setForm} />;
+          return <VaultParameterInput key={parameter.name} form={form} parameter={parameter} setForm={setForm} />;
         }
         // Will need to handle rendering dynamic parameters here
-        return <StaticParameterInput key={parameter.label} form={form} parameter={parameter} setForm={setForm} />;
+        return <StaticParameterInput key={parameter.name} form={form} parameter={parameter} setForm={setForm} />;
       })}
     </Col>
   );
@@ -277,12 +277,12 @@ interface ParameterInputParams extends Pick<RunActionContentProps, 'form' | 'set
 
 function VaultParameterInput({ form, parameter, setForm }: ParameterInputParams) {
   const parametersForm = form?.get('parameters') as MapForm | undefined;
-  const parameterField = parametersForm?.get(parameter.label!) as ListForm | undefined;
+  const parameterField = parametersForm?.get(parameter.name!) as ListForm | undefined;
   const pathField = parameterField?.get(0) as Field<string> | undefined;
   const keyField = parameterField?.get(1) as Field<string> | undefined;
 
   const onChange = (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    const updatedForm = form?.updateIn(['parameters', parameter.label!], field =>
+    const updatedForm = form?.updateIn(['parameters', parameter.name], field =>
       (field as ListForm).set(
         index,
         ((field as ListForm).get(index) as Field<string>).setValue(e.target.value).setTouched(true)
@@ -294,7 +294,7 @@ function VaultParameterInput({ form, parameter, setForm }: ParameterInputParams)
   return (
     <>
       {keyField && pathField && (
-        <FormGroup key={`${parameter.label}-input`}>
+        <FormGroup key={`${parameter.name}-input`}>
           <Row withoutSideMargin className={locals.justifyContent}>
             <Label hasError={(!keyField.valid && keyField.touched) || (!pathField.valid && pathField.touched)}>
               {parameter.name}
@@ -316,12 +316,12 @@ function VaultParameterInput({ form, parameter, setForm }: ParameterInputParams)
 
 function StaticParameterInput({ parameter, form, setForm }: ParameterInputParams) {
   const parametersForm = form?.get('parameters') as MapForm | undefined;
-  const parameterField = parametersForm?.get(parameter.label!) as Field<string> | undefined;
+  const parameterField = parametersForm?.get(parameter.name) as Field<string> | undefined;
 
   return (
     <>
       {parameterField && (
-        <FormGroup key={`${parameter.label}-input`}>
+        <FormGroup key={`${parameter.name}-input`}>
           <Row withoutSideMargin className={locals.justifyContent}>
             <Label htmlFor={parameter.name} hasError={!parameterField.valid && parameterField.touched}>
               {parameter.required ? parameter.name : t('in-events:optional', { name: parameter.name })}
@@ -329,11 +329,11 @@ function StaticParameterInput({ parameter, form, setForm }: ParameterInputParams
             <Label>{t('in-events:static')}</Label>
           </Row>
           <Input
-            id={`${parameter.label}-input`}
+            id={`${parameter.name}-input`}
             value={parameterField.value}
             placeholder={t('in-events:enterParameterValue')}
             onChange={e => {
-              const updatedForm = form?.updateIn(['parameters', parameter.label!], field =>
+              const updatedForm = form?.updateIn(['parameters', parameter.name], field =>
                 (field as Field<string>).setValue(e.target.value).setTouched(true)
               );
               setForm(updatedForm);

@@ -43,7 +43,7 @@ const getColumnDefinitions = ({ form, onChange }: Omit<ParametersTableProps, 'se
             addActiveDialog(<ParameterDialog idToEdit={item.id} form={form} onChange={onChange} />);
           }}
         >
-          {item.value.name}
+          {item.value.label}
         </Link>
       );
     }
@@ -53,7 +53,7 @@ const getColumnDefinitions = ({ form, onChange }: Omit<ParametersTableProps, 'se
     sortable: true,
     label: t('in-settings:tabs.name'),
     getContent(item: MappedParameter) {
-      return item.value.label;
+      return item.value.name;
     }
   },
   {
