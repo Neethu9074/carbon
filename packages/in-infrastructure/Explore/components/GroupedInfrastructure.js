@@ -18,6 +18,11 @@ import {
 } from '@instana/components';
 
 import MetricCatalogAndSortingConfigurator from 'in-infrastructure/components/MetricCatalogAndSortingConfigurator/MetricCatalogAndSortingConfigurator';
+import {
+  setMetricColumnUnits,
+  addMetricColumnUnits,
+  formatMetricColumnValue
+} from 'in-infrastructure/Explore/services/MetricColumnUnits';
 import { firstValue, getGranularity, getMetricKey, getSeriesKey } from 'in-infrastructure/Explore/services/metrics';
 import InfrastructureList, { pagesLoaded } from 'in-infrastructure/Explore/components/InfrastructureList';
 import { type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
@@ -299,6 +304,7 @@ function columns({
           const kpi = firstValue(group.metrics[id]);
           const series = group.metrics[getSeriesKey(id)];
           const percentageMetric = mapData(metadata, data => data?.percentageMetric).data;
+          setMetricColumnUnits(id, formatter);
           return (
             <SparkChart
               horizontalMetricValue={(kpi && formatter && formatter(kpi)) || '--'}
@@ -528,12 +534,12 @@ function processData(items, columns) {
       let found = false;
       Object.keys(item.metrics ?? {}).forEach(metric => {
         if (metric === col.getId()) {
-          row[metric] = firstValue(item.metrics[metric]);
+          row[addMetricColumnUnits(metric)] = formatMetricColumnValue(metric, firstValue(item.metrics[metric]));
           found = true;
         }
       });
       if (!found && col.exported) {
-        row[col.getId()] = '-';
+        row[addMetricColumnUnits(col.getId())] = '-';
       }
     });
     csvRows.push(row);

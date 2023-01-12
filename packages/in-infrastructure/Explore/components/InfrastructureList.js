@@ -10,6 +10,11 @@ import { Message } from '@instana/components';
 
 import MetricCatalogAndSortingConfigurator from 'in-infrastructure/components/MetricCatalogAndSortingConfigurator/MetricCatalogAndSortingConfigurator';
 import { trackingProps as metricConfiguratorTrackingProps } from 'in-infrastructure/components/MetricCatalogConfigurator/MetricCatalogConfigurator';
+import {
+  setMetricColumnUnits,
+  addMetricColumnUnits,
+  formatMetricColumnValue
+} from 'in-infrastructure/Explore/services/MetricColumnUnits';
 import { firstValue, getGranularity, getMetricKey, getSeriesKey } from 'in-infrastructure/Explore/services/metrics';
 import { default as MetricLabel } from 'in-infrastructure/Explore/components/MetricLabel';
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
@@ -246,7 +251,7 @@ function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, gran
         const series = item.metrics[getSeriesKey(id)];
         const percentageMetric = mapData(metadata, data => data?.percentageMetric).data;
         const metricValue = getMetricValue(kpi, formatter);
-
+        setMetricColumnUnits(id, formatter);
         return (
           <SparkChart
             horizontalMetricValue={metricValue}
@@ -286,12 +291,12 @@ function processData(items, columns) {
       let found = false;
       Object.keys(item.metrics ?? {}).forEach(metric => {
         if (metric === col.id) {
-          row[metric] = firstValue(item.metrics[metric]);
+          row[addMetricColumnUnits(metric)] = formatMetricColumnValue(metric, firstValue(item.metrics[metric]));
           found = true;
         }
       });
       if (!found && col.id !== 'label') {
-        row[col.id] = '-';
+        row[addMetricColumnUnits(col.id)] = '-';
       }
     });
     csvRows.push(row);
