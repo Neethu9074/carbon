@@ -9,16 +9,16 @@ import { KeyValue, Stack } from '@instana/components';
 
 import { FacetedSearchPresenter } from 'in-logging/analyze/AnalyzeView/components/FacetedSearchPresenter';
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
-import { percentage, number, withSiPrefixOneDecimalPlace } from 'in-services/formatters/number';
+import { number, percentage, withSiPrefixOneDecimalPlace } from 'in-services/formatters/number';
 import { ChartsPresenter } from 'in-logging/analyze/AnalyzeView/components/ChartsPresenter';
+import { logLevelColors } from 'in-logging/analyze/AnalyzeView/components/constants';
 import { Logs } from 'in-logging/analyze/AnalyzeView/components/Logs';
 import getLogGroups from 'in-logging/subscriptions/getLogGroups';
 import GroupedView from 'in-components/AnalyzeView/GroupedView';
-import { GROUP_COLORS } from 'in-components/AnalyzeView/utils';
 import AggregationSymbol from 'in-components/AggregationSymbol';
+import { GROUP_COLORS } from 'in-components/AnalyzeView/utils';
 import { LOG_LEVEL } from 'in-logging/queryBuilder';
 import Tooltip from 'in-components/Tooltip';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 const columnDefinitions = [
@@ -84,15 +84,7 @@ export default function GroupedLogs(props) {
 function getLogGroupColor(item, index, groupBy) {
   if (groupBy?.groupbyTag === LOG_LEVEL) {
     const logLevel = item.label.toLowerCase();
-    if (logLevel === 'error') {
-      return theme.lib.colors.failure;
-    }
-    if (logLevel === 'warn') {
-      return theme.lib.colors.warning;
-    }
-    if (logLevel === 'info') {
-      return theme.lib.colors.lightBlue800;
-    }
+    return logLevelColors[logLevel];
   }
   return GROUP_COLORS[index];
 }
