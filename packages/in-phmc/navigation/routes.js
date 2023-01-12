@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import SharedProcessorPoolDashboard from 'promise-loader?global,phmc!in-phmc/Dashboards/SharedProcessorPool/SharedProcessorPoolDashboard';
 import SystemDashboard from 'promise-loader?global,phmc!in-phmc/Dashboards/Systems/SystemDashboard';
 import PhmcDashboard from 'promise-loader?global,phmc!in-phmc/Dashboards/Phmc/PhmcDashboard';
 import ViosDashboard from 'promise-loader?global,phmc!in-phmc/Dashboards/Vios/ViosDashboard';
@@ -16,6 +17,7 @@ import {
   systemDashboardFullyQualified,
   viosDashboardFullyQualified,
   lparDashboardFullyQualified,
+  sppDashboardFullyQualified,
   ibmp
 } from 'in-phmc/navigation/paths';
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
@@ -36,6 +38,11 @@ export default [
     key="phmcLparDashboard"
     path={lparDashboardFullyQualified}
     children={renderAsyncRouteChildren(LparDashboard)}
+  />,
+  <Route
+    key="phmcSppDashboard"
+    path={sppDashboardFullyQualified}
+    children={renderAsyncRouteChildren(SharedProcessorPoolDashboard)}
   />,
   <Route key="phmcMainView" path={ibmp} children={renderAsyncRouteChildren(PhmcMainView)} />
 ];
