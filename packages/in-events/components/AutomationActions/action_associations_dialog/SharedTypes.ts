@@ -5,6 +5,7 @@
  */
 
 import { ReactNode } from 'react';
+
 export interface MessageType {
   level?: 'warning' | 'error' | undefined;
   message: string;
@@ -18,7 +19,7 @@ export interface BluePrint {
 }
 
 export interface SetSliderStateProps {
-  slideInConfig: { component?: ReactNode; title?: string };
+  slideInConfig?: { component?: ReactNode; title?: string };
   isVisible: boolean;
 }
 export interface EventProps {
