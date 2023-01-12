@@ -40,6 +40,7 @@ export interface MultiMetricKpiCardProps {
   When true, print out the whole value without special formatting
   When false, the numeric value will have a greater font size than the rest, usually the minor
   */
+  timeshift?: number;
   raw?: boolean;
   renderValue?: (value?: any) => ReactNode;
   children?: ReactNode;
@@ -59,6 +60,7 @@ export default function MultiMetricKpiCard({
   actions,
   companionValue,
   raw = false,
+  timeshift,
   renderValue,
   children,
   valuesClassName,
@@ -91,21 +93,35 @@ export default function MultiMetricKpiCard({
   let content;
   if (raw) {
     if (percentage !== null) {
+      var splitFormattedValueUnit = formattedValue.split(' ');
+      var val;
+      var unit;
+      var hasUnitAndVal = splitFormattedValueUnit.length > 1;
       var percentageNumber = percentage.replace('%', '');
-      content = (
-        <span className={classNames(locals.minor, valuesClassName)}>
-          {formattedValue}{' '}
-          <span className={classNames(local.capacity_font, valuesClassName)}>
-            {'(' + Number(percentageNumber).toFixed(1) + '%)'}
+
+      if (hasUnitAndVal) {
+        val = splitFormattedValueUnit[0];
+        unit = splitFormattedValueUnit[1];
+        content = (
+          <span className={classNames(local.minor, valuesClassName)}>
+            {val} <span className={classNames(local.unit, valuesClassName)}>{timeshift === 0 ? unit : ''} </span>
+            <span className={classNames(local.capacity_font, valuesClassName)}>
+              {'(' + Number(percentageNumber).toFixed(1) + '% of cap.)'}
+            </span>
           </span>
-        </span>
-      );
+        );
+      } else {
+        content = (
+          <span className={classNames(local.minor, valuesClassName)}>
+            {formattedValue}{' '}
+            <span className={classNames(local.capacity_font, valuesClassName)}>
+              {'(' + Number(percentageNumber).toFixed(1) + '% of cap.)'}
+            </span>
+          </span>
+        );
+      }
     } else {
-      content = (
-        <span className={classNames(locals.minor, valuesClassName)}>
-          {formattedValue} <span className={classNames(local.capacity_font, valuesClassName)}>{'(-)'}</span>
-        </span>
-      );
+      content = <span className={classNames(locals.minor, valuesClassName)}>{formattedValue}</span>;
     }
   } else if (children) {
     content = <span className={classNames(locals.minor, valuesClassName)}>{children}</span>;
@@ -123,7 +139,6 @@ export default function MultiMetricKpiCard({
         minor = match[2];
       }
     }
-
     content = (
       <>
         <span className={locals.major} style={{ color: color }}>
