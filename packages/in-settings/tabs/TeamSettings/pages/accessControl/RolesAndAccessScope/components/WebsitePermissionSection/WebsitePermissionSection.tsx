@@ -16,7 +16,7 @@ import {
   updatePermissionSetForLimitableProductArea
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import {
-  AreaRoleType,
+  AreaRoleWithCustomType,
   ProductArea,
   ScopedPermissionItem,
   ScopedPermissionItems,
@@ -55,8 +55,8 @@ export default function WebsitePermissionSection({
     ? getScopeFromProductArea(ProductArea.WEBSITE, permissionSet)
     : defaultLimitation;
 
-  const onUpdatePermissionSet = (role: AreaRoleType | undefined, limitation: ScopedPermissionType) => {
-    if (!permissionSet) return;
+  const onUpdatePermissionSet = (role: AreaRoleWithCustomType | undefined, limitation: ScopedPermissionType) => {
+    if (!permissionSet || role === 'CUSTOM') return;
 
     const { websiteIds, ...restPermissionSet } = updatePermissionSetForLimitableProductArea(
       permissionSet,

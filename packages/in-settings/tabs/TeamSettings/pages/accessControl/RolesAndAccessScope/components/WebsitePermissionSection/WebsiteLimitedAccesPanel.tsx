@@ -13,11 +13,15 @@ import { useTheme } from '@instana/hooks';
 import { WebsitePermissionSectionProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/WebsitePermissionSection/WebsitePermissionSection';
 import useWebsiteConfigurations from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/WebsitePermissionSection/useWebsiteConfigurations';
 import SelectWebsitesForm from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/WebsitePermissionSection/SelectWebsitesForm';
+import {
+  AreaRole,
+  AreaRoleType,
+  AreaRoleWithCustomType
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import RoleFormGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/RoleFormGroup';
 import { getField, updateFormField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import EntityTable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/EntityTable';
-import { AreaRoleType } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import Divider from 'in-components/workspace/Divider/Divider';
 import { FetchedState } from 'in-hooks/utils/types';
@@ -27,7 +31,7 @@ import { t } from 'in-i18n';
 interface WebsiteLimitedAccessPanelProps
   extends FormControlProps,
     Pick<WebsitePermissionSectionProps, 'setSubSlideConfig' | 'setShowSubSlide'> {
-  role?: AreaRoleType;
+  role?: AreaRoleWithCustomType;
   onChangeRole: (role: AreaRoleType) => void;
 }
 
@@ -114,7 +118,8 @@ export default function WebsiteLimitedAccessPanel({
       <RoleFormGroup
         htmlFor="website-role-select"
         tooltipText={t('in-settings:permissionScope.roleTooltip', { context: 'websites' })}
-        defaultRole={role}
+        value={role}
+        defaultRole={AreaRole.VIEWER}
         onChange={onChangeRole}
       />
       <Divider />

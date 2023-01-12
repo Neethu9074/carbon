@@ -101,6 +101,7 @@
     "role": "Select a role",
     "role_owner": "Owner",
     "role_viewer": "Viewer",
+    "role_custom": "Custom",
     "roleTooltip": "Viewer: Ability to view dashboards (configuration can't be viewed). Owner: Ability to create new entities; view, configure and delete dashboards.",
     "roleTooltip_websites": "Viewer: Ability to view website dashboards (configuration can't be viewed). Owner: Ability to create new websites; view, configure and delete website dashboards."
   },

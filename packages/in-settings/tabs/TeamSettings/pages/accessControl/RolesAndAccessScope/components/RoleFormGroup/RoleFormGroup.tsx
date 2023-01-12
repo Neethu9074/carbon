@@ -4,25 +4,34 @@
  * Copyright IBM Corp. 2023
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { SvgIcon, Typography } from '@instana/components';
 
 import RoleSelect, {
   RoleSelectProps
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/RoleSelect';
+import { AreaRoleType } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import FormGroup from 'in-settings/components/FormGroup/FormGroup';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import Label from 'in-components/form/Label/Label';
 
 import locals from './RoleFormGroup.mless';
 
-interface RoleFormGroupProps extends RoleSelectProps {
+interface RoleFormGroupProps extends Omit<RoleSelectProps, 'defaultRole'> {
+  defaultRole: AreaRoleType;
   htmlFor: string;
   tooltipText: string;
 }
 
-export default function RoleFormGroup({ htmlFor, tooltipText, defaultRole, onChange }: RoleFormGroupProps) {
+export default function RoleFormGroup({ htmlFor, tooltipText, value, defaultRole, onChange }: RoleFormGroupProps) {
+  // We want to update all permissions accordingly when we set the role to the default value
+  useEffect(() => {
+    if (value === undefined) {
+      onChange(defaultRole);
+    }
+  }, [value, defaultRole, onChange]);
+
   return (
     <FormGroup>
       <Label htmlFor={htmlFor} className={locals.label}>
@@ -36,7 +45,7 @@ export default function RoleFormGroup({ htmlFor, tooltipText, defaultRole, onCha
           <SvgIcon type="lib_help_error_info_outline" size="xs" />
         </Tooltip>
       </Label>
-      <RoleSelect defaultRole={defaultRole} onChange={onChange} />
+      <RoleSelect value={value} defaultRole={defaultRole} onChange={onChange} />
     </FormGroup>
   );
 }
