@@ -33,7 +33,10 @@ import {
   setBuiltInEventSpecificationsEnabled,
   setCustomEventSpecificationsEnabled
 } from 'in-api/eventSpecifications';
-import { smartAlertMigrationUrl } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
+import {
+  SmartAlertMigrationDocs,
+  MessageContentModernDesign
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
 import { getPluginsWithCustomMetricsOptionsObservable } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customMetricUtils';
 import { deprecateAppDataLegacyEventsEnabled, hideAppDataLegacyEventsEnabled } from 'in-services/featureFlags';
 import getLegacyAlertConfigStats from 'in-alerting/smart-alerts/subscriptions/getLegacyAlertConfigStats';
@@ -208,16 +211,14 @@ export default function Events({
 function CustomEventDeprecatedWarning() {
   return (
     <Message type="warning" withIcon>
-      <Trans
-        i18nKey="in-settings:tabs.customEventListDeprecatedWarning"
-        components={{
-          documentationLink: (
-            <Link href={smartAlertMigrationUrl} external>
-              &nbsp;
-            </Link>
-          )
-        }}
-      />
+      <MessageContentModernDesign>
+        <Trans
+          i18nKey="in-settings:tabs.customEventListDeprecatedWarning"
+          components={{
+            documentationLink: SmartAlertMigrationDocs
+          }}
+        />
+      </MessageContentModernDesign>
     </Message>
   );
 }

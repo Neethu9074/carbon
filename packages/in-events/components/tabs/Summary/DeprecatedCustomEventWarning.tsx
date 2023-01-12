@@ -9,10 +9,13 @@ import React, { useMemo } from 'react';
 import { CustomEventSpecificationWithMetadata } from '@instana/types/typeDefinitions';
 // @ts-expect-error export needs types
 import { empty } from '@instana/observables';
-import { Link, Message } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { Message } from '@instana/components';
 
-import { smartAlertMigrationUrl } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
+import {
+  SmartAlertMigrationDocs,
+  MessageContentModernDesign
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
 import { isDeprecatedAppDataEntityType } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import { getCustomEventSpecificationMutable } from 'in-api/eventSpecifications';
 import { Col, Row } from 'in-components/layout/Grid';
@@ -51,17 +54,15 @@ export function DeprecatedCustomEventWarning({ event, isIncident }: Props) {
           <Row withoutSideMargin>
             <Col xs>
               <Message type="warning" withIcon>
-                <Trans
-                  i18nKey="in-events:deprecatedCustomEventWarning"
-                  components={{
-                    documentationLink: (
-                      <Link href={smartAlertMigrationUrl} external>
-                        &nbsp;
-                      </Link>
-                    )
-                  }}
-                  values={{ issueOrIncident: isIncident ? 'incident' : 'issue' }}
-                />
+                <MessageContentModernDesign>
+                  <Trans
+                    i18nKey="in-events:deprecatedCustomEventWarning"
+                    components={{
+                      documentationLink: SmartAlertMigrationDocs
+                    }}
+                    values={{ issueOrIncident: isIncident ? 'incident' : 'issue' }}
+                  />
+                </MessageContentModernDesign>
               </Message>
             </Col>
           </Row>
