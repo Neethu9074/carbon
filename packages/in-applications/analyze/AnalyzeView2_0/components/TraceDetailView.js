@@ -11,12 +11,14 @@ import { useObservable } from '@instana/hooks';
 
 import SplitScreenTraceDetailContent from 'in-applications/analyze/AnalyzeView2_0/components/SplitScreenTraceDetailContent';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
-import { applyTraceIdFilter } from 'in-applications/analyze/AnalyzeView2_0/components/utils';
 import SplitScreenList from 'in-components/AnalyzeView/SplitScreenList/SplitScreenList';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { getIconByType, getLabelByType } from 'in-analyze/AnalyzeView/dataSources';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import getTraceSummary from 'in-applications/subscriptions/getTraceSummary';
 import tabs from 'in-applications/analyze/AnalyzeView2_0/components/tabs';
 import { traceIdFilterOverrideEnabled } from 'in-services/featureFlags';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getColorPool } from 'in-services/util/ColorGenerator';
@@ -128,6 +130,25 @@ function Header(props) {
   );
 }
 
+function applyTraceIdFilter(formModel, traceId) {
+  const traceIdFilterExpression = [tagFilter('trace.id', EQUALS, traceId)];
+
+  if (traceIdFilterOverrideEnabled) {
+    return traceIdFilterExpression;
+  }
+
+  const shortTraceId = traceId.slice(-16);
+  const hasTraceIdFilter = formModel.some(
+    tagFilter =>
+      tagFilter.name === 'trace.id' && tagFilter.operator === EQUALS && tagFilter.value?.endsWith(shortTraceId)
+  );
+  if (hasTraceIdFilter) {
+    return formModel;
+  }
+
+  return joinExpressions({ expressions: [formModel, traceIdFilterExpression] });
+}
+
 function renderButtonLineInternalOnly({ traceId, result, formModel, facets }) {
   if (!role.canViewLogs || !role.canViewTraceDetails) {
     return null;
@@ -147,7 +168,7 @@ function renderButtonLineInternalOnly({ traceId, result, formModel, facets }) {
             resetUndefinedParams: false
           })}
         >
-          {t('in-applications:linkAnalyzeCallsOfThisTrace')}
+          {t('in-applications:analyze.analyzeCallsOfThisTrace')}
         </Button>
       }
       <Button
