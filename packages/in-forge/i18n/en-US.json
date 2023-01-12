@@ -12588,6 +12588,10 @@
     "ibmdb2": {
       "titleQuery": "Query"
     },
+    "ibmmq": {
+      "titleDestination": "Destination",
+      "titleMsgOperation": "Messaging Operation"
+    },
     "ims": {
       "titleImsAttributes": "IMS Attributes",
       "titleEventKey": "IMS Event Key",
