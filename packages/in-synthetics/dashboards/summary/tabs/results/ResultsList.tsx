@@ -105,6 +105,7 @@ const columnDefinitions = [
   {
     //location_label => location display name
     id: 'location_label',
+    sortable: false,
     label: t('in-synthetics:dashboard.resultsListPage.locationColumn'),
     getContent(item: TestResultListItem) {
       return (
