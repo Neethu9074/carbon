@@ -19,6 +19,6 @@ registerSpanDefinition({
       return label;
     }
 
-    return t('in-forge:tracing.jms.indexReturn', { returnLabel: label, returnDestination: destination });
+    return t('in-forge:tracing.ibmmq.indexReturn', { returnLabel: label, returnDestination: destination });
   }
 });
