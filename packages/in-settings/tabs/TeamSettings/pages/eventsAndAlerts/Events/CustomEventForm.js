@@ -95,10 +95,14 @@ export default function CustomEventForm({
   );
   const [queryValidationInProgress, setQueryValidationInProgress] = useState(false);
   const selectedApplicationName = form.get('application') ? form.get('application').value : '';
-  const existingApplication =
-    selectedApplicationName === null || isBlank(selectedApplicationName)
-      ? null
-      : getSelectedApplicationConfigsByName(selectedApplicationName);
+
+  const existingApplication = useObservable(() => {
+    if (selectedApplicationName === null || isBlank(selectedApplicationName)) {
+      return null;
+    } else {
+      return getSelectedApplicationConfigsByName(selectedApplicationName);
+    }
+  }, [selectedApplicationName]);
   // extend custom-metrics list with current selected custom-metric,
   // in case it is not contained in the list. This might happen due to
   // deprecation or there is no such metric anymore
