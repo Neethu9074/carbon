@@ -74,7 +74,7 @@ export default function CustomEventForm({
   }, [form]);
 
   const customMetricsForPlugin = useObservable(() => {
-    if (isCustomDataSourceSelected(form) && entityType) {```
+    if (isCustomDataSourceSelected(form) && entityType) {
       return getCustomMetricsOptionsForPluginObservable(entityType);
     }
   }, [entityType]);
