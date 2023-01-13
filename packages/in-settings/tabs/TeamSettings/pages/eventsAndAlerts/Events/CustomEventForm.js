@@ -63,7 +63,7 @@ export default function CustomEventForm({
     if (isNotBlank(entity.query)) {
       queryInput.emit(entity.query);
     }
-    // Deliberately executing Mixpanel tracking on these prop changes
+    // Triggers the query once the component got mounted
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const entityType = form.get('entityType')?.value;
