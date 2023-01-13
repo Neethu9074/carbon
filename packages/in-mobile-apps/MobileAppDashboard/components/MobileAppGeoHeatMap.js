@@ -22,6 +22,7 @@ export default function MobileAppGeoHeatMap({ height, tagFilters, timeConfig, ca
       height={height}
       valueFormatter={valueFormatter}
       notDefinedValue={valueFormatter(0)}
+      label={t('in-mobile-apps:dashboard.numSessionStarts')}
       controlWrapperClassName={controlWrapperClassName}
     />
   );
