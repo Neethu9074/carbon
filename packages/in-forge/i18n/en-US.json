@@ -12590,6 +12590,7 @@
     },
     "ibmmq": {
       "titleDestination": "Destination",
+      "titleDestinationKind": "Destination Kind",
       "titleMsgOperation": "Messaging Operation"
     },
     "ims": {
