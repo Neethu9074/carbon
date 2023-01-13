@@ -139,8 +139,8 @@
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> ago)",
   "deprecatedCustomEventWarning": "<strong>You will no longer receive this {{issueOrIncident}} starting from July 2023 (Build 253)</strong> View event configuration to migrate it. <documentationLink>Read more in our documentation</documentationLink>",
   "deprecatedCustomEventGlobalPopup": {
-    "title": "{{deprecatedCustomEvents}} Custom Events require action',",
-    "message": "<strong>Custom events on entity types Application, Service and Endpoint are deprecated.</strong><br/>You will not be able to create or update Custom Events on these three entity types from<strong>April 2023 (Build 246)</strong> onwards.<br />Existing configs will be removed from <strong>July 2023 (Build 253)</strong> onwards.",
+    "title": "{{deprecatedCustomEvents}} Custom Events require action",
+    "message": "<strong>Custom events on entity types Application, Service and Endpoint are deprecated.</strong><br/>You will not be able to create or update Custom Events on these three entity types from <strong>April 2023 (Build 246)</strong> onwards.<br />Existing configs will be removed from <strong>July 2023 (Build 253)</strong> onwards.",
     "documentationLink": "<documentationLink>Read more in our documentation</documentationLink>",
     "affectedEventsLink": "View affected custom events"
   },
