@@ -99,7 +99,9 @@ export default function CustomEventForm({
     selectedApplicationName === null || isBlank(selectedApplicationName)
       ? null
       : getSelectedApplicationConfigsByName(selectedApplicationName);
-
+  // extend custom-metrics list with current selected custom-metric,
+  // in case it is not contained in the list. This might happen due to
+  // deprecation or there is no such metric anymore
   addCurrentCustomMetricToListIfMissing(customMetricsForPlugin, form);
 
   applyQueryValidationResult(queryValidationResult, form, onChange);
