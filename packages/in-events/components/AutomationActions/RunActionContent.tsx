@@ -297,7 +297,7 @@ function VaultParameterInput({ form, parameter, setForm }: ParameterInputParams)
         <FormGroup key={`${parameter.name}-input`}>
           <Row withoutSideMargin className={locals.justifyContent}>
             <Label hasError={(!keyField.valid && keyField.touched) || (!pathField.valid && pathField.touched)}>
-              {parameter.name}
+              {parameter.label}
             </Label>
             <Label>{t('in-events:vault')}</Label>
           </Row>
@@ -324,7 +324,7 @@ function StaticParameterInput({ parameter, form, setForm }: ParameterInputParams
         <FormGroup key={`${parameter.name}-input`}>
           <Row withoutSideMargin className={locals.justifyContent}>
             <Label htmlFor={parameter.name} hasError={!parameterField.valid && parameterField.touched}>
-              {parameter.required ? parameter.name : t('in-events:optional', { name: parameter.name })}
+              {parameter.required ? parameter.label : t('in-events:optional', { name: parameter.label })}
             </Label>
             <Label>{t('in-events:static')}</Label>
           </Row>

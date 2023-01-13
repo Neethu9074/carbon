@@ -162,7 +162,11 @@ function onSave({
       ];
     }
     // WILL NEED TO RESOLVE DYNAMIC PARAMS HERE
-    return [...acc, { name, value: (parameter as Field<string>).value }];
+    const value = (parameter as Field<string>).value;
+    if (value) {
+      return [...acc, { name, value }];
+    }
+    return acc;
   }, []);
   const selectedVolatileId =
     agentSnapShots?.data?.online?.find(agent => agent.volatileId?.host_id === targetAgent.value)?.volatileId ?? {};
