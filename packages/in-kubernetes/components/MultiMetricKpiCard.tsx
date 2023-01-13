@@ -98,15 +98,15 @@ export default function MultiMetricKpiCard({
       var unit;
       var hasUnitAndVal = splitFormattedValueUnit.length > 1;
       var percentageNumber = percentage.replace('%', '');
-
+      var percentageOfCapLabel = timeshift !== 0 ? '%)' : '% of cap.)';
       if (hasUnitAndVal) {
         val = splitFormattedValueUnit[0];
         unit = splitFormattedValueUnit[1];
         content = (
           <span className={classNames(local.minor, valuesClassName)}>
-            {val} <span className={classNames(local.unit, valuesClassName)}>{timeshift === 0 ? unit : ''} </span>
+            {val} <span className={classNames(local.unit, valuesClassName)}>{unit} </span>
             <span className={classNames(local.capacity_font, valuesClassName)}>
-              {'(' + Number(percentageNumber).toFixed(1) + '% of cap.)'}
+              {'(' + Number(percentageNumber).toFixed(1) + percentageOfCapLabel}
             </span>
           </span>
         );
@@ -115,7 +115,7 @@ export default function MultiMetricKpiCard({
           <span className={classNames(local.minor, valuesClassName)}>
             {formattedValue}{' '}
             <span className={classNames(local.capacity_font, valuesClassName)}>
-              {'(' + Number(percentageNumber).toFixed(1) + '% of cap.)'}
+              {'(' + Number(percentageNumber).toFixed(1) + percentageOfCapLabel}
             </span>
           </span>
         );
