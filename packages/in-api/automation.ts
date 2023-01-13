@@ -94,16 +94,16 @@ export const createDocLinkField = (value: string): Field => ({
 
 export const createScriptFields = (value: string): Field[] => [
   {
-    description: 'script subtype',
+    description: 'script interpreter',
     encoding: 'ascii',
-    name: 'subtype',
+    name: 'interpreter',
     value: 'bash'
   },
   {
     value: btoa(value),
     description: 'script content',
     encoding: 'base64',
-    name: 'script_ssh'
+    name: 'script_content'
   }
 ];
 
