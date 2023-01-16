@@ -50,7 +50,7 @@ export default function Summary({ timeConfig, data: sharedProcessorPool }) {
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
-                metrics: ['utilizedProcUnitsPercent', 'availableProcUnitsPercent', 'entitledProcUnitsUsedPercent'],
+                metrics: ['utilizedProcUnitsPercent', 'availableProcUnitsPercent','entitledProcUnitsUsedPercent'],
                 labels: [t('in-phmc:utilized'), t('in-phmc:available'), t('in-phmc:entitledUsed')],
                 type: 'line',
                 formatter: percentage.detailed
