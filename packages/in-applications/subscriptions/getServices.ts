@@ -123,7 +123,6 @@ export function getServicesWithDefaults({
       useLongTermDataOnly: false
     },
     contextScope: contextScope ? contextScope : 'NONE',
-    tagFilters: tagFilters ? [...tagFilters] : undefined,
-    includeProcessSnapshotIds: false
+    tagFilters: tagFilters ? [...tagFilters] : undefined
   });
 }
