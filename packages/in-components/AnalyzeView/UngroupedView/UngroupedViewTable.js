@@ -97,8 +97,7 @@ function Table(props) {
         };
       })
       // We may not have a representation for all fields in the ungrouped view
-      .filter(Boolean),
-    ...(props.actionColumnDefinitions ?? [])
+      .filter(Boolean)
   ];
 
   const [numberOfSkeletonRows, setNumberOfSkeletonRows] = useState(3);

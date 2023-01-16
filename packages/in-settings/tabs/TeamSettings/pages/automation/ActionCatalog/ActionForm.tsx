@@ -224,7 +224,7 @@ const ScriptSection = ({ form, onChange }: Omit<ActionFormProps, 'setForm' | 'en
                   name: name.value,
                   description: description.value,
                   type: SCRIPT_TYPE,
-                  fields: [{ name: 'script_ssh', value: btoa(script.value), encoding: 'base64' }]
+                  fields: [{ name: 'script_content', value: btoa(script.value), encoding: 'base64' }]
                 } as Action
               }
               volatileId={{}}

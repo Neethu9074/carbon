@@ -147,6 +147,7 @@ export function renderKpiCard(
     <MultiMetricKpiCard
       title={title}
       value={formattedValue}
+      timeshift={config[0].metricConfiguration.timeShift.offset}
       useMaxAvailableHeight={useMaxAvailableHeight}
       actions={
         dragHandle || actions ? (

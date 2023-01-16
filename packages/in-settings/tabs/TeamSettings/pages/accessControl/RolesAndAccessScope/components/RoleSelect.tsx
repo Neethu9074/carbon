@@ -8,20 +8,27 @@ import React from 'react';
 
 import {
   AreaRoles,
-  AreaRoleType
+  AreaRoleType,
+  AreaRoleWithCustomType
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import Select from 'in-components/form/Select/Select';
 import { t } from 'in-i18n';
 
 export interface RoleSelectProps {
+  value?: AreaRoleWithCustomType;
   defaultRole?: AreaRoleType;
   onChange: (role: AreaRoleType) => void;
 }
 
-export default function RoleSelect({ defaultRole, onChange }: RoleSelectProps) {
+export default function RoleSelect({ value, defaultRole, onChange }: RoleSelectProps) {
   return (
-    <Select useFullWidth={false} onChange={e => onChange(e.target.value as AreaRoleType)} defaultValue={defaultRole}>
-      <option value={undefined} disabled>
+    <Select
+      useFullWidth={false}
+      onChange={e => onChange(e.target.value as AreaRoleType)}
+      defaultValue={defaultRole ?? ''}
+      value={value}
+    >
+      <option value="" disabled>
         {t('in-settings:permissionScope.role')}
       </option>
       {AreaRoles.map(context => (
@@ -29,6 +36,13 @@ export default function RoleSelect({ defaultRole, onChange }: RoleSelectProps) {
           {t('in-settings:permissionScope.role', { context: context.toLowerCase() })}
         </option>
       ))}
+
+      {/* // This is only necessary while in migration phase and should be removed after some releases */}
+      {value === 'CUSTOM' && (
+        <option value="CUSTOM" disabled hidden>
+          {t('in-settings:permissionScope.role', { context: 'custom' })}
+        </option>
+      )}
     </Select>
   );
 }

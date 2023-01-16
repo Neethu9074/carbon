@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2022
  */
 
-import React, { useState, ReactNode } from 'react';
 import { MapForm, Field, Item } from 'formalistic';
+import React, { useState } from 'react';
 import { filter } from 'lodash';
 
 import { Observable } from '@instana/observables';
@@ -15,6 +15,7 @@ import AlertConfigSlideInContentWrapper from 'in-alerting/smart-alerts/component
 import ActionTable, {
   ActionTableProps
 } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionTable';
+import { SetSliderStateProps } from 'in-events/components/AutomationActions/action_associations_dialog/SharedTypes';
 import { EventProps } from 'in-events/components/AutomationActions/action_associations_dialog/SharedTypes';
 import SelectListDialogContent from 'in-settings/tabs/TeamSettings/components/SelectListDialogContent';
 import SlideInView, { NoHeader } from 'in-components/SlideInView/SlideInView';
@@ -35,7 +36,7 @@ interface SelectActionsProps {
       onClose: null;
     }>
   >;
-  setSliderState: (component: ReactNode) => void;
+  setSliderState: ({ slideInConfig, isVisible }: SetSliderStateProps) => void;
   form: MapForm;
   setForm: React.Dispatch<React.SetStateAction<MapForm>>;
   numberOfActionChannelListRows: number;
@@ -51,7 +52,7 @@ interface SelectListDialogContentViewProps {
       onClose: null;
     }>
   >;
-  setSliderState: (component: ReactNode) => void;
+  setSliderState: ({ slideInConfig, isVisible }: SetSliderStateProps) => void;
   form: MapForm;
   onSubmit: (id: string[]) => void;
 }
@@ -67,6 +68,7 @@ export default function SelectActions({
   const selectedActions = (form.get('actionIds') as Field<string[]>)?.value ?? [];
   const eventName: string = eventDetails.name;
   const eventDescription: string = eventDetails.description;
+
   const getSelectedActionsForEvent = (selectedActions: string[]) => {
     if (selectedActions.length === 0) {
       return (alwaysEmptyArray as unknown) as Observable<Action[]>;
@@ -84,6 +86,7 @@ export default function SelectActions({
         noDataMessage={t('in-settings:tabs.noActionsSelected')}
         loadEntities={() => getSelectedActionsForEvent(selectedActions)}
         tableActions={actionSelectionTableActions(form, setForm)}
+        pageSize={numberOfActionChannelListRows}
         rightHeader={
           <Button
             className={locals.selectButton}
@@ -142,6 +145,7 @@ function SelectListDialogContentView({
       return (
         <ActionTable
           {...props}
+          pageSize={numberOfActionChannelListRows}
           loadEntities={() => getAllActionsWithAISuggestions(eventName, eventDescription)}
           scored
         />

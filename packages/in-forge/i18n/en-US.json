@@ -12588,6 +12588,12 @@
     "ibmdb2": {
       "titleQuery": "Query"
     },
+    "ibmmq": {
+      "indexReturn": "{{returnLabel}} to {{returnDestination}}",
+      "titleDestination": "Destination",
+      "titleDestinationKind": "Destination Kind",
+      "titleMsgOperation": "Messaging Operation"
+    },
     "ims": {
       "titleImsAttributes": "IMS Attributes",
       "titleEventKey": "IMS Event Key",

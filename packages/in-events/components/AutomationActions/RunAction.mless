@@ -34,11 +34,4 @@
     margin: 0 1rem 0 0;
     text-transform: uppercase;
   }
-  .borderRight {
-    border-right: 1px solid @lib__colors__N300;
-    padding-right: 1rem;
-  }
-  .justifyContent {
-    justify-content: space-between;
-  }
 }

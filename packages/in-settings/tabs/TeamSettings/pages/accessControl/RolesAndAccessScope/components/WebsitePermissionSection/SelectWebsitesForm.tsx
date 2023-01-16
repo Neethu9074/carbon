@@ -27,11 +27,11 @@ export default function SelectWebsitesForm({
   onClickCancel,
   onClickSave
 }: SelectWebsitesFormProps) {
-  const [allRowsAreSelected, setAllRowsAreSelected] = useState(false);
+  const [allVisibleRowsSelected, setAllVisibleRowsSelected] = useState(false);
   const [selectedWebsiteIds, setSelectedWebsiteIds] = useState(preselectedWebsiteIds);
   const [nameQuery, setNameQuery] = useState('');
   const websiteConfigs = useWebsiteConfigurations();
-  const filteredWebsiteConfigs = useSearchFilter(websiteConfigs, nameQuery);
+  const filteredWebsiteConfigState = useSearchFilter(websiteConfigs, nameQuery);
 
   const onClickItem = ({ id }: WebsiteConfiguration) => {
     if (selectedWebsiteIds.includes(id)) {
@@ -41,15 +41,64 @@ export default function SelectWebsitesForm({
     }
   };
 
-  const onSelectAll = (selected: boolean) => {
-    const [websites] = websiteConfigs;
-    const selectedWebsites = websites && selected ? websites.map(({ id }) => id) : [];
+  const columnDefinition = useColumnDefinition({ selectedWebsiteIds, onClickItem });
 
-    setAllRowsAreSelected(selected);
+  const onSelectAll = (selected: boolean) => {
+    const [filteredWebsiteConfigs] = filteredWebsiteConfigState;
+    const filteredWebsiteIds = filteredWebsiteConfigs?.map(({ id }) => id) ?? [];
+    const selectedWebsites = selected ? filteredWebsiteIds : [];
+
+    setAllVisibleRowsSelected(selected);
     setSelectedWebsiteIds(selectedWebsites);
   };
 
-  const columnDefinition: Array<ColumnDefinition<WebsiteConfiguration>> = [
+  return (
+    <SelectItemForm
+      onClickCancel={() => {
+        onClickCancel();
+        setSelectedWebsiteIds([...preselectedWebsiteIds]);
+      }}
+      onClickSave={() => {
+        onClickSave(selectedWebsiteIds);
+      }}
+    >
+      <EntityTable
+        fetchedConfigState={filteredWebsiteConfigState}
+        onChange={({ query }) => {
+          setNameQuery(query ?? '');
+        }}
+        query={nameQuery}
+        orderBy="name"
+        orderDirection="ASC"
+        onClickItem={onClickItem}
+        columnDefinition={columnDefinition}
+        allRowsAreSelected={allVisibleRowsSelected}
+        setSelectedStateForRows={onSelectAll}
+        isSearchable
+      />
+    </SelectItemForm>
+  );
+}
+function useSearchFilter(
+  fetchedState: FetchedState<WebsiteConfiguration[]>,
+  query: string
+): FetchedState<WebsiteConfiguration[]> {
+  const [websiteConfigs, status, ...rest] = fetchedState;
+  if (!query || !websiteConfigs || status !== 'resolved') return fetchedState;
+
+  const lowerCaseQuery = query.toLowerCase();
+
+  return [websiteConfigs.filter(({ name }) => name.toLowerCase().includes(lowerCaseQuery)), status, ...rest];
+}
+
+interface UseColumnDefinition {
+  selectedWebsiteIds: string[];
+  onClickItem: (item: WebsiteConfiguration) => void;
+}
+
+type WebsiteColumnDefinitions = Array<ColumnDefinition<WebsiteConfiguration>>;
+function useColumnDefinition({ selectedWebsiteIds, onClickItem }: UseColumnDefinition): WebsiteColumnDefinitions {
+  return [
     {
       id: 'checkbox',
       label: '',
@@ -69,40 +118,4 @@ export default function SelectWebsitesForm({
       }
     }
   ];
-
-  return (
-    <SelectItemForm
-      onClickCancel={() => {
-        onClickCancel();
-        setSelectedWebsiteIds([...preselectedWebsiteIds]);
-      }}
-      onClickSave={() => {
-        onClickSave(selectedWebsiteIds);
-      }}
-    >
-      <EntityTable
-        fetchedConfigState={filteredWebsiteConfigs}
-        onChange={({ query }) => {
-          setNameQuery(query ?? '');
-        }}
-        query={nameQuery}
-        orderBy="name"
-        orderDirection="ASC"
-        onClickItem={onClickItem}
-        columnDefinition={columnDefinition}
-        allRowsAreSelected={allRowsAreSelected}
-        setSelectedStateForRows={onSelectAll}
-        isSearchable
-      />
-    </SelectItemForm>
-  );
-}
-function useSearchFilter(
-  fetchedState: FetchedState<WebsiteConfiguration[]>,
-  query: string
-): FetchedState<WebsiteConfiguration[]> {
-  const [websiteConfigs, status, ...rest] = fetchedState;
-  if (!query || !websiteConfigs || status !== 'resolved') return fetchedState;
-
-  return [websiteConfigs.filter(({ name }) => name.includes(query)), status, ...rest];
 }

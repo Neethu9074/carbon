@@ -24,6 +24,7 @@ import {
   hasWebsitesAccess,
   hasZHMCAccess
 } from 'in-stores/permission';
+import { MessageContentModernDesign } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
 import getLegacyAlertConfigStats from 'in-alerting/smart-alerts/subscriptions/getLegacyAlertConfigStats';
 import { isLandingPage, setLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/cockpit';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
@@ -210,22 +211,24 @@ function Header() {
 function CustomEventDeprecatedWarning({ legacyAlertConfigStats }) {
   return (
     <Message type="warning" className={locals.customEventDeprecatedWarning} withIcon>
-      <Trans
-        i18nKey="in-cockpit:cockpit.customEventDeprecatedWarning"
-        components={{
-          affectedCustomEvents: (
-            <Link
-              href$={getModifiedUrlStream(params => {
-                params.pathname = `${teamSettingsAlertingEvents}`;
-                setOrDeleteMatrixKey(params, events, 'type', deprecatedValue);
-              })}
-            >
-              &nbsp;
-            </Link>
-          )
-        }}
-        values={{ deprecatedCustomEvents: legacyAlertConfigStats.data?.deprecatedCustomEvents }}
-      />
+      <MessageContentModernDesign>
+        <Trans
+          i18nKey="in-cockpit:cockpit.customEventDeprecatedWarning"
+          components={{
+            affectedCustomEvents: (
+              <Link
+                href$={getModifiedUrlStream(params => {
+                  params.pathname = `${teamSettingsAlertingEvents}`;
+                  setOrDeleteMatrixKey(params, events, 'type', deprecatedValue);
+                })}
+              >
+                &nbsp;
+              </Link>
+            )
+          }}
+          values={{ deprecatedCustomEvents: legacyAlertConfigStats.data?.deprecatedCustomEvents }}
+        />
+      </MessageContentModernDesign>
     </Message>
   );
 }

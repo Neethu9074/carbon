@@ -6,8 +6,8 @@
 
 import React, { useState } from 'react';
 
-import { KeyValue } from '@instana/components';
-import { t } from '@instana/i18n-react';
+import { KeyValue, Link } from '@instana/components';
+import { Trans, t } from '@instana/i18n-react';
 
 // @ts-expect-error Module needs to be translated to TS
 import InlineTabNavigation from 'in-components/InlineTabNavigation';
@@ -21,6 +21,20 @@ import locals from './DeployTabSelection.mless';
 
 export default function DeployTabSelection({ downloadKey, agentKey, syntheticAcceptorURL }: PoPProperties) {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
+  const popDocsUrl =
+    'https://www.ibm.com/docs/en/instana-observability/current?topic=beta-pop-deployment#deployment-options';
+  const docLinkComponent = (
+    <Trans
+      i18nKey="in-synthetics:dashboard.testList.popDialog.subTitle"
+      components={{
+        documentationLink: (
+          <Link href={popDocsUrl} external>
+            &nbsp;
+          </Link>
+        )
+      }}
+    />
+  );
 
   const tabList = [
     {
@@ -37,7 +51,7 @@ export default function DeployTabSelection({ downloadKey, agentKey, syntheticAcc
         <KeyValue
           inverted
           customValue={t('in-synthetics:dashboard.testList.popDialog.title')}
-          label={t('in-synthetics:dashboard.testList.popDialog.subTitle')}
+          label={docLinkComponent}
           accentuated
         />
         <CopyToClipboardButton
