@@ -98,8 +98,7 @@ describe('in-applications/hooks/useEndpoints', () => {
         pageSize: 4
       },
       contextScope: 'DOWNSTREAM',
-      tagFilterExpression: emptyTagFilterExpression,
-      includeProcessSnapshotIds: false
+      tagFilterExpression: emptyTagFilterExpression
     };
 
     // When
@@ -142,8 +141,7 @@ describe('in-applications/hooks/useEndpoints', () => {
         page: 1,
         pageSize: 100
       },
-      contextScope: 'NONE',
-      includeProcessSnapshotIds: false
+      contextScope: 'NONE'
     };
 
     // When
