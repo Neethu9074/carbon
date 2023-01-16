@@ -114,7 +114,7 @@
         "simpleTab": "Simple",
         "redisTab": "Redis TLS",
         "title": "Synthetic PoP Commands",
-        "subTitle": "Please use these code templates as a reference",
+        "subTitle": "Please use these code templates as a reference. For more information, see <documentationLink>Synthetic PoP Deployment</documentationLink>",
         "simpleCode": "helm install synthetic-pop \\\n\t./synthetic-pop \\\n\t--namespace <namespace> \\\n\t--create-namespace \\\n\t--set downloadKey=\"{{downloadKey}}\" \\\n\t--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n\t--set controller.clusterName=\"<yourClusterName>\" \\\n\t--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n\t--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n\t--set redis.tls.enabled=false \\\n\t--set redis.password=\"<yourPassword>\"",
         "redisCode": "helm install synthetic-pop \\\n\t./synthetic-pop \\\n\t--namespace <namespace> \\\n\t--create-namespace \\\n\t--set downloadKey=\"{{downloadKey}}\" \\\n\t--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n\t--set controller.clusterName=\"<yourClusterName>\" \\\n\t--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n\t--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n\t--set redis.tls.enabled=true",
         "tlsInstructions": "If you want to enable Redis TLS, you need to create a certs folder under Helm chart root path, and copy your certificate-key pair (tls.crt, tls.key) and CA root certificate file (ca.crt) into certs folder, the file names should be exactly matched.\n\nIf you do not have your key/cert files, you can also use openssl command to generate new ones, see below examples:",
@@ -202,7 +202,10 @@
       "responseTimeColumn": "Response Time",
       "responseSizeColumn": "Response Size",
       "retriesColumn": "Retry Count",
-      "title": "Results"
+      "title": "Results",
+      "locationLabel": "Location",
+      "failures": "Failures",
+      "status": "Status"
     },
     "detailsPage": {
       "timeLineWidget": "Timeline",

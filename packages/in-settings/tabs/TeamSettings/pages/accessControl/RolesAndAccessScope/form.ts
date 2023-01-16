@@ -11,6 +11,7 @@ import { PermissionSetWithRoles } from '@instana/types';
 import {
   AreaRole,
   AreaRoleType,
+  AreaRoleWithCustomType,
   isLimitableProductArea,
   LimitableProductArea,
   LimitedScopeByProductArea,
@@ -79,7 +80,7 @@ type ProductAreasWithRoles = Extract<
 export function getAreaRoleFromPermissionSet(
   productArea: ProductAreasWithRoles,
   permissionSet?: PermissionSetWithRoles
-): AreaRoleType | undefined {
+): AreaRoleWithCustomType | undefined {
   if (permissionSet === undefined || permissionSet.permissions.length === 0) return;
 
   const { areaPermissions, capabilities } = ProductAreaPermissionMap[productArea];
@@ -92,6 +93,12 @@ export function getAreaRoleFromPermissionSet(
 
     return AreaRole.VIEWER;
   }
+
+  const hasSomeCapabilities = capabilities.some(permission => permissionSet.permissions.includes(permission));
+  const hasSomeAreaPermissions = areaPermissions.some(permission => permissionSet.permissions.includes(permission));
+
+  // This is only necessary while in migration phase and should be removed after some releases
+  if (hasSomeCapabilities || hasSomeAreaPermissions) return 'CUSTOM';
 
   return undefined;
 }

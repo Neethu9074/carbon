@@ -49,7 +49,7 @@ interface OverviewChartToolTipProps {
 
 export default function BrowserTestTimeline({ details, startTime, finishTime, isBrowserType }: TimelineProps) {
   const [filter, setFilter] = useState({ query: '', type: '' });
-  const [expanded, setExpanded] = useState(defaultPage);
+  const [pageRefExpanded, setPageRefExpanded] = useState(defaultPage);
 
   const { data } = details;
 
@@ -58,38 +58,59 @@ export default function BrowserTestTimeline({ details, startTime, finishTime, is
     if (filter.type && !type.includes(filter.type.toLowerCase())) {
       return false;
     }
-    if (filter.query && !type.includes(filter.query.toLowerCase())) {
+    if (
+      filter.query.length >= 2 &&
+      filter.query &&
+      !entry.request.url.toLowerCase().includes(filter.query.toLowerCase())
+    ) {
       return false;
     }
     return true;
   });
 
   const entriesToRender: TestResultEntry[] = filteredEntries.filter((entry: TestResultEntry) => {
-    return entry.pageref === expanded ? entry : null;
+    return entry.pageref === pageRefExpanded ? entry : null;
+  });
+
+  let indexArr: string[] = [];
+  filteredEntries.forEach((entry: TestResultEntry) => {
+    if (!indexArr.includes(entry.pageref)) indexArr.push(entry.pageref);
   });
 
   const pagesToMap = new Map(
-    data?.har?.log.pages.map((page: TestResultHARPage) => [
-      page.id,
-      {
-        url: page._url || '',
-        totalTime: page.pageTimings.totalTime || 0,
-        totalResponseSize: page.totalResponseSize || 0
-      }
-    ])
+    data?.har?.log.pages
+      .filter((page: TestResultHARPage) => {
+        if (!indexArr.includes(page.id)) {
+          return false;
+        }
+        return true;
+      })
+      .map((page: TestResultHARPage) => [
+        page.id,
+        {
+          url: page._url || '',
+          totalTime: page.pageTimings.totalTime || 0,
+          totalResponseSize: page.totalResponseSize || 0
+        }
+      ])
   );
 
   return (
     <Card title={t('in-synthetics:dashboard.detailsPage.timeLineWidget')}>
       {data != undefined && data != null ? (
         <>
-          <Filter setFilter={setFilter} filter={filter} isBrowserType={isBrowserType} setExpanded={setExpanded} />
+          <Filter setFilter={setFilter} filter={filter} isBrowserType={isBrowserType} />
           <div className={locals.overviewChartContainer}>
             {filteredEntries.length >= 0 && (
               <OverviewChart entries={entriesToRender} earliestTimestamp={startTime} endTimestamp={finishTime} />
             )}
           </div>
-          <EntriesList entries={filteredEntries} pages={pagesToMap} expanded={expanded} setExpanded={setExpanded} />
+          <EntriesList
+            entries={filteredEntries}
+            pages={pagesToMap}
+            pageRefExpanded={pageRefExpanded}
+            setPageRefExpanded={setPageRefExpanded}
+          />
         </>
       ) : (
         <NoDataAvailable

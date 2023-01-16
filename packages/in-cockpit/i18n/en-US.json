@@ -89,7 +89,7 @@
     "websites": "Websites",
     "mobileApps": "Mobile Apps",
     "websitesMobileApps": "Websites & Mobile Apps",
-    "customEventDeprecatedWarning": "<strong>{{deprecatedCustomEvents}} Application, Service and Endpoint Custom Events require action</strong>. <affectedCustomEvents>View affected Custom Events</affectedCustomEvents>."
+    "customEventDeprecatedWarning": "<strong>{{deprecatedCustomEvents}} Application, Service and Endpoint Custom Events require action</strong><affectedCustomEvents>View affected Custom Events</affectedCustomEvents>"
   },
   "widgets": {
     "columnDefinitions": {

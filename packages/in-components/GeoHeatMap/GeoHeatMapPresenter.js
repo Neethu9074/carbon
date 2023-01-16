@@ -64,7 +64,8 @@ function Content({
   height,
   projection,
   notDefinedValue,
-  controlWrapperClassName
+  controlWrapperClassName,
+  label
 }) {
   let onZoomIn;
   let onZoomOut;
@@ -95,7 +96,7 @@ function Content({
         height={`${height}px`}
       />
 
-      <Legend data={result.data} valueFormatter={valueFormatter} />
+      <Legend data={result.data} valueFormatter={valueFormatter} label={label} />
 
       <div className={controlWrapperClassName}>
         <Tooltip content={t('in-components:geoHeatMap.tooltipResetView')} align="leftMiddle">
@@ -207,9 +208,10 @@ function onDidMount({
   };
 }
 
-function Legend({ data, valueFormatter }) {
+function Legend({ data, label }) {
   let min = null;
   let max = null;
+
   Object.keys(data).forEach(code => {
     const { value } = data[code];
 
@@ -233,8 +235,9 @@ function Legend({ data, valueFormatter }) {
   return (
     <HeatMapLegend
       className={locals.legend}
-      valueFrom={valueFormatter(min)}
-      valueTo={valueFormatter(max)}
+      valueFrom={min}
+      valueTo={max}
+      label={label}
       colorFrom={lightGreenToDarkGreenHex[0]}
       colorTo={lightGreenToDarkGreenHex[1]}
     />

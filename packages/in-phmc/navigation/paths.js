@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { sharedProcessorPoolId as matrixSharedProcessorPoolId } from 'in-phmc/navigation/matrix';
 import { consoleId as matrixConsoleId } from 'in-phmc/navigation/matrix';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { systemId as matrixSystemId } from 'in-phmc/navigation/matrix';
@@ -26,6 +27,8 @@ export const viosDashboard = `/vios`;
 export const viosDashboardFullyQualified = `${ibmp}${viosDashboard}`;
 export const lparDashboard = `/lpar`;
 export const lparDashboardFullyQualified = `${ibmp}${lparDashboard}`;
+export const sppDashboard = `/sharedProcessorPool`;
+export const sppDashboardFullyQualified = `${ibmp}${sppDashboard}`;
 
 export function getIbmpPhmcDashboard(consoleId, { tab, tabMatrix, timeConfig } = emptyObject) {
   return getDashboard({
@@ -85,6 +88,25 @@ export function getIbmpLparDashboard(lparId, { tab, tabMatrix, timeConfig, conso
     }
   });
 }
+export function getIbmpSppDashboard(
+  sharedProcessorPoolId,
+  { tab, tabMatrix, timeConfig, consoleId, systemId } = emptyObject
+) {
+  return getDashboard({
+    base: sppDashboardFullyQualified,
+    tab,
+    tabMatrix,
+    timeConfig,
+    matrixSegment: sppDashboard,
+    matrixParam: matrixSharedProcessorPoolId,
+    id: sharedProcessorPoolId,
+    paramsCallback: params => {
+      setOrDeleteMatrixKey(params, sppDashboard, matrixConsoleId, consoleId);
+      setOrDeleteMatrixKey(params, sppDashboard, matrixSystemId, systemId);
+    }
+  });
+}
+
 function getDashboard({
   base,
   tab = '/summary',

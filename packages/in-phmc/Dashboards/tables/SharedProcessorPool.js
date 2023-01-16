@@ -5,105 +5,148 @@
 
 import React from 'react';
 
+import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
+import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+import getSharedProcessorPools from 'in-phmc/subscriptions/getSharedProcessorPools';
+import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
+import { consoleIdUrlParameter } from 'in-phmc/navigation/urlParameters';
 import { number, percentage } from 'in-services/formatters/number';
-import Table from 'in-sdk/components/dashboard/Table';
-import { getRawPayload } from 'in-stores/snapshot';
-import connectTo from 'in-hoc/connectTo';
+import { getIbmpSppDashboard } from 'in-phmc/navigation/paths';
+import { getInfraGranularity } from 'in-stores/metric/metric';
+import EntityLink from 'in-components/EntityLink/EntityLink';
 import { t } from 'in-i18n';
 
-const cols = [
+const pathSegment = '/spp';
+const matrixPrefix = 'spp.';
+
+const columnDefinitions = [
   {
-    title: t('in-phmc:dashboards.id'),
-    type: 'number',
-    typeArgs: {
-      getValue(row) {
-        return row.sharedProcessorPool.get('id');
-      },
-      getContent: number.compact
+    id: 'name',
+    label: t('in-phmc:name'),
+    getContent(item, props) {
+      const systemId = props.systemId;
+      const consoleId = props.consoleId;
+      return <EntityLink label={item.label} href$={getIbmpSppDashboard(item.id, { systemId, consoleId })} />;
     }
   },
   {
-    title: t('in-phmc:dashboards.name'),
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return row.sharedProcessorPool.get('name');
-      }
+    id: 'totalEntitledProcUnits',
+    label: t('in-phmc:entitledProcNum'),
+    sortable: true,
+    getContent(item, props, columnId) {
+      return (
+        <ServerSideSortedMetricValue
+          snapshotId={item.id}
+          metric="totalEntitledProcUnits"
+          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
+          formatter={number.compact}
+        />
+      );
     }
   },
   {
-    title: t('in-phmc:assignedProc'),
-    type: 'number',
-    typeArgs: {
-      getValue(row) {
-        return row.sharedProcessorPool.get('assignedProcUnits');
-      },
-      getContent: number.compact
+    id: 'assignedProcUnits',
+    label: t('in-phmc:assignedProc'),
+    sortable: true,
+    getContent(item, props, columnId) {
+      return (
+        <ServerSideSortedMetricValue
+          snapshotId={item.id}
+          metric="assignedProcUnits"
+          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
+          formatter={number.compact}
+        />
+      );
     }
   },
   {
-    title: t('in-phmc:utilizedProc'),
-    type: 'number',
-    typeArgs: {
-      getValue(row) {
-        return row.sharedProcessorPool.get('utilizedProcUnitsPercentage');
-      },
-      getContent: percentage.detailed
+    id: 'utilizedProcUnitsPercentage',
+    label: t('in-phmc:utilizedProc'),
+    getContent(item, props, columnId) {
+      return (
+        <ServerSideSortedMetricValue
+          snapshotId={item.id}
+          metric="utilizedProcUnitsPercent"
+          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
+          formatter={percentage.compact}
+        />
+      );
     }
   },
   {
-    title: t('in-phmc:availableProc'),
-    type: 'number',
-    typeArgs: {
-      getValue(row) {
-        return row.sharedProcessorPool.get('availableProcUnitsPercentage');
-      },
-      getContent: percentage.detailed
+    id: 'availableProcUnitsPercentage',
+    label: t('in-phmc:availableProc'),
+    getContent(item, props, columnId) {
+      return (
+        <ServerSideSortedMetricValue
+          snapshotId={item.id}
+          metric="availableProcUnitsPercent"
+          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
+          formatter={percentage.compact}
+        />
+      );
     }
   },
   {
-    title: t('in-phmc:reservedProc'),
-    type: 'number',
-    typeArgs: {
-      getValue(row) {
-        return row.sharedProcessorPool.get('currentReservedProcessingUnits');
-      },
-      getContent: number.compact
+    id: 'currentReservedProcessingUnits',
+    label: t('in-phmc:reservedProc'),
+    getContent(item, props, columnId) {
+      return (
+        <ServerSideSortedMetricValue
+          snapshotId={item.id}
+          metric="currentReservedProcUnits"
+          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
+          formatter={number.compact}
+        />
+      );
     }
   }
 ];
 
-export default connectTo(
-  ({ snapshotId }) => {
-    return {
-      data: getRawPayload(snapshotId, 'sharedProcessorPools')
-    };
-  },
-  function SharedProcessorPool({ data }) {
-    if (!data) {
-      return null;
-    }
-    const sharedProcessorPools = data.toArray();
+const ServerTableWithUrlState = createServerTableWithUrlState({
+  paginationResettingUrlParameters: [...timeConfigUrlParameters, consoleIdUrlParameter],
+  columnDefinitions,
+  defaultOrderBy: 'label',
+  defaultOrderDirection: 'ASC',
+  pathSegment,
+  matrixPrefix
+});
 
-    if (sharedProcessorPools.size === 0) {
-      return null;
-    }
-    const rows = sharedProcessorPools.map((sharedProcessorPool, idx) => {
-      return {
-        key: String(idx),
-        sharedProcessorPool
-      };
-    });
+export default function SharedProcessorPool(props) {
+  const { timeConfig, system } = props;
+  return (
+    <ServerTableWithUrlState
+      get={getTableData}
+      timeConfig={timeConfig}
+      // consoleId={props.consoleId}
+      systemId={system.id}
+    />
+  );
+}
 
-    return (
-      <Table
-        withoutPadding
-        cardTitle={t('in-phmc:dashboards.sharedProcessorPool')}
-        cols={cols}
-        rows={rows}
-        initialSortColumn={0}
-        initialSortDirection="asc"
-      />
-    );
-  }
-);
+function getTableData({
+  query = '',
+  page = 1,
+  pageSize = 20,
+  orderBy = 'label',
+  orderDirection = 'ASC',
+  timeConfig,
+  systemId
+}) {
+  return getSharedProcessorPools({
+    pagination: {
+      page,
+      pageSize
+    },
+    order: {
+      by: orderBy,
+      direction: orderDirection
+    },
+    filter: {
+      label: query,
+      systemId,
+      timeConfig
+    },
+    granularity: getInfraGranularity(timeConfig)
+  });
+}

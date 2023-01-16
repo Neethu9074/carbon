@@ -8,12 +8,16 @@ import React from 'react';
 
 import { Stack, StackItem, Typography } from '@instana/components';
 
+import {
+  AreaRole,
+  AreaRoleType,
+  AreaRoleWithCustomType
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import RoleFormGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/RoleFormGroup';
-import { AreaRoleType } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { t } from 'in-i18n';
 
 interface WebsiteAccessAllPanelProps {
-  role?: AreaRoleType;
+  role?: AreaRoleWithCustomType;
   onChangeRole: (role: AreaRoleType) => void;
 }
 
@@ -31,7 +35,8 @@ export default function WebsiteAccessAllPanel({ role, onChangeRole }: WebsiteAcc
       <RoleFormGroup
         htmlFor="website-role-select"
         tooltipText={t('in-settings:permissionScope.roleTooltip', { context: 'websites' })}
-        defaultRole={role}
+        value={role}
+        defaultRole={AreaRole.VIEWER}
         onChange={onChangeRole}
       />
     </Stack>

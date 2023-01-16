@@ -10,6 +10,7 @@
 :local {
   .dialog {
     width: 66.25rem;
+    margin-bottom: 5rem;
   }
 
   .slideInContainer {

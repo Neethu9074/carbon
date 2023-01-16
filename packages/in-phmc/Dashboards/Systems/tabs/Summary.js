@@ -72,7 +72,7 @@ export default function Summary({ timeConfig, data: system }) {
           </Card>
         </Col>
       </Row>
-      <SharedProcessorPool snapshotId={system.id} />
+      <SharedProcessorPool timeConfig={timeConfig} system={system} />
     </Fragment>
   );
 }

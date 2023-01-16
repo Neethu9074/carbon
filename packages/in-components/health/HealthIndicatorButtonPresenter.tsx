@@ -3,16 +3,27 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { MutableRefObject, RefCallback } from 'react';
 
-import { Button } from '@instana/components';
+import { Button, ButtonKinds } from '@instana/components';
+import { Observable } from '@instana/observables';
 
 import { getButtonKindBySeverity } from 'in-stores/events';
 import { t } from 'in-i18n';
 
+interface Props {
+  openIssues?: number;
+  openIncidents?: number;
+  maxSeverity: number;
+  onClick?: () => void;
+  href$?: Observable<string>;
+  refSetter?:
+    | MutableRefObject<HTMLButtonElement | HTMLAnchorElement>
+    | RefCallback<HTMLButtonElement | HTMLAnchorElement>;
+  showCheckAsNeutral?: boolean;
+}
+
 export default function HealthIndicatorButtonPresenter({
-  // Note: only one of openIssues or openIncidents should be set. And zero issues is assumed if none is present.
-  // In typescript, both properties would be optional.
   openIssues,
   openIncidents,
   maxSeverity,
@@ -20,8 +31,8 @@ export default function HealthIndicatorButtonPresenter({
   href$,
   refSetter,
   showCheckAsNeutral = false
-}) {
-  let kind;
+}: Props) {
+  let kind: keyof typeof ButtonKinds;
   let icon;
   if (maxSeverity === 0 && showCheckAsNeutral) {
     kind = 'create';
@@ -38,16 +49,18 @@ export default function HealthIndicatorButtonPresenter({
   );
 }
 
-function getLabel(openIssues, openIncidents) {
-  if (openIssues == null && openIncidents == null) {
-    // Neither assume issues nor incidents while this information is not (yet) present, in case of e.g. lazy loading.
-    return '';
+function getLabel(openIssues?: number, openIncidents?: number): string {
+  if (openIssues != null) {
+    getIssueLabel(openIssues);
   }
-
-  return openIssues != null ? getIssueLabel(openIssues) : getIncidentLabel(openIncidents);
+  if (openIncidents != null) {
+    return getIncidentLabel(openIncidents);
+  }
+  // Neither assume issues nor incidents while this information is not (yet) present, in case of e.g. lazy loading.
+  return '';
 }
 
-function getIssueLabel(count) {
+function getIssueLabel(count: number): string {
   if (count === 0) {
     return t('in-components:health.noIssues');
   }
@@ -57,7 +70,7 @@ function getIssueLabel(count) {
   });
 }
 
-function getIncidentLabel(count) {
+function getIncidentLabel(count: number): string {
   if (count === 0) {
     return t('in-components:health.noIncidents');
   }

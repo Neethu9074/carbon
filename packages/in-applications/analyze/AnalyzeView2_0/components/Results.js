@@ -6,28 +6,22 @@
 import React, { useCallback } from 'react';
 
 import { Link, SvgIcon } from '@instana/components';
-import { useObservable } from '@instana/hooks';
 
 import { FacetedSearchPresenter } from 'in-applications/analyze/AnalyzeView2_0/components/FacetedSearchPresenter';
-import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import UngroupedViewTable, { retrievalSize } from 'in-components/AnalyzeView/UngroupedView/UngroupedViewTable';
 import QueryBuilderWorkspace from 'in-applications/analyze/AnalyzeView2_0/components/QueryBuilderWorkspace';
-import { applyTraceIdFilter, getServerity } from 'in-applications/analyze/AnalyzeView2_0/components/utils';
 import FastQueryModeToggle from 'in-applications/analyze/AnalyzeView2_0/components/FastQueryModeToggle';
 import { ChartsPresenter } from 'in-applications/analyze/AnalyzeView2_0/components/ChartsPresenter';
 import TraceDetailView from 'in-applications/analyze/AnalyzeView2_0/components/TraceDetailView';
-import { getLinkToAnalyze, getServiceDashboard } from 'in-applications/navigation/paths';
+import { getServerity } from 'in-applications/analyze/AnalyzeView2_0/components/utils';
 import getTraceSummary from 'in-applications/subscriptions/getTraceSummary';
-import { traceIdFilterOverrideEnabled } from 'in-services/featureFlags';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
+import { getServiceDashboard } from 'in-applications/navigation/paths';
 import { getTypeTextByCount } from 'in-applications/analyze/metrics';
 import getTraces from 'in-applications/subscriptions/getTraces';
 import getCalls from 'in-applications/subscriptions/getCalls';
-import IconLink from 'in-components/IconButton/IconLink';
 import HealthDot from 'in-components/health/HealthDot';
 import { number } from 'in-services/formatters/number';
-import { emptyArray } from 'in-services/fixedObjects';
-import { scrollToTop } from 'in-services/util/dom';
 import { collationLanguage, t } from 'in-i18n';
 import Tooltip from 'in-components/Tooltip';
 
@@ -58,35 +52,6 @@ const columnsPerDataSource = {
   traces: getColumnDefinitions('traces')
 };
 
-const actionColumnDefinitions = [
-  {
-    id: 'analyze',
-    label: '',
-    sortable: false,
-    getContent(item, cellOpts) {
-      const traceId = item['call'].traceId;
-      return (
-        <Tooltip content={t('in-applications:analyze.analyzeCallsOfThisTrace')} align="bottomRight" delay={1000}>
-          <IconLink
-            iconSize={'s'}
-            type="lib_actions_filter"
-            onClick={() => scrollToTop(window)}
-            href$={getLinkToAnalyze({
-              dataSource: 'calls',
-              formModel: applyTraceIdFilter(cellOpts.formModel, traceId),
-              facets: traceIdFilterOverrideEnabled ? null : cellOpts.facets,
-              resetUndefinedParams: false
-            })}
-          />
-        </Tooltip>
-      );
-    },
-    widthInAbsoluteUnit: true,
-    width: '5rem',
-    addAfter: true
-  }
-];
-
 export default function Results(props) {
   const {
     Chart = ChartsPresenter,
@@ -98,8 +63,6 @@ export default function Results(props) {
     withoutHeader,
     detailId
   } = props;
-
-  const isInternalVisible = useObservable(isInternalVisible$, []) || false;
 
   const getData = useCallback(
     params => {
@@ -121,7 +84,6 @@ export default function Results(props) {
         })
       }
       columnDefinitions={columnsPerDataSource[dataSource]}
-      actionColumnDefinitions={dataSource === 'calls' && isInternalVisible ? actionColumnDefinitions : emptyArray}
       getData={getData}
       getId={item => {
         const type = typePerDataSource[dataSource];

@@ -397,7 +397,8 @@ function enrichWithDefaultThresholdValuesForBaselines(alertConfig: ApplicationAl
       // as this should already be introducing the right threshold when invoked from the blueprint,
       // using casting to the different Threshold Types here should be fine, to make TS happy, and
       // to prepare the next step to refactor this away. Actually, the rendering should be resilient and
-      // do not need these defaults...
+      // do not need these defaults, but needs another double-check with the different use cases.
+      // @ts-ignore-error needs to be refactored
       value: (threshold as StaticThresholdConfig)?.value ?? null,
       // @ts-ignore-error needs to be refactored
       baseline: (threshold as HistoricBaselineConfig).baseline ?? [],
