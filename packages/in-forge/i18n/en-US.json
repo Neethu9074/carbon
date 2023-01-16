@@ -9727,6 +9727,7 @@
       "ibmDataPowerExceptionError": "The Sensor produced the following exception: <code>{{errorMessage}}</code>.",
       "agentTlsExpired": "The Agent TLS certificate <code>{{cert}}</code> expired in <code>{{context}}</code>.",
       "agentTlsAboutToExpire": "The Agent TLS certificate <code>{{cert}}</code> is about to expire in <code>{{context}}</code> days.",
+      "tlsProtocolMissingIssue": "The Agent is missing TLSv1.3 support",
       "agentVersion": "Agent Version",
       "bootVersion": "Boot Version",
       "origin": "Origin",
