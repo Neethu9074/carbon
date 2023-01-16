@@ -34,4 +34,7 @@
     margin: 0 1rem 0 0;
     text-transform: uppercase;
   }
+  .justifyContent {
+    justify-content: space-between;
+  }
 }
