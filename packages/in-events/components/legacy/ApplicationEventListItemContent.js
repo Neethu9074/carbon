@@ -37,6 +37,7 @@ export default function ApplicationEventListItemContent({ event }) {
     return null;
   }
 
+  const fixSuggestion = event.getIn(['problem', 'fixSuggestion'], '');
   const isGlobalSmartAlert = event.getIn(['metadata', 'globalSmartAlert'], false);
   const adaptiveBaselineInfo = event.getIn(['metadata', 'adaptiveBaselineInfo'], Map({})) ?? Map({});
   const { applicationId } = eventEntity;
@@ -56,7 +57,7 @@ export default function ApplicationEventListItemContent({ event }) {
   const { QueryBuilder } = getQueryBuilderForAlertType(alertType, thresholdType);
   return (
     <>
-      <ProblemDescription event={event} />
+      <ProblemDescription fixSuggestion={fixSuggestion} />
       <DescriptionButtons>
         <ApplicationAlertConfigButton
           applicationId={applicationId}

@@ -40,6 +40,7 @@ export default function WebsiteEventContent({ event }) {
     return null;
   }
 
+  const fixSuggestion = event.getIn(['problem', 'fixSuggestion'], '');
   const adaptiveBaselineInfo = event.getIn(['metadata', 'adaptiveBaselineInfo'], emptyMap).toJS();
 
   const { tagFilterExpression, rule } = alertConfig;
@@ -64,7 +65,7 @@ export default function WebsiteEventContent({ event }) {
           <Card title={t('in-events:titleDescription')}>
             <WebsiteScopePath {...eventEntity} timeConfig={getTimeConfigFromEvent(event)} showDashboardLinks />
 
-            <ProblemDescription event={event} className="in-event-view-event-content" />
+            <ProblemDescription fixSuggestion={fixSuggestion} className="in-event-view-event-content" />
             <DescriptionButtons>
               <WebsiteAlertConfigButton alertConfig={alertConfig} />
               <AnalyzeWebsiteEventButton
