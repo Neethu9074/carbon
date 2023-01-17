@@ -9,6 +9,7 @@ import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
 import { Link } from '@instana/components';
 
+import { useForm } from 'in-websites/WebsiteDashboard/tabs/Configuration/StackTraceTranslation/FileDownloadConfigurationDialogForm';
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -28,7 +29,13 @@ import Input from 'in-components/form/Input';
 import locals from './FileDownloadConfigurationDialogPresenter.mless';
 
 export default function FileDownloadConfigurationDialogPresenter(props) {
-  const { form, message, onSubmit } = props;
+  const { config, websiteId, onFinished } = props;
+
+  const { form, message, onSubmit, onChange, addMatchingRule, removeMatchingRule, addHeader, removeHeader } = useForm(
+    config,
+    websiteId,
+    onFinished
+  );
   const disabled = message && message.isSaving;
 
   return (
@@ -45,9 +52,21 @@ export default function FileDownloadConfigurationDialogPresenter(props) {
         <fieldset disabled={disabled}>
           {message && <TemporaryMessage type={message.type} message={message.message} duration={5000} />}
 
-          <MatchingRules {...props} disabled={disabled} />
-          <BasicAuth {...props} />
-          <HttpHeaders {...props} disabled={disabled} />
+          <MatchingRules
+            form={form}
+            onChange={onChange}
+            addMatchingRule={addMatchingRule}
+            removeMatchingRule={removeMatchingRule}
+            disabled={disabled}
+          />
+          <BasicAuth form={form} onChange={onChange} />
+          <HttpHeaders
+            form={form}
+            onChange={onChange}
+            addHeader={addHeader}
+            removeHeader={removeHeader}
+            disabled={disabled}
+          />
 
           <SaveCancel form={form} onClickCancelButton={close} isCreate={isBlank(form.get('id').value)} />
         </fieldset>
