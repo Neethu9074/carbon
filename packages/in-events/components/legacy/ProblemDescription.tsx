@@ -5,17 +5,20 @@
 
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
-/* eslint-disable react/no-danger */
-import { t } from 'in-i18n';
+import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import { toHtml } from 'in-services/formatters/markdown';
+import { t } from 'in-i18n';
 
 import 'in-events/components/legacy/ProblemDescription.less';
 
 const block = 'in-event-view-event-problem';
 
-export default function ProblemDescription({ fixSuggestion }) {
+interface Props {
+  fixSuggestion: string;
+}
+
+export default function ProblemDescription({ fixSuggestion }: Props) {
   const htmlFixSuggestion = toHtml(fixSuggestion);
   return (
     <DescriptionList className={block}>
