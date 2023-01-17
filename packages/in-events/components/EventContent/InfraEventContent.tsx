@@ -17,9 +17,12 @@ import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { infraExploreDataEnabled } from 'in-services/featureFlags';
+import { Config } from 'in-custom-dashboards/widgets/Chart/types';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
 import { hasInfrastructureAccess } from 'in-stores/permission';
 import { getFormatterId } from 'in-stores/metric/formatters';
+import { InfraAlertConfig, TimeConfig } from 'in-types';
+import { EventMap, EventOrMap } from 'in-events/types';
 import { getMetricDefinition } from 'in-sdk/metrics';
 import { Row, Col } from 'in-components/layout/Grid';
 import PluginIcon from 'in-components/PluginIcon';
@@ -27,7 +30,11 @@ import { t } from 'in-i18n';
 
 import locals from './InfraEventContent.mless';
 
-export default function InfraEventContent({ event }) {
+interface Props {
+  event: EventMap;
+}
+
+export default function InfraEventContent({ event }: Props) {
   const alertConfig = useInfraEventAlertConfig(event);
 
   if (!alertConfig) {
@@ -41,7 +48,7 @@ export default function InfraEventContent({ event }) {
   const timeConfig = {
     ...getChartTimeConfigByEvent(event),
     windowSize: alertingEventDetailsChartTimeframe
-  };
+  } as TimeConfig;
 
   return (
     <>
@@ -59,7 +66,7 @@ export default function InfraEventContent({ event }) {
               <DescriptionButtons>
                 <AnalyzeInfraEventButton
                   alertConfig={alertConfig}
-                  timeConfig={getSmartAlertAnalyzeTimeConfig(event, alertConfig)}
+                  timeConfig={getSmartAlertAnalyzeTimeConfig(event as EventOrMap, alertConfig)}
                 />
               </DescriptionButtons>
             )}
@@ -76,16 +83,21 @@ export default function InfraEventContent({ event }) {
   );
 }
 
-function Chart({ alertConfig, timeConfig }) {
+interface ChartProps {
+  alertConfig: InfraAlertConfig;
+  timeConfig: TimeConfig;
+}
+
+function Chart({ alertConfig, timeConfig }: ChartProps) {
   const { entityType, metricName, aggregation } = alertConfig.rule;
 
   const metricDefinition = getMetricDefinition(entityType, metricName);
 
-  const metricLabel = metricDefinition.getLabel;
+  const metricLabel = metricDefinition.getLabel();
   // Because the chart config for UnifiedMetricsChart requires a string formatterId (e.g. 'percentage.compact'),
   // which is then internally mapped to the formatter function, we need to do a tiny workaround here and map the formatter
   // function to that ID, just that it's internally mapped back to the function once again.
-  const metricFormatterId = getFormatterId(metricDefinition.formatter.detailed);
+  const metricFormatterId = getFormatterId((metricDefinition.formatter as any).detailed);
 
   const chartConfig = {
     type: 'TIME_SERIES',
@@ -106,7 +118,7 @@ function Chart({ alertConfig, timeConfig }) {
         }
       ]
     }
-  };
+  } as Config;
 
   return (
     <UnifiedMetricsChart
