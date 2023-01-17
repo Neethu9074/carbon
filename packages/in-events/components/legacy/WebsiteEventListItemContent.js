@@ -52,10 +52,11 @@ export default function WebsiteEventListItemContent({ event }) {
   const chartViewConfig = createDefaultChartConfig(timeConfig);
 
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
+  const fixSuggestion = event.getIn(['problem', 'fixSuggestion'], '');
 
   return (
     <>
-      <ProblemDescription event={event} />
+      <ProblemDescription fixSuggestion={fixSuggestion} />
       <DescriptionButtons>
         <WebsiteAlertConfigButton alertConfig={alertConfig} />
         <AnalyzeWebsiteEventButton
