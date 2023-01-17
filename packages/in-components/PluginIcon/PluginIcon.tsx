@@ -8,9 +8,9 @@ import React, { forwardRef } from 'react';
 import { Size } from '@instana/components/types/components/SvgIcon/types';
 import { SvgIcon } from '@instana/components';
 
-import { SnapshotMap } from 'in-components/EntityLink';
 import { getIconType as getInfraIconType } from 'in-infrastructure/infrastructureIconType';
-import { isWebsiteType } from 'in-forge/plugins/pluginTypes';
+import { isWebsiteType, isSyntheticType } from 'in-forge/plugins/pluginTypes';
+import { SnapshotMap } from 'in-components/EntityLink';
 import theme from 'in-themes';
 
 interface PluginIconProps extends Omit<React.ComponentProps<typeof SvgIcon>, 'type'> {
@@ -34,6 +34,9 @@ function getIconType(snapshot?: SnapshotMap, plugin?: string): string {
     if (isWebsiteType(plugin)) {
       return getWebsiteIconByType(plugin);
     }
+    if (isSyntheticType(plugin)) {
+      return getSyntheticIconByType(plugin);
+    }
   }
 
   return getInfraIconType(snapshot ?? plugin!);
@@ -41,5 +44,10 @@ function getIconType(snapshot?: SnapshotMap, plugin?: string): string {
 
 function getWebsiteIconByType(plugin: string): string {
   if (plugin === 'website') return 'lib_website';
+  return 'lib_infra_unknownIcon';
+}
+
+function getSyntheticIconByType(plugin: string): string {
+  if (plugin === 'syntheticTest') return 'lib_synthetic';
   return 'lib_infra_unknownIcon';
 }

@@ -8,6 +8,7 @@ import { Nullish } from 'in-types';
 
 const appDataTypes = ['application', 'service', 'endpoint'];
 const websiteTypes = ['website'];
+const syntheticTypes = ['syntheticTest'];
 
 export function isAppDataType(type: string | Nullish): boolean {
   if (type) {
@@ -19,6 +20,13 @@ export function isAppDataType(type: string | Nullish): boolean {
 export function isWebsiteType(type: string | Nullish): boolean {
   if (type) {
     return websiteTypes.includes(type.toLowerCase());
+  }
+  return false;
+}
+
+export function isSyntheticType(type: string | Nullish): boolean {
+  if (type) {
+    return syntheticTypes.includes(type.toLowerCase());
   }
   return false;
 }
