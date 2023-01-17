@@ -12,11 +12,12 @@ import { Link } from '@instana/components';
 import { smartAlertMigrationDocs } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
 import getLegacyAlertConfigStats from 'in-alerting/smart-alerts/subscriptions/getLegacyAlertConfigStats';
 import { deprecatedValue } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
-import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
+import { addMessage, Message, removeMessage } from 'in-components/MessageFlyout/stores/messages';
 import { teamSettingsAlertingEvents, events } from 'in-settings/navigation/paths';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 import { pendingResult } from 'in-services/fixedObjects';
+import { number } from 'in-services/formatters/number';
 import { t, Trans } from 'in-i18n';
 
 export default function DeprecatedCustomEventsPopUp() {
@@ -27,19 +28,16 @@ export default function DeprecatedCustomEventsPopUp() {
       showNotification(legacyAlertConfigStats.data.deprecatedCustomEvents);
   }, [legacyAlertConfigStats]);
 
-  return <div />;
+  return <></>;
 }
 
-DeprecatedCustomEventsPopUp.showNotification = showNotification;
-
-export function showNotification(deprecatedCustomEvents) {
+export function showNotification(deprecatedCustomEvents: number) {
   const id = 'deprecatedCustomEventsInfo';
-  const message = {
+  const message: Message = {
     type: 'warning',
     title: t('in-events:deprecatedCustomEventGlobalPopup.title', {
-      deprecatedCustomEvents
+      deprecatedCustomEvents: number.compact(deprecatedCustomEvents)
     }),
-
     content: (
       <>
         <p>
@@ -54,9 +52,9 @@ export function showNotification(deprecatedCustomEvents) {
           />
         </p>
         <Link
-          href$={getModifiedUrlStream(params => {
-            params.pathname = `${teamSettingsAlertingEvents}`;
-            setOrDeleteMatrixKey(params, events, 'type', deprecatedValue);
+          href$={getModifiedUrlStream(location => {
+            location.pathname = teamSettingsAlertingEvents;
+            setOrDeleteMatrixKey(location, events, 'type', deprecatedValue);
           })}
         >
           {t('in-events:deprecatedCustomEventGlobalPopup.affectedEventsLink')}
@@ -64,7 +62,7 @@ export function showNotification(deprecatedCustomEvents) {
       </>
     ),
     onClick: () => {
-      // LATER: add re-curring handling here
+      // LATER: follow-up PR with additional logic for recurring handling
       removeMessage(id);
     }
   };

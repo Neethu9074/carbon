@@ -20,6 +20,7 @@ export const Default = () => {
 
   return (
     <div>
+      Intentionally empty - It holds a MessageFlyout container.
       <MessageFlyout />
     </div>
   );
