@@ -4,15 +4,12 @@
  */
 
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import locals from './ThresholdLabel.mless';
 
-export default function ThresholdLabel({ className, ...otherProps }) {
+type Props = React.DetailedHTMLProps<React.HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>;
+
+export default function ThresholdLabel({ className, ...otherProps }: Props) {
   return <span className={classNames(locals.label, className)} {...otherProps} />;
 }
-
-ThresholdLabel.propTypes = {
-  className: PropTypes.string
-};

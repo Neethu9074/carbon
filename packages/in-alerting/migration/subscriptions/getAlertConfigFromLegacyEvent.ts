@@ -4,8 +4,14 @@
  */
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
+import { Result, ApplicationAlertConfigMigrationItem } from '@instana/types';
 
-export default createResultSubscriptionFactory({
+interface GetAlertConfigFromLegacyEventRequest {}
+
+export default createResultSubscriptionFactory<
+  GetAlertConfigFromLegacyEventRequest,
+  Result<ApplicationAlertConfigMigrationItem>
+>({
   eventId: 'getAlertConfigFromLegacyEvent',
   memoizeFor: 1000,
   trackSubscriptionStatistics: true

@@ -5,16 +5,21 @@
 
 import React from 'react';
 
+import { Cursor } from '@instana/types';
+
 import {
   ScopeSelectorAppItem,
-  ScopeSelectorServiceItem,
-  ScopeSelectorEndpoint
+  ScopeSelectorEndpoint,
+  ScopeSelectorServiceItem
 } from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/ScopeSelectorItem';
 import {
   PER_AP,
-  PER_AP_SERVICE,
-  PER_AP_ENDPOINT
+  PER_AP_ENDPOINT,
+  PER_AP_SERVICE
 } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
+import { AlertEvaluationType, AppDataEntityChainItem } from 'in-types';
+import { State } from 'in-hooks/useCursorPagination';
 import { t } from 'in-i18n';
 
 const evaluationTypeLevelMap = {
@@ -23,7 +28,7 @@ const evaluationTypeLevelMap = {
   [PER_AP_ENDPOINT]: 'APP_SERVICE_ENDPOINT'
 };
 
-export function getLevel(evaluationType) {
+export function getLevel(evaluationType: AlertEvaluationType) {
   return evaluationTypeLevelMap[evaluationType];
 }
 
@@ -31,7 +36,13 @@ const tooManyResultsItemOption = {
   path: t('in-alerting:smartAlerts.applications.chart.entitySelection.tooManyResults')
 };
 
-export function createApOnlyItem({ applicationName, applicationId }) {
+export function createApOnlyItem({
+  applicationName,
+  applicationId
+}: {
+  applicationName: string;
+  applicationId: string;
+}) {
   return {
     type: 'APPLICATION',
     label: applicationName,
@@ -40,7 +51,7 @@ export function createApOnlyItem({ applicationName, applicationId }) {
   };
 }
 
-export function searchResultList(items, evaluationType) {
+export function searchResultList(items: AppDataEntityChainItem[], evaluationType: AlertEvaluationType) {
   if (evaluationType === PER_AP_SERVICE) {
     return items.map(({ appDataEntityChain }) => {
       const { applicationId, applicationName, serviceName, serviceId } = appDataEntityChain;
@@ -48,7 +59,12 @@ export function searchResultList(items, evaluationType) {
       return {
         type: 'SERVICE',
         label: serviceName,
-        path: <ScopeSelectorServiceItem applicationName={applicationName} serviceName={serviceName} />,
+        path: (
+          <ScopeSelectorServiceItem
+            applicationName={applicationName}
+            serviceName={serviceName ?? valueMissingPlaceholder}
+          />
+        ),
         applicationId,
         id: serviceId
       };
@@ -64,8 +80,8 @@ export function searchResultList(items, evaluationType) {
       path: (
         <ScopeSelectorEndpoint
           applicationName={applicationName}
-          serviceName={serviceName}
-          endpointName={endpointName}
+          serviceName={serviceName ?? valueMissingPlaceholder}
+          endpointName={endpointName ?? valueMissingPlaceholder}
         />
       ),
       applicationId,
@@ -75,7 +91,10 @@ export function searchResultList(items, evaluationType) {
   });
 }
 
-export function searchResultsToListItems(searchResult, evaluationType) {
+export function searchResultsToListItems(
+  searchResult: State<Cursor, AppDataEntityChainItem> | undefined,
+  evaluationType: AlertEvaluationType
+) {
   const items = searchResult?.items;
   if (!items) {
     return [];

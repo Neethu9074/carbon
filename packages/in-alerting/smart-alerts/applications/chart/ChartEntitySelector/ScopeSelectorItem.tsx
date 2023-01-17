@@ -6,21 +6,27 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { SvgIcon, Spacer, SpacerSizes } from '@instana/components';
+import { SvgIcon, Spacer } from '@instana/components';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import Tooltip from 'in-components/Tooltip';
 
 import locals from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/ScopeSelectorItem.mless';
 
-const iconSize = 'normal';
+const iconSize = 'regular';
 
-export const ScopeSelectorEndpoint = ({ applicationName, serviceName, endpointName }) => (
+interface EndpointProps {
+  applicationName: string;
+  serviceName: string;
+  endpointName: string;
+}
+
+export const ScopeSelectorEndpoint = ({ applicationName, serviceName, endpointName }: EndpointProps) => (
   <HorizontalFlexWrapper className={locals.selectorItem}>
     <Tooltip align="topMiddle" delay={500} content={applicationName}>
       <div className={locals.smallColumn}>
         <SvgIcon size={iconSize} type="lib_application" className={locals.icon} />
-        <Spacer horizontal={SpacerSizes.xsmall} />
+        <Spacer horizontal="xsmall" />
         <span className={locals.cutOffText}>{applicationName}</span>
       </div>
     </Tooltip>
@@ -30,7 +36,7 @@ export const ScopeSelectorEndpoint = ({ applicationName, serviceName, endpointNa
     <Tooltip align="topMiddle" delay={500} content={serviceName}>
       <div className={locals.smallColumn}>
         <SvgIcon size={iconSize} type="lib_application_service" className={locals.icon} />
-        <Spacer horizontal={SpacerSizes.xsmall} />
+        <Spacer horizontal="xsmall" />
         <span className={locals.cutOffText}>{serviceName}</span>
       </div>
     </Tooltip>
@@ -39,18 +45,23 @@ export const ScopeSelectorEndpoint = ({ applicationName, serviceName, endpointNa
 
     <HorizontalFlexWrapper className={classNames(locals.fullColumn)}>
       <SvgIcon type="lib_application_endpoint" size={iconSize} className={locals.entityIcon} />
-      <Spacer horizontal={SpacerSizes.xsmall} />
+      <Spacer horizontal="xsmall" />
       {endpointName}
     </HorizontalFlexWrapper>
   </HorizontalFlexWrapper>
 );
 
-export const ScopeSelectorServiceItem = ({ applicationName, serviceName }) => (
+interface ServiceItemProps {
+  applicationName: string;
+  serviceName: string;
+}
+
+export const ScopeSelectorServiceItem = ({ applicationName, serviceName }: ServiceItemProps) => (
   <HorizontalFlexWrapper className={locals.selectorItem}>
     <Tooltip align="topMiddle" delay={500} content={applicationName}>
       <div className={locals.normalColumn}>
         <SvgIcon size={iconSize} type="lib_application" className={locals.icon} />
-        <Spacer horizontal={SpacerSizes.xsmall} />
+        <Spacer horizontal="xsmall" />
         <span className={locals.cutOffText}>{applicationName}</span>
       </div>
     </Tooltip>
@@ -59,17 +70,21 @@ export const ScopeSelectorServiceItem = ({ applicationName, serviceName }) => (
 
     <HorizontalFlexWrapper className={classNames(locals.fullColumn)}>
       <SvgIcon type="lib_application_service" size={iconSize} className={locals.icon} />
-      <Spacer horizontal={SpacerSizes.xsmall} />
+      <Spacer horizontal="xsmall" />
       {serviceName}
     </HorizontalFlexWrapper>
   </HorizontalFlexWrapper>
 );
 
-export const ScopeSelectorAppItem = ({ applicationName }) => (
+interface AppItemProps {
+  applicationName: string;
+}
+
+export const ScopeSelectorAppItem = ({ applicationName }: AppItemProps) => (
   <HorizontalFlexWrapper className={locals.selectorItem}>
     <HorizontalFlexWrapper className={classNames(locals.fullColumn)}>
       <SvgIcon type="lib_application" size={iconSize} className={locals.icon} />
-      <Spacer horizontal={SpacerSizes.xsmall} />
+      <Spacer horizontal="xsmall" />
       {applicationName}
     </HorizontalFlexWrapper>
   </HorizontalFlexWrapper>
