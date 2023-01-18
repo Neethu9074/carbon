@@ -34,7 +34,7 @@ import {
   setCustomEventSpecificationsEnabled
 } from 'in-api/eventSpecifications';
 import {
-  SmartAlertMigrationDocs,
+  smartAlertMigrationDocs,
   MessageContentModernDesign
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
 import { getPluginsWithCustomMetricsOptionsObservable } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customMetricUtils';
@@ -215,7 +215,7 @@ function CustomEventDeprecatedWarning() {
         <Trans
           i18nKey="in-settings:tabs.customEventListDeprecatedWarning"
           components={{
-            documentationLink: SmartAlertMigrationDocs
+            documentationLink: smartAlertMigrationDocs
           }}
         />
       </MessageContentModernDesign>
