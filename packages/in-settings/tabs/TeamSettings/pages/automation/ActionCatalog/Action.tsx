@@ -142,7 +142,7 @@ function save(form: MapForm, id: string | null) {
   }
 }
 
-function getActionSpecification(form: MapForm): NewAction {
+export function getActionSpecification(form: MapForm): NewAction {
   const name = (form.get('name') as FormField<string>).value;
   const description = (form.get('description') as FormField<string>).value;
   const type = (form.get('type') as FormField<string>).value;

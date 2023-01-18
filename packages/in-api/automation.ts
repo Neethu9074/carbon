@@ -94,16 +94,16 @@ export const createDocLinkField = (value: string): Field => ({
 
 export const createScriptFields = (value: string): Field[] => [
   {
-    description: 'script interpreter',
+    description: 'script subtype',
     encoding: 'base64',
-    name: 'interpreter',
+    name: 'subtype',
     value: btoa('bash')
   },
   {
     value: btoa(value),
     description: 'script content',
     encoding: 'base64',
-    name: 'script_content'
+    name: 'script_ssh'
   }
 ];
 
@@ -168,7 +168,7 @@ export const createWebhookFields = ({
     value: JSON.stringify({
       ...(accept ? { Accept: accept } : {}),
       ...(acceptLanguage ? { 'Accept-Language': acceptLanguage } : {}),
-      ...(HTTP_METHODS_WITH_BODY.includes(method) ? { 'Content-Type': contentType } : {}),
+      ...(HTTP_METHODS_WITH_BODY.includes(method) && contentType ? { 'Content-Type': contentType } : {}),
       ...additionalHeaders
     }),
     description: 'header of the https request',
@@ -257,13 +257,13 @@ export function runScriptAction({ script, volatileId, event, actionName, interpr
         timeout: '300',
         request: [
           {
-            name: 'script_content',
+            name: 'script_ssh',
             value: script,
             encoded: 'base64'
           },
 
           {
-            name: 'interpreter',
+            name: 'subtype',
             value: interpreter,
             encoded: 'base64'
           }

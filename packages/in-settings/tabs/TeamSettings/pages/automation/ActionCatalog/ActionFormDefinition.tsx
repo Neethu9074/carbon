@@ -27,7 +27,7 @@ import {
 } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import { Header } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/AdditionalHeadersTable';
 import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
-import { AdditionalHeaders, ApiKeyAuth, Authen, BasicAuth, BearerAuth } from 'in-api/automation';
+import { ApiKeyAuth, Authen, BasicAuth, BearerAuth } from 'in-api/automation';
 import { notBlankValidator } from 'in-services/validators/string';
 import { isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
@@ -148,8 +148,7 @@ export function putWebhookFields(form: MapForm, action: ActionFormEntity) {
   const method = getMethodFromFields(action.fields);
   const host = getHostFromFields(action.fields);
   const body = getBodyFromFields(action.fields);
-  const headerString = getHeaderFromFields(action.fields);
-  const header: AdditionalHeaders = JSON.parse(headerString);
+  const header = getHeaderFromFields(action.fields);
   const ignoreCertErrors = getIgnoreCertErrorsFromFields(action.fields);
   const authenString = getAuthenFromFields(action.fields);
   const authen: Authen = JSON.parse(authenString);
