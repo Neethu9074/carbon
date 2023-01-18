@@ -19,16 +19,7 @@ export default function ServiceMappingInfoBox() {
       title={t('in-applications:serviceTroubleshooting.troubleShootingExplanation')}
       className={locals.marginTop}
     >
-      <p>
-        {t('in-applications:serviceTroubleshooting.serviceRuleDocumentation')}{' '}
-        <Link
-          href={
-            'https://github.ibm.com/instana/backend/blob/4d7adf0f658d42e6c14199f8e78eacbdf6d5061e/label-extractor/src/main/resources/defaultServiceRules.yaml'
-          }
-        >
-          defaultServiceRules.yaml
-        </Link>
-      </p>
+      <p>{t('in-applications:serviceTroubleshooting.serviceRuleDocumentation')} defaultServiceRules.yaml</p>
       <p>
         {t('in-applications:serviceTroubleshooting.customServiceRuleDocumentation')}{' '}
         <Link href={'#/services/configure/new'}>
