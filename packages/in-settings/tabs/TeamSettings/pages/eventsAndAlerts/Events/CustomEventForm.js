@@ -3,11 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { compose, lifecycle, withState } from 'recompose';
+import React, { useState, useEffect } from 'react';
 import { isEqual } from 'lodash';
-import React from 'react';
 
 import { create, just } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
 
 import {
   undefinedMetricFormatter,
@@ -34,7 +34,6 @@ import { isBlank, isNotBlank } from 'in-services/util/string';
 import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import { containsMetricInList } from 'in-sdk/metrics';
 import { validate } from 'in-api/search';
-import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -51,22 +50,37 @@ const queryInput = create();
 // can stop the progress indicator for the query validation and enable saving the form again.
 const queryValidationFinished = create();
 
-export default compose(
-  connectTo(({ form }) => {
-    const observables = {};
-    if (isCustomDataSourceSelected(form)) {
-      observables.pluginsWithCustomMetrics = getPluginsWithCustomMetricsOptionsObservable();
-      const entityType = form.get('entityType').value;
-      if (entityType) {
-        observables.customMetricsForPlugin = getCustomMetricsOptionsForPluginObservable(entityType);
-      }
+export default function CustomEventForm({
+  form,
+  setForm,
+  onChange,
+  setSaveEnabled,
+  hideLegacyAppDataEventDeprecationInfo,
+  disabled,
+  entity
+}) {
+  useEffect(() => {
+    if (isNotBlank(entity.query)) {
+      queryInput.emit(entity.query);
     }
-    return observables;
-  }),
-  connectTo({
-    // Maintenance notice: Do no use a function to create the connectTo-observable here, only use an object literal.
-    // Otherwise the observable will be recreated all the time leading to continuuos validation requests.
-    queryValidationResult: queryInput
+    // Triggers the query once the component got mounted
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const entityType = form.get('entityType')?.value;
+  const pluginsWithCustomMetrics = useObservable(() => {
+    if (isCustomDataSourceSelected(form)) {
+      return getPluginsWithCustomMetricsOptionsObservable();
+    }
+  }, [form]);
+
+  const customMetricsForPlugin = useObservable(() => {
+    if (isCustomDataSourceSelected(form) && entityType) {
+      return getCustomMetricsOptionsForPluginObservable(entityType);
+    }
+  }, [entityType]);
+
+  const queryValidationResult = useObservable(
+    queryInput
       .distinct()
       .debounce(1000)
       .flatMap(query => {
@@ -76,59 +90,25 @@ export default compose(
           return queryIsValid;
         }
       })
-      .tap(() => queryValidationFinished.emit(true))
-  }),
-  connectTo(props => {
-    const selectedApplicationName = props.form.get('application') ? props.form.get('application').value : '';
+      .tap(() => queryValidationFinished.emit(true)),
+    []
+  );
+  const [queryValidationInProgress, setQueryValidationInProgress] = useState(false);
+  const selectedApplicationName = form.get('application') ? form.get('application').value : '';
+
+  const existingApplication = useObservable(() => {
     if (selectedApplicationName === null || isBlank(selectedApplicationName)) {
-      return {
-        existingApplication: null
-      };
+      return null;
+    } else {
+      return getSelectedApplicationConfigsByName(selectedApplicationName);
     }
-    return {
-      existingApplication: getSelectedApplicationConfigsByName(selectedApplicationName)
-    };
-  }),
-  withState('queryValidationInProgress', 'setQueryValidationInProgress', false),
-  connectTo(({ setQueryValidationInProgress, setSaveEnabled }) => ({
-    queryValidationFinished: queryValidationFinished.distinct().tap(finished => {
-      if (finished) {
-        setQueryValidationProgressState(false, setQueryValidationInProgress, setSaveEnabled);
-      }
-      queryValidationFinished.emit(false);
-    })
-  })),
-  lifecycle({
-    componentDidMount() {
-      const { entity } = this.props;
-      // Validate the query once initially after loading an event specification.
-      if (isNotBlank(entity.query)) {
-        queryInput.emit(entity.query);
-      }
-    }
-  })
-)(EventForm);
-
-function EventForm({
-  form,
-  setForm,
-  onChange,
-  pluginsWithCustomMetrics,
-  customMetricsForPlugin,
-  queryValidationResult,
-  queryValidationInProgress,
-  setQueryValidationInProgress,
-  setSaveEnabled,
-  hideLegacyAppDataEventDeprecationInfo,
-  existingApplication,
-  disabled
-}) {
-  applyQueryValidationResult(queryValidationResult, form, onChange);
-
+  }, [selectedApplicationName]);
   // extend custom-metrics list with current selected custom-metric,
   // in case it is not contained in the list. This might happen due to
   // deprecation or there is no such metric anymore
   addCurrentCustomMetricToListIfMissing(customMetricsForPlugin, form);
+
+  applyQueryValidationResult(queryValidationResult, form, onChange);
 
   let pluginsWithMetricDefinitions;
   if (form.get('dataSource') && form.get('dataSource').value !== dataSourceSystem) {

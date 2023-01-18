@@ -37,7 +37,6 @@ import TimeThresholdConfig from 'in-alerting/smart-alerts/websites/advanced/Time
 import { onThresholdTypeChange } from 'in-alerting/smart-alerts/websites/form/thresholdTypeForm';
 import { ThresholdSection } from 'in-alerting/smart-alerts/websites/advanced/ThresholdSection';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
-import { websiteSmartAlertsAdaptiveBaselineEnabled } from 'in-services/featureFlags';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import StepsContainer from 'in-components/StepsContainer';
 import { t } from 'in-i18n';
@@ -98,7 +97,7 @@ export default function AdvancedModeContainer(props) {
                 updateForm={updateForm}
                 setSliderState={setSliderState}
               />
-              {websiteSmartAlertsAdaptiveBaselineEnabled && blueprintConfig?.baselineEnabled && (
+              {blueprintConfig?.baselineEnabled && (
                 <LightCard
                   title={t(
                     'in-alerting:smartAlerts.applications.advanced.advancedModeContainer.threshold.staticOrAdaptiveTitle'

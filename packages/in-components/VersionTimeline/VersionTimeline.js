@@ -60,7 +60,7 @@ export default function VersionTimeline({ onVersionClick, getTooltip, from, to, 
           <EndingGap lastVersion={versions[versions.length - 1]} scale={scale} />
         </>
       )}
-      <HorizontalTimeAxis tickLineColor={theme.lib.colors.N600Light} scale={{ from, to }} width={width} />
+      {width && <HorizontalTimeAxis tickLineColor={theme.lib.colors.N600Light} scale={{ from, to }} width={width} />}
     </div>
   );
 }

@@ -18,11 +18,12 @@ import EventChart from 'in-events/components/EventChart';
 
 export default function EventListItemContent({ event, latestSnapshot }) {
   const isOfflineEvent = event => isEntityVerificationEvent(event) || isHostAvailabilityEvent(event);
+  const fixSuggestion = event.getIn(['problem', 'fixSuggestion'], '');
 
   return (
     <>
       <SubEntityInformation event={event} />
-      <ProblemDescription event={event} />
+      <ProblemDescription fixSuggestion={fixSuggestion} />
       <DescriptionButtons>
         <EventSpecificationLink event={event.toJS()} />
         <AnalyzeIssueCallsButton event={event} />

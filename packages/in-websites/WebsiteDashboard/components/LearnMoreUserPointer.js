@@ -3,14 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-import { compose, pure } from 'recompose';
+import React, { useMemo } from 'react';
 import { get } from 'lodash';
-import React from 'react';
+
+import { useObservable } from '@instana/hooks';
 
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import LearnMoreCard from 'in-websites/LearnMoreCard/LearnMoreCard';
 import { minutes } from 'in-services/time';
-import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 import locals from './LearnMoreUserPointer.mless';
@@ -24,10 +24,9 @@ const timeConfig = {
 
 const explanation = t('in-websites:websiteDashboard.components.learnMoreUserPointerExplanation').trim();
 
-export default compose(
-  pure,
-  connectTo(({ websiteId }) => ({
-    totalBeaconsResult: getWebsiteMetrics({
+export default function LearnMoreUserPointer({ websiteId }) {
+  const totalBeaconsResult = useObservable(() => {
+    return getWebsiteMetrics({
       timeConfig,
       tagFilters: [{ name: 'beacon.website.id', operator: 'EQUALS', stringValue: websiteId }],
       metrics: {
@@ -36,8 +35,10 @@ export default compose(
           aggregation: 'SUM'
         }
       }
-    }),
-    totalBeaconsWithUserResult: getWebsiteMetrics({
+    });
+  }, [websiteId]);
+  const totalBeaconsWithUserResult = useObservable(() => {
+    return getWebsiteMetrics({
       timeConfig,
       tagFilters: [
         { name: 'beacon.website.id', operator: 'EQUALS', stringValue: websiteId },
@@ -49,25 +50,23 @@ export default compose(
           aggregation: 'SUM'
         }
       }
-    })
-  }))
-)(LearnMoreUserPointer);
+    });
+  }, [websiteId]);
+  return useMemo(() => {
+    const beaconCount = get(totalBeaconsResult, ['data', 'count', 0, 1]);
+    const beaconCountWithUser = get(totalBeaconsWithUserResult, ['data', 'count', 0, 1]);
 
-function LearnMoreUserPointer({ totalBeaconsResult, totalBeaconsWithUserResult }) {
-  const beaconCount = get(totalBeaconsResult, ['data', 'count', 0, 1]);
-  const beaconCountWithUser = get(totalBeaconsWithUserResult, ['data', 'count', 0, 1]);
-
-  if (beaconCount == null || beaconCountWithUser == null || beaconCount < 1 || beaconCountWithUser > 0) {
-    return null;
-  }
-
-  return (
-    <LearnMoreCard
-      className={locals.wrapper}
-      title={t('in-websites:websiteDashboard.components.learnMoreUserPointerTitle')}
-      explanation={explanation}
-      learnMoreHref="https://www.ibm.com/docs/en/obi/current?topic=websites-javascript-agent-api#identifying-users"
-      learnMoreLabel={t('in-websites:websiteDashboard.components.learnMoreUserPointerLearnMoreLabel')}
-    />
-  );
+    if (beaconCount == null || beaconCountWithUser == null || beaconCount < 1 || beaconCountWithUser > 0) {
+      return null;
+    }
+    return (
+      <LearnMoreCard
+        className={locals.wrapper}
+        title={t('in-websites:websiteDashboard.components.learnMoreUserPointerTitle')}
+        explanation={explanation}
+        learnMoreHref="https://www.ibm.com/docs/en/obi/current?topic=websites-javascript-agent-api#identifying-users"
+        learnMoreLabel={t('in-websites:websiteDashboard.components.learnMoreUserPointerLearnMoreLabel')}
+      />
+    );
+  }, [totalBeaconsResult, totalBeaconsWithUserResult]);
 }

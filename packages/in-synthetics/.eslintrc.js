@@ -14,6 +14,7 @@ module.exports = {
       enforceAbsoluteImportPaths: true,
 
       allowedInPackages: [
+        'in-alerting',
         'in-applications',
         'in-components',
         'in-custom-dashboards',

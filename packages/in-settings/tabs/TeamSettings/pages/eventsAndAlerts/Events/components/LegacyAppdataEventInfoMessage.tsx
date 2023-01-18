@@ -23,7 +23,7 @@ export const smartAlertMigrationUrl =
   'https://www.ibm.com/docs/en/obi/current?topic=applications-smart-alerts' +
   '#how-to-migrate-a-custom-event-on-application-service-or-endpoint-metrics-to-smart-alerts';
 
-export const SmartAlertMigrationDocs = (
+export const smartAlertMigrationDocs = (
   <Link href={smartAlertMigrationUrl} external>
     &nbsp;
   </Link>
@@ -60,7 +60,7 @@ function TransContent({ migrated, saved, disallowed, deleted }: Props) {
       <Trans
         i18nKey="in-settings:tabs.migratedEventMessage"
         components={{
-          documentationLink: SmartAlertMigrationDocs
+          documentationLink: smartAlertMigrationDocs
         }}
       />
     );
@@ -71,7 +71,7 @@ function TransContent({ migrated, saved, disallowed, deleted }: Props) {
         <Trans
           i18nKey="in-settings:tabs.disallowedEventMessage"
           components={{
-            documentationLink: SmartAlertMigrationDocs
+            documentationLink: smartAlertMigrationDocs
           }}
         />
       );
@@ -81,7 +81,7 @@ function TransContent({ migrated, saved, disallowed, deleted }: Props) {
       <Trans
         i18nKey="in-settings:tabs.deprecatedEventMessage"
         components={{
-          documentationLink: SmartAlertMigrationDocs
+          documentationLink: smartAlertMigrationDocs
         }}
       />
     );
@@ -90,7 +90,7 @@ function TransContent({ migrated, saved, disallowed, deleted }: Props) {
     <Trans
       i18nKey="in-settings:tabs.deprecatedEventSelectedMessage"
       components={{
-        documentationLink: SmartAlertMigrationDocs
+        documentationLink: smartAlertMigrationDocs
       }}
     />
   );

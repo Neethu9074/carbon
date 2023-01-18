@@ -71,6 +71,10 @@ export function isWebsiteEntityType(entityType) {
   return entityType === 'Website';
 }
 
+export function isSyntheticEntityType(entityType) {
+  return entityType === 'Synthetic';
+}
+
 export function isAppDataEntityType(entityType) {
   return isEndpointEntity(entityType) || isServiceEntity(entityType) || isApplicationEntity(entityType);
 }

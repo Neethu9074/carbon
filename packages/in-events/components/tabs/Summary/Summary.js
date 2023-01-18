@@ -115,6 +115,7 @@ const EventContent = connectTo(
     const eventType = getEventType(event);
     const isIssue = eventType === EVENT_TYPES.ISSUE_WARNING || eventType === EVENT_TYPES.ISSUE_CRITICAL;
     const hasEventSpec = event.getIn(['metadata', 'eventSpecificationId'], '') !== '';
+    const fixSuggestion = event.getIn(['problem', 'fixSuggestion'], '');
 
     return (
       <>
@@ -143,7 +144,7 @@ const EventContent = connectTo(
                   className="in-event-view-event-content"
                 />
               ) : (
-                <ProblemDescription event={event} className="in-event-view-event-content" />
+                <ProblemDescription fixSuggestion={fixSuggestion} className="in-event-view-event-content" />
               )}
               <DescriptionButtons>
                 <EventSpecificationLink event={event.toJS()} />

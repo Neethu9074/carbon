@@ -32,10 +32,10 @@ export const applicationIdScopeQueryRegex = /^entity.application.id:"([^"]*)"$/;
 export interface QueryParsingResult {
   applyOn: string;
   applicationName?: string;
-  applicationIds?: Array<string>;
+  applicationIds?: string[];
 }
 
-export function parseQuery(query?: string | Nullish): QueryParsingResult {
+export function parseQuery(query: string | Nullish): QueryParsingResult {
   if (isBlank(query)) {
     return { applyOn: scopeEverything };
   }
@@ -63,7 +63,10 @@ export function parseQuery(query?: string | Nullish): QueryParsingResult {
   if (applicationScopeMatch) {
     return {
       applyOn: scopeDfq,
-      applicationName: applicationScopeMatch[1],
+      // finding: even while there was a bug of returing the regex instead of the name,
+      // there was no place effected. Seems to be dead code.
+      // will do some more testing, before removing...
+      applicationName: applicationScopeMatch[1]! /* capturing group always exists */,
       applicationIds: []
     };
   }

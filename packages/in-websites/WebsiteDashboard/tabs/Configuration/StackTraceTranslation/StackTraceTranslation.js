@@ -14,7 +14,7 @@ import {
   getSourceMapUploadConfigurations,
   removeSourceMapUploadConfiguration
 } from 'in-websites/api/websites';
-import FileDownloadConfigurationDialog from 'in-websites/WebsiteDashboard/tabs/Configuration/StackTraceTranslation/FileDownloadConfigurationDialog';
+import FileDownloadConfigurationDialogPresenter from 'in-websites/WebsiteDashboard/tabs/Configuration/StackTraceTranslation/FileDownloadConfigurationDialogPresenter';
 import FileUploadConfigurationDialog from 'in-websites/WebsiteDashboard/tabs/Configuration/StackTraceTranslation/FileUploadConfigurationDialog';
 import WideRow from 'in-websites/WebsiteDashboard/tabs/Configuration/StackTraceTranslation/WideRow';
 import HelpParagraph from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/HelpParagraph';
@@ -213,7 +213,9 @@ export default function StackTraceTranslationConfigurationPresenter({ websiteId 
                   className={locals.button}
                   kind="action"
                   onClick={() => {
-                    addActiveDialog(<FileDownloadConfigurationDialog onFinished={onFinished} websiteId={websiteId} />);
+                    addActiveDialog(
+                      <FileDownloadConfigurationDialogPresenter onFinished={onFinished} websiteId={websiteId} />
+                    );
                   }}
                   icon="lib_openclose_add_circle_outline"
                 >
@@ -222,7 +224,11 @@ export default function StackTraceTranslationConfigurationPresenter({ websiteId 
               }
               onRowClick={config => {
                 addActiveDialog(
-                  <FileDownloadConfigurationDialog config={config} websiteId={websiteId} onFinished={onFinished} />
+                  <FileDownloadConfigurationDialogPresenter
+                    config={config}
+                    websiteId={websiteId}
+                    onFinished={onFinished}
+                  />
                 );
               }}
             />

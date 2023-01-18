@@ -3,12 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Item, ListForm } from 'formalistic';
 import React from 'react';
 
-import { Button } from '@instana/components';
+import { Button, TrProps } from '@instana/components';
 
-import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
+import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
+import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import { Nullish, PaginatedResult, Result } from 'in-types';
 import Section from 'in-settings/components/Section';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -17,24 +20,54 @@ import locals from 'in-alerting/components/CustomPayload/CustomPayloadTable.mles
 
 const maximumNumberOfRows = 20;
 
-export default function CustomPayloadTable({
-  columnDefinitions,
-  result,
-  getRowIndex,
-  addRow,
-  deleteRow,
-  updateIn,
-  TagBasedPayloadConfigurator,
-  suggestionsAlignedLeft,
-  customPayloadForm,
-  canConfigureAlertPayload = true,
-  enabled = true,
-  leftHeader,
-  trackChange = () => {}
-}) {
+//TODO refine, use correct type here
+interface ListItem extends Object {
+  id?: string;
+}
+//TODO refine, use correct type here
+type CustomPayloadItem = ListItem;
+
+interface AdditionalContentPropsType {
+  deleteRow: () => void;
+  getRowIndex: (field: Item) => number;
+  updateIn: () => void;
+  TagBasedPayloadConfigurator: React.ReactNode;
+  suggestionsAlignedLeft?: boolean;
+  enabled?: boolean;
+  trackChange: () => void;
+}
+
+interface ServerTableCustomPayloadConfig
+  extends AdditionalContentPropsType,
+    ServerTablePresenterProps<CustomPayloadItem> {}
+
+interface CustomPayloadTableProps extends ServerTableCustomPayloadConfig {
+  columnDefinitions: ColumnDefinition<CustomPayloadItem, ServerTableCustomPayloadConfig>[];
+  addRow: () => void;
+  customPayloadForm: ListForm;
+  result?: Result<PaginatedResult<CustomPayloadItem>> | Nullish;
+  canConfigureAlertPayload?: boolean;
+}
+
+export default function CustomPayloadTable(props: CustomPayloadTableProps) {
+  const {
+    columnDefinitions,
+    result,
+    getRowIndex,
+    addRow,
+    deleteRow,
+    updateIn,
+    TagBasedPayloadConfigurator,
+    suggestionsAlignedLeft,
+    customPayloadForm,
+    canConfigureAlertPayload = true,
+    enabled = true,
+    leftHeader,
+    trackChange = () => {}
+  } = props;
   return (
     <div>
-      <ServerTablePresenter
+      <ServerTablePresenter<CustomPayloadItem, ServerTableCustomPayloadConfig>
         isScrollableTable={false}
         columnDefinitions={columnDefinitions}
         getRowProps={getRowProps}
@@ -57,6 +90,10 @@ export default function CustomPayloadTable({
         suggestionsAlignedLeft={suggestionsAlignedLeft}
         enabled={enabled}
         trackChange={trackChange}
+        orderBy={''}
+        orderDirection={'ASC'}
+        page={0}
+        pageSize={5}
       />
       <Section>
         <TouchedMessages field={customPayloadForm} />
@@ -65,7 +102,17 @@ export default function CustomPayloadTable({
   );
 }
 
-function RightHeader({ canConfigureAlertPayload, formSize, addRow, enabled }) {
+function RightHeader({
+  canConfigureAlertPayload,
+  formSize,
+  addRow,
+  enabled
+}: {
+  canConfigureAlertPayload: boolean;
+  formSize: number;
+  addRow: () => void;
+  enabled: boolean;
+}): JSX.Element {
   return canConfigureAlertPayload ? (
     formSize >= maximumNumberOfRows ? (
       <Tooltip
@@ -88,7 +135,7 @@ function RightHeader({ canConfigureAlertPayload, formSize, addRow, enabled }) {
   );
 }
 
-function getRowProps() {
+function getRowProps(): TrProps {
   return {
     className: locals.row,
     size: 'compact'
