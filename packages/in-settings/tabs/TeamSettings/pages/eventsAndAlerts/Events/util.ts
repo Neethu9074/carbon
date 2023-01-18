@@ -6,8 +6,8 @@
 import { deprecateAppDataLegacyEventsEnabled } from 'in-services/featureFlags';
 import { customIssuesDisabledForPlugins, plugins } from 'in-forge/constants';
 import { EventSpecificationInfo, EventSpecificationType } from 'in-types';
+import { isAppDataPlugin } from 'in-forge/plugins/pluginTypes';
 import { FormatterType } from 'in-services/formatters/number';
-import { isAppDataType } from 'in-forge/plugins/pluginTypes';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { getPluginName } from 'in-sdk/pluginName';
 import { Option } from 'in-components/ComboBox';
@@ -124,8 +124,8 @@ export function unmapConditionValue(value: number, formatterType: FormatterType)
   return value;
 }
 
-export function isDeprecatedAppDataEntityType(plugin: string): boolean {
-  return isAppDataType(plugin);
+export function isDeprecatedAppDataEntityType(entityType: string): boolean {
+  return isAppDataPlugin(entityType);
 }
 
 function formatNumber(value: number, decimalPrecision: number): number {

@@ -31,7 +31,7 @@ export function DeprecatedCustomEventWarning({ event, isIncident }: Props) {
   const eventId = event?.metadata?.eventSpecificationId ?? '';
   const isDeprecatedCustomEvent = useMemo(
     () =>
-      isDeprecatedAppDataEntityType(event?.metadata?.entityName ?? '') &&
+      isDeprecatedAppDataEntityType(event?.plugin ?? '') &&
       !event?.metadata?.applicationId &&
       (event?.metadata?.custom_issue ?? false),
     [event]

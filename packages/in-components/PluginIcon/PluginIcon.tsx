@@ -9,7 +9,7 @@ import { Size } from '@instana/components/types/components/SvgIcon/types';
 import { SvgIcon } from '@instana/components';
 
 import { getIconType as getInfraIconType } from 'in-infrastructure/infrastructureIconType';
-import { isWebsiteType, isSyntheticType } from 'in-forge/plugins/pluginTypes';
+import { isWebsitePlugin, isSyntheticPlugin } from 'in-forge/plugins/pluginTypes';
 import { SnapshotMap } from 'in-components/EntityLink';
 import theme from 'in-themes';
 
@@ -22,32 +22,20 @@ interface PluginIconProps extends Omit<React.ComponentProps<typeof SvgIcon>, 'ty
 
 export default forwardRef(function PluginIcon(props: PluginIconProps, ref: React.ForwardedRef<SVGSVGElement>) {
   const { size, color = theme.lib.colors.N700Medium } = props;
-
   return <SvgIcon ref={ref} {...props} size={size} color={color} type={getIconType(props.snapshot, props.plugin)} />;
 });
 
 function getIconType(snapshot?: SnapshotMap, plugin?: string): string {
   if (plugin) {
-    // we are not checking for isAppDataType, because instead prefer to use the application/service/endpoint icons
+    // we are not checking for isAppDataPlugin, because instead prefer to use the application/service/endpoint icons
     // from 'lib_infra_*' which look more consistent to other icons
-
-    if (isWebsiteType(plugin)) {
-      return getWebsiteIconByType(plugin);
+    if (isWebsitePlugin(plugin)) {
+      return 'lib_website';
     }
-    if (isSyntheticType(plugin)) {
-      return getSyntheticIconByType(plugin);
+    if (isSyntheticPlugin(plugin)) {
+      return 'lib_synthetic';
     }
   }
 
   return getInfraIconType(snapshot ?? plugin!);
-}
-
-function getWebsiteIconByType(plugin: string): string {
-  if (plugin === 'website') return 'lib_website';
-  return 'lib_infra_unknownIcon';
-}
-
-function getSyntheticIconByType(plugin: string): string {
-  if (plugin === 'syntheticTest') return 'lib_synthetic';
-  return 'lib_infra_unknownIcon';
 }
