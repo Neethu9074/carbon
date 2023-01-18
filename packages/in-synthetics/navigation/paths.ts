@@ -8,6 +8,7 @@ import { getRootPathPredicate } from 'in-stores/navigation/paths';
 export const syntheticsPath = '/syntheticTests';
 export const syntheticLocationPath = '/syntheticLocations';
 export const syntheticsDashboard = '/synthetic';
+export const syntheticAlertListPath = `${syntheticsDashboard}/alerts`;
 export const syntheticsSummaryPath = `${syntheticsDashboard}/summary`;
 export const syntheticResultsListPath = `${syntheticsDashboard}/results`;
 export const syntheticDetailsPath = `/syntheticDetails`;

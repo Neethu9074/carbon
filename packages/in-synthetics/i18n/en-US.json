@@ -194,7 +194,8 @@
         "gatewayTimeout": "Gateway Timeout"
       },
       "totalRuns": "{{totalRuns}} total runs",
-      "meanLatencyFor90th": "{{meanLatencyDetail}} for 90th"
+      "meanLatencyFor90th": "{{meanLatencyDetail}} for 90th",
+      "smartAlertsTab": "Smart Alerts"
     },
     "resultsListPage": {
       "startedColumn": "Started",
