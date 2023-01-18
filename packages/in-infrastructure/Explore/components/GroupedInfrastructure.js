@@ -18,11 +18,7 @@ import {
 } from '@instana/components';
 
 import MetricCatalogAndSortingConfigurator from 'in-infrastructure/components/MetricCatalogAndSortingConfigurator/MetricCatalogAndSortingConfigurator';
-import {
-  setMetricColumnUnits,
-  addMetricColumnUnits,
-  formatMetricColumnValue
-} from 'in-infrastructure/Explore/services/MetricColumnUnits';
+import { formatCsvColumnName, formatCsvColumnValue } from 'in-infrastructure/Explore/services/MetricCsvColumnFormatter';
 import { firstValue, getGranularity, getMetricKey, getSeriesKey } from 'in-infrastructure/Explore/services/metrics';
 import InfrastructureList, { pagesLoaded } from 'in-infrastructure/Explore/components/InfrastructureList';
 import { type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
@@ -304,7 +300,6 @@ function columns({
           const kpi = firstValue(group.metrics[id]);
           const series = group.metrics[getSeriesKey(id)];
           const percentageMetric = mapData(metadata, data => data?.percentageMetric).data;
-          setMetricColumnUnits(id, formatter);
           return (
             <SparkChart
               horizontalMetricValue={(kpi && formatter && formatter(kpi)) || '--'}
@@ -320,6 +315,17 @@ function columns({
         },
         getId() {
           return getMetricKey(metric, aggregation);
+        },
+        getColumnLabel() {
+          const metadata = mapData(metricMetadatas, data => data[metric]);
+          const label = mapData(metadata, data => data?.label);
+          const formatter = mapData(metadata, data => data?.formatter).data;
+          return formatCsvColumnName(label['data'], aggregation, formatter);
+        },
+        getFormatter() {
+          const metadata = mapData(metricMetadatas, data => data[metric]);
+          const formatter = mapData(metadata, data => data?.formatter).data;
+          return formatter;
         },
         exported: true
       }))
@@ -534,12 +540,12 @@ function processData(items, columns) {
       let found = false;
       Object.keys(item.metrics ?? {}).forEach(metric => {
         if (metric === col.getId()) {
-          row[addMetricColumnUnits(metric)] = formatMetricColumnValue(metric, firstValue(item.metrics[metric]));
+          row[col.getColumnLabel()] = formatCsvColumnValue(col.getFormatter(), firstValue(item.metrics[metric]));
           found = true;
         }
       });
       if (!found && col.exported) {
-        row[addMetricColumnUnits(col.getId())] = '-';
+        row[col.getColumnLabel()] = '-';
       }
     });
     csvRows.push(row);
