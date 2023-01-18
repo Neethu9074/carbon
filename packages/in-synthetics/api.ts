@@ -13,6 +13,7 @@ import http from 'in-services/http';
 const testsUrl = `/api/synthetics/settings/tests`;
 const locationUrl = `/api/synthetics/settings/locations`;
 const resultUrl = `/api/synthetics/results`;
+const applicationsListUrl = `/api/application-monitoring/settings/application`;
 
 export function getLocations(): Observable<unknown> {
   return http({
@@ -96,5 +97,14 @@ export function removeTest(id: string) {
     maxRetries: 3,
     headers: getCsrfHeader(),
     url: `${testsUrl}/${id}`
+  }).map(response => deepFreeze(response));
+}
+
+export function getApplicationsList(): Observable<unknown> {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    url: applicationsListUrl,
+    mapToResultObject: true
   }).map(response => deepFreeze(response));
 }

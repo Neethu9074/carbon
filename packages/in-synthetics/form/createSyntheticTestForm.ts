@@ -65,6 +65,13 @@ export function createForm(selectedBlueprint?: BluePrint, savedState?: Record<st
         value: savedState?.testFrequency ?? 15,
         validator: composeAndShortCircuitOnError(numberValidator, minValidator(1))
       })
+    )
+    .put(
+      'applicationId',
+      createField({
+        value: savedState?.applicationId ?? '',
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator)
+      })
     );
 }
 

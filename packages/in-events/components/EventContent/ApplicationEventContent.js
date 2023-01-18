@@ -43,6 +43,7 @@ export default function ApplicationEventContent({ event }) {
     return null;
   }
 
+  const fixSuggestion = event.getIn(['problem', 'fixSuggestion'], '');
   const isGlobalSmartAlert = event.getIn(['metadata', 'globalSmartAlert'], false);
   const adaptiveBaselineInfo = event.getIn(['metadata', 'adaptiveBaselineInfo'], emptyMap).toJS();
 
@@ -76,7 +77,7 @@ export default function ApplicationEventContent({ event }) {
               showDashboardLinks
             />
 
-            <ProblemDescription event={event} />
+            <ProblemDescription fixSuggestion={fixSuggestion} />
             <DescriptionButtons>
               <ApplicationAlertConfigButton
                 applicationId={applicationId}

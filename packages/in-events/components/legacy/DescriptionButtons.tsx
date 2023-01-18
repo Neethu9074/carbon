@@ -3,10 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import locals from './DescriptionButtons.mless';
 
-export default function DescriptionButtons({ children }) {
+interface Props {
+  children: ReactNode;
+}
+
+export default function DescriptionButtons({ children }: Props) {
   return <div className={locals.buttons}>{children}</div>;
 }

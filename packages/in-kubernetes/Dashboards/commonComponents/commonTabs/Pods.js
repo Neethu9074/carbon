@@ -171,10 +171,17 @@ const allColumnDefinitions = [
     id: 'health',
     label: t('in-kubernetes:dashboards.health'),
     getContent(item, { timeConfig }) {
+      const statusErrors = ['error', 'crashloopbackoff'];
+      let openIssuesCount = item.entityHealthInfo.openIssues.length;
+      let maxSeverity = item.entityHealthInfo.maxSeverity;
+      if (item.entityHealthInfo.openIssues.length === 0 && statusErrors.includes(item.statusSummary.toLowerCase())) {
+        openIssuesCount = 1;
+        maxSeverity = 10;
+      }
       return (
         <EntityHealthIndicator
-          openIssues={item.entityHealthInfo.openIssues.length}
-          maxSeverity={item.entityHealthInfo.maxSeverity}
+          openIssues={openIssuesCount}
+          maxSeverity={maxSeverity}
           IndicatorPresenter={HealthIndicatorPresenter}
           timeConfig={timeConfig}
           snapshotId={item.pod.id}

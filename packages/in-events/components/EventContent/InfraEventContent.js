@@ -34,6 +34,7 @@ export default function InfraEventContent({ event }) {
     return null;
   }
 
+  const fixSuggestion = event.getIn(['problem', 'fixSuggestion'], '');
   const entityName = event.getIn(['metadata', 'entityName'], '');
   const entityType = alertConfig.rule.entityType;
 
@@ -52,7 +53,7 @@ export default function InfraEventContent({ event }) {
               {t('in-events:infraSmartAlerts.pseudoAggregatedEntityLabel', { entityName: entityName })}
             </HorizontalFlexWrapper>
 
-            <ProblemDescription event={event} className="in-event-view-event-content" />
+            <ProblemDescription fixSuggestion={fixSuggestion} className="in-event-view-event-content" />
 
             {infraExploreDataEnabled && hasInfrastructureAccess && (
               <DescriptionButtons>

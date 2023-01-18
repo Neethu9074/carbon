@@ -5,10 +5,14 @@
 
 import React, { ReactNode } from 'react';
 
+import { useObservable } from '@instana/hooks';
+
 import {
   createFormModelFromSyntheticOption,
   createHiddenCallsFromSyntheticOption
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
+// @ts-expect-error
+import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
@@ -40,6 +44,7 @@ export default function TroubleShootingChart({
   colorMapper
 }: TroubleShootingChartProps) {
   const hiddenCalls = createHiddenCallsFromSyntheticOption(syntheticCalls);
+  const isInternalVisible = useObservable(isInternalVisible$, []) || false;
 
   return (
     <UnifiedMetricsChart
@@ -48,7 +53,7 @@ export default function TroubleShootingChart({
       automaticallySize={false}
       renderLegend
       renderHistoricDataIndicator
-      renderPostChartContent={renderInfoBox}
+      renderPostChartContent={isInternalVisible ? renderInfoBox : undefined} // only show info box in internal mode to Instana engineers
       config={{
         y1: {
           metrics: metricConfigs,

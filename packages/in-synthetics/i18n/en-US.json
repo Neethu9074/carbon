@@ -3,6 +3,7 @@
     "createTest": {
       "dialogTitle": "Create Synthetic Test",
       "noLocationFound": "Sorry! No locations found",
+      "noApplicationsFound": "Sorry! No applications found",
       "titles": {
         "step1": "Step 1: Select type",
         "step2": "Step 2: Request details",
@@ -30,7 +31,8 @@
         "scriptTitle": "What is the name of this HTTP Script test",
         "labelName": "Name of the test",
         "labelDescription": "Description",
-        "labelFrequency": "Frequency"
+        "labelFrequency": "Frequency",
+        "labelApplications": "Select an Application"
       },
       "bluePrint": {
         "pingApi": {
@@ -140,7 +142,7 @@
       "action": "Action",
       "delete": "Delete the test",
       "labelConfirm": "Please Confirm",
-      "labelConfirmRemoveTest": "Are you sure you want to remove the Synthetic test <strong>{{label}}</strong>?",
+      "labelConfirmRemoveTest": "Are you sure you want to remove the Synthetic test <strong>{{testLabel}}</strong>?",
       "labelRemove": "Remove",
       "na": "N/A"
     },
@@ -194,7 +196,8 @@
         "gatewayTimeout": "Gateway Timeout"
       },
       "totalRuns": "{{totalRuns}} total runs",
-      "meanLatencyFor90th": "{{meanLatencyDetail}} for 90th"
+      "meanLatencyFor90th": "{{meanLatencyDetail}} for 90th",
+      "smartAlertsTab": "Smart Alerts"
     },
     "resultsListPage": {
       "startedColumn": "Started",
