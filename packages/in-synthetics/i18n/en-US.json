@@ -142,7 +142,7 @@
       "action": "Action",
       "delete": "Delete the test",
       "labelConfirm": "Please Confirm",
-      "labelConfirmRemoveTest": "Are you sure you want to remove the Synthetic test <strong>{{label}}</strong>?",
+      "labelConfirmRemoveTest": "Are you sure you want to remove the Synthetic test <strong>{{testLabel}}</strong>?",
       "labelRemove": "Remove",
       "na": "N/A"
     },
