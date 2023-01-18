@@ -14,7 +14,8 @@ import {
   TestResultSubtransaction,
   Error,
   PoPInstallationProperties,
-  TestResultMetadata
+  TestResultMetadata,
+  ApplicationItem
 } from 'in-types';
 import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
@@ -31,6 +32,14 @@ export const defaultPage = 'page_x0';
 
 export const dummyLocations = {
   data: [],
+  errors: [],
+  progress: {
+    loading: true
+  }
+};
+
+export const dummyApplications = {
+  data: [] as ApplicationItem[],
   errors: [],
   progress: {
     loading: true

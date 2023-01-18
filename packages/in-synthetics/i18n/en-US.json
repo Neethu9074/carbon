@@ -3,6 +3,7 @@
     "createTest": {
       "dialogTitle": "Create Synthetic Test",
       "noLocationFound": "Sorry! No locations found",
+      "noApplicationsFound": "Sorry! No applications found",
       "titles": {
         "step1": "Step 1: Select type",
         "step2": "Step 2: Request details",
@@ -30,7 +31,8 @@
         "scriptTitle": "What is the name of this HTTP Script test",
         "labelName": "Name of the test",
         "labelDescription": "Description",
-        "labelFrequency": "Frequency"
+        "labelFrequency": "Frequency",
+        "labelApplications": "Select an Application"
       },
       "bluePrint": {
         "pingApi": {
