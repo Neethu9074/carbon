@@ -6,12 +6,11 @@
 
 import { keyBy } from 'lodash';
 
-import { ActionFormEntity } from './ActionCatalog/Action';
-import { AdditionalHeaders } from 'in-api/automation';
 import { Field, Nullish } from 'in-types';
+import { Action } from 'in-types';
 import { t } from 'in-i18n';
 
-export const getType = (action: ActionFormEntity | Nullish) => {
+export const getType = (action: Action | Nullish) => {
   if (isDocLink(action?.type)) {
     return t('in-settings:tabs.docLink');
   } else if (isScript(action?.type)) {
@@ -24,12 +23,13 @@ export const getType = (action: ActionFormEntity | Nullish) => {
 };
 
 const getFieldsByNames = (fields: Field[] | undefined): Record<string, Field | null> => keyBy(fields, 'name');
-export const getScriptFromFields = (fields: Field[] | undefined) => getFieldsByNames(fields)?.script_ssh?.value ?? '';
-export const getInterpreterFromFields = (fields: Field[] | undefined) => getFieldsByNames(fields)?.subtype?.value ?? '';
+export const getScriptFromFields = (fields: Field[] | undefined) =>
+  getFieldsByNames(fields)?.script_content?.value ?? '';
+export const getInterpreterFromFields = (fields: Field[] | undefined) =>
+  getFieldsByNames(fields)?.interpreter?.value ?? '';
 export const getDocLinkFromFields = (fields: Field[] | undefined) => getFieldsByNames(fields)?.URL?.value ?? '';
 export const getBodyFromFields = (fields: Field[] | undefined) => getFieldsByNames(fields)?.body?.value ?? '';
-export const getHeaderFromFields = (fields: Field[] | undefined) =>
-  JSON.parse(getFieldsByNames(fields)?.header?.value ?? '{}') as AdditionalHeaders;
+export const getHeaderFromFields = (fields: Field[] | undefined) => getFieldsByNames(fields)?.header?.value ?? '{}';
 export const getMethodFromFields = (fields: Field[] | undefined) => getFieldsByNames(fields)?.method?.value ?? 'GET';
 export const getHostFromFields = (fields: Field[] | undefined) => getFieldsByNames(fields)?.host?.value ?? '';
 export const getIgnoreCertErrorsFromFields = (fields: Field[] | undefined) =>

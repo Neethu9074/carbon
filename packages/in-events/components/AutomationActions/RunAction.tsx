@@ -28,7 +28,6 @@ import {
   isWebhook,
   SCRIPT_TYPE
 } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
-import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import { DescriptionItem, DescriptionList } from 'in-components/DescriptionList/DescriptionList';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import { AdditionalHeaders, Authen, runScriptAction, runWebhookAction } from 'in-api/automation';
@@ -40,10 +39,10 @@ import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import { getLinkToAnalyze } from 'in-logging/navigation/paths';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { AgentResponse } from 'in-subscription/agentResponse';
+import { Action, Event, Result, VolatileId } from 'in-types';
 import { close } from 'in-components/DialogPresenter/store';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import Select from 'in-components/form/Select/Select';
-import { Event, Result, VolatileId } from 'in-types';
 import { runActionTracker } from 'in-events/tracker';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Label from 'in-components/form/Label/Label';
@@ -56,7 +55,7 @@ import locals from './RunAction.mless';
 interface Props {
   volatileId: VolatileId;
   event?: Event;
-  action: ActionFormEntity;
+  action: Action;
   test?: boolean;
 }
 
@@ -213,11 +212,12 @@ export default function RunAction({ action, volatileId, event, test }: Props) {
   );
 }
 
-const getWebhookFields = (action: ActionFormEntity) => {
+const getWebhookFields = (action: Action) => {
   let host = getHostFromFields(action.fields);
   const method = getMethodFromFields(action.fields);
   const body = getBodyFromFields(action.fields);
-  const header = getHeaderFromFields(action.fields);
+  const headerString = getHeaderFromFields(action.fields);
+  const header: AdditionalHeaders = JSON.parse(headerString);
   const ignoreCertErrors = getIgnoreCertErrorsFromFields(action.fields);
   const authenString = getAuthenFromFields(action.fields);
   const authen: Authen = JSON.parse(authenString);
@@ -262,47 +262,51 @@ interface AgentSelectionProps {
 }
 
 const AgentSelection = ({ targetAgent, form, setForm, agentSnapShots, volatileId }: AgentSelectionProps) => {
-  return targetAgent?.map(field => (
-    <FormGroup>
-      <Label htmlFor="target-agent" hasError={!field.valid && field.touched}>
-        {t('in-events:targetAgent')}
-      </Label>
-      <Select
-        id="target-agent"
-        value={field.value}
-        onChange={e => {
-          const updatedForm = form?.updateIn(['targetAgent'], field =>
-            (field as Field<string>).setValue(e.target.value).setTouched(true)
-          );
-          setForm(updatedForm);
-        }}
-        hasError={!field.valid && field.touched}
-      >
-        <>
-          <option hidden value="">
-            {t('in-events:pleaseSelect')}
-          </option>
-          {agentSnapShots?.data?.online?.map(agent => {
-            const hostname = agent.data?.hostname;
-            const label =
-              agent.volatileId?.host_id === volatileId.host_id
-                ? t('in-events:triggeringAgent', { hostname })
-                : hostname;
-            return (
-              <option key={agent.volatileId?.host_id} value={agent.volatileId?.host_id}>
-                {label}
+  return (
+    <>
+      {targetAgent?.map(field => (
+        <FormGroup>
+          <Label htmlFor="target-agent" hasError={!field.valid && field.touched}>
+            {t('in-events:targetAgent')}
+          </Label>
+          <Select
+            id="target-agent"
+            value={field.value}
+            onChange={e => {
+              const updatedForm = form?.updateIn(['targetAgent'], field =>
+                (field as Field<string>).setValue(e.target.value).setTouched(true)
+              );
+              setForm(updatedForm);
+            }}
+            hasError={!field.valid && field.touched}
+          >
+            <>
+              <option hidden value="">
+                {t('in-events:pleaseSelect')}
               </option>
-            );
-          })}
-        </>
-      </Select>
-      <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-      <HelpText className={locals.subTextFormField}>{t('in-events:targetAgentDescription')}</HelpText>
-    </FormGroup>
-  ));
+              {agentSnapShots?.data?.online?.map(agent => {
+                const hostname = agent.data?.hostname;
+                const label =
+                  agent.volatileId?.host_id === volatileId.host_id
+                    ? t('in-events:triggeringAgent', { hostname })
+                    : hostname;
+                return (
+                  <option key={agent.volatileId?.host_id} value={agent.volatileId?.host_id}>
+                    {label}
+                  </option>
+                );
+              })}
+            </>
+          </Select>
+          <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+          <HelpText className={locals.subTextFormField}>{t('in-events:targetAgentDescription')}</HelpText>
+        </FormGroup>
+      ))}
+    </>
+  );
 };
 
-const ScriptActionContent = ({ action }: { action: ActionFormEntity }) => {
+const ScriptActionContent = ({ action }: { action: Action }) => {
   const script = getScriptFromFields(action.fields);
   return (
     <DescriptionList>
@@ -316,7 +320,7 @@ const ScriptActionContent = ({ action }: { action: ActionFormEntity }) => {
   );
 };
 
-const WebhookActionContent = ({ action }: { action: ActionFormEntity }) => {
+const WebhookActionContent = ({ action }: { action: Action }) => {
   const { host, method, body, header } = getWebhookFields(action);
   const headerEntries = Object.entries(JSON.parse(header) as AdditionalHeaders);
   return (

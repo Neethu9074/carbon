@@ -8,6 +8,7 @@ import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
 import { Toggle, Button } from '@instana/components';
+import { Action } from '@instana/types';
 
 import {
   putApiKeyFields,
@@ -172,7 +173,7 @@ const MetaDataSection = ({ form, setForm, onChange, entity: action }: ActionForm
   );
 };
 
-const DocLinkSection = ({ form, onChange }: { form: MapForm; onChange: OnEntityChange<ActionFormEntity> }) => {
+const DocLinkSection = ({ form, onChange }: Omit<ActionFormProps, 'setForm' | 'entity'>) => {
   const docLink = form.get('docLink') as Field<string>;
   return docLink.map(field => (
     <FormGroup>
@@ -193,7 +194,7 @@ const DocLinkSection = ({ form, onChange }: { form: MapForm; onChange: OnEntityC
   ));
 };
 
-const ScriptSection = ({ form, onChange }: { form: MapForm; onChange: OnEntityChange<ActionFormEntity> }) => {
+const ScriptSection = ({ form, onChange }: Omit<ActionFormProps, 'setForm' | 'entity'>) => {
   const script = form.get('script') as Field<string>;
   return script.map(field => (
     <FormGroup>
@@ -525,7 +526,7 @@ const WebhookSection = ({ form, setForm, onChange, entity: action }: ActionFormP
 const TestSection = ({ form }: { form: MapForm }) => {
   const action = getActionSpecification(form);
   return (
-    <Button onClick={() => addActiveDialog(<RunAction action={action} volatileId={{}} test />)}>
+    <Button onClick={() => addActiveDialog(<RunAction action={action as Action} volatileId={{}} test />)}>
       {t('in-settings:tabs.test')}
     </Button>
   );
