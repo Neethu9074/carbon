@@ -21,6 +21,7 @@ import Header from 'in-components/QueryBuilder/components/Header';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 import { isTechnicalError } from 'in-services/util/error';
+import HealthDot from 'in-components/health/HealthDot';
 import CsvExporter from 'in-components/CsvExporter';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { mapData } from 'in-services/util/result';
@@ -68,6 +69,29 @@ export default function InfrastructureList({
   const isLoading = progress?.loading;
 
   const columnDefinitions = [
+    {
+      id: 'Health',
+      label: <div className={locals.dot} />,
+      width: '3rem',
+      widthInAbsoluteUnit: true,
+      sortable: false,
+      getContent(item) {
+        const problems = getAllIssues(
+          item.entityHealthInfo.openIssues,
+          item.entityHealthInfo.maxSeverity,
+          t('in-infrastructure:explore.noIssues')
+        );
+
+        return (
+          <HealthDot
+            className={locals.dot}
+            severity={item.entityHealthInfo.maxSeverity}
+            explanation={problems}
+            iconSize={10}
+          />
+        );
+      }
+    },
     getLabelColumn({ timeConfig }, tracking?.onNavigateToEntity),
     ...getMetricColumns({ metrics, sortable: showHeader, metricMetadatas, timeConfig, granularity })
   ];
@@ -125,6 +149,17 @@ export default function InfrastructureList({
   );
 }
 
+function getAllIssues(issues, maxSeverity, defaultMsg) {
+  if (maxSeverity > 0) {
+    let openIssues = '';
+    issues.forEach(issue => {
+      if (maxSeverity === issue.problem.severity) openIssues = openIssues.concat(issue.problem.problemText + '\n');
+    });
+    return openIssues;
+  }
+  return defaultMsg;
+}
+
 function getErrorMessage(err) {
   if (err.message?.includes('more than the maximum number of groups')) {
     return t('in-infrastructure:explore.errors.maximumNumberOfGroups');
@@ -179,6 +214,7 @@ function getLabelColumn({ timeConfig }, onNavigateToEntity) {
   return {
     id: 'label',
     label: t('in-infrastructure:explore.name'),
+
     getContent(item) {
       const offlineTime = item.time < timeConfig.to ? item.time : undefined;
       return (
@@ -301,10 +337,11 @@ function processData(items, columns) {
           found = true;
         }
       });
-      if (!found && col.id !== 'label') {
+      if (!found && col.id !== 'label' && col.id !== 'health') {
         row[col.getColumnLabel()] = '-';
       }
     });
+    row['Health'] = getAllIssues(item.entityHealthInfo.openIssues, item.entityHealthInfo.maxSeverity, '');
     csvRows.push(row);
   });
 
