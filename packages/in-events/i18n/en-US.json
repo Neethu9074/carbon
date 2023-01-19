@@ -38,6 +38,8 @@
   "vault": "Vault",
   "static": "Static",
   "parameters": "Parameters",
+  "noParametersTitle": "No parameters",
+  "noParametersText": "This action does not have any parameters.",
   "entityInfoPresenterDefaultLabel": "On: ",
   "entityInfoLabelOfService": "Of Service:",
   "titleDetail": "Detail",

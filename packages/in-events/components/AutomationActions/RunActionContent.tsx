@@ -27,6 +27,7 @@ import {
 } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { DescriptionItem, DescriptionList } from 'in-components/DescriptionList/DescriptionList';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
@@ -257,6 +258,11 @@ function WebhookActionContent({ action }: Pick<RunActionContentProps, 'action'>)
 function ParameterInput({ action, form, setForm }: Pick<RunActionContentProps, 'action' | 'form' | 'setForm'>) {
   const { inputParameters } = action;
 
+  if (!inputParameters || inputParameters.length === 0) {
+    return (
+      <NoDataAvailable height={200} title={t('in-events:noParametersTitle')} text={t('in-events:noParametersText')} />
+    );
+  }
   return (
     <Col>
       {inputParameters?.map(parameter => {
@@ -294,9 +300,12 @@ function VaultParameterInput({ form, parameter, setForm }: ParameterInputParams)
   return (
     <>
       {keyField && pathField && (
-        <FormGroup key={`${parameter.name}-input`}>
+        <FormGroup className={locals.parameterInputFormGroup} key={`${parameter.name}-input`}>
           <Row withoutSideMargin className={locals.justifyContent}>
-            <Label hasError={(!keyField.valid && keyField.touched) || (!pathField.valid && pathField.touched)}>
+            <Label
+              className={locals.parameterLabel}
+              hasError={(!keyField.valid && keyField.touched) || (!pathField.valid && pathField.touched)}
+            >
               {parameter.label}
             </Label>
             <Label>{t('in-events:vault')}</Label>
@@ -321,9 +330,13 @@ function StaticParameterInput({ parameter, form, setForm }: ParameterInputParams
   return (
     <>
       {parameterField && (
-        <FormGroup key={`${parameter.name}-input`}>
+        <FormGroup className={locals.parameterInputFormGroup} key={`${parameter.name}-input`}>
           <Row withoutSideMargin className={locals.justifyContent}>
-            <Label htmlFor={parameter.name} hasError={!parameterField.valid && parameterField.touched}>
+            <Label
+              className={locals.parameterLabel}
+              htmlFor={parameter.name}
+              hasError={!parameterField.valid && parameterField.touched}
+            >
               {parameter.required ? parameter.label : t('in-events:optional', { name: parameter.label })}
             </Label>
             <Label>{t('in-events:static')}</Label>

@@ -37,4 +37,10 @@
   .justifyContent {
     justify-content: space-between;
   }
+  .parameterLabel {
+    color: var(--ids-color-option-neutral-900);
+  }
+  .parameterInputFormGroup {
+    margin-bottom: 1.5rem;
+  }
 }
