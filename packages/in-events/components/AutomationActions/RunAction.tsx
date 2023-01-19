@@ -90,15 +90,11 @@ export default function RunAction({ action, volatileId, event, test }: RunAction
   );
 }
 
-const getTitle = ({
-  action,
-  error,
-  actionInstanceId,
-  test
-}: Pick<RunActionProps, 'action' | 'test'> & {
+interface GetTitleParams extends Pick<RunActionProps, 'action' | 'test'> {
   actionInstanceId: string;
   error: string;
-}) => {
+}
+const getTitle = ({ action, error, actionInstanceId, test }: GetTitleParams) => {
   const actionName = action.name;
   if (error) return t('in-events:failedToInitiate', { actionName });
   if (actionInstanceId) return t('in-events:hasBeenInitiated', { actionName });
