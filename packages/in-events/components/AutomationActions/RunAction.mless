@@ -40,9 +40,6 @@
   .parameterLabel {
     color: var(--ids-color-option-neutral-900);
   }
-  .parameterInputFormGroup {
-    margin-bottom: 1.5rem;
-  }
   .parameterContainer {
     overflow-y: scroll;
     max-height: 25rem;

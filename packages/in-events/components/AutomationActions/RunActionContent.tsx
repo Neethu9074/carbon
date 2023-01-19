@@ -301,7 +301,7 @@ function VaultParameterInput({ form, parameter, setForm }: ParameterInputParams)
   return (
     <>
       {keyField && pathField && (
-        <FormGroup className={locals.parameterInputFormGroup} key={`${parameter.name}-input`}>
+        <FormGroup key={`${parameter.name}-input`}>
           <Row withoutSideMargin className={locals.justifyContent}>
             <Label
               className={classNames({
@@ -325,6 +325,7 @@ function VaultParameterInput({ form, parameter, setForm }: ParameterInputParams)
           <TouchedMessages field={keyField} className={locals.subErrorTextFormField} />
         </FormGroup>
       )}
+      <Spacer vertical="medium" />
     </>
   );
 }
@@ -336,7 +337,7 @@ function StaticParameterInput({ parameter, form, setForm }: ParameterInputParams
   return (
     <>
       {parameterField && (
-        <FormGroup className={locals.parameterInputFormGroup} key={`${parameter.name}-input`}>
+        <FormGroup key={`${parameter.name}-input`}>
           <Row withoutSideMargin className={locals.justifyContent}>
             <Label
               className={classNames({ [locals.parameterLabel]: !(!parameterField.valid && parameterField.touched) })}
@@ -362,6 +363,7 @@ function StaticParameterInput({ parameter, form, setForm }: ParameterInputParams
           <TouchedMessages field={parameterField} className={locals.subErrorTextFormField} />
         </FormGroup>
       )}
+      <Spacer vertical="medium" />
     </>
   );
 }
