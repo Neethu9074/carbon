@@ -22,6 +22,8 @@ exports.getGroundskeeperBaseUrl = () => Promise.resolve(serverConfig.groundskeep
 
 exports.getButlerBaseUrl = () => Promise.resolve(serverConfig.butlerBaseUrl);
 
+exports.getUiBackendBaseUrl = (tenant, unit) => Promise.resolve(getUiBackendBaseUrl(tenant, unit));
+
 exports.getBaseUrl = (tenant, unit) =>
   Promise.resolve(`https://${unit}-${tenant}.${serverConfig.clientConfig.tenantUnitDomainSuffix}`);
 
@@ -68,8 +70,8 @@ exports.getReportingEndpoints = (req, tenant, unit) => {
   return getReportingEndpointsFromButler(req, serverConfig.butlerBaseUrl, tenant, unit);
 };
 
-function getUiBackendBaseUrl(tenant, unitName) {
-  const uibackendNamespace = getSetting(tenant, unit, 'config.tu.namespace', '')
+async function getUiBackendBaseUrl(tenant, unit) {
+  const uibackendNamespace = await getSetting(tenant, unit, 'config.tu.namespace', '')
   
   if (uibackendNamespace) {
     return `http://tu-${tenant}-${unit}-ui-backend.${uibackendNamespace}:8600`;
