@@ -951,7 +951,7 @@
     "http": "HTTP",
     "addParameter": "Add Parameter",
     "noParametersConfigured": "No Parameters Configured",
-    "required": "Required",
+    "required": "Value Required",
     "hiddenParam": "Hidden",
     "valueType": "Value Type",
     "displayName": "Display Name",
