@@ -40,6 +40,7 @@ import {
   WEBHOOK_TYPE
 } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import AdditionalHeadersTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/AdditionalHeadersTable';
+import ParametersTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ParametersTable';
 import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import TagsTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/TagsTable';
 import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
@@ -78,6 +79,9 @@ export default function ActionForm({ form, setForm, onChange, entity: action }: 
             {isDocLink(type) && <DocLinkSection form={form} onChange={onChange} />}
             {isScript(type) && <ScriptSection form={form} onChange={onChange} />}
             {isWebhook(type) && <WebhookSection setForm={setForm} form={form} onChange={onChange} entity={action} />}
+            <FormGroup>
+              <ParametersTable form={form} setForm={setForm} onChange={onChange} />
+            </FormGroup>
           </>
         </Col>
       </Row>

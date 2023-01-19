@@ -64,7 +64,8 @@ function additionalHeadersValidator(additionalHeaders: Header[]): ValidationResu
 export function createActionFormDefinition(action: ActionFormEntity, _isCreate: boolean) {
   const tags = action.tags ?? [];
   const mappedTags = tags.map(tag => ({ value: tag, id: generateUniqueShortId() }));
-
+  const parameters = action.inputParameters ?? [];
+  const mappedParams = parameters.map(parameter => ({ id: generateUniqueShortId(), value: parameter }));
   let form = createMapForm()
     .put(
       'name',
@@ -103,6 +104,12 @@ export function createActionFormDefinition(action: ActionFormEntity, _isCreate: 
           }
           return null;
         }
+      })
+    )
+    .put(
+      'parameters',
+      createField({
+        value: mappedParams
       })
     );
   if (isDocLink(action.type)) form = putDocLinkField(form, action);
