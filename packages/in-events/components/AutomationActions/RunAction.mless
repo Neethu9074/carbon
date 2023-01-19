@@ -43,4 +43,9 @@
   .parameterInputFormGroup {
     margin-bottom: 1.5rem;
   }
+  .parameterContainer {
+    overflow-y: scroll;
+    max-height: 25rem;
+    border-left: 1px solid @lib__colors__N300;
+  }
 }

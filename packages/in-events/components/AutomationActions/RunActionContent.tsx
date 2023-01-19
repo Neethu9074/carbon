@@ -108,7 +108,7 @@ export default function RunActionContent({
         <Typography variant="body-small">{t('in-events:actionCannotBeUndone')}</Typography>
       </div>
       <Spacer horizontal="normal" />
-      <Col style={{ overflowY: 'scroll', maxHeight: '25rem' }} lg={4}>
+      <Col className={locals.parameterContainer} lg={4}>
         <DescriptionList>
           <DescriptionItem
             className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
@@ -265,6 +265,7 @@ function ParameterInput({ action, form, setForm }: Pick<RunActionContentProps, '
   }
   return (
     <Col>
+      <Spacer vertical="normal" />
       {inputParameters?.map(parameter => {
         if (parameter.hidden) return;
         if (parameter.type === 'vault') {

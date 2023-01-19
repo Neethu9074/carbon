@@ -164,14 +164,14 @@ const MetaDataSection = ({ parameter, parameterForm, setParameterForm }: Section
               }
             />
           </Col>
-          <Col>
+          {/* <Col>
             <CheckboxFancy
               asRadioButton
               checked={type.value === 'dynamic'}
               label={t('in-settings:tabs.dynamic')}
               onChange={() => onParameterChange({ fieldName: 'type', value: 'dynamic', setParameterForm, parameter })}
             />
-          </Col>
+          </Col> */}
           <Col>
             <CheckboxFancy
               asRadioButton
