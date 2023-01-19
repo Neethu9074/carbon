@@ -24,9 +24,9 @@ export const getType = (action: Action | Nullish) => {
 
 const getFieldsByNames = (fields: Field[] | undefined): Record<string, Field | null> => keyBy(fields, 'name');
 export const getScriptFromFields = (fields: Field[] | undefined) =>
-  getFieldsByNames(fields)?.script_content?.value ?? '';
+  getFieldsByNames(fields)?.script_content?.value ?? getFieldsByNames(fields)?.script_ssh?.value ?? '';
 export const getInterpreterFromFields = (fields: Field[] | undefined) =>
-  getFieldsByNames(fields)?.interpreter?.value ?? '';
+  getFieldsByNames(fields)?.interpreter?.value ?? getFieldsByNames(fields)?.subtype?.value ?? '';
 export const getDocLinkFromFields = (fields: Field[] | undefined) => getFieldsByNames(fields)?.URL?.value ?? '';
 export const getBodyFromFields = (fields: Field[] | undefined) => getFieldsByNames(fields)?.body?.value ?? '';
 export const getHeaderFromFields = (fields: Field[] | undefined) => getFieldsByNames(fields)?.header?.value ?? '{}';

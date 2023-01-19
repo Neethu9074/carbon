@@ -7,7 +7,7 @@
 import { combineLatest, just, Observable, timeout } from '@instana/observables';
 
 import { DOC_LINK_TYPE, HTTP_METHODS_WITH_BODY } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
-import createAgentResponseObservable, { AgentResponse } from 'in-subscription/agentResponse';
+import createAgentResponseObservable from 'in-subscription/agentResponse';
 import { Action, Field, VolatileId, Event, ActionMatch } from 'in-types';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { error } from 'in-services/util/result';
@@ -217,13 +217,18 @@ interface RunActionBaseParams {
   actionName: string;
 }
 
+interface RunActionParams {
+  type: string;
+  request: { name: string; value: string; encoding: string }[];
+}
+
 interface RunScriptActionParams extends RunActionBaseParams {
   script: string;
   interpreter: string;
 }
 
 // We are using a timeout here to prevent the UI from hanging if the agent is not responding (sensor not installed).
-function runAction(runActionObservable: Observable<AgentResponse>) {
+function runAction({ volatileId, event, actionName, type, request }: RunActionParams & RunActionBaseParams) {
   return combineLatest(
     [
       timeout(10000).flatMap(() =>
@@ -236,41 +241,45 @@ function runAction(runActionObservable: Observable<AgentResponse>) {
           ])
         )
       ),
-      runActionObservable
+      createAgentResponseObservable({
+        action: 'action.run',
+        target: volatileId,
+        args: {
+          type,
+          async: 'true',
+          event: JSON.stringify(event),
+          problemId: event?.problem?.id,
+          problemText: event?.problem?.problemText,
+          actionName,
+          timeout: '300',
+          request: request
+        }
+      })
     ],
     false
   );
 }
 
 export function runScriptAction({ script, volatileId, event, actionName, interpreter }: RunScriptActionParams) {
-  return runAction(
-    createAgentResponseObservable({
-      action: 'action.run',
-      target: volatileId,
-      args: {
-        type: 'SCRIPT',
-        async: 'true',
-        event: JSON.stringify(event),
-        problemId: event?.problem?.id,
-        problemText: event?.problem?.problemText,
-        actionName,
-        timeout: '300',
-        request: [
-          {
-            name: 'script_ssh',
-            value: script,
-            encoded: 'base64'
-          },
+  return runAction({
+    type: 'SCRIPT',
+    volatileId,
+    event,
+    actionName,
+    request: [
+      {
+        name: 'script_ssh',
+        value: script,
+        encoding: 'base64'
+      },
 
-          {
-            name: 'subtype',
-            value: interpreter,
-            encoded: 'base64'
-          }
-        ]
+      {
+        name: 'subtype',
+        value: interpreter,
+        encoding: 'base64'
       }
-    })
-  );
+    ]
+  });
 }
 
 interface RunWebhookActionParams extends RunActionBaseParams {
@@ -291,48 +300,39 @@ export function runWebhookAction({
   ignoreCertErrors,
   header
 }: RunWebhookActionParams) {
-  return runAction(
-    createAgentResponseObservable({
-      action: 'action.run',
-      target: volatileId,
-      args: {
-        type: 'HTTP',
-        async: 'true',
-        event: JSON.stringify(event),
-        problemId: event?.problem?.id,
-        problemText: event?.problem?.problemText,
-        actionName,
-        timeout: '300',
-        request: [
-          {
-            name: 'method',
-            value: method,
-            encoded: 'ascii'
-          },
+  return runAction({
+    type: 'HTTP',
+    volatileId,
+    event,
+    actionName,
+    request: [
+      {
+        name: 'method',
+        value: method,
+        encoding: 'ascii'
+      },
 
-          {
-            name: 'host',
-            value: btoa(host),
-            encoded: 'base64'
-          },
+      {
+        name: 'host',
+        value: btoa(host),
+        encoding: 'base64'
+      },
 
-          {
-            name: 'body',
-            value: btoa(body),
-            encoding: 'base64'
-          },
-          {
-            name: 'ignoreCertErrors',
-            value: ignoreCertErrors,
-            encoding: 'ascii'
-          },
-          {
-            name: 'header',
-            value: btoa(header),
-            encoding: 'base64'
-          }
-        ]
+      {
+        name: 'body',
+        value: btoa(body),
+        encoding: 'base64'
+      },
+      {
+        name: 'ignoreCertErrors',
+        value: ignoreCertErrors,
+        encoding: 'ascii'
+      },
+      {
+        name: 'header',
+        value: btoa(header),
+        encoding: 'base64'
       }
-    })
-  );
+    ]
+  });
 }
