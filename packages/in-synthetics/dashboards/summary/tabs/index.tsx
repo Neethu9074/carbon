@@ -5,11 +5,12 @@
 
 import {
   syntheticsSummaryPath,
-  syntheticAlertListPath,
-  syntheticResultsListPath
+  syntheticResultsListPath,
+  syntheticAlertListPath
 } from 'in-synthetics/navigation/paths';
 import ResultsList from 'in-synthetics/dashboards/summary/tabs/results/ResultsList';
 import Summary from 'in-synthetics/dashboards/summary/tabs/summary/Summary';
+import { syntheticSmartAlertsEnabled } from 'in-services/featureFlags';
 import Alerts from 'in-alerting/smart-alerts/synthetics/Alerts';
 import { t } from 'in-i18n';
 
@@ -24,7 +25,7 @@ export default [
     path: `${syntheticResultsListPath}`,
     component: ResultsList
   },
-  {
+  syntheticSmartAlertsEnabled && {
     label: t('in-synthetics:dashboard.summary.smartAlertsTab'),
     path: `${syntheticAlertListPath}`,
     component: Alerts
