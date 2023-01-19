@@ -168,6 +168,12 @@ function onSave({
     }
     return acc;
   }, []);
+  const hiddenInputParameters = (action.inputParameters ?? []).reduce<ActionExecutionParameter[]>((acc, parameter) => {
+    if (parameter.type === 'hidden') {
+      return [...acc, { name: parameter.name, value: parameter.value ?? '' }];
+    }
+    return acc;
+  }, []);
   const selectedVolatileId =
     agentSnapShots?.data?.online?.find(agent => agent.volatileId?.host_id === targetAgent.value)?.volatileId ?? {};
   const handleActionResponse = (data: [Result<null>, AgentResponse]) => {
@@ -184,6 +190,7 @@ function onSave({
     }
   };
 
+  const allInputParameters = [...inputParameters, ...hiddenInputParameters];
   if (isScript(action.type)) {
     const script = getScriptFromFields(action.fields);
     const interpreter = getInterpreterFromFields(action.fields);
@@ -193,7 +200,7 @@ function onSave({
       event,
       actionName: action.name,
       interpreter,
-      inputParameters
+      inputParameters: allInputParameters
     }).once(handleActionResponse);
   } else if (isWebhook(action.type)) {
     const { host, method, body, ignoreCertErrors, header } = getWebhookFields(action);
@@ -206,7 +213,7 @@ function onSave({
       body,
       ignoreCertErrors,
       header,
-      inputParameters
+      inputParameters: allInputParameters
     }).once(handleActionResponse);
   }
 }

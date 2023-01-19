@@ -47,11 +47,11 @@ export default function ParameterDialog({ form, onChange, idToEdit }: ParameterD
 
   const [parameterForm, setParameterForm] = useState(createForm({ parameter, form, idToEdit }));
 
-  const required = parameterForm.get('required') as Field<boolean>;
+  const hidden = parameterForm.get('hidden') as Field<boolean>;
   const value = parameterForm.get('value') as Field<string>;
   const type = parameterForm.get('type') as Field<string>;
 
-  const valueRequiredButEmpty = type.value === 'static' && required.value && value.value === '';
+  const valueHiddenButEmpty = type.value === 'static' && hidden.value && value.value === '';
   return (
     <Dialog
       titleIconType={'lib_openclose_add'}
@@ -74,13 +74,13 @@ export default function ParameterDialog({ form, onChange, idToEdit }: ParameterD
               parameterForm={parameterForm}
               setParameterForm={setParameterForm}
               parameter={parameter}
-              valueRequiredButEmpty={valueRequiredButEmpty}
+              valueHiddenButEmpty={valueHiddenButEmpty}
             />
           )}
           {type.value === 'vault' && (
             <VaultSection parameterForm={parameterForm} setParameterForm={setParameterForm} parameter={parameter} />
           )}
-          <SaveCancel form={parameterForm} onClickCancelButton={close} saveEnabled={!valueRequiredButEmpty} />
+          <SaveCancel form={parameterForm} onClickCancelButton={close} saveEnabled={!valueHiddenButEmpty} />
         </Form>
       </div>
     </Dialog>
@@ -198,12 +198,12 @@ const StaticSection = ({
   parameter,
   parameterForm,
   setParameterForm,
-  valueRequiredButEmpty
-}: SectionProps & { valueRequiredButEmpty: boolean }) => {
+  valueHiddenButEmpty
+}: SectionProps & { valueHiddenButEmpty: boolean }) => {
   const required = parameterForm.get('required') as Field<boolean>;
   const hidden = parameterForm.get('hidden') as Field<boolean>;
   const value = parameterForm.get('value') as Field<string>;
-  const valueRequiredButEmptyAndTouched = valueRequiredButEmpty && value.touched;
+  const valueHiddenButEmptyAndTouched = valueHiddenButEmpty && value.touched;
 
   return (
     <>
@@ -219,17 +219,17 @@ const StaticSection = ({
         </FormGroup>
       )}
       <FormGroup>
-        <Label htmlFor="parameter-value" hasError={valueRequiredButEmptyAndTouched}>
-          {required.value ? t('in-settings:tabs.defaultValue') : t('in-settings:tabs.defaultValueOptional')}
+        <Label htmlFor="parameter-value" hasError={valueHiddenButEmptyAndTouched}>
+          {hidden.value ? t('in-settings:tabs.defaultValue') : t('in-settings:tabs.defaultValueOptional')}
         </Label>
         <Input
           id="parameter-value"
           value={value.value}
           onChange={e => onParameterChange({ fieldName: 'value', value: e.target.value, setParameterForm, parameter })}
-          hasError={valueRequiredButEmptyAndTouched}
+          hasError={valueHiddenButEmptyAndTouched}
           maxLength={256}
         />
-        {valueRequiredButEmptyAndTouched && (
+        {valueHiddenButEmptyAndTouched && (
           <ValidationBlock>{t('in-services:validators.theValueMustNotBeBlank')}</ValidationBlock>
         )}
       </FormGroup>
