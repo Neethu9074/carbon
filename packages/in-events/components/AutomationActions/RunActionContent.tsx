@@ -303,7 +303,12 @@ function VaultParameterInput({ form, parameter, setForm }: ParameterInputParams)
         <FormGroup className={locals.parameterInputFormGroup} key={`${parameter.name}-input`}>
           <Row withoutSideMargin className={locals.justifyContent}>
             <Label
-              className={locals.parameterLabel}
+              className={classNames({
+                [locals.parameterLabel]: !(
+                  !(!keyField.valid && keyField.touched) ||
+                  (!pathField.valid && pathField.touched)
+                )
+              })}
               hasError={(!keyField.valid && keyField.touched) || (!pathField.valid && pathField.touched)}
             >
               {parameter.label}
@@ -333,7 +338,7 @@ function StaticParameterInput({ parameter, form, setForm }: ParameterInputParams
         <FormGroup className={locals.parameterInputFormGroup} key={`${parameter.name}-input`}>
           <Row withoutSideMargin className={locals.justifyContent}>
             <Label
-              className={locals.parameterLabel}
+              className={classNames({ [locals.parameterLabel]: !(!parameterField.valid && parameterField.touched) })}
               htmlFor={parameter.name}
               hasError={!parameterField.valid && parameterField.touched}
             >

@@ -174,7 +174,7 @@ function onSave({
     setIsSaving(false);
     // last element of the array is either the timeout error if the agent didn't respond in time, or the agent response (error or in progress)
     // result unknown because we only care about error
-    const response: Result<null> | AgentResponse = data[data.length - 1];
+    const response = data[data.length - 1];
     if ('errors' in response) {
       setError(response.errors[0].message);
     } else if ('error' in response && response.error != null) {
