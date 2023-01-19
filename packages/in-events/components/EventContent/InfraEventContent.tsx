@@ -16,6 +16,7 @@ import useInfraEventAlertConfig from 'in-events/hooks/useInfraEventAlertConfig';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
+import { NumberFormatterObject } from 'in-services/formatters/number';
 import { infraExploreDataEnabled } from 'in-services/featureFlags';
 import { Config } from 'in-custom-dashboards/widgets/Chart/types';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
@@ -97,7 +98,7 @@ function Chart({ alertConfig, timeConfig }: ChartProps) {
   // Because the chart config for UnifiedMetricsChart requires a string formatterId (e.g. 'percentage.compact'),
   // which is then internally mapped to the formatter function, we need to do a tiny workaround here and map the formatter
   // function to that ID, just that it's internally mapped back to the function once again.
-  const metricFormatterId = getFormatterId((metricDefinition.formatter as any).detailed);
+  const metricFormatterId = getFormatterId((metricDefinition.formatter as NumberFormatterObject).detailed);
 
   const chartConfig = {
     type: 'TIME_SERIES',
