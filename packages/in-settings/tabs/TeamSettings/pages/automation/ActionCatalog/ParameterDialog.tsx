@@ -244,15 +244,9 @@ const StaticSection = ({
               setParameterForm,
               parameter,
               updateFormDefinition: ({ form }) => {
-                if (e.target.checked) {
-                  form = form.updateIn(['required'], field =>
-                    (field as Field<boolean>).setValue(true).setTouched(true)
-                  );
-                } else {
-                  form = form.updateIn(['required'], field =>
-                    (field as Field<boolean>).setValue(false).setTouched(true)
-                  );
-                }
+                form = form.updateIn(['required'], field =>
+                  (field as Field<boolean>).setValue(e.target.checked).setTouched(true)
+                );
                 return form;
               }
             })
@@ -360,18 +354,14 @@ function onSubmit({ parameterForm, parameter, form, onChange, idToEdit }: OnSubm
     type,
     valueType
   };
-  if (parameter) {
-    onChange(
-      'parameters',
-      ((form.get('parameters') as Field<MappedParameter[]>).value ?? []).map(p =>
+  const value = parameter
+    ? ((form.get('parameters') as Field<MappedParameter[]>).value ?? []).map(p =>
         p.id === idToEdit ? { id: idToEdit, value: parameterToSubmit } : p
       )
-    );
-  } else {
-    onChange('parameters', [
-      ...((form.get('parameters') as Field<MappedParameter[]>).value ?? []),
-      { id: generateUniqueShortId(), value: parameterToSubmit }
-    ]);
-  }
+    : [
+        ...((form.get('parameters') as Field<MappedParameter[]>).value ?? []),
+        { id: generateUniqueShortId(), value: parameterToSubmit }
+      ];
+  onChange('parameters', value);
   close();
 }
