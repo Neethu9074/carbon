@@ -18,8 +18,6 @@ logger.info(`Initializing instanctl CockroachDB resolver against ${serverConfig.
 
 const pool = new Pool(getPoolConfig());
 
-exports.getUiBackendBaseUrl = (tenant, unit) => Promise.resolve(`http://tu-${tenant}-${unit}-ui-backend:8600`);
-
 exports.getGroundskeeperBaseUrl = () => Promise.resolve(serverConfig.groundskeeperBaseUrl);
 
 exports.getButlerBaseUrl = () => Promise.resolve(serverConfig.butlerBaseUrl);
@@ -69,6 +67,16 @@ exports.getConfiguration = (tenant, unit) =>
 exports.getReportingEndpoints = (req, tenant, unit) => {
   return getReportingEndpointsFromButler(req, serverConfig.butlerBaseUrl, tenant, unit);
 };
+
+function getUiBackendBaseUrl(tenant, unitName) {
+  const uibackendNamespace = getSetting(tenant, unit, 'config.tu.namespace', '')
+  
+  if (uibackendNamespace) {
+    return `http://tu-${tenant}-${unit}-ui-backend.${uibackendNamespace}:8600`;
+  } else {
+    return `http://tu-${tenant}-${unit}-ui-backend:8600`;
+  }
+}
 
 function getButlerDomain(tenant, unit) {
   return `${unit}-${tenant}.${serverConfig.clientConfig.tenantUnitDomainSuffix}`;
