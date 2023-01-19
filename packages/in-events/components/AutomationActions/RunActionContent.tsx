@@ -305,7 +305,7 @@ function VaultParameterInput({ form, parameter, setForm }: ParameterInputParams)
             <Label
               className={classNames({
                 [locals.parameterLabel]: !(
-                  !(!keyField.valid && keyField.touched) ||
+                  (!keyField.valid && keyField.touched) ||
                   (!pathField.valid && pathField.touched)
                 )
               })}
