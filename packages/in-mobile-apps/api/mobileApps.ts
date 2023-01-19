@@ -22,8 +22,8 @@ export function getMobileApps(): Observable<MobileAppConfiguration[]> {
   });
 }
 
-export function removeMobileApp(id: string): Observable<undefined> {
-  return http<undefined>({
+export function removeMobileApp(id: string): Observable<unknown> {
+  return http<unknown>({
     method: 'DELETE',
     maxRetries: 3,
     url: `/api/mobile-app-monitoring/config/${encodeURIComponent(id)}`,

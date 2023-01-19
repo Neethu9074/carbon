@@ -62,10 +62,11 @@ export const ScopedPermissionItem = Object.freeze({
 export type ScopedPermissionType = keyof typeof ScopedPermissionItem;
 export const ScopedPermissionItems = Object.freeze(Object.values(ScopedPermissionItem)) as Array<ScopedPermissionType>;
 
-export type LimitableProductArea = Extract<ProductAreaType, 'WEBSITE' | 'APPLICATION'>;
+export type LimitableProductArea = Extract<ProductAreaType, 'WEBSITE' | 'MOBILE_APP' | 'APPLICATION'>;
 type LimitedScopeByProductAreaType = Record<LimitableProductArea, LimitedAccessScopeType>;
 export const LimitedScopeByProductArea: LimitedScopeByProductAreaType = {
   [ProductArea.WEBSITE]: LimitedAccessScope.LIMITED_WEBSITES_SCOPE,
+  [ProductArea.MOBILE_APP]: LimitedAccessScope.LIMITED_MOBILE_APPS_SCOPE,
   [ProductArea.APPLICATION]: LimitedAccessScope.LIMITED_APPLICATIONS_SCOPE
 };
 
