@@ -44,13 +44,13 @@ export function createForm({ parameter, form, idToEdit }: CreateFormParams) {
     .put(
       'required',
       createField({
-        value: parameter?.value?.type === 'static' ? parameter?.value?.required : null ?? false
+        value: parameter?.value?.type === 'static' ? parameter?.value?.required ?? false : false
       })
     )
     .put(
       'hidden',
       createField({
-        value: parameter?.value?.type === 'static' ? parameter?.value?.hidden : null ?? false
+        value: parameter?.value?.type === 'static' ? parameter?.value?.hidden ?? false : false
       })
     )
     .put(
@@ -76,7 +76,7 @@ export function addStaticField({ parameter, form }: AddFieldsParams) {
     .put(
       'value',
       createField({
-        value: parameter?.value?.type === 'static' ? parameter?.value?.value : null ?? ''
+        value: parameter?.value?.type === 'static' ? parameter?.value?.value ?? '' : ''
       })
     )
     .remove('secretKey')
