@@ -337,7 +337,7 @@ function processData(items, columns) {
           found = true;
         }
       });
-      if (!found && col.id !== 'label' && col.id !== 'health') {
+      if (!found && col.id !== 'label' && col.id !== 'Health') {
         row[col.getColumnLabel()] = '-';
       }
     });
