@@ -207,17 +207,16 @@ const StaticSection = ({
 
   return (
     <>
-      {!hidden.value && (
-        <FormGroup>
-          <CheckboxFancy
-            checked={required.value}
-            label={t('in-settings:tabs.required')}
-            onChange={e =>
-              onParameterChange({ fieldName: 'required', value: e.target.checked, setParameterForm, parameter })
-            }
-          />
-        </FormGroup>
-      )}
+      <FormGroup>
+        <CheckboxFancy
+          disabled={hidden.value}
+          checked={required.value}
+          label={t('in-settings:tabs.required')}
+          onChange={e =>
+            onParameterChange({ fieldName: 'required', value: e.target.checked, setParameterForm, parameter })
+          }
+        />
+      </FormGroup>
       <FormGroup>
         <Label htmlFor="parameter-value" hasError={valueHiddenButEmptyAndTouched}>
           {hidden.value ? t('in-settings:tabs.defaultValue') : t('in-settings:tabs.defaultValueOptional')}
@@ -244,9 +243,11 @@ const StaticSection = ({
               setParameterForm,
               parameter,
               updateFormDefinition: ({ form }) => {
-                form = form.updateIn(['required'], field =>
-                  (field as Field<boolean>).setValue(e.target.checked).setTouched(true)
-                );
+                if (e.target.checked) {
+                  form = form.updateIn(['required'], field =>
+                    (field as Field<boolean>).setValue(e.target.checked).setTouched(true)
+                  );
+                }
                 return form;
               }
             })
