@@ -10,6 +10,7 @@ import { Message } from '@instana/components';
 
 import MetricCatalogAndSortingConfigurator from 'in-infrastructure/components/MetricCatalogAndSortingConfigurator/MetricCatalogAndSortingConfigurator';
 import { trackingProps as metricConfiguratorTrackingProps } from 'in-infrastructure/components/MetricCatalogConfigurator/MetricCatalogConfigurator';
+import { formatCsvColumnName, formatCsvColumnValue } from 'in-infrastructure/Explore/services/MetricCsvColumnFormatter';
 import { firstValue, getGranularity, getMetricKey, getSeriesKey } from 'in-infrastructure/Explore/services/metrics';
 import { default as MetricLabel } from 'in-infrastructure/Explore/components/MetricLabel';
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
@@ -282,7 +283,6 @@ function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, gran
         const series = item.metrics[getSeriesKey(id)];
         const percentageMetric = mapData(metadata, data => data?.percentageMetric).data;
         const metricValue = getMetricValue(kpi, formatter);
-
         return (
           <SparkChart
             horizontalMetricValue={metricValue}
@@ -295,6 +295,17 @@ function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, gran
             label={renderedLabel}
           />
         );
+      },
+      getColumnLabel() {
+        const metadata = mapData(metricMetadatas, data => data[metric]);
+        const label = mapData(metadata, data => data?.label);
+        const formatter = mapData(metadata, data => data?.formatter).data;
+        return formatCsvColumnName(label['data'], aggregation, formatter);
+      },
+      getFormatter() {
+        const metadata = mapData(metricMetadatas, data => data[metric]);
+        const formatter = mapData(metadata, data => data?.formatter).data;
+        return formatter;
       }
     };
   });
@@ -322,12 +333,12 @@ function processData(items, columns) {
       let found = false;
       Object.keys(item.metrics ?? {}).forEach(metric => {
         if (metric === col.id) {
-          row[metric] = firstValue(item.metrics[metric]);
+          row[col.getColumnLabel()] = formatCsvColumnValue(col.getFormatter(), firstValue(item.metrics[metric]));
           found = true;
         }
       });
-      if (!found && col.id !== 'label' && col.id !== 'health') {
-        row[col.id] = '-';
+      if (!found && col.id !== 'label' && col.id !== 'Health') {
+        row[col.getColumnLabel()] = '-';
       }
     });
     row['Health'] = getAllIssues(item.entityHealthInfo.openIssues, item.entityHealthInfo.maxSeverity, '');
