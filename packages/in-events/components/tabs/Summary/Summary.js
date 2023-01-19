@@ -17,6 +17,7 @@ import {
   isApplicationSmartAlertEvent,
   isWebsiteSmartAlertEvent,
   isInfraSmartAlertEvent,
+  isSyntheticSmartAlertEvent,
   getTimeConfigForSnapshotRetrieval,
   isIbmMqFileTransferIssueEvent
 } from 'in-events/components/eventUtil';
@@ -27,6 +28,7 @@ import EntityWithParentInformation from 'in-events/components/EntityInformation/
 import AgentMonitoringIssueDescription from 'in-events/components/legacy/AgentMonitoringIssueDescription';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
 import ApplicationEventContent from 'in-events/components/EventContent/ApplicationEventContent';
+import SyntheticEventContent from 'in-events/components/EventContent/SyntheticEventContent';
 import AnalyzeIssueCallsButton from 'in-events/components/legacy/AnalyzeIssueCallsButton';
 import OfflineEventDescription from 'in-events/components/legacy/OfflineEventDescription';
 import AssociatedActions from 'in-events/components/AutomationActions/AssociatedActions';
@@ -110,6 +112,10 @@ const EventContent = connectTo(
 
     if (isInfraSmartAlertEvent(event)) {
       return <InfraEventContent event={event} />;
+    }
+
+    if (isSyntheticSmartAlertEvent(event)) {
+      return <SyntheticEventContent event={event} />;
     }
 
     const eventType = getEventType(event);

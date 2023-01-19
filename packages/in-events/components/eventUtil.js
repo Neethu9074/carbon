@@ -25,6 +25,10 @@ export function isInfraSmartAlertEvent(event) {
   return event.hasIn(['metadata', 'infraSmartAlert']);
 }
 
+export function isSyntheticSmartAlertEvent(event) {
+  return event.hasIn(['metadata', 'syntheticTestId']);
+}
+
 export function isAgentMonitoringIssueEvent(event) {
   return event.hasIn(['metadata', 'agent_monitoring_issue']);
 }
