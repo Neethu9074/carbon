@@ -45,19 +45,11 @@ export default function RunAction({ action, volatileId, event, test }: RunAction
   const [isSaving, setIsSaving] = useState(false);
   const [form, setForm] = useState<MapForm>();
   const agentSnapShots = useAgentSnapShots({ action, form, volatileId, setForm });
-  const actionName = action.name;
-  const title = error
-    ? t('in-events:failedToInitiate', { actionName })
-    : actionInstanceId
-    ? t('in-events:hasBeenInitiated', { actionName })
-    : test
-    ? t('in-events:chosenToTest', { actionName })
-    : t('in-events:chosenToRun', { actionName });
   return (
     <Dialog
       className={locals.dialog}
       titleIconType={'lib_help_error_error_circle'}
-      title={title}
+      title={getTitle({ action, error, actionInstanceId, test })}
       onClose={close}
       withoutBodyPadding
     >
@@ -97,6 +89,22 @@ export default function RunAction({ action, volatileId, event, test }: RunAction
     </Dialog>
   );
 }
+
+const getTitle = ({
+  action,
+  error,
+  actionInstanceId,
+  test
+}: Pick<RunActionProps, 'action' | 'test'> & {
+  actionInstanceId: string;
+  error: string;
+}) => {
+  const actionName = action.name;
+  if (error) return t('in-events:failedToInitiate', { actionName });
+  if (actionInstanceId) return t('in-events:hasBeenInitiated', { actionName });
+  if (test) return t('in-events:chosenToTest', { actionName });
+  return t('in-events:chosenToRun', { actionName });
+};
 
 interface UseAgentSnapShotsParams extends Pick<RunActionProps, 'action' | 'volatileId'> {
   form: MapForm | undefined;
