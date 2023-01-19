@@ -13,7 +13,10 @@ module.exports = {
       configFile: __dirname + '/babel.config.js'
     }
   },
-
+  env: {
+    browser: true,
+    node: true
+  },
   extends: ['@instana/eslint-config-commons', 'eslint:recommended', 'prettier', 'plugin:react-hooks/recommended'],
 
   plugins: ['react', 'jest', 'babel', 'header', 'import'],
