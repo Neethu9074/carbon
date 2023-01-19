@@ -13,22 +13,45 @@ import { smartAlertMigrationDocs } from 'in-settings/tabs/TeamSettings/pages/eve
 import getLegacyAlertConfigStats from 'in-alerting/smart-alerts/subscriptions/getLegacyAlertConfigStats';
 import { deprecatedValue } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import { addMessage, Message, removeMessage } from 'in-components/MessageFlyout/stores/messages';
-import { teamSettingsAlertingEvents, events } from 'in-settings/navigation/paths';
+import { events, teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getModifiedUrlStream } from 'in-stores/navigation';
+import { tryGet, trySet } from 'in-services/localStorage';
 import { pendingResult } from 'in-services/fixedObjects';
 import { number } from 'in-services/formatters/number';
+import { days } from 'in-services/time/time';
 import { t, Trans } from 'in-i18n';
+
+// initially wait 2 days until showing it the first time
+const initialDelay = days.toMillis(2);
+
+// recurrent: after 7 days
+const recurringIntervalDuration = days.toMillis(7);
+
+// can be used to check in the browser via
+//localStorage.getItem('nextReminderAfter')
+// or even to adjust via
+// localStorage.setItem('nextReminderAfter', 9)
+const localStorageKey = 'nextReminderAfter';
 
 export default function DeprecatedCustomEventsPopUp() {
   const legacyAlertConfigStats = useObservable(getLegacyAlertConfigStats, []) ?? pendingResult;
+  const storedAlarmTime = storedAlarmTimeOrNull();
 
   useEffect(() => {
-    if (legacyAlertConfigStats?.data?.deprecatedCustomEvents)
-      showNotification(legacyAlertConfigStats.data.deprecatedCustomEvents);
-  }, [legacyAlertConfigStats]);
+    const deprecatedCustomEventsExist = legacyAlertConfigStats?.data?.deprecatedCustomEvents > 0;
+    if (deprecatedCustomEventsExist) {
+      if (storedAlarmTime === null) {
+        setReminder(calculateNextOccurrence(initialDelay));
+      } else {
+        if (timeExpired()) {
+          showNotification(legacyAlertConfigStats.data.deprecatedCustomEvents);
+        }
+      }
+    }
+  }, [legacyAlertConfigStats, storedAlarmTime /* trigger, when localStorage was changed */]);
 
-  return <></>;
+  return null;
 }
 
 export function showNotification(deprecatedCustomEvents: number) {
@@ -62,10 +85,52 @@ export function showNotification(deprecatedCustomEvents: number) {
       </>
     ),
     onClick: () => {
-      // LATER: follow-up PR with additional logic for recurring handling
       removeMessage(id);
+      setReminder(calculateNextOccurrence(recurringIntervalDuration));
     }
   };
 
   addMessage(message, id);
+}
+
+function calculateNextOccurrence(incrementInMillis: number): number {
+  return Date.now() + incrementInMillis;
+}
+
+/*
+ * returns the parsed number of the expiration date from
+ * the browser's localStorage if it exists
+ * else
+ * returns null
+ */
+function storedAlarmTimeOrNull(): number | null {
+  const alarm = tryGet(localStorageKey);
+  if (alarm === null) {
+    return null;
+  }
+  try {
+    return Number.parseInt(alarm, 10);
+  } catch (_not_a_number) {
+    return null;
+  }
+}
+
+/*
+ * checks and returns true
+ * when an expiration date exists in the
+ * browser's localStorage, and it is in the past
+ */
+function timeExpired() {
+  const alarm = storedAlarmTimeOrNull();
+  if (alarm != null) {
+    return alarm <= Date.now();
+  }
+  return false;
+}
+
+/*
+ * stores given expiration date in browser's localStorage
+ */
+function setReminder(timeInMillis: number) {
+  trySet(localStorageKey, String(timeInMillis));
 }
