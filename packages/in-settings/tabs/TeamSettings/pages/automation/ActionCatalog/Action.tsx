@@ -28,6 +28,7 @@ import {
   NO_AUTH
 } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import { createActionFormDefinition } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionFormDefinition';
+import { MappedParameter } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ParametersTable';
 import { Header } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/AdditionalHeadersTable';
 import ActionForm from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionForm';
 import { Tag } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/TagsTable';
@@ -147,6 +148,7 @@ export function getActionSpecification(form: MapForm): NewAction {
   const description = (form.get('description') as FormField<string>).value;
   const type = (form.get('type') as FormField<string>).value;
   const tags = (form.get('tags') as FormField<Tag[]>).value;
+  const parameters = (form.get('parameters') as FormField<MappedParameter[]>).value;
 
   const fields: Field[] = [];
 
@@ -219,6 +221,7 @@ export function getActionSpecification(form: MapForm): NewAction {
     description,
     fields,
     type,
-    tags: tags.map((tag: Tag) => tag.value)
+    tags: tags.map((tag: Tag) => tag.value),
+    inputParameters: parameters.map((parameter: MappedParameter) => parameter.value)
   };
 }

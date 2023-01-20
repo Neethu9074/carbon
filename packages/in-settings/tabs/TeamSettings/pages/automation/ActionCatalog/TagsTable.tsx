@@ -12,7 +12,6 @@ import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
-import FormGroup from 'in-settings/components/FormGroup';
 import Input from 'in-components/form/Input/Input';
 import { t } from 'in-i18n';
 
@@ -37,7 +36,7 @@ const getColumnDefinitions = ({ form, onChange }: Omit<TagsTableProps, 'setForm'
     getContent(item: Tag) {
       const tagsField = form.get('tags');
       return (
-        <FormGroup>
+        <>
           <HorizontalFlexWrapper className={locals.colName}>
             <Input
               className={locals.key}
@@ -61,7 +60,7 @@ const getColumnDefinitions = ({ form, onChange }: Omit<TagsTableProps, 'setForm'
             />
           </HorizontalFlexWrapper>
           {item.value === '' && <TouchedMessages field={tagsField} />}
-        </FormGroup>
+        </>
       );
     }
   }

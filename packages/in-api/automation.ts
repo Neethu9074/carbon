@@ -211,10 +211,15 @@ export function createAction(
   };
 }
 
+export interface ActionExecutionParameter {
+  name: string;
+  value: string;
+}
 interface RunActionBaseParams {
   volatileId: VolatileId;
   event: Event | undefined;
   actionName: string;
+  inputParameters: ActionExecutionParameter[];
 }
 
 interface RunActionParams {
@@ -260,12 +265,20 @@ function runAction({ volatileId, event, actionName, type, request }: RunActionPa
   );
 }
 
-export function runScriptAction({ script, volatileId, event, actionName, interpreter }: RunScriptActionParams) {
+export function runScriptAction({
+  script,
+  volatileId,
+  event,
+  actionName,
+  interpreter,
+  inputParameters
+}: RunScriptActionParams) {
   return runAction({
     type: 'SCRIPT',
     volatileId,
     event,
     actionName,
+    inputParameters,
     request: [
       {
         name: 'script_ssh',
@@ -298,13 +311,15 @@ export function runWebhookAction({
   host,
   body,
   ignoreCertErrors,
-  header
+  header,
+  inputParameters
 }: RunWebhookActionParams) {
   return runAction({
     type: 'HTTP',
     volatileId,
     event,
     actionName,
+    inputParameters,
     request: [
       {
         name: 'method',

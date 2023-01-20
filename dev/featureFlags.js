@@ -68,5 +68,6 @@ module.exports = {
   syntheticBrowserScriptEnabled: true,
   websiteBeaconQueryOptimizationEnabled: true,
   rbacImprovementEnabled: false,
-  traceIdFilterOverrideEnabled: true
+  traceIdFilterOverrideEnabled: true,
+  syntheticSmartAlertsEnabled: true
 };

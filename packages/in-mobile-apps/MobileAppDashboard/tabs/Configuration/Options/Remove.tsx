@@ -16,7 +16,6 @@ import HelpParagraph from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/
 import { removeMobileApp as removeMobileAppTracker } from 'in-mobile-apps/tracker';
 // @ts-expect-error needs migration to TS
 import { mobileAppsPathFullyQualified } from 'in-mobile-apps/navigation/paths';
-// @ts-expect-error needs migration to TS
 import { removeMobileApp } from 'in-mobile-apps/api/mobileApps';
 import { goToPath } from 'in-stores/navigation/navigation';
 import { combineDataAndError } from 'in-services/util/ro';

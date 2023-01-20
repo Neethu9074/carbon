@@ -14,23 +14,32 @@ import {
   TestResultSubtransaction,
   Error,
   PoPInstallationProperties,
-  TestResultMetadata
+  TestResultMetadata,
+  ApplicationItem
 } from 'in-types';
 import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
+import { syntheticsPath, resultsTab } from 'in-synthetics/navigation/paths';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
-import { syntheticsPath } from 'in-synthetics/navigation/paths';
 import { Options } from 'in-hooks/useUrlState';
 
-export const pathSegment = '/syntheticTests';
+export const pathSegment = syntheticsPath;
 export const matrixPrefix = '';
 export const getOperation = 'GET';
-export const resultsPathSegment = '/results';
+export const resultsPathSegment = resultsTab;
 export const resultsMatrixPrefix = 'result.';
 export const failureValue = '0';
 export const defaultPage = 'page_x0';
 
 export const dummyLocations = {
   data: [],
+  errors: [],
+  progress: {
+    loading: true
+  }
+};
+
+export const dummyApplications = {
+  data: [] as ApplicationItem[],
   errors: [],
   progress: {
     loading: true

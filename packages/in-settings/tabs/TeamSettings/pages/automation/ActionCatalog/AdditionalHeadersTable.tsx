@@ -12,7 +12,6 @@ import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import FormGroup from 'in-settings/components/FormGroup';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
@@ -39,7 +38,7 @@ const getColumnDefinitions = ({ form, onChange }: Omit<AdditionalHeadersProps, '
     getContent(item: Header) {
       const field = form.get('additionalHeaders');
       return (
-        <FormGroup>
+        <>
           <HorizontalFlexWrapper className={locals.colName}>
             <Input
               className={locals.key}
@@ -55,7 +54,7 @@ const getColumnDefinitions = ({ form, onChange }: Omit<AdditionalHeadersProps, '
             />
           </HorizontalFlexWrapper>
           {item.value[0] === '' && <TouchedMessages field={field} />}
-        </FormGroup>
+        </>
       );
     }
   },
@@ -67,7 +66,7 @@ const getColumnDefinitions = ({ form, onChange }: Omit<AdditionalHeadersProps, '
     getContent(item: Header) {
       const field = form.get('additionalHeaders');
       return (
-        <FormGroup>
+        <>
           <HorizontalFlexWrapper className={locals.colName}>
             <Input
               className={locals.key}
@@ -83,7 +82,7 @@ const getColumnDefinitions = ({ form, onChange }: Omit<AdditionalHeadersProps, '
             />
           </HorizontalFlexWrapper>
           {item.value[1] === '' && <TouchedMessages field={field} />}
-        </FormGroup>
+        </>
       );
     }
   }

@@ -250,6 +250,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'syntheticSmartAlertsEnabled',
+    instanaCtlKey: 'feature.synthetic.smart.alerts.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'sliCHClusterAccessEnabled',
     instanaCtlKey: 'feature.sli.CHCluster.access.enabled',
     defaultValue: false

@@ -10,6 +10,7 @@ import { ThemeProvider } from '@instana/components';
 import '@instana/components/esm/index.css';
 
 import FloatingActionButtonPresenter from 'in-components/FloatingActionButton/FloatingActionButtonPresenter';
+import DeprecatedCustomEventsPopUp from 'in-events/components/DeprecatedCustomEventsPopUp';
 import OverlayPresenter from 'in-components/overlays/OverlayPresenter';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import { GlobalTimeConfig } from 'in-stores/time/TimeConfigContext';
@@ -43,6 +44,8 @@ export default function App() {
             <ErrorBoundary name="dialogs">
               {/* for release notes */}
               <ReleaseNotesDialog />
+              {/* for hints about deprecations, and required actions */}
+              <DeprecatedCustomEventsPopUp />
               <TooltipPresenter />
               <OverlayPresenter />
               {/* the flyouts on the top right corner */}

@@ -1629,10 +1629,10 @@
     "@instana/logger" "^1.2.1"
     "@instana/observables" "^1.5.4"
 
-"@instana/types@1.242.121":
-  version "1.242.121"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/types/-/@instana/types-1.242.121.tgz#fddd21f2728eb1f8d2b5d0b690a25ac90b00e5f1"
-  integrity sha512-tHqfCmxk90InUPWjKk0JKZ7qR8m95PedfaUVQTuS9j3aG7cPj0j4z8h+z6URlynoJ4mUuvVe5oV1AIHbV41SSA==
+"@instana/types@1.242.276":
+  version "1.242.276"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/types/-/@instana/types-1.242.276.tgz#ae1da9098926855f1f31a4d8135a1178289567d7"
+  integrity sha512-rqR0H5DxC4tlJq1Y30/UORa8ASgbJ7On1XPC7f6FDJ+PqfVXJaKbK8HEp4e1z6z6JJjmRI35Uk6dkub+vXRDhg==
 
 "@instana/utils@^1.2.4":
   version "1.2.4"
@@ -4051,9 +4051,9 @@ caniuse-db@^1.0.30000529, caniuse-db@^1.0.30000634, caniuse-db@^1.0.30000639:
   integrity "sha1-k/qteyAWR1TMEwLaxdw236ROJ1g= sha512-5lzq/7B9e3Fj4puD8CnFpS/YleAmLsSvreMF/1KLvi4r71x3fPi4BtbPfDC3yE45sR2jYpTXUCIbphk2SKWrlg=="
 
 caniuse-lite@^1.0.30001272, caniuse-lite@^1.0.30001274, caniuse-lite@^1.0.30001280:
-  version "1.0.30001442"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/caniuse-lite/-/caniuse-lite-1.0.30001442.tgz"
-  integrity sha512-239m03Pqy0hwxYPYR5JwOIxRJfLTWtle9FV8zosfV5pHg+/51uD4nxcUlM8+mWWGfwKtt8lJNHnD3cWw9VZ6ow==
+  version "1.0.30001445"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/caniuse-lite/-/caniuse-lite-1.0.30001445.tgz"
+  integrity sha512-8sdQIdMztYmzfTMO6KfLny878Ln9c2M0fc7EH60IjlP4Dc4PiCy7K2Vl3ITmWgOyPgVQKa5x+UP/KqFsxj4mBg==
 
 case-sensitive-paths-webpack-plugin@^2.3.0:
   version "2.4.0"

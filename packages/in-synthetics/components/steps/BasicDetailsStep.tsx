@@ -4,10 +4,21 @@
  */
 
 import { Field, MapForm, Item } from 'formalistic';
-import React from 'react';
+import React, { useState } from 'react';
 
+import { useObservable } from '@instana/hooks';
+import { Progress } from '@instana/types';
+
+// eslint-disable-next-line no-restricted-imports
+import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
+import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { BluePrint } from 'in-synthetics/data/simpleModeBluePrints';
+import { LoadingIndicator } from 'in-components/LoadingIndicators';
+import { dummyApplications } from 'in-synthetics/utils/constants';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import SearchInput from 'in-components/SearchInput/SearchInput';
+import { getApplicationsList } from 'in-synthetics/api';
 import Section from 'in-synthetics/components/Section';
 import FormGroup from 'in-components/form/FormGroup';
 import TextArea from 'in-components/form/TextArea';
@@ -23,9 +34,77 @@ export interface Props {
   selectedBlueprint: BluePrint;
 }
 
+export interface ApplicationsResponse {
+  data?: Record<string, any>[];
+  errors?: Error[];
+  progress: Progress;
+  time?: number;
+}
+
 export default function BasicDetailsStep({ form, updateForm, selectedBlueprint }: Props) {
   const labelField = form.get('label') as Field<string>;
   const descriptionField = form.get('description') as Field<string>;
+  const applicationsField = form.get('applicationId') as Field<string>;
+  const applications: ApplicationsResponse =
+    useObservable<any, []>(() => getApplicationsList(), []) || dummyApplications;
+  const [searchInput, setSearchInput] = useState('');
+
+  const filteredApplications: Record<string, any> | undefined = applications.data?.filter((app: Record<string, any>) =>
+    app.label.toLowerCase().includes(searchInput.toLowerCase())
+  );
+
+  function renderApplications() {
+    if (applications.progress?.loading) {
+      return <LoadingIndicator size="xl" />;
+    }
+    if (!applications.data?.filter(Boolean)?.length) {
+      return <NoDataAvailable text={t('in-synthetics:dialog.createTest.noApplicationsFound')} />;
+    }
+
+    let header = (
+      <SearchInput
+        className={locals.rightHeader}
+        maxWidth="140"
+        query={searchInput}
+        placeholder=""
+        onChange={q => setSearchInput(q)}
+      />
+    );
+
+    return (
+      <ExpandableLightCard
+        className={locals.container}
+        title={t('in-synthetics:dialog.createTest.basicDetails.labelApplications')}
+        bodyWithoutPadding
+        openByDefault
+        darkFrame
+        framed
+        header={header}
+      >
+        {filteredApplications?.filter(Boolean).map((app: Record<string, any>) => {
+          return (
+            <div key={app.id} className={locals.item}>
+              <CheckboxFancy
+                key={app.id}
+                label={app.label}
+                checked={applicationsField?.value === app.id}
+                onChange={() => {
+                  let selectedApplication: string = applicationsField.value;
+                  selectedApplication = selectedApplication === app.id ? ' ' : app.id;
+                  updateForm(
+                    form.updateIn(['applicationId'], (field: Item) =>
+                      (field as Field<string>).setValue(selectedApplication).setTouched(true)
+                    )
+                  );
+                }}
+              />
+            </div>
+          );
+        })}
+      </ExpandableLightCard>
+    );
+  }
+
   const headingText =
     selectedBlueprint?.type === 'Script API'
       ? t('in-synthetics:dialog.createTest.basicDetails.scriptTitle')
@@ -72,6 +151,7 @@ export default function BasicDetailsStep({ form, updateForm, selectedBlueprint }
           <TouchedMessages field={field} />
         </FormGroup>
       ))}
+      {renderApplications()}
     </Section>
   );
 }

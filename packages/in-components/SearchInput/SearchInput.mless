@@ -13,7 +13,6 @@
     position: relative;
 
     background: @lib__colors__N050;
-    border: 1px solid @lib__colors__N400;
   }
 
   .wrapperDisabled {
@@ -38,7 +37,7 @@
     width: 100%;
     min-width: 0; // allow flex-item to shrink below it's "default" width
 
-    border: none;
+    border-radius: 3px;
     &:focus {
       outline: none;
     }

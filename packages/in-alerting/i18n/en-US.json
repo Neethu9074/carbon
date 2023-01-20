@@ -535,6 +535,11 @@
       "entityTitle": "Scope",
       "titleBuiltInIndicator": "Built-in"
     },
+    "list": {
+      "header": {
+        "configuredAlerts": "Configured Alerts ({{numberOfAlerts}})"
+      }
+    },
     "form": {
       "ruleAggregationOptionMEAN": "mean",
       "ruleAggregationOptionMIN": "min",

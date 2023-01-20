@@ -6,7 +6,6 @@
 import React from 'react';
 
 import { t, Trans } from '@instana/i18n-react';
-import { Link } from '@instana/components';
 
 // @ts-expect-error ExpandableCard is not yet converted to TS, nor does it provide types
 import ExpandableCard from 'in-components/AnalyzeView/FacetedFilters/ExpandableCardWithSubtitle';
@@ -44,16 +43,7 @@ export default function ServiceMappingInfoBox() {
           );
         })}
       </ul>
-      <p>
-        {t('in-applications:serviceTroubleshooting.serviceMappingDocumentation')}{' '}
-        <Link
-          href={
-            'https://github.ibm.com/instana/backend/blob/0d2312cf884f9b55b110566947b14a8bddc581a9/appdata-processor/src/main/java/com/instana/spanprocessing/stream/mapping/cache/MappingOutcomeDetail.java#L10'
-          }
-        >
-          MappingOutcomeDetail.java
-        </Link>
-      </p>
+      <p>{t('in-applications:serviceTroubleshooting.serviceMappingDocumentation')} MappingOutcomeDetail.java</p>
     </ExpandableCard>
   );
 }

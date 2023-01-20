@@ -6,7 +6,6 @@
 import React from 'react';
 
 import { t, Trans } from '@instana/i18n-react';
-import { Link } from '@instana/components';
 
 // @ts-expect-error
 import ExpandableCard from 'in-components/AnalyzeView/FacetedFilters/ExpandableCardWithSubtitle';
@@ -57,16 +56,7 @@ export default function InfraLinkingInfoBox() {
           );
         })}
       </ul>
-      <p>
-        {t('in-applications:serviceTroubleshooting.infraLinkingDocumentation')}{' '}
-        <Link
-          href={
-            'https://github.ibm.com/instana/backend/blob/0d2312cf884f9b55b110566947b14a8bddc581a9/sdk/src/main/java/com/instana/sdk/entity/attributes/InfrastructureDetectionDetail.java#L7'
-          }
-        >
-          InfrastructureDetectionDetail.java
-        </Link>
-      </p>
+      <p>{t('in-applications:serviceTroubleshooting.infraLinkingDocumentation')} InfrastructureDetectionDetail.java</p>
     </ExpandableCard>
   );
 }

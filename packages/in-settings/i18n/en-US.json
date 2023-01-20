@@ -77,18 +77,21 @@
     "title": "Group name",
     "label": "Enter a name"
   },
-  "websitePermissionSection": {
-    "title": "Websites",
-    "addButton": "Select website",
-    "description_limited_access": "Select the role for the product area and add websites below to grant access",
-    "description_access_all": "All websites can be accessed with the role selected for the product area",
+  "PermissionSection": {
+    "title_websites": "Websites",
+    "addButton_websites": "Select websites",
+    "descriptionLimitedAccess_websites": "Select the role for the product area and add websites below to grant access",
+    "descriptionAccessAll_websites": "All websites can be accessed with the role selected for the product area",
+    "title_mobileApps": "Mobile Apps",
+    "addButton_mobileApps": "Select mobile apps",
+    "descriptionLimitedAccess_mobileApps": "Select the role for the product area and add mobile apps below to grant access",
+    "descriptionAccessAll_mobileApps": "All mobile apps can be accessed with the role selected for the product area",
     "deleteButton": "Remove {{name}} from list"
   },
   "selectItemForm": {
     "doneButton": "Done"
   },
-  "selectWebsitesDialog": {
-    "title": "Select websites",
+  "selectEntityDialog": {
     "nameColumnHead": "Name"
   },
   "permissionScope": {
@@ -102,8 +105,8 @@
     "role_owner": "Owner",
     "role_viewer": "Viewer",
     "role_custom": "Custom",
-    "roleTooltip": "Viewer: Ability to view dashboards (configuration can't be viewed). Owner: Ability to create new entities; view, configure and delete dashboards.",
-    "roleTooltip_websites": "Viewer: Ability to view website dashboards (configuration can't be viewed). Owner: Ability to create new websites; view, configure and delete website dashboards."
+    "roleTooltip_websites": "Viewer: Ability to view website dashboards (configuration can't be viewed). Owner: Ability to create new websites; view, configure and delete website dashboards.",
+    "roleTooltip_mobileApps": "Viewer: Ability to view mobile apps dashboards (configuration can't be viewed). Owner: Ability to create new mobile apps; view, configure and delete mobile apps dashboards."
   },
   "cardTitle_Area": "Area",
   "cardTitle_Area_plural": "Areas",
@@ -948,14 +951,29 @@
     "apiKeyAddTo": "Add to",
     "header": "Header",
     "queryParams": "Query Params",
-    "test": "Test",
     "http": "HTTP",
+    "addParameter": "Add Parameter",
+    "noParametersConfigured": "No Parameters Configured",
+    "required": "Value Required",
+    "hiddenParam": "Hidden",
+    "valueType": "Value Type",
+    "displayName": "Display Name",
+    "defaultValue": "Default Value",
+    "defaultValueOptional": "Default Value (optional)",
+    "test": "Test",
     "serviceNowUrl": "ServiceNow URL",
     "serviceNow": "ServiceNow",
     "serviceNowAlertChannel": "ServiceNow Alert Channel",
     "serviceNowUsernameTooltip": "Username and password should be for a ServiceNow user with permission to create incidents.",
     "showPasswordTooltip": "Show password",
-    "hidePasswordTooltip": "Hide password"
+    "hidePasswordTooltip": "Hide password",
+    "secretKey": "Secret Key",
+    "secretPath": "Secret Path",
+    "validName": "Parameter name is not valid: check to make sure you're using only valid characters and that its unique.",
+    "uniqueName": "Parameter names must be unique.",
+    "static": "Static",
+    "vault": "Vault",
+    "parameterNameHelp": "Parameter names may only contain a-z, A-Z, _, 0-9 and may not begin with a number."
   },
   "languageSelection": {
     "language": "Language",

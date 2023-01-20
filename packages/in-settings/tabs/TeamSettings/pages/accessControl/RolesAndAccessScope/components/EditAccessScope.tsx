@@ -7,13 +7,16 @@
 import React, { useState } from 'react';
 import { MapForm } from 'formalistic';
 
-import WebsitePermissionSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/WebsitePermissionSection/WebsitePermissionSection';
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
+import PermissionSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSection';
 import GroupNameSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/GroupNameSection';
 import HeadingSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/HeadingSection';
 import { getField, updateFormField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
+import { ProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import useSubSlideControl, { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
 import ConfigDialog, { SubSlideConfig } from 'in-settings/components/ConfigDialog';
+import { getMobileAppConfigurations } from 'in-mobile-apps/api/mobileApps';
+import { getWebsiteConfigurations } from 'in-websites/api/websites';
 import { t } from 'in-i18n';
 
 interface EditAccessScopeDialogProps extends FormControlProps {
@@ -87,7 +90,44 @@ export default function EditAccessScopeDialog({
           label: 'Websites',
           title: 'Websites',
           valid: true,
-          content: <WebsitePermissionSection {...formControlProps} {...slideControlProps} />
+          content: (
+            <PermissionSection
+              title={t('in-settings:PermissionSection.title_websites')}
+              accessAllDescription={t('in-settings:PermissionSection.descriptionAccessAll_websites')}
+              limitedAccessDescription={t('in-settings:PermissionSection.descriptionLimitedAccess_websites')}
+              addButtonLabel={t('in-settings:PermissionSection.addButton_websites')}
+              roleTooltipText={t('in-settings:permissionScope.roleTooltip_websites')}
+              entityPermissionKey="websiteIds"
+              observable={getWebsiteConfigurations}
+              productArea={ProductArea.WEBSITE}
+              extractId={({ id }) => id}
+              extractName={({ name }) => name}
+              {...formControlProps}
+              {...slideControlProps}
+            />
+          )
+        },
+        {
+          scrollId: '4-mobile.apps',
+          label: 'MobileApps',
+          title: 'MobileApps',
+          valid: true,
+          content: (
+            <PermissionSection
+              title={t('in-settings:PermissionSection.title_mobileApps')}
+              accessAllDescription={t('in-settings:PermissionSection.descriptionAccessAll_mobileApps')}
+              limitedAccessDescription={t('in-settings:PermissionSection.descriptionLimitedAccess_mobileApps')}
+              addButtonLabel={t('in-settings:PermissionSection.addButton_mobileApps')}
+              roleTooltipText={t('in-settings:permissionScope.roleTooltip_mobileApps')}
+              entityPermissionKey="mobileAppIds"
+              observable={getMobileAppConfigurations}
+              productArea={ProductArea.MOBILE_APP}
+              extractId={({ id }) => id}
+              extractName={({ name }) => name}
+              {...formControlProps}
+              {...slideControlProps}
+            />
+          )
         }
       ]}
       onClickSave={() => onSave(form)}

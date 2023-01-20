@@ -36,4 +36,8 @@
   .subErrorTextFormField {
     margin-left: 0.5rem;
   }
+  .parameterDialog {
+    height: 100%;
+    padding: 0 1.5rem;
+  }
 }

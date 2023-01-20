@@ -65,9 +65,11 @@ export const defaultNumberOfSuggestedDatapoints = 80;
 // getMetricIdForGroup – at least as long as this comment is up to date :-)
 export default function UnifiedMetricsChart({
   forceLoadingIndicator,
+  timeConfig,
   ...props
 }: UnifiedMetricsChartProps & { forceLoadingIndicator?: boolean }) {
-  const timeConfig = useTimeConfig();
+  const globalTimeConfig = useTimeConfig();
+  const usedTimeConfig = timeConfig ?? globalTimeConfig;
 
   // In some cases the parent component needs to signal to this component that it is loading data needed for the chart
   // configuration, e.g. list of groups for group charts. While this flag is set, no back-end queries should be executed
@@ -75,7 +77,7 @@ export default function UnifiedMetricsChart({
   if (forceLoadingIndicator) {
     return (
       <ChartWrapper
-        timeConfig={timeConfig}
+        timeConfig={usedTimeConfig}
         primaryContextMenuAction={props.config?.primaryContextMenuAction}
         additionalContextMenuButtons={props.config?.additionalContextMenuButtons}
         result={pendingResult}
@@ -84,7 +86,7 @@ export default function UnifiedMetricsChart({
     );
   }
 
-  return <DataLoadingWrapper timeConfig={timeConfig} {...props} />;
+  return <DataLoadingWrapper timeConfig={usedTimeConfig} {...props} />;
 }
 
 function DataLoadingWrapper({

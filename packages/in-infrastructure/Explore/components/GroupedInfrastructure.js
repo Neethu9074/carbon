@@ -18,6 +18,7 @@ import {
 } from '@instana/components';
 
 import MetricCatalogAndSortingConfigurator from 'in-infrastructure/components/MetricCatalogAndSortingConfigurator/MetricCatalogAndSortingConfigurator';
+import { formatCsvColumnName, formatCsvColumnValue } from 'in-infrastructure/Explore/services/MetricCsvColumnFormatter';
 import { firstValue, getGranularity, getMetricKey, getSeriesKey } from 'in-infrastructure/Explore/services/metrics';
 import InfrastructureList, { pagesLoaded } from 'in-infrastructure/Explore/components/InfrastructureList';
 import { type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
@@ -315,6 +316,17 @@ function columns({
         getId() {
           return getMetricKey(metric, aggregation);
         },
+        getColumnLabel() {
+          const metadata = mapData(metricMetadatas, data => data[metric]);
+          const label = mapData(metadata, data => data?.label);
+          const formatter = mapData(metadata, data => data?.formatter).data;
+          return formatCsvColumnName(label['data'], aggregation, formatter);
+        },
+        getFormatter() {
+          const metadata = mapData(metricMetadatas, data => data[metric]);
+          const formatter = mapData(metadata, data => data?.formatter).data;
+          return formatter;
+        },
         exported: true
       }))
     )
@@ -528,12 +540,12 @@ function processData(items, columns) {
       let found = false;
       Object.keys(item.metrics ?? {}).forEach(metric => {
         if (metric === col.getId()) {
-          row[metric] = firstValue(item.metrics[metric]);
+          row[col.getColumnLabel()] = formatCsvColumnValue(col.getFormatter(), firstValue(item.metrics[metric]));
           found = true;
         }
       });
       if (!found && col.exported) {
-        row[col.getId()] = '-';
+        row[col.getColumnLabel()] = '-';
       }
     });
     csvRows.push(row);
@@ -582,7 +594,7 @@ function getHeaderActions(props) {
         columns={columns}
         cursor={cursor}
       />
-      <MetricCatalogAndSortingConfigurator {...props} />;
+      <MetricCatalogAndSortingConfigurator {...props} />
     </>
   );
 }

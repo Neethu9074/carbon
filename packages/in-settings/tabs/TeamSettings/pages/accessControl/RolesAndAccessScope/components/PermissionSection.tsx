@@ -1,12 +1,14 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2022
+ * Copyright IBM Corp. 2023
  */
 
 import React from 'react';
 
+import { PermissionSetWithRoles, Result } from '@instana/types';
 import { SvgIcon, Typography } from '@instana/components';
+import { Observable } from '@instana/observables';
 
 import {
   getAreaRoleFromPermissionSet,
@@ -17,14 +19,11 @@ import {
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import {
   AreaRoleWithCustomType,
-  ProductArea,
+  LimitableProductArea,
   ScopedPermissionItem,
   ScopedPermissionItems,
   ScopedPermissionType
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
-import WebsiteLimitedAccessPanel from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/WebsitePermissionSection/WebsiteLimitedAccesPanel';
-import WebsiteAccessAllPanel from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/WebsitePermissionSection/WebsiteAccessAllPanel';
-import WebsiteNoAccessPanel from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/WebsitePermissionSection/WebsiteNoAccessPanel';
 import TabSelect, {
   TabSelectHeader,
   TabSelectItem,
@@ -32,42 +31,68 @@ import TabSelect, {
   TabSelectPanel,
   TabSelectPanels
 } from 'in-components/TabSelect';
+import LimitedAccessPanel from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/LimitedAccesPanel';
+import {
+  ExtractIdFunction,
+  ExtractNameFunction
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/types';
+import AccessAllPanel from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/AccessAllPanel';
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
+import NoAccessPanel from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/NoAccessPanel';
 import { SubSlideConfig } from 'in-settings/components/ConfigDialog/ConfigDialog';
 import { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
-import { PermissionSetWithRoles } from 'in-types';
 import { t } from 'in-i18n';
 
-export interface WebsitePermissionSectionProps extends SlideControlProps<SubSlideConfig>, FormControlProps {}
+export type EntityPermissionKey = 'mobileAppIds' | 'websiteIds' | 'applicationIds';
+export interface PermissionSectionProps<I> extends SlideControlProps<SubSlideConfig>, FormControlProps {
+  title: string;
+  accessAllDescription: string;
+  limitedAccessDescription: string;
+  addButtonLabel: string;
+  roleTooltipText: string;
+  observable: () => Observable<Result<I[]>>;
+  extractId: ExtractIdFunction<I>;
+  extractName: ExtractNameFunction<I>;
+  productArea: LimitableProductArea;
+  entityPermissionKey: EntityPermissionKey;
+}
 
-export default function WebsitePermissionSection({
+export default function PermissionSection<I>({
+  title,
+  accessAllDescription,
+  limitedAccessDescription,
+  addButtonLabel,
+  roleTooltipText,
+  productArea,
+  entityPermissionKey,
+  observable,
+  extractId,
+  extractName,
   form,
   setForm,
   setSubSlideConfig,
   setShowSubSlide
-}: WebsitePermissionSectionProps) {
+}: PermissionSectionProps<I>) {
   const defaultLimitation = ScopedPermissionItem.ACCESS_ALL;
   const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');
   const permissionSet = permissionSetField?.value;
-  const role = getAreaRoleFromPermissionSet(ProductArea.WEBSITE, permissionSet);
+  const role = getAreaRoleFromPermissionSet(productArea, permissionSet);
 
-  const limitedPermission = permissionSet
-    ? getScopeFromProductArea(ProductArea.WEBSITE, permissionSet)
-    : defaultLimitation;
+  const limitedPermission = permissionSet ? getScopeFromProductArea(productArea, permissionSet) : defaultLimitation;
 
   const onUpdatePermissionSet = (role: AreaRoleWithCustomType | undefined, limitation: ScopedPermissionType) => {
     if (!permissionSet || role === 'CUSTOM') return;
 
-    const { websiteIds, ...restPermissionSet } = updatePermissionSetForLimitableProductArea(
+    const { [entityPermissionKey]: entityIds, ...restPermissionSet } = updatePermissionSetForLimitableProductArea(
       permissionSet,
-      ProductArea.WEBSITE,
+      productArea,
       limitation,
       role
     );
 
     const newPermissionSet = {
       ...restPermissionSet,
-      websiteIds: limitation === ScopedPermissionItem.LIMITED_ACCESS ? websiteIds : []
+      [entityPermissionKey]: limitation === ScopedPermissionItem.LIMITED_ACCESS ? entityIds : []
     };
 
     setForm(updateFormField(form, 'permissionSet', newPermissionSet, true));
@@ -79,9 +104,9 @@ export default function WebsitePermissionSection({
       onChange={(_panelId, value) => onUpdatePermissionSet(role, value ?? defaultLimitation)}
     >
       <TabSelectHeader>
-        <SvgIcon type="lib_website" size="l" />
+        <SvgIcon type="lib_mobile_app" size="l" />
         <Typography variant="heading-200" component="h3" noMargin>
-          {t('in-settings:websitePermissionSection.title')}
+          {title}
         </Typography>
       </TabSelectHeader>
       <TabSelectMenu>
@@ -95,17 +120,27 @@ export default function WebsitePermissionSection({
         {ScopedPermissionItems.map(context => (
           <TabSelectPanel key={context} id={context}>
             {context === ScopedPermissionItem.ACCESS_ALL && (
-              <WebsiteAccessAllPanel
+              <AccessAllPanel
                 role={role}
                 onChangeRole={role => onUpdatePermissionSet(role, ScopedPermissionItem.ACCESS_ALL)}
+                entityPermissionKey={entityPermissionKey}
+                roleTooltipText={roleTooltipText}
+                description={accessAllDescription}
               />
             )}
-            {context === ScopedPermissionItem.NO_ACCESS && <WebsiteNoAccessPanel />}
+            {context === ScopedPermissionItem.NO_ACCESS && <NoAccessPanel />}
             {context === ScopedPermissionItem.LIMITED_ACCESS && (
-              <WebsiteLimitedAccessPanel
+              <LimitedAccessPanel
+                description={limitedAccessDescription}
+                addButtonLabel={addButtonLabel}
+                entityPermissionKey={entityPermissionKey}
                 role={role}
                 form={form}
+                observable={observable}
+                extractId={extractId}
+                extractName={extractName}
                 setForm={setForm}
+                roleTooltipText={roleTooltipText}
                 onChangeRole={role => onUpdatePermissionSet(role, ScopedPermissionItem.LIMITED_ACCESS)}
                 setShowSubSlide={setShowSubSlide}
                 setSubSlideConfig={setSubSlideConfig}

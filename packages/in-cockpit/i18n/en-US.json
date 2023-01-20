@@ -89,7 +89,11 @@
     "websites": "Websites",
     "mobileApps": "Mobile Apps",
     "websitesMobileApps": "Websites & Mobile Apps",
-    "customEventDeprecatedWarning": "<strong>{{deprecatedCustomEvents}} Application, Service and Endpoint Custom Events require action</strong><affectedCustomEvents>View affected Custom Events</affectedCustomEvents>"
+    "customEventDeprecatedWarning": "<strong>{{count}} Custom Event on Application, Service and Endpoint requires action</strong><affectedCustomEvents>View affected Custom Event</affectedCustomEvents>",
+    "customEventDeprecatedWarning_plural": "<strong>{{count}} Custom Events on Application, Service and Endpoint require action</strong><affectedCustomEvents>View affected Custom Events</affectedCustomEvents>",
+    "customEventDeprecatedWarning_0": "<strong>{{count}} Custom Events on Application, Service and Endpoint require action</strong><affectedCustomEvents>View affected Custom Events</affectedCustomEvents>",
+    "customEventDeprecatedWarning_1": "<strong>{{count}} Custom Events on Application, Service and Endpoint require action</strong><affectedCustomEvents>View affected Custom Events</affectedCustomEvents>",
+    "customEventDeprecatedWarning_2": "<strong>{{count}} Custom Events on Application, Service and Endpoint require action</strong><affectedCustomEvents>View affected Custom Events</affectedCustomEvents>"
   },
   "widgets": {
     "columnDefinitions": {

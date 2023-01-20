@@ -9,3 +9,5 @@ import { GroupWithRoles } from '@instana/types';
 export interface GroupApiResult {
   result: { group: GroupWithRoles };
 }
+export type ExtractIdFunction<I> = (entity: I) => string;
+export type ExtractNameFunction<I> = (entity: I) => string;

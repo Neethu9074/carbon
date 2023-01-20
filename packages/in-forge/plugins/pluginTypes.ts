@@ -6,27 +6,27 @@
 
 import { Nullish } from 'in-types';
 
-const appDataTypes = ['application', 'service', 'endpoint'];
-const websiteTypes = ['website'];
-const syntheticTypes = ['syntheticTest'];
+const appDataPlugins = ['application', 'service', 'endpoint'];
+const websitePlugins = ['website'];
+const syntheticPlugins = ['syntheticTest'];
 
-export function isAppDataType(type: string | Nullish): boolean {
-  if (type) {
-    return appDataTypes.includes(type.toLowerCase());
+export function isAppDataPlugin(plugin: string | Nullish): boolean {
+  if (plugin) {
+    return appDataPlugins.includes(plugin);
   }
   return false;
 }
 
-export function isWebsiteType(type: string | Nullish): boolean {
-  if (type) {
-    return websiteTypes.includes(type.toLowerCase());
+export function isWebsitePlugin(plugin: string | Nullish): boolean {
+  if (plugin) {
+    return websitePlugins.includes(plugin);
   }
   return false;
 }
 
-export function isSyntheticType(type: string | Nullish): boolean {
-  if (type) {
-    return syntheticTypes.includes(type.toLowerCase());
+export function isSyntheticPlugin(plugin: string | Nullish): boolean {
+  if (plugin) {
+    return syntheticPlugins.includes(plugin);
   }
   return false;
 }
