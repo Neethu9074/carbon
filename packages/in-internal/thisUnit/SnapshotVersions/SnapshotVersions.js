@@ -35,14 +35,14 @@ export default function SnapshotVersions() {
     replaceHistory: false
   };
   const [{ snapshotId }, setSnapshotId] = useUrlState(urlStateConfig);
-  const [signal, setSignal] = useState(false);
+  const [signal, setSignal] = useState(true);
 
   const snapshotVersionsResponse = useObservable(
     timeConfig$
       .debounce(100)
       .flatMap(timeConfig => (!signal || !snapshotId ? alwaysNull : getSnapshotVersions(snapshotId, timeConfig)))
       .filter(res => res && res.snapshotVersions),
-    []
+    [snapshotId, signal]
   );
   return (
     <div className={locals.view}>

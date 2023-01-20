@@ -15,10 +15,11 @@ import SetBodyColor from 'in-components/SetBodyColor';
 import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-components/Footer';
 
+const urlStateConfig = {
+  bind: [analyzeDataSourceUrlParameter]
+};
+
 export default function AnalyzeView(props) {
-  const urlStateConfig = {
-    bind: [analyzeDataSourceUrlParameter]
-  };
   const { location } = props;
   const [{ dataSource }, onChange] = useUrlState(urlStateConfig);
 
