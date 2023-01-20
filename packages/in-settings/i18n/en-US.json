@@ -954,7 +954,7 @@
     "http": "HTTP",
     "addParameter": "Add Parameter",
     "noParametersConfigured": "No Parameters Configured",
-    "required": "Required",
+    "required": "Value Required",
     "hiddenParam": "Hidden",
     "valueType": "Value Type",
     "displayName": "Display Name",
@@ -972,7 +972,6 @@
     "validName": "Parameter name is not valid: check to make sure you're using only valid characters and that its unique.",
     "uniqueName": "Parameter names must be unique.",
     "static": "Static",
-    "dynamic": "Dynamic",
     "vault": "Vault",
     "parameterNameHelp": "Parameter names may only contain a-z, A-Z, _, 0-9 and may not begin with a number."
   },

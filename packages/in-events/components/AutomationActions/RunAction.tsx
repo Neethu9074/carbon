@@ -4,357 +4,303 @@
  * Copyright IBM Corp. 2022
  */
 
-import { createField, createMapForm, Field, MapForm } from 'formalistic';
+import { createField, createListForm, createMapForm, Field, ListForm, MapForm } from 'formalistic';
 import React, { useEffect, useState } from 'react';
-import classNames from 'classnames';
 
-import { Button, Link, Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { Button } from '@instana/components';
 
 import {
-  API_KEY,
-  BASIC_AUTH,
-  BEARER_TOKEN,
-  getAuthenFromFields,
-  getBodyFromFields,
-  getHeaderFromFields,
-  getHostFromFields,
-  getIgnoreCertErrorsFromFields,
   getInterpreterFromFields,
-  getMethodFromFields,
   getScriptFromFields,
-  getType,
   isScript,
-  isWebhook,
-  SCRIPT_TYPE
+  isWebhook
 } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
-import { DescriptionItem, DescriptionList } from 'in-components/DescriptionList/DescriptionList';
+import RunActionContent, { getWebhookFields } from 'in-events/components/AutomationActions/RunActionContent';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
-import { AdditionalHeaders, Authen, runScriptAction, runWebhookAction } from 'in-api/automation';
+import { ActionExecutionParameter, runScriptAction, runWebhookAction } from 'in-api/automation';
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
-import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
-import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { notBlankValidator } from 'in-services/validators/string';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
-import { getLinkToAnalyze } from 'in-logging/navigation/paths';
-import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { AgentResponse } from 'in-subscription/agentResponse';
 import { Action, Event, Result, VolatileId } from 'in-types';
 import { close } from 'in-components/DialogPresenter/store';
-import HelpText from 'in-components/form/HelpText/HelpText';
-import Select from 'in-components/form/Select/Select';
 import { runActionTracker } from 'in-events/tracker';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import Label from 'in-components/form/Label/Label';
 import Dialog from 'in-components/Dialog/Dialog';
-import Code from 'in-components/Code';
-import { t, Trans } from 'in-i18n';
+import { t } from 'in-i18n';
 
 import locals from './RunAction.mless';
 
-interface Props {
+interface RunActionProps {
   volatileId: VolatileId;
   event?: Event;
   action: Action;
   test?: boolean;
 }
 
-export default function RunAction({ action, volatileId, event, test }: Props) {
+export default function RunAction({ action, volatileId, event, test }: RunActionProps) {
   const [actionInstanceId, setActionInstanceId] = useState('');
   const [error, setError] = useState('');
   const [isSaving, setIsSaving] = useState(false);
-  const timeConfig = useTimeConfig();
   const [form, setForm] = useState<MapForm>();
-  const targetAgent = form?.get('targetAgent') as Field<string>;
-  const query =
-    action.type === SCRIPT_TYPE ? 'entity.agent.capability:action-script' : 'entity.agent.capability:action-http';
-  const agentSnapShots = useObservable(() => getAgentSnapshotsInTimeframe({ timeConfig, query }), [timeConfig]);
-  useEffect(() => {
-    if (agentSnapShots && !form) {
-      setForm(createForm(volatileId, agentSnapShots));
-    }
-  }, [agentSnapShots, form, volatileId]);
-  const { name: actionName, description } = action;
-  const getDialogContent = () => {
-    const footer = (
-      <Button kind="primary" onClick={close}>
-        {t('in-events:ok')}
-      </Button>
-    );
-    if (error) {
-      const title = t('in-events:failedToInitiate', { actionName });
-      const content = <Typography variant="body-small">{error}</Typography>;
-      return { title, content, footer };
-    } else if (actionInstanceId) {
-      const title = t('in-events:hasBeenInitiated', { actionName });
-      const tagFilterExpression = tagFilter('log.custom', 'EQUALS', actionInstanceId, 'actionInstanceId');
-      const link = getLinkToAnalyze({ tagFilterExpression: [tagFilterExpression], timeConfig });
-      const content = (
-        <Typography variant="body-small">
-          <Trans
-            i18nKey="in-settings:tabs.linkToActionLogs"
-            components={{
-              // @ts-expect-error
-              logsLink: <Link onClick={close} href$={link} />
-            }}
-          />
-        </Typography>
-      );
-      return { title, content, footer };
-    } else {
-      const title = test ? t('in-events:chosenToTest', { actionName }) : t('in-events:chosenToRun', { actionName });
-      const content = (
-        <>
-          <AgentSelection
-            form={form}
-            volatileId={volatileId}
-            targetAgent={targetAgent}
-            setForm={setForm}
-            agentSnapShots={agentSnapShots}
-          />
-
-          <DescriptionList>
-            <DescriptionItem
-              className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
-              title={t('in-events:titleDescription')}
-            >
-              {description}
-            </DescriptionItem>
-            <DescriptionItem
-              className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
-              title={t('in-events:titleActionType')}
-            >
-              {getType(action)}
-            </DescriptionItem>
-          </DescriptionList>
-          {isScript(action.type) && <ScriptActionContent action={action} />}
-          {isWebhook(action.type) && <WebhookActionContent action={action} />}
-          <Typography variant="body-small">{t('in-events:actionCannotBeUndone')}</Typography>
-        </>
-      );
-      const footer = (
-        <>
-          <CancelButton isSaving={isSaving} onClick={close} />
-          <SaveButton
-            kind="primary"
-            form={form}
-            disabled={!form}
-            isSaving={isSaving}
-            onClick={() => {
-              if (!form?.hierarchyValid) {
-                setForm(form?.setTouched(true, { recurse: true }));
-                return;
-              }
-              setIsSaving(true);
-              runActionTracker({
-                actionType: action.type,
-                actionName: action.name
-              });
-              const selectedVolatileId =
-                agentSnapShots?.data?.online?.find(agent => agent.volatileId?.host_id === targetAgent?.value)
-                  ?.volatileId ?? {};
-              const handleActionResponse = (data: [Result<null>, AgentResponse]) => {
-                setIsSaving(false);
-                // last element of the array is either the timeout error if the agent didn't respond in time, or the agent response (error or in progress)
-                // result unknown because we only care about error
-                const response: Result<null> | AgentResponse = data[data.length - 1];
-                if ('errors' in response) {
-                  setError(response.errors[0].message);
-                } else if ('error' in response && response.error != null) {
-                  setError(response.error);
-                } else {
-                  setActionInstanceId(response.data.actionInstanceId);
-                }
-              };
-
-              if (isScript(action.type)) {
-                const script = getScriptFromFields(action.fields);
-                const interpreter = getInterpreterFromFields(action.fields);
-                runScriptAction({ script, volatileId: selectedVolatileId, event, actionName, interpreter }).once(
-                  handleActionResponse
-                );
-              } else if (isWebhook(action.type)) {
-                const { host, method, body, ignoreCertErrors, header } = getWebhookFields(action);
-                runWebhookAction({
-                  volatileId: selectedVolatileId,
-                  event,
-                  actionName,
-                  host,
-                  method,
-                  body,
-                  ignoreCertErrors,
-                  header
-                }).once(handleActionResponse);
-              }
-            }}
-          >
-            {t('in-events:yes')}
-          </SaveButton>
-        </>
-      );
-      return { title, content, footer };
-    }
-  };
-  const { title, content, footer } = getDialogContent();
+  const agentSnapShots = useAgentSnapShots({ action, form, volatileId, setForm });
   return (
     <Dialog
       className={locals.dialog}
       titleIconType={'lib_help_error_error_circle'}
-      title={title}
+      title={getTitle({ action, error, actionInstanceId, test })}
       onClose={close}
       withoutBodyPadding
     >
       <>
-        <div className={locals.actionModalPadding}>{content}</div>
-        <FormFooter>{footer}</FormFooter>
+        <div className={locals.actionModalPadding}>
+          <RunActionContent
+            action={action}
+            error={error}
+            actionInstanceId={actionInstanceId}
+            form={form}
+            setForm={setForm}
+            agentSnapShots={agentSnapShots}
+            volatileId={volatileId}
+          />
+        </div>
+        <FormFooter>
+          <RunActionFooter
+            error={error}
+            actionInstanceId={actionInstanceId}
+            isSaving={isSaving}
+            form={form}
+            onSave={() =>
+              onSave({
+                form,
+                setForm,
+                setIsSaving,
+                action,
+                agentSnapShots,
+                setError,
+                setActionInstanceId,
+                event
+              })
+            }
+          />
+        </FormFooter>
       </>
     </Dialog>
   );
 }
 
-const getWebhookFields = (action: Action) => {
-  let host = getHostFromFields(action.fields);
-  const method = getMethodFromFields(action.fields);
-  const body = getBodyFromFields(action.fields);
-  const headerString = getHeaderFromFields(action.fields);
-  const header: AdditionalHeaders = JSON.parse(headerString);
-  const ignoreCertErrors = getIgnoreCertErrorsFromFields(action.fields);
-  const authenString = getAuthenFromFields(action.fields);
-  const authen: Authen = JSON.parse(authenString);
-  if (authen.type === BASIC_AUTH) {
-    const { username, password } = authen;
-    const authenString = `Basic ${btoa(`${username}:${password}`)}`;
-    header['Authorization'] = authenString;
-  } else if (authen.type === BEARER_TOKEN) {
-    const { bearerToken } = authen;
-    const authenString = `Bearer ${bearerToken}`;
-    header['Authorization'] = authenString;
-  } else if (authen.type === API_KEY) {
-    const { apiKey, apiKeyAddTo, apiKeyValue } = authen;
-    if (apiKeyAddTo === 'header') {
-      header[apiKey!] = apiKeyValue!;
-    } else if (apiKeyAddTo === 'query') {
-      host = host.includes('?') ? `${host}&${apiKey}=${apiKeyValue}` : `${host}?${apiKey}=${apiKeyValue}`;
-    }
-  }
-  return { host, method, body, header: JSON.stringify(header), ignoreCertErrors };
+interface GetTitleParams extends Pick<RunActionProps, 'action' | 'test'> {
+  actionInstanceId: string;
+  error: string;
+}
+const getTitle = ({ action, error, actionInstanceId, test }: GetTitleParams) => {
+  const actionName = action.name;
+  if (error) return t('in-events:failedToInitiate', { actionName });
+  if (actionInstanceId) return t('in-events:hasBeenInitiated', { actionName });
+  if (test) return t('in-events:chosenToTest', { actionName });
+  return t('in-events:chosenToRun', { actionName });
 };
 
-const createForm = (volatileId: VolatileId, agentSnapShots: OUT) => {
+interface UseAgentSnapShotsParams extends Pick<RunActionProps, 'action' | 'volatileId'> {
+  form: MapForm | undefined;
+  setForm: React.Dispatch<React.SetStateAction<MapForm | undefined>>;
+}
+
+function useAgentSnapShots({ action, form, volatileId, setForm }: UseAgentSnapShotsParams) {
+  const timeConfig = useTimeConfig();
+  const query = isScript(action.type) ? 'entity.agent.capability:action-script' : 'entity.agent.capability:action-http';
+  const agentSnapShots = useObservable(() => getAgentSnapshotsInTimeframe({ timeConfig, query }), [timeConfig]);
+  useEffect(() => {
+    if (agentSnapShots && !form) {
+      setForm(createForm({ volatileId, agentSnapShots, action }));
+    }
+  }, [agentSnapShots, form, volatileId, action, setForm]);
+  return agentSnapShots;
+}
+
+interface OnSaveParams extends Pick<RunActionProps, 'action' | 'event'> {
+  form: MapForm | undefined;
+  setForm: React.Dispatch<React.SetStateAction<MapForm | undefined>>;
+  setIsSaving: React.Dispatch<React.SetStateAction<boolean>>;
+  agentSnapShots: OUT | null | undefined;
+  setError: React.Dispatch<React.SetStateAction<string>>;
+  setActionInstanceId: React.Dispatch<React.SetStateAction<string>>;
+}
+
+function onSave({
+  form,
+  setForm,
+  setIsSaving,
+  action,
+  agentSnapShots,
+  setError,
+  setActionInstanceId,
+  event
+}: OnSaveParams) {
+  if (!form?.hierarchyValid) {
+    setForm(form?.setTouched(true, { recurse: true }));
+    return;
+  }
+  setIsSaving(true);
+  runActionTracker({
+    actionType: action.type,
+    actionName: action.name
+  });
+  const targetAgent = form?.get('targetAgent') as Field<string>;
+  const parameters = form?.get('parameters') as MapForm;
+
+  const inputParameters = parameters.reduce<ActionExecutionParameter[]>((acc, parameter, key) => {
+    const parameterDefinition = action.inputParameters?.find(p => key === p.name);
+    const name = parameterDefinition?.name ?? '';
+    if (parameterDefinition?.type === 'vault') {
+      const pathField = (parameter as ListForm).get(0) as Field<string>;
+      const keyField = (parameter as ListForm).get(1) as Field<string>;
+      return [
+        ...acc,
+        {
+          name,
+          type: 'vault',
+          value: JSON.stringify({ secretPath: pathField.value ?? '', secretKey: keyField.value ?? '' })
+        }
+      ];
+    }
+    // WILL NEED TO RESOLVE DYNAMIC PARAMS HERE
+    const value = (parameter as Field<string>).value;
+    if (value) {
+      return [...acc, { name, value }];
+    }
+    return acc;
+  }, []);
+  const hiddenInputParameters = (action.inputParameters ?? []).reduce<ActionExecutionParameter[]>((acc, parameter) => {
+    if (parameter.type === 'hidden') {
+      return [...acc, { name: parameter.name, value: parameter.value ?? '' }];
+    }
+    return acc;
+  }, []);
+  const selectedVolatileId =
+    agentSnapShots?.data?.online?.find(agent => agent.volatileId?.host_id === targetAgent.value)?.volatileId ?? {};
+  const handleActionResponse = (data: [Result<null>, AgentResponse]) => {
+    setIsSaving(false);
+    // last element of the array is either the timeout error if the agent didn't respond in time, or the agent response (error or in progress)
+    // result unknown because we only care about error
+    const response = data[data.length - 1];
+    if ('errors' in response) {
+      setError(response.errors[0].message);
+    } else if ('error' in response && response.error != null) {
+      setError(response.error);
+    } else {
+      setActionInstanceId(response.data.actionInstanceId);
+    }
+  };
+
+  const allInputParameters = [...inputParameters, ...hiddenInputParameters];
+  if (isScript(action.type)) {
+    const script = getScriptFromFields(action.fields);
+    const interpreter = getInterpreterFromFields(action.fields);
+    runScriptAction({
+      script,
+      volatileId: selectedVolatileId,
+      event,
+      actionName: action.name,
+      interpreter,
+      inputParameters: allInputParameters
+    }).once(handleActionResponse);
+  } else if (isWebhook(action.type)) {
+    const { host, method, body, ignoreCertErrors, header } = getWebhookFields(action);
+    runWebhookAction({
+      volatileId: selectedVolatileId,
+      event,
+      actionName: action.name,
+      host,
+      method,
+      body,
+      ignoreCertErrors,
+      header,
+      inputParameters: allInputParameters
+    }).once(handleActionResponse);
+  }
+}
+interface RunActionFooterProps {
+  error: string;
+  actionInstanceId: string;
+  isSaving: boolean;
+  form: MapForm | undefined;
+  onSave: () => void;
+}
+
+function RunActionFooter({ error, actionInstanceId, isSaving, form, onSave }: RunActionFooterProps) {
+  if (error || actionInstanceId) {
+    return (
+      <Button kind="primary" onClick={close}>
+        {t('in-events:ok')}
+      </Button>
+    );
+  }
+  return (
+    <>
+      <CancelButton isSaving={isSaving} onClick={close} />
+      <SaveButton kind="primary" form={form} disabled={!form} isSaving={isSaving} onClick={onSave}>
+        {t('in-events:yes')}
+      </SaveButton>
+    </>
+  );
+}
+
+interface CreateFormParams extends Pick<RunActionProps, 'volatileId' | 'action'> {
+  agentSnapShots: OUT;
+}
+function createForm({ volatileId, agentSnapShots, action }: CreateFormParams) {
   const defaultValue =
     agentSnapShots?.data?.online?.find(agent => agent.volatileId?.host_id === volatileId.host_id)?.volatileId
       ?.host_id ?? '';
-  return createMapForm().put(
-    'targetAgent',
-    createField({
-      value: defaultValue,
-      validator: notBlankValidator
-    })
-  );
-};
-
-interface AgentSelectionProps {
-  targetAgent: Field<string>;
-  form: MapForm | undefined;
-  setForm: React.Dispatch<React.SetStateAction<MapForm | undefined>>;
-  agentSnapShots: OUT | null | undefined;
-  volatileId: VolatileId;
+  return createMapForm()
+    .put(
+      'targetAgent',
+      createField({
+        value: defaultValue,
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'parameters',
+      createMapForm({
+        items: action.inputParameters?.reduce((acc, parameter) => {
+          if (parameter.hidden) {
+            return acc;
+          }
+          if (parameter.type === 'vault') {
+            const parsedVaultValue: { secretKey?: string; secretPath?: string } = (raw => {
+              try {
+                return JSON.parse(raw);
+              } catch (e) {
+                return {};
+              }
+            })(parameter?.value ?? '{}');
+            return {
+              ...acc,
+              [parameter.name]: createListForm({
+                items: [
+                  createField({
+                    value: parsedVaultValue?.secretPath ?? '',
+                    validator: notBlankValidator
+                  }),
+                  createField({
+                    value: parsedVaultValue?.secretKey ?? '',
+                    validator: notBlankValidator
+                  })
+                ]
+              })
+            };
+          }
+          return {
+            ...acc,
+            [parameter.name]: createField({
+              value: parameter.value ?? '',
+              validator: parameter.required ? notBlankValidator : undefined
+            })
+          };
+        }, {})
+      })
+    );
 }
-
-const AgentSelection = ({ targetAgent, form, setForm, agentSnapShots, volatileId }: AgentSelectionProps) => {
-  return (
-    <>
-      {targetAgent?.map(field => (
-        <FormGroup>
-          <Label htmlFor="target-agent" hasError={!field.valid && field.touched}>
-            {t('in-events:targetAgent')}
-          </Label>
-          <Select
-            id="target-agent"
-            value={field.value}
-            onChange={e => {
-              const updatedForm = form?.updateIn(['targetAgent'], field =>
-                (field as Field<string>).setValue(e.target.value).setTouched(true)
-              );
-              setForm(updatedForm);
-            }}
-            hasError={!field.valid && field.touched}
-          >
-            <>
-              <option hidden value="">
-                {t('in-events:pleaseSelect')}
-              </option>
-              {agentSnapShots?.data?.online?.map(agent => {
-                const hostname = agent.data?.hostname;
-                const label =
-                  agent.volatileId?.host_id === volatileId.host_id
-                    ? t('in-events:triggeringAgent', { hostname })
-                    : hostname;
-                return (
-                  <option key={agent.volatileId?.host_id} value={agent.volatileId?.host_id}>
-                    {label}
-                  </option>
-                );
-              })}
-            </>
-          </Select>
-          <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-          <HelpText className={locals.subTextFormField}>{t('in-events:targetAgentDescription')}</HelpText>
-        </FormGroup>
-      ))}
-    </>
-  );
-};
-
-const ScriptActionContent = ({ action }: { action: Action }) => {
-  const script = getScriptFromFields(action.fields);
-  return (
-    <DescriptionList>
-      <DescriptionItem
-        className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
-        title={t('in-events:titleScriptContent')}
-      >
-        <Code withExpandButton withoutCopyButton code={atob(script)} lang={'bash'} softWrap />
-      </DescriptionItem>
-    </DescriptionList>
-  );
-};
-
-const WebhookActionContent = ({ action }: { action: Action }) => {
-  const { host, method, body, header } = getWebhookFields(action);
-  const headerEntries = Object.entries(JSON.parse(header) as AdditionalHeaders);
-  return (
-    <DescriptionList>
-      <DescriptionItem
-        className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
-        title={t('in-events:request')}
-      >
-        <div>
-          <Typography variant="body-small">{t('in-events:method', { method })}</Typography>
-        </div>
-        <div>
-          <Typography variant="body-small">{t('in-events:host', { host })}</Typography>
-        </div>
-        {body && (
-          <div>
-            <Typography variant="body-small">{t('in-events:body', { body })}</Typography>{' '}
-          </div>
-        )}
-        {headerEntries?.length > 0 && (
-          <div>
-            <Typography variant="body-small">
-              {t('in-events:headers')}
-              <ul>
-                {headerEntries.map(h => (
-                  <li key={h[0]}>
-                    {h[0]}: {h[1]}
-                  </li>
-                ))}
-              </ul>
-            </Typography>
-          </div>
-        )}
-      </DescriptionItem>
-    </DescriptionList>
-  );
-};

@@ -71,8 +71,6 @@ const getColumnDefinitions = ({ form, onChange }: Omit<ParametersTableProps, 'se
     getContent(item: MappedParameter) {
       if (item.value.type === 'vault') {
         return t('in-settings:tabs.vault');
-      } else if (item.value.type === 'dynamic') {
-        return t('in-settings:tabs.dynamic');
       } else if (item.value.type === 'static') {
         return t('in-settings:tabs.static');
       }

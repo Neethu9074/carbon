@@ -34,4 +34,15 @@
     margin: 0 1rem 0 0;
     text-transform: uppercase;
   }
+  .justifyContent {
+    justify-content: space-between;
+  }
+  .parameterLabel {
+    color: var(--ids-color-option-neutral-900);
+  }
+  .parameterContainer {
+    overflow-y: scroll;
+    max-height: 25rem;
+    border-left: 1px solid @lib__colors__N300;
+  }
 }
