@@ -4,8 +4,8 @@
  */
 
 import { AxisConfiguration, ContextMenuConfig, TimeShift } from 'in-components/Chart/types';
+import { Grouping, ResultType, TimeConfig, UnifiedMetricConfiguration } from 'in-types';
 import { ChartReactComponentProps } from 'in-components/Chart/ChartReactComponent';
-import { Grouping, ResultType, UnifiedMetricConfiguration } from 'in-types';
 import { TimeShiftOffset } from 'in-stores/time/shifting';
 
 export interface ConfigFromDataSeries {
@@ -14,7 +14,7 @@ export interface ConfigFromDataSeries {
   minGranularity: number;
 }
 
-interface Config extends ContextMenuConfig {
+export interface Config extends ContextMenuConfig {
   y1: Axis;
   y2?: Axis;
   granularity?: number;
@@ -56,9 +56,9 @@ interface Metric extends BaseMetric {
 type OmittedChartConfigParams = 'y1' | 'y2' | 'timeConfig';
 type BaseChartConfig = Omit<ChartReactComponentProps, OmittedChartConfigParams>;
 
-interface UnifiedMetricsChartProps extends Omit<BaseChartConfig, 'timeConfig'> {
+interface UnifiedMetricsChartProps extends BaseChartConfig {
   config: Config;
-
+  timeConfig?: TimeConfig;
   onApproximateDataChange?: (hasApproximateData: boolean) => void;
 }
 
