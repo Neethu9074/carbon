@@ -25,7 +25,7 @@ export default function AnalyzeInfraEventButton({ alertConfig, timeConfig }: Pro
   const linkToUA = getLinkToUnboundAnalytics(rule, tagFilterExpression, timeConfig);
 
   return (
-    <Button kind="primary" icon={'lib_analyze_inverted'} href$={linkToUA}>
+    <Button kind="primary" icon="lib_analyze_inverted" href$={linkToUA}>
       {t('in-analyze:analyzeHeader.analyzeInfrastructureSelectedTitle')}
     </Button>
   );

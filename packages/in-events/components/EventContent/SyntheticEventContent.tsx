@@ -9,9 +9,13 @@ import React from 'react';
 import { Card } from '@instana/components';
 
 import SyntheticScopePath from 'in-alerting/smart-alerts/synthetics/components/SyntheticScopePath';
+import AnalyzeSyntheticEventButton from 'in-events/components/AnalyzeSyntheticEventButton';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
+import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
+import { getTimeConfigFromEvent } from 'in-events/timeframe';
+import { fixateTimeConfig } from 'in-stores/time/config';
+import { EventMap, EventOrMap } from 'in-events/types';
 import { Row, Col } from 'in-components/layout/Grid';
-import { EventMap } from 'in-events/types';
 import { t } from 'in-i18n';
 
 interface Props {
@@ -19,19 +23,34 @@ interface Props {
 }
 
 export default function SyntheticEventContent({ event }: Props) {
-  const fixSuggestion = event.getIn(['problem', 'fixSuggestion'], '');
-  const syntheticTestId = event.getIn(['metadata', 'syntheticTestId'], undefined);
-  const syntheticTestLabel = event.getIn(['metadata', 'entityLabel'], '');
-  const locationLabel = event.getIn(['metadata', 'locations', 0, 'label'], '');
+  const fixSuggestion = event.getIn(['problem', 'fixSuggestion'], '') as string;
+  const syntheticTestId = event.getIn(['metadata', 'syntheticTestId']) as string;
+  const syntheticTestLabel = event.getIn(['metadata', 'entityLabel'], '') as string;
+  const locationLabel = event.getIn(['metadata', 'locations', 0, 'label'], '') as string;
+
+  const eventTimeConfig = getTimeConfigFromEvent(event as EventOrMap);
+  const analyzeTimeConfig = fixateTimeConfig(eventTimeConfig);
 
   return (
     <>
       <Row withoutSideMargin>
         <Col xs>
           <Card title={t('in-events:titleDescription')}>
-            <SyntheticScopePath syntheticTestId={syntheticTestId} syntheticTestLabel={syntheticTestLabel} locationLabel={locationLabel} />
+            <SyntheticScopePath
+              syntheticTestId={syntheticTestId}
+              syntheticTestLabel={syntheticTestLabel}
+              locationLabel={locationLabel}
+            />
 
             <ProblemDescription fixSuggestion={fixSuggestion} />
+
+            <DescriptionButtons>
+              <AnalyzeSyntheticEventButton
+                testId={syntheticTestId}
+                locationLabel={locationLabel}
+                timeConfig={analyzeTimeConfig}
+              />
+            </DescriptionButtons>
           </Card>
         </Col>
       </Row>
