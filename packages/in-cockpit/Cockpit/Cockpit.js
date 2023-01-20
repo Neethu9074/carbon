@@ -226,7 +226,7 @@ function CustomEventDeprecatedWarning({ legacyAlertConfigStats }) {
               </Link>
             )
           }}
-          values={{ deprecatedCustomEvents: legacyAlertConfigStats.data?.deprecatedCustomEvents }}
+          values={{ count: legacyAlertConfigStats.data?.deprecatedCustomEvents }}
         />
       </MessageContentModernDesign>
     </Message>
