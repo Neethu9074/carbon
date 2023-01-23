@@ -95,7 +95,7 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
     content = (
       <SettingsDetailPage>
         <SubViewHeader>
-          {isCreate
+          {isCreate || isCopy
             ? t('in-settings:tabs.createANewAction')
             : t('in-settings:tabs.configureActionEntityName', { entityName: entity!.name })}
         </SubViewHeader>
