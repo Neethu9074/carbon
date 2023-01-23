@@ -973,7 +973,9 @@
     "uniqueName": "Parameter names must be unique.",
     "static": "Static",
     "vault": "Vault",
-    "parameterNameHelp": "Parameter names may only contain a-z, A-Z, _, 0-9 and may not begin with a number."
+    "parameterNameHelp": "Parameter names may only contain a-z, A-Z, _, 0-9 and may not begin with a number.",
+    "duplicate": "Duplicate",
+    "actionCopy": "(Copy of) {{name}}"
   },
   "languageSelection": {
     "language": "Language",

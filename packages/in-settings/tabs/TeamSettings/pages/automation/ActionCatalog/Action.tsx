@@ -58,12 +58,16 @@ export type ActionFormEntity = NewAction | Action;
 export default function ActionEntityForm(props: RouteComponentProps<MatchParams>) {
   const id = props.match.params.id;
   const entityId = id === 'new' ? null : id;
+  const isCopy = props.match.path.split('/').at(-2) === 'copy';
   const entityFormParam = {
     entityId,
     createDefaultEntity: createAction,
     createForm: (action: ActionFormEntity) => createActionFormDefinition(action, !entityId),
-    getEntityFromApi: getAction,
-    saveEntity: (_: ActionFormEntity, form: MapForm) => save(form, entityId),
+    getEntityFromApi: (actionId: string) =>
+      getAction(actionId).map(action =>
+        isCopy ? { ...action, name: t('in-settings:tabs.actionCopy', { name: action.name }) } : action
+      ),
+    saveEntity: (_: ActionFormEntity, form: MapForm) => save(form, entityId, isCopy),
     openEntities: () => goToPath(teamSettingsActionCatalog)
   };
   const { entity, form, isCreate, saveEnabled, loading, error, message, onSubmit, setForm, onChange } = useEntityForm<
@@ -125,10 +129,10 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
   );
 }
 
-function save(form: MapForm, id: string | null) {
+function save(form: MapForm, id: string | null, isCopy: boolean) {
   const actionSpecification = getActionSpecification(form);
   const isCreate = !id;
-  if (isCreate) {
+  if (isCreate || isCopy) {
     createActionTracker({
       actionType: actionSpecification.type,
       actionName: actionSpecification.name

@@ -39,7 +39,8 @@ import {
   teamSettingsLogManagementSplunk,
   teamSettingsAlertingHub,
   teamSettingsActionCatalog,
-  teamSettingsActionDetails
+  teamSettingsActionDetails,
+  teamSettingsActionDetailsCopyForm
 } from 'in-settings/navigation/paths';
 import MaintenanceWindowsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurations';
 import MaintenanceWindowPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfiguration';
@@ -254,6 +255,10 @@ function navigationTreeForRole(role) {
           subPages: [
             {
               path: teamSettingsActionDetails,
+              component: ActionDetailsPage
+            },
+            {
+              path: teamSettingsActionDetailsCopyForm,
               component: ActionDetailsPage
             }
           ]
