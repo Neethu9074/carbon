@@ -6,7 +6,8 @@
 
 import { keyBy } from 'lodash';
 
-import { Field, Nullish, Action } from 'in-types';
+import { Field, Nullish } from 'in-types';
+import { Action } from 'in-types';
 import { t } from 'in-i18n';
 
 export const getType = (action: Action | Nullish) => {
@@ -23,9 +24,9 @@ export const getType = (action: Action | Nullish) => {
 
 const getFieldsByNames = (fields: Field[] | undefined): Record<string, Field | null> => keyBy(fields, 'name');
 export const getScriptFromFields = (fields: Field[] | undefined) =>
-  getFieldsByNames(fields)?.script_content?.value ?? getFieldsByNames(fields)?.script_ssh?.value ?? '';
+  getFieldsByNames(fields)?.script_content?.value ?? '';
 export const getInterpreterFromFields = (fields: Field[] | undefined) =>
-  getFieldsByNames(fields)?.interpreter?.value ?? getFieldsByNames(fields)?.subtype?.value ?? '';
+  getFieldsByNames(fields)?.interpreter?.value ?? '';
 export const getDocLinkFromFields = (fields: Field[] | undefined) => getFieldsByNames(fields)?.URL?.value ?? '';
 export const getBodyFromFields = (fields: Field[] | undefined) => getFieldsByNames(fields)?.body?.value ?? '';
 export const getHeaderFromFields = (fields: Field[] | undefined) => getFieldsByNames(fields)?.header?.value ?? '{}';
