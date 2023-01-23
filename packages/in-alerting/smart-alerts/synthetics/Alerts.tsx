@@ -25,14 +25,14 @@ export default function AlertsWithUrlBasedInfo() {
 }
 
 interface AlertsProps {
-  testId: string;
+  testId?: string;
 }
 
 function Alerts({ testId }: AlertsProps) {
   return (
     <AlertBaseList<SyntheticAlertConfigWithMetadata>
       extraColumnDefinitions={getColumnDefinitions()}
-      loadEntities={() => getAllAlertConfigs(testId, { asObservable: false })}
+      loadEntities={() => getAllAlertConfigs(testId)}
     />
   );
 }
