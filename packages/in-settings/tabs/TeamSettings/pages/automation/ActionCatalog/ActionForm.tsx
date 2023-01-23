@@ -85,7 +85,7 @@ export default function ActionForm({ form, setForm, onChange, entity: action }: 
             <FormGroup>
               <ParametersTable form={form} setForm={setForm} onChange={onChange} />
             </FormGroup>
-            <TestSection form={form} />
+            {!isDocLink(type) && <TestSection form={form} />}
           </>
         </Col>
       </Row>
