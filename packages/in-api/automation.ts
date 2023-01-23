@@ -332,14 +332,14 @@ export function runWebhookAction({
 
       {
         name: 'host',
-        value: btoa(host),
-        encoding: 'base64'
+        value: host,
+        encoding: 'ascii'
       },
 
       {
         name: 'body',
-        value: btoa(body),
-        encoding: 'base64'
+        value: body,
+        encoding: 'ascii'
       },
       {
         name: 'ignoreCertErrors',
@@ -348,8 +348,8 @@ export function runWebhookAction({
       },
       {
         name: 'header',
-        value: btoa(header),
-        encoding: 'base64'
+        value: header,
+        encoding: 'ascii'
       },
       {
         name: 'authen',

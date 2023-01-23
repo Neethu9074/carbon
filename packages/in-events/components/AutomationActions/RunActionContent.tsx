@@ -180,8 +180,8 @@ function ScriptActionContent({ action }: Pick<RunActionContentProps, 'action'>) 
 }
 
 function WebhookActionContent({ action }: Pick<RunActionContentProps, 'action'>) {
-  const { host, method, body, headerString, authen } = getWebhookFields(action);
-  const headerEntries = Object.entries(headerString);
+  const { host, method, body, header, authen } = getWebhookFields(action);
+  const headerEntries = Object.entries(header);
   const authenString = AUTH_TYPES.find(a => a.value === authen.type)?.translation;
   return (
     <DescriptionList>
