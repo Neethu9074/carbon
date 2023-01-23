@@ -233,7 +233,14 @@ interface RunScriptActionParams extends RunActionBaseParams {
 }
 
 // We are using a timeout here to prevent the UI from hanging if the agent is not responding (sensor not installed).
-function runAction({ volatileId, event, actionName, type, request }: RunActionParams & RunActionBaseParams) {
+function runAction({
+  volatileId,
+  event,
+  actionName,
+  type,
+  request,
+  inputParameters
+}: RunActionParams & RunActionBaseParams) {
   return combineLatest(
     [
       timeout(10000).flatMap(() =>
@@ -249,6 +256,7 @@ function runAction({ volatileId, event, actionName, type, request }: RunActionPa
       createAgentResponseObservable({
         action: 'action.run',
         target: volatileId,
+        inputParameters,
         args: {
           type,
           async: 'true',
