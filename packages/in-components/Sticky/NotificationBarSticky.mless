@@ -11,7 +11,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.5rem 1.5rem;
+    padding: 0.5rem 1.5rem 0.5rem 5.5rem;
     background: @lib__colors__yellow800;
     height: 46px;
   }
@@ -33,13 +33,13 @@
 
   .description {
     margin-right: 2rem;
-    font-weight: var(--ids-font-weight-option-heading-200);
     font-size: 14px;
     color: @lib__colors__N900Primary;
     white-space: nowrap;
   }
   .description p {
     margin-top: 13px;
+    font-weight: var(--ids-font-weight-option-body-bold);
   }
 
   .subText {
@@ -55,7 +55,7 @@
   }
   .link {
     color: @lib__colors__N900Primary;
-    font-weight: bold;
+    font-weight: var(--ids-font-weight-option-body-bold);
     text-decoration: underline;
   }
 }
