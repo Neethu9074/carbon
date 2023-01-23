@@ -111,6 +111,7 @@ export default function SyntheticSummaryDashboard() {
   const test: SynthTestResponse = useObservable<any, [number]>(() => getTest(testId), [count]) || dummyTest;
 
   const props = {
+    testId,
     location,
     currentTab: location.pathname.substr(location.pathname.lastIndexOf('/')),
     test,
