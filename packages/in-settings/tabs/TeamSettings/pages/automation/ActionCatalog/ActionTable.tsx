@@ -18,7 +18,11 @@ import {
   isWebhook,
   getDocLinkFromFields
 } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
-import { teamSettingsActionCatalog, getEntityIdView } from 'in-settings/navigation/paths';
+import {
+  teamSettingsActionCatalog,
+  getEntityIdView,
+  teamSettingsActionDetailsCopy
+} from 'in-settings/navigation/paths';
 import List, { leftHeaderWithSelectAll, TableActions } from 'in-settings/components/List';
 import Tag from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Tag';
 import RunAction from 'in-events/components/AutomationActions/RunAction';
@@ -163,6 +167,22 @@ const scoreColumn = {
   }
 };
 
+const duplicateColumn = {
+  id: 'duplicate',
+  label: '',
+  widthInAbsoluteUnit: true,
+  width: '4rem',
+  getContent(row: Action) {
+    return (
+      <Tooltip content={t('in-settings:tabs.duplicate')} delay={500}>
+        <Link className={locals.block} ellipsis href$={getEntityIdView(teamSettingsActionDetailsCopy, row.id)}>
+          <IconButton kind="primaryv2" type={'lib_actions_copy'} />
+        </Link>
+      </Tooltip>
+    );
+  }
+};
+
 export interface ActionTableProps {
   title?: string;
   pageSize?: number;
@@ -178,6 +198,7 @@ export interface ActionTableProps {
   showActionLink?: boolean | undefined;
   scored?: boolean | undefined;
   showTestColumn?: boolean | undefined;
+  showDuplicateColumn?: boolean | undefined;
   isBeta?: boolean;
 }
 
@@ -196,6 +217,7 @@ export default function ActionTable({
   event,
   scored = false,
   showTestColumn = false,
+  showDuplicateColumn = false,
   isBeta = false
 }: ActionTableProps) {
   let columnDefinitionsToShow = [nameColumn(showActionLink), ...columnDefinitions];
@@ -208,6 +230,10 @@ export default function ActionTable({
 
   if (showTestColumn) {
     columnDefinitionsToShow = [...columnDefinitionsToShow, testColumn];
+  }
+
+  if (showDuplicateColumn) {
+    columnDefinitionsToShow = [...columnDefinitionsToShow, duplicateColumn];
   }
 
   return (

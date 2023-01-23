@@ -39,9 +39,12 @@ import {
   SCRIPT_TYPE,
   WEBHOOK_TYPE
 } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
+import {
+  ActionFormEntity,
+  getActionSpecification
+} from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import AdditionalHeadersTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/AdditionalHeadersTable';
 import ParametersTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ParametersTable';
-import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import TagsTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/TagsTable';
 import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import RunAction from 'in-events/components/AutomationActions/RunAction';
@@ -82,6 +85,7 @@ export default function ActionForm({ form, setForm, onChange, entity: action }: 
             <FormGroup>
               <ParametersTable form={form} setForm={setForm} onChange={onChange} />
             </FormGroup>
+            <TestSection form={form} />
           </>
         </Col>
       </Row>
@@ -196,47 +200,16 @@ const DocLinkSection = ({ form, onChange }: Omit<ActionFormProps, 'setForm' | 'e
 
 const ScriptSection = ({ form, onChange }: Omit<ActionFormProps, 'setForm' | 'entity'>) => {
   const script = form.get('script') as Field<string>;
-  const name = form.get('name') as Field<string>;
-  const description = form.get('description') as Field<string>;
-  return (
-    <>
-      {script.map(field => (
-        <FormGroup>
-          <Label htmlFor="action-script" hasError={!field.valid && field.touched}>
-            {t('in-settings:tabs.script')}
-          </Label>
-          <Code
-            lineNumbers
-            mode={'shell'}
-            value={field.value}
-            onChange={(value: string) => onChange('script', value)}
-          />
-          <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-          <HelpText className={locals.subTextFormField}>{t('in-settings:tabs.scriptDescription')}</HelpText>
-        </FormGroup>
-      ))}
-      <Button
-        onClick={() =>
-          addActiveDialog(
-            <RunAction
-              action={
-                {
-                  name: name.value,
-                  description: description.value,
-                  type: SCRIPT_TYPE,
-                  fields: [{ name: 'script_content', value: btoa(script.value), encoding: 'base64' }]
-                } as Action
-              }
-              volatileId={{}}
-              test
-            />
-          )
-        }
-      >
-        {t('in-settings:tabs.test')}
-      </Button>
-    </>
-  );
+  return script.map(field => (
+    <FormGroup>
+      <Label htmlFor="action-script" hasError={!field.valid && field.touched}>
+        {t('in-settings:tabs.script')}
+      </Label>
+      <Code lineNumbers mode={'shell'} value={field.value} onChange={(value: string) => onChange('script', value)} />
+      <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+      <HelpText className={locals.subTextFormField}>{t('in-settings:tabs.scriptDescription')}</HelpText>
+    </FormGroup>
+  ));
 };
 
 const WebhookSection = ({ form, setForm, onChange, entity: action }: ActionFormProps) => {
@@ -551,5 +524,14 @@ const WebhookSection = ({ form, setForm, onChange, entity: action }: ActionFormP
         <AdditionalHeadersTable form={form} setForm={setForm} onChange={onChange} />
       </FormGroup>
     </>
+  );
+};
+
+const TestSection = ({ form }: { form: MapForm }) => {
+  const action = getActionSpecification(form);
+  return (
+    <Button onClick={() => addActiveDialog(<RunAction action={action as Action} volatileId={{}} test />)}>
+      {t('in-settings:tabs.test')}
+    </Button>
   );
 };
