@@ -14,16 +14,20 @@ import {
   BASIC_AUTH,
   BEARER_TOKEN,
   getAuthenFromFields,
+  getBodyFromFields,
   getDocLinkFromFields,
+  getHeaderFromFields,
+  getHostFromFields,
+  getIgnoreCertErrorsFromFields,
+  getMethodFromFields,
   getScriptFromFields,
-  getWebhookFields,
   isDocLink,
   isScript,
   isWebhook
 } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import { Header } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/AdditionalHeadersTable';
 import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
-import { ApiKeyAuth, BasicAuth, BearerAuth } from 'in-api/automation';
+import { AdditionalHeaders, ApiKeyAuth, Authen, BasicAuth, BearerAuth } from 'in-api/automation';
 import { notBlankValidator } from 'in-services/validators/string';
 import { isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
@@ -148,7 +152,14 @@ export function removeScriptField(form: MapForm) {
 }
 
 export function putWebhookFields(form: MapForm, action: ActionFormEntity) {
-  const { method, host, body, header, ignoreCertErrors, authen } = getWebhookFields(action);
+  const method = getMethodFromFields(action.fields);
+  const host = getHostFromFields(action.fields);
+  const body = getBodyFromFields(action.fields);
+  const headerString = getHeaderFromFields(action.fields);
+  const header: AdditionalHeaders = JSON.parse(headerString);
+  const ignoreCertErrors = getIgnoreCertErrorsFromFields(action.fields);
+  const authenString = getAuthenFromFields(action.fields);
+  const authen: Authen = JSON.parse(authenString);
   const {
     'Content-Type': contentType,
     Accept: accept,

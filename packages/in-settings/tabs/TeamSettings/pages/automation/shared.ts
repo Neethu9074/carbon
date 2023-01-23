@@ -6,8 +6,6 @@
 
 import { keyBy } from 'lodash';
 
-import { AdditionalHeaders, Authen } from 'in-api/automation';
-import { ActionFormEntity } from './ActionCatalog/Action';
 import { Field, Nullish, Action } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -38,17 +36,6 @@ export const getIgnoreCertErrorsFromFields = (fields: Field[] | undefined) =>
 export const getAuthenFromFields = (fields: Field[] | undefined) =>
   getFieldsByNames(fields)?.authen?.value ?? `{"type":"${NO_AUTH}"}`;
 
-export function getWebhookFields(action: ActionFormEntity) {
-  const host = getHostFromFields(action.fields);
-  const method = getMethodFromFields(action.fields);
-  const body = getBodyFromFields(action.fields);
-  const headerString = getHeaderFromFields(action.fields);
-  const ignoreCertErrors = getIgnoreCertErrorsFromFields(action.fields);
-  const authenString = getAuthenFromFields(action.fields);
-  const authen: Authen = JSON.parse(authenString);
-  const header: AdditionalHeaders = JSON.parse(headerString);
-  return { host, method, body, ignoreCertErrors, authen, authenString, headerString, header };
-}
 export const isDocLink = (type?: string) => type === DOC_LINK_TYPE;
 export const isScript = (type?: string) => type === SCRIPT_TYPE;
 export const isWebhook = (type?: string) => type === WEBHOOK_TYPE;
