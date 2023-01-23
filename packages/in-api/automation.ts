@@ -256,9 +256,9 @@ function runAction({
       createAgentResponseObservable({
         action: 'action.run',
         target: volatileId,
-        inputParameters,
         args: {
           type,
+          inputParameters,
           async: 'true',
           event: JSON.stringify(event),
           problemId: event?.problem?.id,
