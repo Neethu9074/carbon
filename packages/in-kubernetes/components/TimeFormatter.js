@@ -56,7 +56,7 @@ export const formatDurationAccurately = (v, ignoreTimesSmallerThan = 999, useSho
   if (parts == null) {
     return parts;
   }
-  // return only 3 units of the part
+  // return only 3 units of time
   return parts.slice(0, 3).join(' ');
 };
 
