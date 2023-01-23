@@ -222,7 +222,7 @@ interface RunActionBaseParams {
   inputParameters: ActionExecutionParameter[];
 }
 
-interface RunActionParams {
+interface RunActionParams extends RunActionBaseParams {
   type: string;
   request: { name: string; value: string; encoding: string }[];
 }
@@ -233,14 +233,7 @@ interface RunScriptActionParams extends RunActionBaseParams {
 }
 
 // We are using a timeout here to prevent the UI from hanging if the agent is not responding (sensor not installed).
-function runAction({
-  volatileId,
-  event,
-  actionName,
-  type,
-  request,
-  inputParameters
-}: RunActionParams & RunActionBaseParams) {
+function runAction({ volatileId, event, actionName, type, request, inputParameters }: RunActionParams) {
   return combineLatest(
     [
       timeout(10000).flatMap(() =>

@@ -12,14 +12,9 @@ import { Link, Typography, Spacer } from '@instana/components';
 
 import {
   AUTH_TYPES,
-  getAuthenFromFields,
-  getBodyFromFields,
-  getHeaderFromFields,
-  getHostFromFields,
-  getIgnoreCertErrorsFromFields,
-  getMethodFromFields,
   getScriptFromFields,
   getType,
+  getWebhookFields,
   isScript,
   isWebhook
 } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
@@ -31,7 +26,6 @@ import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import { getLinkToAnalyze } from 'in-logging/navigation/paths';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
-import { AdditionalHeaders, Authen } from 'in-api/automation';
 import { close } from 'in-components/DialogPresenter/store';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import { Action, Parameter, VolatileId } from 'in-types';
@@ -120,17 +114,6 @@ export default function RunActionContent({
   );
 }
 
-export function getWebhookFields(action: Action) {
-  const host = getHostFromFields(action.fields);
-  const method = getMethodFromFields(action.fields);
-  const body = getBodyFromFields(action.fields);
-  const header = getHeaderFromFields(action.fields);
-  const ignoreCertErrors = getIgnoreCertErrorsFromFields(action.fields);
-  const authenString = getAuthenFromFields(action.fields);
-  const authen: Authen = JSON.parse(authenString);
-  return { host, method, body, header: header, ignoreCertErrors, authen, authenString };
-}
-
 function AgentSelection({
   form,
   setForm,
@@ -197,8 +180,8 @@ function ScriptActionContent({ action }: Pick<RunActionContentProps, 'action'>) 
 }
 
 function WebhookActionContent({ action }: Pick<RunActionContentProps, 'action'>) {
-  const { host, method, body, header, authen } = getWebhookFields(action);
-  const headerEntries = Object.entries(JSON.parse(header) as AdditionalHeaders);
+  const { host, method, body, headerString, authen } = getWebhookFields(action);
+  const headerEntries = Object.entries(headerString);
   const authenString = AUTH_TYPES.find(a => a.value === authen.type)?.translation;
   return (
     <DescriptionList>

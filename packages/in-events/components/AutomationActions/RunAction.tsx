@@ -13,12 +13,13 @@ import { Button } from '@instana/components';
 import {
   getInterpreterFromFields,
   getScriptFromFields,
+  getWebhookFields,
   isScript,
   isWebhook
 } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
-import RunActionContent, { getWebhookFields } from 'in-events/components/AutomationActions/RunActionContent';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import { ActionExecutionParameter, runScriptAction, runWebhookAction } from 'in-api/automation';
+import RunActionContent from 'in-events/components/AutomationActions/RunActionContent';
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import { notBlankValidator } from 'in-services/validators/string';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
@@ -207,7 +208,7 @@ function onSave({
       inputParameters: allInputParameters
     }).once(handleActionResponse);
   } else if (isWebhook(action.type)) {
-    const { host, method, body, ignoreCertErrors, header, authenString } = getWebhookFields(action);
+    const { host, method, body, ignoreCertErrors, headerString, authenString } = getWebhookFields(action);
     runWebhookAction({
       volatileId: selectedVolatileId,
       event,
@@ -216,7 +217,7 @@ function onSave({
       method,
       body,
       ignoreCertErrors,
-      header,
+      header: headerString,
       authen: authenString,
       inputParameters: allInputParameters
     }).once(handleActionResponse);
