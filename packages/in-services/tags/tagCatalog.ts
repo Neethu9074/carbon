@@ -77,7 +77,8 @@ function resolveNode(node: TagTreeNodeUnion, lut: ResolvedTagPaths, parents: Tag
 }
 
 export function getTagCatalogOnce<ARGS>(
-  originalGetTagCatalog: (args: ARGS) => Observable<Result<TagCatalog>>
+  originalGetTagCatalog: (args: ARGS) => Observable<Result<TagCatalog>>,
+  withFullTimePrecision: boolean = false
 ): (args: ARGS) => Observable<Result<TagCatalog>> {
   return memoize<ARGS, Result<TagCatalog>>(
     (args: ARGS) =>
@@ -87,7 +88,7 @@ export function getTagCatalogOnce<ARGS>(
         }
         return result;
       }),
-    generateGetTagCatalogRequestId,
+    withFullTimePrecision ? generateStableHash : generateGetTagCatalogRequestId,
     Number.MAX_VALUE
   );
 }
