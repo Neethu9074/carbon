@@ -11,9 +11,7 @@ import React from 'react';
 import { Link, Typography, Spacer } from '@instana/components';
 
 import {
-  API_KEY,
-  BASIC_AUTH,
-  BEARER_TOKEN,
+  AUTH_TYPES,
   getAuthenFromFields,
   getBodyFromFields,
   getHeaderFromFields,
@@ -123,31 +121,14 @@ export default function RunActionContent({
 }
 
 export function getWebhookFields(action: Action) {
-  let host = getHostFromFields(action.fields);
+  const host = getHostFromFields(action.fields);
   const method = getMethodFromFields(action.fields);
   const body = getBodyFromFields(action.fields);
-  const headerString = getHeaderFromFields(action.fields);
-  const header: AdditionalHeaders = JSON.parse(headerString);
+  const header = getHeaderFromFields(action.fields);
   const ignoreCertErrors = getIgnoreCertErrorsFromFields(action.fields);
   const authenString = getAuthenFromFields(action.fields);
   const authen: Authen = JSON.parse(authenString);
-  if (authen.type === BASIC_AUTH) {
-    const { username, password } = authen;
-    const authenString = `Basic ${btoa(`${username}:${password}`)}`;
-    header['Authorization'] = authenString;
-  } else if (authen.type === BEARER_TOKEN) {
-    const { bearerToken } = authen;
-    const authenString = `Bearer ${bearerToken}`;
-    header['Authorization'] = authenString;
-  } else if (authen.type === API_KEY) {
-    const { apiKey, apiKeyAddTo, apiKeyValue } = authen;
-    if (apiKeyAddTo === 'header') {
-      header[apiKey!] = apiKeyValue!;
-    } else if (apiKeyAddTo === 'query') {
-      host = host.includes('?') ? `${host}&${apiKey}=${apiKeyValue}` : `${host}?${apiKey}=${apiKeyValue}`;
-    }
-  }
-  return { host, method, body, header: JSON.stringify(header), ignoreCertErrors };
+  return { host, method, body, header: header, ignoreCertErrors, authen, authenString };
 }
 
 function AgentSelection({
@@ -216,9 +197,9 @@ function ScriptActionContent({ action }: Pick<RunActionContentProps, 'action'>) 
 }
 
 function WebhookActionContent({ action }: Pick<RunActionContentProps, 'action'>) {
-  const { host, method, body, header } = getWebhookFields(action);
+  const { host, method, body, header, authen } = getWebhookFields(action);
   const headerEntries = Object.entries(JSON.parse(header) as AdditionalHeaders);
-
+  const authenString = AUTH_TYPES.find(a => a.value === authen.type)?.translation;
   return (
     <DescriptionList>
       <DescriptionItem
@@ -250,6 +231,9 @@ function WebhookActionContent({ action }: Pick<RunActionContentProps, 'action'>)
             </Typography>
           </div>
         )}
+        <div>
+          <Typography variant="body-small">{authenString}</Typography>
+        </div>
       </DescriptionItem>
     </DescriptionList>
   );

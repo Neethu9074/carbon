@@ -309,6 +309,7 @@ interface RunWebhookActionParams extends RunActionBaseParams {
   body: string;
   ignoreCertErrors: string;
   header: string;
+  authen: string;
 }
 
 export function runWebhookAction({
@@ -320,6 +321,7 @@ export function runWebhookAction({
   body,
   ignoreCertErrors,
   header,
+  authen,
   inputParameters
 }: RunWebhookActionParams) {
   return runAction({
@@ -355,6 +357,11 @@ export function runWebhookAction({
         name: 'header',
         value: btoa(header),
         encoding: 'base64'
+      },
+      {
+        name: 'authen',
+        value: authen,
+        encoding: 'ascii'
       }
     ]
   });
