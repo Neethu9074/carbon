@@ -17,7 +17,7 @@ packages/in-alerting                @pr-approval @Instana-IBM-GitHub-Enterprise 
 packages/in-analyze                 @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-application @instana/eng-eum @instana/eng-ui
 # Deprecated: We should not make any more changes within this package (aside from code removal)
 packages/in-api                     @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
-packages/in-api/automation.ts       @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
+packages/in-api/automation.ts       @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-remediation
 packages/in-applications            @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-application @instana/eng-ui
 packages/in-applications/alerting   @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-application @instana/eng-ui @instana/eng-issue-detection
 packages/in-client                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
