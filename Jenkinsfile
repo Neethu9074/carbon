@@ -156,7 +156,7 @@ pipeline {
           timeout(time: 30, unit: 'MINUTES') {
             timestamps {
               script {
-                if (isDeliveryBranch && branchName != 'develop') {
+                if (isDeliveryBranch) {
                    backendRepoPath = "delivery.instana.io/int-docker-backend-local/backend"
                 } else {
                    backendRepoPath = "delivery.instana.io/int-docker-backend-local/backend/dev/${branchName}"
