@@ -162,14 +162,17 @@ function onSave({
         {
           name,
           type: 'vault',
-          value: JSON.stringify({ secretPath: pathField.value.trim() ?? '', secretKey: keyField.value.trim() ?? '' })
+          value: JSON.stringify({
+            secretPath: pathField?.value?.trim() ?? '',
+            secretKey: keyField?.value?.trim() ?? ''
+          })
         }
       ];
     }
     // WILL NEED TO RESOLVE DYNAMIC PARAMS HERE
     const value = (parameter as Field<string>).value;
     if (value) {
-      return [...acc, { name, value: value.trim() }];
+      return [...acc, { name, value: value?.trim() }];
     }
     return acc;
   }, []);
