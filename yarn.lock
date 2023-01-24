@@ -5357,10 +5357,10 @@ domhandler@^4.0.0, domhandler@^4.2.0:
   dependencies:
     domelementtype "^2.2.0"
 
-dompurify@2.0.17:
-  version "2.0.17"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/dompurify/-/dompurify-2.0.17.tgz#505ffa126a580603df4007e034bdc9b6b738668e"
-  integrity sha1-UF/6EmpYBgPfQAfgNL3Jtrc4Zo4=
+dompurify@^2.4.3:
+  version "2.4.3"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/dompurify/-/dompurify-2.4.3.tgz#f4133af0e6a50297fc8874e2eaedc13a3c308c03"
+  integrity sha512-q6QaLcakcRjebxjg8/+NP+h0rPfatOgOzc46Fst9VAA3jF2ApfKBNKMzdP4DYTqtUMXSCd5pRS/8Po/OmoCHZQ==
 
 domutils@^1.7.0:
   version "1.7.0"
