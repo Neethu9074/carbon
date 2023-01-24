@@ -182,7 +182,7 @@ function ScriptActionContent({ action }: Pick<RunActionContentProps, 'action'>) 
 function WebhookActionContent({ action }: Pick<RunActionContentProps, 'action'>) {
   const { host, method, body, header, authen } = getWebhookFields(action);
   const headerEntries = Object.entries(header);
-  const authenString = AUTH_TYPES.find(a => a.value === authen.type)?.translation;
+  const authType = AUTH_TYPES.find(a => a.value === authen.type)?.translation;
   return (
     <DescriptionList>
       <DescriptionItem
@@ -215,7 +215,7 @@ function WebhookActionContent({ action }: Pick<RunActionContentProps, 'action'>)
           </div>
         )}
         <div>
-          <Typography variant="body-small">{authenString}</Typography>
+          <Typography variant="body-small">{t('in-events:authType', { authType })}</Typography>
         </div>
       </DescriptionItem>
     </DescriptionList>
