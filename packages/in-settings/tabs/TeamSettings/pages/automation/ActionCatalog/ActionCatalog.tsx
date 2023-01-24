@@ -33,6 +33,7 @@ export default function ActionCatalog() {
       loadEntities={getAllActions}
       showActionLink
       showTestColumn
+      showDuplicateColumn
       isBeta
     />
   );
