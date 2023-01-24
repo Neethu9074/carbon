@@ -168,7 +168,7 @@ export const createWebhookFields = ({
     value: JSON.stringify({
       ...(accept ? { Accept: accept } : {}),
       ...(acceptLanguage ? { 'Accept-Language': acceptLanguage } : {}),
-      ...(HTTP_METHODS_WITH_BODY.includes(method) ? { 'Content-Type': contentType } : {}),
+      ...(HTTP_METHODS_WITH_BODY.includes(method) && contentType ? { 'Content-Type': contentType } : {}),
       ...additionalHeaders
     }),
     description: 'header of the https request',
