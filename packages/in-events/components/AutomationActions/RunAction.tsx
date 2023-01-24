@@ -211,7 +211,7 @@ function onSave({
       inputParameters: allInputParameters
     }).once(handleActionResponse);
   } else if (isWebhook(action.type)) {
-    const { host, method, body, ignoreCertErrors, headerString, authenString } = getWebhookFields(action);
+    const { host, method, body, ignoreCertErrors, header, authen } = getWebhookFields(action);
     runWebhookAction({
       volatileId: selectedVolatileId,
       event,
@@ -220,8 +220,8 @@ function onSave({
       method,
       body,
       ignoreCertErrors,
-      header: headerString,
-      authen: authenString,
+      header,
+      authen,
       inputParameters: allInputParameters
     }).once(handleActionResponse);
   }

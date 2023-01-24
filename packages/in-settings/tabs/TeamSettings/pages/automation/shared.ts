@@ -24,40 +24,47 @@ export const getType = (action: Action | Nullish) => {
 };
 
 const getFieldsByNames = (fields: Field[] | undefined): Record<string, Field | null> => keyBy(fields, 'name');
-export const getScriptFromFields = (fields: Field[] | undefined) =>
-  getFieldsByNames(fields)?.script_content?.value ?? getFieldsByNames(fields)?.script_ssh?.value ?? '';
-export const getInterpreterFromFields = (fields: Field[] | undefined) =>
-  getFieldsByNames(fields)?.interpreter?.value ?? getFieldsByNames(fields)?.subtype?.value ?? '';
-export const getDocLinkFromFields = (fields: Field[] | undefined) => getFieldsByNames(fields)?.URL?.value ?? '';
-export const getBodyFromFields = (fields: Field[] | undefined) => getFieldsByNames(fields)?.body?.value ?? '';
-export const getHeaderFromFields = (fields: Field[] | undefined) => getFieldsByNames(fields)?.header?.value ?? '{}';
-export const getMethodFromFields = (fields: Field[] | undefined) => getFieldsByNames(fields)?.method?.value ?? 'GET';
-export const getHostFromFields = (fields: Field[] | undefined) => getFieldsByNames(fields)?.host?.value ?? '';
-export const getIgnoreCertErrorsFromFields = (fields: Field[] | undefined) =>
-  getFieldsByNames(fields)?.ignoreCertErrors?.value ?? 'false';
-export const getAuthenFromFields = (fields: Field[] | undefined) =>
-  getFieldsByNames(fields)?.authen?.value ?? `{"type":"${NO_AUTH}"}`;
+export const getScriptFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.script_content ??
+  getFieldsByNames(fields)?.script_ssh ?? { value: '', encoding: 'base64', name: 'script_ssh' };
+export const getInterpreterFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.interpreter ??
+  getFieldsByNames(fields)?.subtype ?? { value: '', encoding: 'base64', name: 'subtype' };
+export const getDocLinkFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.URL ?? { value: '', encoding: 'UTF8', name: 'URL' };
+export const getBodyFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.body ?? { value: '', encoding: 'ascii', name: 'body' };
+export const getHeaderFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.header ?? { value: '{', encoding: 'ascii', name: 'header' };
+export const getMethodFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.method ?? { value: 'GET', encoding: 'ascii', name: 'method' };
+export const getHostFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.host ?? { value: '', encoding: 'ascii', name: 'host' };
+export const getIgnoreCertErrorsFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.ignoreCertErrors ?? { value: 'false', encoding: 'ascii', name: 'ignoreCertErrors' };
+export const getAuthenFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.authen ?? { value: `{"type":"${NO_AUTH}"}`, encoding: 'ascii', name: 'authen' };
 
 interface WebhookFields {
-  host: string;
-  method: string;
-  body: string;
-  ignoreCertErrors: string;
-  authen: Authen;
-  authenString: string;
-  header: AdditionalHeaders;
-  headerString: string;
+  host: Field;
+  method: Field;
+  body: Field;
+  ignoreCertErrors: Field;
+  authenParsed: Authen;
+  authen: Field;
+  headerParsed: AdditionalHeaders;
+  header: Field;
 }
 export function getWebhookFields(action: ActionFormEntity): WebhookFields {
   const host = getHostFromFields(action.fields);
   const method = getMethodFromFields(action.fields);
   const body = getBodyFromFields(action.fields);
-  const headerString = getHeaderFromFields(action.fields);
+  const header = getHeaderFromFields(action.fields);
   const ignoreCertErrors = getIgnoreCertErrorsFromFields(action.fields);
-  const authenString = getAuthenFromFields(action.fields);
-  const authen: Authen = JSON.parse(authenString);
-  const header: AdditionalHeaders = JSON.parse(headerString);
-  return { host, method, body, ignoreCertErrors, authen, authenString, header, headerString };
+  const authen = getAuthenFromFields(action.fields);
+  const authenParsed: Authen = JSON.parse(authen.value);
+  const headerParsed: AdditionalHeaders = JSON.parse(header.value);
+  return { host, method, body, ignoreCertErrors, authen, authenParsed, header, headerParsed };
 }
 
 export const isDocLink = (type?: string) => type === DOC_LINK_TYPE;

@@ -234,8 +234,8 @@ interface RunActionParams extends RunActionBaseParams {
 }
 
 interface RunScriptActionParams extends RunActionBaseParams {
-  script: string;
-  interpreter: string;
+  script: Field;
+  interpreter: Field;
 }
 
 // We are using a timeout here to prevent the UI from hanging if the agent is not responding (sensor not installed).
@@ -289,26 +289,26 @@ export function runScriptAction({
     request: [
       {
         name: 'script_ssh',
-        value: script,
-        encoding: 'base64'
+        value: script.value,
+        encoding: script.encoding
       },
 
       {
         name: 'subtype',
-        value: interpreter,
-        encoding: 'base64'
+        value: interpreter.value,
+        encoding: interpreter.encoding
       }
     ]
   });
 }
 
 interface RunWebhookActionParams extends RunActionBaseParams {
-  method: string;
-  host: string;
-  body: string;
-  ignoreCertErrors: string;
-  header: string;
-  authen: string;
+  method: Field;
+  host: Field;
+  body: Field;
+  ignoreCertErrors: Field;
+  header: Field;
+  authen: Field;
 }
 
 export function runWebhookAction({
@@ -332,35 +332,35 @@ export function runWebhookAction({
     request: [
       {
         name: 'method',
-        value: method,
-        encoding: 'ascii'
+        value: method.value,
+        encoding: method.encoding
       },
 
       {
         name: 'host',
-        value: host,
-        encoding: 'ascii'
+        value: host.value,
+        encoding: host.encoding
       },
 
       {
         name: 'body',
-        value: body,
-        encoding: 'ascii'
+        value: body.value,
+        encoding: body.encoding
       },
       {
         name: 'ignoreCertErrors',
-        value: ignoreCertErrors,
-        encoding: 'ascii'
+        value: ignoreCertErrors.value,
+        encoding: ignoreCertErrors.encoding
       },
       {
         name: 'header',
-        value: header,
-        encoding: 'ascii'
+        value: header.value,
+        encoding: header.encoding
       },
       {
         name: 'authen',
-        value: authen,
-        encoding: 'ascii'
+        value: authen.value,
+        encoding: authen.encoding
       }
     ]
   });

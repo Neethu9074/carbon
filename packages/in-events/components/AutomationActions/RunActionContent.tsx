@@ -167,22 +167,26 @@ function AgentSelection({
 
 function ScriptActionContent({ action }: Pick<RunActionContentProps, 'action'>) {
   const script = getScriptFromFields(action.fields);
+  let plaintextScript = script.value;
+  if (script.encoding === 'base64') {
+    plaintextScript = atob(plaintextScript);
+  }
   return (
     <DescriptionList>
       <DescriptionItem
         className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
         title={t('in-events:titleScriptContent')}
       >
-        <Code withExpandButton withoutCopyButton code={atob(script)} lang={'bash'} softWrap />
+        <Code withExpandButton withoutCopyButton code={plaintextScript} lang={'bash'} softWrap />
       </DescriptionItem>
     </DescriptionList>
   );
 }
 
 function WebhookActionContent({ action }: Pick<RunActionContentProps, 'action'>) {
-  const { host, method, body, header, authen } = getWebhookFields(action);
-  const headerEntries = Object.entries(header);
-  const authType = AUTH_TYPES.find(a => a.value === authen.type)?.translation;
+  const { host, method, body, headerParsed, authenParsed } = getWebhookFields(action);
+  const headerEntries = Object.entries(headerParsed);
+  const authType = AUTH_TYPES.find(a => a.value === authenParsed.type)?.translation;
   return (
     <DescriptionList>
       <DescriptionItem
@@ -190,14 +194,14 @@ function WebhookActionContent({ action }: Pick<RunActionContentProps, 'action'>)
         title={t('in-events:request')}
       >
         <div>
-          <Typography variant="body-small">{t('in-events:method', { method })}</Typography>
+          <Typography variant="body-small">{t('in-events:method', { method: method.value })}</Typography>
         </div>
         <div>
-          <Typography variant="body-small">{t('in-events:host', { host })}</Typography>
+          <Typography variant="body-small">{t('in-events:host', { host: host.value })}</Typography>
         </div>
         {body && (
           <div>
-            <Typography variant="body-small">{t('in-events:body', { body })}</Typography>
+            <Typography variant="body-small">{t('in-events:body', { body: body.value })}</Typography>
           </div>
         )}
         {headerEntries?.length > 0 && (

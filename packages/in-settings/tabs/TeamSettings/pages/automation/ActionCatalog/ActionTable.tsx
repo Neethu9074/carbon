@@ -80,7 +80,7 @@ const executeColumn = (volatileId: VolatileId, event?: Event) => ({
   getContent(row: Action) {
     const { type, fields } = row;
     if (isDocLink(type)) {
-      const value = getDocLinkFromFields(fields);
+      const value = getDocLinkFromFields(fields).value;
       return (
         <Button
           kind="action"
