@@ -260,8 +260,7 @@ function runAction({ volatileId, event, actionName, type, request, inputParamete
           inputParameters,
           async: 'true',
           event: JSON.stringify(event),
-          problemId: event?.problem?.id,
-          problemText: event?.problem?.problemText,
+          eventId: event?.id,
           actionName,
           timeout: '300',
           request: request
