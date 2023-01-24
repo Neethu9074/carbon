@@ -3,10 +3,9 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import React, { useCallback, useMemo, useState } from 'react';
 import { Field, MapForm, Item } from 'formalistic';
-import React, { useState } from 'react';
 
-import { useObservable } from '@instana/hooks';
 import { Progress } from '@instana/types';
 
 // eslint-disable-next-line no-restricted-imports
@@ -15,10 +14,8 @@ import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailabl
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { BluePrint } from 'in-synthetics/data/simpleModeBluePrints';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
-import { dummyApplications } from 'in-synthetics/utils/constants';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import SearchInput from 'in-components/SearchInput/SearchInput';
-import { getApplicationsList } from 'in-synthetics/api';
 import Section from 'in-synthetics/components/Section';
 import FormGroup from 'in-components/form/FormGroup';
 import TextArea from 'in-components/form/TextArea';
@@ -32,6 +29,7 @@ export interface Props {
   form: MapForm;
   updateForm: (form: MapForm) => void;
   selectedBlueprint: BluePrint;
+  applications: ApplicationsResponse;
 }
 
 export interface ApplicationsResponse {
@@ -41,17 +39,23 @@ export interface ApplicationsResponse {
   time?: number;
 }
 
-export default function BasicDetailsStep({ form, updateForm, selectedBlueprint }: Props) {
+export default function BasicDetailsStep({ form, updateForm, selectedBlueprint, applications }: Props) {
   const labelField = form.get('label') as Field<string>;
   const descriptionField = form.get('description') as Field<string>;
   const applicationsField = form.get('applicationId') as Field<string>;
-  const applications: ApplicationsResponse =
-    useObservable<any, []>(() => getApplicationsList(), []) || dummyApplications;
+
   const [searchInput, setSearchInput] = useState('');
 
-  const filteredApplications: Record<string, any> | undefined = applications.data?.filter((app: Record<string, any>) =>
-    app.label.toLowerCase().includes(searchInput.toLowerCase())
+  const filterApplications = useCallback(
+    (applications: ApplicationsResponse) => {
+      return applications.data?.filter((app: Record<string, any>) =>
+        app.label.toLowerCase().includes(searchInput.toLowerCase())
+      );
+    },
+    [searchInput]
   );
+
+  const filteredApplications = useMemo(() => filterApplications(applications), [applications, filterApplications]);
 
   function renderApplications() {
     if (applications.progress?.loading) {
@@ -81,26 +85,30 @@ export default function BasicDetailsStep({ form, updateForm, selectedBlueprint }
         framed
         header={header}
       >
-        {filteredApplications?.filter(Boolean).map((app: Record<string, any>) => {
-          return (
-            <div key={app.id} className={locals.item}>
-              <CheckboxFancy
-                key={app.id}
-                label={app.label}
-                checked={applicationsField?.value === app.id}
-                onChange={() => {
-                  let selectedApplication: string = applicationsField.value;
-                  selectedApplication = selectedApplication === app.id ? ' ' : app.id;
-                  updateForm(
-                    form.updateIn(['applicationId'], (field: Item) =>
-                      (field as Field<string>).setValue(selectedApplication).setTouched(true)
-                    )
-                  );
-                }}
-              />
-            </div>
-          );
-        })}
+        {filteredApplications?.length != 0 ? (
+          filteredApplications?.filter(Boolean).map((app: Record<string, any>) => {
+            return (
+              <div key={app.id} className={locals.item}>
+                <CheckboxFancy
+                  key={app.id}
+                  label={app.label}
+                  checked={applicationsField?.value === app.id}
+                  onChange={() => {
+                    let selectedApplication: string = applicationsField.value;
+                    selectedApplication = selectedApplication === app.id ? ' ' : app.id;
+                    updateForm(
+                      form.updateIn(['applicationId'], (field: Item) =>
+                        (field as Field<string>).setValue(selectedApplication).setTouched(true)
+                      )
+                    );
+                  }}
+                />
+              </div>
+            );
+          })
+        ) : (
+          <NoDataAvailable text={t('in-synthetics:dialog.createTest.noMatchingFound')} />
+        )}
       </ExpandableLightCard>
     );
   }
