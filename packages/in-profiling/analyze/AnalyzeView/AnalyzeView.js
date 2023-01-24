@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useLocation } from 'react-router';
 import React from 'react';
 
 import ProfiledProcesses from 'in-profiling/analyze/AnalyzeView/ProfiledProcesses/ProfiledProcesses';
@@ -20,7 +21,7 @@ const urlStateConfig = {
 };
 
 export default function AnalyzeView(props) {
-  const { location } = props;
+  const { location } = useLocation();
   const [{ dataSource }, onChange] = useUrlState(urlStateConfig);
 
   return (
