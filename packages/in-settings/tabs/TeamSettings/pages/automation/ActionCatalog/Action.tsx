@@ -30,8 +30,10 @@ import {
 import { createActionFormDefinition } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionFormDefinition';
 import { MappedParameter } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ParametersTable';
 import { Header } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/AdditionalHeadersTable';
+import TestActionButton from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/TestActionButton';
 import ActionForm from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionForm';
 import { Tag } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/TagsTable';
+import useEntityForm, { SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { createActionTracker, editActionTracker } from 'in-settings/tracker';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
@@ -40,21 +42,25 @@ import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SectionLine from 'in-settings/components/SectionLine';
 import { getAction, createAction } from 'in-api/automation';
-import useEntityForm from 'in-settings/hooks/useEntityForm';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
+import { Col, Row } from 'in-components/layout/Grid/Grid';
 import Section from 'in-settings/components/Section';
 import { goToPath } from 'in-stores/navigation';
 import Title from 'in-components/Title/Title';
+import CopyActionLink from './CopyActionLink';
 import { Action, Field } from 'in-types';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
+
+import locals from './Action.mless';
 
 interface MatchParams {
   id: string;
 }
 
 export type ActionFormEntity = NewAction | Action;
+const isAction = (action: ActionFormEntity): action is Action => (action as Action).id !== undefined;
 export default function ActionEntityForm(props: RouteComponentProps<MatchParams>) {
   const id = props.match.params.id;
   const entityId = id === 'new' ? null : id;
@@ -94,12 +100,7 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
   } else {
     content = (
       <SettingsDetailPage>
-        <SubViewHeader>
-          {isCreate || isCopy
-            ? t('in-settings:tabs.createANewAction')
-            : t('in-settings:tabs.configureActionEntityName', { entityName: entity!.name })}
-        </SubViewHeader>
-
+        <ActionFormHeader isCreate={isCreate} isCopy={isCopy} form={form} setForm={setForm} entity={entity} />
         <SectionLine />
 
         {message ? (
@@ -128,6 +129,30 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
     </>
   );
 }
+
+interface ActionFormHeaderProps {
+  isCreate: boolean;
+  isCopy: boolean;
+  form: MapForm | null;
+  entity: ActionFormEntity | null;
+  setForm: SetFormFunction;
+}
+const ActionFormHeader = ({ isCreate, isCopy, form, entity, setForm }: ActionFormHeaderProps) => {
+  const isNewAction = isCreate || isCopy;
+  return (
+    <Row className={locals.spaceBetween}>
+      <SubViewHeader>
+        {isNewAction
+          ? t('in-settings:tabs.createANewAction')
+          : t('in-settings:tabs.configureActionEntityName', { entityName: entity!.name })}
+      </SubViewHeader>
+      <Col>
+        {form && <TestActionButton form={form} setForm={setForm} action={getActionSpecification(form)} />}
+        {!isNewAction && entity && isAction(entity) && <CopyActionLink action={entity} />}
+      </Col>
+    </Row>
+  );
+};
 
 function save(form: MapForm, id: string | null, isCopy: boolean) {
   const actionSpecification = getActionSpecification(form);

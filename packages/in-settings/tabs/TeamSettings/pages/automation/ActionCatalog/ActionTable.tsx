@@ -18,20 +18,17 @@ import {
   isWebhook,
   getDocLinkFromFields
 } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
-import {
-  teamSettingsActionCatalog,
-  getEntityIdView,
-  teamSettingsActionDetailsCopy
-} from 'in-settings/navigation/paths';
+import CopyActionLink from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/CopyActionLink';
+import { teamSettingsActionCatalog, getEntityIdView } from 'in-settings/navigation/paths';
 import List, { leftHeaderWithSelectAll, TableActions } from 'in-settings/components/List';
 import Tag from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Tag';
 import RunAction from 'in-events/components/AutomationActions/RunAction';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getAllActions, ScoredAction } from 'in-api/automation';
 import { formatDateTime } from 'in-services/formatters/date';
-import IconButton from 'in-components/IconButton/IconButton';
 import { runActionTracker } from 'in-events/tracker';
 import Tooltip from 'in-components/Tooltip/Tooltip';
+import TestActionButton from './TestActionButton';
 import { Event, VolatileId } from 'in-types';
 import { Action } from 'in-types';
 import { t } from 'in-i18n';
@@ -121,20 +118,7 @@ const testColumn = {
   widthInAbsoluteUnit: true,
   width: '4rem',
   getContent(row: Action) {
-    const { type } = row;
-    if (isScript(type) || isWebhook(type)) {
-      return (
-        <Tooltip content={t('in-settings:tabs.test')} delay={500}>
-          <IconButton
-            kind="primaryv2"
-            type={'lib_actions_play'}
-            onClick={() => addActiveDialog(<RunAction test action={row} volatileId={{}} />)}
-          />
-        </Tooltip>
-      );
-    } else {
-      return <></>;
-    }
+    return <TestActionButton action={row} />;
   }
 };
 
@@ -173,13 +157,7 @@ const duplicateColumn = {
   widthInAbsoluteUnit: true,
   width: '4rem',
   getContent(row: Action) {
-    return (
-      <Tooltip content={t('in-settings:tabs.duplicate')} delay={500}>
-        <Link className={locals.block} ellipsis href$={getEntityIdView(teamSettingsActionDetailsCopy, row.id)}>
-          <IconButton kind="primaryv2" type={'lib_actions_copy'} />
-        </Link>
-      </Tooltip>
-    );
+    return <CopyActionLink action={row} />;
   }
 };
 
