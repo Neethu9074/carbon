@@ -16,13 +16,13 @@ import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/Sever
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
+import { formatDurationAccurately } from 'in-kubernetes/components/TimeFormatter';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import getKubernetesNodes from 'in-kubernetes/subscriptions/getKubernetesNodes';
 import { percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { getNodeDashboard } from 'in-kubernetes/navigation/paths';
 import { getInfraGranularity } from 'in-stores/metric/metric';
-import { formatDuration } from 'in-services/formatters/date';
 import { t } from 'in-i18n';
 
 const pathSegment = '/nodes';
@@ -63,7 +63,7 @@ const columnDefinitions = [
     id: 'age',
     label: t('in-kubernetes:dashboards.age'),
     getContent(item) {
-      return item.node.age && formatDuration(item.node.age);
+      return item.node.age && formatDurationAccurately(item.node.age);
     }
   },
   {
