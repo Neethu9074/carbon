@@ -11,6 +11,7 @@ import '@instana/components/esm/index.css';
 
 import FloatingActionButtonPresenter from 'in-components/FloatingActionButton/FloatingActionButtonPresenter';
 import DeprecatedCustomEventsPopUp from 'in-events/components/DeprecatedCustomEventsPopUp';
+import NotificationBarSticky from 'in-components/Sticky/NotificationBarSticky';
 import OverlayPresenter from 'in-components/overlays/OverlayPresenter';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import { GlobalTimeConfig } from 'in-stores/time/TimeConfigContext';
@@ -31,6 +32,7 @@ export default function App() {
   return (
     <ErrorBoundary name="app">
       <GlobalTheme>
+        <NotificationBarSticky />
         <ThemeProvider theme="default">
           <GlobalTimeConfig location={location}>
             <ErrorBoundary name="main-navigation">
@@ -40,7 +42,6 @@ export default function App() {
             <div className={locals.content}>
               <ErrorBoundary name="app-routes">{routes}</ErrorBoundary>
             </div>
-
             <ErrorBoundary name="dialogs">
               {/* for release notes */}
               <ReleaseNotesDialog />

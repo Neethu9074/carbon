@@ -111,7 +111,8 @@ function wrapProps(
       customHeight: props.customHeight,
       rightHeaderContent: props.rightHeaderContent,
       renderErrorDetail: props.renderErrorDetail,
-      timeConfig: props.timeConfig
+      timeConfig: props.timeConfig,
+      customChartSkeletonHeight: props.customChartSkeletonHeight
     };
   }
 

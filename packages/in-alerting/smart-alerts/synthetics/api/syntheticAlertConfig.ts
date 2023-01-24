@@ -37,15 +37,15 @@ export function updateAlertConfig(
 }
 
 export function getAllAlertConfigs(
-  testId: string,
+  syntheticTestId: string,
   config: { asObservable: true }
 ): Observable<Result<SyntheticAlertConfigWithMetadata[]>>;
 export function getAllAlertConfigs(
-  testId: string,
+  syntheticTestId?: string,
   config?: { asObservable: false }
 ): Observable<SyntheticAlertConfigWithMetadata[]>;
 export function getAllAlertConfigs(
-  testId: string,
+  syntheticTestId?: string,
   config = { asObservable: false }
 ): Observable<Result<SyntheticAlertConfigWithMetadata[]>> | Observable<SyntheticAlertConfigWithMetadata[]> {
   const request = http<SyntheticAlertConfigWithMetadata[]>({
@@ -53,7 +53,7 @@ export function getAllAlertConfigs(
     maxRetries: 3,
     headers: getCsrfHeader(),
     queryParams: {
-      testId
+      syntheticTestId
     },
     url: baseUrl
   });

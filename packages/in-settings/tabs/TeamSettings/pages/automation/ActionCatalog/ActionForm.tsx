@@ -85,7 +85,7 @@ export default function ActionForm({ form, setForm, onChange, entity: action }: 
             <FormGroup>
               <ParametersTable form={form} setForm={setForm} onChange={onChange} />
             </FormGroup>
-            <TestSection form={form} />
+            {!isDocLink(type) && <TestSection form={form} />}
           </>
         </Col>
       </Row>
@@ -205,7 +205,7 @@ const ScriptSection = ({ form, onChange }: Omit<ActionFormProps, 'setForm' | 'en
       <Label htmlFor="action-script" hasError={!field.valid && field.touched}>
         {t('in-settings:tabs.script')}
       </Label>
-      <Code lineNumbers mode={'shell'} value={field.value} onChange={(value: string) => onChange('script', value)} />
+      <Code lineNumbers mode={'shell'} value={field.value} onChange={value => onChange('script', value)} />
       <TouchedMessages field={field} className={locals.subErrorTextFormField} />
       <HelpText className={locals.subTextFormField}>{t('in-settings:tabs.scriptDescription')}</HelpText>
     </FormGroup>

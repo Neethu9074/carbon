@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
+import { useLocation } from 'react-router';
 import React from 'react';
 
 import { Button, Link } from '@instana/components';
@@ -14,8 +15,10 @@ import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { onPremLicenseInformationEnabled } from 'in-services/featureFlags';
 import { messages$ } from 'in-components/MessageFlyout/stores/messages';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { physicalPath } from 'in-stores/navigation/paths/mainPaths';
 import RequestQuoteDialog from 'in-components/RequestQuoteDialog';
 import history from 'in-stores/navigation/history';
+import Sticky from 'in-components/Sticky';
 import { t, Trans } from 'in-i18n';
 
 import locals from './NotificationBarSticky.mless';
@@ -53,64 +56,71 @@ export default function NotificationBarSticky() {
   );
 }
 function Content({ message }) {
-  return (
-    <div className={locals.section}>
-      <div className={locals.leftContent}>
-        <span className={locals.description}>{message.content}</span>
-      </div>
-      <div className={locals.rightContent}>
-        {onPremLicenseInformationEnabled && (
-          <div className={locals.subText}>
-            <Trans
-              i18nKey="in-components:messageFlyout.alreadyHaveLicense"
-              components={{
-                linkToDocker: (
-                  <Link
-                    className={locals.link}
-                    external
-                    href="https://www.ibm.com/docs/obi/current?topic=installer-license-activation-renewal"
-                  />
-                ),
-                linkToKubernetes: (
-                  <Link
-                    className={locals.link}
-                    external
-                    href="https://www.ibm.com/docs/obi/current?topic=kubernetes-installing-operator-based-instana-setup#312-downloading-the-license-file"
-                  />
-                )
-              }}
-            />
+  const location = useLocation();
+  const isPhysicalPageView = location.pathname === physicalPath;
+
+  return !isPhysicalPageView ? (
+    <Sticky
+      header={
+        <div className={locals.section}>
+          <div className={locals.leftContent}>
+            <span className={locals.description}>{message.content}</span>
           </div>
-        )}
-        {!onPremLicenseInformationEnabled && (
-          <>
-            {message.activeLicense == 'selfService' && (
-              <Button
-                className={locals.button}
-                kind="secondary"
-                target="_blank"
-                href="https://aws.amazon.com/marketplace/pp/prodview-hnqy5e3t3fzda"
-                rel="noopener noreferrer"
-                onClick={track(BUY_NOW_BUTTON_CLICKED, getPageType(history.location.pathname))}
-              >
-                {t('in-components:messageFlyout.buyNowBtn')}
-              </Button>
+          <div className={locals.rightContent}>
+            {onPremLicenseInformationEnabled && (
+              <div className={locals.subText}>
+                <Trans
+                  i18nKey="in-components:messageFlyout.alreadyHaveLicense"
+                  components={{
+                    linkToDocker: (
+                      <Link
+                        className={locals.link}
+                        external
+                        href="https://www.ibm.com/docs/obi/current?topic=installer-license-activation-renewal"
+                      />
+                    ),
+                    linkToKubernetes: (
+                      <Link
+                        className={locals.link}
+                        external
+                        href="https://www.ibm.com/docs/obi/current?topic=kubernetes-installing-operator-based-instana-setup#312-downloading-the-license-file"
+                      />
+                    )
+                  }}
+                />
+              </div>
             )}
-            <Button
-              className={locals.button}
-              kind="secondary"
-              target="_blank"
-              onClick={e => {
-                stopPropagationAndPreventDefault(e);
-                track(REQUEST_QUOTE_BUTTON_CLICKED, getPageType(history.location.pathname));
-                addActiveDialog(<RequestQuoteDialog />);
-              }}
-            >
-              {t('in-components:messageFlyout.requestQuoteBtn')}
-            </Button>
-          </>
-        )}
-      </div>
-    </div>
-  );
+            {!onPremLicenseInformationEnabled && (
+              <>
+                {message.activeLicense == 'selfService' && (
+                  <Button
+                    className={locals.button}
+                    kind="secondary"
+                    target="_blank"
+                    href="https://aws.amazon.com/marketplace/pp/prodview-hnqy5e3t3fzda"
+                    rel="noopener noreferrer"
+                    onClick={track(BUY_NOW_BUTTON_CLICKED, getPageType(history.location.pathname))}
+                  >
+                    {t('in-components:messageFlyout.buyNowBtn')}
+                  </Button>
+                )}
+                <Button
+                  className={locals.button}
+                  kind="secondary"
+                  target="_blank"
+                  onClick={e => {
+                    stopPropagationAndPreventDefault(e);
+                    track(REQUEST_QUOTE_BUTTON_CLICKED, getPageType(history.location.pathname));
+                    addActiveDialog(<RequestQuoteDialog />);
+                  }}
+                >
+                  {t('in-components:messageFlyout.requestQuoteBtn')}
+                </Button>
+              </>
+            )}
+          </div>
+        </div>
+      }
+    />
+  ) : null;
 }

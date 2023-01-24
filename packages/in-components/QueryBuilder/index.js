@@ -17,10 +17,11 @@ export function createQueryBuilder({
   getSuggestions,
   withoutOrConjunction = false,
   withoutBrackets = false,
+  withFullTimePrecision = false,
   maxExpressionDepth
 }) {
   // Ensure that we only ever receive the tag catalog once (per time config).
-  const getTagCatalog = getTagCatalogOnce(originalGetTagCatalog);
+  const getTagCatalog = getTagCatalogOnce(originalGetTagCatalog, withFullTimePrecision);
 
   return {
     // Re-exposed so that users follow the best practice to only ever load the tag catalog once.

@@ -8,7 +8,7 @@ import getTagCatalogSubscription from 'in-infrastructure/subscriptions/getTagCat
 import { createQueryBuilder } from 'in-components/QueryBuilder';
 
 const { QueryBuilder, isQueryValid: isQueryValidInternal, getTagCatalog: getTagCatalogInternal } = createQueryBuilder({
-  getTagCatalog: getTagCatalogSubscription,
+  getTagCatalog: props => getTagCatalogSubscription({ includeMetricTags: true, ...props }),
   getSuggestions: getTagValueSuggestions,
   withFullTimePrecision: true
 });

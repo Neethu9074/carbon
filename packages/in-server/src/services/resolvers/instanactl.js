@@ -57,7 +57,7 @@ exports.getConfiguration = (tenant, unit) =>
   cache(`getConfiguration:${tenant}:${unit}`, () => {
     return Promise.all([
       getIntSetting(tenant, unit, 'MAX_ALLOWED_ALERTINGS_CONFIGURATIONS', 200),
-      getSetting(tenant, unit, 'MIGRATED_TENANT_UNIT_URL', '')
+      getSetting({ tenant, unit, key: 'MIGRATED_TENANT_UNIT_URL', notDefinedFallback: '', valueParser: str => str })
     ]).then(values => {
       return {
         maxAllowedAlertingConfigurations: values[0],
@@ -71,8 +71,14 @@ exports.getReportingEndpoints = (req, tenant, unit) => {
 };
 
 async function getUiBackendBaseUrl(tenant, unit) {
-  const uibackendNamespace = await getSetting(tenant, unit, 'config.tu.namespace', '')
-  
+  const uibackendNamespace = await getSetting({
+    tenant,
+    unit,
+    key: 'config.tu.namespace',
+    notDefinedFallback: '',
+    valueParser: str => str
+  });
+
   if (uibackendNamespace) {
     return `http://tu-${tenant}-${unit}-ui-backend.${uibackendNamespace}:8600`;
   } else {

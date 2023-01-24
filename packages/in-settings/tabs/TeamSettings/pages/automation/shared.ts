@@ -8,8 +8,7 @@ import { keyBy } from 'lodash';
 
 import { AdditionalHeaders, Authen } from 'in-api/automation';
 import { ActionFormEntity } from './ActionCatalog/Action';
-import { Field, Nullish } from 'in-types';
-import { Action } from 'in-types';
+import { Field, Nullish, Action } from 'in-types';
 import { t } from 'in-i18n';
 
 export const getType = (action: Action | Nullish) => {

@@ -9,7 +9,11 @@ import { Spacer, Stack, Toggle } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import TypeAndMetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/TypeAndMetricConfigurator';
+import QueryBuilder, {
+  getTagCatalog
+} from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/QueryBuilder';
 import { useTagFilterExpressionState } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/useTagFilterExpressionState';
+import GroupingConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/GroupingConfigurator';
 import getMetricInCatalog from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/getMetricInCatalog';
 import {
   onChangeGrouping,
@@ -17,9 +21,7 @@ import {
 } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
 import GroupingConfiguration from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/GroupingConfiguration';
 import { invalidMarker } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/form';
-import QueryBuilder, { getTagCatalog } from 'in-infrastructure/Explore/components/QueryBuilder';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import GroupingConfigurator from 'in-infrastructure/Explore/components/GroupingConfigurator';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import getMetricCatalog from 'in-infrastructure/subscriptions/getMetricCatalog';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
@@ -31,6 +33,7 @@ import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { pendingResult } from 'in-services/fixedObjects';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import { noop } from 'in-services/util/function';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -65,7 +68,8 @@ export default function FormComponent({
     !isCrossSeriesAggregationRestricted && ['MEAN', 'MIN', 'MAX'].includes(aggregationField.value);
   const isSumCrossSeriesAggregation = crossSeriesAggregationField.value === 'SUM';
 
-  const tagCatalogResult = useObservable(getTagCatalog, []) ?? pendingResult;
+  const timeConfig = useTimeConfig();
+  const tagCatalogResult = useObservable(() => getTagCatalog({ timeConfig }), [timeConfig]) ?? pendingResult;
   const [tagFilterExpression, setTagFilterExpression] = useTagFilterExpressionState({
     tagCatalogResult,
     form,

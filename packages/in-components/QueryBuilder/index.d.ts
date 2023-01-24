@@ -33,7 +33,7 @@ export interface GetTagSuggestionsProps<ADDITIONAL_PROPS extends {} = {}> extend
   filter?: Filter;
 }
 
-type GetTagCatalog = (tc: { timeConfig: TimeConfig }) => Observable<Result<TagCatalog>>;
+type GetTagCatalog = (props: { timeConfig: TimeConfig }) => Observable<Result<TagCatalog>>;
 
 export type QueryBuilderTrackingFunctions = {
   onTagAdded?: (newFormModel: FormModelElement, updatedFormModel: FormModelElement[]) => void;
