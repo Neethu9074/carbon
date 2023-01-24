@@ -72,12 +72,8 @@ exports.getReportingEndpoints = (req, tenant, unit) => {
 
 async function getUiBackendBaseUrl(tenant, unit) {
   const uibackendNamespace = await getSetting({
-    tenant,
-    unit,
-    key: 'config.tu.namespace',
-    notDefinedFallback: '',
-    valueParser: str => str
-  });
+    tenant, unit, key: 'config.tu.namespace', notDefinedFallback: '', valueParser: str => str
+  })
 
   if (uibackendNamespace) {
     return `http://tu-${tenant}-${unit}-ui-backend.${uibackendNamespace}:8600`;
