@@ -27,6 +27,7 @@ import { EventMap, EventOrMap } from 'in-events/types';
 import { getMetricDefinition } from 'in-sdk/metrics';
 import { Row, Col } from 'in-components/layout/Grid';
 import PluginIcon from 'in-components/PluginIcon';
+import { line } from 'in-stores/metric/renderer';
 import { t } from 'in-i18n';
 
 import locals from './InfraEventContent.mless';
@@ -106,7 +107,7 @@ function Chart({ alertConfig, timeConfig }: ChartProps) {
     y1: {
       formatter: metricFormatterId,
       min: 0,
-      renderer: 'line',
+      renderer: line.id,
       metrics: [
         {
           aggregation: aggregation,
@@ -123,10 +124,11 @@ function Chart({ alertConfig, timeConfig }: ChartProps) {
 
   return (
     <UnifiedMetricsChart
-      timeConfig={timeConfig}
-      config={chartConfig}
       title={t('in-events:titleMetrics')}
+      config={chartConfig}
+      timeConfig={timeConfig}
       customHeight={182}
+      nonInteractive
     />
   );
 }
