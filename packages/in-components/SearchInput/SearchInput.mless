@@ -37,7 +37,6 @@
     width: 100%;
     min-width: 0; // allow flex-item to shrink below it's "default" width
 
-    border-radius: 3px;
     &:focus {
       outline: none;
     }
