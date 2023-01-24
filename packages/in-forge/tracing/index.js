@@ -67,6 +67,7 @@ import './sdk.http.exit';
 import './sdk.messaging';
 import './sdk.rpc.entry';
 import './vertx.cluster';
+import './kafka-streams';
 import './ctg.rpc.exit';
 import './cics.mq.exit';
 import './ims.mq.entry';

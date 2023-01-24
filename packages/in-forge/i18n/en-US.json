@@ -832,6 +832,11 @@
   "pluginName_kafkaConnectWorker_1": "Kafka Workers",
   "pluginName_kafkaConnectWorker_2": "Kafka Workers",
   "pluginName_kafkaConnectWorker": "Kafka Worker",
+  "pluginName_kafkastreams_plural": "Kafka Stream",
+  "pluginName_kafkastreams_0": "Kafka Stream",
+  "pluginName_kafkastreams_1": "Kafka Stream",
+  "pluginName_kafkastreams_2": "Kafka Stream",
+  "pluginName_kafkastreams": "Kafka Stream",
   "pluginName_kubernetesCluster_plural": "Kubernetes Clusters",
   "pluginName_kubernetesCluster_0": "Kubernetes Clusters",
   "pluginName_kubernetesCluster_1": "Kubernetes Clusters",
@@ -1749,6 +1754,11 @@
   "tracingTypeName_kafka_0": "Kafka",
   "tracingTypeName_kafka_1": "Kafka",
   "tracingTypeName_kafka_2": "Kafka",
+  "tracingTypeName_kafkastreams": "Kafka Stream",
+  "tracingTypeName_kafkastreams_plural": "Kafka Stream",
+  "tracingTypeName_kafkastreams_0": "Kafka Stream",
+  "tracingTypeName_kafkastreams_1": "Kafka Stream",
+  "tracingTypeName_kafkastreams_2": "Kafka Stream",
   "tracingTypeName_kinesis": "Kinesis",
   "tracingTypeName_kinesis_plural": "Kinesis",
   "tracingTypeName_kinesis_0": "Kinesis",
@@ -12635,6 +12645,10 @@
     "kafka": {
       "titleAccessType": "Access Type",
       "titleTopic": "Topic"
+    },
+    "kafkastreams": {
+      "titleAccessType": "Access Type",
+      "titleFunction": "KSTREAM Function"
     },
     "kinesis": {
       "titleStream": "Stream",
