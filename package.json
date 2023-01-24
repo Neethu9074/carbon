@@ -91,7 +91,7 @@
     "date-fns-tz": "^1.2.2",
     "deep-diff": "^1.0.2",
     "deep-freeze-strict": "^1.1.1",
-    "dompurify": "2.0.17",
+    "dompurify": "^2.4.3",
     "downshift": "^3.2.12",
     "eventemitter3": "^4.0.0",
     "favico.js": "^0.3.10",
