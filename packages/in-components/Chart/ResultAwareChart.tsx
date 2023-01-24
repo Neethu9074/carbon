@@ -39,7 +39,8 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
     showNoDataInfoWhenEmpty = true,
     renderErrorDetail = false,
     renderHistoricDataIndicator = false,
-    hasApproximateData
+    hasApproximateData,
+    customChartSkeletonHeight
   } = config;
   let content;
 
@@ -61,7 +62,7 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
     if (config?.y1?.renderer.id === Renderer.pie.id) {
       content = <PieSkeleton height={height} />;
     } else {
-      content = <ChartSkeleton height={height} />;
+      content = <ChartSkeleton height={customChartSkeletonHeight ?? height} />;
     }
   } else if (!timeConfig || !y1 || !y1.metrics || (showNoDataInfoWhenEmpty && containsOnlyEmptyData(y1.metrics))) {
     content = <NoDataAvailable width={frontBufferWidth} height={height} />;

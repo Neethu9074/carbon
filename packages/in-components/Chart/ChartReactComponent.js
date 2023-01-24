@@ -50,7 +50,8 @@ const ChartReactWrapper = React.forwardRef(function ChartReactWrapper(props, out
     renderPreChartContent,
     nonInteractive,
     automaticallySize,
-    wiggleRoom
+    wiggleRoom,
+    customChartSkeletonHeight
   } = props;
 
   const [preAndPostContentConfig, setPreAndPostContentConfig] = useState();
@@ -115,7 +116,11 @@ const ChartReactWrapper = React.forwardRef(function ChartReactWrapper(props, out
   const heightOfDrawableCanvas = chart ? chartHeight - chart.config.timeAxisHeight - chart.config.markerPaneHeight : 0;
 
   return (
-    <div className={locals.chart} ref={compositeRef(outerRef, chartWrapperRef)}>
+    <div
+      className={locals.chart}
+      ref={compositeRef(outerRef, chartWrapperRef)}
+      style={{ height: customChartSkeletonHeight ?? 'auto' }}
+    >
       <div ref={legendRef}>
         {chart && renderLegend && <ChartLegend chart={chart} filteredDataSeries={chart.config.filteredDataSeries} />}
       </div>

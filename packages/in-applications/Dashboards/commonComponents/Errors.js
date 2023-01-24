@@ -74,6 +74,7 @@ export default function Errors({
 
   return (
     <UnifiedMetricsChart
+      customChartSkeletonHeight={262}
       renderHistoricDataIndicator
       renderPostChartContent={props =>
         renderPostChartContent({
