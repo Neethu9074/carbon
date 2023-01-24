@@ -13,6 +13,7 @@ import GroupNameSection from 'in-settings/tabs/TeamSettings/pages/accessControl/
 import HeadingSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/HeadingSection';
 import { getField, updateFormField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { ProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
+import { getApplicationConfigsAsResultObservable } from '../../../../../../../in-api/applicationConfigs';
 import useSubSlideControl, { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
 import ConfigDialog, { SubSlideConfig } from 'in-settings/components/ConfigDialog';
 import { getMobileAppConfigurations } from 'in-mobile-apps/api/mobileApps';
@@ -110,8 +111,8 @@ export default function EditAccessScopeDialog({
         },
         {
           scrollId: '4-mobile.apps',
-          label: 'MobileApps',
-          title: 'MobileApps',
+          label: t('in-settings:PermissionSection.title_mobileApps'),
+          title: t('in-settings:PermissionSection.title_mobileApps'),
           valid: true,
           content: (
             <PermissionSection
@@ -133,8 +134,8 @@ export default function EditAccessScopeDialog({
         },
         {
           scrollId: '5-applications',
-          label: 'Applications',
-          title: 'Applications',
+          label: t('in-settings:PermissionSection.title_applications'),
+          title: t('in-settings:PermissionSection.title_applications'),
           valid: true,
           content: (
             <PermissionSection
@@ -144,11 +145,11 @@ export default function EditAccessScopeDialog({
               addButtonLabel={t('in-settings:PermissionSection.addButton_applications')}
               roleTooltipText={t('in-settings:permissionScope.roleTooltip_applications')}
               entityPermissionKey="applicationIds"
-              observable={getMobileAppConfigurations}
+              observable={getApplicationConfigsAsResultObservable}
               productArea={ProductArea.APPLICATION}
               icon="lib_application"
               extractId={({ id }) => id}
-              extractName={({ name }) => name}
+              extractName={({ label }) => label}
               {...formControlProps}
               {...slideControlProps}
             />
