@@ -13,8 +13,8 @@ import { Observable } from '@instana/observables';
 import {
   getAreaRoleFromPermissionSet,
   getField,
-  updateFormField,
   getScopeFromProductArea,
+  updateFormField,
   updatePermissionSetForLimitableProductArea
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import {
@@ -24,6 +24,12 @@ import {
   ScopedPermissionItems,
   ScopedPermissionType
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
+import LimitedAccessPanel from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/LimitedAccesPanel';
+import {
+  ExtractIdFunction,
+  ExtractNameFunction
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/types';
+import AccessAllPanel from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/AccessAllPanel';
 import TabSelect, {
   TabSelectHeader,
   TabSelectItem,
@@ -31,19 +37,14 @@ import TabSelect, {
   TabSelectPanel,
   TabSelectPanels
 } from 'in-components/TabSelect';
-import LimitedAccessPanel from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/LimitedAccesPanel';
-import {
-  ExtractIdFunction,
-  ExtractNameFunction
-} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/types';
-import AccessAllPanel from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/AccessAllPanel';
-import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import NoAccessPanel from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/NoAccessPanel';
+import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import { SubSlideConfig } from 'in-settings/components/ConfigDialog/ConfigDialog';
 import { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
 import { t } from 'in-i18n';
 
 export type EntityPermissionKey = 'mobileAppIds' | 'websiteIds' | 'applicationIds';
+
 export interface PermissionSectionProps<I> extends SlideControlProps<SubSlideConfig>, FormControlProps {
   title: string;
   accessAllDescription: string;
@@ -54,6 +55,7 @@ export interface PermissionSectionProps<I> extends SlideControlProps<SubSlideCon
   extractId: ExtractIdFunction<I>;
   extractName: ExtractNameFunction<I>;
   productArea: LimitableProductArea;
+  icon: string;
   entityPermissionKey: EntityPermissionKey;
 }
 
@@ -64,6 +66,7 @@ export default function PermissionSection<I>({
   addButtonLabel,
   roleTooltipText,
   productArea,
+  icon,
   entityPermissionKey,
   observable,
   extractId,
@@ -104,7 +107,7 @@ export default function PermissionSection<I>({
       onChange={(_panelId, value) => onUpdatePermissionSet(role, value ?? defaultLimitation)}
     >
       <TabSelectHeader>
-        <SvgIcon type="lib_mobile_app" size="l" />
+        <SvgIcon type={icon} size="l" />
         <Typography variant="heading-200" component="h3" noMargin>
           {title}
         </Typography>
