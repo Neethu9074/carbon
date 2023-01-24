@@ -7,12 +7,13 @@
 import React, { useState } from 'react';
 import { MapForm } from 'formalistic';
 
-import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import PermissionSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSection';
+import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import GroupNameSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/GroupNameSection';
 import HeadingSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/HeadingSection';
 import { getField, updateFormField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { ProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
+import { getApplicationConfigsAsResultObservable } from '../../../../../../../in-api/applicationConfigs';
 import useSubSlideControl, { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
 import ConfigDialog, { SubSlideConfig } from 'in-settings/components/ConfigDialog';
 import { getMobileAppConfigurations } from 'in-mobile-apps/api/mobileApps';
@@ -100,6 +101,7 @@ export default function EditAccessScopeDialog({
               entityPermissionKey="websiteIds"
               observable={getWebsiteConfigurations}
               productArea={ProductArea.WEBSITE}
+              icon="lib_website"
               extractId={({ id }) => id}
               extractName={({ name }) => name}
               {...formControlProps}
@@ -109,8 +111,8 @@ export default function EditAccessScopeDialog({
         },
         {
           scrollId: '4-mobile.apps',
-          label: 'MobileApps',
-          title: 'MobileApps',
+          label: t('in-settings:PermissionSection.title_mobileApps'),
+          title: t('in-settings:PermissionSection.title_mobileApps'),
           valid: true,
           content: (
             <PermissionSection
@@ -122,8 +124,32 @@ export default function EditAccessScopeDialog({
               entityPermissionKey="mobileAppIds"
               observable={getMobileAppConfigurations}
               productArea={ProductArea.MOBILE_APP}
+              icon="lib_mobile_app"
               extractId={({ id }) => id}
               extractName={({ name }) => name}
+              {...formControlProps}
+              {...slideControlProps}
+            />
+          )
+        },
+        {
+          scrollId: '5-applications',
+          label: t('in-settings:PermissionSection.title_applications'),
+          title: t('in-settings:PermissionSection.title_applications'),
+          valid: true,
+          content: (
+            <PermissionSection
+              title={t('in-settings:PermissionSection.title_applications')}
+              accessAllDescription={t('in-settings:PermissionSection.descriptionAccessAll_applications')}
+              limitedAccessDescription={t('in-settings:PermissionSection.descriptionLimitedAccess_applications')}
+              addButtonLabel={t('in-settings:PermissionSection.addButton_applications')}
+              roleTooltipText={t('in-settings:permissionScope.roleTooltip_applications')}
+              entityPermissionKey="applicationIds"
+              observable={getApplicationConfigsAsResultObservable}
+              productArea={ProductArea.APPLICATION}
+              icon="lib_application"
+              extractId={({ id }) => id}
+              extractName={({ label }) => label}
               {...formControlProps}
               {...slideControlProps}
             />

@@ -3,7 +3,8 @@
     "createTest": {
       "dialogTitle": "Create Synthetic Test",
       "noLocationFound": "Sorry! No locations found",
-      "noApplicationsFound": "Sorry! No applications found",
+      "noApplicationsFound": "No applications found",
+      "noMatchingFound": "No matching application found",
       "titles": {
         "step1": "Step 1: Select type",
         "step2": "Step 2: Request details",

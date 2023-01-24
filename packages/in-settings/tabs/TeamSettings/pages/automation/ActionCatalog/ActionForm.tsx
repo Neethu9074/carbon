@@ -7,8 +7,7 @@
 import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
-import { Toggle, Button } from '@instana/components';
-import { Action } from '@instana/types';
+import { Toggle } from '@instana/components';
 
 import {
   putApiKeyFields,
@@ -39,16 +38,11 @@ import {
   SCRIPT_TYPE,
   WEBHOOK_TYPE
 } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
-import {
-  ActionFormEntity,
-  getActionSpecification
-} from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import AdditionalHeadersTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/AdditionalHeadersTable';
 import ParametersTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ParametersTable';
+import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import TagsTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/TagsTable';
 import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
-import RunAction from 'in-events/components/AutomationActions/RunAction';
-import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import HelpText from 'in-components/form/HelpText/HelpText';
@@ -85,7 +79,6 @@ export default function ActionForm({ form, setForm, onChange, entity: action }: 
             <FormGroup>
               <ParametersTable form={form} setForm={setForm} onChange={onChange} />
             </FormGroup>
-            {!isDocLink(type) && <TestSection form={form} />}
           </>
         </Col>
       </Row>
@@ -524,14 +517,5 @@ const WebhookSection = ({ form, setForm, onChange, entity: action }: ActionFormP
         <AdditionalHeadersTable form={form} setForm={setForm} onChange={onChange} />
       </FormGroup>
     </>
-  );
-};
-
-const TestSection = ({ form }: { form: MapForm }) => {
-  const action = getActionSpecification(form);
-  return (
-    <Button onClick={() => addActiveDialog(<RunAction action={action as Action} volatileId={{}} test />)}>
-      {t('in-settings:tabs.test')}
-    </Button>
   );
 };

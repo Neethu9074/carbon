@@ -180,5 +180,8 @@
   },
   "infraSmartAlerts": {
     "pseudoAggregatedEntityLabel": "{{entityName}} (aggregated)"
+  },
+  "syntheticSmartAlerts": {
+    "failedStatusMetric": "Failed Status"
   }
 }

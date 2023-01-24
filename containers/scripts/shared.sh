@@ -17,7 +17,7 @@ COMMIT_ID=${COMMIT_ID:-replace-me-commit-id}
 UI_CLIENT_ROOT_DIR="${SCRIPTPATH}/../.."
 IS_DELIVERY_BRANCH=$(${UI_CLIENT_ROOT_DIR}/build/ci-shared-tools/scripts/isDeliveryBranch.js)
 
-if [ "$IS_DELIVERY_BRANCH" == "true" ]  && [ "$BRANCH_NAME" != "develop" ]; then
+if [ "$IS_DELIVERY_BRANCH" == "true" ]; then
   echo "Set IMAGE_URI for Release branch build"
   # TODO: pushing an image which is from `ui-client` to int-docker-backend-local/backend kind of breaks
   #       https://docs.instana.club/instana-artifactory/current/creating-repos.html#repo-naming-conventions

@@ -13,6 +13,10 @@ const formSideEffects = [
   {
     path: [entityTypeKey],
     effects: [resetEntityId, resetApdexId] as EffectFunction[]
+  },
+  {
+    path: [entityIdKey],
+    effects: [resetApdexId] as EffectFunction[]
   }
 ];
 

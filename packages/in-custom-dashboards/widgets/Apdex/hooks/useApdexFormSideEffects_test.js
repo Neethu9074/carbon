@@ -45,4 +45,23 @@ describe('in-custom-dashboards/widgets/Apdex/hooks/useApdexFormSideEffects', () 
     // Then
     expect(updatedForm).toEqual(expect.objectContaining({ apdexConfigId: undefined }));
   });
+
+  it('resets the apdex id to undefined if the entityId changes', () => {
+    // Given
+    let updatedForm = {};
+    const form = createForm({
+      apdexId: 'someApdex',
+      entityId: 'someId'
+    });
+
+    const updateForm = useApdexFormSideEffects(form, f => {
+      updatedForm = f.toJS();
+    });
+
+    // When
+    updateForm(form.updateIn(['entityId'], f => f.setValue('anotherId')));
+
+    // Then
+    expect(updatedForm).toEqual(expect.objectContaining({ apdexConfigId: undefined }));
+  });
 });

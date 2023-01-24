@@ -241,7 +241,8 @@ export function removeWebhookFields(form: MapForm) {
     .remove('contentType')
     .remove('accept')
     .remove('acceptLanguage')
-    .remove('additionalHeaders');
+    .remove('additionalHeaders')
+    .remove('authType');
 }
 
 export function putBasicFields(form: MapForm, action: ActionFormEntity) {
