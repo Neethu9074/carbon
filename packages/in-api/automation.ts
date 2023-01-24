@@ -222,9 +222,15 @@ interface RunActionBaseParams {
   inputParameters: ActionExecutionParameter[];
 }
 
+interface RunActionRequest {
+  name: string;
+  value: string;
+  encoding: string;
+}
+
 interface RunActionParams extends RunActionBaseParams {
   type: string;
-  request: { name: string; value: string; encoding: string }[];
+  request: RunActionRequest[];
 }
 
 interface RunScriptActionParams extends RunActionBaseParams {

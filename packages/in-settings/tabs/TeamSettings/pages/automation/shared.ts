@@ -38,7 +38,17 @@ export const getIgnoreCertErrorsFromFields = (fields: Field[] | undefined) =>
 export const getAuthenFromFields = (fields: Field[] | undefined) =>
   getFieldsByNames(fields)?.authen?.value ?? `{"type":"${NO_AUTH}"}`;
 
-export function getWebhookFields(action: ActionFormEntity) {
+interface WebhookFields {
+  host: string;
+  method: string;
+  body: string;
+  ignoreCertErrors: string;
+  authen: Authen;
+  authenString: string;
+  header: AdditionalHeaders;
+  headerString: string;
+}
+export function getWebhookFields(action: ActionFormEntity): WebhookFields {
   const host = getHostFromFields(action.fields);
   const method = getMethodFromFields(action.fields);
   const body = getBodyFromFields(action.fields);
@@ -47,7 +57,7 @@ export function getWebhookFields(action: ActionFormEntity) {
   const authenString = getAuthenFromFields(action.fields);
   const authen: Authen = JSON.parse(authenString);
   const header: AdditionalHeaders = JSON.parse(headerString);
-  return { host, method, body, ignoreCertErrors, authen, authenString, headerString, header };
+  return { host, method, body, ignoreCertErrors, authen, authenString, header, headerString };
 }
 
 export const isDocLink = (type?: string) => type === DOC_LINK_TYPE;
