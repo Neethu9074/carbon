@@ -115,7 +115,7 @@ export default function ActionEntityForm(props: RouteComponentProps<MatchParams>
           message={message}
           loading={loading}
           saveEnabled={saveEnabled}
-          isCreate={isCreate}
+          isCreate={isCreate || isCopy}
           listPath={teamSettingsActionCatalog}
         />
       </SettingsDetailPage>
