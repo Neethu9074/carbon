@@ -176,13 +176,10 @@ export default {
   },
   agent_tls_cert_expired: {
     issueDescription: {
-      Component: function agentTlsCertExpired({ context, cert}) {
+      Component: function agentTlsCertExpired({ context, cert }) {
         return (
           <span>
-            <Trans
-              i18nKey="in-forge:plugins.instanaAgent.agentTlsExpired"
-              values={{ context, cert }}
-            />
+            <Trans i18nKey="in-forge:plugins.instanaAgent.agentTlsExpired" values={{ context, cert }} />
           </span>
         );
       }
@@ -195,15 +192,22 @@ export default {
       Component: function agentTlsCertAboutToExpire({ context, cert }) {
         return (
           <span>
-            <Trans
-              i18nKey="in-forge:plugins.instanaAgent.agentTlsAboutToExpire"
-              values={{ context, cert}}
-            />
+            <Trans i18nKey="in-forge:plugins.instanaAgent.agentTlsAboutToExpire" values={{ context, cert }} />
           </span>
         );
       }
     },
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
     explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=agent-host-configuration`
+  },
+  agent_jvm_tls_1_3_missing: {
+    issueDescription: {
+      Component: function missingTlsVersion() {
+        return <span>{t('in-forge:plugins.instanaAgent.tlsProtocolMissingIssue')}</span>;
+      }
+    },
+    explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
+    explanationLinkHref:
+      'https://www.ibm.com/docs/en/instana-observability/current?topic=agent-managing-host-agents#missing-tlsv13-support-for-instana-agent'
   }
 };
