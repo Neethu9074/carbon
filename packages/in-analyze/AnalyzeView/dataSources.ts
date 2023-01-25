@@ -203,7 +203,8 @@ const icons = deepFreeze<Record<ProductArea, Icon>>({
     traces: 'lib_application_trace',
     calls: 'lib_application_call',
     callsUQB: 'lib_application_call',
-    tracesUQB: 'lib_application_trace'
+    tracesUQB: 'lib_application_trace',
+    logs: 'lib_application_logging'
   },
   website: {
     pageLoad: 'lib_website_page_load',
