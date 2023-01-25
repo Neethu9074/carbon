@@ -207,6 +207,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
-    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/current?topic=agent-managing-host-agents#missing-tlsv13-support-for-instana-agent`
+    explanationLinkHref:
+      'https://www.ibm.com/docs/en/instana-observability/current?topic=agent-managing-host-agents#missing-tlsv13-support-for-instana-agent'
   }
 };
