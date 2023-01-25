@@ -97,6 +97,7 @@ export default function ChartSelectorOverlay(props: ChartSelectorProps) {
 
   const getProductAreaFromMetricSource = (metricSource: string): ProductArea => {
     switch (metricSource) {
+      case 'LOGS':
       case 'APPLICATION':
       case 'WEBSITE':
         return metricSource.toLowerCase() as ProductArea;

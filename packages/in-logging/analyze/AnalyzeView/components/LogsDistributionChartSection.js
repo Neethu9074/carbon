@@ -42,28 +42,39 @@ const options = {
 
 export default function LogsDistributionChartSection(props) {
   const { chartedMetrics, dataSource, onChartedMetricsChange, tracking, hideRenderer, disableClose } = props;
+  const showChartMetricSelector = options?.metrics.length > 1;
+  const metric = chartedMetrics?.[0];
 
   return (
     <Sections className={locals.wrapper}>
-      <ChartingConfiguratorSection
-        value={chartedMetrics?.[0]}
-        onChange={metric => onChartedMetricsChange(metric ? [metric] : [])}
-        dataSource={dataSource}
-        ChartingConfigurator={GroupedChartingConfigurator}
-        options={options}
-        tracking={tracking}
-        hideRenderer={hideRenderer}
-        disableClose={disableClose}
-      />
-      <div className={locals.chartWrapper}>
-        <Chart {...props} metric={chartedMetrics?.[0]} />
-      </div>
+      {showChartMetricSelector && (
+        <ChartingConfiguratorSection
+          value={chartedMetrics?.[0]}
+          onChange={metric => onChartedMetricsChange(metric ? [metric] : [])}
+          dataSource={dataSource}
+          ChartingConfigurator={GroupedChartingConfigurator}
+          options={options}
+          tracking={tracking}
+          hideRenderer={hideRenderer}
+          disableClose={disableClose}
+          unifiedMetricsSource="LOGS"
+        />
+      )}
+      {metric && (
+        <div className={locals.chartWrapper}>
+          <Chart {...props} metric={metric} />
+        </div>
+      )}
     </Sections>
   );
 }
 
 function Chart(props) {
-  const { isLoading, isGrouped } = props;
+  const { isLoading, isGrouped, metric } = props;
+
+  if (!metric) {
+    return null;
+  }
 
   if (isLoading) {
     return <ResultAwareChart result={pendingResult} config={{ customHeight: customChartHeight }} />;

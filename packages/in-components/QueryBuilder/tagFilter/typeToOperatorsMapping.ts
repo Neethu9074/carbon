@@ -21,6 +21,10 @@ import {
   GREATER_OR_EQUAL_THAN,
   LESS_OR_EQUAL_THAN
 } from 'in-components/QueryBuilder/tagFilter/operators';
+import { emptyArray } from 'in-services/fixedObjects';
+
+// "ID" is not an actual tag TYPE. It can be seen as a subtype. It's based on tag's "idTag" property.
+export const ID = [EQUALS, NOT_EQUAL, NOT_EMPTY, IS_EMPTY];
 
 export const BOOLEAN = [EQUALS];
 
@@ -62,3 +66,22 @@ export const KEY_VALUE_PAIR = [
   NOT_BLANK,
   IS_BLANK
 ];
+
+export function getAllowedOperators({ type, idTag = false }: { type: string; idTag?: boolean }): Readonly<string[]> {
+  if (idTag) {
+    return ID;
+  }
+  if (type === 'BOOLEAN') {
+    return BOOLEAN;
+  }
+  if (type === 'STRING' || type === 'STRING_SET' || type === 'STRING_LIST') {
+    return STRING;
+  }
+  if (type === 'NUMBER') {
+    return NUMBER;
+  }
+  if (type === 'KEY_VALUE_PAIR') {
+    return KEY_VALUE_PAIR;
+  }
+  return emptyArray;
+}

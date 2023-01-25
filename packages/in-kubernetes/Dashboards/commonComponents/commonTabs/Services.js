@@ -22,9 +22,9 @@ import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHea
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import getKubernetesServices from 'in-kubernetes/subscriptions/getKubernetesServices';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
+import { formatDurationAccurately } from 'in-kubernetes/components/TimeFormatter';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { getServiceDashboard } from 'in-kubernetes/navigation/paths';
-import { formatDuration } from 'in-services/formatters/date';
 import EntityLink from 'in-components/EntityLink';
 import { t } from 'in-i18n';
 
@@ -85,7 +85,7 @@ const columnDefinitions = [
     id: 'age',
     label: t('in-kubernetes:dashboards.age'),
     getContent(item) {
-      return formatDuration(item.age);
+      return formatDurationAccurately(item.age);
     }
   },
   {

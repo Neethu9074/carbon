@@ -6,6 +6,7 @@
 import React from 'react';
 
 import { Message, Stack } from '@instana/components';
+import { t } from '@instana/i18n-react';
 
 import {
   ua2ApiQueryPressedTracker,
@@ -21,11 +22,13 @@ import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/Grou
 import ApiQueryAction from 'in-components/QueryBuilder/workspace/ApiQueryAction/ApiQueryAction';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import * as groupingConfiguratorsByDataSource from 'in-websites/groupingConfigurators';
+import { findInvalidTraceIdTagFilter } from 'in-analyze/AnalyzeView/validationUtils';
 import { ActionSection } from 'in-components/workspace/ActionSection/ActionSection';
 import * as queryBuildersByDataSource from 'in-websites/queryBuilder';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import Sections from 'in-components/workspace/Sections';
+import { emptyArray } from 'in-services/fixedObjects';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
 import theme from 'in-themes';
@@ -46,6 +49,7 @@ export default function WebsiteQueryBuilderWorkspace(props) {
     useLastValidStateWhenErroneous
   } = props;
 
+  const { hasError, errors } = validate(formModel);
   return (
     <Sticky
       header={<AnalyzeHeader formModel={formModel} isGrouped={isGrouped} />}
@@ -67,6 +71,8 @@ export default function WebsiteQueryBuilderWorkspace(props) {
                     nestingDepth: getMaximumExpressionDepth(toBackendQueryModel(formModel))
                   })
               }}
+              hasError={hasError}
+              errors={errors}
             />
 
             <GroupingConfiguratorSection
@@ -103,4 +109,13 @@ export default function WebsiteQueryBuilderWorkspace(props) {
       <Footer />
     </Sticky>
   );
+}
+
+function validate(formModel) {
+  const invalidTraceIdTagFilter = findInvalidTraceIdTagFilter(formModel, 'beacon.backend.traceId');
+  const hasError = invalidTraceIdTagFilter != null;
+  const errors = hasError
+    ? [t('in-websites:analyze.analyzeView.invalidTraceIdTagFilter', { traceId: invalidTraceIdTagFilter.value })]
+    : emptyArray;
+  return { hasError, errors };
 }

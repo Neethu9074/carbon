@@ -98,7 +98,8 @@
     "perBeaconTypeConfigs": {
       "customBatchingIndicatorTooltipContent": "This event was batched and represents {{size}} individual events.",
       "httpRequestBatchingIndicatorTooltipContent": "This HTTP request is batched and represents {{size}} individual HTTP requests."
-    }
+    },
+    "invalidTraceIdTagFilter": "The backend trace ID \"{{traceId}}\" is invalid. Please specify a valid backend trace ID which is either 16 or 32 characters long."
   },
   "beaconUserSum": {
     "userInfoTitle": "User Information",

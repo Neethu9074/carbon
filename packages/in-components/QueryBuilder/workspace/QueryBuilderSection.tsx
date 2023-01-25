@@ -44,8 +44,8 @@ export default function QueryBuilderSection({
   withoutIcon,
   actions,
   useLastValidStateWhenErroneous = false,
-  hasError: hasExteralError,
-  errors: exteralErrors,
+  hasError: hasExternalError,
+  errors: externalErrors,
   getSuggestionsProps = {},
   getSuggestionLabel,
   allowEmptyKey
@@ -77,7 +77,7 @@ export default function QueryBuilderSection({
           {actions}
         </HorizontalFlexWrapper>
       }
-      hasError={hasExteralError || hasInternalError}
+      hasError={hasExternalError || hasInternalError}
     >
       <Stack gap="xsmall">
         <div>
@@ -103,8 +103,8 @@ export default function QueryBuilderSection({
         </div>
         {hasInternalError &&
           internalErrors?.map(error => <Message key={error} type="error" withIcon small title={error} />)}
-        {hasExteralError &&
-          exteralErrors?.map(error => <Message key={error} type="error" withIcon small title={error} />)}
+        {hasExternalError &&
+          externalErrors?.map(error => <Message key={error} type="error" withIcon small title={error} />)}
       </Stack>
     </Section>
   );

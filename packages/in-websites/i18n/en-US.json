@@ -293,7 +293,8 @@
         "buttonDownload": "Download",
         "renderTimeSelectionTooltip": "Close page load details",
         "referencedPageLoads": "Referenced Page Loads"
-      }
+      },
+      "invalidTraceIdTagFilter": "The backend trace ID \"{{traceId}}\" is invalid. Please specify a valid backend trace ID which is either 16 or 32 characters long."
     }
   },
   "definitions": {
