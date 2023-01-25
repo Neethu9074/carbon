@@ -110,7 +110,8 @@
       "mainLabel": "Synthetic Monitoring",
       "secondaryLabels": {
         "tests": "Tests",
-        "locations": "Locations"
+        "locations": "Locations",
+        "smartAlerts": "Smart Alerts"
       },
       "popDialog": {
         "button": "<> Deploy a PoP",
@@ -333,6 +334,13 @@
       "testSummaryDescription": "There are no Synthetic tests retrieved from the database.",
       "locationListTitle": "No Synthetic locations available",
       "locationListDescription": "There are no Synthetic locations retrieved from the database."
+    },
+    "alertList": {
+      "alertName": "Name",
+      "timeThreshold": "Time Threshold",
+      "testsApplied": "Tests Applied",
+      "filterApplied": "Filter Applied",
+      "actions": "Actions"
     }
   }
 }

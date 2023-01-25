@@ -27,6 +27,7 @@ export const syntheticAlertListPath = `${syntheticsDashboard}${alertsTab}`;
 export const syntheticsSummaryPath = `${syntheticsDashboard}${summaryTab}`;
 export const syntheticResultsListPath = `${syntheticsDashboard}${resultsTab}`;
 export const syntheticDetailsPath = `/syntheticDetails`;
+export const syntheticSmartAlertsPath = '/syntheticSmartAlerts';
 
 export const isSyntheticMonitoringView = getRootPathPredicate(
   syntheticsPath,

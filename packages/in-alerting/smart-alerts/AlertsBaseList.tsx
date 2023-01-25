@@ -12,7 +12,7 @@ import { Card } from '@instana/components';
 import List from 'in-settings/components/List';
 import { t } from 'in-i18n';
 
-interface AlertBaseListProps<AlertConfig> {
+interface AlertBaseListProps<AlertConfig extends Object> {
   loadEntities: () => Observable<AlertConfig[]>;
   extraColumnDefinitions: ColumnDefinition<AlertConfig>[];
 }
@@ -25,7 +25,7 @@ interface ColumnDefinition<AlertConfig extends Object> {
 
 const nameColumn: ColumnDefinition<{ name: string }> = {
   id: 'name',
-  label: 'Name',
+  label: t('in-synthetics:dashboard.alertList.alertName'),
   getContent: item => <span>{item.name}</span>
 };
 

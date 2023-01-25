@@ -24,6 +24,8 @@ import locals from './ViewSwitcher.mless';
 export default function ViewSwitcher() {
   const isTestsActive = useObservable(isView(paths.syntheticsPath), []);
   const isLocationsActive = useObservable(isView(paths.syntheticLocationPath), []);
+  const isSmartAlertsActive = useObservable(isView(paths.syntheticSmartAlertsPath), []);
+
   const popProperties: PoPInstallationPropertiesResponse =
     useObservable<any, [number]>(() => getPoPInstallationProperties({ installationType: 'simple' }), [0]) ||
     dummyPoPProperties;
@@ -42,14 +44,20 @@ export default function ViewSwitcher() {
             <SecondLevelNavigationItem
               href$={getModifiedUrlStream(p => (p.pathname = paths.syntheticsPath))}
               label={t('in-synthetics:dashboard.testList.secondaryLabels.tests')}
-              isActive={isTestsActive && !isLocationsActive}
+              isActive={isTestsActive && !isLocationsActive && !isSmartAlertsActive}
               icon={'lib_synthetic'}
             />
             <SecondLevelNavigationItem
               href$={getModifiedUrlStream(p => (p.pathname = paths.syntheticLocationPath))}
               label={t('in-synthetics:dashboard.testList.secondaryLabels.locations')}
-              isActive={isLocationsActive && !isTestsActive}
+              isActive={isLocationsActive && !isTestsActive && !isSmartAlertsActive}
               icon={'lib_synthetic_location'}
+            />
+            <SecondLevelNavigationItem
+              href$={getModifiedUrlStream(p => (p.pathname = paths.syntheticSmartAlertsPath))}
+              label={t('in-synthetics:dashboard.testList.secondaryLabels.smartAlerts')}
+              isActive={isSmartAlertsActive && !isTestsActive && !isLocationsActive}
+              icon={'lib_alerts_alert'}
             />
           </SecondLevelNavigation>
           {!popProperties.progress.loading && (

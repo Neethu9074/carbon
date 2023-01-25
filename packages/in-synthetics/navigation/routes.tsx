@@ -4,6 +4,8 @@
  */
 
 // @ts-expect-error module need to be translated to TS
+import SmartAlertList from 'promise-loader?global,synthetics!in-synthetics/dashboards/global/SmartAlertList';
+// @ts-expect-error module need to be translated to TS
 import SyntheticLocationView from 'promise-loader?global,synthetics!in-synthetics/dashboards/global/LocationList';
 // @ts-expect-error module need to be translated to TS
 import SyntheticsView from 'promise-loader?global,synthetics!in-synthetics/dashboards/global/TestSummaryList';
@@ -15,14 +17,15 @@ import SyntheticSummaryDashboard from 'promise-loader?global,synthetics!in-synth
 import { Route } from 'react-router-dom';
 import React from 'react';
 
-// @ts-expect-error module need to be translated to TS
-import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import {
   syntheticsPath,
   syntheticLocationPath,
   syntheticsDashboard,
-  syntheticDetailsPath
+  syntheticDetailsPath,
+  syntheticSmartAlertsPath
 } from 'in-synthetics/navigation/paths';
+// @ts-expect-error module need to be translated to TS
+import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 
 export default [
   <Route key="syntheticTests" exact path={syntheticsPath}>
@@ -30,6 +33,9 @@ export default [
   </Route>,
   <Route key="syntheticLocations" exact path={syntheticLocationPath}>
     {renderAsyncRouteChildren(SyntheticLocationView)}
+  </Route>,
+  <Route key="syntheticSmartAlerts" exact path={syntheticSmartAlertsPath}>
+    {renderAsyncRouteChildren(SmartAlertList)}
   </Route>,
   <Route key="syntheticsDashboard" path={syntheticsDashboard}>
     {renderAsyncRouteChildren(SyntheticSummaryDashboard)}
