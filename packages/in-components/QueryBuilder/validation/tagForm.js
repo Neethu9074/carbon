@@ -19,7 +19,7 @@ import {
 } from 'in-services/validators/jsonType';
 import * as operatorValueRequirement from 'in-components/QueryBuilder/tagFilter/operatorValueRequirement';
 import * as operatorKeyRequirement from 'in-components/QueryBuilder/tagFilter/operatorKeyRequirement';
-import * as typeToOperatorsMapping from 'in-components/QueryBuilder/tagFilter/typeToOperatorsMapping';
+import { getAllowedOperators } from 'in-components/QueryBuilder/tagFilter/typeToOperatorsMapping';
 import { EQUALS, NOT_EMPTY, IS_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
 import { stringMaxLengthValidator, notBlankValidator } from 'in-services/validators/string';
 import { STRING_MAX_LENGTH } from 'in-components/QueryBuilder/tagFilter/constraints';
@@ -148,7 +148,7 @@ export function changeName(tagCatalog, formalisticTagForm, newName) {
   const previousTagDefinition = tagCatalog.tagsByName[previousName];
   const tagDefinition = tagCatalog.tagsByName[newName];
   if (tagDefinition) {
-    const supportsConfiguredOperator = typeToOperatorsMapping[tagDefinition.type].indexOf(tagForm.operator) >= 0;
+    const supportsConfiguredOperator = getAllowedOperators(tagDefinition).indexOf(tagForm.operator) >= 0;
     if (!supportsConfiguredOperator) {
       tagForm.operator = undefined;
     }
@@ -212,7 +212,7 @@ function identifyFormRequirementsBasedOnPartialInput(tagCatalog, tagName, operat
   }
 
   result.type = tagDefinition.type;
-  result.allowedOperators = typeToOperatorsMapping[tagDefinition.type];
+  result.allowedOperators = getAllowedOperators(tagDefinition);
   result.requiresEntity = tagDefinition.canApplyToSource || tagDefinition.canApplyToDestination;
   result.canApplyToDestination = tagDefinition.canApplyToDestination;
   result.operator = operator = operator ?? (result.allowedOperators && result.allowedOperators[0]) ?? EQUALS;

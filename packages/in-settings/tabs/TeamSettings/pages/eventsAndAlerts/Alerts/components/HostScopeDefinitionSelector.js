@@ -9,8 +9,8 @@ import React from 'react';
 import { SvgIcon } from '@instana/components';
 
 import OperatorSelectorOverlay from 'in-components/QueryBuilder/OperatorSelectorOverlay/OperatorSelectorOverlay';
-import * as typeToOperatorsMapping from 'in-components/QueryBuilder/tagFilter/typeToOperatorsMapping';
 import SimpleValueSelector from 'in-components/QueryBuilder/SimpleValueSelector/SimpleValueSelector';
+import { getAllowedOperators } from 'in-components/QueryBuilder/tagFilter/typeToOperatorsMapping';
 import * as operatorLabels from 'in-components/QueryBuilder/tagFilter/operatorLabelsMapping';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { isNotBlank } from 'in-services/util/string';
@@ -29,6 +29,8 @@ export default React.forwardRef(function HostScopeDefinitionSelector(
 
   const tagName = tagTreeNode?.name ?? '';
   const path = tagTreeNode?.path ?? [];
+  const type = tagTreeNode?.type ?? 'STRING';
+  const idTag = tagTreeNode?.idTag;
 
   return (
     <div className={locals.configurator} ref={ref}>
@@ -43,8 +45,8 @@ export default React.forwardRef(function HostScopeDefinitionSelector(
 
       <Operator
         operator={operator}
-        allowedOperators={typeToOperatorsMapping[tagTreeNode?.type ?? 'STRING']}
-        tagType={tagTreeNode?.type ?? 'STRING'}
+        allowedOperators={getAllowedOperators({ type, idTag })}
+        tagType={type}
         onChange={setOperator}
       />
 
