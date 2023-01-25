@@ -23,7 +23,7 @@ import SaveError from 'in-components/form/SaveError/SaveError';
 import { validate } from 'in-synthetics/utils/scriptUploader';
 import FormGroup from 'in-components/form/FormGroup';
 import { getLocations } from 'in-synthetics/api';
-import Code from 'in-components/form/Code/Code';
+import Code from 'in-synthetics/packages/Code';
 import ComboBox from 'in-components/ComboBox';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
@@ -32,13 +32,14 @@ import { t } from 'in-i18n';
 
 import locals from './RequestResponseStep.mless';
 
-let errors: Error[];
+let errors: Error[] = [];
 
 export interface Props {
   form: MapForm;
   updateForm: (form: MapForm) => void;
   selectedBlueprint: BluePrint;
-  setScriptValidationStatus: React.Dispatch<React.SetStateAction<boolean>>;
+  setEnableNextButton: React.Dispatch<React.SetStateAction<boolean>>;
+  setScriptErrorExists: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface LocationsResponse {
@@ -54,13 +55,20 @@ interface State {
   errorMessage?: string;
 }
 
-export default function RequestResponseStep({ form, updateForm, selectedBlueprint, setScriptValidationStatus }: Props) {
+export default function RequestResponseStep({
+  form,
+  updateForm,
+  selectedBlueprint,
+  setEnableNextButton,
+  setScriptErrorExists
+}: Props) {
   const configForm = form.get('configuration') as MapForm;
   const methodField = configForm.get('operation') as Field<string>;
   const urlField = configForm.get('url') as Field<string>;
   const locations: LocationsResponse = useObservable<any, []>(() => getLocations(), []) || dummyLocations;
   const locationsField = form.get('locations') as Field<string[]>;
   const [state, setState] = useState<State>({ loading: false });
+  const script = configForm.get('script') as Field<string>;
 
   function onLocationSelect(location: Record<string, string>) {
     const selectedLocations = locationsField.value;
@@ -130,12 +138,14 @@ export default function RequestResponseStep({ form, updateForm, selectedBlueprin
     }
   }
 
-  function updateCode(text: string) {
+  const updateCode = React.useCallback(text => {
     errors = validate(text);
     if (errors.length === 0) {
-      setScriptValidationStatus(true);
+      setScriptErrorExists(false);
+      setEnableNextButton(true);
     } else {
-      setScriptValidationStatus(false);
+      setScriptErrorExists(true);
+      setEnableNextButton(false);
     }
     setState({
       loading: false,
@@ -146,7 +156,7 @@ export default function RequestResponseStep({ form, updateForm, selectedBlueprin
         (field as Field<string>).setValue(text).setTouched(true)
       )
     );
-  }
+  }, []);
 
   return (
     <Section headingText={t('in-synthetics:dialog.createTest.requestStep.title')}>
@@ -218,14 +228,21 @@ export default function RequestResponseStep({ form, updateForm, selectedBlueprin
             <SubTitle>{t('in-synthetics:dialog.createTest.requestStep.popSubTitle')}</SubTitle>
             {renderLocations()}
           </div>
-          <div className={locals.scriptUpload}>
-            {state.script && (
-              <>
-                <Code lineNumbers mode={'shell'} value={state.script} onChange={value => updateCode(value)} />
-                {errors.length !== 0 && <ErrorList errors={errors} />}
-              </>
-            )}
-          </div>
+
+          {selectedBlueprint.type === 'Script API' && (
+            <div className={locals.scriptUpload}>
+              {script.map(field => (
+                <>
+                  <Code
+                    value={field.value}
+                    onChange={updateCode}
+                    placeholder={t('in-synthetics:dialog.createTest.requestStep.enterTheScriptMessage')}
+                  />
+                  {errors && errors.length !== 0 && <ErrorList errors={errors} />}
+                </>
+              ))}
+            </div>
+          )}
         </Stack>
       </div>
     </Section>

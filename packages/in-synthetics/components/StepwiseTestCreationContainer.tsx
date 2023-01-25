@@ -23,9 +23,10 @@ export interface Props {
   step: number;
   form: MapForm;
   updateForm: (form: MapForm) => void;
-  setScriptValidationStatus: React.Dispatch<React.SetStateAction<boolean>>;
+  setEnableNextButton: React.Dispatch<React.SetStateAction<boolean>>;
   selectedBlueprint: BluePrint;
   setSelectedBlueprint: (item: BluePrint) => void;
+  setScriptErrorExists: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface ApplicationsResponse {
@@ -39,9 +40,10 @@ export default function StepwiseTestCreationContainer({
   step,
   form,
   updateForm,
-  setScriptValidationStatus,
+  setEnableNextButton,
   selectedBlueprint,
-  setSelectedBlueprint
+  setSelectedBlueprint,
+  setScriptErrorExists
 }: Props) {
   const applications: ApplicationsResponse =
     useObservable<any, []>(() => getApplicationsList(), []) || dummyApplications;
@@ -62,7 +64,8 @@ export default function StepwiseTestCreationContainer({
             selectedBlueprint={selectedBlueprint}
             form={form}
             updateForm={updateForm}
-            setScriptValidationStatus={setScriptValidationStatus}
+            setEnableNextButton={setEnableNextButton}
+            setScriptErrorExists={setScriptErrorExists}
           />
         );
       case 2:

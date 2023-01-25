@@ -22,9 +22,10 @@ export interface Props {
   updateStep: (step: number) => void;
   updateForm: (form: MapForm) => void;
   stepConfigs: readonly { title: string }[];
-  setScriptValidationStatus: React.Dispatch<React.SetStateAction<boolean>>;
+  setEnableNextButton: React.Dispatch<React.SetStateAction<boolean>>;
   selectedBlueprint: BluePrint;
   setSelectedBlueprint: (item: BluePrint) => void;
+  setScriptErrorExists: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function TestCreationWithSteps({
@@ -35,9 +36,10 @@ export default function TestCreationWithSteps({
   updateStep,
   updateForm,
   stepConfigs,
-  setScriptValidationStatus,
+  setEnableNextButton,
   selectedBlueprint,
-  setSelectedBlueprint
+  setSelectedBlueprint,
+  setScriptErrorExists
 }: Props) {
   const onProceed = () => {
     if (step !== stepConfigs.length - 1) {
@@ -62,9 +64,10 @@ export default function TestCreationWithSteps({
         step={step}
         form={form}
         updateForm={updateForm}
-        setScriptValidationStatus={setScriptValidationStatus}
+        setEnableNextButton={setEnableNextButton}
         selectedBlueprint={selectedBlueprint}
         setSelectedBlueprint={setSelectedBlueprint}
+        setScriptErrorExists={setScriptErrorExists}
       />
     </form>
   );

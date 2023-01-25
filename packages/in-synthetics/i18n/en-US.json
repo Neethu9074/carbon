@@ -25,7 +25,8 @@
         "popSubTitle": "Point of Presence",
         "uploadScriptTitle": "Upload the script",
         "failureToReadFileContent": "Failed to read file content: {{error}}",
-        "emptyScriptFileError": "Empty code. Nothing to validate."
+        "emptyScriptFileError": "Empty code. Nothing to validate.",
+        "enterTheScriptMessage": "Enter the script here"
       },
       "basicDetails": {
         "title": "What is the name of this ping test",

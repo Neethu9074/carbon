@@ -30,8 +30,9 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
   const [simpleModeStep, setSimpleModeStep] = useState(0);
   const [form, setForm] = useState(() => createForm());
   const formId = 'create-synthetics-test-form';
-  const [scriptValidationStatus, setScriptValidationStatus] = useState(false);
+  const [enableNextButton, setEnableNextButton] = useState(false);
   const [selectedBlueprint, setSelectedBlueprint] = useState(blueprintConfig[0]);
+  const [scriptErrorExists, setScriptErrorExists] = useState(false);
 
   const stepConfigs = Object.freeze([
     {
@@ -92,8 +93,8 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
       case 1:
         return (
           !configForm.hierarchyValid ||
-          !locationsField.hierarchyValid ||
-          (selectedBlueprint.type === 'Script API' && !scriptValidationStatus)
+          locationsField.value.length === 0 ||
+          (selectedBlueprint.type === 'Script API' && !enableNextButton)
         );
       case 2:
         return !frequencyField.valid;
@@ -105,8 +106,12 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
   };
 
   const onGoBack = () => {
-    if (selectedBlueprint.type === 'Script API' && (simpleModeStep === 1 || simpleModeStep === 2)) {
-      setScriptValidationStatus(false);
+    if (
+      selectedBlueprint.type === 'Script API' &&
+      (simpleModeStep === 1 || simpleModeStep === 2) &&
+      scriptErrorExists
+    ) {
+      setEnableNextButton(false);
     }
     if (simpleModeStep !== 0) {
       setSimpleModeStep(simpleModeStep - 1);
@@ -137,9 +142,10 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
         updateStep={setSimpleModeStep}
         formId={formId}
         stepConfigs={stepConfigs}
-        setScriptValidationStatus={setScriptValidationStatus}
+        setEnableNextButton={setEnableNextButton}
         selectedBlueprint={selectedBlueprint}
         setSelectedBlueprint={setSelectedBlueprint}
+        setScriptErrorExists={setScriptErrorExists}
       />
       <DialogFooter
         formId={formId}
