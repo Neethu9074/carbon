@@ -569,7 +569,7 @@
         "erroneousCalls": "Erroneous Calls",
         "errorLogs": "Error Logs",
         "warnLogs": "Warn Logs",
-        "latency": "Latency",
+        "duration": "Duration",
         "timeline": "Timeline",
         "serviceEndpointList": "Service Endpoint List",
         "largeTrace": "Large Trace",

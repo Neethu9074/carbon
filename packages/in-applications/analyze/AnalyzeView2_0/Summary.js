@@ -233,7 +233,7 @@ export default function Summary({
           </Col>
           <Col xs preserveVerticalGutter>
             <KpiCard
-              title={t('in-applications:traceDetail.tabs.summary.latency')}
+              title={t('in-applications:traceDetail.tabs.summary.duration')}
               value={trace.issues && trace.issues.includes('missing_root_span') ? undefined : trace.duration}
               renderValue={latency.detailed}
             />
