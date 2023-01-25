@@ -24,10 +24,12 @@ import ApiQueryAction from 'in-components/QueryBuilder/workspace/ApiQueryAction/
 import TraceQueryBuilder from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
 import CallQueryBuilder from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
+import { findInvalidTraceIdTagFilter } from 'in-analyze/AnalyzeView/validationUtils';
 import { ActionSection } from 'in-components/workspace/ActionSection/ActionSection';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import Sections from 'in-components/workspace/Sections';
+import { emptyArray } from 'in-services/fixedObjects';
 import { getPluginName } from 'in-sdk/pluginName';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
@@ -61,6 +63,7 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
     CustomAction
   } = props;
 
+  const { hasError, errors } = validate(formModel);
   return (
     <Sticky
       header={<AnalyzeHeader formModel={formModel} isGrouped={isGrouped} />}
@@ -85,6 +88,8 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
               getSuggestionLabel={({ item, tagName }) =>
                 tagName === 'technology' ? `${getPluginName(item)} (${item})` : item
               }
+              hasError={hasError}
+              errors={errors}
             />
 
             <GroupingConfiguratorSection
@@ -124,4 +129,13 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
       <Footer />
     </Sticky>
   );
+}
+
+function validate(formModel) {
+  const invalidTraceIdTagFilter = findInvalidTraceIdTagFilter(formModel, 'trace.id');
+  const hasError = invalidTraceIdTagFilter != null;
+  const errors = hasError
+    ? [t('in-applications:analyze.invalidTraceIdTagFilter', { traceId: invalidTraceIdTagFilter.value })]
+    : emptyArray;
+  return { hasError, errors };
 }
