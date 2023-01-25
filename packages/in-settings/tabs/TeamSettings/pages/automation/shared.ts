@@ -35,7 +35,7 @@ export const getDocLinkFromFields = (fields: Field[] | undefined): Field =>
 export const getBodyFromFields = (fields: Field[] | undefined): Field =>
   getFieldsByNames(fields)?.body ?? { value: '', encoding: 'ascii', name: 'body' };
 export const getHeaderFromFields = (fields: Field[] | undefined): Field =>
-  getFieldsByNames(fields)?.header ?? { value: '{', encoding: 'ascii', name: 'header' };
+  getFieldsByNames(fields)?.header ?? { value: '{}', encoding: 'ascii', name: 'header' };
 export const getMethodFromFields = (fields: Field[] | undefined): Field =>
   getFieldsByNames(fields)?.method ?? { value: 'GET', encoding: 'ascii', name: 'method' };
 export const getHostFromFields = (fields: Field[] | undefined): Field =>
