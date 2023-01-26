@@ -177,7 +177,7 @@ function onSave({
     return acc;
   }, []);
   const hiddenInputParameters = (action.inputParameters ?? []).reduce<ActionExecutionParameter[]>((acc, parameter) => {
-    if (parameter.type === 'hidden') {
+    if (parameter.hidden) {
       return [...acc, { name: parameter.name, value: parameter.value ?? '' }];
     }
     return acc;
