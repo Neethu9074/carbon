@@ -44,10 +44,6 @@
             "title": "When to use?",
             "line1": "Use an HTTP Action test to test a single Rest API"
           },
-          "whoShouldUse": {
-            "title": "Who should use?",
-            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
-          },
           "tipsForUsing": {
             "title": "Tips for using",
             "line1": "Step 1: Choose the type of test which you wish to create.",
@@ -61,9 +57,6 @@
           "headline": "HTTP Script",
           "whenToUse": {
             "line1": "Use an HTTP Script test and Node.js based script to test the sequence of multiple Rest APIs"
-          },
-          "whoShouldUse": {
-            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
           },
           "tipsForUsing": {
             "line1": "Step 1: Choose the type of test which you wish to create.",

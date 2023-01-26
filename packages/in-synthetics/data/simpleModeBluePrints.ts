@@ -6,7 +6,6 @@
 import { t } from 'in-i18n';
 
 const whenToUse = t('in-synthetics:dialog.createTest.bluePrint.pingApi.whenToUse.title');
-const whoShouldUse = t('in-synthetics:dialog.createTest.bluePrint.pingApi.whoShouldUse.title');
 const tipsForUsing = t('in-synthetics:dialog.createTest.bluePrint.pingApi.tipsForUsing.title');
 
 export const blueprintConfig: readonly BluePrint[] = Object.freeze([
@@ -18,10 +17,6 @@ export const blueprintConfig: readonly BluePrint[] = Object.freeze([
       {
         headline: whenToUse,
         htmlContent: t('in-synthetics:dialog.createTest.bluePrint.pingApi.whenToUse.line1')
-      },
-      {
-        headline: whoShouldUse,
-        htmlContent: t('in-synthetics:dialog.createTest.bluePrint.pingApi.whoShouldUse.line1')
       },
       {
         headline: tipsForUsing,
@@ -44,10 +39,6 @@ export const blueprintConfig: readonly BluePrint[] = Object.freeze([
       {
         headline: whenToUse,
         htmlContent: t('in-synthetics:dialog.createTest.bluePrint.scriptApi.whenToUse.line1')
-      },
-      {
-        headline: whoShouldUse,
-        htmlContent: t('in-synthetics:dialog.createTest.bluePrint.scriptApi.whoShouldUse.line1')
       },
       {
         headline: tipsForUsing,
