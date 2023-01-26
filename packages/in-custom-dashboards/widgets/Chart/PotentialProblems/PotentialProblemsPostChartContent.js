@@ -24,13 +24,12 @@ import isOutsideCallsShortTermStorage from 'in-alerting/PotentialProblems/Potent
 import getPotentialProblems from 'in-alerting/PotentialProblems/subscription/getPotentialProblems';
 import { isCallQueryValid } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import { trackRequestLoadingTime } from 'in-alerting/PotentialProblems/tracker';
 import { pendingResult } from 'in-services/fixedObjects';
 import { isLoading } from 'in-services/util/result';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
-export function PotentialProblemsPostChartContent({ markerLaneProps, openingDialogDisabled, config, widgetTitle }) {
+export function PotentialProblemsPostChartContent({ openingDialogDisabled, config, widgetTitle }) {
   const globalTimeConfig = useTimeConfig();
 
   const outsideCallsShortTermStorage = isOutsideCallsShortTermStorage(globalTimeConfig);
@@ -78,7 +77,7 @@ export function PotentialProblemsPostChartContent({ markerLaneProps, openingDial
     ]) ?? pendingResult;
 
   return (
-    <MarkerLanesPresenter {...markerLaneProps}>
+    <>
       {!outsideCallsShortTermStorage && (
         <PotentialProblemsLanePresenter
           potentialProblems={potentialProblemsResult?.data ?? emptyPotentialProblems}
@@ -92,7 +91,7 @@ export function PotentialProblemsPostChartContent({ markerLaneProps, openingDial
           applications={{}}
         />
       )}
-    </MarkerLanesPresenter>
+    </>
   );
 }
 

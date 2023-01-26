@@ -114,7 +114,6 @@ const ChartReactWrapper = React.forwardRef(function ChartReactWrapper(props, out
   useEffect(() => () => chart?.dispose(), [chart]);
 
   const heightOfDrawableCanvas = chart ? chartHeight - chart.config.timeAxisHeight - chart.config.markerPaneHeight : 0;
-
   return (
     <div
       className={locals.chart}
@@ -165,7 +164,8 @@ const ChartReactWrapper = React.forwardRef(function ChartReactWrapper(props, out
             {preAndPostContentConfig &&
               renderPostChartContent({
                 ...preAndPostContentConfig,
-                chartContentPosition: 'post'
+                chartContentPosition: 'post',
+                displayReleaseLane: automaticallySize
               })}
           </div>
         )}
