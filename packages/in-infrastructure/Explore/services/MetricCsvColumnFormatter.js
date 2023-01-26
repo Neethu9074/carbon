@@ -49,6 +49,10 @@ export function formatCsvColumnValue(formatter, value) {
   // convert decimal representation to a percentage
   if (formatterName === PERCENTAGE_FORMATTER_TYPE) {
     metricValue = Number(value * 100).toFixed(2);
+    // Round to nearest integer if specified by the formatter
+    if (formatter.toString().includes('zeroDecimalPlaces')) {
+      metricValue = Math.round(metricValue);
+    }
   }
   return metricValue;
 }
