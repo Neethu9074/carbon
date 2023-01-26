@@ -12,8 +12,9 @@ import { getAllAlertConfigs } from 'in-alerting/smart-alerts/synthetics/api/synt
 // @ts-expect-error Module needs to be translated to TS
 import Sticky from 'in-components/Sticky';
 import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
+import AlertBaseList from 'in-alerting/smart-alerts/components/AlertsBaseList';
+import { tableActions } from 'in-alerting/smart-alerts/synthetics/Alerts';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
-import AlertBaseList from 'in-alerting/smart-alerts/AlertsBaseList';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import Footer from 'in-components/Footer';
 import { t } from 'in-i18n';
@@ -30,7 +31,8 @@ export default function SmartAlertList() {
         />
         <AlertBaseList<SyntheticAlertConfigWithMetadata>
           extraColumnDefinitions={getColumnDefinitions()}
-          loadEntities={() => getAllAlertConfigs('', { asObservable: false })}
+          loadEntities={getAllAlertConfigs}
+          tableActions={tableActions}
         />
       </LeftRightPadding>
       <Footer />
@@ -67,13 +69,6 @@ function getColumnDefinitions() {
     {
       id: 'filterApplied',
       label: t('in-synthetics:dashboard.alertList.filterApplied'),
-      getContent: () => {
-        return <span />;
-      }
-    },
-    {
-      id: 'actions',
-      label: t('in-synthetics:dashboard.alertList.actions'),
       getContent: () => {
         return <span />;
       }

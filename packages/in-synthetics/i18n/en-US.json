@@ -340,8 +340,7 @@
       "alertName": "Name",
       "timeThreshold": "Time Threshold",
       "testsApplied": "Tests Applied",
-      "filterApplied": "Filter Applied",
-      "actions": "Actions"
+      "filterApplied": "Filter Applied"
     }
   }
 }
