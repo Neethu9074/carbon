@@ -11,17 +11,10 @@ import React from 'react';
 import { Link, Typography, Spacer } from '@instana/components';
 
 import {
-  API_KEY,
-  BASIC_AUTH,
-  BEARER_TOKEN,
-  getAuthenFromFields,
-  getBodyFromFields,
-  getHeaderFromFields,
-  getHostFromFields,
-  getIgnoreCertErrorsFromFields,
-  getMethodFromFields,
+  AUTH_TYPES,
   getScriptFromFields,
   getType,
+  getWebhookFields,
   isScript,
   isWebhook
 } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
@@ -33,7 +26,6 @@ import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import { getLinkToAnalyze } from 'in-logging/navigation/paths';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
-import { AdditionalHeaders, Authen } from 'in-api/automation';
 import { close } from 'in-components/DialogPresenter/store';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import { Action, Parameter, VolatileId } from 'in-types';
@@ -122,34 +114,6 @@ export default function RunActionContent({
   );
 }
 
-export function getWebhookFields(action: Action) {
-  let host = getHostFromFields(action.fields);
-  const method = getMethodFromFields(action.fields);
-  const body = getBodyFromFields(action.fields);
-  const headerString = getHeaderFromFields(action.fields);
-  const header: AdditionalHeaders = JSON.parse(headerString);
-  const ignoreCertErrors = getIgnoreCertErrorsFromFields(action.fields);
-  const authenString = getAuthenFromFields(action.fields);
-  const authen: Authen = JSON.parse(authenString);
-  if (authen.type === BASIC_AUTH) {
-    const { username, password } = authen;
-    const authenString = `Basic ${btoa(`${username}:${password}`)}`;
-    header['Authorization'] = authenString;
-  } else if (authen.type === BEARER_TOKEN) {
-    const { bearerToken } = authen;
-    const authenString = `Bearer ${bearerToken}`;
-    header['Authorization'] = authenString;
-  } else if (authen.type === API_KEY) {
-    const { apiKey, apiKeyAddTo, apiKeyValue } = authen;
-    if (apiKeyAddTo === 'header') {
-      header[apiKey!] = apiKeyValue!;
-    } else if (apiKeyAddTo === 'query') {
-      host = host.includes('?') ? `${host}&${apiKey}=${apiKeyValue}` : `${host}?${apiKey}=${apiKeyValue}`;
-    }
-  }
-  return { host, method, body, header: JSON.stringify(header), ignoreCertErrors };
-}
-
 function AgentSelection({
   form,
   setForm,
@@ -203,22 +167,26 @@ function AgentSelection({
 
 function ScriptActionContent({ action }: Pick<RunActionContentProps, 'action'>) {
   const script = getScriptFromFields(action.fields);
+  let plaintextScript = script.value;
+  if (script.encoding === 'base64') {
+    plaintextScript = atob(plaintextScript);
+  }
   return (
     <DescriptionList>
       <DescriptionItem
         className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
         title={t('in-events:titleScriptContent')}
       >
-        <Code withExpandButton withoutCopyButton code={atob(script)} lang={'bash'} softWrap />
+        <Code withExpandButton withoutCopyButton code={plaintextScript} lang={'bash'} softWrap />
       </DescriptionItem>
     </DescriptionList>
   );
 }
 
 function WebhookActionContent({ action }: Pick<RunActionContentProps, 'action'>) {
-  const { host, method, body, header } = getWebhookFields(action);
-  const headerEntries = Object.entries(JSON.parse(header) as AdditionalHeaders);
-
+  const { host, method, body, headerParsed, authenParsed } = getWebhookFields(action);
+  const headerEntries = Object.entries(headerParsed);
+  const authType = AUTH_TYPES.find(a => a.value === authenParsed.type)?.translation;
   return (
     <DescriptionList>
       <DescriptionItem
@@ -226,14 +194,14 @@ function WebhookActionContent({ action }: Pick<RunActionContentProps, 'action'>)
         title={t('in-events:request')}
       >
         <div>
-          <Typography variant="body-small">{t('in-events:method', { method })}</Typography>
+          <Typography variant="body-small">{t('in-events:method', { method: method.value })}</Typography>
         </div>
         <div>
-          <Typography variant="body-small">{t('in-events:host', { host })}</Typography>
+          <Typography variant="body-small">{t('in-events:host', { host: host.value })}</Typography>
         </div>
         {body && (
           <div>
-            <Typography variant="body-small">{t('in-events:body', { body })}</Typography>
+            <Typography variant="body-small">{t('in-events:body', { body: body.value })}</Typography>
           </div>
         )}
         {headerEntries?.length > 0 && (
@@ -250,6 +218,9 @@ function WebhookActionContent({ action }: Pick<RunActionContentProps, 'action'>)
             </Typography>
           </div>
         )}
+        <div>
+          <Typography variant="body-small">{t('in-events:authType', { authType })}</Typography>
+        </div>
       </DescriptionItem>
     </DescriptionList>
   );

@@ -30,6 +30,7 @@
   "method": "Method: {{method}}",
   "host": "Host: {{host}}",
   "body": "Body: {{body}}",
+  "authType": "Authorization Type: {{authType}}",
   "headers": "Headers:",
   "secretPath": "Secret Path",
   "secretKey": "Secret Key",

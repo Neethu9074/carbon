@@ -14,20 +14,16 @@ import {
   BASIC_AUTH,
   BEARER_TOKEN,
   getAuthenFromFields,
-  getBodyFromFields,
   getDocLinkFromFields,
-  getHeaderFromFields,
-  getHostFromFields,
-  getIgnoreCertErrorsFromFields,
-  getMethodFromFields,
   getScriptFromFields,
+  getWebhookFields,
   isDocLink,
   isScript,
   isWebhook
 } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import { Header } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/AdditionalHeadersTable';
 import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
-import { AdditionalHeaders, ApiKeyAuth, Authen, BasicAuth, BearerAuth } from 'in-api/automation';
+import { ApiKeyAuth, BasicAuth, BearerAuth } from 'in-api/automation';
 import { notBlankValidator } from 'in-services/validators/string';
 import { isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
@@ -119,7 +115,7 @@ export function createActionFormDefinition(action: ActionFormEntity, _isCreate: 
 }
 
 export function putDocLinkField(form: MapForm, action: ActionFormEntity) {
-  const value = getDocLinkFromFields(action.fields);
+  const value = getDocLinkFromFields(action.fields).value;
 
   // TODO: add validator for URL???
   return form.put(
@@ -136,12 +132,16 @@ export function removeDocLinkField(form: MapForm) {
 }
 
 export function putScriptField(form: MapForm, action: ActionFormEntity) {
-  const value = atob(getScriptFromFields(action.fields));
+  const script = getScriptFromFields(action.fields);
+  let plaintextScript = script.value;
+  if (script.encoding === 'base64') {
+    plaintextScript = atob(plaintextScript);
+  }
 
   return form.put(
     'script',
     createField({
-      value,
+      value: plaintextScript,
       validator: notBlankValidator
     })
   );
@@ -152,25 +152,18 @@ export function removeScriptField(form: MapForm) {
 }
 
 export function putWebhookFields(form: MapForm, action: ActionFormEntity) {
-  const method = getMethodFromFields(action.fields);
-  const host = getHostFromFields(action.fields);
-  const body = getBodyFromFields(action.fields);
-  const headerString = getHeaderFromFields(action.fields);
-  const header: AdditionalHeaders = JSON.parse(headerString);
-  const ignoreCertErrors = getIgnoreCertErrorsFromFields(action.fields);
-  const authenString = getAuthenFromFields(action.fields);
-  const authen: Authen = JSON.parse(authenString);
+  const { method, host, body, headerParsed, ignoreCertErrors, authenParsed } = getWebhookFields(action);
   const {
     'Content-Type': contentType,
     Accept: accept,
     'Accept-Language': acceptLanguage,
     ...additionalHeaders
-  } = header;
+  } = headerParsed;
   form = form
     .put(
       'method',
       createField({
-        value: method,
+        value: method.value,
         validator: notBlankValidator
       })
     )
@@ -178,26 +171,26 @@ export function putWebhookFields(form: MapForm, action: ActionFormEntity) {
     .put(
       'host',
       createField({
-        value: host,
+        value: host.value,
         validator: notBlankValidator
       })
     )
     .put(
       'body',
       createField({
-        value: body
+        value: body.value
       })
     )
     .put(
       'ignoreCertErrors',
       createField({
-        value: ignoreCertErrors === 'true'
+        value: ignoreCertErrors.value === 'true'
       })
     )
     .put(
       'authType',
       createField({
-        value: authen.type,
+        value: authenParsed.type,
         validator: notBlankValidator
       })
     )
@@ -231,9 +224,9 @@ export function putWebhookFields(form: MapForm, action: ActionFormEntity) {
         validator: additionalHeadersValidator
       })
     );
-  if (authen.type == BASIC_AUTH) form = putBasicFields(form, action);
-  else if (authen.type == BEARER_TOKEN) form = putBearerField(form, action);
-  else if (authen.type == API_KEY) form = putApiKeyFields(form, action);
+  if (authenParsed.type == BASIC_AUTH) form = putBasicFields(form, action);
+  else if (authenParsed.type == BEARER_TOKEN) form = putBearerField(form, action);
+  else if (authenParsed.type == API_KEY) form = putApiKeyFields(form, action);
   return form;
 }
 
@@ -254,7 +247,7 @@ export function removeWebhookFields(form: MapForm) {
 
 export function putBasicFields(form: MapForm, action: ActionFormEntity) {
   const authenString = getAuthenFromFields(action.fields);
-  const authen: BasicAuth = JSON.parse(authenString);
+  const authen: BasicAuth = JSON.parse(authenString.value);
   form = removeApiKeyFields(form);
   form = removeBearerField(form);
   return form
@@ -275,7 +268,7 @@ export function putBasicFields(form: MapForm, action: ActionFormEntity) {
 }
 export function putBearerField(form: MapForm, action: ActionFormEntity) {
   const authenString = getAuthenFromFields(action.fields);
-  const authen: BearerAuth = JSON.parse(authenString);
+  const authen: BearerAuth = JSON.parse(authenString.value);
   form = removeBasicFields(form);
   form = removeApiKeyFields(form);
   return form.put(
@@ -288,7 +281,7 @@ export function putBearerField(form: MapForm, action: ActionFormEntity) {
 }
 export function putApiKeyFields(form: MapForm, action: ActionFormEntity) {
   const authenString = getAuthenFromFields(action.fields);
-  const authen: ApiKeyAuth = JSON.parse(authenString);
+  const authen: ApiKeyAuth = JSON.parse(authenString.value);
   form = removeBasicFields(form);
   form = removeBearerField(form);
   return form
