@@ -13,12 +13,13 @@ import { Button } from '@instana/components';
 import {
   getInterpreterFromFields,
   getScriptFromFields,
+  getWebhookFields,
   isScript,
   isWebhook
 } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
-import RunActionContent, { getWebhookFields } from 'in-events/components/AutomationActions/RunActionContent';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import { ActionExecutionParameter, runScriptAction, runWebhookAction } from 'in-api/automation';
+import RunActionContent from 'in-events/components/AutomationActions/RunActionContent';
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import { notBlankValidator } from 'in-services/validators/string';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
@@ -161,19 +162,22 @@ function onSave({
         {
           name,
           type: 'vault',
-          value: JSON.stringify({ secretPath: pathField.value ?? '', secretKey: keyField.value ?? '' })
+          value: JSON.stringify({
+            secretPath: pathField?.value?.trim() ?? '',
+            secretKey: keyField?.value?.trim() ?? ''
+          })
         }
       ];
     }
     // WILL NEED TO RESOLVE DYNAMIC PARAMS HERE
     const value = (parameter as Field<string>).value;
     if (value) {
-      return [...acc, { name, value }];
+      return [...acc, { name, value: value?.trim() }];
     }
     return acc;
   }, []);
   const hiddenInputParameters = (action.inputParameters ?? []).reduce<ActionExecutionParameter[]>((acc, parameter) => {
-    if (parameter.type === 'hidden') {
+    if (parameter.hidden) {
       return [...acc, { name: parameter.name, value: parameter.value ?? '' }];
     }
     return acc;
@@ -207,7 +211,7 @@ function onSave({
       inputParameters: allInputParameters
     }).once(handleActionResponse);
   } else if (isWebhook(action.type)) {
-    const { host, method, body, ignoreCertErrors, header } = getWebhookFields(action);
+    const { host, method, body, ignoreCertErrors, header, authen } = getWebhookFields(action);
     runWebhookAction({
       volatileId: selectedVolatileId,
       event,
@@ -217,6 +221,7 @@ function onSave({
       body,
       ignoreCertErrors,
       header,
+      authen,
       inputParameters: allInputParameters
     }).once(handleActionResponse);
   }

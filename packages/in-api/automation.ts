@@ -7,7 +7,7 @@
 import { combineLatest, just, Observable, timeout } from '@instana/observables';
 
 import { DOC_LINK_TYPE, HTTP_METHODS_WITH_BODY } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
-import createAgentResponseObservable, { AgentResponse } from 'in-subscription/agentResponse';
+import createAgentResponseObservable from 'in-subscription/agentResponse';
 import { Action, Field, VolatileId, Event, ActionMatch } from 'in-types';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { error } from 'in-services/util/result';
@@ -94,16 +94,16 @@ export const createDocLinkField = (value: string): Field => ({
 
 export const createScriptFields = (value: string): Field[] => [
   {
-    description: 'script interpreter',
+    description: 'script subtype',
     encoding: 'base64',
-    name: 'interpreter',
+    name: 'subtype',
     value: btoa('bash')
   },
   {
     value: btoa(value),
     description: 'script content',
     encoding: 'base64',
-    name: 'script_content'
+    name: 'script_ssh'
   }
 ];
 
@@ -222,13 +222,24 @@ interface RunActionBaseParams {
   inputParameters: ActionExecutionParameter[];
 }
 
+interface RunActionRequest {
+  name: string;
+  value: string;
+  encoding: string;
+}
+
+interface RunActionParams extends RunActionBaseParams {
+  type: string;
+  request: RunActionRequest[];
+}
+
 interface RunScriptActionParams extends RunActionBaseParams {
-  script: string;
-  interpreter: string;
+  script: Field;
+  interpreter: Field;
 }
 
 // We are using a timeout here to prevent the UI from hanging if the agent is not responding (sensor not installed).
-function runAction(runActionObservable: Observable<AgentResponse>) {
+function runAction({ volatileId, event, actionName, type, request, inputParameters }: RunActionParams) {
   return combineLatest(
     [
       timeout(10000).flatMap(() =>
@@ -241,7 +252,20 @@ function runAction(runActionObservable: Observable<AgentResponse>) {
           ])
         )
       ),
-      runActionObservable
+      createAgentResponseObservable({
+        action: 'action.run',
+        target: volatileId,
+        args: {
+          type,
+          inputParameters,
+          async: 'true',
+          event: JSON.stringify(event),
+          eventId: event?.id,
+          actionName,
+          timeout: '300',
+          request: request
+        }
+      })
     ],
     false
   );
@@ -255,43 +279,35 @@ export function runScriptAction({
   interpreter,
   inputParameters
 }: RunScriptActionParams) {
-  return runAction(
-    createAgentResponseObservable({
-      action: 'action.run',
-      target: volatileId,
-      args: {
-        type: 'SCRIPT',
-        async: 'true',
-        event: JSON.stringify(event),
-        problemId: event?.problem?.id,
-        problemText: event?.problem?.problemText,
-        actionName,
-        inputParameters,
-        timeout: '300',
-        request: [
-          {
-            name: 'script_content',
-            value: script,
-            encoded: 'base64'
-          },
+  return runAction({
+    type: 'SCRIPT',
+    volatileId,
+    event,
+    actionName,
+    inputParameters,
+    request: [
+      {
+        name: 'script_ssh',
+        value: script.value,
+        encoding: script.encoding
+      },
 
-          {
-            name: 'interpreter',
-            value: interpreter,
-            encoded: 'base64'
-          }
-        ]
+      {
+        name: 'subtype',
+        value: interpreter.value,
+        encoding: interpreter.encoding
       }
-    })
-  );
+    ]
+  });
 }
 
 interface RunWebhookActionParams extends RunActionBaseParams {
-  method: string;
-  host: string;
-  body: string;
-  ignoreCertErrors: string;
-  header: string;
+  method: Field;
+  host: Field;
+  body: Field;
+  ignoreCertErrors: Field;
+  header: Field;
+  authen: Field;
 }
 
 export function runWebhookAction({
@@ -303,51 +319,48 @@ export function runWebhookAction({
   body,
   ignoreCertErrors,
   header,
+  authen,
   inputParameters
 }: RunWebhookActionParams) {
-  return runAction(
-    createAgentResponseObservable({
-      action: 'action.run',
-      target: volatileId,
-      args: {
-        type: 'HTTP',
-        async: 'true',
-        event: JSON.stringify(event),
-        problemId: event?.problem?.id,
-        problemText: event?.problem?.problemText,
-        actionName,
-        timeout: '300',
-        inputParameters,
-        request: [
-          {
-            name: 'method',
-            value: method,
-            encoded: 'ascii'
-          },
+  return runAction({
+    type: 'HTTP',
+    volatileId,
+    event,
+    actionName,
+    inputParameters,
+    request: [
+      {
+        name: 'method',
+        value: method.value,
+        encoding: method.encoding
+      },
 
-          {
-            name: 'host',
-            value: btoa(host),
-            encoded: 'base64'
-          },
+      {
+        name: 'host',
+        value: host.value,
+        encoding: host.encoding
+      },
 
-          {
-            name: 'body',
-            value: btoa(body),
-            encoding: 'base64'
-          },
-          {
-            name: 'ignoreCertErrors',
-            value: ignoreCertErrors,
-            encoding: 'ascii'
-          },
-          {
-            name: 'header',
-            value: btoa(header),
-            encoding: 'base64'
-          }
-        ]
+      {
+        name: 'body',
+        value: body.value,
+        encoding: body.encoding
+      },
+      {
+        name: 'ignoreCertErrors',
+        value: ignoreCertErrors.value,
+        encoding: ignoreCertErrors.encoding
+      },
+      {
+        name: 'header',
+        value: header.value,
+        encoding: header.encoding
+      },
+      {
+        name: 'authen',
+        value: authen.value,
+        encoding: authen.encoding
       }
-    })
-  );
+    ]
+  });
 }
