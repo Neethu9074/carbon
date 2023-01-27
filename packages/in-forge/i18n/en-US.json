@@ -6334,8 +6334,6 @@
       "name": "Name",
       "leaderId": "Leader id",
       "state": "State",
-      "receivedRequests": "Received Requests",
-      "receivedBytesSecond": "Received (Bytes/Second)",
       "received": "Received",
       "sent": "Sent",
       "expireCount": "Expire count",
