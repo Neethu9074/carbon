@@ -42,7 +42,7 @@ export interface ApplicationsResponse {
 export default function BasicDetailsStep({ form, updateForm, selectedBlueprint, applications }: Props) {
   const labelField = form.get('label') as Field<string>;
   const descriptionField = form.get('description') as Field<string>;
-  const applicationsField = form.get('applicationId') as Field<string>;
+  const applicationsField = (form.get('applicationId') as Field<string>) || null;
 
   const [searchInput, setSearchInput] = useState('');
 
@@ -95,7 +95,7 @@ export default function BasicDetailsStep({ form, updateForm, selectedBlueprint, 
                   checked={applicationsField?.value === app.id}
                   onChange={() => {
                     let selectedApplication: string = applicationsField.value;
-                    selectedApplication = selectedApplication === app.id ? ' ' : app.id;
+                    selectedApplication = selectedApplication === app.id ? null : app.id;
                     updateForm(
                       form.updateIn(['applicationId'], (field: Item) =>
                         (field as Field<string>).setValue(selectedApplication).setTouched(true)

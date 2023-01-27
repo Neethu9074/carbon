@@ -69,7 +69,7 @@ export function createForm(selectedBlueprint?: BluePrint, savedState?: Record<st
     .put(
       'applicationId',
       createField({
-        value: savedState?.applicationId ?? '',
+        value: savedState?.applicationId ?? null,
         validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator)
       })
     );
