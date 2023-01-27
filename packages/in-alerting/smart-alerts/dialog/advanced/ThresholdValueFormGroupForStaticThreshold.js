@@ -8,7 +8,6 @@ import React from 'react';
 import ThresholdValueInputWithValidationMessage from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdValueWithValidationMessage';
 import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdConditionFormGroup';
 import UseSuggestedValueButton from 'in-alerting/smart-alerts/components/dialog/advanced/UseSuggestedValueButton';
-import { applicationsAlertingThresholdValueChanged } from 'in-alerting/smart-alerts/applications/tracker';
 import { t } from 'in-i18n';
 
 export default function ThresholdValueFormGroupForStaticThreshold({
@@ -19,6 +18,7 @@ export default function ThresholdValueFormGroupForStaticThreshold({
   percentageMetric = false,
   hasSmallInputField,
   isGlobalSmartAlert,
+  trackChange,
   label = t('in-alerting:smartAlerts.components.smartAlertDialog.thresholdValue')
 }) {
   return (
@@ -27,7 +27,7 @@ export default function ThresholdValueFormGroupForStaticThreshold({
         max={maxValue}
         form={form}
         updateForm={updateForm}
-        trackChange={applicationsAlertingThresholdValueChanged}
+        trackChange={trackChange}
         metricUnitPostfix={metricUnitPostfix}
         percentageMetric={percentageMetric}
         isSmall={hasSmallInputField}

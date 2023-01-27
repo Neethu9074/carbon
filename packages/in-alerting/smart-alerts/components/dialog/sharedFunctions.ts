@@ -5,8 +5,6 @@
 
 import { Field, MapForm } from 'formalistic';
 
-// @ts-expect-error Needs to be converted to typescript
-import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/AlertingChartWrapper';
 import {
   AdaptiveBaselineConfig,
   HistoricBaselineConfig,
@@ -15,6 +13,7 @@ import {
   ThresholdType,
   VersionedConfig
 } from 'in-types';
+import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/AlertingChartWrapper';
 import { ADAPTIVE_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { ApplicationAlertType } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { WebsitesAlertType } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';

@@ -3,10 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 
 import { useObservable } from '@instana/hooks';
 
+import useCalculateThresholdOnBackendSignalEmitter from 'in-alerting/smart-alerts/applications/hooks/useCalculateThresholdOnBackendSignalEmitter';
 import useTagBasedApplicationPayloadConfigurator from 'in-alerting/smart-alerts/applications/hooks/useTagBasedApplicationPayloadConfigurator';
 import { useRemoveInvalidTagsFromFilterExpression } from 'in-alerting/smart-alerts/hooks/useRemoveInvalidTagsFromFilterExpression';
 import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/applications/components/useSimpleModePageNavigation';
@@ -16,8 +17,8 @@ import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applicatio
 import { stepConfigs, stepRenderers } from 'in-alerting/smart-alerts/applications/dialog/simple/simpleModeSteps';
 import AdvancedModeContainer from 'in-alerting/smart-alerts/applications/dialog/advanced/AdvancedModeContainer';
 import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
-import { useThresholdSuggestion } from 'in-alerting/smart-alerts/applications/dialog/useThresholdSuggestion';
 import { AdvancedModeFooter } from 'in-alerting/smart-alerts/components/dialog/advanced/AdvancedModeFooter';
+import { useThresholdSuggestion } from 'in-alerting/smart-alerts/applications/hooks/useThresholdSuggestion';
 import { triggerScrollToInvalidItem } from 'in-components/StepsContainer/useScrollToFirstInvalidNavItem';
 import SimpleModeContainer from 'in-alerting/smart-alerts/components/dialog/simple/SimpleModeContainer';
 import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/AlertingChartWrapper';
@@ -182,12 +183,4 @@ function SmartAlertConfigDialogWithQueryValidation({
       isTagFilterFormModelValid={isTagFilterFormModelValid}
     />
   );
-}
-
-function useCalculateThresholdOnBackendSignalEmitter(form) {
-  const calculateThresholdOnBackend = form.get('hiddenFields').get('calculateThresholdOnBackend').value;
-
-  useEffect(() => {
-    thresholdOrBaselineLoadingSignal$.emit(calculateThresholdOnBackend);
-  }, [calculateThresholdOnBackend]);
 }

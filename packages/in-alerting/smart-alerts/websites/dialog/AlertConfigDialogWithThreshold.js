@@ -7,15 +7,16 @@ import React, { useMemo, useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
 
-import useCalculateThresholdOnBackendSignalEmitter from 'in-alerting/smart-alerts/websites/dialog/useCalculateThresholdOnBackendSignalEmitter';
+import useCalculateThresholdOnBackendSignalEmitter from 'in-alerting/smart-alerts/websites/hooks/useCalculateThresholdOnBackendSignalEmitter';
 import {
   createBoundedAlertQueryBuilder,
   createIsAlertQueryValid
 } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
-import useVerifyCustomPayloadItemsWithTagCatalog from 'in-alerting/smart-alerts/websites/dialog/useVerifyCustomPayloadItemsWithTagCatalog';
+import useVerifyCustomPayloadItemsWithTagCatalog from 'in-alerting/smart-alerts/websites/hooks/useVerifyCustomPayloadItemsWithTagCatalog';
 import { useRemoveInvalidTagsFromFilterExpression } from 'in-alerting/smart-alerts/hooks/useRemoveInvalidTagsFromFilterExpression';
 import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/applications/components/useSimpleModePageNavigation';
 import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/websites/hooks/useTagBasedPayloadConfigurator';
+import { useIsTagFilterFormModelValid } from 'in-alerting/smart-alerts/websites/hooks/useIsTagFilterFormModelValid';
 import { getEnhancedTagFilterFormModel } from 'in-alerting/smart-alerts/components/utils/tagfilterEnrichmentUtil';
 import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
 import { stepConfigs, stepRenderers } from 'in-alerting/smart-alerts/websites/dialog/simple/simpleModeSteps';
@@ -24,12 +25,10 @@ import AdvancedModeContainer from 'in-alerting/smart-alerts/websites/dialog/adva
 import { triggerScrollToInvalidItem } from 'in-components/StepsContainer/useScrollToFirstInvalidNavItem';
 import SimpleModeContainer from 'in-alerting/smart-alerts/components/dialog/simple/SimpleModeContainer';
 import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/AlertingChartWrapper';
-import useThresholdSuggestion from 'in-alerting/smart-alerts/websites/dialog/useThresholdSuggestion';
+import useThresholdSuggestion from 'in-alerting/smart-alerts/websites/hooks/useThresholdSuggestion';
 import { SimpleDialogFooter } from 'in-components/BlueprintFormMultistep/SimpleDialogFooter';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { websitesAlertingStepSwitch } from 'in-alerting/smart-alerts/websites/tracker';
-import { pendingResult } from 'in-services/fixedObjects';
-import useTimeConfig from 'in-hooks/useTimeConfig';
 import { days } from 'in-services/time';
 
 /**
@@ -170,10 +169,4 @@ function SmartAlertConfigDialogWithQueryValidation({
       isTagFilterFormModelValid={isTagFilterFormModelValid}
     />
   );
-}
-
-function useIsTagFilterFormModelValid(tagFilterFormModel, isAlertQueryValid) {
-  const timeConfig = useTimeConfig();
-  const result = useObservable(args => isAlertQueryValid(args), [tagFilterFormModel, timeConfig]) ?? pendingResult;
-  return !!result?.data;
 }

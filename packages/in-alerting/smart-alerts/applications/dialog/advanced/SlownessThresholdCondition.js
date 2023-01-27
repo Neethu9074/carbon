@@ -9,7 +9,8 @@ import React from 'react';
 import {
   applicationsAlertingThresholdAggregationChanged,
   applicationsAlertingThresholdOperatorChanged,
-  applicationsAlertingThresholdTypeChanged
+  applicationsAlertingThresholdTypeChanged,
+  applicationsAlertingThresholdValueChanged
 } from 'in-alerting/smart-alerts/applications/tracker';
 import {
   getAggregationLabel,
@@ -17,8 +18,8 @@ import {
   getConfiguredThreshold,
   getOperatorLabel
 } from 'in-alerting/smart-alerts/applications/dialog/advanced/thresholdConditionUtil';
-import ThresholdValueFormGroupForStaticThreshold from 'in-alerting/smart-alerts/applications/dialog/advanced/ThresholdValueFormGroupForStaticThreshold';
 import FixedThresholdConditionForBuiltInAlert from 'in-alerting/smart-alerts/applications/dialog/advanced/FixedThresholdConditionForBuiltInAlert';
+import ThresholdValueFormGroupForStaticThreshold from 'in-alerting/smart-alerts/dialog/advanced/ThresholdValueFormGroupForStaticThreshold';
 import { ThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdDeviationSliderForm';
 import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdConditionFormGroup';
 import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdOperatorDropDown';
@@ -41,6 +42,7 @@ export default function SlownessThresholdCondition({
   isGlobalSmartAlert
 }) {
   const isBuiltIn = form.get('builtIn').value;
+  const blueprintType = blueprintConfig.type;
   const thresholdType = form.get('threshold').get('type')?.value;
   const metricName = form.get('rule').get('metricName').value;
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
@@ -78,10 +80,10 @@ export default function SlownessThresholdCondition({
               form={form}
               updateForm={updateForm}
               editMode={editMode}
-              trackThresholdTypeChanged={applicationsAlertingThresholdTypeChanged}
               thresholdTypeOptions={thresholdTypeOptions}
+              trackThresholdTypeChanged={applicationsAlertingThresholdTypeChanged}
               isGlobalSmartAlert={isGlobalSmartAlert}
-              blueprintType={blueprintConfig.type}
+              blueprintType={blueprintType}
               showThresholdsHint
             />
           </>
@@ -96,6 +98,7 @@ export default function SlownessThresholdCondition({
           metricUnitPostfix={metricUnitPostfix}
           label={t('in-alerting:smartAlerts.components.smartAlertDialog.labelThreshold')}
           isGlobalSmartAlert={isGlobalSmartAlert}
+          trackChange={applicationsAlertingThresholdValueChanged}
         />
       )}
 

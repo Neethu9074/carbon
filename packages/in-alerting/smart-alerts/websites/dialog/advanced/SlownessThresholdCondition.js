@@ -13,12 +13,11 @@ import {
   websitesAlertingThresholdValueChanged,
   websitesAlertingThresholdTypeChanged
 } from 'in-alerting/smart-alerts/websites/tracker';
-import ThresholdValueInputWithValidationMessage from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdValueWithValidationMessage';
+import ThresholdValueFormGroupForStaticThreshold from 'in-alerting/smart-alerts/dialog/advanced/ThresholdValueFormGroupForStaticThreshold';
 import { ThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdDeviationSliderForm';
 import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdConditionFormGroup';
 import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdOperatorDropDown';
 import { getAggregationValue } from 'in-alerting/smart-alerts/applications/dialog/advanced/thresholdConditionUtil';
-import UseSuggestedValueButton from 'in-alerting/smart-alerts/components/dialog/advanced/UseSuggestedValueButton';
 import ThresholdTypeSelection from 'in-alerting/smart-alerts/websites/dialog/advanced/ThresholdTypeSelection';
 import { getAggregationOptions } from 'in-alerting/smart-alerts/components/dialog/form/ruleForm';
 import ThresholdLabel from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdLabel';
@@ -60,26 +59,22 @@ export default function SlownessThresholdCondition({ form, updateForm, blueprint
           form={form}
           updateForm={updateForm}
           editMode={editMode}
-          trackThresholdTypeChanged={websitesAlertingThresholdTypeChanged}
           thresholdTypeOptions={thresholdTypeOptions}
+          trackThresholdTypeChanged={websitesAlertingThresholdTypeChanged}
           blueprintType={blueprintType}
+          showThresholdsHint
         />
       </ThresholdConditionFormGroup>
 
       {thresholdType === STATIC_THRESHOLD && (
-        <ThresholdConditionFormGroup
-          iconType="lib_threshold"
+        <ThresholdValueFormGroupForStaticThreshold
+          form={form}
+          updateForm={updateForm}
+          maxValue={maxValue}
+          metricUnitPostfix={metricUnitPostfix}
           label={t('in-alerting:smartAlerts.websites.advanced.thresholdValue')}
-        >
-          <ThresholdValueInputWithValidationMessage
-            max={maxValue}
-            form={form}
-            updateForm={updateForm}
-            trackChange={websitesAlertingThresholdValueChanged}
-            metricUnitPostfix={metricUnitPostfix}
-          />
-          <UseSuggestedValueButton form={form} updateForm={updateForm} metricUnitPostfix={metricUnitPostfix} />
-        </ThresholdConditionFormGroup>
+          trackChange={websitesAlertingThresholdValueChanged}
+        />
       )}
 
       {thresholdType !== STATIC_THRESHOLD && (

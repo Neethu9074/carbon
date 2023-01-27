@@ -8,7 +8,7 @@ import React from 'react';
 
 import { Li, LiLoadMore, Link, Ul } from '@instana/components';
 
-import SmartAlertsNoDataAvailable from 'in-alerting/smart-alerts/applications/components/SmartAlertsNoDataAvailable';
+import SmartAlertsNoDataAvailable from 'in-alerting/smart-alerts/components/SmartAlertsNoDataAvailable';
 import { getDesignLibraryColorBySeverity, getIcon, getEventType } from 'in-stores/events';
 import { formatDateTime, formatDurationAccurately } from 'in-services/formatters/date';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';

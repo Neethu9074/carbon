@@ -9,8 +9,8 @@ import { useEffect } from 'react';
 import { useObservable } from '@instana/hooks';
 import { empty } from '@instana/observables';
 
-import { isValidChartViewEntitySelection } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import { updateThresholdInForm } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
+import { isValidChartViewEntitySelection } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';

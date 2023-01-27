@@ -83,7 +83,6 @@ export default function AlertConfiguration({ alertConfig }) {
         chartViewConfigs={chartViewConfigs}
         onChartViewConfigChange={index => setSelectedChartViewConfigIndex(index)}
         selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-        className={locals.chartContainer}
         title={t('in-websites:websiteDashboard.tabs.alerts.alertConfigurationTitleTrigger')}
         doNotSetDefaultHeight
         framed
@@ -142,20 +141,20 @@ export default function AlertConfiguration({ alertConfig }) {
 
       <ExpandableLightCard
         title={t('in-websites:websiteDashboard.tabs.alerts.alertConfigurationTitleTimeThreshold')}
-        openByDefault
-        bodyWithoutPadding
-        darkFrame
         useMaxAvailableHeight={false}
+        bodyWithoutPadding
+        openByDefault
+        darkFrame
       >
         <TimeThresholdDescription timeThreshold={timeThreshold} granularity={granularity} />
       </ExpandableLightCard>
 
       <ExpandableLightCard
         title={t('in-websites:websiteDashboard.tabs.alerts.alertConfigurationTitleAlertChannels')}
-        darkFrame
-        openByDefault
-        bodyWithoutPadding
         useMaxAvailableHeight={false}
+        bodyWithoutPadding
+        openByDefault
+        darkFrame
       >
         <div className={locals.alertChannelsWrapper}>
           <AlertChannelsViewer alertChannelIds={alertChannelIds} />
@@ -165,17 +164,16 @@ export default function AlertConfiguration({ alertConfig }) {
       <ExpandableLightCard
         title={t('in-websites:websiteDashboard.tabs.alerts.alertConfigurationTitleAlertProperties')}
         useMaxAvailableHeight={false}
-        openByDefault
         bodyWithoutPadding
+        openByDefault
         darkFrame
       >
         <AlertPropertyInfos alertConfig={alertConfig} />
       </ExpandableLightCard>
-
       <GlobalCustomPayloadCard context="WEBSITE" />
       <CustomPayloadCard
-        TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
         customPayloadFields={customPayloadFields}
+        TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
         openByDefault
       />
     </AlertDetailsCard>

@@ -7,7 +7,6 @@
 import { Field, MapForm } from 'formalistic';
 import { useEffect } from 'react';
 
-// @ts-expect-error file is not yet migrated to typescript
 import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/AlertingChartWrapper';
 
 export default function useCalculateThresholdOnBackendSignalEmitter(form: MapForm) {

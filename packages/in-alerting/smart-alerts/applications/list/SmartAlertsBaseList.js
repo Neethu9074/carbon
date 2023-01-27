@@ -11,8 +11,8 @@ import { useObservable } from '@instana/hooks';
 import { create } from '@instana/observables';
 import { Stack } from '@instana/components';
 
-import SmartAlertsNoDataAvailable from 'in-alerting/smart-alerts/applications/components/SmartAlertsNoDataAvailable';
 import { categoryGlobal, categoryLocal, sortOptions } from 'in-alerting/smart-alerts/applications/list/constants';
+import SmartAlertsNoDataAvailable from 'in-alerting/smart-alerts/components/SmartAlertsNoDataAvailable';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import SortingConfigurator from 'in-components/SortingConfigurator/SortingConfigurator';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';

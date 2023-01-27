@@ -11,12 +11,12 @@ import {
   applicationsAlertingThresholdOperatorChanged,
   applicationsAlertingThresholdTypeChanged
 } from 'in-alerting/smart-alerts/applications/tracker';
-import ThresholdValueFormGroupForStaticThreshold from 'in-alerting/smart-alerts/applications/dialog/advanced/ThresholdValueFormGroupForStaticThreshold';
 import FixedThresholdConditionForBuiltInAlert from 'in-alerting/smart-alerts/applications/dialog/advanced/FixedThresholdConditionForBuiltInAlert';
 import {
   getConfiguredThreshold,
   getOperatorLabel
 } from 'in-alerting/smart-alerts/applications/dialog/advanced/thresholdConditionUtil';
+import ThresholdValueFormGroupForStaticThreshold from 'in-alerting/smart-alerts/dialog/advanced/ThresholdValueFormGroupForStaticThreshold';
 import { ThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdDeviationSliderForm';
 import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdConditionFormGroup';
 import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdOperatorDropDown';

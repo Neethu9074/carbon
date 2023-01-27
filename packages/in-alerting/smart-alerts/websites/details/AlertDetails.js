@@ -36,6 +36,14 @@ import { mutateUrl } from 'in-stores/navigation/navigation';
 
 const endpointConfig = { asObservable: true };
 
+const tracking = {
+  trackEdit: alertConfigId => websitesAlertingAlertEdit({ alertConfigId }),
+  trackPaused: alertConfigId => websitesAlertingAlertPaused({ alertConfigId }),
+  trackResumed: alertConfigId => websitesAlertingAlertResumed({ alertConfigId }),
+  trackDeleted: alertConfigId => websitesAlertingAlertDeleted({ alertConfigId }),
+  trackRevisionChanged: revision => websitesAlertingAlertRevisionChanged({ revision })
+};
+
 export default function AlertDetails(props) {
   return (
     <Alert
@@ -56,13 +64,7 @@ export default function AlertDetails(props) {
       restoreConfig={restoreAlertConfigVersion}
       renderSmartAlertDialog={renderSmartAlertDialog}
       renderAlertConfiguration={({ alertConfig }) => <AlertConfiguration alertConfig={alertConfig} />}
-      tracking={{
-        trackEdit: alertConfigId => websitesAlertingAlertEdit({ alertConfigId }),
-        trackPaused: alertConfigId => websitesAlertingAlertPaused({ alertConfigId }),
-        trackResumed: alertConfigId => websitesAlertingAlertResumed({ alertConfigId }),
-        trackDeleted: alertConfigId => websitesAlertingAlertDeleted({ alertConfigId }),
-        trackRevisionChanged: revision => websitesAlertingAlertRevisionChanged({ revision })
-      }}
+      tracking={tracking}
     />
   );
 }
@@ -70,6 +72,7 @@ export default function AlertDetails(props) {
 function renderSmartAlertDialog({ close, alertConfig, setRevision, isCopy, detailsPath, alertConfigId }) {
   return (
     <AlertConfigDialog
+      alertConfig={isCopy ? duplicateAlertConfig(alertConfig) : alertConfig}
       onClose={({ id } = {}) => {
         close();
         setRevision(null);
@@ -80,7 +83,6 @@ function renderSmartAlertDialog({ close, alertConfig, setRevision, isCopy, detai
           });
         }
       }}
-      alertConfig={isCopy ? duplicateAlertConfig(alertConfig) : alertConfig}
       editMode={!isCopy}
     />
   );
