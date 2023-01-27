@@ -21,7 +21,7 @@ const urlStateConfig = {
 };
 
 export default function AnalyzeView(props) {
-  const { location } = useLocation();
+  const location = useLocation();
   const [{ dataSource }, onChange] = useUrlState(urlStateConfig);
 
   return (
