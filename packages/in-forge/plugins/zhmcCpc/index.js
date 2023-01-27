@@ -11,5 +11,6 @@ import { plugins } from 'in-forge/constants';
 registerSnapshotDefinition({
   plugin: plugins.zhmcCpc,
   kpiDefinitions,
-  metricDefinitions
+  metricDefinitions,
+  getIconType: () => 'zhmcConsole'
 });
