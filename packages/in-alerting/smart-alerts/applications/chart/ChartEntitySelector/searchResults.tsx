@@ -16,7 +16,7 @@ import {
   PER_AP,
   PER_AP_ENDPOINT,
   PER_AP_SERVICE
-} from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
+} from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { AlertEvaluationType, AppDataEntityChainItem } from 'in-types';
 import { State } from 'in-hooks/useCursorPagination';

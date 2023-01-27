@@ -12,7 +12,7 @@ import { useFetchAdaptiveBaselineOrUseFallbackFromEvent } from 'in-alerting/smar
 import {
   PER_AP_SERVICE,
   PER_AP_ENDPOINT
-} from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
+} from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import AlertingChartWithErrorMessage from 'in-alerting/components/Chart/AlertingChartWithErrorMessage';
 import { isEntitySelectionValid } from 'in-alerting/smart-alerts/applications/form/formUtils';

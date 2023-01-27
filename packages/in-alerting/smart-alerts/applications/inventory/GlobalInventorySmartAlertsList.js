@@ -13,11 +13,11 @@ import {
   entityNameColumnDefinition,
   filtersColumnDefinition,
   editActionsColumnDefinition
-} from 'in-alerting/smart-alerts/applications/components/list/columns/columnDefinitions';
-import SmartAlertsBaseListWithUrlState from 'in-alerting/smart-alerts/applications/components/list/SmartAlertsBaseListWithUrlState';
+} from 'in-alerting/smart-alerts/applications/list/columns/columnDefinitions';
+import SmartAlertsBaseListWithUrlState from 'in-alerting/smart-alerts/applications/list/SmartAlertsBaseListWithUrlState';
 import { getAllAlertConfigsForAllApplications } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
 import { getAllGlobalAlertConfigs } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
-import { categoryLocal } from 'in-alerting/smart-alerts/applications/components/list/constants';
+import { categoryLocal } from 'in-alerting/smart-alerts/applications/list/constants';
 import { applicationId } from 'in-applications/navigation/matrix';
 
 export default function GlobalInventorySmartAlertsList({ onNoData }) {

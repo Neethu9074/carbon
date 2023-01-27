@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 
 import { Button, Stack } from '@instana/components';
 
-import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialogWrapper';
+import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/dialog/SmartAlertConfigDialogWrapper';
 import getAlertConfigFromLegacyEvent from 'in-alerting/migration/subscriptions/getAlertConfigFromLegacyEvent';
 import { disableMigratedCustomEventSpecification } from 'in-api/eventSpecifications';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';

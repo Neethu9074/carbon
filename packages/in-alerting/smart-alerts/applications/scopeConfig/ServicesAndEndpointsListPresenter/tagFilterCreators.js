@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { boundaryScopes } from 'in-alerting/smart-alerts/applications/advanced/InboundOutboundCallsSwitch/config';
+import { boundaryScopes } from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/config';
 import { DESTINATION, NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { CONTAINS, EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';

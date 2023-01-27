@@ -12,11 +12,11 @@ import { Toggle, Stack, Spacer } from '@instana/components';
 import ServicesAndEndpointsListPresenter, {
   ServicesAndEndpointsSearchInput
 } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/ServicesAndEndpointsListPresenter';
-import { ClearTagFilterExpressionButton } from 'in-alerting/smart-alerts/components/smart-alert-dialog/ClearTagFilterExpressionButton';
-import AlertFilterConfigurator from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertFilterConfigurator';
+import { ClearTagFilterExpressionButton } from 'in-alerting/smart-alerts/components/dialog/ClearTagFilterExpressionButton';
 import { createBoundedAlertQueryBuilder } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import SectionLabelWithSubtext from 'in-components/workspace/SectionLabelWithSubtext/SectionLabelWithSubtext';
 import ScopeMigrationMessage from 'in-alerting/smart-alerts/applications/scopeConfig/ScopeMigrationMessage';
+import AlertFilterConfigurator from 'in-alerting/smart-alerts/components/dialog/AlertFilterConfigurator';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { days } from 'in-services/time';

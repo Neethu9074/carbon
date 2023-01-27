@@ -13,8 +13,8 @@ import {
   applicationCreationCloseDialogClick,
   applicationCreationCreateClick
 } from 'in-applications/creation/tracker';
-import { AdvancedModeFooter } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AdvancedModeFooter';
 import CreateApplicationDialogPresenter from 'in-applications/creation/Dialog/CreateApplicationDialogPresenter';
+import { AdvancedModeFooter } from 'in-alerting/smart-alerts/components/dialog/advanced/AdvancedModeFooter';
 import { createApplicationPerspectiveForm } from 'in-applications/creation/form/createApplicationForm';
 import { isQueryValid } from 'in-applications/creation/components/CreateApplicationQueryBuilder';
 import AdvancedModeContainer from 'in-applications/creation/advanced/AdvancedModeContainer';

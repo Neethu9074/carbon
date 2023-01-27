@@ -6,7 +6,7 @@
 import {
   PER_AP_SERVICE,
   PER_AP_ENDPOINT
-} from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
+} from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { searchResultsToListItems } from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/searchResults';
 
 describe('in-alerting/smart-alerts/applications/chart/ChartEntitySelector/searchResults', () => {

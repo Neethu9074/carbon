@@ -5,14 +5,14 @@
 
 import { Field, MapForm } from 'formalistic';
 
-import { defaultAdaptiveBaselineTimeWindow } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/form';
 import {
   PER_AP_ENDPOINT,
   PER_AP_SERVICE
-} from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
+} from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
+import { defaultAdaptiveBaselineTimeWindow } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
 import { defaultAdaptiveBaselineGranularity } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
-import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { getTrackingObject } from 'in-alerting/smart-alerts/components/dialog/trackingHelpers';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import createRuleForm from 'in-alerting/smart-alerts/applications/form/ruleForm';
 import { perEndpointAdaptiveBaselineEnabled } from 'in-services/featureFlags';

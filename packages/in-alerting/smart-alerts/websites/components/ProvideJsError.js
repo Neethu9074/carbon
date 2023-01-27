@@ -15,7 +15,7 @@ import {
   websitesAlertingJsErrorsErrorSelected,
   websitesAlertingJsErrorsOpenErrorSelectView
 } from 'in-alerting/smart-alerts/websites/tracker';
-import AlertConfigSlideInContentWrapper from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertConfigSlideInContentWrapper';
+import AlertConfigSlideInContentWrapper from 'in-alerting/smart-alerts/components/dialog/AlertConfigSlideInContentWrapper';
 import { ruleJsErrorsOperatorOptions } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
 import JsErrorsList from 'in-alerting/smart-alerts/websites/components/JsErrorsList';
 import DebouncedTextArea from 'in-components/form/TextArea/DebouncedTextArea';

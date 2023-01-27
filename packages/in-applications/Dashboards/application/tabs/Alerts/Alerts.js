@@ -15,9 +15,9 @@ import {
   filtersColumnDefinition,
   editActionsColumnDefinition,
   linkedListNameColumnDefinition
-} from 'in-alerting/smart-alerts/applications/components/list/columns/columnDefinitions';
+} from 'in-alerting/smart-alerts/applications/list/columns/columnDefinitions';
 import { getAllGlobalAlertConfigsRelatedToApplicationId } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
-import SmartAlertsBaseListWithUrlState from 'in-alerting/smart-alerts/applications/components/list/SmartAlertsBaseListWithUrlState';
+import SmartAlertsBaseListWithUrlState from 'in-alerting/smart-alerts/applications/list/SmartAlertsBaseListWithUrlState';
 import { getAllAlertConfigs } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
 import Footer from 'in-components/Footer/Footer';
 

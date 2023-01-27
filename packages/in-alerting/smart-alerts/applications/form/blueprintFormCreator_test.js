@@ -9,7 +9,7 @@ import { expect } from 'chai';
 import {
   createViolationsInSequenceForm,
   defaultAdaptiveBaselineTimeWindow
-} from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/form';
+} from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import createBlueprintForm from 'in-alerting/smart-alerts/applications/form/blueprintFormCreator';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';

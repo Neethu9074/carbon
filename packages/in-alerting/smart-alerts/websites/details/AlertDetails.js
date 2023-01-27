@@ -26,10 +26,10 @@ import {
   alertsTabDetailsFullyQualified as detailsPath,
   alertsTabListFullyQualified as listPath
 } from 'in-websites/navigation/paths';
-import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/smart-alert-dialog/sharedFunctions';
 import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-websites/navigation/matrix';
+import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import AlertConfiguration from 'in-alerting/smart-alerts/websites/details/AlertConfiguration';
-import AlertConfigDialog from 'in-alerting/smart-alerts/websites/AlertConfigDialog';
+import AlertConfigDialog from 'in-alerting/smart-alerts/websites/dialog/AlertConfigDialog';
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { mutateUrl } from 'in-stores/navigation/navigation';

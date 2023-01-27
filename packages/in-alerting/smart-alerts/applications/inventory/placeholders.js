@@ -9,7 +9,7 @@ import {
   PER_AP,
   PER_AP_SERVICE,
   PER_AP_ENDPOINT
-} from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
+} from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { PARAMETER, toChunks } from 'in-services/util/stringToChunks';
 import { t } from 'in-i18n';
 

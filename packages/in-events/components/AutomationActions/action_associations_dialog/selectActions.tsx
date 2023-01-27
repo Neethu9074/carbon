@@ -11,7 +11,7 @@ import { filter } from 'lodash';
 import { Observable } from '@instana/observables';
 import { Button } from '@instana/components';
 
-import AlertConfigSlideInContentWrapper from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertConfigSlideInContentWrapper';
+import AlertConfigSlideInContentWrapper from 'in-alerting/smart-alerts/components/dialog/AlertConfigSlideInContentWrapper';
 import ActionTable, {
   ActionTableProps
 } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionTable';

@@ -27,7 +27,7 @@ import getWebsiteRateMetricThresholdSuggestion from 'in-alerting/smart-alerts/we
 import getWebsiteMetricsThresholdSuggestion from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteMetricsThresholdSuggestion';
 import getWebsiteRateMetricAlertsPreview from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteRateMetricAlertsPreview';
 import getWebsiteMetricAlertsPreview from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteMetricAlertsPreview';
-import { thresholdTypeOptions } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/thresholdFormData';
+import { thresholdTypeOptions } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
 import { ADAPTIVE_BASELINE, isStaticThresholdConfig } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import getWebsiteRateMetric from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteRateMetric';
 import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';

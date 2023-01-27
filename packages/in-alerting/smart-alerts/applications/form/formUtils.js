@@ -9,7 +9,7 @@ import {
   PER_AP,
   PER_AP_ENDPOINT,
   PER_AP_SERVICE
-} from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
+} from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
 import {
   getLogLevelRuleOperatorLabel,
   getStatusCodeLabel

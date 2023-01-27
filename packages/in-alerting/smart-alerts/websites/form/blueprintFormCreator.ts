@@ -9,8 +9,8 @@ import { WebsiteAlertRule } from '@instana/types';
 
 // @ts-expect-error file will need to be converted to typescript
 import { removeExcludedFilters } from 'in-alerting/smart-alerts/components/utils/tagfilterExpressionUtils';
-import { createViolationsInSequenceForm } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/form';
-import { timeThresholdTypes } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/formData';
+import { createViolationsInSequenceForm } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
+import { timeThresholdTypes } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/formData';
 import { getBlueprintConfig, WebsitesAlertType } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';

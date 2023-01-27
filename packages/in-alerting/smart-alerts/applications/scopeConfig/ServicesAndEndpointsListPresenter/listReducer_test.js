@@ -14,7 +14,7 @@ const applicationId = 'abc-123';
 const serviceId = 'def-456';
 const endpointId = 'ghi-789';
 
-describe('in-alerting/smart-alerts/components/smart-alert-dialog/scopeConfig/ServicesAndEndpointsListPresenter/listReducer', () => {
+describe('in-alerting/smart-alerts/components/dialog/scopeConfig/ServicesAndEndpointsListPresenter/listReducer', () => {
   it('should add an application', () => {
     const state = createState();
     const userSelectionModel = listReducer(state, { type: actionType.ADD_APPLICATION, applicationId });

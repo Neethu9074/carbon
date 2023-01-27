@@ -6,8 +6,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/applications/components/list/SmartAlertsBaseList';
-import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialogWrapper';
+import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/dialog/SmartAlertConfigDialogWrapper';
+import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/applications/list/SmartAlertsBaseList';
 import { getEntitySelection } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { applicationsAlertingAddAlert } from 'in-alerting/smart-alerts/applications/tracker';
 import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';

@@ -11,9 +11,9 @@ import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/websites/
 import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
+import AlertConfigDialog from 'in-alerting/smart-alerts/websites/dialog/AlertConfigDialog';
 import { fromTagFiltersArray } from 'in-components/QueryBuilder/transformation/formModel';
 import { websitesAlertingAddAlert } from 'in-alerting/smart-alerts/websites/tracker';
-import AlertConfigDialog from 'in-alerting/smart-alerts/websites/AlertConfigDialog';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import FloatingActionButton from 'in-components/FloatingActionButton';

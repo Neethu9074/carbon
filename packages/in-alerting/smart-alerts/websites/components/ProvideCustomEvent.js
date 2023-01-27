@@ -9,7 +9,7 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
-import AlertConfigSlideInContentWrapper from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertConfigSlideInContentWrapper';
+import AlertConfigSlideInContentWrapper from 'in-alerting/smart-alerts/components/dialog/AlertConfigSlideInContentWrapper';
 import CustomEventsList from 'in-alerting/smart-alerts/websites/components/CustomEventsList';
 import createThresholdForm from 'in-alerting/smart-alerts/websites/form/thresholdForm';
 import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';

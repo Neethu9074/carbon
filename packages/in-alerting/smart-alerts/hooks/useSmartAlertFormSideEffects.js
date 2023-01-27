@@ -4,9 +4,9 @@
  */
 
 import { isOneOfBaselineTypes } from 'in-alerting/smart-alerts/applications/data/applicationThresholdFormData';
-import { getAggregationOptions } from 'in-alerting/smart-alerts/components/smart-alert-dialog/form/ruleForm';
 import useFormSideEffects, { CHANGE_TYPES } from 'in-alerting/smart-alerts/hooks/useFormSideEffects';
 import { ADAPTIVE_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { getAggregationOptions } from 'in-alerting/smart-alerts/components/dialog/form/ruleForm';
 
 export default function useSmartAlertFormSideEffects(form, setForm) {
   const effects = [

@@ -13,12 +13,12 @@ import {
   chartViewConfigs as defaultChartViewConfigs
 } from 'in-alerting/components/Chart/chartViewConfig';
 import WebsitesAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/websites/chart/WebsitesAlertingChartWithErrorMessage';
-import TimeThresholdDescription from 'in-alerting/smart-alerts/components/smart-alert-dialog/TimeThresholdDescription';
 import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/websites/hooks/useTagBasedPayloadConfigurator';
-import ChartViewConfigurator from 'in-alerting/smart-alerts/components/smart-alert-dialog/ChartViewConfigurator';
 import { getStatusCodeLabel, getRuleOperatorLabel } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
+import TimeThresholdDescription from 'in-alerting/smart-alerts/components/dialog/TimeThresholdDescription';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
+import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
 import { AlertThresholdInfos } from 'in-alerting/smart-alerts/websites/details/AlertThresholdInfos';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import CustomPayloadCard from 'in-alerting/smart-alerts/components/details/CustomPayloadCard';
@@ -35,7 +35,7 @@ import { operators } from 'in-analyze/applicationFilter';
 import ListTitle from 'in-components/lists/Title';
 import { t } from 'in-i18n';
 
-import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/shared-styles/AlertConfiguration.mless';
+import locals from 'in-alerting/smart-alerts/components/dialog/shared-styles/AlertConfiguration.mless';
 
 const initialChartConfigIndex = 0;
 

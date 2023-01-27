@@ -13,8 +13,8 @@ import {
   AdaptiveBaselineConfig,
   HistoricBaselineConfig
 } from 'in-types';
+import alertEvaluationTypes from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { AlertThresholdInfosPresenter } from 'in-alerting/smart-alerts/components/details/AlertThresholdInfosPresenter';
-import alertEvaluationTypes from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { createMetricWithThresholdLabel } from 'in-alerting/smart-alerts/components/utils/metricWithThresholdLabel';
 import { getBlueprintConfig, MetricName } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 
