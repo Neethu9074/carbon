@@ -3,12 +3,6 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-// Our history wrapper changes the return type of `useLocation`. We need to adjust
-// the type definitions to account for this.
-declare module 'react-router' {
-  export function useLocation(): Location;
-}
-
 export interface Parameters {
   [key: string]: string | undefined | null;
 }

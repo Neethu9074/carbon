@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useLocation } from 'react-router';
 import React from 'react';
 
 import { Link } from '@instana/components';
@@ -18,6 +17,7 @@ import { productAreaTrackingNames, getLabelByType } from 'in-analyze/AnalyzeView
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
 import { getActiveConfiguration } from 'in-analyze/components/AnalyzeHeader/utils';
 import { analyzeDocs } from 'in-analyze/components/AnalyzeHeader/constants';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import DashboardHeader, { themes } from 'in-components/DashboardHeader';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';

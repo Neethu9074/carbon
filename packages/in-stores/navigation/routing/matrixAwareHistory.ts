@@ -5,9 +5,8 @@
 
 import { History, LocationListener } from 'history';
 
-import { stringify } from 'in-stores/navigation/routing/stringifier';
 import { parseUrl } from 'in-stores/navigation/routing/parser';
-import { emptyObject } from 'in-services/fixedObjects';
+import translate from 'in-stores/navigation/routing/translate';
 import { Location } from 'in-stores/navigation/types';
 
 type MatrixAwareHistoryListener = (location: Location) => void;
@@ -46,21 +45,4 @@ export function wrap(history: History<any>): MatrixAwareHistory {
 
 function wrapListener(listener: (loc: Location) => void): LocationListener<unknown> {
   return location => listener(parseUrl(location.pathname + (location.search || '')));
-}
-
-function translate(location: string | Location, currentLocation: Location) {
-  currentLocation = currentLocation || emptyObject;
-
-  // Pushing as string is supported in the history module. We will always normalize
-  // to a location object, because we need to account for pushing strings without
-  // query or matrix data.
-  if (typeof location === 'string') {
-    location = parseUrl(location);
-  }
-
-  return stringify({
-    pathname: location.pathname || currentLocation.pathname || '',
-    query: location.query || currentLocation.query || emptyObject,
-    matrix: location.matrix || currentLocation.matrix || emptyObject
-  });
 }

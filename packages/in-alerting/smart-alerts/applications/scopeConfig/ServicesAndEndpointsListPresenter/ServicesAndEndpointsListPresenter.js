@@ -4,7 +4,6 @@
  */
 
 import React, { useEffect, useMemo, useReducer, useState } from 'react';
-import { useLocation } from 'react-router';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 
@@ -20,6 +19,7 @@ import getServicesCursorPaginated from 'in-applications/subscriptions/getService
 import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { applicationId as applicationIdMatrixParam } from 'in-applications/navigation/matrix';
 import getApplication from 'in-applications/subscriptions/getApplication';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { applicationDashboard } from 'in-applications/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';

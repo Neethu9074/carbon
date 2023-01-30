@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc. 2022
  */
 
-import { useLocation } from 'react-router';
 import React, { Fragment } from 'react';
 
 import ResultsTopList from 'in-synthetics/dashboards/summary/tabs/summary/components/ResultsTopList';
@@ -14,6 +13,7 @@ import ResponseSize from 'in-synthetics/dashboards/summary/tabs/summary/componen
 import Failures from 'in-synthetics/dashboards/summary/tabs/summary/components/Failures';
 import { bytes, meanLatency, number, percentage } from 'in-services/formatters/number';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import buildLocationsMap from 'in-synthetics/utils/buildLocationsMap';

@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2022
  */
 
-import { useLocation } from 'react-router';
 import React from 'react';
 
 import { t } from '@instana/i18n-react';
@@ -25,6 +24,7 @@ import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTable
 import { getTestSummaryListData } from 'in-synthetics/dashboards/global/TestSummaryList';
 import Filters from 'in-synthetics/dashboards/global/tabs/tests/components/Filters';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Footer from 'in-components/Footer/Footer';

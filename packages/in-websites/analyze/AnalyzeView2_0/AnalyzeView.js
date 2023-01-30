@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useLocation } from 'react-router';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -20,6 +19,7 @@ import getWebsiteBeaconGroups from 'in-websites/subscriptions/getWebsiteBeaconGr
 import { toBackendQuery } from 'in-components/AnalyzeView/FacetedFilters/facets';
 import { wrapToDiscardNegativeValues } from 'in-analyze/metricDefinitionHelpers';
 import Beacons from 'in-websites/analyze/AnalyzeView2_0/components/Beacons';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import StateManagement from 'in-components/AnalyzeView/StateManagement';
 import { clsFormatter } from 'in-websites/analyze/AnalyzeView/metrics';
 import { getMetricTemplates } from 'in-websites/api/metricTemplates';

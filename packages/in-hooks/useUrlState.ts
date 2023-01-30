@@ -4,12 +4,12 @@
  */
 
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router';
 import { isEqual } from 'lodash';
 
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { addReset, removeReset } from 'in-stores/navigation/urlParameterResets';
 import { Location, ParameterDefinition } from 'in-stores/navigation/types';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { emptyObject, emptyArray } from 'in-services/fixedObjects';
 import { mutateUrl, getModifiedUrl } from 'in-stores/navigation';
 import { identity } from 'in-services/util/function';

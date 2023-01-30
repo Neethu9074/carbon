@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2022
  */
 
-import { useLocation } from 'react-router';
 import React, { useState } from 'react';
 import { get } from 'lodash';
 
@@ -17,6 +16,7 @@ import TabView from 'in-components/LocationAwareTabView/TabView';
 import DashboardHeader, { DashboardHeaderProps } from 'in-components/DashboardHeader';
 import { showUpdateErrorMessage } from 'in-synthetics/components/utils/userFeedback';
 import getSyntheticTest from 'in-synthetics/subscriptions/getSyntheticTest';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { syntheticsDashboard } from 'in-synthetics/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import tabs from 'in-synthetics/dashboards/summary/tabs/index';

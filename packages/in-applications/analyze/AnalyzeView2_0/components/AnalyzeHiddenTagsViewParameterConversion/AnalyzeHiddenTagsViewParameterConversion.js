@@ -4,7 +4,6 @@
  */
 
 import React, { useMemo, useEffect } from 'react';
-import { useLocation } from 'react-router';
 import { isEmpty } from 'lodash';
 
 import { combineLatest } from '@instana/observables';
@@ -18,6 +17,7 @@ import {
 import { withTimeout } from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeHiddenTagsViewParameterConversion/withTimeout';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { error, isLoading, noResultObservable } from 'in-services/util/result';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import getEndpoint from 'in-applications/subscriptions/getEndpoint';
 import getService from 'in-applications/subscriptions/getService';
 import { getModifiedUrl } from 'in-stores/navigation/navigation';

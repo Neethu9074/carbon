@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { useLocation } from 'react-router';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -18,6 +17,7 @@ import SmartAlertsBaseListWithUrlState from 'in-alerting/smart-alerts/applicatio
 import { getAllAlertConfigsForAllApplications } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
 import { getAllGlobalAlertConfigs } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
 import { categoryLocal } from 'in-alerting/smart-alerts/applications/list/constants';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { applicationId } from 'in-applications/navigation/matrix';
 
 export default function GlobalInventorySmartAlertsList({ onNoData }) {

@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useLocation } from 'react-router';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -33,6 +32,7 @@ import { CONTAINS, EQUALS } from 'in-components/QueryBuilder/tagFilter/operators
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import buildLocationsMap from 'in-synthetics/utils/buildLocationsMap';
 import useTimeConfig from 'in-hooks/useTimeConfig';

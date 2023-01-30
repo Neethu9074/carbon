@@ -46,6 +46,14 @@ exports.createImportRestrictionRule = ({
         '@mui/material',
         '@emotion/react',
         '@emotion/styled',
+
+        {
+          name: 'react-router',
+          importNames: ['useLocation'],
+          message:
+            'Please import navigation support from in-stores/navigation instead to ensure clean matrix parameter support'
+        },
+
         ...paths
       ],
       patterns: [

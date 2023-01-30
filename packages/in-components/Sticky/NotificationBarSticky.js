@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2022
  */
 
-import { useLocation } from 'react-router';
 import React from 'react';
 
 import { Button, Link } from '@instana/components';
@@ -13,6 +12,7 @@ import { useObservable } from '@instana/hooks';
 import { track, REQUEST_QUOTE_BUTTON_CLICKED, BUY_NOW_BUTTON_CLICKED } from 'in-services/tracking/tracking';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { onPremLicenseInformationEnabled } from 'in-services/featureFlags';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { messages$ } from 'in-components/MessageFlyout/stores/messages';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { physicalPath } from 'in-stores/navigation/paths/mainPaths';

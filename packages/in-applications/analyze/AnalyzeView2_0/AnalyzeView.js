@@ -4,7 +4,6 @@
  */
 
 import React, { useState, useMemo } from 'react';
-import { useLocation } from 'react-router';
 import { sortBy } from 'lodash';
 
 import {
@@ -44,6 +43,7 @@ import Results from 'in-applications/analyze/AnalyzeView2_0/components/Results';
 import getTagSuggestions from 'in-applications/subscriptions/getTagSuggestions';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { LESS_THAN } from 'in-components/QueryBuilder/tagFilter/operators';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { getMetricTemplates } from 'in-applications/api/metricTemplates';
 import { ua2FastQueryModeChangedTracker } from 'in-applications/tracker';
 import StateManagement from 'in-components/AnalyzeView/StateManagement';

@@ -3,11 +3,12 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { useLocation, Router } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
 import React from 'react';
 
+import LocationStateProvider, { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import history from 'in-stores/navigation/history';
 import useUrlState from 'in-hooks/useUrlState';
 
@@ -71,7 +72,9 @@ describe('in-hooks/useUrlState', () => {
   beforeEach(() => {
     wrapper = mount(
       <Router history={history}>
-        <LocationDisplay />
+        <LocationStateProvider>
+          <LocationDisplay />
+        </LocationStateProvider>
       </Router>
     );
   });

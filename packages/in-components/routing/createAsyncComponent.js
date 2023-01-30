@@ -3,13 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useRouteMatch, useLocation, useHistory } from 'react-router';
+import { useRouteMatch, useHistory } from 'react-router';
 import React from 'react';
 
 import { createLogger } from '@instana/logger';
 
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { getServerVersionTag, localTag } from 'in-services/uiClientVersion';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import ReloadUiDialog from 'in-components/ReloadUiDialog';
 

@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2022
  */
 
-import { useLocation } from 'react-router';
 import React, { Fragment } from 'react';
 import { get, head } from 'lodash';
 
@@ -36,6 +35,7 @@ import FailedRun from 'in-synthetics/dashboards/details/components/FailedRun';
 import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
 import DashboardHeader from 'in-components/DashboardHeader/DashboardHeader';
 import Timeline from 'in-synthetics/dashboards/details/components/Timeline';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { syntheticBrowserScriptEnabled } from 'in-services/featureFlags';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { syntheticDetailsPath } from 'in-synthetics/navigation/paths';

@@ -4,7 +4,7 @@
  */
 
 import { eventsPath, physicalPath, physicalTablePath } from 'in-stores/navigation/paths/mainPaths';
-import { removeDFQueryFromLocationWhenChangingArea } from 'in-stores/navigation/navigation';
+import { removeDFQueryFromLocationWhenChangingArea } from 'in-stores/navigation/utils';
 import { Location } from 'in-stores/navigation/types';
 
 function dfQueryAfterNavigating(fromPath: string, toPath: string) {

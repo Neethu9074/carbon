@@ -3,11 +3,11 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { useLocation } from 'react-router';
 import React from 'react';
 
 import { transformTwoGAToPostGA } from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeTwoBetaViewParameterConversion/transformHelper';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { createParameters } from 'in-components/AnalyzeView/parameters';
 import { getModifiedUrl } from 'in-stores/navigation/navigation';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';

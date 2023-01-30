@@ -3,10 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useLocation } from 'react-router';
 import { Route } from 'react-router-dom';
 import React from 'react';
 
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import { getLinkToSession } from 'in-mobile-apps/navigation/paths';
 import { getLinkToPageLoad } from 'in-websites/navigation/paths';

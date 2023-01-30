@@ -3,13 +3,13 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { useLocation } from 'react-router';
 import React from 'react';
 
 import { transformOneZeroToTwoZero } from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeOneToTwoViewParameterConversion/transformHelper';
 import { getTagCatalog as getTracesTagCatalog } from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
 import { getTagCatalog as getCallsTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { createParameters } from 'in-components/AnalyzeView/parameters';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { getModifiedUrl } from 'in-stores/navigation/navigation';
