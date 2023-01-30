@@ -43,6 +43,7 @@ exports.createImportRestrictionRule = ({
         // There should be no new imports for material ui
         // mui will be imported and managed on foundation
         '@material-ui/core',
+        '@mui/material',
         '@emotion/react',
         '@emotion/styled',
         ...paths

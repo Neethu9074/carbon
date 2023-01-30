@@ -67,7 +67,7 @@ describe('in-custom-dashboards/widgets/Apdex/components/ConfigurationSelector/Co
     ).toEqual(t('in-custom-dashboards:widgets.apdex.configurationSelector.pleaseSelect'));
   });
 
-  it('renders a notice if no config is available', () => {
+  it('renders a notice if no config is available and disables select element', () => {
     // Given
     const entityId = 'someEntityId';
     const entityType = 'website';
@@ -83,12 +83,22 @@ describe('in-custom-dashboards/widgets/Apdex/components/ConfigurationSelector/Co
         updateForm={() => {}}
         onOpenConfigurationManager={() => {}}
       />
-    );
+    ).dive();
 
     // Then
     expect(
       wrapper
         .find('Section')
+        .children()
+        .first()
+        .dive()
+        .find('select')
+        .prop('disabled')
+    ).toBeTruthy();
+    expect(
+      wrapper
+        .find('AdditionalSectionContent')
+        .dive()
         .children()
         .first()
         .text()

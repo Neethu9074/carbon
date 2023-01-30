@@ -14,7 +14,7 @@ import useApdexConfigurations from 'in-custom-dashboards/widgets/Apdex/hooks/use
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import { compareIgnoreCase } from 'in-services/util/string';
-import Section from 'in-components/workspace/Section';
+import HelpText from 'in-components/form/HelpText';
 import { t } from 'in-i18n';
 
 interface ConfigurationSelectorProps {
@@ -36,25 +36,11 @@ export default function ConfigurationSelector({
 
   const isFieldValid = field?.valid;
   const isFieldTouched = field?.touched;
-  const hasError = !isFieldValid && isFieldTouched;
+  const hasError = Boolean(!isFieldValid && isFieldTouched);
   const isResolved = status === 'resolved';
   const hasSomeConfig = apdexConfigurations?.length !== 0;
   const configId = field?.value;
-  const disabled = !entityId;
-
-  const actions = (
-    <Button disabled={!entityId} kind="primary" onClick={onOpenConfigurationManager}>
-      {t('in-custom-dashboards:widgets.apdex.configurationSelector.manageConfig')}
-    </Button>
-  );
-
-  if (!disabled && isResolved && !hasSomeConfig) {
-    return (
-      <Section title={t('in-custom-dashboards:widgets.apdex.configurationSelector.label')} actions={actions}>
-        {t('in-custom-dashboards:widgets.apdex.configurationSelector.noneAvailCreateOne')}
-      </Section>
-    );
-  }
+  const disabled = !entityId || !hasSomeConfig;
 
   return (
     <SelectInSection
@@ -63,13 +49,12 @@ export default function ConfigurationSelector({
       value={configId ?? ''}
       onChange={e => onChange(e.target.value)}
       hasError={hasError}
-      additionalContent={
-        <OverridingFieldValidationMessage
-          field={field}
-          message={t('in-custom-dashboards:widgets.apdex.configurationSelector.selectConfig')}
-        />
+      additionalContent={<AdditionalSectionContent hasSomeConfig={hasSomeConfig} hasError={hasError} field={field} />}
+      actions={
+        <Button disabled={!entityId} kind="primary" onClick={onOpenConfigurationManager}>
+          {t('in-custom-dashboards:widgets.apdex.configurationSelector.manageConfig')}
+        </Button>
       }
-      actions={actions}
     >
       <option value="" disabled hidden>
         {t('in-custom-dashboards:widgets.apdex.configurationSelector.pleaseSelect')}
@@ -85,4 +70,32 @@ export default function ConfigurationSelector({
           ))}
     </SelectInSection>
   );
+}
+
+interface AdditionalSectionContentProps {
+  hasSomeConfig: boolean;
+  hasError: boolean;
+  field?: Field<string>;
+}
+
+function AdditionalSectionContent({ hasSomeConfig, hasError, field }: AdditionalSectionContentProps) {
+  if (hasSomeConfig) {
+    return (
+      <OverridingFieldValidationMessage
+        field={field}
+        message={t('in-custom-dashboards:widgets.apdex.configurationSelector.selectConfig')}
+      />
+    );
+  }
+
+  if (hasError) {
+    return (
+      <OverridingFieldValidationMessage
+        field={field}
+        message={t('in-custom-dashboards:widgets.apdex.configurationSelector.noneAvailCreateOne')}
+      />
+    );
+  }
+
+  return <HelpText>{t('in-custom-dashboards:widgets.apdex.configurationSelector.noneAvailCreateOne')}</HelpText>;
 }

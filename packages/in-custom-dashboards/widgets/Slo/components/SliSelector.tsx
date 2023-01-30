@@ -13,7 +13,7 @@ import SelectInSection from 'in-components/form/Select/SelectInSection';
 import { sliConfigId } from 'in-custom-dashboards/widgets/Slo/form';
 import { compareIgnoreCase } from 'in-services/util/string';
 import Sections from 'in-components/workspace/Sections';
-import Section from 'in-components/workspace/Section';
+import HelpText from 'in-components/form/HelpText';
 import { t } from 'in-i18n';
 
 interface SliSelectorProps {
@@ -36,20 +36,9 @@ export default function SliSelector({
 
   const sliField = form.get(sliConfigId) as Field<SliConfigIdFieldValue>;
 
-  const disabled = !entityId;
-
-  if (!disabled && status === 'resolved' && !sliConfigurations!.length) {
-    return (
-      <Sections>
-        <Section
-          title={t('in-custom-dashboards:widgets.slo.sliSelectionFormComp.srvLevelIndicator')}
-          actions={openManageSLIComponent}
-        >
-          {t('in-custom-dashboards:widgets.slo.sliSelectionFormComp.noneAvailCreateOne')}
-        </Section>
-      </Sections>
-    );
-  }
+  const hasSomeConfig = sliConfigurations?.length !== 0;
+  const disabled = !entityId || !hasSomeConfig;
+  const hasError = !sliField.valid && sliField.touched;
 
   return (
     <Sections>
@@ -65,12 +54,9 @@ export default function SliSelector({
             )
           );
         }}
-        hasError={!sliField.valid && sliField.touched}
+        hasError={hasError}
         additionalContent={
-          <OverridingFieldValidationMessage
-            field={sliField}
-            message={t('in-custom-dashboards:widgets.slo.sliSelectionFormComp.selectASli')}
-          />
+          <AdditionalSectionContent hasSomeConfig={hasSomeConfig} hasError={hasError} field={sliField} />
         }
         actions={openManageSLIComponent}
       >
@@ -89,4 +75,32 @@ export default function SliSelector({
       </SelectInSection>
     </Sections>
   );
+}
+
+interface AdditionalSectionContentProps {
+  hasSomeConfig: boolean;
+  hasError: boolean;
+  field?: Field<SliConfigIdFieldValue>;
+}
+
+function AdditionalSectionContent({ hasSomeConfig, hasError, field }: AdditionalSectionContentProps) {
+  if (hasSomeConfig) {
+    return (
+      <OverridingFieldValidationMessage
+        field={field}
+        message={t('in-custom-dashboards:widgets.slo.sliSelectionFormComp.selectASli')}
+      />
+    );
+  }
+
+  if (hasError) {
+    return (
+      <OverridingFieldValidationMessage
+        field={field}
+        message={t('in-custom-dashboards:widgets.slo.sliSelectionFormComp.noneAvailCreateOne')}
+      />
+    );
+  }
+
+  return <HelpText>{t('in-custom-dashboards:widgets.slo.sliSelectionFormComp.noneAvailCreateOne')}</HelpText>;
 }
