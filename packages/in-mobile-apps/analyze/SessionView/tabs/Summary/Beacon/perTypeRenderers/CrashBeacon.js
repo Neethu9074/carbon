@@ -6,10 +6,10 @@
 
 import React, { Fragment } from 'react';
 
+import BeaconStack from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/StackTrace/BeaconStack';
 import BatchIndicator from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/BatchIndicator';
 import KeyValueHeader from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/KeyValueHeader';
 import BodyHeader from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/BodyHeader';
-import Stack from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/Stack';
 import Meta from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/Meta';
 import { latencyFixed, millisToTwoDecimalSeconds } from 'in-services/formatters/number';
 import { Dl, Di } from 'in-components/HorizontalDescriptionList';
@@ -65,7 +65,7 @@ export const Body = ({ beacon }) => {
       <Row>
         {isNotBlank(beacon.stackTrace) && (
           <Col lg={12}>
-            <Stack beacon={beacon} />
+            <BeaconStack beacon={beacon} />
           </Col>
         )}
       </Row>

@@ -1,0 +1,83 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2022
+ */
+
+@import '~in-themes/mixins.less';
+@import '~in-themes/active.less';
+
+:local {
+  pre.code {
+    padding: 1rem;
+    background: @lib__colors__N200;
+    border-radius: 2px;
+  }
+
+  .address {
+    color: @lib__colors__N500;
+    .ellipsis();
+    flex-shrink: 0;
+    margin: 0 0.375rem;
+  }
+
+  .methodName {
+    color: @lib__colors__N900Primary;
+    .ellipsis();
+    flex-shrink: 0;
+  }
+
+  .methodNameInvalid {
+    color: @lib__colors__N700Medium;
+    .ellipsis();
+    flex-shrink: 0;
+  }
+
+  .methodNameHighlight {
+    color: @lib__colors__primary1;
+    .ellipsis();
+    flex-shrink: 0;
+  }
+
+  .at {
+    margin: 0 0.375rem;
+    color: @lib__colors__N500;
+  }
+
+  .fileName {
+    color: @lib__colors__N500;
+    .ellipsis();
+    flex-shrink: 1;
+  }
+
+  .line {
+    display: flex;
+    justify-content: space-between;
+
+    padding: 0.25rem 0;
+  }
+
+  .signature {
+    overflow: hidden;
+    font-family: @font-family-monospace;
+  }
+
+  .selectedLine {
+    background: @lib__colors__N300;
+  }
+
+  .icon {
+    fill: @lib__colors__N700Medium;
+  }
+
+  .iconPlaceholder {
+    min-width: 1rem;
+  }
+
+  .rightmost {
+    font-family: @font-family-monospace;
+    margin-left: 0.25rem;
+
+    color: @lib__colors__N500;
+  }
+}

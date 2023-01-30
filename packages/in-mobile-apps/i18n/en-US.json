@@ -213,7 +213,9 @@
       "errorType": "Error Type",
       "crashLabel": "Crash",
       "metaHeader": "Meta",
-      "stackTrace": "Stack Trace"
+      "stackTrace": "Stack Trace",
+      "stackTraceButtonPrettyStackTrace": "Pretty Stack Trace",
+      "stackTraceButtonRawStackTrace": "Raw Stack Trace"
     },
     "tabsSumHttpRequestBeacon": {
       "retrievalTimeTooltip": "Retrieval Time",
