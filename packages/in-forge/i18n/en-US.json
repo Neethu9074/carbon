@@ -7769,7 +7769,6 @@
       "projectId": "Project ID",
       "created": "Created",
       "requestCount": "Request Count",
-      "requestLatencyP99": "Request Latency (P99)",
       "requests": "Requests",
       "requestLatency": "Request Latency",
       "instanceTime": "Instance Time",
