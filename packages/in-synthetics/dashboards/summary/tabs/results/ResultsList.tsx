@@ -50,7 +50,7 @@ const columnDefinitions = [
   {
     id: 'start_time',
     label: t('in-synthetics:dashboard.resultsListPage.startedColumn'),
-    isSortable: false,
+    defaultOrderDirection: 'DESC',
     getContent(item: TestResultListItem) {
       return (
         <SeverityAwareEntityLink
@@ -105,7 +105,6 @@ const columnDefinitions = [
   {
     //location_label => location display name
     id: 'location_label',
-    sortable: false,
     label: t('in-synthetics:dashboard.resultsListPage.locationColumn'),
     getContent(item: TestResultListItem) {
       return (
@@ -119,6 +118,7 @@ const columnDefinitions = [
   },
   {
     id: 'response_time',
+    defaultOrderDirection: 'DESC',
     label: t('in-synthetics:dashboard.resultsListPage.responseTimeColumn'),
     getContent(item: TestResultListItem) {
       const count = get(item, ['metrics', 'response_time', 0, 1], 0);
@@ -127,6 +127,7 @@ const columnDefinitions = [
   },
   {
     id: 'response_size',
+    defaultOrderDirection: 'DESC',
     label: t('in-synthetics:dashboard.resultsListPage.responseSizeColumn'),
     getContent(item: TestResultListItem) {
       const count = get(item, ['metrics', 'response_size', 0, 1], 0);
@@ -135,6 +136,7 @@ const columnDefinitions = [
   },
   {
     id: 'retries',
+    defaultOrderDirection: 'DESC',
     label: t('in-synthetics:dashboard.resultsListPage.retriesColumn'),
     getContent(item: TestResultListItem) {
       const count = get(item, ['metrics', 'retries', 0, 1], 0);
