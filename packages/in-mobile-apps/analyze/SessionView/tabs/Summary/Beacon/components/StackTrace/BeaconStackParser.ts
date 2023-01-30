@@ -135,6 +135,8 @@ function formatStackTraceJson(
 }
 
 function formatStackTraceIOS(beacon: MobileAppMonitoringBeacon, pretty: boolean): FormatedStackTrace {
+  // Application bundles usually resides in private/var folder on iOS, so we use this to check if it is a user image
+  // see also https://www.theiphonewiki.com/wiki//private/var
   return formatStackTraceJson(beacon, pretty, item => !!item.p?.toLowerCase().startsWith('/private/var'));
 }
 
