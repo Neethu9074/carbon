@@ -83,24 +83,17 @@ export function getAreaRoleFromPermissionSet(
 ): AreaRoleWithCustomType | undefined {
   if (permissionSet === undefined || permissionSet.permissions.length === 0) return;
 
-  const { areaPermissions, capabilities } = ProductAreaPermissionMap[productArea];
+  const { capabilities } = ProductAreaPermissionMap[productArea];
 
   const hasAllCapabilities = capabilities.every(permission => permissionSet.permissions.includes(permission));
-  const hasAllAreaPermissions = areaPermissions.every(permission => permissionSet.permissions.includes(permission));
 
-  if (hasAllAreaPermissions) {
-    if (hasAllCapabilities) return AreaRole.OWNER;
-
-    return AreaRole.VIEWER;
-  }
+  if (hasAllCapabilities) return AreaRole.OWNER;
 
   const hasSomeCapabilities = capabilities.some(permission => permissionSet.permissions.includes(permission));
-  const hasSomeAreaPermissions = areaPermissions.some(permission => permissionSet.permissions.includes(permission));
 
-  // This is only necessary while in migration phase and should be removed after some releases
-  if (hasSomeCapabilities || hasSomeAreaPermissions) return 'CUSTOM';
+  if (hasSomeCapabilities) return 'CUSTOM';
 
-  return undefined;
+  return AreaRole.VIEWER;
 }
 
 // Returns a new permission set containing all permissions related to the given product area and role

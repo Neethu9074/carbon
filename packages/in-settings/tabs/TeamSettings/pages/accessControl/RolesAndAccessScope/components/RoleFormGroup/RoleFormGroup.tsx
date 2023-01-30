@@ -13,8 +13,8 @@ import RoleSelect, {
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/RoleSelect';
 import { AreaRoleType } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import FormGroup from 'in-settings/components/FormGroup/FormGroup';
-import Tooltip from 'in-components/Tooltip/Tooltip';
 import Label from 'in-components/form/Label/Label';
+import Tooltip from 'in-components/Tooltip';
 
 import locals from './RoleFormGroup.mless';
 
@@ -37,8 +37,12 @@ export default function RoleFormGroup({ htmlFor, tooltipText, value, defaultRole
       <Label htmlFor={htmlFor} className={locals.label}>
         <Typography variant="body-regular">Role</Typography>
         <Tooltip
-          themeStyle="light"
-          content={<Typography variant="body-regular">{tooltipText}</Typography>}
+          themeStyle="dark"
+          content={
+            <Typography variant="body-regular" onDark>
+              {tooltipText}
+            </Typography>
+          }
           align="bottomMiddle"
           delay={250}
         >

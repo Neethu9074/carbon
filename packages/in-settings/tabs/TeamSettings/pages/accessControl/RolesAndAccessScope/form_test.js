@@ -32,17 +32,18 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       expect(role).toEqual('OWNER');
     });
 
-    it('returns viewer role when all area permissions but no functional permissions is given', () => {
+    it('returns custom role when only some functional permissions are given', () => {
       // Given
-      const { areaPermissions } = ProductAreaPermissionMap[ProductArea.WEBSITE];
-      const permissions = [...areaPermissions];
-      const permissionSet = { permissions };
+      const {
+        capabilities: [firstCapability]
+      } = ProductAreaPermissionMap[ProductArea.ANALYTICS];
+      const permissionSet = { permissions: [firstCapability] };
 
       // When
-      const role = getAreaRoleFromPermissionSet(ProductArea.WEBSITE, permissionSet);
+      const role = getAreaRoleFromPermissionSet(ProductArea.ANALYTICS, permissionSet);
 
       // Then
-      expect(role).toEqual('VIEWER');
+      expect(role).toEqual('CUSTOM');
     });
 
     it('returns viewer role when all area permissions but no functional permissions is given', () => {
@@ -58,7 +59,20 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       expect(role).toEqual('VIEWER');
     });
 
-    it('returns undefined role when no area and no functional permissions are given', () => {
+    it('returns viewer role when all area permissions but no functional permissions is given', () => {
+      // Given
+      const { areaPermissions } = ProductAreaPermissionMap[ProductArea.WEBSITE];
+      const permissions = [...areaPermissions];
+      const permissionSet = { permissions };
+
+      // When
+      const role = getAreaRoleFromPermissionSet(ProductArea.WEBSITE, permissionSet);
+
+      // Then
+      expect(role).toEqual('VIEWER');
+    });
+
+    it('returns undefined role when empty permissions array is provided', () => {
       // Given
       const permissionSet = { permissions: [] };
 

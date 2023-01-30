@@ -80,7 +80,6 @@ export default function PermissionSection<I>({
   const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');
   const permissionSet = permissionSetField?.value;
   const role = getAreaRoleFromPermissionSet(productArea, permissionSet);
-
   const limitedPermission = permissionSet ? getScopeFromProductArea(productArea, permissionSet) : defaultLimitation;
 
   const onUpdatePermissionSet = (role: AreaRoleWithCustomType | undefined, limitation: ScopedPermissionType) => {

@@ -44,18 +44,23 @@ export default function TabSelect<VALUE_TYPE>({
   const [activePanelId, setActivePanelId] = useState(initialActivePanelId);
 
   return (
-    <TabSelectContext.Provider
-      value={{
-        activePanelId,
-        setActivePanelId: (panelId, value) => {
-          onChange?.(panelId, value);
-          setActivePanelId(panelId);
-        }
-      }}
-    >
-      <div className={locals.container} style={{ gridTemplateColumns: `[menu] ${menuWidth} [panels] ${panelsWidth}` }}>
-        {children}
-      </div>
-    </TabSelectContext.Provider>
+    <div>
+      <TabSelectContext.Provider
+        value={{
+          activePanelId,
+          setActivePanelId: (panelId, value) => {
+            onChange?.(panelId, value);
+            setActivePanelId(panelId);
+          }
+        }}
+      >
+        <div
+          className={locals.container}
+          style={{ gridTemplateColumns: `[menu] ${menuWidth} [panels] ${panelsWidth}` }}
+        >
+          {children}
+        </div>
+      </TabSelectContext.Provider>
+    </div>
   );
 }

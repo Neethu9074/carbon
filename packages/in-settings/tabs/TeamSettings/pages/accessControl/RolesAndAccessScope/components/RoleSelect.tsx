@@ -20,14 +20,9 @@ export interface RoleSelectProps {
   onChange: (role: AreaRoleType) => void;
 }
 
-export default function RoleSelect({ value, defaultRole, onChange }: RoleSelectProps) {
+export default function RoleSelect({ value, onChange }: RoleSelectProps) {
   return (
-    <Select
-      useFullWidth={false}
-      onChange={e => onChange(e.target.value as AreaRoleType)}
-      defaultValue={defaultRole ?? ''}
-      value={value}
-    >
+    <Select useFullWidth={false} onChange={e => onChange(e.target.value as AreaRoleType)} value={value}>
       <option value="" disabled>
         {t('in-settings:permissionScope.role')}
       </option>
