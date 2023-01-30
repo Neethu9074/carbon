@@ -21,6 +21,8 @@ import { syntheticsDashboard } from 'in-synthetics/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { TestResponse } from 'in-synthetics/utils/constants';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
+import { TimeShift } from 'in-components/Chart/types';
+import { Location } from 'in-stores/navigation/types';
 import { Col, Row } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
@@ -29,18 +31,18 @@ interface SummaryProps {
 }
 
 export default function Summary({ test }: SummaryProps) {
-  const locationDisplayLabels = test.data?.locationDisplayLabels || [];
-  const locations = test.data?.locations || [];
-  const locationsMap =
+  const locationDisplayLabels: string[] = test.data?.locationDisplayLabels || [];
+  const locations: string[] = test.data?.locations || [];
+  const locationsMap: Map<string, string> =
     locationDisplayLabels.length === locations.length
       ? buildLocationsMap(locations, locationDisplayLabels)
       : new Map<string, string>();
-  const timeShiftConfig = useTimeShiftConfig();
-  const location = useLocation();
+  const timeShiftConfig: TimeShift = useTimeShiftConfig();
+  const location: Location = useLocation();
   const testId: string = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
   const testType: boolean = getMatrixParameter(location, syntheticsDashboard, 'type') === 'HTTPAction' ? true : false;
 
-  let tagFilters = [
+  const tagFilters = [
     {
       stringValue: testId,
       name: 'testId',
