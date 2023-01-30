@@ -265,6 +265,7 @@ export const nonServicePlugins = {
   webSphereInfrastructureManager: 'webSphereInfrastructureManager',
   webSphereDeploymentManager: 'webSphereDeploymentManager',
   webSphereCluster: 'webSphereCluster',
+  webSphereMember: 'webSphereMember',
   webSphereLibertyApplicationContainer: 'webSphereLibertyApplicationContainer',
   zhmcConsole: 'zhmcConsole',
   zhmcCpc: 'zhmcCpc',
@@ -469,8 +470,10 @@ export const fullyQualifiedPlugins = {
   ibmMqMftAgent: 'com.instana.forge.infrastructure.messaging.ibmmqmft.derivedentity.agent.IbmMqMftAgent',
   ibmMqMftTransfer: 'com.instana.forge.infrastructure.messaging.ibmmqmft.derivedentity.transfer.IbmMqMftTransfer',
   ibmOpenstack: 'com.instana.forge.infrastructure.paas.ibmopenstack.derivedentity.openstack.IbmOpenstack',
-  ibmOpenstackComputeInstance: 'com.instana.forge.infrastructure.paas.ibmopenstack.derivedentity.computeinstance.IbmOpenstackComputeInstance',
-  ibmOpenstackHypervisor: 'com.instana.forge.infrastructure.paas.ibmopenstack.derivedentity.hypervisor.IbmOpenstackHypervisor',
+  ibmOpenstackComputeInstance:
+    'com.instana.forge.infrastructure.paas.ibmopenstack.derivedentity.computeinstance.IbmOpenstackComputeInstance',
+  ibmOpenstackHypervisor:
+    'com.instana.forge.infrastructure.paas.ibmopenstack.derivedentity.hypervisor.IbmOpenstackHypervisor',
   ibmOpenstackRegion: 'com.instana.forge.infrastructure.paas.ibmopenstack.derivedentity.region.IbmOpenstackRegion',
   ibmVsi: 'com.instana.forge.hardware.virtual.ibm.vsi.IbmVsi',
   ibmZOsConnect: 'com.instana.forge.infrastructure.application.ibmzos.IbmZOsConnect',
@@ -583,6 +586,7 @@ export const fullyQualifiedPlugins = {
   webSphereCluster: 'com.instana.forge.infrastructure.application.webspheredmgr.derivedentity.cluster.WebSphereCluster',
   webSphereLibertyApplicationContainer:
     'com.instana.forge.infrastructure.application.websphere.WebSphereLibertyApplicationContainer',
+  webSphereMember: 'com.instana.forge.infrastructure.application.webspheredmgr.derivedentity.member.WebSphereMember',
   zhmcConsole: 'com.instana.forge.infrastructure.paas.zhmc.derivedentity.console.ZhmcConsole',
   zhmcCpc: 'com.instana.forge.infrastructure.paas.zhmc.derivedentity.console.ZhmcCpc',
   zooKeeper: 'com.instana.forge.infrastructure.database.zookeeper.ZooKeeper',

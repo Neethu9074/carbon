@@ -132,6 +132,7 @@ import './rocketMqCluster';
 import './sparkStandalone';
 import './tanzuFoundation';
 import './unmonitoredHost';
+import './webSphereMember';
 import './aceMessageFlow';
 import './azureSqlServer';
 import './beeInstanaNode';
