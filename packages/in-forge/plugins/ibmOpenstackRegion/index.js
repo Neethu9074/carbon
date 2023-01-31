@@ -8,5 +8,6 @@ import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
-  plugin: plugins.ibmOpenstackRegion
+  plugin: plugins.ibmOpenstackRegion,
+  getIconType: () => 'openstack'
 });
