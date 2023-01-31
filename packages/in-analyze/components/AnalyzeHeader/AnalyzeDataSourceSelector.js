@@ -18,7 +18,7 @@ import {
   hasApplicationsAccess,
   hasMobileAppsAccess,
   hasWebsitesAccess,
-  hasInfrastructureAccess
+  hasInfrastructureAnalyzeAccess
 } from 'in-stores/permission';
 import { getTagCatalog as getCallsTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { getLinkToAnalyze as getLinkToProfilesAnalyze } from 'in-components/Profiling/navigation/paths';
@@ -38,7 +38,6 @@ import { getLinkToExploreDefault } from 'in-infrastructure/navigation/paths';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
-import { infraExploreDataEnabled } from 'in-services/featureFlags';
 import Pill from 'in-components/Pill';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -225,7 +224,7 @@ const productAreas = [
   },
   {
     productArea: 'infrastructure',
-    hasAccess: infraExploreDataEnabled && hasInfrastructureAccess,
+    hasAccess: hasInfrastructureAnalyzeAccess,
     dataSources: [
       {
         dataSource: 'infrastructure',

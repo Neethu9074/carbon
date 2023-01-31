@@ -76,9 +76,11 @@ export default function ActionForm({ form, setForm, onChange, entity: action }: 
             {isDocLink(type) && <DocLinkSection form={form} onChange={onChange} />}
             {isScript(type) && <ScriptSection form={form} onChange={onChange} />}
             {isWebhook(type) && <WebhookSection setForm={setForm} form={form} onChange={onChange} entity={action} />}
-            <FormGroup>
-              <ParametersTable form={form} setForm={setForm} onChange={onChange} />
-            </FormGroup>
+            {!isDocLink(type) && (
+              <FormGroup>
+                <ParametersTable form={form} setForm={setForm} onChange={onChange} />
+              </FormGroup>
+            )}
           </>
         </Col>
       </Row>

@@ -17,10 +17,9 @@ import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { NumberFormatterObject } from 'in-services/formatters/number';
-import { infraExploreDataEnabled } from 'in-services/featureFlags';
+import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
 import { Config } from 'in-custom-dashboards/widgets/Chart/types';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
-import { hasInfrastructureAccess } from 'in-stores/permission';
 import { getFormatterId } from 'in-stores/metric/formatters';
 import { InfraAlertConfig, TimeConfig } from 'in-types';
 import { EventMap, EventOrMap } from 'in-events/types';
@@ -64,7 +63,7 @@ export default function InfraEventContent({ event }: Props) {
 
             <ProblemDescription fixSuggestion={fixSuggestion} className="in-event-view-event-content" />
 
-            {infraExploreDataEnabled && hasInfrastructureAccess && (
+            {hasInfrastructureAnalyzeAccess && (
               <DescriptionButtons>
                 <AnalyzeInfraEventButton
                   alertConfig={alertConfig}

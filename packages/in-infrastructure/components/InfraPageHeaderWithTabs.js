@@ -16,8 +16,7 @@ import TypeSelector from 'in-infrastructure/Explore/components/TypeSelector';
 import { defaultInfraExploreView } from 'in-infrastructure/navigation/paths';
 import DashboardHeader, { themes } from 'in-components/DashboardHeader';
 import { isInfraExploreView } from 'in-infrastructure/navigation/paths';
-import { infraExploreDataEnabled } from 'in-services/featureFlags';
-import { hasInfrastructureAccess } from 'in-stores/permission';
+import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
 import Dashboard from 'in-infrastructure/Dashboard';
 import { noop } from 'in-services/util/function';
 import Pill from 'in-components/Pill/Pill';
@@ -68,7 +67,7 @@ export default function InfraPageHeaderWithTabs({
                     contextIcon: 'lib_infrastructure'
                   }
                 ]}
-                renderButtonLine={infraExploreDataEnabled && hasInfrastructureAccess ? renderButtonLine : undefined}
+                renderButtonLine={hasInfrastructureAnalyzeAccess ? renderButtonLine : undefined}
                 label={
                   isInfraExploreActive && renderTypeSelector ? (
                     <TypeSelector onTypeSelected={onTypeSelected} />

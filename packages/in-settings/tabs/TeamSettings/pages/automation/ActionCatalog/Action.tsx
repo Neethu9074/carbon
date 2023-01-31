@@ -245,12 +245,13 @@ export function getActionSpecification(form: MapForm): NewAction {
       })
     );
   }
+  const inputParameters = isDocLink(type) ? [] : parameters.map((parameter: MappedParameter) => parameter.value);
   return {
     name,
     description,
     fields,
     type,
     tags: tags.map((tag: Tag) => tag.value),
-    inputParameters: parameters.map((parameter: MappedParameter) => parameter.value)
+    inputParameters
   };
 }
