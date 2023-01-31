@@ -6,8 +6,9 @@
 
 import React from 'react';
 
-import DefaultDashboard from 'in-infrastructure/Dashboard/components/DefaultDashboard';
+import { getOpenstackRegionDashboard } from 'in-openstack/navigation/paths';
+import RedirectWithHash from 'in-components/RedirectWithHash';
 
 export default function Dashboard({ snapshot, timeConfig }) {
-  return <DefaultDashboard snapshot={snapshot} timeConfig={timeConfig} />;
+  return <RedirectWithHash to$={getOpenstackRegionDashboard(snapshot.get('id'), { timeConfig })} />;
 }
