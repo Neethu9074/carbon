@@ -24,7 +24,6 @@ export const fullTermsConfigEnabled = isFeatureFlagEnabled('fullTermsConfigEnabl
 export const agentMonitoringIssuesEnabled = isFeatureFlagEnabled('agentMonitoringIssuesEnabled');
 export const skipOnboardingDialog = isFeatureFlagEnabled('skipOnboardingDialog');
 export const routeIdOverPathTplEnabled = isFeatureFlagEnabled('routeIdOverPathTplEnabled');
-export const infraExplorePresentationEnabled = isFeatureFlagEnabled('infraExplorePresentationEnabled');
 export const infraExploreDataEnabled = isFeatureFlagEnabled('infraExploreDataEnabled');
 export const beeInstanaInfraMetricsEnabled = isFeatureFlagEnabled('beeInstanaInfraMetricsEnabled');
 export const highResolutionInfrastructureMetricsEnabled = isFeatureFlagEnabled(

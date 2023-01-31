@@ -20,10 +20,10 @@ import { default as useWebsiteTagCatalog } from 'in-websites/hooks/useTagCatalog
 import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
 import { getLinkToAnalyzeDeprecated } from 'in-analyze/navigation/paths';
 import { getLinkToExplore } from 'in-infrastructure/navigation/paths';
+import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
 import { NO_VALUE } from 'in-analyze/components/GroupedTraces/Group';
 import { extendWindowSizeOnLiveMode } from 'in-applications/metrics';
 import { getLinkToAnalyze } from 'in-applications/navigation/paths';
-import { infraExploreDataEnabled } from 'in-services/featureFlags';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { isParseableAsNumber } from 'in-services/util/number';
@@ -217,7 +217,7 @@ function Label({ item, config, result, tagCatalog }) {
       });
       break;
     case 'INFRASTRUCTURE_METRICS':
-      link = (infraExploreDataEnabled && getLinkToEntityExplore(config, formModel)) || '';
+      link = (hasInfrastructureAnalyzeAccess && getLinkToEntityExplore(config, formModel)) || '';
       break;
   }
 

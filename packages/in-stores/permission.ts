@@ -10,7 +10,8 @@ import {
   phmcEnabled,
   syntheticsEnabled,
   vsphereEnabled,
-  zhmcEnabled
+  zhmcEnabled,
+  infraExploreDataEnabled
 } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -44,7 +45,8 @@ export const AreaPermission = Object.freeze({
   ACCESS_PHMC: 'ACCESS_PHMC',
   ACCESS_ZHMC: 'ACCESS_ZHMC',
   ACCESS_PCF: 'ACCESS_PCF',
-  ACCESS_OPENSTACK: 'ACCESS_OPENSTACK'
+  ACCESS_OPENSTACK: 'ACCESS_OPENSTACK',
+  ACCESS_INFRASTRUCTURE_ANALYZE: 'ACCESS_INFRASTRUCTURE_ANALYZE'
 } as const);
 export type AreaPermissionType = keyof typeof AreaPermission;
 export const AreaPermissions = Object.freeze(Object.values(AreaPermission));
@@ -60,6 +62,7 @@ export const ACCESS_PHMC = AreaPermission.ACCESS_PHMC;
 export const ACCESS_ZHMC = AreaPermission.ACCESS_ZHMC;
 export const ACCESS_PCF = AreaPermission.ACCESS_PCF;
 export const ACCESS_OPENSTACK = AreaPermission.ACCESS_OPENSTACK;
+export const ACCESS_INFRASTRUCTURE_ANALYZE = AreaPermission.ACCESS_INFRASTRUCTURE_ANALYZE;
 
 export const Capability = Object.freeze({
   CAN_CONFIGURE_EUM_APPLICATIONS: 'CAN_CONFIGURE_EUM_APPLICATIONS',
@@ -118,7 +121,11 @@ export const hasApplicationsAccess = hasPermission(LimitedAccessScope.LIMITED_AP
 export const hasKubernetesAccess = hasPermission(LimitedAccessScope.LIMITED_KUBERNETES_SCOPE, ACCESS_KUBERNETES);
 export const hasWebsitesAccess = hasPermission(LimitedAccessScope.LIMITED_WEBSITES_SCOPE, ACCESS_WEBSITES);
 export const hasMobileAppsAccess = hasPermission(LimitedAccessScope.LIMITED_MOBILE_APPS_SCOPE, ACCESS_MOBILE_APPS);
-export const hasAnalyzeAccess = hasApplicationsAccess || hasWebsitesAccess || hasMobileAppsAccess;
+export const hasInfrastructureAnalyzeAccess =
+  hasPermission(LimitedAccessScope.LIMITED_INFRASTRUCTURE_SCOPE, ACCESS_INFRASTRUCTURE_ANALYZE) &&
+  infraExploreDataEnabled;
+export const hasAnalyzeAccess =
+  hasApplicationsAccess || hasWebsitesAccess || hasMobileAppsAccess || hasInfrastructureAnalyzeAccess;
 export const hasInfrastructureAccess = hasPermission(
   LimitedAccessScope.LIMITED_INFRASTRUCTURE_SCOPE,
   ACCESS_INFRASTRUCTURE
@@ -185,6 +192,12 @@ function getProductAreaPermissions(): Array<AreaPermissionProps> {
   areaPermissions.push({
     value: AreaPermission.ACCESS_INFRASTRUCTURE,
     label: t('in-stores:permissionAccessInfrastructureLabel')
+  });
+
+  areaPermissions.push({
+    value: AreaPermission.ACCESS_INFRASTRUCTURE_ANALYZE,
+    label: t('in-stores:permissionAccessInfrastructureAnalyzeLabel'),
+    isNew: true
   });
 
   if (syntheticsEnabled) {

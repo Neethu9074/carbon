@@ -20,7 +20,7 @@ import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncCompo
 // @ts-expect-error module need to be translated to TS
 import { infraExplorePath } from 'in-infrastructure/navigation/paths';
 import { containerPath, graphPath, physicalPath, tablePath } from 'in-stores/navigation/paths/mainPaths';
-import { infraExploreDataEnabled } from 'in-services/featureFlags';
+import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
 
 const infrastructureRoutes = [
   <Route key="infraPhysical" path={physicalPath} children={renderAsyncRouteChildren(Map)} />,
@@ -28,7 +28,7 @@ const infrastructureRoutes = [
   <Route key="infraTable" path={tablePath} children={renderAsyncRouteChildren(TableView)} />,
   <Route key="infraGraph" path={graphPath} children={renderAsyncRouteChildren(GraphView)} />
 ];
-if (infraExploreDataEnabled) {
+if (hasInfrastructureAnalyzeAccess) {
   infrastructureRoutes.push(
     <Route key="infraExplore" path={infraExplorePath} children={renderAsyncRouteChildren(InfraExploreView)} />
   );

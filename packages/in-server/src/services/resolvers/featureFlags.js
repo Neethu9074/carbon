@@ -100,11 +100,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'infraExplorePresentationEnabled',
-    instanaCtlKey: 'feature.infrastructure.explore.presentation.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'infraExploreDataEnabled',
     instanaCtlKey: 'feature.infrastructure.explore.data.enabled',
     defaultValue: true

@@ -11,7 +11,6 @@ module.exports = {
   containerInfoEnabled: true,
   entityCountWidgetEnabled: true,
   infraMetricsWidgetEnabled: true,
-  infraExplorePresentationEnabled: true,
   infraExploreDataEnabled: true,
   beeInstanaInfraMetricsEnabled: true,
   highResolutionInfrastructureMetricsEnabled: true,
