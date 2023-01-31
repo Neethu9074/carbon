@@ -580,6 +580,10 @@
         "analyzeBeacons": "Analyze Beacons",
         "adjustedTimeConfig": "The time range was adjusted to include the selected beacon."
       }
+    },
+    "components": {
+      "callTreeHeaderParent": "Load parent call",
+      "callTreeHeaderCalls": "Load more calls"
     }
   },
   "tabs": {
