@@ -92,7 +92,7 @@ export default function InfrastructureList({
         );
       }
     },
-    getLabelColumn({ timeConfig }, tracking?.onNavigateToEntity),
+    getLabelColumn(tracking?.onNavigateToEntity),
     ...getMetricColumns({ metrics, sortable: showHeader, metricMetadatas, timeConfig, granularity })
   ];
 
@@ -210,19 +210,18 @@ function getTableData({
   });
 }
 
-function getLabelColumn({ timeConfig }, onNavigateToEntity) {
+function getLabelColumn(onNavigateToEntity) {
   return {
     id: 'label',
     label: t('in-infrastructure:explore.name'),
 
     getContent(item) {
-      const offlineTime = item.time < timeConfig.to ? item.time : undefined;
       return (
         <div className={locals.entityLink}>
           <EntityLink
             label={item.label}
             plugin={item.plugin}
-            href$={getDashboardLink(item.snapshotId, { to: offlineTime })}
+            href$={getDashboardLink(item.snapshotId, { pathname: '/physical/dashboard' })}
             onClick={() => onNavigateToEntity?.(item.plugin)}
           />
         </div>
