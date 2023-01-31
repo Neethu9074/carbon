@@ -7,6 +7,7 @@
 import { ReactCodeMirrorProps, useCodeMirror } from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 import { bbedit } from '@uiw/codemirror-theme-bbedit';
+import { EditorView } from '@codemirror/view';
 
 export type CodeProps = ReactCodeMirrorProps;
-export { javascript, bbedit, useCodeMirror };
+export { javascript, bbedit, useCodeMirror, EditorView };

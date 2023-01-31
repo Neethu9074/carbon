@@ -6,18 +6,23 @@
 
 import React, { useEffect, useRef } from 'react';
 
-import { CodeProps, javascript, bbedit, useCodeMirror } from 'in-synthetics/packages/CodeMirror';
+import { CodeProps, javascript, bbedit, useCodeMirror, EditorView } from 'in-synthetics/packages/CodeMirror';
 
 import locals from './Code.mless';
 
 export default function CodeInput(props: CodeProps) {
   const editor = useRef(null);
   const extensions = [javascript({ jsx: true })];
+  const customizedTheme = EditorView.theme({
+    '&.cm-editor.cm-focused': {
+      outline: 'none'
+    }
+  });
 
   const { setContainer } = useCodeMirror({
     container: editor.current,
     value: props.value || '',
-    theme: bbedit,
+    theme: [bbedit, customizedTheme],
     extensions: extensions,
     editable: props.editable,
     readOnly: props.readOnly,
@@ -25,7 +30,7 @@ export default function CodeInput(props: CodeProps) {
     placeholder: props.placeholder,
     height: props.height,
     minHeight: props.minHeight,
-    maxHeight: props.minHeight,
+    maxHeight: props.maxHeight,
     width: props.width,
     minWidth: props.minWidth,
     maxWidth: props.maxWidth,

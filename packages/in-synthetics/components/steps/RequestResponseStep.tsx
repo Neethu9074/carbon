@@ -236,6 +236,8 @@ export default function RequestResponseStep({
                   <Code
                     value={field.value}
                     onChange={updateCode}
+                    maxHeight="39vh"
+                    maxWidth="63vw"
                     placeholder={t('in-synthetics:dialog.createTest.requestStep.enterTheScriptMessage')}
                   />
                   {errors && errors.length !== 0 && <ErrorList errors={errors} />}
