@@ -8,5 +8,6 @@ import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
-  plugin: plugins.ibmOpenstackComputeInstance
+  plugin: plugins.ibmOpenstackComputeInstance,
+  getIconType: () => 'openstack'
 });
