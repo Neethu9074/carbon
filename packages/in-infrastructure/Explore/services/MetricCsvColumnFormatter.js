@@ -42,15 +42,15 @@ export function formatCsvColumnName(metricLabel, aggregation, formatter) {
  percentage metrics are formatted.
  */
 export function formatCsvColumnValue(formatter, value) {
-  const formatterName = getFormatterType(formatter);
+  const formatterType = getFormatterType(formatter);
 
   var metricValue = value;
 
   // convert decimal representation to a percentage
-  if (formatterName === PERCENTAGE_FORMATTER_TYPE) {
+  if (formatterType === PERCENTAGE_FORMATTER_TYPE) {
     metricValue = Number(value * 100).toFixed(2);
     // Round to nearest integer if specified by the formatter
-    if (formatter.toString().includes('zeroDecimalPlaces')) {
+    if (formatter.name === 'percentageZeroDecimalPlaces') {
       metricValue = Math.round(metricValue);
     }
   }
