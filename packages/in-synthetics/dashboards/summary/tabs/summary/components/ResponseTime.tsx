@@ -22,12 +22,15 @@ import theme from 'in-themes';
 type Props = {
   timeShiftConfig: TimeShift;
   test: TestResponse;
+  renderPostChartContent: (a: any) => JSX.Element;
 };
 
-export default function ResponseTime({ test, timeShiftConfig }: Props) {
+export default function ResponseTime({ test, timeShiftConfig, renderPostChartContent }: Props) {
   const timeConfig = useTimeConfig();
   if (!test.progress.loading) {
-    return renderChart(test, timeShiftConfig);
+    return (
+      <RenderChart test={test} timeShiftConfig={timeShiftConfig} renderPostChartContent={renderPostChartContent} />
+    );
   } else {
     return (
       <ResultAwareChart
@@ -48,7 +51,7 @@ export default function ResponseTime({ test, timeShiftConfig }: Props) {
   }
 }
 
-function renderChart(test: TestResponse, timeShiftConfig: TimeShift) {
+const RenderChart = ({ test, timeShiftConfig, renderPostChartContent }: Props) => {
   const locations: string[] = get(test, ['data', 'locations']) || [];
   const locationDisplayLabels: string[] = get(test, ['data', 'locationDisplayLabels']) || [];
   const id = get(test, ['data', 'id']);
@@ -89,6 +92,22 @@ function renderChart(test: TestResponse, timeShiftConfig: TimeShift) {
       title={t('in-synthetics:dashboard.summary.widgets.responseTimes')}
       automaticallySize={false}
       reverseLegendOrder={Boolean(timeShiftConfig.offset)}
+      renderPostChartContent={props =>
+        renderPostChartContent({
+          ...props,
+          boundaryScope: 'ALL',
+          chartName: 'Failure',
+          alertRules: {
+            errorRate: {
+              rule: {
+                alertType: 'failure',
+                aggregation: 'DISTINCT_COUNT',
+                metricName: 'testId'
+              }
+            }
+          }
+        })
+      }
       reverseTooltipOrder
       shareMaxAxisDomain
       config={{
@@ -103,4 +122,4 @@ function renderChart(test: TestResponse, timeShiftConfig: TimeShift) {
       }}
     />
   );
-}
+};

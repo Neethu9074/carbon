@@ -5,6 +5,7 @@
 
 import React, { Fragment } from 'react';
 
+import MarkerLanesSynthetic from 'in-synthetics/dashboards/summary/tabs/summary/components/MarkerLanesSynthetic';
 import ResultsTopList from 'in-synthetics/dashboards/summary/tabs/summary/components/ResultsTopList';
 import ResponseStatus from 'in-synthetics/dashboards/summary/tabs/summary/components/ResponseStatus';
 import NetworkTimings from 'in-synthetics/dashboards/summary/tabs/summary/components/NetworkTiming';
@@ -51,8 +52,9 @@ export default function Summary({ test }: SummaryProps) {
       type: 'TAG_FILTER'
     }
   ];
-  // The values in the config object passed as prop in BigNumberKpiCard
-  // are just temporal values until we implement the data retreival logic.
+
+  const MarkerLanes = MarkerLanesSynthetic({ testId });
+
   return (
     <Fragment>
       <Row>
@@ -166,14 +168,14 @@ export default function Summary({ test }: SummaryProps) {
       </Row>
       <Row>
         <Col xs>
-          <Failures test={test} timeShiftConfig={timeShiftConfig} />
+          <Failures test={test} timeShiftConfig={timeShiftConfig} renderPostChartContent={MarkerLanes} />
         </Col>
         <Col xs>
-          <ResponseTime test={test} timeShiftConfig={timeShiftConfig} />
+          <ResponseTime test={test} timeShiftConfig={timeShiftConfig} renderPostChartContent={MarkerLanes} />
         </Col>
         {testType && !test.progress.loading && (
           <Col xs>
-            <NetworkTimings test={test} timeShiftConfig={timeShiftConfig} />
+            <NetworkTimings test={test} timeShiftConfig={timeShiftConfig} renderPostChartContent={MarkerLanes} />
           </Col>
         )}
       </Row>
@@ -181,7 +183,7 @@ export default function Summary({ test }: SummaryProps) {
         {!test.progress.loading && (
           <>
             <Col lg={testType ? 4 : 6}>
-              <ResponseSize test={test} timeShiftConfig={timeShiftConfig} />
+              <ResponseSize test={test} timeShiftConfig={timeShiftConfig} renderPostChartContent={MarkerLanes} />
             </Col>
             <Col lg={testType ? 4 : 6}>
               <ResultsTopList testId={testId} locationsMap={locationsMap} />

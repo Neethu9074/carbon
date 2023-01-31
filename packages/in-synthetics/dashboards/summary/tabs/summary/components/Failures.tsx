@@ -21,12 +21,15 @@ import { t } from 'in-i18n';
 type Props = {
   timeShiftConfig: TimeShift;
   test: TestResponse;
+  renderPostChartContent: (a: any) => JSX.Element;
 };
 
-export default function Failures({ test, timeShiftConfig }: Props) {
+export default function Failures({ test, timeShiftConfig, renderPostChartContent }: Props) {
   const timeConfig = useTimeConfig();
   if (!test.progress.loading) {
-    return renderChart(test, timeShiftConfig);
+    return (
+      <RenderChart test={test} timeShiftConfig={timeShiftConfig} renderPostChartContent={renderPostChartContent} />
+    );
   } else {
     return (
       <ResultAwareChart
@@ -47,7 +50,7 @@ export default function Failures({ test, timeShiftConfig }: Props) {
   }
 }
 
-function renderChart(test: TestResponse, timeShiftConfig: TimeShift) {
+const RenderChart = ({ test, timeShiftConfig, renderPostChartContent }: Props) => {
   const locations: string[] = get(test, ['data', 'locations']) || [];
   const locationDisplayLabels: string[] = get(test, ['data', 'locationDisplayLabels']) || [];
   const id = get(test, ['data', 'id']);
@@ -94,6 +97,22 @@ function renderChart(test: TestResponse, timeShiftConfig: TimeShift) {
     <UnifiedMetricsChart
       title={t('in-synthetics:dashboard.summary.widgets.failures')}
       renderHistoricDataIndicator
+      renderPostChartContent={props =>
+        renderPostChartContent({
+          ...props,
+          boundaryScope: 'ALL',
+          chartName: 'Failure',
+          alertRules: {
+            errorRate: {
+              rule: {
+                alertType: 'failure',
+                aggregation: 'DISTINCT_COUNT',
+                metricName: 'testId'
+              }
+            }
+          }
+        })
+      }
       automaticallySize={false}
       reverseLegendOrder={Boolean(timeShiftConfig.offset)}
       reverseTooltipOrder={Boolean(timeShiftConfig.offset)}
@@ -110,4 +129,4 @@ function renderChart(test: TestResponse, timeShiftConfig: TimeShift) {
       }}
     />
   );
-}
+};

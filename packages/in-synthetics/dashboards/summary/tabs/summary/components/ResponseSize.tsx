@@ -8,7 +8,6 @@ import React from 'react';
 
 import { t } from '@instana/i18n-react';
 
-//@ts-ignore
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
@@ -23,12 +22,15 @@ import theme from 'in-themes';
 type Props = {
   timeShiftConfig: TimeShift;
   test: TestResponse;
+  renderPostChartContent: (a: any) => JSX.Element;
 };
 
-export default function ResponseSize({ test, timeShiftConfig }: Props) {
+export default function ResponseSize({ test, timeShiftConfig, renderPostChartContent }: Props) {
   const timeConfig = useTimeConfig();
   if (!test.progress.loading) {
-    return renderChart(test, timeShiftConfig);
+    return (
+      <RenderChart test={test} timeShiftConfig={timeShiftConfig} renderPostChartContent={renderPostChartContent} />
+    );
   } else {
     return (
       <ResultAwareChart
@@ -49,7 +51,7 @@ export default function ResponseSize({ test, timeShiftConfig }: Props) {
   }
 }
 
-function renderChart(test: TestResponse, timeShiftConfig: TimeShift) {
+const RenderChart = ({ test, timeShiftConfig, renderPostChartContent }: Props) => {
   const locations: string[] = get(test, ['data', 'locations']) || [];
   const locationDisplayLabels: string[] = get(test, ['data', 'locationDisplayLabels']) || [];
   const id = get(test, ['data', 'id']);
@@ -90,6 +92,22 @@ function renderChart(test: TestResponse, timeShiftConfig: TimeShift) {
       title={t('in-synthetics:dashboard.summary.widgets.averageResponseSize')}
       automaticallySize={false}
       reverseLegendOrder={Boolean(timeShiftConfig.offset)}
+      renderPostChartContent={props =>
+        renderPostChartContent({
+          ...props,
+          boundaryScope: 'ALL',
+          chartName: 'Failure',
+          alertRules: {
+            errorRate: {
+              rule: {
+                alertType: 'failure',
+                aggregation: 'DISTINCT_COUNT',
+                metricName: 'testId'
+              }
+            }
+          }
+        })
+      }
       reverseTooltipOrder
       shareMaxAxisDomain
       config={{
@@ -104,4 +122,4 @@ function renderChart(test: TestResponse, timeShiftConfig: TimeShift) {
       }}
     />
   );
-}
+};

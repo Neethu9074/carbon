@@ -23,6 +23,7 @@ import theme from 'in-themes';
 type NetworkTimingProps = {
   timeShiftConfig: TimeShift;
   test: TestResponse;
+  renderPostChartContent: (a: any) => JSX.Element;
 };
 
 type Option = {
@@ -32,7 +33,7 @@ type Option = {
 
 type Options = Option[];
 
-export default function NetworkTimings({ test, timeShiftConfig }: NetworkTimingProps) {
+export default function NetworkTimings({ test, timeShiftConfig, renderPostChartContent }: NetworkTimingProps) {
   const locations: string[] = get(test, ['data', 'locations']) || [];
   const locationDisplayLabels: string[] = get(test, ['data', 'locationDisplayLabels']) || [];
   const id = get(test, ['data', 'id']);
@@ -142,6 +143,22 @@ export default function NetworkTimings({ test, timeShiftConfig }: NetworkTimingP
       title={t('in-synthetics:dashboard.summary.widgets.networkTimings')}
       rightHeaderContent={rightHeader}
       automaticallySize={false}
+      renderPostChartContent={props =>
+        renderPostChartContent({
+          ...props,
+          boundaryScope: 'ALL',
+          chartName: 'Failure',
+          alertRules: {
+            errorRate: {
+              rule: {
+                alertType: 'failure',
+                aggregation: 'DISTINCT_COUNT',
+                metricName: 'testId'
+              }
+            }
+          }
+        })
+      }
       reverseLegendOrder={false}
       config={{
         y1: {
