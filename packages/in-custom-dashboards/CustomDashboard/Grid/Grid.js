@@ -10,7 +10,7 @@ import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import classNames from 'classnames';
 
-import { SvgIcon } from '@instana/components';
+import { SvgIcon, Card, Message } from '@instana/components';
 
 import {
   rowHeightPixels,
@@ -23,8 +23,8 @@ import ViewTracker from 'in-custom-dashboards/CustomDashboard/Grid/ViewTracker';
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import widgets from 'in-custom-dashboards/widgets';
+import { t, Trans } from 'in-i18n';
 import theme from 'in-themes';
-import { t } from 'in-i18n';
 
 import locals from './Grid.mless';
 import './Grid.less';
@@ -70,16 +70,8 @@ function Grid({
   }, []);
 
   const layout = config.widgets.map(widget => {
-    const { minimumWidth, minimumHeight } = widgets[widget.type];
-    return {
-      i: widget.id,
-      w: Math.max(widget.width, minimumWidth),
-      h: Math.max(widget.height, minimumHeight),
-      x: widget.x,
-      y: widget.y,
-      minW: minimumWidth,
-      minH: minimumHeight
-    };
+    const { minimumWidth = 3, minimumHeight = 9 } = widgets[widget.type] ?? {};
+    return getLayoutFields(widget, minimumWidth, minimumHeight);
   });
 
   return (
@@ -104,49 +96,23 @@ function Grid({
       draggableHandle={`.${draggableHandle || locals.dragHandle}`}
     >
       {config.widgets.map(widget => {
-        const { Widget, onlyRenderInsideViewport = true, trackViews } = widgets[widget.type];
-
-        const actions = isConfigurable && (
-          <MoreMenu kind="secondaryDarker" size="compact" className={locals.more}>
-            <MoreMenuButton icon="lib_actions_edit" onClick={() => onEditWidget(widget.id)}>
-              {t('in-custom-dashboards:customDashboard.grid.grid.edit')}
-            </MoreMenuButton>
-            <MoreMenuButton icon="lib_actions_copy" onClick={() => onDuplicateWidget(widget.id)}>
-              {t('in-custom-dashboards:customDashboard.grid.grid.duplicate')}
-            </MoreMenuButton>
-            <MoreMenuButton icon="lib_actions_delete" onClick={() => onRemoveWidget(widget.id)}>
-              {t('in-custom-dashboards:customDashboard.grid.grid.delete')}
-            </MoreMenuButton>
-          </MoreMenu>
-        );
-
-        let content = (
-          <Widget
-            title={widget.title || '–'}
-            actions={actions}
-            dragHandle={isDraggable && dragHandle}
-            config={widget.config}
-            setApDialogOpen={widget.setApDialogOpen}
+        const content = widgets[widget.type] ? (
+          <WidgetContent
+            widget={widget}
+            isConfigurable={isConfigurable}
+            onEditWidget={onEditWidget}
+            onDuplicateWidget={onDuplicateWidget}
+            onRemoveWidget={onRemoveWidget}
+            isDraggable={isDraggable}
+            scrollAreaDomNode={scrollAreaDomNode}
           />
+        ) : (
+          <Card title={widget.title || '-'}>
+            <Message type="error" withIcon>
+              <Trans i18nKey="in-custom-dashboards:widgets.invalidWidgetTypeErrorMessage" />
+            </Message>
+          </Card>
         );
-
-        if (trackViews) {
-          content = <ViewTracker widget={widget}>{content}</ViewTracker>;
-        }
-
-        if (onlyRenderInsideViewport) {
-          // We cannot reference 'content' directly within InView as this would create a circular rendering problem.
-          const trackVisibilityContent = content;
-          content = (
-            <InView as="div" triggerOnce root={scrollAreaDomNode}>
-              {({ inView, ref }) => (
-                <div className={locals.visibilityTrackWrapper} ref={ref}>
-                  {inView && trackVisibilityContent}
-                </div>
-              )}
-            </InView>
-          );
-        }
 
         return (
           <div
@@ -182,6 +148,85 @@ function Grid({
   }
 }
 
+function WidgetContent({
+  widget,
+  isConfigurable,
+  onEditWidget,
+  onDuplicateWidget,
+  onRemoveWidget,
+  isDraggable,
+  scrollAreaDomNode
+}) {
+  const { Widget, onlyRenderInsideViewport = true, trackViews } = widgets[widget.type];
+
+  const actions = isConfigurable && (
+    <WidgetMoreMenu
+      onEditWidget={onEditWidget}
+      widget={widget}
+      onDuplicateWidget={onDuplicateWidget}
+      onRemoveWidget={onRemoveWidget}
+    />
+  );
+
+  let content = (
+    <Widget
+      title={widget.title || '–'}
+      actions={actions}
+      dragHandle={isDraggable && dragHandle}
+      config={widget.config}
+      setApDialogOpen={widget.setApDialogOpen}
+    />
+  );
+
+  if (trackViews) {
+    content = <ViewTracker widget={widget}>{content}</ViewTracker>;
+  }
+
+  if (onlyRenderInsideViewport) {
+    // We cannot reference 'content' directly within InView as this would create a circular rendering problem.
+    const trackVisibilityContent = content;
+    content = (
+      <InView as="div" triggerOnce root={scrollAreaDomNode}>
+        {({ inView, ref }) => (
+          <div className={locals.visibilityTrackWrapper} ref={ref}>
+            {inView && trackVisibilityContent}
+          </div>
+        )}
+      </InView>
+    );
+  }
+
+  return content;
+}
+
+function WidgetMoreMenu({ onEditWidget, widget, onDuplicateWidget, onRemoveWidget }) {
+  return (
+    <MoreMenu kind="secondaryDarker" size="compact" className={locals.more}>
+      <MoreMenuButton icon="lib_actions_edit" onClick={() => onEditWidget(widget.id)}>
+        {t('in-custom-dashboards:customDashboard.grid.grid.edit')}
+      </MoreMenuButton>
+      <MoreMenuButton icon="lib_actions_copy" onClick={() => onDuplicateWidget(widget.id)}>
+        {t('in-custom-dashboards:customDashboard.grid.grid.duplicate')}
+      </MoreMenuButton>
+      <MoreMenuButton icon="lib_actions_delete" onClick={() => onRemoveWidget(widget.id)}>
+        {t('in-custom-dashboards:customDashboard.grid.grid.delete')}
+      </MoreMenuButton>
+    </MoreMenu>
+  );
+}
+
 export function getWidgetId(id) {
   return `widget-${id}`;
+}
+
+function getLayoutFields(widget, minimumWidth, minimumHeight) {
+  return {
+    i: widget.id,
+    w: Math.max(widget.width, minimumWidth),
+    h: Math.max(widget.height, minimumHeight),
+    x: widget.x,
+    y: widget.y,
+    minW: minimumWidth,
+    minH: minimumHeight
+  };
 }

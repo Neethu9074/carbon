@@ -104,6 +104,7 @@
     }
   },
   "widgets": {
+    "invalidWidgetTypeErrorMessage": "<strong>Invalid widget type</strong><br/>This widget has invalid type, you can fix it by editing the dashboard JSON or removing the widget.",
     "metricConfig": {
       "groupingConfig": {
         "top": "Top {{number}}",
