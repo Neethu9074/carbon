@@ -252,6 +252,6 @@ export function getActionSpecification(form: MapForm): NewAction {
     fields,
     type,
     tags: tags.map((tag: Tag) => tag.value),
-    inputParameters: inputParameters
+    inputParameters
   };
 }
