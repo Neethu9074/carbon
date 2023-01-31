@@ -3,18 +3,4 @@
  * (c) Copyright Instana Inc.
  */
 
-import { number } from 'in-services/formatters/number';
-import { t } from 'in-i18n';
-
-export default [
-  {
-    label: t('in-forge:plugins.googleCloudDatastore.requests'),
-    metric: 'request_count',
-    formatter: number.compact
-  },
-  {
-    label: t('in-forge:plugins.googleCloudDatastore.indexWrites'),
-    metric: 'index_write_count',
-    formatter: number.compact
-  }
-];
+export default [];
