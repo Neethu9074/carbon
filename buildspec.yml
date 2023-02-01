@@ -5,12 +5,10 @@ env:
     CODEBUILD_PROJECT_NAME: 'ui-client'
     VERSIONING_ARTIFACT_NAME: 'ui-client'
   parameter-store:
-    ARTIFACT_INSTANA_IO_PASSWORD: 'artifact.instana.io.password'
-    ARTIFACT_INSTANA_IO_USER: 'artifact.instana.io.user'
-    ARTIFACT_RND_INSTANA_IO_PASSWORD: 'artifact-rnd.instana.io.maven-write-password'
-    ARTIFACT_RND_INSTANA_IO_USER: 'artifact-rnd.instana.io.maven-write-user'
     CONTAINERS_INSTANA_IO_PASSWORD: 'containers.instana.io.password'
     CONTAINERS_INSTANA_IO_USER: 'containers.instana.io.user'
+    INSTANA_ARTIFACTORY_USERNAME: "delivery.instana.io.internal.rw.username"
+    INSTANA_ARTIFACTORY_PASSWORD: "delivery.instana.io.internal.rw.password"
     EFS_DATA_DIR: 'efs.data.dir'
     EFS_DNS: 'efs.data.dns'
     GITHUB_API_TOKEN: "ibm.github.e.api.token"
@@ -41,10 +39,10 @@ phases:
   pre_build:
     commands:
       - |
-        REGISTRY="https://artifact-rnd.instana.io" \
-          REPOSITORY_KEY="npm-virtual-internal" \
-          USERNAME="$ARTIFACT_RND_INSTANA_IO_USER" \
-          PASSWORD="$ARTIFACT_RND_INSTANA_IO_PASSWORD" \
+        REGISTRY="https://delivery.instana.io" \
+          REPOSITORY_KEY="int-npm-virtual" \
+          USERNAME="$INSTANA_ARTIFACTORY_USERNAME" \
+          PASSWORD="$INSTANA_ARTIFACTORY_PASSWORD" \
           NON_INTERACTIVE=true \
           WRITE_TO_CWD=true \
           NPM_CONFIG_REGISTRY="https://registry.npmjs.org/" \

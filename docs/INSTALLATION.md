@@ -54,7 +54,7 @@ We are using a custom artifact registry instead of the public [npmjs.com](https:
 [yarnpkg.com](https://yarnpkg.com/) registries. You will need to configure your system for access before you can
 continue to download our project dependencies.
 
-You will need an account for our [artifact-rnd.instana.io](https://artifact-rnd.instana.io) Artifactory instance.
+You will need an account for our [delivery.instana.io](https://delivery.instana.io) Artifactory instance.
 
  - Instana employees should follow the [employee onboarding guide](https://www.notion.so/instana/New-Engineering-Hire-Survival-Guide-5f4be1878333477b8d6f07739a0e259b#e18b6bf976c04bdca3f6d36de6aa209c) to gain access.
  - Others, e.g., contributors from IBM, should request access via a **Instana Slack workspace** channel they have access to. We will not grant access based on private messages.
@@ -64,8 +64,8 @@ Please follow either approach and come back here once you have access. Then exec
 ```sh
 # You can accept the defaults proposed for the first two questions.
 # Answer the third and fourth question with your Artifactory credentials.
-REGISTRY="https://artifact-rnd.instana.io" \
-  REPOSITORY_KEY="npm-virtual-internal" \
+REGISTRY="https://delivery.instana.io" \
+  REPOSITORY_KEY="int-npm-virtual" \
   NPM_CONFIG_REGISTRY="https://registry.npmjs.org/" \
   npx create-artifactory-access-config@1.3.0
 ```
