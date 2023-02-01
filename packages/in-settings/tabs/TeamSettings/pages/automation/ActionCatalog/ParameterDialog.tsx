@@ -50,8 +50,14 @@ export default function ParameterDialog({ form, onChange, idToEdit }: ParameterD
   const hidden = parameterForm.get('hidden') as Field<boolean>;
   const value = parameterForm.get('value') as Field<string>;
   const type = parameterForm.get('type') as Field<string>;
+  const secretKey = parameterForm.get('secretKey') as Field<string>;
+  const secretPath = parameterForm.get('secretPath') as Field<string>;
 
-  const valueHiddenButEmpty = type.value === 'static' && hidden.value && value.value === '';
+  const isHidden = hidden.value;
+  const valueError = type.value === 'static' && value.value === '' && isHidden;
+  const secretKeyError = type.value === 'vault' && secretKey.value === '' && isHidden;
+  const secretPathError = type.value === 'vault' && secretPath.value === '' && isHidden;
+  const error = valueError || secretKeyError || secretPathError;
   return (
     <Dialog
       titleIconType={'lib_openclose_add'}
@@ -74,13 +80,41 @@ export default function ParameterDialog({ form, onChange, idToEdit }: ParameterD
               parameterForm={parameterForm}
               setParameterForm={setParameterForm}
               parameter={parameter}
-              valueHiddenButEmpty={valueHiddenButEmpty}
+              valueError={valueError}
             />
           )}
           {type.value === 'vault' && (
-            <VaultSection parameterForm={parameterForm} setParameterForm={setParameterForm} parameter={parameter} />
+            <VaultSection
+              secretKeyError={secretKeyError}
+              secretPathError={secretPathError}
+              parameterForm={parameterForm}
+              setParameterForm={setParameterForm}
+              parameter={parameter}
+            />
           )}
-          <SaveCancel form={parameterForm} onClickCancelButton={close} saveEnabled={!valueHiddenButEmpty} />
+          <FormGroup>
+            <CheckboxFancy
+              checked={hidden.value}
+              label={t('in-settings:tabs.hiddenParam')}
+              onChange={e =>
+                onParameterChange({
+                  fieldName: 'hidden',
+                  value: e.target.checked,
+                  setParameterForm,
+                  parameter,
+                  updateFormDefinition: ({ form }) => {
+                    if (e.target.checked) {
+                      form = form.updateIn(['required'], field =>
+                        (field as Field<boolean>).setValue(e.target.checked).setTouched(true)
+                      );
+                    }
+                    return form;
+                  }
+                })
+              }
+            />
+          </FormGroup>
+          <SaveCancel form={parameterForm} onClickCancelButton={close} saveEnabled={!error} />
         </Form>
       </div>
     </Dialog>
@@ -190,12 +224,12 @@ const StaticSection = ({
   parameter,
   parameterForm,
   setParameterForm,
-  valueHiddenButEmpty
-}: SectionProps & { valueHiddenButEmpty: boolean }) => {
+  valueError
+}: SectionProps & { valueError: boolean }) => {
   const required = parameterForm.get('required') as Field<boolean>;
   const hidden = parameterForm.get('hidden') as Field<boolean>;
   const value = parameterForm.get('value') as Field<string>;
-  const valueHiddenButEmptyAndTouched = valueHiddenButEmpty && value.touched;
+  const valueErrorAndTouched = valueError && value.touched;
 
   return (
     <>
@@ -210,55 +244,41 @@ const StaticSection = ({
         />
       </FormGroup>
       <FormGroup>
-        <Label htmlFor="parameter-value" hasError={valueHiddenButEmptyAndTouched}>
+        <Label htmlFor="parameter-value" hasError={valueErrorAndTouched}>
           {hidden.value ? t('in-settings:tabs.defaultValue') : t('in-settings:tabs.defaultValueOptional')}
         </Label>
         <Input
           id="parameter-value"
           value={value.value}
           onChange={e => onParameterChange({ fieldName: 'value', value: e.target.value, setParameterForm, parameter })}
-          hasError={valueHiddenButEmptyAndTouched}
+          hasError={valueErrorAndTouched}
           maxLength={256}
         />
-        {valueHiddenButEmptyAndTouched && (
+        {valueErrorAndTouched && (
           <ValidationBlock>{t('in-services:validators.theValueMustNotBeBlank')}</ValidationBlock>
         )}
-      </FormGroup>
-      <FormGroup>
-        <CheckboxFancy
-          checked={hidden.value}
-          label={t('in-settings:tabs.hiddenParam')}
-          onChange={e =>
-            onParameterChange({
-              fieldName: 'hidden',
-              value: e.target.checked,
-              setParameterForm,
-              parameter,
-              updateFormDefinition: ({ form }) => {
-                if (e.target.checked) {
-                  form = form.updateIn(['required'], field =>
-                    (field as Field<boolean>).setValue(e.target.checked).setTouched(true)
-                  );
-                }
-                return form;
-              }
-            })
-          }
-        />
       </FormGroup>
     </>
   );
 };
 
-const VaultSection = ({ parameter, parameterForm, setParameterForm }: SectionProps) => {
+const VaultSection = ({
+  parameter,
+  parameterForm,
+  setParameterForm,
+  secretPathError,
+  secretKeyError
+}: SectionProps & { secretPathError: boolean; secretKeyError: boolean }) => {
+  const hidden = parameterForm.get('hidden') as Field<boolean>;
   const secretKey = parameterForm.get('secretKey') as Field<string>;
   const secretPath = parameterForm.get('secretPath') as Field<string>;
-
+  const secretPathErrorAndTouched = secretPathError && secretPath.touched;
+  const secretKeyErrorAndTouched = secretKeyError && secretKey.touched;
   return (
     <>
       <FormGroup>
-        <Label htmlFor="parameter-secretPath" hasError={!secretPath.valid && secretPath.touched}>
-          {t('in-settings:tabs.secretPath')}
+        <Label htmlFor="parameter-secretPath" hasError={secretPathErrorAndTouched}>
+          {hidden.value ? t('in-settings:tabs.secretPath') : t('in-settings:tabs.secretPathOptional')}
         </Label>
         <Input
           id="parameter-secretPath"
@@ -266,14 +286,16 @@ const VaultSection = ({ parameter, parameterForm, setParameterForm }: SectionPro
           onChange={e =>
             onParameterChange({ fieldName: 'secretPath', value: e.target.value, setParameterForm, parameter })
           }
-          hasError={!secretPath.valid && secretPath.touched}
+          hasError={secretPathErrorAndTouched}
           maxLength={256}
         />
-        <TouchedMessages field={secretPath} className={locals.subErrorTextFormField} />
+        {secretPathErrorAndTouched && (
+          <ValidationBlock>{t('in-services:validators.theValueMustNotBeBlank')}</ValidationBlock>
+        )}
       </FormGroup>
       <FormGroup>
-        <Label htmlFor="parameter-secretKey" hasError={!secretKey.valid && secretKey.touched}>
-          {t('in-settings:tabs.secretKey')}
+        <Label htmlFor="parameter-secretKey" hasError={secretKeyErrorAndTouched}>
+          {hidden.value ? t('in-settings:tabs.secretKey') : t('in-settings:tabs.secretKeyOptional')}
         </Label>
         <Input
           id="parameter-secretKey"
@@ -281,10 +303,12 @@ const VaultSection = ({ parameter, parameterForm, setParameterForm }: SectionPro
           onChange={e =>
             onParameterChange({ fieldName: 'secretKey', value: e.target.value, setParameterForm, parameter })
           }
-          hasError={!secretKey.valid && secretKey.touched}
+          hasError={secretKeyErrorAndTouched}
           maxLength={256}
         />
-        <TouchedMessages field={secretKey} className={locals.subErrorTextFormField} />
+        {secretKeyErrorAndTouched && (
+          <ValidationBlock>{t('in-services:validators.theValueMustNotBeBlank')}</ValidationBlock>
+        )}
       </FormGroup>
     </>
   );

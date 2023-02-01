@@ -974,6 +974,8 @@
     "hidePasswordTooltip": "Hide password",
     "secretKey": "Secret Key",
     "secretPath": "Secret Path",
+    "secretKeyOptional": "Secret Key (optional)",
+    "secretPathOptional": "Secret Path (optional)",
     "validName": "Parameter name is not valid: check to make sure you're using only valid characters and that its unique.",
     "uniqueName": "Parameter names must be unique.",
     "static": "Static",

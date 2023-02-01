@@ -96,15 +96,13 @@ export function addVaultFields({ parameter, form }: AddFieldsParams) {
     .put(
       'secretKey',
       createField({
-        value: secretKey ?? '',
-        validator: notBlankValidator
+        value: secretKey ?? ''
       })
     )
     .put(
       'secretPath',
       createField({
-        value: secretPath ?? '',
-        validator: notBlankValidator
+        value: secretPath ?? ''
       })
     )
     .remove('value');
