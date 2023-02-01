@@ -17,8 +17,7 @@
 
   .parameter,
   .parameterClickable {
-    color: @lib__colors__N500;
-    font-style: italic;
+    color: @lib__colors__blue800;
     &:hover {
       text-decoration: underline;
     }

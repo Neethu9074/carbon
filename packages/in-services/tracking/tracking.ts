@@ -3,25 +3,28 @@
  * (c) Copyright Instana Inc.
  */
 
-export * from 'in-services/tracking/eventNames';
-
-import { sortedUniq, isEqual } from 'lodash';
+// eslint-disable-next-line no-restricted-imports
+import i18n from 'i18next';
+import { invert, isEqual, sortedUniq } from 'lodash';
 import invariant from 'invariant';
 
 import { createLogger } from '@instana/logger';
 
 import { track as trackInternal } from 'in-services/tracking/trackers';
 import { formatDurationAccurately } from 'in-services/formatters/date';
-import { emptyObject, emptyArray } from 'in-services/fixedObjects';
-import { isNotBlank, isBlank } from 'in-services/util/string';
+import { emptyArray, emptyObject } from 'in-services/fixedObjects';
+import { isBlank, isNotBlank } from 'in-services/util/string';
 import { VIEW_CHANGE } from 'in-services/tracking/eventNames';
 import { navigationParameters$ } from 'in-stores/navigation';
 import { onLastChance } from 'in-services/util/onLastChance';
 import { Props as Title } from 'in-components/Title/Title';
 import { getTimeConfig } from 'in-stores/time/config';
 import { Location } from 'in-stores/navigation/types';
+import { flattenObj } from 'in-services/util/object';
 import { seconds } from 'in-services/time';
 import { TimeConfig } from 'in-types';
+
+export * from 'in-services/tracking/eventNames';
 
 const logger = createLogger('in-services/tracking');
 
@@ -115,8 +118,7 @@ function getStateEqualityFields(state: State) {
 }
 
 function getStateBasedMetaData() {
-  let pageName = sortedUniq(state.titles.map(({ title }) => title).filter(isNotBlank)).join(' > ');
-
+  let pageName = sortedUniq(state.titles.map(({ title }) => getStringInEnglish(title)).filter(isNotBlank)).join(' > ');
   return {
     pageName,
     pagePath: state.location?.pathname,
@@ -132,3 +134,25 @@ export function setTitles(titles: Title[]) {
 export function setMeta(meta: Object) {
   state.meta = meta;
 }
+
+let flattenedLanguageData: Record<string, string>;
+const getStringInEnglish = (string?: string) => {
+  const currentLanguageData = i18n.getDataByLanguage(i18n.language);
+  if (!string || !currentLanguageData) return;
+
+  if (!flattenedLanguageData) {
+    flattenedLanguageData = invert(flattenObj(currentLanguageData));
+  }
+
+  let englishString;
+  const stringKey = flattenedLanguageData[string].split('.');
+
+  if (!stringKey) return string;
+
+  const ns = stringKey[0];
+  const key = stringKey.slice(1).join('.');
+
+  englishString = i18n.getResource('en-US', ns, key);
+
+  return englishString;
+};

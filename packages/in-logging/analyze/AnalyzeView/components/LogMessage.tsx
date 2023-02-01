@@ -127,9 +127,7 @@ function ParamTag({ tag, getHrefWithAdditionalTagFilter, getHrefToGroupedView }:
             <Li
               className={locals.listItem}
               href={getHrefWithAdditionalTagFilter(getTagExpressionWithTag(tag.name || '', tag.key, value))}
-              onDefaultHrefInteractionSideEffect={() =>
-                logMessageParameterClicked({ name: tag.name, key: tag.key, value })
-              }
+              onDefaultHrefInteractionSideEffect={() => logMessageParameterClicked({ key: tag.key })}
             >
               {t('in-logging:addAsFilter')}
             </Li>
@@ -137,9 +135,7 @@ function ParamTag({ tag, getHrefWithAdditionalTagFilter, getHrefToGroupedView }:
               <Li
                 className={locals.listItem}
                 href={getHrefToGroupedView({ tag: tag.name, secondLevelKey: tag.key })}
-                onDefaultHrefInteractionSideEffect={() =>
-                  logMessageParameterClicked({ name: tag.name, key: tag.key, value })
-                }
+                onDefaultHrefInteractionSideEffect={() => logMessageParameterClicked({ key: tag.key })}
               >
                 {t('in-logging:addAsGroup')}
               </Li>

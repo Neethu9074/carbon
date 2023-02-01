@@ -54,12 +54,11 @@ export const ANALYZE_UA2_ORDER_BY_CHANGED = 'analyze.ua2.orderBy.changed';
 export const ANALYZE_UA2_ORDER_BY_GROUP_CHANGED = 'analyze.ua2.orderByGroup.changed';
 export const ANALYZE_UA2_API_QUERY_PRESSED = 'analyze.ua2.apiQuery.pressed';
 export const ANALYZE_UA2_NESTING_DEPTH = 'analyze.ua2.nesting.depth';
-export const ANALYZE_UA2_LOAD_MORE_CLICKED = 'analyze.ua2.load.more.clicked';
 export const ANALYZE_UA2_FAST_QUERY_MODE_CHANGED = 'analyze.ua2.fastQueryMode.changed';
 
 export const ANALYZE_UA2_FORMMODEL_CHANGED = 'analyze.ua2.formmodel.changed';
 export const ANALYZE_UA2_FACETS_CHANGED = 'analyze.ua2.facets.changed';
-
+export const ANALYZE_UA2_LOAD_MORE = 'anaylze.ua2.loaded.more';
 export const ANALYZE_TRACE_VIEW_CLOSED = 'analyze.trace.view.closed';
 export const ANALYZE_TRACE_VIEW_NAVIGATE_TO_UA = 'analyze.trace.view.navigate.ua';
 export const ANALYZE_TRACE_VIEW_TRACE_LIST_CLICK = 'analyze.trace.view.trace.list.click';
@@ -350,7 +349,6 @@ export const SLI_MANAGEMENT_DELETE = 'sli.v2.management.delete';
 export const ANALYZE_LOGGING_QUERY_BUILDER_FILTER_ADDED = 'analyze.logging.queryBuilder.filter.added';
 export const ANALYZE_LOGGING_QUERY_BUILDER_GROUP_ADDED = 'analyze.logging.queryBuilder.group.added';
 export const ANALYZE_LOGGING_SELECTED_TAGS_CHANGED = 'analyze.logging.selected.tags.changed';
-export const ANALYZE_LOGGING_TIMEFRAME_USED = 'analyze.logging.timeframe.used';
 export const ANALYZE_LOGGING_LOG_MESSAGE_PARAMETER_CLICKED = 'analyze.logging.log.message.parameter.clicked';
 export const ANALYZE_LOGGING_LOG_MESSAGE_TAG_CLICKED = 'analyze.logging.log.message.tag.clicked';
 export const ANALYZE_LOGGING_JUMP_TO_LOGS = 'analyze.logging.jump.to.logs';
@@ -378,3 +376,4 @@ export const APDEX_MANAGEMENT_DELETE = 'apdex.management.delete';
 // Action associations for events
 export const REMEDIATION_ASSOCIATE_ACTION = 'event.issue.action.associate';
 export const REMEDIATION_RUN_ACTION = 'event.issue.action.run';
+export const CHART_ZOOM_INTO_TIMEFRAME = 'chart.zoomToTimeRange.used';

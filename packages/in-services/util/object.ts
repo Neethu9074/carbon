@@ -65,3 +65,42 @@ export function shallowEquals(objA: MapLike, objB: MapLike) {
 
   return true;
 }
+
+export function getPathToValue(obj: Record<string, any>, value: any): string[] {
+  let path: string[] = [];
+
+  function search(obj: Record<string, any>, value: any, currentPath: string[]) {
+    for (let key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        let newPath = [...currentPath, key];
+
+        if (obj[key] === value) {
+          path = newPath;
+          return;
+        } else if (typeof obj[key] === 'object') {
+          search(obj[key], value, newPath);
+        }
+      }
+    }
+  }
+
+  search(obj, value, []);
+
+  return path;
+}
+
+export const flattenObj = (ob: Record<string, any>) => {
+  let result: Record<string, any> = {};
+
+  for (const i in ob) {
+    if (typeof ob[i] === 'object' && !Array.isArray(ob[i])) {
+      const temp = flattenObj(ob[i]);
+      for (const j in temp) {
+        result[i + '.' + j] = temp[j];
+      }
+    } else {
+      result[i] = ob[i];
+    }
+  }
+  return result;
+};

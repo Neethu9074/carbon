@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect, useMemo, Fragment } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import classNames from 'classnames';
 import rpt from 'prop-types';
 
@@ -27,11 +27,11 @@ import {
 } from 'in-components/AnalyzeView/metrics';
 import { addGroupingCriteriaToFormModel, childrenArgsAsPropTypes } from 'in-components/AnalyzeView/StateManagement';
 import MetricAndSortingConfigurator from 'in-components/MetricAndSortingConfigurator/MetricAndSortingConfigurator';
-import { ua2MetricAddedTracker, ua2MetricRemovedTracker, ua2LoadMoreClicked } from 'in-components/tracker';
+import { ua2LoadedMore, ua2MetricAddedTracker, ua2MetricRemovedTracker } from 'in-components/tracker';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { custom as customType, metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import { or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
-import { GROUP_COLORS, getLabel as defaultGetLabel } from 'in-components/AnalyzeView/utils.ts';
+import { getLabel as defaultGetLabel, GROUP_COLORS } from 'in-components/AnalyzeView/utils.ts';
 import { getFormatter as getBackendFormatter } from 'in-services/formatters/backendFormatter';
 import { joinExpressions, TAG } from 'in-components/QueryBuilder/transformation/formModel';
 import QueryProgressIndicator from 'in-components/AnalyzeView/QueryProgressIndicator';
@@ -378,7 +378,7 @@ export default function GroupedView(props) {
                 <LiLoadMore
                   loadMore={() => {
                     loadMore();
-                    ua2LoadMoreClicked({
+                    ua2LoadedMore({
                       dataSource,
                       groupbyTag: groupBy.groupbyTag,
                       groupbyTagSecondLevelKey: groupBy.groupbyTagSecondLevelKey

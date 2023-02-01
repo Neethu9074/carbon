@@ -54,7 +54,7 @@ export const groupAndSortTags = (tags: LogTag[]): GroupedTags => {
 };
 
 export function trackFilterClick(tag: LogTag, value: string) {
-  filterAdded({ source: 'log message filter button', filter: createTag(value, tag.name, tag.key) });
+  filterAdded({ filter: createTag(value, tag.name, tag.key) });
 }
 
 export function trackGroupClick(group: string) {

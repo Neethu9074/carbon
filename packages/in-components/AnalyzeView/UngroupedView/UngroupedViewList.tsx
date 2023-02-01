@@ -20,7 +20,7 @@ import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/me
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import { ListItem } from 'in-components/AnalyzeView/UngroupedView/ListItem';
 import useInfiniteScroll from 'in-hooks/useInfiniteScroll';
-import { ua2LoadMoreClicked } from 'in-components/tracker';
+import { ua2LoadedMore } from 'in-components/tracker';
 
 import locals from './UngroupedView.mless';
 
@@ -73,6 +73,7 @@ function List(props: UngroupedViewListPresenterProps) {
     ([element]: IntersectionObserverEntry[]) => {
       if (element.isIntersecting && !isLoading && canLoadMore) {
         loadMore?.();
+        ua2LoadedMore({ dataSource });
       }
     },
     [canLoadMore, isLoading, loadMore]
@@ -132,7 +133,7 @@ function List(props: UngroupedViewListPresenterProps) {
               //@ts-expect-error bad typing in foundation component
               loadMore={() => {
                 loadMore?.();
-                ua2LoadMoreClicked({ dataSource });
+                ua2LoadedMore({ dataSource });
               }}
             />
           )}
