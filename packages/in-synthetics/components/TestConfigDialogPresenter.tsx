@@ -14,8 +14,8 @@ import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
 import { blueprintConfig } from 'in-synthetics/data/simpleModeBluePrints';
 import { createForm } from 'in-synthetics/form/createSyntheticTestForm';
+import { SyntheticTest, Error as ScriptError } from 'in-types';
 import { createTest } from 'in-synthetics/api';
-import { SyntheticTest } from 'in-types';
 import { t } from 'in-i18n';
 
 const logger = createLogger('in-synthetics/components/TestConfigDialogPresenter');
@@ -30,9 +30,8 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
   const [simpleModeStep, setSimpleModeStep] = useState(0);
   const [form, setForm] = useState(() => createForm());
   const formId = 'create-synthetics-test-form';
-  const [enableNextButton, setEnableNextButton] = useState(false);
+  const [scriptErrors, setScriptErrors] = useState([] as ScriptError[]);
   const [selectedBlueprint, setSelectedBlueprint] = useState(blueprintConfig[0]);
-  const [scriptErrorExists, setScriptErrorExists] = useState(false);
 
   const stepConfigs = Object.freeze([
     {
@@ -94,7 +93,7 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
         return (
           !configForm.hierarchyValid ||
           locationsField.value.length === 0 ||
-          (selectedBlueprint.type === 'Script API' && !enableNextButton)
+          (selectedBlueprint.type === 'Script API' && scriptErrors.length !== 0)
         );
       case 2:
         return !frequencyField.valid;
@@ -106,13 +105,6 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
   };
 
   const onGoBack = () => {
-    if (
-      selectedBlueprint.type === 'Script API' &&
-      (simpleModeStep === 1 || simpleModeStep === 2) &&
-      scriptErrorExists
-    ) {
-      setEnableNextButton(false);
-    }
     if (simpleModeStep !== 0) {
       setSimpleModeStep(simpleModeStep - 1);
       return;
@@ -142,10 +134,10 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
         updateStep={setSimpleModeStep}
         formId={formId}
         stepConfigs={stepConfigs}
-        setEnableNextButton={setEnableNextButton}
         selectedBlueprint={selectedBlueprint}
         setSelectedBlueprint={setSelectedBlueprint}
-        setScriptErrorExists={setScriptErrorExists}
+        scriptErrors={scriptErrors}
+        setScriptErrors={setScriptErrors}
       />
       <DialogFooter
         formId={formId}

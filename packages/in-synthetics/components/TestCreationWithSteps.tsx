@@ -9,6 +9,7 @@ import React from 'react';
 import StepwiseTestCreationContainer from 'in-synthetics/components/StepwiseTestCreationContainer';
 import { BluePrint } from 'in-synthetics/data/simpleModeBluePrints';
 import StepProgressBar from 'in-components/StepProgressBar';
+import { Error as ScriptError } from 'in-types';
 
 import locals from './TestCreationWithSteps.mless';
 
@@ -22,10 +23,10 @@ export interface Props {
   updateStep: (step: number) => void;
   updateForm: (form: MapForm) => void;
   stepConfigs: readonly { title: string }[];
-  setEnableNextButton: React.Dispatch<React.SetStateAction<boolean>>;
   selectedBlueprint: BluePrint;
   setSelectedBlueprint: (item: BluePrint) => void;
-  setScriptErrorExists: React.Dispatch<React.SetStateAction<boolean>>;
+  scriptErrors: ScriptError[];
+  setScriptErrors: React.Dispatch<React.SetStateAction<ScriptError[]>>;
 }
 
 export default function TestCreationWithSteps({
@@ -36,10 +37,10 @@ export default function TestCreationWithSteps({
   updateStep,
   updateForm,
   stepConfigs,
-  setEnableNextButton,
   selectedBlueprint,
   setSelectedBlueprint,
-  setScriptErrorExists
+  scriptErrors,
+  setScriptErrors
 }: Props) {
   const onProceed = () => {
     if (step !== stepConfigs.length - 1) {
@@ -64,10 +65,10 @@ export default function TestCreationWithSteps({
         step={step}
         form={form}
         updateForm={updateForm}
-        setEnableNextButton={setEnableNextButton}
         selectedBlueprint={selectedBlueprint}
         setSelectedBlueprint={setSelectedBlueprint}
-        setScriptErrorExists={setScriptErrorExists}
+        scriptErrors={scriptErrors}
+        setScriptErrors={setScriptErrors}
       />
     </form>
   );

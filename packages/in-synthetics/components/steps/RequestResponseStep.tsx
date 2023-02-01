@@ -21,25 +21,23 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import { dummyLocations } from 'in-synthetics/utils/constants';
 import SaveError from 'in-components/form/SaveError/SaveError';
 import { validate } from 'in-synthetics/utils/scriptUploader';
+import { Progress, Error as ScriptError } from 'in-types';
 import FormGroup from 'in-components/form/FormGroup';
 import { getLocations } from 'in-synthetics/api';
 import Code from 'in-synthetics/packages/Code';
 import ComboBox from 'in-components/ComboBox';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
-import { Progress, Error } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './RequestResponseStep.mless';
-
-let errors: Error[] = [];
 
 export interface Props {
   form: MapForm;
   updateForm: (form: MapForm) => void;
   selectedBlueprint: BluePrint;
-  setEnableNextButton: React.Dispatch<React.SetStateAction<boolean>>;
-  setScriptErrorExists: React.Dispatch<React.SetStateAction<boolean>>;
+  scriptErrors: ScriptError[];
+  setScriptErrors: React.Dispatch<React.SetStateAction<ScriptError[]>>;
 }
 
 export interface LocationsResponse {
@@ -59,8 +57,8 @@ export default function RequestResponseStep({
   form,
   updateForm,
   selectedBlueprint,
-  setEnableNextButton,
-  setScriptErrorExists
+  scriptErrors,
+  setScriptErrors
 }: Props) {
   const configForm = form.get('configuration') as MapForm;
   const methodField = configForm.get('operation') as Field<string>;
@@ -138,15 +136,8 @@ export default function RequestResponseStep({
     }
   }
 
-  const updateCode = React.useCallback(text => {
-    errors = validate(text);
-    if (errors.length === 0) {
-      setScriptErrorExists(false);
-      setEnableNextButton(true);
-    } else {
-      setScriptErrorExists(true);
-      setEnableNextButton(false);
-    }
+  function updateCode(text: string) {
+    setScriptErrors(validate(text));
     setState({
       loading: false,
       script: text
@@ -156,7 +147,7 @@ export default function RequestResponseStep({
         (field as Field<string>).setValue(text).setTouched(true)
       )
     );
-  }, []);
+  }
 
   return (
     <Section headingText={t('in-synthetics:dialog.createTest.requestStep.title')}>
@@ -240,7 +231,7 @@ export default function RequestResponseStep({
                     maxWidth="63vw"
                     placeholder={t('in-synthetics:dialog.createTest.requestStep.enterTheScriptMessage')}
                   />
-                  {errors && errors.length !== 0 && <ErrorList errors={errors} />}
+                  {scriptErrors && scriptErrors.length !== 0 && <ErrorList errors={scriptErrors} />}
                 </>
               ))}
             </div>

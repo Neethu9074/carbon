@@ -6,8 +6,8 @@
 import { MapForm } from 'formalistic';
 import React from 'react';
 
+import { Progress, Error as ScriptError } from '@instana/types';
 import { useObservable } from '@instana/hooks';
-import { Progress } from '@instana/types';
 
 import RequestResponseStep from 'in-synthetics/components/steps/RequestResponseStep';
 import SelectScheduleStep from 'in-synthetics/components/steps/SelectScheduleStep';
@@ -23,10 +23,10 @@ export interface Props {
   step: number;
   form: MapForm;
   updateForm: (form: MapForm) => void;
-  setEnableNextButton: React.Dispatch<React.SetStateAction<boolean>>;
   selectedBlueprint: BluePrint;
   setSelectedBlueprint: (item: BluePrint) => void;
-  setScriptErrorExists: React.Dispatch<React.SetStateAction<boolean>>;
+  scriptErrors: ScriptError[];
+  setScriptErrors: React.Dispatch<React.SetStateAction<ScriptError[]>>;
 }
 
 export interface ApplicationsResponse {
@@ -40,10 +40,10 @@ export default function StepwiseTestCreationContainer({
   step,
   form,
   updateForm,
-  setEnableNextButton,
   selectedBlueprint,
   setSelectedBlueprint,
-  setScriptErrorExists
+  scriptErrors,
+  setScriptErrors
 }: Props) {
   const applications: ApplicationsResponse =
     useObservable<any, []>(() => getApplicationsList(), []) || dummyApplications;
@@ -64,8 +64,8 @@ export default function StepwiseTestCreationContainer({
             selectedBlueprint={selectedBlueprint}
             form={form}
             updateForm={updateForm}
-            setEnableNextButton={setEnableNextButton}
-            setScriptErrorExists={setScriptErrorExists}
+            scriptErrors={scriptErrors}
+            setScriptErrors={setScriptErrors}
           />
         );
       case 2:

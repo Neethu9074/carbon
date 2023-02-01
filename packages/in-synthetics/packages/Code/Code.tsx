@@ -42,7 +42,7 @@ export default function CodeInput(props: CodeProps) {
     if (editor.current) {
       setContainer(editor.current);
     }
-  }, [editor.current]);
+  });
 
   return <div className={locals.wrapper} ref={editor} />;
 }
