@@ -315,7 +315,7 @@ function onSubmit({ parameterForm, parameter, form, onChange, idToEdit }: OnSubm
   const label = (parameterForm.get('label') as Field<string>).value;
   const description = (parameterForm.get('description') as Field<string>).value;
   const required = (parameterForm.get('required') as Field<boolean>).value;
-  const hidden = parameterForm.get('hidden') as Field<boolean>;
+  const hidden = (parameterForm.get('hidden') as Field<boolean>).value;
   const type = (parameterForm.get('type') as Field<string>).value;
   let paramValue = '';
   let valueType = '';
@@ -333,7 +333,7 @@ function onSubmit({ parameterForm, parameter, form, onChange, idToEdit }: OnSubm
     label,
     description,
     required: type === 'vault' ? true : required,
-    hidden: hidden.value,
+    hidden,
     value: paramValue,
     secured: false,
     type,

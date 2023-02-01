@@ -50,7 +50,7 @@ export function createForm({ parameter, form, idToEdit }: CreateFormParams) {
     .put(
       'hidden',
       createField({
-        value: parameter?.value?.type === 'static' ? parameter?.value?.hidden ?? false : false
+        value: parameter?.value?.hidden ?? false
       })
     )
     .put(
