@@ -278,7 +278,7 @@ export default function Beacons(props) {
   return content;
 }
 
-function getTableData({ timeConfig, backendQueryModel, orderBy, cursor, dataSource }) {
+function getTableData({ timeConfig, backendQueryModel, orderBy, cursor, dataSource, metrics }) {
   if (!websiteBeaconQueryOptimizationEnabled) {
     // query in the old way if optimization is disabled (enabled by default)
     return getWebsiteBeacons({
@@ -301,7 +301,8 @@ function getTableData({ timeConfig, backendQueryModel, orderBy, cursor, dataSour
     timeConfig,
     tagFilterExpression: addDataSourceToBackendQueryModel({ backendQueryModel, dataSource }),
     metricSelector: {
-      selector: 'SELECT_PREDEFINED'
+      metrics: metrics,
+      selector: 'SELECT_CUSTOMIZED'
     }
   });
 }
