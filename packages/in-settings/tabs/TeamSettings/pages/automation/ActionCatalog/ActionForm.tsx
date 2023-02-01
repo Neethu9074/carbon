@@ -5,7 +5,7 @@
  */
 
 import { Field, MapForm } from 'formalistic';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Toggle } from '@instana/components';
 
@@ -43,11 +43,14 @@ import ParametersTable from 'in-settings/tabs/TeamSettings/pages/automation/Acti
 import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import TagsTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/TagsTable';
 import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import IconButton from 'in-components/IconButton/IconButton';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import FormGroup from 'in-settings/components/FormGroup';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 import TextArea from 'in-components/form/TextArea';
 import Code from 'in-components/form/Code/Code';
 import Select from 'in-components/form/Select';
@@ -210,8 +213,6 @@ const ScriptSection = ({ form, onChange }: Omit<ActionFormProps, 'setForm' | 'en
 const WebhookSection = ({ form, setForm, onChange, entity: action }: ActionFormProps) => {
   const host = form.get('host') as Field<string>;
   const method = form.get('method') as Field<string>;
-  const username = form.get('username') as Field<string>;
-  const password = form.get('password') as Field<string>;
   const accept = form.get('accept') as Field<string>;
   const body = form.get('body') as Field<string>;
   const acceptLanguage = form.get('acceptLanguage') as Field<string>;
@@ -354,46 +355,7 @@ const WebhookSection = ({ form, setForm, onChange, entity: action }: ActionFormP
           ))}
         </Col>
       </Row>
-      {authType.value === BASIC_AUTH && (
-        <Row>
-          <Col lg={6}>
-            {username.map(field => (
-              <FormGroup>
-                <Label htmlFor="action-username" hasError={!field.valid && field.touched}>
-                  {t('in-settings:tabs.username')}
-                </Label>
-                <Input
-                  id="action-username"
-                  type="text"
-                  value={field.value}
-                  onChange={e => onChange('username', e.target.value)}
-                  hasError={!field.valid && field.touched}
-                  maxLength={256}
-                />
-                <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-              </FormGroup>
-            ))}
-          </Col>
-          <Col lg={6}>
-            {password.map(field => (
-              <FormGroup>
-                <Label htmlFor="action-password" hasError={!field.valid && field.touched}>
-                  {t('in-settings:tabs.password')}
-                </Label>
-                <Input
-                  id="action-password"
-                  type="text"
-                  value={field.value}
-                  onChange={e => onChange('password', e.target.value)}
-                  hasError={!field.valid && field.touched}
-                  maxLength={256}
-                />
-                <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-              </FormGroup>
-            ))}
-          </Col>
-        </Row>
-      )}
+      {authType.value === BASIC_AUTH && <BasicAuth form={form} onChange={onChange} />}
       {authType.value === BEARER_TOKEN && (
         <Row>
           <Col lg={12}>
@@ -519,5 +481,70 @@ const WebhookSection = ({ form, setForm, onChange, entity: action }: ActionFormP
         <AdditionalHeadersTable form={form} setForm={setForm} onChange={onChange} />
       </FormGroup>
     </>
+  );
+};
+const BasicAuth = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange'>) => {
+  const [showPassword, setShowPassword] = useState(false);
+  const username = form.get('username') as Field<string>;
+  const password = form.get('password') as Field<string>;
+  return (
+    <Row>
+      <Col lg={6}>
+        {username.map(field => (
+          <FormGroup>
+            <Label htmlFor="action-username" hasError={!field.valid && field.touched}>
+              {t('in-settings:tabs.username')}
+            </Label>
+            <Input
+              id="action-username"
+              type="text"
+              value={field.value}
+              onChange={e => onChange('username', e.target.value)}
+              hasError={!field.valid && field.touched}
+              maxLength={256}
+            />
+            <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+          </FormGroup>
+        ))}
+      </Col>
+      <Col lg={6}>
+        {password.map(field => (
+          <FormGroup>
+            <Label htmlFor="action-password" hasError={!field.valid && field.touched}>
+              {t('in-settings:tabs.password')}
+            </Label>
+            <HorizontalFlexWrapper>
+              <Input
+                className={locals.width100}
+                id="action-password"
+                type={showPassword ? 'text' : 'password'}
+                placeholder={'*******************'}
+                value={field.value}
+                onChange={e => onChange('password', e.target.value)}
+                hasError={!field.valid && field.touched}
+                maxLength={256}
+              />
+              <Tooltip
+                content={
+                  showPassword ? t('in-settings:tabs.hidePasswordTooltip') : t('in-settings:tabs.showPasswordTooltip')
+                }
+              >
+                <IconButton
+                  buttonType="button"
+                  kind="info"
+                  type={showPassword ? 'lib_views_hide' : 'lib_views_show'}
+                  onClick={() => {
+                    setShowPassword(showPassword => !showPassword);
+                  }}
+                  iconSize="xs"
+                  alignment="right"
+                />
+              </Tooltip>
+            </HorizontalFlexWrapper>
+            <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+          </FormGroup>
+        ))}
+      </Col>
+    </Row>
   );
 };
