@@ -86,7 +86,7 @@ export default function ParameterDialog({ form, onChange, idToEdit }: ParameterD
                   updateFormDefinition: ({ form }) => {
                     if (e.target.checked) {
                       form = form.updateIn(['required'], field =>
-                        (field as Field<boolean>).setValue(e.target.checked).setTouched(true)
+                        (field as Field<boolean>).setValue(true).setTouched(true)
                       );
                     }
                     if (type.value === 'static') {

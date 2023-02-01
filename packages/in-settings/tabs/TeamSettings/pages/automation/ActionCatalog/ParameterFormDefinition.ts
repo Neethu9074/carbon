@@ -60,9 +60,9 @@ export function createForm({ parameter, form, idToEdit }: CreateFormParams) {
       })
     );
   if (parameter?.value?.type === 'vault') {
-    newForm = addVaultFields({ parameter, form: newForm, isCreateForm: true });
+    newForm = addVaultFields({ parameter, form: newForm });
   } else {
-    newForm = addStaticField({ parameter, form: newForm, isCreateForm: true });
+    newForm = addStaticField({ parameter, form: newForm });
   }
   return newForm;
 }
@@ -72,21 +72,17 @@ interface AddFieldsParams extends Pick<ParameterDialogProps, 'form'> {
   isCreateForm?: boolean;
 }
 
-function getValidator({ parameter, form, isCreateForm = false }: AddFieldsParams) {
-  return isCreateForm && parameter?.value?.hidden
-    ? notBlankValidator
-    : (form.get('hidden') as Field<boolean>).value
-    ? notBlankValidator
-    : undefined;
+function getValidator({ form }: Pick<ParameterDialogProps, 'form'>) {
+  return (form.get('hidden') as Field<boolean>).value ? notBlankValidator : undefined;
 }
 
-export function addStaticField({ parameter, form, isCreateForm = false }: AddFieldsParams) {
+export function addStaticField({ parameter, form }: AddFieldsParams) {
   return form
     .put(
       'value',
       createField({
         value: parameter?.value?.type === 'static' ? parameter?.value?.value ?? '' : '',
-        validator: getValidator({ form, isCreateForm, parameter }),
+        validator: getValidator({ form }),
         touched: form.touched
       })
     )
@@ -94,7 +90,7 @@ export function addStaticField({ parameter, form, isCreateForm = false }: AddFie
     .remove('secretPath');
 }
 
-export function addVaultFields({ parameter, form, isCreateForm = false }: AddFieldsParams) {
+export function addVaultFields({ parameter, form }: AddFieldsParams) {
   const parsedVaultValue: { secretKey?: string; secretPath?: string } = (raw => {
     try {
       return JSON.parse(raw);
@@ -108,7 +104,7 @@ export function addVaultFields({ parameter, form, isCreateForm = false }: AddFie
       'secretKey',
       createField({
         value: secretKey ?? '',
-        validator: getValidator({ form, isCreateForm, parameter }),
+        validator: getValidator({ form }),
         touched: form.touched
       })
     )
@@ -116,7 +112,7 @@ export function addVaultFields({ parameter, form, isCreateForm = false }: AddFie
       'secretPath',
       createField({
         value: secretPath ?? '',
-        validator: getValidator({ form, isCreateForm, parameter }),
+        validator: getValidator({ form }),
         touched: form.touched
       })
     )
