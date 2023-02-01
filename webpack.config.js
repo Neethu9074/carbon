@@ -17,11 +17,16 @@ const {
 } = require('./build/webpack/cssIdentifiers');
 const { isDevModeBuild, hasDetailedSourceMaps } = require('./build/webpack/opts');
 const forkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const { resolveToEsbuildTarget } = require('esbuild-plugin-browserslist');
+const browserslist = require('browserslist');
 const hotReload = isDevModeBuild && !!process.env.HOT_RELOAD;
 
 // only activate esbuild, if the enabled by the developer via setting this ENV, e.g.:
 // USE_ESBUILD=true yarn dev
 const use_esbuild = process.env.USE_ESBUILD === 'true';
+const esBuildTargets = resolveToEsbuildTarget(browserslist(), {
+  printUnknownTargets: false
+});
 
 const definePlugin = new webpack.DefinePlugin({
   __DEV__: JSON.stringify(JSON.parse(isDevModeBuild ? 'true' : 'false')),
@@ -176,7 +181,7 @@ const webpackSourcesRule = {
       ? {
           options: {
             loader: 'tsx',
-            target: 'ESNext'
+            target: [...esBuildTargets]
           },
           loader: 'esbuild-loader'
         }
