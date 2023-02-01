@@ -26,6 +26,10 @@ export interface CsvExporterProps {
   columns?: object[];
 }
 
+export interface LoadingProps {
+  loading: boolean;
+}
+
 type Data = object[];
 
 export default function CsvExporter({
@@ -38,13 +42,16 @@ export default function CsvExporter({
   columns = [{}]
 }: CsvExporterProps) {
   const [csvData, setCsvData]: any[] = useState([]);
+  const [isDisable, setIsDisable] = useState(false);
   const csvInstance = useRef<any | null>(null);
 
   const asyncExportMethod = () => {
+    setIsDisable(true);
     if (fetchData !== undefined) {
       fetchData(cursor ?? { offset: 0 }).subscribe(res => {
         if (!res.progress.loading) {
           setCsvData(processData !== undefined ? processData(res?.data?.items, columns) : res?.data?.items);
+          setIsDisable(false);
         }
       });
     }
@@ -86,7 +93,14 @@ export default function CsvExporter({
               asyncExportMethod();
             }}
           >
-            <Button kind="secondary" target="_blank" className={locals.csvExporterButton}>
+            <Button
+              iconSpinning={isDisable}
+              icon={isDisable ? 'lib_actions_loading' : undefined}
+              disabled={isDisable}
+              kind="secondary"
+              target="_blank"
+              className={locals.csvExporterButton}
+            >
               {t('in-components:csvExporterButton.label')}
             </Button>
           </div>
