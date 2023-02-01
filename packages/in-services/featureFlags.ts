@@ -134,5 +134,3 @@ export const perSecondAggregationEnabled = isFeatureFlagEnabled('perSecondAggreg
 export const actionAutomationEnabled = isFeatureFlagEnabled('actionAutomationEnabled', false);
 
 export const pluginMetricStatisticsEnabled = isFeatureFlagEnabled('pluginMetricStatisticsEnabled', false);
-
-export const k8sTimeShiftEnabled = isFeatureFlagEnabled('k8sTimeShiftEnabled', false);
