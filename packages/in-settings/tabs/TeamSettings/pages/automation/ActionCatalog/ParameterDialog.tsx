@@ -13,12 +13,12 @@ import { Parameter } from '@instana/types';
 import {
   createForm,
   addStaticField,
-  addVaultFields
+  addVaultFields,
+  mutateFieldBlankValidator
 } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ParameterFormDefinition';
 import { MappedParameter } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ParametersTable';
 import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
-import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import FormGroup from 'in-settings/components/FormGroup/FormGroup';
 import { OnEntityChange } from 'in-settings/hooks/useEntityForm';
@@ -48,16 +48,8 @@ export default function ParameterDialog({ form, onChange, idToEdit }: ParameterD
   const [parameterForm, setParameterForm] = useState(createForm({ parameter, form, idToEdit }));
 
   const hidden = parameterForm.get('hidden') as Field<boolean>;
-  const value = parameterForm.get('value') as Field<string>;
   const type = parameterForm.get('type') as Field<string>;
-  const secretKey = parameterForm.get('secretKey') as Field<string>;
-  const secretPath = parameterForm.get('secretPath') as Field<string>;
 
-  const isHidden = hidden.value;
-  const valueError = type.value === 'static' && value.value === '' && isHidden;
-  const secretKeyError = type.value === 'vault' && secretKey.value === '' && isHidden;
-  const secretPathError = type.value === 'vault' && secretPath.value === '' && isHidden;
-  const error = valueError || secretKeyError || secretPathError;
   return (
     <Dialog
       titleIconType={'lib_openclose_add'}
@@ -76,21 +68,10 @@ export default function ParameterDialog({ form, onChange, idToEdit }: ParameterD
         >
           <MetaDataSection parameterForm={parameterForm} setParameterForm={setParameterForm} parameter={parameter} />
           {type.value === 'static' && (
-            <StaticSection
-              parameterForm={parameterForm}
-              setParameterForm={setParameterForm}
-              parameter={parameter}
-              valueError={valueError}
-            />
+            <StaticSection parameterForm={parameterForm} setParameterForm={setParameterForm} parameter={parameter} />
           )}
           {type.value === 'vault' && (
-            <VaultSection
-              secretKeyError={secretKeyError}
-              secretPathError={secretPathError}
-              parameterForm={parameterForm}
-              setParameterForm={setParameterForm}
-              parameter={parameter}
-            />
+            <VaultSection parameterForm={parameterForm} setParameterForm={setParameterForm} parameter={parameter} />
           )}
           <FormGroup>
             <CheckboxFancy
@@ -108,13 +89,19 @@ export default function ParameterDialog({ form, onChange, idToEdit }: ParameterD
                         (field as Field<boolean>).setValue(e.target.checked).setTouched(true)
                       );
                     }
+                    if (type.value === 'static') {
+                      form = mutateFieldBlankValidator({ form, key: 'value', add: e.target.checked });
+                    } else if (type.value === 'vault') {
+                      form = mutateFieldBlankValidator({ form, key: 'secretPath', add: e.target.checked });
+                      form = mutateFieldBlankValidator({ form, key: 'secretKey', add: e.target.checked });
+                    }
                     return form;
                   }
                 })
               }
             />
           </FormGroup>
-          <SaveCancel form={parameterForm} onClickCancelButton={close} saveEnabled={!error} />
+          <SaveCancel form={parameterForm} onClickCancelButton={close} />
         </Form>
       </div>
     </Dialog>
@@ -220,16 +207,10 @@ const MetaDataSection = ({ parameter, parameterForm, setParameterForm }: Section
   );
 };
 
-const StaticSection = ({
-  parameter,
-  parameterForm,
-  setParameterForm,
-  valueError
-}: SectionProps & { valueError: boolean }) => {
+const StaticSection = ({ parameter, parameterForm, setParameterForm }: SectionProps) => {
   const required = parameterForm.get('required') as Field<boolean>;
   const hidden = parameterForm.get('hidden') as Field<boolean>;
   const value = parameterForm.get('value') as Field<string>;
-  const valueErrorAndTouched = valueError && value.touched;
 
   return (
     <>
@@ -244,40 +225,31 @@ const StaticSection = ({
         />
       </FormGroup>
       <FormGroup>
-        <Label htmlFor="parameter-value" hasError={valueErrorAndTouched}>
+        <Label htmlFor="parameter-value" hasError={!value.valid && value.touched}>
           {hidden.value ? t('in-settings:tabs.defaultValue') : t('in-settings:tabs.defaultValueOptional')}
         </Label>
         <Input
           id="parameter-value"
           value={value.value}
           onChange={e => onParameterChange({ fieldName: 'value', value: e.target.value, setParameterForm, parameter })}
-          hasError={valueErrorAndTouched}
+          hasError={!value.valid && value.touched}
           maxLength={256}
         />
-        {valueErrorAndTouched && (
-          <ValidationBlock>{t('in-services:validators.theValueMustNotBeBlank')}</ValidationBlock>
-        )}
+        <TouchedMessages field={value} className={locals.subErrorTextFormField} />
       </FormGroup>
     </>
   );
 };
 
-const VaultSection = ({
-  parameter,
-  parameterForm,
-  setParameterForm,
-  secretPathError,
-  secretKeyError
-}: SectionProps & { secretPathError: boolean; secretKeyError: boolean }) => {
+const VaultSection = ({ parameter, parameterForm, setParameterForm }: SectionProps) => {
   const hidden = parameterForm.get('hidden') as Field<boolean>;
-  const secretKey = parameterForm.get('secretKey') as Field<string>;
   const secretPath = parameterForm.get('secretPath') as Field<string>;
-  const secretPathErrorAndTouched = secretPathError && secretPath.touched;
-  const secretKeyErrorAndTouched = secretKeyError && secretKey.touched;
+  const secretKey = parameterForm.get('secretKey') as Field<string>;
+
   return (
     <>
       <FormGroup>
-        <Label htmlFor="parameter-secretPath" hasError={secretPathErrorAndTouched}>
+        <Label htmlFor="parameter-secretPath" hasError={!secretPath.valid && secretPath.touched}>
           {hidden.value ? t('in-settings:tabs.secretPath') : t('in-settings:tabs.secretPathOptional')}
         </Label>
         <Input
@@ -286,15 +258,13 @@ const VaultSection = ({
           onChange={e =>
             onParameterChange({ fieldName: 'secretPath', value: e.target.value, setParameterForm, parameter })
           }
-          hasError={secretPathErrorAndTouched}
+          hasError={!secretPath.valid && secretPath.touched}
           maxLength={256}
         />
-        {secretPathErrorAndTouched && (
-          <ValidationBlock>{t('in-services:validators.theValueMustNotBeBlank')}</ValidationBlock>
-        )}
+        <TouchedMessages field={secretPath} className={locals.subErrorTextFormField} />
       </FormGroup>
       <FormGroup>
-        <Label htmlFor="parameter-secretKey" hasError={secretKeyErrorAndTouched}>
+        <Label htmlFor="parameter-secretKey" hasError={!secretKey.valid && secretKey.touched}>
           {hidden.value ? t('in-settings:tabs.secretKey') : t('in-settings:tabs.secretKeyOptional')}
         </Label>
         <Input
@@ -303,12 +273,10 @@ const VaultSection = ({
           onChange={e =>
             onParameterChange({ fieldName: 'secretKey', value: e.target.value, setParameterForm, parameter })
           }
-          hasError={secretKeyErrorAndTouched}
+          hasError={!secretKey.valid && secretKey.touched}
           maxLength={256}
         />
-        {secretKeyErrorAndTouched && (
-          <ValidationBlock>{t('in-services:validators.theValueMustNotBeBlank')}</ValidationBlock>
-        )}
+        <TouchedMessages field={secretKey} className={locals.subErrorTextFormField} />
       </FormGroup>
     </>
   );
