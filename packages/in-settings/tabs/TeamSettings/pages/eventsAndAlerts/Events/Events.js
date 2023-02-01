@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import classNames from 'classnames';
 
 import { Link, Spacer, Message } from '@instana/components';
@@ -39,6 +39,7 @@ import {
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
 import { getPluginsWithCustomMetricsOptionsObservable } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customMetricUtils';
 import { deprecateAppDataLegacyEventsEnabled, hideAppDataLegacyEventsEnabled } from 'in-services/featureFlags';
+import { applicationsAlertingShowDeprecationBanner } from 'in-alerting/smart-alerts/applications/tracker';
 import getLegacyAlertConfigStats from 'in-alerting/smart-alerts/subscriptions/getLegacyAlertConfigStats';
 import List, { createNewEntityButton, leftHeaderWithSelectAll } from 'in-settings/components/List';
 import { openEventSubmitFormTracker, viewEventTracker } from 'in-settings/tracker';
@@ -209,6 +210,9 @@ export default function Events({
 }
 
 function CustomEventDeprecatedWarning() {
+  useEffect(() => {
+    applicationsAlertingShowDeprecationBanner();
+  }, []);
   return (
     <Message type="warning" withIcon>
       <MessageContentModernDesign>

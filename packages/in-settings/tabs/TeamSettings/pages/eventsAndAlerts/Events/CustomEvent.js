@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
@@ -42,6 +42,7 @@ import {
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import LegacyAppdataEventInfoMessage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
 import CustomEventForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventForm';
+import { applicationsAlertingDeprecatedEventOpen } from 'in-alerting/smart-alerts/applications/tracker';
 import { serializeQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import { getMetricDefinition, isBuiltInDynamicMetric } from 'in-sdk/metrics/metrics';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -162,7 +163,7 @@ export default function CustomEvent(props) {
         <SectionLine />
 
         {(isDeleted || isDeprecated) && (
-          <LegacyAppdataEventInfoMessage
+          <TrackingLegacyAppdataEventInfoMessage
             migrated={isMigrated}
             saved
             disallowed={disallowAppDataLegacyEventsEnabled}
@@ -380,3 +381,13 @@ const formToRuleMapper = ({ severity, entityType }) => form => {
     severity
   );
 };
+
+function TrackingLegacyAppdataEventInfoMessage({ migrated, saved, disallowed, deleted }) {
+  useEffect(() => {
+    if (!deleted) {
+      applicationsAlertingDeprecatedEventOpen();
+    }
+  }, [deleted]);
+
+  return <LegacyAppdataEventInfoMessage migrated={migrated} saved={saved} disallowed={disallowed} deleted={deleted} />;
+}

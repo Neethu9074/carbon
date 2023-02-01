@@ -8,6 +8,7 @@ import React, { FunctionComponent } from 'react';
 
 import { Link, Message } from '@instana/components';
 
+import { applicationsAlertingMigrationBannerDocs } from 'in-alerting/smart-alerts/applications/tracker';
 import { Trans } from 'in-i18n';
 
 import locals from './LegacyAppdataEventInfoMessage.mless';
@@ -23,8 +24,12 @@ export const smartAlertMigrationUrl =
   'https://www.ibm.com/docs/en/obi/current?topic=applications-smart-alerts' +
   '#how-to-migrate-a-custom-event-on-application-service-or-endpoint-metrics-to-smart-alerts';
 
+const onLinkClick = () => {
+  applicationsAlertingMigrationBannerDocs({});
+};
+
 export const smartAlertMigrationDocs = (
-  <Link href={smartAlertMigrationUrl} external>
+  <Link href={smartAlertMigrationUrl} onClick={onLinkClick} external>
     &nbsp;
   </Link>
 );
