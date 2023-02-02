@@ -517,7 +517,7 @@ const APIAuth = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange'>)
   );
 };
 
-const toolTipTranslation = {
+const tooltipTranslation = {
   apiKeyValue: [t('in-settings:tabs.hideAPIKeyTooltip'), t('in-settings:tabs.showAPIKeyTooltip')],
   password: [t('in-settings:tabs.hidePasswordTooltip'), t('in-settings:tabs.showPasswordTooltip')],
   bearerToken: [t('in-settings:tabs.hideBeaererTokenTooltip'), t('in-settings:tabs.showBeaererTokenTooltip')]
@@ -527,7 +527,7 @@ const SecuredInput = ({
   form,
   onChange,
   fieldKey
-}: Pick<ActionFormProps, 'form' | 'onChange'> & { fieldKey: keyof typeof toolTipTranslation }) => {
+}: Pick<ActionFormProps, 'form' | 'onChange'> & { fieldKey: keyof typeof tooltipTranslation }) => {
   const [showPassword, setShowPassword] = useState(false);
   const field = form.get(fieldKey) as Field<string>;
   return (
@@ -543,7 +543,7 @@ const SecuredInput = ({
         maxLength={256}
       />
       <Spacer horizontal="xsmall" />
-      <Tooltip content={showPassword ? toolTipTranslation[fieldKey][0] : toolTipTranslation[fieldKey][1]}>
+      <Tooltip content={showPassword ? tooltipTranslation[fieldKey][0] : tooltipTranslation[fieldKey][1]}>
         <IconButton
           buttonType="button"
           kind="info"
