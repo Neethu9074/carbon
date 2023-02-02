@@ -5,7 +5,7 @@
  */
 
 import { createField, createMapForm, MapForm, ValidationResult } from 'formalistic';
-import mime from 'mime/lite';
+import mimeDb from 'mime-db';
 
 import { generateUniqueShortId } from '@instana/utils';
 
@@ -29,7 +29,7 @@ import { isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
 function mimeValidator(str: string): ValidationResult {
-  if (isNotBlank(str) && mime.getExtension(str) == null) {
+  if (isNotBlank(str) && !(str in mimeDb)) {
     return [
       {
         severity: 'error',
