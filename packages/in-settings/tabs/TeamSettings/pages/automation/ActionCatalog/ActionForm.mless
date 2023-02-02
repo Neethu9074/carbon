@@ -7,25 +7,8 @@
 @import '~in-themes/active.less';
 
 :local {
-  .valueFormatText {
-    display: block;
-    margin-left: -16px;
-    padding-top: 24pt;
-  }
-
-  .helpified {
+  .width100 {
     width: 100%;
-  }
-
-  .issuePreview {
-    padding: 0.5rem 0 0.5rem 0.5rem;
-    border-radius: 3px;
-    background: #203036;
-  }
-
-  .queryLoading {
-    height: 13px;
-    margin: 0.5rem 0;
   }
 
   .subTextFormField {
@@ -36,6 +19,7 @@
   .subErrorTextFormField {
     margin-left: 0.5rem;
   }
+
   .parameterDialog {
     height: 100%;
     padding: 0 1.5rem;
