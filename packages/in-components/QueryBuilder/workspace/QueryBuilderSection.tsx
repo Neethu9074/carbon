@@ -6,6 +6,7 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 
 import { Button, Message, Stack } from '@instana/components';
+import { TagCatalog } from '@instana/types';
 
 import { GetSuggestionLabel, GetSuggestionsProps, QueryBuilderComponent, QueryBuilderTrackingFunctions } from '..';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
@@ -23,6 +24,7 @@ interface QueryBuilderSectionProps {
   getSuggestionLabel?: GetSuggestionLabel;
   onChange: (formModel: FormModelElement[]) => void;
   tracking?: QueryBuilderTrackingFunctions;
+  tagCatalog?: TagCatalog;
 
   useLastValidStateWhenErroneous?: boolean;
   // Allows to limit the depth of expression nesting. It is unlimited by default.
@@ -46,6 +48,7 @@ export default function QueryBuilderSection({
   useLastValidStateWhenErroneous = false,
   hasError: hasExternalError,
   errors: externalErrors,
+  tagCatalog,
   getSuggestionsProps = {},
   getSuggestionLabel,
   allowEmptyKey
@@ -93,6 +96,7 @@ export default function QueryBuilderSection({
               setInternalError(emptyObject);
               onChange(tagFilterExpression);
             }}
+            tagCatalog={tagCatalog}
             onError={setInternalError}
             tracking={tracking}
             useLastValidStateWhenErroneous={useLastValidStateWhenErroneous}

@@ -48,7 +48,7 @@ export default function FormComponent({
 
   const tagCatalogResult = useObservable(getTagCatalog, [beaconTypeField.value]) ?? pendingResult;
   const [tagFilterExpression, setTagFilterExpression] = useTagFilterExpressionState({
-    tagCatalogResult,
+    tagCatalog: tagCatalogResult?.data,
     form,
     onChange
   });

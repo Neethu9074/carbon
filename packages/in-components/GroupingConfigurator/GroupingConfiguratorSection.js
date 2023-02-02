@@ -15,6 +15,7 @@ export default function GroupBySection({
   value: group,
   tagFilterExpression,
   GroupingConfigurator,
+  tagCatalog,
   onChange,
   tracking,
   actions,
@@ -38,6 +39,7 @@ export default function GroupBySection({
         tagFilterExpression={tagFilterExpression}
         onChange={onChange}
         tracking={tracking}
+        tagCatalog={tagCatalog}
       />
       {additionalContent}
     </Section>
@@ -49,6 +51,7 @@ GroupBySection.propTypes = {
   GroupingConfigurator: rpt.func.isRequired,
   tagFilterExpression: rpt.object.isRequired,
   onChange: rpt.func.isRequired,
+  tagCatalog: rpt.object,
   actions: rpt.node,
   additionalContent: rpt.node,
   withoutIcon: rpt.bool,

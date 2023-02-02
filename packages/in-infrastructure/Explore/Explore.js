@@ -5,7 +5,6 @@
 
 import React, { useCallback, useMemo } from 'react';
 
-import { useObservable } from '@instana/hooks';
 import { Message } from '@instana/components';
 import { Stack } from '@instana/components';
 
@@ -57,6 +56,7 @@ import { themes } from 'in-components/DashboardHeader/DashboardHeader';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import EntityExploreHeader from '../components/EntityExploreHeader';
 import { defaultOrder } from 'in-infrastructure/Explore/constants';
+import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -97,9 +97,9 @@ function InfraExploreViewWithFixatedTimeConfig() {
   );
   const type = urlType === 'all' ? null : urlType;
 
-  const validTagFilterExpressionResult =
-    useObservable(getIsQueryValidObservable, [tagFilterExpression, timeConfig]) ?? pendingResult;
-  const validGroupResult = useObservable(getIsGroupingValidObservable, [group, timeConfig]) ?? pendingResult;
+  const tagCatalog = useTagCatalog({ ownerType: type });
+  const validTagFilterExpressionResult = isQueryValid(tagFilterExpression, tagCatalog) ?? pendingResult;
+  const validGroupResult = isGroupingConfigurationValid(group, tagCatalog) ?? pendingResult;
   // in case of a pending result (validTagFilterExpressionResult.data === null) we do not want to show the user an error message
   const isValid = validTagFilterExpressionResult.data === true && validGroupResult.data === true;
   const isInvalid = validGroupResult.data === false;
@@ -160,6 +160,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
             infrastructureListTrackingConfig={infrastructureListTrackingConfig}
             getInfraExploreState={getInfraExploreState}
             kpiDefinitions={kpiDefinitions}
+            tagCatalog={tagCatalog}
           />
         </Stack>
       </LeftRightPadding>
@@ -180,7 +181,8 @@ function Content({
   timeConfig,
   infrastructureListTrackingConfig,
   getInfraExploreState,
-  kpiDefinitions
+  kpiDefinitions,
+  tagCatalog
 }) {
   const setMetrics = useCallback(
     metrics => {
@@ -218,6 +220,7 @@ function Content({
       <QueryBuilderSection
         value={tagFilterExpression}
         QueryBuilder={QueryBuilder}
+        tagCatalog={tagCatalog}
         onChange={onTagFilterExpressionChange}
         tracking={{
           onTagAdded: filterAddedTracker(getInfraExploreState),
@@ -231,6 +234,7 @@ function Content({
       <GroupingConfiguratorSection
         value={group}
         GroupingConfigurator={GroupingConfigurator}
+        tagCatalog={tagCatalog}
         tagFilterExpression={backendQueryModel || toBackendQueryModel([])}
         onChange={onGroupChange}
         tracking={{
@@ -366,12 +370,4 @@ function List({
       onQueryChange={catalogQuery.onChange}
     />
   );
-}
-
-function getIsQueryValidObservable([tagFilterExpression, timeConfig]) {
-  return isQueryValid(tagFilterExpression, timeConfig);
-}
-
-function getIsGroupingValidObservable([group, timeConfig]) {
-  return isGroupingConfigurationValid(group, timeConfig);
 }

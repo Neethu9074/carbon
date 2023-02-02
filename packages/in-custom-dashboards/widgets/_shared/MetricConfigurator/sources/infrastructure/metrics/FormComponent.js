@@ -6,14 +6,9 @@
 import React, { useEffect } from 'react';
 
 import { Spacer, Stack, Toggle } from '@instana/components';
-import { useObservable } from '@instana/hooks';
 
 import TypeAndMetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/TypeAndMetricConfigurator';
-import QueryBuilder, {
-  getTagCatalog
-} from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/QueryBuilder';
 import { useTagFilterExpressionState } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/useTagFilterExpressionState';
-import GroupingConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/GroupingConfigurator';
 import getMetricInCatalog from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/getMetricInCatalog';
 import {
   onChangeGrouping,
@@ -22,10 +17,13 @@ import {
 import GroupingConfiguration from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/GroupingConfiguration';
 import { invalidMarker } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/form';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import GroupingConfigurator from 'in-infrastructure/Explore/components/GroupingConfigurator';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import getMetricCatalog from 'in-infrastructure/subscriptions/getMetricCatalog';
+import QueryBuilder from 'in-infrastructure/Explore/components/QueryBuilder';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import useMetricCatalog from 'in-infrastructure/hooks/useMetricCatalog';
+import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { aggregationLabels } from 'in-stores/metric/beeInstant';
 import HelpAction from 'in-components/workspace/HelpAction';
@@ -33,7 +31,7 @@ import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { pendingResult } from 'in-services/fixedObjects';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
-import useTimeConfig from 'in-hooks/useTimeConfig';
+import { success } from 'in-services/util/result';
 import { noop } from 'in-services/util/function';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -68,10 +66,11 @@ export default function FormComponent({
     !isCrossSeriesAggregationRestricted && ['MEAN', 'MIN', 'MAX'].includes(aggregationField.value);
   const isSumCrossSeriesAggregation = crossSeriesAggregationField.value === 'SUM';
 
-  const timeConfig = useTimeConfig();
-  const tagCatalogResult = useObservable(() => getTagCatalog({ timeConfig }), [timeConfig]) ?? pendingResult;
+  const type = typeField.value || undefined;
+  const metric = metricField.value || undefined;
+  const tagCatalog = useTagCatalog({ownerType: type, metric, includeMetricTags: true})
   const [tagFilterExpression, setTagFilterExpression] = useTagFilterExpressionState({
-    tagCatalogResult,
+    tagCatalogResult: tagCatalog ? success(tagCatalog) : pendingResult,
     form,
     onChange
   });
@@ -87,8 +86,8 @@ export default function FormComponent({
     if (metricCatalog.data) {
       const metadata = getMetricInCatalog({
         metricCatalog: metricCatalog.data,
-        type: typeField.value,
-        metric: metricField.value
+        type,
+        metric
       });
       if (metadata) {
         onChange([], form => {
@@ -103,7 +102,7 @@ export default function FormComponent({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [metricCatalog, typeField.value, metricField.value]);
   const metricMetadata = {
-    metric: metricField.value,
+    metric,
     label: metricLabelField?.value,
     path: metricPathField.value,
     loading:
@@ -228,12 +227,14 @@ export default function FormComponent({
           value={tagFilterExpression}
           onChange={setTagFilterExpression}
           QueryBuilder={QueryBuilder}
+          tagCatalog={tagCatalog}
           withoutIcon
         />
       </Sections>
       <GroupingConfiguration
         withGrouping={withGrouping}
         grouping={grouping}
+        tagCatalog={tagCatalog}
         tagFilterExpressionField={tagFilterExpressionField}
         onByChange={infraExploreGrouping => onChangeGrouping(onChange, { by: infraExploreGrouping })}
         onDirectionChange={onDirectionChange}
@@ -276,3 +277,4 @@ function getCrossSeriesAggregationTooltip(
       })
     : '';
 }
+

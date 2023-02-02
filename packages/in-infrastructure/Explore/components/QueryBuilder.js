@@ -4,16 +4,11 @@
  */
 
 import getTagValueSuggestions from 'in-infrastructure/Explore/services/getTagValueSuggestions';
-import getTagCatalogSubscription from 'in-infrastructure/subscriptions/getTagCatalog';
-import { createQueryBuilder } from 'in-components/QueryBuilder';
+import { createDynamicQueryBuilder } from 'in-components/QueryBuilder';
 
-const { QueryBuilder, isQueryValid: isQueryValidInternal, getTagCatalog: getTagCatalogInternal } = createQueryBuilder({
-  getTagCatalog: getTagCatalogSubscription,
-  getSuggestions: getTagValueSuggestions,
-  withFullTimePrecision: true
+const { QueryBuilder, isQueryValid: isQueryValidInternal } = createDynamicQueryBuilder({
+  getSuggestions: getTagValueSuggestions
 });
-
-export const getTagCatalog = getTagCatalogInternal;
 
 export default QueryBuilder;
 

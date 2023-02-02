@@ -12,7 +12,6 @@ import ActiveGroupingConfiguration from 'in-components/GroupingConfigurator/Acti
 import TagSelectorOverlay from 'in-components/TagSelectorOverlay/TagSelectorOverlay';
 import { DESTINATION, SOURCE } from 'in-components/QueryBuilder/tagFilter/entities';
 import LoadingIndicator from 'in-components/GroupingConfigurator/LoadingIndicator';
-import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import Overlay from 'in-components/overlays/Overlay';
 import { t } from 'in-i18n';
 
@@ -21,14 +20,13 @@ import locals from './GroupingConfigurator.mless';
 export default function GroupingConfigurator({
   value: group,
   tagFilterExpression,
-  getTagCatalog,
+  tagCatalog,
   getSuggestions,
   onChange,
   tracking,
   label = t('in-components:groupingConfigurator.addGroup'),
   loadingLabel
 }) {
-  const tagCatalog = useTagCatalog(getTagCatalog);
   const autoFocus = useRef();
 
   if (!tagCatalog) {
@@ -102,7 +100,7 @@ export const trackingProps = {
 GroupingConfigurator.propTypes = {
   onChange: rpt.func.isRequired,
   value: rpt.object,
-  getTagCatalog: rpt.func.isRequired,
+  tagCatalog: rpt.object,
   getSuggestions: rpt.func.isRequired,
   tagFilterExpression: rpt.object.isRequired,
   tracking: rpt.shape(trackingProps),

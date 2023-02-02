@@ -26,6 +26,7 @@ export default function GroupingConfiguration({
   onByChange,
   onDirectionChange,
   onIncludeOthersChange,
+  tagCatalog,
   GroupingConfigurator,
   hasError,
   additionalContent,
@@ -39,6 +40,7 @@ export default function GroupingConfiguration({
         <Sections>
           <GroupingConfiguratorSection
             value={grouping?.by}
+            tagCatalog={tagCatalog}
             GroupingConfigurator={GroupingConfigurator}
             tagFilterExpression={tagFilterExpressionField.valid ? tagFilterExpressionField.value : EMPTY_EXPRESSION}
             onChange={group => onByChange(group)}
@@ -106,6 +108,7 @@ GroupingConfiguration.propTypes = {
   onByChange: PropTypes.func.isRequired,
   onDirectionChange: PropTypes.func.isRequired,
   onIncludeOthersChange: PropTypes.func.isRequired,
+  tagCatalog: PropTypes.object,
   tagFilterExpressionField: PropTypes.shape({
     valid: PropTypes.any,
     value: PropTypes.any

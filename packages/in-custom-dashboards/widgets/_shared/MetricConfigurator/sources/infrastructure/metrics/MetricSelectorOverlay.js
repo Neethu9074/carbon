@@ -88,8 +88,8 @@ function BreadcrumbAndLabel({ path, label, hasChildren }) {
 
   return (
     <>
-      {path.map(part => (
-        <span className={locals.path} key={part}>
+      {path.map((part, i) => (
+        <span className={locals.path} key={i}>
           {part}
           <SvgIcon className={locals.icon} type="lib_arrow_drop_right" />
         </span>

@@ -50,7 +50,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/hooks/useApplicationQueryBuilder'
         })
       );
       const { getSuggestions } = createQueryBuilder.mock.calls.at(-1)![0];
-      getSuggestions({
+      getSuggestions?.({
         tagFilterExpression: emptyTagFilterExpression,
         tagName: 'someTag',
         entity: 'DESTINATION',
@@ -84,7 +84,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/hooks/useApplicationQueryBuilder'
       // When
       renderHook(() => useApplicationQueryBuilder(props));
       const { getSuggestions } = createQueryBuilder.mock.calls.at(-1)![0];
-      getSuggestions({
+      getSuggestions?.({
         tagFilterExpression: emptyTagFilterExpression,
         tagName: 'someTag',
         entity: 'DESTINATION',
@@ -113,7 +113,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/hooks/useApplicationQueryBuilder'
         })
       );
       const { getSuggestions } = createQueryBuilder.mock.calls.at(-1)![0];
-      getSuggestions({
+      getSuggestions?.({
         tagFilterExpression: emptyTagFilterExpression,
         tagName: 'someTag',
         entity: 'DESTINATION',

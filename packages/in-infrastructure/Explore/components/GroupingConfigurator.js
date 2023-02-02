@@ -4,14 +4,12 @@
  */
 
 import getTagValueSuggestions from 'in-infrastructure/Explore/services/getTagValueSuggestions';
-import { createGroupingConfigurator } from 'in-components/GroupingConfigurator';
-import getTagCatalog from 'in-infrastructure/subscriptions/getTagCatalog';
+import { createDynamicGroupingConfigurator } from 'in-components/GroupingConfigurator';
 
 const {
   GroupingConfigurator,
   isGroupingConfigurationValid: isGroupingConfigurationValidInternal
-} = createGroupingConfigurator({
-  getTagCatalog,
+} = createDynamicGroupingConfigurator({
   getSuggestions: getTagValueSuggestions
 });
 
