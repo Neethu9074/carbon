@@ -37,7 +37,7 @@ import locals from './SessionView.mless';
 export default function SessionView(props) {
   const urlStateConfig = { bind: [sessionIdUrlParameter, beaconIdUrlParameter, beaconTimestampUrlParameter] };
   const [{ sessionId, beaconId, beaconTimestamp }, onChange] = useUrlState(urlStateConfig);
-  const content = renderSplitScreenContent(sessionId, beaconId, beaconTimestamp, onChange, ...props);
+  const content = renderSplitScreenContent({ sessionId, beaconId, beaconTimestamp, onChange, ...props });
   const beaconType = props.dataSource;
   return (
     <>
