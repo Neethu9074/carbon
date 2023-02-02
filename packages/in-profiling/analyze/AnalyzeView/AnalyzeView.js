@@ -27,7 +27,11 @@ export default function AnalyzeView(props) {
   return (
     <WithEmptyStateFallback
       center={false}
-      getHasDataToRender={() => getHasDataToRender(getTimeConfig(location))}
+      getHasDataToRender={() =>
+        getHasDataToRender({
+          timeConfig: getTimeConfig(location)
+        })
+      }
       FallbackComponent={EmptyAnalyzeView}
       type="Profiles"
     >
@@ -37,7 +41,6 @@ export default function AnalyzeView(props) {
     </WithEmptyStateFallback>
   );
 }
-// );
 function getHasDataToRender({ timeConfig }) {
   return getProfiledProcessesAvailable({ timeConfig }).map(
     result => !result.data || (result.data && result.data.containsProfiledProcesses)
