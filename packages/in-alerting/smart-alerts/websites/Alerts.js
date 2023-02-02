@@ -21,8 +21,8 @@ import {
   deleteAlertConfig
 } from 'in-websites/api/websiteAlertConfig';
 import { alertCreated as alertCreatedMatrixParam, alertId as alertIdMatrixParam } from 'in-websites/navigation/matrix';
-import { getLimitedNumberOfFilters, getFiltersCount } from 'in-websites/WebsiteDashboard/tabs/Alerts/limitedFilters';
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
+import { getLimitedNumberOfFilters, getFiltersCount } from 'in-alerting/smart-alerts/websites/limitedFilters';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { alertsTab, alertsTabDetailsFullyQualified } from 'in-websites/navigation/paths';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
