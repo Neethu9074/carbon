@@ -4,23 +4,23 @@
  * Copyright IBM Corp. 2022
  */
 
-import { compose, withState } from 'recompose';
-import React from 'react';
+import React, { useState } from 'react';
 
+import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/components';
 
 import onSubscribeBaselineModel from 'in-alerting/smart-alerts/applications/subscriptions/getApplicationAdaptiveBaselineModel';
 import { alwaysNull } from 'in-services/fixedStreams';
-import withUrlState from 'in-hoc/withUrlState';
+import useUrlState from 'in-hooks/useUrlState';
 import Input from 'in-components/form/Input';
-import connectTo from 'in-hoc/connectTo';
 import Code from 'in-components/Code';
 import { t } from 'in-i18n';
 
 import locals from 'in-internal/thisUnit/AdaptiveBaseline/AdaptiveBaselineModel.mless';
 
-export default compose(
-  withUrlState({
+export default function AdaptiveBaselineModel() {
+  const urlStateConfig = {
+    replaceHistory: false,
     bind: [
       {
         path: '/adaptiveBaselineModel',
@@ -42,28 +42,16 @@ export default compose(
         name: 'entityId',
         initialState: ''
       }
-    ],
-    reducerName: 'setState',
-    reducer: (prev, next) => ({ ...prev, ...next }),
-    replaceHistory: false
-  }),
-  withState('signal', 'setSignal', false),
-  connectTo(({ alertConfigId, alertCreated, applicationId, entityId, signal }) => ({
-    adaptiveBaselineModelResponse: !signal
-      ? alwaysNull
-      : getAdaptiveBaselineModel(alertConfigId, alertCreated, applicationId, entityId)
-  }))
-)(AdaptiveBaselineModel);
+    ]
+  };
 
-function AdaptiveBaselineModel({
-  alertConfigId,
-  alertCreated,
-  applicationId,
-  entityId,
-  setState,
-  setSignal,
-  adaptiveBaselineModelResponse
-}) {
+  const [{ alertConfigId, alertCreated, applicationId, entityId }, setState] = useUrlState(urlStateConfig);
+  const [signal, setSignal] = useState(false);
+  const adaptiveBaselineModelResponse = useObservable(
+    !signal ? alwaysNull : getAdaptiveBaselineModel(alertConfigId, alertCreated, applicationId, entityId),
+    [signal, alertConfigId, alertCreated, applicationId, entityId]
+  );
+
   return (
     <div className={locals.view}>
       <div className={locals.header}>

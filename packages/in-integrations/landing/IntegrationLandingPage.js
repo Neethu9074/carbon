@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { compose, withProps } from 'recompose';
 import React from 'react';
+
+import { useObservable } from '@instana/hooks';
 
 import ContentWrapper from 'in-components/LocationAwareTabView/components/ContentWrapper';
 import IntegrationDashboardList from 'in-integrations/landing/IntegrationDashboardList';
@@ -13,8 +14,7 @@ import getReferences from 'in-integrations/subscriptions/getReferences';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { setTimeConfig } from 'in-stores/time/config';
-import withUrlState from 'in-hoc/withUrlState';
-import connectTo from 'in-hoc/connectTo';
+import useUrlState from 'in-hooks/useUrlState';
 import { t } from 'in-i18n';
 
 const tabs = [
@@ -27,21 +27,22 @@ const tabs = [
   }
 ];
 
-export default compose(
-  withUrlState({
+export default function IntegrationLandingPage() {
+  const urlStateDefinition = {
     bind: [landingConfigUrlParameter]
-  }),
-  withProps(({ config }) => ({
-    flattenedConfig: ensureAllValuesAreStrings(config)
-  })),
-  connectTo(({ flattenedConfig }) => ({
-    references: getReferences({ config: flattenedConfig })
-      .filter(result => result.data)
-      .map(result => result.data)
-  }))
-)(IntegrationLandingPage);
+  };
 
-function IntegrationLandingPage({ flattenedConfig, references }) {
+  const [{ config }, setUrlState] = useUrlState(urlStateDefinition);
+
+  const flattenedConfig = ensureAllValuesAreStrings(config, setUrlState);
+
+  const references = useObservable(
+    getReferences({ config: ensureAllValuesAreStrings(config, setUrlState) })
+      .filter(result => result.data)
+      .map(result => result.data),
+    [config]
+  );
+
   let infrastructureSnapshots = null;
   if (references) {
     if (references.timeConfig && references.timeConfig.size > 0) {
@@ -85,11 +86,11 @@ function parseQueryConfig(flattenedConfig) {
     .join(' and ');
 }
 
-function ensureAllValuesAreStrings(config) {
+function ensureAllValuesAreStrings(config, setUrlState) {
   if (!config) {
     return {};
   }
-  config = flattenObject(config);
+  setUrlState({ config: flattenObject(config) });
 
   return Object.keys(config).reduce((copy, key) => {
     copy[key] = String(config[key]);
