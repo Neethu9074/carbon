@@ -14,8 +14,8 @@ import downloadAction from 'in-components/Chart/components/ContextMenu/actions/d
 import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { allowDownloadMetricsFromCharts } from 'in-services/featureFlags';
+import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import { containsIgnoreCase } from 'in-services/util/string';
-import { emptyArray } from 'in-services/fixedObjects';
 import Tooltip from 'in-components/Tooltip';
 import { minutes } from 'in-services/time';
 
@@ -192,11 +192,11 @@ export default class extends React.Component {
 
   getStrippedConfig = () => {
     const config = this.props.chart.config;
-    const uniqueMetrics = [
-      ...new Set(
-        Object.values(config.metricsConfiguration.metrics).map(({ metric, aggregation }) => `${metric} ${aggregation}`)
+    const uniqueMetrics = new Set(
+      Object.values(config.metricsConfiguration?.metrics || emptyObject).map(
+        ({ metric, aggregation }) => `${metric} ${aggregation}`
       )
-    ];
+    );
     return {
       renderedMetrics: [
         ...getNonFilteredMetricsForaxis('y1', config.y1, config.filteredDataSeries),

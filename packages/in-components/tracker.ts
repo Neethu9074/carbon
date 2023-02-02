@@ -25,6 +25,6 @@ export const ua2MetricAddedTracker = (e: Object) => track(ANALYZE_UA2_METRIC_ADD
 export const ua2MetricRemovedTracker = (e: Object) => track(ANALYZE_UA2_METRIC_REMOVED, e);
 export const ua2OrderByChangedTracker = (e: Object) => track(ANALYZE_UA2_ORDER_BY_CHANGED, e);
 export const ua2OrderByGroupChangedTracker = (e: Object) => track(ANALYZE_UA2_ORDER_BY_GROUP_CHANGED, e);
-export const chartZoomInTracker = (e: { chartMetrics: string[]; page: string }) => track(CHART_ZOOM_INTO_TIMEFRAME, e);
+export const chartZoomInTracker = (e: { chartMetrics: string[] }) => track(CHART_ZOOM_INTO_TIMEFRAME, e);
 export const ua2LoadedMore = (e: { dataSource?: string; groupbyTag?: string; groupbyTagSecondLevelKey?: string }) =>
   track(ANALYZE_UA2_LOAD_MORE, e);
