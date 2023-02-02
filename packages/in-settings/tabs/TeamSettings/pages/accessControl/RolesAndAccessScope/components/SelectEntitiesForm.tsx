@@ -18,6 +18,7 @@ import SelectItemForm from 'in-settings/tabs/TeamSettings/pages/accessControl/Ro
 import EntityTable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/EntityTable';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
+import { compareIgnoreCase } from 'in-services/util/string';
 import { FetchedState } from 'in-hooks/utils/types';
 import { t } from 'in-i18n';
 
@@ -49,6 +50,7 @@ export default function SelectEntitiesForm<I>({
   ] = useSelectEntities({
     preselectedIds,
     observable,
+    extractId,
     extractName
   });
 
@@ -101,6 +103,7 @@ export default function SelectEntitiesForm<I>({
 interface UseSelectEntitiesProps<I> {
   preselectedIds: string[];
   observable: () => Observable<Result<I[]>>;
+  extractId: ExtractIdFunction<I>;
   extractName: ExtractNameFunction<I>;
 }
 
@@ -117,13 +120,15 @@ type UseSelectEntitiesResponse<I> = [
 function useSelectEntities<I>({
   preselectedIds,
   observable,
+  extractId,
   extractName
 }: UseSelectEntitiesProps<I>): UseSelectEntitiesResponse<I> {
   const [allVisibleRowsSelected, setAllVisibleRowsSelected] = useState(false);
   const [selectedIds, setSelectedIds] = useState(preselectedIds);
   const [nameQuery, setNameQuery] = useState('');
   const fetchedState = useFetchedStateObservable(observable);
-  const filteredEntities = filterByName(fetchedState, nameQuery, extractName);
+  const withoutPreselectedState = filterByPreselection(fetchedState, preselectedIds, extractId);
+  const filteredEntities = filterByName(withoutPreselectedState, nameQuery, extractName);
 
   return [
     allVisibleRowsSelected,
@@ -136,23 +141,37 @@ function useSelectEntities<I>({
   ];
 }
 
+function filterByPreselection<I>(
+  fetchedState: FetchedState<I[]>,
+  preselectedIds: string[],
+  extractId: ExtractIdFunction<I>
+): FetchedState<I[]> {
+  const [entities, status, ...rest] = fetchedState;
+  if (!entities || status !== 'resolved') return fetchedState;
+
+  const filteredEntities = entities.filter(entity => !preselectedIds.includes(extractId(entity)));
+  return [filteredEntities, status, ...rest];
+}
+
 function filterByName<I>(
   fetchedState: FetchedState<I[]>,
   nameQuery: string,
   extractName: ExtractNameFunction<I>
 ): FetchedState<I[]> {
   const [entities, status, ...rest] = fetchedState;
-  if (!nameQuery || !entities || status !== 'resolved') return fetchedState;
+  if (!entities || status !== 'resolved') return fetchedState;
+
+  const sortedEntities = [...entities].sort((a, b) => compareIgnoreCase(extractName(a), extractName(b)));
+  if (!nameQuery) return [sortedEntities, status, ...rest];
 
   const lowerCaseQuery = nameQuery.toLowerCase();
-  return [
-    entities.filter(entity => {
-      const name = extractName(entity);
-      return name.toLowerCase().includes(lowerCaseQuery);
-    }),
-    status,
-    ...rest
-  ];
+
+  const filteredEntities = sortedEntities.filter(entity => {
+    const name = extractName(entity);
+    return name.toLowerCase().includes(lowerCaseQuery);
+  });
+
+  return [filteredEntities, status, ...rest];
 }
 
 interface GetColumnDefinition<I> {
@@ -179,7 +198,7 @@ function getColumnDefinition<I>({
       getContent(item) {
         const id = extractId(item);
         const isSelected = selectedIds.includes(id);
-        return <CheckboxFancy checked={isSelected} onChange={() => onClickItem(item)} />;
+        return <CheckboxFancy size="large" checked={isSelected} onChange={() => onClickItem(item)} />;
       }
     },
     {

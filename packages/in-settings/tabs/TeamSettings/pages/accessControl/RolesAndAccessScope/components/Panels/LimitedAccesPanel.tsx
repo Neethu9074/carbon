@@ -32,6 +32,7 @@ import { getField, updateFormField } from 'in-settings/tabs/TeamSettings/pages/a
 import EntityTable from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/EntityTable';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import Divider from 'in-components/workspace/Divider/Divider';
+import { compareIgnoreCase } from 'in-services/util/string';
 import { FetchedState } from 'in-hooks/utils/types';
 import { noop } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
@@ -72,7 +73,7 @@ export default function LimitedAccessPanel<I>({
   const scopeBindings = permissionSetField?.value[entityPermissionKey] ?? [];
 
   const selectedIds = getFilteredScopeIds(scopeBindings);
-  const selectedEntities = useSelectedEntities({ selectedIds, extractId, observable });
+  const selectedEntities = useSelectedEntities({ selectedIds, extractId, extractName, observable });
 
   const updatePermissionSet = (permissionSet: PermissionSetWithRoles) => {
     const updatedForm = updateFormField(form, 'permissionSet', permissionSet, true);
@@ -196,21 +197,27 @@ function getFilteredScopeIds(scopeBindings: ScopeBinding[]): Array<string> {
 interface UseSelectEntitiesProps<I> {
   selectedIds: string[];
   extractId: ExtractIdFunction<I>;
+  extractName: ExtractNameFunction<I>;
   observable: () => Observable<Result<I[]>>;
 }
 
-function useSelectedEntities<I>({ selectedIds, extractId, observable }: UseSelectEntitiesProps<I>): FetchedState<I[]> {
+function useSelectedEntities<I>({
+  selectedIds,
+  extractId,
+  extractName,
+  observable
+}: UseSelectEntitiesProps<I>): FetchedState<I[]> {
   const fetchedState = useFetchedStateObservable(observable);
   const [data, status, ...rest] = fetchedState;
 
   if (!data || status !== 'resolved') return fetchedState;
 
-  return [
-    data?.filter(entity => {
+  const filteredData = data
+    ?.filter(entity => {
       const id = extractId(entity);
       return selectedIds.includes(id);
-    }),
-    status,
-    ...rest
-  ];
+    })
+    .sort((a, b) => compareIgnoreCase(extractName(a), extractName(b)));
+
+  return [filteredData, status, ...rest];
 }
