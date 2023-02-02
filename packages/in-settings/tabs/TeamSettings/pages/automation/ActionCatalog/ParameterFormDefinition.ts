@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { createField, createMapForm, Field, ValidationResult } from 'formalistic';
+import { createField, createMapForm, Field, MapForm, ValidationResult } from 'formalistic';
 
 import { ParameterDialogProps } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ParameterDialog';
 import { MappedParameter } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ParametersTable';
@@ -50,7 +50,7 @@ export function createForm({ parameter, form, idToEdit }: CreateFormParams) {
     .put(
       'hidden',
       createField({
-        value: parameter?.value?.type === 'static' ? parameter?.value?.hidden ?? false : false
+        value: parameter?.value?.hidden ?? false
       })
     )
     .put(
@@ -69,6 +69,11 @@ export function createForm({ parameter, form, idToEdit }: CreateFormParams) {
 
 interface AddFieldsParams extends Pick<ParameterDialogProps, 'form'> {
   parameter: MappedParameter | undefined;
+  isCreateForm?: boolean;
+}
+
+function getValidator({ form }: Pick<ParameterDialogProps, 'form'>) {
+  return (form.get('hidden') as Field<boolean>).value ? notBlankValidator : undefined;
 }
 
 export function addStaticField({ parameter, form }: AddFieldsParams) {
@@ -76,7 +81,9 @@ export function addStaticField({ parameter, form }: AddFieldsParams) {
     .put(
       'value',
       createField({
-        value: parameter?.value?.type === 'static' ? parameter?.value?.value ?? '' : ''
+        value: parameter?.value?.type === 'static' ? parameter?.value?.value ?? '' : '',
+        validator: getValidator({ form }),
+        touched: form.touched
       })
     )
     .remove('secretKey')
@@ -97,17 +104,32 @@ export function addVaultFields({ parameter, form }: AddFieldsParams) {
       'secretKey',
       createField({
         value: secretKey ?? '',
-        validator: notBlankValidator
+        validator: getValidator({ form }),
+        touched: form.touched
       })
     )
     .put(
       'secretPath',
       createField({
         value: secretPath ?? '',
-        validator: notBlankValidator
+        validator: getValidator({ form }),
+        touched: form.touched
       })
     )
     .remove('value');
+}
+
+export function mutateFieldBlankValidator({ form, key, add }: { form: MapForm; key: string; add: boolean }) {
+  const { value, touched } = form.get(key) as Field<string>;
+  const validator = add ? notBlankValidator : undefined;
+  return form.remove(key).put(
+    key,
+    createField({
+      value,
+      validator: validator,
+      touched
+    })
+  );
 }
 
 function validName(value: string): ValidationResult {

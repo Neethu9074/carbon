@@ -229,7 +229,7 @@ function WebhookActionContent({ action }: Pick<RunActionContentProps, 'action'>)
 function ParameterInput({ action, form, setForm }: Pick<RunActionContentProps, 'action' | 'form' | 'setForm'>) {
   const { inputParameters } = action;
 
-  if (!inputParameters || inputParameters.length === 0) {
+  if (!inputParameters || inputParameters.filter(parameter => !parameter.hidden).length === 0) {
     return (
       <NoDataAvailable height={200} title={t('in-events:noParametersTitle')} text={t('in-events:noParametersText')} />
     );
