@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useLocation } from 'react-router';
 import React from 'react';
 
 import ProfiledProcesses from 'in-profiling/analyze/AnalyzeView/ProfiledProcesses/ProfiledProcesses';
@@ -11,6 +10,7 @@ import getProfiledProcessesAvailable from 'in-profiling/subscriptions/getProfile
 import { analyzeDataSourceUrlParameter } from 'in-profiling/navigation/urlParameters';
 import EmptyAnalyzeView from 'in-profiling/analyze/AnalyzeView/EmptyAnalyzeView';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { getTimeConfig } from 'in-stores/time/config';
 import SetBodyColor from 'in-components/SetBodyColor';
 import useUrlState from 'in-hooks/useUrlState';
