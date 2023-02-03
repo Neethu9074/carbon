@@ -152,6 +152,7 @@ import './awsMskBroker';
 import './azureStorage';
 import './cloudFoundry';
 import './ibmMqChannel';
+import './ibmMqttChannel';
 import './ibmMqCluster';
 import './instanaAgent';
 import './kafkaCluster';

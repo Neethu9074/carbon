@@ -11577,6 +11577,56 @@ export default {
           type: 'LEVEL'
         },
         {
+          label: 'IBM MQ MQTT Channel',
+          description: null,
+          icon: 'plugin:ibmMqttChannel',
+          children: [
+            {
+              label: 'Connections',
+              description: 'Number of connections.',
+              icon: 'lib_views_tag',
+              type: 'ibmMqttChannel',
+              name: 'connections'
+            },
+            {
+              label: 'Messages sent',
+              description: 'Number of MQTT Messages sent.',
+              icon: 'lib_views_tag',
+              type: 'ibmMqttChannel',
+              name: 'messagesSent'
+            },
+            {
+              label: 'Messages Received',
+              description: 'Number of MQTT Messages received.',
+              icon: 'lib_views_tag',
+              type: 'ibmMqttChannel',
+              name: 'messagesReceived'
+            },
+            {
+              label: 'InDoubt Input',
+              description: 'Inbound messages in doubt.',
+              icon: 'lib_views_tag',
+              type: 'ibmMqttChannel',
+              name: 'inDoubtInput'
+            },
+            {
+              label: 'InDoubt Output',
+              description: 'Outbound messages in doubt.',
+              icon: 'lib_views_tag',
+              type: 'ibmMqttChannel',
+              name: 'inDoubtOutput'
+            },
+            {
+              label: 'Pending Outbound',
+              description: 'Pending outbound messages.',
+              icon: 'lib_views_tag',
+              type: 'ibmMqttChannel',
+              name: 'pendingOutbound'
+            }
+          ],
+          type: 'LEVEL'
+        },
+        {
           label: 'IBM MQ Queue',
           description: null,
           icon: 'plugin:ibmMqQueue',

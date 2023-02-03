@@ -1,11 +1,11 @@
 /*
- * (c) Copyright IBM Corp. 2021
+ * (c) Copyright IBM Corp. 2023
  * (c) Copyright Instana Inc.
  */
 
 import React from 'react';
 
-import getIbmMqChannelsForQueueManager from 'in-forge/plugins/ibmMqQueueManager/subscriptions/getIbmMqChannelsForQueueManager';
+import getIbmMqttChannelsForQueueManager from 'in-forge/plugins/ibmMqQueueManager/subscriptions/getIbmMqttChannelsForQueueManager';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -35,20 +35,20 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.inDoubt'),
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.type'),
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.snapshot.getIn(['data', 'channelInDoubt']);
+        return row.snapshot.getIn(['data', 'channelType']);
       }
     }
   },
   {
-    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.substate'),
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.clientId'),
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.snapshot.getIn(['data', 'channelSubStatus']);
+        return row.snapshot.getIn(['data', 'clientId']);
       }
     }
   },
@@ -62,27 +62,18 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.activeConversations'),
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.connections'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
         return row.key;
       },
       getMetricName() {
-        return 'activeConversations';
+        return 'connections';
       },
       getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.remoteQueueManager'),
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return row.snapshot.getIn(['data', 'remoteQM'], missingValue);
       }
     }
   },
@@ -100,10 +91,10 @@ const cols = [
 export default connectTo(
   props => ({
     channels: timeConfig$
-      .flatMap(timeConfig => getIbmMqChannelsForQueueManager({ snapshotId: props.snapshot.get('id'), timeConfig }))
+      .flatMap(timeConfig => getIbmMqttChannelsForQueueManager({ snapshotId: props.snapshot.get('id'), timeConfig }))
       .flatMap(getSnapshots)
   }),
-  function ChannelsTable({ channels, timeConfig }) {
+  function MqttChannelsTable({ channels, timeConfig }) {
     if (channels == null || channels.length === 0) {
       return null;
     }

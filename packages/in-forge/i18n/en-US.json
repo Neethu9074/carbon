@@ -672,6 +672,11 @@
   "pluginName_ibmMqChannel_1": "IBM MQ Channels",
   "pluginName_ibmMqChannel_2": "IBM MQ Channels",
   "pluginName_ibmMqChannel": "IBM MQ Channel",
+  "pluginName_ibmMqttChannel_plural": "IBM MQ MQTT Channels",
+  "pluginName_ibmMqttChannel_0": "IBM MQ MQTT Channels",
+  "pluginName_ibmMqttChannel_1": "IBM MQ MQTT Channels",
+  "pluginName_ibmMqttChannel_2": "IBM MQ MQTT Channels",
+  "pluginName_ibmMqttChannel": "IBM MQ MQTT Channel",
   "pluginName_ibmMqCluster_plural": "IBM MQ Clusters",
   "pluginName_ibmMqCluster_0": "IBM MQ Clusters",
   "pluginName_ibmMqCluster_1": "IBM MQ Clusters",
@@ -8683,6 +8688,31 @@
       "buffersSent": "Buffers Sent",
       "buffersReceived": "Buffers Received",
       "buffers": "Buffers"
+    },
+    "ibmMqttChannel": {
+      "dashboard": {
+        "messagesSent": "Messages Sent",
+        "messagesReceived": "Messages Received",
+        "messages": "MQTT Messages",
+        "connections": "Connections",
+        "inDoubtInput": "Inbound Messages in doubt",
+        "inDoubtOutput": "Outbound Messages in doubt",
+        "indoubtMessages": "Indoubt Messages",
+        "pendingOutbound": "Pending Outbound Messages",
+        "ibmMqttChannel": "IBM MQ MQTT Channel"
+      },
+      "name": "Name",
+      "type": "Type",
+      "status": "Status",
+      "connectionName": "Connection Name",
+      "keepAliveInterval": "Keep Alive Interval",
+      "lastMessage": "Last Message Date/Time",
+      "startDateTime": "Start Date/Time",
+      "clientId": "Client Id",
+      "clientUser": "Client User",
+      "MCAUser": "MCA User",
+      "messages": "Messages",
+      "connections": "Connections"
     },
     "ibmMqCluster": {
       "dashboard": {
