@@ -26,7 +26,6 @@ import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import tabs from 'in-kubernetes/Dashboards/Service/tabs/index';
 import { ServiceBreadcrumbs } from 'in-kubernetes/breadcrumbs';
-import { k8sTimeShiftEnabled } from 'in-services/featureFlags';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { createGroupBy } from 'in-analyze/navigation/paths';
@@ -151,18 +150,16 @@ function renderButtonLine({ timeConfig, result, serviceId }) {
 function renderButtonLineSecondary({ timeConfig, serviceId }) {
   return (
     <>
-      {k8sTimeShiftEnabled && (
-        <TimeShiftDropdown
-          onChange={offset =>
-            kubernetesTimeShiftSelectTracker({
-              area: 'service',
-              offset: getTimeShiftLabel({ offset: offset }),
-              windowSize: timeConfig.windowSize,
-              autoRefresh: timeConfig.autoRefresh
-            })
-          }
-        />
-      )}
+      <TimeShiftDropdown
+        onChange={offset =>
+          kubernetesTimeShiftSelectTracker({
+            area: 'service',
+            offset: getTimeShiftLabel({ offset: offset }),
+            windowSize: timeConfig.windowSize,
+            autoRefresh: timeConfig.autoRefresh
+          })
+        }
+      />
       <RenderButtonLineSecondary timeConfig={timeConfig} snapshotId={serviceId} />
     </>
   );

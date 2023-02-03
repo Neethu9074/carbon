@@ -21,7 +21,6 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import { nodeDashboard } from 'in-kubernetes/navigation/paths';
-import { k8sTimeShiftEnabled } from 'in-services/featureFlags';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { NodeBreadcrumbs } from 'in-kubernetes/breadcrumbs';
@@ -124,18 +123,16 @@ function renderButtonLine({ nodeId, timeConfig, result }) {
 function renderButtonLineSecondary({ nodeId, timeConfig }) {
   return (
     <>
-      {k8sTimeShiftEnabled && (
-        <TimeShiftDropdown
-          onChange={offset =>
-            kubernetesTimeShiftSelectTracker({
-              area: 'node',
-              offset: getTimeShiftLabel({ offset: offset }),
-              windowSize: timeConfig.windowSize,
-              autoRefresh: timeConfig.autoRefresh
-            })
-          }
-        />
-      )}
+      <TimeShiftDropdown
+        onChange={offset =>
+          kubernetesTimeShiftSelectTracker({
+            area: 'node',
+            offset: getTimeShiftLabel({ offset: offset }),
+            windowSize: timeConfig.windowSize,
+            autoRefresh: timeConfig.autoRefresh
+          })
+        }
+      />
       <RenderButtonLineSecondary timeConfig={timeConfig} snapshotId={nodeId} />
     </>
   );

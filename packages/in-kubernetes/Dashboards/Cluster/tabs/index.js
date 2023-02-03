@@ -27,8 +27,6 @@ import Nodes from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Nodes';
 import { ClusterTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
 import { persistentVolumeSupportEnabled } from 'in-services/featureFlags';
 import Details from 'in-kubernetes/Dashboards/Cluster/tabs/Details';
-import SummaryWithoutTimeShift from './SummaryWithoutTimeShift';
-import { k8sTimeShiftEnabled } from 'in-services/featureFlags';
 import Pods from 'in-kubernetes/Dashboards/Cluster/tabs/Pods';
 import Summary from './Summary';
 import { t } from 'in-i18n';
@@ -37,7 +35,7 @@ export default [
   {
     label: t('in-kubernetes:dashboards.summary'),
     path: `${clusterDashboardFullyQualified}/summary`,
-    component: k8sTimeShiftEnabled ? Summary : SummaryWithoutTimeShift
+    component: Summary
   },
   {
     label: t('in-kubernetes:dashboards.details'),

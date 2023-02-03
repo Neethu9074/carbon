@@ -295,11 +295,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'k8sTimeShiftEnabled',
-    instanaCtlKey: 'feature.kubernetes.timeshift.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'rbacImprovementEnabled',
     instanaCtlKey: 'feature.rbac.improvement.enabled',
     defaultValue: false
