@@ -19,10 +19,14 @@ IS_DELIVERY_BRANCH=$(${UI_CLIENT_ROOT_DIR}/build/ci-shared-tools/scripts/isDeliv
 
 if [ "$IS_DELIVERY_BRANCH" == "true" ]; then
   echo "Set IMAGE_URI for Release branch build"
-  IMAGE_URI="delivery.instana.io/int-docker-ui-client-local/ui-client/${COMPONENT_NAME}"
+  # TODO: pushing an image which is from `ui-client` to int-docker-backend-local/backend kind of breaks
+  #       https://docs.instana.club/instana-artifactory/current/creating-repos.html#repo-naming-conventions
+  #       but this is necessary until instanactl can have fully qualified component image names (right now it
+  #       finds the image based on the name of the component)
+  IMAGE_URI="delivery.instana.io/int-docker-backend-local/backend/${CONTAINER_IMAGE_NAME}"
 else
   echo "Set IMAGE_URI for NON-Release branch build"
-  IMAGE_URI="delivery.instana.io/int-docker-ui-client-local/ui-client/dev/${BRANCH_NAME}/${COMPONENT_NAME}"
+  IMAGE_URI="delivery.instana.io/int-docker-backend-local/backend/dev/${BRANCH_NAME}/${CONTAINER_IMAGE_NAME}"
 fi
 
 FULLY_QUALIFIED_TAG="${IMAGE_URI}:${IMAGE_VERSION}"

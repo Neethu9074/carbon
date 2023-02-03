@@ -54,7 +54,7 @@ For example:
 Will produce:
 
     REPOSITORY                                                                                   TAG           IMAGE ID       CREATED             SIZE
-    delivery.instana.io/int-docker-ui-client-local/ui-client/dev/develop/ui-client               3.198.10-0    99b577f554e4   About an hour ago   464MB
+    delivery.instana.io/int-docker-backend-local/backend/dev/develop/ui-client                   3.198.10-0    99b577f554e4   About an hour ago   464MB
 
 #### Vulnerability Scanning
 
