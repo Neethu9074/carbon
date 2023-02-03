@@ -2778,6 +2778,11 @@
     "@codemirror/state" "^6.0.0"
     "@codemirror/view" "^6.0.0"
 
+"@uiw/codemirror-extensions-events@^4.19.7":
+  version "4.19.7"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@uiw/codemirror-extensions-events/-/codemirror-extensions-events-4.19.7.tgz#a45a14fe8f415a3d5b85e2e3011a52b736ed31c8"
+  integrity sha512-6Jc+mBZQ8PSPFEu7QLsicrXB7Wu1NiF65j/ll6HZLxQuOEV16U9J/WyiWQjSaAD0nFCxKpLyPHNstDb4bcmmmA==
+
 "@uiw/codemirror-theme-bbedit@^4.19.1":
   version "4.19.1"
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@uiw/codemirror-theme-bbedit/-/codemirror-theme-bbedit-4.19.1.tgz#8fbc23ea8781629e141420a04b766e196b32e7e9"
