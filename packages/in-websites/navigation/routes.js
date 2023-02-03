@@ -9,7 +9,7 @@ import AnalyzeView2_0 from 'promise-loader?global,websites!in-websites/analyze/A
 import NewWebsiteFlow from 'promise-loader?global,websites!in-websites/NewWebsiteFlow/NewWebsiteFlow';
 import WebsitesList from 'promise-loader?global,websites!in-websites/WebsitesList/WebsitesList';
 import { Route } from 'react-router-dom';
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import {
   websitesPathFullyQualified,
@@ -18,15 +18,21 @@ import {
   newWebsitePathFullyQualified,
   analyzePathFullyQualified
 } from 'in-websites/navigation/paths';
-import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
+import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 
-export default (
-  <Fragment>
-    <Route path={websitesPathFullyQualified} component={createAsyncViewComponent(WebsitesList)} />
-    <Route path={websitePathFullyQualified} component={createAsyncViewComponent(WebsiteDashboard)} />
-    <Route path={newWebsitePathFullyQualified} component={createAsyncViewComponent(NewWebsiteFlow)} />
-    <Route path={analyzePathFullyQualified} component={createAsyncViewComponent(AnalyzeView2_0)} />
-    <RedirectWithHash from={websiteMonitoringPath} to={websitesPathFullyQualified} />
-  </Fragment>
-);
+export default [
+  <Route key="websitesList" path={websitesPathFullyQualified} children={renderAsyncRouteChildren(WebsitesList)} />,
+  <Route
+    key="websiteDashboard"
+    path={websitePathFullyQualified}
+    children={renderAsyncRouteChildren(WebsiteDashboard)}
+  />,
+  <Route key="websiteNew" path={newWebsitePathFullyQualified} children={renderAsyncRouteChildren(NewWebsiteFlow)} />,
+  <Route
+    key="websiteAnalyzeBeacons"
+    path={analyzePathFullyQualified}
+    children={renderAsyncRouteChildren(AnalyzeView2_0)}
+  />,
+  <RedirectWithHash key="redirectToWebsitesList" from={websiteMonitoringPath} to={websitesPathFullyQualified} />
+];

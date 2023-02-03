@@ -3,51 +3,91 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import React from 'react';
 
+import { Message, Spacer } from '@instana/components';
+
+import { useFetchAdaptiveBaselineOrUseFallbackFromEvent } from 'in-alerting/smart-alerts/applications/hooks/useFetchAdaptiveBaselineOrUseFallbackFromEvent';
 import {
   PER_AP_SERVICE,
   PER_AP_ENDPOINT
-} from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
-import { isAlertQueryValid as isApplicationAlertQueryValid } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
+} from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
+import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import AlertingChartWithErrorMessage from 'in-alerting/components/Chart/AlertingChartWithErrorMessage';
 import { isEntitySelectionValid } from 'in-alerting/smart-alerts/applications/form/formUtils';
+import { chartViewConfigPropType } from 'in-alerting/components/Chart/chartViewConfig';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
-import { t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 
 const NoDataPlaceHolder = ({ text }) => <NoDataAvailable text={text} height={230} />;
 
 export default function ApplicationAlertingChartWithErrorMessage(props) {
-  const { alertConfigWithFormModel, serviceId, endpointId, isAlertDetailView } = props;
+  const {
+    alertConfigWithFormModel: { evaluationType, threshold },
+    serviceId,
+    endpointId,
+    isEventsView,
+    isAlertDetailView
+  } = props;
 
-  const isAdaptiveBaseline = alertConfigWithFormModel.threshold?.type === ADAPTIVE_BASELINE;
-  if (isAdaptiveBaseline && isAlertDetailView) {
-    return <NoDataPlaceHolder text={t('in-alerting:smartAlerts.applications.chart.noChartForAdaptiveBaseline')} />;
-  }
-  if (PER_AP_ENDPOINT === alertConfigWithFormModel.evaluationType && !endpointId) {
+  if (PER_AP_ENDPOINT === evaluationType && !endpointId) {
     return <NoDataPlaceHolder text={t('in-alerting:smartAlerts.applications.chart.noDataWithoutEndpointSelection')} />;
   }
 
-  if (PER_AP_SERVICE === alertConfigWithFormModel.evaluationType && !serviceId) {
+  if (PER_AP_SERVICE === evaluationType && !serviceId) {
     return <NoDataPlaceHolder text={t('in-alerting:smartAlerts.applications.chart.noDataAvailable')} />;
   }
 
-  const entitySelection = alertConfigWithFormModel?.applications;
+  // fetch persistent baseline?
+  if (threshold?.type === ADAPTIVE_BASELINE && (isAlertDetailView || isEventsView)) {
+    return <AlertingChartWithErrorMessageForAdaptiveBaseline {...props} />;
+  }
+
+  return <ChartWithErrorMessageAndData {...props} />;
+}
+
+function AlertingChartWithErrorMessageForAdaptiveBaseline(props) {
+  const { error, baseline } = useFetchAdaptiveBaselineOrUseFallbackFromEvent(props);
+  return (
+    <>
+      <ChartWithErrorMessageAndData {...props} eventBasedAdaptiveBaseline={baseline} />
+      {error && (
+        <>
+          <Spacer size="normal" />
+          <Message type="warning" withIcon small>
+            <Trans i18nKey="in-alerting:smartAlerts.components.smartAlertDialog.adaptiveBaselineErrorMessageNotAvailable" />
+          </Message>
+        </>
+      )}
+    </>
+  );
+}
+
+// Extracted, because it needs a memoization of the isQueryValid-method to avoid unneeded re-rendering
+function ChartWithErrorMessageAndData(props) {
+  const { alertConfigWithFormModel } = props;
+
+  const {
+    rule: { alertType },
+    threshold: { type: thresholdType }
+  } = alertConfigWithFormModel;
+
+  const isApplicationAlertQueryValid = useMemo(() => {
+    const { isQueryValid } = getQueryBuilderForAlertType(alertType, thresholdType);
+    return ([tagFilterFormModel, timeConfig]) => isQueryValid(tagFilterFormModel, timeConfig);
+  }, [alertType, thresholdType]);
+
+  const entitySelection = alertConfigWithFormModel.applications;
   // If a user deselected all entities from entitySelection we have an empty object
   // If a user has never interacted with entitySelection or is in websites smart alert, the value is undefined
   // For example we don't want to hide the chart when we are in simple mode step 1
-  const isServicesAndEndpointsSelectionValid = isEntitySelectionValid(
-    entitySelection,
-    alertConfigWithFormModel?.builtIn
-  );
+  const isServicesAndEndpointsSelectionValid = isEntitySelectionValid(entitySelection, false);
 
   return (
     <AlertingChartWithErrorMessage
       {...props}
-      serviceId={serviceId}
-      endpointId={endpointId}
       getErrorMessage={isValidDependingOnMode =>
         getErrorMessage(!isValidDependingOnMode, !isServicesAndEndpointsSelectionValid)
       }
@@ -62,28 +102,44 @@ function getErrorMessage(isQB2Error, isServicesAndEndpointsSelectionError) {
     return t('in-alerting:components.chart.alertingChartMessageInvalidFilterQuery');
   }
   if (isServicesAndEndpointsSelectionError) {
-    return t('in-alerting:components.chart.alertingChartMessageEntitySelectionInvalid');
+    return t('in-alerting:components.chart.alertingChartMessageEmptyApplicationSelection');
   }
 }
 
 ApplicationAlertingChartWithErrorMessage.propTypes = {
+  viewConfig: chartViewConfigPropType.isRequired,
   alertConfigWithFormModel: PropTypes.shape({
+    eventBasedAdaptiveBaseline: PropTypes.array,
+    id: PropTypes.string.isRequired,
+    created: PropTypes.number,
     applications: PropTypes.object.isRequired,
+    rule: PropTypes.shape({
+      alertType: PropTypes.string
+    }),
+    boundaryScope: PropTypes.string,
     threshold: PropTypes.object,
     builtIn: PropTypes.bool,
+    global: PropTypes.bool,
     evaluationType: PropTypes.string.isRequired
   }).isRequired,
 
   /**
-   * Optional serviceId, used
-   * to scope down the metric in the chart to a single application config
+   * Optional applicationId, used to scope down the metric in the chart to a single application entity
    **/
-  serviceId: PropTypes.string,
-  isAlertDetailView: PropTypes.bool,
+  applicationId: PropTypes.string,
 
   /**
-   * Optional endpointId
-   * to scope down the metric in the chart to a single entity
+   * Optional serviceId, used to scope down the metric in the chart to a single service entity
+   **/
+  serviceId: PropTypes.string,
+
+  // enables rendering of a persisted baseline:
+  isEventsView: PropTypes.bool,
+  isAlertDetailView: PropTypes.bool,
+  setMetricResultPrecision: PropTypes.func,
+
+  /**
+   * Optional endpointId to scope down the metric in the chart to a single entity
    **/
   endpointId: PropTypes.string
 };

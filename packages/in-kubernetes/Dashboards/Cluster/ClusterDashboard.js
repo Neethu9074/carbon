@@ -7,24 +7,29 @@ import { get } from 'lodash';
 import React from 'react';
 
 import AnalyzeCallsButton, { getFilters } from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
+import RenderButtonLineSecondary from 'in-kubernetes/Dashboards/commonComponents/RenderButtonLineSecondary';
 import DashboardButtonLine from 'in-kubernetes/Dashboards/commonComponents/DashboardButtonLine';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import getKubernetesCluster from 'in-kubernetes/subscriptions/getKubernetesCluster';
-import { isOpenshift, clusterBadgeName } from 'in-kubernetes/clusterDistributions';
-import { clusterId as matrixClusterId } from 'in-kubernetes/navigation/matrix';
+import { clusterBadgeName, isOpenshift } from 'in-kubernetes/clusterDistributions';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
+import { clusterId as matrixClusterId } from 'in-kubernetes/navigation/matrix';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
+import { applicationTimeShiftSelectTracker } from 'in-applications/tracker';
+import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import EntityWithTypeAndIcon from 'in-components/EntityWithTypeAndIcon';
 import { clusterDashboard } from 'in-kubernetes/navigation/paths';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
-import { ClusterBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import tabs from 'in-kubernetes/Dashboards/Cluster/tabs/index';
+import { ClusterBreadcrumbs } from 'in-kubernetes/breadcrumbs';
+import { k8sTimeShiftEnabled } from 'in-services/featureFlags';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { createGroupBy } from 'in-analyze/navigation/paths';
+import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import BadgeList from 'in-components/BadgeList/BadgeList';
 import { clusterTabChange } from 'in-kubernetes/tracker';
 import { getTimeConfig } from 'in-stores/time/config';
@@ -88,7 +93,6 @@ export default function ClusterDashboard({ location }) {
 
 function Header(props) {
   const clusterDistribution = get(props, ['result', 'data', 'clusterDistribution'], 'kubernetes');
-
   return (
     <DashboardHeader
       {...props}
@@ -96,8 +100,29 @@ function Header(props) {
       icon={`lib_${clusterDistribution}`}
       label={get(props.result, ['data', 'label'])}
       renderButtonLine={renderButtonLine}
+      renderButtonLineSecondary={renderButtonLineSecondary}
       renderMetaInformation={renderMetaInformation}
     />
+  );
+}
+
+function renderButtonLineSecondary({ timeConfig, podId }) {
+  return (
+    <>
+      {k8sTimeShiftEnabled && (
+        <TimeShiftDropdown
+          onChange={offset =>
+            applicationTimeShiftSelectTracker({
+              area: 'pod',
+              offset: getTimeShiftLabel({ offset: offset }),
+              windowSize: timeConfig.windowSize,
+              autoRefresh: timeConfig.autoRefresh
+            })
+          }
+        />
+      )}
+      <RenderButtonLineSecondary timeConfig={timeConfig} snapshotId={podId} />
+    </>
   );
 }
 

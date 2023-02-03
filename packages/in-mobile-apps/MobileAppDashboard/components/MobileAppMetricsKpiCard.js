@@ -30,7 +30,14 @@ export default connectTo(
             value = formatter(value);
           }
 
-          return <KpiCard title={title} value={value} iconAction={iconAction} />;
+          return (
+            <KpiCard
+              title={title}
+              value={value}
+              iconAction={iconAction}
+              resultPrecision={result?.resultPrecisionDetails?.resultPrecision}
+            />
+          );
         }}
       />
     );

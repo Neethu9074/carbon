@@ -3,13 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { compose, withState } from 'recompose';
-import React from 'react';
-
-import { Message, MessageTypes } from '@instana/components';
+import React, { useState } from 'react';
 
 import SelectListDialogContent from 'in-settings/tabs/TeamSettings/components/SelectListDialogContent';
-import { deprecateAppDataLegacyEvents } from 'in-services/featureFlags';
 import { close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-components/Dialog/Dialog';
 import { t } from 'in-i18n';
@@ -18,29 +14,26 @@ import locals from './SelectListDialog.mless';
 
 const defaultRequiresAtLeastOneMessage = t('in-settings:tabs.pleaseSelectAtLeastOneItem');
 
-export default compose(
-  withState('selectedItems', 'setSelectedItems', []),
-  withState('errorMessage', 'setErrorMessage', ({ requiresAtLeastOneMessage }) =>
-    requiresAtLeastOneMessage ? requiresAtLeastOneMessage : defaultRequiresAtLeastOneMessage
-  )
-)(SelectListDialog);
-
-function SelectListDialog(props) {
-  const { title = t('in-settings:tabs.select') } = props;
+export default function SelectListDialog(props) {
+  const [selectedItems, setSelectedItems] = useState([]);
+  const [errorMessage, setErrorMessage] = useState(
+    props.requiresAtLeastOneMessage ? props.requiresAtLeastOneMessage : defaultRequiresAtLeastOneMessage
+  );
+  const { title = t('in-settings:tabs.select'), renderCustomCloseBehaviour } = props;
   return (
     <Dialog
       title={title}
-      renderCustomCloseBehaviour={() =>
-        deprecateAppDataLegacyEvents ? (
-          <Message type={MessageTypes.neutral} small withIcon>
-            {t('in-settings:tabs.depreactedEventHiddenInfo')}
-          </Message>
-        ) : null
-      }
+      renderCustomCloseBehaviour={renderCustomCloseBehaviour}
       onClose={close}
       className={locals.dialog}
     >
-      <SelectListDialogContent {...props} />
+      <SelectListDialogContent
+        selectedItems={selectedItems}
+        setSelectedItems={setSelectedItems}
+        errorMessage={errorMessage}
+        setErrorMessage={setErrorMessage}
+        {...props}
+      />
     </Dialog>
   );
 }

@@ -3,8 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { withState } from 'recompose';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Link, SvgIcon, toInteractiveElement } from '@instana/components';
 
@@ -14,9 +13,8 @@ import { t } from 'in-i18n';
 
 import locals from './BeaconPageGroup.mless';
 
-export default withState('expanded', 'setExpanded', true)(BeaconPageGroup);
-
-function BeaconPageGroup({ detailId, page, beacons, earliestTimestamp, pageLoad, expanded, setExpanded }) {
+export default function BeaconPageGroup({ detailId, page, beacons, earliestTimestamp, pageLoad }) {
+  const [expanded, setExpanded] = useState(true);
   return (
     <div className={locals.group}>
       <div
@@ -35,7 +33,11 @@ function BeaconPageGroup({ detailId, page, beacons, earliestTimestamp, pageLoad,
           </span>
 
           {!page && (
-            <Link external href="https://instana.com/docs/website_monitoring/api/#page" className={locals.learnHow}>
+            <Link
+              external
+              href="https://www.ibm.com/docs/en/obi/current?topic=websites-javascript-agent-api#page"
+              className={locals.learnHow}
+            >
               {t('in-websites:analyze.analyzeView.pageLoadView.beaconPageGroupLinkLearnHowToDefinePages')}
             </Link>
           )}

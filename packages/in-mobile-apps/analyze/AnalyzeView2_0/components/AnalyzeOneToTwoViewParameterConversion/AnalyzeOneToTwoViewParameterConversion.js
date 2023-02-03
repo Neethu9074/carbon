@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { useLocation } from 'react-router';
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
@@ -11,6 +10,7 @@ import { useObservable } from '@instana/hooks';
 import { transformOneZeroToTwoZero } from 'in-mobile-apps/analyze/AnalyzeView2_0/components/AnalyzeOneToTwoViewParameterConversion/transformHelper';
 import { beaconType as beaconTypeMatrixParameterName } from 'in-mobile-apps/navigation/matrix';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { createParameters } from 'in-components/AnalyzeView/parameters';
 import { getMetricCatalog } from 'in-mobile-apps/api/metricCatalog';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';

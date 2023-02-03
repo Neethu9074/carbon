@@ -101,6 +101,18 @@ export default [
     formatter: number
   },
   {
+    metric: 'activeClientsWriters',
+    label: t('in-forge:plugins.mongoDb.activeClientsWriters'),
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: 'activeClientsReaders',
+    label: t('in-forge:plugins.mongoDb.activeClientsReaders'),
+    min: 0,
+    formatter: number
+  },
+  {
     metric: 'journalWriteLock',
     label: t('in-forge:plugins.mongoDb.journalWriteLock'),
     min: 0,
@@ -124,5 +136,23 @@ export default [
     min: 0,
     category: [t('in-forge:plugins.mongoDb.memory')],
     formatter: bytes
+  },
+  {
+    metrics: ['opcounters.insert', 'opcounters.update', 'opcounters.delete'],
+    labels: [
+      t('in-forge:plugins.mongoDb.opInsert'),
+      t('in-forge:plugins.mongoDb.opUpdate'),
+      t('in-forge:plugins.mongoDb.opDelete')
+    ],
+    min: 0,
+    category: [t('in-forge:plugins.mongoDb.opCountersWrite')],
+    formatter: number
+  },
+  {
+    metrics: ['opcounters.query', 'opcounters.getmore'],
+    labels: [t('in-forge:plugins.mongoDb.opQuery'), t('in-forge:plugins.mongoDb.opGetMore')],
+    min: 0,
+    category: [t('in-forge:plugins.mongoDb.opCountersRead')],
+    formatter: number
   }
 ];

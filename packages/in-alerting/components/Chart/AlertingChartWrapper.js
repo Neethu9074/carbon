@@ -7,7 +7,7 @@ import React from 'react';
 
 import { combineLatest, create, just } from '@instana/observables';
 
-import { finishedProgress, emptyArray, indeterminateProgress, pendingResult } from 'in-services/fixedObjects';
+import { finishedProgress, emptyArray, indeterminateProgress, pendingResult, noop } from 'in-services/fixedObjects';
 import { getThresholdInTimeframe } from 'in-alerting/components/Chart/renderer/lineWithAdaptiveBaseline';
 import { getHistoricBaselineValue } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
@@ -36,30 +36,37 @@ export default connectTo(
               data: {}
             }
           : mergeResult({
-              result: applyPostProcessing(metrics, props.postProcessMetric, props.timeConfig, props.granularity),
+              timeConfig: props.timeConfig,
+              result: applyPostProcessing(metrics, props.postProcessMetric, props.granularity),
               y1: props.y1,
               thresholdType: props.thresholdType,
-              mutateMetrics: props.mutateMetrics ?? {}
+              setMetricResultPrecision: props.setMetricResultPrecision
             });
       })
     };
   },
   function AlertingChartWrapper(props) {
-    return <ChartWrapper showNoDataInfoWhenEmpty={false} {...extendProps(props)} />;
+    return (
+      <ChartWrapper
+        showNoDataInfoWhenEmpty={false}
+        {...props}
+        metricsConfiguration={extendMetricConfiguration(props)}
+      />
+    );
   }
 );
 
-function extendProps(props) {
+function extendMetricConfiguration(props) {
   return {
-    ...props,
-    metricsConfiguration: {
-      ...props.metricsConfiguration,
-      metrics: { ...props.metricsConfiguration.metrics, threshold: { metric: 'threshold' } }
+    ...props.metricsConfiguration,
+    metrics: {
+      ...props.metricsConfiguration.metrics,
+      threshold: { metric: 'threshold' }
     }
   };
 }
 
-function getThreshold(y1, thresholdType, metricData) {
+function getThreshold(y1, thresholdType, metricData, timeConfig) {
   const {
     threshold: thresholdValue,
     baseline,
@@ -69,10 +76,17 @@ function getThreshold(y1, thresholdType, metricData) {
     eventBasedAdaptiveBaseline
   } = y1;
 
-  if ((baseline ?? []).length === 0 && (eventBasedAdaptiveBaseline ?? []).length === 0) {
+  if (thresholdType === ADAPTIVE_BASELINE) {
+    return getThresholdInTimeframe(
+      eventBasedAdaptiveBaseline,
+      baseline,
+      sensitivity,
+      isGreaterOperator(operator),
+      thresholdGranularity,
+      timeConfig
+    );
+  } else if ((baseline ?? []).length === 0 && (eventBasedAdaptiveBaseline ?? []).length === 0) {
     return metricData.map(([time]) => [time, thresholdValue]);
-  } else if (thresholdType === ADAPTIVE_BASELINE) {
-    return getThresholdInTimeframe(eventBasedAdaptiveBaseline, baseline, sensitivity, isGreaterOperator(operator));
   } else {
     const isGreaterOp = isGreaterOperator(operator);
 
@@ -89,37 +103,23 @@ function getThreshold(y1, thresholdType, metricData) {
   }
 }
 
-function getMetricData(result, metricName, mutateMetrics) {
-  const metricData = result.data[metricName];
-
-  if (mutateMetrics?.doMutate && mutateMetrics?.metricNames.includes(metricName)) {
-    return mutateMetrics.mutate(metricData);
-  }
-
-  return metricData;
-}
-
-function mergeResult({ result, y1, thresholdType, mutateMetrics }) {
-  const metricName = y1.metricIds[0];
-  const mergedResult = {
-    time: 0,
-    progress: finishedProgress,
-    errors: emptyArray,
-    data: {}
-  };
-
+function mergeResult({ result, y1, thresholdType, setMetricResultPrecision = noop, timeConfig }) {
   if (result.errors.length > 0 || result.progress.loading) {
     return result;
   }
 
-  const metricData = getMetricData(result, metricName, mutateMetrics);
+  setMetricResultPrecision(result?.resultPrecisionDetails?.resultPrecision);
+
+  const metricName = y1.metricIds[0];
+  const metricData = result.data[metricName];
 
   return {
-    ...mergedResult,
-    time: Math.max(mergedResult.time, result.time),
+    progress: finishedProgress,
+    errors: emptyArray,
+    time: Math.max(0, result.time),
     data: {
       [metricName]: metricData,
-      threshold: getThreshold(y1, thresholdType, metricData)
+      threshold: getThreshold(y1, thresholdType, metricData, timeConfig)
     }
   };
 }

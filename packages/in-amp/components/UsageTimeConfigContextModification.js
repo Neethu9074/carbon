@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { getTime, startOfDay, startOfHour, subDays, subHours } from 'date-fns';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import React from 'react';
 
 import LocalTimeConfigContextModification from 'in-stores/time/LocalTimeConfigContextModification';
@@ -35,9 +35,9 @@ function modifyTimeConfig(windowSize) {
 
 function getNearestReasonableTo(windowSize) {
   const dailyData = windowSize > days.toMillis(7);
-  return moment()
-    .startOf(dailyData ? 'day' : 'hour')
-    .subtract(1, dailyData ? 'day' : 'hour')
-    .toDate()
-    .getTime();
+
+  const startOf = dailyData ? startOfDay : startOfHour;
+  const subtract = dailyData ? subDays : subHours;
+
+  return getTime(subtract(startOf(new Date()), 1));
 }

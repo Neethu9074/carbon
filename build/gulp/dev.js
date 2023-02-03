@@ -8,13 +8,10 @@
 
 'use strict';
 
-const forkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
-const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
 const clearConsole = require('react-dev-utils/clearConsole');
 const WebpackDevServer = require('webpack-dev-server');
 const detectPort = require('detect-port-alt');
-const { clone } = require('lodash');
 const webpack = require('webpack');
 const chalk = require('chalk');
 const gulp = require('gulp');
@@ -22,7 +19,6 @@ const path = require('path');
 
 const webpackConfig = require('../../webpack.config.js');
 const { askQuestions } = require('./devModeQuestions');
-const { isDevModeBuild } = require('../webpack/opts');
 const { createI18nFiles } = require('./i18n');
 const commonJobs = require('./common');
 const buildUtil = require('./util');
@@ -136,7 +132,7 @@ function startDevProxy(cb) {
   }
 
   if (envConfig.local) {
-    httpProxy['/api/checkUserAccessPermitted'] = `${uiBackendUrl}/checkUserAccessPermitted`;
+    httpProxy['/api/checkUserAccessPermitted'] = `${uiBackendUrl}/api/checkUserAccessPermitted`;
   }
 
   const websocketProxy = {
@@ -180,42 +176,48 @@ function getDevUrl() {
 }
 
 function webpackDev() {
-  // modify some webpack config options
-  const config = clone(webpackConfig);
-  config.devtool = 'eval';
-
   // Start a webpack-dev-server
-  new WebpackDevServer(createWebpackCompiler(config), {
-    publicPath: '/bundle',
-    contentBase: 'target/assets/',
-    noInfo: true,
-    quiet: true,
-    lazy: false,
-    inline: hotReload,
-    hot: hotReload,
-    liveReload: hotReload,
-    disableHostCheck: hotReload,
-    watchOptions: {
-      ignored: /node_modules/,
-      aggregateTimeout: 300,
-      poll: 2000
+  const server = new WebpackDevServer(
+    {
+      hot: hotReload,
+      liveReload: hotReload,
+      allowedHosts: hotReload ? 'all' : ['.instana.rocks'],
+      devMiddleware: {
+        publicPath: '/bundle',
+        stats: 'errors-only'
+      },
+      static: {
+        directory: 'target/assets/',
+        watch: {
+          ignored: /node_modules/,
+          usePolling: true,
+          interval: 2000,
+          useFsEvents: true
+        }
+      },
+      port: webpackDevServerPort,
+      host: 'localhost'
     },
-    stats: {
-      colors: true
-    }
-  }).listen(webpackDevServerPort, 'localhost', err => {
-    if (err) {
-      throw err;
-    }
-    console.log('[webpack:dev]', `http://localhost:${webpackDevServerPort}/`);
-    console.log();
-    console.log(chalk.blue('Will now execute first compilation. This can take a few minutes.'));
-    console.log(chalk.blue('The terminal output will change once completed.'));
-  });
+    createWebpackCompiler(webpackConfig)
+  );
 
-  // return a Promise so that Gulp knows that this task is going to
-  // continue to run asynchronously
-  return new Promise(() => {});
+  return new Promise((resolve, reject) => {
+    try {
+      server.startCallback(() => {
+        console.log('[webpack:dev]', `http://localhost:${webpackDevServerPort}/`);
+        console.log();
+        console.log(chalk.blue('Will now execute first compilation. This can take a few minutes.'));
+        console.log(chalk.blue('The terminal output will change once completed.'));
+        resolve();
+      });
+    } catch (exception) {
+      if (exception.signal === 'SIGINT') {
+        resolve();
+      } else {
+        reject(exception);
+      }
+    }
+  });
 }
 
 function createWebpackCompiler(config, onReadyCallback) {
@@ -224,13 +226,6 @@ function createWebpackCompiler(config, onReadyCallback) {
   let compiler;
   try {
     compiler = webpack(config);
-    if (isDevModeBuild) {
-      new forkTsCheckerWebpackPlugin({
-        checkSyntacticErrors: true,
-        async: true,
-        silent: true
-      }).apply(compiler);
-    }
   } catch (err) {
     console.log(chalk.red('Failed to compile.'));
     console.log();
@@ -239,28 +234,11 @@ function createWebpackCompiler(config, onReadyCallback) {
     process.exit(1);
   }
 
-  let tsMessagesPromise;
-  let tsMessagesResolver;
-  compiler.hooks.beforeCompile.tap('beforeCompile', () => {
-    tsMessagesPromise = new Promise(resolve => {
-      tsMessagesResolver = msgs => resolve(msgs);
-    });
-  });
-
-  forkTsCheckerWebpackPlugin.getCompilerHooks(compiler).receive.tap('afterTypeScriptCheck', (diagnostics, lints) => {
-    const allMsgs = [...diagnostics, ...lints];
-    const format = message => `${message.file}\n${typescriptFormatter(message, true)}`;
-    tsMessagesResolver({
-      errors: allMsgs.filter(msg => msg.severity === 'error').map(format),
-      warnings: allMsgs.filter(msg => msg.severity === 'warning').map(format)
-    });
-  });
-
   // "invalid" event fires when you have changed a file, and Webpack is
   // recompiling a bundle. WebpackDevServer takes care to pause serving the
   // bundle, so if you refresh, it'll wait instead of serving the old one.
   // "invalid" is short for "bundle invalidated", it doesn't imply any errors.
-  compiler.plugin('invalid', () => {
+  compiler.hooks.invalid.tap('clearConsole', () => {
     if (process.stdout.isTTY) {
       clearConsole();
     }
@@ -281,19 +259,6 @@ function createWebpackCompiler(config, onReadyCallback) {
       warnings: true,
       errors: true
     });
-
-    if (statsData.errors.length === 0) {
-      const delayedMsg = setTimeout(() => {
-        renderSucessMessage();
-      }, 100);
-
-      const tsMessages = await tsMessagesPromise;
-      clearTimeout(delayedMsg);
-      statsData.errors.push(...tsMessages.errors);
-      statsData.warnings.push(...tsMessages.warnings);
-      stats.compilation.errors.push(...tsMessages.errors);
-      stats.compilation.warnings.push(...tsMessages.warnings);
-    }
 
     // We have switched off the default Webpack output in WebpackDevServer
     // options so we are going to "massage" the warnings and errors and present

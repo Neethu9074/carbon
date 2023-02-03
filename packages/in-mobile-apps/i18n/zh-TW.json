@@ -3,7 +3,8 @@
     "sessionStart": "階段作業啟動",
     "viewChange": "視圖轉移",
     "httpRequest": "HTTP 要求",
-    "custom": "自訂事件"
+    "custom": "自訂事件",
+    "crash": "損毀"
   },
   "analyzeView": {
     "uniqueUsers": "唯一使用者",
@@ -156,7 +157,10 @@
       "traLong": "視圖轉移",
       "cusShort": "自訂",
       "cusBadgeLabel": "自訂",
-      "cusLong": "自訂事件"
+      "cusLong": "自訂事件",
+      "craShort": "Cra",
+      "craBadgeLabel": "Cra",
+      "craLong": "損毀"
     },
     "tabsSumOverviewChartTooltipStartTime": "開始時間",
     "tabsSummary": {
@@ -201,6 +205,15 @@
       "errMsgTitle": "錯誤訊息",
       "metaHeader": "Meta"
     },
+    "tabsSumCrashBeacon": {
+      "startTimeLabel": "開始時間",
+      "crashHeader": "損毀",
+      "errorMsg": "錯誤訊息",
+      "errorType": "錯誤類型",
+      "crashLabel": "損毀",
+      "metaHeader": "Meta",
+      "stackTrace": "堆疊追蹤"
+    },
     "tabsSumHttpRequestBeacon": {
       "retrievalTimeTooltip": "擷取時間",
       "requestLabel": "要求",
@@ -208,6 +221,7 @@
       "retrievalTimeLabel": "擷取時間",
       "callDetailsHeader": "呼叫明細",
       "httpCallURITitle": "HTTP 呼叫 URI",
+      "httpHeadersHeader": "HTTP 標頭",
       "httpMethodTitle": "HTTP 方法",
       "httpStatusTitle": "HTTP 狀態",
       "errMsgTitle": "錯誤訊息",
@@ -236,24 +250,26 @@
       "summaryLabel": "摘要",
       "httpRequestLabel": "HTTP 要求",
       "geographyLabel": "地理位置",
+      "customEventsLabel": "自訂事件",
       "viewsLabel": "視圖",
       "configurationLabel": "配置",
       "nameLabel": "名稱",
       "occurrencesLabel": "出現次數",
       "configurationTitle": "配置",
       "optionsLabel": "選項",
+      "privacyLabel": "隱私權",
+      "customGeoDetailsLabel": "自訂地理詳細資料",
       "installationInstructionsBtn": "安裝指示",
       "keyLabel": "索引鍵",
       "reportingURLLabel": "報告 URL",
       "removeAppTitle": "移除行動式應用程式",
-      "removeAppHelp1": "如果您再也不想使用 Instana 來監視行動式應用程式 <strong>{{label}}</strong>，請使用此表單來移除它。「移除行動式應用程式」是最終執行的一致性動作。因此，移除行動式應用程式可能<strong>需要數分鐘</strong>，才能完全移除。",
+      "removeAppHelp1": "如果您再也不想使用 Instana 來監視行動式應用程式 <strong>{{label}}</strong>，請使用此表單來移除它。「移除行動式應用程式」是最終執行的一致性動作。因此，移除行動式應用程式可能需要<strong>最多幾分鐘</strong>，才能完全移除。",
       "removeAppHelp2": "請注意，您或 Instana 支援人員都無法復原此動作！",
       "confirmUndone": "我瞭解此動作無法復原。",
       "removeAppBtn": "移除行動式應用程式",
       "renameAppTitle": "重新命名行動式應用程式",
-      "renameAppHelp": "「重新命名行動式應用程式」是 Instana 系統中最終執行的一致性動作。因此，對行動式應用程式名稱的變更可能<strong>需要數分鐘</strong>，才能移入至整個系統。",
+      "renameAppHelp": "「重新命名行動式應用程式」是 Instana 系統中最終執行的一致性動作。因此，對行動式應用程式名稱的變更可能需要<strong>最多幾分鐘</strong>，才能移入至整個系統。",
       "renameAppBtn": "重新命名",
-      "renameSaved": "已儲存",
       "noSessionTitle": "沒有可用的階段作業",
       "noSessionExplanation": "在選取的時間範圍中找不到階段作業。",
       "noSessionExplanationWithFilters": "在選取的時間範圍中找不到符合您過濾器的階段作業。",
@@ -297,13 +313,49 @@
       "viewTransitionsLabel": "視圖轉移",
       "geographyTitle": "地理位置",
       "topViewsTitle": "排名居前的視圖",
-      "globViewFootertext": "NASA 所提供的影像"
+      "globViewFootertext": "NASA 所提供的影像",
+      "customEvents": {
+        "customEventTitleMobileAppCustomEventDetails": "行動式應用程式自訂事件詳細資料",
+        "customEventLabelBackToListOfCustomEvents": "回到自訂事件清單",
+        "customEventButtonAnalyzeCustomEvent": "分析自訂事件",
+        "customEventTitleOccurrences": "出現項目數",
+        "customEventTitleUsers": "使用者",
+        "customEventTitleCustomEvent": "自訂事件",
+        "customEventTitleDuration": "持續時間",
+        "customEventLabelViewInAnalyze": "分析時檢視",
+        "customEventLabelOccurrences": "出現項目數",
+        "customEventLabelUsers": "使用者",
+        "customEventLabel50th": "50th",
+        "customEventLabel90th": "90th",
+        "customEventLabel95th": "95th",
+        "customEventLabel99th": "99th",
+        "customEventLabelMax": "最大值",
+        "customEventLabelMean": "平均數",
+        "customEventsLabelEventName": "事件名稱",
+        "customEventsLabelOccurrences": "出現項目數",
+        "customEventsLabelUsers": "使用者",
+        "customEventsButtonAnalyzeCustomEvents": "分析自訂事件",
+        "osTopListLabelOccurrences": "出現項目數",
+        "osTopListLabelUsers": "使用者",
+        "osTopListLinkLabel": "檢視所有作業系統",
+        "osTopListTitle": "作業系統",
+        "platformTopListLabelOccurrences": "出現項目數",
+        "platformTopListLabelUsers": "使用者",
+        "platformTopListLinkLabel": "檢視所有平台",
+        "platformTopListTitle": "平台",
+        "viewTopListLabelOccurrences": "出現項目數",
+        "viewTopListLabelUsers": "使用者",
+        "viewTopListLinkLabel": "檢視所有視圖",
+        "viewTopListTitle": "檢視表"
+      }
     },
     "noDataAvailable": {
-      "viewsTitle": "沒有可用的視圖                                                                                                       ",
-      "viewsDescription": "未擷取到所選時間範圍內的視圖。",
+      "viewsTitle": "沒有可用的視圖",
+      "viewsDescription": "所選的時間範圍內未擷取到任何的視圖。",
       "httpRequestsTitle": "沒有可用的 HTTP 要求",
-      "httpRequestsDescription": "未擷取到所選時間範圍內的 HTTP 要求。"
+      "httpRequestsDescription": "所選的時間範圍內未擷取到任何的 HTTP 要求。",
+      "customEventsTitle": "沒有可用的自訂事件",
+      "customEventsDescription": "所選的時間範圍內未擷取到任何的自訂事件。"
     }
   },
   "appsList": {
@@ -320,13 +372,13 @@
     "addMobileAppBtn": "新增行動式應用程式",
     "newMobileAppTitle": "新建行動式應用程式",
     "everythingIsReadyTitle": "一切就緒！",
-    "everythingIsReadyMsg": "一切都就緒，可開始監視您的行動式應用程式 <strong>{{mobileAppName}}</strong>。<linkToInstallation>將代理程式新增至行動式應用程式</linkToInstallation>，以追蹤實際使用者，或移至儀表板。",
+    "everythingIsReadyMsg": "一切都就緒，可開始監視您的行動式應用程式 <strong>{{mobileAppName}}</strong>。<linkToInstallation>將代理程式新增至您的行動式應用程式</linkToInstallation>，以追蹤實際使用者，或移至儀表板。",
     "keyLabel": "索引鍵",
     "reportingURLLabel": "報告 URL",
     "installationInstructionsBtn": "安裝指示",
     "GoToMobileAppDashboardBtn": "移至行動式應用程式儀表板",
     "workingTitle": "工作中...",
-    "workingMsg": "我們正在準備一切，以監視您的行動式應用程式 <strong>{{mobileAppName}}</strong>。正當我們這樣做之時，請<linkToInstallation>將代理程式新增至行動式應用程式</linkToInstallation>。",
+    "workingMsg": "我們正在準備一切，以監視您的行動式應用程式 <strong>{{mobileAppName}}</strong>。在我們執行此動作時，請<linkToInstallation>將代理程式新增至您的行動式應用程式</linkToInstallation>。",
     "enablingMonitoringBtn": "正在啟用監視..."
   },
   "mobileBeacons": {
@@ -334,7 +386,8 @@
     "sessionId": "階段作業 ID",
     "viewName": "視圖名稱",
     "access": "存取",
-    "eventName": "事件名稱"
+    "eventName": "事件名稱",
+    "crash": "損毀"
   },
   "dataSource_sessionStart": "{{formattedCount}} 個階段作業啟動",
   "dataSource_sessionStart_plural": "{{formattedCount}} 個階段作業啟動",
@@ -356,6 +409,11 @@
   "dataSource_custom_0": "{{formattedCount}} 個自訂事件",
   "dataSource_custom_1": "{{formattedCount}} 個自訂事件",
   "dataSource_custom_2": "{{formattedCount}} 個自訂事件",
+  "dataSource_crash": "{{formattedCount}} 個損毀",
+  "dataSource_crash_plural": "{{formattedCount}} 個損毀",
+  "dataSource_crash_0": "{{formattedCount}} 個損毀",
+  "dataSource_crash_1": "{{formattedCount}} 個損毀",
+  "dataSource_crash_2": "{{formattedCount}} 個損毀",
   "facetedSearch": {
     "mobileApp": "行動式應用程式",
     "view": "視圖",

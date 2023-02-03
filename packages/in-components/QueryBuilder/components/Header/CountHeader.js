@@ -5,56 +5,52 @@
 
 import React from 'react';
 
-import { useObservable } from '@instana/hooks';
-import { SvgIcon } from '@instana/components';
-
-import { historicOrLargeDataResult$ } from 'in-components/time/TimeSelection/TimeSelection';
-import { samplingIndicatorEnabled } from 'in-services/featureFlags';
-import { emptyObject } from 'in-services/fixedObjects';
+import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import { number } from 'in-services/formatters/number';
-import TimeIcon from 'in-components/time/TimeIcon';
-import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from './CountHeader.mless';
 
 export default function CountHeader({
   totalRepresentedItemCount,
+  totalRetainedItemCount,
   totalHits,
+  dataSource,
+  isLoading,
+  hasErrors,
   withGrouping = false,
-  withResultsInGroups = false,
-  withSamplingTooltip = false,
-  withAdjustedWindowSizeTooltip = false
+  withAdjustedWindowSizeTooltip = false,
+  renderHistoricDataIndicator = false,
+  fastQueryModeEnabled
 }) {
-  const historicOrLargeDataResult = useObservable(historicOrLargeDataResult$, []);
-  if ((totalHits == null && totalRepresentedItemCount == null) || historicOrLargeDataResult == null) {
+  if (hasErrors) {
+    return <ErroneousResult />;
+  }
+  if (isLoading) {
     return <Placeholder />;
   }
 
   let topText;
-  let bottomText;
+  let totalRepresentedText;
+
+  const showRetainedItemsCount = renderHistoricDataIndicator && totalRepresentedItemCount > totalRetainedItemCount;
+
   if (withGrouping) {
     topText = t('in-components:analyzeView.groupedViewHeader', {
       count: totalHits,
       formattedCount: number.compact(totalHits)
     });
-    if (withResultsInGroups) {
-      bottomText = t('in-components:analyzeView.result', {
-        count: totalRepresentedItemCount,
-        formattedCount: number.compact(totalRepresentedItemCount)
-      });
-    }
   } else {
     topText = t('in-components:analyzeView.result', {
-      count: totalRepresentedItemCount,
-      formattedCount: number.compact(totalRepresentedItemCount)
+      count: totalRetainedItemCount,
+      formattedCount: number.compact(totalRetainedItemCount),
+      dataSource: dataSource
     });
-    const showRetainedItemsCount =
-      historicOrLargeDataResult.containsHistoricData && totalRepresentedItemCount > totalHits;
+
     if (showRetainedItemsCount) {
-      bottomText = t('in-components:analyzeView.resultRetained', {
-        count: totalHits,
-        formattedCount: number.compact(totalHits)
+      totalRepresentedText = t('in-components:analyzeView.groupedViewHeaderRetained', {
+        count: totalRepresentedItemCount,
+        formattedCount: number.compact(totalRepresentedItemCount)
       });
     }
   }
@@ -62,10 +58,10 @@ export default function CountHeader({
   return (
     <Presenter
       topText={topText}
-      bottomText={bottomText}
-      historicOrLargeDataResult={historicOrLargeDataResult}
-      withSamplingTooltip={withSamplingTooltip}
+      totalRepresentedText={totalRepresentedText}
       withAdjustedWindowSizeTooltip={withAdjustedWindowSizeTooltip}
+      renderHistoricDataIndicator={renderHistoricDataIndicator}
+      fastQueryModeEnabled={fastQueryModeEnabled}
     />
   );
 }
@@ -74,36 +70,46 @@ function Placeholder() {
   return <Presenter topText={t('in-components:analyzeView.resultHeaderLoading')} />;
 }
 
-function Presenter({
-  topText,
-  bottomText,
-  historicOrLargeDataResult,
-  withSamplingTooltip,
-  withAdjustedWindowSizeTooltip
-}) {
-  const { containsHistoricData, retention } = historicOrLargeDataResult ?? emptyObject;
-  const showSamplingTooltip = withSamplingTooltip && !samplingIndicatorEnabled && containsHistoricData;
-
+export function ErroneousResult() {
   return (
     <div className={locals.header}>
       <div className={locals.topTextWithTooltip}>
-        <h3 className={locals.topText}>{topText}</h3>
-        {showSamplingTooltip && (
-          <TimeIcon
-            theme="light"
-            tooltipTheme="dark"
-            tooltipAlign="rightMiddle"
-            containsHistoricData
-            retention={retention}
-          />
-        )}
-        {withAdjustedWindowSizeTooltip && (
-          <Tooltip content={t('in-components:analyzeView.resultHeaderTooltip')} align="rightMiddle">
-            <SvgIcon className={locals.adjustmentIcon} type="lib_approximately_equal" />
-          </Tooltip>
-        )}
+        <h3 className={locals.topText} />
       </div>
-      {bottomText ? <span className={locals.bottomText}>{bottomText}</span> : null}
+    </div>
+  );
+}
+
+function generateTooltips(withAdjustedWindowSizeTooltip, renderHistoricDataIndicator, fastQueryModeEnabled) {
+  const lines = [];
+  if (renderHistoricDataIndicator) {
+    lines.push(
+      fastQueryModeEnabled
+        ? t('in-components:approximateDataIndicator.dataRetentionOrFastQueryMode')
+        : t('in-components:approximateDataIndicator.dataRetention')
+    );
+  }
+  if (lines.length > 0) {
+    return <MultiLineToolTipIcon lines={lines} label={'Approximate Data'} iconSize="s" />;
+  }
+}
+
+function Presenter({
+  topText,
+  totalRepresentedText,
+  withAdjustedWindowSizeTooltip,
+  renderHistoricDataIndicator,
+  fastQueryModeEnabled
+}) {
+  return (
+    <div className={locals.header}>
+      <div className={locals.topTextWithTooltip}>
+        <h3 className={locals.topText}>
+          {topText}{' '}
+          {totalRepresentedText && <span className={locals.totalRepresentedText}>{totalRepresentedText}</span>}
+        </h3>
+        {generateTooltips(withAdjustedWindowSizeTooltip, renderHistoricDataIndicator, fastQueryModeEnabled)}
+      </div>
     </div>
   );
 }

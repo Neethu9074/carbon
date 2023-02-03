@@ -16,15 +16,19 @@ echo "Configuring SonarQube scanner"
 echo "sonar.host.url=$SONARQUBE_URL" > "sonar-scanner-$SONARQUBE_SCANNER_VERSION/conf/sonar-scanner.properties"
 
 echo "Install all dependencies"
-yarn
+yarn install --frozen-lockfile
 pushd packages/in-server
-yarn
+yarn install --frozen-lockfile
 popd
 
 echo "Generate the lcov coverage report"
-yarn test:unit --coverage
+echo "Starting unit tests for client with coverage {"
+yarn test:unit --coverage --detectOpenHandles --forceExit 
+echo "} Ended unit tests for clientwith coverage"
 pushd packages/in-server
-yarn test --coverage
+echo "Starting unit tests for server with coverage {"
+yarn test --coverage --detectOpenHandles --forceExit 
+echo "} Ended unit tests for server with coverage"
 popd
 
 echo "Generate the ESLint report"

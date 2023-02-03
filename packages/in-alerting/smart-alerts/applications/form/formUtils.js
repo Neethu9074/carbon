@@ -6,13 +6,18 @@
 import { isEmpty } from 'lodash';
 
 import {
+  PER_AP,
+  PER_AP_ENDPOINT,
+  PER_AP_SERVICE
+} from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
+import {
   getLogLevelRuleOperatorLabel,
   getStatusCodeLabel
 } from 'in-alerting/smart-alerts/applications/form/ruleFormData';
-import { ADAPTIVE_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { getValueRoundedToDecimals } from 'in-alerting/smart-alerts/components/utils/formatUtils';
 import { getAggregationText } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
+import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { operators } from 'in-analyze/applicationFilter';
 import { t } from 'in-i18n';
 
@@ -28,6 +33,7 @@ export function getMetricUnitPostfix(metricName) {
     case 'latency':
       return 'ms';
     case 'errors':
+    case 'callRate':
       return '%';
     default:
       return '';
@@ -94,10 +100,6 @@ export function getDescriptionPlaceholder(form) {
 
   switch (alertType) {
     case 'errorRate': {
-      if (thresholdType === ADAPTIVE_BASELINE) {
-        // TODO: NEW TEXT NEEDED?
-        return '';
-      }
       const thresholdValue = thresholdForm.get('value').value;
       return t('in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.errorRate', {
         context: getHigherOrLowerOperatorContext(thresholdOperator),
@@ -126,11 +128,6 @@ export function getDescriptionPlaceholder(form) {
       const level = ruleForm.get('level').value;
       const levelText = getLogLevelRuleOperatorLabel(level);
 
-      if (thresholdType === ADAPTIVE_BASELINE) {
-        // TODO: NEW TEXT NEEDED?
-        return '';
-      }
-
       const thresholdValue = thresholdForm.get('value').value;
       if (ruleOperator === operators.NOT_EMPTY) {
         return t('in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.logsNotEmpty', {
@@ -152,27 +149,34 @@ export function getDescriptionPlaceholder(form) {
     case 'statusCode': {
       const statusCodeStart = ruleForm.get('statusCode').get('statusCodeStart').value;
       const statusCodeEnd = ruleForm.get('statusCode').get('statusCodeEnd').value;
-
+      const statusCodeFullText = getStatusCodeFullText(statusCodeStart, statusCodeEnd);
+      const metricName = ruleForm.get('metricName').value;
+      const percentageMetric = isPercentageMetric(metricName);
       if (thresholdType === STATIC_THRESHOLD) {
         const thresholdValue = thresholdForm.get('value').value;
-        return t('in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.statusCodeStaticThreshold', {
-          context: getHigherOrLowerOperatorContext(thresholdOperator),
-          statusCodeFullText: getStatusCodeFullText(statusCodeStart, statusCodeEnd),
-          thresholdValue: thresholdValue
-        });
+        return t(
+          percentageMetric
+            ? 'in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.statusCodeRateStaticThreshold'
+            : 'in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.statusCodeStaticThreshold',
+          {
+            context: getHigherOrLowerOperatorContext(thresholdOperator),
+            statusCodeFullText,
+            thresholdValue: getValueRoundedToDecimals(thresholdValue, percentageMetric)
+          }
+        );
       }
 
-      return t('in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.statusCodeDefault', {
-        context: getHigherOrLowerOperatorContext(thresholdOperator),
-        statusCodeFullText: getStatusCodeFullText(statusCodeStart, statusCodeEnd)
-      });
+      return t(
+        percentageMetric
+          ? 'in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.statusCodeRateDefault'
+          : 'in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.statusCodeDefault',
+        {
+          context: getHigherOrLowerOperatorContext(thresholdOperator),
+          statusCodeFullText
+        }
+      );
     }
     case 'throughput': {
-      if (thresholdType === ADAPTIVE_BASELINE) {
-        // TODO: NEW TEXT NEEDED?
-        return '';
-      }
-
       if (thresholdType === STATIC_THRESHOLD) {
         const thresholdValue = thresholdForm.get('value').value;
         return t('in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.throughputStaticThreshold', {
@@ -190,28 +194,38 @@ export function getDescriptionPlaceholder(form) {
 }
 
 function getStatusCodeShortText(statusCodeStart, statusCodeEnd) {
-  if (statusCodeStart === statusCodeEnd) {
+  if (statusCodeStart && statusCodeStart === statusCodeEnd) {
     return statusCodeStart.toString();
-  } else if (statusCodeStart % 100 === 0 && statusCodeEnd - statusCodeStart === 99) {
+  } else if (
+    statusCodeStart &&
+    statusCodeEnd &&
+    statusCodeStart % 100 === 0 &&
+    statusCodeEnd - statusCodeStart === 99
+  ) {
     // predefined ranges (e.g. 400 - 499): 4XX
     return `${parseInt(statusCodeStart / 100).toString()}XX`;
   } else {
     // custom ranges
-    return `${statusCodeStart} - ${statusCodeEnd}`;
+    return `${statusCodeStart ?? '?'} - ${statusCodeEnd ?? '?'}`;
   }
 }
 
 function getStatusCodeFullText(statusCodeStart, statusCodeEnd) {
-  if (statusCodeStart === statusCodeEnd) {
+  if (statusCodeStart && statusCodeStart === statusCodeEnd) {
     return getStatusCodeLabel(statusCodeStart.toString());
-  } else if (statusCodeStart % 100 === 0 && statusCodeEnd - statusCodeStart === 99) {
+  } else if (
+    statusCodeStart &&
+    statusCodeEnd &&
+    statusCodeStart % 100 === 0 &&
+    statusCodeEnd - statusCodeStart === 99
+  ) {
     // predefined ranges (e.g. 400 - 499): 4XX
     return getStatusCodeLabel(parseInt(statusCodeStart / 100).toString());
   } else {
     // custom ranges
     return t('in-alerting:smartAlerts.applications.formUtils.customStatusCodeFullText', {
-      statusCodeStart: statusCodeStart,
-      statusCodeEnd: statusCodeEnd
+      statusCodeStart: statusCodeStart ?? '?',
+      statusCodeEnd: statusCodeEnd ?? '?'
     });
   }
 }
@@ -274,8 +288,8 @@ function getHigherOrLowerOperatorDescriptionContext(operatorDescription, operato
   }
 }
 
-export function isEntitySelectionValid(entitySelection, isBuiltInAlert) {
-  if (isBuiltInAlert) {
+export function isEntitySelectionValid(entitySelection, isGlobalAlert) {
+  if (isGlobalAlert) {
     return true;
   }
 
@@ -286,4 +300,18 @@ export function isEntitySelectionValid(entitySelection, isBuiltInAlert) {
   );
 
   return entitySelection !== undefined && hasAtLeastOneValidApplicationSelection;
+}
+
+export function isValidChartViewEntitySelection(evaluationType, chartViewEntitySelection) {
+  const { applicationId, serviceId, endpointId } = chartViewEntitySelection;
+
+  return (
+    (evaluationType === PER_AP && applicationId) ||
+    (evaluationType === PER_AP_SERVICE && applicationId && serviceId) ||
+    (evaluationType === PER_AP_ENDPOINT && applicationId && serviceId && endpointId)
+  );
+}
+
+export function isPercentageMetric(metricName) {
+  return metricName === 'callRate';
 }

@@ -4,7 +4,6 @@
  */
 
 import React, { useEffect, useMemo, useReducer, useState } from 'react';
-import { useLocation } from 'react-router';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 
@@ -20,13 +19,12 @@ import getServicesCursorPaginated from 'in-applications/subscriptions/getService
 import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { applicationId as applicationIdMatrixParam } from 'in-applications/navigation/matrix';
 import getApplication from 'in-applications/subscriptions/getApplication';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { applicationDashboard } from 'in-applications/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { propTypeTimeConfig } from 'in-stores/time/config';
-import { boundaryScopes } from 'in-applications/constants';
 import SearchInput from 'in-components/SearchInput';
-import usePrevious from 'in-hooks/usePrevious';
 
 const backendApiSubscriptions = {
   getApplication,
@@ -45,48 +43,35 @@ export default function ServicesAndEndpointsListPresenter({
   editMode,
   initialConfiguredApplications,
   readOnly,
+  includeInternal,
+  includeSynthetic,
   ...otherProps
 }) {
   const [state, dispatch] = useReducer(listReducer, {}, () => {
     return applicationsSelection;
   });
 
-  const previousBoundaryScope = usePrevious(boundaryScope);
-
   useEffect(() => {
+    // do not trigger an onChange on the first rendering, because it is no change at all.
+    if (state === applicationsSelection) return;
+
+    // update the form upwards
     onChange?.(state);
-    // since onChange func can be re-created when parent rerenders we only want to trigger the effect if  state changes
+    // since onChange func can be re-created when parent re-renders we only want to trigger the effect if state changes
     // otherwise it could happen that we get an infinite rendering loop if parent forgets to use useCallback hook.
     // Since this can happen very likely it is better to disable the linter rule here.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
   useEffect(() => {
-    // NOTE: We are resetting A/S/E selection if user changes boundary scope from All -> Inbound
-    if (
-      previousBoundaryScope === boundaryScopes.all &&
-      boundaryScope === boundaryScopes.inbound &&
-      Object.values(state).some(({ services }) => !isEmpty(services))
-    ) {
-      const getInitialStateForIndividualSmartAlert = () => {
-        const applicationId = Object.keys(initialConfiguredApplications)[0];
+    // do not trigger a dispatch on the first rendering, because there is no change at all.
+    if (state === applicationsSelection) return;
 
-        return {
-          [applicationId]: {
-            applicationId,
-            inclusive: true,
-            services: {}
-          }
-        };
-      };
-
-      const initialState = !isGlobalSmartAlert ? getInitialStateForIndividualSmartAlert() : {};
-
-      dispatch({ type: actionType.RESET_STATE, initialState });
-    }
+    // apply changes of the form downwards
+    dispatch({ type: actionType.SET_SELECTION, applicationsSelection });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [boundaryScope]);
+  }, [applicationsSelection]);
 
   const [timeTo] = useState(Date.now());
   const location = useLocation();
@@ -105,6 +90,8 @@ export default function ServicesAndEndpointsListPresenter({
       editMode={editMode}
       readOnly={readOnly}
       appIdForIndividualSmartAlert={deriveAppIdForIndividualSmartAlert()}
+      includeInternal={includeInternal}
+      includeSynthetic={includeSynthetic}
       {...apiSubscriptions}
       {...otherProps}
     />
@@ -153,5 +140,7 @@ ServicesAndEndpointsListPresenter.propTypes = {
   boundaryScope: PropTypes.string.isRequired,
   initialConfiguredApplications: PropTypes.object,
   editMode: PropTypes.bool,
-  readOnly: PropTypes.bool
+  readOnly: PropTypes.bool,
+  includeInternal: PropTypes.bool,
+  includeSynthetic: PropTypes.bool
 };

@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useLocation } from 'react-router';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -19,6 +18,7 @@ import getMobileAppBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppB
 import MobileBeacons from 'in-mobile-apps/analyze/AnalyzeView2_0/components/MobileBeacons';
 import { toBackendQuery } from 'in-components/AnalyzeView/FacetedFilters/facets';
 import { wrapToDiscardNegativeValues } from 'in-analyze/metricDefinitionHelpers';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import StateManagement from 'in-components/AnalyzeView/StateManagement';
 import { getMetricTemplates } from 'in-mobile-apps/api/metricTemplates';
 import { getFormatter } from 'in-services/formatters/backendFormatter';
@@ -190,6 +190,14 @@ const dataSourceConfigurations = {
   },
   custom: {
     metricCatalogTransformer: createMetricCatalogTransformer('custom'),
+    facetedSearchItems,
+    groupedView,
+    ungroupedView,
+    fixedFields,
+    defaultChartedMetrics
+  },
+  crash: {
+    metricCatalogTransformer: createMetricCatalogTransformer('crash'),
     facetedSearchItems,
     groupedView,
     ungroupedView,

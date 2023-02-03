@@ -15,8 +15,18 @@ const {
   localIdentName,
   getLocalIdent
 } = require('./build/webpack/cssIdentifiers');
-const { isDevModeBuild } = require('./build/webpack/opts');
+const { isDevModeBuild, hasDetailedSourceMaps } = require('./build/webpack/opts');
+const forkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const { resolveToEsbuildTarget } = require('esbuild-plugin-browserslist');
+const browserslist = require('browserslist');
 const hotReload = isDevModeBuild && !!process.env.HOT_RELOAD;
+
+// only activate esbuild, if the enabled by the developer via setting this ENV, e.g.:
+// USE_ESBUILD=true yarn dev
+const use_esbuild = process.env.USE_ESBUILD === 'true';
+const esBuildTargets = resolveToEsbuildTarget(browserslist(), {
+  printUnknownTargets: false
+});
 
 const definePlugin = new webpack.DefinePlugin({
   __DEV__: JSON.stringify(JSON.parse(isDevModeBuild ? 'true' : 'false')),
@@ -33,20 +43,26 @@ const plugins = [
   new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /^$/),
   new CaseSensitivePathsPlugin(),
   cssIdentWebpackPlugin,
-  process.env.ANALYZE_BUNDLE && new BundleAnalyzerPlugin()
+  process.env.ANALYZE_BUNDLE && new BundleAnalyzerPlugin(),
+  isDevModeBuild &&
+    new forkTsCheckerWebpackPlugin({
+      async: true,
+      typescript: {
+        diagnosticOptions: {
+          semantic: true,
+          syntactic: true
+        },
+        mode: 'write-references',
+        memoryLimit: 4096
+      }
+    })
 ].filter(Boolean);
-
-if (hotReload) {
-  plugins.push(new webpack.HotModuleReplacementPlugin());
-  plugins.push(new webpack.NamedModulesPlugin());
-}
 
 const entry = hotReload
   ? {
       // the 'webpack/hot/only-dev-server' part prevents reload on syntax errors
       index: ['./packages/in-client/js/index.js', 'webpack/hot/only-dev-server'],
-      waiting: ['./packages/in-waiting-for-deployment/index.js', 'webpack/hot/only-dev-server'],
-      // WebpackDevServer host and port
+      waiting: ['./packages/in-waiting-for-deployment/index.js', 'webpack/hot/only-dev-server'], // WebpackDevServer host and port
       devServerClient: 'webpack-dev-server/client?https://local-instana.instana.io:4000'
     }
   : {
@@ -59,20 +75,139 @@ const styleLoader = {
   options: { injectType: 'singletonStyleTag' }
 };
 
+const lessLoader = {
+  loader: 'less-loader',
+  options: {
+    lessOptions: {
+      sourceMap: isDevModeBuild
+    }
+  }
+};
+
 const postCssLoader = {
   loader: 'postcss-loader',
   options: {
-    sourceMap: true,
-    ident: 'postcss',
-    plugins: [
-      require('postcss-discard-comments')({
-        removeAll: true
-      }),
-      require('autoprefixer')({
-        browsers: ['last 2 versions']
-      })
-    ]
+    sourceMap: isDevModeBuild,
+    postcssOptions: {
+      plugins: [
+        require('postcss-discard-comments')({
+          removeAll: true
+        }),
+        require('autoprefixer')()
+      ]
+    }
   }
+};
+
+const cssLoader = {
+  loader: 'css-loader',
+  options: {
+    modules: {
+      localIdentName,
+      getLocalIdent
+    },
+    sourceMap: isDevModeBuild
+  }
+};
+
+const simpleCssLoader = {
+  loader: 'css-loader',
+  options: {
+    sourceMap: isDevModeBuild
+  }
+};
+
+const determineDevTool = () => {
+  if (isDevModeBuild && hasDetailedSourceMaps) {
+    return 'eval-source-map';
+  }
+  if (isDevModeBuild) {
+    return 'eval';
+  }
+  return 'source-map';
+};
+
+const infrastructureLogging = isDevModeBuild ? { level: 'warn' } : undefined;
+
+const webpackFontsRules = [
+  {
+    test: /\.(ttf|eot|obj)$/i,
+    type: 'asset/resource'
+  },
+  {
+    test: /\.woff?$/,
+    type: 'asset/resource'
+  }
+];
+
+const webpackStyleRules = [
+  {
+    test: /\.mless$/i,
+    use: [styleLoader, cssLoader, postCssLoader, lessLoader]
+  },
+  {
+    test: /\.less$/i,
+    use: [styleLoader, simpleCssLoader, postCssLoader, lessLoader]
+  },
+  {
+    test: /\.css$/i,
+    use: [styleLoader, simpleCssLoader, postCssLoader]
+  }
+];
+
+const webpackImageRule = {
+  test: /\.(jpe?g|gif|png|svg)$/i,
+  type: 'asset/resource'
+};
+
+const webpackShaderRule = {
+  test: /\.glsl$/i,
+  use: [
+    {
+      loader: 'raw-loader'
+    }
+  ]
+};
+
+const webpackSourcesRule = {
+  test: /\.(js|ts|tsx)$/i,
+  exclude: {
+    // Explicitly enable transpilation of @instana/types, because it purely consists of automatically generated typescript
+    // code that can't easily be transpiled upon creation
+    and: [/node_modules/, { not: [path.resolve(__dirname, 'node_modules', '@instana', 'types')] }]
+  },
+  use: [
+    use_esbuild
+      ? {
+          options: {
+            loader: 'tsx',
+            target: [...esBuildTargets]
+          },
+          loader: 'esbuild-loader'
+        }
+      : {
+          options: { cacheDirectory: true },
+          loader: 'babel-loader'
+        }
+  ]
+};
+
+const webpackYamlRule = {
+  test: /\.yaml$/i,
+  use: [
+    {
+      loader: 'raw-loader'
+    }
+  ]
+};
+
+const webpackMarkdownRule = {
+  test: /\.md$/,
+  use: [
+    {
+      loader: 'html-loader!markdown-loader'
+    }
+  ]
 };
 
 module.exports = {
@@ -81,102 +216,24 @@ module.exports = {
   context: __dirname,
   output: {
     path: path.join(__dirname, 'target/assets/bundle/'),
-    publicPath: 'bundle/',
-    filename: '[name].js',
+    publicPath: 'auto',
     chunkFilename: '[name].[contenthash].js'
   },
-  devtool: isDevModeBuild ? 'eval' : 'source-map',
+  devtool: determineDevTool(),
+  infrastructureLogging,
   module: {
     rules: [
-      {
-        test: /\.(ttf|eot|obj)$/i,
-        use: [{ loader: 'url-loader?limit=3000' }]
-      },
-      {
-        test: /\.mless$/i,
-        use: [
-          styleLoader,
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true,
-              localIdentName,
-              getLocalIdent
-            }
-          },
-          postCssLoader,
-          'less-loader'
-        ]
-      },
-      {
-        test: /\.less$/i,
-        use: [styleLoader, 'css-loader', postCssLoader, 'less-loader']
-      },
-      {
-        test: /\.css$/i,
-        use: [styleLoader, 'css-loader', postCssLoader]
-      },
-      {
-        test: /\.(jpe?g|gif|png|svg)$/i,
-        use: [{ loader: 'url-loader?limit=3000!image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false' }]
-      },
-      {
-        test: /\.glsl$/i,
-        use: [
-          {
-            loader: 'raw-loader'
-          }
-        ]
-      },
-      {
-        test: /\.(js|ts|tsx)$/i,
-        exclude: /node_modules/,
-        use: [
-          {
-            options: { cacheDirectory: true },
-            loader: 'babel-loader'
-          }
-        ]
-      },
-      {
-        test: /\.yaml$/i,
-        use: [
-          {
-            loader: 'raw-loader'
-          }
-        ]
-      },
-      {
-        test: /\.mmd$/,
-        use: [
-          {
-            loader: 'json-loader'
-          },
-          {
-            loader: 'meta-marked-loader'
-          }
-        ]
-      },
-      {
-        test: /\.md$/,
-        use: [
-          {
-            loader: 'html-loader!markdown-loader'
-          }
-        ]
-      },
-      {
-        test: /\.woff?$/,
-        use: [
-          {
-            loader: 'url-loader?limit=3000&mimetype=application/font-woff'
-          }
-        ]
-      }
+      ...webpackFontsRules,
+      ...webpackStyleRules,
+      webpackImageRule,
+      webpackShaderRule,
+      webpackSourcesRule,
+      webpackYamlRule,
+      webpackMarkdownRule
     ]
   },
   plugins,
   resolve: {
-    extensions: ['.js', '.ts', '.tsx']
+    extensions: ['.js', '.ts', '.tsx', '.d.ts']
   }
 };

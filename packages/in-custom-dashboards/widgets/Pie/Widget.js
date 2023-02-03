@@ -19,7 +19,7 @@ export default function ChartWidget({ actions, config, title, isPreview, dragHan
     <UnifiedMetricsChart
       timeConfig={timeConfig}
       cardUseMaxAvailableHeight={!isPreview}
-      cardHeader={
+      rightHeaderContent={
         <>
           {dragHandle}
           {actions}
@@ -29,6 +29,7 @@ export default function ChartWidget({ actions, config, title, isPreview, dragHan
       title={title}
       automaticallySize={!isPreview && !customHeight}
       customHeight={isPreview ? '10rem' : customHeight}
+      renderHistoricDataIndicator
     />
   );
 }

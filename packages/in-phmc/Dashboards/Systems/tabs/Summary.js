@@ -10,7 +10,7 @@ import { Card } from '@instana/components';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import SharedProcessorPool from 'in-phmc/Dashboards/tables/SharedProcessorPool';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import { kiloBytes, number, percentage } from 'in-services/formatters/number';
+import { number, percentage } from 'in-services/formatters/number';
 import { Row, Col } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
@@ -53,7 +53,7 @@ export default function Summary({ timeConfig, data: system }) {
                 min: 0,
                 metrics: ['availableMem', 'configurableMem', 'assignedMemToLpars'],
                 labels: [t('in-phmc:available'), t('in-phmc:configurable'), t('in-phmc:assignedMem')],
-                formatter: kiloBytes.detailed,
+                formatter: number.compact,
                 type: 'line'
               }}
               y2={{
@@ -72,7 +72,7 @@ export default function Summary({ timeConfig, data: system }) {
           </Card>
         </Col>
       </Row>
-      <SharedProcessorPool snapshotId={system.id} />
+      <SharedProcessorPool timeConfig={timeConfig} system={system} />
     </Fragment>
   );
 }

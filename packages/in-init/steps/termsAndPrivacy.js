@@ -3,11 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
+import ReactDOM from 'react-dom';
+import React from 'react';
+
 import { just, create } from '@instana/observables';
 import { createLogger } from '@instana/logger';
 import '@instana/components/esm/index.css';
-import ReactDOM from 'react-dom';
-import React from 'react';
 
 import { saveTosPrivacyAgreement } from 'in-settings/api/saveTosPrivacyAgreement';
 import { fullTermsConfigEnabled } from 'in-services/featureFlags';
@@ -17,6 +18,7 @@ import ErrorBoundary from 'in-components/ErrorBoundary';
 import 'in-themes/foundation.less';
 
 export function init() {
+  // TODO
   const accepted = window.instana.termsAndPrivacyAccepted;
   if (accepted) {
     return just(true);
@@ -35,6 +37,7 @@ export function init() {
 }
 
 function onSave(tosPrivacyAgreement, setIsError) {
+  // TODO
   saveTosPrivacyAgreement(tosPrivacyAgreement).once(
     response => response.status === 204 && window.location.reload(),
     error => {

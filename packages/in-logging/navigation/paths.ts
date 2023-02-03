@@ -9,7 +9,6 @@ import { TagFilterExpression, TimeConfig } from 'in-types';
 import { setTimeConfig } from 'in-stores/time/config';
 
 export const logsPath = '/logs';
-export const rawLogsPath = '/rawlogs';
 
 interface QueryBuilderTag {
   type: string;
@@ -43,14 +42,4 @@ export function getLinkToAnalyze({ tagFilterExpression, timeConfig }: GetLinkToA
   });
 }
 
-export function getLinkToRawLogs() {
-  return getModifiedUrlStream(location => {
-    location.pathname = rawLogsPath;
-
-    setOrDeleteMatrixKey(location, rawLogsPath, 'dataSource', 'rawlogs');
-  });
-}
-
-export const isAnalyzeView = navigationParameters$.map(
-  location => location.pathname.indexOf(logsPath) === 0 || location.pathname.indexOf(rawLogsPath) === 0
-);
+export const isAnalyzeView = navigationParameters$.map(location => location.pathname.indexOf(logsPath) === 0);

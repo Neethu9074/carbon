@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { ColumnizedContent, Li, Ul } from '@instana/components';
+import { ColumnizedContent, Li, Ul, Message } from '@instana/components';
 import { LiLoadMore } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
@@ -15,11 +15,13 @@ import { just } from '@instana/observables';
 import { stateManagementPropType } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/sharedPropTypes';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
+import ValidationBlock from 'in-components/form/ValidationBlock';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import IconLabel from 'in-alerting/components/IconLabel';
 import { noop } from 'in-services/util/function';
 import Tooltip from 'in-components/Tooltip';
+import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/SharedList.mless';
@@ -47,6 +49,7 @@ const columnDefinitions = [
     getContent({ label, tooltipSettings, isStaleItem, touched }) {
       return (
         <Tooltip
+          align="topLeft"
           content={
             isStaleItem ? (
               <span>
@@ -62,7 +65,14 @@ const columnDefinitions = [
               [locals.iconLabelTouched]: touched
             })}
           >
-            <IconLabel text={label} type={tooltipSettings.iconType} width="100%" noBottomMargin ellipsis />
+            <IconLabel
+              text={label}
+              type={tooltipSettings.iconType}
+              width="100%"
+              color={isStaleItem ? theme.lib.colors.N400 : undefined}
+              noBottomMargin
+              ellipsis
+            />
           </div>
         </Tooltip>
       );
@@ -83,6 +93,8 @@ export default function SharedList({
   canLoadMore,
   loadMore,
   isLoading,
+  shouldShowPlaceholderForEmptySelection,
+  validationError,
   stateProcessors: {
     enhanceParentIdsWithChildId,
     entityType,
@@ -105,6 +117,20 @@ export default function SharedList({
 
   return (
     <Ul framed={isFramed}>
+      {validationError && (
+        <Li className={locals.listItem}>
+          <ValidationBlock>{validationError}</ValidationBlock>
+        </Li>
+      )}
+      {shouldShowPlaceholderForEmptySelection && listData.length === 0 && (
+        <Li>
+          <Message
+            className={locals.emptyListPlaceholderMessage}
+            withIcon
+            title={t('in-alerting:components.chart.alertingChartMessageEmptyApplicationSelection')}
+          />
+        </Li>
+      )}
       {listData.map(({ item }) => {
         const { id, isStaleItem, label } = item;
 
@@ -156,7 +182,9 @@ export default function SharedList({
       })}
       {canLoadMore && <LiLoadMore loadMore={loadMore} />}
       {isLoading && <LoadingList numSkeletonRows="1" />}
-      {!isLoading && !listData?.length && <NoDataAvailable text={noDataCustomText()} height={86} />}
+      {!shouldShowPlaceholderForEmptySelection && !isLoading && !listData?.length && (
+        <NoDataAvailable text={noDataCustomText()} height={86} />
+      )}
     </Ul>
   );
 }
@@ -190,6 +218,7 @@ function StaleItemPropsInjector({ getStaleEntity$, id, children, timeConfig, ite
 SharedList.propTypes = {
   canLoadMore: PropTypes.bool,
   isLoading: PropTypes.bool,
+  shouldShowPlaceholderForEmptySelection: PropTypes.bool,
   listData: PropTypes.arrayOf(
     PropTypes.shape({
       item: PropTypes.object
@@ -197,6 +226,7 @@ SharedList.propTypes = {
   ).isRequired,
   loadMore: PropTypes.func.isRequired,
   renderSubList: PropTypes.func,
+  validationError: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   stateManagement: stateManagementPropType,
   stateProcessors: PropTypes.shape({
     enhanceParentIdsWithChildId: PropTypes.func.isRequired,

@@ -3,6 +3,8 @@
     "createTest": {
       "dialogTitle": "Create Synthetic Test",
       "noLocationFound": "Sorry! No locations found",
+      "noApplicationsFound": "No applications found",
+      "noMatchingFound": "No matching application found",
       "titles": {
         "step1": "Step 1: Select type",
         "step2": "Step 2: Request details",
@@ -13,26 +15,26 @@
         "title": "What kind of synthetic test would you like to create"
       },
       "scheduling": {
-        "title": "Scheduling",
-        "playbackMode": "Playback Mode",
-        "labelPlaybackMode": "Select the playback mode",
-        "simultaneous": "Simultaneous",
-        "staggered": "Staggered",
-        "simultaneousDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-        "staggeredDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+        "title": "Scheduling"
       },
       "requestStep": {
         "title": "Specify Request",
         "subTitle": "Endpoint",
         "labelOperation": "HTTP Method",
         "labelUrl": "URL",
-        "popSubTitle": "Point of Presence"
+        "popSubTitle": "Point of Presence",
+        "uploadScriptTitle": "Upload the script",
+        "failureToReadFileContent": "Failed to read file content: {{error}}",
+        "emptyScriptFileError": "Empty code. Nothing to validate.",
+        "enterTheScriptMessage": "Enter the script here"
       },
       "basicDetails": {
         "title": "What is the name of this ping test",
+        "scriptTitle": "What is the name of this HTTP Script test",
         "labelName": "Name of the test",
         "labelDescription": "Description",
-        "labelFrequency": "Frequency"
+        "labelFrequency": "Frequency",
+        "labelApplications": "Select an Application"
       },
       "bluePrint": {
         "pingApi": {
@@ -40,24 +42,35 @@
           "headline": "HTTP Action",
           "whenToUse": {
             "title": "When to use?",
-            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
-          },
-          "whoShouldUse": {
-            "title": "Who should use?",
-            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+            "line1": "Use an HTTP Action test to test a single Rest API"
           },
           "tipsForUsing": {
             "title": "Tips for using",
-            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line3": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line4": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line5": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+            "line1": "Step 1: Choose the type of test which you wish to create.",
+            "line2": "Step 2: Enter the HTTP method and url of the webpage you wish to test. Then choose one or more locations. A location represents a deployed Synthetic Point of Presence.",
+            "line3": "Step 3: Choose the test frequency (1 ~ 120 minutes).",
+            "line4": "Step 4: In the Name and Description section, enter a meaningful name for your test in the Name field. Add a description of the purpose of your test to the Description field."
+         }
+        },
+        "scriptApi": {
+          "name": "Script API",
+          "headline": "HTTP Script",
+          "whenToUse": {
+            "line1": "Use an HTTP Script test and Node.js based script to test the sequence of multiple Rest APIs"
+          },
+          "tipsForUsing": {
+            "line1": "Step 1: Choose the type of test which you wish to create.",
+            "line2": "Step 2: Use the Upload the script option to upload a node.js test script file. Then choose one or more locations. A location represents a deployed Synthetic Point of Presence.",
+            "line3": "Step 3: Choose the test frequency (1 ~ 120 minutes).",
+            "line4": "Step 4: In the Name of the test and Description section, enter a meaningful name for your test in the Name field. Add a description of the purpose of your test to the Description field."
           }
         }
       },
       "form": {
         "validUrl": "Enter a valid URL"
+      },
+      "validators": {
+        "theValueMustNotBeEmpty": "At least one location needs to be selected"
       }
     },
     "httpMethods": {
@@ -74,27 +87,253 @@
       "failureMessageCreate": "Failed to create a synthetic test. Please try again later",
       "failureMessageUpdate": "Failed to update the synthetic test. Please try again later",
       "failuteMesssageDelete": "Failed to delete the synthetic test. Please try again later"
+    },
+    "locationFeedback": {
+      "successMessageDelete": "Successfully deleted the location",
+      "failureMesssageDelete": "Failed to delete the location. Please try again later"
     }
   },
   "createTest": {
     "buttonLabel": "Create new Test"
   },
   "navigation": {
-    "synthetics": "Synthetics"
+    "synthetics": "Synthetic Monitoring"
   },
   "dashboard": {
     "testList": {
-      "mainLabel": "Synthetic Tests",
-      "locationsSubText": "{{count}} Location",
-      "locationsSubText_plural": "{{count}} Locations",
+      "mainLabel": "Synthetic Monitoring",
+      "secondaryLabels": {
+        "tests": "Tests",
+        "locations": "Locations",
+        "smartAlerts": "Smart Alerts"
+      },
+      "popDialog": {
+        "button": "<> Deploy a PoP",
+        "simpleTab": "Simple",
+        "redisTab": "Redis TLS",
+        "title": "Synthetic PoP Commands",
+        "subTitle": "Please use these code templates as a reference. For more information, see <documentationLink>Synthetic PoP Deployment</documentationLink>",
+        "simpleCode": "helm install synthetic-pop \\\n\t./synthetic-pop \\\n\t--namespace <namespace> \\\n\t--create-namespace \\\n\t--set downloadKey=\"{{downloadKey}}\" \\\n\t--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n\t--set controller.clusterName=\"<yourClusterName>\" \\\n\t--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n\t--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n\t--set redis.tls.enabled=false \\\n\t--set redis.password=\"<yourPassword>\"",
+        "redisCode": "helm install synthetic-pop \\\n\t./synthetic-pop \\\n\t--namespace <namespace> \\\n\t--create-namespace \\\n\t--set downloadKey=\"{{downloadKey}}\" \\\n\t--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n\t--set controller.clusterName=\"<yourClusterName>\" \\\n\t--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n\t--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n\t--set redis.tls.enabled=true",
+        "tlsInstructions": "If you want to enable Redis TLS, you need to create a certs folder under Helm chart root path, and copy your certificate-key pair (tls.crt, tls.key) and CA root certificate file (ca.crt) into certs folder, the file names should be exactly matched.\n\nIf you do not have your key/cert files, you can also use openssl command to generate new ones, see below examples:",
+        "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt"
+      },
+      "testLabel": "Name",
+      "status": "Status",
       "frequencySubText": "Every {{count}} Min",
       "frequencySubText_plural": "Every {{count}} Mins",
       "pause": "Pause the test",
-      "resume": "Resume the test"
+      "resume": "Resume the test",
+      "active": "Active",
+      "paused": "Paused",
+      "deleted": "Deleted",
+      "type": "Type",
+      "successRate": "Success Rate",
+      "successRuns": "{{successRuns}} / {{totalRuns}} results",
+      "latency": "Latency",
+      "locationLabel": "Location",
+      "locations": "{{totalLocations}} locations",
+      "applicationLabel": "Application",
+      "health": "Health",
+      "action": "Action",
+      "delete": "Delete the test",
+      "labelConfirm": "Please Confirm",
+      "labelConfirmRemoveTest": "Are you sure you want to remove the Synthetic test <strong>{{testLabel}}</strong>?",
+      "labelRemove": "Remove",
+      "na": "N/A"
     },
-    "sortOptions": {
-      "name": "Name",
-      "frequency": "Frequency"
+    "locationList": {
+      "locationLabel": "Location Name",
+      "locationDisplayLabel": "Display Name",
+      "status": "Status",
+      "type": "Type",
+      "totalTests": "No. of Tests Linked",
+      "lastRun": "Last Test Run On",
+      "namespace": "Namespace",
+      "labelConfirmRemoveLocation": "Are you sure you want to remove <strong>{{label}}</strong> ({{status}}) location?",
+      "activeTestLinked": "There are active tests assigned on location <strong>{{label}}</strong> ({{status}}), are you sure you want to remove this location?",
+      "deleteLocation": "Delete location"
+    },
+    "summary": {
+      "successRate": "Success Rate",
+      "locations": "Locations",
+      "responseTime": "Response Time",
+      "meanResponseTime": "Avg. Response Time",
+      "responseSize": "Response Size",
+      "avgResponseSize": "Avg. Response Size",
+      "summaryTab": "Summary",
+      "resultsTab": "Results",
+      "startTime": "Start Time",
+      "requests": "Requests",
+      "widgets": {
+        "failures": "Failures",
+        "responseTimes": "Response Times",
+        "averageResponseSize": "Average Response Size",
+        "responseStatus": "Response Status",
+        "networkTimings": "Network Timings",
+        "blocking": "Blocking",
+        "dns": "DNS Lookup",
+        "sending": "Sending",
+        "waiting": "Waiting",
+        "receiving": "Receiving",
+        "slowest": "Slowest",
+        "latest": "Latest",
+        "failed": "Failed",
+        "results": "Results",
+        "linkViewAllTestResults": "View all results",
+        "ok": "Success",
+        "created": "Created",
+        "accepted": "Accepted",
+        "forbidden": "Forbidden",
+        "notFound": "Not Found",
+        "serverError": "Server Error",
+        "badRequest": "Bad Request",
+        "badGateway": "Bad Gateway",
+        "gatewayTimeout": "Gateway Timeout"
+      },
+      "totalRuns": "{{totalRuns}} total runs",
+      "meanLatencyFor90th": "{{meanLatencyDetail}} for 90th",
+      "smartAlertsTab": "Smart Alerts"
+    },
+    "resultsListPage": {
+      "startedColumn": "Started",
+      "locationColumn": "Location",
+      "responseTimeColumn": "Response Time",
+      "responseSizeColumn": "Response Size",
+      "retriesColumn": "Retry Count",
+      "title": "Results",
+      "locationLabel": "Location",
+      "failures": "Failures",
+      "status": "Status"
+    },
+    "detailsPage": {
+      "timeLineWidget": "Timeline",
+      "responseTimeChart": "Response Time",
+      "subtransactionStatus": "Status",
+      "subtransactionSize": "Size",
+      "subtransactionTime": "Time",
+      "subtransactionBlocking": "Blocking",
+      "subtransactionDNS": "DNS",
+      "subtransactionConnect": "Connect",
+      "subtransactionSSL": "SSL",
+      "subtransactionSending": "Sending",
+      "subtransactionWaiting": "Waiting",
+      "subtransactionReceiving": "Receiving",
+      "showLessSubDetails": "Show Less",
+      "showMoreSubDetails": "Show More",
+      "failedRun": "Failed Run(Exception)",
+      "failedRunErrorTitle": "Error Message",
+      "noFailedErrorMessage": "No error message",
+      "stackTraceTitle": "Stacktrace",
+      "noStacktrace": "No stacktrace",
+      "statusKpiCard": "Status",
+      "successResult": "Successful",
+      "failedResult": "Failed",
+      "searchFilter": "Search",
+      "typesFilter": "Types",
+      "typesFilterValues": {
+        "getType": "GET",
+        "allType": "All",
+        "othersType": "Other"
+      },
+      "subtransactionBody": {
+        "contentType": "Content type",
+        "size": "Size",
+        "redirectTime": "Redirect time",
+        "uploadSpeed": "Upload speed",
+        "downloadSpeed": "Download speed",
+        "requestTitle": "Request",
+        "responseTimingTitle": "Response Timing",
+        "timingsPercentageOfTotalDurationName": "{{percentage}} of {{totalDurationName}}"
+      },
+      "logs": "Logs",
+      "noDataAvailable": {
+        "message": "{{component}} details not available for this test result",
+        "notFound": "Not found"
+      },
+      "downloadHar": "Download HAR File",
+      "downloadLog": "Download Logs",
+      "downloadImages": "Download Screenshot",
+      "downloadVideo": "Download Recording",
+      "consoleLogs": "CONSOLE",
+      "browserLogs": "BROWSER",
+      "browserDetails": {
+        "page": {
+          "request": "Request",
+          "size": "Size",
+          "time": "Time"
+        },
+        "entry": {
+          "time": "Time",
+          "status": "Status",
+          "size": "Size",
+          "types": {
+            "short": {
+              "document": "DOC",
+              "script": "SCR",
+              "stylesheet": "CSS",
+              "image": "IMG",
+              "font": "FONT",
+              "media": "MEDIA",
+              "other": "OTHER"
+            },
+            "long": {
+              "document": "Document",
+              "script": "Script",
+              "stylesheet": "Stylesheet",
+              "image": "Image",
+              "font": "Font",
+              "media": "Media",
+              "other": "Other"
+            }
+          }
+        },
+        "body": {
+          "request": {
+            "title": "Request",
+            "url": "URL",
+            "httpVersion": "HTTP Version",
+            "headerSize": "Header Size",
+            "bodySize": "Body Size",
+            "method": "Method"
+          },
+          "response": {
+            "title": "Response",
+            "transferSize": "Transfer Size",
+            "httpVersion": "HTTP Version",
+            "redirectUrl": "Redirect URL",
+            "headerSize": "Header Size",
+            "bodySize": "Body Size",
+            "contentType":"Content Type",
+            "contentSize": "Content Size",
+            "status": "Status"
+          },
+          "timings": {
+            "title": "Response Timings",
+            "receiving": "Receiving",
+            "waiting": "Waiting",
+            "blocking": "Blocking",
+            "dns": "DNS",
+            "ssl": "SSL",
+            "sending": "Sending",
+            "connect": "Connect"
+          }
+        }
+      }
+    },
+    "noDataAvailable": {
+      "resultsTitle": "No results available",
+      "resultsDescription": "There were no results retrieved for the selected time range.",
+      "testSummaryTitle": "No Synthetic tests available",
+      "testSummaryDescription": "There are no Synthetic tests retrieved from the database.",
+      "locationListTitle": "No Synthetic locations available",
+      "locationListDescription": "There are no Synthetic locations retrieved from the database."
+    },
+    "alertList": {
+      "alertName": "Name",
+      "timeThreshold": "Time Threshold",
+      "testsApplied": "Tests Applied",
+      "filterApplied": "Filter Applied"
     }
   }
 }

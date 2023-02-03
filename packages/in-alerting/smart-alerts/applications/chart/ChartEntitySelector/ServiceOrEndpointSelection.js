@@ -16,7 +16,7 @@ import {
 } from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/createOptions';
 import getAppDataEntityChainsPaginated from 'in-alerting/smart-alerts/applications/subscriptions/getAppDataEntityChainsPaginated';
 import { EntitySelectionOverlay } from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/EntitySelectionOverlay';
-import { PER_AP_SERVICE } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
+import { PER_AP_SERVICE } from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { getEntitySelectionAsTagFilterFormModel } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -29,11 +29,11 @@ import { isLoading } from 'in-services/util/result';
 import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
-import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/ChartViewConfigurator.mless';
+import locals from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator.mless';
 
 /*
   This could be adjusted when needed, short discussion we had, see this comment
-  https://github.com/instana/ui-client/pull/6425#discussion_r641316497
+  https://github.ibm.com/instana/ui-client/pull/6425#discussion_r641316497
  */
 const maxSearchRetrievalSize = 200;
 

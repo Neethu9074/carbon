@@ -1,5 +1,5 @@
-CVE-2021-37701 # Prevented by `npm` according to https://access.redhat.com/security/cve/cve-2021-37701
-CVE-2021-37712 # Prevented by `npm` according to https://access.redhat.com/security/cve/cve-2021-37712
-CVE-2021-37713 # Only affected if running on Windows
-CVE-2021-22930 # Twistlock wrongly identifies the Node.js version used. We are on version 14.17.5 which contains the fix https://github.ibm.com/instana/backend/blob/acf9868e22855512bde8b22cd225dd6aacdf3f8b/containers/runtimes/nodejs/container#L8
-CVE-2021-22940 # Twistlock wrongly identifies the Node.js version used. We are on version 14.17.5 which contains the fix https://github.ibm.com/instana/backend/blob/acf9868e22855512bde8b22cd225dd6aacdf3f8b/containers/runtimes/nodejs/container#L8
+PRISMA-2021-0169 # part of nodejs: uglfyjs
+CVE-2021-3807 # (also ignored in base image) part of nodejs: False positive for ansi-regex - https://access.redhat.com/errata/RHSA-2021:5171 - old slack thread: #tech-ui-dev https://instana.slack.com/archives/G5LCSUJGY/p1651141061729339?thread_ts=1651140558.152909&cid=G5LCSUJGY
+CVE-2022-31129 # part of nodejs: moment.js
+PRISMA-2022-0039 # (also ignored in base image) part of nodejs: ReDoS in minimatch <3.0.5 -existing slack thread: #build-community https://instana.slack.com/archives/GKKKN695Y/p1645455937429659
+CVE-2017-20165 # false positive, see #discuss-security https://instana.slack.com/archives/CMEDXTTV3/p1673949294579209

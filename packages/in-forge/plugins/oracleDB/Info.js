@@ -17,6 +17,7 @@ export default function OracleDBInfo({ snapshot }) {
       <DescriptionItem title={t('in-forge:plugins.oracleDB.version')}>{data.get('version')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.oracleDB.oracleSid')}>{data.get('databaseSID')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.oracleDB.port')}>{data.get('port')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.oracleDB.serviceNames')}>{data.get('serviceNames')}</DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
       <DescriptionItem title={t('in-forge:plugins.oracleDB.cpuCount')}>{data.get('cpuCount')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.oracleDB.maxSessions')}>{data.get('maxSessions')}</DescriptionItem>

@@ -14,7 +14,7 @@ import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config'
 import { systemList, getIbmpSystemDashboard } from 'in-phmc/navigation/paths';
 import { getSystemsSubscribeEvent } from 'in-phmc/subscriptions/getSystems';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
-import { percentage, megaBytes } from 'in-services/formatters/number';
+import { percentage, number } from 'in-services/formatters/number';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -29,7 +29,7 @@ const columnDefinitions = [
     id: 'label',
     label: t('in-phmc:name'),
     getContent(item) {
-      return <EntityLink label={item.label} href$={getIbmpSystemDashboard(item.id)} />;
+      return <EntityLink label={item.label} href$={getIbmpSystemDashboard(item.id, { consoleId: item.consoleId })} />;
     }
   },
   {
@@ -48,7 +48,23 @@ const columnDefinitions = [
   },
   {
     id: 'utilizedProcUnits',
+    label: t('in-phmc:utilizedProcNumber'),
+    sortable: false,
+    getContent(item, { timeConfig }) {
+      return (
+        <InfrastructureMetricSparkChart
+          snapshotId={item.id}
+          timeConfig={timeConfig}
+          formatter={number.compact}
+          metric="utilizedProcUnits"
+        />
+      );
+    }
+  },
+  {
+    id: 'utilizedProcUnitsPercent',
     label: t('in-phmc:utilizedProc'),
+    sortable: false,
     getContent(item, { timeConfig }) {
       return (
         <InfrastructureMetricSparkChart
@@ -63,12 +79,13 @@ const columnDefinitions = [
   {
     id: 'availableMem',
     label: t('in-phmc:memAvailable'),
+    sortable: false,
     getContent(item, { timeConfig }) {
       return (
         <InfrastructureMetricSparkChart
           snapshotId={item.id}
           timeConfig={timeConfig}
-          formatter={megaBytes.compact}
+          formatter={number.compact}
           metric="availableMem"
         />
       );
@@ -77,6 +94,7 @@ const columnDefinitions = [
   {
     id: 'availableMemPercentage',
     label: t('in-phmc:memAvailablePercentage'),
+    sortable: false,
     getContent(item, { timeConfig }) {
       return (
         <InfrastructureMetricSparkChart
@@ -106,7 +124,7 @@ const columnDefinitions = [
 const ServerTableWithUrlState = createServerTableWithUrlState({
   paginationResettingUrlParameters: [...timeConfigUrlParameters],
   columnDefinitions,
-  defaultOrderBy: 'name',
+  defaultOrderBy: 'label',
   defaultOrderDirection: 'ASC',
   pathSegment,
   matrixPrefix
@@ -125,7 +143,10 @@ export default connectTo(
             pageRootName: t('in-phmc:ibmpPhmcs')
           }}
         />
-        <WithEmptyStateFallback getHasDataToRender={getHasDataToRender} FallbackComponent={<PhmcNoDataNotification />}>
+        <WithEmptyStateFallback
+          getHasDataToRender={getHasDataToRender}
+          FallbackComponent={() => <PhmcNoDataNotification />}
+        >
           <ServerTableWithUrlState get={getTableData} timeConfig={timeConfig} />
         </WithEmptyStateFallback>
       </Fragment>

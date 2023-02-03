@@ -8,19 +8,10 @@ This document lists the technical steps necessary in order to get a local UI dev
 
 ![Convince me meme: Following these instructions as root will not work](https://user-images.githubusercontent.com/596443/136749896-a29f6859-f1b2-4897-a9ba-8a1f798459d9.png)
 
-
-## Git Configuration
-
-This repository is using Git submodules. If you prefer to interact with GitHub via SSH (or if you don't know what this means), then we recommend that you add the following to your Git configuration in order to always use SSH instead of HTTPS access for GitHub.
-
-```sh
-git config --global url.git@github.com:.insteadof https://github.com/
-```
-
 ## Cloning the Repository
 
 ```sh
-git clone git@github.com:instana/ui-client.git
+git clone git@github.ibm.com:instana/ui-client.git
 cd ui-client
 ```
 
@@ -55,6 +46,15 @@ xcode-select --install
 # Use and install our preferred Node.js version
 nvm install
 nvm use
+
+# For Ubuntu users, install Yarn:
+nvm install node
+sudo apt remove cmdtest
+sudo apt remove yarn
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+sudo apt update && sudo apt install --no-install-recommends yarn
+yarn --version
 ```
 
 ## Configure Access to our Artifact Registry
@@ -63,7 +63,7 @@ We are using a custom artifact registry instead of the public [npmjs.com](https:
 [yarnpkg.com](https://yarnpkg.com/) registries. You will need to configure your system for access before you can
 continue to download our project dependencies.
 
-You will need an account for our [artifact-rnd.instana.io](https://artifact-rnd.instana.io) Artifactory instance.
+You will need an account for our [delivery.instana.io](https://delivery.instana.io) Artifactory instance.
 
  - Instana employees should follow the [employee onboarding guide](https://www.notion.so/instana/New-Engineering-Hire-Survival-Guide-5f4be1878333477b8d6f07739a0e259b#e18b6bf976c04bdca3f6d36de6aa209c) to gain access.
  - Others, e.g., contributors from IBM, should request access via a **Instana Slack workspace** channel they have access to. We will not grant access based on private messages.
@@ -71,10 +71,12 @@ You will need an account for our [artifact-rnd.instana.io](https://artifact-rnd.
 Please follow either approach and come back here once you have access. Then execute the following snippet on your terminal. Please select the proposed defaults for the first two questions. Answer the third and fourth question with your Artifactory credentials. The following picture shows how to find your user name and API token within Artifactory.
 
 ```sh
+# Question 0 is "Ok to proceed? (y)". Type y and enter,
+# end then there will be 4 further questions.
 # You can accept the defaults proposed for the first two questions.
 # Answer the third and fourth question with your Artifactory credentials.
-REGISTRY="https://artifact-rnd.instana.io" \
-  REPOSITORY_KEY="npm-virtual-internal" \
+REGISTRY="https://delivery.instana.io" \
+  REPOSITORY_KEY="int-npm-virtual" \
   NPM_CONFIG_REGISTRY="https://registry.npmjs.org/" \
   npx create-artifactory-access-config@1.3.0
 ```
@@ -93,7 +95,7 @@ Now that you have access to our artifact registry, it is time to download all ou
 
 You will also need to have Nginx installed and its CLI on the path. Installation instructions can be found in the [proxrox repository](https://github.com/bripkens/proxrox/blob/master/INSTALLATION.md#installation-of-nginx).
 
-As an alternative (especially for Linux), you might use the `nginx` script as provided in the [internal-tools repository](https://github.com/instana/internal-tools/tree/master/proxrox-nginx), which will run Nginx as Docker container. **For regular/repeated UI development however we do not recommend this option.**
+As an alternative (especially for Linux), you might use the `nginx` script as provided in the [internal-tools repository](https://github.ibm.com/instana/internal-tools/tree/master/proxrox-nginx), which will run Nginx as Docker container. **For regular/repeated UI development however we do not recommend this option.**
 
 On Linux, it might be required to do the following to allow `yarn` to run the ngnix-docker container without sudo:
 

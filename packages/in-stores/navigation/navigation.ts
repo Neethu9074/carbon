@@ -5,7 +5,7 @@
 
 import PropTypes from 'prop-types';
 
-import { isEventsPath, isInfrastructurePath } from 'in-stores/navigation/paths/mainPaths';
+import { IsViewArg, IsViewPredicate, removeDFQueryFromLocationWhenChangingArea } from 'in-stores/navigation/utils';
 import { applyResets } from 'in-stores/navigation/urlParameterResets';
 import { stringify } from 'in-stores/navigation/routing/stringifier';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
@@ -63,34 +63,11 @@ export function goToPath(path: string) {
 
 export function getView(path: string) {
   return getModifiedUrlStream((location: Location) => {
-    // checks the the current and next path if navigating into another area.
+    // checks the current and next path if navigating into another area.
     removeDFQueryFromLocationWhenChangingArea(location, path);
     location.pathname = path;
   });
 }
-
-/**
- * Modifies the given location - only when navigating away or into
- * either the infrastructure or events - views
- * Returns the modified location instance.
- */
-export function removeDFQueryFromLocationWhenChangingArea(location: Location, path: string): Location {
-  const { pathname: currentPath } = location;
-  if (
-    location.query.q &&
-    // delete the DF query when
-    // * navigation from an infrastructure view (map, table) to another, non-infrastructure view, or the other way around or
-    // * navigating from an events page to any other page, or the other way around
-    (isInfrastructurePath(path) !== isInfrastructurePath(currentPath) ||
-      isEventsPath(path) !== isEventsPath(currentPath))
-  ) {
-    delete location.query.q;
-  }
-  return location;
-}
-
-type IsViewPredicate = (path: string) => boolean;
-export type IsViewArg = string | IsViewPredicate;
 
 export function isView(...args: IsViewArg[]) {
   const predicates = args.reduce((agg, arg) => {

@@ -28,7 +28,7 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
       <Row>
         <Col lg={6}>
           <WebsiteChartWrapper
-            cardTitle={t('in-websites:websiteDashboard.tabs.speedCardTitlePageLoadsVSOnLoadTime')}
+            title={t('in-websites:websiteDashboard.tabs.speedCardTitlePageLoadsVSOnLoadTime')}
             timeConfig={timeConfig}
             viewInAnalytics={{
               websiteLabel
@@ -72,7 +72,7 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
         </Col>
         <Col lg={6}>
           <WebsiteChartWrapper
-            cardTitle={t('in-websites:websiteDashboard.tabs.speedCardTitleOnLoadTime')}
+            title={t('in-websites:websiteDashboard.tabs.speedCardTitleOnLoadTime')}
             timeConfig={timeConfig}
             shareMaxAxisDomain
             viewInAnalytics={{
@@ -160,7 +160,7 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
           >
             {({ aggregation, aggregationSelector }) => (
               <WebsiteChartWrapper
-                cardTitle={t('in-websites:websiteDashboard.tabs.speedCardTitleNavigationTiming')}
+                title={t('in-websites:websiteDashboard.tabs.speedCardTitleNavigationTiming')}
                 cardHeader={aggregationSelector}
                 timeConfig={timeConfig}
                 customHeight={300}
@@ -295,7 +295,7 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
           >
             {({ aggregation, aggregationSelector }) => (
               <WebsiteChartWrapper
-                cardTitle={t('in-websites:websiteDashboard.tabs.speedCardTitlePaintTiming')}
+                title={t('in-websites:websiteDashboard.tabs.speedCardTitlePaintTiming')}
                 cardHeader={aggregationSelector}
                 timeConfig={timeConfig}
                 viewInAnalytics={{
@@ -350,7 +350,7 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
           >
             {({ aggregation, aggregationSelector }) => (
               <WebsiteChartWrapper
-                cardTitle={t('in-websites:websiteDashboard.tabs.speedCardTitleFirstInputDelay')}
+                title={t('in-websites:websiteDashboard.tabs.speedCardTitleFirstInputDelay')}
                 cardHeader={aggregationSelector}
                 timeConfig={timeConfig}
                 viewInAnalytics={{
@@ -387,7 +387,7 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
           >
             {({ aggregation, aggregationSelector }) => (
               <WebsiteChartWrapper
-                cardTitle={t('in-websites:websiteDashboard.tabs.speedCardTitleCumulativeLayoutShift')}
+                title={t('in-websites:websiteDashboard.tabs.speedCardTitleCumulativeLayoutShift')}
                 cardHeader={aggregationSelector}
                 timeConfig={timeConfig}
                 viewInAnalytics={{

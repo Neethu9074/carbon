@@ -5,8 +5,9 @@
 
 import { ensureInfraPluginsAreEvaluated } from 'in-sdk/asyncEvaluation';
 import { compareIgnoreCase } from 'in-services/util/string';
+import { t } from 'in-i18n';
 
-const UNKNOWN_LABEL = 'Unknown';
+export const UNKNOWN_LABEL = t('in-sdk:snapshot.unknownLabel');
 
 // {
 //   <plugin: String>: [(snapshot) => <label: String>]
@@ -31,7 +32,7 @@ export function getLabel(snapshot, fallback) {
   const plugin = snapshot.get('plugin');
   const finder = labelFinder[plugin];
   if (!finder) {
-    return snapshot.get('label', 'Unknown');
+    return snapshot.get('label', UNKNOWN_LABEL);
   }
 
   for (let i = 0; i < finder.length; i++) {

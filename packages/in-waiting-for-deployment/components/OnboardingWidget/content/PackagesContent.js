@@ -9,7 +9,7 @@ import { Description, Script } from 'in-waiting-for-deployment/components/Onboar
 import { instanaDomain } from 'in-waiting-for-deployment/components/OnboardingWidget/content/configuration';
 import { t } from 'in-i18n';
 
-export default function PackagesContent({ agentKey }) {
+export default function PackagesContent({ downloadKey }) {
   return (
     <>
       <Description
@@ -17,7 +17,7 @@ export default function PackagesContent({ agentKey }) {
           t('in-waiting-for-deployment:content.weMakeAvailableRegularlyUpdatedRpmAndDebPackagesAtTheFollowingAddress')
         ]}
       />
-      <Script lines={[`https://_:${agentKey}@packages.instana.${instanaDomain}/agent/download`]} />
+      <Script lines={[`https://_:${downloadKey}@packages.instana.${instanaDomain}/agent/download`]} />
     </>
   );
 }

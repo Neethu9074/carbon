@@ -25,7 +25,8 @@ export default function BrowserTopList({
   aggregations,
   formatters,
   beaconType,
-  urlMatrixParamConfig
+  urlMatrixParamConfig,
+  renderHistoricDataIndicator
 }) {
   const tagCatalogs = {
     pageLoad: useTagCatalog('pageLoad'),
@@ -54,6 +55,7 @@ export default function BrowserTopList({
       beaconType={beaconType}
       urlMatrixParamConfig={urlMatrixParamConfig}
       tagCatalogs={tagCatalogs}
+      renderHistoricDataIndicator={renderHistoricDataIndicator}
     />
   );
 }

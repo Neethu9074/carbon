@@ -19,7 +19,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.nodeJsRuntimePlatform.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/node-js/#nodejs_collector_initialized_too_late`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-nodejs#collector-initialized-too-late`
   },
   nodejs_collector_native_addon_autoprofile_missing: {
     issueDescription: {
@@ -32,6 +32,6 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.nodeJsRuntimePlatform.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/node-js/#nodejs_collector_native_addon_autoprofile_missing`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-nodejs#autoprofile-package-not-available`
   }
 };

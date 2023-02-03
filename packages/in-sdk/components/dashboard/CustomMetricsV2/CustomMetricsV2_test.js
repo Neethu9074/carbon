@@ -11,155 +11,29 @@ import { expect } from 'chai';
 import { SPECS as MICROMETER_SPECS } from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/MicrometerMetrics';
 import { SPECS as PROMETHEUS_SPECS } from 'in-forge/plugins/prometheus/Dashboard/PrometheusCustomMetrics';
 import { getDefaultRows } from './CustomMetricsV2';
+import { success } from 'in-services/util/result';
+
+const snapshot = fromJS({ id: 'snapshot-1' });
+const timeConfig = {};
 
 describe('CustomMetricsV2', () => {
   describe('getDefaultRows', () => {
-    it('should return rows from legacy snapshot', () => {
-      const snapshot = fromJS({
-        data: {
-          'metrics.counters': ['one'],
-          'metrics.gauges': ['two'],
-          'metrics.histograms': ['three'],
-          'metrics.meters': ['four'],
-          'metrics.timers': ['five'],
-          'metrics.summaries': ['six']
-        }
-      });
-      const timeConfig = 'fake time config';
-
-      const rows = getDefaultRows({ snapshot, timeConfig });
-
-      expect(rows[0]).to.nested.include({
-        key: 'metrics.counters.one',
-        name: 'one',
-        color: '#00CC66',
-        type: 'counter',
-        'metrics[0].name': 'metrics.counters.one',
-        'metrics[0].label': 'Count'
-      });
-      expect(rows[1]).to.nested.include({
-        key: 'metrics.gauges.two',
-        name: 'two',
-        color: '#D90368',
-        type: 'gauge',
-        'metrics[0].name': 'metrics.gauges.two',
-        'metrics[0].label': 'Value'
-      });
-      expect(rows[2]).to.nested.include({
-        key: 'metrics.histograms.three',
-        name: 'three',
-        color: '#F1C40F',
-        type: 'histogram',
-        'metrics[0].name': 'metrics.histograms.three.mean',
-        'metrics[0].label': 'Mean',
-        'metrics[1].name': 'metrics.histograms.three.50th',
-        'metrics[1].label': '50th',
-        'metrics[2].name': 'metrics.histograms.three.99th',
-        'metrics[2].label': '99th'
-      });
-      expect(rows[3]).to.nested.include({
-        key: 'metrics.meters.four',
-        name: 'four',
-        color: '#2274A5',
-        type: 'meter',
-        'metrics[0].name': 'metrics.meters.four',
-        'metrics[0].label': 'Rate'
-      });
-      expect(rows[4]).to.nested.include({
-        key: 'metrics.timers.five',
-        name: 'five',
-        color: '#F75C03',
-        type: 'timer',
-        tableMetric: 1,
-        'metrics[0].name': 'metrics.timers.five.rate',
-        'metrics[0].label': 'Rate',
-        'metrics[1].name': 'metrics.timers.five.mean',
-        'metrics[1].label': 'Mean',
-        'metrics[2].name': 'metrics.timers.five.50th',
-        'metrics[2].label': '50th',
-        'metrics[3].name': 'metrics.timers.five.99th',
-        'metrics[3].label': '99th'
-      });
-      expect(rows[5]).to.nested.include({
-        key: 'metrics.summaries.six',
-        name: 'six',
-        color: '#f75c03',
-        type: 'summary',
-        'metrics[0].name': 'metrics.summaries.six',
-        'metrics[0].label': 'Value'
-      });
-    });
-
-    it('should return rows from legacy snapshot without expanded sub-metrics (for e.g. prometheus)', () => {
-      const snapshot = fromJS({
-        data: {
-          'metrics.counters': ['one'],
-          'metrics.gauges': ['two'],
-          'metrics.histograms': ['three'],
-          'metrics.summaries': ['four']
-        }
-      });
-      const timeConfig = 'fake time config';
-
-      const rows = getDefaultRows({
-        snapshot,
-        timeConfig,
-        specs: PROMETHEUS_SPECS
-      });
-
-      expect(rows[0]).to.nested.include({
-        key: 'metrics.counters.one',
-        name: 'one',
-        color: '#00CC66',
-        type: 'counter',
-        'metrics[0].name': 'metrics.counters.one',
-        'metrics[0].label': 'Count'
-      });
-      expect(rows[1]).to.nested.include({
-        key: 'metrics.gauges.two',
-        name: 'two',
-        color: '#D90368',
-        type: 'gauge',
-        'metrics[0].name': 'metrics.gauges.two',
-        'metrics[0].label': 'Value'
-      });
-      expect(rows[2]).to.nested.include({
-        key: 'metrics.histograms.three',
-        name: 'three',
-        color: '#F1C40F',
-        type: 'histogram',
-        'metrics[0].name': 'metrics.histograms.three',
-        'metrics[0].label': 'Value'
-      });
-      expect(rows[3]).to.nested.include({
-        key: 'metrics.summaries.four',
-        name: 'four',
-        color: '#f75c03',
-        type: 'summary',
-        'metrics[0].name': 'metrics.summaries.four',
-        'metrics[0].label': 'Value'
-      });
-    });
-
     it('should return rows from metric ids', () => {
-      const snapshot = fromJS({
-        metricIds: [
-          'metrics.counters.one',
-          'metrics.gauges.two',
-          'metrics.histograms.three.99th',
-          'metrics.histograms.three.mean',
-          'metrics.histograms.three.50th',
-          'metrics.meters.four',
-          'metrics.timers.five.50th',
-          'metrics.timers.five.mean',
-          'metrics.timers.five.rate',
-          'metrics.timers.five.99th',
-          'metrics.summaries.six'
-        ]
-      });
-      const timeConfig = 'fake time config';
+      const metricIdsResult = success([
+        'metrics.counters.one',
+        'metrics.gauges.two',
+        'metrics.histograms.three.99th',
+        'metrics.histograms.three.mean',
+        'metrics.histograms.three.50th',
+        'metrics.meters.four',
+        'metrics.timers.five.50th',
+        'metrics.timers.five.mean',
+        'metrics.timers.five.rate',
+        'metrics.timers.five.99th',
+        'metrics.summaries.six'
+      ]);
 
-      const rows = getDefaultRows({ snapshot, timeConfig });
+      const rows = getDefaultRows({ snapshot, timeConfig, metricIdsResult });
 
       expect(rows[0]).to.nested.include({
         key: 'metrics.counters.one',
@@ -223,12 +97,14 @@ describe('CustomMetricsV2', () => {
     });
 
     it('should return rows from metric ids without expanded sub-metrics', () => {
-      const snapshot = fromJS({
-        metricIds: ['metrics.counters.one', 'metrics.gauges.two', 'metrics.histograms.three', 'metrics.summaries.four']
-      });
-      const timeConfig = 'fake time config';
+      const metricIdsResult = success([
+        'metrics.counters.one',
+        'metrics.gauges.two',
+        'metrics.histograms.three',
+        'metrics.summaries.four'
+      ]);
 
-      const rows = getDefaultRows({ snapshot, timeConfig, specs: PROMETHEUS_SPECS });
+      const rows = getDefaultRows({ snapshot, timeConfig, specs: PROMETHEUS_SPECS, metricIdsResult });
 
       expect(rows[0]).to.nested.include({
         key: 'metrics.counters.one',
@@ -265,21 +141,18 @@ describe('CustomMetricsV2', () => {
     });
 
     it('should return rows for micrometer metrics', () => {
-      const snapshot = fromJS({
-        metricIds: [
-          'micrometer.metrics.gauge.one',
-          'micrometer.metrics.timeGauge.two',
-          'micrometer.metrics.counter.three',
-          'micrometer.metrics.functionCounter.four',
-          'micrometer.metrics.timer.five',
-          'micrometer.metrics.functionTimer.six',
-          'micrometer.metrics.longTaskTimer.seven',
-          'micrometer.metrics.distributionSummary.eight'
-        ]
-      });
-      const timeConfig = 'fake time config';
+      const metricIdsResult = success([
+        'micrometer.metrics.gauge.one',
+        'micrometer.metrics.timeGauge.two',
+        'micrometer.metrics.counter.three',
+        'micrometer.metrics.functionCounter.four',
+        'micrometer.metrics.timer.five',
+        'micrometer.metrics.functionTimer.six',
+        'micrometer.metrics.longTaskTimer.seven',
+        'micrometer.metrics.distributionSummary.eight'
+      ]);
 
-      const rows = getDefaultRows({ snapshot, timeConfig, specs: MICROMETER_SPECS });
+      const rows = getDefaultRows({ snapshot, timeConfig, specs: MICROMETER_SPECS, metricIdsResult });
 
       expect(rows[0]).to.nested.include({
         key: 'micrometer.metrics.gauge.one',

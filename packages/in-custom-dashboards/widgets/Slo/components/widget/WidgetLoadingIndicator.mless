@@ -1,0 +1,11 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+:local {
+  .loaderContainer {
+    position: absolute;
+    width: 100%;
+  }
+}

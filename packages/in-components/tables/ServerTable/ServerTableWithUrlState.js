@@ -119,6 +119,8 @@ export default function createServerTableWithUrlState({
 
     const result = useObservable(observable, [propsForObservable]) ?? pendingResult;
 
+    const resultPrecision = result?.resultPrecisionDetails?.resultPrecision;
+
     const columnDefinitions =
       useObservable(props.columnDefinitions && props.columnDefinitions({ ...propsForObservable, result }), [
         propsForObservable,
@@ -135,7 +137,8 @@ export default function createServerTableWithUrlState({
       columnDefinitions,
       isSearchable,
       optionalColumns,
-      onChange: setUrlState
+      onChange: setUrlState,
+      resultPrecision
     };
     return <Renderer {...rendererProps} />;
   };

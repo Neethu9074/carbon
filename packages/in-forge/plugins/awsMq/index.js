@@ -11,11 +11,13 @@ import { t } from 'in-i18n';
 
 registerSnapshotDefinition({
   plugin: plugins.awsMq,
-
   kpiDefinitions,
   metricDefinitions,
   getLabel(snapshot) {
-    return snapshot.getIn(['data', 'broker_name'], '');
+    const brokerName = snapshot.getIn(['data', 'broker_name'], '');
+    const engine = snapshot.getIn(['data', 'engine_type'], '');
+
+    return brokerName + '(' + engine + ')';
   },
   technologyDescriptor: {
     label: t('in-forge:plugins.awsMq.awsMq')

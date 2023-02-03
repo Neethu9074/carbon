@@ -25,6 +25,11 @@
         "counter_custom_0": "{{number}} événements personnalisés",
         "counter_custom_1": "{{number}} événements personnalisés",
         "counter_custom_2": "{{number}} événements personnalisés",
+        "counter_crash": "{{number}} panne",
+        "counter_crash_plural": "{{number}} pannes",
+        "counter_crash_0": "{{number}} pannes",
+        "counter_crash_1": "{{number}} pannes",
+        "counter_crash_2": "{{number}} pannes",
         "counter_Row": "{{number}} ligne",
         "counter_Row_plural": "{{number}} lignes",
         "counter_Row_0": "{{number}} lignes",
@@ -86,7 +91,7 @@
       "viewTransitions2": "Transitions de vue",
       "calls": "Appels",
       "traces": "Traces",
-      "console": "Console"
+      "crashes": "Pannes"
     }
   },
   "traceDetail": {
@@ -125,9 +130,6 @@
         "hideWebsiteInformation": "Masquer les informations du site Web",
         "showWebsiteInformation": "Afficher les informations de site Web",
         "viewWebsiteActivity": "Afficher l'activité du site Web"
-      },
-      "logs": {
-        "noDataMessage": "Aucun journal disponible pour cette trace"
       }
     },
     "components": {
@@ -176,25 +178,18 @@
       },
       "callTree": {
         "expandButtonForRow": "Développer tous les sous-appels",
-        "collapseButtonForRow": "Réduire tous les sous-appels",
         "of": "sur",
-        "inheritedFrom": "Hérité de",
-        "cardTitle": "Appels"
+        "inheritedFrom": "Hérité de"
       },
       "colorCodingToggleButtons": {
         "colorizeBy": "Mettre en couleur par",
-        "colorizeByExpl": "Change la couleur des barres d'appel",
-        "endpoint": "Nœud final",
-        "service": "Service"
-      },
-      "viewToggleButtons": {
-        "expl": "Afficher sous forme de",
-        "tree": "Arbre",
-        "chart": "Chronologie"
+        "endpoint": "Nœud final"
       },
       "logTooltipContent": {
         "errorLog": "Journal des erreurs",
-        "warningLog": "Journal des avertissements"
+        "warningLog": "Journal des avertissements",
+        "restrictedAccess": "Accès restreint",
+        "restrictedAccessExpl": "Vous n'êtes pas autorisé à accéder à ces informations"
       },
       "callTooltipContent": {
         "numbersOfErrors": "{{count}} erreur",
@@ -285,7 +280,7 @@
     "analyzeLogsLabel": "Analyser les journaux",
     "similarLogs": "Journaux similaires",
     "similarServiceLogs": "Afficher les journaux dans le contexte de ce service",
-    "service": "Afficher le service"
+    "restrictedAccessExpl": "Vous n'êtes pas autorisé à accéder à ces informations"
   },
   "traceDetails": {
     "labelTotal": "Total",

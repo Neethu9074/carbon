@@ -39,6 +39,7 @@ export default connectTo(
 
     return (
       <div>
+        <h1>ClickHouse ({chNodes.length})</h1>
         <Columize>
           <DashboardSection title={t('in-internal:monitoringUnit.sre.clickhouse.cpuLoad')}>
             <Chart

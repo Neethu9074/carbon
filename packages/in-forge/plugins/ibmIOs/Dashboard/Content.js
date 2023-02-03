@@ -10,6 +10,8 @@ import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection'
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { number, percentage, bytes } from 'in-services/formatters/number';
+import AdvanceSpinningDiskTypeTable from './AdvanceSpinningDiskTypeTable';
+import BasicSpinningDiskTypeTable from './BasicSpinningDiskTypeTable';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import NetstatInterfaceTable from './NetstatInterfaceTable';
 import NetstatBytesOutTable from './NetstatBytesOutTable';
@@ -20,6 +22,7 @@ import MessageQueueTable from './MessageQueueTable';
 import OutputQueueTable from './OutputQueueTable';
 import MemoryPoolsTable from './MemoryPoolTable';
 import ActiveJobsTable from './ActiveJobsTable';
+import HistoryLogTable from './HistoryLogTable';
 import SubsystemTable from './SubsystemTable';
 import JobQueueTable from './JobQueueTable';
 import AspTable from './AspTable';
@@ -153,6 +156,8 @@ export default function IbmIOsDashboard({ snapshot, timeConfig }) {
       </Columize>
       <AspTable snapshot={snapshot} timeConfig={timeConfig} />
       <MemoryPoolsTable snapshot={snapshot} timeConfig={timeConfig} />
+      <AdvanceSpinningDiskTypeTable snapshotId={snapshotId} timeConfig={timeConfig} />
+      <BasicSpinningDiskTypeTable snapshotId={snapshotId} timeConfig={timeConfig} />
       <SubsystemTable snapshot={snapshot} timeConfig={timeConfig} />
       <OutputQueueTable snapshot={snapshot} timeConfig={timeConfig} />
       <Columize>
@@ -173,10 +178,11 @@ export default function IbmIOsDashboard({ snapshot, timeConfig }) {
         <UserSpoolSpaceTable snapshotId={snapshotId} />
       </Columize>
       <JobQueueTable snapshotId={snapshotId} timeConfig={timeConfig} />
+      <MessageQueueTable snapshotId={snapshotId} timeConfig={timeConfig} />
       <NetstatInterfaceTable snapshot={snapshot} timeConfig={timeConfig} />
       <NetstatBytesInTable snapshotId={snapshotId} timeConfig={timeConfig} />
       <NetstatBytesOutTable snapshotId={snapshotId} timeConfig={timeConfig} />
-      <MessageQueueTable snapshotId={snapshotId} timeConfig={timeConfig} />
+      <HistoryLogTable snapshotId={snapshotId} timeConfig={timeConfig} />
     </div>
   );
 }

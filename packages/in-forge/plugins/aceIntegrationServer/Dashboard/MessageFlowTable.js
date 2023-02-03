@@ -7,7 +7,7 @@ import React from 'react';
 
 import { combineLatest } from '@instana/observables';
 
-import { percentageZeroDecimalPlaces } from 'in-services/formatters/number';
+import { percentageZeroDecimalPlaces, timeByMicroTwoDecimalPlaces } from 'in-services/formatters/number';
 import { getClusterMembers } from 'in-sdk/clusterMembers';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -65,6 +65,37 @@ const msgflowThreadUtilization_Col = {
     }
   }
 };
+const msgflowMaxElapsedTime_Col = {
+  title: t('in-forge:plugins.aceMessageFlow.maxElapsedTime'),
+  type: 'metric',
+  typeArgs: {
+    getSnapshotId(row) {
+      return row.snapshotId;
+    },
+    getMetricName() {
+      return 'maxElapsedTime';
+    },
+    getContent: function(maxElapsedTime) {
+      if (maxElapsedTime < 0) {
+        return missingValue;
+      } else {
+        return timeByMicroTwoDecimalPlaces(maxElapsedTime);
+      }
+    },
+    getTimeWindowAggregation() {
+      return 'mean';
+    }
+  }
+};
+const msgflowHealthIndicator_Col = {
+  title: t('in-forge:plugins.aceMessageFlow.messageFlowHealth'),
+  type: 'health',
+  typeArgs: {
+    getSnapshotId(row) {
+      return row.key;
+    }
+  }
+};
 
 export default connectTo(
   props => ({
@@ -89,11 +120,11 @@ export default connectTo(
         timeConfig
       };
     });
-    const cols = [msgflowName_Col, msgflowAppName_Col, msgflowStatus_Col];
+    const cols = [msgflowName_Col, msgflowAppName_Col, msgflowStatus_Col, msgflowMaxElapsedTime_Col];
     if (!isCloud) {
       cols.push(msgflowThreadUtilization_Col);
     }
-
+    cols.push(msgflowHealthIndicator_Col);
     return (
       <Table
         withoutPadding

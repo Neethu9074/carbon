@@ -34,6 +34,39 @@ export default connectTo(
         <h1>eum-health-processor</h1>
 
         <Columize>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.eumHealthProcessor.hostCpuLoad')}>
+            <Chart
+              snapshotIds={rows.map(r => r.host.get('id'))}
+              timeConfig={timeConfig}
+              minRollup={5000}
+              y1={{
+                min: 0,
+                formatter: number.detailed,
+                metrics: rows.map(() => 'load.1min'),
+                labels: labels,
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.eumHealthProcessor.assignedConfigs')}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              minRollup={5000}
+              y1={{
+                min: 0,
+                formatter: number.detailed,
+                metrics: rows.map(
+                  () => `metrics.gauges.com.instana.eum.health.model.RelevantWebsiteAlertConfigs.assigned-configs`
+                ),
+                labels: labels,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
+
+        <Columize>
           <DashboardSection title={t('in-internal:monitoringUnit.eum.eumHealthProcessor.incomingBeacons')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
@@ -41,9 +74,7 @@ export default connectTo(
               y1={{
                 min: 0,
                 formatter: number.perSecond.compact,
-                metrics: rows.map(
-                  () => `metrics.meters.KPI.incoming.processed_website_monitoring_beacons_by_website.calls`
-                ),
+                metrics: rows.map(() => `metrics.meters.KPI.incoming.processed_website_monitoring_beacons.calls`),
                 labels,
                 type: 'stackedArea'
               }}
@@ -57,9 +88,7 @@ export default connectTo(
               y1={{
                 min: 0,
                 formatter: number.perSecond.compact,
-                metrics: rows.map(
-                  () => `metrics.meters.KPI.incoming.processed_website_monitoring_beacons_by_website.errors`
-                ),
+                metrics: rows.map(() => `metrics.meters.KPI.incoming.processed_website_monitoring_beacons.errors`),
                 labels,
                 type: 'stackedArea'
               }}
@@ -68,32 +97,90 @@ export default connectTo(
         </Columize>
 
         <Columize>
-          <DashboardSection title={t('in-internal:monitoringUnit.eum.eumHealthProcessor.beaconProcessing')}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.eumHealthProcessor.outgoingMatchedBeacons')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
               y1={{
                 min: 0,
                 formatter: number.perSecond.compact,
-                metrics: rows.map(
-                  () => `metrics.meters.KPI.processing.processed_website_monitoring_beacons_by_website.calls`
-                ),
+                metrics: rows.map(() => `metrics.meters.KPI.outgoing.matched_website_monitoring_beacons.calls`),
                 labels,
                 type: 'stackedArea'
               }}
             />
           </DashboardSection>
 
-          <DashboardSection title={t('in-internal:monitoringUnit.eum.eumHealthProcessor.beaconProcessFail')}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.eumHealthProcessor.failOutgoingMatchedBeacons')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
               y1={{
                 min: 0,
                 formatter: number.perSecond.compact,
-                metrics: rows.map(
-                  () => `metrics.meters.KPI.processing.processed_website_monitoring_beacons_by_website.errors`
-                ),
+                metrics: rows.map(() => `metrics.meters.KPI.outgoing.matched_website_monitoring_beacons.errors`),
+                labels,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
+
+        <Columize>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.eumHealthProcessor.incomingMatchedBeacons')}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: rows.map(() => `metrics.meters.KPI.incoming.matched_website_monitoring_beacons.calls`),
+                labels,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+
+          <DashboardSection
+            title={t('in-internal:monitoringUnit.eum.eumHealthProcessor.droppedIncomingMatchedBeacons')}
+          >
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: rows.map(() => `metrics.meters.KPI.incoming.matched_website_monitoring_beacons.errors`),
+                labels,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
+
+        <Columize>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.eumHealthProcessor.processedMatchedBeacons')}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: rows.map(() => `metrics.meters.KPI.processing.matched_website_monitoring_beacons.calls`),
+                labels,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.eumHealthProcessor.failProcessedMatchedBeacons')}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: rows.map(() => `metrics.meters.KPI.processing.matched_website_monitoring_beacons.errors`),
                 labels,
                 type: 'stackedArea'
               }}

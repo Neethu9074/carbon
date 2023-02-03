@@ -13,7 +13,6 @@ import {
   fireCallbacksForEventAtFocusedMomentAsStream,
   getEventSeverityLabel
 } from 'in-stores/events';
-import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import DateTimeKpiCard from 'in-components/KpiCard/DateTimeKpiCard';
 import getRecentEvents$ from 'in-events/recentEvents';
@@ -78,10 +77,7 @@ const IncidentKPIs = connectTo(
     return (
       <Row withoutSideMargin>
         <Col xs>
-          <DateTimeKpiCard
-            title={t('in-events:titleTriggered')}
-            time={event.get('triggeringTime', event.get('start'))}
-          />
+          <DateTimeKpiCard title={t('in-events:titleTriggered')} time={event.get('start')} />
         </Col>
         <Col xs>
           <Ended event={event} />
@@ -118,13 +114,9 @@ const Ended = connectTo(
     };
   },
   function Ended({ event, isOpen }) {
-    return isOpen ? (
-      <KpiCard title={t('in-events:titleEnded')} value={valueMissingPlaceholder} raw />
-    ) : (
-      <DateTimeKpiCard
-        title={t('in-events:titleEnded')}
-        time={event.get('start') !== event.get('end') ? event.get('end') : null}
-      />
+    const hasDuration = event.get('start') !== event.get('end');
+    return (
+      <DateTimeKpiCard title={t('in-events:titleEnded')} time={!isOpen && hasDuration ? event.get('end') : null} />
     );
   }
 );
@@ -162,12 +154,14 @@ const Duration = connectTo(
     };
   },
   function Duration({ event, config }) {
-    let value = valueMissingPlaceholder;
-    if (config) {
-      value = formatDurationAccurately(config.to - event.get('start'), 1000);
-    }
-
-    return <KpiCard title={t('in-events:titleDuration')} value={value} raw />;
+    return (
+      <KpiCard
+        title={t('in-events:titleDuration')}
+        value={config}
+        renderValue={config => formatDurationAccurately(config.to - event.get('start'), 1000)}
+        raw
+      />
+    );
   }
 );
 

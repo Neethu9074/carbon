@@ -17,13 +17,25 @@
   "messageParam": "Nachrichtenparameter",
   "applicationCounter": "{{count}} Anwendungen",
   "exceptionMessageHeader": "Ausnahmebedingungsnachricht",
+  "stackTrace": "Stack-Trace",
   "service": "Service",
   "stream": "Datenstrom",
   "tooltipCopyToClipboard": "In Zwischenablage kopieren",
+  "tooltipCopyLinkToClipboard": "Protokolllink kopieren",
   "tooltipAddAsGroup": "Nach Tag gruppieren",
   "tooltipAddAsFilter": "Tag als Filter hinzufügen",
   "sorting": {
     "mostRecent": "Neuester zuerst",
     "oldest": "Ältester zuerst"
-  }
+  },
+  "cpuTotal": "CPU insgesamt",
+  "memoryUsage": "Speichernutzung",
+  "cluster": "Cluster",
+  "node": "Knoten",
+  "namespace": "Namensbereich",
+  "deployment": "Implementierung",
+  "pod": "Pod",
+  "tooltipEntityHealthNoIssues": "Keine Probleme",
+  "tooltipEntityHealthIssues": "{{numberOfIssues}}-Probleme",
+  "container": "Container"
 }

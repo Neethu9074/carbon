@@ -123,8 +123,8 @@
     "srcApp": {
       "formComponent": {
         "needToTurnOffPP": "Para usar o agrupamento é necessário desligar o destaque de Problemas potenciais primeiro.",
-        "pleaseSelect": "Selecione",
-        "pleaseSelectMetric": "Selecione uma métrica",
+        "pleaseSelect": "Selecionar",
+        "pleaseSelectMetric": "Selecionar uma métrica",
         "aggregation": "Agregação",
         "metric": "Métrica"
       },
@@ -140,8 +140,8 @@
         "metric": "Métrica",
         "eventCount": "Contagem de evento",
         "aggregation": "Agregação",
-        "pleaseSelectMetric": "Selecione uma métrica",
-        "pleaseSelect": "Selecione",
+        "pleaseSelectMetric": "Selecionar uma métrica",
+        "pleaseSelect": "Selecionar",
         "helpAction": "Uma consulta de foco dinâmico (DFQ) como você usaria dentro da visualização do evento.",
         "query": "Consulta",
         "includeK8sInfoEvents": "Incluir eventos do Kubernetes",
@@ -158,30 +158,35 @@
         "metric": "Métrica",
         "count": "Contagem",
         "aggregation": "Agregação",
-        "pleaseSelect": "Selecione",
-        "pleaseSelectMetric": "Selecione uma métrica"
+        "pleaseSelect": "Selecionar",
+        "pleaseSelectMetric": "Selecionar uma métrica"
       },
       "metricsFormComponent": {
         "metric": "Métrica",
         "selectMetric": "Selecionar métrica",
-        "aggregation": "Agregação"
+        "aggregation": "Agregação",
+        "crossSeriesAggregation": "Usar SUM para agregação de séries cruzadas",
+        "crossSeriesAggregationHelp": "Normalmente, a agregação de série cruzada é a mesma da agregação de tempo cruzado (o método usado para combinar pontos de dados em um único depósito). Com essa alternância ativada, vamos somar os depósitos nas séries de dados, em vez de usar a agregação especificada.",
+        "crossSeriesAggregationDisabledHelp": "Não aplicável a {{aggregation}}",
+        "crossSeriesAggregationRestrictedHelp": "Não aplicável a esta métrica"
       },
       "metrics": {
         "infrastructurePlatforms": "Infraestrutura e plataformas",
         "comingSoon": "(em breve)"
       },
       "typeAndMetricConfigurator": {
-        "pleaseSelectMetric": "Selecione uma métrica"
+        "pleaseSelectMetric": "Selecionar uma métrica",
+        "loadingMetrics": "Carregando métricas..."
       }
     },
     "srcMobileApp": {
       "formComp": {
         "beaconType": "Tipo de indicador",
-        "pleaseSelect": "Selecione",
+        "pleaseSelect": "Selecionar",
         "pleaseSelectDs": "Selecione uma origem de dados",
         "metric": "Métrica",
         "aggregation": "Agregação",
-        "pleaseSelectMetric": "Selecione uma métrica"
+        "pleaseSelectMetric": "Selecionar uma métrica"
       },
       "index": {
         "mobileAppsBeacon": "Aplicativos móveis (indicadores)"
@@ -190,7 +195,7 @@
     "srcSli": {
       "formComp": {
         "configSli": "SLI configurado",
-        "pleaseSelect": "Selecione",
+        "pleaseSelect": "Selecionar",
         "sliConfigComputeErrBudgetSliVal": "Configuração de SLI usada para calcular o orçamento de erros e valores de SLI",
         "typeSloThreshold": "Digite o limite de SLO desejado de <code>{{compact}}</code> a <code>{{detailed}}</code>.",
         "valType": "Tipo de valor"
@@ -205,10 +210,10 @@
     "srcWebSite": {
       "formComp": {
         "beaconType": "Tipo de indicador",
-        "pleaseSelect": "Selecione",
+        "pleaseSelect": "Selecionar",
         "metric": "Métrica",
         "selectDs": "Selecione uma origem de dados",
-        "selectMetric": "Selecione uma métrica",
+        "selectMetric": "Selecionar uma métrica",
         "aggregation": "Agregação"
       },
       "index": {
@@ -217,7 +222,7 @@
     },
     "metricConfigurator": {
       "ds": "Origem de dados",
-      "pleaseSelect": "Selecione",
+      "pleaseSelect": "Selecionar",
       "name": "Nome",
       "pleaseSelectATimeShiftingConfiguration": "Selecione uma configuração de deslocamento de tempo",
       "pleaseProvideAGroup": "Forneça um grupo.",
@@ -344,7 +349,7 @@
     "markdown": {
       "demo": {
         "title": "Instana - Introdução",
-        "text": "A Instana é a primeira e única Solução de desempenho do aplicativo (APM) totalmente automatizada projetada\nnespecificamente para os desafios de gerenciamento de microsserviço e aplicativos nativos de cloud.\n\nComeçar é fácil\n\n1. Se você ainda não tiver acesso à Instana, vá em frente para [Instana.com](https://www.instana.com) e registre-se para uma Avaliação grátis.\n2. Explore nosso ecossistema de centenas de [tecnologias suportadas] (https://www.instana.com/docs/ecosystem).\n3. Comece coletando dados com um dos nossos [agentes] (https://www.instana.com/docs/setup_and_manage).\n4. Aprenda [como usar a Instana] (https://www.instana.com/docs/using_instana) para seus casos de uso.\n5. Leia sobre nossos [Recursos principais] exclusivos (https://www.instana.com/docs/core_capabilities/).\n6. Extenda a Instana com nossas [Integrações, SDK e APIs] (https://www.instana.com/docs/integrations).\n\nÉ isso!\n\nNão é possível localizar o que você está procurando? Pule para [instana.com/docs] (https://www.instana.com/docs/)!"
+        "text": "Instana é a primeira e única Solução de desempenho de aplicativo (APM) totalmente automatizada projetada especificamente para os desafios de gerenciamento de microsserviço e aplicativos nativos de cloud.\n\nÉ fácil começar. 1. Se você ainda não tem acesso ao Instana, acesse [Instana.com](https://www.instana.com) e registre-se para uma Avaliação grátis. 2. Explore nosso ecossistema de centenas de [tecnologias suportadas] (https://www.ibm.com/docs/en/obi/current?topic=supported-technologies). 3. Comece a coletar dados com um de nossos [agentes](https://www.ibm.com/docs/en/obi/current?topic=set-up-manage-instana). 4. Aprenda [a usar o Instana] (https://www.ibm.com/docs/en/obi/current?topic=using-instana) para seus casos de uso. 5. Leia sobre nossos [Recursos principais] exclusivos (https://www.ibm.com/docs/en/obi/current?topic=core-capabilities).6. Amplie o Instana com nossas [Integrações, SDK e APIs](https://www.ibm.com/docs/en/obi/current?topic=integrations-sdks-apis).\n\nÉ isso!\n\nNão encontrou o que procura? Pule para a [documentação] (https://www.ibm.com/docs/en/obi/current)."
       },
       "formComp": {
         "whatULikeShow": "O que você gostaria de mostrar?",
@@ -364,42 +369,43 @@
         "chartPie": "Gráfico: pizza",
         "testTitle": "Eventos",
         "testLegendItem1": "Incidentes",
-        "testLegendItem2": "Problemas: críticos",
+        "testLegendItem2": "Problemas: crítico",
         "testLegendItem3": "Problemas: aviso"
       }
     },
     "slo": {
       "demo": {
         "title": "Título do SLO",
+        "sliName": "Exemplo de Sli",
         "appName": "Nome do aplicativo de exemplo"
       },
       "apConfigFormComp": {
         "userJourneyOffering": "Jornada do usuário/Oferta",
         "appnPerspective": "Perspectiva de aplicativo",
         "selectAppPerspect": "Selecione uma Perspectiva de aplicativo.",
-        "appPerspectHelpAction": "Configure jornadas/ofertas do usuário modelando-as como uma Perspectiva de aplicativo na área Aplicativos do produto.",
+        "appPerspectHelpAction": "Configure as jornadas/ofertas do usuário, modelando-as como uma Perspectiva de aplicativo na área de Aplicativos.",
+        "rbacHint": "Os aplicativos mostrados podem ser limitados por permissões.",
         "noAppPerspect": "Nenhuma perspectiva de aplicativo!",
-        "pleaseSelect": "Selecione"
+        "pleaseSelect": "Selecionar"
       },
       "websiteSelector": {
         "website": "Website",
         "selectWebsite": "Selecione um Website",
-        "websiteHelpAction": "Configure Websites na área de Websites & Aplicativos móveis do produto.",
+        "websiteHelpAction": "Configure os websites na área de Websites e aplicativos móveis.",
+        "rbacHint": "Os websites mostrados podem ser limitados por permissões.",
         "noWebsites": "Nenhum Website encontrado",
-        "pleaseSelect": "Selecione"
+        "pleaseSelect": "Selecionar"
       },
       "sliSelectionFormComp": {
         "srvLevelIndicator": "Indicador de nível de serviço",
         "selectASli": "Selecione uma SLI.",
         "noneAvailCreateOne": "Nenhum disponível, crie um.",
-        "pleaseSelect": "Selecione"
+        "pleaseSelect": "Selecionar"
       },
       "createSliForm": {
         "sliCreateSuccess": "SLI criada com sucesso",
         "failCreateSli": "Falha ao criar a SLI.",
         "problemCreateSli": "Houve um problema na criação desta SLI: \"{{sliName}}\"",
-        "cloning": "Clonando…",
-        "creating": "Criando…",
         "clone": "Clonar",
         "create": "Criar",
         "sliConfigMsg": "Os parâmetros da SLI não podem ser modificados para evitar a invalidação dos orçamentos de gastos calculados. Este é o motivo pelo qual a SLI precisa ser clonada quando você muda qualquer parâmetro.",
@@ -412,13 +418,16 @@
       },
       "goodBadEventsForm": {
         "goodEvents": "Eventos bons",
-        "badEvents": "Eventos ruins"
+        "badEvents": "Eventos ruins",
+        "websitesFilterLabel": "{{websiteLabel}} / {{beaconType}}"
       },
       "metricFormData": {
         "latency": "Latência",
         "callCount": "Contagem de chamadas",
         "errorRate": "Taxa de erro",
         "erroneousCalls": "Chamadas errôneas",
+        "beaconErrorRate": "Taxa de erro do indicador",
+        "beaconDuration": "Duração do indicador",
         "mean": "média",
         "min": "mínima",
         "max": "máxima",
@@ -451,17 +460,21 @@
         "sliNameNotEmpty": "O nome da SLI não pode estar vazio.",
         "sliCustomHelpAction": "As informações sobre customização de SLI e tipos de SLI estão localizadas em nossos docs.",
         "sliTimeBasedOrAnEventBasedSli": "O tipo de SLI deve ser um baseado em tempo ou baseado em evento.",
-        "pleaseSelect": "Selecione",
+        "pleaseSelect": "Selecionar",
         "boundary": "Limite",
         "hiddenCalls": "Chamadas ocultas",
         "includeInternalCalls": "Incluir chamadas internas",
         "includeSyntheticCalls": "Incluir chamadas sintéticas",
         "type": "Tipo",
         "sliEntity": "Entidade da SLI",
-        "beaconConfigLabel": "Configuração de Beacon",
+        "beaconConfigLabel": "Configuração do indicador",
         "beaconScopeLabel": "Escopo de Beacon",
-        "httpRequestsLabel": "Solicitações HTTP",
-        "beaconFiltersLabel": "Filtros de Beacon"
+        "beaconLabel": "Tipo de indicador desconhecido",
+        "beaconLabel_httpRequest": "Solicitações HTTP",
+        "beaconLabel_pageLoad": "Carregamentos de páginas do website",
+        "beaconLabel_custom": "Eventos customizados do website",
+        "beaconFiltersLabel": "Filtro do indicador",
+        "beaconFiltersSubtext": "Opcional"
       },
       "sliList": {
         "serviceLevelIndicators": "Indicadores de nível de serviço",
@@ -472,7 +485,9 @@
         "delSliConfig": "Excluir configuração de SLI",
         "pleaseConfirm": "Confirme",
         "pleaseConfirmMsg": "Tem certeza de que deseja excluir <strong>{{sliName}}</strong>?",
-        "delete": "Excluir"
+        "delete": "Excluir",
+        "eventBasedSli": "Com base em evento",
+        "timeBasedSli": "Com base em tempo, {{metricNameLabel}}"
       },
       "sliManageList": {
         "configSrvLevelIndicatorsMsg": "Você não tem a permissão necessária <em>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</em> para criar ou editar SLIs.",
@@ -488,7 +503,11 @@
       "chart": {
         "spent": "Gasto",
         "budget": "Orçamento",
-        "viewInAnalyze": "Visualizar na análise"
+        "viewInAnalyze": "Visualizar na análise",
+        "configType": "SLI",
+        "configType_apdex": "Apdex",
+        "initialEvaluation": "{{configType}} criado",
+        "missingDataInfo": "O horário de criação para este {{configType}} está dentro do intervalo de tempo exibido. Os dados anteriores à criação de {{configType}} estarão ausentes."
       },
       "formComponent": {
         "sliManagement": "Gerenciamento de SLI",
@@ -515,15 +534,16 @@
         "enterDateFormatYyyyMmDd": "Insira uma data no formato DD-MM-AAAA.",
         "enterTimeInFormatHhMmSs": "Insira um horário no formato HH:mm:ss."
       },
-      "widgetHeader": {
+      "sliSummary": {
         "status": "Status",
         "target": "Destino:",
         "errorBudgetSpent": "Orçamento gasto com erro",
         "errorBudget": "Orçamento com erro:",
         "timeWindow": "Espaço de tempo",
-        "dynamicTimeWindow": "Espaço de tempo dinâmico",
-        "rollingTimeWindow": "Espaço de tempo contínuo",
-        "fixedTimeWindow": "Espaço de tempo fixo"
+        "timeWindowType": "Espaço de tempo desconhecido",
+        "timeWindowType_dynamic": "Espaço de tempo dinâmico",
+        "timeWindowType_rolling": "Espaço de tempo contínuo",
+        "timeWindowType_fixed": "Espaço de tempo fixo"
       },
       "sloEntityInfo": {
         "tooltip": {
@@ -542,7 +562,124 @@
       "atLeastOneFilterExpressionMustBeConfigured": "Pelo menos uma expressão de filtro deve ser configurada.",
       "timeBased": "Baseado em tempo",
       "eventBased": "Baseado em evento",
-      "slo": "SLO"
+      "slo": "SLO",
+      "monitoringSourceSelector": {
+        "source_application": "Aplicação",
+        "source_website": "Website (Beta)",
+        "callOut_application": "Exclui fatores além de seu controle, como conectividade de Internet insatisfatória de usuários finais, mas pode não refletir com precisão a experiência do usuário final",
+        "callOut_website": "A maioria reflete com precisão a experiência do usuário final, mas não exclui fatores além de seu controle, como conectividade de Internet insatisfatória de usuários finais"
+      },
+      "sliFormatter": {
+        "unit": "Chamada",
+        "unit_plural": "chamadas",
+        "unit_0": "chamadas",
+        "unit_1": "Chamada",
+        "unit_2": "chamadas",
+        "thousandCallsFormat": "{{count}}K chamadas"
+      },
+      "widgetLeftHeader": {
+        "previewDataInfo": "Os dados de visualização são mostrados apenas até 7 dias no passado. O widget final incluirá apenas dados desde a criação do SLI."
+      },
+      "boundaryScopeConfigurator": {
+        "all": {
+          "title": "Todas as chamadas",
+          "description": "Chamadas executadas dentro desta aplicação, tanto pelos consumidores quanto internamente."
+        },
+        "inbound": {
+          "title": "Chamadas de entrada",
+          "description": "Apenas chamadas executadas pelos consumidores desta aplicação."
+        }
+      }
+    },
+    "apdex": {
+      "title": "Apdex: Gráfico",
+      "chart": {
+        "metricLabel": "Apdex",
+        "viewInAnalyze": "Visualizar em Análises",
+        "noDataRetentionPeriod": "Intervalo de tempo selecionado está além do período de retenção de dados",
+        "notFoundErrorTitle": "O Apdex configurado não foi localizado",
+        "notFoundErrorDescription": "Atualize o widget Apdex selecionando outra configuração do Apdex"
+      },
+      "demo": {
+        "title": "Apdex para Produção",
+        "entityLabel": "Loja de Robô"
+      },
+      "apdexConfigInfo": {
+        "tagFilterLabel": "Filtro",
+        "apdexNameLabel": "Nome do Apdex",
+        "apdexTypeLabel": "Tipo de Adex",
+        "thresholdLabel": "Limite"
+      },
+      "formComponent": {
+        "title": "Configuração do Apdex",
+        "entityTypeTitle": "Tipo de Adex",
+        "manageListTitle": "Gerenciamento do Apdex",
+        "createApdex": "Criar configuração do Apdex",
+        "editApdex": "Editar configuração do Apdex"
+      },
+      "configurationSelector": {
+        "label": "Configuração do Apdex",
+        "selectConfig": "Selecione uma configuração",
+        "manageConfig": "Gerenciar o Apdex",
+        "noneAvailCreateOne": "Nenhum disponível, crie um.",
+        "pleaseSelect": "Selecionar"
+      },
+      "entityTypeSelector": {
+        "type": "Tipo desconhecido",
+        "type_website": "Website",
+        "type_application": "Aplicativo"
+      },
+      "apdexManageList": {
+        "title": "Lista do Apdex",
+        "deleteSuccessfulMessage": "A configuração do Apdex foi excluída com sucesso.",
+        "deleteFailedMessage": "Falha ao excluir a configuração do Apdex."
+      },
+      "apdexList": {
+        "cardTitle": "Configuração do Apdex",
+        "nameColumn": "Configuração do Apdex",
+        "thresholdColumn": "Limite",
+        "confirmDeleteHeader": "Confirme",
+        "confirmDeleteMessage": "Tem certeza de que deseja excluir {{apdex}}?",
+        "editApdexTooltip": "Editar/clonar configuração do Apdex",
+        "deleteApdexTooltip": "Excluir configuração do Apdex",
+        "confirmDeleteButton": "Excluir",
+        "createButton": "Criar configuração do Apdex"
+      },
+      "createApdexForm": {
+        "customizationHeader": "Customização do Apdex",
+        "label": "Nome do Apdex",
+        "apdexCreateSuccessTitle": "A configuração do Apdex foi criada com sucesso.",
+        "apdexCreateSuccessContent": "A configuração do Apdex \"{{apdexName}}\" foi criada.",
+        "apdexCreateFailedTitle": "Falha ao criar a configuração do Apdex.",
+        "apdexCreateFailedContent": "Houve um problema ao criar esta configuração do Apdex: \"{{apdexName}}\"",
+        "apdexNameNotEmpty": "O nome do Apdex não pode estar vazio.",
+        "nameExistsError": "Uma configuração do Apdex com este nome já existe. Insira um nome diferente.",
+        "limitReachedError": {
+          "website": "O número máximo de configurações de Apdex do website ({{0}}) foi alcançado. Entre em contato com o suporte Instana para solicitar um aumento para este limite.",
+          "application": "O número máximo de configurações de Apdex do aplicativo ({{0}}) foi alcançado. Entre em contato com o suporte Instana para solicitar um aumento para este limite."
+        },
+        "editConfigNotice": "Para evitar perda de dados, a configuração não pode ser editada após ser criada; ela pode ser ajustada somente como uma cópia."
+      },
+      "createWebsiteApdexForm": {
+        "thresholdHeader": "Configuração de limite",
+        "thresholdLabel": "Limite"
+      },
+      "entityInfo": {
+        "tooltip": "Apdex desconhecido",
+        "tooltip_website": "Apdex do website",
+        "tooltip_application": "Apdex do aplicativo"
+      },
+      "widget": {
+        "unknownEntityLabel_application": "Aplicativo desconhecido",
+        "unknownEntityLabel_website": "Website desconhecido",
+        "previewDataInfo": "Os dados da visualização são mostrados para os últimos 7 dias. O widget final incluirá apenas dados desde a criação da configuração do Apdex."
+      },
+      "applicationScopeConfigurator": {
+        "label": "Escopo do Apdex",
+        "boundaryScope": "Limite",
+        "hiddenCalls": "Chamadas ocultas",
+        "additionalFilters": "Filtro adicional"
+      }
     },
     "timezone": {
       "demo": {

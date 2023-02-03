@@ -5,8 +5,8 @@
 
 import { findIndex, isEqual } from 'lodash';
 
+import { LogicalOperator, TagCatalog, TagFilter, TagFilterExpression, TagFilterExpressionElementUnion } from 'in-types';
 import { toNewTagFilterFormat, type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
-import { LogicalOperator, TagCatalog, TagFilter, TagFilterExpression, TagFilterExpressionElement } from 'in-types';
 import { and, or, not } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 
@@ -53,7 +53,7 @@ export function fromTagFiltersArray(tagFilters: TagFilter[], tagCatalog: TagCata
   return formModel;
 }
 
-export function fromBackendModel(backendModel?: TagFilterExpressionElement): FormModelElement[] {
+export function fromBackendModel(backendModel?: TagFilterExpressionElementUnion): FormModelElement[] {
   if (!backendModel) {
     return [];
   }
@@ -82,8 +82,8 @@ export function joinExpressions({
   logicalOperator = and,
   expressions = []
 }: {
-  logicalOperator: LogicalOperator;
-  expressions: FormModelElement[][];
+  logicalOperator?: LogicalOperator;
+  expressions?: (FormModelElement | FormModelElement[])[];
 }): FormModelElement[] {
   const nonEmptyExpressions = expressions
     .map(expression => (Array.isArray(expression) ? expression : [expression]))

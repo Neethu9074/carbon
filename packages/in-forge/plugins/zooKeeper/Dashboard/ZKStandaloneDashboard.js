@@ -12,6 +12,7 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { t } from 'in-i18n';
 
 export default function ZKStandaloneDashboard({ snapshot, timeConfig }) {
+  const zxidOverflowLimit = snapshot.getIn(['data', 'zxid_overflow_limit']);
   return (
     <div>
       <DashboardSection title={t('in-forge:plugins.zooKeeper.titleLatency')}>
@@ -87,6 +88,23 @@ export default function ZKStandaloneDashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
+      {zxidOverflowLimit ? (
+        <DashboardSection title={t('in-forge:plugins.zooKeeper.zxid')}>
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              max: zxidOverflowLimit,
+              metrics: ['zxid'],
+              labels: [t('in-forge:plugins.zooKeeper.zxid')],
+              type: 'line',
+              formatter: zeroDecimalPlaces
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      ) : null}
     </div>
   );
 }

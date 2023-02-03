@@ -5,9 +5,13 @@
 
 import React from 'react';
 
+import { Stack } from '@instana/components';
+
 import { MonitoringSource, MonitoringSources } from 'in-custom-dashboards/widgets/Slo/constants';
 import ButtonGroup from 'in-components/ButtonGroup';
 import { t } from 'in-i18n';
+
+import locals from './MonitoringSourceSelector.mless';
 
 export interface MonitoringSourceSelectorProps {
   value: MonitoringSource;
@@ -16,14 +20,19 @@ export interface MonitoringSourceSelectorProps {
 
 export default function MonitoringSourceSelector({ value, onChange }: MonitoringSourceSelectorProps) {
   return (
-    <ButtonGroup
-      buttonPropsList={MonitoringSources.map(source => ({
-        key: source,
-        text: t('in-custom-dashboards:widgets.slo.monitoringSourceSelector.source', { context: source }),
-        onClick: () => onChange(source)
-      }))}
-      activeKey={value}
-      segmented
-    />
+    <Stack gap="xxsmall">
+      <ButtonGroup
+        buttonPropsList={MonitoringSources.map(source => ({
+          key: source,
+          text: t('in-custom-dashboards:widgets.slo.monitoringSourceSelector.source', { context: source }),
+          onClick: () => onChange(source)
+        }))}
+        activeKey={value}
+        segmented
+      />
+      <span className={locals.subtext}>
+        {t('in-custom-dashboards:widgets.slo.monitoringSourceSelector.callOut', { context: value })}
+      </span>
+    </Stack>
   );
 }

@@ -24,6 +24,7 @@ export default function WebsiteGeoHeatMap({ height, tagFilters, timeConfig, canD
       valueFormatter={valueFormatter}
       notDefinedValue={valueFormatter(0)}
       controlWrapperClassName={controlWrapperClassName}
+      label={t('in-websites:websiteDashboard.components.websiteGeoHeatMapPageLoads')}
     />
   );
 }

@@ -5,6 +5,8 @@
 
 import { Field, MapForm } from 'formalistic';
 
+import { CustomEventWebsiteAlertRule } from '@instana/types';
+
 import {
   SlownessWebsiteAlertRule,
   SpecificJsErrorsWebsiteAlertRule,
@@ -27,6 +29,7 @@ import { t } from 'in-i18n';
 export function getTitlePlaceholder(form: MapForm) {
   const rule = (form.get('rule') as MapForm).toJS() as WebsiteAlertRule;
   const alertType = rule.alertType;
+
   switch (alertType) {
     case 'specificJsError': {
       if ((rule as SpecificJsErrorsWebsiteAlertRule).operator === operators.NOT_EMPTY) {
@@ -56,6 +59,10 @@ export function getTitlePlaceholder(form: MapForm) {
         blueprintConfig!.getMetricLabel(metricName as MetricName),
         thresholdOperator
       );
+    }
+    case 'customEvent': {
+      const customEventName = (rule as CustomEventWebsiteAlertRule).customEventName;
+      return t('in-alerting:smartAlerts.websites.form.customEvents', { customEventName });
     }
     default:
       throw Error(t('in-alerting:smartAlerts.websites.form.unsupportedAlertType', { alertType: alertType }));
@@ -103,6 +110,11 @@ export function getDescriptionPlaceholder(form: MapForm) {
         return getStaticThresholdHigherOrLowerOperatorText(metricLabel, thresholdOperator, thresholdValue);
       }
       return getThresholdHigherOrLowerOperatorText(metricLabel, thresholdOperator);
+    }
+    case 'customEvent': {
+      const customEventName = (rule as CustomEventWebsiteAlertRule).customEventName;
+
+      return t('in-alerting:smartAlerts.websites.form.customEventsText', { customEventName });
     }
     default:
       throw Error(t('in-alerting:smartAlerts.websites.form.unsupportedAlertType', { alertType: alertType }));

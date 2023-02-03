@@ -5,13 +5,14 @@
 
 import React, { ReactNode } from 'react';
 
-import BigNumberKpiCard, { Config } from 'in-components/KpiCard/BigNumberKpiCard';
+import { Config, ConfigWithCompanionMetric } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
+import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import { getFormatter } from 'in-stores/metric/formatters';
 
 export interface BigNumberProps {
   title: string;
   useMaxAvailableHeight?: boolean;
-  config: Config;
+  config: Config | ConfigWithCompanionMetric;
   actions?: ReactNode;
   dragHandle?: ReactNode;
   isPreview?: boolean;

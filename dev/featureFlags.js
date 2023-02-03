@@ -1,6 +1,6 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * (c) Copyright IBM Corp. 2022
+ * (c) Copyright Instana Inc. 2022
  */
 
 // the keys (not the values) need to be kept in sync with
@@ -11,12 +11,11 @@ module.exports = {
   containerInfoEnabled: true,
   entityCountWidgetEnabled: true,
   infraMetricsWidgetEnabled: true,
-  infraExplorePresentationEnabled: true,
   infraExploreDataEnabled: true,
   beeInstanaInfraMetricsEnabled: true,
   highResolutionInfrastructureMetricsEnabled: true,
   internalMonitoringUnit: true,
-  showUserSettingInternalTagsInUA: true,
+  enableTroubleshootingMode: true,
   isSelfService: false,
   isUsageInfoPopupEnabled: false,
   latencyDistributionBase10Enabled: true,
@@ -27,11 +26,11 @@ module.exports = {
   phmcEnabled: true,
   releaseNotesEnabled: true,
   routeIdOverPathTplEnabled: false,
-  samplingIndicatorEnabled: true,
   skipOnboardingDialog: false,
   tenantSwitcherEnabled: true,
   useInstanaSaasEumTrackingUrlEnabled: true,
   vsphereEnabled: true,
+  openstackEnabled: true,
   zhmcEnabled: true,
   websiteUserBreakdownEnabled: true,
   ampCompanyInfoEnabled: true,
@@ -41,18 +40,33 @@ module.exports = {
   pseudoLanguageEnabled: true,
   syntheticCallsEnabled: true,
   applicationHealthOverviewEnabled: true,
-  hideEventsSettings: true,
   openFacetedSearchByDefault: true,
   agentInstallViewRestrictedToIBMSaas: false,
   traceDetailViewV2Enabled: false,
-  deprecateAppDataLegacyEvents: true,
+  deprecateAppDataLegacyEventsEnabled: true,
+  disallowAppDataLegacyEventsEnabled: false,
+  hideAppDataLegacyEventsEnabled: false,
   potentialProblemsEnabled: true,
-  adaptiveBaselineEnabled: true,
   builtInGlobalApplicationSmartAlertsEnabled: true,
-  websiteSmartAlertsAllowPerWindowUserImpact: true,
   websiteSloEnabled: true,
-  disableAppDataLegacyEvents: false,
-  smartAlertsLogsBlueprintEnabled: false,
-  syntheticsTestEnabled: true,
-  kubernetesExploreEnabled: true
+  perEndpointAdaptiveBaselineEnabled: false,
+  smartAlertsLogsBlueprintEnabled: true,
+  syntheticsEnabled: true,
+  kubernetesExploreEnabled: true,
+  kubernetesTeamEnabled: true,
+  configMigrationFeatureEnabled: true,
+  sliCHClusterAccessEnabled: true,
+  perSecondAggregationEnabled: false,
+  apdexWidgetEnabled: true,
+  applicationApdexEnabled: true,
+  actionAutomationEnabled: true,
+  websiteUploadConfigEnabled: true,
+  pluginMetricStatisticsEnabled: true,
+  mobileAppCrashBeaconEnabled: true,
+  k8sTimeShiftEnabled: true,
+  syntheticBrowserScriptEnabled: true,
+  websiteBeaconQueryOptimizationEnabled: true,
+  rbacImprovementEnabled: false,
+  traceIdFilterOverrideEnabled: true,
+  syntheticSmartAlertsEnabled: true
 };

@@ -14,8 +14,19 @@ import { emptyArray } from 'in-services/fixedObjects';
 
 import locals from './MetricSelectorOverlay.mless';
 
-export default function MetricSelectorOverlay({ metricCatalog, loading, onChange, close, query, onQueryChange }) {
-  const options = useMemo(() => (loading ? emptyArray : toOptions(metricCatalog.tree, [])), [metricCatalog, loading]);
+export default function MetricSelectorOverlay({
+  metricCatalog,
+  loading,
+  onChange,
+  close,
+  query,
+  onQueryChange,
+  disabled
+}) {
+  const options = useMemo(
+    () => (metricCatalog && metricCatalog.tree ? toOptions(metricCatalog.tree, []) : emptyArray),
+    [metricCatalog]
+  );
 
   useDisabledBodyScroll();
 
@@ -25,11 +36,12 @@ export default function MetricSelectorOverlay({ metricCatalog, loading, onChange
       options={options}
       loading={loading}
       onChange={node => {
-        onChange({ metric: node.metric, type: node.type });
+        onChange(node);
         close();
       }}
       query={query}
       onQueryChange={onQueryChange}
+      disabled={disabled}
     />
   );
 }
@@ -46,16 +58,19 @@ function toOptions(metricTreeNodes, parentLabels = []) {
           hasChildren={metricTreeNode.children?.length > 0}
         />
       ),
+      parentLabels,
       description: metricTreeNode.description,
       metric: metricTreeNode.name,
       type: metricTreeNode.type,
+      parentType: metricTreeNode.parentType ?? metricTreeNode.type, // parentType was previously sent as type before R221
       icon: metricTreeNode.icon,
+      allowedCrossSeriesAggregations: metricTreeNode.allowedCrossSeriesAggregations ?? [],
       keywords: [
         joinedParentLabels,
         metricTreeNode.label,
         metricTreeNode.description,
         metricTreeNode.name,
-        metricTreeNode.type
+        metricTreeNode.parentType
       ]
         .filter(Boolean)
         .join(' '),
@@ -73,8 +88,8 @@ function BreadcrumbAndLabel({ path, label, hasChildren }) {
 
   return (
     <>
-      {path.map(part => (
-        <span className={locals.path} key={part}>
+      {path.map((part, i) => (
+        <span className={locals.path} key={i}>
           {part}
           <SvgIcon className={locals.icon} type="lib_arrow_drop_right" />
         </span>
@@ -90,5 +105,6 @@ MetricSelectorOverlay.propTypes = {
   onChange: PropTypes.func.isRequired,
   query: PropTypes.string.isRequired,
   onQueryChange: PropTypes.func.isRequired,
-  close: PropTypes.func.isRequired
+  close: PropTypes.func.isRequired,
+  disabled: PropTypes.bool
 };

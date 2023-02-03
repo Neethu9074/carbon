@@ -8,8 +8,8 @@ import classNames from 'classnames';
 
 import { SvgIconSizes } from '@instana/components';
 
-import { IndeterminateLoadingIndicatorLineCoordinates as SVG_LINES } from 'in-components/LoadingIndicators/SvgLineCoordinates.json';
-import { IndeterminateLoadingIndicatorPaths as SVG_PATHS } from 'in-components/LoadingIndicators/SvgPaths.json';
+import SVG_LINES from 'in-components/LoadingIndicators/SvgLineCoordinates';
+import SVG_PATHS from 'in-components/LoadingIndicators/SvgPaths';
 import theme from 'in-themes';
 
 import locals from './IndeterminateLoadingIndicator.mless';

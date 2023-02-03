@@ -9,10 +9,10 @@ import { useObservable } from '@instana/hooks';
 import { Stack } from '@instana/components';
 
 import * as serviceLevelIndicators from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli/serviceLevelIndicators';
+import { getSliConfigurations } from 'in-custom-dashboards/widgets/Slo/sli/api';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import InputInSection from 'in-components/form/Input/InputInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import { getSliConfigurations } from 'in-custom-dashboards/api';
 import HelpAction from 'in-components/workspace/HelpAction';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { percentage } from 'in-services/formatters/number';
@@ -118,10 +118,10 @@ export default function FormComponent({
                 </option>
               ))}
           </SelectInSection>
+          {formatterSection}
         </Sections>
       ))}
 
-      {formatterSection}
       {timeShiftConfiguration}
       {labelSection}
     </Stack>

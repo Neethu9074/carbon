@@ -11,9 +11,9 @@ import {
   OPEN_BRACKET,
   TAG
 } from 'in-components/QueryBuilder/transformation/formModel';
+import { LogicalOperator, Nullish, TagFilter, TagFilterExpression, TagFilterExpressionElementUnion } from 'in-types';
 import { toTagFilter, type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { EQUALS, GREATER_OR_EQUAL_THAN, LESS_THAN } from 'in-components/QueryBuilder/tagFilter/operators';
-import { LogicalOperator, TagFilter, TagFilterExpression, TagFilterExpressionElement } from 'in-types';
 import { getNumberTagFilters } from 'in-analyze/components/filterBar/NumberBarItemBehavior/util';
 import { deepFreeze } from 'in-services/util/object';
 
@@ -34,7 +34,7 @@ export function toBackendQueryModel(formModel?: FormModelElement[], simplify = t
 
 export function createTagFilterExpression(
   logicalOperator: LogicalOperator,
-  elements: TagFilterExpressionElement[]
+  elements: TagFilterExpressionElementUnion[]
 ): TagFilterExpression {
   return {
     type: EXPRESSION,
@@ -44,10 +44,10 @@ export function createTagFilterExpression(
 }
 
 export function addTagFilters(
-  backendQueryModel: TagFilterExpression,
-  tagFilters: TagFilterExpressionElement[],
+  backendQueryModel: TagFilterExpressionElementUnion | Nullish,
+  tagFilters: TagFilterExpressionElementUnion[],
   logicalOperator: LogicalOperator = OPERATOR_AND
-): TagFilterExpression | TagFilterExpressionElement {
+): TagFilterExpressionElementUnion {
   if (isEmptyExpression(backendQueryModel)) {
     if (tagFilters.length == 1) {
       return tagFilters[0];
@@ -62,12 +62,12 @@ export function addTagFilters(
   return {
     type: EXPRESSION,
     logicalOperator,
-    elements: [backendQueryModel, ...tagFilters]
+    elements: [backendQueryModel!, ...tagFilters]
   };
 }
 
-function isEmptyExpression(backendQueryModel: TagFilterExpression): boolean {
-  return !backendQueryModel || (backendQueryModel.type === EXPRESSION && backendQueryModel.elements.length === 0);
+function isEmptyExpression(backendQueryModel: TagFilterExpressionElementUnion | Nullish): boolean {
+  return !backendQueryModel || (isTagFilterExpression(backendQueryModel) && backendQueryModel.elements.length === 0);
 }
 
 // grammar
@@ -77,8 +77,8 @@ function isEmptyExpression(backendQueryModel: TagFilterExpression): boolean {
 // not_expression := ["NOT"] term .
 // term := tag | "(" { expression } ")" .
 
-function parseOrExpression(tokens: FormModelElement[], simplify = true): TagFilterExpressionElement {
-  const elements: TagFilterExpressionElement[] = [];
+function parseOrExpression(tokens: FormModelElement[], simplify = true): TagFilterExpressionElementUnion {
+  const elements: TagFilterExpressionElementUnion[] = [];
   elements.push(parseAndExpression(tokens, simplify));
   let next = peek<FormModelElement>(tokens);
   while (next?.type === CONJUNCTION && (next as Conjunction)?.logicalOperator === OPERATOR_OR) {
@@ -92,8 +92,8 @@ function parseOrExpression(tokens: FormModelElement[], simplify = true): TagFilt
   return createTagFilterExpression(OPERATOR_OR, elements);
 }
 
-function parseAndExpression(tokens: FormModelElement[], simplify = true): TagFilterExpressionElement {
-  const elements: TagFilterExpressionElement[] = [];
+function parseAndExpression(tokens: FormModelElement[], simplify = true): TagFilterExpressionElementUnion {
+  const elements: TagFilterExpressionElementUnion[] = [];
   elements.push(parseNotExpression(tokens, simplify));
   let next = peek<FormModelElement>(tokens);
   while (next?.type === CONJUNCTION && (next as Conjunction)?.logicalOperator === OPERATOR_AND) {
@@ -119,7 +119,7 @@ function parseNotExpression(tokens, simplify = true) {
   return parseTerm(tokens, simplify);
 }
 
-function parseTerm(tokens: FormModelElement[], simplify = true): TagFilterExpressionElement {
+function parseTerm(tokens: FormModelElement[], simplify = true): TagFilterExpressionElementUnion {
   const next = tokens.shift();
 
   if (next?.type === TAG) {
@@ -155,7 +155,7 @@ interface Range {
   to?: number | null;
 }
 
-export function getRangeFromBackendQueryModel(tag: string, backendQueryModel: TagFilterExpressionElement): Range {
+export function getRangeFromBackendQueryModel(tag: string, backendQueryModel: TagFilterExpressionElementUnion): Range {
   if (isTagFilterExpression(backendQueryModel) && backendQueryModel.logicalOperator === OPERATOR_AND) {
     return getRangeFromFilters(tag, backendQueryModel.elements as TagFilter[]);
   }
@@ -224,8 +224,8 @@ type MinMaxFilterType = Omit<TagFilter, 'entity'> | undefined;
 interface UpdateRangeArgs {
   tag: string;
   selection: Range;
-  backendQueryModel: TagFilterExpressionElement;
-  updateFilter: (updateConfig: { add?: MinMaxFilterType[]; remove?: TagFilterExpressionElement[] }) => void;
+  backendQueryModel: TagFilterExpressionElementUnion;
+  updateFilter: (updateConfig: { add?: MinMaxFilterType[]; remove?: TagFilterExpressionElementUnion[] }) => void;
 }
 
 export function updateRange({ tag, selection, backendQueryModel, updateFilter }: UpdateRangeArgs): void {
@@ -286,7 +286,10 @@ export function updateRange({ tag, selection, backendQueryModel, updateFilter }:
   }
 }
 
-function getFiltersToRemove(tag: string, backendQueryModel: TagFilterExpressionElement): TagFilterExpressionElement[] {
+function getFiltersToRemove(
+  tag: string,
+  backendQueryModel: TagFilterExpressionElementUnion
+): TagFilterExpressionElementUnion[] {
   if (isTagFilterExpression(backendQueryModel) && backendQueryModel.logicalOperator === OPERATOR_AND) {
     return backendQueryModel.elements.filter(element => isTagFilter(element) && element.name === tag);
   }
@@ -298,7 +301,7 @@ function getFiltersToRemove(tag: string, backendQueryModel: TagFilterExpressionE
   return [];
 }
 
-export function getMaximumExpressionDepth(expression: TagFilterExpressionElement): number {
+export function getMaximumExpressionDepth(expression: TagFilterExpressionElementUnion): number {
   let max = 0;
   if (isTagFilter(expression)) {
     return 0;
@@ -314,7 +317,7 @@ export function getMaximumExpressionDepth(expression: TagFilterExpressionElement
   return max;
 }
 
-export function containsTagName(expression: TagFilterExpressionElement, tagName: string): boolean {
+export function containsTagName(expression: TagFilterExpressionElementUnion, tagName: string): boolean {
   if (!expression || !tagName) {
     return false;
   }
@@ -330,10 +333,10 @@ export function containsTagName(expression: TagFilterExpressionElement, tagName:
   return false;
 }
 
-export function isTagFilterExpression(element: TagFilterExpressionElement): element is TagFilterExpression {
+export function isTagFilterExpression(element: TagFilterExpressionElementUnion): element is TagFilterExpression {
   return element.type === EXPRESSION;
 }
 
-export function isTagFilter(element: TagFilterExpressionElement): element is TagFilter {
+export function isTagFilter(element: TagFilterExpressionElementUnion): element is TagFilter {
   return element.type === TAG_FILTER_TYPE;
 }

@@ -24,7 +24,7 @@ import Overlay from 'in-components/overlays/Overlay';
 import { isLoading } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
-import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/ChartViewConfigurator.mless';
+import locals from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator.mless';
 
 export default function APSelection({
   applicationId,

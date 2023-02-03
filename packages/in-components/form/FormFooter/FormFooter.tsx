@@ -3,12 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { forwardRef } from 'react';
+import React, { forwardRef, ReactElement } from 'react';
 import classNames from 'classnames';
 
+import SaveButtonComponent, { SaveButtonProps as OriginSaveButtonProps } from 'in-components/form/SaveButton';
 import CancelButtonComponent, { CancelButtonProps } from 'in-components/form/CancelButton';
 import DeleteButtonComponent, { DeleteButtonProps } from 'in-components/form/DeleteButton';
-import SaveButtonComponent, { SaveButtonProps } from 'in-components/form/SaveButton';
 import { t } from 'in-i18n';
 
 import locals from './FormFooter.mless';
@@ -32,6 +32,10 @@ export default forwardRef<HTMLElement, FormFooterProps>(function FormFooter(
     </nav>
   );
 });
+
+interface SaveButtonProps extends Omit<OriginSaveButtonProps, 'children'> {
+  children?: string | ReactElement;
+}
 
 export function SaveButton(props: SaveButtonProps) {
   return (

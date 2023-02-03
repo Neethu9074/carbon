@@ -7,15 +7,19 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 import invariant from 'invariant';
 
+import BetaBadge from 'in-components/BetaBadge/BetaBadge';
+
 import locals from './Menu.mless';
 
 export interface MenuItem {
   type: string;
   subType?: string;
   name: string;
+  isBeta?: boolean;
 }
+
 export interface MenuProps<T extends MenuItem> {
-  addRightSeparator: boolean;
+  addRightSeparator?: boolean;
   items: T[] | readonly T[];
   onItemClick: (item: T) => any;
   initialItemSelected: MenuItem;
@@ -54,6 +58,7 @@ export default function Menu<T extends MenuItem>({
             }}
           >
             {item.name}
+            {item.isBeta && <BetaBadge />}
           </li>
         ))}
       </ul>

@@ -22,6 +22,7 @@ import { listSuccess, loading } from 'in-services/util/result';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import IconButton from 'in-components/IconButton/IconButton';
 import Delete from 'in-settings/components/actions/Delete';
+import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import { identity } from 'in-services/util/function';
 import ListTitle from 'in-components/lists/Title';
 import { isBlank } from 'in-services/util/string';
@@ -77,8 +78,8 @@ export default compose(
       perCellLoadingIndicator: perCellLoadingIndicator$
     };
   }),
-  withState('orderByState', 'setOrderBy', ({ initialOrderBy }) => (initialOrderBy ? initialOrderBy : 'name')),
-  withState('orderDirectionState', 'setOrderDirection', 'ASC'),
+  withState('orderByState', 'setOrderBy', ({ initialOrderBy }) => initialOrderBy ?? 'name'),
+  withState('orderDirectionState', 'setOrderDirection', ({ initalOrderDir }) => initalOrderDir ?? 'ASC'),
   withState('queryState', 'setQuery', ''),
   withState('pageState', 'setPage', ({ initialPageNumber = 1 }) => initialPageNumber),
   lifecycle({
@@ -310,7 +311,7 @@ export function createNewEntityButton({ labelNew, pathNew, onCreateNew, disabled
   const href$ = onCreateNew ? null : getModifiedUrlStream(p => (p.pathname = pathNew));
   if (disabledMessage) {
     return (
-      <Tooltip content={disabledMessage} align="bottomMiddle">
+      <Tooltip content={disabledMessage} delay={500} align="bottomMiddle">
         <NewEntityButton label={labelNew} disabled trackEvent={trackEvent} />
       </Tooltip>
     );
@@ -379,9 +380,8 @@ function addToggleEnabledAction(columns, actionDefinition, perCellLoadingIndicat
       const entityEnabled = actionDefinition.get ? actionDefinition.get(entity) : entity[actionDefinition.key];
       return (
         <Tooltip
-          content={
-            entityEnabled ? t('in-settings:components.clickToDisable') : t('in-settings:components.clickToEnable')
-          }
+          content={entityEnabled ? t('in-settings:components.disable') : t('in-settings:components.enable')}
+          delay={500}
         >
           <IconButton
             disabled={actionDefinition.disabled?.(entity)}
@@ -431,7 +431,7 @@ function addDeleteAction(columns, actionDefinition, perCellLoadingIndicator, get
 
       return (
         <div className={locals.deleteWrapper}>
-          <Tooltip content={t('in-settings:components.deleteEntity', { entity: getEntityName(entity) })}>
+          <Tooltip content={t('in-settings:components.deleteEntity', { entity: getEntityName(entity) })} delay={500}>
             <Delete
               {...actionDefinition}
               disabled={disabled}
@@ -470,7 +470,7 @@ function addDeselectAction(columns, actionDefinition) {
     widthInAbsoluteUnit: true,
     getContent(entity) {
       return (
-        <Tooltip content={t('in-settings:components.clickToDeselect')}>
+        <Tooltip content={t('in-settings:components.deselect')} delay={500}>
           <IconButton
             disabled={actionDefinition.disabled?.(entity)}
             kind="primaryv2"
@@ -539,7 +539,7 @@ function areAllRowsSelected(entities, tableActions, startIndex, endIndex) {
   return true;
 }
 
-export function leftHeaderWithSelectAll(entityName, inSelectListDialog, tableActions) {
+export function leftHeaderWithSelectAll(entityName, inSelectListDialog, tableActions, isBeta = false) {
   return function LeftHeaderWithSelectAll(totalHits, filteredHits, entitiesBeforePagination) {
     const allSelected = areAllRowsOnAllPagesSelected(entitiesBeforePagination, tableActions);
     if (
@@ -563,10 +563,18 @@ export function leftHeaderWithSelectAll(entityName, inSelectListDialog, tableAct
         </Fragment>
       );
     } else if (inSelectListDialog || !totalHits) {
-      return entityName;
+      return (
+        <div>
+          {entityName} {isBeta && <BetaBadge />}
+        </div>
+      );
     } else {
       const getHeaderFunction = defaultHeaderWithCount(entityName);
-      return getHeaderFunction(totalHits, filteredHits);
+      return (
+        <div>
+          {getHeaderFunction(totalHits, filteredHits)} {isBeta && <BetaBadge />}
+        </div>
+      );
     }
   };
 }

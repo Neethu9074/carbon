@@ -134,6 +134,9 @@ function ServicesAffected({ item }) {
 
 function getDefaultFormModel(item) {
   return joinExpressions({
-    expressions: [tagFilter('endpoint.name', EQUALS, item.name), tagFilter('call.is_synthetic', EQUALS, true)]
+    expressions: [
+      tagFilter('endpoint.name', EQUALS, item.name, null, DESTINATION),
+      tagFilter('call.is_synthetic', EQUALS, true)
+    ]
   });
 }

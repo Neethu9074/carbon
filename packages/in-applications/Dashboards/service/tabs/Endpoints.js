@@ -8,7 +8,6 @@ import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/components';
-import { Card } from '@instana/components';
 
 import {
   applicationDashboardUrlParameters,
@@ -20,7 +19,7 @@ import TechnologyIndicatorList from 'in-applications/components/TechnologyIndica
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import { getEndpointDashboard, configureEndpointsView } from 'in-applications/navigation/paths';
-import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
+import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
@@ -53,13 +52,14 @@ const columnDefinitions = [
     id: 'endpointLabel',
     label: t('in-applications:labelName'),
     getContent(item, { applicationId, serviceId, boundaryScope, syntheticCalls }) {
+      const maxSeverity = get(item, ['metrics', 'maxSeverity', 0, 1], 0);
       return (
         <SeverityAwareEntityLink
-          severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
+          severity={maxSeverity}
           icon="lib_application_endpoint"
           label={item.endpoint.label}
           tooltip={item.endpoint.synthetic ? t('in-applications:labelSyntheticEndpoint') : null}
-          specialIndicator={item.endpoint.synthetic ? true : false}
+          specialIndicator={!!item.endpoint.synthetic}
           href$={getEndpointDashboard(item.endpoint.id, {
             applicationId,
             serviceId,
@@ -161,12 +161,16 @@ const columnDefinitions = [
     id: 'maxSeverity',
     label: t('in-applications:labelHealth'),
     defaultOrderDirection: 'DESC',
-    getContent(item, { result, timeConfig }) {
+    getContent(item, { result, applicationId, serviceId, timeConfig }) {
+      const openIssues = get(item, ['metrics', 'openIssues', 0, 1], 0);
+      const maxSeverity = get(item, ['metrics', 'maxSeverity', 0, 1], 0);
       return (
         <ApplicationEntityHealthIndicatorBehavior
+          applicationId={applicationId}
+          serviceId={serviceId}
           endpointId={item.endpoint.id}
-          openIssues={get(item, ['metrics', 'openIssues', 0, 1], 0)}
-          maxSeverity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
+          openIssues={openIssues}
+          maxSeverity={maxSeverity}
           timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
           IndicatorPresenter={HealthIndicatorPresenter}
           inContentArea
@@ -245,20 +249,19 @@ export default function Endpoints(props) {
   );
 
   return (
-    <Card>
-      <ServerTableWithUrlState
-        get={getTableData}
-        applicationId={applicationId}
-        serviceId={serviceId}
-        endpointId={endpointId}
-        boundaryScope={boundaryScope}
-        syntheticCalls={syntheticCalls}
-        timeConfig={timeConfig}
-        rightHeader={rightHeader}
-        endpointTypes={endpointTypes}
-        technologies={technologies}
-      />
-    </Card>
+    <ServerTableWithUrlState
+      get={getTableData}
+      applicationId={applicationId}
+      serviceId={serviceId}
+      endpointId={endpointId}
+      boundaryScope={boundaryScope}
+      syntheticCalls={syntheticCalls}
+      timeConfig={timeConfig}
+      rightHeader={rightHeader}
+      endpointTypes={endpointTypes}
+      technologies={technologies}
+      cardTitle={t('in-applications:viewLists.endpoints')}
+    />
   );
 }
 

@@ -18,11 +18,6 @@
     }
   }
 
-  .pluginIcon,
-  .linkEntityIcon {
-    fill: @lib__colors__N700Medium;
-  }
-
   .linkEntityIcon {
     margin-right: 0.25rem;
   }
@@ -31,18 +26,13 @@
     margin-right: 0.5rem;
   }
 
-  .specialIndicator {
-    position: absolute;
-    left: -6px;
-    height: 6px;
-    width: 6px;
-    background-color: @lib__colors__orange800;
-    border-radius: 50%;
-    display: inline-block;
+  .childWrapper {
+    .ellipsis();
   }
 
-  .childWrapper {
+  .innerWrapper {
     width: 100%;
-    .ellipsis();
+    display: inline-flex;
+    align-items: center;
   }
 }

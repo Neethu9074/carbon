@@ -11,12 +11,11 @@ import ApplicationDashboard from 'promise-loader?global,applications!in-applicat
 import NewApplicationWaiter from 'promise-loader?global,applications!in-applications/Forms/NewApplication/NewApplicationWaiter';
 import EndpointDashboard from 'promise-loader?global,applications!in-applications/Dashboards/endpoint/EndpointDashboard';
 import ServiceDashboard from 'promise-loader?global,applications!in-applications/Dashboards/service/ServiceDashboard';
-import NewApplication from 'promise-loader?global,applications!in-applications/Forms/NewApplication/NewApplication';
 import AnalyzeView2_0 from 'promise-loader?global,applications!in-applications/analyze/AnalyzeView2_0/AnalyzeView';
 import ApplicationsList from 'promise-loader?global,applications!in-applications/lists/ApplicationsList';
 import ServicesList from 'promise-loader?global,applications!in-applications/lists/ServicesList';
 import { Route } from 'react-router-dom';
-import React, { Fragment } from 'react';
+import React from 'react';
 
 // the following components are all part of the same bundle (application)
 import {
@@ -26,44 +25,80 @@ import {
   configureEndpointsView,
   configureSyntheticEndpointsView,
   endpointDashboard,
-  newApplicationView,
   newApplicationWaiterView,
   newServiceView,
   serviceDashboard,
   servicesList,
   analyzePath
 } from 'in-applications/navigation/paths';
-import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
+import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 
-export default (
-  <Fragment>
-    {role.canConfigureApplications && (
-      <Route path={newApplicationView} component={createAsyncViewComponent(NewApplication)} />
-    )}
+export default function applicationRoutes() {
+  const appRoutes = [];
+  if (role.canConfigureServiceMapping) {
+    appRoutes.push(
+      <Route
+        key="applicationPerspectiveNewServiceView"
+        path={newServiceView}
+        children={renderAsyncRouteChildren(CustomServiceMapping)}
+      />,
+      <Route
+        key="applicationPerspectiveConfigureSyntheticEndpoints"
+        path={configureSyntheticEndpointsView}
+        children={renderAsyncRouteChildren(SyntheticCallConfig)}
+      />,
+      <Route
+        key="applicationPerspectiveConfigureEndpoints"
+        path={configureEndpointsView}
+        children={renderAsyncRouteChildren(CustomEndpointMapping)}
+      />
+    );
+  }
+  appRoutes.push([
     <Route
+      key="applicationPerspectiveNewApplicationWaiter"
       path={`${newApplicationWaiterView}/:appId/:appName`}
-      component={createAsyncViewComponent(NewApplicationWaiter)}
-    />
+      children={renderAsyncRouteChildren(NewApplicationWaiter)}
+    />,
+    <Route
+      key="applicationPerspectiveApplicationslist"
+      path={applicationsList}
+      children={renderAsyncRouteChildren(ApplicationsList)}
+    />,
+    <Route
+      key="applicationPerspectiveApplicationDashboard"
+      path={applicationDashboard}
+      children={renderAsyncRouteChildren(ApplicationDashboard)}
+    />,
+    <Route
+      key="applicationPerspectiveServicesList"
+      path={servicesList}
+      children={renderAsyncRouteChildren(ServicesList)}
+    />,
+    <Route
+      key="applicationPerspectiveServiceDashboard"
+      path={serviceDashboard}
+      children={renderAsyncRouteChildren(ServiceDashboard)}
+    />,
+    <Route
+      key="applicationPerspectiveEndpointDashboard"
+      path={endpointDashboard}
+      children={renderAsyncRouteChildren(EndpointDashboard)}
+    />,
+    <Route key="applicationPerspectiveAnalyze" path={analyzePath} children={renderAsyncRouteChildren(AnalyzeView2_0)} />
+  ]);
 
-    {role.canConfigureServiceMapping && (
-      <Fragment>
-        <Route path={newServiceView} component={createAsyncViewComponent(CustomServiceMapping)} />
-        <Route path={configureSyntheticEndpointsView} component={createAsyncViewComponent(SyntheticCallConfig)} />
-        <Route path={configureEndpointsView} component={createAsyncViewComponent(CustomEndpointMapping)} />
-      </Fragment>
-    )}
+  if (applicationSmartAlertsEnabled) {
+    appRoutes.push(
+      <Route
+        key="applicationPerspectiveAlertsList"
+        path={alertsList}
+        children={renderAsyncRouteChildren(GlobalSmartAlertsTab)}
+      />
+    );
+  }
 
-    <Route path={applicationsList} component={createAsyncViewComponent(ApplicationsList)} />
-    <Route path={applicationDashboard} component={createAsyncViewComponent(ApplicationDashboard)} />
-    <Route path={servicesList} component={createAsyncViewComponent(ServicesList)} />
-    <Route path={serviceDashboard} component={createAsyncViewComponent(ServiceDashboard)} />
-    <Route path={endpointDashboard} component={createAsyncViewComponent(EndpointDashboard)} />
-    {applicationSmartAlertsEnabled && (
-      <Route path={alertsList} component={createAsyncViewComponent(GlobalSmartAlertsTab)} />
-    )}
-
-    <Route path={analyzePath} component={createAsyncViewComponent(AnalyzeView2_0)} />
-  </Fragment>
-);
+  return appRoutes;
+}

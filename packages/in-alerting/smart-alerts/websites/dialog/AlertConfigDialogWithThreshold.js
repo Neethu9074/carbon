@@ -1,0 +1,172 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+import React, { useMemo, useState } from 'react';
+
+import { useObservable } from '@instana/hooks';
+
+import useCalculateThresholdOnBackendSignalEmitter from 'in-alerting/smart-alerts/websites/hooks/useCalculateThresholdOnBackendSignalEmitter';
+import {
+  createBoundedAlertQueryBuilder,
+  createIsAlertQueryValid
+} from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
+import useVerifyCustomPayloadItemsWithTagCatalog from 'in-alerting/smart-alerts/websites/hooks/useVerifyCustomPayloadItemsWithTagCatalog';
+import { useRemoveInvalidTagsFromFilterExpression } from 'in-alerting/smart-alerts/hooks/useRemoveInvalidTagsFromFilterExpression';
+import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/applications/components/useSimpleModePageNavigation';
+import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/websites/hooks/useTagBasedPayloadConfigurator';
+import { useIsTagFilterFormModelValid } from 'in-alerting/smart-alerts/websites/hooks/useIsTagFilterFormModelValid';
+import { getEnhancedTagFilterFormModel } from 'in-alerting/smart-alerts/components/utils/tagfilterEnrichmentUtil';
+import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
+import { stepConfigs, stepRenderers } from 'in-alerting/smart-alerts/websites/dialog/simple/simpleModeSteps';
+import { AdvancedModeFooter } from 'in-alerting/smart-alerts/components/dialog/advanced/AdvancedModeFooter';
+import AdvancedModeContainer from 'in-alerting/smart-alerts/websites/dialog/advanced/AdvancedModeContainer';
+import { triggerScrollToInvalidItem } from 'in-components/StepsContainer/useScrollToFirstInvalidNavItem';
+import SimpleModeContainer from 'in-alerting/smart-alerts/components/dialog/simple/SimpleModeContainer';
+import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/AlertingChartWrapper';
+import useThresholdSuggestion from 'in-alerting/smart-alerts/websites/hooks/useThresholdSuggestion';
+import { SimpleDialogFooter } from 'in-components/BlueprintFormMultistep/SimpleDialogFooter';
+import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
+import { websitesAlertingStepSwitch } from 'in-alerting/smart-alerts/websites/tracker';
+import { days } from 'in-services/time';
+
+/**
+ * Timeframe used for the tag-suggestions in QB2.
+ */
+const tagSuggestionTimeConfig = {
+  windowSize: days.toMillis(1)
+};
+
+export default function AlertConfigDialogWithThreshold(props) {
+  const { form } = props;
+
+  useCalculateThresholdOnBackendSignalEmitter(form);
+
+  const alertConfigWithFormModel = form.toJS();
+  const blueprintConfig = getBlueprintConfig(alertConfigWithFormModel.rule.alertType);
+
+  const { enrichedTagFilterFormModel, numeratorTagFilterFormModel } = getEnhancedTagFilterFormModel(
+    alertConfigWithFormModel,
+    blueprintConfig
+  );
+
+  return (
+    <SmartAlertConfigDialogWithQueryValidation
+      {...props}
+      alertConfigWithFormModel={alertConfigWithFormModel}
+      blueprintConfig={blueprintConfig}
+      enrichedTagFilterFormModel={enrichedTagFilterFormModel}
+      numeratorTagFilterFormModel={numeratorTagFilterFormModel}
+    />
+  );
+}
+
+const FORM_ID = 'smart-alert-editor';
+
+function SmartAlertConfigDialogWithQueryValidation({
+  alertConfigWithFormModel,
+  blueprintConfig,
+  enrichedTagFilterFormModel,
+  numeratorTagFilterFormModel,
+  ...props
+}) {
+  const { form, updateForm, startWithSimpleMode, editMode, withTrackCreate, withTrackClose, isSaving } = props;
+  const [simpleMode, setSimpleMode] = useState(startWithSimpleMode);
+
+  // we are validating only the user-defined part, not the whole enriched form model here,
+  // because only that part can ever be invalid
+  const { rule, tagFilterExpression, threshold, websiteId } = alertConfigWithFormModel;
+  const { metricName } = rule;
+  const beaconType = blueprintConfig.getBeaconType(metricName);
+
+  const { getTagCatalog, QueryBuilder: AlertQueryBuilder, isQueryValid } = useMemo(
+    () => createBoundedAlertQueryBuilder(websiteId, beaconType, threshold.type, tagSuggestionTimeConfig),
+    [websiteId, beaconType, threshold.type]
+  );
+  const isAlertQueryValid = createIsAlertQueryValid(isQueryValid);
+
+  const isTagFilterFormModelValid = useIsTagFilterFormModelValid(tagFilterExpression, isAlertQueryValid);
+
+  const updateTagFilterExpression = filteredTagFilterExpression => {
+    updateForm(form.updateIn(['tagFilterExpression'], f => f.setValue(filteredTagFilterExpression)));
+  };
+
+  useRemoveInvalidTagsFromFilterExpression(getTagCatalog, tagFilterExpression, updateTagFilterExpression);
+
+  const isValid = blueprintConfig.isRuleComplete(rule) && isTagFilterFormModelValid;
+
+  const [thresholdResult, setThresholdResult] = useState();
+  useThresholdSuggestion(form, updateForm, setThresholdResult, {
+    isValid,
+    simpleMode,
+    alertConfigWithFormModel,
+    blueprintConfig,
+    enrichedTagFilterFormModel,
+    numeratorTagFilterFormModel
+  });
+
+  const hasCustomPayloadValidDynamicTags = useVerifyCustomPayloadItemsWithTagCatalog(
+    beaconType,
+    alertConfigWithFormModel.customPayloadFields
+  );
+
+  const { step, setStep, simpleModeStep, backOrCancel, handleSubmit } = useSimpleModePageNavigation({
+    stepConfigs,
+    form,
+    setForm: updateForm,
+    onCreate: withTrackCreate,
+    onClose: withTrackClose,
+    onStepChanged: (oldStep, nextStep) => websitesAlertingStepSwitch({ oldStep, nextStep })
+  });
+
+  const isCalculatingThreshold = useObservable(thresholdOrBaselineLoadingSignal$, []);
+
+  const footer = simpleMode ? (
+    <SimpleDialogFooter
+      step={step}
+      setStep={setStep}
+      backOrCancel={backOrCancel}
+      simpleModeStep={simpleModeStep}
+      stepConfigs={stepConfigs}
+      form={form}
+      isSaving={isSaving}
+      formId={FORM_ID}
+      additionalStepCheck={step => (step === 1 ? true : isTagFilterFormModelValid) && !isCalculatingThreshold}
+    />
+  ) : (
+    <AdvancedModeFooter
+      form={form}
+      setForm={updateForm}
+      onClose={withTrackClose}
+      onCreate={withTrackCreate}
+      isSaving={isSaving}
+      editMode={editMode}
+      additionalValidationCheck={() => isTagFilterFormModelValid}
+      scrollToFirstFormError={() => triggerScrollToInvalidItem()}
+    />
+  );
+
+  const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator(beaconType, websiteId);
+
+  return (
+    <AlertConfigDialogPresenter
+      {...props}
+      stepConfigs={stepConfigs}
+      stepRenderers={stepRenderers}
+      step={step}
+      formId={FORM_ID}
+      handleSubmit={handleSubmit}
+      footer={footer}
+      simpleMode={simpleMode}
+      setSimpleMode={setSimpleMode}
+      thresholdResult={thresholdResult}
+      TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
+      isDynamicCustomPayloadValid={hasCustomPayloadValidDynamicTags}
+      QueryBuilderComponent={AlertQueryBuilder}
+      SimpleModeElement={SimpleModeContainer}
+      AdvancedModeElement={AdvancedModeContainer}
+      isTagFilterFormModelValid={isTagFilterFormModelValid}
+    />
+  );
+}

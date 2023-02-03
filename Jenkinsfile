@@ -5,6 +5,7 @@ def branchName          = env.BRANCH_NAME
 def isDeliveryBranch    = null
 def gitCommitId         = null
 def gitCommitAuthor     = null
+def gitCommitAuthorName = null
 def gitMessage          = null
 def instanaUiClientVersion = null
 def instanaImageVersion = null
@@ -13,13 +14,14 @@ def archiveName         = null
 def latestReleaseBranch = null
 def backendComponents   = null
 def uiClientComponents  = null
+def backendRepoPath     = null
 
 void setBuildStatus(String message, String state) {
   def commitSha = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
 
   step([
       $class: "GitHubCommitStatusSetter",
-      reposSource: [$class: "ManuallyEnteredRepositorySource", url: "https://api.github.com/instana/ui-client"],
+      reposSource: [$class: "ManuallyEnteredRepositorySource", url: "https://github.ibm.com/instana/ui-client"],
       commitShaSource: [$class: "ManuallyEnteredShaSource", sha: commitSha],
       contextSource: [$class: "ManuallyEnteredCommitContextSource", context: "ci/jenkins/build-status"],
       errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
@@ -56,12 +58,13 @@ pipeline {
           majorReleaseVersion = instanaUiClientVersion.tokenize('.')[1].toInteger()
           gitCommitId         = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
           gitCommitAuthor     = sh(returnStdout: true, script: "git --no-pager show -s --format='%ae' $gitCommitId").trim()
-          gitMessage          = sh(returnStdout: true, script: "git log -1 --pretty=format:'%an (<https://github.com/instana/ui-client/commit/%h|%h>): %s'").trim()
+          gitCommitAuthorName = sh(returnStdout: true, script: "git show -s --pretty=%an").trim()
+          gitMessage          = sh(returnStdout: true, script: "git log -1 --pretty=format:'%an (<https://github.ibm.com/instana/ui-client/commit/%h|%h>): %s'").trim()
           // https://github.ibm.com/instana/jenkins/blob/develop/vars/getBackendComponents.groovy
           backendComponents = getBackendComponents()
               .findAll { it.isIncludedInRelease(majorReleaseVersion) && !(it.name ==~ /^ui-client.*/) }
               .collect { it.name }
-              .plus(['ingress', 'ingress-global'])
+              .plus(['ingress', 'ingress-global', 'ingress-otlp-acceptor'])
           uiClientComponents = getBackendComponents()
               .findAll { it.isIncludedInRelease(majorReleaseVersion) && (it.name ==~ /^ui-client.*/) }
               .collect { it.name }
@@ -95,9 +98,26 @@ pipeline {
               } catch (e) {
                 setBuildStatus('Build Failure', 'FAILURE')
                 if ( branchName.startsWith('typescript-typedefinitions-')) {
-                  notifyTsUpdateFailure(branchName)
+                  notifyTsUpdateFailure(branchName,gitCommitId,gitCommitAuthorName,gitCommitAuthor)
                 }
                 throw e
+              }
+            }
+          }
+        }
+      }
+    }
+
+    stage ('Mark stable ui-client version') {
+      steps {
+        milestone(label: "Mark stable ui-client version", ordinal: null)
+        timeout(time: 10, unit: 'MINUTES') {
+          timestamps {
+            script {
+              if (isDeliveryBranch) {
+                // Mark stable version in Instana's own versioning system only on delivery branches
+                // as this value is only used on further build stages on delivery branches
+                sh "./build/ci-shared-tools/scripts/markStableVersion.bash ui-client ${branchName} ${instanaUiClientVersion}"
               }
             }
           }
@@ -113,7 +133,7 @@ pipeline {
         // still waiting for the lock will be aborted
         // https://www.jenkins.io/blog/2016/10/16/stage-lock-milestone/
         lock(resource: "build-ui-client-images-${branchName}", inversePrecedence: true) {
-          timeout(time: 15, unit: 'MINUTES') {
+          timeout(time: 45, unit: 'MINUTES') {
             timestamps {
               script {
                 if (isDeliveryBranch) {
@@ -137,12 +157,17 @@ pipeline {
             timestamps {
               script {
                 if (isDeliveryBranch) {
-                  rebuildBackend(backendComponents, branchName, instanaUiClientVersion, instanaImageVersion)
+                   backendRepoPath = "delivery.instana.io/int-docker-backend-local/backend"
+                } else {
+                   backendRepoPath = "delivery.instana.io/int-docker-backend-local/backend/dev/${branchName}"
+                }
+                if (isDeliveryBranch) {
+                  rebuildBackend(backendComponents, branchName, instanaUiClientVersion, instanaImageVersion, backendRepoPath)
                 }
               }
             }
           }
-          milestone(label: "Retag ui-client images", ordinal: null)
+          milestone(label: "Retag backend images", ordinal: null)
         }
       }
     }
@@ -169,29 +194,21 @@ pipeline {
       }
     }
 
-    stage('Storybook') {
+    stage('Deploy Storybook') {
       steps {
         timeout(time: 30, unit: 'MINUTES') {
           timestamps {
             script {
-              if (isDeliveryBranch
-                  || branchName.startsWith('storybook-')
-                  || branchName.startsWith('chromatic-')) {
-
+              if (branchName == 'develop') {
                   try {
-                    def RUN_UI_TEST_ON_DELIVERY =
-                      (branchName.startsWith('storybook-') || branchName.startsWith('chromatic-')) ? "true" : "false"
-
                     awsCodeBuild credentialsType: 'jenkins',
                       credentialsId: 'codebuild',
                       projectName: 'ui-client-storybook',
                       region: 'us-west-2',
                       imageOverride: 'aws/codebuild/standard:5.0',
                       sourceControlType: 'project',
-                      envVariables: '[ {RUN_UI_TEST_ON_DELIVERY, ' + RUN_UI_TEST_ON_DELIVERY + '} ]',
                       sourceVersion: gitCommitId,
                       privilegedModeOverride: 'True'
-
                     if ( currentBuild.currentResult == 'SUCCESS' ) {
                       notifySuccess('dev-notification', "<${env.BUILD_URL}|${env.JOB_NAME} : Storybook build & deploy success: ${gitCommitId}")
                     }
@@ -262,32 +279,27 @@ def markStableImageVersions(branchName, instanaImageVersion) {
 
 // Keep image tags for backend and ui-client in-sync as instanactl only accepts a single version
 // and expects all components to have an image with that version
-def rebuildBackend(backendComponents, branchName, instanaUiClientVersion, instanaImageVersion) {
+def rebuildBackend(backendComponents, branchName, instanaUiClientVersion, instanaImageVersion, backendRepoPath) {
   try {
     waitForStableBackendVersions(branchName)
-    def instanaOpenShiftImageVersion = instanaImageVersion - "-0" + "-openshift"
     def backendStableVersion =
         sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/componentVersioning/getStableVersion.js backend ${branchName}").trim()
     def backendStableImageVersion = sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/componentVersioning/getStableVersion.js instana-image-from-backend ${branchName}").trim()
 
     def rebuildBackendComponents = [:]
     backendComponents.each {
-        def currentBackendTag = "containers.instana.io/instana/${branchName}/product/${it}:${backendStableImageVersion}"
-        def newBackendTag = "containers.instana.io/instana/${branchName}/product/${it}:${instanaImageVersion}"
-        def newBackendOpenShiftTag = "containers.instana.io/instana/${branchName}/product/${it}:${instanaOpenShiftImageVersion}"
+        def currentBackendTag = "${backendRepoPath}/${it}:${backendStableImageVersion}"
+        def newBackendTag = "${backendRepoPath}/${it}:${instanaImageVersion}"
         rebuildBackendComponents[it] = {
-          sh """
-          ./build/ci-shared-tools/scripts/docker/imageOverride.js \
-          ${currentBackendTag} \
-          ${newBackendTag} \
-          "--build-arg current_fully_qualified_tag=${currentBackendTag} --label com.instana.image.tag=${instanaImageVersion}"
-          """
-          sh """
-          ./build/ci-shared-tools/scripts/docker/imageOverride.js \
-          ${currentBackendTag} \
-          ${newBackendOpenShiftTag} \
-          "--build-arg current_fully_qualified_tag=${currentBackendTag} --label com.instana.image.tag=${instanaOpenShiftImageVersion}"
-          """
+          withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId:'delivery-instana-io-internal-project-artifact-read-writer-creds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+            sh """
+            INSTANA_ARTIFACTORY_USERNAME=$USERNAME INSTANA_ARTIFACTORY_PASSWORD=$PASSWORD \
+            ./build/ci-shared-tools/scripts/docker/imageOverride.js \
+            ${currentBackendTag} \
+            ${newBackendTag} \
+            "--build-arg current_fully_qualified_tag=${currentBackendTag} --label com.instana.image.tag=${instanaImageVersion}"
+            """
+          }
       }
     }
     parallel rebuildBackendComponents
@@ -349,11 +361,13 @@ def notifyFailure(channel, message) {
   slackSend channel: channel, color: 'danger', message: message
 }
 
-def notifyTsUpdateFailure(branchName) {
+def notifyTsUpdateFailure(branchName,gitCommitId,gitCommitAuthorName,gitCommitAuthor) {
   def message = new StringBuilder()
   message.append(":typescript: update failed on `${branchName}` :boom:\n")
-  message.append("<https://github.com/instana/ui-client/pulls?q=is%3Apr+is%3Aopen+%5BTypeDefs%5D|:octocat: View PR on github>\n")
-  message.append("<${env.BUILD_URL}|:mag: Open jenkins build #${env.BUILD_NUMBER}>")
+  message.append("<https://github.ibm.com/instana/ui-client/pulls?q=is%3Apr+is%3Aopen+%5BTypeDefs%5D|:octocat: View PR on github>\n")
+  message.append("<${env.BUILD_URL}|:mag: Open jenkins build #${env.BUILD_NUMBER}>\n")
+  message.append("<https://github.ibm.com/instana/ui-client/commit/${gitCommitId}|:merge: Commit ${gitCommitId.take(8)}>\n")
+  message.append(":books: Author `${gitCommitAuthorName}`, ${gitCommitAuthor}")
 
   notifyFailure('tech-ui-dev', message.toString())
 }

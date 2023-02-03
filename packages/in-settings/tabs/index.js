@@ -3,8 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { userSettings, teamSettings, authSettings, ampSettings } from 'in-settings/navigation/paths';
-import { roleHasAnyTeamPermissions } from 'in-settings/tabs/permissions';
+import { userSettings, teamSettings, authSettings, ampSettings, migSettings } from 'in-settings/navigation/paths';
+import { roleHasAnyTeamPermissions, hasOwnerPermission } from 'in-settings/tabs/permissions';
+import { configMigrationFeatureEnabled } from 'in-services/featureFlags';
+import MigrationSettings from 'in-settings/tabs/MigrationSettings/View';
 import UserSettings from 'in-settings/tabs/UserSettings/View';
 import TeamSettings from 'in-settings/tabs/TeamSettings/View';
 import AuthSettings from 'in-settings/tabs/AuthSettings/View';
@@ -37,7 +39,19 @@ const ampTab = {
   component: AmpSettings
 };
 
+const migrationTab = {
+  label: t('in-settings:tabs.migrationSettings'),
+  path: migSettings,
+  component: MigrationSettings
+};
+
 export default function getTabs() {
   const ampTabVisible = ampEnabled && role.canViewAccountAndBillingInformation;
-  return [roleHasAnyTeamPermissions() && teamTab, userTab, authTab, ampTabVisible && ampTab].filter(Boolean);
+  return [
+    roleHasAnyTeamPermissions() && teamTab,
+    userTab,
+    authTab,
+    ampTabVisible && ampTab,
+    configMigrationFeatureEnabled && hasOwnerPermission() && migrationTab
+  ].filter(Boolean);
 }

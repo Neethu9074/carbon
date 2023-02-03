@@ -1,4 +1,15 @@
 {
+  "fileInputButton": {
+    "label": {
+      "chooseSingle": "选择文件...",
+      "chooseMultiple": "选择文件...",
+      "multipleSelected": "已选择 {{countFormatted}} 个文件",
+      "multipleSelected_plural": "已选择 {{countFormatted}} 个文件",
+      "multipleSelected_0": "已选择 {{countFormatted}} 个文件",
+      "multipleSelected_1": "已选择 {{countFormatted}} 个文件",
+      "multipleSelected_2": "已选择 {{countFormatted}} 个文件"
+    }
+  },
   "chart": {
     "chartWrapperMetricNotfound": "找不到指标标识 {{metricId}}。",
     "chartWrapperSameAxisSameValue": "一个轴的所有汇总类型必须具有相同的值。",
@@ -20,18 +31,20 @@
       "countIncident_1": "突发事件",
       "countIncident_2": "突发事件",
       "msg": "{{smartAlertsCount}} $t(in-components:chart.chartAlertsLaneTooltipContent.countSmartAlert, { \"count\": {{smartAlertsCount}} }) & {{incidentsCount}} $t(in-components:chart.chartAlertsLaneTooltipContent.countIncident, { \"count\": {{incidentsCount}} })",
-      "itemMsg": "+ 另外 {{leftCount}} 条{{moreMsg}}"
+      "itemMsg": "+其他 {{leftCount}} 条{{moreMsg}}"
     },
-    "chartAlertsPreviewLanePresenterAlertsLabel": "警报",
+    "chartMarkerLane": {
+      "retryButtonLabel": "重试"
+    },
     "chartReleasesLanePresenterReleasesLabel": "版本",
-    "chartReleasesLanePresenterTooltip": "+ 另外 {{len}} 个版本",
+    "chartReleasesLanePresenterTooltip": "+其他 {{len}} 个版本",
     "highlightedTimeframeCloseButtonClearHighlight": "清除突出显示",
     "resultAwareChartSomethingWentWrong": "出错...",
     "resultAwareChartPleaseTryAgainLater": "请稍后重试。",
     "tooltip": {
       "scrollHint": "使用 <upArrow /><downArrow /> 键滚动",
       "rollup": "超出 {{rollup}}",
-      "more": "另外 {{number}} 项"
+      "more": "其他 {{number}} 项"
     },
     "chartTemplates": "模板"
   },
@@ -63,7 +76,9 @@
     "infrastructurePageName": "基础架构",
     "eumPageName": "EUM",
     "settingsPageName": "设置",
-    "requestQuoteBtn": "请求报价"
+    "requestQuoteBtn": "请求报价",
+    "buyNowBtn": "立即购买",
+    "alreadyHaveLicense": "已有许可证？ 在 <linkToDocker>Docker</linkToDocker> 或 <linkToKubernetes>Kubernetes</linkToKubernetes> 上将其激活。"
   },
   "releaseNotesDialog": {
     "releaseNotesTitle": "发行说明"
@@ -85,7 +100,7 @@
     "formStateLabel": "省/直辖市/自治区"
   },
   "searchBar": {
-    "usingTheSearchBar": "Instana 的 Dynamic Focus 搜索功能可用于过滤 3D 图、比较表和突发事件视图。搜索栏中提供了\n可使用模糊搜索和通配符搜索以及布尔运算符进行搜索的各种功能。例如，以下\n查询将视图限制为 CPU 数量少于 4 个的生产主机：\n\n`entity.host.cpu.count:<4 AND entity.zone:production`。\n## 语法\nDynamic Focus 采用与 Lucene 标准存在以下差异的 [lucene 查询语法](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html)：\n- **缺省运算符：** `AND`\n- **语法约束：** 都在[文档](https://instana.com/docs/dynamic_focus/#syntax-constraints)中列出\n## 搜索栏交互\n搜索栏支持自动填写搜索字段，并在您输入时突出显示 lucene 查询的语法。\n一旦输入内容，搜索栏将建议与当前输入匹配的搜索字段。可通过点击“RETURN”\n来接受建议的字段。点击“CTRL+SPACE”可打开自动填写弹出框。\n## Lucene 查询语法备忘单\n - **字段型搜索：** `entity.host.cpu.count:>4`\n - **布尔运算符：** `entity.host.cpu.count:<4 AND entity.zone:production`\n - **分组：** `(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n - **通配符搜索：** `entity.type:container*`\n\n请参阅[文档](https://instana.com/docs/dynamic_focus/)以获取更多信息。",
+    "usingTheSearchBar": "Instana 的 Dynamic Focus 搜索功能可用于过滤 3D 图、比较表和突发事件视图。 搜索栏具有丰富的搜索功能，能执行模糊搜索、通配符搜索以及使用布尔运算符进行搜索。 例如，以下查询将视图限制为显示 CPU 少于四个的生产主机：`entity.host.cpu.count:<4 AND entity.zone:production`。## 语法 Dynamic Focus 利用的是 [Lucene 查询语法](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html)，与 Lucene 标准查询有以下区别：- **缺省运算符：**`AND`- **语法约束：**列于[文档](https://www.ibm.com/docs/en/obi/current?topic=instana-filtering-dynamic-focus#syntax-constraints)中## 搜索栏交互搜索栏支持搜索字段自动补全，并且在输入时语法会突出显示 Lucene 查询。\n一旦输入内容，搜索栏就将建议与当前输入匹配的搜索字段。 您可以通过点击 `RETURN` 键来接受建议的字段。点击 `CTRL+空格键`可打开自动补全弹出框。## Lucene 查询语法备忘单 - **字段搜索：**`entity.host.cpu.count:>4` - **布尔运算符：** `entity.host.cpu.count:<4 AND entity.zone:production` - **分组：**`(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4` - **通配符搜索：**`entity.type:container*`请参阅[文档](https://www.ibm.com/docs/en/obi/current?topic=instana-filtering-dynamic-focus)以获取更多信息。",
     "filtersBtn": "过滤器",
     "filterPresetsMenuHeading": "过滤器",
     "filterPresetsSaveFilters": "保存过滤器以便在此处轻松访问",
@@ -109,7 +124,7 @@
     },
     "noDataAvailable": {
       "entititiesTitle": "无可用实体",
-      "entititiesDescription": "所选时间范围内未检索到任何实体。"
+      "entititiesDescription": "在所选时间范围内未检索到任何实体。"
     },
     "sharedComponents": {
       "configurableThSearchItemPlaceholder": "搜索 {{len}} 项",
@@ -119,7 +134,7 @@
   "tags": {
     "tagFilterSearchPlaceholder": "搜索...",
     "tagListNoTagsDefined": "未定义标记",
-    "tagListShowAll": "显示所有标记（{{num}} 个以上）"
+    "tagListShowAll": "显示所有标记（其他 {{num}} 个）"
   },
   "copyToClipboardPressToCopy": "按 CTRL+C/CMD+C 进行复制！",
   "copyToClipboardCopied": "已复制！",
@@ -139,34 +154,88 @@
   "analyzeView": {
     "splitScreenListTooltipCloseSidebar": "关闭侧边栏",
     "splitScreenListTooltipOpenSidebar": "打开侧边栏",
-    "result": "{{formattedCount}} 个结果",
-    "result_plural": "{{formattedCount}} 个结果",
-    "result_0": "{{formattedCount}} 个结果",
-    "result_1": "{{formattedCount}} 个结果",
-    "result_2": "{{formattedCount}} 个结果",
-    "resultRetained": "已保留 {{formattedCount}} 个",
-    "resultRetained_plural": "已保留 {{formattedCount}} 个",
-    "resultRetained_0": "已保留 {{formattedCount}} 个",
-    "resultRetained_1": "已保留 {{formattedCount}} 个",
-    "resultRetained_2": "已保留 {{formattedCount}} 个",
+    "resultTitle": "结果",
+    "resultTitle_plural": "结果",
+    "resultTitle_0": "结果",
+    "resultTitle_1": "结果",
+    "resultTitle_2": "结果",
+    "resultTitle_calls": "电话",
+    "resultTitle_calls_plural": "调用数",
+    "resultTitle_calls_0": "调用数",
+    "resultTitle_calls_1": "调用数",
+    "resultTitle_calls_2": "调用数",
+    "resultTitle_traces": "跟踪",
+    "resultTitle_traces_plural": "跟踪",
+    "resultTitle_traces_0": "跟踪",
+    "resultTitle_traces_1": "跟踪",
+    "resultTitle_traces_2": "跟踪",
+    "resultTitle_pageLoad": "页面装入",
+    "resultTitle_pageLoad_plural": "页面装入",
+    "resultTitle_pageLoad_0": "页面装入",
+    "resultTitle_pageLoad_1": "页面装入",
+    "resultTitle_pageLoad_2": "页面装入",
+    "resultTitle_pageChange": "页面更改",
+    "resultTitle_pageChange_plural": "页面更改",
+    "resultTitle_pageChange_0": "页面更改",
+    "resultTitle_pageChange_1": "页面更改",
+    "resultTitle_pageChange_2": "页面更改",
+    "resultTitle_resourceLoad": "资源装入",
+    "resultTitle_resourceLoad_plural": "资源装入",
+    "resultTitle_resourceLoad_0": "资源装入",
+    "resultTitle_resourceLoad_1": "资源装入",
+    "resultTitle_resourceLoad_2": "资源装入",
+    "resultTitle_httpRequest": "HTTP 请求",
+    "resultTitle_httpRequest_plural": "HTTP 请求",
+    "resultTitle_httpRequest_0": "HTTP 请求",
+    "resultTitle_httpRequest_1": "HTTP 请求",
+    "resultTitle_httpRequest_2": "HTTP 请求",
+    "resultTitle_error": "JS 错误",
+    "resultTitle_error_plural": "JS 错误数",
+    "resultTitle_error_0": "JS 错误数",
+    "resultTitle_error_1": "JS 错误数",
+    "resultTitle_error_2": "JS 错误数",
+    "resultTitle_custom": "定制事件",
+    "resultTitle_custom_plural": "定制事件",
+    "resultTitle_custom_0": "定制事件",
+    "resultTitle_custom_1": "定制事件",
+    "resultTitle_custom_2": "定制事件",
+    "resultTitle_sessionStart": "会话启动",
+    "resultTitle_sessionStart_plural": "会话启动数",
+    "resultTitle_sessionStart_0": "会话启动数",
+    "resultTitle_sessionStart_1": "会话启动数",
+    "resultTitle_sessionStart_2": "会话启动数",
+    "resultTitle_crash": "崩溃",
+    "resultTitle_crash_plural": "崩溃",
+    "resultTitle_crash_0": "崩溃",
+    "resultTitle_crash_1": "崩溃",
+    "resultTitle_crash_2": "崩溃",
+    "resultTitle_viewChange": "视图转换",
+    "resultTitle_viewChange_plural": "视图转换数",
+    "resultTitle_viewChange_0": "视图转换数",
+    "resultTitle_viewChange_1": "视图转换数",
+    "resultTitle_viewChange_2": "视图转换数",
+    "resultTitle_entity": "实体",
+    "resultTitle_entity_plural": "实体",
+    "resultTitle_entity_0": "实体",
+    "resultTitle_entity_1": "实体",
+    "resultTitle_entity_2": "实体",
+    "resultTitle_entityType": "实体类型",
+    "resultTitle_entityType_plural": "实体类型",
+    "resultTitle_entityType_0": "实体类型",
+    "resultTitle_entityType_1": "实体类型",
+    "resultTitle_entityType_2": "实体类型",
+    "result": "{{formattedCount}} $t(in-components:analyzeView.resultTitle, { \"context\": \"{{dataSource}}\" })",
     "groupedViewHeader": "{{formattedCount}} 个组",
     "groupedViewHeader_plural": "{{formattedCount}} 个组",
-    "groupedViewHeader_0": "组",
-    "groupedViewHeader_1": "组",
-    "groupedViewHeader_2": "组",
+    "groupedViewHeader_0": "{{formattedCount}} 个组",
+    "groupedViewHeader_1": "{{formattedCount}} 个组",
+    "groupedViewHeader_2": "{{formattedCount}} 个组",
+    "groupedViewHeaderRetained": "已保留，共 {{formattedCount}} 个",
     "resultHeaderLoading": "正在加载...",
-    "resultHeaderTooltip": "查询时间范围已四舍五入到最接近的整分钟，以便更快速地装入此视图。",
     "queryProgress": {
       "preparing": "正在准备...",
       "runningQuery": "正在运行查询...",
-      "timeout": "此查询已超时。",
-      "timeoutEstimated": "此查询耗用的时间太长以致无法运行。",
-      "timeoutInfo": "请选择更短的时间范围，或者通过应用更多过滤器来发出更具体的查询。",
-      "inputError": "出现了输入错误。",
-      "tooManyRequests": "请求次数太多",
-      "tooManyRequestsInfo": "我们的系统当前繁忙。请稍后重试。",
-      "serverError": "服务器错误",
-      "serverErrorInfo": "发生意外错误。请稍后重试，或者联系支持人员以报告错误。"
+      "inputError": "出现了输入错误。"
     }
   },
   "aboutInstanaDialog": {
@@ -233,7 +302,14 @@
     "services": "服务"
   },
   "error": {
-    "erroneousResultPresenterMessage": "发生意外错误。请刷新页面或稍后重试。"
+    "erroneousResultPresenterMessage": "发生意外错误。请刷新页面或稍后重试。",
+    "timeout": "此查询已超时。",
+    "timeoutInfo": "请选择较短的时间范围。",
+    "timeoutEstimated": "由于调用量很大，因此无法处理查询。",
+    "tooManyRequests": "请求次数太多",
+    "tooManyRequestsInfo": "我们的系统当前繁忙。 请稍后重试。",
+    "serverError": "服务器错误",
+    "serverErrorInfo": "发生意外错误。 请稍后重试，或者联系支持人员以报告错误。"
   },
   "expandableCard": {
     "tooltipShowLess": "显示更少内容",
@@ -297,14 +373,14 @@
     "percentileMenuLabelAll": "所有",
     "presenterLabelNoDataToDisplay": "没有可显示的数据",
     "presenterLabelTraces": "跟踪",
-    "presenterLabelCalls": "调用",
+    "presenterLabelCalls": "调用数",
     "latencyRangeLabelFromTimeToTime": "{{from}} 到 {{to}}"
   },
   "layout": {
     "sideNavigationAndContentRouteNotFound": "未找到"
   },
   "list": {
-    "labelMoreItems": "+ 另外 {{numMoreItems}} 项..."
+    "labelMoreItems": "+其他 {{numMoreItems}} 项..."
   },
   "loading": {
     "labelLoadingData": "正在加载数据"
@@ -330,6 +406,7 @@
     "viewSwitcherLabelCloudFoundry": "Cloud Foundry",
     "viewSwitcherLabelphmc": "IBM Power",
     "viewSwitcherLabelvSphere": "vSphere",
+    "viewSwitcherLabelOpenstack": "OpenStack",
     "viewSwitcherLabelzhmc": "IBM Z",
     "viewSwitcherLabelPlatforms": "平台",
     "viewSwitcherButtonSignOut": "注销",
@@ -345,17 +422,18 @@
     "search": "搜索",
     "aggregation_MEAN": "平均值",
     "aggregation_MIN": "最小值",
-    "aggregation_P25": "P25",
-    "aggregation_P50": "P50",
-    "aggregation_P75": "P75",
-    "aggregation_P90": "P90",
-    "aggregation_P95": "P95",
-    "aggregation_P98": "P98",
-    "aggregation_P99": "P99",
-    "aggregation_MAX": "MAX",
-    "aggregation_DISTINCTCOUNT": "DISTINCT_COUNT",
-    "aggregation_SUM": "SUM",
-    "aggregation_DISTRIBUTION": "DISTRIBUTION"
+    "aggregation_P25": "25th",
+    "aggregation_P50": "50th",
+    "aggregation_P75": "75th",
+    "aggregation_P90": "90th",
+    "aggregation_P95": "95th",
+    "aggregation_P98": "98th",
+    "aggregation_P99": "99th",
+    "aggregation_MAX": "最大值",
+    "aggregation_DISTINCTCOUNT": "不同项计数",
+    "aggregation_SUM": "总和",
+    "aggregation_DISTRIBUTION": "分发",
+    "aggregation_PERSECOND": "每秒"
   },
   "profiling": {
     "headerColumnDefinitionsUsed": "已用",
@@ -416,7 +494,7 @@
     "relationship_SERVES_WITHIN": "在 {{itemCount}} 个“{{plugin}}”中提供服务",
     "relationship_SPANS_ACROSS": "跨越 {{itemCount}} 个“{{plugin}}”",
     "relationship_WITHIN": "在 {{itemCount}} 个“{{plugin}}”中",
-    "apkpisLabelCalls": "调用",
+    "apkpisLabelCalls": "调用数",
     "apkpisLabelErroneousCalls": "错误调用数",
     "buttonStack": "堆栈",
     "stackPresenterEmptyMessage": "Instana 找不到任何相关项",
@@ -429,8 +507,8 @@
     "tabsEmptyMessageInfrastructure": "没有相关的基础架构"
   },
   "stackTrace": {
-    "fillerTextIn": " 在",
-    "fillerTextAt": " 在"
+    "fillerTextIn": " 在 ",
+    "fillerTextAt": " 在 "
   },
   "time": {
     "lastMinute": "最近 1 分钟",
@@ -438,18 +516,17 @@
     "lastMinute_0": "最近 {{count}} 分钟",
     "lastMinute_1": "最近 {{count}} 分钟",
     "lastMinute_2": "最近 {{count}} 分钟",
-    "lastHour": "最近 1 小时",
-    "lastHour_plural": "最近 {{count}} 小时",
-    "lastHour_0": "最近 {{count}} 小时",
-    "lastHour_1": "最近 {{count}} 小时",
-    "lastHour_2": "最近 {{count}} 小时",
+    "lastHour": "过去 1 小时",
+    "lastHour_plural": "过去 {{count}} 小时",
+    "lastHour_0": "过去 {{count}} 小时",
+    "lastHour_1": "过去 {{count}} 小时",
+    "lastHour_2": "过去 {{count}} 小时",
     "yesterday": "昨天",
     "twoDaysAgo": "两天前",
     "lastSevenDays": "过去 7 天",
     "previousWeek": "前一周",
     "dashboardHeaderButtonLive": "实时",
     "customTimeTitleTimeRange": "时间范围",
-    "customTimeHistoricDataMessage": "您将查看具有所选时间范围的近似数据。提供了最近 {{retention}} 天内的精确数据。",
     "to": "至",
     "customTimeButtonSetTime": "设置时间",
     "customTimeLabelYesterday": "昨天",
@@ -461,7 +538,7 @@
     "releasesLabelName": "名称",
     "releasesLabelScope": "作用域",
     "releasesLabelGlobal": "全局",
-    "releasesLabelShowMore": "...显示另外 {{stepSize}} 项",
+    "releasesLabelShowMore": "...显示其他 {{stepSize}} 项",
     "releasesLabelReleaseTime": "版本时间",
     "releasesLabelNoDataMessage": "找不到版本",
     "releasesLabelPlaceholderFilter": "过滤...",
@@ -469,22 +546,27 @@
     "timeSelectionDialogPresenterLabelReleases": "版本",
     "timeFrameFormatterStarting": "{{fromTime}} 开始",
     "timeIconHistoricDataMessage": "由于数据保留时间设置，因此您查看的是近似数据。提供了最近 {{retention}} 天内的精确数据。",
-    "timeIconLargeDataMessage": "由于数据集较大，因此您查看的是近似数据。请缩小时间范围以获取精确数据。",
     "timeUnit_year": "年",
     "timeUnit_month": "月",
-    "timeUnit_day": "天 ",
+    "timeUnit_day": "天",
     "timeUnit_hour": "小时",
     "timeUnit_minute": "分钟",
     "timeUnit_second": "秒",
-    "timeFrameFormatterHoursMinutes": "最后 $t(in-components:time.hours, {\"count\": {{hours}} }) $t(in-components:time.minutes, {\"count\": {{minutes}} })",
+    "timeFrameFormatterHoursMinutes": "过去 $t(in-components:time.hours, {\"count\": {{hours}} }) $t(in-components:time.minutes, {\"count\": {{minutes}} })",
     "hours": "{{count}} 小时",
     "hours_plural": "{{count}} 小时",
     "minutes": "{{count}} 分钟",
     "minutes_plural": "{{count}} 分钟",
-    "timeFrameFormatterHours": "最近 {{count}} 小时",
-    "timeFrameFormatterHours_plural": "最近 {{count}} 小时",
+    "timeFrameFormatterHours": "过去 1 小时",
+    "timeFrameFormatterHours_plural": "过去 {{count}} 小时",
+    "timeFrameFormatterHours_0": "过去 {{count}} 小时",
+    "timeFrameFormatterHours_1": "过去 {{count}} 小时",
+    "timeFrameFormatterHours_2": "过去 {{count}} 小时",
     "timeFrameFormatterMinutes": "最近 {{count}} 分钟",
-    "timeFrameFormatterMinutes_plural": "最近 {{count}} 分钟"
+    "timeFrameFormatterMinutes_plural": "最近 {{count}} 分钟",
+    "timeFrameFormatterMinutes_0": "最近 {{count}} 分钟",
+    "timeFrameFormatterMinutes_1": "最近 {{count}} 分钟",
+    "timeFrameFormatterMinutes_2": "最近 {{count}} 分钟"
   },
   "timeShift": {
     "changeSelectedTimeShift": "更改所选时移",
@@ -499,10 +581,10 @@
     "buttonReloadToUpdate": "重新加载以更新"
   },
   "upstreamDownstream": {
-    "companionMetricLabelCalls": "调用",
+    "companionMetricLabelCalls": "调用数",
     "companionMetricLabelLatency": "等待时间",
     "companionMetricLabelErroneousCalls": "错误调用数",
-    "companionMetricLabelErroneousCallRate": "错误调用率：",
+    "companionMetricLabelErroneousCallRate": "错误调用率： ",
     "metricLabelCallsAndErroneousCalls": "调用数和错误调用数",
     "metricLabelCallsAndLatency": "调用数和等待时间",
     "linkSeeAllApplications": "查看所有 {{count}} 个“{{activeTab}}”应用程序",
@@ -556,7 +638,7 @@
     "setEnabledMessagePressESCToDisableTVMode": "按 ESC 键可禁用 TV 方式。"
   },
   "analyze": {
-    "loadMoreWithCount": "加载另外 {{count}} 项",
+    "loadMoreWithCount": "加载其他 {{count}} 项",
     "loadMore": "加载更多",
     "activeFacets": "已选定 {{count}} 个",
     "clearFacets": "全部清除",
@@ -578,7 +660,11 @@
       }
     },
     "groupName": "组名称",
-    "groupedOnly": "指标仅在分析组时可用。"
+    "groupedOnly": "指标仅在分析组时可用。",
+    "filterSidebar": {
+      "groupingButton": "按 {{group}} 分组",
+      "ungroupButton": "移除分组"
+    }
   },
   "copyToClipboardButtonCopy": "复制",
   "withEmptyStateFallbackTitleNoDataAvailable": "无可用数据",
@@ -607,7 +693,7 @@
     "workspaceAPIQuery": "API 查询",
     "workspaceUseThisExpressionToQueryOurAPI": "使用此表达式查询我们的 API",
     "workspaceIncludeSidebarFilters": "包含过滤器侧边栏项",
-    "workspaceTitleFilter": "过滤",
+    "workspaceTitleFilter": "过滤器",
     "workspaceButtonClear": "清除",
     "errorWithDataYourDefinedQueryIsTooComplex": "定义的查询太复杂，请减少嵌套数量。",
     "sanitizedTagFilterValue": "标记过滤器值已缩短为最大允许长度。",
@@ -657,5 +743,76 @@
       "warningTooltip": "{{count}} 个警告",
       "healthyTooltip": "{{count}} 个正常运行"
     }
+  },
+  "rbac": {
+    "restrictedAccess": "受限访问权",
+    "restrictedAccessMessagePartOne": "您没有访问此信息的许可权。",
+    "restrictedAccessMessagePartTwo": "请向管理员请求许可权。",
+    "restrictedAccessMessagePartTwoWithPermission": "请向管理员请求许可权“{{permission}}”。"
+  },
+  "approximateDataIndicator": {
+    "dataRetention": "由于数据保留时间设置，因此您查看的是近似数据。",
+    "dataRetentionOrFastQueryMode": "由于数据保留时间设置或快速查询方式，您正在查看近似的数据。",
+    "retainedLabel": "近似数据（保留了 {{totalHits}} 个结果，共 {{representedHits}} 个结果）",
+    "retainedLabel_plural": "近似数据（保留了 {{totalHits}} 个结果，共 {{representedHits}} 个结果）",
+    "retainedLabel_0": "近似数据（保留了 {{totalHits}} 个结果，共 {{representedHits}} 个结果）",
+    "retainedLabel_1": "近似数据（保留了 {{totalHits}} 个结果，共 {{representedHits}} 个结果）",
+    "retainedLabel_2": "近似数据（保留了 {{totalHits}} 个结果，共 {{representedHits}} 个结果）",
+    "retainedLabel_calls": "近似数据（保留了 {{totalHits}} 个调用，共 {{representedHits}} 个调用）",
+    "retainedLabel_calls_plural": "近似数据（保留了 {{totalHits}} 个调用，共 {{representedHits}} 个调用）",
+    "retainedLabel_calls_0": "近似数据（保留了 {{totalHits}} 个调用，共 {{representedHits}} 个调用）",
+    "retainedLabel_calls_1": "近似数据（保留了 {{totalHits}} 个调用，共 {{representedHits}} 个调用）",
+    "retainedLabel_calls_2": "近似数据（保留了 {{totalHits}} 个调用，共 {{representedHits}} 个调用）",
+    "retainedLabel_traces": "近似数据（保留了 {{totalHits}} 个跟踪，共 {{representedHits}} 个跟踪）",
+    "retainedLabel_traces_plural": "近似数据（保留了 {{totalHits}} 个跟踪，共 {{representedHits}} 个跟踪）",
+    "retainedLabel_traces_0": "近似数据（保留了 {{totalHits}} 个跟踪，共 {{representedHits}} 个跟踪）",
+    "retainedLabel_traces_1": "近似数据（保留了 {{totalHits}} 个跟踪，共 {{representedHits}} 个跟踪）",
+    "retainedLabel_traces_2": "近似数据（保留了 {{totalHits}} 个跟踪，共 {{representedHits}} 个跟踪）",
+    "retainedLabel_pageLoad": "近似数据（保留了 {{totalHits}} 个页面装入，共 {{representedHits}} 个页面装入）",
+    "retainedLabel_pageLoad_plural": "近似数据（保留了 {{totalHits}} 个页面装入，共 {{representedHits}} 个页面装入）",
+    "retainedLabel_pageLoad_0": "近似数据（保留了 {{totalHits}} 个页面装入，共 {{representedHits}} 个页面装入）",
+    "retainedLabel_pageLoad_1": "近似数据（保留了 {{totalHits}} 个页面装入，共 {{representedHits}} 个页面装入）",
+    "retainedLabel_pageLoad_2": "近似数据（保留了 {{totalHits}} 个页面装入，共 {{representedHits}} 个页面装入）",
+    "retainedLabel_pageChange": "近似数据（保留了 {{totalHits}} 个页面转换，共 {{representedHits}} 个页面转换）",
+    "retainedLabel_pageChange_plural": "近似数据（保留了 {{totalHits}} 个页面转换，共 {{representedHits}} 个页面转换）",
+    "retainedLabel_pageChange_0": "近似数据（保留了 {{totalHits}} 个页面转换，共 {{representedHits}} 个页面转换）",
+    "retainedLabel_pageChange_1": "近似数据（保留了 {{totalHits}} 个页面转换，共 {{representedHits}} 个页面转换）",
+    "retainedLabel_pageChange_2": "近似数据（保留了 {{totalHits}} 个页面转换，共 {{representedHits}} 个页面转换）",
+    "retainedLabel_resourceLoad": "近似数据（保留了 {{totalHits}} 个资源装入，共 {{representedHits}} 个资源装入）",
+    "retainedLabel_resourceLoad_plural": "近似数据（保留了 {{totalHits}} 个资源装入，共 {{representedHits}} 个资源装入）",
+    "retainedLabel_resourceLoad_0": "近似数据（保留了 {{totalHits}} 个资源装入，共 {{representedHits}} 个资源装入）",
+    "retainedLabel_resourceLoad_1": "近似数据（保留了 {{totalHits}} 个资源装入，共 {{representedHits}} 个资源装入）",
+    "retainedLabel_resourceLoad_2": "近似数据（保留了 {{totalHits}} 个资源装入，共 {{representedHits}} 个资源装入）",
+    "retainedLabel_httpRequest": "近似数据（保留了 {{totalHits}} 个 HTTP 请求，共 {{representedHits}} 个 HTTP 请求）",
+    "retainedLabel_httpRequest_plural": "近似数据（保留了 {{totalHits}} 个 HTTP 请求，共 {{representedHits}} 个 HTTP 请求）",
+    "retainedLabel_httpRequest_0": "近似数据（保留了 {{totalHits}} 个 HTTP 请求，共 {{representedHits}} 个 HTTP 请求）",
+    "retainedLabel_httpRequest_1": "近似数据（保留了 {{totalHits}} 个 HTTP 请求，共 {{representedHits}} 个 HTTP 请求）",
+    "retainedLabel_httpRequest_2": "近似数据（保留了 {{totalHits}} 个 HTTP 请求，共 {{representedHits}} 个 HTTP 请求）",
+    "retainedLabel_error": "近似数据（保留了 {{totalHits}} 个 JS 错误，共 {{representedHits}} 个 JS 错误）",
+    "retainedLabel_error_plural": "近似数据（保留了 {{totalHits}} 个 JS 错误，共 {{representedHits}} 个 JS 错误）",
+    "retainedLabel_error_0": "近似数据（保留了 {{totalHits}} 个 JS 错误，共 {{representedHits}} 个 JS 错误）",
+    "retainedLabel_error_1": "近似数据（保留了 {{totalHits}} 个 JS 错误，共 {{representedHits}} 个 JS 错误）",
+    "retainedLabel_error_2": "近似数据（保留了 {{totalHits}} 个 JS 错误，共 {{representedHits}} 个 JS 错误）",
+    "retainedLabel_custom": "近似数据（保留了 {{totalHits}} 个定制事件，共 {{representedHits}} 个定制事件）",
+    "retainedLabel_custom_plural": "近似数据（保留了 {{totalHits}} 个定制事件，共 {{representedHits}} 个定制事件）",
+    "retainedLabel_custom_0": "近似数据（保留了 {{totalHits}} 个定制事件，共 {{representedHits}} 个定制事件）",
+    "retainedLabel_custom_1": "近似数据（保留了 {{totalHits}} 个定制事件，共 {{representedHits}} 个定制事件）",
+    "retainedLabel_custom_2": "近似数据（保留了 {{totalHits}} 个定制事件，共 {{representedHits}} 个定制事件）",
+    "retainedLabel_sessionStart": "近似数据（保留了 {{totalHits}} 个会话启动，共 {{representedHits}} 个会话启动）",
+    "retainedLabel_sessionStart_plural": "近似数据（保留了 {{totalHits}} 个会话启动，共 {{representedHits}} 个会话启动）",
+    "retainedLabel_sessionStart_0": "近似数据（保留了 {{totalHits}} 个会话启动，共 {{representedHits}} 个会话启动）",
+    "retainedLabel_sessionStart_1": "近似数据（保留了 {{totalHits}} 个会话启动，共 {{representedHits}} 个会话启动）",
+    "retainedLabel_sessionStart_2": "近似数据（保留了 {{totalHits}} 个会话启动，共 {{representedHits}} 个会话启动）",
+    "retainedLabel_viewChange": "近似数据（保留了 {{totalHits}} 个视图更改，共 {{representedHits}} 个视图更改）",
+    "retainedLabel_viewChange_plural": "近似数据（保留了 {{totalHits}} 个视图更改，共 {{representedHits}} 个视图更改）",
+    "retainedLabel_viewChange_0": "近似数据（保留了 {{totalHits}} 个视图更改，共 {{representedHits}} 个视图更改）",
+    "retainedLabel_viewChange_1": "近似数据（保留了 {{totalHits}} 个视图更改，共 {{representedHits}} 个视图更改）",
+    "retainedLabel_viewChange_2": "近似数据（保留了 {{totalHits}} 个视图更改，共 {{representedHits}} 个视图更改）"
+  },
+  "migratedTenantBanner": {
+    "title": "已迁移租户单元",
+    "notice": "此租户单元已迁移到新的区域。 您当前正在访问的单元仅包含历史数据。",
+    "goToNewLocationLabel": "转至新位置",
+    "exploreDataLabel": "浏览历史数据"
   }
 }

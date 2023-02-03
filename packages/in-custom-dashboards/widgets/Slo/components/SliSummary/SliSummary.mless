@@ -1,0 +1,23 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .tilesContainer {
+    display: grid;
+    grid-column-gap: 0;
+    grid-template-columns: repeat(3, 1fr);
+    border-bottom: @lib__colors__N300 1px solid;
+  }
+
+  .listContainer {
+    display: flex;
+    flex-direction: column;
+    justify-items: stretch;
+    border-bottom: @lib__colors__N300 1px solid;
+  }
+}

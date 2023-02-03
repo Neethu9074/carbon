@@ -6,8 +6,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { commonOverlayStylesPropType } from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
-
 import locals from './HoverArea.mless';
 
 export default function HoverArea({
@@ -80,5 +78,8 @@ HoverArea.propTypes = {
   fromXPos: PropTypes.number,
   renderLine: PropTypes.bool,
   toXPos: PropTypes.number,
-  commonOverlayStyles: commonOverlayStylesPropType
+  commonOverlayStyles: PropTypes.shape({
+    zIndex: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    color: PropTypes.string
+  })
 };

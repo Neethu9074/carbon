@@ -5,8 +5,8 @@
 
 import React from 'react';
 
-import { TimeShiftAwareChartSelectorWithUrlState } from 'in-applications/Dashboards/commonComponents/ChartSelectors';
 import LatencyDistributionHistogram from 'in-applications/Dashboards/commonComponents/LatencyDistributionHistogram';
+import { TimeShiftAwareChartSelectorWithUrlState } from 'in-components/ChartSelectors/ChartSelectors';
 import Latency from 'in-applications/Dashboards/commonComponents/Latency';
 import { t } from 'in-i18n';
 
@@ -75,6 +75,7 @@ export default function LatencyAndDistribution({
   timeConfig,
   boundaryScope,
   syntheticCalls,
+  endpointTypes,
   cardTitle,
   percentileGroupBy,
   renderPostChartContent,
@@ -95,6 +96,7 @@ export default function LatencyAndDistribution({
         timeConfig={timeConfig}
         boundaryScope={boundaryScope}
         syntheticCalls={syntheticCalls}
+        endpointTypes={endpointTypes}
         percentileGroupBy={percentileGroupBy}
         renderPostChartContent={renderPostChartContent}
       />
@@ -110,15 +112,20 @@ function ChartPresenter({
   timeConfig,
   boundaryScope,
   syntheticCalls,
+  endpointTypes,
   percentileGroupBy,
   renderPostChartContent,
   selectedTabId,
   selectedMetricValue,
-  timeShiftConfig
+  timeShiftConfig,
+  cardTitle,
+  selectorComponent
 }) {
   return selectedTabId === tabOverTime.id ? (
     <Latency
       applicationId={applicationId}
+      cardTitle={cardTitle}
+      rightHeaderContent={selectorComponent}
       serviceId={serviceId}
       endpointId={endpointId}
       tagFilters={tagFilters}
@@ -129,15 +136,20 @@ function ChartPresenter({
       groupBy={percentileGroupBy}
       renderPostChartContent={renderPostChartContent}
       syntheticCalls={syntheticCalls}
+      endpointTypes={endpointTypes}
     />
   ) : (
     <LatencyDistributionHistogram
       applicationId={applicationId}
+      cardTitle={cardTitle}
+      rightHeaderContent={selectorComponent}
       serviceId={serviceId}
       endpointId={endpointId}
       timeConfig={timeConfig}
       boundaryScope={boundaryScope}
       syntheticCalls={syntheticCalls}
+      endpointTypes={endpointTypes}
+      renderHistoricDataIndicator
     />
   );
 }

@@ -13,4 +13,8 @@
   .clearButton {
     margin-left: auto;
   }
+
+  .querybuilderLayoutWrapper {
+    min-height: 2rem;
+  }
 }

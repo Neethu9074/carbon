@@ -15,7 +15,7 @@ export default function WebsiteCustomGeoDetails({ websiteId }: Props) {
   return (
     <CustomGeoDetails
       apiUrl={`/api/website-monitoring/config/${encodeURIComponent(websiteId)}/geo-mapping-rules`}
-      documentationUrl="https://www.instana.com/docs/website_monitoring/custom_geographic_details"
+      documentationUrl="https://www.ibm.com/docs/en/obi/current?topic=websites-custom-geographic-details"
     />
   );
 }

@@ -19,7 +19,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.redis.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/redis/#redis_config_command_name_not_configured`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-redis#redis-config-command-name-not-enabled-and-configured`
   },
 
   redis_invalid_password: {
@@ -33,6 +33,6 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.redis.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/redis`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-redis`
   }
 };

@@ -17,7 +17,7 @@ import {
 } from 'in-waiting-for-deployment/components/OnboardingWidget/contentComponents';
 import { t } from 'in-i18n';
 
-export default function ManualIBMApmContent({ butlerDomain, agentKey, tenant, tenantUnit }) {
+export default function ManualIBMApmContent({ butlerDomain, agentKey, downloadKey, tenant, tenantUnit }) {
   const agentOptions = [{ key: 'ibmapm-proxy', label: t('in-waiting-for-deployment:content.ibmapmproxy') }];
   const [option, setOption] = useState(agentOptions[0].key);
 
@@ -25,7 +25,7 @@ export default function ManualIBMApmContent({ butlerDomain, agentKey, tenant, te
     <>
       <Row>
         <DropDown value={option} options={agentOptions} onChange={setOption} />
-        <DownloadButton href={getAgentDownloadURL(tenant, tenantUnit, agentKey, option, butlerDomain)} />
+        <DownloadButton href={getAgentDownloadURL(tenant, tenantUnit, agentKey, downloadKey, option, butlerDomain)} />
       </Row>
       <HelpBox title={t('in-waiting-for-deployment:content.requiresRuntimeDropin')}>
         <Listing items={[t('in-waiting-for-deployment:content.ibmapmmineba')]} />

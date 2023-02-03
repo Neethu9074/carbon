@@ -10,7 +10,7 @@ import { useObservable } from '@instana/hooks';
 import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-components/SecondLevelNavigation';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
-import { applicationsList, servicesList, alertsList } from 'in-applications/navigation/paths';
+import { alertsList, applicationsList, servicesList } from 'in-applications/navigation/paths';
 import { getModifiedUrlStream, isView } from 'in-stores/navigation/navigation';
 import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import DashboardHeader from 'in-components/DashboardHeader';
@@ -26,6 +26,7 @@ export default function AppViewSwitcher() {
         icon="lib_application_invert"
         label={t('in-applications:labelApplications')}
         title={t('in-applications:labelApplications')}
+        showHistoricDataWarning={false}
       />
       <DashboardHeaderModule theme={themes.light}>
         <SecondLevelNavigation>
@@ -45,7 +46,7 @@ export default function AppViewSwitcher() {
           {applicationSmartAlertsEnabled && (
             <SecondLevelNavigationItem
               href$={getModifiedUrlStream(p => (p.pathname = alertsList))}
-              icon="lib_events_warning"
+              icon="lib_events_critical"
               label={t('in-applications:labelSmartAlerts')}
               isActive={isSmartAlertsViewActive && !isServiceViewActive}
             />

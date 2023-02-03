@@ -1,7 +1,7 @@
 {
   "dialog": {
     "createTest": {
-      "dialogTitle": "Crea prova sintetica",
+      "dialogTitle": "Crea test sintetico",
       "noLocationFound": "Spiacenti. Nessuna ubicazione trovata",
       "titles": {
         "step1": "Passo 1: Selezionare il tipo",
@@ -10,7 +10,7 @@
         "step4": "Passo 4: Fornire i dettagli"
       },
       "selectTest": {
-        "title": "Quale tipo di prova sintetica si desidera creare"
+        "title": "Quale tipo di test sintetico si desidera creare"
       },
       "scheduling": {
         "title": "Pianificazione",
@@ -26,28 +26,47 @@
         "subTitle": "Endpoint",
         "labelOperation": "Metodo HTTP",
         "labelUrl": "URL",
-        "popSubTitle": "PoP (Point of Presence)"
+        "popSubTitle": "PoP (Point of Presence)",
+        "uploadScriptTitle": "Carica lo script",
+        "failureToReadFileContent": "Impossibile leggere il contenuto del file: {{error}}"
       },
       "basicDetails": {
-        "title": "Qual è il nome di questa prova di ping",
-        "labelName": "Nome della prova",
+        "title": "Qual è il nome di questo test di ping",
+        "labelName": "Nome del test",
         "labelDescription": "Descrizione",
-        "labelFreequency": "Frequenza"
+        "labelFrequency": "Frequenza"
       },
       "bluePrint": {
         "pingApi": {
           "name": "API di ping",
           "headline": "Azione HTTP",
           "whenToUse": {
-            "title": "Quando utilizzare?",
+            "title": "Quando utilizzarlo?",
             "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
           },
           "whoShouldUse": {
-            "title": "Chi deve utilizzare?",
+            "title": "Chi lo deve utilizzare?",
             "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
           },
           "tipsForUsing": {
             "title": "Consigli per l'uso",
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line3": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line4": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line5": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          }
+        },
+        "scriptApi": {
+          "name": "API script",
+          "headline": "Script HTTP",
+          "whenToUse": {
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          },
+          "whoShouldUse": {
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          },
+          "tipsForUsing": {
             "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
             "line2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
             "line3": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
@@ -68,15 +87,182 @@
     },
     "feedback": {
       "successTitle": "Operazione riuscita.",
-      "successMessage": "Prova sintetica creata correttamente",
+      "successMessageCreate": "Test sintetico creato correttamente",
+      "successMessageDelete": "Test sintetico eliminato correttamente",
       "failureTitle": "Non riuscito.",
-      "failureMessage": "Impossibile creare una prova sintetica. Riprovare successivamente"
+      "failureMessageCreate": "Impossibile creare un test sintetico. Riprovare successivamente",
+      "failureMessageUpdate": "Impossibile aggiornare il test sintetico. Riprovare successivamente",
+      "failuteMesssageDelete": "Impossibile eliminare il test sintetico. Riprovare successivamente"
+    },
+    "locationFeedback": {
+      "successMessageDelete": "Ubicazione eliminata correttamente",
+      "failureMesssageDelete": "Impossibile eliminare l'ubicazione. Riprovare più tardi"
     }
   },
   "createTest": {
-    "buttonLabel": "Crea nuova prova"
+    "buttonLabel": "Crea nuovo test"
   },
   "navigation": {
-    "synthetics": "Sintetici"
+    "synthetics": "Monitoraggio sintetico"
+  },
+  "dashboard": {
+    "testList": {
+      "mainLabel": "Monitoraggio sintetico",
+      "secondaryLabels": {
+        "tests": "Test",
+        "locations": "Ubicazioni"
+      },
+      "popDialog": {
+        "button": "<> Distribuisci un PoP",
+        "simpleTab": "Semplice",
+        "redisTab": "TLS Redis",
+        "title": "Comandi PoP sintetici",
+        "subTitle": "Utilizzare questi modelli di codice come riferimento",
+        "simpleCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"Name;DisplayName;Country;City;0;0;Location description\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<yourpassword>\"",
+        "redisCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"Name;DisplayName;Country;City;0;0;Location description\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true",
+        "tlsInstructions": "Se si desidera abilitare TLS Redis, è necessario creare una cartella certs nel percorso radice del grafico Helm e copiare la propria coppia certificato-chiave (tls.crt, tls.key) e il file di certificato radice CA (ca.crt) nella cartella certs; i nomi file devono essere esattamente corrispondenti.\n\nSe non di dispone di propri file di chiave/certificato, è anche possibile utilizzare il comando openssl per generarne di nuovi; vedere gli esempi di seguito:",
+        "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt"
+      },
+      "testLabel": "Nome",
+      "status": "Stato",
+      "frequencySubText": "Ogni {{count}} minuto",
+      "frequencySubText_plural": "Ogni {{count}} minuti",
+      "pause": "Sospendi il test",
+      "resume": "Riprendi il test",
+      "active": "Attivo",
+      "paused": "In pausa",
+      "deleted": "Eliminato",
+      "type": "Tipo",
+      "successRate": "Frequenza operazioni riuscite",
+      "successRuns": "{{successRuns}} / {{totalRuns}} risultati",
+      "latency": "Latenza",
+      "locationLabel": "Ubicazione",
+      "locations": "{{totalLocations}} ubicazioni",
+      "applicationLabel": "Applicazione",
+      "health": "Integrità",
+      "action": "Azione",
+      "delete": "Elimina il test",
+      "labelConfirm": "Confermare",
+      "labelConfirmRemoveTest": "Si è sicuri di voler rimuovere il test sintetico <strong>{{label}}</strong>?",
+      "labelRemove": "Rimuovi",
+      "na": "N/D"
+    },
+    "locationList": {
+      "locationLabel": "Nome ubicazione",
+      "locationDisplayLabel": "Nome di visualizzazione",
+      "status": "Stato",
+      "type": "Tipo",
+      "totalTests": "N. di test collegati",
+      "lastRun": "Data/ora ultima esecuzione test",
+      "namespace": "Spazio dei nomi",
+      "labelConfirmRemoveLocation": "Si è sicuri di voler rimuovere l'ubicazione <strong>{{label}}</strong> ({{status}})?",
+      "activeTestLinked": "Esistono dei test attivi assegnati sull'ubicazione <strong>{{label}}</strong> ({{status}}); si è sicuri di voler rimuovere questa ubicazione?",
+      "deleteLocation": "Elimina ubicazione"
+    },
+    "summary": {
+      "successRate": "Frequenza operazioni riuscite",
+      "locations": "Ubicazioni",
+      "responseTime": "Tempo di risposta",
+      "meanResponseTime": "Media Tempo di risposta",
+      "responseSize": "Dimensione risposta",
+      "avgResponseSize": "Media Dimensione risposta",
+      "summaryTab": "Riepilogo",
+      "resultsTab": "Risultati",
+      "startTime": "Ora di inizio",
+      "requests": "Richieste",
+      "widgets": {
+        "failures": "Errori",
+        "responseTimes": "Tempi di risposta",
+        "averageResponseSize": "Media dimensione risposta",
+        "responseStatus": "Stato della risposta",
+        "networkTimings": "Tempistiche di rete",
+        "blocking": "Bloccante",
+        "dns": "Ricerca DNS",
+        "sending": "Invio",
+        "waiting": "In attesa",
+        "receiving": "Ricezione",
+        "slowest": "Più lento",
+        "latest": "Più recente",
+        "failed": "Non riuscito",
+        "results": "Risultati",
+        "linkViewAllTestResults": "Visualizza tutti i risultati",
+        "ok": "Operazione riuscita",
+        "created": "Creato",
+        "accepted": "Accettato",
+        "forbidden": "Non consentito",
+        "notFound": "Non trovato",
+        "serverError": "Errore del server",
+        "badRequest": "Richiesta errata",
+        "badGateway": "Gateway non valido",
+        "gatewayTimeout": "Timeout del gateway"
+      },
+      "totalRuns": "Numero totale di esecuzioni: {{totalRuns}}",
+      "meanLatencyFor90th": "{{meanLatencyDetail}} per 90esimo"
+    },
+    "resultsListPage": {
+      "startedColumn": "Avviato",
+      "locationColumn": "Ubicazione",
+      "responseTimeColumn": "Tempo di risposta",
+      "responseSizeColumn": "Dimensione risposta",
+      "retriesColumn": "Numero tentativi",
+      "title": "Risultati"
+    },
+    "detailsPage": {
+      "timeLineWidget": "Scala temporale",
+      "responseTimeChart": "Tempo di risposta",
+      "subtransactionStatus": "Stato",
+      "subtransactionSize": "Dimensione",
+      "subtransactionTime": "Ora",
+      "subtransactionBlocking": "Blocco",
+      "subtransactionDNS": "DNS",
+      "subtransactionConnect": "Connetti",
+      "subtransactionSSL": "SSL",
+      "subtransactionSending": "Invio",
+      "subtransactionWaiting": "In attesa",
+      "subtransactionReceiving": "Ricezione",
+      "showLessSubDetails": "Mostra meno",
+      "showMoreSubDetails": "Mostra altro",
+      "failedRun": "Esecuzione non riuscita (eccezione)",
+      "failedRunErrorTitle": "Messaggio di errore",
+      "noFailedErrorMessage": "Nessun messaggio di errore",
+      "stackTraceTitle": "Traccia di stack",
+      "noStacktrace": "Nessuna traccia di stack",
+      "statusKpiCard": "Stato",
+      "successResult": "Riuscito",
+      "failedResult": "Non riuscito",
+      "searchFilter": "Ricerca",
+      "typesFilter": "Tipi",
+      "typesFilterValues": {
+        "getType": "GET",
+        "allType": "Tutti",
+        "othersType": "Altro"
+      },
+      "subtransactionBody": {
+        "contentType": "Tipo di contenuto",
+        "size": "Dimensione",
+        "redirectTime": "Tempo di reindirizzamento",
+        "uploadSpeed": "Velocità di caricamento",
+        "downloadSpeed": "Velocità di download",
+        "requestTitle": "Richiesta",
+        "responseTimingTitle": "Tempi di risposta",
+        "timingsPercentageOfTotalDurationName": "{{percentage}} di {{totalDurationName}}"
+      },
+      "logs": "Log",
+      "noDataAvailable": {
+        "message": "Dettagli di {{component}} non disponibili per questo risultato di test",
+        "notFound": "Non trovato"
+      },
+      "downloadHar": "Scarica file HAR",
+      "consoleLogs": "CONSOLE",
+      "browserLogs": "BROWSER"
+    },
+    "noDataAvailable": {
+      "resultsTitle": "Nessun risultato disponibile",
+      "resultsDescription": "Non è stato richiamato alcun risultato per l'intervallo di tempo selezionato.",
+      "testSummaryTitle": "Nessun test sintetico disponibile",
+      "testSummaryDescription": "Non ci sono test sintetici richiamati dal database.",
+      "locationListTitle": "Posizioni Non Sintetiche disponibili",
+      "locationListDescription": "Non ci sono posizioni Synthetic richiamate dal database."
+    }
   }
 }

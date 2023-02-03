@@ -6,17 +6,20 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import {
+  createLineWithThreshold,
+  createLineWithAdaptiveBaseline,
+  createLineWithBaselineAndOptionalPotentialProblem
+} from 'in-alerting/components/Chart/renderer/Renderer';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import AlertsPreviewLane from 'in-components/Chart/markerLanes/AlertsPreviewLane/AlertsPreviewLane';
+import AlertsPreviewLane from 'in-alerting/components/Chart/AlertsPreviewLane/AlertsPreviewLane';
 import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import { chartViewConfigPropType } from 'in-alerting/components/Chart/chartViewConfig';
 import AlertingChartWrapper from 'in-alerting/components/Chart/AlertingChartWrapper';
-import { smoothMetrics } from 'in-alerting/smart-alerts/components/utils/chartUtil';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
+import { zeroFillAndClipMetric } from 'in-alerting/components/Chart/chartUtils';
 import { getColorWithTransparency } from 'in-components/Chart/strokeColors';
-import { zeroFillMetric } from 'in-alerting/components/Chart/chartUtils';
-import Renderer from 'in-alerting/components/Chart/renderer/Renderer';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -33,21 +36,21 @@ export default function AlertingChart({
   viewConfig,
   blueprintConfig,
   alertsPreviewEnabled,
-  numeratorFilter,
+  numeratorTagFilterExpression,
   enrichedTagFilterExpression,
   canReload,
-  rendererOverride,
   eventBasedAdaptiveBaseline,
-  highlight
+  highlight,
+  setMetricResultPrecision
 }) {
   const { granularity, rule, threshold, timeThreshold, includeInternal, includeSynthetic } = alertConfigWithFormModel;
 
   const metricName = blueprintConfig.getMetricName(rule);
-  const metricChartGranularity = Math.max(granularity, viewConfig.minChartMetricGranularity);
+  const metricChartGranularity = granularity;
   const formatter = blueprintConfig.getMetricFormat(metricName);
   const aggregation = blueprintConfig.getAggregation(rule);
   const metricLabel = blueprintConfig.getMetricLabel(metricName);
-  const renderer = rendererOverride || getRendererBasedOnThresholdType(threshold.type);
+  const renderer = getRendererBasedOnThresholdType(threshold, highlight, granularity, eventBasedAdaptiveBaseline);
 
   // only apply zero filling to count metrics
   const requiresZeroFilling = aggregation === 'SUM';
@@ -57,41 +60,39 @@ export default function AlertingChart({
       renderPreChartContent={props => {
         if (!alertsPreviewEnabled) return;
 
+        const alertsPreviewQuery = getAlertsPreviewQuery({
+          enrichedTagFilterExpression,
+          includeInternal,
+          includeSynthetic,
+          timeConfig: viewConfig.timeConfig,
+          metricName,
+          numeratorTagFilterExpression,
+          aggregation,
+          granularity,
+          threshold,
+          timeThreshold
+        });
+
         return (
-          <MarkerLanesPresenter
-            {...props}
-            getAlertsPreview={blueprintConfig.getAlertsPreviewRequest(metricName)}
-            alertsPreviewConfiguration={getAlertsPreviewQuery({
-              enrichedTagFilterExpression,
-              includeInternal,
-              includeSynthetic,
-              timeConfig: viewConfig.timeConfig,
-              metricName,
-              numeratorFilter,
-              aggregation,
-              granularity,
-              threshold,
-              timeThreshold
-            })}
-          >
-            <AlertsPreviewLane />
+          <MarkerLanesPresenter {...props}>
+            <AlertsPreviewLane
+              getAlertsPreview={blueprintConfig.getAlertsPreviewRequest(metricName)}
+              alertsPreviewConfiguration={alertsPreviewQuery}
+            />
           </MarkerLanesPresenter>
         );
       }}
       thresholdType={threshold.type}
-      mutateMetrics={{
-        doMutate: viewConfig.smoothMetric,
-        metricNames: [metricName],
-        mutate: smoothMetrics
-      }}
       timeConfig={viewConfig.timeConfig}
       granularity={metricChartGranularity}
       getMetric={blueprintConfig.getMetricsRequest(metricName)}
-      postProcessMetric={requiresZeroFilling && zeroFillMetric}
+      postProcessMetric={requiresZeroFilling && zeroFillAndClipMetric}
       metricsConfiguration={getMetricsConfiguration()}
       y1={getY1()}
       canReload={canReload}
       nonInteractive
+      setMetricResultPrecision={setMetricResultPrecision}
+      customHeight={182}
     />
   );
 
@@ -99,14 +100,12 @@ export default function AlertingChart({
     return {
       colors: chartColors,
       metricIds: [metricName, 'threshold'],
+      // i18n: Violations does not need to be translated, it is an internal name
       excludedLabelsFromTooltip: ['Violations', highlight?.label].filter(Boolean),
-      nonToggleableSeries: enhanceNonToggleableSeries(
-        metricName,
-        getSmoothedMetricTooltipContent(viewConfig.smoothMetric),
-        highlight
-      ),
-      labels: enhanceLabels(metricLabel, viewConfig.smoothMetric, highlight),
-      tooltipFormatter: value => (value < 0 ? valueMissingPlaceholder : formatter.detailed(value)),
+      nonToggleableSeries: enhanceNonToggleableSeries(metricName, highlight),
+      labels: enhanceLabels(metricLabel, highlight),
+      tooltipFormatter: value => (value < 0 || value === null ? valueMissingPlaceholder : formatter.detailed(value)),
+      formatter: value => formatter.detailed(value),
       renderer,
       icons: {
         types: ['lib_line_chart', 'lib_threshold', 'lib_actions_stop', 'lib_actions_stop'],
@@ -114,13 +113,14 @@ export default function AlertingChart({
       },
       thresholdGranularity: granularity,
       lineWidth: 1.75,
-      thresholdLineWidth: 1,
+
+      // used as additional data:
+
       threshold: threshold.value,
       operator: threshold.operator,
       sensitivity: threshold.deviationFactor,
       baseline: threshold.baseline,
       eventBasedAdaptiveBaseline,
-      highlight,
       getMax: computeMax
     };
   }
@@ -129,9 +129,11 @@ export default function AlertingChart({
     if (threshold.type === STATIC_THRESHOLD) {
       return threshold.value >= metricsMaxValue ? Math.max(metricsMaxValue, threshold.value * 1.2) : metricsMaxValue;
     } else if (threshold.type === ADAPTIVE_BASELINE) {
+      const fromTime = Date.now() - viewConfig.timeConfig.windowSize;
       return getMaxForAdaptiveBaselineChart({
         metricsMaxValue,
         operator: threshold.operator,
+        fromTime,
         baseline: threshold.baseline,
         baselineEntriesFromMetadata: eventBasedAdaptiveBaseline,
         sensitivity: threshold.deviationFactor
@@ -158,20 +160,21 @@ export default function AlertingChart({
           metric: metricName,
           granularity: metricChartGranularity,
           aggregation,
-          numeratorFilter
+          numeratorTagFilterExpression
         }
       }
     };
   }
 }
 
-function getRendererBasedOnThresholdType(thresholdType) {
-  if (thresholdType === STATIC_THRESHOLD) {
-    return Renderer.lineWithThreshold;
-  } else if (thresholdType === HISTORIC_BASELINE) {
-    return Renderer.lineWithHistoricBaseline;
-  } else {
-    return Renderer.lineWithAdaptiveBaseline;
+function getRendererBasedOnThresholdType(threshold, highlight, granularity, eventBasedAdaptiveBaseline) {
+  switch (threshold.type) {
+    case STATIC_THRESHOLD:
+      return createLineWithThreshold(threshold.operator, threshold.value);
+    case HISTORIC_BASELINE:
+      return createLineWithBaselineAndOptionalPotentialProblem(threshold, granularity, highlight);
+    default:
+      return createLineWithAdaptiveBaseline(threshold, granularity, eventBasedAdaptiveBaseline);
   }
 }
 
@@ -181,13 +184,13 @@ function getAlertsPreviewQuery({
   includeInternal,
   includeSynthetic,
   metricName,
-  numeratorFilter,
+  numeratorTagFilterExpression,
   aggregation,
   granularity,
   threshold,
   timeThreshold
 }) {
-  if (threshold.baseline || typeof threshold.value === 'number') {
+  if (shouldRequestAlertsPreview(threshold)) {
     return {
       tagFilterExpression: enrichedTagFilterExpression,
       includeInternal,
@@ -201,7 +204,7 @@ function getAlertsPreviewQuery({
           metric: metricName,
           aggregation,
           granularity,
-          numeratorFilter
+          numeratorTagFilterExpression
         }
       }
     };
@@ -209,9 +212,16 @@ function getAlertsPreviewQuery({
   return null;
 }
 
-function enhanceLabels(label, smoothMetric, highlight) {
+function shouldRequestAlertsPreview(threshold) {
+  if (threshold.type === 'staticThreshold') {
+    return threshold.value != null;
+  }
+  return threshold.baseline;
+}
+
+function enhanceLabels(label, highlight) {
   const labels = [
-    `${label}${smoothMetric ? '*' : ''}`,
+    label,
     t('in-alerting:components.chart.alertingChartLabelThreshold'),
     t('in-alerting:components.chart.alertingChartLabelViolations')
   ];
@@ -223,12 +233,14 @@ function enhanceLabels(label, smoothMetric, highlight) {
   return labels;
 }
 
-function enhanceNonToggleableSeries(metricName, tooltipContent, highlight) {
+function enhanceNonToggleableSeries(metricName, highlight) {
   const labels = new Map([
     ['threshold', null],
     ['alerts', null],
-    ['Violations', null]
-  ]).set(metricName, tooltipContent);
+    // i18n: Violations does not need to be translated, it is an internal name
+    ['Violations', null],
+    [metricName, null]
+  ]);
 
   if (highlight) {
     labels.set(highlight.label, null);
@@ -237,13 +249,10 @@ function enhanceNonToggleableSeries(metricName, tooltipContent, highlight) {
   return labels;
 }
 
-function getSmoothedMetricTooltipContent(isSmoothedMetric) {
-  return isSmoothedMetric ? [t('in-alerting:components.chart.alertingChartTooltipSmoothedMetric')] : null;
-}
-
-function getMaxForBaselineChart({ metricsMaxValue, operator, baseline, sensitivity }) {
+function getMaxForBaselineChart({ metricsMaxValue, operator, baseline, sensitivity, fromTime }) {
   const opSign = isGreaterOperator(operator) ? 1 : -1;
   const overallMaxValue = (baseline || [])
+    .filter(v => !fromTime || fromTime < v[0])
     .map(v => v[1] + opSign * v[2] * sensitivity)
     .reduce((prevMax, computedMax) => (prevMax > computedMax ? prevMax : computedMax), metricsMaxValue);
 
@@ -253,6 +262,7 @@ function getMaxForBaselineChart({ metricsMaxValue, operator, baseline, sensitivi
 function getMaxForAdaptiveBaselineChart({
   metricsMaxValue,
   operator,
+  fromTime,
   baseline,
   baselineEntriesFromMetadata,
   sensitivity
@@ -260,7 +270,13 @@ function getMaxForAdaptiveBaselineChart({
   const eventBasedAdaptiveBaseline = baselineEntriesFromMetadata ?? [];
 
   if (eventBasedAdaptiveBaseline.length === 0) {
-    return getMaxForBaselineChart({ metricsMaxValue, operator, baseline, sensitivity });
+    return getMaxForBaselineChart({
+      metricsMaxValue,
+      operator,
+      fromTime,
+      baseline,
+      sensitivity
+    });
   }
 
   const opSign = isGreaterOperator(operator) ? 1 : -1;
@@ -278,11 +294,10 @@ AlertingChart.propTypes = {
   blueprintConfig: PropTypes.object.isRequired,
   alertsPreviewEnabled: PropTypes.bool,
   canReload: PropTypes.bool,
-  numeratorFilter: PropTypes.object,
+  numeratorTagFilterExpression: PropTypes.object,
   isQB1only: PropTypes.bool,
   enrichedTagFilters: PropTypes.array,
   enrichedTagFilterExpression: PropTypes.object,
-  rendererOverride: PropTypes.object,
   eventBasedAdaptiveBaseline: PropTypes.array,
 
   /**
@@ -302,5 +317,6 @@ AlertingChart.propTypes = {
     }),
     color: PropTypes.arrayOf(PropTypes.string).isRequired,
     label: PropTypes.string.isRequired
-  })
+  }),
+  setMetricResultPrecision: PropTypes.func
 };

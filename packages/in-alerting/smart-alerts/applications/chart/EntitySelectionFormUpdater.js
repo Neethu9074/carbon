@@ -7,35 +7,21 @@ import { Children, cloneElement, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 
-import {
-  PER_AP,
-  PER_AP_ENDPOINT,
-  PER_AP_SERVICE
-} from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
-import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import { adaptiveBaselineEnabled } from 'in-services/featureFlags';
+import { isValidChartViewEntitySelection } from 'in-alerting/smart-alerts/applications/form/formUtils';
 
 export default function EntitySelectionFormUpdater({ children, form, updateForm }) {
   const [entitySelection, setEntitySelection] = useState(
     form.get('hiddenFields').get('chartViewEntitySelection').value
   );
 
-  const thresholdType = form.get('threshold').get('type').value;
   const evaluationType = form.get('evaluationType').value;
 
   useEffect(() => {
-    if (!adaptiveBaselineEnabled || thresholdType !== ADAPTIVE_BASELINE || isEmpty(entitySelection)) {
+    if (isEmpty(entitySelection)) {
       return;
     }
 
-    if (
-      (evaluationType === PER_AP && entitySelection.applicationId) ||
-      (evaluationType === PER_AP_SERVICE && entitySelection.applicationId && entitySelection.serviceId) ||
-      (evaluationType === PER_AP_ENDPOINT &&
-        entitySelection.applicationId &&
-        entitySelection.serviceId &&
-        entitySelection.endpointId)
-    ) {
+    if (isValidChartViewEntitySelection(evaluationType, entitySelection)) {
       updateForm(
         form.updateIn(['hiddenFields', 'chartViewEntitySelection'], f => f.setValue(entitySelection).setTouched(true))
       );

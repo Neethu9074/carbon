@@ -8,12 +8,15 @@ import { createField, createMapForm, MapForm } from 'formalistic';
 import {
   SpecificJsErrorsWebsiteAlertRule,
   StatusCodeWebsiteAlertRule,
+  CustomEventWebsiteAlertRule,
   TagFilterOperator,
   WebsiteAlertRule
-} from 'in-types';
+} from '@instana/types';
+
 import { WebsitesAlertType } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { notBlankValidator } from 'in-services/validators/string';
 import { operators } from 'in-analyze/applicationFilter';
+import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
 export default function createRuleForm(rule: WebsiteAlertRule): MapForm {
@@ -30,6 +33,8 @@ export default function createRuleForm(rule: WebsiteAlertRule): MapForm {
       return extendForSpecificJsError(baseForm, rule as SpecificJsErrorsWebsiteAlertRule);
     case 'statusCode':
       return extendForSpecificStatusCode(baseForm, rule as StatusCodeWebsiteAlertRule);
+    case 'customEvent':
+      return extendForCustomEvent(baseForm, rule as CustomEventWebsiteAlertRule);
   }
 }
 
@@ -71,7 +76,7 @@ function extendForSpecificJsError(baseForm: MapForm, rule: { operator?: TagFilte
       createField({
         value: rule.value ?? '',
         validator: (value: string) => {
-          if (!value || value.trim().length === 0) {
+          if (isBlank(value)) {
             return [
               {
                 severity: 'error',
@@ -104,4 +109,25 @@ function extendForSpecificStatusCode(
         validator: notBlankValidator
       })
     );
+}
+
+function extendForCustomEvent(baseForm: MapForm, rule: { customEventName?: string }): MapForm {
+  return baseForm.put(
+    'customEventName',
+    createField({
+      value: rule.customEventName ?? '',
+      validator: (value: string) => {
+        if (isBlank(value)) {
+          return [
+            {
+              severity: 'error',
+              message: t('in-alerting:smartAlerts.websites.form.errorPleaseProvideCustomEventName')
+            }
+          ];
+        } else {
+          return null;
+        }
+      }
+    })
+  );
 }

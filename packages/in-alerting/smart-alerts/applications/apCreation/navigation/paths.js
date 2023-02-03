@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { categoryGlobal } from 'in-alerting/smart-alerts/applications/components/list/constants';
 import { alertCreated, alertId, alertsCategory } from 'in-applications/navigation/matrix';
+import { categoryGlobal } from 'in-alerting/smart-alerts/applications/list/constants';
 import { alertsList, globalAlertDetails } from 'in-applications/navigation/paths';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getModifiedUrlStream } from 'in-stores/navigation';

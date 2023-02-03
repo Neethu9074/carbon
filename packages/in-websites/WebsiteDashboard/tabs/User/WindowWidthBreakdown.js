@@ -60,6 +60,7 @@ export default function WindowWidthBreakdown({ result, timeConfig, tagFilters, w
       websiteLabel={websiteLabel}
       getMetricValueFromItem={getMetricValueFromItem}
       urlMatrixParamConfig={urlMatrixParamConfig}
+      renderHistoricDataIndicator
     />
   );
 }

@@ -3,14 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-import Worker from 'worker-loader?name=layoutingWorker.[hash].js!in-applications/ApplicationMap/misc/layouting/layout.worker';
-
 export default (() => {
   let worker = null;
 
   function call(layouter, data, onFinished) {
     disposeRunning();
-    worker = new Worker();
+    worker = new Worker(new URL('in-applications/ApplicationMap/misc/layouting/layout.worker', import.meta.url), {
+      name: 'layoutingWorker'
+    });
     worker.onmessage = function(e) {
       worker.hasReturned = true;
       disposeRunning();

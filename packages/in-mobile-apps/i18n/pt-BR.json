@@ -3,7 +3,8 @@
     "sessionStart": "Início da sessão",
     "viewChange": "Transição de visualização",
     "httpRequest": "Solicitação de HTTP",
-    "custom": "Evento customizado"
+    "custom": "Evento customizado",
+    "crash": "Travamento"
   },
   "analyzeView": {
     "uniqueUsers": "Usuários exclusivos",
@@ -156,7 +157,10 @@
       "traLong": "Transições de visualização",
       "cusShort": "Cus",
       "cusBadgeLabel": "Cus",
-      "cusLong": "Eventos customizados"
+      "cusLong": "Eventos customizados",
+      "craShort": "Cra",
+      "craBadgeLabel": "Cra",
+      "craLong": "Travamento"
     },
     "tabsSumOverviewChartTooltipStartTime": "Horário de início",
     "tabsSummary": {
@@ -201,6 +205,15 @@
       "errMsgTitle": "Mensagem de erro",
       "metaHeader": "Meta"
     },
+    "tabsSumCrashBeacon": {
+      "startTimeLabel": "Hora de Início",
+      "crashHeader": "Travamento",
+      "errorMsg": "Mensagem de erro",
+      "errorType": "Tipo de erro",
+      "crashLabel": "Travamento",
+      "metaHeader": "Meta",
+      "stackTrace": "Rastreio de pilha"
+    },
     "tabsSumHttpRequestBeacon": {
       "retrievalTimeTooltip": "Tempo de recuperação",
       "requestLabel": "Solicitação",
@@ -208,6 +221,7 @@
       "retrievalTimeLabel": "Tempo de recuperação",
       "callDetailsHeader": "Detalhes da chamada",
       "httpCallURITitle": "URI de chamada de HTTP",
+      "httpHeadersHeader": "Cabeçalhos de HTTP",
       "httpMethodTitle": "Método de HTTP",
       "httpStatusTitle": "Status HTTP",
       "errMsgTitle": "Mensagem de erro",
@@ -236,12 +250,15 @@
       "summaryLabel": "Resumo",
       "httpRequestLabel": "Solicitações de HTTP",
       "geographyLabel": "Geografia",
+      "customEventsLabel": "Eventos customizados",
       "viewsLabel": "Visualizações",
       "configurationLabel": "Configuração",
       "nameLabel": "Nome",
       "occurrencesLabel": "Ocorrências",
       "configurationTitle": "Configuração",
       "optionsLabel": "Opções",
+      "privacyLabel": "Privacidade",
+      "customGeoDetailsLabel": "Detalhes geográficos customizados",
       "installationInstructionsBtn": "Instruções de instalação",
       "keyLabel": "Chave",
       "reportingURLLabel": "URL de relatório",
@@ -253,7 +270,6 @@
       "renameAppTitle": "Renomear aplicativo móvel",
       "renameAppHelp": "A renomeação de um aplicativo móvel é uma ação eventualmente consistente dentro do sistema Instana. Por essa razão, uma mudança no nome de um aplicativo móvel pode levar <strong>até alguns minutos</strong> até ser preenchida em todo o sistema.",
       "renameAppBtn": "Renomear",
-      "renameSaved": "Salvo",
       "noSessionTitle": "Nenhuma sessão disponível",
       "noSessionExplanation": "Nenhuma sessão localizada no intervalo de tempo selecionado.",
       "noSessionExplanationWithFilters": "Nenhuma sessão localizada no intervalo de tempo selecionado correspondente aos seus filtros.",
@@ -297,13 +313,49 @@
       "viewTransitionsLabel": "Transições de visualização",
       "geographyTitle": "Geografia",
       "topViewsTitle": "Principais visualizações",
-      "globViewFootertext": "Imagens fornecidas pela NASA"
+      "globViewFootertext": "Imagens fornecidas pela NASA",
+      "customEvents": {
+        "customEventTitleMobileAppCustomEventDetails": "Detalhes do evento customizado do aplicativo móvel",
+        "customEventLabelBackToListOfCustomEvents": "Voltar à lista de eventos customizados",
+        "customEventButtonAnalyzeCustomEvent": "Analisar evento customizado",
+        "customEventTitleOccurrences": "Ocorrências",
+        "customEventTitleUsers": "Usuários",
+        "customEventTitleCustomEvent": "Evento customizado",
+        "customEventTitleDuration": "Duração",
+        "customEventLabelViewInAnalyze": "Visualizar em Análises",
+        "customEventLabelOccurrences": "Ocorrências",
+        "customEventLabelUsers": "Usuários",
+        "customEventLabel50th": "50th",
+        "customEventLabel90th": "90th",
+        "customEventLabel95th": "95th",
+        "customEventLabel99th": "99th",
+        "customEventLabelMax": "Máx.",
+        "customEventLabelMean": "Média",
+        "customEventsLabelEventName": "Nome do evento",
+        "customEventsLabelOccurrences": "Ocorrências",
+        "customEventsLabelUsers": "Usuários",
+        "customEventsButtonAnalyzeCustomEvents": "Analisar eventos customizados",
+        "osTopListLabelOccurrences": "Ocorrências",
+        "osTopListLabelUsers": "Usuários",
+        "osTopListLinkLabel": "Visualizar todos os sistemas operacionais",
+        "osTopListTitle": "Sistemas operacionais",
+        "platformTopListLabelOccurrences": "Ocorrências",
+        "platformTopListLabelUsers": "Usuários",
+        "platformTopListLinkLabel": "Visualizar todas as plataformas",
+        "platformTopListTitle": "Plataformas",
+        "viewTopListLabelOccurrences": "Ocorrências",
+        "viewTopListLabelUsers": "Usuários",
+        "viewTopListLinkLabel": "Ver todas as visualizações",
+        "viewTopListTitle": "visualizações"
+      }
     },
     "noDataAvailable": {
       "viewsTitle": "Nenhuma visualização disponível",
       "viewsDescription": "Não houve visualizações recuperadas para o intervalo de tempo selecionado.",
       "httpRequestsTitle": "Nenhuma solicitação de HTTP disponível",
-      "httpRequestsDescription": "Não houve nenhuma solicitação de HTTP recuperada para o intervalo de tempo selecionado."
+      "httpRequestsDescription": "Não houve nenhuma solicitação de HTTP recuperada para o intervalo de tempo selecionado",
+      "customEventsTitle": "Nenhum evento customizado disponível",
+      "customEventsDescription": "Não houve eventos customizados recuperados para o intervalo de tempo selecionado"
     }
   },
   "appsList": {
@@ -334,7 +386,8 @@
     "sessionId": "ID de sessão",
     "viewName": "Nome da visualização",
     "access": "Acesso",
-    "eventName": "Nome do evento"
+    "eventName": "Nome do evento",
+    "crash": "Travamento"
   },
   "dataSource_sessionStart": "{{formattedCount}} Início de sessão",
   "dataSource_sessionStart_plural": "{{formattedCount}} Inícios de sessão",
@@ -356,6 +409,11 @@
   "dataSource_custom_0": "{{formattedCount}} eventos customizados",
   "dataSource_custom_1": "{{formattedCount}} eventos customizados",
   "dataSource_custom_2": "{{formattedCount}} eventos customizados",
+  "dataSource_crash": "{{formattedCount}} travamento",
+  "dataSource_crash_plural": "{{formattedCount}} travamentos",
+  "dataSource_crash_0": "{{formattedCount}} travamentos",
+  "dataSource_crash_1": "{{formattedCount}} travamentos",
+  "dataSource_crash_2": "{{formattedCount}} travamentos",
   "facetedSearch": {
     "mobileApp": "Aplicativo móvel",
     "view": "Visualização",

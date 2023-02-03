@@ -4,19 +4,19 @@
  */
 
 import React, { useState, useLayoutEffect } from 'react';
+import { minutesToMilliseconds, parse } from 'date-fns';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 
-import formatInputTime from '../time/TimeSelectionDialogPresenter/timeInputFormatter';
+import formatInputTime, { withLeadingZeros } from 'in-components/time/TimeSelectionDialogPresenter/timeInputFormatter';
+import { formatDateWithActiveLanguage } from 'in-services/formatters/dateFnsFormatWrapper';
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 import { timeValidator } from 'in-services/validators/date';
+import { timeFormat } from 'in-services/formatters/date';
 import Input from 'in-components/form/Input';
 
 import locals from './TimeInput.mless';
 
-const withLeadingZeros = value => {
-  return String(value).padStart(2, '0');
-};
+const timeInputFormat = 'HH:mm';
 
 const timeOptions = [];
 for (let hour = 0; hour < 24; hour++) {
@@ -26,26 +26,30 @@ for (let hour = 0; hour < 24; hour++) {
   }
 }
 
-export default function TimeInput({ onChange, value = Date.now(), hasError = false, align = 'bottomMiddle', id }) {
-  const [time, handleTimeChange] = useState(() => formatInputTime(value, 'HH:mm'));
-  const timeValid = timeValidator(time, 'HH:mm') == null;
+export default function TimeInput({ onChange, value, hasError = false, align = 'bottomMiddle', id }) {
+  // Here we receive the value in HH:mm:ss format, either based on timeInput or the slider.
+  // But we need to display this value in HH:mm format.
+  const [time, handleTimeChange] = useState(() => formatInputTime(value, timeInputFormat));
+  const timeValid = timeValidator(time, timeInputFormat) == null;
 
   // Is needed to update the time input field each time the user uses the slider to adjust the time.
   useLayoutEffect(() => {
-    handleTimeChange(() => formatInputTime(value, 'HH:mm'));
+    handleTimeChange(() => formatInputTime(value, timeInputFormat));
   }, [value]);
 
   const commitTimeChange = newValue => {
-    onChange(timeValid ? formatInputTime(newValue, 'HH:mm') : undefined);
+    // Here in onChange we pass the newValue in the form of HH:mm. So we convert input from HH:mm format to respective HH:mm:ss
+    // In case of invalid input, we pass '' so we reset the time to 00:00
+    onChange(formatInputTime(timeValid ? newValue : '', timeFormat));
   };
 
   return (
     <ComboBoxBehavior
       align={align}
       options={timeOptions}
-      onChange={value => {
-        handleTimeChange(value);
-        commitTimeChange(value);
+      onChange={v => {
+        handleTimeChange(v);
+        commitTimeChange(v);
       }}
       disableAutomaticOptionSorting
       listItemClassName={locals.listItem}
@@ -87,13 +91,17 @@ const TimeInputField = React.forwardRef(function TimeInputField(
 
 function getNearestNextItem(time) {
   const nearestNextItem =
-    timeOptions.find(({ value }) => value === moment(getNextNearestTime(time)).format('HH:mm')) ?? timeOptions[0];
+    timeOptions.find(
+      ({ value }) => value === formatDateWithActiveLanguage(getNextNearestTime(time), timeInputFormat)
+    ) ?? timeOptions[0];
+
   return nearestNextItem.value;
 }
 
 function getNextNearestTime(time) {
-  const minutesFactor = moment.duration(15, 'minutes').asMilliseconds();
-  return Math.round(moment(time, 'HH:mm').valueOf() / minutesFactor) * minutesFactor;
+  const minutesFactor = minutesToMilliseconds(15);
+
+  return Math.round(parse(time, timeInputFormat, new Date()).getTime() / minutesFactor) * minutesFactor;
 }
 
 TimeInput.propTypes = {

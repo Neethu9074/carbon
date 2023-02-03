@@ -5,7 +5,11 @@
 
 import React from 'react';
 
+import { Link } from '@instana/components';
+
+import { constructLink } from 'in-integrations/logging/logdna/LinkConstruction';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import DescriptionText from 'in-components/form/DescriptionText';
 import FormGroup from 'in-settings/components/FormGroup';
 import HelpText from 'in-components/form/HelpText';
 import Label from 'in-components/form/Label';
@@ -14,14 +18,33 @@ import { t, Trans } from 'in-i18n';
 
 import locals from 'in-settings/tabs/TeamSettings/pages/logManagement/LogDna/LogDnaForm.mless';
 
-const ibmCloudBasePath = 'https://cloud.ibm.com/observe/embedded-view/logging/';
-
 export default function IbmCloudLogDnaForm({ form, onChange, disabled, areFieldsInvalid }) {
-  const accountId = form.get('accountId').value;
-  const logdnaUrl = ibmCloudBasePath + accountId;
+  let accountId = form.get('accountId').value;
+  let instanceType = 'IBM_CLOUD';
+  let ibmCloudBaseURL = form.get('baseUrl').value;
+  const logdnaUrl = constructLink({}, instanceType, accountId, ibmCloudBaseURL);
 
   return (
     <fieldset>
+      {form.get('baseUrl').map(field => (
+        <FormGroup>
+          <Label htmlFor="logdna-ibm-cloud-base-url" hasError={!disabled && !field.valid && field.touched}>
+            {t('in-settings:tabs.logDnaIbmCloudBaseURL')}
+          </Label>
+          <Input
+            id="logdna-ibm-cloud-base-url"
+            value={field.value}
+            onChange={e => onChange('baseUrl', e.target.value)}
+            hasError={!disabled && !field.valid && field.touched}
+            disabled={disabled}
+            autoFocus
+          />
+          {!disabled && <TouchedMessages field={field} />}
+          <HelpText className={locals.subTextFormField}>
+            <Trans i18nKey="in-settings:tabs.canBeFoundFromTheIbmCloudUrl" />
+          </HelpText>
+        </FormGroup>
+      ))}
       {form.get('accountId').map(field => (
         <FormGroup>
           <Label htmlFor="logdna-ibm-cloud-id" hasError={!disabled && !field.valid && field.touched}>
@@ -37,10 +60,20 @@ export default function IbmCloudLogDnaForm({ form, onChange, disabled, areFields
           />
           {!disabled && <TouchedMessages field={field} />}
           <HelpText className={locals.subTextFormField}>
-            <Trans i18nKey="in-settings:tabs.canBeFoundFromTheIbmCloudUrl" />
+            <Trans i18nKey="in-settings:tabs.enterIbmCloudAccountId" />
           </HelpText>
         </FormGroup>
       ))}
+      {
+        <DescriptionText>
+          <Trans
+            i18nKey={'in-settings:tabs.logDnaDocumentationReference'}
+            components={{
+              documentationLink: <Link href="https://www.ibm.com/docs/en/obi/current?topic=logging-logdna" external />
+            }}
+          />
+        </DescriptionText>
+      }
       {!areFieldsInvalid && (
         <FormGroup>
           <Label htmlFor="logdna-test-link">{t('in-settings:tabs.testYourLogDnaLink')}</Label>

@@ -9,8 +9,18 @@ import { Stack } from '@instana/components';
 
 import { childrenArgsAsPropTypes } from 'in-components/AnalyzeView/StateManagement';
 import Configurator from 'in-components/AnalyzeView/Charting/Configurator';
+import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import Chart from 'in-components/AnalyzeView/Charting/Chart';
 import { aggregationLabels } from 'in-stores/metric';
+
+function isCallOverviewTemplate(template) {
+  return template.templateId === 'calls.overview';
+}
+
+function isSupportedAggregation(metricId, aggregation) {
+  const supportedAggregations = dataSourceConstants.calls.metricCatalogSupportedChartableMetrics[metricId];
+  return supportedAggregations.includes(aggregation);
+}
 
 export default function Charting(props) {
   const {
@@ -27,7 +37,9 @@ export default function Charting(props) {
     metricAggregations =
       chartedMetricsTemplate.metrics?.map(metric => ({
         metricId: metric.metricId,
-        aggregations: metric.aggregations
+        aggregations: isCallOverviewTemplate(chartedMetricsTemplate)
+          ? metric.aggregations.filter(agg => agg !== 'DISTRIBUTION' && isSupportedAggregation(metric.metricId, agg))
+          : metric.aggregations
       })) ?? [];
   } else {
     metricAggregations =
@@ -52,6 +64,14 @@ export default function Charting(props) {
       ?.sort((agg1, agg2) => agg1.label.localeCompare(agg2.label));
   };
 
+  const getChartTitle = metricConfig => {
+    if (metricConfig.label === 'Latency') {
+      return `${getMetricLabel(metricConfig.metricId)}`;
+    }
+
+    return `${getMetricLabel(metricConfig.metricId)} (${aggregationLabels[metricConfig.aggregationId]})`;
+  };
+
   return (
     <>
       <Configurator {...props} />
@@ -60,7 +80,7 @@ export default function Charting(props) {
           {chartedMetrics.map(metricConfig => {
             const chartProps = {
               ...props,
-              title: chartedMetricsTemplate?.metrics?.length > 1 && getMetricLabel(metricConfig.metricId),
+              title: getChartTitle(metricConfig),
               showAggregationSelector:
                 metricAggregations?.find(agg => agg.metricId === metricConfig.metricId)?.aggregations?.length > 1,
               onAggregationChange: change => {

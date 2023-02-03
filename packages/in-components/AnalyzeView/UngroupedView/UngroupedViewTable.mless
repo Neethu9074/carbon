@@ -1,0 +1,14 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+:local {
+  .noData {
+    background-color: transparent;
+  }
+
+  .approximateData {
+    margin-bottom: 5px;
+  }
+}

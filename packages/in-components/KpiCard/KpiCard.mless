@@ -35,12 +35,19 @@
   .title {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 
     min-height: 1.75rem;
 
     color: @lib__colors__N700Medium;
     font-size: 1rem;
     font-weight: 200;
+  }
+
+  .flexTooltip {
+    display: flex;
+    flex-grow: 2;
+    align-items: flex-start;
   }
 
   .centerTitle {
@@ -88,10 +95,11 @@
   }
 
   .actions {
-    position: absolute;
-    top: 0.625rem;
-    right: 1rem;
     display: flex;
     align-items: center;
+  }
+
+  .titleText {
+    .ellipsis();
   }
 }

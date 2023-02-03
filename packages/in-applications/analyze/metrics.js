@@ -5,11 +5,11 @@
 
 import TraceGroupingConfigurator from 'in-applications/analyze/components/workspace/TraceGroupingConfigurator';
 import CallGroupingConfigurator from 'in-applications/analyze/components/workspace/CallGroupingConfigurator';
+import { newTimeMetric, wrapToDiscardNegativeValues } from 'in-analyze/metricDefinitionHelpers';
 import TraceQueryBuilder from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
 import CallQueryBuilder from 'in-applications/analyze/components/workspace/CallQueryBuilder';
-import { newTimeMetric, newNumberMetric } from 'in-analyze/metricDefinitionHelpers';
 import { callClickedTracker, traceClickedTracker } from 'in-analyze/tracker';
-import { number, percentage, millis } from 'in-services/formatters/number';
+import { millis, number, percentage } from 'in-services/formatters/number';
 import getTraceGroups from 'in-applications/subscriptions/getTraceGroups';
 import getCallGroups from 'in-applications/subscriptions/getCallGroups';
 import getTraces from 'in-applications/subscriptions/getTraces';
@@ -27,7 +27,15 @@ export const defaultMetrics = [
   { metric: 'errors', aggregation: 'MEAN' }
 ];
 
-const calls = newNumberMetric({ metric: 'calls', label: t('in-applications:analyze.calls') });
+const calls = {
+  metric: 'calls',
+  label: t('in-applications:analyze.calls'),
+  formatter: wrapToDiscardNegativeValues(number.forcedCompact),
+  supportedAggregations: ['SUM', 'PER_SECOND'],
+  min: 0,
+  preferredRenderer: Renderer.stackedBar,
+  unfoldAggregations: false
+};
 
 const errorRate = {
   metric: 'errors',
@@ -39,11 +47,16 @@ const errorRate = {
   category: t('in-applications:analyze.errorRateCategory')
 };
 
-const erroneousCalls = newNumberMetric({
+const erroneousCalls = {
   metric: 'erroneousCalls',
   label: t('in-applications:analyze.erroneousCallsLabel'),
-  category: t('in-applications:analyze.erroneousCallsCategory')
-});
+  category: t('in-applications:analyze.erroneousCallsCategory'),
+  formatter: wrapToDiscardNegativeValues(number.forcedCompact),
+  supportedAggregations: ['SUM', 'PER_SECOND'],
+  min: 0,
+  preferredRenderer: Renderer.stackedBar,
+  unfoldAggregations: false
+};
 
 const latency = {
   ...newTimeMetric({
@@ -132,6 +145,18 @@ export const dataSourceConstants = {
         aggregations: ['SUM']
       }
     },
+    metricCatalogSupportedMetrics: {
+      calls: ['SUM', 'PER_SECOND'],
+      latency: ['P25', 'P50', 'P95', 'SUM', 'P75', 'P90', 'P98', 'P99', 'MEAN', 'MIN', 'MAX'],
+      erroneousCalls: ['SUM', 'PER_SECOND'],
+      errors: ['MEAN']
+    },
+    metricCatalogSupportedChartableMetrics: {
+      calls: ['SUM', 'PER_SECOND'],
+      latency: ['P25', 'P50', 'P95', 'SUM', 'P75', 'P90', 'P98', 'P99', 'MEAN', 'MIN', 'MAX', 'DISTRIBUTION'],
+      erroneousCalls: ['SUM', 'PER_SECOND'],
+      errors: ['MEAN']
+    },
     latencyTag: 'call.latency',
     getData: getCalls,
     getGroupData: getCallGroups,
@@ -193,6 +218,12 @@ export const dataSourceConstants = {
         type: 'count',
         aggregations: ['SUM']
       }
+    },
+    metricCatalogSupportedMetrics: {
+      traces: ['SUM'],
+      latency: ['P25', 'P50', 'P95', 'SUM', 'P75', 'P90', 'P98', 'P99', 'MEAN', 'MIN', 'MAX'],
+      erroneousCalls: ['SUM'],
+      errors: ['MEAN']
     },
     latencyTag: 'trace.latency',
     getData: getTraces,

@@ -6,7 +6,6 @@
 import React from 'react';
 
 import { Button } from '@instana/components';
-import { Card } from '@instana/components';
 import { Link } from '@instana/components';
 
 import {
@@ -26,7 +25,7 @@ import changeExplanation from 'in-websites/emptyListExplanation';
 import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { number } from 'in-services/formatters/number';
 import { isNotBlank } from 'in-services/util/string';
-import { t } from 'in-i18n';
+import { t, collationLanguage } from 'in-i18n';
 
 const columnDefinitions = [
   {
@@ -133,16 +132,17 @@ export default function CustomEvents({ timeConfig, tagFilters, websiteId, websit
   );
 
   return (
-    <Card>
+    <>
       <ServerTableWithUrlState
         get={getTableData}
         websiteId={websiteId}
         pageId={pageId}
         tagFilters={tagFilters}
         timeConfig={timeConfig}
+        cardTitle={t('in-websites:websiteDashboard.tabs.indexLabelCustomEvents')}
         rightHeader={rightHeader}
       />
-    </Card>
+    </>
   );
 }
 
@@ -169,7 +169,8 @@ function getTableData({
     },
     order: {
       by: orderBy,
-      direction: orderDirection
+      direction: orderDirection,
+      collation: collationLanguage
     },
     group: {
       groupbyTag: 'beacon.customEvent.name'

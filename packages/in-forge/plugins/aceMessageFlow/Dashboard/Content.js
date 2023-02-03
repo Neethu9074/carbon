@@ -146,7 +146,7 @@ export default function AceMessageFlowDashboard({ snapshot, timeConfig }) {
           }}
         />
       </DashboardSection>
-      <FlowNodeTable snapshotId={snapshotId} timeConfig={timeConfig} />
+      <FlowNodeTable snapshot={snapshot} snapshotId={snapshotId} timeConfig={timeConfig} />
     </div>
   );
 }

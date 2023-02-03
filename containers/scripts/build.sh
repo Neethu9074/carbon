@@ -1,5 +1,11 @@
 #!/bin/bash
 
+#
+# IBM Confidential
+# PID 5737-N85, 5900-AG5
+# Copyright IBM Corp. 2022, 2022
+#
+
 set -euo pipefail
 SCRIPTPATH="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
@@ -14,11 +20,6 @@ function _check_prerequisites {
     ui-client|ui-client-saas) _log_info "Building container image for [${CONTAINER_IMAGE_NAME}]" ;;
     *) _log_error "Unsupported container image [${CONTAINER_IMAGE_NAME}]"; exit 1;;
   esac
-}
-
-function _cleanup_container_dir {
-  _log_info "Removing ${COMPONENTS_HOME_DIR}/.container*"
-  rm -rf "${COMPONENTS_HOME_DIR}/.container"*
 }
 
 function _create_necessary_dirs {
@@ -44,7 +45,7 @@ function _get_run_sh {
   RUN_SCRIPT=${COMPONENT_RUN_SCRIPT}
 
   _create_usr_bin_dir
-  cp ${RUN_SCRIPT} "${COMPONENT_USR_BIN_DIR}/run.sh"  
+  cp ${RUN_SCRIPT} "${COMPONENT_USR_BIN_DIR}/run.sh"
   case "$(uname -s)" in
     Darwin) sed -i '' -e "s/\${replace_me_component_name}/${COMPONENT_NAME}/" "${COMPONENT_USR_BIN_DIR}/run.sh";;
     Linux) sed -i -e "s/\${replace_me_component_name}/${COMPONENT_NAME}/" "${COMPONENT_USR_BIN_DIR}/run.sh";;
@@ -64,7 +65,7 @@ function _get_component_tar_gz {
       popd
   else
       _log_info "Downloading ${COMPONENT_TAR_GZ_URL} into ${COMPONENT_WORK_DIR}"
-      curl -u ${ARTIFACT_RND_INSTANA_IO_USER}:${ARTIFACT_RND_INSTANA_IO_PASSWORD} ${COMPONENT_TAR_GZ_URL} \
+      curl -u ${INSTANA_ARTIFACTORY_USERNAME}:${INSTANA_ARTIFACTORY_PASSWORD} ${COMPONENT_TAR_GZ_URL} \
            --keepalive-time 5 \
            --output "${COMPONENT_WORK_DIR}/${COMPONENT_NAME}.tar.gz"
   fi
@@ -101,11 +102,15 @@ function _run_docker_build {
   local TARGET_OVERRIDE=${4:-'none'}
   _log_info "Building image ${TAG}"
 
-  if [[ ${TARGET_OVERRIDE} == 'openshift' ]]; then
-    if [[ -f ${OPENSHIFT_CONTAINER_FILE} ]]; then
-      _log_info "Overriding with OpenShift container file ${OPENSHIFT_CONTAINER_FILE}"
-      PATH_TO_CONTAINER_FILE=${OPENSHIFT_CONTAINER_FILE}
-    fi
+  local REGISTRY_USERNAME
+  local REGISTRY_PASSWORD
+
+  if [[ ${ARTIFACT_VERSION} == 'local' ]]; then
+    REGISTRY_AUTH=$(yarn config get '//delivery.instana.io/artifactory/api/npm/int-npm-virtual/:_auth' | base64 -d)
+    IFS=':' read -r REGISTRY_USERNAME REGISTRY_PASSWORD <<< "$REGISTRY_AUTH"
+  else
+    REGISTRY_USERNAME=${INSTANA_ARTIFACTORY_USERNAME}
+    REGISTRY_PASSWORD=${INSTANA_ARTIFACTORY_PASSWORD}
   fi
 
   docker build \
@@ -114,6 +119,10 @@ function _run_docker_build {
     --build-arg image_version=${DESIRED_IMAGE_VERSION} \
     --build-arg branch=${BRANCH_NAME} \
     --build-arg commit_id=${COMMIT_ID} \
+    --build-arg registry='https://delivery.instana.io' \
+    --build-arg repository_key='int-npm-virtual' \
+    --build-arg registry_username=${REGISTRY_USERNAME} \
+    --build-arg registry_password=${REGISTRY_PASSWORD} \
     -f ${PATH_TO_CONTAINER_FILE} \
     -t ${TAG} \
     ${COMPONENT_CONTAINER_DIR}
@@ -121,9 +130,9 @@ function _run_docker_build {
 
 function _scan_image() {
   local TAG=$1
-  local INSTANA_TWISTCLI_VERSION='0.2.1'
+  local INSTANA_TWISTCLI_VERSION='1.1.5'
   _log_info "Triggering scan for image ${TAG} with instana-twistcli ${INSTANA_TWISTCLI_VERSION}"
-  
+
   if [[ -f ${COMPONENT_TWISTLOCK_IGNOREFILE} ]]; then
     MIN_VULN_SEVERITY=high \
       IGNOREFILE=${COMPONENT_TWISTLOCK_IGNOREFILE} \
@@ -146,13 +155,8 @@ function build_image {
   _docker_login
 
   _run_docker_build ${FULLY_QUALIFIED_TAG} ${CONTAINER_FILE} ${IMAGE_VERSION}
-  # Create another image version that is OpenShift compatible
-  _run_docker_build ${OPENSHIFT_FULLY_QUALIFIED_TAG} ${CONTAINER_FILE} ${OPENSHIFT_IMAGE_VERSION} "openshift"
 
   _scan_image ${FULLY_QUALIFIED_TAG}
-  _scan_image ${OPENSHIFT_FULLY_QUALIFIED_TAG}
-
-  _cleanup_container_dir
 }
 
 build_image

@@ -9,6 +9,11 @@ import React from 'react';
 import { combineLatest } from '@instana/observables';
 import { Button } from '@instana/components';
 
+import {
+  track,
+  AGENTS_RESET_ALL_AGENTS_INTERNAL_CLICKED,
+  AGENTS_UPDATE_ALL_AGENTS_INTERNAL_CLICKED
+} from 'in-services/tracking/tracking';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer/MaxWidthFullscreenContainer';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import AgentInstallationView from 'in-infrastructure/agentView/components/AgentInstallationView';
@@ -36,6 +41,7 @@ import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
+import { fromJS } from 'immutable';
 
 export default connectTo(
   props => {
@@ -43,7 +49,7 @@ export default connectTo(
     if (!props.agentSnapshotsResult) {
       observables.agentSnapshotsResult = combineLatest([timeConfig$, debouncedQuery$]).flatMap(
         ([timeConfig, query]) => {
-          return getAgentSnapshotsInTimeframe({ timeConfig, query });
+          return getAgentSnapshotsInTimeframe({ timeConfig, query }).map(fromJS);
         }
       );
     }
@@ -70,46 +76,40 @@ export default connectTo(
         <Switch>
           <Route path={'*/dashboard'} component={Dashboard} />
 
-          <Route
-            path="/agents/installation"
-            render={() => (
-              <MaxWidthFullscreenContainer>
-                <AgentInstallationView />
-              </MaxWidthFullscreenContainer>
-            )}
-          />
+          <Route path="/agents/installation">
+            <MaxWidthFullscreenContainer>
+              <AgentInstallationView />
+            </MaxWidthFullscreenContainer>
+          </Route>
 
-          <Route
-            path="/agents"
-            render={() => (
-              <Sticky
-                header={
-                  <>
-                    <DashboardHeader
-                      title={t('in-infrastructure:agentView.agents')}
-                      contextConfigurations={[
-                        {
-                          renderContext: () => t('in-infrastructure:agentView.agents'),
-                          contextIcon: 'lib_actions_settings'
-                        }
-                      ]}
-                      renderButtonLine={renderButtonLine}
-                      agentSnapshots={agentSnapshots}
-                    />
-                    <DashboardHeaderModule withBottomBorder>
-                      <SearchBar style={{ maxWidth: 'calc(100% - 5rem)' }} theme="light" />
-                    </DashboardHeaderModule>
-                  </>
-                }
-              >
-                <LeftRightPadding>
-                  <AgentViewKpis agentSnapshots={agentSnapshots} />
-                  <AgentsPresenceChart />
-                  <AgentsTable agentSnapshots={agentSnapshots} />
-                </LeftRightPadding>
-              </Sticky>
-            )}
-          />
+          <Route path="/agents">
+            <Sticky
+              header={
+                <>
+                  <DashboardHeader
+                    title={t('in-infrastructure:agentView.agents')}
+                    contextConfigurations={[
+                      {
+                        renderContext: () => t('in-infrastructure:agentView.agents'),
+                        contextIcon: 'lib_actions_settings'
+                      }
+                    ]}
+                    renderButtonLine={renderButtonLine}
+                    agentSnapshots={agentSnapshots}
+                  />
+                  <DashboardHeaderModule withBottomBorder>
+                    <SearchBar style={{ maxWidth: 'calc(100% - 5rem)' }} theme="light" />
+                  </DashboardHeaderModule>
+                </>
+              }
+            >
+              <LeftRightPadding>
+                <AgentViewKpis agentSnapshots={agentSnapshots} />
+                <AgentsPresenceChart />
+                <AgentsTable agentSnapshots={agentSnapshots} />
+              </LeftRightPadding>
+            </Sticky>
+          </Route>
         </Switch>
 
         <Footer />
@@ -117,8 +117,10 @@ export default connectTo(
     );
   }
 );
-function renderButtonLine() {
-  return <ButtonLine />;
+
+function renderButtonLine(props) {
+  const { agentSnapshots } = props;
+  return <ButtonLine agentSnapshots={agentSnapshots} />;
 }
 
 const ButtonLine = connectTo({ isInternalVisible: isInternalVisible$ }, function ButtonLine({
@@ -133,10 +135,22 @@ const ButtonLine = connectTo({ isInternalVisible: isInternalVisible$ }, function
     <div>
       {isInternalVisible && (
         <>
-          <Button kind="primary" onClick={() => updateAllAgents({ agentSnapshots })}>
+          <Button
+            kind="primary"
+            onClick={() => {
+              track(AGENTS_UPDATE_ALL_AGENTS_INTERNAL_CLICKED);
+              updateAllAgents({ agentSnapshots });
+            }}
+          >
             {t('in-infrastructure:agentView.updateAllAgents')}
           </Button>
-          <Button kind="secondary" onClick={() => resetAllAgents({ agentSnapshots })}>
+          <Button
+            kind="secondary"
+            onClick={() => {
+              track(AGENTS_RESET_ALL_AGENTS_INTERNAL_CLICKED);
+              resetAllAgents({ agentSnapshots });
+            }}
+          >
             {t('in-infrastructure:agentView.resetAllAgents')}
           </Button>
         </>

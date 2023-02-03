@@ -7,6 +7,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import AnalyzeCallsButton, { getFilters } from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
+import RenderButtonLineSecondary from 'in-kubernetes/Dashboards/commonComponents/RenderButtonLineSecondary';
 import DashboardButtonLine from 'in-kubernetes/Dashboards/commonComponents/DashboardButtonLine';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
@@ -15,6 +16,8 @@ import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadge
 import { namespaceId as matrixNamespaceId } from 'in-kubernetes/navigation/matrix';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
+import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
+import { kubernetesTimeShiftSelectTracker } from 'in-kubernetes/tracker';
 import { namespaceDashboard } from 'in-kubernetes/navigation/paths';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { NamespaceBreadcrumbs } from 'in-kubernetes/breadcrumbs';
@@ -23,9 +26,11 @@ import tabs from 'in-kubernetes/Dashboards/Namespace/tabs/index';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
+import { k8sTimeShiftEnabled } from 'in-services/featureFlags';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { createGroupBy } from 'in-analyze/navigation/paths';
+import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import { namespaceTabChange } from 'in-kubernetes/tracker';
 import { getTimeConfig } from 'in-stores/time/config';
 import { plugins } from 'in-forge/constants';
@@ -105,6 +110,7 @@ function Header(props) {
       icon="lib_kubernetes_namespace"
       label={get(props.result, ['data', 'label'])}
       renderButtonLine={renderButtonLine}
+      renderButtonLineSecondary={renderButtonLineSecondary}
       renderMetaInformation={renderMetaInformation}
     />
   );
@@ -127,6 +133,26 @@ function renderButtonLine({ namespaceId, timeConfig, result }) {
         groupBy={createGroupBy('kubernetes.service.name', DESTINATION)}
         timeConfig={timeConfig}
       />
+    </>
+  );
+}
+
+function renderButtonLineSecondary({ timeConfig, namespaceId }) {
+  return (
+    <>
+      {k8sTimeShiftEnabled && (
+        <TimeShiftDropdown
+          onChange={offset =>
+            kubernetesTimeShiftSelectTracker({
+              area: 'namespace',
+              offset: getTimeShiftLabel({ offset: offset }),
+              windowSize: timeConfig.windowSize,
+              autoRefresh: timeConfig.autoRefresh
+            })
+          }
+        />
+      )}
+      <RenderButtonLineSecondary timeConfig={timeConfig} snapshotId={namespaceId} />
     </>
   );
 }

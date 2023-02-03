@@ -3,102 +3,93 @@
  * (c) Copyright Instana Inc.
  */
 
-import MuiSlider from '@material-ui/core/Slider';
-import { withStyles } from '@material-ui/core';
+// eslint-disable-next-line no-restricted-imports
+import styled from '@emotion/styled';
+import Slider from '@mui/material/Slider';
 import PropTypes from 'prop-types';
-import React from 'react';
 
 import theme from 'in-themes';
 
-const common = {
-  root: {
-    fontFamily: theme.lib.fontFamily,
-    color: theme.lib.colors.teal800,
-    top: 0,
-    lineHeight: 1.5,
-    marginBottom: 16
-  },
-  mark: {
-    width: 4,
-    marginLeft: -2
-  },
-  valueLabel: {
-    fontFamily: 'inherit',
-    color: theme.lib.colors.white,
-    padding: 0,
-    top: -22,
-    height: 'auto',
-    left: 'unset',
-    fontSize: '12px',
+const BaseSlider = styled(Slider)(`
+    font-family: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"';
+    color: ${theme.lib.colors.teal800};
+    top: 0;
+    line-height: 1.5;
+    margin-bottom: 16px;
 
-    '& span': {
-      width: 'unset',
-      transform: 'unset'
-    },
-    '& > span': {
-      background: theme.lib.colors.N500,
-      borderRadius: theme.lib.shapes.radius_small,
-      margin: 0,
-      height: '100%'
-    },
-    '& > span span': {
-      width: 'max-content',
-      padding: 4,
-      lineHeight: '16px'
+    margin-top: ${props => (props.valueLabelDisplay === 'on' ? '16px' : '32px')};
+
+    .MuiSlider-mark {
+      width: 4px;
+      margin-left: -2px;
     }
-  },
-  markLabel: {
-    fontFamily: 'inherit',
-    ...theme.lib.typography.h100,
-    color: theme.lib.colors.N600Light,
-    height: 16
-  },
-  markLabelActive: {
-    fontFamily: 'inherit',
-    color: theme.lib.colors.N900Primary,
-    height: 16
-  },
-  active: {
-    opacity: 1,
-    backgroundColor: 'currentColor'
-  },
-  track: {
-    height: 2
-  },
-  rail: {
-    height: 2,
-    opacity: 1,
-    color: theme.lib.colors.N400
-  }
-};
 
-const withLabel = {
-  ...common,
-  root: {
-    ...common.root,
-    marginTop: 32
-  }
-};
+    .MuiSlider-valueLabel {
+      color: ${theme.lib.colors.white};
+      padding: 0;
+      top: -22px;
+      height: auto;
+      left: unset;
+      font-size: 12px;
+      &:before {
+        display: none;
+      }
+    }
 
-const withoutLabel = {
-  ...common,
-  root: {
-    ...common.root,
-    marginTop: 16
-  }
-};
+    .MuiSlider-valueLabelCircle {
+      width: unset;
+      transform: unset;
+      background: ${theme.lib.colors.N500};
+      border-radius: ${theme.lib.shapes.radius_small};
+      margin: 0;
+      padding: 4px;
+      height: 100%;
+    }
 
-const SliderWithoutPermanentLabel = withStyles(withoutLabel)(MuiSlider);
-const SliderWithPermanentLabel = withStyles(withLabel)(MuiSlider);
+    .MuiSlider-valueLabelLabel {
+      width: max-content;
+      lineHeight: 16px
+    }
 
-export const StyledMuiSliderBase = props => {
-  if (props.valueLabelDisplay === 'on') {
-    return <SliderWithPermanentLabel {...props} />;
-  }
-  return <SliderWithoutPermanentLabel {...props} />;
-};
+    .MuiSlider-markLabel {
+      font-size: ${theme.lib.typography.h100.fontSize};
+      color: ${theme.lib.colors.N600Light};
+      height: 16px;
+    }
 
-StyledMuiSliderBase.propTypes = {
+    .MuiSlider-mark {
+      margin-top: 0;
+      background-image: none;
+    }
+
+    .MuiSlider-markLabelActive {
+      color: ${theme.lib.colors.N900Primary};
+    }
+
+    .MuiSlider-rail {
+      height: 2px;
+      opacity: 1;
+      color: ${theme.lib.colors.N400};
+    }
+
+    .MuiSlider-thumb {
+      width: 12px;
+      height: 12px;
+    }
+
+    .MuiSlider-track {
+      height: 2px;
+    }
+
+    .Mui-active {
+      opacity: 1;
+      background-color: 'currentColor';
+    }
+`);
+
+export default BaseSlider;
+
+BaseSlider.propTypes = {
   marks: PropTypes.arrayOf(
     PropTypes.shape({
       value: PropTypes.number,

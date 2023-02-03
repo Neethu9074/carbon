@@ -1,0 +1,27 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+@import '~in-themes/active.less';
+
+:local {
+  .alertChannelsWrapper {
+    margin: -1px;
+  }
+
+  .paddingBodyWrapper {
+    padding: 1rem;
+  }
+
+  .evaluationType {
+    border-radius: @lib__shapes__radius_small;
+    border-bottom: 1px solid @lib__colors__N300;
+  }
+
+  .lightCardHeader {
+    border-bottom: 1px solid @lib__colors__N300;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+}

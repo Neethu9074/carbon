@@ -5,8 +5,11 @@
 
 import React, { useState } from 'react';
 
+import {
+  createLineWithThreshold,
+  createLineWithBaselineAndOptionalPotentialProblem
+} from 'in-alerting/components/Chart/renderer/Renderer';
 import { generateMetrics, fixedTimestamp, generateBaselineForMetric } from 'in-test/util/generateMetrics';
-import AlertingRenderer from 'in-alerting/components/Chart/renderer/Renderer';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
@@ -15,7 +18,6 @@ import Renderer from 'in-components/Chart/renderer/Renderer';
 import { percentage } from 'in-services/formatters/number';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
-import { minutes } from 'in-services/time';
 import theme from 'in-themes';
 
 const oneSecond = 1000;
@@ -34,7 +36,7 @@ export function MissingData() {
 export function Loading() {
   return (
     <ResultAwareChart
-      config={{ cardTitle: 'Loading chart', customHeight: '200px' }}
+      config={{ title: 'Loading chart', customHeight: '200px' }}
       data={{}}
       result={{
         errors: [],
@@ -49,7 +51,7 @@ export function Loading() {
 export function LoadingWithPercentage(props) {
   return (
     <ResultAwareChart
-      config={{ cardTitle: 'Loading chart with percentage', customHeight: '200px' }}
+      config={{ title: 'Loading chart with percentage', customHeight: '200px' }}
       data={{}}
       result={{
         errors: [],
@@ -95,7 +97,7 @@ export function Simple() {
     <ResultAwareChart
       result={constructResult(null, false)}
       config={{
-        cardTitle: 'Simple chart',
+        title: 'Simple chart',
         granularity,
         timeConfig: timeframe,
         y1: {
@@ -127,7 +129,7 @@ export function MultipleSeries() {
     <ResultAwareChart
       result={constructResult(null, false)}
       config={{
-        cardTitle: 'Many time series',
+        title: 'Many time series',
         granularity,
         timeConfig: timeframe,
         y1: {
@@ -149,7 +151,7 @@ export function LongSeriesLabels() {
     <ResultAwareChart
       result={constructResult(null, false)}
       config={{
-        cardTitle: 'Chart with long series',
+        title: 'Chart with long series',
         granularity,
         timeConfig: timeframe,
         renderLegend: false,
@@ -180,7 +182,7 @@ export function DualAxis() {
     <ResultAwareChart
       result={constructResult(null, false)}
       config={{
-        cardTitle: 'Dual axis',
+        title: 'Dual axis',
         granularity,
         timeConfig: timeframe,
         y1: {
@@ -209,7 +211,7 @@ export function DualAxisDifferentMetricCount() {
     <ResultAwareChart
       result={constructResult(null, false)}
       config={{
-        cardTitle: 'Dual axis with different metric count',
+        title: 'Dual axis with different metric count',
         granularity,
         timeConfig: timeframe,
         y1: {
@@ -235,7 +237,7 @@ export function Gaps() {
     <ResultAwareChart
       result={constructResult(null, false)}
       config={{
-        cardTitle: 'Gaps',
+        title: 'Gaps',
         timeConfig: generateTimeframe(oneMinute),
         y1: {
           renderer: Renderer.line,
@@ -253,7 +255,7 @@ export function Bar() {
     <ResultAwareChart
       result={constructResult(null, false)}
       config={{
-        cardTitle: 'Bar',
+        title: 'Bar',
         timeConfig: generateTimeframe(oneMinute),
         y1: {
           renderer: Renderer.bar,
@@ -288,7 +290,7 @@ export function BarWithThreshold() {
               theme.lib.colors.lightBlue800,
               theme.lib.colors.pink800
             ],
-            renderer: AlertingRenderer.lineWithThreshold,
+            renderer: createLineWithThreshold('>=', threshold),
             metricIds: [],
             metrics: metricsBarWithThreshold,
             labels: ['Data']
@@ -311,6 +313,15 @@ export function BarWithThreshold() {
 
 const metricsBarWithBaseline = [generateMetrics(144, 100, oneDay)];
 const baselineBarWithBaseline = generateBaselineForMetric(metricsBarWithBaseline[0], 10 * oneMinute, 2.0, 10.0, 3.0);
+const granularity = 10 * oneMinute;
+const historicThreshold = {
+  baseline: baselineBarWithBaseline,
+  sensitivity: 2,
+  deviationFactor: 2,
+  operator: '>=',
+  labels: ['Latency', 'Threshold', 'Violations'],
+  thresholdGranularity: granularity
+};
 export function BarWithBaseline() {
   const [sensitivity, setSensitivity] = useState(1.0);
   return (
@@ -319,7 +330,7 @@ export function BarWithBaseline() {
         result={constructResult(null, false)}
         config={{
           timeConfig: generateTimeframe(oneDay),
-          granularity: 10 * oneMinute,
+          granularity,
           y1: {
             sensitivity,
             getMax: metricsMaxValue => {
@@ -331,13 +342,10 @@ export function BarWithBaseline() {
               theme.lib.colors.lightBlue800,
               theme.lib.colors.pink800
             ],
-            renderer: AlertingRenderer.lineWithHistoricBaseline,
+            renderer: createLineWithBaselineAndOptionalPotentialProblem(historicThreshold, granularity),
             metricIds: [],
             metrics: metricsBarWithBaseline,
-            baseline: baselineBarWithBaseline,
-            operator: '>=',
-            labels: ['Data'],
-            thresholdGranularity: minutes.toMillis(10)
+            labels: ['Data']
           }
         }}
       />
@@ -411,7 +419,7 @@ export function LoadingPie() {
       <ResultAwareChart
         result={constructResult(null, true)}
         config={{
-          cardTitle: 'Loading pie',
+          title: 'Loading pie',
           customHeight: '200px',
           timeConfig: generateTimeframe(oneMinute),
           y1: {
@@ -436,7 +444,7 @@ export function Pie() {
       <ResultAwareChart
         result={constructResult(null, false)}
         config={{
-          cardTitle: 'Pie',
+          title: 'Pie',
           timeConfig: generateTimeframe(oneMinute),
           y1: {
             renderer: Renderer.pie,

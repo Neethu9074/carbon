@@ -25,6 +25,11 @@
         "counter_custom_0": "{{number}} 件のカスタム・イベント",
         "counter_custom_1": "{{number}} 件のカスタム・イベント",
         "counter_custom_2": "{{number}} 件のカスタム・イベント",
+        "counter_crash": "{{number}} 件の異常終了",
+        "counter_crash_plural": "{{number}} 件の異常終了",
+        "counter_crash_0": "{{number}} 件の異常終了",
+        "counter_crash_1": "{{number}} 件の異常終了",
+        "counter_crash_2": "{{number}} 件の異常終了",
         "counter_Row": "{{number}} 行",
         "counter_Row_plural": "{{number}} 行",
         "counter_Row_0": "{{number}} 行",
@@ -86,7 +91,7 @@
       "viewTransitions2": "遷移の表示",
       "calls": "呼び出し",
       "traces": "トレース",
-      "console": "コンソール"
+      "crashes": "異常終了"
     }
   },
   "traceDetail": {
@@ -125,9 +130,6 @@
         "hideWebsiteInformation": "Web サイト情報を隠す",
         "showWebsiteInformation": "Web サイト情報を表示",
         "viewWebsiteActivity": "Web サイト・アクティビティーを表示"
-      },
-      "logs": {
-        "noDataMessage": "このトレースに使用できるログはありません"
       }
     },
     "components": {
@@ -176,25 +178,18 @@
       },
       "callTree": {
         "expandButtonForRow": "すべてのサブ呼び出しを展開",
-        "collapseButtonForRow": "すべてのサブ呼び出しを折りたたみ",
         "of": "/",
-        "inheritedFrom": "継承元",
-        "cardTitle": "呼び出し"
+        "inheritedFrom": "継承元"
       },
       "colorCodingToggleButtons": {
         "colorizeBy": "カラー化基準",
-        "colorizeByExpl": "呼び出しバーの色を変更",
-        "endpoint": "エンドポイント",
-        "service": "サービス"
-      },
-      "viewToggleButtons": {
-        "expl": "表示形式:",
-        "tree": "ツリー",
-        "chart": "タイムライン"
+        "endpoint": "エンドポイント"
       },
       "logTooltipContent": {
         "errorLog": "エラー・ログ",
-        "warningLog": "警告ログ"
+        "warningLog": "警告ログ",
+        "restrictedAccess": "制限付きアクセス",
+        "restrictedAccessExpl": "この情報にアクセスする権限がありません。"
       },
       "callTooltipContent": {
         "numbersOfErrors": "{{count}} 個のエラー",
@@ -285,7 +280,7 @@
     "analyzeLogsLabel": "ログの分析",
     "similarLogs": "類似するログ",
     "similarServiceLogs": "このサービスのコンテキストでログを表示",
-    "service": "サービスの表示"
+    "restrictedAccessExpl": "この情報にアクセスする権限がありません。"
   },
   "traceDetails": {
     "labelTotal": "合計",

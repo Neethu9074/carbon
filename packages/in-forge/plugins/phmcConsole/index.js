@@ -11,5 +11,6 @@ registerSnapshotDefinition({
   plugin: plugins.phmcConsole,
 
   kpiDefinitions,
-  metricDefinitions
+  metricDefinitions,
+  getIconType: () => 'phmc_console'
 });

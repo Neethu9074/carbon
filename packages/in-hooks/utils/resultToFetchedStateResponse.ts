@@ -15,11 +15,11 @@ export function resultToFetchedStateResponse<T>(result: Result<T> | Nullish): Fe
   const res: Readonly<Result<T>> = result ?? (pendingResult as Result<T>);
 
   if (isLoading(res)) {
-    return Object.freeze([undefined, 'pending', res.errors] as const);
+    return Object.freeze([undefined, 'pending', res.errors, res.progress] as const);
   }
   if (hasError(res)) {
-    return Object.freeze([undefined, 'rejected', res.errors] as const);
+    return Object.freeze([undefined, 'rejected', res.errors, res.progress] as const);
   }
 
-  return Object.freeze([res.data!, 'resolved', res.errors] as const);
+  return Object.freeze([res.data!, 'resolved', res.errors, res.progress] as const);
 }

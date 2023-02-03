@@ -8,10 +8,9 @@ import React, { Fragment } from 'react';
 import { Card } from '@instana/components';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import { kiloBytes, number, percentage } from 'in-services/formatters/number';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
+import { number, percentage } from 'in-services/formatters/number';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
@@ -22,10 +21,10 @@ export default function Summary({ timeConfig, data: vios }) {
   return (
     <Fragment>
       <KpiGridRow sizes={[2, 2, 2, 2, 2, 2]}>
-        <KpiCard title={t('in-phmc:partitionId')} value={vios.partitionId || valueMissingPlaceholder} raw borderless />
-        <KpiCard title={t('in-phmc:dashboards.name')} value={vios.name || valueMissingPlaceholder} raw borderless />
-        <KpiCard title={t('in-phmc:state')} value={vios.state || valueMissingPlaceholder} raw borderless />
-        <KpiCard title={t('in-phmc:mode')} value={vios.mode || valueMissingPlaceholder} raw borderless />
+        <KpiCard title={t('in-phmc:partitionId')} value={vios.partitionId} raw borderless />
+        <KpiCard title={t('in-phmc:dashboards.name')} value={vios.name} raw borderless />
+        <KpiCard title={t('in-phmc:state')} value={vios.state} raw borderless />
+        <KpiCard title={t('in-phmc:mode')} value={vios.mode} raw borderless />
         <InfraMetricKpiCard
           title={t('in-phmc:utilizedMem')}
           snapshotId={snapshotId}
@@ -33,7 +32,7 @@ export default function Summary({ timeConfig, data: vios }) {
           formatter={percentage.detailed}
         />
         <InfraMetricKpiCard
-          title={t('in-phmc:entitledUsed')}
+          title={t('in-phmc:entitledProc')}
           snapshotId={snapshotId}
           metric="entitledProcUnitsPercentage"
           formatter={percentage.detailed}
@@ -41,33 +40,28 @@ export default function Summary({ timeConfig, data: vios }) {
       </KpiGridRow>
 
       <Row verticallyStretchColumns>
-        <Col lg={12}>
+        <Col lg={6}>
           <Card title={t('in-phmc:dashboards.processorUnits')} useMaxAvailableHeight>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                metrics: [
-                  'utilizedProcUnits',
-                  'maxProcUnits',
-                  'entitledProcUnits',
-                  'utilizedCappedProcUnits',
-                  'utilizedUncappedProcUnits',
-                  'idleProcUnits'
-                ],
-                labels: [
-                  t('in-phmc:utilized'),
-                  t('in-phmc:max'),
-                  t('in-phmc:entitled'),
-                  t('in-phmc:capped'),
-                  t('in-phmc:uncapped'),
-                  t('in-phmc:idle')
-                ],
+                metrics: ['utilizedProcUnits', 'maxProcUnits', 'entitledProcUnits'],
+                labels: [t('in-phmc:utilized'), t('in-phmc:max'), t('in-phmc:entitled')],
                 formatter: number.detailed,
                 type: 'line'
               }}
-              y2={{
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </Card>
+        </Col>
+        <Col lg={6}>
+          <Card title={t('in-phmc:entitledProc')} useMaxAvailableHeight>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
                 metrics: ['entitledProcUnitsPercentage'],
                 labels: [t('in-phmc:entitledPercent')],
                 type: 'line',
@@ -79,7 +73,23 @@ export default function Summary({ timeConfig, data: vios }) {
         </Col>
       </Row>
       <Row>
-        <Col lg={4}>
+        <Col lg={6}>
+          <Card title={t('in-phmc:dashboards.maxCpuUtilzation')} useMaxAvailableHeight>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                metrics: ['maxCPUCapacityUtilisation'],
+                labels: [t('in-phmc:maxCpuUtilzation')],
+                formatter: number.compact,
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </Card>
+        </Col>
+        <Col lg={6}>
           <Card title={t('in-phmc:dashboards.memoryUsage')} useMaxAvailableHeight>
             <Chart
               snapshotId={snapshotId}
@@ -88,7 +98,7 @@ export default function Summary({ timeConfig, data: vios }) {
                 min: 0,
                 metrics: ['utilizedMem', 'assignedMem'],
                 labels: [t('in-phmc:utilized'), t('in-phmc:assigned')],
-                formatter: kiloBytes.detailed,
+                formatter: number.compact,
                 type: 'line'
               }}
               y2={{

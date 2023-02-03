@@ -6,10 +6,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import TermsPage1 from 'in-settings/terms/dialog/TermsPage1';
-import TermsPage2 from 'in-settings/terms/dialog/TermsPage2';
-import TermsPage3 from 'in-settings/terms/dialog/TermsPage3';
-import TermsPage4 from 'in-settings/terms/dialog/TermsPage4';
+import TermsPageMessaging from 'in-settings/terms/dialog/TermsPageMessaging';
+import TermsPageCookies from 'in-settings/terms/dialog/TermsPageCookies';
+import TermsPageProfile from 'in-settings/terms/dialog/TermsPageProfile';
 import Dialog from 'in-components/Dialog/Dialog';
 import { t } from 'in-i18n';
 
@@ -27,16 +26,13 @@ export default function TermsDialogPresenter({
 }) {
   const [pageNumber, setPageNumber] = useState(1);
 
-  const nrPages = fullTermsConfigEnabled ? 4 : 3;
+  const nrPages = fullTermsConfigEnabled ? 3 : 2;
 
   return (
     <Dialog title={t('in-settings:terms.preferences')} doNotCloseOnOutsideClick withoutBodyPadding>
       <form onSubmit={e => onSave(e, form)} className={locals.dialogContent}>
-        {pageNumber === 1 && <TermsPage1 onNext={setPageNumber} onChange={onChange} form={form} nrPages={nrPages} />}
-
-        {pageNumber === 2 && (
-          <TermsPage2
-            onBack={setPageNumber}
+        {pageNumber === 1 && (
+          <TermsPageMessaging
             onNext={setPageNumber}
             onChange={onChange}
             form={form}
@@ -45,16 +41,22 @@ export default function TermsDialogPresenter({
           />
         )}
 
-        {fullTermsConfigEnabled && pageNumber === 3 && (
-          <TermsPage3 onBack={setPageNumber} onNext={setPageNumber} onChange={onChange} form={form} nrPages={nrPages} />
+        {fullTermsConfigEnabled && pageNumber === 2 && (
+          <TermsPageCookies
+            onBack={setPageNumber}
+            onNext={setPageNumber}
+            onChange={onChange}
+            form={form}
+            nrPages={nrPages}
+          />
         )}
 
-        {!fullTermsConfigEnabled && pageNumber === 3 && (
-          <TermsPage4
+        {!fullTermsConfigEnabled && pageNumber === 2 && (
+          <TermsPageProfile
             onBack={setPageNumber}
             onChange={onChange}
             form={form}
-            pageNumber={3}
+            pageNumber={2}
             hasErrorOnSave={saveError}
             fullTermsConfigEnabled={fullTermsConfigEnabled}
             nrPages={nrPages}
@@ -64,12 +66,12 @@ export default function TermsDialogPresenter({
           />
         )}
 
-        {pageNumber === 4 && (
-          <TermsPage4
+        {pageNumber === 3 && (
+          <TermsPageProfile
             onBack={setPageNumber}
             onChange={onChange}
             form={form}
-            pageNumber={4}
+            pageNumber={3}
             fullTermsConfigEnabled={fullTermsConfigEnabled}
             hasErrorOnSave={saveError}
             unsetSaveError={unsetSaveError}

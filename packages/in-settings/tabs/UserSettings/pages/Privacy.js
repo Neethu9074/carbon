@@ -66,5 +66,5 @@ function saveItem({ form, setMessage }) {
 }
 
 function enrichForm(form, { result }) {
-  return termsFormDefinition(result.termsAndPrivacySettings, false);
+  return termsFormDefinition(result.termsAndPrivacySettings);
 }

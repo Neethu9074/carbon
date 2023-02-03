@@ -13,6 +13,7 @@ export default function Info({ snapshot }) {
   return (
     <DescriptionList>
       <DescriptionItem title={t('in-forge:plugins.ibmMqTopic.name')}>{data.get('topicName')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqTopic.topicString')}>{data.get('topicString')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.ibmMqTopic.queueManager')}>{data.get('qmName')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.ibmMqTopic.clusterName')}>{data.get('clusterName')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.ibmMqTopic.topicType')}>{data.get('topicType')}</DescriptionItem>

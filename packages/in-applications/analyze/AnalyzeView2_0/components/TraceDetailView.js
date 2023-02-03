@@ -6,15 +6,20 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/components';
-import { Link } from '@instana/components';
+import { Button, Link, SvgIcon } from '@instana/components';
+import { useObservable } from '@instana/hooks';
 
 import SplitScreenTraceDetailContent from 'in-applications/analyze/AnalyzeView2_0/components/SplitScreenTraceDetailContent';
+import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import SplitScreenList from 'in-components/AnalyzeView/SplitScreenList/SplitScreenList';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { getIconByType, getLabelByType } from 'in-analyze/AnalyzeView/dataSources';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import getTraceSummary from 'in-applications/subscriptions/getTraceSummary';
 import tabs from 'in-applications/analyze/AnalyzeView2_0/components/tabs';
+import { traceIdFilterOverrideEnabled } from 'in-services/featureFlags';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
+import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getColorPool } from 'in-services/util/ColorGenerator';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -54,6 +59,7 @@ export default function TraceDetailView(props) {
             label={getLabelByType(dataSource)}
             contextConfigurations={[{ renderContext, contextIcon: 'lib_analyze_inverted' }]}
             withBorderBottom
+            showHistoricDataWarning={false}
           />
         }
       >
@@ -108,17 +114,72 @@ function getColorByEndpointType({ endpoint }) {
 }
 
 function Header(props) {
+  const isInternalVisible = useObservable(isInternalVisible$, []) || false;
+
   return (
     <DashboardHeader
       {...props}
       title={t('in-applications:labelTrace')}
       icon="lib_application_trace"
       label={get(props.result, ['data', 'label'])}
-      renderButtonLine={renderButtonLine}
+      renderButtonLine={isInternalVisible ? renderButtonLineInternalOnly : renderButtonLine}
       renderMetaInformation={renderMetaInformation}
       renderTimeSelection={renderTimeSelection}
       hideUrlShortener
     />
+  );
+}
+
+function applyTraceIdFilter(formModel, traceId) {
+  const traceIdFilterExpression = [tagFilter('trace.id', EQUALS, traceId)];
+
+  if (traceIdFilterOverrideEnabled) {
+    return traceIdFilterExpression;
+  }
+
+  const shortTraceId = traceId.slice(-16);
+  const hasTraceIdFilter = formModel.some(
+    tagFilter =>
+      tagFilter.name === 'trace.id' && tagFilter.operator === EQUALS && tagFilter.value?.endsWith(shortTraceId)
+  );
+  if (hasTraceIdFilter) {
+    return formModel;
+  }
+
+  return joinExpressions({ expressions: [formModel, traceIdFilterExpression] });
+}
+
+function renderButtonLineInternalOnly({ traceId, result, formModel, facets }) {
+  if (!role.canViewLogs || !role.canViewTraceDetails) {
+    return null;
+  }
+
+  const traceIdInUrl = result?.data?.id ?? traceId;
+  return (
+    <>
+      {
+        <Button
+          icon="lib_analyze"
+          kind="secondary"
+          href$={getLinkToAnalyze({
+            dataSource: 'calls',
+            formModel: applyTraceIdFilter(formModel, traceIdInUrl),
+            facets: traceIdFilterOverrideEnabled ? null : facets,
+            resetUndefinedParams: false
+          })}
+        >
+          {t('in-applications:analyze.analyzeCallsOfThisTrace')}
+        </Button>
+      }
+      <Button
+        icon="lib_actions_download"
+        kind="secondary"
+        target="_blank"
+        href={`/api/application-monitoring/analyze/traces;id=${encodeURIComponent(traceIdInUrl)}?pretty`}
+      >
+        {t('in-applications:linkDownload')}
+      </Button>
+    </>
   );
 }
 
@@ -140,9 +201,13 @@ function renderButtonLine({ traceId, result }) {
   );
 }
 
-function renderContext({ getHrefToUngroupedView }) {
+function renderContext({ getHrefToUngroupedView, tracker }) {
   return (
-    <Link className={locals.analyticsLink} href={getHrefToUngroupedView()}>
+    <Link
+      className={locals.analyticsLink}
+      href={getHrefToUngroupedView()}
+      onClick={() => tracker.traceViewNavigateBackToUa()}
+    >
       {t('in-applications:labelAnalytic')}
     </Link>
   );
@@ -163,9 +228,9 @@ function renderMetaInformation({ traceId, result }) {
   );
 }
 
-function renderTimeSelection({ getHrefToUngroupedView }) {
+function renderTimeSelection({ getHrefToUngroupedView, tracker }) {
   return (
-    <Link href={getHrefToUngroupedView()}>
+    <Link href={getHrefToUngroupedView()} onClick={() => tracker.traceViewClosedTracker()}>
       <Tooltip content={t('in-applications:analyze.closeTraceDetail')}>
         <SvgIcon
           className={locals.closeIcon}

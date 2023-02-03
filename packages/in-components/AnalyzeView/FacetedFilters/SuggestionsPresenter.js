@@ -29,19 +29,37 @@ export default function SuggestionsPresenter({
   getUpdatedFacetedSearchHref,
   customLabelMapper,
   dataSource,
-  tracker
+  tracker,
+  fallbackValues
 }) {
   const [numberOfPresentedRows, setNumberOfPresentedRows] = useState(DEFAULT_SUGGESTIONS_SIZE);
   if (loading) {
     return <Loading numberOfRows={numberOfPresentedRows} />;
   } else if (errors?.length > 0) {
-    return (
-      <Errors
-        errors={errors}
-        numberOfPresentedRows={numberOfPresentedRows}
-        setNumberOfPresentedRows={setNumberOfPresentedRows}
-      />
-    );
+    if (fallbackValues?.length > 0) {
+      return (
+        <Results
+          suggestions={fallbackValues}
+          getMetric={getDefaultMetric}
+          orderSuggestions={orderSuggestions}
+          facets={facets}
+          tag={tag}
+          getUpdatedFacetedSearchHref={getUpdatedFacetedSearchHref}
+          setNumberOfPresentedRows={setNumberOfPresentedRows}
+          customLabelMapper={customLabelMapper}
+          dataSource={dataSource}
+          tracker={tracker}
+        />
+      );
+    } else {
+      return (
+        <Errors
+          errors={errors}
+          numberOfPresentedRows={numberOfPresentedRows}
+          setNumberOfPresentedRows={setNumberOfPresentedRows}
+        />
+      );
+    }
   } else if (!suggestions) {
     return null;
   } else if (suggestions.length > 0) {
@@ -126,4 +144,8 @@ function Results({
       </div>
     </Stack>
   );
+}
+
+function getDefaultMetric() {
+  return '';
 }

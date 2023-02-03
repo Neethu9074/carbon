@@ -10,7 +10,7 @@ import { Link } from '@instana/components';
 import AnalyzeMessagesButton from 'in-applications/Dashboards/commonTabs/messages/components/AnalyzeMessagesButton';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
-import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
+import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { EQUALS, IS_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
@@ -19,8 +19,8 @@ import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getLogMessages from 'in-applications/subscriptions/getLogMessages';
 import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { number } from 'in-services/formatters/number';
+import { t, collationLanguage } from 'in-i18n';
 import Pill from 'in-components/Pill';
-import { t } from 'in-i18n';
 
 import locals from './MessagesTable.mless';
 
@@ -113,6 +113,7 @@ export default function LogMessagesTable({
       endpointName={endpointName}
       boundaryScope={boundaryScope}
       timeConfig={timeConfig}
+      cardTitle={t('in-applications:viewLists.logMessages')}
       rightHeader={({ query }) => (
         <AnalyzeMessagesButton
           groupByTagName="log.message"
@@ -149,7 +150,8 @@ function getTableData({
     },
     order: {
       by: orderBy,
-      direction: orderDirection
+      direction: orderDirection,
+      collation: collationLanguage
     },
     filter: {
       label: query,

@@ -12,5 +12,6 @@ registerSnapshotDefinition({
   plugin: plugins.perfCounters,
 
   kpiDefinitions,
-  metricDefinitions
+  metricDefinitions,
+  getIconType: () => 'windows'
 });

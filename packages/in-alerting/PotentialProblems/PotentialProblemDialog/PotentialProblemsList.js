@@ -6,8 +6,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
-import { Ul, Li } from '@instana/components';
+import { SvgIcon, Ul, Li } from '@instana/components';
 
 import { alertRulesPropType, thresholdsPropType } from 'in-alerting/PotentialProblems/PotentialProblemsLane/proptypes';
 import { getType } from 'in-alerting/PotentialProblems/PotentialProblemDialog/potentialProblemsDialogUtil';

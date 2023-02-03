@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { environmentHealthFormatter } from 'in-forge/plugins/awsBeanstalk/environmentHealthFormatter';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -83,6 +84,22 @@ const cols = [
         return 'mean';
       }
     }
+  },
+  {
+    title: t('in-forge:plugins.labelRequests.total'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `instanceMetrics.${row.key}.application_requests_total`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'avg';
+      }
+    }
   }
 ];
 
@@ -126,7 +143,7 @@ function getDetails(row) {
             metrics: ['instanceMetrics.' + instanceId + '.instance_health'],
             labels: [t('in-forge:plugins.awsBeanstalk.labelInstanceHealth')],
             type: 'line',
-            formatter: number.compact
+            formatter: environmentHealthFormatter
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
@@ -163,6 +180,7 @@ function getDetails(row) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
+
       <DashboardSection title={t('in-forge:plugins.awsBeanstalk.titleDiskUsage')}>
         <Chart
           snapshotId={row.snapshotId}
@@ -177,6 +195,7 @@ function getDetails(row) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
+
       <DashboardSection title={t('in-forge:plugins.awsBeanstalk.titleApplicationLatency')}>
         <Chart
           snapshotId={row.snapshotId}
@@ -208,6 +227,7 @@ function getDetails(row) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
+
       <DashboardSection title={t('in-forge:plugins.awsBeanstalk.titleApplicationRequests')}>
         <Chart
           snapshotId={row.snapshotId}
@@ -232,10 +252,11 @@ function getDetails(row) {
               theme.lib.colors.yellow800,
               theme.lib.colors.orange800,
               theme.lib.colors.red800,
-              theme.lib.colors.indigo800
+              theme.lib.colors.lightBlue800
             ],
             type: 'line',
-            formatter: number.detailed
+            aggregation: 'avg',
+            formatter: number.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />

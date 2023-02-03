@@ -11,7 +11,8 @@ import { Card } from '@instana/components';
 import {
   clusterIdUrlParameter,
   serviceIdUrlParameter,
-  namespaceIdUrlParameter
+  namespaceIdUrlParameter,
+  deploymentIdUrlParameter
 } from 'in-kubernetes/navigation/urlParameters';
 import K8sAgentMonitoringIssueNotifications from 'in-kubernetes/Dashboards/commonComponents/K8sAgentMonitoringIssueNotifications';
 import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
@@ -129,7 +130,8 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
     ...timeConfigUrlParameters,
     clusterIdUrlParameter,
     serviceIdUrlParameter,
-    namespaceIdUrlParameter
+    namespaceIdUrlParameter,
+    deploymentIdUrlParameter
   ],
   columnDefinitions,
   defaultOrderBy: 'name',

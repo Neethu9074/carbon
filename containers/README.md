@@ -1,10 +1,10 @@
 # Component Images
 
-This directory contains all code necessary to build Instana `ui-client` component images based off of Instana runtime images. The `ui-client` component uses a similar `container` definition file as the [default backend one](https://github.com/instana/backend/blob/develop/containers/components/default/container) except that it's using the `nodejs` image instead of `jdk11` as the base.
+This directory contains all code necessary to build Instana `ui-client` component images based off of Instana runtime images. The `ui-client` component uses a similar `container` definition file as the [default backend one](https://github.ibm.com/instana/backend/blob/develop/containers/components/default/container) except that it's using the `nodejs` image instead of `jdk11` as the base.
 
 ## Base Image
 
-All Instana component images use one of the [Instana runtime images](https://github.com/instana/backend/blob/develop/containers/runtimes) as its base. The version of that base image is controlled by the value in the [`BASE_VERSION`](BASE_VERSION) file.
+All Instana component images use one of the [Instana runtime images](https://github.ibm.com/instana/backend/blob/develop/containers/runtimes) as its base. The version of that base image is controlled by the value in the [`BASE_VERSION`](BASE_VERSION) file.
 
 ## Usage
 
@@ -27,7 +27,7 @@ from source (be patient), extract the required files, and then build a container
 
 Images that are built on CI download the component's `tar.gz` file from Artifactory instead of building it from source, and need
 proper values to be provided for `BRANCH_NAME`, `ARTIFACT_VERSION` and `IMAGE_VERSION`. Additionally, the following env variables need to be provided as well:
-  - `ARTIFACT_RND_INSTANA_IO_USER` and `ARTIFACT_RND_INSTANA_IO_PASSWORD` to download `tar.gz` files from Artifactory.
+  - `INSTANA_ARTIFACTORY_USERNAME` and `INSTANA_ARTIFACTORY_PASSWORD` to download `tar.gz` files from Artifactory.
   - `CONTAINERS_INSTANA_IO_USER` and `CONTAINERS_INSTANA_IO_PASSWORD` to interact with `containers.instana.io`
 
 #### About the `ARTIFACT_VERSION` and `IMAGE_VERSION` env vars
@@ -45,16 +45,16 @@ For example:
     BRANCH_NAME=develop \
     ARTIFACT_VERSION=1.198.755 \
     IMAGE_VERSION=3.198.10-0 \
-    ARTIFACT_RND_INSTANA_IO_USER=<artifactory-user> \
-    ARTIFACT_RND_INSTANA_IO_PASSWORD=<artifactory-pswd> \
+    INSTANA_ARTIFACTORY_USERNAME=<artifactory-user> \
+    INSTANA_ARTIFACTORY_PASSWORD=<artifactory-pswd> \
     CONTAINERS_INSTANA_IO_USER=<containers-user> \
     CONTAINERS_INSTANA_IO_PASSWORD=<containers-pswd> \
     ./scripts/build.sh ui-client
 
 Will produce:
 
-    REPOSITORY                                                                   TAG           IMAGE ID       CREATED             SIZE
-    containers.instana.io/instana/develop/product/ui-client                      3.198.10-0    99b577f554e4   About an hour ago   464MB
+    REPOSITORY                                                                                   TAG           IMAGE ID       CREATED             SIZE
+    delivery.instana.io/int-docker-backend-local/backend/dev/develop/ui-client                   3.198.10-0    99b577f554e4   About an hour ago   464MB
 
 #### Vulnerability Scanning
 

@@ -142,16 +142,19 @@ describe('in-applications/ServerFlowMap/FlowMapState', () => {
           [],
           'incoming'
         )
-      ).to.deep.equal([
-        {
-          id: 'service1',
-          service: { id: 'service1' },
-          endpoint: 2,
-          applications: ['app1', 'app2'],
-          relatedNodesCount: 3,
-          metrics: 4
-        }
-      ]);
+      ).to.deep.equal({
+        nodes: [
+          {
+            id: 'service1',
+            service: { id: 'service1' },
+            endpoint: 2,
+            applications: ['app1', 'app2'],
+            relatedNodesCount: 3,
+            metrics: 4
+          }
+        ],
+        resultPrecisionDetails: { resultPrecision: 'PRECISION_UNKNOWN' }
+      });
 
       expect(
         flowMapState.mapResult(
@@ -171,16 +174,19 @@ describe('in-applications/ServerFlowMap/FlowMapState', () => {
           ['foo'],
           'incoming'
         )
-      ).to.deep.equal([
-        {
-          id: 'service1<-foo',
-          service: { id: 'service1' },
-          endpoint: 2,
-          applications: ['app1', 'app2'],
-          relatedNodesCount: 3,
-          metrics: 4
-        }
-      ]);
+      ).to.deep.equal({
+        nodes: [
+          {
+            id: 'service1<-foo',
+            service: { id: 'service1' },
+            endpoint: 2,
+            applications: ['app1', 'app2'],
+            relatedNodesCount: 3,
+            metrics: 4
+          }
+        ],
+        resultPrecisionDetails: { resultPrecision: 'PRECISION_UNKNOWN' }
+      });
     });
 
     describe('calculateUniqueIdForNode', () => {

@@ -9,6 +9,7 @@
   .wrapper {
     display: flex;
     flex-direction: column;
+    color: @lib__colors__N600Light;
   }
 
   .values {

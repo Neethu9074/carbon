@@ -8,6 +8,9 @@
   "labelTrace": "Rastreo",
   "linkDownload": "Descargar",
   "labelCalls": "Llamadas",
+  "labelCallsPerSecondShort": "Llamadas",
+  "labelErroneousCallsPerSecondShort": "Llamadas erróneas",
+  "labelCallsPerSecondFull": "Llamadas por segundo",
   "labelTraces": "Rastreos",
   "labelErrorRate": "Tasa de errores",
   "labelDisableSizing": "Inhabilitar dimensionamiento",
@@ -25,13 +28,13 @@
   "labelLogMessages": "Mensajes de registro",
   "labelLogMessage": "Mensaje de registro",
   "labelInfrastructure": "Infraestructura",
-  "labelAlerts": "Alertas",
+  "labelTroubleshooting": "Resolución de problemas",
   "labelConfiguration": "Configuración",
   "labelTypes": "Tipos",
   "labelTechnologies": "Tecnologías",
   "labelEndpoints": "Puntos finales",
   "labelHealth": "Salud",
-  "labelOther": "Otros",
+  "labelNonHttp": "No HTTP",
   "labelCallCount": "Número de llamadas",
   "labelHTTPStatusCodes": "Códigos de estado HTTP",
   "labelInfraIssues": "Problemas de la infraestructura",
@@ -59,6 +62,8 @@
   "labelScope": "Ámbito",
   "labelCustomServiceRules": "Reglas de servicio personalizadas",
   "labelSyntheticEndpoints": "Puntos finales sintéticos",
+  "labelWarning": "Aviso",
+  "labelCritical": "Crítico",
   "titleTopServices": "Servicios principales",
   "titleMeanLatency": "Latencia media",
   "titleErroneousCallRate": "Tasa de llamadas erróneas",
@@ -108,7 +113,7 @@
   "buttonAddTag": "Añadir código",
   "buttonOK": "Aceptar",
   "buttonCreate": "Crear",
-  "buttonCancel": "cancelar",
+  "buttonCancel": "Cancelar",
   "buttonRemoveApplicationPerspective": "Eliminar perspectiva de aplicación",
   "buttonAddDescription": "Añadir descripción",
   "buttonAddSyntheticEndpointRule": "Añadir regla de punto final sintético",
@@ -118,6 +123,7 @@
   "helpOptional": "(opcional)",
   "messageSuccessfullySaved": "Guardado correctamente.",
   "messageErrorOccurred": "Se ha producido un error, inténtelo de nuevo.",
+  "messageWaitForChanges": "Los cambios pueden tardar algún tiempo en aplicarse.",
   "linkViewAllServices": "Ver todos los servicios",
   "linkViewAllEndpoints": "Ver todos los puntos finales",
   "lineViewInAnalyze": "Ver en Analizar",
@@ -194,11 +200,11 @@
     "technologies": "Tecnologías",
     "httpStatusCode": "Estado HTTP",
     "hiddenCalls": "Llamadas ocultas",
-    "preview": "Vista previa",
+    "fastQueryMode": "Modalidad de consulta rápida",
+    "fastQueryModeTooltip": "La modalidad de consulta rápida permite la ejecución de consultas en un subconjunto de llamadas o rastreos, si la ejecución en el conjunto de datos completo tardaría demasiado.",
     "listBatchTypeTooltip": "Este {{type}} está en un lote y representa {{batchCount}} {{types}} individuales.",
     "listBatchLatencyTooltip": "Latencia total de {{batchCount}} {{types}} por lotes.",
     "traceIdTooltip": "Algunos datos relacionados con este rastreo se retrasan, por lo tanto, vuelva a cargar la página más adelante. Por ejemplo, esto puede suceder cuando se visualiza un rastreo muy reciente y algunos de sus datos todavía se están procesando.",
-    "downloadTraceTooltip": "Descargue el rastreo completo.",
     "closeTraceDetail": "Cerrar detalle de rastreo",
     "invalidQueryConfig": "La configuración de la consulta no es válida. Solucione las anomalías de validación antes de continuar.",
     "errorRateLabel": "Llamadas erróneas (tasa)",
@@ -418,7 +424,10 @@
     }
   },
   "dashboards": {
-    "percentOfCalls": "{{percentage}} de todas las llamadas",
+    "callCount": "{{formattedCount}} llamada en total",
+    "callCount_plural": "{{formattedCount}} llamadas en total",
+    "erroneousCallCount": "{{formattedCount}} llamada errónea en total",
+    "erroneousCallCount_plural": "{{formattedCount}} llamadas erróneas en total",
     "meanLatencyFor90th": "{{meanLatencyDetail}} para 90º",
     "infrastructureIssuesChanges": "Problemas de la infraestructura y cambios",
     "unknownTime": "Desconocido a las {{entityTime}}",
@@ -469,7 +478,8 @@
     "tooltipExtractsEndpointsAsSpecified": "Extrae los puntos finales como se ha especificado en la infraestructura detectada (si está accesible)",
     "tooltipExtractsEndpointsOnFirstPath": "Extrae los puntos finales basados en el parámetro de primera vía de acceso",
     "tooltipExtractsEndpointsOnRouteId": "Extrae los puntos finales basándose en el ID de ruta",
-    "tooltipEndpointCallsNotMatch": "Las llamadas que no coinciden con una regla anterior se asignan a este punto final",
+    "tooltipEndpointCallsNotMatch": "Las llamadas que no coinciden con una regla anterior se asignan a este punto final.",
+    "tooltipEndpointFallbackRule": "Puesto que esta es la regla de reserva, no se puede inhabilitar.",
     "titleConfigureEndpointsExtract": "Configurar cómo se extraen los puntos finales de las llamadas subyacentes a este servicio.",
     "descriptionConfigureEndpointsExtract": "Las reglas de punto final se evalúan secuencialmente, de arriba abajo, y se asigna una llamada a la primera regla coincidente. Una vez configuradas, las nuevas llamadas nuevas se asignarán en función de las reglas actualizadas.",
     "descriptionResetToDefaultRule": "Si desea restablecer las reglas de extracciones predeterminadas, utilice el botón de abajo. El restablecimiento puede tardar algunos unos minutos en registrarse.",
@@ -483,11 +493,12 @@
     },
     "newApplication": {
       "helpApplicationPerspectives": "Las perspectivas de aplicación proporcionan un medio para modelar entornos, conjuntos de servicios, arrendatarios o prácticamente cualquier cosa.",
-      "helpRenameApplication": "Cambiar el nombre de una aplicación es una acción coherente en el sistema Instana. Por este motivo, el cambio de un nombre de aplicación puede tardar <italic>algunos minutos</italic> hasta que se haya rellenado en todo el sistema. ",
+      "helpRenameApplication": "Cambiar el nombre de una aplicación es una acción coherente en el sistema Instana. Por este motivo, el cambio de un nombre de aplicación puede tardar <italic>algunos minutos</italic> hasta que se haya completado en todo el sistema.",
       "descriptionApplicationName": "Los nombres de la perspectiva de la aplicación deben tener una definición correctamente establecida en una organización. Por ejemplo, para modelar un entorno: \"Production Blue\", para modelar un conjunto de servicios: \"Payment\", o para modelar un arrendatario: \"ACME Customer\".",
       "descriptionTags": "Por ejemplo, cuando la clave es \"docker.label\" y el valor es \"environment=Production Blue\" o la clave es \"call.http.params\" y el valor es \"tenant=ACMECustomer\". Tenga en cuenta que cualquier llamada a un servicio <pillDatabase>DATABASE</pillDatabase> o <pillMessage>MESSAGING</pillMessage> desde los servicios que coinciden con esta definición se incluirá automáticamente.",
       "descriptionOperatorsCreationEnabled": "Los operadores AND tienen prioridad y se evalúan antes que los operadores OR si no están agrupados entre corchetes",
       "descriptionPrepareToMonitor": "Se está preparando todo para supervisar su perspectiva de aplicación <bold>{{decodedLabel}}</bold>.",
+      "prepareToMonitorUnauthorized": "No dispone de los permisos necesarios para ver la perspectiva de aplicación <bold>{{decodedLabel}}</bold>. Para obtener los permisos, póngase en contacto con el administrador del grupo.",
       "descriptionRemoveApplicationPerspective": "Si ya no desea supervisar la perspectiva de aplicación <strong>{{application}}</strong>, utilice el botón de abajo para eliminarla. La eliminación de una perspectiva de aplicación puede tardar unos minutos.",
       "stepTitleDefineApplicationName": "Defina un nombre para su perspectiva de aplicación.",
       "stepTitleApplicationName": "Nombre de perspectiva de la aplicación.",
@@ -505,7 +516,8 @@
       "errorApplicationNameBlank": "El nombre de la perspectiva de la aplicación no debe estar en blanco.",
       "errorNameLengthExceeded": "El nombre de la perspectiva de la aplicación no debe tener más de 128 caracteres.",
       "errorInvalidQuery": "La consulta no es válida",
-      "titleApplicationCreating": "Se está creando la perspectiva de la aplicación..."
+      "titleApplicationCreating": "Se está creando la perspectiva de la aplicación...",
+      "titleApplicationCreatingUnauthorized": "La perspectiva de aplicación no se puede abrir"
     },
     "customSyntheticRule": {
       "placeholderNameRule": "Asignar un nombre a la regla",
@@ -527,7 +539,7 @@
     "showApplicationsScopeWithApplicationLabel": "Mostrando aplicaciones <bold>{{contextScope}}</bold> de <linkToEntity>{{entityLabel}}</linkToEntity> en el contexto de <linkToApplication>{{applicationLabel}}</linkToApplication>",
     "showServicesScopeWithServiceLabel": "Mostrando servicios <bold>{{contextScope}}</bold> de <linkToEntity>{{entityLabel}}</linkToEntity> en el contexto de <linkToApplication>{{applicationLabel}}</linkToApplication>",
     "titleNoService": "Sin servicios todavía",
-    "servicesNoData": "No hay llamadas de servicio disponibles para el rango de tiempo seleccionado. Para obtener información sobre resolución de problemas, consulte [documentation][Docs].\n\n[Docs]:https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listed"
+    "servicesNoData": "No hay ninguna llamada de servicio disponible para el rango de tiempo seleccionado. Para obtener información sobre la resolución de problemas, consulte [documentation][Docs].\n\n[Docs]:https://www.ibm.com/docs/en/obi/current?topic=applications-services#why-am-i-not-seeing-any-services-listed"
   },
   "endpointTypes": {
     "batch": "Lote",
@@ -570,23 +582,14 @@
         "largeTraceLink": "Este es un rastreo de gran tamaño y la representación de este rastreo puede generar problemas de rendimiento en su navegador. Puede <linkToDocs>descargar el rastreo</linkToDocs> para realizar una inspección manual o para intentar visualizar el rastreo en el navegador. Sólo se visualizará un subconjunto de los componentes para mejorar el rendimiento durante este intento.",
         "calls": "Llamadas",
         "erroneousTrace": "Rastreo erróneo",
-        "attemptToRenderTrace": "Intento de visualización del rastreo"
-      },
-      "calls": {
-        "settings": {
-          "showServiceInformation": "Información del servicio",
-          "showServiceInformationExpl": "Mostrar información de servicio debajo de la etiqueta de llamada",
-          "showSubCalls": "Mostrar subllamadas",
-          "showSubCallsExpl": "Mostrar subllamadas directas en cada fila"
-        }
+        "attemptToRenderTrace": "Intento de visualización del rastreo",
+        "analyzeBeacons": "Analizar balizas",
+        "adjustedTimeConfig": "El rango de tiempo se ha ajustado para incluir la baliza seleccionada."
       }
     }
   },
   "tabs": {
-    "labelDetail": "Detalle",
-    "labelSummary": "Resumen",
-    "servicesAndEndpoint": "Servicios y puntos finales",
-    "logs": "Registros"
+    "labelDetail": "Detalle"
   },
   "metrics": {
     "calls_calls": "Llamadas",
@@ -598,5 +601,54 @@
     "traces_latency": "Latencia",
     "traces_erroneousCalls": "Rastreos erróneos",
     "traces_errors": "Tasa de rastreos erróneos"
+  },
+  "viewLists": {
+    "application": "Aplicaciones",
+    "services": "Servicios",
+    "errorMessages": "Mensajes de error",
+    "logMessages": "Mensajes de registro",
+    "endpoints": "Puntos finales"
+  },
+  "serviceTroubleshooting": {
+    "troubleShootingExplanation": "Explicación",
+    "alternativeServicesTitle": "Servicios alternativos",
+    "alternativeServices": "¿A qué servicios alternativos se derivaron las llamadas perdidas, en función de {{correlationTag}}?",
+    "numberOfHosts": "¿Cuántos hosts están ejecutando este servicio?",
+    "numberOfHostnames": "¿Cuántas cabeceras \"Host\" HTTP se utilizan para llamar a este servicio?",
+    "numberOfQualifiedReferences": "¿Cuántas referencias cualificadas se utilizan para llamar a este servicio?",
+    "serviceMapping": "Resultado de correlación de servicio",
+    "serviceMappingProblemStatement": "¿Ha surtido efecto la correlación de servicio resiliente?",
+    "serviceMappingDocumentation": "Documentación para todos los posibles resultados de correlación de servicio:",
+    "infraLinking": "Resultado de enlace de infraestructuras",
+    "infraLinkingProblemStatement": "¿Hay algún problema con el enlace de infraestructuras?",
+    "infraLinkingDocumentation": "Documentación de todas las detecciones de infraestructura posibles:",
+    "hostName": "Hosts",
+    "hostNameProblemStatement": "¿Hay algún problema relacionado con un host específico?",
+    "httpHost": "Cabeceras \"Host\" HTTP",
+    "httpHostProblemStatement": "¿Hay algún problema relacionado con una cabecera HTTP \"Host\" específica?",
+    "infraReferenceType": "Tipos de referencia de infraestructura",
+    "infraReferenceTypeProblemStatement": "¿Qué tipos de referencia de infraestructura se utilizan?",
+    "infraReferenceTypeDocumentation": "Documentación para todos los tipos de referencia de infraestructura posibles:",
+    "spanType": "Tipos de span",
+    "spanTypeProblemStatement": "¿Hay algún problema relacionado con un tipo de span específico?",
+    "processUptime": "Tiempo de funcionamiento del proceso",
+    "processUptimeProblemStatement": "¿Se ha iniciado recientemente algún proceso que podría no estar totalmente instrumentado todavía?",
+    "serviceRuleId": "Reglas de correlación de servicio",
+    "serviceRuleIdProblemStatement": "¿Qué reglas de correlación de servicio se han desencadenado?",
+    "serviceRuleDocumentation": "Definiciones de las reglas de correlación de servicio predefinidas:",
+    "customServiceRuleDocumentation": "El cliente puede haber definido sus propias reglas de correlación de servicio personalizadas:",
+    "customServiceRuleConfiguration": "Configurar reglas de servicio personalizadas",
+    "problem": "<bold>Sí</bold>, si ve resultados de tipo",
+    "possibleProblem": "<bold>Posiblemente</bold>, si ve resultados de tipo",
+    "viewInAnalyze": "Abrir en Unbounded Analytics",
+    "alternativeServicesProblemStatement": "<bold>¿Qué es un servicio alternativo?</bold>",
+    "alternativeServicesExplanation": "El servicio actual y sus servicios alternativos reciben llamadas que comparten la misma propiedad: el mismo nombre de host de destino, la misma cabecera HTTP \"host\", la misma referencia de infraestructura, etc.<br/><br/>Por ejemplo, el servicio actual recibe llamadas cuya cabecera HTTP \"host\" es <code>mycompany.com</code>, pero otros servicios reciben llamadas cuya cabecera HTTP \"Host\" es <code>mycompany.com</code>.<br/><br/>Para las llamadas HTTP, la cabecera \"Host\" es un fragmento de información importante, ya que se utiliza como clave de memoria caché de primer nivel en la correlación de servicio resiliente.",
+    "alternativeServicesOk": "<bold>¿Es correcto ver servicios alternativos?</bold>",
+    "alternativeServicesProblem": "<bold>No</bold>, si el nombre del servicio actual procede de la cabecera HTTP \"Host\" (la regla de correlación de servicio cuyo ID es call.http.host) y el nombre del servicio alternativo no (porque su nombre proviene de una regla que se basa en etiquetas de infraestructura) o viceversa. Se trata de servicios duplicados.",
+    "alternativeServicesPossibleProblem": "<bold>Tal vez</bold>, si el servicio actual y los nombres de servicios alternativos no proceden de la cabecera HTTP \"Host\", pueda tratarse de servicios que se encuentran tras un proxy (correcto) o de servicios duplicados (incorrecto): algunos de los servicios están totalmente enlazados a la infraestructura, mientras que otros solo lo están parcialmente."
+  },
+  "widgetNotActive": {
+    "title": "El widget no recibe soporte en modalidad activa",
+    "button": "Modalidad de detención en directo"
   }
 }

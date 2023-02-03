@@ -3,8 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { compose, withState } from 'recompose';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Button } from '@instana/components';
 
@@ -17,34 +16,27 @@ import locals from './SelectListDialog.mless';
 
 const defaultRequiresAtLeastOneMessage = t('in-settings:tabs.pleaseSelectAtLeastOneItem');
 
-export default compose(
-  withState('selectedItems', 'setSelectedItems', []),
-  withState('errorMessage', 'setErrorMessage', ({ requiresAtLeastOneMessage }) =>
-    requiresAtLeastOneMessage ? requiresAtLeastOneMessage : defaultRequiresAtLeastOneMessage
-  )
-)(SelectListDialogContent);
-
-function SelectListDialogContent({
+export default function SelectListDialogContent({
   listComponent,
   listComponentRightHeader,
   onSubmit,
   createSubmitLabel = () => t('in-settings:tabs.add'),
   requiresAtLeastOneMessage = defaultRequiresAtLeastOneMessage,
   hiddenIds = [],
-  selectedItems,
-  setSelectedItems,
-  errorMessage,
-  setErrorMessage,
   limit = Number.MAX_VALUE, // unlimited by default
   pageSize = 7,
   preventCloseOnSubmit,
   renderCustomFormActions
 }) {
+  const [selectedItems, setSelectedItems] = useState([]);
+  const [errorMessage, setErrorMessage] = useState(
+    requiresAtLeastOneMessage ? requiresAtLeastOneMessage : defaultRequiresAtLeastOneMessage
+  );
   limit = limit - hiddenIds.length; // take the items that are already selected into account
   const ListComponent = listComponent;
   const numberOfItems = selectedItems.length;
   if (!errorMessage && numberOfItems === 0) {
-    errorMessage = requiresAtLeastOneMessage;
+    setErrorMessage(requiresAtLeastOneMessage);
   }
 
   return (
@@ -52,6 +44,7 @@ function SelectListDialogContent({
       onSubmit={e => {
         e.preventDefault();
         onSubmit(selectedItems);
+        setSelectedItems([]);
         if (!preventCloseOnSubmit) close();
       }}
       autoComplete="off"

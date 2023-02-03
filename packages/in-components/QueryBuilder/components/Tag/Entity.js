@@ -14,13 +14,16 @@ import Overlay from 'in-components/overlays/Overlay';
 
 import locals from './Entity.mless';
 
-export default React.forwardRef(function Entity({ entity, onChange, renderModelIndex, focus }, ref) {
+export default React.forwardRef(function Entity(
+  { entity, onChange, renderModelIndex, focus, sourceEnabled, destinationEnabled },
+  ref
+) {
   if (entity === SOURCE || entity === DESTINATION) {
     return (
       <Overlay
         withoutWrapper
         content={SourceDestinationSelectorOverlay}
-        props={{ value: entity, onChange }}
+        props={{ value: entity, onChange, sourceEnabled, destinationEnabled }}
         align="bottomMiddle"
         onCloseSideEffect={e => {
           // Ensure the element retains its focus when closing the overlay with the escape key.

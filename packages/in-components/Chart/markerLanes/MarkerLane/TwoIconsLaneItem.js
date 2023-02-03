@@ -6,7 +6,7 @@
 import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 
-import SingleMarkerLaneItem from './SingleMarkerLaneItem';
+import SingleMarkerLaneItem from 'in-components/Chart/markerLanes/MarkerLane/SingleMarkerLaneItem';
 
 const TwoIconsLaneItem = forwardRef(function TwoIconsLaneItem(
   { iconConfigForMultipleAlertTypes, eventData, ...remainingProps },

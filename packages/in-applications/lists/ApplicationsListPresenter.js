@@ -9,7 +9,6 @@ import React from 'react';
 import { SeverityIndicatorCellContentWrapper } from '@instana/components';
 import { TableEntityCounter } from '@instana/components';
 import { SvgIcon } from '@instana/components';
-import { Card } from '@instana/components';
 import { Link } from '@instana/components';
 
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
@@ -22,7 +21,7 @@ import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingAc
 import { getApplicationDashboard, applicationsList } from 'in-applications/navigation/paths';
 import { getApplicationsWithDefaults } from 'in-applications/subscriptions/getApplications';
 import { applicationListPrefix as matrixPrefix } from 'in-applications/navigation/matrix';
-import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
+import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import ScopeNotification from 'in-applications/lists/components/ScopeNotification';
@@ -49,8 +48,9 @@ const columnDefinitions = [
     id: 'applicationLabel',
     label: t('in-applications:labelName'),
     getContent(item) {
+      const maxSeverity = get(item, ['metrics', 'maxSeverity', 0, 1], 0);
       return (
-        <SeverityIndicatorCellContentWrapper severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}>
+        <SeverityIndicatorCellContentWrapper severity={maxSeverity}>
           <Link href$={getApplicationDashboard(item.application.id)}>{item.application.label}</Link>
         </SeverityIndicatorCellContentWrapper>
       );
@@ -65,7 +65,7 @@ const columnDefinitions = [
       const iconColor = href$ && theme.lib.colors.blue800;
       if (item.application.boundaryScope) {
         return (
-          <Tooltip content={boundaryScopes.info[item.application.boundaryScope].dashboard}>
+          <Tooltip content={boundaryScopes.info[item.application.boundaryScope].dashboard} delay={500}>
             <SvgIcon type={boundaryScopes.info[item.application.boundaryScope].icon} color={iconColor} />
           </Tooltip>
         );
@@ -142,11 +142,13 @@ const columnDefinitions = [
     label: t('in-applications:labelHealth'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
+      const openIssues = get(item, ['metrics', 'openIssues', 0, 1], 0);
+      const maxSeverity = get(item, ['metrics', 'maxSeverity', 0, 1], 0);
       return (
         <ApplicationEntityHealthIndicatorBehavior
           applicationId={item.application.id}
-          openIssues={get(item, ['metrics', 'openIssues', 0, 1], 0)}
-          maxSeverity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
+          openIssues={openIssues}
+          maxSeverity={maxSeverity}
           IndicatorPresenter={HealthIndicatorPresenter}
           timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
           inContentArea
@@ -174,7 +176,8 @@ export default function ApplicationsListPresenter({
   contextScope,
   tagFilters,
   snapshotId,
-  plugin
+  plugin,
+  location
 }) {
   const scopeNotification = (applicationId || serviceId || endpointId || tagFilters) && contextScope && (
     <ScopeNotification
@@ -216,25 +219,26 @@ export default function ApplicationsListPresenter({
           getHasDataToRender={() => getHasDataToRender(timeConfig)}
           FallbackComponent={ApplicationsNoDataNotification}
         >
-          <Card useMaxAvailableHeight={false} hasMarginBottom>
-            <ServerTableWithUrlState
-              get={getTableData}
-              timeConfig={timeConfig}
-              applicationId={applicationId}
-              serviceId={serviceId}
-              endpointId={endpointId}
-              contextScope={contextScope}
-              scopeNotification={scopeNotification}
-              tagFilters={tagFilters}
-            />
-          </Card>
+          <ServerTableWithUrlState
+            get={getTableData}
+            timeConfig={timeConfig}
+            applicationId={applicationId}
+            serviceId={serviceId}
+            endpointId={endpointId}
+            contextScope={contextScope}
+            scopeNotification={scopeNotification}
+            tagFilters={tagFilters}
+            cardTitle={t('in-applications:viewLists.application')}
+          />
         </WithEmptyStateFallback>
       </LeftRightPadding>
 
       <Footer />
       <FloatingActionButtons>
         <FloatingActionButtonMenu>
-          {role.canConfigureApplications && <CreateApplication icon="lib_openclose_add_box" kind="primaryv2" />}
+          {role.canConfigureApplications && (
+            <CreateApplication icon="lib_openclose_add_box" kind="primaryv2" location={location} />
+          )}
 
           {role.canConfigureGlobalAlertConfigs && applicationSmartAlertsEnabled && (
             <CreateGlobalSmartAlertButton renderAsSimpleButton />

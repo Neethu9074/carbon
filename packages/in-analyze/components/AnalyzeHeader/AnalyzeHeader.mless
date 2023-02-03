@@ -42,4 +42,11 @@
     margin: 0 0.5rem;
     color: @lib__colors__N600Light;
   }
+
+  .metaInformation {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+  }
 }

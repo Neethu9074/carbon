@@ -18,7 +18,7 @@ import {
 import { instanaDomain } from 'in-waiting-for-deployment/components/OnboardingWidget/content/configuration';
 import { t } from 'in-i18n';
 
-export default function AwsSensorContent({ agentKey, agentEndpoint, agentEndpointPort }) {
+export default function AwsSensorContent({ agentKey, downloadKey, agentEndpoint, agentEndpointPort }) {
   const platformOptions = [t('in-waiting-for-deployment:content.ec2'), t('in-waiting-for-deployment:content.ecs')];
 
   const [selectedPlatform, setPlatform] = useState(platformOptions[0]);
@@ -117,7 +117,7 @@ export default function AwsSensorContent({ agentKey, agentEndpoint, agentEndpoin
           lines={[
             `curl -o setup_agent.sh https://setup.instana.${instanaDomain}/agent`,
             'chmod 700 ./setup_agent.sh',
-            `sudo ./setup_agent.sh -y -a ${agentKey} -m aws -t dynamic -e ${agentEndpoint}:${agentEndpointPort} -s`
+            `sudo ./setup_agent.sh -y -a ${agentKey} -d ${downloadKey} -m aws -t dynamic -e ${agentEndpoint}:${agentEndpointPort} -s`
           ]}
         />
         <Spacer />
@@ -144,7 +144,7 @@ export default function AwsSensorContent({ agentKey, agentEndpoint, agentEndpoin
       containerDefinitions: [
         {
           name: 'aws-sensor',
-          image: 'instana/agent',
+          image: 'icr.io/instana/agent',
           environment: [
             {
               name: 'INSTANA_AGENT_ENDPOINT',
@@ -157,6 +157,10 @@ export default function AwsSensorContent({ agentKey, agentEndpoint, agentEndpoin
             {
               name: 'INSTANA_AGENT_KEY',
               value: agentKey
+            },
+            {
+              name: 'INSTANA_DOWNLOAD_KEY',
+              value: downloadKey
             },
             {
               name: 'INSTANA_AGENT_MODE',
@@ -216,7 +220,7 @@ export default function AwsSensorContent({ agentKey, agentEndpoint, agentEndpoin
       <HelpBox>
         <TextWithLink
           i18nKey="in-waiting-for-deployment:content.theAwsAgentMonitorsLotsOfDifferentAwsTechnologiesInOneSinglePackageForTheFullListReferToThe"
-          href="https://instana.com/docs/ecosystem/aws/#monitored-services"
+          href="https://www.ibm.com/docs/en/obi/current?topic=agents-monitoring-amazon-web-services-aws#monitored-services"
         />
       </HelpBox>
 

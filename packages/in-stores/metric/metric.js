@@ -30,8 +30,13 @@ export const aggregationLabels = {
   MAX: t('aggregation', { context: 'MAX' }),
   DISTINCT_COUNT: t('aggregation', { context: 'DISTINCT_COUNT' }),
   SUM: t('aggregation', { context: 'SUM' }),
-  DISTRIBUTION: t('aggregation', { context: 'DISTRIBUTION' })
+  DISTRIBUTION: t('aggregation', { context: 'DISTRIBUTION' }),
+  PER_SECOND: t('aggregation', { context: 'PER_SECOND' })
 };
+
+export function hasIcon(aggregation) {
+  return aggregation !== 'PER_SECOND';
+}
 
 export const aggregationIcons = {
   MEAN: 'lib_mean',
@@ -40,7 +45,7 @@ export const aggregationIcons = {
 };
 
 // Ensure that this is kept in sync with the backend:
-// - https://github.com/instana/backend/blob/1f04be562b1310cbd7dd00ab3208c82042197b00/ui-backend/src/main/java/com/instana/ui/service/EventMetricService.java#L59
+// - https://github.ibm.com/instana/backend/blob/1f04be562b1310cbd7dd00ab3208c82042197b00/ui-backend/src/main/java/com/instana/ui/service/EventMetricService.java#L59
 export const sensibleGranularities = [
   seconds.toMillis(1),
   seconds.toMillis(5),

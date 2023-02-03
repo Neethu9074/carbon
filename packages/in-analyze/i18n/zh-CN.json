@@ -25,6 +25,11 @@
         "counter_custom_0": "{{number}} 个定制事件",
         "counter_custom_1": "{{number}} 个定制事件",
         "counter_custom_2": "{{number}} 个定制事件",
+        "counter_crash": "{{number}} 次崩溃",
+        "counter_crash_plural": "{{number}} 次崩溃",
+        "counter_crash_0": "{{number}} 次崩溃",
+        "counter_crash_1": "{{number}} 次崩溃",
+        "counter_crash_2": "{{number}} 次崩溃",
         "counter_Row": "{{number}} 行",
         "counter_Row_plural": "{{number}} 行",
         "counter_Row_0": "{{number}} 行",
@@ -86,7 +91,7 @@
       "viewTransitions2": "视图转换",
       "calls": "调用次数",
       "traces": "跟踪",
-      "console": "控制台"
+      "crashes": "崩溃"
     }
   },
   "traceDetail": {
@@ -125,9 +130,6 @@
         "hideWebsiteInformation": "隐藏 Web 站点信息",
         "showWebsiteInformation": "显示 Web 站点信息",
         "viewWebsiteActivity": "查看 Web 站点活动"
-      },
-      "logs": {
-        "noDataMessage": "没有可用于此跟踪的日志"
       }
     },
     "components": {
@@ -176,25 +178,18 @@
       },
       "callTree": {
         "expandButtonForRow": "展开所有子调用",
-        "collapseButtonForRow": "折叠所有子调用",
         "of": "/",
-        "inheritedFrom": "继承自",
-        "cardTitle": "调用次数"
+        "inheritedFrom": "继承自"
       },
       "colorCodingToggleButtons": {
         "colorizeBy": "着色方式",
-        "colorizeByExpl": "更改调用条的颜色",
-        "endpoint": "端点",
-        "service": "服务"
-      },
-      "viewToggleButtons": {
-        "expl": "查看方式",
-        "tree": "Tree",
-        "chart": "时间线"
+        "endpoint": "端点"
       },
       "logTooltipContent": {
         "errorLog": "错误日志",
-        "warningLog": "警告日志"
+        "warningLog": "警告日志",
+        "restrictedAccess": "受限访问权",
+        "restrictedAccessExpl": "您没有访问此信息的许可权"
       },
       "callTooltipContent": {
         "numbersOfErrors": "{{count}} 个错误",
@@ -285,7 +280,7 @@
     "analyzeLogsLabel": "分析日志",
     "similarLogs": "相似日志",
     "similarServiceLogs": "显示此服务上下文中的日志",
-    "service": "显示服务"
+    "restrictedAccessExpl": "您没有访问此信息的许可权"
   },
   "traceDetails": {
     "labelTotal": "总计",

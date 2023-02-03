@@ -5,13 +5,9 @@
 
 import EventView from 'promise-loader?global!in-events/EventView';
 import { Route } from 'react-router-dom';
-import React, { Fragment } from 'react';
+import React from 'react';
 
-import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
+import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import { eventsPath } from 'in-events/navigation/paths';
 
-export default (
-  <Fragment>
-    <Route component={createAsyncViewComponent(EventView)} path={eventsPath} />
-  </Fragment>
-);
+export default <Route key="eventsList" children={renderAsyncRouteChildren(EventView)} path={eventsPath} />;

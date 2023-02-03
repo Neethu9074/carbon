@@ -3,14 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment } from 'react';
 import { get } from 'lodash';
+import React from 'react';
+
+import { Stack } from '@instana/components';
 
 import {
-  SourceLocation,
   DestinationLocation,
-  WebsiteSourceLocation,
-  MobileAppSourceLocation
+  MobileAppSourceLocation,
+  SourceLocation,
+  WebsiteSourceLocation
 } from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/LocationComponents';
 import InfrastructureEntityLink from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/InfrastructureEntityLink';
 import StackTraceBehavior from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/StackTrace/StackTraceBehavior';
@@ -84,7 +86,7 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
     return (
       service &&
       endpoint && (
-        <Fragment>
+        <Stack direction="vertical" gap="normal">
           <DestinationLocation
             location={t('in-analyze:traceDetail.callDetails.serviceComponent.destination')}
             endpoint={endpoint}
@@ -132,7 +134,7 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
             )}
           </ExpandableGroup>
           <Logs />
-        </Fragment>
+        </Stack>
       )
     );
   }
@@ -176,89 +178,91 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
               />
             )}
             <div className={locals.sourceChildren}>
-              {websiteBeacon && sourceService.id === 'ROOT' && (
-                <ExpandableGroup
-                  title={t('in-analyze:traceDetail.callDetails.serviceComponent.details')}
-                  defaultExpanded
-                >
-                  <WebsiteBeaconDetails beacon={websiteBeacon} />
-                </ExpandableGroup>
-              )}
-              {mobileAppBeacon && sourceService.id === 'ROOT' && (
-                <ExpandableGroup
-                  title={t('in-analyze:traceDetail.callDetails.serviceComponent.details')}
-                  defaultExpanded
-                >
-                  <MobileAppBeaconDetails beacon={mobileAppBeacon} />
-                </ExpandableGroup>
-              )}
-              {canSeeCallDetails && (hasNonEmptyData(exitSpan) || emptyDataAllowed) && (
-                <ExpandableGroup
-                  title={
-                    exitSpan.stackTrace.length > 0
-                      ? t('in-analyze:traceDetail.callDetails.serviceComponent.detailsAndStackTrace')
-                      : t('in-analyze:traceDetail.callDetails.serviceComponent.details')
-                  }
-                  defaultExpanded
-                >
-                  <SpanDetails call={call} span={exitSpan} />
-                  {exitSpan.stackTrace.length > 0 && (
-                    <StackTraceBehavior stackTrace={exitSpan.stackTrace} relation={call.source} noPadding />
-                  )}
-                </ExpandableGroup>
-              )}
-              {sourceService.id === 'ROOT' && !websiteBeacon && !mobileAppBeacon && (
-                <ExpandableGroup
-                  title={t('in-analyze:traceDetail.callDetails.serviceComponent.details')}
-                  defaultExpanded
-                >
-                  <p>
-                    {isBlank(foreignParentId)
-                      ? t('in-analyze:traceDetail.callDetails.serviceComponent.sourceUnmonitored')
-                      : t('in-analyze:traceDetail.callDetails.serviceComponent.sourceMonitoredByAnotherProvider', {
-                          foreignParentId
-                        })}
-                  </p>
-                </ExpandableGroup>
-              )}
+              <Stack direction="vertical" gap="normal">
+                {websiteBeacon && sourceService.id === 'ROOT' && (
+                  <ExpandableGroup
+                    title={t('in-analyze:traceDetail.callDetails.serviceComponent.details')}
+                    defaultExpanded
+                  >
+                    <WebsiteBeaconDetails beacon={websiteBeacon} />
+                  </ExpandableGroup>
+                )}
+                {mobileAppBeacon && sourceService.id === 'ROOT' && (
+                  <ExpandableGroup
+                    title={t('in-analyze:traceDetail.callDetails.serviceComponent.details')}
+                    defaultExpanded
+                  >
+                    <MobileAppBeaconDetails beacon={mobileAppBeacon} />
+                  </ExpandableGroup>
+                )}
+                {canSeeCallDetails && (hasNonEmptyData(exitSpan) || emptyDataAllowed) && (
+                  <ExpandableGroup
+                    title={
+                      exitSpan.stackTrace.length > 0
+                        ? t('in-analyze:traceDetail.callDetails.serviceComponent.detailsAndStackTrace')
+                        : t('in-analyze:traceDetail.callDetails.serviceComponent.details')
+                    }
+                    defaultExpanded
+                  >
+                    <SpanDetails call={call} span={exitSpan} />
+                    {exitSpan.stackTrace.length > 0 && (
+                      <StackTraceBehavior stackTrace={exitSpan.stackTrace} relation={call.source} noPadding />
+                    )}
+                  </ExpandableGroup>
+                )}
+                {sourceService.id === 'ROOT' && !websiteBeacon && !mobileAppBeacon && (
+                  <ExpandableGroup
+                    title={t('in-analyze:traceDetail.callDetails.serviceComponent.details')}
+                    defaultExpanded
+                  >
+                    <p>
+                      {isBlank(foreignParentId)
+                        ? t('in-analyze:traceDetail.callDetails.serviceComponent.sourceUnmonitored')
+                        : t('in-analyze:traceDetail.callDetails.serviceComponent.sourceMonitoredByAnotherProvider', {
+                            foreignParentId
+                          })}
+                    </p>
+                  </ExpandableGroup>
+                )}
 
-              {sourceEntity && sourceProcessSnapshotId && (
-                <ProfileInformation
-                  processSnapshotId={sourceProcessSnapshotId}
-                  start={call.start}
-                  end={call.start + call.duration}
-                  time={sourceEntity.time}
-                />
-              )}
-
-              {sourceSnapshotId && (
-                <ExpandableGroup
-                  expandedTitle={t('in-analyze:traceDetail.components.callDetails.infrastructure')}
-                  title={
-                    <div className={locals.infraTitle}>
-                      <span>{t('in-analyze:traceDetail.components.callDetails.infrastructure')}</span>
-                      {sourceEntity && (
-                        <InfrastructureEntityLink
-                          entity={sourceEntity}
-                          plugin={sourceEntity && sourceEntity.plugin}
-                          snapshotId={sourceSnapshotId}
-                          physicalContext={sourcePhysicalContext}
-                        />
-                      )}
-                    </div>
-                  }
-                >
-                  <InfrastructureHierarchy
-                    snapshotId={sourceSnapshotId}
-                    calculateHierarchy
-                    pathname={physicalDashboardPath}
-                    entity={sourceEntity}
-                    plugin={sourceEntity && sourceEntity.plugin}
-                    physicalContext={sourcePhysicalContext}
-                    timeConfig={getResolvedTimeConfig(timeConfig, call.start)}
+                {sourceEntity && sourceProcessSnapshotId && (
+                  <ProfileInformation
+                    processSnapshotId={sourceProcessSnapshotId}
+                    start={call.start}
+                    end={call.start + call.duration}
+                    time={sourceEntity.time}
                   />
-                </ExpandableGroup>
-              )}
+                )}
+
+                {sourceSnapshotId && (
+                  <ExpandableGroup
+                    expandedTitle={t('in-analyze:traceDetail.components.callDetails.infrastructure')}
+                    title={
+                      <div className={locals.infraTitle}>
+                        <span>{t('in-analyze:traceDetail.components.callDetails.infrastructure')}</span>
+                        {sourceEntity && (
+                          <InfrastructureEntityLink
+                            entity={sourceEntity}
+                            plugin={sourceEntity && sourceEntity.plugin}
+                            snapshotId={sourceSnapshotId}
+                            physicalContext={sourcePhysicalContext}
+                          />
+                        )}
+                      </div>
+                    }
+                  >
+                    <InfrastructureHierarchy
+                      snapshotId={sourceSnapshotId}
+                      calculateHierarchy
+                      pathname={physicalDashboardPath}
+                      entity={sourceEntity}
+                      plugin={sourceEntity && sourceEntity.plugin}
+                      physicalContext={sourcePhysicalContext}
+                      timeConfig={getResolvedTimeConfig(timeConfig, call.start)}
+                    />
+                  </ExpandableGroup>
+                )}
+              </Stack>
             </div>
           </>
         )}
@@ -273,68 +277,27 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
         />
       </div>
       <div className={locals.destinationChildren}>
-        {canSeeCallDetails && (hasNonEmptyData(entrySpan) || isSyntheticBatchSpan) && (
-          <ExpandableGroup
-            title={
-              entrySpan.stackTrace.length > 0
-                ? t('in-analyze:traceDetail.callDetails.serviceComponent.detailsAndStackTrace')
-                : t('in-analyze:traceDetail.callDetails.serviceComponent.details')
-            }
-            defaultExpanded
-          >
-            <SpanDetails call={call} span={entrySpan} />
-            {entrySpan.stackTrace.length > 0 && (
-              <StackTraceBehavior stackTrace={entrySpan.stackTrace} relation={call.destination} noPadding />
-            )}
-          </ExpandableGroup>
-        )}
+        <Stack direction="vertical" gap="normal">
+          {canSeeCallDetails && (hasNonEmptyData(entrySpan) || isSyntheticBatchSpan) && (
+            <ExpandableGroup
+              title={
+                entrySpan.stackTrace.length > 0
+                  ? t('in-analyze:traceDetail.callDetails.serviceComponent.detailsAndStackTrace')
+                  : t('in-analyze:traceDetail.callDetails.serviceComponent.details')
+              }
+              defaultExpanded
+            >
+              <SpanDetails call={call} span={entrySpan} />
+              {entrySpan.stackTrace.length > 0 && (
+                <StackTraceBehavior stackTrace={entrySpan.stackTrace} relation={call.destination} noPadding />
+              )}
+            </ExpandableGroup>
+          )}
 
-        {(entrySpan || (destinationSnapshotId && !destinationPhysicalContext.cluster)) && (
-          <ExpandableGroup
-            expandedTitle={t('in-analyze:traceDetail.callDetails.serviceComponent.infrastructure')}
-            title={
-              <div className={locals.infraTitle}>
-                <span>{t('in-analyze:traceDetail.callDetails.serviceComponent.infrastructure')}</span>
-                <InfrastructureEntityLink
-                  entity={destinationEntity}
-                  plugin={destinationEntity && destinationEntity.plugin}
-                  snapshotId={destinationSnapshotId}
-                  physicalContext={destinationPhysicalContext}
-                />
-              </div>
-            }
-          >
-            {destinationEntity && (
-              <InfrastructureHierarchy
-                snapshotId={destinationSnapshotId}
-                calculateHierarchy
-                pathname={physicalDashboardPath}
-                entity={destinationEntity}
-                plugin={destinationEntity && destinationEntity.plugin}
-                physicalContext={destinationPhysicalContext}
-                timeConfig={getResolvedTimeConfig(timeConfig, call.start)}
-              />
-            )}
-          </ExpandableGroup>
-        )}
-
-        {destinationEntity && destinationProcessSnapshotId && (
-          <ProfileInformation
-            processSnapshotId={destinationProcessSnapshotId}
-            start={call.start}
-            end={call.start + call.duration}
-            time={destinationEntity.time}
-          />
-        )}
-
-        {destinationPhysicalContext && destinationPhysicalContext.cluster && (
-          <ExpandableGroup
-            expandedTitle={t('in-analyze:traceDetail.callDetails.serviceComponent.infrastructure')}
-            title={
-              <Tooltip
-                content={t('in-analyze:traceDetail.callDetails.serviceComponent.desClusterNotCorrelateNode')}
-                align="bottomLeft"
-              >
+          {(entrySpan || (destinationSnapshotId && !destinationPhysicalContext.cluster)) && (
+            <ExpandableGroup
+              expandedTitle={t('in-analyze:traceDetail.callDetails.serviceComponent.infrastructure')}
+              title={
                 <div className={locals.infraTitle}>
                   <span>{t('in-analyze:traceDetail.callDetails.serviceComponent.infrastructure')}</span>
                   <InfrastructureEntityLink
@@ -344,11 +307,54 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
                     physicalContext={destinationPhysicalContext}
                   />
                 </div>
-              </Tooltip>
-            }
-          />
-        )}
-        <Logs />
+              }
+            >
+              {destinationEntity && (
+                <InfrastructureHierarchy
+                  snapshotId={destinationSnapshotId}
+                  calculateHierarchy
+                  pathname={physicalDashboardPath}
+                  entity={destinationEntity}
+                  plugin={destinationEntity && destinationEntity.plugin}
+                  physicalContext={destinationPhysicalContext}
+                  timeConfig={getResolvedTimeConfig(timeConfig, call.start)}
+                />
+              )}
+            </ExpandableGroup>
+          )}
+
+          {destinationEntity && destinationProcessSnapshotId && (
+            <ProfileInformation
+              processSnapshotId={destinationProcessSnapshotId}
+              start={call.start}
+              end={call.start + call.duration}
+              time={destinationEntity.time}
+            />
+          )}
+
+          {destinationPhysicalContext && destinationPhysicalContext.cluster && (
+            <ExpandableGroup
+              expandedTitle={t('in-analyze:traceDetail.callDetails.serviceComponent.infrastructure')}
+              title={
+                <Tooltip
+                  content={t('in-analyze:traceDetail.callDetails.serviceComponent.desClusterNotCorrelateNode')}
+                  align="bottomLeft"
+                >
+                  <div className={locals.infraTitle}>
+                    <span>{t('in-analyze:traceDetail.callDetails.serviceComponent.infrastructure')}</span>
+                    <InfrastructureEntityLink
+                      entity={destinationEntity}
+                      plugin={destinationEntity && destinationEntity.plugin}
+                      snapshotId={destinationSnapshotId}
+                      physicalContext={destinationPhysicalContext}
+                    />
+                  </div>
+                </Tooltip>
+              }
+            />
+          )}
+          <Logs />
+        </Stack>
       </div>
     </>
   );

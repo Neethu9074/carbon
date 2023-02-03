@@ -27,7 +27,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.springbootAppContainer.labelTroubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/spring-boot/#springboot_actuator_not_configured`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-spring-boot#spring-boot-actuator-is-not-configured`
   },
   springboot_jmx_not_enabled: {
     issueDescription: {
@@ -46,6 +46,6 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.springbootAppContainer.labelTroubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/spring-boot/#springboot_jmx_not_enabled`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-spring-boot#jmx-is-not-enabled`
   }
 };

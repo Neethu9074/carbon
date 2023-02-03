@@ -33,7 +33,7 @@ export default function AlertsLanePresenter({ alerts, ...remainingProps }) {
         label={t('in-components:chart.chartAlertsLanePresenterAlertsLabel')}
         iconConfigForMultipleAlertTypes={{
           smartAlerts: {
-            type: 'lib_events_warning',
+            type: 'lib_events_critical',
             typeCluster: 'lib_alerts_multiple_alerts',
             color: theme.lib.colors.red800
           },
@@ -59,7 +59,7 @@ function AlertListCallout({ iconConfig, eventData, timeConfig }) {
   const { incidents, smartAlerts } = eventData;
   const enahncedAndSortedEvents = [
     ...incidents.map(incident => ({ ...incident, iconType: 'lib_events_incident' })),
-    ...smartAlerts.map(incident => ({ ...incident, iconType: 'lib_events_warning' }))
+    ...smartAlerts.map(incident => ({ ...incident, iconType: 'lib_events_critical' }))
   ].sort((a, b) => a.start - b.start);
 
   return (

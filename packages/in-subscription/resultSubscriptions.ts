@@ -26,7 +26,7 @@ export function createResultSubscriptionFactory<IN, OUT extends Result<any>>({
   mapResult,
   memoizeFor = defaultMemoize,
   disposeSubscriptionOnDocumentHidden = true,
-  trackSubscriptionStatistics = false
+  trackSubscriptionStatistics = true
 }: Options<IN, OUT>): (parameter: IN) => Observable<OUT> {
   return createSubscription<IN, OUT>({
     eventId,

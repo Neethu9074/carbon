@@ -8,6 +8,7 @@ import { defaultType, defaultAllInfraGroup, defaultOrder } from 'in-infrastructu
 import { navigationParameters$ } from 'in-stores/navigation/navigation';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
+import { setTimeConfig } from 'in-stores/time/config';
 
 export const infraExplorePath = '/explore';
 
@@ -57,6 +58,12 @@ export const orderMatrixParameter = {
   initialState: defaultOrder
 };
 
+export const dataSourcerMatrixParameter = {
+  path: infraExplorePath,
+  name: 'dataSource',
+  initialState: 'infrastructure'
+};
+
 export const resetMetricsAndOrderOnTypeChange = {
   bind: [
     {
@@ -71,7 +78,7 @@ export function isInfraExploreView() {
   return navigationParameters$.map(location => location.pathname.indexOf(infraExplorePath) === 0);
 }
 
-export function getLinkToExplore({ tagFilterExpression, group, charts, type }) {
+export function getLinkToExplore({ tagFilterExpression, group, charts, type, metrics, order, timeConfig }) {
   return getModifiedUrlStream(params => {
     params.pathname = infraExplorePath;
 
@@ -90,10 +97,33 @@ export function getLinkToExplore({ tagFilterExpression, group, charts, type }) {
     if (type) {
       setMatrixKey(params, typeMatrixParameter, type);
     }
+
+    if (metrics) {
+      setMatrixKey(params, metricsMatrixParameter, metrics);
+    }
+
+    if (order) {
+      setMatrixKey(params, orderMatrixParameter, order);
+    }
+
+    if (timeConfig) {
+      setTimeConfig(params, timeConfig);
+    }
+
+    setMatrixKey(params, dataSourcerMatrixParameter, 'infrastructure');
   });
 }
 
-export const defaultInfraExploreView = getLinkToExplore({ group: defaultAllInfraGroup, type: defaultType });
+export function getLinkToExploreDefault() {
+  return getLinkToExplore({ group: defaultAllInfraGroup, type: defaultType });
+}
+
+export const defaultInfraExploreView = getLinkToExplore({
+  group: defaultAllInfraGroup,
+  type: defaultType,
+  tagFilterExpression: [],
+  metrics: []
+});
 
 function setMatrixKey(params, matrixParameter, value) {
   const serializer = matrixParameter.serializer || String;

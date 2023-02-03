@@ -59,6 +59,15 @@ export default function Saml() {
         const reader = new FileReader();
         reader.readAsText(file, 'UTF-8');
         reader.onload = function(evt) {
+          if (evt.target.result.length > 2000000) {
+            setMessage({
+              text: t('in-settings:tabs.failedToSaveConfig', {
+                err: t('in-settings:tabs.IdPMetadataLargerThanTwoMega')
+              }),
+              type: 'error'
+            });
+            return;
+          }
           saveItem({
             result,
             idpMetadata: evt.target.result,
@@ -94,8 +103,15 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }) {
             <Trans
               i18nKey="in-settings:tabs.samlHelpDoc"
               components={{
-                activeDirectoryLink: <Link external href="https://instana.com/docs/admin/active-directory/" />,
-                oktaLink: <Link external href="https://instana.com/docs/admin/okta/" />
+                activeDirectoryLink: (
+                  <Link
+                    external
+                    href="https://www.ibm.com/docs/en/obi/current?topic=authentication-configuring-active-directory"
+                  />
+                ),
+                oktaLink: (
+                  <Link external href="https://www.ibm.com/docs/en/obi/current?topic=authentication-integrating-okta" />
+                )
               }}
             />
           </p>

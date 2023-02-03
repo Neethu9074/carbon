@@ -88,7 +88,6 @@
     "applicationDirectory": "Répertoire d'application",
     "theSupportForPythonOnFargateOnEcsWorksTheSameWayAsWithAnyPythonApplicationFollowTheInstructionsOfThe": "Le support de Python on Fargate sur ECS fonctionne de la même façon qu'avec n'importe quelle application Python. Suivez les instructions de la <go>documentation Python</go>.",
     "theSupportForRubyOnFargateOnEcsWorksTheSameWayAsWithAnyRubyApplicationFollowTheInstructionsOfThe": "La prise en charge de Ruby on Fargate sur ECS fonctionne de la même manière que pour n'importe quelle application Ruby. Suivez les instructions de la <go>documentation Ruby</go>.",
-
     "supportForAwsFargateIsDesignedToWorkWithAwsFargateOnTheElasticContainerServiceEcs": "La prise en charge d'AWS Fargate est conçue pour fonctionner avec AWS Fargate sur Elastic Container Service (ECS).",
     "selectYourApplicationRuntime": "Sélectionnez votre environnement d'exécution d'application :",
     "awsLambdaFunctionsWrittenInGoNeedToBeManuallyInstrumentedInOrderToCollectTraceDataFollowTheInstructionsOfThe": "Les fonctions AWS Lambda écrites dans Go doivent être instrumentées manuellement afin de collecter des données de trace. Suivez les instructions de la <go>documentation AWS Lambda Go</go>.",
@@ -153,6 +152,7 @@
     "setTheFollowingEnvironmentVariablesInTheCloudRunServiceRevision": "Définissez les variables d'environnement suivantes dans la révision du service Cloud Run :",
     "setTheFollowingEnvironmentVariablesOnTheCloudRunServiceDefinition": "Définissez les variables d'environnement dans la définition du service Cloud Run :",
     "theSupportForGoOnGoogleCloudRunFullyManagedWorksTheSameWayAsWithAnyGoApplicationFollowTheInstructionsOfThe": "La prise en charge de Go sur Google Cloud Run (entièrement géré) fonctionne de la même manière que pour n'importe quelle application Go. Suivez les instructions de la <go>documentation Go</go>.",
+    "theSupportForPythonOnGoogleCloudRunFullyManagedWorksTheSameWayAsWithAnyPythonApplicationFollowTheInstructionsOfThe": "La prise en charge de Python sur Google Cloud Run (entièrement géré) fonctionne de la même manière que pour n'importe quelle application Python. Suivez les instructions de la <go>documentation Python</go>.",
     "supportForGoogleCloudRunIsDesignedToWorkWithTheFullyManagedGoogleCloudRunPlatformCloudRunOnAnthosGkeIsCurrentlyNotSupported": "La prise en charge de Google Cloud Run est conçue pour fonctionner avec la plateforme Google Cloud Run entièrement gérée. Cloud Run on Anthos/GKE n'est actuellement pas pris en charge.",
     "makeSureYouHaveAnInstanaAgentSetUpToMonitorYourGcpProjectForDetailsOnSettingUpTheInstanaAgentForGcpReferToThe": "Vérifiez que vous disposez d'un agent Instana configuré pour surveiller votre projet GCP. Pour plus de détails sur la configuration de l'agent Instana pour GCP, voir la <go>documentation de support d'Instana GCP</go>.",
     "selectTheInstallationMethod": "Sélectionnez la méthode d'installation :",
@@ -206,6 +206,7 @@
     "endpointHost": "Hôte de nœud final",
     "endpointPort": "Port du nœud final",
     "agentKey": "Clé d'agent",
+    "downloadKey": "Télécharger la clé",
     "finallyYouWillNeedToGiveYourVMwareTanzuFoundationANameForExampleProdEuOrDev01ViaTheAgentZoneSettingInTheAgentConfigurationTab": "Enfin, vous devez donner à votre fondation VMware Tanzu un nom, par exemple \"prod-eu\" ou \"dev01\" via le paramètre Zone de l'agent dans l'onglet Configuration de l'agent.",
     "applyTheChangesIntroducedByTheInstanaMicroservicesApplicationMonitoringTileToAllTilesInTheOpsManagerTilesThatAreNotSelectedForTheApplyChangesStepInOpsManagerWillNotBeVisibleInInstana": "Appliquez les modifications apportées par le tuile \"Instana Microservices Application Monitoring\" à toutes les tuiles dans Ops Manager. Les tuiles qui ne sont pas sélectionnées pour l'étape \"Appliquer les modifications\" dans Ops Manager ne sont pas visibles dans Instana.",
     "supportedOpsManagerVersions": "Versions d'Ops Manager prises en charge",

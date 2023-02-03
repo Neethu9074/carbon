@@ -3,11 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import {
-  mutateUrl,
-  getModifiedUrlStream,
-  removeDFQueryFromLocationWhenChangingArea
-} from 'in-stores/navigation/navigation';
+import { removeDFQueryFromLocationWhenChangingArea } from 'in-stores/navigation/utils';
+import { mutateUrl, getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { eventId as eventIdMatricParam } from 'in-events/navigation/matrix';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { eventsPath } from 'in-events/navigation/paths';

@@ -1,0 +1,29 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+@import '~in-themes/active.less';
+
+:local {
+  .header {
+    margin-left: auto;
+  }
+  .searchInput {
+    height: 1.6rem;
+  }
+  .name {
+    width: 30%;
+  }
+  .persistentVolume {
+    width: 30%;
+  }
+  .phase {
+    width: 10%;
+  }
+  .storageClass {
+    width: 15%;
+  }
+  .requestSize {
+    width: 15%;
+  }
+}

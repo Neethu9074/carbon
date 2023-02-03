@@ -25,6 +25,26 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.ibmIDb2.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/ibmidb2#configuring-and-starting-collection-services`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-db2-i#collection-services-configuring-and-startup`
+  },
+  ibmi_unable_to_connect: {
+    issueDescription: {
+      Component: function UnableToConnect({ host, user }) {
+        return (
+          <span>
+            <Trans
+              i18nKey="in-forge:plugins.ibmIDb2.unableToConnect"
+              values={{ host: host, user: user }}
+              components={{
+                code: <code />,
+                strong: <strong />
+              }}
+            />
+          </span>
+        );
+      }
+    },
+    explanationLinkLabel: t('in-forge:plugins.ibmIDb2.troubleshootingDocs'),
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-i-instances`
   }
 };

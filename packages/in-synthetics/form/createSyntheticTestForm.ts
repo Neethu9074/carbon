@@ -6,8 +6,10 @@
 import { createMapForm, createField, ValidationResult } from 'formalistic';
 
 import { arrayValidator, numberValidator, stringValidator } from 'in-services/validators/jsonType';
+import { arrayNotEmptyValidator } from 'in-synthetics/components/validators/validator';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
+import { BluePrint } from 'in-synthetics/data/simpleModeBluePrints';
 import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
 import { minValidator } from 'in-services/validators/number';
@@ -19,11 +21,16 @@ interface HTTPMethodType {
   isdisabled?: boolean;
 }
 
-export function createForm(savedState?: Record<string, any>) {
+export function createForm(selectedBlueprint?: BluePrint, savedState?: Record<string, any>) {
   return createMapForm({
     validator: syntheticFormValidator
   })
-    .put('configuration', createConfigurationForm(savedState ?? {}))
+    .put(
+      'configuration',
+      selectedBlueprint?.type === 'Script API'
+        ? createScriptConfigurationForm(savedState ?? {})
+        : createActionConfigurationForm(savedState ?? {})
+    )
     .put(
       'response',
       createField({
@@ -32,17 +39,10 @@ export function createForm(savedState?: Record<string, any>) {
       })
     )
     .put(
-      'playbackMode',
-      createField({
-        value: savedState?.response || playbackModes[0].value,
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
-      })
-    )
-    .put(
       'locations',
       createField({
         value: savedState?.locations ?? [],
-        validator: arrayValidator
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, arrayValidator, arrayNotEmptyValidator)
       })
     )
     .put(
@@ -65,10 +65,17 @@ export function createForm(savedState?: Record<string, any>) {
         value: savedState?.testFrequency ?? 15,
         validator: composeAndShortCircuitOnError(numberValidator, minValidator(1))
       })
+    )
+    .put(
+      'applicationId',
+      createField({
+        value: savedState?.applicationId ?? null,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator)
+      })
     );
 }
 
-function createConfigurationForm(savedState?: Record<string, any>) {
+function createActionConfigurationForm(savedState?: Record<string, any>) {
   return createMapForm()
     .put(
       'syntheticType',
@@ -80,7 +87,7 @@ function createConfigurationForm(savedState?: Record<string, any>) {
     .put(
       'url',
       createField({
-        value: savedState?.url,
+        value: savedState?.url ?? '',
         validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator, validUrl)
       })
     )
@@ -94,6 +101,24 @@ function createConfigurationForm(savedState?: Record<string, any>) {
           notBlankValidator,
           buildEnumValidator(HTTPMethods.map(method => method.value))
         )
+      })
+    );
+}
+
+function createScriptConfigurationForm(savedState?: Record<string, any>) {
+  return createMapForm()
+    .put(
+      'syntheticType',
+      createField({
+        value: savedState?.syntheticType ?? 'HTTPScript',
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'script',
+      createField({
+        value: savedState?.scriptValue,
+        validator: notUndefinedValidator
       })
     );
 }
@@ -124,8 +149,3 @@ export function validUrl(value: string): ValidationResult {
   }
   return undefined;
 }
-
-export const playbackModes = Object.freeze([
-  { value: 'Simultaneous', label: t('in-synthetics:dialog.createTest.scheduling.simultaneous') },
-  { value: 'Staggered', label: t('in-synthetics:dialog.createTest.scheduling.staggered') }
-]);

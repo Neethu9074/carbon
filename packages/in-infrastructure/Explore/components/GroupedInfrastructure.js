@@ -5,36 +5,42 @@
 
 import React, { useCallback } from 'react';
 
-import { ColumnizedContent, Ul, Li } from '@instana/components';
-import { LiHorizontalIndicator } from '@instana/components';
-import { LiLoadingSkeleton } from '@instana/components';
-import { LiLoadMore } from '@instana/components';
-import { KeyValue } from '@instana/components';
-import { Message } from '@instana/components';
-import { SvgIcon } from '@instana/components';
+import {
+  ColumnizedContent,
+  KeyValue,
+  Li,
+  LiHorizontalIndicator,
+  LiLoadingSkeleton,
+  LiLoadMore,
+  Message,
+  SvgIcon,
+  Ul
+} from '@instana/components';
 
-import { average, getGranularity, getMetricKey, defaultFormatter } from 'in-infrastructure/Explore/services/metrics';
+import MetricCatalogAndSortingConfigurator from 'in-infrastructure/components/MetricCatalogAndSortingConfigurator/MetricCatalogAndSortingConfigurator';
+import { formatCsvColumnName, formatCsvColumnValue } from 'in-infrastructure/Explore/services/MetricCsvColumnFormatter';
+import { firstValue, getGranularity, getMetricKey, getSeriesKey } from 'in-infrastructure/Explore/services/metrics';
 import InfrastructureList, { pagesLoaded } from 'in-infrastructure/Explore/components/InfrastructureList';
 import { type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { default as MetricLabel } from 'in-infrastructure/Explore/components/MetricLabel';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import createGetGroupsSubscription from 'in-infrastructure/subscriptions/getGroups';
-import { getUniqueErrors } from 'in-components/Errors/ErroneousResultPresenter';
 import { LOAD_MORE_CONTEXT } from 'in-infrastructure/Explore/services/tracking';
-import { pluginTag, defaultOrder } from 'in-infrastructure/Explore/constants';
-import MetricLabel from 'in-infrastructure/Explore/components/MetricLabel';
+import { defaultOrder, pluginTag } from 'in-infrastructure/Explore/constants';
+import { emptyObject, indeterminateProgress } from 'in-services/fixedObjects';
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getLinkToExplore } from 'in-infrastructure/navigation/paths';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import Header from 'in-components/QueryBuilder/components/Header';
-import { indeterminateProgress } from 'in-services/fixedObjects';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import IconLink from 'in-components/IconButton/IconLink';
-import { emptyObject } from 'in-services/fixedObjects';
 import Tooltip from 'in-components/Tooltip/Tooltip';
+import CsvExporter from 'in-components/CsvExporter';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { getPluginName } from 'in-sdk/pluginName';
+import { mapData } from 'in-services/util/result';
 import SparkChart from 'in-components/SparkChart';
 import { t } from 'in-i18n';
 
@@ -46,19 +52,35 @@ export default function GroupedInfrastructure(props) {
   const retrievalSize = 20;
 
   const granularity = getGranularity(timeConfig);
+  const tagType = group?.tagType;
+  const fullQualifiedGroup = group.groupbyTagSecondLevelKey
+    ? group.groupbyTag + '.' + group.groupbyTagSecondLevelKey
+    : group.groupbyTag;
 
   const cursorPaginatedProps = useCursorPagination(
     ({ cursor }) =>
-      getGroups({ timeConfig, backendQueryModel, group, order, type, metrics, granularity, cursor, retrievalSize }),
-    [timeConfig, backendQueryModel, group, order, type, metrics]
+      getGroups({
+        timeConfig,
+        backendQueryModel,
+        group: fullQualifiedGroup,
+        order,
+        type,
+        metrics,
+        granularity,
+        cursor,
+        retrievalSize
+      }),
+    [timeConfig, backendQueryModel, fullQualifiedGroup, order, type, metrics]
   );
 
   return (
     <Presenter
       backendQueryModel={backendQueryModel}
+      fullQualifiedGroup={fullQualifiedGroup}
+      retrievalSize={retrievalSize}
       granularity={granularity}
       timeConfig={timeConfig}
-      retrievalSize={retrievalSize}
+      tagType={tagType}
       {...cursorPaginatedProps}
       {...props}
     />
@@ -67,9 +89,10 @@ export default function GroupedInfrastructure(props) {
 
 function Presenter({
   totalRepresentedItemCount,
+  totalRetainedItemCount,
   tagFilterExpression,
+  fullQualifiedGroup,
   backendQueryModel,
-  availableMetrics,
   canLoadMore,
   granularity,
   timeConfig,
@@ -79,53 +102,67 @@ function Presenter({
   cursor,
   progress,
   metrics,
+  metricMetadatas,
   errors,
-  group,
   order,
   items,
   type,
   loadMore: defaultCursorPaginationLoadMore,
   retrievalSize,
-  tracking
+  tracking,
+  tagType,
+  group,
+  metricCatalog,
+  query,
+  onQueryChange
 }) {
   const hasErrors = errors?.length > 0;
   const isLoading = progress?.loading;
   const getParamsForGroup = useCallback(
     item => ({
       group: emptyObject,
-      tagFilterExpression: joinExpressions({ expressions: [tagFilterExpression, toTagFilters(item.tags)] })
+      tagFilterExpression: joinExpressions({
+        expressions: [tagFilterExpression, toTagFilters(item.tags, tagType, group)]
+      })
     }),
-    [tagFilterExpression]
+    [tagFilterExpression, group, tagType]
   );
   const columnDefinitions = columns({
-    groupBy: [group.groupbyTag],
+    groupBy: [fullQualifiedGroup],
     getParamsForGroup,
     granularity,
     timeConfig,
     metrics,
     type,
-    onFocusOnGroup: tracking?.onFocusOnGroup
+    onFocusOnGroup: tracking?.onFocusOnGroup,
+    metricMetadatas
   });
-  const groupSortOptions = group.groupbyTag
+  const groupSortOptions = fullQualifiedGroup
     ? [
         {
-          label: group.groupbyTag,
+          label: fullQualifiedGroup,
           value: defaultOrder.by
         }
       ]
     : [];
   const sortOptions = groupSortOptions.concat(
-    metrics.map(({ fullyQualifiedLabel, metric, aggregation }) => ({
-      label: fullyQualifiedLabel,
-      value: getMetricKey(metric, aggregation)
-    }))
+    mapData(metricMetadatas, metadatas => {
+      return metrics.map(({ metric, aggregation, crossSeriesAggregation }) => {
+        return {
+          label: `${metadatas[metric].label} (${aggregation})`,
+          value: getMetricKey(metric, aggregation, crossSeriesAggregation)
+        };
+      });
+    }).data || []
   );
 
   return (
     <>
       <Header
         totalRepresentedItemCount={totalRepresentedItemCount}
-        availableMetrics={availableMetrics}
+        totalRetainedItemCount={totalRetainedItemCount}
+        hasErrors={hasErrors}
+        isLoading={isLoading}
         sortOptions={sortOptions}
         setMetrics={setMetrics}
         totalHits={totalHits}
@@ -133,8 +170,21 @@ function Presenter({
         withResultsInGroups
         setOrder={setOrder}
         metrics={metrics}
+        metricMetadatas={metricMetadatas}
         order={order}
         tracking={tracking}
+        type={type}
+        CustomHeaderActions={getHeaderActions}
+        backendQueryModel={backendQueryModel}
+        metricCatalog={metricCatalog}
+        query={query}
+        onQueryChange={onQueryChange}
+        items={items}
+        timeConfig={timeConfig}
+        cursor={cursor}
+        columns={columnDefinitions}
+        granularity={granularity}
+        fullQualifiedGroup={fullQualifiedGroup}
       />
       <Ul space="xsmall">
         {items.map((item, rowIndex) => (
@@ -151,12 +201,12 @@ function Presenter({
             renderNestedContent={() => (
               <ExpandedGroup
                 backendQueryModel={backendQueryModel}
-                availableMetrics={availableMetrics}
                 timeConfig={timeConfig}
                 metrics={metrics}
                 order={order}
                 group={item}
                 type={type}
+                metricMetadatas={metricMetadatas}
                 tracking={tracking}
               />
             )}
@@ -167,7 +217,7 @@ function Presenter({
         {isLoading && <LiHorizontalIndicator progress={indeterminateProgress} />}
         {isLoading && <LiLoadingSkeleton />}
         {hasErrors &&
-          getUniqueErrors(errors).map(error => (
+          getErrorMessage(errors).map(error => (
             <Li key={error}>
               <Message className={locals.message} type="error" small>
                 {error}
@@ -188,15 +238,27 @@ function Presenter({
   );
 }
 
-function columns({ groupBy, type, getParamsForGroup, metrics, timeConfig, granularity, onFocusOnGroup }) {
+function columns({
+  groupBy,
+  type,
+  getParamsForGroup,
+  metrics,
+  timeConfig,
+  granularity,
+  onFocusOnGroup,
+  metricMetadatas
+}) {
   const snapshotDefinition = getOptionalSnapshotDefinition(type);
   const countLabel = snapshotDefinition ? getPluginName(type, 2) : 'Count';
-  return [
+  const cols = [
     {
       width: '3rem',
       getContent({ group }) {
         const icon = getGroupIcon(group);
         return <SvgIcon type={icon} />;
+      },
+      getId() {
+        return 'icon';
       }
     }
   ]
@@ -206,6 +268,9 @@ function columns({ groupBy, type, getParamsForGroup, metrics, timeConfig, granul
         getContent({ group }) {
           const value = getGroupTagValue(group, groupKey);
           return <KeyValue label={groupKey} value={value} accentuated />;
+        },
+        getId() {
+          return groupKey;
         }
       }))
     )
@@ -214,28 +279,55 @@ function columns({ groupBy, type, getParamsForGroup, metrics, timeConfig, granul
         width: '8rem',
         getContent({ group }) {
           return <KeyValue label={countLabel} value={group.count} theme="blue" accentuated />;
+        },
+        getId() {
+          return countLabel;
+        },
+        getType() {
+          return 'count';
         }
       }
     ])
     .concat(
-      metrics.map(({ label, metric, formatter = defaultFormatter, aggregation, percentageMetric }) => ({
+      metrics.map(({ metric, aggregation, crossSeriesAggregation }) => ({
         width: '12rem',
         getContent({ group }) {
-          const kpi = average(group.metrics[getMetricKey(metric, aggregation)]);
-          const renderedLabel = <MetricLabel label={label} />;
+          const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
+          const metadata = mapData(metricMetadatas, data => data[metric]);
+          const label = mapData(metadata, data => data?.label);
+          const renderedLabel = <MetricLabel label={label} aggregation={aggregation} />;
+          const formatter = mapData(metadata, data => data?.formatter).data;
+          const kpi = firstValue(group.metrics[id]);
+          const series = group.metrics[getSeriesKey(id)];
+          const percentageMetric = mapData(metadata, data => data?.percentageMetric).data;
           return (
             <SparkChart
-              horizontalMetricValue={kpi !== undefined ? formatter(kpi) : '--'}
+              horizontalMetricValue={(kpi && formatter && formatter(kpi)) || '--'}
               percentageMetric={percentageMetric}
-              metrics={group.metrics[getMetricKey(metric, aggregation)]}
               tooltipFormatter={formatter}
               aggregation={aggregation}
               timeConfig={timeConfig}
-              rollup={granularity}
               label={renderedLabel}
+              rollup={granularity}
+              metrics={series}
             />
           );
-        }
+        },
+        getId() {
+          return getMetricKey(metric, aggregation);
+        },
+        getColumnLabel() {
+          const metadata = mapData(metricMetadatas, data => data[metric]);
+          const label = mapData(metadata, data => data?.label);
+          const formatter = mapData(metadata, data => data?.formatter).data;
+          return formatCsvColumnName(label['data'], aggregation, formatter);
+        },
+        getFormatter() {
+          const metadata = mapData(metricMetadatas, data => data[metric]);
+          const formatter = mapData(metadata, data => data?.formatter).data;
+          return formatter;
+        },
+        exported: true
       }))
     )
     .concat([
@@ -251,9 +343,22 @@ function columns({ groupBy, type, getParamsForGroup, metrics, timeConfig, granul
               />
             </Tooltip>
           );
+        },
+        getId() {
+          return 'focusOnGroup';
         }
       }
     ]);
+
+  return cols;
+}
+
+function getErrorMessage(errors) {
+  if (errors[0].message?.includes('more than the maximum number of groups')) {
+    return [t('in-infrastructure:explore.errors.maximumNumberOfGroups')];
+  }
+
+  return [t('in-infrastructure:explore.errors.generalError')];
 }
 
 function getColumnWidth(groupBy, index) {
@@ -262,7 +367,18 @@ function getColumnWidth(groupBy, index) {
   }
 }
 
-function getGroups({ timeConfig, backendQueryModel, group, cursor, type, order, metrics, granularity, retrievalSize }) {
+function getGroups({
+  timeConfig,
+  backendQueryModel,
+  group,
+  cursor,
+  type,
+  order,
+  metrics,
+  retrievalSize,
+  granularity,
+  fullData = false
+}) {
   return createGetGroupsSubscription({
     filter: {
       timeConfig,
@@ -270,38 +386,55 @@ function getGroups({ timeConfig, backendQueryModel, group, cursor, type, order, 
     },
     pagination: {
       cursor,
-      retrievalSize
+      retrievalSize,
+      fullData
     },
-    groupBy: [group.groupbyTag],
+    groupBy: [group],
     type,
     metrics: Object.fromEntries(
-      metrics.flatMap(({ metric, aggregation }) => [
-        [
-          getMetricKey(metric, aggregation),
-          {
-            metric,
-            granularity,
-            aggregation
-          }
-        ]
-      ])
+      metrics
+        .filter(({ metric }) => metric !== undefined && metric !== null)
+        .flatMap(({ metric, aggregation, crossSeriesAggregation }) => {
+          const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
+          const kpiGranularity = timeConfig.windowSize;
+          return [
+            [
+              id,
+              {
+                metric,
+                granularity: kpiGranularity,
+                aggregation,
+                crossSeriesAggregation
+              }
+            ],
+            [
+              getSeriesKey(id),
+              {
+                metric,
+                granularity,
+                aggregation,
+                crossSeriesAggregation
+              }
+            ]
+          ];
+        })
     ),
     order
   });
 }
 
-function ExpandedGroup({ group, backendQueryModel, timeConfig, type, metrics, availableMetrics, order, tracking }) {
+function ExpandedGroup({ group, backendQueryModel, timeConfig, type, metrics, order, tracking, metricMetadatas }) {
   const numberOfEntitiesPerGroup = 20;
   return (
     <InfrastructureList
       backendQueryModel={addTagsToBackendModel(backendQueryModel, group.tags)}
       numSkeletonRows={Math.min(group.count, numberOfEntitiesPerGroup)}
       retrievalSize={numberOfEntitiesPerGroup}
-      availableMetrics={availableMetrics}
       timeConfig={timeConfig}
       metrics={metrics}
       order={order}
       type={type}
+      metricMetadatas={metricMetadatas}
       tracking={{
         onNavigateToEntity: tracking?.onNavigateToEntity,
         onLoadMore: page => tracking?.onLoadMore?.(page, LOAD_MORE_CONTEXT.ENTITIES_IN_GROUP)
@@ -314,32 +447,154 @@ function addTagsToBackendModel(backendQueryModel, tags) {
   return addTagFilters(backendQueryModel, toTagFilters(tags));
 }
 
-function toTagFilters(tags) {
-  return Object.entries(tags).map(([key, value]) => ({
+export function toTagFilters(tags, tagType, group) {
+  return Object.entries(tags).map(([name, value]) => ({
     type: TAG_FILTER_TYPE,
     operator: EQUALS,
-    name: key,
-    value
+    name: getName(name, group),
+    value: getValue(tagType, value),
+    key: getKey(tagType, value, name, group)
   }));
 }
 
 const defaultGroupIcon = 'lib_views_tag';
+
+function isTagAndKeyConcat(name, group) {
+  return group?.groupbyTag?.concat('.', group?.groupbyTagSecondLevelKey) === name;
+}
+
+function isKeyValueTagType(tagType) {
+  return 'KEY_VALUE_PAIR' === tagType;
+}
+
+function isKeyValue(tagType, value) {
+  return tagType !== undefined && isKeyValueTagType(tagType) && value.indexOf('=') > 0;
+}
+
+function getName(name, group) {
+  return isTagAndKeyConcat(name, group) ? group.groupbyTag : name;
+}
+
+function getValue(tagType, value) {
+  return isKeyValue(tagType, value) ? extractValue(value) : isKeyValueTagType(tagType) ? '' : value;
+}
+
+function getKey(tagType, value, name, group) {
+  if (isTagAndKeyConcat(name, group)) {
+    return group.groupbyTagSecondLevelKey;
+  }
+  if (isKeyValue(tagType, value)) {
+    return extractKey(value, name, group);
+  }
+  return isKeyValueTagType(tagType) ? value : undefined;
+}
+
+function extractKey(value) {
+  let index = value.indexOf('=');
+  if (index > 0) {
+    return value.substring(0, index);
+  }
+  return undefined;
+}
+
+function extractValue(str) {
+  let index = str.indexOf('=');
+  if (index > 0) {
+    return str.substring(index + 1);
+  }
+  return str;
+}
 
 function getGroupPlugin(group) {
   const plugin = group.tags[pluginTag];
   return plugin ? getOptionalSnapshotDefinition(plugin) : null;
 }
 
-function getGroupIcon(group) {
+export function getGroupIcon(group) {
   const plugin = getGroupPlugin(group);
   return plugin ? `lib_infra_${plugin.plugin}` : defaultGroupIcon;
 }
 
-function getGroupTagValue(group, key) {
+export function getGroupTagValue(group, key) {
   if (key === pluginTag) {
     const plugin = getGroupPlugin(group);
     return plugin ? getPluginName(group.tags[pluginTag]) : group.tags[key];
   } else {
     return group.tags[key];
   }
+}
+
+function processData(items, columns) {
+  let csvRows = [];
+  items?.forEach(item => {
+    let row = {};
+    Object.keys(item.tags).forEach(tagKey => (row[tagKey] = item.tags[tagKey]));
+
+    columns.forEach(col => {
+      if (col.getType !== undefined && col.getType() === 'count') {
+        row[col.getId()] = item.count;
+      }
+    });
+
+    columns.forEach(col => {
+      let found = false;
+      Object.keys(item.metrics ?? {}).forEach(metric => {
+        if (metric === col.getId()) {
+          row[col.getColumnLabel()] = formatCsvColumnValue(col.getFormatter(), firstValue(item.metrics[metric]));
+          found = true;
+        }
+      });
+      if (!found && col.exported) {
+        row[col.getColumnLabel()] = '-';
+      }
+    });
+    csvRows.push(row);
+  });
+
+  return csvRows;
+}
+
+function getHeaderActions(props) {
+  if (props.type === null) {
+    // no sorting and grouping for All Infrastructure
+    return <></>;
+  }
+
+  const timeConfig = props.timeConfig;
+  const backendQueryModel = props.backendQueryModel;
+  const order = props.order;
+  const type = props.type;
+  const metrics = props.metrics;
+  const cursor = props.cursor;
+  const columns = props.columns;
+  const granularity = props.granularity;
+  const fullQualifiedGroup = props.fullQualifiedGroup;
+  const csvFileName = 'group_entites_' + type + '.csv';
+
+  const getAllData = ({ cursor }) =>
+    getGroups({
+      timeConfig,
+      backendQueryModel,
+      group: fullQualifiedGroup,
+      order,
+      type,
+      metrics,
+      granularity,
+      cursor,
+      retrievalSize: 10000,
+      fullData: true
+    });
+
+  return (
+    <>
+      <CsvExporter
+        processData={processData}
+        fetchData={getAllData}
+        fileName={csvFileName}
+        columns={columns}
+        cursor={cursor}
+      />
+      <MetricCatalogAndSortingConfigurator {...props} />
+    </>
+  );
 }

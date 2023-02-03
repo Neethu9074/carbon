@@ -9,6 +9,7 @@ import { learnMoreLabel, learnMoreHref, explanation } from 'in-websites/definiti
 import BatchIndicator from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BatchIndicator';
 import KeyValueHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/KeyValueHeader';
 import { latencyFixed, bytes, millisToTwoDecimalSeconds, millis } from 'in-services/formatters/number';
+import HttpHeaders from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/HttpHeaders';
 import BodyHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BodyHeader';
 import BackendDi from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BackendDi';
 import LearnMore from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/LearnMore';
@@ -115,6 +116,8 @@ export const Body = ({ beacon }) => {
 
   const hasGraphQl = isNotBlank(beacon.graphqlOperationType) || isNotBlank(beacon.graphqlOperationName);
 
+  const hasHttpHeaders = Object.keys(beacon.httpCallHeaders).length > 0;
+
   return (
     <Fragment>
       <Row>
@@ -168,6 +171,17 @@ export const Body = ({ beacon }) => {
           </Col>
         )}
       </Row>
+
+      {hasHttpHeaders && (
+        <Row>
+          <Col lg={12}>
+            <BodyHeader>
+              {t('in-websites:analyze.analyzeView.pageLoadView.httpRequestBeaconHeaderHttpHeaders')}
+            </BodyHeader>
+            <HttpHeaders beacon={beacon} />
+          </Col>
+        </Row>
+      )}
 
       {hasGraphQl && (
         <Row>

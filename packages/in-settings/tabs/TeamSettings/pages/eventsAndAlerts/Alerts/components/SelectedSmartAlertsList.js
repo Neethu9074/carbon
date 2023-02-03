@@ -12,9 +12,9 @@ import {
   simpleListNameColumnDefinition,
   evaluationInfoColumnDefinition,
   deselectActionColumnDefinition
-} from 'in-alerting/smart-alerts/applications/components/list/columns/columnDefinitions';
+} from 'in-alerting/smart-alerts/applications/list/columns/columnDefinitions';
 import SelectSmartAlertsDialogButton from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/SelectSmartAlertsDialogButton';
-import alertEvaluationTypes from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
+import alertEvaluationTypes from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { getAllAlertConfigsForAllApplications } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
 import { getAllGlobalAlertConfigs } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';

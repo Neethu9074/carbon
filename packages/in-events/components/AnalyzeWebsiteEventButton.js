@@ -11,39 +11,36 @@ import { Button } from '@instana/components';
 import { fromBackendModel, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { websitesAlertingEventDetailsGoToAnalyze } from 'in-alerting/smart-alerts/websites/tracker';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
+import { urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getLinkToAnalyze } from 'in-websites/navigation/paths';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import { defaultGroupings } from 'in-websites/tags';
 import { t } from 'in-i18n';
 
-export default function AnalyzeWebsiteEventButton({ alertConfig, websiteName, timeConfig }) {
-  const { rule, tagFilterExpression } = alertConfig;
-  const { alertType, metricName, aggregation } = rule;
+export default function AnalyzeWebsiteEventButton({ alertConfig, websiteName, timeConfig, adaptiveBaselineInfo }) {
+  const { rule } = alertConfig;
+  const { alertType, metricName } = rule;
 
   const blueprintConfig = getBlueprintConfig(alertType);
   const beaconType = blueprintConfig.getBeaconType(metricName);
-  const tagFilterFormModel = fromBackendModel(tagFilterExpression);
+
+  const linkToUA = getLinkToUnboundAnalytics(
+    beaconType,
+    websiteName,
+    blueprintConfig,
+    alertConfig,
+    timeConfig,
+    adaptiveBaselineInfo
+  ).map(urlWithoutQueryParameter);
 
   return (
     <Button
       kind="primary"
       icon={getIcon(alertType)}
       onClick={() => websitesAlertingEventDetailsGoToAnalyze({ beaconType })}
-      href$={getLinkToAnalyze({
-        beaconType,
-        formModel: joinExpressions({
-          expressions: [
-            [tagFilter('beacon.website.name', 'EQUALS', websiteName)],
-            tagFilterFormModel,
-            blueprintConfig.getRuleTagFilterFormModel(rule),
-            blueprintConfig.getExtraAnalyzeLinkTagFilterFormModel(alertConfig, timeConfig)
-          ]
-        }),
-        groupBy: getGrouping(alertType, metricName),
-        chartedMetrics: getChartedMetrics(alertType, aggregation),
-        timeConfig
-      })}
+      href$={linkToUA}
     >
       {getLinkTitle(alertType, metricName)}
     </Button>
@@ -52,9 +49,39 @@ export default function AnalyzeWebsiteEventButton({ alertConfig, websiteName, ti
 
 AnalyzeWebsiteEventButton.propTypes = {
   alertConfig: PropTypes.object.isRequired,
-  websiteName: PropTypes.string.isRequired,
-  timeConfig: propTypeTimeConfig.isRequired
+  timeConfig: propTypeTimeConfig.isRequired,
+  adaptiveBaselineInfo: PropTypes.object,
+  websiteName: PropTypes.string.isRequired
 };
+
+function getLinkToUnboundAnalytics(
+  beaconType,
+  websiteName,
+  blueprintConfig,
+  alertConfig,
+  timeConfig,
+  adaptiveBaselineInfo
+) {
+  const { rule, tagFilterExpression } = alertConfig;
+  const { alertType, metricName, aggregation } = rule;
+
+  const tagFilterFormModel = fromBackendModel(tagFilterExpression);
+
+  return getLinkToAnalyze({
+    beaconType,
+    timeConfig,
+    groupBy: getGrouping(alertType, metricName),
+    chartedMetrics: getChartedMetrics(alertType, aggregation),
+    formModel: joinExpressions({
+      expressions: [
+        [tagFilter('beacon.website.name', EQUALS, websiteName)],
+        tagFilterFormModel,
+        blueprintConfig.getRuleTagFilterFormModel(rule),
+        blueprintConfig.getExtraAnalyzeLinkTagFilterFormModel(alertConfig, timeConfig, adaptiveBaselineInfo)
+      ]
+    })
+  }).map(urlWithoutQueryParameter);
+}
 
 function getGrouping(alertType, metricName) {
   switch (alertType) {
@@ -66,6 +93,8 @@ function getGrouping(alertType, metricName) {
       return metricName === 'pageLoads' ? defaultGroupings.pageLoad : defaultGroupings.pageChange;
     case 'slowness':
       return defaultGroupings.none;
+    case 'customEvent':
+      return defaultGroupings.custom;
     default:
       throw Error('Unsupported alert type');
   }
@@ -76,6 +105,7 @@ function getChartedMetrics(alertType, aggregation) {
     case 'specificJsError':
     case 'statusCode':
     case 'throughput':
+    case 'customEvent':
       return [
         {
           metricId: 'beaconCount',
@@ -104,6 +134,8 @@ function getIcon(alertType) {
       return 'lib_website_page_load';
     case 'slowness':
       return 'lib_website_page_load';
+    case 'customEvent':
+      return 'lib_website_custom';
     default:
       throw Error('Unsupported alert type');
   }
@@ -112,7 +144,7 @@ function getIcon(alertType) {
 function getLinkTitle(alertType, metricName) {
   switch (alertType) {
     case 'specificJsError':
-      return 'Analyze JS Errors';
+      return t('in-events:titleAnalyzeJsErrors');
     case 'statusCode':
       return t('in-events:titleAnalyzeHTTPRequests');
     case 'throughput':
@@ -120,7 +152,9 @@ function getLinkTitle(alertType, metricName) {
         ? t('in-events:titleAnalyzePageLoads')
         : t('in-events:titleAnalyzePageTransitions');
     case 'slowness':
-      return 'Analyze Load Time';
+      return t('in-events:titleAnalyzeLoadTime');
+    case 'customEvent':
+      return t('in-events:titleAnalyzeCustomEvents');
     default:
       throw Error('Unsupported alert type');
   }

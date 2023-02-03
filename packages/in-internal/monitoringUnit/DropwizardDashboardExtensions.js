@@ -87,13 +87,13 @@ export default connect(({ snapshot, timeConfig }) => ({
             autoFocus
           >
             <option value="">{t('in-internal:monitoringUnit.dropwizardDashboardExt.tagDataSelectOne')}</option>
-            <option value={`${adminUrl}/admin/physicalAttributeStore`}>
+            <option value={`${adminUrl}/admin/applicationTagCache`}>
               {t('in-internal:monitoringUnit.dropwizardDashboardExt.allTags')}
             </option>
-            <option value={`${adminUrl}/admin/physicalAttributeStore/cluster`}>
+            <option value={`${adminUrl}/admin/applicationTagCache/cluster`}>
               {t('in-internal:monitoringUnit.dropwizardDashboardExt.clusterTags')}
             </option>
-            <option value={`${adminUrl}/admin/physicalAttributeStore/alternatives`}>
+            <option value={`${adminUrl}/admin/applicationTagCache/alternatives`}>
               {t('in-internal:monitoringUnit.dropwizardDashboardExt.hostPortRef')}
             </option>
           </Select>

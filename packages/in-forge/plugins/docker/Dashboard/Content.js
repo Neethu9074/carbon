@@ -26,8 +26,8 @@ import LogsKpiCard from 'in-forge/plugins/docker/Dashboard/LogsKpiCard';
 import LogsChart from 'in-forge/plugins/docker/Dashboard/LogsChart';
 import { getLinkToAnalyze } from 'in-logging/navigation/paths';
 import { loggingEnabled } from 'in-services/featureFlags';
-import useHasLogs from 'in-logging/hooks/useHasLogs';
 import MetricValue from 'in-components/MetricValue';
+import { useHasLogs } from 'in-logging/hooks';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 

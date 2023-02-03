@@ -11,10 +11,13 @@ import { useObservable } from '@instana/hooks';
 import {
   alertsList,
   applicationDashboard,
+  configurationTab,
   dependencyMapTab,
   errorMessagesTab,
   logMessagesTab,
-  summaryTab
+  smartAlertsTab,
+  summaryTab,
+  syntheticsTab
 } from 'in-applications/navigation/paths';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import CreateGlobalSmartAlertButton from 'in-alerting/smart-alerts/applications/components/CreateGlobalSmartAlertButton';
@@ -23,10 +26,10 @@ import InboundAllCallsDropdown from 'in-applications/Dashboards/commonComponents
 import { isSyntheticOption } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import CreateSmartAlert from 'in-alerting/smart-alerts/applications/components/CreateSmartAlert';
-import { categoryGlobal } from 'in-alerting/smart-alerts/applications/components/list/constants';
 import { applicationSmartAlertsEnabled, syntheticCallsEnabled } from 'in-services/featureFlags';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
+import { categoryGlobal } from 'in-alerting/smart-alerts/applications/list/constants';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import getEndpointTypes from 'in-applications/subscriptions/getEndpointTypes';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
@@ -54,6 +57,8 @@ const urlStateDefinition = {
     applicationDashboardUrlParameters.syntheticCalls
   ]
 };
+
+const boundaryScopeDropdownDisabledTabs = [dependencyMapTab, smartAlertsTab, syntheticsTab, configurationTab];
 
 export default function ApplicationDashboard({ location }) {
   const [{ appId, boundaryScope, syntheticCalls }, setUrlState] = useUrlState(urlStateDefinition);
@@ -117,6 +122,7 @@ function Header(props) {
       label={get(props.result, ['data', 'label'])}
       renderButtonLine={renderButtonLine}
       renderButtonLineSecondary={renderButtonLineSecondary}
+      showHistoricDataWarning={false}
     />
   );
 }
@@ -136,6 +142,11 @@ function renderButtonLine(props) {
       includeSynthetic={isSyntheticOption(props.syntheticCalls)}
     />
   );
+
+  const showAlertButton =
+    role.canConfigureCustomAlerts &&
+    applicationSmartAlertsEnabled &&
+    !location.pathname.includes('/application/configuration');
 
   return (
     <>
@@ -160,12 +171,18 @@ function renderButtonLine(props) {
         syntheticCalls={syntheticCalls}
       />
 
-      {role.canConfigureCustomAlerts && applicationSmartAlertsEnabled && (
-        <FloatingActionButtons>{AddSmartAlertButton}</FloatingActionButtons>
-      )}
+      {showAlertButton && <FloatingActionButtons>{AddSmartAlertButton}</FloatingActionButtons>}
     </>
   );
 }
+
+const disableAllCallsDropdown = currentTab => {
+  if (boundaryScopeDropdownDisabledTabs.includes(currentTab)) {
+    return true;
+  } else {
+    return false;
+  }
+};
 
 function renderButtonLineSecondary({
   result,
@@ -193,7 +210,7 @@ function renderButtonLineSecondary({
         data={result.data}
         boundaryScope={boundaryScope}
         onBoundaryStateChange={onBoundaryStateChange}
-        disabled={currentTab === dependencyMapTab}
+        disabled={disableAllCallsDropdown(currentTab)}
       />
       {syntheticCallsEnabled && (
         <IncludeSyntheticCallsDropdown

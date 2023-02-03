@@ -8,7 +8,7 @@ import React, { useState } from 'react';
 import { Bash, Input } from 'in-waiting-for-deployment/components/OnboardingWidget/contentComponents';
 import { t } from 'in-i18n';
 
-export default function DockerContent({ agentKey, agentEndpoint, agentEndpointPort }) {
+export default function DockerContent({ agentKey, downloadKey, agentEndpoint, agentEndpointPort }) {
   const [zoneName, onZoneNameChange] = useState('');
   const lines = [
     'sudo docker run \\',
@@ -25,7 +25,8 @@ export default function DockerContent({ agentKey, agentEndpoint, agentEndpointPo
     `   --env="INSTANA_AGENT_ENDPOINT=${agentEndpoint}" \\`,
     `   --env="INSTANA_AGENT_ENDPOINT_PORT=${agentEndpointPort}" \\`,
     `   --env="INSTANA_AGENT_KEY=${agentKey}" \\`,
-    '   instana/agent'
+    `   --env="INSTANA_DOWNLOAD_KEY=${downloadKey}" \\`,
+    '   icr.io/instana/agent'
   ];
   if (zoneName) {
     lines.push(`   --env="INSTANA_AGENT_ZONE=${zoneName}" \\`, lines.pop());

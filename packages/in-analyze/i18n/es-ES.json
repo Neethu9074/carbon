@@ -25,6 +25,11 @@
         "counter_custom_0": "{{number}} sucesos personalizados",
         "counter_custom_1": "{{number}} sucesos personalizados",
         "counter_custom_2": "{{number}} sucesos personalizados",
+        "counter_crash": "{{number}} caída",
+        "counter_crash_plural": "{{number}} caídas",
+        "counter_crash_0": "{{number}} caídas",
+        "counter_crash_1": "{{number}} caídas",
+        "counter_crash_2": "{{number}} caídas",
         "counter_Row": "{{number}} Fila",
         "counter_Row_plural": "{{number}} filas",
         "counter_Row_0": "{{number}} filas",
@@ -86,7 +91,7 @@
       "viewTransitions2": "Ver transiciones",
       "calls": "Llamadas",
       "traces": "Rastreos",
-      "console": "Consola"
+      "crashes": "Caídas"
     }
   },
   "traceDetail": {
@@ -125,9 +130,6 @@
         "hideWebsiteInformation": "Ocultar información del sitio web",
         "showWebsiteInformation": "Mostrar información del sitio web",
         "viewWebsiteActivity": "Ver actividad del sitio web"
-      },
-      "logs": {
-        "noDataMessage": "No hay registros disponibles para este rastreo"
       }
     },
     "components": {
@@ -176,25 +178,18 @@
       },
       "callTree": {
         "expandButtonForRow": "Expandir todas las subllamadas",
-        "collapseButtonForRow": "Contraer todas las subllamadas",
         "of": "de",
-        "inheritedFrom": "Heredado desde",
-        "cardTitle": "Llamadas"
+        "inheritedFrom": "Heredado desde"
       },
       "colorCodingToggleButtons": {
         "colorizeBy": "Colorear por",
-        "colorizeByExpl": "Cambia el color de las barras de llamada",
-        "endpoint": "Punto final",
-        "service": "Servicio"
-      },
-      "viewToggleButtons": {
-        "expl": "Ver como",
-        "tree": "Árbol",
-        "chart": "Línea temporal"
+        "endpoint": "Punto final"
       },
       "logTooltipContent": {
         "errorLog": "Registro de errores",
-        "warningLog": "Registro de avisos"
+        "warningLog": "Registro de avisos",
+        "restrictedAccess": "Acceso restringido",
+        "restrictedAccessExpl": "No tiene permiso para acceder a esta información"
       },
       "callTooltipContent": {
         "numbersOfErrors": "{{count}} error",
@@ -285,7 +280,7 @@
     "analyzeLogsLabel": "Analizar registros",
     "similarLogs": "Registros similares",
     "similarServiceLogs": "Mostrar registros en contexto de este servicio",
-    "service": "Mostrar servicio"
+    "restrictedAccessExpl": "No tiene permiso para acceder a esta información"
   },
   "traceDetails": {
     "labelTotal": "Total",

@@ -3,27 +3,27 @@
  * (c) Copyright Instana Inc.
  */
 
-import { compose, withState } from 'recompose';
+import React, { useState } from 'react';
 import diff from 'deep-diff';
-import React from 'react';
 
+import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/components';
 
 import createSnapshotVersionsInTimeframeObservable from 'in-subscription/snapshotVersionsInTimeframe';
 import VersionTimeline from 'in-components/VersionTimeline';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { timeConfig$ } from 'in-stores/time/config';
-import withUrlState from 'in-hoc/withUrlState';
+import useUrlState from 'in-hooks/useUrlState';
 import Input from 'in-components/form/Input';
-import connectTo from 'in-hoc/connectTo';
 import Code from 'in-components/Code';
 import { t } from 'in-i18n';
 
 import locals from './SnapshotVersions.mless';
 
-export default compose(
-  withState('selectedSnapshot', 'setSelectedSnapshot', null),
-  withUrlState({
+export default function SnapshotVersions() {
+  const [selectedSnapshot, setSelectedSnapshot] = useState(null);
+
+  const urlStateConfig = {
     bind: [
       {
         path: '/snapshotVersions',
@@ -32,26 +32,18 @@ export default compose(
         initialState: ''
       }
     ],
-    reducerName: 'setSnapshotId',
     replaceHistory: false
-  }),
-  withState('signal', 'setSignal', false),
-  connectTo(({ snapshotId, signal }) => ({
-    snapshotVersionsResponse: timeConfig$
+  };
+  const [{ snapshotId }, setSnapshotId] = useUrlState(urlStateConfig);
+  const [signal, setSignal] = useState(true);
+
+  const snapshotVersionsResponse = useObservable(
+    timeConfig$
       .debounce(100)
       .flatMap(timeConfig => (!signal || !snapshotId ? alwaysNull : getSnapshotVersions(snapshotId, timeConfig)))
-      .filter(res => res && res.snapshotVersions)
-  }))
-)(SnapshotVersions);
-
-function SnapshotVersions({
-  selectedSnapshot,
-  setSelectedSnapshot,
-  snapshotId,
-  setSnapshotId,
-  setSignal,
-  snapshotVersionsResponse
-}) {
+      .filter(res => res && res.snapshotVersions),
+    [snapshotId, signal]
+  );
   return (
     <div className={locals.view}>
       <div className={locals.header}>

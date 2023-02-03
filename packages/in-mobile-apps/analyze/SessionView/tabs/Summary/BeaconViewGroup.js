@@ -3,8 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { withState } from 'recompose';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Link, SvgIcon, toInteractiveElement } from '@instana/components';
 
@@ -14,9 +13,8 @@ import { t } from 'in-i18n';
 
 import locals from './BeaconViewGroup.mless';
 
-export default withState('expanded', 'setExpanded', true)(BeaconViewGroup);
-
-function BeaconViewGroup({ view, beacons, detailId, earliestTimestamp, sessionStart, expanded, setExpanded }) {
+export default function BeaconViewGroup({ view, beacons, detailId, earliestTimestamp, sessionStart }) {
+  const [expanded, setExpanded] = useState(true);
   return (
     <div className={locals.group}>
       <div
@@ -37,7 +35,7 @@ function BeaconViewGroup({ view, beacons, detailId, earliestTimestamp, sessionSt
           {!view && (
             <Link
               external
-              href="https://instana.com/docs/mobile_app_monitoring/ios_api/#views"
+              href="https://www.ibm.com/docs/en/obi/current?topic=monitoring-ios-api#views"
               className={locals.learnHow}
             >
               {t('in-mobile-apps:sessionView.tabsSumBeaconViewGroup.noViewGuide')}

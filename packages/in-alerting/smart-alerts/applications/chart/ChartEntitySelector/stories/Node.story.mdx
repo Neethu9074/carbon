@@ -1,20 +1,19 @@
-<!--
-  (c) Copyright IBM Corp. 2021
-  (c) Copyright Instana Inc. 2021
--->
+[//]: # (IBM Confidential)
 
-import { action as storybookAction } from '@storybook/addon-actions';
-import { Meta, Preview, Story } from '@storybook/addon-docs/blocks';
+[//]: # (PID 5737-N85, 5900-AG5)
 
-import { just } from '@instana/observables';
+[//]: # (Copyright IBM Corp. 2022)
+
+import { Meta, Preview, Story } from '@storybook/addon-docs';
 
 import EntityItemNode from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/EntityItemNode';
-import {options, firstLevelChildren, leafNode, nodeWithKids} from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/stories/treeSelectionData';
-import PermanentlyVisibleOverlay from 'in-components/overlays/OverlayPresenter/stories/PermanentlyVisibleOverlay';
+import {
+  leafNode,
+  nodeWithKids
+} from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/stories/treeSelectionData';
 import Node from 'in-components/SelectorOverlay/Node';
-import { pendingResult } from 'in-services/fixedObjects';
 
-<Meta title="auto-generated" />
+<Meta />
 
 # Auto-Loading Nodes: On-demand loading children
 <Preview>

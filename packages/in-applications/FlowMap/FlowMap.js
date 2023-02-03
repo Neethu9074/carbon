@@ -13,7 +13,6 @@ import {
 } from 'in-applications/FlowMap/serviceLocator/serviceLocator';
 import createConnectionService from 'in-applications/FlowMap/serviceLocator/ConnectionsServiceLocator/ConnectionsService';
 import createSceneService from 'in-applications/FlowMap/serviceLocator/SceneServiceLocator/SceneService';
-import OverlayReactComponentMounter from 'in-applications/FlowMap/misc/OverlayReactComponentMounter';
 import { SIGNALS } from 'in-applications/FlowMap/components/Controls/Controls';
 import SceneGraph from 'in-applications/FlowMap/SceneGraph/SceneGraph';
 import Scene from 'in-applications/FlowMap/sceneObjects/Scene';
@@ -21,21 +20,12 @@ import { alwaysNull } from 'in-services/fixedStreams';
 import Subscriber from 'in-map/misc/Subscriber';
 
 export default class FlowMap {
-  constructor({
-    canvas,
-    overlayReactComponent,
-    expandNodeLeft,
-    expandNodeRight,
-    expandChildLeft,
-    expandChildRight,
-    loadMore
-  }) {
+  constructor({ canvas, overlayReactComponent }) {
     this.canvas = canvas;
     this.overlayReactComponent = overlayReactComponent;
     this.serviceLocatorUid = generateUniqueShortId();
 
     this.initSceneGraph();
-    this.initOverlayReactComponentMounter(expandNodeLeft, expandNodeRight, expandChildLeft, expandChildRight, loadMore);
     this.initServiceLocator();
     this.initScene();
     this.initSubscriptions();
@@ -63,18 +53,6 @@ export default class FlowMap {
 
   initSceneGraph() {
     this.sceneGraph = new SceneGraph(this.serviceLocatorUid);
-  }
-
-  initOverlayReactComponentMounter(expandNodeLeft, expandNodeRight, expandChildLeft, expandChildRight, loadMore) {
-    this.overlayReactComponentMounter = new OverlayReactComponentMounter(
-      this.overlayReactComponent,
-      this.serviceLocatorUid,
-      expandNodeLeft,
-      expandNodeRight,
-      expandChildLeft,
-      expandChildRight,
-      loadMore
-    );
   }
 
   setSize(width, height) {
@@ -195,13 +173,7 @@ export default class FlowMap {
     this.subscriber = null;
   }
 
-  disposeOverlayReactComponentMounter() {
-    this.overlayReactComponentMounter.dispose();
-    this.overlayReactComponentMounter = null;
-  }
-
   dispose() {
-    this.disposeOverlayReactComponentMounter();
     this.disposeSubscriptions();
     this.disposeSceneGraph();
     this.disposeScene();

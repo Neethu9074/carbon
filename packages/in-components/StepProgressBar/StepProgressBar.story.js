@@ -19,7 +19,7 @@ const divider = {
   marginTop: '2rem'
 };
 
-export const stepProgressBar = () => {
+export const StepProgressBarDemo = () => {
   const [step, setStep] = useState(0);
 
   return (

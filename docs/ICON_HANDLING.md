@@ -59,4 +59,4 @@ In the older parts of the product [*1], we have icons given in 128x128 pixels an
 
 ![Old process icon](./img/process_icon.png)
 
-\*1 events view, infrastructure map/table, sidebar, infrastructure dashboards, hierarchical links, etc, so basically everywhere where we calculate the icon via a given plugin (through this registry: [https://github.com/instana/ui-client/blob/develop/packages/in-sdk/iconRegistry.js](https://github.com/instana/ui-client/blob/develop/packages/in-sdk/iconRegistry.js)), plus all icons inside the icon registry (packages/in-components/SvgIcon/registry.js) without a "lib\_" prefix.
+\*1 events view, infrastructure map/table, sidebar, infrastructure dashboards, hierarchical links, etc, so basically everywhere where we calculate the icon via a given plugin (through this registry: [https://github.ibm.com/instana/ui-client/blob/develop/packages/in-sdk/iconRegistry.js](https://github.ibm.com/instana/ui-client/blob/develop/packages/in-sdk/iconRegistry.js)), plus all icons inside the icon registry (packages/in-components/SvgIcon/registry.js) without a "lib\_" prefix.

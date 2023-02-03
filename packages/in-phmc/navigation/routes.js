@@ -3,30 +3,46 @@
  * (c) Copyright Instana Inc.
  */
 
+import SharedProcessorPoolDashboard from 'promise-loader?global,phmc!in-phmc/Dashboards/SharedProcessorPool/SharedProcessorPoolDashboard';
 import SystemDashboard from 'promise-loader?global,phmc!in-phmc/Dashboards/Systems/SystemDashboard';
 import PhmcDashboard from 'promise-loader?global,phmc!in-phmc/Dashboards/Phmc/PhmcDashboard';
 import ViosDashboard from 'promise-loader?global,phmc!in-phmc/Dashboards/Vios/ViosDashboard';
 import LparDashboard from 'promise-loader?global,phmc!in-phmc/Dashboards/Lpar/LparDashboard';
 import PhmcMainView from 'promise-loader?global,phmc!in-phmc/PhmcMainView';
 import { Route } from 'react-router-dom';
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import {
   phmcDashboardFullyQualified,
   systemDashboardFullyQualified,
   viosDashboardFullyQualified,
-  lparDashboardFullyQualified
+  lparDashboardFullyQualified,
+  sppDashboardFullyQualified,
+  ibmp
 } from 'in-phmc/navigation/paths';
-import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
-import { ibmp } from 'in-phmc/navigation/paths';
+import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 
-export default (
-  <Fragment>
-    <Route path={phmcDashboardFullyQualified} component={createAsyncViewComponent(PhmcDashboard)} />
-    <Route path={systemDashboardFullyQualified} component={createAsyncViewComponent(SystemDashboard)} />
-    <Route path={viosDashboardFullyQualified} component={createAsyncViewComponent(ViosDashboard)} />
-    <Route path={lparDashboardFullyQualified} component={createAsyncViewComponent(LparDashboard)} />
-
-    <Route path={ibmp} component={createAsyncViewComponent(PhmcMainView)} />
-  </Fragment>
-);
+export default [
+  <Route key="phmcDashboard" path={phmcDashboardFullyQualified} children={renderAsyncRouteChildren(PhmcDashboard)} />,
+  <Route
+    key="phmcSystemDashboard"
+    path={systemDashboardFullyQualified}
+    children={renderAsyncRouteChildren(SystemDashboard)}
+  />,
+  <Route
+    key="phmcViosDashboard"
+    path={viosDashboardFullyQualified}
+    children={renderAsyncRouteChildren(ViosDashboard)}
+  />,
+  <Route
+    key="phmcLparDashboard"
+    path={lparDashboardFullyQualified}
+    children={renderAsyncRouteChildren(LparDashboard)}
+  />,
+  <Route
+    key="phmcSppDashboard"
+    path={sppDashboardFullyQualified}
+    children={renderAsyncRouteChildren(SharedProcessorPoolDashboard)}
+  />,
+  <Route key="phmcMainView" path={ibmp} children={renderAsyncRouteChildren(PhmcMainView)} />
+];

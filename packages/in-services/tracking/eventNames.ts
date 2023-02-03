@@ -13,9 +13,11 @@ export const CUSTOM_DASHBOARD_EDIT = 'custom.dashboard.edit';
 export const CUSTOM_DASHBOARD_DELETE = 'custom.dashboard.delete';
 export const CUSTOM_DASHBOARD_ADD_WIDGET_START = 'custom.dashboard.add.widget.start';
 export const CUSTOM_DASHBOARD_ADD_WIDGET_FINISH = 'custom.dashboard.add.widget.finish';
+export const CUSTOM_DASHBOARD_ADD_WIDGET_DUPLICATE = 'custom.dashboard.add.widget.duplicate';
 export const CUSTOM_DASHBOARD_EDIT_WIDGET_START = 'custom.dashboard.edit.widget.start';
 export const CUSTOM_DASHBOARD_EDIT_WIDGET_CANCEL = 'custom.dashboard.edit.widget.cancel';
 export const CUSTOM_DASHBOARD_EDIT_WIDGET_FINISH = 'custom.dashboard.edit.widget.finish';
+export const CUSTOM_DASHBOARD_DELETE_WIDGET = 'custom.dashboard.delete.widget';
 export const CUSTOM_DASHBOARD_VIEW_WIDGET = 'custom.dashboard.view.widget';
 
 export const ANALYZE_VIEW_SELECTED = 'analyze.view.selected';
@@ -33,6 +35,7 @@ export const ANALYZE_METRIC_CHANGED = 'analyze.metric.changed';
 export const ANALYZE_TRACE_CLICK = 'analyze.trace.click';
 export const ANALYZE_LATENCY_PERCENTILE_MENU_CLICK = 'analyze.latency.percentile.click';
 export const ANALYZE_LATENCY_SELECTION_CHANGED = 'analyze.latency.selection.changed';
+export const ANALYZE_DOCS_LINK_OPENED = 'analyze.header.docs.click';
 
 export const ANALYZE_UA2_FACETED_SEARCH_FILTER_ADDED = 'analyze.ua2.facetedSearch.filter.added';
 export const ANALYZE_UA2_FACETED_SEARCH_GROUP_CHANGED = 'analyze.ua2.facetedSearch.group.changed';
@@ -51,10 +54,17 @@ export const ANALYZE_UA2_ORDER_BY_CHANGED = 'analyze.ua2.orderBy.changed';
 export const ANALYZE_UA2_ORDER_BY_GROUP_CHANGED = 'analyze.ua2.orderByGroup.changed';
 export const ANALYZE_UA2_API_QUERY_PRESSED = 'analyze.ua2.apiQuery.pressed';
 export const ANALYZE_UA2_NESTING_DEPTH = 'analyze.ua2.nesting.depth';
-export const ANALYZE_UA2_LOAD_MORE_CLICKED = 'analyze.ua2.load.more.clicked';
+export const ANALYZE_UA2_FAST_QUERY_MODE_CHANGED = 'analyze.ua2.fastQueryMode.changed';
 
 export const ANALYZE_UA2_FORMMODEL_CHANGED = 'analyze.ua2.formmodel.changed';
 export const ANALYZE_UA2_FACETS_CHANGED = 'analyze.ua2.facets.changed';
+export const ANALYZE_UA2_LOAD_MORE = 'anaylze.ua2.loaded.more';
+export const ANALYZE_TRACE_VIEW_CLOSED = 'analyze.trace.view.closed';
+export const ANALYZE_TRACE_VIEW_NAVIGATE_TO_UA = 'analyze.trace.view.navigate.ua';
+export const ANALYZE_TRACE_VIEW_TRACE_LIST_CLICK = 'analyze.trace.view.trace.list.click';
+export const ANALYZE_TRACE_VIEW_SERVICE_ENDPOINT_LIST_CLICK = 'analyze.trace.view.service.endpoint.list.click';
+export const ANALYZE_TRACE_VIEW_TREE_CALL_CLICK = 'analyze.trace.view.call.tree.click';
+export const ANALYZE_TRACE_VIEW_TIMELINE_CALL_CLICK = 'analyze.trace.view.call.timeline.click';
 
 export const APPLICATION_CLICK_CREATE = 'application.click.create';
 export const APPLICATION_CLICK_SUBMIT = 'application.click.submit';
@@ -80,18 +90,20 @@ export const DFQ_FILTER_REMOVED = 'dfq.filter.removed';
 export const DFQ_FILTER_SELECTED = 'dfq.filter.selected';
 
 export const KUBERNETES_DASHBOARD_TAB_CHANGE = 'kubernetes.dashboard.tabChange';
+export const KUBERNETES_TIME_SHIFT_SELECT = 'kubernetes.timeShift.select';
 export const IS_MONITORING_HOSTS = 'isMonitoringHosts';
 export const MAP_GROUPING_CHANGED = 'map.grouping.change';
 export const MAP_METRICS_AGGREGATION = 'map.metrics.aggregation';
 export const MAP_METRICS_SHOW = 'map.metrics.show';
 export const MAP_SELECT_ENTITY = 'map.select.entity';
 export const NAVIGATION_BREADCRUMB = 'navigation.breadcrumb';
-export const REQUEST_QUOTE_BUTTON_CLICKED = 'requestQuote.buttonClicked';
+export const REQUEST_QUOTE_BUTTON_CLICKED = 'purchaseIntent.quote';
 export const REQUEST_QUOTE_SUBMITTED = 'requestQuote.submitted';
 export const TIME_WINDOW_SIZE_VIA_PICKER = 'time.windowSize.viaPicker';
 export const TOPLIST_METRIC_CHANGED = 'toplist.metricChanged';
 export const TOPLIST_ROW_NAVIGATION = 'toplist.rowNavigation';
 export const USER_INVITE = 'user.invite';
+export const BUY_NOW_BUTTON_CLICKED = 'purchaseIntent.aws';
 
 export const TABLE_ENTITY_ADDED = 'table.entity.added';
 export const TABLE_ENTITY_CLEARED = 'table.entity.cleared';
@@ -142,6 +154,7 @@ export const WEBSITES_ALERTING_THRESHOLD_OPERATOR_CHANGED = 'websites.alerting.t
 export const WEBSITES_ALERTING_THRESHOLD_VALUE_CHANGED = 'websites.alerting.thresholdValueChanged';
 export const WEBSITES_ALERTING_AGGREGATION_CHANGED = 'websites.alerting.thresholdAggregationChanged';
 export const WEBSITES_ALERTING_THRESHOLD_TYPE_CHANGED = 'websites.alerting.thresholdTypeChanged';
+export const WEBSITES_ALERTING_THRESHOLD_TYPE_HELP_ICON_HOVERED = 'websites.alerting.thresholdTypeHelpIconHovered';
 export const WEBSITES_ALERTING_THRESHOLD_DEVIATION_FACTOR_CHANGED = 'websites.alerting.thresholdDeviationFactorChanged';
 export const WEBSITES_ALERTING_FILTER_ADD = 'websites.alerting.filter.add';
 export const WEBSITES_ALERTING_FILTER_REMOVE = 'websites.alerting.filter.remove';
@@ -188,10 +201,13 @@ export const APPLICATIONS_ALERTING_ADDITIONAL_PROPS_DESCRIPTION_CHANGED =
   'applications.alerting.additionalProps.descriptionChanged';
 export const APPLICATIONS_ALERTING_STEP_SWITCH = 'applications.alerting.stepSwitch';
 export const APPLICATIONS_ALERTING_BLUEPRINT_CHANGED = 'applications.alerting.bluePrintChanged';
+export const APPLICATIONS_ALERTING_THRESHOLD_METRIC_CHANGED = 'applications.alerting.thresholdMetricChanged';
 export const APPLICATIONS_ALERTING_THRESHOLD_OPERATOR_CHANGED = 'applications.alerting.thresholdOperatorChanged';
 export const APPLICATIONS_ALERTING_THRESHOLD_VALUE_CHANGED = 'applications.alerting.thresholdValueChanged';
 export const APPLICATIONS_ALERTING_THRESHOLD_AGGREGATION_CHANGED = 'applications.alerting.thresholdAggregationChanged';
 export const APPLICATIONS_ALERTING_THRESHOLD_TYPE_CHANGED = 'applications.alerting.thresholdTypeChanged';
+export const APPLICATIONS_ALERTING_THRESHOLD_TYPE_HELP_ICON_HOVERED =
+  'applications.alerting.thresholdTypeHelpIconHovered';
 export const APPLICATIONS_ALERTING_THRESHOLD_DEVIATION_FACTOR_CHANGED =
   'applications.alerting.thresholdDeviationFactorChanged';
 export const APPLICATIONS_ALERTING_LOG_MSG_CHANGED = 'applications.alerting.logMessageChanged';
@@ -253,6 +269,14 @@ export const SETTINGS_ALERT_CUSTOM_PAYLOAD_REMOVE_ITEM = 'settings.alert.customP
 export const SETTINGS_EVENT_VIEW = 'settings.event.custom.view';
 export const SETTINGS_EVENT_SUBMIT = 'settings.event.submit';
 export const SETTINGS_EVENT_OPEN_SUBMIT_FORM = 'settings.event.new';
+export const SETTINGS_AUTOMATION_ACTION_CREATE = 'settings.automation.action.create';
+export const SETTINGS_AUTOMATION_ACTION_EDIT = 'settings.automation.action.edit';
+export const SETTINGS_AUTOMATION_ACTION_DELETE = 'settings.automation.action.delete';
+export const SETTINGS_MAINTENANCE_WINDOW_EDIT = 'settings.maintenance.edit';
+export const SETTINGS_MAINTENANCE_WINDOW_NEW = 'settings.maintenance.new';
+export const SETTINGS_MAINTENANCE_WINDOW_SUBMIT = 'settings.maintenance.submit';
+export const SETTINGS_MAINTENANCE_WINDOW_REMOVE = 'settings.maintenance.remove';
+export const SETTINGS_MAINTENANCE_WINDOW_CANCEL = 'settings.maintenance.cancel';
 
 export const ONBOARDING_OPENED = 'onboardingNewUnit.dialog.opened';
 export const ONBOARDING_INSTANA_BEGINNER_VIDEOS_CLICKED = 'onboardingNewUnit.instanaBeginnerVideos.clicked';
@@ -292,6 +316,12 @@ export const INFRA_EXPLORE_SORTED = 'infra.explore.sorted';
 export const AMP_TENANT_UNIT_CHANGED = 'amp.tenant.unit.metrics.changed';
 
 export const AGENT_LOGS_DOWNLOAD_CLICKED = 'agent.logs.download.clicked';
+export const AGENT_REBOOT_CLICKED = 'agent.reboot.clicked';
+export const AGENT_RESET_CLICKED = 'agent.reset.clicked';
+export const AGENT_UPDATE_CLICKED = 'agent.update.clicked';
+export const AGENT_SENSOR_RESET_INTERNAL_CLICKED = 'agent.internal.reset.sensors.clicked';
+export const AGENTS_RESET_ALL_AGENTS_INTERNAL_CLICKED = 'agents.internal.reset.all.clicked';
+export const AGENTS_UPDATE_ALL_AGENTS_INTERNAL_CLICKED = 'agents.internal.update.all.clicked';
 
 // Potential Problems Marker Lane
 export const POTENTIAL_PROBLEMS_MARKER_HOVERED = 'potential.problems.marker.hovered';
@@ -302,31 +332,29 @@ export const POTENTIAL_PROBLEMS_REQUEST_LOADING_TIME = 'potential.problems.reque
 export const POTENTIAL_PROBLEMS_SELECTED = 'potential.problems.selected';
 export const POTENTIAL_PROBLEMS_DIALOG_CLOSED = 'potential.problems.dialog.closed';
 
+// Alert Preview Marker Lane
+export const ALERT_PREVIEW_MARKER_FETCH_RETRY = 'alert.preview.marker.fetch.retry';
+
 // SLI Widget and SLI Management
-export const SLI_WIDGET_JUMP_TO_UNBOUNDED_ANALYTICS = 'sli.widget.chart.jumpToUA';
-export const SLI_WIDGET_START_EDITING = 'sli.widget.editStart';
-export const SLI_WIDGET_AP_CHANGED = 'sli.widget.apChanged';
-export const SLI_WIDGET_SLI_CHANGED = 'sli.widget.sliChanged';
-export const SLI_WIDGET_SLO_CHANGED = 'sli.widget.sloChanged';
-export const SLI_WIDGET_TIME_WINDOW_TYPE_CHANGED = 'sli.widget.timeWindowChanged';
-export const SLI_WIDGET_OPEN_SLI_MANAGEMENT = 'sli.widget.openSliManagement';
-export const SLI_MANAGEMENT_CREATE = 'sli.management.create';
-export const SLI_MANAGEMENT_VIEW = 'sli.management.view';
-export const SLI_MANAGEMENT_DELETED = 'sli.management.deleted';
-export const SLI_MANAGEMENT_NEW_CREATED = 'sli.management.sliCreated';
-export const SLI_MANAGEMENT_CLONED = 'sli.management.cloned';
-export const SLI_MANAGEMENT_EDIT_ABORT = 'sli.management.editAbort';
+export const SLO_WIDGET_EDIT_START = 'slo.widget.edit.start';
+export const SLI_MANAGEMENT_VIEW = 'sli.v2.management.view';
+export const SLI_MANAGEMENT_EXIT = 'sli.v2.management.exit';
+export const SLI_MANAGEMENT_CREATE_START = 'sli.v2.management.create.start';
+export const SLI_MANAGEMENT_CREATE_FINISH = 'sli.v2.management.create.finish';
+export const SLI_MANAGEMENT_EDIT_START = 'sli.v2.management.edit.start';
+export const SLI_MANAGEMENT_EDIT_FINISH = 'sli.v2.management.edit.finish';
+export const SLI_MANAGEMENT_DELETE = 'sli.v2.management.delete';
 
 // Logging
 export const ANALYZE_LOGGING_QUERY_BUILDER_FILTER_ADDED = 'analyze.logging.queryBuilder.filter.added';
 export const ANALYZE_LOGGING_QUERY_BUILDER_GROUP_ADDED = 'analyze.logging.queryBuilder.group.added';
 export const ANALYZE_LOGGING_SELECTED_TAGS_CHANGED = 'analyze.logging.selected.tags.changed';
-export const ANALYZE_LOGGING_TIMEFRAME_USED = 'analyze.logging.timeframe.used';
 export const ANALYZE_LOGGING_LOG_MESSAGE_PARAMETER_CLICKED = 'analyze.logging.log.message.parameter.clicked';
 export const ANALYZE_LOGGING_LOG_MESSAGE_TAG_CLICKED = 'analyze.logging.log.message.tag.clicked';
 export const ANALYZE_LOGGING_JUMP_TO_LOGS = 'analyze.logging.jump.to.logs';
 export const ANALYZE_LOGGING_TIME_SPENT = 'analyze.logging.time.spent';
 export const LOGGING_LOGDNA_BUTTON_CLICKED = 'logging.logDna.clicked';
+export const ANALYZE_LOGGING_SORTING_CHANGED = 'analyze.logging.sorting.changed';
 
 // ENTERPRISE
 export const ENTERPRISE_IDP_MAPPING_FIRST = 'enterprise.idp.mapping.first';
@@ -334,3 +362,18 @@ export const ENTERPRISE_IDP_MAPPING_CHANGED = 'enterprise.idp.mapping.changed';
 export const ENTERPRISE_IDP_MAPPING_REMOVED = 'enterprise.idp.mapping.removed';
 export const ENTERPRISE_IDP_MAPPING_RESTRICT_ACCESS = 'enterprise.idp.mapping.restrictAccess';
 export const ENTERPRISE_IDP_MAPPING_RESTRICT_ACCESS_REMOVE = 'enterprise.idp.mapping.restrictAccess.remove';
+
+// Apdex Widget and Apdex Management
+export const APDEX_WIDGET_EDIT_START = 'apdex.widget.edit.start';
+export const APDEX_MANAGEMENT_VIEW = 'apdex.management.view';
+export const APDEX_MANAGEMENT_EXIT = 'apdex.management.exit';
+export const APDEX_MANAGEMENT_CREATE_START = 'apdex.management.create.start';
+export const APDEX_MANAGEMENT_CREATE_FINISH = 'apdex.management.create.finish';
+export const APDEX_MANAGEMENT_EDIT_START = 'apdex.management.edit.start';
+export const APDEX_MANAGEMENT_EDIT_FINISH = 'apdex.management.edit.finish';
+export const APDEX_MANAGEMENT_DELETE = 'apdex.management.delete';
+
+// Action associations for events
+export const REMEDIATION_ASSOCIATE_ACTION = 'event.issue.action.associate';
+export const REMEDIATION_RUN_ACTION = 'event.issue.action.run';
+export const CHART_ZOOM_INTO_TIMEFRAME = 'chart.zoomToTimeRange.used';

@@ -8,7 +8,7 @@
   "agentMonitoringSuffix04": "nicht überwacht",
   "agentMonitoringAlert_prefix04": "Überwachungsproblem",
   "agentMonitoringExplanationLinkLabel": "Fehlerbehebungshandbücher",
-  "agentMonitoringExplanationLinkHref": "https://instana.com/docs/",
+  "agentMonitoringExplanationLinkHref": "https://www.ibm.com/docs/en/obi/current",
   "services": "Services",
   "dashboard": {
     "customMetricsV2": {
@@ -30,24 +30,21 @@
       "tableExpandAll": "Alles einblenden",
       "tableCollapseAll": "Alles ausblenden"
     }
-   },
-
-  "sidebar": {
-      "classpath": {
-        "classpathHide": "Klassenpfad ausblenden",
-        "classpathShow": "Klassenpfad anzeigen"
-      },
-      "processStartedTitle": "Gestartet um",
-      "tags": "Tags ({{size}})"
   },
-
+  "sidebar": {
+    "classpath": {
+      "classpathHide": "Klassenpfad ausblenden",
+      "classpathShow": "Klassenpfad anzeigen"
+    },
+    "processStartedTitle": "Gestartet um",
+    "tags": "Tags ({{size}})"
+  },
   "traceDetails": {
     "errorDescription": "Fehler"
   },
-
   "snapshot": {
+    "unknownLabel": "Unbekannt",
     "registryHealth": "Allgemeinzustand",
-
     "runtimeLabelNet": ".NET Core",
     "runtimeLabelGo": "Go",
     "runtimeLabelJava": "Java",
@@ -56,7 +53,6 @@
     "runtimeLabelRuby": "Ruby",
     "runtimeLabelUnknown": "Unbekannte Laufzeit"
   },
-
   "tracing": {
     "registryCall": "Aufruf",
     "registryCall_plural": "Aufrufe",
@@ -64,7 +60,6 @@
     "registryCall_1": "Aufrufe",
     "registryCall_2": "Aufrufe"
   },
-
   "components": {
     "codeRetrievalDialog": {
       "file": "Datei",
@@ -73,5 +68,4 @@
       "error": "Fehler"
     }
   }
-
 }

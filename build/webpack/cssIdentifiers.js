@@ -30,7 +30,7 @@ exports.localIdentName = getLocalIdentName();
 exports.getLocalIdent = getGetLocalIdent();
 exports.webpackPlugin = {
   apply(compiler) {
-    compiler.plugin('done', onBuildFinish);
+    compiler.hooks.done.tap('cssIdentifiers', onBuildFinish);
   }
 };
 

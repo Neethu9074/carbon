@@ -17,7 +17,7 @@ import {
 } from 'in-waiting-for-deployment/components/OnboardingWidget/contentComponents';
 import { t } from 'in-i18n';
 
-export default function ManualLinuxContent({ butlerDomain, agentKey, tenant, tenantUnit }) {
+export default function ManualLinuxContent({ butlerDomain, agentKey, downloadKey, tenant, tenantUnit }) {
   const agentOptions = [
     { key: 'linux64', label: t('in-waiting-for-deployment:content.linux64Bit') },
     { key: 'linux64Static', label: t('in-waiting-for-deployment:content.linux64BitStatic') },
@@ -42,12 +42,13 @@ export default function ManualLinuxContent({ butlerDomain, agentKey, tenant, ten
     <>
       <Row>
         <DropDown value={option} options={agentOptions} onChange={setOption} />
-        <DownloadButton href={getAgentDownloadURL(tenant, tenantUnit, agentKey, option, butlerDomain)} />
+        <DownloadButton href={getAgentDownloadURL(tenant, tenantUnit, agentKey, downloadKey, option, butlerDomain)} />
       </Row>
-      <HelpBox title={t('in-waiting-for-deployment:content.requiresAJava8Runtime')}>
+      <HelpBox title={t('in-waiting-for-deployment:content.requiresAJava8Or11Runtime')}>
         <Listing
           items={[
-            t('in-waiting-for-deployment:content.azulZuluJdk8Preferred'),
+            t('in-waiting-for-deployment:content.ibmJ911Preferred'),
+            t('in-waiting-for-deployment:content.azulZuluJdk8'),
             t('in-waiting-for-deployment:content.oracleHotspotJdk8'),
             t('in-waiting-for-deployment:content.ibmJ98'),
             t('in-waiting-for-deployment:content.openJdk8'),

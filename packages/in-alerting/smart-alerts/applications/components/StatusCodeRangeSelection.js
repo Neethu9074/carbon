@@ -8,6 +8,7 @@ import React from 'react';
 
 import { Stack } from '@instana/components';
 
+import TouchedMessages from 'in-components/form/TouchedMessages';
 import { Col, Row } from 'in-components/layout/Grid';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
@@ -15,13 +16,13 @@ import Label from 'in-components/form/Label';
 import locals from './StatusCodeRangeSelection.mless';
 
 export default function StatusCodeRangeSelection({
-  start = '',
-  end = '',
-  startHasError,
-  endHasError,
+  startField,
+  endField,
   onStartSelectionUpdate,
   onEndSelectionUpdate
 }) {
+  const startHasError = !startField.valid && startField.touched;
+  const endHasError = !endField.valid && endField.touched;
   return (
     <Row>
       <Col lg={3}>
@@ -33,11 +34,13 @@ export default function StatusCodeRangeSelection({
             id="statusCodeStart"
             name="statusCodeStart"
             placeholder="500"
-            value={start}
+            value={startField.value}
             onChange={e => onStartSelectionUpdate(e.target.value)}
             hasError={startHasError}
             type="number"
+            min="1"
           />
+          <TouchedMessages field={startField} />
         </Stack>
       </Col>
       <Col lg={3}>
@@ -49,11 +52,13 @@ export default function StatusCodeRangeSelection({
             id="statusCodeEnd"
             name="statusCodeEnd"
             placeholder="599"
-            value={end}
+            value={endField.value}
             onChange={e => onEndSelectionUpdate(e.target.value)}
             hasError={endHasError}
             type="number"
+            min="1"
           />
+          <TouchedMessages field={endField} />
         </Stack>
       </Col>
     </Row>
@@ -61,10 +66,8 @@ export default function StatusCodeRangeSelection({
 }
 
 StatusCodeRangeSelection.propTypes = {
-  start: PropTypes.number,
-  end: PropTypes.number,
-  startHasError: PropTypes.bool,
-  endHasError: PropTypes.bool,
+  startField: PropTypes.object.isRequired,
+  endField: PropTypes.object.isRequired,
   onStartSelectionUpdate: PropTypes.func.isRequired,
   onEndSelectionUpdate: PropTypes.func.isRequired
 };

@@ -22,12 +22,43 @@ function isErroneousMetric(metricConfig) {
   return erroneousMetricIds.includes(metricConfig.metricId);
 }
 
+function isErroneousCallsRateMetric(metricConfig) {
+  return metricConfig.metricId === 'errors';
+}
+
 function isLatencyDistributionChart(metricConfig) {
   return metricConfig.metricId === 'latency' && metricConfig.aggregationId === 'DISTRIBUTION';
 }
 
+function getGroupedErroneousCallsRateConfig(metricConfig) {
+  return {
+    ...metricConfig,
+    rendererId: 'line'
+  };
+}
+
+const truncateTagFilterValue = value => {
+  return value.slice(0, 512);
+};
+
+const validateTagFilterValue = metricConfiguration => {
+  metricConfiguration?.tagFilterExpression?.elements?.forEach(element => {
+    if (element?.value?.length > 512) {
+      element.value = truncateTagFilterValue(element?.value);
+    }
+  });
+};
+
 export function ChartsPresenter(props) {
-  const { hiddenCalls, groupedViewConfiguration, chartedMetrics, dataSource, isGrouped, chartableDataSeries } = props;
+  const {
+    hiddenCalls,
+    groupedViewConfiguration,
+    chartedMetrics,
+    dataSource,
+    isGrouped,
+    chartableDataSeries,
+    fastQueryModeEnabled
+  } = props;
 
   return (
     <Sections className={locals.chartWrapper}>
@@ -39,12 +70,16 @@ export function ChartsPresenter(props) {
           rendererId: metricRenderers[dataSource][chartedMetric.metricId] ?? 'stackedBar'
         }))}
         unifiedMetricsSource="APPLICATION"
-        mapMetricConfiguration={(metricConfiguration, { dataSource }) => ({
-          ...metricConfiguration,
-          tagFilterExpression: metricConfiguration.tagFilterExpression,
-          dataSource,
-          ...hiddenCalls
-        })}
+        mapMetricConfiguration={(metricConfiguration, { dataSource }) => {
+          validateTagFilterValue(metricConfiguration);
+          return {
+            ...metricConfiguration,
+            tagFilterExpression: metricConfiguration.tagFilterExpression,
+            dataSource,
+            queryPrecision: fastQueryModeEnabled ? 'APPROXIMATE' : 'FULL',
+            ...hiddenCalls
+          };
+        }}
         forceLoadingIndicator={isGrouped && chartableDataSeries == null}
         disableClose={false}
         hideRenderer
@@ -64,19 +99,26 @@ export function ChartsPresenter(props) {
               <div key={`${metricConfig.metricId}${metricConfig.aggregationId}`} className={locals.latencyDistribution}>
                 <LatencyDistributionChart
                   {...chartProps}
+                  title={metricConfig.metricId}
+                  aggregation={metricConfig.aggregationId}
                   tagFilterExpression={toBackendQueryModel(chartProps.facetsAsTagFilterExpression) ?? EMPTY_EXPRESSION}
                   updateFilter={chartProps.onFacetedSearchSelectionChange}
                   chartedMetrics={[metricConfig]}
+                  showHeader
                 />
               </div>
             );
           } else if (isErroneousMetric(metricConfig)) {
+            let metricConfiguration = metricConfig;
+            if (chartProps.isGrouped && isErroneousCallsRateMetric(metricConfig)) {
+              metricConfiguration = getGroupedErroneousCallsRateConfig(metricConfig);
+            }
             return (
               <Chart
                 {...chartProps}
                 getCustomChartColor={() => !chartProps.isGrouped && [theme.lib.colors.failure]}
                 key={`${metricConfig.metricId}${metricConfig.aggregationId}`}
-                chartedMetrics={[metricConfig]}
+                chartedMetrics={[metricConfiguration]}
               />
             );
           } else {

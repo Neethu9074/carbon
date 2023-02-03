@@ -3,13 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { ListGroup, ColumnizedContent } from '@instana/components';
-import { KeyValue } from '@instana/components';
-import { SvgIcon } from '@instana/components';
-import { Li } from '@instana/components';
+import { ColumnizedContent, KeyValue, Li, ListGroup, SvgIcon } from '@instana/components';
 
 import { node as nodePropType } from 'in-components/SelectorOverlay/props';
 
@@ -102,7 +100,15 @@ export default function Node({ node, focusNode, onChange, withIcons, withBreadcr
 
 export function Item({ node, onClick, columnDefinitions }) {
   return (
-    <Li noAlternatingBg onClick={onClick} className={locals.option}>
+    // TODO: Remove this part once we're finished evaluating fuzzy search precision
+    <Li
+      noAlternatingBg
+      onClick={node.disabled ? undefined : onClick}
+      className={classNames({
+        [locals.option]: true,
+        [locals.disabled]: node.disabled
+      })}
+    >
       <ColumnizedContent columnDefinitions={columnDefinitions} node={node} />
     </Li>
   );

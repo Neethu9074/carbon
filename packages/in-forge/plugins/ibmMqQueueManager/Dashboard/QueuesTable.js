@@ -6,6 +6,7 @@
 import React from 'react';
 
 import getIbmMqQueuesForQueueManager from 'in-forge/plugins/ibmMqQueueManager/subscriptions/getIbmMqQueuesForQueueManager';
+import { number, percentage } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
@@ -23,29 +24,100 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.type'),
-    type: 'string',
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.queueFullPercentage'),
+    type: 'metric',
     typeArgs: {
-      getValue(row) {
-        return row.snapshot.getIn(['data', 'queueType']);
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName() {
+        return 'queueFullPercentage';
+      },
+      getContent: percentage.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
       }
     }
   },
   {
-    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.usage'),
-    type: 'string',
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.queueDepth'),
+    type: 'metric',
     typeArgs: {
-      getValue(row) {
-        return row.snapshot.getIn(['data', 'queueUsage']);
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName() {
+        return 'queueDepth';
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
       }
     }
   },
   {
-    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.monitoring'),
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.maxQueueDepth'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName() {
+        return 'maxQueueDepth';
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.openInputCount'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName() {
+        return 'openInputCount';
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.openOutputCount'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName() {
+        return 'openOutputCount';
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.lastPutDateTime'),
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.snapshot.getIn(['data', 'queueMonitoring']);
+        return row.snapshot.getIn(['data', 'lastPutDateTime'], 'N/A');
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.lastGetDateTime'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.snapshot.getIn(['data', 'lastGetDateTime'], 'N/A');
       }
     }
   }

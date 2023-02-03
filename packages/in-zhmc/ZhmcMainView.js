@@ -20,8 +20,12 @@ export default function ZhmcMainView(props) {
       <Sticky header={<ViewSwitcher />}>
         <LeftRightPadding>
           <Switch>
-            <Route path={zhmcListFullyQualified} render={() => <ZhmcList {...props} />} />
-            <Route path={cpcListFullyQualified} render={() => <CpcList {...props} />} />
+            <Route path={zhmcListFullyQualified}>
+              <ZhmcList {...props} />
+            </Route>
+            <Route path={cpcListFullyQualified}>
+              <CpcList {...props} />
+            </Route>
           </Switch>
         </LeftRightPadding>
       </Sticky>

@@ -14,7 +14,6 @@ import {
 } from 'in-applications/ApplicationMap/serviceLocator/serviceLocator';
 import createSceneService from 'in-applications/ApplicationMap/serviceLocator/SceneServiceLocator/SceneService';
 import { SIGNALS } from 'in-applications/ApplicationMap/serviceLocator/EventBusServiceLocator/EventBusService';
-import OverlayReactComponentMounter from 'in-applications/ApplicationMap/misc/OverlayReactComponentMounter';
 import getPowerFunctions from 'in-applications/ApplicationMap/misc/layouting/powerFunctions';
 import SceneGraph from 'in-applications/ApplicationMap/SceneGraph/SceneGraph';
 import Scene from 'in-applications/ApplicationMap/sceneObjects/Scene';
@@ -30,7 +29,6 @@ export default class ApplicationMap {
     this.cursorCoordinates = { x: 0, y: 0 };
 
     this.initSceneGraph();
-    this.initOverlayReactComponentMounter(props);
     this.initServiceLocator();
     this.sceneGraph.initSubscriptions();
     this.initScene();
@@ -55,14 +53,6 @@ export default class ApplicationMap {
 
   initSceneGraph() {
     this.sceneGraph = new SceneGraph(this.serviceLocatorUid);
-  }
-
-  initOverlayReactComponentMounter(props) {
-    this.overlayReactComponentMounter = new OverlayReactComponentMounter(
-      this.overlayReactComponent,
-      this.serviceLocatorUid,
-      props
-    );
   }
 
   setSize(width, height) {
@@ -178,16 +168,10 @@ export default class ApplicationMap {
     this.subscriber = null;
   }
 
-  disposeOverlayReactComponentMounter() {
-    this.overlayReactComponentMounter.dispose();
-    this.overlayReactComponentMounter = null;
-  }
-
   dispose() {
     this.events$.dispose();
     this.events$ = null;
 
-    this.disposeOverlayReactComponentMounter();
     this.disposeSubscriptions();
     this.disposeSceneGraph();
     this.disposeScene();

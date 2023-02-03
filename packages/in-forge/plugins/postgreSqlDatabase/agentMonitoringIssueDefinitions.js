@@ -25,7 +25,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.postgreSqlDatabase.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/postgresql/#postgresql_stats_not_enabled`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-postgresql#postgresql-stats-not-enabled`
   },
 
   postgresql_authentication_failed: {
@@ -45,7 +45,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.postgreSqlDatabase.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/postgresql/#postgresql_authentication_failed`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-postgresql#postgresql-authentication-failed`
   },
 
   postgresql_connection_failed: {
@@ -65,6 +65,6 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.postgreSqlDatabase.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/postgresql/#postgresql_connection_failed`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-postgresql#postgresql-connection-failed`
   }
 };

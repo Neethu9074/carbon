@@ -5,18 +5,24 @@
 
 import React from 'react';
 
+import BetaBadge from 'in-components/BetaBadge/BetaBadge';
+
 import locals from './SelectedBlueprintPresenter.mless';
 
 interface Props {
   title: string;
   description?: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
+  isBeta?: boolean;
 }
 
-export default function SelectedBlueprintPresenter({ title, description, children }: Props) {
+export default function SelectedBlueprintPresenter({ title, description, isBeta, children }: Props) {
   return (
     <div className={locals.container}>
-      <h2 className={locals.headline}>{title}</h2>
+      <h2 className={locals.headline}>
+        <span>{title}</span>
+        {isBeta && <BetaBadge />}
+      </h2>
       {description && <p className={locals.description}>{description}</p>}
       {children}
     </div>

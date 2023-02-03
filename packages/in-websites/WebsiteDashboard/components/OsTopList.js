@@ -25,7 +25,8 @@ export default function OsTopList({
   aggregations,
   formatters,
   beaconType,
-  urlMatrixParamConfig
+  urlMatrixParamConfig,
+  renderHistoricDataIndicator
 }) {
   const tagCatalogs = {
     pageLoad: useTagCatalog('pageLoad'),
@@ -54,6 +55,7 @@ export default function OsTopList({
       beaconType={beaconType}
       urlMatrixParamConfig={urlMatrixParamConfig}
       tagCatalogs={tagCatalogs}
+      renderHistoricDataIndicator={renderHistoricDataIndicator}
     />
   );
 }

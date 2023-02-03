@@ -3,14 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import { get } from 'lodash';
 import React from 'react';
 
 import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
-import { bytes, percentage, number } from 'in-services/formatters/number';
 import { consoleIdUrlParameter } from 'in-phmc/navigation/urlParameters';
+import { percentage, number } from 'in-services/formatters/number';
 import { getIbmpLparDashboard } from 'in-phmc/navigation/paths';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import EntityLink from 'in-components/EntityLink/EntityLink';
@@ -24,29 +23,14 @@ const columnDefinitions = [
   {
     id: 'label',
     label: t('in-phmc:name'),
-    getContent(item) {
-      const systemId = item.systemId;
-      const consoleId = item.consoleId;
+    getContent(item, props) {
+      const systemId = props.systemId;
+      const consoleId = props.consoleId;
       return <EntityLink label={item.label} href$={getIbmpLparDashboard(item.id, { systemId, consoleId })} />;
     }
   },
   {
-    id: 'logicalMem',
-    label: t('in-phmc:logicalMem'),
-    sortable: true,
-    getContent(item, props, columnId) {
-      return (
-        <ServerSideSortedMetricValue
-          snapshotId={item.id}
-          metric="logicalMem"
-          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
-          formatter={bytes.compact}
-        />
-      );
-    }
-  },
-  {
-    id: 'entitledProcUnits',
+    id: 'entitledProcUnitsPercentage',
     label: t('in-phmc:entitledProc'),
     sortable: true,
     getContent(item, props, columnId) {
@@ -61,14 +45,22 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'mode',
-    label: t('in-phmc:mode'),
-    getContent(item) {
-      return item.mode;
+    id: 'logicalMem',
+    label: t('in-phmc:memory'),
+    sortable: true,
+    getContent(item, props, columnId) {
+      return (
+        <ServerSideSortedMetricValue
+          snapshotId={item.id}
+          metric="logicalMem"
+          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
+          formatter={number.compact}
+        />
+      );
     }
   },
   {
-    id: 'maxVirtualProcessor',
+    id: 'maxVirtualProcessors',
     label: t('in-phmc:maxVirtualProcessor'),
     getContent(item, props, columnId) {
       return (
@@ -79,6 +71,13 @@ const columnDefinitions = [
           formatter={number.compact}
         />
       );
+    }
+  },
+  {
+    id: 'mode',
+    label: t('in-phmc:mode'),
+    getContent(item) {
+      return item.mode;
     }
   },
   {
@@ -104,7 +103,7 @@ export default function Partitions(props) {
     <ServerTableWithUrlState
       get={getTableData}
       timeConfig={props.timeConfig}
-      consoleId={isWithinConsole(props) ? props.consoleId : undefined}
+      consoleId={props.consoleId}
       systemId={props.systemId}
     />
   );
@@ -117,7 +116,6 @@ function getTableData({
   orderBy = 'label',
   orderDirection = 'ASC',
   timeConfig,
-  consoleId,
   systemId
 }) {
   return getLpars({
@@ -131,15 +129,9 @@ function getTableData({
     },
     filter: {
       label: query,
-      consoleId,
       systemId,
       timeConfig
     },
     granularity: getInfraGranularity(timeConfig)
   });
-}
-
-function isWithinConsole(props) {
-  const pathname = get(props, ['location', 'pathname'], '/ibmp/console/lpar');
-  return pathname && pathname.toLowerCase().includes('console');
 }

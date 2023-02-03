@@ -10,24 +10,25 @@ import { TableEntityCounter } from '@instana/components';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import ZhmcNoDataNotification from 'in-zhmc/lists/components/ZhmcNoDataNotification';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
+import ZhmcCpcLabel from 'in-zhmc/Dashboards/commonComponents/ZhmcCpcLabel';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
-import { cpcList, getIbmzCpcDashboard } from 'in-zhmc/navigation/paths';
 import { getCpcsSubscribeEvent } from 'in-zhmc/subscriptions/getCpcs';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
-import EntityLink from 'in-components/EntityLink/EntityLink';
 import { timeConfig$ } from 'in-stores/time/config';
+import { cpcList } from 'in-zhmc/navigation/paths';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
 
 const pathSegment = cpcList;
 const matrixPrefix = 'cpc.';
+
 const columnDefinitions = [
   {
     id: 'label',
     label: t('in-zhmc:name'),
     getContent(item) {
-      return <EntityLink label={item.label} href$={getIbmzCpcDashboard(item.id)} />;
+      return <ZhmcCpcLabel item={item} />;
     }
   },
   {
@@ -104,7 +105,7 @@ export default connectTo(
         />
         <WithEmptyStateFallback
           getHasDataToRender={getHasDataToRender}
-          FallbackComponent={<ZhmcNoDataNotification icon="lib_zhmcConsole" />}
+          FallbackComponent={() => <ZhmcNoDataNotification icon="lib_zhmcConsole" />}
         >
           <ServerTableWithUrlState get={getTableData} timeConfig={timeConfig} />
         </WithEmptyStateFallback>

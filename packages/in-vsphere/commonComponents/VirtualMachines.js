@@ -12,12 +12,14 @@ import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/S
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { datacenterIdUrlParameter } from 'in-vsphere/navigation/urlParameters';
-import { getVsphereVmDashboard } from 'in-vsphere/navigation/paths';
+import { useVspehereEntityLink } from 'in-vsphere/navigation/paths';
 import getVsphereVms from 'in-vsphere/subscriptions/getVsphereVms';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 import { percentage } from 'in-services/formatters/number';
+import Capitalize from 'in-components/Capitalize';
 import { plugins } from 'in-forge/constants';
 import { MemoryTotal } from './MemoryTotal';
 import { t } from 'in-i18n';
@@ -25,20 +27,27 @@ import { t } from 'in-i18n';
 const pathSegment = '/vms';
 const matrixPrefix = 'vm.';
 
+export const VmLabel = ({ item }) => {
+  const hostId = item.hostId;
+  const datacenterId = item.datacenterId;
+
+  const getVsphereVmDashboard = useVspehereEntityLink('vm', { hostId, datacenterId });
+
+  return <EntityLink label={item.label} href$={getVsphereVmDashboard(item.id)} icon={resolveIcon(item)} />;
+};
+
 const columnDefinitions = [
   {
     id: 'label',
     label: t('in-vsphere:name'),
+    getContent: item => <VmLabel item={item} />
+  },
+  {
+    id: 'guestState',
+    label: t('in-vsphere:dashboards.state'),
+    sortable: true,
     getContent(item) {
-      const hostId = item.hostId;
-      const datacenterId = item.datacenterId;
-      return (
-        <EntityLink
-          label={item.label}
-          href$={getVsphereVmDashboard(item.id, { hostId, datacenterId })}
-          icon={resolveIcon(item)}
-        />
-      );
+      return <Capitalize>{get(item, ['guestState'], valueMissingPlaceholder)}</Capitalize>;
     }
   },
   {

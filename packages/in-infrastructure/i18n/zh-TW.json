@@ -45,7 +45,6 @@
     "infrastructure": "基礎架構",
     "snapshotVersions": "Snapshot 版本",
     "analyzeProfiles": "分析設定檔",
-    "analyzeLogs": "分析日誌",
     "entityVersions": "實體版本",
     "loadingData": "正在載入資料",
     "namespace": "名稱空間",
@@ -58,15 +57,18 @@
   },
   "explore": {
     "focusOnThisGroup": "聚焦於此群組",
-    "offline": "離線",
     "thisIsABetaVersionOfANewProductCapability": "這是新產品功能的測試版。建議您不要依賴所呈現的資料。",
     "theQueryConfigurationIsInvalid": "查詢配置無效。請先處理驗證失敗情況，再繼續進行。",
     "allInfrastructure": "所有基礎架構",
     "name": "名稱",
-    "search": "搜尋",
+    "search": "搜尋類型",
     "explore": "瀏覽",
-    "cpuUser": "CPU（使用者）",
-    "memoryFree": "可用記憶體"
+    "count": "計數",
+    "errors": {
+      "maximumNumberOfGroups": "此查詢有太多結果。 請使用更嚴格的過濾器或更廣泛的群組來縮小範圍",
+      "generalError": "發生非預期的錯誤。 請使用更嚴格的過濾器縮小範圍，然後再試一次"
+    },
+    "entityTypes": "實體類型 {{count, parenthesis}}"
   },
   "tableView": {
     "showCountsAndAveragesAcrossTheCurrentTimeWindow": "顯示整個現行時間範圍的計數和平均值。",
@@ -77,17 +79,19 @@
     "visualizeMetricForSelected": "將所選{{plugins}}的度量視覺化",
     "weDoNotYetSupportTablesFor": "抱歉，我們尚不支援{{plugins}}的表格。",
     "physicalDomains": {
-      "host": "主機",
-      "jvm": "JVMs",
-      "nodejs": "Node.js 應用程式",
+      "beeInstanaNode": "BeeInstana 節點",
+      "clickHouseDatabase": "ClickHouse",
       "containerd": "Containerd 儲存器",
       "crio": "CRI-O 儲存器",
+      "crowdStrikeFalcon": "CrowdStrike Falcon",
       "docker": "Docker 儲存器",
       "garden": "Garden 儲存器",
+      "host": "主機",
+      "jvm": "JVMs",
       "lxc": "LXC 儲存器",
-      "process": "程序",
-      "clickHouseDatabase": "ClickHouse",
-      "ping": "連線測試"
+      "nodejs": "Node.js 應用程式",
+      "ping": "連線測試",
+      "process": "程序"
     },
     "tableContent": "表格內容：",
     "remove": "移除",

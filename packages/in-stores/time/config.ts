@@ -72,6 +72,21 @@ export function fixateTimeConfig(timeConfig: TimeConfig): FixedTimeConfig {
   };
 }
 
+export function timeConfigWithShift(timeConfig: TimeConfig, timeSkew: number) {
+  // live mode needs to query with empty to field
+  // historical data does not need to be skewed
+  if (timeConfig.autoRefresh || timeConfig.to !== null) {
+    return timeConfig;
+  }
+  const now = Date.now() - timeSkew;
+
+  return {
+    ...timeConfig,
+    to: now,
+    focusedMoment: now
+  };
+}
+
 function getInt(query: Parameters, key: string, fallback: number): number;
 function getInt(query: Parameters, key: string, fallback: null): number | null;
 function getInt(query: Parameters, key: string, fallback: number | null): number | null {
@@ -142,4 +157,56 @@ export function setTimeConfig(location: Location, timeConfig: TimeConfig) {
   if (timeConfig.clearHighlightedTimeframe) {
     delete location.query['tl.tf'];
   }
+}
+
+/**
+ * Returns adjusted 'timeConfig' such that its time range includes the specified 'timestamp'.
+ * If the 'timestamp' is already included then unmodified 'timeConfig' will be returned.
+ *
+ * Note that the requested time frame can be adjusted (shrunk) in the backend in order to exclude
+ * partial buckets for granularity metrics, e.g. for charts. This could result in the specified
+ * 'timestamp' being excluded. Since finding out by how much the time frame needs to be extended
+ * to avoid its adjustment in the backend can become quite complicated, we will use a simple approach
+ * by extending the window size by an additional "safety" bucket. Choosing the right size of the
+ * "safety" bucket is not that easy, because bucket size (granularity) depends on window size
+ * and extending window size may result in also extending the granularity. To keep it simple
+ * we multiply the current granularity by the max factor between two consecutive granularities.
+ * This way we will get a bucket size which is the same or greater than the next granularity.
+ */
+export function getAdjustedTimeConfigToIncludeTimestamp(
+  timeConfig: TimeConfig,
+  timestamp: number,
+  granularityProvider: (config: { windowSize: number }) => number
+): TimeConfig {
+  // The biggest jump in size between two consecutive granularities is between 10 seconds
+  // and 1 minute by factor 6, see packages/in-stores/metric/metric.js#sensibleGranularities.
+  const MAX_FACTOR_BETWEEN_GRANULARITIES = 6;
+
+  if (timeConfig.to != null && timestamp > timeConfig.to) {
+    // timestamp lays after the selected time range => adjusting the upper limit
+    const newTo = timestamp;
+    const newWindowSize = timeConfig.windowSize + (newTo - timeConfig.to);
+    const granularity = granularityProvider({ windowSize: newWindowSize });
+    const safetyBucket = granularity * MAX_FACTOR_BETWEEN_GRANULARITIES;
+    return {
+      ...timeConfig,
+      to: newTo + safetyBucket,
+      windowSize: newWindowSize + safetyBucket
+    };
+  }
+
+  const toOrNow = timeConfig.to ?? Date.now();
+  const from = toOrNow - timeConfig.windowSize;
+  if (timestamp < from) {
+    // timestamp lays before the selected time range => adjusting the lower limit
+    const newWindowSize = toOrNow - timestamp;
+    const granularity = granularityProvider({ windowSize: newWindowSize });
+    const safetyBucket = granularity * MAX_FACTOR_BETWEEN_GRANULARITIES;
+    return {
+      ...timeConfig,
+      windowSize: newWindowSize + safetyBucket
+    };
+  }
+
+  return timeConfig;
 }

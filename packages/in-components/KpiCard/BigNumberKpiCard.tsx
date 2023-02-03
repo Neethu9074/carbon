@@ -7,8 +7,12 @@ import React, { ReactNode } from 'react';
 
 import { useObservable } from '@instana/hooks';
 
-import ResultAwareBigNumberKpiCard from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
-import { MetricResult, Result, UnifiedMetricConfiguration } from 'in-types';
+import ResultAwareBigNumberKpiCard, {
+  Config,
+  ConfigWithCompanionMetric,
+  isConfigWithCompanionMetric
+} from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
+import { MetricResult, Result, UnifiedMetricConfigurationUnion } from 'in-types';
 import { translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import { IconAction } from 'in-components/KpiCard/KpiCard';
@@ -20,25 +24,16 @@ export const metricKey = 'bigNumber';
 export const companionMetricKey = 'companion';
 export const comparisonMetricKey = 'comparison';
 
-export interface Config {
-  metricConfiguration: UnifiedMetricConfiguration & {
-    timeShift: number;
-  };
-  companionMetricConfiguration: UnifiedMetricConfiguration;
-  comparisonIncreaseColor: string;
-  comparisonDecreaseColor: string;
-  formatter?: string;
-}
-
 export interface BigNumberKpiCardProps {
   title: string;
   formatter: FormatterFn;
   companionFormatter?: FormatterFn;
   useMaxAvailableHeight?: boolean;
   iconAction?: IconAction;
-  config: Config;
+  config: Config | ConfigWithCompanionMetric;
   actions?: ReactNode;
   dragHandle?: ReactNode;
+  raw?: boolean;
 }
 
 export default function BigNumberKpiCard({
@@ -49,21 +44,23 @@ export default function BigNumberKpiCard({
   iconAction,
   config,
   actions,
-  dragHandle
+  dragHandle,
+  raw
 }: BigNumberKpiCardProps) {
   const timeConfig = useTimeConfig();
 
-  const metricDefaults: Partial<UnifiedMetricConfiguration> = {
+  const metricDefaults = {
     timeShift: {
       offset: 0
     },
     timeConfig,
     resultType: 'SINGLE_NUMBER'
-  };
+  } as const;
 
-  const metrics: { [index: string]: UnifiedMetricConfiguration } = {
+  const metrics: { [index: string]: UnifiedMetricConfigurationUnion } = {
     [metricKey]: {
       ...config.metricConfiguration,
+      ...config.tagFilters,
       ...metricDefaults
     }
   };
@@ -74,7 +71,7 @@ export default function BigNumberKpiCard({
       ...metricDefaults,
       timeShift: translateOffsetToTimeShiftConfig(config.metricConfiguration.timeShift, timeConfig)
     };
-  } else if (config.companionMetricConfiguration != null) {
+  } else if (isConfigWithCompanionMetric(config)) {
     metrics[companionMetricKey] = {
       ...metricDefaults,
       ...config.companionMetricConfiguration
@@ -104,6 +101,7 @@ export default function BigNumberKpiCard({
           undefined
         )
       }
+      raw={raw}
     />
   );
 }

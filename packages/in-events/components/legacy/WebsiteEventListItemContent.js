@@ -7,7 +7,7 @@ import React from 'react';
 
 import WebsitesAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/websites/chart/WebsitesAlertingChartWithErrorMessage';
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
-import { getChartTimeConfigByEvent, getSmartAlertAnalyzeTimeframe } from 'in-events/timeframe';
+import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
 import WebsiteScopePath from 'in-alerting/smart-alerts/websites/components/WebsiteScopePath';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
@@ -20,6 +20,7 @@ import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import useWebsiteEventEntity from 'in-events/hooks/useWebsiteEventEntity';
+import { getChartTimeConfigByEvent } from 'in-events/timeframe';
 import { DescriptionItem } from 'in-components/DescriptionList';
 import { t } from 'in-i18n';
 
@@ -44,23 +45,24 @@ export default function WebsiteEventListItemContent({ event }) {
   const beaconType = blueprintConfig.getBeaconType(metricName);
   const AlertQueryBuilder = getQueryBuilderForBeaconType(beaconType).QueryBuilder;
   const timeConfig = {
-    ...getChartTimeConfigByEvent({ event }),
+    ...getChartTimeConfigByEvent(event),
     windowSize: alertingEventDetailsChartTimeframe
   };
-  const analyzeTimeConfig = getSmartAlertAnalyzeTimeframe(event, alertConfig);
+
   const chartViewConfig = createDefaultChartConfig(timeConfig);
 
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
+  const fixSuggestion = event.getIn(['problem', 'fixSuggestion'], '');
 
   return (
     <>
-      <ProblemDescription event={event} />
+      <ProblemDescription fixSuggestion={fixSuggestion} />
       <DescriptionButtons>
         <WebsiteAlertConfigButton alertConfig={alertConfig} />
         <AnalyzeWebsiteEventButton
           alertConfig={alertConfig}
           websiteName={eventEntity.websiteName}
-          timeConfig={analyzeTimeConfig}
+          timeConfig={getSmartAlertAnalyzeTimeConfig(event, alertConfig)}
         />
       </DescriptionButtons>
       <div className={locals.sectionWrapper}>

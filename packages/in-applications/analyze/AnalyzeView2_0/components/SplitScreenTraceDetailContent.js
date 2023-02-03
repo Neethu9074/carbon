@@ -23,14 +23,14 @@ const typePerDataSource = {
   traces: 'trace'
 };
 
-export default function SplitScreenTraceDetailContent({ dataSource, ungroupedViewConfiguration, ...props }) {
+export default function SplitScreenTraceDetailContent({ dataSource, ungroupedViewConfiguration, tracker, ...props }) {
   const type = typePerDataSource[dataSource];
   const item = props[type];
   const { label, duration, batchCount } = item;
   const timestamp = item[ungroupedViewConfiguration.timestampName];
   const severity = getServerity({ item: props, dataSource });
   return (
-    <div className={locals.wrapper}>
+    <div className={locals.wrapper} onClick={() => tracker.traceViewTraceListClickedTracker({ label })}>
       <Tooltip
         content={severity === 0 ? t('in-applications:analyze.noErrors') : t('in-applications:analyze.containsErrors')}
         align="rightMiddle"
@@ -43,7 +43,8 @@ export default function SplitScreenTraceDetailContent({ dataSource, ungroupedVie
         value={label}
         label={
           <>
-            <time dateTime={new Date(timestamp).toISOString()}>{formatDateTime(timestamp)}</time> &nbsp;{'  '}
+            <time dateTime={new Date(timestamp).toISOString()}>{formatDateTime(timestamp)}</time>
+            &nbsp;{'  '}
             {latencyFixed.compact(duration)}
             <BatchingIndicator
               batchCount={batchCount}

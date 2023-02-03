@@ -16,13 +16,18 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: start;
+    justify-content: flex-start;
     height: 2rem;
   }
 
   .topText {
     padding: 0 1rem 0 0;
     margin: 0;
+    font-size: 0.875rem;
+  }
+
+  .totalRepresentedText {
+    font-weight: 400;
   }
 
   .adjustmentIcon {

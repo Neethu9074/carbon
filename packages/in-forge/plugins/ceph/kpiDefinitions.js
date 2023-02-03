@@ -4,7 +4,7 @@
  */
 
 import { healthFormatter } from 'in-forge/plugins/ceph/formatters';
-import { bytes } from 'in-services/formatters/number';
+import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 export default [
@@ -16,6 +16,6 @@ export default [
   {
     label: t('in-forge:plugins.ceph.labelActiveMonitors'),
     metric: 'num_active_mons',
-    formatter: bytes.compact
+    formatter: number.compact
   }
 ];

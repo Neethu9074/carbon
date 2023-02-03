@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import StatisticsTable from 'in-forge/plugins/ibmMqQueue/Dashboard/StatisticsTable.js';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -58,8 +59,8 @@ export default function IbmMqQueueDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            formatter: number.compact,
-            tooltipFormatter: number.compact,
+            formatter: number.detailed,
+            tooltipFormatter: number.detailed,
             metrics: [`messagesIn`, `messagesOut`, `uncommittedMessages`],
             labels: [
               t('in-forge:plugins.ibmMqQueue.dashboard.in'),
@@ -90,26 +91,13 @@ export default function IbmMqQueueDashboard({ snapshot, timeConfig }) {
           }}
         />
       </DashboardSection>
-      <DashboardSection title={t('in-forge:plugins.ibmMqQueue.dashboard.reset')}>
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            formatter: seconds.fixedCompact,
-            tooltipFormatter: seconds.fixedCompact,
-            metrics: [`lastResetTime`],
-            labels: [t('in-forge:plugins.ibmMqQueue.dashboard.last')],
-            type: 'line'
-          }}
-        />
-      </DashboardSection>
       <DashboardSection title={t('in-forge:plugins.ibmMqQueue.dashboard.calls')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            formatter: number.compact,
-            tooltipFormatter: number.compact,
+            formatter: number.detailed,
+            tooltipFormatter: number.detailed,
             metrics: [`openInputCount`, `openOutputCount`],
             labels: [
               t('in-forge:plugins.ibmMqQueue.dashboard.openInputs'),
@@ -119,6 +107,7 @@ export default function IbmMqQueueDashboard({ snapshot, timeConfig }) {
           }}
         />
       </DashboardSection>
+      <StatisticsTable snapshot={snapshot} snapshotId={snapshotId} timeConfig={timeConfig} />
     </div>
   );
 }

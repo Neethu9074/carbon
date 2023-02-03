@@ -29,4 +29,10 @@
       margin-left: 1rem;
     }
   }
+
+  .percentileButton {
+    position: absolute;
+    right: 0;
+    height: 2rem;
+  }
 }

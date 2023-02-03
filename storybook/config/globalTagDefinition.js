@@ -71,6 +71,7 @@ window.instana.tags = [
   { name: 'beacon.type', type: 'STRING', category: 'WEBSITE_MONITORING' },
   { name: 'gce.zone', type: 'STRING', category: 'CLOUD' },
   { name: 'rabbitmq.version', type: 'STRING', category: 'MESSAGING' },
+  { name: 'rocketmq.version', type: 'STRING', category: 'MESSAGING' },
   { name: 'aws.ecs.task.name', type: 'STRING', category: 'CONTAINER' },
   { name: 'dropwizard.name', type: 'STRING', category: 'FRAMEWORK' },
   { name: 'beacon.location.path', type: 'STRING', category: 'WEBSITE_MONITORING' },

@@ -3,7 +3,8 @@
     "sessionStart": "セッション開始",
     "viewChange": "遷移の表示",
     "httpRequest": "HTTP 要求",
-    "custom": "カスタム・イベント"
+    "custom": "カスタム・イベント",
+    "crash": "異常終了"
   },
   "analyzeView": {
     "uniqueUsers": "固有ユーザー",
@@ -112,7 +113,7 @@
     "carrierTitle": "キャリア",
     "connectionTypeTitle": "接続タイプ",
     "effectiveConnectionTypeTitle": "有効な接続タイプ",
-    "userLocationTitle": "ユーザーの位置",
+    "userLocationTitle": "ユーザーのロケーション",
     "noGeoAvailableExplain": "IP アドレスから地理位置情報を判別できませんでした。",
     "metaTitle": "メタ",
     "notDefinedExplain": "メタデータが定義されていません。 メタデータを使用して、デプロイメントまたは設定に関する情報を転送できます。 メタデータは、分析領域内でフィルターおよびグループ化として使用できます。",
@@ -156,7 +157,10 @@
       "traLong": "遷移の表示",
       "cusShort": "Cus",
       "cusBadgeLabel": "Cus",
-      "cusLong": "カスタム・イベント"
+      "cusLong": "カスタム・イベント",
+      "craShort": "CRA",
+      "craBadgeLabel": "CRA",
+      "craLong": "異常終了"
     },
     "tabsSumOverviewChartTooltipStartTime": "開始時刻",
     "tabsSummary": {
@@ -201,6 +205,15 @@
       "errMsgTitle": "エラー・メッセージ",
       "metaHeader": "メタ"
     },
+    "tabsSumCrashBeacon": {
+      "startTimeLabel": "開始時刻",
+      "crashHeader": "異常終了",
+      "errorMsg": "エラー・メッセージ",
+      "errorType": "エラー・タイプ",
+      "crashLabel": "異常終了",
+      "metaHeader": "メタ",
+      "stackTrace": "スタック・トレース"
+    },
     "tabsSumHttpRequestBeacon": {
       "retrievalTimeTooltip": "取得時間",
       "requestLabel": "要求",
@@ -208,6 +221,7 @@
       "retrievalTimeLabel": "取得時間",
       "callDetailsHeader": "呼び出しの詳細",
       "httpCallURITitle": "HTTP 呼び出しの URI",
+      "httpHeadersHeader": "HTTPヘッダー",
       "httpMethodTitle": "HTTP メソッド",
       "httpStatusTitle": "HTTP 状況",
       "errMsgTitle": "エラー・メッセージ",
@@ -236,25 +250,27 @@
       "summaryLabel": "サマリー",
       "httpRequestLabel": "HTTP 要求",
       "geographyLabel": "ジオグラフィー",
+      "customEventsLabel": "カスタム・イベント",
       "viewsLabel": "ビュー",
       "configurationLabel": "構成",
       "nameLabel": "名前",
       "occurrencesLabel": "発生回数",
       "configurationTitle": "構成",
       "optionsLabel": "オプション",
+      "privacyLabel": "プライバシー",
+      "customGeoDetailsLabel": "カスタム地理の詳細",
       "installationInstructionsBtn": "インストールの説明",
       "keyLabel": "キー",
       "reportingURLLabel": "レポート URL",
       "removeAppTitle": "モバイル・アプリケーションの削除",
       "removeAppHelp1": "Instana を使用してモバイル・アプリケーション <strong>{{label}}</strong> をモニターすることがなくなった場合は、このフォームを使用して削除してください。 モバイル・アプリケーションの削除は、結果的に整合性が確保される操作です。 そのため、モバイル・アプリケーションは完全に削除されるまでに<strong>数分</strong>かかる場合があります。",
-      "removeAppHelp2": "ご自身でも Instana サポートでもこのアクションを元に戻すことはできませんので、ご注意ください。",
+      "removeAppHelp2": "ユーザーも Instana サポートもこのアクションを元に戻すことはできませんので、ご注意ください。",
       "confirmUndone": "このアクションは元に戻せないことを理解しています。",
       "removeAppBtn": "モバイル・アプリケーションを削除する",
-      "renameAppTitle": "モバイル・アプリケーションを名前変更する",
+      "renameAppTitle": "モバイル・アプリケーションの名前変更",
       "renameAppHelp": "モバイル・アプリケーションの名前変更は、結果的に Instana システム内で整合性が確保される操作です。 そのため、モバイル・アプリケーション名を変更すると、システム全体に反映されるまでに<strong>数分</strong>かかる場合があります。",
       "renameAppBtn": "名前を変更",
-      "renameSaved": "保存しました",
-      "noSessionTitle": "使用可能なセッションがありません",
+      "noSessionTitle": "表示可能なセッションがありません",
       "noSessionExplanation": "選択した時刻範囲にセッションが見つかりませんでした。",
       "noSessionExplanationWithFilters": "選択した時刻範囲で、フィルターに一致するセッションが見つかりませんでした。",
       "switchTo3DTooltip": "3D 地球儀に切り替え",
@@ -297,13 +313,49 @@
       "viewTransitionsLabel": "遷移の表示",
       "geographyTitle": "ジオグラフィー",
       "topViewsTitle": "上位ビュー",
-      "globViewFootertext": "NASA 提供の画像"
+      "globViewFootertext": "NASA 提供の画像",
+      "customEvents": {
+        "customEventTitleMobileAppCustomEventDetails": "モバイル・アプリケーション・カスタム・イベントの詳細",
+        "customEventLabelBackToListOfCustomEvents": "カスタム・イベントのリストに戻る",
+        "customEventButtonAnalyzeCustomEvent": "カスタム・イベントの分析",
+        "customEventTitleOccurrences": "発生件数",
+        "customEventTitleUsers": "ユーザー",
+        "customEventTitleCustomEvent": "カスタム・イベント",
+        "customEventTitleDuration": "期間",
+        "customEventLabelViewInAnalyze": "分析で表示",
+        "customEventLabelOccurrences": "発生件数",
+        "customEventLabelUsers": "ユーザー",
+        "customEventLabel50th": "50th",
+        "customEventLabel90th": "90th",
+        "customEventLabel95th": "95th",
+        "customEventLabel99th": "99th",
+        "customEventLabelMax": "最大",
+        "customEventLabelMean": "平均値",
+        "customEventsLabelEventName": "イベント名",
+        "customEventsLabelOccurrences": "発生件数",
+        "customEventsLabelUsers": "ユーザー",
+        "customEventsButtonAnalyzeCustomEvents": "カスタム・イベントの分析",
+        "osTopListLabelOccurrences": "発生件数",
+        "osTopListLabelUsers": "ユーザー",
+        "osTopListLinkLabel": "すべてのオペレーティング・システムを表示",
+        "osTopListTitle": "オペレーティング・システム",
+        "platformTopListLabelOccurrences": "発生件数",
+        "platformTopListLabelUsers": "ユーザー",
+        "platformTopListLinkLabel": "すべてのプラットフォームの表示",
+        "platformTopListTitle": "プラットフォーム",
+        "viewTopListLabelOccurrences": "発生件数",
+        "viewTopListLabelUsers": "ユーザー",
+        "viewTopListLinkLabel": "すべてのビューを表示",
+        "viewTopListTitle": "ビュー"
+      }
     },
     "noDataAvailable": {
-      "viewsTitle": "使用可能なビューはありません",
+      "viewsTitle": "表示可能なビューはありません",
       "viewsDescription": "選択された時刻範囲で取得されたビューはありません。",
-      "httpRequestsTitle": "選択可能な HTTP 要求がありません",
-      "httpRequestsDescription": "選択された時刻範囲で取得された HTTP 要求はありません。"
+      "httpRequestsTitle": "表示可能な HTTP 要求がありません",
+      "httpRequestsDescription": "選択された時刻範囲で取得された HTTP 要求はありません。",
+      "customEventsTitle": "表示可能なカスタム・イベントはありません",
+      "customEventsDescription": "選択された時刻範囲で取得されたカスタム・イベントはありません。"
     }
   },
   "appsList": {
@@ -326,7 +378,7 @@
     "installationInstructionsBtn": "インストールの説明",
     "GoToMobileAppDashboardBtn": "モバイル・アプリケーション・ダッシュボードに移動",
     "workingTitle": "処理中…",
-    "workingMsg": "モバイル・アプリケーション <strong>{{mobileAppName}}</strong> をモニターするためのあらゆる準備をしています。 その間に<linkToInstallation>エージェントをモバイル・アプリケーションに追加</linkToInstallation>してください。",
+    "workingMsg": "モバイル・アプリケーション <strong>{{mobileAppName}}</strong> をモニターするための準備をしています。この間に<linkToInstallation>エージェントをモバイル・アプリケーションに追加</linkToInstallation>してください。",
     "enablingMonitoringBtn": "モニタリングを有効化しています …"
   },
   "mobileBeacons": {
@@ -334,7 +386,8 @@
     "sessionId": "セッション ID",
     "viewName": "ビュー名",
     "access": "アクセス",
-    "eventName": "イベント名"
+    "eventName": "イベント名",
+    "crash": "異常終了"
   },
   "dataSource_sessionStart": "{{formattedCount}} 件のセッション開始",
   "dataSource_sessionStart_plural": "{{formattedCount}} 件のセッション開始",
@@ -356,6 +409,11 @@
   "dataSource_custom_0": "{{formattedCount}} 件のカスタム・イベント",
   "dataSource_custom_1": "{{formattedCount}} 件のカスタム・イベント",
   "dataSource_custom_2": "{{formattedCount}} 件のカスタム・イベント",
+  "dataSource_crash": "{{formattedCount}} 件の異常終了",
+  "dataSource_crash_plural": "{{formattedCount}} 件の異常終了",
+  "dataSource_crash_0": "{{formattedCount}} 件の異常終了",
+  "dataSource_crash_1": "{{formattedCount}} 件の異常終了",
+  "dataSource_crash_2": "{{formattedCount}} 件の異常終了",
   "facetedSearch": {
     "mobileApp": "モバイル・アプリケーション",
     "view": "ビュー",

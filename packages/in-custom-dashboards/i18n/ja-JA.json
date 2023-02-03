@@ -164,14 +164,19 @@
       "metricsFormComponent": {
         "metric": "メトリック",
         "selectMetric": "メトリックの選択",
-        "aggregation": "集約"
+        "aggregation": "集約",
+        "crossSeriesAggregation": "クロス系列集計に SUM を使用",
+        "crossSeriesAggregationHelp": "通常、クロスシリーズアグリゲーションはクロスタイムアグリゲーション（データポイントを単一のバケット参加方法）と同じです。 このトグルを有効にすると、指定された集計を使用するのではなく、データ系列全体のバケットを参加します。",
+        "crossSeriesAggregationDisabledHelp": "{{aggregation}} には適用されません。",
+        "crossSeriesAggregationRestrictedHelp": "このメトリックには適用されません"
       },
       "metrics": {
         "infrastructurePlatforms": "インフラストラクチャーとプラットフォーム",
         "comingSoon": "(近日公開)"
       },
       "typeAndMetricConfigurator": {
-        "pleaseSelectMetric": "メトリックを選択してください"
+        "pleaseSelectMetric": "メトリックを選択してください",
+        "loadingMetrics": "メトリックのロード中..."
       }
     },
     "srcMobileApp": {
@@ -261,7 +266,7 @@
       "errorTitleForConfiguredSliDeletion": "構成済みの SLI が削除されました",
       "errorDescriptionToConfigureOtherSLI": "別の SLI を選択して SLO ウィジェットを更新してください",
       "index": {
-        "testTitle": "最も遅い上位 5 個のサービス",
+        "testTitle": "最も遅い上位 5 件のサービス",
         "testLabels": {
           "catalogue": "カタログ",
           "cart": "カート",
@@ -344,7 +349,7 @@
     "markdown": {
       "demo": {
         "title": "Instana - はじめに",
-        "text": "Instana は最初で唯一の完全自動化されたアプリケーション・パフォーマンス管理 (APM) ソリューションであり、\nマイクロサービスやクラウドネイティブのアプリケーションを管理するという課題のために特別に設計されています。\n\n始めるのは簡単です。\n\n1. まだ Instana にアクセスできない場合は、[Instana.com](https://www.instana.com) に進み、無料の試用版に登録します。\n2. 多数の [サポート対象テクノロジー] で構成されるエコシステムを探索します (https://www.instana.com/docs/ecosystem)。\n3. いずれかの [エージェント] を使用してデータの収集を開始します (https://www.instana.com/docs/setup_and_manage)。\n4. ユース・ケースでの [Instana の使用方法] を確認します (https://www.instana.com/docs/using_instana)。\n5. 独自の [コア機能] の説明を確認します (https://www.instana.com/docs/core_capabilities/)。\n6. [統合、SDK、および API] で Instana を拡張します (https://www.instana.com/docs/integrations)。\n\nこれで完了です。\n\nお探しのものが見つかりませんか? [instana.com/docs] (https://www.instana.com/docs/) に進んでください。"
+        "text": "Instanaは、マイクロサービスやクラウドネイティブアプリケーションの管理に特別に設計され、最初かつ唯一の完全自動化されたアプリケーションパフォーマンス（APM）ソリューションです。\n\n始めるのは簡単です1。 Instana にまだアクセスできない場合、[Instana.com] (https://www.instana.com) にアクセスして、無料トライアルに登録してください。2。 何百もの[サポートされているテクノロジー]（https://www.ibm.com/docs/en/obi/current?topic=supported-technologies）のエコシステムを探索します。3 [エージェント]（https://www.ibm.com/docs/en/obi/current?topic=set-up-manage-instana）のいずれかを使用してデータの収集を開始します。4。 ユース・ケースの [Instana の使用方法] (https://www.ibm.com/docs/en/obi/current?topic = using-instana) について説明します。5. 独自の[コア機能]（https://www.ibm.com/docs/en/obi/current?topic=core-capabilities）についてお読みください。6。 [Integrations, SDK & APIs](https://www.ibm.com/docs/en/obi/current?topic=integrations-sdks-apis)の拡張Instana。\n\nこれで完了です。\n\nお探しのものが見つかりませんか? [documentation] (https: //www.ibm.com/docs/en/obi/current) にホップします。"
       },
       "formComp": {
         "whatULikeShow": "表示する項目",
@@ -371,20 +376,23 @@
     "slo": {
       "demo": {
         "title": "SLO のタイトル",
+        "sliName": "サンプル SLI",
         "appName": "アプリケーション名の例"
       },
       "apConfigFormComp": {
         "userJourneyOffering": "ユーザー・ジャーニー/オファリング",
         "appnPerspective": "アプリケーション・パースペクティブ",
         "selectAppPerspect": "アプリケーション・パースペクティブを選択してください。",
-        "appPerspectHelpAction": "製品の「アプリケーション」領域でアプリケーション・パースペクティブとしてモデル化することにより、ユーザー・ジャーニー/オファリングをセットアップします。",
+        "appPerspectHelpAction": "アプリケーション領域でアプリケーションパースペクティブとしてモデル化することにより、ユーザージャーニー/オファリングを設定します。",
+        "rbacHint": "表示アプリケーションは、権限に制限される場合があります。",
         "noAppPerspect": "アプリケーション・パースペクティブがありません。",
         "pleaseSelect": "選択してください"
       },
       "websiteSelector": {
         "website": "Web サイト",
         "selectWebsite": "Web サイトを選択してください",
-        "websiteHelpAction": "本製品の「Web サイト ＆ モバイル・アプリケーション」領域で Web サイトを構成します。",
+        "websiteHelpAction": "ウェブサイト＆amp;でウェブサイトを設定する モバイルアプリエリア。",
+        "rbacHint": "表示Web サイトは権限に制限される場合があります。",
         "noWebsites": "Web サイトが見つかりません",
         "pleaseSelect": "選択してください"
       },
@@ -398,11 +406,9 @@
         "sliCreateSuccess": "SLI が正常に作成されました",
         "failCreateSli": "SLI の作成に失敗しました。",
         "problemCreateSli": "次の SLI の作成中に問題が発生しました: 「{{sliName}}」",
-        "cloning": "複製中…",
-        "creating": "作成中…",
         "clone": "複製",
         "create": "作成",
-        "sliConfigMsg": "計算済みの費やされたバジェットが無効にならないようにするために、SLI のパラメーターを変更することはできません。 そのため、パラメーターを変更する場合、SLI を複製する必要があります。",
+        "sliConfigMsg": "計算済みの消費済みバジェットが無効にならないようにするために、SLI のパラメーターを変更することはできません。そのため、パラメーターを変更する場合、SLI を複製する必要があります。",
         "sliCreated": "SLI「{{sliName}}」が作成されました。"
       },
       "endpointSelectBox": {
@@ -412,13 +418,16 @@
       },
       "goodBadEventsForm": {
         "goodEvents": "良好なイベント",
-        "badEvents": "不良イベント"
+        "badEvents": "不良イベント",
+        "websitesFilterLabel": "{{websiteLabel}} / {{beaconType}}"
       },
       "metricFormData": {
         "latency": "待ち時間",
         "callCount": "呼び出し数",
         "errorRate": "エラー率",
         "erroneousCalls": "エラーのある呼び出し数",
+        "beaconErrorRate": "ビーコン・エラー率",
+        "beaconDuration": "ビーコン期間",
         "mean": "平均",
         "min": "最小",
         "max": "最大",
@@ -458,10 +467,14 @@
         "includeSyntheticCalls": "シンセティック呼び出しを含める",
         "type": "タイプ",
         "sliEntity": "SLI エンティティー",
-        "beaconConfigLabel": "Beacon Config",
+        "beaconConfigLabel": "ビーコンの構成",
         "beaconScopeLabel": "Beacon Scope",
-        "httpRequestsLabel": "HTTP リクエスト",
-        "beaconFiltersLabel": "Beacon フィルター"
+        "beaconLabel": "不明なビーコン・タイプ",
+        "beaconLabel_httpRequest": "HTTP 要求",
+        "beaconLabel_pageLoad": "Web サイト・ページのロード",
+        "beaconLabel_custom": "Web サイトのカスタム・イベント",
+        "beaconFiltersLabel": "ビーコン・フィルター",
+        "beaconFiltersSubtext": "オプション"
       },
       "sliList": {
         "serviceLevelIndicators": "サービス・レベル指標",
@@ -472,7 +485,9 @@
         "delSliConfig": "SLI 構成の削除",
         "pleaseConfirm": "ご確認ください",
         "pleaseConfirmMsg": "<strong>{{sliName}}</strong> を削除しますか?",
-        "delete": "削除"
+        "delete": "削除",
+        "eventBasedSli": "イベント・ベース",
+        "timeBasedSli": "時間ベース、{{metricNameLabel}}"
       },
       "sliManageList": {
         "configSrvLevelIndicatorsMsg": "SLI を作成または編集するために必要な <em>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</em> 権限がありません。",
@@ -486,9 +501,13 @@
         "sloTime": "開始: <datetime-from /><br />終了: <datetime-to />"
       },
       "chart": {
-        "spent": "費やされた",
+        "spent": "消費済み",
         "budget": "バジェット",
-        "viewInAnalyze": "分析で表示"
+        "viewInAnalyze": "分析で表示",
+        "configType": "SLI",
+        "configType_apdex": "Apdex",
+        "initialEvaluation": "{{configType}} が作成されました",
+        "missingDataInfo": "この {{configType}} の作成時刻は、表示されている時刻範囲内です。 {{configType}} の作成前のデータが欠落しています。"
       },
       "formComponent": {
         "sliManagement": "SLI 管理",
@@ -515,15 +534,16 @@
         "enterDateFormatYyyyMmDd": "YYYY-MM-DD の形式で日付を入力してください。",
         "enterTimeInFormatHhMmSs": "HH:mm:ss の形式で時刻を入力してください。"
       },
-      "widgetHeader": {
+      "sliSummary": {
         "status": "状況",
         "target": "ターゲット:",
-        "errorBudgetSpent": "費やされたエラー・バジェット",
+        "errorBudgetSpent": "消費済みエラー・バジェット",
         "errorBudget": "エラー・バジェット:",
         "timeWindow": "時間枠",
-        "dynamicTimeWindow": "動的時間枠",
-        "rollingTimeWindow": "ローリング時間枠",
-        "fixedTimeWindow": "固定時間枠"
+        "timeWindowType": "不明な時間枠",
+        "timeWindowType_dynamic": "動的時間枠",
+        "timeWindowType_rolling": "ローリング時間枠",
+        "timeWindowType_fixed": "固定時間枠"
       },
       "sloEntityInfo": {
         "tooltip": {
@@ -542,7 +562,124 @@
       "atLeastOneFilterExpressionMustBeConfigured": "少なくとも 1 つのフィルター式を構成する必要があります。",
       "timeBased": "時刻ベース",
       "eventBased": "イベント・ベース",
-      "slo": "SLO"
+      "slo": "SLO",
+      "monitoringSourceSelector": {
+        "source_application": "アプリケーション",
+        "source_website": "Web サイト (ベータ)",
+        "callOut_application": "エンド・ユーザーのインターネット接続の不良など、制御できない要因は除外されますが、エンド・ユーザーのエクスペリエンスが正確に反映されていない可能性があります。",
+        "callOut_website": "エンド・ユーザーのエクスペリエンスが最も正確に反映されますが、エンド・ユーザーのインターネット接続の不良など、制御できない要因は除外されません。"
+      },
+      "sliFormatter": {
+        "unit": "コール",
+        "unit_plural": "呼び出し",
+        "unit_0": "呼び出し",
+        "unit_1": "コール",
+        "unit_2": "呼び出し",
+        "thousandCallsFormat": "{{count}}K 呼び出し"
+      },
+      "widgetLeftHeader": {
+        "previewDataInfo": "プレビュー・データは、過去 7 日分までしか表示されません。 最終ウィジェットには、SLI 作成以降のデータのみが含まれます。"
+      },
+      "boundaryScopeConfigurator": {
+        "all": {
+          "title": "すべての呼び出し",
+          "description": "コンシューマーと内部の両方によって、このアプリケーション内で実行された呼び出し。"
+        },
+        "inbound": {
+          "title": "インバウンドの呼び出し",
+          "description": "このアプリケーションのコンシューマーによって実行される呼び出しのみ。"
+        }
+      }
+    },
+    "apdex": {
+      "title": "Apdex: グラフ",
+      "chart": {
+        "metricLabel": "Apdex",
+        "viewInAnalyze": "分析で表示",
+        "noDataRetentionPeriod": "選択された時刻範囲はデータ保存期間を超えています",
+        "notFoundErrorTitle": "構成された Apdex が見つかりませんでした",
+        "notFoundErrorDescription": "別の Apdex 構成を選択して Apdex ウィジェットを更新してください"
+      },
+      "demo": {
+        "title": "製品の Apdex",
+        "entityLabel": "ロボット・ショップ"
+      },
+      "apdexConfigInfo": {
+        "tagFilterLabel": "フィルター",
+        "apdexNameLabel": "Apdex 名",
+        "apdexTypeLabel": "Apdex タイプ",
+        "thresholdLabel": "しきい値"
+      },
+      "formComponent": {
+        "title": "Apdex 構成",
+        "entityTypeTitle": "Apdex タイプ",
+        "manageListTitle": "Apdex 管理",
+        "createApdex": "Apdex 構成の作成",
+        "editApdex": "Apdex 構成の編集"
+      },
+      "configurationSelector": {
+        "label": "Apdex 構成",
+        "selectConfig": "構成を選択してください",
+        "manageConfig": "Apdex の管理",
+        "noneAvailCreateOne": "使用可能なものがありません。作成してください。",
+        "pleaseSelect": "選択してください"
+      },
+      "entityTypeSelector": {
+        "type": "不明なタイプ",
+        "type_website": "Web サイト",
+        "type_application": "アプリケーション"
+      },
+      "apdexManageList": {
+        "title": "Apdex リスト",
+        "deleteSuccessfulMessage": "Apdex 構成が正常に削除されました。",
+        "deleteFailedMessage": "Apdex 構成の削除に失敗しました。"
+      },
+      "apdexList": {
+        "cardTitle": "Apdex 構成",
+        "nameColumn": "Apdex 構成",
+        "thresholdColumn": "しきい値",
+        "confirmDeleteHeader": "ご確認ください",
+        "confirmDeleteMessage": "{{apdex}} を削除してよろしいですか?",
+        "editApdexTooltip": "Apdex 構成の編集/複製",
+        "deleteApdexTooltip": "Apdex 構成の削除",
+        "confirmDeleteButton": "削除",
+        "createButton": "Apdex 構成の作成"
+      },
+      "createApdexForm": {
+        "customizationHeader": "Apdex カスタマイズ",
+        "label": "Apdex 名",
+        "apdexCreateSuccessTitle": "Apdex 構成が正常に作成されました。",
+        "apdexCreateSuccessContent": "Apdex 構成「{{apdexName}}」が作成されました。",
+        "apdexCreateFailedTitle": "Apdex 構成の作成に失敗しました。",
+        "apdexCreateFailedContent": "この Apdex 構成の作成中に問題が発生しました: 「{{apdexName}}」",
+        "apdexNameNotEmpty": "Apdex 名を空にすることはできません。",
+        "nameExistsError": "この名前の Apdex 構成は既に存在します。 別の名前を入力してください。",
+        "limitReachedError": {
+          "website": "Web サイトの Apdex 構成の最大数 ({{0}}) に達しました。 この制限の引き上げを要求する場合は、Instana サポートにお問い合わせください。",
+          "application": "アプリケーションの Apdex 構成の最大数 ({{0}}) に達しました。 この制限の引き上げを要求する場合は、Instana サポートにお問い合わせください。"
+        },
+        "editConfigNotice": "データ損失を回避するために、いったん作成された構成は編集できません。構成はコピーとしてのみ調整できます。"
+      },
+      "createWebsiteApdexForm": {
+        "thresholdHeader": "しきい値構成",
+        "thresholdLabel": "しきい値"
+      },
+      "entityInfo": {
+        "tooltip": "不明な Apdex",
+        "tooltip_website": "Web サイト Apdex",
+        "tooltip_application": "アプリケーション Apdex"
+      },
+      "widget": {
+        "unknownEntityLabel_application": "不明なアプリケーション",
+        "unknownEntityLabel_website": "不明な Web サイト",
+        "previewDataInfo": "過去 7 日間のプレビュー・データが表示されます。 最終ウィジェットには、Apdex 構成を作成した後のデータのみが含まれます。"
+      },
+      "applicationScopeConfigurator": {
+        "label": "Apdex スコープ",
+        "boundaryScope": "境界",
+        "hiddenCalls": "非表示の呼び出し",
+        "additionalFilters": "追加フィルター"
+      }
     },
     "timezone": {
       "demo": {

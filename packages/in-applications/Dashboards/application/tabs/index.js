@@ -3,11 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
+import SyntheticsList from 'in-applications/Dashboards/application/tabs/SyntheticsMonitoring/SyntheticsList';
 import ReadOnlyConfiguration from 'in-applications/Dashboards/application/tabs/ReadOnlyConfiguration';
 import ErrorMessagesTab from 'in-applications/Dashboards/commonTabs/messages/ErrorMessages';
 import LogMessagesTab from 'in-applications/Dashboards/commonTabs/messages/LogMessages';
 import Configuration from 'in-applications/Dashboards/application/tabs/Configuration';
 import InfrastructureTab from 'in-applications/Dashboards/commonTabs/Infrastructure';
+import { hasInfrastructureAccess, hasSyntheticsAccess } from 'in-stores/permission';
 import Summary from 'in-applications/Dashboards/application/tabs/Summary/Summary';
 import Services from 'in-applications/Dashboards/application/tabs/Services';
 import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
@@ -46,13 +48,18 @@ export default [
     path: `${applicationDashboard}/logMessages`,
     component: LogMessagesTab
   },
-  {
+  hasInfrastructureAccess && {
     label: t('in-applications:labelInfrastructure'),
     path: `${applicationDashboard}/infrastructure`,
     component: InfrastructureTab
   },
+  hasSyntheticsAccess && {
+    label: t('in-synthetics:dashboard.testList.mainLabel'),
+    path: `${applicationDashboard}/synthetics`,
+    component: SyntheticsList
+  },
   applicationSmartAlertsEnabled && {
-    label: t('in-applications:labelAlerts'),
+    label: t('in-applications:labelSmartAlerts'),
     path: `${applicationDashboard}/alerts`,
     component: Alerts
   },

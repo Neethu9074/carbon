@@ -12,8 +12,9 @@ import { bytes, withSiPrefixThreeDecimalPlaces } from 'in-services/formatters/nu
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import { t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 
 export default function ClickHouseDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -64,7 +65,11 @@ export default function ClickHouseDashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
+      <TablesTable snapshot={snapshot} timeConfig={timeConfig} />
       <DashboardSection title={t('in-forge:plugins.clickhouseDatabase.dashboard.titleMerges')}>
+        <ChartExplanation>
+          <Trans i18nKey="in-forge:plugins.clickhouseDatabase.dashboard.explanationMerges" />
+        </ChartExplanation>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -84,7 +89,51 @@ export default function ClickHouseDashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <TablesTable snapshot={snapshot} timeConfig={timeConfig} />
+      <DashboardSection title={t('in-forge:plugins.clickhouseDatabase.dashboard.titleReplication')}>
+        <ChartExplanation>
+          <Trans i18nKey="in-forge:plugins.clickhouseDatabase.dashboard.explanationReplication" />
+        </ChartExplanation>
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            metrics: ['ReplicasMaxQueueSize', 'ReplicasMaxInsertsInQueue', 'ReplicasMaxMergesInQueue'],
+            labels: [
+              t('in-forge:plugins.clickhouseDatabase.dashboard.labelReplicasMaxQueueSize'),
+              t('in-forge:plugins.clickhouseDatabase.dashboard.labelReplicasMaxInsertsInQueue'),
+              t('in-forge:plugins.clickhouseDatabase.dashboard.labelReplicasMaxMergesInQueue')
+            ],
+            type: 'line'
+          }}
+          y2={{
+            min: 0,
+            metrics: ['ReplicatedSend', 'ReplicatedFetch'],
+            labels: [
+              t('in-forge:plugins.clickhouseDatabase.dashboard.labelReplicatedSend'),
+              t('in-forge:plugins.clickhouseDatabase.dashboard.labelReplicatedFetch')
+            ],
+            type: 'line'
+          }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
+      </DashboardSection>
+      <DashboardSection title={t('in-forge:plugins.clickhouseDatabase.dashboard.titleDistributedSends')}>
+        <ChartExplanation>
+          <Trans i18nKey="in-forge:plugins.clickhouseDatabase.dashboard.explanationDistributedSends" />
+        </ChartExplanation>
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            metrics: ['DistributedFilesToInsert'],
+            labels: [t('in-forge:plugins.clickhouseDatabase.dashboard.labelDistributedFilesToInsert')],
+            type: 'line'
+          }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
+      </DashboardSection>
       <MetricsTable snapshot={snapshot} timeConfig={timeConfig} />
       <RunningQueries snapshot={snapshot} timeConfig={timeConfig} />
     </div>

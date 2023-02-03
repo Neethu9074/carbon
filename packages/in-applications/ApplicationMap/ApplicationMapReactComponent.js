@@ -9,6 +9,7 @@ import { get } from 'lodash';
 import { useObservable } from '@instana/hooks';
 
 import ServicesNoDataNotification from 'in-applications/lists/components/ServicesNoDataNotification';
+import MapOverlay from 'in-applications/ApplicationMap/misc/OverlayReactComponentMounter';
 import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { getWebGLCanvasContext, isWebGLSupported } from 'in-map/services/webGL';
@@ -82,7 +83,8 @@ export default function ApplicationMapReactComponentStateWrapper(props) {
                 // when we want to see all services, remove the application filter
                 application: urlState.traffic ? null : applicationId,
                 applicationBoundaryScope: boundaryScope
-              }
+              },
+              includeHealthInfo: true
             }).nextFrame() // avoids firing the intermediate progress result if the subscription is re-used
         ),
       [boundaryScope, applicationId, urlState.traffic]
@@ -118,11 +120,11 @@ export function ApplicationMapReactComponent(props) {
 
   const [map, setMap] = useState(null);
   useEffect(() => {
-    if (!map && webGlContext) {
+    if (!map && webGlContext && result.data) {
       setMap(initMap({ ...props, map, canvasNode, overlayNode, webGlContext }));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [canvasNode, overlayNode, webGlContext]); // not passing props as deps is wanted here!
+  }, [canvasNode, overlayNode, webGlContext, result]); // not passing props as deps is wanted here!
 
   const isLoading = get(result, ['progress', 'loading'], false);
   const hasErrors = get(result, ['errors', 'length'], 0) > 0;
@@ -144,7 +146,7 @@ export function ApplicationMapReactComponent(props) {
 
   return (
     <div className={locals.wrapper} ref={resizeObserverRef}>
-      <div className={locals.overlay} ref={overlayRef} />
+      <MapOverlay serviceLocatorUid={map?.serviceLocatorUid} {...props} ref={overlayRef} />
       <canvas className={locals.canvas} ref={canvasRef} />
       {(isLoading || hasErrors) && (
         <div className={locals.centerWrapper}>
@@ -211,7 +213,8 @@ function getHasDataToRender({ traffic, applicationId, boundaryScope }) {
             // when we want to see all services, remove the application filter
             application: traffic ? null : applicationId,
             applicationBoundaryScope: boundaryScope
-          }
+          },
+          includeHealthInfo: true
         }).nextFrame() // avoids firing the intermediate progress result if the subscription is re-used
     )
     .map(result => !result.data || (result.data.services && result.data.services.length > 0))

@@ -6,6 +6,7 @@
 import { Route } from 'react-router-dom';
 import React from 'react';
 
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import { getLinkToSession } from 'in-mobile-apps/navigation/paths';
 import { getLinkToPageLoad } from 'in-websites/navigation/paths';
@@ -14,9 +15,10 @@ import RedirectWithHash from 'in-components/RedirectWithHash';
 
 const path = '/dl';
 
-export default <Route path={path} component={DeepLink} />;
+export default <Route key="deepLink" path={path} children={<DeepLink />} />;
 
-function DeepLink({ location }) {
+function DeepLink() {
+  const location = useLocation();
   const to$ =
     resolveApplicationsTraceIdDeepLink(location) ||
     resolveWebsitesPageLoadIdDeepLink(location) ||

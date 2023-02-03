@@ -27,7 +27,7 @@ import { t, Trans } from 'in-i18n';
 
 const lambdaLayerVersionApiBaseUrl = `https://lambda-layers.instana.${instanaDomain}`;
 
-export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
+export default function AwsLambdaContent({ agentKey, downloadKey, serverlessEndpoint }) {
   const runtimeOptions = [
     t('in-waiting-for-deployment:runtime.go'),
     t('in-waiting-for-deployment:runtime.java'),
@@ -65,7 +65,7 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
   const nodejsLayerArn = useLambdaLayerVersionObservable('instana-nodejs', nodejsLayerVersionFallback);
   const pythonLayerVersion = '27';
   const pythonLayerArn = useLambdaLayerVersionObservable('instana-python', pythonLayerVersion);
-  const javaLayerVersion = '25';
+  const javaLayerVersion = '36';
   const javaLayerArn = useLambdaLayerVersionObservable('instana-java', javaLayerVersion);
 
   if (selectedRuntime === runtimeOptions[0]) {
@@ -76,7 +76,7 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
 
         <TextWithLink
           i18nKey="in-waiting-for-deployment:content.awsLambdaFunctionsWrittenInGoNeedToBeManuallyInstrumentedInOrderToCollectTraceDataFollowTheInstructionsOfThe"
-          href="https://instana.com/docs/ecosystem/aws-lambda/go"
+          href="https://www.ibm.com/docs/en/obi/current?topic=kinesis-aws-lambda-native-tracing-go"
         />
         <Spacer />
         <Description
@@ -87,13 +87,17 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
           ]}
         />
         <GridRow>
-          <Col xs={6}>
+          <Col xs={4}>
             <Description lines={['INSTANA_ENDPOINT_URL']} />
             <Script lines={[serverlessEndpoint]} />
           </Col>
-          <Col xs={6}>
+          <Col xs={4}>
             <Description lines={['INSTANA_AGENT_KEY']} />
             <Script lines={[agentKey]} />
+          </Col>
+          <Col xs={4}>
+            <Description lines={['INSTANA_DOWNLOAD_KEY']} />
+            <Script lines={[downloadKey]} />
           </Col>
         </GridRow>
       </>
@@ -132,7 +136,8 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
         <HelpBox title={t('in-waiting-for-deployment:content.awsWebConsole')}>
           <TextWithLink
             i18nKey="in-waiting-for-deployment:content.aDetailedGuideIncludingScreenshotsOnHowToConfigureYourLambdaFunctionForAutoTraceUsingTheAwsWebConsoleCanBeFoundInOur"
-            href="https://instana.com/docs/ecosystem/aws-lambda/#autotrace-aws-lambdas"
+            // TODO verify. There is no section #autotrace-aws-lambdas!
+            href="https://www.ibm.com/docs/en/obi/current?topic=agents-monitoring-aws-lambda"
           />
           <Description lines={[t('in-waiting-for-deployment:content.inShortTheStepsAreAsFollows')]} />
           <GridRow>
@@ -168,6 +173,10 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
                   <Col xs={4}>
                     <Description lines={['INSTANA_AGENT_KEY']} />
                     <Script lines={[agentKey]} />
+                  </Col>
+                  <Col xs={4}>
+                    <Description lines={['INSTANA_DOWNLOAD_KEY']} />
+                    <Script lines={[downloadKey]} />
                   </Col>
                   <Col xs={4}>
                     <Description lines={['JAVA_TOOL_OPTIONS']} />
@@ -246,7 +255,8 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
         <HelpBox title={t('in-waiting-for-deployment:content.awsWebConsole')}>
           <TextWithLink
             i18nKey="in-waiting-for-deployment:content.aDetailedGuideIncludingScreenshotsOnHowToConfigureYourLambdaFunctionForAutoTraceUsingTheAwsWebConsoleCanBeFoundInOur"
-            href="https://instana.com/docs/ecosystem/aws-lambda/#autotrace-aws-lambdas"
+            // TODO verify, there is not section #autotrace-aws-lambdas
+            href="https://www.ibm.com/docs/en/obi/current?topic=agents-monitoring-aws-lambda"
           />
           <Description lines={[t('in-waiting-for-deployment:content.inShortTheStepsAreAsFollows')]} />
           <GridRow>
@@ -360,7 +370,7 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
               `   --layers ${nodejsLayerArn} \\`,
               '   --handler instana-aws-lambda-auto-wrap.handler',
               `   --environment "Variables={${
-                lambdaHandler === 'index.handler' ? '' : `LAMBDA_HANLDER=${lambdaHandler}, `
+                lambdaHandler === 'index.handler' ? '' : `LAMBDA_HANDLER=${lambdaHandler}, `
               }INSTANA_ENDPOINT_URL=${serverlessEndpoint}, INSTANA_AGENT_KEY=${agentKey} }"`
             ]}
           />
@@ -372,7 +382,8 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
     steps = (
       <TextWithLink
         i18nKey="in-waiting-for-deployment:content.thePreferredWayToConfigureAwsLambdaFunctionsBasedOnNodeJs8XIsToUseThe"
-        href="https://instana.com/docs/ecosystem/aws-lambda#manual-wrapping"
+        // TODO verify, there is no section #manual-wrapping!
+        href="https://www.ibm.com/docs/en/obi/current?topic=agents-monitoring-aws-lambda"
       />
     );
   } else if (selectedRuntime === runtimeOptions[4]) {
@@ -403,7 +414,8 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
         <HelpBox title={t('in-waiting-for-deployment:content.awsWebConsole')}>
           <TextWithLink
             i18nKey="in-waiting-for-deployment:content.aDetailedGuideIncludingScreenshotsOnHowToConfigureYourLambdaFunctionForAutoTraceUsingTheAwsWebConsoleCanBeFoundInOur"
-            href="https://instana.com/docs/ecosystem/aws-lambda#instana-autotrace"
+            // TODO verify, there is no section #instana-autotrace!
+            href="https://www.ibm.com/docs/en/obi/current?topic=agents-monitoring-aws-lambda"
           />
           <Description lines={[t('in-waiting-for-deployment:content.inShortTheStepsAreAsFollows')]} />
           <GridRow>
@@ -453,15 +465,19 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
                 {t('in-waiting-for-deployment:content.setTheFollowingEnvironmentVariablesInYourLambdaFunction')}
                 <Spacer />
                 <GridRow>
-                  <Col xs={4}>
+                  <Col xs={6}>
                     <Description lines={['INSTANA_ENDPOINT_URL']} />
                     <Script lines={[serverlessEndpoint]} />
                   </Col>
-                  <Col xs={4}>
+                  <Col xs={6}>
                     <Description lines={['INSTANA_AGENT_KEY']} />
                     <Script lines={[agentKey]} />
                   </Col>
-                  <Col xs={4}>
+                  <Col xs={6}>
+                    <Description lines={['INSTANA_DOWNLOAD_KEY']} />
+                    <Script lines={[downloadKey]} />
+                  </Col>
+                  <Col xs={6}>
                     <Description lines={['LAMBDA_HANDLER']} />
                     <Script lines={[lambdaHandler]} />
                   </Col>
@@ -514,7 +530,7 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
               `   --layers ${pythonLayerArn} \\`,
               '   --handler instana.lambda_handler',
               `   --environment "Variables={${
-                lambdaHandler === 'index.handler' ? '' : `LAMBDA_HANLDER=${lambdaHandler}, `
+                lambdaHandler === 'index.handler' ? '' : `LAMBDA_HANDLER=${lambdaHandler}, `
               }INSTANA_ENDPOINT_URL=${serverlessEndpoint}, INSTANA_AGENT_KEY=${agentKey} }"`
             ]}
           />
@@ -529,7 +545,7 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
 
         <TextWithLink
           i18nKey="in-waiting-for-deployment:content.awsLambdaFunctionsWrittenInRubyNeedToBeManuallyInstrumentedInOrderToCollectTraceDataFollowTheInstructionsOfThe"
-          href="https://instana.com/docs/ecosystem/aws-lambda/ruby"
+          href="https://www.ibm.com/docs/en/obi/current?topic=kinesis-aws-lambda-native-tracing-ruby"
         />
         <Spacer />
         <Description
@@ -548,6 +564,10 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
             <Description lines={['INSTANA_AGENT_KEY']} />
             <Script lines={[agentKey]} />
           </Col>
+          <Col xs={6}>
+            <Description lines={['INSTANA_DOWNLOAD_KEY']} />
+            <Script lines={[downloadKey]} />
+          </Col>
         </GridRow>
       </>
     );
@@ -562,13 +582,13 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
 
       <TextWithLink
         i18nKey="in-waiting-for-deployment:content.makeSureYouHaveAnInstanaAwsSensorRunningInYourAwsRegionForDetailsOnSettingUpTheInstanaAwsSensorReferToThe"
-        href="https://instana.com/docs/ecosystem/aws"
+        href="https://www.ibm.com/docs/en/obi/current?topic=agents-monitoring-amazon-web-services-aws"
       />
       <Spacer />
 
       <TextWithLink
         i18nKey="in-waiting-for-deployment:content.nextConfigureYourAwsLambdaFunctionsForNativeTracingAsDescribedInTheStepsBelowOtherOptionsToSetUpNativeLambdaTracingAndMoreDetailsAboutThisFeatureAreAvailableInThe"
-        href="https://instana.com/docs/ecosystem/aws-lambda"
+        href="https://www.ibm.com/docs/en/obi/current?topic=agents-monitoring-aws-lambda"
       />
       <Spacer />
 

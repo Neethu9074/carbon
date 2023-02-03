@@ -57,6 +57,13 @@
     .ellipsis();
   }
 
+  .tryAgain {
+    // override button's size, and (smaller) font as in marker lanes
+    font-size: inherit;
+    padding: 0.25rem 0.5rem;
+    background: var(--colors-transparent);
+  }
+
   .hoverAreaContainer {
     display: block;
   }

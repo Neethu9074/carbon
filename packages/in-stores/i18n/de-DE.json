@@ -3,6 +3,13 @@
   "permissionAccessMobileAppsLabel": "Mobile Apps",
   "permissionAccessApplicationsLabel": "Anwendungen",
   "permissionAccessKubernetesLabel": "Kubernetes",
+  "permissionAccessInfrastructureLabel": "Infrastruktur",
+  "permissionAccessSyntheticsLabel": "Überwachung der synthetischen Transaktionen",
+  "permissionAccessVSphereLabel": "vSphere",
+  "permissionAccessPHMCLabel": "IBM Power",
+  "permissionAccessZHMCLabel": "IBM Z",
+  "permissionAccessPCFLabel": "Cloud Foundry",
+  "permissionAccessOpenStackLabel": "OpenStack",
   "permissionCanConfigureEumApplicationsLabel": "Konfiguration der Website-Überwachung",
   "permissionCanConfigureEumApplicationsDescription": "Ermöglicht die Konfiguration der Funktionen zur Überwachung der Website.",
   "permissionCanConfigureEumApplicationsCategory": "Websites und mobile Apps",
@@ -24,11 +31,11 @@
   "permissionCanConfigureAgentRunModeLabel": "Konfiguration des Agentenmodus",
   "permissionCanConfigureAgentRunModeDescription": "Ermöglicht die Konfiguration des Hostagentenmodus über die Benutzerschnittstelle.",
   "permissionCanConfigureAgentRunModeCategory": "Infrastruktur",
-  "permissionCanConfigureIntegrationsLabel": "Konfiguration der Integrationen",
-  "permissionCanConfigureIntegrationsDescription": "Ermöglicht die Erstellung und Konfiguration von Integrationen für die Verwendung bei der Alertausgabe.",
+  "permissionCanConfigureIntegrationsLabel": "Konfiguration von Alertkanälen",
+  "permissionCanConfigureIntegrationsDescription": "Ermöglicht die Erstellung und Konfiguration von Alertkanälen",
   "permissionCanConfigureIntegrationsCategory": "Ereignisse",
-  "permissionCanConfigureCustomAlertsLabel": "Konfiguration angepasster Alerts",
-  "permissionCanConfigureCustomAlertsDescription": "Ermöglicht die Erstellung und Konfiguration von angepassten Alerts und zugehörigen Integrationen.",
+  "permissionCanConfigureCustomAlertsLabel": "Konfiguration von Ereignissen, Alerts und intelligenten Alerts",
+  "permissionCanConfigureCustomAlertsDescription": "Ermöglicht die Erstellung und Konfiguration von Ereignissen, Alerts und Smart Alerts für Anwendungsperspektiven und Websites.",
   "permissionCanConfigureCustomAlertsCategory": "Ereignisse",
   "permissionCanConfigureGlobalAlertPayloadLabel": "Konfiguration globaler angepasster Nutzdaten für Alerts",
   "permissionCanConfigureGlobalAlertPayloadDescription": "Ermöglicht die Konfiguration globaler angepasster Nutzdaten für Alerts.",
@@ -36,6 +43,12 @@
   "permissionCanConfigureGlobalAlertConfigsLabel": "Konfiguration globaler Smart Alerts",
   "permissionCanConfigureGlobalAlertConfigsDescription": "Ermöglicht die Erstellung und Konfiguration globaler Smart Alerts. ",
   "permissionCanConfigureGlobalAlertConfigsCategory": "Ereignisse",
+  "permissionCanConfigureAutomationActionsLabel": "Konfiguration von Automatisierungsaktionen",
+  "permissionCanConfigureAutomationActionsDescription": "Ermöglicht die Erstellung und Konfiguration von Automatisierungsaktionen.",
+  "permissionCanConfigureAutomationActionsCategory": "Automation",
+  "permissionCanRunAutomationActionsLabel": "Ausführung von Automatisierungsaktionen",
+  "permissionCanRunAutomationActionsDescription": "Lässt die Ausführung von Automatisierungsaktionen zu.",
+  "permissionCanRunAutomationActionsCategory": "Automation",
   "permissionCanCreatePublicCustomDashboardsLabel": "Erstellung von öffentlichen angepassten Dashboards",
   "permissionCanCreatePublicCustomDashboardsDescription": "Ohne diese Berechtigung können Benutzer und API-Token angepasste Dashboards erstellen, die nur für sie selbst sichtbar sind. Durch die Erteilung dieser Berechtigung können Benutzer und API-Token angepasste Dashboards erstellen, die für alle Benutzer und API-Token dieser Instana-Umgebung sichtbar sind. Darüber hinaus können sie Bearbeiter zu angepassten Dashboards hinzufügen. Dies bedeutet, dass sie eine vollständige Liste der Namen und E-Mail-Adressen aller Benutzer dieser Instana-Umgebung anzeigen können. Darüber hinaus können sie eine vollständige Liste aller IDs und die Namen aller API-Token anzeigen.",
   "permissionCanCreatePublicCustomDashboardsCategory": "Angepasste Dashboards",
@@ -72,8 +85,8 @@
   "permissionCanConfigureSessionSettingsLabel": "Zugriff auf Token- und Sitzungszeitlimiteinstellungen",
   "permissionCanConfigureSessionSettingsDescription": "Ermöglicht den Zugriff auf die Konfiguration von Token- und Sitzungszeitlimits.",
   "permissionCanConfigureSessionSettingsCategory": "Zugriffssteuerung",
-  "permissionCanViewLogsLabel": "Zugriff auf Protokolle in der Tracedetailansicht",
-  "permissionCanViewLogsDescription": "Aktivieren Sie den Zugriff auf Protokolle.",
+  "permissionCanViewLogsLabel": "Zugriff auf Protokolle",
+  "permissionCanViewLogsDescription": "Ermöglicht den Zugang zum Anzeigen von Protokollen.",
   "permissionCanViewLogsCategory": "Zugriffssteuerung",
   "permissionCanViewTraceDetailsLabel": "Zugriff auf Tracedetails in der Tracedetailansicht",
   "permissionCanViewTraceDetailsDescription": "Aktivieren Sie den Zugriff auf Tracedetails.",
@@ -87,9 +100,10 @@
   "permissionCanViewAccountAndBillingInformationLabel": "Zugriff auf Account- und Rechnungsinformationen",
   "permissionCanViewAccountAndBillingInformationDescription": "Ermöglicht den Zugriff auf Account- und Rechnungsinformationen.",
   "permissionCanViewAccountAndBillingInformationCategory": "Accountinformationen",
-  "permissionRestrictedLabel": "Zugriff durch Gruppenzugriffsbereiche begrenzen",
-  "permissionRestrictedHelp": "Aktivieren Sie die rollenbasierte Zugriffssteuerung.",
-
+  "permissionNewLabel": "NEU",
+  "permissionRestrictedLabel": "Zugriff nach Bereichen beschränken",
+  "permissionRestrictedHelp": "Wenn Sie diese Option aktivieren, wird der eingeschränkte Zugriff aktiviert und die konfigurierten Bereiche werden angewendet.",
+  "permissionRestrictedWarning": "Aktivieren Sie 'Zugriff nach Bereichen begrenzen', um die Zugriffsbeschränkung für die Gruppe anzuwenden.",
   "metric": {
     "metric_MEAN": "Mittelwert",
     "metric_MIN": "Min.",
@@ -104,14 +118,13 @@
     "metric_DISTINCT_COUNT": "eindeutige Anzahl",
     "metric_SUM": "Summe",
     "metric_DISTRIBUTION": "Verteilung",
-
+    "metric_PER_SECOND": "Rate",
     "formatterLabelNumber": "Zahl, z. B. {{example}}",
     "formatterLabelPercentage": "Prozentsatz, z. B. {{example}}",
     "formatterLabelBytes": "Byte, z. B. {{example}}",
     "formatterLabelMilliseconds": "Millisekunden, z. B. {{example}}",
     "formatterLabelLatency": "Latenz, z. B. {{example}}",
     "formatterLabelSIPrefix": "SI-Präfix, z. B. {{example}}",
-
     "rendererLabelArea": "Produktbereich ",
     "rendererLabelAreaStacked": "Produktbereich (gestapelt)",
     "rendererLabelBar": "Leiste",
@@ -122,10 +135,8 @@
     "rendererLabelPoint": "Punkt",
     "rendererLabelPie": "Kreis"
   },
-
   "search": {
     "queryInvalidLuceneQuery": "Ungültige Lucene-Abfrage.",
-
     "fieldsEntity": "Infrastruktur- und Anwendungsentität",
     "fieldsEntityAgent": "Instana-Agent",
     "fieldsEntityAgentGitops": "GitOps-Konfiguration des Instana-Agenten",
@@ -159,6 +170,9 @@
     "fieldsEntityIbmMqQm": "IBM MQ-Warteschlangenmanager",
     "fieldsEntityIbmMqQueue": "IBM MQ-Warteschlange",
     "fieldsEntityIbmMqChannel": "IBM MQ-Kanal",
+    "fieldsEntityIbmMqMftCoordiQmgr": "Koordinationswarteschlangenmanager für IBM MQ Managed File Transfer",
+    "fieldsEntityIbmMqMftZone": " IBM MQ Managed File Transfer Zone",
+    "fieldsEntityIbmMqMftAgent": "IBM MQ Managed File Transfer Agent",
     "fieldsEntityService": "Logischer Service",
     "fieldsEntityContainerd": "Containerd-Container",
     "fieldsEntityCrio": "CRI-O-Container",
@@ -191,6 +205,7 @@
     "fieldsEntityVsphereEsxihost": "vSphere ESXi-Host",
     "fieldsEntityVsphereVm": "vSphere Virtual Machine",
     "fieldsEntityWebsphere": "IBM WebSphere Application Server",
+    "fieldsEntityWebsphereDeploymentManager": "IBM WebSphere Deployment Manager",
     "fieldsTrace": "Trace und Rootspanne",
     "fieldsEvent": "Änderungen, Probleme und Vorfälle",
     "fieldsSpan": "Spannen innerhalb von Traces",
@@ -205,7 +220,6 @@
     "fieldsSpanEndpoint": "Endpunktspezifische Felder",
     "fieldsSavedFilter": "Gespeicherter Filter"
   },
-
   "time": {
     "shiftingLabelOff": "Aus",
     "shiftingDescriptionOff": "Daten ohne Zeitverschiebung anzeigen",
@@ -219,7 +233,6 @@
     "shiftingDescriptionLastWeek": "Vergleichen mit Daten eine Woche vor dem ausgewählten Zeitfenster",
     "shiftingCustomDuration": "Vorherige {{duration}}"
   },
-
   "view": {
     "viewGroupingsCompose": "Docker Compose-Projektname",
     "viewGroupingsCustom_container": "Containerbezeichnungen",
@@ -232,10 +245,8 @@
     "viewGroupingsCfSpace": "Cloud-Foundry-Bereich",
     "viewGroupingsMarathon": "Marathon-Anwendungs-ID",
     "viewGroupingsNomad": "Nomad-Taskname",
-
     "viewGroupingsInfraZone": "Zone",
     "viewGroupingsInstanceType": "Instanztyp",
-
     "viewGroupingsCpuCount": "CPU-Anzahl",
     "viewGroupingsCpuModel": "CPU-Modell",
     "viewGroupingsOsArc": "Betriebssystemarchitektur",

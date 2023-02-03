@@ -7,16 +7,12 @@ import { createMapForm, createField } from 'formalistic';
 import { expect } from 'chai';
 
 import {
-  createErrorRateForm as thresholdCreateErrorRateForm,
-  createSlownessForm as thresholdCreateSlownessForm,
-  createLogsForm as thresholdCreateLogsForm
-} from 'in-alerting/smart-alerts/applications/form/thresholdForm';
-import {
   createViolationsInSequenceForm,
   defaultAdaptiveBaselineTimeWindow
-} from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/form';
+} from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import createBlueprintForm from 'in-alerting/smart-alerts/applications/form/blueprintFormCreator';
+import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import createRuleForm from 'in-alerting/smart-alerts/applications/form/ruleForm';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 
@@ -32,7 +28,7 @@ describe('in-alerting/smart-alerts/applications/form/blueprintFormCreator', () =
       const blueprintForm = createBlueprintForm(
         createMapForm()
           .put('tagFilterExpression', createTagFilterExpressionForm())
-          .put('threshold', thresholdCreateSlownessForm({ type: STATIC_THRESHOLD, value: 5 }))
+          .put('threshold', createThresholdForm({ type: STATIC_THRESHOLD, value: 5 }, 'slowness'))
           .put('rule', createRuleForm({ alertType: 'slowness' }))
           .put('timeThreshold', createViolationsInSequenceForm({}, STATIC_THRESHOLD)),
         'slowness'
@@ -54,10 +50,13 @@ describe('in-alerting/smart-alerts/applications/form/blueprintFormCreator', () =
           .put('tagFilterExpression', createTagFilterExpressionForm())
           .put(
             'threshold',
-            thresholdCreateSlownessForm({
-              type: HISTORIC_BASELINE,
-              baseline: [1, 2, 3]
-            })
+            createThresholdForm(
+              {
+                type: HISTORIC_BASELINE,
+                baseline: [1, 2, 3]
+              },
+              'slowness'
+            )
           )
           .put('rule', createRuleForm({ alertType: 'slowness' }))
           .put('timeThreshold', createViolationsInSequenceForm({}, HISTORIC_BASELINE)),
@@ -98,10 +97,13 @@ describe('in-alerting/smart-alerts/applications/form/blueprintFormCreator', () =
           .put('tagFilterExpression', createTagFilterExpressionForm())
           .put(
             'threshold',
-            thresholdCreateSlownessForm({
-              type: ADAPTIVE_BASELINE,
-              baseline: []
-            })
+            createThresholdForm(
+              {
+                type: ADAPTIVE_BASELINE,
+                baseline: []
+              },
+              'slowness'
+            )
           )
           .put('rule', createRuleForm({ alertType: 'slowness' }))
           .put('timeThreshold', createViolationsInSequenceForm({}, ADAPTIVE_BASELINE)),
@@ -115,7 +117,7 @@ describe('in-alerting/smart-alerts/applications/form/blueprintFormCreator', () =
       const blueprintForm = createBlueprintForm(
         createMapForm()
           .put('tagFilterExpression', createTagFilterExpressionForm())
-          .put('threshold', thresholdCreateSlownessForm({ type: STATIC_THRESHOLD }))
+          .put('threshold', createThresholdForm({ type: STATIC_THRESHOLD }, 'slowness'))
           .put('rule', createRuleForm({ alertType: 'slowness', metricName: 'latency' }))
           .put('timeThreshold', createViolationsInSequenceForm({}, STATIC_THRESHOLD)),
         'slowness'
@@ -129,7 +131,7 @@ describe('in-alerting/smart-alerts/applications/form/blueprintFormCreator', () =
     const blueprintForm = createBlueprintForm(
       createMapForm()
         .put('tagFilterExpression', createTagFilterExpressionForm())
-        .put('threshold', thresholdCreateErrorRateForm())
+        .put('threshold', createThresholdForm({}, 'errorRate'))
         .put('rule', createRuleForm({ alertType: 'errorRate' }))
         .put('timeThreshold', createViolationsInSequenceForm({}, STATIC_THRESHOLD)),
       'errorRate'
@@ -155,7 +157,7 @@ describe('in-alerting/smart-alerts/applications/form/blueprintFormCreator', () =
     const blueprintForm = createBlueprintForm(
       createMapForm()
         .put('tagFilterExpression', createTagFilterExpressionForm())
-        .put('threshold', thresholdCreateLogsForm())
+        .put('threshold', createThresholdForm({}, 'logs'))
         .put('rule', createRuleForm({ alertType: 'logs' }))
         .put('timeThreshold', createViolationsInSequenceForm({}, STATIC_THRESHOLD)),
       'logs'

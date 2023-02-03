@@ -26,13 +26,15 @@
         "subTitle": "Terminal",
         "labelOperation": "Método de HTTP",
         "labelUrl": "URL",
-        "popSubTitle": "Ponto de presença"
+        "popSubTitle": "Ponto de presença",
+        "uploadScriptTitle": "Fazer upload do script",
+        "failureToReadFileContent": "Falha ao ler o conteúdo do arquivo: {{error}}"
       },
       "basicDetails": {
         "title": "Qual é o nome deste teste de ping",
         "labelName": "Nome do teste",
         "labelDescription": "Descrição",
-        "labelFreequency": "Frequência"
+        "labelFrequency": "Frequência"
       },
       "bluePrint": {
         "pingApi": {
@@ -54,6 +56,23 @@
             "line4": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
             "line5": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
           }
+        },
+        "scriptApi": {
+          "name": "API de script",
+          "headline": "Script HTTP",
+          "whenToUse": {
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          },
+          "whoShouldUse": {
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          },
+          "tipsForUsing": {
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line3": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line4": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line5": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          }
         }
       },
       "form": {
@@ -68,15 +87,182 @@
     },
     "feedback": {
       "successTitle": "Com sucesso!",
-      "successMessage": "Teste sintético criado com sucesso",
+      "successMessageCreate": "Teste sintético criado com sucesso",
+      "successMessageDelete": "O teste sintético foi eliminado com sucesso",
       "failureTitle": "Falhou!",
-      "failureMessage": "Falha ao criar um teste sintético. Tente novamente mais tarde"
+      "failureMessageCreate": "Falha ao criar um teste sintético. Tente novamente mais tarde",
+      "failureMessageUpdate": "Falha ao atualizar o teste sintético. Tente novamente mais tarde",
+      "failuteMesssageDelete": "Falha ao excluir o teste sintético. Tente novamente mais tarde"
+    },
+    "locationFeedback": {
+      "successMessageDelete": "O local foi excluído com sucesso",
+      "failureMesssageDelete": "Falha ao excluir o local. Tente novamente mais tarde"
     }
   },
   "createTest": {
     "buttonLabel": "Criar novo teste"
   },
   "navigation": {
-    "synthetics": "Sintéticos"
+    "synthetics": "Monitoramento sintético"
+  },
+  "dashboard": {
+    "testList": {
+      "mainLabel": "Monitoramento sintético",
+      "secondaryLabels": {
+        "tests": "Testes",
+        "locations": "Locais"
+      },
+      "popDialog": {
+        "button": "<> Implementar um PoP",
+        "simpleTab": "Simples",
+        "redisTab": "Redis TLS",
+        "title": "Comandos PoP sintéticos",
+        "subTitle": "Use esses modelos de código como referência",
+        "simpleCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"Name;DisplayName;Country;City;0;0;Location description\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<yourpassword>\"",
+        "redisCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"Name;DisplayName;Country;City;0;0;Location description\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true",
+        "tlsInstructions": "Se você deseja ativar o Redis TLS, será necessário criar uma pasta certs sob o caminho raiz do gráfico do Helm e copiar seu par de chaves do certificado (tls.crt, tls.key) e arquivo de certificado raiz de autoridade de certificação (ca.crt) para a pasta certs, os nomes de arquivos devem ser correspondidos de maneira exata.\n\nSe você não tiver seus arquivos de chave/certificado, também será possível usar o comando openssl para gerar novos. Veja os exemplos abaixo:",
+        "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt"
+      },
+      "testLabel": "Nome",
+      "status": "Status",
+      "frequencySubText": "A cada {{count}} minuto",
+      "frequencySubText_plural": "A cada {{count}} minutos",
+      "pause": "Pausar o teste",
+      "resume": "Continuar o teste",
+      "active": "Ativo",
+      "paused": "Pausar",
+      "deleted": "Excluídas",
+      "type": "Tipo",
+      "successRate": "Taxa de sucesso",
+      "successRuns": "{{successRuns}} / {{totalRuns}} resultados",
+      "latency": "Latência",
+      "locationLabel": "Local",
+      "locations": "{{totalLocations}} locais",
+      "applicationLabel": "Aplicativo",
+      "health": "Funcionamento",
+      "action": "Ação",
+      "delete": "Excluir o teste",
+      "labelConfirm": "Confirme",
+      "labelConfirmRemoveTest": "Tem certeza de que deseja remover o teste sintético <strong>{{label}}</strong>?",
+      "labelRemove": "Remover",
+      "na": "N/D"
+    },
+    "locationList": {
+      "locationLabel": "Nome do local",
+      "locationDisplayLabel": "Nome de exibição",
+      "status": "Status",
+      "type": "Tipo",
+      "totalTests": "Nº. de testes vinculados",
+      "lastRun": "Última execução de teste em",
+      "namespace": "Namespace",
+      "labelConfirmRemoveLocation": "Tem certeza de que deseja remover o local <strong>{{label}}</strong> ({{status}})?",
+      "activeTestLinked": "Existem testes ativos designados ao local <strong>{{label}}</strong> ({{status}}), você tem certeza de que deseja remover esse local?",
+      "deleteLocation": "Excluir local"
+    },
+    "summary": {
+      "successRate": "Taxa de sucesso",
+      "locations": "Locais",
+      "responseTime": "Tempo de resposta",
+      "meanResponseTime": "Média de Tempo de resposta",
+      "responseSize": "Tamanho da resposta",
+      "avgResponseSize": "Média de Tamanho da resposta",
+      "summaryTab": "Resumo",
+      "resultsTab": "Resultados",
+      "startTime": "Horário de Início",
+      "requests": "Solicitações",
+      "widgets": {
+        "failures": "Falhas",
+        "responseTimes": "Tempos de resposta",
+        "averageResponseSize": "Média de tamanho de resposta",
+        "responseStatus": "Status da resposta",
+        "networkTimings": "Sincronizações de rede",
+        "blocking": "Bloqueio",
+        "dns": "Consulta de DNS",
+        "sending": "Enviando",
+        "waiting": "Esperando",
+        "receiving": "Recebimento",
+        "slowest": "Mais lento",
+        "latest": "Mais recente",
+        "failed": "Com falha",
+        "results": "Resultados",
+        "linkViewAllTestResults": "Visualizar todos os resultados",
+        "ok": "Sucesso",
+        "created": "Criado em",
+        "accepted": "Aceito",
+        "forbidden": "Proibido",
+        "notFound": "Não localizado",
+        "serverError": "Erro do servidor",
+        "badRequest": "Solicitação ruim",
+        "badGateway": "Gateway ruim",
+        "gatewayTimeout": "Tempo limite do gateway"
+      },
+      "totalRuns": "{{totalRuns}} total de execuções",
+      "meanLatencyFor90th": "{{meanLatencyDetail}} para 90º"
+    },
+    "resultsListPage": {
+      "startedColumn": "Iniciado",
+      "locationColumn": "Local",
+      "responseTimeColumn": "Tempo de resposta",
+      "responseSizeColumn": "Tamanho da resposta",
+      "retriesColumn": "Contagem de novas tentativas",
+      "title": "Resultados"
+    },
+    "detailsPage": {
+      "timeLineWidget": "Linha de tempo",
+      "responseTimeChart": "Tempo de resposta",
+      "subtransactionStatus": "Status",
+      "subtransactionSize": "Tamanho",
+      "subtransactionTime": "Hora",
+      "subtransactionBlocking": "Bloqueio",
+      "subtransactionDNS": "DNS",
+      "subtransactionConnect": "Conectar",
+      "subtransactionSSL": "SSL",
+      "subtransactionSending": "Enviando",
+      "subtransactionWaiting": "Aguardando",
+      "subtransactionReceiving": "Recebimento",
+      "showLessSubDetails": "Mostrar menos",
+      "showMoreSubDetails": "Mostrar mais",
+      "failedRun": "Execução com falha (exceção)",
+      "failedRunErrorTitle": "Mensagem de erro",
+      "noFailedErrorMessage": "Sem mensagem de erro",
+      "stackTraceTitle": "Rastreio de pilha",
+      "noStacktrace": "Sem rastreio de pilha",
+      "statusKpiCard": "Status",
+      "successResult": "Com sucesso",
+      "failedResult": "Com falha",
+      "searchFilter": "Procura",
+      "typesFilter": "Tipos",
+      "typesFilterValues": {
+        "getType": "GET",
+        "allType": "Todos",
+        "othersType": "Outro"
+      },
+      "subtransactionBody": {
+        "contentType": "Tipo de conteúdo",
+        "size": "Tamanho",
+        "redirectTime": "Horário de redirecionamento",
+        "uploadSpeed": "Velocidade de upload",
+        "downloadSpeed": "Velocidade de download",
+        "requestTitle": "Solicitação",
+        "responseTimingTitle": "Sincronização de resposta",
+        "timingsPercentageOfTotalDurationName": "{{percentage}} de {{totalDurationName}}"
+      },
+      "logs": "Logs",
+      "noDataAvailable": {
+        "message": "Detalhes do {{component}} não estão disponíveis para este resultado de teste",
+        "notFound": "Não localizadas"
+      },
+      "downloadHar": "Fazer download do arquivo HAR",
+      "consoleLogs": "CONSOLE",
+      "browserLogs": "NAVEGADOR"
+    },
+    "noDataAvailable": {
+      "resultsTitle": "Nenhum resultado disponível",
+      "resultsDescription": "Não houve resultados recuperados para o intervalo de tempo selecionado.",
+      "testSummaryTitle": "Nenhum teste sintético disponível",
+      "testSummaryDescription": "Não há testes sintéticos recuperados do banco de dados.",
+      "locationListTitle": "Nenhum local sintético disponível",
+      "locationListDescription": "Não há locais sintéticos recuperados do banco de dados."
+    }
   }
 }

@@ -7,7 +7,6 @@ import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
-import TagList from 'in-sdk/components/sidebar/TagList';
 import { t } from 'in-i18n';
 
 export default function Info({ snapshot }) {
@@ -33,7 +32,6 @@ export default function Info({ snapshot }) {
           {data.get('zoneRedundant') ? 'Yes' : 'No'}
         </DescriptionItem>
         <DescriptionItem title={t('in-forge:plugins.azureSqlDb.infoSKU')}>{data.get('sku')}</DescriptionItem>
-        <TagList snapshot={snapshot} />
       </DescriptionList>
     </div>
   );

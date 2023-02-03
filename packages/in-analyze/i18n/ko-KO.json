@@ -25,6 +25,11 @@
         "counter_custom_0": "{{number}}개 사용자 정의 이벤트",
         "counter_custom_1": "{{number}}개 사용자 정의 이벤트",
         "counter_custom_2": "{{number}}개 사용자 정의 이벤트",
+        "counter_crash": "{{number}}번의 충돌",
+        "counter_crash_plural": "{{number}}번의 충돌",
+        "counter_crash_0": "{{number}}번의 충돌",
+        "counter_crash_1": "{{number}}번의 충돌",
+        "counter_crash_2": "{{number}}번의 충돌",
         "counter_Row": "{{number}}개 행",
         "counter_Row_plural": "{{number}}개 행",
         "counter_Row_0": "{{number}}개 행",
@@ -86,7 +91,7 @@
       "viewTransitions2": "보기 전환",
       "calls": "호출",
       "traces": "추적",
-      "console": "콘솔"
+      "crashes": "충돌"
     }
   },
   "traceDetail": {
@@ -125,9 +130,6 @@
         "hideWebsiteInformation": "웹 사이트 정보 숨기기",
         "showWebsiteInformation": "웹 사이트 정보 표시",
         "viewWebsiteActivity": "웹 사이트 활동 보기"
-      },
-      "logs": {
-        "noDataMessage": "이 추적에 대해 사용 가능한 로그가 없음"
       }
     },
     "components": {
@@ -176,25 +178,18 @@
       },
       "callTree": {
         "expandButtonForRow": "모든 하위 호출 펼치기",
-        "collapseButtonForRow": "모든 하위 호출 접기",
         "of": " -",
-        "inheritedFrom": "다음에서 상속됨",
-        "cardTitle": "호출"
+        "inheritedFrom": "다음에서 상속됨"
       },
       "colorCodingToggleButtons": {
         "colorizeBy": "색상화 기준",
-        "colorizeByExpl": "호출 막대에 대한 색상 변경",
-        "endpoint": "엔드포인트",
-        "service": "서비스"
-      },
-      "viewToggleButtons": {
-        "expl": "보기 형식",
-        "tree": "트리",
-        "chart": "타임라인"
+        "endpoint": "엔드포인트"
       },
       "logTooltipContent": {
         "errorLog": "오류 로그",
-        "warningLog": "경고 로그"
+        "warningLog": "경고 로그",
+        "restrictedAccess": "제한된 액세스",
+        "restrictedAccessExpl": "이 정보에 액세스할 수 있는 권한이 없습니다."
       },
       "callTooltipContent": {
         "numbersOfErrors": "{{count}}개 오류",
@@ -285,7 +280,7 @@
     "analyzeLogsLabel": "로그 분석",
     "similarLogs": "유사한 로그",
     "similarServiceLogs": "이 서비스의 컨텍스트에서 로그인 표시",
-    "service": "서비스 표시"
+    "restrictedAccessExpl": "이 정보에 액세스할 수 있는 권한이 없습니다."
   },
   "traceDetails": {
     "labelTotal": "총계",

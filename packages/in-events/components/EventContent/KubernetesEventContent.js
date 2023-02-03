@@ -29,7 +29,7 @@ const supportedProblems = {
 
 export function isKubernetesEvent(event) {
   return (
-    event.getIn(['metadata', 'entityName']) == 'Kubernetes Pod' &&
+    event.getIn(['metadata', 'entityName']) === 'Kubernetes Pod' &&
     event.getIn(['problem', 'problemText']) in supportedProblems
   );
 }
@@ -47,10 +47,13 @@ export function getKubernetesProblemText(event) {
 }
 
 export function getKubernetesFixSuggestion(event) {
-  return isKubernetesEvent(event) ? supportedProblems[event.getIn(['problem', 'problemText'])]['fixSuggestion'] : '';
+  return isKubernetesEvent(event)
+    ? supportedProblems[event.getIn(['problem', 'problemText'])]['fixSuggestion']
+    : event.getIn(['problem', 'fixSuggestion'], '');
 }
 
 export function KubernetesEventContent({ event, timeConfig }) {
+  const fixSuggestion = getKubernetesFixSuggestion(event);
   return (
     <>
       <ViewTrackingMeta
@@ -77,10 +80,10 @@ export function KubernetesEventContent({ event, timeConfig }) {
                 className="in-event-view-event-content"
               />
             ) : (
-              <ProblemDescription event={event} className="in-event-view-event-content" />
+              <ProblemDescription fixSuggestion={fixSuggestion} className="in-event-view-event-content" />
             )}
             <DescriptionButtons>
-              <EventSpecificationLink event={event} />
+              <EventSpecificationLink event={event.toJS()} />
               <AnalyzeIssueCallsButton event={event} />
             </DescriptionButtons>
           </Card>

@@ -45,7 +45,6 @@
     "infrastructure": "Infrastruttura",
     "snapshotVersions": "Versioni istantanea",
     "analyzeProfiles": "Analizza profili",
-    "analyzeLogs": "Analizza log",
     "entityVersions": "Versioni Entità",
     "loadingData": "Caricamento dei dati",
     "namespace": "Spazi dei nomi",
@@ -58,15 +57,18 @@
   },
   "explore": {
     "focusOnThisGroup": "Concentrati su questo gruppo",
-    "offline": "offline",
     "thisIsABetaVersionOfANewProductCapability": "Questa è una versione beta di una nuova funzionalità del prodotto. I dati presentati non possono essere considerati completamente attendibili.",
     "theQueryConfigurationIsInvalid": "La configurazione della query non è valida. Risolvere gli errori di convalida prima di proseguire.",
     "allInfrastructure": "Tutte le infrastrutture",
     "name": "Nome",
-    "search": "Ricerca",
+    "search": "Ricerca un tipo",
     "explore": "Esplora",
-    "cpuUser": "CPU (utente)",
-    "memoryFree": "Memoria disponibile"
+    "count": "Conteggio",
+    "errors": {
+      "maximumNumberOfGroups": "Questa query ha troppi risultati. Ridurre utilizzando un filtro più restrittivo o dei gruppi più ampi",
+      "generalError": "Si è verificato un errore imprevisto. Limitare utilizzando un filtro più restrittivo e riprovare"
+    },
+    "entityTypes": "Tipi di entità {{count, parenthesis}}"
   },
   "tableView": {
     "showCountsAndAveragesAcrossTheCurrentTimeWindow": "Mostra i conteggi e le medie della finestra temporale corrente.",
@@ -77,17 +79,19 @@
     "visualizeMetricForSelected": "Visualizza metrica per {{plugins}} selezionati",
     "weDoNotYetSupportTablesFor": "Le tabelle per {{plugins}} non sono al momento supportate.",
     "physicalDomains": {
-      "host": "Host",
-      "jvm": "JVM",
-      "nodejs": "App Node.js",
+      "beeInstanaNode": "Nodo BeeInstana",
+      "clickHouseDatabase": "ClickHouse",
       "containerd": "Contenitori Containerd",
       "crio": "Contenitori CRI-O",
+      "crowdStrikeFalcon": "CrowdStrike Falcon",
       "docker": "Contenitori Docker",
       "garden": "Contenitori Garden",
+      "host": "Host",
+      "jvm": "JVM",
       "lxc": "Contenitori LXC",
-      "process": "Processi",
-      "clickHouseDatabase": "ClickHouse",
-      "ping": "Ping"
+      "nodejs": "App Node.js",
+      "ping": "Ping",
+      "process": "Processi"
     },
     "tableContent": "Contenuto della tabella:",
     "remove": "Rimuovi",

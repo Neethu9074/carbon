@@ -26,6 +26,7 @@
     "noComponentStatusDataAvailable": "使用可能な ComponentStatus データがありません",
     "debuggingInformation": "デバッグ情報",
     "noDebuggingInformation": "デバッグ情報がありません",
+    "noClusterDataAvailable": "使用可能なクラスター・データがありません。",
     "summary": "サマリー",
     "details": "詳細",
     "events": "イベント",
@@ -39,12 +40,14 @@
     "k8SServices": "K8s サービス",
     "pods": "ポッド",
     "persistentVolumes": "永続ボリューム",
+    "persistentVolumeClaims": "永続ボリューム要求",
     "infrastructure": "インフラストラクチャー",
     "name": "名前",
     "cpuUsage": "CPU 使用率",
     "memoryUsage": "メモリー使用率",
     "phase": "フェーズ",
     "reclaimPolicy": "再利用ポリシー",
+    "storageCapacity": "ストレージ容量",
     "storageClassName": "ストレージ・クラス名",
     "cpuRequests": "CPU 要求",
     "cpuLimitsAlloc": "CPU 制限の割り振り",
@@ -77,6 +80,9 @@
     "table": "表",
     "map": "マップ",
     "services": "サービス",
+    "serviceCount": "サービス・カウント",
+    "appWorkloadCount": "アプリ・ワークロード",
+    "batchWorkloadCount": "バッチ・ワークロード",
     "cpuRequestsAlloc": "CPU 要求の割り振り",
     "memoryRequestsAlloc": "メモリー要求の割り振り",
     "roles": "役割",
@@ -201,7 +207,7 @@
     "podsOnline": "オンライン・ポッド",
     "podsDesired": "必要なポッド",
     "noDataAvailable": {
-      "servicesTitle": "使用可能なサービスがありません",
+      "servicesTitle": "表示可能なサービスがありません",
       "servicesDescription": "選択された時刻範囲で取得されたサービスはありません。",
       "persistentVolumesTitle": "使用可能な永続ボリュームがありません",
       "persistentVolumesDescription": "選択された時刻範囲で取得された永続ボリュームはありません。",
@@ -217,7 +223,7 @@
       "nodesDescription": "選択された時刻範囲で取得されたノードはありません。",
       "podsTitle": "使用可能なポッドがありません",
       "podsDescription": "選択された時刻範囲で取得されたポッドはありません。",
-      "endpointsTitle": "使用可能なエンドポイントがありません",
+      "endpointsTitle": "表示可能なエンドポイントがありません",
       "endpointsDescription": "選択された時刻範囲で取得されたエンドポイントはありません。"
     }
   },
@@ -263,6 +269,8 @@
   "cronJobs": "CronJobs",
   "health": "正常性",
   "clusters": "クラスター",
+  "explore": "探索 (テクニカル・プレビュー)",
+  "k8sTeam": "K8s チーム",
   "noMonitoringDataFound": "モニタリング・データが見つかりません",
   "clusterName": "クラスター名",
   "running": "実行中",
@@ -273,7 +281,7 @@
   "kubernetesPageRootName": "Kubernetes {{objectType}}",
   "kubernetesHeader": "Kubernetes",
   "kubernetes": {
-    "noData": "使用可能な Kubernetes データがありません。 トラブルシューティング情報については、[資料][Docs] を参照してください。\n\n[Docs]:https://instana.com/docs/ecosystem/kubernetes/#why-am-i-not-seeing-any-kubernetes-clusters-or-namespaces"
+    "noData": "使用可能な Kubernetes データがありません。 トラブルシューティング情報については、[資料][Docs] を参照してください。\n\n[資料] :https://www.ibm.com/docs/en/obi/current?topic = instana-monitoring-kubernetes#why-am-i-not-view-any-kubernetes-clusters-or-namespaces"
   },
   "pod": {
     "pending": "保留中のポッド",

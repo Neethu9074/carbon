@@ -28,10 +28,10 @@ import locals from './Row.mless';
 
 const marginPerDepth = 27;
 
-function EnhancedRow(props) {
-  const { selectedCall$, call, openedCallId, openedCall$ } = props;
+export default function EnhancedRow(props) {
+  const { selectedCall$, call, openedCallId, openedCall$, initialExpandedNodeIds } = props;
 
-  const [isExpanded, setIsExpanded] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(initialExpandedNodeIds.includes(call.id));
   const isSelected = useObservable(
     selectedCall$.map(selectedCall => selectedCall && call.id === selectedCall.id).distinct(),
     []
@@ -43,7 +43,14 @@ function EnhancedRow(props) {
   const isOpened = openedCallId != null ? call.id === openedCallId : isOpenedObservable;
 
   return (
-    <Row {...props} isExpanded={isExpanded} setIsExpanded={setIsExpanded} isSelected={isSelected} isOpened={isOpened} />
+    <Row
+      {...props}
+      isExpanded={isExpanded}
+      setIsExpanded={setIsExpanded}
+      isSelected={isSelected}
+      isOpened={isOpened}
+      initialExpandedNodeIds={initialExpandedNodeIds}
+    />
   );
 }
 
@@ -59,7 +66,8 @@ function Row(props) {
     depth = 0,
     onCallClicked,
     onSubCallClicked,
-    isLargeTrace
+    isLargeTrace,
+    initialExpandedNodeIds
   } = props;
 
   const hasChildren = call.children && call.children.filter(child => !isLog(child)).length > 0;
@@ -113,6 +121,7 @@ function Row(props) {
               nonInternalParentCall={isInternalCall(call) ? nonInternalParentCall : call}
               depth={depth + 1}
               intermediateRow={i !== call.children.filter(subCall => subCall.model !== 'LOG').length - 1}
+              initialExpandedNodeIds={initialExpandedNodeIds}
             />
           ))}
     </div>
@@ -174,7 +183,7 @@ function CallInformation(props) {
           </Tooltip>
         )}
         {!isUnknownTypeSpan(call) && call.endpoint && (
-          <Pill kind="light" color={getEndpointColor(call.endpoint.type)}>
+          <Pill kind="light" color={getEndpointColor(call.endpoint.type)} className={locals.pillFixer}>
             {call.endpoint.type}
           </Pill>
         )}
@@ -228,5 +237,3 @@ function VerticalLine({ depth = 0, intermediateRow = true, marginLeft }) {
     />
   );
 }
-
-export default EnhancedRow;

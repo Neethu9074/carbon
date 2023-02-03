@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { pick } from 'lodash';
-
 import { createLogger } from '@instana/logger';
 
 import {
@@ -18,6 +16,7 @@ import {
 import { KEY_VALUE_PAIR, BOOLEAN, NUMBER } from 'in-components/QueryBuilder/tagFilter/types';
 import { STRING_MAX_LENGTH } from 'in-components/QueryBuilder/tagFilter/constraints';
 import { TagCatalog, TagFilter, TagFilterEntity, TagFilterOperator } from 'in-types';
+import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { enrichTagCatalog } from 'in-services/tags/tagCatalog';
 import { isNotBlank } from 'in-services/util/string';
 
@@ -25,14 +24,12 @@ const logger = createLogger('in-components/QueryBuilder/transformation/tagFilter
 
 export const type = 'TAG_FILTER';
 
-const tagFilterFields = ['type', 'name', 'key', 'value', 'operator', 'entity'];
+type TagFilterLike = Pick<TagFilter, 'type' | 'name' | 'operator'> &
+  Partial<Pick<TagFilter, 'key' | 'value' | 'entity'>>;
 
-export function toTagFilter(tagFilterLike: Object): TagFilter {
-  return {
-    ...pick(tagFilterLike, tagFilterFields),
-    // Enforce valid type
-    type
-  } as TagFilter;
+export function toTagFilter(tagFilterLike: TagFilterLike): TagFilter {
+  const { name, key, value, operator, entity } = tagFilterLike;
+  return tagFilter(name, operator, value, key, entity);
 }
 
 // A tag filter with a string value exceeding the max length is invalid, to fix that
@@ -146,15 +143,15 @@ export function tagFilter(
   name: string,
   operator: TagFilterOperator,
   value?: any,
-  key?: string,
-  entity?: TagFilterEntity
-) {
+  key?: string | null,
+  entity: TagFilterEntity = NOT_APPLICABLE
+): TagFilter {
   return {
     type,
     name,
     operator,
+    entity,
     ...(value != null && { value }),
-    ...(key != null && { key }),
-    ...(entity != null && { entity })
+    ...(key != null && { key })
   };
 }

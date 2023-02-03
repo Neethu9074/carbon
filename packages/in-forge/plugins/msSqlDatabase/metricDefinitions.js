@@ -3,13 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import { bytes, number, millis, zeroDecimalPlaces } from 'in-services/formatters/number';
+import { bytes, number, millis, zeroDecimalPlaces, megaBytes } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 export default [
   {
-    metrics: ['generalstats._total.user_connections'],
-    labels: [t('in-forge:plugins.msSqlDatabase.userConnections')],
+    metrics: ['generalstats._total.user_connections', 'generalstats._total.maximum_connections'],
+    labels: [t('in-forge:plugins.msSqlDatabase.userConnections'), t('in-forge:plugins.msSqlDatabase.max_connections')],
     min: 0,
     category: [t('in-forge:plugins.msSqlDatabase.connectionsAmpUsers')],
     formatter: number
@@ -71,5 +71,33 @@ export default [
     labels: [t('in-forge:plugins.msSqlDatabase.numberOfDeadlocks')],
     category: [t('in-forge:plugins.msSqlDatabase.locks')],
     formatter: zeroDecimalPlaces
+  },
+  {
+    metrics: ['dbmemorystats.db_memory.used', 'dbmemorystats.db_memory.capacity'],
+    labels: [t('in-forge:plugins.msSqlDatabase.dbmemory_used'), t('in-forge:plugins.msSqlDatabase.dbmemory_capacity')],
+    min: 0,
+    category: [t('in-forge:plugins.msSqlDatabase.dbMemory')],
+    formatter: megaBytes
+  },
+  {
+    metrics: ['vmemstats.virtual_memory.vmem_used'],
+    labels: [t('in-forge:plugins.msSqlDatabase.vmem_used')],
+    min: 0,
+    category: [t('in-forge:plugins.msSqlDatabase.virtualMemoryUsed')],
+    formatter: megaBytes
+  },
+  {
+    metrics: ['resptimestats.response_time.avg_resp_time'],
+    labels: [t('in-forge:plugins.msSqlDatabase.response_time_avg')],
+    min: 0,
+    category: [t('in-forge:plugins.msSqlDatabase.responseTime')],
+    formatter: millis
+  },
+  {
+    metrics: ['dbcachehitstats.db_cache_hit.rate'],
+    labels: [t('in-forge:plugins.msSqlDatabase.db_cache_hit_rate')],
+    min: 0,
+    category: [t('in-forge:plugins.msSqlDatabase.dbCacheHit')],
+    formatter: number
   }
 ];

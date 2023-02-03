@@ -5,6 +5,7 @@
 
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { millis, number } from 'in-services/formatters/number';
+import { healthStateFormatter } from './healthStateFormatter';
 import { t } from 'in-i18n';
 
 const LABEL_DATASOURCE = t('in-forge:plugins.webLogicAppContainer.labelDataSource');
@@ -12,6 +13,12 @@ const LABEL_JMSDESTINATION = t('in-forge:plugins.webLogicAppContainer.labelJMSDe
 const LABEL_SAFAGENT = t('in-forge:plugins.webLogicAppContainer.labelSAFAgent');
 
 export default [
+  {
+    metrics: ['health.state'],
+    labels: [t('in-forge:plugins.webLogicAppContainer.labelHealthState')],
+    min: 0,
+    formatter: healthStateFormatter
+  },
   {
     metrics: [
       'threadPool.idleThreads',

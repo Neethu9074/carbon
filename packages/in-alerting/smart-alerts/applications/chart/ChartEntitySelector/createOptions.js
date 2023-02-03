@@ -40,25 +40,45 @@ export function createOptionsList(
     return createAPsList(applicationList);
   }
 
-  const createServicesAndEndpointsList = isSelectServiceLevel
-    ? (app, services) => mapServicesToOptions(app, services)
-    : (app, services) =>
-        mapServicesWithEndpointsToOptions(
-          app,
-          services,
-          timeConfig,
-          boundaryScope,
-          includeSynthetic,
-          tagFilterExpression,
-          applications
-        );
+  const createServicesAndEndpointsListMapper = appId =>
+    isSelectServiceLevel
+      ? servicesResult => ({
+          ...servicesResult,
+          data: {
+            items: mapServicesToOptions(appId, servicesResult?.data?.items)
+          }
+        })
+      : servicesResult => ({
+          ...servicesResult,
+          data: {
+            items: mapServicesWithEndpointsToOptions(
+              appId,
+              servicesResult?.data?.items,
+              timeConfig,
+              boundaryScope,
+              includeSynthetic,
+              tagFilterExpression,
+              applications
+            )
+          }
+        });
 
   if (applicationIds.length === 1) {
     const { app, services } = applicationList.map(({ data }) => data)[0];
     return [
       {
         label: t('in-alerting:smartAlerts.applications.chart.entitySelection.services'),
-        children: createServicesAndEndpointsList(app, services)
+        children: isSelectServiceLevel
+          ? mapServicesToOptions(app.id, services)
+          : mapServicesWithEndpointsToOptions(
+              app.id,
+              services,
+              timeConfig,
+              boundaryScope,
+              includeSynthetic,
+              tagFilterExpression,
+              applications
+            )
       }
     ];
   }
@@ -75,7 +95,7 @@ export function createOptionsList(
           label: app.label,
           icon: 'lib_application',
           type: 'APPLICATION',
-          children: createServicesAndEndpointsList(app, services)
+          loadChildren: () => services().map(createServicesAndEndpointsListMapper(app.id))
         }))
     }
   ];
@@ -96,21 +116,20 @@ export function createAPsList(applicationList) {
     });
 }
 
-function mapServicesToOptions(app, services) {
-  return (services ?? []) //
-    .map(({ service }) => ({
-      appId: app.id,
-      id: service.id,
-      icon: 'lib_application_service',
-      label: service.label,
-      type: 'SERVICE'
-    }));
+function mapServicesToOptions(appId, services) {
+  return (services ?? []).map(({ service }) => ({
+    appId,
+    id: service.id,
+    icon: 'lib_application_service',
+    label: service.label,
+    type: 'SERVICE'
+  }));
 }
 
 const hasNoEndpoints = metrics => metrics?.endpoints?.[0]?.[1] === 0;
 
 function mapServicesWithEndpointsToOptions(
-  app,
+  appId,
   services,
   timeConfig,
   boundaryScope,
@@ -118,46 +137,57 @@ function mapServicesWithEndpointsToOptions(
   tagFilterExpression,
   applications
 ) {
-  return (services ?? []) //
-    .map(({ service, metrics }) => ({
-      appId: app.id,
+  const loadServiceEndpoints = service =>
+    fetchEndpoints({
+      applicationId: appId,
+      serviceId: service.id,
+      boundaryScope,
+      tagFilterFormModel: tagFilterExpression,
+      applications,
+      timeConfig,
+      includeSynthetic
+    }).map(({ data, progress }) => ({
+      data: {
+        items: mapEndpointItemsToOptions(appId, service, data?.items)
+      },
+      progress
+    }));
+
+  const serviceWithEndpointMetricsMapper = ({ service, metrics }) => {
+    const withoutEndpoint = {
+      appId,
       id: service.id,
       breadcrumbAndLabel: service.id, // used as a header above endpoints-list
       icon: 'lib_application_service',
       label: service.label,
       type: 'SERVICE',
-      children: hasNoEndpoints(metrics) ? [] : undefined, // undefined will be replaced in case list will have been fetched
-      loadChildren: hasNoEndpoints(metrics)
-        ? undefined // optimisation, when we already know it has no endpoints
-        : () =>
-            fetchEndpoints({
-              applicationId: app.id,
-              serviceId: service.id,
-              boundaryScope,
-              tagFilterFormModel: tagFilterExpression,
-              applications,
-              timeConfig,
-              includeSynthetic
-            }) //
-              .map(({ data, progress }) => ({
-                data: {
-                  items: mapEndpointItemsToOptions(app, service, data?.items)
-                },
-                progress
-              }))
-    }));
+      children: []
+    };
+
+    if (hasNoEndpoints(metrics)) {
+      return withoutEndpoint;
+    }
+
+    return {
+      ...withoutEndpoint,
+
+      children: undefined, // undefined will be replaced in case list will have been fetched
+      loadChildren: () => loadServiceEndpoints(service)
+    };
+  };
+
+  return (services ?? []).map(serviceWithEndpointMetricsMapper);
 }
 
-function mapEndpointItemsToOptions(app, service, itemsWithEndpoints) {
-  return (itemsWithEndpoints ?? []) //
-    .map(({ endpoint }) => ({
-      serviceId: service.id,
-      appId: app.id,
-      label: endpoint.label,
-      id: endpoint.id,
-      type: 'ENDPOINT',
-      icon: 'lib_application_endpoint'
-    }));
+function mapEndpointItemsToOptions(appId, service, itemsWithEndpoints) {
+  return (itemsWithEndpoints ?? []).map(({ endpoint }) => ({
+    serviceId: service.id,
+    appId,
+    label: endpoint.label,
+    id: endpoint.id,
+    type: 'ENDPOINT',
+    icon: 'lib_application_endpoint'
+  }));
 }
 
 export const loadingOptions = [

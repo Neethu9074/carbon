@@ -3,17 +3,19 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import React, { useState } from 'react';
 import rpt from 'prop-types';
-import React from 'react';
 
 import { Stack } from '@instana/components';
 
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import AggregationSelector from 'in-components/AnalyzeView/Charting/AggregationSelector';
 import { getUiInternalFormatterName } from 'in-services/formatters/backendFormatter';
 import { childrenArgsAsPropTypes } from 'in-components/AnalyzeView/StateManagement';
 import { identity } from 'in-services/util/function';
+import { t } from 'in-i18n';
 
 import locals from './Chart.mless';
 
@@ -33,8 +35,12 @@ export default function Chart({
   forceLoadingIndicator,
   showAggregationSelector,
   onAggregationChange,
-  aggregations
+  aggregations,
+  fastQueryModeEnabled,
+  groupBy
 }) {
+  const [hasApproximateData, setApproximateData] = useState(false);
+
   if (chartedMetrics.length < 1 || !chartableMetricCatalog) {
     return null;
   }
@@ -48,7 +54,9 @@ export default function Chart({
 
   const chartConfig = {
     y1: {
-      formatter: getCustomMetricUiFormatterName?.(metricId) ?? getUiInternalFormatterName(metricDescription.formatter),
+      formatter:
+        getCustomMetricUiFormatterName?.(metricId, aggregationId) ??
+        getUiInternalFormatterName(metricDescription.formatter),
       renderer: rendererId,
       metrics: [],
       colors: getCustomChartColor?.()
@@ -63,7 +71,7 @@ export default function Chart({
           metric: metricId,
           tagFilterExpression: toBackendQueryModel(formModel),
           aggregation: aggregationId,
-          label: groupLabel(label),
+          label: groupLabel(label, groupBy.groupbyTag),
           source: unifiedMetricsSource
         },
         { dataSource }
@@ -84,32 +92,45 @@ export default function Chart({
     );
   }
 
-  const header =
-    title || showAggregationSelector ? (
-      <div className={locals.header}>
-        <Stack direction="horizontal" distribution="spaceBetween" align="center">
-          {title && (
-            <div className={locals.titleWrapper}>
-              <span className={locals.title}>{title}</span>
-            </div>
-          )}
-          {showAggregationSelector && (
-            <AggregationSelector
-              selectedAggregation={aggregationId}
-              aggregations={aggregations}
-              onChange={onAggregationChange}
-            />
-          )}
-        </Stack>
-      </div>
-    ) : (
-      <div className={locals.header} />
-    );
+  const header = (title || showAggregationSelector) && (
+    <div className={locals.header}>
+      <Stack direction="horizontal" distribution="spaceBetween" align="center">
+        {title && (
+          <div className={locals.titleWrapper}>
+            <span className={locals.title}>{title}</span>
+            {hasApproximateData && (
+              <MultiLineToolTipIcon
+                lines={[
+                  fastQueryModeEnabled
+                    ? t('in-components:approximateDataIndicator.dataRetentionOrFastQueryMode')
+                    : t('in-components:approximateDataIndicator.dataRetention')
+                ]}
+                withMargin
+                iconSize={'xs'}
+              />
+            )}
+          </div>
+        )}
+        {showAggregationSelector && (
+          <AggregationSelector
+            selectedAggregation={aggregationId}
+            aggregations={aggregations}
+            onChange={onAggregationChange}
+          />
+        )}
+      </Stack>
+    </div>
+  );
 
   return (
     <div className={locals.chartWrapper}>
       {header}
-      <UnifiedMetricsChart renderLegend={false} config={chartConfig} forceLoadingIndicator={forceLoadingIndicator} />
+      <UnifiedMetricsChart
+        renderLegend={false}
+        config={chartConfig}
+        forceLoadingIndicator={forceLoadingIndicator}
+        onApproximateDataChange={setApproximateData}
+      />
     </div>
   );
 }

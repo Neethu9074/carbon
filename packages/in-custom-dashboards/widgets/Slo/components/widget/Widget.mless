@@ -1,0 +1,32 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+@import '~in-themes/active.less';
+
+:local {
+  .loadingBarContainer {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .bodyNoPadding {
+    padding: 0;
+  }
+
+  .title {
+    font-size: @lib__typography__h600__font-size;
+    font-weight: @lib__typography__h600__font-weight;
+    color: @lib__colors__N800Dark;
+    background-color: @lib__colors__white;
+  }
+
+  .chart {
+    --slo-chart-offset: 1.9rem;
+    padding: 0.5rem 1rem 1.5rem;
+    min-height: 12rem;
+    height: calc(100% - var(--header-height) - var(--slo-chart-offset));
+  }
+}

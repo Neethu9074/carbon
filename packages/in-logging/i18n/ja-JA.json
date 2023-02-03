@@ -15,15 +15,27 @@
   "endpoint": "エンドポイント",
   "endpointType": "エンドポイント・タイプ",
   "messageParam": "メッセージ・パラメーター",
-  "applicationCounter": "{{count}} 個のアプリケーション",
+  "applicationCounter": "{{count}} 件のアプリケーション",
   "exceptionMessageHeader": "例外メッセージ",
+  "stackTrace": "スタック・トレース",
   "service": "サービス",
   "stream": "ストリーム",
   "tooltipCopyToClipboard": "クリップボードにコピー",
+  "tooltipCopyLinkToClipboard": "ログ・リンクのコピー",
   "tooltipAddAsGroup": "タグで分類",
   "tooltipAddAsFilter": "タグをフィルターとして追加",
   "sorting": {
     "mostRecent": "新しい順",
     "oldest": "古い順"
-  }
+  },
+  "cpuTotal": "CPU 合計",
+  "memoryUsage": "メモリー使用量",
+  "cluster": "クラスター",
+  "node": "ノード",
+  "namespace": "名前空間",
+  "deployment": "デプロイメント",
+  "pod": "ポッド",
+  "tooltipEntityHealthNoIssues": "問題なし",
+  "tooltipEntityHealthIssues": "{{numberOfIssues}} 個の問題",
+  "container": "コンテナー"
 }

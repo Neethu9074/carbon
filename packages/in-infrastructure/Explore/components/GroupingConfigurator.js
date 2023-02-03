@@ -3,19 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createGroupingConfigurator } from 'in-components/GroupingConfigurator';
-import getTagCatalog from 'in-infrastructure/subscriptions/getTagCatalog';
-import { successObservableFactory } from 'in-services/util/result';
-
-const suggestions = ['k8s-demo-cluster', 'sb-test-cluster', 'kube-node-lease', 'kube-public'];
+import getTagValueSuggestions from 'in-infrastructure/Explore/services/getTagValueSuggestions';
+import { createDynamicGroupingConfigurator } from 'in-components/GroupingConfigurator';
 
 const {
   GroupingConfigurator,
   isGroupingConfigurationValid: isGroupingConfigurationValidInternal
-} = createGroupingConfigurator({
-  getTagCatalog,
-
-  getSuggestions: successObservableFactory({ suggestions, totalHits: suggestions.length + 10 })
+} = createDynamicGroupingConfigurator({
+  getSuggestions: getTagValueSuggestions
 });
 
 export default GroupingConfigurator;

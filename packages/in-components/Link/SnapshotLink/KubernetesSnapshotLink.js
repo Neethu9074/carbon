@@ -3,16 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import React from 'react';
 
-import './SnapshotLink.less';
+import { Link } from '@instana/components';
 
-const block = 'in-snapshot-link';
+import locals from './SnapshotLink.mless';
 
 export default function KubernetesSnapshotLink({ getKubernetesViewEntityDashboard, snapshotId, children }) {
   return (
-    <Link href$={getKubernetesViewEntityDashboard(snapshotId)} className={block}>
+    <Link href$={getKubernetesViewEntityDashboard(snapshotId)} className={locals.inSnapshotLink}>
       {children}
     </Link>
   );

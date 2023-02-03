@@ -17,6 +17,7 @@ import {
   hasErrors
 } from 'in-services/entityUtils';
 import { getTimeConfigFromEvent, getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
+import { urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
 import { defaultGroupings as defaultApplicationGroupings } from 'in-applications/tags';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { createChartedMetric, createOrderBy } from 'in-analyze/navigation/paths';
@@ -72,7 +73,7 @@ export default connectTo(
     const groupBy = endpointName ? null : defaultApplicationGroupings[dataSource];
     const orderBy = getOrderBy(event, groupBy);
     const orderByGroups = getOrderByGroup(event, groupBy);
-    const chartedMetrics = getChartedMetrics(event, groupBy);
+    const chartedMetrics = getChartedMetrics(event);
 
     return (
       <Button
@@ -92,7 +93,7 @@ export default connectTo(
           orderBy,
           orderByGroups,
           timeConfig: getTimeConfigFromEvent(event)
-        })}
+        }).map(urlWithoutQueryParameter)}
       >
         {t('in-events:analyzeCalls')}
       </Button>
@@ -136,8 +137,8 @@ function getFormModel(isErroneous, isSynthetic) {
   return formModel;
 }
 
-function getChartedMetrics(event, groupBy) {
-  if (groupBy == null || isLatencyEvent(event)) {
+function getChartedMetrics(event) {
+  if (isLatencyEvent(event)) {
     return [createChartedMetric('latency', 'DISTRIBUTION')];
   }
   if (isErrorEvent(event)) {

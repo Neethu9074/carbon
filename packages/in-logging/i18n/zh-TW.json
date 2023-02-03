@@ -17,13 +17,25 @@
   "messageParam": "訊息參數",
   "applicationCounter": "{{count}} 個應用程式",
   "exceptionMessageHeader": "異常狀況訊息",
+  "stackTrace": "堆疊追蹤",
   "service": "服務",
   "stream": "串流",
   "tooltipCopyToClipboard": "複製到剪貼簿",
+  "tooltipCopyLinkToClipboard": "複製日誌鏈結",
   "tooltipAddAsGroup": "依標籤分組",
   "tooltipAddAsFilter": "新增標籤作為過濾器",
   "sorting": {
     "mostRecent": "最近的優先",
     "oldest": "最久的優先"
-  }
+  },
+  "cpuTotal": "CPU 總計",
+  "memoryUsage": "記憶體用量",
+  "cluster": "叢集",
+  "node": "節點",
+  "namespace": "名稱空間",
+  "deployment": "部署",
+  "pod": "Pod",
+  "tooltipEntityHealthNoIssues": "沒有問題",
+  "tooltipEntityHealthIssues": "{{numberOfIssues}} 問題",
+  "container": "儲存器"
 }

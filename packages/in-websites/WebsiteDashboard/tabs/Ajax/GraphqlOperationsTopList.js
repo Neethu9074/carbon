@@ -11,7 +11,7 @@ import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsit
 import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopListWithUrlState';
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 import { translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
-import { number, percentage, ms } from 'in-services/formatters/number';
+import { ms, number, percentage } from 'in-services/formatters/number';
 import { getLinkToAnalyze } from 'in-websites/navigation/paths';
 import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { t } from 'in-i18n';
@@ -30,7 +30,8 @@ export default function GraphqlOperationsTopList({
   websiteLabel,
   timeConfig,
   tagFilters,
-  urlMatrixParamConfig
+  urlMatrixParamConfig,
+  renderHistoricDataIndicator
 }) {
   const tagCatalogHttpRequest = useTagCatalog('httpRequest');
   return (
@@ -51,6 +52,7 @@ export default function GraphqlOperationsTopList({
       tagFilters={tagFilters}
       urlMatrixParamConfig={urlMatrixParamConfig}
       tagCatalogHttpRequest={tagCatalogHttpRequest}
+      renderHistoricDataIndicator={renderHistoricDataIndicator}
     />
   );
 }

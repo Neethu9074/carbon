@@ -44,9 +44,10 @@ export default function Tag(props) {
     getSuggestionsProps,
     formModel,
     autoFocusInput = false,
-    getSuggestionLabel
+    getSuggestionLabel,
+    allowEmptyKey
   } = props;
-  const { renderModelIndex, formModelIndex } = element;
+  const { renderModelIndex, formModelIndex, name: tagName } = element;
   const form = createTagForm(tagCatalog, element);
   const { allowedOperators, valueType, type: tagType } = getFormPresentationInformation(tagCatalog, form);
 
@@ -70,12 +71,15 @@ export default function Tag(props) {
   }, [postUpdateFocus.current?.id]);
 
   const draggableElement = useRef(null);
+
+  const invalidClass = !(allowEmptyKey ?? false) && !form.hierarchyValid;
+  const tagTreeNode = tagCatalog.tagsByName[tagName];
   return (
     <div
       ref={draggableElement}
       className={classNames({
         [locals.tag]: true,
-        [locals.invalid]: !form.hierarchyValid
+        [locals.invalid]: invalidClass
       })}
       tabIndex={0}
       data-render-model-index={renderModelIndex}
@@ -93,6 +97,8 @@ export default function Tag(props) {
             focusField('entity', false);
             onChange('entity', entity);
           }}
+          sourceEnabled={tagTreeNode?.canApplyToSource}
+          destinationEnabled={tagTreeNode?.canApplyToDestination}
         />
       ))}
       <Name
@@ -121,6 +127,7 @@ export default function Tag(props) {
           formModelIndex={formModelIndex}
           autoFocus={autoFocusInput}
           getSuggestionLabel={getSuggestionLabel}
+          allowEmptyKey={allowEmptyKey}
         />
       </SuspendDraggable>
 
@@ -153,6 +160,7 @@ export default function Tag(props) {
           minNumValue={0}
           autoFocus={autoFocusInput && !form.get('key')}
           getSuggestionLabel={getSuggestionLabel}
+          allowEmptyKey={allowEmptyKey}
         />
       </SuspendDraggable>
 
@@ -251,7 +259,8 @@ function KeyInput({
   formModel,
   formModelIndex,
   autoFocus,
-  getSuggestionLabel
+  getSuggestionLabel,
+  allowEmptyKey
 }) {
   const timeConfig = useTimeConfig();
   const field = form.get('key');
@@ -264,6 +273,7 @@ function KeyInput({
   return (
     <Input
       value={field.value || ''}
+      allowEmptyKey={allowEmptyKey}
       onChange={value => onChange('key', value)}
       placeholder={t('in-components:queryBuilder.components.tagPlaceholderKey')}
       valid={field.valid}
@@ -299,7 +309,8 @@ function ValueInput({
   formModelIndex,
   minNumValue,
   autoFocus,
-  getSuggestionLabel
+  getSuggestionLabel,
+  allowEmptyKey
 }) {
   const timeConfig = useTimeConfig();
   const field = form.get('value');
@@ -335,21 +346,23 @@ function ValueInput({
 
   const entity = form.get('entity')?.value;
   const key = form.get('key')?.value;
+  const tagName = form.get('name')?.value;
 
   const inputProps = {
     placeholder: t('in-components:queryBuilder.components.tagPlaceholderValue'),
     onChange: onValueChange,
     valid: field.valid,
-    fieldsToWatch: [entity, timeConfig, field.value, key],
-    tagName: form.get('name').value,
+    fieldsToWatch: [tagName, entity, timeConfig, field.value, key],
+    allowEmptyKey,
+    tagName,
     getSuggestions: () =>
       getSuggestions({
         tagFilterExpression: getSuggestionsTagFilterExpression(formModel, formModelIndex),
         key,
         value: field.value,
         entity,
-        name: form.get('name').value,
-        tagName: form.get('name').value,
+        name: tagName,
+        tagName: tagName,
         timeConfig,
         propose: 'VALUES',
         ...getSuggestionsProps

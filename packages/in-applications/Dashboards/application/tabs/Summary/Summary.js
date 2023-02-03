@@ -6,31 +6,27 @@
 import React, { Fragment } from 'react';
 
 import {
-  createFormModelFromSyntheticOption,
-  createHiddenCallsFromSyntheticOption,
   getTagFiltersForSyntheticOption,
   isSyntheticOption
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
-import { createChartedMetric, createGroupBy, createMetricField, createOrderBy } from 'in-analyze/navigation/paths';
+import ErroneousCallsBigNumberCard from 'in-applications/Dashboards/commonComponents/ErroneousCallsBigNumberCard';
 import ApplicationDashboardsMarkerLanes from 'in-applications/Dashboards/ApplicationDashboardsMarkerLanes';
 import LatencyAndDistribution from 'in-applications/Dashboards/commonComponents/LatencyAndDistribution';
+import LatencyBigNumberCard from 'in-applications/Dashboards/commonComponents/LatencyBigNumberCard';
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
 import ServiceTopList from 'in-applications/Dashboards/application/tabs/Summary/ServiceTopList';
+import CallsBigNumberCard from 'in-applications/Dashboards/commonComponents/CallsBigNumberCard';
 import { DESTINATION, NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
-import { hasHttpEndpoints, hasHttpAndOtherEndpoints } from 'in-applications/endpointTypes';
+import { hasHttpAndOtherEndpoints, hasHttpEndpoints } from 'in-applications/endpointTypes';
 import IssuesAndEvents from 'in-applications/Dashboards/commonComponents/IssuesAndEvents';
-import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
-import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import CallsAndHttp from 'in-applications/Dashboards/commonComponents/CallsAndHttp';
 import { boundaryScopes, syntheticCallsOptions } from 'in-applications/constants';
-import { number, meanLatency, percentage } from 'in-services/formatters/number';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
-import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import { syntheticCallsEnabled } from 'in-services/featureFlags';
 import { summaryTab } from 'in-applications/navigation/paths';
-import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
-import { Row, Col } from 'in-components/layout/Grid';
+import { createGroupBy } from 'in-analyze/navigation/paths';
+import { Col, Row } from 'in-components/layout/Grid';
 import Footer from 'in-components/Footer/Footer';
 import { t } from 'in-i18n';
 
@@ -42,7 +38,6 @@ export default function Summary({
   syntheticCalls: urlIncludeSyntheticCalls,
   endpointTypes: types
 }) {
-  const timeShiftConfig = useTimeShiftConfig();
   const boundaryScope = urlBoundaryScope || application.boundaryScope;
   const syntheticCalls = urlIncludeSyntheticCalls || syntheticCallsOptions.default;
   const includeSyntheticCalls = isSyntheticOption(syntheticCalls);
@@ -68,139 +63,28 @@ export default function Summary({
     showPotentialProblemsLane: true
   });
 
+  const bigNumberCardConfiguration = {
+    tagFilters,
+    syntheticCallsOption: syntheticCalls,
+    timeConfig,
+    boundaryScope,
+    jumpToAnalyze: {
+      ids: { applicationId },
+      groupBy: createGroupBy('service.name', DESTINATION)
+    }
+  };
+
   return (
     <Fragment>
       <Row>
         <Col xs>
-          <BigNumberKpiCard
-            title={t('in-applications:labelCalls')}
-            formatter={number.compact}
-            config={{
-              comparisonDecreaseColor: 'redish',
-              comparisonIncreaseColor: 'greenish',
-              metricConfiguration: {
-                metric: 'calls',
-                aggregation: 'SUM',
-                source: 'APPLICATION',
-                tagFilters: tagFilters,
-                includeSynthetic: includeSyntheticCalls,
-                timeShift: timeShiftConfig.offset
-              }
-            }}
-            iconAction={{
-              text: t('in-applications:lineViewInAnalyze'),
-              kind: 'subtle',
-              icon: 'lib_analyze',
-              href$: getJumpToAnalyzeHref$(
-                { applicationId },
-                {
-                  timeConfig,
-                  boundaryScope,
-                  groupBy: createGroupBy('service.name', DESTINATION),
-                  formModel: createFormModelFromSyntheticOption(syntheticCalls),
-                  hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticCalls),
-                  fields: [createMetricField('erroneousCalls', 'SUM'), createMetricField('latency', 'MEAN')],
-                  chartedMetrics: [createChartedMetric('calls', 'SUM')]
-                }
-              )
-            }}
-          />
+          <CallsBigNumberCard {...bigNumberCardConfiguration} />
         </Col>
         <Col xs>
-          <BigNumberKpiCard
-            title={t('in-applications:titleErroneousCalls')}
-            formatter={number.compact}
-            companionFormatter={v =>
-              t('in-applications:dashboards.percentOfCalls', {
-                percentage: percentage.detailed(v)
-              })
-            }
-            config={{
-              comparisonDecreaseColor: 'greenish',
-              comparisonIncreaseColor: 'redish',
-              metricConfiguration: {
-                metric: 'erroneousCalls',
-                aggregation: 'SUM',
-                source: 'APPLICATION',
-                tagFilters: tagFilters,
-                includeSynthetic: includeSyntheticCalls,
-                timeShift: timeShiftConfig.offset
-              },
-              companionMetricConfiguration: {
-                metric: 'errors',
-                aggregation: 'MEAN',
-                source: 'APPLICATION',
-                tagFilters: tagFilters,
-                includeSynthetic: includeSyntheticCalls
-              }
-            }}
-            iconAction={{
-              text: t('in-applications:lineViewInAnalyze'),
-              kind: 'subtle',
-              icon: 'lib_analyze',
-              href$: getJumpToAnalyzeHref$(
-                { applicationId },
-                {
-                  timeConfig,
-                  boundaryScope,
-                  groupBy: createGroupBy('service.name', DESTINATION),
-                  formModel: joinExpressions({
-                    expressions: [createFormModelFromSyntheticOption(syntheticCalls)]
-                  }),
-                  facets: { 'call.erroneous': [true] },
-                  hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticCalls),
-                  fields: [createMetricField('errors', 'MEAN'), createMetricField('latency', 'MEAN')],
-                  chartedMetrics: [createChartedMetric('errors', 'MEAN')]
-                }
-              )
-            }}
-          />
+          <ErroneousCallsBigNumberCard {...bigNumberCardConfiguration} />
         </Col>
         <Col xs>
-          <BigNumberKpiCard
-            title={t('in-applications:titleMeanLatency')}
-            formatter={meanLatency.detailed}
-            companionFormatter={v =>
-              t('in-applications:dashboards.meanLatencyFor90th', {
-                meanLatencyDetail: meanLatency.detailed(v)
-              })
-            }
-            config={{
-              comparisonDecreaseColor: 'greenish',
-              comparisonIncreaseColor: 'redish',
-              metricConfiguration: {
-                metric: 'latency',
-                aggregation: 'MEAN',
-                source: 'APPLICATION',
-                tagFilters: tagFilters,
-                includeSynthetic: includeSyntheticCalls,
-                timeShift: timeShiftConfig.offset
-              },
-              companionMetricConfiguration: {
-                metric: 'latency',
-                aggregation: 'P90',
-                source: 'APPLICATION',
-                tagFilters: tagFilters,
-                includeSynthetic: includeSyntheticCalls
-              }
-            }}
-            iconAction={{
-              text: t('in-applications:lineViewInAnalyze'),
-              kind: 'subtle',
-              icon: 'lib_analyze',
-              href$: getJumpToAnalyzeHref$(
-                { applicationId },
-                {
-                  timeConfig,
-                  boundaryScope,
-                  groupBy: createGroupBy('service.name', DESTINATION),
-                  formModel: createFormModelFromSyntheticOption(syntheticCalls),
-                  hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticCalls),
-                  orderByGroups: createOrderBy('latency_MEAN', 'DESC')
-                }
-              )
-            }}
-          />
+          <LatencyBigNumberCard {...bigNumberCardConfiguration} />
         </Col>
       </Row>
       <Row>
@@ -258,6 +142,7 @@ export default function Summary({
             timeConfig={timeConfig}
             urlMatrixParamConfig={{ path: summaryTab, paramTab: 'servicesTab' }}
             syntheticCalls={syntheticCalls}
+            renderHistoricDataIndicator
           />
         </Col>
         <Col lg={4}>
@@ -267,6 +152,7 @@ export default function Summary({
             timeConfig={timeConfig}
             renderPostChartContent={MarkerLanes}
             syntheticCalls={syntheticCalls}
+            renderHistoricDataIndicator
           />
         </Col>
       </Row>

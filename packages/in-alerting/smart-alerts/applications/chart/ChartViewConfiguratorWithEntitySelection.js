@@ -12,7 +12,7 @@ import { Stack, StackItem } from '@instana/components';
 import {
   PER_AP_SERVICE,
   PER_AP
-} from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
+} from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
 import ChartSubEntitySelection from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/ChartSubEntitySelection';
 import { ShowApplicationSelection } from 'in-alerting/smart-alerts/applications/chart/ShowApplicationSelection';
 import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/entitySelection';
@@ -21,7 +21,7 @@ import LightCard from 'in-alerting/components/LightCard/LightCard';
 import ButtonGroup from 'in-components/ButtonGroup';
 import { days } from 'in-services/time';
 
-import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/ChartViewConfigurator.mless';
+import locals from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator.mless';
 
 /**
  * Timeframe used for the entities shown to pick for the preview. The bigger the timeframe, the better the coverage of entities

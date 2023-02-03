@@ -3,6 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
+import fuzzysort from 'fuzzysort';
+
+// Taken from docs at https://github.com/farzher/fuzzysort#how-to-go-fast--performance-tips
+const FUZZY_SEARCH_THRESHOLD = 10_000;
+
 export function search(nodes, query) {
   if (!query) {
     return nodes;
@@ -20,7 +25,8 @@ function searchNodes(nodes, query, result) {
 
 function searchNode(node, query, result) {
   if (node.children == null || node.children.length === 0) {
-    if (matches(node, query)) {
+    const matchResult = matches(node, query);
+    if (matchResult?.length > 0) {
       result.push(node);
     }
   } else {
@@ -29,17 +35,8 @@ function searchNode(node, query, result) {
 }
 
 function matches(leaf, query) {
-  if (leaf.keywords && leaf.keywords.toLowerCase().indexOf(query) !== -1) {
-    return true;
-  }
-
-  if (typeof leaf.label === 'string' && leaf.label.toLowerCase().indexOf(query) !== -1) {
-    return true;
-  }
-
-  if (typeof leaf.description === 'string' && leaf.description.toLowerCase().indexOf(query) !== -1) {
-    return true;
-  }
-
-  return false;
+  // Uses https://github.com/farzher/fuzzysort
+  return fuzzysort.go(query, [leaf.label, leaf.keywords, leaf.description, leaf.tagName], {
+    threshold: -FUZZY_SEARCH_THRESHOLD // Don't return matches worse than this (higher is faster)
+  });
 }

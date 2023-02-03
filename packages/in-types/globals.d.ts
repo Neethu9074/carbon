@@ -4,7 +4,8 @@
  */
 
 import { FormatLocaleDefinition } from 'd3-format';
-import { Tag } from 'in-types/backend';
+
+import { Tag } from '@instana/types';
 
 export interface UiSettings {
   [key: string]: any;
@@ -18,6 +19,10 @@ export interface Tenant {
 export interface Role {
   id: string;
   canSeeInternalTags: boolean;
+  canConfigureServiceLevelIndicators: boolean;
+  canConfigureCustomAlerts: boolean;
+  canViewLogs: boolean;
+  restrictedAccess: boolean;
 }
 
 export interface User {
@@ -32,6 +37,7 @@ declare interface InstanaGlobals {
   numberLocale?: FormatLocaleDefinition;
   dev: any;
   tags: Tag[];
+  permissions: string[];
 }
 
 declare global {

@@ -25,6 +25,11 @@
         "counter_custom_0": "{{number}} angepasste Ereignisse",
         "counter_custom_1": "{{number}} angepasste Ereignisse",
         "counter_custom_2": "{{number}} angepasste Ereignisse",
+        "counter_crash": "{{number}} Absturz",
+        "counter_crash_plural": "{{number}} Abstürze",
+        "counter_crash_0": "{{number}} Abstürze",
+        "counter_crash_1": "{{number}} Abstürze",
+        "counter_crash_2": "{{number}} Abstürze",
         "counter_Row": "{{number}} Zeile",
         "counter_Row_plural": "{{number}} Zeilen",
         "counter_Row_0": "{{number}} Zeilen",
@@ -86,7 +91,7 @@
       "viewTransitions2": "Anzeigewechsel",
       "calls": "Aufrufe",
       "traces": "Traces",
-      "console": "Konsole"
+      "crashes": "Abstürze"
     }
   },
   "traceDetail": {
@@ -125,9 +130,6 @@
         "hideWebsiteInformation": "Website-Informationen ausblenden",
         "showWebsiteInformation": "Website-Informationen anzeigen",
         "viewWebsiteActivity": "Website-Aktivität anzeigen"
-      },
-      "logs": {
-        "noDataMessage": "Für diesen Trace sind keine Protokolle verfügbar."
       }
     },
     "components": {
@@ -176,25 +178,18 @@
       },
       "callTree": {
         "expandButtonForRow": "Alle untergeordneten Aufrufe einblenden",
-        "collapseButtonForRow": "Alle untergeordneten Aufrufe ausblenden",
         "of": "von",
-        "inheritedFrom": "Übernommen von",
-        "cardTitle": "Aufrufe"
+        "inheritedFrom": "Übernommen von"
       },
       "colorCodingToggleButtons": {
         "colorizeBy": "Farblich kennzeichnen nach",
-        "colorizeByExpl": "Ändert die Farbe für die Aufrufbalken",
-        "endpoint": "Endpunkt",
-        "service": "Service"
-      },
-      "viewToggleButtons": {
-        "expl": "Anzeigen als",
-        "tree": "Baumstruktur",
-        "chart": "Zeitachse"
+        "endpoint": "Endpunkt"
       },
       "logTooltipContent": {
         "errorLog": "Fehlerprotokoll",
-        "warningLog": "Warnprotokoll"
+        "warningLog": "Warnprotokoll",
+        "restrictedAccess": "Eingeschränkter Zugriff",
+        "restrictedAccessExpl": "Sie sind nicht berechtigt, auf diese Informationen zuzugreifen."
       },
       "callTooltipContent": {
         "numbersOfErrors": "{{count}} Fehler",
@@ -285,7 +280,7 @@
     "analyzeLogsLabel": "Protokolle analysieren",
     "similarLogs": "Ähnliche Protokolle",
     "similarServiceLogs": "Protokolle im Kontext dieses Service anzeigen",
-    "service": "Service anzeigen"
+    "restrictedAccessExpl": "Sie sind nicht berechtigt, auf diese Informationen zuzugreifen."
   },
   "traceDetails": {
     "labelTotal": "Gesamtzahl",

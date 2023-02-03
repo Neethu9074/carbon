@@ -11,7 +11,7 @@ import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: t('in-zhmc:dashboards.name'),
+    title: t('in-zhmc:dashboards.networkUsageinBytes'),
     type: 'string',
     typeArgs: {
       getValue(row) {

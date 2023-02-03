@@ -9,33 +9,9 @@ import TimeOfLastUpdateCardTitle from 'in-sdk/components/dashboard/TimeOfLastUpd
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
+import { MessageTypeEnum } from './MessageTypeConst';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
-
-const MessageTypeEnum = jobType => {
-  switch (jobType) {
-    case 1:
-      return 'COMPLETION';
-    case 2:
-      return 'DIAGNOSTIC';
-    case 3:
-      return 'ESCAPE';
-    case 4:
-      return 'INFORMATIONAL';
-    case 5:
-      return 'INQUIRY';
-    case 6:
-      return 'NOTIFY';
-    case 7:
-      return 'REPLY';
-    case 8:
-      return 'REQUEST';
-    case 9:
-      return 'SENDER';
-    default:
-      return '-';
-  }
-};
 
 const cols = [
   {

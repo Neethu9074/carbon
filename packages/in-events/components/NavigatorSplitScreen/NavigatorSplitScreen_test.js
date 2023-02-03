@@ -5,10 +5,7 @@
 
 import { expect } from 'chai';
 
-import {
-  findNextIndexToOpen,
-  findPrevIndexToOpen
-} from 'in-events/components/NavigatorSplitScreen/NavigatorSplitScreen';
+import { findNextIndexToOpen, findPrevIndexToOpen } from 'in-events/components/NavigatorSplitScreen/FindIndex.js';
 
 describe('in-events/components/NavigatorSplitScreen/NavigatorSplitScreen', () => {
   it('must find next index', () => {

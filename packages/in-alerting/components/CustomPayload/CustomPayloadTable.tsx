@@ -1,0 +1,143 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+import { Item, ListForm } from 'formalistic';
+import React from 'react';
+
+import { Button, TrProps } from '@instana/components';
+
+import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
+import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
+import TouchedMessages from 'in-components/form/TouchedMessages';
+import { Nullish, PaginatedResult, Result } from 'in-types';
+import Section from 'in-settings/components/Section';
+import Tooltip from 'in-components/Tooltip';
+import { t } from 'in-i18n';
+
+import locals from 'in-alerting/components/CustomPayload/CustomPayloadTable.mless';
+
+const maximumNumberOfRows = 20;
+
+//TODO refine, use correct type here
+interface ListItem extends Object {
+  id?: string;
+}
+//TODO refine, use correct type here
+type CustomPayloadItem = ListItem;
+
+interface AdditionalContentPropsType {
+  deleteRow: () => void;
+  getRowIndex: (field: Item) => number;
+  updateIn: () => void;
+  TagBasedPayloadConfigurator: React.ReactNode;
+  suggestionsAlignedLeft?: boolean;
+  enabled?: boolean;
+  trackChange: () => void;
+}
+
+interface ServerTableCustomPayloadConfig
+  extends AdditionalContentPropsType,
+    ServerTablePresenterProps<CustomPayloadItem> {}
+
+interface CustomPayloadTableProps extends ServerTableCustomPayloadConfig {
+  columnDefinitions: ColumnDefinition<CustomPayloadItem, ServerTableCustomPayloadConfig>[];
+  addRow: () => void;
+  customPayloadForm: ListForm;
+  result?: Result<PaginatedResult<CustomPayloadItem>> | Nullish;
+  canConfigureAlertPayload?: boolean;
+}
+
+export default function CustomPayloadTable(props: CustomPayloadTableProps) {
+  const {
+    columnDefinitions,
+    result,
+    getRowIndex,
+    addRow,
+    deleteRow,
+    updateIn,
+    TagBasedPayloadConfigurator,
+    suggestionsAlignedLeft,
+    customPayloadForm,
+    canConfigureAlertPayload = true,
+    enabled = true,
+    leftHeader,
+    trackChange = () => {}
+  } = props;
+  return (
+    <div>
+      <ServerTablePresenter<CustomPayloadItem, ServerTableCustomPayloadConfig>
+        isScrollableTable={false}
+        columnDefinitions={columnDefinitions}
+        getRowProps={getRowProps}
+        result={result}
+        isSearchable={false}
+        leftHeader={leftHeader}
+        rightHeader={
+          <RightHeader
+            canConfigureAlertPayload={canConfigureAlertPayload}
+            formSize={customPayloadForm.size}
+            addRow={addRow}
+            enabled={enabled}
+          />
+        }
+        noDataMessage={t('in-alerting:components.customPayload.noCustomPayloadConfigured')}
+        getRowIndex={getRowIndex}
+        deleteRow={deleteRow}
+        updateIn={updateIn}
+        TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
+        suggestionsAlignedLeft={suggestionsAlignedLeft}
+        enabled={enabled}
+        trackChange={trackChange}
+        orderBy={''}
+        orderDirection={'ASC'}
+        page={0}
+        pageSize={5}
+      />
+      <Section>
+        <TouchedMessages field={customPayloadForm} />
+      </Section>
+    </div>
+  );
+}
+
+function RightHeader({
+  canConfigureAlertPayload,
+  formSize,
+  addRow,
+  enabled
+}: {
+  canConfigureAlertPayload: boolean;
+  formSize: number;
+  addRow: () => void;
+  enabled: boolean;
+}): JSX.Element {
+  return canConfigureAlertPayload ? (
+    formSize >= maximumNumberOfRows ? (
+      <Tooltip
+        content={t('in-alerting:components.customPayload.theNumberOfRowsIsRestrictedToMaximumNumberOfRows', {
+          maximumNumberOfRows: maximumNumberOfRows
+        })}
+        align="bottomMiddle"
+      >
+        <Button kind="action" icon="lib_openclose_add_circle_outline" disabled>
+          {t('in-alerting:components.customPayload.addRow')}
+        </Button>
+      </Tooltip>
+    ) : (
+      <Button kind="action" onClick={addRow} icon="lib_openclose_add_circle_outline" disabled={!enabled}>
+        {t('in-alerting:components.customPayload.addRow')}
+      </Button>
+    )
+  ) : (
+    <span />
+  );
+}
+
+function getRowProps(): TrProps {
+  return {
+    className: locals.row,
+    size: 'compact'
+  };
+}

@@ -1,0 +1,99 @@
+/*
+ * (c) Copyright IBM Corp. 2022
+ * (c) Copyright Instana Inc. 2022
+ */
+
+import React, { useState } from 'react';
+
+import { create } from '@instana/observables';
+
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import AnalyzeLogsButton from 'in-kubernetes/Dashboards/commonComponents/AnalyzeLogsButton';
+import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import LogsChart from 'in-kubernetes/Dashboards/commonComponents/LogsChart';
+import { getLinkToAnalyze } from 'in-logging/navigation/paths';
+import { loggingEnabled } from 'in-services/featureFlags';
+import RestrictedAccessMessage from 'in-components/rbac';
+import { role } from 'in-stores/user';
+import { t } from 'in-i18n';
+
+export const andOperator = { type: 'CONJUNCTION', logicalOperator: 'AND' };
+export const andQuery = (...inputs) => {
+  const query = [];
+  for (let i = 0; i < inputs.length; i++) {
+    let input = inputs[i];
+    query.push(input);
+    if (i < inputs.length - 1) {
+      query.push(andOperator);
+    }
+  }
+  return query;
+};
+export const tagEquals = (tag, value) => ({
+  entity: NOT_APPLICABLE,
+  type: 'TAG_FILTER',
+  operator: 'EQUALS',
+  name: tag,
+  value
+});
+export const kubernetesClusterTagEquals = clusterId => {
+  return tagEquals('kubernetes.cluster.name', clusterId);
+};
+export const kubernetesNamespaceTagEquals = namespaceName => {
+  return tagEquals('kubernetes.namespace.name', namespaceName);
+};
+
+export function LogsChartInteractionWrapper({ tagFilterExpression, timeConfig }) {
+  const [isHovered$] = useState(create().emit(false));
+
+  if (!loggingEnabled) {
+    return <></>;
+  }
+
+  if (!role.canViewLogs) {
+    return (
+      <DashboardSection title={t('in-forge:plugins.docker.dashboard.logs')}>
+        <RestrictedAccessMessage permission={t('in-stores:permissionCanViewLogsLabel')} />
+      </DashboardSection>
+    );
+  }
+
+  const additionalContextMenuButtons = [
+    {
+      name: 'analyze',
+      icon: 'lib_analyze',
+      label: t('in-forge:plugins.docker.dashboard.seeLogsInAnalyze'),
+      getHref$: highlightedTime => {
+        return getLinkToAnalyze({
+          tagFilterExpression: tagFilterExpression,
+          timeConfig: {
+            focusedMoment: highlightedTime.focusedMoment,
+            to: highlightedTime.to,
+            windowSize: highlightedTime.windowSize,
+            autoRefresh: false
+          }
+        });
+      }
+    }
+  ];
+
+  const logsButton = (
+    <AnalyzeLogsButton tagFilterExpression={tagFilterExpression} timeConfig={timeConfig} isHovered$={isHovered$} />
+  );
+  return (
+    <div>
+      <DashboardSection
+        title={'Logs'}
+        button={logsButton}
+        onMouseEnter={() => isHovered$.emit(true)}
+        onMouseLeave={() => isHovered$.emit(false)}
+      >
+        <LogsChart
+          tagFilterExpression={toBackendQueryModel(tagFilterExpression)}
+          additionalContextMenuButtons={additionalContextMenuButtons}
+        />
+      </DashboardSection>
+    </div>
+  );
+}

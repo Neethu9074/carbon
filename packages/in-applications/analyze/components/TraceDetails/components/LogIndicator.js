@@ -108,6 +108,6 @@ function getData({ traceId, timeConfigForLogs, totalNumberOfLogs }) {
     timeConfig: timeConfigForLogs,
     retrievalSize: totalNumberOfLogs,
     tagFilterExpression: getTraceIdTagFilter(traceId),
-    tags: [LOG_CUSTOM, LOG_LEVEL, LOG_EXCEPTION_TYPE, LOG_EXCEPTION_MESSAGE, LOG_EXCEPTION_STACK_TRACE]
+    requestedTags: [LOG_CUSTOM, LOG_LEVEL, LOG_EXCEPTION_TYPE, LOG_EXCEPTION_MESSAGE, LOG_EXCEPTION_STACK_TRACE]
   });
 }

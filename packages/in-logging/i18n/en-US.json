@@ -21,10 +21,22 @@
   "service": "Service",
   "stream": "Stream",
   "tooltipCopyToClipboard": "Copy to clipboard",
+  "tooltipCopyLinkToClipboard": "Copy log link",
   "tooltipAddAsGroup": "Group by tag",
   "tooltipAddAsFilter": "Add tag as filter",
   "sorting": {
     "mostRecent": "Most recent first",
     "oldest": "Oldest first"
-  }
+  },
+  "cpuTotal": "CPU Total",
+  "memoryUsage": "Memory Usage",
+  "cluster": "Cluster",
+  "node": "Node",
+  "namespace": "Namespace",
+  "deployment": "Deployment",
+  "pod": "Pod",
+  "tooltipEntityHealthNoIssues": "No issues",
+  "tooltipEntityHealthIssues": "{{numberOfIssues}} Issues",
+  "container": "Container",
+  "endOfInfiniteScroll": "No more logs available"
 }

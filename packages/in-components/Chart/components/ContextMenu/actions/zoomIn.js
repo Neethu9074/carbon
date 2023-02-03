@@ -6,6 +6,7 @@
 import { queryKey as highlightedTimeframeQueryKey } from 'in-stores/highlightedTimeframe';
 import { setTimeConfig, timeConfig$ } from 'in-stores/time/config';
 import { getModifiedUrlStream } from 'in-stores/navigation';
+import { chartZoomInTracker } from 'in-components/tracker';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { minutes } from 'in-services/time';
 import { t } from 'in-i18n';
@@ -15,7 +16,9 @@ const config = {
   name: 'zoomIn',
   icon: 'lib_datetime_time',
   label: t('in-components:chart.chartZoomInLabel'),
-  getHref$: getHighlightedTimeframeUrl$
+  getHref$: getHighlightedTimeframeUrl$,
+  onClick: ({ chartMetrics }) => chartZoomInTracker({ chartMetrics }),
+  allowClickPropagationAndDefault: true
 };
 export default config;
 

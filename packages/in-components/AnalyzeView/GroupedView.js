@@ -26,10 +26,12 @@ import {
   groupName
 } from 'in-components/AnalyzeView/metrics';
 import { addGroupingCriteriaToFormModel, childrenArgsAsPropTypes } from 'in-components/AnalyzeView/StateManagement';
-import { ua2MetricAddedTracker, ua2MetricRemovedTracker, ua2LoadMoreClicked } from 'in-components/tracker';
+import MetricAndSortingConfigurator from 'in-components/MetricAndSortingConfigurator/MetricAndSortingConfigurator';
+import { ua2LoadedMore, ua2MetricAddedTracker, ua2MetricRemovedTracker } from 'in-components/tracker';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { custom as customType, metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import { or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
+import { getLabel as defaultGetLabel, GROUP_COLORS } from 'in-components/AnalyzeView/utils.ts';
 import { getFormatter as getBackendFormatter } from 'in-services/formatters/backendFormatter';
 import { joinExpressions, TAG } from 'in-components/QueryBuilder/transformation/formModel';
 import QueryProgressIndicator from 'in-components/AnalyzeView/QueryProgressIndicator';
@@ -40,8 +42,8 @@ import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { withSiPrefixOneDecimalPlace } from 'in-services/formatters/number';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import { tagFilter } from '../QueryBuilder/transformation/tagFilter';
-import { getSparkChartGranularity } from 'in-applications/metrics';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
+import { getSparkChartGranularity } from 'in-applications/metrics';
 import Header from 'in-components/QueryBuilder/components/Header';
 import { enrichTagCatalog } from 'in-services/tags/tagCatalog';
 import useCursorPagination from 'in-hooks/useCursorPagination';
@@ -52,17 +54,11 @@ import { identity } from 'in-services/util/function';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { scrollToTop } from 'in-services/util/dom';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './GroupedView.mless';
 
-export const GROUP_COLORS = (() => {
-  const maxGroupsOnChart = Math.min(5, theme.lib.colors.chart.strokeColors100.length);
-  return theme.lib.colors.chart.strokeColors100.slice(0, maxGroupsOnChart);
-})();
-
-export default function GroupedAnalyzeView(props) {
+export default function GroupedView(props) {
   const {
     backendQueryModelWithFacets,
     getData,
@@ -74,7 +70,7 @@ export default function GroupedAnalyzeView(props) {
     getHrefToUngroupedView,
     UngroupedView,
     Sidebar,
-    getLabel = ({ name }) => JSON.parse(name),
+    getLabel = defaultGetLabel,
     isValid,
     selectableFields,
     fixedFields,
@@ -86,13 +82,15 @@ export default function GroupedAnalyzeView(props) {
     getOrderByGroupId,
     itemlabelColumnId,
     onChartableDataSeriesChange,
-    withSamplingTooltip,
     withResultsInGroups,
     withoutSorting = false,
     withoutChartGroupMarkers = false,
     chartedMetrics,
     groupingTagCatalog,
-    Chart
+    Chart,
+    customLatencyUiFormatterName,
+    CustomHeaderActions,
+    getCustomGroupingTagFilter
   } = props;
   const timeConfig = useTimeConfig();
   const fields = [...fixedFields, ...selectableFields];
@@ -125,12 +123,12 @@ export default function GroupedAnalyzeView(props) {
     fields,
     groupedViewConfiguration,
     getCustomMetricUiFormatterName,
-    metricCatalog
+    metricCatalog,
+    customLatencyUiFormatterName
   });
   const actionColumnDefinitions = actionColumns();
 
   const sparkChartGranularity = getSparkChartGranularity(timeConfig);
-
   const backendMetrics = useStableObjectInstance(
     fields
       .filter(({ type }) => type === metricType)
@@ -156,7 +154,9 @@ export default function GroupedAnalyzeView(props) {
     loadMore,
     totalHits,
     totalRepresentedItemCount,
-    adjustedWindowSize
+    totalRetainedItemCount,
+    adjustedWindowSize,
+    resultPrecisionDetails
   } = useCursorPagination(
     ({ cursor }) =>
       isValid
@@ -186,7 +186,13 @@ export default function GroupedAnalyzeView(props) {
       onChartableDataSeriesChange(
         items.slice(0, 5).map(item => ({
           label: getLabel(item),
-          formModel: addGroupingCriteriaToFormModel(groupBy, getLabel(item), formModelWithFacets, groupingTagCatalog)
+          formModel: addGroupingCriteriaToFormModel(
+            groupBy,
+            getLabel(item),
+            formModelWithFacets,
+            groupingTagCatalog,
+            getCustomGroupingTagFilter
+          )
         }))
       );
     }
@@ -246,6 +252,10 @@ export default function GroupedAnalyzeView(props) {
     return excludeMissingGroupTagFilter;
   }, [groupBy, groupingTagCatalog]);
 
+  const headerActions =
+    CustomHeaderActions ||
+    (props => <MetricAndSortingConfigurator {...props} metricOptions={props.availableMetrics} />);
+
   return (
     <>
       <Stack direction={'horizontal'} gap={'disabled'}>
@@ -265,6 +275,9 @@ export default function GroupedAnalyzeView(props) {
             metrics={selectableFields.map(m => ({ metric: m.metricId, aggregation: m.aggregationId }))}
             totalHits={totalHits}
             totalRepresentedItemCount={totalRepresentedItemCount}
+            totalRetainedItemCount={totalRetainedItemCount}
+            hasErrors={hasErrors}
+            isLoading={isLoading}
             order={orderByGroups}
             setOrder={onOrderByGroupsChange}
             setMetrics={metrics =>
@@ -279,7 +292,6 @@ export default function GroupedAnalyzeView(props) {
             }
             withGrouping
             withResultsInGroups={withResultsInGroups}
-            withSamplingTooltip={withSamplingTooltip}
             withAdjustedWindowSizeTooltip={Boolean(adjustedWindowSize)}
             tracking={{
               onMetricAdded: ({ metric, aggregation }) => ua2MetricAddedTracker({ dataSource, metric, aggregation }),
@@ -287,27 +299,33 @@ export default function GroupedAnalyzeView(props) {
                 ua2MetricAddedTracker({ dataSource, metric, aggregation }),
               onMetricRemoved: ({ metric, aggregation }) => ua2MetricRemovedTracker({ dataSource, metric, aggregation })
             }}
+            renderHistoricDataIndicator={resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE'}
+            CustomHeaderActions={headerActions}
           />
           {hasItems && (
             <Ul>
               {items.map((item, index) => {
                 const label = getLabel(item);
+                const key = `${label}-${index}`;
                 return (
                   <Li
-                    key={`${label}-${index}`}
+                    initiallyOpen={props.selectedGroup === key}
+                    key={key}
                     toggleContentOnRowClick
                     renderNestedContent={() => {
                       const formModelForUnGroupedView = addGroupingCriteriaToFormModel(
                         groupBy,
                         label,
                         formModel,
-                        groupingTagCatalog
+                        groupingTagCatalog,
+                        getCustomGroupingTagFilter
                       );
                       const formModelWithFacetsForUnGroupedView = addGroupingCriteriaToFormModel(
                         groupBy,
                         label,
                         formModelWithFacets,
-                        groupingTagCatalog
+                        groupingTagCatalog,
+                        getCustomGroupingTagFilter
                       );
                       return (
                         // tagFilterExpression / backendQueryModel must be separately memoized based on hash
@@ -325,8 +343,10 @@ export default function GroupedAnalyzeView(props) {
                           facetedSearchItems={[]}
                           withEmbeddedLoadingIndicator
                           withEmbeddedNoDataIndicator
+                          withEmbeddedApproximateDataIndicator
                           Chart={null}
                           Sidebar={null}
+                          groupKey={key}
                         />
                       );
                     }}
@@ -358,7 +378,7 @@ export default function GroupedAnalyzeView(props) {
                 <LiLoadMore
                   loadMore={() => {
                     loadMore();
-                    ua2LoadMoreClicked({
+                    ua2LoadedMore({
                       dataSource,
                       groupbyTag: groupBy.groupbyTag,
                       groupbyTagSecondLevelKey: groupBy.groupbyTagSecondLevelKey
@@ -436,7 +456,13 @@ function labelColumns({
         return (
           <KeyValue
             label={<span className={locals.groupLabel}>{label}</span>}
-            customValue={<GroupLabelTooltip groupName={getLabel(item)} getCustomGroupLabel={getCustomGroupLabel} />}
+            customValue={
+              <GroupLabelTooltip
+                groupName={getLabel(item)}
+                getCustomGroupLabel={getCustomGroupLabel}
+                groupbyTag={groupbyTag}
+              />
+            }
             accentuated
           />
         );
@@ -445,9 +471,9 @@ function labelColumns({
   ];
 }
 
-function GroupLabelTooltip({ groupName, getCustomGroupLabel }) {
+function GroupLabelTooltip({ groupName, getCustomGroupLabel, groupbyTag }) {
   const groupLabel = getCustomGroupLabel ?? identity;
-  const label = groupLabel(groupName);
+  const label = groupLabel(groupName, groupbyTag);
   return (
     <Tooltip content={label} align="bottomLeft" delay={1000}>
       <div
@@ -483,7 +509,8 @@ function metricColumns({
   fields,
   groupedViewConfiguration,
   getCustomMetricUiFormatterName,
-  metricCatalog
+  metricCatalog,
+  customLatencyUiFormatterName
 }) {
   return [
     ...(columnDefinitions || emptyArray),
@@ -495,7 +522,7 @@ function metricColumns({
         }
 
         const metricDefinition = metricCatalog?.find(({ metricId }) => metricId === field.metricId);
-        const customFormatterId = getCustomMetricUiFormatterName?.(field.metricId);
+        const customFormatterId = getCustomMetricUiFormatterName?.(field.metricId, field.aggregationId);
         let formatter;
         if (customFormatterId != null) {
           formatter = getFormatter(customFormatterId);
@@ -504,6 +531,8 @@ function metricColumns({
           // break column alignment, use more dense SI prefix based formatter instead.
           formatter = isNumberFormatter(metricDefinition?.formatter)
             ? withSiPrefixOneDecimalPlace
+            : field.metricId === 'latency' && customLatencyUiFormatterName
+            ? getBackendFormatter(customLatencyUiFormatterName)
             : getBackendFormatter(metricDefinition?.formatter);
         }
         return {
@@ -563,8 +592,7 @@ function actionColumns() {
 function defaultColorFunction(_, index) {
   return GROUP_COLORS[index];
 }
-
-GroupedAnalyzeView.propTypes = {
+GroupedView.propTypes = {
   ...childrenArgsAsPropTypes,
 
   getData: rpt.func.isRequired,

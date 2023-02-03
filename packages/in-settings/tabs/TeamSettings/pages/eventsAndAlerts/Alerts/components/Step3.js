@@ -115,7 +115,12 @@ function Step3({ form, setForm, onChange, onChangeApplyOn, existingApplication }
                   <Trans
                     i18nKey="in-settings:tabs.dfqFormDesc"
                     components={{
-                      docLink: <Link href="https://instana.com/docs/dynamic_focus/#syntax" external />
+                      docLink: (
+                        <Link
+                          href="https://www.ibm.com/docs/en/obi/current?topic=instana-filtering-dynamic-focus#syntax"
+                          external
+                        />
+                      )
                     }}
                   />
                 </DescriptionText>

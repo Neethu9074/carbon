@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { bytesZeroDecimalPlaces, zeroDecimalPlaces, hitRateZeroDecimalPlaces } from 'in-services/formatters/number';
+import { bytes, number, hitRateZeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
@@ -26,10 +26,10 @@ export default function MemcachedDashboard({ snapshot, timeConfig }) {
     <div>
       <KpiSection>
         <KpiKeyValue label={t('in-forge:plugins.memcached.gets')}>
-          <MetricValue snapshotId={snapshotId} metric="cmd_get" formatter={zeroDecimalPlaces} />
+          <MetricValue snapshotId={snapshotId} metric="cmd_get" formatter={number.compact} />
         </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.memcached.sets')}>
-          <MetricValue snapshotId={snapshotId} metric="cmd_set" formatter={zeroDecimalPlaces} />
+          <MetricValue snapshotId={snapshotId} metric="cmd_set" formatter={number.compact} />
         </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.memcached.getHitRatio')}>
           <MetricValue snapshotId={snapshotId} metric="get_hit_rate" formatter={hitRateZeroDecimalPlaces} />
@@ -44,7 +44,7 @@ export default function MemcachedDashboard({ snapshot, timeConfig }) {
             metrics: ['cmd_get', 'cmd_set'],
             labels: [t('in-forge:plugins.memcached.gets'), t('in-forge:plugins.memcached.sets')],
             type: 'line',
-            formatter: zeroDecimalPlaces
+            formatter: number.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
@@ -57,7 +57,7 @@ export default function MemcachedDashboard({ snapshot, timeConfig }) {
             metrics: ['bytes_read', 'bytes_write'],
             labels: [t('in-forge:plugins.memcached.reads'), t('in-forge:plugins.memcached.writes')],
             type: 'line',
-            formatter: bytesZeroDecimalPlaces
+            formatter: bytes.detailed
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
@@ -70,7 +70,7 @@ export default function MemcachedDashboard({ snapshot, timeConfig }) {
             metrics: ['get_hits', 'get_misses'],
             labels: [t('in-forge:plugins.memcached.getHits'), t('in-forge:plugins.memcached.getMisses')],
             type: 'line',
-            formatter: zeroDecimalPlaces
+            formatter: number.compact
           }}
           y2={{
             min: 0,
@@ -91,7 +91,7 @@ export default function MemcachedDashboard({ snapshot, timeConfig }) {
             metrics: ['delete_hits', 'delete_misses'],
             labels: [t('in-forge:plugins.memcached.deleteHits'), t('in-forge:plugins.memcached.deleteMisses')],
             type: 'line',
-            formatter: zeroDecimalPlaces
+            formatter: number.compact
           }}
           y2={{
             min: 0,
@@ -112,7 +112,7 @@ export default function MemcachedDashboard({ snapshot, timeConfig }) {
             metrics: ['cmd_flush'],
             labels: [t('in-forge:plugins.memcached.flush')],
             type: 'line',
-            formatter: zeroDecimalPlaces
+            formatter: number.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
@@ -125,7 +125,7 @@ export default function MemcachedDashboard({ snapshot, timeConfig }) {
             metrics: ['evictions'],
             labels: [t('in-forge:plugins.memcached.evictions')],
             type: 'line',
-            formatter: zeroDecimalPlaces
+            formatter: number.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
@@ -139,7 +139,7 @@ export default function MemcachedDashboard({ snapshot, timeConfig }) {
             metrics: ['bytes'],
             labels: [t('in-forge:plugins.memcached.usedBytes')],
             type: 'line',
-            formatter: bytesZeroDecimalPlaces
+            formatter: bytes.detailed
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
@@ -157,7 +157,7 @@ export default function MemcachedDashboard({ snapshot, timeConfig }) {
               t('in-forge:plugins.memcached.yields')
             ],
             type: 'line',
-            formatter: zeroDecimalPlaces
+            formatter: number.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />

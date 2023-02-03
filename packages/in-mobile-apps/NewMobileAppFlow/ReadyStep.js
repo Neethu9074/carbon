@@ -24,7 +24,12 @@ export default function ReadyStep({ mobileAppName, mobileAppId, mobileAppLink$ }
           i18nKey="in-mobile-apps:newAppFlow.everythingIsReadyMsg"
           values={{ mobileAppName: mobileAppName }}
           components={{
-            linkToInstallation: <Link href="https://instana.com/docs/mobile_app_monitoring/#installation" external />
+            linkToInstallation: (
+              <Link
+                href="https://www.ibm.com/docs/en/obi/current?topic=instana-mobile-app-monitoring#installation"
+                external
+              />
+            )
           }}
         />
       </Paragraph>
@@ -39,7 +44,11 @@ export default function ReadyStep({ mobileAppName, mobileAppId, mobileAppLink$ }
       </Ul>
 
       <Actions>
-        <Button kind="secondary" href="https://instana.com/docs/mobile_app_monitoring/#installation" target="_blank">
+        <Button
+          kind="secondary"
+          href="https://www.ibm.com/docs/en/obi/current?topic=instana-mobile-app-monitoring#installation"
+          target="_blank"
+        >
           {t('in-mobile-apps:newAppFlow.installationInstructionsBtn')}
         </Button>
 

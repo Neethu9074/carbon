@@ -283,7 +283,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
       <Row>
         <Col lg={4}>
           <WebsiteChartWrapper
-            cardTitle={t('in-websites:websiteDashboard.tabs.summary.summaryCardTitlePageViews')}
+            title={t('in-websites:websiteDashboard.tabs.summary.summaryCardTitlePageViews')}
             timeConfig={timeConfig}
             viewInAnalytics={{
               websiteLabel
@@ -320,7 +320,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
         </Col>
         <Col lg={4}>
           <WebsiteChartWrapper
-            cardTitle={t('in-websites:websiteDashboard.tabs.summary.summaryCardTitleJSErrors')}
+            title={t('in-websites:websiteDashboard.tabs.summary.summaryCardTitleJSErrors')}
             timeConfig={timeConfig}
             viewInAnalytics={{
               websiteLabel
@@ -355,7 +355,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
           >
             {({ aggregation, aggregationSelector }) => (
               <WebsiteChartWrapper
-                cardTitle={t('in-websites:websiteDashboard.tabs.summary.summaryCardTitleOnLoadTime')}
+                title={t('in-websites:websiteDashboard.tabs.summary.summaryCardTitleOnLoadTime')}
                 cardHeader={aggregationSelector}
                 timeConfig={timeConfig}
                 viewInAnalytics={{
@@ -400,6 +400,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
             websiteId={websiteId}
             pageId={pageId}
             urlMatrixParamConfig={{ path: summaryTab, paramTab: 'jsErrorsTab' }}
+            renderHistoricDataIndicator
           />
         </Col>
         {pageId == null && (
@@ -409,6 +410,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
               timeConfig={timeConfig}
               websiteId={websiteId}
               urlMatrixParamConfig={{ path: summaryTab, paramTab: 'pagesTab' }}
+              renderHistoricDataIndicator
             />
           </Col>
         )}

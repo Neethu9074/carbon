@@ -6,13 +6,22 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
+import { isAdaptiveBaselineConfig } from '@instana/types';
+
+import {
+  chartViewConfig24hours,
+  chartViewConfigs as defaultChartViewConfigs
+} from 'in-alerting/components/Chart/chartViewConfig';
 import WebsitesAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/websites/chart/WebsitesAlertingChartWithErrorMessage';
-import TimeThresholdDescription from 'in-alerting/smart-alerts/components/smart-alert-dialog/TimeThresholdDescription';
-import ChartViewConfigurator from 'in-alerting/smart-alerts/components/smart-alert-dialog/ChartViewConfigurator';
+import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/websites/hooks/useTagBasedPayloadConfigurator';
 import { getStatusCodeLabel, getRuleOperatorLabel } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
+import TimeThresholdDescription from 'in-alerting/smart-alerts/components/dialog/TimeThresholdDescription';
+import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
+import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
+import { AlertThresholdInfos } from 'in-alerting/smart-alerts/websites/details/AlertThresholdInfos';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
-import CustomPayloadCard from 'in-alerting/smart-alerts/applications/details/CustomPayloadCard';
+import CustomPayloadCard from 'in-alerting/smart-alerts/components/details/CustomPayloadCard';
 import WebsiteScopePath from 'in-alerting/smart-alerts/websites/components/WebsiteScopePath';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
@@ -26,13 +35,14 @@ import { operators } from 'in-analyze/applicationFilter';
 import ListTitle from 'in-components/lists/Title';
 import { t } from 'in-i18n';
 
-import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/shared-styles/AlertConfiguration.mless';
+import locals from 'in-alerting/smart-alerts/components/dialog/shared-styles/AlertConfiguration.mless';
 
 const initialChartConfigIndex = 0;
 
 export default function AlertConfiguration({ alertConfig }) {
   const {
-    rule: { operator, value, alertType, metricName },
+    rule: { operator, value, alertType, metricName, aggregation, customEventName },
+    threshold,
     timeThreshold,
     granularity,
     alertChannelIds,
@@ -46,24 +56,33 @@ export default function AlertConfiguration({ alertConfig }) {
 
   const blueprintConfig = getBlueprintConfig(alertType);
   const beaconType = blueprintConfig.getBeaconType(metricName);
-  const AlertQueryBuilder = getQueryBuilderForBeaconType(beaconType).QueryBuilder;
+
+  const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator(beaconType, websiteId);
+  const AlertQueryBuilder = getQueryBuilderForBeaconType(beaconType, alertConfig.threshold.type).QueryBuilder;
 
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
+
+  const thresholdType = alertConfig.threshold;
+  const chartViewConfigs = isAdaptiveBaselineConfig(thresholdType) ? [chartViewConfig24hours] : defaultChartViewConfigs;
 
   return (
     <AlertDetailsCard>
       <ListTitle>
         {t('in-websites:websiteDashboard.tabs.alerts.alertConfigurationListTitleAlertConfiguration')}
       </ListTitle>
+      <ExpandableLightCard
+        title={t('in-alerting:smartAlerts.details.header')}
+        useMaxAvailableHeight={false}
+        openByDefault
+        darkFrame
+      >
+        <AlertThresholdInfos threshold={threshold} rule={{ alertType, aggregation, metricName }} />
+      </ExpandableLightCard>
 
       <ChartViewConfigurator
-        alertConfigWithFormModel={{
-          ...alertConfig,
-          tagFilterExpression: tagFilterFormModel
-        }}
+        chartViewConfigs={chartViewConfigs}
         onChartViewConfigChange={index => setSelectedChartViewConfigIndex(index)}
         selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-        className={locals.chartContainer}
         title={t('in-websites:websiteDashboard.tabs.alerts.alertConfigurationTitleTrigger')}
         doNotSetDefaultHeight
         framed
@@ -83,6 +102,14 @@ export default function AlertConfiguration({ alertConfig }) {
                 description={getStatusCodeLabel(value)}
               />
             )}
+            {alertType === 'customEvent' && (
+              <SelectedAlertTypeInfo
+                title={t('in-websites:websiteDashboard.tabs.alerts.alertConfigurationTitleCustomEvent')}
+                description={customEventName}
+                svgIconType="lib_website_custom"
+                darkSvgIcon
+              />
+            )}
             <WebsitesAlertingChartWithErrorMessage
               alertConfigWithFormModel={{
                 ...alertConfig,
@@ -90,6 +117,7 @@ export default function AlertConfiguration({ alertConfig }) {
               }}
               viewConfig={chartViewConfig}
               blueprintConfig={blueprintConfig}
+              isAlertDetailView
             />
           </>
         )}
@@ -113,20 +141,20 @@ export default function AlertConfiguration({ alertConfig }) {
 
       <ExpandableLightCard
         title={t('in-websites:websiteDashboard.tabs.alerts.alertConfigurationTitleTimeThreshold')}
-        openByDefault
-        bodyWithoutPadding
-        darkFrame
         useMaxAvailableHeight={false}
+        bodyWithoutPadding
+        openByDefault
+        darkFrame
       >
         <TimeThresholdDescription timeThreshold={timeThreshold} granularity={granularity} />
       </ExpandableLightCard>
 
       <ExpandableLightCard
         title={t('in-websites:websiteDashboard.tabs.alerts.alertConfigurationTitleAlertChannels')}
-        darkFrame
-        openByDefault
-        bodyWithoutPadding
         useMaxAvailableHeight={false}
+        bodyWithoutPadding
+        openByDefault
+        darkFrame
       >
         <div className={locals.alertChannelsWrapper}>
           <AlertChannelsViewer alertChannelIds={alertChannelIds} />
@@ -136,14 +164,18 @@ export default function AlertConfiguration({ alertConfig }) {
       <ExpandableLightCard
         title={t('in-websites:websiteDashboard.tabs.alerts.alertConfigurationTitleAlertProperties')}
         useMaxAvailableHeight={false}
-        openByDefault
         bodyWithoutPadding
+        openByDefault
         darkFrame
       >
         <AlertPropertyInfos alertConfig={alertConfig} />
       </ExpandableLightCard>
-
-      <CustomPayloadCard customPayloadFields={customPayloadFields} />
+      <GlobalCustomPayloadCard context="WEBSITE" />
+      <CustomPayloadCard
+        customPayloadFields={customPayloadFields}
+        TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
+        openByDefault
+      />
     </AlertDetailsCard>
   );
 }

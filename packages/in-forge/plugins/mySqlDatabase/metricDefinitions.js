@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { millis, number, percentage, seconds } from 'in-services/formatters/number';
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
-import { millis, number, seconds } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 export default [
@@ -23,7 +23,7 @@ export default [
   },
   {
     metrics: ['status.SLOW_QUERIES', 'status.COM_SHOW_ERRORS'],
-    labels: [],
+    labels: [t('in-forge:plugins.mySqlDatabase.slowQueries'), t('in-forge:plugins.mySqlDatabase.errors')],
     min: 0,
     category: [t('in-forge:plugins.mySqlDatabase.slowQueries')],
     formatter: number
@@ -36,15 +36,78 @@ export default [
     formatter: millis
   },
   {
-    metrics: ['status.THREADS_CONNECTED', 'status.MAX_USED_CONNECTIONS', 'status.ABORTED_CONNECTS'],
+    metrics: [
+      'status.THREADS_CONNECTED',
+      'status.MAX_USED_CONNECTIONS',
+      'status.ABORTED_CONNECTS',
+      'status.CONNECTION_ERRORS_MAX_CONNECTIONS'
+    ],
     labels: [
       t('in-forge:plugins.mySqlDatabase.threadsCconnected'),
       t('in-forge:plugins.mySqlDatabase.maxUsedConnections'),
-      t('in-forge:plugins.mySqlDatabase.abortedConnects')
+      t('in-forge:plugins.mySqlDatabase.abortedConnects'),
+      t('in-forge:plugins.mySqlDatabase.connectionErrorsMaxConnections')
     ],
     min: 0,
     category: [t('in-forge:plugins.mySqlDatabase.clients')],
     formatter: number
+  },
+  {
+    metrics: [
+      'status.INNODB_BUFFER_POOL_PAGES_TOTAL',
+      'status.INNODB_BUFFER_POOL_PAGES_FREE',
+      'status.INNODB_BUFFER_POOL_PAGES_DATA',
+      'status.INNODB_BUFFER_POOL_READ_REQUESTS',
+      'status.INNODB_PAGES_READ',
+      'status.INNODB_PAGE_SIZE'
+    ],
+    labels: [
+      t('in-forge:plugins.mySqlDatabase.bufferPoolPagesTotal'),
+      t('in-forge:plugins.mySqlDatabase.bufferPoolPagesFree'),
+      t('in-forge:plugins.mySqlDatabase.bufferPoolPagesData'),
+      t('in-forge:plugins.mySqlDatabase.bufferPoolReadRequests'),
+      t('in-forge:plugins.mySqlDatabase.pagesRead'),
+      t('in-forge:plugins.mySqlDatabase.pageSize')
+    ],
+    min: 0,
+    category: [t('in-forge:plugins.mySqlDatabase.bufferMemory')],
+    formatter: number
+  },
+  {
+    metric: 'status.INNODB_CACHE_HIT_RATE',
+    label: t('in-forge:plugins.mySqlDatabase.cacheHitRate'),
+    min: 0,
+    max: 1,
+    category: [t('in-forge:plugins.mySqlDatabase.cache')],
+    formatter: percentage
+  },
+  {
+    metric: 'status.AVG_TRANSACTION_RESPONSE_TIME',
+    label: t('in-forge:plugins.mySqlDatabase.avgTransactionResponseTime'),
+    min: 0,
+    category: [t('in-forge:plugins.mySqlDatabase.transactions')],
+    formatter: millis
+  },
+  {
+    metric: 'status.TOTAL_TRANSACTIONS',
+    label: t('in-forge:plugins.mySqlDatabase.totalTransactions'),
+    min: 0,
+    category: [t('in-forge:plugins.mySqlDatabase.transactions')],
+    formatter: number
+  },
+  {
+    metric: 'status.INNODB_ROW_LOCK_CURRENT_WAITS',
+    label: t('in-forge:plugins.mySqlDatabase.innoDbRowLockCurrentWaits'),
+    min: 0,
+    category: [t('in-forge:plugins.mySqlDatabase.rowLocks')],
+    formatter: number
+  },
+  {
+    metric: 'status.INNODB_ROW_LOCK_TIME_AVG',
+    label: t('in-forge:plugins.mySqlDatabase.innoDbRowLockTimeAvg'),
+    min: 0,
+    category: [t('in-forge:plugins.mySqlDatabase.rowLocksTime')],
+    formatter: millis
   },
   {
     metrics: ['replica.slave_io_running', 'replica.slave_sql_running'],

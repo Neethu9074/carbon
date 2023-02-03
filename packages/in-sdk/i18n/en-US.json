@@ -8,7 +8,7 @@
   "agentMonitoringSuffix04": "not monitored",
   "agentMonitoringAlert_prefix04": "Monitoring issue",
   "agentMonitoringExplanationLinkLabel": "Troubleshooting docs",
-  "agentMonitoringExplanationLinkHref": "https://instana.com/docs/",
+  "agentMonitoringExplanationLinkHref": "https://www.ibm.com/docs/en/obi/current",
   "services": "Services",
   "dashboard": {
     "customMetricsV2": {
@@ -46,8 +46,8 @@
   },
 
   "snapshot": {
+    "unknownLabel": "Unknown",
     "registryHealth": "Health",
-
     "runtimeLabelNet": ".NET Core",
     "runtimeLabelGo": "Go",
     "runtimeLabelJava": "Java",

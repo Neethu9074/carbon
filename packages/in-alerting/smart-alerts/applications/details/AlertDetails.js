@@ -42,13 +42,13 @@ import {
   alertId as alertIdParam,
   alertsCategory as alertsCategoryMatrixParam
 } from 'in-applications/navigation/matrix';
-import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialogWrapper';
-import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/smart-alert-dialog/sharedFunctions';
+import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/dialog/SmartAlertConfigDialogWrapper';
+import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import AlertConfiguration from 'in-alerting/smart-alerts/applications/details/AlertConfiguration';
-import { categoryGlobal } from 'in-alerting/smart-alerts/applications/components/list/constants';
-import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { mutateUrl, propTypeLocation } from 'in-stores/navigation/navigation';
+import { categoryGlobal } from 'in-alerting/smart-alerts/applications/list/constants';
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
+import { propTypeLocation } from 'in-stores/navigation/navigation';
+import { getMatrixParameter } from 'in-stores/navigation/matrix';
 
 const endpointConfig = { asObservable: true };
 
@@ -64,7 +64,7 @@ export default function AlertDetails(props) {
   const { location } = props;
   const isGlobalAlertConfig =
     getMatrixParameter(location, alertsTabSegment, alertsCategoryMatrixParam) === categoryGlobal;
-  return isGlobalAlertConfig ? <GlobalAlertDetails {...props} /> : <IndividiualAlertDetails {...props} />;
+  return isGlobalAlertConfig ? <GlobalAlertDetails {...props} /> : <IndividualAlertDetails {...props} />;
 }
 
 function GlobalAlertDetails(props) {
@@ -95,7 +95,7 @@ function GlobalAlertDetails(props) {
   );
 }
 
-function IndividiualAlertDetails(props) {
+function IndividualAlertDetails(props) {
   return (
     <Alert
       {...props}
@@ -128,27 +128,13 @@ function getInventoryPathForLocation({ location }) {
   return location.pathname === perApInventoryDetailsPath ? perApInventoryListPath : globalInventoryListPath;
 }
 
-function renderSmartAlertDialog({
-  close,
-  alertConfig,
-  setRevision,
-  isCopy,
-  detailsPath,
-  alertConfigId,
-  isGlobalSmartAlert
-}) {
+function renderSmartAlertDialog({ close, alertConfig, setRevision, isCopy, isGlobalSmartAlert }) {
   return (
     <SmartAlertConfigDialogWrapper
       alertConfig={isCopy ? duplicateAlertConfig(alertConfig) : alertConfig}
-      onClose={({ id: copyId } = {}) => {
+      onClose={() => {
         close();
         setRevision(null);
-        if (isCopy) {
-          mutateUrl(location => {
-            location.pathname = detailsPath;
-            setOrDeleteMatrixKey(location, alertsTabSegment, 'alertId', copyId ?? alertConfigId);
-          });
-        }
       }}
       isGlobalSmartAlert={isGlobalSmartAlert}
       editMode={!isCopy}

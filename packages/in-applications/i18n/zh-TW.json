@@ -8,6 +8,9 @@
   "labelTrace": "追蹤",
   "linkDownload": "下載",
   "labelCalls": "呼叫",
+  "labelCallsPerSecondShort": "呼叫數/秒",
+  "labelErroneousCallsPerSecondShort": "錯誤呼叫數/秒",
+  "labelCallsPerSecondFull": "每秒呼叫數",
   "labelTraces": "追蹤",
   "labelErrorRate": "錯誤率",
   "labelDisableSizing": "停用調整大小",
@@ -25,13 +28,13 @@
   "labelLogMessages": "日誌訊息",
   "labelLogMessage": "日誌訊息",
   "labelInfrastructure": "基礎架構",
-  "labelAlerts": "警示",
+  "labelTroubleshooting": "疑難排解",
   "labelConfiguration": "配置",
   "labelTypes": "類型",
   "labelTechnologies": "技術",
   "labelEndpoints": "端點",
   "labelHealth": "性能",
-  "labelOther": "其他",
+  "labelNonHttp": "非 HTTP",
   "labelCallCount": "呼叫計數",
   "labelHTTPStatusCodes": "HTTP 狀態碼",
   "labelInfraIssues": "基礎架構問題",
@@ -59,6 +62,8 @@
   "labelScope": "範圍",
   "labelCustomServiceRules": "自訂服務規則",
   "labelSyntheticEndpoints": "綜合端點",
+  "labelWarning": "警告",
+  "labelCritical": "嚴重",
   "titleTopServices": "排名居前的服務",
   "titleMeanLatency": "延遲時間平均值",
   "titleErroneousCallRate": "錯誤呼叫率",
@@ -118,6 +123,7 @@
   "helpOptional": "（選用）",
   "messageSuccessfullySaved": "已順利儲存。",
   "messageErrorOccurred": "發生錯誤，請重試。",
+  "messageWaitForChanges": "可能需要一些時間來套用您的變更。",
   "linkViewAllServices": "檢視所有服務",
   "linkViewAllEndpoints": "檢視所有端點",
   "lineViewInAnalyze": "在分析中檢視",
@@ -194,11 +200,11 @@
     "technologies": "技術",
     "httpStatusCode": "HTTP 狀態",
     "hiddenCalls": "隱藏的呼叫",
-    "preview": "預覽",
+    "fastQueryMode": "快速查詢模式",
+    "fastQueryModeTooltip": "如果針對完整資料集執行會花費太長時間，則快速查詢模式會針對呼叫或追蹤子集啟用查詢執行。",
     "listBatchTypeTooltip": "此 {{type}} 已批次處理，代表 {{batchCount}} 個個別的 {{types}}。",
     "listBatchLatencyTooltip": "{{batchCount}} 個批次處理 {{types}} 的延遲時間總計。",
     "traceIdTooltip": "此追蹤的某些相關資料有所延遲，請稍後再重新載入頁面。舉例來說，當正在檢視最近的追蹤時，若其某些資料仍在處理中，就可能發生此情況。",
-    "downloadTraceTooltip": "下載完整追蹤。",
     "closeTraceDetail": "關閉追蹤明細",
     "invalidQueryConfig": "查詢配置無效。請先處理驗證失敗情況，再繼續進行。",
     "errorRateLabel": "錯誤呼叫（比率）",
@@ -418,7 +424,10 @@
     }
   },
   "dashboards": {
-    "percentOfCalls": "所有呼叫的 {{percentage}}",
+    "callCount": "{{formattedCount}} 個呼叫總數",
+    "callCount_plural": "{{formattedCount}} 個呼叫總數",
+    "erroneousCallCount": "{{formattedCount}} 個錯誤呼叫總數",
+    "erroneousCallCount_plural": "{{formattedCount}} 個錯誤呼叫總數",
     "meanLatencyFor90th": "第 90 個的 {{meanLatencyDetail}}",
     "infrastructureIssuesChanges": "基礎架構問題和變更",
     "unknownTime": "{{entityTime}} 時不明",
@@ -434,13 +443,13 @@
     "includeSyntheticCallsDropDownSyntheticCalls": "合成呼叫：{{syntheticCallsOptionLabel}}",
     "noDataAvailable": {
       "servicesTitle": "沒有可用的服務",
-      "servicesDescription": "未擷取到所選時間範圍內的服務。",
+      "servicesDescription": "所選的時間範圍內未擷取到任何的服務。",
       "errorMessagesTitle": "沒有可用的錯誤訊息",
-      "errorMessagesDescription": "未擷取到所選時間範圍內的錯誤訊息。",
+      "errorMessagesDescription": "所選的時間範圍內未擷取到任何的錯誤訊息。",
       "logMessagesTitle": "沒有可用的日誌訊息",
-      "logMessagesDescription": "未擷取到所選時間範圍內的日誌訊息。",
+      "logMessagesDescription": "所選的時間範圍內未擷取到任何的日誌訊息。",
       "endpointsTitle": "沒有可用的端點",
-      "endpointsDescription": "未擷取到所選時間範圍內的端點。"
+      "endpointsDescription": "所選的時間範圍內未擷取到任何的端點。"
     }
   },
   "flowMap": {
@@ -469,11 +478,12 @@
     "tooltipExtractsEndpointsAsSpecified": "依偵測到架構中的指定來擷取端點（如果可存取的話）",
     "tooltipExtractsEndpointsOnFirstPath": "根據第一個路徑參數來擷取端點",
     "tooltipExtractsEndpointsOnRouteId": "根據路由 ID 來擷取端點",
-    "tooltipEndpointCallsNotMatch": "將不符合前述規則的呼叫指派給這個端點",
+    "tooltipEndpointCallsNotMatch": "不符合之前規則的呼叫會指派給此端點。",
+    "tooltipEndpointFallbackRule": "由於這是撤回規則，因此無法停用它。",
     "titleConfigureEndpointsExtract": "配置如何從對此服務的基礎呼叫來擷取端點。",
     "descriptionConfigureEndpointsExtract": "端點規則會從上到下循序評估，並將呼叫指派給它所符合的第一項規則。配置之後，會根據已更新的規則來指派新的呼叫。",
-    "descriptionResetToDefaultRule": "如果您想重設為預設擷取規則，請使用下方的按鈕。重設可能需要數分鐘來登錄。",
-    "understandCheckboxResetToDefaultRule": "我瞭解這個動作無法復原。",
+    "descriptionResetToDefaultRule": "如果您想重設為預設擷取規則，請使用下方的按鈕。重設可能需要最多幾分鐘來登錄。",
+    "understandCheckboxResetToDefaultRule": " 我瞭解這個動作無法復原。",
     "customService": {
       "stepTitle": "新增自訂服務規則來延伸自動服務對映。",
       "descriptionTextFirstLine": "Instana 會根據廣泛的一組預先定義規則來自動對映服務。例如，如果找到 nodejs.app.name 標籤，且有呼叫的標籤是 <bold>\"nodejs.app.name=user service\"</bold> 和 <bold>\"nodejs.app.name=cart service\"</bold>，則 <bold>\"user service\"</bold> 和 <bold>\"cart service\"</bold> 會以服務形式出現。",
@@ -483,12 +493,13 @@
     },
     "newApplication": {
       "helpApplicationPerspectives": "藉由應用程式視景，可針對環境、服務集、租戶或任何事物建模。",
-      "helpRenameApplication": "「重新命名應用程式」終究仍是 Instana 系統中的一致動作。因此，對應用程式名稱的變更可能<italic>需要數分鐘</italic>，才能移入至整個系統。",
+      "helpRenameApplication": "「重新命名應用程式」終究仍是 Instana 系統中的一致動作。因此，對應用程式名稱的變更可能需要<italic>最多幾分鐘</italic>，才能移入至整個系統。",
       "descriptionApplicationName": "應用程式視景名稱應具有組織內已確立的一項定義。例如，為環境建模：\"Production Blue\"、為服務集建模：\"Payment\"，或是為租戶建模：\"ACME Customer\"。",
       "descriptionTags": "例如，其中的索引鍵是 \"docker.label\"，值為 \"environment=Production Blue\"，或索引鍵是 \"call.http.params\"，值為 \"tenant=ACMECustomer\"。請注意，會自動包含從符合這項定義的服務對 <pillDatabase>DATABASE</pillDatabase> 服務或 <pillMessage>MESSAGING</pillMessage> 服務的任何呼叫。",
       "descriptionOperatorsCreationEnabled": "AND 運算子會優先採用，並在 OR 運算子之前先評估（前提是未以方括弧分組）",
       "descriptionPrepareToMonitor": "我們正在準備一切，以監視您的應用程式視景 <bold>{{decodedLabel}}</bold>。",
-      "descriptionRemoveApplicationPerspective": "如果您再也不想監視應用程式視景 <strong>{{application}}</strong>，請使用下方的按鈕來移除它。移除應用程式視景可能需要幾分鐘。",
+      "prepareToMonitorUnauthorized": "您無權檢視應用程式視景 <bold>{{decodedLabel}}</bold>。 若要取得許可權，請聯絡您的群組管理者。",
+      "descriptionRemoveApplicationPerspective": "如果您再也不想監視應用程式視景 <strong>{{application}}</strong>，請使用下方的按鈕來移除它。移除應用程式視景可能需要最多幾分鐘。",
       "stepTitleDefineApplicationName": "定義您「應用程式視景」的名稱。",
       "stepTitleApplicationName": "應用程式視景的名稱。",
       "stepTitleDefineTags": "使用一或多個標籤來定義「應用程式視景」。",
@@ -505,7 +516,8 @@
       "errorApplicationNameBlank": "應用程式視景名稱不得空白。",
       "errorNameLengthExceeded": "應用程式視景名稱的長度不得超過 128 個字元。",
       "errorInvalidQuery": "查詢無效",
-      "titleApplicationCreating": "正在建立應用程式視景..."
+      "titleApplicationCreating": "正在建立應用程式視景...",
+      "titleApplicationCreatingUnauthorized": "無法開啟應用程式視景"
     },
     "customSyntheticRule": {
       "placeholderNameRule": "為規則命名",
@@ -527,7 +539,7 @@
     "showApplicationsScopeWithApplicationLabel": "顯示環境定義 <linkToApplication>{{applicationLabel}}</linkToApplication> 中之 <linkToEntity>{{entityLabel}}</linkToEntity> 的應用程式 <bold>{{contextScope}}</bold>",
     "showServicesScopeWithServiceLabel": "顯示環境定義 <linkToApplication>{{applicationLabel}}</linkToApplication> 中之 <linkToEntity>{{entityLabel}}</linkToEntity> 的服務 <bold>{{contextScope}}</bold>",
     "titleNoService": "尚無服務",
-    "servicesNoData": "在選取的時間範圍內沒有任何可用的服務呼叫。如需疑難排解資訊，請參閱 [說明文件][文件]。\n\n[文件]：https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listed"
+    "servicesNoData": "所選的時間範圍內沒有服務呼叫可用。 如需疑難排解資訊，請參閱 [說明文件][文件]。\n\n[文件]：https://www.ibm.com/docs/en/obi/current?topic=applications-services#why-am-i-not-seeing-any-services-listed"
   },
   "endpointTypes": {
     "batch": "Batch",
@@ -570,23 +582,14 @@
         "largeTraceLink": "此追蹤很大，在呈現此追蹤時可能導致您瀏覽器內出現效能問題。您可以<linkToDocs>下載追蹤</linkToDocs>以手動檢驗，或在您的瀏覽器內嘗試呈現追蹤。為了在此嘗試期間提高效能，我們只會呈現一部分的元件。",
         "calls": "呼叫",
         "erroneousTrace": "錯誤追蹤",
-        "attemptToRenderTrace": "嘗試呈現追蹤"
-      },
-      "calls": {
-        "settings": {
-          "showServiceInformation": "服務資訊",
-          "showServiceInformationExpl": "在呼叫標籤下方顯示服務資訊",
-          "showSubCalls": "顯示子呼叫",
-          "showSubCallsExpl": "在每一列上顯示直接子呼叫"
-        }
+        "attemptToRenderTrace": "嘗試呈現追蹤",
+        "analyzeBeacons": "分析引標",
+        "adjustedTimeConfig": "已將時間範圍調整為包括選取的引標。"
       }
     }
   },
   "tabs": {
-    "labelDetail": "詳細資料",
-    "labelSummary": "摘要",
-    "servicesAndEndpoint": "服務和端點",
-    "logs": "日誌"
+    "labelDetail": "詳細資料"
   },
   "metrics": {
     "calls_calls": "呼叫",
@@ -598,5 +601,54 @@
     "traces_latency": "延遲時間",
     "traces_erroneousCalls": "錯誤追蹤",
     "traces_errors": "錯誤追蹤率"
+  },
+  "viewLists": {
+    "application": "應用程式",
+    "services": "服務",
+    "errorMessages": "錯誤訊息",
+    "logMessages": "日誌訊息",
+    "endpoints": "端點"
+  },
+  "serviceTroubleshooting": {
+    "troubleShootingExplanation": "說明",
+    "alternativeServicesTitle": "替代服務",
+    "alternativeServices": "根據 {{correlationTag}}，遺漏的呼叫溢出到哪些替代服務？",
+    "numberOfHosts": "有多少主機正在執行此服務？",
+    "numberOfHostnames": "使用多少 HTTP \"Host\" 標頭來呼叫此服務？",
+    "numberOfQualifiedReferences": "使用多少合格參照來呼叫此服務？",
+    "serviceMapping": "服務對映結果",
+    "serviceMappingProblemStatement": "具復原力的服務對映是否開始運作？",
+    "serviceMappingDocumentation": "適於所有可能的服務對映結果的文件：",
+    "infraLinking": "基礎架構鏈結結果",
+    "infraLinkingProblemStatement": "是否有任何基礎架構鏈結問題？",
+    "infraLinkingDocumentation": "適於所有可能的基礎架構偵測的文件：",
+    "hostName": "主機",
+    "hostNameProblemStatement": "是否有任何與特定主機相關的問題？",
+    "httpHost": "HTTP \"Host\" 標頭",
+    "httpHostProblemStatement": "是否有任何與特定 HTTP \"Host\" 標頭相關的問題？",
+    "infraReferenceType": "基礎架構參照類型",
+    "infraReferenceTypeProblemStatement": "使用哪些基礎架構參照類型？",
+    "infraReferenceTypeDocumentation": "適於所有可能的基礎架構參照類型的文件：",
+    "spanType": "跨距類型",
+    "spanTypeProblemStatement": "是否有任何與特定跨距類型相關的問題？",
+    "processUptime": "處理程序執行時間",
+    "processUptimeProblemStatement": "是否有任何最近啟動且可能尚未完全檢測到的處理程序？",
+    "serviceRuleId": "服務對映規則",
+    "serviceRuleIdProblemStatement": "觸發哪些服務對映規則？",
+    "serviceRuleDocumentation": "預先定義服務對映規則的定義：",
+    "customServiceRuleDocumentation": "客戶可能已定義他們自己的自訂服務對映規則：",
+    "customServiceRuleConfiguration": "配置自訂服務規則",
+    "problem": "<bold>是</bold>，如果您看到類型的結果",
+    "possibleProblem": "<bold>可能</bold>，如果您看到類型的結果",
+    "viewInAnalyze": "在無界限分析中開啟",
+    "alternativeServicesProblemStatement": "<bold>何謂替代服務？</bold>",
+    "alternativeServicesExplanation": "現行服務及其替代服務會接收共用相同內容的呼叫：相同的目的地主機名稱、相同的 HTTP \"Host\" 標頭、相同的基礎架構參照等。<br/><br/>例如，現行服務會接收 HTTP \"Host\" 標頭為 <code>mycompany.com</code> 的呼叫，但有些其他服務會接收 HTTP \"Host\" 標頭為 <code>mycompany.com</code> 的呼叫。<br/><br/>對於 HTTP 呼叫，\"Host\" 標頭是一項重要資訊，因為它用作具復原力服務對映的第一層快取金鑰。",
+    "alternativeServicesOk": "<bold>可以看到替代服務嗎？</bold>",
+    "alternativeServicesProblem": "<bold>否</bold>，如果現行服務的名稱來自 HTTP \"Host\" 標頭（ID 為 call.http.host 的服務對映規則），而替代服務的名稱則不是（因為其名稱來自基於基礎架構標籤的規則），反之亦然。 這些是重複的服務。",
+    "alternativeServicesPossibleProblem": "<bold>可能</bold>，如果現行服務及替代服務名稱不是來自 HTTP \"Host\" 標頭，則它們是位於 Proxy 後面的服務（良好）或重複服務（不良）：部分服務完全鏈結至基礎架構，而其他服務部分鏈結至基礎架構。"
+  },
+  "widgetNotActive": {
+    "title": "在「即時模式」中不支援小組件",
+    "button": "停止即時模式"
   }
 }

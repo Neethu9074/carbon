@@ -6,7 +6,6 @@
 import React from 'react';
 
 import { Button } from '@instana/components';
-import { Card } from '@instana/components';
 import { Link } from '@instana/components';
 
 import {
@@ -153,15 +152,16 @@ export default function XhrRequests({ timeConfig, tagFilters, websiteId, website
   tagFilters = tagFilters.concat({ name: 'beacon.type', operator: 'EQUALS', stringValue: 'httpRequest' });
 
   return (
-    <Card>
+    <>
       <ServerTableWithUrlState
         get={getTableData}
         websiteId={websiteId}
         tagFilters={tagFilters}
         timeConfig={timeConfig}
+        cardTitle={t('in-websites:websiteDashboard.tabs.indexLabelHTTPRequests')}
         rightHeader={rightHeader}
       />
-    </Card>
+    </>
   );
 }
 

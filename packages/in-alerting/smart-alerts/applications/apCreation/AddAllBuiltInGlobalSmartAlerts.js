@@ -10,7 +10,7 @@ import { useObservable } from '@instana/hooks';
 import { Link } from '@instana/components';
 
 import { getAllBuiltInGlobalSmartAlerts } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
-import { categoryGlobal } from 'in-alerting/smart-alerts/applications/components/list/constants';
+import { categoryGlobal } from 'in-alerting/smart-alerts/applications/list/constants';
 import LabelText from 'in-alerting/smart-alerts/applications/apCreation/LabelText';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';

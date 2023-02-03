@@ -31,44 +31,56 @@ const columnDefinitions = [
   }
 ];
 
-export default function SourceDestinationSelectorOverlay({ value, onChange, close }) {
+export default function SourceDestinationSelectorOverlay({
+  value,
+  onChange,
+  close,
+  sourceEnabled,
+  destinationEnabled
+}) {
   return (
     <Ul framed={false} className={locals.list} borderRadius="medium" onKeyDown={onArrowKeyDownFocusSiblings}>
-      <OverlayOption
-        autoFocus={value !== destination}
-        className={locals.option}
-        onChange={onChange}
-        close={close}
-        selectedValue={value}
-        value={source}
-        size="compact"
-      >
-        <ColumnizedContent
-          columnDefinitions={columnDefinitions}
-          icon="lib_application_call_source"
-          label={t('in-components:queryBuilder.source')}
-        />
-      </OverlayOption>
-      <OverlayOption
-        className={locals.option}
-        onChange={onChange}
-        close={close}
-        selectedValue={value}
-        size="compact"
-        value={destination}
-      >
-        <ColumnizedContent
-          columnDefinitions={columnDefinitions}
-          icon="lib_application_call_destination"
-          label={t('in-components:queryBuilder.destination')}
-        />
-      </OverlayOption>
+      {sourceEnabled && (
+        <OverlayOption
+          autoFocus={value !== destination}
+          className={locals.option}
+          onChange={onChange}
+          close={close}
+          selectedValue={value}
+          value={source}
+          size="compact"
+        >
+          <ColumnizedContent
+            columnDefinitions={columnDefinitions}
+            icon="lib_application_call_source"
+            label={t('in-components:queryBuilder.source')}
+          />
+        </OverlayOption>
+      )}
+      {destinationEnabled && (
+        <OverlayOption
+          className={locals.option}
+          onChange={onChange}
+          close={close}
+          selectedValue={value}
+          size="compact"
+          value={destination}
+        >
+          <ColumnizedContent
+            columnDefinitions={columnDefinitions}
+            icon="lib_application_call_destination"
+            label={t('in-components:queryBuilder.destination')}
+          />
+        </OverlayOption>
+      )}
     </Ul>
   );
 }
 
 SourceDestinationSelectorOverlay.propTypes = {
   value: PropTypes.string,
+  sourceEnabled: PropTypes.bool,
+  destinationEnabled: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
   close: PropTypes.func.isRequired
 };

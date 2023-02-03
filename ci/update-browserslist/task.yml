@@ -1,0 +1,77 @@
+---
+platform: linux
+image_resource:
+  type: registry-image
+  source:
+    repository: node
+    tag: 16.18.1
+inputs:
+  - name: ui-client-repo
+    path: .
+run:
+  path: bash
+  args:
+    - -ce
+    - |
+      echo "Node Version: $(node --version)"
+      echo "Yarn Version: $(yarn --version)"
+
+      # make a clone before switching the branch
+      cp ci/update-browserslist/pr-body.txt update-browserslist-pr-body.txt
+
+      echo "setup git user"
+      git config user.name "Instana CI"
+      git config user.email instana.ibm.github.enterprise@ibm.com
+      git config url."https://((ibm-github-e-api-token)):x-oauth-basic@github.ibm.com/".insteadOf "https://github.ibm.com/"
+
+      git config branch.develop.remote origin
+      git config branch.develop.merge refs/heads/develop
+      git config remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
+
+      REGISTRY="https://delivery.instana.io" \
+      REPOSITORY_KEY="int-npm-virtual" \
+      USERNAME="((delivery-instana-io-internal-project-artifact-read-writer-creds.username))" \
+      PASSWORD="((delivery-instana-io-internal-project-artifact-read-writer-creds.password))" \
+      NON_INTERACTIVE=true \
+      WRITE_TO_CWD=true \
+      NPM_CONFIG_REGISTRY="https://registry.npmjs.org/" \
+      npx --yes create-artifactory-access-config
+
+      # install gh
+      # linux installation of gh, see
+      # https://github.com/cli/cli/blob/trunk/docs/install_linux.md
+      curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
+      chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg
+      echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+      apt update
+      apt install -y gh
+
+      echo "verifying gh installation"
+      gh --version
+
+      gh auth login --hostname github.ibm.com --with-token <<< "((ibm-github-e-api-token))"
+
+      # git create branch, add changes
+      git checkout -b browserslist-update-pr
+
+      yarn install --frozen-lockfile
+
+      echo "apply update to browser list data based on can-i-use lite:"
+
+      npx --yes browserslist@latest --update-db
+
+      # Not verifying commit here since we only update dependencies and our typecheck has dependencies that are only generated on full build
+      git commit --no-verify --message "chore(browserslist): update caniuse data" yarn.lock
+
+      git push --set-upstream origin browserslist-update-pr
+
+      gh config set prompt disabled
+
+      ACTIVE_PRS=$(gh pr list --search "Update browserslist" --author Instana-IBM-GitHub-Enterprise | cut -f1)
+      if [ "$ACTIVE_PRS" = "" ] ; then
+        echo "No existing PRs found, creating a new one"
+        gh pr create --head browserslist-update-pr --repo instana/ui-client --title "Update browserslist" --body-file update-browserslist-pr-body.txt
+      else
+        echo "Stopping pipeline, because a PR already exists: $ACTIVE_PRS"
+        exit 0;
+      fi

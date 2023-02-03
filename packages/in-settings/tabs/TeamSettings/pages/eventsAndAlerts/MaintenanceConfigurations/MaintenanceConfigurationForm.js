@@ -3,11 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import { isValid, parse } from 'date-fns';
 import React from 'react';
 
-import { Message } from '@instana/components';
-import { Button } from '@instana/components';
-import { Link } from '@instana/components';
+import { Message, Button, Link, keyCodes } from '@instana/components';
 
 import Applications, {
   applicationSelectionTableActions,
@@ -18,9 +17,11 @@ import Applications, {
 import InputWithDFQSelectionList from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/components/InputWithDFQSelectionList';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import formatInputTime from 'in-components/time/TimeSelectionDialogPresenter/timeInputFormatter';
+import { formatDateWithActiveLanguage } from 'in-services/formatters/dateFnsFormatWrapper';
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
 import { userSettingsGeneral, getEntityIdView } from 'in-settings/navigation/paths';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import { dateFormat, dateTimeFormat } from 'in-services/formatters/date';
 import FormDataEnrichment from './components/FormDataEnrichment';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
@@ -29,7 +30,6 @@ import { Row, Col } from 'in-components/layout/Grid/Grid';
 import FormGroup from 'in-settings/components/FormGroup';
 import DateInput from 'in-components/form/DateInput';
 import HelpText from 'in-components/form/HelpText';
-import moment from 'in-services/moment-timezone';
 import ComboBox from 'in-components/ComboBox';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
@@ -43,7 +43,14 @@ export default function MaintenanceConfigurationForm(props) {
   const selectedApplicationIds = form.get('applicationIds') ? form.get('applicationIds').value : [];
 
   return (
-    <fieldset>
+    <fieldset
+      onKeyDown={event => {
+        // avoid pressing enter in any input field to trigger a button onClick event
+        if (keyCodes.isReturn(event)) {
+          event.preventDefault();
+        }
+      }}
+    >
       <FormDataEnrichment form={form} onChange={onChange} setForm={setForm} />
 
       {form.get('name').map(field => (
@@ -123,7 +130,12 @@ export default function MaintenanceConfigurationForm(props) {
               <Trans
                 i18nKey="in-settings:tabs.aNonEmptyFilterQueryWhichDefinesTheMatchingAlerts"
                 components={{
-                  docLink: <Link href="https://instana.com/docs/dynamic_focus/#syntax" external />
+                  docLink: (
+                    <Link
+                      href="https://www.ibm.com/docs/en/obi/current?topic=instana-filtering-dynamic-focus#syntax"
+                      external
+                    />
+                  )
                 }}
               />
             </DescriptionText>
@@ -218,8 +230,8 @@ const DescriptionTextWithCurrentTimeZone = connectTo(
       timezone: t('in-settings:tabs.yourCurrentTimezoneIs', { tz: getTimezone() }),
       utcTimezone: t('in-settings:tabs.allDatesAndTimesAreInUtc'),
       utcOffset: t('in-settings:tabs.utcOffset', {
-        utcOffSet: getUtcOffset(moment()),
-        isDST: isDST(moment()) ? t('in-settings:tabs.dstIsInEffect') : ''
+        utcOffSet: getUtcOffset(new Date()),
+        isDST: isDstObserved(new Date()) ? t('in-settings:tabs.dstIsInEffect') : ''
       }),
       changeToUtc: t('in-settings:tabs.youCanChangeThisToUtc'),
       changeToLocalTime: t('in-settings:tabs.youCanChangeThisToLocalTime')
@@ -250,18 +262,19 @@ const DateWithTime = connectTo(
     const dateField = windowForm.get(path).get('date');
     const timeField = windowForm.get(path).get('time');
 
-    const toMoment = (dateFieldValue, timeFieldValue) =>
+    const toDate = (dateFieldValue, timeFieldValue) =>
       dateFieldValue && timeFieldValue
-        ? moment(dateFieldValue + ' ' + formatInputTime(timeFieldValue, 'HH:mm:ss'))
-        : moment(dateFieldValue);
+        ? parse(dateFieldValue + ' ' + formatInputTime(timeFieldValue, 'HH:mm:ss'), dateTimeFormat, new Date())
+        : parse(dateFieldValue, dateFormat, new Date());
 
     const getTimeZoneInfoMessage = (dateFieldValue, timeFieldValue) => {
       if (dateFieldValue) {
         const currentTimeZone = getTimezone();
-        const currentDateIsDst = isDST(moment());
-        const momentSelectedDate = toMoment(dateFieldValue, timeFieldValue);
-        const selectedDateIsDst = isDST(momentSelectedDate);
-        const selectedUtcOffset = getUtcOffset(momentSelectedDate);
+        const currentDateIsDst = isDstObserved(new Date());
+        const selectedDate = toDate(dateFieldValue, timeFieldValue);
+        const isSelectedDateValid = isValid(selectedDate);
+        const selectedDateIsDst = isSelectedDateValid && isDstObserved(selectedDate);
+        const selectedUtcOffset = isSelectedDateValid && getUtcOffset(selectedDate);
 
         let dstMsg = '';
         if (currentDateIsDst && !selectedDateIsDst) {
@@ -272,6 +285,7 @@ const DateWithTime = connectTo(
         }
 
         return (
+          isSelectedDateValid &&
           dstMsg &&
           t('in-settings:tabs.dstMsg', {
             dstMsg: dstMsg,
@@ -332,6 +346,19 @@ const DateWithTime = connectTo(
   }
 );
 
-const getTimezone = () => moment.tz.guess(true);
-const getUtcOffset = moment => moment.format('ZZ');
-const isDST = moment => moment.isDST();
+const getTimezone = () => new Intl.DateTimeFormat().resolvedOptions().timeZone;
+const getUtcOffset = date => formatDateWithActiveLanguage(date, 'xx');
+
+const stdTimezoneOffset = date => {
+  const jan = new Date(date.getFullYear(), 0, 1);
+  const jul = new Date(date.getFullYear(), 6, 1);
+
+  return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
+};
+
+// This code uses the fact that getTimezoneOffset returns a greater value during Standard Time versus Daylight Saving Time (DST).
+// Thus it determines the expected output during Standard Time, and it compares whether the output of the given date the same (Standard) or less (DST).
+// Ref: https://stackoverflow.com/a/11888430
+const isDstObserved = date => {
+  return date.getTimezoneOffset() < stdTimezoneOffset(date);
+};

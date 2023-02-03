@@ -31,20 +31,21 @@ export function MultiSelect(props) {
     valueFilter,
     setValueFilter,
     resetFacets,
-    tracker
+    tracker,
+    fallbackValues
   } = props;
 
   const tagSuggestions$ = useSuggestions({
     ...props,
     valueFilter
   });
-
   useEffect(() => {
     setIsDisabledWithNoValues(
       valueFilter === '' &&
         !isLoading(tagSuggestions$) &&
         selectedValues.length === 0 &&
         tagSuggestions$?.data?.items?.length === 0 &&
+        !fallbackValues &&
         !hasError(tagSuggestions$)
     );
   }, [setIsDisabledWithNoValues, valueFilter, selectedValues, tagSuggestions$]);
@@ -96,7 +97,7 @@ export function MultiSelect(props) {
         />
       </Stack>
       <div className={locals.buttonRow}>
-        {suggestions?.length > 0 && nextBatch > 0 && (
+        {(suggestions?.length > 0 || (errors?.length > 0 && props.fallbackValues?.length > 0)) && nextBatch > 0 && (
           <Button className={locals.loadMore} kind="action" onClick={() => setShowMore(showMore + nextBatch)}>
             {t('in-components:analyze.loadMore')}
           </Button>

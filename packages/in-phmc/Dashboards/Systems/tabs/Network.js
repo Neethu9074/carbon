@@ -7,10 +7,10 @@ import React, { Fragment } from 'react';
 
 import SriovAdapter from 'in-phmc/Dashboards/tables/SriovAdapter';
 
-export default function Network({ data: system }) {
+export default function Network({ timeConfig, data: system }) {
   return (
     <Fragment>
-      <SriovAdapter snapshotId={system.id} />
+      <SriovAdapter snapshotId={system.id} timeConfig={timeConfig}/>
     </Fragment>
   );
 }

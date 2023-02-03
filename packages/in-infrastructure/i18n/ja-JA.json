@@ -45,7 +45,6 @@
     "infrastructure": "インフラストラクチャー",
     "snapshotVersions": "スナップショットのバージョン",
     "analyzeProfiles": "プロファイルの分析",
-    "analyzeLogs": "ログの分析",
     "entityVersions": "エンティティーのバージョン",
     "loadingData": "データをロード中",
     "namespace": "名前空間",
@@ -58,15 +57,18 @@
   },
   "explore": {
     "focusOnThisGroup": "このグループにフォーカス",
-    "offline": "オフライン",
     "thisIsABetaVersionOfANewProductCapability": "これは新しい製品機能のベータ版です。 提示されたデータに依存しないことをお勧めします。",
     "theQueryConfigurationIsInvalid": "照会構成が無効です。 続行する前に検証の失敗に対処してください。",
     "allInfrastructure": "すべてのインフラストラクチャー",
     "name": "名前",
-    "search": "検索",
+    "search": "タイプの検索",
     "explore": "探索",
-    "cpuUser": "CPU (ユーザー)",
-    "memoryFree": "空きメモリー"
+    "count": "数",
+    "errors": {
+      "maximumNumberOfGroups": "この照会の結果が多すぎます。 より限定的なフィルターまたはより広範囲のグループを使用して絞り込んでください",
+      "generalError": "予期しないエラーが発生しました。 よりきめ細かいフィルターを使用して絞り込んでから、再試行してください"
+    },
+    "entityTypes": "エンティティー・タイプ {{count, parenthesis}}"
   },
   "tableView": {
     "showCountsAndAveragesAcrossTheCurrentTimeWindow": "現在の時間枠でのカウントと平均を表示します。",
@@ -77,17 +79,19 @@
     "visualizeMetricForSelected": "選択した {{plugins}} のメトリックの視覚化",
     "weDoNotYetSupportTablesFor": "{{plugins}} の表はまだサポートされていません。",
     "physicalDomains": {
-      "host": "ホスト",
-      "jvm": "JVM",
-      "nodejs": "Node.js アプリケーション",
+      "beeInstanaNode": "BeeInstana ノード",
+      "clickHouseDatabase": "ClickHouse",
       "containerd": "Containerd コンテナー",
       "crio": "CRI-O コンテナー",
+      "crowdStrikeFalcon": "クラウドストライク・ファルコン",
       "docker": "Docker コンテナー",
       "garden": "Garden コンテナー",
+      "host": "ホスト",
+      "jvm": "JVM",
       "lxc": "LXC コンテナー",
-      "process": "プロセス",
-      "clickHouseDatabase": "ClickHouse",
-      "ping": "Ping"
+      "nodejs": "Node.js アプリケーション",
+      "ping": "Ping",
+      "process": "プロセス"
     },
     "tableContent": "表の内容:",
     "remove": "削除",

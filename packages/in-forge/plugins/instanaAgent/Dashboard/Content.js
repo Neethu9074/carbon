@@ -10,11 +10,13 @@ import {
   bytesTwoDecimalPlaces,
   bytesPerSecondZeroDecimalPlaces,
   bytesPerSecondTwoDecimalPlaces,
+  percentageZeroDecimalPlaces,
   millis,
   number,
   percentage,
   twoDecimalPlaces,
-  time
+  time,
+  siPrefix
 } from 'in-services/formatters/number';
 import ConfigurationManagementDialog from 'in-forge/plugins/instanaAgent/Dashboard/ConfigurationManagementDialog';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
@@ -35,18 +37,27 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import IssueList from 'in-forge/plugins/instanaAgent/Dashboard/IssueList';
 import { agentMonitoringIssuesEnabled } from 'in-services/featureFlags';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { supportsOpenFiles } from 'in-forge/plugins/host/hostUtils';
+import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import Columize from 'in-sdk/components/dashboard/Columize';
+import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 export default connectTo(
-  {
-    isInternalVisible: isInternalVisible$
-  },
-  function InstanaAgentDashboard({ snapshot, timeConfig, isInternalVisible }) {
+  ({ snapshot }) => ({
+    isInternalVisible: isInternalVisible$,
+    hostSnapshot: getHostSnapshotId(snapshot).flatMap(getSnapshot)
+  }),
+  function InstanaAgentDashboard({ snapshot, timeConfig, isInternalVisible, hostSnapshot }) {
     const snapshotId = snapshot.get('id');
+    const metricIds = snapshot.get('metricIds');
+    const collectors = metricIds
+      .filter(metric => metric.startsWith('gc') && metric.endsWith('count'))
+      .map(metric => metric.substring(3, metric.length - 6))
+      .toArray();
     return (
       <Fragment>
         <DashboardSection title={t('in-forge:plugins.instanaAgent.dashboard.management')}>
@@ -78,8 +89,68 @@ export default connectTo(
           <IssueList snapshot={snapshot} timeConfig={timeConfig} />
         )}
         <Columize>
-          {snapshot.getIn(['data', 'hasCpuLoad']) ? (
+          {snapshot.getIn(['data', 'hasCpuLoad']) && snapshot.getIn(['data', 'hasProcessData']) ? (
             <DashboardSection title={t('in-forge:plugins.instanaAgent.dashboard.cpuLoad')}>
+              <ChartExplanation>
+                {t(
+                  'in-forge:plugins.instanaAgent.dashboard.userAndSystemShowLoadInPercentWhere100EqualASingleCoreAtFullLoad'
+                ) +
+                  ' ' +
+                  t(
+                    'in-forge:plugins.instanaAgent.dashboard.LoadIsComputedInTheJVMRelatedToTheCombinedProcessingPowerAndNormalizedTo1'
+                  )}
+              </ChartExplanation>
+              <Chart
+                snapshotId={snapshot.get('id')}
+                timeConfig={timeConfig}
+                y2={{
+                  min: 0,
+                  metrics: ['cpu.load'],
+                  labels: [t('in-forge:plugins.instanaAgent.dashboard.load')],
+                  formatter: number.detailed,
+                  type: 'line'
+                }}
+                y1={{
+                  metrics: ['proc.cpu.user', 'proc.cpu.sys'],
+                  labels: [
+                    t('in-forge:plugins.process.dashboard.user'),
+                    t('in-forge:plugins.process.dashboard.system')
+                  ],
+                  type: 'stackedArea',
+                  formatter: percentageZeroDecimalPlaces
+                }}
+                renderPostChartContent={PluginDashboardsMarkerLanes}
+              />
+            </DashboardSection>
+          ) : snapshot.getIn(['data', 'hasProcessData']) ? (
+            <DashboardSection title={t('in-forge:plugins.instanaAgent.dashboard.cpuLoad')}>
+              <ChartExplanation>
+                {t(
+                  'in-forge:plugins.instanaAgent.dashboard.userAndSystemShowLoadInPercentWhere100EqualASingleCoreAtFullLoad'
+                )}
+              </ChartExplanation>
+              <Chart
+                snapshotId={snapshot.get('id')}
+                timeConfig={timeConfig}
+                y1={{
+                  metrics: ['proc.cpu.user', 'proc.cpu.sys'],
+                  labels: [
+                    t('in-forge:plugins.process.dashboard.user'),
+                    t('in-forge:plugins.process.dashboard.system')
+                  ],
+                  type: 'stackedArea',
+                  formatter: percentageZeroDecimalPlaces
+                }}
+                renderPostChartContent={PluginDashboardsMarkerLanes}
+              />
+            </DashboardSection>
+          ) : snapshot.getIn(['data', 'hasCpuLoad']) ? (
+            <DashboardSection title={t('in-forge:plugins.instanaAgent.dashboard.cpuLoad')}>
+              <ChartExplanation>
+                {t(
+                  'in-forge:plugins.instanaAgent.dashboard.LoadIsComputedInTheJVMRelatedToTheCombinedProcessingPowerAndNormalizedTo1'
+                )}
+              </ChartExplanation>
               <Chart
                 snapshotId={snapshot.get('id')}
                 timeConfig={timeConfig}
@@ -87,8 +158,8 @@ export default connectTo(
                   min: 0,
                   metrics: ['cpu.load'],
                   labels: [t('in-forge:plugins.instanaAgent.dashboard.load')],
-                  type: 'stackedArea',
-                  formatter: number.detailed
+                  formatter: number.detailed,
+                  type: 'line'
                 }}
                 renderPostChartContent={PluginDashboardsMarkerLanes}
               />
@@ -123,31 +194,100 @@ export default connectTo(
             />
           </DashboardSection>
         </Columize>
-        <DashboardSection title={t('in-forge:plugins.instanaAgent.dashboard.garbageCollection')}>
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              formatter: time,
-              metrics: ['gc.Copy.time', 'gc.MarkSweepCompact.time'],
-              labels: [
-                t('in-forge:plugins.instanaAgent.dashboard.copyTime'),
-                t('in-forge:plugins.instanaAgent.dashboard.markSweepCompactTime')
-              ],
-              type: 'line'
-            }}
-            y2={{
-              formatter: twoDecimalPlaces,
-              metrics: ['gc.Copy.count', 'gc.MarkSweepCompact.count'],
-              labels: [
-                t('in-forge:plugins.instanaAgent.dashboard.copyInvocation'),
-                t('in-forge:plugins.instanaAgent.dashboard.markSweepCompactInvocation')
-              ],
-              type: 'point'
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
+        {snapshot.getIn(['data', 'hasProcessData']) ? (
+          <DashboardSection title={t('in-forge:plugins.instanaAgent.dashboard.systemMemory')}>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: bytesTwoDecimalPlaces,
+                metrics: ['proc.mem.virtual', 'proc.mem.resident', 'proc.mem.share'],
+                labels: [
+                  t('in-forge:plugins.process.dashboard.virtual'),
+                  t('in-forge:plugins.process.dashboard.resident'),
+                  t('in-forge:plugins.process.dashboard.share')
+                ],
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </DashboardSection>
+        ) : null}
+        {collectors ? (
+          <DashboardSection title={t('in-forge:plugins.jvmRuntimePlatform.garbageCollection')}>
+            <ChartExplanation>
+              {t(
+                'in-forge:plugins.jvmRuntimePlatform.garbageCollectorsWillReportTheirActivationAndRuntimeAfterTheyHaveFinished'
+              )}
+            </ChartExplanation>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                metrics: collectors.map(name => 'gc.' + name + '.time'),
+                labels: collectors.map(name => t('in-forge:plugins.jvmRuntimePlatform.nameTime', { name: name })),
+                type: 'line',
+                aggregation: 'sum',
+                formatter: time
+              }}
+              y2={{
+                metrics: collectors.map(name => 'gc.' + name + '.count'),
+                labels: collectors.map(name =>
+                  t('in-forge:plugins.jvmRuntimePlatform.nameInvocations', { name: name })
+                ),
+                type: 'point',
+                aggregation: 'sum',
+                formatter: twoDecimalPlaces
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </DashboardSection>
+        ) : null}
+        {snapshot.getIn(['data', 'hasProcessData']) && hostSnapshot && supportsOpenFiles(hostSnapshot) && (
+          <DashboardSection title={t('in-forge:plugins.process.dashboard.openFiles')}>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: siPrefix.compact,
+                tooltipFormatter: number.compact,
+                metrics: ['proc.openFiles.current'],
+                labels: [t('in-forge:plugins.process.dashboard.current')],
+                type: 'line'
+              }}
+              y2={{
+                min: 0,
+                max: 1,
+                metrics: ['proc.openFiles.used'],
+                labels: [t('in-forge:plugins.process.dashboard.used')],
+                formatter: percentageZeroDecimalPlaces,
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </DashboardSection>
+        )}
+        {snapshot.getIn(['data', 'proc.ctx_switches_enabled']) ? (
+          <DashboardSection title={t('in-forge:plugins.process.dashboard.numberOfContextSwitches')}>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                metrics: ['proc.ctx_switches.voluntary', 'proc.ctx_switches.nonvoluntary'],
+                labels: [
+                  t('in-forge:plugins.process.dashboard.voluntary'),
+                  t('in-forge:plugins.process.dashboard.nonvoluntary')
+                ],
+                formatter: number.compact,
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </DashboardSection>
+        ) : null}
         <DashboardSection title={t('in-forge:plugins.instanaAgent.dashboard.network')}>
           <Chart
             snapshotId={snapshotId}

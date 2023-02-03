@@ -1,0 +1,12 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+:local {
+  .crossSeriesAggregationWrapper {
+    display: flex;
+    align-items: center;
+    margin-top: 1rem;
+  }
+}

@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import metricDefinitions from 'in-forge/plugins/awsLambda/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/awsLambda/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
@@ -20,7 +19,6 @@ import { t } from 'in-i18n';
 registerSnapshotDefinition({
   plugin: plugins.awsLambda,
   kpiDefinitions,
-  metricDefinitions,
   technologyDescriptor: {
     label: t('in-forge:pluginName_awsLambda')
   },

@@ -3,109 +3,327 @@
  * (c) Copyright Instana Inc.
  */
 
-import { compose, withState } from 'recompose';
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 
-import { Button } from '@instana/components';
+import { combineLatest, just } from '@instana/observables';
+import { Button, Card, Stack } from '@instana/components';
 
-import FileDownloadConfigurationDialog from 'in-websites/WebsiteDashboard/tabs/Configuration/StackTraceTranslation/FileDownloadConfigurationDialog';
-import { getSourceMapConfigurations, removeSourceMapConfiguration } from 'in-websites/api/websites';
+import {
+  getSourceMapDownloadConfigurations,
+  removeSourceMapDownloadConfiguration,
+  getSourceMapUploadConfigurations,
+  removeSourceMapUploadConfiguration
+} from 'in-websites/api/websites';
+import FileDownloadConfigurationDialogPresenter from 'in-websites/WebsiteDashboard/tabs/Configuration/StackTraceTranslation/FileDownloadConfigurationDialogPresenter';
+import FileUploadConfigurationDialog from 'in-websites/WebsiteDashboard/tabs/Configuration/StackTraceTranslation/FileUploadConfigurationDialog';
+import WideRow from 'in-websites/WebsiteDashboard/tabs/Configuration/StackTraceTranslation/WideRow';
+import HelpParagraph from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/HelpParagraph';
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
+import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import LearnMoreCard from 'in-websites/LearnMoreCard/LearnMoreCard';
+import { websiteUploadConfigEnabled } from 'in-services/featureFlags';
+import { formatDateTime } from 'in-services/formatters/date';
 import { isNotBlank } from 'in-services/util/string';
-import { t } from 'in-i18n';
+import ButtonGroup from 'in-components/ButtonGroup';
+import { seconds } from 'in-services/time';
+import { t, Trans } from 'in-i18n';
 
 import locals from './StackTraceTranslation.mless';
 
-const columnDefinitions = [
+const columnDefinitionsDownload = [
   {
     id: 'configuration',
     label: t('in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationLabelConfiguration'),
     width: '4rem',
     widthInAbsoluteUnit: true,
-    getValue: toLabel,
-    getContent: toLabel
+    getValue: toDownloadLabel,
+    getContent: toDownloadLabel
   }
 ];
 
-const explanation = (
-  <Fragment>{t('in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationExplanation')}</Fragment>
-);
+const columnDefinitionsUpload = [
+  {
+    id: 'configuration',
+    label: t('in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationLabelConfiguration'),
+    getValue: toUploadLabel,
+    getContent: toUploadLabel
+  },
+  {
+    id: 'fileCount',
+    label: t('in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationLabelFiles'),
+    width: '8rem',
+    widthInAbsoluteUnit: true,
+    getValue: toUploadFileCountValue,
+    getContent: toUploadFileCount
+  },
+  {
+    id: 'totalSize',
+    label: t('in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationLabelTotalSize'),
+    width: '8rem',
+    widthInAbsoluteUnit: true,
+    getValue: toUploadTotalSizeValue,
+    getContent: toUploadTotalSize
+  },
+  {
+    id: 'lastModified',
+    label: t('in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationLabelLastModified'),
+    width: '14rem',
+    widthInAbsoluteUnit: true,
+    getValue: toUploadLastModified,
+    getContent: toUploadLastModified
+  }
+];
 
-export default compose(withState('message', 'setMessage', null))(function StackTraceTranslationConfigurationPresenter({
-  websiteId,
-  setMessage,
-  message
-}) {
+const fileConfigTypes = {
+  upload: 'upload',
+  download: 'download'
+};
+
+export default function StackTraceTranslationConfigurationPresenter({ websiteId }) {
+  const [message, setMessage] = useState();
+  const [fileConfigType, setFileConfigType] = useState(fileConfigTypes.download);
+  const [allConfigs, setAllConfigs] = useState(null);
+
   const onFinished = message => {
+    setAllConfigs(null);
     setMessage(message);
   };
+
+  const onLoadEntities = () => {
+    if (allConfigs) {
+      return just(fileConfigTypes.download === fileConfigType ? allConfigs.downloadConfigs : allConfigs.uploadConfigs);
+    }
+    return combineLatest([
+      getSourceMapUploadConfigurations(websiteId),
+      getSourceMapDownloadConfigurations(websiteId)
+    ]).map(([uploadConfigs, downloadConfigs]) => {
+      setAllConfigs({ uploadConfigs: uploadConfigs, downloadConfigs: downloadConfigs });
+      return fileConfigTypes.download === fileConfigType ? downloadConfigs : uploadConfigs;
+    });
+  };
+
+  const headerWithCount = (cfgType, totalHitsBeforeFilter, totalHitsAfterFilter) => {
+    const title =
+      cfgType === fileConfigTypes.download
+        ? t('in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationHeaderFileDownloadConfigurations')
+        : t('in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationHeaderFileUploadConfigurations');
+
+    if (fileConfigType === cfgType) {
+      return defaultHeaderWithCount(title)(totalHitsBeforeFilter, totalHitsAfterFilter);
+    }
+    const totalHits =
+      cfgType === fileConfigTypes.download
+        ? allConfigs?.downloadConfigs?.length ?? 0
+        : allConfigs?.uploadConfigs?.length ?? 0;
+
+    return totalHits === 0 ? title : `${title} (${totalHits})`;
+  };
+
+  const buttonGroup = (totalHitsBeforeFilter, totalHitsAfterFilter) => (
+    <ButtonGroup
+      segmented
+      buttonPropsList={[
+        {
+          text: headerWithCount(fileConfigTypes.download, totalHitsBeforeFilter, totalHitsAfterFilter),
+          key: fileConfigTypes.download,
+          onClick() {
+            setFileConfigType(fileConfigTypes.download);
+          }
+        },
+        {
+          text: headerWithCount(fileConfigTypes.upload, totalHitsBeforeFilter, totalHitsAfterFilter),
+          key: fileConfigTypes.upload,
+          onClick() {
+            setFileConfigType(fileConfigTypes.upload);
+          }
+        }
+      ]}
+      activeKey={fileConfigType}
+    />
+  );
 
   return (
     <Fragment>
       {message && <TemporaryMessage type={message.type} message={message.message} duration={5000} />}
 
-      <LearnMoreCard
-        title={t(
-          'in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationTitleJavaScriptStackTraceTranslation'
-        )}
-        explanation={explanation}
-        learnMoreHref="https://instana.com/docs/website_monitoring/faq/#javascript-stack-trace-translation"
-        learnMoreLabel={t('in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationLearnMoreLabel')}
-      />
+      <WideRow>
+        <Card
+          title={t(
+            'in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationTitleJavaScriptStackTraceTranslation'
+          )}
+        >
+          <HelpParagraph>
+            {websiteUploadConfigEnabled ? (
+              <Trans
+                i18nKey={
+                  'in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationExplanationWithUploadFeature'
+                }
+              />
+            ) : (
+              <Trans i18nKey={'in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationExplanation'} />
+            )}
+          </HelpParagraph>
 
-      <List
-        title={t(
-          'in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationTitleJSStackTraceTranslationConfigurations'
-        )}
-        getHeader={defaultHeaderWithCount(
-          t('in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationHeaderFileDownloadConfigurations')
-        )}
-        getEntityName={getEntityName}
-        columnDefinitions={columnDefinitions}
-        tableActions={{
-          delete: {
-            deleteEntity(entity) {
-              return removeSourceMapConfiguration(websiteId, entity.id);
-            }
-          }
-        }}
-        initialOrderBy="configuration"
-        loadEntities={() => getSourceMapConfigurations(websiteId)}
-        pageSize={15}
-        searchAttributes={[toLabel]}
-        noDataMessage={t('in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationNoDataMessage')}
-        rightHeader={
-          <Button
-            className={locals.button}
-            kind="action"
-            onClick={() => {
-              addActiveDialog(<FileDownloadConfigurationDialog onFinished={onFinished} websiteId={websiteId} />);
-            }}
-            icon="lib_openclose_add_circle_outline"
-          >
-            {t('in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationButtonAddConfiguration')}
-          </Button>
-        }
-        onRowClick={config => {
-          addActiveDialog(
-            <FileDownloadConfigurationDialog config={config} websiteId={websiteId} onFinished={onFinished} />
-          );
-        }}
-      />
+          <Stack direction="horizontal">
+            <Button
+              href="https://www.ibm.com/docs/en/obi/current?topic=websites-website-monitoring-faq#what-is-javascript-stack-trace-translation"
+              kind="primaryv2"
+              target="_blank"
+            >
+              {t('in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationLearnMoreLabel')}
+            </Button>
+          </Stack>
+        </Card>
+      </WideRow>
+
+      <WideRow>
+        <Card>
+          {fileConfigType === fileConfigTypes.download && (
+            <List
+              title={t(
+                'in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationTitleJSStackTraceTranslationConfigurations'
+              )}
+              getHeader={
+                websiteUploadConfigEnabled
+                  ? null
+                  : defaultHeaderWithCount(
+                      t(
+                        'in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationHeaderFileDownloadConfigurations'
+                      )
+                    )
+              }
+              getCustomHeader={websiteUploadConfigEnabled ? buttonGroup : null}
+              getEntityName={getDownloadEntityName}
+              columnDefinitions={columnDefinitionsDownload}
+              tableActions={{
+                delete: {
+                  deleteEntity(entity) {
+                    return removeSourceMapDownloadConfiguration(websiteId, entity.id);
+                  }
+                }
+              }}
+              initialOrderBy="configuration"
+              loadEntities={onLoadEntities}
+              pageSize={15}
+              searchAttributes={[toDownloadLabel]}
+              noDataMessage={t('in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationNoDataMessage')}
+              rightHeader={
+                <Button
+                  className={locals.button}
+                  kind="action"
+                  onClick={() => {
+                    addActiveDialog(
+                      <FileDownloadConfigurationDialogPresenter onFinished={onFinished} websiteId={websiteId} />
+                    );
+                  }}
+                  icon="lib_openclose_add_circle_outline"
+                >
+                  {t('in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationButtonAddConfiguration')}
+                </Button>
+              }
+              onRowClick={config => {
+                addActiveDialog(
+                  <FileDownloadConfigurationDialogPresenter
+                    config={config}
+                    websiteId={websiteId}
+                    onFinished={onFinished}
+                  />
+                );
+              }}
+            />
+          )}
+          {websiteUploadConfigEnabled && fileConfigType === fileConfigTypes.upload && (
+            <List
+              title={t(
+                'in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationTitleJSStackTraceTranslationConfigurations'
+              )}
+              getCustomHeader={buttonGroup}
+              getEntityName={getUploadEntityName}
+              columnDefinitions={columnDefinitionsUpload}
+              tableActions={{
+                delete: {
+                  deleteEntity(entity) {
+                    return removeSourceMapUploadConfiguration(websiteId, entity.id);
+                  }
+                }
+              }}
+              initialOrderBy="configuration"
+              loadEntities={onLoadEntities}
+              pageSize={15}
+              searchAttributes={[toUploadLabel]}
+              noDataMessage={t(
+                'in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationNoUploadDataMessage'
+              )}
+              rightHeader={
+                <Button
+                  className={locals.button}
+                  kind="action"
+                  onClick={() => {
+                    addActiveDialog(<FileUploadConfigurationDialog onFinished={onFinished} websiteId={websiteId} />);
+                  }}
+                  icon="lib_openclose_add_circle_outline"
+                >
+                  {t('in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationButtonAddConfiguration')}
+                </Button>
+              }
+              onRowClick={config => {
+                addActiveDialog(
+                  <FileUploadConfigurationDialog config={config} websiteId={websiteId} onFinished={onFinished} />
+                );
+              }}
+            />
+          )}
+        </Card>
+      </WideRow>
     </Fragment>
   );
-});
+}
 
-function getEntityName(config) {
+function getDownloadEntityName(config) {
   return t('in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationLabelFileDownloadConfiguration', {
-    config: toLabel(config)
+    config: toDownloadLabel(config)
   });
 }
 
-function toLabel(config) {
+function getUploadEntityName(config) {
+  return t('in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationLabelFileUploadConfiguration', {
+    config: toUploadLabel(config)
+  });
+}
+
+function toUploadLabel(config) {
+  return config.description;
+}
+
+function toUploadFileCountValue(config) {
+  return config.metadata?.length || 0;
+}
+
+function toUploadFileCount(config) {
+  return config.metadata?.length || '-';
+}
+
+function toUploadLastModified(config) {
+  return formatDateTime(seconds.toMillis(config.modifiedAt));
+}
+
+function toUploadTotalSizeValue(config) {
+  if (!config.metadata?.length) {
+    return 0;
+  }
+  return config.metadata.reduce((prev, curr) => prev + curr.size, 0);
+}
+
+function toUploadTotalSize(config) {
+  const v = toUploadTotalSizeValue(config);
+  if (!v) {
+    return '-';
+  }
+  return bytesTwoDecimalPlaces(v);
+}
+
+function toDownloadLabel(config) {
   return config.matchingRules
     .map(rule => {
       let label = '';

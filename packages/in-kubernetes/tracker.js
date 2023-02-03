@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { track, KUBERNETES_DASHBOARD_TAB_CHANGE } from 'in-services/tracking/tracking';
+import { track, KUBERNETES_DASHBOARD_TAB_CHANGE, KUBERNETES_TIME_SHIFT_SELECT } from 'in-services/tracking/tracking';
 
 export const clusterTabChange = e => {
   track(KUBERNETES_DASHBOARD_TAB_CHANGE, { ...e, dashboard: 'cluster' });
@@ -44,3 +44,5 @@ export const podTabChange = e => {
 export const serviceTabChange = e => {
   track(KUBERNETES_DASHBOARD_TAB_CHANGE, { ...e, dashboard: 'service' });
 };
+
+export const kubernetesTimeShiftSelectTracker = e => track(KUBERNETES_TIME_SHIFT_SELECT, e);

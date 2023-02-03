@@ -6,7 +6,6 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import rpt from 'prop-types';
 
-import { useObservable } from '@instana/hooks';
 import { create } from '@instana/observables';
 
 import {
@@ -33,7 +32,6 @@ import Expression from 'in-components/QueryBuilder/components/Expression';
 import Bracket from 'in-components/QueryBuilder/components/Bracket';
 import Tag from 'in-components/QueryBuilder/components/Tag/Tag';
 import ErrorBoundary from 'in-components/ErrorBoundary';
-import useTimeConfig from 'in-hooks/useTimeConfig';
 
 import locals from './QueryBuilder.mless';
 
@@ -56,7 +54,7 @@ export default function QueryBuilderErrorBoundry({ readOnly, ...props }) {
 
 function QueryBuilder({
   value: formModel,
-  getTagCatalog,
+  tagCatalog,
   getSuggestions,
   getSuggestionsProps,
   onChange: onValidChange,
@@ -67,12 +65,11 @@ function QueryBuilder({
   useLastValidStateWhenErroneous = false,
   maxExpressionDepth,
   autoFocusInput = false,
-  getSuggestionLabel
+  getSuggestionLabel,
+  allowEmptyKey
 }) {
-  const timeConfig = useTimeConfig();
   const [draggedFormModelIndex$] = useState(create());
-  const tagCatalog = useObservable(getTagCatalogObservable, [getTagCatalog, timeConfig]);
-  const resolvedCreateTagForm = tagCatalog?.data && createTagForm.bind(null, tagCatalog);
+  const resolvedCreateTagForm = tagCatalog && createTagForm.bind(null, tagCatalog);
 
   // Keep the fromMode state internally and notify the parent only about valid changes
   const [currentFormModel, setCurrentFormModel] = useState(formModel);
@@ -87,7 +84,7 @@ function QueryBuilder({
     }
 
     const { isValid, errors } = validateFormModel({
-      tagCatalog: tagCatalog?.data,
+      tagCatalog: tagCatalog,
       formModel: _formModel,
       maxExpressionDepth
     });
@@ -126,7 +123,7 @@ function QueryBuilder({
     }
   }, [postUpdateFocus.current?.id]);
 
-  if (!tagCatalog?.data) {
+  if (!tagCatalog) {
     return <LoadingIndicator />;
   }
 
@@ -134,7 +131,7 @@ function QueryBuilder({
 
   return currentFormModel.length === 0 ? (
     <FilterButton
-      tagCatalog={tagCatalog.data}
+      tagCatalog={tagCatalog}
       onAdd={onAddFormModelElement}
       formModelIndex={0}
       renderModelIndex={0}
@@ -166,7 +163,7 @@ function QueryBuilder({
               getSuggestions={getSuggestions}
               getSuggestionsProps={getSuggestionsProps}
               onAdd={onAddFormModelElement}
-              tagCatalog={tagCatalog.data}
+              tagCatalog={tagCatalog}
               elements={renderModel}
               onRemove={onRemove}
               focus={focus}
@@ -175,12 +172,13 @@ function QueryBuilder({
               withoutBrackets={withoutBrackets}
               autoFocusInput={autoFocusInput}
               getSuggestionLabel={getSuggestionLabel}
+              allowEmptyKey={allowEmptyKey}
             />
           </div>
         )}
       </QueryBuilderDragAndDropBehaviour>
       <FilterButton
-        tagCatalog={tagCatalog.data}
+        tagCatalog={tagCatalog}
         onAdd={onAddFormModelElement}
         formModelIndex={currentFormModel.length}
         renderModelIndex={renderModel.length - 1}
@@ -321,7 +319,8 @@ function Elements({
   withoutOrConjunction,
   withoutBrackets,
   autoFocusInput,
-  getSuggestionLabel
+  getSuggestionLabel,
+  allowEmptyKey
 }) {
   return (
     <>
@@ -370,6 +369,7 @@ function Elements({
                 withoutBrackets={withoutBrackets}
                 autoFocusInput={autoFocusInput}
                 getSuggestionLabel={getSuggestionLabel}
+                allowEmptyKey={allowEmptyKey}
               >
                 {element.elements && (
                   <Elements
@@ -400,31 +400,26 @@ function Elements({
   );
 }
 
-export const trackingProps = {
-  onTagAdded: rpt.func,
-  onTagRemoved: rpt.func,
-  onQueryChanged: rpt.func
-};
-
 QueryBuilder.propTypes = {
   value: rpt.array.isRequired,
-  getTagCatalog: rpt.func.isRequired,
+  tagCatalog: rpt.object,
   getSuggestions: rpt.func.isRequired,
   getSuggestionsProps: rpt.object,
   onChange: rpt.func.isRequired,
   onError: rpt.func,
-  tracking: rpt.shape(trackingProps),
+  tracking: rpt.shape({
+    onTagAdded: rpt.func,
+    onTagRemoved: rpt.func,
+    onQueryChanged: rpt.func
+  }),
   withoutOrConjunction: rpt.bool,
   withoutBrackets: rpt.bool,
   useLastValidStateWhenErroneous: rpt.bool,
   maxExpressionDepth: rpt.number,
   autoFocusInput: rpt.bool,
-  getSuggestionLabel: rpt.func
+  getSuggestionLabel: rpt.func,
+  allowEmptyKey: rpt.bool
 };
-
-function getTagCatalogObservable([getTagCatalog, timeConfig]) {
-  return getTagCatalog({ timeConfig });
-}
 
 function shouldAutomaticallyAddAConjunction(formModel, newElement, newElementIndex) {
   if (newElement.type !== TAG) {

@@ -29,7 +29,17 @@ export default connectTo(
       error: useTagCatalog('error'),
       custom: useTagCatalog('custom')
     };
-    return <ChartWrapper {...props} {...getAdditionalChartActions({ ...props, tagCatalogs })} />;
+
+    const hasApproximateData = props?.result?.resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE';
+
+    return (
+      <ChartWrapper
+        {...props}
+        {...getAdditionalChartActions({ ...props, tagCatalogs })}
+        renderHistoricDataIndicator
+        hasApproximateData={hasApproximateData}
+      />
+    );
   }
 );
 

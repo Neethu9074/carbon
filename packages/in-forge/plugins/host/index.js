@@ -35,19 +35,21 @@ registerSnapshotDefinition({
   },
 
   getIconType(snapshot) {
-    const os = snapshot.getIn(['data', 'os.name'], '');
-    if (os.match(/aix/i)) {
-      return aixPlugin;
-    } else if (os.match(/solaris/i) || os.match(/sunos/i)) {
-      return solarisPlugin;
-    } else if (os.match(/linux/i)) {
-      return linuxPlugin;
-    } else if (os.match(/windows/i)) {
-      return windowsPlugin;
-    } else if (os.match(/mac/i)) {
-      return applePlugin;
-    } else if (os.match(/z\/os/i)) {
-      return zosPlugin;
+    if (typeof snapshotOrPlugin === 'object') {
+      const os = snapshot.getIn(['data', 'os.name'], '');
+      if (os.match(/aix/i)) {
+        return aixPlugin;
+      } else if (os.match(/solaris/i) || os.match(/sunos/i)) {
+        return solarisPlugin;
+      } else if (os.match(/linux/i)) {
+        return linuxPlugin;
+      } else if (os.match(/windows/i)) {
+        return windowsPlugin;
+      } else if (os.match(/mac/i)) {
+        return applePlugin;
+      } else if (os.match(/z\/os/i)) {
+        return zosPlugin;
+      }
     }
     return linuxPlugin;
   },

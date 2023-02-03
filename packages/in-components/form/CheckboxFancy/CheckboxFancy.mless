@@ -29,6 +29,10 @@
     grid-row-start: 1;
   }
 
+  .disabledLabel {
+    color: @lib__colors__N600Light;
+  }
+
   .verticalLabel {
     display: flex;
     align-items: center;

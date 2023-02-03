@@ -5,8 +5,6 @@
 
 import React from 'react';
 
-import { useObservable } from '@instana/hooks';
-
 import {
   toRenderModel,
   SPACING,
@@ -24,7 +22,6 @@ import TagReadOnly from 'in-components/QueryBuilder/components/Tag/TagReadOnly';
 import { createTagForm } from 'in-components/QueryBuilder/validation/tagForm';
 import Expression from 'in-components/QueryBuilder/components/Expression';
 import ErrorBoundary from 'in-components/ErrorBoundary';
-import useTimeConfig from 'in-hooks/useTimeConfig';
 
 import locals from './QueryBuilder.mless';
 
@@ -45,10 +42,7 @@ export default function QueryBuilderReadOnlyErrorBoundry(props) {
   );
 }
 
-function QueryBuilderReadOnly({ value: formModel, getTagCatalog, getSuggestions }) {
-  const timeConfig = useTimeConfig();
-  const tagCatalog = useObservable(getTagCatalogObservable, [getTagCatalog, timeConfig]);
-
+function QueryBuilderReadOnly({ value: formModel, tagCatalog, getSuggestions }) {
   const resolvedCreateTagForm = tagCatalog?.data && createTagForm.bind(null, tagCatalog);
 
   if (!tagCatalog?.data) {
@@ -105,6 +99,3 @@ function QueryBuilderReadOnly({ value: formModel, getTagCatalog, getSuggestions 
   }
 }
 
-function getTagCatalogObservable([getTagCatalog, timeConfig]) {
-  return getTagCatalog({ timeConfig });
-}

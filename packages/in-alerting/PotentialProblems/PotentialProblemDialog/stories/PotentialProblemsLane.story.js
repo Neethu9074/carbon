@@ -10,7 +10,7 @@ import {
   potentialProblemsCluster
 } from 'in-alerting/PotentialProblems/PotentialProblemDialog/stories/potentialProblemsStorySharedData';
 import PotentialProblemsLanePresenter from 'in-alerting/PotentialProblems/PotentialProblemsLane/PotentialProblemsLanePresenter';
-import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialogWrapper';
+import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/dialog/SmartAlertConfigDialogWrapper';
 import { generateAlertConfig } from 'in-alerting/smart-alerts/applications/components/CreateSmartAlert';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
@@ -19,7 +19,6 @@ import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { close } from 'in-components/DialogPresenter/store';
 import DialogPresenter from 'in-components/DialogPresenter';
-import { noop } from 'in-services/fixedObjects';
 import { hours } from 'in-services/time';
 
 export default {
@@ -63,7 +62,6 @@ export const PotentialProblemsMarkerLane = () => {
           <MarkerLanesPresenter {...props}>
             <PotentialProblemsLanePresenter
               {...laneProps}
-              queryValidator={noop}
               tagFilterExpression={EMPTY_EXPRESSION}
               applications={{}}
               potentialProblems={potentialProblemsCluster}

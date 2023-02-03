@@ -104,6 +104,7 @@
     }
   },
   "widgets": {
+    "invalidWidgetTypeErrorMessage": "<strong>Invalid widget type</strong><br/>This widget has invalid type, you can fix it by editing the dashboard JSON or removing the widget.",
     "metricConfig": {
       "groupingConfig": {
         "top": "Top {{number}}",
@@ -164,14 +165,19 @@
       "metricsFormComponent": {
         "metric": "Metric",
         "selectMetric": "Select metric",
-        "aggregation": "Aggregation"
+        "aggregation": "Aggregation",
+        "crossSeriesAggregation": "Use SUM for cross-series aggregation",
+        "crossSeriesAggregationHelp": "Normally, the cross-series aggregation is the same as the cross-time aggregation (the method used to combine data-points into a single bucket). With this toggle enabled, we'll sum the buckets across the data-series rather than using the specified aggregation.",
+        "crossSeriesAggregationDisabledHelp": "Not applicable to {{aggregation}}",
+        "crossSeriesAggregationRestrictedHelp": "Not applicable to this metric"
       },
       "metrics": {
         "infrastructurePlatforms": "Infrastructure & Platforms",
         "comingSoon": "(coming soon)"
       },
       "typeAndMetricConfigurator": {
-        "pleaseSelectMetric": "Please select a metric"
+        "pleaseSelectMetric": "Please select a metric",
+        "loadingMetrics": "Loading metrics..."
       }
     },
     "srcMobileApp": {
@@ -344,7 +350,7 @@
     "markdown": {
       "demo": {
         "title": "Instana - Getting Started",
-        "text": "Instana is the first and only fully automated Application Performance (APM) Solution designed\nspecifically for the challenges of managing microservice and cloud-native applications.\n\nGetting started is easy\n\n1. If you don't have yet access to Instana, head over to [Instana.com](https://www.instana.com) and register for a Free Trial.\n2. Explore our ecosystem of hundreds of [supported technologies](https://www.instana.com/docs/ecosystem).\n3. Start collecting data with one of our [agents](https://www.instana.com/docs/setup_and_manage).\n4. Learn [how to use Instana](https://www.instana.com/docs/using_instana) for your use-cases.\n5. Read about our unique [Core Capabilities](https://www.instana.com/docs/core_capabilities/).\n6. Extend Instana with our [Integrations, SDK & APIs](https://www.instana.com/docs/integrations).\n\nThat's it!\n\nCan't find what you're looking for? Hop over to [instana.com/docs](https://www.instana.com/docs/)!"
+        "text": "Instana is the first and only fully automated Application Performance (APM) Solution designed\nspecifically for the challenges of managing microservice and cloud-native applications.\n\nGetting started is easy\n\n1. If you don't have yet access to Instana, head over to [Instana.com](https://www.instana.com) and register for a Free Trial.\n2. Explore our ecosystem of hundreds of [supported technologies](https://www.ibm.com/docs/en/obi/current?topic=supported-technologies).\n3. Start collecting data with one of our [agents](https://www.ibm.com/docs/en/obi/current?topic=set-up-manage-instana).\n4. Learn [how to use Instana](https://www.ibm.com/docs/en/obi/current?topic=using-instana) for your use-cases.\n5. Read about our unique [Core Capabilities](https://www.ibm.com/docs/en/obi/current?topic=core-capabilities).\n6. Extend Instana with our [Integrations, SDK & APIs](https://www.ibm.com/docs/en/obi/current?topic=integrations-sdks-apis).\n\nThat's it!\n\nCan't find what you're looking for? Hop over to the [documentation](https://www.ibm.com/docs/en/obi/current)!"
       },
       "formComp": {
         "whatULikeShow": "What would you like to show?",
@@ -371,6 +377,7 @@
     "slo": {
       "demo": {
         "title": "SLO Title",
+        "sliName": "Example Sli",
         "appName": "Example Application Name"
       },
       "apConfigFormComp": {
@@ -397,6 +404,7 @@
         "pleaseSelect": "Please select"
       },
       "createSliForm": {
+        "formName": "Create SLI Form",
         "sliCreateSuccess": "SLI created successfully",
         "failCreateSli": "Failed to create the SLI.",
         "problemCreateSli": "There was a problem creating this SLI: \"{{sliName}}\"",
@@ -461,10 +469,14 @@
         "includeSyntheticCalls": "Include Synthetic Calls",
         "type": "Type",
         "sliEntity": "SLI Entity",
-        "beaconConfigLabel": "Beacon Config",
+        "beaconConfigLabel": "Beacon Configuration",
         "beaconScopeLabel": "Beacon Scope",
-        "httpRequestsLabel": "HTTP Requests",
-        "beaconFiltersLabel": "Beacon Filters"
+        "beaconLabel": "Unknown Beacon Type",
+        "beaconLabel_httpRequest": "HTTP Requests",
+        "beaconLabel_pageLoad": "Website Page Loads",
+        "beaconLabel_custom": "Website Custom Events",
+        "beaconFiltersLabel": "Beacon Filter",
+        "beaconFiltersSubtext": "Optional"
       },
       "sliList": {
         "serviceLevelIndicators": "Service Level Indicators",
@@ -475,7 +487,9 @@
         "delSliConfig": "Delete SLI Configuration",
         "pleaseConfirm": "Please Confirm",
         "pleaseConfirmMsg": "Are you sure you want to delete <strong>{{sliName}}</strong>?",
-        "delete": "Delete"
+        "delete": "Delete",
+        "eventBasedSli": "Event-based",
+        "timeBasedSli": "Time-based, {{metricNameLabel}}"
       },
       "sliManageList": {
         "configSrvLevelIndicatorsMsg": "You are not having the required <em>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</em> permission to create or edit SLIs.",
@@ -491,7 +505,11 @@
       "chart": {
         "spent": "Spent",
         "budget": "Budget",
-        "viewInAnalyze": "View in Analyze"
+        "viewInAnalyze": "View in Analyze",
+        "configType": "SLI",
+        "configType_apdex": "Apdex",
+        "initialEvaluation": "{{configType}} created",
+        "missingDataInfo": "The time of creation for this {{configType}} is within the displayed time range. Data prior to the {{configType}} creation will be missing."
       },
       "formComponent": {
         "sliManagement": "SLI Management",
@@ -518,15 +536,16 @@
         "enterDateFormatYyyyMmDd": "Please enter a date in the format YYYY-MM-DD.",
         "enterTimeInFormatHhMmSs": "Please enter a time in the format HH:mm:ss."
       },
-      "widgetHeader": {
+      "sliSummary": {
         "status": "Status",
         "target": "Target:",
         "errorBudgetSpent": "Error Budget Spent",
         "errorBudget": "Error Budget:",
         "timeWindow": "Time Window",
-        "dynamicTimeWindow": "Dynamic time window",
-        "rollingTimeWindow": "Rolling time window",
-        "fixedTimeWindow": "Fixed time window"
+        "timeWindowType": "Unknown time window",
+        "timeWindowType_dynamic": "Dynamic time window",
+        "timeWindowType_rolling": "Rolling time window",
+        "timeWindowType_fixed": "Fixed time window"
       },
       "sloEntityInfo": {
         "tooltip": {
@@ -548,7 +567,120 @@
       "slo": "SLO",
       "monitoringSourceSelector": {
         "source_application": "Application",
-        "source_website": "Website"
+        "source_website": "Website (Beta)",
+        "callOut_application": "Excludes factors beyond your control such as poor internet connectivity of end-users, but may not accurately reflect end-user experience",
+        "callOut_website": "Most accurately reflects end-user experience, but does not exclude factors beyond your control such as poor internet connectivity of end-users"
+      },
+      "sliFormatter": {
+        "unit": "call",
+        "unit_plural": "calls",
+        "unit_0": "calls",
+        "unit_1": "call",
+        "unit_2": "calls",
+        "thousandCallsFormat": "{{count}}K calls"
+      },
+      "widgetLeftHeader": {
+        "previewDataInfo": "Preview data is shown only up to 7 days in the past. The final widget will only include data since SLI creation."
+      },
+      "boundaryScopeConfigurator": {
+        "all": {
+          "title": "All Calls",
+          "description": "Calls performed within this application, by both consumers as well as internally."
+        },
+        "inbound": {
+          "title": "Inbound Calls",
+          "description": "Only calls that are performed by the consumers of this application."
+        }
+      }
+    },
+    "apdex": {
+      "title": "Apdex: Chart",
+      "chart": {
+        "metricLabel": "Apdex",
+        "viewInAnalyze": "View in Analyze",
+        "noDataRetentionPeriod": "Selected time range is beyond data retention period",
+        "notFoundErrorTitle": "Configured Apdex has not been found",
+        "notFoundErrorDescription": "Please update the Apdex widget by selecting another Apdex configuration"
+      },
+      "demo": {
+        "title": "Apdex for Prod",
+        "entityLabel": "Robot Shop"
+      },
+      "apdexConfigInfo": {
+        "tagFilterLabel": "Filter",
+        "apdexNameLabel": "Apdex Name",
+        "apdexTypeLabel": "Apdex Type",
+        "thresholdLabel": "Threshold"
+      },
+      "formComponent": {
+        "title": "Apdex Configuration",
+        "entityTypeTitle": "Apdex Type",
+        "manageListTitle": "Apdex Management",
+        "createApdex": "Create Apdex Configuration",
+        "editApdex": "Edit Apdex Configuration"
+      },
+      "configurationSelector": {
+        "label": "Apdex Configuration",
+        "selectConfig": "Please select a configuration",
+        "manageConfig": "Manage Apdex",
+        "noneAvailCreateOne": "None available, please create one.",
+        "pleaseSelect": "Please select"
+      },
+      "entityTypeSelector": {
+        "type": "Unknown Type",
+        "type_website": "Website",
+        "type_application": "Application"
+      },
+      "apdexManageList": {
+        "title": "Apdex List",
+        "deleteSuccessfulMessage": "Apdex configuration was successfully deleted.",
+        "deleteFailedMessage": "Failed to delete the Apdex configuration."
+      },
+      "apdexList": {
+        "cardTitle": "Apdex Configuration",
+        "nameColumn": "Apdex configuration",
+        "thresholdColumn": "Threshold",
+        "confirmDeleteHeader": "Please Confirm",
+        "confirmDeleteMessage": "Are you sure you want to delete {{apdex}}?",
+        "editApdexTooltip": "Edit/Clone Apdex configuration",
+        "deleteApdexTooltip": "Delete Apdex configuration",
+        "confirmDeleteButton": "Delete",
+        "createButton": "Create Apdex Configuration"
+      },
+      "createApdexForm": {
+        "customizationHeader": "Apdex Customization",
+        "label": "Apdex Name",
+        "apdexCreateSuccessTitle": "Apdex configuration was created successfully.",
+        "apdexCreateSuccessContent": "Apdex configuration \"{{apdexName}}\" has been created.",
+        "apdexCreateFailedTitle": "Failed to create the Apdex configuration.",
+        "apdexCreateFailedContent": "There was a problem creating this Apdex configuration: \"{{apdexName}}\"",
+        "apdexNameNotEmpty": "The Apdex name cannot be empty.",
+        "nameExistsError": "Apdex configuration with this name already exists. Please enter a different name.",
+        "limitReachedError": {
+          "website": "The maximum number of website apdex configurations ({{0}}) has been reached. Please contact Instana support to request an increase for this limit.",
+          "application": "The maximum number of application apdex configurations ({{0}}) has been reached. Please contact Instana support to request an increase for this limit."
+        },
+        "editConfigNotice": "To avoid data loss, the configuration cannot be edited once it has been created; it can only be adjusted as a copy."
+      },
+      "createWebsiteApdexForm": {
+        "thresholdHeader": "Threshold Configuration",
+        "thresholdLabel": "Threshold"
+      },
+      "entityInfo": {
+        "tooltip": "Unknown Apdex",
+        "tooltip_website": "Website Apdex",
+        "tooltip_application": "Application Apdex"
+      },
+      "widget": {
+        "unknownEntityLabel_application": "Unknown Application",
+        "unknownEntityLabel_website": "Unknown Website",
+        "previewDataInfo": "Preview data is shown for the last 7 days. The final widget will only include data since creation of the Apdex configuration."
+      },
+      "applicationScopeConfigurator": {
+        "label": "Apdex Scope",
+        "boundaryScope": "Boundary",
+        "hiddenCalls": "Hidden Calls",
+        "additionalFilters": "Additional Filter"
       }
     },
     "timezone": {

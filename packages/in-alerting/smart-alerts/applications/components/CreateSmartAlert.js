@@ -6,11 +6,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/applications/components/list/SmartAlertsBaseList';
-import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialogWrapper';
+import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/dialog/SmartAlertConfigDialogWrapper';
+import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/applications/list/SmartAlertsBaseList';
 import { getEntitySelection } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { applicationsAlertingAddAlert } from 'in-alerting/smart-alerts/applications/tracker';
-import { defaultAlertRule } from 'in-alerting/smart-alerts/applications/form/ruleForm';
 import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import FloatingActionButton from 'in-components/FloatingActionButton';
@@ -29,10 +28,6 @@ export default function CreateSmartAlert({
   endpointId,
   location
 }) {
-  if (location.pathname.includes('/application/configuration')) {
-    return null;
-  }
-
   if (isBlank(applicationId)) {
     return null;
   }
@@ -82,7 +77,6 @@ CreateSmartAlert.propTypes = {
 export function generateAlertConfig({ boundaryScope, applicationId, serviceId, endpointId, includeSynthetic }) {
   return {
     boundaryScope,
-    rule: defaultAlertRule,
     threshold: {
       type: HISTORIC_BASELINE,
       value: 0.0,

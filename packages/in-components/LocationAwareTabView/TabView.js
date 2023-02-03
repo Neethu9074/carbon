@@ -3,33 +3,22 @@
  * (c) Copyright Instana Inc.
  */
 
-import { compose, withProps } from 'recompose';
 import React from 'react';
 
+import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
+import { isTroubleshootingModeEnabled$ } from 'in-applications/isTroubleshootingModeEnabled';
 import Switch from 'in-components/LocationAwareTabView/components/Switch';
 import Header from 'in-components/LocationAwareTabView/components/Header';
 import BreadcrumbHeader from 'in-components/breadcrumb/BreadcrumbHeader';
-import { emptyObject } from 'in-services/fixedObjects';
 import { alwaysNull } from 'in-services/fixedStreams';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 
-export default compose(
-  connectTo(props => ({
-    result: props.result$ ? props.result$ : alwaysNull
-  })),
-  withProps(({ result, withProps: customWithPropsExtension, props }) => {
-    if (customWithPropsExtension) {
-      return {
-        props: {
-          ...props,
-          ...customWithPropsExtension({ result, ...props })
-        }
-      };
-    }
-    return emptyObject;
-  })
-)(TabView);
+export default connectTo(props => ({
+  result: props.result$ ? props.result$ : alwaysNull,
+  isInternalVisible: isInternalVisible$,
+  isTroubleshootingModeEnabled: isTroubleshootingModeEnabled$
+}))(TabView);
 
 function TabView({
   result,
@@ -41,9 +30,23 @@ function TabView({
   location,
   props,
   withoutBreadcrumb = false,
-  tabChangeTracker
+  tabChangeTracker,
+  isInternalVisible,
+  isTroubleshootingModeEnabled,
+  withProps: customWithPropsExtension
 }) {
-  const filteredTabs = tabs.filter(filterTabByResult(result));
+  if (customWithPropsExtension) {
+    props = {
+      ...props,
+      ...customWithPropsExtension({ result, ...props })
+    };
+  }
+  const filteredTabs = tabs.filter(filterTabByResult(result)).filter(tab => {
+    if (tab.isInternal) {
+      return isInternalVisible || isTroubleshootingModeEnabled;
+    }
+    return true;
+  });
   const hasErrors = result && result.errors.length > 0;
 
   return (

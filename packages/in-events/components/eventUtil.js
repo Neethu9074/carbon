@@ -21,8 +21,20 @@ export function isApplicationSmartAlertEvent(event) {
   return event.hasIn(['metadata', 'applicationId']);
 }
 
+export function isInfraSmartAlertEvent(event) {
+  return event.hasIn(['metadata', 'infraSmartAlert']);
+}
+
+export function isSyntheticSmartAlertEvent(event) {
+  return event.hasIn(['metadata', 'syntheticTestId']);
+}
+
 export function isAgentMonitoringIssueEvent(event) {
   return event.hasIn(['metadata', 'agent_monitoring_issue']);
+}
+
+export function isIbmMqFileTransferIssueEvent(event) {
+  return event.hasIn(['metadata', 'ibmMqFileTransfer']);
 }
 
 export function getTimeConfigForSnapshotRetrieval(event, latestSnapshot) {

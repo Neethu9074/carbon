@@ -39,9 +39,14 @@
       "pods": "Pods",
       "memoryUsage": "Memory Usage",
       "cloudFoundryApplication": "Cloud Foundry Application",
+      "openstackRegion":"OpenStack Region",
       "vSphereDatacenter": "vSphere Datacenter",
-      "ibmz": "IBM Z",
-      "ibmp": "IBM Power",
+      "ibmz": "IBM Z HMC",
+      "ibmp": "IBM Power HMC",
+      "systems": "Systems",
+      "partitions": "Partitions",
+      "adapters": "Adapters",
+      "vios": "Virtual I/O Server",
       "clusterSubTitle": "{{clusterDistribution}} Cluster, {{count}} Node, {{numberOfPods}}",
       "clusterSubTitle_plural": "{{clusterDistribution}} Cluster, {{count}} Nodes, {{numberOfPods}}",
       "clusterSubTitle_0": "{{clusterDistribution}} Cluster, {{count}} Nodes, {{numberOfPods}}",
@@ -65,13 +70,6 @@
       "views": "Views",
       "website": "Website",
       "mobileApp": "Mobile App"
-    },
-    "openIncidentsButton": {
-      "numberOfIncidents": "{{count}} Incident",
-      "numberOfIncidents_plural": "{{count}} Incidents",
-      "numberOfIncidents_0": "{{count}} Incidents",
-      "numberOfIncidents_1": "{{count}} Incidents",
-      "numberOfIncidents_2": "{{count}} Incidents"
     }
   },
   "cockpit": {
@@ -84,12 +82,18 @@
     "platforms": "Platforms",
     "cloudFoundry": "Cloud Foundry",
     "ibmz": "IBM Z",
-    "ibmp": "IBM Power",
+    "ibmp": "IBM Power HMC",
     "vsphere": "vSphere",
+    "openstack": "OpenStack",
     "kubernetes": "Kubernetes",
     "websites": "Websites",
     "mobileApps": "Mobile Apps",
-    "websitesMobileApps": "Websites & Mobile Apps"
+    "websitesMobileApps": "Websites & Mobile Apps",
+    "customEventDeprecatedWarning": "<strong>{{count}} Custom Event on Application, Service and Endpoint requires action</strong><affectedCustomEvents>View affected Custom Event</affectedCustomEvents>",
+    "customEventDeprecatedWarning_plural": "<strong>{{count}} Custom Events on Application, Service and Endpoint require action</strong><affectedCustomEvents>View affected Custom Events</affectedCustomEvents>",
+    "customEventDeprecatedWarning_0": "<strong>{{count}} Custom Events on Application, Service and Endpoint require action</strong><affectedCustomEvents>View affected Custom Events</affectedCustomEvents>",
+    "customEventDeprecatedWarning_1": "<strong>{{count}} Custom Events on Application, Service and Endpoint require action</strong><affectedCustomEvents>View affected Custom Events</affectedCustomEvents>",
+    "customEventDeprecatedWarning_2": "<strong>{{count}} Custom Events on Application, Service and Endpoint require action</strong><affectedCustomEvents>View affected Custom Events</affectedCustomEvents>"
   },
   "widgets": {
     "columnDefinitions": {

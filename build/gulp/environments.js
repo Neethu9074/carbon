@@ -36,6 +36,11 @@ exports = module.exports = {
     unit: 'release',
     baseDomain: 'instana.rocks'
   },
+  'K8s Release (acme)': {
+    tenant: 'acme',
+    unit: 'release',
+    baseDomain: 'instana.rocks'
+  },
   'K8s Staging (peach)': {
     tenant: 'instana',
     unit: 'staging',
@@ -64,6 +69,11 @@ exports = module.exports = {
   'orange-instanaops (US GCP)': {
     tenant: 'instanaops',
     unit: 'orange',
+    baseDomain: 'instana.io'
+  },
+  'coral-instanaops (US GCP)': {
+    tenant: 'instanaops',
+    unit: 'coral',
     baseDomain: 'instana.io'
   },
   'internal-instanaops': {

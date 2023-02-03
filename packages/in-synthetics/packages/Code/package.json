@@ -1,0 +1,6 @@
+{
+  "name": "code-input",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./Code.tsx"
+}

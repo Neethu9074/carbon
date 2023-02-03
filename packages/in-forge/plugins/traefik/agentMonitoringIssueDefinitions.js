@@ -19,7 +19,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.traefik.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/traefik/#traefik_api_not_accessible`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-traefik#troubleshooting`
   },
   traefik_metrics_api_not_enabled: {
     issueDescription: {
@@ -32,7 +32,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.traefik.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/traefik/#traefik_api_not_enabled`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-traefik#troubleshooting`
   },
   traefik_tracing_not_enabled: {
     issueDescription: {
@@ -45,6 +45,6 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.traefik.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/traefik/#traefik_tracing_not_enabled`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-traefik#troubleshooting`
   }
 };

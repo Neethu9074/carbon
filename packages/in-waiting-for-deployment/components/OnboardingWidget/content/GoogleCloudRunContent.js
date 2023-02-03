@@ -21,7 +21,7 @@ import { instanaDomain } from 'in-waiting-for-deployment/components/OnboardingWi
 import { Col, Row as GridRow } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
-export default function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) {
+export default function GoogleCloudRunContent({ agentKey, downloadKey, serverlessEndpoint }) {
   const installationMethods = [
     t('in-waiting-for-deployment:installationMethods.docker'),
     t('in-waiting-for-deployment:installationMethods.buildpack')
@@ -64,7 +64,7 @@ export default function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) 
         <Spacer />
         <Bash
           lines={[
-            `echo '${agentKey}' | docker login --username "_" --password-stdin containers.instana.${instanaDomain}`,
+            `echo '${downloadKey}' | docker login --username "_" --password-stdin containers.instana.${instanaDomain}`,
             `pack build <image-name> --buildpack from=builder --buildpack containers.instana.${instanaDomain}/instana/release/google/buildpack --builder gcr.io/buildpacks/builder`
           ]}
         />
@@ -81,13 +81,17 @@ export default function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) 
           ]}
         />
         <GridRow>
-          <Col xs={6}>
+          <Col xs={4}>
             <Description lines={['INSTANA_ENDPOINT_URL']} />
             <Script lines={[serverlessEndpoint]} />
           </Col>
-          <Col xs={6}>
+          <Col xs={4}>
             <Description lines={['INSTANA_AGENT_KEY']} />
             <Script lines={[agentKey]} />
+          </Col>
+          <Col xs={4}>
+            <Description lines={['INSTANA_DOWNLOAD_KEY']} />
+            <Script lines={[downloadKey]} />
           </Col>
         </GridRow>
       </>
@@ -137,6 +141,10 @@ export default function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) 
             <Script lines={[agentKey]} />
           </Col>
           <Col xs={4}>
+            <Description lines={['INSTANA_DOWNLOAD_KEY']} />
+            <Script lines={[downloadKey]} />
+          </Col>
+          <Col xs={4}>
             <Description lines={['DOTNET_STARTUP_HOOKS']} />
             <Script lines={[`${appDirName}/Instana.Tracing.Core.dll`]} />
           </Col>
@@ -162,7 +170,7 @@ export default function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) 
 
         <TextWithLink
           i18nKey="in-waiting-for-deployment:content.theSupportForGoOnGoogleCloudRunFullyManagedWorksTheSameWayAsWithAnyGoApplicationFollowTheInstructionsOfThe"
-          href="https://instana.com/docs/ecosystem/go"
+          href="https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-go"
         />
         <Spacer />
         <Description
@@ -171,13 +179,17 @@ export default function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) 
           ]}
         />
         <GridRow>
-          <Col xs={6}>
+          <Col xs={4}>
             <Description lines={['INSTANA_ENDPOINT_URL']} />
             <Script lines={[serverlessEndpoint]} />
           </Col>
-          <Col xs={6}>
+          <Col xs={4}>
             <Description lines={['INSTANA_AGENT_KEY']} />
             <Script lines={[agentKey]} />
+          </Col>
+          <Col xs={4}>
+            <Description lines={['INSTANA_DOWNLOAD_KEY']} />
+            <Script lines={[downloadKey]} />
           </Col>
         </GridRow>
       </>
@@ -214,7 +226,7 @@ export default function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) 
             )
           ]}
         />
-        <Bash lines={[`docker login containers.instana.${instanaDomain} --username _ --password ${agentKey}`]} />
+        <Bash lines={[`docker login containers.instana.${instanaDomain} --username _ --password ${downloadKey}`]} />
 
         <Spacer />
 
@@ -224,13 +236,17 @@ export default function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) 
           ]}
         />
         <GridRow>
-          <Col xs={6}>
+          <Col xs={4}>
             <Description lines={['INSTANA_ENDPOINT_URL']} />
             <Script lines={[serverlessEndpoint]} />
           </Col>
-          <Col xs={6}>
+          <Col xs={4}>
             <Description lines={['INSTANA_AGENT_KEY']} />
             <Script lines={[agentKey]} />
+          </Col>
+          <Col xs={4}>
+            <Description lines={['INSTANA_DOWNLOAD_KEY']} />
+            <Script lines={[downloadKey]} />
           </Col>
         </GridRow>
       </>
@@ -251,7 +267,7 @@ export default function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) 
           lines={[
             'FROM <base-image> # This is the *last* FROM clause in your Dockerfile',
             '',
-            'COPY --from=instana/google-cloud-run-nodejs:latest /instana /instana\n',
+            'COPY --from=icr.io/instana/google-cloud-run-nodejs:latest /instana /instana\n',
             'RUN /instana/setup.sh',
             'ENV NODE_OPTIONS="--require /instana/node_modules/@instana/google-cloud-run"',
             '',
@@ -267,13 +283,17 @@ export default function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) 
           ]}
         />
         <GridRow>
-          <Col xs={6}>
+          <Col xs={4}>
             <Description lines={['INSTANA_ENDPOINT_URL']} />
             <Script lines={[serverlessEndpoint]} />
           </Col>
-          <Col xs={6}>
+          <Col xs={4}>
             <Description lines={['INSTANA_AGENT_KEY']} />
             <Script lines={[agentKey]} />
+          </Col>
+          <Col xs={4}>
+            <Description lines={['INSTANA_DOWNLOAD_KEY']} />
+            <Script lines={[downloadKey]} />
           </Col>
         </GridRow>
       </>
@@ -285,7 +305,7 @@ export default function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) 
 
         <TextWithLink
           i18nKey="in-waiting-for-deployment:content.theSupportForPythonOnGoogleCloudRunFullyManagedWorksTheSameWayAsWithAnyPythonApplicationFollowTheInstructionsOfThe"
-          href="https://instana.com/docs/ecosystem/python"
+          href="https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-python-instana-python-package"
         />
         <Spacer />
         <Description
@@ -294,13 +314,17 @@ export default function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) 
           ]}
         />
         <GridRow>
-          <Col xs={6}>
+          <Col xs={4}>
             <Description lines={['INSTANA_ENDPOINT_URL']} />
             <Script lines={[serverlessEndpoint]} />
           </Col>
-          <Col xs={6}>
+          <Col xs={4}>
             <Description lines={['INSTANA_AGENT_KEY']} />
             <Script lines={[agentKey]} />
+          </Col>
+          <Col xs={4}>
+            <Description lines={['INSTANA_DOWNLOAD_KEY']} />
+            <Script lines={[downloadKey]} />
           </Col>
         </GridRow>
       </>
@@ -335,7 +359,7 @@ export default function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) 
       <HelpBox>
         <TextWithLink
           i18nKey="in-waiting-for-deployment:content.makeSureYouHaveAnInstanaAgentSetUpToMonitorYourGcpProjectForDetailsOnSettingUpTheInstanaAgentForGcpReferToThe"
-          href="https://instana.com/docs/ecosystem/gcp"
+          href="https://www.ibm.com/docs/en/obi/current?topic=agents-monitoring-google-cloud-platform-gcp"
         />
       </HelpBox>
 
@@ -354,7 +378,7 @@ export default function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) 
 
       <TextWithLink
         i18nKey="in-waiting-for-deployment:content.integrateTheInstanaInProcessCollectorForGoogleCloudRunAsDescribedBelowMoreDetailsAreAvailableInThe"
-        href="https://instana.com/docs/ecosystem/google-cloud-run"
+        href="https://www.ibm.com/docs/en/obi/current?topic=agents-monitoring-google-cloud-run"
       />
       <Spacer />
 

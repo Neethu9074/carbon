@@ -1,0 +1,340 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
+ */
+
+import { Field, ListForm, MapForm } from 'formalistic';
+import classNames from 'classnames';
+import React from 'react';
+
+import { Link, Typography, Spacer } from '@instana/components';
+
+import {
+  AUTH_TYPES,
+  getScriptFromFields,
+  getType,
+  getWebhookFields,
+  isScript,
+  isWebhook
+} from 'in-settings/tabs/TeamSettings/pages/automation/shared';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
+import { DescriptionItem, DescriptionList } from 'in-components/DescriptionList/DescriptionList';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
+import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
+import { getLinkToAnalyze } from 'in-logging/navigation/paths';
+import FormGroup from 'in-components/form/FormGroup/FormGroup';
+import { close } from 'in-components/DialogPresenter/store';
+import HelpText from 'in-components/form/HelpText/HelpText';
+import { Action, Parameter, VolatileId } from 'in-types';
+import Select from 'in-components/form/Select/Select';
+import { Col } from 'in-components/layout/Grid/Grid';
+import { Row } from 'in-components/layout/Grid/Grid';
+import useTimeConfig from 'in-hooks/useTimeConfig';
+import Label from 'in-components/form/Label/Label';
+import Input from 'in-components/form/Input/Input';
+import Code from 'in-components/Code';
+import { t, Trans } from 'in-i18n';
+
+import locals from './RunAction.mless';
+
+interface RunActionContentProps {
+  error: string;
+  actionInstanceId: string;
+  action: Action;
+  form: MapForm | undefined;
+  setForm: React.Dispatch<React.SetStateAction<MapForm | undefined>>;
+  volatileId: VolatileId;
+  agentSnapShots: OUT | null | undefined;
+}
+
+export default function RunActionContent({
+  error,
+  actionInstanceId,
+  action,
+  form,
+  setForm,
+  volatileId,
+  agentSnapShots
+}: RunActionContentProps) {
+  const timeConfig = useTimeConfig();
+
+  if (error) return <Typography variant="body-small">{error}</Typography>;
+  if (actionInstanceId) {
+    const tagFilterExpression = tagFilter('log.custom', 'EQUALS', actionInstanceId, 'actionInstanceId');
+    const link = getLinkToAnalyze({ tagFilterExpression: [tagFilterExpression], timeConfig });
+    return (
+      <Typography variant="body-small">
+        <Trans
+          i18nKey="in-settings:tabs.linkToActionLogs"
+          components={{
+            // @ts-expect-error
+            logsLink: <Link onClick={close} href$={link} />
+          }}
+        />
+      </Typography>
+    );
+  }
+  return (
+    <HorizontalFlexWrapper>
+      <div className={locals.borderRight}>
+        <DescriptionList>
+          <DescriptionItem
+            className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+            title={t('in-events:titleDescription')}
+          >
+            {action.description}
+          </DescriptionItem>
+          <DescriptionItem
+            className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+            title={t('in-events:titleActionType')}
+          >
+            {getType(action)}
+          </DescriptionItem>
+        </DescriptionList>
+        {isScript(action.type) && <ScriptActionContent action={action} />}
+        {isWebhook(action.type) && <WebhookActionContent action={action} />}
+        <AgentSelection form={form} volatileId={volatileId} setForm={setForm} agentSnapShots={agentSnapShots} />
+        <Typography variant="body-small">{t('in-events:actionCannotBeUndone')}</Typography>
+      </div>
+      <Spacer horizontal="normal" />
+      <Col className={locals.parameterContainer} lg={4}>
+        <DescriptionList>
+          <DescriptionItem
+            className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+            title={t('in-events:parameters')}
+          >
+            <ParameterInput action={action} form={form} setForm={setForm} />
+          </DescriptionItem>
+        </DescriptionList>
+      </Col>
+    </HorizontalFlexWrapper>
+  );
+}
+
+function AgentSelection({
+  form,
+  setForm,
+  agentSnapShots,
+  volatileId
+}: Pick<RunActionContentProps, 'form' | 'setForm' | 'agentSnapShots' | 'volatileId'>) {
+  const targetAgent = form?.get('targetAgent') as Field<string> | undefined;
+  return (
+    <>
+      {targetAgent?.map(field => (
+        <FormGroup>
+          <Label htmlFor="target-agent" hasError={!field.valid && field.touched}>
+            {t('in-events:targetAgent')}
+          </Label>
+          <Select
+            id="target-agent"
+            value={field.value}
+            onChange={e => {
+              const updatedForm = form?.updateIn(['targetAgent'], field =>
+                (field as Field<string>).setValue(e.target.value).setTouched(true)
+              );
+              setForm(updatedForm);
+            }}
+            hasError={!field.valid && field.touched}
+          >
+            <>
+              <option hidden value="">
+                {t('in-events:pleaseSelect')}
+              </option>
+              {agentSnapShots?.data?.online?.map(agent => {
+                const hostname = agent.data?.hostname;
+                const label =
+                  agent.volatileId?.host_id === volatileId.host_id
+                    ? t('in-events:triggeringAgent', { hostname })
+                    : hostname;
+                return (
+                  <option key={agent.volatileId?.host_id} value={agent.volatileId?.host_id}>
+                    {label}
+                  </option>
+                );
+              })}
+            </>
+          </Select>
+          <TouchedMessages field={field} className={locals.subErrorTextFormField} />
+          <HelpText className={locals.subTextFormField}>{t('in-events:targetAgentDescription')}</HelpText>
+        </FormGroup>
+      ))}
+    </>
+  );
+}
+
+function ScriptActionContent({ action }: Pick<RunActionContentProps, 'action'>) {
+  const script = getScriptFromFields(action.fields);
+  let plaintextScript = script.value;
+  if (script.encoding === 'base64') {
+    plaintextScript = atob(plaintextScript);
+  }
+  return (
+    <DescriptionList>
+      <DescriptionItem
+        className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+        title={t('in-events:titleScriptContent')}
+      >
+        <Code withExpandButton withoutCopyButton code={plaintextScript} lang={'bash'} softWrap />
+      </DescriptionItem>
+    </DescriptionList>
+  );
+}
+
+function WebhookActionContent({ action }: Pick<RunActionContentProps, 'action'>) {
+  const { host, method, body, headerParsed, authenParsed } = getWebhookFields(action);
+  const headerEntries = Object.entries(headerParsed);
+  const authType = AUTH_TYPES.find(a => a.value === authenParsed.type)?.translation;
+  return (
+    <DescriptionList>
+      <DescriptionItem
+        className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+        title={t('in-events:request')}
+      >
+        <div>
+          <Typography variant="body-small">{t('in-events:method', { method: method.value })}</Typography>
+        </div>
+        <div>
+          <Typography variant="body-small">{t('in-events:host', { host: host.value })}</Typography>
+        </div>
+        {body && (
+          <div>
+            <Typography variant="body-small">{t('in-events:body', { body: body.value })}</Typography>
+          </div>
+        )}
+        {headerEntries?.length > 0 && (
+          <div>
+            <Typography variant="body-small">
+              {t('in-events:headers')}
+              <ul>
+                {headerEntries.map(h => (
+                  <li key={h[0]}>
+                    {h[0]}: {h[1]}
+                  </li>
+                ))}
+              </ul>
+            </Typography>
+          </div>
+        )}
+        <div>
+          <Typography variant="body-small">{t('in-events:authType', { authType })}</Typography>
+        </div>
+      </DescriptionItem>
+    </DescriptionList>
+  );
+}
+
+function ParameterInput({ action, form, setForm }: Pick<RunActionContentProps, 'action' | 'form' | 'setForm'>) {
+  const { inputParameters } = action;
+
+  if (!inputParameters || inputParameters.filter(parameter => !parameter.hidden).length === 0) {
+    return (
+      <NoDataAvailable height={200} title={t('in-events:noParametersTitle')} text={t('in-events:noParametersText')} />
+    );
+  }
+  return (
+    <Col>
+      <Spacer vertical="normal" />
+      {inputParameters?.map(parameter => {
+        if (parameter.hidden) return;
+        if (parameter.type === 'vault') {
+          return <VaultParameterInput key={parameter.name} form={form} parameter={parameter} setForm={setForm} />;
+        }
+        // Will need to handle rendering dynamic parameters here
+        return <StaticParameterInput key={parameter.name} form={form} parameter={parameter} setForm={setForm} />;
+      })}
+    </Col>
+  );
+}
+
+interface ParameterInputParams extends Pick<RunActionContentProps, 'form' | 'setForm'> {
+  parameter: Parameter;
+}
+
+function VaultParameterInput({ form, parameter, setForm }: ParameterInputParams) {
+  const parametersForm = form?.get('parameters') as MapForm | undefined;
+  const parameterField = parametersForm?.get(parameter.name!) as ListForm | undefined;
+  const pathField = parameterField?.get(0) as Field<string> | undefined;
+  const keyField = parameterField?.get(1) as Field<string> | undefined;
+
+  const onChange = (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const updatedForm = form?.updateIn(['parameters', parameter.name], field =>
+      (field as ListForm).set(
+        index,
+        ((field as ListForm).get(index) as Field<string>).setValue(e.target.value).setTouched(true)
+      )
+    );
+    setForm(updatedForm);
+  };
+
+  return (
+    <>
+      {keyField && pathField && (
+        <FormGroup key={`${parameter.name}-input`}>
+          <Row withoutSideMargin className={locals.justifyContent}>
+            <Label
+              className={classNames({
+                [locals.parameterLabel]: !(
+                  (!keyField.valid && keyField.touched) ||
+                  (!pathField.valid && pathField.touched)
+                )
+              })}
+              hasError={(!keyField.valid && keyField.touched) || (!pathField.valid && pathField.touched)}
+            >
+              {parameter.label}
+            </Label>
+            <Label>{t('in-events:vault')}</Label>
+          </Row>
+          <Label hasError={!pathField.valid && pathField.touched}>{t('in-events:secretPath')}</Label>
+          <Input value={pathField.value} onChange={onChange(0)} hasError={!pathField.valid && pathField.touched} />
+          <TouchedMessages field={pathField} className={locals.subErrorTextFormField} />
+          <Spacer vertical="small" />
+          <Label hasError={!keyField.valid && keyField.touched}>{t('in-events:secretKey')}</Label>
+          <Input value={keyField.value} onChange={onChange(1)} hasError={!keyField.valid && keyField.touched} />
+          <TouchedMessages field={keyField} className={locals.subErrorTextFormField} />
+        </FormGroup>
+      )}
+      <Spacer vertical="medium" />
+    </>
+  );
+}
+
+function StaticParameterInput({ parameter, form, setForm }: ParameterInputParams) {
+  const parametersForm = form?.get('parameters') as MapForm | undefined;
+  const parameterField = parametersForm?.get(parameter.name) as Field<string> | undefined;
+
+  return (
+    <>
+      {parameterField && (
+        <FormGroup key={`${parameter.name}-input`}>
+          <Row withoutSideMargin className={locals.justifyContent}>
+            <Label
+              className={classNames({ [locals.parameterLabel]: !(!parameterField.valid && parameterField.touched) })}
+              htmlFor={parameter.name}
+              hasError={!parameterField.valid && parameterField.touched}
+            >
+              {parameter.required ? parameter.label : t('in-events:optional', { name: parameter.label })}
+            </Label>
+            <Label>{t('in-events:static')}</Label>
+          </Row>
+          <Input
+            id={`${parameter.name}-input`}
+            value={parameterField.value}
+            placeholder={t('in-events:enterParameterValue')}
+            onChange={e => {
+              const updatedForm = form?.updateIn(['parameters', parameter.name], field =>
+                (field as Field<string>).setValue(e.target.value).setTouched(true)
+              );
+              setForm(updatedForm);
+            }}
+            hasError={!parameterField.valid && parameterField.touched}
+          />
+          <TouchedMessages field={parameterField} className={locals.subErrorTextFormField} />
+        </FormGroup>
+      )}
+      <Spacer vertical="medium" />
+    </>
+  );
+}

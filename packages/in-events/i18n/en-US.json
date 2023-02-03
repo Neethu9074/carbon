@@ -5,6 +5,42 @@
     "totalCallsInAlert": "Total Calls in Alert Scope",
     "earliestTimestamp": "Earliest Timestamp"
   },
+  "associatedActions": "Associated Actions",
+  "associateActions": "Associate Actions",
+  "selectActions": "Select Actions",
+  "addActions": "Add Actions",
+  "actionsAssociationsNote": "Note that action associations are saved with the definition of the event.",
+  "saveButton": "Save",
+  "cancelButton": "Cancel",
+  "yes": "Yes",
+  "ok": "Ok",
+  "targetAgent": "Target Agent",
+  "triggeringAgent": "{{hostname}} (triggering agent)",
+  "targetAgentDescription": "An Agent encapsulates 1..* Sensors, who in turn are able to raise Events to the Instana backend. A triggering Agent contains the Sensor that raised this particular Event.",
+  "pleaseSelect": "Please select",
+  "actionSensorTimeout": "Could not handle the backend request. Check your agent configuration to make sure the Action sensor is installed.",
+  "chosenToRun": "You have chosen to run {{actionName}} from your Action Catalog.",
+  "chosenToTest": "You have chosen to test {{actionName}} from your Action Catalog.",
+  "failedToInitiate": "{{actionName}} failed to initiate.",
+  "hasBeenInitiated": "{{actionName}} has been initiated.",
+  "actionCannotBeUndone": "This action cannot be undone. Are you sure you want to proceed?",
+  "request": "Request",
+  "titleScriptContent": "Script Content",
+  "titleActionType": "Action Type",
+  "method": "Method: {{method}}",
+  "host": "Host: {{host}}",
+  "body": "Body: {{body}}",
+  "authType": "Authorization Type: {{authType}}",
+  "headers": "Headers:",
+  "secretPath": "Secret Path",
+  "secretKey": "Secret Key",
+  "enterParameterValue": "Enter parameter value",
+  "optional": "{{name}} (optional)",
+  "vault": "Vault",
+  "static": "Static",
+  "parameters": "Parameters",
+  "noParametersTitle": "No parameters",
+  "noParametersText": "This action does not have any parameters.",
   "entityInfoPresenterDefaultLabel": "On: ",
   "entityInfoLabelOfService": "Of Service:",
   "titleDetail": "Detail",
@@ -17,9 +53,13 @@
   "titleLastProcess": "Last process",
   "titleLastHost": "Last host",
   "titleIncidentTimeline": "Incident Timeline",
+  "titleAnalyzeCustomEvents": "Analyze Custom Events",
   "titleAnalyzeHTTPRequests": "Analyze HTTP Requests",
+  "titleAnalyzeJsErrors": "Analyze JS Errors",
   "titleAnalyzePageLoads": "Analyze Page Loads",
   "titleAnalyzePageTransitions": "Analyze Page Transitions",
+  "titleAnalyzeLoadTime": "Analyze Load Time",
+  "titleViewRelatedTestResults": "View Related Test Results",
   "titleTime": "Time",
   "titleTriggered": "Triggered",
   "titleActive": "Active",
@@ -108,6 +148,22 @@
   "tooltipCloseEventDetail": "Close event detail",
   "releaseOccurName": "Release: {{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> ago)",
+  "deprecatedCustomEventWarning": "<strong>You will no longer receive this {{issueOrIncident}} starting from July 2023 (Build 253)</strong> View event configuration to migrate it. <documentationLink>Read more in our documentation</documentationLink>",
+  "deprecatedCustomEventGlobalPopup": {
+    "title": "{{deprecatedCustomEvents}} Custom Events require action",
+    "message": "Custom events on Application, Service and Endpoint are deprecated. You will not be able to create or update these types of  custom events starting <strong>April 2023 (Build 246)</strong><br /><br />Existing configs of these types will be removed starting <strong>July 2023 (Build 253)</strong>",
+    "documentationLink": "<documentationLink>Read more in our documentation</documentationLink>",
+    "affectedEventsLink": "View affected custom events"
+  },
+
+  "ibmMqFileTransfer": {
+    "transferID": "Transfer ID",
+    "sourceAgent": "Source Agent",
+    "destinationAgent": "Destination Agent",
+    "originator": "Originator",
+    "status": "Status",
+    "failedFileTransfers": "Failed File Transfers"
+  },
   "navigatorSplitScreen": {
     "tooltipViewPrevious_event": "View previous event (shortcut: left arrow key)",
     "tooltipViewNext_event": "View next event (shortcut: right arrow key)",
@@ -121,5 +177,11 @@
     "fixSuggestion": {
       "podContainerNotReady": "The pod's container is not ready. Check that the node has capacity and/or the image can be retrieved from the specified image path."
     }
+  },
+  "infraSmartAlerts": {
+    "pseudoAggregatedEntityLabel": "{{entityName}} (aggregated)"
+  },
+  "syntheticSmartAlerts": {
+    "failedStatusMetric": "Failed Status"
   }
 }

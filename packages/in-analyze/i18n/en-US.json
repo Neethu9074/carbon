@@ -25,6 +25,11 @@
         "counter_custom_0": "{{number}} Custom Events",
         "counter_custom_1": "{{number}} Custom Events",
         "counter_custom_2": "{{number}} Custom Events",
+        "counter_crash": "{{number}} Crash",
+        "counter_crash_plural": "{{number}} Crashes",
+        "counter_crash_0": "{{number}} Crashes",
+        "counter_crash_1": "{{number}} Crashes",
+        "counter_crash_2": "{{number}} Crashes",
         "counter_Row": "{{number}} Row",
         "counter_Row_plural": "{{number}} Rows",
         "counter_Row_0": "{{number}} Rows",
@@ -66,6 +71,7 @@
       "applications": "Applications",
       "websites": "Websites",
       "mobileApps": "Mobile Apps",
+      "infrastructure": "Infrastructure",
       "profiles": "Profiles",
       "logs": "Logs",
       "eumWebsites": "EUM: Websites",
@@ -86,7 +92,7 @@
       "viewTransitions2": "View Transitions",
       "calls": "Calls",
       "traces": "Traces",
-      "console": "Console"
+      "crashes": "Crashes"
     }
   },
   "traceDetail": {
@@ -125,9 +131,6 @@
         "hideWebsiteInformation": "Hide Website Information",
         "showWebsiteInformation": "Show Website Information",
         "viewWebsiteActivity": "View Website Activity"
-      },
-      "logs": {
-        "noDataMessage": "There are no logs available for this trace"
       }
     },
     "components": {
@@ -176,21 +179,12 @@
       },
       "callTree": {
         "expandButtonForRow": "Expand all Sub Calls",
-        "collapseButtonForRow": "Collapse all Sub Calls",
         "of": "of",
-        "inheritedFrom": "Inherited from",
-        "cardTitle": "Calls"
+        "inheritedFrom": "Inherited from"
       },
       "colorCodingToggleButtons": {
         "colorizeBy": "Colorize by",
-        "colorizeByExpl": "Changes the color for the call bars",
-        "endpoint": "Endpoint",
-        "service": "Service"
-      },
-      "viewToggleButtons": {
-        "expl": "View as",
-        "tree": "Tree",
-        "chart": "Timeline"
+        "endpoint": "Endpoint"
       },
       "logTooltipContent": {
         "errorLog": "Error Log",
@@ -253,7 +247,9 @@
     "labelKeyPairENDS_WITH": "ends with"
   },
   "analyzeHeader": {
-    "title": "Analytics"
+    "title": "Analytics",
+    "analyzeInfrastructureSelectedTitle": "Analyze Infrastructure",
+    "readDocs": "Read docs"
   },
   "filterBar": {
     "keyValueBarItem": {

@@ -8,7 +8,9 @@ import React from 'react';
 
 export interface FormContextContent {
   form: Item;
-  disabled: boolean;
+  disabled?: boolean;
+  rootPath: string[];
+  setForm: (from: Item) => void;
 }
 
 export const FormContext = React.createContext<FormContextContent | undefined>(undefined);

@@ -8,6 +8,11 @@
 const path = require('path');
 
 module.exports = {
+  env: {
+    test: {
+      plugins: ['require-context-hook']
+    }
+  },
   plugins: [
     // Manually added to enforce throwIfClosureRequired
     [
@@ -34,20 +39,6 @@ module.exports = {
         loose: true,
         // Set to true to see what kind of presets we are using.
         debug: false,
-        include: [
-          // latest versions of supported browsers already support these
-          // ES2020 features,
-          // so we need to add these plugins, to force babel to
-          // do the backwards-compatible conversion,
-          // because our current Webpack4 version cannot handle the
-          // ?? operator and :? syntax.
-          //
-          // this can be removed after upgrading webpack to v5
-          // further details:
-          // https://github.com/PaulLeCam/react-leaflet/issues/883
-          'proposal-nullish-coalescing-operator',
-          'proposal-optional-chaining'
-        ],
 
         exclude: [
           // excluded so that we can manual include it again with different options
@@ -74,9 +65,13 @@ module.exports = {
     path.join(__dirname, 'packages', '**', '*.tsx'),
     // Storybook
     path.join(__dirname, 'storybook', 'config', '**', '*.js'),
-    path.join(__dirname, 'packages', '**', '*.mdx')
+    path.join(__dirname, 'packages', '**', '*.mdx'),
 
     // Note that we deliberately do not transpile everything under node_modules. This is not
     // forbidden per se, but we should allow this on a case-by-case basis for performance reasons.
+
+    // Explicitly enable transpilation of @instana/types, because it purely consists of automatically generated typescript
+    // code that can't easily be transpiled upon creation
+    path.join(__dirname, 'node_modules', '@instana', 'types', '**', '*.ts')
   ]
 };

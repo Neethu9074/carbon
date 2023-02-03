@@ -26,13 +26,15 @@
         "subTitle": "엔드포인트",
         "labelOperation": "HTTP 메소드",
         "labelUrl": "URL",
-        "popSubTitle": "인식 위치"
+        "popSubTitle": "접속 위치",
+        "uploadScriptTitle": "스크립트 업로드",
+        "failureToReadFileContent": "파일 컨텐츠 읽기 실패: {{error}}"
       },
       "basicDetails": {
         "title": "ping 테스트 이름",
         "labelName": "테스트 이름",
         "labelDescription": "설명",
-        "labelFreequency": "빈도"
+        "labelFrequency": "빈도"
       },
       "bluePrint": {
         "pingApi": {
@@ -54,6 +56,23 @@
             "line4": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
             "line5": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
           }
+        },
+        "scriptApi": {
+          "name": "스크립트 API",
+          "headline": "HTTP 스크립트",
+          "whenToUse": {
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          },
+          "whoShouldUse": {
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          },
+          "tipsForUsing": {
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line3": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line4": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line5": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          }
         }
       },
       "form": {
@@ -68,15 +87,182 @@
     },
     "feedback": {
       "successTitle": "완료!",
-      "successMessage": "합성 테스트가 성공적으로 작성됨",
+      "successMessageCreate": "합성 테스트가 성공적으로 작성됨",
+      "successMessageDelete": "합성 테스트 삭제 완료",
       "failureTitle": "실패함",
-      "failureMessage": "합성 테스트를 작성하는 데 실패했습니다. 나중에 다시 시도하십시오."
+      "failureMessageCreate": "합성 테스트를 작성하는 데 실패했습니다. 나중에 다시 시도하십시오.",
+      "failureMessageUpdate": "합성 테스트를 업데이트하는 데 실패했습니다. 나중에 다시 시도하십시오.",
+      "failuteMesssageDelete": "합성 테스트를 삭제하는 데 실패했습니다. 나중에 다시 시도하십시오."
+    },
+    "locationFeedback": {
+      "successMessageDelete": "위치가 성공적으로 삭제됨",
+      "failureMesssageDelete": "위치를 삭제하는 데 실패했습니다. 나중에 다시 시도하십시오."
     }
   },
   "createTest": {
     "buttonLabel": "새 테스트 작성"
   },
   "navigation": {
-    "synthetics": "합성"
+    "synthetics": "합성 모니터링"
+  },
+  "dashboard": {
+    "testList": {
+      "mainLabel": "합성 모니터링",
+      "secondaryLabels": {
+        "tests": "테스트",
+        "locations": "위치"
+      },
+      "popDialog": {
+        "button": "<> PoP 배치",
+        "simpleTab": "단순",
+        "redisTab": "Redis TLS",
+        "title": "합성 PoP 명령",
+        "subTitle": "이 코드 템플리트를 참조로 사용하십시오.",
+        "simpleCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"Name;DisplayName;Country;City;0;0;Location description\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<yourpassword>\"",
+        "redisCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"Name;DisplayName;Country;City;0;0;Location description\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true",
+        "tlsInstructions": "Redis TLS를 사용으로 설정하려면 Helm 차트 루트 경로 아래에 certs 폴더를 작성하고 인증서 키 쌍(tls.crt, tls.key) 및 CA 루트 인증서 파일(ca.crt)을 certs 폴더로 복사해야 하며 파일 이름이 정확히 일치해야 합니다.\n\n키/인증서 파일이 없는 경우 openssl 명령을 사용하여 새 파일을 생성할 수도 있습니다. 아래 예를 참조하십시오.",
+        "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt"
+      },
+      "testLabel": "이름",
+      "status": "상태",
+      "frequencySubText": "{{count}}분마다",
+      "frequencySubText_plural": "{{count}}분마다",
+      "pause": "테스트 일시정지",
+      "resume": "테스트 재개",
+      "active": "활성",
+      "paused": "일시중지됨",
+      "deleted": "Deleted",
+      "type": "유형",
+      "successRate": "성공률",
+      "successRuns": "{{successRuns}}/{{totalRuns}}개의 결과",
+      "latency": "대기 시간",
+      "locationLabel": "위치",
+      "locations": "{{totalLocations}}개의 위치",
+      "applicationLabel": "애플리케이션",
+      "health": "상태",
+      "action": "조치",
+      "delete": "이 테스트를 삭제",
+      "labelConfirm": "확인하십시오.",
+      "labelConfirmRemoveTest": "합성 테스트 <strong>{{label}}</strong>을(를) 제거하시겠습니까?",
+      "labelRemove": "제거",
+      "na": "해당사항 없음"
+    },
+    "locationList": {
+      "locationLabel": "위치 이름",
+      "locationDisplayLabel": "표시 이름",
+      "status": "상태",
+      "type": "유형",
+      "totalTests": "링크된 테스트의 수",
+      "lastRun": "마지막 테스트 실행 시간",
+      "namespace": "네임스페이스",
+      "labelConfirmRemoveLocation": "<strong>{{label}}</strong>({{status}}) 위치를 제거하시겠습니까?",
+      "activeTestLinked": "<strong>{{label}}</strong>({{status}}) 위치에 지정된 활성 테스트가 있습니다. 이 위치를 제거하시겠습니까?",
+      "deleteLocation": "위치 삭제"
+    },
+    "summary": {
+      "successRate": "성공률",
+      "locations": "위치",
+      "responseTime": "응답 시간",
+      "meanResponseTime": "평균 응답 시간",
+      "responseSize": "응답 크기",
+      "avgResponseSize": "평균 응답 크기",
+      "summaryTab": "요약",
+      "resultsTab": "결과",
+      "startTime": "시작 시간",
+      "requests": "요청",
+      "widgets": {
+        "failures": "실패",
+        "responseTimes": "응답 시간",
+        "averageResponseSize": "평균 응답 크기",
+        "responseStatus": "응답 상태",
+        "networkTimings": "네트워크 타이밍",
+        "blocking": "블로킹",
+        "dns": "DNS 검색",
+        "sending": "전송",
+        "waiting": "대기",
+        "receiving": "수신",
+        "slowest": "가장 느림",
+        "latest": "최신",
+        "failed": "실패함",
+        "results": "결과",
+        "linkViewAllTestResults": "모든 결과 보기",
+        "ok": "성공",
+        "created": "작성일시",
+        "accepted": "허용",
+        "forbidden": "금지",
+        "notFound": "찾을 수 없음",
+        "serverError": "서버 오류",
+        "badRequest": "잘못된 요청",
+        "badGateway": "잘못된 게이트웨이",
+        "gatewayTimeout": "게이트웨이 시간 초과"
+      },
+      "totalRuns": "{{totalRuns}}개의 총 실행",
+      "meanLatencyFor90th": "90번째: {{meanLatencyDetail}}"
+    },
+    "resultsListPage": {
+      "startedColumn": "시작됨",
+      "locationColumn": "위치",
+      "responseTimeColumn": "응답 시간",
+      "responseSizeColumn": "응답 크기",
+      "retriesColumn": "재시도 횟수",
+      "title": "결과"
+    },
+    "detailsPage": {
+      "timeLineWidget": "타임라인",
+      "responseTimeChart": "응답 시간",
+      "subtransactionStatus": "상태",
+      "subtransactionSize": "크기",
+      "subtransactionTime": "시간",
+      "subtransactionBlocking": "블로킹",
+      "subtransactionDNS": "DNS",
+      "subtransactionConnect": "연결",
+      "subtransactionSSL": "SSL",
+      "subtransactionSending": "전송",
+      "subtransactionWaiting": "대기",
+      "subtransactionReceiving": "수신",
+      "showLessSubDetails": "간략히 보기",
+      "showMoreSubDetails": "자세히 보기",
+      "failedRun": "실패한 실행(예외)",
+      "failedRunErrorTitle": "오류 메시지",
+      "noFailedErrorMessage": "오류 메시지 없음",
+      "stackTraceTitle": "스택 추적",
+      "noStacktrace": "스택 추적 없음",
+      "statusKpiCard": "상태",
+      "successResult": "성공",
+      "failedResult": "실패함",
+      "searchFilter": "검색",
+      "typesFilter": "유형",
+      "typesFilterValues": {
+        "getType": "GET",
+        "allType": "모두",
+        "othersType": "기타"
+      },
+      "subtransactionBody": {
+        "contentType": "컨텐츠 유형",
+        "size": "크기",
+        "redirectTime": "경로 재지정 시간",
+        "uploadSpeed": "업로드 속도",
+        "downloadSpeed": "다운로드 속도",
+        "requestTitle": "요청",
+        "responseTimingTitle": "응답 타이밍",
+        "timingsPercentageOfTotalDurationName": "{{totalDurationName}}의 {{percentage}}"
+      },
+      "logs": "로그",
+      "noDataAvailable": {
+        "message": "이 테스트 결과에 대한 {{component}} 세부사항을 사용할 수 없음",
+        "notFound": "찾을 수 없음"
+      },
+      "downloadHar": "HAR 파일 다운로드",
+      "consoleLogs": "콘솔",
+      "browserLogs": "브라우저"
+    },
+    "noDataAvailable": {
+      "resultsTitle": "사용 가능한 결과가 없음",
+      "resultsDescription": "선택한 시간 범위에 대해 검색된 결과가 없습니다.",
+      "testSummaryTitle": "사용 가능한 합성 테스트 없음",
+      "testSummaryDescription": "데이터베이스에서 검색된 합성 테스트가 없습니다.",
+      "locationListTitle": "사용 가능한 합성 위치가 없음",
+      "locationListDescription": "데이터베이스에서 검색된 합성 위치가 없습니다."
+    }
   }
 }

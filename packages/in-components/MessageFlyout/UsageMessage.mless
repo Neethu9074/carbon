@@ -49,6 +49,16 @@
     margin-bottom: 0.75rem;
   }
 
+  .subtext {
+    margin-top: 0.75rem;
+  }
+
+  .link {
+    color: @lib__colors__yellow800;
+    font-weight: bold;
+    text-decoration: underline;
+  }
+
   p {
     margin: 0.75rem 0;
   }

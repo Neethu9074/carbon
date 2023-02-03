@@ -20,7 +20,6 @@ export default function MicrometerMetrics({ snapshot, timeConfig, titlePrefix })
 export const SPECS = [
   {
     prefix: 'micrometer.metrics.gauge.',
-    path: ['data', 'micrometer.metrics.gauge'],
     type: 'gauge',
     color: '#D90368',
     metrics: [
@@ -32,7 +31,6 @@ export const SPECS = [
   },
   {
     prefix: 'micrometer.metrics.timeGauge.',
-    path: ['data', 'micrometer.metrics.timeGauge'],
     type: 'time gauge',
     color: '#D90368',
     metrics: [
@@ -44,7 +42,6 @@ export const SPECS = [
   },
   {
     prefix: 'micrometer.metrics.counter.',
-    path: ['data', 'micrometer.metrics.counter'],
     type: 'counter',
     color: '#00CC66',
     metrics: [
@@ -56,7 +53,6 @@ export const SPECS = [
   },
   {
     prefix: 'micrometer.metrics.functionCounter.',
-    path: ['data', 'micrometer.metrics.functionCounter'],
     type: 'function counter',
     color: '#00CC66',
     metrics: [
@@ -68,7 +64,6 @@ export const SPECS = [
   },
   {
     prefix: 'micrometer.metrics.timer.',
-    path: ['data', 'micrometer.metrics.timer'],
     type: 'timer',
     color: '#F75C03',
     metrics: [
@@ -80,7 +75,6 @@ export const SPECS = [
   },
   {
     prefix: 'micrometer.metrics.functionTimer.',
-    path: ['data', 'micrometer.metrics.functionTimer'],
     type: 'function timer',
     color: '#F75C03',
     metrics: [
@@ -92,7 +86,6 @@ export const SPECS = [
   },
   {
     prefix: 'micrometer.metrics.longTaskTimer.',
-    path: ['data', 'micrometer.metrics.longTaskTimer'],
     type: 'long task timer',
     color: '#F75C03',
     metrics: [
@@ -104,7 +97,6 @@ export const SPECS = [
   },
   {
     prefix: 'micrometer.metrics.distributionSummary.',
-    path: ['data', 'micrometer.metrics.distributionSummary'],
     type: 'distribution',
     color: '#f7b320',
     metrics: [

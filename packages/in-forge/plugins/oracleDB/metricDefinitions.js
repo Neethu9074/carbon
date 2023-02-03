@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { number, micros, millis, hitRate, percentage, bytes } from 'in-services/formatters/number';
+import { number, micros, millis, hitRate, percentage, bytes, megaBytes } from 'in-services/formatters/number';
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { t } from 'in-i18n';
 
@@ -116,11 +116,17 @@ export default [
   },
   {
     formatter: number,
-    metrics: ['stats.activeUserSessions', 'stats.inactiveUserSessions', 'stats.backgroundSessions'],
+    metrics: [
+      'stats.activeUserSessions',
+      'stats.inactiveUserSessions',
+      'stats.backgroundSessions',
+      'stats.activeSessionsCount'
+    ],
     labels: [
       t('in-forge:plugins.oracleDB.activeUserSessions'),
       t('in-forge:plugins.oracleDB.inactiveUserSessions'),
-      t('in-forge:plugins.oracleDB.backgroundSessions')
+      t('in-forge:plugins.oracleDB.backgroundSessions'),
+      t('in-forge:plugins.oracleDB.activeSessions')
     ],
     min: 0
   },
@@ -145,5 +151,57 @@ export default [
     category: [t('in-forge:plugins.oracleDB.tablespaces')],
     min: 0,
     max: 1
+  },
+  {
+    formatter: megaBytes,
+    metrics: ['stats.usageOfSGA.free', 'stats.usageOfSGA.total', 'stats.usageOfSGA.used'],
+    labels: [
+      t('in-forge:plugins.oracleDB.freeMemory'),
+      t('in-forge:plugins.oracleDB.totalMemory'),
+      t('in-forge:plugins.oracleDB.usedMemory')
+    ],
+    min: 0
+  },
+  {
+    formatter: number,
+    metrics: [
+      'stats.processUtilization.maxUtilization',
+      'stats.processUtilization.limitValue',
+      'stats.processUtilization.currentUtilization',
+      'stats.processUtilization.initialAllocation'
+    ],
+    labels: [
+      t('in-forge:plugins.oracleDB.processMaxUtilization'),
+      t('in-forge:plugins.oracleDB.processLimitValue'),
+      t('in-forge:plugins.oracleDB.processCurrentUtilization'),
+      t('in-forge:plugins.oracleDB.processInitialAllocation')
+    ],
+    min: 0
+  },
+  {
+    formatter: percentage,
+    metrics: ['stats.processUtilization.processLimit'],
+    labels: [t('in-forge:plugins.oracleDB.processLimit')],
+    min: 0
+  },
+  {
+    formatter: percentage,
+    metrics: [
+      'stats.libraryCacheHitRatios.avgLatchHitNoSleep',
+      'stats.libraryCacheHitRatios.avgLatchHitNoMiss',
+      'stats.libraryCacheHitRatios.sqlAreaGetHitRate',
+      'stats.libraryCacheHitRatios.bufferCache',
+      'stats.libraryCacheHitRatios.memorySort',
+      'stats.libraryCacheHitRatios.executeNoParse'
+    ],
+    labels: [
+      t('in-forge:plugins.oracleDB.avgLatchHitNoSleep'),
+      t('in-forge:plugins.oracleDB.avgLatchHitNoMiss'),
+      t('in-forge:plugins.oracleDB.sqlAreaGetHitRate'),
+      t('in-forge:plugins.oracleDB.bufferCache'),
+      t('in-forge:plugins.oracleDB.memorySort'),
+      t('in-forge:plugins.oracleDB.executeNoParse')
+    ],
+    min: 0
   }
 ];

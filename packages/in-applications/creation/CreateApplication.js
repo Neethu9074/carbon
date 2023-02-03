@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/components';
@@ -22,9 +22,24 @@ export default function CreateApplication({
   timeConfig,
   className,
   kind = 'action',
-  icon = 'lib_openclose_add_circle_outline'
+  icon = 'lib_openclose_add_circle_outline',
+  location
 }) {
   const entityResult = useObservable(getConfig, [applicationId]);
+  useEffect(() => {
+    if (location.pathname === '/applications/new' && entityResult) {
+      applicationCreationOpenDialogClick({ status: 'Open Creation Dialog' });
+      addActiveDialog(
+        <CreateApplicationDialog
+          timeConfig={timeConfig || getTimeConfig({ pathname: '/applications', query: {} })}
+          formData={entityResult.data}
+          onClose={close}
+          getOnSavePath={app => getNewApplicationWaiterViewPath(app)}
+          editMode
+        />
+      );
+    }
+  });
 
   return (
     <Button

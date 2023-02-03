@@ -12,19 +12,20 @@ import { Toggle, Stack, Spacer } from '@instana/components';
 import ServicesAndEndpointsListPresenter, {
   ServicesAndEndpointsSearchInput
 } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/ServicesAndEndpointsListPresenter';
-import { ClearTagFilterExpressionButton } from 'in-alerting/smart-alerts/components/smart-alert-dialog/ClearTagFilterExpressionButton';
-import AlertFilterConfigurator from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertFilterConfigurator';
+import { ClearTagFilterExpressionButton } from 'in-alerting/smart-alerts/components/dialog/ClearTagFilterExpressionButton';
 import { createBoundedAlertQueryBuilder } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import SectionLabelWithSubtext from 'in-components/workspace/SectionLabelWithSubtext/SectionLabelWithSubtext';
+import ScopeMigrationMessage from 'in-alerting/smart-alerts/applications/scopeConfig/ScopeMigrationMessage';
+import AlertFilterConfigurator from 'in-alerting/smart-alerts/components/dialog/AlertFilterConfigurator';
+import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
-import LightCard from 'in-alerting/components/LightCard/LightCard';
 import { days } from 'in-services/time';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/scopeConfig/ScopeConfig.mless';
 
 /**
- * Timeframe used for both the entities listed in the advanced AP/Service/Endpoint selector, as well as for the tag-suggestions
+ * Timeframe used for both the entities listed in the advanced AP/Service/Endpoint selector and for the tag-suggestions
  * in QB2. The bigger the timeframe, the better the coverage of entities to be selected, even for entities that did not receive
  * any calls recently. However, large timeframes makes resolving entities/suggestions and UI interaction slow, or even impossible
  * due to timeouts.
@@ -37,25 +38,35 @@ export default function ScopeConfig({
   updateForm,
   isGlobalSmartAlert,
   editMode,
-  initialConfiguredApplications,
-  thresholdType
+  migrationMode,
+  scopeMigrationDetails,
+  initialConfiguredApplications
 }) {
   const applications = form.get('applications').value;
   const boundaryScope = form.get('boundaryScope').value;
   const tagFilterExpression = form.get('tagFilterExpression').value;
+  const includeInternal = form.get('includeInternal').value;
   const includeSynthetic = form.get('includeSynthetic').value;
   const isBuiltIn = form.get('builtIn').value;
+  const alertType = form.get('rule').get('alertType').value;
+  const thresholdType = form.get('threshold').get('type').value;
 
   const [searchQuery, setSearchQuery] = useState('');
   const [filterBySelectionState, setFilterBySelectionState] = useState(Boolean(editMode));
   const shouldDisplayAlertConfigurator = !isBuiltIn || tagFilterExpression.length > 0;
 
-  const AlertQueryBuilder = useMemo(() => {
-    return createBoundedAlertQueryBuilder(applications, boundaryScope, scopeSelectionTimeConfig, thresholdType);
-  }, [applications, boundaryScope, thresholdType]);
+  const { QueryBuilder } = useMemo(() => {
+    return createBoundedAlertQueryBuilder(
+      applications,
+      boundaryScope,
+      scopeSelectionTimeConfig,
+      thresholdType,
+      alertType
+    );
+  }, [applications, boundaryScope, thresholdType, alertType]);
 
   return (
-    <LightCard
+    <ExpandableLightCard
       title={
         <SectionLabelWithSubtext
           subtext={t('in-alerting:smartAlerts.components.smartAlertDialog.scopeConfigTitleTooltip')}
@@ -75,7 +86,8 @@ export default function ScopeConfig({
           setFilterBySelectionState={setFilterBySelectionState}
         />
       }
-      withoutPadding
+      bodyWithoutPadding
+      openByDefault
       darkFrame
       framed
     >
@@ -95,12 +107,17 @@ export default function ScopeConfig({
               }
               timeConfig={scopeSelectionTimeConfig}
               boundaryScope={boundaryScope}
+              includeInternal={includeInternal}
               includeSynthetic={includeSynthetic}
               searchQuery={searchQuery}
               editMode={editMode}
               showInteractedItemsOnly={filterBySelectionState}
               isGlobalSmartAlert={isGlobalSmartAlert}
               initialConfiguredApplications={initialConfiguredApplications}
+              validationError={
+                !form.get('applications').valid &&
+                t('in-alerting:smartAlerts.components.smartAlertDialog.scopeConfigSelectOneEntryMessage')
+              }
             />
           </div>
           {shouldDisplayAlertConfigurator && (
@@ -110,7 +127,7 @@ export default function ScopeConfig({
                 [locals.alertFilterConfiguratorWrapperBottomPadding]: !tagFilterExpression.length || isBuiltIn
               })}
             >
-              <AlertFilterConfigurator QueryBuilderComponent={AlertQueryBuilder} form={form} updateForm={updateForm} />
+              <AlertFilterConfigurator QueryBuilderComponent={QueryBuilder} form={form} updateForm={updateForm} />
             </div>
           )}
         </Stack>
@@ -120,7 +137,10 @@ export default function ScopeConfig({
           </div>
         )}
       </div>
-    </LightCard>
+      {migrationMode && scopeMigrationDetails && (
+        <ScopeMigrationMessage scopeMigrationDetails={scopeMigrationDetails} />
+      )}
+    </ExpandableLightCard>
   );
 }
 
@@ -150,8 +170,12 @@ function LightCardHeaderControls({ filterBySelectionState, setSearchQuery, setFi
 ScopeConfig.propTypes = {
   isGlobalSmartAlert: PropTypes.bool,
   editMode: PropTypes.bool,
+  migrationMode: PropTypes.bool,
+  scopeMigrationDetails: PropTypes.shape({
+    query: PropTypes.string,
+    result: PropTypes.string.isRequired
+  }),
   form: PropTypes.object.isRequired,
   updateForm: PropTypes.func.isRequired,
-  initialConfiguredApplications: PropTypes.object,
-  thresholdType: PropTypes.string.isRequired
+  initialConfiguredApplications: PropTypes.object
 };

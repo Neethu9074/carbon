@@ -1,6 +1,6 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * (c) Copyright IBM Corp. 2022
+ * (c) Copyright Instana Inc. 2022
  */
 
 import React from 'react';
@@ -9,10 +9,18 @@ import { useObservable } from '@instana/hooks';
 import { Link } from '@instana/components';
 
 import { fromBackendModel, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
+import { getLinkToAnalyze as getLinkToMobileAppAnalyze } from 'in-mobile-apps/navigation/paths';
 import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
+import { getLinkToAnalyze as getLinkToWebsiteAnalyze } from 'in-websites/navigation/paths';
 import { type as TAG_FILTER } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { default as useMobileAppTagCatalog } from 'in-mobile-apps/hooks/useTagCatalog';
+import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/tags';
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
+import { default as useWebsiteTagCatalog } from 'in-websites/hooks/useTagCatalog';
+import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
 import { getLinkToAnalyzeDeprecated } from 'in-analyze/navigation/paths';
+import { getLinkToExplore } from 'in-infrastructure/navigation/paths';
+import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
 import { NO_VALUE } from 'in-analyze/components/GroupedTraces/Group';
 import { extendWindowSizeOnLiveMode } from 'in-applications/metrics';
 import { getLinkToAnalyze } from 'in-applications/navigation/paths';
@@ -33,7 +41,17 @@ import locals from './Widget.mless';
 
 export default function ListWidget({ config, title, actions, dragHandle }) {
   const timeConfig = useTimeConfig();
-  const tagCatalog = useTagCatalog(getTagCatalog);
+  let tagCatalog = useTagCatalog(getTagCatalog);
+  switch (config.metricConfiguration.source) {
+    case 'MOBILE_APP':
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      tagCatalog = useMobileAppTagCatalog(config.metricConfiguration.beaconType);
+      break;
+    case 'WEBSITE':
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      tagCatalog = useWebsiteTagCatalog(config.metricConfiguration.beaconType);
+      break;
+  }
   let result = useResultData(config, timeConfig) ?? pendingResult;
   const isErroneous =
     config.metricConfiguration.metric === 'erroneousCalls' || config.metricConfiguration.metric === 'errors';
@@ -52,6 +70,9 @@ export default function ListWidget({ config, title, actions, dragHandle }) {
 }
 
 export function ListWidgetRenderer({ result, isErroneous, tagCatalog, config, title, actions, dragHandle }) {
+  const hasApproximateData =
+    result?.data?.filter(elem => elem?.resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE').length > 0;
+
   return (
     <TopListCardPresenter
       title={title}
@@ -64,6 +85,8 @@ export function ListWidgetRenderer({ result, isErroneous, tagCatalog, config, ti
       Metric={Metric}
       config={config}
       tagCatalog={tagCatalog}
+      renderHistoricDataIndicator
+      hasApproximateData={hasApproximateData}
       header={
         <>
           {dragHandle}
@@ -164,7 +187,7 @@ function Label({ item, config, result, tagCatalog }) {
     });
   }
 
-  const link = config.metricConfiguration.tagFilterExpression
+  let link = config.metricConfiguration.tagFilterExpression
     ? getLinkToAnalyze({
         dataSource: 'calls',
         formModel
@@ -175,6 +198,28 @@ function Label({ item, config, result, tagCatalog }) {
         filters,
         tagCatalog
       });
+
+  switch (config.metricConfiguration.source) {
+    case 'MOBILE_APP':
+      link = getLinkToMobileAppAnalyze({
+        groupBy: defaultMobileAppGroupings[config.metricConfiguration.beaconType],
+        formModel,
+        beaconType: config.metricConfiguration.beaconType,
+        tagCatalog
+      });
+      break;
+    case 'WEBSITE':
+      link = getLinkToWebsiteAnalyze({
+        groupBy: defaultWebsiteGroupings[config.metricConfiguration.beaconType],
+        formModel,
+        beaconType: config.metricConfiguration.beaconType,
+        tagCatalog
+      });
+      break;
+    case 'INFRASTRUCTURE_METRICS':
+      link = (hasInfrastructureAnalyzeAccess && getLinkToEntityExplore(config, formModel)) || '';
+      break;
+  }
 
   return (
     config.metricConfiguration.grouping && (
@@ -233,4 +278,30 @@ function getConvertedValue(value) {
     return JSON.parse(value);
   }
   return value;
+}
+
+function getLinkToEntityExplore(config, formModel) {
+  return getLinkToExplore({
+    type: config.metricConfiguration.type,
+    ...infraMetrics(config),
+    tagFilterExpression: formModel
+  });
+}
+
+function infraMetrics(config) {
+  if (config.metricConfiguration.metric === 'count') {
+    return {};
+  }
+  return {
+    order: {
+      by: `${config.metricConfiguration.metric}.${config.metricConfiguration.aggregation}`,
+      direction: config.metricConfiguration.grouping[0].direction
+    },
+    metrics: [
+      {
+        metric: config.metricConfiguration.metric,
+        aggregation: config.metricConfiguration.aggregation
+      }
+    ]
+  };
 }

@@ -5,7 +5,6 @@
 
 import React from 'react';
 
-import { Card } from '@instana/components';
 import { Link } from '@instana/components';
 
 import {
@@ -23,8 +22,8 @@ import changeExplanation from 'in-websites/emptyListExplanation';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import { number, ms } from 'in-services/formatters/number';
 import { isNotBlank } from 'in-services/util/string';
+import { t, collationLanguage } from 'in-i18n';
 import Footer from 'in-components/Footer';
-import { t } from 'in-i18n';
 
 const columnDefinitions = [
   {
@@ -129,14 +128,13 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 export default function Pages({ timeConfig, tagFilters, websiteId }) {
   return (
     <>
-      <Card>
-        <ServerTableWithUrlState
-          get={getTableData}
-          websiteId={websiteId}
-          tagFilters={tagFilters}
-          timeConfig={timeConfig}
-        />
-      </Card>
+      <ServerTableWithUrlState
+        get={getTableData}
+        websiteId={websiteId}
+        tagFilters={tagFilters}
+        cardTitle={t('in-websites:websiteDashboard.tabs.indexLabelPages')}
+        timeConfig={timeConfig}
+      />
       <Footer />
     </>
   );
@@ -164,7 +162,8 @@ function getTableData({
     },
     order: {
       by: orderBy,
-      direction: orderDirection
+      direction: orderDirection,
+      collation: collationLanguage
     },
     group: {
       groupbyTag: 'beacon.page.name'

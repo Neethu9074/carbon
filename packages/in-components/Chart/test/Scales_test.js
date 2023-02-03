@@ -3,19 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import proxyquire from 'proxyquire';
 import { expect } from 'chai';
 
 import { calculateAxisMinMax } from 'in-components/Chart/Scales';
 import { number } from 'in-services/formatters/number';
+import Scales from 'in-components/Chart/Scales';
 
 describe('in-components/Chart/Scales', () => {
-  let Scales;
-
-  beforeEach(() => {
-    Scales = proxyquire('in-components/Chart/Scales', {}).default;
-  });
-
   describe('constuctor', () => {
     it('should only create scale for y2 if y2 axis is defined', () => {
       let scales = new Scales({});

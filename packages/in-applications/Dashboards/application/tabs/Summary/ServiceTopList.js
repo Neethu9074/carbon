@@ -11,6 +11,7 @@ import { isSyntheticOption } from 'in-applications/Dashboards/commonComponents/i
 import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopListWithUrlState';
 import { getApplicationDashboard, getServiceDashboard } from 'in-applications/navigation/paths';
 import { meanLatencyLargeInSeconds, number, percentage } from 'in-services/formatters/number';
+import WidgetNotActive from 'in-applications/Dashboards/commonComponents/WidgetNotActive';
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 import getServices from 'in-applications/subscriptions/getServices';
 import theme from 'in-themes';
@@ -18,17 +19,17 @@ import { t } from 'in-i18n';
 
 import locals from './ServiceTopList.mless';
 
-const metrics = ['latency', 'calls', 'erroneousCalls'];
+const metrics = ['latency', 'calls', 'errors'];
 const labels = [
   t('in-applications:labelLatency'),
   t('in-applications:labelCalls'),
-  t('in-applications:titleErroneousCalls')
+  t('in-applications:titleErroneousCallRate')
 ];
-const aggregations = ['MEAN', 'SUM', 'SUM'];
-const formatters = [meanLatencyLargeInSeconds.compact, number.compact, number.compact];
-const companionMetrics = [null, null, 'errors'];
-const companionAggregations = [null, null, 'MEAN'];
-const companionFormatters = [null, null, percentage.detailed];
+const aggregations = ['MEAN', 'SUM', 'MEAN'];
+const formatters = [meanLatencyLargeInSeconds.compact, number.compact, percentage.detailed];
+const companionMetrics = [null, 'calls', 'erroneousCalls'];
+const companionAggregations = [null, 'PER_SECOND', 'SUM'];
+const companionFormatters = [null, number.perSecond.compact, number.compact];
 const colors = [null, null, theme.lib.colors.failure];
 
 export default function ServiceTopList({
@@ -36,9 +37,12 @@ export default function ServiceTopList({
   boundaryScope,
   timeConfig,
   urlMatrixParamConfig,
-  syntheticCalls
+  syntheticCalls,
+  renderHistoricDataIndicator
 }) {
-  return (
+  return timeConfig.autoRefresh ? (
+    <WidgetNotActive title={t('in-applications:titleTopServices')} />
+  ) : (
     <TopListWithUrlState
       title={t('in-applications:titleTopServices')}
       metrics={metrics}
@@ -60,6 +64,7 @@ export default function ServiceTopList({
       colors={colors}
       urlMatrixParamConfig={urlMatrixParamConfig}
       syntheticCalls={syntheticCalls}
+      renderHistoricDataIndicator={renderHistoricDataIndicator}
     />
   );
 }
@@ -72,6 +77,7 @@ function getList({
   selectedMetricAggregation,
   selectedCompanionMetric,
   selectedCompanionMetricAggregation,
+  selectedCompanionMetricAlias,
   syntheticCalls
 }) {
   const metrics = {
@@ -80,11 +86,19 @@ function getList({
       aggregation: selectedMetricAggregation
     }
   };
+
   if (selectedCompanionMetric) {
-    metrics[selectedCompanionMetric] = {
-      metric: selectedCompanionMetric,
-      aggregation: selectedCompanionMetricAggregation
-    };
+    if (selectedCompanionMetric === selectedMetric) {
+      metrics[selectedCompanionMetricAlias] = {
+        metric: selectedCompanionMetric,
+        aggregation: selectedCompanionMetricAggregation
+      };
+    } else {
+      metrics[selectedCompanionMetric] = {
+        metric: selectedCompanionMetric,
+        aggregation: selectedCompanionMetricAggregation
+      };
+    }
   }
 
   return getServices({

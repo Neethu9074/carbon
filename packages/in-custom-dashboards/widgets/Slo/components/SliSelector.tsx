@@ -3,19 +3,17 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { ReactNode, useEffect } from 'react';
 import { Field, MapForm } from 'formalistic';
+import React, { ReactNode } from 'react';
 
 import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingFieldValidationMessage';
 import useSliConfigurations from 'in-custom-dashboards/widgets/Slo/hooks/useSliConfigurations';
 import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/constants';
-import { trackSliChanged } from 'in-custom-dashboards/widgets/Slo/tracker';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import { sliConfigId } from 'in-custom-dashboards/widgets/Slo/form';
 import { compareIgnoreCase } from 'in-services/util/string';
-import { SliConfigurationWithLastUpdated } from 'in-types';
 import Sections from 'in-components/workspace/Sections';
-import { FetchStatus } from 'in-hooks/utils/types';
+import HelpText from 'in-components/form/HelpText';
 import { t } from 'in-i18n';
 
 interface SliSelectorProps {
@@ -38,50 +36,34 @@ export default function SliSelector({
 
   const sliField = form.get(sliConfigId) as Field<SliConfigIdFieldValue>;
 
-  useEffect(() => {
-    if (isSliConfigDeselected(sliField, sliConfigurations, status)) {
-      updateForm(
-        form.updateIn([sliConfigId], field =>
-          (field as Field<SliConfigIdFieldValue>).setValue(undefined).setTouched(true)
-        )
-      );
-    }
-
-    // ignoring form and updateForm in the watcher params here, because including them would cause unnecessary evaluations
-    // of the effect
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sliField, sliConfigurations, status]);
+  const hasSomeConfig = sliConfigurations?.length !== 0;
+  const disabled = !entityId || !hasSomeConfig;
+  const hasError = !sliField.valid && sliField.touched;
 
   return (
     <Sections>
       <SelectInSection
         label={t('in-custom-dashboards:widgets.slo.sliSelectionFormComp.srvLevelIndicator')}
         id="sli-selection"
-        disabled={!entityId}
-        value={sliField.value}
+        disabled={disabled}
+        value={sliField.value ?? ''}
         onChange={e => {
           updateForm(
             form.updateIn([sliConfigId], field =>
               (field as Field<SliConfigIdFieldValue>).setValue(e.target.value).setTouched(true)
             )
           );
-          trackSliChanged({ sliConfigId: e.target.value });
         }}
-        hasError={!sliField.valid && sliField.touched}
+        hasError={hasError}
         additionalContent={
-          <OverridingFieldValidationMessage
-            field={sliField}
-            message={t('in-custom-dashboards:widgets.slo.sliSelectionFormComp.selectASli')}
-          />
+          <AdditionalSectionContent hasSomeConfig={hasSomeConfig} hasError={hasError} field={sliField} />
         }
         actions={openManageSLIComponent}
       >
-        {(status !== 'resolved' || sliConfigurations!.length !== 0) && (
-          <option>{t('in-custom-dashboards:widgets.slo.sliSelectionFormComp.pleaseSelect')}</option>
-        )}
-        {status === 'resolved' && sliConfigurations!.length === 0 && (
-          <option>{t('in-custom-dashboards:widgets.slo.sliSelectionFormComp.noneAvailCreateOne')}</option>
-        )}
+        <option value="" disabled hidden>
+          {t('in-custom-dashboards:widgets.slo.sliSelectionFormComp.pleaseSelect')}
+        </option>
+
         {status === 'resolved' &&
           [...sliConfigurations!]
             .sort((a, b) => compareIgnoreCase(a.sliName, b.sliName))
@@ -95,10 +77,30 @@ export default function SliSelector({
   );
 }
 
-const isSliConfigDeselected = (
-  sliField: Field<SliConfigIdFieldValue>,
-  sliConfigurations: SliConfigurationWithLastUpdated[] | undefined,
-  status: FetchStatus
-): boolean => {
-  return !!sliField.value && status === 'resolved' && !sliConfigurations?.some(({ id }) => sliField.value === id);
-};
+interface AdditionalSectionContentProps {
+  hasSomeConfig: boolean;
+  hasError: boolean;
+  field?: Field<SliConfigIdFieldValue>;
+}
+
+function AdditionalSectionContent({ hasSomeConfig, hasError, field }: AdditionalSectionContentProps) {
+  if (hasSomeConfig) {
+    return (
+      <OverridingFieldValidationMessage
+        field={field}
+        message={t('in-custom-dashboards:widgets.slo.sliSelectionFormComp.selectASli')}
+      />
+    );
+  }
+
+  if (hasError) {
+    return (
+      <OverridingFieldValidationMessage
+        field={field}
+        message={t('in-custom-dashboards:widgets.slo.sliSelectionFormComp.noneAvailCreateOne')}
+      />
+    );
+  }
+
+  return <HelpText>{t('in-custom-dashboards:widgets.slo.sliSelectionFormComp.noneAvailCreateOne')}</HelpText>;
+}

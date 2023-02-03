@@ -17,13 +17,25 @@
   "messageParam": "Parámetro de mensaje",
   "applicationCounter": "{{count}} aplicaciones",
   "exceptionMessageHeader": "Mensaje de excepción",
+  "stackTrace": "StackTrace",
   "service": "Service",
   "stream": "Ruta",
   "tooltipCopyToClipboard": "Copiar en el portapapeles",
+  "tooltipCopyLinkToClipboard": "Copiar enlace de registro",
   "tooltipAddAsGroup": "Grupo por etiqueta",
   "tooltipAddAsFilter": "Añadir etiqueta como filtro",
   "sorting": {
     "mostRecent": "Más reciente primero",
     "oldest": "Más antiguo primero"
-  }
+  },
+  "cpuTotal": "Total de CPU",
+  "memoryUsage": "Uso de memoria",
+  "cluster": "Clúster",
+  "node": "Nodo",
+  "namespace": "Espacio de nombres",
+  "deployment": "Despliegue",
+  "pod": "Pod",
+  "tooltipEntityHealthNoIssues": "No hay ningún problema",
+  "tooltipEntityHealthIssues": "{{numberOfIssues}} problemas",
+  "container": "Contenedor"
 }

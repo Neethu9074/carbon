@@ -12,7 +12,9 @@ import { applicationsAlertingEventDetailsGoToAnalyze } from 'in-alerting/smart-a
 import { joinExpressions, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { containsTagName } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import { getLinkToAnalyze } from 'in-applications/navigation/paths';
@@ -44,6 +46,7 @@ export default function AnalyzeApplicationEventButton({
     timeConfig,
     adaptiveBaselineInfo
   });
+
   const linkDisabled = !linkToUA;
 
   return (
@@ -92,7 +95,7 @@ export function getLinkToUnboundAnalytics({
   groupingTagName = null
 }) {
   const { rule, tagFilterExpression, includeInternal, includeSynthetic, evaluationType } = alertConfig;
-  const alertType = rule.alertType;
+  const { alertType } = rule;
 
   const groupByTag = groupingTagName
     ? groupingTagName
@@ -114,13 +117,13 @@ export function getLinkToUnboundAnalytics({
     dataSource,
     timeConfig,
     groupBy: toGroupByTag(groupByTag),
-    chartedMetrics: getChartsParam(alertType),
+    chartedMetrics: getChartedMetrics(alertType),
     formModel: enrichedAnalyzeTagFilterFormModel,
     hiddenCalls: {
       includeInternal,
       includeSynthetic
     }
-  });
+  }).map(urlWithoutQueryParameter);
 }
 
 export function getEnrichedAnalyzeTagFilterFormModel({
@@ -150,8 +153,8 @@ export function getEnrichedAnalyzeTagFilterFormModel({
             endpointId
           )
         : null,
-      serviceName ? tagFilter('service.name', EQUALS, serviceName) : null, // service.name is still used by the affected entities list
-      endpointName ? tagFilter('endpoint.name', EQUALS, endpointName) : null, // endpoint.name is still used by the affected entities list
+      serviceName ? tagFilter('service.name', EQUALS, serviceName, null, DESTINATION) : null, // service.name is still used by the affected entities list
+      endpointName ? tagFilter('endpoint.name', EQUALS, endpointName, null, DESTINATION) : null, // endpoint.name is still used by the affected entities list
       fromBackendModel(tagFilterExpression),
       excludeViolationRelatedFilters ? [] : blueprintConfig.getRuleTagFilterFormModel(rule),
       excludeViolationRelatedFilters
@@ -161,7 +164,7 @@ export function getEnrichedAnalyzeTagFilterFormModel({
   });
 }
 
-function getChartsParam(alertType) {
+function getChartedMetrics(alertType) {
   if (alertType === 'slowness') {
     return [createChartedMetric('latency', 'DISTRIBUTION')];
   }
@@ -169,8 +172,6 @@ function getChartsParam(alertType) {
     // we don't show errors with MEAN aggregation here, because we already include a call.erroneous filter
     return [createChartedMetric('erroneousCalls', 'SUM')];
   }
-  // at the moment only 'latency_DISTRIBUTION' is available when no grouping is set. However, the analyze-view handles
-  // this case properly and then shows the latency-distribution chart instead.
   return [createChartedMetric('calls', 'SUM')];
 }
 

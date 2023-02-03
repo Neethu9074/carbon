@@ -8,12 +8,11 @@ import classNames from 'classnames';
 
 import { lighten } from 'in-services/formatters/color';
 
-// @ts-ignore
 import locals from './Pill.mless';
 
 export const kinds = ['primary', 'info'];
 
-type Kind = 'primnary' | 'info' | string;
+export type Kind = 'primary' | 'info' | 'inverted' | 'lighter' | 'light' | 'bold';
 
 interface PillProps {
   id?: string;

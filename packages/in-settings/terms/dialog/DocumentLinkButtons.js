@@ -35,20 +35,6 @@ export function CookiePolicyButton({ label, fontSize }) {
   );
 }
 
-export function TosButton({ withIcon, label, fontSize }) {
-  return (
-    <Button
-      style={{ padding: 0, margin: 0, fontSize }}
-      kind="action"
-      icon={withIcon ? 'lib_views_external_link' : ''}
-      target="_blank"
-      href="https://instana.com/docs/instana-terms-latest.pdf"
-    >
-      {label ? label : t('in-settings:termsDialog.termsOfService')}
-    </Button>
-  );
-}
-
 export function PrivacyButton({ withIcon, label, fontSize }) {
   return (
     <Button
@@ -56,7 +42,7 @@ export function PrivacyButton({ withIcon, label, fontSize }) {
       kind="action"
       icon={withIcon ? 'lib_views_external_link' : ''}
       target="_blank"
-      href="https://instana.com/docs/instana-privacy-policy-latest.pdf"
+      href="https://www.ibm.com/us-en/privacy"
       noAutoMargin
     >
       {label ? label : t('in-settings:termsDialog.privacyProductPolicy')}

@@ -28,13 +28,11 @@ export default connectTo(
           <SecondLevelNavigation>
             <SecondLevelNavigationItem
               href$={getModifiedUrlStream(p => (p.pathname = phmcListFullyQualified))}
-              icon="lib_kubernetes_cluster"
-              label={t('in-phmc:phmcs')}
+              label={t('in-phmc:hmcs')}
               isActive={isPhmcViewActive}
             />
             <SecondLevelNavigationItem
               href$={getModifiedUrlStream(p => (p.pathname = systemListFullyQualified))}
-              icon="lib_kubernetes_namespace"
               label={t('in-phmc:systems')}
               isActive={isSystemViewActive}
             />

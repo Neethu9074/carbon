@@ -1,0 +1,29 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .dialog {
+    width: 66.25rem;
+    &.advancedMode {
+      max-height: 90vh;
+      height: calc(100vh - 14rem);
+    }
+  }
+
+  .slideInContainer {
+    height: 100%;
+  }
+
+  .titleWrapper {
+    gap: 1rem;
+  }
+
+  .builtInIndicator {
+    line-height: 2rem;
+  }
+}

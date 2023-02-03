@@ -5,17 +5,18 @@
 
 import React, { ReactNode } from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 
-import { SvgIcon, Button, Link, ButtonKinds } from '@instana/components';
+import { Button, ButtonKinds, Link, SvgIcon } from '@instana/components';
 import { Observable } from '@instana/observables';
 
+import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import { decimalSeparator, thousandsSeparator } from 'in-services/formatters/number';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import useResizeObserver from 'in-hooks/useResizeObserver';
 import Tooltip from 'in-components/Tooltip';
+import { ResultPrecision } from 'in-types';
+import { t } from 'in-i18n';
 
-// @ts-ignore
 import locals from './KpiCard.mless';
 
 const valueSplitRegExp = new RegExp(`^([0-9\\${decimalSeparator}\\${thousandsSeparator}]+)(.*)$`);
@@ -33,6 +34,10 @@ export interface KpiCardProps {
   value?: any;
   actions?: ReactNode;
   companionValue?: ReactNode;
+  /*
+  When true, print out the whole value without special formatting
+  When false, the numeric value will have a greater font size than the rest, usually the unit
+  */
   raw?: boolean;
   renderValue?: (value?: any) => ReactNode;
   children?: ReactNode;
@@ -43,6 +48,7 @@ export interface KpiCardProps {
   color?: string;
   useMaxAvailableHeight?: boolean;
   iconAction?: IconAction;
+  resultPrecision?: ResultPrecision;
 }
 
 export default function KpiCard({
@@ -59,25 +65,35 @@ export default function KpiCard({
   centerLabels = false,
   color,
   useMaxAvailableHeight = true,
-  iconAction
+  iconAction,
+  resultPrecision
 }: KpiCardProps) {
   const { ref, width } = useResizeObserver<HTMLDivElement>();
+  const hasApproximateData = resultPrecision === 'PRECISION_APPROXIMATE';
+
+  let formattedValue;
+  if (value === undefined) {
+    formattedValue = '';
+  } else if (value === null) {
+    formattedValue = valueMissingPlaceholder;
+  } else {
+    formattedValue = renderValue?.(value) ?? value.toString();
+  }
 
   let content;
-  if (raw || renderValue) {
-    content = (
-      <span className={classNames(locals.minor, valuesClassName)}>{renderValue ? renderValue(value) : value}</span>
-    );
+  if (raw) {
+    content = <span className={classNames(locals.minor, valuesClassName)}>{formattedValue}</span>;
   } else if (children) {
     content = <span className={classNames(locals.minor, valuesClassName)}>{children}</span>;
   } else {
-    let major = valueMissingPlaceholder;
+    let major;
     let minor = null;
-
-    if (value != null) {
-      const match = String(value).match(valueSplitRegExp);
+    if (value === undefined || value === null) {
+      major = formattedValue;
+    } else {
+      const match = String(formattedValue).match(valueSplitRegExp);
       if (!match) {
-        major = value;
+        major = formattedValue;
       } else {
         major = match[1];
         minor = match[2];
@@ -111,7 +127,14 @@ export default function KpiCard({
         })}
         ref={ref}
       >
-        <>{title}</>
+        <Tooltip content={title} align="bottomLeft">
+          <span className={locals.titleText}>{title}</span>
+        </Tooltip>
+        <div className={locals.flexTooltip}>
+          {hasApproximateData && (
+            <MultiLineToolTipIcon withMargin lines={[t('in-components:approximateDataIndicator.dataRetention')]} />
+          )}
+        </div>
         {iconAction && (
           <div
             className={classNames({
@@ -120,8 +143,8 @@ export default function KpiCard({
             })}
           >
             <Tooltip content={iconAction.text}>
-              <Link href$={iconAction.href$}>
-                <SvgIcon className={locals.actionIcon} type={iconAction.icon} onClick={iconAction.onClick} />
+              <Link href$={iconAction.href$} onClick={iconAction.onClick}>
+                <SvgIcon className={locals.actionIcon} type={iconAction.icon} />
               </Link>
             </Tooltip>
             <Button
@@ -135,26 +158,10 @@ export default function KpiCard({
             </Button>
           </div>
         )}
+        {actions && <div className={locals.actions}>{actions}</div>}
       </div>
       {content}
       {companionValue && <span className={locals.companion}>{companionValue}</span>}
-      {actions && <div className={locals.actions}>{actions}</div>}
     </div>
   );
 }
-
-KpiCard.propTypes = {
-  title: PropTypes.string,
-  value: PropTypes.any,
-  actions: PropTypes.node,
-  companionValue: PropTypes.any,
-  raw: PropTypes.bool,
-  renderValue: PropTypes.func,
-  valuesClassName: PropTypes.string,
-  borderless: PropTypes.bool,
-  shadowless: PropTypes.bool,
-  centerLabels: PropTypes.bool,
-  color: PropTypes.string,
-  useMaxAvailableHeight: PropTypes.bool,
-  iconAction: PropTypes.object
-};

@@ -5,15 +5,21 @@
 
 import { createField, createMapForm, MapForm } from 'formalistic';
 
+import { isAdaptiveBaselineData, ThresholdType } from '@instana/types';
+
 import {
-  AdaptiveBaselineConfig,
+  AdaptiveBaselineData,
   HistoricBaselineConfig,
-  Seasonality,
   StaticThresholdConfig,
   ThresholdConfig,
+  ThresholdConfigUnion,
   ThresholdOperator
 } from 'in-types';
-import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import {
+  HISTORIC_BASELINE,
+  isHistoricBaselineConfig,
+  isStaticThresholdConfig
+} from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { WebsitesAlertType } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { t } from 'in-i18n';
@@ -21,69 +27,45 @@ import { t } from 'in-i18n';
 export const defaultDeviationFactor = 3;
 
 export default function createThresholdForm(
-  threshold: ThresholdConfig | HistoricBaselineConfig | StaticThresholdConfig | AdaptiveBaselineConfig,
+  threshold: ThresholdConfigUnion | undefined, // supporting old javascript based code
   alertType: WebsitesAlertType
-): MapForm | void {
-  let form = createBaseForm(threshold);
-
-  if (alertType === 'slowness') {
-    return createBaselineEnabledForm(form, threshold);
+): MapForm {
+  if (!threshold) {
+    return createBaselineEnabledForm();
   }
 
-  if (alertType === 'specificJsError') {
-    return createSpecificJsErrorForm(form, threshold as { value?: number });
-  }
-
-  if (alertType === 'statusCode') {
-    return createStatusCodeForm(form, threshold as { value?: number });
-  }
-
-  if (alertType === 'throughput') {
-    return createBaselineEnabledForm(form, threshold);
+  switch (alertType) {
+    case 'specificJsError':
+    case 'statusCode':
+      return createStaticThresholdForm(threshold as StaticThresholdConfig);
+    default:
+      return createBaselineEnabledForm(threshold);
   }
 }
 
-function createBaseForm(threshold: { type?: string; operator?: ThresholdOperator; lastUpdated?: number }): MapForm {
-  return createMapForm()
-    .put(
-      'type',
-      createField({
-        value: threshold.type ?? HISTORIC_BASELINE
-      })
-    )
-    .put(
-      'operator',
-      createField({
-        value: threshold.operator ?? '>='
-      })
-    )
-    .put(
-      'lastUpdated',
-      createField({
-        value: threshold.lastUpdated ?? 0
-      })
-    );
-}
-
-function createBaselineEnabledForm(baseForm: MapForm, threshold: ThresholdConfig): MapForm | void {
-  const thresholdType = threshold.type;
-
-  if (thresholdType === STATIC_THRESHOLD) {
-    return createThresholdFormStaticThreshold(baseForm, threshold as StaticThresholdConfig);
+function createBaselineEnabledForm(threshold?: ThresholdConfig): MapForm {
+  if (!threshold || isStaticThresholdConfig(threshold)) {
+    return createStaticThresholdForm(threshold);
   }
 
-  if (thresholdType === HISTORIC_BASELINE) {
-    return createThresholdFormHistoricBaseline(baseForm, threshold as HistoricBaselineConfig);
+  if (isHistoricBaselineConfig(threshold)) {
+    return createHistoricBaselineForm(threshold);
   }
+
+  if (isAdaptiveBaselineData(threshold)) {
+    return createAdaptiveBaselineForm(threshold);
+  }
+
+  throw new Error(`Unknown threshold type ${threshold?.type}.`);
 }
 
-function createThresholdFormStaticThreshold(baseForm: MapForm, threshold: { value?: number }): MapForm {
-  return baseForm.put(
+function createStaticThresholdForm(threshold?: StaticThresholdConfig): MapForm {
+  return createBaseForm(threshold).put(
     'value',
     createField({
-      value: threshold.value ?? null,
-      validator: (num: number | string | null) => {
-        if (num === '' || num === null || num < 0) {
+      value: threshold?.value ?? null,
+      validator: num => {
+        if (typeof num !== 'number' || num < 0) {
           return [
             {
               severity: 'error',
@@ -97,15 +79,8 @@ function createThresholdFormStaticThreshold(baseForm: MapForm, threshold: { valu
   );
 }
 
-function createThresholdFormHistoricBaseline(
-  baseForm: MapForm,
-  threshold: {
-    seasonality?: Seasonality;
-    baseline?: number[][];
-    deviationFactor?: number;
-  }
-): MapForm {
-  return baseForm
+function createHistoricBaselineForm(threshold: HistoricBaselineConfig): MapForm {
+  return createBaseForm(threshold)
     .put(
       'seasonality',
       createField({
@@ -116,7 +91,7 @@ function createThresholdFormHistoricBaseline(
       'baseline',
       createField({
         validator: array => {
-          if (!array || array.length === 0) {
+          if (array?.length === 0) {
             return [
               {
                 severity: 'error',
@@ -137,10 +112,45 @@ function createThresholdFormHistoricBaseline(
     );
 }
 
-function createSpecificJsErrorForm(baseForm: MapForm, threshold: { value?: number }): MapForm {
-  return createThresholdFormStaticThreshold(baseForm, threshold);
+function createAdaptiveBaselineForm(threshold: AdaptiveBaselineData) {
+  return createBaseForm(threshold)
+    .put(
+      'baseline',
+      createField({
+        // For adaptiveBaseline an empty list (baseline)is legit. No validation needed.
+        value: threshold.baseline
+      })
+    )
+    .put(
+      'deviationFactor',
+      createField({
+        value: threshold.deviationFactor ?? defaultDeviationFactor
+      })
+    );
 }
 
-function createStatusCodeForm(baseForm: MapForm, threshold: { value?: number }): MapForm {
-  return createThresholdFormStaticThreshold(baseForm, threshold);
+function createBaseForm(threshold?: {
+  type?: ThresholdType;
+  operator?: ThresholdOperator;
+  lastUpdated?: number;
+}): MapForm {
+  return createMapForm()
+    .put(
+      'type',
+      createField({
+        value: threshold?.type ?? HISTORIC_BASELINE
+      })
+    )
+    .put(
+      'operator',
+      createField({
+        value: threshold?.operator ?? '>='
+      })
+    )
+    .put(
+      'lastUpdated',
+      createField({
+        value: threshold?.lastUpdated ?? 0
+      })
+    );
 }

@@ -6,12 +6,13 @@
 import invariant from 'invariant';
 
 import { activeLanguage } from 'in-i18n/language';
+import { Nullish } from 'in-types';
 
 if (__DEV__) {
   invariant(activeLanguage, 'activeLanguage not defined. Did we establish a circular import problem?');
 }
 
-export function isBlank(s?: string | null) {
+export function isBlank(s?: string | Nullish) {
   return s == null || s.length === 0 || s.trim().length === 0;
 }
 

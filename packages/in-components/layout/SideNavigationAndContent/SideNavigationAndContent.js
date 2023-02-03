@@ -4,6 +4,7 @@
  */
 
 import { Route, Switch } from 'react-router-dom';
+import { useRouteMatch } from 'react-router';
 import React, { Fragment } from 'react';
 
 import { combineLatest } from '@instana/observables';
@@ -87,6 +88,7 @@ function SideNavigationPane({ navigationTree, hasIcons, ...otherProps }) {
               omitEmptyIcon={!hasIcons}
               label={page.label ? page.label : page.renderLabel(otherProps)}
               path={page.path}
+              isBeta={Boolean(page.isBeta)}
               subPages={page.subPages}
               {...otherProps}
             />
@@ -122,22 +124,28 @@ function ContentPane({ pages, ...props }) {
       <Switch>
         {pages.map(page => {
           return (
-            <Route
-              key={page.path}
-              exact
-              path={page.path}
-              render={({ match }) => <page.component {...props} match={match} />}
-            />
+            <Route key={page.path} exact path={page.path}>
+              <RenderWithMatchRouteProp
+                render={({ match }) => {
+                  return <page.component {...props} match={match} />;
+                }}
+              />
+            </Route>
           );
         })}
-        <Route
-          path="*"
-          render={() =>
-            NotFoundPage ? <NotFoundPage /> : t('in-components:layout.sideNavigationAndContentRouteNotFound')
-          }
-        />
+        <Route path="*">
+          {NotFoundPage ? <NotFoundPage /> : t('in-components:layout.sideNavigationAndContentRouteNotFound')}
+        </Route>
       </Switch>
       <Footer />
     </Fragment>
   );
+}
+
+function RenderWithMatchRouteProp({ render }) {
+  const match = useRouteMatch();
+
+  return render({
+    match
+  });
 }

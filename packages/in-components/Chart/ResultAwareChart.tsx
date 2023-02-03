@@ -7,23 +7,26 @@ import React from 'react';
 
 import { Card, HorizontalIndicator, LoadingSkeleton, Message } from '@instana/components';
 
-// @ts-ignore
-import Renderer from 'in-components/Chart/renderer/Renderer';
-// @ts-ignore
-import Chart from 'in-components/Chart/ChartReactComponent';
-import { Axis, Config } from 'in-components/Chart/ResultAwareChart.d';
+import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
+import Chart, { ChartReactComponentProps } from 'in-components/Chart/ChartReactComponent';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
-// @ts-ignore
+// @ts-expect-error
 import PieChart from 'in-components/PieChart';
+import { AxisConfiguration } from 'in-components/Chart/types';
+import Renderer from 'in-components/Chart/renderer/Renderer';
 import { Result } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './ResultAwareChart.mless';
 
+export type ResultAwareChartConfig = Omit<ChartReactComponentProps, 'y1'> & {
+  y1?: AxisConfiguration;
+};
+
 interface Props {
-  config: Config;
+  config: ResultAwareChartConfig;
   renderLegend?: boolean;
-  result: Result<null>;
+  result: Result<unknown>;
 }
 
 export default function ResultAwareChart({ result, config, renderLegend = true }: Props) {
@@ -32,9 +35,12 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
     y1,
     frontBufferWidth,
     customHeight,
-    cardTitle,
+    title,
     showNoDataInfoWhenEmpty = true,
-    renderErrorDetail = false
+    renderErrorDetail = false,
+    renderHistoricDataIndicator = false,
+    hasApproximateData,
+    customChartSkeletonHeight
   } = config;
   let content;
 
@@ -56,28 +62,36 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
     if (config?.y1?.renderer.id === Renderer.pie.id) {
       content = <PieSkeleton height={height} />;
     } else {
-      content = <ChartSkeleton height={height} />;
+      content = <ChartSkeleton height={customChartSkeletonHeight ?? height} />;
     }
   } else if (!timeConfig || !y1 || !y1.metrics || (showNoDataInfoWhenEmpty && containsOnlyEmptyData(y1.metrics))) {
     content = <NoDataAvailable width={frontBufferWidth} height={height} />;
   } else {
-    if (config.y1.renderer.id === Renderer.pie.id) {
+    if (config.y1?.renderer.id === Renderer.pie.id) {
       content = <PieChart renderLegend={renderLegend} config={config} />;
     } else {
-      config = normalizeTimeShiftedTimestamps(config);
-      content = <Chart renderLegend={renderLegend} {...config} />;
+      config = normalizeTimeShiftedTimestamps(config as ChartReactComponentProps);
+      content = <Chart renderLegend={renderLegend} {...(config as ChartReactComponentProps)} />;
     }
   }
 
-  if (cardTitle == null) {
+  if (title == null) {
     return content;
   }
 
+  const leftHeaderContent =
+    renderHistoricDataIndicator && hasApproximateData ? (
+      <MultiLineToolTipIcon lines={[t('in-components:approximateDataIndicator.dataRetention')]} />
+    ) : (
+      undefined
+    );
+
   const card = (
     <Card
-      title={cardTitle}
+      title={title}
       useMaxAvailableHeight={config.cardUseMaxAvailableHeight}
-      header={config.cardHeader}
+      leftHeaderContent={leftHeaderContent}
+      rightHeaderContent={config.rightHeaderContent}
       size="l"
     >
       {content}
@@ -128,11 +142,13 @@ function containsOnlyEmptyData(metrics: [number, number][][]) {
   return true;
 }
 
-function normalizeTimeShiftedTimestamps(config: Config) {
+function normalizeTimeShiftedTimestamps(config: ChartReactComponentProps) {
   const copiedConfig = {
     ...config
   };
-  copiedConfig.y1 = normalizeTimeShiftedTimestampsForAxis(config.y1);
+  if (config.y1) {
+    copiedConfig.y1 = normalizeTimeShiftedTimestampsForAxis(config.y1);
+  }
   if (config.y2) {
     copiedConfig.y2 = normalizeTimeShiftedTimestampsForAxis(config.y2);
   }
@@ -140,7 +156,7 @@ function normalizeTimeShiftedTimestamps(config: Config) {
   return copiedConfig;
 }
 
-function normalizeTimeShiftedTimestampsForAxis(axis: Axis) {
+function normalizeTimeShiftedTimestampsForAxis(axis: AxisConfiguration) {
   if (!axis.timeShifts) {
     return axis;
   }

@@ -8,12 +8,10 @@ import { Route } from 'react-router-dom';
 import React from 'react';
 
 import { analyzePathFullyQualified, profilingPath, analyzePath } from 'in-components/Profiling/navigation/paths';
-import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
+import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 
-export default (
-  <>
-    <Route path={analyzePathFullyQualified} component={createAsyncViewComponent(AnalyzeView)} />
-    <RedirectWithHash from={profilingPath} to={analyzePath} />
-  </>
-);
+export default [
+  <Route key="profileAnalyze" path={analyzePathFullyQualified} children={renderAsyncRouteChildren(AnalyzeView)} />,
+  <RedirectWithHash key="redirectToAnalyzeProfiles" from={profilingPath} to={analyzePath} />
+];

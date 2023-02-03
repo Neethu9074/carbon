@@ -27,7 +27,12 @@ export default function GoogleCloudRunServiceRevisionDashboard({ snapshot, timeC
       <Trans
         i18nKey="in-forge:plugins.googleCloudRunServiceRevision.dashboard.itSeemsThereIsNoInstanaAgentSetUpToMonitorTheGcpAccountOfThisGoogleCloudRunServiceRevision"
         components={{
-          linkToDocs: <Link external href="https://www.instana.com/docs/ecosystem/google-cloud-run/#gcp-agent-setup" />
+          linkToDocs: (
+            <Link
+              external
+              href="https://www.ibm.com/docs/en/obi/current?topic=agents-monitoring-google-cloud-run#gcp-agent-setup"
+            />
+          )
         }}
       />
     </DashboardNotification>

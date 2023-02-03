@@ -13,7 +13,9 @@ export default function Info({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title={t('in-forge:plugins.cassandraCluster.infoName')}>{data.get('groupId')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.cassandraCluster.infoName')}>
+        {data.get('clusterName')}
+      </DescriptionItem>
     </DescriptionList>
   );
 }

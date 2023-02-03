@@ -10,9 +10,8 @@ import { Button } from '@instana/components';
 
 import ActiveGroupingConfiguration from 'in-components/GroupingConfigurator/ActiveGroupingConfiguration';
 import TagSelectorOverlay from 'in-components/TagSelectorOverlay/TagSelectorOverlay';
+import { DESTINATION, SOURCE } from 'in-components/QueryBuilder/tagFilter/entities';
 import LoadingIndicator from 'in-components/GroupingConfigurator/LoadingIndicator';
-import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
-import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import Overlay from 'in-components/overlays/Overlay';
 import { t } from 'in-i18n';
 
@@ -21,14 +20,13 @@ import locals from './GroupingConfigurator.mless';
 export default function GroupingConfigurator({
   value: group,
   tagFilterExpression,
-  getTagCatalog,
+  tagCatalog,
   getSuggestions,
   onChange,
   tracking,
   label = t('in-components:groupingConfigurator.addGroup'),
   loadingLabel
 }) {
-  const tagCatalog = useTagCatalog(getTagCatalog);
   const autoFocus = useRef();
 
   if (!tagCatalog) {
@@ -41,9 +39,9 @@ export default function GroupingConfigurator({
         content={TagSelectorOverlay}
         props={{
           tagCatalog,
-          onChange: ({ name }) => {
+          onChange: ({ name, tagType }) => {
             autoFocus.current = Date.now();
-            const selectedGroup = setEntityIfNecessary(name);
+            const selectedGroup = setEntityIfNecessary(name, tagType);
             tracking?.onGroupAdded?.(selectedGroup);
             onChange(selectedGroup);
           }
@@ -81,16 +79,16 @@ export default function GroupingConfigurator({
     </>
   );
 
-  function setEntityIfNecessary(groupbyTag) {
+  function setEntityIfNecessary(groupbyTag, tagType) {
     const tagTreeNode = tagCatalog?.tagsByName[groupbyTag];
-    if (tagTreeNode.canApplyToSource && tagTreeNode.canApplyToDestination) {
+    if (tagTreeNode.canApplyToSource || tagTreeNode.canApplyToDestination) {
       return {
         groupbyTag,
-        groupbyTagEntity: DESTINATION
+        groupbyTagEntity: tagTreeNode.canApplyToDestination ? DESTINATION : SOURCE
       };
     }
 
-    return { groupbyTag };
+    return { groupbyTag, tagType };
   }
 }
 
@@ -102,10 +100,12 @@ export const trackingProps = {
 GroupingConfigurator.propTypes = {
   onChange: rpt.func.isRequired,
   value: rpt.object,
-  getTagCatalog: rpt.func.isRequired,
+  tagCatalog: rpt.object,
   getSuggestions: rpt.func.isRequired,
   tagFilterExpression: rpt.object.isRequired,
   tracking: rpt.shape(trackingProps),
   label: rpt.string,
-  loadingLabel: rpt.string
+  loadingLabel: rpt.string,
+  name: rpt.string,
+  tagType: rpt.string
 };

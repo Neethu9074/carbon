@@ -7,13 +7,13 @@ import { renderHook } from '@testing-library/react-hooks';
 
 import { just } from '@instana/observables';
 
-import { Result, SliConfigMetricConfiguration, SliConfigurationWithLastUpdated, SliEntity } from 'in-types';
+import { Result, SliConfigMetricConfiguration, SliConfigurationWithLastUpdated, SliEntityUnion } from 'in-types';
 import useSliConfiguration from 'in-custom-dashboards/widgets/Slo/hooks/useSliConfiguration';
-import { getSliConfiguration } from 'in-custom-dashboards/api';
+import { getSliConfiguration } from 'in-custom-dashboards/widgets/Slo/sli/api';
 
-jest.mock('in-custom-dashboards/api', () => {
+jest.mock('in-custom-dashboards/widgets/Slo/sli/api', () => {
   return {
-    ...jest.requireActual('in-custom-dashboards/api'),
+    ...jest.requireActual('in-custom-dashboards/widgets/Slo/sli/api'),
     getSliConfiguration: jest.fn(),
     __esModule: true
   };
@@ -29,7 +29,7 @@ describe('in-custom-dashboards/widgets/Slo/hooks/useSliConfiguration', () => {
         id: 'id',
         initialEvaluationTimestamp: 123,
         metricConfiguration: {} as SliConfigMetricConfiguration,
-        sliEntity: {} as SliEntity,
+        sliEntity: {} as SliEntityUnion,
         sliName: 'Awesome SLI',
         lastUpdated: 123
       },
@@ -45,5 +45,25 @@ describe('in-custom-dashboards/widgets/Slo/hooks/useSliConfiguration', () => {
     // THEN
     const [sliConfiguration] = result.current;
     expect(sliConfiguration).toMatchObject(mockSli.data!);
+  });
+
+  it('returns an error if sliConfigId is blank', () => {
+    // Given
+    const sliConfigId = '';
+
+    // When
+    const { result } = renderHook(() => useSliConfiguration(sliConfigId));
+    const [, status, errors] = result.current;
+
+    // Then
+    expect(status).toEqual('rejected');
+    expect(errors).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          code: 'CLIENT',
+          message: expect.stringContaining('blank')
+        })
+      ])
+    );
   });
 });

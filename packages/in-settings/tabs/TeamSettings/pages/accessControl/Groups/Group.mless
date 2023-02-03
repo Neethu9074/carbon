@@ -6,20 +6,10 @@
 @import '~in-themes/active.less';
 
 :local {
-  .headline {
-    display: flex;
-    align-items: center;
-  }
-
   .icon {
     margin-right: 0.5rem;
 
     fill: @lib__colors__N600Light;
-  }
-
-  .title {
-    font-size: 1.25rem;
-    font-weight: 600;
   }
 
   .titleSkeleton {

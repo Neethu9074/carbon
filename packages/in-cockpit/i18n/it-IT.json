@@ -3,7 +3,7 @@
     "applTopList": {
       "openCreationDialog": "Apri finestra di dialogo di creazione",
       "allApps": "Tutte le applicazioni",
-      "errCallRate": "Tasso di chiamate errate",
+      "errCallRate": "Tasso di chiamate con errori",
       "latency": "Latenza",
       "calls": "Chiamate",
       "newAppPerspect": "Nuova prospettiva applicazione",
@@ -33,15 +33,20 @@
       "nodes": "Nodi",
       "vMs": "VM",
       "instances": "Istanze",
-      "namespaces": "Spazi dei nomi",
-      "cpuUsage": "utilizzo CPU",
+      "namespaces": "Spazio dei nomi",
+      "cpuUsage": "Utilizzo CPU",
       "memoryLimit": "Limite di memoria",
       "pods": "Pod",
-      "memoryUsage": "Utilizzo memoria",
+      "memoryUsage": "Utilizzo della memoria",
       "cloudFoundryApplication": "Applicazione Cloud Foundry",
+      "openstackRegion": "Regione OpenStack",
       "vSphereDatacenter": "Datacenter vSphere",
-      "ibmz": "IBM Z",
-      "ibmp": "IBM Power",
+      "ibmz": "IBM Z HMC",
+      "ibmp": "IBM Power HMC",
+      "systems": "Sistemi",
+      "partitions": "Partizioni",
+      "adapters": "Adattatori",
+      "vios": "Virtual I/O Server",
       "clusterSubTitle": "{{clusterDistribution}} Cluster, {{count}} Nodo {{numberOfPods}}",
       "clusterSubTitle_plural": "{{clusterDistribution}} Cluster, {{count}} Nodi {{numberOfPods}}",
       "clusterSubTitle_0": "{{clusterDistribution}} Cluster, {{count}} Nodi {{numberOfPods}}",
@@ -54,17 +59,17 @@
       "numberOfPods_2": "{{count}} Pod"
     },
     "websiteMobileTopList": {
-      "addWebsite": "Aggiungi sito Web",
-      "addMobileApp": "Aggiungi App mobile",
+      "addWebsite": "Aggiungi sito web",
+      "addMobileApp": "Aggiungi app per dispositivi mobili",
       "allWebsites": "Tutti i siti Web",
       "allMobileApps": "Tutte le App mobili",
-      "allWebsitesMobileApps": "Tutti i siti Web & App mobili",
+      "allWebsitesMobileApps": "Tutti i siti web e le app mobili",
       "pageViews": "Visualizzazioni pagina",
       "sessions": "Sessioni",
       "onLoadTime": "Tempo onLoad",
       "views": "Viste",
-      "website": "Sito Web",
-      "mobileApp": "App mobile"
+      "website": "Sito web",
+      "mobileApp": "App per dispositivi mobili"
     },
     "openIncidentsButton": {
       "numberOfIncidents": "{{count}}Incidenti",
@@ -84,12 +89,13 @@
     "platforms": "Piattaforme",
     "cloudFoundry": "Cloud Foundry",
     "ibmz": "IBM Z",
-    "ibmp": "IBM Power",
+    "ibmp": "IBM Power HMC",
     "vsphere": "vSphere",
+    "openstack": "OpenStack",
     "kubernetes": "Kubernetes",
-    "websites": "Siti Web",
-    "mobileApps": "App mobili",
-    "websitesMobileApps": "Siti Web & App mobili"
+    "websites": "Siti web",
+    "mobileApps": "App per dispositivi mobili",
+    "websitesMobileApps": "Siti web & App per dispositivi mobili"
   },
   "widgets": {
     "columnDefinitions": {
@@ -97,8 +103,8 @@
       "cpuUsage": "Utilizzo CPU",
       "created": "Creato",
       "started": "Avviato",
-      "os": "Sistema operativo",
-      "mean": "medio"
+      "os": "Sistemi operativi",
+      "mean": "media"
     },
     "topListWidget": {
       "noLabelYet": "Ancora nessuna {{nolabel}}"

@@ -38,19 +38,17 @@ import {
 } from 'in-settings/tabs/AuthSettings/api/groupMappings';
 // @ts-expect-error
 import { getConfigAsResultObservableNotMemoized as ldapConfig } from 'in-settings/tabs/AuthSettings/api/ldap';
+import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 // @ts-expect-error
 import { getConfigAsResultObservable as oidcConfig } from 'in-settings/tabs/AuthSettings/api/oidc';
 // @ts-expect-error
 import { getConfigAsResultObservable as samlConfig } from 'in-settings/tabs/AuthSettings/api/saml';
 // @ts-expect-error
-import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
-// @ts-expect-error
 import { getGroupsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/groups';
-// @ts-expect-error
-import SubViewHeader from 'in-settings/components/SubViewHeader';
 // @ts-expect-error
 import ApiItemView from 'in-settings/components/ApiItemView';
 import { notBlankValidator } from 'in-services/validators/string';
+import SubViewHeader from 'in-settings/components/SubViewHeader';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import FormGroup from 'in-components/form/FormGroup';
@@ -69,6 +67,12 @@ interface InstanaGroup {
 }
 
 type Updater = (f: Item) => Item;
+
+interface GroupMappingTableProps extends ServerTablePresenterProps<MapForm> {
+  getRowIndex: (payloadField: Item) => number;
+  updateIn: (path: string[], updater: (item: Item) => Item) => void;
+  deleteRow: (toBeDeleted: MapForm) => void;
+}
 
 const DENY_ACCESS = 'denyAccess';
 const GROUP_MAPPINGS = 'groupMappings';
@@ -123,6 +127,8 @@ function render({ form, setForm }: { form: MapForm; setForm: (newForm: MapForm) 
     form.get(DENY_ACCESS) as Field<boolean>
   );
 
+  const groupMappings: MapForm[] = (form.get(GROUP_MAPPINGS) as MapForm[] | undefined) ?? [];
+
   return (
     <>
       <Title title={t('in-settings:tabs.configureGroupMapping')} />
@@ -145,7 +151,7 @@ function render({ form, setForm }: { form: MapForm; setForm: (newForm: MapForm) 
       {shouldShowDenyIssue && shouldShowDenyIssue.length > 0 && (
         <ValidationBlock className="">{shouldShowDenyIssue[0].message}</ValidationBlock>
       )}
-      <ServerTablePresenter
+      <ServerTablePresenter<MapForm, GroupMappingTableProps>
         isSearchable={false}
         columnDefinitions={[
           keyColumnDefinition,
@@ -166,9 +172,14 @@ function render({ form, setForm }: { form: MapForm; setForm: (newForm: MapForm) 
           },
           errors: [],
           data: {
-            items: form.get(GROUP_MAPPINGS) ?? []
+            items: groupMappings,
+            pageSize: groupMappings.length,
+            totalHits: groupMappings.length,
+            page: 1
           }
         }}
+        page={1}
+        pageSize={groupMappings.length}
       />
     </>
   );
@@ -270,7 +281,7 @@ type EditableContent = (
     getRowIndex: (payloadField: Item) => number;
     updateIn: (path: string[], updater: (item: Item) => Item) => void;
   }
-) => JSX.Element;
+) => React.ReactElement;
 
 const keyColumnDefinition = {
   id: 'key',
@@ -309,6 +320,7 @@ const instanaGroupColumnDefinition = (groups: InstanaGroup[]) => ({
 
 const deleteRowColumnDefinition = {
   id: 'deleteRow',
+  label: '',
   width: '5',
   sortable: false,
   getContent: (item: MapForm, { deleteRow }: { deleteRow: (toBeDeleted: MapForm) => void }) =>

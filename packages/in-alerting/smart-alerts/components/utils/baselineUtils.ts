@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import { ThresholdOperator, ThresholdType } from 'in-types';
+import { AdaptiveBaselineData, Granularity, HistoricBaselineData, Nullish, Result, ThresholdConfig } from 'in-types';
+import { hasError, isLoading } from 'in-services/util/result';
 import { FixedTimeConfig } from 'in-stores/time/config';
 import { days } from 'in-services/time';
 
@@ -29,18 +29,13 @@ export function getHistoricBaselineValue(
     : baselineValue - sensitivity * deviationValue;
 }
 
-export interface AlertConfig {
-  threshold: {
-    operator: ThresholdOperator;
-    baseline: number[][];
-    deviationFactor: number;
-  };
-  granularity: number;
-}
-
-export function getApproximatedHistoricBaselineThresholdValue(alertConfig: AlertConfig, timeConfig: FixedTimeConfig) {
-  const { operator, baseline, deviationFactor } = alertConfig.threshold;
-  const baselineGranularity = alertConfig.granularity;
+export function getApproximatedHistoricBaselineThresholdValue(
+  threshold: HistoricBaselineData | AdaptiveBaselineData,
+  granularity: Granularity,
+  timeConfig: FixedTimeConfig
+) {
+  const { operator, baseline, deviationFactor } = threshold;
+  const baselineGranularity = granularity;
   const isGreaterOp = operator === '>=' || operator === '>';
 
   const baselineValues = [];
@@ -62,16 +57,48 @@ export function getAdaptiveBaselineValue(
 }
 
 export function getApproximatedAdaptiveBaselineThresholdValue(
-  alertConfig: AlertConfig,
+  threshold: ThresholdConfig,
   adaptiveBaselineInfo: Record<string, number>
 ) {
-  const { operator } = alertConfig.threshold;
+  const { operator } = threshold;
   const isGreaterOp = operator === '>=' || operator === '>';
   const baselineValues = Object.values(adaptiveBaselineInfo);
 
   return isGreaterOp ? Math.floor(Math.min(...baselineValues)) : Math.ceil(Math.max(...baselineValues));
 }
 
-export function isHistoricBaseline(type?: ThresholdType): boolean {
-  return type === HISTORIC_BASELINE;
+/**
+ * @param persistedBaselineResult result from fetching the baseline
+ * @param errorFallbackBaseline We use eventBasedAdaptiveBaseline as a fallback. It's possible that errorFallbackBaseline is undefined when we are in alert details view.
+ */
+export function extractBaselineFromResultsOrUseErrorFallback(
+  persistedBaselineResult: Result<[number, number][]> | Nullish,
+  errorFallbackBaseline: [number, number][]
+): {
+  baseline: [number, number][];
+  error?: boolean;
+} {
+  const fetchError = persistedBaselineResult && hasError(persistedBaselineResult);
+
+  if (fetchError) {
+    // if a fallback baseline exists, hide the error
+    if (errorFallbackBaseline?.length > 0) {
+      return { baseline: errorFallbackBaseline };
+    }
+    return {
+      error: fetchError,
+      baseline: []
+    };
+  }
+
+  if (persistedBaselineResult && isLoading(persistedBaselineResult)) {
+    return { baseline: [] as [number, number][] };
+  }
+
+  let baseline: [number, number][] = persistedBaselineResult?.data ?? [];
+
+  if (baseline?.length < errorFallbackBaseline?.length) {
+    baseline = errorFallbackBaseline;
+  }
+  return { baseline };
 }

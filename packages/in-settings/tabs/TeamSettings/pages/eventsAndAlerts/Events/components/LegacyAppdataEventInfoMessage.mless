@@ -1,0 +1,26 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
+ */
+
+@import '~in-themes/active.less';
+
+/* Some improved styling in lieu with the planned, modern design
+ * of the Message component.
+ * This will soon be obsolete again.
+ *
+ * Don't use and rely on this functionality.
+ */
+:local {
+  .modern {
+    strong {
+      font-weight: var(--ids-font-weight-option-body-bold);
+    }
+    a,
+    .withMargin {
+      margin-left: 0.75rem;
+    }
+    color: var(--ids-color-text-primary-on-light);
+  }
+}

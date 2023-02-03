@@ -3,8 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect, useMemo } from 'react';
-import { compose, withState } from 'recompose';
+import React, { useEffect, useMemo, useState } from 'react';
 import { debounce, find } from 'lodash';
 
 import { Link, Message } from '@instana/components';
@@ -27,9 +26,10 @@ import locals from './Summary.mless';
 // views very quickly.
 const debouncedOpenPageLoad = debounce(openPageLoad, 1000);
 
-export default compose(withState('filter', 'setFilter', { query: '', page: '', types: [] }))(Summary);
-
-function Summary({ beacons, filter, setFilter, pageLoadLabel, pageLoadId, detailId }) {
+export default function Summary({ beacons, pageLoadLabel, pageLoadId, detailId }) {
+  const [query, setQuery] = useState('');
+  const [page, setPage] = useState('');
+  const [filterTypes, setFilterTypes] = useState([]);
   // Fixing is expensive. Luckily it is easy to avoid this via memoization.
   const fixResult = useMemo(() => fixClockSkewProblems(beacons), [beacons]);
   beacons = fixResult.beacons;
@@ -56,31 +56,30 @@ function Summary({ beacons, filter, setFilter, pageLoadLabel, pageLoadId, detail
         <Col xs>
           <KpiCard
             title={t('in-websites:analyze.analyzeView.pageLoadView.summaryTitleJSErrors')}
-            value={number.compact(getBeaconCount(beacons, 'error'))}
+            value={getBeaconCount(beacons, 'error')}
+            renderValue={number.compact}
           />
         </Col>
         <Col xs>
           <KpiCard
             title={t('in-websites:analyze.analyzeView.pageLoadView.summaryTitleResources')}
-            value={number.compact(getBeaconCount(beacons, 'resourceLoad'))}
+            value={getBeaconCount(beacons, 'resourceLoad')}
+            renderValue={number.compact}
           />
         </Col>
         <Col xs>
           <KpiCard
             title={t('in-websites:analyze.analyzeView.pageLoadView.summaryTitleHTTPRequests')}
-            value={number.compact(getBeaconCount(beacons, 'httpRequest'))}
+            value={getBeaconCount(beacons, 'httpRequest')}
+            renderValue={number.compact}
           />
         </Col>
         <Col xs>
-          <KpiCard
-            title={t('in-websites:analyze.analyzeView.pageLoadView.summaryTitleWebsite')}
-            raw
-            value={
-              <Link href$={getLinkToWebsite(firstBeacon.websiteId)} className={locals.linkToWebsite}>
-                {firstBeacon.websiteLabel}
-              </Link>
-            }
-          />
+          <KpiCard title={t('in-websites:analyze.analyzeView.pageLoadView.summaryTitleWebsite')}>
+            <Link href$={getLinkToWebsite(firstBeacon.websiteId)} className={locals.linkToWebsite}>
+              {firstBeacon.websiteLabel}
+            </Link>
+          </KpiCard>
         </Col>
       </Row>
 
@@ -105,8 +104,12 @@ function Summary({ beacons, filter, setFilter, pageLoadLabel, pageLoadId, detail
         detailId={detailId}
         pageLoad={pageLoad}
         firstBeacon={firstBeacon}
-        filter={filter}
-        setFilter={setFilter}
+        query={query}
+        setQuery={setQuery}
+        page={page}
+        setPage={setPage}
+        filterTypes={filterTypes}
+        setFilterTypes={setFilterTypes}
       />
     </ContentWrapper>
   );

@@ -1,0 +1,35 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2022
+ */
+
+import { TimeConfig } from '@instana/types';
+
+import { getLineWidth } from 'in-custom-dashboards/widgets/Slo/renderer/stairway';
+import { RenderConfig } from 'in-components/Chart/renderer/types';
+import theme from 'in-themes';
+
+export function timeWindowIncludesFirstCollectionTimestamp(
+  firstCollectionTimestamp: number,
+  timeConfig?: TimeConfig
+): boolean {
+  const start = (timeConfig?.to ?? 0) - (timeConfig?.windowSize ?? 0);
+  return start < firstCollectionTimestamp;
+}
+
+export function renderMissingDataIndicator(config: RenderConfig, endTimestamp: number) {
+  config.backBufferCtx.save();
+
+  config.backBufferCtx.fillStyle = theme.lib.colors.N300;
+
+  const borderWidth = getLineWidth(config) * 0.5;
+  const endX = config.xScaleBackBuffer.getRange(endTimestamp);
+  const startY = config.markerPaneHeight - borderWidth;
+  const height = config.height - config.markerPaneHeight - config.timeAxisHeight + borderWidth;
+
+  config.backBufferCtx.fillRect(0, startY, endX, height);
+  config.backBufferCtx.lineTo(0, endX);
+
+  config.backBufferCtx.restore();
+}

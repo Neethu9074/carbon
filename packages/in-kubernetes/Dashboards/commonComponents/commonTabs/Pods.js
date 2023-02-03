@@ -30,13 +30,13 @@ import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHea
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
+import { formatDurationAccurately } from 'in-kubernetes/components/TimeFormatter';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import getKubernetesPods from 'in-kubernetes/subscriptions/getKubernetesPods';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import { getInfraGranularity } from 'in-stores/metric/metric';
-import { formatDuration } from 'in-services/formatters/date';
 import MetricValue from 'in-components/MetricValue';
 import podPhases from 'in-kubernetes/podPhases';
 import withUrlState from 'in-hoc/withUrlState';
@@ -128,7 +128,7 @@ const allColumnDefinitions = [
     label: t('in-kubernetes:dashboards.age'),
     optional: true,
     getContent(item) {
-      return item.pod.age && formatDuration(item.pod.age);
+      return item.pod.age && formatDurationAccurately(item.pod.age);
     }
   },
   {
@@ -171,10 +171,17 @@ const allColumnDefinitions = [
     id: 'health',
     label: t('in-kubernetes:dashboards.health'),
     getContent(item, { timeConfig }) {
+      const statusErrors = ['error', 'crashloopbackoff'];
+      let openIssuesCount = item.entityHealthInfo.openIssues.length;
+      let maxSeverity = item.entityHealthInfo.maxSeverity;
+      if (item.entityHealthInfo.openIssues.length === 0 && statusErrors.includes(item.statusSummary.toLowerCase())) {
+        openIssuesCount = 1;
+        maxSeverity = 10;
+      }
       return (
         <EntityHealthIndicator
-          openIssues={item.entityHealthInfo.openIssues.length}
-          maxSeverity={item.entityHealthInfo.maxSeverity}
+          openIssues={openIssuesCount}
+          maxSeverity={maxSeverity}
           IndicatorPresenter={HealthIndicatorPresenter}
           timeConfig={timeConfig}
           snapshotId={item.pod.id}

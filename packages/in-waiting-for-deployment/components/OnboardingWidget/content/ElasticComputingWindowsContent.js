@@ -19,6 +19,7 @@ import { t } from 'in-i18n';
 
 export default function ElasticComputingWindowsContent({
   agentKey,
+  downloadKey,
   agentEndpoint,
   agentEndpointPort,
   tenant,
@@ -45,10 +46,11 @@ export default function ElasticComputingWindowsContent({
             tenant,
             tenantUnit,
             agentKey,
+            downloadKey,
             agentModeOption,
             butlerDomain
           )}"`,
-          `Invoke-Expression -Command "$env:TEMP\\AgentBootstrap.exe INSTANA_AGENT_ENDPOINT=${agentEndpoint} INSTANA_AGENT_ENDPOINT_PORT=${agentEndpointPort} INSTANA_AGENT_KEY=${agentKey} /quiet"`
+          `Invoke-Expression -Command "$env:TEMP\\AgentBootstrap.exe INSTANA_AGENT_ENDPOINT=${agentEndpoint} INSTANA_AGENT_ENDPOINT_PORT=${agentEndpointPort} INSTANA_AGENT_KEY=${agentKey} INSTANA_DOWNLOAD_KEY=${downloadKey} /quiet"`
         ]}
       />
       <Description

@@ -5,15 +5,18 @@
 
 import React from 'react';
 
-import { TimeShiftAwareChartSelectorWithUrlState } from 'in-applications/Dashboards/commonComponents/ChartSelectors';
+import { TimeShiftAwareChartSelectorWithUrlState } from 'in-components/ChartSelectors/ChartSelectors';
 import CallsErrorsChart from 'in-applications/Dashboards/commonComponents/CallsErrorsChart';
 import HttpSections from 'in-applications/Dashboards/commonComponents/http/HttpSections';
+import { perSecondAggregationEnabled } from 'in-services/featureFlags';
 import { createGroupBy } from 'in-analyze/navigation/paths';
 import { t } from 'in-i18n';
 
 const tabCallCount = {
   id: 'call',
-  label: t('in-applications:labelCallCount')
+  label: perSecondAggregationEnabled
+    ? t('in-applications:labelCallsPerSecondFull')
+    : t('in-applications:labelCallCount')
 };
 const tabHttpStatusCodes = {
   id: 'http',
@@ -57,7 +60,7 @@ const allMetrics = [
   },
   {
     id: 'nonHttp',
-    label: t('in-applications:labelOther'),
+    label: t('in-applications:labelNonHttp'),
     value: 'calls',
     tab: tabHttpStatusCodes.id
   },
@@ -76,7 +79,7 @@ const allMetrics = [
   }
 ];
 
-const allMetricsWithoutHttpOther = allMetrics.filter(metric => metric.id !== 'nonHttp');
+const allMetricsWithoutNonHttp = allMetrics.filter(metric => metric.id !== 'nonHttp');
 const allMetricsWithoutHttp = allMetrics.filter(m => m.tab !== tabHttpStatusCodes.id);
 
 export default function CallsAndHttp({
@@ -93,14 +96,11 @@ export default function CallsAndHttp({
   showHttp,
   hasHttpAndOtherEndpoints,
   urlMatrixParamConfig,
-  syntheticCalls
+  syntheticCalls,
+  endpointTypes
 }) {
   const tabs = showHttp ? allTabs : callsOnlyTab;
-  const metrics = showHttp
-    ? hasHttpAndOtherEndpoints
-      ? allMetrics
-      : allMetricsWithoutHttpOther
-    : allMetricsWithoutHttp;
+  const metrics = showHttp ? (hasHttpAndOtherEndpoints ? allMetrics : allMetricsWithoutNonHttp) : allMetricsWithoutHttp;
 
   return (
     <TimeShiftAwareChartSelectorWithUrlState
@@ -111,6 +111,7 @@ export default function CallsAndHttp({
     >
       <ChartPresenter
         applicationId={applicationId}
+        cardTitle={cardTitle}
         serviceId={serviceId}
         endpointId={endpointId}
         tagFilters={tagFilters}
@@ -121,6 +122,7 @@ export default function CallsAndHttp({
         renderPostChartContentHttpStatus={renderPostChartContentHttpStatus}
         hasHttpAndOtherEndpoints={hasHttpAndOtherEndpoints}
         syntheticCalls={syntheticCalls}
+        endpointTypes={endpointTypes}
       />
     </TimeShiftAwareChartSelectorWithUrlState>
   );
@@ -140,7 +142,10 @@ function ChartPresenter({
   selectedTabId, // passed implicitly by TimeShiftAwareChartSelectorWithUrlState
   selectedMetricValue, // passed implicitly by TimeShiftAwareChartSelectorWithUrlState
   timeShiftConfig, // passed implicitly by TimeShiftAwareChartSelectorWithUrlState
-  syntheticCalls
+  syntheticCalls,
+  cardTitle,
+  selectorComponent,
+  endpointTypes
 }) {
   return selectedTabId === tabCallCount.id ? (
     <CallsErrorsChart
@@ -155,6 +160,9 @@ function ChartPresenter({
       groupBy={callGroupBy}
       renderPostChartContent={renderPostChartContent}
       syntheticCalls={syntheticCalls}
+      endpointTypes={endpointTypes}
+      cardTitle={cardTitle}
+      rightHeaderContent={selectorComponent}
     />
   ) : (
     <HttpSections
@@ -171,6 +179,9 @@ function ChartPresenter({
       hasHttpAndOtherEndpoints={hasHttpAndOtherEndpoints}
       showGraph
       syntheticCalls={syntheticCalls}
+      cardTitle={cardTitle}
+      rightHeaderContent={selectorComponent}
+      endpointTypes={endpointTypes}
     />
   );
 }

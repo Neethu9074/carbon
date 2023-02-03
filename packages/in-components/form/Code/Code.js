@@ -15,7 +15,8 @@ export default class CodeInput extends React.Component {
       mode: this.props.mode,
       value: this.props.value || '',
       tabSize: 2,
-      readOnly: this.props.readOnly || false
+      readOnly: this.props.readOnly || false,
+      lineNumbers: this.props.lineNumbers || false
     });
 
     editor.on('change', editor => this.props.onChange(editor.getValue()));

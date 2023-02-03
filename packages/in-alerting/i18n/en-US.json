@@ -6,12 +6,10 @@
     "alertHeaderRestoreErrorMessage": "Failed to restore alert config revision with ID {{alertConfigID}} and version {{alertConfigCreated}}: {{errorMessage}}",
     "alertHeaderLabelBackToListOfAlerts": "Back to list of alerts",
     "alertHeaderAlert": "Alert",
-    "alertHeaderRestoreRevisionTooltip": "Restore {{description}}",
+    "alertHeaderRestoreRevisionTooltip": "Restore",
     "alertHeaderRestoreRevisionConfirmationDialogHeader": "Please Confirm",
-    "alertHeaderRestoreRevisionConfirmationDialogDescription": "Are you sure you want to restore <strong>\"{{description}}\"</strong>?",
+    "alertHeaderRestoreRevisionConfirmationDialogDescription": "Are you sure you want to restore the selected revision?",
     "alertHeaderRestoreRevisionConfirmationDialogConfirmButton": "Restore",
-    "alertHeaderDisableTooltip": " Disable",
-    "alertHeaderEnableTooltip": " Enable",
     "alertHeaderRestoreDeleteTooltip": "Delete",
     "alertHeaderEditTooltip": "Edit",
     "alertHeaderDuplicateTooltip": "Duplicate",
@@ -21,6 +19,7 @@
     "alertHeaderIsNotLatestRevisionMessage": "You are looking at revision {{description}} of this alert configuration. Please <latestRevisionButton>select the latest revision</latestRevisionButton> or <restoreRevisionButton>restore from current revision</restoreRevisionButton> if you want to make changes.",
     "alertHeaderAriaLabelSeverity": "Event has severity {{severity}}",
     "alertHistoryListTitleWithTotalRepresentedItemCount": "Alerts Created ({{totalRepresentedItemCount}})",
+    "alertStateActive": "active",
     "alertPropertyInfosLabelTitle": "Title",
     "alertPropertyInfosLabelAlertLevel": "Alert Level",
     "alertPropertyInfosLabelTriggersIncident": "Triggers Incident",
@@ -39,9 +38,16 @@
     "chart": {
       "alertingChartLabelThreshold": "Threshold",
       "alertingChartLabelViolations": "Violations",
-      "alertingChartTooltipSmoothedMetric": "Smoothed metric",
       "alertingChartMessageInvalidFilterQuery": "Invalid filter query.",
-      "alertingChartMessageEntitySelectionInvalid": "No entities selected.",
+      "alertingChartMessageEmptyApplicationSelection": "No application selected.",
+      "chartAlertsLaneErrorMessage": "Alerts could not be loaded",
+      "chartAlertsPreviewLanePresenterAlertsLabel": "Alerts",
+      "chartAlertsPreviewLanePresenterNoAlertsLabel": "No Alerts",
+      "chartAlertsPreviewLanePresenterTooltip": "Alert: {{count}}",
+      "chartAlertsPreviewLanePresenterTooltip_plural": "Alerts: {{count}}",
+      "chartAlertsPreviewLanePresenterTooltip_0": "Alerts: {{count}}",
+      "chartAlertsPreviewLanePresenterTooltip_1": "Alerts: {{count}}",
+      "chartAlertsPreviewLanePresenterTooltip_2": "Alerts: {{count}}",
       "chartViewConfigsLast24Hours": "Last 24 hours",
       "chartViewConfigsLast7Days": "Last 7 days"
     },
@@ -65,7 +71,12 @@
       "onlyOrAnyAlphaNumericalAreAllowed": "Only '.', '-', '_' or any alpha-numerical are allowed.",
       "aTagNeedsToBeSelected": "A tag needs to be selected.",
       "aKeyNeedsToBeSpecified": "A key needs to be specified.",
-      "customPayloadTitle": "Custom Payloads"
+      "additionalCustomPayload": "Additional Custom Payloads",
+      "globalCustomPayload": "Global Custom Payloads",
+      "additionalCustomPayloadTitle": "Additional Custom Payloads ({{count}})",
+      "globalCustomPayloadTitle": "Global Custom Payloads ({{count}})",
+      "globalCustomPayloadRetrieveFailed": "Something went wrong. Could not retrieve Global Custom Payloads.",
+      "noGlobalCustomPayloadConfigured": "No Global Custom Payloads Configured"
     }
   },
   "potentialProblems": {
@@ -121,11 +132,16 @@
       "alertConfiguration": "Alert Configuration",
       "advanced": {
         "alertPropertyInsertPlaceholderLabel": "Insert placeholder",
+        "applicationNamePlaceholder": "application-name",
+        "serviceNamePlaceholder": "service-name",
+        "endpointNamePlaceholder": "endpoint-name",
         "evaluationSwitch": {
           "individual": "Individual Alerts",
+          "optionNotAvailableForAdaptiveThreshold": "This option is not available with adaptive threshold",
           "evaluationTypePERAP": {
             "selectionText": "for this Application Perspective",
             "globalSelectionText": "per Application Perspective",
+            "shortText": "Per Application Perspective",
             "columnText": "aggregated",
             "description": "Alert individually for this Application Perspective",
             "globalDescription": "Alert individually per Application Perspective"
@@ -133,6 +149,7 @@
           "evaluationTypePERAPSERVICE": {
             "selectionText": "per Service for this Application Perspective",
             "globalSelectionText": "per Service in the context of each Application Perspective",
+            "shortText": "Per Service",
             "columnText": "per Service",
             "description": "Alert individually per Service for this Application Perspective",
             "globalDescription": "Alert individually per Service in the context of each Application Perspective"
@@ -140,6 +157,7 @@
           "evaluationTypePERAPENDPOINT": {
             "selectionText": "per Endpoint for this Application Perspective",
             "globalSelectionText": "per Endpoint in the context of each Application Perspective",
+            "shortText": "Per Endpoint",
             "columnText": "per Endpoint",
             "description": "Alert individually per Endpoint for this Application Perspective",
             "globalDescription": "Alert individually per Endpoint in the context of each Application Perspective"
@@ -164,9 +182,26 @@
             "confirmButtonLabel": "Confirm"
           }
         },
-        "includeInternalOrSynthethicCalls": {
+        "staticOrAdaptive": {
+          "config": {
+            "static": {
+              "title": "Static",
+              "description": "Threshold is either a fixed or time-dependent threshold value. Instana helps you pick the right threshold value based on recent data."
+            },
+            "adaptive": {
+              "title": "Adaptive",
+              "description": "Threshold automatically adapts to the changes of the underlying metric."
+            }
+          }
+        },
+        "includeInternalOrSyntheticCalls": {
           "includeInternalCalls": "Include Internal Calls",
-          "includeSyntethicCalls": "Include Synthetic Calls"
+          "includeSyntheticCalls": "Include Synthetic Calls",
+          "confirmationDialog": {
+            "pleaseConfirm": "Please Confirm",
+            "description": "Deselecting \"{{callType}}\" would reset application selection.",
+            "confirmButtonLabel": "Confirm"
+          }
         },
         "includeInternalOrSyntheticCallsInfo": {
           "includeOnlyInternal": "Include internal calls",
@@ -184,6 +219,11 @@
             "logMessageCardTitle": "Log Message",
             "httpStatusCodesCardTitle": "HTTP Status Codes"
           },
+          "threshold": {
+            "staticOrAdaptiveTitle": "Type of Threshold",
+            "label": "Threshold",
+            "title": "Threshold: When is the condition violated?"
+          },
           "timeThreshold": {
             "label": "Time Threshold",
             "title": "Time Threshold: When do you want to be alerted?"
@@ -193,12 +233,12 @@
             "title": "Alert Channels: Who needs to be alerted?"
           },
           "propertiesOptional": {
-            "label": "Properties (optional)",
-            "title": "Additional Alert Properties (optional)"
+            "label": "Properties",
+            "title": "Additional Alert Properties"
           },
           "payloadsOptional": {
-            "label": "Payloads (optional)",
-            "title": "Custom Payload (optional)"
+            "label": "Payloads",
+            "title": "Custom Payload"
           }
         }
       },
@@ -208,7 +248,6 @@
           "applications": "Applications:",
           "services": "Services:"
         },
-        "noChartForAdaptiveBaseline": "No preview available while this trigger is based on an adaptive baseline.",
         "noDataWithoutEndpointSelection": "Please select an endpoint to see the preview",
         "noDataAvailable": "Please select a service to see the preview"
       },
@@ -232,17 +271,16 @@
           "metricLabel": "Error Rate"
         },
         "logs": {
-          "name": "Error and Warning Logs",
+          "name": "Logs",
           "headline": "Automatic Alerts for Error and Warning Logs",
-          "text": "Receive an alert when the number of calls logging matching error and warning messages is higher than expected.",
-          "metricLabel": "Logs Count",
+          "text": "Receive an alert when the number of calls with given error and warning log messages is higher than expected.",
+          "metricLabel": "Calls",
           "incompleteRuleMessage": "Please select a Log Message to see when this alert triggers"
         },
         "statusCode": {
           "name": "HTTP Status Codes",
           "headline": "Automatic Alerts for HTTP Status Codes",
           "text": "Receive an alert every time when matching HTTP Status Codes occur more often than usual.",
-          "metricLabel": "Status Code",
           "incompleteRuleMessage": "Please select a Status Code to see when this alert triggers"
         },
         "throughput": {
@@ -269,10 +307,10 @@
           "errorRate": "Erroneous call rate is higher than normal",
           "slowness": "Calls are slower than usual",
           "logs": {
-            "notEmptyWithANY": "Too many calls logging messages",
-            "notEmptyWithoutANY": "Too many calls logging {{operatorLabel}} messages",
-            "withANY": "Too many calls logging messages: \"{{message}}\"",
-            "default": "Too many calls logging {{operatorLabel}} messages: \"{{message}}\""
+            "notEmptyWithANY": "Too many calls with messages",
+            "notEmptyWithoutANY": "Too many calls with {{operatorLabel}} messages",
+            "withANY": "Too many calls with messages: \"{{message}}\"",
+            "default": "Too many calls with {{operatorLabel}} messages: \"{{message}}\""
           },
           "statusCode": "Too many calls with HTTP Status Code {{statusCodeShortText}}",
           "throughputHigh": "Number of calls is anomalously high",
@@ -291,26 +329,26 @@
           "slownessDefault_slowEqual": "Calls are slower or equal to the expectation based on latency ({{aggregationText}}).",
           "slownessDefault_below": "Calls are below the expectation based on latency ({{aggregationText}}).",
           "slownessDefault_belowEqual": "Calls are below or equal to the expectation based on latency ({{aggregationText}}).",
-          "logsNotEmpty_higherThan": "Number of calls logging {{levelText}} messages is higher than {{thresholdValue}}.",
-          "logsNotEmpty_higherEqual": "Number of calls logging {{levelText}} messages is higher or equal to {{thresholdValue}}.",
-          "logsNotEmpty_lowerThan": "Number of calls logging {{levelText}} messages is lower than {{thresholdValue}}.",
-          "logsNotEmpty_lowerEqual": "Number of calls logging {{levelText}} messages is lower or equal to {{thresholdValue}}.",
-          "logsDefault_equalHigherThan": "Number of calls logging {{levelText}} messages which equal \"{{message}}\" is higher than {{thresholdValue}}.",
-          "logsDefault_equalHigherEqual": "Number of calls logging {{levelText}} messages which equal \"{{message}}\" is higher or equal to {{thresholdValue}}.",
-          "logsDefault_equalLowerThan": "Number of calls logging {{levelText}} messages which equal \"{{message}}\" is lower than {{thresholdValue}}.",
-          "logsDefault_equalLowerEqual": "Number of calls logging {{levelText}} messages which equal \"{{message}}\" is lower or equal to {{thresholdValue}}.",
-          "logsDefault_containHigherThan": "Number of calls logging {{levelText}} messages which contain \"{{message}}\" is higher than {{thresholdValue}}.",
-          "logsDefault_containHigherEqual": "Number of calls logging {{levelText}} messages which contain \"{{message}}\" is higher or equal to {{thresholdValue}}.",
-          "logsDefault_containLowerThan": "Number of calls logging {{levelText}} messages which contain \"{{message}}\" is lower than {{thresholdValue}}.",
-          "logsDefault_containLowerEqual": "Number of calls logging {{levelText}} messages which contain \"{{message}}\" is lower or equal to {{thresholdValue}}.",
-          "logsDefault_startHigherThan": "Number of calls logging {{levelText}} messages which start with \"{{message}}\" is higher than {{thresholdValue}}.",
-          "logsDefault_startHigherEqual": "Number of calls logging {{levelText}} messages which start with \"{{message}}\" is higher or equal to {{thresholdValue}}.",
-          "logsDefault_startLowerThan": "Number of calls logging {{levelText}} messages which start with \"{{message}}\" is lower than {{thresholdValue}}.",
-          "logsDefault_startLowerEqual": "Number of calls logging {{levelText}} messages which start with \"{{message}}\" is lower or equal to {{thresholdValue}}.",
-          "logsDefault_endHigherThan": "Number of calls logging {{levelText}} messages which end with \"{{message}}\" is higher than {{thresholdValue}}.",
-          "logsDefault_endHigherEqual": "Number of calls logging {{levelText}} messages which end with \"{{message}}\" is higher or equal to {{thresholdValue}}.",
-          "logsDefault_endLowerThan": "Number of calls logging {{levelText}} messages which end with \"{{message}}\" is lower than {{thresholdValue}}.",
-          "logsDefault_endLowerEqual": "Number of calls logging {{levelText}} messages which end with \"{{message}}\" is lower or equal to {{thresholdValue}}.",
+          "logsNotEmpty_higherThan": "Number of calls with {{levelText}} messages is higher than {{thresholdValue}}.",
+          "logsNotEmpty_higherEqual": "Number of calls with {{levelText}} messages is higher or equal to {{thresholdValue}}.",
+          "logsNotEmpty_lowerThan": "Number of calls with {{levelText}} messages is lower than {{thresholdValue}}.",
+          "logsNotEmpty_lowerEqual": "Number of calls with {{levelText}} messages is lower or equal to {{thresholdValue}}.",
+          "logsDefault_equalHigherThan": "Number of calls with {{levelText}} messages which equal \"{{message}}\" is higher than {{thresholdValue}}.",
+          "logsDefault_equalHigherEqual": "Number of calls with {{levelText}} messages which equal \"{{message}}\" is higher or equal to {{thresholdValue}}.",
+          "logsDefault_equalLowerThan": "Number of calls with {{levelText}} messages which equal \"{{message}}\" is lower than {{thresholdValue}}.",
+          "logsDefault_equalLowerEqual": "Number of calls with {{levelText}} messages which equal \"{{message}}\" is lower or equal to {{thresholdValue}}.",
+          "logsDefault_containHigherThan": "Number of calls with {{levelText}} messages which contain \"{{message}}\" is higher than {{thresholdValue}}.",
+          "logsDefault_containHigherEqual": "Number of calls with {{levelText}} messages which contain \"{{message}}\" is higher or equal to {{thresholdValue}}.",
+          "logsDefault_containLowerThan": "Number of calls with {{levelText}} messages which contain \"{{message}}\" is lower than {{thresholdValue}}.",
+          "logsDefault_containLowerEqual": "Number of calls with {{levelText}} messages which contain \"{{message}}\" is lower or equal to {{thresholdValue}}.",
+          "logsDefault_startHigherThan": "Number of calls with {{levelText}} messages which start with \"{{message}}\" is higher than {{thresholdValue}}.",
+          "logsDefault_startHigherEqual": "Number of calls with {{levelText}} messages which start with \"{{message}}\" is higher or equal to {{thresholdValue}}.",
+          "logsDefault_startLowerThan": "Number of calls with {{levelText}} messages which start with \"{{message}}\" is lower than {{thresholdValue}}.",
+          "logsDefault_startLowerEqual": "Number of calls with {{levelText}} messages which start with \"{{message}}\" is lower or equal to {{thresholdValue}}.",
+          "logsDefault_endHigherThan": "Number of calls with {{levelText}} messages which end with \"{{message}}\" is higher than {{thresholdValue}}.",
+          "logsDefault_endHigherEqual": "Number of calls with {{levelText}} messages which end with \"{{message}}\" is higher or equal to {{thresholdValue}}.",
+          "logsDefault_endLowerThan": "Number of calls with {{levelText}} messages which end with \"{{message}}\" is lower than {{thresholdValue}}.",
+          "logsDefault_endLowerEqual": "Number of calls with {{levelText}} messages which end with \"{{message}}\" is lower or equal to {{thresholdValue}}.",
           "statusCodeStaticThreshold_higherThan": "Occurrences of HTTP Status Code {{statusCodeFullText}} is higher than {{thresholdValue}}.",
           "statusCodeStaticThreshold_higherEqual": "Occurrences of HTTP Status Code {{statusCodeFullText}} is higher or equal to {{thresholdValue}}.",
           "statusCodeStaticThreshold_lowerThan": "Occurrences of HTTP Status Code {{statusCodeFullText}} is lower than {{thresholdValue}}.",
@@ -319,6 +357,14 @@
           "statusCodeDefault_higherEqual": "Occurrences of HTTP Status Code {{statusCodeFullText}} is higher or equal to expected.",
           "statusCodeDefault_lowerThan": "Occurrences of HTTP Status Code {{statusCodeFullText}} is lower than expected.",
           "statusCodeDefault_lowerEqual": "Occurrences of HTTP Status Code {{statusCodeFullText}} is lower or equal to expected.",
+          "statusCodeRateStaticThreshold_higherThan": "Rate of HTTP Status Code {{statusCodeFullText}} is higher than {{thresholdValue}}%.",
+          "statusCodeRateStaticThreshold_higherEqual": "Rate of HTTP Status Code {{statusCodeFullText}} is higher or equal to {{thresholdValue}}%.",
+          "statusCodeRateStaticThreshold_lowerThan": "Rate of HTTP Status Code {{statusCodeFullText}} is lower than {{thresholdValue}}.%",
+          "statusCodeRateStaticThreshold_lowerEqual": "Rate of HTTP Status Code {{statusCodeFullText}} is lower or equal to {{thresholdValue}}.%",
+          "statusCodeRateDefault_higherThan": "Rate of HTTP Status Code {{statusCodeFullText}} is higher than expected.",
+          "statusCodeRateDefault_higherEqual": "Rate of HTTP Status Code {{statusCodeFullText}} is higher or equal to expected.",
+          "statusCodeRateDefault_lowerThan": "Rate of HTTP Status Code {{statusCodeFullText}} is lower than expected.",
+          "statusCodeRateDefault_lowerEqual": "Rate of HTTP Status Code {{statusCodeFullText}} is lower or equal to expected.",
           "throughputStaticThreshold_higherThan": "The number of calls is higher than {{thresholdValue}} calls.",
           "throughputStaticThreshold_higherEqual": "The number of calls is higher or equal to {{thresholdValue}} calls.",
           "throughputStaticThreshold_lowerThan": "The number of calls is lower than {{thresholdValue}} calls.",
@@ -415,12 +461,13 @@
         "ruleStatusCodeValueOption510": "510 (Not Extended)",
         "ruleStatusCodeValueOption511": "511 (Network Authentication Required)",
         "ruleStatusCodeValueOption599": "599 (Network Connect Timeout Error)",
+        "ruleMetricNameOptionStatusCodeCount": "Status Code Count",
+        "ruleMetricNameOptionStatusCodeRate": "Status Code Rate",
         "ruleStatusCodeValueOptionCustom": "Custom Range",
-        "ruleFormErrorStatusCodeStartGTEnd": "Please select an end http status code that is greater or equal than the start http status code",
+        "ruleFormErrorStatusCodeStartGTEnd": "Please select an end HTTP status code that is greater or equal than the start HTTP status code",
         "ruleFormPleaseProvideALogMessage": "Please provide a log message",
-        "ruleFormPleaseProvideAStartStatusCode": "Please provide a start http status code",
-        "ruleFormPleaseProvideAEndStatusCode": "Please provide an end http status code",
-        "smartAlertFormNoEntitiesSelected": "No entities selected",
+        "ruleFormPleaseProvideAStartStatusCode": "Please provide a valid start HTTP status code",
+        "ruleFormPleaseProvideAEndStatusCode": "Please provide a valid end HTTP status code",
         "smartAlertFormValueIsReadOnly": "The value is read only and cannot be changed",
         "thresholdFormPleaseProvideANumber0": "Please provide a number >= 0",
         "thresholdFormBaselineIsEmpty": "baseline is empty"
@@ -430,7 +477,7 @@
         "simpleAlertStep2Headline": "Where do you want the alert to trigger?",
         "step1Title": "Step 1: Select Alert",
         "step2Title": "Step 2: Select Scope",
-        "step3Title": "Step 3: Select Alerting Channels"
+        "step3Title": "Step 3: Select Alert Channels"
       },
       "components": {
         "createSmartAlert": "Add Smart Alert",
@@ -446,6 +493,10 @@
         "labelGlobalSmartAlertsList": "Global Application Smart Alerts ({{numberOfAlerts}})",
         "labelSmartAlertsList": "Application Smart Alerts ({{numberOfAlerts}})",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
+        "getSubtitleForStaticThreshold": "Static Threshold, {{metricLabel}} {{operator}} {{value}}",
+        "getSubtitleForStaticDailySeasonality": "Static Daily Seasonality, {{metricLabel}}",
+        "getSubtitleForStaticWeeklySeasonality": "Static Weekly Seasonality, {{metricLabel}}",
+        "getSubtitleForAdaptiveThreshold": "Adaptive Threshold, {{metricLabel}}",
         "labelActionButtonEdit": "Edit",
         "labelActionButtonDuplicate": "Duplicate",
         "labelActionButtonDelete": "Delete",
@@ -454,7 +505,10 @@
         "labelConfirmRemoveConfig": "Are you sure you want to remove the alert <strong>{{configName}}</strong>?",
         "labelRemove": "Remove",
         "numberOfApplicationsSelected": "{{count}} application selected",
-        "numberOfApplicationsSelected_plural": "{{count}} applications selected"
+        "numberOfApplicationsSelected_plural": "{{count}} applications selected",
+        "numberOfApplicationsSelected_0": "{{count}} applications selected",
+        "numberOfApplicationsSelected_1": "{{count}} applications selected",
+        "numberOfApplicationsSelected_2": "{{count}} applications selected"
       },
       "details": {
         "title": "Alert Details",
@@ -475,7 +529,16 @@
       }
     },
     "details": {
+      "header": "Details",
+      "thresholdTypeTitle" : "Threshold Type",
+      "metricTitle": "Metric",
+      "entityTitle": "Scope",
       "titleBuiltInIndicator": "Built-in"
+    },
+    "list": {
+      "header": {
+        "configuredAlerts": "Configured Alerts ({{numberOfAlerts}})"
+      }
     },
     "form": {
       "ruleAggregationOptionMEAN": "mean",
@@ -483,7 +546,7 @@
       "ruleAggregationOptionP25": "25th",
       "ruleAggregationOptionP50": "50th",
       "ruleAggregationOptionP75": "75th",
-      "ruleAggregationOptionP90": "90th (recommended)",
+      "ruleAggregationOptionP90": "90th",
       "ruleAggregationOptionP95": "95th",
       "ruleAggregationOptionP98": "98th",
       "ruleAggregationOptionP99": "99th",
@@ -494,10 +557,13 @@
     "components": {
       "smartAlertDialog": {
         "cancelTitle": "Cancel",
-        "sharedListTooltip": "Selected {{typeName}} is not available anymore",
+        "sharedListTooltip": "{{typeName}} is not available anymore",
         "clearTagFilterExpressionButton": "Clear",
         "baselineErrorMessageInsufficientDataToCompute": "Insufficient data to compute the selected baseline. Please select <em>Static Threshold</em> instead.",
         "pleaseContactSupportToRiseLimit": "Please contact us via our <supportLink>{{instanaSupportPortal}}</supportLink> to request an increase of this limit.",
+        "adaptiveBaselineErrorMessage": "Threshold preview is currently unavailable.<br />This Smart Alert can still be saved.",
+        "adaptiveBaselineErrorMessageNotAvailable": "Adaptive threshold is currently unavailable.",
+        "adaptiveBaselineErrorMessageInsufficientDataToCompute": "Insufficient data to compute the selected threshold at this moment.<br />This Smart Alert can still be saved and alerting will start working as soon as there is at least 2 weeks of data available.",
         "instanaSupportPortal": "Instana support portal",
         "baselineErrorMessageReason": "Reason:",
         "blueprintDescriptionButtonSelect": "Select",
@@ -508,10 +574,19 @@
         "alertChannelSelectTypeTitle": "Alert Channel type",
         "addChannel": "Add {{count}} Channel",
         "addChannel_plural": "Add {{count}} Channels",
+        "addChannel_0": "Add {{count}} Channels",
+        "addChannel_1": "Add {{count}} Channels",
+        "addChannel_2": "Add {{count}} Channels",
         "add": "Add",
         "scopeConfigTitleWithApplications": "Select Applications/Services/Endpoints",
         "scopeConfigTitle": "Select Services/Endpoints",
+        "scopeConfigSelectOneEntryMessage": "Please select at least one entry.",
         "scopeConfigTitleTooltip": "Showing available entities for the last 24 hours",
+        "scopeMigrationMessage_FAILED": "The scope could not be automatically migrated. Please pick the corresponding tag filters for the below Dynamic Focus Query:",
+        "scopeMigrationMessage_PARTIAL": "The scope could not be fully migrated. Please pick the corresponding tag filters for the below Dynamic Focus Query:",
+        "scopeMigrationMessage_FULL": "The applied scope is based on the previously used Dynamic Focus Query:",
+        "scopeMigrationMessageAllAvailableEntities": "The applied scope is based on the previously used selection of all available entities.",
+        "scopeMigrationMessageSelectedApplications": "The applied scope is based on the previously used selection of Application Perspectives.",
         "sortByUserSelectionLabel": "Sort by user selection",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage": "At least {{count}} user and {{userPercentage}} of users impacted within the last {{formattedTimeWindow}}",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_plural": "At least {{count}} users and {{userPercentage}} of users impacted within the last {{formattedTimeWindow}}",
@@ -537,11 +612,11 @@
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_perWindowEvaluation_2": "At least {{count}} users impacted per window, for the last {{numberEvaluationWindows}} evaluation windows",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserPercentage_perWindowEvaluation": "At least {{userPercentage}} of users impacted per window, for the last {{numberEvaluationWindows}} evaluation windows",
         "timeThresholdDescriptionUserImpactOfViolationsInSequence_perWindowEvaluation": "Impacted per window, for the last {{numberEvaluationWindows}} evaluation windows",
-        "timeThresholdDescriptionRequestImpact": "At least {{count}} request impacted within the last {{formattedTimeWindow}}",
-        "timeThresholdDescriptionRequestImpact_plural": "At least {{count}} requests impacted within the last {{formattedTimeWindow}}",
-        "timeThresholdDescriptionRequestImpact_0": "At least {{count}} requests impacted within the last {{formattedTimeWindow}}",
-        "timeThresholdDescriptionRequestImpact_1": "At least {{count}} request impacted within the last {{formattedTimeWindow}}",
-        "timeThresholdDescriptionRequestImpact_2": "At least {{count}} requests impacted within the last {{formattedTimeWindow}}",
+        "timeThresholdDescriptionTraceImpact": "At least {{count}} trace impacted within the last {{formattedTimeWindow}}",
+        "timeThresholdDescriptionTraceImpact_plural": "At least {{count}} traces impacted within the last {{formattedTimeWindow}}",
+        "timeThresholdDescriptionTraceImpact_0": "At least {{count}} traces impacted within the last {{formattedTimeWindow}}",
+        "timeThresholdDescriptionTraceImpact_1": "At least {{count}} trace impacted within the last {{formattedTimeWindow}}",
+        "timeThresholdDescriptionTraceImpact_2": "At least {{count}} traces impacted within the last {{formattedTimeWindow}}",
         "timeThresholdDescriptionViolationsInPeriod": "At least {{count}} violation within the last {{formattedTimeWindow}}",
         "timeThresholdDescriptionViolationsInPeriod_plural": "At least {{count}} violations within the last {{formattedTimeWindow}}",
         "timeThresholdDescriptionViolationsInPeriod_0": "At least {{count}} violations within the last {{formattedTimeWindow}}",
@@ -555,25 +630,25 @@
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "Calculate for each evaluation window",
         "timeThresholdConfigNumberOfViolations": "Number of Metric Violations",
         "timeThresholdConfigEvaluationGranularity": "Evaluation Granularity",
-        "timeThresholdConfigNumberOfRequestsThreshold": "Number of Requests Threshold",
-        "timeThresholdConfigNumberOfImpactedUsersThreshold": "Number of Impacted Users Threshold",
+        "timeThresholdConfigNumberOfTracesThreshold": "Number of Impacted Traces",
+        "timeThresholdConfigNumberOfImpactedUsersThreshold": "Number of Impacted Users",
         "timeThresholdConfigAtLeast": "At least",
-        "timeThresholdConfigNumberOfRequests": "# of Requests",
+        "timeThresholdConfigNumberOfTraces": "# of impacted traces",
         "timeThresholdConfigMinutes": "{{min}} min",
-        "timeThresholdConfigNumberOfUsers": "# of Users",
-        "timeThresholdConfigPercentageOfUsers": "% of Users",
-        "timeThresholdConfigPercentageOfImpactedUsersThreshold": "Percentage of Impacted Users Threshold",
+        "timeThresholdConfigNumberOfUsers": "# of impacted users",
+        "timeThresholdConfigPercentageOfUsers": "% of impacted users",
+        "timeThresholdConfigPercentageOfImpactedUsersThreshold": "Percentage of Impacted Users",
         "timeThresholdConfigOff": "off",
         "timeThresholdConfigErrorPleaseProvideANumberGreaterEqualsToOne": "Please provide a number >= 1",
         "timeThresholdConfigErrorPleaseProvideANumberBetween1and100Percent": "Please provide a number between 1% and 100%",
         "timeThresholdConfigTimeThresholdLabelViolationsInSequence": "When the condition persists over a specified amount of time",
         "timeThresholdConfigTimeThresholdLabelViolationsInPeriod": "Every time the condition triggers a specified amount of times in a defined time frame",
         "timeThresholdConfigTimeThresholdLabelUserImpactOfViolationsInSequence": "When a certain amount of my users are impacted",
-        "timeThresholdConfigTimeThresholdLabelRequestImpact": "When a certain amount of requests are impacted",
+        "timeThresholdConfigTimeThresholdLabelTraceImpact": "When a certain amount of traces are impacted",
         "timeThresholdConfigTimeThresholdTitleViolationsInSequence": "Persistence over time",
         "timeThresholdConfigTimeThresholdTitleViolationsInPeriod": "Number of violations over time",
-        "timeThresholdConfigTimeThresholdTitleUserImpactOfViolationsInSequence": "User impact",
-        "timeThresholdConfigTimeThresholdTitleRequestImpact": "Request impact",
+        "timeThresholdConfigTimeThresholdTitleUserImpactOfViolationsInSequence": "User Impact",
+        "timeThresholdConfigTimeThresholdTitleTraceImpact": "Trace Impact",
         "timeThresholdConfigNoUserSessionDetected": "No <linkToIdentifyingUsers>users</linkToIdentifyingUsers> or <linkToSessionTracking>sessions</linkToSessionTracking> detected.",
         "timeThresholdConfigPleaseConfigureWebsiteMonitoringBeforeUsingThisOption": "Please configure website monitoring before using this option.",
         "alertPropertiesWarning": "Warning",
@@ -590,20 +665,25 @@
         "buttonRecalculateBaseline": "Recalculate Baseline",
         "sensitivitySliderLow": "low",
         "sensitivitySliderHigh": "high",
+        "sensitivitySliderValueLabel": "{{count}} standard deviation",
+        "sensitivitySliderValueLabel_plural": "{{count}} standard deviations",
+        "sensitivitySliderValueLabel_0": "{{count}} standard deviations",
+        "sensitivitySliderValueLabel_1": "{{count}} standard deviations",
+        "sensitivitySliderValueLabel_2": "{{count}} standard deviations",
         "labelThreshold": "Threshold",
         "labelSensitivity": "Sensitivity",
+        "staticThresholdTypeOptionsTooltip": "A Static Daily / Weekly Threshold is a time dependent threshold based on historical data. The threshold does not change automatically and can be manually recalculated if required.",
         "thresholdTypeOptionStaticThreshold": "Static Threshold",
-        "thresholdTypeOptionHistoricBaselineDaily": "Baseline (Daily Seasonality)",
-        "thresholdTypeOptionHistoricBaselineWeekly": "Baseline (Weekly Seasonality)",
-        "thresholdTypeOptionAdaptiveBaseline": "Adaptive baseline",
+        "thresholdTypeOptionHistoricBaselineDaily": "Static Daily Seasonality",
+        "thresholdTypeOptionHistoricBaselineWeekly": "Static Weekly Seasonality",
+        "thresholdTypeOptionAdaptiveBaseline": "Adaptive Threshold",
         "useSuggestedvalue": "Use suggested value",
         "loadingThresholdSuggestion": "Loading threshold suggestion",
         "alertConfigDialogPresenterTitleEditAlert_Local": "Edit Smart Alert",
         "alertConfigDialogPresenterTitleEditAlert_Global": "Edit Global Smart Alert",
-        "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Create New Smart Alert",
-        "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Create New Global Smart Alert",
-        "alertConfigDialogPresenterTitleMigrateAlert_Local": "Migrate to Smart Alert",
-        "alertConfigDialogPresenterTitleMigrateAlert_Global": "Migrate to Global Smart Alert",
+        "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Create Smart Alert",
+        "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Create Global Smart Alert",
+        "alertConfigDialogPresenterTitleMigrateAlert": "Migrate to Smart Alert",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "Switch to Advanced Mode",
         "simpleAlertConfigDialogStep3Headline": "Who should get the alerts?",
         "Loading": "Loading…",
@@ -615,6 +695,7 @@
         "migrationModeWarning": "Migrating this Custom Event to a Smart Alert will disable it. The event cannot be re-enabled afterwards."
       },
       "userInfo": {
+        "linkText": "View Smart Alert",
         "success": {
           "create": {
             "alert": {
@@ -641,21 +722,33 @@
         "websites": {
           "title": "Websites",
           "description0": "To set up an alert navigate to the website you want to set up the alert on and use the \"Add Smart Alert\" button on the bottom right.",
-          "stats": "Currently you have $t(in-alerting:smartAlerts.components.alertsHub.websites.alerts, {\"count\": {{alerts}} }) on $t(in-alerting:smartAlerts.components.alertsHub.websites.websites, {\"count\": {{websites}} }).",
+          "stats": "Currently, you have $t(in-alerting:smartAlerts.components.alertsHub.websites.alerts, {\"count\": {{alerts}} }) on $t(in-alerting:smartAlerts.components.alertsHub.websites.websites, {\"count\": {{websites}} }).",
           "alerts": "{{count}} Website Smart Alert",
           "alerts_plural": "{{count}} Website Smart Alerts",
+          "alerts_0": "{{count}} Website Smart Alerts",
+          "alerts_1": "{{count}} Website Smart Alerts",
+          "alerts_2": "{{count}} Website Smart Alerts",
           "websites": "{{count}} Website",
           "websites_plural": "{{count}} Websites",
+          "websites_0": "{{count}} Websites",
+          "websites_1": "{{count}} Websites",
+          "websites_2": "{{count}} Websites",
           "button0": "Websites"
         },
         "applications": {
           "title": "Applications",
           "description0": "You can set up Smart Alerts for a specific Application only, or set up Smart Alerts covering multiple Applications.",
-          "stats": "Currently you have $t(in-alerting:smartAlerts.components.alertsHub.applications.gsa, {\"count\": {{globalSmartAlerts}} }) and $t(in-alerting:smartAlerts.components.alertsHub.applications.rsa, {\"count\": {{smartAlerts}} }).",
+          "stats": "Currently, you have $t(in-alerting:smartAlerts.components.alertsHub.applications.gsa, {\"count\": {{globalSmartAlerts}} }) and $t(in-alerting:smartAlerts.components.alertsHub.applications.rsa, {\"count\": {{smartAlerts}} }).",
           "gsa": "{{count}} Global Smart Alert",
           "gsa_plural": "{{count}} Global Smart Alerts",
+          "gsa_0": "{{count}} Global Smart Alerts",
+          "gsa_1": "{{count}} Global Smart Alerts",
+          "gsa_2": "{{count}} Global Smart Alerts",
           "rsa": "{{count}} Regular Smart Alert",
           "rsa_plural": "{{count}} Regular Smart Alerts",
+          "rsa_0": "{{count}} Regular Smart Alerts",
+          "rsa_1": "{{count}} Regular Smart Alerts",
+          "rsa_2": "{{count}} Regular Smart Alerts",
           "button0": "Smart Alerts"
         },
         "infrastructure": {
@@ -663,11 +756,17 @@
           "description0": "Alerts for Infrastructure & Platforms utilize our 2-step workflow.",
           "description1": "1) Events defined for specific conditions. You can either use our Built-in Events or create your own Custom Events.",
           "description2": "2) Alerts then alert you whenever specific Events occur.",
-          "stats": "Currently you have $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.events, {\"count\": {{events}} }) and $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.alerts, {\"count\": {{alerts}} }).",
+          "stats": "Currently, you have $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.events, {\"count\": {{events}} }) and $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.alerts, {\"count\": {{alerts}} }).",
           "events": "{{count}} Custom Event",
           "events_plural": "{{count}} Custom Events",
+          "events_0": "{{count}} Custom Events",
+          "events_1": "{{count}} Custom Events",
+          "events_2": "{{count}} Custom Events",
           "alerts": "{{count}} Alert",
           "alerts_plural": "{{count}} Alerts",
+          "alerts_0": "{{count}} Alerts",
+          "alerts_1": "{{count}} Alerts",
+          "alerts_2": "{{count}} Alerts",
           "button0": "Alerts",
           "button1": "Events"
         }
@@ -684,9 +783,10 @@
     },
     "websites": {
       "advanced": {
-        "slownessInteractiveChartThresholdValue": "Threshold Value",
         "scopeLabel": "Scope",
         "scopeTitle": "Scope: Where is the condition happening?",
+        "thresholdLabel": "Threshold",
+        "thresholdTitle": "Threshold: When is the condition violated?",
         "triggerLabel": "Trigger",
         "triggerTitle": "Trigger: What do you want to be alerted on?",
         "JSErrorMessage": "JS Error Message",
@@ -695,11 +795,16 @@
         "timeThresholdTitle": "Time Threshold: When do you want to be alerted?",
         "alertChannelsLabel": "Alert Channels",
         "alertChannelsTitle": "Alert Channels: Who needs to be alerted?",
-        "propertiesLabel": "Properties (optional)",
-        "propertiesTitle": "Additional Alert Properties (optional)",
+        "propertiesLabel": "Properties",
+        "propertiesTitle": "Additional Alert Properties",
         "thresholdValue": "Threshold Value",
-        "payloadsLabel": "Payloads (optional)",
-        "payloadsTitle": "Custom Payloads (optional)"
+        "payloadsLabel": "Payloads",
+        "payloadsTitle": "Custom Payloads",
+        "evaluationSwitch": {
+          "evaluationTypePERWEBSITE": {
+            "shortText": "Per Website"
+          }
+        }
       },
       "components": {
         "provideStatusCodeStatusCode": "Status Code",
@@ -735,6 +840,11 @@
         "throughputBlueprintConfigName": "Throughput",
         "throughputBlueprintConfigHeadline": "Automatic Alerts for Page Views",
         "throughputBlueprintConfigText": "Automatic alerts on anomalously low or high number of Page Loads or Page Transitions for selected pages of this Website.",
+        "customEventBlueprintConfigName": "Custom Events",
+        "customEventBlueprintConfigHeadline": "Automatic Alerts for Custom Events",
+        "customEventBlueprintConfigText": "Receive an alert every time a specific custom event occurs more or less often than it should.",
+        "customEventBlueprintConfigIncompleteRuleMessage": "Please select a custom event to see when this alert triggers",
+        "customEventBlueprintConfigMetricLabel": "Occurrences",
         "simpleModeBlueprintConfigsUnexpectedDropName": "Unexpectedly Low Number of Page Loads",
         "simpleModeBlueprintConfigsUnexpectedDropHeadline": "Automatic Alerts on Anomalously Low Number of Page Loads",
         "simpleModeBlueprintConfigsUnexpectedDropText": "Receive an alert when the number of Page Loads is significantly lower than expected compared to the available past data.",
@@ -745,6 +855,7 @@
       "form": {
         "anyJSErrors": "Any JS Errors",
         "JSErrors": "JS Error(s): {{errorMessage}}",
+        "customEvents": "Custom Event: {{customEventName}}",
         "HTTPStatusCodes": "HTTP Status Code(s):{{statusCode}}",
         "unsupportedAlertType": "Unsupported alert type: {{alertType}}",
         "JSErrorsHaveBeenDetected": "JS Errors have been detected.",
@@ -753,6 +864,7 @@
         "JSErrorTextContains": "JS Errors which contain \"{{ruleValue}}\" have been detected.",
         "JSErrorTextStartsWith": "JS Errors which start with \"{{ruleValue}}\" have been detected.",
         "JSErrorTextEndsWith": "JS Errors which end with \"{{ruleValue}}\" have been detected.",
+        "customEventsText": "Custom Events which equal \"{{customEventName}}\" have been detected.",
         "slownessSimpleHighOperatorText": "onLoad Time ({{aggregationText}}) is too high",
         "slownessSimpleLowOperatorText": "onLoad Time ({{aggregationText}}) is too low",
         "throughputSimpleHighOperatorText": "Number of {{metricLabel}} is anomalously high",
@@ -775,6 +887,7 @@
         "thresholdLowerEqualsOperatorText": "The number of {{metricLabel}} lower or equal to expected.",
         "errorPleaseProvideAnErrorMessage": "Please provide an error message",
         "errorPleaseProvideANumberGreaterEqualsToZero": "Please provide a number >= 0",
+        "errorPleaseProvideCustomEventName": "Please provide a custom event name",
         "errorBaselineIsEmpty": "baseline is empty",
         "ruleJsErrorsOperatorOptionAny": "Any",
         "ruleJsErrorsOperatorOptionEquals": "Equals",
@@ -864,9 +977,21 @@
         "simpleAlertConfigDialogStep2Headline": "Where do you want the alert to trigger?",
         "stepConfigsStep1Title": "Step 1: Select Alert",
         "stepConfigsStep2Title": "Step 2: Select Scope",
-        "stepConfigsStep3Title": "Step 3: Select Alerting Channels"
+        "stepConfigsStep3Title": "Step 3: Select Alert Channels"
       },
-      "addAlert": "Add Alert"
+      "customEvent" : {
+        "noCustomEventsFound": "No custom events found",
+        "searchCustomEvents": "Filter Events",
+        "customEventSelectionSliderTitle": "Choose Custom Event",
+        "customEventNameColumnLabel": "Event Name",
+        "customEventOccurrencesColumnLabel": "Occurrences",
+        "customEventUsersColumnLabel": "Users",
+        "customEventLabel": "Custom Event",
+        "customEventInputPlaceholder": "Paste a custom event name or select one from the list of events",
+        "searchCustomEventButtonLabel": "Select Custom Event",
+        "customEventListInfoLabel": "Showing custom events that have been triggered in the last 7 days"
+      },
+      "addSmartAlert": "Add Smart Alert"
     },
     "sortOptions": {
       "name": "Name",
@@ -879,12 +1004,14 @@
     },
     "migration": {
       "migrateButton": "Migrate to Smart Alert",
-      "migrateButtonTooltip": "Opens a Smart Alert config dialog pre–filled with the migrated values from the current event to the best extend we can. Please double check the result carefully!",
+      "migrateButtonTooltip": "Opens a Smart Alert config dialog pre–filled with the migrated values from the current event to the best extent we can. Please double check the result carefully!",
       "markAsMigratedButton": "Mark as migrated",
       "markAsMigratedButtonTooltip": "Marks the Event as migrated. Please use this in case you have already configured a Smart Alert which will replace this Event.",
       "markAsMigratedButtonConfirmationTitle": "Please Confirm",
       "markAsMigratedButtonConfirmationDescription": "Marking this Custom Event as migrated will disable it. The event cannot be re-enabled afterwards. Do you want to proceed?",
       "markAsMigratedButtonConfirmationConfirmLabel": "Confirm"
-    }
+    },
+    "enable": "Enable",
+    "disable": "Disable"
   }
 }

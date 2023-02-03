@@ -1,0 +1,25 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .capacity_font {
+    font-size: 1rem;
+    color: #47525d;
+    font-weight: 200;
+  }
+  .unit {
+    color: @lib__colors__N900Primary;
+    font-size: 0.8rem;
+  }
+  .minor {
+    color: @lib__colors__N900Primary;
+  }
+  .minor {
+    font-size: 1.5rem;
+  }
+}

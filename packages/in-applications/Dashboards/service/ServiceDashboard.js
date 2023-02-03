@@ -86,6 +86,8 @@ export default function ServiceDashboard({ location }) {
     props.syntheticCalls = syntheticCalls || syntheticCallsOptions.default;
   }
 
+  const showAlertButton = role.canConfigureCustomAlerts && applicationSmartAlertsEnabled;
+
   return (
     <>
       <ViewTrackingMeta
@@ -111,7 +113,7 @@ export default function ServiceDashboard({ location }) {
         props={props}
       />
 
-      {role.canConfigureCustomAlerts && applicationSmartAlertsEnabled && (
+      {showAlertButton && (
         <FloatingActionButtons>
           <CreateSmartAlert
             serviceId={props.serviceId}
@@ -147,6 +149,7 @@ function Header(props) {
       renderButtonLineSecondary={renderButtonLineSecondary}
       renderMetaInformation={renderMetaInformation}
       contextConfigurations={contextConfigurations}
+      showHistoricDataWarning={false}
     />
   );
 }
@@ -243,9 +246,14 @@ function renderApplicationContext(props) {
 }
 
 function filterByType(types) {
-  if (types.length === 1) {
-    return [tagFilter('call.type', EQUALS, types[0])];
-  } else {
-    return [];
+  if (types.length) {
+    const filterExpression = [];
+    types.forEach((type, index) => {
+      if (index !== 0) {
+        filterExpression.push({ type: 'CONJUNCTION', logicalOperator: 'OR' });
+      }
+      filterExpression.push(tagFilter('call.type', EQUALS, type));
+    });
+    return filterExpression;
   }
 }

@@ -54,7 +54,7 @@ export default function EventsChart({ timeConfig, applicationId, serviceId, endp
   return (
     <OpenEventsCountChartWrapper
       renderPostChartContent={renderPostChartContent}
-      cardTitle={t('in-applications:dashboards.infrastructureIssuesChanges')}
+      title={t('in-applications:dashboards.infrastructureIssuesChanges')}
       timeConfig={timeConfig}
       granularity={granularity}
       includeFirstDataPoint

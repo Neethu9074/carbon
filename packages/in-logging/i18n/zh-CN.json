@@ -17,13 +17,25 @@
   "messageParam": "消息参数",
   "applicationCounter": "{{count}} 个应用程序",
   "exceptionMessageHeader": "异常消息",
+  "stackTrace": "堆栈跟踪",
   "service": "服务",
   "stream": "流",
   "tooltipCopyToClipboard": "复制到剪贴板",
+  "tooltipCopyLinkToClipboard": "复制日志链接",
   "tooltipAddAsGroup": "按标记分组",
   "tooltipAddAsFilter": "将标记添加为过滤器",
   "sorting": {
     "mostRecent": "最新的放在最前面",
     "oldest": "最旧的放在最前面"
-  }
+  },
+  "cpuTotal": "CPU 总计",
+  "memoryUsage": "内存使用情况",
+  "cluster": "集群",
+  "node": "节点",
+  "namespace": "名称空间",
+  "deployment": "部署",
+  "pod": "Pod",
+  "tooltipEntityHealthNoIssues": "没有问题",
+  "tooltipEntityHealthIssues": "{{numberOfIssues}} 个问题",
+  "container": "容器"
 }

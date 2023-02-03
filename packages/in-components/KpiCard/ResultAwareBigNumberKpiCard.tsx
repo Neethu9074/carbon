@@ -6,8 +6,8 @@
 import React, { ReactNode } from 'react';
 import { find } from 'lodash';
 
-import { translateOffsetToTimeShiftConfig, getTimeShiftLabel } from 'in-stores/time/shifting';
-import { MetricResult, Result, TimeConfig, UnifiedMetricConfiguration } from 'in-types';
+import { MetricResult, Result, TagFilter, TimeConfig, UnifiedMetricConfigurationUnion } from 'in-types';
+import { getTimeShiftLabel, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import ResultAwareKpiCard from 'in-components/KpiCard/ResultAwareKpiCard';
 import KpiCard, { IconAction } from 'in-components/KpiCard/KpiCard';
@@ -23,13 +23,15 @@ export const companionMetricKey = 'companion';
 export const comparisonMetricKey = 'comparison';
 
 export interface Config {
-  metricConfiguration: UnifiedMetricConfiguration & {
-    timeShift: number;
-  };
-  companionMetricConfiguration: UnifiedMetricConfiguration;
+  metricConfiguration: UnifiedMetricConfigurationUnion;
+  formatter?: string;
+  tagFilters?: TagFilter[];
   comparisonIncreaseColor: string;
   comparisonDecreaseColor: string;
-  formatter?: string;
+}
+
+export interface ConfigWithCompanionMetric extends Config {
+  companionMetricConfiguration: UnifiedMetricConfigurationUnion;
 }
 
 export interface ResultAwareBigNumberKpiCardProps {
@@ -38,10 +40,17 @@ export interface ResultAwareBigNumberKpiCardProps {
   companionFormatter?: FormatterFn;
   useMaxAvailableHeight?: boolean;
   iconAction?: IconAction;
-  config: Config;
+  config: Config | ConfigWithCompanionMetric;
   actions?: ReactNode;
   dragHandle?: ReactNode;
   result: Result<MetricResult[]>;
+  raw?: boolean;
+}
+
+export function isConfigWithCompanionMetric(
+  config: Config | ConfigWithCompanionMetric
+): config is ConfigWithCompanionMetric {
+  return (config as ConfigWithCompanionMetric).companionMetricConfiguration != null;
 }
 
 export default function ResultAwareBigNumberKpiCard({
@@ -53,7 +62,8 @@ export default function ResultAwareBigNumberKpiCard({
   config,
   actions,
   dragHandle,
-  result
+  result,
+  raw
 }: ResultAwareBigNumberKpiCardProps) {
   const timeConfig = useTimeConfig();
 
@@ -83,7 +93,8 @@ export default function ResultAwareBigNumberKpiCard({
           iconAction,
           actions,
           dragHandle,
-          useMaxAvailableHeight
+          useMaxAvailableHeight,
+          raw
         )
       }
     />
@@ -92,7 +103,7 @@ export default function ResultAwareBigNumberKpiCard({
 
 export function renderKpiCard(
   result: Result<MetricResult[]>,
-  config: Config,
+  config: Config | ConfigWithCompanionMetric,
   formatter: FormatterFn,
   title: string,
   timeConfig: TimeConfig,
@@ -100,7 +111,8 @@ export function renderKpiCard(
   iconAction: IconAction | undefined,
   actions: ReactNode,
   dragHandle: ReactNode,
-  useMaxAvailableHeight: boolean | undefined
+  useMaxAvailableHeight: boolean | undefined,
+  raw: boolean | undefined
 ) {
   let value = null;
   const dataPoint = find(result.data, ({ id }) => id === metricKey);
@@ -108,15 +120,15 @@ export function renderKpiCard(
     value = dataPoint.values[0][1];
   }
 
-  let formattedValue = null;
-  if (value != null) {
-    formattedValue = formatter(value);
-  }
+  // We are using the [0] selector as in this aspect we assume multiple results have the same value
+  // Example Mean Latency receive a "Companion", which we assume have the same resultPrecision as it's parent.
+  const resultPrecisions = result?.data?.map(elem => elem.resultPrecisionDetails?.resultPrecision)[0];
 
   return (
     <KpiCard
       title={title}
-      value={formattedValue}
+      value={value}
+      renderValue={formatter}
       useMaxAvailableHeight={useMaxAvailableHeight}
       actions={
         dragHandle || actions ? (
@@ -134,6 +146,8 @@ export function renderKpiCard(
           : renderCompanionValue(result, companionFormatter as FormatterFn)
       }
       iconAction={iconAction}
+      resultPrecision={resultPrecisions}
+      raw={raw}
     />
   );
 }
@@ -147,13 +161,13 @@ function renderCompanionValue(result: Result<MetricResult[]>, companionFormatter
 }
 
 function renderTimeShiftValue(
-  config: Config,
+  config: Config | ConfigWithCompanionMetric,
   result: Result<MetricResult[]>,
   formatter: FormatterFn,
   value: number | null,
   timeConfig: TimeConfig
 ) {
-  const timeShift = config.metricConfiguration.timeShift as number;
+  const timeShift = config.metricConfiguration.timeShift.offset;
   if (timeShift === 0 || value == null) {
     return null;
   }

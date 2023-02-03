@@ -7,7 +7,7 @@ import React from 'react';
 
 import { t } from '@instana/i18n-react';
 
-import getKubernetesClustersExplore from 'in-kubernetes/subscriptions/getKubernetesClustersExplore';
+import exploreKubernetesClusters from 'in-kubernetes/subscriptions/exploreKubernetesClusters';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { ClusterList } from 'in-kubernetes/explore/ClusterList';
@@ -22,11 +22,11 @@ export const mainCols = 12;
 export default function KubernetesExplore() {
   const timeConfig = useTimeConfig();
   const retrievalSize = 20;
-  const result = useCursorPagination(({ cursor }) => {
-    return getKubernetesClustersExplore({
+  const result = useCursorPagination(({ cursor }) =>
+    exploreKubernetesClusters({
       query: { timeConfig, pagination: { cursor, retrievalSize }, search: '' }
-    });
-  });
+    })
+  );
   const loading = isLoading(result);
   const hasErrors = hasError(result);
 

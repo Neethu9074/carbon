@@ -21,7 +21,7 @@ const urlSettingsConfig = {
       name: 'windowSize',
       serializer: buildJsonSerializer(),
       parser: buildJsonParser(),
-      initialState: days.toMillis(30)
+      initialState: days.toMillis(15)
     }
   ]
 };

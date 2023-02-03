@@ -1,0 +1,24 @@
+/*
+ * (c) Copyright IBM Corp. 2022
+ * (c) Copyright Instana Inc. 2022
+ */
+
+:local {
+  .colorIndicator {
+    display: inline-block;
+  }
+
+  .dot,
+  .rect {
+    min-width: 0.75rem;
+    min-height: 0.75rem;
+
+    // Manually tweaking the alignment because we cannot rely on baseline alignment
+    position: relative;
+    top: 0.0938rem;
+  }
+
+  .dot {
+    border-radius: 50%;
+  }
+}

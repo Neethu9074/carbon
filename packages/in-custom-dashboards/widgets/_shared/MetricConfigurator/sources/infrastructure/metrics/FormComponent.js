@@ -5,34 +5,38 @@
 
 import React, { useEffect } from 'react';
 
-import { useObservable } from '@instana/hooks';
-import { Stack } from '@instana/components';
+import { Spacer, Stack, Toggle } from '@instana/components';
 
 import TypeAndMetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/TypeAndMetricConfigurator';
 import { useTagFilterExpressionState } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/useTagFilterExpressionState';
+import getMetricInCatalog from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/getMetricInCatalog';
 import {
   onChangeGrouping,
   isRequiringGroupingConfiguration
 } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
 import GroupingConfiguration from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/GroupingConfiguration';
 import { invalidMarker } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/form';
-import QueryBuilder, { getTagCatalog } from 'in-infrastructure/Explore/components/QueryBuilder';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import GroupingConfigurator from 'in-infrastructure/Explore/components/GroupingConfigurator';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
-import getMetricMetadata from 'in-infrastructure/subscriptions/getMetricMetadata';
 import getMetricCatalog from 'in-infrastructure/subscriptions/getMetricCatalog';
-import useMetricMetadata from 'in-infrastructure/hooks/useMetricMetadata';
+import QueryBuilder from 'in-infrastructure/Explore/components/QueryBuilder';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import useMetricCatalog from 'in-infrastructure/hooks/useMetricCatalog';
+import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { aggregationLabels } from 'in-stores/metric/beeInstant';
+import HelpAction from 'in-components/workspace/HelpAction';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { pendingResult } from 'in-services/fixedObjects';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
+import { success } from 'in-services/util/result';
 import { noop } from 'in-services/util/function';
+import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
+
+import locals from './FormComponent.mless';
 
 export default function FormComponent({
   form,
@@ -47,16 +51,26 @@ export default function FormComponent({
   const typeField = form.get('type');
   const metricField = form.get('metric');
   const aggregationField = form.get('aggregation');
+  const crossSeriesAggregationField = form.get('crossSeriesAggregation');
+  const allowedCrossSeriesAggregations = form.get('allowedCrossSeriesAggregations');
+  const isCrossSeriesAggregationRestricted = allowedCrossSeriesAggregations.value?.length > 0;
   const tagFilterExpressionField = form.get('tagFilterExpression');
   const groupingField = form.get('grouping');
+  const metricLabelField = form.get('metricLabel');
+  const metricPathField = form.get('metricPath');
   const grouping = getGrouping(form);
   const onDirectionChange = (direction, maxResults) =>
     onChangeGrouping(onChange, { ...grouping, direction, maxResults });
   const onIncludeOthersChange = includeOthers => onChangeGrouping(onChange, { ...grouping, includeOthers });
+  const isCrossSeriesSumAggregationToggleEnabled =
+    !isCrossSeriesAggregationRestricted && ['MEAN', 'MIN', 'MAX'].includes(aggregationField.value);
+  const isSumCrossSeriesAggregation = crossSeriesAggregationField.value === 'SUM';
 
-  const tagCatalogResult = useObservable(getTagCatalog, []) ?? pendingResult;
+  const type = typeField.value || undefined;
+  const metric = metricField.value || undefined;
+  const tagCatalog = useTagCatalog({ownerType: type, metric, includeMetricTags: true})
   const [tagFilterExpression, setTagFilterExpression] = useTagFilterExpressionState({
-    tagCatalogResult,
+    tagCatalogResult: tagCatalog ? success(tagCatalog) : pendingResult,
     form,
     onChange
   });
@@ -68,19 +82,33 @@ export default function FormComponent({
       tagFilterExpressionField.value != invalidMarker ? tagFilterExpressionField.value : EMPTY_EXPRESSION,
     query: catalogQuery.debouncedValue
   });
-  const metricMetadata = useMetricMetadata({ getMetricMetadata, type: typeField.value, metric: metricField.value });
-
-  useEffect(
-    () =>
-      onChange([], form => {
-        if (form.get('metricLabel')) {
-          return form.updateIn(['metricLabel'], field => field.setValue(metricMetadata.label).setTouched(true));
-        }
-        return form;
-      }),
+  useEffect(() => {
+    if (metricCatalog.data) {
+      const metadata = getMetricInCatalog({
+        metricCatalog: metricCatalog.data,
+        type,
+        metric
+      });
+      if (metadata) {
+        onChange([], form => {
+          var f = form.updateIn(['metricPath'], field => field.setValue(metadata.path).setTouched(true));
+          if (f.containsKey('metricLabel')) {
+            f = f.updateIn(['metricLabel'], field => field.setValue(metadata.label).setTouched(true));
+          }
+          return f;
+        });
+      }
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [metricMetadata]
-  );
+  }, [metricCatalog, typeField.value, metricField.value]);
+  const metricMetadata = {
+    metric,
+    label: metricLabelField?.value,
+    path: metricPathField.value,
+    loading:
+      ((metricLabelField && !metricLabelField.value) || !metricPathField.value || metricPathField.value.length == 0) &&
+      metricCatalog.progress.loading
+  };
 
   return (
     <Stack gap="xsmall">
@@ -90,16 +118,30 @@ export default function FormComponent({
           <TypeAndMetricConfigurator
             metricMetadata={metricMetadata}
             metricCatalog={(catalogQuery.value === catalogQuery.debouncedValue && metricCatalog) || pendingResult}
-            onChange={({ metric, type }) =>
-              onChange([], form =>
-                form
+            onChange={({ metric, parentType, allowedCrossSeriesAggregations, label, parentLabels }) => {
+              onChange([], form => {
+                var f = form
                   .updateIn(['metric'], field => field.setValue(metric).setTouched(true))
-                  .updateIn(['type'], field => field.setValue(type).setTouched(true))
+                  .updateIn(['type'], field => field.setValue(parentType).setTouched(true))
+                  .updateIn(['metricPath'], field => field.setValue(parentLabels).setTouched(true))
                   .updateIn(['aggregation'], field =>
                     field.setValue(Object.keys(aggregationLabels)[0]).setTouched(true)
                   )
-              )
-            }
+                  .updateIn(['crossSeriesAggregation'], field => {
+                    if (allowedCrossSeriesAggregations?.length > 0) {
+                      return field.setValue(allowedCrossSeriesAggregations[0]).setTouched(true);
+                    }
+                    return field.setValue(Object.keys(aggregationLabels)[0]).setTouched(true);
+                  })
+                  .updateIn(['allowedCrossSeriesAggregations'], field =>
+                    field.setValue(allowedCrossSeriesAggregations).setTouched(true)
+                  );
+                if (f.containsKey('metricLabel')) {
+                  f = f.updateIn(['metricLabel'], field => field.setValue(label).setTouched(true));
+                }
+                return f;
+              });
+            }}
             query={catalogQuery.value}
             onQueryChange={catalogQuery.onChange}
             selectMetric={t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.selectMetric')}
@@ -110,8 +152,59 @@ export default function FormComponent({
           label={t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.aggregation')}
           id="metric-configurator-infra-aggregation"
           value={aggregationField.value}
-          onChange={e => onChange(['aggregation'], field => field.setValue(e.target.value).setTouched(true))}
-          additionalContent={<TouchedMessages field={aggregationField} />}
+          onChange={e =>
+            onChange([], form =>
+              form
+                .updateIn(['aggregation'], field => field.setValue(e.target.value).setTouched(true))
+                .updateIn(['crossSeriesAggregation'], field => {
+                  if (isCrossSeriesAggregationRestricted) {
+                    return field;
+                  }
+                  if (e.target.value === 'PER_SECOND') {
+                    return field.setValue('SUM').setTouched(true);
+                  }
+                  return field.setValue(e.target.value).setTouched(true);
+                })
+            )
+          }
+          additionalContent={
+            <>
+              <TouchedMessages field={aggregationField} />
+              <div className={locals.crossSeriesAggregationWrapper}>
+                <Tooltip
+                  content={getCrossSeriesAggregationTooltip(
+                    isCrossSeriesAggregationRestricted,
+                    isCrossSeriesSumAggregationToggleEnabled,
+                    aggregationField.value
+                  )}
+                >
+                  <span>
+                    <Toggle
+                      id="metric-configurator-cross-series-aggregation"
+                      checked={isSumCrossSeriesAggregation}
+                      disabled={!isCrossSeriesSumAggregationToggleEnabled}
+                      onChange={e => {
+                        let newCrossSeriesAggregation = aggregationField.value;
+                        if (e.target.checked) {
+                          newCrossSeriesAggregation = 'SUM';
+                        }
+                        onChange(['crossSeriesAggregation'], field =>
+                          field.setValue(newCrossSeriesAggregation).setTouched(true)
+                        );
+                      }}
+                    />
+                  </span>
+                </Tooltip>
+                <Spacer horizontal="xxsmall" />
+                {t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.crossSeriesAggregation')}
+                <Spacer horizontal="small" />
+                <HelpAction>
+                  {t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.crossSeriesAggregationHelp')}
+                </HelpAction>
+              </div>
+              <TouchedMessages field={crossSeriesAggregationField} />
+            </>
+          }
           useAlternateBg
           disabled={!metricField.valid}
         >
@@ -134,12 +227,14 @@ export default function FormComponent({
           value={tagFilterExpression}
           onChange={setTagFilterExpression}
           QueryBuilder={QueryBuilder}
+          tagCatalog={tagCatalog}
           withoutIcon
         />
       </Sections>
       <GroupingConfiguration
         withGrouping={withGrouping}
         grouping={grouping}
+        tagCatalog={tagCatalog}
         tagFilterExpressionField={tagFilterExpressionField}
         onByChange={infraExploreGrouping => onChangeGrouping(onChange, { by: infraExploreGrouping })}
         onDirectionChange={onDirectionChange}
@@ -165,3 +260,21 @@ function getGrouping(form) {
     ?.get(0)
     ?.toJS();
 }
+
+function getCrossSeriesAggregationTooltip(
+  isCrossSeriesAggregationRestricted,
+  isCrossSeriesAggregationEnabled,
+  aggregation
+) {
+  if (isCrossSeriesAggregationRestricted) {
+    return t(
+      'in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.crossSeriesAggregationRestrictedHelp'
+    );
+  }
+  return !isCrossSeriesAggregationEnabled && aggregation !== 'SUM'
+    ? t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.crossSeriesAggregationDisabledHelp', {
+        aggregation: aggregationLabels[aggregation]
+      })
+    : '';
+}
+

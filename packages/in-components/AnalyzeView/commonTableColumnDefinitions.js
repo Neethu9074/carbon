@@ -12,6 +12,7 @@ export function createTableTimestampColumnDefinition({ label = t('in-components:
   return {
     label,
     width: '11rem',
+    noWrap: true,
     widthInAbsoluteUnit: true,
     defaultOrderDirection: 'DESC',
     getContent(...args) {

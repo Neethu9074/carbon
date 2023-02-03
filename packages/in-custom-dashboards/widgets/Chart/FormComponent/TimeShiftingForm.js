@@ -35,7 +35,10 @@ export default function TimeShiftingForm({ axisName, index, indexInAxis, onChang
       >
         <div className={locals.timeShiftHelpText}>
           <Tooltip
-            content={t('in-custom-dashboards:widgets.formCompChart.timeShiftingFormChart.timeShiftDisabledWhilePPon')}
+            content={
+              disabled &&
+              t('in-custom-dashboards:widgets.formCompChart.timeShiftingFormChart.timeShiftDisabledWhilePPon')
+            }
           >
             <div>
               <Toggle
@@ -89,13 +92,8 @@ export default function TimeShiftingForm({ axisName, index, indexInAxis, onChang
             >
               {timeShifts
                 .filter(
-                  // Some options may not be selectable, but if a configuration is already persisted with this
-                  // option, then we do allow it temporarily.
-                  //
-                  // Also hide the default time shift option (no time shift)
-                  ({ offset, disallowSelection }) =>
-                    offset !== defaultTimeShift.offset &&
-                    (disallowSelection !== true || offset === timeShiftField.value)
+                  // Hide the default time shift option (no time shift)
+                  ({ offset }) => offset !== defaultTimeShift.offset
                 )
                 .map(({ offset, label }) => (
                   <option key={offset} value={offset}>

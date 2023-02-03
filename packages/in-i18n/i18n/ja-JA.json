@@ -12,6 +12,12 @@
       "tableLoadMoreRow": {
         "loadMore": "さらにロード"
       }
+    },
+    "code": {
+      "copy": "コピー",
+      "copied": "コピーされました",
+      "showMore": "さらに表示",
+      "showLess": "少なく表示"
     }
   },
   "formatDate": {
@@ -77,5 +83,6 @@
   "aggregation_MAX": "最大",
   "aggregation_DISTINCT_COUNT": "個別の数",
   "aggregation_SUM": "合計",
-  "aggregation_DISTRIBUTION": "分布"
+  "aggregation_DISTRIBUTION": "分布",
+  "aggregation_PER_SECOND": "秒当たり"
 }

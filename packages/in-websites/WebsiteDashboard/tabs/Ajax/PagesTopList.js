@@ -24,7 +24,14 @@ const labels = [
 const aggregations = ['SUM', 'MEAN'];
 const formatters = [number.compact, percentage.detailed];
 
-export default function PagesTopList({ websiteId, websiteLabel, timeConfig, tagFilters, urlMatrixParamConfig }) {
+export default function PagesTopList({
+  websiteId,
+  websiteLabel,
+  timeConfig,
+  tagFilters,
+  urlMatrixParamConfig,
+  renderHistoricDataIndicator
+}) {
   return (
     <TopListWithUrlState
       title={t('in-websites:websiteDashboard.tabs.ajax.pagesTopListTitle')}
@@ -42,6 +49,7 @@ export default function PagesTopList({ websiteId, websiteLabel, timeConfig, tagF
       timeConfig={timeConfig}
       tagFilters={tagFilters}
       urlMatrixParamConfig={urlMatrixParamConfig}
+      renderHistoricDataIndicator={renderHistoricDataIndicator}
     />
   );
 }

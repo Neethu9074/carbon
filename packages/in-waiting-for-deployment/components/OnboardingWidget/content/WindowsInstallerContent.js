@@ -19,6 +19,7 @@ import { t } from 'in-i18n';
 
 export default function WindowsInstallerContent({
   agentKey,
+  downloadKey,
   agentEndpoint,
   agentEndpointPort,
   butlerDomain,
@@ -84,6 +85,7 @@ export default function WindowsInstallerContent({
             tenant,
             tenantUnit,
             agentKey,
+            downloadKey,
             `exe64${jvmVendor === jvmVendorOptions[0] ? '' : 'j9'}${
               agentMode === agentModeOptions[0] ? '' : 'offline'
             }`,
@@ -99,17 +101,21 @@ export default function WindowsInstallerContent({
       />
       <Spacer />
       <GridRow>
-        <Col xs={4}>
+        <Col xs={6}>
           <Description lines={[t('in-waiting-for-deployment:content.instanaBackendAddress')]} />
           <Script lines={[agentEndpoint]} />
         </Col>
-        <Col xs={4}>
+        <Col xs={6}>
           <Description lines={[t('in-waiting-for-deployment:content.instanaBackendPort')]} />
           <Script lines={[agentEndpointPort]} />
         </Col>
-        <Col xs={4}>
+        <Col xs={6}>
           <Description lines={[t('in-waiting-for-deployment:content.instanaAgentKey')]} />
           <Script lines={[agentKey]} />
+        </Col>
+        <Col xs={6}>
+          <Description lines={[t('in-waiting-for-deployment:content.downloadKey')]} />
+          <Script lines={[downloadKey]} />
         </Col>
       </GridRow>
     </>

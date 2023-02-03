@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { number, bytes, millis, percentage, micros } from 'in-services/formatters/number';
+import { number, kiloBytes, bytes, millis, percentage, micros } from 'in-services/formatters/number';
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { t } from 'in-i18n';
 
@@ -25,6 +25,7 @@ export default [
       'databases.staticQueries',
       'databases.dynamicQueries',
       'databases.failedQueries',
+      'databases.daysLastBackup',
       'dbConfig',
       'dbmConfig',
       'lockWaits',
@@ -49,6 +50,7 @@ export default [
       t('in-forge:plugins.db2Database.staticQueries'),
       t('in-forge:plugins.db2Database.dynamicQueries'),
       t('in-forge:plugins.db2Database.failedQueries'),
+      t('in-forge:plugins.db2Database.daysLastBackup'),
       t('in-forge:plugins.db2Database.dbConfig'),
       t('in-forge:plugins.db2Database.dbConfigName'),
       t('in-forge:plugins.db2Database.value'),
@@ -238,36 +240,6 @@ export default [
     category: [t('in-forge:plugins.db2Database.log')]
   },
   {
-    metrics: [
-      getDynamicMetricMatch('containers', 'totalSize', t('in-forge:plugins.db2Database.Container')),
-      getDynamicMetricMatch('containers', 'usedSize', t('in-forge:plugins.db2Database.Container'))
-    ],
-    labels: [t('in-forge:plugins.db2Database.fileSystemSize'), t('in-forge:plugins.db2Database.fileSystemUsed')],
-    category: [t('in-forge:plugins.db2Database.containers')],
-    min: 0,
-    formatter: bytes
-  },
-  {
-    metrics: [
-      getDynamicMetricMatch('containers', 'pagesRead', t('in-forge:plugins.db2Database.Container')),
-      getDynamicMetricMatch('containers', 'pagesWritten', t('in-forge:plugins.db2Database.Container'))
-    ],
-    labels: [t('in-forge:plugins.db2Database.pagesRead'), t('in-forge:plugins.db2Database.pagesWritten')],
-    category: [t('in-forge:plugins.db2Database.containers')],
-    min: 0,
-    formatter: number
-  },
-  {
-    metrics: [
-      getDynamicMetricMatch('containers', 'poolReadTime', t('in-forge:plugins.db2Database.Container')),
-      getDynamicMetricMatch('containers', 'poolWriteTime', t('in-forge:plugins.db2Database.Container'))
-    ],
-    labels: [t('in-forge:plugins.db2Database.poolReadTime'), t('in-forge:plugins.db2Database.poolWriteTime')],
-    category: [t('in-forge:plugins.db2Database.containers')],
-    min: 0,
-    formatter: millis
-  },
-  {
     metrics: ['topqueriesstats.topQueriesCount'],
     labels: [t('in-forge:plugins.db2Database.topQueriesCount')],
     min: 0,
@@ -282,15 +254,13 @@ export default [
   },
   {
     metrics: [
-      'dbmconfigusage.omsCons',
-      'dbmconfigusage.omsConsExec',
+      'dbmconfigusage.totalConnections',
       'dbmconfigusage.agentHighWmark',
       'dbmconfigusage.coordAgentsHighWmark',
       'dbmconfigusage.agentCreatedVSReused'
     ],
     labels: [
-      t('in-forge:plugins.db2Database.omsCons'),
-      t('in-forge:plugins.db2Database.omsConsExec'),
+      t('in-forge:plugins.db2Database.totalConnections'),
       t('in-forge:plugins.db2Database.agentHighWmark'),
       t('in-forge:plugins.db2Database.coordAgentsHighWmark'),
       t('in-forge:plugins.db2Database.agentCreatedVSReused')
@@ -449,32 +419,56 @@ export default [
   },
   {
     metrics: [
-      getDynamicMetricMatch('tablespaceutil', 'totalSize', t('in-forge:plugins.db2Database.dashboard.tableSpaceUtil')),
-      getDynamicMetricMatch('tablespaceutil', 'usedSpace', t('in-forge:plugins.db2Database.dashboard.tableSpaceUtil')),
-      getDynamicMetricMatch('tablespaceutil', 'freeSpace', t('in-forge:plugins.db2Database.dashboard.tableSpaceUtil'))
+      getDynamicMetricMatch(
+        'tablespaceutil',
+        'totalSize',
+        t('in-forge:plugins.db2Database.dashboard.tableSpaceOrAutoResize')
+      )
     ],
-    labels: [
-      t('in-forge:plugins.db2Database.totalSize'),
-      t('in-forge:plugins.db2Database.usedSpace'),
-      t('in-forge:plugins.db2Database.freeSpace')
-    ],
+    labels: [t('in-forge:plugins.db2Database.totalSize')],
     category: [t('in-forge:plugins.db2Database.dashboard.tableSpaceUtil')],
     min: 0,
-    formatter: bytes.detailed
+    formatter: kiloBytes
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'tablespaceutil',
+        'usedSpace',
+        t('in-forge:plugins.db2Database.dashboard.tableSpaceOrAutoResize')
+      )
+    ],
+    labels: [t('in-forge:plugins.db2Database.usedSpace')],
+    category: [t('in-forge:plugins.db2Database.dashboard.tableSpaceUtil')],
+    min: 0,
+    formatter: kiloBytes
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'tablespaceutil',
+        'freeSpace',
+        t('in-forge:plugins.db2Database.dashboard.tableSpaceOrAutoResize')
+      )
+    ],
+    labels: [t('in-forge:plugins.db2Database.freeSpace')],
+    category: [t('in-forge:plugins.db2Database.dashboard.tableSpaceUtil')],
+    min: 0,
+    formatter: kiloBytes
   },
   {
     metrics: [
       getDynamicMetricMatch(
         'tablespaceutil',
         'spaceUtilPercent',
-        t('in-forge:plugins.db2Database.dashboard.tableSpaceUtil')
+        t('in-forge:plugins.db2Database.dashboard.tableSpaceOrAutoResize')
       )
     ],
     labels: [t('in-forge:plugins.db2Database.spaceUtilPercent')],
     category: [t('in-forge:plugins.db2Database.dashboard.tableSpaceUtil')],
     min: 0,
-    max: 100,
-    formatter: percentage.detailed
+    max: 1,
+    formatter: percentage
   },
   {
     metrics: [
@@ -507,5 +501,89 @@ export default [
     labels: [t('in-forge:plugins.db2Database.logHadrWaitTime')],
     min: 0,
     formatter: millis
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'hadr',
+        'HADR_CONNECT_STATUS',
+        t('in-forge:plugins.db2Database.dashboard.hadrConnectStatusOrStandbyId')
+      )
+    ],
+    labels: [t('in-forge:plugins.db2Database.HADR_CONNECT_STATUS')],
+    category: [t('in-forge:plugins.db2Database.dashboard.hadr')],
+    min: 0,
+    max: 1,
+    formatter: number
+  },
+  {
+    metrics: [
+      'vmonlockstats.lockEscals',
+      'vmonlockstats.lockTimeouts',
+      'vmonlockstats.lockWaitTime',
+      'vmonlockstats.activeLockWaits',
+      'vmonlockstats.averageLockEscalsPerAct',
+      'vmonlockstats.lockListValue'
+    ],
+    labels: [
+      t('in-forge:plugins.db2Database.lockEscals'),
+      t('in-forge:plugins.db2Database.lockTimeouts'),
+      t('in-forge:plugins.db2Database.lockWaitTime'),
+      t('in-forge:plugins.db2Database.activeLockWaits'),
+      t('in-forge:plugins.db2Database.averageLockEscalsPerAct'),
+      t('in-forge:plugins.db2Database.lockListValue')
+    ],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: ['vmonlockstats.lockListInUse'],
+    labels: [t('in-forge:plugins.db2Database.lockListInUse')],
+    min: 0,
+    formatter: bytes
+  },
+  {
+    metrics: ['vmonlockstats.lockWaitTime'],
+    labels: [t('in-forge:plugins.db2Database.lockWaitTime')],
+    min: 0,
+    formatter: millis
+  },
+  {
+    metrics: [
+      'databasevmondeltastats.indexReadEfficiency',
+      'databasevmondeltastats.sorts',
+      'databasevmondeltastats.sortsPerTransactions',
+      'databasevmondeltastats.sqls'
+    ],
+    labels: [
+      t('in-forge:plugins.db2Database.indexReadEfficiency'),
+      t('in-forge:plugins.db2Database.sorts'),
+      t('in-forge:plugins.db2Database.sortsPerTransactions'),
+      t('in-forge:plugins.db2Database.sqls')
+    ],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'databasevmondeltastats',
+        'syncReadPercentage',
+        t('in-forge:plugins.db2Database.dashboard.databaseVmondeltaStats')
+      ),
+      getDynamicMetricMatch(
+        'databasevmondeltastats',
+        'asyncWritePercentage',
+        t('in-forge:plugins.db2Database.dashboard.databaseVmondeltaStats')
+      )
+    ],
+    labels: [
+      t('in-forge:plugins.db2Database.syncReadPercentage'),
+      t('in-forge:plugins.db2Database.asyncWritePercentage')
+    ],
+    category: [t('in-forge:plugins.db2Database.dashboard.databaseVmondeltaStats')],
+    min: 0,
+    max: 100,
+    formatter: percentage.detailed
   }
 ];

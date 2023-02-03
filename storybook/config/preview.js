@@ -6,10 +6,9 @@
 /* eslint-env node */
 /* import-sort-ignore */
 
-import { DocsPage, DocsContainer } from '@storybook/addon-docs/blocks';
-import { configure, addDecorator } from '@storybook/react';
-import { addParameters } from '@storybook/react';
+import { DocsPage, DocsContainer } from '@storybook/addon-docs';
 import { themes } from '@storybook/theming';
+import { ThemeProvider } from '@instana/components';
 import React from 'react';
 
 // ################################################
@@ -22,33 +21,41 @@ import './globalTagDefinition';
 // ################################################
 import OverlayPresenter from 'in-components/overlays/OverlayPresenter';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
-import { loadStory } from './storyLoader';
 
 import 'in-themes/foundation.less';
 import '@instana/components/esm/index.css';
 import locals from './config.mless';
 
-addDecorator(story => (
-  <>
-    <TooltipPresenter />
-    <OverlayPresenter />
-    <div id="main" className={locals.root}>
-      {story()}
-    </div>
-  </>
-));
+export const decorators = [
+  story => (
+    <ThemeProvider theme="default">
+      <TooltipPresenter />
+      <OverlayPresenter />
+      <div id="main" className={locals.root}>
+        {story()}
+      </div>
+    </ThemeProvider>
+  )
+];
 
-addParameters({
+export const parameters = {
   options: {
     theme: {
       brandTitle: 'Instana',
       ...themes.light
     }
   },
+  actions: { argTypesRegex: '^on[A-Z].*' },
+
+  controls: {
+    matchers: {
+      color: /(background|color)$/i,
+      date: /Date$/
+    }
+  },
+
   docs: {
     container: DocsContainer,
     page: DocsPage
   }
-});
-
-configure(loadStory, module);
+};

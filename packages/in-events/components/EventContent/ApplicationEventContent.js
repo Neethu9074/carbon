@@ -3,29 +3,32 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Map } from 'immutable';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Card } from '@instana/components';
 
-import ReadOnlyIncludeInternalOrSyntheticCallsSwitch from 'in-alerting/smart-alerts/applications/advanced/IncludeInternalOrSyntheticCallsSwitch/ReadOnlyIncludeInternalOrSyntheticCallsSwitch';
+import ReadOnlyIncludeInternalOrSyntheticCallsSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/IncludeInternalOrSyntheticCallsSwitch/ReadOnlyIncludeInternalOrSyntheticCallsSwitch';
+import ReadOnlyInboundOrAllCalls from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/ReadOnlyInboundOrAllCalls';
 import ApplicationAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/applications/chart/ApplicationAlertingChartWithErrorMessage';
-import ReadOnlyInboundOrAllCalls from 'in-alerting/smart-alerts/applications/advanced/InboundOutboundCallsSwitch/ReadOnlyInboundOrAllCalls';
-import { getChartTimeConfigByEvent, getTimeConfigFromEvent, getSmartAlertAnalyzeTimeframe } from 'in-events/timeframe';
+import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import { SmartAlertAffectedEntities } from 'in-events/components/EventContent/SmartAlertAffectedEntities';
 import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
-import AlertQueryBuilder from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
+import { HighlightDataRetention } from 'in-events/components/EventContent/HighlightDataRetention';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
+import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
 import AnalyzeApplicationEventButton from 'in-events/components/AnalyzeApplicationEventButton';
 import ApplicationAlertConfigButton from 'in-events/components/ApplicationAlertConfigButton';
 import useApplicationEventAlertConfig from 'in-events/hooks/useApplicationEventAlertConfig';
+import { getChartTimeConfigByEvent, getTimeConfigFromEvent } from 'in-events/timeframe';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { alertingEventDetailsChartTimeframe } from 'in-alerting/components/constants';
+import { isApproximatePrecision } from 'in-events/components/util/metricResultUtil';
 import useApplicationEventEntity from 'in-events/hooks/useApplicationEventEntity';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
+import { emptyMap } from 'in-services/fixedImmutables';
 import { Col, Row } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
@@ -34,24 +37,28 @@ import locals from './ApplicationEventContent.mless';
 export default function ApplicationEventContent({ event }) {
   const alertConfig = useApplicationEventAlertConfig(event);
   const eventEntity = useApplicationEventEntity(event);
+  const [metricResultPrecision, setMetricResultPrecision] = useState();
 
   if (!eventEntity || !alertConfig) {
     return null;
   }
 
+  const fixSuggestion = event.getIn(['problem', 'fixSuggestion'], '');
   const isGlobalSmartAlert = event.getIn(['metadata', 'globalSmartAlert'], false);
-  const adaptiveBaselineInfo = event.getIn(['metadata', 'adaptiveBaselineInfo'], Map({}))?.toJS() ?? {};
+  const adaptiveBaselineInfo = event.getIn(['metadata', 'adaptiveBaselineInfo'], emptyMap).toJS();
 
   const { applicationId } = eventEntity;
-  const { tagFilterExpression, rule, boundaryScope } = alertConfig;
-  const alertType = rule.alertType;
+  const { tagFilterExpression, rule, boundaryScope, threshold } = alertConfig;
+  const { alertType } = rule;
+  const thresholdType = threshold.type;
+  const { QueryBuilder } = getQueryBuilderForAlertType(alertType, thresholdType);
 
   const blueprintConfig = getBlueprintConfig(alertType);
   const timeConfig = {
-    ...getChartTimeConfigByEvent({ event }),
+    ...getChartTimeConfigByEvent(event),
     windowSize: alertingEventDetailsChartTimeframe
   };
-  const analyzeTimeConfig = getSmartAlertAnalyzeTimeframe(event, alertConfig);
+
   const chartViewConfig = createDefaultChartConfig(timeConfig);
 
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
@@ -70,7 +77,7 @@ export default function ApplicationEventContent({ event }) {
               showDashboardLinks
             />
 
-            <ProblemDescription event={event} />
+            <ProblemDescription fixSuggestion={fixSuggestion} />
             <DescriptionButtons>
               <ApplicationAlertConfigButton
                 applicationId={applicationId}
@@ -80,7 +87,7 @@ export default function ApplicationEventContent({ event }) {
               <AnalyzeApplicationEventButton
                 {...eventEntity}
                 alertConfig={alertConfig}
-                timeConfig={analyzeTimeConfig}
+                timeConfig={getSmartAlertAnalyzeTimeConfig(event, alertConfig)}
                 adaptiveBaselineInfo={adaptiveBaselineInfo}
               />
             </DescriptionButtons>
@@ -90,7 +97,12 @@ export default function ApplicationEventContent({ event }) {
 
       <Row withoutSideMargin>
         <Col xs>
-          <Card title={t('in-events:titleMetrics')}>
+          <Card
+            title={t('in-events:titleMetrics')}
+            leftHeaderContent={
+              <HighlightDataRetention hasApproximateData={isApproximatePrecision(metricResultPrecision)} />
+            }
+          >
             <ApplicationAlertingChartWithErrorMessage
               alertConfigWithFormModel={{
                 ...alertConfig,
@@ -102,6 +114,8 @@ export default function ApplicationEventContent({ event }) {
               serviceId={eventEntity.serviceId}
               endpointId={eventEntity.endpointId}
               eventBasedAdaptiveBaseline={Object.entries(adaptiveBaselineInfo).sort((a, b) => a[0] - b[0])}
+              setMetricResultPrecision={setMetricResultPrecision}
+              isEventsView
             />
           </Card>
         </Col>
@@ -113,7 +127,7 @@ export default function ApplicationEventContent({ event }) {
             <div className={locals.alertFiltersWrapper}>
               <ScopeConfigPresenter
                 tagFilterFormModel={tagFilterFormModel}
-                queryBuilder={<AlertQueryBuilder value={tagFilterFormModel} readOnly />}
+                queryBuilder={<QueryBuilder value={tagFilterFormModel} readOnly />}
                 scopePath={<ApplicationScopePath boundaryScope={alertConfig.boundaryScope} {...eventEntity} />}
               />
             </div>
@@ -123,13 +137,25 @@ export default function ApplicationEventContent({ event }) {
         </Col>
       </Row>
 
-      {!isEndpointType && (
-        <Row withoutSideMargin>
-          <Col xs>
-            <SmartAlertAffectedEntities {...eventEntity} alertConfig={alertConfig} event={event} />
-          </Col>
-        </Row>
-      )}
+      {!isEndpointType && <AffectedEntitiesRow alertConfig={alertConfig} event={event} eventEntity={eventEntity} />}
     </>
+  );
+}
+
+function AffectedEntitiesRow({ alertConfig, event, eventEntity }) {
+  const [hasApproxDataForAffectedEntities, setApproxDataForAffectedEntities] = useState();
+
+  return (
+    <Row withoutSideMargin>
+      <Col xs>
+        <SmartAlertAffectedEntities
+          leftHeaderContent={<HighlightDataRetention hasApproximateData={hasApproxDataForAffectedEntities} />}
+          alertConfig={alertConfig}
+          event={event}
+          setApproxDataForAffectedEntities={setApproxDataForAffectedEntities}
+          {...eventEntity}
+        />
+      </Col>
+    </Row>
   );
 }

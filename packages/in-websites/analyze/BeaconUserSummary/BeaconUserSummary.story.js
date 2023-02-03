@@ -11,6 +11,100 @@ export default {
   component: BeaconUserSummary
 };
 
+const argTypes = {
+  Meta: {
+    options: ['empty', 'small', 'large'],
+    control: { type: 'radio' }
+  }
+};
+
+const metaOptions = {
+  empty: {},
+  small: {
+    primeCustomer: true,
+    appVersion: '1.4.1'
+  },
+  large: {
+    allAnalyticsServices: false,
+    allSupportAndResearchServices: false,
+    autoRefresh: false,
+    'build.date': '2022-05-02T16:37:45.081Z',
+    'build.revision': 'a3c03cc1f009f018241201a5e5c69b9b6b97b966',
+    'build.tag': '1.225.236',
+    instanaRegion: 'pink',
+    locale: 'en-US',
+    productTips: false,
+    region: 'pink',
+    selfDefinedRole: 'devOps',
+    subscribeEvent: 'getCallGroups',
+    subscriptionId: 187,
+    subscriptionPayload: {
+      filter: {
+        timeConfig: {
+          autoRefresh: false,
+          focusedMoment: 1651563063188,
+          to: 1651563063188,
+          windowSize: 3600000
+        }
+      },
+      group: {
+        groupbyTag: 'application.name',
+        groupbyTagEntity: 'DESTINATION'
+      },
+      includeInternal: false,
+      includeSynthetic: false,
+      metrics: {
+        calls_SUM: {
+          aggregation: 'SUM',
+          metric: 'calls'
+        },
+        calls_SUM_sparkChart: {
+          aggregation: 'SUM',
+          granularity: 60000,
+          metric: 'calls'
+        },
+        errors_MEAN: {
+          aggregation: 'MEAN',
+          metric: 'errors'
+        },
+        errors_MEAN_sparkChart: {
+          aggregation: 'MEAN',
+          granularity: 60000,
+          metric: 'errors'
+        },
+        latency_MEAN: {
+          aggregation: 'MEAN',
+          metric: 'latency'
+        },
+        latency_MEAN_sparkChart: {
+          aggregation: 'MEAN',
+          granularity: 60000,
+          metric: 'latency'
+        }
+      },
+      order: {
+        by: 'calls_SUM',
+        collation: 'en-US',
+        direction: 'DESC'
+      },
+      pagination: {
+        retrievalSize: 20
+      },
+      queryPrecision: 'FULL',
+      subscriptionId: 187,
+      tagFilterExpression: {
+        elements: [],
+        logicalOperator: 'AND',
+        type: 'EXPRESSION'
+      }
+    },
+    tenant: 'instana',
+    testingGroup: false,
+    unit: 'test',
+    windowSize: 3600000
+  }
+};
+
 export const standard = props => {
   const fullBeacon = {
     websiteId: 'WWqjvIHuQfiIEJReNNzX7g',
@@ -27,12 +121,7 @@ export const standard = props => {
     backendTraceId: '1efe58365708ab',
     type: 'pageLoad',
     customEventName: '',
-    meta: props['With Meta?']
-      ? {
-          primeCustomer: true,
-          appVersion: '1.4.1'
-        }
-      : {},
+    meta: metaOptions[props['Meta']],
     locationUrl: 'http://shop.example.com:6712/?userId=03f15da4-a316-4316-bffe-f5eceed78dd0',
     locationOrigin: 'http://shop.example.com:6712',
     locationPath: '/',
@@ -97,8 +186,9 @@ export const standard = props => {
   };
   return <BeaconUserSummary beacon={fullBeacon} />;
 };
+standard.argTypes = argTypes;
 standard.args = {
-  'With Meta?': true,
+  Meta: 'small',
   'User IP': '245.170.13.0',
   'User ID': '03f15da4-a316-4316-bffe-f5eceed78dd0',
   'User Name': 'Jemimah Gellately',
@@ -146,12 +236,7 @@ export const withLateDefinedUserData = props => {
     backendTraceId: '1efe58365708ab',
     type: 'pageLoad',
     customEventName: '',
-    meta: props['With Meta?']
-      ? {
-          primeCustomer: true,
-          appVersion: '1.4.1'
-        }
-      : {},
+    meta: metaOptions[props['Meta']],
     locationUrl: 'http://shop.example.com:6712/?userId=03f15da4-a316-4316-bffe-f5eceed78dd0',
     locationOrigin: 'http://shop.example.com:6712',
     locationPath: '/',
@@ -224,8 +309,9 @@ export const withLateDefinedUserData = props => {
   return <BeaconUserSummary beacon={beaconWithoutUserData} beacons={[beaconWithoutUserData, fullBeacon]} />;
 };
 
+withLateDefinedUserData.argTypes = argTypes;
 withLateDefinedUserData.args = {
-  'With Meta?': true,
+  Meta: 'empty',
   'User IP': '245.170.13.0',
   'User ID': '03f15da4-a316-4316-bffe-f5eceed78dd0',
   'User Name': 'Jemimah Gellately',

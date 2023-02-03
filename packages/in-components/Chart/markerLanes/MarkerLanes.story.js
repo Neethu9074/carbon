@@ -6,7 +6,6 @@
 import React from 'react';
 
 import PotentialProblemsLanePresenter from 'in-alerting/PotentialProblems/PotentialProblemsLane/PotentialProblemsLanePresenter';
-import AlertsPreviewLanePresenter from 'in-components/Chart/markerLanes/AlertsPreviewLane/AlertsPreviewLanePresenter';
 import ReleasesLanePresenter from 'in-components/Chart/markerLanes/ReleasesLane/ReleasesLanePresenter';
 import AlertsLanePresenter from 'in-components/Chart/markerLanes/AlertsLane/AlertsLanePresenter';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
@@ -22,6 +21,14 @@ export default {
 const oneMinute = minutes.toMillis(1);
 const timeConfig = generateTimeframe(oneMinute);
 
+// optional retry feature and helper for storybook
+const RETRY_ARGS = {
+  withOnRetryButton: false
+};
+function getOnRetryFeedbackHelper(args) {
+  return args?.withOnRetryButton && (() => alert('Retry was triggered.'));
+}
+
 export const MarkerLanesBelowChart = () => {
   return (
     <ChartWithSomeData
@@ -36,62 +43,104 @@ export const MarkerLanesBelowChart = () => {
   );
 };
 
-export const MarkerLanesBelowChartWithError = () => {
+export const MarkerLanesBelowChartExceedingVisibleArea = () => {
   return (
     <ChartWithSomeData
       renderPostChartContent={props => (
         <MarkerLanesPresenter {...props}>
-          <ReleasesLanePresenter releases={getReleases(timeConfig)} errorMessage={"Releases couldn't be loaded"} />
-          <AlertsLanePresenter alerts={getAlertsAndIncidents(timeConfig)} errorMessage={"Alerts couldn't be loaded"} />
+          {/*Alert lane can exceed left side due to alignment to metric granularity for events that started before the
+             visible timeframe. These events are added to the first cluster, which however can be outside the visible area
+             if not properly adjusted when rendering.*/}
+          <AlertsLanePresenter alerts={getSmartAlertRelativeToStart(timeConfig, -0.02)} />
+          <AlertsLanePresenter alerts={getSmartAlertRelativeToStart(timeConfig, -0.01)} />
+          <AlertsLanePresenter alerts={getSmartAlertRelativeToStart(timeConfig, 0)} />
+          <AlertsLanePresenter alerts={getSmartAlertRelativeToStart(timeConfig, 0.01)} />
+
+          <AlertsLanePresenter alerts={getSmartAlertRelativeToStart(timeConfig, 0.5)} />
+
+          <AlertsLanePresenter alerts={getSmartAlertRelativeToStart(timeConfig, 0.99)} />
+          <AlertsLanePresenter alerts={getSmartAlertRelativeToStart(timeConfig, 1.0)} />
+          <AlertsLanePresenter alerts={getSmartAlertRelativeToStart(timeConfig, 1.01)} />
+          <AlertsLanePresenter alerts={getSmartAlertRelativeToStart(timeConfig, 1.02)} />
         </MarkerLanesPresenter>
       )}
     />
   );
 };
-MarkerLanesBelowChartWithError.args = {};
 
-export const MarkerLanesAboveChart = () => {
+export const MarkerLanesBelowChartWithError = args => {
   return (
     <ChartWithSomeData
-      renderPreChartContent={props => (
+      renderPostChartContent={props => (
         <MarkerLanesPresenter {...props}>
-          <AlertsPreviewLanePresenter alerts={getAlerts(timeConfig)} />
-        </MarkerLanesPresenter>
-      )}
-    />
-  );
-};
-export const MarkerLanesAboveChartWithError = () => {
-  return (
-    <ChartWithSomeData
-      renderPreChartContent={props => (
-        <MarkerLanesPresenter {...props} laneLabelsVisible>
-          <AlertsPreviewLanePresenter alerts={getAlerts(timeConfig)} errorMessage={"Alerts couldn't be loaded"} />
-        </MarkerLanesPresenter>
-      )}
-    />
-  );
-};
-
-export const MarkerLanesAboveChartWithLongError = () => {
-  return (
-    <ChartWithSomeData
-      renderPreChartContent={props => (
-        <MarkerLanesPresenter {...props} laneLabelsVisible>
-          <AlertsPreviewLanePresenter
-            alerts={getAlerts(timeConfig)}
-            errorMessage={
-              'An error with a long message ' +
-              'which is very, very long ' +
-              'and will not fit into the lane, ' +
-              'because it is very, very long.'
-            }
+          <ReleasesLanePresenter
+            releases={getReleases(timeConfig)}
+            errorMessage={"Releases couldn't be loaded"}
+            onRetry={getOnRetryFeedbackHelper(args)}
+          />
+          <AlertsLanePresenter
+            alerts={getAlertsAndIncidents(timeConfig)}
+            errorMessage={"Alerts couldn't be loaded"}
+            onRetry={getOnRetryFeedbackHelper(args)}
           />
         </MarkerLanesPresenter>
       )}
     />
   );
 };
+MarkerLanesBelowChartWithError.args = { ...RETRY_ARGS };
+
+export const MarkerLanesAboveChart = () => {
+  return (
+    <ChartWithSomeData
+      renderPreChartContent={props => (
+        <MarkerLanesPresenter {...props}>
+          <AlertsLanePresenter alerts={getAlertsAndIncidents(timeConfig)} />
+        </MarkerLanesPresenter>
+      )}
+    />
+  );
+};
+
+export const MarkerLanesAboveChartWithError = args => {
+  return (
+    <ChartWithSomeData
+      renderPreChartContent={props => (
+        <MarkerLanesPresenter {...props} laneLabelsVisible>
+          <AlertsLanePresenter
+            alerts={getAlertsAndIncidents(timeConfig)}
+            errorMessage={"Alerts couldn't be loaded"}
+            onRetry={getOnRetryFeedbackHelper(args)}
+          />
+        </MarkerLanesPresenter>
+      )}
+    />
+  );
+};
+MarkerLanesAboveChartWithError.args = { ...RETRY_ARGS };
+
+export const MarkerLanesAboveChartWithLongError = args => {
+  return (
+    <ChartWithSomeData
+      renderPreChartContent={props => (
+        <MarkerLanesPresenter {...props} laneLabelsVisible>
+          <AlertsLanePresenter
+            alerts={getAlertsAndIncidents(timeConfig)}
+            errorMessage={
+              'You can add a Retry button in the control addon... ' +
+              'An error with a long message ' +
+              'which is very, very long ' +
+              'and will not fit into the lane, ' +
+              'because it is very, very long.'
+            }
+            onRetry={getOnRetryFeedbackHelper(args)}
+          />
+        </MarkerLanesPresenter>
+      )}
+    />
+  );
+};
+MarkerLanesAboveChartWithLongError.args = { ...RETRY_ARGS };
 
 export const WidthLoadingIndicator = () => {
   return (
@@ -172,117 +221,89 @@ function getReleases(timeConfig) {
   return events;
 }
 
-function getAlerts(timeConfig) {
-  const events = [];
-  const numEvents = 18;
-  for (let i = 0; i < numEvents; i++) {
-    events[i] = {
-      timestamp: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 8),
-      numAlertsInCluster: i
-    };
-  }
-
-  return events;
-}
-
 function getAlertsAndIncidents(timeConfig) {
   const events = [];
-  const numEvents = 12;
+  const numEvents = 8;
   for (let i = 0; i < numEvents; i++) {
+    const timestamp = timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 9);
     events[i] = {
-      timestamp: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 9), // backend property name is "timestamp"
+      timestamp,
       smartAlerts:
         i % 2 !== 0
           ? [
-              {
-                eventId: 'ZBW7TkyST2mh6xy9foCtFA',
-                name: "I'm a cool smart alert",
-                triggeringTime: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 9),
-                start: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 8),
-                end: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 7),
-                duration:
-                  timeConfig.to -
-                  timeConfig.windowSize +
-                  timeConfig.windowSize * (i / 7) -
-                  (timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 9))
-              }
+              createEvent(
+                "I'm a cool smart alert",
+                timestamp,
+                timeConfig.windowSize * (i / 9),
+                timeConfig.windowSize * (i / 7)
+              )
             ]
           : [],
       incidents:
         i % 2 === 0
           ? [
-              {
-                eventId: 'ZBW7TkyST2mh6xy9foCtFA',
-                name: "I'm a cool Incident",
-                triggeringTime: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 9),
-                start: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 8),
-                end: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 7),
-                duration:
-                  timeConfig.to -
-                  timeConfig.windowSize +
-                  timeConfig.windowSize * (i / 7) -
-                  (timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 9))
-              },
-              {
-                eventId: 'ZBW7TkyST2mh6xy9foCtFA',
-                name: "I'm an awesome Incident",
-                triggeringTime: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 9),
-                start: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 7),
-                end: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 5),
-                duration:
-                  timeConfig.to -
-                  timeConfig.windowSize +
-                  timeConfig.windowSize * (i / 5) -
-                  (timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 9))
-              }
+              createEvent(
+                "I'm a cool Incident",
+                timestamp,
+                timeConfig.windowSize * (i / 9),
+                timeConfig.windowSize * (i / 7)
+              ),
+              createEvent(
+                "I'm an awesome Incident",
+                timestamp,
+                timeConfig.windowSize * (i / 9),
+                timeConfig.windowSize * (i / 5)
+              )
             ]
           : []
     };
   }
 
+  const timestamp = timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 9);
   events[3] = {
-    timestamp: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 9), // backend property name is "timestamp"
+    timestamp,
     smartAlerts: [
-      {
-        eventId: 'ZBW7TkyST2mh6xy9foCtFA',
-        name: "I'm a cool smart alert",
-        triggeringTime: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 9),
-        start: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 7),
-        end: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 5),
-        duration:
-          timeConfig.to -
-          timeConfig.windowSize +
-          timeConfig.windowSize * (3 / 5) -
-          (timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 9))
-      }
+      createEvent("I'm a cool smart alert", timestamp, timeConfig.windowSize * (1 / 9), timeConfig.windowSize * (3 / 9))
     ],
     incidents: [
-      {
-        eventId: 'ZBW7TkyST2mh6xy9foCtFA',
-        name: "I'm a cool Incident in a cluster",
-        triggeringTime: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 9),
-        start: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 7),
-        end: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 5),
-        duration:
-          timeConfig.to -
-          timeConfig.windowSize +
-          timeConfig.windowSize * (3 / 5) -
-          (timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 9))
-      },
-      {
-        eventId: 'ZBW7TkyST2mh6xy9foCtFA',
-        name: "I'm an awesome Incident in a cluster",
-        triggeringTime: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 9),
-        start: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 7),
-        end: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 5),
-        duration:
-          timeConfig.to -
-          timeConfig.windowSize +
-          timeConfig.windowSize * (3 / 5) -
-          (timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (3 / 9))
-      }
+      createEvent(
+        "I'm a cool Incident in a cluster",
+        timestamp,
+        timeConfig.windowSize * (2 / 9),
+        timeConfig.windowSize * (1 / 5)
+      ),
+      createEvent(
+        "I'm an awesome Incident in a cluster",
+        timestamp,
+        timeConfig.windowSize * (1 / 9),
+        timeConfig.windowSize * (1 / 9)
+      )
     ]
   };
 
   return events;
+}
+
+function getSmartAlertRelativeToStart(timeConfig, relativeStart) {
+  const timestamp = timeConfig.to - (1 - relativeStart) * timeConfig.windowSize;
+  return [
+    {
+      timestamp,
+      smartAlerts: [
+        createEvent(`I'm a smart alert`, timestamp, timeConfig.windowSize * (1 / 9), timeConfig.windowSize * (2 / 9))
+      ],
+      incidents: []
+    }
+  ];
+}
+
+function createEvent(name, timestamp, durationBefore, durationAfter) {
+  return {
+    eventId: 'ZBW7TkyST2mh6xy9foCtFA',
+    name,
+    triggeringTime: timestamp - durationBefore,
+    start: timestamp,
+    end: timestamp + durationAfter,
+    duration: durationBefore + durationAfter
+  };
 }

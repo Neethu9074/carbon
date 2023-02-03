@@ -3,11 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import classNames from 'classnames';
 
+import { Link, Spacer, Message } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Link } from '@instana/components';
 
 import {
   builtInEnumValue,
@@ -15,9 +15,10 @@ import {
   deprecatedValue,
   getEntityTypeOptionsOfBuiltInMetrics,
   getSeverityText,
-  isAppDataEntityType,
+  isDeprecatedAppDataEntityType,
   isBuiltInRule,
-  migratedValue
+  migratedValue,
+  needsMigrationAction
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import {
   getEntityHref,
@@ -32,19 +33,27 @@ import {
   setBuiltInEventSpecificationsEnabled,
   setCustomEventSpecificationsEnabled
 } from 'in-api/eventSpecifications';
+import {
+  smartAlertMigrationDocs,
+  MessageContentModernDesign
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
 import { getPluginsWithCustomMetricsOptionsObservable } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customMetricUtils';
-import { deprecateAppDataLegacyEvents, disableAppDataLegacyEvents } from 'in-services/featureFlags';
+import { deprecateAppDataLegacyEventsEnabled, hideAppDataLegacyEventsEnabled } from 'in-services/featureFlags';
+import getLegacyAlertConfigStats from 'in-alerting/smart-alerts/subscriptions/getLegacyAlertConfigStats';
 import List, { createNewEntityButton, leftHeaderWithSelectAll } from 'in-settings/components/List';
 import { openEventSubmitFormTracker, viewEventTracker } from 'in-settings/tracker';
+import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { compareIgnoreCase } from 'in-services/util/string';
+import { pendingResult } from 'in-services/fixedObjects';
 import { intersperse } from 'in-services/arrayUtils';
 import { getPluginName } from 'in-sdk/pluginName';
+import useUrlState from 'in-hooks/useUrlState';
 import ComboBox from 'in-components/ComboBox';
 import WithIcon from 'in-components/WithIcon';
 import Tooltip from 'in-components/Tooltip';
+import { t, Trans } from 'in-i18n';
 import theme from 'in-themes';
-import { t } from 'in-i18n';
 
 import locals from './Events.mless';
 
@@ -60,12 +69,23 @@ const severityOptions = [
   { value: 10, label: t('in-settings:tabs.critical') }
 ];
 
-const entityTypeOptionsOfBuiltInMetrics = getEntityTypeOptionsOfBuiltInMetrics();
+const entityTypeOptionsOfBuiltInMetrics = getEntityTypeOptionsOfBuiltInMetrics(false);
 
 const enabledOptions = Object.freeze([
   { value: true, label: t('in-settings:tabs.enabled') },
   { value: false, label: t('in-settings:tabs.disabled') }
 ]);
+
+const path = '/events';
+
+const urlStateBinding = {
+  bind: [
+    { path, name: 'enabled', initialState: null, parser: strictBooleanParser },
+    { path, name: 'entityType', initialState: null },
+    { path, name: 'severity', initialState: null, parser: intParser },
+    { path, name: 'type', initialState: null }
+  ]
+};
 
 export default function Events({
   setTitle = true,
@@ -81,48 +101,54 @@ export default function Events({
   inSelectListDialog = false,
   getHeader = defaultGetHeader(inSelectListDialog, tableActions),
   /**
-   * 1. Removes filter items for deprected/migrated events
+   * 1. Removes filter items for deprecated/migrated events
    * 2. Filters out deprecated/migrated events
    */
-  withoutDeprecatedEvents
+  withoutAppDataLegacyEvents
 }) {
-  const [type, setType] = useState(null);
-  const [severity, setSeverity] = useState(null);
-  const [entityType, setEntityType] = useState(null);
-  const [enabled, setEnabled] = useState(null);
+  const [{ enabled, entityType, severity, type }, setState] = useUrlState(urlStateBinding);
+  const legacyAlertConfigStats = useObservable(getLegacyAlertConfigStats, []) ?? pendingResult;
+
+  const setType = type => setState({ type });
+  const setSeverity = severity => setState({ severity });
+  const setEntityType = entityType => setState({ entityType });
+  const setEnabled = enabled => setState({ enabled });
 
   const entityTypeOptionsOfCustomMetrics = useObservable(getPluginsWithCustomMetricsOptionsObservable, []);
   const allEntityTypeOptions = filterEntityTypeOptions(
-    withoutDeprecatedEvents,
+    withoutAppDataLegacyEvents,
     combineAndSortByLabel(entityTypeOptionsOfBuiltInMetrics, entityTypeOptionsOfCustomMetrics)
   );
 
-  const loadEvents = useLoadEventsFunction(withoutDeprecatedEvents, loadEntities);
-  adjustTypeOptions(withoutDeprecatedEvents);
+  const loadEvents = useLoadEventsFunction(withoutAppDataLegacyEvents, loadEntities);
+  adjustTypeOptions(withoutAppDataLegacyEvents);
 
   return (
-    <List
-      title={setTitle ? t('in-settings:tabs.events') : null}
-      getHeader={getHeader}
-      getEntityName={getEntityName}
-      columnDefinitions={columnDefinitions(hasRowNavigation)}
-      tableActions={tableActions}
-      loadEntities={loadEvents}
-      noDataMessage={noDataMessage}
-      pageSize={pageSize}
-      initialOrderBy="name"
-      rightHeader={getRightHeader()}
-      isSearchable={isSearchable}
-      searchAttributes={['name', 'description', getEntityType]}
-      extraFilters={createFilters(hiddenIds, type, severity, entityType, enabled)}
-      extraFilterValues={{ type, severity, entityType, enabled }}
-      searchPlaceholder={t('in-settings:tabs.filterEvents')}
-      searchMaxWidth={210}
-      onRowClick={onRowClick}
-      getDetailsHref={
-        onRowClick || !hasRowNavigation ? null : entity => getEntityHref(getDetailsPath(entity), entity.id)
-      }
-    />
+    <>
+      {legacyAlertConfigStats.data?.deprecatedCustomEvents > 0 && <CustomEventDeprecatedWarning />}
+      <List
+        title={setTitle ? t('in-settings:tabs.events') : null}
+        getHeader={getHeader}
+        getEntityName={getEntityName}
+        columnDefinitions={columnDefinitions(hasRowNavigation)}
+        tableActions={tableActions}
+        loadEntities={loadEvents}
+        noDataMessage={noDataMessage}
+        pageSize={pageSize}
+        initialOrderBy="name"
+        rightHeader={getRightHeader()}
+        isSearchable={isSearchable}
+        searchAttributes={['name', 'description', getEntityType]}
+        extraFilters={createFilters(hiddenIds, type, severity, entityType, enabled)}
+        extraFilterValues={{ type, severity, entityType, enabled }}
+        searchPlaceholder={t('in-settings:tabs.filterEvents')}
+        searchMaxWidth={210}
+        onRowClick={onRowClick}
+        getDetailsHref={
+          onRowClick || !hasRowNavigation ? null : entity => getEntityHref(getDetailsPath(entity), entity.id)
+        }
+      />
+    </>
   );
 
   function getRightHeader() {
@@ -182,6 +208,21 @@ export default function Events({
   }
 }
 
+function CustomEventDeprecatedWarning() {
+  return (
+    <Message type="warning" withIcon>
+      <MessageContentModernDesign>
+        <Trans
+          i18nKey="in-settings:tabs.customEventListDeprecatedWarning"
+          components={{
+            documentationLink: smartAlertMigrationDocs
+          }}
+        />
+      </MessageContentModernDesign>
+    </Message>
+  );
+}
+
 function combineAndSortByLabel(array1, array2) {
   return array2 && array2.length > 0
     ? array1
@@ -201,11 +242,22 @@ function columnDefinitions(hasRowNavigation) {
       label: t('in-settings:tabs.name'),
       width: 40,
       getContent(entity) {
+        const { name } = entity;
+
         const icon = getIcon(entity);
 
+        const tooltipContent = needsMigrationAction(entity) ? (
+          <>
+            {name}
+            <Spacer vertical="normal" />
+            {t('in-settings:tabs.actionNeededRecommendMigrate')}
+          </>
+        ) : (
+          name
+        );
         return (
           <WithIcon icon={icon.icon} iconColor={icon.color}>
-            <Tooltip content={entity.name} align="topLeft" delay={500}>
+            <Tooltip content={tooltipContent} align="topLeft" delay={500}>
               <WithSubscript subscript={<Subscript entity={entity} />}>
                 {hasRowNavigation ? (
                   <Link
@@ -220,10 +272,10 @@ function columnDefinitions(hasRowNavigation) {
                       })
                     }
                   >
-                    {entity.name}
+                    {name}
                   </Link>
                 ) : (
-                  <span className={locals.ellipsis}>{entity.name}</span>
+                  <span className={locals.ellipsis}>{name}</span>
                 )}
               </WithSubscript>
             </Tooltip>
@@ -301,10 +353,10 @@ function getIcon(entity) {
   let icon = 'lib_events_change';
   let color = theme.lib.colors.N400;
   if (entity.severity >= 1 && entity.severity <= 5) {
-    icon = 'lib_events_critical';
+    icon = 'lib_events_warning';
     color = theme.lib.colors.yellow800;
   } else if (entity.severity > 5) {
-    icon = 'lib_events_warning';
+    icon = 'lib_events_critical';
     color = theme.lib.colors.red800;
   }
   if (entity.triggering) {
@@ -354,7 +406,9 @@ function Subscript({ entity }) {
   }
 
   function showDeprecated() {
-    return deprecateAppDataLegacyEvents && isAppDataEntityType(entity.entityType) ? (
+    return deprecateAppDataLegacyEventsEnabled &&
+      !isBuiltInRule(entity) &&
+      isDeprecatedAppDataEntityType(entity.entityType) ? (
       <span key="deprecated" className={locals.deprecated}>
         {t('in-settings:tabs.deprecated')}
       </span>
@@ -380,7 +434,9 @@ function createFilters(hiddenIds, type, severity, entityType, enabled) {
   if (type === migratedValue) {
     filters.push(entity => Boolean(entity.migrated));
   } else if (type === deprecatedValue) {
-    filters.push(entity => isAppDataEntityType(entity.entityType));
+    filters.push(
+      entity => !isBuiltInRule(entity) && isDeprecatedAppDataEntityType(entity.entityType) && !entity.migrated
+    );
   } else if (type) {
     filters.push(entity => entity.type === type);
   }
@@ -402,21 +458,21 @@ function createFilters(hiddenIds, type, severity, entityType, enabled) {
   return filters;
 }
 
-function useLoadEventsFunction(withoutDeprecatedEvents, loadEntities) {
+function useLoadEventsFunction(withoutAppDataLegacyEvents, loadEntities) {
   const loadEventsFunc = loadEntities ? loadEntities : getEventSpecificationsMutable;
 
-  if (disableAppDataLegacyEvents || (deprecateAppDataLegacyEvents && withoutDeprecatedEvents)) {
+  if (hideAppDataLegacyEventsEnabled || withoutAppDataLegacyEvents) {
     return () =>
       loadEventsFunc().map(es => {
-        return es.filter(({ entityType }) => !isAppDataEntityType(entityType));
+        return es.filter(({ entityType }) => !isDeprecatedAppDataEntityType(entityType));
       });
   }
 
   return loadEventsFunc;
 }
 
-function adjustTypeOptions(withoutDeprecatedEvents) {
-  if (disableAppDataLegacyEvents || (deprecateAppDataLegacyEvents && withoutDeprecatedEvents)) {
+function adjustTypeOptions(withoutAppDataLegacyEvents) {
+  if (hideAppDataLegacyEventsEnabled || withoutAppDataLegacyEvents) {
     typeOptions = typeOptions.filter(({ value }) => [builtInEnumValue, customEnumValue].includes(value));
   } else {
     if (!typeOptions.some(({ value }) => value === deprecatedValue)) {
@@ -428,9 +484,15 @@ function adjustTypeOptions(withoutDeprecatedEvents) {
   }
 }
 
-function filterEntityTypeOptions(withoutDeprecatedEvents, options) {
-  if (disableAppDataLegacyEvents || (deprecateAppDataLegacyEvents && withoutDeprecatedEvents)) {
+function filterEntityTypeOptions(withoutAppDataLegacyEvents, options) {
+  if (hideAppDataLegacyEventsEnabled || withoutAppDataLegacyEvents) {
     return options.filter(({ value }) => !['application', 'service', 'endpoint'].includes(value));
   }
   return options;
+}
+
+function strictBooleanParser(str) {
+  if (str === 'false') return false;
+  if (str === 'true') return true;
+  return null;
 }

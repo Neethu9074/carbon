@@ -7,7 +7,7 @@ import React from 'react';
 
 import { SvgIcon } from '@instana/components';
 
-import { getIcon, getColorForEventAtFocusedMomentAsStream } from 'in-stores/events';
+import { getIcon, getColorForEventAtFocusedMomentAsStream, getEventType } from 'in-stores/events';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 import theme from 'in-themes';
@@ -22,9 +22,10 @@ export default connectTo(
     };
   },
   function EventIcon({ className, event, tooltipLabel, color, size }) {
+    const eventType = getEventType(event);
     return (
       <Tooltip content={tooltipLabel} align="rightMiddle">
-        <SvgIcon color={color || '#40535b'} className={className} type={getIcon({ event })} size={size || 's'} />
+        <SvgIcon color={color || '#40535b'} className={className} type={getIcon(eventType)} size={size || 's'} />
       </Tooltip>
     );
   }

@@ -3,9 +3,9 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { isEqual, uniq } from 'lodash';
 import { diff, Diff } from 'deep-diff';
 import { Item } from 'formalistic';
+import { uniq } from 'lodash';
 
 type ChangeType = 'E' | 'D' | 'N' | 'A';
 type ChangeTypeLong = 'EDIT' | 'DELETE' | 'INSERT' | 'LIST_UPDATE';
@@ -19,10 +19,13 @@ export const CHANGE_TYPES: Record<ChangeTypeLong, ChangeType> = {
 
 export type EffectFunction = (form: Item) => Item;
 
+type EffectPathSegment = string | RegExp;
+
 interface Effect {
-  path: string[];
+  path: EffectPathSegment[];
   effects: EffectFunction[];
 }
+
 interface UseFormSideEffectsRequest {
   form: Item;
   setForm: (field: Item) => void;
@@ -64,5 +67,22 @@ function findUpdatedPaths(previousData: any, updatedData: any, changesToTrack: C
 }
 
 function findEffectsForPath(path: string[], effects: Effect[]) {
-  return effects.filter(({ path: p = [] }) => isEqual(p, path.slice(0, p.length))).flatMap(({ effects }) => effects);
+  return effects
+    .filter(({ path: p = [] }) => {
+      const effectivePath = path.slice(0, p.length);
+      let isMatch = true;
+      for (const [index, segment] of p.entries()) {
+        const pathSegmentToMatch = effectivePath[index];
+        if (segment instanceof RegExp) {
+          isMatch = segment.test(pathSegmentToMatch);
+        } else {
+          isMatch = segment === pathSegmentToMatch;
+        }
+        if (!isMatch) {
+          break;
+        }
+      }
+      return isMatch;
+    })
+    .flatMap(({ effects }) => effects);
 }

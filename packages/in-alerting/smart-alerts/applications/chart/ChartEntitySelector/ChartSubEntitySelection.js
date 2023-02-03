@@ -6,7 +6,7 @@
 import React from 'react';
 
 import ServiceOrEndpointSelection from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/ServiceOrEndpointSelection';
-import { PER_AP } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
+import { PER_AP } from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
 import APSelection from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/APSelection';
 
 export default function ChartSubEntitySelection(props) {

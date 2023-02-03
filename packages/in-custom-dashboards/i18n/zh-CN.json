@@ -164,14 +164,19 @@
       "metricsFormComponent": {
         "metric": "指标",
         "selectMetric": "选择指标",
-        "aggregation": "汇总"
+        "aggregation": "汇总",
+        "crossSeriesAggregation": "使用 SUM 进行跨系列聚集",
+        "crossSeriesAggregationHelp": "通常，跨系列聚集与跨时间聚集（用于将数据点组合到单个存储区中的方法）相同。 启用此切换开关后，我们将对跨数据系列的存储区求和，而不是使用指定的聚集。",
+        "crossSeriesAggregationDisabledHelp": "不适用于 {{aggregation}}",
+        "crossSeriesAggregationRestrictedHelp": "不适用于此度量值"
       },
       "metrics": {
         "infrastructurePlatforms": "基础架构和平台",
         "comingSoon": "（即将推出）"
       },
       "typeAndMetricConfigurator": {
-        "pleaseSelectMetric": "请选择指标"
+        "pleaseSelectMetric": "请选择指标",
+        "loadingMetrics": "正在装入度量值..."
       }
     },
     "srcMobileApp": {
@@ -344,7 +349,7 @@
     "markdown": {
       "demo": {
         "title": "Instana - 入门",
-        "text": "Instana 是首个也是唯一一个完全自动化的应用程序性能 (APM) 解决方案，\n专用于应对微服务和云原生应用程序管理的相关问题。\n\n入门很简单\n\n1. 如果您尚未访问 Instana，请前往 [Instana.com](https://www.instana.com) 并注册免费试用。\n2. 探索我们包含数百项 [受支持技术](//www.instana.com/docs/ecosystem) 的生态系统。\n3. 开始使用我们的一个 [代理程序](https://www.instana.com/docs/setup_and_manage) 收集数据。\n4. 了解 [如何将 Instana](https://www.instana.com/docs/using_instana) 用于您的用例。\n5. 了解我们独特的 [核心功能](https://www.instana.com/docs/core_capabilities/)。\n6.使用我们的 [集成，SDK & API](https://www.instana.com/docs/integrations) 扩展 Instana。\n\n以上即为全部步骤！\n\n找不到所要查找的内容？转至 [instana.com/docs](https://www.instana.com/docs/)！"
+        "text": "Instana 是第一个也是唯一一个专为管理微服务和云原生应用的挑战而设计的全自动化应用程序性能 (APM) 解决方案。\n\n开始使用很简单。1. 如果您还无权访问 Instana，请转至 [Instana.com](https://www.instana.com) 并注册以免费试用。2. 探索我们包含数百种[受支持的技术](https://www.ibm.com/docs/en/obi/current?topic=supported-technologies)的生态系统。3. 开始使用其中一个[代理程序](https://www.ibm.com/docs/en/obi/current?topic=set-up-manage-instana)收集数据。4. 了解[如何使用 Instana](https://www.ibm.com/docs/en/obi/current?topic=using-instana) 以便用于您的用例。5. 阅读有关独特[核心功能](https://www.ibm.com/docs/en/obi/current?topic=core-capabilities)的内容。6. 通过[集成、SDK 和 API](https://www.ibm.com/docs/en/obi/current?topic=integrations-sdks-apis) 扩展 Instana。\n\n好了！\n\n找不到所要查找的内容？ 跳至[文档](https://www.ibm.com/docs/en/obi/current)！"
       },
       "formComp": {
         "whatULikeShow": "您想要显示什么？",
@@ -364,27 +369,30 @@
         "chartPie": "图表：饼图",
         "testTitle": "事件",
         "testLegendItem1": "突发事件",
-        "testLegendItem2": "问题：关键",
+        "testLegendItem2": "问题：严重",
         "testLegendItem3": "问题：警告"
       }
     },
     "slo": {
       "demo": {
         "title": "SLO 标题",
+        "sliName": "示例 SLI",
         "appName": "应用程序名称示例"
       },
       "apConfigFormComp": {
         "userJourneyOffering": "用户旅程/产品",
         "appnPerspective": "应用程序透视图",
         "selectAppPerspect": "请选择应用程序透视图。",
-        "appPerspectHelpAction": "通过在产品的“应用程序”区域中将用户旅程/产品建模为应用程序透视图来对其进行设置。",
+        "appPerspectHelpAction": "通过在“应用程序”区域中将用户教程/产品建模为应用程序透视图来设置用户教程/产品。",
+        "rbacHint": "显示的应用程序可能受许可权限制。",
         "noAppPerspect": "无应用程序透视图！",
         "pleaseSelect": "请选择"
       },
       "websiteSelector": {
         "website": "Web 站点",
         "selectWebsite": "请选择 Web 站点",
-        "websiteHelpAction": "在产品的“Web 站点和移动应用程序”区域中配置 Web 站点。",
+        "websiteHelpAction": "在“Web 站点和移动应用程序”区域中配置 Web 站点。",
+        "rbacHint": "显示的 Web 站点可能受许可权限制。",
         "noWebsites": "找不到 Web 站点",
         "pleaseSelect": "请选择"
       },
@@ -398,8 +406,6 @@
         "sliCreateSuccess": "已成功创建 SLI",
         "failCreateSli": "无法创建 SLI。",
         "problemCreateSli": "创建此 SLI 时出现问题：“{{sliName}}”",
-        "cloning": "正在克隆...",
-        "creating": "正在创建...",
         "clone": "克隆",
         "create": "创建",
         "sliConfigMsg": "不能修改 SLI 的参数，以防止计算的预算支出失效。这就是在更改任何参数时需要克隆 SLI 的原因。",
@@ -412,13 +418,16 @@
       },
       "goodBadEventsForm": {
         "goodEvents": "良性事件",
-        "badEvents": "恶性事件"
+        "badEvents": "恶性事件",
+        "websitesFilterLabel": "{{websiteLabel}} / {{beaconType}}"
       },
       "metricFormData": {
         "latency": "等待时间",
         "callCount": "调用计数",
         "errorRate": "错误率",
         "erroneousCalls": "错误调用数",
+        "beaconErrorRate": "信标错误率",
+        "beaconDuration": "信标持续时间",
         "mean": "平均值",
         "min": "最小值",
         "max": "最大值",
@@ -460,8 +469,12 @@
         "sliEntity": "SLI 实体",
         "beaconConfigLabel": "信标配置",
         "beaconScopeLabel": "信标作用域",
-        "httpRequestsLabel": "HTTP 请求",
-        "beaconFiltersLabel": "信标过滤器"
+        "beaconLabel": "未知信标类型",
+        "beaconLabel_httpRequest": "HTTP 请求",
+        "beaconLabel_pageLoad": "Web 站点页面加载次数",
+        "beaconLabel_custom": "Web 站点定制事件数",
+        "beaconFiltersLabel": "信标过滤器",
+        "beaconFiltersSubtext": "可选"
       },
       "sliList": {
         "serviceLevelIndicators": "服务级别指示符",
@@ -472,7 +485,9 @@
         "delSliConfig": "删除 SLI 配置",
         "pleaseConfirm": "请确认",
         "pleaseConfirmMsg": "是否确定要删除 <strong>{{sliName}}</strong>？",
-        "delete": "删除"
+        "delete": "删除",
+        "eventBasedSli": "基于事件",
+        "timeBasedSli": "基于时间，{{metricNameLabel}}"
       },
       "sliManageList": {
         "configSrvLevelIndicatorsMsg": "您没有创建或编辑 SLI 所需的 <em>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</em> 许可权。",
@@ -488,7 +503,11 @@
       "chart": {
         "spent": "已花费",
         "budget": "预算",
-        "viewInAnalyze": "查看分析"
+        "viewInAnalyze": "查看分析",
+        "configType": "SLI",
+        "configType_apdex": "Apdex",
+        "initialEvaluation": "{{configType}} 创建时间",
+        "missingDataInfo": "此 {{configType}} 的创建时间在显示的时间范围内。 {{configType}} 创建之前的数据将缺失。"
       },
       "formComponent": {
         "sliManagement": "SLI 管理",
@@ -515,15 +534,16 @@
         "enterDateFormatYyyyMmDd": "请输入格式为 YYYY-MM-DD 的日期。",
         "enterTimeInFormatHhMmSs": "请输入格式为 HH:mm:ss 的时间。"
       },
-      "widgetHeader": {
+      "sliSummary": {
         "status": "状态",
         "target": "目标：",
         "errorBudgetSpent": "已花费的错误预算",
         "errorBudget": "错误预算：",
         "timeWindow": "时间窗口",
-        "dynamicTimeWindow": "动态时间窗口",
-        "rollingTimeWindow": "滚动时间窗口",
-        "fixedTimeWindow": "固定时间窗口"
+        "timeWindowType": "未知的时间窗口",
+        "timeWindowType_dynamic": "动态时间窗口",
+        "timeWindowType_rolling": "滚动时间窗口",
+        "timeWindowType_fixed": "固定时间窗口"
       },
       "sloEntityInfo": {
         "tooltip": {
@@ -542,7 +562,124 @@
       "atLeastOneFilterExpressionMustBeConfigured": "必须至少配置一个过滤表达式。",
       "timeBased": "基于时间",
       "eventBased": "基于事件",
-      "slo": "SLO"
+      "slo": "SLO",
+      "monitoringSourceSelector": {
+        "source_application": "应用程序",
+        "source_website": "Web 站点 (Beta)",
+        "callOut_application": "排除了您无法控制的因素，例如最终用户的因特网连接不佳，但可能无法准确反映最终用户体验",
+        "callOut_website": "最为准确地反映最终用户体验，但没有排除您无法控制的因素，例如最终用户的因特网连接不佳"
+      },
+      "sliFormatter": {
+        "unit": "调用",
+        "unit_plural": "调用数",
+        "unit_0": "调用数",
+        "unit_1": "调用",
+        "unit_2": "调用数",
+        "thousandCallsFormat": "{{count}}000 个调用"
+      },
+      "widgetLeftHeader": {
+        "previewDataInfo": "最多仅显示过去 7 天的预览数据。 最终窗口小部件将仅包含自 SLI 创建以来的数据。"
+      },
+      "boundaryScopeConfigurator": {
+        "all": {
+          "title": "所有调用",
+          "description": "由使用者以及内部人员在此应用程序中执行的调用。"
+        },
+        "inbound": {
+          "title": "入站调用数",
+          "description": "仅由该应用程序的使用者执行的调用。"
+        }
+      }
+    },
+    "apdex": {
+      "title": "Apdex：图表",
+      "chart": {
+        "metricLabel": "Apdex",
+        "viewInAnalyze": "在分析中查看",
+        "noDataRetentionPeriod": "所选时间范围超出数据保留期",
+        "notFoundErrorTitle": "找不到已配置的 Apdex",
+        "notFoundErrorDescription": "请通过选择其他 Apdex 配置来更新 Apdex 窗口小部件"
+      },
+      "demo": {
+        "title": "Apdex 用于生产",
+        "entityLabel": "机器人商店"
+      },
+      "apdexConfigInfo": {
+        "tagFilterLabel": "过滤",
+        "apdexNameLabel": "Apdex 名称",
+        "apdexTypeLabel": "Apdex 类型",
+        "thresholdLabel": "阈值"
+      },
+      "formComponent": {
+        "title": "Apdex 配置",
+        "entityTypeTitle": "Apdex 类型",
+        "manageListTitle": "Apdex 管理",
+        "createApdex": "创建 Apdex 配置",
+        "editApdex": "编辑 Apdex 配置"
+      },
+      "configurationSelector": {
+        "label": "Apdex 配置",
+        "selectConfig": "请选择一种配置",
+        "manageConfig": "管理 Apdex",
+        "noneAvailCreateOne": "无可用 SLI，请创建一个 SLI。",
+        "pleaseSelect": "请选择"
+      },
+      "entityTypeSelector": {
+        "type": "未知类型",
+        "type_website": "Web 站点",
+        "type_application": "应用程序"
+      },
+      "apdexManageList": {
+        "title": "Apdex 列表",
+        "deleteSuccessfulMessage": "已成功删除 Apdex 配置。",
+        "deleteFailedMessage": "未能删除 Apdex 配置。"
+      },
+      "apdexList": {
+        "cardTitle": "Apdex 配置",
+        "nameColumn": "Apdex 配置",
+        "thresholdColumn": "阈值",
+        "confirmDeleteHeader": "请确认",
+        "confirmDeleteMessage": "确定要将 {{apdex}} 删除吗？",
+        "editApdexTooltip": "编辑/克隆 Apdex 配置",
+        "deleteApdexTooltip": "删除 Apdex 配置",
+        "confirmDeleteButton": "删除",
+        "createButton": "创建 Apdex 配置"
+      },
+      "createApdexForm": {
+        "customizationHeader": "Apdex 定制",
+        "label": "Apdex 名称",
+        "apdexCreateSuccessTitle": "已成功创建 Apdex 配置。",
+        "apdexCreateSuccessContent": "已创建 Apdex 配置“{{apdexName}}”。",
+        "apdexCreateFailedTitle": "未能创建 Apdex 配置。",
+        "apdexCreateFailedContent": "创建此 Apdex 配置时发生问题：“{{apdexName}}”",
+        "apdexNameNotEmpty": "Apdex 名称不能为空。",
+        "nameExistsError": "具有此名称的 Apdex 配置已存在。 请输入其他名称。",
+        "limitReachedError": {
+          "website": "已达到 Web 站点 Apdex 配置 ({{0}}) 的最大数量。 请联系 Instana 支持人员以请求提高此限量。",
+          "application": "已达到应用程序 Apdex 配置 ({{0}}) 的最大数量。 请联系 Instana 支持人员以请求提高此限量。"
+        },
+        "editConfigNotice": "为避免数据丢失，配置一旦创建就无法编辑，只能作为副本进行调整。"
+      },
+      "createWebsiteApdexForm": {
+        "thresholdHeader": "阈值配置",
+        "thresholdLabel": "阈值"
+      },
+      "entityInfo": {
+        "tooltip": "未知 Apdex",
+        "tooltip_website": "Web 站点 Apdex",
+        "tooltip_application": "应用程序 Apdex"
+      },
+      "widget": {
+        "unknownEntityLabel_application": "未知应用程序",
+        "unknownEntityLabel_website": "未知 Web 站点",
+        "previewDataInfo": "显示过去 7 天的预览数据。 最终窗口小部件将仅包含自 Apdex 配置创建以来的数据。"
+      },
+      "applicationScopeConfigurator": {
+        "label": "Apdex 作用域",
+        "boundaryScope": "边界",
+        "hiddenCalls": "隐藏调用数",
+        "additionalFilters": "其他过滤器"
+      }
     },
     "timezone": {
       "demo": {
@@ -571,7 +708,7 @@
         "formatter": "格式化"
       },
       "index": {
-        "topListLb": "最上层列表",
+        "topListLb": "排名表",
         "topListItem": "项目 {{itemNumber}}"
       },
       "widget": {

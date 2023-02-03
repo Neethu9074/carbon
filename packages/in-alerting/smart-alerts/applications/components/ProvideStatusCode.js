@@ -62,8 +62,8 @@ export default function ProvideStatusCode({ form, mode, updateForm }) {
           />
           {selection === 'custom' && (
             <StatusCodeRangeSelection
-              start={startField.value}
-              end={endField.value}
+              startField={startField}
+              endField={endField}
               onStartSelectionUpdate={start =>
                 updateForm(
                   form.updateIn(['rule', 'statusCode', 'statusCodeStart'], f =>
@@ -71,7 +71,6 @@ export default function ProvideStatusCode({ form, mode, updateForm }) {
                   )
                 )
               }
-              startHasError={!startField.valid && startField.touched}
               onEndSelectionUpdate={end =>
                 updateForm(
                   form.updateIn(['rule', 'statusCode', 'statusCodeEnd'], f =>
@@ -79,7 +78,6 @@ export default function ProvideStatusCode({ form, mode, updateForm }) {
                   )
                 )
               }
-              endHasError={!endField.valid && endField.touched}
             />
           )}
           <TouchedMessages field={field} />

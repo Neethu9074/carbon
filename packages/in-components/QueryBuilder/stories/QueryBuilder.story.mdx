@@ -1,4 +1,4 @@
-import { Meta, Preview, Story } from '@storybook/addon-docs/blocks';
+import { Meta, Preview, Story } from '@storybook/addon-docs';
 import {useState} from 'react';
 
 import { QueryBuilderStateHelper } from "in-components/QueryBuilder/stories/QueryBuilderStateHelper";
@@ -9,7 +9,7 @@ import tagCatalogExampleJson from 'in-components/QueryBuilder/stories/tagCatalog
 import tagCatalogExample from 'in-components/QueryBuilder/stories/tagCatalogExample.png';
 import SetBodyColor from 'in-components/SetBodyColor';
 
-<Meta title="auto-generated" />
+<Meta />
 
 # QueryBuilder
 
@@ -56,7 +56,7 @@ const {QueryBuilder, isQueryValid} = createQueryBuilder({
     value: ?String,
     timeConfig: TimeConfig,
     propose: 'KEYS'|'VALUES',
-    tagFilterExpression: TagFilterExpressionElement
+    tagFilterExpression: TagFilterExpressionElementUnion
   } => Observable<Result<{
     suggestions: String[],
     totalHits: Number
@@ -106,7 +106,7 @@ The query builder makes use of four different tag filter expression
 models in order to do its job:
 
  1. **Backend Query Model**: This is the model used in backend queries. You
-    can find a detailed definition within the [backend repo](https://github.com/instana/backend/blob/644270feae74f41f871d92bfdd3aa9e01d2ff7ca/ui-model/src/main/java/com/instana/ui/model/tags/TagFilterExpressionElement.java).
+    can find a detailed definition within the [backend repo](https://github.ibm.com/instana/backend/blob/644270feae74f41f871d92bfdd3aa9e01d2ff7ca/ui-model/src/main/java/com/instana/ui/model/tags/TagFilterExpressionElement.java).
  2. **Form Model**: This is the input and output for the query builder.
     This is what is being kept within a local state in
     the query builder. It is a flattened version of the tag filter

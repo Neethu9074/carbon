@@ -7,7 +7,7 @@ import LineMetricRenderer from 'in-components/SparkChart/LineMetricRenderer';
 import { updateCanvasDimensions } from 'in-components/Chart/canvas';
 
 export default class SparkChart {
-  constructor(canvas, { width, height, percentageMetric, theme = 'light' }) {
+  constructor(canvas, { width, height, percentageMetric, theme = 'light', showDots = false }) {
     this.canvas = canvas;
 
     updateCanvasDimensions(canvas, canvas.getContext('2d'), width, height);
@@ -20,7 +20,8 @@ export default class SparkChart {
       paddingLeft: 2,
       paddingRight: 2,
       paddingTop: 2,
-      paddingBottom: 2
+      paddingBottom: 2,
+      showDots
     });
   }
 

@@ -1,17 +1,38 @@
 ARG base_version
 
-FROM containers.instana.io/instana/product/nodejs:${base_version} AS builder
+FROM delivery.instana.io/int-docker-base-images-local/base-images/nodejs:${base_version} AS builder
+
+ARG registry
+ARG repository_key
+ARG registry_username
+ARG registry_password
 
 COPY build/ /
 
-RUN dnf install -y gcc gcc-c++ make
-RUN npm install --prefix /opt/instana/ui-client/target --production
+RUN microdnf --nodocs --setopt=install_weak_deps=0 --setopt=tsflags=nodocs install -y gcc gcc-c++ python3 make npm
 
-FROM containers.instana.io/instana/product/nodejs:${base_version}
+RUN REGISTRY=${registry} \
+            REPOSITORY_KEY=${repository_key} \
+            USERNAME=${registry_username} \
+            PASSWORD=${registry_password} \
+            NON_INTERACTIVE=true \
+            npx create-artifactory-access-config
 
-COPY --from=builder /opt/instana/ui-client/target /opt/instana/ui-client
+RUN echo -e "\
+always-auth=true\n\
+registry=${registry}/artifactory/api/npm/${repository_key}/ \
+" > /opt/instana/ui-client/target/.npmrc
+
+RUN npx yarn install --production --frozen-lockfile --cwd /opt/instana/ui-client/target
+
+FROM delivery.instana.io/int-docker-base-images-local/base-images/nodejs:${base_version}
+
+COPY --from=builder --chown=instana:0 /opt/instana/ui-client/target /opt/instana/ui-client
 COPY --from=builder /usr/bin/run.sh /usr/bin/run.sh
-RUN mkdir -p /etc/instana/ui-client
+
+RUN mkdir -p /etc/instana/ui-client \
+    && chown -R instana:0 /etc/instana/ui-client \
+    && chmod -R g=u /etc/instana/ui-client
 
 ARG image_version
 ARG branch
@@ -27,6 +48,8 @@ LABEL com.instana.commit.id="${commit_id}" \
       com.instana.branch="${branch}" \
       com.instana.image.tag="${image_version}"
 
-USER instana:instana
+# The instana user has uid 1000.
+# We need to set to user to its numerical uid for OCP compatibility!
+USER 1000
 
 CMD ["/usr/bin/run.sh"]

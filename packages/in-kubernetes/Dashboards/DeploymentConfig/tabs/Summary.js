@@ -8,6 +8,13 @@ import React, { Fragment } from 'react';
 import { Card } from '@instana/components';
 
 import {
+  LogsChartInteractionWrapper,
+  andQuery,
+  kubernetesClusterTagEquals,
+  kubernetesNamespaceTagEquals,
+  tagEquals
+} from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
+import {
   zeroDecimalPlaces,
   twoDecimalPlaces,
   bytesTwoDecimalPlaces,
@@ -37,6 +44,9 @@ export default function Summary({ timeConfig, data: deploymentConfig }) {
     deepPurple800: unscheduled,
     pink800: unready
   } = theme.lib.colors;
+  const clusterTag = kubernetesClusterTagEquals(deploymentConfig.clusterId);
+  const nsTag = kubernetesNamespaceTagEquals(deploymentConfig.namespace);
+  const workloadTag = tagEquals('openshift.deploymentconfig.name', deploymentConfig.name);
 
   return (
     <Fragment>
@@ -156,6 +166,16 @@ export default function Summary({ timeConfig, data: deploymentConfig }) {
           </Card>
         </Col>
       </Row>
+
+      <Row>
+        <Col lg={12}>
+          <LogsChartInteractionWrapper
+            tagFilterExpression={andQuery(clusterTag, nsTag, workloadTag)}
+            timeConfig={timeConfig}
+          />
+        </Col>
+      </Row>
+
       <Row>
         <Col lg={6}>
           <Card title={t('in-kubernetes:dashboards.replicas')}>

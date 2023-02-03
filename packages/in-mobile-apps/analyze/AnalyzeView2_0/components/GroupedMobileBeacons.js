@@ -24,7 +24,6 @@ export default function GroupedMobileBeacons(props) {
         itemlabelColumnId="name"
         getData={getTableData}
         UngroupedView={MobileBeacons}
-        withSamplingTooltip
       />
     </QueryBuilderWorkspace>
   );

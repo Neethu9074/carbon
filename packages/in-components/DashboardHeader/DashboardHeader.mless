@@ -122,6 +122,21 @@
   .secondaryActions {
     justify-self: flex-end;
   }
+  .specialIndicator {
+    height: 8px;
+    width: 8px;
+    background-color: @lib__colors__orange800;
+    border-radius: 50%;
+  }
+
+  .headerLink {
+    font-size: 1.375rem;
+    line-height: 2rem;
+    font-weight: 500;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
 }
 
 // loading state definitions

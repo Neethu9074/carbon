@@ -19,6 +19,7 @@ const physicalDomains = {
   clickHouseDatabase: t('in-infrastructure:tableView.physicalDomains.clickHouseDatabase'),
   containerd: t('in-infrastructure:tableView.physicalDomains.containerd'),
   crio: t('in-infrastructure:tableView.physicalDomains.crio'),
+  crowdStrikeFalcon: t('in-infrastructure:tableView.physicalDomains.crowdStrikeFalcon'),
   docker: t('in-infrastructure:tableView.physicalDomains.docker'),
   garden: t('in-infrastructure:tableView.physicalDomains.garden'),
   host: t('in-infrastructure:tableView.physicalDomains.host'),

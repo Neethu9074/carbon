@@ -3,11 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 
 import HorizontalControlsPresenter from 'in-components/MapControls/HorizontalControlsPresenter';
 import VerticalControlsPresenter from 'in-components/MapControls/VerticalControlsPresenter';
 import { getServiceLocators } from 'in-applications/FlowMap/serviceLocator/serviceLocator';
+import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import MapButtonGroup from 'in-components/MapControls/ButtonGroup';
 import Button from 'in-components/MapControls/Button';
 import ButtonGroup from 'in-components/ButtonGroup';
@@ -25,15 +26,24 @@ export const SIGNAL_VALUES = {
   HEATMAP_LATENCY: 'latency'
 };
 
-export default function Controls({ serviceLocatorUid }) {
+export default function Controls({ serviceLocatorUid, resultPrecisionDetails }) {
   const eventBusServiceLocator = getServiceLocators(serviceLocatorUid).eventBusServiceLocator;
-  eventBusServiceLocator.emit(SIGNALS.PARTICLES, false);
-  eventBusServiceLocator.emit(SIGNALS.HEATMAP, null);
+  const hasApproximateData = resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE';
+
+  useEffect(() => {
+    eventBusServiceLocator.emit(SIGNALS.PARTICLES, false);
+    eventBusServiceLocator.emit(SIGNALS.HEATMAP, null);
+  }, [eventBusServiceLocator]);
 
   return (
     <Fragment>
       <HorizontalControlsPresenter position="topLeft">
-        <HeatmapButtons serviceLocatorUid={serviceLocatorUid} />
+        <MapButtonGroup>
+          <HeatmapButtons serviceLocatorUid={serviceLocatorUid} />
+          {hasApproximateData && (
+            <MultiLineToolTipIcon lines={[t('in-components:approximateDataIndicator.dataRetention')]} />
+          )}
+        </MapButtonGroup>
       </HorizontalControlsPresenter>
       <VerticalControlsPresenter position="leftTop">
         <ParticlesButton onClick={toggleParticles} serviceLocatorUid={serviceLocatorUid} />

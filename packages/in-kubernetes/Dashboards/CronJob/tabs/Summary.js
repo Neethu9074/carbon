@@ -21,7 +21,12 @@ export default function Summary({ timeConfig, data: cronJob }) {
 
       <Row>
         <Col lg={4}>
-          <KpiCard title={t('in-kubernetes:dashboards.schedule')} renderValue={() => <span>{cronJob.schedule}</span>} />
+          <KpiCard
+            title={t('in-kubernetes:dashboards.schedule')}
+            value={cronJob.schedule}
+            renderValue={value => <span>{value}</span>}
+            raw
+          />
         </Col>
         <Col lg={4}>
           <InfraMetricKpiCard

@@ -91,14 +91,14 @@ export const status = {
     shouldShowExplanation: true,
     linkToConfigurationDialog: false,
     linkToExternalPage:
-      'https://instana.com/docs/website_monitoring/faq/#how-can-i-ensure-that-the-instana-servers-can-establish-a-tcptls-connection'
+      'https://www.ibm.com/docs/en/obi/current?topic=websites-website-monitoring-faq#how-can-i-ensure-that-the-instana-servers-can-establish-a-tcptls-connection'
   },
   18: {
     explanation: t('in-websites:definitions.stackTraceExplanation18CouldCotEstablishTCPTLSConnectionSourceMap'),
     shouldShowExplanation: true,
     linkToConfigurationDialog: false,
     linkToExternalPage:
-      'https://instana.com/docs/website_monitoring/faq/#how-can-i-ensure-that-the-instana-servers-can-establish-a-tcptls-connection'
+      'https://www.ibm.com/docs/en/obi/current?topic=websites-website-monitoring-faq#how-can-i-ensure-that-the-instana-servers-can-establish-a-tcptls-connection'
   },
   19: {
     explanation: t('in-websites:definitions.stackTraceExplanation19ARequestTimeoutOccurredJavaScript'),

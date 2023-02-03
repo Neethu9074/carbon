@@ -1,0 +1,5 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Debug Release" type="JavascriptDebugType" uri="https://local-instana.instana.rocks:4000/">
+    <method v="2" />
+  </configuration>
+</component>

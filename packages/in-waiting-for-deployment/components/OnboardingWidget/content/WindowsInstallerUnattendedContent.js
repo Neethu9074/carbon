@@ -18,6 +18,7 @@ import { t } from 'in-i18n';
 
 export default function WindowsInstallerUnattendedContent({
   agentKey,
+  downloadKey,
   agentEndpoint,
   agentEndpointPort,
   butlerDomain,
@@ -86,6 +87,7 @@ export default function WindowsInstallerUnattendedContent({
             tenant,
             tenantUnit,
             agentKey,
+            downloadKey,
             `exe64${jvmVendor === jvmVendorOptions[0] ? '' : 'j9'}${
               agentMode === agentModeOptions[0] ? '' : 'offline'
             }`,
@@ -103,7 +105,7 @@ export default function WindowsInstallerUnattendedContent({
       />
       <Cmd
         lines={[
-          `AgentBootstrap.exe INSTANA_AGENT_ENDPOINT=${agentEndpoint} INSTANA_AGENT_ENDPOINT_PORT=${agentEndpointPort} INSTANA_AGENT_KEY=${agentKey} /quiet`
+          `AgentBootstrap.exe INSTANA_AGENT_ENDPOINT=${agentEndpoint} INSTANA_AGENT_ENDPOINT_PORT=${agentEndpointPort} INSTANA_AGENT_KEY=${agentKey} INSTANA_DOWNLOAD_KEY=${downloadKey} /quiet`
         ]}
       />
     </>

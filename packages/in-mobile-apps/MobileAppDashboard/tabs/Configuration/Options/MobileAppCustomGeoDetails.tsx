@@ -15,7 +15,7 @@ export default function MobileAppCustomGeoDetails({ mobileAppId }: Props) {
   return (
     <CustomGeoDetails
       apiUrl={`/api/mobile-app-monitoring/config/${encodeURIComponent(mobileAppId)}/geo-mapping-rules`}
-      documentationUrl="https://www.instana.com/docs/mobile_app_monitoring/custom_geographic_details"
+      documentationUrl="https://www.ibm.com/docs/en/obi/current?topic=monitoring-custom-geographic-details"
     />
   );
 }

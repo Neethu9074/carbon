@@ -18,7 +18,7 @@ import { clusterNameValidator } from 'in-waiting-for-deployment/components/Onboa
 import { instanaDomain } from 'in-waiting-for-deployment/components/OnboardingWidget/content/configuration';
 import { t } from 'in-i18n';
 
-export default function K8sHelmChartContent({ agentKey, agentEndpoint, agentEndpointPort }) {
+export default function K8sHelmChartContent({ agentKey, downloadKey, agentEndpoint, agentEndpointPort }) {
   const [zoneName, onZoneNameChange] = useState('');
 
   return (
@@ -49,6 +49,7 @@ export default function K8sHelmChartContent({ agentKey, agentEndpoint, agentEndp
               '   --namespace instana-agent \\',
               '   --create-namespace \\',
               `   --set agent.key=${agentKey} \\`,
+              `   --set agent.downloadKey=${downloadKey} \\`,
               `   --set agent.endpointHost=${agentEndpoint} \\`,
               `   --set agent.endpointPort=${agentEndpointPort} \\`,
               `   --set cluster.name='${clusterName}' \\`,
@@ -60,7 +61,7 @@ export default function K8sHelmChartContent({ agentKey, agentEndpoint, agentEndp
           <HelpBox>
             <TextWithLink
               i18nKey="in-waiting-for-deployment:content.helmVersion3IsRequiredForMoreInformationVisitThe"
-              href="https://instana.com/docs/ecosystem/kubernetes/"
+              href="https://www.ibm.com/docs/en/obi/current?topic=instana-monitoring-kubernetes"
             />
           </HelpBox>
         </>

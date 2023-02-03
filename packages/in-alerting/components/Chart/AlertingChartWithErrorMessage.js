@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 
 import { useObservable } from '@instana/hooks';
 import { Message } from '@instana/components';
+import { just } from '@instana/observables';
 
 import { getEnhancedTagFilterFormModel } from 'in-alerting/smart-alerts/components/utils/tagfilterEnrichmentUtil';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -23,11 +24,12 @@ export default function AlertingChartWithErrorMessage({
   applicationId,
   serviceId,
   endpointId,
+  alertConfigWithFormModel,
+  blueprintConfig,
+  viewConfig,
   ...remainingProps
 }) {
-  const { alertConfigWithFormModel, blueprintConfig, viewConfig } = remainingProps;
-
-  const { numeratorFilter, enrichedTagFilterFormModel } = getEnhancedTagFilterFormModel(
+  const { numeratorTagFilterFormModel, enrichedTagFilterFormModel } = getEnhancedTagFilterFormModel(
     alertConfigWithFormModel,
     blueprintConfig,
     applicationId,
@@ -36,28 +38,33 @@ export default function AlertingChartWithErrorMessage({
   );
 
   const queryValidationResult =
-    useObservable(args => queryValidator(args), [
-      alertConfigWithFormModel.tagFilterExpression,
-      viewConfig.timeConfig
-    ]) ?? pendingResult;
+    useObservable(
+      args => {
+        if (queryValidator) return queryValidator(args);
+        return just({ data: true });
+      },
+      [alertConfigWithFormModel.tagFilterExpression, viewConfig.timeConfig, queryValidator]
+    ) ?? pendingResult;
   const isValid = Boolean(queryValidationResult?.data);
-
-  // queryValidator returns undefined -> null -> true || false.
-  // Because of that we need this extra handling to ensure that we show the error message only if the backend
-  // explicitly returns false
-  const isValidDependingOnMode = queryValidationResult?.data !== false;
 
   const enrichedTagFilterExpression = useMemo(
     () => (isValid ? toBackendQueryModel(enrichedTagFilterFormModel) : null),
     [isValid, enrichedTagFilterFormModel]
   );
 
+  // queryValidator returns undefined -> null -> true || false.
+  // Show the error message only if the backend explicitly returns false
+  const isValidDependingOnMode = queryValidationResult?.data !== false;
+
   const customValidationValid = customValidators?.(isValidDependingOnMode) ?? true;
 
   return isValidDependingOnMode && customValidationValid ? (
     <AlertingChart
       {...remainingProps}
-      numeratorFilter={numeratorFilter}
+      alertConfigWithFormModel={alertConfigWithFormModel}
+      blueprintConfig={blueprintConfig}
+      viewConfig={viewConfig}
+      numeratorTagFilterExpression={toBackendQueryModel(numeratorTagFilterFormModel)}
       enrichedTagFilterExpression={enrichedTagFilterExpression}
     />
   ) : (
@@ -90,12 +97,14 @@ AlertingChartWithErrorMessage.propTypes = {
   alertsPreviewEnabled: PropTypes.bool,
   canReload: PropTypes.bool,
   isQB1only: PropTypes.bool,
+  setMetricResultPrecision: PropTypes.func,
   /**
-   * Optionally override default, application-specific validation.
-   * Called to verify if filters are valid
-   * If the result is false, an error will be shown
+   * Optionally add a specific validation.
+   * Called to verify if filters are valid.
+   * function returning an observable: If the result is false, an error will be shown.
+   * if not set, there will be no validation.
    */
-  queryValidator: PropTypes.func.isRequired,
+  queryValidator: PropTypes.func,
   getErrorMessage: PropTypes.func,
   customValidators: PropTypes.func
 };

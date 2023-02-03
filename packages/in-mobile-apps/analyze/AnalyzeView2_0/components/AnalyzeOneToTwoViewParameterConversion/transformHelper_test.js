@@ -36,7 +36,7 @@ const cases = [
         '/mobileAppMonitoring': {},
         '/analyzeBeacons': {
           beaconType: 'sessionStart',
-          tagFilterExpression: '!(name~mobileBeacon.mobileApp.name~operator~EQUALS~type~TAG*_FILTER~value~Demo)~',
+          tagFilterExpression: '!(type~TAG*_FILTER~name~mobileBeacon.mobileApp.name~operator~EQUALS~value~Demo)~',
           groupBy: '(groupbyTag~mobileBeacon.mobileApp.name)~',
           chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM)~',
           orderByGroups: '(by~earliestTimestamp~direction~ASC)~'
@@ -68,7 +68,7 @@ const cases = [
         '/mobileAppMonitoring': {},
         '/analyzeBeacons': {
           beaconType: 'sessionStart',
-          tagFilterExpression: '!(name~mobileBeacon.mobileApp.name~operator~EQUALS~type~TAG*_FILTER~value~Demo)~',
+          tagFilterExpression: '!(type~TAG*_FILTER~name~mobileBeacon.mobileApp.name~operator~EQUALS~value~Demo)~',
           groupBy: '(groupbyTag~mobileBeacon.mobileApp.name)~',
           chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM)~',
           orderByGroups: '(by~uniqueUsers*_DISTINCT*_COUNT~direction~DESC)~'
@@ -102,7 +102,7 @@ const cases = [
         '/analyzeBeacons': {
           beaconType: 'sessionStart',
           tagFilterExpression:
-            '!(name~mobileBeacon.mobileApp.name~operator~EQUALS~type~TAG*_FILTER~value~Demo)(type~CONJUNCTION~logicalOperator~AND)(name~mobileBeacon.view.name~operator~EQUALS~type~TAG*_FILTER~value~Home)~',
+            '!(type~TAG*_FILTER~name~mobileBeacon.mobileApp.name~operator~EQUALS~value~Demo)(type~CONJUNCTION~logicalOperator~AND)(type~TAG*_FILTER~name~mobileBeacon.view.name~operator~EQUALS~value~Home)~',
           orderBy: '(by~timestamp~direction~ASC)~',
           chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM)~'
         }
@@ -135,7 +135,7 @@ const cases = [
         '/analyzeBeacons': {
           beaconType: 'httpRequest',
           tagFilterExpression:
-            '!(name~mobileBeacon.mobileApp.name~operator~EQUALS~type~TAG*_FILTER~value~Demo)(type~CONJUNCTION~logicalOperator~AND)(name~mobileBeacon.view.name~operator~EQUALS~type~TAG*_FILTER~value~Home)~',
+            '!(type~TAG*_FILTER~name~mobileBeacon.mobileApp.name~operator~EQUALS~value~Demo)(type~CONJUNCTION~logicalOperator~AND)(type~TAG*_FILTER~name~mobileBeacon.view.name~operator~EQUALS~value~Home)~',
           orderBy: '(by~mobileBeacon.error.count~direction~DESC)~',
           chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM)~'
         }

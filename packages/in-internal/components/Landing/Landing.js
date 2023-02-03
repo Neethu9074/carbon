@@ -10,6 +10,7 @@ import { Card } from '@instana/components';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import OpenEventsCountChartWrapper from 'in-events/components/OpenEventsCountChartWrapper';
 import { LinkList, LinkListItem } from 'in-internal/components/LinkList/LinkList';
+import { pluginMetricStatisticsEnabled } from 'in-services/featureFlags';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { internalMonitoringUnit } from 'in-services/featureFlags';
 import Renderer from 'in-components/Chart/renderer/Renderer';
@@ -129,7 +130,7 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
                       <LinkListItem
                         label={t('in-internal:components.landing.definition')}
                         external
-                        href="https://github.com/instana/backend/tree/develop/objectives"
+                        href="https://github.ibm.com/instana/backend/tree/develop/objectives"
                         description={t('in-internal:components.landing.learnEvolveSLOs')}
                       />
                     </LinkList>
@@ -288,6 +289,35 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
                       </LinkListItem>
 
                       <LinkListItem
+                        label={t('in-internal:components.landing.syntheticsMonitor')}
+                        description={t('in-internal:components.landing.syntheticsMonitorDesc')}
+                      >
+                        <LinkList>
+                          <LinkListItem
+                            label={t('in-internal:components.landing.syntheticsAcceptor')}
+                            href$={getModifiedUrlStream(
+                              params => (params.pathname = '/internal/monitoringUnit/synthetics/SyntheticAcceptor')
+                            )}
+                            description={t('in-internal:components.landing.syntheticsAcceptorDesc')}
+                          />
+                          <LinkListItem
+                            label={t('in-internal:components.landing.syntheticsMonitorWriter')}
+                            href$={getModifiedUrlStream(
+                              params => (params.pathname = '/internal/monitoringUnit/synthetics/SyntheticsWriter')
+                            )}
+                            description={t('in-internal:components.landing.syntheticsMonitorWriterDesc')}
+                          />
+                          <LinkListItem
+                            label={t('in-internal:components.landing.syntheticsMonitorReader')}
+                            href$={getModifiedUrlStream(
+                              params => (params.pathname = '/internal/monitoringUnit/synthetics/SyntheticsReader')
+                            )}
+                            description={t('in-internal:components.landing.syntheticsMonitorReaderDesc')}
+                          />
+                        </LinkList>
+                      </LinkListItem>
+
+                      <LinkListItem
                         label={t('in-internal:components.landing.infrastructureMetrics')}
                         description={t('in-internal:components.landing.infrastructureMetricsDesc')}
                       >
@@ -362,30 +392,34 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
                 {role.canSeeExtendedInternalMonitoring && (
                   <LinkListItem label={t('in-internal:components.landing.dataStores')}>
                     <LinkList>
-                      <LinkListItem
-                        label={t('in-internal:components.landing.metricsCassandra')}
-                        href$={getModifiedUrlStream(
-                          params => (params.pathname = '/internal/monitoringUnit/sre/metricscassandra')
-                        )}
-                      />
-                      <LinkListItem
-                        label={t('in-internal:components.landing.spansCassandra')}
-                        href$={getModifiedUrlStream(
-                          params => (params.pathname = '/internal/monitoringUnit/sre/spanscassandra')
-                        )}
-                      />
-                      <LinkListItem
-                        label={t('in-internal:components.landing.profilesCassandra')}
-                        href$={getModifiedUrlStream(
-                          params => (params.pathname = '/internal/monitoringUnit/sre/profilescassandra')
-                        )}
-                      />
-                      <LinkListItem
-                        label={t('in-internal:components.landing.stateCassandra')}
-                        href$={getModifiedUrlStream(
-                          params => (params.pathname = '/internal/monitoringUnit/sre/statecassandra')
-                        )}
-                      />
+                      <LinkListItem label={t('in-internal:components.landing.cassandra')}>
+                        <LinkList>
+                          <LinkListItem
+                            label={t('in-internal:components.landing.metricsCassandra')}
+                            href$={getModifiedUrlStream(
+                              params => (params.pathname = '/internal/monitoringUnit/sre/metricscassandra')
+                            )}
+                          />
+                          <LinkListItem
+                            label={t('in-internal:components.landing.spansCassandra')}
+                            href$={getModifiedUrlStream(
+                              params => (params.pathname = '/internal/monitoringUnit/sre/spanscassandra')
+                            )}
+                          />
+                          <LinkListItem
+                            label={t('in-internal:components.landing.profilesCassandra')}
+                            href$={getModifiedUrlStream(
+                              params => (params.pathname = '/internal/monitoringUnit/sre/profilescassandra')
+                            )}
+                          />
+                          <LinkListItem
+                            label={t('in-internal:components.landing.stateCassandra')}
+                            href$={getModifiedUrlStream(
+                              params => (params.pathname = '/internal/monitoringUnit/sre/statecassandra')
+                            )}
+                          />
+                        </LinkList>
+                      </LinkListItem>
                       <LinkListItem label={t('in-internal:components.landing.clickhouse')}>
                         <LinkList>
                           <LinkListItem
@@ -465,9 +499,17 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
               >
                 <LinkList>
                   <LinkListItem
-                    label={t('in-internal:components.landing.entityStatistics')}
+                    label={
+                      pluginMetricStatisticsEnabled
+                        ? t('in-internal:components.landing.entityAndMetricStatistics')
+                        : t('in-internal:components.landing.entityStatistics')
+                    }
                     href$={getModifiedUrlStream(params => (params.pathname = '/internal/thisUnit/entityStatistics'))}
-                    description={t('in-internal:components.landing.entityStatisticsDesc')}
+                    description={
+                      pluginMetricStatisticsEnabled
+                        ? t('in-internal:components.landing.entityAndMetricStatisticsDesc')
+                        : t('in-internal:components.landing.entityStatisticsDesc')
+                    }
                   />
                   <LinkListItem
                     label={t('in-internal:components.landing.agents')}
@@ -485,9 +527,26 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
                     description={t('in-internal:components.landing.infrastructureEntityVerDesc')}
                   />
                   <LinkListItem
+                    label="Infrastructure Metrics"
+                    href$={getModifiedUrlStream(params => (params.pathname = '/internal/thisUnit/metrics'))}
+                    description="Browse metrics associated with an entity"
+                  />
+                  <LinkListItem
                     label={t('in-internal:components.landing.internalEvents')}
                     href$={getModifiedUrlStream(params => (params.pathname = '/internal/thisUnit/internalEvents'))}
                     description={t('in-internal:components.landing.internalEventsDesc')}
+                  />
+                  <LinkListItem
+                    label="Adaptive Baseline Model"
+                    href$={getModifiedUrlStream(
+                      params => (params.pathname = '/internal/thisUnit/adaptiveBaselineModel')
+                    )}
+                    description="Inspect an Adaptive Baseline Model for specific Appdata entity"
+                  />
+                  <LinkListItem
+                    label={t('in-internal:components.landing.wsTesterTitle')}
+                    href$={getModifiedUrlStream(params => (params.pathname = '/internal/thisUnit/wsApiTester'))}
+                    description={t('in-internal:components.landing.wsTesterDescription')}
                   />
                 </LinkList>
               </Card>
@@ -504,6 +563,12 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
                       description={t('in-internal:components.landing.saaSMonitoringUnitsDesc')}
                     >
                       <LinkList>
+                        <LinkListItem
+                          label={' ' + t('in-internal:components.landing.unitMonitoringCoral')}
+                          href="https://coral-instanaops.instana.io"
+                          external
+                          description={t('in-internal:components.landing.unitMonitoringCoralDesc')}
+                        />
                         <LinkListItem
                           label={'🟢 ' + t('in-internal:components.landing.unitMonitoringGreen')}
                           href="https://green-instanaops.instana.io"

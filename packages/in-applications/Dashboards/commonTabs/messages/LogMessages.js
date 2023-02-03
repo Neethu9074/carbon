@@ -6,8 +6,6 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-import { Card } from '@instana/components';
-
 import LogMessagesTable from 'in-applications/Dashboards/commonTabs/messages/components/LogMessagesTable';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
@@ -26,9 +24,7 @@ export default connectTo(
 
     return (
       <Fragment>
-        <Card>
-          <LogMessagesTable boundaryScope={boundaryScope} {...props} />
-        </Card>
+        <LogMessagesTable boundaryScope={boundaryScope} {...props} />
         <Footer />
       </Fragment>
     );

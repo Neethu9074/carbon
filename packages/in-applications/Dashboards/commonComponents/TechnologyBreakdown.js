@@ -10,17 +10,17 @@ import {
   createHiddenCallsFromSyntheticOption,
   isSyntheticOption
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
+import { createChartedMetric, createGroupBy, createOrderBy } from 'in-analyze/navigation/paths';
+import { extendWindowSizeOnLiveMode, getResolvedTimeConfig } from 'in-applications/metrics';
 import getTechnologyBreakdown from 'in-applications/subscriptions/getTechnologyBreakdown';
+import WidgetNotActive from 'in-applications/Dashboards/commonComponents/WidgetNotActive';
 import { endpointNameTranslations, getColorChart } from 'in-applications/endpointTypes';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
-import { createChartedMetric, createGroupBy } from 'in-analyze/navigation/paths';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { NOT_EQUAL } from 'in-components/QueryBuilder/tagFilter/operators';
-import { millis, meanLatencyFixed } from 'in-services/formatters/number';
-import { extendWindowSizeOnLiveMode } from 'in-applications/metrics';
+import { meanLatencyFixed, millis } from 'in-services/formatters/number';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
-import { getResolvedTimeConfig } from 'in-applications/metrics';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { compareIgnoreCase } from 'in-services/util/string';
@@ -51,7 +51,8 @@ export default connectTo(
     result,
     boundaryScope,
     syntheticCalls,
-    renderPostChartContent
+    renderPostChartContent,
+    renderHistoricDataIndicator
   }) {
     let config = {
       cardTitle: t('in-applications:titleProcessingTime')
@@ -70,13 +71,16 @@ export default connectTo(
       const metricIds = endpointTypes.map(type => endpointNameTranslations[type]);
       const metrics = endpointTypes.map(type => result.data[type]);
       const colors = endpointTypes.map(type => (type === 'SELF' ? theme.lib.colors.chart.self25 : getColorChart(type)));
+      const hasApproximateData = result?.resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE';
 
       config = {
         renderPostChartContent,
-        cardTitle: config.cardTitle,
+        title: config.cardTitle,
         originalTimeConfig: timeConfig,
         timeConfig: getResolvedTimeConfig(timeConfig, result),
         granularity: getChartGranularity(timeConfig),
+        renderHistoricDataIndicator: renderHistoricDataIndicator,
+        hasApproximateData,
         y1: {
           renderer: Renderer.stackedArea,
           labels,
@@ -108,6 +112,7 @@ export default connectTo(
                   }),
                   hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticCalls),
                   groupBy: createGroupBy('call.type'),
+                  orderByGroups: createOrderBy('latency_MEAN', 'DESC'),
                   chartedMetrics: [createChartedMetric('latency', 'MEAN')]
                 }
               )
@@ -116,7 +121,15 @@ export default connectTo(
       };
     }
 
-    return <ResultAwareChart result={result} config={config} />;
+    return timeConfig.autoRefresh ? (
+      <WidgetNotActive title={config.title} />
+    ) : (
+      <ResultAwareChart
+        result={result}
+        config={config}
+        resultPrecision={result?.resultPrecisionDetails?.resultPrecision}
+      />
+    );
   }
 );
 

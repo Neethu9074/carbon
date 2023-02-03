@@ -3,18 +3,31 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { useState, useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 /**
  * Warning: Changing callbackOnUnmount are not supported! This hook will always use the
  * first version passed in.
  */
 export default function useTimeSpentInsideComponent(callbackOnUnmount: (duration: number) => void) {
-  const [timeStarted] = useState(Date.now());
+  const timeHidden = useRef<number>(0);
+  const durationHidden = useRef<number>(0);
+  const timeStarted = useRef<number>(Date.now());
+
   useEffect(
-    () => () => {
-      const now = Date.now();
-      callbackOnUnmount(now - timeStarted);
+    () => {
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden') {
+          timeHidden.current = Date.now();
+        } else if (document.visibilityState === 'visible') {
+          durationHidden.current = durationHidden.current + (Date.now() - timeHidden.current);
+        }
+      });
+
+      return () => {
+        const now = Date.now();
+        callbackOnUnmount(now - timeStarted.current - durationHidden.current);
+      };
     },
     // This hook does not support changing parameters. It is a limitation of this implementation
     // approach.

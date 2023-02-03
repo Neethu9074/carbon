@@ -17,7 +17,7 @@ export default function HelpAndSupport({ trackingService }) {
         kind="secondary"
         icon="lib_help_error_help_outline"
         target="_blank"
-        href="https://instana.com/docs/"
+        href="https://www.ibm.com/docs/en/obi/current"
         onClick={() => trackingService.helpAndSupportClicked()}
       >
         {t('in-waiting-for-deployment:helpDocumentation')}

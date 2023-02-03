@@ -3,24 +3,24 @@
  * (c) Copyright Instana Inc.
  */
 
-import { compose } from 'recompose';
 import React from 'react';
 
 import { combineLatest } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
 
 import GraphExplorerMap from 'in-internal/thisUnit/GraphExplorer/GraphExplorerMap';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshot } from 'in-stores/snapshot';
-import withUrlState from 'in-hoc/withUrlState';
+import useUrlState from 'in-hooks/useUrlState';
 import getGraph from 'in-subscription/graph';
 import Input from 'in-components/form/Input';
-import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 import locals from './GraphExplorer.mless';
 
-export default compose(
-  withUrlState({
+export default function GraphExplorer() {
+  const urlStateConfig = {
+    replaceHistory: false,
     bind: [
       {
         path: '/graphExplorer',
@@ -28,12 +28,12 @@ export default compose(
         as: 'snapshotId',
         initialState: ''
       }
-    ],
-    reducerName: 'setSnapshotId',
-    replaceHistory: false
-  }),
-  connectTo(({ snapshotId }) => ({
-    connected: combineLatest([
+    ]
+  };
+
+  const [{ snapshotId }, setSnapshotId] = useUrlState(urlStateConfig);
+  const connected = useObservable(
+    combineLatest([
       getSnapshot(snapshotId)
         .filter(Boolean)
         .distinct(),
@@ -41,11 +41,10 @@ export default compose(
     ]).map(([snapshot, graph]) => ({
       selectedSnapshotId: snapshot.get('id'),
       ...getConnectedEntities(snapshot.get('id'), graph)
-    }))
-  }))
-)(GraphExplorer);
+    })),
+    [snapshotId]
+  );
 
-function GraphExplorer({ snapshotId, setSnapshotId, connected }) {
   return (
     <div className={locals.view}>
       <Input

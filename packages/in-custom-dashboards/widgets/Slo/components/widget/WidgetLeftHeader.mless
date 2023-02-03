@@ -1,0 +1,30 @@
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .loadingSkeleton {
+    margin-top: 0.125rem;
+    height: 1rem;
+    min-width: 10rem;
+  }
+
+  .title {
+    color: var(--ids-color-option-neutral-900);
+    font-weight: var(--ids-font-weight-option-heading-300);
+    line-height: var(--ids-line-height-option-heading-300);
+    font-size: var(--ids-font-size-option-heading-300);
+    .ellipsis();
+
+    flex-shrink: 2;
+  }
+
+  .subtext {
+    color: var(--ids-color-option-neutral-600);
+    display: block;
+    font-size: var(--ids-font-size-option-body-small);
+    font-weight: var(--ids-font-size-option-body-small);
+    line-height: var(--ids-line-height-option-body-small);
+
+    .ellipsis();
+  }
+}

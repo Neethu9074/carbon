@@ -4,7 +4,7 @@
  */
 
 import { extendAlertConfigVersions } from 'in-alerting/components/configVersionsEnrichment';
-import { AuthorType, ChangeType } from 'in-types';
+import { AuthorAuthorType, ChangeType } from 'in-types';
 import { t } from 'in-i18n';
 
 jest.mock('in-i18n', () => ({ t: jest.fn() }));
@@ -15,7 +15,7 @@ describe('in-alerting/components/configVersionsEnrichment::extendAlertConfigVers
       id: 'TMS_EISKQzSAAsBk5qjq7Q',
       created: 1626796474219,
       enabled: true,
-      deleted: false,
+      deleted: true,
       ...getChangeSummary('DELETE', 'Alfred. E. Neumann')
     },
     {
@@ -164,16 +164,24 @@ describe('in-alerting/components/configVersionsEnrichment::extendAlertConfigVers
 
   test('disabled and paused state should have a "disabled: true" property added ', () => {
     const versions = extendAlertConfigVersions(newAlertConfigVersions);
+    expect(versions[0].disabled).toEqual(true);
     expect(versions[1].disabled).toBeUndefined();
-    expect(versions[2].disabled).toEqual(true);
-    expect(versions[3].disabled).toEqual(true);
+    expect(versions[2].disabled).toBeUndefined();
+    expect(versions[3].disabled).toBeUndefined();
+    expect(versions[4].disabled).toBeUndefined();
+    expect(versions[5].disabled).toBeUndefined();
     expect(versions[versions.length - 1].created).toEqual(
       newAlertConfigVersions[newAlertConfigVersions.length - 1].created
     );
   });
 });
 
-function getChangeSummary(changeType: ChangeType, authorFullName?: string, authorId?: string, authorType?: AuthorType) {
+function getChangeSummary(
+  changeType: ChangeType,
+  authorFullName?: string,
+  authorId?: string,
+  authorType?: AuthorAuthorType
+) {
   return {
     changeSummary: {
       changeType,

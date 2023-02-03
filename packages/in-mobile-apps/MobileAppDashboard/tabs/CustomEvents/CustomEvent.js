@@ -184,7 +184,7 @@ export default function CustomEvent({ location, tagFilters, timeConfig, mobileAp
       <Row>
         <Col lg={6}>
           <MobileAppChartWrapper
-            cardTitle={t('in-mobile-apps:dashboard.tabs.customEvents.customEventTitleOccurrences')}
+            title={t('in-mobile-apps:dashboard.tabs.customEvents.customEventTitleOccurrences')}
             timeConfig={timeConfig}
             renderLegend={false}
             viewInAnalytics={viewInAnalytics}
@@ -211,7 +211,7 @@ export default function CustomEvent({ location, tagFilters, timeConfig, mobileAp
         </Col>
         <Col lg={6}>
           <MobileAppChartWrapper
-            cardTitle={t('in-mobile-apps:dashboard.tabs.customEvents.customEventTitleUsers')}
+            title={t('in-mobile-apps:dashboard.tabs.customEvents.customEventTitleUsers')}
             timeConfig={timeConfig}
             renderLegend={false}
             viewInAnalytics={viewInAnalytics}
@@ -240,7 +240,7 @@ export default function CustomEvent({ location, tagFilters, timeConfig, mobileAp
       <Row>
         <Col lg={12}>
           <MobileAppChartWrapper
-            cardTitle={t('in-mobile-apps:dashboard.tabs.customEvents.customEventTitleDuration')}
+            title={t('in-mobile-apps:dashboard.tabs.customEvents.customEventTitleDuration')}
             reverseTooltipOrder
             shareMaxAxisDomain
             timeConfig={timeConfig}

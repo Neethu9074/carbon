@@ -3,11 +3,11 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { Error } from 'in-types';
+import { Error, Progress } from 'in-types';
 
-type PendingFetchedState = [undefined, 'pending', Error[]];
-type RejectedFetchedState = [undefined, 'rejected', Error[]];
-type ResolvedFetchedState<T> = [T, 'resolved', Error[]];
+type PendingFetchedState = [undefined, 'pending', Error[], Progress];
+type RejectedFetchedState = [undefined, 'rejected', Error[], Progress];
+type ResolvedFetchedState<T> = [T, 'resolved', Error[], Progress];
 
 export type FetchStatus = 'pending' | 'resolved' | 'rejected';
 export type FetchedState<T> = Readonly<PendingFetchedState | RejectedFetchedState | ResolvedFetchedState<T>>;

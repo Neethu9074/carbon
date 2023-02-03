@@ -102,7 +102,7 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
       <Row>
         <Col lg={12}>
           <MobileAppChartWrapper
-            cardTitle={t('in-mobile-apps:dashboard.tabs.activityCardTitle')}
+            title={t('in-mobile-apps:dashboard.tabs.activityCardTitle')}
             timeConfig={timeConfig}
             viewInAnalytics={{
               mobileAppLabel
@@ -150,11 +150,17 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
             timeConfig={timeConfig}
             mobileAppId={mobileAppId}
             urlMatrixParamConfig={{ path: summaryTab, paramTab: 'originsTab' }}
+            renderHistoricDataIndicator
           />
         </Col>
         {viewId == null && (
           <Col lg={4}>
-            <ViewsTopList tagFilters={tagFilters} timeConfig={timeConfig} mobileAppId={mobileAppId} />
+            <ViewsTopList
+              tagFilters={tagFilters}
+              timeConfig={timeConfig}
+              mobileAppId={mobileAppId}
+              renderHistoricDataIndicator
+            />
           </Col>
         )}
       </Row>

@@ -7,16 +7,18 @@ import SystemDashboard from 'promise-loader?global,zhmc!in-zhmc/Dashboards/Syste
 import ZhmcDashboard from 'promise-loader?global,zhmc!in-zhmc/Dashboards/Zhmc/ZhmcDashboard';
 import ZhmcMainView from 'promise-loader?global,zhmc!in-zhmc/ZhmcMainView';
 import { Route } from 'react-router-dom';
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import { zhmcDashboardFullyQualified, cpcDashboardFullyQualified } from 'in-zhmc/navigation/paths';
-import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
+import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import { ibmz } from 'in-zhmc/navigation/paths';
 
-export default (
-  <Fragment>
-    <Route path={zhmcDashboardFullyQualified} component={createAsyncViewComponent(ZhmcDashboard)} />
-    <Route path={cpcDashboardFullyQualified} component={createAsyncViewComponent(SystemDashboard)} />
-    <Route path={ibmz} component={createAsyncViewComponent(ZhmcMainView)} />
-  </Fragment>
-);
+export default [
+  <Route key="zhmcDashboard" path={zhmcDashboardFullyQualified} children={renderAsyncRouteChildren(ZhmcDashboard)} />,
+  <Route
+    key="zhmcSystemDashboard"
+    path={cpcDashboardFullyQualified}
+    children={renderAsyncRouteChildren(SystemDashboard)}
+  />,
+  <Route key="zhmcMainView" path={ibmz} children={renderAsyncRouteChildren(ZhmcMainView)} />
+];

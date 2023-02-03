@@ -14,13 +14,14 @@ import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
 import { Ul, Li } from '@instana/components';
 
+//TODO delete detailViewProps after migrating this to TS since PropTypes won't be needed anymore
+import { detailViewProps } from 'in-components/AnalyzeView/UngroupedView/detailViewProps';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
 import { leftArrowId, rightArrowId } from 'in-components/AnalyzeView/SplitScreenList/elementIds';
 import { debouncedResize$, refreshWindowSizeDependingState } from 'in-services/browser';
 import { childrenArgsAsPropTypes } from 'in-components/AnalyzeView/StateManagement';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
-import { detailViewProps } from 'in-components/AnalyzeView/UngroupedView';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import ResultHeader from 'in-components/AnalyzeView/ResultHeader';
 import Tooltip from 'in-components/Tooltip';
@@ -85,7 +86,7 @@ function ExpandedList(props) {
       <Sticky
         header={
           <div className={locals.header}>
-            <ResultHeader label="" {...props} withSamplingTooltip />
+            <ResultHeader label="" {...props} />
 
             <div className={locals.actions}>
               {hasPrev && (

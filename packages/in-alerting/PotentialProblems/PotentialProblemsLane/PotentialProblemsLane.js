@@ -7,12 +7,12 @@ import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import { useObservable } from '@instana/hooks';
+import { just } from '@instana/observables';
 
 import {
   getEntitySelection,
   getEntitySelectionAsTagFilterFormModel
 } from 'in-alerting/smart-alerts/applications/data/entitySelection';
-import { isAlertQueryValid as isApplicationAlertQueryValid } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import PotentialProblemsLanePresenter from 'in-alerting/PotentialProblems/PotentialProblemsLane/PotentialProblemsLanePresenter';
 import isOutsideCallsShortTermStorage from 'in-alerting/PotentialProblems/PotentialProblemsLane/isOutsideCallsShortTermStorage';
 import { EMPTY_EXPRESSION, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -102,6 +102,7 @@ function PotentialProblemsLaneConnected({
       ]),
     [globalTimeConfig, alertRules, clusterSizeMillis, includeSynthetic, applications]
   );
+  const queryValidator = () => just({ data: true }); // always valid, because tagfilters won't be edited by user
 
   return (
     <PotentialProblemsLanePresenter
@@ -115,7 +116,7 @@ function PotentialProblemsLaneConnected({
       tagFilterExpression={EMPTY_EXPRESSION}
       applications={applications}
       isLoading={isLoading(potentialProblemsResult)}
-      queryValidator={isApplicationAlertQueryValid}
+      queryValidator={queryValidator}
     />
   );
 }

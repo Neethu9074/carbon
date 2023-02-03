@@ -17,7 +17,13 @@ export default function TermsProgressIndicator({ pageNumber, nrPages }) {
   for (let i = 1; i <= nrPages; i++) {
     if (i < pageNumber) {
       steps.push(
-        <SvgIcon key={`${i}-icon`} className={locals.icon} type="lib_check" color={theme.lib.colors.white} size={28} />
+        <SvgIcon
+          key={`${i}-icon`}
+          className={locals.icon}
+          type="lib_check"
+          color={theme.lib.colors.white}
+          size="regular"
+        />
       );
     } else {
       steps.push(

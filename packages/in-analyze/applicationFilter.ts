@@ -8,6 +8,7 @@ import { get } from 'lodash';
 // eslint-disable-next-line no-restricted-imports
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import { applicationId, serviceId, endpointId } from 'in-analyze/navigation/matrix';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { TagFilter } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -217,12 +218,13 @@ export function getTagFilterListForBackendSubscription(
   const defaultFiltersToAdd = defaultFilters.filter(defaultFilter => !tagFilterKeys.includes(defaultFilter.name));
 
   return tagFilters.concat(defaultFiltersToAdd).map(tag => {
-    const backendTagFilter: TagFilter = {
-      name: tag.name || tag.key!, // TODO: clean this up, for now it can be assumed that either name or key will be present
-      operator: tag.operator,
-      entity: tag.entity,
-      type: 'TagFilter'
-    };
+    const backendTagFilter = tagFilter(
+      tag.name || tag.key!, // TODO: clean this up, for now it can be assumed that either name or key will be present
+      tag.operator,
+      undefined,
+      undefined,
+      tag.entity
+    );
     return addValue(backendTagFilter, tag);
   });
 }

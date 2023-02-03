@@ -8,14 +8,13 @@ import React, { Fragment } from 'react';
 import { TableEntityCounter } from '@instana/components';
 
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+import { timeConfig$, urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import ZhmcNoDataNotification from 'in-zhmc/lists/components/ZhmcNoDataNotification';
-import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
-import { zhmcList, getIbmzZhmcDashboard } from 'in-zhmc/navigation/paths';
 import { getZhmcsWithDefaults } from 'in-zhmc/subscriptions/getZhmcs';
+import ZhmcLabel from 'in-zhmc/Dashboards/commonComponents/ZhmcLabel';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
-import EntityLink from 'in-components/EntityLink/EntityLink';
-import { timeConfig$ } from 'in-stores/time/config';
+import { zhmcList } from 'in-zhmc/navigation/paths';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
@@ -28,7 +27,7 @@ const columnDefinitions = [
     id: 'label',
     label: t('in-zhmc:hostname'),
     getContent(item) {
-      return <EntityLink label={item.label} href$={getIbmzZhmcDashboard(item.id)} />;
+      return <ZhmcLabel item={item} />;
     }
   },
   {
@@ -80,7 +79,7 @@ export default connectTo(
 
         <WithEmptyStateFallback
           getHasDataToRender={getHasDataToRender}
-          FallbackComponent={<ZhmcNoDataNotification icon="lib_zhmcConsole" />}
+          FallbackComponent={() => <ZhmcNoDataNotification icon="lib_zhmcConsole" />}
         >
           <ServerTableWithUrlState get={getTableData} timeConfig={timeConfig} />
         </WithEmptyStateFallback>

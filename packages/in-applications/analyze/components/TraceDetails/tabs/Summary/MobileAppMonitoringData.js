@@ -3,10 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { compose, withState, withProps } from 'recompose';
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 
 import { Button, SvgIcon } from '@instana/components';
+import { useObservable } from '@instana/hooks';
 import { Card } from '@instana/components';
 import { Link } from '@instana/components';
 
@@ -15,58 +15,62 @@ import {
   hideMobileAppDetailsInTraceView,
   navigateToSessionFromBackendTrace
 } from 'in-mobile-apps/tracker';
+import { getLinkToAnalyze, getLinkToMobileApp, getLinkToSession } from 'in-mobile-apps/navigation/paths';
 import BeaconUserSummary from 'in-mobile-apps/analyze/BeaconUserSummary/BeaconUserSummary';
-import { getLinkToMobileApp, getLinkToSession } from 'in-mobile-apps/navigation/paths';
 import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacons';
+import { getAdjustedTimeConfigToIncludeTimestamp } from 'in-stores/time/config';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
+import { getChartGranularity } from 'in-stores/metric/metric';
 import { tryGet, trySet } from 'in-services/localStorage';
 import { Row, Col } from 'in-components/layout/Grid';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import { minutes } from 'in-services/time';
-import connect from 'in-hoc/connectTo';
 import { Trans, t } from 'in-i18n';
 
 import locals from './MobileAppMonitoringData.mless';
 
 const localStorageKey = 'traceView.showMobileAppMonitoringData';
 
-export default compose(
-  connect(({ traceId, startTime }) => {
-    return {
-      result: getMobileAppBeacons({
-        tagFilters: [{ name: 'mobileBeacon.backend.traceId', stringValue: traceId, operator: 'EQUALS' }],
-        timeConfig: {
-          windowSize: minutes.toMillis(20),
-          to: startTime + minutes.toMillis(10),
-          focusedMoment: startTime + minutes.toMillis(10)
-        },
-        order: {
-          by: 'mobileBeacon.timestamp',
-          direction: 'DESC'
-        },
-        pagination: {
-          retrievalSize: 1
-        }
-      })
-    };
-  }),
-  withState('showDetails', 'setShowDetails', tryGet(localStorageKey) !== 'false'),
-  withProps(({ setShowDetails }) => ({
-    setShowDetails: show => {
-      trySet(localStorageKey, show);
-      if (show) {
-        showMobileAppDetailsInTraceView();
-      } else {
-        hideMobileAppDetailsInTraceView();
+export default function MobileAppMonitoringData({ traceId, startTime }) {
+  const [showDetails, setDetails] = useState(tryGet(localStorageKey) !== 'false');
+  const result = useObservable(() => {
+    return getMobileAppBeacons({
+      tagFilters: [{ name: 'mobileBeacon.backend.traceId', stringValue: traceId, operator: 'EQUALS' }],
+      timeConfig: {
+        windowSize: minutes.toMillis(20),
+        to: startTime + minutes.toMillis(10),
+        focusedMoment: startTime + minutes.toMillis(10)
+      },
+      order: {
+        by: 'mobileBeacon.timestamp',
+        // Get the oldest beacon, which is most likely the one that triggered this trace. Please note that if a request
+        // is served from a cache, the given beacon will be linked to the old trace (the one whose response was cached).
+        direction: 'ASC'
+      },
+      pagination: {
+        retrievalSize: 1
       }
-      setShowDetails(show);
+    });
+  }, [traceId, startTime]);
+
+  const setShowDetails = show => {
+    trySet(localStorageKey, show);
+    if (show) {
+      showMobileAppDetailsInTraceView();
+    } else {
+      hideMobileAppDetailsInTraceView();
     }
-  }))
-)(function MobileAppMonitoringData({ result, showDetails, setShowDetails }) {
+    setDetails(show);
+  };
+
+  const timeConfig = useTimeConfig();
   if (!result || result.data == null || result.data.items.length === 0) {
     return null;
   }
-
   const beacon = result.data.items[0].beacon;
-
+  const adjustedTimeConfig = getAdjustedTimeConfigToIncludeTimestamp(timeConfig, beacon.timestamp, getChartGranularity);
   return (
     <Fragment>
       <Row singleRowTopMargin withoutSideMargin>
@@ -105,6 +109,35 @@ export default compose(
               >
                 {t('in-analyze:traceDetail.tabs.summary.viewMobileAppActivity')}
               </Button>
+              <Button
+                onClick={() => {
+                  if (adjustedTimeConfig !== timeConfig) {
+                    addMessage(
+                      {
+                        type: 'info',
+                        timeout: 5000,
+                        content: t('in-applications:traceDetail.tabs.summary.adjustedTimeConfig')
+                      },
+                      'adjustedTimeConfig'
+                    );
+                  }
+                }}
+                href$={getLinkToAnalyze({
+                  groupBy: {},
+                  // Intentionally using "traceId" passed from the trace detail page instead of "mobileBeacon.backendTraceId". Note that the latter
+                  // can hold a different "traceId" in some cases. For example in case of cache revalidation, the backend request can be served
+                  // from cache, while the request will still be forwarded to the backend.
+                  // Even though linking to the new trace might be a useful feature, the "Analyze Beacons" button should filter calls only by the
+                  // original "traceId".
+                  formModel: [tagFilter('mobileBeacon.backend.traceId', EQUALS, traceId)],
+                  beaconType: beacon.type,
+                  timeConfig: adjustedTimeConfig
+                })}
+                kind="secondary"
+                size="compact"
+              >
+                {t('in-applications:traceDetail.tabs.summary.analyzeBeacons')}
+              </Button>
             </span>
           </Card>
         </Col>
@@ -113,4 +146,4 @@ export default compose(
       {showDetails && <BeaconUserSummary beacon={beacon} />}
     </Fragment>
   );
-});
+}

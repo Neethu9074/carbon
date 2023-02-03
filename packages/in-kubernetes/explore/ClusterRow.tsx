@@ -10,14 +10,13 @@ import { useObservable } from '@instana/hooks';
 
 // @ts-expect-error
 import getKubernetesClusterItemCounters from 'in-kubernetes/subscriptions/getKubernetesClusterItemCounters';
-import { KubernetesListItemWithCursor } from 'in-kubernetes/subscriptions/getKubernetesExplore';
+import { KubernetesListItemWithCursor } from 'in-kubernetes/subscriptions/exploreKubernetes';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { TimeConfig, Result, KubernetesClusterItemCounters } from 'in-types';
 // @ts-expect-error
 import { getHistoricMetric } from 'in-stores/metric';
-// @ts-expect-error
-import WithIcon from 'in-components/WithIcon';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import WithIcon from 'in-components/WithIcon';
 import { t } from 'in-i18n';
 
 import locals from 'in-kubernetes/explore/KubernetesExplore.mless';
@@ -35,7 +34,7 @@ function GetMetrics({ snapshotId, metric, timeConfig }: MetricsParams): ReactEle
       metric,
       timeConfig
     })
-      .map((v: number[]) => v[1])
+      .map((v: number[]) => Math.round(v[1]))
       .distinct(),
     []
   );
@@ -72,12 +71,11 @@ export function ClusterRow({ item }: KubernetesListItemWithCursor) {
   let appWorkloadCount = GetK8sClusterItemCounters({ snapshotId: item.snapshotId, metric: 'appWorkloads', timeConfig });
   let batchWorkloadCount = GetK8sClusterItemCounters({ snapshotId: item.snapshotId, metric: 'cronJobs', timeConfig });
   let serviceCount = GetK8sClusterItemCounters({ snapshotId: item.snapshotId, metric: 'services', timeConfig });
-
   return (
     <Li key={item.snapshotId} roundShadow toggleContentOnRowClick>
       <div className={locals.list}>
         <div className={locals.label}>
-          <WithIcon icon={'lib_kubernetes_cluster'}>
+          <WithIcon icon={`lib_${item.clusterDistribution}`}>
             <KeyValue
               label={t('in-kubernetes:dashboards.name')}
               value={<a href={'#/kubernetes/cluster;clusterId=' + item.snapshotId + '/summary'}>{item.label}</a>}

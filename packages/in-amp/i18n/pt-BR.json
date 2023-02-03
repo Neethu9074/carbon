@@ -3,7 +3,6 @@
     "accountSettings": {
       "accountSettings": "Configurações da conta",
       "billingAddress": "Endereço para cobrança",
-      "shippingAddress": "Endereço de entrega",
       "country": "País",
       "state": "Estado",
       "zip": "CEP",
@@ -39,7 +38,7 @@
     },
     "timePresets": {
       "last7Days": "Últimos 7 dias",
-      "last30Days": "Últimos 30 dias",
+      "last15Days": "Últimos 15 dias",
       "last365Days": "Últimos 365 dias"
     },
     "usages": {

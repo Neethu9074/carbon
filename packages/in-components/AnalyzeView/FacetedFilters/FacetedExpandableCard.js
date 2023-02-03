@@ -10,18 +10,22 @@ import { Button, SvgIcon } from '@instana/components';
 import { ua2FacetedSearchFilterClosedTracker, ua2FacetedSearchFilterOpenedTracker } from 'in-components/tracker';
 import { openFacetedSearchByDefault } from 'in-services/featureFlags';
 import ExpandableCard from './ExpandableCardWithSubtitle';
+import Tooltip from 'in-components/Tooltip';
+import { t } from 'in-i18n';
 
 import locals from './FacetedExpandableCard.mless';
 
-function HeaderButton({ icon, onClick, href, className }) {
+function HeaderButton({ icon, onClick, href, className, tooltip }) {
   return (
-    <Button href={href} className={className} onClick={onClick}>
-      {icon}
-    </Button>
+    <Tooltip content={tooltip}>
+      <Button href={href} className={className} onClick={onClick}>
+        {icon}
+      </Button>
+    </Tooltip>
   );
 }
 
-function GroupByHeaderButton({ tracker, tag, dataSource, linkToGroupedView }) {
+function GroupByHeaderButton({ tracker, tag, title, dataSource, linkToGroupedView }) {
   const onClick = e => {
     // required to hinder the ExpandableCard from collapsing when clicking in its header
     e.stopPropagation();
@@ -31,7 +35,15 @@ function GroupByHeaderButton({ tracker, tag, dataSource, linkToGroupedView }) {
     });
   };
   const icon = <SvgIcon type={'lib_group_by'} size={'xs'} />;
-  return <HeaderButton icon={icon} onClick={onClick} href={linkToGroupedView} className={locals.headerButton} />;
+  return (
+    <HeaderButton
+      icon={icon}
+      onClick={onClick}
+      href={linkToGroupedView}
+      className={locals.headerButton}
+      tooltip={t('in-components:analyze.filterSidebar.groupingButton', { group: title })}
+    />
+  );
 }
 
 function UngroupHeaderButton({ linkToUngroupedView, tag, dataSource, tracker }) {
@@ -44,22 +56,37 @@ function UngroupHeaderButton({ linkToUngroupedView, tag, dataSource, tracker }) 
     });
   };
   const icon = <SvgIcon type={'lib_ungroup'} size={'xs'} />;
-  return <HeaderButton icon={icon} onClick={onClick} href={linkToUngroupedView} className={locals.headerButton} />;
+  return (
+    <HeaderButton
+      icon={icon}
+      onClick={onClick}
+      href={linkToUngroupedView}
+      className={locals.headerButton}
+      tooltip={t('in-components:analyze.filterSidebar.ungroupButton')}
+    />
+  );
 }
 
-function GroupingButton({ isGrouped, tracker, tag, dataSource, linkToGroupedView, linkToUngroupedView }) {
+function GroupingButton({ isGrouped, tracker, title, tag, dataSource, linkToGroupedView, linkToUngroupedView }) {
   if (isGrouped) {
     return (
       <UngroupHeaderButton
         linkToUngroupedView={linkToUngroupedView}
         tag={tag}
+        title={title}
         dataSource={dataSource}
         tracker={tracker}
       />
     );
   }
   return (
-    <GroupByHeaderButton tracker={tracker} tag={tag} dataSource={dataSource} linkToGroupedView={linkToGroupedView} />
+    <GroupByHeaderButton
+      tracker={tracker}
+      tag={tag}
+      title={title}
+      dataSource={dataSource}
+      linkToGroupedView={linkToGroupedView}
+    />
   );
 }
 
@@ -75,7 +102,8 @@ export default function FacetedExpandableCard(props) {
     tracker,
     getHrefToGroupedView,
     getHrefToUngroupedView,
-    children
+    children,
+    title
   } = props;
 
   return (
@@ -83,7 +111,6 @@ export default function FacetedExpandableCard(props) {
       disabled={disabled}
       useMaxAvailableHeight={false}
       hasMarginBottom
-      tooltipDisabled
       expansionTracker={({ expanded }) => {
         const tracker = expanded ? ua2FacetedSearchFilterOpenedTracker : ua2FacetedSearchFilterClosedTracker;
         tracker({
@@ -97,6 +124,7 @@ export default function FacetedExpandableCard(props) {
         !disabled && (
           <GroupingButton
             isGrouped={isActiveGroup}
+            title={title}
             tag={tag}
             entity={entity}
             dataSource={dataSource}

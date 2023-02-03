@@ -1,0 +1,26 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+:local {
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .option {
+    font-size: 0.75rem;
+    max-width: 18rem;
+    justify-content: flex-start;
+  }
+
+  .optionValueMargin {
+    margin-left: 0.5rem;
+  }
+
+  .align-left {
+    justify-content: flex-start;
+  }
+}

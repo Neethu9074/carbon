@@ -25,6 +25,11 @@
         "counter_custom_0": "{{number}} eventi personalizzati",
         "counter_custom_1": "{{number}} eventi personalizzati",
         "counter_custom_2": "{{number}} eventi personalizzati",
+        "counter_crash": "{{number}} arresto anomalo",
+        "counter_crash_plural": "{{number}} arresti anomali",
+        "counter_crash_0": "{{number}} arresti anomali",
+        "counter_crash_1": "{{number}} arresti anomali",
+        "counter_crash_2": "{{number}} arresti anomali",
         "counter_Row": "{{number}} di righe",
         "counter_Row_plural": "{{number}} di righe",
         "counter_Row_0": "{{number}} di righe",
@@ -86,7 +91,7 @@
       "viewTransitions2": "Visualizza transizioni",
       "calls": "Chiamate",
       "traces": "Tracce",
-      "console": "Console"
+      "crashes": "Arresti anomali"
     }
   },
   "traceDetail": {
@@ -125,9 +130,6 @@
         "hideWebsiteInformation": "Nascondi informazioni sul sito Web",
         "showWebsiteInformation": "Mostra informazioni sul sito Web",
         "viewWebsiteActivity": "Visualizza attività del sito Web"
-      },
-      "logs": {
-        "noDataMessage": "Non ci sono log disponibili per questa traccia"
       }
     },
     "components": {
@@ -176,25 +178,18 @@
       },
       "callTree": {
         "expandButtonForRow": "Espandi tutte le chiamate secondarie",
-        "collapseButtonForRow": "Comprimi tutte le chiamate secondarie",
         "of": "di",
-        "inheritedFrom": "Ereditato da",
-        "cardTitle": "Chiamate"
+        "inheritedFrom": "Ereditato da"
       },
       "colorCodingToggleButtons": {
         "colorizeBy": "Colora per",
-        "colorizeByExpl": "Cambia il colore delle barre di chiamata",
-        "endpoint": "Endpoint",
-        "service": "Servizio"
-      },
-      "viewToggleButtons": {
-        "expl": "Visualizza come",
-        "tree": "Struttura ad albero",
-        "chart": "Sequenza temporale"
+        "endpoint": "Endpoint"
       },
       "logTooltipContent": {
         "errorLog": "Log di errore",
-        "warningLog": "Log di avvertenza"
+        "warningLog": "Log di avvertenza",
+        "restrictedAccess": "Accesso limitato",
+        "restrictedAccessExpl": "Non si dispone dell'autorizzazione per accedere a queste informazioni"
       },
       "callTooltipContent": {
         "numbersOfErrors": "{{count}} Errore",
@@ -285,7 +280,7 @@
     "analyzeLogsLabel": "Analizza log",
     "similarLogs": "Log simili",
     "similarServiceLogs": "Mostra i log nel contesto di questo servizio",
-    "service": "Mostra servizio"
+    "restrictedAccessExpl": "Non si dispone dell'autorizzazione per accedere a queste informazioni"
   },
   "traceDetails": {
     "labelTotal": "Totale",

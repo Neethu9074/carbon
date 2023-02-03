@@ -22,7 +22,9 @@ export default function ReadyStep({ websiteId, websiteName, websiteLink$, trackS
           i18nKey="in-websites:newWebsiteFlow.readyStepParagraphEverythingIsReadyToMonitorYourWebsite"
           values={{ websiteName: websiteName, httpHeadTag: new SecureString('<head />') }}
           components={{
-            linkToDocs: <Link href="https://instana.com/docs/website_monitoring/" external />
+            linkToDocs: (
+              <Link href="https://www.ibm.com/docs/en/obi/current?topic=instana-monitoring-websites" external />
+            )
           }}
         />
       </Paragraph>

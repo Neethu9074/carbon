@@ -3,12 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useRouteMatch, useHistory } from 'react-router';
 import React from 'react';
 
 import { createLogger } from '@instana/logger';
 
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { getServerVersionTag, localTag } from 'in-services/uiClientVersion';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import ReloadUiDialog from 'in-components/ReloadUiDialog';
 
@@ -77,3 +79,19 @@ const checkServerVersionTag = localTag => {
     }
   });
 };
+
+export const renderAsyncRouteChildren = load => {
+  const Component = createAsyncComponent(loadingIndicator, load);
+
+  return <RenderWithRouteProps Component={Component} />;
+};
+
+export function RenderWithRouteProps({ Component }) {
+  // inject the route props, simulate the old v5 Route render props:
+  // https://v5.reactrouter.com/web/api/Route/route-props
+
+  const match = useRouteMatch();
+  const location = useLocation();
+  const history = useHistory();
+  return <Component match={match} location={location} history={history} />;
+}

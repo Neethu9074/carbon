@@ -1,0 +1,33 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+const IndeterminateLoadingIndicatorLineCoordinates = [
+  [
+    [15.55, 22.5],
+    [24.21, 27.5]
+  ],
+  [
+    [32, 13],
+    [32, 23]
+  ],
+  [
+    [48.45, 22.5],
+    [39.79, 27.5]
+  ],
+  [
+    [48.45, 41.5],
+    [40.66, 37]
+  ],
+  [
+    [32, 51],
+    [32, 40]
+  ],
+  [
+    [15.51, 41.52],
+    [23.34, 37]
+  ]
+] as const;
+
+export default IndeterminateLoadingIndicatorLineCoordinates;

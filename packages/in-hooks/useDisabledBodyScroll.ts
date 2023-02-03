@@ -6,8 +6,8 @@
 import createSideEffectHook from 'in-hooks/createSideEffectHook';
 
 // Disables body scrolling as long as the component is mounted.
-export default createSideEffectHook(
-  args => args.reduce((agg, _disabled) => agg || (_disabled ?? true), false),
+export default createSideEffectHook<boolean | void, boolean>(
+  args => args.reduce((agg, _disabled) => agg || (_disabled ?? true), false)!,
   disabled => {
     if (disabled) {
       disableBodyScroll();

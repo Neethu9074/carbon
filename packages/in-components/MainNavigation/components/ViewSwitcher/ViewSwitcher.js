@@ -9,14 +9,21 @@ import React from 'react';
 import { Spacer } from '@instana/components';
 
 import {
-  pcfEnabled,
-  phmcEnabled,
-  vsphereEnabled,
-  zhmcEnabled,
-  releaseNotesEnabled,
-  tenantSwitcherEnabled,
-  syntheticsTestEnabled
-} from 'in-services/featureFlags';
+  hasApplicationsAccess,
+  hasWebsitesAccess,
+  hasKubernetesAccess,
+  hasAnalyzeAccess,
+  hasMobileAppsAccess,
+  hasInfrastructureAccess,
+  hasSyntheticsAccess,
+  hasVSphereAccess,
+  hasPHMCAccess,
+  hasZHMCAccess,
+  hasPCFAccess,
+  hasOpenStackAccess,
+  hasEventsAccess,
+  hasAPlatformAccess
+} from 'in-stores/permission';
 import {
   mobileAppMonitoringPath,
   getLinkToAnalyze as getLinkToMobileAppAnalyze,
@@ -27,13 +34,6 @@ import {
   getLinkToAnalyze as getLinkToWebsiteAnalyze,
   isAnalyzeView as isWebsiteAnalyzeView
 } from 'in-websites/navigation/paths';
-import {
-  hasApplicationsAccess,
-  hasWebsitesAccess,
-  hasKubernetesAccess,
-  hasAnalyzeAccess,
-  hasMobileAppsAccess
-} from 'in-stores/permission';
 import {
   applicationsList,
   getLinkToAnalyze as getLinkToApplicationsAnalyze,
@@ -48,20 +48,24 @@ import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from '
 import { isAnalyzeView as isProfileAnalyzeView } from 'in-components/Profiling/navigation/paths';
 import { physicalPath, containerPath, isTableView } from 'in-stores/navigation/paths/mainPaths';
 import { SubViewItem } from 'in-components/MainNavigation/components/ViewSwitcher/SubView';
+import { isSyntheticMonitoringView, syntheticsPath } from 'in-synthetics/navigation/paths';
+import { urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
 import { getView, isView, getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { releaseNotesEnabled, tenantSwitcherEnabled } from 'in-services/featureFlags';
+import { regionListFullyQualified, openstack } from 'in-openstack/navigation/paths';
 import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
 import { isAnalyzeView as isLogsAnalyzeView } from 'in-logging/navigation/paths';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { agentsPath, settingsPath } from 'in-stores/navigation/paths/mainPaths';
 import View from 'in-components/MainNavigation/components/ViewSwitcher/View';
 import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
+import { isInfraExploreView } from 'in-infrastructure/navigation/paths';
 import { phmcListFullyQualified, ibmp } from 'in-phmc/navigation/paths';
 import { zhmcListFullyQualified, ibmz } from 'in-zhmc/navigation/paths';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { cockpit as cockpitPath } from 'in-cockpit/navigation/paths';
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
 import Stan from 'in-components/MainNavigation/components/Stan';
-import { syntheticsPath } from 'in-synthetics/navigation/paths';
 import { isAnalyzeView } from 'in-analyze/navigation/paths';
 import { openEventsAtServerTime$ } from 'in-stores/events';
 import { showReleaseNotes } from 'in-stores/releaseNotes';
@@ -77,6 +81,14 @@ import locals from './ViewSwitcher.mless';
 
 const tenantSwitcherLink = `https://${config.tenantUnitDomainSuffix}/tenantSwitcher`;
 
+const hasFirstSectionAccess =
+  hasWebsitesAccess ||
+  hasMobileAppsAccess ||
+  hasApplicationsAccess ||
+  hasAPlatformAccess ||
+  hasInfrastructureAccess ||
+  hasSyntheticsAccess;
+const hasSecondSectionAcccess = hasAnalyzeAccess || hasEventsAccess;
 export default function ViewSwitcher({
   isExpanded,
   expandedSubMenu,
@@ -115,10 +127,10 @@ export default function ViewSwitcher({
       />
       <Infrastructure {...commonProps} />
       <Synthetics {...commonProps} />
-      <SpacerListItem />
+      {hasFirstSectionAccess && <SpacerListItem />}
       <Analyze {...commonProps} />
-      <Incidents {...commonProps} />
-      <SpacerListItem />
+      {hasEventsAccess && <Incidents {...commonProps} />}
+      {hasSecondSectionAcccess && <SpacerListItem />}
       <View
         id="main-nav-settings"
         label={t('in-components:mainNavigation.viewSwitcherLabelSettings')}
@@ -168,7 +180,7 @@ export default function ViewSwitcher({
         )}
         <SubViewItem
           label={t('in-components:mainNavigation.viewSwitcherLabelDocumentation')}
-          href="https://www.instana.com/docs"
+          href="https://www.ibm.com/docs/en/obi/current"
           external
           id="main-nav-documentation"
         />
@@ -208,7 +220,7 @@ const InternalView = connectTo({ isInternalVisible: isInternalVisible$ }, functi
       label={t('in-components:mainNavigation.viewSwitcherLabelInternal')}
       icon="lib_actions_lock"
       isActive$={isView('/internal')}
-      href$={getModifiedUrlStream(p => (p.pathname = '/internal'))}
+      href$={getModifiedUrlStream(p => (p.pathname = '/internal')).map(urlWithoutQueryParameter)}
       sidebarIsExpanded={sidebarIsExpanded}
       onClick={onClick}
       onMouseLeave={onMouseLeave}
@@ -272,6 +284,9 @@ function SignOut() {
 }
 
 function Infrastructure(props) {
+  if (!hasInfrastructureAccess) {
+    return null;
+  }
   return (
     <View
       id="main-nav-infrastructure"
@@ -285,13 +300,15 @@ function Infrastructure(props) {
 }
 
 function Synthetics(props) {
-  if (!syntheticsTestEnabled) return null;
+  if (!hasSyntheticsAccess) {
+    return null;
+  }
   return (
     <View
       id="main-nav-synthetics"
       label={t('in-synthetics:navigation.synthetics')}
-      icon="lib_infra_ibmCos"
-      isActive$={isView(syntheticsPath)}
+      icon={'lib_synthetic'}
+      isActive$={isView(isSyntheticMonitoringView)}
       href$={getView(syntheticsPath)}
       {...props}
     />
@@ -330,14 +347,15 @@ function Analyze(props) {
         isWebsiteAnalyzeView,
         isMobileAppAnalyzeView,
         isProfileAnalyzeView,
-        isLogsAnalyzeView
+        isLogsAnalyzeView,
+        isInfraExploreView()
       )}
       href$={
         [
           hasApplicationsAccess &&
             getLinkToApplicationsAnalyze({
               dataSource: 'calls'
-            }),
+            }).map(urlWithoutQueryParameter),
           hasWebsitesAccess &&
             getLinkToWebsiteAnalyze({
               beaconType: 'pageLoad'
@@ -412,11 +430,12 @@ function Platforms(props) {
   const { expandedSubMenu, setExpandedSubMenu, sidebarIsExpanded, onMouseEnter, onMouseLeave } = props;
 
   let numPlatformsAvailable = 0;
-  if (pcfEnabled) numPlatformsAvailable++;
-  if (phmcEnabled) numPlatformsAvailable++;
-  if (zhmcEnabled) numPlatformsAvailable++;
+  if (hasOpenStackAccess) numPlatformsAvailable++;
+  if (hasPCFAccess) numPlatformsAvailable++;
+  if (hasPHMCAccess) numPlatformsAvailable++;
+  if (hasZHMCAccess) numPlatformsAvailable++;
   if (hasKubernetesAccess) numPlatformsAvailable++;
-  if (vsphereEnabled) numPlatformsAvailable++;
+  if (hasVSphereAccess) numPlatformsAvailable++;
   if (numPlatformsAvailable === 0) {
     return null;
   }
@@ -425,7 +444,7 @@ function Platforms(props) {
   const platforms = (
     <>
       {/* Keep the list of platforms sorted alphabetically */}
-      {pcfEnabled && (
+      {hasPCFAccess && (
         <ViewItemForPlatforms
           id="main-nav-cloudfoundry"
           label={t('in-components:mainNavigation.viewSwitcherLabelCloudFoundry')}
@@ -435,7 +454,17 @@ function Platforms(props) {
           {...props}
         />
       )}
-      {phmcEnabled && (
+      {hasOpenStackAccess && (
+        <ViewItemForPlatforms
+          id="main-nav-openstack"
+          label={t('in-components:mainNavigation.viewSwitcherLabelOpenstack')}
+          icon="lib_openstack"
+          href$={getView(regionListFullyQualified)}
+          isActive$={isView(openstack)}
+          {...props}
+        />
+      )}
+      {hasPHMCAccess && (
         <ViewItemForPlatforms
           id="main-nav-phmc"
           label={t('in-components:mainNavigation.viewSwitcherLabelphmc')}
@@ -445,7 +474,7 @@ function Platforms(props) {
           {...props}
         />
       )}
-      {zhmcEnabled && (
+      {hasZHMCAccess && (
         <ViewItemForPlatforms
           id="main-nav-zhmc"
           label={t('in-components:mainNavigation.viewSwitcherLabelzhmc')}
@@ -465,7 +494,7 @@ function Platforms(props) {
           {...props}
         />
       )}
-      {vsphereEnabled && (
+      {hasVSphereAccess && (
         <ViewItemForPlatforms
           id="main-nav-vsphere"
           label={t('in-components:mainNavigation.viewSwitcherLabelvSphere')}

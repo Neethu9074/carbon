@@ -9,11 +9,14 @@ import React from 'react';
 import { useObservable } from '@instana/hooks';
 import { Toggle } from '@instana/components';
 
-import { setShowInternalTags, isShowInternalTagsEnabled$ } from 'in-applications/isShowInternalTagsEnabled';
+import {
+  isTroubleshootingModeEnabled$,
+  setEnableTroubleshootingMode
+} from 'in-applications/isTroubleshootingModeEnabled';
 import useSettingsEditor from 'in-settings/tabs/UserSettings/pages/useSettingsEditor';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
-import { showUserSettingInternalTagsInUA } from 'in-services/featureFlags';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
+import { enableTroubleshootingMode } from 'in-services/featureFlags';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import Heading from 'in-settings/tabs/UserSettings/pages/Heading';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
@@ -26,7 +29,7 @@ import locals from './UiConfig.mless';
 
 export default function UiConfigAdvancedPage() {
   const [settings, saveSetting] = useSettingsEditor();
-  const isShowInternalTagsEnabled = useObservable(isShowInternalTagsEnabled$, []);
+  const isTroubleshootingModeEnabled = useObservable(isTroubleshootingModeEnabled$, []);
 
   if (!settings) {
     return null;
@@ -194,20 +197,17 @@ export default function UiConfigAdvancedPage() {
         </HorizontalFormGroup>
       </div>
 
-      {showUserSettingInternalTagsInUA && (
+      {enableTroubleshootingMode && (
         <>
           <SectionHeading>{t('in-settings:tabs.troubleshooting')}</SectionHeading>
           <p>{t('in-settings:tabs.theFollowingOptionsShouldNeverBeTurnedOnWithoutBeingAskedToDoSoByInstanaSupport')}</p>
           <div style={{ marginBottom: '1rem' }}>
             <HorizontalFormGroup>
-              <Heading
-                text={t('in-settings:tabs.showInternalTagsInUnboundedAnalytics')}
-                htmlFor="ua-show-internal-tags"
-              />
+              <Heading text={t('in-settings:tabs.enableTroubleshootingMode')} htmlFor="enable-troubleshooting-mode" />
               <Toggle
-                id="ua-show-internal-tags"
-                checked={isShowInternalTagsEnabled}
-                onChange={e => setShowInternalTags(e.target.checked)}
+                id="enable-troubleshooting-mode"
+                checked={isTroubleshootingModeEnabled}
+                onChange={e => setEnableTroubleshootingMode(e.target.checked)}
               />
             </HorizontalFormGroup>
           </div>

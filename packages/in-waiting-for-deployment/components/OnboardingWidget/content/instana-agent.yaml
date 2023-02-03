@@ -5,7 +5,7 @@ metadata:
   name: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.29
+    app.kubernetes.io/version: 1.2.52
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -14,7 +14,7 @@ metadata:
   namespace: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.29
+    app.kubernetes.io/version: 1.2.52
 ---
 apiVersion: v1
 kind: Secret
@@ -23,11 +23,11 @@ metadata:
   namespace: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.29
+    app.kubernetes.io/version: 1.2.52
 type: Opaque
 data:
   key: ${agentKey}
-  downloadKey: ''
+  downloadKey: ${downloadKey}
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -36,7 +36,7 @@ metadata:
   namespace: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.29
+    app.kubernetes.io/version: 1.2.52
 data:
   cluster_name: "${clusterName}"
   configuration.yaml: |
@@ -81,7 +81,7 @@ metadata:
   namespace: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.29
+    app.kubernetes.io/version: 1.2.52
 spec:
   selector:
     matchLabels:
@@ -94,7 +94,7 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: instana-agent
-        app.kubernetes.io/version: 1.2.29
+        app.kubernetes.io/version: 1.2.52
         instana/agent-mode: "APM"
       annotations: {}
     spec:
@@ -104,7 +104,7 @@ spec:
       dnsPolicy: ClusterFirstWithHostNet
       containers:
         - name: instana-agent
-          image: "instana/agent:latest"
+          image: "icr.io/instana/agent:latest"
           imagePullPolicy: Always
           env:
             - name: INSTANA_AGENT_LEADER_ELECTOR_PORT
@@ -146,20 +146,34 @@ spec:
           volumeMounts:
             - name: dev
               mountPath: /dev
+              mountPropagation: HostToContainer
             - name: run
               mountPath: /run
+              mountPropagation: HostToContainer
             - name: var-run
               mountPath: /var/run
+              mountPropagation: HostToContainer
             - name: var-run-kubo
               mountPath: /var/vcap/sys/run/docker
+              mountPropagation: HostToContainer
+            - name: var-run-containerd
+              mountPath: /var/vcap/sys/run/containerd
+              mountPropagation: HostToContainer
+            - name: var-containerd-config
+              mountPath: /var/vcap/jobs/containerd/config
+              mountPropagation: HostToContainer
             - name: sys
               mountPath: /sys
+              mountPropagation: HostToContainer
             - name: var-log
               mountPath: /var/log
+              mountPropagation: HostToContainer
             - name: var-lib
               mountPath: /var/lib
+              mountPropagation: HostToContainer
             - name: var-data
               mountPath: /var/data
+              mountPropagation: HostToContainer
             - name: machine-id
               mountPath: /etc/machine-id
             - name: configuration
@@ -184,7 +198,7 @@ spec:
           ports:
             - containerPort: 42699
         - name: leader-elector
-          image: "instana/leader-elector:0.5.10"
+          image: "icr.io/instana/leader-elector:0.5.16"
           env:
             - name: INSTANA_AGENT_POD_NAME
               valueFrom:
@@ -226,6 +240,12 @@ spec:
         - name: var-run-kubo
           hostPath:
             path: /var/vcap/sys/run/docker
+        - name: var-run-containerd
+          hostPath:
+            path: /var/vcap/sys/run/containerd
+        - name: var-containerd-config
+          hostPath:
+            path: /var/vcap/jobs/containerd/config
         - name: sys
           hostPath:
             path: /sys
@@ -251,7 +271,7 @@ metadata:
   name: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.29
+    app.kubernetes.io/version: 1.2.52
 rules:
 - nonResourceURLs:
     - "/version"
@@ -304,7 +324,7 @@ metadata:
   name: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.29
+    app.kubernetes.io/version: 1.2.52
 subjects:
 - kind: ServiceAccount
   name: instana-agent

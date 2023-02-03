@@ -18,7 +18,7 @@ import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import { t } from 'in-i18n';
 
-export function ObserveHostHasMatchingEntitiesRunningFormGroup({ entityTypes, form, onChange }) {
+export function ObserveHostHasMatchingEntitiesRunningFormGroup({ entityTypes, form, onChange, disabled }) {
   const entityTypeOptions = entityTypes.filter(
     ({ value }) => entityTypesToExcludeInVerificationRule.indexOf(value) === -1
   );
@@ -37,6 +37,7 @@ export function ObserveHostHasMatchingEntitiesRunningFormGroup({ entityTypes, fo
               {t('in-settings:tabs.entityType')}
             </Label>
             <ComboBox
+              isDisabled={disabled}
               name="matching-entity-type"
               value={matchingEntityType.value}
               options={entityTypeOptions}
@@ -52,6 +53,7 @@ export function ObserveHostHasMatchingEntitiesRunningFormGroup({ entityTypes, fo
               {t('in-settings:tabs.entityLabelOperator')}
             </Label>
             <ComboBox
+              isDisabled={disabled}
               name="matching-operator"
               value={matchingOperator.value}
               options={entityLabelOperatorOptions}
@@ -67,6 +69,7 @@ export function ObserveHostHasMatchingEntitiesRunningFormGroup({ entityTypes, fo
               {t('in-settings:tabs.entityLabel')}
             </Label>
             <Input
+              disabled={disabled}
               id="matching-entity-label"
               type="text"
               value={matchingEntityLabel.value || ''}
@@ -84,6 +87,7 @@ export function ObserveHostHasMatchingEntitiesRunningFormGroup({ entityTypes, fo
               {t('in-settings:tabs.offlineFor')}
             </Label>
             <ComboBox
+              isDisabled={disabled}
               name="offline-duration"
               value={offlineDuration.value}
               options={offlineDurationOptions}

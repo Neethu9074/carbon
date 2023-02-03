@@ -9,7 +9,7 @@ import NewMobileAppFlow from 'promise-loader?global,mobileApps!in-mobile-apps/Ne
 import AnalyzeView2_0 from 'promise-loader?global,mobileApps!in-mobile-apps/analyze/AnalyzeView2_0/AnalyzeView';
 import MobileAppsList from 'promise-loader?global,mobileApps!in-mobile-apps/MobileAppsList/MobileAppsList';
 import { Route } from 'react-router-dom';
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import {
   mobileAppsPathFullyQualified,
@@ -18,15 +18,29 @@ import {
   newMobileAppPathFullyQualified,
   analyzePathFullyQualified
 } from 'in-mobile-apps/navigation/paths';
-import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
+import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 
-export default (
-  <Fragment>
-    <Route path={mobileAppsPathFullyQualified} component={createAsyncViewComponent(MobileAppsList)} />
-    <Route path={newMobileAppPathFullyQualified} component={createAsyncViewComponent(NewMobileAppFlow)} />
-    <Route path={mobileAppPathFullyQualified} component={createAsyncViewComponent(MobileAppDashboard)} />
-    <Route path={analyzePathFullyQualified} component={createAsyncViewComponent(AnalyzeView2_0)} />
-    <RedirectWithHash from={mobileAppMonitoringPath} to={mobileAppsPathFullyQualified} />
-  </Fragment>
-);
+export default [
+  <Route
+    key="mobileAppsList"
+    path={mobileAppsPathFullyQualified}
+    children={renderAsyncRouteChildren(MobileAppsList)}
+  />,
+  <Route
+    key="mobileAppNew"
+    path={newMobileAppPathFullyQualified}
+    children={renderAsyncRouteChildren(NewMobileAppFlow)}
+  />,
+  <Route
+    key="mobileAppDashboard"
+    path={mobileAppPathFullyQualified}
+    children={renderAsyncRouteChildren(MobileAppDashboard)}
+  />,
+  <Route
+    key="mobileAppAnalyzeBeacons"
+    path={analyzePathFullyQualified}
+    children={renderAsyncRouteChildren(AnalyzeView2_0)}
+  />,
+  <RedirectWithHash key="redirectToMobileAppsList" from={mobileAppMonitoringPath} to={mobileAppsPathFullyQualified} />
+];

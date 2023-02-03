@@ -15,6 +15,18 @@
       "autoAttachChildProcesses": false
     },
     {
+      "name": "Client: Debug Test",
+      "request": "launch",
+      "runtimeExecutable": "stable",
+      "url": "https://local-instana.pink.instana.rocks:4000/"
+    },
+    {
+      "name": "Client: Debug Release",
+      "request": "launch",
+      "runtimeExecutable": "stable",
+      "url": "https://local-instana.instana.rocks:4000/"
+    },
+    {
       "type": "node",
       "request": "launch",
       "name": "Client: Unit Tests",

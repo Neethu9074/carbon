@@ -8,6 +8,9 @@
   "labelTrace": "Trace",
   "linkDownload": "Download",
   "labelCalls": "Calls",
+  "labelCallsPerSecondShort": "Calls/s",
+  "labelErroneousCallsPerSecondShort": "Erroneous Calls/s",
+  "labelCallsPerSecondFull": "Calls Per Second",
   "labelTraces": "Traces",
   "labelErrorRate": "Error Rate",
   "labelDisableSizing": "Disable sizing",
@@ -25,13 +28,13 @@
   "labelLogMessages": "Log Messages",
   "labelLogMessage": "Log Message",
   "labelInfrastructure": "Infrastructure",
-  "labelAlerts": "Alerts",
+  "labelTroubleshooting": "Troubleshooting",
   "labelConfiguration": "Configuration",
   "labelTypes": "Types",
   "labelTechnologies": "Technologies",
   "labelEndpoints": "Endpoints",
   "labelHealth": "Health",
-  "labelOther": "Other",
+  "labelNonHttp": "Non-HTTP",
   "labelCallCount": "Call count",
   "labelHTTPStatusCodes": "HTTP status codes",
   "labelInfraIssues": "Infra Issues",
@@ -108,7 +111,7 @@
   "buttonAddTag": "Add Tag",
   "buttonOK": "OK",
   "buttonCreate": "Create",
-  "buttonCancel": "cancel",
+  "buttonCancel": "Cancel",
   "buttonRemoveApplicationPerspective": "Remove Application Perspective",
   "buttonAddDescription": "Add description",
   "buttonAddSyntheticEndpointRule": "Add Synthetic Endpoint Rule",
@@ -118,6 +121,7 @@
   "helpOptional": "(optional)",
   "messageSuccessfullySaved": "Successfully saved.",
   "messageErrorOccurred": "An error occurred, please try again.",
+  "messageWaitForChanges": "It may take some time for your changes to apply.",
   "linkViewAllServices": "View all services",
   "linkViewAllEndpoints": "View all endpoints",
   "lineViewInAnalyze": "View in Analyze",
@@ -126,12 +130,6 @@
   "Rendering": "Rendering",
   "loadingData": "Loading Data",
   "UnexpectedErrorOccurred": "An unexpected error occurred",
-  "noIssues": "No Issues",
-  "openIssues": "{{count}} Issue",
-  "openIssues_plural": "{{count}} Issues",
-  "openIssues_0": "{{count}} Issues",
-  "openIssues_1": "{{count}} Issue",
-  "openIssues_2": "{{count}} Issues",
   "applicationMap": {
     "webglNotSupportedTitle": "Browser Does Not Support WebGL",
     "webglNotSupported": "The Instana user interface contains 3D components that are rendered using a technology called WebGL. Unfortunately this technology is not yet available on all platforms. Some browsers, especially browsers in older versions, do not support WebGL. We recommend using the newest generation of auto-updating browsers: Chrome, Firefox, Safari 8 or MS Edge.\n\nWe try our best to support all platform and browser combinations. However, it may be that our usage of WebGL contains errors. You can use an [online test](https://get.webgl.org/) to check whether your platform supports WebGL.\n\nShould the online test state that your platform supports WebGL, but the Instana 3D Map still remains inoperable, [please contact us](https://support.instana.com/hc/en-us/requests/new).\n\nFor further troubleshooting information please refer to the [WebGL compatibility table](http://caniuse.com/#feat=webgl) or the [WebGL website](http://webgl.org/).",
@@ -194,13 +192,14 @@
     "technologies": "Technologies",
     "httpStatusCode": "HTTP Status",
     "hiddenCalls": "Hidden Calls",
-    "preview": "Preview",
+    "fastQueryMode": "Fast query mode",
+    "fastQueryModeTooltip": "Fast query mode enables query execution against a subset of calls or traces, if execution against the full dataset would take too long.",
     "listBatchTypeTooltip": "This {{type}} is batched and represents {{batchCount}} individual {{types}}.",
     "listBatchLatencyTooltip": "Total latency of {{batchCount}} batched {{types}}.",
     "traceIdTooltip": "Some data related to this trace is delayed so please reload the page in a little later. An example where this may happen is viewing a very recent trace with some of its data is still being processed.",
-    "downloadTraceTooltip": "Download full trace.",
     "closeTraceDetail": "Close trace detail",
     "invalidQueryConfig": "The query configuration is invalid. Please address the validation failures before continuing.",
+    "invalidTraceIdTagFilter": "The trace ID \"{{traceId}}\" is invalid. Please specify a valid trace ID which is either 16 or 32 characters long.",
     "errorRateLabel": "Erroneous Calls (rate)",
     "errorRateCategory": "Erroneous Calls",
     "errorMetricLabel": "Erroneous Calls Rate",
@@ -235,7 +234,8 @@
     "dataSource_calls": "{{formattedCount}} Call",
     "dataSource_calls_plural": "{{formattedCount}} Calls",
     "dataSource_traces": "{{formattedCount}} Trace",
-    "dataSource_traces_plural": "{{formattedCount}} Traces"
+    "dataSource_traces_plural": "{{formattedCount}} Traces",
+    "analyzeCallsOfThisTrace": "Analyze Calls of this Trace"
   },
   "creation": {
     "newAP": "New Application Perspective",
@@ -418,7 +418,10 @@
     }
   },
   "dashboards": {
-    "percentOfCalls": "{{percentage}} of all calls",
+    "callCount": "{{formattedCount}} total call",
+    "callCount_plural": "{{formattedCount}} total calls",
+    "erroneousCallCount": "{{formattedCount}} total erroneous call",
+    "erroneousCallCount_plural": "{{formattedCount}} total erroneous calls",
     "meanLatencyFor90th": "{{meanLatencyDetail}} for 90th",
     "infrastructureIssuesChanges": "Infrastructure Issues & Changes",
     "unknownTime": "Unknown at {{entityTime}}",
@@ -469,7 +472,8 @@
     "tooltipExtractsEndpointsAsSpecified": "Extracts endpoints as specified in detected framework (if accessible)",
     "tooltipExtractsEndpointsOnFirstPath": "Extracts endpoints based on first path parameter",
     "tooltipExtractsEndpointsOnRouteId": "Extracts endpoints based on route ID",
-    "tooltipEndpointCallsNotMatch": "Calls that do not match a preceding rule are assigned to this endpoint",
+    "tooltipEndpointCallsNotMatch": "Calls that do not match a preceding rule are assigned to this endpoint.",
+    "tooltipEndpointFallbackRule":"Since this is the fallback rule, it cannot be disabled.",
     "titleConfigureEndpointsExtract": "Configure how endpoints are extracted from the underlying calls to this service.",
     "descriptionConfigureEndpointsExtract": "Endpoint rules are evaluated sequentially, from top to bottom, and a call is assigned to the first rule it matches. Once configured, new calls will be assigned according to updated rules.",
     "descriptionResetToDefaultRule": "If you wish to reset to default extractions rules, please use the button below. Resetting may take up to a few minutes to register.",
@@ -488,6 +492,7 @@
       "descriptionTags": "For example where key is \"docker.label\" and value is \"environment=Production Blue\" or key is \"call.http.params\" and value is \"tenant=ACMECustomer\". Note that any calls to a <pillDatabase>DATABASE</pillDatabase> service or <pillMessage>MESSAGING</pillMessage> service from services matching this definition will automatically be included.",
       "descriptionOperatorsCreationEnabled": "AND operators take precedence and are evaluated before OR operators if not grouped in brackets",
       "descriptionPrepareToMonitor": "We are preparing everything to monitor your application perspective <bold>{{decodedLabel}}</bold>.",
+      "prepareToMonitorUnauthorized": "You don't have permissions to view the application perspective <bold>{{decodedLabel}}</bold>. To get permissions, please contact your group administrator.",
       "descriptionRemoveApplicationPerspective": "If you no longer wish to monitor the application perspective <strong>{{application}}</strong>, please use the button below to remove it. Removing an application perspective may take up to a few minutes.",
       "stepTitleDefineApplicationName": "Define a name for your application perspective.",
       "stepTitleApplicationName": "Name for your application perspective.",
@@ -505,7 +510,8 @@
       "errorApplicationNameBlank": "The application perspective name must not be blank.",
       "errorNameLengthExceeded": "The application perspective name must not be larger than 128 characters.",
       "errorInvalidQuery": "The query is not valid",
-      "titleApplicationCreating": "Application perspective is being created…"
+      "titleApplicationCreating": "Application perspective is being created…",
+      "titleApplicationCreatingUnauthorized": "Application perspective can't be opened"
     },
     "customSyntheticRule": {
       "placeholderNameRule": "Name your rule",
@@ -527,7 +533,7 @@
     "showApplicationsScopeWithApplicationLabel": "Showing applications <bold>{{contextScope}}</bold> of <linkToEntity>{{entityLabel}}</linkToEntity> in context of <linkToApplication>{{applicationLabel}}</linkToApplication>",
     "showServicesScopeWithServiceLabel": "Showing services <bold>{{contextScope}}</bold> of <linkToEntity>{{entityLabel}}</linkToEntity> in context of <linkToApplication>{{applicationLabel}}</linkToApplication>",
     "titleNoService": "No Services yet",
-    "servicesNoData": "No service calls are available for the selected time range. For troubleshooting information, see the [documentation][Docs].\n\n[Docs]:https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listed"
+    "servicesNoData": "No service calls are available for the selected time range. For troubleshooting information, see the [documentation][Docs].\n\n[Docs]:https://www.ibm.com/docs/en/obi/current?topic=applications-services#why-am-i-not-seeing-any-services-listed"
   },
   "endpointTypes": {
     "batch": "Batch",
@@ -563,30 +569,25 @@
         "erroneousCalls": "Erroneous Calls",
         "errorLogs": "Error Logs",
         "warnLogs": "Warn Logs",
-        "latency": "Latency",
+        "duration": "Duration",
         "timeline": "Timeline",
         "serviceEndpointList": "Service Endpoint List",
         "largeTrace": "Large Trace",
         "largeTraceLink": "This trace is large and rendering of this trace can result in performance problems within your browser. You can either <linkToDocs>download the trace</linkToDocs> for manual inspection or attempt trace rendering within your browser. We will only render a subset of the components in order to increase performance of this attempt.",
         "calls": "Calls",
         "erroneousTrace": "Erroneous Trace",
-        "attemptToRenderTrace": "Attempt to render trace"
-      },
-      "calls": {
-        "settings": {
-          "showServiceInformation": "Service information",
-          "showServiceInformationExpl": "Show service information underneath the call label",
-          "showSubCalls": "Show subcalls",
-          "showSubCallsExpl": "Show direct subcalls on each row"
-        }
+        "attemptToRenderTrace": "Attempt to render trace",
+        "analyzeBeacons": "Analyze Beacons",
+        "adjustedTimeConfig": "The time range was adjusted to include the selected beacon."
       }
+    },
+    "components": {
+      "callTreeHeaderParent": "Load parent call",
+      "callTreeHeaderCalls": "Load more calls"
     }
   },
   "tabs": {
-    "labelDetail": "Detail",
-    "labelSummary": "Summary",
-    "servicesAndEndpoint": "Services and Endpoints",
-    "logs": "Logs"
+    "labelDetail": "Detail"
   },
   "metrics": {
     "calls_calls": "Calls",
@@ -598,5 +599,54 @@
     "traces_latency": "Latency",
     "traces_erroneousCalls": "Erroneous Traces",
     "traces_errors": "Erroneous Traces Rate"
+  },
+  "viewLists": {
+    "application": "Applications",
+    "services": "Services",
+    "errorMessages": "Error Messages",
+    "logMessages": "Log Messages",
+    "endpoints": "Endpoints"
+  },
+  "serviceTroubleshooting": {
+    "troubleShootingExplanation": "Explanation",
+    "alternativeServicesTitle": "Alternative Services",
+    "alternativeServices": "To which alternative services did the missing calls spill over, based on {{correlationTag}}?",
+    "numberOfHosts": "How many hosts are running this service?",
+    "numberOfHostnames": "How many HTTP \"Host\" headers are used to call this service?",
+    "numberOfQualifiedReferences": "How many qualified references are used to call this service?",
+    "serviceMapping": "Service mapping outcome",
+    "serviceMappingProblemStatement": "Did resilient service mapping kick in?",
+    "serviceMappingDocumentation": "Documentation for all of the possible service mapping outcomes:",
+    "infraLinking": "Infra linking outcome",
+    "infraLinkingProblemStatement": "Are there any infra linking issues?",
+    "infraLinkingDocumentation": "Documentation for all of the possible infrastructure detections:",
+    "hostName": "Hosts",
+    "hostNameProblemStatement": "Are there any issues related to a specific host?",
+    "httpHost": "HTTP \"Host\" headers",
+    "httpHostProblemStatement": "Are there any issues related to a specific HTTP \"Host\" header?",
+    "infraReferenceType": "Infrastructure reference types",
+    "infraReferenceTypeProblemStatement": "Which infra reference types are used?",
+    "infraReferenceTypeDocumentation": "Documentation for all of the possible infra reference types:",
+    "spanType": "Span types",
+    "spanTypeProblemStatement": "Are there any issues related to a specific span type?",
+    "processUptime": "Process uptime",
+    "processUptimeProblemStatement": "Are there any recently started processes which might not be fully instrumented yet?",
+    "serviceRuleId": "Service mapping rules",
+    "serviceRuleIdProblemStatement": "What service mapping rules triggered?",
+    "serviceRuleDocumentation": "Definitions of the pre-defined service mapping rules:",
+    "customServiceRuleDocumentation": "The customer may have defined their own custom service mapping rules:",
+    "customServiceRuleConfiguration": "Configure Custom Service Rules",
+    "problem": "<bold>Yes</bold>, if you see results of type",
+    "possibleProblem": "<bold>Possibly</bold>, if you see results of type",
+    "viewInAnalyze": "Open in Unbounded Analytics",
+    "alternativeServicesProblemStatement": "<bold>What is an alternative service?</bold>",
+    "alternativeServicesExplanation": "The current service and its alternative services receive calls which share the same property: same destination host name, same HTTP \"Host\" header, same infrastructure reference, etc.<br/><br/>For example, the current service receives calls whose HTTP \"Host\" header is <code>mycompany.com</code>, but it happens that some other services receive calls whose HTTP \"Host\" header is <code>mycompany.com</code>.<br/><br/>For HTTP calls, the \"Host\" header is an important piece of information because it is used as the first level cache key in resilient service mapping.",
+    "alternativeServicesOk": "<bold>Is it ok to see alternative services?</bold>",
+    "alternativeServicesProblem": "<bold>No</bold>, if the name of the current service comes from the HTTP \"Host\" header (service mapping rule whose id is call.http.host) and the name of the alternative service does not (because its name comes from a rule which is based on infrastructure tags), or vice versa. These are duplicate services.",
+    "alternativeServicesPossibleProblem": "<bold>Maybe</bold>, if the current service and the alternative service names do not come from the HTTP \"Host\" header, then they are either services sitting behind a proxy (good) or they are duplicate services (bad): some of the services are fully linked to infra, while others are partially linked to infra."
+  },
+  "widgetNotActive": {
+    "title": "Widget is not supported in Live Mode",
+    "button": "Stop Live Mode"
   }
 }

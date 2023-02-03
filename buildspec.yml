@@ -5,10 +5,8 @@ env:
     CODEBUILD_PROJECT_NAME: 'ui-client'
     VERSIONING_ARTIFACT_NAME: 'ui-client'
   parameter-store:
-    ARTIFACT_INSTANA_IO_PASSWORD: 'artifact.instana.io.password'
-    ARTIFACT_INSTANA_IO_USER: 'artifact.instana.io.user'
-    ARTIFACT_RND_INSTANA_IO_PASSWORD: 'artifact-rnd.instana.io.maven-write-password'
-    ARTIFACT_RND_INSTANA_IO_USER: 'artifact-rnd.instana.io.maven-write-user'
+    INSTANA_ARTIFACTORY_USERNAME: 'delivery.instana.io.internal.rw.username'
+    INSTANA_ARTIFACTORY_PASSWORD: 'delivery.instana.io.internal.rw.password'
     CONTAINERS_INSTANA_IO_PASSWORD: 'containers.instana.io.password'
     CONTAINERS_INSTANA_IO_USER: 'containers.instana.io.user'
     EFS_DATA_DIR: 'efs.data.dir'
@@ -24,9 +22,6 @@ phases:
     commands:
       # Remove SBT repository: https://github.com/aws/aws-codebuild-docker-images/issues/449
       - rm -f /etc/apt/sources.list.d/sbt.list
-      # git configuration to check out git submodules
-      - echo "https://$GITHUB_READ_USER:$GITHUB_READ_PASSWORD@github.com" > $HOME/.git-credentials
-      - git config --global credential.helper store
       # Set up the shared tooling
       - ./build/download-ci-shared-tools.bash
       - 'USE_N=true ./build/ci-shared-tools/scripts/setup.bash'
@@ -44,29 +39,29 @@ phases:
   pre_build:
     commands:
       - |
-        REGISTRY="https://artifact-rnd.instana.io" \
-          REPOSITORY_KEY="npm-virtual-internal" \
-          USERNAME="$ARTIFACT_RND_INSTANA_IO_USER" \
-          PASSWORD="$ARTIFACT_RND_INSTANA_IO_PASSWORD" \
+        REGISTRY="https://delivery.instana.io" \
+          REPOSITORY_KEY="int-npm-virtual" \
+          USERNAME="$INSTANA_ARTIFACTORY_USERNAME" \
+          PASSWORD="$INSTANA_ARTIFACTORY_PASSWORD" \
           NON_INTERACTIVE=true \
           WRITE_TO_CWD=true \
           NPM_CONFIG_REGISTRY="https://registry.npmjs.org/" \
           npx create-artifactory-access-config
       # Install project dependencies
-      - npm install -g yarn
-      - yarn
-      - cd packages/in-server && yarn && cd ../..
+      - npm install -g yarn@1.22.19
+      - yarn install --frozen-lockfile
+      - cd packages/in-server && yarn install --frozen-lockfile && cd ../..
   build:
     commands:
       # Test Client-Side
       - yarn run test
       # Test Server-Side – ensure that we only leave production dependencies in the workspace once done.
       - cd packages/in-server && yarn run test && rm -rf node_modules && yarn --prod && cd ../..
+      # Verify storybook stories are still rendered without errors. Only reporting yet
+      - yarn run test:storybook || true # ignore test's exit code
       # Build static files
       - yarn run build
       # Verify that CSS files are compressed in build artifacts
       - 'FAIL_ON_DELIVERY_BRANCH=true ./build/ci-shared-tools/scripts/isDeliveryBranch.js || yarn run test:compression'
       # Upload artifacts to Maven repository
       - 'FAIL_ON_DELIVERY_BRANCH=true ./build/ci-shared-tools/scripts/isDeliveryBranch.js || ./build/ci-shared-tools/scripts/uploadReleaseArtifact.bash "ui-client-$GIT_BRANCH-$INSTANA_CONTAINER_TAG.tar.gz" "target/*" "ui-client" "$GIT_BRANCH" "$INSTANA_CONTAINER_TAG"'
-      # Mark as stable in Instana's own versioning system
-      - ./build/ci-shared-tools/scripts/markStableVersion.bash "ui-client" "$GIT_BRANCH" "$INSTANA_CONTAINER_TAG"

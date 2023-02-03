@@ -5,9 +5,9 @@
 
 import React from 'react';
 
-import { getIbmpSystemDashboard } from 'in-phmc/navigation/paths';
+import { getIbmpPhmcDashboard } from 'in-phmc/navigation/paths';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 
 export default function SystemDashboard({ snapshot }) {
-  return <RedirectWithHash to$={getIbmpSystemDashboard(snapshot.get('id'))} />;
+  return <RedirectWithHash to$={getIbmpPhmcDashboard(snapshot.get('id'))} />;
 }

@@ -26,15 +26,23 @@ import {
   alertsTabDetailsFullyQualified as detailsPath,
   alertsTabListFullyQualified as listPath
 } from 'in-websites/navigation/paths';
-import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/smart-alert-dialog/sharedFunctions';
 import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-websites/navigation/matrix';
+import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import AlertConfiguration from 'in-alerting/smart-alerts/websites/details/AlertConfiguration';
-import AlertConfigDialog from 'in-alerting/smart-alerts/websites/AlertConfigDialog';
+import AlertConfigDialog from 'in-alerting/smart-alerts/websites/dialog/AlertConfigDialog';
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { mutateUrl } from 'in-stores/navigation/navigation';
 
 const endpointConfig = { asObservable: true };
+
+const tracking = {
+  trackEdit: alertConfigId => websitesAlertingAlertEdit({ alertConfigId }),
+  trackPaused: alertConfigId => websitesAlertingAlertPaused({ alertConfigId }),
+  trackResumed: alertConfigId => websitesAlertingAlertResumed({ alertConfigId }),
+  trackDeleted: alertConfigId => websitesAlertingAlertDeleted({ alertConfigId }),
+  trackRevisionChanged: revision => websitesAlertingAlertRevisionChanged({ revision })
+};
 
 export default function AlertDetails(props) {
   return (
@@ -56,13 +64,7 @@ export default function AlertDetails(props) {
       restoreConfig={restoreAlertConfigVersion}
       renderSmartAlertDialog={renderSmartAlertDialog}
       renderAlertConfiguration={({ alertConfig }) => <AlertConfiguration alertConfig={alertConfig} />}
-      tracking={{
-        trackEdit: alertConfigId => websitesAlertingAlertEdit({ alertConfigId }),
-        trackPaused: alertConfigId => websitesAlertingAlertPaused({ alertConfigId }),
-        trackResumed: alertConfigId => websitesAlertingAlertResumed({ alertConfigId }),
-        trackDeleted: alertConfigId => websitesAlertingAlertDeleted({ alertConfigId }),
-        trackRevisionChanged: revision => websitesAlertingAlertRevisionChanged({ revision })
-      }}
+      tracking={tracking}
     />
   );
 }
@@ -70,6 +72,7 @@ export default function AlertDetails(props) {
 function renderSmartAlertDialog({ close, alertConfig, setRevision, isCopy, detailsPath, alertConfigId }) {
   return (
     <AlertConfigDialog
+      alertConfig={isCopy ? duplicateAlertConfig(alertConfig) : alertConfig}
       onClose={({ id } = {}) => {
         close();
         setRevision(null);
@@ -80,7 +83,6 @@ function renderSmartAlertDialog({ close, alertConfig, setRevision, isCopy, detai
           });
         }
       }}
-      alertConfig={isCopy ? duplicateAlertConfig(alertConfig) : alertConfig}
       editMode={!isCopy}
     />
   );

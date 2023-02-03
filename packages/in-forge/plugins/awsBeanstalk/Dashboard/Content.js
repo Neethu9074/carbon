@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { environmentHealthFormatter } from 'in-forge/plugins/awsBeanstalk/environmentHealthFormatter';
 import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
 import InstancesTable from 'in-forge/plugins/awsBeanstalk/Dashboard/InstancesTable';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
@@ -21,10 +22,8 @@ export default function AwsBeanstalkDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <GetMetricStatisticsInUse snapshot={snapshot} />
+
       <KpiSection>
-        <KpiKeyValue label={t('in-forge:plugins.awsBeanstalk.labelOKInstances')}>
-          <MetricValue snapshotId={snapshotId} metric="environment_instances_ok" formatter={number.compact} />
-        </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.awsBeanstalk.labelDegradedInstances')}>
           <MetricValue snapshotId={snapshotId} metric="environment_instances_degraded" formatter={number.compact} />
         </KpiKeyValue>
@@ -38,13 +37,27 @@ export default function AwsBeanstalkDashboard({ snapshot, timeConfig }) {
           <MetricValue snapshotId={snapshotId} metric="application_requests_5xx" formatter={number.compact} />
         </KpiKeyValue>
       </KpiSection>
+
+      <DashboardSection title={t('in-forge:plugins.titleHealth')}>
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            metrics: ['environment_health'],
+            labels: [t('in-forge:plugins.awsBeanstalk.labelEnvironmentHealth')],
+            type: 'line',
+            formatter: environmentHealthFormatter
+          }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
+      </DashboardSection>
+
       <DashboardSection title={t('in-forge:plugins.titleStatus')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: [
-              'environment_health',
               'environment_instances_ok',
               'environment_instances_info',
               'environment_instances_unknown',
@@ -54,7 +67,6 @@ export default function AwsBeanstalkDashboard({ snapshot, timeConfig }) {
               'environment_instances_severe'
             ],
             labels: [
-              t('in-forge:plugins.awsBeanstalk.labelEnvironmentHealth'),
               t('in-forge:plugins.awsBeanstalk.labelOKInstances'),
               t('in-forge:plugins.awsBeanstalk.labelInfoInstances'),
               t('in-forge:plugins.awsBeanstalk.labelUnknownInstances'),
@@ -69,6 +81,7 @@ export default function AwsBeanstalkDashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
+
       <DashboardSection title={t('in-forge:plugins.titleLatency')}>
         <Chart
           snapshotId={snapshotId}
@@ -101,6 +114,7 @@ export default function AwsBeanstalkDashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
+
       <DashboardSection title={t('in-forge:plugins.titleRequests')}>
         <Chart
           snapshotId={snapshotId}
@@ -125,15 +139,17 @@ export default function AwsBeanstalkDashboard({ snapshot, timeConfig }) {
               theme.lib.colors.yellow800,
               theme.lib.colors.orange800,
               theme.lib.colors.red800,
-              theme.lib.colors.indigo800
+              theme.lib.colors.lightBlue800
             ],
             min: 0,
             type: 'line',
-            formatter: number.detailed
+            aggregation: 'avg',
+            formatter: number.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
+
       <InstancesTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );

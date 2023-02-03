@@ -41,7 +41,7 @@ function toString({ title, dynamic }: Props): string | undefined {
 
 export interface Props {
   title?: string;
-  dynamic?: string;
+  dynamic?: string | null;
 }
 
 export default function Title(props: Props) {

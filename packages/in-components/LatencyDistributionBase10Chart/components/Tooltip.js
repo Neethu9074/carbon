@@ -28,6 +28,12 @@ export default function Tooltip({ metricBuckets, percentileBuckets, config, styl
     })
     .filter(Boolean);
 
+  function generateLabel(p) {
+    return t('in-components:metricConfigurator.aggregation', {
+      context: `p${p.percentile}`.toUpperCase().replace(/_/g, '')
+    });
+  }
+
   return (
     <div className={locals.tooltipContent} style={style}>
       <div className={locals.header}>{latencyRangeLabel(metricBuckets[0])}</div>
@@ -55,7 +61,7 @@ export default function Tooltip({ metricBuckets, percentileBuckets, config, styl
         !config.isFiltered('y1', 0) &&
           percentileBuckets.reduce(arrayConcatReducer, []).map(p => (
             <li key={p.percentile} className={locals.entry}>
-              <span className={locals.label}>p{p.percentile}</span>
+              <span className={locals.label}>{generateLabel(p)}</span>
               <span className={locals.value}>{latency.detailed(p.latency)}</span>
             </li>
           ))}

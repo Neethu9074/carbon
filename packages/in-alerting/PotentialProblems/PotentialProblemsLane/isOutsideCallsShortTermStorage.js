@@ -7,7 +7,7 @@ import { defaultGranularity } from 'in-alerting/PotentialProblems/constants';
 import { days } from 'in-services/time';
 
 /* This function is implemented after the respective backend function.
-   See: https://github.com/instana/backend/blob/c27424b3a0b64ea38169f102450c721292184e84/ui-backend/src/main/java/com/instana/ui/service/smartAlerts/application/ApplicationPotentialProblemsService.java#L86
+   See: https://github.ibm.com/instana/backend/blob/c27424b3a0b64ea38169f102450c721292184e84/ui-backend/src/main/java/com/instana/ui/service/smartAlerts/application/ApplicationPotentialProblemsService.java#L86
 */
 export default function isOutsideCallsShortTermStorage(globalTimeConfig) {
   const now = Date.now();

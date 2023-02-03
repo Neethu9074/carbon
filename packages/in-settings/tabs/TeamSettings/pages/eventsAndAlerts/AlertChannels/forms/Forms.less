@@ -4,10 +4,12 @@
  */
 
 .in-alert-channel-config-form {
+  margin-bottom: 1rem;
   &__input-delete-wrapper {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-bottom: 1rem;
   }
 
   &__input {
@@ -31,5 +33,30 @@
   &__add-link {
     text-decoration: underline;
     cursor: pointer;
+  }
+
+  &__input_checkbox_wrapper {
+    margin-bottom: 1rem;
+  }
+  &__input_with_icon {
+    display: flex;
+
+    .icon_button {
+      margin-right: 0;
+    }
+  }
+
+  .in-helpify-wrapper {
+    justify-content: flex-start;
+    align-items: center;
+    &__content {
+      display: flex;
+      align-items: center;
+      width: fit-content;
+    }
+  }
+
+  .username_label {
+    margin-bottom: 0;
   }
 }

@@ -11,6 +11,7 @@ import rpt from 'prop-types';
 import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
 
+import useDuringTransition from 'in-components/DraggableItemSelector/useDuringTransition';
 import SlideInView, { ListHeader } from 'in-components/SlideInView/SlideInView';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -18,8 +19,12 @@ import { t } from 'in-i18n';
 import locals from './DraggableItemSelector.mless';
 
 export default function DraggableItemSelector(props) {
-  const { items, Content, disabled, onSwap, onRemove, SlideInContent, slideInContentTitle } = props;
+  const { items, Content, disabled, onSwap, onRemove, SlideInContent, slideInContentTitle, className } = props;
   const [showSlideInContent, onShowSlideInContentChange] = useState(false);
+
+  // SlideInView and useDuringTransition need to be in sync
+  const slideTransitionDurationMillis = 250;
+  const duringTransition = useDuringTransition(showSlideInContent, slideTransitionDurationMillis);
 
   return (
     <SlideInView
@@ -27,7 +32,8 @@ export default function DraggableItemSelector(props) {
         <form
           className={classNames({
             [locals.overlay]: true,
-            [locals.fullHeight]: showSlideInContent
+            [locals.fullHeight]: showSlideInContent,
+            [className]: true
           })}
         >
           <DragDropContext
@@ -84,9 +90,14 @@ export default function DraggableItemSelector(props) {
         </form>
       }
       HeaderComponent={ListHeader}
-      slideTransitionDurationMillis={250}
-      onAfterSlideOut={() => {}}
-      slideInContent={<SlideInContent {...props} onShowSlideInContentChange={onShowSlideInContentChange} />}
+      slideTransitionDurationMillis={slideTransitionDurationMillis}
+      slideInContent={
+        <SlideInContent
+          {...props}
+          onShowSlideInContentChange={onShowSlideInContentChange}
+          disabled={duringTransition}
+        />
+      }
       slideInContentTitle={slideInContentTitle}
       showSlideInContent={showSlideInContent}
       onShowSlideInContentChange={onShowSlideInContentChange}
@@ -101,5 +112,6 @@ DraggableItemSelector.propTypes = {
   onRemove: rpt.func.isRequired,
   items: rpt.array.isRequired,
   onSwap: rpt.func,
-  disabled: rpt.bool
+  disabled: rpt.bool,
+  className: rpt.string
 };

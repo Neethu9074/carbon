@@ -3,11 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import moment from 'moment';
+import { addDays, startOfDay, startOfWeek, subDays, subWeeks } from 'date-fns';
+import { secondsToMilliseconds } from 'date-fns';
 
+import { formatDateWithActiveLanguage } from 'in-services/formatters/dateFnsFormatWrapper';
 import { t } from 'in-i18n';
 
-const minute = 60 * 1000;
+const minute = secondsToMilliseconds(60);
 const hour = 60 * minute;
 const twentyFourHours = 24 * hour;
 const sevenDays = 7 * twentyFourHours;
@@ -56,83 +58,68 @@ export const fixedTimePickerPresets = [
 ];
 
 export function getTimePresets() {
-  const months = moment.monthsShort();
   return [
     ...fixedTimePickerPresets,
-    getYesterdayPreset(months),
-    getDayBeforeYesterdayPreset(months),
-    getLastSevenDaysPreset(months),
-    getPreviousWeekPreset(months)
+    getYesterdayPreset(),
+    getDayBeforeYesterdayPreset(),
+    getLastSevenDaysPreset(),
+    getPreviousWeekPreset()
   ];
 }
 
 export function getHistoricPresets() {
-  const months = moment.monthsShort();
-  return [
-    getYesterdayPreset(months),
-    getDayBeforeYesterdayPreset(months),
-    getLastSevenDaysPreset(months),
-    getPreviousWeekPreset(months)
-  ];
+  return [getYesterdayPreset(), getDayBeforeYesterdayPreset(), getLastSevenDaysPreset(), getPreviousWeekPreset()];
 }
 
-function getYesterdayPreset(months) {
-  const date = moment()
-    .startOf('day')
-    .subtract(1, 'days')
-    .toDate();
+function getYesterdayPreset() {
+  const date = subDays(startOfDay(new Date()), 1);
   const from = date.getTime();
+
   return {
     label: t('in-components:time.yesterday'),
-    description: `${months[date.getMonth()]} ${date.getDate()}`,
+    description: `${formatDateWithActiveLanguage(date, 'LLL')} ${date.getDate()}`,
     windowSize: twentyFourHours,
     to: from + twentyFourHours
   };
 }
 
-function getDayBeforeYesterdayPreset(months) {
-  const date = moment()
-    .startOf('day')
-    .subtract(2, 'days')
-    .toDate();
+function getDayBeforeYesterdayPreset() {
+  const date = subDays(startOfDay(new Date()), 2);
   const to = date.getTime();
+
   return {
     label: t('in-components:time.twoDaysAgo'),
-    description: `${months[date.getMonth()]} ${date.getDate()}`,
+    description: `${formatDateWithActiveLanguage(date, 'LLL')} ${date.getDate()}`,
     windowSize: twentyFourHours,
     to: to + twentyFourHours
   };
 }
 
-function getLastSevenDaysPreset(months) {
-  const startOfWeek = moment()
-    .subtract(7, 'days')
-    .toDate();
-  const endOfWeek = moment().toDate();
+function getLastSevenDaysPreset() {
+  const currentDate = new Date();
+  const aWeekAgo = subDays(currentDate, 7);
+
   return {
     label: t('in-components:time.lastSevenDays'),
-    description: `${months[startOfWeek.getMonth()]} ${startOfWeek.getDate()}- ${
-      months[endOfWeek.getMonth()]
-    } ${endOfWeek.getDate()}`,
+    description: `${formatDateWithActiveLanguage(
+      aWeekAgo,
+      'LLL'
+    )} ${aWeekAgo.getDate()}- ${formatDateWithActiveLanguage(currentDate, 'LLL')} ${currentDate.getDate()}`,
     windowSize: sevenDays,
     to: null
   };
 }
 
-function getPreviousWeekPreset(months) {
-  const startOfWeek = moment()
-    .startOf('week')
-    .subtract(1, 'week')
-    .add(1, 'days')
-    .toDate();
-  const endOfWeek = moment()
-    .startOf('week')
-    .toDate();
+function getPreviousWeekPreset() {
+  const endOfWeek = startOfWeek(new Date());
+  const beginningOfWeek = addDays(subWeeks(endOfWeek, 1), 1);
+
   return {
     label: t('in-components:time.previousWeek'),
-    description: `${months[startOfWeek.getMonth()]} ${startOfWeek.getDate()} - ${
-      months[endOfWeek.getMonth()]
-    } ${endOfWeek.getDate()}`,
+    description: `${formatDateWithActiveLanguage(
+      beginningOfWeek,
+      'LLL'
+    )} ${beginningOfWeek.getDate()} - ${formatDateWithActiveLanguage(endOfWeek, 'LLL')} ${endOfWeek.getDate()}`,
     windowSize: sevenDays,
     to: endOfWeek.getTime()
   };

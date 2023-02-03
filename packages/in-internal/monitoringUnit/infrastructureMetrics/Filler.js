@@ -49,7 +49,7 @@ const cols = [
         return row.dropwizard.get('id');
       },
       getMetricName() {
-        return `metrics.meters.com.instana.filler.service.processingStatistics.ProcessingStatistics.metrics`;
+        return `metrics.meters.com.instana.filler.service.processingstatistics.ProcessingStatistics.metrics`;
       },
       getContent: number.compact,
       forceTimeWindowAggregation: true,

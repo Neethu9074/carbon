@@ -122,7 +122,10 @@ export default function Alert({
             return (
               <HorizontalFlexWrapper className={locals.titleWrapper}>
                 <div>
-                  <AlertTitleWithPlaceholderHighlighting configName={alertConfig.name} />
+                  <AlertTitleWithPlaceholderHighlighting
+                    configName={alertConfig.name}
+                    evaluationType={alertConfig.evaluationType}
+                  />
                 </div>
                 <BuiltInIndicator builtIn={alertConfig.builtIn} />
               </HorizontalFlexWrapper>

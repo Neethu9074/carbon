@@ -20,15 +20,16 @@ export type FormatterType =
   | 'SECONDS'
   | 'UNDEFINED';
 
-export type NumberFormatter =
-  | ((...args: any) => string)
-  | {
-      compact?: (...args: any) => string;
-      detailed?: (...args: any) => string;
+export type NumberFormatterFunction = (...args: any) => string;
+export type NumberFormatterObject = {
+  compact?: (...args: any) => string;
+  detailed?: (...args: any) => string;
+  short?: (...args: any) => string;
 
-      // More properties may be defined, but we ignore them.
-      [other: string]: any;
-    };
+  // More properties may be defined, but we ignore them.
+  [other: string]: any;
+};
+export type NumberFormatter = NumberFormatterFunction | NumberFormatterObject;
 
 export const BYTE_RATE_FORMATTER_TYPE: FormatterType = 'BYTE_RATE';
 export const BYTES_FORMATTER_TYPE: FormatterType = 'BYTES';
@@ -51,8 +52,9 @@ export const UNDEFINED_FORMATTER_TYPE: FormatterType = 'UNDEFINED';
  */
 export function markAsFormatterType<T extends NumberFormatter>(formatter: T, type: FormatterType): T {
   mark(formatter, type);
-  mark((formatter as any).compact, type);
-  mark((formatter as any).detailed, type);
+  mark((formatter as NumberFormatterObject).compact, type);
+  mark((formatter as NumberFormatterObject).detailed, type);
+  mark((formatter as NumberFormatterObject).short, type);
   return formatter;
 }
 
@@ -70,7 +72,11 @@ function mark(obj: any, type: FormatterType) {
  */
 export function getFormatterType(formatter?: NumberFormatter): FormatterType {
   return (
-    get(formatter) || get((formatter as any)?.compact) || get((formatter as any)?.detailed) || UNDEFINED_FORMATTER_TYPE
+    get(formatter) ||
+    get((formatter as NumberFormatterObject)?.compact) ||
+    get((formatter as NumberFormatterObject)?.short) ||
+    get((formatter as NumberFormatterObject)?.detailed) ||
+    UNDEFINED_FORMATTER_TYPE
   );
 }
 

@@ -11,6 +11,7 @@ import {
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import formModelFromHttpStatusRange, { TAG_CALL_HTTP_STATUS } from 'in-applications/analyze/utils/formModelUtils';
 import UnifiedMetricsChart, { parseMetricId } from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
+import { filterByEndpointType } from 'in-applications/Dashboards/commonComponents/includeEndpointTypes';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
@@ -19,6 +20,7 @@ import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHr
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { createChartedMetric } from 'in-analyze/navigation/paths';
+import { perSecondDetailed } from 'in-stores/metric/formatters';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import { line, stackedBar } from 'in-stores/metric/renderer';
 import { number } from 'in-services/formatters/number';
@@ -37,7 +39,10 @@ export default function HttpSections({
   renderPostChartContentHttpStatus,
   timeShiftConfig,
   timeShiftMetric,
-  hasHttpAndOtherEndpoints
+  hasHttpAndOtherEndpoints,
+  cardTitle,
+  rightHeaderContent,
+  endpointTypes
 }) {
   const granularity = getChartGranularity(timeConfig);
   const throughputBlueprintConfig = getBlueprintConfig('throughput');
@@ -97,12 +102,57 @@ export default function HttpSections({
     }
   ];
 
+  const companionMetricConfigs = [
+    {
+      ...defaultMetricConfig,
+      metric: 'http.1xx',
+      label: 'Calls per second',
+      formatter: perSecondDetailed.formatter,
+      aggregation: 'PER_SECOND'
+    },
+    {
+      ...defaultMetricConfig,
+      metric: 'http.2xx',
+      label: 'Calls per second',
+      formatter: perSecondDetailed.formatter,
+      aggregation: 'PER_SECOND'
+    },
+    {
+      ...defaultMetricConfig,
+      metric: 'http.3xx',
+      label: 'Calls per second',
+      formatter: perSecondDetailed.formatter,
+      aggregation: 'PER_SECOND'
+    },
+    {
+      ...defaultMetricConfig,
+      metric: 'http.4xx',
+      label: 'Calls per second',
+      formatter: perSecondDetailed.formatter,
+      aggregation: 'PER_SECOND'
+    },
+    {
+      ...defaultMetricConfig,
+      metric: 'http.5xx',
+      label: 'Calls per second',
+      formatter: perSecondDetailed.formatter,
+      aggregation: 'PER_SECOND'
+    }
+  ];
+
   if (hasHttpAndOtherEndpoints) {
     chartMetrics.push({
       config: otherCallsMetricConfig,
       metric: 'calls',
-      label: t('in-applications:labelOther'),
+      label: t('in-applications:labelNonHttp'),
       color: '#9aa5a9'
+    });
+    companionMetricConfigs.push({
+      ...otherCallsMetricConfig,
+      metric: 'calls',
+      label: 'Calls per second',
+      formatter: perSecondDetailed.formatter,
+      aggregation: 'PER_SECOND'
     });
   }
 
@@ -140,6 +190,10 @@ export default function HttpSections({
 
   return (
     <UnifiedMetricsChart
+      title={cardTitle}
+      customChartSkeletonHeight={262}
+      rightHeaderContent={rightHeaderContent}
+      renderHistoricDataIndicator
       renderPostChartContent={props =>
         renderPostChartContentHttpStatus({
           ...props,
@@ -183,7 +237,8 @@ export default function HttpSections({
           colors: colors,
           formatter: 'number.compact',
           tooltipFormatter: number.compact,
-          renderer: renderer
+          renderer: renderer,
+          companionMetricConfigs
         },
         y2: {
           metrics: []
@@ -209,7 +264,8 @@ export default function HttpSections({
                   formModel: joinExpressions({
                     expressions: [
                       createFormModelFromSyntheticOption(syntheticCalls),
-                      selectedMetricsToFormModel(metricsToAdd.renderedMetrics, metricConfigs, timeShiftConfig)
+                      selectedMetricsToFormModel(metricsToAdd.renderedMetrics, metricConfigs, timeShiftConfig),
+                      filterByEndpointType(endpointTypes)
                     ]
                   }),
                   hiddenCalls,

@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import rpt from 'prop-types';
 
 import { useObservable } from '@instana/hooks';
@@ -193,6 +193,7 @@ function AnalyzeStateManagement({
   getMetricTemplates,
   urlStateDefinition,
   dataSourceConfigurations,
+  getCustomGroupingTagFilter,
   children
 }) {
   const timeConfig = useTimeConfig();
@@ -243,11 +244,16 @@ function AnalyzeStateManagement({
 
   const groupBy = useStableObjectInstance(urlState.groupBy);
   const detailId = useStableObjectInstance(urlState.detailId);
+  const selectedId = useStableObjectInstance(urlState.selectedId);
+  const selectedGroup = useStableObjectInstance(urlState.selectedGroup);
+  const initialLogLines = useStableObjectInstance(urlState.initialLogLines);
   const selectableFields = useStableObjectInstance(urlState.fields ?? defaultSelectableFields);
   // charts should be shown, even if not explicitly selected
   const chartedMetricData = useStableObjectInstance(
     urlState.chartedMetrics ? urlState.chartedMetrics : defaultChartedMetrics
   );
+
+  const groupedPaginationRef = useRef({});
 
   const metricTemplatesResult =
     useObservable(() => getMetricTemplates() || noResultObservable(), [getMetricTemplates]) ?? pendingResult;
@@ -325,7 +331,9 @@ function AnalyzeStateManagement({
     return metricCatalog;
   }, [metricCatalog, metricCatalogResult, chartableMetricCatalogTransformer]);
 
-  const backendQueryModel = useMemo(() => toBackendQueryModel(formModel), [formModel]);
+  const backendQueryModel = useMemo(() => {
+    return toBackendQueryModel(formModel);
+  }, [formModel]);
 
   const formModelWithFacets = useMemo(
     () => joinExpressions({ expressions: [formModel, facetsAsTagFilterExpression] }),
@@ -413,6 +421,7 @@ function AnalyzeStateManagement({
     filteringTagCatalog: filteringTagCatalogResult.data,
     isGrouped,
     groupBy,
+    selectedGroup,
     onGroupByChange: groupBy => onChange({ groupBy }),
     getHrefToUngroupedView(groupValue) {
       return getChangeAsUrl({
@@ -474,19 +483,28 @@ function AnalyzeStateManagement({
     onChartedMetricsChange: chartedMetrics => onChange({ chartedMetrics }),
 
     detailId,
+    selectedId,
+    initialLogLines,
     getHrefToDetailId: (detailId, groupValue) => {
       return getChangeAsUrl({
         ...(groupValue != null ? getStateChangeForUngroupedView(groupValue) : emptyObject),
         detailId
       });
     },
-    setDetailId: detailId => onChange({ detailId })
+    setDetailId: detailId => onChange({ detailId }),
+    groupedPaginationRef
   });
 
   function getStateChangeForUngroupedView(groupValue) {
     return {
       groupBy: emptyObject,
-      formModel: addGroupingCriteriaToFormModel(groupBy, groupValue, formModel, groupingTagCatalogResult.data)
+      formModel: addGroupingCriteriaToFormModel(
+        groupBy,
+        groupValue,
+        formModel,
+        groupingTagCatalogResult.data,
+        getCustomGroupingTagFilter
+      )
     };
   }
 }
@@ -553,7 +571,8 @@ export const childrenArgsAsPropTypes = {
   getHrefToUngroupedView: rpt.func.isRequired,
   getHrefToGroupedView: rpt.func.isRequired,
   groupingTagCatalog: rpt.object,
-
+  getCustomGroupingTagFilter: rpt.func,
+  updateTest: rpt.func,
   orderBy: rpt.shape({
     by: rpt.string.isRequired,
     direction: rpt.oneOf(['ASC', 'DESC']).isRequired
@@ -593,9 +612,18 @@ export const childrenArgsAsPropTypes = {
   setDetailId: rpt.func.isRequired
 };
 
-export function addGroupingCriteriaToFormModel(groupBy, groupValue, formModel, groupingTagCatalog) {
+export function addGroupingCriteriaToFormModel(
+  groupBy,
+  groupValue,
+  formModel,
+  groupingTagCatalog,
+  getCustomGroupingTagFilter
+) {
+  const customGroupingTagFilter = getCustomGroupingTagFilter ? getCustomGroupingTagFilter(groupBy, groupValue) : null;
+  if (customGroupingTagFilter) {
+    return joinExpressions({ expressions: [formModel, sanitizeTagFilter(customGroupingTagFilter)] });
+  }
   const groupByTagType = groupingTagCatalog?.tags.find(tag => tag.name === groupBy.groupbyTag)?.type;
-
   let newTagFilter;
   if (groupValue === UNSPECIFIED) {
     newTagFilter = {

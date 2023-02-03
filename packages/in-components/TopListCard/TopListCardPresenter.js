@@ -5,14 +5,16 @@
 
 import React from 'react';
 
-import { Card } from '@instana/components';
+import { Card, HorizontalIndicator, LoadingSkeleton, Message } from '@instana/components';
 
-import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
-import { track, TOPLIST_METRIC_CHANGED } from 'in-services/tracking/tracking';
+import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
+import { TOPLIST_METRIC_CHANGED, track } from 'in-services/tracking/tracking';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import ButtonGroup from 'in-components/ButtonGroup';
 import List from 'in-components/TopListCard/List';
 import { t } from 'in-i18n';
+
+import locals from './TopListCardPresenter.mless';
 
 export default function TopListCard(props) {
   const {
@@ -25,7 +27,9 @@ export default function TopListCard(props) {
     header,
     List: ListRenderer = List,
     showMetricSelectorsForSingleMetrics,
-    useMaxAvailableHeight
+    useMaxAvailableHeight,
+    renderHistoricDataIndicator = false,
+    hasApproximateData = false
   } = props;
 
   const shouldRenderOnItem = showMetricSelectorsForSingleMetrics && metrics.length === 1;
@@ -53,10 +57,10 @@ export default function TopListCard(props) {
   const height = 160;
 
   if (result.progress.loading) {
-    content = <LoadingIndicator text={t('in-components:topListCard.loadingData')} height={height} />;
+    content = <TopListSkeleton />;
     withoutPadding = true;
   } else if (result.errors.length > 0) {
-    content = <NoDataAvailable height={height} />;
+    content = <QueryFailed errors={result.errors} />;
     withoutPadding = true;
   } else if ((result.data instanceof Array && result.data.length === 0) || result.data.totalHits === 0) {
     content = <NoDataAvailable height={height} />;
@@ -65,14 +69,89 @@ export default function TopListCard(props) {
     content = <ListRenderer {...props} />;
   }
 
-  return (
+  const leftHeaderContent =
+    renderHistoricDataIndicator && hasApproximateData ? (
+      <MultiLineToolTipIcon lines={[t('in-components:approximateDataIndicator.dataRetention')]} />
+    ) : (
+      undefined
+    );
+
+  const card = (
     <Card
       title={title}
-      header={headerComponent}
+      leftHeaderContent={leftHeaderContent}
+      rightHeaderContent={headerComponent}
       withoutPadding={withoutPadding}
       useMaxAvailableHeight={useMaxAvailableHeight}
     >
       {content}
     </Card>
   );
+
+  if (result.progress.loading) {
+    return (
+      <div className={locals.loadingBarContainer}>
+        <HorizontalIndicator progress={result.progress} className={locals.horizontalIndicator} />
+        {card}
+      </div>
+    );
+  } else {
+    return card;
+  }
+}
+
+function TopListSkeleton() {
+  return (
+    <div className={locals.skeletonWrapper}>
+      <LoadingSkeleton className={locals.itemSkeleton} />
+      <LoadingSkeleton className={locals.itemSkeleton} />
+      <LoadingSkeleton className={locals.itemSkeleton} />
+    </div>
+  );
+}
+
+function QueryFailed({ errors }) {
+  const [error] = errors.map(e => {
+    const [status, message] = e.message.split(':');
+    return { code: e.code, message: message, status: status };
+  });
+  switch (error.code) {
+    case 'TIMEOUT':
+    case 'GATEWAY_TIMEOUT':
+      return (
+        <Message
+          type="warning"
+          withIcon
+          className={locals.bottomSpace}
+          title={
+            error.message?.includes('The query would take too long to run.')
+              ? t('in-components:error.timeoutEstimated')
+              : t('in-components:error.timeout')
+          }
+          description={t('in-components:error.timeoutInfo')}
+        />
+      );
+    case 'CLIENT':
+    case 'TOO_MANY_REQUESTS':
+      return (
+        <Message
+          type="warning"
+          withIcon
+          className={locals.bottomSpace}
+          title={t('in-components:error.tooManyRequests')}
+          description={t('in-components:error.tooManyRequestsInfo')}
+        />
+      );
+    case 'SERVER':
+    default:
+      return (
+        <Message
+          type="warning"
+          withIcon
+          className={locals.bottomSpace}
+          title={t('in-components:error.serverError')}
+          description={t('in-components:error.serverErrorInfo')}
+        />
+      );
+  }
 }

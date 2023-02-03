@@ -7,13 +7,16 @@ import { get } from 'lodash';
 import React from 'react';
 
 import AnalyzeCallsButton, { getFilters } from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
+import RenderButtonLineSecondary from 'in-kubernetes/Dashboards/commonComponents/RenderButtonLineSecondary';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
+import { kubernetesTimeShiftSelectTracker, serviceTabChange } from 'in-kubernetes/tracker';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import getKubernetesService from 'in-kubernetes/subscriptions/getKubernetesService';
 import { serviceId as matrixServiceId } from 'in-kubernetes/navigation/matrix';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
+import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import ContextGuide from 'in-components/ContextGuide/ContextGuide';
 import { serviceDashboard } from 'in-kubernetes/navigation/paths';
 import TabView from 'in-components/LocationAwareTabView/TabView';
@@ -23,10 +26,11 @@ import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import tabs from 'in-kubernetes/Dashboards/Service/tabs/index';
 import { ServiceBreadcrumbs } from 'in-kubernetes/breadcrumbs';
+import { k8sTimeShiftEnabled } from 'in-services/featureFlags';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { createGroupBy } from 'in-analyze/navigation/paths';
-import { serviceTabChange } from 'in-kubernetes/tracker';
+import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import { getTimeConfig } from 'in-stores/time/config';
 import { plugins } from 'in-forge/constants';
 import Footer from 'in-components/Footer';
@@ -105,6 +109,7 @@ function Header(props) {
       icon="lib_kubernetes_service"
       label={get(props.result, ['data', 'name'])}
       renderButtonLine={renderButtonLine}
+      renderButtonLineSecondary={renderButtonLineSecondary}
       renderMetaInformation={renderMetaInformation}
     />
   );
@@ -139,6 +144,26 @@ function renderButtonLine({ timeConfig, result, serviceId }) {
         groupBy={createGroupBy('kubernetes.pod.name', DESTINATION)}
         timeConfig={timeConfig}
       />
+    </>
+  );
+}
+
+function renderButtonLineSecondary({ timeConfig, serviceId }) {
+  return (
+    <>
+      {k8sTimeShiftEnabled && (
+        <TimeShiftDropdown
+          onChange={offset =>
+            kubernetesTimeShiftSelectTracker({
+              area: 'service',
+              offset: getTimeShiftLabel({ offset: offset }),
+              windowSize: timeConfig.windowSize,
+              autoRefresh: timeConfig.autoRefresh
+            })
+          }
+        />
+      )}
+      <RenderButtonLineSecondary timeConfig={timeConfig} snapshotId={serviceId} />
     </>
   );
 }

@@ -29,7 +29,12 @@ export default function AwsLambdaVersionDashboard({ snapshot, timeConfig }) {
         <Trans
           i18nKey="in-forge:plugins.awsLambdaFunction.descriptionLambda"
           components={{
-            installLink: <Link external href="https://instana.com/docs/ecosystem/aws#installation" />
+            installLink: (
+              <Link
+                external
+                href="https://www.ibm.com/docs/en/obi/current?topic=agents-monitoring-amazon-web-services-aws#installation"
+              />
+            )
           }}
         />
       </DashboardNotification>

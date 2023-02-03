@@ -13,7 +13,7 @@ import { t } from 'in-i18n';
 interface EndpointSelectBoxProps {
   applicationId: string;
   hasError?: boolean;
-  serviceId: string;
+  serviceId?: string | Nullish;
   boundaryScope: ApplicationBoundaryScope;
   value: string | Nullish;
   onChange: (endpoint: string) => void;
@@ -29,7 +29,7 @@ export default function EndpointSelectBox({
 }: EndpointSelectBoxProps) {
   const [endpointsPage, status] = useEndpoints({
     application: applicationId,
-    service: serviceId,
+    service: serviceId ?? undefined,
     filter: {
       applicationBoundaryScope: boundaryScope
     }

@@ -17,15 +17,13 @@ export function getEnhancedTagFilterFormModel(
   const metricName = blueprintConfig.getMetricName(rule);
   const ruleTagFilterFormModel = blueprintConfig.getRuleTagFilterFormModel(rule);
 
-  let numeratorFilter;
+  let numeratorTagFilterFormModel;
 
   const expressionsToCombine = [
     blueprintConfig.getEntityTagFilterFormModel(alertConfigWithFormModel, applicationId, null, serviceId, endpointId)
   ];
   if (blueprintConfig.isCustomRateMetric(metricName)) {
-    // at the moment, we only support a single numerator filter. All such blueprints have
-    // a single rule-specific tag-filter only
-    numeratorFilter = ruleTagFilterFormModel[0];
+    numeratorTagFilterFormModel = ruleTagFilterFormModel;
   } else if (ruleTagFilterFormModel.length > 0) {
     expressionsToCombine.push(ruleTagFilterFormModel);
   }
@@ -34,7 +32,7 @@ export function getEnhancedTagFilterFormModel(
   }
 
   return {
-    numeratorFilter,
+    numeratorTagFilterFormModel,
     enrichedTagFilterFormModel: sanitizeStringTagFilters(
       joinExpressions({
         expressions: expressionsToCombine

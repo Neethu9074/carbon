@@ -254,7 +254,7 @@ export function createGroupingForm(grouping) {
     .put(
       'includeOthers',
       createField({
-        value: grouping?.includeOthers ?? true,
+        value: grouping?.includeOthers ?? false,
         validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator)
       })
     )

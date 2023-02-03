@@ -25,12 +25,12 @@ describe('in-custom-dashbaords/widgets/Slo/sli/EndpointSelectBox', () => {
   beforeEach(() => {
     jest.clearAllMocks();
 
-    useEndpoints.mockReturnValue([undefined, 'pending', []]);
+    useEndpoints.mockReturnValue([undefined, 'pending', [], { loading: false }]);
   });
 
   it('renders a loading indicator while endpoints are being loaded', () => {
     // Given
-    useEndpoints.mockReturnValue([undefined, 'pending', []]);
+    useEndpoints.mockReturnValue([undefined, 'pending', [], { loading: false }]);
 
     // When
     const wrapper = shallow(
@@ -43,7 +43,9 @@ describe('in-custom-dashbaords/widgets/Slo/sli/EndpointSelectBox', () => {
 
   it.each([['pending'], ['rejected']])('disables the selection if the endpoint result is %s', status => {
     // Given
-    useEndpoints.mockReturnValue([undefined, status, []] as FetchedState<PaginatedResult<EndpointItem>>);
+    useEndpoints.mockReturnValue([undefined, status, [], { loading: false }] as FetchedState<
+      PaginatedResult<EndpointItem>
+    >);
 
     // When
     const wrapper = shallow(
@@ -65,7 +67,8 @@ describe('in-custom-dashbaords/widgets/Slo/sli/EndpointSelectBox', () => {
         totalHits: 1
       } as PaginatedResult<EndpointItem>,
       'resolved',
-      []
+      [],
+      { loading: false }
     ]);
 
     // When
@@ -83,7 +86,8 @@ describe('in-custom-dashbaords/widgets/Slo/sli/EndpointSelectBox', () => {
       useEndpoints.mockReturnValue([
         { items: [], page: 1, pageSize: 0, totalHits: 0 } as PaginatedResult<EndpointItem>,
         'resolved',
-        []
+        [],
+        { loading: false }
       ]);
 
       // When
@@ -114,7 +118,8 @@ describe('in-custom-dashbaords/widgets/Slo/sli/EndpointSelectBox', () => {
         totalHits: 3
       } as PaginatedResult<EndpointItem>,
       'resolved',
-      []
+      [],
+      { loading: false }
     ]);
 
     // When

@@ -8,6 +8,7 @@ import React from 'react';
 import ChartingConfiguratorSection from 'in-components/ChartingConfigurator/ChartingConfiguratorSection';
 import GroupedChartingConfigurator from 'in-components/ChartingConfigurator/GroupedChartingConfigurator';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
+import { customChartHeight } from 'in-logging/analyze/AnalyzeView/components/constants';
 import { getValueMatchTagFilter, LOG_LEVEL } from 'in-logging/queryBuilder';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import getLogGroups from 'in-logging/subscriptions/getLogGroups';
@@ -41,23 +42,27 @@ const options = {
 
 export default function LogsDistributionChartSection(props) {
   const { chartedMetrics, dataSource, onChartedMetricsChange, tracking, hideRenderer, disableClose } = props;
+  const showChartMetricSelector = options?.metrics.length > 1;
+  const metric = chartedMetrics?.[0];
 
   return (
     <Sections className={locals.wrapper}>
-      <ChartingConfiguratorSection
-        value={chartedMetrics?.[0]}
-        onChange={metric => onChartedMetricsChange(metric ? [metric] : [])}
-        dataSource={dataSource}
-        ChartingConfigurator={GroupedChartingConfigurator}
-        options={options}
-        tracking={tracking}
-        hideRenderer={hideRenderer}
-        disableClose={disableClose}
-      />
-
-      {chartedMetrics?.length > 0 && (
+      {showChartMetricSelector && (
+        <ChartingConfiguratorSection
+          value={chartedMetrics?.[0]}
+          onChange={metric => onChartedMetricsChange(metric ? [metric] : [])}
+          dataSource={dataSource}
+          ChartingConfigurator={GroupedChartingConfigurator}
+          options={options}
+          tracking={tracking}
+          hideRenderer={hideRenderer}
+          disableClose={disableClose}
+          unifiedMetricsSource="LOGS"
+        />
+      )}
+      {metric && (
         <div className={locals.chartWrapper}>
-          <Chart {...props} metric={chartedMetrics?.[0]} />
+          <Chart {...props} metric={metric} />
         </div>
       )}
     </Sections>
@@ -72,7 +77,7 @@ function Chart(props) {
   }
 
   if (isLoading) {
-    return <ResultAwareChart result={pendingResult} config={{ customHeight: 215 }} />;
+    return <ResultAwareChart result={pendingResult} config={{ customHeight: customChartHeight }} />;
   }
 
   if (isGrouped) {
@@ -85,6 +90,8 @@ function Chart(props) {
 function LogsChart({ backendQueryModelWithFacets, metric }) {
   return (
     <UnifiedMetricsChart
+      renderPreChartContent={LogsChartLegend}
+      customHeight={customChartHeight}
       automaticallySize={false}
       renderLegend={false}
       excludedContextMenuActions={['globalHighlight', 'download']}
@@ -132,9 +139,9 @@ function GroupedLogsChart({ filteringTagCatalog, metric, groupBy, getColor, back
   );
 
   if (progress.loading) {
-    return <ResultAwareChart result={pendingResult} config={{ customHeight: 215 }} />;
+    return <ResultAwareChart result={pendingResult} config={{ customHeight: customChartHeight }} />;
   } else if (errors && errors.length > 0) {
-    return <ResultAwareChart result={error(errors)} config={{ customHeight: 215 }} />;
+    return <ResultAwareChart result={error(errors)} config={{ customHeight: customChartHeight }} />;
   }
 
   const topItems = items.slice(0, 5);
@@ -147,6 +154,8 @@ function GroupedLogsChart({ filteringTagCatalog, metric, groupBy, getColor, back
 
   return (
     <UnifiedMetricsChart
+      renderPreChartContent={LogsChartLegend}
+      customHeight={customChartHeight}
       automaticallySize={false}
       renderLegend={false}
       config={{
@@ -165,23 +174,26 @@ function GroupedLogsChart({ filteringTagCatalog, metric, groupBy, getColor, back
   );
 }
 
+function LogsChartLegend() {
+  return (
+    <div className={locals.header}>
+      <span className={locals.title}>
+        {t('in-logging:logs')} ({t('in-logging:sum')})
+      </span>
+    </div>
+  );
+}
+
 function getMetricConfig({ backendQueryModelWithFacets, metric, tag, value, label, key, type }) {
   return {
     metric: metric.metricId,
     aggregation: metric.aggregationId,
     label: label ?? value,
     source: 'LOG',
-    tagFilterExpression: addLogLevelFilterTagToQueryModel({ tag, value, backendQueryModelWithFacets, key, type })
+    metricTagFilterExpression: getValueMatchTagFilter({ name: tag, key, type, value }),
+    tagFilterExpression: backendQueryModelWithFacets
 
     // granularity and timeConfig are send automatically by the chart impl
-  };
-}
-
-function addLogLevelFilterTagToQueryModel({ tag, value, backendQueryModelWithFacets, key, type }) {
-  return {
-    elements: [getValueMatchTagFilter({ name: tag, key, type, value }), backendQueryModelWithFacets],
-    logicalOperator: 'AND',
-    type: 'EXPRESSION'
   };
 }
 

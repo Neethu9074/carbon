@@ -45,7 +45,6 @@
     "infrastructure": "基础架构",
     "snapshotVersions": "快照版本",
     "analyzeProfiles": "分析概要文件",
-    "analyzeLogs": "分析日志",
     "entityVersions": "实体版本",
     "loadingData": "正在加载数据",
     "namespace": "名称空间",
@@ -58,15 +57,18 @@
   },
   "explore": {
     "focusOnThisGroup": "关注此组",
-    "offline": "脱机",
     "thisIsABetaVersionOfANewProductCapability": "这是新产品功能的 beta 版本。我们建议您不要依赖所呈现的数据。",
     "theQueryConfigurationIsInvalid": "查询配置无效。请在继续之前处理验证失败。",
     "allInfrastructure": "所有基础架构",
     "name": "名称",
-    "search": "搜索",
+    "search": "搜索类型",
     "explore": "浏览",
-    "cpuUser": "CPU（用户）",
-    "memoryFree": "字节量/秒内存"
+    "count": "计数",
+    "errors": {
+      "maximumNumberOfGroups": "此查询的结果过多。 请使用更严格的过滤器或更广泛的组来缩小范围",
+      "generalError": "发生意外错误。 请使用更严格的过滤器缩小范围，然后重试"
+    },
+    "entityTypes": "实体类型 {{count, parenthesis}}"
   },
   "tableView": {
     "showCountsAndAveragesAcrossTheCurrentTimeWindow": "显示当前时间窗口内的计数和平均值。",
@@ -77,17 +79,19 @@
     "visualizeMetricForSelected": "直观呈现所选“{{plugins}}”的指标",
     "weDoNotYetSupportTablesFor": "抱歉，我们尚不支持 {{plugins}} 的表。",
     "physicalDomains": {
-      "host": "主机",
-      "jvm": "JVM",
-      "nodejs": "Node.js 应用程序",
+      "beeInstanaNode": "BeeInstana 节点",
+      "clickHouseDatabase": "ClickHouse",
       "containerd": "容器化容器",
       "crio": "CRI-O 容器",
+      "crowdStrikeFalcon": "CrowdStrike Falcon",
       "docker": "Docker 容器",
       "garden": "Garden 容器",
+      "host": "主机",
+      "jvm": "JVM",
       "lxc": "LXC 容器",
-      "process": "进程",
-      "clickHouseDatabase": "ClickHouse",
-      "ping": "Ping"
+      "nodejs": "Node.js 应用程序",
+      "ping": "Ping",
+      "process": "进程"
     },
     "tableContent": "表内容：",
     "remove": "移除",

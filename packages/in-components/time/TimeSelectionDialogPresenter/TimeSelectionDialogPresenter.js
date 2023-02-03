@@ -6,14 +6,13 @@
 import React, { useState } from 'react';
 
 import {
-  applicationsList,
   applicationDashboard,
-  newApplicationView,
+  applicationsList,
+  endpointDashboard,
   newApplicationWaiterView,
-  servicesList,
-  serviceDashboard,
   newServiceView,
-  endpointDashboard
+  serviceDashboard,
+  servicesList
 } from 'in-applications/navigation/paths';
 import CustomTime from 'in-components/time/TimeSelectionDialogPresenter/CustomTime';
 import Releases from 'in-components/time/TimeSelectionDialogPresenter/Releases';
@@ -43,7 +42,6 @@ export default connectTo(
       analyze,
       applicationsList,
       applicationDashboard,
-      newApplicationView,
       newApplicationWaiterView,
       servicesList,
       serviceDashboard,
@@ -52,7 +50,6 @@ export default connectTo(
     )
   },
   function TimeSelectionDialogPresenter(props) {
-    const containsHistoricData = props.historicOrLargeDataResult?.containsHistoricData ?? props.containsHistoricData;
     const [activeTabIndex, setActiveTabIndex] = useState(0);
 
     return (
@@ -61,7 +58,7 @@ export default connectTo(
 
         {activeTabIndex == 0 ? (
           <>
-            <Presets {...props} containsHistoricData={containsHistoricData} />
+            <Presets {...props} />
             <CustomTime {...props} />
           </>
         ) : (

@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField } from 'formalistic';
 import React from 'react';
 
 import { SvgIcon, Button, Toggle } from '@instana/components';
@@ -13,8 +12,14 @@ import {
   productAreaPermissions,
   productPermissions,
   productRestrictions,
-  productOwnerPermissions
+  productOwnerPermissions,
+  RESTRICTED_ACCESS,
+  ACCESS_APPLICATIONS,
+  ACCESS_KUBERNETES,
+  ACCESS_WEBSITES,
+  ACCESS_MOBILE_APPS
 } from 'in-stores/permission';
+import RoleAndAccessScopeColumns from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import {
   getGroupWithIdpFlagAsResultObservable,
   saveGroup,
@@ -22,24 +27,28 @@ import {
 } from 'in-settings/tabs/TeamSettings/api/groups';
 import PermissionsList from 'in-settings/tabs/TeamSettings/pages/accessControl/Permissions/PermissionsList.js';
 import { types } from 'in-settings/tabs/TeamSettings/pages/accessControl/Areas/permissionSetResultFilter';
+import { createForm } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import LoadingGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/LoadingGroup';
 import Areas from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/components/Areas';
+import InlineEditorRow from 'in-settings/tabs/TeamSettings/components/InlineEditorRow';
 import Users from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/Users';
 import { teamSettingsAccessControlGroups } from 'in-settings/navigation/paths';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { success as successResult } from 'in-services/util/result';
-import { notBlankValidator } from 'in-services/validators/string';
-import TouchedMessages from 'in-components/form/TouchedMessages';
+import { rbacImprovementEnabled } from 'in-services/featureFlags';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import { ownerRoleId, defaultRoleId } from 'in-stores/user';
+import IconLabel from 'in-alerting/components/IconLabel';
 import FormGroup from 'in-settings/components/FormGroup';
 import { Row, Col } from 'in-components/layout/Grid';
 import Dialog from 'in-components/Dialog/Dialog';
 import { goToPath } from 'in-stores/navigation';
+import { noop } from 'in-services/fixedObjects';
 import Title from 'in-components/Title/Title';
 import Label from 'in-components/form/Label';
-import Input from 'in-components/form/Input';
+import Pill from 'in-components/Pill';
+import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './Group.mless';
@@ -57,7 +66,7 @@ export default function Group({ match }) {
         getObservables={() => ({
           group: groupId ? getGroupWithIdpFlagAsResultObservable(groupId) : just(successResult(createNewGroup()))
         })}
-        enrichForm={enrichForm}
+        enrichForm={createForm}
         saveItem={saveItem}
         onCancelClick={() => goToPath(teamSettingsAccessControlGroups)}
         renderLoadingState={renderLoadingState}
@@ -74,43 +83,32 @@ function renderLoadingState() {
 }
 
 function renderGroup(props) {
-  const { setForm, form, group } = props;
+  const { setForm, form, group, setMessage } = props;
   const isOwnerGroup = group.id === ownerRoleId;
   const isSystemGroup = isOwnerGroup || group.id === defaultRoleId;
 
+  const accessRestrictionWarning = needsToShowRestricAccessedWarning(form.get('permissionSet').value) ? (
+    <div className="message message-small message-warning">
+      <IconLabel
+        noBottomMargin
+        text={t('in-stores:permissionRestrictedWarning')}
+        color="var(--colors-semantic-warning-dark)"
+        type="lib_help_error_warning_outline"
+      />
+    </div>
+  ) : null;
   return (
     <>
-      <Row>
-        <Col lg>
-          <div className={locals.headline}>
-            <SvgIcon className={locals.icon} type="lib_alerts_user_impacted" size="l" />
-            <span className={locals.title}>{form.get('name').value}</span>
-          </div>
-        </Col>
-      </Row>
-
-      <Row>
-        <Col lg>
-          {form.get('name').map(field => (
-            <FormGroup>
-              <Label htmlFor="team-name" hasError={!field.valid && field.touched}>
-                {t('in-settings:tabs.name')}
-              </Label>
-              <Input
-                id="team-name"
-                value={field.value}
-                onChange={e => {
-                  setForm(form.updateIn(['name'], f => f.setValue(e.target.value).setTouched(true)));
-                }}
-                hasError={!field.valid && field.touched}
-                disabled={isSystemGroup}
-                autoFocus
-              />
-              <TouchedMessages field={field} />
-            </FormGroup>
-          ))}
-        </Col>
-      </Row>
+      <InlineEditorRow
+        canEdit={!isSystemGroup}
+        label={group.name}
+        avatar={<SvgIcon className={locals.icon} type="lib_alerts_user_impacted" size="l" />}
+        inputValue={form.get('name').value}
+        onInputChange={value => setForm(form.updateIn(['name'], f => f.setValue(value).setTouched(true)))}
+        hasError={!form.get('name').valid && form.get('name').touched}
+        onClickSave={() => changeGroupName(form, setForm, setMessage)}
+        onClickCancel={() => setForm(form.updateIn(['name'], f => f.setValue(group.name).setTouched(false)))}
+      />
 
       <Row>
         <Col lg={6}>
@@ -127,17 +125,26 @@ function renderGroup(props) {
             noDelete={isOwnerGroup && form.get('members').value.length <= 2}
           />
         </Col>
-        {form.get('permissionSet').map(field => (
-          <Col lg={6}>
-            <Areas
-              permissionSet={field.value}
-              update={(ids, dfq) => update(ids, dfq, form, setForm)}
-              removeId={(id, propertyName) => removeId(id, propertyName, form, setForm)}
-              removeDfq={() => removeDfq(form, setForm)}
-              readOnly={isOwnerGroup}
-            />
-          </Col>
-        ))}
+        {rbacImprovementEnabled && (
+          <RoleAndAccessScopeColumns
+            form={form}
+            setForm={setForm}
+            readOnly={isOwnerGroup}
+            onSave={form => saveItem({ form, setMessage, setCanSaveItem: noop, setForm })}
+          />
+        )}
+        {!rbacImprovementEnabled &&
+          form.get('permissionSet').map(field => (
+            <Col lg={6}>
+              <Areas
+                permissionSet={field.value}
+                update={(ids, dfq) => update(ids, dfq, form, setForm)}
+                removeId={(id, propertyName) => removeId(id, propertyName, form, setForm)}
+                removeDfq={() => removeDfq(form, setForm)}
+                readOnly={isOwnerGroup}
+              />
+            </Col>
+          ))}
       </Row>
 
       <Row>
@@ -166,12 +173,20 @@ function renderGroup(props) {
           {form.get('permissionSet').map(field => (
             <FormGroup>
               <Label>{t('in-settings:tabs.permissionScope')}</Label>
-              {productAreaPermissions.map(({ value, label }) => (
+              {accessRestrictionWarning}
+              {productAreaPermissions.map(({ value, label, isNew }) => (
                 <HorizontalFormGroup
                   key={label}
                   helpText={t('in-settings:tabs.permitsAccessToLabelMonitoringFunctionality', { label: label })}
                 >
-                  <Label htmlFor={`permission-${value}`}>{label}</Label>
+                  <span>
+                    <Label htmlFor={`permission-${value}`}>{label}</Label>
+                    {isNew && (
+                      <Pill kind="inverted" color={theme.lib.colors.blue800}>
+                        {t('in-stores:permissionNewLabel')}
+                      </Pill>
+                    )}
+                  </span>
                   <Toggle
                     id={`permission-${value}`}
                     checked={field.value.permissions.includes(value)}
@@ -245,6 +260,19 @@ function renderGroup(props) {
         </Col>
       </Row>
     </>
+  );
+}
+
+export function needsToShowRestricAccessedWarning(permissionSet) {
+  return hasScopes(permissionSet) && !permissionSet.permissions?.includes(RESTRICTED_ACCESS);
+}
+
+function hasScopes(permissionSet) {
+  return (
+    permissionSet.permissions?.includes(ACCESS_APPLICATIONS) ||
+    permissionSet.permissions?.includes(ACCESS_KUBERNETES) ||
+    permissionSet.permissions?.includes(ACCESS_WEBSITES) ||
+    permissionSet.permissions?.includes(ACCESS_MOBILE_APPS)
   );
 }
 
@@ -362,6 +390,14 @@ function copyPermissionSet(form) {
   return { ...form.get('permissionSet').value };
 }
 
+function changeGroupName(form, updateForm, setMessage) {
+  if (!form.hierarchyValid) {
+    return updateForm(form.setTouched(true, { recurse: true }));
+  }
+
+  saveItem({ form, setMessage, setCanSaveItem: noop, setForm: updateForm });
+}
+
 function saveItem({ form, setMessage, setCanSaveItem, setForm }) {
   const group = {
     id: form.get('id').value,
@@ -382,33 +418,4 @@ function saveItem({ form, setMessage, setCanSaveItem, setForm }) {
       setMessage({ text: t('in-settings:tabs.failedToSaveGroup', { err: error.message }), type: 'error' });
     }
   );
-}
-
-function enrichForm(form, { result: { group } }) {
-  return form
-    .put(
-      'id',
-      createField({
-        value: group.id
-      })
-    )
-    .put(
-      'name',
-      createField({
-        value: group.name,
-        validator: notBlankValidator
-      })
-    )
-    .put(
-      'members',
-      createField({
-        value: group.members
-      })
-    )
-    .put(
-      'permissionSet',
-      createField({
-        value: group.permissionSet
-      })
-    );
 }

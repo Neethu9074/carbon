@@ -18,11 +18,11 @@ logger.info(`Initializing instanctl CockroachDB resolver against ${serverConfig.
 
 const pool = new Pool(getPoolConfig());
 
-exports.getUiBackendBaseUrl = (tenant, unit) => Promise.resolve(`http://tu-${tenant}-${unit}-ui-backend:8600`);
-
 exports.getGroundskeeperBaseUrl = () => Promise.resolve(serverConfig.groundskeeperBaseUrl);
 
 exports.getButlerBaseUrl = () => Promise.resolve(serverConfig.butlerBaseUrl);
+
+exports.getUiBackendBaseUrl = (tenant, unit) => Promise.resolve(getUiBackendBaseUrl(tenant, unit));
 
 exports.getBaseUrl = (tenant, unit) =>
   Promise.resolve(`https://${unit}-${tenant}.${serverConfig.clientConfig.tenantUnitDomainSuffix}`);
@@ -55,16 +55,32 @@ exports.getFeatureFlags = (tenant, unit) =>
 
 exports.getConfiguration = (tenant, unit) =>
   cache(`getConfiguration:${tenant}:${unit}`, () => {
-    return getIntSetting(tenant, unit, 'MAX_ALLOWED_ALERTINGS_CONFIGURATIONS', 200).then(
-      maxAllowedAlertingConfigurations => ({
-        maxAllowedAlertingConfigurations
-      })
-    );
+    return Promise.all([
+      getIntSetting(tenant, unit, 'MAX_ALLOWED_ALERTINGS_CONFIGURATIONS', 200),
+      getSetting({ tenant, unit, key: 'MIGRATED_TENANT_UNIT_URL', notDefinedFallback: '', valueParser: str => str })
+    ]).then(values => {
+      return {
+        maxAllowedAlertingConfigurations: values[0],
+        migratedTenantUnitUrl: values[1]
+      };
+    });
   });
 
 exports.getReportingEndpoints = (req, tenant, unit) => {
   return getReportingEndpointsFromButler(req, serverConfig.butlerBaseUrl, tenant, unit);
 };
+
+async function getUiBackendBaseUrl(tenant, unit) {
+  const uibackendNamespace = await getSetting({
+    tenant, unit, key: 'config.tu.namespace', notDefinedFallback: '', valueParser: str => str
+  })
+
+  if (uibackendNamespace) {
+    return `http://tu-${tenant}-${unit}-ui-backend.${uibackendNamespace}:8600`;
+  } else {
+    return `http://tu-${tenant}-${unit}-ui-backend:8600`;
+  }
+}
 
 function getButlerDomain(tenant, unit) {
   return `${unit}-${tenant}.${serverConfig.clientConfig.tenantUnitDomainSuffix}`;
@@ -207,3 +223,10 @@ function resolvePathToFileContent(key, path) {
   }
   return {};
 }
+
+/** end connection pool and close any connections */
+exports.shutdown = async () => {
+  logger.info(`Trigger instanactl-resolver db connection pool closing.`);
+  await pool.end();
+  logger.info(`Instanactl-resolver db connection pool closed.`);
+};

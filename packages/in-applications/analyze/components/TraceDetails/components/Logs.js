@@ -18,9 +18,9 @@ import {
   LOG_EXCEPTION_STACK_TRACE
 } from 'in-logging/queryBuilder';
 import useLogsCursorPagination from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
-import { logLevelColumn, timestampColumn } from 'in-logging/analyze/AnalyzeView/components/logsColumns';
+import { logLevelColumn, timestampColumn } from 'in-logging/analyze/AnalyzeView/utils/logsColumnUtils';
 import LogMessageColumn from 'in-logging/analyze/AnalyzeView/components/LogMessageColumn';
-import LogTagsTable from 'in-logging/analyze/AnalyzeView/components/LogTagsTable';
+import { LogTagsTable } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
 import getLogs from 'in-logging/subscriptions/getLogs';
@@ -81,7 +81,14 @@ function getData({ traceId, totalNumberOfLogs, timeConfigForLogs }) {
     timeConfig: timeConfigForLogs,
     retrievalSize: totalNumberOfLogs,
     tagFilterExpression: getTraceIdTagFilter(traceId),
-    tags: [LOG_SPAN_ID, LOG_LEVEL, LOG_CUSTOM, LOG_EXCEPTION_TYPE, LOG_EXCEPTION_MESSAGE, LOG_EXCEPTION_STACK_TRACE]
+    requestedTags: [
+      LOG_SPAN_ID,
+      LOG_LEVEL,
+      LOG_CUSTOM,
+      LOG_EXCEPTION_TYPE,
+      LOG_EXCEPTION_MESSAGE,
+      LOG_EXCEPTION_STACK_TRACE
+    ]
   });
 }
 

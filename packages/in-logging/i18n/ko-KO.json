@@ -17,13 +17,25 @@
   "messageParam": "메시지 매개변수",
   "applicationCounter": "{{count}}개의 애플리케이션",
   "exceptionMessageHeader": "예외 메시지",
+  "stackTrace": "StackTrace",
   "service": "서비스",
   "stream": "스트림",
   "tooltipCopyToClipboard": "클립보드에 복사",
+  "tooltipCopyLinkToClipboard": "로그 링크 복사",
   "tooltipAddAsGroup": "태그별 그룹",
   "tooltipAddAsFilter": "필터로 태그 추가",
   "sorting": {
     "mostRecent": "가장 최근 항목 먼저",
     "oldest": "가장 이전 항목 먼저"
-  }
+  },
+  "cpuTotal": "전체 CPU",
+  "memoryUsage": "메모리 사용량",
+  "cluster": "클러스터",
+  "node": "노드",
+  "namespace": "네임스페이스",
+  "deployment": "배치",
+  "pod": "팟(Pod)",
+  "tooltipEntityHealthNoIssues": "문제 없음",
+  "tooltipEntityHealthIssues": "{{numberOfIssues}}개의 문제",
+  "container": "컨테이너"
 }

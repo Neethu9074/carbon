@@ -4,44 +4,54 @@
  */
 
 import { each, map, values } from 'lodash';
-import React from 'react';
 
+import {
+  PER_AP,
+  PER_AP_SERVICE,
+  PER_AP_ENDPOINT
+} from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { PARAMETER, toChunks } from 'in-services/util/stringToChunks';
-import theme from 'in-themes/theme';
+import { t } from 'in-i18n';
 
-export const placeholderTypes = Object.freeze({
+const placeholderTypes = Object.freeze({
   application: 'application',
   service: 'service',
   endpoint: 'endpoint'
 });
 
-export const placeholders = Object.freeze([
-  { template: '${application.name}', name: 'Application', type: placeholderTypes.application },
-  { template: '${service.name}', name: 'Service', type: placeholderTypes.service },
-  { template: '${endpoint.name}', name: 'Endpoint', type: placeholderTypes.endpoint }
-]);
+const applicationNamePlaceholder = Object.freeze({
+  template: '${application.name}',
+  name: t('in-alerting:smartAlerts.applications.advanced.applicationNamePlaceholder'),
+  type: placeholderTypes.application
+});
 
-export function removePlaceholderSpecificCharacters(placeholderValue) {
-  return placeholderValue.replace(/[${}]/g, '');
-}
+const serviceNamePlaceholder = Object.freeze({
+  template: '${service.name}',
+  name: t('in-alerting:smartAlerts.applications.advanced.serviceNamePlaceholder'),
+  type: placeholderTypes.service
+});
 
-export function highlightPlaceholderReplacer({ template, i }) {
-  return [
-    '${',
-    <span key={`${i}`} style={{ color: theme.lib.colors.pink800 }}>
-      {removePlaceholderSpecificCharacters(template)}
-    </span>,
-    '}'
-  ];
-}
+const endpointNamePlaceholder = Object.freeze({
+  template: '${endpoint.name}',
+  name: t('in-alerting:smartAlerts.applications.advanced.endpointNamePlaceholder'),
+  type: placeholderTypes.endpoint
+});
+
+export const placeholdersByEvaluationType = Object.freeze({
+  [PER_AP]: [applicationNamePlaceholder],
+  [PER_AP_SERVICE]: [applicationNamePlaceholder, serviceNamePlaceholder],
+  [PER_AP_ENDPOINT]: [applicationNamePlaceholder, serviceNamePlaceholder, endpointNamePlaceholder]
+});
 
 /**
- *
- * @param {String} text, text containing plaeholders which should be enhanced with markup to highlight them.
- * @param {function} replacer, function returning the value which respective placeholder should be replaced with
- * @returns {array} containing the string enhanced with HTML elements and CSS styles
+ * Replaces the placeholders with respective markup.
+ * @param {String} evaluationType The alert evaluation type to define the owning entity type.
+ * @param {String} text           Text containing placeholders which should be enhanced with markup to highlight them.
+ * @param {function} replacer     Function returning the value which respective placeholder should be replaced with
+ * @returns {array} Containing the string enhanced with HTML elements and CSS styles
  */
-export function replacePlaceholdersWithMarkup(text, replacer) {
+export function replacePlaceholdersWithMarkup(evaluationType, text, replacer) {
+  const placeholders = placeholdersByEvaluationType[evaluationType];
   let chunks = toChunks(text, map(placeholders, 'template'));
 
   each(map(values(placeholders)), ({ template, name }, i) => {

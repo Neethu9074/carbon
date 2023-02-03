@@ -10,13 +10,11 @@ import { SvgIcon } from '@instana/components';
 
 import PotentialProblemContentControls from 'in-alerting/PotentialProblems/PotentialProblemDialog/PotentialProblemContent/PotentialProblemContentControls';
 import PotentialProblemChart from 'in-alerting/PotentialProblems/PotentialProblemDialog/PotentialProblemContent/PotentialProblemChart';
-import {
-  getIconByType,
-  getType
-} from 'in-alerting/PotentialProblems/PotentialProblemDialog/potentialProblemsDialogUtil';
 import { alertPropType, rulePropType } from 'in-alerting/PotentialProblems/PotentialProblemsLane/proptypes';
+import { getType } from 'in-alerting/PotentialProblems/PotentialProblemDialog/potentialProblemsDialogUtil';
 import { getDescription, getTitle } from 'in-alerting/PotentialProblems/textUtil';
 import { formatDateTime } from 'in-services/formatters/date';
+import PluginIcon from 'in-components/PluginIcon';
 
 import locals from 'in-alerting/PotentialProblems/PotentialProblemDialog/PotentialProblemContent/PotentialProblemContent.mless';
 
@@ -75,7 +73,7 @@ function Entity({ endpointLabel, serviceLabel, applicationLabel }) {
 
   return (
     <div className={locals.entity}>
-      <SvgIcon size="s" className={locals.icon} type={getIconByType(type)} />
+      <PluginIcon className={locals.icon} size="s" plugin={type} />
       {getLabelText({
         applicationLabel,
         serviceLabel,

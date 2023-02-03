@@ -27,7 +27,6 @@ export default function InstallDocumentation(props) {
     filteredEntities = entities;
   }
   const categories = categorise(filteredEntities);
-
   let index = 0;
   return (
     <div className={locals.wrapper}>
@@ -42,6 +41,8 @@ export default function InstallDocumentation(props) {
               <Fragment key={title}>
                 <SideNavigationSection title={title} />
                 {items.map(({ icon, label }) => {
+                  // Out of loop index handling is done to combine category and item indices, this is passed to url state.
+                  // Avoid breaking deeplinks if possible.
                   const i = index++;
                   return (
                     <SideNavigationItem

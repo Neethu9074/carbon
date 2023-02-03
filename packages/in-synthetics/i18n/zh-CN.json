@@ -26,13 +26,15 @@
         "subTitle": "端点",
         "labelOperation": "HTTP 方法",
         "labelUrl": "URL",
-        "popSubTitle": "存在点"
+        "popSubTitle": "接入点",
+        "uploadScriptTitle": "上载脚本",
+        "failureToReadFileContent": "未能读取文件内容：{{error}}"
       },
       "basicDetails": {
         "title": "此 ping 测试的名称是什么",
         "labelName": "测试的名称",
         "labelDescription": "描述",
-        "labelFreequency": "频率"
+        "labelFrequency": "频率"
       },
       "bluePrint": {
         "pingApi": {
@@ -54,6 +56,23 @@
             "line4": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
             "line5": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
           }
+        },
+        "scriptApi": {
+          "name": "脚本 API",
+          "headline": "HTTP 脚本",
+          "whenToUse": {
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          },
+          "whoShouldUse": {
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          },
+          "tipsForUsing": {
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line3": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line4": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line5": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          }
         }
       },
       "form": {
@@ -68,15 +87,182 @@
     },
     "feedback": {
       "successTitle": "成功！",
-      "successMessage": "已成功创建合成测试",
+      "successMessageCreate": "已成功创建合成测试",
+      "successMessageDelete": "已成功删除合成测试",
       "failureTitle": "失败！",
-      "failureMessage": "未能创建合成测试。 请稍后重试"
+      "failureMessageCreate": "未能创建合成测试。 请稍后重试",
+      "failureMessageUpdate": "未能更新合成测试。 请稍后重试",
+      "failuteMesssageDelete": "未能删除合成测试。 请稍后重试"
+    },
+    "locationFeedback": {
+      "successMessageDelete": "已成功删除位置",
+      "failureMesssageDelete": "无法删除该位置。 请稍后重试"
     }
   },
   "createTest": {
     "buttonLabel": "创建新测试"
   },
   "navigation": {
-    "synthetics": "合成"
+    "synthetics": "合成监视"
+  },
+  "dashboard": {
+    "testList": {
+      "mainLabel": "合成监视",
+      "secondaryLabels": {
+        "tests": "测试",
+        "locations": "位置"
+      },
+      "popDialog": {
+        "button": "<> 部署 PoP",
+        "simpleTab": "简单",
+        "redisTab": "Redis TLS",
+        "title": "合成的 PoP 命令",
+        "subTitle": "请使用这些代码模板作为参考",
+        "simpleCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"Name;DisplayName;Country;City;0;0;Location description\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<yourpassword>\"",
+        "redisCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"Name;DisplayName;Country;City;0;0;Location description\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true",
+        "tlsInstructions": "如果要启用 Redis TLS，需要在 Helm Chart 根路径下创建 certs 文件夹，并将证书/密钥对 (tls.crt, tls.key) 和 CA 根证书文件 (ca.crt) 复制到 certs 文件夹中，文件名必须完全匹配。\n\n如果您没有密钥/证书文件，那么还可以使用 openssl 命令生成新的密钥/证书文件，请参阅以下示例：",
+        "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt"
+      },
+      "testLabel": "名称",
+      "status": "状态",
+      "frequencySubText": "每 {{count}} 分钟",
+      "frequencySubText_plural": "每 {{count}} 分钟",
+      "pause": "暂停测试",
+      "resume": "恢复测试",
+      "active": "活动",
+      "paused": "已暂停",
+      "deleted": "已删除",
+      "type": "类型",
+      "successRate": "成功率",
+      "successRuns": "{{successRuns}} 条结果（共 {{totalRuns}} 条）",
+      "latency": "等待时间",
+      "locationLabel": "位置",
+      "locations": "{{totalLocations}} 个位置",
+      "applicationLabel": "应用程序",
+      "health": "运行状况",
+      "action": "操作",
+      "delete": "删除测试",
+      "labelConfirm": "请确认",
+      "labelConfirmRemoveTest": "是否确定要除去合成测试 <strong>{{label}}</strong>？",
+      "labelRemove": "除去",
+      "na": "不适用"
+    },
+    "locationList": {
+      "locationLabel": "位置名称",
+      "locationDisplayLabel": "显示名称",
+      "status": "状态",
+      "type": "类型",
+      "totalTests": "链接的测试数",
+      "lastRun": "上次测试运行时间",
+      "namespace": "名称空间",
+      "labelConfirmRemoveLocation": "确定要除去 <strong>{{label}}</strong> ({{status}}) 位置吗？",
+      "activeTestLinked": "在位置 <strong>{{label}}</strong> ({{status}}) 上分配了活动的测试，确定要除去此位置吗？",
+      "deleteLocation": "删除位置"
+    },
+    "summary": {
+      "successRate": "成功率",
+      "locations": "位置",
+      "responseTime": "响应时间",
+      "meanResponseTime": "传播至 响应时间",
+      "responseSize": "响应大小",
+      "avgResponseSize": "传播至 响应大小",
+      "summaryTab": "摘要",
+      "resultsTab": "结果",
+      "startTime": "开始时间",
+      "requests": "请求数",
+      "widgets": {
+        "failures": "失败次数",
+        "responseTimes": "响应时间",
+        "averageResponseSize": "平均响应大小",
+        "responseStatus": "响应状态",
+        "networkTimings": "网络计时",
+        "blocking": "正在阻止",
+        "dns": "DNS 查找",
+        "sending": "正在发送",
+        "waiting": "正在等待",
+        "receiving": "正在接收",
+        "slowest": "最慢",
+        "latest": "最新",
+        "failed": "失败",
+        "results": "结果",
+        "linkViewAllTestResults": "查看所有结果",
+        "ok": "成功",
+        "created": "已创建",
+        "accepted": "已接受",
+        "forbidden": "被禁止",
+        "notFound": "未找到",
+        "serverError": "服务器错误",
+        "badRequest": "错误请求",
+        "badGateway": "错误网关",
+        "gatewayTimeout": "网关超时"
+      },
+      "totalRuns": "{{totalRuns}} 总运行次数",
+      "meanLatencyFor90th": "第 90 个的 {{meanLatencyDetail}}"
+    },
+    "resultsListPage": {
+      "startedColumn": "已启动",
+      "locationColumn": "位置",
+      "responseTimeColumn": "响应时间",
+      "responseSizeColumn": "响应大小",
+      "retriesColumn": "重试计数",
+      "title": "结果"
+    },
+    "detailsPage": {
+      "timeLineWidget": "时间线",
+      "responseTimeChart": "响应时间",
+      "subtransactionStatus": "状态",
+      "subtransactionSize": "大小",
+      "subtransactionTime": "时间",
+      "subtransactionBlocking": "阻止",
+      "subtransactionDNS": "DNS",
+      "subtransactionConnect": "连接",
+      "subtransactionSSL": "SSL",
+      "subtransactionSending": "正在发送",
+      "subtransactionWaiting": "正在等待",
+      "subtransactionReceiving": "正在接收",
+      "showLessSubDetails": "显示更少",
+      "showMoreSubDetails": "显示更多",
+      "failedRun": "运行失败（异常）",
+      "failedRunErrorTitle": "错误消息",
+      "noFailedErrorMessage": "没有错误消息",
+      "stackTraceTitle": "堆栈跟踪",
+      "noStacktrace": "无堆栈跟踪",
+      "statusKpiCard": "状态",
+      "successResult": "成功",
+      "failedResult": "失败",
+      "searchFilter": "搜索",
+      "typesFilter": "类型",
+      "typesFilterValues": {
+        "getType": "GET",
+        "allType": "全部",
+        "othersType": "其他"
+      },
+      "subtransactionBody": {
+        "contentType": "内容类型",
+        "size": "大小",
+        "redirectTime": "重定向时间",
+        "uploadSpeed": "上载速度",
+        "downloadSpeed": "下载速度",
+        "requestTitle": "请求",
+        "responseTimingTitle": "响应计时",
+        "timingsPercentageOfTotalDurationName": "{{totalDurationName}} 的 {{percentage}}"
+      },
+      "logs": "日志",
+      "noDataAvailable": {
+        "message": "{{component}} 详细信息不可用于此测试结果",
+        "notFound": "找不到"
+      },
+      "downloadHar": "下载 HAR 文件",
+      "consoleLogs": "控制台",
+      "browserLogs": "浏览器"
+    },
+    "noDataAvailable": {
+      "resultsTitle": "无可用结果",
+      "resultsDescription": "在所选时间范围内未检索到任何结果。",
+      "testSummaryTitle": "没有可用的合成测试",
+      "testSummaryDescription": "未从数据库检索到任何合成测试。",
+      "locationListTitle": "没有可用的合成位置",
+      "locationListDescription": "没有从数据库中检索到合成位置。"
+    }
   }
 }

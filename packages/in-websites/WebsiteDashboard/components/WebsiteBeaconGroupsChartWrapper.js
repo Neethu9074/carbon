@@ -71,6 +71,7 @@ export default function WebsiteBeaconGroupsChartWrapper(props) {
       setSelectedMetricKey={setSelectedMetricKey}
       selectedMetricDefinition={find(metrics, m => getMetricKey(m) === selectedMetricKey) || metrics[0]}
       {...getAdditionalChartActions(tagFilters, metrics, group, viewInAnalytics, selectedMetricKey, tagCatalogs)}
+      renderHistoricDataIndicator
     />
   );
 }

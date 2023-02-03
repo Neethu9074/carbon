@@ -10,6 +10,10 @@
     margin-right: 1.5rem;
   }
 
+  a:not([href]):not([tabindex]).createNewButton {
+    color: var(--colors-primary1);
+  }
+
   .selectCheckbox {
     padding-top: 0.95rem !important;
     flex-direction: row;

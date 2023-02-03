@@ -13,9 +13,9 @@ import getTickPositionsBytes, {
   roundMaxValueToNextHighestHumanFriendlyValue as roundMaxValueToNextHighestHumanFriendlyBytes
 } from 'in-services/ticks/bytes';
 import { percentage, bytes, kiloBytes, megaBytes } from 'in-services/formatters/number';
-import { Formatter } from 'in-components/Chart/ResultAwareChart.d';
 import getTickPositionsDefault from 'in-services/ticks/default';
 import { Tick, TickRequest } from 'in-services/ticks/types';
+import { Formatter } from 'in-components/Chart/types';
 import { ScaleType } from 'in-services/scale/scale';
 
 export interface TickStrategy {
@@ -131,4 +131,14 @@ function removeCloseTicks(ticks: Tick[]) {
   }
 
   return filteredTicks;
+}
+
+export function mapTickPositions(ticks: number[], scale: ScaleType): Tick[] {
+  return ticks
+    .filter(tick => tick >= scale.domainFrom)
+    .filter(tick => tick <= scale.domainTo)
+    .map(tick => ({
+      domain: tick,
+      range: scale.getRange(tick)
+    }));
 }

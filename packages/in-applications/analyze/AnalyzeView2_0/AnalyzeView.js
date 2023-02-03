@@ -3,8 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { useLocation } from 'react-router';
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { sortBy } from 'lodash';
 
 import {
@@ -13,13 +12,13 @@ import {
 } from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeHiddenTagsViewParameterConversion/transformHelper';
 import AnalyzeHiddenTagsViewParameterConversion from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeHiddenTagsViewParameterConversion/AnalyzeHiddenTagsViewParameterConversion';
 import AnalyzeOneToTwoViewParameterConversion from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeOneToTwoViewParameterConversion/AnalyzeOneToTwoViewParameterConversion';
-import AnalyzeTwoBetaViewParameterConversion from 'in-applications/analyze/AnalyzeView2_0//components/AnalyzeTwoBetaViewParameterConversion/AnalyzeTwoBetaViewParameterConversion';
 import {
   dataSource as dataSourceName,
   dataSourceMatrixParameter,
   hiddenCallsMatrixParameter,
-  previewEnabledMatrixParameter
+  fastQueryModeEnabledMatrixParameter
 } from 'in-applications/navigation/matrix';
+import AnalyzeTwoBetaViewParameterConversion from 'in-applications/analyze/AnalyzeView2_0//components/AnalyzeTwoBetaViewParameterConversion/AnalyzeTwoBetaViewParameterConversion';
 import { isAnalyticsTwoBetaLocation } from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeTwoBetaViewParameterConversion/transformHelper';
 import { isAnalyticsOneLocation } from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeOneToTwoViewParameterConversion/transformHelper';
 import {
@@ -39,14 +38,20 @@ import FacetedFilterGeneric from 'in-components/AnalyzeView/FacetedFilters/Facet
 import GroupedResults from 'in-applications/analyze/AnalyzeView2_0/components/GroupedResults';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator/BatchingIndicator';
 import { toBackendQuery } from 'in-components/AnalyzeView/FacetedFilters/facets';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import Results from 'in-applications/analyze/AnalyzeView2_0/components/Results';
 import getTagSuggestions from 'in-applications/subscriptions/getTagSuggestions';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
+import { LESS_THAN } from 'in-components/QueryBuilder/tagFilter/operators';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { getMetricTemplates } from 'in-applications/api/metricTemplates';
+import { ua2FastQueryModeChangedTracker } from 'in-applications/tracker';
 import StateManagement from 'in-components/AnalyzeView/StateManagement';
+import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import { getMetricCatalog } from 'in-applications/api/metricCatalog';
 import { getTypeTextByCount } from 'in-applications/analyze/metrics';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
+import { perSecondDetailed } from 'in-stores/metric/formatters';
 import { analyzePath } from 'in-applications/navigation/paths';
 import { getTagCatalog } from 'in-applications/api/tagCatalog';
 import { latencyFixed } from 'in-services/formatters/number';
@@ -122,8 +127,8 @@ const callsChartableMetricCatalogTransformer = createChartableMetricCatalogTrans
 const tracesChartableMetricCatalogTransformer = createChartableMetricCatalogTransformer('traces');
 
 export default function ApplicationsAnalyzeView() {
-  const [{ dataSource, hiddenCalls, previewEnabled }, onChange] = useUrlState({
-    bind: [dataSourceMatrixParameter, hiddenCallsMatrixParameter, previewEnabledMatrixParameter],
+  const [{ dataSource, hiddenCalls, fastQueryModeEnabled }, onChange] = useUrlState({
+    bind: [dataSourceMatrixParameter, hiddenCallsMatrixParameter, fastQueryModeEnabledMatrixParameter],
     replaceHistory: false
   });
 
@@ -136,11 +141,13 @@ export default function ApplicationsAnalyzeView() {
     onChange({ hiddenCalls });
   };
 
-  const onChangePreviewEnabled = previewEnabled => {
-    onChange({ previewEnabled });
+  const onChangeFastQueryModeEnabled = fastQueryModeEnabled => {
+    ua2FastQueryModeChangedTracker({ dataSource, enabled: fastQueryModeEnabled });
+    onChange({ fastQueryModeEnabled });
   };
-
-  const dataSourceConfigurations = getDataSourceConfigurations({ hiddenCalls, onChangeHiddenCalls });
+  const dataSourceConfigurations = useMemo(() => getDataSourceConfigurations({ hiddenCalls, onChangeHiddenCalls }), [
+    hiddenCalls
+  ]);
 
   const tagCatalog = useTagCatalog(dataSource === 'traces' ? getTracesTagCatalog : getCallsTagCatalog);
 
@@ -166,6 +173,7 @@ export default function ApplicationsAnalyzeView() {
       getMetricCatalog={getMetricCatalog}
       getMetricTemplates={getMetricTemplates}
       dataSourceConfigurations={dataSourceConfigurations}
+      getCustomGroupingTagFilter={getCustomGroupingTagFilter}
     >
       {opts =>
         opts.isGrouped ? (
@@ -174,9 +182,10 @@ export default function ApplicationsAnalyzeView() {
             getFacetedSearchSuggestions={params => getFacetedSearchSuggestions({ ...params, hiddenCalls })}
             hiddenCalls={hiddenCalls}
             onChangeHiddenCalls={onChangeHiddenCalls}
-            previewEnabled={previewEnabled}
-            onChangePreviewEnabled={onChangePreviewEnabled}
+            fastQueryModeEnabled={fastQueryModeEnabled}
+            onChangeFastQueryModeEnabled={onChangeFastQueryModeEnabled}
             useLastValidStateWhenErroneous
+            getCustomGroupingTagFilter={getCustomGroupingTagFilter}
           />
         ) : (
           <Results
@@ -184,14 +193,21 @@ export default function ApplicationsAnalyzeView() {
             getFacetedSearchSuggestions={params => getFacetedSearchSuggestions({ ...params, hiddenCalls })}
             hiddenCalls={hiddenCalls}
             onChangeHiddenCalls={onChangeHiddenCalls}
-            previewEnabled={previewEnabled}
-            onChangePreviewEnabled={onChangePreviewEnabled}
+            fastQueryModeEnabled={fastQueryModeEnabled}
+            onChangeFastQueryModeEnabled={onChangeFastQueryModeEnabled}
             useLastValidStateWhenErroneous
           />
         )
       }
     </StateManagement>
   );
+}
+
+function getCustomGroupingTagFilter(groupBy, groupValue) {
+  if (groupBy.groupbyTag === 'call.latency' && groupValue === '0') {
+    return tagFilter('call.latency', LESS_THAN, 1);
+  }
+  return null;
 }
 
 function getDataSourceConfigurations({ hiddenCalls, onChangeHiddenCalls }) {
@@ -204,7 +220,11 @@ function getDataSourceConfigurations({ hiddenCalls, onChangeHiddenCalls }) {
       ungroupedView: ungroupedView.calls,
       fixedFields: fixedFields.calls,
       defaultSelectableFields,
-      defaultChartedMetrics
+      defaultChartedMetrics,
+      // the metric catalog from the backend currently provides only a single formatter per metric type,
+      // we have to override the default formatter if aggregation type 'PER_SECOND' is used
+      getCustomMetricUiFormatterName: (_metricId, aggregationId) =>
+        aggregationId === 'PER_SECOND' ? perSecondDetailed.id : null
     },
     traces: {
       metricCatalogTransformer: tracesMetricCatalogTransformer,
@@ -235,12 +255,15 @@ function getGroupedView(dataSource) {
   };
 }
 
-function getCustomGroupLabel(groupName) {
+function getCustomGroupLabel(groupName, groupbyTag) {
   if (groupName === UNSPECIFIED) {
     return UNSPECIFIED_LABEL;
   }
   if (groupName === NO_VALUE) {
     return NO_VALUE_LABEL;
+  }
+  if (groupbyTag === 'call.latency' && groupName === '0') {
+    return '< 1';
   }
   return groupName;
 }
@@ -300,16 +323,14 @@ function getFixedFields(dataSource) {
 }
 
 function createMetricCatalogTransformer(dataSource) {
-  const supportedMetrics = {
-    calls: ['calls', 'latency', 'erroneousCalls', 'errors'],
-    traces: ['traces', 'latency', 'erroneousCalls', 'errors']
-  };
+  const supportedMetrics = dataSourceConstants[dataSource].metricCatalogSupportedMetrics;
   return metricDefinition => {
-    if (!supportedMetrics[dataSource].includes(metricDefinition.metricId)) {
+    if (!supportedMetrics[metricDefinition.metricId]) {
       return null;
     }
     return {
       ...metricDefinition,
+      aggregations: supportedMetrics[metricDefinition.metricId],
       label:
         dataSource === 'traces'
           ? t('in-applications:metrics.traces', { context: metricDefinition.metricId })
@@ -320,9 +341,9 @@ function createMetricCatalogTransformer(dataSource) {
 
 function createChartableMetricCatalogTransformer(dataSource) {
   // For chartable metrics (unifiedMetricsQuery) the 'traces' dataSource uses 'calls' metric instead of 'traces'
-  const supportedMetrics = ['calls', 'latency', 'erroneousCalls', 'errors'];
+  const supportedMetrics = dataSourceConstants.calls.metricCatalogSupportedChartableMetrics;
   return metricDefinition => {
-    if (!supportedMetrics.includes(metricDefinition.metricId)) {
+    if (!supportedMetrics[metricDefinition.metricId]) {
       return null;
     }
     return {
@@ -331,10 +352,7 @@ function createChartableMetricCatalogTransformer(dataSource) {
         dataSource === 'traces'
           ? t('in-applications:metrics.traces', { context: metricDefinition.metricId })
           : t('in-applications:metrics.calls', { context: metricDefinition.metricId }),
-      aggregations:
-        metricDefinition.metricId === 'latency'
-          ? [...metricDefinition.aggregations, 'DISTRIBUTION']
-          : metricDefinition.aggregations,
+      aggregations: supportedMetrics[metricDefinition.metricId],
       formatter: metricFormatter(metricDefinition)
     };
   };
@@ -361,7 +379,7 @@ function getSuggestionName({ label }) {
 }
 
 function getMetric({ metrics }) {
-  return metrics?.facetedSearchMetric[0][1];
+  return metrics?.facetedSearchMetric?.[0]?.[1];
 }
 
 function getFacetedSearchItems({ dataSource, hiddenCalls, onChangeHiddenCalls }) {
@@ -384,7 +402,8 @@ function getFacetedSearchItems({ dataSource, hiddenCalls, onChangeHiddenCalls })
       customLabelMapper: () => t('in-applications:analyze.facetedSearch.showOnlyErroneous'),
       getSuggestionName,
       getMetric,
-      openByDefault: true
+      openByDefault: true,
+      fallbackValues: [{ name: t('in-applications:analyze.facetedSearch.showOnlyErroneous'), value: true }]
     },
     {
       renderer,
@@ -394,7 +413,14 @@ function getFacetedSearchItems({ dataSource, hiddenCalls, onChangeHiddenCalls })
       getItems,
       getSuggestionName,
       getMetric,
-      orderSuggestions: orderByValue
+      orderSuggestions: orderByValue,
+      fallbackValues: [
+        { name: '1xx', value: '1xx' },
+        { name: '2xx', value: '2xx' },
+        { name: '3xx', value: '3xx' },
+        { name: '4xx', value: '4xx' },
+        { name: '5xx', value: '5xx' }
+      ]
     },
     {
       renderer,

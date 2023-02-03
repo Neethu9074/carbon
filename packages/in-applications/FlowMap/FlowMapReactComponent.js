@@ -3,124 +3,132 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
+import MapOverlay from 'in-applications/FlowMap/misc/OverlayReactComponentMounter';
 import { getWebGLCanvasContext, isWebGLSupported } from 'in-map/services/webGL';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import useResizeObserverCustom from 'in-hooks/useResizeObserver';
 import HelpDialog from 'in-components/helpSystem/HelpDialog';
 import FlowMap from 'in-applications/FlowMap/FlowMap';
+import usePrevious from 'in-hooks/usePrevious';
 import { t } from 'in-i18n';
 
 import locals from './FlowMap.mless';
 
-export default function FlowMapReactComponentWrapper(props) {
-  const { ref, ...dimensions } = useResizeObserverCustom();
+export default function MapOverlayWrapper(props) {
+  const { ref: resizeObserverRef, ...dimensions } = useResizeObserverCustom();
   return (
-    <div ref={ref}>
-      <FlowMapReactComponent {...props} {...dimensions} />
+    <div className={locals.wrapper} ref={resizeObserverRef}>
+      <FlowMapReactComponentWrapper {...props} {...dimensions} />
     </div>
   );
 }
 
-class FlowMapReactComponent extends React.Component {
-  componentDidMount() {
-    this.showHelpIfWebGLCantBeSetup();
-    this.initFlowMap(this.props);
-    if (this.flowMap && this.props.flowMapState) {
-      this.flowMap.updateState(this.props.flowMapState);
-    }
-  }
+function FlowMapReactComponentWrapper(props) {
+  const [flowMap, setFlowMap] = useState();
 
-  componentDidUpdate(prevProps) {
-    const currentProps = this.props;
-    if (prevProps.flowMapState && !currentProps.flowMapState) {
-      this.disposeFlowMapIfPresent();
-    } else if (!prevProps.flowMapState && currentProps.flowMapState) {
-      if (!this.flowMap) {
-        this.initFlowMap(currentProps);
+  const prevProps = usePrevious(props);
+
+  const canvasNodeRef = useRef();
+  const webGlContextRef = useRef();
+  const overlayRef = useRef();
+
+  const canvasRefSetter = _canvasNode => {
+    canvasNodeRef.current = _canvasNode;
+    webGlContextRef.current = getWebGLCanvasContext(_canvasNode);
+  };
+
+  useEffect(() => {
+    showHelpIfWebGLCantBeSetup(webGlContextRef);
+    setFlowMap(initFlowMap(props));
+    if (flowMap && props.flowMapState) {
+      flowMap?.updateState(props.flowMapState);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // We ignore the deps here to use it as a "componentDidMount" life-cycle hook
+
+  useEffect(() => {
+    if (prevProps?.flowMapState && !props?.flowMapState) {
+      disposeFlowMapIfPresent();
+    } else if (!prevProps?.flowMapState && props?.flowMapState) {
+      if (!flowMap) {
+        setFlowMap(initFlowMap(props));
       }
-      if (this.flowMap) {
-        this.flowMap.updateState(currentProps.flowMapState);
+      if (flowMap) {
+        flowMap?.updateState(props?.flowMapState);
       }
     } else {
-      const flowMapStateHasChanged = prevProps.flowMapStateVersion !== currentProps.flowMapStateVersion;
+      const flowMapStateHasChanged = prevProps?.flowMapStateVersion !== props?.flowMapStateVersion;
       if (flowMapStateHasChanged) {
-        if (!this.flowMap) {
-          this.initFlowMap(currentProps);
+        if (!flowMap) {
+          setFlowMap(initFlowMap(props));
         }
-        if (this.flowMap) {
-          this.flowMap.updateState(currentProps.flowMapState);
+        if (flowMap) {
+          flowMap?.updateState(props?.flowMapState);
         }
       }
     }
+
     if (
-      prevProps.width !== currentProps.width ||
-      prevProps.height !== currentProps.height ||
-      prevProps.customHeight !== currentProps.customHeight
+      prevProps?.width !== props.width ||
+      prevProps?.height !== props.height ||
+      prevProps?.customHeight !== props.customHeight
     ) {
-      if (this.flowMap) {
-        this.flowMap.setSize(currentProps.width, currentProps.customHeight || currentProps.height);
+      if (flowMap) {
+        flowMap?.setSize(props.width, props.customHeight || props.height);
       }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [flowMap, prevProps, props]); // We don't need the functions, so we keep them ignored for now.
+
+  function initFlowMap() {
+    if (isWebGLSupported() && webGlContextRef) {
+      disposeFlowMapIfPresent();
+      const newMap = new FlowMap({
+        canvas: canvasNodeRef.current,
+        overlayReactComponent: overlayRef.current,
+        props
+      });
+
+      return newMap;
     }
   }
 
-  componentWillUnmount() {
-    this.disposeFlowMapIfPresent();
+  function disposeFlowMapIfPresent() {
+    if (flowMap) {
+      flowMap?.dispose();
+      setFlowMap(null);
+    }
   }
 
-  render() {
-    return (
-      <div className={locals.wrapper}>
-        <div className={locals.overlay} ref={overlay => (this.overlayReactComponent = overlay)} />
-        <canvas
-          className={locals.canvas}
-          ref={canvas => {
-            this.canvas = canvas;
-            this.webGlContext = getWebGLCanvasContext(canvas);
-          }}
-        />
-      </div>
+  return (
+    <React.Fragment>
+      <MapOverlay
+        serviceLocatorUid={flowMap?.serviceLocatorUid}
+        resultPrecisionDetails={props?.flowMapState?.resultPrecisionDetails}
+        {...props}
+        ref={overlayRef}
+      />
+      <canvas className={locals.canvas} ref={canvasRefSetter} />
+    </React.Fragment>
+  );
+}
+
+function showHelpIfWebGLCantBeSetup(webGlContext) {
+  if (!isWebGLSupported()) {
+    addActiveDialog(
+      <HelpDialog
+        title={t('in-applications:applicationMap.webglNotSupportedTitle')}
+        markdownContent={t('in-applications:applicationMap.webglNotSupported')}
+      />
+    );
+  } else if (!webGlContext) {
+    addActiveDialog(
+      <HelpDialog
+        title={t('in-applications:applicationMap.webglNotInitializedTitle')}
+        markdownContent={t('in-applications:applicationMap.webglNotInitialized')}
+      />
     );
   }
-
-  initFlowMap(props) {
-    if (isWebGLSupported() && this.webGlContext) {
-      this.disposeFlowMapIfPresent();
-      this.flowMap = new FlowMap({
-        canvas: this.canvas,
-        overlayReactComponent: this.overlayReactComponent,
-        expandNodeLeft: props.expandNodeLeft,
-        expandNodeRight: props.expandNodeRight,
-        expandChildLeft: props.expandChildLeft,
-        expandChildRight: props.expandChildRight,
-        loadMore: props.loadMore
-      });
-    }
-  }
-
-  disposeFlowMapIfPresent = () => {
-    if (this.flowMap) {
-      this.flowMap.dispose();
-      this.flowMap = null;
-    }
-  };
-
-  showHelpIfWebGLCantBeSetup = () => {
-    if (!isWebGLSupported()) {
-      addActiveDialog(
-        <HelpDialog
-          title={t('in-applications:applicationMap.webglNotSupportedTitle')}
-          markdownContent={t('in-applications:applicationMap.webglNotSupported')}
-        />
-      );
-    } else if (!this.webGlContext) {
-      addActiveDialog(
-        <HelpDialog
-          title={t('in-applications:applicationMap.webglNotInitializedTitle')}
-          markdownContent={t('in-applications:applicationMap.webglNotInitialized')}
-        />
-      );
-    }
-  };
 }

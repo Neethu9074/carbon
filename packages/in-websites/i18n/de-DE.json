@@ -2,12 +2,12 @@
   "analyze": {
     "analyzeView": {
       "beacons": {
-        "perBeaconTypeConfigEventTooltip": "Dieses Ereignis wurde gebündelt und stellt {{batchSize}} einzelne Ereignisse dar. ",
-        "perBeaconTypeConfigErrorTooltip": "Dieser Fehler wurde gebündelt und stellt {{batchSize}} einzelne Ereignisse dar. ",
-        "perBeaconTypeConfigHTTPRequestTooltip": "Diese HTTP-Anforderung wurde gebündelt und stellt {{batchSize}} einzelne HTTP-Anforderungen dar. ",
+        "perBeaconTypeConfigEventTooltip": "Dieses Ereignis wurde gebündelt und stellt {{batchSize}} einzelne Ereignisse dar.",
+        "perBeaconTypeConfigErrorTooltip": "Dieser Fehler wurde gebündelt und stellt {{batchSize}} einzelne Ereignisse dar.",
+        "perBeaconTypeConfigHTTPRequestTooltip": "Diese HTTP-Anforderung wurde gebündelt und stellt {{batchSize}} einzelne HTTP-Anforderungen dar.",
         "perBeaconTypeConfigPageTransitionTooltip": "Dieser Seitenwechsel wurde gebündelt und stellt {{batchSize}} einzelne Seitenwechsel dar.",
         "perBeaconTypeConfigPageLoadTooltip": "Dieser Seitenladevorgang wurde gebündelt und stellt {{batchSize}} einzelne Seitenladevorgänge dar.",
-        "perBeaconTypeConfigResourceRetrievalsTooltip": "Dieser Ressourcenabruf wurde gebündelt und stellt {{batchSize}} einzelne Ressourcenabrufe dar. "
+        "perBeaconTypeConfigResourceRetrievalsTooltip": "Dieser Ressourcenabruf wurde gebündelt und stellt {{batchSize}} einzelne Ressourcenabrufe dar."
       },
       "resourceTimingMetricsLabelRedirectTime": "Umleitungszeit",
       "resourceTimingMetricsLabelAppCacheTime": "AppCache-Zeit",
@@ -15,7 +15,7 @@
       "resourceTimingMetricsLabelTCPTime": "TCP-Zeit",
       "resourceTimingMetricsLabelSSLTime": "SSL-Zeit",
       "resourceTimingMetricsLabelRequestTime": "Anforderungszeit",
-      "resourceTimingMetricsLabelResponseTime": " Antwortzeit         ",
+      "resourceTimingMetricsLabelResponseTime": "Antwortzeit",
       "resourceTimingMetricsLabelTimeToFirstByte": "Zeit bis zum ersten Byte",
       "resourceTimingMetricsCategoryResourceTiming": "Ressourcentiming",
       "resourceSizeMetricsLabelEncodedBodySize": "Größe des codierten Nachrichtentexts",
@@ -127,10 +127,10 @@
         "backendDiSummaryCallCount_0": "{{callCount}} Aufrufe",
         "backendDiSummaryCallCount_1": "{{callCount}} Aufruf",
         "backendDiSummaryCallCount_2": "{{callCount}} Aufrufe",
-        "backendDiSummaryTotalErrorCount": "{{totalErrorCount}} Fehler ",
+        "backendDiSummaryTotalErrorCount": "{{totalErrorCount}} Fehler",
         "backendDiSummaryTotalErrorCount_plural": "{{totalErrorCount}} Fehler",
         "backendDiSummaryTotalErrorCount_0": "{{totalErrorCount}} Fehler",
-        "backendDiSummaryTotalErrorCount_1": "{{totalErrorCount}} Fehler ",
+        "backendDiSummaryTotalErrorCount_1": "{{totalErrorCount}} Fehler",
         "backendDiSummaryTotalErrorCount_2": "{{totalErrorCount}} Fehler",
         "backendTraceButtonViewBackendTrace": "Back-End-Trace anzeigen",
         "backendTraceButtonID": "ID: {{traceId}}",
@@ -162,6 +162,7 @@
         "httpRequestBeaconHeaderRequest": "Anfrage",
         "httpRequestBeaconHeaderCallDetails": "Aufrufdetails",
         "httpRequestBeaconHeaderMeta": "Meta",
+        "httpRequestBeaconHeaderHttpHeaders": "HTTP-Header",
         "httpRequestBeaconHeaderGraphQL": "GraphQL",
         "httpRequestBeaconHeaderResourceTiming": "Ressourcentiming",
         "httpRequestBeaconHeaderNetworkInsights": "Netzeinblicke",
@@ -258,7 +259,7 @@
         "filterTypeCSSLong": "Style-Sheets",
         "filterTypeImgShort": "Abbildg.",
         "filterTypeImgBadgeLabel": "Abbildg.",
-        "filterTypeImgLong": "Abbildungen",
+        "filterTypeImgLong": "Images",
         "filterTypeFontShort": "Schriftart",
         "filterTypeFontBadgeLabel": "FNT",
         "filterTypeFontLong": "Web-Schriftarten",
@@ -315,9 +316,9 @@
     "stackTraceExplanation12AnUnknownErrorOccurred": "Bei der Verarbeitung der Quellenzuordnungsdatei ist ein unbekannter Fehler aufgetreten.",
     "stackTraceExplanation13CouldNotFindOriginalMapping": "Die ursprüngliche Zuordnung für eine Kombination aus Zeile und Spaltennummer über die Quellenzuordnung konnte nicht gefunden werden. Dies kann nach Releases für Benutzer geschehen, die veraltete Versionen Ihrer JavaScript-Dateien ausführen.",
     "stackTraceExplanation15TranslationIsOnlyPossible": "Eine Übersetzung ist nur möglich, wenn ein Verweis auf eine Zeilennummer in der Stack-Trace-Zeile enthalten ist.",
-    "stackTraceExplanation16ThisStackTraceLinesFileReferenceDoesNotPoint": "Der Dateiverweis Dateireferenz dieser Stack-Trace-Zeile verweist nicht auf eine JavaScript-Datei. Die auf der Quellenzuordnung basierende Stack-Trace-Zeilenübersetzung funktioniert nur, wenn die Quelle eine JavaScript-Datei ist. ",
-    "stackTraceExplanation17CouldCotEstablishTCPTLSConnectionJavaScript": "Es konnte keine TCP/TLS-Verbindung zum Host hergestellt werden, der die JavaScript-Datei bereitstellt. ",
-    "stackTraceExplanation18CouldCotEstablishTCPTLSConnectionSourceMap": "Es konnte keine TCP/TLS-Verbindung zum Host hergestellt werden, der die Quellenzuordnungsdatei bereitstellt. ",
+    "stackTraceExplanation16ThisStackTraceLinesFileReferenceDoesNotPoint": "Der Dateiverweis Dateireferenz dieser Stack-Trace-Zeile verweist nicht auf eine JavaScript-Datei. Die auf der Quellenzuordnung basierende Stack-Trace-Zeilenübersetzung funktioniert nur, wenn die Quelle eine JavaScript-Datei ist.",
+    "stackTraceExplanation17CouldCotEstablishTCPTLSConnectionJavaScript": "Es konnte keine TCP/TLS-Verbindung zum Host hergestellt werden, der die JavaScript-Datei bereitstellt.",
+    "stackTraceExplanation18CouldCotEstablishTCPTLSConnectionSourceMap": "Es konnte keine TCP/TLS-Verbindung zum Host hergestellt werden, der die Quellenzuordnungsdatei bereitstellt.",
     "stackTraceExplanation19ARequestTimeoutOccurredJavaScript": "Bei dem Versuch, die JavaScript-Datei abzurufen, ist ein Anforderungszeitlimit aufgetreten.",
     "stackTraceExplanation20ARequestTimeoutOccurredJavaScriptSourceMap": "Bei dem Versuch, die JavaScript-Datei abzurufen, ist ein Anforderungszeitlimit aufgetreten. Quellenzuordnungsdatei."
   },
@@ -438,7 +439,7 @@
         "xhrRequestLabelPOST": "POST",
         "xhrRequestLabelPUT": "PUT",
         "xhrRequestLabelDELETE": "DELETE",
-        "xhrRequestLabelCount": " Anzahl   ",
+        "xhrRequestLabelCount": "Anzahl",
         "xhrRequestLabelTransferSize": "Übertragungsvolumen",
         "xhrRequestLabelEncodedBodySize": "Größe des codierten Nachrichtentexts",
         "xhrRequestLabelDecodedBodySize": "Größe des decodierten Nachrichtentexts",
@@ -454,6 +455,7 @@
       "alerts": {
         "alertConfigurationListTitleAlertConfiguration": "Alertkonfiguration",
         "alertConfigurationTitleTrigger": "Trigger",
+        "alertConfigurationTitleCustomEvent": "Angepasstes Ereignis",
         "alertConfigurationTitleErrorMessage": "Fehlernachricht",
         "alertConfigurationTitleHTTPStatusCode": "HTTP-Statuscode",
         "alertConfigurationTitleScope": "Bereich",
@@ -479,8 +481,38 @@
         "configurationRenameTitle": "Website umbenennen",
         "configurationRenameButton": "Umbenennen",
         "configurationTrackingScriptTitle": "Überwachungsscript",
+        "saved": "Gespeichert",
+        "ipMasking": {
+          "title": "IP-Maskierung",
+          "help": "Die IP-Maskierung schützt die Privatsphäre von Endbenutzern durch das Maskieren (Anonymisieren) von IP-Adresssegmenten. Dies geschieht zum frühestmöglichen Zeitpunkt in der Aufnahmepipeline von Instana, sodass vollständige IP-Adressen nie gespeichert werden. Instana maskiert IP-Adressen immer mit in der Branche häufig verwendeten Regeln. Sie können jedoch strengere IP-Maskierungsregeln konfigurieren, wenn dies für Ihr Unternehmen erforderlich ist.",
+          "option_DEFAULT": "Standardmäßig werden die letzten 8 Bit für IPv4 und die letzten 80 Bit für IPv6 maskiert",
+          "option_STRICT": "Bei einer strengen Maskierung werden die letzten 16 Bit für IPv4 und die letzten 96 Bit für IPv6 maskiert",
+          "option_REMOVE_ALL_DETAILS": "IP-Adressen entfernen (es bleibt nur ein Hinweis auf die Verwendung von IPv4 und IPv6 erhalten)"
+        },
+        "geoDetailRemoval": {
+          "title": "Entfernung geografischer Details",
+          "help": "Instana ermittelt anhand der IP-Adressen von Endbenutzern einen ungefähren Standort für eingehende Daten. Dazu gehören Informationen zu Koordinaten, Stadt, Bundesstaat, Land und Kontinent des Endbenutzers. Einige Unternehmen sind möglicherweise der Ansicht, dass anhand dieser Daten Endbenutzer identifizierbar sind und möchten daher diese ungefähren Standortinformationen weiter anonymisieren. Dies kann durch das Entfernen geografischer Details erreicht werden.",
+          "option_NO_REMOVAL": "Kein Entfernen geografischer Details",
+          "option_REMOVE_COORDINATES": "Informationen zu Breitengrad, Längengrad und Genauigkeit entfernen",
+          "option_REMOVE_CITY": "Informationen zu Stadt, Breitengrad, Längengrad und Genauigkeit entfernen",
+          "option_REMOVE_ALL": "Alle geografischen Details entfernen"
+        },
+        "customGeoDetails": {
+          "title": "Benutzerdefinierte geografische Details",
+          "help1": "Instana ordnet IP-Adressen von Endbenutzern geografischen Details zu, z. B. dem Namen einer Stadt oder eines Landes. Dazu werden verschiedene HTTP-Header überprüft, um die IP-Adressen der Endbenutzer abzurufen. Diese IP-Adressen werden dann mithilfe von <maxmind>geografischen Datenbanken von Maxmind</maxmind> in geografische Details umgesetzt. Der Hauptanwendungsfall für diese angepassten Zuordnungsregeln sind private Netzwerke, beispielsweise, wenn Sie über private Netze auf (selbst gehostete) Instana-Installationen zugreifen. In solchen Fällen enthalten die öffentlichen geografischen Datenbanken niemals relevante Informationen und der Umsetzungsprozess liefert daher entweder keine Ergebnisse oder nur falsche/nicht hilfreiche Ergebnisse.",
+          "help2": "Regeln für benutzerdefinierte geografische Details werden immer durch durch Kommas getrennte Werte (CSV) ausgedrückt. Das CSV-Format und die Verwendung unserer Web-REST-API sind in unserer <documentation>Dokumentation</documentation> definiert.",
+          "download": "Aktive Konfiguration herunterladen (CSV)",
+          "documentation": "Dokumentation",
+          "uploader": {
+            "title": "Neue Regeln hochladen",
+            "help": "Benutzerdefinierte geografische Detailregeln sind CSV-Dateien und werden über unsere Web-REST-API oder über dieses Formular hochgeladen. Weitere Informationen zur Dateistruktur, zu Grenzwerten und zur Web-REST-API finden Sie in unserer <documentation>Dokumentation</documentation>.",
+            "failureToReadFileContent": "Dateiinhalt konnte nicht gelesen werden: {{error}}",
+            "failureToCallApiForTechnicalReason": "HTTP-Aufruf konnte nicht ausgeführt werden: {{error}}",
+            "failureToCallApiForStatusCodeReason": "HTTP-Aufruf mit fehlerhaftem Ergebnis zurückgegeben: {{error}}"
+          }
+        },
         "fileDownloadConfigurationDialogMessageSavingConfiguration": "Konfiguration wird gespeichert...",
-        "fileDownloadConfigurationDialogMessageConfigurationUpdated": "Konfiguration wurde aktualisiert. ",
+        "fileDownloadConfigurationDialogMessageConfigurationUpdated": "Konfiguration aktualisiert.",
         "fileDownloadConfigurationDialogMessageNewConfigurationSaved": "Neue Konfiguration gespeichert.",
         "fileDownloadConfigurationDialogMessageFailedToSaveConfiguration": "Fehler beim Speichern der Konfiguration: {{message}}",
         "fileDownloadConfigurationDialogPathValidatorIsAtLeastOneMatchingRuleDefinedValidatorMessage": "Es ist mindestens eine übereinstimmende Regel erforderlich.",
@@ -499,7 +531,7 @@
         "fileDownloadConfigurationDialogLabelPathHelpText": "Beschreiben Sie, wie das Pfadsegment von URLs abgeglichen wird. Sie können einen Platzhalterabgleich über <code>{{asterisks}}</code> definieren",
         "fileDownloadConfigurationDialogButtonAddMatchingRule": "Abgleichsregel hinzufügen",
         "fileDownloadConfigurationDialogHeadingHTTPBasicAuthentication": "HTTP-Basisauthentifizierung",
-        "fileDownloadConfigurationDialogHTTPBasicAuthenticationHelp": "Wir empfehlen die Authentifizierung über due <linkToDocs>HTTP-Basisauthentifizierung</linkToDocs>. Die HTTP-Basisauthentifizierung kann auf einfache Weise den meisten HTTP-Servern und Proxys hinzugefügt werden, z. B. Apache Httpd und Nginx.",
+        "fileDownloadConfigurationDialogHTTPBasicAuthenticationHelp": "Wir empfehlen die Authentifizierung über die <linkToDocs>HTTP-Basisauthentifizierung</linkToDocs>. Die HTTP-Basisauthentifizierung kann auf einfache Weise den meisten HTTP-Servern und Proxys hinzugefügt werden, z. B. Apache Httpd und Nginx.",
         "fileDownloadConfigurationDialogLabelUserName": "Benutzername",
         "fileDownloadConfigurationDialogLabelPassword": "Kennwort",
         "fileDownloadConfigurationDialogHeadingCustomHTTPRequestHeaders": "Angepasste HTTP-Anforderungsheader",
@@ -507,19 +539,37 @@
         "fileDownloadConfigurationDialogLabelKey": "Schlüssel",
         "fileDownloadConfigurationDialogLabelValue": "Wert",
         "fileDownloadConfigurationDialogButtonAddHeader": "Header hinzufügen",
+        "fileUploadConfigurationDialogTitleEdit": "Konfiguration für Dateiupload bearbeiten",
+        "fileUploadConfigurationDialogTitleNew": "Neue Konfiguration für Dateiupload",
+        "fileUploadConfigurationDialogLabelDescription": "Beschreibung",
+        "fileUploadConfigurationDialogHeadingDescription": "Beschreibung",
+        "fileUploadConfigurationDialogDescriptionHelp": "Eine Uploadkonfiguration hilft Ihnen, Ihre hochgeladenen Dateien besser zu organisieren.",
+        "fileUploadConfigurationDialogHeadingOpenAPI": "Dateien hochladen",
+        "fileUploadConfigurationDialogOpenAPIHelp": "Laden Sie Ihre Dateien hoch, indem Sie die Web-REST-API von Instana aufrufen. Dies könnte zur automatisierten Bereitstellung in Ihren Pipelineprozess integriert werden. Die Erläuterung und Verwendung unserer Web-REST-API ist in <documentation>Dokumentation</documentation> definiert.",
+        "fileUploadUrl": "API \"Datei hochladen\"",
+        "clearUploadedFilesUrl": "API \"Alle Dateien entfernen\"",
         "stackTraceTranslationLabelConfiguration": "Konfiguration",
+        "stackTraceTranslationLabelFiles": "Dateien",
+        "stackTraceTranslationLabelTotalSize": "Gesamtgröße",
+        "stackTraceTranslationLabelLastModified": "Letzte Änderung",
         "stackTraceTranslationExplanation": "Um JavaScript-Stack-Traces leichter lesbar zu machen, z. B. um Verweise auf nicht minifizierte Dateien und Zeilen anzuzeigen, muss Instana auf JavaScript-und Source-Map-Dateien zugreifen. Wenn Sie eine Konfiguration hier hinzufügen, können Sie den Server von Instana zum Authentifizieren und Herunterladen dieser Dateien verwenden, um weitere Einblicke in JavaScript-Fehler zu erhalten.",
+        "stackTraceTranslationExplanationWithUploadFeature": "Um JavaScript-Stack-Traces besser lesbar zu machen, z. B. um Verweise auf nicht verkleinerte Dateien und Zeilen anzuzeigen, muss Instana auf JavaScript- und Quellenzuordnungsdateien zugreifen. Wenn Sie hier eine Downloadkonfiguration hinzufügen, kann der Instana-Server diese Dateien authentifizieren und herunterladen, um mehr Einblicke in JavaScript-Fehler zu erhalten. Wenn Ihre Dateien privat gehostet werden und Instana nicht darauf zugreifen kann, kann in diesem Szenario eine Uploadkonfiguration verwendet werden, indem Ihre Dateien manuell über die Web-REST-API hochgeladen werden.",
         "stackTraceTranslationTitleJavaScriptStackTraceTranslation": "JavaScript-Stack-Trace-Übersetzung",
         "stackTraceTranslationLearnMoreLabel": "Erfahren Sie mehr über JavaScript-Stack-Trace-Übersetzung",
         "stackTraceTranslationTitleJSStackTraceTranslationConfigurations": "Konfigurationen der JS-Stack-Trace-Übersetzung",
         "stackTraceTranslationHeaderFileDownloadConfigurations": "Konfiguration für Dateidownloads",
+        "stackTraceTranslationHeaderFileUploadConfigurations": "Konfigurationen für Dateiupload",
         "stackTraceTranslationNoDataMessage": "Keine Dateidownload-Konfigurationen verfügbar.",
+        "stackTraceTranslationNoUploadDataMessage": "Keine Konfigurationen zum Hochladen von Dateien verfügbar.",
         "stackTraceTranslationButtonAddConfiguration": "Konfiguration hinzufügen",
         "stackTraceTranslationLabelFileDownloadConfiguration": "Dateidownload-Konfiguration {{config}}",
-        "stackTraceTranslationLabelOr": " oder",
+        "stackTraceTranslationLabelFileUploadConfiguration": "Dateiupload-Konfiguration {{config}}",
+        "stackTraceTranslationLabelOr": " oder ",
         "configurationTitle": "Konfiguration",
         "configurationLabelOptions": "Optionen",
-        "configurationLabelJSStackTraceTranslation": "JS-Stack-Trace-Übersetzungen"
+        "configurationLabelPrivacy": "Datenschutz",
+        "configurationLabelJSStackTraceTranslation": "JS-Stack-Trace-Übersetzungen",
+        "configurationLabelCustomGeoDetails": "Benutzerdefinierte geografische Details"
       },
       "customEvents": {
         "customEventTitleWebsiteCustomEventDetails": "Angepasste Ereignisdetails der Website",
@@ -693,7 +743,7 @@
         "sizesMobileL": "Mobile (L)",
         "sizesMobileM": "Mobile (M)",
         "sizesMobileS": "Mobile (S)",
-        "sizesTitleBrowserWindowWidthBreakdown": "Aufgliederung der Browserfensterbreite ",
+        "sizesTitleBrowserWindowWidthBreakdown": "Aufgliederung der Browserfensterbreite",
         "sizes4kLabelPageLoads": "Seitenladevorgänge",
         "sizes4kLabelUsers": "Benutzer",
         "sizesTechnicalLabelBetween": "Zwischen {{min}} px und {{max}} px (inklusive)",
@@ -709,7 +759,7 @@
       "indexLabelGeography": "Geographie",
       "indexLabelCustomEvents": "Angepasste Ereignisse",
       "indexLabelPages": "Seiten",
-      "indexLabelAlerts": "Alerts",
+      "indexLabelAlerts": "Smart Alerts",
       "indexLabelConfiguration": "Konfiguration",
       "pagesLabelName": "Name",
       "pagesLabelPageViews": "Seitenaufrufe",
@@ -764,13 +814,13 @@
     }
   },
   "rename": {
-    "help": "Die Umbenennung einer Website ist eine letztendlich konsistente Aktion innerhalb des Instana-Systems. Aus diesem Grund kann das Ändern eines Websitenamens <strong>einige Minuten</strong> in Anspruch nehmen, bis es im gesamten System ausgeführt ist. "
+    "help": "Die Umbenennung einer Website ist eine letztendlich konsistente Aktion innerhalb des Instana-Systems. Aus diesem Grund kann das Ändern eines Websitenamens <strong>einige Minuten</strong> in Anspruch nehmen, bis es im gesamten System ausgeführt ist."
   },
   "trackingScript": {
     "help": "Das folgende Tracking-Script ist alles, was Sie benötigen, um mit der Website-Überwachung beginnen zu können. Fügen Sie dieses Script zum <code>{{htmlElementName}}</code> des HTML-Dokuments hinzu. Informationen zur Website-Überwachung und zu den vollständigen Funktionen des Tracking-Scripts finden Sie <linkToDocs>in unseren Dokumenten</linkToDocs>."
   },
   "delete": {
-    "disclaimer": "Wenn Sie die Website <strong>{{websiteName}}</strong> nicht mehr mit Instana überwachen möchten, verwenden Sie dieses Formular, um sie zu entfernen. Das Entfernen einer Website ist eine letztendlich konsistente Aktion. Aus diesem Grund kann das vollständige Entfernen einer Website <strong>einige Minuten</strong> dauern. "
+    "disclaimer": "Wenn Sie die Website <strong>{{websiteName}}</strong> nicht mehr mit Instana überwachen möchten, verwenden Sie dieses Formular, um sie zu entfernen. Das Entfernen einer Website ist eine letztendlich konsistente Aktion. Aus diesem Grund kann das vollständige Entfernen einer Website <strong>einige Minuten</strong> dauern."
   },
   "dataSource_pageLoad": "{{formattedCount}} Seitenladevorgang",
   "dataSource_pageLoad_plural": "{{formattedCount}} Seitenladevorgänge",

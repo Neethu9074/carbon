@@ -10,8 +10,8 @@ import { SvgIcon } from '@instana/components';
 import { Message } from '@instana/components';
 
 import MetricSelectorOverlay from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectorOverlay';
+import IndeterminateLoadingIndicator from 'in-components/LoadingIndicators/IndeterminateLoadingIndicator';
 import DropdownButton from 'in-components/Button/DropdownButton';
-import { emptyObject } from 'in-services/fixedObjects';
 import Overlay from 'in-components/overlays/Overlay';
 import { t } from 'in-i18n';
 
@@ -51,7 +51,7 @@ export default function TypeAndMetricConfigurator({
             refSetter={refSetter}
             className={locals.configurator}
           >
-            <TypeAndMetricLabel selectMetric={selectMetric} metricMetadata={metricMetadata} />
+            <TypeAndMetricLabel selectMetric={selectMetric} {...metricMetadata} />
           </DropdownButton>
         )}
       </Overlay>
@@ -60,7 +60,7 @@ export default function TypeAndMetricConfigurator({
 }
 
 TypeAndMetricConfigurator.propTypes = {
-  metricMetadata: rpt.object.isRequired,
+  metricMetadata: rpt.object,
   metricCatalog: rpt.object.isRequired,
   onChange: rpt.func.isRequired,
   query: rpt.string.isRequired,
@@ -80,24 +80,32 @@ function Errors({ errors }) {
   );
 }
 
-function TypeAndMetricLabel({ selectMetric, metricMetadata }) {
-  if (metricMetadata?.progress?.loading) {
-    return null;
+function TypeAndMetricLabel({ selectMetric, path, label, loading, metric }) {
+  if (loading) {
+    return (
+      <div className={locals.loadingWrapper}>
+        <IndeterminateLoadingIndicator size={'xs'} />
+        <span className={locals.loadingText}>
+          {t('in-custom-dashboards:widgets.srcInfrastructure.typeAndMetricConfigurator.loadingMetrics')}
+        </span>
+      </div>
+    );
   }
-  if (metricMetadata === emptyObject) {
+  if (!metric && !label && (!path || path.length == 0)) {
     return selectMetric;
   }
   return (
     <>
-      {metricMetadata.ownerType}
-      {metricMetadata.category && (
-        <>
-          <SvgIcon className={locals.icon} type="lib_arrow_drop_right" />
-          {metricMetadata.category}
-        </>
-      )}
-      <SvgIcon className={locals.icon} type="lib_arrow_drop_right" />
-      {metricMetadata.label}
+      {path
+        .slice(1)
+        .concat([label || metric])
+        .reduce((acc, elem) => (
+          <>
+            {acc}
+            <SvgIcon className={locals.icon} type="lib_arrow_drop_right" />
+            {elem}
+          </>
+        ))}
     </>
   );
 }

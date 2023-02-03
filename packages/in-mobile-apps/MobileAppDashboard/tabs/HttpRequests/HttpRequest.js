@@ -73,7 +73,7 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
       <Row>
         <Col xs={4}>
           <MobileAppChartWrapper
-            cardTitle={t('in-mobile-apps:dashboard.tabs.callsCardTitle')}
+            title={t('in-mobile-apps:dashboard.tabs.callsCardTitle')}
             timeConfig={timeConfig}
             viewInAnalytics={viewInAnalytics}
             y1={{
@@ -109,7 +109,7 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
         </Col>
         <Col lg={4}>
           <MobileAppChartWrapper
-            cardTitle={t('in-mobile-apps:dashboard.tabs.erroneousCallRateTitle')}
+            title={t('in-mobile-apps:dashboard.tabs.erroneousCallRateTitle')}
             timeConfig={timeConfig}
             viewInAnalytics={viewInAnalytics}
             y1={{
@@ -135,7 +135,7 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
         </Col>
         <Col lg={4}>
           <MobileAppChartWrapper
-            cardTitle={t('in-mobile-apps:dashboard.tabs.latencyCardTitle')}
+            title={t('in-mobile-apps:dashboard.tabs.latencyCardTitle')}
             reverseTooltipOrder
             shareMaxAxisDomain
             timeConfig={timeConfig}
@@ -210,7 +210,7 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
       <Row>
         <Col xs={6}>
           <MobileAppChartWrapper
-            cardTitle={t('in-mobile-apps:dashboard.tabs.HTTPStatusCodeBreakdownTitle')}
+            title={t('in-mobile-apps:dashboard.tabs.HTTPStatusCodeBreakdownTitle')}
             timeConfig={timeConfig}
             viewInAnalytics={viewInAnalytics}
             y1={{
@@ -269,7 +269,7 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
 
         <Col lg={6}>
           <MobileAppChartWrapper
-            cardTitle={t('in-mobile-apps:dashboard.tabs.HTTPMethodBreakdownTitle')}
+            title={t('in-mobile-apps:dashboard.tabs.HTTPMethodBreakdownTitle')}
             timeConfig={timeConfig}
             viewInAnalytics={viewInAnalytics}
             y1={{
@@ -322,6 +322,7 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
               tagFilters={tagFiltersForRequests}
               timeConfig={timeConfig}
               urlMatrixParamConfig={{ path: detailsPath, paramTab: 'viewsTab' }}
+              renderHistoricDataIndicator
             />
           </Col>
         )}
@@ -333,6 +334,7 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
             timeConfig={timeConfig}
             viewId={viewId}
             urlMatrixParamConfig={{ path: detailsPath, paramTab: 'pathsTab' }}
+            renderHistoricDataIndicator
           />
         </Col>
         <Col lg={viewId == null ? 4 : 6}>
@@ -342,6 +344,7 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
             tagFilters={tagFiltersForRequests}
             timeConfig={timeConfig}
             viewId={viewId}
+            renderHistoricDataIndicator
           />
         </Col>
       </Row>

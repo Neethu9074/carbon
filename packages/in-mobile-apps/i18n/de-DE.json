@@ -1,9 +1,10 @@
 {
   "tags": {
     "sessionStart": "Sitzungsstart",
-    "viewChange": "Anzeigewechsel ",
+    "viewChange": "Anzeigewechsel",
     "httpRequest": "HTTP-Anforderung",
-    "custom": "Angepasstes Ereignis"
+    "custom": "Angepasstes Ereignis",
+    "crash": "Absturz"
   },
   "analyzeView": {
     "uniqueUsers": "Eindeutige Benutzer",
@@ -26,7 +27,7 @@
     },
     "availableMetrics": {
       "sessionStartBeaconCountLabel": "Sitzungsstarts",
-      "viewChangeBeaconCountLabel": "Anzeigewechsel ",
+      "viewChangeBeaconCountLabel": "Anzeigewechsel",
       "httpRequestBeaconCountLabel": "Aufrufe",
       "httpRequestBeaconErrorCountLabel": "Fehlerhafte Aufrufe",
       "httpRequestBeaconDurationLabel": "Abrufzeit",
@@ -153,10 +154,13 @@
       "sesLong": "Sitzungsstart",
       "traShort": "Wechsel",
       "traBadgeLabel": "Wechsel",
-      "traLong": "Anzeigewechsel ",
+      "traLong": "Anzeigewechsel",
       "cusShort": "Angep.",
       "cusBadgeLabel": "Angep.",
-      "cusLong": "Angepasste Ereignisse"
+      "cusLong": "Angepasste Ereignisse",
+      "craShort": "Cra",
+      "craBadgeLabel": "Cra",
+      "craLong": "Absturz"
     },
     "tabsSumOverviewChartTooltipStartTime": "Startzeit",
     "tabsSummary": {
@@ -201,6 +205,15 @@
       "errMsgTitle": "Fehlernachricht",
       "metaHeader": "Meta"
     },
+    "tabsSumCrashBeacon": {
+      "startTimeLabel": "Startzeit",
+      "crashHeader": "Absturz",
+      "errorMsg": "Fehlernachricht",
+      "errorType": "Fehlertyp",
+      "crashLabel": "Absturz",
+      "metaHeader": "Meta",
+      "stackTrace": "Stack-Trace"
+    },
     "tabsSumHttpRequestBeacon": {
       "retrievalTimeTooltip": "Abrufzeit",
       "requestLabel": "Anforderung",
@@ -208,6 +221,7 @@
       "retrievalTimeLabel": "Abrufzeit",
       "callDetailsHeader": "Aufrufdetails",
       "httpCallURITitle": "HTTP-Aufruf-URI",
+      "httpHeadersHeader": "HTTP-Header",
       "httpMethodTitle": "HTTP-Methode",
       "httpStatusTitle": "HTTP-Status",
       "errMsgTitle": "Fehlernachricht",
@@ -222,7 +236,7 @@
       "metaHeader": "Meta"
     },
     "tabsSumViewChangeBeacon": {
-      "viewTransitionLabel": "Anzeigewechsel ",
+      "viewTransitionLabel": "Anzeigewechsel",
       "startTimeLabel": "Startzeit"
     }
   },
@@ -236,12 +250,15 @@
       "summaryLabel": "Zusammenfassung",
       "httpRequestLabel": "HTTP-Anforderungen",
       "geographyLabel": "Geographie",
+      "customEventsLabel": "Angepasste Ereignisse",
       "viewsLabel": "Ansichten",
       "configurationLabel": "Konfiguration",
       "nameLabel": "Name",
       "occurrencesLabel": "Vorkommen",
       "configurationTitle": "Konfiguration",
       "optionsLabel": "Optionen",
+      "privacyLabel": "Datenschutz",
+      "customGeoDetailsLabel": "Benutzerdefinierte geografische Details",
       "installationInstructionsBtn": "Installationsanweisungen",
       "keyLabel": "Schlüssel",
       "reportingURLLabel": "Berichts-URL",
@@ -253,7 +270,6 @@
       "renameAppTitle": "Mobile App umbenennen",
       "renameAppHelp": "Das Umbenennen einer mobilen App ist eine letztendlich konsistente Aktion im Instana-System. Aus diesem Grund kann das Ändern des Namens einer mobilen App <strong>einige Minuten</strong> in Anspruch nehmen, bis es im gesamten System ausgeführt ist.",
       "renameAppBtn": "Umbenennen",
-      "renameSaved": "Gespeichert",
       "noSessionTitle": "Keine Sitzungen verfügbar",
       "noSessionExplanation": "Es wurden keine Sitzungen im ausgewählten Zeitraum gefunden.",
       "noSessionExplanationWithFilters": "Es wurden keine Sitzungen im ausgewählten Zeitraum gefunden, die mit Ihren Filtern übereinstimmen.",
@@ -291,25 +307,61 @@
       "viewAllOriginsLink": "Alle Ursprünge anzeigen",
       "sessionStartsTitle": "Sitzungsstarts",
       "viewInAnalyzeIconAction": "In Analyse anzeigen",
-      "viewTransitionsTitle": "Anzeigewechsel ",
+      "viewTransitionsTitle": "Anzeigewechsel",
       "activityCardTitle": "Aktivität",
       "sessionStartsLabel": "Sitzungsstarts",
-      "viewTransitionsLabel": "Anzeigewechsel ",
+      "viewTransitionsLabel": "Anzeigewechsel",
       "geographyTitle": "Geographie",
       "topViewsTitle": "Wichtigste Ansichten",
-      "globViewFootertext": "Abbildungen von NASA bereitgestellt"
+      "globViewFootertext": "Abbildungen von NASA bereitgestellt",
+      "customEvents": {
+        "customEventTitleMobileAppCustomEventDetails": "Angepasste Ereignisdetails der mobilen App",
+        "customEventLabelBackToListOfCustomEvents": "Zurück zur Liste der angepassten Ereignisse",
+        "customEventButtonAnalyzeCustomEvent": "Benutzerdefiniertes Ereignis analysieren",
+        "customEventTitleOccurrences": "Vorkommen",
+        "customEventTitleUsers": "Benutzer",
+        "customEventTitleCustomEvent": "Angepasstes Ereignis",
+        "customEventTitleDuration": "Dauer",
+        "customEventLabelViewInAnalyze": "In Analyze anzeigen",
+        "customEventLabelOccurrences": "Vorkommen",
+        "customEventLabelUsers": "Benutzer",
+        "customEventLabel50th": "50th",
+        "customEventLabel90th": "90th",
+        "customEventLabel95th": "95th",
+        "customEventLabel99th": "99th",
+        "customEventLabelMax": "Max",
+        "customEventLabelMean": "Mittelwert",
+        "customEventsLabelEventName": "Ereignisname",
+        "customEventsLabelOccurrences": "Vorkommen",
+        "customEventsLabelUsers": "Benutzer",
+        "customEventsButtonAnalyzeCustomEvents": "Angepasste Ereignisse analysieren",
+        "osTopListLabelOccurrences": "Vorkommen",
+        "osTopListLabelUsers": "Benutzer",
+        "osTopListLinkLabel": "Alle Betriebssysteme anzeigen",
+        "osTopListTitle": "Betriebssysteme",
+        "platformTopListLabelOccurrences": "Vorkommen",
+        "platformTopListLabelUsers": "Benutzer",
+        "platformTopListLinkLabel": "Alle Plattformen anzeigen",
+        "platformTopListTitle": "Plattformen",
+        "viewTopListLabelOccurrences": "Vorkommen",
+        "viewTopListLabelUsers": "Benutzer",
+        "viewTopListLinkLabel": "Alle Ansichten anzeigen",
+        "viewTopListTitle": "Ansichten"
+      }
     },
     "noDataAvailable": {
       "viewsTitle": "Keine Ansichten verfügbar",
       "viewsDescription": "Für den ausgewählten Zeitbereich wurden keine Ansichten abgerufen.",
       "httpRequestsTitle": "Keine HTTP-Anforderungen verfügbar",
-      "httpRequestsDescription": "Es wurden keine HTTP-Anforderungen für den ausgewählten Zeitbereich abgerufen."
+      "httpRequestsDescription": "Es wurden keine HTTP-Anforderungen für den ausgewählten Zeitbereich abgerufen.",
+      "customEventsTitle": "Keine angepassten Ereignisse verfügbar",
+      "customEventsDescription": "Es wurden keine angepassten Ereignisse für den ausgewählten Zeitraum abgerufen."
     }
   },
   "appsList": {
     "nameLabel": "Name",
     "sessionStartsLabel": "Sitzungsstarts",
-    "viewTransitionsLabel": "Anzeigewechsel ",
+    "viewTransitionsLabel": "Anzeigewechsel",
     "addMobileAppBtn": "Mobile App hinzufügen",
     "mobileAppsTitle": "Mobile Apps"
   },
@@ -334,18 +386,19 @@
     "sessionId": "Sitzungs-ID",
     "viewName": "Anzeigename",
     "access": "Zugriff",
-    "eventName": "Ereignisname"
+    "eventName": "Ereignisname",
+    "crash": "Absturz"
   },
   "dataSource_sessionStart": "{{formattedCount}} Sitzungsstart",
   "dataSource_sessionStart_plural": "{{formattedCount}} Sitzungsstarts",
   "dataSource_sessionStart_0": "{{formattedCount}} Sitzungsstarts",
   "dataSource_sessionStart_1": "{{formattedCount}} Sitzungsstarts",
   "dataSource_sessionStart_2": "{{formattedCount}} Sitzungsstarts",
-  "dataSource_viewChange": "{{formattedCount}} Anzeigewechsel ",
-  "dataSource_viewChange_plural": "{{formattedCount}} Anzeigewechsel ",
-  "dataSource_viewChange_0": "{{formattedCount}} Anzeigewechsel ",
-  "dataSource_viewChange_1": "{{formattedCount}} Anzeigewechsel ",
-  "dataSource_viewChange_2": "{{formattedCount}} Anzeigewechsel ",
+  "dataSource_viewChange": "{{formattedCount}} Anzeigewechsel",
+  "dataSource_viewChange_plural": "{{formattedCount}} Anzeigewechsel",
+  "dataSource_viewChange_0": "{{formattedCount}} Anzeigewechsel",
+  "dataSource_viewChange_1": "{{formattedCount}} Anzeigewechsel",
+  "dataSource_viewChange_2": "{{formattedCount}} Anzeigewechsel",
   "dataSource_httpRequest": "{{formattedCount}} HTTP-Anforderung",
   "dataSource_httpRequest_plural": "{{formattedCount}} HTTP-Anforderungen",
   "dataSource_httpRequest_0": "{{formattedCount}} HTTP-Anforderungen",
@@ -356,6 +409,11 @@
   "dataSource_custom_0": "{{formattedCount}} angepasste Ereignisse",
   "dataSource_custom_1": "{{formattedCount}} angepasste Ereignisse",
   "dataSource_custom_2": "{{formattedCount}} angepasste Ereignisse",
+  "dataSource_crash": "{{formattedCount}} Absturz",
+  "dataSource_crash_plural": "{{formattedCount}} Abstürze",
+  "dataSource_crash_0": "{{formattedCount}} Abstürze",
+  "dataSource_crash_1": "{{formattedCount}} Abstürze",
+  "dataSource_crash_2": "{{formattedCount}} Abstürze",
   "facetedSearch": {
     "mobileApp": "Mobile App",
     "view": "Ansicht",

@@ -26,14 +26,47 @@ export function MultiSelectSuggestions({
   setNumberOfPresentedRows,
   addToSelection,
   customLabelMapper,
-  tracker
+  tracker,
+  fallbackValues
 }) {
   if (loading) {
     return <Loading numberOfRows={numberOfPresentedRows} loadingSkeletonClass={locals.multiselectPlaceholder} />;
   } else if (errors?.length > 0) {
-    return <Errors errors={errors} setNumberOfPresentedRows={setNumberOfPresentedRows} />;
-  } else if (!suggestions) {
-    return null;
+    if (fallbackValues?.length > 0) {
+      return (
+        <Suggestions
+          tag={tag}
+          dataSource={dataSource}
+          suggestions={fallbackValues}
+          getMetric={getMetric}
+          selection={alreadySelectedValues}
+          setNumberOfPresentedRows={setNumberOfPresentedRows}
+          showMore={showMore}
+          setNextBatch={setNextBatch}
+          customLabelMapper={customLabelMapper}
+          addToSelection={addToSelection}
+          tracker={tracker}
+        />
+      );
+    } else {
+      return <Errors errors={errors} setNumberOfPresentedRows={setNumberOfPresentedRows} />;
+    }
+  } else if (!suggestions?.length && fallbackValues?.length > 0) {
+    return (
+      <Suggestions
+        tag={tag}
+        dataSource={dataSource}
+        suggestions={fallbackValues}
+        getMetric={getMetric}
+        selection={alreadySelectedValues}
+        setNumberOfPresentedRows={setNumberOfPresentedRows}
+        showMore={showMore}
+        setNextBatch={setNextBatch}
+        customLabelMapper={customLabelMapper}
+        addToSelection={addToSelection}
+        tracker={tracker}
+      />
+    );
   } else if (suggestions?.length > 0) {
     return (
       <Suggestions

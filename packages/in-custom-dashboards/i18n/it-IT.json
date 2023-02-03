@@ -45,7 +45,7 @@
       "widgetEditorDialogPresenter": {
         "editWidget": "Modifica Widget",
         "addWidget": "Aggiungi widget",
-        "next": "Successivo",
+        "next": "Avanti",
         "confirm": "Conferma",
         "create": "Crea",
         "back": "Indietro"
@@ -150,7 +150,7 @@
     },
     "srcInfrastructure": {
       "entityCount": {
-        "infrastructureEntityCount": "Numero di entità piattaforma & infrastruttura"
+        "infrastructureEntityCount": "Numero di entità Infrastruttura e piattaforme"
       },
       "entityCountFormComponent": {
         "query": "Query",
@@ -164,14 +164,19 @@
       "metricsFormComponent": {
         "metric": "Metrica",
         "selectMetric": "Selezionare metrica",
-        "aggregation": "Aggregazione"
+        "aggregation": "Aggregazione",
+        "crossSeriesAggregation": "Utilizza SOMMA per l'aggregazione tra serie",
+        "crossSeriesAggregationHelp": "Normalmente l'aggregazione tra serie è uguale all'aggregazione temporale (il metodo utilizzato per combinare i punti di dati in un singolo bucket). Con questa opzione abilitata, i socket verranno sommati in tutte le serie di dati invece di utilizzare l'aggregazione specificata.",
+        "crossSeriesAggregationDisabledHelp": "Non applicabile a {{aggregation}}",
+        "crossSeriesAggregationRestrictedHelp": "Non applicabile a questa metrica"
       },
       "metrics": {
-        "infrastructurePlatforms": "Infrastruttura & Piattaforme",
+        "infrastructurePlatforms": "Infrastruttura e piattaforme",
         "comingSoon": "(a breve)"
       },
       "typeAndMetricConfigurator": {
-        "pleaseSelectMetric": "Selezionare una metrica"
+        "pleaseSelectMetric": "Selezionare una metrica",
+        "loadingMetrics": "Caricamento delle metriche in corso..."
       }
     },
     "srcMobileApp": {
@@ -184,7 +189,7 @@
         "pleaseSelectMetric": "Selezionare una metrica"
       },
       "index": {
-        "mobileAppsBeacon": "App mobili (Beacon)"
+        "mobileAppsBeacon": "App per dispositivi mobili (Beacon)"
       }
     },
     "srcSli": {
@@ -344,7 +349,7 @@
     "markdown": {
       "demo": {
         "title": "Instana - Introduzione",
-        "text": "Instana è la prima e unica soluzione Application Performance (APM) completamente automatizzata progettata\nspecificamente per le sfide legate alla gestione dei microservizi e delle applicazioni cloud-native.\n\nIniziare è semplice\n\n1. Se non hai ancora accesso a Instana, vai su [Instana.com](https://www.instana.com) e registrati per una Prova Gratuita.\n2. Esplora il nostro ecosistema di centinaia di [tecnologie supportate](https://www.instana.com/docs/ecosystem).\n3. Inizia a raccogliere dati con uno dei nostri [agent](https://www.instana.com/docs/setup_and_manage).\n4. Scopri [come usare Instana](https://www.instana.com/docs/using_instana) per i tuoi casi d'uso.\n5. Leggi le nostre esclusive [Capacità di base](https://www.instana.com/docs/core_capabilities/).\n6. Estendi Instana con le nostre [Integrazioni, SDK & API](https://www.instana.com/docs/integrations).\n\nQuesto è tutto.\n\nNon trovi ciò che stai cercando? Passa a [instana.com/docs](https://www.instana.com/docs/)!"
+        "text": "Instana è la prima e unica soluzione APM (Application Performance Performance) completamente automatizzata progettata appositamente per le sfide della gestione di microservizi e di applicazioni native cloud.\n\nIniziare è facile1. Se non si ha ancora accesso a Instana, andare in [Instana.com](https://www.instana.com) e registrarsi per una versione di prova gratuita. 2. Esplorare l'ecosistema di centinaia di [tecnologie supportate] (https://www.ibm.com/docs/en/obi/current?topic=supported-technologies). 3. Iniziare a raccogliere i dati con uno degli [agent](https://www.ibm.com/docs/en/obi/current?topic=set-up-manage-instana). 4. Scoprire [come utilizzare Instana] (https://www.ibm.com/docs/en/obi/current?topic=using-instana) per i propri casi d'uso. 5. Leggere le informazioni sulle esclusive [funzionalità di base](https://www.ibm.com/docs/en/obi/current?topic=core-capabilities). 6. Estendere Instana con [integrazioni, SDK e API](https://www.ibm.com/docs/en/obi/current?topic=integrations-sdks-apis).\n\nQuesto è tutto!\n\nNon riesci a trovare quello che stai cercando? Consulta la [documentazione](https://www.ibm.com/docs/en/obi/current)!"
       },
       "formComp": {
         "whatULikeShow": "Cosa si desidera mostrare?",
@@ -371,20 +376,23 @@
     "slo": {
       "demo": {
         "title": "Titolo SLO",
+        "sliName": "Esempio Sli",
         "appName": "Nome applicazione di esempio"
       },
       "apConfigFormComp": {
         "userJourneyOffering": "Percorso utente / Offerta",
         "appnPerspective": "Prospettiva Applicazione",
         "selectAppPerspect": "Selezionare una Prospettiva Applicazione.",
-        "appPerspectHelpAction": "Impostare i Percorsi utente / Offerte modellandoli come una Prospettiva Applicazione nell'area Applicazioni del prodotto.",
-        "noAppPerspect": "Nessuna Prospettiva Applicazione.",
+        "appPerspectHelpAction": "Configurare i percorsi/offerte degli utenti modellandoli come una prospettiva dell'applicazione nell'area Applicazioni.",
+        "rbacHint": "Le applicazioni mostrate possono essere limitate dalle autorizzazioni.",
+        "noAppPerspect": "Nessuna prospettiva applicazione.",
         "pleaseSelect": "Selezionare"
       },
       "websiteSelector": {
         "website": "Sito web",
         "selectWebsite": "Selezionare un sito web",
-        "websiteHelpAction": "Configurare i siti web nell'area Siti web e app mobili del prodotto.",
+        "websiteHelpAction": "Configurare i siti web nell'area Siti web e app per dispositivi mobili.",
+        "rbacHint": "I siti web mostrati possono essere limitati dalle autorizzazioni.",
         "noWebsites": "Nessun sito web trovato",
         "pleaseSelect": "Selezionare"
       },
@@ -398,8 +406,6 @@
         "sliCreateSuccess": "SLI creato correttamente",
         "failCreateSli": "Impossibile creare lo SLI.",
         "problemCreateSli": "Si è verificato un problema creando questo SLI: \"{{sliName}}\"",
-        "cloning": "Clonazione...",
-        "creating": "Creazione…",
         "clone": "Clona",
         "create": "Crea",
         "sliConfigMsg": "I parametri dello SLI non possono essere modificati per impedire l'invalidazione dei budget spesi calcolati. Questo è il motivo per cui lo SLI deve essere clonato quando si modifica qualsiasi parametro.",
@@ -412,13 +418,16 @@
       },
       "goodBadEventsForm": {
         "goodEvents": "Eventi positivi",
-        "badEvents": "Eventi negativi"
+        "badEvents": "Eventi negativi",
+        "websitesFilterLabel": "{{websiteLabel}} / {{beaconType}}"
       },
       "metricFormData": {
         "latency": "Latenza",
         "callCount": "Numero di chiamate",
         "errorRate": "Tasso di errore",
-        "erroneousCalls": "Chiamate errate",
+        "erroneousCalls": "Chiamate con errori",
+        "beaconErrorRate": "Tasso di errore beacon",
+        "beaconDuration": "Durata beacon",
         "mean": "medio",
         "min": "min",
         "max": "max",
@@ -426,13 +435,13 @@
         "25th": "25°",
         "50th": "50°",
         "75th": "75°",
-        "90th": "90°",
+        "90th": "90esimo",
         "95th": "95°",
         "98th": "98°",
         "99th": "99°"
       },
       "metricsForm": {
-        "metricThreshold": "Metrica & Soglia",
+        "metricThreshold": "Metrica e soglia",
         "metric": "Metrica",
         "aggregation": "Aggregazione",
         "valThresholdNotInvalidEmpty": "Il valore della soglia non deve essere null o vuoto.",
@@ -460,8 +469,12 @@
         "sliEntity": "Entità SLI",
         "beaconConfigLabel": "Configurazione beacon",
         "beaconScopeLabel": "Ambito beacon",
-        "httpRequestsLabel": "Richieste HTTP",
-        "beaconFiltersLabel": "Filtri beacon"
+        "beaconLabel": "Tipo di beacon sconosciuto",
+        "beaconLabel_httpRequest": "Richieste HTTP",
+        "beaconLabel_pageLoad": "Caricamenti pagine di siti web",
+        "beaconLabel_custom": "Eventi personalizzati di siti web",
+        "beaconFiltersLabel": "Filtro beacon",
+        "beaconFiltersSubtext": "Facoltativo"
       },
       "sliList": {
         "serviceLevelIndicators": "Indicatori livello di servizio (SLI)",
@@ -472,7 +485,9 @@
         "delSliConfig": "Elimina configurazione dello SLI",
         "pleaseConfirm": "Confermare",
         "pleaseConfirmMsg": "Si è certi di voler eliminare <strong>{{sliName}}</strong>?",
-        "delete": "Elimina"
+        "delete": "Elimina",
+        "eventBasedSli": "Basato sull'evento",
+        "timeBasedSli": "Basato sul tempo, {{metricNameLabel}}"
       },
       "sliManageList": {
         "configSrvLevelIndicatorsMsg": "Non si dispone delle autorizzazioni <em>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</em> necessarie per creare o modificare gli SLI.",
@@ -488,7 +503,11 @@
       "chart": {
         "spent": "Speso",
         "budget": "Budget",
-        "viewInAnalyze": "Visualizza in Analisi"
+        "viewInAnalyze": "Visualizza in Analisi",
+        "configType": "SLI",
+        "configType_apdex": "Apdex",
+        "initialEvaluation": "{{configType}} creato",
+        "missingDataInfo": "Il tempo di creazione per questo {{configType}} è compreso nell'intervallo di tempo visualizzato. I dati precedenti alla creazione di {{configType}} mancheranno."
       },
       "formComponent": {
         "sliManagement": "Gestione SLI",
@@ -515,15 +534,16 @@
         "enterDateFormatYyyyMmDd": "Inserire una data nel formato AAAA-MM-GG.",
         "enterTimeInFormatHhMmSs": "Inserire un'ora nel formato HH:mm:ss."
       },
-      "widgetHeader": {
+      "sliSummary": {
         "status": "Stato",
         "target": "Destinazione:",
         "errorBudgetSpent": "Budget errore speso",
         "errorBudget": "Badget errore:",
         "timeWindow": "Finestra temporale",
-        "dynamicTimeWindow": "Finestra temporale dinamica",
-        "rollingTimeWindow": "Finestra temporale scorrevole",
-        "fixedTimeWindow": "Finestra temporale fissa"
+        "timeWindowType": "Finestra temporale sconosciuta",
+        "timeWindowType_dynamic": "Finestra temporale dinamica",
+        "timeWindowType_rolling": "Finestra temporale scorrevole",
+        "timeWindowType_fixed": "Finestra temporale fissa"
       },
       "sloEntityInfo": {
         "tooltip": {
@@ -542,7 +562,124 @@
       "atLeastOneFilterExpressionMustBeConfigured": "È necessario configurare almeno un'espressione filtro.",
       "timeBased": "Basato sul tempo",
       "eventBased": "Basato sull'evento",
-      "slo": "SLO"
+      "slo": "SLO",
+      "monitoringSourceSelector": {
+        "source_application": "Applicazione",
+        "source_website": "Sito web (Beta)",
+        "callOut_application": "Esclude i fattori al di fuori del controllo dell'utente quali la scarsa connettività internet degli utenti finali, ma potrebbe non riflettere accuratamente l'esperienza dell'utente finale",
+        "callOut_website": "Riflette con maggior precisione l'esperienza dell'utente finale, ma non esclude i fattori al di fuori del controllo dell'utente quali la scarsa connettività internet degli utenti finali"
+      },
+      "sliFormatter": {
+        "unit": "chiamata",
+        "unit_plural": "chiamate",
+        "unit_0": "chiamate",
+        "unit_1": "chiamata",
+        "unit_2": "chiamate",
+        "thousandCallsFormat": "{{count}} chiamate"
+      },
+      "widgetLeftHeader": {
+        "previewDataInfo": "I dati di anteprima vengono mostrati solo fino a 7 giorni in passato. Il widget finale includerà solo i dati dalla creazione SLI."
+      },
+      "boundaryScopeConfigurator": {
+        "all": {
+          "title": "Tutte le chiamate",
+          "description": "Chiamate eseguite all'interno di questa applicazione, sia da parte dei consumatori che internamente."
+        },
+        "inbound": {
+          "title": "Chiamate in entrata",
+          "description": "Solo chiamate che sono eseguite dai consumer di questa applicazione."
+        }
+      }
+    },
+    "apdex": {
+      "title": "Apdex: Grafico",
+      "chart": {
+        "metricLabel": "Apdex",
+        "viewInAnalyze": "Visualizza in Analizza",
+        "noDataRetentionPeriod": "L'intervallo di tempo selezionato è oltre il periodo di conservazione dei dati",
+        "notFoundErrorTitle": "Apdex configurato non è stato trovato",
+        "notFoundErrorDescription": "Si prega di aggiornare il widget Apdex selezionando un'altra configurazione Apdex"
+      },
+      "demo": {
+        "title": "Apdex for Prod",
+        "entityLabel": "Robot Shop"
+      },
+      "apdexConfigInfo": {
+        "tagFilterLabel": "Filtro",
+        "apdexNameLabel": "Nome Apdex",
+        "apdexTypeLabel": "Tipo di apdex",
+        "thresholdLabel": "Soglia"
+      },
+      "formComponent": {
+        "title": "Configurazione apdex",
+        "entityTypeTitle": "Tipo di apdex",
+        "manageListTitle": "Gestione apdex",
+        "createApdex": "Crea configurazione Apdex",
+        "editApdex": "Modifica configurazione Apdex"
+      },
+      "configurationSelector": {
+        "label": "Configurazione apdex",
+        "selectConfig": "Selezionare una configurazione",
+        "manageConfig": "Gestione Apdex",
+        "noneAvailCreateOne": "Nessuno disponibile, crearne uno.",
+        "pleaseSelect": "Selezionare"
+      },
+      "entityTypeSelector": {
+        "type": "Tipo sconosciuto",
+        "type_website": "Sito web",
+        "type_application": "Applicazione"
+      },
+      "apdexManageList": {
+        "title": "Elenco apdex",
+        "deleteSuccessfulMessage": "La configurazione Apdex è stata eliminata correttamente.",
+        "deleteFailedMessage": "Impossibile eliminare la configurazione Apdex."
+      },
+      "apdexList": {
+        "cardTitle": "Configurazione apdex",
+        "nameColumn": "Configurazione apdex",
+        "thresholdColumn": "Soglia",
+        "confirmDeleteHeader": "Confermare",
+        "confirmDeleteMessage": "Si è certi di voler eliminare {{apdex}}?",
+        "editApdexTooltip": "Modifica/Clona configurazione Apdex",
+        "deleteApdexTooltip": "Elimina configurazione Apdex",
+        "confirmDeleteButton": "Elimina",
+        "createButton": "Crea configurazione Apdex"
+      },
+      "createApdexForm": {
+        "customizationHeader": "Personalizzazione Apdex",
+        "label": "Nome Apdex",
+        "apdexCreateSuccessTitle": "La configurazione Apdex è stata creata correttamente.",
+        "apdexCreateSuccessContent": "La configurazione Apdex \"{{apdexName}}\" è stata creata.",
+        "apdexCreateFailedTitle": "Impossibile creare la configurazione Apdex.",
+        "apdexCreateFailedContent": "Si è verificato un problema durante la creazione di questa configurazione Apdex: \"{{apdexName}}\"",
+        "apdexNameNotEmpty": "Il nome Apdex non può essere vuoto.",
+        "nameExistsError": "Una configurazione Apdex con questo nome esiste già. Immettere un nome diverso.",
+        "limitReachedError": {
+          "website": "È stato raggiunto il numero massimo di configurazioni apdex del sito web ({{0}}). Si prega di contattare l'assistenza Instana per richiedere un aumento per questo limite.",
+          "application": "È stato raggiunto il numero massimo di configurazioni apdex delle applicazioni ({{0}}). Si prega di contattare l'assistenza Instana per richiedere un aumento per questo limite."
+        },
+        "editConfigNotice": "Per evitare la perdita di dati, la configurazione non può essere modificata dopo essere stata creata; può essere rettificata solo come una copia."
+      },
+      "createWebsiteApdexForm": {
+        "thresholdHeader": "Configurazione soglia",
+        "thresholdLabel": "Soglia"
+      },
+      "entityInfo": {
+        "tooltip": "Apdex sconosciuto",
+        "tooltip_website": "Apdex del sito web",
+        "tooltip_application": "Apdex dell'applicazione"
+      },
+      "widget": {
+        "unknownEntityLabel_application": "Applicazione sconosciuta",
+        "unknownEntityLabel_website": "Sito sconosciuto",
+        "previewDataInfo": "I dati di anteprima vengono mostrati per gli ultimi 7 giorni. Il widget finale includerà solo i dati dalla creazione della configurazione Apdex."
+      },
+      "applicationScopeConfigurator": {
+        "label": "Ambito Apdex",
+        "boundaryScope": "Limite",
+        "hiddenCalls": "Chiamate nascoste",
+        "additionalFilters": "Filtro aggiuntivo"
+      }
     },
     "timezone": {
       "demo": {

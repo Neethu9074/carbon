@@ -6,8 +6,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { commonOverlayStylesPropType } from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
-
 import locals from './PotentialProblemsHoverArea.mless';
 
 export default function PotentialProblemsHoverArea({
@@ -56,5 +54,8 @@ PotentialProblemsHoverArea.propTypes = {
     getRangeArea: PropTypes.func,
     getRangeTo: PropTypes.func
   }),
-  commonOverlayStyles: commonOverlayStylesPropType
+  commonOverlayStyles: PropTypes.shape({
+    zIndex: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    color: PropTypes.string
+  })
 };

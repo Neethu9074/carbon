@@ -31,6 +31,10 @@
     background: @lib__colors__N100;
   }
 
+  .emptyListPlaceholderMessage {
+    width: 100%;
+  }
+
   .customListItem {
     background: @lib__colors__white;
   }

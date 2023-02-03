@@ -10,7 +10,7 @@ import { Link } from '@instana/components';
 import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
 import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopListWithUrlState';
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
-import { getLinkToWebsite, getLinkToAnalyze } from 'in-websites/navigation/paths';
+import { getLinkToAnalyze, getLinkToWebsite } from 'in-websites/navigation/paths';
 import { translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
 import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { t } from 'in-i18n';
@@ -26,7 +26,8 @@ export default function PageTopList({
   formatters,
   beaconType,
   tabPath,
-  urlMatrixParamConfig
+  urlMatrixParamConfig,
+  renderHistoricDataIndicator
 }) {
   const tagCatalogs = {
     pageLoad: useTagCatalog('pageLoad'),
@@ -56,6 +57,7 @@ export default function PageTopList({
       tabPath={tabPath}
       urlMatrixParamConfig={urlMatrixParamConfig}
       tagCatalogs={tagCatalogs}
+      renderHistoricDataIndicator={renderHistoricDataIndicator}
     />
   );
 }

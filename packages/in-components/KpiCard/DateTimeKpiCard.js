@@ -5,7 +5,6 @@
 
 import React from 'react';
 
-import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { formatDate, formatTime } from 'in-services/formatters/date';
 import KpiCard from 'in-components/KpiCard';
 
@@ -15,16 +14,13 @@ export default function DateTimeKpiCard({ title, time, borderless }) {
   return (
     <KpiCard
       title={title}
-      value={
-        time ? (
-          <time dateTime={new Date(time).toISOString()}>
-            <span className={locals.row}>{formatDate(time)}</span>
-            <span className={locals.row}>{formatTime(time)}</span>
-          </time>
-        ) : (
-          valueMissingPlaceholder
-        )
-      }
+      value={time}
+      renderValue={value => (
+        <time dateTime={new Date(value).toISOString()}>
+          <span className={locals.row}>{formatDate(value)}</span>
+          <span className={locals.row}>{formatTime(value)}</span>
+        </time>
+      )}
       borderless={borderless}
       raw
     />

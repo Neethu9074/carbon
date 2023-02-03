@@ -8,10 +8,9 @@ import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 
-import { track, TOPLIST_ROW_NAVIGATION } from 'in-services/tracking/tracking';
-import { pendingResult } from 'in-services/fixedObjects';
+import { TOPLIST_ROW_NAVIGATION, track } from 'in-services/tracking/tracking';
+import { noop, pendingResult } from 'in-services/fixedObjects';
 import { isNotBlank } from 'in-services/util/string';
-import { noop } from 'in-services/fixedObjects';
 import useUrlState from 'in-hooks/useUrlState';
 
 export const trackTopListNavigation = () => track(TOPLIST_ROW_NAVIGATION);
@@ -62,6 +61,10 @@ export function TopListWithUrlState(props) {
     selectedMetric: metrics[i],
     selectedMetricFormatter: formatters[i],
     selectedMetricAggregation: aggregations && aggregations[i],
+    selectedCompanionMetricAlias:
+      companionMetrics && companionMetrics[i] === metrics[i]
+        ? `${companionMetrics[i]}_${companionAggregations[i]}`
+        : undefined,
     selectedCompanionMetric: companionMetrics && companionMetrics[i],
     selectedCompanionMetricFormatter: companionFormatters && companionFormatters[i],
     selectedCompanionMetricAggregation: companionAggregations && companionAggregations[i],
@@ -71,6 +74,8 @@ export function TopListWithUrlState(props) {
 
   const result =
     useObservable(props.getList(newProps), [...Object.values(props), newProps.selectedMetric]) ?? pendingResult;
+
+  newProps.hasApproximateData = result?.resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE';
 
   const Renderer = props.Renderer;
 

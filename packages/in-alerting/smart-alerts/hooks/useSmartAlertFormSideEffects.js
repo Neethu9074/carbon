@@ -4,15 +4,15 @@
  */
 
 import { isOneOfBaselineTypes } from 'in-alerting/smart-alerts/applications/data/applicationThresholdFormData';
-import { getAggregationOptions } from 'in-alerting/smart-alerts/components/smart-alert-dialog/form/ruleForm';
 import useFormSideEffects, { CHANGE_TYPES } from 'in-alerting/smart-alerts/hooks/useFormSideEffects';
-import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { ADAPTIVE_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { getAggregationOptions } from 'in-alerting/smart-alerts/components/dialog/form/ruleForm';
 
 export default function useSmartAlertFormSideEffects(form, setForm) {
   const effects = [
     {
       path: ['evaluationType'],
-      effects: [requestThresholdSuggestion]
+      effects: [requestThresholdOnEvaluationTypeChange]
     },
     {
       path: ['boundaryScope'],
@@ -64,7 +64,7 @@ export default function useSmartAlertFormSideEffects(form, setForm) {
     },
     {
       path: ['hiddenFields', 'chartViewEntitySelection'],
-      effects: [requestThresholdSuggestion]
+      effects: [requestThresholdOnEntitySelectionChange]
     }
   ];
 
@@ -82,6 +82,38 @@ function resetBaseline(form) {
   if (isOneOfBaselineTypes(type)) {
     return form.updateIn(['threshold', 'baseline'], f => f.setValue([]).setTouched(false));
   }
+  return form;
+}
+
+function requestThresholdOnEvaluationTypeChange(form) {
+  // Reset chartViewEntitySelection when evaluationType changes.
+  // That's because as part of this side-effect we request the threshold suggestion. Resetting chartViewEntitySelection
+  // lets us decide that entity selection is valid or invalid while requesting threshold suggestion so we don't end-up
+  // requesting threshold suggestion using wrong applicationId/serviceId/endpointId as part of TagFilter
+  const chartViewEntitySelection = form
+    .get('hiddenFields')
+    .get('chartViewEntitySelection')
+    .toJS();
+  const updatedEntitySelection = {
+    ...chartViewEntitySelection,
+    serviceId: null,
+    endpointId: null
+  };
+
+  const updatedForm = form.updateIn(['hiddenFields', 'chartViewEntitySelection'], f =>
+    f.setValue(updatedEntitySelection).setTouched(true)
+  );
+
+  return requestThresholdSuggestion(updatedForm);
+}
+
+function requestThresholdOnEntitySelectionChange(form) {
+  const type = form.get('threshold').get('type').value;
+
+  if (type === ADAPTIVE_BASELINE) {
+    return requestThresholdSuggestion(form);
+  }
+
   return form;
 }
 

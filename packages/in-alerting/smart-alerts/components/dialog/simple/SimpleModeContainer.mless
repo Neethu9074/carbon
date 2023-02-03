@@ -1,0 +1,42 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+@import '~in-themes/active.less';
+
+:local {
+  .container {
+    padding-bottom: 4rem;
+    display: grid;
+    max-height: calc(100vh - 5rem - 4rem - 3rem); // removing header and buttons and overall dialog margins
+    grid-template-areas: 'content' 'errors';
+    grid-auto-rows: 1fr min-content;
+  }
+
+  .stepNavigation {
+    grid-area: sideNav;
+  }
+
+  .scrollWrapper {
+    grid-area: content;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .minStableHeight {
+    /* We notices that the resizing of the chart would lead to a jumping or resizing of the
+     whole dialog!
+     So setting this minimum height is a measure to avoid it, a follow-up task is planned:
+     https://instana.kanbanize.com/ctrl_board/37/cards/104430
+     */
+    min-height: 446px;
+  }
+
+  .errorInfo {
+    margin: 0 -1.5rem; // to fill the whole width of the dialog without any padding
+    grid-area: errors;
+    height: max-content;
+    background-color: @lib__colors__white;
+  }
+}

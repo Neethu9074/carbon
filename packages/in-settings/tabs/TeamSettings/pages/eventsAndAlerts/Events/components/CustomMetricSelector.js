@@ -11,14 +11,17 @@ import React from 'react';
 
 import { SvgIcon } from '@instana/components';
 
+import Input from 'in-components/form/Input';
+
 import locals from './CustomMetricSelector.mless';
 
-export default function CustomMetricSelector({ onChange, value, metrics }) {
+export default function CustomMetricSelector({ onChange, value, metrics, disabled }) {
   const metricsList = Array.isArray(metrics) ? metrics.slice() : [];
   const parentItemForValue = metricsList.find(it => it.value === value);
 
   return (
     <AutoComplete
+      disabled={disabled}
       value={value}
       resultsToShow={100}
       options={metricsList}
@@ -30,11 +33,12 @@ export default function CustomMetricSelector({ onChange, value, metrics }) {
 
 CustomMetricSelector.propTypes = {
   metrics: PropTypes.arrayOf(PropTypes.object),
+  disabled: PropTypes.bool,
   value: PropTypes.string,
   onChange: PropTypes.func
 };
 
-const AutoComplete = ({ options, resultsToShow, placeholder, onChange, item }) => (
+const AutoComplete = ({ options, resultsToShow, placeholder, onChange, item, disabled }) => (
   <Downshift itemToString={item => (item ? item.label : '')} onChange={onChange} initialSelectedItem={item}>
     {({
       getInputProps,
@@ -51,6 +55,8 @@ const AutoComplete = ({ options, resultsToShow, placeholder, onChange, item }) =
       const filteredOptions = options.filter(
         item => !inputValue || item.label.toLowerCase().includes(lowerCaseInputValue)
       );
+      const toggleButtonProps = getToggleButtonProps();
+      const onClick = disabled ? undefined : toggleButtonProps.onClick;
 
       return (
         <div className={locals.wrapper}>
@@ -60,10 +66,16 @@ const AutoComplete = ({ options, resultsToShow, placeholder, onChange, item }) =
               [locals.inputGroupOpen]: isOpen
             })}
           >
-            <input className={locals.input} {...getInputProps({ onFocus: openMenu })} placeholder={placeholder} />
+            <Input
+              disabled={disabled}
+              className={locals.input}
+              {...getInputProps({ onFocus: openMenu })}
+              placeholder={placeholder}
+            />
             <SvgIcon
               className={locals.toggleButton}
-              {...getToggleButtonProps()}
+              {...toggleButtonProps}
+              onClick={onClick}
               type={isOpen ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'}
             />
           </div>

@@ -36,9 +36,28 @@ exports.createImportRestrictionRule = ({
         '@instana/hooks/lib',
         '@instana/logger/lib',
         '@instana/roemitter/lib',
+        // We are migrating moment usage to respective date-fns implementation
+        // The only usage of moment-timezone is used in timezone widget for now.
+        'in-services/moment-timezone',
+        'moment-timezone',
+        // There should be no new imports for material ui
+        // mui will be imported and managed on foundation
+        '@material-ui/core',
+        '@mui/material',
+        '@emotion/react',
+        '@emotion/styled',
+
+        {
+          name: 'react-router',
+          importNames: ['useLocation'],
+          message:
+            'Please import navigation support from in-stores/navigation instead to ensure clean matrix parameter support'
+        },
+
         ...paths
       ],
       patterns: [
+        '@material-ui/core/*',
         // Forbid relative JavaScript imports
         ...(enforceAbsoluteImportPaths
           ? ['./**/*', '../**/*', '!./**/*.mless', '!../**/*.mless', '!./**/*.less', '!../**/*.less']

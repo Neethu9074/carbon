@@ -1,6 +1,6 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * (c) Copyright IBM Corp. 2022
+ * (c) Copyright Instana Inc. 2022
  */
 
 module.exports = exports = [
@@ -45,11 +45,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'samplingIndicatorEnabled',
-    instanaCtlKey: 'feature.sampling.indicator.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'pcfEnabled',
     instanaCtlKey: 'feature.pcf.enabled',
     defaultValue: false
@@ -70,6 +65,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'openstackEnabled',
+    instanaCtlKey: 'feature.openstack.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'phmcEnabled',
     instanaCtlKey: 'feature.phmc.enabled',
     defaultValue: false
@@ -87,7 +87,7 @@ module.exports = exports = [
   {
     uiClientKey: 'applicationSmartAlertsEnabled',
     instanaCtlKey: 'feature.application.smart.alerts.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'agentMonitoringIssuesEnabled',
@@ -97,11 +97,6 @@ module.exports = exports = [
   {
     uiClientKey: 'routeIdOverPathTplEnabled',
     instanaCtlKey: 'feature.route.id.over.path.tpl.enabled',
-    defaultValue: false
-  },
-  {
-    uiClientKey: 'infraExplorePresentationEnabled',
-    instanaCtlKey: 'feature.infrastructure.explore.presentation.enabled',
     defaultValue: false
   },
   {
@@ -145,6 +140,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'configMigrationFeatureEnabled',
+    instanaCtlKey: 'feature.config.migration.feature.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'persistentVolumeSupportEnabled',
     instanaCtlKey: 'feature.kubernetes.pvc.enabled',
     defaultValue: false
@@ -155,13 +155,18 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'kubernetesTeamEnabled',
+    instanaCtlKey: 'feature.kubernetes.explore.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'loggingEnabled',
     instanaCtlKey: 'feature.logging.enabled',
     defaultValue: true
   },
   {
-    uiClientKey: 'showUserSettingInternalTagsInUA',
-    instanaCtlKey: 'feature.show.user.setting.internal.tags.in.ua',
+    uiClientKey: 'enableTroubleshootingMode',
+    instanaCtlKey: 'feature.troubleshooting.mode.enabled',
     defaultValue: false
   },
   {
@@ -180,11 +185,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'hideEventsSettings',
-    instanaCtlKey: 'feature.settings.team.events.hide',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'openFacetedSearchByDefault',
     instanaCtlKey: 'feature.facetedsearch.open.default',
     defaultValue: false
@@ -195,34 +195,14 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'traceDetailViewV2Enabled',
-    instanaCtlKey: 'feature.trace.detail.view.v2.enabled',
-    defaultValue: false
-  },
-  {
-    uiClientKey: 'deprecateAppDataLegacyEvents',
-    instanaCtlKey: 'feature.deprecated.appdata.legacy.events',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'potentialProblemsEnabled',
     instanaCtlKey: 'feature.potential.problems.enabled',
     defaultValue: true
   },
   {
-    uiClientKey: 'adaptiveBaselineEnabled',
-    instanaCtlKey: 'feature.adaptive.baseline.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'builtInGlobalApplicationSmartAlertsEnabled',
     instanaCtlKey: 'feature.shared.application.smart.alerts.builtIn.enabled',
     defaultValue: false
-  },
-  {
-    uiClientKey: 'websiteSmartAlertsAllowPerWindowUserImpact',
-    instanaCtlKey: 'feature.website.smartAlerts.allow.perWindow.userImpact.enabled',
-    defaultValue: true
   },
   {
     uiClientKey: 'websiteSloEnabled',
@@ -231,17 +211,97 @@ module.exports = exports = [
   },
   {
     uiClientKey: 'smartAlertsLogsBlueprintEnabled',
-    instanaCtlKey: 'feature.application.smartAlerts.logsBlueprint.enabled',
+    instanaCtlKey: 'feature.application.smart.alerts.logs.blueprint.enabled',
     defaultValue: false
   },
   {
-    uiClientKey: 'disableAppDataLegacyEvents',
-    instanaCtlKey: 'feature.disable.app.data.legacy.events',
+    uiClientKey: 'deprecateAppDataLegacyEventsEnabled',
+    instanaCtlKey: 'feature.deprecate.app.data.legacy.events.enabled',
+    defaultValue: true
+  },
+  {
+    uiClientKey: 'disallowAppDataLegacyEventsEnabled',
+    instanaCtlKey: 'feature.disallow.app.data.legacy.events.enabled',
     defaultValue: false
   },
   {
-    uiClientKey: 'syntheticsTestEnabled',
+    uiClientKey: 'hideAppDataLegacyEventsEnabled',
+    instanaCtlKey: 'feature.hide.app.data.legacy.events.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'perEndpointAdaptiveBaselineEnabled',
+    instanaCtlKey: 'feature.adaptive.baseline.per.endpoint.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'syntheticsEnabled',
     instanaCtlKey: 'feature.synthetics.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'syntheticBrowserScriptEnabled',
+    instanaCtlKey: 'feature.synthetics.browser.script.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'syntheticSmartAlertsEnabled',
+    instanaCtlKey: 'feature.synthetic.smart.alerts.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'sliCHClusterAccessEnabled',
+    instanaCtlKey: 'feature.sli.CHCluster.access.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'perSecondAggregationEnabled',
+    instanaCtlKey: 'feature.per.second.aggregation.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'apdexWidgetEnabled',
+    instanaCtlKey: 'feature.apdex.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'applicationApdexEnabled',
+    instanaCtlKey: 'feature.apdex.application.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'websiteUploadConfigEnabled',
+    instanaCtlKey: 'feature.website.sourcemap.upload.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'websiteBeaconQueryOptimizationEnabled',
+    instanaCtlKey: 'feature.website.beacon.query.optimization.enabled',
+    defaultValue: true
+  },
+  {
+    uiClientKey: 'actionAutomationEnabled',
+    instanaCtlKey: 'feature.automation.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'pluginMetricStatisticsEnabled',
+    instanaCtlKey: 'feature.plugin.entity.metric.statistics.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'mobileAppCrashBeaconEnabled',
+    instanaCtlKey: 'feature.mobile.app.crash.beacon.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'k8sTimeShiftEnabled',
+    instanaCtlKey: 'feature.kubernetes.timeshift.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'rbacImprovementEnabled',
+    instanaCtlKey: 'feature.rbac.improvement.enabled',
     defaultValue: false
   }
 ];

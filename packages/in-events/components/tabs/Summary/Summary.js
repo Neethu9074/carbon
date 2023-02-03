@@ -16,17 +16,25 @@ import {
   isAgentMonitoringIssueEvent,
   isApplicationSmartAlertEvent,
   isWebsiteSmartAlertEvent,
-  getTimeConfigForSnapshotRetrieval
+  isInfraSmartAlertEvent,
+  isSyntheticSmartAlertEvent,
+  getTimeConfigForSnapshotRetrieval,
+  isIbmMqFileTransferIssueEvent
 } from 'in-events/components/eventUtil';
 import { KubernetesEventContent, isKubernetesEvent } from 'in-events/components/EventContent/KubernetesEventContent';
+import IbmMqFileTransferMetadataTable from 'in-events/components/tabs/Summary/IbmMqFileTransferMetadataTable';
+import { DeprecatedCustomEventWarning } from 'in-events/components/tabs/Summary/DeprecatedCustomEventWarning';
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
 import AgentMonitoringIssueDescription from 'in-events/components/legacy/AgentMonitoringIssueDescription';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
 import ApplicationEventContent from 'in-events/components/EventContent/ApplicationEventContent';
+import SyntheticEventContent from 'in-events/components/EventContent/SyntheticEventContent';
 import AnalyzeIssueCallsButton from 'in-events/components/legacy/AnalyzeIssueCallsButton';
 import OfflineEventDescription from 'in-events/components/legacy/OfflineEventDescription';
+import AssociatedActions from 'in-events/components/AutomationActions/AssociatedActions';
 import WebsiteEventContent from 'in-events/components/EventContent/WebsiteEventContent';
 import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
+import InfraEventContent from 'in-events/components/EventContent/InfraEventContent';
 import SubEntityInformation from 'in-events/components/legacy/SubEntityInformation';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
@@ -36,6 +44,7 @@ import PopulationChart from 'in-events/components/legacy/PopulationChart';
 import IncidentEventListRows from 'in-events/components/legacy/EventList';
 import { getSnapshot, getSnapshotVersions } from 'in-stores/snapshot';
 import EventDetailsKPIs from 'in-events/components/EventDetailsKPIs';
+import { actionAutomationEnabled } from 'in-services/featureFlags';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { getEventType, EVENT_TYPES } from 'in-stores/events';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
@@ -44,6 +53,7 @@ import { emptyList } from 'in-services/fixedImmutables';
 import getRecentEvents$ from 'in-events/recentEvents';
 import { Row, Col } from 'in-components/layout/Grid';
 import connectTo from 'in-hoc/connectTo';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './Summary.mless';
@@ -65,6 +75,7 @@ export default function Summary({ selectedEventId, data: event }) {
       render={() => (
         <>
           <div className={locals.content}>
+            <DeprecatedCustomEventWarning event={event.toJS()} isIncident={isIncident} />
             <EventDetailsKPIs event={event} isIncident={isIncident} />
             {isIncident ? (
               <IncidentContent incident={event} latestSnapshot={latestSnapshot} />
@@ -78,102 +89,137 @@ export default function Summary({ selectedEventId, data: event }) {
   );
 }
 
-function EventContent({ event, latestSnapshot }) {
-  const timeConfig = getTimeConfigForSnapshotRetrieval(event, latestSnapshot);
-  if (isWebsiteSmartAlertEvent(event)) {
-    return <WebsiteEventContent event={event} />;
-  }
+const EventContent = connectTo(
+  ({ event, latestSnapshot }) => ({
+    snapshot: getSnapshot(event.get('entityId'), getTimeConfigForSnapshotRetrieval(event, latestSnapshot)).startWith(
+      null
+    )
+  }),
+  function EventContent({ event, latestSnapshot, snapshot }) {
+    const timeConfig = getTimeConfigForSnapshotRetrieval(event, latestSnapshot);
 
-  if (isApplicationSmartAlertEvent(event)) {
-    return <ApplicationEventContent event={event} />;
-  }
+    if (isWebsiteSmartAlertEvent(event)) {
+      return <WebsiteEventContent event={event} />;
+    }
 
-  if (isKubernetesEvent(event)) {
-    return <KubernetesEventContent event={event} timeConfig={timeConfig} />;
-  }
+    if (isApplicationSmartAlertEvent(event)) {
+      return <ApplicationEventContent event={event} />;
+    }
 
-  return (
-    <>
-      <ViewTrackingMeta
-        data={{
-          productArea: 'Events',
-          pageRootName: 'Event'
-        }}
-      />
+    if (isKubernetesEvent(event)) {
+      return <KubernetesEventContent event={event} timeConfig={timeConfig} />;
+    }
 
-      <Row withoutSideMargin>
-        <Col xs>
-          <Card title={t('in-events:titleDescription')}>
-            <EntityWithParentInformation
-              entityId={event.get('entityId')}
-              entityType={event.get('entityType')}
-              metadata={event.get('metadata')}
-              timeConfig={timeConfig}
-              linkTimeConfig={getTimeConfigFromEvent(event)}
-            />
-            <SubEntityInformation event={event} />
-            {isAgentMonitoringIssueEvent(event) ? (
-              <AgentMonitoringIssueDescription
-                event={event}
-                timeConfig={timeConfig}
-                className="in-event-view-event-content"
-              />
-            ) : (
-              <ProblemDescription event={event} className="in-event-view-event-content" />
-            )}
-            <DescriptionButtons>
-              <EventSpecificationLink event={event} />
-              <AnalyzeIssueCallsButton event={event} />
-            </DescriptionButtons>
-          </Card>
-        </Col>
-      </Row>
+    if (isInfraSmartAlertEvent(event)) {
+      return <InfraEventContent event={event} />;
+    }
 
-      {isEntityVerificationEvent(event) || isHostAvailabilityEvent(event) ? (
+    if (isSyntheticSmartAlertEvent(event)) {
+      return <SyntheticEventContent event={event} />;
+    }
+
+    const eventType = getEventType(event);
+    const isIssue = eventType === EVENT_TYPES.ISSUE_WARNING || eventType === EVENT_TYPES.ISSUE_CRITICAL;
+    const hasEventSpec = event.getIn(['metadata', 'eventSpecificationId'], '') !== '';
+    const fixSuggestion = event.getIn(['problem', 'fixSuggestion'], '');
+
+    return (
+      <>
+        <ViewTrackingMeta
+          data={{
+            productArea: 'Events',
+            pageRootName: 'Event'
+          }}
+        />
+
         <Row withoutSideMargin>
           <Col xs>
-            <Card
-              title={isEntityVerificationEvent(event) ? t('in-events:titleLastProcess') : t('in-events:titleLastHost')}
-            >
-              <OfflineEventDescription event={event} latestSnapshot={latestSnapshot} />
+            <Card title={t('in-events:titleDescription')}>
+              <EntityWithParentInformation
+                entityId={event.get('entityId')}
+                entityType={event.get('entityType')}
+                metadata={event.get('metadata')}
+                timeConfig={timeConfig}
+                linkTimeConfig={getTimeConfigFromEvent(event)}
+              />
+              <SubEntityInformation event={event} />
+              {isAgentMonitoringIssueEvent(event) ? (
+                <AgentMonitoringIssueDescription
+                  event={event}
+                  timeConfig={timeConfig}
+                  className="in-event-view-event-content"
+                />
+              ) : (
+                <ProblemDescription fixSuggestion={fixSuggestion} className="in-event-view-event-content" />
+              )}
+              <DescriptionButtons>
+                <EventSpecificationLink event={event.toJS()} />
+                <AnalyzeIssueCallsButton event={event} />
+              </DescriptionButtons>
             </Card>
           </Col>
         </Row>
-      ) : (
-        <>
-          {hasAtLeastOneMetric(event) && (
-            <Row withoutSideMargin>
-              <Col xs>
-                <Card title={t('in-events:titleMetrics')}>
-                  <EventChart event={event} />
-                </Card>
-              </Col>
-            </Row>
-          )}
-          {hasMetric(event, 'cpu.user') && (
-            <Row withoutSideMargin>
-              <Col xs>
-                <ProcessContent snapshotId={event.get('entityId')} timeConfig={timeConfig} />
-              </Col>
-            </Row>
-          )}
-        </>
-      )}
-    </>
-  );
-}
-
-const ProcessContent = connectTo(
-  ({ snapshotId, timeConfig }) => ({
-    snapshot: getSnapshot(snapshotId, timeConfig).startWith(null)
-  }),
-  function ProcessContent({ snapshot, timeConfig }) {
-    if (!snapshot || (snapshot.progress && snapshot.progress.loading)) {
-      return <LoadingIndicator inline type="dark" style={{ height: '16px' }} />;
-    }
-    return <ProcessTopList snapshot={snapshot} timeConfig={timeConfig} />;
+        {isEntityVerificationEvent(event) || isHostAvailabilityEvent(event) ? (
+          <Row withoutSideMargin>
+            <Col xs>
+              <Card
+                title={
+                  isEntityVerificationEvent(event) ? t('in-events:titleLastProcess') : t('in-events:titleLastHost')
+                }
+              >
+                <OfflineEventDescription event={event} latestSnapshot={latestSnapshot} />
+              </Card>
+            </Col>
+          </Row>
+        ) : (
+          <>
+            {hasAtLeastOneMetric(event) && (
+              <Row withoutSideMargin>
+                <Col xs>
+                  <Card title={t('in-events:titleMetrics')}>
+                    <EventChart event={event} />
+                  </Card>
+                </Col>
+              </Row>
+            )}
+            {hasMetric(event, 'cpu.user') && (
+              <Row withoutSideMargin>
+                <Col xs>
+                  <ProcessContent snapshot={snapshot} timeConfig={timeConfig} />
+                </Col>
+              </Row>
+            )}
+          </>
+        )}
+        {isIssue && isIbmMqFileTransferIssueEvent(event) && (
+          <Row withoutSideMargin>
+            <Col xs>
+              <IbmMqFileTransferMetadataTable
+                ibmMqFileTransferMetadata={event?.getIn(['metadata', 'ibmMqFileTransfer'], emptyList)?.toJS() ?? []}
+              />
+            </Col>
+          </Row>
+        )}
+        {actionAutomationEnabled && role.canConfigureAutomationActions && isIssue && hasEventSpec && (
+          <Row withoutSideMargin>
+            <Col xs>
+              <Card>
+                <AssociatedActions volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={event?.toJS()} />
+              </Card>
+            </Col>
+          </Row>
+        )}
+      </>
+    );
   }
 );
+
+function ProcessContent({ snapshot, timeConfig }) {
+  if (!snapshot || (snapshot.progress && snapshot.progress.loading)) {
+    return <LoadingIndicator inline type="dark" style={{ height: '16px' }} />;
+  }
+  return <ProcessTopList snapshot={snapshot} timeConfig={timeConfig} />;
+}
 
 const IncidentContent = connectTo(
   ({ incident }) => ({

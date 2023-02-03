@@ -3,38 +3,33 @@
  * (c) Copyright Instana Inc.
  */
 
-import InfraExploreView from 'promise-loader?global,infrastructure!in-infrastructure/Explore/Explore';
 import AgentView from 'promise-loader?global,infrastructure!in-infrastructure/agentView/AgentView';
-import TableView from 'promise-loader?global,infrastructure!in-infrastructure/tableView/TableView';
-import GraphView from 'promise-loader?global,graph-view!in-components/graphView/GraphView';
 import InternalViews from 'promise-loader?global,internal!in-internal';
-import Map from 'promise-loader?global,infrastructure!in-map/index';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import React from 'react';
 
-import {
-  pcfEnabled,
-  vsphereEnabled,
-  phmcEnabled,
-  zhmcEnabled,
-  internalMonitoringUnit,
-  syntheticsTestEnabled
-} from 'in-services/featureFlags';
 import {
   hasApplicationsAccess,
   hasWebsitesAccess,
   hasKubernetesAccess,
-  hasMobileAppsAccess
+  hasMobileAppsAccess,
+  hasInfrastructureAccess,
+  hasSyntheticsAccess,
+  hasVSphereAccess,
+  hasPHMCAccess,
+  hasZHMCAccess,
+  hasPCFAccess,
+  hasOpenStackAccess,
+  hasEventsAccess
 } from 'in-stores/permission';
-import { agentsPath, containerPath, graphPath, physicalPath, tablePath } from 'in-stores/navigation/paths/mainPaths';
-import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
-import { infraExploreEnabled } from 'in-infrastructure/Explore/services/featureFlags';
-import FragmentSupportingSwitch from 'in-components/FragmentSupportingSwitch';
+import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import customDashboardsRoutes from 'in-custom-dashboards/navigation/routes';
 import mobileAppMonitoringRoutes from 'in-mobile-apps/navigation/routes';
-import { infraExplorePath } from 'in-infrastructure/navigation/paths';
+import infrastructureRoutes from 'in-infrastructure/navigation/routes';
 import websiteMonitoringRoutes from 'in-websites/navigation/routes';
 import cloudfoundryRoutes from 'in-cloudfoundry/navigation/routes';
+import { internalMonitoringUnit } from 'in-services/featureFlags';
+import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
 import integrationRoutes from 'in-integrations/navigation/routes';
 import applicationRoutes from 'in-applications/navigation/routes';
 import configurationRoutes from 'in-settings/navigation/routes';
@@ -42,6 +37,7 @@ import syntheticsRoutes from 'in-synthetics/navigation/routes';
 import LandingPage from 'in-client/js/LandingPage/LandingPage';
 import kubernetesRoutes from 'in-kubernetes/navigation/routes';
 import profilingRoutes from 'in-profiling/navigation/routes';
+import openstackRoutes from 'in-openstack/navigation/routes';
 import loggingRoutes from 'in-logging/navigation/routes';
 import cockpitRoutes from 'in-cockpit/navigation/routes';
 import vsphereRoutes from 'in-vsphere/navigation/routes';
@@ -52,30 +48,26 @@ import phmcRoutes from 'in-phmc/navigation/routes';
 import zhmcRoutes from 'in-zhmc/navigation/routes';
 
 export default (
-  <FragmentSupportingSwitch>
-    <Route path={physicalPath} component={createAsyncViewComponent(Map)} />
-    <Route path={containerPath} component={createAsyncViewComponent(Map)} />
-    <Route path={tablePath} component={createAsyncViewComponent(TableView)} />
-    <Route path={graphPath} component={createAsyncViewComponent(GraphView)} />
-    {infraExploreEnabled && <Route path={infraExplorePath} component={createAsyncViewComponent(InfraExploreView)} />}
-
+  <Switch>
+    {hasInfrastructureAccess && infrastructureRoutes}
     {configurationRoutes}
     {role.canConfigureAgents && (
-      <Route path={agentsPath} component={createAsyncViewComponent(AgentView)} windowTitle="Instana Agents" />
+      <Route path={agentsPath} children={renderAsyncRouteChildren(AgentView)} windowTitle="Instana Agents" />
     )}
     {(isInstanaEmail || internalMonitoringUnit) && (
-      <Route path="/internal" component={createAsyncViewComponent(InternalViews)} windowTitle="Internal" />
+      <Route path="/internal" children={renderAsyncRouteChildren(InternalViews)} windowTitle="Internal" />
     )}
 
-    {eventRoutes}
+    {hasEventsAccess && eventRoutes}
 
-    {syntheticsTestEnabled && syntheticsRoutes}
-    {hasApplicationsAccess && applicationRoutes}
+    {hasSyntheticsAccess && syntheticsRoutes}
+    {hasApplicationsAccess && applicationRoutes()}
     {hasKubernetesAccess && kubernetesRoutes}
-    {pcfEnabled && cloudfoundryRoutes}
-    {phmcEnabled && phmcRoutes}
-    {vsphereEnabled && vsphereRoutes}
-    {zhmcEnabled && zhmcRoutes}
+    {hasPCFAccess && cloudfoundryRoutes}
+    {hasPHMCAccess && phmcRoutes}
+    {hasVSphereAccess && vsphereRoutes}
+    {hasOpenStackAccess && openstackRoutes}
+    {hasZHMCAccess && zhmcRoutes}
     {hasWebsitesAccess && websiteMonitoringRoutes}
     {hasMobileAppsAccess && mobileAppMonitoringRoutes}
     {integrationRoutes}
@@ -87,5 +79,5 @@ export default (
 
     {/* The landing page must be the very last item as it dynamically redirects */}
     <Route path="/" component={LandingPage} />
-  </FragmentSupportingSwitch>
+  </Switch>
 );

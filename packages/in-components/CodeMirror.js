@@ -7,5 +7,6 @@
 import 'codemirror/lib/codemirror.css';
 import CodeMirror from 'codemirror/lib/codemirror.js';
 import 'codemirror/mode/javascript/javascript.js';
+import 'codemirror/mode/shell/shell.js';
 
 export default CodeMirror;

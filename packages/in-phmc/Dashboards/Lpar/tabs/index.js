@@ -4,8 +4,8 @@
  */
 
 import { lparDashboardFullyQualified } from 'in-phmc/navigation/paths';
-import Network from 'in-phmc/Dashboards/Lpar/tabs//Network';
-import Storage from 'in-phmc/Dashboards/Lpar/tabs//Storage';
+import Network from 'in-phmc/Dashboards/Lpar/tabs/Network';
+import Storage from 'in-phmc/Dashboards/Lpar/tabs/Storage';
 import Summary from 'in-phmc/Dashboards/Lpar/tabs/Summary';
 import { t } from 'in-i18n';
 

@@ -4,10 +4,11 @@
  */
 
 import { createMapForm, createField, composeValidators, ValidationResult, MapForm, Field } from 'formalistic';
-import moment from 'moment';
+import { isValid, parse } from 'date-fns';
+import { isArray } from 'lodash';
 
+import { dateTimeFormat, formatDate, formatTime, parseDateTime } from 'in-services/formatters/date';
 import { numericValidator, positiveNumberValidator } from 'in-services/validators/number';
-import { formatDate, formatTime, parseDateTime } from 'in-services/formatters/date';
 import { numberValidator, stringValidator } from 'in-services/validators/jsonType';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/constants';
@@ -31,13 +32,13 @@ export const timeWindowDurationUnit = 'timeWindowDurationUnit';
 export type TimeWindowDuration = 'days' | 'weeks' | 'months';
 export type TimeWindowType = 'fixed' | 'rolling' | 'dynamic';
 
-interface SloWidgetConfiguration {
-  entityType?: MonitoringSource; // old schema configs might not have this set, it defaults to 'Applications'
-  entityId?: string; // old schema configs might not have this set and use apConfigId instead
+export interface SloWidgetConfiguration {
+  entityType: MonitoringSource; // old schema configs might not have this set, it defaults to 'Applications'
+  entityId: string; // old schema configs might not have this set and use apConfigId instead
 
-  slo?: number;
-  sliConfigId?: string;
-  timeWindowType?: TimeWindowType;
+  slo: number;
+  sliConfigId: string;
+  timeWindowType: TimeWindowType;
 
   // timeWindowType = 'fixed'
   timeWindowStart?: {
@@ -53,7 +54,7 @@ interface SloWidgetConfiguration {
   apConfigId?: string;
 }
 
-export function createForm(oldSavedState: SloWidgetConfiguration = {}): MapForm {
+export function createForm(oldSavedState: Partial<SloWidgetConfiguration> = {}): MapForm {
   const savedState = ensureConfigBackwardCompatibility(oldSavedState);
 
   let form = createMapForm({
@@ -89,7 +90,7 @@ export function createForm(oldSavedState: SloWidgetConfiguration = {}): MapForm 
         value: savedState[sliConfigId]
       })
     );
-  const windowType = savedState[timeWindowType];
+  const windowType = savedState[timeWindowType] ?? 'dynamic';
   form = form.put(
     timeWindowType,
     createField({
@@ -99,7 +100,7 @@ export function createForm(oldSavedState: SloWidgetConfiguration = {}): MapForm 
   if (windowType === 'fixed') {
     const start = savedState[timeWindowStart];
     // auto-corrects invalid dates:
-    const ts = parsedTimestamp(start?.date + ' ' + start?.time);
+    const ts = parseTimestamp(start?.date + ' ' + start?.time);
     form = addFormForStartTimeStamp(form, ts);
   }
   if (windowType === 'fixed' || windowType === 'rolling') {
@@ -143,8 +144,10 @@ function getTimeWindowDurationInDays(value: number, unit: TimeWindowDuration): n
   }
 }
 
-export const parsedTimestamp = (str: string): number | null => {
-  if (!moment(str).isValid()) return null;
+export const parseTimestamp = (str: string, strFormat: string = dateTimeFormat): number | null => {
+  if (!isValid(parse(str, strFormat, new Date()))) {
+    return null;
+  }
 
   return parseDateTime(str).getTime();
 };
@@ -188,13 +191,17 @@ export function removeFormForTimeDuration(form: MapForm): MapForm {
   return form;
 }
 
-export function addFormForTimeDuration(form: MapForm, savedState: SloWidgetConfiguration, override = true): MapForm {
+export function addFormForTimeDuration(
+  form: MapForm,
+  savedState: Partial<SloWidgetConfiguration>,
+  override = true
+): MapForm {
   if (override || !form.containsKey(timeWindowDuration))
     form = form.put(
       timeWindowDuration,
       createField({
         validator: composeAndShortCircuitOnError(numericValidator, positiveNumberValidator),
-        value: savedState[timeWindowDuration] ?? '1'
+        value: savedState[timeWindowDuration] ?? 1
       })
     );
   if (override || !form.containsKey(timeWindowDurationUnit))
@@ -207,7 +214,7 @@ export function addFormForTimeDuration(form: MapForm, savedState: SloWidgetConfi
   return form;
 }
 
-export function ensureConfigBackwardCompatibility(savedForm: SloWidgetConfiguration): SloWidgetConfiguration {
+export function ensureConfigBackwardCompatibility<C extends Partial<SloWidgetConfiguration>>(savedForm: C): C {
   const id = savedForm[entityId] ?? savedForm[apConfigId];
   const type = savedForm[entityType] ?? 'application';
 
@@ -246,4 +253,9 @@ export function sloValidator(v?: number): ValidationResult {
     return sloValidatorFailureMessage;
   }
   return;
+}
+
+export function getField<T>(form: MapForm, path: string[] | string): Field<T> | undefined {
+  const item = isArray(path) ? form.getIn(path) : form.get(path);
+  return item as Field<T> | undefined;
 }

@@ -199,10 +199,7 @@ export const EVENT_TYPES = {
   INCIDENT: 4
 };
 
-export function getIcon({ event, eventType }) {
-  if (!eventType) {
-    eventType = getEventType(event);
-  }
+export function getIcon(eventType) {
   switch (eventType) {
     case EVENT_TYPES.ISSUE_WARNING:
       return 'lib_events_warning';
@@ -280,7 +277,7 @@ export function getEventType(event) {
       return EVENT_TYPES.INCIDENT;
     case 'change':
       return EVENT_TYPES.CHANGE;
-    case 'agent_monitoring_issue': // can be handled just as any other other issue in the UI
+    case 'agent_monitoring_issue': // can be handled just as any other issue in the UI
     case 'issue': {
       const severity = isImmutableObject
         ? event.getIn(['problem', 'severity'], 0)

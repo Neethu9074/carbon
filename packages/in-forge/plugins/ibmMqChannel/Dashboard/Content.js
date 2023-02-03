@@ -73,8 +73,8 @@ export default function IbmMqChannelDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            formatter: number.compact,
-            tooltipFormatter: number.compact,
+            formatter: number.detailed,
+            tooltipFormatter: number.detailed,
             metrics: [`messagesSent`, `messagesAvailable`],
             labels: [
               t('in-forge:plugins.ibmMqChannel.dashboard.sentReceived'),
@@ -105,8 +105,8 @@ export default function IbmMqChannelDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            formatter: number.compact,
-            tooltipFormatter: number.compact,
+            formatter: number.detailed,
+            tooltipFormatter: number.detailed,
             metrics: [`buffersSent`, `buffersReceived`],
             labels: [
               t('in-forge:plugins.ibmMqChannel.dashboard.buffersSent'),
@@ -121,8 +121,8 @@ export default function IbmMqChannelDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            formatter: number.compact,
-            tooltipFormatter: number.compact,
+            formatter: number.detailed,
+            tooltipFormatter: number.detailed,
             metrics: [`bytesSent`, `bytesReceived`],
             labels: [
               t('in-forge:plugins.ibmMqChannel.dashboard.bytesSent'),

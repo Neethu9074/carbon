@@ -6,7 +6,6 @@
 import React, { Fragment } from 'react';
 
 import { Button } from '@instana/components';
-import { Card } from '@instana/components';
 import { Link } from '@instana/components';
 
 import {
@@ -131,15 +130,16 @@ export default function Errors({ timeConfig, tagFilters, websiteId, websiteLabel
   return (
     <Fragment>
       <LearnMoreUserPointer websiteId={websiteId} />
-      <Card>
+      <>
         <ServerTableWithUrlState
           get={getTableData}
           websiteId={websiteId}
           tagFilters={tagFilters}
           timeConfig={timeConfig}
+          cardTitle={t('in-websites:websiteDashboard.tabs.indexLabelJSErrors')}
           rightHeader={rightHeader}
         />
-      </Card>
+      </>
       <Footer />
     </Fragment>
   );

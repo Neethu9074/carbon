@@ -3,11 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import moment from 'moment';
-
 import { EntityType, entityTypes, TAG_TYPES } from 'in-analyze/applicationFilter';
-import { Nullish, TagFilter, TagType, TimeConfig } from 'in-types';
 import { compareIgnoreCase } from 'in-services/util/string';
+import { Nullish, TagFilter, TagType } from 'in-types';
 import { deepCopy } from 'in-services/util/object';
 import { role } from 'in-stores/user';
 
@@ -71,6 +69,7 @@ export const customServiceMappingTagKeys = [
   'nodejs.app.name',
   'nomad.job.name',
   'nomad.task.name',
+  'oracledb.sid',
   'process.name',
   'ruby.name',
   'service.default_name',
@@ -138,6 +137,7 @@ function isBeaconTag(tag?: string): boolean {
 }
 
 const latencyTags = ['call.latency', 'trace.latency', 'beacon.duration'];
+
 export function isLatencyTag(tag: string): boolean {
   return latencyTags.includes(tag);
 }
@@ -194,6 +194,7 @@ interface TagKey {
   fullyQualifiedName?: string;
   name?: string;
 }
+
 function isDisabled(serverTag: TagKey, isTagOnDisabledList: (tagName?: string) => boolean): boolean {
   return isTagOnDisabledList(serverTag.fullyQualifiedName) || isTagOnDisabledList(serverTag.name);
 }
@@ -247,11 +248,13 @@ function buildTagTree() {
 interface GetChildrenArgs {
   isTagOnDisabledList?: (tagName?: string) => boolean;
 }
+
 interface TagTreeNodeProps {
   children?: TagTreeNode[];
   parentNode?: TagTreeNode;
   fullyQualifiedName?: string;
 }
+
 type TagTreeNode = {
   name: string;
   parentNode?: TagTreeNode;
@@ -309,16 +312,6 @@ export function getTagEntity(fullyQualifiedName: string): EntityType {
   } else {
     return entityTypes.NOT_APPLICABLE;
   }
-}
-
-export function getSourceEntityAvailability(fullyQualifiedName: string, timeConfig: TimeConfig): boolean {
-  const definition = findSubTreeByFullyQualifiedName(fullyQualifiedName);
-  const sourceEntityAvailability = definition ? definition.sourceValueAvailableFrom : null;
-
-  const to = timeConfig.to || Date.now();
-  const from = to - timeConfig.windowSize;
-
-  return !moment(sourceEntityAvailability).isAfter(from);
 }
 
 export function getTagFromList(tagFilter: TagFilter[], _tag: TagFilter): TagFilter | null {

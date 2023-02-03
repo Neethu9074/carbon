@@ -10,7 +10,13 @@ import { useObservable } from '@instana/hooks';
 import { Stack } from '@instana/components';
 
 import { useTagFilterExpressionState } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/useTagFilterExpressionState';
+import {
+  isRequiringGroupingConfiguration,
+  onChangeGrouping
+} from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
+import GroupingConfiguration from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/GroupingConfiguration';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
+import * as groupingConfiguratorsPerDataSource from 'in-mobile-apps/groupingConfigurators';
 import { availableMetrics } from 'in-mobile-apps/analyze/AnalyzeView/metrics';
 import * as queryBuildersPerDataSource from 'in-mobile-apps/queryBuilder';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
@@ -28,7 +34,9 @@ export default function FormComponent({
   dataSourceSection,
   labelSection,
   formatterSection,
-  timeShiftConfiguration
+  timeShiftConfiguration,
+  withGrouping = true,
+  maxGrouping = 20
 }) {
   const beaconTypeField = form.get('beaconType');
   const metricField = form.get('metric');
@@ -40,10 +48,18 @@ export default function FormComponent({
 
   const tagCatalogResult = useObservable(getTagCatalog, [beaconTypeField.value]) ?? pendingResult;
   const [tagFilterExpression, setTagFilterExpression] = useTagFilterExpressionState({
-    tagCatalogResult,
+    tagCatalog: tagCatalogResult?.data,
     form,
     onChange
   });
+
+  const groupingField = form.get('grouping');
+  const grouping = groupingField?.get(0)?.toJS();
+  const onByChange = by => onChangeGrouping(onChange, { ...grouping, by });
+  const onDirectionChange = (direction, maxResults) =>
+    onChangeGrouping(onChange, { ...grouping, direction, maxResults });
+  const onIncludeOthersChange = includeOthers => onChangeGrouping(onChange, { ...grouping, includeOthers });
+  const tagFilterExpressionField = form.get('tagFilterExpression');
 
   return (
     <Stack gap="xsmall">
@@ -153,6 +169,7 @@ export default function FormComponent({
             </>
           )}
         </SelectInSection>
+        {formatterSection}
       </Sections>
 
       {QueryBuilder && (
@@ -167,7 +184,19 @@ export default function FormComponent({
         </Sections>
       )}
 
-      {formatterSection}
+      <GroupingConfiguration
+        withGrouping={withGrouping}
+        grouping={grouping}
+        tagFilterExpressionField={tagFilterExpressionField}
+        onByChange={onByChange}
+        onDirectionChange={onDirectionChange}
+        onIncludeOthersChange={onIncludeOthersChange}
+        GroupingConfigurator={groupingConfiguratorsPerDataSource[beaconTypeField.value].GroupingConfigurator}
+        hasError={groupingField ? groupingField.touched && !groupingField.valid : false}
+        additionalContent={<TouchedMessages field={groupingField} />}
+        withOptionalMarker={!isRequiringGroupingConfiguration(form)}
+        maxGrouping={maxGrouping}
+      />
 
       {timeShiftConfiguration}
 

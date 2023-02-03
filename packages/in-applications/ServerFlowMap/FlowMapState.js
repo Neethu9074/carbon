@@ -7,11 +7,13 @@ import PathFinder from 'in-applications/ServerFlowMap/PathFinder';
 import { find } from 'in-services/arrayUtils';
 
 const emptyChildrenMap = new Map();
+const unknownResultPrecision = Object.freeze({ resultPrecision: 'PRECISION_UNKNOWN' });
 
 export default class FlowMapState {
   constructor() {
     this.nodes = new Map();
     this.pathFinder = new PathFinder(this.nodes);
+    this.resultPrecisionDetails = unknownResultPrecision;
   }
 
   getNode(nodeConfig) {
@@ -98,8 +100,8 @@ export default class FlowMapState {
 
     this.clearCurrentNodesFromDummies(nodeId, endpointId);
 
-    const nodes = this.mapResult(result, path, direction);
-    onResult(nodes);
+    const { nodes, resultPrecisionDetails } = this.mapResult(result, path, direction);
+    onResult(nodes, resultPrecisionDetails);
   }
 
   mutateNodesWithPlaceHolderIfNecessary(node, endpointId, nodes, result, direction, createPlaceHolderNodeFunction) {
@@ -125,7 +127,8 @@ export default class FlowMapState {
   processServiceResult(nodeId, endpointId, result, direction, path) {
     const node = this.nodes.get(nodeId);
 
-    const onResult = nodes => {
+    const onResult = (nodes, resultPrecisionDetails) => {
+      this.resultPrecisionDetails = resultPrecisionDetails;
       node.isLoading[direction] = false;
       node.hasRelatedNodes[direction] = false;
 
@@ -221,7 +224,7 @@ export default class FlowMapState {
   }
 
   mapResult(result, path, direction) {
-    return (result.data.items || [])
+    const nodes = (result.data.items || [])
       .filter(node => node.service.id)
       .map(n => ({
         id: this.calculateUniqueIdForNode(n.service.id, path, direction),
@@ -231,6 +234,12 @@ export default class FlowMapState {
         relatedNodesCount: n.relatedNodesCount,
         metrics: n.metrics
       }));
+    const resultPrecisionDetails = result?.resultPrecisionDetails ?? unknownResultPrecision;
+
+    return {
+      nodes,
+      resultPrecisionDetails: resultPrecisionDetails
+    };
   }
 
   clearCurrentNodesFromDummies(nodeId) {

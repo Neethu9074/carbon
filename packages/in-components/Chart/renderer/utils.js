@@ -21,3 +21,21 @@ export function calculateMetricMap(metrics) {
   }
   return metricMap;
 }
+
+export function drawCircleWithLine({ renderingContext, config, xPos, yPos, circleStyle, lineStyle }) {
+  renderingContext.lineWidth = 2;
+
+  // area below the lone data point will be represented by a simple line
+  renderingContext.beginPath();
+  renderingContext.strokeStyle = lineStyle;
+  renderingContext.moveTo(xPos - 2, yPos + 2);
+  renderingContext.lineTo(xPos - 2, config.height - config.timeAxisHeight);
+  renderingContext.stroke();
+
+  // a circle represents the lone data point
+  renderingContext.beginPath();
+  renderingContext.strokeStyle = circleStyle;
+  renderingContext.moveTo(xPos, yPos);
+  renderingContext.arc(xPos - 2, yPos, 2, 0, 2 * Math.PI);
+  renderingContext.stroke();
+}

@@ -10,28 +10,40 @@ import KpiCard from 'in-components/KpiCard/KpiCard';
 import theme from 'in-themes';
 
 export default {
-  component: KpiCard
+  component: KpiCard,
+  args: {
+    value: '100ms'
+  }
 };
 
-export const Default = ({ disabled }) => <KpiCard value="100ms" borderless={disabled} />;
-Default.args = { disabled: false };
+export const Default = { args: { borderless: false } };
 
-export const WithTitle = ({ disabled }) => <KpiCard title="Title" value="Value" borderless={disabled} />;
-WithTitle.args = { disabled: false };
+export const WithTitle = { args: { ...Default.args, value: 'Value', title: 'Title' } };
 
-export const WithColor = () => <KpiCard title="Errors" value="10" color={theme.lib.colors.failure} />;
-export const WithCompanionValue = () => <KpiCard title="Title" value="Value" companionValue="Companion Value" />;
-export const withActions = () => <KpiCard title="Title" value="Value" actions={<div>Action</div>} />;
-export const WithIconAction = () => (
-  <KpiCard
-    title="Title"
-    value="Value"
-    companionValue="Companion Value"
-    iconAction={{
+export const WithRaw = { args: { ...WithTitle.args, value: '10ms', raw: true } };
+
+export const UndefinedValue = { args: { ...Default.args, title: 'Title' } };
+export const UndefinedValueRaw = { args: { ...UndefinedValue.args, raw: true } };
+
+export const NullValue = { args: { ...UndefinedValue.args, title: 'Title', value: null } };
+export const NullValueRaw = { args: { ...NullValue.args, raw: true } };
+
+export const FalseValue = { args: { ...UndefinedValue.args, title: 'Title', value: false } };
+export const FalseValueRaw = { args: { ...FalseValue.args, raw: true } };
+
+export const WithColor = { args: { ...Default.args, value: '10', title: 'Errors', color: theme.lib.colors.failure } };
+export const WithCompanionValue = { args: { ...WithTitle.args, companionValue: 'Companion Value' } };
+export const WithActions = { args: { ...WithTitle.args, actions: <div>Action</div> } };
+export const WithIconAction = {
+  args: {
+    ...WithTitle.args,
+    companionValue: 'Companion Value',
+    iconAction: {
       icon: 'lib_analyze_inverted',
       text: 'Action',
       kind: 'subtle',
       onClick: () => action('action click')
-    }}
-  />
-);
+    }
+  }
+};
+export const WithApproximateData = { args: { ...WithTitle.args, resultPrecision: 'PRECISION_APPROXIMATE' } };

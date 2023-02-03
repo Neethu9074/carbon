@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { keyCodes } from '@instana/components';
@@ -18,16 +18,12 @@ import { getInteractiveElements } from 'in-services/util/dom';
 import Node from 'in-components/SelectorOverlay/Node';
 import { isNotBlank } from 'in-services/util/string';
 import SearchInput from 'in-components/SearchInput';
+import { noop } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
 
 import locals from './SelectorOverlay.mless';
 
 const { isArrowRight, isReturn, isArrowLeft, isArrowUp } = keyCodes;
-
-const initialState = {
-  focusedNode: null,
-  showFocusedNode: false
-};
 
 const categoryHeight = 40;
 // for performance reasons limit number of results shown as rendering is slow for high number of results
@@ -39,15 +35,21 @@ export default function SelectorOverlay({
   onChange,
   withIcons = true,
   query,
-  onQueryChange
+  onQueryChange,
+  disabled
 }) {
-  const [{ focusedNode, showFocusedNode: showFocusedNode }, setState] = useState(initialState);
+  const [focusedNode, setFocusedNode] = useState(null);
+  const [showFocusedNode, setShowFocusedNode] = useState(false);
   options = useMemo(() => {
     if (isNotBlank(query)) {
-      return search(options, query);
+      const results = search(options, query);
+      return results.filter(node => !node.disabled);
     }
     return options;
   }, [options, query]);
+  useEffect(() => {
+    setShowFocusedNode(false);
+  }, [options]);
 
   // Used to jump to the first available group when clicking enter in the input field.
   const staticContentWrapperRef = useRef();
@@ -70,19 +72,14 @@ export default function SelectorOverlay({
       <div className={locals.searchInputWrapper}>
         <SearchInput
           placeholder={t('in-components:selectorOverlay.placeholderSearch')}
-          onChange={_query => {
-            onQueryChange(_query);
-            setState({
-              focusedNode,
-              showFocusedNode: false
-            });
-          }}
+          onChange={onQueryChange}
           query={query}
           autoFocus
           className={locals.searchInput}
           onReturn={focusOnFirstResult}
           onArrowDown={focusOnFirstResult}
           inputRef={searchElementRef}
+          disabled={disabled}
         />
       </div>
       <div className={locals.overlay}>
@@ -101,12 +98,7 @@ export default function SelectorOverlay({
         {loading === false && (
           <SlideInView
             showSlideInContent={showFocusedNode}
-            onShowSlideInContentChange={() =>
-              setState({
-                focusedNode,
-                showFocusedNode: false
-              })
-            }
+            onShowSlideInContentChange={setShowFocusedNode}
             onAfterSlideOut={() => {
               lastFocusedElementRef.current?.focus();
             }}
@@ -120,8 +112,8 @@ export default function SelectorOverlay({
                     <Node
                       key={i}
                       node={node}
-                      focusNode={focusNode}
-                      onChange={onChange}
+                      focusNode={disabled ? noop : focusNode}
+                      onChange={disabled ? noop : onChange}
                       asListGroup
                       withIcons={withIcons}
                     />
@@ -141,8 +133,8 @@ export default function SelectorOverlay({
                   <Node
                     key={i}
                     node={node}
-                    focusNode={focusNode}
-                    onChange={onChange}
+                    focusNode={disabled ? noop : focusNode}
+                    onChange={disabled ? noop : onChange}
                     asListGroup
                     withIcons={withIcons}
                     withBreadcrumbs={isNotBlank(query)}
@@ -159,20 +151,15 @@ export default function SelectorOverlay({
   );
 
   function focusNode(focusedNode) {
-    setState({
-      focusedNode,
-      showFocusedNode: true
-    });
+    setFocusedNode(focusedNode);
+    setShowFocusedNode(true);
   }
 
   function onKeyDown(event) {
     if (isArrowRight(event) || isReturn(event)) {
       event.target.click();
     } else if (isArrowLeft(event)) {
-      setState({
-        focusedNode,
-        showFocusedNode: false
-      });
+      setShowFocusedNode(false);
     } else if (
       isArrowUp(event) &&
       !showFocusedNode &&
@@ -203,5 +190,6 @@ SelectorOverlay.propTypes = {
   onChange: PropTypes.func.isRequired,
   withIcons: PropTypes.bool,
   query: PropTypes.string.isRequired,
-  onQueryChange: PropTypes.func.isRequired
+  onQueryChange: PropTypes.func.isRequired,
+  disabled: PropTypes.bool
 };

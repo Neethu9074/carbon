@@ -3,19 +3,23 @@
  * (c) Copyright Instana Inc.
  */
 
-import moment from 'moment';
+import { ValidationResult } from 'formalistic';
+import { parse, isValid } from 'date-fns';
 
+import { fillMissingInputTime, TimeFormat } from 'in-components/time/TimeSelectionDialogPresenter/timeInputFormatter';
 import { timeFormat as defaultTimeFormat, dateFormat } from 'in-services/formatters/date';
 import { isBlank } from 'in-services/util/string';
+import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
-import { ValidationResult } from 'formalistic';
 
-export function timeValidator(v: string, timeFormat = defaultTimeFormat): ValidationResult {
+export function timeValidator(v: string, timeFormat: TimeFormat = defaultTimeFormat): ValidationResult {
   if (isBlank(v)) {
     return null;
   }
 
-  if (moment(v, timeFormat).isValid()) {
+  const enrichedTime = fillMissingInputTime(v, timeFormat);
+
+  if (isValid(parse(enrichedTime, timeFormat, new Date()))) {
     return null;
   }
 
@@ -27,14 +31,14 @@ export function timeValidator(v: string, timeFormat = defaultTimeFormat): Valida
   ];
 }
 
-export function dateValidator(v: string): ValidationResult {
+export function dateValidator(v: string | Nullish): ValidationResult {
   if (isBlank(v)) {
     return null;
   }
 
-  if (moment(v, dateFormat, true).isValid()) {
+  if (isValid(parse(v!, dateFormat, new Date()))) {
     return null;
-  } else if (v.length !== dateFormat.length) {
+  } else if (v!.length !== dateFormat.length) {
     return [
       {
         severity: 'error',

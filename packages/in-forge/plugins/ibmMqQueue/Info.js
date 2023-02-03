@@ -18,6 +18,12 @@ export default function Info({ snapshot }) {
       <DescriptionItem title={t('in-forge:plugins.ibmMqQueue.alternatedAt')}>
         {data.get('queueAlternated')}
       </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqQueue.lastPutDateTime')}>
+        {data.get('lastPutDateTime')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqQueue.lastGetDateTime')}>
+        {data.get('lastGetDateTime')}
+      </DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.ibmMqQueue.inhibitPut')}>{data.get('inhibitPut')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.ibmMqQueue.inhibitGet')}>{data.get('inhibitGet')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.ibmMqQueue.deliverySequence')}>
@@ -29,6 +35,18 @@ export default function Info({ snapshot }) {
       <DescriptionItem title={t('in-forge:plugins.ibmMqQueue.usage')}>{data.get('queueUsage')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.ibmMqQueue.monitoring')}>
         {data.get('queueMonitoring')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqQueue.queueDepthHighLimit')}>
+        {data.get('queueDepthHighLimit')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqQueue.queueDepthLowLimit')}>
+        {data.get('queueDepthLowLimit')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqQueue.queueServiceInterval')}>
+        {data.get('queueServiceInterval')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqQueue.queueDescription')}>
+        {data.get('queueDescription')}
       </DescriptionItem>
     </DescriptionList>
   );

@@ -125,7 +125,7 @@
         "needToTurnOffPP": "Um die Gruppierung zu verwenden, müssen Sie zuerst die Hervorhebung potenzieller Probleme inaktivieren.",
         "pleaseSelect": "Bitte auswählen",
         "pleaseSelectMetric": "Wählen Sie einen Messwert aus",
-        "aggregation": "Aggregation ",
+        "aggregation": "Aggregation",
         "metric": "Messwert"
       },
       "index": {
@@ -139,7 +139,7 @@
       "formComponent": {
         "metric": "Messwert",
         "eventCount": "Ereignisanzahl",
-        "aggregation": "Aggregation ",
+        "aggregation": "Aggregation",
         "pleaseSelectMetric": "Wählen Sie einen Messwert aus",
         "pleaseSelect": "Bitte auswählen",
         "helpAction": "Eine dynamische Fokusabfrage (DFQ), wie Sie sie innerhalb der Ereignisansicht verwenden würden.",
@@ -156,22 +156,27 @@
         "query": "Abfrage",
         "helpAction": "Eine dynamische Fokusabfrage (DFQ), wie Sie sie innerhalb der Infrastrukturzuordnung verwenden würden.",
         "metric": "Messwert",
-        "count": " Anzahl   ",
-        "aggregation": "Aggregation ",
+        "count": "Anzahl",
+        "aggregation": "Aggregation",
         "pleaseSelect": "Bitte auswählen",
         "pleaseSelectMetric": "Wählen Sie einen Messwert aus"
       },
       "metricsFormComponent": {
         "metric": "Messwert",
         "selectMetric": "Messwert auswählen",
-        "aggregation": "Aggregation "
+        "aggregation": "Aggregation",
+        "crossSeriesAggregation": "SUM für die serienübergreifende Aggregation verwenden",
+        "crossSeriesAggregationHelp": "Normalerweise ist die serienübergreifende Aggregation mit der zeitübergreifenden Aggregation identisch (die Methode, die zum Kombinieren von Datenpunkten in einem einzelnen Bucket verwendet wird). Wenn diese Umschaltfläche aktiviert ist, werden die Buckets über die Datenserie hinweg summiert, anstatt die angegebene Aggregation zu verwenden.",
+        "crossSeriesAggregationDisabledHelp": "Nicht zutreffend für {{aggregation}}",
+        "crossSeriesAggregationRestrictedHelp": "Nicht zutreffend für diese Metrik"
       },
       "metrics": {
         "infrastructurePlatforms": "Infrastruktur und Plattformen",
         "comingSoon": "(in Kürze verfügbar)"
       },
       "typeAndMetricConfigurator": {
-        "pleaseSelectMetric": "Wählen Sie einen Messwert aus"
+        "pleaseSelectMetric": "Wählen Sie einen Messwert aus",
+        "loadingMetrics": "Metriken werden geladen..."
       }
     },
     "srcMobileApp": {
@@ -180,7 +185,7 @@
         "pleaseSelect": "Bitte auswählen",
         "pleaseSelectDs": "Wählen Sie eine Datenquelle aus.",
         "metric": "Messwert",
-        "aggregation": "Aggregation ",
+        "aggregation": "Aggregation",
         "pleaseSelectMetric": "Wählen Sie einen Messwert aus"
       },
       "index": {
@@ -209,7 +214,7 @@
         "metric": "Messwert",
         "selectDs": "Wählen Sie eine Datenquelle aus.",
         "selectMetric": "Wählen Sie einen Messwert aus",
-        "aggregation": "Aggregation "
+        "aggregation": "Aggregation"
       },
       "index": {
         "websitesBeacons": "Websites (Beacons)"
@@ -344,7 +349,7 @@
     "markdown": {
       "demo": {
         "title": "Instana - Erste Schritte",
-        "text": "Instana ist die erste und einzige vollständig automatisierte APM-Lösung (APM - Application Performance), die speziell für die Herausforderungen bei der Verwaltung von Microservice- und cloudnativen Anwendungen konzipiert wurde.\n\nDie ersten Schritte sind ganz einfach.\n\n1. Wenn Sie noch keinen Zugriff auf Instana haben, rufen Sie [Instana.com] (https://www.instana.com) auf und registrieren Sie sich für eine kostenlose Testversion.\n2. Erkunden Sie unser Ökosystem von Hunderten von [unterstützten Technologien] (https: //www.instana.com/docs/ecosystem).\n3. Beginnen Sie mit dem Sammeln von Daten mit einem unserer [Agenten] (https: //www.instana.com/docs/setup_and_manage).\n4.Informieren Sie sich, wie Sie Instana (https://www.instana.com/docs/using_instana) für Ihre Anwendungsfälle [verwenden können].\n5. Lesen Sie mehr über unsere einzigartigen [Kernkompetenzen] (https://www.instana.com/docs/core_capabilities/).\n6. Erweitern Sie Instana mit unseren [Integrationen, SDK und APIs] (https://www.instana.com/docs/integrations).\n\nDas war's! \n\nSie finden nicht, wonach Sie gesucht haben? Versuchen Sie es mit [instana.com/docs](https://www.instana.com/docs/)!"
+        "text": "Instana ist die erste und einzige voll automatisierte APM-Lösung (APM = Application Performance), die speziell für die Herausforderungen bei der Verwaltung von Mikroservice- und cloudnativen Anwendungen entwickelt wurde.\n\nDer Einstieg ist einfach1. Wenn Sie noch keinen Zugriff auf Instana haben, rufen Sie [Instana.com] (https://www.instana.com) auf und registrieren Sie sich für eine kostenlose Testversion.2. Lernen Sie unser Ökosystem von Hunderten [unterstützten Technologien] kennen (https://www.ibm.com/docs/de/obi/current?topic=supported-technologies).3. Starten Sie die Datenerfassung mit einem unserer [Agenten] (https://www.ibm.com/docs/de/obi/current?topic=set-up-manage-instana).4. Erhalten Sie Einblicke in die [Verwendungsweise von Instana](https://www.ibm.com/docs/de/obi/current?topic=using-instana) für Ihre Anwendungsfälle.5. Erfahren Sie mehr über unsere einzigartigen [Kernfunktionen](https://www.ibm.com/docs/de/obi/current?topic=core-capabilities).6. Erweitern Sie Instana mit unseren [Integrationen, SDKs & APIs](https://www.ibm.com/docs/de/obi/current?topic=integrations-sdks-apis).\n\nDas ist alles!\n\nHaben Sie nicht gefunden, wonach Sie gesucht haben? Rufen Sie die [Dokumentation] auf (https://www.ibm.com/docs/de/obi/current)!"
       },
       "formComp": {
         "whatULikeShow": "Was möchten Sie anzeigen?",
@@ -371,20 +376,23 @@
     "slo": {
       "demo": {
         "title": "SLO-Titel",
+        "sliName": "Beispiel-Sli",
         "appName": "Beispielanwendungsname"
       },
       "apConfigFormComp": {
         "userJourneyOffering": "User Journey/Angebot",
         "appnPerspective": "Anwendungsperspektive",
         "selectAppPerspect": "Wählen Sie eine Anwendungsperspektive aus.",
-        "appPerspectHelpAction": "Konfigurieren Sie User Journeys/Angebote, indem Sie sie als Anwendungsperspektive im Produktbereich 'Anwendungen' modellieren.",
+        "appPerspectHelpAction": "Richten Sie Benutzerjourneys/Angebote ein, indem Sie sie als Anwendungsperspektive im Bereich \"Anwendungen\" modellieren.",
+        "rbacHint": "Die angezeigten Anwendungen können durch Berechtigungen eingeschränkt sein.",
         "noAppPerspect": "Keine Anwendungsperspektiven!",
         "pleaseSelect": "Bitte auswählen"
       },
       "websiteSelector": {
         "website": "Website",
         "selectWebsite": "Wählen Sie eine Website aus",
-        "websiteHelpAction": "Konfigurieren Sie Websites im Bereich des Produkts für Websites und mobile Apps.",
+        "websiteHelpAction": "Konfigurieren Sie Websites im Bereich für Websites und mobile Apps.",
+        "rbacHint": "Die angezeigten Websites können durch Berechtigungen eingeschränkt sein.",
         "noWebsites": "Keine Websites gefunden",
         "pleaseSelect": "Bitte auswählen"
       },
@@ -398,12 +406,10 @@
         "sliCreateSuccess": "SLI wurde erfolgreich erstellt",
         "failCreateSli": "Fehler beim Erstellen des SLI.",
         "problemCreateSli": "Problem beim Erstellen des folgenden SLI: \"{{sliName}}\"",
-        "cloning": "Wird geklont...",
-        "creating": "Wird erstellt...",
         "clone": "Klonen",
         "create": "Erstellen",
         "sliConfigMsg": "Die Parameter des SLI können nicht geändert werden, um eine Invalidierung der berechneten verbrauchten Budgets zu verhindern. Dies ist der Grund, warum das SLI geklont werden muss, wenn Sie einen Parameter ändern.",
-        "sliCreated": "SLI \"{{sliName}}\" wurde erstellt. "
+        "sliCreated": "SLI \"{{sliName}}\" wurde erstellt."
       },
       "endpointSelectBox": {
         "endpoint": "Endpunkt",
@@ -412,13 +418,16 @@
       },
       "goodBadEventsForm": {
         "goodEvents": "Fehlerfreie Ereignisse",
-        "badEvents": "Fehlerhafte Ereignisse"
+        "badEvents": "Fehlerhafte Ereignisse",
+        "websitesFilterLabel": "{{websiteLabel}} / {{beaconType}}"
       },
       "metricFormData": {
         "latency": "Latenzzeit",
         "callCount": "Aufrufzahl",
         "errorRate": "Fehlerrate",
         "erroneousCalls": "Fehlerhafte Aufrufe",
+        "beaconErrorRate": "Beacon-Fehlerrate",
+        "beaconDuration": "Beacon-Dauer",
         "mean": "Mittelwert",
         "min": "Min.",
         "max": "Max.",
@@ -434,7 +443,7 @@
       "metricsForm": {
         "metricThreshold": "Messwert und Schwellenwert",
         "metric": "Messwert",
-        "aggregation": "Aggregation ",
+        "aggregation": "Aggregation",
         "valThresholdNotInvalidEmpty": "Der Wert des Schwellenwerts darf nicht ungültig oder leer sein.",
         "thresholdMs": "Schwellenwert (ms)",
         "thresholdPercent": "Schwellenwert (%)",
@@ -458,21 +467,27 @@
         "includeSyntheticCalls": "Synthetische Aufrufe einschließen",
         "type": "Typ",
         "sliEntity": "SLI-Entität",
-        "beaconConfigLabel": "Beaconkonfiguration",
+        "beaconConfigLabel": "Beacon-Konfiguration",
         "beaconScopeLabel": "Beaconbereich",
-        "httpRequestsLabel": "HTTP-Anforderungen",
-        "beaconFiltersLabel": "Beaconfilter"
+        "beaconLabel": "Unbekannter Beacon-Typ",
+        "beaconLabel_httpRequest": "HTTP-Anforderungen",
+        "beaconLabel_pageLoad": "Laden von Websites",
+        "beaconLabel_custom": "Benutzerdefinierte Websiteereignisse",
+        "beaconFiltersLabel": "Beacon-Filter",
+        "beaconFiltersSubtext": "Optional"
       },
       "sliList": {
         "serviceLevelIndicators": "Service-Level-Indikatoren",
         "sliConfigDeleted": "SLI-Konfiguration wurde erfolgreich gelöscht.",
-        "failedDelSli": "Fehler beim Löschen des SLI. ",
+        "failedDelSli": "Fehler beim Löschen des SLI.",
         "sliType": "SLI-Typ",
         "viewCloneSliConfig": "SLI-Konfiguration anzeigen/klonen",
         "delSliConfig": "SLI-Konfiguration löschen",
         "pleaseConfirm": "Bitte bestätigen",
         "pleaseConfirmMsg": "Sind Sie sicher, dass Sie <strong>{{sliName}}</strong> löschen möchten?",
-        "delete": "Löschen"
+        "delete": "Löschen",
+        "eventBasedSli": "Ereignisbasiert",
+        "timeBasedSli": "Zeitbasiert, {{metricNameLabel}}"
       },
       "sliManageList": {
         "configSrvLevelIndicatorsMsg": "Sie verfügen nicht über die Berechtigung <em>CAN_CONFIGURE_SERVICE_LEVEL_INDIKATOREN</em>, um SLIs zu erstellen oder zu bearbeiten.",
@@ -488,7 +503,11 @@
       "chart": {
         "spent": "Verbraucht",
         "budget": "Budget",
-        "viewInAnalyze": "In Analyse anzeigen"
+        "viewInAnalyze": "In Analyse anzeigen",
+        "configType": "SLI",
+        "configType_apdex": "Apdex",
+        "initialEvaluation": "{{configType}} erstellt",
+        "missingDataInfo": "Die Erstellungszeit für {{configType}} liegt innerhalb des angezeigten Zeitraums. Daten vor der Erstellung von {{configType}} fehlen."
       },
       "formComponent": {
         "sliManagement": "SLI-Management",
@@ -515,15 +534,16 @@
         "enterDateFormatYyyyMmDd": "Geben Sie ein Datum im Format JJJJ-MM-TT ein.",
         "enterTimeInFormatHhMmSs": "Geben Sie eine Uhrzeit im Format HH:mm:ss ein."
       },
-      "widgetHeader": {
+      "sliSummary": {
         "status": "Status",
         "target": "Ziel:",
         "errorBudgetSpent": "Ausgegebenes Fehlerbudget",
         "errorBudget": "Fehlerbudget:",
         "timeWindow": "Zeitfenster",
-        "dynamicTimeWindow": "Dynamisches Zeitfenster",
-        "rollingTimeWindow": "Rotierendes Zeitfenster",
-        "fixedTimeWindow": "Festes Zeitfenster"
+        "timeWindowType": "Unbekanntes Zeitfenster",
+        "timeWindowType_dynamic": "Dynamisches Zeitfenster",
+        "timeWindowType_rolling": "Rotierendes Zeitfenster",
+        "timeWindowType_fixed": "Festes Zeitfenster"
       },
       "sloEntityInfo": {
         "tooltip": {
@@ -542,7 +562,124 @@
       "atLeastOneFilterExpressionMustBeConfigured": "Es muss mindestens ein Filterausdruck konfiguriert werden.",
       "timeBased": "Zeitbasiert",
       "eventBased": "Ereignisbasiert",
-      "slo": "SLO"
+      "slo": "SLO",
+      "monitoringSourceSelector": {
+        "source_application": "Anwendung",
+        "source_website": "Website (Beta)",
+        "callOut_application": "Schließt Faktoren außerhalb Ihrer Kontrolle aus, wie z. B. schlechte Internetkonnektivität von Endbenutzern, aber spiegelt möglicherweise nicht genau die Endbenutzererfahrung wider.",
+        "callOut_website": "Spiegelt die Endbenutzererfahrung am genauesten wider, schließt jedoch keine Faktoren aus, die außerhalb Ihrer Kontrolle liegen, wie z. B. die schlechte Internetkonnektivität von Endbenutzern."
+      },
+      "sliFormatter": {
+        "unit": "Aufruf",
+        "unit_plural": "Aufrufe",
+        "unit_0": "Aufrufe",
+        "unit_1": "Aufruf",
+        "unit_2": "Aufrufe",
+        "thousandCallsFormat": "{{count}}K Aufrufe"
+      },
+      "widgetLeftHeader": {
+        "previewDataInfo": "Vorschaudaten werden nur bis zu 7 Tage in der Vergangenheit angezeigt. Das letzte Widget enthält nur Daten seit der SLI-Erstellung."
+      },
+      "boundaryScopeConfigurator": {
+        "all": {
+          "title": "Alle Aufrufe",
+          "description": "Aufrufe, die innerhalb dieser Anwendung sowohl von Konsumenten als auch intern ausgeführt werden."
+        },
+        "inbound": {
+          "title": "Eingehende Aufrufe",
+          "description": "Nur von den Konsumenten dieser Anwendung ausgeführte Aufrufe."
+        }
+      }
+    },
+    "apdex": {
+      "title": "Apdex: Diagramm",
+      "chart": {
+        "metricLabel": "Apdex",
+        "viewInAnalyze": "In Analyze anzeigen",
+        "noDataRetentionPeriod": "Ausgewählter Zeitraum liegt außerhalb des Datenaufbewahrungszeitraums",
+        "notFoundErrorTitle": "Konfigurierter Apdex wurde nicht gefunden",
+        "notFoundErrorDescription": "Aktualisieren Sie das Apdex-Widget durch Auswahl einer anderen Apdex-Konfiguration"
+      },
+      "demo": {
+        "title": "Apdex für Prod",
+        "entityLabel": "Roboter-Filiale"
+      },
+      "apdexConfigInfo": {
+        "tagFilterLabel": "Filter",
+        "apdexNameLabel": "Apdex-Name",
+        "apdexTypeLabel": "Apdex-Typ",
+        "thresholdLabel": "Schwellenwert"
+      },
+      "formComponent": {
+        "title": "Apdex-Konfiguration",
+        "entityTypeTitle": "Apdex-Typ",
+        "manageListTitle": "Apdex-Management",
+        "createApdex": "Apdex-Konfiguration erstellen",
+        "editApdex": "Apdex-Konfiguration bearbeiten"
+      },
+      "configurationSelector": {
+        "label": "Apdex-Konfiguration",
+        "selectConfig": "Wählen Sie eine Konfiguration aus.",
+        "manageConfig": "Apdex verwalten",
+        "noneAvailCreateOne": "Keiner verfügbar. Erstellen Sie einen.",
+        "pleaseSelect": "Bitte auswählen"
+      },
+      "entityTypeSelector": {
+        "type": "Unbekannter Typ",
+        "type_website": "Website",
+        "type_application": "Anwendung"
+      },
+      "apdexManageList": {
+        "title": "Apdex-Liste",
+        "deleteSuccessfulMessage": "Die Apdex-Konfiguration wurde erfolgreich gelöscht.",
+        "deleteFailedMessage": "Die Apdex-Konfiguration konnte nicht gelöscht werden."
+      },
+      "apdexList": {
+        "cardTitle": "Apdex-Konfiguration",
+        "nameColumn": "Apdex-Konfiguration",
+        "thresholdColumn": "Schwellenwert",
+        "confirmDeleteHeader": "Bitte bestätigen",
+        "confirmDeleteMessage": "Möchten Sie {{apdex}} wirklich löschen?",
+        "editApdexTooltip": "Apdex-Konfiguration bearbeiten/klonen",
+        "deleteApdexTooltip": "Apdex-Konfiguration löschen",
+        "confirmDeleteButton": "Löschen",
+        "createButton": "Apdex-Konfiguration erstellen"
+      },
+      "createApdexForm": {
+        "customizationHeader": "Apdex-Anpassung",
+        "label": "Apdex-Name",
+        "apdexCreateSuccessTitle": "Die Apdex-Konfiguration wurde erfolgreich erstellt.",
+        "apdexCreateSuccessContent": "Die Apdex-Konfiguration \"{{apdexName}}\" wurde erstellt.",
+        "apdexCreateFailedTitle": "Die Apdex-Konfiguration konnte nicht erstellt werden.",
+        "apdexCreateFailedContent": "Beim Erstellen dieser Apdex-Konfiguration ist ein Problem aufgetreten: \"{{apdexName}}\"",
+        "apdexNameNotEmpty": "Der Apdex-Name darf nicht leer sein.",
+        "nameExistsError": "Eine Apdex-Konfiguration mit diesem Namen ist bereits vorhanden. Geben Sie einen anderen Namen ein.",
+        "limitReachedError": {
+          "website": "Die maximale Anzahl von Website-Apdex-Konfigurationen ({{0}}) wurde erreicht. Wenden Sie sich an Instana Support, um eine Erhöhung dieses Grenzwerts anzufordern.",
+          "application": "Die maximale Anzahl von Apdex-Anwendungskonfigurationen ({{0}}) wurde erreicht. Wenden Sie sich an Instana Support, um eine Erhöhung dieses Grenzwerts anzufordern."
+        },
+        "editConfigNotice": "Um Datenverlust zu vermeiden, kann die Konfiguration nicht bearbeitet werden, nachdem sie erstellt wurde; sie kann nur als Kopie angepasst werden."
+      },
+      "createWebsiteApdexForm": {
+        "thresholdHeader": "Schwellenwertkonfiguration",
+        "thresholdLabel": "Schwellenwert"
+      },
+      "entityInfo": {
+        "tooltip": "Unbekannter Apdex",
+        "tooltip_website": "Website-Apdex",
+        "tooltip_application": "Anwendungs-Apdex"
+      },
+      "widget": {
+        "unknownEntityLabel_application": "Unbekannte Anwendung",
+        "unknownEntityLabel_website": "Unbekannte Website",
+        "previewDataInfo": "Für die letzten 7 Tage werden Vorschaudaten angezeigt. Das endgültige Widget enthält nur Daten seit der Erstellung der Apdex-Konfiguration."
+      },
+      "applicationScopeConfigurator": {
+        "label": "Apdex-Bereich",
+        "boundaryScope": "Begrenzung",
+        "hiddenCalls": "Verdeckte Aufrufe",
+        "additionalFilters": "Zusätzlicher Filter"
+      }
     },
     "timezone": {
       "demo": {

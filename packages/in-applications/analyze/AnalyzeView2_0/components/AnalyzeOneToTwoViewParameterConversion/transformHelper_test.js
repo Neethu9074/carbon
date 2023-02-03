@@ -68,7 +68,7 @@ const cases = [
           chartedMetrics: '!(metricId~latency~aggregationId~MEAN)~',
           groupBy: '(groupbyTag~endpoint.name~groupbyTagEntity~DESTINATION)~',
           tagFilterExpression:
-            '!(name~service.name~value~backbone~operator~EQUALS~entity~DESTINATION~type~TAG*_FILTER)~',
+            '!(type~TAG*_FILTER~name~service.name~operator~EQUALS~entity~DESTINATION~value~backbone)~',
           orderBy: '(by~latency~direction~DESC)~',
           orderByGroups: '(by~latency*_MEAN~direction~DESC)~'
         }
@@ -136,7 +136,7 @@ const cases = [
             '!(type~metric~metricId~latency~aggregationId~MEAN)(type~metric~metricId~errors~aggregationId~MEAN)(type~metric~metricId~latency~aggregationId~P50)~',
           groupBy: '(groupbyTag~call.http.status)~',
           tagFilterExpression:
-            '!(name~service.name~value~Apache_Tomcat_Bootstrap~operator~EQUALS~entity~DESTINATION~type~TAG*_FILTER)(type~CONJUNCTION~logicalOperator~AND)(name~call.erroneous~value~~operator~EQUALS~type~TAG*_FILTER)~',
+            '!(type~TAG*_FILTER~name~service.name~operator~EQUALS~entity~DESTINATION~value~Apache_Tomcat_Bootstrap)(type~CONJUNCTION~logicalOperator~AND)(type~TAG*_FILTER~name~call.erroneous~operator~EQUALS~value)~',
           orderByGroups: '(by~group~direction~DESC)~',
           hiddenCalls: '(includeInternal~~includeSynthetic)~'
         }
@@ -165,7 +165,7 @@ const cases = [
         '/analyze': {
           chartedMetrics: '!(metricId~latency~aggregationId~DISTRIBUTION)~',
           dataSource: 'calls',
-          previewEnabled: true,
+          fastQueryModeEnabled: true,
           groupBy: '(groupbyTag~call.http.status)~',
           orderByGroups: '(by~calls*_SUM~direction~ASC)~'
         }
@@ -202,7 +202,7 @@ const cases = [
           fields:
             '!(type~metric~metricId~latency~aggregationId~MEAN)(type~metric~metricId~errors~aggregationId~MEAN)(type~metric~metricId~latency~aggregationId~P98)~',
           groupBy: '(groupbyTag~trace.endpoint.name)~',
-          tagFilterExpression: '!(name~call.type~value~BATCH~operator~EQUALS~type~TAG*_FILTER)~',
+          tagFilterExpression: '!(type~TAG*_FILTER~name~call.type~operator~EQUALS~value~BATCH)~',
           orderByGroups: '(by~traces*_SUM~direction~DESC)~'
         }
       }
@@ -268,7 +268,7 @@ const cases = [
           fields:
             '!(type~metric~metricId~latency~aggregationId~MEAN)(type~metric~metricId~errors~aggregationId~MEAN)(type~metric~metricId~latency~aggregationId~P98)~',
           groupBy: '(groupbyTag~trace.endpoint.name)~',
-          tagFilterExpression: '!(name~call.type~value~BATCH~operator~EQUALS~type~TAG*_FILTER)~',
+          tagFilterExpression: '!(type~TAG*_FILTER~name~call.type~operator~EQUALS~value~BATCH)~',
           orderByGroups: '(by~traces*_SUM~direction~DESC)~',
           detailId: '(traceId~*0000000000000000ae5511eda9237a73~colorCode~byServiceAndEndpoint)~'
         }
@@ -389,7 +389,15 @@ describe('in-applications/analyze/AnalyzeView2_0/components/AnalyzeOneToTwoViewP
     it('not 1xx', () => {
       expect(
         httpStatusCodeTagFiltersToExpression([{ name: TAG_CALL_HTTP_STATUS, value: 1, operator: NOT_STARTS_WITH }])
-      ).to.deep.equal([{ type: TAG_FILTER, name: TAG_CALL_HTTP_STATUS, value: 200, operator: GREATER_OR_EQUAL_THAN }]);
+      ).to.deep.equal([
+        {
+          entity: 'NOT_APPLICABLE',
+          type: TAG_FILTER,
+          name: TAG_CALL_HTTP_STATUS,
+          value: 200,
+          operator: GREATER_OR_EQUAL_THAN
+        }
+      ]);
     });
 
     it('not 2xx, 4xx', () => {
@@ -400,14 +408,38 @@ describe('in-applications/analyze/AnalyzeView2_0/components/AnalyzeOneToTwoViewP
         ])
       ).to.deep.equal([
         EXP_OPEN_BRACKET,
-        { type: TAG_FILTER, name: TAG_CALL_HTTP_STATUS, value: 199, operator: LESS_OR_EQUAL_THAN },
+        {
+          entity: 'NOT_APPLICABLE',
+          type: TAG_FILTER,
+          name: TAG_CALL_HTTP_STATUS,
+          value: 199,
+          operator: LESS_OR_EQUAL_THAN
+        },
         EXP_OR_CONJUNCTION,
-        { type: TAG_FILTER, name: TAG_CALL_HTTP_STATUS, value: 300, operator: GREATER_OR_EQUAL_THAN },
+        {
+          entity: 'NOT_APPLICABLE',
+          type: TAG_FILTER,
+          name: TAG_CALL_HTTP_STATUS,
+          value: 300,
+          operator: GREATER_OR_EQUAL_THAN
+        },
         EXP_AND_CONJUNCTION,
-        { type: TAG_FILTER, name: TAG_CALL_HTTP_STATUS, value: 399, operator: LESS_OR_EQUAL_THAN },
+        {
+          entity: 'NOT_APPLICABLE',
+          type: TAG_FILTER,
+          name: TAG_CALL_HTTP_STATUS,
+          value: 399,
+          operator: LESS_OR_EQUAL_THAN
+        },
         EXP_CLOSE_BRACKET,
         EXP_OR_CONJUNCTION,
-        { type: TAG_FILTER, name: TAG_CALL_HTTP_STATUS, value: 500, operator: GREATER_OR_EQUAL_THAN }
+        {
+          entity: 'NOT_APPLICABLE',
+          type: TAG_FILTER,
+          name: TAG_CALL_HTTP_STATUS,
+          value: 500,
+          operator: GREATER_OR_EQUAL_THAN
+        }
       ]);
     });
 
@@ -430,9 +462,21 @@ describe('in-applications/analyze/AnalyzeView2_0/components/AnalyzeOneToTwoViewP
           { name: TAG_CALL_HTTP_STATUS, value: 5, operator: NOT_STARTS_WITH }
         ])
       ).to.deep.equal([
-        { type: TAG_FILTER, name: TAG_CALL_HTTP_STATUS, value: 200, operator: GREATER_OR_EQUAL_THAN },
+        {
+          entity: 'NOT_APPLICABLE',
+          type: TAG_FILTER,
+          name: TAG_CALL_HTTP_STATUS,
+          value: 200,
+          operator: GREATER_OR_EQUAL_THAN
+        },
         EXP_AND_CONJUNCTION,
-        { type: TAG_FILTER, name: TAG_CALL_HTTP_STATUS, value: 499, operator: LESS_OR_EQUAL_THAN }
+        {
+          entity: 'NOT_APPLICABLE',
+          type: TAG_FILTER,
+          name: TAG_CALL_HTTP_STATUS,
+          value: 499,
+          operator: LESS_OR_EQUAL_THAN
+        }
       ]);
     });
 
@@ -446,11 +490,30 @@ describe('in-applications/analyze/AnalyzeView2_0/components/AnalyzeOneToTwoViewP
           { name: TAG_CALL_HTTP_STATUS, operator: NOT_EMPTY }
         ])
       ).to.deep.equal([
-        { type: TAG_FILTER, name: TAG_CALL_HTTP_STATUS, operator: NOT_EMPTY, key: undefined, value: undefined },
+        {
+          entity: 'NOT_APPLICABLE',
+          type: TAG_FILTER,
+          name: TAG_CALL_HTTP_STATUS,
+          operator: NOT_EMPTY,
+          key: undefined,
+          value: undefined
+        },
         EXP_AND_CONJUNCTION,
-        { type: TAG_FILTER, name: TAG_CALL_HTTP_STATUS, value: 200, operator: GREATER_OR_EQUAL_THAN },
+        {
+          entity: 'NOT_APPLICABLE',
+          type: TAG_FILTER,
+          name: TAG_CALL_HTTP_STATUS,
+          value: 200,
+          operator: GREATER_OR_EQUAL_THAN
+        },
         EXP_AND_CONJUNCTION,
-        { type: TAG_FILTER, name: TAG_CALL_HTTP_STATUS, value: 299, operator: LESS_OR_EQUAL_THAN }
+        {
+          entity: 'NOT_APPLICABLE',
+          type: TAG_FILTER,
+          name: TAG_CALL_HTTP_STATUS,
+          value: 299,
+          operator: LESS_OR_EQUAL_THAN
+        }
       ]);
     });
 
@@ -465,17 +528,59 @@ describe('in-applications/analyze/AnalyzeView2_0/components/AnalyzeOneToTwoViewP
           { name: TAG_CALL_HTTP_STATUS, value: 599, operator: LESS_OR_EQUAL_THAN }
         ])
       ).to.deep.equal([
-        { type: TAG_FILTER, name: TAG_CALL_HTTP_STATUS, value: 100, operator: EQUALS, key: undefined },
+        {
+          entity: 'NOT_APPLICABLE',
+          type: TAG_FILTER,
+          name: TAG_CALL_HTTP_STATUS,
+          value: 100,
+          operator: EQUALS,
+          key: undefined
+        },
         EXP_AND_CONJUNCTION,
-        { type: TAG_FILTER, name: TAG_CALL_HTTP_STATUS, value: 200, operator: NOT_EQUAL, key: undefined },
+        {
+          entity: 'NOT_APPLICABLE',
+          type: TAG_FILTER,
+          name: TAG_CALL_HTTP_STATUS,
+          value: 200,
+          operator: NOT_EQUAL,
+          key: undefined
+        },
         EXP_AND_CONJUNCTION,
-        { type: TAG_FILTER, name: TAG_CALL_HTTP_STATUS, value: 300, operator: LESS_THAN, key: undefined },
+        {
+          entity: 'NOT_APPLICABLE',
+          type: TAG_FILTER,
+          name: TAG_CALL_HTTP_STATUS,
+          value: 300,
+          operator: LESS_THAN,
+          key: undefined
+        },
         EXP_AND_CONJUNCTION,
-        { type: TAG_FILTER, name: TAG_CALL_HTTP_STATUS, value: 400, operator: GREATER_THAN, key: undefined },
+        {
+          entity: 'NOT_APPLICABLE',
+          type: TAG_FILTER,
+          name: TAG_CALL_HTTP_STATUS,
+          value: 400,
+          operator: GREATER_THAN,
+          key: undefined
+        },
         EXP_AND_CONJUNCTION,
-        { type: TAG_FILTER, name: TAG_CALL_HTTP_STATUS, value: 500, operator: GREATER_OR_EQUAL_THAN, key: undefined },
+        {
+          entity: 'NOT_APPLICABLE',
+          type: TAG_FILTER,
+          name: TAG_CALL_HTTP_STATUS,
+          value: 500,
+          operator: GREATER_OR_EQUAL_THAN,
+          key: undefined
+        },
         EXP_AND_CONJUNCTION,
-        { type: TAG_FILTER, name: TAG_CALL_HTTP_STATUS, value: 599, operator: LESS_OR_EQUAL_THAN, key: undefined }
+        {
+          entity: 'NOT_APPLICABLE',
+          type: TAG_FILTER,
+          name: TAG_CALL_HTTP_STATUS,
+          value: 599,
+          operator: LESS_OR_EQUAL_THAN,
+          key: undefined
+        }
       ]);
     });
 
@@ -483,9 +588,21 @@ describe('in-applications/analyze/AnalyzeView2_0/components/AnalyzeOneToTwoViewP
       expect(
         httpStatusCodeTagFiltersToExpression([{ name: TAG_CALL_HTTP_STATUS, value: 2, operator: STARTS_WITH }])
       ).to.deep.equal([
-        { type: TAG_FILTER, name: TAG_CALL_HTTP_STATUS, value: 200, operator: GREATER_OR_EQUAL_THAN },
+        {
+          entity: 'NOT_APPLICABLE',
+          type: TAG_FILTER,
+          name: TAG_CALL_HTTP_STATUS,
+          value: 200,
+          operator: GREATER_OR_EQUAL_THAN
+        },
         EXP_AND_CONJUNCTION,
-        { type: TAG_FILTER, name: TAG_CALL_HTTP_STATUS, value: 299, operator: LESS_OR_EQUAL_THAN }
+        {
+          entity: 'NOT_APPLICABLE',
+          type: TAG_FILTER,
+          name: TAG_CALL_HTTP_STATUS,
+          value: 299,
+          operator: LESS_OR_EQUAL_THAN
+        }
       ]);
     });
 
@@ -496,16 +613,30 @@ describe('in-applications/analyze/AnalyzeView2_0/components/AnalyzeOneToTwoViewP
     });
 
     it('not empty', () => {
-      expect(
-        httpStatusCodeTagFiltersToExpression([{ name: TAG_CALL_HTTP_STATUS, operator: NOT_EMPTY }])
-      ).to.deep.equal([
-        { type: TAG_FILTER, name: TAG_CALL_HTTP_STATUS, operator: NOT_EMPTY, key: undefined, value: undefined }
-      ]);
+      expect(httpStatusCodeTagFiltersToExpression([{ name: TAG_CALL_HTTP_STATUS, operator: NOT_EMPTY }])).to.deep.equal(
+        [
+          {
+            entity: 'NOT_APPLICABLE',
+            type: TAG_FILTER,
+            name: TAG_CALL_HTTP_STATUS,
+            operator: NOT_EMPTY,
+            key: undefined,
+            value: undefined
+          }
+        ]
+      );
     });
 
     it('is empty', () => {
       expect(httpStatusCodeTagFiltersToExpression([{ name: TAG_CALL_HTTP_STATUS, operator: IS_EMPTY }])).to.deep.equal([
-        { type: TAG_FILTER, name: TAG_CALL_HTTP_STATUS, operator: IS_EMPTY, key: undefined, value: undefined }
+        {
+          entity: 'NOT_APPLICABLE',
+          type: TAG_FILTER,
+          name: TAG_CALL_HTTP_STATUS,
+          operator: IS_EMPTY,
+          key: undefined,
+          value: undefined
+        }
       ]);
     });
 

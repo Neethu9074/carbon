@@ -25,4 +25,23 @@
     flex-shrink: 0;
     margin: 1.5rem 0 0 -0.5rem;
   }
+
+  .sentIcon {
+    fill: @lib__colors__green800;
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin: 1.5rem 0 0 -0.5rem;
+  }
+
+  .message {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .alreadyExistsIcon {
+    fill: @lib__colors__yellow800;
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin: 1.5rem 0 0 -0.5rem;
+  }
 }

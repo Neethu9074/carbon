@@ -8,7 +8,7 @@
   "agentMonitoringSuffix04": "モニターされない",
   "agentMonitoringAlert_prefix04": "モニタリングの問題",
   "agentMonitoringExplanationLinkLabel": "トラブルシューティング資料",
-  "agentMonitoringExplanationLinkHref": "https://instana.com/docs/",
+  "agentMonitoringExplanationLinkHref": "https://www.ibm.com/docs/en/obi/current",
   "services": "サービス",
   "dashboard": {
     "customMetricsV2": {
@@ -30,24 +30,21 @@
       "tableExpandAll": "すべて展開",
       "tableCollapseAll": "すべて折りたたみ"
     }
-   },
-
-  "sidebar": {
-      "classpath": {
-        "classpathHide": "クラスパスの非表示",
-        "classpathShow": "クラスパスの表示"
-      },
-      "processStartedTitle": "開始日時",
-      "tags": "タグ ({{size}})"
   },
-
+  "sidebar": {
+    "classpath": {
+      "classpathHide": "クラスパスの非表示",
+      "classpathShow": "クラスパスの表示"
+    },
+    "processStartedTitle": "開始日時",
+    "tags": "タグ ({{size}})"
+  },
   "traceDetails": {
     "errorDescription": "エラー"
   },
-
   "snapshot": {
+    "unknownLabel": "不明",
     "registryHealth": "正常性",
-
     "runtimeLabelNet": ".NET Core",
     "runtimeLabelGo": "Go",
     "runtimeLabelJava": "Java",
@@ -56,7 +53,6 @@
     "runtimeLabelRuby": "Ruby",
     "runtimeLabelUnknown": "不明なランタイム"
   },
-
   "tracing": {
     "registryCall": "呼び出し",
     "registryCall_plural": "呼び出し",
@@ -64,7 +60,6 @@
     "registryCall_1": "呼び出し",
     "registryCall_2": "呼び出し"
   },
-
   "components": {
     "codeRetrievalDialog": {
       "file": "ファイル",
@@ -73,5 +68,4 @@
       "error": "エラー"
     }
   }
-
 }

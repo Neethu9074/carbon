@@ -97,7 +97,7 @@ export default function BeaconUserSummary({ beacon, beacons }) {
           {!hasMeta && (
             <NotDefined
               explanation={t('in-mobile-apps:beaconUserSum.notDefinedExplain')}
-              learnMoreHref="https://instana.com/docs/website_monitoring/api/#metadata"
+              learnMoreHref="https://www.ibm.com/docs/en/obi/current?topic=websites-javascript-agent-api#metadata"
               learnMoreLabel={t('in-mobile-apps:beaconUserSum.learnMoreLabel')}
             />
           )}

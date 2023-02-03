@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import { fixateTimeConfig, FixedTimeConfig } from 'in-stores/time/config';
 import { ParameterDefinition } from 'in-stores/navigation/types';
 import { formatDuration } from 'in-services/formatters/date';
-import { TimeConfig, TimeShift } from 'in-types';
+import { Nullish, TimeConfig, TimeShift } from 'in-types';
 import { days, hours } from 'in-services/time';
 import { t } from 'in-i18n';
 
@@ -49,7 +50,6 @@ export interface TimeShiftOption {
   offset: TimeShiftOffset;
   label: string;
   description: string;
-  disallowSelection?: boolean;
 }
 
 export const defaultTimeShift: TimeShiftOption = {
@@ -80,8 +80,7 @@ export const timeShifts: TimeShiftOption[] = [
   {
     offset: -1 * days.toMillis(7),
     label: t('in-stores:time.shiftingLabelLastWeek'),
-    description: t('in-stores:time.shiftingDescriptionLastWeek'),
-    disallowSelection: true
+    description: t('in-stores:time.shiftingDescriptionLastWeek')
   }
 ];
 
@@ -89,7 +88,7 @@ const defaultTimeShiftConfig: TimeShift = {
   offset: 0
 };
 export function translateOffsetToTimeShiftConfig(
-  timeShift: TimeShiftOffset | TimeShift,
+  timeShift: TimeShiftOffset | TimeShift | Nullish,
   timeConfig: TimeConfig
 ): TimeShift {
   if (timeShift == null) {
@@ -123,4 +122,13 @@ export function getTimeShiftLabel(timeShift: TimeShift): string {
   }
 
   return t('in-stores:time.shiftingCustomDuration', { duration: formatDuration(Math.abs(timeShift.offset)) });
+}
+
+
+export function applyTimeShift(timeConfig: TimeConfig, timeShift: TimeShiftOffset | TimeShift | Nullish): FixedTimeConfig {
+  const fixatedTimeConfig = fixateTimeConfig(timeConfig);
+  return {
+    ...fixatedTimeConfig,
+    to: fixatedTimeConfig.to + translateOffsetToTimeShiftConfig(timeShift, timeConfig).offset
+  }
 }

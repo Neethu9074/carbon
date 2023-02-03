@@ -15,7 +15,7 @@ import { getApplicationDashboard } from 'in-applications/navigation/paths';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { pendingResult } from 'in-services/fixedObjects';
 import Overlay from 'in-components/overlays/Overlay';
-import { t } from 'in-i18n';
+import { t, collationLanguage } from 'in-i18n';
 
 import locals from './ApplicationSwitcherContext.mless';
 
@@ -91,7 +91,8 @@ function getApplicationsObservable([serviceId, endpointId, timeConfig]) {
     },
     order: {
       by: 'applicationLabel',
-      direction: 'ASC'
+      direction: 'ASC',
+      collation: collationLanguage
     },
     metrics: {},
     filter: {

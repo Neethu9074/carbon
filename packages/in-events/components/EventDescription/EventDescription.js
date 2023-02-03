@@ -66,7 +66,7 @@ export default connectTo(
       >
         <SvgIcon
           className={classNames({ [`${block}__icon_in_preview`]: isPreview })}
-          type={getIcon({ eventType })}
+          type={getIcon(eventType)}
           size="m"
           color={color}
         />
@@ -80,7 +80,7 @@ export default connectTo(
             <Col lg={6}>
               {eventType === EVENT_TYPES.INCIDENT ? t('in-events:triggered') : t('in-events:started')}
               <br />
-              {formatDateTime(event.get('triggeringTime', event.get('start')))}
+              {formatDateTime(event.get('start'))}
             </Col>
 
             {!isOpen && start !== end ? (

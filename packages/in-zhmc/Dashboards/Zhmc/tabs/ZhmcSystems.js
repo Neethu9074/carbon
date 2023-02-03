@@ -9,10 +9,9 @@ import { TableEntityCounter } from '@instana/components';
 
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
+import ZhmcCpcLabel from 'in-zhmc/Dashboards/commonComponents/ZhmcCpcLabel';
 import { consoleIdUrlParameter } from 'in-zhmc/navigation/urlParameters';
-import { getIbmzCpcDashboard } from 'in-zhmc/navigation/paths';
 import { getInfraGranularity } from 'in-stores/metric/metric';
-import EntityLink from 'in-components/EntityLink/EntityLink';
 import getCpcs from 'in-zhmc/subscriptions/getCpcs';
 import { t } from 'in-i18n';
 
@@ -24,8 +23,7 @@ const columnDefinitions = [
     id: 'label',
     label: t('in-zhmc:name'),
     getContent(item) {
-      const consoleId = item.consoleId;
-      return <EntityLink label={item.label} href$={getIbmzCpcDashboard(item.id, { consoleId })} />;
+      return <ZhmcCpcLabel item={item} />;
     }
   },
   {

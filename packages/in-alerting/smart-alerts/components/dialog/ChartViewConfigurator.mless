@@ -1,0 +1,41 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+@import 'in-themes/active.less';
+
+:local {
+  .container {
+    // this magic number was found by measuring the height which is needed after
+    // it was finally loaded and rendered.
+    //
+    // we should consider figure out an improved layout, after some issues in the
+    // chart itself will be improved.
+    //
+    // see also comment here:
+    // https://github.ibm.com/instana/ui-client/pull/9161#discussion_r6011985
+    min-height: 296px;
+  }
+
+  .labelWithGap {
+    margin-right: 0.5rem;
+  }
+
+  .expanding {
+    flex: 1;
+  }
+
+  .withSelection {
+    margin-top: 1rem;
+    min-height: 23rem;
+  }
+
+  .headerTransparent {
+    background-color: transparent;
+  }
+
+  .singleChartViewConfig {
+    font-size: @lib__typography__body__font-size;
+  }
+}

@@ -25,14 +25,14 @@ export default connectTo(
     showAggregations: showAggregations$
   },
   function RightHeader({ showAggregations }) {
+    const windowSize = useTimeWindowSize();
+
     return (
       <header className={block}>
         <input type="checkbox" id="table-view-toggle-aggregations" checked={showAggregations} onChange={toggle} />
         <label htmlFor="table-view-toggle-aggregations" className={`${block}__toggle-aggregations`}>
           <Tooltip content={t('in-infrastructure:tableView.showCountsAndAveragesAcrossTheCurrentTimeWindow')}>
-            <span>
-              {t('in-infrastructure:tableView.aggregatesForMetricsOver', { windowSize: getTimeWindowSize() })}
-            </span>
+            <span>{t('in-infrastructure:tableView.aggregatesForMetricsOver', { windowSize })}</span>
           </Tooltip>
         </label>
 
@@ -49,7 +49,7 @@ function clearSelection() {
   clearSelectedSnapshots();
 }
 
-function getTimeWindowSize() {
+function useTimeWindowSize() {
   const timeConfig = useTimeConfig();
   return formatDurationAccurately(timeConfig.windowSize);
 }

@@ -88,7 +88,6 @@
     "applicationDirectory": "애플리케이션 디렉토리",
     "theSupportForPythonOnFargateOnEcsWorksTheSameWayAsWithAnyPythonApplicationFollowTheInstructionsOfThe": "ECS 기반 Fargate에서 Python에 대한 지원은 Python 애플리케이션과 동일한 방식으로 작동합니다. <go>Python 문서</go>의 지시사항을 따르십시오.",
     "theSupportForRubyOnFargateOnEcsWorksTheSameWayAsWithAnyRubyApplicationFollowTheInstructionsOfThe": "ECS 기반 Fargate에서 Ruby에 대한 지원은 Ruby 애플리케이션과 동일한 방식으로 작동합니다. <go>Ruby 문서</go>의 지시사항을 따르십시오.",
-
     "supportForAwsFargateIsDesignedToWorkWithAwsFargateOnTheElasticContainerServiceEcs": "AWS Fargate에 대한 지원은 ECS(Elastic Container Service)에서 AWS Fargate와 함께 작동하도록 설계되었습니다.",
     "selectYourApplicationRuntime": "애플리케이션 런타임 선택:",
     "awsLambdaFunctionsWrittenInGoNeedToBeManuallyInstrumentedInOrderToCollectTraceDataFollowTheInstructionsOfThe": "Go로 작성된 AWS Lambda 함수는 추적 데이터를 수집하기 위해 수동으로 인스트루먼트해야 합니다. <go>AWS Lambda Go 문서</go>의 지시사항을 따르십시오.",
@@ -153,6 +152,7 @@
     "setTheFollowingEnvironmentVariablesInTheCloudRunServiceRevision": "Cloud Run Service Revision에 다음 환경 변수를 설정하십시오.",
     "setTheFollowingEnvironmentVariablesOnTheCloudRunServiceDefinition": "Cloud Run Service 정의에 다음 환경 변수 설정:",
     "theSupportForGoOnGoogleCloudRunFullyManagedWorksTheSameWayAsWithAnyGoApplicationFollowTheInstructionsOfThe": "Google Cloud Run의 Go에 대한 지원(완전하게 관리됨)은 Go 애플리케이션과 동일한 방식으로 작동합니다. <go>Go 문서</go>의 지시사항을 따르십시오.",
+    "theSupportForPythonOnGoogleCloudRunFullyManagedWorksTheSameWayAsWithAnyPythonApplicationFollowTheInstructionsOfThe": "Google Cloud Run(완전 관리형)의 Python 지원은 Python 애플리케이션과 동일한 방식으로 작동합니다. <go>Python 문서</go>의 지시사항을 따르십시오.",
     "supportForGoogleCloudRunIsDesignedToWorkWithTheFullyManagedGoogleCloudRunPlatformCloudRunOnAnthosGkeIsCurrentlyNotSupported": "Google Cloud Run에 대한 지원은 완전히 관리되는 Google Cloud Run 플랫폼과 함께 작동하도록 설계되었습니다. Cloud Run on Anthos/GKE는 현재 지원되지 않습니다.",
     "makeSureYouHaveAnInstanaAgentSetUpToMonitorYourGcpProjectForDetailsOnSettingUpTheInstanaAgentForGcpReferToThe": "GCP 프로젝트를 모니터하기 위해 Instana 에이전트가 설정되어 있는지 확인하십시오. GCP용 Instana 에이전트 설정 및 세부사항은 <go>Instana GCP 지원 문서</go>를 참조하십시오.",
     "selectTheInstallationMethod": "설치 방법 선택:",
@@ -206,6 +206,7 @@
     "endpointHost": "엔드포인트 호스트",
     "endpointPort": "엔드포인트 포트",
     "agentKey": "에이전트 키",
+    "downloadKey": "키 다운로드",
     "finallyYouWillNeedToGiveYourVMwareTanzuFoundationANameForExampleProdEuOrDev01ViaTheAgentZoneSettingInTheAgentConfigurationTab": "마지막으로, 에이전트 구성 탭의 에이전트 구역 설정을 통해 VMware Tanzu 재단에 이름을 제공해야 합니다(예: \"prod-eu\" 또는 \"dev01\").",
     "applyTheChangesIntroducedByTheInstanaMicroservicesApplicationMonitoringTileToAllTilesInTheOpsManagerTilesThatAreNotSelectedForTheApplyChangesStepInOpsManagerWillNotBeVisibleInInstana": "\"Instana 마이크로서비스 애플리케이션 모니터링\" 타일에 의해 도입된 변경사항을 Ops Manager의 모든 타일에 적용하십시오. Ops Manager의 \"변경사항 적용\" 단계에 대해 선택되지 않은 타일은 Instana에 표시되지 않습니다.",
     "supportedOpsManagerVersions": "지원되는 Ops Manager 버전",

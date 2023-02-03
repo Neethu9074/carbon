@@ -13,7 +13,7 @@ export default [
     formatter: number.compact
   },
   {
-    label: t('in-forge:plugins.ibmMqTopic.publishers'),
+    label: t('in-forge:plugins.ibmMqTopic.publications'),
     metric: 'publishCount',
     formatter: number.compact
   }

@@ -7,8 +7,7 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
-// @ts-ignore
-import { getEntityNameByType, getIconByType } from 'in-analyze/AnalyzeView/dataSources';
+import { Entity, getEntityNameByType, getIconByType, ProductArea } from 'in-analyze/AnalyzeView/dataSources';
 import ComboBoxOverlay from 'in-components/form/ComboBox/ComboBoxOverlay';
 import Overlay from 'in-components/overlays/Overlay';
 import { MetricSource } from 'in-types';
@@ -17,7 +16,7 @@ import { t } from 'in-i18n';
 import locals from './ChartSelectorOverlay.mless';
 
 interface ChartSelectorProps {
-  dataSource: string;
+  dataSource: Entity;
   unifiedMetricsSource: MetricSource;
 
   value: ChartValue;
@@ -96,11 +95,12 @@ export default function ChartSelectorOverlay(props: ChartSelectorProps) {
     }))
     .filter(group => group.options?.length > 0);
 
-  const getProductAreaFromMetricSource = (metricSource: string) => {
+  const getProductAreaFromMetricSource = (metricSource: string): ProductArea => {
     switch (metricSource) {
+      case 'LOGS':
       case 'APPLICATION':
       case 'WEBSITE':
-        return metricSource.toLowerCase();
+        return metricSource.toLowerCase() as ProductArea;
       case 'MOBILE_APP':
         return 'mobileApp';
       default:

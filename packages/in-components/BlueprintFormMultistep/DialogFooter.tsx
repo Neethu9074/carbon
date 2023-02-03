@@ -13,7 +13,7 @@ import SaveButton from 'in-components/form/SaveButton';
 
 import locals from './DialogFooter.mless';
 
-export interface DialogFooterProps {
+interface DialogFooterBasicProps {
   form?: MapForm;
   /**
    * to enable browser default form submitting even
@@ -22,12 +22,22 @@ export interface DialogFooterProps {
   formId?: string;
   onSecondaryActionClick?: () => void;
   primaryActionDisabled?: boolean;
-  primaryActionText: string | React.ReactElement;
-  renderCustomSaveAction?: () => void;
   saving?: boolean;
   secondaryActionText: string | React.ReactElement;
+  onPrimaryActionClick?: () => void;
 }
 
+interface DialogFooterWithCustomSaveActionProps extends DialogFooterBasicProps {
+  renderCustomSaveAction: () => JSX.Element;
+  primaryActionText?: never;
+}
+
+interface DialogFooterWithDefaultSaveActionProps extends DialogFooterBasicProps {
+  renderCustomSaveAction?: never;
+  primaryActionText: string | React.ReactElement;
+}
+
+export type DialogFooterProps = DialogFooterWithCustomSaveActionProps | DialogFooterWithDefaultSaveActionProps;
 export default forwardRef<HTMLElement, DialogFooterProps>(function DialogFooter(
   {
     form,
@@ -37,7 +47,8 @@ export default forwardRef<HTMLElement, DialogFooterProps>(function DialogFooter(
     secondaryActionText,
     onSecondaryActionClick,
     saving,
-    renderCustomSaveAction
+    renderCustomSaveAction,
+    onPrimaryActionClick
   },
   ref
 ) {
@@ -54,8 +65,9 @@ export default forwardRef<HTMLElement, DialogFooterProps>(function DialogFooter(
           formId={formId}
           disabled={primaryActionDisabled}
           isSaving={saving}
+          onClick={onPrimaryActionClick}
         >
-          {primaryActionText}
+          {primaryActionText ?? ''}
         </SaveButton>
       )}
     </FormFooter>

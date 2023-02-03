@@ -3,10 +3,19 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import React, { useCallback, useMemo, useState } from 'react';
 import { Field, MapForm, Item } from 'formalistic';
-import React from 'react';
 
+import { Progress } from '@instana/types';
+
+// eslint-disable-next-line no-restricted-imports
+import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
+import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
+import { BluePrint } from 'in-synthetics/data/simpleModeBluePrints';
+import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import SearchInput from 'in-components/SearchInput/SearchInput';
 import Section from 'in-synthetics/components/Section';
 import FormGroup from 'in-components/form/FormGroup';
 import TextArea from 'in-components/form/TextArea';
@@ -19,13 +28,97 @@ import locals from './BasicDetailsStep.mless';
 export interface Props {
   form: MapForm;
   updateForm: (form: MapForm) => void;
+  selectedBlueprint: BluePrint;
+  applications: ApplicationsResponse;
 }
 
-export default function BasicDetailsStep({ form, updateForm }: Props) {
+export interface ApplicationsResponse {
+  data?: Record<string, any>[];
+  errors?: Error[];
+  progress: Progress;
+  time?: number;
+}
+
+export default function BasicDetailsStep({ form, updateForm, selectedBlueprint, applications }: Props) {
   const labelField = form.get('label') as Field<string>;
   const descriptionField = form.get('description') as Field<string>;
+  const applicationsField = (form.get('applicationId') as Field<string>) || null;
+
+  const [searchInput, setSearchInput] = useState('');
+
+  const filterApplications = useCallback(
+    (applications: ApplicationsResponse) => {
+      return applications.data?.filter((app: Record<string, any>) =>
+        app.label.toLowerCase().includes(searchInput.toLowerCase())
+      );
+    },
+    [searchInput]
+  );
+
+  const filteredApplications = useMemo(() => filterApplications(applications), [applications, filterApplications]);
+
+  function renderApplications() {
+    if (applications.progress?.loading) {
+      return <LoadingIndicator size="xl" />;
+    }
+    if (!applications.data?.filter(Boolean)?.length) {
+      return <NoDataAvailable text={t('in-synthetics:dialog.createTest.noApplicationsFound')} />;
+    }
+
+    let header = (
+      <SearchInput
+        className={locals.rightHeader}
+        maxWidth="140"
+        query={searchInput}
+        placeholder=""
+        onChange={q => setSearchInput(q)}
+      />
+    );
+
+    return (
+      <ExpandableLightCard
+        className={locals.container}
+        title={t('in-synthetics:dialog.createTest.basicDetails.labelApplications')}
+        bodyWithoutPadding
+        openByDefault
+        darkFrame
+        framed
+        header={header}
+      >
+        {filteredApplications?.length != 0 ? (
+          filteredApplications?.filter(Boolean).map((app: Record<string, any>) => {
+            return (
+              <div key={app.id} className={locals.item}>
+                <CheckboxFancy
+                  key={app.id}
+                  label={app.label}
+                  checked={applicationsField?.value === app.id}
+                  onChange={() => {
+                    let selectedApplication: string = applicationsField.value;
+                    selectedApplication = selectedApplication === app.id ? null : app.id;
+                    updateForm(
+                      form.updateIn(['applicationId'], (field: Item) =>
+                        (field as Field<string>).setValue(selectedApplication).setTouched(true)
+                      )
+                    );
+                  }}
+                />
+              </div>
+            );
+          })
+        ) : (
+          <NoDataAvailable text={t('in-synthetics:dialog.createTest.noMatchingFound')} />
+        )}
+      </ExpandableLightCard>
+    );
+  }
+
+  const headingText =
+    selectedBlueprint?.type === 'Script API'
+      ? t('in-synthetics:dialog.createTest.basicDetails.scriptTitle')
+      : t('in-synthetics:dialog.createTest.basicDetails.title');
   return (
-    <Section headingText={t('in-synthetics:dialog.createTest.basicDetails.title')}>
+    <Section headingText={headingText}>
       {labelField.map(field => (
         <FormGroup className={locals.urlInput}>
           <Label htmlFor="name" hasError={!field.valid && field.touched}>
@@ -66,6 +159,7 @@ export default function BasicDetailsStep({ form, updateForm }: Props) {
           <TouchedMessages field={field} />
         </FormGroup>
       ))}
+      {renderApplications()}
     </Section>
   );
 }

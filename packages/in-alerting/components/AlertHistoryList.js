@@ -6,17 +6,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { LiLoadMore } from '@instana/components';
-import { Li, Ul } from '@instana/components';
-import { Link } from '@instana/components';
+import { Li, LiLoadMore, Link, Ul } from '@instana/components';
 
-import SmartAlertsNoDataAvailable from 'in-alerting/smart-alerts/applications/components/SmartAlertsNoDataAvailable';
+import SmartAlertsNoDataAvailable from 'in-alerting/smart-alerts/components/SmartAlertsNoDataAvailable';
+import { getDesignLibraryColorBySeverity, getIcon, getEventType } from 'in-stores/events';
+import { formatDateTime, formatDurationAccurately } from 'in-services/formatters/date';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
-import { getDesignLibraryColorBySeverity, getIcon } from 'in-stores/events';
 import AlertDetailsCard from 'in-alerting/components/AlertDetailsCard';
 import useCursorPagination from 'in-hooks/useCursorPagination';
-import { formatDateTime } from 'in-services/formatters/date';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import getRawEvents from 'in-subscription/getRawEvents';
 import { isLoading } from 'in-services/util/result';
@@ -37,24 +35,27 @@ export const AlertHistoryListPresenter = ({ timeConfig, tableProps }) => {
         })}
       </ListTitle>
       <Ul>
-        {items.map(e => {
+        {items.map(event => {
           const viewFilterParams = {
-            eventId: e.id,
+            eventId: event.id,
             eventTypeFilter: 'issue',
             timeConfig
           };
-          if (e.entityType === 'App20') {
-            viewFilterParams.applicationId = e.entityId;
+          if (event.entityType === 'App20') {
+            viewFilterParams.applicationId = event.entityId;
           }
 
           const analyseEvent$ = getEventsViewFilteredBy(viewFilterParams);
+          const eventType = getEventType(event);
 
           return (
-            <Li key={e.id}>
+            <Li key={event.id}>
               <Link href$={analyseEvent$} ellipsis>
-                <WithIcon icon={getIcon({ event: e })} iconColor={getDesignLibraryColorBySeverity(e.severity)}>
+                <WithIcon icon={getIcon(eventType)} iconColor={getDesignLibraryColorBySeverity(event.severity)}>
                   <div className={locals.label}>
-                    <time dateTime={new Date(e.start).toISOString()}>{formatDateTime(e.start)}</time>
+                    <time dateTime={new Date(event.start).toISOString()}>{formatDateTime(event.start)}</time>
+                    &nbsp;
+                    <span>{`(${getDurationOrActive(event)})`}</span>
                   </div>
                 </WithIcon>
               </Link>
@@ -83,6 +84,13 @@ AlertHistoryListPresenter.propTypes = {
     loadMore: PropTypes.func
   })
 };
+
+function getDurationOrActive(event) {
+  if (event.state === 'closed') {
+    return formatDurationAccurately(event.end - event.start, 60000);
+  }
+  return t('in-alerting:components.alertStateActive');
+}
 
 export default function AlertHistoryList(props) {
   const { alertConfigId, timeConfig } = props;

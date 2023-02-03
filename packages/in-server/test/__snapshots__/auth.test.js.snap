@@ -1,21 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`in-server/src/auth getCurrentUser must not issue backend requests when the cookie is missing 1`] = `
-Array [
+[
   401,
   null,
 ]
 `;
 
 exports[`in-server/src/auth getCurrentUser must resolve with user string 1`] = `
-Array [
+[
   200,
-  "{\\"name\\":\\"Jane\\"}",
+  "{"name":"Jane"}",
 ]
 `;
 
 exports[`in-server/src/auth getCurrentUser must resolve without user string on request error 1`] = `
-Array [
+[
   401,
   undefined,
 ]

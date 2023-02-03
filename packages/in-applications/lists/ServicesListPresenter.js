@@ -9,7 +9,6 @@ import React from 'react';
 import { SeverityIndicatorCellContentWrapper } from '@instana/components';
 import { TableEntityCounter } from '@instana/components';
 import { Button } from '@instana/components';
-import { Card } from '@instana/components';
 import { Link } from '@instana/components';
 
 import {
@@ -21,7 +20,7 @@ import TechnologyIndicatorList from 'in-applications/components/TechnologyIndica
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import ServicesNoDataNotification from 'in-applications/lists/components/ServicesNoDataNotification';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
+import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import { serviceListPrefix as matrixPrefix } from 'in-applications/navigation/matrix';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { getServiceDashboard, servicesList } from 'in-applications/navigation/paths';
@@ -56,9 +55,10 @@ const columnDefinitions = [
     id: 'serviceLabel',
     label: t('in-applications:labelName'),
     getContent(item) {
+      const maxSeverity = get(item, ['metrics', 'maxSeverity', 0, 1], 0);
       return (
-        <SeverityIndicatorCellContentWrapper severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}>
-          <Link href$={item.service.id == 'ROOT' ? null : getServiceDashboard(item.service.id)}>
+        <SeverityIndicatorCellContentWrapper severity={maxSeverity}>
+          <Link href$={item.service.id === 'ROOT' ? null : getServiceDashboard(item.service.id)}>
             {item.service.label}
           </Link>
         </SeverityIndicatorCellContentWrapper>
@@ -159,11 +159,13 @@ const columnDefinitions = [
     label: t('in-applications:labelHealth'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
+      const openIssues = get(item, ['metrics', 'openIssues', 0, 1], 0);
+      const maxSeverity = get(item, ['metrics', 'maxSeverity', 0, 1], 0);
       return (
         <ApplicationEntityHealthIndicatorBehavior
           serviceId={item.service.id}
-          openIssues={get(item, ['metrics', 'openIssues', 0, 1], 0)}
-          maxSeverity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
+          openIssues={openIssues}
+          maxSeverity={maxSeverity}
           IndicatorPresenter={HealthIndicatorPresenter}
           timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
           inContentArea
@@ -212,12 +214,19 @@ export default function ServicesList({
         </Button>
       )}
       <Filters
+        applicationId={applicationId}
+        contextScope={contextScope}
         endpointTypes={endpointTypes}
         technologies={technologies}
         setFilter={setFilter}
+        serviceId={serviceId}
         query={query}
         buttonLabel={t('in-applications:buttonAnalyzeServices')}
-        groupBy={createGroupBy('service.name', entityTypes.DESTINATION)}
+        groupBy={
+          !contextScope || contextScope === 'DOWNSTREAM'
+            ? createGroupBy('service.name', entityTypes.DESTINATION)
+            : createGroupBy('service.name', entityTypes.SOURCE)
+        }
       />
     </>
   );
@@ -225,7 +234,7 @@ export default function ServicesList({
   const scopeNotification = (!isBlank(applicationId) || !isBlank(serviceId) || !isBlank(endpointId) || tagFilters) &&
     !isBlank(contextScope) && (
       <ScopeNotification
-        icon={contextScope == 'UPSTREAM' ? 'lib_context_guide_upstream' : 'lib_context_guide_downstream'}
+        icon={contextScope === 'UPSTREAM' ? 'lib_context_guide_upstream' : 'lib_context_guide_downstream'}
         productArea="service"
         applicationId={applicationId}
         serviceId={serviceId}
@@ -263,21 +272,20 @@ export default function ServicesList({
           getHasDataToRender={() => getHasDataToRender(timeConfig)}
           FallbackComponent={ServicesNoDataNotification}
         >
-          <Card useMaxAvailableHeight={false} hasMarginBottom>
-            <ServerTableWithUrlState
-              get={getTableData}
-              timeConfig={timeConfig}
-              endpointTypes={endpointTypes}
-              technologies={technologies}
-              applicationId={applicationId}
-              serviceId={serviceId}
-              endpointId={endpointId}
-              contextScope={contextScope}
-              rightHeader={rightHeader}
-              scopeNotification={scopeNotification}
-              tagFilters={tagFilters}
-            />
-          </Card>
+          <ServerTableWithUrlState
+            get={getTableData}
+            timeConfig={timeConfig}
+            endpointTypes={endpointTypes}
+            technologies={technologies}
+            applicationId={applicationId}
+            serviceId={serviceId}
+            endpointId={endpointId}
+            contextScope={contextScope}
+            rightHeader={rightHeader}
+            scopeNotification={scopeNotification}
+            tagFilters={tagFilters}
+            cardTitle={t('in-applications:viewLists.services')}
+          />
         </WithEmptyStateFallback>
       </LeftRightPadding>
 

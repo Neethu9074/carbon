@@ -17,7 +17,13 @@ import { instanaDomain } from 'in-waiting-for-deployment/components/OnboardingWi
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { t } from 'in-i18n';
 
-export default function OneLinerContent({ agentKey, agentEndpoint, agentEndpointPort, azulDisabled = false }) {
+export default function OneLinerContent({
+  agentKey,
+  downloadKey,
+  agentEndpoint,
+  agentEndpointPort,
+  azulDisabled = false
+}) {
   const agentModeOptions = ['dynamic', 'static'];
   const [agentMode, setAgentMode] = useState(agentModeOptions[0]);
 
@@ -106,7 +112,7 @@ export default function OneLinerContent({ agentKey, agentEndpoint, agentEndpoint
       />
       <Bash
         lines={[
-          `curl -o setup_agent.sh https://setup.instana.${instanaDomain}/agent && chmod 700 ./setup_agent.sh && sudo ./setup_agent.sh -a ${agentKey} -t ${
+          `curl -o setup_agent.sh https://setup.instana.${instanaDomain}/agent && chmod 700 ./setup_agent.sh && sudo ./setup_agent.sh -a ${agentKey} -d ${downloadKey} -t ${
             agentMode === 'dynamic' ? 'dynamic' : 'static'
           } -e ${agentEndpoint}:${agentEndpointPort} ${jvmVendor === jvmVendorOptions[0] ? '' : '-j'} ${
             installMode === installModeOptions[0] ? '' : '-y'

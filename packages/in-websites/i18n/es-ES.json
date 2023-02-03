@@ -162,6 +162,7 @@
         "httpRequestBeaconHeaderRequest": "Solicitud",
         "httpRequestBeaconHeaderCallDetails": "Detalles de llamada",
         "httpRequestBeaconHeaderMeta": "Meta",
+        "httpRequestBeaconHeaderHttpHeaders": "Cabeceras HTTP",
         "httpRequestBeaconHeaderGraphQL": "GraphQL",
         "httpRequestBeaconHeaderResourceTiming": "Tiempo de recursos",
         "httpRequestBeaconHeaderNetworkInsights": "Información de red",
@@ -454,6 +455,7 @@
       "alerts": {
         "alertConfigurationListTitleAlertConfiguration": "Configuración de alertas",
         "alertConfigurationTitleTrigger": "Activador",
+        "alertConfigurationTitleCustomEvent": "Suceso personalizado",
         "alertConfigurationTitleErrorMessage": "Mensaje de error",
         "alertConfigurationTitleHTTPStatusCode": "Código de estado HTTP",
         "alertConfigurationTitleScope": "Ámbito",
@@ -473,12 +475,42 @@
       },
       "configuration": {
         "configurationRemoveTitle": "Eliminar sitio web",
-        "configurationRemoveHelpParagraph": "Tenga en cuenta que ni el usuario ni el soporte de Instana pueden deshacer esta acción.",
+        "configurationRemoveHelpParagraph": "Tenga en cuenta que ni usted ni el soporte de Instana pueden deshacer esta acción.",
         "configurationRemoveInput": "Entiendo que esta acción no se puede deshacer.",
         "configurationRemoveButton": "Eliminar sitio web",
         "configurationRenameTitle": "Renombrar sitio web",
         "configurationRenameButton": "Renombrar",
         "configurationTrackingScriptTitle": "Script de Rastreo",
+        "saved": "Guardado",
+        "ipMasking": {
+          "title": "Enmascaramiento de IP",
+          "help": "El enmascaramiento de IP protege la privacidad del usuario final al enmascarar (anonimizar) segmentos de direcciones IP. Esto sucede en el punto más temprano posible dentro del conducto de ingesta de Instana de modo que nunca se almacenen direcciones IP completas. Instana siempre enmascara las direcciones IP utilizando reglas comúnmente utilizadas en la industria. Puede configurar reglas de enmascaramiento de IP más estrictas si su organización lo requiere.",
+          "option_DEFAULT": "De forma predeterminada, se enmascaran los últimos 8 bits para IPv4 y los últimos 80 bits para IPv6",
+          "option_STRICT": "Estricto, se enmascaran los últimos 16 bits para IPv4 y los últimos 96 bits para IPv6",
+          "option_REMOVE_ALL_DETAILS": "Eliminar direcciones IP (solo queda una sugerencia de uso de IPv4 e IPv6)"
+        },
+        "geoDetailRemoval": {
+          "title": "Eliminación de detalles geográficos",
+          "help": "Instana determina una ubicación geográfica aproximada para los datos de entrada basados en direcciones IP de usuario final. Esto incluye información sobre las coordenadas del usuario final, la ciudad, el estado, el país y la información del continente. Algunas organizaciones pueden considerar que estos datos permiten identificar el usuario final y, por lo tanto, pueden desear anonimizar más esta información de ubicación aproximada. Esto se puede lograr utilizando nuestra eliminación de detalles geográficos.",
+          "option_NO_REMOVAL": "No hay eliminación de detalles geográficos",
+          "option_REMOVE_COORDINATES": "Eliminar información sobre latitud, longitud y precisión",
+          "option_REMOVE_CITY": "Eliminar información de ciudad, latitud, longitud y precisión",
+          "option_REMOVE_ALL": "Eliminar todos los detalles geográficos"
+        },
+        "customGeoDetails": {
+          "title": "Detalles geográficos personalizados",
+          "help1": "Instana correlaciona las direcciones IP de usuario final con detalles geográficos, por ejemplo, nombres de ciudades y países. Esto se realiza inspeccionando varias cabeceras HTTP para recuperar las direcciones IP del usuario final. Estas direcciones IP se convierten en detalles geográficos con la ayuda de las <maxmind>bases de datos geográficas de Maxmind</maxmind>. El principal caso de uso de estas reglas de correlación personalizadas son las redes privadas. Por ejemplo, cuando se accede a instalaciones de Instana (alojadas automáticamente) a través de redes privadas. En estos casos, las bases de datos geográficas públicas nunca contendrán información relevante y, por tanto, el proceso de conversión no proporcionará ningún resultado o solo resultados erróneos o poco útiles.",
+          "help2": "Las reglas para los detalles geográficos personalizados siempre se expresan a través de valores separados por comas (CSV). El formato CSV y el uso de nuestra API REST Web están definidos en nuestra <documentation>documentación</documentation>.",
+          "download": "Descargar configuración activa (CSV)",
+          "documentation": "Documentación",
+          "uploader": {
+            "title": "Cargar nuevas reglas",
+            "help": "Las reglas de detalle geográfico personalizadas son archivos CSV definidos y cargados a través de nuestra API REST web o a través de este formulario. Para obtener más información sobre la estructura de archivos, los límites y la API REST web, consulte nuestra <documentation>documentación</documentation>.",
+            "failureToReadFileContent": "No se ha podido leer el contenido del archivo: {{error}}",
+            "failureToCallApiForTechnicalReason": "No se ha podido ejecutar la llamada HTTP: {{error}}",
+            "failureToCallApiForStatusCodeReason": "La llamada HTTP ha devuelto un resultado erróneo: {{error}}"
+          }
+        },
         "fileDownloadConfigurationDialogMessageSavingConfiguration": "Guardando configuración...",
         "fileDownloadConfigurationDialogMessageConfigurationUpdated": "Configuración actualizada.",
         "fileDownloadConfigurationDialogMessageNewConfigurationSaved": "Se ha guardado la nueva configuración.",
@@ -490,7 +522,7 @@
         "fileDownloadConfigurationDialogTitleNew": "Nueva configuración de descarga de archivos",
         "fileDownloadConfigurationDialogHeadingMatchingRules": "Reglas de coincidencia",
         "fileDownloadConfigurationDialogMatchingRuleHelp1": "Puede definir varias reglas de coincidencia para describir cuándo se debe incluir su configuración en las solicitudes HTTP.  Se están utilizando la autenticación básica HTTP configurada y las cabeceras HTTP personalizadas cuando al menos una de las reglas de coincidencia coincide con el URL del archivo.",
-        "fileDownloadConfigurationDialogMatchingRuleHelp2": "Se recomienda que la coincidencia solo sea para archivos del esquema <code>{{http}}</code>, de lo contrario, su configuración se transmitirán con texto sin formato.",
+        "fileDownloadConfigurationDialogMatchingRuleHelp2": "Se recomienda que la coincidencia solo sea para archivos con el esquema <code>{{http}}</code>, de lo contrario, su configuración se transmitirán con texto sin formato.",
         "fileDownloadConfigurationDialogLabelScheme": "Esquema",
         "fileDownloadConfigurationDialogLabelHTTPSOrHTTP": "https:// o http://",
         "fileDownloadConfigurationDialogLabelHost": "Host",
@@ -507,19 +539,37 @@
         "fileDownloadConfigurationDialogLabelKey": "Clave",
         "fileDownloadConfigurationDialogLabelValue": "Valor",
         "fileDownloadConfigurationDialogButtonAddHeader": "Añadir cabecera",
+        "fileUploadConfigurationDialogTitleEdit": "Editar configuración de carga de archivo",
+        "fileUploadConfigurationDialogTitleNew": "Nueva configuración de carga de archivo",
+        "fileUploadConfigurationDialogLabelDescription": "Descripción",
+        "fileUploadConfigurationDialogHeadingDescription": "Descripción",
+        "fileUploadConfigurationDialogDescriptionHelp": "Una configuración de carga le ayudará a organizar mejor los archivos cargados.",
+        "fileUploadConfigurationDialogHeadingOpenAPI": "Carga de archivos",
+        "fileUploadConfigurationDialogOpenAPIHelp": "Cargue los archivos llamando a la API REST web de Instana. Esto se podría integrar en el proceso de interconexión para el despliegue automatizado. La explicación y el uso de la API REST web se ha definido en la <documentation>documentación</documentation>.",
+        "fileUploadUrl": "API de carga de archivo",
+        "clearUploadedFilesUrl": "Eliminar todos los archivos API",
         "stackTraceTranslationLabelConfiguration": "Configuración",
+        "stackTraceTranslationLabelFiles": "Archivos",
+        "stackTraceTranslationLabelTotalSize": "Tamaño total",
+        "stackTraceTranslationLabelLastModified": "Última modificación",
         "stackTraceTranslationExplanation": "Para mejorar la legibilidad de los rastreos de la pila JavaScript, por ejemplo, para mostrar referencias a archivos y líneas no minificadas, Instana necesita acceder a archivos JavaScript y de correlación de origen. Si aquí se añade una configuración, el servidor de Instana puede autenticar y descargar estos archivos para proporcionar más información sobre errores JavaScript.",
+        "stackTraceTranslationExplanationWithUploadFeature": "Para hacer que los rastreos de pila de JavaScript sean más legibles, por ejemplo, para mostrar referencias a archivos y líneas no minificados, Instana necesita acceder a los archivos de correlación de origen y JavaScript. La adición de una configuración de descarga aquí permite al servidor de Instana autenticar y descargar estos archivos con el fin de proporcionar más información sobre los errores de JavaScript. Si los archivos se alojan de forma privada y no se puede acceder a ellos mediante Instana, se podría utilizar una configuración de carga en este caso de ejemplo cargando los archivos manualmente a través de la API REST web.",
         "stackTraceTranslationTitleJavaScriptStackTraceTranslation": "Conversión del rastreo de pila JavaScript",
         "stackTraceTranslationLearnMoreLabel": "Más información sobre la conversión del rastreo de pila JavaScript",
         "stackTraceTranslationTitleJSStackTraceTranslationConfigurations": "Configuraciones de conversión de rastreo de la pila JS",
         "stackTraceTranslationHeaderFileDownloadConfigurations": "Configuraciones de descarga de archivos",
+        "stackTraceTranslationHeaderFileUploadConfigurations": "Configuraciones de carga de archivo",
         "stackTraceTranslationNoDataMessage": "No hay configuraciones de descarga de archivos disponibles.",
+        "stackTraceTranslationNoUploadDataMessage": "No hay configuraciones de carga de archivo disponibles.",
         "stackTraceTranslationButtonAddConfiguration": "Añadir configuración",
         "stackTraceTranslationLabelFileDownloadConfiguration": "Configuración de descarga de archivos {{config}}",
+        "stackTraceTranslationLabelFileUploadConfiguration": "Configuración de carga de archivo {{config}}",
         "stackTraceTranslationLabelOr": " o ",
         "configurationTitle": "Configuración",
         "configurationLabelOptions": "Opciones",
-        "configurationLabelJSStackTraceTranslation": "Conversión del rastreo de la pila JS"
+        "configurationLabelPrivacy": "Privacidad",
+        "configurationLabelJSStackTraceTranslation": "Conversión del rastreo de la pila JS",
+        "configurationLabelCustomGeoDetails": "Detalles geográficos personalizados"
       },
       "customEvents": {
         "customEventTitleWebsiteCustomEventDetails": "Detalles de suceso personalizado del sitio web",
@@ -709,7 +759,7 @@
       "indexLabelGeography": "Geografía",
       "indexLabelCustomEvents": "Sucesos personalizados",
       "indexLabelPages": "Páginas",
-      "indexLabelAlerts": "Alertas",
+      "indexLabelAlerts": "Alertas inteligentes",
       "indexLabelConfiguration": "Configuración",
       "pagesLabelName": "Nombre",
       "pagesLabelPageViews": "Vistas de página",
@@ -764,7 +814,7 @@
     }
   },
   "rename": {
-    "help": "Cambiar el nombre de un sitio web es una acción consecuente en el sistema Instana. Por este motivo, un cambio en un nombre del sitio web puede tardar <strong>algunos minutos</strong> hasta que se haya rellenado en todo el sistema."
+    "help": "Cambiar el nombre de un sitio web es una acción consecuente en el sistema Instana. Por este motivo, un cambio en un nombre del sitio web puede tardar <strong>algunos minutos</strong> hasta que se haya completado en todo el sistema."
   },
   "trackingScript": {
     "help": "El siguiente script de rastreo es todo lo que necesita para comenzar a supervisar sitios web. Copie este script en el documento HTML <code>{{htmlElementName}}</code>. La información sobre la supervisión de sitios web y las funciones completas del script de seguimiento se encuentran <linkToDocs>en nuestros documentos</linkToDocs>."

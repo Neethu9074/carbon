@@ -1,0 +1,30 @@
+/*
+ * (c) Copyright IBM Corp. 2022
+ * (c) Copyright Instana Inc. 2022
+ */
+
+@import '~in-themes/active.less';
+
+:local {
+  .verticalAlignedCells {
+    align-items: center;
+  }
+  .optionBox {
+    &.optionBox {
+      border: none;
+      border-radius: 0;
+    }
+
+    &.optionBoxUnchecked {
+      svg {
+        fill: @lib__colors__N600Light;
+      }
+
+      color: @lib__colors__N600Light;
+    }
+  }
+
+  .staticOrAdaptiveOption {
+    align-self: center;
+  }
+}

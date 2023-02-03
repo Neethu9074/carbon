@@ -6,10 +6,9 @@
 import React, { useState } from 'react';
 import { uniqBy } from 'lodash';
 
+import { Message, Link } from '@instana/components';
 import { createLogger } from '@instana/logger';
 import { useObservable } from '@instana/hooks';
-import { Message } from '@instana/components';
-import { Link } from '@instana/components';
 
 import {
   deleteItemColumnDefinition,
@@ -23,23 +22,27 @@ import {
   removeItemAlertCustomPayloadTracker,
   submitAlertCustomPayloadTracker
 } from 'in-settings/tracker';
+import { createTagBasedPayloadConfigurator } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
+import {
+  getGlobalCustomPayloadAsResultObservable,
+  getCustomPayloadTagCatalog,
+  saveGlobalCustomPayload
+} from 'in-settings/tabs/TeamSettings/api/customPayload';
 import {
   useSaveToServerHandler,
   initialState
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/useSaveToServerHandler';
-import {
-  getGlobalCustomPayloadAsResultObservable,
-  saveGlobalCustomPayload
-} from 'in-settings/tabs/TeamSettings/api/customPayload';
 import { createNewFormEntry, createForm } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
+import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import CustomPayloadTable from 'in-alerting/components/CustomPayload/CustomPayloadTable';
+import getTagSuggestions from 'in-applications/subscriptions/getTagSuggestions';
+import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
+import { pendingResult, emptyArray } from 'in-services/fixedObjects';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { isLoading, hasError } from 'in-services/util/result';
 import Notification from 'in-components/form/Notification';
 import SaveCancel from 'in-settings/components/SaveCancel';
-import { pendingResult } from 'in-services/fixedObjects';
-import { emptyArray } from 'in-services/fixedObjects';
 import Section from 'in-settings/components/Section';
 import Title from 'in-components/Title';
 import { role } from 'in-stores/user';
@@ -55,15 +58,37 @@ export default function GlobalCustomPayloadPage() {
     return null;
   }
 
-  return <CustomPayload result={result} save={save} savingState={savingState} />;
+  return <GlobalCustomPayload result={result} save={save} savingState={savingState} />;
 }
 
-export function CustomPayload(props) {
-  const { result, save, savingState } = props;
+export const GlobalTagBasedPayloadConfigurator = createTagBasedPayloadConfigurator({
+  getTagCatalog: getCustomPayloadTagCatalog,
+  getSuggestions
+});
+
+function getSuggestions(args) {
+  return getTagSuggestions({
+    tagName: args.name,
+    entity: DESTINATION,
+    propose: args.propose,
+    filter: {
+      timeConfig: args.timeConfig
+    },
+    tagFilterExpression: args.tagFilterExpression ?? EMPTY_EXPRESSION
+  });
+}
+
+export function GlobalCustomPayload(props) {
+  const {
+    result,
+    save,
+    savingState,
+    TagBasedPayloadConfigurator = GlobalTagBasedPayloadConfigurator,
+    canConfigureGlobalAlertPayload = role.canConfigureGlobalAlertPayload
+  } = props;
   const [form, setForm] = useState(createForm(result?.data?.fields ?? []));
   const { message, error, storing } = savingState ?? initialState;
 
-  const { canConfigureGlobalAlertPayload } = role;
   const tableColumnDefinitions = [keyColumnDefinition, typeColumnDefinition, valueColumnDefinition];
   const columnDefinitions = canConfigureGlobalAlertPayload
     ? [...tableColumnDefinitions, deleteItemColumnDefinition]
@@ -80,7 +105,12 @@ export function CustomPayload(props) {
           <Trans
             i18nKey="in-settings:tabs.eachKeyValuePairWillBeIncludedAsAdditionalPayload"
             components={{
-              docLink: <Link href="https://instana.com/docs/events_alerts/custom-payload" external />
+              docLink: (
+                <Link
+                  href="https://www.ibm.com/docs/en/obi/current?topic=alerts-configuring-custom-payloads"
+                  external
+                />
+              )
             }}
           />
         </Message>
@@ -93,6 +123,7 @@ export function CustomPayload(props) {
       <form onSubmit={onSubmit}>
         <CustomPayloadTable
           getRowIndex={getRowIndex}
+          TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
           columnDefinitions={columnDefinitions}
           isSearchable={false}
           addRow={addRow}
@@ -103,6 +134,7 @@ export function CustomPayload(props) {
           canConfigureAlertPayload={canConfigureGlobalAlertPayload}
           enabled={enabled}
           trackChange={editAlertCustomPayloadTracker}
+          suggestionsAlignedLeft
         />
 
         {message ? (

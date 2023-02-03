@@ -5,7 +5,6 @@
 
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
 import getEntityHealthInfo from 'in-kubernetes/subscriptions/getEntityHealthInfo';
-import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(({ snapshotId, timeConfig }) => {
@@ -16,7 +15,6 @@ export default connectTo(({ snapshotId, timeConfig }) => {
 
   return {
     openIssues: healthInfo$.map(result => result.data.openIssues.length),
-    maxSeverity: healthInfo$.map(result => result.data.maxSeverity),
-    timeConfig: healthInfo$.map(result => getTimeConfigAlignedToResultTime(timeConfig, result))
+    maxSeverity: healthInfo$.map(result => result.data.maxSeverity)
   };
 }, EntityHealthIndicator);

@@ -9,13 +9,14 @@ import React, { useMemo } from 'react';
 import { SvgIcon, Button, Ul, Li, Stack, StackItem } from '@instana/components';
 import { getIntlDateFormatter } from '@instana/format-date';
 
+// eslint-disable-next-line no-restricted-imports
+import moment from 'in-services/moment-timezone';
 import { createTimeZoneSubForm } from 'in-custom-dashboards/widgets/TimeZones/form';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { compareIgnoreCase } from 'in-services/util/string';
 import Header from 'in-components/workspace/Header';
 import { compare } from 'in-services/util/number';
-import moment from 'in-services/moment-timezone';
 import Select from 'in-components/form/Select';
 import Input from 'in-components/form/Input';
 import Tooltip from 'in-components/Tooltip';

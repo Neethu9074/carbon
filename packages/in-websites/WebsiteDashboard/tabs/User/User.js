@@ -29,7 +29,7 @@ export default function User({ timeConfig, tagFilters, websiteId, websiteLabel }
       <Row>
         <Col lg={12}>
           <WebsiteChartWrapper
-            cardTitle={t('in-websites:websiteDashboard.tabs.user.usersCardTitleActivity')}
+            title={t('in-websites:websiteDashboard.tabs.user.usersCardTitleActivity')}
             timeConfig={timeConfig}
             viewInAnalytics={{
               websiteLabel
@@ -85,6 +85,7 @@ export default function User({ timeConfig, tagFilters, websiteId, websiteLabel }
             websiteId={websiteId}
             websiteLabel={websiteLabel}
             urlMatrixParamConfig={{ path: usersTab, paramTab: 'browserTab' }}
+            renderHistoricDataIndicator
           />
         </Col>
         <Col lg={6}>
@@ -94,6 +95,7 @@ export default function User({ timeConfig, tagFilters, websiteId, websiteLabel }
             websiteId={websiteId}
             websiteLabel={websiteLabel}
             urlMatrixParamConfig={{ path: usersTab, paramTab: 'wwTab' }}
+            renderHistoricDataIndicator
           />
         </Col>
       </Row>
@@ -106,6 +108,7 @@ export default function User({ timeConfig, tagFilters, websiteId, websiteLabel }
             websiteId={websiteId}
             websiteLabel={websiteLabel}
             urlMatrixParamConfig={{ path: usersTab, paramTab: 'osTab' }}
+            renderHistoricDataIndicator
           />
         </Col>
         <Col lg={6}>
@@ -115,6 +118,7 @@ export default function User({ timeConfig, tagFilters, websiteId, websiteLabel }
             websiteId={websiteId}
             websiteLabel={websiteLabel}
             urlMatrixParamConfig={{ path: usersTab, paramTab: 'connTab' }}
+            renderHistoricDataIndicator
           />
         </Col>
       </Row>

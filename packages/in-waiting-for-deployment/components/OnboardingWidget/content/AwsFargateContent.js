@@ -21,7 +21,7 @@ import { instanaDomain } from 'in-waiting-for-deployment/components/OnboardingWi
 import { Col, Row as GridRow } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
-export default function AwsFargateContent({ agentKey, serverlessEndpoint }) {
+export default function AwsFargateContent({ agentKey, downloadKey, serverlessEndpoint }) {
   const runtimeOptions = [
     t('in-waiting-for-deployment:runtime.go'),
     t('in-waiting-for-deployment:runtime.java'),
@@ -48,20 +48,24 @@ export default function AwsFargateContent({ agentKey, serverlessEndpoint }) {
 
         <TextWithLink
           i18nKey="in-waiting-for-deployment:content.theSupportForGoOnFargateOnEcsWorksTheSameWayAsWithAnyGoApplicationFollowTheInstructionsOfThe"
-          href="https://instana.com/docs/ecosystem/go"
+          href="https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-go"
         />
         <Spacer />
         <Description
           lines={[t('in-waiting-for-deployment:content.setTheFollowingEnvironmentVariablesInTheEcsTaskDefinition')]}
         />
         <GridRow>
-          <Col xs={6}>
+          <Col xs={4}>
             <Description lines={['INSTANA_ENDPOINT_URL']} />
             <Script lines={[serverlessEndpoint]} />
           </Col>
-          <Col xs={6}>
+          <Col xs={4}>
             <Description lines={['INSTANA_AGENT_KEY']} />
             <Script lines={[agentKey]} />
+          </Col>
+          <Col xs={4}>
+            <Description lines={['INSTANA_DOWNLOAD_KEY']} />
+            <Script lines={[downloadKey]} />
           </Col>
         </GridRow>
       </>
@@ -98,7 +102,7 @@ export default function AwsFargateContent({ agentKey, serverlessEndpoint }) {
             )
           ]}
         />
-        <Bash lines={[`docker login containers.instana.${instanaDomain} --username _ --password ${agentKey}`]} />
+        <Bash lines={[`docker login containers.instana.${instanaDomain} --username _ --password ${downloadKey}`]} />
 
         <Spacer />
 
@@ -106,13 +110,17 @@ export default function AwsFargateContent({ agentKey, serverlessEndpoint }) {
           lines={[t('in-waiting-for-deployment:content.setTheFollowingEnvironmentVariablesInTheEcsTaskDefinition')]}
         />
         <GridRow>
-          <Col xs={6}>
+          <Col xs={4}>
             <Description lines={['INSTANA_ENDPOINT_URL']} />
             <Script lines={[serverlessEndpoint]} />
           </Col>
-          <Col xs={6}>
+          <Col xs={4}>
             <Description lines={['INSTANA_AGENT_KEY']} />
             <Script lines={[agentKey]} />
+          </Col>
+          <Col xs={4}>
+            <Description lines={['INSTANA_DOWNLOAD_KEY']} />
+            <Script lines={[downloadKey]} />
           </Col>
         </GridRow>
       </>
@@ -156,6 +164,10 @@ export default function AwsFargateContent({ agentKey, serverlessEndpoint }) {
             <Script lines={[agentKey]} />
           </Col>
           <Col xs={4}>
+            <Description lines={['INSTANA_DOWNLOAD_KEY']} />
+            <Script lines={[downloadKey]} />
+          </Col>
+          <Col xs={4}>
             <Description lines={['DOTNET_STARTUP_HOOKS']} />
             <Script lines={[`${appDirName}/Instana.Tracing.Core.dll`]} />
           </Col>
@@ -190,7 +202,7 @@ export default function AwsFargateContent({ agentKey, serverlessEndpoint }) {
           lines={[
             'FROM <base-image> # This is the *last* FROM clause in your Dockerfile',
             '',
-            'COPY --from=instana/aws-fargate-nodejs:latest /instana /instana',
+            'COPY --from=icr.io/instana/aws-fargate-nodejs:latest /instana /instana',
             'RUN /instana/setup.sh',
             'ENV NODE_OPTIONS="--require /instana/node_modules/@instana/aws-fargate"',
             '',
@@ -204,13 +216,17 @@ export default function AwsFargateContent({ agentKey, serverlessEndpoint }) {
           lines={[t('in-waiting-for-deployment:content.setTheFollowingEnvironmentVariablesInTheEcsTaskDefinition')]}
         />
         <GridRow>
-          <Col xs={6}>
+          <Col xs={4}>
             <Description lines={['INSTANA_ENDPOINT_URL']} />
             <Script lines={[serverlessEndpoint]} />
           </Col>
-          <Col xs={6}>
+          <Col xs={4}>
             <Description lines={['INSTANA_AGENT_KEY']} />
             <Script lines={[agentKey]} />
+          </Col>
+          <Col xs={4}>
+            <Description lines={['INSTANA_DOWNLOAD_KEY']} />
+            <Script lines={[downloadKey]} />
           </Col>
         </GridRow>
       </>
@@ -220,7 +236,7 @@ export default function AwsFargateContent({ agentKey, serverlessEndpoint }) {
       <>
         <TextWithLink
           i18nKey="in-waiting-for-deployment:content.theSupportForPythonOnFargateOnEcsWorksTheSameWayAsWithAnyPythonApplicationFollowTheInstructionsOfThe"
-          href="https://instana.com/docs/ecosystem/python"
+          href="https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-python-instana-python-package"
         />
         <Spacer />
         <Description
@@ -245,7 +261,7 @@ export default function AwsFargateContent({ agentKey, serverlessEndpoint }) {
 
         <TextWithLink
           i18nKey="in-waiting-for-deployment:content.theSupportForRubyOnFargateOnEcsWorksTheSameWayAsWithAnyRubyApplicationFollowTheInstructionsOfThe"
-          href="https://instana.com/docs/ecosystem/ruby"
+          href="https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-ruby"
         />
         <Spacer />
         <Description

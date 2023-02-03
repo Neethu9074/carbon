@@ -3,39 +3,38 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment } from 'react';
-import ReactDOM from 'react-dom';
+import React, { forwardRef } from 'react';
 
 import Controls from 'in-applications/FlowMap/components/Controls/Controls';
 import Nodes from 'in-applications/FlowMap/components/Nodes/Nodes';
 
-export default class OverlayReactComponentMounter {
-  constructor(
-    nodesReactComponentWrapper,
+import locals from 'in-applications/FlowMap/misc/OverlayReactComponentMounter.mless';
+
+function MapOverlay(props, ref) {
+  const {
     serviceLocatorUid,
     expandNodeLeft,
     expandNodeRight,
     expandChildLeft,
     expandChildRight,
-    loadMore
-  ) {
-    this.nodesReactComponentWrapper = nodesReactComponentWrapper;
-    this.serviceLocatorUid = serviceLocatorUid;
-    ReactDOM.render(
-      <Fragment>
-        <Nodes
-          serviceLocatorUid={this.serviceLocatorUid}
-          expandNodeLeft={expandNodeLeft}
-          expandNodeRight={expandNodeRight}
-          expandChildLeft={expandChildLeft}
-          expandChildRight={expandChildRight}
-          loadMore={loadMore}
-        />
-        <Controls serviceLocatorUid={this.serviceLocatorUid} />
-      </Fragment>,
-      this.nodesReactComponentWrapper
-    );
-  }
-
-  dispose() {}
+    loadMore,
+    resultPrecisionDetails
+  } = props;
+  return serviceLocatorUid ? (
+    <div ref={ref} className={locals.wrapper}>
+      <Nodes
+        serviceLocatorUid={serviceLocatorUid}
+        expandNodeLeft={expandNodeLeft}
+        expandNodeRight={expandNodeRight}
+        expandChildLeft={expandChildLeft}
+        expandChildRight={expandChildRight}
+        loadMore={loadMore}
+      />
+      <Controls serviceLocatorUid={serviceLocatorUid} resultPrecisionDetails={resultPrecisionDetails} />
+    </div>
+  ) : (
+    <div ref={ref} />
+  );
 }
+
+export default forwardRef(MapOverlay);

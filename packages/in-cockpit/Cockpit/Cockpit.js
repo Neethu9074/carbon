@@ -4,83 +4,124 @@
  */
 
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import React, { useMemo, useState } from 'react';
 import classNames from 'classnames';
-import { useMemo } from 'react';
-import React from 'react';
 
-import { Button, SvgIcon } from '@instana/components';
+import { Button, Link, Message, SvgIcon } from '@instana/components';
+import { useObservable } from '@instana/hooks';
 
 import {
+  hasAPlatformAccess,
   hasApplicationsAccess,
+  hasEventsAccess,
+  hasInfrastructureAccess,
   hasKubernetesAccess,
   hasMobileAppsAccess,
-  hasWebsitesAccess
+  hasOpenStackAccess,
+  hasPCFAccess,
+  hasPHMCAccess,
+  hasVSphereAccess,
+  hasWebsitesAccess,
+  hasZHMCAccess
 } from 'in-stores/permission';
+import { MessageContentModernDesign } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
+import getLegacyAlertConfigStats from 'in-alerting/smart-alerts/subscriptions/getLegacyAlertConfigStats';
 import { isLandingPage, setLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/cockpit';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
-import { pcfEnabled, vsphereEnabled, phmcEnabled, zhmcEnabled } from 'in-services/featureFlags';
+import { deprecatedValue } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import WebsitesAndMobileTopList from 'in-cockpit/Cockpit/components/WebsitesAndMobileTopList';
 import DashboardSwitcher from 'in-custom-dashboards/DashboardSwitcher/DashboardSwitcher';
 import InfrastructureTopList from 'in-cockpit/Cockpit/components/InfrastructureTopList';
 import ApplicationsTopList from 'in-cockpit/Cockpit/components/ApplicationsTopList';
 import OpenIncidentsButton from 'in-cockpit/Cockpit/components/OpenIncidentsButton';
+import { events, teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
 import PlatformsTopList from 'in-cockpit/Cockpit/components/PlatformsTopList';
 import EventChartCard from 'in-cockpit/Cockpit/components/EventChartCard';
 import SetAsLandingPage from 'in-client/js/LandingPage/SetAsLandingPage';
 import DashboardHeader, { themes } from 'in-components/DashboardHeader';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { setSingle, settings$ } from 'in-services/settings/settings';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import useResizeObserverCustom from 'in-hooks/useResizeObserver';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { pendingResult } from 'in-services/fixedObjects';
 import SideNav from 'in-components/SideNav';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
 import { role } from 'in-stores/user';
-import { t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 
 import locals from './Cockpit.mless';
 
 const settingsKey = 'cockpit_widget_ordering';
 
-const itemIds = [{ id: '1' }, { id: '2' }, { id: '3' }, { id: '4' }, { id: '5' }];
+const itemIds = [];
 
 const LUT = {
-  '1': WebsitesAndMobileTopList,
-  '2': ApplicationsTopList,
-  '3': PlatformsTopList,
-  '4': InfrastructureTopList,
   '5': EventChartCard
 };
 
 const configEnrichmentLookUpTable = {
-  '1': {
-    label: getWebsiteAndMobileLabel(),
-    icon: getWebsiteAndMobileIcon(),
-    cardIcon: `${getWebsiteAndMobileIcon()}_inverted`
-  },
-  '2': {
-    label: t('in-cockpit:cockpit.applications'),
-    icon: 'lib_application',
-    cardIcon: 'lib_application_invert'
-  },
-  '3': {
-    label: getPlatformsTitle(),
-    icon: `${getPlatformCardIcon()}`,
-    cardIcon: `${getPlatformCardIcon()}_inverted`
-  },
-
-  '4': {
-    label: t('in-cockpit:cockpit.infrastructure'),
-    icon: 'lib_infrastructure',
-    cardIcon: 'lib_infrastructure_inverted'
-  },
   '5': {
     label: t('in-cockpit:cockpit.events'),
     icon: 'lib_events_inverted',
     cardIcon: 'lib_events_inverted'
   }
 };
+
+if (hasMobileAppsAccess || hasWebsitesAccess) {
+  itemIds.push({ id: '1' });
+  LUT['1'] = WebsitesAndMobileTopList;
+
+  configEnrichmentLookUpTable['1'] = {
+    label: getWebsiteAndMobileLabel(),
+    icon: getWebsiteAndMobileIcon(),
+    cardIcon: `${getWebsiteAndMobileIcon()}_inverted`
+  };
+}
+
+if (hasApplicationsAccess) {
+  itemIds.push({ id: '2' });
+  LUT['2'] = ApplicationsTopList;
+
+  configEnrichmentLookUpTable['2'] = {
+    label: t('in-cockpit:cockpit.applications'),
+    icon: 'lib_application',
+    cardIcon: 'lib_application_invert'
+  };
+}
+
+if (hasAPlatformAccess) {
+  itemIds.push({ id: '3' });
+  LUT['3'] = PlatformsTopList;
+
+  configEnrichmentLookUpTable['3'] = {
+    label: getPlatformsTitle(),
+    icon: `${getPlatformCardIcon()}`,
+    cardIcon: `${getPlatformCardIcon()}_inverted`
+  };
+}
+
+if (hasInfrastructureAccess) {
+  itemIds.push({ id: '4' });
+  LUT['4'] = InfrastructureTopList;
+  configEnrichmentLookUpTable['4'] = {
+    label: t('in-cockpit:cockpit.infrastructure'),
+    icon: 'lib_infrastructure',
+    cardIcon: 'lib_infrastructure_inverted'
+  };
+}
+
+if (hasEventsAccess) {
+  itemIds.push({ id: '5' });
+  LUT['5'] = EventChartCard;
+  configEnrichmentLookUpTable['5'] = {
+    label: t('in-cockpit:cockpit.events'),
+    icon: 'lib_events_inverted',
+    cardIcon: 'lib_events_inverted'
+  };
+}
 
 export default connectTo(
   {
@@ -167,13 +208,41 @@ function Header() {
   );
 }
 
+function CustomEventDeprecatedWarning({ legacyAlertConfigStats }) {
+  return (
+    <Message type="warning" className={locals.customEventDeprecatedWarning} withIcon>
+      <MessageContentModernDesign>
+        <Trans
+          i18nKey="in-cockpit:cockpit.customEventDeprecatedWarning"
+          components={{
+            affectedCustomEvents: (
+              <Link
+                href$={getModifiedUrlStream(params => {
+                  params.pathname = `${teamSettingsAlertingEvents}`;
+                  setOrDeleteMatrixKey(params, events, 'type', deprecatedValue);
+                })}
+              >
+                &nbsp;
+              </Link>
+            )
+          }}
+          values={{ count: legacyAlertConfigStats.data?.deprecatedCustomEvents }}
+        />
+      </MessageContentModernDesign>
+    </Message>
+  );
+}
+
 const Content = function Content({ itemOrder, applicationId, width }) {
+  const legacyAlertConfigStats = useObservable(getLegacyAlertConfigStats, []) ?? pendingResult;
+  const [internalItemOrder, setItemOrder] = useState(itemOrder);
+
   const setNewItemOrder = items => {
     setSingle(settingsKey, { ordering: items.map(({ id }, i) => ({ id, x: 0, y: i * 10 })) });
+    setItemOrder(items);
   };
 
   const renderNavigation = width > 1200;
-
   return (
     <div
       className={classNames(locals.wrapper, {
@@ -186,55 +255,60 @@ const Content = function Content({ itemOrder, applicationId, width }) {
         })}
       >
         {width && (
-          <DragDropContext
-            onDragEnd={({ source, destination }) => {
-              if (!destination) {
-                return;
-              }
+          <>
+            {role.canConfigureCustomAlerts && legacyAlertConfigStats.data?.deprecatedCustomEvents > 0 && (
+              <CustomEventDeprecatedWarning legacyAlertConfigStats={legacyAlertConfigStats} />
+            )}
+            <DragDropContext
+              onDragEnd={({ source, destination }) => {
+                if (!destination) {
+                  return;
+                }
 
-              const copiedItems = itemOrder.slice();
-              copiedItems[source.index] = itemOrder[destination.index];
-              copiedItems[destination.index] = itemOrder[source.index];
-              setNewItemOrder(copiedItems);
-            }}
-          >
-            <Droppable droppableId="droppable">
-              {provided => (
-                <div ref={provided.innerRef}>
-                  {itemOrder.map((_config, i) => {
-                    const Widget = LUT[_config.id];
-                    if (!Widget) {
-                      return null;
-                    }
+                const copiedItems = internalItemOrder.slice();
+                copiedItems[source.index] = internalItemOrder[destination.index];
+                copiedItems[destination.index] = internalItemOrder[source.index];
+                setNewItemOrder(copiedItems);
+              }}
+            >
+              <Droppable droppableId="droppable">
+                {provided => (
+                  <div ref={provided.innerRef}>
+                    {internalItemOrder.map((_config, i) => {
+                      const Widget = LUT[_config.id];
+                      if (!Widget) {
+                        return null;
+                      }
 
-                    return (
-                      <Draggable key={_config.id} draggableId={_config.id} index={i}>
-                        {provided => (
-                          <div
-                            id={_config.id}
-                            className={locals.item}
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                          >
-                            <Widget
-                              applicationId={applicationId}
-                              dragAndDropConfig={provided.dragHandleProps}
-                              config={{
-                                ...configEnrichmentLookUpTable[_config.id],
-                                dragAndDropConfig: provided.dragHandleProps
-                              }}
-                            />
-                          </div>
-                        )}
-                      </Draggable>
-                    );
-                  })}
+                      return (
+                        <Draggable key={_config.id} draggableId={_config.id} index={i}>
+                          {provided => (
+                            <div
+                              id={_config.id}
+                              className={locals.item}
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                            >
+                              <Widget
+                                applicationId={applicationId}
+                                dragAndDropConfig={provided.dragHandleProps}
+                                config={{
+                                  ...configEnrichmentLookUpTable[_config.id],
+                                  dragAndDropConfig: provided.dragHandleProps
+                                }}
+                              />
+                            </div>
+                          )}
+                        </Draggable>
+                      );
+                    })}
 
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          </DragDropContext>
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </DragDropContext>
+          </>
         )}
       </div>
       {renderNavigation && (
@@ -299,52 +373,66 @@ function filterItems(orderedItems) {
 function getPlatformsTitle() {
   let numPlatformsAvailable = 0;
   if (hasKubernetesAccess) numPlatformsAvailable++;
-  if (pcfEnabled) numPlatformsAvailable++;
-  if (vsphereEnabled) numPlatformsAvailable++;
-  if (phmcEnabled) numPlatformsAvailable++;
-  if (zhmcEnabled) numPlatformsAvailable++;
+  if (hasPCFAccess) numPlatformsAvailable++;
+  if (hasVSphereAccess) numPlatformsAvailable++;
+  if (hasOpenStackAccess) numPlatformsAvailable++;
+  if (hasPHMCAccess) numPlatformsAvailable++;
+  if (hasZHMCAccess) numPlatformsAvailable++;
   if (numPlatformsAvailable > 1) {
     return t('in-cockpit:cockpit.platforms');
   }
 
-  if (pcfEnabled) {
+  if (hasPCFAccess) {
     return t('in-cockpit:cockpit.cloudFoundry');
   }
-  if (vsphereEnabled) {
+  if (hasVSphereAccess) {
     return t('in-cockpit:cockpit.vsphere');
   }
-  if (phmcEnabled) {
+  if (hasOpenStackAccess) {
+    return t('in-cockpit:cockpit.openstack');
+  }
+  if (hasPHMCAccess) {
     return t('in-cockpit:cockpit.ibmp');
   }
-  if (zhmcEnabled) {
+  if (hasZHMCAccess) {
     return t('in-cockpit:cockpit.ibmz');
   }
-  return t('in-cockpit:cockpit.kubernetes');
+  if (hasKubernetesAccess) {
+    return t('in-cockpit:cockpit.kubernetes');
+  }
+  return null;
 }
 
 function getPlatformCardIcon() {
   let numPlatformsAvailable = 0;
   if (hasKubernetesAccess) numPlatformsAvailable++;
-  if (pcfEnabled) numPlatformsAvailable++;
-  if (vsphereEnabled) numPlatformsAvailable++;
-  if (phmcEnabled) numPlatformsAvailable++;
-  if (zhmcEnabled) numPlatformsAvailable++;
+  if (hasPCFAccess) numPlatformsAvailable++;
+  if (hasVSphereAccess) numPlatformsAvailable++;
+  if (hasOpenStackAccess) numPlatformsAvailable++;
+  if (hasPHMCAccess) numPlatformsAvailable++;
+  if (hasZHMCAccess) numPlatformsAvailable++;
   if (numPlatformsAvailable > 1) {
     return 'lib_platforms';
   }
-  if (pcfEnabled) {
+  if (hasPCFAccess) {
     return 'lib_cloudfoundry';
   }
-  if (vsphereEnabled) {
+  if (hasVSphereAccess) {
     return 'lib_vsphere';
   }
-  if (phmcEnabled) {
+  if (hasOpenStackAccess) {
+    return 'lib_openstack';
+  }
+  if (hasPHMCAccess) {
     return 'lib_phmc_console';
   }
-  if (zhmcEnabled) {
+  if (hasZHMCAccess) {
     return 'lib_zhmcConsole';
   }
-  return 'lib_kubernetes';
+  if (hasKubernetesAccess) {
+    return 'lib_kubernetes';
+  }
+  return null;
 }
 
 function getWebsiteAndMobileIcon() {

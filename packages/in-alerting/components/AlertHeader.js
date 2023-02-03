@@ -46,7 +46,8 @@ export default function AlertHeader({
 
   const alertRevision =
     extendedAlertConfigVersions.find(({ created }) => alertConfig.created === created) ?? alertConfig;
-  const isDeletedConfig = extendedAlertConfigVersions.some(alertConfig => alertConfig.deleted);
+  const isLatestVersionDeleted =
+    extendedAlertConfigVersions.length > 0 && extendedAlertConfigVersions[0].changeSummary.changeType === 'DELETE';
   const isNotLatestRevision = alertRevision.created < extendedAlertConfigVersions[0].created;
 
   const [errorMessage, setErrorMessage] = useState(null);
@@ -161,7 +162,7 @@ export default function AlertHeader({
             {t('in-alerting:components.alertHeaderAlert')}
           </Pill>
 
-          {extendedAlertConfigVersions.length > 1 && (
+          {extendedAlertConfigVersions.length > 0 && (
             <>
               <RevisionDropdown
                 alertConfigVersions={extendedAlertConfigVersions}
@@ -177,12 +178,8 @@ export default function AlertHeader({
             </>
           )}
 
-          {alertConfig.readOnly && !isDeletedConfig && (
-            <Tooltip
-              content={t('in-alerting:components.alertHeaderRestoreRevisionTooltip', {
-                description: alertRevision.description
-              })}
-            >
+          {alertConfig.readOnly && (
+            <Tooltip content={t('in-alerting:components.alertHeaderRestoreRevisionTooltip')}>
               <IconButton
                 kind="primaryv2"
                 type="lib_actions_revert"
@@ -197,10 +194,9 @@ export default function AlertHeader({
             <>
               <Tooltip
                 content={
-                  alertConfig.enabled
-                    ? t('in-alerting:components.alertHeaderDisableTooltip')
-                    : t('in-alerting:components.alertHeaderEnableTooltip')
+                  alertConfig.enabled ? t('in-alerting:smartAlerts.disable') : t('in-alerting:smartAlerts.enable')
                 }
+                delay={500}
               >
                 <IconButton
                   kind="primaryv2"
@@ -216,10 +212,10 @@ export default function AlertHeader({
                   alignment="right"
                 />
               </Tooltip>
-              <Tooltip content={t('in-alerting:components.alertHeaderEditTooltip')}>
+              <Tooltip content={t('in-alerting:components.alertHeaderEditTooltip')} delay={500}>
                 <IconButton alignment="right" kind="primaryv2" type="lib_actions_edit" onClick={openDialog} />
               </Tooltip>
-              <Tooltip content={t('in-alerting:components.alertHeaderDuplicateTooltip')}>
+              <Tooltip content={t('in-alerting:components.alertHeaderDuplicateTooltip')} delay={500}>
                 <IconButton
                   kind="primaryv2"
                   type="lib_actions_copy"
@@ -228,7 +224,7 @@ export default function AlertHeader({
                 />
               </Tooltip>
               {!alertConfig?.builtIn && (
-                <Tooltip content={t('in-alerting:components.alertHeaderRestoreDeleteTooltip')}>
+                <Tooltip content={t('in-alerting:components.alertHeaderRestoreDeleteTooltip')} delay={500}>
                   <IconButton
                     kind="primaryv2"
                     type={isDeleting ? 'lib_actions_loading' : 'lib_actions_delete'}
@@ -263,7 +259,7 @@ export default function AlertHeader({
           )}
         </div>
       </div>
-      {isDeletedConfig && (
+      {isLatestVersionDeleted && (
         <Message
           type="warning"
           withIcon
@@ -273,7 +269,7 @@ export default function AlertHeader({
           )}
         />
       )}
-      {!isDeletedConfig && isNotLatestRevision && (
+      {!isLatestVersionDeleted && isNotLatestRevision && (
         <Message withIcon className={locals.bottomSpace}>
           <Trans
             i18nKey="in-alerting:components.alertHeaderIsNotLatestRevisionMessage"
@@ -329,13 +325,9 @@ function openRestoreConfirmationDialog(alertRevision, doRestore) {
   addActiveDialog(
     <ConfirmationDialog
       header={t('in-alerting:components.alertHeaderRestoreRevisionConfirmationDialogHeader')}
-      description={
-        <Trans
-          i18nKey="in-alerting:components.alertHeaderRestoreRevisionConfirmationDialogDescription"
-          values={{ description: alertRevision.description }}
-        />
-      }
+      description={t('in-alerting:components.alertHeaderRestoreRevisionConfirmationDialogDescription')}
       confirmButtonLabel={t('in-alerting:components.alertHeaderRestoreRevisionConfirmationDialogConfirmButton')}
+      confirmButtonKind="primary"
       onSubmit={() => {
         close();
         doRestore();

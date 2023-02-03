@@ -3,10 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { create } from '@instana/observables';
+import { Message } from '@instana/components';
 
 import PercentileMenu, {
   ALL_PERCENTILES
@@ -14,6 +15,7 @@ import PercentileMenu, {
 import LatencyChartOverlay from 'in-components/LatencyDistributionBase10Chart/components/LatencyChartOverlay';
 import PercentileMarkers from 'in-components/LatencyDistributionBase10Chart/components/PercentileMarkers';
 import HorizontalAxis from 'in-components/LatencyDistributionBase10Chart/components/HorizontalAxis';
+import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import LineChart from 'in-components/LatencyDistributionBase10Chart/components/LineChart';
 import BarChart from 'in-components/LatencyDistributionBase10Chart/components/BarChart';
 import Tooltip from 'in-components/LatencyDistributionBase10Chart/components/Tooltip';
@@ -23,6 +25,7 @@ import ChartLegend from 'in-components/Chart/components/ChartLegend';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import VerticalAxis from 'in-components/Axis/VerticalAxis';
 import { defaultTimeShift } from 'in-stores/time/shifting';
+import { noop } from 'in-services/fixedObjects';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -45,16 +48,28 @@ export default function LatencyDistributionBase10ChartPresenter({
   onSelectionChanged,
   selection,
   dataSource,
-  timeShiftConfig = defaultTimeShift
+  timeShiftConfig = defaultTimeShift,
+  title,
+  aggregation,
+  showHeader,
+  fastQueryModeEnabled,
+  setApproximateData = noop
 }) {
   // which metrics to hide on the chart
-  const filteredDataSeries$ = create();
+  const filteredDataSeriesRef = useRef(create());
+  const filteredDataSeries$ = filteredDataSeriesRef.current;
   const [filteredDataSeries, setFilteredDataSeries] = useState(new Set([]));
 
   const [percentilesShown, setPercentilesShown] = useState(ALL_PERCENTILES);
 
   const subscriptionResult = useObservable(subscription, [subscription]);
   const timeShiftSubscriptionResult = useObservable(timeShiftSubscription, [timeShiftSubscription]);
+
+  const hasApproximateData = subscriptionResult?.resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE';
+
+  useEffect(() => {
+    setApproximateData(hasApproximateData);
+  }, [hasApproximateData, setApproximateData]);
 
   const timeShiftEnabled = !!timeShiftConfig.offset;
 
@@ -72,7 +87,12 @@ export default function LatencyDistributionBase10ChartPresenter({
   ) {
     return (
       <div className={locals.container}>
-        <NoDataAvailable width={chartWidth} height={chartHeight} />
+        <Message
+          type="warning"
+          withIcon
+          title={t('in-components:chart.resultAwareChartSomethingWentWrong')}
+          description={t('in-components:chart.resultAwareChartPleaseTryAgainLater')}
+        />
       </div>
     );
   } else if (
@@ -166,19 +186,40 @@ export default function LatencyDistributionBase10ChartPresenter({
     enabledTimeShiftMetric ? getMaxCallCount(timeShiftBuckets) : 0
   );
 
+  const header = (showHeader || showPercentileMenu) && (
+    <div className={locals.header}>
+      {showHeader && (
+        <div className={locals.titleWrapper}>
+          <span className={locals.title}>
+            {title}
+            {aggregation && <span className={locals.aggregation}> ({aggregation})</span>}
+          </span>
+          {hasApproximateData && (
+            <MultiLineToolTipIcon
+              lines={[
+                fastQueryModeEnabled
+                  ? t('in-components:approximateDataIndicator.dataRetentionOrFastQueryMode')
+                  : t('in-components:approximateDataIndicator.dataRetention')
+              ]}
+              withMargin
+              iconSize="xs"
+            />
+          )}
+        </div>
+      )}
+      {showPercentileMenu && (
+        <PercentileMenu
+          percentilesShown={percentilesShown}
+          onChange={percentiles => setPercentilesShown(percentiles)}
+        />
+      )}
+    </div>
+  );
+
   return (
     <>
-      <div className={locals.header}>
-        {showLegend && <ChartLegend chart={chartConfig} />}
-        {showPercentileMenu && (
-          <div className={locals.percentileButton}>
-            <PercentileMenu
-              percentilesShown={percentilesShown}
-              onChange={percentiles => setPercentilesShown(percentiles)}
-            />
-          </div>
-        )}
-      </div>
+      {header}
+      {showLegend && <ChartLegend chart={chartConfig} />}
       <div className={locals.container} style={{ width: chartWidth }}>
         {// for consistency with other charts hide the vertical axis when no metric is selected
         (enabledMetric || enabledTimeShiftMetric) && (

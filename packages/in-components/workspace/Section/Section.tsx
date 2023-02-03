@@ -50,7 +50,14 @@ export default function Section({
           <span className={locals.titleText}>{title}</span>
         </label>
 
-        <div className={locals.content}>{children}</div>
+        <div
+          className={locals.content}
+          style={{
+            ['--titleWidth' as any]: titleWidth
+          }}
+        >
+          {children}
+        </div>
 
         {actions && <div className={locals.actions}>{actions}</div>}
       </div>

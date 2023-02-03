@@ -50,6 +50,7 @@ export default function HardwareInfo({ snapshot }) {
       <DescriptionItem title={t('in-forge:plugins.host.fqdn')}>{data.get('fqdn')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.host.machineId')}>{data.get('machineId')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.host.bootId')}>{data.get('bootId')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.host.systemId')}>{data.get('systemSerialNumber')}</DescriptionItem>
 
       {start && (
         <DescriptionItem title={t('in-forge:plugins.host.startedAt')}>

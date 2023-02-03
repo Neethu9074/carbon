@@ -4,8 +4,8 @@
  */
 
 import AutosizeInput from 'react-input-autosize';
-import React, { forwardRef } from 'react';
 import classNames from 'classnames';
+import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { Li, Ul } from '@instana/components';
@@ -58,24 +58,29 @@ function render({ inputProps, getInputProps, isOpen, openMenu, ...remainingProps
   return (
     <>
       <Tooltip content={inputValue} align={'topMiddle'} delay={300}>
-        <AutoSizeInput
-          minWidth={32}
-          inputClassName={classNames({
-            [locals.input]: true,
-            [locals.invalid]: !valid,
-            [locals.hideValidityInformationOnFocus]: hideValidityInformationOnFocus
-          })}
-          {...remainingInputProps}
-          {...getInputProps({ onFocus: openMenu })}
-          autoFocus={autoFocus}
-        />
+        {/*This div is used to attach the tooltip to AutosizeInput*/}
+        {/*We do not want to mess with passing refs down to 3rd party dependencies which could possible break in the future,*/}
+        {/*so we're using this workaround*/}
+        <div>
+          <AutosizeInput
+            minWidth={32}
+            inputClassName={classNames({
+              [locals.input]: true,
+              [locals.invalid]: !valid,
+              [locals.hideValidityInformationOnFocus]: hideValidityInformationOnFocus
+            })}
+            {...remainingInputProps}
+            {...getInputProps({ onFocus: openMenu })}
+            autoFocus={autoFocus}
+          />
+        </div>
       </Tooltip>
       {isOpen && <SuggestionsList {...remainingProps} />}
     </>
   );
 }
 
-function SuggestionsList({
+export function SuggestionsList({
   lowerCaseInputValue,
   inputValue,
   getMenuProps,
@@ -101,7 +106,10 @@ function SuggestionsList({
     item =>
       !inputValue ||
       item.toLowerCase().includes(lowerCaseInputValue) ||
-      getSuggestionLabel({ item, tagName })
+      getSuggestionLabel({
+        item,
+        tagName
+      })
         .toLowerCase()
         .includes(lowerCaseInputValue)
   );
@@ -137,7 +145,7 @@ function SuggestionsList({
             close={close}
             value={item}
           >
-            <Tooltip content={getSuggestionLabel({ item, tagName })} align={'rightMiddle'}>
+            <Tooltip content={getSuggestionLabel({ item, tagName })} align={'rightMiddle'} delay={300}>
               <span className={locals.ellipsis}>{getSuggestionLabel({ item, tagName })}</span>
             </Tooltip>
           </OverlayOption>
@@ -151,7 +159,3 @@ function SuggestionsList({
     </Ul>
   );
 }
-
-const AutoSizeInput = forwardRef(function AutoSizeInput(props, ref) {
-  return <AutosizeInput {...props} inputRef={ref} />;
-});

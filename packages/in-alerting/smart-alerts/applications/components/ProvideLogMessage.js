@@ -16,11 +16,11 @@ import {
   applicationsAlertingLogMsgSelected,
   applicationsAlertingLogOpenMsgSelectView
 } from 'in-alerting/smart-alerts/applications/tracker';
-import AlertConfigSlideInContentWrapper from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertConfigSlideInContentWrapper';
 import {
   ruleLogMessageOperatorOptions,
   ruleLogLevelOptions
 } from 'in-alerting/smart-alerts/applications/form/ruleFormData';
+import AlertConfigSlideInContentWrapper from 'in-alerting/smart-alerts/components/dialog/AlertConfigSlideInContentWrapper';
 import LogMessagesList from 'in-alerting/smart-alerts/applications/components/LogMessagesList';
 import DebouncedTextArea from 'in-components/form/TextArea/DebouncedTextArea';
 import { modeAdvanced } from 'in-alerting/smart-alerts/websites/constants';

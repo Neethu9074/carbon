@@ -18,6 +18,7 @@ import {
 import MaintenanceConfigurationForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurationForm';
 import { queryValidationResultValidator, queryValidationInProgressValidator, valid } from 'in-settings/validation';
 import { applicationIdsToDfq, parseQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
+import { cancelMaintenanceWindowTracker, submitMaintenanceWindowTracker } from 'in-settings/tracker';
 import { teamSettingsAlertingMaintenanceConfigurations } from 'in-settings/navigation/paths';
 import { formatTime, formatDate, parseDateTime } from 'in-services/formatters/date';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -48,7 +49,7 @@ export default function MaintenanceConfiguration(props) {
       createForm={config => createForm(config, !entityId)}
       getEntityFromApi={getMaintenanceConfig}
       openEntities={() => goToPath(teamSettingsAlertingMaintenanceConfigurations)}
-      saveEntity={save}
+      saveEntity={(config, form) => save(config, form, !entityId)}
     />
   );
 }
@@ -100,12 +101,16 @@ const Form = entityForm(function MaintenanceForm(props) {
         loading={loading}
         isCreate={isCreate}
         listPath={teamSettingsAlertingMaintenanceConfigurations}
+        onClickCancelButton={() => {
+          cancelMaintenanceWindowTracker();
+          goToPath(teamSettingsAlertingMaintenanceConfigurations);
+        }}
       />
     </SettingsDetailPage>
   );
 });
 
-function save(config, form) {
+function save(config, form, isNew) {
   const window = form.get('window');
   const windowStart = getTime(window.get('start'));
   const windowEnd = getTime(window.get('end'));
@@ -113,6 +118,15 @@ function save(config, form) {
   // the query field might not exist in case 'Apply on ALL' is selected,
   // which corresponds to an empty query
   const query = getQueryFromFormField(form);
+
+  submitMaintenanceWindowTracker({
+    isNew,
+    windowStart: windowStart || null,
+    windowEnd: windowEnd || null,
+    query,
+    mwID: config ? config.get('id') : null,
+    name: form && form.get('name') && form.get('name').value ? form.get('name').value : null
+  }); //Mixpanel tracking
 
   return saveMaintenanceConfig(
     fromJS(
@@ -188,7 +202,7 @@ function createForm(config, isCreate) {
 }
 
 function selectedApplicationsValidator(selectedApplications) {
-  if (selectedApplications.size === 0) {
+  if (selectedApplications.length === 0) {
     return [
       {
         severity: 'error',

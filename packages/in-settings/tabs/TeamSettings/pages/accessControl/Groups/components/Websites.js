@@ -11,6 +11,8 @@ import ServerListPresenter from 'in-components/lists/List/ServerListPresenter';
 import getWebsites from 'in-websites/subscriptions/getWebsites';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { collationLanguage } from 'in-i18n';
+import Tooltip from 'in-components/Tooltip';
 
 const columnDefinitions = [
   {
@@ -22,7 +24,11 @@ const columnDefinitions = [
   },
   {
     getContent({ item }) {
-      return item.website.label;
+      return (
+        <Tooltip content={item.website.label} align="topLeft" delay={500}>
+          <div>{item.website.label}</div>
+        </Tooltip>
+      );
     }
   }
 ];
@@ -56,7 +62,8 @@ function getTableData({ page, pageSize, orderBy, orderDirection, query, timeConf
     },
     order: {
       by: orderBy,
-      direction: orderDirection
+      direction: orderDirection,
+      collation: collationLanguage
     },
     metrics: {},
     labelFilter: query,

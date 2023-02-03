@@ -6,28 +6,24 @@
 import React, { useCallback } from 'react';
 
 import { Link, SvgIcon } from '@instana/components';
-import { useObservable } from '@instana/hooks';
 
 import { FacetedSearchPresenter } from 'in-applications/analyze/AnalyzeView2_0/components/FacetedSearchPresenter';
-import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
-import AlternativeTraceDetailView from 'in-applications/analyze/AnalyzeView2_0/components_alt/TraceDetailView';
+import UngroupedViewTable, { retrievalSize } from 'in-components/AnalyzeView/UngroupedView/UngroupedViewTable';
 import QueryBuilderWorkspace from 'in-applications/analyze/AnalyzeView2_0/components/QueryBuilderWorkspace';
+import FastQueryModeToggle from 'in-applications/analyze/AnalyzeView2_0/components/FastQueryModeToggle';
 import { ChartsPresenter } from 'in-applications/analyze/AnalyzeView2_0/components/ChartsPresenter';
-import UngroupedViewTable, { retrievalSize } from 'in-components/AnalyzeView/UngroupedViewTable';
 import TraceDetailView from 'in-applications/analyze/AnalyzeView2_0/components/TraceDetailView';
-import PreviewToggle from 'in-applications/analyze/AnalyzeView2_0/components/PreviewToggle';
 import { getServerity } from 'in-applications/analyze/AnalyzeView2_0/components/utils';
 import getTraceSummary from 'in-applications/subscriptions/getTraceSummary';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import { getTypeTextByCount } from 'in-applications/analyze/metrics';
-import { traceDetailViewV2Enabled } from 'in-services/featureFlags';
 import getTraces from 'in-applications/subscriptions/getTraces';
 import getCalls from 'in-applications/subscriptions/getCalls';
 import HealthDot from 'in-components/health/HealthDot';
 import { number } from 'in-services/formatters/number';
+import { collationLanguage, t } from 'in-i18n';
 import Tooltip from 'in-components/Tooltip';
-import { t } from 'in-i18n';
 
 import locals from './Results.mless';
 
@@ -62,17 +58,18 @@ export default function Results(props) {
     Sidebar = FacetedSearchPresenter,
     dataSource,
     hiddenCalls,
-    previewEnabled,
-    onChangePreviewEnabled,
+    fastQueryModeEnabled,
+    onChangeFastQueryModeEnabled,
     withoutHeader,
     detailId
   } = props;
 
-  const isInternalVisible = useObservable(isInternalVisible$, []) || false;
-  const getData = useCallback(params => getTableData({ ...params, hiddenCalls, previewEnabled }), [
-    hiddenCalls,
-    previewEnabled
-  ]);
+  const getData = useCallback(
+    params => {
+      return getTableData({ ...params, hiddenCalls, fastQueryModeEnabled });
+    },
+    [hiddenCalls, fastQueryModeEnabled]
+  );
 
   let content = (
     <UngroupedViewTable
@@ -96,9 +93,9 @@ export default function Results(props) {
           ...(dataSource !== 'traces' && { callId: item[type].id })
         };
       }}
-      DetailView={traceDetailViewV2Enabled || isInternalVisible ? AlternativeTraceDetailView : TraceDetailView}
+      DetailView={TraceDetailView}
       getDetailData={getTraceSummary}
-      withSamplingTooltip
+      dataSource={dataSource}
       hideMetricAndSortingConfigurator
       withOverflow
     />
@@ -108,7 +105,10 @@ export default function Results(props) {
     content = (
       <QueryBuilderWorkspace
         CustomAction={() => (
-          <PreviewToggle previewEnabled={previewEnabled} onChangePreviewEnabled={onChangePreviewEnabled} />
+          <FastQueryModeToggle
+            fastQueryModeEnabled={fastQueryModeEnabled}
+            onChangeFastQueryModeEnabled={onChangeFastQueryModeEnabled}
+          />
         )}
         {...props}
       >
@@ -120,22 +120,39 @@ export default function Results(props) {
   return content;
 }
 
-function getTableData({ timeConfig, backendQueryModel, orderBy, cursor, dataSource, hiddenCalls, previewEnabled }) {
+const truncateTagFilterValue = value => {
+  return value.slice(0, 512);
+};
+
+function getTableData({
+  timeConfig,
+  backendQueryModel,
+  orderBy,
+  cursor,
+  dataSource,
+  hiddenCalls,
+  fastQueryModeEnabled
+}) {
   const { includeSynthetic = false, includeInternal = false } = hiddenCalls;
   const getData = getDataPerDataSource[dataSource];
+  backendQueryModel?.elements?.forEach(element => {
+    if (element.value?.length > 512) {
+      element.value = truncateTagFilterValue(element.value);
+    }
+  });
   return getData({
     pagination: {
       cursor,
       retrievalSize
     },
-    order: orderBy,
+    order: { ...orderBy, collation: collationLanguage },
     tagFilterExpression: backendQueryModel,
     filter: {
       timeConfig: timeConfig
     },
     includeSynthetic,
     includeInternal,
-    queryPrecision: previewEnabled ? 'APPROXIMATE' : 'FULL'
+    queryPrecision: fastQueryModeEnabled ? 'APPROXIMATE' : 'FULL'
   });
 }
 

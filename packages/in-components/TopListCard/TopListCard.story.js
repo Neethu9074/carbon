@@ -147,7 +147,47 @@ export function EndpointsLoadedSuccessfully() {
   );
 }
 
-function TopListItem({ title = 'Top Something', result }) {
+export function WithApproximateData() {
+  return (
+    <TopListItem
+      title="Top Endpoints"
+      result={{
+        progress: {
+          loading: false
+        },
+        errors: [],
+        data: {
+          items: [
+            {
+              label: 'productdb',
+              metrics: {
+                metric: [[0, 234]]
+              }
+            },
+            {
+              label: 'shop',
+              metrics: {
+                metric: [[0, 128]]
+              }
+            },
+            {
+              label: 'recommendations',
+              metrics: {
+                metric: [[0, 64]]
+              }
+            }
+          ],
+          page: 1,
+          pageSize: 5,
+          totalHits: 3
+        }
+      }}
+      renderHistoricDataIndicator
+    />
+  );
+}
+
+function TopListItem({ title = 'Top Something', result, renderHistoricDataIndicator }) {
   return (
     <TopListCardPresenter
       title={title}
@@ -160,6 +200,8 @@ function TopListItem({ title = 'Top Something', result }) {
       ViewAll={ViewAll}
       Label={Label}
       Metric={Metric}
+      renderHistoricDataIndicator={renderHistoricDataIndicator}
+      config={{ metricConfiguration: { grouping: [{ maxResults: 5 }] } }}
     />
   );
 }

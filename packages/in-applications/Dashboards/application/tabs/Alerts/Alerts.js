@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useLocation } from 'react-router';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -15,10 +14,11 @@ import {
   filtersColumnDefinition,
   editActionsColumnDefinition,
   linkedListNameColumnDefinition
-} from 'in-alerting/smart-alerts/applications/components/list/columns/columnDefinitions';
+} from 'in-alerting/smart-alerts/applications/list/columns/columnDefinitions';
 import { getAllGlobalAlertConfigsRelatedToApplicationId } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
-import SmartAlertsBaseListWithUrlState from 'in-alerting/smart-alerts/applications/components/list/SmartAlertsBaseListWithUrlState';
+import SmartAlertsBaseListWithUrlState from 'in-alerting/smart-alerts/applications/list/SmartAlertsBaseListWithUrlState';
 import { getAllAlertConfigs } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import Footer from 'in-components/Footer/Footer';
 
 export default function Alerts({ applicationId }) {

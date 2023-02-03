@@ -4,7 +4,7 @@
  */
 
 import { Redirect } from 'react-router-dom';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { interval, just } from '@instana/observables';
 import { SvgIcon } from '@instana/components';
@@ -42,24 +42,42 @@ export default connectTo(
     };
   },
   function NewApplicationWaiter({ result, label }) {
+    const [hasRbacErrors, setHasRbacErrors] = useState(false);
+
     if (typeof result === 'string') {
       return <Redirect to={result.substring(2)} />;
+    } else {
+      if (!hasRbacErrors && result?.errors?.map(e => e.code).includes('AUTH')) {
+        setHasRbacErrors(true);
+      }
     }
+
+    const title = hasRbacErrors
+      ? t('in-applications:forms.newApplication.titleApplicationCreatingUnauthorized')
+      : t('in-applications:forms.newApplication.titleApplicationCreating');
 
     return (
       <FullHeightWrapper
         render={() => (
           <div className={locals.wrapper}>
             <SvgIcon className={locals.icon} type="lib_application" size="xxl" />
-            <h1 className={locals.title}>{t('in-applications:forms.newApplication.titleApplicationCreating')}</h1>
+            <h1 className={locals.title}>{title}</h1>
             <p className={locals.text}>
-              <Trans
-                i18nKey="in-applications:forms.newApplication.descriptionPrepareToMonitor"
-                values={{ decodedLabel: decodeURIComponent(label) }}
-                components={{ bold: <strong /> }}
-              />
+              {hasRbacErrors ? (
+                <Trans
+                  i18nKey={'in-applications:forms.newApplication.prepareToMonitorUnauthorized'}
+                  values={{ decodedLabel: decodeURIComponent(label) }}
+                  components={{ bold: <strong /> }}
+                />
+              ) : (
+                <Trans
+                  i18nKey={'in-applications:forms.newApplication.descriptionPrepareToMonitor'}
+                  values={{ decodedLabel: decodeURIComponent(label) }}
+                  components={{ bold: <strong /> }}
+                />
+              )}
             </p>
-            <SvgIcon spinning type="lib_actions_loading" size="l" className={locals.loadingIcon} />
+            {!hasRbacErrors && <SvgIcon spinning type="lib_actions_loading" size="l" className={locals.loadingIcon} />}
           </div>
         )}
       />

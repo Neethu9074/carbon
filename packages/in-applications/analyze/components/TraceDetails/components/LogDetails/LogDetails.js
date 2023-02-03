@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Card, SvgIcon } from '@instana/components';
+import { Card, Stack, SvgIcon } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import AnalyzeLogsButton from 'in-applications/analyze/components/TraceDetails/components/LogDetails/components/AnalyzeLogsButton';
@@ -14,8 +14,8 @@ import LoadingCallDetails from 'in-applications/analyze/components/TraceDetails/
 import LogStackTrace from 'in-applications/analyze/components/TraceDetails/components/LogDetails/LogStackTrace';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import LogMessage from 'in-logging/analyze/AnalyzeView/components/LogMessage';
+import { getSpanIdTagFilter, logTableTags } from 'in-logging/queryBuilder';
 import { hasError, isLoading } from 'in-services/util/result';
-import { getSpanIdTagFilter } from 'in-logging/queryBuilder';
 import ExpandableGroup from 'in-components/ExpandableGroup';
 import { pendingResult } from 'in-services/fixedObjects';
 import getLog from 'in-logging/subscriptions/getLog';
@@ -33,13 +33,15 @@ function LogDetailsWithNoAccess({ onClose }) {
   return (
     <aside className={locals.logDetails}>
       <Card title={t('in-analyze:logDetails.title')} header={<CloseButton onClick={onClose} />}>
-        <ExpandableGroup title="Message" defaultExpanded>
-          {t('in-analyze:logDetails.restrictedAccessExpl')}
-        </ExpandableGroup>
+        <Stack direction="vertical" gap="normal">
+          <ExpandableGroup title="Message" defaultExpanded>
+            {t('in-analyze:logDetails.restrictedAccessExpl')}
+          </ExpandableGroup>
 
-        <ExpandableGroup title={t('in-analyze:logDetails.titleTags')}>
-          {t('in-analyze:logDetails.restrictedAccessExpl')}
-        </ExpandableGroup>
+          <ExpandableGroup title={t('in-analyze:logDetails.titleTags')}>
+            {t('in-analyze:logDetails.restrictedAccessExpl')}
+          </ExpandableGroup>
+        </Stack>
       </Card>
     </aside>
   );
@@ -51,7 +53,11 @@ function LogDetails(props) {
   const logResult =
     useObservable(
       () =>
-        getLog({ itemId: selectedLogIdPair.logId, tagFilterExpression: getSpanIdTagFilter(selectedLogIdPair.spanId) }),
+        getLog({
+          itemId: selectedLogIdPair.logId,
+          tagFilterExpression: getSpanIdTagFilter(selectedLogIdPair.spanId),
+          requestedTags: logTableTags
+        }),
       [selectedLogIdPair.logId, selectedLogIdPair.spanId]
     ) ?? pendingResult;
 
@@ -80,23 +86,25 @@ function LogDetails(props) {
   return (
     <aside className={locals.logDetails}>
       <Card title={t('in-analyze:logDetails.title')} header={<CloseButton onClick={onClose} />}>
-        <ExpandableGroup title="Message" defaultExpanded>
-          <LogMessage {...log} />
-        </ExpandableGroup>
-
-        <ExpandableGroup title={t('in-analyze:logDetails.titleTags')}>
-          <SidebarTagList tags={tags} />
-        </ExpandableGroup>
-
-        {parameterTags.length > 0 && (
-          <ExpandableGroup title={t('in-analyze:logDetails.titleParameters')}>
-            <SidebarTagList tags={parameterTags} />
+        <Stack direction="vertical" gap="normal">
+          <ExpandableGroup title="Message" defaultExpanded>
+            <LogMessage {...log} />
           </ExpandableGroup>
-        )}
 
-        <LogStackTrace log={log} />
+          <ExpandableGroup title={t('in-analyze:logDetails.titleTags')}>
+            <SidebarTagList tags={tags} />
+          </ExpandableGroup>
 
-        <AnalyzeLogsButton log={log} />
+          {parameterTags.length > 0 && (
+            <ExpandableGroup title={t('in-analyze:logDetails.titleParameters')}>
+              <SidebarTagList tags={parameterTags} />
+            </ExpandableGroup>
+          )}
+
+          <LogStackTrace log={log} />
+
+          <AnalyzeLogsButton log={log} />
+        </Stack>
       </Card>
     </aside>
   );

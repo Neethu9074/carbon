@@ -34,13 +34,15 @@ export default React.forwardRef(function ActiveGroupingConfiguration(
     fieldsToWatch: [autoFocus]
   });
   const timeConfig = useTimeConfig();
+
+  const tagTreeNode = getTagTreeNode({groupbyTag, groupbyTagSecondLevelKey, tagCatalog});
+
   const result = useDebouncedValue(
     groupbyTagSecondLevelKey,
-    v => onChange({ groupbyTagEntity, groupbyTag, groupbyTagSecondLevelKey: v }),
+    v => onChange({ groupbyTagEntity, groupbyTag, groupbyTagSecondLevelKey: v, tagType: tagTreeNode.type }),
     500
   );
 
-  const tagTreeNode = tagCatalog.tagsByName[groupbyTag];
   const path = tagTreeNode?.path;
 
   if (!path) {
@@ -49,10 +51,12 @@ export default React.forwardRef(function ActiveGroupingConfiguration(
 
   return (
     <div className={locals.groupingConfigurator} ref={ref}>
-      {tagTreeNode.canApplyToSource && tagTreeNode.canApplyToDestination && (
+      {(tagTreeNode.canApplyToSource || tagTreeNode.canApplyToDestination) && (
         <Entity
           groupbyTagEntity={groupbyTagEntity}
           onChange={groupbyTagEntity => onChange({ groupbyTagEntity, groupbyTag, groupbyTagSecondLevelKey })}
+          sourceEnabled={tagTreeNode.canApplyToSource}
+          destinationEnabled={tagTreeNode.canApplyToDestination}
         />
       )}
 
@@ -117,3 +121,13 @@ export default React.forwardRef(function ActiveGroupingConfiguration(
     </div>
   );
 });
+
+// if a tag is no longer available, we need to still show an editable field
+function getTagTreeNode({groupbyTag, groupbyTagSecondLevelKey, tagCatalog}) {
+  const fallbackTag = groupbyTag + '.' + groupbyTagSecondLevelKey;
+
+  return tagCatalog.tagsByName[groupbyTag] ?? tagCatalog.tagsByName[fallbackTag] ?? {
+    type: 'STRING',
+    path: fallbackTag.split('.').map(label => ({ label }))
+  }
+}

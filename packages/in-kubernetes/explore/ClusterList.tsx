@@ -7,7 +7,7 @@ import React from 'react';
 
 import { Card, Ul, Li } from '@instana/components';
 
-import { KubernetesListItemWithCursor } from 'in-kubernetes/subscriptions/getKubernetesExplore';
+import { KubernetesListItemWithCursor } from 'in-kubernetes/subscriptions/exploreKubernetes';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { ClusterRow } from 'in-kubernetes/explore/ClusterRow';
 import { t } from 'in-i18n';

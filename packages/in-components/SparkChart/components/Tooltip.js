@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { isEqual } from 'lodash';
+import { clamp, isEqual } from 'lodash';
 import React from 'react';
 
 import { on } from '@instana/observables';
@@ -49,12 +49,14 @@ export default class Tooltip extends React.Component {
 
       if (this.cursorHasCrossedHalfOfTheCanvas(xPositionOnCanvas)) {
         tooltipStyle = {
-          top: this.state.highlightedMoment.y,
+          // We clamp between -9 and 1 to make sure the tooltip doesn't clip through the boundary of the Li element
+          top: clamp(this.state.highlightedMoment.y, -9, 1),
           right: this.props.width - xPositionOnCanvas + tooltipToFocusedMomentMargin
         };
       } else {
         tooltipStyle = {
-          top: this.state.highlightedMoment.y,
+          // We clamp between -9 and 1 to make sure the tooltip doesn't clip through the boundary of the Li element
+          top: clamp(this.state.highlightedMoment.y, -9, 1),
           left: xPositionOnCanvas + tooltipToFocusedMomentMargin
         };
       }
@@ -69,7 +71,6 @@ export default class Tooltip extends React.Component {
         </div>
 
         <div
-          style={{ width: this.xScale.getRangeTo() - this.xScale.getRangeFrom() }}
           className={locals.glassPane}
           ref={glassPane => {
             this.glassPane = glassPane;

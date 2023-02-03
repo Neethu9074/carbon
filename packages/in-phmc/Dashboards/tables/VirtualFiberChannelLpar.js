@@ -5,21 +5,19 @@
 
 import React from 'react';
 
+import { Card } from '@instana/components';
+
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
+import { bytes, number } from 'in-services/formatters/number';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import Table from 'in-sdk/components/dashboard/Table';
-import { getRawPayload } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
+let snapshotMap = {};
 const cols = [
-  {
-    title: t('in-phmc:id'),
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return row.virtualFiberChannelAdapter.get('id');
-      }
-    }
-  },
   {
     title: t('in-phmc:wwpn'),
     type: 'string',
@@ -49,91 +47,157 @@ const cols = [
   },
   {
     title: t('in-phmc:viosId'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.virtualFiberChannelAdapter.get('viosId');
+      },
+      getContent: number.detailed
+    }
+  },
+  {
+    title: t('in-phmc:physicalLocation'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.virtualFiberChannelAdapter.get('physicalLocation');
       }
     }
   },
   {
     title: t('in-phmc:reads'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.virtualFiberChannelAdapter.get('numOfReads');
-      }
+      },
+      getContent: number.detailed
     }
   },
   {
     title: t('in-phmc:writes'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.virtualFiberChannelAdapter.get('numOfWrites');
-      }
+      },
+      getContent: number.detailed
     }
   },
   {
     title: t('in-phmc:readBytes'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.virtualFiberChannelAdapter.get('readBytes');
-      }
+      },
+      getContent: bytes.compact
     }
   },
   {
     title: t('in-phmc:writeBytes'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.virtualFiberChannelAdapter.get('writeBytes');
-      }
+      },
+      getContent: bytes.compact
     }
   },
   {
     title: t('in-phmc:transmittedBytes'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.virtualFiberChannelAdapter.get('transmittedBytes');
-      }
+      },
+      getContent: bytes.compact
     }
   },
   {
     title: t('in-phmc:runningSpeed'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.virtualFiberChannelAdapter.get('runningSpeed');
-      }
+      },
+      getContent: number.detailed
     }
   }
 ];
 
 export default connectTo(
-  ({ snapshotId }) => {
+  props => {
+    snapshotMap = props;
     return {
-      data: getRawPayload(snapshotId, 'virtualFiberChannelAdapters')
+      data: getRawPayloadWithTimestamp(props.snapshotId, 'virtualFiberChannelAdapters')
     };
   },
+
   function VirtualFiberChannelLpar({ data }) {
     if (!data) {
       return null;
     }
-    const virtualFiberChannelAdapters = data.toArray();
 
-    if (virtualFiberChannelAdapters.size === 0) {
-      return null;
-    }
-    const rows = virtualFiberChannelAdapters.map((virtualFiberChannelAdapter, idx) => {
-      return {
-        key: String(idx),
-        virtualFiberChannelAdapter
-      };
-    });
+    const { snapshotId, timeConfig } = snapshotMap;
+    const virtualFiber = data.get('raw_payload', []);
+    const rows = virtualFiber
+      .keySeq()
+      .toArray()
+      .map(key => {
+        const virtualFiberChannelAdapter = virtualFiber.get(key);
+        return {
+          key: String(key),
+          snapshotId,
+          timeConfig,
+          virtualFiberChannelAdapter
+        };
+      });
 
+    const getDetails = row => {
+      if (!snapshotMap?.timeConfig) {
+        return;
+      }
+      return (
+        <Columize>
+          <Card title={t('in-phmc:dashboards.noOfReadWrite')} useMaxAvailableHeight>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number,
+                metrics: [
+                  'virtualFiberChannelAdapters.' + row.key + '.numOfReads',
+                  'virtualFiberChannelAdapters.' + row.key + '.numOfWrites'
+                ],
+                labels: [t('in-phmc:reads'), t('in-phmc:writes')],
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </Card>
+          <Card title={t('in-phmc:dashboards.noOfByte')} useMaxAvailableHeight>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number,
+                metrics: [
+                  'virtualFiberChannelAdapters.' + row.key + '.readBytes',
+                  'virtualFiberChannelAdapters.' + row.key + '.writeBytes',
+                  'virtualFiberChannelAdapters.' + row.key + '.transmittedBytes'
+                ],
+                labels: [t('in-phmc:readBytes'), t('in-phmc:writeBytes'), t('in-phmc:transmittedBytes')],
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </Card>
+        </Columize>
+      );
+    };
     return (
       <Table
         withoutPadding
@@ -142,6 +206,7 @@ export default connectTo(
         rows={rows}
         initialSortColumn={0}
         initialSortDirection="asc"
+        getRowDetails={getDetails}
       />
     );
   }

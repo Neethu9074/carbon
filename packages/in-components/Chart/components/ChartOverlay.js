@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { create, on } from '@instana/observables';
 import classNames from 'classnames';
 import React from 'react';
+
+import { create, on } from '@instana/observables';
 
 import HighlightedTimeframeCloseButton from 'in-components/Chart/components/HighlightedTimeframeCloseButton';
 import { getNearestDataPointDomainForTimestamp } from 'in-components/Chart/data/dataSearchUtils';
@@ -27,6 +28,7 @@ export default connectTo(
     return {
       highlightedMoment: highlightedMoment$,
       localHighlightedTimeframe: chart.config.localHighlightedTimeframe$,
+      localZoomedTimeframe: chart.config.localZoomedTimeframe$,
       xScale: chart.renderScheduler.xScaleBackBuffer$.map(xScaleBackBuffer => {
         xScale.setFromScale(xScaleBackBuffer);
         xScale.shiftDomain(ANIMATION_DURATION);
@@ -85,11 +87,12 @@ export default connectTo(
 
       const xScale = this.props.xScale;
       const localHighlightedTimeframe = !this.mouseDownPos && this.props.localHighlightedTimeframe;
+      const localZoomedTimeframe = !this.mouseDownPos && this.props.localZoomedTimeframe;
 
       const nearestTimeInMetrics = this.getNearestTimeInMetrics();
       const cursorXPosition = this.getAnimationOffsetAwareXPosition(nearestTimeInMetrics);
 
-      const showTooltip = !showContextMenu && cursorXPosition;
+      const showTooltip = !showContextMenu && cursorXPosition != null;
 
       return (
         <>
@@ -101,11 +104,11 @@ export default connectTo(
               align={cursorXPosition > xScale.getRangeTo() / 2 ? 'left' : 'right'}
             />
           )}
-          {localHighlightedTimeframe && (
+          {localHighlightedTimeframe && localZoomedTimeframe && (
             <ContextMenu
               {...this.props}
               xScale={xScale}
-              highlightedTimeframe={localHighlightedTimeframe}
+              highlightedTimeframe={localZoomedTimeframe}
               immediatelyOpenContextMenu={immediatelyOpenContextMenu}
               showContextMenu={showContextMenu}
               setShowContextMenu={showContextMenu => this.setState({ showContextMenu })}
@@ -201,6 +204,14 @@ export default connectTo(
       const from = this.mouseDownDomainTime;
       const to = isSnappingEnabled ? this.snapWhileDrag(currentMousePosInDomainTime) : currentMousePosInDomainTime;
 
+      // Here we calculate the ZoomedTimeframe.
+      // To get to the ZoomedTimeframe we take the HighlightedTimeframe and add/subtract half a granularity to meet the normal granularity
+      // The reason for taking off half a granulairty is because the highlighted timeframe already have subtracted half a granularity.
+      // Example
+      // When dragging over a selection that goes from 15:15:00 to 15:20:00 we will select the next bucket.
+      // That means the selection will be 15:15:00 -> 15:21:00, this way we get the full data from the 15:20:00 bucket
+      // This is assuming the bucket size is 1min. If the size if different (30min) it will adjust with the granularity.
+      chart.config.setLocalZoomedTimeframe(from + this.granularityHalf, to + this.granularityHalf);
       chart.config.setLocalHighlightedtimeframe(from, to);
     }
 
@@ -215,12 +226,14 @@ export default connectTo(
         const currentMousePosInDomainTime = xScale.getDomain(currentMousePos);
         const nearestTimeInMetrics =
           getNearestDataPointDomainForTimestamp(config, currentMousePosInDomainTime) || currentMousePosInDomainTime;
-        const granularityHalf = chart.config.granularity / 2;
+        const to = nearestTimeInMetrics;
+        const from = nearestTimeInMetrics + chart.config.granularity;
 
-        chart.config.setLocalHighlightedtimeframe(
-          nearestTimeInMetrics - granularityHalf,
-          nearestTimeInMetrics + granularityHalf
-        );
+        // When selecting a single bucket (With clicking) we select the full bucket.
+        // 15:15:00 -> 15:16:00
+        chart.config.setLocalZoomedTimeframe(to, from);
+
+        chart.config.setLocalHighlightedtimeframe(to - this.granularityHalf, from - this.granularityHalf);
       }
 
       this.mouseDownPos = null;

@@ -237,7 +237,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
         <Row>
           <Col lg={4}>
             <WebsiteChartWrapper
-              cardTitle={t('in-websites:websiteDashboard.tabs.errors.errorCardTitlePageViews')}
+              title={t('in-websites:websiteDashboard.tabs.errors.errorCardTitlePageViews')}
               timeConfig={timeConfig}
               renderLegend={false}
               viewInAnalytics={viewInAnalytics}
@@ -273,7 +273,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
           </Col>
           <Col lg={4}>
             <WebsiteChartWrapper
-              cardTitle={t('in-websites:websiteDashboard.tabs.errors.errorCardTitleOccurrences')}
+              title={t('in-websites:websiteDashboard.tabs.errors.errorCardTitleOccurrences')}
               timeConfig={timeConfig}
               renderLegend={false}
               viewInAnalytics={viewInAnalytics}
@@ -302,7 +302,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
           </Col>
           <Col lg={4}>
             <WebsiteChartWrapper
-              cardTitle={t('in-websites:websiteDashboard.tabs.errors.errorCardTitleAffectedUsers')}
+              title={t('in-websites:websiteDashboard.tabs.errors.errorCardTitleAffectedUsers')}
               timeConfig={timeConfig}
               renderLegend={false}
               viewInAnalytics={viewInAnalytics}
@@ -338,6 +338,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
                 tagFilters={tagFiltersWithErrorId}
                 timeConfig={timeConfig}
                 urlMatrixParamConfig={{ path: detailsPath, paramTab: 'pagesTab' }}
+                renderHistoricDataIndicator
               />
             </Col>
           )}
@@ -349,6 +350,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
               timeConfig={timeConfig}
               pageId={pageId}
               urlMatrixParamConfig={{ path: detailsPath, paramTab: 'browserTab' }}
+              renderHistoricDataIndicator
             />
           </Col>
           <Col lg={pageId == null ? 4 : 6}>
@@ -359,6 +361,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
               timeConfig={timeConfig}
               pageId={pageId}
               urlMatrixParamConfig={{ path: detailsPath, paramTab: 'osTab' }}
+              renderHistoricDataIndicator
             />
           </Col>
         </Row>

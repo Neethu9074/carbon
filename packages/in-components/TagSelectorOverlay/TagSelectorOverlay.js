@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState, useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 
@@ -39,7 +39,7 @@ export default function TagSelectorOverlay({ tagCatalog, onChange, close, showTy
       withIcons
       options={options}
       onChange={node => {
-        onChange({ name: node.tagName });
+        onChange({ name: node.tagName, tagType: node.tagType });
         close();
       }}
       query={query}
@@ -81,12 +81,11 @@ function toOptions(tagCatalog, tagTreeNodes, parentLabels = [], showTypeBadge, q
               />
             ),
             description: tagTreeNode.description,
-            keywords: [joinedParentLabels, tagTreeNode.label, tagTreeNode.description, tagTreeNode.tagName]
-              .filter(Boolean)
-              .join(' '),
+            keywords: [joinedParentLabels, tagTreeNode.label].filter(Boolean).join(' '),
             tagName: tagTreeNode.tagName,
             icon: tagTreeNode.icon,
-            children: filteredChildren
+            children: filteredChildren,
+            tagType: tagCatalog.tagsByName?.[tagTreeNode.tagName]?.type
           };
     })
     .filter(Boolean);

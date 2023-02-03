@@ -4,6 +4,13 @@
  */
 
 .in-event-view-incident-event-list-item {
+  --time-indicator-margin-right: 0.625rem;
+  --time-indicator-width: 4rem;
+  --background-left: 0.438rem;
+  --right-max-width: calc(
+    100% - var(--time-indicator-margin-right) - var(--time-indicator-width) - var(--background-left)
+  );
+
   position: relative;
 
   display: flex;
@@ -31,9 +38,9 @@
 
   &__time-indicator {
     position: relative;
-    margin-right: 0.625rem;
-    min-width: 4rem;
-    max-width: 4rem;
+    margin-right: var(--time-indicator-margin-right);
+    min-width: var(--time-indicator-width);
+    max-width: var(--time-indicator-width);
   }
 
   &__time,
@@ -74,6 +81,7 @@
     position: relative;
 
     width: 100%;
+    max-width: var(--right-max-width);
     margin-bottom: 0.25rem;
 
     transition: background 0.25s ease-in-out;
@@ -91,7 +99,7 @@
 
   &__background {
     right: 0;
-    left: 0.438rem;
+    left: var(--background-left);
     z-index: 1;
     opacity: 0.1;
     border-radius: 0 0.25rem 0.25rem 0;

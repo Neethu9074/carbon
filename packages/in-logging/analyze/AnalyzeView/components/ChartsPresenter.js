@@ -8,7 +8,5 @@ import React from 'react';
 import LogsDistributionChartSection from 'in-logging/analyze/AnalyzeView/components/LogsDistributionChartSection';
 
 export function ChartsPresenter(props) {
-  const { isValid } = props;
-
-  return isValid && <LogsDistributionChartSection {...props} disableClose={false} hideRenderer />;
+  return <LogsDistributionChartSection {...props} disableClose={false} hideRenderer showHeader />;
 }

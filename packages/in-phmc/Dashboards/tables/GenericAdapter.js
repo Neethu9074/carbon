@@ -5,10 +5,18 @@
 
 import React from 'react';
 
+import { Card } from '@instana/components';
+
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
+import { bytes, number } from 'in-services/formatters/number';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import Table from 'in-sdk/components/dashboard/Table';
-import { getRawPayload } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
+
+let snapshotMap = {};
 
 const cols = [
   {
@@ -30,83 +38,149 @@ const cols = [
     }
   },
   {
-    title: t('in-phmc:sentPackets'),
+    title: t('in-phmc:physicalLocation'),
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.genericAdapter.get('sentPackets');
+        return row.genericAdapter.get('physicalLocation');
       }
+    }
+  },
+  {
+    title: t('in-phmc:sentPackets'),
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.genericAdapter.get('sentPackets');
+      },
+      getContent: number.detailed
     }
   },
   {
     title: t('in-phmc:recievedPackets'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.genericAdapter.get('receivedPackets');
-      }
+      },
+      getContent: number.detailed
     }
   },
   {
     title: t('in-phmc:droppedPackets'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.genericAdapter.get('droppedPackets');
-      }
+      },
+      getContent: number.detailed
     }
   },
   {
     title: t('in-phmc:sentBytes'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.genericAdapter.get('sentBytes');
-      }
+      },
+      getContent: bytes.compact
     }
   },
   {
     title: t('in-phmc:recievedBytes'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.genericAdapter.get('receivedBytes');
-      }
+      },
+      getContent: bytes.compact
     }
   },
   {
     title: t('in-phmc:transferredBytes'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.genericAdapter.get('transferredBytes');
-      }
+      },
+      getContent: bytes.compact
     }
   }
 ];
 
 export default connectTo(
-  ({ snapshotId }) => {
+  props => {
+    snapshotMap = props;
     return {
-      data: getRawPayload(snapshotId, 'genericAdapters')
+      data: getRawPayloadWithTimestamp(props.snapshotId, 'genericAdapters')
     };
   },
   function GenericAdapter({ data }) {
     if (!data) {
       return null;
     }
-    const genericAdapters = data.toArray();
 
-    if (genericAdapters.size === 0) {
-      return null;
-    }
-    const rows = genericAdapters.map((genericAdapter, idx) => {
-      return {
-        key: String(idx),
-        genericAdapter
-      };
-    });
+    const { snapshotId, timeConfig } = snapshotMap;
+    const genericVios = data.get('raw_payload', []);
+    const rows = genericVios
+      .keySeq()
+      .toArray()
+      .map(key => {
+        const genericAdapter = genericVios.get(key);
+        return {
+          key: String(key),
+          snapshotId,
+          timeConfig,
+          genericAdapter
+        };
+      });
 
+    const getDetails = row => {
+      if (!snapshotMap?.timeConfig) {
+        return;
+      }
+      return (
+        <Columize>
+          <Card title={t('in-phmc:dashboards.packets')} useMaxAvailableHeight>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number,
+                metrics: [
+                  'genericAdapters.' + row.key + '.sentPackets',
+                  'genericAdapters.' + row.key + '.receivedPackets',
+                  'genericAdapters.' + row.key + '.droppedPackets'
+                ],
+
+                labels: [t('in-phmc:sentPackets'), t('in-phmc:recievedPackets'), t('in-phmc:droppedPackets')],
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </Card>
+          <Card title={t('in-phmc:dashboards.bytes')} useMaxAvailableHeight>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: bytes.compact,
+                metrics: [
+                  'genericAdapters.' + row.key + '.sentBytes',
+                  'genericAdapters.' + row.key + '.receivedBytes',
+                  'genericAdapters.' + row.key + '.transferredBytes'
+                ],
+                labels: [t('in-phmc:sentBytes'), t('in-phmc:recievedBytes'), t('in-phmc:transferredBytes')],
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </Card>
+        </Columize>
+      );
+    };
     return (
       <Table
         withoutPadding
@@ -115,6 +189,7 @@ export default connectTo(
         rows={rows}
         initialSortColumn={0}
         initialSortDirection="asc"
+        getRowDetails={getDetails}
       />
     );
   }

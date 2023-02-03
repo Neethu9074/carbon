@@ -7,8 +7,8 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
+import { constructLink } from 'in-integrations/logging/logdna/LinkConstruction';
 import { jumpToLogDna } from 'in-integrations/logging/logdna/tracker';
-import { toParams } from 'in-stores/navigation/routing/stringifier';
 import { isBlank } from 'in-services/util/string';
 
 export default function LogDnaButton(props) {
@@ -24,7 +24,12 @@ export default function LogDnaButton(props) {
       kind="secondary"
       icon="lib_logdna"
       target="_blank"
-      href={constructLink(integration, props)}
+      href={constructLink(
+        getQueryParameters(props),
+        integration.instanceType,
+        integration.accountId,
+        integration.baseUrl
+      )}
       onClick={() => jumpToLogDna()}
     >
       LogDNA
@@ -32,7 +37,7 @@ export default function LogDnaButton(props) {
   );
 }
 
-function constructLink(integration, props) {
+export function getQueryParameters(props) {
   const { timeConfig } = props;
   const queryParameters = {
     hosts: serializeHosts(props)
@@ -41,21 +46,17 @@ function constructLink(integration, props) {
   if (timeConfig.to) {
     queryParameters.t = new Date(timeConfig.to).toISOString();
   }
-
-  return integration.instanceType === 'LOG_DNA_SAAS'
-    ? `https://app.logdna.com/${integration.accountId}/logs/view${toParams(queryParameters, '?', '&')}`
-    : `https://cloud.ibm.com/observe/embedded-view/logging/${integration.accountId}${toParams(
-        queryParameters,
-        '?',
-        '&'
-      )}`;
+  return queryParameters;
 }
 
-function serializeHosts({ hostName }) {
+function serializeHosts({ hostName, hostFqdn }) {
   let query = '';
 
   if (hostName) {
     query = hostName;
+  }
+  if (!isBlank(hostFqdn)) {
+    query += ',' + hostFqdn;
   }
 
   return query.trim();

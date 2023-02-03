@@ -3,20 +3,28 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createViolationsInSequenceForm } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/form';
-import { timeThresholdTypes } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/formData';
+import { Field, MapForm } from 'formalistic';
+
+import { WebsiteAlertRule } from '@instana/types';
+
 // @ts-expect-error file will need to be converted to typescript
 import { removeExcludedFilters } from 'in-alerting/smart-alerts/components/utils/tagfilterExpressionUtils';
-import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { createViolationsInSequenceForm } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
+import { timeThresholdTypes } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/formData';
 import { getBlueprintConfig, WebsitesAlertType } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
-import createThresholdForm from 'in-alerting/smart-alerts/websites/form/thresholdForm';
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
-import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import createThresholdForm from 'in-alerting/smart-alerts/websites/form/thresholdForm';
 import createRuleForm from 'in-alerting/smart-alerts/websites/form/ruleForm';
-import { Field, MapForm } from 'formalistic';
-import { AdaptiveBaselineConfig, HistoricBaselineConfig, StaticThresholdConfig, ThresholdConfig } from 'in-types';
+import { HistoricBaselineConfig, StaticThresholdConfig } from 'in-types';
 
-export default function createBlueprintForm(form: MapForm, alertType: WebsitesAlertType, alertThreshold = {}) {
+export default function createBlueprintForm(
+  form: MapForm,
+  alertType: WebsitesAlertType,
+  alertThreshold = {},
+  isSimpleMode: boolean
+) {
   const threshold = (form.get('threshold') as MapForm).toJS();
   const tagFilterExpression = (form.get('tagFilterExpression') as Field<FormModelElement[]>).value;
 
@@ -26,19 +34,21 @@ export default function createBlueprintForm(form: MapForm, alertType: WebsitesAl
     {
       ...threshold,
       ...alertThreshold,
-      type: blueprintConfig.baselineEnabled ? threshold.type : STATIC_THRESHOLD
-    } as ThresholdConfig | HistoricBaselineConfig | StaticThresholdConfig | AdaptiveBaselineConfig,
+      // In simple mode, user does not have a choice to change threshold type, so we need to set it to HISTORIC_BASELINE
+      // when user select a blueprint which has baseline enabled!
+      type: blueprintConfig.baselineEnabled ? (isSimpleMode ? HISTORIC_BASELINE : threshold.type) : STATIC_THRESHOLD
+    } as HistoricBaselineConfig | StaticThresholdConfig,
     // while the alertType and the Type of thresholdConfig are not combined in a parent Alert Config, this is
     // currently a too complicated typing, and will need further refactoring and improving!
     alertType
-  )!;
+  );
 
   const metricName = blueprintConfig.defaultMetric;
   const newRuleForm = createRuleForm({
-    ...(form.get('rule') as MapForm)
+    ...((form.get('rule') as MapForm)
       .remove('operator')
       .remove('value')
-      .toJS(),
+      .toJS() as WebsiteAlertRule),
     alertType,
     metricName
   });

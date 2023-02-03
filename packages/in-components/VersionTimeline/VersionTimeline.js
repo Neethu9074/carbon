@@ -35,7 +35,9 @@ export default function VersionTimeline({ onVersionClick, getTooltip, from, to, 
               <Fragment key={i}>
                 <Tooltip
                   themeStyle="light"
-                  content={<TooltipContent from={from} to={to} getTooltip={getTooltip} version={version} />}
+                  content={
+                    <TooltipContent from={version.from} to={version.to} getTooltip={getTooltip} version={version} />
+                  }
                   align={getTooltipAlign(left)}
                 >
                   <div
@@ -58,7 +60,7 @@ export default function VersionTimeline({ onVersionClick, getTooltip, from, to, 
           <EndingGap lastVersion={versions[versions.length - 1]} scale={scale} />
         </>
       )}
-      <HorizontalTimeAxis tickLineColor={theme.lib.colors.N600Light} scale={{ from, to }} width={width} />
+      {width && <HorizontalTimeAxis tickLineColor={theme.lib.colors.N600Light} scale={{ from, to }} width={width} />}
     </div>
   );
 }

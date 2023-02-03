@@ -4,6 +4,7 @@
  */
 
 import { number, seconds, micros, percentage } from 'in-services/formatters/number';
+import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { t } from 'in-i18n';
 
 export default [
@@ -47,17 +48,36 @@ export default [
     formatter: micros
   },
   {
-    metrics: ['lastResetTime'],
-    labels: [t('in-forge:plugins.ibmMqQueue.lastResetTime')],
-    min: 0,
-    category: [t('in-forge:plugins.ibmMqQueue.reset')],
-    formatter: seconds
-  },
-  {
     metrics: ['openInputCount', 'openOutputCount'],
     labels: [t('in-forge:plugins.ibmMqQueue.openInputCount'), t('in-forge:plugins.ibmMqQueue.openOutputCount')],
     min: 0,
     category: [t('in-forge:plugins.ibmMqQueue.calls')],
     formatter: number
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('statistics', 'nonPersistentPutBytes', t('in-forge:plugins.ibmMqQueue.statisticsRecord')),
+      getDynamicMetricMatch('statistics', 'persistentPutBytes', t('in-forge:plugins.ibmMqQueue.statisticsRecord')),
+      getDynamicMetricMatch('statistics', 'putFailCount', t('in-forge:plugins.ibmMqQueue.statisticsRecord')),
+      getDynamicMetricMatch('statistics', 'put1FailCount', t('in-forge:plugins.ibmMqQueue.statisticsRecord')),
+      getDynamicMetricMatch('statistics', 'nonPersistentGetBytes', t('in-forge:plugins.ibmMqQueue.statisticsRecord')),
+      getDynamicMetricMatch('statistics', 'persistentGetBytes', t('in-forge:plugins.ibmMqQueue.statisticsRecord')),
+      getDynamicMetricMatch('statistics', 'getFailCount', t('in-forge:plugins.ibmMqQueue.statisticsRecord')),
+      getDynamicMetricMatch('statistics', 'expiredMsgCount', t('in-forge:plugins.ibmMqQueue.statisticsRecord'))
+    ],
+    labels: [
+      t('in-forge:plugins.ibmMqQueue.nonPersistentPutBytes'),
+      t('in-forge:plugins.ibmMqQueue.persistentPutBytes'),
+      t('in-forge:plugins.ibmMqQueue.putFailCount'),
+      t('in-forge:plugins.ibmMqQueue.put1FailCount'),
+      t('in-forge:plugins.ibmMqQueue.nonPersistentGetBytes'),
+      t('in-forge:plugins.ibmMqQueue.persistentGetBytes'),
+      t('in-forge:plugins.ibmMqQueue.getFailCount'),
+      t('in-forge:plugins.ibmMqQueue.expiredMsgCount')
+    ],
+    min: 0,
+    category: [t('in-forge:plugins.ibmMqQueue.statistics')],
+    formatter: number
   }
 ];
+

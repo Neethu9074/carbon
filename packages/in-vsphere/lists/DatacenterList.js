@@ -12,7 +12,7 @@ import InfrastructureMetricSparkChart from 'in-components/SparkChart/Infrastruct
 import { getVSphereDatacentersWithDefaults } from 'in-vsphere/subscriptions/getVsphereDatacenters';
 import VSphereNoDataNotification from 'in-vsphere/lists/components/VSphereNoDataNotification';
 import { bytesPerSecondZeroDecimalPlaces, percentage } from 'in-services/formatters/number';
-import { datacenterList, getVsphereDatacenterDashboard } from 'in-vsphere/navigation/paths';
+import { datacenterList, useVspehereEntityLink } from 'in-vsphere/navigation/paths';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -25,15 +25,17 @@ import { t } from 'in-i18n';
 const pathSegment = datacenterList;
 const matrixPrefix = 'datacenter.';
 
+const VsphereDatacenterLink = ({ label, id }) => {
+  const getVsphereDatacenterDashboard = useVspehereEntityLink('datacenter');
+
+  return <EntityLink label={label} href$={getVsphereDatacenterDashboard(id)} icon="lib_vsphere_datacenter" />;
+};
+
 const columnDefinitions = [
   {
     id: 'label',
     label: t('in-vsphere:name'),
-    getContent(item) {
-      return (
-        <EntityLink label={item.label} href$={getVsphereDatacenterDashboard(item.id)} icon="lib_vsphere_datacenter" />
-      );
-    }
+    getContent: VsphereDatacenterLink
   },
   {
     id: 'hosts',
@@ -119,7 +121,7 @@ export default connectTo(
 
         <WithEmptyStateFallback
           getHasDataToRender={getHasDataToRender}
-          FallbackComponent={<VSphereNoDataNotification icon="lib_vsphere" />}
+          FallbackComponent={() => <VSphereNoDataNotification icon="lib_vsphere" />}
         >
           <ServerTableWithUrlState get={getTableData} timeConfig={timeConfig} />
         </WithEmptyStateFallback>
