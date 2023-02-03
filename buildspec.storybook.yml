@@ -5,13 +5,13 @@ env:
     CODEBUILD_PROJECT_NAME: "ui-client-storybook"
     RUN_UI_STORYBOOK_TEST: "false"
   parameter-store:
-    INSTANA_ARTIFACTORY_USERNAME: 'delivery.instana.io.internal.rw.username'
-    INSTANA_ARTIFACTORY_PASSWORD: 'delivery.instana.io.internal.rw.password'
     AWS_ACCESS_KEY_ID: "s3.devinfra.access.key.id"
     AWS_SECRET_ACCESS_KEY: "s3.devinfra.secret.access.key"
     CHROMATIC_PROJECT_TOKEN: "ui_client.chromatic.project.token"
     CONTAINERS_INSTANA_IO_PASSWORD: "containers.instana.io.password"
     CONTAINERS_INSTANA_IO_USER: "containers.instana.io.user"
+    INSTANA_ARTIFACTORY_USERNAME: "delivery.instana.io.internal.rw.username"
+    INSTANA_ARTIFACTORY_PASSWORD: "delivery.instana.io.internal.rw.password"
     EFS_DATA_DIR: "efs.data.dir"
     EFS_DNS: "efs.data.dns"
     GITHUB_API_TOKEN: "ibm.github.e.api.token"

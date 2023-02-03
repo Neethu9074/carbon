@@ -65,7 +65,7 @@ function _get_component_tar_gz {
       popd
   else
       _log_info "Downloading ${COMPONENT_TAR_GZ_URL} into ${COMPONENT_WORK_DIR}"
-      curl -u ${ARTIFACT_RND_INSTANA_IO_USER}:${ARTIFACT_RND_INSTANA_IO_PASSWORD} ${COMPONENT_TAR_GZ_URL} \
+      curl -u ${INSTANA_ARTIFACTORY_USERNAME}:${INSTANA_ARTIFACTORY_PASSWORD} ${COMPONENT_TAR_GZ_URL} \
            --keepalive-time 5 \
            --output "${COMPONENT_WORK_DIR}/${COMPONENT_NAME}.tar.gz"
   fi
@@ -130,7 +130,7 @@ function _run_docker_build {
 
 function _scan_image() {
   local TAG=$1
-  local INSTANA_TWISTCLI_VERSION='1.1.4'
+  local INSTANA_TWISTCLI_VERSION='1.1.5'
   _log_info "Triggering scan for image ${TAG} with instana-twistcli ${INSTANA_TWISTCLI_VERSION}"
 
   if [[ -f ${COMPONENT_TWISTLOCK_IGNOREFILE} ]]; then
