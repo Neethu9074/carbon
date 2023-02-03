@@ -69,7 +69,7 @@ export default function ServerTablePresenterWrapper<VALUETYPE>({
   };
   const deleteRowColumn = {
     id: 'deleteRow',
-    width: '5',
+    width: '8',
     sortable: false,
     label: '',
     getContent(item: ListItem<VALUETYPE>) {
@@ -89,6 +89,7 @@ export default function ServerTablePresenterWrapper<VALUETYPE>({
       getRowProps={getRowProps}
       result={result}
       page={0}
+      fixedLayout
       orderBy="id"
       orderDirection="ASC"
       pageSize={result?.data?.pageSize ?? 0}

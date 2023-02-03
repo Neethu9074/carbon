@@ -17,6 +17,7 @@
   }
 
   .controls {
+    justify-content: center;
     display: flex;
     align-items: center;
     height: 2rem;
