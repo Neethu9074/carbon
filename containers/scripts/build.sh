@@ -65,7 +65,7 @@ function _get_component_tar_gz {
       popd
   else
       _log_info "Downloading ${COMPONENT_TAR_GZ_URL} into ${COMPONENT_WORK_DIR}"
-      curl -u ${ARTIFACT_RND_INSTANA_IO_USER}:${ARTIFACT_RND_INSTANA_IO_PASSWORD} ${COMPONENT_TAR_GZ_URL} \
+      curl -u ${INSTANA_ARTIFACTORY_USERNAME}:${INSTANA_ARTIFACTORY_PASSWORD} ${COMPONENT_TAR_GZ_URL} \
            --keepalive-time 5 \
            --output "${COMPONENT_WORK_DIR}/${COMPONENT_NAME}.tar.gz"
   fi
@@ -106,11 +106,11 @@ function _run_docker_build {
   local REGISTRY_PASSWORD
 
   if [[ ${ARTIFACT_VERSION} == 'local' ]]; then
-    REGISTRY_AUTH=$(yarn config get '//artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/:_auth' | base64 -d)
+    REGISTRY_AUTH=$(yarn config get '//delivery.instana.io/artifactory/api/npm/int-npm-virtual/:_auth' | base64 -d)
     IFS=':' read -r REGISTRY_USERNAME REGISTRY_PASSWORD <<< "$REGISTRY_AUTH"
   else
-    REGISTRY_USERNAME=${ARTIFACT_RND_INSTANA_IO_USER}
-    REGISTRY_PASSWORD=${ARTIFACT_RND_INSTANA_IO_PASSWORD}
+    REGISTRY_USERNAME=${INSTANA_ARTIFACTORY_USERNAME}
+    REGISTRY_PASSWORD=${INSTANA_ARTIFACTORY_PASSWORD}
   fi
 
   docker build \
@@ -119,8 +119,8 @@ function _run_docker_build {
     --build-arg image_version=${DESIRED_IMAGE_VERSION} \
     --build-arg branch=${BRANCH_NAME} \
     --build-arg commit_id=${COMMIT_ID} \
-    --build-arg registry='https://artifact-rnd.instana.io' \
-    --build-arg repository_key='npm-virtual-internal' \
+    --build-arg registry='https://delivery.instana.io' \
+    --build-arg repository_key='int-npm-virtual' \
     --build-arg registry_username=${REGISTRY_USERNAME} \
     --build-arg registry_password=${REGISTRY_PASSWORD} \
     -f ${PATH_TO_CONTAINER_FILE} \
@@ -130,7 +130,7 @@ function _run_docker_build {
 
 function _scan_image() {
   local TAG=$1
-  local INSTANA_TWISTCLI_VERSION='1.1.4'
+  local INSTANA_TWISTCLI_VERSION='1.1.5'
   _log_info "Triggering scan for image ${TAG} with instana-twistcli ${INSTANA_TWISTCLI_VERSION}"
 
   if [[ -f ${COMPONENT_TWISTLOCK_IGNOREFILE} ]]; then

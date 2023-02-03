@@ -13,6 +13,7 @@ def archiveName         = null
 def latestReleaseBranch = null
 def backendComponents   = null
 def uiClientComponents  = null
+def backendRepoPath     = null
 
 void setBuildStatus(String message, String state) {
   def commitSha = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
@@ -154,12 +155,17 @@ pipeline {
             timestamps {
               script {
                 if (isDeliveryBranch) {
-                  rebuildBackend(backendComponents, branchName, instanaUiClientVersion, instanaImageVersion)
+                   backendRepoPath = "delivery.instana.io/int-docker-backend-local/backend"
+                } else {
+                   backendRepoPath = "delivery.instana.io/int-docker-backend-local/backend/dev/${branchName}"
+                }
+                if (isDeliveryBranch) {
+                  rebuildBackend(backendComponents, branchName, instanaUiClientVersion, instanaImageVersion, backendRepoPath)
                 }
               }
             }
           }
-          milestone(label: "Retag ui-client images", ordinal: null)
+          milestone(label: "Retag backend images", ordinal: null)
         }
       }
     }
@@ -272,7 +278,7 @@ def markStableImageVersions(branchName, instanaImageVersion) {
 
 // Keep image tags for backend and ui-client in-sync as instanactl only accepts a single version
 // and expects all components to have an image with that version
-def rebuildBackend(backendComponents, branchName, instanaUiClientVersion, instanaImageVersion) {
+def rebuildBackend(backendComponents, branchName, instanaUiClientVersion, instanaImageVersion, backendRepoPath) {
   try {
     waitForStableBackendVersions(branchName)
     def backendStableVersion =
@@ -281,15 +287,18 @@ def rebuildBackend(backendComponents, branchName, instanaUiClientVersion, instan
 
     def rebuildBackendComponents = [:]
     backendComponents.each {
-        def currentBackendTag = "containers.instana.io/instana/${branchName}/product/${it}:${backendStableImageVersion}"
-        def newBackendTag = "containers.instana.io/instana/${branchName}/product/${it}:${instanaImageVersion}"
+        def currentBackendTag = "${backendRepoPath}/${it}:${backendStableImageVersion}"
+        def newBackendTag = "${backendRepoPath}/${it}:${instanaImageVersion}"
         rebuildBackendComponents[it] = {
-          sh """
-          ./build/ci-shared-tools/scripts/docker/imageOverride.js \
-          ${currentBackendTag} \
-          ${newBackendTag} \
-          "--build-arg current_fully_qualified_tag=${currentBackendTag} --label com.instana.image.tag=${instanaImageVersion}"
-          """
+          withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId:'delivery-instana-io-internal-project-artifact-read-writer-creds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+            sh """
+            INSTANA_ARTIFACTORY_USERNAME=$USERNAME INSTANA_ARTIFACTORY_PASSWORD=$PASSWORD \
+            ./build/ci-shared-tools/scripts/docker/imageOverride.js \
+            ${currentBackendTag} \
+            ${newBackendTag} \
+            "--build-arg current_fully_qualified_tag=${currentBackendTag} --label com.instana.image.tag=${instanaImageVersion}"
+            """
+          }
       }
     }
     parallel rebuildBackendComponents
