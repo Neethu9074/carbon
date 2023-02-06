@@ -19,7 +19,7 @@ export default function ApplicationEntityHealthIndicatorBehavior(props) {
       applicationId,
       serviceId,
       endpointId,
-      timeConfig: healthInfo?.timeConfig || timeConfig,
+      timeConfig,
       openIssues,
       maxSeverity
     }),
