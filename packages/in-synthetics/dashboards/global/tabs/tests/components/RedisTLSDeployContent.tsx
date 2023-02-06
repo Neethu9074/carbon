@@ -38,6 +38,16 @@ export default function RedisTLSDeployContent({ redisCode }: RedisTLSDeployConte
         showLineNumbers={false}
         withoutCopyButton
       />
+      <Card bodyClassName={locals.code} className={locals.primaryText}>
+        {t('in-synthetics:dashboard.testList.popDialog.tlsSecretInstructions')}
+      </Card>
+      <CodeComponent
+        wrapperClassName={locals.code}
+        code={t('in-synthetics:dashboard.testList.popDialog.tlsSecretConfigurations')}
+        lang="json"
+        showLineNumbers={false}
+        withoutCopyButton
+      />
     </>
   );
 }
