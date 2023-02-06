@@ -4,7 +4,7 @@
  */
 
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import classNames from 'classnames';
 
 import { Button, Link, Message, SvgIcon } from '@instana/components';
@@ -24,6 +24,10 @@ import {
   hasWebsitesAccess,
   hasZHMCAccess
 } from 'in-stores/permission';
+import {
+  applicationsAlertingShowDeprecationBanner,
+  applicationsAlertingMigrationBannerEvents
+} from 'in-alerting/smart-alerts/applications/tracker';
 import { MessageContentModernDesign } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
 import getLegacyAlertConfigStats from 'in-alerting/smart-alerts/subscriptions/getLegacyAlertConfigStats';
 import { isLandingPage, setLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/cockpit';
@@ -209,6 +213,12 @@ function Header() {
 }
 
 function CustomEventDeprecatedWarning({ legacyAlertConfigStats }) {
+  useEffect(() => {
+    applicationsAlertingShowDeprecationBanner();
+  }, []);
+
+  const deprecatedCustomEvents = legacyAlertConfigStats.data?.deprecatedCustomEvents;
+
   return (
     <Message type="warning" className={locals.customEventDeprecatedWarning} withIcon>
       <MessageContentModernDesign>
@@ -221,12 +231,17 @@ function CustomEventDeprecatedWarning({ legacyAlertConfigStats }) {
                   params.pathname = `${teamSettingsAlertingEvents}`;
                   setOrDeleteMatrixKey(params, events, 'type', deprecatedValue);
                 })}
+                onClick={() =>
+                  applicationsAlertingMigrationBannerEvents({
+                    deprecatedCustomEvents
+                  })
+                }
               >
                 &nbsp;
               </Link>
             )
           }}
-          values={{ count: legacyAlertConfigStats.data?.deprecatedCustomEvents }}
+          values={{ count: deprecatedCustomEvents }}
         />
       </MessageContentModernDesign>
     </Message>

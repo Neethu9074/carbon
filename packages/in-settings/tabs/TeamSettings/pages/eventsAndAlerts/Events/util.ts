@@ -124,8 +124,14 @@ export function unmapConditionValue(value: number, formatterType: FormatterType)
   return value;
 }
 
+/**
+ * Checking case-insensitively, if the given entityType is one of the AppData plugins.
+ */
 export function isDeprecatedAppDataEntityType(entityType: string): boolean {
-  return isAppDataPlugin(entityType);
+  if (entityType) {
+    return isAppDataPlugin(entityType.toLowerCase());
+  }
+  return false;
 }
 
 function formatNumber(value: number, decimalPrecision: number): number {
