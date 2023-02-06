@@ -5,10 +5,6 @@ env:
     CODEBUILD_PROJECT_NAME: 'ui-client'
     VERSIONING_ARTIFACT_NAME: 'ui-client'
   parameter-store:
-    ARTIFACT_INSTANA_IO_PASSWORD: 'artifact.instana.io.password'
-    ARTIFACT_INSTANA_IO_USER: 'artifact.instana.io.user'
-    ARTIFACT_RND_INSTANA_IO_PASSWORD: 'artifact-rnd.instana.io.maven-write-password'
-    ARTIFACT_RND_INSTANA_IO_USER: 'artifact-rnd.instana.io.maven-write-user'
     INSTANA_ARTIFACTORY_USERNAME: 'delivery.instana.io.internal.rw.username'
     INSTANA_ARTIFACTORY_PASSWORD: 'delivery.instana.io.internal.rw.password'
     CONTAINERS_INSTANA_IO_PASSWORD: 'containers.instana.io.password'
