@@ -21,12 +21,16 @@ import {
   deleteAlertConfig
 } from 'in-websites/api/websiteAlertConfig';
 import { alertCreated as alertCreatedMatrixParam, alertId as alertIdMatrixParam } from 'in-websites/navigation/matrix';
+import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
+import { STATIC_THRESHOLD, ADAPTIVE_BASELINE, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
 import { getLimitedNumberOfFilters, getFiltersCount } from 'in-alerting/smart-alerts/websites/limitedFilters';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
+import { getAggregationText } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { alertsTab, alertsTabDetailsFullyQualified } from 'in-websites/navigation/paths';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import AlertBaseList from 'in-alerting/smart-alerts/components/AlertsBaseList';
+import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { mutateUrl } from 'in-stores/navigation/navigation';
 import Tooltip from 'in-components/Tooltip/Tooltip';
@@ -77,7 +81,7 @@ export default function Alerts({ websiteId, websiteLabel }) {
             }
           }
         }
-        getSubtitle={getSubtitle}
+        getSubtitle={config => getSubtitle(config.rule, config.threshold)}
         noDataMessage={t('in-websites:websiteDashboard.tabs.alerts.alertsNoDataMessage')}
         onRowClick={config =>
           mutateUrl(location => {
@@ -162,9 +166,49 @@ function getFiltersContent(config, websiteLabel) {
   );
 }
 
-function getSubtitle(alertConfig) {
-  const alertType = alertConfig.rule.alertType;
+function getSubtitle(rule, threshold) {
+  const { alertType, aggregation, metricName } = rule;
   const blueprintConfig = getBlueprintConfig(alertType);
-  const metricLabel = blueprintConfig.getMetricLabel(alertConfig.rule.metricName);
-  return `${blueprintConfig.name}, ${metricLabel}`;
+  const metricLabel = blueprintConfig.getMetricLabel(metricName);
+  const formattedMetricLabel =
+    alertType === 'slowness' ? `${metricLabel} (${getAggregationText(aggregation)})` : metricLabel;
+
+  const { operator, seasonality, type, value } = threshold;
+  if (type === STATIC_THRESHOLD) {
+    const metricFormat = blueprintConfig.getMetricFormat(metricName);
+    const formattedValue = (metricFormat.short || metricFormat.compact)(value);
+    const humanReadableOperator = humanReadableThresholdOperator(operator);
+
+    return t('in-alerting:smartAlerts.websites.list.columns.name.subtitleForStaticThreshold', {
+      metricLabel: formattedMetricLabel,
+      operator: humanReadableOperator,
+      value: formattedValue
+    });
+  }
+
+  if (type === ADAPTIVE_BASELINE) {
+    return t('in-alerting:smartAlerts.websites.list.columns.name.subtitleForAdaptiveThreshold', {
+      metricLabel: formattedMetricLabel
+    });
+  }
+
+  if (type === HISTORIC_BASELINE) {
+    if (seasonality === DAILY) {
+      return t('in-alerting:smartAlerts.websites.list.columns.name.subtitleForStaticDailySeasonality', {
+        metricLabel: formattedMetricLabel,
+        aggregation: getAggregationText(aggregation)
+      });
+    }
+
+    return t('in-alerting:smartAlerts.websites.list.columns.name.subtitleForStaticWeeklySeasonality', {
+      metricLabel: formattedMetricLabel,
+      aggregation: getAggregationText(aggregation)
+    });
+  }
+
+  // Simple fallback, should not be needed, except when there was no type
+  return t('in-alerting:smartAlerts.websites.list.columns.name.subtitle', {
+    blueprintConfigName: blueprintConfig.name,
+    metricLabel: formattedMetricLabel
+  });
 }

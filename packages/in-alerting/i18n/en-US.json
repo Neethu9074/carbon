@@ -994,7 +994,18 @@
         "searchCustomEventButtonLabel": "Select Custom Event",
         "customEventListInfoLabel": "Showing custom events that have been triggered in the last 7 days"
       },
-      "addSmartAlert": "Add Smart Alert"
+      "addSmartAlert": "Add Smart Alert",
+      "list": {
+        "columns": {
+          "name": {
+            "subtitle": "{{blueprintConfigName}}, {{metricLabel}}",
+            "subtitleForStaticThreshold": "Static Threshold, {{metricLabel}} {{operator}} {{value}}",
+            "subtitleForStaticDailySeasonality": "Static Daily Seasonality, {{metricLabel}}",
+            "subtitleForStaticWeeklySeasonality": "Static Weekly Seasonality, {{metricLabel}}",
+            "subtitleForAdaptiveThreshold": "Adaptive Threshold, {{metricLabel}}"
+          }
+        }
+      }
     },
     "sortOptions": {
       "name": "Name",
