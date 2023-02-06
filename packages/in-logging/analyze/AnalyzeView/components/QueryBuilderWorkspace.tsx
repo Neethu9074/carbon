@@ -6,29 +6,38 @@
 import React from 'react';
 
 import { Message, Stack } from '@instana/components';
+import { TagFilter } from '@instana/types';
 
 import {
-  ua2QueryBuilderFilterAddedTracker,
+  FilterAddedTrackingPayload,
   ua2GroupChangedTracker,
-  ua2NestingDepthTracker
+  ua2NestingDepthTracker,
+  ua2QueryBuilderFilterAddedTracker
 } from 'in-applications/tracker';
 import {
-  toBackendQueryModel,
-  getMaximumExpressionDepth
+  getMaximumExpressionDepth,
+  toBackendQueryModel
 } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
 import LogsGroupingConfigurator from 'in-logging/analyze/AnalyzeView/workspace/LogsGroupingConfigurator';
+import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import LogsQueryBuilder from 'in-logging/analyze/AnalyzeView/workspace/LogsQueryBuilder';
+import { StateManagementChildProps } from 'in-components/AnalyzeView/StateManagement';
+//@ts-expect-error needs TS migration
+import Sticky from 'in-components/Sticky';
+import { QueryBuilderTrackingFunctions } from 'in-components/QueryBuilder';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import Sections from 'in-components/workspace/Sections';
 import Footer from 'in-components/Footer';
-import Sticky from 'in-components/Sticky';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
-export default function LoggingQueryBuilderWorkspace(props) {
+interface LoggingQueryBuilderWorkspaceProps extends StateManagementChildProps {
+  children: React.ReactNode;
+  validationError?: string;
+}
+export default function LoggingQueryBuilderWorkspace(props: LoggingQueryBuilderWorkspaceProps) {
   const {
     formModel,
     onFormModelChange,
@@ -43,6 +52,22 @@ export default function LoggingQueryBuilderWorkspace(props) {
     groupBy
   } = props;
 
+  const tracking: QueryBuilderTrackingFunctions = {
+    onTagAdded: tagFilter => {
+      const tagName = (tagFilter as TagFilter).name;
+      const trackingPayload: FilterAddedTrackingPayload = { dataSource, tagName };
+      if (!tagName) {
+        trackingPayload.tagFilter = tagFilter as TagFilter;
+      }
+      ua2QueryBuilderFilterAddedTracker(trackingPayload);
+    },
+    onQueryChanged: _formModel =>
+      ua2NestingDepthTracker({
+        dataSource,
+        nestingDepth: getMaximumExpressionDepth(toBackendQueryModel(_formModel))
+      })
+  };
+
   return (
     <Sticky header={<AnalyzeHeader isGrouped={isGrouped} />} backgroundColor={theme.lib.colors.white}>
       <LeftRightPadding>
@@ -55,14 +80,7 @@ export default function LoggingQueryBuilderWorkspace(props) {
               hasError={!isValid && !isLoading}
               useLastValidStateWhenErroneous
               getSuggestionLabel={({ item }) => item}
-              tracking={{
-                onTagAdded: tagFilter => ua2QueryBuilderFilterAddedTracker({ dataSource, tagName: tagFilter.name }),
-                onQueryChanged: _formModel =>
-                  ua2NestingDepthTracker({
-                    dataSource,
-                    nestingDepth: getMaximumExpressionDepth(toBackendQueryModel(_formModel))
-                  })
-              }}
+              tracking={tracking}
             />
 
             <GroupingConfiguratorSection

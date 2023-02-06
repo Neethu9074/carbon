@@ -8,7 +8,7 @@ import React, { useMemo } from 'react';
 import { Stack } from '@instana/components';
 
 import LogExceptionDialog from 'in-logging/analyze/AnalyzeView/components/LogExceptionDialog';
-import { LOG_EXCEPTION_TYPE, LOG_EXCEPTION_MESSAGE } from 'in-logging/queryBuilder';
+import { LOG_EXCEPTION_MESSAGE, LOG_EXCEPTION_TYPE } from 'in-logging/queryBuilder';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { LogItem } from 'in-types';
 

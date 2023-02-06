@@ -5,42 +5,38 @@
 
 import React from 'react';
 
+//@ts-expect-error needs ts migration
 import FacetedSearch from 'in-components/AnalyzeView/FacetedSearch';
+import { UngroupedViewProps } from 'in-components/AnalyzeView/UngroupedView/types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
-export function FacetedSearchPresenter(props) {
+export function FacetedSearchPresenter(props: UngroupedViewProps) {
   const timeConfig = useTimeConfig();
 
-  const {
-    dataSource,
-    excludeMissingGroupingTagFilterExpression,
-    facetedSearchItems,
-    facets,
-    filteringTagCatalog,
-    formModel,
-    getFacetedSearchSuggestions
-  } = props;
+  const { dataSource, facetedSearchItems, facets, filteringTagCatalog, formModel, getFacetedSearchSuggestions } = props;
 
   return facetedSearchItems?.length > 0 ? (
     <FacetedSearch
       {...props}
-      getSuggestions={({ tag, entity }) =>
+      getSuggestions={({ tag, entity }: { tag: string; entity: string }) =>
         getFacetedSearchSuggestions({
           timeConfig,
           formModel,
           tag,
           facets,
-          facetedSearchItems,
-          excludeMissingGroupingTagFilterExpression,
           metricKey: 'facetedSearchMetric',
           group: {
-            groupbyTag: tag
+            groupbyTag: tag,
+            groupbyTagEntity: 'NOT_APPLICABLE'
           },
           dataSource,
-          entity
+          entity,
+          facetedSearchItems
         })
       }
       tagCatalog={filteringTagCatalog}
     />
-  ) : null;
+  ) : (
+    <React.Fragment />
+  );
 }

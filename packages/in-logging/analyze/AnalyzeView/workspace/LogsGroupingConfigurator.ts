@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+//@ts-expect-error needs TS migration
 import { createGroupingConfigurator } from 'in-components/GroupingConfigurator';
 import { getTagCatalog } from 'in-logging/api/catalog';
 

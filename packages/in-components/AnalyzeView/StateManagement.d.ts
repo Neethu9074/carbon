@@ -4,17 +4,19 @@
  * Copyright IBM Corp. 2022
  */
 
+import { Item } from 'formalistic';
 import React from 'react';
 
-import { Group, MetricDescription, Result } from '@instana/types/typeDefinitions';
-import { TagFilter, TimeConfig } from '@instana/types';
+import { AggregationType, Cursor, TagFilter, TagFilterExpression, TimeConfig } from '@instana/types';
+import { AggregationType, Group, MetricDescription, Result } from '@instana/types/typeDefinitions';
 import { Observable } from '@instana/observables';
 
-import { IngestionOffsetCursor, TagFilter, TagFilterExpressionElementUnion } from 'in-types';
 import { GroupingTag } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable/types';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import { UngroupedViewProps } from 'in-components/AnalyzeView/UngroupedView/types';
 import { ObservableCreator } from 'in-services/util/memoizingObservableGenerator';
 import { GetLogGroupsResponse } from 'in-logging/subscriptions/getLogGroups';
+import { TagFilter, TagFilterExpressionElementUnion } from 'in-types';
 import { GetMetricCatalog } from 'in-services/metrics/metricCatalog';
 import { EnrichedTagCatalog } from 'in-services/tags/tagCatalog';
 import { ParameterDefinition } from 'in-stores/navigation/types';
@@ -47,22 +49,21 @@ type ChartableDataSeries = {
   formModel: FormModelElement;
 }[];
 
-type ChartedMetric = { metricId: string; aggregationId: string }[] | { templateId: string }[];
-
 export type GetHrefWithAdditionalTagFilter = (tag: TagFilter) => string;
 export type GetHrefToGroupedView = (tag: TagFilter | GroupingTag) => string;
 
 export type GetFacetedSearchSuggestionsParams = {
   timeConfig: TimeConfig;
   facets: Facets;
-  tag: TagFilter;
-  facetedSearchItems: FacetedSearchItem[];
-  formModel: FormModelElement;
+  tag: string;
+  formModel: FormModelElement[];
   group: Group;
   metricKey: string;
-  hiddenCalls: unknown;
-  excludeMissingGroupingTagFilterExpression: boolean;
-  cursor?: IngestionOffsetCursor;
+  facetedSearchItems?: FacetedSearchItem[];
+  excludeMissingGroupingTagFilterExpression?: boolean;
+  cursor?: Cursor;
+  dataSource: string;
+  entity: string;
 };
 
 export interface FacetedSearchItem {
@@ -94,8 +95,9 @@ interface ExtendedColumnDefinition {
  * Interim typing, some types might be wrong - correct and narrow down the types whenever possible
  * */
 export interface StateManagementChildProps {
-  Sidebar: React.ReactNode;
-  Chart: React.ReactNode;
+  tracking: Record<string, ({ metric: string, aggregation: AggregationType }) => void>;
+  Sidebar: (props: UngroupedViewProps<Item>) => JSX.Element;
+  Chart: (props: UngroupedViewProps<Item>) => JSX.Element;
   groupedPaginationRef: {
     current?: Record<string, number>;
   };
@@ -111,10 +113,10 @@ export interface StateManagementChildProps {
     customFieldRenderingInstructions: string;
   };
   getOrderByGroupId: (unknown) => unknown;
-  facetedSearchItems: unknown[];
+  facetedSearchItems: FacetedSearchItem[];
   fixedFields: Field[];
   backendQueryModel: TagFilterExpressionElementUnion;
-  backendQueryModelWithFacets: TagFilterExpressionElementUnion;
+  backendQueryModelWithFacets: TagFilterExpression;
   formModel: FormModelElement[];
   formModelWithFacets: FormModelElement[];
   initialLogLines: number;
@@ -123,7 +125,7 @@ export interface StateManagementChildProps {
   facetsAsTagFilterExpression: unknown[];
   getLabel: (unknown) => string | null;
   isGrouped: boolean;
-  groupBy: Record<string, string>;
+  groupBy: Group;
   onFacetedSearchSelectionChange: (facets: unknown) => void;
   selectedId: string;
   selectedGroup: string;
@@ -145,8 +147,8 @@ export interface StateManagementChildProps {
   metricCatalog: MetricDescription[];
   chartableDataSeries: ChartableDataSeries;
   onChartableDataSeriesChange: (DataSeries: ChartableDataSeries) => void;
-  chartedMetrics: ChartedMetric;
-  onChartedMetricsChange: (chartedMetric: ChartedMetric) => void;
+  chartedMetrics: ChartedMetric[];
+  onChartedMetricsChange: (chartedMetric: ChartedMetric | ChartedMetrics[]) => void;
   getHrefToDetailId: (id: string, item: unknown) => string;
   setDetailId: (id: string) => void;
   getFacetedSearchSuggestions: (params: GetFacetedSearchSuggestionsParams) => Observable<GetLogGroupsResponse>;
@@ -184,7 +186,7 @@ interface DataSourceConfiguration {
   ungroupedView: UngroupedView;
   fixedFields: Field[];
   defaultSelectableFields: Field[];
-  defaultChartedMetrics: ChartedMetric;
+  defaultChartedMetrics: ChartedMetric[];
   getCustomFormatter: () => unknown;
 }
 
@@ -207,3 +209,8 @@ export interface StateManagementProps extends TimeFixatingAnalyzeStateManagement
 declare const StateManagement: React.FC<StateManagementProps>;
 
 export default StateManagement;
+
+export type ChartedMetric = {
+  metricId: string;
+  aggregationId: AggregationType;
+};

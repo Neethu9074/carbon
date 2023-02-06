@@ -5,14 +5,12 @@
 
 import React from 'react';
 
-//@ts-expect-error needs TS migration
-import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
-//@ts-expect-error needs TS migration
-import GroupedLogs from 'in-logging/analyze/AnalyzeView/components/GroupedLogs';
 import getFacetedSearchSuggestions from 'in-logging/analyze/AnalyzeView/utils/getFacetedSearchSuggestions';
 import StateManagement, { StateManagementChildProps } from 'in-components/AnalyzeView/StateManagement';
+import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
 import { dataSourceConfigurations } from 'in-logging/analyze/AnalyzeView/utils/constants';
 import RestrictedAccessMessage from 'in-components/rbac/RestrictedAccessMessage';
+import GroupedLogs from 'in-logging/analyze/AnalyzeView/components/GroupedLogs';
 import useTimeSpentInsideComponent from 'in-hooks/useTimeSpentInsideComponent';
 import { Logs } from 'in-logging/analyze/AnalyzeView/components/Logs';
 import { logIdMatrixParameter } from 'in-logging/navigation/matrix';

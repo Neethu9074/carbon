@@ -63,7 +63,7 @@ export default function UngroupedView(props: UngroupedViewProps) {
     fields.filter(({ type }) => type === metricType).map(metric => metric.metricId)
   );
 
-  const cursorPaginationState = (useCursorPaginationStrategy ?? useCursorPagination)<never, Record<string, unknown>>(
+  const cursorPaginationState = (useCursorPaginationStrategy ?? useCursorPagination)(
     params =>
       isValid
         ? getData({

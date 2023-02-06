@@ -5,13 +5,15 @@
 
 import React, { useMemo } from 'react';
 
+import { Group, LogGroupItem, TagCatalog, TagFilterExpression, TimeConfig } from '@instana/types';
 import { KeyValue, Stack } from '@instana/components';
 
 import { FacetedSearchPresenter } from 'in-logging/analyze/AnalyzeView/components/FacetedSearchPresenter';
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
+import { ChartsPresenter } from 'in-logging/analyze/AnalyzeView/components/Charts/ChartsPresenter';
 import { number, percentage, withSiPrefixOneDecimalPlace } from 'in-services/formatters/number';
-import { ChartsPresenter } from 'in-logging/analyze/AnalyzeView/components/ChartsPresenter';
-import { logLevelColors } from 'in-logging/analyze/AnalyzeView/components/constants';
+import { logLevelColors } from 'in-logging/analyze/AnalyzeView/components/Charts/constants';
+import { StateManagementChildProps } from 'in-components/AnalyzeView/StateManagement';
 import { Logs } from 'in-logging/analyze/AnalyzeView/components/Logs';
 import getLogGroups from 'in-logging/subscriptions/getLogGroups';
 import GroupedView from 'in-components/AnalyzeView/GroupedView';
@@ -26,7 +28,7 @@ const columnDefinitions = [
     id: 'numberOfLogsPercentage',
     width: '7rem',
     widthInAbsoluteUnit: true,
-    getContent({ item }) {
+    getContent({ item }: { item: LogGroupItem }) {
       return (
         <KeyValue
           label={t('in-logging:numberOfLogsPercentage')}
@@ -40,7 +42,7 @@ const columnDefinitions = [
     id: 'numberOfLogs',
     width: '8rem',
     widthInAbsoluteUnit: true,
-    getContent({ item }) {
+    getContent({ item }: { item: LogGroupItem }) {
       const { numberOfLogs } = item;
       const formattedNumber = number.forcedCompact.compact(numberOfLogs);
 
@@ -58,14 +60,15 @@ const columnDefinitions = [
   }
 ];
 
-export default function GroupedLogs(props) {
+export interface GroupedLogsProps extends StateManagementChildProps {}
+export default function GroupedLogs(props: GroupedLogsProps) {
   const { Chart = ChartsPresenter, Sidebar = FacetedSearchPresenter, filteringTagCatalog, groupBy } = props;
 
   const iconMap = useMemo(() => createIconMap(filteringTagCatalog), [filteringTagCatalog]);
-  const getColor = (item, index) => getLogGroupColor(item, index, groupBy);
+  const getColor = (item: LogGroupItem, index: number) => getLogGroupColor(item, index, groupBy);
 
   return (
-    <QueryBuilderWorkspace {...props} getColor={getColor}>
+    <QueryBuilderWorkspace {...props}>
       <GroupedView
         {...props}
         Chart={Chart}
@@ -81,7 +84,7 @@ export default function GroupedLogs(props) {
     </QueryBuilderWorkspace>
   );
 }
-function getLogGroupColor(item, index, groupBy) {
+function getLogGroupColor(item: LogGroupItem, index: number, groupBy: Group) {
   if (groupBy?.groupbyTag === LOG_LEVEL) {
     const logLevel = item.label.toLowerCase();
     return logLevelColors[logLevel];
@@ -89,19 +92,21 @@ function getLogGroupColor(item, index, groupBy) {
   return GROUP_COLORS[index];
 }
 
-function createIconMap(tagCatalog) {
+type TagTreeNode = { tagName: string; icon: string; children?: TagTreeNode[] };
+
+function createIconMap(tagCatalog: TagCatalog) {
   const icons = new Map();
   const tagTree = tagCatalog?.tagTree;
   if (!tagTree) {
     return icons;
   }
   for (const child of tagTree[0].children) {
-    addToMap(child, icons);
+    addToMap(child as TagTreeNode, icons);
   }
   return icons;
 }
 
-function addToMap({ tagName, icon, children }, map) {
+function addToMap({ tagName, icon, children }: TagTreeNode, map: Map<string, string>) {
   map.set(tagName, icon);
   if (children) {
     for (const child of children) {
@@ -110,13 +115,20 @@ function addToMap({ tagName, icon, children }, map) {
   }
 }
 
-function getTableData({ timeConfig, cursor, backendQueryModel, groupBy }) {
+function getTableData({
+  timeConfig,
+  backendQueryModel,
+  groupBy
+}: {
+  timeConfig: TimeConfig;
+  backendQueryModel: TagFilterExpression;
+  groupBy: Group;
+}) {
   return getLogGroups({
     timeConfig,
     group: groupBy,
     tagFilterExpression: backendQueryModel,
     pagination: {
-      cursor,
       retrievalSize: 20
     }
   });

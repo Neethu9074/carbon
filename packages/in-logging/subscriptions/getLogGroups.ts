@@ -3,10 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { Result, LogGroupItem, PaginatedResult, LogGroupsQuery } from 'in-types';
+import { CursorPaginatedResult } from '@instana/types';
 
-export interface GetLogGroupsResponse extends Result<PaginatedResult<LogGroupItem>> {}
+import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
+import { LogGroupItem, LogGroupsQuery, Result } from 'in-types';
+
+export interface GetLogGroupsResponse extends Result<CursorPaginatedResult<LogGroupItem>> {}
 
 export default createResultSubscriptionFactory<LogGroupsQuery, GetLogGroupsResponse>({
   eventId: 'logs.getLogGroups'

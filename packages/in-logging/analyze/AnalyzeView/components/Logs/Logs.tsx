@@ -8,8 +8,6 @@ import React, { useEffect, useRef } from 'react';
 import { Button, ColumnizedDefinition } from '@instana/components';
 import { TagFilter } from '@instana/types';
 
-//@ts-expect-error needs TS migration
-import { createPageSizeAwareLogsCursorPaginationHook } from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
 import {
   centerAlignedCopyColumn,
   centerAlignedLinkColumn,
@@ -24,13 +22,11 @@ import {
   LOG_LEVEL,
   logTableTags
 } from 'in-logging/queryBuilder';
-// @ts-expect-error needs TS migration
+import { createPageSizeAwareLogsCursorPaginationHook } from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
 import { FacetedSearchPresenter } from 'in-logging/analyze/AnalyzeView/components/FacetedSearchPresenter';
-// @ts-expect-error needs TS migration
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
-// @ts-expect-error needs TS migration
-import { ChartsPresenter } from 'in-logging/analyze/AnalyzeView/components/ChartsPresenter';
 import { HeaderActionProps, LogsProps } from 'in-logging/analyze/AnalyzeView/components/Logs/types';
+import { ChartsPresenter } from 'in-logging/analyze/AnalyzeView/components/Charts/ChartsPresenter';
 import { GetDataParams, ListItemProps } from 'in-components/AnalyzeView/UngroupedView/types';
 import LogMessageColumn from 'in-logging/analyze/AnalyzeView/components/LogMessageColumn';
 import UngroupedViewList from 'in-components/AnalyzeView/UngroupedView/UngroupedViewList';

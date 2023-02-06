@@ -3,22 +3,22 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import {
-  Progress,
-  Result,
-  Error,
-  CursorPaginatedWithNext,
-  CursorPaginatedResult,
   Cursor,
   Cursorific,
+  CursorPaginatedResult,
+  CursorPaginatedWithNext,
+  Error,
+  Progress,
+  Result,
   ResultPrecisionDetails
 } from 'in-types';
-import { pendingResult, emptyArray, indeterminateProgress } from 'in-services/fixedObjects';
+import { emptyArray, indeterminateProgress, pendingResult } from 'in-services/fixedObjects';
 import { shallowEquals } from 'in-services/util/object';
 
 export type GetCursorPaginated<CURSOR extends Cursor, ITEM extends Cursorific<CURSOR>> = (opts: {
@@ -60,14 +60,6 @@ const initialState: State<any, any> = {
   resultPrecisionDetails: { resultPrecision: 'PRECISION_UNKNOWN' }
 };
 
-export default function useCursorPagination<CURSOR extends Cursor, ITEM extends Cursorific<CURSOR>>(
-  create: GetCursorPaginated<CURSOR, ITEM>,
-  deps?: React.DependencyList
-): State<CURSOR, ITEM>;
-export default function useCursorPagination<CURSOR extends Cursor, ITEM>(
-  create: GetCursorPaginatedWithNext<CURSOR, ITEM>,
-  deps?: React.DependencyList
-): State<CURSOR, ITEM>;
 export default function useCursorPagination<CURSOR extends Cursor, ITEM>(
   create: GetCursorPaginated<CURSOR, ITEM> | GetCursorPaginatedWithNext<CURSOR, ITEM>,
   deps: React.DependencyList = []

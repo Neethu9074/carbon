@@ -43,7 +43,7 @@ export function renderHistoricBaseline(
   if (!baseline || baseline.length === 0) {
     return;
   }
-  if (baseline && baseline.length > 0) {
+  if (baseline && baseline.length > 0 && timeConfig) {
     const { isGreaterOp, oneSidedThresholdInTimeframe } = initOneSidedThreshold(
       baseline as BaselineDataSeries,
       operator,

@@ -104,7 +104,10 @@ function List(props: UngroupedViewListPresenterProps) {
     const id = getId(item);
     const key = generateStableHash(id);
     const isInitiallyToggled = initiallyOpenedItemIds?.includes(id);
-    const extendedItem = { ...item, groupKey };
+    let extendedItem = item;
+    if (typeof item === 'object') {
+      extendedItem = { ...item, groupKey };
+    }
     const href = withoutListItemLinkToDetails ? undefined : getHrefToDetailId(id, groupLabel);
 
     return (

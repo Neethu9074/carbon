@@ -16,8 +16,7 @@ export default function getFacetedSearchSuggestions({
   excludeMissingGroupingTagFilterExpression,
   facets,
   facetedSearchItems,
-  group,
-  cursor
+  group
 }: GetFacetedSearchSuggestionsParams) {
   const backendQuery = toBackendQuery({
     formModel,
@@ -32,7 +31,6 @@ export default function getFacetedSearchSuggestions({
     group,
     tagFilterExpression: backendQuery,
     pagination: {
-      cursor,
       retrievalSize: 20
     }
   });
