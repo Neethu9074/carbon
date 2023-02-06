@@ -145,7 +145,7 @@ const getStringInEnglish = (string?: string) => {
   }
 
   let englishString;
-  const stringKey = flattenedLanguageData[string].split('.');
+  const stringKey = flattenedLanguageData[string]?.split('.');
 
   if (!stringKey) return string;
 

@@ -23,6 +23,7 @@ import { addWebsite } from 'in-websites/api/websites';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
+import { t } from 'in-i18n';
 
 export default class NewWebsiteFlow extends React.PureComponent {
   constructor(props) {
@@ -125,7 +126,7 @@ export default class NewWebsiteFlow extends React.PureComponent {
 
     return (
       <Sticky header={<ViewSwitcher isWebsites />}>
-        <Title title="New Website" />
+        <Title title={t('in-websites:newWebsiteFlow.inputStepNewWebsiteTitle')} />
         {content}
         <Footer />
       </Sticky>

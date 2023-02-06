@@ -328,6 +328,7 @@
     "inputStepParagraphGetStarted": "Get started with website monitoring to better understand how your website performance impacts user experience.  Configuration is simple!",
     "inputStepLabelWebsiteName": "Website Name",
     "inputStepButtonAddWebsite": "Add Website",
+    "inputStepNewWebsiteTitle": "New Website",
     "readyStepTitleEverythingsReady": "Everything's Ready!",
     "readyStepParagraphEverythingIsReadyToMonitorYourWebsite": "Everything is ready to monitor your website <strong>{{websiteName}}</strong>. Copy this script to the HTML document's <code>{{httpHeadTag}}</code>. Information about website monitoring and the full capabilities of the tracking script are located <linkToDocs>within our docs</linkToDocs>.",
     "readyStepButtonGoToWebsiteDashboard": "Go to website dashboard",
