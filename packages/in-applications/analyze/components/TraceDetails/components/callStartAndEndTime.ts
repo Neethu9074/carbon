@@ -5,9 +5,7 @@
 
 import { TraceActivityTreeNode } from '@instana/types';
 
-import { GeneratedNode } from 'in-applications/analyze/AnalyzeView2_0/buildTraceActivityTree';
-
-export function getStart(call: TraceActivityTreeNode | GeneratedNode) {
+export function getStart(call: TraceActivityTreeNode) {
   let earliestStart = call.start;
   if (call.children) {
     for (let i = 0; i < call.children.length; i++) {
@@ -17,7 +15,7 @@ export function getStart(call: TraceActivityTreeNode | GeneratedNode) {
   return earliestStart;
 }
 
-export function getEnd(call: TraceActivityTreeNode | GeneratedNode) {
+export function getEnd(call: TraceActivityTreeNode) {
   let latestEnd = call.start + call.duration;
   if (call.children) {
     for (let i = 0; i < call.children.length; i++) {
