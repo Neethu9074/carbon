@@ -3,11 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import React from 'react';
 
-import { SvgIcon, Card } from '@instana/components';
+import { SvgIcon } from '@instana/components';
 
 import {
   websitesAlertingListAlertResumed,
@@ -26,11 +26,11 @@ import { getLimitedNumberOfFilters, getFiltersCount } from 'in-alerting/smart-al
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { alertsTab, alertsTabDetailsFullyQualified } from 'in-websites/navigation/paths';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import AlertBaseList from 'in-alerting/smart-alerts/components/AlertsBaseList';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { mutateUrl } from 'in-stores/navigation/navigation';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import Footer from 'in-components/Footer/Footer';
-import List from 'in-settings/components/List';
 import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
 
@@ -39,11 +39,6 @@ import locals from './Alerts.mless';
 function getColumnDefinitions(websiteLabel) {
   return [
     {
-      id: 'name',
-      label: t('in-websites:websiteDashboard.tabs.alerts.alertsLabelName'),
-      getContent: getNameContent
-    },
-    {
       id: 'filters',
       label: t('in-websites:websiteDashboard.tabs.alerts.alertsLabelFilters'),
       getContent: entity => getFiltersContent(entity, websiteLabel)
@@ -51,59 +46,48 @@ function getColumnDefinitions(websiteLabel) {
   ];
 }
 
-export default function Alerts({ websiteLabel, websiteId }) {
-  const [alertsSize, setAlertsSize] = useState(null);
-
-  let header = t('in-websites:websiteDashboard.tabs.alerts.alertsHeaderConfiguredAlerts');
-  if (alertsSize != null) {
-    header = `${header} (${alertsSize})`;
-  }
-
+export default function Alerts({ websiteId, websiteLabel }) {
   return (
     <>
-      <Card size="l">
-        <List
-          getHeader={() => header}
-          getEntityName={getEntityName}
-          columnDefinitions={getColumnDefinitions(websiteLabel)}
-          tableActions={
-            role.canConfigureCustomAlerts && {
-              delete: {
-                dialogMessage(entity) {
-                  return (
-                    <span>
-                      <Trans
-                        i18nKey="in-websites:websiteDashboard.tabs.alerts.labelConfirmRemoveAlertConfigWithName"
-                        values={{ name: entity.name }}
-                      />
-                    </span>
-                  );
-                },
-                deleteEntity: config =>
-                  deleteAlertConfig(config.id).tap(() => websitesAlertingListAlertDeleted({ id: config.id }))
+      <AlertBaseList
+        extraColumnDefinitions={getColumnDefinitions(websiteLabel)}
+        loadEntities={() => getAllAlertConfigs(websiteId)}
+        tableActions={
+          role.canConfigureCustomAlerts && {
+            delete: {
+              dialogMessage(entity) {
+                return (
+                  <span>
+                    <Trans
+                      i18nKey="in-websites:websiteDashboard.tabs.alerts.labelConfirmRemoveAlertConfigWithName"
+                      values={{ name: entity.name }}
+                    />
+                  </span>
+                );
               },
-              toggleEnabled: {
-                get: config => config.enabled,
-                toggle: config =>
-                  config.enabled
-                    ? disableAlertConfig(config.id).tap(() => websitesAlertingListAlertPaused({ id: config.id }))
-                    : enableAlertConfig(config.id).tap(() => websitesAlertingListAlertResumed({ id: config.id }))
-              }
+              deleteEntity: config =>
+                deleteAlertConfig(config.id).tap(() => websitesAlertingListAlertDeleted({ id: config.id }))
+            },
+            toggleEnabled: {
+              get: config => config.enabled,
+              toggle: config =>
+                config.enabled
+                  ? disableAlertConfig(config.id).tap(() => websitesAlertingListAlertPaused({ id: config.id }))
+                  : enableAlertConfig(config.id).tap(() => websitesAlertingListAlertResumed({ id: config.id }))
             }
           }
-          loadEntities={() => getAllAlertConfigs(websiteId).tap(alerts => setAlertsSize(alerts.length))}
-          pageSize={15}
-          searchAttributes={[entity => entity.name]}
-          noDataMessage={t('in-websites:websiteDashboard.tabs.alerts.alertsNoDataMessage')}
-          onRowClick={config =>
-            mutateUrl(location => {
-              location.pathname = alertsTabDetailsFullyQualified;
-              setOrDeleteMatrixKey(location, alertsTab, alertIdMatrixParam, config.id);
-              setOrDeleteMatrixKey(location, alertsTab, alertCreatedMatrixParam, config.created);
-            })
-          }
-        />
-      </Card>
+        }
+        getSubtitle={getSubtitle}
+        noDataMessage={t('in-websites:websiteDashboard.tabs.alerts.alertsNoDataMessage')}
+        onRowClick={config =>
+          mutateUrl(location => {
+            location.pathname = alertsTabDetailsFullyQualified;
+            setOrDeleteMatrixKey(location, alertsTab, alertIdMatrixParam, config.id);
+            setOrDeleteMatrixKey(location, alertsTab, alertCreatedMatrixParam, config.created);
+          })
+        }
+      />
+
       <Footer />
     </>
   );
@@ -113,38 +97,6 @@ Alerts.propTypes = {
   websiteLabel: PropTypes.string.isRequired,
   websiteId: PropTypes.string.isRequired
 };
-
-function getEntityName(entity) {
-  return t('in-websites:websiteDashboard.tabs.alerts.alertEntityName', { entityName: entity.name });
-}
-
-function getNameContent(config) {
-  return (
-    <div className={classNames(locals.centered, locals.fullWidth)}>
-      <SvgIcon
-        className={classNames({
-          [locals.alertIcon]: true,
-          [locals.alertIconSeverityLow]: config.severity <= 5,
-          [locals.alertIconSeverityHigh]: config.severity > 5
-        })}
-        type="lib_alerts_alert"
-      />
-      <div className={classNames(locals.column, locals.fullWidth)}>
-        <Tooltip themeStyle="light" content={config.description} align="topMiddle" delay={500}>
-          <div className={classNames(locals.name, locals.fullWidth)}>{config.name}</div>
-        </Tooltip>
-        <div className={locals.nameSubtext}>{getSubtitle(config)}</div>
-      </div>
-    </div>
-  );
-}
-
-function getSubtitle(alertConfig) {
-  const alertType = alertConfig.rule.alertType;
-  const blueprintConfig = getBlueprintConfig(alertType);
-  const metricLabel = blueprintConfig.getMetricLabel(alertConfig.rule.metricName);
-  return `${blueprintConfig.name}, ${metricLabel}`;
-}
 
 function getFiltersContent(config, websiteLabel) {
   const tagFilterExpression = fromBackendModel(config.tagFilterExpression);
@@ -208,4 +160,11 @@ function getFiltersContent(config, websiteLabel) {
       )}
     </div>
   );
+}
+
+function getSubtitle(alertConfig) {
+  const alertType = alertConfig.rule.alertType;
+  const blueprintConfig = getBlueprintConfig(alertType);
+  const metricLabel = blueprintConfig.getMetricLabel(alertConfig.rule.metricName);
+  return `${blueprintConfig.name}, ${metricLabel}`;
 }

@@ -43,11 +43,6 @@ export default function Alerts({ testId }: AlertsProps) {
 function getColumnDefinitions() {
   const additionalColumn = [
     {
-      id: 'testApplied',
-      label: 'Tests applied',
-      getContent: (item: SyntheticAlertConfigWithMetadata) => <span>{item.name}</span>
-    },
-    {
       id: 'locations',
       label: 'Locations',
       getContent: (item: SyntheticAlertConfigWithMetadata) => {

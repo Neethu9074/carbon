@@ -55,6 +55,7 @@ interface ListProps<ItemType extends Object> {
     orderByState: keyof ItemType;
     orderDirectionState: 'ASC' | 'DESC';
   }) => ItemType[];
+  onRowClick?: (entity: ItemType) => void;
 }
 
 declare function ListComponent<ItemType extends Object>(props: ListProps<ItemType>): JSX.Element;

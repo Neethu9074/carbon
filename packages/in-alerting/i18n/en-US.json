@@ -530,7 +530,7 @@
     },
     "details": {
       "header": "Details",
-      "thresholdTypeTitle" : "Threshold Type",
+      "thresholdTypeTitle": "Threshold Type",
       "metricTitle": "Metric",
       "entityTitle": "Scope",
       "titleBuiltInIndicator": "Built-in"
@@ -538,6 +538,9 @@
     "list": {
       "header": {
         "configuredAlerts": "Configured Alerts ({{numberOfAlerts}})"
+      },
+      "columns": {
+        "name": "Name"
       }
     },
     "form": {
@@ -979,7 +982,7 @@
         "stepConfigsStep2Title": "Step 2: Select Scope",
         "stepConfigsStep3Title": "Step 3: Select Alert Channels"
       },
-      "customEvent" : {
+      "customEvent": {
         "noCustomEventsFound": "No custom events found",
         "searchCustomEvents": "Filter Events",
         "customEventSelectionSliderTitle": "Choose Custom Event",
