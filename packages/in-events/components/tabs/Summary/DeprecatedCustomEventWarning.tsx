@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 
 import { CustomEventSpecificationWithMetadata } from '@instana/types/typeDefinitions';
 // @ts-expect-error export needs types
@@ -17,6 +17,7 @@ import {
   MessageContentModernDesign
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
 import { isDeprecatedAppDataEntityType } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
+import { applicationsAlertingShowDeprecationBanner } from 'in-alerting/smart-alerts/applications/tracker';
 import { getCustomEventSpecificationMutable } from 'in-api/eventSpecifications';
 import { Col, Row } from 'in-components/layout/Grid';
 import { Event } from 'in-types';
@@ -45,28 +46,35 @@ export function DeprecatedCustomEventWarning({ event, isIncident }: Props) {
     return empty;
   }, [isDeprecatedCustomEvent]);
 
+  const showBanner =
+    isDeprecatedCustomEvent &&
+    customEventConfigOrEmpty &&
+    !customEventConfigOrEmpty?.migrated &&
+    !customEventConfigOrEmpty?.deleted;
+
+  useEffect(() => {
+    if (showBanner) {
+      applicationsAlertingShowDeprecationBanner({});
+    }
+  }, [showBanner]);
+
   return (
-    <>
-      {isDeprecatedCustomEvent &&
-        customEventConfigOrEmpty &&
-        !customEventConfigOrEmpty?.migrated &&
-        !customEventConfigOrEmpty?.deleted && (
-          <Row withoutSideMargin>
-            <Col xs>
-              <Message type="warning" withIcon>
-                <MessageContentModernDesign>
-                  <Trans
-                    i18nKey="in-events:deprecatedCustomEventWarning"
-                    components={{
-                      documentationLink: smartAlertMigrationDocs
-                    }}
-                    values={{ issueOrIncident: isIncident ? 'incident' : 'issue' }}
-                  />
-                </MessageContentModernDesign>
-              </Message>
-            </Col>
-          </Row>
-        )}
-    </>
+    Boolean(showBanner) && (
+      <Row withoutSideMargin>
+        <Col xs>
+          <Message type="warning" withIcon>
+            <MessageContentModernDesign>
+              <Trans
+                i18nKey="in-events:deprecatedCustomEventWarning"
+                components={{
+                  documentationLink: smartAlertMigrationDocs
+                }}
+                values={{ issueOrIncident: isIncident ? 'incident' : 'issue' }}
+              />
+            </MessageContentModernDesign>
+          </Message>
+        </Col>
+      </Row>
+    )
   );
 }

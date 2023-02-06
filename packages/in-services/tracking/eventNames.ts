@@ -225,6 +225,24 @@ export const APPLICATIONS_ALERTING_EVENT_DETAILS_VIEW_EDIT_CONFIG =
 export const APPLICATIONS_ALERTING_STATUS_CODE_CHANGED = 'applications.alerting.statusCodeChanged';
 export const APPLICATIONS_ALERTING_ALERT_DUPLICATE = 'applications.alerting.duplicate';
 
+export const APPLICATIONS_ALERTING_SHOW_DEPRECATION_BANNER = 'applications.alerting.migration.deprecation.banner';
+export const APPLICATIONS_ALERTING_SHOW_MIGRATION_NOTIFICATION = 'applications.alerting.show.migration.notification';
+export const APPLICATIONS_ALERTING_MIGRATION_BANNER_DOCS = 'applications.alerting.migration.banner.docs';
+export const APPLICATIONS_ALERTING_MIGRATION_NOTIFICATION_DOCS = 'applications.alerting.migration.notification.docs';
+
+export const APPLICATIONS_ALERTING_MIGRATION_BANNER_EVENTS = 'applications.alerting.migration.banner.events';
+export const APPLICATIONS_ALERTING_MIGRATION_NOTIFICATION_EVENTS =
+  'applications.alerting.migration.notification.events';
+export const APPLICATIONS_ALERTING_DEPRECATED_EVENT_OPEN = 'applications.alerting.deprecated.event.open';
+export const APPLICATIONS_ALERTING_DEPRECATED_EVENT_MARK_MIGRATED =
+  'applications.alerting.deprecated.event.mark.migrated';
+export const APPLICATIONS_ALERTING_DEPRECATED_EVENT_CONFIRM_MIGRATED =
+  'applications.alerting.deprecated.event.confirm.migrated';
+export const APPLICATIONS_ALERTING_DEPRECATED_EVENT_MIGRATE_STARTED =
+  'applications.alerting.deprecated.event.migrate.started';
+export const APPLICATIONS_ALERTING_DEPRECATED_EVENT_MIGRATE_FINISHED =
+  'applications.alerting.deprecated.event.migrate.finished';
+
 export const MOBILE_APPS_ADD_MOBILE_APP = 'mobileApps.addMobileApp';
 export const MOBILE_APPS_OPEN_ADD_FORM = 'mobileApps.mobileApp.add';
 export const MOBILE_APPS_ANALYZE_CHANGE_METRICS = 'mobileApps.analyze.changeMetrics';
