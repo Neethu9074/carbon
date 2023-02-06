@@ -24,6 +24,7 @@ export interface GetDataParams {
   orderBy: OrderBy;
   backendQueryModel: TagFilterExpressionElementUnion;
   dataSource: string;
+  metrics: Array<string>;
   afterKey?: string;
   initialLogLines?: number;
   retrievalSize?: number;
