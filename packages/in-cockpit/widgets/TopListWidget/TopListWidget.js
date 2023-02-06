@@ -3,9 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { compose, withState, setPropTypes } from 'recompose';
-import rpt from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
+
+import { useObservable } from '@instana/hooks';
 
 import EntityPageMainNotification from 'in-components/EntityPageMainNotification/EntityPageMainNotification';
 import DraggableLightCard from 'in-cockpit/widgets/TopListWidget/DraggableLightCard';
@@ -21,65 +21,52 @@ import { t } from 'in-i18n';
 
 import locals from './TopListWidget.mless';
 
-export default compose(
-  setPropTypes({
-    getItems: rpt.func.isRequired,
-    getItem: rpt.func,
-    columnDefinitions: rpt.array.isRequired,
-    pinnedItemTypes: rpt.array,
-    getId: rpt.func.isRequired,
-    pinItem: rpt.func.isRequired,
-    unpinItem: rpt.func.isRequired,
-    icon: rpt.string,
-    header: rpt.object,
-    fullListView$: rpt.object,
-    fullListViewLinkTitle: rpt.string,
-    getItemLink: rpt.func.isRequired,
-    EmptyStateComponent: rpt.func
-  }),
-  withState('query', 'setQuery', ''),
-  connectTo(({ pinnedItemTypes }) => ({
-    timeConfig: timeConfig$,
-    pinnedItemIdsByType: starredItems$.map(starredItems =>
-      starredItems.reduce((agg, starredItem) => {
-        if (pinnedItemTypes.indexOf(starredItem.type) !== -1) {
-          agg[starredItem.type] = agg[starredItem.type] || [];
-          agg[starredItem.type].push(starredItem.id);
-        }
-        return agg;
-      }, {})
-    )
-  })),
-  connectTo(({ getItems, query, timeConfig, pinnedItemIdsByType }) => ({
-    // these two will share the same subscription because query is initially empty
-    result: timeConfig && pinnedItemIdsByType && getItems({ timeConfig, query, pinnedItemIdsByType }),
-    resultForEmptyStateCheck: timeConfig && pinnedItemIdsByType && getItems({ timeConfig, pinnedItemIdsByType })
-  }))
-)(TopListWidget);
-
-function TopListWidget(props) {
+export default connectTo(({ pinnedItemTypes }) => ({
+  timeConfig: timeConfig$,
+  pinnedItemIdsByType: starredItems$.map(starredItems =>
+    starredItems.reduce((agg, starredItem) => {
+      if (pinnedItemTypes.indexOf(starredItem.type) !== -1) {
+        agg[starredItem.type] = agg[starredItem.type] || [];
+        agg[starredItem.type].push(starredItem.id);
+      }
+      return agg;
+    }, {})
+  )
+}))(function TopListWidget(props) {
   const {
-    query,
-    setQuery,
     timeConfig,
     header,
     cardIcon,
     columnDefinitions,
     fullListView$,
     fullListViewLinkTitle,
-    pinnedItemIdsByType,
     getItem,
     EmptyStateComponent = DefaultEmptyStateContent,
     getId,
-    resultForEmptyStateCheck,
     getItemLink,
     pinItem,
     unpinItem,
-    dragAndDropConfig
+    pinnedItemTypes,
+    dragAndDropConfig,
+    getItems,
+    pinnedItemIdsByType
   } = props;
-  let { label, result } = props;
+  const [query, setQuery] = useState('');
 
-  const flattenedPinnedIds = getFlattenedIds(pinnedItemIdsByType);
+  let result = useObservable(getItems({ timeConfig, query, pinnedItemIdsByType }), [
+    timeConfig,
+    query,
+    pinnedItemIdsByType
+  ]);
+  let resultForEmptyStateCheck = useObservable(getItems({ timeConfig, query, pinnedItemIdsByType }), [
+    timeConfig,
+    query,
+    pinnedItemIdsByType
+  ]);
+
+  let { label } = props;
+
+  const flattenedPinnedIds = getFlattenedIds(pinnedItemTypes);
   const numberOfPinnedItems = flattenedPinnedIds.length;
   let numberOfRegularItemsToShow = Math.max(0, 5 - numberOfPinnedItems);
 
@@ -164,12 +151,14 @@ function TopListWidget(props) {
         )}
       </div>
 
-      {!hasContent && <EmptyStateComponent {...props} />}
+      {!hasContent && (
+        <EmptyStateComponent {...props} result={result} resultForEmptyStateCheck={resultForEmptyStateCheck} />
+      )}
 
       {hasContent && numberOfRegularItemsToShow === 0 && numberOfPinnedItems === 0 && <NoDataAvailable height={230} />}
     </DraggableLightCard>
   );
-}
+});
 
 function hasContentToRender(result, numberOfPinnedItems) {
   if (!result || !result.data) {

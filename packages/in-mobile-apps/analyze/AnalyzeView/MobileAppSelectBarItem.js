@@ -3,35 +3,40 @@
  * (c) Copyright Instana Inc.
  */
 
-import { withProps } from 'recompose';
+import React from 'react';
 
 import getMobileAppBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppBeaconGroups';
 import SelectBarItem from 'in-analyze/components/filterBar/SelectBarItem';
 
-export default withProps({
-  getSuggestions: ({ timeConfig, tagFilters, tag }) => {
-    return getMobileAppBeaconGroups({
-      timeConfig: timeConfig,
-      tagFilters: tagFilters,
-      metrics: {
-        beaconCount: {
-          metric: 'beaconCount',
-          aggregation: 'SUM'
-        }
-      },
-      order: {
-        by: 'beaconCount',
-        direction: 'DESC'
-      },
-      pagination: {
-        retrievalSize: 200
-      },
-      group: {
-        groupbyTag: tag
-      }
-    }).map(mapData);
-  }
-})(SelectBarItem);
+export default function MobileAppSelectBarItem(props) {
+  return (
+    <SelectBarItem
+      {...props}
+      getSuggestions={({ timeConfig, tagFilters, tag }) => {
+        return getMobileAppBeaconGroups({
+          timeConfig: timeConfig,
+          tagFilters: tagFilters,
+          metrics: {
+            beaconCount: {
+              metric: 'beaconCount',
+              aggregation: 'SUM'
+            }
+          },
+          order: {
+            by: 'beaconCount',
+            direction: 'DESC'
+          },
+          pagination: {
+            retrievalSize: 200
+          },
+          group: {
+            groupbyTag: tag
+          }
+        }).map(mapData);
+      }}
+    />
+  );
+}
 
 function mapData(result) {
   if (!result.data) {
