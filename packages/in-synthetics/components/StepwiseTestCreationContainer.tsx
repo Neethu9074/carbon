@@ -56,6 +56,7 @@ export default function StepwiseTestCreationContainer({
             selectedBlueprint={selectedBlueprint}
             onSelectBluePrint={setSelectedBlueprint}
             updateForm={updateForm}
+            setScriptErrors={setScriptErrors}
           />
         );
       case 1:

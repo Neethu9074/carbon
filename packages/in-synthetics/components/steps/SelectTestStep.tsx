@@ -11,6 +11,7 @@ import SelectedBlueprintPresenter from 'in-components/BlueprintFormMultistep/Sel
 import { blueprintConfig, BluePrint } from 'in-synthetics/data/simpleModeBluePrints';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { createForm } from 'in-synthetics/form/createSyntheticTestForm';
+import { Error as ScriptError } from 'in-types';
 import Menu from 'in-components/Menu';
 import { t } from 'in-i18n';
 
@@ -20,6 +21,7 @@ export interface Props {
   selectedBlueprint: BluePrint;
   onSelectBluePrint: (item: BluePrint) => void;
   updateForm: (form: MapForm) => void;
+  setScriptErrors: React.Dispatch<React.SetStateAction<ScriptError[]>>;
 }
 
 interface Description {
@@ -27,7 +29,7 @@ interface Description {
   htmlContent: string;
 }
 
-export default function SelectTestStep({ selectedBlueprint, onSelectBluePrint, updateForm }: Props) {
+export default function SelectTestStep({ selectedBlueprint, onSelectBluePrint, updateForm, setScriptErrors }: Props) {
   return (
     <SimpleModeStepContentWrapper headline={t('in-synthetics:dialog.createTest.selectTest.title')}>
       <Menu
@@ -37,6 +39,7 @@ export default function SelectTestStep({ selectedBlueprint, onSelectBluePrint, u
         onItemClick={item => {
           onSelectBluePrint(item);
           updateForm(createForm(item));
+          setScriptErrors([] as ScriptError[]);
         }}
       />
       <div className={locals.presenterWrapper}>
