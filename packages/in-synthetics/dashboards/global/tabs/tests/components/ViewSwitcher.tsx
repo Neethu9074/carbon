@@ -16,6 +16,7 @@ import PopDeployButton from 'in-synthetics/dashboards/global/tabs/tests/componen
 import getPoPInstallationProperties from 'in-synthetics/subscriptions/getPoPInstallationProperties';
 import { getModifiedUrlStream, isView } from 'in-stores/navigation/navigation';
 import DashboardHeader from 'in-components/DashboardHeader';
+import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import * as paths from 'in-synthetics/navigation/paths';
 import { t } from 'in-i18n';
 
@@ -30,14 +31,21 @@ export default function ViewSwitcher() {
     useObservable<any, [number]>(() => getPoPInstallationProperties({ installationType: 'simple' }), [0]) ||
     dummyPoPProperties;
 
+  const renderMetaInformation = () => {
+    return <BetaBadge />;
+  };
+
+  const dashboardHeaderProps = {
+    icon: 'lib_synthetic',
+    label: t('in-synthetics:dashboard.testList.mainLabel'),
+    title: t('in-synthetics:dashboard.testList.mainLabel'),
+    showHistoricDataWarning: false,
+    renderMetaInformation
+  };
+
   return (
     <>
-      <DashboardHeader
-        icon="lib_synthetic"
-        label={t('in-synthetics:dashboard.testList.mainLabel')}
-        title={t('in-synthetics:dashboard.testList.mainLabel')}
-        showHistoricDataWarning={false}
-      />
+      <DashboardHeader {...dashboardHeaderProps} />
       <DashboardHeaderModule theme={themes.light}>
         <div className={locals.firstLine}>
           <SecondLevelNavigation>

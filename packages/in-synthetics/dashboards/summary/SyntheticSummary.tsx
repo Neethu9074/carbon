@@ -22,6 +22,7 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import tabs from 'in-synthetics/dashboards/summary/tabs/index';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { dummyTest } from 'in-synthetics/utils/constants';
+import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import { getTest, updateTest } from 'in-synthetics/api';
 import { Location } from 'in-stores/navigation/types';
 import { Progress, SyntheticTest } from 'in-types';
@@ -60,11 +61,17 @@ function RenderMetaInformation({ test }: LocalProps) {
   const errorCode: string = get(test.errors?.at(0), ['code']);
 
   return errorCode === 'NOT_FOUND' ? (
-    <span className={locals.label}>{t('in-synthetics:dashboard.testList.deleted')}</span>
+    <div className={locals.metaInformation}>
+      <BetaBadge />
+      <span className={locals.label}>{t('in-synthetics:dashboard.testList.deleted')}</span>
+    </div>
   ) : (
-    <span className={locals.label}>
-      {isActive ? t('in-synthetics:dashboard.testList.active') : t('in-synthetics:dashboard.testList.paused')}
-    </span>
+    <div className={locals.metaInformation}>
+      <span className={locals.label}>
+        {isActive ? t('in-synthetics:dashboard.testList.active') : t('in-synthetics:dashboard.testList.paused')}
+      </span>
+      <BetaBadge />
+    </div>
   );
 }
 
