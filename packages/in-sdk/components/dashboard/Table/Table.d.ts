@@ -9,9 +9,10 @@ interface TableProps {
   rows: Array;
   cardTitle: string;
   withoutPadding: boolean;
-  getRowDetails: (any) => JSX.Element;
-  maxItemsPerPage: number;
-  initialSortColumn: number;
+  getRowDetails?: (any) => JSX.Element;
+  maxItemsPerPage?: number;
+  initialSortColumn?: number;
+  disableSorting?: boolean;
   showExpandAll?: boolean;
 }
 
