@@ -6,6 +6,7 @@
 import { get } from 'lodash';
 
 import { fromTagFiltersArray } from 'in-components/QueryBuilder/transformation/formModel';
+import { mobileAppCrashBeaconEnabled } from 'in-services/featureFlags';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
@@ -39,13 +40,20 @@ function getMobileAppLabelTagFilter(mobileAppLabel) {
   };
 }
 
-export const dataSourceTitles = {
-  sessionStart: t('in-mobile-apps:tags.sessionStart'),
-  viewChange: t('in-mobile-apps:tags.viewChange'),
-  httpRequest: t('in-mobile-apps:tags.httpRequest'),
-  custom: t('in-mobile-apps:tags.custom'),
-  crash: t('in-mobile-apps:tags.crash')
-};
+export const dataSourceTitles = mobileAppCrashBeaconEnabled
+  ? {
+      sessionStart: t('in-mobile-apps:tags.sessionStart'),
+      viewChange: t('in-mobile-apps:tags.viewChange'),
+      httpRequest: t('in-mobile-apps:tags.httpRequest'),
+      custom: t('in-mobile-apps:tags.custom'),
+      crash: t('in-mobile-apps:tags.crash')
+    }
+  : {
+      sessionStart: t('in-mobile-apps:tags.sessionStart'),
+      viewChange: t('in-mobile-apps:tags.viewChange'),
+      httpRequest: t('in-mobile-apps:tags.httpRequest'),
+      custom: t('in-mobile-apps:tags.custom')
+    };
 
 export const defaultGroupings = {
   sessionStart: {
