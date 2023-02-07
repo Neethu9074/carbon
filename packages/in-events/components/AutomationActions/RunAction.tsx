@@ -178,6 +178,27 @@ function onSave({
   }, []);
   const hiddenInputParameters = (action.inputParameters ?? []).reduce<ActionExecutionParameter[]>((acc, parameter) => {
     if (parameter.hidden) {
+      if (parameter.type === 'vault') {
+        const parsedVaultValue: { secretKey?: string; secretPath?: string } = (raw => {
+          try {
+            return JSON.parse(raw);
+          } catch (e) {
+            return {};
+          }
+        })(parameter.value ?? '{}');
+        const { secretKey, secretPath } = parsedVaultValue;
+        return [
+          ...acc,
+          {
+            name: parameter.name,
+            type: 'vault',
+            value: JSON.stringify({
+              secretPath: secretPath ?? '',
+              secretKey: secretKey ?? ''
+            })
+          }
+        ];
+      }
       return [...acc, { name: parameter.name, value: parameter.value ?? '' }];
     }
     return acc;
