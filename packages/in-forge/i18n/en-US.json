@@ -4105,9 +4105,7 @@
     },
 
     "awsApiGateway": {
-      "dashboard": {
-
-      },
+      "dashboard": {},
       "infoTitle": {
         "protocol": "Protocol",
         "endpointType": "Endpoint Type",
@@ -10221,6 +10219,7 @@
     },
     "jBossAsApplicationContainer": {
       "undertowStatsEnabledNotification": "<strong>Statistics are not enabled for undertow subsystem</strong><p>This means that we can not collect servlet statistics from JBoss. To enable statistics, set <code>statistics-enabled</code> attribute to <code>true</code> for undertow subsystem configuration in server configuration. For this change to take effect server reboot is required. Example:<configCode /></p>",
+      "sessionStatsDisabledNotification": "<strong>Active sessions metric is currently unavailable for some of the web deployments.</strong><p>We are not able to display <strong>active sessions</strong> metric for the following web deployments: <strong>{{deploymentsAffected}}</strong>.</p>",
       "poolName": "Pool Name",
       "activeConnections": "Active Connections",
       "availableConnections": "Available Connections",
