@@ -6,31 +6,35 @@ Our web browser support matrix is defined and maintained through
 [browserslist]. You can find the support rule definition within
 the [.browserslistrc] file. To resolve these rules into
 web browser names and versions execute `npx browserslist`
-within the ui-client repository's root directory. At the time of
-writing this article (2021-06-21), the command output is the following:
+within the ui-client repository's root directory. As of Feb 7, 2022, the command output is the following:
 
 ```
-and_chr 90
-chrome 89
-chrome 88
-chrome 87
-edge 89
-edge 88
-firefox 86
-firefox 78
-ios_saf 14.0-14.5
-ios_saf 13.4-13.7
-ios_saf 13.3
-safari 14
-safari 13.1
-samsung 13.0
+and_chr 109
+chrome 108
+chrome 107
+edge 108
+edge 107
+firefox 108
+firefox 107
+firefox 102
+ios_saf 16.2
+ios_saf 16.1
+ios_saf 16.0
+ios_saf 15.6
+ios_saf 15.5
+ios_saf 15.4
+ios_saf 14.5-14.8
+ios_saf 14.0-14.4
+safari 16.1
+safari 15.6
+samsung 19.0
 ```
 
 ## Device Types
 
-The Instana user interface should be able usable on all types of devices
+The Instana user interface should be usable on all types of devices
 (relevant web browser and screen resolution restrictions apply).
-Our primary usage audience are desktop users. This specifically means
+Our primary target audience are desktop users. This specifically means
 that pointer and touch input devices must be supported.
 
 ## Screen Resolutions

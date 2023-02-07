@@ -1,6 +1,6 @@
 # Installation
 
-**Please do not skip any of these steps, only use `sudo` where this document instructs you to and do not try to follow this guide with a super-user (root)!**
+**Please make sure you are on the develop branch to read the latest instructions.  Do not skip any of these steps, only use `sudo` where this document instructs you to and do not try to follow this guide with a super-user (root)!**
 
 This document lists the technical steps necessary in order to get a local UI development setup running.
 
