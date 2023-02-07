@@ -13,14 +13,12 @@ import {
   StaticThresholdConfig,
   ThresholdConfig,
   ThresholdConfigUnion,
-  ThresholdOperator
-} from 'in-types';
-import {
-  HISTORIC_BASELINE,
+  ThresholdOperator,
   isHistoricBaselineConfig,
   isStaticThresholdConfig
-} from 'in-alerting/smart-alerts/data/thresholdTypes';
+} from 'in-types';
 import { WebsitesAlertType } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
+import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { t } from 'in-i18n';
 
