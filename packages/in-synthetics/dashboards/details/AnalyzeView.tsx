@@ -45,6 +45,7 @@ import { getTest, getTestResultMetadata } from 'in-synthetics/api';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
+import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import theme from 'in-themes';
@@ -119,6 +120,9 @@ export default function SyntheticAnalyzeView() {
   const testResultMetadata: ResultMetadataResponse =
     useObservable<any, [number]>(() => getTestResultMetadata(testId, resultId), [0]) || dummyResultMetadata;
 
+  const renderMetaInformation = () => {
+    return <BetaBadge />;
+  };
   return (
     <>
       <Sticky
@@ -130,6 +134,7 @@ export default function SyntheticAnalyzeView() {
               label={get(test, ['data', 'label'])}
               withBorderBottom
               showHistoricDataWarning={false}
+              renderMetaInformation={renderMetaInformation}
             />
             <DashboardHeaderShadowModule />
           </>
