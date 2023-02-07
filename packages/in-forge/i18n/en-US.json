@@ -9303,7 +9303,13 @@
       "clientUser": "Client User",
       "MCAUser": "MCA User",
       "messages": "Messages",
-      "connections": "Connections"
+      "connections": "Connections",
+      "messagesSent": "Messages Sent",
+      "messagesReceived": "Messages Received",
+      "indoubtMessages": "Indoubt Messages",
+      "inDoubtInput": "Inbound Messages in doubt",
+      "inDoubtOutput": "Outbound Messages in doubt",
+      "pendingOutbound": "Pending Outbound Messages"
     },
     "ibmMqCluster": {
       "dashboard": {
@@ -9526,7 +9532,18 @@
         "subType": "Type",
         "durable": "Durable",
         "subAlternatedAt": "Alternated At",
-        "numberMessages": "Number of Messages"
+        "numberMessages": "Number of Messages",
+        "channelType": "Type",
+        "channelStatus": "Status",
+        "clientId": "Client Id",
+        "channelConnections": "Connections",
+        "messagesSent": "Messages Sent",
+        "messagesReceived": "Messages Received",
+        "inDoubtMessages": "Indoubt Messages",
+        "inDoubtInput": "Inbound Messages in doubt",
+        "inDoubtOutput": "Outbound Messages in doubt",
+        "pendingOutbound": "Pending Outbound Messages",
+        "mqttChannelsWithCount": "MQTT Channels ({{len}})"
       },
       "name": "Name",
       "version": "Version",

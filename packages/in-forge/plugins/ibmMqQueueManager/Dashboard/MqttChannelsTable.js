@@ -13,8 +13,6 @@ import { getSnapshots } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
-const missingValue = '/';
-
 const cols = [
   {
     title: t('in-forge:plugins.ibmMqQueueManager.dashboard.name'),
@@ -35,7 +33,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.type'),
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.channelType'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -90,21 +88,21 @@ const cols = [
 
 export default connectTo(
   props => ({
-    channels: timeConfig$
+    mqttchannels: timeConfig$
       .flatMap(timeConfig => getIbmMqttChannelsForQueueManager({ snapshotId: props.snapshot.get('id'), timeConfig }))
       .flatMap(getSnapshots)
   }),
-  function MqttChannelsTable({ channels, timeConfig }) {
-    if (channels == null || channels.length === 0) {
+  function MqttChannelsTable({ mqttchannels, timeConfig }) {
+    if (mqttchannels == null || mqttchannels.length === 0) {
       return null;
     }
 
-    const rows = channels.map(channel => {
-      const id = channel.get('id');
+    const rows = mqttchannels.map(mqttchannel => {
+      const id = mqttchannel.get('id');
       return {
         key: id,
         snapshotId: id,
-        snapshot: channel,
+        snapshot: mqttchannel,
         timeConfig
       };
     });
@@ -112,7 +110,7 @@ export default connectTo(
     return (
       <Table
         withoutPadding
-        cardTitle={t('in-forge:plugins.ibmMqQueueManager.dashboard.channelsWithCount', { len: rows.length })}
+        cardTitle={t('in-forge:plugins.ibmMqQueueManager.dashboard.mqttChannelsWithCount', { len: rows.length })}
         cols={cols}
         rows={rows}
       />
