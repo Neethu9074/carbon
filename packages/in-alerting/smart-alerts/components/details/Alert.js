@@ -15,14 +15,13 @@ import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/m
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import DefaultLoadingDashboard from 'in-components/Loading/DefaultLoadingDashboard';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import AlertHistoryList from 'in-alerting/components/AlertHistoryList';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import AlertHeader from 'in-alerting/components/AlertHeader';
 import { alertsTab } from 'in-applications/navigation/paths';
-import { mutateUrl } from 'in-stores/navigation/navigation';
 import { close } from 'in-components/DialogPresenter/store';
 import { propTypeTimeConfig } from 'in-stores/time/config';
-import { propTypeLocation } from 'in-stores/navigation';
 import SetBodyColor from 'in-components/SetBodyColor';
 import { Col, Row } from 'in-components/layout/Grid';
 import Footer from 'in-components/Footer/Footer';
@@ -33,7 +32,6 @@ import { t } from 'in-i18n';
 import locals from './Alert.mless';
 
 export default function Alert({
-  location,
   timeConfig,
   paths: { detailsPath, listPath, alertsTabSegment },
   matrix: { alertIdParam, alertCreatedParam },
@@ -48,6 +46,8 @@ export default function Alert({
   renderAlertConfiguration,
   tracking = {}
 }) {
+  const { location, navigate } = useNavigation();
+
   const [reload, triggerReload] = useState();
 
   const alertConfigId = getMatrixParameter(location, alertsTabSegment, alertIdParam);
@@ -67,10 +67,9 @@ export default function Alert({
   }
 
   function setRevision(created) {
-    mutateUrl(location => {
-      location.pathname = detailsPath;
-      setOrDeleteMatrixKey(location, alertsTab, alertCreatedMatrixParam, created);
-    });
+    const targetLocation = { ...location, pathname: detailsPath };
+    setOrDeleteMatrixKey(targetLocation, alertsTab, alertCreatedMatrixParam, created);
+    navigate(targetLocation);
 
     /**
      * We need to manually trigger a reload because the latest revisions is identified by the
@@ -166,7 +165,6 @@ Alert.propTypes = {
   getConfig: PropTypes.func.isRequired,
   getConfigVersions: PropTypes.func.isRequired,
   isGlobalSmartAlert: PropTypes.bool,
-  location: propTypeLocation.isRequired,
   renderAlertConfiguration: PropTypes.func.isRequired,
   renderSmartAlertDialog: PropTypes.func.isRequired,
   restoreConfig: PropTypes.func.isRequired,

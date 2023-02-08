@@ -12,7 +12,7 @@ import { Link } from '@instana/components';
 import { getAllBuiltInGlobalSmartAlerts } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
 import { categoryGlobal } from 'in-alerting/smart-alerts/applications/list/constants';
 import LabelText from 'in-alerting/smart-alerts/applications/apCreation/LabelText';
-import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { alertsCategory } from 'in-applications/navigation/matrix';
 import Sections from 'in-components/workspace/Sections/Sections';
@@ -60,17 +60,14 @@ function Headline({ builtInAlerts = [] }) {
 }
 
 function Explanation() {
+  const { location, createHref } = useNavigation();
+  const explanationLocation = { ...location, pathname: alertsList };
+  setOrDeleteMatrixKey(explanationLocation, alertsList, alertsCategory, categoryGlobal);
+
   return (
     <LabelText asSubText>
       {t('in-alerting:smartAlerts.applications.apCreation.addToAllExplanation')}{' '}
-      <Link
-        href$={getModifiedUrlStream(_location => {
-          _location.pathname = alertsList;
-          setOrDeleteMatrixKey(_location, alertsList, alertsCategory, categoryGlobal);
-          return _location;
-        })}
-        external
-      >
+      <Link href={createHref(explanationLocation)} external>
         {t('in-alerting:smartAlerts.applications.apCreation.addToAllExplanationSubText')}
       </Link>
     </LabelText>

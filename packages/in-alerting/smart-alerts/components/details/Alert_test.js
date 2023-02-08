@@ -19,9 +19,8 @@ jest.mock('react', () => ({
   ...jest.requireActual('react'),
   useState: () => [null, mockTriggerReload]
 }));
-jest.mock('in-stores/navigation/navigation', () => ({
-  ...jest.requireActual('in-stores/navigation/navigation'),
-  mutateUrl: jest.fn()
+jest.mock('in-stores/navigation/hooks/useNavigation', () => ({
+  useNavigation: jest.fn(() => ({ location: { pathname: '', matrix: {} }, navigate: jest.fn() }))
 }));
 
 describe('Alert', () => {
@@ -38,10 +37,6 @@ describe('Alert', () => {
     matrix: {
       alertIdParam: '',
       alertCreatedParam: ''
-    },
-    location: {
-      pathname: '',
-      matrix: {}
     },
     getConfig: () => ({ data: {}, errors: [] }),
     getConfigVersions: () => ({ data: [], errors: [] }),
