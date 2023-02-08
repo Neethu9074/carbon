@@ -10,7 +10,6 @@ import {
   linkedListNameColumnDefinition,
   evaluationInfoColumnDefinition,
   entityNameColumnDefinition,
-  filtersColumnDefinition,
   editActionsColumnDefinition
 } from 'in-alerting/smart-alerts/applications/list/columns/columnDefinitions';
 import SmartAlertsBaseList from 'in-alerting/smart-alerts/applications/list/SmartAlertsBaseList';
@@ -32,7 +31,6 @@ describe('in-alerting/smart-alerts/applications/inventory/SmartAlertsBaseList', 
     linkedListNameColumnDefinition(location),
     evaluationInfoColumnDefinition(),
     entityNameColumnDefinition(),
-    filtersColumnDefinition(),
     editActionsColumnDefinition()
   ];
 

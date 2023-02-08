@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
 import { SimpleListNameColumn } from 'in-alerting/smart-alerts/applications/list/columns/SimpleListNameColumn';
@@ -15,6 +16,8 @@ import ListFilterColumn from 'in-alerting/smart-alerts/applications/list/columns
 import { ListNameColumn } from 'in-alerting/smart-alerts/applications/list/columns/ListNameColumn';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
+
+import locals from 'in-alerting/smart-alerts/applications/list/SmartAlertsBaseList.mless';
 
 /**
  * Primary Columns
@@ -73,25 +76,22 @@ export function evaluationInfoColumnDefinition(width = '20%') {
 }
 
 /* Details column informing about the entities this alert is scoped on */
-export function entityNameColumnDefinition(width = '25%') {
+export function entityNameColumnDefinition(width = '30%') {
   return {
     id: 'entityName',
     width,
     sortable: false,
     getContent({ config, isGlobalSmartAlertConfig }) {
-      return <ListEntityNameColumn {...config} isGlobalSmartAlertConfig={isGlobalSmartAlertConfig} />;
-    }
-  };
-}
-
-/* Details column informing about the filters applied to this alert */
-export function filtersColumnDefinition(width) {
-  return {
-    id: 'filters',
-    sortable: false,
-    width,
-    getContent({ config }) {
-      return <ListFilterColumn {...config} />;
+      return (
+        <div className={locals.filters}>
+          <span className={classNames(locals.centered, locals.space)}>
+            <ListEntityNameColumn {...config} isGlobalSmartAlertConfig={isGlobalSmartAlertConfig} />
+          </span>
+          <span className={locals.centered}>
+            <ListFilterColumn {...config} />
+          </span>
+        </div>
+      );
     }
   };
 }

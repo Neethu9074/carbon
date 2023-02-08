@@ -13,4 +13,17 @@
   .sortingConfiguratorWrapper {
     margin-right: 1rem;
   }
+  .centered {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .filters {
+    display: flex;
+    color: @lib__colors__N700Medium;
+  }
+
+  .space {
+    margin-right: 1rem;
+  }
 }

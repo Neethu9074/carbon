@@ -11,7 +11,6 @@ import { Card } from '@instana/components';
 import {
   evaluationInfoColumnDefinition,
   entityNameColumnDefinition,
-  filtersColumnDefinition,
   editActionsColumnDefinition,
   linkedListNameColumnDefinition
 } from 'in-alerting/smart-alerts/applications/list/columns/columnDefinitions';
@@ -44,7 +43,6 @@ function getColumnDefinitions(location) {
     linkedListNameColumnDefinition(location),
     evaluationInfoColumnDefinition(),
     entityNameColumnDefinition(),
-    filtersColumnDefinition(),
     editActionsColumnDefinition()
   ];
 }
