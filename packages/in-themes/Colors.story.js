@@ -8,9 +8,7 @@ import React from 'react';
 import { colorTranslation, getColor } from 'in-applications/endpointTypes';
 import theme from 'in-themes';
 
-export default {
-  component: Colors
-};
+export default {};
 
 export const Colors = () => {
   return (
