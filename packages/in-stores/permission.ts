@@ -94,7 +94,10 @@ export const Capability = Object.freeze({
   CAN_SEE_ON_PREM_LICENE_INFORMATION: 'CAN_SEE_ON_PREM_LICENE_INFORMATION',
   CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION: 'CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION',
   CAN_CONFIGURE_AUTOMATION_ACTIONS: 'CAN_CONFIGURE_AUTOMATION_ACTIONS',
-  CAN_RUN_AUTOMATION_ACTIONS: 'CAN_RUN_AUTOMATION_ACTIONS'
+  CAN_RUN_AUTOMATION_ACTIONS: 'CAN_RUN_AUTOMATION_ACTIONS',
+  CAN_CONFIGURE_SYNTHETICS: 'CAN_CONFIGURE_SYNTHETICS',
+  CAN_VIEW_SYNTHETIC_CONFIGS: 'CAN_VIEW_SYNTHETIC_CONFIGS',
+  CAN_VIEW_SYNTHETIC_TEST_RESULTS: 'CAN_VIEW_SYNTHETIC_TEST_RESULTS'
 } as const);
 
 export type CapabilityType = keyof typeof Capability;
@@ -466,6 +469,33 @@ function getProductPermissions(): Array<ProductPermission> {
       category: t('in-stores:permissionCanViewAccountAndBillingInformationCategory')
     }
   ];
+
+  if (syntheticsEnabled) {
+    permissions.push(
+      {
+        keyForGroupApi: Capability.CAN_CONFIGURE_SYNTHETICS,
+        keyForApiTokenApi: 'canConfigureSynthetics',
+        label: t('in-stores:permissionCanConfigureSyntheticsLabel'),
+        description: t('in-stores:permissionCanConfigureSyntheticsDescription'),
+        category: t('in-stores:permissionSyntheticMonitoringCategory'),
+        isOwnerPermission: false
+      },
+      {
+        keyForGroupApi: Capability.CAN_VIEW_SYNTHETIC_CONFIGS,
+        keyForApiTokenApi: 'canViewSyntheticConfigs',
+        label: t('in-stores:permissionCanViewSyntheticConfigsLabel'),
+        description: t('in-stores:permissionCanViewSyntheticConfigsDescription'),
+        category: t('in-stores:permissionSyntheticMonitoringCategory')
+      },
+      {
+        keyForGroupApi: Capability.CAN_VIEW_SYNTHETIC_TEST_RESULTS,
+        keyForApiTokenApi: 'canViewSyntheticTestResults',
+        label: t('in-stores:permissionCanViewSyntheticTestResultsLabel'),
+        description: t('in-stores:permissionCanViewSyntheticTestResultsDescription'),
+        category: t('in-stores:permissionSyntheticMonitoringCategory')
+      }
+    );
+  }
 
   if (!actionAutomationEnabled) {
     return permissions.filter(({ keyForGroupApi }) => {

@@ -105,6 +105,13 @@
   "permissionRestrictedLabel": "Limit access by Areas and Scopes",
   "permissionRestrictedHelp": "When toggled on, limited access is enabled and the configured areas and scopes are applied.",
   "permissionRestrictedWarning": "Toggle on 'Limit access by Areas and Scopes' to apply access limitation for the group.",
+  "permissionCanConfigureSyntheticsLabel": "Configuration of Synthetic tests and locations",
+  "permissionCanConfigureSyntheticsDescription": "Permits access to create, update, and delete Synthetic tests, and delete Synthetic locations.",
+  "permissionSyntheticMonitoringCategory": "Synthetic Monitoring",
+  "permissionCanViewSyntheticConfigsLabel": "Access to Synthetic tests and locations",
+  "permissionCanViewSyntheticConfigsDescription": "Permits access to view Synthetic tests and locations.",
+  "permissionCanViewSyntheticTestResultsLabel": "Access to Synthetic test results",
+  "permissionCanViewSyntheticTestResultsDescription": "Permits access to view Synthetic test results.",
 
   "metric": {
     "metric_MEAN": "mean",
