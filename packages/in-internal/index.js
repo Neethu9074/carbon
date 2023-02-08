@@ -10,13 +10,14 @@ import React from 'react';
 import AppDataProcessorStatistics from 'in-internal/monitoringUnit/Appdata/AppDataProcessorStatistics';
 // features for monitoring units
 import AppDataLiveAggregatorOverview from 'in-internal/monitoringUnit/Appdata/AppDataLiveAggregatorOverview';
+import WebsiteAdaptiveBaselineModel from 'in-internal/thisUnit/AdaptiveBaseline/WebsiteAdaptiveBaselineModel';
+import AdaptiveBaselineModel from 'in-internal/thisUnit/AdaptiveBaseline/ApplicationAdaptiveBaselineModel';
 import FillerInfrastructureMetrics from 'in-internal/monitoringUnit/infrastructureMetrics/Filler';
 import AppDataQueryPerformance from 'in-internal/monitoringUnit/Appdata/AppDataQueryPerformance';
 import ClickhouseTotalTableSizes from 'in-internal/monitoringUnit/sre/ClickhouseTotalTableSizes';
 import AppDataHealthAggregator from 'in-internal/monitoringUnit/Appdata/AppDataHealthAggregator';
 // General imports
 import InternalViewWrapper from 'in-internal/components/InternalViewWrapper';
-import AdaptiveBaselineModel from 'in-internal/thisUnit/AdaptiveBaseline/AdaptiveBaselineModel';
 import AppDataHealthProcessor from 'in-internal/monitoringUnit/Appdata/AppDataHealthProcessor';
 import ServerlessAcceptors from 'in-internal/monitoringUnit/serverless/ServerlessAcceptors';
 import JsStackTraceTranslator from 'in-internal/monitoringUnit/eum/JsStackTraceTranslator';
@@ -302,9 +303,14 @@ export default function Internal() {
       children={wrapInInternalView(WsApiTester)}
     />,
     <Route
-      key="internalAdaptiveBaselineMode"
-      path="/internal/thisUnit/adaptiveBaselineModel"
+      key="internalApplicationAdaptiveBaselineMode"
+      path="/internal/thisUnit/applicationAdaptiveBaselineModel"
       children={wrapInInternalView(AdaptiveBaselineModel)}
+    />,
+    <Route
+      key="internalWebsiteAdaptiveBaselineMode"
+      path="/internal/thisUnit/websiteAdaptiveBaselineModel"
+      children={wrapInInternalView(WebsiteAdaptiveBaselineModel)}
     />,
     <Route key="internalLanding" exact path="/internal" children={wrapInInternalView(Landing)} />
   );

@@ -537,11 +537,18 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
                     description={t('in-internal:components.landing.internalEventsDesc')}
                   />
                   <LinkListItem
-                    label="Adaptive Baseline Model"
+                    label="Adaptive Baseline Model for AP Smart Alert"
                     href$={getModifiedUrlStream(
-                      params => (params.pathname = '/internal/thisUnit/adaptiveBaselineModel')
+                      params => (params.pathname = '/internal/thisUnit/applicationAdaptiveBaselineModel')
                     )}
                     description="Inspect an Adaptive Baseline Model for specific Appdata entity"
+                  />
+                  <LinkListItem
+                    label="Adaptive Baseline Model for Website Smart Alert"
+                    href$={getModifiedUrlStream(
+                      params => (params.pathname = '/internal/thisUnit/websiteAdaptiveBaselineModel')
+                    )}
+                    description="Inspect an Adaptive Baseline Model for specific Website entity"
                   />
                   <LinkListItem
                     label={t('in-internal:components.landing.wsTesterTitle')}
