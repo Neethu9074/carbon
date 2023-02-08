@@ -44,6 +44,7 @@
   "memAvailable": "Memory Available (MB)",
   "memAvailablePercentage": "Memory Available (%)",
   "assignedProc": "Assigned Processing Units",
+  "assignedMemory": "Assigned Memory (MB)",
   "drc": "DRC-Index",
   "id": "ID",
   "sentPackets": "Packets Sent/s",
@@ -90,7 +91,8 @@
     "phmcs": "Power HMCs",
     "systems": "Systems",
     "logicalPartitions": "Logical Partitions",
-    "vios": "VIOS"
+    "vios": "VIOS",
+    "sharedProcessorPool": "Shared Processor Pools"
   },
   "dashboards": {
     "phmc": "pHMC",
@@ -125,7 +127,9 @@
     "virtualFiberChannelAdapter": "Virtual Fiber Channel Adapters",
     "sharedStoragePool": "Shared Storage Pools",
     "energy": "Energy",
-    "maxCpuUtilzation": "Maximum CPU Capacity"
+    "maxCpuUtilzation": "Maximum CPU Capacity",
+    "systemFirmwareUtilized": "System Firmware - Utilized Processing Units",
+    "systemFirmwareAssignedMem": "System Firmware - Assigned Memory"
+
   }
 }
-

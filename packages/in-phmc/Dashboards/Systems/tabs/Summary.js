@@ -10,7 +10,7 @@ import { Card } from '@instana/components';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import SharedProcessorPool from 'in-phmc/Dashboards/tables/SharedProcessorPool';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import { number, percentage } from 'in-services/formatters/number';
+import { kiloBytes, number, percentage } from 'in-services/formatters/number';
 import { Row, Col } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
@@ -72,7 +72,43 @@ export default function Summary({ timeConfig, data: system }) {
           </Card>
         </Col>
       </Row>
-      <SharedProcessorPool timeConfig={timeConfig} system={system} />
+      <Row verticallyStretchColumns>
+        <Col lg={6}>
+          <Card title={t('in-phmc:dashboards.systemFirmwareUtilized')} useMaxAvailableHeight>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                metrics: ['utilizedProcUnitsHypervisor'],
+                labels: [t('in-phmc:utilizedProcNumber')],
+                formatter: number.detailed,
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </Card>
+        </Col>
+        <Col lg={6}>
+          <Card title={t('in-phmc:dashboards.systemFirmwareAssignedMem')} useMaxAvailableHeight>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                metrics: ['assignedMemHypervisor'],
+                labels: [t('in-phmc:assignedMemory')],
+                formatter: kiloBytes.detailed,
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </Card>
+        </Col>
+      </Row>
+      <Card title={t('in-phmc:dashboards.sharedProcessorPool')}>
+        <SharedProcessorPool timeConfig={timeConfig} system={system} />
+      </Card>
     </Fragment>
   );
 }

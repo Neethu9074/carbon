@@ -14,9 +14,11 @@ import getSharedProcessorPool from 'in-phmc/subscriptions/getSharedProcessorPool
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import { consoleId as matrixConsoleId } from 'in-phmc/navigation/matrix';
 import tabs from 'in-phmc/Dashboards/SharedProcessorPool/tabs/index';
+import { SharedProcessorPoolBreadcrumbs } from 'in-phmc/breadcrumbs';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import EntityVersionList from 'in-components/EntityVersionList';
+import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { sppDashboard } from 'in-phmc/navigation/paths';
@@ -36,6 +38,7 @@ export default function SharedProcessorPoolDashboard({ location }) {
 
   return (
     <Fragment>
+      <Breadcrumbs items={SharedProcessorPoolBreadcrumbs(props)} />
       <ViewTrackingMeta
         data={{
           productArea: 'IBM Power',
