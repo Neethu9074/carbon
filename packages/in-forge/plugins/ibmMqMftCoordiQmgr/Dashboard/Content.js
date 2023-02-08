@@ -7,6 +7,7 @@
 import React from 'react';
 
 import TransfersTable from 'in-forge/plugins/ibmMqMftCoordiQmgr/Dashboard/TransfersTable';
+import MonitorsTable from 'in-forge/plugins/ibmMqMftCoordiQmgr/Dashboard/MonitorsTable';
 import AgentsTable from 'in-forge/plugins/ibmMqMftCoordiQmgr/Dashboard/AgentsTable';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
@@ -46,6 +47,7 @@ export default function IbmMqMftCoordiQmgrDashboard({ snapshot, timeConfig }) {
       </DashboardSection>
       <AgentsTable snapshot={snapshot} timeConfig={timeConfig} />
       <TransfersTable snapshot={snapshot} timeConfig={timeConfig} />
+      <MonitorsTable snapshot={snapshot} />
     </div>
   );
 }

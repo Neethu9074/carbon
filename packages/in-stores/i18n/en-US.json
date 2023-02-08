@@ -180,6 +180,7 @@
     "fieldsEntityIbmMqMftCoordiQmgr": "IBM MQ Managed File Transfer Coordination Queue Manager",
     "fieldsEntityIbmMqMftZone": "IBM MQ Managed File Transfer Zone",
     "fieldsEntityIbmMqMftAgent": "IBM MQ Managed File Transfer Agent",
+    "fieldsEntityIbmMqMftMonitor": "IBM MQ Managed File Transfer Monitor",
     "fieldsEntityService": "Logical service",
     "fieldsEntityContainerd": "Containerd container",
     "fieldsEntityCrio": "CRI-O container",

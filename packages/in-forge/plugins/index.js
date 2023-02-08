@@ -115,6 +115,7 @@ import './sparkApplication';
 import './entityStatistics';
 import './azureFunctionApp';
 import './ibmMqMftTransfer';
+import './ibmMqMftMonitor';
 import './activeMQArtemis';
 import './awsEcsContainer';
 import './azureAppService';

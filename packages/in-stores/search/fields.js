@@ -50,6 +50,7 @@ const helpTexts = {
   'entity.ibmMqMft.queuemanager': t('in-stores:search.fieldsEntityIbmMqMftCoordiQmgr'),
   'entity.ibmMqMft.zone': t('in-stores:search.fieldsEntityIbmMqMftZone'),
   'entity.ibmMqMft.agent': t('in-stores:search.fieldsEntityIbmMqMftAgent'),
+  'entity.ibmMqMft.monitor': t('in-stores:search.fieldsEntityIbmMqMftMonitor'),
   'entity.service': t('in-stores:search.fieldsEntityService'),
   'entity.containerd': t('in-stores:search.fieldsEntityContainerd'),
   'entity.crio': t('in-stores:search.fieldsEntityCrio'),

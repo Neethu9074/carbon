@@ -161,6 +161,7 @@ export const nonServicePlugins = {
   ibmMqMftZone: 'ibmMqMftZone',
   ibmMqMftAgent: 'ibmMqMftAgent',
   ibmMqMftTransfer: 'ibmMqMftTransfer',
+  ibmMqMftMonitor: 'ibmMqMftMonitor',
   ibmOpenstack: 'ibmOpenstack',
   ibmOpenstackComputeInstance: 'ibmOpenstackComputeInstance',
   ibmOpenstackHypervisor: 'ibmOpenstackHypervisor',
@@ -473,6 +474,7 @@ export const fullyQualifiedPlugins = {
   ibmMqMftCoordiQmgr: 'com.instana.forge.infrastructure.messaging.ibmmqmft.derivedentity.coordiqmgr.IbmMqMftCoordiQmgr',
   ibmMqMftAgent: 'com.instana.forge.infrastructure.messaging.ibmmqmft.derivedentity.agent.IbmMqMftAgent',
   ibmMqMftTransfer: 'com.instana.forge.infrastructure.messaging.ibmmqmft.derivedentity.transfer.IbmMqMftTransfer',
+  ibmMqMftMonitor: 'com.instana.forge.infrastructure.messaging.ibmmqmft.derivedentity.monitor.IbmMqMftMonitor',
   ibmOpenstack: 'com.instana.forge.infrastructure.paas.ibmopenstack.derivedentity.openstack.IbmOpenstack',
   ibmOpenstackComputeInstance:
     'com.instana.forge.infrastructure.paas.ibmopenstack.derivedentity.computeinstance.IbmOpenstackComputeInstance',

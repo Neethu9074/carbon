@@ -757,6 +757,8 @@
   "pluginName_ibmMqMftAgent_plural": "IBM MQ MFT Agents",
   "pluginName_ibmMqMftTransfer": "IBM MQ MFT Transfer",
   "pluginName_ibmMqMftTransfer_plural": "IBM MQ MFT Transfers",
+  "pluginName_ibmMqMftMonitor": "IBM MQ MFT Monitor",
+  "pluginName_ibmMqMftMonitor_plural": "IBM MQ MFT Monitors",
   "pluginName_ibmVsi_plural": "IBM Cloud Virtual Server Instances",
   "pluginName_ibmVsi_0": "IBM Cloud Virtual Server Instances",
   "pluginName_ibmVsi_1": "IBM Cloud Virtual Server Instances",
@@ -9399,7 +9401,8 @@
         "successfulTransfers": "Successful Transfers",
         "failedTransfers": "Failed Transfers",
         "partiallySuccessfulTransfers": "Partially Successful Transfers",
-        "transfersWithCount": "Current Transfers ({{len}})"
+        "transfersWithCount": "Current Transfers ({{len}})",
+        "monitorsWithCount": "Monitors ({{len}})"
       }
     },
     "ibmMqMftZone": {
@@ -9454,6 +9457,19 @@
         "currentItemSize": "Total(b)",
         "currentFile": "Current File",
         "itemsWithCount": "Items ({{len}})"
+      }
+    },
+    "ibmMqMftMonitor": {
+      "dashboard": {
+        "ibmMqMftMonitor": "IBM MQ MFT Monitor",
+        "monitor": "Monitor",
+        "agent": "Agent",
+        "resource": "Resource",
+        "triggerEvent": "Trigger Event",
+        "filePattern": "File Pattern",
+        "pollInterval": "Poll Interval",
+        "status": "Status",
+        "batch": "Batch Size"
       }
     },
     "ibmMqQueueManager": {
