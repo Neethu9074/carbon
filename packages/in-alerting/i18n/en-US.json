@@ -1026,6 +1026,14 @@
       "markAsMigratedButtonConfirmationConfirmLabel": "Confirm"
     },
     "enable": "Enable",
-    "disable": "Disable"
+    "disable": "Disable",
+    "synthetics": {
+      "alertList": {
+        "timeThreshold": "Time Threshold",
+        "filterApplied": "Filter Applied",
+        "violationsCount": "{{violationsCount}} failures",
+        "numberOfFailures": "Number of Failures"
+      }
+    }
   }
 }

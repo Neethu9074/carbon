@@ -13,6 +13,7 @@ import { getAllAlertConfigs } from 'in-alerting/smart-alerts/synthetics/api/synt
 import Sticky from 'in-components/Sticky';
 import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
 import AlertBaseList from 'in-alerting/smart-alerts/components/AlertsBaseList';
+import DefaultCell from 'in-alerting/smart-alerts/components/list/DefaultCell';
 import { tableActions } from 'in-alerting/smart-alerts/synthetics/Alerts';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -33,6 +34,7 @@ export default function SmartAlertList() {
           extraColumnDefinitions={getColumnDefinitions()}
           loadEntities={getAllAlertConfigs}
           tableActions={tableActions}
+          getSubtitle={() => t('in-synthetics:dashboard.alertList.numberOfFailures')}
         />
       </LeftRightPadding>
       <Footer />
@@ -47,10 +49,12 @@ function getColumnDefinitions() {
       label: t('in-synthetics:dashboard.alertList.timeThreshold'),
       getContent: (item: SyntheticAlertConfigWithMetadata) => {
         return (
-          <span>
-            {item.timeThreshold.violationsCount}
-            {' failures'}
-          </span>
+          <DefaultCell
+            title={t('in-synthetics:dashboard.alertList.violationsCount', {
+              violationsCount: item.timeThreshold.violationsCount
+            })}
+            subtitle={t('in-synthetics:dashboard.alertList.timeThreshold')}
+          />
         );
       }
     },
@@ -59,10 +63,12 @@ function getColumnDefinitions() {
       label: t('in-synthetics:dashboard.alertList.testsApplied'),
       getContent: (item: SyntheticAlertConfigWithMetadata) => {
         return (
-          <span>
-            {item.syntheticTestIds.length}
-            {' tests'}
-          </span>
+          <DefaultCell
+            title={t('in-synthetics:dashboard.alertList.testsCount', {
+              testsCount: item.syntheticTestIds.length
+            })}
+            subtitle={t('in-synthetics:dashboard.alertList.testsApplied')}
+          />
         );
       }
     },

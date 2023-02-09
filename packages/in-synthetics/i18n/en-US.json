@@ -334,7 +334,10 @@
     "alertList": {
       "timeThreshold": "Time Threshold",
       "testsApplied": "Tests Applied",
-      "filterApplied": "Filter Applied"
+      "filterApplied": "Filter Applied",
+      "violationsCount": "{{violationsCount}} failures",
+      "testsCount": "{{testsCount}} tests",
+      "numberOfFailures": "Number of Failures"
     }
   }
 }
