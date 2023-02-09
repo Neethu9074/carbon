@@ -16,8 +16,8 @@ import HelpParagraph from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/
 import { removeMobileApp as removeMobileAppTracker } from 'in-mobile-apps/tracker';
 // @ts-expect-error needs migration to TS
 import { mobileAppsPathFullyQualified } from 'in-mobile-apps/navigation/paths';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { removeMobileApp } from 'in-mobile-apps/api/mobileApps';
-import { goToPath } from 'in-stores/navigation/navigation';
 import { combineDataAndError } from 'in-services/util/ro';
 import SaveError from 'in-components/form/SaveError';
 import { t, Trans } from 'in-i18n';
@@ -56,6 +56,8 @@ const Remove = (props: Props) => {
   const subscriptionRef = useRef<Disposable | null>(null);
 
   useEffect(() => () => subscriptionRef.current?.dispose(), []);
+
+  const { goToPath } = useNavigation();
 
   const onTickChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setState(prevState => ({ ...prevState, checkboxChecked: e.target.checked }));
