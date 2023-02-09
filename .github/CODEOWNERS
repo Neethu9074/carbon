@@ -136,11 +136,13 @@ packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/applica
 packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/event             @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-issue-detection @instana/eng-ui
 packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure    @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
 packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/mobileApp         @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-application @instana/eng-ui
-packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli               @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-service-levels @instana/eng-ui
 packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/websites          @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-application @instana/eng-ui
-packages/in-custom-dashboards/widgets/Slo @pr-approval @Instana-IBM-Github-Enterprise @instana/eng-service-levels @instana/eng-ui
-packages/in-custom-dashboards/widgets/Apdex @pr-approval @Instana-IBM-Github-Enterprise @instana/eng-service-levels @instana/eng-ui
 
 # Container images
-/containers/ @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-delivery-enablement @instana/eng-ui
-/containers/ @ZaaS/zLinuxPrivateCloud
+/containers/ @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-delivery-enablement @ZaaS/zLinuxPrivateCloud @instana/eng-ui
+
+# Service Levels
+packages/in-service-levels                                                                  @pr-approval @Instana-IBM-Github-Enterprise @instana/eng-service-levels @instana/eng-ui
+packages/in-custom-dashboards/widgets/Slo                                                   @pr-approval @Instana-IBM-Github-Enterprise @instana/eng-service-levels @instana/eng-ui
+packages/in-custom-dashboards/widgets/Apdex                                                 @pr-approval @Instana-IBM-Github-Enterprise @instana/eng-service-levels @instana/eng-ui
+packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-service-levels @instana/eng-ui
