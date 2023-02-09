@@ -12,6 +12,7 @@ import { validateFormModel } from 'in-components/QueryBuilder/validation/formMod
 import QueryBuilder from 'in-components/QueryBuilder/QueryBuilder';
 import { success, errorWithData } from 'in-services/util/result';
 import { getTagCatalogOnce } from 'in-services/tags/tagCatalog';
+import { pendingResult } from 'in-services/fixedObjects';
 import { isLoading } from 'in-services/util/result';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
@@ -40,7 +41,15 @@ export function createQueryBuilder({
 
     // Observable<Result<Boolean>>
     isQueryValid: (formModel, timeConfig) =>
-      getTagCatalog({ timeConfig }).map(result => isQueryValid(formModel, result)),
+      getTagCatalog({ timeConfig }).map(result => {
+        if (isLoading(result)) {
+          return result;
+        }
+        if (result?.data == null) {
+          errorWithData(false);
+        }
+        return isQueryValid(formModel, result?.data)
+      }),
 
     // Observable<Result<FormModel>>
     toFormModel: (tagFilterArray, timeConfig) =>
@@ -68,25 +77,22 @@ export function createDynamicQueryBuilder({
       )
     },
 
-    isQueryValid: (formModel, tagCatalogResult) => {
-      if (isLoading(tagCatalogResult)) {
-        return tagCatalogResult;
+    isQueryValid: (formModel, tagCatalog) => {
+      if (!tagCatalog) {
+        return pendingResult;
       }
-      if (tagCatalogResult?.data == null) {
-        return errorWithData(false);
-      }
-      const { isValid, errors } = validateFormModel({ tagCatalog: tagCatalogResult?.data, formModel, maxExpressionDepth });
+      const { isValid, errors } = validateFormModel({ tagCatalog: tagCatalog, formModel, maxExpressionDepth });
       if (!isValid) {
         return errorWithData(errors, false);
       }
       return success(isValid);
     },
 
-    toFormModel: (tagFilterArray, tagCatalogResult) => {
-      if (!tagCatalogResult?.data) {
-        return tagCatalogResult;
+    toFormModel: (tagFilterArray, tagCatalog) => {
+      if (!tagCatalog) {
+        return pendingResult;
       }
-      return success(fromTagFiltersArray(tagFilterArray, tagCatalogResult?.data));
+      return success(fromTagFiltersArray(tagFilterArray, tagCatalog));
     }
   }
 }
