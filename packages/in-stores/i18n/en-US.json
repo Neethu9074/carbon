@@ -191,6 +191,7 @@
     "fieldsEntityService": "Logical service",
     "fieldsEntityContainerd": "Containerd container",
     "fieldsEntityCrio": "CRI-O container",
+    "fieldsEntityPodman": "Podman container",
     "fieldsEntityDocker": "Docker container",
     "fieldsEntityGarden": "Garden container",
     "fieldsEntityLxc": "LXC container",

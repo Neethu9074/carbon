@@ -54,6 +54,7 @@ const helpTexts = {
   'entity.service': t('in-stores:search.fieldsEntityService'),
   'entity.containerd': t('in-stores:search.fieldsEntityContainerd'),
   'entity.crio': t('in-stores:search.fieldsEntityCrio'),
+  'entity.podman': t('in-stores:search.fieldsEntityPodman'),
   'entity.docker': t('in-stores:search.fieldsEntityDocker'),
   'entity.garden': t('in-stores:search.fieldsEntityGarden'),
   'entity.lxc': t('in-stores:search.fieldsEntityLxc'),

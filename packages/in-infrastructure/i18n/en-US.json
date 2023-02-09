@@ -49,11 +49,14 @@
     "loadingData": "Loading data",
     "namespace": "Namespace",
     "pod": "Pod",
+    "podId": "Pod ID",
+    "podName": "Pod Name",
     "deployment": "Deployment",
     "node": "Node",
     "cluster": "Cluster",
     "restartCount": "Restart Count",
-    "kubernetesLabels": "Kubernetes Labels"
+    "kubernetesLabels": "Kubernetes Labels",
+    "podmanAnnotations": "Podman Annotations"
   },
   "explore": {
     "beta": "Beta",

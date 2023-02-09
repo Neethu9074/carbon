@@ -242,6 +242,7 @@ import './awsRds';
 import './awsSqs';
 import './consul';
 import './docker';
+import './podman';
 import './domino';
 import './garden';
 import './packet';

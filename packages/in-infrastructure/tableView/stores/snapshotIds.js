@@ -28,6 +28,7 @@ export const entityTypeToFullyQualifiedPlugin = {
   clickHouseDatabase: fullyQualifiedPlugins.clickHouseDatabase,
   containerd: fullyQualifiedPlugins.containerd,
   crio: fullyQualifiedPlugins.crio,
+  podman: fullyQualifiedPlugins.podman,
   garden: fullyQualifiedPlugins.garden,
   lxc: fullyQualifiedPlugins.lxc,
   beeInstanaNode: fullyQualifiedPlugins.beeInstanaNode,
