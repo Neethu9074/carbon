@@ -108,7 +108,7 @@
         "smartAlerts": "Smart Alerts"
       },
       "popDialog": {
-        "button": "<> Deploy a PoP",
+        "button": "Deploy a PoP",
         "simpleTab": "Simple",
         "redisTab": "Redis TLS",
         "title": "Synthetic PoP Commands",

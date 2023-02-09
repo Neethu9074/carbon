@@ -29,6 +29,7 @@ export default function PopDeployButton({ downloadKey, agentKey, agentKeys, synt
             toggle();
           }}
           kind="info"
+          icon="lib_synthetic_location"
         >
           {t('in-synthetics:dashboard.testList.popDialog.button')}
         </Button>
