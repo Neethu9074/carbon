@@ -98,8 +98,8 @@ function InfraExploreViewWithFixatedTimeConfig() {
   const type = urlType === 'all' ? null : urlType;
 
   const tagCatalog = useTagCatalog({ ownerType: type });
-  const validTagFilterExpressionResult = isQueryValid(tagFilterExpression, tagCatalog) ?? pendingResult;
-  const validGroupResult = isGroupingConfigurationValid(group, tagCatalog) ?? pendingResult;
+  const validTagFilterExpressionResult = isQueryValid(tagFilterExpression, tagCatalog);
+  const validGroupResult = isGroupingConfigurationValid(group, tagCatalog);
   // in case of a pending result (validTagFilterExpressionResult.data === null) we do not want to show the user an error message
   const isValid = validTagFilterExpressionResult.data === true && validGroupResult.data === true;
   const isInvalid = validGroupResult.data === false;

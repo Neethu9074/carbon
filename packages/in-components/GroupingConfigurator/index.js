@@ -9,6 +9,7 @@ import GroupingConfigurator from 'in-components/GroupingConfigurator/GroupingCon
 import { isValid } from 'in-components/GroupingConfigurator/validation';
 import { getTagCatalogOnce } from 'in-services/tags/tagCatalog';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
+import { pendingResult } from 'in-services/fixedObjects';
 import { success } from 'in-services/util/result';
 
 export function createGroupingConfigurator({ getTagCatalog: originalGetTagCatalog, getSuggestions }) {
@@ -26,7 +27,7 @@ export function createGroupingConfigurator({ getTagCatalog: originalGetTagCatalo
     // Observable<Result<Boolean>>
     isGroupingConfigurationValid: (groupingConfiguration, timeConfig) =>
       getTagCatalog({ timeConfig })
-        .map(result => isGroupingConfigurationValid(groupingConfiguration, result))
+        .map(result => isGroupingConfigurationValid(groupingConfiguration, result?.data))
   };
 }
 
@@ -36,11 +37,11 @@ export function createDynamicGroupingConfigurator({ getSuggestions }) {
       return <GroupingConfigurator {...props} tagCatalog={tagCatalog} getSuggestions={getSuggestions} />;
     },
 
-    isGroupingConfigurationValid: (groupingConfiguration, result) => {
-      if (!result?.data) {
-        return result;
+    isGroupingConfigurationValid: (groupingConfiguration, tagCatalog) => {
+      if (!tagCatalog) {
+        return pendingResult;
       }
-      return success(isValid(groupingConfiguration, result?.data));
+      return success(isValid(groupingConfiguration, tagCatalog));
     }
   }
 }
