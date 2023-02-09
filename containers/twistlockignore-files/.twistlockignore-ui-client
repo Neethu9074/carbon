@@ -2,7 +2,4 @@ PRISMA-2021-0169 # part of nodejs: uglfyjs
 CVE-2021-3807 # (also ignored in base image) part of nodejs: False positive for ansi-regex - https://access.redhat.com/errata/RHSA-2021:5171 - old slack thread: #tech-ui-dev https://instana.slack.com/archives/G5LCSUJGY/p1651141061729339?thread_ts=1651140558.152909&cid=G5LCSUJGY
 CVE-2022-31129 # part of nodejs: moment.js
 PRISMA-2022-0039 # (also ignored in base image) part of nodejs: ReDoS in minimatch <3.0.5 -existing slack thread: #build-community https://instana.slack.com/archives/GKKKN695Y/p1645455937429659
-CVE-2022-37598 # Excluding per Slack thread https://instana.slack.com/archives/C5LCSUJGY/p1674846980294979
 CVE-2022-24999 # Excluding per Slack thread https://instana.slack.com/archives/C5LCSUJGY/p1674846980294979
-WS-2023-0010 # Excluding per Slack thread https://instana.slack.com/archives/C5LCSUJGY/p1674846980294979
-WS-2023-0007 # Excluding per Slack thread https://instana.slack.com/archives/C5LCSUJGY/p1674846980294979
