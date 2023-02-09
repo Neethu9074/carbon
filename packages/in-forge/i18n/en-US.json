@@ -1281,6 +1281,11 @@
   "pluginName_zCics_1": "IBM CICS for z/OS",
   "pluginName_zCics_2": "IBM CICS for z/OS",
   "pluginName_zCics": "IBM CICS for z/OS",
+  "pluginName_zIms_plural": "IBM IMS for z/OS",
+  "pluginName_zIms_0": "IBM IMS for z/OS",
+  "pluginName_zIms_1": "IBM IMS for z/OS",
+  "pluginName_zIms_2": "IBM IMS for z/OS",
+  "pluginName_zIms": "IBM IMS for z/OS",
   "pluginName_webLogicApplicationContainer_plural": "WebLogic Servers",
   "pluginName_webLogicApplicationContainer_0": "WebLogic Servers",
   "pluginName_webLogicApplicationContainer_1": "WebLogic Servers",
@@ -12212,6 +12217,88 @@
       "rates": "Rates",
       "sos": "SOS"
     },
+    "zIms": {
+      "label": "IBM IMS for z/OS",
+      "imsId": "IMS ID",
+      "imsplexName": "IMSplex Name",
+      "mvsSystem": "MVS System",
+      "sysplexName": "Sysplex Name",
+      "sqgroupName": "SQGroup Name",
+      "regionCount": "Region Count",
+      "sharedTransactionQueue": "Shared Transaction Queue",
+      "longestLock": "Longest Lock",
+      "highestR0Time": "Highest R0 Time",
+      "affinityCount": "Affinity Count",
+      "lockWaiters": "Lock Waiters",
+      "systemUtilization": "System Utilization",
+      "totalCpuPercent": "Total CPU Percent",
+      "totalIoRate": "Total IO Rate",
+      "totalDeqEnqRate": "Total DEQ & ENQ Rate",
+      "totalDeqRate": "Total DEQ Rate",
+      "totalEnqRate": "Total ENQ Rate",
+      "totalPagingRate": "Total Paging Rate",
+      "totalTransactionQueueTransactionRate": "Total Transaction Queue & Rate",
+      "totalTransactionQueue": "Total Transaction Queue",
+      "totalTransactionRate": "Total Transaction Rate",
+      "addressSpaces": {
+        "title": "Address Spaces",
+        "type": "Type",
+        "swappedOut": "Swapped Out",
+        "cpuTime": "CPU Time",
+        "workingSetSize": "Working Set Size",
+        "cpuPercentage": "CPU Percentage",
+        "excpRate": "EXCP Rate",
+        "commonPageInRate": "Common Page-In Rate",
+        "privatePageInRate": "Private Page-In Rate",
+        "job": "Job"
+      },
+      "subpoolStatistics": {
+        "title": "Subpool Statistics",
+        "subpoolNumber": "Subpool Number",
+        "bufferCount": "Buffer Count",
+        "bufferSize": "Buffer Size",
+        "totalStorage": "Total Storage",
+        "prefixPagefixed": "Prefix Page Fixed",
+        "bufferPagefixed": "Buffer Page Fixed",
+        "subpoolHitRatio": "Subpool Hit Ratio"
+      },
+      "vsamSubpools":{
+        "title": "VSAM Subpools",
+        "subPoolNumber": "Subpool Number",
+        "poolNames": "Pool Name",
+        "poolType": "Pool Type",
+        "bufferSize": "Buffer Size",
+        "bufferPagefixed": "Buffers Page Fixed",
+        "blocksPagefixed": "Blocks Page Fixed",
+        "usingHiperspace": "Using Hiperspace",
+        "subPoolHitRatio": "Subpool Hit Ratio"
+
+      },
+      "poolUtilization": {
+        "title": "Pool Utilization",
+        "poolName": "Pool Name",
+        "poolGroup": "Pool Group",
+        "poolSize": "Pool Size",
+        "freeSpace": "Free Space",
+        "freeBlocks": "Free Blocks",
+        "largestFreeBlock": "Largest Free Block",
+        "currentStorageUsed": "Current Storage Used"
+      },
+      "dependentRegion": {
+        "title": "Dependent Region",
+        "regionName": "Region Name",
+        "regionIdentifier": "Region Identifier",
+        "transactionName": "Transaction Name",
+        "psbName": "PSB Name",
+        "type": "Type",
+        "regionStatus": "Region Status",
+        "regionOccupancyPercentage": "Region Occupancy Percentage",
+        "transactionElapsedTime": "Transaction Elapsed Time",
+        "externalSubsystemCalls": "External Subsystem Calls",
+        "locksHeldCount": "Locks Held Count"
+
+      }
+    },
     "zOS": {
       "label": "IBM z/OS",
       "sysplexName": "Sysplex Name",
@@ -12262,7 +12349,17 @@
         "amountEcsaInUse": "Amount ECSA In Use",
         "amountSqaInUse": "Amount SQA In Use",
         "amountEsqaInUse": "Amount ESQA In Use"
+      },
+      "imsSummary": {
+        "title": "IMS Summary",
+        "imsName": "IMS Name",
+        "imsId": "IMS ID",
+        "regionCount": "Region Count",
+        "sharedTransactionQueue": "Shared Transaction Queue",
+        "longestLock": "Longest Lock",
+        "highestR0Time": "Highest R0 Time"
       }
+
     }
   },
   "tracing": {

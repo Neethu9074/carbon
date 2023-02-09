@@ -273,6 +273,7 @@ import './nova';
 import './ping';
 import './solr';
 import './zDb2';
+import './zIms';
 import './ec2';
 import './gce';
 import './lxc';

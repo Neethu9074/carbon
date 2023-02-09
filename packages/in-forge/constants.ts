@@ -278,7 +278,8 @@ export const nonServicePlugins = {
   zooKeeper: 'zooKeeper',
   zOS: 'zOS',
   zDb2: 'zDb2',
-  zCics: 'zCics'
+  zCics: 'zCics',
+  zIms: 'zIms'
 };
 
 export const applicationPlugins = {
@@ -604,7 +605,8 @@ export const fullyQualifiedPlugins = {
   zooKeeper: 'com.instana.forge.infrastructure.database.zookeeper.ZooKeeper',
   zOS: 'com.instana.forge.ibm.ibmz.os.ZOS',
   zDb2: 'com.instana.forge.ibm.ibmz.db2.ZDb2',
-  zCics: 'com.instana.forge.ibm.ibmz.cics.ZCics'
+  zCics: 'com.instana.forge.ibm.ibmz.cics.ZCics',
+  zIms: 'com.instana.forge.ibm.ibmz.ims.ZIms'
 };
 
 export function translateFullyQualifiedPluginToShortPluginName(fullyQualifiedPlugin: string): string | null {
