@@ -3,12 +3,34 @@
  * (c) Copyright Instana Inc.
  */
 
+import {
+  TimeConfig,
+  OrderDirection,
+  PaginatedResult,
+  GetKubernetesClustersQuery,
+  KubernetesCluster,
+  Result
+} from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
-const getKubernetesClusters = createResultSubscriptionFactory({
+const getKubernetesClusters = createResultSubscriptionFactory<
+  GetKubernetesClustersQuery,
+  Result<PaginatedResult<KubernetesCluster>>
+>({
   eventId: 'getKubernetesClusters'
 });
+
 export default getKubernetesClusters;
+
+interface QueryParams {
+  page?: number;
+  pageSize?: number;
+  orderBy?: string;
+  orderDirection?: OrderDirection;
+  query?: string;
+  timeConfig: TimeConfig;
+}
 
 export function getKubernetesClustersWithDefaults({
   query = '',
@@ -17,7 +39,7 @@ export function getKubernetesClustersWithDefaults({
   orderBy = 'name',
   orderDirection = 'ASC',
   timeConfig
-}) {
+}: QueryParams) {
   return getKubernetesClusters({
     pagination: {
       page,
