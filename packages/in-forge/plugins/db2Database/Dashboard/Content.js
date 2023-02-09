@@ -62,7 +62,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
 
   const backupFormatter = days =>
-    days ? `${number.compact(days)} ${t('in-forge:plugins.db2Database.daysAgo')}` : undefined;
+    days >= 0 ? `${number.compact(days)} ${t('in-forge:plugins.db2Database.daysAgo')}` : undefined;
 
   return (
     <div>
