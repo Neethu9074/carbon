@@ -8,7 +8,7 @@ import React from 'react';
 
 import { just } from '@instana/observables';
 
-import ApplicationPerspectiveLabels from 'in-custom-dashboards/widgets/Slo/sli/components/list/ApplicationPerspectiveLabels';
+import { ApplicationPerspectiveLabel } from 'in-custom-dashboards/widgets/Slo/sli/components/list/ApplicationPerspectiveLabels';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import getApplication from 'in-applications/subscriptions/getApplication';
@@ -31,9 +31,9 @@ describe('in-custom-dashboards/widgets/Slo/sli/components/list/ApplicationPerspe
   it('renders only the sliName if no IDs are provided', () => {
     // Given
     const sliName = 'stans sli';
-
+    const sliEntity = 'name';
     // When
-    const { container } = render(<ApplicationPerspectiveLabels sliName={sliName} />);
+    const { container } = render(<ApplicationPerspectiveLabel sliName={sliName} sliEntity={sliEntity} />);
 
     // Then
     expect(container).toHaveTextContent('stans sli');
@@ -41,11 +41,14 @@ describe('in-custom-dashboards/widgets/Slo/sli/components/list/ApplicationPerspe
 
   it('fetches and renders the application label if an applicationId is provided', () => {
     // Given
-    const applicationId = 'someApplication';
+
+    const sliEntity = {
+      applicationId: 'some applicationId'
+    };
     getApplication.mockReturnValue(just(success({ label: 'stans lab' })));
 
     // When
-    const { container } = render(<ApplicationPerspectiveLabels applicationId={applicationId} sliName="" />);
+    const { container } = render(<ApplicationPerspectiveLabel sliName="" sliEntity={sliEntity} />);
 
     // Then
     expect(container).toHaveTextContent('stans lab');
@@ -53,11 +56,15 @@ describe('in-custom-dashboards/widgets/Slo/sli/components/list/ApplicationPerspe
 
   it('fetches and renders  the service label if a serviceId is provided', () => {
     // Given
-    const serviceId = 'someService';
+    const sliEntity = {
+      applicationId: 'some applicationId',
+      endpointId: null,
+      serviceId: 'some serviceId'
+    };
     getServiceLabel.mockReturnValue(just(success({ label: 'stans snack dispenser' })));
 
     // When
-    const { container } = render(<ApplicationPerspectiveLabels serviceId={serviceId} sliName="" />);
+    const { container } = render(<ApplicationPerspectiveLabel sliName="" sliEntity={sliEntity} />);
 
     // Then
     expect(container).toHaveTextContent('stans snack dispenser');
@@ -65,11 +72,15 @@ describe('in-custom-dashboards/widgets/Slo/sli/components/list/ApplicationPerspe
 
   it('fetches and renders the endpoint label if an endpointId is provided', () => {
     // Given
-    const endpointId = 'someEndpoint';
+    const sliEntity = {
+      applicationId: 'some applicationId',
+      serviceId: 'some serviceId',
+      endpointId: 'some endpointId'
+    };
     getEndpointInfo.mockReturnValue(just(success({ label: 'GET snack' })));
 
     // When
-    const { container } = render(<ApplicationPerspectiveLabels endpointId={endpointId} sliName="" />);
+    const { container } = render(<ApplicationPerspectiveLabel sliName="" sliEntity={sliEntity} />);
 
     // Then
     expect(container).toHaveTextContent('GET snack');

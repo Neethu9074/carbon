@@ -12,12 +12,16 @@ import {
   isApplicationSliConfig,
   isWebsiteTimeBasedSliConfig,
   isAvailabilitySliConfig,
-  isWebsiteEventBasedSliConfig
+  isWebsiteEventBasedSliConfig,
+  isApplicationSliEntity,
+  isWebsiteEventBasedSliEntity,
+  isWebsiteTimeBasedSliEntity
 } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
-import ApplicationPerspectiveLabels from 'in-custom-dashboards/widgets/Slo/sli/components/list/ApplicationPerspectiveLabels';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
+import { WebsiteLabel } from 'in-custom-dashboards/widgets/Slo/sli/components/list/WebsiteLabel';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { ApplicationPerspectiveLabel } from './ApplicationPerspectiveLabels';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { ApplicationSliEntity, SliConfiguration } from 'in-types';
@@ -80,10 +84,10 @@ const columnDefinitions: ColumnDefinition<SliConfiguration, InternalSliListProps
     id: 'name',
     sortable: true,
     label: 'Name',
-    getContent(item) {
+    getContent(sliConfig) {
       return (
-        <WithIcon iconColor={theme.lib.colors.N500} icon={getIcon(item)} className={locals.withIcon}>
-          {getSliNameWithSubscript(item)}
+        <WithIcon iconColor={theme.lib.colors.N500} icon={getIcon(sliConfig)} className={locals.withIcon}>
+          <SliNameWithSubscript sliConfig={sliConfig} />
         </WithIcon>
       );
     }
@@ -183,17 +187,19 @@ function getIcon(item: SliConfiguration): string {
   }
   return 'lib_application';
 }
+interface SliNameWithSubscriptProps {
+  sliConfig: SliConfiguration;
+}
 
-function getSliNameWithSubscript(item: SliConfiguration) {
-  const sliEntity = item.sliEntity as Partial<ApplicationSliEntity> | undefined;
-  return (
-    <ApplicationPerspectiveLabels
-      sliName={item.sliName}
-      applicationId={sliEntity?.applicationId}
-      serviceId={sliEntity?.serviceId}
-      endpointId={sliEntity?.endpointId}
-    />
-  );
+function SliNameWithSubscript({ sliConfig }: SliNameWithSubscriptProps) {
+  if (isApplicationSliEntity(sliConfig.sliEntity)) {
+    return <ApplicationPerspectiveLabel sliName={sliConfig.sliName} sliEntity={sliConfig.sliEntity} />;
+  }
+
+  if (isWebsiteTimeBasedSliEntity(sliConfig.sliEntity) || isWebsiteEventBasedSliEntity(sliConfig.sliEntity)) {
+    return <WebsiteLabel sliName={sliConfig.sliName} sliEntity={sliConfig.sliEntity} />;
+  }
+  return <></>;
 }
 
 function fetchedStateToPaginatedResult([sliConfigs, , errors, progress]: FetchedState<

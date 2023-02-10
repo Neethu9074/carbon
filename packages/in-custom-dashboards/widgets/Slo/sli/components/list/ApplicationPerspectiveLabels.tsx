@@ -6,50 +6,58 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { ApplicationSliEntity, Result, SliEntityUnion } from '@instana/types';
 import { useObservable } from '@instana/hooks';
-import { KeyValue } from '@instana/components';
 
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import getApplication from 'in-applications/subscriptions/getApplication';
-import { Result } from 'in-types';
+import MonitoringEntityLabel from './MonitoringEntityLabel';
 
-import locals from 'in-custom-dashboards/widgets/Slo/sli/components/list/SliManageList.mless';
-
-interface LabelsProps {
-  sliName: string;
-  applicationId?: string;
-  serviceId?: string;
-  endpointId?: string;
+interface UseApplicationPerspectiveLabelsProps {
+  sliEntity: ApplicationSliEntity;
 }
 
-export default function ApplicationPerspectiveLabels({ serviceId, endpointId, applicationId, sliName }: LabelsProps) {
-  const applicationLabel = useObservable(() => {
+type UseApplicationPerspectiveLabelsReturn = [string | undefined, string | undefined, string | undefined];
+
+function useApplicationPerspectiveLabels({
+  sliEntity
+}: UseApplicationPerspectiveLabelsProps): UseApplicationPerspectiveLabelsReturn {
+  const { applicationId, serviceId, endpointId } = sliEntity;
+  const applicationLabels = useObservable(() => {
     if (!applicationId) return undefined;
     return getApplication({ id: applicationId }).map(getLabel);
   }, [applicationId]);
-  const serviceLabel = useObservable(() => {
+  const serviceLabels = useObservable(() => {
     if (!serviceId) return undefined;
     return getServiceLabel({ id: serviceId }).map(getLabel);
   }, [serviceId]);
-  const endpointLabel = useObservable(() => {
+  const endpointLabels = useObservable(() => {
     if (!endpointId) return undefined;
     return getEndpointInfo({ id: endpointId }).map(getLabel);
   }, [endpointId]);
 
-  let subscript = '';
-  if (applicationLabel) {
-    subscript = subscript + applicationLabel;
-  }
-  if (serviceLabel) {
-    subscript = `${subscript} > ${serviceLabel}`;
-  }
-  if (endpointLabel) {
-    subscript = `${subscript} > ${endpointLabel}`;
-  }
-  return <KeyValue label={subscript} value={sliName} className={locals.nameColumn} />;
+  return [applicationLabels ?? undefined, serviceLabels ?? undefined, endpointLabels ?? undefined];
 }
 
-function getLabel(result: Result<{ label?: string }>): string | null {
+export interface SliEntityLabelProps<SLI_ENTITY extends SliEntityUnion> {
+  sliName: string;
+  sliEntity: SLI_ENTITY;
+}
+export function ApplicationPerspectiveLabel({ sliName, sliEntity }: SliEntityLabelProps<ApplicationSliEntity>) {
+  const [applicationLabel, serviceLabel, endpointLabel] = useApplicationPerspectiveLabels({
+    sliEntity
+  });
+
+  return (
+    <MonitoringEntityLabel
+      sliName={sliName}
+      entityLabel={applicationLabel}
+      endpointLabel={endpointLabel}
+      serviceLabel={serviceLabel}
+    />
+  );
+}
+export function getLabel(result: Result<{ label?: string }>): string | null {
   return get(result, ['data', 'label'], null);
 }
