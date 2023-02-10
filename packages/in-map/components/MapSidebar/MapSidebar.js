@@ -12,10 +12,8 @@ import SidebarBreadcrumb from 'in-map/components/MapSidebar/components/SidebarBr
 import MapSidebarHeader from 'in-map/components/MapSidebar/components/MapSidebarHeader';
 import SidebarContent from 'in-map/components/MapSidebar/components/SidebarContent';
 import { getForgeComponent } from 'in-sdk/getForgeComponent';
-import { debouncedResize$ } from 'in-services/browser';
 import { selectedSnapshot$ } from 'in-stores/snapshot';
 import { timeConfig$ } from 'in-stores/time/config';
-import toPx from 'in-services/formatters/toPx';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './MapSidebar.mless';
@@ -23,31 +21,20 @@ import locals from './MapSidebar.mless';
 export default connectTo(
   {
     snapshot: selectedSnapshot$,
-    windowHeight: debouncedResize$.map(() => window.innerHeight).startWithFn(() => window.innerHeight),
     timeConfig: timeConfig$
   },
-  function MapSidebar({ snapshot, windowHeight, timeConfig }) {
+  function MapSidebar({ snapshot, timeConfig }) {
     const SidebarImpl = useObservable(getSidebarImpl, [snapshot?.get('plugin')]);
     if (!snapshot || !SidebarImpl) {
       return null;
     }
 
     return (
-      <div
-        className={locals.mapSidebar}
-        style={{
-          maxHeight: toPx(windowHeight - 150)
-        }}
-      >
+      <div className={locals.mapSidebar}>
         <MapSidebarHeader snapshot={snapshot} timeConfig={timeConfig} />
         <SidebarBreadcrumb snapshotId={snapshot.get('id')} />
 
-        <div
-          className={locals.scrollWrapper}
-          style={{
-            maxHeight: toPx(windowHeight - 350)
-          }}
-        >
+        <div className={locals.scrollWrapper}>
           <SidebarContent snapshot={snapshot} ForgeDetailsComponent={SidebarImpl} />
         </div>
       </div>
