@@ -47,14 +47,14 @@ rm -f .git/hooks/pre-commit
 echo "" > .git/hooks/pre-commit
 
 # install yarn
-npm install -g yarn@1.22.19
+npm install --location=global yarn@1.22.19
 
 # and install all the dependencies
-yarn install
+yarn install --frozen-lockfile
 cd packages/in-server
-yarn install
+yarn install --frozen-lockfile
 cd ../../storybook
-yarn install
+yarn install --frozen-lockfile
 
 ACTUAL_NODE_VERSION=$(node --version)
 
