@@ -46,8 +46,8 @@ export default class HeightRestrictedView extends React.Component {
     if (window.innerHeight == null || this.elementCoordinates == null) {
       return;
     }
-
-    const height = window.innerHeight - this.elementCoordinates.top;
+    //Adjusting the height with 2px, To avoid second scrollbar.
+    const height = window.innerHeight - this.elementCoordinates.top - 2;
     this.setState({ height });
   }
 
