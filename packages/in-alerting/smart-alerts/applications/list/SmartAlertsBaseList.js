@@ -11,6 +11,16 @@ import { useObservable } from '@instana/hooks';
 import { create } from '@instana/observables';
 import { Stack } from '@instana/components';
 
+import {
+  globalAlertDetails,
+  applicationDashboard,
+  alertsTabDetailsFullyQualified,
+  alertsTab
+} from 'in-applications/navigation/paths';
+import {
+  alertCreated as alertCreatedMatrixParam,
+  alertId as alertIdMatrixParam
+} from 'in-applications/navigation/matrix';
 import { categoryGlobal, categoryLocal, sortOptions } from 'in-alerting/smart-alerts/applications/list/constants';
 import SmartAlertsNoDataAvailable from 'in-alerting/smart-alerts/components/SmartAlertsNoDataAvailable';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
@@ -18,6 +28,9 @@ import SortingConfigurator from 'in-components/SortingConfigurator/SortingConfig
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { applicationId } from 'in-applications/navigation/matrix';
 import { hasError, isLoading } from 'in-services/util/result';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -98,6 +111,12 @@ export default function SmartAlertsBaseList({
   const offset = (page - 1) * pageSize;
   const until = offset + pageSize;
 
+  const additionalMatrixKeys = ({ configsCategory, config }) => {
+    return configsCategory === categoryLocal ? [{ key: applicationId, value: config.applicationId }] : [];
+  };
+
+  const { location, createHref } = useNavigation();
+
   return (
     <Stack>
       <HorizontalFlexWrapper className={locals.listHeader}>
@@ -150,7 +169,7 @@ export default function SmartAlertsBaseList({
           .sort(sortBy(orderBy, orderDirection))
           .slice(offset, until)
           .map(config => (
-            <Li key={config.id}>
+            <Li key={config.id} href={createRowLinkUrl(config)}>
               <ColumnizedContent
                 {...remainingProps}
                 columnDefinitions={columnDefinitions}
@@ -177,6 +196,20 @@ export default function SmartAlertsBaseList({
       />
     </Stack>
   );
+
+  function createRowLinkUrl(config) {
+    const pathname = location?.pathname === alertsTab ? globalAlertDetails : alertsTabDetailsFullyQualified;
+    const rowLinkLocation = { ...location, pathname: pathname };
+
+    for (const { key, value } of additionalMatrixKeys({ configsCategory, config })) {
+      setOrDeleteMatrixKey(rowLinkLocation, applicationDashboard, key, value);
+    }
+
+    setOrDeleteMatrixKey(rowLinkLocation, alertsTab, alertIdMatrixParam, config.id);
+    setOrDeleteMatrixKey(rowLinkLocation, alertsTab, alertCreatedMatrixParam, config.created);
+
+    return createHref(rowLinkLocation);
+  }
 }
 
 function getSearchResults({ globalConfigs, query, localConfigs, configsSelected, configsCategory }) {
