@@ -7,7 +7,7 @@ import { Route } from 'react-router-dom';
 import React from 'react';
 
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
-import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
+import { useLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import { getLinkToSession } from 'in-mobile-apps/navigation/paths';
 import { getLinkToPageLoad } from 'in-websites/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -19,8 +19,10 @@ export default <Route key="deepLink" path={path} children={<DeepLink />} />;
 
 function DeepLink() {
   const location = useLocation();
+  const getLinkToTraceDetail = useLinkToTraceDetail();
+
   const to$ =
-    resolveApplicationsTraceIdDeepLink(location) ||
+    resolveApplicationsTraceIdDeepLink(location, getLinkToTraceDetail) ||
     resolveWebsitesPageLoadIdDeepLink(location) ||
     resolveMobileAppsSessionIdDeepLink(location);
 
@@ -31,7 +33,7 @@ function DeepLink() {
   return <RedirectWithHash to="/" />;
 }
 
-function resolveApplicationsTraceIdDeepLink(location) {
+function resolveApplicationsTraceIdDeepLink(location, getLinkToTraceDetail) {
   const traceId = getMatrixParameter(location, path, 'applications.trace.id');
   if (traceId) {
     return getLinkToTraceDetail(traceId);

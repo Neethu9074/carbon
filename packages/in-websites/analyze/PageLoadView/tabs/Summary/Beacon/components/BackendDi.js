@@ -12,7 +12,7 @@ import getWebsiteBackendTraces from 'in-websites/subscriptions/getWebsiteBackend
 import getTraceSummary from 'in-applications/subscriptions/getTraceSummary';
 import { navigateToBackendTraceFromPageLoad } from 'in-websites/tracker';
 import { latencyFixed, number } from 'in-services/formatters/number';
-import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
+import { useLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import { Di } from 'in-components/HorizontalDescriptionList';
 import Tooltip from 'in-components/Tooltip';
 import connect from 'in-hoc/connectTo';
@@ -38,6 +38,8 @@ export default connect(({ beacon }) => ({
 }))(BackendDi);
 
 function BackendDi({ traceSummaries }) {
+  const getLinkToTraceDetail = useLinkToTraceDetail();
+
   if (traceSummaries == null || traceSummaries.length === 0) {
     return null;
   }
