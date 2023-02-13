@@ -1029,10 +1029,10 @@
     "disable": "Disable",
     "synthetics": {
       "alertList": {
-        "timeThreshold": "Time Threshold",
+        "timeThreshold": "Failure Threshold",
         "filterApplied": "Filter Applied",
         "violationsCount": "{{violationsCount}} failures",
-        "numberOfFailures": "Number of Failures"
+        "numberOfFailures": "Failure Alerting"
       }
     }
   }

@@ -332,12 +332,12 @@
       "locationListDescription": "There are no Synthetic locations retrieved from the database."
     },
     "alertList": {
-      "timeThreshold": "Time Threshold",
+      "timeThreshold": "Failure Threshold",
       "testsApplied": "Tests Applied",
       "filterApplied": "Filter Applied",
       "violationsCount": "{{violationsCount}} failures",
       "testsCount": "{{testsCount}} tests",
-      "numberOfFailures": "Number of Failures"
+      "numberOfFailures": "Failure Alerting"
     }
   }
 }
