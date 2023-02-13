@@ -95,8 +95,10 @@ export const Capability = Object.freeze({
   CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION: 'CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION',
   CAN_CONFIGURE_AUTOMATION_ACTIONS: 'CAN_CONFIGURE_AUTOMATION_ACTIONS',
   CAN_RUN_AUTOMATION_ACTIONS: 'CAN_RUN_AUTOMATION_ACTIONS',
-  CAN_CONFIGURE_SYNTHETICS: 'CAN_CONFIGURE_SYNTHETICS',
-  CAN_VIEW_SYNTHETIC_CONFIGS: 'CAN_VIEW_SYNTHETIC_CONFIGS',
+  CAN_CONFIGURE_SYNTHETIC_TESTS: 'CAN_CONFIGURE_SYNTHETIC_TESTS',
+  CAN_CONFIGURE_SYNTHETIC_LOCATIONS: 'CAN_CONFIGURE_SYNTHETIC_LOCATIONS',
+  CAN_VIEW_SYNTHETIC_TESTS: 'CAN_VIEW_SYNTHETIC_TESTS',
+  CAN_VIEW_SYNTHETIC_LOCATIONS: 'CAN_VIEW_SYNTHETIC_LOCATIONS',
   CAN_VIEW_SYNTHETIC_TEST_RESULTS: 'CAN_VIEW_SYNTHETIC_TEST_RESULTS'
 } as const);
 
@@ -473,18 +475,33 @@ function getProductPermissions(): Array<ProductPermission> {
   if (syntheticsEnabled) {
     permissions.push(
       {
-        keyForGroupApi: Capability.CAN_CONFIGURE_SYNTHETICS,
-        keyForApiTokenApi: 'canConfigureSynthetics',
-        label: t('in-stores:permissionCanConfigureSyntheticsLabel'),
-        description: t('in-stores:permissionCanConfigureSyntheticsDescription'),
+        keyForGroupApi: Capability.CAN_CONFIGURE_SYNTHETIC_TESTS,
+        keyForApiTokenApi: 'canConfigureSyntheticTests',
+        label: t('in-stores:permissionCanConfigureSyntheticTestsLabel'),
+        description: t('in-stores:permissionCanConfigureSyntheticTestsDescription'),
         category: t('in-stores:permissionSyntheticMonitoringCategory'),
         isOwnerPermission: false
       },
       {
-        keyForGroupApi: Capability.CAN_VIEW_SYNTHETIC_CONFIGS,
-        keyForApiTokenApi: 'canViewSyntheticConfigs',
-        label: t('in-stores:permissionCanViewSyntheticConfigsLabel'),
-        description: t('in-stores:permissionCanViewSyntheticConfigsDescription'),
+        keyForGroupApi: Capability.CAN_CONFIGURE_SYNTHETIC_LOCATIONS,
+        keyForApiTokenApi: 'canConfigureSyntheticLocations',
+        label: t('in-stores:permissionCanConfigureSyntheticLocationsLabel'),
+        description: t('in-stores:permissionCanConfigureSyntheticLocationsDescription'),
+        category: t('in-stores:permissionSyntheticMonitoringCategory'),
+        isOwnerPermission: false
+      },
+      {
+        keyForGroupApi: Capability.CAN_VIEW_SYNTHETIC_TESTS,
+        keyForApiTokenApi: 'canViewSyntheticTests',
+        label: t('in-stores:permissionCanViewSyntheticTestsLabel'),
+        description: t('in-stores:permissionCanViewSyntheticTestsDescription'),
+        category: t('in-stores:permissionSyntheticMonitoringCategory')
+      },
+      {
+        keyForGroupApi: Capability.CAN_VIEW_SYNTHETIC_LOCATIONS,
+        keyForApiTokenApi: 'canViewSyntheticLocations',
+        label: t('in-stores:permissionCanViewSyntheticLocationsLabel'),
+        description: t('in-stores:permissionCanViewSyntheticLocationsDescription'),
         category: t('in-stores:permissionSyntheticMonitoringCategory')
       },
       {
