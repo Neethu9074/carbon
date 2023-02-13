@@ -11,6 +11,7 @@ import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection'
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Columize from 'in-sdk/components/dashboard/Columize';
+import IbmDb2ZNotification from './IbmDb2ZNotification';
 import MetricValue from 'in-components/MetricValue';
 import { t } from 'in-i18n';
 
@@ -19,6 +20,9 @@ export default function Db2ZDashboard({ snapshot, timeConfig }) {
 
   return (
     <div>
+      <div>
+        <IbmDb2ZNotification />
+      </div>
       <KpiSection>
         <KpiKeyValue label={t('in-forge:plugins.db2ZDatabase.dashboard.activeThreads')}>
           <MetricValue snapshotId={snapshotId} metric="DB2ZLocationStats.threadCount" formatter={number.compact} />
