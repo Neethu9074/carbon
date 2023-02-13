@@ -31,7 +31,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/components/list/ApplicationPerspe
   it('renders only the sliName if no IDs are provided', () => {
     // Given
     const sliName = 'stans sli';
-    const sliEntity = 'name';
+    const sliEntity = 'Entityname';
     // When
     const { container } = render(<ApplicationPerspectiveLabel sliName={sliName} sliEntity={sliEntity} />);
 

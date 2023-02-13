@@ -10,17 +10,17 @@ import { WebsiteEventBasedSliEntity, WebsiteSliEntity, WebsiteTimeBasedSliEntity
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
-import { SliEntityLabelProps } from './ApplicationPerspectiveLabels';
+import { SliEntityLabelProps } from 'in-custom-dashboards/widgets/Slo/sli/components/list/ApplicationPerspectiveLabels';
+import MonitoringEntityLabel from 'in-custom-dashboards/widgets/Slo/sli/components/list/MonitoringEntityLabel';
+import { getLabel } from 'in-custom-dashboards/widgets/Slo/sli/components/list/ApplicationPerspectiveLabels';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
-import MonitoringEntityLabel from './MonitoringEntityLabel';
-import { getLabel } from './ApplicationPerspectiveLabels';
 
-interface UseEntityProps {
+interface UseWebsiteLabelsProps {
   sliEntity: WebsiteSliEntity;
 }
 type UseWebsitesReturn = [string | undefined, string | undefined];
 
-function useWebsiteLabels({ sliEntity }: UseEntityProps): UseWebsitesReturn {
+function useWebsiteLabels({ sliEntity }: UseWebsiteLabelsProps): UseWebsitesReturn {
   const { websiteId, beaconType } = sliEntity;
   const websiteLabels = useObservable(() => {
     if (!websiteId) return undefined;

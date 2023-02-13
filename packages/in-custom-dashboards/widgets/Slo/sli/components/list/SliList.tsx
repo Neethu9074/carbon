@@ -17,11 +17,11 @@ import {
   isWebsiteEventBasedSliEntity,
   isWebsiteTimeBasedSliEntity
 } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
+import { ApplicationPerspectiveLabel } from 'in-custom-dashboards/widgets/Slo/sli/components/list/ApplicationPerspectiveLabels';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { WebsiteLabel } from 'in-custom-dashboards/widgets/Slo/sli/components/list/WebsiteLabel';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import { ApplicationPerspectiveLabel } from './ApplicationPerspectiveLabels';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { ApplicationSliEntity, SliConfiguration } from 'in-types';

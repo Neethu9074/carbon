@@ -9,10 +9,10 @@ import React from 'react';
 import { ApplicationSliEntity, Result, SliEntityUnion } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
+import MonitoringEntityLabel from 'in-custom-dashboards/widgets/Slo/sli/components/list/MonitoringEntityLabel';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import getApplication from 'in-applications/subscriptions/getApplication';
-import MonitoringEntityLabel from './MonitoringEntityLabel';
 
 interface UseApplicationPerspectiveLabelsProps {
   sliEntity: ApplicationSliEntity;
@@ -24,20 +24,20 @@ function useApplicationPerspectiveLabels({
   sliEntity
 }: UseApplicationPerspectiveLabelsProps): UseApplicationPerspectiveLabelsReturn {
   const { applicationId, serviceId, endpointId } = sliEntity;
-  const applicationLabels = useObservable(() => {
+  const applicationLabel = useObservable(() => {
     if (!applicationId) return undefined;
     return getApplication({ id: applicationId }).map(getLabel);
   }, [applicationId]);
-  const serviceLabels = useObservable(() => {
+  const serviceLabel = useObservable(() => {
     if (!serviceId) return undefined;
     return getServiceLabel({ id: serviceId }).map(getLabel);
   }, [serviceId]);
-  const endpointLabels = useObservable(() => {
+  const endpointLabel = useObservable(() => {
     if (!endpointId) return undefined;
     return getEndpointInfo({ id: endpointId }).map(getLabel);
   }, [endpointId]);
 
-  return [applicationLabels ?? undefined, serviceLabels ?? undefined, endpointLabels ?? undefined];
+  return [applicationLabel ?? undefined, serviceLabel ?? undefined, endpointLabel ?? undefined];
 }
 
 export interface SliEntityLabelProps<SLI_ENTITY extends SliEntityUnion> {
