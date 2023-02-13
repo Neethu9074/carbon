@@ -173,8 +173,13 @@ const allColumnDefinitions = [
     getContent(item, { timeConfig }) {
       const statusSuccess = ['running', 'completed', 'pending', 'created', 'started', 'succeeded'];
       let openIssuesCount = item.entityHealthInfo.openIssues.length;
+      var conditionStatusFalseFound = item.pod.conditions.some(condition => condition.status.toLowerCase() === 'false');
+
       let maxSeverity = item.entityHealthInfo.maxSeverity;
-      if (item.entityHealthInfo.openIssues.length === 0 && !statusSuccess.includes(item.statusSummary.toLowerCase())) {
+      if (
+        (item.entityHealthInfo.openIssues.length === 0 && !statusSuccess.includes(item.statusSummary.toLowerCase())) ||
+        conditionStatusFalseFound
+      ) {
         openIssuesCount = 1;
         maxSeverity = 10;
       }
