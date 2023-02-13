@@ -9497,7 +9497,8 @@
         "transferState": "State",
         "sourceTransfersWithCount": "Source Transfers ({{len}})",
         "destinationTransfersWithCount": "Destination Transfers ({{len}})"
-      }
+      },
+      "agent": "Agent"
     },
     "ibmMqMftTransfer": {
       "dashboard": {
@@ -9520,7 +9521,8 @@
         "currentItemSize": "Total(b)",
         "currentFile": "Current File",
         "itemsWithCount": "Items ({{len}})"
-      }
+      },
+      "transfer": "Transfer"
     },
     "ibmMqMftMonitor": {
       "dashboard": {

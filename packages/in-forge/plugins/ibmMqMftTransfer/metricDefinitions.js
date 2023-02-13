@@ -4,4 +4,15 @@
  * Copyright IBM Corp. 2022
  */
 
-export default [];
+import { seconds } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
+
+export default [
+  {
+    metrics: ['elapsedSeconds'],
+    labels: [t('in-forge:plugins.ibmMqMftTransfer.dashboard.elapsedSeconds')],
+    min: 0,
+    category: [t('in-forge:plugins.ibmMqMftTransfer.transfer')],
+    formatter: seconds
+  }
+];
