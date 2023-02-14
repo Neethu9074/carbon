@@ -151,8 +151,8 @@ export const defaultUrlState: UrlState = {
 };
 
 export interface TestResponse {
-  data?: SyntheticTest;
-  errors?: Error[];
+  data: SyntheticTest;
+  errors: Error[];
   progress: Progress;
   time?: number;
 }
