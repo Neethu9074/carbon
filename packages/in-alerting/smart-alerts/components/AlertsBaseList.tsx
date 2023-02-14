@@ -32,13 +32,13 @@ interface AlertBaseListProps<AlertConfig extends AlertConfigType> {
   onRowClick?: (config: AlertConfig) => void;
 }
 
-interface AlertConfigType {
+export interface AlertConfigType {
   name: string;
   severity: number;
   description: string;
 }
 
-interface ColumnDefinition<AlertConfig extends AlertConfigType> {
+export interface ColumnDefinition<AlertConfig extends AlertConfigType> {
   id: number | string;
   label: string;
   getContent: (entity: AlertConfig) => ReactNode;
