@@ -2927,7 +2927,8 @@
       "messageFlowApplicationName": "Application Name",
       "status": "Status",
       "messageFlowNumber": "Message Flow ({{count}})",
-      "messageFlowNumber_plural": "Message Flows ({{count}})"
+      "messageFlowNumber_plural": "Message Flows ({{count}})",
+      "readMore": "Read more…"
     },
     "aceMessageFlow": {
       "messageFlowInfo": "IBM ACE Message Flow",

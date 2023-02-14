@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { Link } from '@instana/components';
+
 import MessageFlowTable from 'in-forge/plugins/aceIntegrationServer/Dashboard/MessageFlowTable';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
@@ -17,7 +19,19 @@ import { t } from 'in-i18n';
 export default function AceIntegrationServerDashboard({ snapshot, timeConfig }) {
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
 
-  if (sensorConnectionStatus !== 'OK') {
+  if (sensorConnectionStatus.startsWith('Auto-discovery')) {
+    return (
+      <DashboardNotification type="info">
+        {sensorConnectionStatus}
+        <Link
+          external
+          href="https://www.ibm.com/docs/en/instana-observability/current?topic=technologies-monitoring-app-connect-enterprise#troubleshooting"
+        >
+          {t('in-forge:plugins.aceIntegrationServer.readMore')}
+        </Link>
+      </DashboardNotification>
+    );
+  } else if (sensorConnectionStatus !== 'OK') {
     return <DashboardNotification type="info">{sensorConnectionStatus}</DashboardNotification>;
   }
   const snapshotId = snapshot.get('id');
