@@ -10,35 +10,39 @@ import { WebsiteEventBasedSliEntity, WebsiteSliEntity, WebsiteTimeBasedSliEntity
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
-import { SliEntityLabelProps } from 'in-custom-dashboards/widgets/Slo/sli/components/list/ApplicationPerspectiveLabels';
-import MonitoringEntityLabel from 'in-custom-dashboards/widgets/Slo/sli/components/list/MonitoringEntityLabel';
-import { getLabel } from 'in-custom-dashboards/widgets/Slo/sli/components/list/ApplicationPerspectiveLabels';
+import { SliEntityLabelProps } from 'in-custom-dashboards/widgets/Slo/sli/components/list/ApplicationPerspectiveLabel';
+import MonitoredEntityLabel from 'in-custom-dashboards/widgets/Slo/sli/components/list/MonitoredEntityLabel';
+import { getLabel } from 'in-custom-dashboards/widgets/Slo/sli/components/list/ApplicationPerspectiveLabel';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
 
 interface UseWebsiteLabelsProps {
   sliEntity: WebsiteSliEntity;
 }
-type UseWebsitesReturn = [string | undefined, string | undefined];
+interface UseWebsitesReturn {
+  websiteLabel?: string;
+  beaconLabel: string;
+}
 
-function useWebsiteLabels({ sliEntity }: UseWebsiteLabelsProps): UseWebsitesReturn {
+function useWebsiteLabel({ sliEntity }: UseWebsiteLabelsProps): UseWebsitesReturn {
   const { websiteId, beaconType } = sliEntity;
-  const websiteLabels = useObservable(() => {
-    if (!websiteId) return undefined;
-    return getWebsite({ id: websiteId }).map(getLabel);
-  }, [websiteId]);
+  const websiteLabel =
+    useObservable(() => {
+      if (!websiteId) return undefined;
+      return getWebsite({ id: websiteId }).map(getLabel);
+    }, [websiteId]) ?? undefined;
 
-  const beaconLabels = t('in-custom-dashboards:widgets.slo.sliFormPresenter.beaconLabel', { context: beaconType });
+  const beaconLabel = t('in-custom-dashboards:widgets.slo.sliFormPresenter.beaconLabel', { context: beaconType });
 
-  return [websiteLabels ?? undefined, beaconLabels ?? undefined];
+  return { websiteLabel, beaconLabel };
 }
 
 export function WebsiteLabel({
   sliName,
   sliEntity
 }: SliEntityLabelProps<WebsiteEventBasedSliEntity | WebsiteTimeBasedSliEntity>) {
-  const [websiteLabel, beaconType] = useWebsiteLabels({
+  const { websiteLabel, beaconLabel } = useWebsiteLabel({
     sliEntity
   });
 
-  return <MonitoringEntityLabel sliName={sliName} entityLabel={websiteLabel} serviceLabel={beaconType} />;
+  return <MonitoredEntityLabel sliName={sliName} entityLabel={websiteLabel} serviceLabel={beaconLabel} />;
 }

@@ -8,7 +8,7 @@ import React from 'react';
 
 import { just } from '@instana/observables';
 
-import { ApplicationPerspectiveLabel } from 'in-custom-dashboards/widgets/Slo/sli/components/list/ApplicationPerspectiveLabels';
+import { ApplicationPerspectiveLabel } from 'in-custom-dashboards/widgets/Slo/sli/components/list/ApplicationPerspectiveLabel';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import getApplication from 'in-applications/subscriptions/getApplication';
@@ -27,11 +27,11 @@ jest.mock('in-applications/subscriptions/getEndpointInfo', () => ({
   default: jest.fn()
 }));
 
-describe('in-custom-dashboards/widgets/Slo/sli/components/list/ApplicationPerspectiveLabels', () => {
+describe('in-custom-dashboards/widgets/Slo/sli/components/list/ApplicationPerspectiveLabel', () => {
   it('renders only the sliName if no IDs are provided', () => {
     // Given
     const sliName = 'stans sli';
-    const sliEntity = 'Entityname';
+    const sliEntity = {};
     // When
     const { container } = render(<ApplicationPerspectiveLabel sliName={sliName} sliEntity={sliEntity} />);
 

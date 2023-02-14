@@ -17,7 +17,7 @@ import {
   isWebsiteEventBasedSliEntity,
   isWebsiteTimeBasedSliEntity
 } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
-import { ApplicationPerspectiveLabel } from 'in-custom-dashboards/widgets/Slo/sli/components/list/ApplicationPerspectiveLabels';
+import { ApplicationPerspectiveLabel } from 'in-custom-dashboards/widgets/Slo/sli/components/list/ApplicationPerspectiveLabel';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { WebsiteLabel } from 'in-custom-dashboards/widgets/Slo/sli/components/list/WebsiteLabel';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';

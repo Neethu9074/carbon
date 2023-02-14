@@ -9,7 +9,7 @@ import React from 'react';
 import { ApplicationSliEntity, Result, SliEntityUnion } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
-import MonitoringEntityLabel from 'in-custom-dashboards/widgets/Slo/sli/components/list/MonitoringEntityLabel';
+import MonitoredEntityLabel from 'in-custom-dashboards/widgets/Slo/sli/components/list/MonitoredEntityLabel';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import getApplication from 'in-applications/subscriptions/getApplication';
@@ -18,26 +18,33 @@ interface UseApplicationPerspectiveLabelsProps {
   sliEntity: ApplicationSliEntity;
 }
 
-type UseApplicationPerspectiveLabelsReturn = [string | undefined, string | undefined, string | undefined];
+interface UseApplicationPerspectiveLabelsReturn {
+  applicationLabel?: string;
+  serviceLabel?: string;
+  endpointLabel?: string;
+}
 
 function useApplicationPerspectiveLabels({
   sliEntity
 }: UseApplicationPerspectiveLabelsProps): UseApplicationPerspectiveLabelsReturn {
   const { applicationId, serviceId, endpointId } = sliEntity;
-  const applicationLabel = useObservable(() => {
-    if (!applicationId) return undefined;
-    return getApplication({ id: applicationId }).map(getLabel);
-  }, [applicationId]);
-  const serviceLabel = useObservable(() => {
-    if (!serviceId) return undefined;
-    return getServiceLabel({ id: serviceId }).map(getLabel);
-  }, [serviceId]);
-  const endpointLabel = useObservable(() => {
-    if (!endpointId) return undefined;
-    return getEndpointInfo({ id: endpointId }).map(getLabel);
-  }, [endpointId]);
+  const applicationLabel =
+    useObservable(() => {
+      if (!applicationId) return undefined;
+      return getApplication({ id: applicationId }).map(getLabel);
+    }, [applicationId]) ?? undefined;
+  const serviceLabel =
+    useObservable(() => {
+      if (!serviceId) return undefined;
+      return getServiceLabel({ id: serviceId }).map(getLabel);
+    }, [serviceId]) ?? undefined;
+  const endpointLabel =
+    useObservable(() => {
+      if (!endpointId) return undefined;
+      return getEndpointInfo({ id: endpointId }).map(getLabel);
+    }, [endpointId]) ?? undefined;
 
-  return [applicationLabel ?? undefined, serviceLabel ?? undefined, endpointLabel ?? undefined];
+  return { applicationLabel, serviceLabel, endpointLabel };
 }
 
 export interface SliEntityLabelProps<SLI_ENTITY extends SliEntityUnion> {
@@ -45,12 +52,12 @@ export interface SliEntityLabelProps<SLI_ENTITY extends SliEntityUnion> {
   sliEntity: SLI_ENTITY;
 }
 export function ApplicationPerspectiveLabel({ sliName, sliEntity }: SliEntityLabelProps<ApplicationSliEntity>) {
-  const [applicationLabel, serviceLabel, endpointLabel] = useApplicationPerspectiveLabels({
+  const { applicationLabel, serviceLabel, endpointLabel } = useApplicationPerspectiveLabels({
     sliEntity
   });
 
   return (
-    <MonitoringEntityLabel
+    <MonitoredEntityLabel
       sliName={sliName}
       entityLabel={applicationLabel}
       endpointLabel={endpointLabel}
@@ -58,6 +65,6 @@ export function ApplicationPerspectiveLabel({ sliName, sliEntity }: SliEntityLab
     />
   );
 }
-export function getLabel(result: Result<{ label?: string }>): string | null {
+export function getLabel(result: Result<{ label?: string }>): string | undefined {
   return get(result, ['data', 'label'], null);
 }

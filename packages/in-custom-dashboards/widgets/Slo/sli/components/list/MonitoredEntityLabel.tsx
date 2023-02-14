@@ -10,19 +10,19 @@ import { KeyValue } from '@instana/components';
 
 import locals from 'in-custom-dashboards/widgets/Slo/sli/components/list/SliManageList.mless';
 
-interface MonitoringEntityLabelProps {
+interface useMonitoredEntityProps {
   sliName: string;
   entityLabel?: string;
   serviceLabel?: string;
   endpointLabel?: string;
 }
 
-export default function MonitoringEntityLabel({
+export default function MonitoredEntityLabel({
   entityLabel,
   serviceLabel,
   endpointLabel,
   sliName
-}: MonitoringEntityLabelProps) {
+}: useMonitoredEntityProps) {
   let subscript = '';
 
   if (entityLabel) {
