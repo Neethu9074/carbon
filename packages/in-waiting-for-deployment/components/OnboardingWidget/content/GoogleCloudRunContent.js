@@ -81,17 +81,13 @@ export default function GoogleCloudRunContent({ agentKey, downloadKey, serverles
           ]}
         />
         <GridRow>
-          <Col xs={4}>
+          <Col xs={6}>
             <Description lines={['INSTANA_ENDPOINT_URL']} />
             <Script lines={[serverlessEndpoint]} />
           </Col>
-          <Col xs={4}>
+          <Col xs={6}>
             <Description lines={['INSTANA_AGENT_KEY']} />
             <Script lines={[agentKey]} />
-          </Col>
-          <Col xs={4}>
-            <Description lines={['INSTANA_DOWNLOAD_KEY']} />
-            <Script lines={[downloadKey]} />
           </Col>
         </GridRow>
       </>
@@ -141,10 +137,6 @@ export default function GoogleCloudRunContent({ agentKey, downloadKey, serverles
             <Script lines={[agentKey]} />
           </Col>
           <Col xs={4}>
-            <Description lines={['INSTANA_DOWNLOAD_KEY']} />
-            <Script lines={[downloadKey]} />
-          </Col>
-          <Col xs={4}>
             <Description lines={['DOTNET_STARTUP_HOOKS']} />
             <Script lines={[`${appDirName}/Instana.Tracing.Core.dll`]} />
           </Col>
@@ -179,17 +171,13 @@ export default function GoogleCloudRunContent({ agentKey, downloadKey, serverles
           ]}
         />
         <GridRow>
-          <Col xs={4}>
+          <Col xs={6}>
             <Description lines={['INSTANA_ENDPOINT_URL']} />
             <Script lines={[serverlessEndpoint]} />
           </Col>
-          <Col xs={4}>
+          <Col xs={6}>
             <Description lines={['INSTANA_AGENT_KEY']} />
             <Script lines={[agentKey]} />
-          </Col>
-          <Col xs={4}>
-            <Description lines={['INSTANA_DOWNLOAD_KEY']} />
-            <Script lines={[downloadKey]} />
           </Col>
         </GridRow>
       </>
@@ -236,17 +224,13 @@ export default function GoogleCloudRunContent({ agentKey, downloadKey, serverles
           ]}
         />
         <GridRow>
-          <Col xs={4}>
+          <Col xs={6}>
             <Description lines={['INSTANA_ENDPOINT_URL']} />
             <Script lines={[serverlessEndpoint]} />
           </Col>
-          <Col xs={4}>
+          <Col xs={6}>
             <Description lines={['INSTANA_AGENT_KEY']} />
             <Script lines={[agentKey]} />
-          </Col>
-          <Col xs={4}>
-            <Description lines={['INSTANA_DOWNLOAD_KEY']} />
-            <Script lines={[downloadKey]} />
           </Col>
         </GridRow>
       </>
@@ -283,17 +267,13 @@ export default function GoogleCloudRunContent({ agentKey, downloadKey, serverles
           ]}
         />
         <GridRow>
-          <Col xs={4}>
+          <Col xs={6}>
             <Description lines={['INSTANA_ENDPOINT_URL']} />
             <Script lines={[serverlessEndpoint]} />
           </Col>
-          <Col xs={4}>
+          <Col xs={6}>
             <Description lines={['INSTANA_AGENT_KEY']} />
             <Script lines={[agentKey]} />
-          </Col>
-          <Col xs={4}>
-            <Description lines={['INSTANA_DOWNLOAD_KEY']} />
-            <Script lines={[downloadKey]} />
           </Col>
         </GridRow>
       </>
@@ -314,17 +294,13 @@ export default function GoogleCloudRunContent({ agentKey, downloadKey, serverles
           ]}
         />
         <GridRow>
-          <Col xs={4}>
+          <Col xs={6}>
             <Description lines={['INSTANA_ENDPOINT_URL']} />
             <Script lines={[serverlessEndpoint]} />
           </Col>
-          <Col xs={4}>
+          <Col xs={6}>
             <Description lines={['INSTANA_AGENT_KEY']} />
             <Script lines={[agentKey]} />
-          </Col>
-          <Col xs={4}>
-            <Description lines={['INSTANA_DOWNLOAD_KEY']} />
-            <Script lines={[downloadKey]} />
           </Col>
         </GridRow>
       </>
