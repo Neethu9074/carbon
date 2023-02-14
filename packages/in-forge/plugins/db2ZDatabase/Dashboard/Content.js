@@ -5,13 +5,13 @@
 
 import React from 'react';
 
+import IbmDb2ZNotification from 'in-forge/plugins/db2ZDatabase/Dashboard/IbmDb2ZNotification';
 import { bytes, number, timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import IbmDb2ZNotification from './IbmDb2ZNotification';
 import MetricValue from 'in-components/MetricValue';
 import { t } from 'in-i18n';
 

@@ -6,13 +6,15 @@
 
 import React from 'react';
 
-import { Message } from '@instana/components';
+import { Message, Link } from '@instana/components';
 
-import { t } from 'in-i18n';
+import { Trans, t } from 'in-i18n';
 
 import locals from './IbmDb2ZNotification.mless';
 
 export default function IbmDb2ZNotification() {
+  const supportUrl = 'https://www.ibm.com/docs/en/obiapmoz?topic=configuration-integrating-omegamon';
+
   return (
     <Message withIcon type="warning" className={locals.notificationMessage}>
       <div className={locals.notificationMessageContent}>
@@ -21,10 +23,12 @@ export default function IbmDb2ZNotification() {
             <strong>{t('in-forge:plugins.db2ZDatabase.notifications.notificationHeader')}</strong>
           </p>
           <p className={locals.notificationMessageText}>
-            {t('in-forge:plugins.db2ZDatabase.notifications.notificationText')}
-            <a href="https://www.ibm.com/docs/en/obiapmoz?topic=configuration-integrating-omegamon">
-              {t('in-forge:plugins.db2ZDatabase.notifications.notificationLinkText')}
-            </a>
+            <Trans
+              i18nKey="in-forge:plugins.db2ZDatabase.notifications.notificationText"
+              components={{
+                supportLink: <Link href={supportUrl} external />
+              }}
+            />
           </p>
         </div>
       </div>
