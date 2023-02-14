@@ -59,6 +59,7 @@ export default function ListActionsColumn({ config, isLoading, isGlobalSmartAler
           type={isSaving ? 'lib_actions_loading' : enabled ? 'lib_actions_pause' : 'lib_actions_play'}
           iconSpinning={isSaving}
           onClick={e => {
+            e.preventDefault();
             stopPropagation(e);
             handleToggleEnabled(enabled, id, setIsSaving, isGlobalSmartAlertConfig);
           }}
@@ -71,6 +72,7 @@ export default function ListActionsColumn({ config, isLoading, isGlobalSmartAler
             kind="info"
             type={isMoreMenuSaving ? 'lib_actions_loading' : 'lib_menu_more_horizontal'}
             onClick={e => {
+              e.preventDefault();
               stopPropagation(e);
               toggle();
             }}
