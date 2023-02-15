@@ -67,7 +67,7 @@ export default function ConfigureAssociatedActionsDialog({
       }
       title={t('in-automation:associateActions')}
       slideInViewTitle={t('in-automation:addActions')}
-      onSlideInViewTitleClick={onSlideInViewTitleClick(setSlideInViewVisible)}
+      onSlideInViewTitleClick={() => setSlideInViewVisible(false)}
       titleIconType="lib_openclose_add_circle_outline"
       onClose={onClose}
       slideInViewVisible={slideInViewVisible}
@@ -81,20 +81,7 @@ export default function ConfigureAssociatedActionsDialog({
       }
       doNotCloseOnOutsideClick
     >
-      <Form form={form} setForm={form => setForm(form as MapForm)} formId={formId} onSubmit={onSubmit}>
-        <div className={locals.dialog}>
-          {savingError && (
-            <NotificationComponent failure>{t('in-automation:failedToSaveAssocations')}</NotificationComponent>
-          )}
-          <DashboardNotification type="info">{t('in-automation:actionsAssociationsNote')}</DashboardNotification>
-          <SelectedActions
-            setSlideInViewVisible={setSlideInViewVisible}
-            form={form}
-            setForm={setForm}
-            eventSpecification={eventSpecification}
-          />
-        </div>
-      </Form>
+      <StaticContent {...{ form, setForm, savingError, setSlideInViewVisible, onSubmit, eventSpecification }} />
     </DialogWithSlideInView>
   );
 }
@@ -112,6 +99,30 @@ const onSubmitSlideInView = ({
   setSlideInViewVisible(false);
 };
 
-const onSlideInViewTitleClick = (
-  setSlideInViewVisible: ConfigureAssociatedActionsDialogContentState['setSlideInViewVisible']
-) => () => setSlideInViewVisible(false);
+const StaticContent = ({
+  form,
+  setForm,
+  savingError,
+  setSlideInViewVisible,
+  onSubmit,
+  eventSpecification
+}: Pick<
+  ConfigureAssociatedActionsDialogContentProps,
+  'form' | 'setForm' | 'savingError' | 'onSubmit' | 'eventSpecification'
+> &
+  Pick<ConfigureAssociatedActionsDialogContentState, 'setSlideInViewVisible'>) => (
+  <Form form={form} setForm={form => setForm(form as MapForm)} formId={formId} onSubmit={onSubmit}>
+    <div className={locals.dialog}>
+      {savingError && (
+        <NotificationComponent failure>{t('in-automation:failedToSaveAssocations')}</NotificationComponent>
+      )}
+      <DashboardNotification type="info">{t('in-automation:actionsAssociationsNote')}</DashboardNotification>
+      <SelectedActions
+        setSlideInViewVisible={setSlideInViewVisible}
+        form={form}
+        setForm={setForm}
+        eventSpecification={eventSpecification}
+      />
+    </div>
+  </Form>
+);

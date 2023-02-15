@@ -45,19 +45,7 @@ export default function ConfigureSelectedActions({
         onSubmit={onSubmit}
         requiresAtLeastOneMessage={t('in-automation:pleaseSelectAtLeastOneAction')}
         renderCustomFormActions={numberOfItems => (
-          <DialogFooter
-            onSecondaryActionClick={() => setSlideInViewVisible(false)}
-            secondaryActionText={t('forms.actions.cancel')}
-            renderCustomSaveAction={() => (
-              <SaveButton type="submit" kind="create" disabled={!numberOfItems}>
-                {numberOfItems
-                  ? t('in-automation:addNumberOfItemsAction', {
-                      count: numberOfItems
-                    })
-                  : t('in-automation:addActions')}
-              </SaveButton>
-            )}
-          />
+          <CustomFormActions setSlideInViewVisible={setSlideInViewVisible} numberOfItems={numberOfItems} />
         )}
         pageSize={5}
         preventCloseOnSubmit
@@ -77,6 +65,28 @@ function ScoredActionTable({
       pageSize={5}
       loadEntities={() => getAllActionsWithAISuggestions(eventSpecification.name, eventSpecification.description ?? '')}
       scored
+    />
+  );
+}
+
+function CustomFormActions({
+  numberOfItems,
+  setSlideInViewVisible
+}: Pick<ConfigureAssociatedActionsDialogContentState, 'setSlideInViewVisible'> & { numberOfItems: number }) {
+  const saveButtonText = numberOfItems
+    ? t('in-automation:addNumberOfItemsAction', {
+        count: numberOfItems
+      })
+    : t('in-automation:addActions');
+  return (
+    <DialogFooter
+      onSecondaryActionClick={() => setSlideInViewVisible(false)}
+      secondaryActionText={t('forms.actions.cancel')}
+      renderCustomSaveAction={() => (
+        <SaveButton type="submit" kind="create" disabled={!numberOfItems}>
+          {saveButtonText}
+        </SaveButton>
+      )}
     />
   );
 }
