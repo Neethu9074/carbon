@@ -17,6 +17,7 @@ import SelectListDialogContent, {
 import ActionTable, {
   ActionTableProps
 } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionTable';
+import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
 import { getAllActionsWithAISuggestions } from 'in-automation/api';
 import SaveButton from 'in-components/form/SaveButton';
@@ -34,29 +35,31 @@ export default function ConfigureSelectedActions({
   setSlideInViewVisible
 }: ConfigureSelectedActionsProps) {
   return (
-    <SelectListDialogContent
-      listComponent={(...props) => <ScoredActionTable {...props} eventSpecification={eventSpecification} />}
-      hiddenIds={(form.get('actionIds') as Field<string[]>).value}
-      onSubmit={onSubmit}
-      requiresAtLeastOneMessage={t('in-settings:tabs.pleaseSelectAtLeastOneAction')}
-      renderCustomFormActions={numberOfItems => (
-        <DialogFooter
-          onSecondaryActionClick={() => setSlideInViewVisible(false)}
-          secondaryActionText={t('in-events:cancelButton')}
-          renderCustomSaveAction={() => (
-            <SaveButton type="submit" kind="create" disabled={!numberOfItems}>
-              {numberOfItems
-                ? t('in-settings:tabs.addNumberOfItemsAction', {
-                    count: numberOfItems
-                  })
-                : t('in-settings:tabs.addActions')}
-            </SaveButton>
-          )}
-        />
-      )}
-      pageSize={5}
-      preventCloseOnSubmit
-    />
+    <LeftRightPadding>
+      <SelectListDialogContent
+        listComponent={props => <ScoredActionTable {...props} eventSpecification={eventSpecification} />}
+        hiddenIds={(form.get('actionIds') as Field<string[]>).value}
+        onSubmit={onSubmit}
+        requiresAtLeastOneMessage={t('in-settings:tabs.pleaseSelectAtLeastOneAction')}
+        renderCustomFormActions={numberOfItems => (
+          <DialogFooter
+            onSecondaryActionClick={() => setSlideInViewVisible(false)}
+            secondaryActionText={t('in-events:cancelButton')}
+            renderCustomSaveAction={() => (
+              <SaveButton type="submit" kind="create" disabled={!numberOfItems}>
+                {numberOfItems
+                  ? t('in-settings:tabs.addNumberOfItemsAction', {
+                      count: numberOfItems
+                    })
+                  : t('in-settings:tabs.addActions')}
+              </SaveButton>
+            )}
+          />
+        )}
+        pageSize={5}
+        preventCloseOnSubmit
+      />
+    </LeftRightPadding>
   );
 }
 

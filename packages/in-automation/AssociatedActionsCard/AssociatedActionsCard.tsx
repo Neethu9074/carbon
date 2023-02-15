@@ -6,8 +6,8 @@
 
 import React from 'react';
 
+import { Button, Spacer } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/components';
 
 import {
   getCustomEventActions,
@@ -78,21 +78,24 @@ interface RightHeaderProps {
 
 const RightHeader = ({ eventSpecification, actions, isCustom }: RightHeaderProps) => {
   return (
-    <Button
-      kind="action"
-      icon="lib_openclose_add_circle_outline"
-      onClick={() => {
-        addActiveDialog(
-          <ActionAssociationDialogWrapper
-            eventSpecification={eventSpecification}
-            actions={actions}
-            isCustom={isCustom}
-            onClose={close}
-          />
-        );
-      }}
-    >
-      {t('in-events:selectActions')}
-    </Button>
+    <>
+      <Button
+        kind="action"
+        icon="lib_openclose_add_circle_outline"
+        onClick={() => {
+          addActiveDialog(
+            <ActionAssociationDialogWrapper
+              eventSpecification={eventSpecification}
+              actions={actions}
+              isCustom={isCustom}
+              onClose={close}
+            />
+          );
+        }}
+      >
+        {t('in-events:selectActions')}
+      </Button>
+      <Spacer horizontal="xsmall" />
+    </>
   );
 };

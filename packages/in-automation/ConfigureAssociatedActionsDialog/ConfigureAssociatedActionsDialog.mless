@@ -4,9 +4,6 @@
  * Copyright IBM Corp. 2022
  */
 
-@import '~in-themes/active.less';
-@import '~in-themes/mixins.less';
-
 :local {
   .dialog {
     width: 66.25rem;

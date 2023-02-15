@@ -8,6 +8,7 @@ import { Field } from 'formalistic';
 import React from 'react';
 
 import { Button } from '@instana/components';
+import { Spacer } from '@instana/components';
 
 import {
   ConfigureAssociatedActionsDialogProps,
@@ -17,8 +18,6 @@ import ActionTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCa
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { getScoredActionsForEvent } from 'in-automation/api';
 import { t } from 'in-i18n';
-
-import locals from './SelectedActions.mless';
 
 interface SelectActionsProps
   extends Pick<ConfigureAssociatedActionsDialogProps, 'form' | 'setForm' | 'eventSpecification'> {
@@ -55,14 +54,12 @@ export default function SelectedActions({
         }}
         pageSize={5}
         rightHeader={
-          <Button
-            className={locals.selectButton}
-            kind="action"
-            onClick={() => setSlideInViewVisible(true)}
-            icon="lib_openclose_add_circle_outline"
-          >
-            {t('in-events:addActions')}
-          </Button>
+          <>
+            <Button kind="action" onClick={() => setSlideInViewVisible(true)} icon="lib_openclose_add_circle_outline">
+              {t('in-events:addActions')}
+            </Button>
+            <Spacer horizontal="xsmall" />
+          </>
         }
         scored
       />
