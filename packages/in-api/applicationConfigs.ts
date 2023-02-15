@@ -84,6 +84,15 @@ function getApplicationConfigsAsResultObservableInternal(): Observable<Result<Ap
   );
 }
 
+export function getApplicationConfigsAsResult(): Observable<Result<ApplicationConfig[]>> {
+  return http<ApplicationConfig[]>({
+    method: 'GET',
+    maxRetries: 3,
+    url: `${basePath}`,
+    mapToResultObject: true
+  });
+}
+
 // regular calls
 
 export function getApplicationConfigs(): Observable<ApplicationConfig[]> {

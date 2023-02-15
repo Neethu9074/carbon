@@ -149,14 +149,6 @@ export const hasAPlatformAccess =
 export const hasEventsAccess =
   hasWebsitesAccess || hasApplicationsAccess || hasAPlatformAccess || hasInfrastructureAccess;
 
-export const productAreaPermissions = getProductAreaPermissions();
-export const productPermissions = getProductPermissions();
-export const productOwnerPermissions = getProductPermissions().filter(permission => permission.isOwnerPermission);
-export const productNonOwnerPermissions = getProductPermissions().filter(permission => !permission.isOwnerPermission);
-export const productRestrictions = getProductRestrictions();
-
-export const apiTokenPermissions = getProductPermissions().filter(permission => permission.keyForApiTokenApi != '');
-
 interface AreaPermissionProps {
   value: AreaPermissionType;
   label: string;
@@ -223,295 +215,309 @@ interface ProductPermission {
   isOwnerPermission?: boolean;
 }
 
+type ProductPermissionsObjectType = {
+  [key in CapabilityType]: ProductPermission;
+};
+
+export const productPermissionsObject: ProductPermissionsObjectType = {
+  [Capability.CAN_CONFIGURE_EUM_APPLICATIONS]: {
+    keyForGroupApi: Capability.CAN_CONFIGURE_EUM_APPLICATIONS,
+    keyForApiTokenApi: 'canConfigureEumApplications',
+    label: t('in-stores:permissionCanConfigureEumApplicationsLabel'),
+    description: t('in-stores:permissionCanConfigureEumApplicationsDescription'),
+    category: t('in-stores:permissionCanConfigureEumApplicationsCategory'),
+    isOwnerPermission: false
+  },
+  [Capability.CAN_CONFIGURE_MOBILE_APP_MONITORING]: {
+    keyForGroupApi: Capability.CAN_CONFIGURE_MOBILE_APP_MONITORING,
+    keyForApiTokenApi: 'canConfigureMobileAppMonitoring',
+    label: t('in-stores:permissionCanConfigureMobileAppMonitoringLabel'),
+    description: t('in-stores:permissionCanConfigureMobileAppMonitoringDescription'),
+    category: t('in-stores:permissionCanConfigureMobileAppMonitoringCategory'),
+    isOwnerPermission: false
+  },
+  [Capability.CAN_CONFIGURE_APPLICATIONS]: {
+    keyForGroupApi: Capability.CAN_CONFIGURE_APPLICATIONS,
+    keyForApiTokenApi: 'canConfigureApplications',
+    label: t('in-stores:permissionCanConfigureApplicationsLabel'),
+    description: t('in-stores:permissionCanConfigureApplicationsDescription'),
+    category: t('in-stores:permissionCanConfigureApplicationsCategory'),
+    isOwnerPermission: false
+  },
+  [Capability.CAN_CONFIGURE_SERVICE_MAPPING]: {
+    keyForGroupApi: Capability.CAN_CONFIGURE_SERVICE_MAPPING,
+    keyForApiTokenApi: 'canConfigureServiceMapping',
+    label: t('in-stores:permissionCanConfigureServiceMappingLabel'),
+    description: t('in-stores:permissionCanConfigureServiceMappingDescription'),
+    category: t('in-stores:permissionCanConfigureServiceMappingCategory'),
+    isOwnerPermission: false
+  },
+  /* Infrastructure */
+  [Capability.CAN_INSTALL_NEW_AGENTS]: {
+    keyForGroupApi: Capability.CAN_INSTALL_NEW_AGENTS,
+    keyForApiTokenApi: 'canInstallNewAgents',
+    label: t('in-stores:permissionCanInstallNewAgentsLabel'),
+    description: t('in-stores:permissionCanInstallNewAgentsDescription'),
+    category: t('in-stores:permissionCanInstallNewAgentsCategory'),
+    isOwnerPermission: false
+  },
+  [Capability.CAN_CONFIGURE_AGENTS]: {
+    keyForGroupApi: Capability.CAN_CONFIGURE_AGENTS,
+    keyForApiTokenApi: 'canConfigureAgents',
+    label: t('in-stores:permissionCanConfigureAgentsLabel'),
+    description: t('in-stores:permissionCanConfigureAgentsDescription'),
+    category: t('in-stores:permissionCanConfigureAgentsCategory'),
+    isOwnerPermission: false
+  },
+  [Capability.CAN_CONFIGURE_AGENT_RUN_MODE]: {
+    keyForGroupApi: Capability.CAN_CONFIGURE_AGENT_RUN_MODE,
+    keyForApiTokenApi: 'canConfigureAgentRunMode',
+    label: t('in-stores:permissionCanConfigureAgentRunModeLabel'),
+    description: t('in-stores:permissionCanConfigureAgentRunModeDescription'),
+    category: t('in-stores:permissionCanConfigureAgentRunModeCategory'),
+    isOwnerPermission: false
+  },
+  /* Events */
+  [Capability.CAN_CONFIGURE_INTEGRATIONS]: {
+    keyForGroupApi: Capability.CAN_CONFIGURE_INTEGRATIONS,
+    keyForApiTokenApi: 'canConfigureIntegrations',
+    label: t('in-stores:permissionCanConfigureIntegrationsLabel'),
+    description: t('in-stores:permissionCanConfigureIntegrationsDescription'),
+    category: t('in-stores:permissionCanConfigureIntegrationsCategory'),
+    isOwnerPermission: false
+  },
+  [Capability.CAN_CONFIGURE_CUSTOM_ALERTS]: {
+    keyForGroupApi: Capability.CAN_CONFIGURE_CUSTOM_ALERTS,
+    keyForApiTokenApi: 'canConfigureCustomAlerts',
+    label: t('in-stores:permissionCanConfigureCustomAlertsLabel'),
+    description: t('in-stores:permissionCanConfigureCustomAlertsDescription'),
+    category: t('in-stores:permissionCanConfigureCustomAlertsCategory'),
+    isOwnerPermission: false
+  },
+  [Capability.CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD]: {
+    keyForGroupApi: Capability.CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD,
+    keyForApiTokenApi: 'canConfigureGlobalAlertPayload',
+    label: t('in-stores:permissionCanConfigureGlobalAlertPayloadLabel'),
+    description: t('in-stores:permissionCanConfigureGlobalAlertPayloadDescription'),
+    category: t('in-stores:permissionCanConfigureGlobalAlertPayloadCategory'),
+    isOwnerPermission: false
+  },
+  [Capability.CAN_CONFIGURE_GLOBAL_ALERT_CONFIGS]: {
+    keyForGroupApi: Capability.CAN_CONFIGURE_GLOBAL_ALERT_CONFIGS,
+    keyForApiTokenApi: 'canConfigureGlobalAlertConfigs',
+    label: t('in-stores:permissionCanConfigureGlobalAlertConfigsLabel'),
+    description: t('in-stores:permissionCanConfigureGlobalAlertConfigsDescription'),
+    category: t('in-stores:permissionCanConfigureGlobalAlertConfigsCategory')
+  },
+  /* Custom Dashboards */
+  [Capability.CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS]: {
+    keyForGroupApi: Capability.CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS,
+    keyForApiTokenApi: 'canCreatePublicCustomDashboards',
+    label: t('in-stores:permissionCanCreatePublicCustomDashboardsLabel'),
+    description: t('in-stores:permissionCanCreatePublicCustomDashboardsDescription'),
+    category: t('in-stores:permissionCanCreatePublicCustomDashboardsCategory'),
+    isOwnerPermission: true
+  },
+  [Capability.CAN_EDIT_ALL_ACCESSIBLE_CUSTOM_DASHBOARDS]: {
+    keyForGroupApi: Capability.CAN_EDIT_ALL_ACCESSIBLE_CUSTOM_DASHBOARDS,
+    keyForApiTokenApi: 'canEditAllAccessibleCustomDashboards',
+    label: t('in-stores:permissionCanEditAllAccessibleCustomDashboardsLabel'),
+    description: t('in-stores:permissionCanEditAllAccessibleCustomDashboardsDescription'),
+    category: t('in-stores:permissionCanEditAllAccessibleCustomDashboardsCategory'),
+    isOwnerPermission: false
+  },
+  /* Extensions */
+  [Capability.CAN_CONFIGURE_LOG_MANAGEMENT]: {
+    keyForGroupApi: Capability.CAN_CONFIGURE_LOG_MANAGEMENT,
+    keyForApiTokenApi: 'canConfigureLogManagement',
+    label: t('in-stores:permissionCanConfigureLogManagementLabel'),
+    description: t('in-stores:permissionCanConfigureLogManagementDescription'),
+    category: t('in-stores:permissionCanConfigureLogManagementCategory'),
+    isOwnerPermission: false
+  },
+  [Capability.CAN_CONFIGURE_RELEASES]: {
+    keyForGroupApi: Capability.CAN_CONFIGURE_RELEASES,
+    keyForApiTokenApi: 'canConfigureReleases',
+    label: t('in-stores:permissionCanConfigureReleasesLabel'),
+    description: t('in-stores:permissionCanConfigureReleasesDescription'),
+    category: t('in-stores:permissionCanConfigureReleasesCategory'),
+    isOwnerPermission: false
+  },
+  [Capability.CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS]: {
+    keyForGroupApi: Capability.CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS,
+    keyForApiTokenApi: 'canConfigureServiceLevelIndicators',
+    label: t('in-stores:permissionCanConfigureServiceLevelIndicatorsLabel'),
+    description: t('in-stores:permissionCanConfigureServiceLevelIndicatorsDescription'),
+    category: t('in-stores:permissionCanConfigureServiceLevelIndicatorsCategory'),
+    isOwnerPermission: false
+  },
+  /* Access Control */
+  [Capability.CAN_CONFIGURE_USERS]: {
+    keyForGroupApi: Capability.CAN_CONFIGURE_USERS,
+    keyForApiTokenApi: 'canConfigureUsers',
+    label: t('in-stores:permissionCanConfigureUsersLabel'),
+    description: t('in-stores:permissionCanConfigureUsersDescription'),
+    category: t('in-stores:permissionCanConfigureUsersCategory'),
+    isOwnerPermission: false
+  },
+  [Capability.CAN_CONFIGURE_TEAMS]: {
+    keyForGroupApi: Capability.CAN_CONFIGURE_TEAMS,
+    keyForApiTokenApi: 'canConfigureTeams',
+    label: t('in-stores:permissionCanConfigureTeamsLabel'),
+    description: t('in-stores:permissionCanConfigureTeamsDescription'),
+    category: t('in-stores:permissionCanConfigureTeamsCategory'),
+    isOwnerPermission: true
+  },
+  [Capability.CAN_CONFIGURE_API_TOKENS]: {
+    keyForGroupApi: Capability.CAN_CONFIGURE_API_TOKENS,
+    keyForApiTokenApi: 'canConfigureApiTokens',
+    label: t('in-stores:permissionCanConfigureApiTokensLabel'),
+    description: t('in-stores:permissionCanConfigureApiTokensDescription'),
+    category: t('in-stores:permissionCanConfigureApiTokensCategory'),
+    isOwnerPermission: true
+  },
+  [Capability.CAN_CONFIGURE_PERSONAL_API_TOKENS]: {
+    keyForGroupApi: Capability.CAN_CONFIGURE_PERSONAL_API_TOKENS,
+    keyForApiTokenApi: 'canConfigurePersonalApiTokens',
+    label: t('in-stores:permissionCanConfigurePersonalApiTokensLabel'),
+    description: t('in-stores:permissionCanConfigurePersonalApiTokensDescription'),
+    category: t('in-stores:permissionCanConfigurePersonalApiTokensCategory'),
+    isOwnerPermission: false
+  },
+  [Capability.CAN_CONFIGURE_AUTHENTICATION_METHODS]: {
+    keyForGroupApi: Capability.CAN_CONFIGURE_AUTHENTICATION_METHODS,
+    keyForApiTokenApi: 'canConfigureAuthenticationMethods',
+    label: t('in-stores:permissionCanConfigureAuthenticationMethodsLabel'),
+    description: t('in-stores:permissionCanConfigureAuthenticationMethodsDescription'),
+    category: t('in-stores:permissionCanConfigureAuthenticationMethodsCategory'),
+    isOwnerPermission: false
+  },
+  [Capability.CAN_VIEW_AUDIT_LOG]: {
+    keyForGroupApi: Capability.CAN_VIEW_AUDIT_LOG,
+    keyForApiTokenApi: 'canViewAuditLog',
+    label: t('in-stores:permissionCanViewAuditLogLabel'),
+    description: t('in-stores:permissionCanViewAuditLogDescription'),
+    category: t('in-stores:permissionCanViewAuditLogCategory'),
+    isOwnerPermission: false
+  },
+  [Capability.CAN_CONFIGURE_SESSION_SETTINGS]: {
+    keyForGroupApi: Capability.CAN_CONFIGURE_SESSION_SETTINGS,
+    keyForApiTokenApi: 'canConfigureSessionSettings',
+    label: t('in-stores:permissionCanConfigureSessionSettingsLabel'),
+    description: t('in-stores:permissionCanConfigureSessionSettingsDescription'),
+    category: t('in-stores:permissionCanConfigureSessionSettingsCategory'),
+    isOwnerPermission: false
+  },
+  [Capability.CAN_VIEW_LOGS]: {
+    keyForGroupApi: Capability.CAN_VIEW_LOGS,
+    keyForApiTokenApi: '', // indicates that this is not a permission for a token
+    label: t('in-stores:permissionCanViewLogsLabel'),
+    description: t('in-stores:permissionCanViewLogsDescription'),
+    category: t('in-stores:permissionCanViewLogsCategory'),
+    isOwnerPermission: false
+  },
+  [Capability.CAN_VIEW_TRACE_DETAILS]: {
+    keyForGroupApi: Capability.CAN_VIEW_TRACE_DETAILS,
+    keyForApiTokenApi: '', // indicates that this is not a permission for a token
+    label: t('in-stores:permissionCanViewTraceDetailsLabel'),
+    description: t('in-stores:permissionCanViewTraceDetailsDescription'),
+    category: t('in-stores:permissionCanViewTraceDetailsCategory'),
+    isOwnerPermission: false
+  },
+  /* Account Information */
+  [Capability.CAN_SEE_USAGE_INFORMATION]: {
+    keyForGroupApi: Capability.CAN_SEE_USAGE_INFORMATION,
+    keyForApiTokenApi: 'canSeeUsageInformation',
+    label: t('in-stores:permissionCanSeeUsageInformationLabel'),
+    description: t('in-stores:permissionCanSeeUsageInformationDescription'),
+    category: t('in-stores:permissionCanSeeUsageInformationCategory'),
+    isOwnerPermission: false
+  },
+  [Capability.CAN_SEE_ON_PREM_LICENE_INFORMATION]: {
+    keyForGroupApi: Capability.CAN_SEE_ON_PREM_LICENE_INFORMATION,
+    keyForApiTokenApi: 'canSeeOnPremLicenseInformation',
+    label: t('in-stores:permissionCanSeeOnPremLicenseInformationLabel'),
+    description: t('in-stores:permissionCanSeeOnPremLicenseInformationDescription'),
+    category: t('in-stores:permissionCanSeeOnPremLicenseInformationCategory'),
+    isOwnerPermission: false
+  },
+  [Capability.CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION]: {
+    keyForGroupApi: Capability.CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION,
+    keyForApiTokenApi: 'canViewAccountAndBillingInformation',
+    label: t('in-stores:permissionCanViewAccountAndBillingInformationLabel'),
+    description: t('in-stores:permissionCanViewAccountAndBillingInformationDescription'),
+    category: t('in-stores:permissionCanViewAccountAndBillingInformationCategory')
+  },
+  /* Automation */
+  [Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS]: {
+    keyForGroupApi: Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS,
+    keyForApiTokenApi: 'canConfigureAutomationActions',
+    label: t('in-stores:permissionCanConfigureAutomationActionsLabel'),
+    description: t('in-stores:permissionCanConfigureAutomationActionsDescription'),
+    category: t('in-stores:permissionCanConfigureAutomationActionsCategory')
+  },
+  [Capability.CAN_RUN_AUTOMATION_ACTIONS]: {
+    keyForGroupApi: Capability.CAN_RUN_AUTOMATION_ACTIONS,
+    keyForApiTokenApi: 'canRunAutomationActions',
+    label: t('in-stores:permissionCanRunAutomationActionsLabel'),
+    description: t('in-stores:permissionCanRunAutomationActionsDescription'),
+    category: t('in-stores:permissionCanRunAutomationActionsCategory')
+  },
+  /* Synthetic */
+  [Capability.CAN_CONFIGURE_SYNTHETIC_TESTS]: {
+    keyForGroupApi: Capability.CAN_CONFIGURE_SYNTHETIC_TESTS,
+    keyForApiTokenApi: 'canConfigureSyntheticTests',
+    label: t('in-stores:permissionCanConfigureSyntheticTestsLabel'),
+    description: t('in-stores:permissionCanConfigureSyntheticTestsDescription'),
+    category: t('in-stores:permissionSyntheticMonitoringCategory'),
+    isOwnerPermission: false
+  },
+  [Capability.CAN_CONFIGURE_SYNTHETIC_LOCATIONS]: {
+    keyForGroupApi: Capability.CAN_CONFIGURE_SYNTHETIC_LOCATIONS,
+    keyForApiTokenApi: 'canConfigureSyntheticLocations',
+    label: t('in-stores:permissionCanConfigureSyntheticLocationsLabel'),
+    description: t('in-stores:permissionCanConfigureSyntheticLocationsDescription'),
+    category: t('in-stores:permissionSyntheticMonitoringCategory'),
+    isOwnerPermission: false
+  },
+  [Capability.CAN_VIEW_SYNTHETIC_TESTS]: {
+    keyForGroupApi: Capability.CAN_VIEW_SYNTHETIC_TESTS,
+    keyForApiTokenApi: 'canViewSyntheticTests',
+    label: t('in-stores:permissionCanViewSyntheticTestsLabel'),
+    description: t('in-stores:permissionCanViewSyntheticTestsDescription'),
+    category: t('in-stores:permissionSyntheticMonitoringCategory')
+  },
+  [Capability.CAN_VIEW_SYNTHETIC_LOCATIONS]: {
+    keyForGroupApi: Capability.CAN_VIEW_SYNTHETIC_LOCATIONS,
+    keyForApiTokenApi: 'canViewSyntheticLocations',
+    label: t('in-stores:permissionCanViewSyntheticLocationsLabel'),
+    description: t('in-stores:permissionCanViewSyntheticLocationsDescription'),
+    category: t('in-stores:permissionSyntheticMonitoringCategory')
+  },
+  [Capability.CAN_VIEW_SYNTHETIC_TEST_RESULTS]: {
+    keyForGroupApi: Capability.CAN_VIEW_SYNTHETIC_TEST_RESULTS,
+    keyForApiTokenApi: 'canViewSyntheticTestResults',
+    label: t('in-stores:permissionCanViewSyntheticTestResultsLabel'),
+    description: t('in-stores:permissionCanViewSyntheticTestResultsDescription'),
+    category: t('in-stores:permissionSyntheticMonitoringCategory')
+  }
+};
+
 function getProductPermissions(): Array<ProductPermission> {
-  const permissions: Array<ProductPermission> = [
-    /* Websites & Mobile Apps */
-    {
-      keyForGroupApi: Capability.CAN_CONFIGURE_EUM_APPLICATIONS,
-      keyForApiTokenApi: 'canConfigureEumApplications',
-      label: t('in-stores:permissionCanConfigureEumApplicationsLabel'),
-      description: t('in-stores:permissionCanConfigureEumApplicationsDescription'),
-      category: t('in-stores:permissionCanConfigureEumApplicationsCategory'),
-      isOwnerPermission: false
-    },
-    {
-      keyForGroupApi: Capability.CAN_CONFIGURE_MOBILE_APP_MONITORING,
-      keyForApiTokenApi: 'canConfigureMobileAppMonitoring',
-      label: t('in-stores:permissionCanConfigureMobileAppMonitoringLabel'),
-      description: t('in-stores:permissionCanConfigureMobileAppMonitoringDescription'),
-      category: t('in-stores:permissionCanConfigureMobileAppMonitoringCategory'),
-      isOwnerPermission: false
-    },
+  const permissions: Array<ProductPermission> = Object.values(productPermissionsObject);
 
-    {
-      keyForGroupApi: Capability.CAN_CONFIGURE_APPLICATIONS,
-      keyForApiTokenApi: 'canConfigureApplications',
-      label: t('in-stores:permissionCanConfigureApplicationsLabel'),
-      description: t('in-stores:permissionCanConfigureApplicationsDescription'),
-      category: t('in-stores:permissionCanConfigureApplicationsCategory'),
-      isOwnerPermission: false
-    },
-    {
-      keyForGroupApi: Capability.CAN_CONFIGURE_SERVICE_MAPPING,
-      keyForApiTokenApi: 'canConfigureServiceMapping',
-      label: t('in-stores:permissionCanConfigureServiceMappingLabel'),
-      description: t('in-stores:permissionCanConfigureServiceMappingDescription'),
-      category: t('in-stores:permissionCanConfigureServiceMappingCategory'),
-      isOwnerPermission: false
-    },
-    /* Infrastructure */
-    {
-      keyForGroupApi: Capability.CAN_INSTALL_NEW_AGENTS,
-      keyForApiTokenApi: 'canInstallNewAgents',
-      label: t('in-stores:permissionCanInstallNewAgentsLabel'),
-      description: t('in-stores:permissionCanInstallNewAgentsDescription'),
-      category: t('in-stores:permissionCanInstallNewAgentsCategory'),
-      isOwnerPermission: false
-    },
-    {
-      keyForGroupApi: Capability.CAN_CONFIGURE_AGENTS,
-      keyForApiTokenApi: 'canConfigureAgents',
-      label: t('in-stores:permissionCanConfigureAgentsLabel'),
-      description: t('in-stores:permissionCanConfigureAgentsDescription'),
-      category: t('in-stores:permissionCanConfigureAgentsCategory'),
-      isOwnerPermission: false
-    },
-    {
-      keyForGroupApi: Capability.CAN_CONFIGURE_AGENT_RUN_MODE,
-      keyForApiTokenApi: 'canConfigureAgentRunMode',
-      label: t('in-stores:permissionCanConfigureAgentRunModeLabel'),
-      description: t('in-stores:permissionCanConfigureAgentRunModeDescription'),
-      category: t('in-stores:permissionCanConfigureAgentRunModeCategory'),
-      isOwnerPermission: false
-    },
-    /* Events */
-    {
-      keyForGroupApi: Capability.CAN_CONFIGURE_INTEGRATIONS,
-      keyForApiTokenApi: 'canConfigureIntegrations',
-      label: t('in-stores:permissionCanConfigureIntegrationsLabel'),
-      description: t('in-stores:permissionCanConfigureIntegrationsDescription'),
-      category: t('in-stores:permissionCanConfigureIntegrationsCategory'),
-      isOwnerPermission: false
-    },
-    {
-      keyForGroupApi: Capability.CAN_CONFIGURE_CUSTOM_ALERTS,
-      keyForApiTokenApi: 'canConfigureCustomAlerts',
-      label: t('in-stores:permissionCanConfigureCustomAlertsLabel'),
-      description: t('in-stores:permissionCanConfigureCustomAlertsDescription'),
-      category: t('in-stores:permissionCanConfigureCustomAlertsCategory'),
-      isOwnerPermission: false
-    },
-    {
-      keyForGroupApi: Capability.CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD,
-      keyForApiTokenApi: 'canConfigureGlobalAlertPayload',
-      label: t('in-stores:permissionCanConfigureGlobalAlertPayloadLabel'),
-      description: t('in-stores:permissionCanConfigureGlobalAlertPayloadDescription'),
-      category: t('in-stores:permissionCanConfigureGlobalAlertPayloadCategory'),
-      isOwnerPermission: false
-    },
-    {
-      keyForGroupApi: Capability.CAN_CONFIGURE_GLOBAL_ALERT_CONFIGS,
-      keyForApiTokenApi: 'canConfigureGlobalAlertConfigs',
-      label: t('in-stores:permissionCanConfigureGlobalAlertConfigsLabel'),
-      description: t('in-stores:permissionCanConfigureGlobalAlertConfigsDescription'),
-      category: t('in-stores:permissionCanConfigureGlobalAlertConfigsCategory')
-    },
-    /* Automation */
-    {
-      keyForGroupApi: Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS,
-      keyForApiTokenApi: 'canConfigureAutomationActions',
-      label: t('in-stores:permissionCanConfigureAutomationActionsLabel'),
-      description: t('in-stores:permissionCanConfigureAutomationActionsDescription'),
-      category: t('in-stores:permissionCanConfigureAutomationActionsCategory')
-    },
-    {
-      keyForGroupApi: Capability.CAN_RUN_AUTOMATION_ACTIONS,
-      keyForApiTokenApi: 'canRunAutomationActions',
-      label: t('in-stores:permissionCanRunAutomationActionsLabel'),
-      description: t('in-stores:permissionCanRunAutomationActionsDescription'),
-      category: t('in-stores:permissionCanRunAutomationActionsCategory')
-    },
-    /* Custom Dashboards */
-    {
-      keyForGroupApi: Capability.CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS,
-      keyForApiTokenApi: 'canCreatePublicCustomDashboards',
-      label: t('in-stores:permissionCanCreatePublicCustomDashboardsLabel'),
-      description: t('in-stores:permissionCanCreatePublicCustomDashboardsDescription'),
-      category: t('in-stores:permissionCanCreatePublicCustomDashboardsCategory'),
-      isOwnerPermission: true
-    },
-    {
-      keyForGroupApi: Capability.CAN_EDIT_ALL_ACCESSIBLE_CUSTOM_DASHBOARDS,
-      keyForApiTokenApi: 'canEditAllAccessibleCustomDashboards',
-      label: t('in-stores:permissionCanEditAllAccessibleCustomDashboardsLabel'),
-      description: t('in-stores:permissionCanEditAllAccessibleCustomDashboardsDescription'),
-      category: t('in-stores:permissionCanEditAllAccessibleCustomDashboardsCategory'),
-      isOwnerPermission: false
-    },
-    /* Extensions */
-    {
-      keyForGroupApi: Capability.CAN_CONFIGURE_LOG_MANAGEMENT,
-      keyForApiTokenApi: 'canConfigureLogManagement',
-      label: t('in-stores:permissionCanConfigureLogManagementLabel'),
-      description: t('in-stores:permissionCanConfigureLogManagementDescription'),
-      category: t('in-stores:permissionCanConfigureLogManagementCategory'),
-      isOwnerPermission: false
-    },
-    {
-      keyForGroupApi: Capability.CAN_CONFIGURE_RELEASES,
-      keyForApiTokenApi: 'canConfigureReleases',
-      label: t('in-stores:permissionCanConfigureReleasesLabel'),
-      description: t('in-stores:permissionCanConfigureReleasesDescription'),
-      category: t('in-stores:permissionCanConfigureReleasesCategory'),
-      isOwnerPermission: false
-    },
-    {
-      keyForGroupApi: Capability.CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS,
-      keyForApiTokenApi: 'canConfigureServiceLevelIndicators',
-      label: t('in-stores:permissionCanConfigureServiceLevelIndicatorsLabel'),
-      description: t('in-stores:permissionCanConfigureServiceLevelIndicatorsDescription'),
-      category: t('in-stores:permissionCanConfigureServiceLevelIndicatorsCategory'),
-      isOwnerPermission: false
-    },
-    /* Access Control */
-    {
-      keyForGroupApi: Capability.CAN_CONFIGURE_USERS,
-      keyForApiTokenApi: 'canConfigureUsers',
-      label: t('in-stores:permissionCanConfigureUsersLabel'),
-      description: t('in-stores:permissionCanConfigureUsersDescription'),
-      category: t('in-stores:permissionCanConfigureUsersCategory'),
-      isOwnerPermission: false
-    },
-    {
-      keyForGroupApi: Capability.CAN_CONFIGURE_TEAMS,
-      keyForApiTokenApi: 'canConfigureTeams',
-      label: t('in-stores:permissionCanConfigureTeamsLabel'),
-      description: t('in-stores:permissionCanConfigureTeamsDescription'),
-      category: t('in-stores:permissionCanConfigureTeamsCategory'),
-      isOwnerPermission: true
-    },
-    {
-      keyForGroupApi: Capability.CAN_CONFIGURE_API_TOKENS,
-      keyForApiTokenApi: 'canConfigureApiTokens',
-      label: t('in-stores:permissionCanConfigureApiTokensLabel'),
-      description: t('in-stores:permissionCanConfigureApiTokensDescription'),
-      category: t('in-stores:permissionCanConfigureApiTokensCategory'),
-      isOwnerPermission: true
-    },
-    {
-      keyForGroupApi: Capability.CAN_CONFIGURE_PERSONAL_API_TOKENS,
-      keyForApiTokenApi: 'canConfigurePersonalApiTokens',
-      label: t('in-stores:permissionCanConfigurePersonalApiTokensLabel'),
-      description: t('in-stores:permissionCanConfigurePersonalApiTokensDescription'),
-      category: t('in-stores:permissionCanConfigurePersonalApiTokensCategory'),
-      isOwnerPermission: false
-    },
-    {
-      keyForGroupApi: Capability.CAN_CONFIGURE_AUTHENTICATION_METHODS,
-      keyForApiTokenApi: 'canConfigureAuthenticationMethods',
-      label: t('in-stores:permissionCanConfigureAuthenticationMethodsLabel'),
-      description: t('in-stores:permissionCanConfigureAuthenticationMethodsDescription'),
-      category: t('in-stores:permissionCanConfigureAuthenticationMethodsCategory'),
-      isOwnerPermission: false
-    },
-    {
-      keyForGroupApi: Capability.CAN_VIEW_AUDIT_LOG,
-      keyForApiTokenApi: 'canViewAuditLog',
-      label: t('in-stores:permissionCanViewAuditLogLabel'),
-      description: t('in-stores:permissionCanViewAuditLogDescription'),
-      category: t('in-stores:permissionCanViewAuditLogCategory'),
-      isOwnerPermission: false
-    },
-    {
-      keyForGroupApi: Capability.CAN_CONFIGURE_SESSION_SETTINGS,
-      keyForApiTokenApi: 'canConfigureSessionSettings',
-      label: t('in-stores:permissionCanConfigureSessionSettingsLabel'),
-      description: t('in-stores:permissionCanConfigureSessionSettingsDescription'),
-      category: t('in-stores:permissionCanConfigureSessionSettingsCategory'),
-      isOwnerPermission: false
-    },
-    {
-      keyForGroupApi: Capability.CAN_VIEW_LOGS,
-      keyForApiTokenApi: '', // indicates that this is not a permission for a token
-      label: t('in-stores:permissionCanViewLogsLabel'),
-      description: t('in-stores:permissionCanViewLogsDescription'),
-      category: t('in-stores:permissionCanViewLogsCategory'),
-      isOwnerPermission: false
-    },
-    {
-      keyForGroupApi: Capability.CAN_VIEW_TRACE_DETAILS,
-      keyForApiTokenApi: '', // indicates that this is not a permission for a token
-      label: t('in-stores:permissionCanViewTraceDetailsLabel'),
-      description: t('in-stores:permissionCanViewTraceDetailsDescription'),
-      category: t('in-stores:permissionCanViewTraceDetailsCategory'),
-      isOwnerPermission: false
-    },
-    /* Account Information */
-    {
-      keyForGroupApi: Capability.CAN_SEE_USAGE_INFORMATION,
-      keyForApiTokenApi: 'canSeeUsageInformation',
-      label: t('in-stores:permissionCanSeeUsageInformationLabel'),
-      description: t('in-stores:permissionCanSeeUsageInformationDescription'),
-      category: t('in-stores:permissionCanSeeUsageInformationCategory'),
-      isOwnerPermission: false
-    },
-    {
-      keyForGroupApi: Capability.CAN_SEE_ON_PREM_LICENE_INFORMATION,
-      keyForApiTokenApi: 'canSeeOnPremLicenseInformation',
-      label: t('in-stores:permissionCanSeeOnPremLicenseInformationLabel'),
-      description: t('in-stores:permissionCanSeeOnPremLicenseInformationDescription'),
-      category: t('in-stores:permissionCanSeeOnPremLicenseInformationCategory'),
-      isOwnerPermission: false
-    },
-    {
-      keyForGroupApi: Capability.CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION,
-      keyForApiTokenApi: 'canViewAccountAndBillingInformation',
-      label: t('in-stores:permissionCanViewAccountAndBillingInformationLabel'),
-      description: t('in-stores:permissionCanViewAccountAndBillingInformationDescription'),
-      category: t('in-stores:permissionCanViewAccountAndBillingInformationCategory')
-    }
-  ];
+  if (!syntheticsEnabled) {
+    return permissions.filter(({ keyForGroupApi }) => {
+      const syntheticCapabilities: Array<CapabilityType> = [
+        Capability.CAN_CONFIGURE_SYNTHETIC_TESTS,
+        Capability.CAN_CONFIGURE_SYNTHETIC_LOCATIONS,
+        Capability.CAN_VIEW_SYNTHETIC_TESTS,
+        Capability.CAN_VIEW_SYNTHETIC_LOCATIONS,
+        Capability.CAN_VIEW_SYNTHETIC_TEST_RESULTS
+      ];
 
-  if (syntheticsEnabled) {
-    permissions.push(
-      {
-        keyForGroupApi: Capability.CAN_CONFIGURE_SYNTHETIC_TESTS,
-        keyForApiTokenApi: 'canConfigureSyntheticTests',
-        label: t('in-stores:permissionCanConfigureSyntheticTestsLabel'),
-        description: t('in-stores:permissionCanConfigureSyntheticTestsDescription'),
-        category: t('in-stores:permissionSyntheticMonitoringCategory'),
-        isOwnerPermission: false
-      },
-      {
-        keyForGroupApi: Capability.CAN_CONFIGURE_SYNTHETIC_LOCATIONS,
-        keyForApiTokenApi: 'canConfigureSyntheticLocations',
-        label: t('in-stores:permissionCanConfigureSyntheticLocationsLabel'),
-        description: t('in-stores:permissionCanConfigureSyntheticLocationsDescription'),
-        category: t('in-stores:permissionSyntheticMonitoringCategory'),
-        isOwnerPermission: false
-      },
-      {
-        keyForGroupApi: Capability.CAN_VIEW_SYNTHETIC_TESTS,
-        keyForApiTokenApi: 'canViewSyntheticTests',
-        label: t('in-stores:permissionCanViewSyntheticTestsLabel'),
-        description: t('in-stores:permissionCanViewSyntheticTestsDescription'),
-        category: t('in-stores:permissionSyntheticMonitoringCategory')
-      },
-      {
-        keyForGroupApi: Capability.CAN_VIEW_SYNTHETIC_LOCATIONS,
-        keyForApiTokenApi: 'canViewSyntheticLocations',
-        label: t('in-stores:permissionCanViewSyntheticLocationsLabel'),
-        description: t('in-stores:permissionCanViewSyntheticLocationsDescription'),
-        category: t('in-stores:permissionSyntheticMonitoringCategory')
-      },
-      {
-        keyForGroupApi: Capability.CAN_VIEW_SYNTHETIC_TEST_RESULTS,
-        keyForApiTokenApi: 'canViewSyntheticTestResults',
-        label: t('in-stores:permissionCanViewSyntheticTestResultsLabel'),
-        description: t('in-stores:permissionCanViewSyntheticTestResultsDescription'),
-        category: t('in-stores:permissionSyntheticMonitoringCategory')
-      }
-    );
+      return !syntheticCapabilities.includes(keyForGroupApi);
+    });
   }
 
   if (!actionAutomationEnabled) {
@@ -537,3 +543,10 @@ function getProductRestrictions() {
     }
   ];
 }
+
+export const productAreaPermissions = getProductAreaPermissions();
+export const productPermissions = getProductPermissions();
+export const productOwnerPermissions = getProductPermissions().filter(permission => permission.isOwnerPermission);
+export const productNonOwnerPermissions = getProductPermissions().filter(permission => !permission.isOwnerPermission);
+export const productRestrictions = getProductRestrictions();
+export const apiTokenPermissions = getProductPermissions().filter(permission => permission.keyForApiTokenApi != '');

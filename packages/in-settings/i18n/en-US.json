@@ -1,4 +1,7 @@
 {
+  "general": {
+    "all": "All"
+  },
   "termsDialog": {
     "back": "Back",
     "next": "Next",
@@ -57,16 +60,40 @@
     "dialogTitle": "Create new group",
     "dialogTitle_edit": "Edit access scope",
     "editButton": "Edit access scope",
-    "productArea": "Role and access scope",
-    "productArea_application": "Application",
-    "productArea_platform": "Platform",
-    "productArea_website": "Website",
-    "productArea_mobile-app": "Mobile apps",
-    "productArea_kubernetes": "Kubernetes",
-    "productArea_infrastructure": "Infrastructure",
-    "productArea_analytics": "Analytics",
-    "productArea_event": "Events and Alerts",
-    "productArea_function": "Global functions"
+    "productArea": "Role and access scope"
+  },
+  "productAreas": {
+    "application": "Applications",
+    "allApplications": "All applications",
+    "platform": "Platform",
+    "website": "Websites",
+    "allWebsites": "All websites",
+    "allMobileApps": "All mobile apps",
+    "mobileApp": "Mobile apps",
+    "kubernetes": "Kubernetes",
+    "vsphere": "vSphere",
+    "phmc": "pHMC",
+    "zhmc": "zHMC",
+    "openstack": "OpenStack",
+    "pcf": "pCF",
+    "infrastructure": "Infrastructure",
+    "analytics": "Analytics",
+    "countOfPermissions": "{{numberOfcapabilitiesUserHas}} / {{totalNumberOfAreaCapabilities}} permissions",
+    "event": "Events and Alerts",
+    "function": "Global functions",
+    "role_owner": "Owner",
+    "role_viewer": "Viewer",
+    "permissions": "Unknown role for {{quantityOfAreas}}",
+    "permissions_owner": "Owner for {{quantityOfAreas}}",
+    "permissions_viewer": "Viewer for {{quantityOfAreas}}",
+    "analyticsContentMessage": "Members will view data in Analytics defined by the access scope in Websites, Mobile Apps, Applications, Platforms & Infrastructure",
+    "infrastructureContentMessage": "Members will view entities defined by the access scope in Applications, Platforms, Infrastructure and optionally by DFQ",
+    "eventsAndAlertsContentMessage": "Members will view Events and Alerts according to the access scope defined in Websites, Mobile Apps, Applications, Platforms & Infrastructure",
+    "customDashboardPermissions": "Custom dashboard permissions",
+    "agentPermissions": "Agent permissions",
+    "userManagementAndSecurityPermissions": "User management and security permissions",
+    "accountAndBillingPermissions": "Account and billing permissions",
+    "automationPermissions": "Automation permissions"
   },
   "headingSection": {
     "title": "Role and access scope",

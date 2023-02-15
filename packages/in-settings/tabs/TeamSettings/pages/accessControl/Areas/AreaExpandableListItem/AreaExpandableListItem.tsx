@@ -6,14 +6,16 @@
 
 import React from 'react';
 
-import { KeyValue, Li, SvgIcon, LiProps } from '@instana/components';
+import { KeyValue, Li, SvgIcon, LiProps, LoadingSkeleton } from '@instana/components';
 
 import locals from 'in-settings/tabs/TeamSettings/pages/accessControl/Areas/AreaExpandableListItem/AreaExpandableListItem.mless';
 
-interface AreaExpandableListItemProps extends LiProps {
+interface AreaExpandableListItemProps extends Omit<LiProps, 'children'> {
+  children?: React.ReactNode;
   firstColumnLabel?: string;
   firstColumnHeadline: string;
   iconType: string;
+  loading?: boolean;
   secondColumnHeadline?: string;
   secondColumnLabel?: string;
 }
@@ -23,11 +25,19 @@ export const AreaExpandableListItem = ({
   firstColumnLabel,
   firstColumnHeadline,
   iconType,
+  loading = false,
   secondColumnHeadline,
   secondColumnLabel,
   subList
 }: AreaExpandableListItemProps) => {
   const shouldRenderSecondColumn = secondColumnLabel || secondColumnHeadline;
+
+  if (loading)
+    return (
+      <Li>
+        <LoadingSkeleton className={locals.skeleton} />
+      </Li>
+    );
 
   // By default passing even undefined children to the renderNestedContent
   // prop will make it render an empty div with padding, so we have to
