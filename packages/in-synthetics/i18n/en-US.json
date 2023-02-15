@@ -66,11 +66,21 @@
           }
         }
       },
-      "form": {
-        "validUrl": "Enter a valid URL"
-      },
       "validators": {
-        "theValueMustNotBeEmpty": "At least one location needs to be selected"
+        "theValueMustNotBeEmpty": "At least one location needs to be selected",
+        "urlMustNotContainSpace": "URL must not contain space",
+        "mailToNotSupported": "'mailto' is not supported",
+        "outOfLength": "URL is too long",
+        "fragmentsNotSupported": "Fragments are not supported",
+        "queryNotSupported": "Query is not supported",
+        "incorrectProtocol": "Protocol must be 'http' or 'https'",
+        "incorrectUrlFormat": "Missing protocol or domain",
+        "missUserAuthentication": "Missing user authentication",
+        "incorrectAuthentication": "Incorrect user authentication",
+        "missUserOrPassword": "Missing user or password",
+        "invalidPortValue": "Invalid port value",
+        "missHost": "Missing host in the URL",
+        "invalidHost": "Invalid host format"
       }
     },
     "httpMethods": {
