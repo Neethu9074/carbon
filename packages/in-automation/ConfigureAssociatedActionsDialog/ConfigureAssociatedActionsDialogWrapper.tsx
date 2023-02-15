@@ -33,6 +33,8 @@ export interface ConfigureAssociatedActionsDialogWrapperState {
   isSaving: boolean;
   setIsSaving: React.Dispatch<React.SetStateAction<ConfigureAssociatedActionsDialogWrapperState['isSaving']>>;
   allActions: Action[];
+  savingError: boolean;
+  setSavingError: React.Dispatch<React.SetStateAction<ConfigureAssociatedActionsDialogWrapperState['savingError']>>;
 }
 
 export type OnSubmit = () => void;
@@ -44,8 +46,8 @@ export default function ConfigureAssociatedActionsDialogWrapper({
   onClose
 }: ConfigureAssociatedActionsDialogWrapperProps) {
   const [form, setForm] = useState<ConfigureAssociatedActionsDialogWrapperState['form']>(createForm({ actions }));
+  const [savingError, setSavingError] = useState<ConfigureAssociatedActionsDialogWrapperState['savingError']>(false);
   const [isSaving, setIsSaving] = useState<ConfigureAssociatedActionsDialogWrapperState['isSaving']>(false);
-  // TODO: THESE AREN'T BEING USED FIX!
   const allActions =
     useObservable<ConfigureAssociatedActionsDialogWrapperState['allActions'], never[]>(getAllActions, []) ?? [];
   const onSubmit: OnSubmit = () => {
@@ -55,7 +57,8 @@ export default function ConfigureAssociatedActionsDialogWrapper({
       onClose,
       setIsSaving,
       eventSpecification,
-      allActions
+      allActions,
+      setSavingError
     });
   };
 
@@ -65,6 +68,7 @@ export default function ConfigureAssociatedActionsDialogWrapper({
       setForm={setForm}
       onClose={onClose}
       onSubmit={onSubmit}
+      savingError={savingError}
       isSaving={isSaving}
       eventSpecification={eventSpecification}
     />
@@ -75,7 +79,7 @@ type CreateOrSaveActionParams = Pick<
   ConfigureAssociatedActionsDialogWrapperProps,
   'eventSpecification' | 'isCustom' | 'onClose'
 > &
-  Pick<ConfigureAssociatedActionsDialogWrapperState, 'setIsSaving' | 'form' | 'allActions'>;
+  Pick<ConfigureAssociatedActionsDialogWrapperState, 'setIsSaving' | 'form' | 'allActions' | 'setSavingError'>;
 
 function createOrSaveAction({
   form,
@@ -83,7 +87,8 @@ function createOrSaveAction({
   eventSpecification,
   setIsSaving,
   allActions,
-  onClose
+  onClose,
+  setSavingError
 }: CreateOrSaveActionParams) {
   setIsSaving(true);
   //remove existing error messages:
@@ -106,13 +111,22 @@ function createOrSaveAction({
     onClose();
     window.location.reload();
   };
+  const handleErrors = () => {
+    setSavingError(true);
+    setIsSaving(false);
+  };
   if (isCustom) {
-    getCustomEventSpecificationMutable(eventId).once(response =>
-      saveCustomEventSpecificationWithActions({ ...response, actions: actions as Action[] }).once(closeAndReload)
+    getCustomEventSpecificationMutable(eventId).once(
+      response =>
+        saveCustomEventSpecificationWithActions({ ...response, actions: actions as Action[] }).once(
+          closeAndReload,
+          handleErrors
+        ),
+      handleErrors
     );
-  } else {
-    updateActionsAssignedToBuiltInEvent(actions, eventId).once(closeAndReload);
+    return;
   }
+  updateActionsAssignedToBuiltInEvent(actions, eventId).once(closeAndReload, handleErrors);
 }
 
 export function createForm({ actions }: Pick<ConfigureAssociatedActionsDialogWrapperProps, 'actions'>) {

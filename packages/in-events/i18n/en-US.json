@@ -27,6 +27,7 @@
   "request": "Request",
   "titleScriptContent": "Script Content",
   "titleActionType": "Action Type",
+  "failedToSaveAssocations": "An error occurred while saving the associated actions.",
   "method": "Method: {{method}}",
   "host": "Host: {{host}}",
   "body": "Body: {{body}}",

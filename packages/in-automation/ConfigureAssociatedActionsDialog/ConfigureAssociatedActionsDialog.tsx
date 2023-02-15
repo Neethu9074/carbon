@@ -15,6 +15,7 @@ import {
 import SelectedActions from 'in-automation/ConfigureAssociatedActionsDialog/SelectedActions';
 import SelectActions from 'in-automation/ConfigureAssociatedActionsDialog/SelectActions';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
+import NotificationComponent from 'in-components/form/Notification/Notification';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
 import Form from 'in-components/form/binding/Form';
@@ -26,7 +27,7 @@ export type ConfigureAssociatedActionsDialogProps = Pick<
   ConfigureAssociatedActionsDialogWrapperProps,
   'eventSpecification' | 'onClose'
 > &
-  Pick<ConfigureAssociatedActionsDialogWrapperState, 'setForm' | 'form' | 'isSaving'> & {
+  Pick<ConfigureAssociatedActionsDialogWrapperState, 'setForm' | 'form' | 'isSaving' | 'savingError'> & {
     onSubmit: OnSubmit;
   };
 
@@ -43,7 +44,8 @@ export default function ConfigureAssociatedActionsDialog({
   isSaving,
   form,
   setForm,
-  eventSpecification
+  eventSpecification,
+  savingError
 }: ConfigureAssociatedActionsDialogProps) {
   const [slideInViewVisible, setSlideInViewVisible] = useState<
     ConfigureAssociatedActionsDialogState['slideInViewVisible']
@@ -93,6 +95,9 @@ export default function ConfigureAssociatedActionsDialog({
     >
       <Form form={form} setForm={form => setForm(form as MapForm)} formId={formId} onSubmit={onSubmit}>
         <div className={locals.dialog}>
+          {savingError && (
+            <NotificationComponent failure>{t('in-events:failedToSaveAssocations')}</NotificationComponent>
+          )}
           <DashboardNotification type="info">{t('in-events:actionsAssociationsNote')}</DashboardNotification>
           <SelectedActions
             setSlideInViewVisible={setSlideInViewVisible}
