@@ -6,7 +6,11 @@
 
 :local {
   .dialog {
+    height: 50vw;
     width: 66.25rem;
     margin-bottom: 5rem;
+  }
+  .actionTable {
+    padding-bottom: 5rem;
   }
 }

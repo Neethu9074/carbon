@@ -7,6 +7,8 @@
 import { Field } from 'formalistic';
 import React from 'react';
 
+import { Spacer } from '@instana/components';
+
 import {
   ConfigureAssociatedActionsDialogProps,
   ConfigureAssociatedActionsDialogState
@@ -40,18 +42,18 @@ export default function ConfigureSelectedActions({
         listComponent={props => <ScoredActionTable {...props} eventSpecification={eventSpecification} />}
         hiddenIds={(form.get('actionIds') as Field<string[]>).value}
         onSubmit={onSubmit}
-        requiresAtLeastOneMessage={t('in-settings:tabs.pleaseSelectAtLeastOneAction')}
+        requiresAtLeastOneMessage={t('in-automation:pleaseSelectAtLeastOneAction')}
         renderCustomFormActions={numberOfItems => (
           <DialogFooter
             onSecondaryActionClick={() => setSlideInViewVisible(false)}
-            secondaryActionText={t('in-events:cancelButton')}
+            secondaryActionText={t('common:forms.actions.cancel')}
             renderCustomSaveAction={() => (
               <SaveButton type="submit" kind="create" disabled={!numberOfItems}>
                 {numberOfItems
-                  ? t('in-settings:tabs.addNumberOfItemsAction', {
+                  ? t('in-automation:addNumberOfItemsAction', {
                       count: numberOfItems
                     })
-                  : t('in-settings:tabs.addActions')}
+                  : t('in-automation:addActions')}
               </SaveButton>
             )}
           />
@@ -59,6 +61,7 @@ export default function ConfigureSelectedActions({
         pageSize={5}
         preventCloseOnSubmit
       />
+      <Spacer vertical="xxlarge" />
     </LeftRightPadding>
   );
 }

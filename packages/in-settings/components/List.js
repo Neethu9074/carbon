@@ -93,6 +93,7 @@ export default compose(
 )(List);
 
 function List({
+  className,
   title,
   getHeader,
   getCustomHeader,
@@ -181,7 +182,7 @@ function List({
   }
 
   return (
-    <div>
+    <div className={className}>
       {title && <Title title={title} />}
       {errorMessage && <TemporaryMessage type="error" message={errorMessage} duration={null} />}
       <ServerTablePresenter
@@ -672,7 +673,7 @@ List.propTypes = {
   tableInCard: PropTypes.bool,
   title: PropTypes.node,
   trackEvent: PropTypes.func,
-
+  className: PropTypes.string,
   /**
    * Callback called on every page change
    */

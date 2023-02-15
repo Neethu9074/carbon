@@ -218,7 +218,7 @@ export const createWebhookFields = ({
 ];
 
 export function createAction(
-  name: string = t('in-settings:tabs.newAction'),
+  name: string = t('in-automation:newAction'),
   type: string = DOC_LINK_TYPE,
   description: string = '',
   fields: Field[] = [createDocLinkField('')],
@@ -268,7 +268,7 @@ function runAction({ volatileId, event, actionName, type, request, inputParamete
         just(
           error<null>([
             {
-              message: t('in-events:actionSensorTimeout'),
+              message: t('in-automation:actionSensorTimeout'),
               code: 'TIMEOUT'
             }
           ])

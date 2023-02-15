@@ -15,9 +15,10 @@ import {
   ConfigureAssociatedActionsDialogState
 } from 'in-automation/ConfigureAssociatedActionsDialog/ConfigureAssociatedActionsDialog';
 import ActionTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionTable';
-import TouchedMessages from 'in-components/form/TouchedMessages';
 import { getScoredActionsForEvent } from 'in-automation/api';
 import { t } from 'in-i18n';
+
+import locals from './ConfigureAssociatedActionsDialog.mless';
 
 interface SelectActionsProps
   extends Pick<ConfigureAssociatedActionsDialogProps, 'form' | 'setForm' | 'eventSpecification'> {
@@ -33,37 +34,35 @@ export default function SelectedActions({
   const selectedActions = (form.get('actionIds') as Field<string[]>)?.value ?? [];
 
   return (
-    <>
-      <ActionTable
-        noDataMessage={t('in-settings:tabs.noActionsSelected')}
-        loadEntities={() => getScoredActionsForEvent(eventSpecification)(selectedActions)}
-        tableActions={{
-          deselect: {
-            deselect: deselectedEntity => {
-              setForm(
-                form.updateIn(['actionIds'], field =>
-                  (field as Field<string[]>)
-                    .setValue(
-                      (field as Field<string[]>).value.filter(referencedId => referencedId !== deselectedEntity.id)
-                    )
-                    .setTouched(true)
-                )
-              );
-            }
+    <ActionTable
+      className={locals.actionTable}
+      noDataMessage={t('in-automation:noActionsSelected')}
+      loadEntities={() => getScoredActionsForEvent(eventSpecification)(selectedActions)}
+      tableActions={{
+        deselect: {
+          deselect: deselectedEntity => {
+            setForm(
+              form.updateIn(['actionIds'], field =>
+                (field as Field<string[]>)
+                  .setValue(
+                    (field as Field<string[]>).value.filter(referencedId => referencedId !== deselectedEntity.id)
+                  )
+                  .setTouched(true)
+              )
+            );
           }
-        }}
-        pageSize={5}
-        rightHeader={
-          <>
-            <Button kind="action" onClick={() => setSlideInViewVisible(true)} icon="lib_openclose_add_circle_outline">
-              {t('in-events:addActions')}
-            </Button>
-            <Spacer horizontal="xsmall" />
-          </>
         }
-        scored
-      />
-      <TouchedMessages field={form.get('actionIds')} />
-    </>
+      }}
+      pageSize={5}
+      rightHeader={
+        <>
+          <Button kind="action" onClick={() => setSlideInViewVisible(true)} icon="lib_openclose_add_circle_outline">
+            {t('in-automation:addActions')}
+          </Button>
+          <Spacer horizontal="xsmall" />
+        </>
+      }
+      scored
+    />
   );
 }

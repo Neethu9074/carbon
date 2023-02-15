@@ -67,8 +67,8 @@ export default function ConfigureAssociatedActionsDialog({
       footer={
         <DialogFooter
           onSecondaryActionClick={onClose}
-          secondaryActionText={t('in-events:cancelButton')}
-          primaryActionText={t('in-events:saveButton')}
+          secondaryActionText={t('common:forms.actions.cancel')}
+          primaryActionText={t('common:forms.actions.save')}
           primaryActionDisabled={isSaving}
           saving={isSaving}
           form={form}
@@ -76,8 +76,8 @@ export default function ConfigureAssociatedActionsDialog({
           onPrimaryActionClick={onSubmit}
         />
       }
-      title={t('in-events:associateActions')}
-      slideInViewTitle={t('in-events:addActions')}
+      title={t('in-automation:associateActions')}
+      slideInViewTitle={t('in-automation:addActions')}
       onSlideInViewTitleClick={() => setSlideInViewVisible(false)}
       titleIconType="lib_openclose_add_circle_outline"
       onClose={onClose}
@@ -96,9 +96,9 @@ export default function ConfigureAssociatedActionsDialog({
       <Form form={form} setForm={form => setForm(form as MapForm)} formId={formId} onSubmit={onSubmit}>
         <div className={locals.dialog}>
           {savingError && (
-            <NotificationComponent failure>{t('in-events:failedToSaveAssocations')}</NotificationComponent>
+            <NotificationComponent failure>{t('in-automation:failedToSaveAssocations')}</NotificationComponent>
           )}
-          <DashboardNotification type="info">{t('in-events:actionsAssociationsNote')}</DashboardNotification>
+          <DashboardNotification type="info">{t('in-automation:actionsAssociationsNote')}</DashboardNotification>
           <SelectedActions
             setSlideInViewVisible={setSlideInViewVisible}
             form={form}

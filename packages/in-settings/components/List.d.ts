@@ -24,6 +24,7 @@ interface ColumnDefinition<ItemType extends Object> {
 }
 
 interface ListProps<ItemType extends Object> {
+  className?: string;
   title?: ReactNode;
   noDataMessage?: string;
   pageSize?: number;

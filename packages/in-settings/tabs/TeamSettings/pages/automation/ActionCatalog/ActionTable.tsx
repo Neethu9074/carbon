@@ -178,6 +178,7 @@ export interface ActionTableProps {
   showTestColumn?: boolean | undefined;
   showDuplicateColumn?: boolean | undefined;
   isBeta?: boolean;
+  className?: string;
 }
 
 export default function ActionTable({
@@ -196,7 +197,8 @@ export default function ActionTable({
   scored = false,
   showTestColumn = false,
   showDuplicateColumn = false,
-  isBeta = false
+  isBeta = false,
+  className
 }: ActionTableProps) {
   let columnDefinitionsToShow = [nameColumn(showActionLink), ...columnDefinitions];
   if (showExecuteColumn) {
@@ -216,6 +218,7 @@ export default function ActionTable({
 
   return (
     <List<Action>
+      className={className}
       noDataMessage={noDataMessage}
       pageSize={pageSize}
       initalOrderDir={scored ? 'DESC' : 'ASC'}

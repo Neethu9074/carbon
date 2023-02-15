@@ -56,7 +56,7 @@ export default function AssociatedActionsCard({ event, volatileId }: AssociatedA
   return (
     <div>
       <ActionTable
-        title={t('in-events:associatedActions')}
+        title={t('in-automation:associatedActions')}
         showExecuteColumn
         showActionLink
         event={event}
@@ -93,7 +93,7 @@ const RightHeader = ({ eventSpecification, actions, isCustom }: RightHeaderProps
           );
         }}
       >
-        {t('in-events:selectActions')}
+        {t('in-automation:selectActions')}
       </Button>
       <Spacer horizontal="xsmall" />
     </>

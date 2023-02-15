@@ -91,13 +91,10 @@ function createOrSaveAction({
   setSavingError
 }: CreateOrSaveActionParams) {
   setIsSaving(true);
-  //remove existing error messages:
-
   const actionIds = (form.get('actionIds') as Field<string[]>).value;
-  const actions = actionIds.map(id => ({ id }));
+  const actions = actionIds.map(id => ({ id })) as Action[];
 
-  const eventId = eventSpecification.id;
-  const eventName = eventSpecification.name;
+  const { id: eventId, name: eventName } = eventSpecification;
   const actionNames = allActions.reduce<string[]>(
     (acc, action) => [...acc, ...(actionIds.includes(action.id) ? [action.name] : [])],
     []
@@ -117,11 +114,7 @@ function createOrSaveAction({
   };
   if (isCustom) {
     getCustomEventSpecificationMutable(eventId).once(
-      response =>
-        saveCustomEventSpecificationWithActions({ ...response, actions: actions as Action[] }).once(
-          closeAndReload,
-          handleErrors
-        ),
+      response => saveCustomEventSpecificationWithActions({ ...response, actions }).once(closeAndReload, handleErrors),
       handleErrors
     );
     return;
