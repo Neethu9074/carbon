@@ -4,108 +4,133 @@
  * Copyright IBM Corp. 2022
  */
 
-import { MapForm, Field } from 'formalistic';
+import { MapForm, Field, createMapForm, createField } from 'formalistic';
 import React, { useState } from 'react';
 
+import { useObservable } from '@instana/hooks';
+
 import {
-  ConfigureAssociatedActionsDialogWrapperProps,
-  OnSubmit,
-  ConfigureAssociatedActionsDialogWrapperState
-} from 'in-automation/ConfigureAssociatedActionsDialog/ConfigureAssociatedActionsDialogWrapper';
-import SelectedActions from 'in-automation/ConfigureAssociatedActionsDialog/SelectedActions';
-import SelectActions from 'in-automation/ConfigureAssociatedActionsDialog/SelectActions';
-import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
-import NotificationComponent from 'in-components/form/Notification/Notification';
-import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
-import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
-import Form from 'in-components/form/binding/Form';
-import { t } from 'in-i18n';
+  updateActionsAssignedToBuiltInEvent,
+  saveCustomEventSpecificationWithActions,
+  getCustomEventSpecificationMutable
+} from 'in-api/eventSpecifications';
+import ConfigureAssociatedActionsDialogContent from 'in-automation/ConfigureAssociatedActionsDialog/ConfigureAssociatedActionsDialogContent';
+import { getAllActions, EventSpecification } from 'in-automation/api';
+import { associateActionsTracker } from 'in-events/tracker';
+import { close } from 'in-components/DialogPresenter/store';
+import { Action } from 'in-types';
 
-import locals from './ConfigureAssociatedActionsDialog.mless';
+export interface ConfigureAssociatedActionsDialogProps {
+  eventSpecification: EventSpecification;
+  actions: Action[];
+  isCustomEvent: boolean;
+  onClose: typeof close;
+}
 
-export type ConfigureAssociatedActionsDialogProps = Pick<
-  ConfigureAssociatedActionsDialogWrapperProps,
-  'eventSpecification' | 'onClose'
-> &
-  Pick<ConfigureAssociatedActionsDialogWrapperState, 'setForm' | 'form' | 'isSaving' | 'savingError'> & {
-    onSubmit: OnSubmit;
-  };
+export interface ConfigureAssociatedActionsDialogState {
+  form: MapForm;
+  setForm: React.Dispatch<React.SetStateAction<ConfigureAssociatedActionsDialogState['form']>>;
+  isSaving: boolean;
+  setIsSaving: React.Dispatch<React.SetStateAction<ConfigureAssociatedActionsDialogState['isSaving']>>;
+  allActions: Action[];
+  savingError: boolean;
+  setSavingError: React.Dispatch<React.SetStateAction<ConfigureAssociatedActionsDialogState['savingError']>>;
+}
 
-export type ConfigureAssociatedActionsDialogState = {
-  slideInViewVisible: boolean;
-  setSlideInViewVisible: React.Dispatch<
-    React.SetStateAction<ConfigureAssociatedActionsDialogState['slideInViewVisible']>
-  >;
-};
-const formId = 'configure-associated-actions-dialog';
+export type OnSubmit = () => void;
+
 export default function ConfigureAssociatedActionsDialog({
-  onSubmit,
-  onClose,
-  isSaving,
-  form,
-  setForm,
   eventSpecification,
-  savingError
+  actions,
+  isCustomEvent,
+  onClose
 }: ConfigureAssociatedActionsDialogProps) {
-  const [slideInViewVisible, setSlideInViewVisible] = useState<
-    ConfigureAssociatedActionsDialogState['slideInViewVisible']
-  >(false);
-
-  const onSubmitSlideInView = (selectedIds: string[]) => {
-    setForm(
-      form.updateIn(['actionIds'], field => {
-        return (field as Field<string[]>)
-          .setValue((field as Field<string[]>).value.concat(selectedIds))
-          .setTouched(true);
-      })
-    );
-    setSlideInViewVisible(false);
+  const [form, setForm] = useState<ConfigureAssociatedActionsDialogState['form']>(createForm(actions));
+  const [savingError, setSavingError] = useState<ConfigureAssociatedActionsDialogState['savingError']>(false);
+  const [isSaving, setIsSaving] = useState<ConfigureAssociatedActionsDialogState['isSaving']>(false);
+  const allActions =
+    useObservable<ConfigureAssociatedActionsDialogState['allActions'], never[]>(getAllActions, []) ?? [];
+  const onSubmit: OnSubmit = () => {
+    createOrSaveAction({
+      form,
+      isCustomEvent,
+      onClose,
+      setIsSaving,
+      eventSpecification,
+      allActions,
+      setSavingError
+    });
   };
 
   return (
-    <DialogWithSlideInView
-      footer={
-        <DialogFooter
-          onSecondaryActionClick={onClose}
-          secondaryActionText={t('forms.actions.cancel')}
-          primaryActionText={t('forms.actions.save')}
-          primaryActionDisabled={isSaving}
-          saving={isSaving}
-          form={form}
-          formId={formId}
-          onPrimaryActionClick={onSubmit}
-        />
-      }
-      title={t('in-automation:associateActions')}
-      slideInViewTitle={t('in-automation:addActions')}
-      onSlideInViewTitleClick={() => setSlideInViewVisible(false)}
-      titleIconType="lib_openclose_add_circle_outline"
+    <ConfigureAssociatedActionsDialogContent
+      form={form}
+      setForm={setForm}
       onClose={onClose}
-      slideInViewVisible={slideInViewVisible}
-      slideInViewComponent={
-        <SelectActions
-          setSlideInViewVisible={setSlideInViewVisible}
-          form={form}
-          eventSpecification={eventSpecification}
-          onSubmit={onSubmitSlideInView}
-        />
-      }
-      doNotCloseOnOutsideClick
-    >
-      <Form form={form} setForm={form => setForm(form as MapForm)} formId={formId} onSubmit={onSubmit}>
-        <div className={locals.dialog}>
-          {savingError && (
-            <NotificationComponent failure>{t('in-automation:failedToSaveAssocations')}</NotificationComponent>
-          )}
-          <DashboardNotification type="info">{t('in-automation:actionsAssociationsNote')}</DashboardNotification>
-          <SelectedActions
-            setSlideInViewVisible={setSlideInViewVisible}
-            form={form}
-            setForm={setForm}
-            eventSpecification={eventSpecification}
-          />
-        </div>
-      </Form>
-    </DialogWithSlideInView>
+      onSubmit={onSubmit}
+      savingError={savingError}
+      isSaving={isSaving}
+      eventSpecification={eventSpecification}
+    />
   );
+}
+
+type CreateOrSaveActionParams = Pick<
+  ConfigureAssociatedActionsDialogProps,
+  'eventSpecification' | 'isCustomEvent' | 'onClose'
+> &
+  Pick<ConfigureAssociatedActionsDialogState, 'setIsSaving' | 'form' | 'allActions' | 'setSavingError'>;
+
+function createOrSaveAction({
+  form,
+  isCustomEvent,
+  eventSpecification,
+  setIsSaving,
+  allActions,
+  onClose,
+  setSavingError
+}: CreateOrSaveActionParams) {
+  setIsSaving(true);
+  const actionIds = getActionsFromForm(form).value;
+  const actions = actionIds.map(id => ({ id })) as Action[];
+
+  const { id: eventId, name: eventName } = eventSpecification;
+  const actionNames = allActions.reduce<string[]>(
+    (acc, action) => [...acc, ...(actionIds.includes(action.id) ? [action.name] : [])],
+    []
+  );
+  associateActionsTracker({
+    eventName,
+    actionNames
+  });
+
+  const closeAndReload = () => {
+    onClose();
+    window.location.reload();
+  };
+  const handleErrors = () => {
+    setSavingError(true);
+    setIsSaving(false);
+  };
+  if (isCustomEvent) {
+    getCustomEventSpecificationMutable(eventId).once(
+      response => saveCustomEventSpecificationWithActions({ ...response, actions }).once(closeAndReload, handleErrors),
+      handleErrors
+    );
+    return;
+  }
+  updateActionsAssignedToBuiltInEvent(actions, eventId).once(closeAndReload, handleErrors);
+}
+
+function createForm(actions: ConfigureAssociatedActionsDialogProps['actions']) {
+  return createMapForm().put(
+    'actionIds',
+    createField({
+      value: actions.map(action => action.id)
+    })
+  );
+}
+
+export function getActionsFromForm(form: ConfigureAssociatedActionsDialogState['form']) {
+  return form.get('actionIds') as Field<string[]>;
 }

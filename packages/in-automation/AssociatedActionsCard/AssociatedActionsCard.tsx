@@ -16,7 +16,7 @@ import {
   getCustomEventSpecificationMutable
 } from 'in-api/eventSpecifications';
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
-import ActionAssociationDialogWrapper from 'in-automation/ConfigureAssociatedActionsDialog/ConfigureAssociatedActionsDialogWrapper';
+import ConfigureAssociatedActionsDialog from 'in-automation/ConfigureAssociatedActionsDialog/ConfigureAssociatedActionsDialog';
 import ActionTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionTable';
 import { getScoredActionsForEvent, EventSpecification } from 'in-automation/api';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -29,21 +29,37 @@ interface AssociatedActionsCardProps {
   volatileId: VolatileId;
 }
 
-export default function AssociatedActionsCard({ event, volatileId }: AssociatedActionsCardProps) {
-  const eventSpecificationId: string = event?.metadata?.eventSpecificationId;
-  const isCustom: boolean = event?.metadata?.custom_issue ?? false;
-  const observable = isCustom ? getCustomEventActions : getBuiltinEventActions;
-  const actions =
-    useObservable<Action[], [string]>(() => observable(eventSpecificationId), [eventSpecificationId]) ?? [];
+function getObservables(isCustomEvent: boolean) {
+  return {
+    getEventSpecification: isCustomEvent ? getCustomEventSpecificationMutable : getBuiltInEventSpecificationMutable,
+    getActionsForEventSpecification: isCustomEvent ? getCustomEventActions : getBuiltinEventActions
+  };
+}
 
-  const selectedActions: string[] = actions.map(action => action.id);
-  const eventSpecification = useObservable<EventSpecification, [string]>(() => {
-    if (!isCustom) {
-      return getBuiltInEventSpecificationMutable(eventSpecificationId);
-    } else {
-      return getCustomEventSpecificationMutable(eventSpecificationId);
-    }
-  }, [eventSpecificationId]);
+function useAssociatedActionsData(eventSpecificationId: string, isCustomEvent: boolean) {
+  const { getEventSpecification, getActionsForEventSpecification } = getObservables(isCustomEvent);
+  const actions =
+    useObservable<Action[], [string]>(() => getActionsForEventSpecification(eventSpecificationId), [
+      eventSpecificationId
+    ]) ?? [];
+
+  const eventSpecification = useObservable<EventSpecification, [string]>(
+    () => getEventSpecification(eventSpecificationId),
+    [eventSpecificationId]
+  );
+  return { actions, eventSpecification };
+}
+
+const getIsCustomEvent = (event: AssociatedActionsCardProps['event']) =>
+  (event?.metadata?.custom_issue as boolean) ?? false;
+const getEventSpecificationId = (event: AssociatedActionsCardProps['event']) =>
+  event?.metadata?.eventSpecificationId as string;
+
+export default function AssociatedActionsCard({ event, volatileId }: AssociatedActionsCardProps) {
+  const eventSpecificationId = getEventSpecificationId(event);
+  const isCustomEvent = getIsCustomEvent(event);
+  const { actions, eventSpecification } = useAssociatedActionsData(eventSpecificationId, isCustomEvent);
+  const selectedActions = actions.map(action => action.id);
 
   if (!eventSpecification) {
     return <LoadingIndicator size="xl" />;
@@ -60,7 +76,9 @@ export default function AssociatedActionsCard({ event, volatileId }: AssociatedA
         showExecuteColumn
         showActionLink
         event={event}
-        rightHeader={<RightHeader eventSpecification={eventSpecification} actions={actions} isCustom={isCustom} />}
+        rightHeader={
+          <RightHeader eventSpecification={eventSpecification} actions={actions} isCustomEvent={isCustomEvent} />
+        }
         volatileId={volatileId}
         loadEntities={() => getScoredActionsForEventMemoized(selectedActions)}
         scored
@@ -73,10 +91,10 @@ export default function AssociatedActionsCard({ event, volatileId }: AssociatedA
 interface RightHeaderProps {
   eventSpecification: EventSpecification;
   actions: Action[];
-  isCustom: boolean;
+  isCustomEvent: boolean;
 }
 
-const RightHeader = ({ eventSpecification, actions, isCustom }: RightHeaderProps) => {
+const RightHeader = ({ eventSpecification, actions, isCustomEvent }: RightHeaderProps) => {
   return (
     <>
       <Button
@@ -84,10 +102,10 @@ const RightHeader = ({ eventSpecification, actions, isCustom }: RightHeaderProps
         icon="lib_openclose_add_circle_outline"
         onClick={() => {
           addActiveDialog(
-            <ActionAssociationDialogWrapper
+            <ConfigureAssociatedActionsDialog
               eventSpecification={eventSpecification}
               actions={actions}
-              isCustom={isCustom}
+              isCustomEvent={isCustomEvent}
               onClose={close}
             />
           );

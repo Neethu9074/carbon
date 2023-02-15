@@ -9,25 +9,25 @@ import React from 'react';
 import { Spacer } from '@instana/components';
 
 import {
-  ConfigureAssociatedActionsDialogProps,
-  ConfigureAssociatedActionsDialogState
-} from 'in-automation/ConfigureAssociatedActionsDialog/ConfigureAssociatedActionsDialog';
+  ConfigureAssociatedActionsDialogContentProps,
+  ConfigureAssociatedActionsDialogContentState
+} from 'in-automation/ConfigureAssociatedActionsDialog/ConfigureAssociatedActionsDialogContent';
 import SelectListDialogContent, {
   SelectListDialogContentProps
 } from 'in-settings/tabs/TeamSettings/components/SelectListDialogContent';
-import { getActionsFromForm } from 'in-automation/ConfigureAssociatedActionsDialog/ConfigureAssociatedActionsDialogWrapper';
 import ActionTable, {
   ActionTableProps
 } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionTable';
+import { getActionsFromForm } from 'in-automation/ConfigureAssociatedActionsDialog/ConfigureAssociatedActionsDialog';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
 import { getAllActionsWithAISuggestions } from 'in-automation/api';
 import SaveButton from 'in-components/form/SaveButton';
 import { t } from 'in-i18n';
 
-type ConfigureSelectedActionsProps = Pick<ConfigureAssociatedActionsDialogProps, 'form' | 'eventSpecification'> &
+type ConfigureSelectedActionsProps = Pick<ConfigureAssociatedActionsDialogContentProps, 'form' | 'eventSpecification'> &
   Pick<SelectListDialogContentProps, 'onSubmit'> & {
-    setSlideInViewVisible: ConfigureAssociatedActionsDialogState['setSlideInViewVisible'];
+    setSlideInViewVisible: ConfigureAssociatedActionsDialogContentState['setSlideInViewVisible'];
   };
 
 export default function ConfigureSelectedActions({
@@ -70,7 +70,7 @@ export default function ConfigureSelectedActions({
 function ScoredActionTable({
   eventSpecification,
   ...props
-}: Omit<ActionTableProps, 'loadEntities'> & Pick<ConfigureAssociatedActionsDialogProps, 'eventSpecification'>) {
+}: Omit<ActionTableProps, 'loadEntities'> & Pick<ConfigureAssociatedActionsDialogContentProps, 'eventSpecification'>) {
   return (
     <ActionTable
       {...props}

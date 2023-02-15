@@ -11,10 +11,10 @@ import { Button } from '@instana/components';
 import { Spacer } from '@instana/components';
 
 import {
-  ConfigureAssociatedActionsDialogProps,
-  ConfigureAssociatedActionsDialogState
-} from 'in-automation/ConfigureAssociatedActionsDialog/ConfigureAssociatedActionsDialog';
-import { getActionsFromForm } from 'in-automation/ConfigureAssociatedActionsDialog/ConfigureAssociatedActionsDialogWrapper';
+  ConfigureAssociatedActionsDialogContentProps,
+  ConfigureAssociatedActionsDialogContentState
+} from 'in-automation/ConfigureAssociatedActionsDialog/ConfigureAssociatedActionsDialogContent';
+import { getActionsFromForm } from 'in-automation/ConfigureAssociatedActionsDialog/ConfigureAssociatedActionsDialog';
 import ActionTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionTable';
 import { getScoredActionsForEvent } from 'in-automation/api';
 import { t } from 'in-i18n';
@@ -22,8 +22,8 @@ import { t } from 'in-i18n';
 import locals from './ConfigureAssociatedActionsDialog.mless';
 
 interface SelectActionsProps
-  extends Pick<ConfigureAssociatedActionsDialogProps, 'form' | 'setForm' | 'eventSpecification'> {
-  setSlideInViewVisible: ConfigureAssociatedActionsDialogState['setSlideInViewVisible'];
+  extends Pick<ConfigureAssociatedActionsDialogContentProps, 'form' | 'setForm' | 'eventSpecification'> {
+  setSlideInViewVisible: ConfigureAssociatedActionsDialogContentState['setSlideInViewVisible'];
 }
 
 export default function SelectedActions({
