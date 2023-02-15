@@ -245,16 +245,7 @@ function Content({
         }}
       />
 
-      <ActionSection
-        right={
-          <ApiQueryAction
-            backendQueryModel={backendQueryModel}
-            //  tracking={{
-            //   onClick: () => ua2ApiQueryPressedTracker({ dataSource })
-            // }}
-          />
-        }
-      />
+      <ActionSection right={<ApiQueryAction backendQueryModel={backendQueryModel} />} />
     </Sections>
   );
 
