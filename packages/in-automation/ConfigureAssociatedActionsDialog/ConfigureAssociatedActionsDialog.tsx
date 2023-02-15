@@ -67,8 +67,8 @@ export default function ConfigureAssociatedActionsDialog({
       footer={
         <DialogFooter
           onSecondaryActionClick={onClose}
-          secondaryActionText={t('common:forms.actions.cancel')}
-          primaryActionText={t('common:forms.actions.save')}
+          secondaryActionText={t('forms.actions.cancel')}
+          primaryActionText={t('forms.actions.save')}
           primaryActionDisabled={isSaving}
           saving={isSaving}
           form={form}
@@ -91,7 +91,6 @@ export default function ConfigureAssociatedActionsDialog({
         />
       }
       doNotCloseOnOutsideClick
-      removeBottomPaddingWhenFooterIsShown
     >
       <Form form={form} setForm={form => setForm(form as MapForm)} formId={formId} onSubmit={onSubmit}>
         <div className={locals.dialog}>

@@ -47,7 +47,7 @@ export default function ConfigureSelectedActions({
         renderCustomFormActions={numberOfItems => (
           <DialogFooter
             onSecondaryActionClick={() => setSlideInViewVisible(false)}
-            secondaryActionText={t('common:forms.actions.cancel')}
+            secondaryActionText={t('forms.actions.cancel')}
             renderCustomSaveAction={() => (
               <SaveButton type="submit" kind="create" disabled={!numberOfItems}>
                 {numberOfItems
