@@ -7,32 +7,17 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import {
-  applicationsAlertingAlertEdit,
-  applicationsAlertingListAlertDeleted,
-  applicationsAlertingListAlertPaused,
-  applicationsAlertingListAlertResumed
-} from 'in-alerting/smart-alerts/applications/tracker';
-import {
-  deleteGlobalAlertConfig,
-  disableGlobalAlertConfig,
-  enableGlobalAlertConfig
-} from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
-import {
-  deleteAlertConfig,
-  disableAlertConfig,
-  enableAlertConfig
-} from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
-import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/dialog/SmartAlertConfigDialogWrapper';
-import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/applications/list/SmartAlertsBaseList';
-import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
+  handleToggleEnabled,
+  handleEdit,
+  handleClone,
+  handleDelete
+} from 'in-alerting/smart-alerts/applications/list/columns/ListActionHandlers';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
-import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
 import IconButton from 'in-components/IconButton/IconButton';
 import { stopPropagation } from 'in-services/util/function';
 import Tooltip from 'in-components/Tooltip';
-import { t, Trans } from 'in-i18n';
+import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/list/columns/ListActionsColumn.mless';
 
@@ -115,84 +100,6 @@ export default function ListActionsColumn({ config, isLoading, isGlobalSmartAler
 
     return enabled ? t('in-alerting:smartAlerts.disable') : t('in-alerting:smartAlerts.enable');
   }
-}
-
-function handleDelete(id, setIsSaving, isGlobalSmartAlertConfig, configName) {
-  const deleteConfig = isGlobalSmartAlertConfig ? deleteGlobalAlertConfig : deleteAlertConfig;
-
-  addActiveDialog(
-    <ConfirmationDialog
-      header={t('in-alerting:smartAlerts.applications.inventory.labelConfirm')}
-      description={
-        <span>
-          <Trans
-            i18nKey="in-alerting:smartAlerts.applications.inventory.labelConfirmRemoveConfig"
-            values={{ configName }}
-          />
-        </span>
-      }
-      confirmButtonLabel={t('in-alerting:smartAlerts.applications.inventory.labelRemove')}
-      onSubmit={() => {
-        setIsSaving(true);
-        close();
-        deleteConfig(id).once(
-          () => {
-            applicationsAlertingListAlertDeleted({
-              alertConfigId: id
-            });
-            refreshSmartAlertConfigsList();
-          },
-          () => {
-            setIsSaving(false);
-          }
-        );
-      }}
-    />
-  );
-}
-
-function handleToggleEnabled(enabled, id, setIsSaving, isGlobalSmartAlertConfig) {
-  const disableConfig = isGlobalSmartAlertConfig ? disableGlobalAlertConfig : disableAlertConfig;
-  const enableConfig = isGlobalSmartAlertConfig ? enableGlobalAlertConfig : enableAlertConfig;
-
-  setIsSaving(true);
-
-  (enabled ? disableConfig(id) : enableConfig(id)).once(
-    () => {
-      (enabled ? applicationsAlertingListAlertPaused : applicationsAlertingListAlertResumed)({
-        alertConfigId: id
-      });
-      refreshSmartAlertConfigsList();
-    },
-    () => {
-      setIsSaving(false);
-    }
-  );
-}
-
-function handleClone(config, isGlobalSmartAlertConfig) {
-  openSmartAlertDialog(config, isGlobalSmartAlertConfig, true);
-  applicationsAlertingAlertEdit({ alertConfigId: config.id });
-}
-
-function handleEdit(config, isGlobalSmartAlertConfig) {
-  openSmartAlertDialog(config, isGlobalSmartAlertConfig);
-  applicationsAlertingAlertEdit({ alertConfigId: config.id });
-}
-
-function openSmartAlertDialog(config, isGlobalSmartAlertConfig, isCopy = false) {
-  addActiveDialog(
-    <SmartAlertConfigDialogWrapper
-      applicationLabel={config.name}
-      alertConfig={isCopy ? duplicateAlertConfig(config) : config}
-      onClose={() => {
-        close();
-        refreshSmartAlertConfigsList();
-      }}
-      isGlobalSmartAlert={isGlobalSmartAlertConfig}
-      editMode={!isCopy}
-    />
-  );
 }
 
 ListActionsColumn.propTypes = {
