@@ -14,6 +14,7 @@ import {
   ConfigureAssociatedActionsDialogProps,
   ConfigureAssociatedActionsDialogState
 } from 'in-automation/ConfigureAssociatedActionsDialog/ConfigureAssociatedActionsDialog';
+import { getActionsFromForm } from 'in-automation/ConfigureAssociatedActionsDialog/ConfigureAssociatedActionsDialogWrapper';
 import ActionTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionTable';
 import { getScoredActionsForEvent } from 'in-automation/api';
 import { t } from 'in-i18n';
@@ -31,21 +32,23 @@ export default function SelectedActions({
   setSlideInViewVisible,
   eventSpecification
 }: SelectActionsProps) {
-  const selectedActions = (form.get('actionIds') as Field<string[]>)?.value ?? [];
+  const selectedActions = getActionsFromForm(form).value;
 
   return (
     <ActionTable
       className={locals.actionTable}
       noDataMessage={t('in-automation:noActionsSelected')}
       loadEntities={() => getScoredActionsForEvent(eventSpecification)(selectedActions)}
+      pageSize={5}
+      scored
       tableActions={{
         deselect: {
-          deselect: deselectedEntity => {
+          deselect: deselectedAction => {
             setForm(
               form.updateIn(['actionIds'], field =>
                 (field as Field<string[]>)
                   .setValue(
-                    (field as Field<string[]>).value.filter(referencedId => referencedId !== deselectedEntity.id)
+                    (field as Field<string[]>).value.filter(referencedId => referencedId !== deselectedAction.id)
                   )
                   .setTouched(true)
               )
@@ -53,7 +56,6 @@ export default function SelectedActions({
           }
         }
       }}
-      pageSize={5}
       rightHeader={
         <>
           <Button kind="action" onClick={() => setSlideInViewVisible(true)} icon="lib_openclose_add_circle_outline">
@@ -62,7 +64,6 @@ export default function SelectedActions({
           <Spacer horizontal="xsmall" />
         </>
       }
-      scored
     />
   );
 }

@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Field } from 'formalistic';
 import React from 'react';
 
 import { Spacer } from '@instana/components';
@@ -16,6 +15,7 @@ import {
 import SelectListDialogContent, {
   SelectListDialogContentProps
 } from 'in-settings/tabs/TeamSettings/components/SelectListDialogContent';
+import { getActionsFromForm } from 'in-automation/ConfigureAssociatedActionsDialog/ConfigureAssociatedActionsDialogWrapper';
 import ActionTable, {
   ActionTableProps
 } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionTable';
@@ -36,11 +36,12 @@ export default function ConfigureSelectedActions({
   onSubmit,
   setSlideInViewVisible
 }: ConfigureSelectedActionsProps) {
+  const selectedActions = getActionsFromForm(form).value;
   return (
     <LeftRightPadding>
       <SelectListDialogContent
         listComponent={props => <ScoredActionTable {...props} eventSpecification={eventSpecification} />}
-        hiddenIds={(form.get('actionIds') as Field<string[]>).value}
+        hiddenIds={selectedActions}
         onSubmit={onSubmit}
         requiresAtLeastOneMessage={t('in-automation:pleaseSelectAtLeastOneAction')}
         renderCustomFormActions={numberOfItems => (

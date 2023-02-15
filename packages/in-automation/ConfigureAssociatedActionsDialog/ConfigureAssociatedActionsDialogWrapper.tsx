@@ -45,7 +45,7 @@ export default function ConfigureAssociatedActionsDialogWrapper({
   isCustom,
   onClose
 }: ConfigureAssociatedActionsDialogWrapperProps) {
-  const [form, setForm] = useState<ConfigureAssociatedActionsDialogWrapperState['form']>(createForm({ actions }));
+  const [form, setForm] = useState<ConfigureAssociatedActionsDialogWrapperState['form']>(createForm(actions));
   const [savingError, setSavingError] = useState<ConfigureAssociatedActionsDialogWrapperState['savingError']>(false);
   const [isSaving, setIsSaving] = useState<ConfigureAssociatedActionsDialogWrapperState['isSaving']>(false);
   const allActions =
@@ -91,7 +91,7 @@ function createOrSaveAction({
   setSavingError
 }: CreateOrSaveActionParams) {
   setIsSaving(true);
-  const actionIds = (form.get('actionIds') as Field<string[]>).value;
+  const actionIds = getActionsFromForm(form).value;
   const actions = actionIds.map(id => ({ id })) as Action[];
 
   const { id: eventId, name: eventName } = eventSpecification;
@@ -122,11 +122,15 @@ function createOrSaveAction({
   updateActionsAssignedToBuiltInEvent(actions, eventId).once(closeAndReload, handleErrors);
 }
 
-export function createForm({ actions }: Pick<ConfigureAssociatedActionsDialogWrapperProps, 'actions'>) {
+function createForm(actions: ConfigureAssociatedActionsDialogWrapperProps['actions']) {
   return createMapForm().put(
     'actionIds',
     createField({
       value: actions.map(action => action.id)
     })
   );
+}
+
+export function getActionsFromForm(form: ConfigureAssociatedActionsDialogWrapperState['form']) {
+  return form.get('actionIds') as Field<string[]>;
 }
