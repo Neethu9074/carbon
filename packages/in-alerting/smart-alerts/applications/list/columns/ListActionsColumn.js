@@ -54,31 +54,36 @@ export default function ListActionsColumn({ config, isLoading, isGlobalSmartAler
   return (
     <HorizontalFlexWrapper className={locals.actions}>
       <Tooltip content={getTooltipForAction()} delay={500}>
-        <IconButton
-          kind="primaryv2"
-          type={isSaving ? 'lib_actions_loading' : enabled ? 'lib_actions_pause' : 'lib_actions_play'}
-          iconSpinning={isSaving}
-          onClick={e => {
-            e.preventDefault();
-            stopPropagation(e);
-            handleToggleEnabled(enabled, id, setIsSaving, isGlobalSmartAlertConfig);
-          }}
-        />
+        <div className={locals.separator}>
+          <IconButton
+            kind="primaryv2"
+            type={isSaving ? 'lib_actions_loading' : enabled ? 'lib_actions_pause' : 'lib_actions_play'}
+            iconSpinning={isSaving}
+            onClick={e => {
+              e.preventDefault();
+              stopPropagation(e);
+              handleToggleEnabled(enabled, id, setIsSaving, isGlobalSmartAlertConfig);
+            }}
+          />
+        </div>
       </Tooltip>
 
       <MoreMenu
         renderInteractiveElement={({ ref, toggle }) => (
-          <IconButton
-            kind="info"
-            type={isMoreMenuSaving ? 'lib_actions_loading' : 'lib_menu_more_horizontal'}
-            onClick={e => {
-              e.preventDefault();
-              stopPropagation(e);
-              toggle();
-            }}
-            ref={ref}
-            iconSpinning={isMoreMenuSaving}
-          />
+          <div className={locals.separator}>
+            <IconButton
+              kind="info"
+              type={isMoreMenuSaving ? 'lib_actions_loading' : 'lib_menu_more_horizontal'}
+              onClick={e => {
+                e.preventDefault();
+                stopPropagation(e);
+                toggle();
+              }}
+              ref={ref}
+              iconSpinning={isMoreMenuSaving}
+              className={locals.darkButton}
+            />
+          </div>
         )}
       >
         <MoreMenuButton
