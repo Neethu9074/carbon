@@ -6,10 +6,19 @@
 
 import { combineLatest, just, Observable, timeout } from '@instana/observables';
 
+import {
+  Action,
+  Field,
+  VolatileId,
+  Event,
+  ActionMatch,
+  EventSpecificationInfo,
+  CustomEventSpecificationWithMetadata
+} from 'in-types';
 import { DOC_LINK_TYPE, HTTP_METHODS_WITH_BODY } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import createAgentResponseObservable from 'in-subscription/agentResponse';
-import { Action, Field, VolatileId, Event, ActionMatch } from 'in-types';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
+import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import { error } from 'in-services/util/result';
 import http from 'in-services/http';
 import { t } from 'in-i18n';
@@ -81,6 +90,19 @@ export function deleteAction(actionId: string) {
     headers: getCsrfHeader(),
     url: `${actionUrl}/${encodeURIComponent(actionId)}`
   }).map(response => response.body);
+}
+
+export type EventSpecification = EventSpecificationInfo | CustomEventSpecificationWithMetadata;
+export function getScoredActionsForEvent(eventSpecification: EventSpecification) {
+  return function(selectedActions: string[]) {
+    if (selectedActions.length === 0) {
+      return (alwaysEmptyArray as unknown) as Observable<Action[]>;
+    }
+    // null is treated as a pending result when converting the HTTP response into a result
+    return getAllActionsWithAISuggestions(eventSpecification.name, eventSpecification.description ?? '').map(actions =>
+      actions.filter(action => selectedActions.indexOf(action.id) >= 0)
+    );
+  };
 }
 
 export type NewAction = Omit<Action, 'createdAt' | 'modifiedAt' | 'id'>;

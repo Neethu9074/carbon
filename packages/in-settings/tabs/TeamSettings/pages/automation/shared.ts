@@ -6,7 +6,7 @@
 
 import { keyBy } from 'lodash';
 
-import { AdditionalHeaders, Authen } from 'in-api/automation';
+import { AdditionalHeaders, Authen } from 'in-automation/api';
 import { ActionFormEntity } from './ActionCatalog/Action';
 import { Field, Nullish, Action } from 'in-types';
 import { t } from 'in-i18n';

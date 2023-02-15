@@ -24,21 +24,29 @@ interface ActionTableProps {
   event?: Event;
 }
 
-interface SelectListDialogContentProps {
+export interface SelectListDialogContentProps {
   limit?: number;
   listComponent: ({
-    title,
+    setTitle,
     pageSize,
-    rightHeader,
-    loadEntities,
-    noDataMessage,
-    tableActions,
     hiddenIds,
-    getEntityName,
-    showExecuteColumn,
-    volatileId,
-    event
-  }: ActionTableProps) => JSX.Element;
+    hasRowNavigation,
+    noDataMessage,
+    onRowClick,
+    tableActions,
+    rightHeader,
+    inSelectListDialog
+  }: {
+    setTitle: false;
+    pageSize: number;
+    hiddenIds: SelectListDialogContentProps['hiddenIds'];
+    hasRowNavigation: false;
+    noDataMessage: string;
+    onRowClick: (entity: any) => void;
+    tableActions: TableActions<any>;
+    rightHeader: ReactNode;
+    inSelectListDialog: true;
+  }) => JSX.Element;
   hiddenIds: string[];
   onSubmit: (id: string[]) => void;
   renderCustomFormActions: (numberOfItems: number) => JSX.Element;

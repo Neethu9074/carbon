@@ -12,16 +12,4 @@
     width: 66.25rem;
     margin-bottom: 5rem;
   }
-
-  .slideInContainer {
-    height: 100%;
-  }
-
-  .titleWrapper {
-    gap: 1rem;
-  }
-
-  .builtInIndicator {
-    line-height: 2rem;
-  }
 }
