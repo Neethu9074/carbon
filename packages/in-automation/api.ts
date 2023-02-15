@@ -93,16 +93,14 @@ export function deleteAction(actionId: string) {
 }
 
 export type EventSpecification = EventSpecificationInfo | CustomEventSpecificationWithMetadata;
-export function getScoredActionsForEvent(eventSpecification: EventSpecification) {
-  return function(selectedActions: string[]) {
-    if (selectedActions.length === 0) {
-      return (alwaysEmptyArray as unknown) as Observable<Action[]>;
-    }
-    // null is treated as a pending result when converting the HTTP response into a result
-    return getAllActionsWithAISuggestions(eventSpecification.name, eventSpecification.description ?? '').map(actions =>
-      actions.filter(action => selectedActions.indexOf(action.id) >= 0)
-    );
-  };
+export function getScoredActionsForEvent(selectedActions: string[], eventSpecification: EventSpecification) {
+  if (selectedActions.length === 0) {
+    return (alwaysEmptyArray as unknown) as Observable<Action[]>;
+  }
+  // null is treated as a pending result when converting the HTTP response into a result
+  return getAllActionsWithAISuggestions(eventSpecification.name, eventSpecification.description ?? '').map(actions =>
+    actions.filter(action => selectedActions.indexOf(action.id) >= 0)
+  );
 }
 
 export type NewAction = Omit<Action, 'createdAt' | 'modifiedAt' | 'id'>;

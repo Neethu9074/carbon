@@ -65,8 +65,8 @@ export default function AssociatedActionsCard({ event, volatileId }: AssociatedA
     return <LoadingIndicator size="xl" />;
   }
 
-  const getScoredActionsForEventMemoized = createMemoizedObservableForReferencedEntities(
-    getScoredActionsForEvent(eventSpecification)
+  const getScoredActionsForEventMemoized = createMemoizedObservableForReferencedEntities(selectedActions =>
+    getScoredActionsForEvent(selectedActions, eventSpecification)
   );
 
   return (

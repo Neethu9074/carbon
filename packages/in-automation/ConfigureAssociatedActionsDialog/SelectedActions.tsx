@@ -38,7 +38,7 @@ export default function SelectedActions({
     <ActionTable
       className={locals.actionTable}
       noDataMessage={t('in-automation:noActionsSelected')}
-      loadEntities={() => getScoredActionsForEvent(eventSpecification)(selectedActions)}
+      loadEntities={() => getScoredActionsForEvent(selectedActions, eventSpecification)}
       pageSize={5}
       scored
       tableActions={{
