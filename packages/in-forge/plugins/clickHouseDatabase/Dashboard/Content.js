@@ -6,6 +6,7 @@
 import React from 'react';
 
 import RunningQueries from 'in-forge/plugins/clickHouseDatabase/Dashboard/RunningQueries';
+import RunningMerges from 'in-forge/plugins/clickHouseDatabase/Dashboard/RunningMerges';
 import TablesTable from 'in-forge/plugins/clickHouseDatabase/Dashboard/TablesTable.js';
 import MetricsTable from 'in-forge/plugins/clickHouseDatabase/Dashboard/MetricsTable';
 import { bytes, withSiPrefixThreeDecimalPlaces } from 'in-services/formatters/number';
@@ -136,6 +137,7 @@ export default function ClickHouseDashboard({ snapshot, timeConfig }) {
       </DashboardSection>
       <MetricsTable snapshot={snapshot} timeConfig={timeConfig} />
       <RunningQueries snapshot={snapshot} timeConfig={timeConfig} />
+      <RunningMerges snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }
