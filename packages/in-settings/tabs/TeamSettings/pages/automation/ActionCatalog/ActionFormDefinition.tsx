@@ -23,7 +23,7 @@ import {
 } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import { Header } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/AdditionalHeadersTable';
 import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
-import { ApiKeyAuth, BasicAuth, BearerAuth } from 'in-automation/api';
+import { ApiKeyAuth, BasicAuth, BearerAuth } from 'in-api/automation';
 import { notBlankValidator } from 'in-services/validators/string';
 import { isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';

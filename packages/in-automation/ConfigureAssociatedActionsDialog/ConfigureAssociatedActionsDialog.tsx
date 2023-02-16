@@ -15,7 +15,7 @@ import {
   getCustomEventSpecificationMutable
 } from 'in-api/eventSpecifications';
 import ConfigureAssociatedActionsDialogContent from 'in-automation/ConfigureAssociatedActionsDialog/ConfigureAssociatedActionsDialogContent';
-import { getAllActions, EventSpecification } from 'in-automation/api';
+import { getAllActions, EventSpecification } from 'in-api/automation';
 import { associateActionsTracker } from 'in-events/tracker';
 import { close } from 'in-components/DialogPresenter/store';
 import { Action } from 'in-types';

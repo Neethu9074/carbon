@@ -36,7 +36,7 @@ import { getPlainMetricList } from 'in-sdk/metrics';
 import { compare } from 'in-services/util/number';
 import PluginIcon from 'in-components/PluginIcon';
 import { getPluginName } from 'in-sdk/pluginName';
-import { getAllActions } from 'in-automation/api';
+import { getAllActions } from 'in-api/automation';
 import { goToPath } from 'in-stores/navigation';
 import { find } from 'in-services/arrayUtils';
 import Label from 'in-components/form/Label';

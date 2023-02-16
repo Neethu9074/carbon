@@ -18,7 +18,7 @@ import {
   isWebhook
 } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
-import { ActionExecutionParameter, runScriptAction, runWebhookAction } from 'in-automation/api';
+import { ActionExecutionParameter, runScriptAction, runWebhookAction } from 'in-api/automation';
 import RunActionContent from 'in-events/components/AutomationActions/RunActionContent';
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import { notBlankValidator } from 'in-services/validators/string';

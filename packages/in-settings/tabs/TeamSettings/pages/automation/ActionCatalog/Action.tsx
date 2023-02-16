@@ -17,7 +17,7 @@ import {
   NewAction,
   saveAction,
   saveNewAction
-} from 'in-automation/api';
+} from 'in-api/automation';
 import {
   API_KEY,
   BASIC_AUTH,
@@ -42,7 +42,7 @@ import { teamSettingsActionCatalog } from 'in-settings/navigation/paths';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SectionLine from 'in-settings/components/SectionLine';
-import { getAction, createAction } from 'in-automation/api';
+import { getAction, createAction } from 'in-api/automation';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
 import Section from 'in-settings/components/Section';

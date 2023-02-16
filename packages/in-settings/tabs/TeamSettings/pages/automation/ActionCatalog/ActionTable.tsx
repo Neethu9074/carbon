@@ -24,7 +24,7 @@ import List, { leftHeaderWithSelectAll, TableActions } from 'in-settings/compone
 import Tag from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Tag';
 import RunAction from 'in-events/components/AutomationActions/RunAction';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { getAllActions, ScoredAction } from 'in-automation/api';
+import { getAllActions, ScoredAction } from 'in-api/automation';
 import { formatDateTime } from 'in-services/formatters/date';
 import { runActionTracker } from 'in-events/tracker';
 import Tooltip from 'in-components/Tooltip/Tooltip';

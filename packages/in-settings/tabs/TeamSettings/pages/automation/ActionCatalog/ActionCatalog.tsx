@@ -9,7 +9,7 @@ import React from 'react';
 import ActionTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionTable';
 import { teamSettingsActionDetailsNew } from 'in-settings/navigation/paths';
 import { createNewEntityButton } from 'in-settings/components/List';
-import { deleteAction, getAllActions } from 'in-automation/api';
+import { deleteAction, getAllActions } from 'in-api/automation';
 import { deleteActionTracker } from 'in-settings/tracker';
 import { Action } from 'in-types';
 import { t } from 'in-i18n';

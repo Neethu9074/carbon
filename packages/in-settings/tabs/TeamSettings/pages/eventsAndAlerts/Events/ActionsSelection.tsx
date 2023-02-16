@@ -16,7 +16,7 @@ import ActionTable, {
   ActionTableProps
 } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionTable';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
-import { getAllActionsWithAISuggestions } from 'in-automation/api';
+import { getAllActionsWithAISuggestions } from 'in-api/automation';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import { Action } from 'in-types';

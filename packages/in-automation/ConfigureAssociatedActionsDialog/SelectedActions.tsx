@@ -18,7 +18,7 @@ import ActionTable, {
   ActionTableProps
 } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionTable';
 import { getActionsFromForm } from 'in-automation/ConfigureAssociatedActionsDialog/ConfigureAssociatedActionsDialog';
-import { getScoredActionsForEvent } from 'in-automation/api';
+import { getScoredActionsForEvent } from 'in-api/automation';
 import { t } from 'in-i18n';
 
 import locals from './ConfigureAssociatedActionsDialog.mless';

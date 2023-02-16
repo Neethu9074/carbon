@@ -139,6 +139,7 @@ packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/website
 packages/in-automation @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-remediation
 packages/in-settings/tabs/TeamSettings/pages/automation @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-remediation
 packages/in-events/components/AutomationActions @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-remediation
+packages/in-api/automation.ts       @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-remediation
 
 # Container images
 /containers/ @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-delivery-enablement @ZaaS/zLinuxPrivateCloud @instana/eng-ui
