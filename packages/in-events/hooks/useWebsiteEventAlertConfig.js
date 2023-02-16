@@ -5,7 +5,7 @@
 
 import { useObservable } from '@instana/hooks';
 
-import { getAlertConfigByIdAndTimestamp } from 'in-websites/api/websiteAlertConfig';
+import { getAlertConfigByIdAndTimestamp } from 'in-alerting/smart-alerts/websites/api/websiteAlertConfig';
 
 export default function useWebsiteEventAlertConfig(event) {
   return useObservable(

@@ -13,7 +13,7 @@ import {
   getAllVersionsOfAlertConfig,
   getLatestAlertConfig,
   restoreAlertConfigVersion
-} from 'in-websites/api/websiteAlertConfig';
+} from 'in-alerting/smart-alerts/websites/api/websiteAlertConfig';
 import {
   websitesAlertingAlertDeleted,
   websitesAlertingAlertEdit,
