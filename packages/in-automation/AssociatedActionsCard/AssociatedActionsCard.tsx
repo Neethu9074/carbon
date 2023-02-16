@@ -94,26 +94,23 @@ interface RightHeaderProps {
   isCustomEvent: boolean;
 }
 
-const RightHeader = ({ eventSpecification, actions, isCustomEvent }: RightHeaderProps) => {
+function RightHeader({ eventSpecification, actions, isCustomEvent }: RightHeaderProps) {
+  const onClick = () =>
+    addActiveDialog(
+      <ConfigureAssociatedActionsDialog
+        eventSpecification={eventSpecification}
+        actions={actions}
+        isCustomEvent={isCustomEvent}
+        onClose={close}
+      />
+    );
+
   return (
     <>
-      <Button
-        kind="action"
-        icon="lib_openclose_add_circle_outline"
-        onClick={() => {
-          addActiveDialog(
-            <ConfigureAssociatedActionsDialog
-              eventSpecification={eventSpecification}
-              actions={actions}
-              isCustomEvent={isCustomEvent}
-              onClose={close}
-            />
-          );
-        }}
-      >
+      <Button kind="action" icon="lib_openclose_add_circle_outline" onClick={onClick}>
         {t('in-automation:selectActions')}
       </Button>
       <Spacer horizontal="xsmall" />
     </>
   );
-};
+}

@@ -20,14 +20,14 @@ import { associateActionsTracker } from 'in-events/tracker';
 import { close } from 'in-components/DialogPresenter/store';
 import { Action } from 'in-types';
 
-export interface ConfigureAssociatedActionsDialogProps {
+export type ConfigureAssociatedActionsDialogProps = {
   eventSpecification: EventSpecification;
   actions: Action[];
   isCustomEvent: boolean;
   onClose: typeof close;
-}
+};
 
-export interface ConfigureAssociatedActionsDialogState {
+export type ConfigureAssociatedActionsDialogState = {
   form: MapForm;
   setForm: React.Dispatch<React.SetStateAction<ConfigureAssociatedActionsDialogState['form']>>;
   isSaving: boolean;
@@ -35,7 +35,7 @@ export interface ConfigureAssociatedActionsDialogState {
   allActions: Action[];
   savingError: boolean;
   setSavingError: React.Dispatch<React.SetStateAction<ConfigureAssociatedActionsDialogState['savingError']>>;
-}
+};
 
 export type OnSubmit = () => void;
 

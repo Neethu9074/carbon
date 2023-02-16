@@ -23,10 +23,11 @@ import { t } from 'in-i18n';
 
 import locals from './ConfigureAssociatedActionsDialog.mless';
 
-interface SelectActionsProps
-  extends Pick<ConfigureAssociatedActionsDialogContentProps, 'form' | 'setForm' | 'eventSpecification'> {
-  setSlideInViewVisible: ConfigureAssociatedActionsDialogContentState['setSlideInViewVisible'];
-}
+type SelectActionsProps = Pick<
+  ConfigureAssociatedActionsDialogContentProps,
+  'form' | 'setForm' | 'eventSpecification'
+> &
+  Pick<ConfigureAssociatedActionsDialogContentState, 'setSlideInViewVisible'>;
 
 export default function SelectedActions({
   form,
@@ -49,8 +50,8 @@ export default function SelectedActions({
   );
 }
 
-const getTableActions = (setForm: SelectActionsProps['setForm']) =>
-  ({
+function getTableActions(setForm: SelectActionsProps['setForm']) {
+  return {
     deselect: {
       deselect: deselectedAction => {
         setForm(form =>
@@ -62,13 +63,17 @@ const getTableActions = (setForm: SelectActionsProps['setForm']) =>
         );
       }
     }
-  } as ActionTableProps['tableActions']);
+  } as ActionTableProps['tableActions'];
+}
 
-const RightHeader = ({ setSlideInViewVisible }: Pick<SelectActionsProps, 'setSlideInViewVisible'>) => (
-  <>
-    <Button kind="action" onClick={() => setSlideInViewVisible(true)} icon="lib_openclose_add_circle_outline">
-      {t('in-automation:addActions')}
-    </Button>
-    <Spacer horizontal="xsmall" />
-  </>
-);
+type RightHeaderProps = Pick<SelectActionsProps, 'setSlideInViewVisible'>;
+function RightHeader({ setSlideInViewVisible }: RightHeaderProps) {
+  return (
+    <>
+      <Button kind="action" onClick={() => setSlideInViewVisible(true)} icon="lib_openclose_add_circle_outline">
+        {t('in-automation:addActions')}
+      </Button>
+      <Spacer horizontal="xsmall" />
+    </>
+  );
+}

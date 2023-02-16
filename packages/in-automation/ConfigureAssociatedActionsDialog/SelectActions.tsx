@@ -26,9 +26,8 @@ import SaveButton from 'in-components/form/SaveButton';
 import { t } from 'in-i18n';
 
 type ConfigureSelectedActionsProps = Pick<ConfigureAssociatedActionsDialogContentProps, 'form' | 'eventSpecification'> &
-  Pick<SelectListDialogContentProps, 'onSubmit'> & {
-    setSlideInViewVisible: ConfigureAssociatedActionsDialogContentState['setSlideInViewVisible'];
-  };
+  Pick<SelectListDialogContentProps, 'onSubmit'> &
+  Pick<ConfigureAssociatedActionsDialogContentState, 'setSlideInViewVisible'>;
 
 export default function ConfigureSelectedActions({
   form,
@@ -69,10 +68,10 @@ function ScoredActionTable({
   );
 }
 
-function CustomFormActions({
-  numberOfItems,
-  setSlideInViewVisible
-}: Pick<ConfigureAssociatedActionsDialogContentState, 'setSlideInViewVisible'> & { numberOfItems: number }) {
+type CustomFormActionsProps = Pick<ConfigureAssociatedActionsDialogContentState, 'setSlideInViewVisible'> & {
+  numberOfItems: number;
+};
+function CustomFormActions({ numberOfItems, setSlideInViewVisible }: CustomFormActionsProps) {
   const saveButtonText = numberOfItems
     ? t('in-automation:addNumberOfItemsAction', {
         count: numberOfItems

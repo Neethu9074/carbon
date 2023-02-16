@@ -23,6 +23,8 @@ import { t } from 'in-i18n';
 
 import locals from './ConfigureAssociatedActionsDialog.mless';
 
+const formId = 'configure-associated-actions-dialog';
+
 export type ConfigureAssociatedActionsDialogContentProps = Pick<
   ConfigureAssociatedActionsDialogProps,
   'eventSpecification' | 'onClose'
@@ -37,7 +39,7 @@ export type ConfigureAssociatedActionsDialogContentState = {
     React.SetStateAction<ConfigureAssociatedActionsDialogContentState['slideInViewVisible']>
   >;
 };
-const formId = 'configure-associated-actions-dialog';
+
 export default function ConfigureAssociatedActionsDialog({
   onSubmit,
   onClose,
@@ -86,43 +88,48 @@ export default function ConfigureAssociatedActionsDialog({
   );
 }
 
-const onSubmitSlideInView = ({
-  setForm,
-  setSlideInViewVisible
-}: Pick<ConfigureAssociatedActionsDialogState, 'setForm'> &
-  Pick<ConfigureAssociatedActionsDialogContentState, 'setSlideInViewVisible'>) => (selectedIds: string[]) => {
-  setForm(form =>
-    form.updateIn(['actionIds'], field => {
-      return (field as Field<string[]>).setValue((field as Field<string[]>).value.concat(selectedIds)).setTouched(true);
-    })
-  );
-  setSlideInViewVisible(false);
-};
+type OnSubmitSlideInViewParams = Pick<ConfigureAssociatedActionsDialogState, 'setForm'> &
+  Pick<ConfigureAssociatedActionsDialogContentState, 'setSlideInViewVisible'>;
 
-const StaticContent = ({
+function onSubmitSlideInView({ setForm, setSlideInViewVisible }: OnSubmitSlideInViewParams) {
+  return (selectedIds: string[]) => {
+    setForm(form =>
+      form.updateIn(['actionIds'], field =>
+        (field as Field<string[]>).setValue([...(field as Field<string[]>).value, ...selectedIds]).setTouched(true)
+      )
+    );
+    setSlideInViewVisible(false);
+  };
+}
+
+type StaticContentProps = Pick<
+  ConfigureAssociatedActionsDialogContentProps,
+  'form' | 'setForm' | 'savingError' | 'onSubmit' | 'eventSpecification'
+> &
+  Pick<ConfigureAssociatedActionsDialogContentState, 'setSlideInViewVisible'>;
+
+function StaticContent({
   form,
   setForm,
   savingError,
   setSlideInViewVisible,
   onSubmit,
   eventSpecification
-}: Pick<
-  ConfigureAssociatedActionsDialogContentProps,
-  'form' | 'setForm' | 'savingError' | 'onSubmit' | 'eventSpecification'
-> &
-  Pick<ConfigureAssociatedActionsDialogContentState, 'setSlideInViewVisible'>) => (
-  <Form form={form} setForm={form => setForm(form as MapForm)} formId={formId} onSubmit={onSubmit}>
-    <div className={locals.dialog}>
-      {savingError && (
-        <NotificationComponent failure>{t('in-automation:failedToSaveAssocations')}</NotificationComponent>
-      )}
-      <DashboardNotification type="info">{t('in-automation:actionsAssociationsNote')}</DashboardNotification>
-      <SelectedActions
-        setSlideInViewVisible={setSlideInViewVisible}
-        form={form}
-        setForm={setForm}
-        eventSpecification={eventSpecification}
-      />
-    </div>
-  </Form>
-);
+}: StaticContentProps) {
+  return (
+    <Form form={form} setForm={form => setForm(form as MapForm)} formId={formId} onSubmit={onSubmit}>
+      <div className={locals.dialog}>
+        {savingError && (
+          <NotificationComponent failure>{t('in-automation:failedToSaveAssocations')}</NotificationComponent>
+        )}
+        <DashboardNotification type="info">{t('in-automation:actionsAssociationsNote')}</DashboardNotification>
+        <SelectedActions
+          setSlideInViewVisible={setSlideInViewVisible}
+          form={form}
+          setForm={setForm}
+          eventSpecification={eventSpecification}
+        />
+      </div>
+    </Form>
+  );
+}
