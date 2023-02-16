@@ -138,7 +138,7 @@ export default connectTo(
           cols={cols}
           rows={rows}
           maxItemsPerPage={25}
-          initialSortColumn={2}
+          initialSortColumn={5}
           initialSortDirection="desc"
         />
       );

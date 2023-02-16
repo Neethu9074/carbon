@@ -5160,7 +5160,14 @@
         "labelRows": "Rows",
         "labelDiskUsage": "Disk Usage",
         "titlePartitioning": "Partitioning",
-        "labelPartitions": "Partitions"
+        "labelPartitions": "Partitions",
+        "titleRunningMerges":  "Running Merges",
+        "titlePartitionId":  "Partition Id",
+        "titleResultPartName":  "Part Name",
+        "titleNumberOfParts":  "Num Parts",
+        "titleRowsRead":  "Rows Read",
+        "titleRowsWritten":  "Rows Written",
+        "titleMemoryUsage":  "Memory Usage"
       }
     },
     "cloudFoundry": {
