@@ -54,7 +54,7 @@ export default connectTo(
         </DashboardSection>
 
         <Columize>
-          <DashboardSection title={t('in-internal:monitoringUnit.eum.appDataWriter.incomingProcessWebsiteBeacon')}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.appDataWriter.incomingProcessWebsiteBeacons')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -68,7 +68,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={t('in-internal:monitoringUnit.eum.appDataWriter.failIncomingProcessWebsiteBeacon')}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.appDataWriter.failIncomingProcessWebsiteBeacons')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -76,6 +76,38 @@ export default connectTo(
                 min: 0,
                 formatter: number.perSecond.compact,
                 metrics: rows.map(() => `metrics.meters.KPI.incoming.website_monitoring_processed_beacons.errors`),
+                labels,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
+
+        <Columize>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.appDataWriter.incomingProcessMobileAppBeacons')}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: rows.map(() => `metrics.meters.KPI.incoming.mobile_app_monitoring_processed_beacons.calls`),
+                labels,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+
+          <DashboardSection
+            title={t('in-internal:monitoringUnit.eum.appDataWriter.failIncomingProcessMobileAppBeacons')}
+          >
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: rows.map(() => `metrics.meters.KPI.incoming.mobile_app_monitoring_processed_beacons.errors`),
                 labels,
                 type: 'stackedArea'
               }}
