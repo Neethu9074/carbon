@@ -25,6 +25,7 @@ import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { TimeShift } from 'in-components/Chart/types';
 import { Location } from 'in-stores/navigation/types';
 import { Col, Row } from 'in-components/layout/Grid';
+import { testIdTagName } from 'in-synthetics/tags';
 import { t } from 'in-i18n';
 
 interface SummaryProps {
@@ -46,7 +47,7 @@ export default function Summary({ test }: SummaryProps) {
   const tagFilters = [
     {
       stringValue: testId,
-      name: 'testId',
+      name: testIdTagName,
       operator: EQUALS,
       entity: NOT_APPLICABLE,
       type: 'TAG_FILTER'

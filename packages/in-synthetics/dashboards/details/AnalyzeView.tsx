@@ -38,6 +38,7 @@ import Timeline from 'in-synthetics/dashboards/details/components/Timeline';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { syntheticBrowserScriptEnabled } from 'in-services/featureFlags';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
+import { testIdTagName, testResultIdTagName } from 'in-synthetics/tags';
 import { syntheticDetailsPath } from 'in-synthetics/navigation/paths';
 import Logs from 'in-synthetics/dashboards/details/components/Logs';
 import { bytes, meanLatency } from 'in-services/formatters/number';
@@ -81,14 +82,14 @@ export default function SyntheticAnalyzeView() {
   const tagFilters = [
     {
       stringValue: testId,
-      name: 'testId',
+      name: testIdTagName,
       operator: EQUALS,
       entity: NOT_APPLICABLE,
       type: 'TAG_FILTER'
     },
     {
       stringValue: resultId,
-      name: 'id',
+      name: testResultIdTagName,
       operator: EQUALS,
       entity: NOT_APPLICABLE,
       type: 'TAG_FILTER'

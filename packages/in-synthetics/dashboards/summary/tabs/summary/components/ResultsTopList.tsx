@@ -22,6 +22,7 @@ import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { TagFilter, TestResultListItem, TimeConfig } from 'in-types';
+import { statusTagName, testIdTagName } from 'in-synthetics/tags';
 import { latency } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import theme from 'in-themes';
@@ -93,7 +94,7 @@ function getList({ testId, timeConfig, selectedMetric }: GetList) {
   const baseTagFilters: TagFilter[] = [
     {
       stringValue: testId,
-      name: 'testId',
+      name: testIdTagName,
       operator: EQUALS,
       entity: NOT_APPLICABLE,
       type: 'TAG_FILTER'
@@ -103,14 +104,14 @@ function getList({ testId, timeConfig, selectedMetric }: GetList) {
   const statusTagFilters: TagFilter[] = [
     {
       stringValue: testId,
-      name: 'testId',
+      name: testIdTagName,
       operator: EQUALS,
       entity: NOT_APPLICABLE,
       type: 'TAG_FILTER'
     },
     {
       numberValue: 0,
-      name: 'status',
+      name: statusTagName,
       operator: EQUALS,
       entity: NOT_APPLICABLE,
       type: 'TAG_FILTER'

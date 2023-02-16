@@ -12,6 +12,7 @@ import { t } from '@instana/i18n-react';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
+import { locationIdTagName, testIdTagName } from 'in-synthetics/tags';
 import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
 import DropdownButton from 'in-components/Button/DropdownButton';
 import { TestResponse } from 'in-synthetics/utils/constants';
@@ -59,12 +60,12 @@ export default function NetworkTimings({ test, timeShiftConfig, renderPostChartC
   const defaultTagFilters = [
     {
       stringValue: id,
-      name: 'testId',
+      name: testIdTagName,
       operator: EQUALS
     },
     {
       stringValue: location.value,
-      name: 'locationId',
+      name: locationIdTagName,
       operator: EQUALS
     }
   ];

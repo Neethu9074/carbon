@@ -21,6 +21,7 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 import { columnDefinitions } from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions';
 // @ts-expect-error
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
+import { applicationIdTagName, locationIdTagName, testNameTagName, typeTagName } from 'in-synthetics/tags';
 // @ts-expect-error Module needs to be translated to TS
 import Sticky from 'in-components/Sticky';
 import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
@@ -165,7 +166,7 @@ export function getTestSummaryListData({
     baseTagFilters = [
       {
         stringValue: query,
-        name: 'test_name',
+        name: testNameTagName,
         operator: CONTAINS,
         entity: NOT_APPLICABLE,
         type: 'TAG_FILTER'
@@ -177,7 +178,7 @@ export function getTestSummaryListData({
     syntheticTypes.forEach(syntheticType => {
       baseTagFilters.push({
         value: syntheticType,
-        name: 'synthetic_type',
+        name: typeTagName,
         operator: EQUALS,
         entity: NOT_APPLICABLE,
         type: 'TAG_FILTER'
@@ -189,7 +190,7 @@ export function getTestSummaryListData({
     locationIds.forEach(locationId => {
       baseTagFilters.push({
         value: locationId,
-        name: 'location_id',
+        name: locationIdTagName,
         operator: EQUALS,
         entity: NOT_APPLICABLE,
         type: 'TAG_FILTER'
@@ -201,7 +202,7 @@ export function getTestSummaryListData({
     applicationIds.forEach(applicationId => {
       baseTagFilters.push({
         value: applicationId,
-        name: 'application_id',
+        name: applicationIdTagName,
         operator: CONTAINS,
         entity: NOT_APPLICABLE,
         type: 'TAG_FILTER'
@@ -213,7 +214,7 @@ export function getTestSummaryListData({
     byAppTagFilters = [
       {
         stringValue: appId,
-        name: 'application_id',
+        name: applicationIdTagName,
         operator: EQUALS,
         entity: NOT_APPLICABLE,
         type: 'TAG_FILTER'
@@ -224,7 +225,7 @@ export function getTestSummaryListData({
       syntheticTypes.forEach(syntheticType => {
         byAppTagFilters.push({
           value: syntheticType,
-          name: 'synthetic_type',
+          name: typeTagName,
           operator: EQUALS,
           entity: NOT_APPLICABLE,
           type: 'TAG_FILTER'
@@ -236,7 +237,7 @@ export function getTestSummaryListData({
       locationIds.forEach(locationId => {
         byAppTagFilters.push({
           value: locationId,
-          name: 'location_id',
+          name: locationIdTagName,
           operator: EQUALS,
           entity: NOT_APPLICABLE,
           type: 'TAG_FILTER'

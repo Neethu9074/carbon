@@ -27,6 +27,7 @@ import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTable
 import { bytesTwoDecimalPlaces, timeByMillisZeroDecimalPlaces } from 'in-services/formatters/number';
 import { syntheticsDashboard, syntheticDetailsPath } from 'in-synthetics/navigation/paths';
 import ResultFilters from 'in-synthetics/dashboards/summary/tabs/results/ResultFilters';
+import { locationLabelTagName, statusTagName, testIdTagName } from 'in-synthetics/tags';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { CONTAINS, EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
@@ -228,7 +229,7 @@ function getSynthTableData({
   let baseTagFilters: TagFilter[] = [
     {
       stringValue: testId,
-      name: 'testId',
+      name: testIdTagName,
       operator: EQUALS,
       entity: NOT_APPLICABLE,
       type: 'TAG_FILTER'
@@ -248,14 +249,14 @@ function getSynthTableData({
     baseTagFilters = [
       {
         stringValue: testId,
-        name: 'testId',
+        name: testIdTagName,
         operator: EQUALS,
         entity: NOT_APPLICABLE,
         type: 'TAG_FILTER'
       },
       {
         stringValue: query,
-        name: 'location_label',
+        name: locationLabelTagName,
         operator: CONTAINS,
         entity: NOT_APPLICABLE,
         type: 'TAG_FILTER'
@@ -266,7 +267,7 @@ function getSynthTableData({
   if (status.length !== 0 && Array.isArray(status)) {
     baseTagFilters.push({
       value: parseInt(status[0]),
-      name: 'status',
+      name: statusTagName,
       operator: EQUALS,
       entity: NOT_APPLICABLE,
       type: 'TAG_FILTER'
@@ -277,7 +278,7 @@ function getSynthTableData({
     locationLabels.forEach(locationLabel => {
       locationLabelTagFilters.push({
         stringValue: locationLabel,
-        name: 'location_label',
+        name: locationLabelTagName,
         operator: EQUALS,
         entity: NOT_APPLICABLE,
         type: 'TAG_FILTER'

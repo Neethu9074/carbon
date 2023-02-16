@@ -22,6 +22,7 @@ import { CONTAINS } from 'in-components/QueryBuilder/tagFilter/operators';
 import getLocationList from 'in-synthetics/subscriptions/getLocationList';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { locationNameTagName } from 'in-synthetics/tags';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Footer from 'in-components/Footer';
 import { t } from 'in-i18n';
@@ -88,7 +89,7 @@ export function getLocationData({
     baseTagFilters = [
       {
         stringValue: query,
-        name: 'location_name',
+        name: locationNameTagName,
         operator: CONTAINS,
         entity: NOT_APPLICABLE,
         type: 'TAG_FILTER'
