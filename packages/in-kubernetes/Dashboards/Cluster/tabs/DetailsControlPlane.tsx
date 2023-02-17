@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { sortBy } from 'lodash';
 import React from 'react';
 
 import { Card, KeyValue } from '@instana/components';
@@ -49,38 +48,25 @@ function DebugList({ items, clusterId }: any) {
   if (!items || items.length === 0) {
     return <NoDataAvailable height={160} text={t('in-kubernetes:dashboards.noDebuggingInformation')} />;
   }
-  const newKeysMap: any = {
-    Leader: 'Agent Monitor',
-    UUID: 'Cluster UUID'
-  };
-
+  const leaderObj = items.find((item: any) => (item.key = 'Leader'));
+  const hostCoverageObj = items.find((item: any) => (item.key = 'Host Coverage'));
+  const uuidObj = items.find((item: any) => (item.key = 'UUID'));
+  const leaderValue = (
+    <a href={`#${clusterDashboardFullyQualified};clusterId=` + clusterId + '/pods;pod.query=' + leaderObj.value}>
+      {leaderObj.value}
+    </a>
+  );
   return (
     <Row>
-      {sortBy(items, item => {
-        if (newKeysMap[item.key]) {
-          item.key = newKeysMap[item.key];
-        }
-        return item.key;
-      })
-        .reverse()
-        .map((item, key) => {
-          let value = item.value;
-          if (item.key === 'Agent Monitor') {
-            value = (
-              <a href={`#${clusterDashboardFullyQualified};clusterId=` + clusterId + '/pods;pod.query=' + item.value}>
-                {item.value}
-              </a>
-            );
-          }
-          if (item.key === 'Missing Resource Watches') {
-            return;
-          }
-          return (
-            <Col lg={3} key={key}>
-              <KeyValue value={value} label={item.key} accentuated />
-            </Col>
-          );
-        })}
+      <Col lg={3} key={1}>
+        <KeyValue value={hostCoverageObj.value} label={t('in-kubernetes:dashboards.hostCoverage')} accentuated />
+      </Col>
+      <Col lg={3} key={2}>
+        <KeyValue value={uuidObj.value} label={t('in-kubernetes:dashboards.clusterUuid')} accentuated />
+      </Col>
+      <Col lg={3} key={3}>
+        <KeyValue value={leaderValue} label={t('in-kubernetes:dashboards.agentMonitor')} accentuated />
+      </Col>
     </Row>
   );
 }
