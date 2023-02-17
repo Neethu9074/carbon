@@ -57,8 +57,6 @@ phases:
       - yarn run test
       # Test Server-Side – ensure that we only leave production dependencies in the workspace once done.
       - cd packages/in-server && yarn run test && rm -rf node_modules && yarn --prod && cd ../..
-      # Verify storybook stories are still rendered without errors. Only reporting yet
-      - yarn run test:storybook || true # ignore test's exit code
       # Build static files
       - yarn run build
       # Verify that CSS files are compressed in build artifacts
