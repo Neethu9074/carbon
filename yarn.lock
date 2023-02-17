@@ -1643,10 +1643,10 @@
     invariant "^2.2.4"
     shallowequal "^1.1.0"
 
-"@instana/hooks@^1.8.0":
-  version "1.8.0"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/hooks/-/@instana/hooks-1.8.0.tgz#6e7e606d1274446746882724c161a66d82243918"
-  integrity sha512-Et2Qit15mg3dGmHTwUrSbXhpC6XwhbMTCSEQwY+ad1wbWgR/wbAdARuBsgrdPKGdWX0di+guK4AWfzR+9lnv0g==
+"@instana/hooks@^1.8.0", "@instana/hooks@^1.8.1":
+  version "1.8.1"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/hooks/-/@instana/hooks-1.8.1.tgz#0865b4025e391522d2580bec28ea8c8efb2a4617"
+  integrity sha512-kn0QJFoI7b5/+cXAT5u+/j4gQ5L6uCxdTv2AySbZRP4tT4RV9Psod2ts4+YE2c0LmWDcus2fh9RAQQjCNO6YTQ==
   dependencies:
     "@instana/design-tokens" "^1.12.9"
     "@instana/observables" "^1.5.5"
@@ -1677,12 +1677,12 @@
     tslib "^2.4.1"
     typescript "^4.8.4"
 
-"@instana/i18n-react@^1.2.8":
-  version "1.2.8"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/i18n-react/-/@instana/i18n-react-1.2.8.tgz#2fafc9710ce349451918b600cd513fb3cef7d6b4"
-  integrity sha512-bXs4HYhqTJ/2LtRAg2joJgFgbOyOgealX1AqTvreXM2nhKTLmkJv+Y9qWYrdSVFVEDZSfHm3m5U6RqB4xTn0NQ==
+"@instana/i18n-react@^1.2.8", "@instana/i18n-react@^1.2.9":
+  version "1.2.9"
+  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/i18n-react/-/@instana/i18n-react-1.2.9.tgz#c63d6bde1d598febb7e3e96316161139818ab269"
+  integrity sha512-3yuOY2iX1UJRKBaCmAmGKys4AasbgZWrpPaYXNxPgUe1iWUrWmQ/HRV7g/13XmYVucXEB/e+ZHbQMe6/+BVyNg==
   dependencies:
-    "@instana/hooks" "^1.8.0"
+    "@instana/hooks" "^1.8.1"
     "@instana/observables" "^1.5.5"
     "@instana/utils" "^1.2.5"
     ts-node "^9.1.1"
