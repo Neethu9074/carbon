@@ -1487,18 +1487,6 @@
     eslint "^7.32.0"
     eslint-plugin-header "^3.1.1"
 
-"@instana/format-date@1.3.13":
-  version "1.3.13"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/format-date/-/@instana/format-date-1.3.13.tgz#3e64b00b7572855f15ea5e9a7d77e6dd47d5025a"
-  integrity sha512-suf48EBABbYT2imGURYbUZ4nNbukJAX7VuOl9EGbTzW4jPWRsqMB7JvUa+kN4kUF4ADQOYI4PU/NrXuZTdSTAA==
-  dependencies:
-    "@instana/i18n-react" "^1.2.9"
-    date-fns "^2.22.1"
-    date-fns-tz "^2.0.0"
-    ts-node "^9.1.1"
-    tslib "^2.4.1"
-    typescript "^4.8.4"
-
 "@instana/format-date@^1.3.8":
   version "1.3.8"
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/@instana/format-date/-/@instana/format-date-1.3.8.tgz#67500e254ccae3196935a2653393024d8d2c4468"
@@ -4958,11 +4946,6 @@ date-fns-tz@^1.2.2:
   version "1.2.2"
   resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/date-fns-tz/-/date-fns-tz-1.2.2.tgz#89432b54ce3fa7d050a2039e997e5b6a96df35dd"
   integrity "sha1-iUMrVM4/p9BQogOemX5bapbfNd0= sha512-vWtn44eEqnLbkACb7T5G5gPgKR4nY8NkNMOCyoY49NsRGHrcDmY2aysCyzDeA+u+vcDBn/w6nQqEDyouRs4m8w=="
-
-date-fns-tz@^2.0.0:
-  version "2.0.0"
-  resolved "https://delivery.instana.io/artifactory/api/npm/int-npm-virtual/date-fns-tz/-/date-fns-tz-2.0.0.tgz#1b14c386cb8bc16fc56fe333d4fc34ae1d1099d5"
-  integrity sha512-OAtcLdB9vxSXTWHdT8b398ARImVwQMyjfYGkKD2zaGpHseG2UPHbHjXELReErZFxWdSLph3c2zOaaTyHfOhERQ==
 
 date-fns@^2.22.1:
   version "2.29.3"
