@@ -49,7 +49,7 @@ function DebugList({ items, clusterId }: any) {
   if (!items || items.length === 0) {
     return <NoDataAvailable height={160} text={t('in-kubernetes:dashboards.noDebuggingInformation')} />;
   }
-  const labels: any = {
+  const newKeysMap: any = {
     Leader: 'Agent Monitor',
     UUID: 'Cluster UUID'
   };
@@ -57,8 +57,8 @@ function DebugList({ items, clusterId }: any) {
   return (
     <Row>
       {sortBy(items, item => {
-        if (labels[item.key]) {
-          item.key = labels[item.key];
+        if (newKeysMap[item.key]) {
+          item.key = newKeysMap[item.key];
         }
         return item.key;
       })
@@ -77,7 +77,7 @@ function DebugList({ items, clusterId }: any) {
           }
           return (
             <Col lg={3} key={key}>
-              <KeyValue value={value} label={labels[item.key] ? labels[item.key] : item.key} accentuated />
+              <KeyValue value={value} label={item.key} accentuated />
             </Col>
           );
         })}
