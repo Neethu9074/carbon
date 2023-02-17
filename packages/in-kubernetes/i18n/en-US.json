@@ -25,6 +25,7 @@
     "conditionStatus": "Condition Status",
     "noComponentStatusDataAvailable": "No ComponentStatus data available",
     "debuggingInformation": "Debugging Information",
+    "details": "Details",
     "noDebuggingInformation": "No debugging information",
     "noClusterDataAvailable": "No Cluster data available",
     "summary": "Summary",
