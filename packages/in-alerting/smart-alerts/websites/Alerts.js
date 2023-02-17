@@ -16,7 +16,7 @@ import {
   disableAlertConfig,
   enableAlertConfig,
   deleteAlertConfig
-} from 'in-websites/api/websiteAlertConfig';
+} from 'in-alerting/smart-alerts/websites/api/websiteAlertConfig';
 import { alertCreated as alertCreatedMatrixParam, alertId as alertIdMatrixParam } from 'in-websites/navigation/matrix';
 import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
 import { STATIC_THRESHOLD, ADAPTIVE_BASELINE, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
