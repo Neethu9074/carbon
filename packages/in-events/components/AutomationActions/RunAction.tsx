@@ -220,6 +220,7 @@ function onSave({
   };
 
   const allInputParameters = [...inputParameters, ...hiddenInputParameters];
+  const { id: actionId, name: actionName } = action;
   if (isScript(action.type)) {
     const script = getScriptFromFields(action.fields);
     const interpreter = getInterpreterFromFields(action.fields);
@@ -227,7 +228,8 @@ function onSave({
       script,
       volatileId: selectedVolatileId,
       event,
-      actionName: action.name,
+      actionName,
+      actionId,
       interpreter,
       inputParameters: allInputParameters
     }).once(handleActionResponse);
@@ -236,7 +238,8 @@ function onSave({
     runWebhookAction({
       volatileId: selectedVolatileId,
       event,
-      actionName: action.name,
+      actionName,
+      actionId,
       host,
       method,
       body,

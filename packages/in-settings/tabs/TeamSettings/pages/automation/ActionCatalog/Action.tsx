@@ -146,10 +146,12 @@ const ActionFormHeader = ({ isCreate, isCopy, form, entity, setForm }: ActionFor
           ? t('in-settings:tabs.createANewAction')
           : t('in-settings:tabs.configureActionEntityName', { entityName: entity!.name })}
       </SubViewHeader>
-      <HorizontalFlexWrapper>
-        {form && <TestActionButton form={form} setForm={setForm} action={getActionSpecification(form)} />}
-        {!isNewAction && entity && isAction(entity) && <CopyActionLink action={entity} />}
-      </HorizontalFlexWrapper>
+      {!isNewAction && (
+        <HorizontalFlexWrapper>
+          {form && <TestActionButton form={form} setForm={setForm} action={getActionSpecification(form)} />}
+          {entity && isAction(entity) && <CopyActionLink action={entity} />}
+        </HorizontalFlexWrapper>
+      )}
     </HorizontalFlexWrapper>
   );
 };
