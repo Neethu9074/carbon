@@ -21,8 +21,6 @@ import { getActionsFromForm } from 'in-automation/ConfigureAssociatedActionsDial
 import { getScoredActionsForEvent } from 'in-api/automation';
 import { t } from 'in-i18n';
 
-import locals from './ConfigureAssociatedActionsDialog.mless';
-
 type SelectActionsProps = Pick<
   ConfigureAssociatedActionsDialogContentProps,
   'form' | 'setForm' | 'eventSpecification'
@@ -39,7 +37,7 @@ export default function SelectedActions({
 
   return (
     <ActionTable
-      className={locals.actionTable}
+      withBottomPadding
       noDataMessage={t('in-automation:noActionsSelected')}
       loadEntities={() => getScoredActionsForEvent(selectedActions, eventSpecification)}
       pageSize={5}

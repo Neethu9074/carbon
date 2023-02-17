@@ -9,7 +9,4 @@
     height: 50vw;
     width: 66.25rem;
   }
-  .actionTable {
-    padding-bottom: 5rem;
-  }
 }
