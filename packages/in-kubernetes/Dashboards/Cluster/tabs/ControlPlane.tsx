@@ -19,7 +19,6 @@ export default function ControlPlane({ data: cluster, timeConfig }: any) {
         <Col lg={12}>
           <DetailsControlPlane cluster={cluster} timeConfig={timeConfig} />
         </Col>
-        <Col lg={2}>{/* Details Panel */}</Col>
       </Row>
 
       <Row>{/* ETCD Cluster Info */}</Row>
