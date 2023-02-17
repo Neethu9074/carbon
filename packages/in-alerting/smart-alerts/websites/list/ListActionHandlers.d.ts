@@ -8,4 +8,4 @@ import { ActionHandlers } from 'in-alerting/smart-alerts/components/AlertsBaseLi
 
 /* list action handlers specific for application smart alerts*/
 
-export declare function actionHandlers(isGlobalSmartAlertConfig): ActionHandlers;
+export declare function actionHandlers(): ActionHandlers;

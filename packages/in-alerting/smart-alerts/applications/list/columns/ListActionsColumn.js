@@ -6,12 +6,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  handleToggleEnabled,
-  handleEdit,
-  handleClone,
-  handleDelete
-} from 'in-alerting/smart-alerts/applications/list/columns/ListActionHandlers';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
 import IconButton from 'in-components/IconButton/IconButton';
@@ -21,7 +15,8 @@ import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/list/columns/ListActionsColumn.mless';
 
-export default function ListActionsColumn({ config, isLoading, isGlobalSmartAlertConfig }) {
+export function ListActionsColumn({ config, isLoading, actionHandlers = {} }) {
+  const { handleEdit, handleClone, handleToggleEnabled, handleDelete } = actionHandlers;
   const { enabled, id, name } = config;
   const [isSaving, setIsSaving] = useState(false);
   const [isMoreMenuSaving, setIsMoreMenuSaving] = useState(false);
@@ -47,7 +42,7 @@ export default function ListActionsColumn({ config, isLoading, isGlobalSmartAler
             onClick={e => {
               e.preventDefault();
               stopPropagation(e);
-              handleToggleEnabled(enabled, id, setIsSaving, isGlobalSmartAlertConfig);
+              handleToggleEnabled(enabled, id, setIsSaving);
             }}
           />
         </div>
@@ -74,17 +69,19 @@ export default function ListActionsColumn({ config, isLoading, isGlobalSmartAler
         <MoreMenuButton
           icon={isSaving ? 'lib_actions_loading' : 'lib_actions_edit'}
           iconSpinning={isMoreMenuSaving}
-          onClick={() => handleEdit(config, isGlobalSmartAlertConfig)}
+          onClick={() => handleEdit(config)}
         >
           {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonEdit')}
         </MoreMenuButton>
-        <MoreMenuButton icon="lib_actions_copy" onClick={() => handleClone(config, isGlobalSmartAlertConfig)}>
+        <MoreMenuButton icon="lib_actions_copy" onClick={() => handleClone(config)}>
           {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDuplicate')}
         </MoreMenuButton>
         {!config?.builtIn && (
           <MoreMenuButton
             icon="lib_actions_delete"
-            onClick={() => handleDelete(id, setIsMoreMenuSaving, isGlobalSmartAlertConfig, name)}
+            onClick={() => {
+              return handleDelete(id, setIsMoreMenuSaving, name);
+            }}
           >
             {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDelete')}
           </MoreMenuButton>
@@ -109,6 +106,11 @@ ListActionsColumn.propTypes = {
     name: PropTypes.string.isRequired,
     builtIn: PropTypes.bool
   }).isRequired,
-  isGlobalSmartAlertConfig: PropTypes.bool,
-  isLoading: PropTypes.bool
+  isLoading: PropTypes.bool,
+  actionHandlers: PropTypes.shape({
+    handleEdit: PropTypes.func,
+    handleClone: PropTypes.func,
+    handleToggleEnabled: PropTypes.func,
+    handleDelete: PropTypes.func
+  })
 };

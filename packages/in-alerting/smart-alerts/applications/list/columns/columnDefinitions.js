@@ -11,7 +11,8 @@ import ListDeselectionColumn from 'in-alerting/smart-alerts/applications/list/co
 import EvaluationTypeColumn from 'in-alerting/smart-alerts/applications/list/columns/EvaluationTypeColumn';
 import ListEntityNameColumn from 'in-alerting/smart-alerts/applications/list/columns/ListEntityNameColumn';
 import ListSelectionColumn from 'in-alerting/smart-alerts/applications/list/columns/ListSelectionColumn';
-import ListActionsColumn from 'in-alerting/smart-alerts/applications/list/columns/ListActionsColumn';
+import { ListActionsColumn } from 'in-alerting/smart-alerts/applications/list/columns/ListActionsColumn';
+import { actionHandlers } from 'in-alerting/smart-alerts/applications/list/columns/ListActionHandlers';
 import ListFilterColumn from 'in-alerting/smart-alerts/applications/list/columns/ListFiltersColumn';
 import { ListNameColumn } from 'in-alerting/smart-alerts/applications/list/columns/ListNameColumn';
 import { role } from 'in-stores/user';
@@ -109,7 +110,12 @@ export function editActionsColumnDefinition(width) {
     getContent({ config, loading, isGlobalSmartAlertConfig }) {
       return (
         role.canConfigureCustomAlerts && (
-          <ListActionsColumn config={config} isLoading={loading} isGlobalSmartAlertConfig={isGlobalSmartAlertConfig} />
+          <ListActionsColumn
+            config={config}
+            isLoading={loading}
+            isGlobalSmartAlertConfig={isGlobalSmartAlertConfig}
+            actionHandlers={actionHandlers(isGlobalSmartAlertConfig)}
+          />
         )
       );
     }

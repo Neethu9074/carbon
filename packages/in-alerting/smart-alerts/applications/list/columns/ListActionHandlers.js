@@ -29,7 +29,7 @@ import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { t, Trans } from 'in-i18n';
 
-export function handleDelete(id, setIsSaving, isGlobalSmartAlertConfig, configName) {
+function handleDelete(id, setIsSaving, configName, isGlobalSmartAlertConfig) {
   const deleteConfig = isGlobalSmartAlertConfig ? deleteGlobalAlertConfig : deleteAlertConfig;
 
   addActiveDialog(
@@ -63,7 +63,7 @@ export function handleDelete(id, setIsSaving, isGlobalSmartAlertConfig, configNa
   );
 }
 
-export function handleToggleEnabled(enabled, id, setIsSaving, isGlobalSmartAlertConfig) {
+function handleToggleEnabled(enabled, id, setIsSaving, isGlobalSmartAlertConfig) {
   const disableConfig = isGlobalSmartAlertConfig ? disableGlobalAlertConfig : disableAlertConfig;
   const enableConfig = isGlobalSmartAlertConfig ? enableGlobalAlertConfig : enableAlertConfig;
 
@@ -82,15 +82,16 @@ export function handleToggleEnabled(enabled, id, setIsSaving, isGlobalSmartAlert
   );
 }
 
-export function handleClone(config, isGlobalSmartAlertConfig) {
+function handleClone(config, isGlobalSmartAlertConfig) {
   openSmartAlertDialog(config, isGlobalSmartAlertConfig, true);
   applicationsAlertingAlertEdit({ alertConfigId: config.id });
 }
 
-export function handleEdit(config, isGlobalSmartAlertConfig) {
+function handleEdit(config, isGlobalSmartAlertConfig) {
   openSmartAlertDialog(config, isGlobalSmartAlertConfig);
   applicationsAlertingAlertEdit({ alertConfigId: config.id });
 }
+
 function openSmartAlertDialog(config, isGlobalSmartAlertConfig, isCopy = false) {
   addActiveDialog(
     <SmartAlertConfigDialogWrapper
@@ -112,13 +113,13 @@ export function actionHandlers(isGlobalSmartAlertConfig) {
       handleClone(config, isGlobalSmartAlertConfig);
     },
     handleDelete: function(id, setIsSaving, configName) {
-      handleDelete(id, setIsSaving, isGlobalSmartAlertConfig, configName);
+      handleDelete(id, setIsSaving, configName, isGlobalSmartAlertConfig);
     },
     handleEdit: function(config) {
       handleEdit(config, isGlobalSmartAlertConfig);
     },
     handleToggleEnabled: function(enabled, id, setIsSaving) {
-      handleToggleEnabled(enabled, id, setIsSaving);
+      handleToggleEnabled(enabled, id, setIsSaving, isGlobalSmartAlertConfig);
     }
   };
 }
