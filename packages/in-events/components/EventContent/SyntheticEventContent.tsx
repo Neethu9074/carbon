@@ -13,6 +13,7 @@ import AnalyzeSyntheticEventButton from 'in-events/components/AnalyzeSyntheticEv
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { getChartTimeConfigByEvent, getTimeConfigFromEvent } from 'in-events/timeframe';
 import useSyntheticEventAlertConfig from 'in-events/hooks/useSyntheticEventAlertConfig';
+import { locationIdTagName, statusTagName, testIdTagName } from 'in-synthetics/tags';
 import { TimeConfig, TagFilterExpressionElementUnion, TagFilter } from 'in-types';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
@@ -143,21 +144,21 @@ function toTagFiltersList(
   const tagFilters = [
     {
       type: 'TAG_FILTER',
-      name: 'testId',
+      name: testIdTagName,
       operator: EQUALS,
       value: testId,
       entity: 'NOT_APPLICABLE'
     },
     {
       type: 'TAG_FILTER',
-      name: 'status',
+      name: statusTagName,
       operator: EQUALS,
       value: 0,
       entity: 'NOT_APPLICABLE'
     },
     {
       type: 'TAG_FILTER',
-      name: 'locationId',
+      name: locationIdTagName,
       operator: EQUALS,
       value: locationId,
       entity: 'NOT_APPLICABLE'
