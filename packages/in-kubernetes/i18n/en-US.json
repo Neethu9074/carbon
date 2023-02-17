@@ -29,6 +29,7 @@
     "noClusterDataAvailable": "No Cluster data available",
     "summary": "Summary",
     "details": "Details",
+    "controlPlane": "Control Plane",
     "events": "Events",
     "nodes": "Nodes",
     "namespaces": "Namespaces",
