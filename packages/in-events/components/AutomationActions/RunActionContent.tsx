@@ -71,7 +71,7 @@ export default function RunActionContent({
           i18nKey="in-settings:tabs.linkToActionLogs"
           components={{
             // @ts-expect-error
-            logsLink: <Link onClick={close} href$={link} />
+            logsLink: <Link target="_blank" onClick={close} href$={link} />
           }}
         />
       </Typography>
