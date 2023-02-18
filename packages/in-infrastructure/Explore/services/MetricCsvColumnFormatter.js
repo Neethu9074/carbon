@@ -6,6 +6,7 @@
 import {
   getFormatterType,
   NUMBER_FORMATTER_TYPE,
+  MILLIS_FORMATTER_TYPE,
   PERCENTAGE_FORMATTER_TYPE,
   UNDEFINED_FORMATTER_TYPE
 } from 'in-services/formatters/number';
@@ -42,10 +43,10 @@ export function formatCsvColumnName(metricLabel, aggregation, formatter) {
  percentage metrics are formatted.
  */
 export function formatCsvColumnValue(formatter, value) {
-  var metricValue = value;
+  const type = getFormatterType(formatter);
 
-  if (getFormatterType(formatter) === PERCENTAGE_FORMATTER_TYPE) {
-    metricValue = formatter(value).replace('%', '');
+  if (type === PERCENTAGE_FORMATTER_TYPE || type === NUMBER_FORMATTER_TYPE || type === MILLIS_FORMATTER_TYPE) {
+    return formatter(value).replace(/[^0-9.,]+/, '');
   }
-  return metricValue;
+  return value;
 }
