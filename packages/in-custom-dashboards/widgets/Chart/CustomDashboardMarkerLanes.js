@@ -11,23 +11,20 @@ import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPre
 import ReleasesLane from 'in-components/Chart/markerLanes/ReleasesLane/ReleasesLane';
 import { potentialProblemsEnabled } from 'in-services/featureFlags';
 
-export default function CustomDashboardMarkerLanes(markerLaneProps) {
+export default function CustomDashboardMarkerLanes({ openingDialogDisabled, config, widgetTitle, markerLaneProps }) {
   return (
     <MarkerLanesPresenter {...markerLaneProps}>
       {potentialProblemsEnabled &&
-      anyDatasetWithPotentialProblemsConfigured(
-        markerLaneProps.config?.y1?.metrics,
-        markerLaneProps.config?.y2?.metrics
-      )
-        ? markerLaneProps => (
-            <PotentialProblemsPostChartContent
-              config={markerLaneProps.config}
-              markerLaneProps={markerLaneProps}
-              openingDialogDisabled={markerLaneProps.isPreview}
-              widgetTitle={markerLaneProps.title}
-            />
-          )
-        : undefined}
+      anyDatasetWithPotentialProblemsConfigured(config?.y1?.metrics, config?.y2?.metrics) ? (
+        <PotentialProblemsPostChartContent
+          config={config}
+          markerLaneProps={markerLaneProps}
+          openingDialogDisabled={openingDialogDisabled}
+          widgetTitle={widgetTitle}
+        />
+      ) : (
+        undefined
+      )}
       {markerLaneProps.displayReleaseLane ? <ReleasesLane /> : undefined}
     </MarkerLanesPresenter>
   );

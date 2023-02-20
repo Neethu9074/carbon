@@ -11,7 +11,14 @@ import CustomDashboardMarkerLanes from './CustomDashboardMarkerLanes';
 export default function ChartWidget({ actions, config, title, isPreview, dragHandle, customHeight }) {
   return (
     <UnifiedMetricsChart
-      renderPostChartContent={CustomDashboardMarkerLanes}
+      renderPostChartContent={markerLaneProps => (
+        <CustomDashboardMarkerLanes
+          config={config}
+          markerLaneProps={markerLaneProps}
+          openingDialogDisabled={isPreview}
+          widgetTitle={title}
+        />
+      )}
       cardUseMaxAvailableHeight={!isPreview}
       rightHeaderContent={
         <>
