@@ -21,7 +21,7 @@ import ActionTable, {
 import { getActionsFromForm } from 'in-automation/ConfigureAssociatedActionsDialog/ConfigureAssociatedActionsDialog';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
-import { getAllActionsWithAISuggestions } from 'in-api/automation';
+import { getAllActionsWithAISuggestions } from 'in-automation/api';
 import SaveButton from 'in-components/form/SaveButton';
 import { t } from 'in-i18n';
 
