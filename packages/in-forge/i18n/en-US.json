@@ -9282,8 +9282,8 @@
     },
     "ibmMqttChannel": {
       "dashboard": {
-        "messagesSent": "Messages Sent",
-        "messagesReceived": "Messages Received",
+        "messagesSent": "Total Messages Sent",
+        "messagesReceived": "Total Messages Received",
         "messages": "MQTT Messages",
         "connections": "Connections",
         "inDoubtInput": "Inbound Messages in doubt",
@@ -9303,6 +9303,7 @@
       "clientUser": "Client User",
       "MCAUser": "MCA User",
       "messages": "Messages",
+      "protocol": "Protocol",
       "connections": "Connections",
       "messagesSent": "Messages Sent",
       "messagesReceived": "Messages Received",
@@ -9513,6 +9514,7 @@
         "out": "Out",
         "uncommitted": "Uncommitted",
         "queuesWithCount": "Queues ({{len}})",
+        "usage": "Usage",
         "queueFullPercentage": "Depth Percentage",
         "queueDepth": "Current Depth",
         "lastGetDateTime": "Last Get Time",

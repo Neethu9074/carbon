@@ -19,12 +19,11 @@ export default function Info({ snapshot }) {
       <DescriptionItem title={t('in-forge:plugins.ibmMqttChannel.clientUser')}>
         {data.get('clientUser')}
       </DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.ibmMqttChannel.MCAUser')}>
-        {data.get('MCAUser')}
-      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqttChannel.MCAUser')}>{data.get('MCAUser')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.ibmMqttChannel.connectionName')}>
         {data.get('connectionName')}
       </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqttChannel.protocol')}>{data.get('protocol')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.ibmMqttChannel.lastMessage')}>
         {data.get('lastMessage')}
       </DescriptionItem>
