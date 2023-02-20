@@ -32,4 +32,7 @@
   .deleteWrapper {
     text-align: right;
   }
+  .withBottomPadding {
+    padding-bottom: 5rem;
+  }
 }

@@ -31,7 +31,7 @@ import ApplicationEventContent from 'in-events/components/EventContent/Applicati
 import SyntheticEventContent from 'in-events/components/EventContent/SyntheticEventContent';
 import AnalyzeIssueCallsButton from 'in-events/components/legacy/AnalyzeIssueCallsButton';
 import OfflineEventDescription from 'in-events/components/legacy/OfflineEventDescription';
-import AssociatedActions from 'in-events/components/AutomationActions/AssociatedActions';
+import AssociatedActions from 'in-automation/AssociatedActionsCard/AssociatedActionsCard';
 import WebsiteEventContent from 'in-events/components/EventContent/WebsiteEventContent';
 import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
 import InfraEventContent from 'in-events/components/EventContent/InfraEventContent';

@@ -4,13 +4,16 @@
  * Copyright IBM Corp. 2022
  */
 
-import { Action, CustomEventSpecification, EventSpecificationInfo } from 'in-types';
+import { Map } from 'immutable';
 
+import { Observable } from '@instana/observables';
+
+import { Action, CustomEventSpecification, EventSpecificationInfo } from 'in-types';
 export function getCustomEventActions(eventSpecificationId: string): Observable<Action[]>;
-export function getCustomEventSpecificationWithActions(
+export function getCustomEventSpecificationWithActions(eventSpecificationId: string): Observable<Map<string, unknown>>;
+export function getCustomEventSpecificationMutable(
   eventSpecificationId: string
-): Observable<CustomEventSpecification>;
-export function getCustomEventSpecificationMutable(eventSpecificationId: string): Observable<CustomEventSpecification>;
+): Observable<CustomEventSpecificationWithMetadata>;
 export function getBuiltinEventActions(eventSpecificationId: string): Observable<Action[]>;
 export function saveCustomEventSpecificationWithActions(
   eventSpecification: CustomEventSpecification
