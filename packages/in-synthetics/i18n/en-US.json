@@ -108,6 +108,8 @@
         "smartAlerts": "Smart Alerts"
       },
       "popDialog": {
+        "popUpDialogTitle": "Permissions for Synthetic Monitoring",
+        "popUpDialog": "Please check the <documentationLink>document</documentationLink> for information about setting Synthetic Monitoring permissions",
         "button": "Deploy a PoP",
         "simpleTab": "Simple",
         "redisTab": "Redis TLS",
