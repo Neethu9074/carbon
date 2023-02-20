@@ -6,6 +6,7 @@
 import { find, get, isEqual, reverse, sortBy } from 'lodash';
 import { compose, lifecycle, withState } from 'recompose';
 import React, { Fragment, forwardRef } from 'react';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import invariant from 'invariant';
 
@@ -109,6 +110,7 @@ function List({
   tableInCard,
   rightHeader,
   isSearchable = true,
+  withBottomPadding = false,
   searchAttributes = [],
   extraFilters,
   searchPlaceholder,
@@ -181,7 +183,7 @@ function List({
   }
 
   return (
-    <div>
+    <div className={classNames({ [locals.withBottomPadding]: withBottomPadding })}>
       {title && <Title title={title} />}
       {errorMessage && <TemporaryMessage type="error" message={errorMessage} duration={null} />}
       <ServerTablePresenter
@@ -647,6 +649,7 @@ List.propTypes = {
   hideWhenEmpty: PropTypes.bool,
   isSearchable: PropTypes.bool,
   labelNew: PropTypes.string,
+  withBottomPadding: PropTypes.bool,
   newButtonDisabledTooltipMessage: PropTypes.func,
   noDataMessage: PropTypes.string,
   onCreateNew: PropTypes.func,
@@ -672,7 +675,6 @@ List.propTypes = {
   tableInCard: PropTypes.bool,
   title: PropTypes.node,
   trackEvent: PropTypes.func,
-
   /**
    * Callback called on every page change
    */
