@@ -70,21 +70,19 @@ export default function AssociatedActionsCard({ event, volatileId }: AssociatedA
   );
 
   return (
-    <div>
-      <ActionTable
-        title={t('in-automation:associatedActions')}
-        showExecuteColumn
-        showActionLink
-        event={event}
-        rightHeader={
-          <RightHeader eventSpecification={eventSpecification} actions={actions} isCustomEvent={isCustomEvent} />
-        }
-        volatileId={volatileId}
-        loadEntities={() => getScoredActionsForEventMemoized(selectedActions)}
-        scored
-        isBeta
-      />
-    </div>
+    <ActionTable
+      title={t('in-automation:associatedActions')}
+      showExecuteColumn
+      showActionLink
+      event={event}
+      rightHeader={
+        <RightHeader eventSpecification={eventSpecification} actions={actions} isCustomEvent={isCustomEvent} />
+      }
+      volatileId={volatileId}
+      loadEntities={() => getScoredActionsForEventMemoized(selectedActions)}
+      scored
+      isBeta
+    />
   );
 }
 
