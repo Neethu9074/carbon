@@ -17,8 +17,10 @@ packages/in-alerting                @pr-approval @Instana-IBM-GitHub-Enterprise 
 packages/in-analyze                 @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-application @instana/eng-eum @instana/eng-ui
 # Deprecated: We should not make any more changes within this package (aside from code removal)
 packages/in-api                     @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
+packages/in-api/automation.ts       @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-remediation
 packages/in-applications            @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-application @instana/eng-ui
 packages/in-applications/alerting   @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-application @instana/eng-ui @instana/eng-issue-detection
+packages/in-automation @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-remediation
 packages/in-client                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 # No clear ownership: Fallback to eng-ui
 packages/in-cloudfoundry            @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
@@ -30,6 +32,7 @@ packages/in-custom-dashboards       @pr-approval @Instana-IBM-GitHub-Enterprise 
 # potential problems marker lane in metrics chart
 packages/in-custom-dashboards/widgets @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-eum @instana/eng-ui @instana/eng-issue-detection
 packages/in-events                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-issue-detection @instana/eng-alert-response
+packages/in-events/components/AutomationActions @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-remediation
 # Shared ownership
 # packages/in-forge
 
@@ -114,6 +117,7 @@ packages/in-server                  @pr-approval @Instana-IBM-GitHub-Enterprise 
 packages/in-services                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-services/metrics        @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
 packages/in-settings                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-issue-detection @instana/eng-enterprise @instana/eng-application @instana/eng-alert-response
+packages/in-settings/tabs/TeamSettings/pages/automation @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-remediation
 packages/in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-alert-response
 packages/in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-alert-response
 packages/in-stores                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
@@ -134,12 +138,6 @@ packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/event  
 packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure    @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
 packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/mobileApp         @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-application @instana/eng-ui
 packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/websites          @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-application @instana/eng-ui
-
-# Remediation
-packages/in-automation @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-remediation
-packages/in-settings/tabs/TeamSettings/pages/automation @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-remediation
-packages/in-events/components/AutomationActions @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-remediation
-packages/in-api/automation.ts       @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-remediation
 
 # Container images
 /containers/ @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-delivery-enablement @ZaaS/zLinuxPrivateCloud @instana/eng-ui
