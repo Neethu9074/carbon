@@ -12,7 +12,11 @@ import {
   websitesAlertingListAlertPaused,
   websitesAlertingListAlertResumed
 } from 'in-alerting/smart-alerts/websites/tracker';
-import { deleteAlertConfig, disableAlertConfig, enableAlertConfig } from 'in-websites/api/websiteAlertConfig';
+import {
+  deleteAlertConfig,
+  disableAlertConfig,
+  enableAlertConfig
+} from 'in-alerting/smart-alerts/websites/api/websiteAlertConfig';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/applications/list/SmartAlertsBaseList';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/websites/dialog/AlertConfigDialog';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
