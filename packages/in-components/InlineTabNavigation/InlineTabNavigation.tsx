@@ -1,16 +1,27 @@
 /*
- * (c) Copyright IBM Corp. 2021
+ * (c) Copyright IBM Corp. 2023
  * (c) Copyright Instana Inc.
  */
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import Tab from 'in-components/InlineTabNavigation/Tab';
 
 import locals from './InlineTabNavigation.mless';
 
-export default function InlineTabNavigation({ tabList, activeTabIndex, onTabSelect, isDisabled = false }) {
+interface InlineTabNavigationProps {
+  activeTabIndex: number;
+  isDisabled: boolean;
+  onTabSelect: (...args: any[]) => any;
+  tabList: any[];
+}
+
+export default function InlineTabNavigation({
+  tabList,
+  activeTabIndex,
+  onTabSelect,
+  isDisabled = false
+}: InlineTabNavigationProps) {
   return (
     <ul className={locals.wrapper}>
       {tabList.map((tab, i) => (
@@ -27,10 +38,3 @@ export default function InlineTabNavigation({ tabList, activeTabIndex, onTabSele
     </ul>
   );
 }
-
-InlineTabNavigation.propTypes = {
-  activeTabIndex: PropTypes.number,
-  isDisabled: PropTypes.bool,
-  onTabSelect: PropTypes.func,
-  tabList: PropTypes.array
-};
