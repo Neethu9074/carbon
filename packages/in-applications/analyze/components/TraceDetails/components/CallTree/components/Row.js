@@ -28,55 +28,82 @@ import locals from './Row.mless';
 
 const marginPerDepth = 27;
 
-export default function EnhancedRow(props) {
-  const { selectedCall$, call, openedCallId, openedCall$, initialExpandedNodeIds } = props;
-
+export default function EnhancedRow({
+  selectedCall$,
+  call,
+  openedCallId,
+  openedCall$,
+  initialExpandedNodeIds,
+  getColor,
+  onCallClicked,
+  onSubCallClicked,
+  isLargeTrace,
+  scale,
+  depth = 0,
+  nonInternalParentCall,
+  intermediateRow
+}) {
   const [isExpanded, setIsExpanded] = useState(initialExpandedNodeIds.includes(call.id));
   const isSelected = useObservable(
     selectedCall$.map(selectedCall => selectedCall && call.id === selectedCall.id).distinct(),
     []
   );
+
   const isOpenedObservable = useObservable(
     openedCall$?.map(openedCallValue => openedCallValue && call.id === openedCallValue).distinct(),
     []
   );
+
   const isOpened = openedCallId != null ? call.id === openedCallId : isOpenedObservable;
 
   return (
     <Row
-      {...props}
       isExpanded={isExpanded}
       setIsExpanded={setIsExpanded}
       isSelected={isSelected}
       isOpened={isOpened}
       initialExpandedNodeIds={initialExpandedNodeIds}
+      call={call}
+      getColor={getColor}
+      onCallClicked={onCallClicked}
+      onSubCallClicked={onSubCallClicked}
+      isLargeTrace={isLargeTrace}
+      scale={scale}
+      depth={depth}
+      selectedCall$={selectedCall$}
+      nonInternalParentCall={nonInternalParentCall}
+      intermediateRow={intermediateRow}
+      openedCallId={openedCallId}
+      openedCall$={openedCall$}
     />
   );
 }
 
-function Row(props) {
-  const {
-    isSelected,
-    isOpened,
-    isExpanded,
-    setIsExpanded,
-    call,
-    nonInternalParentCall,
-    getColor,
-    depth = 0,
-    onCallClicked,
-    onSubCallClicked,
-    isLargeTrace,
-    initialExpandedNodeIds
-  } = props;
-
+function Row({
+  isSelected,
+  isOpened,
+  isExpanded,
+  setIsExpanded,
+  call,
+  nonInternalParentCall,
+  getColor,
+  depth,
+  onCallClicked,
+  onSubCallClicked,
+  isLargeTrace,
+  initialExpandedNodeIds,
+  scale,
+  intermediateRow,
+  selectedCall$,
+  openedCallId
+}) {
   const hasChildren = call.children && call.children.filter(child => !isLog(child)).length > 0;
   const marginLeft = Math.max(0, depth - 1) * marginPerDepth;
   const lineWidth = getLineWidth(depth, hasChildren);
 
   return (
     <div className={locals.wrapper}>
-      <VerticalLine {...props} marginLeft={marginLeft} />
+      <VerticalLine depth={depth} marginLeft={marginLeft} intermediateRow={intermediateRow} />
       <div
         id={`call-${call.id}`}
         className={classNames({
@@ -88,7 +115,7 @@ function Row(props) {
         })}
       >
         <CallInformation
-          {...props}
+          call={call}
           marginLeft={marginLeft}
           lineWidth={lineWidth}
           hasChildren={hasChildren}
@@ -97,6 +124,13 @@ function Row(props) {
             setIsExpanded(true);
             onSubCallClicked(call);
           }}
+          setIsExpanded={setIsExpanded}
+          isExpanded={isExpanded}
+          isLargeTrace={isLargeTrace}
+          isOpened={isOpened}
+          getColor={getColor}
+          scale={scale}
+          depth={depth}
         />
 
         {!isLargeTrace && (
@@ -116,12 +150,15 @@ function Row(props) {
           .map((subCall, i) => (
             <EnhancedRow
               key={subCall.id}
-              {...props}
               call={subCall}
               nonInternalParentCall={isInternalCall(call) ? nonInternalParentCall : call}
               depth={depth + 1}
               intermediateRow={i !== call.children.filter(subCall => subCall.model !== 'LOG').length - 1}
               initialExpandedNodeIds={initialExpandedNodeIds}
+              scale={scale}
+              getColor={getColor}
+              selectedCall$={selectedCall$}
+              openedCallId={openedCallId}
             />
           ))}
     </div>
@@ -138,7 +175,11 @@ function CallInformation(props) {
     setIsExpanded,
     onCallClicked,
     isLargeTrace,
-    isOpened
+    isOpened,
+    onSubCallClicked,
+    getColor,
+    scale,
+    depth
   } = props;
 
   return (
@@ -149,7 +190,7 @@ function CallInformation(props) {
           [locals.leftLargeTrace]: isLargeTrace
         })}
       >
-        <HorizontalLine {...props} marginLeft={marginLeft} lineWidth={lineWidth} />
+        <HorizontalLine depth={depth} marginLeft={marginLeft} lineWidth={lineWidth} />
         {hasChildren && (
           <SvgIcon
             className={locals.expandIcon}
@@ -190,7 +231,15 @@ function CallInformation(props) {
         {!isLargeTrace && <div className={locals.dashedLine} />}
       </div>
 
-      {!isLargeTrace && <ChildrenDistributionTimeLine {...props} />}
+      {!isLargeTrace && (
+        <ChildrenDistributionTimeLine
+          call={call}
+          getColor={getColor}
+          scale={scale}
+          onCallClicked={onCallClicked}
+          onSubCallClicked={onSubCallClicked}
+        />
+      )}
     </div>
   );
 }
