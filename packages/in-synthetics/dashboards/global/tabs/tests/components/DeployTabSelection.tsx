@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2022
+ * Copyright IBM Corp. 2023
  */
 
 import React, { useState } from 'react';
@@ -9,11 +9,10 @@ import React, { useState } from 'react';
 import { KeyValue, Link } from '@instana/components';
 import { Trans, t } from '@instana/i18n-react';
 
-// @ts-expect-error Module needs to be translated to TS
-import InlineTabNavigation from 'in-components/InlineTabNavigation';
 import RedisTLSDeployContent from 'in-synthetics/dashboards/global/tabs/tests/components/RedisTLSDeployContent';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
+import InlineTabNavigation from 'in-components/InlineTabNavigation';
 import { PoPProperties } from 'in-synthetics/utils/constants';
 import CodeComponent from 'in-components/Code';
 
@@ -72,7 +71,12 @@ export default function DeployTabSelection({ downloadKey, agentKey, syntheticAcc
         />
       </HorizontalFlexWrapper>
       <section>
-        <InlineTabNavigation tabList={tabList} activeTabIndex={activeTabIndex} onTabSelect={setActiveTabIndex} />
+        <InlineTabNavigation
+          tabList={tabList}
+          activeTabIndex={activeTabIndex}
+          onTabSelect={setActiveTabIndex}
+          isDisabled={false}
+        />
       </section>
       <div className={locals.content}>
         {activeTabIndex == 0 ? (
