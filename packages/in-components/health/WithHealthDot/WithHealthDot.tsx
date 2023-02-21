@@ -1,16 +1,21 @@
 /*
- * (c) Copyright IBM Corp. 2021
+ * (c) Copyright IBM Corp. 2023
  * (c) Copyright Instana Inc.
  */
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import { getColorBySeverity } from 'in-stores/events';
 
 import locals from './WithHealthDot.mless';
 
-export default function WithHealthDot({ severity = 0, iconSize, children }) {
+interface WithHealthDootProps {
+  severity?: number;
+  iconSize: number;
+  children: ReactNode;
+}
+
+export default function WithHealthDot({ severity = 0, iconSize, children }: WithHealthDootProps) {
   return (
     <div className={locals.wrapper}>
       {children}
@@ -26,9 +31,3 @@ export default function WithHealthDot({ severity = 0, iconSize, children }) {
     </div>
   );
 }
-
-WithHealthDot.propTypes = {
-  severity: PropTypes.number,
-  iconSize: PropTypes.number,
-  children: PropTypes.node
-};
