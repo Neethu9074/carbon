@@ -15,9 +15,8 @@ import {
   millis,
   millisToTwoDecimalSeconds
 } from 'in-services/formatters/number';
-// @ts-expect-error Module needs to be translated to TS
-import { Dl, Di } from 'in-components/HorizontalDescriptionList';
 import { OverviewChartToolTipProps as SubtransactionProps } from 'in-synthetics/utils/constants';
+import { Di, Dl } from 'in-components/HorizontalDescriptionList/HorizontalDescriptionList';
 import ToggleIcon from 'in-synthetics/dashboards/details/components/ToggleIcon';
 import Timings from 'in-synthetics/dashboards/details/components/Timings';
 import { Row, Col } from 'in-components/layout/Grid';
