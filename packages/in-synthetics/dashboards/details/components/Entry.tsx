@@ -9,9 +9,8 @@ import React, { Fragment, useState } from 'react';
 import { toInteractiveElement } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
-// @ts-expect-error Module needs to be translated to TS
-import { Dl, Di } from 'in-components/HorizontalDescriptionList';
 import { bytesZeroDecimalPlaces, millisToTwoDecimalSeconds } from 'in-services/formatters/number';
+import { Di, Dl } from 'in-components/HorizontalDescriptionList/HorizontalDescriptionList';
 import KeyValueHeader from 'in-synthetics/dashboards/details/components/KeyValueHeader';
 import ToggleIcon from 'in-synthetics/dashboards/details/components/ToggleIcon';
 import Timings from 'in-synthetics/dashboards/details/components/Timings';
