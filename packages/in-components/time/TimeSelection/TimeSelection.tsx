@@ -3,21 +3,25 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // @ts-expect-error
 import TimeSelectionDialogPresenter from 'in-components/time/TimeSelectionDialogPresenter/TimeSelectionDialogPresenter';
 // @ts-expect-error
 import DashboardHeaderButton from 'in-components/DashboardHeader/DashboardHeaderButton';
+import { getTimeConfig, setTimeConfig, timeConfig$, urlQueryKeys } from 'in-stores/time/config';
 import { TIME_WINDOW_SIZE_VIA_PICKER, track } from 'in-services/tracking/tracking';
 import { getModifiedUrlStream, mutateUrl } from 'in-stores/navigation/navigation';
 // @ts-expect-error
 import ErrorBoundary from 'in-components/ErrorBoundary';
-import { timeConfig$, urlQueryKeys } from 'in-stores/time/config';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import TimePresenter from 'in-components/time/TimePresenter';
 // @ts-expect-error
 import connect from 'in-hoc/connectTo';
+import { logsPath } from 'in-logging/navigation/paths';
+import { Location } from 'in-stores/navigation/types';
 import Overlay from 'in-components/overlays/Overlay';
+import Tooltip from 'in-components/Tooltip';
 import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -89,9 +93,33 @@ interface LiveModeToggleProps {
   darkTheme: boolean;
 }
 
-function LiveModeToggle({ isLive, darkTheme }: LiveModeToggleProps) {
+const liveModeDisabledAreas: Record<string, string> = {
+  [logsPath]: t('in-logging:liveModeDisabled')
+};
+
+const checkIsLiveModeDisabled = (location: Location): { disabled: boolean; tooltipMessage?: string } => {
+  let disabledArea = Object.keys(location.matrix ?? {}).find(path => Object.keys(liveModeDisabledAreas).includes(path));
+
+  if (disabledArea === undefined) {
+    return { disabled: false };
+  }
+
+  return { disabled: true, tooltipMessage: liveModeDisabledAreas[disabledArea] };
+};
+
+function LiveModeToggle({ isLive: isLiveProp, darkTheme }: LiveModeToggleProps) {
   const [hover, setHover] = useState(false);
+  const location = useLocation();
+  const { disabled, tooltipMessage } = checkIsLiveModeDisabled(location);
+
+  const isLive = disabled ? false : isLiveProp;
   const href$ = isLive ? getTimeframeNonLiveUrl() : getTimeframeLiveUrl();
+
+  useEffect(() => {
+    if (disabled) {
+      setTimeConfig(location, { ...getTimeConfig(location), autoRefresh: !disabled });
+    }
+  }, [disabled, location]);
 
   let icon;
   let iconSpinning = false;
@@ -107,17 +135,20 @@ function LiveModeToggle({ isLive, darkTheme }: LiveModeToggleProps) {
   }
 
   return (
-    <DashboardHeaderButton
-      href$={href$}
-      icon={icon}
-      iconSpinning={iconSpinning}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-      darkTheme={darkTheme}
-      className={isLive ? locals.live : locals.static}
-    >
-      {t('in-components:time.dashboardHeaderButtonLive')}
-    </DashboardHeaderButton>
+    <Tooltip content={tooltipMessage}>
+      <DashboardHeaderButton
+        disabled={disabled}
+        href$={href$}
+        icon={icon}
+        iconSpinning={iconSpinning}
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+        darkTheme={darkTheme}
+        className={isLive ? locals.live : locals.static}
+      >
+        {t('in-components:time.dashboardHeaderButtonLive')}
+      </DashboardHeaderButton>
+    </Tooltip>
   );
 }
 
