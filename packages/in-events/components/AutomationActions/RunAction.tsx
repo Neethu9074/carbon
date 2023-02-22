@@ -203,10 +203,9 @@ function onSave({
     }
     return acc;
   }, []);
-  const selectedVolatileId =
-    agentSnapShots?.data?.online?.find(agent => agent.volatileId?.host_id === targetAgent.value)?.volatileId ?? {};
-  const selectedSnapshotId =
-    agentSnapShots?.data?.online?.find(agent => agent.volatileId?.host_id === targetAgent.value)?.id ?? '';
+  const selectedAgent = agentSnapShots?.data?.online?.find(agent => agent.volatileId?.host_id === targetAgent.value);
+  const selectedVolatileId = selectedAgent?.volatileId ?? {};
+  const selectedSnapshotId = selectedAgent?.id ?? '';
   const handleActionResponse = (data: [Result<null>, AgentResponse]) => {
     setIsSaving(false);
     // last element of the array is either the timeout error if the agent didn't respond in time, or the agent response (error or in progress)
