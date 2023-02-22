@@ -85,7 +85,6 @@ export default function SearchInput({
           [inputClassName]: inputClassName
         })}
         disabled={disabled}
-        type="search"
         placeholder={placeholder ?? t('in-components:searchInput.placeholderSearch')}
         value={query}
         onChange={e => onChange(e.target.value)}
