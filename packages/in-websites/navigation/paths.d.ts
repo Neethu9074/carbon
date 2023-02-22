@@ -5,11 +5,40 @@
 
 import { Observable } from '@instana/observables';
 
+import { BeaconType, Group, TagCatalog, TimeConfig, AggregationType, Nullish } from 'in-types';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
-import { BeaconType, Group, TagCatalog, TimeConfig, AggregationType } from 'in-types';
+
+export declare const alertsTab: string;
+export declare const alertsTabListFullyQualified: string;
+export declare const alertsTabDetailsFullyQualified: string;
 
 export declare const analyzePath: string;
+
 export declare const websiteMonitoringPath: string;
+export declare const websitesPathFullyQualified: string;
+
+export function getLinkToAlertConfig(
+  alertConfigId?: string | Nullish,
+  alertConfigVersion?: string | Nullish,
+  websiteId?: string | Nullish
+): Observable<string>;
+
+export function getLinkToWebsite(
+  websiteId: string | Nullish,
+  {
+    tabPath,
+    tabParameters,
+    pageId,
+    timeConfig
+  }?: {
+    tabPath?: string | Nullish;
+    tabParameters?: string | Nullish;
+    pageId?: string | Nullish;
+    timeConfig?: string | Nullish;
+  }
+): Observable<string>;
+
+export function getAlertConfig(alertConfigId?: string | Nullish, websiteId?: string | Nullish): Observable<string>;
 
 interface Fields {
   metricId: string;

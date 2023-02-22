@@ -13,9 +13,8 @@ import { Card } from '@instana/components';
 
 // @ts-expect-error needs migration to TS
 import { removeWebsite as removeWebsiteTracker } from 'in-websites/tracker';
-// @ts-expect-error needs migration to TS
-import { websitesPathFullyQualified } from 'in-websites/navigation/paths';
 import HelpParagraph from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/HelpParagraph';
+import { websitesPathFullyQualified } from 'in-websites/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { combineDataAndError } from 'in-services/util/ro';
 import { removeWebsite } from 'in-websites/api/websites';
