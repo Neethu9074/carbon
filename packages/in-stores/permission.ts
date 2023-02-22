@@ -118,6 +118,8 @@ export const hasRestrictedAccess = role?.restrictedAccess ?? false;
  * @return true if user has permission
  */
 function hasPermission(limitedScope: string, accessPermission: string): boolean {
+  // hasRestrictedAccess validation is required, support role does only contain the CAN_* permissions
+  // it is missing all the ACCESS_* permissions
   if (!hasRestrictedAccess || permissions.indexOf(limitedScope) === -1) return true;
   return permissions.indexOf(accessPermission) !== -1;
 }
