@@ -59,7 +59,7 @@ import SaveCancel from 'in-settings/components/SaveCancel';
 import { submitEventTracker } from 'in-settings/tracker';
 import Section from 'in-settings/components/Section';
 import { getPluginName } from 'in-sdk/pluginName';
-import { getAllActions } from 'in-api/automation';
+import { getAllActions } from 'in-automation/api';
 import { goToPath } from 'in-stores/navigation';
 import Title from 'in-components/Title/Title';
 import { role } from 'in-stores/user';

@@ -67,7 +67,7 @@ export default function SyntheticAnalyzeView() {
   const testType: string = getMatrixParameter(location, syntheticDetailsPath, 'type') ?? '';
   const isHTTPActionType: boolean = testType === 'HTTPAction';
   const isBrowserScriptTest: boolean =
-    testType === 'BrowserScript' || (testType === 'WebpageScript' && syntheticBrowserScriptEnabled);
+    (testType === 'BrowserScript' || testType === 'WebpageScript') && syntheticBrowserScriptEnabled;
   const formatType: string = isBrowserScriptTest ? 'HAR' : 'SUBTRANSACTIONS';
   const details: ResultDetailsResponse =
     useObservable<any, [number]>(

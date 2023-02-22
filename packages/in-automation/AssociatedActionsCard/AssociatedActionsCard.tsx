@@ -18,7 +18,7 @@ import {
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 import ConfigureAssociatedActionsDialog from 'in-automation/ConfigureAssociatedActionsDialog/ConfigureAssociatedActionsDialog';
 import ActionTable from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionTable';
-import { getScoredActionsForEvent, EventSpecification } from 'in-api/automation';
+import { getScoredActionsForEvent, EventSpecification } from 'in-automation/api';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { Event, VolatileId, Action } from 'in-types';
