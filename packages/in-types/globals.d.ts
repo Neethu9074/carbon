@@ -23,6 +23,7 @@ export interface Role {
   canConfigureCustomAlerts: boolean;
   canViewLogs: boolean;
   restrictedAccess: boolean;
+  canConfigureSyntheticLocations: boolean;
 }
 
 export interface User {
