@@ -10,6 +10,7 @@ import { Button } from '@instana/components';
 import { constructLink } from 'in-integrations/logging/logdna/LinkConstruction';
 import { jumpToLogDna } from 'in-integrations/logging/logdna/tracker';
 import { isBlank } from 'in-services/util/string';
+import { t } from 'in-i18n';
 
 export default function LogDnaButton(props) {
   const { logdnaIntegration: integration } = props;
@@ -22,7 +23,7 @@ export default function LogDnaButton(props) {
     <Button
       className={props.className}
       kind="secondary"
-      icon="lib_logdna"
+      icon="lib_mezmo"
       target="_blank"
       href={constructLink(
         getQueryParameters(props),
@@ -32,7 +33,7 @@ export default function LogDnaButton(props) {
       )}
       onClick={() => jumpToLogDna()}
     >
-      LogDNA
+      {t('in-settings:tabs.logDna')}
     </Button>
   );
 }

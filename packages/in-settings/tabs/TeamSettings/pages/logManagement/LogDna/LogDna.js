@@ -4,7 +4,7 @@
  */
 
 import { createField, createMapForm } from 'formalistic';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { createLogger } from '@instana/logger';
 import { Toggle } from '@instana/components';
@@ -142,7 +142,7 @@ export default function LogDna() {
                     onChange={e => onChange('instanceType', e.target.value)}
                     disabled={!enabled}
                   >
-                    <option value="LOG_DNA_SAAS">LogDNA</option>
+                    <option value="LOG_DNA_SAAS">Mezmo</option>
                     <option value="IBM_CLOUD">IBM Cloud Log Analysis</option>
                   </Select>
                   {enabled && <TouchedMessages field={field} />}
