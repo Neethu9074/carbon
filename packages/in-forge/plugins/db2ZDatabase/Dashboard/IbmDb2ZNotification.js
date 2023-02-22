@@ -6,8 +6,9 @@
 
 import React from 'react';
 
-import { Message, Link } from '@instana/components';
+import { Message, Link, Typography } from '@instana/components';
 
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { Trans, t } from 'in-i18n';
 
 import locals from './IbmDb2ZNotification.mless';
@@ -17,21 +18,21 @@ export default function IbmDb2ZNotification() {
 
   return (
     <Message withIcon type="warning" className={locals.notificationMessage}>
-      <div className={locals.notificationMessageContent}>
+      <HorizontalFlexWrapper>
         <div>
-          <p className={locals.notificationMessageText}>
-            <strong>{t('in-forge:plugins.db2ZDatabase.notifications.notificationHeader')}</strong>
-          </p>
-          <p className={locals.notificationMessageText}>
+          <Typography variant="heading-200">
+            {t('in-forge:plugins.db2ZDatabase.notifications.notificationHeader')}
+          </Typography>
+          <Typography variant="body-regular">
             <Trans
               i18nKey="in-forge:plugins.db2ZDatabase.notifications.notificationText"
               components={{
                 supportLink: <Link href={supportUrl} external />
               }}
             />
-          </p>
+          </Typography>
         </div>
-      </div>
+      </HorizontalFlexWrapper>
     </Message>
   );
 }

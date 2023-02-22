@@ -10,14 +10,4 @@
   .notificationMessage {
     margin: 0 0 1rem 0;
   }
-
-  .notificationMessageContent {
-    display: flex;
-    align-items: flex-start;
-  }
-
-  .notificationMessageText {
-    margin: 0 0 0 0;
-    padding-right: 1rem;
-  }
 }

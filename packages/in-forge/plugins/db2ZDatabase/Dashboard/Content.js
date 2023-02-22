@@ -20,9 +20,7 @@ export default function Db2ZDashboard({ snapshot, timeConfig }) {
 
   return (
     <div>
-      <div>
-        <IbmDb2ZNotification />
-      </div>
+      <IbmDb2ZNotification />
       <KpiSection>
         <KpiKeyValue label={t('in-forge:plugins.db2ZDatabase.dashboard.activeThreads')}>
           <MetricValue snapshotId={snapshotId} metric="DB2ZLocationStats.threadCount" formatter={number.compact} />
