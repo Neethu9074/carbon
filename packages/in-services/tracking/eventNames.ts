@@ -373,6 +373,7 @@ export const ANALYZE_LOGGING_JUMP_TO_LOGS = 'analyze.logging.jump.to.logs';
 export const ANALYZE_LOGGING_TIME_SPENT = 'analyze.logging.time.spent';
 export const LOGGING_LOGDNA_BUTTON_CLICKED = 'logging.logDna.clicked';
 export const ANALYZE_LOGGING_SORTING_CHANGED = 'analyze.logging.sorting.changed';
+export const LOGGING_CLICKED_APPLICATION_PERSPECTIVE_LINK = 'analyze.logging.applications.perspective.link.clicked';
 
 // ENTERPRISE
 export const ENTERPRISE_IDP_MAPPING_FIRST = 'enterprise.idp.mapping.first';

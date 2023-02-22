@@ -43,8 +43,8 @@ let state: State = {
   meta: emptyObject
 };
 
-export function track(event: string, payload: Object) {
-  if (payload == null) {
+export function track(event: string, payload?: Object) {
+  if (!payload) {
     payload = emptyObject;
   }
 
