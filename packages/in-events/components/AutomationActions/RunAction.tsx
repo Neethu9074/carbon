@@ -203,8 +203,9 @@ function onSave({
     }
     return acc;
   }, []);
-  const selectedVolatileId =
-    agentSnapShots?.data?.online?.find(agent => agent.volatileId?.host_id === targetAgent.value)?.volatileId ?? {};
+  const selectedAgent = agentSnapShots?.data?.online?.find(agent => agent.volatileId?.host_id === targetAgent.value);
+  const selectedVolatileId = selectedAgent?.volatileId ?? {};
+  const selectedSnapshotId = selectedAgent?.id ?? '';
   const handleActionResponse = (data: [Result<null>, AgentResponse]) => {
     setIsSaving(false);
     // last element of the array is either the timeout error if the agent didn't respond in time, or the agent response (error or in progress)
@@ -227,6 +228,7 @@ function onSave({
     runScriptAction({
       script,
       volatileId: selectedVolatileId,
+      hostSnapshotId: selectedSnapshotId,
       event,
       actionName,
       actionId,
@@ -237,6 +239,7 @@ function onSave({
     const { host, method, body, ignoreCertErrors, header, authen } = getWebhookFields(action);
     runWebhookAction({
       volatileId: selectedVolatileId,
+      hostSnapshotId: selectedSnapshotId,
       event,
       actionName,
       actionId,
