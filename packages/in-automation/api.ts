@@ -237,7 +237,6 @@ export interface ActionExecutionParameter {
 }
 interface RunActionBaseParams {
   volatileId: VolatileId;
-  hostSnapshotId: string;
   event: Event | undefined;
   actionName: string;
   actionId: string;
@@ -261,16 +260,7 @@ interface RunScriptActionParams extends RunActionBaseParams {
 }
 
 // We are using a timeout here to prevent the UI from hanging if the agent is not responding (sensor not installed).
-function runAction({
-  volatileId,
-  hostSnapshotId,
-  event,
-  actionName,
-  type,
-  request,
-  inputParameters,
-  actionId
-}: RunActionParams) {
+function runAction({ volatileId, event, actionName, type, request, inputParameters, actionId }: RunActionParams) {
   return combineLatest(
     [
       timeout(10000).flatMap(() =>
@@ -287,7 +277,6 @@ function runAction({
         action: 'action.run',
         target: volatileId,
         args: {
-          hostSnapshotId,
           type,
           inputParameters,
           async: 'true',
@@ -307,7 +296,6 @@ function runAction({
 export function runScriptAction({
   script,
   volatileId,
-  hostSnapshotId,
   event,
   actionName,
   actionId,
@@ -317,7 +305,6 @@ export function runScriptAction({
   return runAction({
     type: 'SCRIPT',
     volatileId,
-    hostSnapshotId,
     event,
     actionName,
     actionId,
@@ -349,7 +336,6 @@ interface RunWebhookActionParams extends RunActionBaseParams {
 
 export function runWebhookAction({
   volatileId,
-  hostSnapshotId,
   event,
   actionName,
   actionId,
@@ -364,7 +350,6 @@ export function runWebhookAction({
   return runAction({
     type: 'HTTP',
     volatileId,
-    hostSnapshotId,
     event,
     actionName,
     actionId,
