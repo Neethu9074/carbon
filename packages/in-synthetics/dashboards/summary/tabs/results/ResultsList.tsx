@@ -236,13 +236,23 @@ function getSynthTableData({
     }
   ];
 
-  let tagFilterExpression: TagFilterExpression = {
+  let statusTagFilterExpression: TagFilterExpression = {
     elements: [],
     logicalOperator: 'OR',
     type: 'EXPRESSION'
   };
 
-  let locationLabelTagFilters: TagFilter[] = [];
+  let locationTagFilterExpression: TagFilterExpression = {
+    elements: [],
+    logicalOperator: 'OR',
+    type: 'EXPRESSION'
+  };
+
+  let tagFilterExpression: TagFilterExpression = {
+    elements: [],
+    logicalOperator: 'AND',
+    type: 'EXPRESSION'
+  };
 
   //location_label => location display name
   if (query && query.length > 0) {
@@ -265,18 +275,20 @@ function getSynthTableData({
   }
 
   if (status.length !== 0 && Array.isArray(status)) {
-    baseTagFilters.push({
-      value: parseInt(status[0]),
-      name: statusTagName,
-      operator: EQUALS,
-      entity: NOT_APPLICABLE,
-      type: 'TAG_FILTER'
+    status.forEach(stat => {
+      statusTagFilterExpression.elements.push({
+        value: parseInt(stat),
+        name: statusTagName,
+        operator: EQUALS,
+        entity: NOT_APPLICABLE,
+        type: 'TAG_FILTER'
+      });
     });
   }
 
   if (locationLabels.length !== 0 && Array.isArray(locationLabels)) {
     locationLabels.forEach(locationLabel => {
-      locationLabelTagFilters.push({
+      locationTagFilterExpression.elements.push({
         stringValue: locationLabel,
         name: locationLabelTagName,
         operator: EQUALS,
@@ -284,12 +296,13 @@ function getSynthTableData({
         type: 'TAG_FILTER'
       });
     });
-    tagFilterExpression = {
-      elements: locationLabelTagFilters,
-      logicalOperator: 'OR',
-      type: 'EXPRESSION'
-    };
   }
+
+  tagFilterExpression = {
+    elements: [statusTagFilterExpression, locationTagFilterExpression],
+    logicalOperator: 'AND',
+    type: 'EXPRESSION'
+  };
 
   return getTestResultList({
     pagination: {

@@ -218,7 +218,8 @@
       "title": "Results",
       "locationLabel": "Location",
       "failures": "Failures",
-      "status": "Status"
+      "status": "Status",
+      "success": "Success"
     },
     "detailsPage": {
       "timeLineWidget": "Timeline",
