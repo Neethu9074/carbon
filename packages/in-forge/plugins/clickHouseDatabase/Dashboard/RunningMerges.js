@@ -5,16 +5,16 @@
 
 import React from 'react';
 
-import { useObservable } from '@instana/hooks';
-
-import { createAgentResponseObservable, getAgentResponse } from 'in-subscription/agentResponse';
+//import { createAgentResponseObservable, getAgentResponse } from 'in-subscription/agentResponse';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { number, seconds, bytes } from 'in-services/formatters/number';
-import { pendingResult } from 'in-services/fixedObjects';
+import getAgentResponse from 'in-subscription/agentResponse';
 import Table from 'in-sdk/components/dashboard/Table';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
+
+//import { useObservable } from '@instana/hooks';
 
 const cols = [
   {
@@ -134,7 +134,7 @@ export default connectTo(
       content = (
         <DashboardNotification type="info">Running merges list is only available in live mode.</DashboardNotification>
       );
-    //console.log(response);
+      //console.log(response);
     } else if (response == null) {
       content = <LoadingIndicator />;
     } else if (response.error) {
@@ -148,9 +148,7 @@ export default connectTo(
         ...r
       }));
       if (rows.length === 0) {
-        content = (
-          <DashboardNotification type="info">No running merges</DashboardNotification>
-        );
+        content = <DashboardNotification type="info">No running merges</DashboardNotification>;
       } else {
         content = (
           <Table
