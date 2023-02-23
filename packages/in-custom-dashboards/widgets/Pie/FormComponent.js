@@ -77,7 +77,7 @@ export default function PieChartWidgetFormComponent({ form, onChange }) {
       <Divider />
 
       <Stack gap="normal">
-        <Reorderer onChange={onChange}>
+        <Reorderer form={form} onChange={onChange}>
           <MetricsForAxis
             form={form}
             onChange={onChange}
