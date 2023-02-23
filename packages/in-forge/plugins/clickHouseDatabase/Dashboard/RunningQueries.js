@@ -7,12 +7,14 @@ import React from 'react';
 
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import { number, seconds, bytes } from 'in-services/formatters/number';
 import getAgentResponse from 'in-subscription/agentResponse';
 import Table from 'in-sdk/components/dashboard/Table';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
+const queryMaxLength = 150;
 const cols = [
   {
     title: t('in-forge:plugins.clickhouseDatabase.dashboard.titleQueryID'),
@@ -28,7 +30,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.query;
+        return row.query.length > queryMaxLength ? row.query.substring(0, queryMaxLength) + ' ...' : row.query;
       }
     }
   },
@@ -60,6 +62,18 @@ const cols = [
         return Number(row.read_bytes);
       },
       getContent: bytes.detailed
+    }
+  },
+  {
+    title: '',
+    type: 'custom',
+    disableSorting: true,
+    typeArgs: {
+      get(row) {
+        return {
+          content: <CopyToClipboardButton kind="secondary" size="compact" getText={() => row.query} />
+        };
+      }
     }
   }
 ];
