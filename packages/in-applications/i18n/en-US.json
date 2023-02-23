@@ -578,7 +578,8 @@
         "erroneousTrace": "Erroneous Trace",
         "attemptToRenderTrace": "Attempt to render trace",
         "analyzeBeacons": "Analyze Beacons",
-        "adjustedTimeConfig": "The time range was adjusted to include the selected beacon."
+        "adjustedTimeConfigForTrace": "The time range was adjusted to include all calls of the selected trace.",
+        "adjustedTimeConfigForBeacon": "The time range was adjusted to include the selected beacon."
       }
     },
     "components": {

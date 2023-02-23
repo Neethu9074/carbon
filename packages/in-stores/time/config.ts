@@ -176,35 +176,56 @@ export function setTimeConfig(location: Location, timeConfig: TimeConfig) {
 export function getAdjustedTimeConfigToIncludeTimestamp(
   timeConfig: TimeConfig,
   timestamp: number,
-  granularityProvider: (config: { windowSize: number }) => number
+  granularityProvider: (config: { windowSize: number }) => number,
+  // allow to inject 'now' for testing
+  nowFunc: () => number = Date.now
 ): TimeConfig {
   // The biggest jump in size between two consecutive granularities is between 10 seconds
   // and 1 minute by factor 6, see packages/in-stores/metric/metric.js#sensibleGranularities.
   const MAX_FACTOR_BETWEEN_GRANULARITIES = 6;
+  // subtract a small wiggle room, otherwise the 'fullRetentionCutOff' timestamp would immediately expire
+  const DEFAULT_FULL_DATA_RETENTION = days.toMillis(7) - minutes.toMillis(5);
 
   if (timeConfig.to != null && timestamp > timeConfig.to) {
     // timestamp lays after the selected time range => adjusting the upper limit
-    const newTo = timestamp;
-    const newWindowSize = timeConfig.windowSize + (newTo - timeConfig.to);
+    let newTo = timestamp;
+    let newWindowSize = timeConfig.windowSize + (newTo - timeConfig.to);
+
+    const fullRetentionCutOff = nowFunc() - DEFAULT_FULL_DATA_RETENTION;
+    if (newTo > fullRetentionCutOff + minimumWindowSize && newTo - newWindowSize < fullRetentionCutOff) {
+      // if the selected time range crosses the full data retention cut-off, adjust the window size to
+      // fit within the full data retention time range
+      newWindowSize = newTo - fullRetentionCutOff;
+    }
+
     const granularity = granularityProvider({ windowSize: newWindowSize });
     const safetyBucket = granularity * MAX_FACTOR_BETWEEN_GRANULARITIES;
+    newTo = newTo + safetyBucket;
+    // ensure the window size does not exceed the limit
+    newWindowSize = Math.min(newWindowSize + safetyBucket, maximumWindowSize);
     return {
-      ...timeConfig,
-      to: newTo + safetyBucket,
-      windowSize: newWindowSize + safetyBucket
+      autoRefresh: timeConfig.autoRefresh,
+      windowSize: newWindowSize,
+      to: newTo,
+      ...(timeConfig.focusedMoment && newTo && { focusedMoment: newTo })
     };
   }
 
-  const toOrNow = timeConfig.to ?? Date.now();
+  const toOrNow = timeConfig.to ?? nowFunc();
   const from = toOrNow - timeConfig.windowSize;
   if (timestamp < from) {
     // timestamp lays before the selected time range => adjusting the lower limit
-    const newWindowSize = toOrNow - timestamp;
+    let newWindowSize = toOrNow - timestamp;
     const granularity = granularityProvider({ windowSize: newWindowSize });
     const safetyBucket = granularity * MAX_FACTOR_BETWEEN_GRANULARITIES;
+    // ensure the window size does not exceed the limit
+    newWindowSize = Math.min(newWindowSize + safetyBucket, maximumWindowSize);
+    const newTo = newWindowSize === maximumWindowSize ? timestamp - safetyBucket + maximumWindowSize : timeConfig.to;
     return {
-      ...timeConfig,
-      windowSize: newWindowSize + safetyBucket
+      autoRefresh: timeConfig.autoRefresh,
+      windowSize: newWindowSize,
+      ...(newTo && { to: newTo }),
+      ...(timeConfig.focusedMoment && newTo && { focusedMoment: newTo })
     };
   }
 

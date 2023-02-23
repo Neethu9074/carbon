@@ -3,9 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-import { getAdjustedTimeConfigToIncludeTimestamp, getTimeConfig, urlQueryKeys } from 'in-stores/time/config';
+import {
+  getAdjustedTimeConfigToIncludeTimestamp,
+  getTimeConfig,
+  maximumWindowSize,
+  urlQueryKeys
+} from 'in-stores/time/config';
+import { days, hours, minutes } from 'in-services/time';
 import { config } from 'in-services/config';
-import { hours } from 'in-services/time';
 
 describe('time config', () => {
   let originalFeatureFlags;
@@ -149,6 +154,54 @@ describe('time config', () => {
       expect(getAdjustedTimeConfigToIncludeTimestamp(timeConfig, timestamp, () => granularity)).toEqual({
         windowSize: timeConfig.windowSize + fromDiff + safetyBucket,
         to: timeConfig.to,
+        autoRefresh: false
+      });
+    });
+
+    it('should limit window size after adjustment to max allowed window size, if "timestamp" < "from"', () => {
+      const granularity = 30_000;
+      const timeConfig = {
+        windowSize: 30 * granularity,
+        to: Date.UTC(2022, 9, 1, 12, 30, 55),
+        autoRefresh: false
+      };
+      const timestamp = Date.UTC(2022, 7, 1, 12, 31, 5);
+      expect(getAdjustedTimeConfigToIncludeTimestamp(timeConfig, timestamp, () => granularity)).toEqual({
+        windowSize: maximumWindowSize,
+        to: Date.UTC(2022, 8, 1, 12, 28, 5),
+        autoRefresh: false
+      });
+    });
+
+    it('should limit window size after adjustment to max allowed window size, if "timestamp" > "to"', () => {
+      const granularity = 30_000;
+      const timeConfig = {
+        windowSize: 30 * granularity,
+        to: Date.UTC(2022, 1, 1, 12, 30, 55),
+        autoRefresh: false
+      };
+      const timestamp = Date.UTC(2022, 3, 1, 12, 31, 5);
+      expect(getAdjustedTimeConfigToIncludeTimestamp(timeConfig, timestamp, () => granularity)).toEqual({
+        windowSize: maximumWindowSize,
+        to: Date.UTC(2022, 3, 1, 12, 34, 5),
+        autoRefresh: false
+      });
+    });
+
+    it('adjust window size to fit within the full data retention, if the time range after adjusting the "to" timestamp would cross the full data retention cut-off timestamp', () => {
+      const granularity = 30_000;
+      const timeConfig = {
+        windowSize: 30 * granularity,
+        to: Date.UTC(2022, 1, 1, 12, 30, 55),
+        autoRefresh: false
+      };
+      const timestamp = Date.UTC(2022, 3, 1, 12, 31, 5);
+      const nowFunc = () => timestamp;
+      const expectedTo = Date.UTC(2022, 3, 1, 12, 34, 5);
+      const expectedFrom = timestamp - days.toMillis(7) + minutes.toMillis(5);
+      expect(getAdjustedTimeConfigToIncludeTimestamp(timeConfig, timestamp, () => granularity, nowFunc)).toEqual({
+        windowSize: expectedTo - expectedFrom,
+        to: expectedTo,
         autoRefresh: false
       });
     });
