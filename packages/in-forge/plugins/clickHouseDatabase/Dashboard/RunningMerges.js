@@ -5,10 +5,13 @@
 
 import React from 'react';
 
+import { useObservable } from '@instana/hooks';
+
+import { createAgentResponseObservable, getAgentResponse } from 'in-subscription/agentResponse';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { number, seconds, bytes } from 'in-services/formatters/number';
-import getAgentResponse from 'in-subscription/agentResponse';
+import { pendingResult } from 'in-services/fixedObjects';
 import Table from 'in-sdk/components/dashboard/Table';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
@@ -102,35 +105,40 @@ const cols = [
   }
 ];
 
-export default connectTo(
-  ({ snapshot, timeConfig }) => ({
-    response:
-      timeConfig.focusedMoment == null &&
-      getAgentResponse({
-        action: 'clickHouse.getRunningMerges',
-        target: snapshot.get('volatileId'),
-        args: {}
-      })
-  }),
-  function RunningMerges({ timeConfig, response }) {
-    let content = null;
+export function getRunningMerges(snapshot) {
+  () => createAgentResponseObservable({action: 'clickHouse.getRunningMerges',
+                                                            target: snapshot.get('volatileId'),
+                                                            args: {}
+                                                           }).once(response => {console.log('response')});
+}
 
-    if (timeConfig.focusedMoment != null) {
+export default function RunningMerges({ snapshot, timeConfig }) {
+  const response = useObservable(getRunningMerges(snapshot), []);
+  console.log(response);
+  //const response = getRunningMerges(snapshot);
+  let content = null;
+  if (timeConfig.autoRefresh == false) {
+    content = (
+      <DashboardNotification type="info">Running merges list is only available in live mode.</DashboardNotification>
+    );
+  //console.log(response);
+  } else if (response == null) {
+    content = <LoadingIndicator />;
+  } else if (response.error) {
+    content = (
+      <DashboardNotification type="danger">Failed to retrieve running merges: {response.error}</DashboardNotification>
+    );
+  } else {
+    const data = JSON.parse(response.data);
+    const rows = data.data.map((r, i) => ({
+      key: String(i),
+      ...r
+    }));
+    if (rows.length === 0) {
       content = (
-        <DashboardNotification type="info">Running merges list is only available in live mode.</DashboardNotification>
-      );
-    } else if (response == null) {
-      content = <LoadingIndicator />;
-    } else if (response.error) {
-      content = (
-        <DashboardNotification type="danger">Failed to retrieve running merges: {response.error}</DashboardNotification>
+        <DashboardNotification type="info">No running merges</DashboardNotification>
       );
     } else {
-      const data = JSON.parse(response.data);
-      const rows = data.data.map((r, i) => ({
-        key: String(i),
-        ...r
-      }));
       content = (
         <Table
           withoutPadding
@@ -143,7 +151,7 @@ export default connectTo(
         />
       );
     }
-
-    return content;
   }
-);
+
+  return content;
+}
