@@ -5,20 +5,20 @@
 
 import React from 'react';
 
-import { useObservable } from '@instana/hooks';
-
 import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-components/SecondLevelNavigation';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import { alertsList, applicationsList, servicesList } from 'in-applications/navigation/paths';
-import { getModifiedUrlStream, isView } from 'in-stores/navigation/navigation';
 import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { t } from 'in-i18n';
 
 export default function AppViewSwitcher() {
-  const isServiceViewActive = useObservable(isView(servicesList), []);
-  const isSmartAlertsViewActive = useObservable(isView(alertsList), []);
+  const { location, createHref, isView } = useNavigation();
+
+  const isServiceViewActive = isView(servicesList);
+  const isSmartAlertsViewActive = isView(alertsList);
 
   return (
     <>
@@ -31,13 +31,13 @@ export default function AppViewSwitcher() {
       <DashboardHeaderModule theme={themes.light}>
         <SecondLevelNavigation>
           <SecondLevelNavigationItem
-            href$={getModifiedUrlStream(p => (p.pathname = applicationsList))}
+            href={createHref({ ...location, pathname: applicationsList })}
             icon="lib_application"
             label={t('in-applications:labelApplications')}
             isActive={!isServiceViewActive && !isSmartAlertsViewActive}
           />
           <SecondLevelNavigationItem
-            href$={getModifiedUrlStream(p => (p.pathname = servicesList))}
+            href={createHref({ ...location, pathname: servicesList })}
             icon="lib_application_service"
             label={t('in-applications:labelServices')}
             isActive={isServiceViewActive && !isSmartAlertsViewActive}
@@ -45,7 +45,7 @@ export default function AppViewSwitcher() {
 
           {applicationSmartAlertsEnabled && (
             <SecondLevelNavigationItem
-              href$={getModifiedUrlStream(p => (p.pathname = alertsList))}
+              href={createHref({ ...location, pathname: alertsList })}
               icon="lib_events_critical"
               label={t('in-applications:labelSmartAlerts')}
               isActive={isSmartAlertsViewActive && !isServiceViewActive}
