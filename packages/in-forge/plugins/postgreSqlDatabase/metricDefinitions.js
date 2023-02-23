@@ -65,14 +65,14 @@ export default [
   },
   {
     metric: getDynamicMetricMatch('databases', 'idx_tup_read', t('in-forge:plugins.postgreSqlDatabase.database')),
-    label: t('in-forge:plugins.postgreSqlDatabase.tupleRead'),
+    label: t('in-forge:plugins.postgreSqlDatabase.tupleReturned'),
     category: [t('in-forge:plugins.postgreSqlDatabase.databases')],
     min: 0,
     formatter: activity
   },
   {
     metric: getDynamicMetricMatch('databases', 'idx_tup_fetch', t('in-forge:plugins.postgreSqlDatabase.database')),
-    label: t('in-forge:plugins.postgreSqlDatabase.tupleFetch'),
+    label: t('in-forge:plugins.postgreSqlDatabase.tupleFetched'),
     category: [t('in-forge:plugins.postgreSqlDatabase.databases')],
     min: 0,
     formatter: activity
