@@ -79,7 +79,9 @@ export default connectTo(
 
     if (timeConfig.focusedMoment != null) {
       content = (
-        <DashboardNotification type="info">Running queries list is only available in live mode.</DashboardNotification>
+        <DashboardNotification type="info">
+          Running queries is not available if the selected time range ends in the past.
+        </DashboardNotification>
       );
     } else if (response == null) {
       content = <LoadingIndicator />;
