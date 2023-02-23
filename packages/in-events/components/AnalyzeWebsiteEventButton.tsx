@@ -3,28 +3,41 @@
  * (c) Copyright Instana Inc.
  */
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
+import { AggregationType, BeaconType, WebsiteAlertConfig } from '@instana/types';
 import { Button } from '@instana/components';
 
+import { BluePrint, getBlueprintConfig, MetricName } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { fromBackendModel, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { websitesAlertingEventDetailsGoToAnalyze } from 'in-alerting/smart-alerts/websites/tracker';
-import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
+// @ts-expect-error Missing exact typings
+import { defaultGroupings } from 'in-websites/tags';
 import { urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getLinkToAnalyze } from 'in-websites/navigation/paths';
-import { propTypeTimeConfig } from 'in-stores/time/config';
-import { defaultGroupings } from 'in-websites/tags';
+import { FixedTimeConfig } from 'in-stores/time/config';
 import { t } from 'in-i18n';
 
-export default function AnalyzeWebsiteEventButton({ alertConfig, websiteName, timeConfig, adaptiveBaselineInfo }) {
+interface AnalyzeWebsiteEventButtonProps {
+  alertConfig: WebsiteAlertConfig;
+  websiteName: string;
+  timeConfig: FixedTimeConfig;
+  adaptiveBaselineInfo?: Record<string, number>;
+}
+
+export default function AnalyzeWebsiteEventButton({
+  alertConfig,
+  websiteName,
+  timeConfig,
+  adaptiveBaselineInfo
+}: AnalyzeWebsiteEventButtonProps) {
   const { rule } = alertConfig;
   const { alertType, metricName } = rule;
 
   const blueprintConfig = getBlueprintConfig(alertType);
-  const beaconType = blueprintConfig.getBeaconType(metricName);
+  const beaconType = blueprintConfig.getBeaconType(metricName as MetricName);
 
   const linkToUA = getLinkToUnboundAnalytics(
     beaconType,
@@ -47,20 +60,13 @@ export default function AnalyzeWebsiteEventButton({ alertConfig, websiteName, ti
   );
 }
 
-AnalyzeWebsiteEventButton.propTypes = {
-  alertConfig: PropTypes.object.isRequired,
-  timeConfig: propTypeTimeConfig.isRequired,
-  adaptiveBaselineInfo: PropTypes.object,
-  websiteName: PropTypes.string.isRequired
-};
-
 function getLinkToUnboundAnalytics(
-  beaconType,
-  websiteName,
-  blueprintConfig,
-  alertConfig,
-  timeConfig,
-  adaptiveBaselineInfo
+  beaconType: BeaconType,
+  websiteName: string,
+  blueprintConfig: BluePrint,
+  alertConfig: WebsiteAlertConfig,
+  timeConfig: FixedTimeConfig,
+  adaptiveBaselineInfo?: Record<string, number>
 ) {
   const { rule, tagFilterExpression } = alertConfig;
   const { alertType, metricName, aggregation } = rule;
@@ -83,7 +89,7 @@ function getLinkToUnboundAnalytics(
   }).map(urlWithoutQueryParameter);
 }
 
-function getGrouping(alertType, metricName) {
+function getGrouping(alertType: string, metricName: string) {
   switch (alertType) {
     case 'specificJsError':
       return defaultGroupings.error;
@@ -100,7 +106,7 @@ function getGrouping(alertType, metricName) {
   }
 }
 
-function getChartedMetrics(alertType, aggregation) {
+function getChartedMetrics(alertType: string, aggregation: AggregationType | undefined) {
   switch (alertType) {
     case 'specificJsError':
     case 'statusCode':
@@ -124,7 +130,7 @@ function getChartedMetrics(alertType, aggregation) {
   }
 }
 
-function getIcon(alertType) {
+function getIcon(alertType: string) {
   switch (alertType) {
     case 'specificJsError':
       return 'lib_website_error';
@@ -141,7 +147,7 @@ function getIcon(alertType) {
   }
 }
 
-function getLinkTitle(alertType, metricName) {
+function getLinkTitle(alertType: string, metricName: string) {
   switch (alertType) {
     case 'specificJsError':
       return t('in-events:titleAnalyzeJsErrors');

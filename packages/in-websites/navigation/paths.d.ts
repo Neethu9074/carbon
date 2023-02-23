@@ -34,7 +34,7 @@ export function getLinkToWebsite(
     tabPath?: string | Nullish;
     tabParameters?: string | Nullish;
     pageId?: string | Nullish;
-    timeConfig?: string | Nullish;
+    timeConfig?: TimeConfig | Nullish;
   }
 ): Observable<string>;
 
