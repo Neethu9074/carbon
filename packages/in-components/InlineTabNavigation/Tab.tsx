@@ -1,5 +1,5 @@
 /*
- * (c) Copyright IBM Corp. 2023
+ * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
 
@@ -17,16 +17,16 @@ import { t } from 'in-i18n';
 
 import locals from './Tab.mless';
 
-interface TabProps {
-  disabledReason: ReactNode;
+export interface TabProps {
+  disabledReason?: ReactNode;
   healthSeverity?: number;
-  icon: string;
-  index: number;
-  isActive: boolean;
-  isDisabled: boolean;
-  onTabSelect: (...args: any[]) => any;
-  text: string;
-  withoutBottomBorder: boolean;
+  icon?: string;
+  index?: number;
+  isActive?: boolean;
+  isDisabled?: boolean;
+  onTabSelect?: (...args: any[]) => any;
+  text?: string;
+  withoutBottomBorder?: boolean;
 }
 
 export default function Tab({
@@ -70,7 +70,7 @@ export default function Tab({
         [locals.tab]: true,
         [locals.active]: isActive,
         [locals.disabled]: isDisabled,
-        [locals.interactive]: onTabSelect() && !isDisabled,
+        [locals.interactive]: onTabSelect && !isDisabled,
         [locals.withoutBottomBorder]: withoutBottomBorder
       })}
       {...interactivityProps}

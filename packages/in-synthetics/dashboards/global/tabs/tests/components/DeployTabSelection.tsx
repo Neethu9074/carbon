@@ -11,8 +11,8 @@ import { Trans, t } from '@instana/i18n-react';
 
 import RedisTLSDeployContent from 'in-synthetics/dashboards/global/tabs/tests/components/RedisTLSDeployContent';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
+import InlineTabNavigation from 'in-components/InlineTabNavigation/InlineTabNavigation';
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
-import InlineTabNavigation from 'in-components/InlineTabNavigation';
 import { PoPProperties } from 'in-synthetics/utils/constants';
 import CodeComponent from 'in-components/Code';
 
@@ -71,12 +71,7 @@ export default function DeployTabSelection({ downloadKey, agentKey, syntheticAcc
         />
       </HorizontalFlexWrapper>
       <section>
-        <InlineTabNavigation
-          tabList={tabList}
-          activeTabIndex={activeTabIndex}
-          onTabSelect={setActiveTabIndex}
-          isDisabled={false}
-        />
+        <InlineTabNavigation tabList={tabList} activeTabIndex={activeTabIndex} onTabSelect={setActiveTabIndex} />
       </section>
       <div className={locals.content}>
         {activeTabIndex == 0 ? (

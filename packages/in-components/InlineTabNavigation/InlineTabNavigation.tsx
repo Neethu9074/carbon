@@ -5,15 +5,15 @@
 
 import React from 'react';
 
-import Tab from 'in-components/InlineTabNavigation/Tab';
+import Tab, { TabProps } from 'in-components/InlineTabNavigation/Tab';
 
 import locals from './InlineTabNavigation.mless';
 
 interface InlineTabNavigationProps {
-  activeTabIndex: number;
-  isDisabled: boolean;
-  onTabSelect: (...args: any[]) => any;
-  tabList: any[];
+  activeTabIndex?: number;
+  isDisabled?: boolean;
+  onTabSelect?: (...args: any[]) => any;
+  tabList?: TabProps[];
 }
 
 export default function InlineTabNavigation({
@@ -24,12 +24,12 @@ export default function InlineTabNavigation({
 }: InlineTabNavigationProps) {
   return (
     <ul className={locals.wrapper}>
-      {tabList.map((tab, i) => (
+      {tabList?.map((tab, i) => (
         <Tab
           key={i}
           index={i}
           isActive={activeTabIndex === i}
-          isDisabled={isDisabled || tab.disabled}
+          isDisabled={isDisabled || tab.isDisabled}
           onTabSelect={onTabSelect}
           withoutBottomBorder={tabList.length === 1 && activeTabIndex !== 0}
           {...tab}

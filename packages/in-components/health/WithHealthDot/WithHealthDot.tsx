@@ -1,5 +1,5 @@
 /*
- * (c) Copyright IBM Corp. 2023
+ * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
 
@@ -11,11 +11,11 @@ import locals from './WithHealthDot.mless';
 
 interface WithHealthDootProps {
   severity?: number;
-  iconSize: number;
-  children: ReactNode;
+  iconSize?: number;
+  children?: ReactNode;
 }
 
-export default function WithHealthDot({ severity = 0, iconSize, children }: WithHealthDootProps) {
+export default function WithHealthDot({ severity = 0, iconSize = 0, children }: WithHealthDootProps) {
   return (
     <div className={locals.wrapper}>
       {children}
