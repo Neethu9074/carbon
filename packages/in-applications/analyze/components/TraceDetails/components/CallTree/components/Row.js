@@ -95,7 +95,8 @@ function Row({
   scale,
   intermediateRow,
   selectedCall$,
-  openedCallId
+  openedCallId,
+  openedCall$
 }) {
   const hasChildren = call.children && call.children.filter(child => !isLog(child)).length > 0;
   const marginLeft = Math.max(0, depth - 1) * marginPerDepth;
@@ -159,6 +160,10 @@ function Row({
               getColor={getColor}
               selectedCall$={selectedCall$}
               openedCallId={openedCallId}
+              onCallClicked={onCallClicked}
+              onSubCallClicked={onSubCallClicked}
+              openedCall$={openedCall$}
+              isLargeTrace={isLargeTrace}
             />
           ))}
     </div>
