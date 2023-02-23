@@ -5167,7 +5167,13 @@
         "titleNumberOfParts":  "Num Parts",
         "titleRowsRead":  "Rows Read",
         "titleRowsWritten":  "Rows Written",
-        "titleMemoryUsage":  "Memory Usage"
+        "titleMemoryUsage":  "Memory Usage",
+        "explanationRunningQueriesNotAvailable": "Running queries is not available if the selected time range ends in the past.",
+        "explanationRunningMergesNotAvailable": "Running merges is not available if the selected time range ends in the past.",
+        "errorRetrieveRunningMerges": "Failed to retrieve running merges",
+        "errorRetrieveRunningQueries": "Failed to retrieve running queries",
+        "infoNoRunningQueries": "Failed to retrieve running queries",
+        "infoNoRunningMerges": "Failed to retrieve running merges"
       }
     },
     "cloudFoundry": {

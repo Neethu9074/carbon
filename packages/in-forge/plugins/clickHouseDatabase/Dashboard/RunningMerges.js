@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import React from 'react';
@@ -120,14 +121,16 @@ export default function RunningMerges({ timeConfig, snapshot }) {
   if (timeConfig.focusedMoment != null) {
     content = (
       <DashboardNotification type="info">
-        Running merges list is not available if the selected time range ends in the past.
+        {t('in-forge:plugins.clickhouseDatabase.dashboard.explanationRunningMergesNotAvailable')}
       </DashboardNotification>
     );
   } else if (isLoading(response)) {
     content = <LoadingIndicator />;
   } else if (response.error) {
     content = (
-      <DashboardNotification type="danger">Failed to retrieve running merges: {response.error}</DashboardNotification>
+      <DashboardNotification type="danger">
+        {t('in-forge:plugins.clickhouseDatabase.dashboard.errorRetrieveRunningMerges')}: {response.error}
+      </DashboardNotification>
     );
   } else {
     const data = JSON.parse(response.data);
@@ -136,7 +139,11 @@ export default function RunningMerges({ timeConfig, snapshot }) {
       ...r
     }));
     if (rows.length === 0) {
-      content = <DashboardNotification type="info">No running merges</DashboardNotification>;
+      content = (
+        <DashboardNotification type="info">
+          {t('in-forge:plugins.clickhouseDatabase.dashboard.infoNoRunningMerges')}
+        </DashboardNotification>
+      );
     } else {
       content = (
         <Table

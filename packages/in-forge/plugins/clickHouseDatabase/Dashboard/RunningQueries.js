@@ -80,7 +80,7 @@ export default connectTo(
     if (timeConfig.focusedMoment != null) {
       content = (
         <DashboardNotification type="info">
-          Running queries is not available if the selected time range ends in the past.
+          {t('in-forge:plugins.clickhouseDatabase.dashboard.explanationRunningQueriesNotAvailable')}
         </DashboardNotification>
       );
     } else if (response == null) {
@@ -88,7 +88,7 @@ export default connectTo(
     } else if (response.error) {
       content = (
         <DashboardNotification type="danger">
-          Failed to retrieve running queries: {response.error}
+          {t('in-forge:plugins.clickhouseDatabase.dashboard.errorRetrieveRunningQueries')}: {response.error}
         </DashboardNotification>
       );
     } else {
@@ -97,19 +97,26 @@ export default connectTo(
         key: String(i),
         ...r
       }));
-      content = (
-        <Table
-          withoutPadding
-          cardTitle={t('in-forge:plugins.clickhouseDatabase.dashboard.titleRunningQueries')}
-          cols={cols}
-          rows={rows}
-          maxItemsPerPage={25}
-          initialSortColumn={2}
-          initialSortDirection="desc"
-        />
-      );
+      if (rows.length === 0) {
+        content = (
+          <DashboardNotification type="info">
+            {t('in-forge:plugins.clickhouseDatabase.dashboard.infoNoRunningQueries')}
+          </DashboardNotification>
+        );
+      } else {
+        content = (
+          <Table
+            withoutPadding
+            cardTitle={t('in-forge:plugins.clickhouseDatabase.dashboard.titleRunningQueries')}
+            cols={cols}
+            rows={rows}
+            maxItemsPerPage={25}
+            initialSortColumn={2}
+            initialSortDirection="desc"
+          />
+        );
+      }
     }
-
     return content;
   }
 );
