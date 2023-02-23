@@ -6,7 +6,14 @@
 
 import React from 'react';
 
-import { OrderDirection, Progress, SyntheticMetricConfiguration, TagFilter, TimeConfig } from '@instana/types';
+import {
+  OrderDirection,
+  Progress,
+  SyntheticMetricConfiguration,
+  TagFilterExpression,
+  TagFilterOperator,
+  TimeConfig
+} from '@instana/types';
 
 import {
   CurrentState,
@@ -64,6 +71,25 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   pathSegment,
   matrixPrefix
 });
+
+const addFilter = (
+  array: string[],
+  name: string,
+  operator: TagFilterOperator,
+  tagFilterExpression: TagFilterExpression
+) => {
+  if (array.length !== 0 && Array.isArray(array)) {
+    array.forEach(value => {
+      tagFilterExpression.elements.push({
+        value,
+        name,
+        operator,
+        entity: NOT_APPLICABLE,
+        type: 'TAG_FILTER'
+      });
+    });
+  }
+};
 
 export default function TestSummaryList() {
   const timeConfig = useTimeConfig();
@@ -160,84 +186,54 @@ export function getTestSummaryListData({
   locationIds = [],
   applicationIds = []
 }: GetTestSummaryList) {
-  let baseTagFilters: TagFilter[] = [];
-  let byAppTagFilters: TagFilter[] = [];
+  const baseTagFilterExpression: TagFilterExpression = {
+    elements: [],
+    logicalOperator: 'AND',
+    type: 'EXPRESSION'
+  };
+  /** Each test is at most associated with one application */
+  const appTagFilterExpression: TagFilterExpression = {
+    elements: [],
+    logicalOperator: 'AND',
+    type: 'EXPRESSION'
+  };
+  /** Each test is associated with one type */
+  const typeTagFilterExpression: TagFilterExpression = {
+    elements: [],
+    logicalOperator: 'OR',
+    type: 'EXPRESSION'
+  };
+  /** Each test is at most associated with one location */
+  const locationTagFilterExpression: TagFilterExpression = {
+    elements: [],
+    logicalOperator: 'AND',
+    type: 'EXPRESSION'
+  };
+
   if (query && query.length > 0) {
-    baseTagFilters = [
-      {
-        stringValue: query,
-        name: testNameTagName,
-        operator: CONTAINS,
-        entity: NOT_APPLICABLE,
-        type: 'TAG_FILTER'
-      }
-    ];
-  }
-
-  if (syntheticTypes.length !== 0 && Array.isArray(syntheticTypes)) {
-    syntheticTypes.forEach(syntheticType => {
-      baseTagFilters.push({
-        value: syntheticType,
-        name: typeTagName,
-        operator: EQUALS,
-        entity: NOT_APPLICABLE,
-        type: 'TAG_FILTER'
-      });
-    });
-  }
-
-  if (locationIds.length !== 0 && Array.isArray(locationIds)) {
-    locationIds.forEach(locationId => {
-      baseTagFilters.push({
-        value: locationId,
-        name: locationIdTagName,
-        operator: EQUALS,
-        entity: NOT_APPLICABLE,
-        type: 'TAG_FILTER'
-      });
-    });
-  }
-
-  if (applicationIds.length !== 0 && Array.isArray(applicationIds)) {
-    applicationIds.forEach(applicationId => {
-      baseTagFilters.push({
-        value: applicationId,
-        name: applicationIdTagName,
-        operator: CONTAINS,
-        entity: NOT_APPLICABLE,
-        type: 'TAG_FILTER'
-      });
+    baseTagFilterExpression.elements.push({
+      value: query,
+      name: testNameTagName,
+      operator: CONTAINS,
+      entity: NOT_APPLICABLE,
+      type: 'TAG_FILTER'
     });
   }
 
   if (context == 'application') {
-    byAppTagFilters = [
-      {
-        stringValue: appId,
-        name: applicationIdTagName,
-        operator: EQUALS,
-        entity: NOT_APPLICABLE,
-        type: 'TAG_FILTER'
-      }
-    ];
-
-    if (syntheticTypes.length !== 0 && Array.isArray(syntheticTypes)) {
-      syntheticTypes.forEach(syntheticType => {
-        byAppTagFilters.push({
-          value: syntheticType,
-          name: typeTagName,
-          operator: EQUALS,
-          entity: NOT_APPLICABLE,
-          type: 'TAG_FILTER'
-        });
-      });
-    }
-
-    if (locationIds.length !== 0 && Array.isArray(locationIds)) {
-      locationIds.forEach(locationId => {
-        byAppTagFilters.push({
-          value: locationId,
-          name: locationIdTagName,
+    appTagFilterExpression.elements.push({
+      value: appId,
+      name: applicationIdTagName,
+      operator: EQUALS,
+      entity: NOT_APPLICABLE,
+      type: 'TAG_FILTER'
+    });
+  } else {
+    if (applicationIds.length !== 0 && Array.isArray(applicationIds)) {
+      applicationIds.forEach(applicationId => {
+        baseTagFilterExpression.elements.push({
+          value: applicationId,
+          name: applicationIdTagName,
           operator: EQUALS,
           entity: NOT_APPLICABLE,
           type: 'TAG_FILTER'
@@ -245,6 +241,12 @@ export function getTestSummaryListData({
       });
     }
   }
+
+  addFilter(syntheticTypes, typeTagName, EQUALS, typeTagFilterExpression);
+  addFilter(locationIds, locationIdTagName, EQUALS, locationTagFilterExpression);
+
+  appTagFilterExpression.elements.push(typeTagFilterExpression, locationTagFilterExpression);
+  baseTagFilterExpression.elements.push(typeTagFilterExpression, locationTagFilterExpression);
 
   const sparkChartGranularity = getChartGranularity(timeConfig);
 
@@ -268,6 +270,6 @@ export function getTestSummaryListData({
       includeSyntheticCalls: false,
       useLongTermDataOnly: false
     },
-    tagFilters: context == 'application' ? byAppTagFilters : baseTagFilters
+    tagFilterExpression: context == 'application' ? appTagFilterExpression : baseTagFilterExpression
   });
 }
