@@ -1,5 +1,5 @@
 /*
- * (c) Copyright IBM Corp. 2023
+ * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
 
@@ -11,16 +11,16 @@ import { isBlank } from 'in-services/util/string';
 import locals from './HorizontalDescriptionList.mless';
 
 interface DlProps {
-  children?: ReactNode;
+  children: ReactNode;
 }
 
 interface DiProps {
-  title?: string;
+  title: string;
   children?: ReactNode;
   ddClassName?: string;
   rowClassName?: string;
   dtClassName?: string;
-  verticalDisplay?: string;
+  verticalDisplay?: boolean;
 }
 
 export function Dl({ children }: DlProps) {
