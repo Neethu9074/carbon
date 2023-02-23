@@ -10,7 +10,7 @@ import { Card } from '@instana/components';
 
 import GlobalInventorySmartAlertsList from 'in-alerting/smart-alerts/applications/inventory/GlobalInventorySmartAlertsList';
 import SmartAlertsNoDataNotification from 'in-alerting/smart-alerts/applications/inventory/SmartAlertsNoDataNotification';
-import CreateGlobalSmartAlertButton from 'in-alerting/smart-alerts/applications/components/CreateGlobalSmartAlertButton';
+import CreateGlobalSmartAlertButton from 'in-alerting/smart-alerts/applications/CreateGlobalSmartAlertButton';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import AlertDetails from 'in-alerting/smart-alerts/applications/details/AlertDetails';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
@@ -24,7 +24,7 @@ import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
 import { role } from 'in-stores/user';
 
-export default function GlobalSmartAlertsTab({ location }) {
+export default function GlobalSmartAlerts({ location }) {
   const [hasDataToRender, setHasDataToRender] = useState(true);
   const timeConfig = useTimeConfig();
 

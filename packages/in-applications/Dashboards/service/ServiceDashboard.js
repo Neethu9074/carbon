@@ -17,12 +17,12 @@ import InboundAllCallsDropdown from 'in-applications/Dashboards/commonComponents
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import { isSyntheticOption } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
-import CreateSmartAlert from 'in-alerting/smart-alerts/applications/components/CreateSmartAlert';
 import { applicationSmartAlertsEnabled, syntheticCallsEnabled } from 'in-services/featureFlags';
 import ApplicationSwitcherContext from 'in-applications/components/ApplicationSwitcherContext';
 import IncludeSyntheticCallsDropdown from '../commonComponents/IncludeSyntheticCallsDropdown';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import { serviceDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
+import CreateSmartAlert from 'in-alerting/smart-alerts/applications/CreateSmartAlert';
 import { boundaryScopes, syntheticCallsOptions } from 'in-applications/constants';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';

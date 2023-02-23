@@ -16,13 +16,13 @@ import InboundAllCallsDropdown from 'in-applications/Dashboards/commonComponents
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import { isSyntheticOption } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
-import CreateSmartAlert from 'in-alerting/smart-alerts/applications/components/CreateSmartAlert';
 import { applicationSmartAlertsEnabled, syntheticCallsEnabled } from 'in-services/featureFlags';
 import ApplicationSwitcherContext from 'in-applications/components/ApplicationSwitcherContext';
 import ServiceContextIcon from 'in-applications/components/ServiceContext/ServiceContextIcon';
 import IncludeSyntheticCallsDropdown from '../commonComponents/IncludeSyntheticCallsDropdown';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import { endpointDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
+import CreateSmartAlert from 'in-alerting/smart-alerts/applications/CreateSmartAlert';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import { applicationTimeShiftSelectTracker } from 'in-applications/tracker';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
