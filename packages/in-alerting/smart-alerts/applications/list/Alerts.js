@@ -15,22 +15,30 @@ import {
   linkedListNameColumnDefinition
 } from 'in-alerting/smart-alerts/applications/list/columns/columnDefinitions';
 import { getAllGlobalAlertConfigsRelatedToApplicationId } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
-import SmartAlertsBaseListWithUrlState from 'in-alerting/smart-alerts/applications/list/SmartAlertsBaseListWithUrlState';
+import { categoryLocal, isCategoryGlobal, sortOptions } from 'in-alerting/smart-alerts/applications/list/constants';
 import { getAllAlertConfigs } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
-import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import { useUrlBasedCategory } from 'in-alerting/smart-alerts/applications/hooks/useUrlBasedCategory';
+import SmartAlertsBaseList from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
+import { actionHandlers } from 'in-alerting/smart-alerts/applications/list/ListActionHandlers';
+import { createRowLinkLocation } from 'in-alerting/smart-alerts/applications/list/rowLinking';
 import Footer from 'in-components/Footer/Footer';
 
 export default function Alerts({ applicationId }) {
-  const location = useLocation();
+  const [configsCategory, setConfigsCategory] = useUrlBasedCategory(categoryLocal);
+
   return (
     <>
       <Card>
-        <SmartAlertsBaseListWithUrlState
+        <SmartAlertsBaseList
+          configsCategory={configsCategory}
+          setConfigsCategory={setConfigsCategory}
           getLocalAlertConfigsFetchFunction={() => getAllAlertConfigs(applicationId, { asObservable: true })}
           getGlobalAlertConfigFetchFunction={() =>
             getAllGlobalAlertConfigsRelatedToApplicationId(applicationId, { asObservable: true })
           }
-          columnDefinitions={getColumnDefinitions(location)}
+          columnDefinitions={getColumnDefinitions(isCategoryGlobal(configsCategory))}
+          sortOptions={sortOptions}
+          createRowLinkLocation={createRowLinkLocation(configsCategory)}
         />
       </Card>
       <Footer />
@@ -38,12 +46,12 @@ export default function Alerts({ applicationId }) {
   );
 }
 
-function getColumnDefinitions(location) {
+function getColumnDefinitions(isGlobalSmartAlertConfig) {
   return [
-    linkedListNameColumnDefinition(location),
-    evaluationInfoColumnDefinition(),
-    entityNameColumnDefinition(),
-    editActionsColumnDefinition()
+    linkedListNameColumnDefinition(),
+    evaluationInfoColumnDefinition({ isGlobalSmartAlertConfig }),
+    entityNameColumnDefinition({ isGlobalSmartAlertConfig }),
+    editActionsColumnDefinition({ actionHandlers: actionHandlers(isGlobalSmartAlertConfig) })
   ];
 }
 

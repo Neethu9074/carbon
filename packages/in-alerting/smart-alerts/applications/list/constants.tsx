@@ -16,3 +16,10 @@ export const sortOptions = deepFreeze([
   { label: t('in-alerting:smartAlerts.sortOptions.severity'), value: 'severity' },
   { label: t('in-alerting:smartAlerts.sortOptions.created'), value: 'created' }
 ]);
+
+export function isCategoryGlobal(categorySelected: string | undefined) {
+  return categorySelected === categoryGlobal;
+}
+export function isCategoryLocal(categorySelected: string | undefined) {
+  return categorySelected === categoryLocal;
+}

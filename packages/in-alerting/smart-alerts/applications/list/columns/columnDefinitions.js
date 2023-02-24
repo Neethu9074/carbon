@@ -12,34 +12,26 @@ import EvaluationTypeColumn from 'in-alerting/smart-alerts/applications/list/col
 import ListEntityNameColumn from 'in-alerting/smart-alerts/applications/list/columns/ListEntityNameColumn';
 import ListSelectionColumn from 'in-alerting/smart-alerts/applications/list/columns/ListSelectionColumn';
 import { ListActionsColumn } from 'in-alerting/smart-alerts/applications/list/columns/ListActionsColumn';
-import { actionHandlers } from 'in-alerting/smart-alerts/applications/list/columns/ListActionHandlers';
 import ListFilterColumn from 'in-alerting/smart-alerts/applications/list/columns/ListFiltersColumn';
 import { ListNameColumn } from 'in-alerting/smart-alerts/applications/list/columns/ListNameColumn';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
-import locals from 'in-alerting/smart-alerts/applications/list/SmartAlertsBaseList.mless';
+import locals from 'in-alerting/smart-alerts/applications/list/columns/ListColumns.mless';
 
 /**
  * Primary Columns
  * Only one primary column per list should be used
  */
 /* Primary column with icon, blueprint and name linking to details */
-export function linkedListNameColumnDefinition(location, additionalMatrixKeysProvider, width = '35%') {
+export function linkedListNameColumnDefinition(width = '35%') {
   return {
     id: 'name',
     label: t('in-alerting:smartAlerts.sortOptions.name'),
     width,
     sortable: false,
-    getContent({ config, configsCategory }) {
-      return (
-        <ListNameColumn
-          config={config}
-          configsCategory={configsCategory}
-          additionalMatrixKeys={additionalMatrixKeysProvider}
-          goToGlobalAlertDetails={location?.pathname === '/alerts'}
-        />
-      );
+    getContent({ config }) {
+      return <ListNameColumn config={config} />;
     }
   };
 }
@@ -64,25 +56,28 @@ export function simpleListNameColumnDefinition(width = '35%') {
  * Details Columns
  */
 /* Details column informing about evaluation type and global/local alert type */
-export function evaluationInfoColumnDefinition(width = '20%') {
+export function evaluationInfoColumnDefinition(params = {}) {
+  const { width = '20%', isGlobalSmartAlertConfig = false } = params;
+
   return {
     id: 'evaluationInfo',
     label: t('in-alerting:smartAlerts.sortOptions.type'),
     sortable: false,
     width,
-    getContent({ config, isGlobalSmartAlertConfig }) {
+    getContent({ config }) {
       return <EvaluationTypeColumn config={config} isGlobalSmartAlertConfig={isGlobalSmartAlertConfig} />;
     }
   };
 }
 
 /* Details column informing about the entities this alert is scoped on */
-export function entityNameColumnDefinition(width = '30%') {
+export function entityNameColumnDefinition(params = {}) {
+  const { width = '30%', isGlobalSmartAlertConfig = false } = params;
   return {
     id: 'entityName',
     width,
     sortable: false,
-    getContent({ config, isGlobalSmartAlertConfig }) {
+    getContent({ config }) {
       return (
         <div className={locals.filters}>
           <span className={classNames(locals.centered, locals.space)}>
@@ -102,20 +97,16 @@ export function entityNameColumnDefinition(width = '30%') {
  * Only one actions column per list should be used
  */
 /* Actions column allowing to edit the alert configuration */
-export function editActionsColumnDefinition(width) {
+export function editActionsColumnDefinition(params = {}) {
+  const { width, actionHandlers } = params;
   return {
     id: 'actions',
     sortable: false,
     width,
-    getContent({ config, loading, isGlobalSmartAlertConfig }) {
+    getContent({ config, loading }) {
       return (
         role.canConfigureCustomAlerts && (
-          <ListActionsColumn
-            config={config}
-            isLoading={loading}
-            isGlobalSmartAlertConfig={isGlobalSmartAlertConfig}
-            actionHandlers={actionHandlers(isGlobalSmartAlertConfig)}
-          />
+          <ListActionsColumn config={config} isLoading={loading} actionHandlers={actionHandlers} />
         )
       );
     }
@@ -128,15 +119,8 @@ export function selectActionColumnDefinition(selection, onSelect, width) {
     id: 'actions',
     sortable: false,
     width,
-    getContent({ config, isGlobalSmartAlertConfig }) {
-      return (
-        <ListSelectionColumn
-          selection={selection}
-          onSelect={onSelect}
-          config={config}
-          isGlobalSmartAlertConfig={isGlobalSmartAlertConfig}
-        />
-      );
+    getContent({ config }) {
+      return <ListSelectionColumn selection={selection} onSelect={onSelect} config={config} />;
     }
   };
 }

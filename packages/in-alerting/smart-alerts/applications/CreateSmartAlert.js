@@ -11,6 +11,7 @@ import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/applicati
 import { getEntitySelection } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { applicationsAlertingAddAlert } from 'in-alerting/smart-alerts/applications/tracker';
 import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { alertsTabListFullyQualified } from 'in-applications/navigation/paths';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import FloatingActionButton from 'in-components/FloatingActionButton';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
@@ -47,7 +48,7 @@ export default function CreateSmartAlert({
             })}
             onClose={() => {
               close();
-              if (location.pathname.includes('/application/alerts')) {
+              if (location.pathname.includes(alertsTabListFullyQualified)) {
                 reload();
                 refreshSmartAlertConfigsList();
               }

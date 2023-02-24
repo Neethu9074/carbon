@@ -22,13 +22,8 @@ describe('in-alerting/smart-alerts/applications/inventory/SmartAlertsBaseList', 
   const getGlobalAlertConfigFetchFunction = jest.fn();
   const getLocalAlertConfigsFetchFunction = jest.fn();
 
-  const location = {
-    pathname: '/',
-    query: {},
-    matrix: {}
-  };
   const columnDefinitions = [
-    linkedListNameColumnDefinition(location),
+    linkedListNameColumnDefinition(),
     evaluationInfoColumnDefinition(),
     entityNameColumnDefinition(),
     editActionsColumnDefinition()
@@ -47,6 +42,7 @@ describe('in-alerting/smart-alerts/applications/inventory/SmartAlertsBaseList', 
         getGlobalAlertConfigFetchFunction={getGlobalAlertConfigFetchFunction}
         getLocalAlertConfigsFetchFunction={getLocalAlertConfigsFetchFunction}
         columnDefinitions={columnDefinitions}
+        sortOptions={[]}
       />
     );
     expect(getGlobalAlertConfigFetchFunction).toHaveBeenCalledTimes(1);
@@ -63,6 +59,7 @@ describe('in-alerting/smart-alerts/applications/inventory/SmartAlertsBaseList', 
         getGlobalAlertConfigFetchFunction={getGlobalAlertConfigFetchFunction}
         getLocalAlertConfigsFetchFunction={getLocalAlertConfigsFetchFunction}
         columnDefinitions={columnDefinitions}
+        sortOptions={[]}
       />
     );
 
@@ -78,6 +75,7 @@ describe('in-alerting/smart-alerts/applications/inventory/SmartAlertsBaseList', 
         getGlobalAlertConfigFetchFunction={getGlobalAlertConfigFetchFunction}
         getLocalAlertConfigsFetchFunction={getLocalAlertConfigsFetchFunction}
         columnDefinitions={columnDefinitions}
+        sortOptions={[]}
       />
     );
 

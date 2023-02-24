@@ -3,16 +3,18 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import React from 'react';
 
 import {
   evaluationInfoColumnDefinition,
   simpleListNameColumnDefinition,
   selectActionColumnDefinition
 } from 'in-alerting/smart-alerts/applications/list/columns/columnDefinitions';
+import { categoryLocal, isCategoryGlobal, sortOptions } from 'in-alerting/smart-alerts/applications/list/constants';
 import SmartAlertsBaseList from 'in-alerting/smart-alerts/applications/list/SmartAlertsBaseList';
 
+/* Application specific selection list */
 export default function SmartAlertSelectionList({
   onNoData,
   selection = [],
@@ -21,18 +23,23 @@ export default function SmartAlertSelectionList({
   getLocalAlertConfigsFetchFunction,
   pageSize
 }) {
+  const [configsCategory, setConfigsCategory] = useState(categoryLocal);
+
   return (
     <SmartAlertsBaseList
       onNoData={onNoData}
+      configsCategory={configsCategory}
+      setConfigsCategory={setConfigsCategory}
       getLocalAlertConfigsFetchFunction={getLocalAlertConfigsFetchFunction}
       getGlobalAlertConfigFetchFunction={getGlobalAlertConfigFetchFunction}
-      columnDefinitions={getColumnDefinitions(selection, onChange)}
+      columnDefinitions={getColumnDefinitions(selection, onChange, isCategoryGlobal(configsCategory))}
+      sortOptions={sortOptions}
       pageSize={pageSize}
     />
   );
 }
 
-function getColumnDefinitions(selection, onChange) {
+function getColumnDefinitions(selection, onChange, isGlobalSmartAlertConfig) {
   return [
     selectActionColumnDefinition(selection, (id, state) => {
       if (state) {
@@ -42,7 +49,7 @@ function getColumnDefinitions(selection, onChange) {
       }
     }),
     simpleListNameColumnDefinition('70%'),
-    evaluationInfoColumnDefinition('25%')
+    evaluationInfoColumnDefinition({ width: '25%', isGlobalSmartAlertConfig })
   ];
 }
 

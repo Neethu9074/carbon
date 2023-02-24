@@ -5,9 +5,7 @@
 
 import React from 'react';
 
-import SmartAlertsBaseList from 'in-alerting/smart-alerts/applications/list/SmartAlertsBaseList';
-import { categoryLocal } from 'in-alerting/smart-alerts/applications/list/constants';
-import { alertsCategory } from 'in-applications/navigation/matrix';
+import MultiCategoryAlertsList from 'in-alerting/smart-alerts/applications/list/SmartAlertsBaseList';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import { alertsTab } from 'in-applications/navigation/paths';
 import useUrlState from 'in-hooks/useUrlState';
@@ -28,12 +26,6 @@ const urlStateDefinition = {
     },
     {
       path: alertsTab,
-      name: alertsCategory,
-      as: 'configsCategory',
-      initialState: categoryLocal // "local" or "global"
-    },
-    {
-      path: alertsTab,
       name: 'page',
       as: 'page',
       initialState: 1,
@@ -51,10 +43,6 @@ const urlStateDefinition = {
       bind: [
         {
           path: alertsTab,
-          name: 'configsCategory'
-        },
-        {
-          path: alertsTab,
           name: 'orderBy'
         },
         {
@@ -67,7 +55,8 @@ const urlStateDefinition = {
   ]
 };
 
-export default function SmartAlertsBaseListWithUrlState(props) {
+export default function SmartAlertsBaseList(props) {
   const [state, setState] = useUrlState(urlStateDefinition);
-  return <SmartAlertsBaseList {...props} externalState={state} setExternalState={setState} />;
+
+  return <MultiCategoryAlertsList {...props} externalState={state} setExternalState={setState} />;
 }

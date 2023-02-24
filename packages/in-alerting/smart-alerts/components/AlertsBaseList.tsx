@@ -48,7 +48,7 @@ export interface AlertConfigType {
 }
 
 export interface ColumnDefinition<AlertConfig extends AlertConfigType> {
-  id: number | string;
+  id: string;
   label: string;
   getContent: (entity: AlertConfig) => ReactNode;
 }

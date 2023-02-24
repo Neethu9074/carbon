@@ -11,6 +11,7 @@ import { Button } from '@instana/components';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/dialog/SmartAlertConfigDialogWrapper';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/applications/list/SmartAlertsBaseList';
 import { applicationsAlertingAddAlert } from 'in-alerting/smart-alerts/applications/tracker';
+import { alertsList, alertsTabListFullyQualified } from 'in-applications/navigation/paths';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import FloatingActionButton from 'in-components/FloatingActionButton';
@@ -29,7 +30,7 @@ export default function CreateGlobalSmartAlertButton({ renderAsSimpleButton, loc
           alertConfig={generateAlertConfig()}
           onClose={() => {
             close();
-            if (location?.pathname === '/application/alerts' || location?.pathname === '/alerts') {
+            if (location?.pathname === alertsTabListFullyQualified || location?.pathname === alertsList) {
               refreshSmartAlertConfigsList();
             }
           }}
