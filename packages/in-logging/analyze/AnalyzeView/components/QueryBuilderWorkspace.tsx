@@ -23,12 +23,11 @@ import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/Grou
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import LogsQueryBuilder from 'in-logging/analyze/AnalyzeView/workspace/LogsQueryBuilder';
 import { StateManagementChildProps } from 'in-components/AnalyzeView/StateManagement';
-//@ts-expect-error needs TS migration
-import Sticky from 'in-components/Sticky';
 import { QueryBuilderTrackingFunctions } from 'in-components/QueryBuilder';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import Sections from 'in-components/workspace/Sections';
+import Sticky from 'in-components/Sticky';
 import Footer from 'in-components/Footer';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
