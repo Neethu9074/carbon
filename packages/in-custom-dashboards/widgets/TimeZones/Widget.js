@@ -53,8 +53,7 @@ function TimeZone({ serverTime, label, timeZone }) {
     () =>
       getIntlDateFormatter({
         timeZone,
-        hour: 'numeric',
-        minute: 'numeric'
+        timeStyle: 'short'
       }),
     [timeZone]
   );
