@@ -3,13 +3,20 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Result, ThresholdType, TimeConfig } from '@instana/types';
+import { Observable } from '@instana/observables';
+
 import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { GetSuggestionsProps, Suggestions } from 'in-websites/queryBuilder';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
+import { CreateQueryBuilderResponse } from 'in-components/QueryBuilder';
 import { createQueryBuilder } from 'in-components/QueryBuilder';
 import { getTagCatalog } from 'in-websites/api/tagCatalog';
 import { getSuggestions } from 'in-websites/queryBuilder';
+import { BeaconType, Nullish } from 'in-types';
 
 /**
  * Creates a QueryBuilder that is bound to a single website, use-case and beacon-type.
@@ -25,19 +32,20 @@ import { getSuggestions } from 'in-websites/queryBuilder';
  *
  * @returns A QueryBuilder where the scope is bound to a single website and beacon type.
  */
+
 export function createBoundedAlertQueryBuilder(
-  websiteId,
-  beaconType = 'pageLoad',
-  thresholdType,
-  suggestionTimeConfig
-) {
+  websiteId: string | undefined,
+  beaconType: BeaconType = 'pageLoad',
+  thresholdType?: ThresholdType,
+  suggestionTimeConfig?: TimeConfig
+): CreateQueryBuilderResponse {
   return createQueryBuilder({
     getTagCatalog: () => getTagCatalog({ beaconType, useCase: getUseCase(thresholdType) }),
     getSuggestions: args => getWebsiteTagSuggestions(args, websiteId, beaconType, suggestionTimeConfig)
   });
 }
 
-function getUseCase(thresholdType) {
+function getUseCase(thresholdType?: ThresholdType) {
   if (thresholdType === ADAPTIVE_BASELINE) {
     return 'SMART_ALERTS_ADAPTIVE_BASELINE';
   } else {
@@ -45,14 +53,19 @@ function getUseCase(thresholdType) {
   }
 }
 
-export function getWebsiteTagSuggestions(args, websiteId, beaconType, suggestionTimeConfig) {
+export function getWebsiteTagSuggestions(
+  args: GetSuggestionsProps,
+  websiteId: string | Nullish,
+  beaconType: BeaconType,
+  suggestionTimeConfig?: TimeConfig
+): Observable<Result<Suggestions>> {
   return getSuggestions({
     ...tagSuggestionArgs(withWebsiteIdFilter(args, websiteId), suggestionTimeConfig),
     beaconType
   });
 }
 
-function tagSuggestionArgs(args, suggestionTimeConfig) {
+function tagSuggestionArgs(args: GetSuggestionsProps, suggestionTimeConfig?: TimeConfig) {
   return {
     ...args,
     tagName: args.name,
@@ -61,7 +74,7 @@ function tagSuggestionArgs(args, suggestionTimeConfig) {
   };
 }
 
-function create(beaconType, thresholdType) {
+function create(beaconType: BeaconType, thresholdType?: ThresholdType) {
   return createBoundedAlertQueryBuilder(undefined, beaconType, thresholdType);
 }
 
@@ -83,7 +96,7 @@ const queryBuildersByBeaconTypeAdaptive = {
   custom: create('custom', ADAPTIVE_BASELINE)
 };
 
-function withWebsiteIdFilter(args, websiteId) {
+function withWebsiteIdFilter(args: GetSuggestionsProps, websiteId: string | Nullish) {
   const { tagFilterExpression } = args;
   if (websiteId)
     return {
@@ -95,8 +108,14 @@ function withWebsiteIdFilter(args, websiteId) {
 }
 
 /** helper, to create a query-builder dependent query validator */
-export const createIsAlertQueryValid = isQueryValid => ([tagFilterFormModel, timeConfig]) =>
-  isQueryValid(tagFilterFormModel, timeConfig);
+
+type isQueryValidType = (tagFilterFormModel: FormModelElement[], timeConfig: TimeConfig) => Observable<Result<Boolean>>;
+type TagFilterTimeConfigTuple = [FormModelElement[], TimeConfig];
+export const createIsAlertQueryValid = (isQueryValid: isQueryValidType) => {
+  return ([tagFilterFormModel, timeConfig]: TagFilterTimeConfigTuple) => {
+    return isQueryValid(tagFilterFormModel, timeConfig);
+  };
+};
 
 /**
  * Provides the QueryBuilder specific for the given beacon-type and threshold-type.
@@ -109,7 +128,11 @@ export const createIsAlertQueryValid = isQueryValid => ([tagFilterFormModel, tim
  * For any tag-suggestion, when accounting the website id is needed,
  * then use {@link createBoundedAlertQueryBuilder}
  */
-export function getQueryBuilderForBeaconType(beaconType, thresholdType) {
+
+export function getQueryBuilderForBeaconType(
+  beaconType: BeaconType | Nullish,
+  thresholdType?: ThresholdType
+): CreateQueryBuilderResponse {
   if (thresholdType === ADAPTIVE_BASELINE) {
     return queryBuildersByBeaconTypeAdaptive[beaconType ?? 'pageLoad'];
   }
