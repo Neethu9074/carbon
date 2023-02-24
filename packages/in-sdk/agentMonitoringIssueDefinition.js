@@ -6,6 +6,7 @@
 import React from 'react';
 
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
+import globalMonitoringIssues from 'in-sdk/globalMonitoringIssues';
 import { t } from 'in-i18n';
 
 export const SENSOR = {
@@ -26,7 +27,7 @@ export const UNKNOWN = {
 };
 
 function fallbackAgentMonitoringIssueDefinition(code) {
-  return {
+  return globalMonitoringIssues[code] ?? {
     issueDescription: {
       Component: function fallbackIssueDefinition() {
         return (
