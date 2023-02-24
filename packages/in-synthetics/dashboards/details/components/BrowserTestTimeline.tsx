@@ -53,6 +53,19 @@ export default function BrowserTestTimeline({ details, startTime, finishTime, is
 
   const { data } = details;
 
+  /* Avoid edge case were the data property could be null or undefined. */
+  if (data === undefined || data === null) {
+    return (
+      <Card title={t('in-synthetics:dashboard.detailsPage.timeLineWidget')}>
+        <NoDataAvailable
+          type="lib_synthetic"
+          height={160}
+          text={t('in-synthetics:dashboard.detailsPage.noDataAvailable.message', { component: 'Timeline' })}
+        />
+      </Card>
+    );
+  }
+
   let filteredEntries: TestResultEntry[] = data?.har?.log.entries.filter((entry: TestResultEntry) => {
     const type: string = getFilterType(entry.response.content.type.toLowerCase()).toLowerCase();
     if (filter.type && !type.includes(filter.type.toLowerCase())) {
