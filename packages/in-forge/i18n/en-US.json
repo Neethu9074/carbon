@@ -9493,8 +9493,6 @@
         "totalCurrentTransfers": "Total Current Transfers",
         "totalSourceTransfers": "Source Transfers",
         "totalDestinationTransfers": "Destination Transfers",
-        "statusRunning": "Running",
-        "statusUnknown": "Unknown",
         "transferState": "State",
         "sourceTransfersWithCount": "Source Transfers ({{len}})",
         "destinationTransfersWithCount": "Destination Transfers ({{len}})"
