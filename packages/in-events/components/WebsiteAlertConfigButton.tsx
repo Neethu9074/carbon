@@ -3,16 +3,19 @@
  * (c) Copyright Instana Inc.
  */
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { Button } from '@instana/components';
 
 import { websitesAlertingEventDetailsViewEditConfig } from 'in-alerting/smart-alerts/websites/tracker';
 import { getLinkToAlertConfig } from 'in-websites/navigation/paths';
+import { WebsiteAlertConfigWithMetadata } from 'in-types';
 import { t } from 'in-i18n';
 
-export default function WebsiteAlertConfigButton({ alertConfig }) {
+interface PropsType {
+  alertConfig: WebsiteAlertConfigWithMetadata;
+}
+export default function WebsiteAlertConfigButton({ alertConfig }: PropsType) {
   return (
     <Button
       kind="secondary"
@@ -25,7 +28,3 @@ export default function WebsiteAlertConfigButton({ alertConfig }) {
     </Button>
   );
 }
-
-WebsiteAlertConfigButton.propTypes = {
-  alertConfig: PropTypes.object.isRequired
-};

@@ -19,7 +19,7 @@ export declare const websitesPathFullyQualified: string;
 
 export function getLinkToAlertConfig(
   alertConfigId?: string | Nullish,
-  alertConfigVersion?: string | Nullish,
+  alertConfigVersion?: string | Nullish | number,
   websiteId?: string | Nullish
 ): Observable<string>;
 
