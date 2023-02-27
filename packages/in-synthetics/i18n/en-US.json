@@ -78,9 +78,9 @@
         "missUserAuthentication": "Missing user authentication",
         "incorrectAuthentication": "Incorrect user authentication",
         "missUserOrPassword": "Missing user or password",
-        "invalidPortValue": "Invalid port value",
+        "invalidPortValue": "Port value not valid",
         "missHost": "Missing host in the URL",
-        "invalidHost": "Invalid host format"
+        "invalidHost": "Host format not valid"
       }
     },
     "httpMethods": {
