@@ -129,7 +129,7 @@ export function getTimeConfigAlignedToResultTime(timeConfig: TimeConfig, result:
   };
 }
 
-export function setTimeConfig(location: Location, timeConfig: TimeConfig) {
+export function setTimeConfig(location: Location, timeConfig: Partial<TimeConfig>) {
   if (timeConfig.windowSize != null) {
     location.query[urlQueryKeys.windowSize] = String(timeConfig.windowSize);
   }

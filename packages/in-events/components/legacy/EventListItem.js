@@ -23,13 +23,14 @@ import { getTimeConfigForSnapshotRetrieval } from 'in-events/components/eventUti
 import useApplicationEventEntity from 'in-events/hooks/useApplicationEventEntity';
 import useWebsiteEventEntity from 'in-events/hooks/useWebsiteEventEntity';
 import EndedMarker from 'in-events/components/legacy/marker/EndedMarker';
-import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
-import { timeConfig$, urlQueryKeys } from 'in-stores/time/config';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { isAppDataEntityType } from 'in-services/entityUtils';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import { formatTime } from 'in-services/formatters/date';
 import Marker from 'in-events/components/legacy/Marker';
 import EventIcon from 'in-events/components/EventIcon';
+import { urlQueryKeys } from 'in-stores/time/config';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
@@ -118,13 +119,16 @@ export default connectTo(
 );
 
 function TimeIndicator({ event, isTriggeringEvent }) {
+  const { location, createHref } = useNavigation();
+  const { windowSize } = useTimeConfig();
+
   let timeClass = `${block}__time`;
   if (isTriggeringEvent) {
     timeClass += ` ${timeClass}--triggering`;
   }
   return (
     <div className={`${block}__time-indicator`}>
-      <Link href$={getCurrentViewWithTimeFocusedAt(event.get('start'))}>
+      <Link href={createHref(getCurrentViewWithTimeFocusedAt(event.get('start'), windowSize, location))}>
         <span className={timeClass}>{formatTime(event.get('start'))}</span>
       </Link>
       <div className={`${block}__line`} />
@@ -240,12 +244,17 @@ function isApplicationSmartAlertEvent(event) {
   return event.hasIn(['metadata', 'applicationId']);
 }
 
-function getCurrentViewWithTimeFocusedAt(moment) {
-  return timeConfig$.flatMap(({ windowSize }) => {
-    return getModifiedUrlStream(params => {
-      params.query[urlQueryKeys.to] = moment;
-      params.query[urlQueryKeys.focusedMoment] = moment;
-      params.query[urlQueryKeys.windowSize] = windowSize;
-    });
-  });
+function getCurrentViewWithTimeFocusedAt(moment, windowSize, location) {
+  location.query[urlQueryKeys.to] = moment;
+  location.query[urlQueryKeys.focusedMoment] = moment;
+  location.query[urlQueryKeys.windowSize] = windowSize;
+  return {
+    ...location,
+    query: {
+      ...location.query,
+      [urlQueryKeys.to]: moment,
+      [urlQueryKeys.focusedMoment]: moment,
+      [urlQueryKeys.windowSize]: windowSize
+    }
+  };
 }

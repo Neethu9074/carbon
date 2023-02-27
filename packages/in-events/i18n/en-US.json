@@ -44,6 +44,8 @@
   "titleRelatedEvents": "Related Events ({{eventCount}})",
   "titleLastProcess": "Last process",
   "titleLastHost": "Last host",
+  "titleLastKnownHost": "Last Known Host",
+  "titleLastKnownProcess": "Last Known Process",
   "titleIncidentTimeline": "Incident Timeline",
   "titleAnalyzeCustomEvents": "Analyze Custom Events",
   "titleAnalyzeHTTPRequests": "Analyze HTTP Requests",
