@@ -9,14 +9,13 @@ import React from 'react';
 import { SyntheticAlertConfigWithMetadata } from '@instana/types';
 
 import { getAllAlertConfigs } from 'in-alerting/smart-alerts/synthetics/api/syntheticAlertConfig';
-// @ts-expect-error Module needs to be translated to TS
-import Sticky from 'in-components/Sticky';
 import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
 import AlertBaseList from 'in-alerting/smart-alerts/components/AlertsBaseList';
 import DefaultCell from 'in-alerting/smart-alerts/components/list/DefaultCell';
 import { tableActions } from 'in-alerting/smart-alerts/synthetics/Alerts';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import Sticky from 'in-components/Sticky';
 import Footer from 'in-components/Footer';
 import { t } from 'in-i18n';
 

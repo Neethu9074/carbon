@@ -22,8 +22,6 @@ import {
   TestResponse
 } from 'in-synthetics/utils/constants';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
-// @ts-expect-error Module needs to be translated to TS
-import Sticky from 'in-components/Sticky';
 import BrowserTestTimeline from 'in-synthetics/dashboards/details/components/BrowserTestTimeline';
 import getTestResultDetailData from 'in-synthetics/subscriptions/getTestResultDetailData';
 import DownloadButton from 'in-synthetics/dashboards/details/components/DownloadButton';
@@ -49,6 +47,7 @@ import { Col, Row } from 'in-components/layout/Grid/Grid';
 import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import Sticky from 'in-components/Sticky';
 import theme from 'in-themes';
 
 export default function SyntheticAnalyzeView() {
