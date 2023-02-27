@@ -140,7 +140,8 @@
       "demous": "demous",
       "demoeu": "demoeu",
       "wsTesterTitle": "Websocket Api Tester",
-      "wsTesterDescription": "Tool for testing WebSocket subscriptions"
+      "wsTesterDescription": "Tool for testing WebSocket subscriptions",
+      "eumDescription": "Metrics for end-user monitoring components within this unit."
     },
     "internalViewWrapper": {
       "internal": "Internal"
@@ -1136,6 +1137,10 @@
         "metricCount": "Metric Count",
         "perPluginEntityCount": "Per Plugin Entity Counts",
         "perPluginEntityAndMetricCount": "Per Plugin Entity and Metric Counts"
+      },
+      "eum": {
+        "sourceMapUsedStorageSize": "Total External Storage Used",
+        "sourceMapUploadedFilesSize": "Total Size of Uploaded Source Map Files"
       }
     }
   },

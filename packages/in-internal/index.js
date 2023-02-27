@@ -39,6 +39,7 @@ import CallExtraction from 'in-internal/monitoringUnit/Appdata/CallExtraction';
 import AppDataWriterForEum from 'in-internal/monitoringUnit/eum/AppDataWriter';
 import GraphExplorer from 'in-internal/thisUnit/GraphExplorer/GraphExplorer';
 import LogHousekeeping from 'in-internal/monitoringUnit/log/LogHousekeeping';
+import EumComponentMetrics from 'in-internal/thisUnit/EumComponentMetrics';
 import ErrorSimulator from 'in-internal/monitoringUnit/eum/ErrorSimulator';
 import SpansCassandra from 'in-internal/monitoringUnit/sre/SpansCassandra';
 import StateCassandra from 'in-internal/monitoringUnit/sre/StateCassandra';
@@ -312,6 +313,7 @@ export default function Internal() {
       path="/internal/thisUnit/websiteAdaptiveBaselineModel"
       children={wrapInInternalView(WebsiteAdaptiveBaselineModel)}
     />,
+    <Route key="internalEumComponentMetrics" path="/internal/thisUnit/eum" component={EumComponentMetrics} />,
     <Route key="internalLanding" exact path="/internal" children={wrapInInternalView(Landing)} />
   );
   return internalRoutes;

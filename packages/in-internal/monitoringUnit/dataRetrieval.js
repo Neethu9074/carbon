@@ -225,3 +225,15 @@ export function getContextForNomad(nomad, timeConfig) {
     })
     .filter(row => row.host != null);
 }
+
+export function getInstanaComponentMetrics(component) {
+  return timeConfig$
+    .flatMap(timeConfig =>
+      search({
+        query: 'entity.label:"' + component + '" AND entity.type:"InstanaComponentMetrics"',
+        view: 'TABLE',
+        timeConfig
+      }).flatMap(getSnapshots)
+    )
+    .startWith(emptyArray);
+}
