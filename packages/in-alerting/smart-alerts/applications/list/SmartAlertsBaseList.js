@@ -19,6 +19,7 @@ import {
 import SmartAlertsNoDataAvailable from 'in-alerting/smart-alerts/components/SmartAlertsNoDataAvailable';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import SortingConfigurator from 'in-components/SortingConfigurator/SortingConfigurator';
+import getResultsToDisplay from 'in-alerting/smart-alerts/components/list/ListHelper';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
@@ -283,30 +284,6 @@ function sortBy(orderBy, orderDirection) {
       return orderDirection === 'ASC' ? a.enabled - b.enabled : b.enabled - a.enabled;
     }
   };
-}
-
-function getResultsToDisplay(configs, query, extraSearchAttributes = []) {
-  const getConfigName = config => config.name;
-  const getDescription = config => config.description;
-
-  const searchAttributes = [getConfigName, getDescription, ...extraSearchAttributes];
-  const trimmedQuery = query.trim();
-
-  if (!trimmedQuery) {
-    return configs;
-  }
-
-  const lowerCaseQuery = trimmedQuery.toLowerCase();
-  const filterFunction = (query, attribute) => attribute?.includes(query) ?? false;
-
-  return configs.filter(Boolean).filter(config => {
-    return searchAttributes
-      .map(searchAttribute => {
-        const attribute = searchAttribute(config)?.toLowerCase();
-        return filterFunction(lowerCaseQuery, attribute);
-      })
-      .some(Boolean);
-  });
 }
 
 function getNoAlertConfiguredLabel(query) {
