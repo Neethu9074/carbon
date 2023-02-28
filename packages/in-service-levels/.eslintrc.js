@@ -24,7 +24,8 @@ module.exports = {
         'in-subscription',
         'in-test',
         'in-themes',
-        'in-websites'
+        'in-websites',
+        'in-service-levels'
       ]
     })
   }

@@ -1,5 +1,5 @@
 {
-  "csvExporterButton":{
+  "csvExporterButton": {
     "label": "Export to CSV"
   },
 
@@ -409,6 +409,7 @@
     "viewSwitcherLabelEvents": "Events",
     "viewSwitcherlabelInfrastructure": "Infrastructure",
     "viewSwitcherLabelApplications": "Applications",
+    "viewSwitcherLabelSlo": "Service Levels",
     "viewSwitcherLabelAnalytics": "Analytics",
     "viewSwitcherLabelWebsitesAndMobileApps": "Websites & Mobile Apps",
     "viewSwitcherLabelWebsites": "Websites",

@@ -303,5 +303,10 @@ module.exports = exports = [
     uiClientKey: 'controlPlaneEnabled',
     instanaCtlKey: 'feature.kubernetes.controlplane.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'sloV2Enabled',
+    instanaCtlKey: 'feature.sloV2.enabled',
+    defaultValue: true
   }
 ];

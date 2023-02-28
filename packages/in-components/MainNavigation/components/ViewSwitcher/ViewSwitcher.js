@@ -45,13 +45,13 @@ import {
 } from 'in-cloudfoundry/navigation/paths';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
+import { releaseNotesEnabled, sloV2Enabled, tenantSwitcherEnabled } from 'in-services/featureFlags';
 import { isAnalyzeView as isProfileAnalyzeView } from 'in-components/Profiling/navigation/paths';
 import { physicalPath, containerPath, isTableView } from 'in-stores/navigation/paths/mainPaths';
 import { SubViewItem } from 'in-components/MainNavigation/components/ViewSwitcher/SubView';
 import { isSyntheticMonitoringView, syntheticsPath } from 'in-synthetics/navigation/paths';
 import { urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
 import { getView, isView, getModifiedUrlStream } from 'in-stores/navigation/navigation';
-import { releaseNotesEnabled, tenantSwitcherEnabled } from 'in-services/featureFlags';
 import { regionListFullyQualified, openstack } from 'in-openstack/navigation/paths';
 import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
 import { isAnalyzeView as isLogsAnalyzeView } from 'in-logging/navigation/paths';
@@ -62,6 +62,7 @@ import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
 import { isInfraExploreView } from 'in-infrastructure/navigation/paths';
 import { phmcListFullyQualified, ibmp } from 'in-phmc/navigation/paths';
 import { zhmcListFullyQualified, ibmz } from 'in-zhmc/navigation/paths';
+import { sloList, isSloView } from 'in-service-levels/navigation/path';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { cockpit as cockpitPath } from 'in-cockpit/navigation/paths';
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
@@ -128,6 +129,7 @@ export default function ViewSwitcher({
       <Infrastructure {...commonProps} />
       <Synthetics {...commonProps} />
       {hasFirstSectionAccess && <SpacerListItem />}
+      <SloDashboard {...commonProps} />
       <Analyze {...commonProps} />
       {hasEventsAccess && <Incidents {...commonProps} />}
       {hasSecondSectionAcccess && <SpacerListItem />}
@@ -330,6 +332,20 @@ function Applications(props) {
       {...props}
     />
   );
+}
+function SloDashboard(props) {
+  if (sloV2Enabled) {
+    return (
+      <View
+        id="main-nav-slo-dashboard"
+        label={t('in-components:mainNavigation.viewSwitcherLabelSlo')}
+        icon="lib_service_level"
+        isActive$={isView(isSloView)}
+        href$={getView(sloList)}
+        {...props}
+      />
+    );
+  }
 }
 
 function Analyze(props) {
