@@ -10,10 +10,6 @@ import { isBlank } from 'in-services/util/string';
 
 import locals from './HorizontalDescriptionList.mless';
 
-interface DlProps {
-  children: ReactNode;
-}
-
 interface DiProps {
   title: string;
   children?: ReactNode;
@@ -21,6 +17,10 @@ interface DiProps {
   rowClassName?: string;
   dtClassName?: string;
   verticalDisplay?: boolean;
+}
+
+interface DlProps {
+  children: ReactNode;
 }
 
 export function Dl({ children }: DlProps) {
