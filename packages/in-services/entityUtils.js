@@ -64,7 +64,12 @@ export function hasErrors(entity) {
 }
 
 export function isInfraEntityType(entityType) {
-  return !isAppDataEntityType(entityType) && !isWebsiteEntityType(entityType);
+  return (
+    !isAppDataEntityType(entityType) &&
+    !isWebsiteEntityType(entityType) &&
+    !isMobileAppEntityType(entityType) &&
+    !isSyntheticEntityType(entityType)
+  );
 }
 
 export function isWebsiteEntityType(entityType) {
@@ -73,6 +78,10 @@ export function isWebsiteEntityType(entityType) {
 
 export function isSyntheticEntityType(entityType) {
   return entityType === 'Synthetic';
+}
+
+export function isMobileAppEntityType(entityType) {
+  return entityType === 'MobileApp';
 }
 
 export function isAppDataEntityType(entityType) {
