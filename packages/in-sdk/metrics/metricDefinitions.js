@@ -349,14 +349,24 @@ export function getCustomMetricMatch(pre, post) {
  * @param pre The mandatory prefix of the metric.
  * @param post The optional postfix of the metric.
  * @param placeholderLabel The label of the placeholder in the metric-pattern, to explain what it represents.
+ * @param defaultMatchingOperator The default matching operator to be used.
+ * @param lockedMatchingOperator Whether the UI allows to change the matching operator or not.
  */
-export function getDynamicMetricMatch(pre, post, placeholderLabel = 'Placeholder') {
+export function getDynamicMetricMatch(
+  pre,
+  post,
+  placeholderLabel = 'Placeholder',
+  defaultMatchingOperator = 'is',
+  lockedMatchingOperator = false
+) {
   const patternString = post ? `^${pre}\\.(.*)\\.${post}$` : `^${pre}\\.(.*)$`;
   return {
     pattern: new RegExp(patternString, 'i'),
     pre,
     post,
-    placeholderLabel
+    placeholderLabel,
+    defaultMatchingOperator,
+    lockedMatchingOperator
   };
 }
 

@@ -56,14 +56,62 @@ export default [
   },
   {
     metrics: [
-      getDynamicMetricMatch('statistics', 'nonPersistentPutBytes', t('in-forge:plugins.ibmMqQueue.statisticsRecord')),
-      getDynamicMetricMatch('statistics', 'persistentPutBytes', t('in-forge:plugins.ibmMqQueue.statisticsRecord')),
-      getDynamicMetricMatch('statistics', 'putFailCount', t('in-forge:plugins.ibmMqQueue.statisticsRecord')),
-      getDynamicMetricMatch('statistics', 'put1FailCount', t('in-forge:plugins.ibmMqQueue.statisticsRecord')),
-      getDynamicMetricMatch('statistics', 'nonPersistentGetBytes', t('in-forge:plugins.ibmMqQueue.statisticsRecord')),
-      getDynamicMetricMatch('statistics', 'persistentGetBytes', t('in-forge:plugins.ibmMqQueue.statisticsRecord')),
-      getDynamicMetricMatch('statistics', 'getFailCount', t('in-forge:plugins.ibmMqQueue.statisticsRecord')),
-      getDynamicMetricMatch('statistics', 'expiredMsgCount', t('in-forge:plugins.ibmMqQueue.statisticsRecord'))
+      getDynamicMetricMatch(
+        'statistics',
+        'nonPersistentPutBytes',
+        t('in-forge:plugins.ibmMqQueue.statisticsRecord'),
+        'any',
+        true
+      ),
+      getDynamicMetricMatch(
+        'statistics',
+        'persistentPutBytes',
+        t('in-forge:plugins.ibmMqQueue.statisticsRecord'),
+        'any',
+        true
+      ),
+      getDynamicMetricMatch(
+        'statistics',
+        'putFailCount',
+        t('in-forge:plugins.ibmMqQueue.statisticsRecord'),
+        'any',
+        true
+      ),
+      getDynamicMetricMatch(
+        'statistics',
+        'put1FailCount',
+        t('in-forge:plugins.ibmMqQueue.statisticsRecord'),
+        'any',
+        true
+      ),
+      getDynamicMetricMatch(
+        'statistics',
+        'nonPersistentGetBytes',
+        t('in-forge:plugins.ibmMqQueue.statisticsRecord'),
+        'any',
+        true
+      ),
+      getDynamicMetricMatch(
+        'statistics',
+        'persistentGetBytes',
+        t('in-forge:plugins.ibmMqQueue.statisticsRecord'),
+        'any',
+        true
+      ),
+      getDynamicMetricMatch(
+        'statistics',
+        'getFailCount',
+        t('in-forge:plugins.ibmMqQueue.statisticsRecord'),
+        'any',
+        true
+      ),
+      getDynamicMetricMatch(
+        'statistics',
+        'expiredMsgCount',
+        t('in-forge:plugins.ibmMqQueue.statisticsRecord'),
+        'any',
+        true
+      )
     ],
     labels: [
       t('in-forge:plugins.ibmMqQueue.nonPersistentPutBytes'),
@@ -80,4 +128,3 @@ export default [
     formatter: number
   }
 ];
-
