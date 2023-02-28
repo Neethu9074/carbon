@@ -3,21 +3,19 @@
  * (c) Copyright Instana Inc.
  */
 
-import PropTypes from 'prop-types';
+interface Shape {
+  value: number;
+  label: string;
+}
 
-export const restrictedSliderPropTypes = {
-  marks: PropTypes.arrayOf(
-    PropTypes.shape({
-      value: PropTypes.number.isRequired,
-      label: PropTypes.string.isRequired
-    }).isRequired
-  ).isRequired,
-  max: PropTypes.number.isRequired,
-  min: PropTypes.number.isRequired,
-  onChange: PropTypes.func.isRequired,
-  valueLabelFormat: PropTypes.func,
-  valueLabelDisplay: PropTypes.oneOf(['on', 'off', 'auto']),
-  disabled: PropTypes.bool,
-  style: PropTypes.any,
-  value: PropTypes.number.isRequired
-};
+export interface RestrictedSliderProp {
+  marks: Shape[];
+  max: number;
+  min: number;
+  onChange: (...args: any[]) => any;
+  valueLabelFormat?: (...args: any[]) => any;
+  valueLabelDisplay?: 'on' | 'off' | 'auto';
+  disabled?: boolean;
+  style?: React.CSSProperties;
+  value: number | number[];
+}
