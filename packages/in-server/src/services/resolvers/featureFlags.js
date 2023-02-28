@@ -307,6 +307,6 @@ module.exports = exports = [
   {
     uiClientKey: 'sloV2Enabled',
     instanaCtlKey: 'feature.sloV2.enabled',
-    defaultValue: true
+    defaultValue: false
   }
 ];
