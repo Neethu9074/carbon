@@ -3,18 +3,31 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { ReactNode } from 'react';
 import classNames from 'classnames';
-import React from 'react';
 
 import { isBlank } from 'in-services/util/string';
 
 import locals from './HorizontalDescriptionList.mless';
 
-export function Dl({ children }) {
+interface DiProps {
+  title: string;
+  children?: ReactNode;
+  ddClassName?: string;
+  rowClassName?: string;
+  dtClassName?: string;
+  verticalDisplay?: boolean;
+}
+
+interface DlProps {
+  children: ReactNode;
+}
+
+export function Dl({ children }: DlProps) {
   return <dl className={locals.list}>{children}</dl>;
 }
 
-export function Di({ title, children, ddClassName, rowClassName, dtClassName, verticalDisplay }) {
+export function Di({ title, children, ddClassName, rowClassName, dtClassName, verticalDisplay }: DiProps) {
   if (children == null || (typeof children === 'string' && isBlank(children))) {
     return null;
   }
