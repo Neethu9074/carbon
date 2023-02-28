@@ -9,10 +9,10 @@ import Tab, { TabProps } from 'in-components/InlineTabNavigation/Tab';
 
 import locals from './InlineTabNavigation.mless';
 
-interface InlineTabNavigationProps {
+interface InlineTabNavigationProps extends Pick<TabProps, 'onTabSelect' | 'isDisabled'> {
   activeTabIndex?: number;
   isDisabled?: boolean;
-  onTabSelect?: (...args: any[]) => any;
+  onTabSelect?: (index: number) => void;
   tabList?: TabProps[];
 }
 
