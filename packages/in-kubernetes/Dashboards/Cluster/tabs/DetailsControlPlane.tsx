@@ -48,9 +48,9 @@ function DebugList({ items, clusterId }: any) {
   if (!items || items.length === 0) {
     return <NoDataAvailable height={160} text={t('in-kubernetes:dashboards.noDebuggingInformation')} />;
   }
-  const leaderObj = items.find((item: any) => (item.key = 'Leader'));
-  const hostCoverageObj = items.find((item: any) => (item.key = 'Host Coverage'));
-  const uuidObj = items.find((item: any) => (item.key = 'UUID'));
+  const leaderObj = items.find((item: any) => item.key == 'Leader');
+  const hostCoverageObj = items.find((item: any) => item.key == 'Host Coverage');
+  const uuidObj = items.find((item: any) => item.key == 'UUID');
   const leaderValue = (
     <a href={`#${clusterDashboardFullyQualified};clusterId=` + clusterId + '/pods;pod.query=' + leaderObj.value}>
       {leaderObj.value}
