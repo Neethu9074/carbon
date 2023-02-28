@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2022
  */
 
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 
@@ -14,8 +14,6 @@ import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/Das
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import PopDeployButton from 'in-synthetics/dashboards/global/tabs/tests/components/PopDeployButton';
 import getPoPInstallationProperties from 'in-synthetics/subscriptions/getPoPInstallationProperties';
-import PopupMessage from 'in-synthetics/dashboards/global/tabs/tests/components/PopupMessage';
-import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
 import { getModifiedUrlStream, isView } from 'in-stores/navigation/navigation';
 import DashboardHeader from 'in-components/DashboardHeader';
 import BetaBadge from 'in-components/BetaBadge/BetaBadge';
@@ -29,21 +27,6 @@ export default function ViewSwitcher() {
   const isTestsActive = useObservable(isView(paths.syntheticsPath), []);
   const isLocationsActive = useObservable(isView(paths.syntheticLocationPath), []);
   const isSmartAlertsActive = useObservable(isView(paths.syntheticSmartAlertsPath), []);
-  const id = 'synMonitoringPoP';
-
-  useEffect(() => {
-    addMessage(
-      {
-        type: 'info',
-        title: t('in-synthetics:dashboard.testList.popDialog.popUpDialogTitle'),
-        content: <PopupMessage />,
-        onClick: () => {
-          removeMessage(id);
-        }
-      },
-      id
-    );
-  }, []);
 
   const popProperties: PoPInstallationPropertiesResponse =
     useObservable<any, [number]>(() => getPoPInstallationProperties({ installationType: 'simple' }), [0]) ||

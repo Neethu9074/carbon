@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import {
   OrderDirection,
@@ -23,6 +23,12 @@ import {
   pathSegment,
   PresenterProps
 } from 'in-synthetics/utils/constants';
+import showNotification, {
+  calculateNextOccurrence,
+  setReminder,
+  storedAlarmTimeOrNull,
+  timeExpired
+} from 'in-synthetics/utils/setReminders';
 // @ts-expect-error
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { columnDefinitions } from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions';
@@ -43,6 +49,7 @@ import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { minutes } from 'in-services/time/time';
 import useUrlState from 'in-hooks/useUrlState';
 import Sticky from 'in-components/Sticky';
 import Footer from 'in-components/Footer';
@@ -93,6 +100,18 @@ const addFilter = (
 export default function TestSummaryList() {
   const timeConfig = useTimeConfig();
   const [{ syntheticTypes, locationIds, applicationIds }, setFilter] = useUrlState(urlStateDefinition);
+  const storedDialogAlarm = storedAlarmTimeOrNull();
+
+  useEffect(() => {
+    if (storedDialogAlarm === null) {
+      setReminder(calculateNextOccurrence(minutes.toMillis(0)));
+      showNotification();
+    } else {
+      if (timeExpired()) {
+        showNotification();
+      }
+    }
+  }, [storedDialogAlarm]);
 
   function reloadTests() {}
 
