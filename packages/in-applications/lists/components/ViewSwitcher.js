@@ -15,10 +15,10 @@ import DashboardHeader from 'in-components/DashboardHeader';
 import { t } from 'in-i18n';
 
 export default function AppViewSwitcher() {
-  const { location, createHref, isView } = useNavigation();
+  const { location, createHref, matchLocation } = useNavigation();
 
-  const isServiceViewActive = isView(servicesList);
-  const isSmartAlertsViewActive = isView(alertsList);
+  const isServiceViewActive = matchLocation(servicesList);
+  const isSmartAlertsViewActive = matchLocation(alertsList);
 
   return (
     <>

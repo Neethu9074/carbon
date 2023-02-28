@@ -6,7 +6,9 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { useObservable } from '@instana/hooks';
 import { Spacer } from '@instana/components';
+import { just } from '@instana/observables';
 
 import {
   hasApplicationsAccess,
@@ -43,6 +45,7 @@ import {
   applicationListFullyQualified as cloudfoundryApplicationList,
   cloudfoundry
 } from 'in-cloudfoundry/navigation/paths';
+import { locationWithoutQueryParameter, urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
 import { releaseNotesEnabled, sloV2Enabled, tenantSwitcherEnabled } from 'in-services/featureFlags';
@@ -50,8 +53,6 @@ import { isAnalyzeView as isProfileAnalyzeView } from 'in-components/Profiling/n
 import { physicalPath, containerPath, isTableView } from 'in-stores/navigation/paths/mainPaths';
 import { SubViewItem } from 'in-components/MainNavigation/components/ViewSwitcher/SubView';
 import { isSyntheticMonitoringView, syntheticsPath } from 'in-synthetics/navigation/paths';
-import { urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
-import { getView, isView, getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { regionListFullyQualified, openstack } from 'in-openstack/navigation/paths';
 import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
 import { isAnalyzeView as isLogsAnalyzeView } from 'in-logging/navigation/paths';
@@ -59,6 +60,7 @@ import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { agentsPath, settingsPath } from 'in-stores/navigation/paths/mainPaths';
 import View from 'in-components/MainNavigation/components/ViewSwitcher/View';
 import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { isInfraExploreView } from 'in-infrastructure/navigation/paths';
 import { phmcListFullyQualified, ibmp } from 'in-phmc/navigation/paths';
 import { zhmcListFullyQualified, ibmz } from 'in-zhmc/navigation/paths';
@@ -75,7 +77,6 @@ import { getColorBySeverity } from 'in-stores/events';
 import { all, any } from 'in-services/fixedStreams';
 import { user, role } from 'in-stores/user';
 import { config } from 'in-services/config';
-import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 import locals from './ViewSwitcher.mless';
@@ -105,14 +106,16 @@ export default function ViewSwitcher({
     onMouseLeave: onMouseLeave
   };
 
+  const { matchLocation, createHrefToPath } = useNavigation();
+
   return (
     <ul className={locals.list}>
       <View
         id="main-nav-system-overview"
         renderContent={() => <Stan />}
-        isActive$={any(isView(cockpitPath), isView(customDashboardsPath))}
+        isActive={matchLocation(cockpitPath, customDashboardsPath)}
         // Go to default landing page when clicking this button
-        href$={getView('/')}
+        href={createHrefToPath('/')}
         {...commonProps}
       />
       <SpacerListItem />
@@ -128,17 +131,18 @@ export default function ViewSwitcher({
       />
       <Infrastructure {...commonProps} />
       <Synthetics {...commonProps} />
+
       {hasFirstSectionAccess && <SpacerListItem />}
-      <SloDashboard {...commonProps} />
       <Analyze {...commonProps} />
       {hasEventsAccess && <Incidents {...commonProps} />}
+      <SloDashboard {...commonProps} />
       {hasSecondSectionAcccess && <SpacerListItem />}
       <View
         id="main-nav-settings"
         label={t('in-components:mainNavigation.viewSwitcherLabelSettings')}
         icon="lib_actions_settings_inverted"
-        isActive$={isView(settingsPath)}
-        href$={getView(settingsPath)}
+        isActive={matchLocation(settingsPath)}
+        href={createHrefToPath(settingsPath)}
         {...commonProps}
       />
       <InternalView sidebarIsExpanded={isExpanded} onClick={onViewSwitched} onMouseLeave={onMouseLeave} />
@@ -148,7 +152,7 @@ export default function ViewSwitcher({
         icon="lib_menu_additional_resources"
         expandedSubMenu={expandedSubMenu}
         setExpandedSubMenu={setExpandedSubMenu}
-        isActive$={any(isView(agentsPath))}
+        isActive={matchLocation(agentsPath)}
         sidebarIsExpanded={isExpanded}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
@@ -164,8 +168,8 @@ export default function ViewSwitcher({
         {role.canConfigureAgents && (
           <SubViewItem
             label={t('in-components:mainNavigation.viewSwitcherLabelAgents')}
-            href$={getView(agentsPath)}
-            isActive$={isView(agentsPath)}
+            href={createHrefToPath(agentsPath)}
+            isActive={matchLocation(agentsPath)}
             onClick={onViewSwitched}
             id="main-nav-agents"
           />
@@ -207,12 +211,11 @@ export default function ViewSwitcher({
   );
 }
 
-const InternalView = connectTo({ isInternalVisible: isInternalVisible$ }, function({
-  isInternalVisible,
-  sidebarIsExpanded,
-  onClick,
-  onMouseLeave
-}) {
+function InternalView({ sidebarIsExpanded, onClick, onMouseLeave }) {
+  const isInternalVisible = useObservable(isInternalVisible$, [isInternalVisible$]);
+  const { location, createHref, matchLocation } = useNavigation();
+  const targetLocation = locationWithoutQueryParameter({ ...location, pathname: '/internal' });
+
   if (!isInternalVisible) {
     return null;
   }
@@ -221,54 +224,53 @@ const InternalView = connectTo({ isInternalVisible: isInternalVisible$ }, functi
     <View
       label={t('in-components:mainNavigation.viewSwitcherLabelInternal')}
       icon="lib_actions_lock"
-      isActive$={isView('/internal')}
-      href$={getModifiedUrlStream(p => (p.pathname = '/internal')).map(urlWithoutQueryParameter)}
+      isActive={matchLocation('/internal')}
+      href={createHref(targetLocation)}
       sidebarIsExpanded={sidebarIsExpanded}
       onClick={onClick}
       onMouseLeave={onMouseLeave}
     />
   );
-});
+}
 
-const Incidents = connectTo(
-  {
-    events: openEventsAtServerTime$,
-    isActive: isView(eventsPath)
-  },
-  function Incidents({ events, isActive, sidebarIsExpanded, onClick, onMouseEnter, onMouseLeave }) {
-    const numIncidents = events ? events.get('incidentCount') : 0;
-    const maxSeverity = events ? events.get('maxIncidentSeverity') : 0;
+function Incidents({ sidebarIsExpanded, onClick, onMouseEnter, onMouseLeave }) {
+  const events = useObservable(openEventsAtServerTime$, [openEventsAtServerTime$]);
+  const { matchLocation } = useNavigation();
 
-    let color = null;
-    if (numIncidents > 0) {
-      color = maxSeverity > 0 ? getColorBySeverity(maxSeverity) : '#6B8088';
-    }
+  const isActive = matchLocation(eventsPath);
 
-    return (
-      <div className={locals.incidentMenu}>
-        <View
-          id="main-nav-events"
-          label={t('in-components:mainNavigation.viewSwitcherLabelEvents')}
-          icon="lib_events_inverted"
-          href$={getEventsViewFilteredBy({ eventTypeFilter: 'incident' })}
-          isActive={isActive}
-          sidebarIsExpanded={sidebarIsExpanded}
-          onClick={onClick}
-          onMouseEnter={onMouseEnter}
-          onMouseLeave={onMouseLeave}
-        />
-        {numIncidents > 0 && (
-          <div
-            className={numIncidents > 99 ? locals.issueIndicatorSmall : locals.issueIndicator}
-            style={{ background: color }}
-          >
-            {numIncidents}
-          </div>
-        )}
-      </div>
-    );
+  const numIncidents = events ? events.get('incidentCount') : 0;
+  const maxSeverity = events ? events.get('maxIncidentSeverity') : 0;
+
+  let color = null;
+  if (numIncidents > 0) {
+    color = maxSeverity > 0 ? getColorBySeverity(maxSeverity) : '#6B8088';
   }
-);
+
+  return (
+    <div className={locals.incidentMenu}>
+      <View
+        id="main-nav-events"
+        label={t('in-components:mainNavigation.viewSwitcherLabelEvents')}
+        icon="lib_events_inverted"
+        href$={getEventsViewFilteredBy({ eventTypeFilter: 'incident' })}
+        isActive={isActive}
+        sidebarIsExpanded={sidebarIsExpanded}
+        onClick={onClick}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+      />
+      {numIncidents > 0 && (
+        <div
+          className={numIncidents > 99 ? locals.issueIndicatorSmall : locals.issueIndicator}
+          style={{ background: color }}
+        >
+          {numIncidents}
+        </div>
+      )}
+    </div>
+  );
+}
 
 function SignOut() {
   return (
@@ -286,22 +288,30 @@ function SignOut() {
 }
 
 function Infrastructure(props) {
+  const { matchLocation, createHrefToPath } = useNavigation();
+  const isTableViewActive = useObservable(isTableView('physical'), []);
+
   if (!hasInfrastructureAccess) {
     return null;
   }
+
+  const isActive = matchLocation(physicalPath, containerPath) || isTableViewActive;
+
   return (
     <View
       id="main-nav-infrastructure"
       label={t('in-components:mainNavigation.viewSwitcherlabelInfrastructure')}
       icon="lib_infrastructure_inverted"
-      isActive$={any(isView(physicalPath), isView(containerPath), isTableView('physical'))}
-      href$={getView(physicalPath)}
+      isActive={isActive}
+      href={createHrefToPath(physicalPath)}
       {...props}
     />
   );
 }
 
 function Synthetics(props) {
+  const { matchLocation, createHrefToPath } = useNavigation();
+
   if (!hasSyntheticsAccess) {
     return null;
   }
@@ -310,14 +320,16 @@ function Synthetics(props) {
       id="main-nav-synthetics"
       label={t('in-synthetics:navigation.synthetics')}
       icon={'lib_synthetic'}
-      isActive$={isView(isSyntheticMonitoringView)}
-      href$={getView(syntheticsPath)}
+      isActive={matchLocation(isSyntheticMonitoringView)}
+      href={createHrefToPath(syntheticsPath)}
       {...props}
     />
   );
 }
 
 function Applications(props) {
+  const { matchLocation, createHrefToPath } = useNavigation();
+
   if (!hasApplicationsAccess) {
     return null;
   }
@@ -327,21 +339,23 @@ function Applications(props) {
       id="main-nav-application"
       label={t('in-components:mainNavigation.viewSwitcherLabelApplications')}
       icon="lib_application_invert"
-      isActive$={isView(isApplicationsView)}
-      href$={getView(applicationsList)}
+      isActive={matchLocation(isApplicationsView)}
+      href={createHrefToPath(applicationsList)}
       {...props}
     />
   );
 }
 function SloDashboard(props) {
+  const { matchLocation, createHrefToPath } = useNavigation();
+
   if (sloV2Enabled) {
     return (
       <View
         id="main-nav-slo-dashboard"
         label={t('in-components:mainNavigation.viewSwitcherLabelSlo')}
         icon="lib_service_level"
-        isActive$={isView(isSloView)}
-        href$={getView(sloList)}
+        isActive={matchLocation(isSloView)}
+        href={createHrefToPath(sloList)}
         {...props}
       />
     );
@@ -349,23 +363,24 @@ function SloDashboard(props) {
 }
 
 function Analyze(props) {
+  const { matchLocation } = useNavigation();
+  const isActiveLegacy = useObservable(
+    any(isWebsiteAnalyzeView, isMobileAppAnalyzeView, isProfileAnalyzeView, isLogsAnalyzeView, isInfraExploreView()),
+    []
+  );
+
   if (!hasAnalyzeAccess) {
     return null;
   }
+
+  const isActive = matchLocation(isAnalyzeView) | isActiveLegacy;
 
   return (
     <View
       id="main-nav-analyze"
       label={t('in-components:mainNavigation.viewSwitcherLabelAnalytics')}
       icon="lib_analyze_inverted"
-      isActive$={any(
-        isView(isAnalyzeView),
-        isWebsiteAnalyzeView,
-        isMobileAppAnalyzeView,
-        isProfileAnalyzeView,
-        isLogsAnalyzeView,
-        isInfraExploreView()
-      )}
+      isActive={isActive}
       href$={
         [
           hasApplicationsAccess &&
@@ -388,15 +403,19 @@ function Analyze(props) {
 }
 
 function WebsiteMobileAppView(props) {
+  const { matchLocation, createHrefToPath } = useNavigation();
   const showWebNavigationItem = hasWebsitesAccess;
   const showMobileAppNavigationItem = hasMobileAppsAccess;
 
+  // Converting the new navigation back to observables here
+  // in order to avoid too much clutter with isWebsiteAnalyzeView and isMobileAppAnalyzeView.
+  // As soon as those two are migrated the observables should be removed!
   const isWebsiteView$ = all(
-    isView(websiteMonitoringPath),
+    just(matchLocation(websiteMonitoringPath)),
     isWebsiteAnalyzeView.map(v => !v)
   );
   const isMobileAppView$ = all(
-    isView(mobileAppMonitoringPath),
+    just(matchLocation(mobileAppMonitoringPath)),
     isMobileAppAnalyzeView.map(v => !v)
   );
 
@@ -406,7 +425,7 @@ function WebsiteMobileAppView(props) {
         id="main-nav-websites"
         label={t('in-components:mainNavigation.viewSwitcherLabelWebsitesAndMobileApps')}
         icon="lib_website_mobile_app_inverted"
-        href$={getView(websiteMonitoringPath)}
+        href={createHrefToPath(websiteMonitoringPath)}
         isActive$={any(isWebsiteView$, isMobileAppView$)}
         {...props}
       />
@@ -419,7 +438,7 @@ function WebsiteMobileAppView(props) {
         id="main-nav-websites"
         label={t('in-components:mainNavigation.viewSwitcherLabelWebsites')}
         icon="lib_website_inverted"
-        href$={getView(websiteMonitoringPath)}
+        href={createHrefToPath(websiteMonitoringPath)}
         isActive$={isWebsiteView$}
         {...props}
       />
@@ -432,7 +451,7 @@ function WebsiteMobileAppView(props) {
         id="main-nav-mobile-apps"
         label={t('in-components:mainNavigation.viewSwitcherLabelMobileApps')}
         icon="lib_mobile_app_inverted"
-        href$={getView(mobileAppMonitoringPath)}
+        href={createHrefToPath(mobileAppMonitoringPath)}
         isActive$={isMobileAppView$}
         {...props}
       />
@@ -443,6 +462,7 @@ function WebsiteMobileAppView(props) {
 }
 
 function Platforms(props) {
+  const { matchLocation, createHrefToPath } = useNavigation();
   const { expandedSubMenu, setExpandedSubMenu, sidebarIsExpanded, onMouseEnter, onMouseLeave } = props;
 
   let numPlatformsAvailable = 0;
@@ -465,8 +485,8 @@ function Platforms(props) {
           id="main-nav-cloudfoundry"
           label={t('in-components:mainNavigation.viewSwitcherLabelCloudFoundry')}
           icon="lib_cloudfoundry_inverted"
-          href$={getView(cloudfoundryApplicationList)}
-          isActive$={isView(cloudfoundry)}
+          href={createHrefToPath(cloudfoundryApplicationList)}
+          isActive={matchLocation(cloudfoundry)}
           {...props}
         />
       )}
@@ -475,8 +495,8 @@ function Platforms(props) {
           id="main-nav-openstack"
           label={t('in-components:mainNavigation.viewSwitcherLabelOpenstack')}
           icon="lib_openstack"
-          href$={getView(regionListFullyQualified)}
-          isActive$={isView(openstack)}
+          href={createHrefToPath(regionListFullyQualified)}
+          isActive={matchLocation(openstack)}
           {...props}
         />
       )}
@@ -485,8 +505,8 @@ function Platforms(props) {
           id="main-nav-phmc"
           label={t('in-components:mainNavigation.viewSwitcherLabelphmc')}
           icon="lib_phmc_console"
-          href$={getView(phmcListFullyQualified)}
-          isActive$={isView(ibmp)}
+          href={createHrefToPath(phmcListFullyQualified)}
+          isActive={matchLocation(ibmp)}
           {...props}
         />
       )}
@@ -495,8 +515,8 @@ function Platforms(props) {
           id="main-nav-zhmc"
           label={t('in-components:mainNavigation.viewSwitcherLabelzhmc')}
           icon="lib_zhmcConsole"
-          href$={getView(zhmcListFullyQualified)}
-          isActive$={isView(ibmz)}
+          href={createHrefToPath(zhmcListFullyQualified)}
+          isActive={matchLocation(ibmz)}
           {...props}
         />
       )}
@@ -505,8 +525,8 @@ function Platforms(props) {
           id="main-nav-kubernetes"
           label={t('in-components:mainNavigation.viewSwitcherLabelKubernetes')}
           icon="lib_kubernetes_inverted"
-          href$={getView(kubernetesClusterList)}
-          isActive$={isView(kubernetes)}
+          href={createHrefToPath(kubernetesClusterList)}
+          isActive={matchLocation(kubernetes)}
           {...props}
         />
       )}
@@ -515,8 +535,8 @@ function Platforms(props) {
           id="main-nav-vsphere"
           label={t('in-components:mainNavigation.viewSwitcherLabelvSphere')}
           icon="lib_vsphere_inverted"
-          href$={getView(datacenterListFullyQualified)}
-          isActive$={isView(vsphere)}
+          href={createHrefToPath(datacenterListFullyQualified)}
+          isActive={matchLocation(vsphere)}
           {...props}
         />
       )}
@@ -524,12 +544,14 @@ function Platforms(props) {
   );
 
   if (numPlatformsAvailable > 1) {
+    const isActive = matchLocation(kubernetes, cloudfoundry, vsphere, ibmz, openstack, ibmp);
+
     return (
       <View
         id="main-nav-platforms"
         label={t('in-components:mainNavigation.viewSwitcherLabelPlatforms')}
         icon="lib_platforms_inverted"
-        isActive$={any(isView(kubernetes), isView(cloudfoundry), isView(vsphere), isView(ibmz))}
+        isActive={isActive}
         expandedSubMenu={expandedSubMenu}
         setExpandedSubMenu={setExpandedSubMenu}
         sidebarIsExpanded={sidebarIsExpanded}

@@ -233,7 +233,7 @@ describe('in-stores/navigation/hooks/useNavigation', () => {
     });
   });
 
-  describe('returned getView function', () => {
+  describe('returned createHrefToPath function', () => {
     it('applies resets to target location', () => {
       // Given
       const currentLocation = {
@@ -245,8 +245,8 @@ describe('in-stores/navigation/hooks/useNavigation', () => {
 
       // When
       const { result } = renderHook(useNavigation);
-      const { getView } = result.current;
-      const actual = getView('/resetTestPath/someSubPath');
+      const { createHrefToPath } = result.current;
+      const actual = createHrefToPath('/resetTestPath/someSubPath');
 
       // Then
       expect(actual).toEqual('/#/resetTestPath/someSubPath');
@@ -264,8 +264,8 @@ describe('in-stores/navigation/hooks/useNavigation', () => {
 
       // When
       const { result } = renderHook(useNavigation);
-      const { getView } = result.current;
-      const actual = getView('/someNonInfraPath');
+      const { createHrefToPath } = result.current;
+      const actual = createHrefToPath('/someNonInfraPath');
 
       // Then
       expect(actual).not.toContain('someDummyDFQ');

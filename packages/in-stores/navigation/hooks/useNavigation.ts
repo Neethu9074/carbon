@@ -39,6 +39,13 @@ interface UseNavigationResult {
   createHref: (target: Location) => string;
 
   /**
+   * Creates a href string
+   * that can be used to trigger a navigation to the target location state via default browser means, like <a/> elements.
+   * @param path The target pathname
+   */
+  createHrefToPath: (path: string) => string;
+
+  /**
    * Navigate to the provided path.
    * A simplified version of `navigate` that only allows mutation of the locations pathname property.
    * @param path The target pathname
@@ -46,17 +53,10 @@ interface UseNavigationResult {
   goToPath: (path: string) => void;
 
   /**
-   * Creates a href string, for use when leaving specific infrastructure dashboards that still use DFQ.
-   * Only use for this specific use-case.
-   * @param path The target pathname
-   * @deprecated Use createHref instead where possible
+   * Allows checking whether the current location matches the given predicates
+   * @param args Predicates to check, either a string to match against the root path or a predicate to match against the locations pathname
    */
-  getView: (path: string) => string;
-
-  /**
-   * @deprecated
-   */
-  isView: (...args: IsViewArg[]) => boolean;
+  matchLocation: (...args: IsViewArg[]) => boolean;
 }
 
 export function useNavigation(): UseNavigationResult {
@@ -68,9 +68,9 @@ export function useNavigation(): UseNavigationResult {
       location: cloneLocation(location),
       navigate: (target: Location, replace?: boolean) => navigate(history, location, target, replace),
       createHref: (target: Location) => createHref(location, target),
+      createHrefToPath: (pathname: string) => createHrefToPath(location, pathname),
       goToPath: (path: string) => goToPath(history, location, path),
-      getView: (path: string) => getView(location, path),
-      isView: (...args: IsViewArg[]) => isView(location, ...args)
+      matchLocation: (...args: IsViewArg[]) => matchLocation(location, ...args)
     }),
     [location, history]
   );
@@ -101,16 +101,14 @@ function goToPath(history: History, current: Location, path: string): void {
   navigate(history, current, target);
 }
 
-// @deprecated
-function getView(current: Location, path: string): string {
+function createHrefToPath(current: Location, path: string): string {
   const target = cloneLocation(current);
   removeDFQueryFromLocationWhenChangingArea(target, path);
   target.pathname = path;
   return createHref(current, target);
 }
 
-// @deprecated
-function isView(current: Location, ...args: IsViewArg[]): boolean {
+function matchLocation(current: Location, ...args: IsViewArg[]): boolean {
   const location = cloneLocation(current);
 
   const predicates = args.reduce((agg, arg) => {

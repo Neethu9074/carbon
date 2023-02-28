@@ -11,7 +11,7 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { t } from 'in-i18n';
 
 export default function ServiceConfigSwitcher() {
-  const { location, isView, createHref } = useNavigation();
+  const { location, matchLocation, createHref } = useNavigation();
 
   return (
     <SideNavigation title={t('in-applications:titleConfigure')}>
@@ -19,13 +19,13 @@ export default function ServiceConfigSwitcher() {
         href={createHref({ ...location, pathname: newServiceView })}
         icon="lib_application_service"
         label={t('in-applications:labelCustomServiceRules')}
-        isActive={isView(newServiceView)}
+        isActive={matchLocation(newServiceView)}
       />
       <SideNavigationItem
         href={createHref({ ...location, pathname: configureSyntheticEndpointsView })}
         icon="lib_application_endpoint"
         label={t('in-applications:labelSyntheticEndpoints')}
-        isActive={isView(configureSyntheticEndpointsView)}
+        isActive={matchLocation(configureSyntheticEndpointsView)}
       />
     </SideNavigation>
   );
