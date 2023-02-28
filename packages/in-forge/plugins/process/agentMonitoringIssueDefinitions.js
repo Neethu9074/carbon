@@ -89,16 +89,6 @@ export default {
     explanationLinkHref:
       'https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-java-virtual-machine#insufficient_disk_space_for_storing_temp_files'
   },
-  default_agent_port_unavailable: {
-    issueDescription: {
-      Component: function portUnavailable() {
-        return <span>{t('in-forge:plugins.process.portUnavailableIssueDescription')}</span>;
-      }
-    },
-    explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
-    explanationLinkHref:
-      'https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-java-virtual-machine#agent-cannot-bind-to-the-default-port'
-  },
   jvm_attach_network: {
     issueDescription: {
       Component: function jvmAttachNetwork({ agentHostAddresses }) {
