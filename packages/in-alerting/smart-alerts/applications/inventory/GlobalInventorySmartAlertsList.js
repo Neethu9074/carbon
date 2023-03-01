@@ -19,6 +19,7 @@ import { useUrlBasedCategory } from 'in-alerting/smart-alerts/applications/hooks
 import SmartAlertsBaseList from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
 import { actionHandlers } from 'in-alerting/smart-alerts/applications/list/ListActionHandlers';
 import { createRowLinkLocation } from 'in-alerting/smart-alerts/applications/list/rowLinking';
+import { getMetricName } from 'in-alerting/smart-alerts/applications/list/listHelper';
 import { role } from 'in-stores/user';
 
 export default function GlobalInventorySmartAlertsList({ onNoData }) {
@@ -41,6 +42,7 @@ export default function GlobalInventorySmartAlertsList({ onNoData }) {
       }
       columnDefinitions={getColumnDefinitions(isCategoryGlobal(configsCategory))}
       sortOptions={sortOptions}
+      extraSearchAttributes={[getMetricName]}
       createRowLinkLocation={createRowLinkLocation(configsCategory)}
     />
   );

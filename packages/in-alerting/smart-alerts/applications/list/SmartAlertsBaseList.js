@@ -17,7 +17,6 @@ import {
   isCategoryLocal
 } from 'in-alerting/smart-alerts/applications/list/constants';
 import SmartAlertsNoDataAvailable from 'in-alerting/smart-alerts/components/SmartAlertsNoDataAvailable';
-import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import SortingConfigurator from 'in-components/SortingConfigurator/SortingConfigurator';
 import getResultsToDisplay from 'in-alerting/smart-alerts/components/list/ListHelper';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
@@ -50,13 +49,6 @@ export function refreshSmartAlertConfigsList() {
   refreshSignal.emit(true);
 }
 
-/** ap-specific only */
-const getMetricName = config => {
-  const { rule } = config;
-  const blueprintConfig = getBlueprintConfig(rule.alertType);
-  return blueprintConfig?.getMetricLabel(rule.metricName);
-};
-
 export default function SmartAlertsBaseList({
   onNoData,
   getGlobalAlertConfigFetchFunction,
@@ -69,7 +61,7 @@ export default function SmartAlertsBaseList({
   configsCategory = categoryLocal,
   setConfigsCategory,
   sortOptions,
-  extraSearchAttributes = [getMetricName],
+  extraSearchAttributes = [],
   ...remainingProps
 }) {
   const [{ orderBy, orderDirection, page, query }, setState] = useOptionalExternalState(

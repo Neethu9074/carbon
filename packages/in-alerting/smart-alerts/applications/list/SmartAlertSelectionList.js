@@ -13,6 +13,7 @@ import {
 } from 'in-alerting/smart-alerts/applications/list/columns/columnDefinitions';
 import { categoryLocal, isCategoryGlobal, sortOptions } from 'in-alerting/smart-alerts/applications/list/constants';
 import SmartAlertsBaseList from 'in-alerting/smart-alerts/applications/list/SmartAlertsBaseList';
+import { getMetricName } from 'in-alerting/smart-alerts/applications/list/listHelper';
 
 /* Application specific selection list */
 export default function SmartAlertSelectionList({
@@ -34,6 +35,7 @@ export default function SmartAlertSelectionList({
       getGlobalAlertConfigFetchFunction={getGlobalAlertConfigFetchFunction}
       columnDefinitions={getColumnDefinitions(selection, onChange, isCategoryGlobal(configsCategory))}
       sortOptions={sortOptions}
+      extraSearchAttributes={[getMetricName]}
       pageSize={pageSize}
     />
   );
