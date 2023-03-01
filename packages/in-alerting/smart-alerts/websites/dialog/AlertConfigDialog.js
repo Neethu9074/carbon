@@ -18,7 +18,7 @@ import AlertConfigDialogWithThreshold from 'in-alerting/smart-alerts/websites/di
 import alertFormDefinition, { fieldNames } from 'in-alerting/smart-alerts/websites/form/alertDialogFormDefinition';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/websites/form/formUtils';
 import { createAlertConfig, updateAlertConfig } from 'in-alerting/smart-alerts/websites/api/websiteAlertConfig';
-import useSmartAlertFormSideEffects from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
+import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { getTrackingObject } from 'in-alerting/smart-alerts/components/dialog/trackingHelpers';
 import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';

@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import MessageStack, { MessageType } from 'in-components/MessageStack/MessageStack';
@@ -12,7 +11,7 @@ import StepProgressBar from 'in-components/StepProgressBar';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/simple/SimpleModeContainer.mless';
 
-interface SimpleModeContainerProps {
+export interface SimpleModeContainerProps {
   step: number;
   stepConfigs: StepConfigs;
   stepRenderers: ((props?: SimpleModeContainerProps) => React.ReactNode)[];
@@ -46,15 +45,3 @@ export default function SimpleModeContainer(props: SimpleModeContainerProps) {
 function mapTitles(stepConfigs: StepConfigs) {
   return stepConfigs.map(stepConfig => stepConfig.title);
 }
-
-SimpleModeContainer.propTypes = {
-  step: PropTypes.number.isRequired,
-  stepConfigs: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      validateIntermediately: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string))
-    })
-  ).isRequired,
-  stepRenderers: PropTypes.arrayOf(PropTypes.func).isRequired,
-  messages: PropTypes.arrayOf(PropTypes.object).isRequired
-};

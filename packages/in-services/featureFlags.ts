@@ -103,6 +103,9 @@ export const syntheticBrowserScriptEnabled = isFeatureFlagEnabled('syntheticBrow
 // Synthetic SmartAlert feature flag
 export const syntheticSmartAlertsEnabled = isFeatureFlagEnabled('syntheticSmartAlertsEnabled');
 
+// Create Synthetic SmartAlert UI feature flag
+export const syntheticCreateSmartAlertsUIEnabled = isFeatureFlagEnabled('syntheticCreateSmartAlertsUIEnabled');
+
 // ########################################################################################
 // Dynamic focus keywords
 // ########################################################################################

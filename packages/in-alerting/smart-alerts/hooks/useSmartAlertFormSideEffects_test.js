@@ -9,7 +9,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import useSmartAlertFormSideEffects from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
+import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { getEntitySelection } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';

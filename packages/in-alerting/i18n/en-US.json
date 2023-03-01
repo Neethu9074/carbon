@@ -1033,6 +1033,15 @@
         "filterApplied": "Filter Applied",
         "violationsCount": "{{violationsCount}} failures",
         "numberOfFailures": "Failure Alerting"
+      },
+      "simple": {
+        "stepConfigsStep3Title": "Step 3: Select Alert Channels"
+      },
+      "advanced": {
+        "alertChannelsLabel": "Alert Channels",
+        "alertChannelsTitle": "Alert Channels: Who needs to be alerted?",
+        "propertiesLabel": "Properties",
+        "propertiesTitle": "Additional Alert Properties"
       }
     }
   }

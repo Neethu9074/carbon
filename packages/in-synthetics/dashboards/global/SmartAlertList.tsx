@@ -10,8 +10,11 @@ import { SyntheticAlertConfigWithMetadata } from '@instana/types';
 
 import { getAllAlertConfigs } from 'in-alerting/smart-alerts/synthetics/api/syntheticAlertConfig';
 import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
+import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
+import CreateSmartAlert from 'in-alerting/smart-alerts/synthetics/CreateSmartAlert';
 import AlertBaseList from 'in-alerting/smart-alerts/components/AlertsBaseList';
 import DefaultCell from 'in-alerting/smart-alerts/components/list/DefaultCell';
+import { syntheticCreateSmartAlertsUIEnabled } from 'in-services/featureFlags';
 import { tableActions } from 'in-alerting/smart-alerts/synthetics/Alerts';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -37,6 +40,11 @@ export default function SmartAlertList() {
         />
       </LeftRightPadding>
       <Footer />
+      {syntheticCreateSmartAlertsUIEnabled && (
+        <FloatingActionButtons>
+          <CreateSmartAlert />
+        </FloatingActionButtons>
+      )}
     </Sticky>
   );
 }

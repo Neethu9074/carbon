@@ -12,9 +12,9 @@ import { SvgIcon } from '@instana/components';
 import locals from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview.mless';
 
 export function AlertPreview({ form, renderHeadline, getDescriptionPlaceholder, entityLabel, entityIconType }) {
-  const description = form.get('description').value;
-  const severity = Number(form.get('severity').value);
-  const triggering = form.get('triggering').value;
+  const description = form.get('description')?.value;
+  const severity = Number(form.get('severity')?.value);
+  const triggering = form.get('triggering')?.value;
 
   return (
     <div

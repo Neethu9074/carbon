@@ -12,20 +12,23 @@ import AlertSection from 'in-alerting/components/AlertSection';
 import { t } from 'in-i18n';
 
 export default function TriggersIncidentRow({ form, trackTriggerChanged, onChange }) {
-  return (
-    <AlertSection
-      title={t('in-alerting:smartAlerts.components.smartAlertDialog.alertPropertiesTriggersIncident')}
-      icon="lib_events_incident"
-    >
-      <Toggle
-        checked={Boolean(form.get('triggering').value)}
-        onChange={e => {
-          onChange(['triggering'], field => field.setValue(e.target.checked || '').setTouched(true));
-          trackTriggerChanged?.();
-        }}
-      />
-    </AlertSection>
-  );
+  if (form.get('triggering')) {
+    return (
+      <AlertSection
+        title={t('in-alerting:smartAlerts.components.smartAlertDialog.alertPropertiesTriggersIncident')}
+        icon="lib_events_incident"
+      >
+        <Toggle
+          checked={Boolean(form.get('triggering')?.value)}
+          onChange={e => {
+            onChange(['triggering'], field => field.setValue(e.target.checked || '').setTouched(true));
+            trackTriggerChanged?.();
+          }}
+        />
+      </AlertSection>
+    );
+  }
+  return null;
 }
 
 TriggersIncidentRow.propTypes = {
