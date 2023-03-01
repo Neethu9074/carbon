@@ -29,8 +29,6 @@ export default function ApiQueryOverlay({
   useDisabledBodyScroll();
   const [includeFacets, setIncludeFacets] = useState(backendQueryModelWithFacets != null);
 
-  //const model = includeFacets ? backendQueryModelWithFacets : backendQueryModel;
-
   const model = { timeFrame, tagFilterExpression: backendQueryModel, pagination, group, type, metrics, order };
 
   const jsonString = JSON.stringify(model, 0, 2);
