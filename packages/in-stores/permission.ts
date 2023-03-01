@@ -380,7 +380,7 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
   },
   [Capability.CAN_CONFIGURE_PERSONAL_API_TOKENS]: {
     keyForGroupApi: Capability.CAN_CONFIGURE_PERSONAL_API_TOKENS,
-    keyForApiTokenApi: 'canConfigurePersonalApiTokens',
+    keyForApiTokenApi: '', // indicates that this is not a permission for a token
     label: t('in-stores:permissionCanConfigurePersonalApiTokensLabel'),
     description: t('in-stores:permissionCanConfigurePersonalApiTokensDescription'),
     category: t('in-stores:permissionCanConfigurePersonalApiTokensCategory'),
@@ -505,11 +505,11 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
   }
 };
 
-function getProductPermissions(): Array<ProductPermission> {
-  const permissions: Array<ProductPermission> = Object.values(productPermissionsObject);
+export function getProductPermissions(): Array<ProductPermission> {
+  let permissions: Array<ProductPermission> = Object.values(productPermissionsObject);
 
   if (!syntheticsEnabled) {
-    return permissions.filter(({ keyForGroupApi }) => {
+    permissions = permissions.filter(({ keyForGroupApi }) => {
       const syntheticCapabilities: Array<CapabilityType> = [
         Capability.CAN_CONFIGURE_SYNTHETIC_TESTS,
         Capability.CAN_CONFIGURE_SYNTHETIC_LOCATIONS,
@@ -523,7 +523,7 @@ function getProductPermissions(): Array<ProductPermission> {
   }
 
   if (!actionAutomationEnabled) {
-    return permissions.filter(({ keyForGroupApi }) => {
+    permissions = permissions.filter(({ keyForGroupApi }) => {
       const automationCapabilities: Array<CapabilityType> = [
         Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS,
         Capability.CAN_RUN_AUTOMATION_ACTIONS

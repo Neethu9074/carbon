@@ -26,8 +26,7 @@ export function createGroupingConfigurator({ getTagCatalog: originalGetTagCatalo
 
     // Observable<Result<Boolean>>
     isGroupingConfigurationValid: (groupingConfiguration, timeConfig) =>
-      getTagCatalog({ timeConfig })
-        .map(result => isGroupingConfigurationValid(groupingConfiguration, result?.data))
+      getTagCatalog({ timeConfig }).map(result => isGroupingConfigurationValid(groupingConfiguration, result?.data))
   };
 }
 
@@ -43,5 +42,5 @@ export function createDynamicGroupingConfigurator({ getSuggestions }) {
       }
       return success(isValid(groupingConfiguration, tagCatalog));
     }
-  }
+  };
 }

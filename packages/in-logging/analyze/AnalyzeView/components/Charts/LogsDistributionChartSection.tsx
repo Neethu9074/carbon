@@ -39,20 +39,21 @@ export default function LogsDistributionChartSection(props: LogsDistributionChar
     <Sections className={locals.wrapper}>
       {showChartMetricSelector && (
         <ChartingConfiguratorSection
-        value={chartedMetrics?.[0]}
-        onChange={(metric: ChartedMetric) => onChartedMetricsChange(metric ? [metric] : [])}
-        dataSource={dataSource}
-        ChartingConfigurator={GroupedChartingConfigurator}
-        options={logsChartOptions}
-        tracking={tracking}
-        hideRenderer={hideRenderer}
-        disableClose={disableClose}
-        unifiedMetricsSource="LOGS"
+          value={chartedMetrics?.[0]}
+          onChange={(metric: ChartedMetric) => onChartedMetricsChange(metric ? [metric] : [])}
+          dataSource={dataSource}
+          ChartingConfigurator={GroupedChartingConfigurator}
+          options={logsChartOptions}
+          tracking={tracking}
+          hideRenderer={hideRenderer}
+          disableClose={disableClose}
+          unifiedMetricsSource="LOGS"
         />
       )}
-      {metric && (<div className={locals.chartWrapper}>
-        <Chart {...props} metric={metric} />
-      </div>
+      {metric && (
+        <div className={locals.chartWrapper}>
+          <Chart {...props} metric={metric} />
+        </div>
       )}
     </Sections>
   );

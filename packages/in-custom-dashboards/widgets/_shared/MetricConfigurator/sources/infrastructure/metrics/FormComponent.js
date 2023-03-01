@@ -68,7 +68,7 @@ export default function FormComponent({
 
   const type = typeField.value || undefined;
   const metric = metricField.value || undefined;
-  const tagCatalog = useTagCatalog({ownerType: type, metric, includeMetricTags: true})
+  const tagCatalog = useTagCatalog({ ownerType: type, metric, includeMetricTags: true });
   const [tagFilterExpression, setTagFilterExpression] = useTagFilterExpressionState({
     tagCatalogResult: tagCatalog ? success(tagCatalog) : pendingResult,
     form,
@@ -277,4 +277,3 @@ function getCrossSeriesAggregationTooltip(
       })
     : '';
 }
-

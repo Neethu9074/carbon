@@ -106,17 +106,17 @@ const infraCapabilities: Array<CapabilityType> = [];
 // ANALYTICS
 const analyticsAreaPermissions: Array<AreaPermissionType> = [];
 export const analyticsCapabilities: Array<CapabilityType> = [
-  Capability.CAN_VIEW_TRACE_DETAILS,
-  Capability.CAN_VIEW_LOGS
+  Capability.CAN_VIEW_LOGS,
+  Capability.CAN_VIEW_TRACE_DETAILS
 ];
 
 // EVENT
 const eventAreaPermissions: Array<AreaPermissionType> = [];
 export const eventCapabilities: Array<CapabilityType> = [
-  Capability.CAN_CONFIGURE_INTEGRATIONS,
   Capability.CAN_CONFIGURE_CUSTOM_ALERTS,
-  Capability.CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD,
-  Capability.CAN_CONFIGURE_GLOBAL_ALERT_CONFIGS
+  Capability.CAN_CONFIGURE_INTEGRATIONS,
+  Capability.CAN_CONFIGURE_GLOBAL_ALERT_CONFIGS,
+  Capability.CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD
 ];
 
 // MIXED

@@ -9,8 +9,8 @@ import { LogsResult, Result } from '@instana/types';
 import { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
-import { CreateParams, LogsCursorPaginationState } from 'in-logging/analyze/AnalyzeView/components/hooks/types';
 import { maxInitialLogLines, maxRetrievalSize } from 'in-logging/analyze/AnalyzeView/components/Charts/constants';
+import { CreateParams, LogsCursorPaginationState } from 'in-logging/analyze/AnalyzeView/components/hooks/types';
 import { indeterminateProgress, pendingResult } from 'in-services/fixedObjects';
 import { shallowEquals } from 'in-services/util/object';
 import { LogItem } from 'in-types';

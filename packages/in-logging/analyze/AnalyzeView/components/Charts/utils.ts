@@ -4,12 +4,13 @@
  * Copyright IBM Corp. 2023
  */
 
-import { getValueMatchTagFilter, LOG_LEVEL } from 'in-logging/queryBuilder';
-import { t } from 'in-i18n';
-import theme from 'in-themes';
-import { Config, Metric } from 'in-custom-dashboards/widgets/Chart/types';
 import { TagFilterExpression } from '@instana/types';
+
+import { getValueMatchTagFilter, LOG_LEVEL } from 'in-logging/queryBuilder';
+import { Config, Metric } from 'in-custom-dashboards/widgets/Chart/types';
 import { ChartedMetric } from 'in-components/AnalyzeView/StateManagement';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 export const getLogsChartConfig = (
   backendQueryModelWithFacets: TagFilterExpression,

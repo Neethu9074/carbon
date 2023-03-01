@@ -98,4 +98,3 @@ function QueryBuilderReadOnly({ value: formModel, tagCatalog, getSuggestions }) 
     );
   }
 }
-

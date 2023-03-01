@@ -7,14 +7,15 @@
 import React, { useState } from 'react';
 import { MapForm } from 'formalistic';
 
+import PermissionSelection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSelection';
 import PermissionSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSection';
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import GroupNameSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/GroupNameSection';
 import HeadingSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/HeadingSection';
 import { getField, updateFormField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { ProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
-import { getApplicationConfigsAsResultObservable } from '../../../../../../../in-api/applicationConfigs';
 import useSubSlideControl, { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
+import { getApplicationConfigsAsResultObservable } from 'in-api/applicationConfigs';
 import ConfigDialog, { SubSlideConfig } from 'in-settings/components/ConfigDialog';
 import { getMobileAppConfigurations } from 'in-mobile-apps/api/mobileApps';
 import { getWebsiteConfigurations } from 'in-websites/api/websites';
@@ -150,6 +151,67 @@ export default function EditAccessScopeDialog({
               icon="lib_application"
               extractId={({ id }) => id}
               extractName={({ label }) => label}
+              {...formControlProps}
+              {...slideControlProps}
+            />
+          )
+        },
+        {
+          scrollId: '6-platforms',
+          label: t('in-settings:PermissionSection.title_platforms'),
+          title: t('in-settings:PermissionSection.title_platforms'),
+          valid: true,
+          content: <></>
+        },
+        {
+          scrollId: '7-infrastructure',
+          label: t('in-settings:PermissionSection.title_infrastructure'),
+          title: t('in-settings:PermissionSection.title_infrastructure'),
+          valid: true,
+          content: <></>
+        },
+        {
+          scrollId: '8-analytics',
+          label: t('in-settings:PermissionSection.title_analytics'),
+          title: t('in-settings:PermissionSection.title_analytics'),
+          valid: true,
+          content: (
+            <PermissionSelection
+              title={t('in-settings:PermissionSection.title_analytics')}
+              description={t('in-settings:PermissionSection.description_analytics')}
+              productArea={ProductArea.ANALYTICS}
+              icon="lib_analyze"
+              {...formControlProps}
+              {...slideControlProps}
+            />
+          )
+        },
+        {
+          scrollId: '9-eventsAndAlerts',
+          label: t('in-settings:PermissionSection.title_events_and_alerts'),
+          title: t('in-settings:PermissionSection.title_events_and_alerts'),
+          valid: true,
+          content: (
+            <PermissionSelection
+              title={t('in-settings:PermissionSection.title_events_and_alerts')}
+              description={t('in-settings:PermissionSection.description_events_and_alerts')}
+              productArea={ProductArea.EVENT}
+              icon="lib_events_inverted"
+              {...formControlProps}
+              {...slideControlProps}
+            />
+          )
+        },
+        {
+          scrollId: '10-globalFunctions',
+          label: t('in-settings:PermissionSection.title_global_functions'),
+          title: t('in-settings:PermissionSection.title_global_functions'),
+          valid: true,
+          content: (
+            <PermissionSelection
+              title={t('in-settings:PermissionSection.title_global_functions')}
+              productArea={ProductArea.MIXED}
+              icon="lib_actions_settings"
               {...formControlProps}
               {...slideControlProps}
             />

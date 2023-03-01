@@ -9,8 +9,8 @@ import { ThemeProvider } from '@instana/components';
 import '@instana/components/esm/index.css';
 
 import FloatingActionButtonPresenter from 'in-components/FloatingActionButton/FloatingActionButtonPresenter';
-import LocationStateProvider from 'in-stores/navigation/LocationStateProvider';
 import DeprecatedCustomEventsPopUp from 'in-events/components/DeprecatedCustomEventsPopUp';
+import LocationStateProvider from 'in-stores/navigation/LocationStateProvider';
 import NotificationBarSticky from 'in-components/Sticky/NotificationBarSticky';
 import OverlayPresenter from 'in-components/overlays/OverlayPresenter';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';

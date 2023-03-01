@@ -4,11 +4,11 @@
  */
 
 // @ts-expect-error module need to be translated to TS
-import SmartAlertList from 'promise-loader?global,synthetics!in-synthetics/dashboards/global/SmartAlertList';
-// @ts-expect-error module need to be translated to TS
 import SyntheticLocationView from 'promise-loader?global,synthetics!in-synthetics/dashboards/global/LocationList';
 // @ts-expect-error module need to be translated to TS
 import SyntheticsView from 'promise-loader?global,synthetics!in-synthetics/dashboards/global/TestSummaryList';
+// @ts-expect-error module need to be translated to TS
+import SmartAlertList from 'promise-loader?global,synthetics!in-synthetics/dashboards/global/SmartAlertList';
 // @ts-expect-error module need to be translated to TS
 import AnalyzeView from 'promise-loader?global,synthetics!in-synthetics/dashboards/details/AnalyzeView';
 //@ts-ignore
