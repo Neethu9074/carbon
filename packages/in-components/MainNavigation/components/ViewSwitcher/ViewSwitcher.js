@@ -11,36 +11,43 @@ import { Spacer } from '@instana/components';
 import { just } from '@instana/observables';
 
 import {
-  hasApplicationsAccess,
-  hasWebsitesAccess,
-  hasKubernetesAccess,
   hasAnalyzeAccess,
-  hasMobileAppsAccess,
+  hasAPlatformAccess,
+  hasApplicationsAccess,
+  hasEventsAccess,
   hasInfrastructureAccess,
+  hasKubernetesAccess,
+  hasMobileAppsAccess,
+  hasOpenStackAccess,
+  hasPCFAccess,
+  hasPHMCAccess,
   hasSyntheticsAccess,
   hasVSphereAccess,
-  hasPHMCAccess,
-  hasZHMCAccess,
-  hasPCFAccess,
-  hasOpenStackAccess,
-  hasEventsAccess,
-  hasAPlatformAccess
+  hasWebsitesAccess,
+  hasZHMCAccess
 } from 'in-stores/permission';
 import {
-  mobileAppMonitoringPath,
   getLinkToAnalyze as getLinkToMobileAppAnalyze,
-  isAnalyzeView as isMobileAppAnalyzeView
+  isAnalyzeView as isMobileAppAnalyzeView,
+  mobileAppMonitoringPath
 } from 'in-mobile-apps/navigation/paths';
 import {
-  websiteMonitoringPath,
   getLinkToAnalyze as getLinkToWebsiteAnalyze,
-  isAnalyzeView as isWebsiteAnalyzeView
+  isAnalyzeView as isWebsiteAnalyzeView,
+  websiteMonitoringPath
 } from 'in-websites/navigation/paths';
 import {
   applicationsList,
   getLinkToAnalyze as getLinkToApplicationsAnalyze,
   isApplicationsView
 } from 'in-applications/navigation/paths';
+import {
+  agentsPath,
+  containerPath,
+  isTableView,
+  physicalPath,
+  settingsPath
+} from 'in-stores/navigation/paths/mainPaths';
 import {
   applicationListFullyQualified as cloudfoundryApplicationList,
   cloudfoundry
@@ -50,32 +57,29 @@ import { isInternalVisible$ } from 'in-components/MainNavigation/components/View
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
 import { releaseNotesEnabled, sloV2Enabled, tenantSwitcherEnabled } from 'in-services/featureFlags';
 import { isAnalyzeView as isProfileAnalyzeView } from 'in-components/Profiling/navigation/paths';
-import { physicalPath, containerPath, isTableView } from 'in-stores/navigation/paths/mainPaths';
 import { SubViewItem } from 'in-components/MainNavigation/components/ViewSwitcher/SubView';
 import { isSyntheticMonitoringView, syntheticsPath } from 'in-synthetics/navigation/paths';
-import { regionListFullyQualified, openstack } from 'in-openstack/navigation/paths';
+import { openstack, regionListFullyQualified } from 'in-openstack/navigation/paths';
 import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
 import { isAnalyzeView as isLogsAnalyzeView } from 'in-logging/navigation/paths';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
-import { agentsPath, settingsPath } from 'in-stores/navigation/paths/mainPaths';
+import { getColorBySeverity, openEventsAtServerTime$ } from 'in-stores/events';
 import View from 'in-components/MainNavigation/components/ViewSwitcher/View';
 import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { isInfraExploreView } from 'in-infrastructure/navigation/paths';
-import { phmcListFullyQualified, ibmp } from 'in-phmc/navigation/paths';
-import { zhmcListFullyQualified, ibmz } from 'in-zhmc/navigation/paths';
-import { sloList, isSloView } from 'in-service-levels/navigation/path';
+import { ibmp, phmcListFullyQualified } from 'in-phmc/navigation/paths';
+import { ibmz, zhmcListFullyQualified } from 'in-zhmc/navigation/paths';
+import { isSloView, sloList } from 'in-service-levels/navigation/path';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { cockpit as cockpitPath } from 'in-cockpit/navigation/paths';
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
 import Stan from 'in-components/MainNavigation/components/Stan';
 import { isAnalyzeView } from 'in-analyze/navigation/paths';
-import { openEventsAtServerTime$ } from 'in-stores/events';
 import { showReleaseNotes } from 'in-stores/releaseNotes';
 import { eventsPath } from 'in-events/navigation/paths';
-import { getColorBySeverity } from 'in-stores/events';
 import { all, any } from 'in-services/fixedStreams';
-import { user, role } from 'in-stores/user';
+import { role, user } from 'in-stores/user';
 import { config } from 'in-services/config';
 import { t } from 'in-i18n';
 
@@ -348,18 +352,20 @@ function Applications(props) {
 function SloDashboard(props) {
   const { matchLocation, createHrefToPath } = useNavigation();
 
-  if (sloV2Enabled) {
-    return (
-      <View
-        id="main-nav-slo-dashboard"
-        label={t('in-components:mainNavigation.viewSwitcherLabelSlo')}
-        icon="lib_service_level"
-        isActive={matchLocation(isSloView)}
-        href={createHrefToPath(sloList)}
-        {...props}
-      />
-    );
+  if (!sloV2Enabled) {
+    return null;
   }
+
+  return (
+    <View
+      id="main-nav-slo-dashboard"
+      label={t('in-components:mainNavigation.viewSwitcherLabelSlo')}
+      icon="lib_service_level"
+      isActive={matchLocation(isSloView)}
+      href={createHrefToPath(sloList)}
+      {...props}
+    />
+  );
 }
 
 function Analyze(props) {
