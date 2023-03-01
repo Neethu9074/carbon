@@ -5670,6 +5670,10 @@
         "logWrites": "Log Writes",
         "lockSuspensions": "Lock Suspensions"
       },
+      "notifications": {
+        "notificationHeader": "Warning",
+        "notificationText": "This version of IBM Db2 for z/OS is deprecated. As of now, we support <supportLink>IBM Z Observability with help of Omegamon and zAPM integration</supportLink>."
+      },
       "UnableToConnect": "Cannot connect to {{connectionUrl}} using user {{user}}.",
       "UnableToGetData": "Error while getting data. Removing sensor.",
       "troubleshootingDocs": "Troubleshooting docs"
