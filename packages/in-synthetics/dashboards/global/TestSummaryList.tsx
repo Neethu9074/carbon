@@ -209,10 +209,14 @@ export function getTestSummaryListData({
     logicalOperator: 'AND',
     type: 'EXPRESSION'
   };
+  /** tagFilterExpressions used here are to allow users to display a list of tests
+   * with, for example, (type1 or type1) & at (location1, or location2, or location3) &
+   * associated with (application1, or application2)
+   */
   /** Each test is at most associated with one application */
   const appTagFilterExpression: TagFilterExpression = {
     elements: [],
-    logicalOperator: 'AND',
+    logicalOperator: 'OR',
     type: 'EXPRESSION'
   };
   /** Each test is associated with one type */
@@ -221,10 +225,10 @@ export function getTestSummaryListData({
     logicalOperator: 'OR',
     type: 'EXPRESSION'
   };
-  /** Each test is at most associated with one location */
+  /** Each test is associated with one or more locations */
   const locationTagFilterExpression: TagFilterExpression = {
     elements: [],
-    logicalOperator: 'AND',
+    logicalOperator: 'OR',
     type: 'EXPRESSION'
   };
 
@@ -246,25 +250,13 @@ export function getTestSummaryListData({
       entity: NOT_APPLICABLE,
       type: 'TAG_FILTER'
     });
-  } else {
-    if (applicationIds.length !== 0 && Array.isArray(applicationIds)) {
-      applicationIds.forEach(applicationId => {
-        baseTagFilterExpression.elements.push({
-          value: applicationId,
-          name: applicationIdTagName,
-          operator: EQUALS,
-          entity: NOT_APPLICABLE,
-          type: 'TAG_FILTER'
-        });
-      });
-    }
   }
 
   addFilter(syntheticTypes, typeTagName, EQUALS, typeTagFilterExpression);
   addFilter(locationIds, locationIdTagName, EQUALS, locationTagFilterExpression);
+  addFilter(applicationIds, applicationIdTagName, EQUALS, appTagFilterExpression);
 
-  appTagFilterExpression.elements.push(typeTagFilterExpression, locationTagFilterExpression);
-  baseTagFilterExpression.elements.push(typeTagFilterExpression, locationTagFilterExpression);
+  baseTagFilterExpression.elements.push(typeTagFilterExpression, locationTagFilterExpression, appTagFilterExpression);
 
   const sparkChartGranularity = getChartGranularity(timeConfig);
 
@@ -288,6 +280,6 @@ export function getTestSummaryListData({
       includeSyntheticCalls: false,
       useLongTermDataOnly: false
     },
-    tagFilterExpression: context == 'application' ? appTagFilterExpression : baseTagFilterExpression
+    tagFilterExpression: baseTagFilterExpression
   });
 }

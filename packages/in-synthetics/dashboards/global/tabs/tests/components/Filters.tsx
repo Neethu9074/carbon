@@ -13,6 +13,15 @@ import { t } from 'in-i18n';
 
 import locals from './Filters.mless';
 
+type Option = {
+  label: string;
+  value: string;
+};
+
+let syntheticTypeOptions: Option[] = [];
+let locationLabelOptions: Option[] = [];
+let applicationLabelOptions: Option[] = [];
+
 export default function Filters({
   isAppcontext,
   setFilter,
@@ -21,6 +30,20 @@ export default function Filters({
   locationIds,
   applicationIds = []
 }: FilterSectionProps) {
+  let useTypeOptions: boolean = syntheticTypes != null && syntheticTypes.length > 0 ? true : false;
+  let useLocationOptions: boolean = locationIds != null && locationIds.length > 0 ? true : false;
+  let useApplicationOptions: boolean = applicationIds.length > 0 ? true : false;
+
+  let resetOptions: boolean =
+    syntheticTypes == null ||
+    syntheticTypes.length == 0 ||
+    locationIds == null ||
+    locationIds.length == 0 ||
+    applicationIds == null ||
+    applicationIds.length == 0
+      ? true
+      : false;
+
   return (
     <Fragment>
       <ComboBox
@@ -28,7 +51,7 @@ export default function Filters({
         onChange={t => Array.isArray(t) && setFilter({ syntheticTypes: t.map(a => a.value) })}
         placeholder={t('in-synthetics:dashboard.testList.type')}
         isMulti
-        options={getSyntheticTypes(result)}
+        options={syntheticTypeOptions.length > 0 && useTypeOptions ? syntheticTypeOptions : getSyntheticTypes(result)}
         className={locals.filter}
       />
       <ComboBox
@@ -36,7 +59,11 @@ export default function Filters({
         onChange={t => Array.isArray(t) && setFilter({ locationIds: t.map(a => a.value) })}
         placeholder={t('in-synthetics:dashboard.testList.locationLabel')}
         isMulti
-        options={getLocationLabels(result)}
+        options={
+          locationLabelOptions.length > 0 && useLocationOptions
+            ? locationLabelOptions
+            : getLocationLabels(result, resetOptions)
+        }
         className={locals.filter}
       />
       {!isAppcontext && (
@@ -45,7 +72,11 @@ export default function Filters({
           onChange={t => Array.isArray(t) && setFilter({ applicationIds: t.map(a => a.value) })}
           placeholder={t('in-synthetics:dashboard.testList.applicationLabel')}
           isMulti
-          options={getApplicationLabels(result)}
+          options={
+            applicationLabelOptions.length > 0 && useApplicationOptions
+              ? applicationLabelOptions
+              : getApplicationLabels(result, resetOptions)
+          }
           className={locals.filter}
         />
       )}
@@ -53,14 +84,7 @@ export default function Filters({
   );
 }
 
-type Option = {
-  label: string;
-  value: string;
-};
-
 function getSyntheticTypes(result: Result<PaginatedResult<TestResultListItem>> | undefined) {
-  let syntheticTypeOptions: Option[] = [];
-
   // Get syntheticTypes from result
   if (!result?.progress?.loading) {
     let syntheticTypes: string[] = [];
@@ -85,8 +109,11 @@ function getSyntheticTypes(result: Result<PaginatedResult<TestResultListItem>> |
   return syntheticTypeOptions;
 }
 
-function getLocationLabels(result: Result<PaginatedResult<TestResultListItem>> | undefined) {
-  let locationLabelOptions: Option[] = [];
+function getLocationLabels(result: Result<PaginatedResult<TestResultListItem>> | undefined, resetOptions: boolean) {
+  // Reset locationLabelOptions
+  if (resetOptions) {
+    locationLabelOptions = [];
+  }
 
   // Get locationDisplayLabels and locationIds from result
   if (!result?.progress?.loading) {
@@ -115,8 +142,11 @@ function getLocationLabels(result: Result<PaginatedResult<TestResultListItem>> |
   return locationLabelOptions;
 }
 
-function getApplicationLabels(result: Result<PaginatedResult<TestResultListItem>> | undefined) {
-  let applicationLabelOptions: Option[] = [];
+function getApplicationLabels(result: Result<PaginatedResult<TestResultListItem>> | undefined, resetOptions: boolean) {
+  // Reset applicationLabelOptions
+  if (resetOptions) {
+    applicationLabelOptions = [];
+  }
 
   // Get applicationLabels and applicationIds from result
   if (!result?.progress?.loading) {
