@@ -8,6 +8,7 @@ import React from 'react';
 
 import DebouncedRestrictedSlider from 'in-components/Slider/DebouncedRestrictedSlider';
 import Section, { SubTitle } from 'in-synthetics/components/Section';
+import { Shape } from 'in-components/Slider/proptypes';
 import FormGroup from 'in-components/form/FormGroup';
 import { minutes } from 'in-services/time';
 import { t } from 'in-i18n';
@@ -21,7 +22,7 @@ export interface Props {
  * This is used to render marks in the freequesncy scheduler
  * It allowes a maximum selection of 120 mins, but only the specified values are possible to select
  */
-const marks = [1, 5, 10, 15, 20, 30, 60, 120].map(min => ({
+const marks: Shape[] = [1, 5, 10, 15, 20, 30, 60, 120].map(min => ({
   value: min,
   label: `${min} min`,
   millis: minutes.toMillis(min)

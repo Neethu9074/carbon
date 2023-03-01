@@ -3,19 +3,20 @@
  * (c) Copyright Instana Inc.
  */
 
-interface Shape {
+export interface Shape {
   value: number;
   label: string;
+  millis?: number;
 }
 
 export interface RestrictedSliderProp {
   marks: Shape[];
   max: number;
   min: number;
-  onChange: (...args: any[]) => any;
-  valueLabelFormat?: (...args: any[]) => any;
+  onChange: (value: number) => void;
+  valueLabelFormat?: (value: number) => string;
   valueLabelDisplay?: 'on' | 'off' | 'auto';
   disabled?: boolean;
   style?: React.CSSProperties;
-  value: number | number[];
+  value: number;
 }
