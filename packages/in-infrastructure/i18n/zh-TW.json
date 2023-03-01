@@ -56,8 +56,9 @@
     "kubernetesLabels": "Kubernetes 標籤"
   },
   "explore": {
+    "beta": "測試版",
+    "tryBetaInfraAnalytics": "試用新的基礎架構分析",
     "focusOnThisGroup": "聚焦於此群組",
-    "thisIsABetaVersionOfANewProductCapability": "這是新產品功能的測試版。建議您不要依賴所呈現的資料。",
     "theQueryConfigurationIsInvalid": "查詢配置無效。請先處理驗證失敗情況，再繼續進行。",
     "allInfrastructure": "所有基礎架構",
     "name": "名稱",
@@ -101,7 +102,6 @@
     "collapseAll": "全部收合",
     "map": "圖",
     "comparisonTable": "對照表",
-    "entityExploreBeta": "實體探索（測試版）",
     "infrastructureComparisonTable": "基礎架構對照表"
   }
 }

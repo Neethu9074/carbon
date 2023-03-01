@@ -607,11 +607,11 @@
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_perWindowEvaluation_2": "針對最後 {{numberEvaluationWindows}} 個評估範圍，每個範圍至少 {{count}} 個使用者受影響",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserPercentage_perWindowEvaluation": "針對最後 {{numberEvaluationWindows}} 個評估範圍，每個範圍至少 {{userPercentage}} 使用者受影響",
         "timeThresholdDescriptionUserImpactOfViolationsInSequence_perWindowEvaluation": "針對最後 {{numberEvaluationWindows}} 個評估範圍，每個範圍的受影響程度",
-        "timeThresholdDescriptionRequestImpact": "在過去 {{formattedTimeWindow}} 內，至少有 {{count}} 個使用者受到影響",
-        "timeThresholdDescriptionRequestImpact_plural": "在過去 {{formattedTimeWindow}} 內，至少有 {{count}} 個要求受到影響",
-        "timeThresholdDescriptionRequestImpact_0": "在過去 {{formattedTimeWindow}} 內，至少有 {{count}} 個要求受到影響",
-        "timeThresholdDescriptionRequestImpact_1": "在過去 {{formattedTimeWindow}} 內，至少有 {{count}} 個使用者受到影響",
-        "timeThresholdDescriptionRequestImpact_2": "在過去 {{formattedTimeWindow}} 內，至少有 {{count}} 個要求受到影響",
+        "timeThresholdDescriptionTraceImpact": "在最後的 {{formattedTimeWindow}} 內至少有 {{count}} 個追蹤受到影響",
+        "timeThresholdDescriptionTraceImpact_plural": "在最後的 {{formattedTimeWindow}} 內至少有 {{count}} 個追蹤受到影響",
+        "timeThresholdDescriptionTraceImpact_0": "在最後的 {{formattedTimeWindow}} 內至少有 {{count}} 個追蹤受到影響",
+        "timeThresholdDescriptionTraceImpact_1": "在最後的 {{formattedTimeWindow}} 內至少有 {{count}} 個追蹤受到影響",
+        "timeThresholdDescriptionTraceImpact_2": "在最後的 {{formattedTimeWindow}} 內至少有 {{count}} 個追蹤受到影響",
         "timeThresholdDescriptionViolationsInPeriod": "在過去 {{formattedTimeWindow}} 內，至少有 {{count}} 項違規",
         "timeThresholdDescriptionViolationsInPeriod_plural": "在過去 {{formattedTimeWindow}} 內，至少有 {{count}} 項違規",
         "timeThresholdDescriptionViolationsInPeriod_0": "在過去 {{formattedTimeWindow}} 內，至少有 {{count}} 項違規",
@@ -625,10 +625,10 @@
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "針對每個評估範圍計算",
         "timeThresholdConfigNumberOfViolations": "度量違規數",
         "timeThresholdConfigEvaluationGranularity": "評估精度",
-        "timeThresholdConfigNumberOfRequestsThreshold": "受影響要求數",
+        "timeThresholdConfigNumberOfTracesThreshold": "受到影響的追蹤數",
         "timeThresholdConfigNumberOfImpactedUsersThreshold": "受影響使用者數",
         "timeThresholdConfigAtLeast": "至少",
-        "timeThresholdConfigNumberOfRequests": "受影響要求數",
+        "timeThresholdConfigNumberOfTraces": "受到影響的追蹤數",
         "timeThresholdConfigMinutes": "{{min}} 分鐘",
         "timeThresholdConfigNumberOfUsers": "受影響使用者數",
         "timeThresholdConfigPercentageOfUsers": "受影響使用者的百分比",
@@ -639,11 +639,11 @@
         "timeThresholdConfigTimeThresholdLabelViolationsInSequence": "當條件持續存在超過指定的時間量時",
         "timeThresholdConfigTimeThresholdLabelViolationsInPeriod": "每當條件在定義的時間範圍內觸發次數達到指定的次數時",
         "timeThresholdConfigTimeThresholdLabelUserImpactOfViolationsInSequence": "當有特定的使用者數量受到影響時",
-        "timeThresholdConfigTimeThresholdLabelRequestImpact": "當有特定的要求數量受到影響時",
+        "timeThresholdConfigTimeThresholdLabelTraceImpact": "當特定數量的追蹤受到影響時",
         "timeThresholdConfigTimeThresholdTitleViolationsInSequence": "持續一段時間",
         "timeThresholdConfigTimeThresholdTitleViolationsInPeriod": "一段時間的違規數",
         "timeThresholdConfigTimeThresholdTitleUserImpactOfViolationsInSequence": "使用者影響",
-        "timeThresholdConfigTimeThresholdTitleRequestImpact": "要求影響",
+        "timeThresholdConfigTimeThresholdTitleTraceImpact": "追蹤影響",
         "timeThresholdConfigNoUserSessionDetected": "否<linkToIdentifyingUsers>使用者</linkToIdentifyingUsers> 或 <linkToSessionTracking>階段作業</linkToSessionTracking> 被偵測到。",
         "timeThresholdConfigPleaseConfigureWebsiteMonitoringBeforeUsingThisOption": "使用此選項之前，請先配置網站監視。",
         "alertPropertiesWarning": "警告",
@@ -794,7 +794,12 @@
         "propertiesTitle": "其他警示內容",
         "thresholdValue": "臨界值",
         "payloadsLabel": "有效負載",
-        "payloadsTitle": "自訂有效負載"
+        "payloadsTitle": "自訂有效負載",
+        "evaluationSwitch": {
+          "evaluationTypePERWEBSITE": {
+            "shortText": "每個網站"
+          }
+        }
       },
       "components": {
         "provideStatusCodeStatusCode": "狀態碼",
@@ -996,7 +1001,7 @@
       "migrateButton": "移轉至智慧型警示",
       "migrateButtonTooltip": "開啟「智慧型警示配置」對話框，其中預先填入從現行事件移轉的值，以達到我們所能達到的最佳範圍。 請仔細檢查結果！",
       "markAsMigratedButton": "標示為已移轉",
-      "markAsMigratedButtonTooltip": "將事件標示為已移轉。 如果您已配置將取代此事件的「智慧型警示」，請使用此選項。",
+      "markAsMigratedButtonTooltip": "將事件標示為已移轉。如果您已配置將取代此事件的「智慧型警示」，請使用此選項。",
       "markAsMigratedButtonConfirmationTitle": "請確認",
       "markAsMigratedButtonConfirmationDescription": "將此「自訂事件」標示為已移轉將會停用它。 之後無法重新啟用事件。 要繼續嗎？",
       "markAsMigratedButtonConfirmationConfirmLabel": "確認"

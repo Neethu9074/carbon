@@ -53,6 +53,58 @@
       "purpose": "ユーザー・オンボーディングと NPS ストア調査。"
     }
   },
+  "roleAndAccessScope": {
+    "dialogTitle": "新規グループの作成",
+    "dialogTitle_edit": "アクセス権の範囲の編集",
+    "editButton": "アクセス権の範囲の編集",
+    "productArea": "役割とアクセス権の範囲",
+    "productArea_application": "アプリケーション",
+    "productArea_platform": "プラットフォーム",
+    "productArea_website": "Web サイト",
+    "productArea_mobile-app": "モバイル・アプリ",
+    "productArea_kubernetes": "Kubernetes",
+    "productArea_infrastructure": "インフラストラクチャー",
+    "productArea_analytics": "分析",
+    "productArea_event": "イベントおよびアラート",
+    "productArea_function": "グローバル関数"
+  },
+  "headingSection": {
+    "title": "役割とアクセス権の範囲",
+    "description": "製品領域へのアクセスを有効にし、装置ごとにアクセス権の範囲を定義します。",
+    "link": "役割と権限について詳しく説明します。"
+  },
+  "groupSection": {
+    "title": "グループ名",
+    "label": "名前を入力する"
+  },
+  "websitePermissionSection": {
+    "title": "Web サイト",
+    "addButton": "Web サイトの選択",
+    "description_limited_access": "製品領域に対する役割を選択し、以下の Web サイトを追加してアクセス権を付与します",
+    "description_access_all": "すべての Web サイトには、その製品領域に対して選択された役割でアクセスできます。",
+    "deleteButton": "リストから {{name}} を削除"
+  },
+  "selectItemForm": {
+    "doneButton": "完了"
+  },
+  "selectWebsitesDialog": {
+    "title": "Web サイトの選択",
+    "nameColumnHead": "名前"
+  },
+  "permissionScope": {
+    "selection": "使用不可",
+    "selection_access_all": "すべてにアクセス",
+    "selection_limited_access": "制限付きアクセス権の範囲",
+    "selection_no_access": "アクセス権なし",
+    "description_no_access": "この領域はまったく使用できません",
+    "description_access_all": "制限なしですべてにアクセス",
+    "role": "役割の選択",
+    "role_owner": "所有者",
+    "role_viewer": "ビューア―",
+    "role_custom": "カスタム",
+    "roleTooltip": "ビューアー: ダッシュボードを表示できます (構成は表示できません)。 所有者: 新規エンティティーを作成できます。ダッシュボードの表示、構成、および削除が可能です。",
+    "roleTooltip_websites": "ビューアー: Web サイトのダッシュボードを表示できます (構成は表示できません)。 所有者: 新規 Web サイトを作成できます。Web サイトのダッシュボードの表示、構成、および削除が可能です。"
+  },
   "cardTitle_Area": "領域",
   "cardTitle_Area_plural": "領域",
   "cardTitle_Area_0": "領域",
@@ -98,6 +150,7 @@
   "tabs": {
     "team": {
       "events": {
+        "addCondition": "条件の追加",
         "withDeprecatedSuffix": "{{pluginName}} (非推奨)",
         "placeholder": "プレースホルダー"
       },
@@ -135,11 +188,11 @@
     "failedToChangeName": "名前の変更に失敗しました: {{err}}",
     "failedToDeleteTimeouts": "タイムアウトの削除に失敗しました: {{err}}",
     "failedToSaveTimeouts": "タイムアウトの保存に失敗しました: {{err}}",
-    "scanTheQrCodeBelow": "アカウントを有効にするには、以下の QR コードを 2 要素オーセンティケーターでスキャンします。 コードをスキャンできない場合は、次のキーを手動で入力してアカウントをセットアップすることもできます: ",
+    "scanTheQrCodeBelow": "アカウントを有効にするには、以下の QR コードを 2 要素オーセンティケーターでスキャンします。 コードをスキャンできない場合は、次のキーを手動で入力してアカウントをセットアップすることもできます:",
     "disableTwoFactorAuth": "2 要素認証の無効化",
     "enableTwoFactorAuth": "2 要素認証の有効化",
-    "failedToDisableTwoFactorAuth": "2 要素認証の無効化に失敗しました: ",
-    "failedToEnableTwoFactorAuth": "2 要素認証の有効化に失敗しました: ",
+    "failedToDisableTwoFactorAuth": "2 要素認証の無効化に失敗しました:",
+    "failedToEnableTwoFactorAuth": "2 要素認証の有効化に失敗しました:",
     "enableTwoFactor": "2 要素の有効化",
     "2FA": "2FA",
     "notFound": "未検出",
@@ -264,7 +317,7 @@
     "onlineEvents": "オンライン・イベント",
     "offlineEvents": "オフライン・イベント",
     "monitoringIssues": "モニタリングの問題",
-    "applicationPerspectives": " アプリケーション・パースペクティブ",
+    "applicationPerspectives": "アプリケーション・パースペクティブ",
     "applicationPerspectiveEntityLabel": "アプリケーション・パースペクティブ {{entityLabel}}",
     "saveFiltersForEasyAccessHere": "ここに簡単にアクセスできるようにフィルターを保存",
     "keyEquals": "同等のキー",
@@ -293,6 +346,8 @@
     "hostAvailabilityDetection": "ホスト可用性の検出",
     "pleaseSelectASeverity": "重大度を選択してください",
     "pleaseEnterAValidMetric": "有効なメトリックを入力してください。",
+    "noMoreThanOneThresholdCanBeDefinedOnSameMetric": "同じメトリックに複数のしきい値を定義することはできません。",
+    "onlyOneRuleIsAllowedToHaveDifferentOperatorThanIs": "パターンによって複数のメトリックを定義する場合、「is」とは異なる一致演算子を使用できるのは 1 つのルールのみです。",
     "thisEntityTypeHasBeenDeprecated": "このエンティティー・タイプは推奨されていません。 別のタイプを選択してください。",
     "failedToSaveSettings": "設定の保存に失敗しました: {{err}}",
     "events": "イベント",
@@ -312,6 +367,7 @@
     "kilobytes": "キロバイト",
     "megabytes": "メガバイト",
     "count": "カウント",
+    "statusValue": "状況値",
     "scheduleMaintenanceWindow": "保守期間のスケジュール",
     "changeMaintenanceWindow": "保守期間の変更",
     "allAlertsWillBeMutedForTheDurationOfThisMaintenanceWindow": "<strong>注意:</strong> この保守期間中は、すべてのアラートがミュートになります。 <strong>これは組織の他のユーザーにも影響する可能性があります。</strong>",
@@ -396,6 +452,7 @@
     "emailField": "E メール・フィールド",
     "emailFieldDescription": "ユーザーの E メール・アドレスを検索する属性の名前 (例: mail)",
     "ldapUserAccount": "LDAP ユーザー・アカウント",
+    "ldapsAcceptAnyCA": "ldap の使用中にすべての認証局を信頼する",
     "username": "ユーザー名",
     "usernameDescription": "Instana で所有者ユーザーとして関連付けられるユーザー。 ログインは、設定が保存される前にテストとして試行されます。資格情報は保管されません。",
     "usernamePasswordDescription": "ユーザーの LDAP パスワード",
@@ -467,7 +524,7 @@
     "scratchCodesAreYourBackupInCaseYouEverLoseAccessToYourDevice": "スクラッチ・コードは、デバイスへのアクセスが失われた場合のバックアップです。 スクラッチ・コードは 1 回しか使用できないため、使用する際には注意してください。 スクラッチ・コードをすべて使い切ってしまった場合に新しいスクラッチ・コードを取得するには、アカウントの 2 要素認証を無効にして再度有効にする必要があります。",
     "savingTwoFactorToken": "2 要素トークンを保存しています。",
     "twoFactorTokenSuccessfullyVerified": "2 要素トークンが正常に検証されました。",
-    "failedToSaveTwoFactorToken": "2 要素トークンの保存に失敗しました: ",
+    "failedToSaveTwoFactorToken": "2 要素トークンの保存に失敗しました:",
     "pleaseSpecifyAValidToken": "有効なトークンを指定してください。",
     "2FaIsEnabledForThisUser": "このユーザーの 2FA は有効です",
     "change": "変更",
@@ -490,7 +547,7 @@
     "failIfNoIdp": "この設定を変更するには、ID プロバイダーを構成する必要があります。",
     "noActions": "アクションが構成されていません。",
     "noGroupMapping": "ID プロバイダーと Instana の間にマッピングが構成されていません",
-    "denyUserWithNoGroup": "マッピングが見つからない場合はアクセスを拒否する。 チェックを外すと、グループマッピングがなく、グループが見つからないユーザーがデフォルト・グループに追加されます。",
+    "denyUserWithNoGroup": "マッピングが見つからない場合はアクセスを拒否する。チェックを外すと、グループマッピングがなく、グループが見つからないユーザーがデフォルト・グループに追加されます。",
     "twoFactor": "2 要素",
     "settings": "設定",
     "users": "ユーザー",
@@ -842,10 +899,11 @@
     "identityProviderType": "ID プロバイダー・タイプ",
     "copyApiTokenToClipboardError": "API トークンをクリップボードにコピーできませんでした。",
     "depreactedEventHiddenInfo": "非推奨のイベントは新しいアラートに追加できず、このリストには表示されません。",
-    "deprecatedEventMessage": "エンティティー・タイプが「アプリケーション・パースペクティブ」、「サービス」、および「エンドポイント」のカスタム・イベントは、まもなく非推奨になります。 2023 年 1 月以降、このタイプの新規イベントを作成できなくなります。 手動で、または上記の「<em>スマート・アラートに移行</em>」ボタンを使用して、このイベントをスマート・アラートにマイグレーションすることをお勧めします。 <documentationLink>詳しくは資料をご覧ください</documentationLink>。",
-    "disallowedEventMessage": "エンティティー・タイプ「アプリケーション・パースペクティブ」、「サービス」、および「エンドポイント」のカスタム・イベントはまもなく削除されます。 2023 年 4 月以降、そのようなタイプの既存のカスタム・イベントは処理されなくなります。 手動で、または上記の「<em>スマート・アラートに移行</em>」ボタンを使用して、このイベントをスマート・アラートにマイグレーションすることをお勧めします。 <documentationLink>詳しくは資料をご覧ください</documentationLink>。",
-    "migratedEventMessage": "この非推奨イベントは移行されました。 詳しくは、<documentationLink>弊社の資料を参照してください</documentationLink>。",
-    "deprecatedEventSelectedMessage": "エンティティー・タイプが「アプリケーション・パースペクティブ」、「サービス」、および「エンドポイント」のカスタム・イベントは、まもなく非推奨になります。 2023 年 1 月以降、このタイプの新規イベントを作成できなくなります。 代わりに、スマート・アラートを作成することをお勧めします。 <documentationLink>詳しくは資料をご覧ください</documentationLink>。",
+    "deprecatedEventMessage": "<strong>エンティティー・タイプ「アプリケーション」、「サービス」、および「エンドポイント」のカスタム・イベントはまもなく非推奨になります</strong><br/>2023 年 4 月以降は、このタイプの新規イベントを作成できなくなります。 手動で、または上記の「<em>スマート・アラートに移行</em>」ボタンを使用して、このイベントをスマート・アラートにマイグレーションすることをお勧めします。 <documentationLink>詳しくは資料をご覧ください</documentationLink>",
+    "disallowedEventMessage": "エンティティー・タイプ「アプリケーション」、「サービス」、および「エンドポイント」のカスタム・イベントはまもなく削除されます。 2023 年 7 月以降、このタイプの既存のカスタム・イベントは処理されなくなります。 手動で、または上記の「<em>スマート・アラートに移行</em>」ボタンを使用して、このイベントをスマート・アラートにマイグレーションすることをお勧めします。 <documentationLink>詳しくは資料をご覧ください</documentationLink>。",
+    "migratedEventMessage": "この非推奨イベントは移行されました。詳しくは、<documentationLink>弊社の資料を参照してください</documentationLink>。",
+    "deprecatedEventSelectedMessage": "エンティティー・タイプ「アプリケーション」、「サービス」、および「エンドポイント」のカスタム・イベントはまもなく非推奨になります。 2023 年 4 月以降、このタイプの新規イベントを作成できなくなります。 代わりに、スマート・アラートを作成することをお勧めします。 <documentationLink>詳しくは資料をご覧ください</documentationLink>。",
+    "customEventListDeprecatedWarning": "<strong>エンティティー・タイプ「アプリケーション」、「サービス」、および「エンドポイント」のカスタム・イベントは非推奨です</strong><br/> <strong>2023 年 4 月 (ビルド 246)</strong> 以降、これら 3 つのエンティティー・タイプのカスタム・イベントを作成したり更新したりすることはできなくなります。 既存の構成は <strong>2023 年 7 月 (ビルド 253)</strong> 以降に削除されます。 <documentationLink>詳しくは資料をご覧ください</documentationLink>",
     "automation": "自動化",
     "actionCatalog": "アクション・カタログ",
     "actions": "アクション",
@@ -869,7 +927,35 @@
     "confidence_high": "高",
     "confidence": "{{context}}",
     "confidenceTitle": "信頼度",
-    "test": "テスト"
+    "host": "ホスト",
+    "method": "メソッド",
+    "accept": "Accept (オプション)",
+    "acceptLanguage": "Accept-Language (オプション)",
+    "contentType": "Content-Type (オプション)",
+    "bodyDescription": "HTTP 要求に関連付けられたデータ。",
+    "acceptLanguageDescription": "クライアントが理解できる言語。",
+    "acceptDescription": "MIME タイプで表される、クライアントが理解できるコンテンツ・タイプ。",
+    "contentTypeDescription": "本文のメディア・タイプ。",
+    "noAdditionalHeadersConfigured": "追加ヘッダーが構成されていません",
+    "body": "本文 (オプション)",
+    "additionalHeadersOptional": "追加ヘッダー (オプション)",
+    "theValueMustBeValidMime": "値は有効な MIME タイプでなければなりません。",
+    "authType": "許可タイプ",
+    "noAuth": "認証なし",
+    "ignoreCertErrors": "証明書エラーを無視する",
+    "basicAuth": "基本認証",
+    "bearerToken": "ベアラー・トークン",
+    "apiKeyAddTo": "追加先",
+    "header": "ヘッダー",
+    "queryParams": "照会パラメーター",
+    "test": "テスト",
+    "http": "HTTP",
+    "serviceNowUrl": "ServiceNow の URL",
+    "serviceNow": "ServiceNow",
+    "serviceNowAlertChannel": "ServiceNow のアラート・チャネル",
+    "serviceNowUsernameTooltip": "ユーザー名とパスワードは、インシデントを作成する権限を持つ ServiceNow ユーザーのものでなければなりません。",
+    "showPasswordTooltip": "パスワードを表示する",
+    "hidePasswordTooltip": "パスワードを非表示にする"
   },
   "languageSelection": {
     "language": "言語",
@@ -906,5 +992,6 @@
   "queryValidationStillInProgress": "クエリーの検証がまだ進行中です",
   "teamSettings": {
     "newGroup": "新しいグループ"
-  }
+  },
+  "successResponse": "アラート・チャネルが正常にトリガーされました。チャネルを確認してください。"
 }

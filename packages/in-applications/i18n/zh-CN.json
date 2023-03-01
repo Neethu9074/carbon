@@ -62,8 +62,6 @@
   "labelScope": "作用域",
   "labelCustomServiceRules": "定制服务规则",
   "labelSyntheticEndpoints": "合成端点",
-  "labelWarning": "警告",
-  "labelCritical": "严重",
   "titleTopServices": "排名靠前的服务",
   "titleMeanLatency": "平均等待时间",
   "titleErroneousCallRate": "错误调用率",
@@ -132,12 +130,6 @@
   "Rendering": "呈现",
   "loadingData": "正在加载数据",
   "UnexpectedErrorOccurred": "发生意外错误",
-  "noIssues": "无问题",
-  "openIssues": "{{count}} 个问题",
-  "openIssues_plural": "{{count}} 个问题",
-  "openIssues_0": "{{count}} 个问题",
-  "openIssues_1": "{{count}} 个问题",
-  "openIssues_2": "{{count}} 个问题",
   "applicationMap": {
     "webglNotSupportedTitle": "浏览器不支持 WebGL",
     "webglNotSupported": "Instana 用户界面包含使用名为 WebGL 的技术呈现的 3D 组件。遗憾的是，此技术尚未在所有平台上提供。某些浏览器（尤其是较低版本的浏览器）不支持 WebGL。我们建议使用最新一代的自动更新浏览器：Chrome、Firefox、Safari 8 或 MS Edge。\n\n我们尽力支持所有平台和浏览器组合。但是，可能是我们对 WebGL 的使用存在错误。您可以使用 [联机测试](https://get.webgl.org/) 来检查平台是否支持 WebGL。如果在线测试表明平台支持 WebGL，但 Instana 3D Map 仍无法运行，[请联系我们](https://support.instana.com/hc/en-us/requests/new)。\n\n有关更多故障诊断信息，请参阅 [WebGL 兼容性表](http://caniuse.com/#feat=webgl) 或 [WebGL Web 站点 ](http://webgl.org/)。",
@@ -241,7 +233,8 @@
     "dataSource_calls": "{{formattedCount}} 个调用",
     "dataSource_calls_plural": "{{formattedCount}} 个调用",
     "dataSource_traces": "{{formattedCount}} 个跟踪",
-    "dataSource_traces_plural": "{{formattedCount}} 个跟踪"
+    "dataSource_traces_plural": "{{formattedCount}} 个跟踪",
+    "analyzeCallsOfThisTrace": "分析此跟踪的调用"
   },
   "creation": {
     "newAP": "新建应用程序透视图",
@@ -483,7 +476,7 @@
     "titleConfigureEndpointsExtract": "配置如何从底层端点向此服务抽取端点。",
     "descriptionConfigureEndpointsExtract": "端点规则按顺序进行求值（从顶部到底部），并将调用分配给它匹配的第一个规则。配置后，将根据更新的规则分配新调用。",
     "descriptionResetToDefaultRule": "如果要重置为缺省抽取规则，请使用下面的按钮。重置可能需要几分钟时间才能注册。",
-    "understandCheckboxResetToDefaultRule": " 我了解此操作无法撤销。",
+    "understandCheckboxResetToDefaultRule": "我了解此操作无法撤销。",
     "customService": {
       "stepTitle": "通过添加定制服务规则扩展自动服务映射。",
       "descriptionTextFirstLine": "Instana 基于一个预定义规则扩展集合自动映射服务。例如，如果找到了标记 nodejs.app.name，并且存在多个标记有 <bold>\"nodejs.app.name=user service\"</bold> 和 <bold>\"nodejs.app.name=cart service\"</bold> 的调用，那么 <bold>\"user service\"</bold> 和 <bold>\"cart service\"</bold> 将显示为服务。",

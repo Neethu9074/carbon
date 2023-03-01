@@ -71,6 +71,7 @@
       "applications": "애플리케이션",
       "websites": "웹 사이트",
       "mobileApps": "모바일 앱",
+      "infrastructure": "인프라",
       "profiles": "프로파일",
       "logs": "로그",
       "eumWebsites": "EUM: 웹 사이트",
@@ -246,7 +247,9 @@
     "labelKeyPairENDS_WITH": "다음으로 끝남"
   },
   "analyzeHeader": {
-    "title": "분석"
+    "title": "분석",
+    "analyzeInfrastructureSelectedTitle": "인프라 분석",
+    "readDocs": "문서 읽기"
   },
   "filterBar": {
     "keyValueBarItem": {

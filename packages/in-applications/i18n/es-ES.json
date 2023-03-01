@@ -62,8 +62,6 @@
   "labelScope": "Ámbito",
   "labelCustomServiceRules": "Reglas de servicio personalizadas",
   "labelSyntheticEndpoints": "Puntos finales sintéticos",
-  "labelWarning": "Aviso",
-  "labelCritical": "Crítico",
   "titleTopServices": "Servicios principales",
   "titleMeanLatency": "Latencia media",
   "titleErroneousCallRate": "Tasa de llamadas erróneas",
@@ -132,12 +130,6 @@
   "Rendering": "Representación",
   "loadingData": "Cargando datos",
   "UnexpectedErrorOccurred": "Se ha producido un error inesperado",
-  "noIssues": "Sin problemas",
-  "openIssues": "{{count}} problema",
-  "openIssues_plural": "{{count}} problemas",
-  "openIssues_0": "{{count}} problemas",
-  "openIssues_1": "{{count}} problema",
-  "openIssues_2": "{{count}} problemas",
   "applicationMap": {
     "webglNotSupportedTitle": "El navegador no soporta WebGL",
     "webglNotSupported": "La interfaz de usuario Instana incluye componentes 3D que se representan utilizando una tecnología denominada WebGL. Desafortunadamente esta tecnología aún no está disponible en todas las plataformas. Algunos navegadores, especialmente los exploradores de versiones antiguas, no soportan WebGL. Se recomienda utilizar la nueva generación de navegadores de actualización automática: Chrome, Firefox, Safari 8 o MS Edge.\n \nS está haciendo todo lo posible para dar soporte a todas las combinaciones de plataformas y navegadores. Sin embargo, es posible que nuestro uso de WebGL contenga errores. Puede utilizar una [prueba en línea](https://get.webgl.org/) para comprobar si su plataforma soporta WebGL.\n \nSi la prueba en línea indica que su plataforma soporta WebGL, pero Instana Map 3D continúa estando no operativo, [contáctenos] (https://support.instana.com/hc/en-us/requests/new).\n \nPara obtener más información sobre la resolución de problemas, consulte la [tabla de compatibilidad de WebGL] (http://caniuse.com/#feat= webgl) o el [sitio web de WebGL] (http://webgl.org/).",
@@ -201,7 +193,7 @@
     "httpStatusCode": "Estado HTTP",
     "hiddenCalls": "Llamadas ocultas",
     "fastQueryMode": "Modalidad de consulta rápida",
-    "fastQueryModeTooltip": "La modalidad de consulta rápida permite la ejecución de consultas en un subconjunto de llamadas o rastreos, si la ejecución en el conjunto de datos completo tardaría demasiado.",
+    "fastQueryModeTooltip": "La modalidad de consulta rápida permite la ejecución de consultas en un subconjunto de llamadas o rastreos, si la ejecución con el conjunto de datos completo tardaría demasiado.",
     "listBatchTypeTooltip": "Este {{type}} está en un lote y representa {{batchCount}} {{types}} individuales.",
     "listBatchLatencyTooltip": "Latencia total de {{batchCount}} {{types}} por lotes.",
     "traceIdTooltip": "Algunos datos relacionados con este rastreo se retrasan, por lo tanto, vuelva a cargar la página más adelante. Por ejemplo, esto puede suceder cuando se visualiza un rastreo muy reciente y algunos de sus datos todavía se están procesando.",
@@ -241,7 +233,8 @@
     "dataSource_calls": "{{formattedCount}} llamada",
     "dataSource_calls_plural": "{{formattedCount}} llamadas",
     "dataSource_traces": "{{formattedCount}} rastreo",
-    "dataSource_traces_plural": "{{formattedCount}} rastreos"
+    "dataSource_traces_plural": "{{formattedCount}} rastreos",
+    "analyzeCallsOfThisTrace": "Analizar llamadas de este rastreo"
   },
   "creation": {
     "newAP": "Nueva perspectiva de aplicación",

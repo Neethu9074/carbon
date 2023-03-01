@@ -533,7 +533,7 @@
       "thresholdTypeTitle": "Tipo de umbral",
       "metricTitle": "Métrica",
       "entityTitle": "Ámbito",
-      "titleBuiltInIndicator": "Integrado"
+      "titleBuiltInIndicator": "Incorporado"
     },
     "form": {
       "ruleAggregationOptionMEAN": "media",
@@ -607,11 +607,11 @@
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_perWindowEvaluation_2": "Al menos {{count}} usuarios se han visto afectados por ventana, para las últimas ventanas de evaluación de {{numberEvaluationWindows}}",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserPercentage_perWindowEvaluation": "Al menos {{userPercentage}} de usuarios se han visto afectados por ventana, para las últimas ventanas de evaluación de {{numberEvaluationWindows}}",
         "timeThresholdDescriptionUserImpactOfViolationsInSequence_perWindowEvaluation": "Afectados por cada ventana, para las últimas ventanas de evaluación de {{numberEvaluationWindows}}",
-        "timeThresholdDescriptionRequestImpact": "Al menos {{count}} solicitud se ha visto afectada en las últimas {{formattedTimeWindow}}",
-        "timeThresholdDescriptionRequestImpact_plural": "Al menos {{count}} solicitudes afectadas en las últimas {{formattedTimeWindow}}",
-        "timeThresholdDescriptionRequestImpact_0": "Al menos {{count}} solicitudes afectadas en las últimas {{formattedTimeWindow}}",
-        "timeThresholdDescriptionRequestImpact_1": "Al menos {{count}} solicitud se ha visto afectada en las últimas {{formattedTimeWindow}}",
-        "timeThresholdDescriptionRequestImpact_2": "Al menos {{count}} solicitudes afectadas en las últimas {{formattedTimeWindow}}",
+        "timeThresholdDescriptionTraceImpact": "Al menos {{count}} rastreo afectado en el último {{formattedTimeWindow}}",
+        "timeThresholdDescriptionTraceImpact_plural": "Al menos {{count}} rastreos afectados en el último {{formattedTimeWindow}}",
+        "timeThresholdDescriptionTraceImpact_0": "Al menos {{count}} rastreos afectados en el último {{formattedTimeWindow}}",
+        "timeThresholdDescriptionTraceImpact_1": "Al menos {{count}} rastreo afectado en el último {{formattedTimeWindow}}",
+        "timeThresholdDescriptionTraceImpact_2": "Al menos {{count}} rastreos afectados en el último {{formattedTimeWindow}}",
         "timeThresholdDescriptionViolationsInPeriod": "Al menos {{count}} infracción en las últimas {{formattedTimeWindow}}",
         "timeThresholdDescriptionViolationsInPeriod_plural": "Al menos {{count}} infracciones en las últimas {{formattedTimeWindow}}",
         "timeThresholdDescriptionViolationsInPeriod_0": "Al menos {{count}} infracciones en las últimas {{formattedTimeWindow}}",
@@ -625,10 +625,10 @@
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "Calcular para cada ventana de evaluación",
         "timeThresholdConfigNumberOfViolations": "Número de violaciones de métrica",
         "timeThresholdConfigEvaluationGranularity": "Granularidad de la evaluación",
-        "timeThresholdConfigNumberOfRequestsThreshold": "Número de solicitudes afectadas",
+        "timeThresholdConfigNumberOfTracesThreshold": "Número de rastreos afectados",
         "timeThresholdConfigNumberOfImpactedUsersThreshold": "Número de usuarios afectados",
         "timeThresholdConfigAtLeast": "Al menos",
-        "timeThresholdConfigNumberOfRequests": "Núm. de solicitudes afectadas",
+        "timeThresholdConfigNumberOfTraces": "Núm. de rastreos afectados",
         "timeThresholdConfigMinutes": "{{min}} min",
         "timeThresholdConfigNumberOfUsers": "Núm. de usuarios afectados",
         "timeThresholdConfigPercentageOfUsers": "% de usuarios afectados",
@@ -639,11 +639,11 @@
         "timeThresholdConfigTimeThresholdLabelViolationsInSequence": "Cuando la condición persiste durante un periodo de tiempo especificado",
         "timeThresholdConfigTimeThresholdLabelViolationsInPeriod": "Cada vez que la condición se desencadena un número de veces especificado durante un intervalo de tiempo definido",
         "timeThresholdConfigTimeThresholdLabelUserImpactOfViolationsInSequence": "Cuando una determinada cantidad de mis usuarios resultan afectados",
-        "timeThresholdConfigTimeThresholdLabelRequestImpact": "Cuando una determinada cantidad de solicitudes resultan afectadas",
+        "timeThresholdConfigTimeThresholdLabelTraceImpact": "Cuando una determinada cantidad de rastreos se ven afectados",
         "timeThresholdConfigTimeThresholdTitleViolationsInSequence": "Persistencia a lo largo del tiempo",
         "timeThresholdConfigTimeThresholdTitleViolationsInPeriod": "Número de infracciones a lo largo del tiempo",
         "timeThresholdConfigTimeThresholdTitleUserImpactOfViolationsInSequence": "Impacto de usuario",
-        "timeThresholdConfigTimeThresholdTitleRequestImpact": "Impacto de solicitud",
+        "timeThresholdConfigTimeThresholdTitleTraceImpact": "Impacto de rastreo",
         "timeThresholdConfigNoUserSessionDetected": "No se han detectado <linkToIdentifyingUsers>usuarios</linkToIdentifyingUsers> o <linkToSessionTracking>sesiones</linkToSessionTracking> .",
         "timeThresholdConfigPleaseConfigureWebsiteMonitoringBeforeUsingThisOption": "Configure la supervisión del sitio web antes de utilizar esta opción.",
         "alertPropertiesWarning": "Aviso",
@@ -749,7 +749,7 @@
         "infrastructure": {
           "title": "Infraestructura y plataformas",
           "description0": "Las alertas para la infraestructura y las plataformas utilizan el flujo de trabajo de 2 pasos.",
-          "description1": "1) Sucesos definidos para condiciones específicas. Puede utilizar nuestros sucesos incluidos o crear sus propios sucesos personalizados.",
+          "description1": "1) Sucesos definidos para condiciones específicas. Puede utilizar nuestros sucesos incorporados o crear sus propios sucesos personalizados.",
           "description2": "2) A continuación, las alertas le avisan cuando se producen sucesos específicos.",
           "stats": "Actualmente, tiene $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.events, {\"count\": {{events}} }) y $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.alerts, {\"count\": {{alerts}} }).",
           "events": "{{count}} suceso personalizado",
@@ -794,7 +794,12 @@
         "propertiesTitle": "Propiedades de alerta adicionales",
         "thresholdValue": "Valor de umbral",
         "payloadsLabel": "Cargas útiles",
-        "payloadsTitle": "Cargas útiles personalizadas"
+        "payloadsTitle": "Cargas útiles personalizadas",
+        "evaluationSwitch": {
+          "evaluationTypePERWEBSITE": {
+            "shortText": "Por sitio web"
+          }
+        }
       },
       "components": {
         "provideStatusCodeStatusCode": "Código de estado",

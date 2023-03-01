@@ -70,13 +70,6 @@
       "views": "보기",
       "website": "웹 사이트",
       "mobileApp": "모바일 앱"
-    },
-    "openIncidentsButton": {
-      "numberOfIncidents": "{{count}}개 인시던트",
-      "numberOfIncidents_plural": "{{count}}개 인시던트",
-      "numberOfIncidents_0": "{{count}}개 인시던트",
-      "numberOfIncidents_1": "{{count}}개 인시던트",
-      "numberOfIncidents_2": "{{count}}개 인시던트"
     }
   },
   "cockpit": {
@@ -95,7 +88,8 @@
     "kubernetes": "Kubernetes",
     "websites": "웹 사이트",
     "mobileApps": "모바일 앱",
-    "websitesMobileApps": "웹 사이트 및 모바일 앱"
+    "websitesMobileApps": "웹 사이트 및 모바일 앱",
+    "customEventDeprecatedWarning": "<strong>{{deprecatedCustomEvents}} 애플리케이션, 서비스 및 엔드포인트 사용자 정의 이벤트에 조치가 필요함</strong><affectedCustomEvents>영향을 받는 사용자 정의 이벤트 보기</affectedCustomEvents>"
   },
   "widgets": {
     "columnDefinitions": {

@@ -70,13 +70,6 @@
       "views": "Ansichten",
       "website": "Website",
       "mobileApp": "Mobile App"
-    },
-    "openIncidentsButton": {
-      "numberOfIncidents": "{{count}} Vorfall",
-      "numberOfIncidents_plural": "{{count}} Vorfälle",
-      "numberOfIncidents_0": "{{count}} Vorfälle",
-      "numberOfIncidents_1": "{{count}} Vorfälle",
-      "numberOfIncidents_2": "{{count}} Vorfälle"
     }
   },
   "cockpit": {
@@ -95,7 +88,8 @@
     "kubernetes": "Kubernetes",
     "websites": "Websites",
     "mobileApps": "Mobile Apps",
-    "websitesMobileApps": "Websites und mobile Apps"
+    "websitesMobileApps": "Websites und mobile Apps",
+    "customEventDeprecatedWarning": "<strong>{{deprecatedCustomEvents}} Für die benutzerdefinierten Ereignisse 'Anwendung', 'Service' und 'Endpunkt' ist eine Aktion erforderlich</strong><affectedCustomEvents>Betroffene benutzerdefinierte Ereignisse anzeigen</affectedCustomEvents>"
   },
   "widgets": {
     "columnDefinitions": {

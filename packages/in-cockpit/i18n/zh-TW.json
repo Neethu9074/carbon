@@ -70,13 +70,6 @@
       "views": "檢視表",
       "website": "網站",
       "mobileApp": "行動式應用程式"
-    },
-    "openIncidentsButton": {
-      "numberOfIncidents": "{{count}} 個事故",
-      "numberOfIncidents_plural": "{{count}} 個事故",
-      "numberOfIncidents_0": "{{count}} 個事故",
-      "numberOfIncidents_1": "{{count}} 個事故",
-      "numberOfIncidents_2": "{{count}} 個事故"
     }
   },
   "cockpit": {
@@ -95,7 +88,8 @@
     "kubernetes": "Kubernetes",
     "websites": "網站",
     "mobileApps": "行動式應用程式",
-    "websitesMobileApps": "網站與行動應用程式"
+    "websitesMobileApps": "網站與行動應用程式",
+    "customEventDeprecatedWarning": "<strong>{{deprecatedCustomEvents}} 應用程式、服務及端點自訂事件需要動作</strong><affectedCustomEvents>檢視受影響的自訂事件</affectedCustomEvents>"
   },
   "widgets": {
     "columnDefinitions": {

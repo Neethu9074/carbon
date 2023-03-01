@@ -53,6 +53,58 @@
       "purpose": "사용자 온보딩 및 NPS 저장소 설문조사."
     }
   },
+  "roleAndAccessScope": {
+    "dialogTitle": "새 그룹 작성",
+    "dialogTitle_edit": "액세스 범위 편집",
+    "editButton": "액세스 범위 편집",
+    "productArea": "역할 및 액세스 범위",
+    "productArea_application": "애플리케이션",
+    "productArea_platform": "플랫폼",
+    "productArea_website": "웹 사이트",
+    "productArea_mobile-app": "모바일 앱",
+    "productArea_kubernetes": "Kubernetes",
+    "productArea_infrastructure": "인프라",
+    "productArea_analytics": "분석",
+    "productArea_event": "이벤트 및 경보",
+    "productArea_function": "전역 함수"
+  },
+  "headingSection": {
+    "title": "역할 및 액세스 범위",
+    "description": "액세스를 위한 제품 영역을 활성화하고 각 장치에 대한 액세스 범위를 정의합니다.",
+    "link": "역할 및 권한에 대해 자세히 알아봅니다."
+  },
+  "groupSection": {
+    "title": "그룹 이름",
+    "label": "이름 입력"
+  },
+  "websitePermissionSection": {
+    "title": "웹 사이트",
+    "addButton": "웹 사이트 선택",
+    "description_limited_access": "제품 영역의 역할을 선택하고 아래 웹 사이트를 추가하여 액세스 권한 부여",
+    "description_access_all": "제품 영역에 대해 선택한 역할로 모든 웹 사이트에 액세스 가능",
+    "deleteButton": "목록에서 {{name}} 제거"
+  },
+  "selectItemForm": {
+    "doneButton": "완료"
+  },
+  "selectWebsitesDialog": {
+    "title": "웹 사이트 선택",
+    "nameColumnHead": "이름"
+  },
+  "permissionScope": {
+    "selection": "사용할 수 없음",
+    "selection_access_all": "모두 액세스",
+    "selection_limited_access": "제한된 액세스 범위",
+    "selection_no_access": "액세스 권한 없음",
+    "description_no_access": "이 영역은 전혀 사용할 수 없음",
+    "description_access_all": "제한 없이 모두 액세스",
+    "role": "역할 선택",
+    "role_owner": "소유자",
+    "role_viewer": "뷰어",
+    "role_custom": "사용자 정의",
+    "roleTooltip": "뷰어: 대시보드를 볼 수 있습니다(구성은 볼 수 없음). 소유자: 새 엔티티를 작성할 수 있으며, 대시보드를 보고 구성 및 삭제할 수 있습니다.",
+    "roleTooltip_websites": "뷰어: 웹 사이트 대시보드를 볼 수 있습니다(구성은 볼 수 없음). 소유자: 새 웹 사이트를 작성할 수 있으며, 웹 사이트 대시보드를 보고 구성 및 삭제할 수 있습니다."
+  },
   "cardTitle_Area": "영역",
   "cardTitle_Area_plural": "영역",
   "cardTitle_Area_0": "영역",
@@ -98,6 +150,7 @@
   "tabs": {
     "team": {
       "events": {
+        "addCondition": "조건 추가",
         "withDeprecatedSuffix": "{{pluginName}}(더 이상 사용되지 않음)",
         "placeholder": "플레이스 홀더"
       },
@@ -293,6 +346,8 @@
     "hostAvailabilityDetection": "호스트 가용성 탐지",
     "pleaseSelectASeverity": "심각도를 선택하십시오.",
     "pleaseEnterAValidMetric": "올바른 메트릭을 입력하십시오.",
+    "noMoreThanOneThresholdCanBeDefinedOnSameMetric": "동일한 메트릭에 둘 이상의 임계값을 정의할 수 없습니다.",
+    "onlyOneRuleIsAllowedToHaveDifferentOperatorThanIs": "패턴별로 여러 메트릭을 정의하는 경우 하나의 규칙만 'is'와 다른 일치 연산자를 사용할 수 있습니다.",
     "thisEntityTypeHasBeenDeprecated": "이 엔티티 유형은 더 이상 사용되지 않습니다. 다른 유형을 선택하십시오.",
     "failedToSaveSettings": "설정을 저장하는 데 실패함: {{err}}",
     "events": "이벤트",
@@ -312,6 +367,7 @@
     "kilobytes": "킬로바이트",
     "megabytes": "메가바이트",
     "count": "개수",
+    "statusValue": "상태 값",
     "scheduleMaintenanceWindow": "유지보수 기간 스케줄링",
     "changeMaintenanceWindow": "유지보수 기간 변경",
     "allAlertsWillBeMutedForTheDurationOfThisMaintenanceWindow": "<strong>주의!</strong> 이 유지보수 기간 동안에는 모든 경보가 음소거 처리됩니다. <strong>조직의 다른 사용자에게도 영향을 줄 수 있습니다.</strong>",
@@ -396,6 +452,7 @@
     "emailField": "이메일 필드",
     "emailFieldDescription": "사용자 이메일 주소를 찾을 수 있는 속성 이름(예: mail)",
     "ldapUserAccount": "LDAP 사용자 계정",
+    "ldapsAcceptAnyCA": "LDAPS를 사용하는 동안 인증 기관 신뢰",
     "username": "사용자 이름",
     "usernameDescription": "Instana에서 소유자로서 관련되는 사용자입니다. 설정을 저장하기 전에 로그인을 테스트로 사용하면 신임 정보가 저장되지 않습니다.",
     "usernamePasswordDescription": "사용자의 LDAP 비밀번호",
@@ -842,10 +899,11 @@
     "identityProviderType": "ID 제공자 유형",
     "copyApiTokenToClipboardError": "API 토큰을 클립보드로 복사할 수 없습니다.",
     "depreactedEventHiddenInfo": "더 이상 사용되지 않는 이벤트는 새 경보에 추가할 수 없으며 이 목록에서 숨겨집니다.",
-    "deprecatedEventMessage": "엔티티 유형 애플리케이션 퍼스펙티브, 서비스 및 엔드포인트에 대한 사용자 정의 이벤트는 곧 사용이 중단됩니다. 2023년 1월부터 이 유형의 새 이벤트를 작성할 수 없습니다. 수동으로 또는 위의 <em>스마트 경보로 마이그레이션</em> 단추를 사용하여 이 이벤트를 스마트 경보로 마이그레이션하는 것이 좋습니다. <documentationLink>문서에서 자세히 알아보십시오</documentationLink>.",
-    "disallowedEventMessage": "엔티티 유형 애플리케이션 퍼스펙티브, 서비스 및 엔드포인트에 대한 사용자 정의 이벤트는 곧 제거됩니다. 2023년 4월부터 이러한 유형의 기존 사용자 정의 이벤트가 더 이상 처리되지 않습니다. 수동으로 또는 위의 <em>스마트 경보로 마이그레이션</em> 단추를 사용하여 이 이벤트를 스마트 경보로 마이그레이션하는 것이 좋습니다. <documentationLink>문서에서 자세히 알아보십시오</documentationLink>.",
+    "deprecatedEventMessage": "<strong>엔티티 유형 애플리케이션, 서비스 및 엔드포인트의 사용자 정의 이벤트는 곧 사용이 중단됩니다.</strong><br/>2023년 4월부터는 이 유형의 새 이벤트를 작성할 수 없습니다. 수동으로 또는 위의 <em>스마트 경보로 마이그레이션</em> 단추를 사용하여 이 이벤트를 스마트 경보로 마이그레이션하는 것이 좋습니다. <documentationLink>문서에서 자세히 알아보기</documentationLink>",
+    "disallowedEventMessage": "엔티티 유형 애플리케이션, 서비스 및 엔드포인트의 사용자 정의 이벤트는 곧 제거됩니다. 2023년 7월부터, 이러한 유형의 기존 사용자 정의 이벤트는 더 이상 처리되지 않습니다. 수동으로 또는 위의 <em>스마트 경보로 마이그레이션</em> 단추를 사용하여 이 이벤트를 스마트 경보로 마이그레이션하는 것이 좋습니다. <documentationLink>문서에서 자세히 알아보십시오</documentationLink>.",
     "migratedEventMessage": "사용되지 않는 이 이벤트는 마이그레이션됩니다. 자세한 정보는 <documentationLink>관련 문서를 참조하십시오</documentationLink>.",
-    "deprecatedEventSelectedMessage": "엔티티 유형 애플리케이션 퍼스펙티브, 서비스 및 엔드포인트에 대한 사용자 정의 이벤트는 곧 사용이 중단됩니다. 2023년 1월부터 이 유형의 새 이벤트를 작성할 수 없습니다. 대신 스마트 경보를 작성하는 것이 좋습니다. <documentationLink>문서에서 자세히 알아보십시오</documentationLink>.",
+    "deprecatedEventSelectedMessage": "엔티티 유형 애플리케이션, 서비스 및 엔드포인트의 사용자 정의 이벤트는 곧 더 이상 사용되지 않습니다. 2023년 4월부터는 이 유형의 새 이벤트를 작성할 수 없습니다. 대신 스마트 경보를 작성하는 것이 좋습니다. <documentationLink>문서에서 자세히 알아보십시오</documentationLink>.",
+    "customEventListDeprecatedWarning": "<strong>엔티티 유형 애플리케이션, 서비스 및 엔드포인트의 사용자 정의 이벤트는 더 이상 사용되지 않음</strong><br/><strong>2023년 4월(빌드 246)</strong>부터는 이러한 세 가지 엔티티 유형의 사용자 정의 이벤트를 작성하거나 업데이트할 수 없습니다. <strong>2023년 7월(빌드 253)</strong>부터 기존 구성이 제거됩니다. <documentationLink>문서에서 자세히 알아보기</documentationLink>",
     "automation": "자동화",
     "actionCatalog": "조치 카탈로그",
     "actions": "조치",
@@ -869,7 +927,35 @@
     "confidence_high": "높음",
     "confidence": "{{context}}",
     "confidenceTitle": "신뢰도",
-    "test": "테스트"
+    "host": "호스트",
+    "method": "방법",
+    "accept": "승인(선택사항)",
+    "acceptLanguage": "Accept-Language(선택사항)",
+    "contentType": "Content-Type(선택사항)",
+    "bodyDescription": "HTTP 요청과 연관된 데이터입니다.",
+    "acceptLanguageDescription": "클라이언트가 이해할 수 있는 언어입니다.",
+    "acceptDescription": "MIME 유형으로 표현되는 클라이언트가 이해할 수 있는 컨텐츠 유형입니다.",
+    "contentTypeDescription": "본문의 미디어 유형입니다.",
+    "noAdditionalHeadersConfigured": "추가 헤더가 구성되지 않음",
+    "body": "본문(선택사항)",
+    "additionalHeadersOptional": "추가 헤더(선택사항)",
+    "theValueMustBeValidMime": "값은 올바른 MIME 유형이어야 합니다.",
+    "authType": "권한 부여 유형",
+    "noAuth": "인증 없음",
+    "ignoreCertErrors": "인증서 오류 무시",
+    "basicAuth": "기본 인증",
+    "bearerToken": "Bearer 토큰",
+    "apiKeyAddTo": "추가 위치",
+    "header": "헤더",
+    "queryParams": "쿼리 매개변수",
+    "test": "테스트",
+    "http": "HTTP",
+    "serviceNowUrl": "ServiceNow URL",
+    "serviceNow": "ServiceNow",
+    "serviceNowAlertChannel": "ServiceNow 경보 채널",
+    "serviceNowUsernameTooltip": "사용자 이름 및 비밀번호는 인시던트 작성 권한이 있는 ServiceNow 사용자에 대한 항목이어야 합니다.",
+    "showPasswordTooltip": "비밀번호 표시",
+    "hidePasswordTooltip": "비밀번호 숨기기"
   },
   "languageSelection": {
     "language": "언어",
@@ -906,5 +992,6 @@
   "queryValidationStillInProgress": "조회 유효성 검증이 아직 진행 중입니다.",
   "teamSettings": {
     "newGroup": "새 그룹"
-  }
+  },
+  "successResponse": "경보 채널이 트리거되었습니다. 채널을 확인하십시오!"
 }

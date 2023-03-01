@@ -7,19 +7,10 @@
   },
   "associatedActions": "Actions associées",
   "associateActions": "Associer des actions",
-  "actionSelectionStep1Headline": "Que signifie associer des actions ?",
-  "step1ActionAssociationsTitle": "Etape 1 : Associations d'action",
-  "step2ActionAssociationsTitle": "Etape 2 : Catalogue d'actions",
-  "actionSelectionConfigDialogStep2Headline": "Souhaitez-vous associer des actions de votre catalogue ?",
   "selectActions": "Sélectionner des actions",
   "addActions": "Ajouter des actions",
-  "whatAreActions": "Que sont les actions ?",
-  "whatAreActionAssociations": "Que sont les associations d'action ?",
-  "actionAssociations": "Associations d'action",
-  "whatAreActionsText": "Les actions sont des unités d'automatisation ou de documentation qui peuvent être exécutées ou lancées pour diagnostiquer ou résoudre un événement.",
-  "whatAreActionAssociationsText": "Les actions peuvent être associées à des types d'événement intégrés ou personnalisés et peuvent être exécutées ou lancées depuis l'occurrence d'un événement.",
   "actionsAssociationsNote": "Notez que les associations d'action sont sauvegardées avec la définition de l'événement.",
-  "saveButton": "Enregistrer",
+  "saveButton": "Sauvegarder",
   "cancelButton": "Annuler",
   "yes": "Oui",
   "ok": "OK",
@@ -28,11 +19,18 @@
   "targetAgentDescription": "Un agent encapsule 1..* Capteurs, qui à leur tour sont capables d'émettre des événements vers le système de back end Instana. Un agent de déclenchement contient le détecteur qui a émis cet événement particulier.",
   "pleaseSelect": "Effectuez une sélection",
   "actionSensorTimeout": "Impossible de traiter la demande de back end. Vérifiez la configuration de votre agent pour vous assurer que le détecteur d'action est installé.",
-  "chosenToRun": "Vous avez choisi {{actionName}} dans votre catalogue d'actions.",
+  "chosenToRun": "Vous avez choisi d'exécuter {{actionName}} à partir de votre catalogue d'actions.",
   "chosenToTest": "Vous avez choisi de tester {{actionName}} depuis votre catalogue d'actions.",
   "failedToInitiate": "Le lancement de {{actionName}} a échoué.",
   "hasBeenInitiated": "L'action {{actionName}} a été lancée.",
   "actionCannotBeUndone": "Cette action est irréversible. Êtes-vous sûr de vouloir continuer ?",
+  "request": "Demande",
+  "titleScriptContent": "Contenu du script",
+  "titleActionType": "Type d'action",
+  "method": "Méthode : {{method}}",
+  "host": "Hôte : {{host}}",
+  "body": "Corps : {{body}}",
+  "headers": "En-têtes :",
   "entityInfoPresenterDefaultLabel": "Activé : ",
   "entityInfoLabelOfService": "Du service :",
   "titleDetail": "Informations",
@@ -139,6 +137,7 @@
   "tooltipCloseEventDetail": "Fermer les informations sur l'événement",
   "releaseOccurName": "Mise en production : {{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> passé)",
+  "deprecatedCustomEventWarning": "<strong>Vous ne recevrez plus cette notification {{issueOrIncident}} à partir du mois de juillet 2023 (génération 253)</strong> Affichez la configuration d'événement pour la migrer. <documentationLink>En savoir plus en lisant notre documentation</documentationLink>",
   "ibmMqFileTransfer": {
     "transferID": "ID de transfert",
     "sourceAgent": "Agent source",
@@ -160,5 +159,8 @@
     "fixSuggestion": {
       "podContainerNotReady": "Le conteneur de pod n'est pas prêt. Vérifiez que le noeud possède la capacité et/ou que l'image peut être extraite du chemin d'image indiqué."
     }
+  },
+  "infraSmartAlerts": {
+    "pseudoAggregatedEntityLabel": "{{entityName}} (agrégé)"
   }
 }

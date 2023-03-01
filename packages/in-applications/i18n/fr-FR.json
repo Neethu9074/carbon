@@ -62,8 +62,6 @@
   "labelScope": "Portée",
   "labelCustomServiceRules": "Règles de service personnalisées",
   "labelSyntheticEndpoints": "Noeuds finaux synthétiques",
-  "labelWarning": "Avertissement",
-  "labelCritical": "Critique",
   "titleTopServices": "Principaux services",
   "titleMeanLatency": "Temps d'attente moyen",
   "titleErroneousCallRate": "Taux d'appels erronés",
@@ -132,12 +130,6 @@
   "Rendering": "Rendu",
   "loadingData": "Chargement des données",
   "UnexpectedErrorOccurred": "Une erreur inattendue s'est produite.",
-  "noIssues": "Aucun problème détecté",
-  "openIssues": "{{count}} problème",
-  "openIssues_plural": "{{count}} problèmes",
-  "openIssues_0": "{{count}} problèmes",
-  "openIssues_1": "{{count}} problème",
-  "openIssues_2": "{{count}} problèmes",
   "applicationMap": {
     "webglNotSupportedTitle": "Le navigateur ne prend pas en charge WebGL",
     "webglNotSupported": "L'interface utilisateur Instana contient des composants 3D qui sont rendus à l'aide de la technologie WebGL. Malheureusement, cette technologie n'est pas encore disponible sur toutes les plateformes. Certains navigateurs, en particulier les anciennes versions des navigateurs, ne prennent pas en charge WebGL. Nous recommandons d'utiliser la nouvelle génération de navigateurs à mise à jour automatique : Chrome, Firefox, Safari 8 ou MS Edge.\n\nNous prenons toutes les dispositions pour prendre en charge toutes les combinaisons de plateformes et de navigateurs. Cependant, il se peut que notre utilisation de WebGL contienne des erreurs. Vous pouvez utiliser un [test en ligne](https://get.webgl.org/) pour vérifier que votre plateforme prend en charge WebGL.\n\nSi le test en ligne indique que votre plateforme prend en charge WebGL et que la mappe 3D Instana reste inexploitable, [veuillez nous contacter](https://support.instana.com/hc/en-us/requests/new).\n\nPour plus d'informations sur le traitement des incidents, reportez-vous au [tableau de compatibilité WebGL](http://caniuse.com/#feat=webgl) ou consultez le site Web [WebGL](http://webgl.org/).",
@@ -241,7 +233,8 @@
     "dataSource_calls": "{{formattedCount}} appel",
     "dataSource_calls_plural": "{{formattedCount}} appels",
     "dataSource_traces": "{{formattedCount}} trace",
-    "dataSource_traces_plural": "{{formattedCount}} traces"
+    "dataSource_traces_plural": "{{formattedCount}} traces",
+    "analyzeCallsOfThisTrace": "Analyser les appels de cette trace"
   },
   "creation": {
     "newAP": "Nouvelle perspective d'application",

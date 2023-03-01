@@ -607,11 +607,11 @@
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_perWindowEvaluation_2": "对于最后 {{numberEvaluationWindows}} 个评估窗口，每个窗口影响至少 {{count}} 个用户",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserPercentage_perWindowEvaluation": "对于最后 {{numberEvaluationWindows}} 个评估窗口，每个窗口影响至少 {{userPercentage}} 的用户",
         "timeThresholdDescriptionUserImpactOfViolationsInSequence_perWindowEvaluation": "对于最后 {{numberEvaluationWindows}} 个评估窗口，每个窗口影响的数量",
-        "timeThresholdDescriptionRequestImpact": "至少 {{count}} 个请求在过去 {{formattedTimeWindow}} 内受影响",
-        "timeThresholdDescriptionRequestImpact_plural": "至少 {{count}} 个请求在过去 {{formattedTimeWindow}} 内受影响",
-        "timeThresholdDescriptionRequestImpact_0": "至少 {{count}} 个请求在过去 {{formattedTimeWindow}} 内受影响",
-        "timeThresholdDescriptionRequestImpact_1": "至少 {{count}} 个请求在过去 {{formattedTimeWindow}} 内受影响",
-        "timeThresholdDescriptionRequestImpact_2": "至少 {{count}} 个请求在过去 {{formattedTimeWindow}} 内受影响",
+        "timeThresholdDescriptionTraceImpact": "至少 {{count}} 个跟踪在最后一个 {{formattedTimeWindow}} 中受影响",
+        "timeThresholdDescriptionTraceImpact_plural": "至少 {{count}} 个跟踪在最后一个 {{formattedTimeWindow}} 中受影响",
+        "timeThresholdDescriptionTraceImpact_0": "至少 {{count}} 个跟踪在最后一个 {{formattedTimeWindow}} 中受影响",
+        "timeThresholdDescriptionTraceImpact_1": "至少 {{count}} 个跟踪在最后一个 {{formattedTimeWindow}} 中受影响",
+        "timeThresholdDescriptionTraceImpact_2": "至少 {{count}} 个跟踪在最后一个 {{formattedTimeWindow}} 中受影响",
         "timeThresholdDescriptionViolationsInPeriod": "至少{{count}} 个违例在过去 {{formattedTimeWindow}} 内受影响",
         "timeThresholdDescriptionViolationsInPeriod_plural": "至少{{count}} 个违例在过去 {{formattedTimeWindow}} 内受影响",
         "timeThresholdDescriptionViolationsInPeriod_0": "至少{{count}} 个违例在过去 {{formattedTimeWindow}} 内受影响",
@@ -625,10 +625,10 @@
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "为每个评估窗口计算",
         "timeThresholdConfigNumberOfViolations": "指标违例数",
         "timeThresholdConfigEvaluationGranularity": "评估详细程度",
-        "timeThresholdConfigNumberOfRequestsThreshold": "受影响的请求数",
+        "timeThresholdConfigNumberOfTracesThreshold": "受影响的跟踪数",
         "timeThresholdConfigNumberOfImpactedUsersThreshold": "受影响的用户数",
         "timeThresholdConfigAtLeast": "至少",
-        "timeThresholdConfigNumberOfRequests": "受影响的请求数",
+        "timeThresholdConfigNumberOfTraces": "受影响的跟踪数",
         "timeThresholdConfigMinutes": "{{min}} 分钟",
         "timeThresholdConfigNumberOfUsers": "受影响的用户数",
         "timeThresholdConfigPercentageOfUsers": "受影响用户的百分比",
@@ -639,11 +639,11 @@
         "timeThresholdConfigTimeThresholdLabelViolationsInSequence": "当条件在指定时长后持续存在时",
         "timeThresholdConfigTimeThresholdLabelViolationsInPeriod": "每次条件在定义的时间范围内触发指定的次数",
         "timeThresholdConfigTimeThresholdLabelUserImpactOfViolationsInSequence": "当特定数量的用户受到影响时",
-        "timeThresholdConfigTimeThresholdLabelRequestImpact": "当特定数量的请求受到影响时",
+        "timeThresholdConfigTimeThresholdLabelTraceImpact": "当一定数量的跟踪受到影响时",
         "timeThresholdConfigTimeThresholdTitleViolationsInSequence": "持续一段时间",
         "timeThresholdConfigTimeThresholdTitleViolationsInPeriod": "一段时间内的违例数",
         "timeThresholdConfigTimeThresholdTitleUserImpactOfViolationsInSequence": "用户影响",
-        "timeThresholdConfigTimeThresholdTitleRequestImpact": "请求影响",
+        "timeThresholdConfigTimeThresholdTitleTraceImpact": "跟踪影响",
         "timeThresholdConfigNoUserSessionDetected": "否<linkToIdentifyingUsers>用户</linkToIdentifyingUsers> 或<linkToSessionTracking>会话数</linkToSessionTracking> detected.",
         "timeThresholdConfigPleaseConfigureWebsiteMonitoringBeforeUsingThisOption": "请在使用此选项之前先配置 Web 站点监视。",
         "alertPropertiesWarning": "警告",
@@ -794,7 +794,12 @@
         "propertiesTitle": "其他警报属性",
         "thresholdValue": "阈值",
         "payloadsLabel": "有效内容",
-        "payloadsTitle": "定制有效内容"
+        "payloadsTitle": "定制有效内容",
+        "evaluationSwitch": {
+          "evaluationTypePERWEBSITE": {
+            "shortText": "每个 Web 站点"
+          }
+        }
       },
       "components": {
         "provideStatusCodeStatusCode": "状态码",
@@ -996,7 +1001,7 @@
       "migrateButton": "迁移到智能警报",
       "migrateButtonTooltip": "尽可能打开预先填充了当前事件中已迁移值的“智能警报配置”对话框。 请仔细检查结果！",
       "markAsMigratedButton": "标记为已迁移",
-      "markAsMigratedButtonTooltip": "将事件标记为已迁移。 如果您已配置将替换此事件的智能警报，请使用此方法。",
+      "markAsMigratedButtonTooltip": "将事件标记为已迁移。如果您已配置将替换此事件的智能警报，请使用此方法。",
       "markAsMigratedButtonConfirmationTitle": "请确认",
       "markAsMigratedButtonConfirmationDescription": "将此定制事件标记为已迁移将禁用此事件。 在此之后无法重新启用此事件。 要继续吗？",
       "markAsMigratedButtonConfirmationConfirmLabel": "确认"

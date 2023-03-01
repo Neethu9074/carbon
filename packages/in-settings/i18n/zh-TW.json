@@ -53,6 +53,58 @@
       "purpose": "使用者上架和 NPS 商店意見調查。"
     }
   },
+  "roleAndAccessScope": {
+    "dialogTitle": "建立新的群組",
+    "dialogTitle_edit": "編輯存取範圍",
+    "editButton": "編輯存取範圍",
+    "productArea": "角色及存取範圍",
+    "productArea_application": "應用程式",
+    "productArea_platform": "平台",
+    "productArea_website": "網站",
+    "productArea_mobile-app": "行動應用程式",
+    "productArea_kubernetes": "Kubernetes",
+    "productArea_infrastructure": "基礎架構",
+    "productArea_analytics": "分析",
+    "productArea_event": "事件及警示",
+    "productArea_function": "廣域函數"
+  },
+  "headingSection": {
+    "title": "角色及存取範圍",
+    "description": "啟用產品區域以進行存取，並定義每一個單元的存取範圍。",
+    "link": "進一步閱讀角色和許可權的相關資訊。"
+  },
+  "groupSection": {
+    "title": "群組名稱",
+    "label": "輸入名稱"
+  },
+  "websitePermissionSection": {
+    "title": "網站",
+    "addButton": "選取網站",
+    "description_limited_access": "選取產品區域的角色，並在下方新增網站以授與存取權",
+    "description_access_all": "可以使用針對產品區域所選取的角色來存取所有網站",
+    "deleteButton": "從清單中移除 {{name}}"
+  },
+  "selectItemForm": {
+    "doneButton": "完成"
+  },
+  "selectWebsitesDialog": {
+    "title": "選取網站",
+    "nameColumnHead": "名稱"
+  },
+  "permissionScope": {
+    "selection": "無法使用",
+    "selection_access_all": "全部存取",
+    "selection_limited_access": "受限存取範圍",
+    "selection_no_access": "不可存取",
+    "description_no_access": "根本無法使用此區域",
+    "description_access_all": "不受限制地存取全部",
+    "role": "選取角色",
+    "role_owner": "擁有者",
+    "role_viewer": "檢視器",
+    "role_custom": "自訂",
+    "roleTooltip": "檢視器：能夠檢視儀表板（無法檢視配置）。 擁有者：能夠建立新的實體；檢視、配置及刪除儀表板。",
+    "roleTooltip_websites": "檢視器：能夠檢視網站儀表板（無法檢視配置）。 擁有者：能夠建立新的網站；檢視、配置及刪除網站儀表板。"
+  },
   "cardTitle_Area": "區域",
   "cardTitle_Area_plural": "區域",
   "cardTitle_Area_0": "區域",
@@ -98,6 +150,7 @@
   "tabs": {
     "team": {
       "events": {
+        "addCondition": "新增條件",
         "withDeprecatedSuffix": "{{pluginName}}（已淘汰）",
         "placeholder": "位置保留元"
       },
@@ -135,11 +188,11 @@
     "failedToChangeName": "無法變更名稱：{{err}}",
     "failedToDeleteTimeouts": "無法刪除逾時：{{err}}",
     "failedToSaveTimeouts": "無法儲存逾時：{{err}}",
-    "scanTheQrCodeBelow": "使用您的「雙因素」鑑別器來掃描 QR 碼，以啟用帳戶。如果您無法該碼，也可以手動輸入下列金鑰來設定帳戶： ",
+    "scanTheQrCodeBelow": "使用您的「雙因素」鑑別器來掃描 QR 碼，以啟用帳戶。如果您無法該碼，也可以手動輸入下列金鑰來設定帳戶：",
     "disableTwoFactorAuth": "停用雙因素鑑別",
     "enableTwoFactorAuth": "啟用雙因素鑑別",
-    "failedToDisableTwoFactorAuth": "無法停用雙因素鑑別： ",
-    "failedToEnableTwoFactorAuth": "無法啟用雙因素鑑別： ",
+    "failedToDisableTwoFactorAuth": "無法停用雙因素鑑別：",
+    "failedToEnableTwoFactorAuth": "無法啟用雙因素鑑別：",
     "enableTwoFactor": "啟用雙因素",
     "2FA": "2FA",
     "notFound": "找不到",
@@ -264,7 +317,7 @@
     "onlineEvents": "線上事件",
     "offlineEvents": "離線事件",
     "monitoringIssues": "監視問題",
-    "applicationPerspectives": " 應用程式視景",
+    "applicationPerspectives": "應用程式視景",
     "applicationPerspectiveEntityLabel": "應用程式視景 {{entityLabel}}",
     "saveFiltersForEasyAccessHere": "儲存過濾器以便可在這裡輕鬆存取",
     "keyEquals": "索引鍵等於",
@@ -293,6 +346,8 @@
     "hostAvailabilityDetection": "主機可用性偵測",
     "pleaseSelectASeverity": "請選取嚴重性",
     "pleaseEnterAValidMetric": "請輸入有效的度量。",
+    "noMoreThanOneThresholdCanBeDefinedOnSameMetric": "在相同度量上最多只能定義一個臨界值。",
+    "onlyOneRuleIsAllowedToHaveDifferentOperatorThanIs": "依型樣定義多個度量時，只容許一個規則使用與 'is' 不同的相符運算子。",
     "thisEntityTypeHasBeenDeprecated": "此實體類型已淘汰。請選擇不同的類型。",
     "failedToSaveSettings": "無法儲存設定：{{err}}",
     "events": "事件",
@@ -312,6 +367,7 @@
     "kilobytes": "KB",
     "megabytes": "MB",
     "count": "計數",
+    "statusValue": "狀態值",
     "scheduleMaintenanceWindow": "排程維護時間",
     "changeMaintenanceWindow": "變更維護時間",
     "allAlertsWillBeMutedForTheDurationOfThisMaintenanceWindow": "<strong>注意！</strong>在這段維護時間內，所有警示都保持靜音。<strong>這可能會影響您組織中的其他使用者</strong>。",
@@ -396,6 +452,7 @@
     "emailField": "電子郵件欄位",
     "emailFieldDescription": "在其中尋找使用者電子郵件位址的屬性名稱，例如：mail",
     "ldapUserAccount": "LDAP 使用者帳戶",
+    "ldapsAcceptAnyCA": "使用 ldaps 時信任任何憑證管理中心",
     "username": "使用者名稱",
     "usernameDescription": "要以擁有者使用者身分在 Instana 中相關的使用者。 在儲存設定之前，會先嘗試登入作為測試，不會儲存認證。",
     "usernamePasswordDescription": "使用者的 LDAP 密碼",
@@ -467,7 +524,7 @@
     "scratchCodesAreYourBackupInCaseYouEverLoseAccessToYourDevice": "暫存碼是作為備用，以防您遺失對裝置的存取權。暫存碼只能使用一次，因此請謹慎使用。如果您所有的暫存碼都已用盡，則只能針對您的帳戶停用再重新啟用雙因素授權，才能取得新的暫存碼。",
     "savingTwoFactorToken": "正在儲存雙因素記號。",
     "twoFactorTokenSuccessfullyVerified": "已順利驗證雙因素記號。",
-    "failedToSaveTwoFactorToken": "無法儲存雙因素記號： ",
+    "failedToSaveTwoFactorToken": "無法儲存雙因素記號：",
     "pleaseSpecifyAValidToken": "請指定有效的記號。",
     "2FaIsEnabledForThisUser": "已啟用此使用者的 2FA",
     "change": "變更",
@@ -490,7 +547,7 @@
     "failIfNoIdp": "若要變更此設定，您需要配置身分提供者。",
     "noActions": "未配置任何動作。",
     "noGroupMapping": "在身分提供者與 Instana 之間未配置對映",
-    "denyUserWithNoGroup": "找不到對映時拒絕存取。 如果未勾選，則沒有群組對映，且找不到群組的使用者將新增至「預設」群組。",
+    "denyUserWithNoGroup": "找不到對映時拒絕存取。如果未勾選，則沒有群組對映，且找不到群組的使用者將新增至「預設」群組。",
     "twoFactor": "雙因素",
     "settings": "設定",
     "users": "使用者",
@@ -842,10 +899,11 @@
     "identityProviderType": "身分提供者類型",
     "copyApiTokenToClipboardError": "無法將 API 記號複製到剪貼簿。",
     "depreactedEventHiddenInfo": "已淘汰的事件無法再新增至新的警示，且會從此清單中隱藏。",
-    "deprecatedEventMessage": "即將淘汰實體類型「應用程式視景」、「服務」及「端點」上的自訂事件。 從 2023 年 1 月開始，您將無法建立此類型的新事件。 建議您手動或使用上述<em>移轉至智慧型警示</em>按鈕，將此事件移轉至「智慧型警示」。 <documentationLink>進一步閱讀我們的文件</documentationLink>。",
-    "disallowedEventMessage": "即將移除實體類型「應用程式視景」、「服務」及「端點」上的自訂事件。 從 2023 年 4 月開始，將不再處理此類型的現有自訂事件。 建議您手動或使用上述<em>移轉至智慧型警示</em>按鈕，將此事件移轉至「智慧型警示」。 <documentationLink>進一步閱讀我們的文件</documentationLink>。",
-    "migratedEventMessage": "已移轉這個已淘汰的事件。 如需相關資訊，請<documentationLink>參閱我們的文件</documentationLink>。",
-    "deprecatedEventSelectedMessage": "即將淘汰實體類型「應用程式視景」、「服務」及「端點」上的自訂事件。 從 2023 年 1 月開始，您將無法建立此類型的新事件。 建議改為建立「智慧型警示」。 <documentationLink>進一步閱讀我們的文件</documentationLink>。",
+    "deprecatedEventMessage": "<strong>即將淘汰實體類型「應用程式」、「服務」及「端點」上的自訂事件</strong><br/>從 2023 年 4 月開始，您將無法建立此類型的新事件。 建議您手動或使用上述<em>移轉至智慧型警示</em>按鈕，將此事件移轉至「智慧型警示」。 <documentationLink>進一步閱讀我們的文件</documentationLink>",
+    "disallowedEventMessage": "即將移除實體類型「應用程式」、「服務」及「端點」上的自訂事件。 從 2023 年 7 月開始，將不再處理此類型的現有自訂事件。 建議您手動或使用上述<em>移轉至智慧型警示</em>按鈕，將此事件移轉至「智慧型警示」。 <documentationLink>進一步閱讀我們的文件</documentationLink>。",
+    "migratedEventMessage": "已移轉這個已淘汰的事件。如需相關資訊，請<documentationLink>參閱我們的文件</documentationLink>。",
+    "deprecatedEventSelectedMessage": "即將淘汰實體類型「應用程式」、「服務」及「端點」上的自訂事件。 從 2023 年 4 月開始，您將無法建立此類型的新事件。 建議改為建立「智慧型警示」。 <documentationLink>進一步閱讀我們的文件</documentationLink>。",
+    "customEventListDeprecatedWarning": "<strong>已淘汰實體類型「應用程式」、「服務」及「端點」上的自訂事件</strong><br/>從 <strong>2023 年 4 月（建置 246）</strong>開始，您將無法在這三個實體類型上建立或更新「自訂事件」。 將從 <strong>2023 年 7 月（建置 253）</strong> 開始移除現有配置。 <documentationLink>進一步閱讀我們的文件</documentationLink>",
     "automation": "自動化",
     "actionCatalog": "動作型錄",
     "actions": "動作",
@@ -869,7 +927,35 @@
     "confidence_high": "高",
     "confidence": "{{context}}",
     "confidenceTitle": "信賴度",
-    "test": "測試"
+    "host": "主機",
+    "method": "方法",
+    "accept": "接受（選用）",
+    "acceptLanguage": "接受的語言（選用）",
+    "contentType": "內容類型（選用）",
+    "bodyDescription": "與 HTTP 要求相關聯的資料。",
+    "acceptLanguageDescription": "用戶端可以瞭解的語言。",
+    "acceptDescription": "用戶端可以理解的內容類型，以 MIME 類型表示。",
+    "contentTypeDescription": "內文的媒體類型。",
+    "noAdditionalHeadersConfigured": "未配置其他標頭",
+    "body": "內文（選用）",
+    "additionalHeadersOptional": "其他標頭（選用）",
+    "theValueMustBeValidMime": "值必須是有效的 MIME 類型。",
+    "authType": "授權類型",
+    "noAuth": "無鑑別",
+    "ignoreCertErrors": "忽略憑證錯誤",
+    "basicAuth": "基本鑑別",
+    "bearerToken": "載送記號",
+    "apiKeyAddTo": "新增至",
+    "header": "標頭",
+    "queryParams": "查詢參數",
+    "test": "測試",
+    "http": "HTTP",
+    "serviceNowUrl": "ServiceNow URL",
+    "serviceNow": "ServiceNow",
+    "serviceNowAlertChannel": "ServiceNow 警示通道",
+    "serviceNowUsernameTooltip": "使用者名稱和密碼應該用於具有建立事件權限的 ServiceNow 使用者。",
+    "showPasswordTooltip": "顯示密碼",
+    "hidePasswordTooltip": "隱藏密碼"
   },
   "languageSelection": {
     "language": "語言",
@@ -906,5 +992,6 @@
   "queryValidationStillInProgress": "查詢驗證仍在進行中",
   "teamSettings": {
     "newGroup": "新增群組"
-  }
+  },
+  "successResponse": "已順利觸發警示通道，請檢查通道！"
 }

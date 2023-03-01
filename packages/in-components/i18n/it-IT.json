@@ -1,4 +1,7 @@
 {
+  "csvExporterButton": {
+    "label": "Esporta in CSV"
+  },
   "fileInputButton": {
     "label": {
       "chooseSingle": "Scegli file…",
@@ -77,7 +80,7 @@
     "eumPageName": "EUM",
     "settingsPageName": "Impostazioni",
     "requestQuoteBtn": "Richiedi un preventivo",
-    "buyNowBtn": "Acquista ora",
+    "buyNowBtn": "Acquista su AWS",
     "alreadyHaveLicense": "Si dispone già di una licenza? Attivarla su <linkToDocker>Docker</linkToDocker> o <linkToKubernetes>Kubernetes</linkToKubernetes>."
   },
   "releaseNotesDialog": {
@@ -281,14 +284,6 @@
   "draggableItemSelector": {
     "tooltipReorderMetrics": "Riordina metriche"
   },
-  "entityHealthIndicator": {
-    "indicatorPresenterNoIssues": "Nessun problema",
-    "indicatorPresenterOpenIssues": "{{count}} problema",
-    "indicatorPresenterOpenIssues_plural": "{{count}} problemi",
-    "indicatorPresenterOpenIssues_0": "{{count}} problemi",
-    "indicatorPresenterOpenIssues_1": "{{count}} problema",
-    "indicatorPresenterOpenIssues_2": "{{count}} problemi"
-  },
   "entityPageMainNotification": {
     "labelEntity": "Entità",
     "labelNotFound": "{{entity}} non trovata"
@@ -359,7 +354,21 @@
     "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}} {{eventType}} aperto",
     "openIssuesListPresenterHeaderDisplayingMaxIssuesToShowMostSevere": "(visualizzazione dei {{maxIssuesToShow}} più gravi)",
     "openIssuesListPresenterIssueDescriptionOmitted": "Descrizione del problema omessa. Ulteriori dettagli sono visibili all'interno della vista dettagli dell'evento.",
-    "openIssuesListPresenterStarted": "Avviato"
+    "openIssuesListPresenterStarted": "Avviato",
+    "noIssues": "Nessun problema",
+    "openIssues": "{{count}} problema",
+    "openIssues_plural": "{{count}} problemi",
+    "openIssues_0": "{{count}} problemi",
+    "openIssues_1": "{{count}} problema",
+    "openIssues_2": "{{count}} problemi",
+    "noIncidents": "Nessun incidente",
+    "openIncidents": "{{count}}Incidenti",
+    "openIncidents_plural": "{{count}} Incidenti",
+    "openIncidents_0": "{{count}} Incidenti",
+    "openIncidents_1": "{{count}}Incidenti",
+    "openIncidents_2": "{{count}} Incidenti",
+    "labelWarning": "Avvertenza",
+    "labelCritical": "Critico"
   },
   "inlineTabNavigation": {
     "labelSelectTab": "Seleziona scheda"

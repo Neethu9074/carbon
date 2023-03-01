@@ -1,4 +1,7 @@
 {
+  "csvExporterButton": {
+    "label": "匯出為 CSV"
+  },
   "fileInputButton": {
     "label": {
       "chooseSingle": "選擇檔案...",
@@ -77,7 +80,7 @@
     "eumPageName": "EUM",
     "settingsPageName": "設定",
     "requestQuoteBtn": "要求報價",
-    "buyNowBtn": "立即購買",
+    "buyNowBtn": "在 AWS 上購買",
     "alreadyHaveLicense": "已有授權？ 在 <linkToDocker>Docker</linkToDocker> 或 <linkToKubernetes>Kubernetes</linkToKubernetes> 上啟動它。"
   },
   "releaseNotesDialog": {
@@ -281,14 +284,6 @@
   "draggableItemSelector": {
     "tooltipReorderMetrics": "重新排序度量"
   },
-  "entityHealthIndicator": {
-    "indicatorPresenterNoIssues": "沒有問題",
-    "indicatorPresenterOpenIssues": "{{count}} 個問題",
-    "indicatorPresenterOpenIssues_plural": "{{count}} 個問題",
-    "indicatorPresenterOpenIssues_0": "{{count}} 個問題",
-    "indicatorPresenterOpenIssues_1": "{{count}} 個問題",
-    "indicatorPresenterOpenIssues_2": "{{count}} 個問題"
-  },
   "entityPageMainNotification": {
     "labelEntity": "實體",
     "labelNotFound": "找不到 {{entity}}"
@@ -359,7 +354,21 @@
     "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}} 個開啟的 {{eventType}}",
     "openIssuesListPresenterHeaderDisplayingMaxIssuesToShowMostSevere": "（顯示 {{maxIssuesToShow}} 個最嚴重的問題）",
     "openIssuesListPresenterIssueDescriptionOmitted": "已省略問題說明。可以在事件的詳細視圖內看見其他詳細資料。",
-    "openIssuesListPresenterStarted": "開始時間"
+    "openIssuesListPresenterStarted": "開始時間",
+    "noIssues": "沒有問題",
+    "openIssues": "{{count}} 個問題",
+    "openIssues_plural": "{{count}} 個問題",
+    "openIssues_0": "{{count}} 個問題",
+    "openIssues_1": "{{count}} 個問題",
+    "openIssues_2": "{{count}} 個問題",
+    "noIncidents": "無發生事件",
+    "openIncidents": "{{count}} 個事故",
+    "openIncidents_plural": "{{count}} 個事故",
+    "openIncidents_0": "{{count}} 個事故",
+    "openIncidents_1": "{{count}} 個事故",
+    "openIncidents_2": "{{count}} 個事故",
+    "labelWarning": "警告",
+    "labelCritical": "重大"
   },
   "inlineTabNavigation": {
     "labelSelectTab": "選取標籤"

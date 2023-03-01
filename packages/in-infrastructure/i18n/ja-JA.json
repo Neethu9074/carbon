@@ -56,8 +56,9 @@
     "kubernetesLabels": "Kubernetes ラベル"
   },
   "explore": {
+    "beta": "ベータ",
+    "tryBetaInfraAnalytics": "新しいインフラストラクチャー分析を試す",
     "focusOnThisGroup": "このグループにフォーカス",
-    "thisIsABetaVersionOfANewProductCapability": "これは新しい製品機能のベータ版です。 提示されたデータに依存しないことをお勧めします。",
     "theQueryConfigurationIsInvalid": "照会構成が無効です。 続行する前に検証の失敗に対処してください。",
     "allInfrastructure": "すべてのインフラストラクチャー",
     "name": "名前",
@@ -101,7 +102,6 @@
     "collapseAll": "すべて折りたたみ",
     "map": "マップ",
     "comparisonTable": "比較表",
-    "entityExploreBeta": "エンティティー探索 (ベータ)",
     "infrastructureComparisonTable": "インフラストラクチャー比較表"
   }
 }

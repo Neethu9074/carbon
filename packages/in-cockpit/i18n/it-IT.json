@@ -70,13 +70,6 @@
       "views": "Viste",
       "website": "Sito web",
       "mobileApp": "App per dispositivi mobili"
-    },
-    "openIncidentsButton": {
-      "numberOfIncidents": "{{count}}Incidenti",
-      "numberOfIncidents_plural": "{{count}} Incidenti",
-      "numberOfIncidents_0": "{{count}} Incidenti",
-      "numberOfIncidents_1": "{{count}} Incidenti",
-      "numberOfIncidents_2": "{{count}} Incidenti"
     }
   },
   "cockpit": {
@@ -95,7 +88,8 @@
     "kubernetes": "Kubernetes",
     "websites": "Siti web",
     "mobileApps": "App per dispositivi mobili",
-    "websitesMobileApps": "Siti web & App per dispositivi mobili"
+    "websitesMobileApps": "Siti web & App per dispositivi mobili",
+    "customEventDeprecatedWarning": "<strong>{{deprecatedCustomEvents}} Gli eventi personalizzati di applicazione, servizio ed endpoint richiedono un'azione</strong><affectedCustomEvents>Visualizza eventi personalizzati interessati</affectedCustomEvents>"
   },
   "widgets": {
     "columnDefinitions": {

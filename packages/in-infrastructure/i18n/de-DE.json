@@ -56,8 +56,9 @@
     "kubernetesLabels": "Kubernetes-Bezeichnungen"
   },
   "explore": {
+    "beta": "Betaversion",
+    "tryBetaInfraAnalytics": "Testen Sie die neue Infrastrukturanalyse",
     "focusOnThisGroup": "Auf diese Gruppe konzentrieren",
-    "thisIsABetaVersionOfANewProductCapability": "Dies ist eine Betaversion einer neuen Produktfunktion. Wir raten Ihnen, sich nicht auf die präsentierten Daten zu verlassen.",
     "theQueryConfigurationIsInvalid": "Die Abfragekonfiguration ist ungültig. Beheben Sie die Gültigkeitsfehler, bevor Sie fortfahren.",
     "allInfrastructure": "Gesamte Infrastruktur",
     "name": "Name",
@@ -101,7 +102,6 @@
     "collapseAll": "Alles ausblenden",
     "map": "Zuordnung",
     "comparisonTable": "Vergleichstabelle",
-    "entityExploreBeta": "Entität durchsuchen (Beta)",
     "infrastructureComparisonTable": "Infrastrukturvergleichstabelle"
   }
 }

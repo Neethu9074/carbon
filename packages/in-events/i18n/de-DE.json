@@ -7,17 +7,8 @@
   },
   "associatedActions": "Zugeordnete Aktionen",
   "associateActions": "Aktionen zuordnen",
-  "actionSelectionStep1Headline": "Was bedeutet es, Aktionen zuzuordnen?",
-  "step1ActionAssociationsTitle": "Schritt 1: Aktionszuordnungen",
-  "step2ActionAssociationsTitle": "Schritt 2: Aktionskatalog",
-  "actionSelectionConfigDialogStep2Headline": "Möchten Sie Aktionen aus Ihrem Katalog zuordnen?",
   "selectActions": "Aktionen auswählen",
   "addActions": "Aktionen hinzufügen",
-  "whatAreActions": "Was sind Aktionen?",
-  "whatAreActionAssociations": "Was sind Aktionszuordnungen?",
-  "actionAssociations": "Aktionszuordnungen",
-  "whatAreActionsText": "Aktionen sind Automatisierungseinheiten oder Dokumentationen, die ausgeführt oder gestartet werden können, um ein Ereignis zu diagnostizieren oder zu korrigieren.",
-  "whatAreActionAssociationsText": "Aktionen können integrierten oder angepassten Ereignistypen zugeordnet und beim Auftreten eines Ereignisses ausgeführt oder gestartet werden.",
   "actionsAssociationsNote": "Beachten Sie, dass Aktionszuordnungen mit der Definition des Ereignisses gespeichert werden.",
   "saveButton": "Speichern",
   "cancelButton": "Abbrechen",
@@ -28,11 +19,18 @@
   "targetAgentDescription": "Ein Agent kapselt 1 .. * Sensoren, die wiederum Ereignisse an das Instana-Back-End auslösen können. Ein auslösender Agent enthält den Sensor, der dieses Ereignis ausgelöst hat.",
   "pleaseSelect": "Bitte auswählen",
   "actionSensorTimeout": "Die Back-End-Anforderung konnte nicht verarbeitet werden. Überprüfen Sie Ihre Agentenkonfiguration, um sicherzustellen, dass der Aktionssensor installiert ist.",
-  "chosenToRun": "Sie haben {{actionName}} aus Ihrem Aktionskatalog ausgewählt.",
+  "chosenToRun": "Sie möchten {{actionName}} aus Ihrem Aktionskatalog ausführen.",
   "chosenToTest": "Sie wollen {{actionName}} aus Ihrem Aktionskatalog testen.",
   "failedToInitiate": "{{actionName}} konnte nicht initialisiert werden.",
   "hasBeenInitiated": "{{actionName}} wurde eingeleitet.",
   "actionCannotBeUndone": "Diese Aktion kann nicht rückgängig gemacht werden. Wollen Sie wirklich fortfahren?",
+  "request": "Anforderung",
+  "titleScriptContent": "Scriptinhalt",
+  "titleActionType": "Aktionstyp",
+  "method": "Methode: {{method}}",
+  "host": "Host: {{host}}",
+  "body": "Hauptteil: {{body}}",
+  "headers": "Header:",
   "entityInfoPresenterDefaultLabel": "Unter: ",
   "entityInfoLabelOfService": "Des Service:",
   "titleDetail": "Details",
@@ -95,7 +93,7 @@
   "incidentHeader_0": "Vorfall: {{incidentName}}-{{label}} ({{eventsLength}} Ereignisse)",
   "incidentHeader_1": "Vorfall: {{incidentName}} - {{label}} (Ereignis {{eventsLength}})",
   "incidentHeader_2": "Vorfall: {{incidentName}}-{{label}} ({{eventsLength}} Ereignisse)",
-  "startHere": "Hier gestartet: ",
+  "startHere": "Hier gestartet:",
   "duration": "Dauer",
   "monitoringIssueForMoreInfo": "Weitere Informationen zur Lösung dieses Problems finden Sie auf folgender Website: ",
   "analyzeCalls": "Aufrufe analysieren",
@@ -139,6 +137,7 @@
   "tooltipCloseEventDetail": "Ereignisdetails schließen",
   "releaseOccurName": "Release: {{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (vor <timeCount/>)",
+  "deprecatedCustomEventWarning": "<strong>{{issueOrIncident}} ist ab Juli 2023 (Build 253) nicht mehr erhältlich</strong> Zeigen Sie die Ereigniskonfiguration an, um sie zu migrieren. <documentationLink>Weitere Informationen finden Sie in der Dokumentation</documentationLink>",
   "ibmMqFileTransfer": {
     "transferID": "Übertragungs-ID",
     "sourceAgent": "Quellenagent",
@@ -160,5 +159,8 @@
     "fixSuggestion": {
       "podContainerNotReady": "Der Pod-Container ist nicht bereit. Überprüfen Sie, ob der Knoten über Kapazität verfügt und/oder ob das Image aus dem angegebenen Imagepfad abgerufen werden kann."
     }
+  },
+  "infraSmartAlerts": {
+    "pseudoAggregatedEntityLabel": "{{entityName}} (aggregiert)"
   }
 }

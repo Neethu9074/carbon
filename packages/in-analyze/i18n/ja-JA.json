@@ -71,6 +71,7 @@
       "applications": "アプリケーション",
       "websites": "Web サイト",
       "mobileApps": "モバイル・アプリケーション",
+      "infrastructure": "インフラストラクチャー",
       "profiles": "プロファイル",
       "logs": "ログ",
       "eumWebsites": "EUM: Web サイト",
@@ -246,7 +247,9 @@
     "labelKeyPairENDS_WITH": "次で終わる"
   },
   "analyzeHeader": {
-    "title": "分析"
+    "title": "分析",
+    "analyzeInfrastructureSelectedTitle": "インフラストラクチャーの分析",
+    "readDocs": "資料の参照"
   },
   "filterBar": {
     "keyValueBarItem": {

@@ -607,11 +607,11 @@
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_perWindowEvaluation_2": "最後の {{numberEvaluationWindows}} 評価ウィンドウのウィンドウでは、ウィンドウごとに少なくとも {{count}} ユーザーが影響を受けました",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserPercentage_perWindowEvaluation": "ウィンドウごとに少なくとも {{userPercentage}} ユーザーが最後の {{numberEvaluationWindows}} 評価ウィンドウのウィンドウで影響を受けました",
         "timeThresholdDescriptionUserImpactOfViolationsInSequence_perWindowEvaluation": "ウィンドウごとに、最後の {{numberEvaluationWindows}} 評価ウィンドウのウィンドウで影響を受けました",
-        "timeThresholdDescriptionRequestImpact": "少なくとも {{count}} 個の要求が過去 {{formattedTimeWindow}}以内に影響を受けました",
-        "timeThresholdDescriptionRequestImpact_plural": "少なくとも {{count}} 個の要求が過去 {{formattedTimeWindow}}以内に影響を受けました",
-        "timeThresholdDescriptionRequestImpact_0": "少なくとも {{count}} 個の要求が過去 {{formattedTimeWindow}}以内に影響を受けました",
-        "timeThresholdDescriptionRequestImpact_1": "少なくとも {{count}} 個の要求が過去 {{formattedTimeWindow}}以内に影響を受けました",
-        "timeThresholdDescriptionRequestImpact_2": "少なくとも {{count}} 個の要求が過去 {{formattedTimeWindow}}以内に影響を受けました",
+        "timeThresholdDescriptionTraceImpact": "過去 {{formattedTimeWindow}} の間に少なくとも {{count}} 個のトレースが影響を受けました",
+        "timeThresholdDescriptionTraceImpact_plural": "過去 {{formattedTimeWindow}} の間に少なくとも {{count}} 個のトレースが影響を受けました",
+        "timeThresholdDescriptionTraceImpact_0": "過去 {{formattedTimeWindow}} の間に少なくとも {{count}} 個のトレースが影響を受けました",
+        "timeThresholdDescriptionTraceImpact_1": "過去 {{formattedTimeWindow}} の間に少なくとも {{count}} 個のトレースが影響を受けました",
+        "timeThresholdDescriptionTraceImpact_2": "過去 {{formattedTimeWindow}} の間に少なくとも {{count}} 個のトレースが影響を受けました",
         "timeThresholdDescriptionViolationsInPeriod": "過去 {{formattedTimeWindow}}内で少なくとも {{count}} 件の違反",
         "timeThresholdDescriptionViolationsInPeriod_plural": "過去 {{formattedTimeWindow}}内で少なくとも {{count}} 件の違反",
         "timeThresholdDescriptionViolationsInPeriod_0": "過去 {{formattedTimeWindow}}内で少なくとも {{count}} 件の違反",
@@ -625,10 +625,10 @@
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "評価ウィンドウごとに計算",
         "timeThresholdConfigNumberOfViolations": "メトリック違反の数",
         "timeThresholdConfigEvaluationGranularity": "評価の粒度",
-        "timeThresholdConfigNumberOfRequestsThreshold": "影響請求数",
+        "timeThresholdConfigNumberOfTracesThreshold": "影響を受けたトレースの数",
         "timeThresholdConfigNumberOfImpactedUsersThreshold": "影響ユーザー数",
         "timeThresholdConfigAtLeast": "最小",
-        "timeThresholdConfigNumberOfRequests": "影響請求数",
+        "timeThresholdConfigNumberOfTraces": "影響を受けたトレース数",
         "timeThresholdConfigMinutes": "{{min}} 分",
         "timeThresholdConfigNumberOfUsers": "影響ユーザー数",
         "timeThresholdConfigPercentageOfUsers": "影響ユーザーの割合 (%)",
@@ -639,11 +639,11 @@
         "timeThresholdConfigTimeThresholdLabelViolationsInSequence": "状態が指定された時間以上続く場合",
         "timeThresholdConfigTimeThresholdLabelViolationsInPeriod": "定義された時間フレーム内で指定された回数だけ条件がトリガーされるたび",
         "timeThresholdConfigTimeThresholdLabelUserImpactOfViolationsInSequence": "特定の数のユーザーが影響を受ける場合",
-        "timeThresholdConfigTimeThresholdLabelRequestImpact": "特定の数の要求が影響を受ける場合",
+        "timeThresholdConfigTimeThresholdLabelTraceImpact": "一定量のトレースが影響を受ける場合",
         "timeThresholdConfigTimeThresholdTitleViolationsInSequence": "長期にわたる持続性",
         "timeThresholdConfigTimeThresholdTitleViolationsInPeriod": "違反数の経時変化",
         "timeThresholdConfigTimeThresholdTitleUserImpactOfViolationsInSequence": "ユーザー影響",
-        "timeThresholdConfigTimeThresholdTitleRequestImpact": "請求影響",
+        "timeThresholdConfigTimeThresholdTitleTraceImpact": "影響を受けたトレース",
         "timeThresholdConfigNoUserSessionDetected": "<linkToIdentifyingUsers>ユーザー</linkToIdentifyingUsers>や<linkToSessionTracking>セッション</linkToSessionTracking>が検出されません",
         "timeThresholdConfigPleaseConfigureWebsiteMonitoringBeforeUsingThisOption": "このオプションを使用する前に Web サイト・モニタリングを構成してください。",
         "alertPropertiesWarning": "警告",
@@ -794,7 +794,12 @@
         "propertiesTitle": "追加のアラートのプロパティー",
         "thresholdValue": "しきい値",
         "payloadsLabel": "積載量",
-        "payloadsTitle": "カスタム・ペイロード"
+        "payloadsTitle": "カスタム・ペイロード",
+        "evaluationSwitch": {
+          "evaluationTypePERWEBSITE": {
+            "shortText": "Web サイトごと"
+          }
+        }
       },
       "components": {
         "provideStatusCodeStatusCode": "状況コード",
@@ -996,7 +1001,7 @@
       "migrateButton": "スマート・アラートにマイグレーション",
       "migrateButtonTooltip": "現在のイベントから最善の範囲にマイグレーションされた値が事前に入力されている「スマート・アラート構成」ダイアログを開きます。 結果をもう一度よく確認してください。",
       "markAsMigratedButton": "移行済みとしてマーク",
-      "markAsMigratedButtonTooltip": "イベントを移行済みとしてマークします。 このイベントに置き換わるスマート・アラートを既に構成している場合は、これを使用してください。",
+      "markAsMigratedButtonTooltip": "イベントを移行済みとしてマークします。このイベントに置き換わるスマート・アラートを既に構成している場合は、これを使用してください。",
       "markAsMigratedButtonConfirmationTitle": "ご確認ください",
       "markAsMigratedButtonConfirmationDescription": "このカスタム・イベントに移行済みのマークを付けると、無効になります。 後でイベントを再度有効にすることはできません。 続行しますか?",
       "markAsMigratedButtonConfirmationConfirmLabel": "確認"

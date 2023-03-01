@@ -403,6 +403,7 @@
         "pleaseSelect": "Effectuez une sélection"
       },
       "createSliForm": {
+        "formName": "Créer un formulaire d'indicateur de niveau de service",
         "sliCreateSuccess": "SLI créé avec succès",
         "failCreateSli": "Echec de la création du SLI.",
         "problemCreateSli": "Une erreur s'est produite lors de la création du SLI : \"{{sliName}}\"",

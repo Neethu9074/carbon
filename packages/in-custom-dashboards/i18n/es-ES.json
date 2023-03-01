@@ -403,6 +403,7 @@
         "pleaseSelect": "Seleccione"
       },
       "createSliForm": {
+        "formName": "Crear formulario de SLI",
         "sliCreateSuccess": "SLI creado correctamente",
         "failCreateSli": "Error al crear el SLI.",
         "problemCreateSli": "Se ha producido un problema al crear este SLI: \"{{sliName}}\"",
@@ -658,8 +659,7 @@
           "website": "Se ha alcanzado el número máximo de configuraciones de apdex del sitio web ({{0}}). Póngase en contacto con el soporte de Instana para solicitar un aumento de este límite.",
           "application": "Se ha alcanzado el número máximo de configuraciones de apdex de aplicación ({{0}}). Póngase en contacto con el soporte de Instana para solicitar un aumento de este límite."
         },
-        "editConfigNotice": "Para evitar pérdidas de datos, la configuración no se podrá editar una vez creada; solo se podrá ajustar como copia.",
-        "apdexCloneName": "Copia de {{apdexName}}"
+        "editConfigNotice": "Para evitar pérdidas de datos, la configuración no se podrá editar una vez creada; solo se podrá ajustar como copia."
       },
       "createWebsiteApdexForm": {
         "thresholdHeader": "Configuración de umbral",

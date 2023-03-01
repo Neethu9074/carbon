@@ -7,17 +7,8 @@
   },
   "associatedActions": "Azioni associate",
   "associateActions": "Associa azioni",
-  "actionSelectionStep1Headline": "Cosa significa associare le azioni?",
-  "step1ActionAssociationsTitle": "Passo 1: Associazioni di azioni",
-  "step2ActionAssociationsTitle": "Passo 2: Catalogo azioni",
-  "actionSelectionConfigDialogStep2Headline": "Si desidera associare azioni dal catalogo?",
   "selectActions": "Seleziona azioni",
   "addActions": "Aggiungi azioni",
-  "whatAreActions": "Cosa sono le azioni?",
-  "whatAreActionAssociations": "Cosa sono le associazioni di azioni?",
-  "actionAssociations": "Associazioni azione",
-  "whatAreActionsText": "Le azioni sono unità di automazione o documentazione che possono essere eseguite o avviate per diagnosticare o correggere un evento.",
-  "whatAreActionAssociationsText": "Le azioni possono essere associate a tipi di eventi integrati o personalizzati e possono essere eseguite o avviate dalla ricorrenza di un evento.",
   "actionsAssociationsNote": "Notare che le associazioni di azioni vengono salvate con la definizione dell'evento.",
   "saveButton": "Salva",
   "cancelButton": "Annulla",
@@ -28,11 +19,18 @@
   "targetAgentDescription": "Un agent incapsula 1 ..* sensori che, a loro volta, sono in grado di generare eventi al backend Instana. Un agent di attivazione contiene il sensore che ha generato questo specifico evento.",
   "pleaseSelect": "Selezionare",
   "actionSensorTimeout": "Impossibile gestire la richiesta di backend. Controllare la configurazione dell'agent per assicurarsi che il sensore di azione sia installato.",
-  "chosenToRun": "È stata scelta {{actionName}} dal catalogo azioni.",
+  "chosenToRun": "Si è scelto di eseguire {{actionName}} dal Catalogo azioni.",
   "chosenToTest": "Si è scelto di eseguire il test di {{actionName}} dal catalogo azioni.",
   "failedToInitiate": "Impossibile avviare {{actionName}}.",
   "hasBeenInitiated": "{{actionName}} è stata avviata.",
   "actionCannotBeUndone": "Questa azione non potrà essere annullata. Si è sicuri di voler continuare?",
+  "request": "Richiesta",
+  "titleScriptContent": "Contenuto script",
+  "titleActionType": "Tipo azione",
+  "method": "Metodo: {{method}}",
+  "host": "Host: {{host}}",
+  "body": "Corpo: {{body}}",
+  "headers": "Intestazioni:",
   "entityInfoPresenterDefaultLabel": "Su: ",
   "entityInfoLabelOfService": "Di servizio:",
   "titleDetail": "Dettaglio",
@@ -139,6 +137,7 @@
   "tooltipCloseEventDetail": "Chiudi dettaglio evento",
   "releaseOccurName": "Release: {{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> fa)",
+  "deprecatedCustomEventWarning": "<strong>Non si riceverà più questo {{issueOrIncident}} a partire da luglio 2023 (Build 253)</strong> Visualizzare la configurazione dell'evento per migrarlo. <documentationLink>Ulteriori informazioni sono disponibili nella documentazione</documentationLink>",
   "ibmMqFileTransfer": {
     "transferID": "ID trasferimento",
     "sourceAgent": "Agent di origine",
@@ -160,5 +159,8 @@
     "fixSuggestion": {
       "podContainerNotReady": "Il contenitore dei pod non è pronto. Controllare che il nodo della capacità necessaria e/o che l'immagine possa essere richiamata dal percorso di immagine specificato."
     }
+  },
+  "infraSmartAlerts": {
+    "pseudoAggregatedEntityLabel": "{{entityName}} (aggregato)"
   }
 }

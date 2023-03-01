@@ -70,13 +70,6 @@
       "views": "ビュー",
       "website": "Web サイト",
       "mobileApp": "モバイル・アプリケーション"
-    },
-    "openIncidentsButton": {
-      "numberOfIncidents": "{{count}} 個のインシデント",
-      "numberOfIncidents_plural": "{{count}} 個のインシデント",
-      "numberOfIncidents_0": "{{count}} 個のインシデント",
-      "numberOfIncidents_1": "{{count}} 個のインシデント",
-      "numberOfIncidents_2": "{{count}} 個のインシデント"
     }
   },
   "cockpit": {
@@ -95,7 +88,8 @@
     "kubernetes": "Kubernetes",
     "websites": "Web サイト",
     "mobileApps": "モバイル・アプリケーション",
-    "websitesMobileApps": "Web サイトおよびモバイル・アプリ"
+    "websitesMobileApps": "Web サイトおよびモバイル・アプリ",
+    "customEventDeprecatedWarning": "<strong>{{deprecatedCustomEvents}} 「アプリケーション」、「サービス」、および「エンドポイント」のカスタム・イベントには、アクションが必要です</strong><affectedCustomEvents>影響を受けるカスタム・イベントの表示</affectedCustomEvents>"
   },
   "widgets": {
     "columnDefinitions": {

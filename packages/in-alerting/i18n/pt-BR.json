@@ -607,11 +607,11 @@
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_perWindowEvaluation_2": "Pelo menos {{count}} usuários impactados por janela, para as últimas {{numberEvaluationWindows}} janelas de avaliação",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserPercentage_perWindowEvaluation": "Pelo menos {{userPercentage}} de usuários impactados por janela, para as últimas {{numberEvaluationWindows}} janelas de avaliação",
         "timeThresholdDescriptionUserImpactOfViolationsInSequence_perWindowEvaluation": "Impactado por janela, para as últimas {{numberEvaluationWindows}} janelas de avaliação",
-        "timeThresholdDescriptionRequestImpact": "Pelo menos {{count}} solicitação impactada dentro do último {{formattedTimeWindow}}",
-        "timeThresholdDescriptionRequestImpact_plural": "Pelo menos {{count}} solicitações impactadas dentro do último {{formattedTimeWindow}}",
-        "timeThresholdDescriptionRequestImpact_0": "Pelo menos {{count}} solicitações impactadas dentro do último {{formattedTimeWindow}}",
-        "timeThresholdDescriptionRequestImpact_1": "Pelo menos {{count}} solicitação impactada dentro do último {{formattedTimeWindow}}",
-        "timeThresholdDescriptionRequestImpact_2": "Pelo menos {{count}} solicitações impactadas dentro do último {{formattedTimeWindow}}",
+        "timeThresholdDescriptionTraceImpact": "Pelo menos {{count}} rastreio afetado nos últimos {{formattedTimeWindow}}",
+        "timeThresholdDescriptionTraceImpact_plural": "Pelo menos {{count}} rastreios afetados nos últimos {{formattedTimeWindow}}",
+        "timeThresholdDescriptionTraceImpact_0": "Pelo menos {{count}} rastreios afetados nos últimos {{formattedTimeWindow}}",
+        "timeThresholdDescriptionTraceImpact_1": "Pelo menos {{count}} rastreio afetado nos últimos {{formattedTimeWindow}}",
+        "timeThresholdDescriptionTraceImpact_2": "Pelo menos {{count}} rastreios afetados nos últimos {{formattedTimeWindow}}",
         "timeThresholdDescriptionViolationsInPeriod": "Pelo menos {{count}} violação dentro do último {{formattedTimeWindow}}",
         "timeThresholdDescriptionViolationsInPeriod_plural": "Pelo menos {{count}} violações dentro do último {{formattedTimeWindow}}",
         "timeThresholdDescriptionViolationsInPeriod_0": "Pelo menos {{count}} violações dentro do último {{formattedTimeWindow}}",
@@ -625,10 +625,10 @@
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "Calcular para cada janela de avaliação",
         "timeThresholdConfigNumberOfViolations": "Número de violações de métrica",
         "timeThresholdConfigEvaluationGranularity": "Granularidade da avaliação",
-        "timeThresholdConfigNumberOfRequestsThreshold": "Número de solicitações afetadas",
+        "timeThresholdConfigNumberOfTracesThreshold": "Número de rastreios afetados",
         "timeThresholdConfigNumberOfImpactedUsersThreshold": "Número de usuários afetados",
         "timeThresholdConfigAtLeast": "Pelo menos",
-        "timeThresholdConfigNumberOfRequests": "N.º de solicitações afetadas",
+        "timeThresholdConfigNumberOfTraces": "N.º de rastreios afetados",
         "timeThresholdConfigMinutes": "{{min}} mín.",
         "timeThresholdConfigNumberOfUsers": "N.º de usuários afetados",
         "timeThresholdConfigPercentageOfUsers": "% de usuários afetados",
@@ -639,11 +639,11 @@
         "timeThresholdConfigTimeThresholdLabelViolationsInSequence": "Quando a condição persistir por uma quantidade especificada de tempo",
         "timeThresholdConfigTimeThresholdLabelViolationsInPeriod": "Toda vez que a condição for acionada uma quantidade especificada de vezes em um intervalo de tempo definido",
         "timeThresholdConfigTimeThresholdLabelUserImpactOfViolationsInSequence": "Quando uma determinada quantidade dos meus usuários for impactada",
-        "timeThresholdConfigTimeThresholdLabelRequestImpact": "Quando uma determinada quantidade de solicitações for impactada",
+        "timeThresholdConfigTimeThresholdLabelTraceImpact": "Quando uma certa quantia de rastreios é afetada",
         "timeThresholdConfigTimeThresholdTitleViolationsInSequence": "Persistência ao longo do tempo",
         "timeThresholdConfigTimeThresholdTitleViolationsInPeriod": "Número de violações ao longo do tempo",
         "timeThresholdConfigTimeThresholdTitleUserImpactOfViolationsInSequence": "Impacto no usuário",
-        "timeThresholdConfigTimeThresholdTitleRequestImpact": "Impacto na solicitação",
+        "timeThresholdConfigTimeThresholdTitleTraceImpact": "Impacto do rastreio",
         "timeThresholdConfigNoUserSessionDetected": "Não <linkToIdentifyingUsers>usuários</linkToIdentifyingUsers> ou <linkToSessionTracking>sessões</linkToSessionTracking> detectados.",
         "timeThresholdConfigPleaseConfigureWebsiteMonitoringBeforeUsingThisOption": "Configure o monitoramento do website antes de usar esta opção.",
         "alertPropertiesWarning": "Aviso",
@@ -794,7 +794,12 @@
         "propertiesTitle": "Propriedades de alerta adicionais",
         "thresholdValue": "Valor do limite",
         "payloadsLabel": "Cargas úteis",
-        "payloadsTitle": "Cargas úteis customizadas"
+        "payloadsTitle": "Cargas úteis customizadas",
+        "evaluationSwitch": {
+          "evaluationTypePERWEBSITE": {
+            "shortText": "Por website"
+          }
+        }
       },
       "components": {
         "provideStatusCodeStatusCode": "Código de status",

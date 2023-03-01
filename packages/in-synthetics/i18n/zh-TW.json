@@ -2,7 +2,7 @@
   "dialog": {
     "createTest": {
       "dialogTitle": "建立綜合測試",
-      "noLocationFound": "抱歉！ 找不到任何位置",
+      "noLocationFound": "抱歉！找不到任何位置",
       "titles": {
         "step1": "步驟 1：選取類型",
         "step2": "步驟 2：要求詳細資料",
@@ -13,13 +13,7 @@
         "title": "您要建立何種類型的綜合測試"
       },
       "scheduling": {
-        "title": "排程",
-        "playbackMode": "播放模式",
-        "labelPlaybackMode": "選取播放模式",
-        "simultaneous": "同時",
-        "staggered": "交錯",
-        "simultaneousDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-        "staggeredDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+        "title": "排程"
       },
       "requestStep": {
         "title": "指定要求",
@@ -28,10 +22,12 @@
         "labelUrl": "URL",
         "popSubTitle": "存在點",
         "uploadScriptTitle": "上傳 Script",
-        "failureToReadFileContent": "無法讀取檔案內容：{{error}}"
+        "failureToReadFileContent": "無法讀取檔案內容：{{error}}",
+        "emptyScriptFileError": "空代碼。 沒有要驗證的項目。"
       },
       "basicDetails": {
         "title": "此連線測試的名稱為何",
+        "scriptTitle": "此 HTTP Script 測試的名稱",
         "labelName": "測試的名稱",
         "labelDescription": "說明",
         "labelFrequency": "頻率"
@@ -42,7 +38,7 @@
           "headline": "HTTP 動作",
           "whenToUse": {
             "title": "何時使用？",
-            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+            "line1": "使用 HTTP 動作測試來測試單一 REST API"
           },
           "whoShouldUse": {
             "title": "誰該使用？",
@@ -50,33 +46,34 @@
           },
           "tipsForUsing": {
             "title": "使用秘訣",
-            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line3": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line4": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line5": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+            "line1": "步驟 1：選擇您要建立的測試類型。",
+            "line2": "步驟 2：輸入您要測試之網頁的 HTTP 方法及 URL。 然後選擇一或多個位置。 位置代表已部署的綜合服務據點。",
+            "line3": "步驟 3：選擇測試頻率（1 ~ 120 分鐘）。",
+            "line4": "步驟 4：在名稱和說明區段中，在名稱欄位中輸入測試的有意義名稱。 將測試目的的說明新增至說明欄位。"
           }
         },
         "scriptApi": {
           "name": "Script API",
           "headline": "HTTP Script",
           "whenToUse": {
-            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+            "line1": "使用 HTTP Script 測試及 Node.js 型 Script 來測試多個 Rest API 的順序"
           },
           "whoShouldUse": {
             "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
           },
           "tipsForUsing": {
-            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line3": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line4": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line5": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+            "line1": "步驟 1：選擇您要建立的測試類型。",
+            "line2": "步驟 2：使用「上傳 Script」選項來上傳 node.js 測試 Script 檔。 然後選擇一或多個位置。 位置代表已部署的綜合服務據點。",
+            "line3": "步驟 3：選擇測試頻率（1 ~ 120 分鐘）。",
+            "line4": "步驟 4：在測試和說明的名稱區段中，在名稱欄位中輸入測試的有意義名稱。 將測試目的的說明新增至說明欄位。"
           }
         }
       },
       "form": {
         "validUrl": "輸入有效的 URL"
+      },
+      "validators": {
+        "theValueMustNotBeEmpty": "至少需要選取一個位置"
       }
     },
     "httpMethods": {
@@ -117,9 +114,9 @@
         "simpleTab": "簡式",
         "redisTab": "Redis TLS",
         "title": "綜合 PoP 指令",
-        "subTitle": "請使用這些程式碼範本作為參照",
-        "simpleCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"Name;DisplayName;Country;City;0;0;Location description\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<yourpassword>\"",
-        "redisCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"Name;DisplayName;Country;City;0;0;Location description\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true",
+        "subTitle": "請使用這些程式碼範本作為參照。 如需相關資訊，請參閱<documentationLink>綜合 PoP 部署</documentationLink>",
+        "simpleCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<yourPassword>\"",
+        "redisCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true",
         "tlsInstructions": "如果您想要啟用 Redis TLS，則需要在 Helm 圖表根路徑下建立 certs 資料夾，並將憑證金鑰組（tls.crt、tls.key）及 CA 主要憑證檔 (ca.crt) 複製到 certs 資料夾，檔名應該完全相符。\n\n如果您沒有金鑰/憑證檔案，也可以使用 openssl 指令來產生新的金鑰/憑證檔案，請參閱下列範例：",
         "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt"
       },
@@ -205,7 +202,10 @@
       "responseTimeColumn": "回應時間",
       "responseSizeColumn": "回應大小",
       "retriesColumn": "重試次數",
-      "title": "結果"
+      "title": "結果",
+      "locationLabel": "位置",
+      "failures": "失敗",
+      "status": "狀態"
     },
     "detailsPage": {
       "timeLineWidget": "時間表",
@@ -253,8 +253,74 @@
         "notFound": "找不到"
       },
       "downloadHar": "下載 HAR 檔",
+      "downloadLog": "下載日誌",
+      "downloadImages": "下載擷取畫面",
+      "downloadVideo": "下載記錄",
       "consoleLogs": "主控台",
-      "browserLogs": "瀏覽器"
+      "browserLogs": "瀏覽器",
+      "browserDetails": {
+        "page": {
+          "request": "要求",
+          "size": "大小",
+          "time": "時間"
+        },
+        "entry": {
+          "time": "時間",
+          "status": "狀態",
+          "size": "大小",
+          "types": {
+            "short": {
+              "document": "DOC",
+              "script": "SCR",
+              "stylesheet": "CSS",
+              "image": "IMG",
+              "font": "字型",
+              "media": "媒體",
+              "other": "其他"
+            },
+            "long": {
+              "document": "文件",
+              "script": "Script",
+              "stylesheet": "樣式表",
+              "image": "影像",
+              "font": "字型",
+              "media": "媒體",
+              "other": "其他"
+            }
+          }
+        },
+        "body": {
+          "request": {
+            "title": "要求",
+            "url": "URL",
+            "httpVersion": "HTTP 版本",
+            "headerSize": "標頭大小",
+            "bodySize": "內文大小",
+            "method": "方法"
+          },
+          "response": {
+            "title": "回應",
+            "transferSize": "傳送大小",
+            "httpVersion": "HTTP 版本",
+            "redirectUrl": "重新導向 URL",
+            "headerSize": "標頭大小",
+            "bodySize": "內文大小",
+            "contentType": "內容類型",
+            "contentSize": "內容大小",
+            "status": "狀態"
+          },
+          "timings": {
+            "title": "回應計時",
+            "receiving": "接收中",
+            "waiting": "等待中",
+            "blocking": "封鎖",
+            "dns": "DNS",
+            "ssl": "SSL",
+            "sending": "傳送中",
+            "connect": "連接"
+          }
+        }
+      }
     },
     "noDataAvailable": {
       "resultsTitle": "無可用的結果",

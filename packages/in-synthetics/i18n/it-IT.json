@@ -13,13 +13,7 @@
         "title": "Quale tipo di test sintetico si desidera creare"
       },
       "scheduling": {
-        "title": "Pianificazione",
-        "playbackMode": "Modalità di riproduzione",
-        "labelPlaybackMode": "Selezionare la modalità di riproduzione",
-        "simultaneous": "Simultanea",
-        "staggered": "Sfalsata",
-        "simultaneousDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-        "staggeredDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+        "title": "Pianificazione"
       },
       "requestStep": {
         "title": "Specifica richiesta",
@@ -28,10 +22,12 @@
         "labelUrl": "URL",
         "popSubTitle": "PoP (Point of Presence)",
         "uploadScriptTitle": "Carica lo script",
-        "failureToReadFileContent": "Impossibile leggere il contenuto del file: {{error}}"
+        "failureToReadFileContent": "Impossibile leggere il contenuto del file: {{error}}",
+        "emptyScriptFileError": "Codice vuoto. Niente da convalidare."
       },
       "basicDetails": {
         "title": "Qual è il nome di questo test di ping",
+        "scriptTitle": "Qual è il nome di questo test di script HTTP",
         "labelName": "Nome del test",
         "labelDescription": "Descrizione",
         "labelFrequency": "Frequenza"
@@ -42,7 +38,7 @@
           "headline": "Azione HTTP",
           "whenToUse": {
             "title": "Quando utilizzarlo?",
-            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+            "line1": "Utilizzare un test di azione HTTP per verificare una singola API Rest"
           },
           "whoShouldUse": {
             "title": "Chi lo deve utilizzare?",
@@ -50,33 +46,34 @@
           },
           "tipsForUsing": {
             "title": "Consigli per l'uso",
-            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line3": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line4": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line5": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+            "line1": "Passo 1: Scegliere il tipo di test che si desidera creare.",
+            "line2": "Passo 2: Immettere il metodo HTTP e l'URL della pagina web che si desidera verificare. Quindi scegliere una o più ubicazioni. Un'ubicazione rappresenta un PoP (Point of Presence) sintetico distribuito.",
+            "line3": "Passo 3: Scegliere la frequenza di test (1 ~ 120 minuti).",
+            "line4": "Passo 4: Nella sezione Nome e descrizione, immettere un nome significativo per il test nel campo Nome. Aggiungere una descrizione dello scopo del test al campo Descrizione."
           }
         },
         "scriptApi": {
           "name": "API script",
           "headline": "Script HTTP",
           "whenToUse": {
-            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+            "line1": "Utilizza un test di script HTTP e uno script basato su Node.js per verificare la sequenza di più API Rest"
           },
           "whoShouldUse": {
             "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
           },
           "tipsForUsing": {
-            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line3": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line4": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line5": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+            "line1": "Passo 1: Scegliere il tipo di test che si desidera creare.",
+            "line2": "Passo 2: Utilizzare l'opzione Carica lo script per caricare un file script di test node.js. Quindi scegliere una o più ubicazioni. Un'ubicazione rappresenta un PoP (Point of Presence) sintetico distribuito.",
+            "line3": "Passo 3: Scegliere la frequenza di test (1 ~ 120 minuti).",
+            "line4": "Passo 4: Nella sezione Nome del test e Descrizione, immettere un nome significativo per il test nel campo Nome. Aggiungere una descrizione dello scopo del test al campo Descrizione."
           }
         }
       },
       "form": {
         "validUrl": "Immettere un URL valido"
+      },
+      "validators": {
+        "theValueMustNotBeEmpty": "È necessario selezionare almeno una ubicazione"
       }
     },
     "httpMethods": {
@@ -117,10 +114,10 @@
         "simpleTab": "Semplice",
         "redisTab": "TLS Redis",
         "title": "Comandi PoP sintetici",
-        "subTitle": "Utilizzare questi modelli di codice come riferimento",
-        "simpleCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"Name;DisplayName;Country;City;0;0;Location description\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<yourpassword>\"",
-        "redisCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"Name;DisplayName;Country;City;0;0;Location description\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true",
-        "tlsInstructions": "Se si desidera abilitare TLS Redis, è necessario creare una cartella certs nel percorso radice del grafico Helm e copiare la propria coppia certificato-chiave (tls.crt, tls.key) e il file di certificato radice CA (ca.crt) nella cartella certs; i nomi file devono essere esattamente corrispondenti.\n\nSe non di dispone di propri file di chiave/certificato, è anche possibile utilizzare il comando openssl per generarne di nuovi; vedere gli esempi di seguito:",
+        "subTitle": "Utilizzare questi modelli di codice come riferimento. Per ulteriori informazioni, consultare <documentationLink>Synthetic PoP Deployment</documentationLink>",
+        "simpleCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<yourPassword>\"",
+        "redisCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true",
+        "tlsInstructions": "Se si desidera abilitare TLS Redis, è necessario creare una cartella certs nel percorso radice del grafico Helm e copiare la propria coppia certificato-chiave (tls.crt, tls.key) e il file di certificato radice CA (ca.crt) nella cartella certs; i nomi file devono essere esattamente corrispondenti.\n\nSe non si dispone di propri file di chiave/certificato, è anche possibile utilizzare il comando openssl per generarne di nuovi; vedere gli esempi di seguito:",
         "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt"
       },
       "testLabel": "Nome",
@@ -205,7 +202,10 @@
       "responseTimeColumn": "Tempo di risposta",
       "responseSizeColumn": "Dimensione risposta",
       "retriesColumn": "Numero tentativi",
-      "title": "Risultati"
+      "title": "Risultati",
+      "locationLabel": "Ubicazione",
+      "failures": "Errori",
+      "status": "Stato"
     },
     "detailsPage": {
       "timeLineWidget": "Scala temporale",
@@ -253,8 +253,74 @@
         "notFound": "Non trovato"
       },
       "downloadHar": "Scarica file HAR",
+      "downloadLog": "Scarica log",
+      "downloadImages": "Scarica screenshot",
+      "downloadVideo": "Scarica registrazione",
       "consoleLogs": "CONSOLE",
-      "browserLogs": "BROWSER"
+      "browserLogs": "BROWSER",
+      "browserDetails": {
+        "page": {
+          "request": "Richiesta",
+          "size": "Dimensione",
+          "time": "Ora"
+        },
+        "entry": {
+          "time": "Ora",
+          "status": "Stato",
+          "size": "Dimensione",
+          "types": {
+            "short": {
+              "document": "DOC",
+              "script": "SCR",
+              "stylesheet": "CSS",
+              "image": "IMG",
+              "font": "Font",
+              "media": "MEDIA",
+              "other": "Altro"
+            },
+            "long": {
+              "document": "Documento",
+              "script": "Script",
+              "stylesheet": "Foglio di stile",
+              "image": "Immagine",
+              "font": "Font",
+              "media": "Contenuto multimediale",
+              "other": "Altro"
+            }
+          }
+        },
+        "body": {
+          "request": {
+            "title": "Richiesta",
+            "url": "URL",
+            "httpVersion": "Versione HTTP",
+            "headerSize": "Dimensione intestazione",
+            "bodySize": "Dimensione corpo",
+            "method": "Metodo"
+          },
+          "response": {
+            "title": "Risposta",
+            "transferSize": "Dimensione trasferimento",
+            "httpVersion": "Versione HTTP",
+            "redirectUrl": "URL di reindirizzamento",
+            "headerSize": "Dimensione intestazione",
+            "bodySize": "Dimensione corpo",
+            "contentType": "Tipo di contenuto",
+            "contentSize": "Dimensione contenuto",
+            "status": "Stato"
+          },
+          "timings": {
+            "title": "Tempi di risposta",
+            "receiving": "Ricezione",
+            "waiting": "In attesa",
+            "blocking": "Blocco",
+            "dns": "DNS",
+            "ssl": "SSL",
+            "sending": "Invio",
+            "connect": "Connetti"
+          }
+        }
+      }
     },
     "noDataAvailable": {
       "resultsTitle": "Nessun risultato disponibile",

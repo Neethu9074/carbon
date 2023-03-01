@@ -7,17 +7,8 @@
   },
   "associatedActions": "関連付けられたアクション",
   "associateActions": "アクションの関連付け",
-  "actionSelectionStep1Headline": "アクションを関連付けるとはどういうことですか?",
-  "step1ActionAssociationsTitle": "ステップ 1: アクションの関連付け",
-  "step2ActionAssociationsTitle": "ステップ 2: アクション・カタログ",
-  "actionSelectionConfigDialogStep2Headline": "カタログのアクションを関連付けますか?",
   "selectActions": "アクションの選択",
   "addActions": "アクションの追加",
-  "whatAreActions": "アクションとは",
-  "whatAreActionAssociations": "アクションの関連付けとは何ですか?",
-  "actionAssociations": "アクションの関連付け",
-  "whatAreActionsText": "アクションとは、イベントを診断や修復のために実行または起動できる、自動化または文書化の単位です。",
-  "whatAreActionAssociationsText": "アクションは、組み込みイベントまたはカスタム・イベントのタイプに関連付けることができ、イベントの発生から実行または起動できます。",
   "actionsAssociationsNote": "アクションの関連付けは、イベントの定義と一緒に保存されることに注意してください。",
   "saveButton": "保存",
   "cancelButton": "キャンセル",
@@ -28,12 +19,19 @@
   "targetAgentDescription": "エージェントは 1 ..* をカプセル化します。 センサーは、Instana バックエンドにイベントを発生させることができます。 トリガー・エージェントには、この特定のイベントを発生させたセンサーが含まれています。",
   "pleaseSelect": "選択してください",
   "actionSensorTimeout": "バックエンド要求を処理できませんでした。 エージェント構成を調べて、アクション・センサーがインストールされていることを確認してください。",
-  "chosenToRun": "アクション・カタログから {{actionName}} を選択しました。",
+  "chosenToRun": "アクション・カタログから {{actionName}} を実行することを選択しました。",
   "chosenToTest": "アクション・カタログから {{actionName}} をテストすることを選択しています。",
   "failedToInitiate": "{{actionName}} の開始に失敗しました。",
   "hasBeenInitiated": "{{actionName}} が開始されました。",
   "actionCannotBeUndone": "このアクションは元に戻せません。 続行しますか?",
-  "entityInfoPresenterDefaultLabel": "対象: ",
+  "request": "要求",
+  "titleScriptContent": "スクリプト・コンテンツ",
+  "titleActionType": "アクション・タイプ",
+  "method": "メソッド: {{method}}",
+  "host": "ホスト: {{host}}",
+  "body": "本文: {{body}}",
+  "headers": "ヘッダー:",
+  "entityInfoPresenterDefaultLabel": "対象:",
   "entityInfoLabelOfService": "サービス:",
   "titleDetail": "詳細",
   "titleDetails": "詳細",
@@ -97,7 +95,7 @@
   "incidentHeader_2": "`インシデント: {{incidentName}} - {{label}} ({{eventsLength}} イベント)",
   "startHere": "ここから開始:",
   "duration": "期間",
-  "monitoringIssueForMoreInfo": "この問題の解決方法について詳しくは、こちらを参照してください: ",
+  "monitoringIssueForMoreInfo": "この問題の解決方法について詳しくは、こちらを参照してください:",
   "analyzeCalls": "呼び出しの分析",
   "labelServiceImpact": "サービスへの影響",
   "labelTriggeringEvent": "トリガー・イベント",
@@ -139,6 +137,7 @@
   "tooltipCloseEventDetail": "イベントの詳細を閉じる",
   "releaseOccurName": "リリース: {{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> 前)",
+  "deprecatedCustomEventWarning": "<strong>2023 年 7 月 (ビルド 253) 以降、この {{issueOrIncident}} は受け取りません</strong> イベント構成を表示してマイグレーションします。 <documentationLink>詳しくは資料をご覧ください</documentationLink>",
   "ibmMqFileTransfer": {
     "transferID": "転送 ID",
     "sourceAgent": "ソース・エージェント",
@@ -160,5 +159,8 @@
     "fixSuggestion": {
       "podContainerNotReady": "ポッドのコンテナーが作動不能です。ノードに容量があること、または指定されたイメージ・パスからイメージを取得できること、もしくはその両方を確認してください。"
     }
+  },
+  "infraSmartAlerts": {
+    "pseudoAggregatedEntityLabel": "{{entityName}} (集約)"
   }
 }
