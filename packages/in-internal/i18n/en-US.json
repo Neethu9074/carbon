@@ -52,6 +52,8 @@
       "syntheticsMonitorDesc": "Dashboards showing how Synthetic data are written and read.",
       "syntheticsAcceptor": "synthetics-acceptor",
       "syntheticsAcceptorDesc": "The synthetics-acceptor is the receiver for the Synthetic data transmitted to Instana.",
+      "syntheticsHealthProcessor": "synthetics-health-processor",
+      "syntheticsHealthProcessorDesc": "The synthetics-health-processor executes health rules for the Synthetic data transmitted to Instana.",
       "syntheticsMonitorWriter": "synthetics-writer",
       "syntheticsMonitorWriterDesc": "The synthetics-writer ingests synthetic test result data into ClickHouse.",
       "syntheticsMonitorReader": "synthetics-reader (Synthetic querying)",
@@ -529,6 +531,24 @@
         "s3Err": "S3 Errors",
         "fileWrites": "File Writes",
         "fileErr": "File Errors"
+      },
+      "health-processor": {
+        "title": "synthetics-health-processor",
+        "host": "Host",
+        "user": "User",
+        "nice": "Nice",
+        "steal": "Steal",
+        "system": "System",
+        "wait": "Wait",
+        "networkDataReceived": "Network - data received",
+        "networkDataTransmit": "Network - data transmitted",
+        "cpuLoad": "CPU load",
+        "hostsLen": "Hosts ({{length}})",
+        "cpuUsage": "CPU Usage",
+        "outgoingEvents": "Outgoing Events",
+        "incomingTestResults": "Incoming Test Results",
+        "outgoingErrors": "Outgoing Events - Errors",
+        "incomingErrors": "Dropped Incoming Test Results"
       },
       "writer": {
         "title": "synthetics-writer",

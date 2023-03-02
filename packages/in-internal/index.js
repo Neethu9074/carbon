@@ -12,6 +12,7 @@ import AppDataProcessorStatistics from 'in-internal/monitoringUnit/Appdata/AppDa
 import AppDataLiveAggregatorOverview from 'in-internal/monitoringUnit/Appdata/AppDataLiveAggregatorOverview';
 import WebsiteAdaptiveBaselineModel from 'in-internal/thisUnit/AdaptiveBaseline/WebsiteAdaptiveBaselineModel';
 import AdaptiveBaselineModel from 'in-internal/thisUnit/AdaptiveBaseline/ApplicationAdaptiveBaselineModel';
+import SyntheticsHealthProcessor from 'in-internal/monitoringUnit/synthetics/SyntheticsHealthProcessor';
 import FillerInfrastructureMetrics from 'in-internal/monitoringUnit/infrastructureMetrics/Filler';
 import AppDataQueryPerformance from 'in-internal/monitoringUnit/Appdata/AppDataQueryPerformance';
 import ClickhouseTotalTableSizes from 'in-internal/monitoringUnit/sre/ClickhouseTotalTableSizes';
@@ -269,6 +270,11 @@ export default function Internal() {
       key="internalSyntheticAcceptor"
       path="/internal/monitoringUnit/synthetics/SyntheticAcceptor"
       children={wrapInInternalView(SyntheticsAcceptor)}
+    />,
+    <Route
+      key="internalSyntheticsHealthProcessor"
+      path="/internal/monitoringUnit/synthetics/SyntheticsHealthProcessor"
+      children={wrapInInternalView(SyntheticsHealthProcessor)}
     />,
     <Route
       key="internalSyntheticsWriter"

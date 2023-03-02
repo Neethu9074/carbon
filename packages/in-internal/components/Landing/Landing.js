@@ -301,6 +301,14 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
                             description={t('in-internal:components.landing.syntheticsAcceptorDesc')}
                           />
                           <LinkListItem
+                            label={t('in-internal:components.landing.syntheticsHealthProcessor')}
+                            href$={getModifiedUrlStream(
+                              params =>
+                                (params.pathname = '/internal/monitoringUnit/synthetics/SyntheticsHealthProcessor')
+                            )}
+                            description={t('in-internal:components.landing.syntheticsHealthProcessorDesc')}
+                          />
+                          <LinkListItem
                             label={t('in-internal:components.landing.syntheticsMonitorWriter')}
                             href$={getModifiedUrlStream(
                               params => (params.pathname = '/internal/monitoringUnit/synthetics/SyntheticsWriter')
