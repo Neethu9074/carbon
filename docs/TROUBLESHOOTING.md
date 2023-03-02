@@ -72,3 +72,4 @@ Object.keys(instana.dev.storeStates).forEach(key => {
   }
 });
 ```
+This is a small test change for the branch-updater
