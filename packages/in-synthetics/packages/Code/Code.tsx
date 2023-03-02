@@ -12,7 +12,7 @@ import { CodeProps, javascript, bbedit, useCodeMirror, EditorView, events } from
 
 import locals from './Code.mless';
 
-const { isQuestionMarkOrMinus } = keyCodes;
+const { isF, isQuestionMarkOrMinus } = keyCodes;
 
 export default function CodeInput(props: CodeProps) {
   const editor = useRef(null);
@@ -24,7 +24,7 @@ export default function CodeInput(props: CodeProps) {
   });
   const keyboardEventExtension = events.content({
     keydown: keyboardEvent => {
-      if (isQuestionMarkOrMinus(keyboardEvent)) {
+      if (isF(keyboardEvent) || isQuestionMarkOrMinus(keyboardEvent)) {
         keyboardEvent.stopPropagation();
       }
     }
