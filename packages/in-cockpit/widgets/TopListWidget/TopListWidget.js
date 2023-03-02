@@ -46,7 +46,6 @@ export default connectTo(({ pinnedItemTypes }) => ({
     getItemLink,
     pinItem,
     unpinItem,
-    pinnedItemTypes,
     dragAndDropConfig,
     getItems,
     pinnedItemIdsByType
@@ -66,7 +65,7 @@ export default connectTo(({ pinnedItemTypes }) => ({
 
   let { label } = props;
 
-  const flattenedPinnedIds = getFlattenedIds(pinnedItemTypes);
+  const flattenedPinnedIds = getFlattenedIds(pinnedItemIdsByType);
   const numberOfPinnedItems = flattenedPinnedIds.length;
   let numberOfRegularItemsToShow = Math.max(0, 5 - numberOfPinnedItems);
 
