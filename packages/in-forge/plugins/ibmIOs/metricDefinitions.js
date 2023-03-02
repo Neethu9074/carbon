@@ -569,5 +569,187 @@ export default [
     min: 0,
     formatter: percentage.detailed,
     category: [t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'advanceSolidStateDiskMetrics',
+        'unitNumber',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.unitNumber')],
+    min: 0,
+    formatter: number,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'advanceSolidStateDiskMetrics',
+        'aspNumber',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.aspNumber')],
+    min: 0,
+    formatter: number,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'advanceSolidStateDiskMetrics',
+        'unitMediaCapacityGb',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.unitMediaCapacityGb')],
+    min: 0,
+    formatter: number,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'advanceSolidStateDiskMetrics',
+        'unitStorageCapacity',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.unitStorageCapacity')],
+    min: 0,
+    formatter: bytes.detailed,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'advanceSolidStateDiskMetrics',
+        'percentUsed',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.percentUsed')],
+    min: 0,
+    formatter: percentage.detailed,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'advanceSolidStateDiskMetrics',
+        'elapsedIORequests',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.charts.elapsedIORequests')],
+    min: 0,
+    formatter: number.compact,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'advanceSolidStateDiskMetrics',
+        'elapsedRequestSize',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.charts.elapsedRequestSize')],
+    min: 0,
+    formatter: bytes.detailed,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'advanceSolidStateDiskMetrics',
+        'elapsedDataRead',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.charts.elapsedDataRead')],
+    min: 0,
+    formatter: bytes.detailed,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'advanceSolidStateDiskMetrics',
+        'elapsedDataWritten',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.charts.elapsedDataWritten')],
+    min: 0,
+    formatter: bytes.detailed,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'advanceSolidStateDiskMetrics',
+        'elapsedPercentBusy',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.charts.elapsedPercentBusy')],
+    min: 0,
+    formatter: percentage.detailed,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'basicSolidStateDiskMetrics',
+        'unitNumber',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.unitNumber')],
+    min: 0,
+    formatter: number,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'basicSolidStateDiskMetrics',
+        'aspNumber',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.aspNumber')],
+    min: 0,
+    formatter: number,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'basicSolidStateDiskMetrics',
+        'unitStorageCapacity',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.unitStorageCapacity')],
+    min: 0,
+    formatter: bytes.detailed,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'basicSolidStateDiskMetrics',
+        'percentUsed',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.percentUsed')],
+    min: 0,
+    formatter: percentage.detailed,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')]
   }
 ];

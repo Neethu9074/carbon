@@ -9290,6 +9290,29 @@
               "elapsedRequestSize": "Elapsed Request Size",
               "elapsedPercentBusy": "Elapsed Percent Busy"
             }
+          },
+          "solidStateDisk": {
+            "name": "Solid State Disk (SSD) Info",
+            "resourceName": "Resource Name",
+            "unitStorageCapacity": "Storage Capacity",
+            "percentUsed": "Percent Used",
+            "diskType": "Disk Type",
+            "unitNumber": "Unit Number",
+            "serialNumber": "Serial Number",
+            "aspNumber": "ASP Number",
+            "raidType": "Raid Type",
+            "protectionStatus": "Protection Status",
+            "protectionType": "Protection Type",
+            "unitMediaCapacityGb": "Media Capacity(GB)",
+            "charts": {
+              "elapsedIORequests": "Elapsed IO Requests",
+              "elapsedRequestSize": "Elapsed Request Size",
+              "elapsedPercentBusy": "Elapsed Percent Busy",
+              "totalReadRequests": "Total Read Requests",
+              "totalWriteRequests": "Total Write Requests",
+              "elapsedDataRead": "Elapsed Data Read",
+              "elapsedDataWritten": "Elapsed Data Written"
+            }
           }
         }
       },
