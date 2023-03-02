@@ -30,7 +30,7 @@ It's very important that you mark the PR with correct set of label(s) so the per
 * **Internal-Feature** - Indicates that the change introduced does not affect our customer but rather helpful internally (e.g. for product or engineers)
 * **Release Hotfix** - Indicates that you are targeting this change to a release branch on which you would like to apply your fix. This is helpful when you are working on a ticket to fix the production issue and would likely request a hotfix deployment.
 * **Do Not Merge** - Indicates explicitly that you don't want someone to merge this PR yet! (or alternatively you could [convert it to a draft](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/changing-the-stage-of-a-pull-request#converting-a-pull-request-to-a-draft))
-* **Waiting For Design** - Indicates that you are still waiting for the design input from PXD (Product Designer) 
+* **Waiting For Design** - Indicates that you are still waiting for the design input from PXD (Product Designer)
 
 ### Nice to have PR practices
 
@@ -122,3 +122,5 @@ Alternatively you could find [your PR build under ui-client in Jenkins](https://
 #### How to get access to Jenkins?
 
 Access Management at Instana works through AccessHub. See [how to request access](https://instana.slack.com/archives/C03HLTQUZK7/p1654108908538479).
+
+This is also a small change to test the branch updater bot
