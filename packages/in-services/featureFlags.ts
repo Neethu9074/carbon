@@ -139,3 +139,5 @@ export const actionAutomationEnabled = isFeatureFlagEnabled('actionAutomationEna
 export const pluginMetricStatisticsEnabled = isFeatureFlagEnabled('pluginMetricStatisticsEnabled', false);
 
 export const controlPlaneEnabled = isFeatureFlagEnabled('controlPlaneEnabled', false);
+
+export const largeTracesV2Enabled = isFeatureFlagEnabled('largeTracesV2Enabled', false);

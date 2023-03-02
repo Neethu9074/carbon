@@ -5,8 +5,10 @@
 
 import { TraceActivityTreeNode } from '@instana/types';
 
-export function getStart(call: TraceActivityTreeNode) {
-  let earliestStart = call.start;
+import { CallNode, isLazyNode } from 'in-applications/analyze/components/TraceDetails/components/CallTree/lazyCallTree';
+
+export function getStart(call: CallNode | TraceActivityTreeNode) {
+  let earliestStart = isLazyNode(call) ? Number.MAX_VALUE : call.start;
   if (call.children) {
     for (let i = 0; i < call.children.length; i++) {
       earliestStart = Math.min(earliestStart || Number.MAX_VALUE, getStart(call.children[i]));
@@ -15,8 +17,8 @@ export function getStart(call: TraceActivityTreeNode) {
   return earliestStart;
 }
 
-export function getEnd(call: TraceActivityTreeNode) {
-  let latestEnd = call.start + call.duration;
+export function getEnd(call: CallNode | TraceActivityTreeNode) {
+  let latestEnd = isLazyNode(call) ? Number.MIN_VALUE : call.start + call.duration;
   if (call.children) {
     for (let i = 0; i < call.children.length; i++) {
       latestEnd = Math.max(latestEnd || Number.MIN_VALUE, getEnd(call.children[i]));

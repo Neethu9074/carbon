@@ -90,10 +90,10 @@ export function noResultObservable() {
   return successObservable(emptyArray);
 }
 
-export function hasError(result: Result<any>) {
-  return result?.errors?.length > 0;
+export function hasError(...results: Result<any>[]) {
+  return results.some(result => result?.errors?.length > 0);
 }
 
-export function isLoading(result: Result<any>) {
-  return Boolean(result?.progress?.loading);
+export function isLoading(...results: Result<any>[]) {
+  return results.some(result => Boolean(result?.progress?.loading));
 }

@@ -9,6 +9,7 @@ import { Button, Card, Link, Message } from '@instana/components';
 import { create, just } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
+import { useLoadCallTree } from 'in-applications/analyze/components/TraceDetails/components/CallTree/hooks/useLoadCallTree';
 import ColorCodingToggleButtons from 'in-applications/analyze/components/TraceDetails/components/ColorCodingToggleButtons';
 import MobileAppMonitoringData from 'in-applications/analyze/components/TraceDetails/tabs/Summary/MobileAppMonitoringData';
 import ServerIcicleChart from 'in-applications/analyze/components/TraceDetails/components/IcicleChart/ServerIcicleChart';
@@ -18,13 +19,14 @@ import { isInternalVisible$ } from 'in-components/MainNavigation/components/View
 import ServiceEndpointList from 'in-applications/analyze/components/TraceDetails/components/ServiceEndpointList';
 import CallDetails from 'in-applications/analyze/components/TraceDetails/components/CallDetails/CallDetails';
 import LogDetails from 'in-applications/analyze/components/TraceDetails/components/LogDetails/LogDetails';
+import CallTree2 from 'in-applications/analyze/components/TraceDetails/components/CallTree/CallTree2';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
 import CallTree from 'in-applications/analyze/components/TraceDetails/components/CallTree';
 import ContentWrapper from 'in-components/LocationAwareTabView/components/ContentWrapper';
-import getTraceActivityTree from 'in-applications/subscriptions/getTraceActivityTree';
 import Logs from 'in-applications/analyze/components/TraceDetails/components/Logs';
 import SideEffectOnPropertyChange from 'in-components/SideEffectOnPropertyChange';
 import RestrictedAccessMessage from 'in-components/rbac/RestrictedAccessMessage';
+import { largeTracesV2Enabled, loggingEnabled } from 'in-services/featureFlags';
 import { refreshWindowSizeDependingState } from 'in-services/browser';
 import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
 import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
@@ -32,8 +34,6 @@ import { latency, number } from 'in-services/formatters/number';
 import { getLinkToAnalyze } from 'in-logging/navigation/paths';
 import { hasError, isLoading } from 'in-services/util/result';
 import { getTraceIdTagFilter } from 'in-logging/queryBuilder';
-import { loggingEnabled } from 'in-services/featureFlags';
-import { pendingResult } from 'in-services/fixedObjects';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import { scrollIntoView } from 'in-services/util/dom';
 import { Col, Row } from 'in-components/layout/Grid';
@@ -46,7 +46,7 @@ import theme from 'in-themes';
 
 import locals from './Summary.mless';
 
-const maximumNumberOfCallsForLargeTraceConsideration = 1000;
+const maximumNumberOfCallsForLargeTraceConsideration = largeTracesV2Enabled ? 2 : 1000;
 
 export default function Summary({
   data: trace,
@@ -67,7 +67,6 @@ export default function Summary({
   }
 
   const isInternalVisible = useObservable(isInternalVisible$, []) || false;
-  const callTreeResult = useObservable(() => getTraceActivityTree({ id: traceId }), [traceId]) ?? pendingResult;
 
   const [showLargeTrace, setShowLargeTrace] = useState(false);
   const isLargeTrace =
@@ -77,6 +76,12 @@ export default function Summary({
     // would represent 500 calls. This is why we are preferrring callCountIgnoringBatchSize
     // over callCount
     (trace.callCountIgnoringBatchSize || trace.callCount) > maximumNumberOfCallsForLargeTraceConsideration;
+
+  const [callTreeResult, onRelatedCallsLoaded, onParentAndSiblingCallsLoaded] = useLoadCallTree({
+    traceId,
+    callId,
+    lazyLoading: isLargeTrace
+  });
 
   const effectiveCallId = callId === 'ROOT' && callTreeResult.data ? callTreeResult.data.id : callId;
 
@@ -281,7 +286,7 @@ export default function Summary({
           </Row>
         )}
 
-        {isLargeTrace && !showLargeTrace && (
+        {!largeTracesV2Enabled && isLargeTrace && !showLargeTrace && (
           <Row withoutSideMargin>
             <Col lg={12}>
               <Card title={t('in-applications:traceDetail.tabs.summary.largeTrace')}>
@@ -305,7 +310,7 @@ export default function Summary({
           </Row>
         )}
 
-        {(!isLargeTrace || showLargeTrace) && (
+        {!largeTracesV2Enabled && (!isLargeTrace || showLargeTrace) && (
           <Row singleRowTopMargin withoutSideMargin>
             <Col lg={12}>
               <Card
@@ -337,6 +342,46 @@ export default function Summary({
                   timeConfigForLogs={timeConfigForLogs}
                   selectLogId={selectLogId}
                   totalNumberOfLogs={totalNumberOfLogs}
+                />
+              </Card>
+            </Col>
+          </Row>
+        )}
+
+        {largeTracesV2Enabled && (
+          <Row singleRowTopMargin withoutSideMargin>
+            <Col lg={12}>
+              <Card
+                title={t('in-applications:traceDetail.tabs.summary.calls')}
+                header={
+                  <ColorCodingToggleButtons
+                    colorCodeType={colorCodeType}
+                    setColorCodeMechanism={setColorCodeMechanism}
+                  />
+                }
+              >
+                <CallTree2
+                  callTreeResult={callTreeResult}
+                  traceId={traceId}
+                  getColor={getColor}
+                  selectedCall$={selectedCall$}
+                  onSubCallClicked={call => {
+                    selectedCall$.emit(call);
+                    const domElement = document.getElementById(`call-${call.id}`);
+                    if (domElement) {
+                      domElement.focus();
+                      scrollIntoView(domElement);
+                    }
+                    tracker.traceViewCallTreeDetailClickedTracker();
+                  }}
+                  onCallClicked={onCallClicked}
+                  openedCallId={effectiveCallId}
+                  isLargeTrace={false}
+                  timeConfigForLogs={timeConfigForLogs}
+                  selectLogId={selectLogId}
+                  totalNumberOfLogs={totalNumberOfLogs}
+                  onRelatedCallsLoaded={onRelatedCallsLoaded}
+                  onParentAndSiblingCallsLoaded={onParentAndSiblingCallsLoaded}
                 />
               </Card>
             </Col>

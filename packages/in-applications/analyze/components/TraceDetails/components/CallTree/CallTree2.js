@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import React, { useMemo } from 'react';
@@ -9,7 +10,7 @@ import searchForPathToSelectedNode from 'in-applications/analyze/components/Trac
 import TreeHeader from 'in-applications/analyze/components/TraceDetails/components/CallTree/components/TreeHeader';
 import { getStart, getEnd } from 'in-applications/analyze/components/TraceDetails/components/callStartAndEndTime';
 import LoadingCallTree from 'in-applications/analyze/components/TraceDetails/components/CallTree/LoadingCallTree';
-import Row from 'in-applications/analyze/components/TraceDetails/components/CallTree/components/Row';
+import Row2 from 'in-applications/analyze/components/TraceDetails/components/CallTree/components/Row2';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import { isLoading } from 'in-services/util/result';
 import createScale from 'in-services/scale';
@@ -22,14 +23,16 @@ import locals from './CallTree.mless';
 // Warning: This code will break when we want to show two call trees concurrently (which is not on the roadmap)
 const scale = createScale();
 
-export default function CallTree({
+export default function CallTree2({
   callTreeResult,
   getColor = () => '#e6e6e6',
   openedCallId,
   onCallClicked,
   onSubCallClicked,
   isLargeTrace,
-  selectedCall$
+  selectedCall$,
+  onRelatedCallsLoaded,
+  onParentAndSiblingCallsLoaded
 }) {
   const initialExpandedNodeIds = useMemo(
     () => searchForPathToSelectedNode(callTreeResult.data, node => node.id === openedCallId),
@@ -58,7 +61,7 @@ export default function CallTree({
   return (
     <div className={locals.callTree}>
       <TreeHeader rootCall={rootCall} scale={scale} />
-      <Row
+      <Row2
         call={rootCall}
         getColor={getColor}
         scale={scale}
@@ -68,6 +71,8 @@ export default function CallTree({
         onSubCallClicked={onSubCallClicked}
         selectedCall$={selectedCall$}
         openedCallId={openedCallId}
+        onParentAndSiblingCallsLoaded={onParentAndSiblingCallsLoaded}
+        onRelatedCallsLoaded={onRelatedCallsLoaded}
       />
     </div>
   );

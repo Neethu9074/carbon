@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import React from 'react';
 
 import CallTooltipContent from 'in-applications/analyze/components/TraceDetails/components/CallTooltipContent';
+import { isCallNode } from 'in-applications/analyze/components/TraceDetails/components/CallTree/lazyCallTree';
 import LogTooltipContent from 'in-applications/analyze/components/TraceDetails/components/LogTooltipContent';
 import { isFakeRootCall } from 'in-applications/analyze/components/TraceDetails/components/callHelper';
 import LogIndicator from 'in-applications/analyze/components/TraceDetails/components/LogIndicator';
@@ -28,7 +29,7 @@ export default function ChildrenDistributionTimeLine(props) {
         getColor={getColor}
         onClick={isFakeRootCall(call) ? null : onCallClicked}
       />
-      {call.children.map((subCall, i) => (
+      {call.children.filter(isCallNode).map((subCall, i) => (
         <CallIndicator
           onClick={onSubCallClicked}
           key={i}
@@ -39,6 +40,7 @@ export default function ChildrenDistributionTimeLine(props) {
         />
       ))}
       {call.children
+        .filter(isCallNode)
         .filter(subCall => subCall.model === 'LOG')
         .map((subCall, i) => (
           <LogIndicators key={i} {...props} parentCall={call} log={subCall} />

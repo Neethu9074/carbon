@@ -70,5 +70,6 @@ module.exports = {
   syntheticSmartAlertsEnabled: true,
   syntheticCreateSmartAlertsUIEnabled: true,
   controlPlaneEnabled: true,
-  sloV2Enabled: true
+  sloV2Enabled: true,
+  largeTracesV2Enabled: true
 };

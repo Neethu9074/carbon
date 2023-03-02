@@ -313,5 +313,10 @@ module.exports = exports = [
     uiClientKey: 'sloV2Enabled',
     instanaCtlKey: 'feature.sloV2.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'largeTracesV2Enabled',
+    instanaCtlKey: 'feature.ua.large.traces.v2.enabled',
+    defaultValue: false
   }
 ];
