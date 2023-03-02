@@ -11,10 +11,11 @@ import { Ul } from '@instana/components';
 import {
   accountAndBillingCapabilities,
   agentsCapabilities,
+  syntheticMonitoringCapabilities,
   automationCapabilities,
   customDashboardCapabilities,
-  generalMixedCapabilities,
-  userManagementCapabilities
+  mixedCapabilities,
+  accessControlCapabilities
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import { getCapabilitiesSectionData } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/utils/getCapabilitiesSectionData';
 import { CapabilitySubsection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/components/CapabilitySubsection';
@@ -26,7 +27,7 @@ import { t } from 'in-i18n';
 export const GlobalFunctionsSection = () => {
   const { permissionsSet } = useContext(RolesAndAccessScopeContext);
   const { columnHeadline, shouldRenderContent } = getCapabilitiesSectionData({
-    area: ProductArea.MIXED,
+    area: ProductArea.GLOBAL,
     permissionsSet
   });
 
@@ -34,26 +35,30 @@ export const GlobalFunctionsSection = () => {
 
   const subListContent = (
     <Ul>
-      <CapabilitySubsection capabilities={generalMixedCapabilities} />
+      <CapabilitySubsection capabilities={mixedCapabilities} />
       <CapabilitySubsection
         capabilities={customDashboardCapabilities}
-        headerText={t('in-settings:productAreas.customDashboardPermissions')}
+        headerText={t('in-settings:productAreas.permissions', { context: ProductArea.DASHBOARD })}
+      />
+      <CapabilitySubsection
+        capabilities={syntheticMonitoringCapabilities}
+        headerText={t('in-settings:productAreas.permissions', { context: ProductArea.SYNTHETICS })}
       />
       <CapabilitySubsection
         capabilities={agentsCapabilities}
-        headerText={t('in-settings:productAreas.agentPermissions')}
+        headerText={t('in-settings:productAreas.permissions', { context: ProductArea.AGENTS })}
       />
       <CapabilitySubsection
-        capabilities={userManagementCapabilities}
-        headerText={t('in-settings:productAreas.userManagementAndSecurityPermissions')}
+        capabilities={accessControlCapabilities}
+        headerText={t('in-settings:productAreas.permissions', { context: ProductArea.ACCESS_CONTROL })}
       />
       <CapabilitySubsection
         capabilities={accountAndBillingCapabilities}
-        headerText={t('in-settings:productAreas.accountAndBillingPermissions')}
+        headerText={t('in-settings:productAreas.permissions', { context: ProductArea.ACCOUNT })}
       />
       <CapabilitySubsection
         capabilities={automationCapabilities}
-        headerText={t('in-settings:productAreas.automationPermissions')}
+        headerText={t('in-settings:productAreas.permissions', { context: ProductArea.AUTOMATION })}
       />
     </Ul>
   );

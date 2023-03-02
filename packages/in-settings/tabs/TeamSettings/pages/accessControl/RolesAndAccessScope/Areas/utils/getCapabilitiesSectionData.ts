@@ -9,7 +9,7 @@ import { PermissionSetWithRoles } from '@instana/types';
 import {
   analyticsCapabilities,
   eventCapabilities,
-  mixedCapabilities
+  unionGlobalCapabilities
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import {
   ProductArea,
@@ -18,7 +18,7 @@ import {
 import { CapabilityType, hasAnalyzeAccess, hasEventsAccess } from 'in-stores/permission';
 import { t } from 'in-i18n';
 
-type CapabilityProductArea = Extract<ProductAreaType, 'ANALYTICS' | 'EVENT' | 'MIXED'>;
+type CapabilityProductArea = Extract<ProductAreaType, 'ANALYTICS' | 'EVENT' | 'GLOBAL'>;
 
 const capabilitiesDataMap = {
   [ProductArea.ANALYTICS]: {
@@ -29,8 +29,8 @@ const capabilitiesDataMap = {
     productAreaCapabilities: eventCapabilities,
     hasProductAreaAccess: hasEventsAccess
   },
-  [ProductArea.MIXED]: {
-    productAreaCapabilities: mixedCapabilities,
+  [ProductArea.GLOBAL]: {
+    productAreaCapabilities: unionGlobalCapabilities,
     hasProductAreaAccess: true
   }
 };

@@ -32,7 +32,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       expect(areaItemIdsWithAccess).toStrictEqual([]);
       expect(hasFullAreaAccess).toBe(false);
       expect(shouldRenderContent).toBe(false);
-      expect(t).toHaveBeenCalledWith('in-settings:productAreas.permissions', {
+      expect(t).toHaveBeenCalledWith('in-settings:productAreas.role_permissions', {
         context: undefined,
         quantityOfAreas: 0
       });
@@ -49,7 +49,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       expect(areaItemIdsWithAccess).toStrictEqual(['11', '12']);
       expect(hasFullAreaAccess).toBe(false);
       expect(shouldRenderContent).toBe(true);
-      expect(t).toHaveBeenCalledWith('in-settings:productAreas.permissions', {
+      expect(t).toHaveBeenCalledWith('in-settings:productAreas.role_permissions', {
         context: 'owner',
         quantityOfAreas: 2
       });
@@ -69,7 +69,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
 
       // undefined is expected here since no value is returned from the translation mock
       expect(t).toHaveBeenNthCalledWith(1, 'in-settings:general.all');
-      expect(t).toHaveBeenNthCalledWith(2, 'in-settings:productAreas.permissions', {
+      expect(t).toHaveBeenNthCalledWith(2, 'in-settings:productAreas.role_permissions', {
         context: 'owner',
         quantityOfAreas: undefined
       });
@@ -92,7 +92,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       expect(areaItemIdsWithAccess).toStrictEqual([]);
       expect(hasFullAreaAccess).toBe(false);
       expect(shouldRenderContent).toBe(false);
-      expect(t).toHaveBeenCalledWith('in-settings:productAreas.permissions', {
+      expect(t).toHaveBeenCalledWith('in-settings:productAreas.role_permissions', {
         context: undefined,
         quantityOfAreas: 0
       });
@@ -109,7 +109,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       expect(areaItemIdsWithAccess).toStrictEqual(['7', '8']);
       expect(hasFullAreaAccess).toBe(false);
       expect(shouldRenderContent).toBe(true);
-      expect(t).toHaveBeenCalledWith('in-settings:productAreas.permissions', {
+      expect(t).toHaveBeenCalledWith('in-settings:productAreas.role_permissions', {
         context: 'owner',
         quantityOfAreas: 2
       });
@@ -129,7 +129,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
 
       // undefined is expected here since no value is returned from the translation mock
       expect(t).toHaveBeenNthCalledWith(1, 'in-settings:general.all');
-      expect(t).toHaveBeenNthCalledWith(2, 'in-settings:productAreas.permissions', {
+      expect(t).toHaveBeenNthCalledWith(2, 'in-settings:productAreas.role_permissions', {
         context: 'owner',
         quantityOfAreas: undefined
       });
@@ -152,7 +152,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       expect(areaItemIdsWithAccess).toStrictEqual([]);
       expect(hasFullAreaAccess).toBe(false);
       expect(shouldRenderContent).toBe(false);
-      expect(t).toHaveBeenCalledWith('in-settings:productAreas.permissions', {
+      expect(t).toHaveBeenCalledWith('in-settings:productAreas.role_permissions', {
         context: undefined,
         quantityOfAreas: 0
       });
@@ -169,7 +169,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       expect(areaItemIdsWithAccess).toStrictEqual(['1', '2']);
       expect(hasFullAreaAccess).toBe(false);
       expect(shouldRenderContent).toBe(true);
-      expect(t).toHaveBeenCalledWith('in-settings:productAreas.permissions', {
+      expect(t).toHaveBeenCalledWith('in-settings:productAreas.role_permissions', {
         context: 'owner',
         quantityOfAreas: 2
       });
@@ -189,7 +189,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
 
       // undefined is expected here since no value is returned from the translation mock
       expect(t).toHaveBeenNthCalledWith(1, 'in-settings:general.all');
-      expect(t).toHaveBeenNthCalledWith(2, 'in-settings:productAreas.permissions', {
+      expect(t).toHaveBeenNthCalledWith(2, 'in-settings:productAreas.role_permissions', {
         context: 'owner',
         quantityOfAreas: undefined
       });

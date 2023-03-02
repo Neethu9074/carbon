@@ -51,7 +51,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
     });
   });
 
-  describe('returns correct data and calls the translation function with correct params for mixed product area', () => {
+  describe('returns correct data and calls the translation function with correct params for global product area', () => {
     beforeEach(() => {
       jest.clearAllMocks();
     });
@@ -59,7 +59,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
     it('returns correct data and calls the translation function with correct params with an empty permissions set', () => {
       // Given
       const { shouldRenderContent } = getCapabilitiesSectionData({
-        area: ProductArea.MIXED,
+        area: ProductArea.GLOBAL,
         permissionsSet: mockEmptyPermissionsSet
       });
 
@@ -67,14 +67,14 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       expect(shouldRenderContent).toBe(false);
       expect(t).toHaveBeenCalledWith('in-settings:productAreas.countOfPermissions', {
         numberOfcapabilitiesUserHas: 0,
-        totalNumberOfAreaCapabilities: 21
+        totalNumberOfAreaCapabilities: 26
       });
     });
 
     it('returns correct data and calls the translation function with correct params with a non-empty permissions set', () => {
       // Given
       const { shouldRenderContent } = getCapabilitiesSectionData({
-        area: ProductArea.MIXED,
+        area: ProductArea.GLOBAL,
         permissionsSet: mockPermissionsSetWithData
       });
 
@@ -82,12 +82,12 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       expect(shouldRenderContent).toBe(true);
       expect(t).toHaveBeenCalledWith('in-settings:productAreas.countOfPermissions', {
         numberOfcapabilitiesUserHas: 11,
-        totalNumberOfAreaCapabilities: 21
+        totalNumberOfAreaCapabilities: 26
       });
     });
   });
 
-  describe('returns correct data and calls the translation function with correct params for mixed product area', () => {
+  describe('returns correct data and calls the translation function with correct params for global product area', () => {
     beforeEach(() => {
       jest.clearAllMocks();
     });
@@ -95,7 +95,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
     it('returns correct data and calls the translation function with correct params with an empty permissions set', () => {
       // Given
       const { shouldRenderContent } = getCapabilitiesSectionData({
-        area: ProductArea.MIXED,
+        area: ProductArea.GLOBAL,
         permissionsSet: mockEmptyPermissionsSet
       });
 
@@ -103,14 +103,14 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       expect(shouldRenderContent).toBe(false);
       expect(t).toHaveBeenCalledWith('in-settings:productAreas.countOfPermissions', {
         numberOfcapabilitiesUserHas: 0,
-        totalNumberOfAreaCapabilities: 21
+        totalNumberOfAreaCapabilities: 26
       });
     });
 
     it('returns correct data and calls the translation function with correct params with a non-empty permissions set', () => {
       // Given
       const { shouldRenderContent } = getCapabilitiesSectionData({
-        area: ProductArea.MIXED,
+        area: ProductArea.GLOBAL,
         permissionsSet: mockPermissionsSetWithData
       });
 
@@ -118,7 +118,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       expect(shouldRenderContent).toBe(true);
       expect(t).toHaveBeenCalledWith('in-settings:productAreas.countOfPermissions', {
         numberOfcapabilitiesUserHas: 11,
-        totalNumberOfAreaCapabilities: 21
+        totalNumberOfAreaCapabilities: 26
       });
     });
   });

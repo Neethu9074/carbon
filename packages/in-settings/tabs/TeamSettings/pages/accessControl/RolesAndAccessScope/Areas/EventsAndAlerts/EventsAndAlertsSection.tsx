@@ -34,7 +34,7 @@ export const EventsAndAlertsSection = () => {
         <Ul>
           <CapabilitySubsection
             capabilities={eventCapabilities}
-            headerText={t('in-settings:productAreas.customDashboardPermissions')}
+            headerText={t('in-settings:productAreas.permissions', { context: ProductArea.EVENT })}
           />
         </Ul>
       }

@@ -179,7 +179,7 @@ export default function EditAccessScopeDialog({
             <PermissionSelection
               title={t('in-settings:PermissionSection.title_analytics')}
               description={t('in-settings:PermissionSection.description_analytics')}
-              productArea={ProductArea.ANALYTICS}
+              productAreas={[ProductArea.ANALYTICS]}
               icon="lib_analyze"
               {...formControlProps}
               {...slideControlProps}
@@ -195,7 +195,7 @@ export default function EditAccessScopeDialog({
             <PermissionSelection
               title={t('in-settings:PermissionSection.title_events_and_alerts')}
               description={t('in-settings:PermissionSection.description_events_and_alerts')}
-              productArea={ProductArea.EVENT}
+              productAreas={[ProductArea.EVENT]}
               icon="lib_events_inverted"
               {...formControlProps}
               {...slideControlProps}
@@ -210,7 +210,15 @@ export default function EditAccessScopeDialog({
           content: (
             <PermissionSelection
               title={t('in-settings:PermissionSection.title_global_functions')}
-              productArea={ProductArea.MIXED}
+              productAreas={[
+                ProductArea.MIXED,
+                ProductArea.DASHBOARD,
+                ProductArea.SYNTHETICS,
+                ProductArea.AUTOMATION,
+                ProductArea.AGENTS,
+                ProductArea.ACCESS_CONTROL,
+                ProductArea.ACCOUNT
+              ]}
               icon="lib_actions_settings"
               {...formControlProps}
               {...slideControlProps}

@@ -77,7 +77,7 @@ export const getAreaData = ({ area, permissionsSet }: getAreaDataProps): AreaDat
 
   const shouldRenderContent = Boolean(hasAreaAccess && areaRole && hasAreaItemsAdded);
 
-  const areaColumnHeadline = t('in-settings:productAreas.permissions', {
+  const areaColumnHeadline = t('in-settings:productAreas.role_permissions', {
     context: areaRole?.toLowerCase(),
     quantityOfAreas: hasFullAreaAccess ? t('in-settings:general.all') : areaItemIds.length
   });

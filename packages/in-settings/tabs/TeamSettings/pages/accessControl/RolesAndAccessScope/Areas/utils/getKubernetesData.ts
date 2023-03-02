@@ -50,7 +50,7 @@ export const getKubernetesData = (permissionsSet: PermissionSetWithRoles) => {
 
   const kubernetesNamespacesWithAccess = kubernetesNamespaceUIDs.map(namespace => namespace.scopeId);
 
-  const kubernetesColumnHeadline = t('in-settings:productAreas.permissions', {
+  const kubernetesColumnHeadline = t('in-settings:productAreas.role_permissions', {
     context: 'viewer',
     quantityOfAreas: countOfKubernetesItemsWithAccess
   });

@@ -78,22 +78,26 @@
     "pcf": "pCF",
     "infrastructure": "Infrastructure",
     "analytics": "Analytics",
+    "syntheticMonitoring": "Synthetic monitoring",
     "countOfPermissions": "{{numberOfcapabilitiesUserHas}} / {{totalNumberOfAreaCapabilities}} permissions",
     "event": "Events and Alerts",
     "function": "Global functions",
+    "role": "Custom",
     "role_owner": "Owner",
     "role_viewer": "Viewer",
-    "permissions": "Unknown role for {{quantityOfAreas}}",
-    "permissions_owner": "Owner for {{quantityOfAreas}}",
-    "permissions_viewer": "Viewer for {{quantityOfAreas}}",
+    "role_permissions": "Unknown role for {{quantityOfAreas}}",
+    "role_permissions_owner": "Owner for {{quantityOfAreas}}",
+    "role_permissions_viewer": "Viewer for {{quantityOfAreas}}",
     "analyticsContentMessage": "Members will view data in Analytics defined by the access scope in Websites, Mobile Apps, Applications, Platforms & Infrastructure",
     "infrastructureContentMessage": "Members will view entities defined by the access scope in Applications, Platforms, Infrastructure and optionally by DFQ",
     "eventsAndAlertsContentMessage": "Members will view Events and Alerts according to the access scope defined in Websites, Mobile Apps, Applications, Platforms & Infrastructure",
-    "customDashboardPermissions": "Custom dashboard permissions",
-    "agentPermissions": "Agent permissions",
-    "userManagementAndSecurityPermissions": "User management and security permissions",
-    "accountAndBillingPermissions": "Account and billing permissions",
-    "automationPermissions": "Automation permissions"
+    "permissions": "Permissions",
+    "permissions_DASHBOARD": "Custom dashboard permissions",
+    "permissions_SYNTHETICS": "Synthetic monitoring permissions",
+    "permissions_AGENTS": "Agent permissions",
+    "permissions_ACCESS_CONTROL": "Access control permissions",
+    "permissions_ACCOUNT": "Account & billing permissions",
+    "permissions_AUTOMATION": "Automation permissions"
   },
   "headingSection": {
     "title": "Role and access scope",
@@ -124,8 +128,7 @@
     "addButton_applications": "Select applications",
     "descriptionLimitedAccess_applications": "Select the role for the product area and add applications below to grant access",
     "descriptionAccessAll_applications": "All applications can be accessed with the role selected for the product area",
-    "deleteButton": "Remove {{name}} from list",
-    "permissions": "Permissions"
+    "deleteButton": "Remove {{name}} from list"
   },
   "selectItemForm": {
     "doneButton": "Done"

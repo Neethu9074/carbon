@@ -38,7 +38,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       expect(hasOtherPlatformsAccess).toBe(false);
       expect(kubernetesNamespacesWithAccess).toStrictEqual([]);
       expect(translations).toStrictEqual([]);
-      expect(t).toHaveBeenCalledWith('in-settings:productAreas.permissions', {
+      expect(t).toHaveBeenCalledWith('in-settings:productAreas.role_permissions', {
         context: 'viewer',
         quantityOfAreas: 0
       });
@@ -61,7 +61,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       expect(kubernetesNamespacesWithAccess).toStrictEqual(['5', '6']);
       // 2 undefined for kubernetes and vsphere
       expect(translations).toStrictEqual([undefined, undefined]);
-      expect(t).toHaveBeenCalledWith('in-settings:productAreas.permissions', {
+      expect(t).toHaveBeenCalledWith('in-settings:productAreas.role_permissions', {
         context: 'viewer',
         quantityOfAreas: 4
       });
@@ -97,7 +97,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       expect(kubernetesNamespacesWithAccess).toStrictEqual(['5', '6']);
       // 1 undefined for kubernetes
       expect(translations).toStrictEqual([undefined]);
-      expect(t).toHaveBeenCalledWith('in-settings:productAreas.permissions', {
+      expect(t).toHaveBeenCalledWith('in-settings:productAreas.role_permissions', {
         context: 'viewer',
         quantityOfAreas: 4
       });

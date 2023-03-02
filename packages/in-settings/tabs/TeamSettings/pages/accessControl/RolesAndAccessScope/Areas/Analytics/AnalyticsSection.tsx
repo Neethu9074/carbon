@@ -34,7 +34,7 @@ export const AnalyticsSection = () => {
         <Ul>
           <CapabilitySubsection
             capabilities={analyticsCapabilities}
-            headerText={t('in-settings:productAreas.customDashboardPermissions')}
+            headerText={t('in-settings:productAreas.permissions', { context: ProductArea.ANALYTICS })}
           />
         </Ul>
       }
