@@ -74,19 +74,21 @@ export default connectTo(
         args: {}
       })
   }),
-  function ActiveParts({ timeConfig, response }) {
+  function RunningQueries({ timeConfig, response }) {
     let content = null;
 
     if (timeConfig.focusedMoment != null) {
       content = (
-        <DashboardNotification type="info">Running queries list is only available in live mode.</DashboardNotification>
+        <DashboardNotification type="info">
+          {t('in-forge:plugins.clickhouseDatabase.dashboard.explanationRunningQueriesNotAvailable')}
+        </DashboardNotification>
       );
     } else if (response == null) {
       content = <LoadingIndicator />;
     } else if (response.error) {
       content = (
         <DashboardNotification type="danger">
-          Failed to retrieve running queries: {response.error}
+          {t('in-forge:plugins.clickhouseDatabase.dashboard.errorRetrieveRunningQueries')}: {response.error}
         </DashboardNotification>
       );
     } else {
@@ -95,19 +97,26 @@ export default connectTo(
         key: String(i),
         ...r
       }));
-      content = (
-        <Table
-          withoutPadding
-          cardTitle={t('in-forge:plugins.clickhouseDatabase.dashboard.titleRunningQueries')}
-          cols={cols}
-          rows={rows}
-          maxItemsPerPage={25}
-          initialSortColumn={2}
-          initialSortDirection="desc"
-        />
-      );
+      if (rows.length === 0) {
+        content = (
+          <DashboardNotification type="info">
+            {t('in-forge:plugins.clickhouseDatabase.dashboard.infoNoRunningQueries')}
+          </DashboardNotification>
+        );
+      } else {
+        content = (
+          <Table
+            withoutPadding
+            cardTitle={t('in-forge:plugins.clickhouseDatabase.dashboard.titleRunningQueries')}
+            cols={cols}
+            rows={rows}
+            maxItemsPerPage={25}
+            initialSortColumn={2}
+            initialSortDirection="desc"
+          />
+        );
+      }
     }
-
     return content;
   }
 );
