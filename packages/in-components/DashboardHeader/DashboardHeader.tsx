@@ -48,7 +48,6 @@ export interface DashboardHeaderProps {
   result?: Result<any>;
   icon?: string;
   renderIcon?: (() => JSX.Element) | typeof getSkeletonIcon;
-  showHistoricDataWarning?: boolean;
   title: string;
   renderTimeSelection?: (props: any) => JSX.Element;
   label: string | JSX.Element;
@@ -77,7 +76,6 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
     className,
     contextConfigurations,
     renderTimeSelection,
-    showHistoricDataWarning,
     result,
     labelForTitle,
     hideUrlShortener,
@@ -163,11 +161,7 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
         <div className={locals.rightContent}>
           {!hideUrlShortener && <UrlShortener darkTheme={theme === themes.dark} />}
           {renderTopLevelButtonLine && renderTopLevelButtonLine(props)}
-          {renderTimeSelection ? (
-            renderTimeSelection(props)
-          ) : (
-            <TimeSelection showHistoricDataWarning={showHistoricDataWarning} darkTheme={theme === themes.dark} />
-          )}
+          {renderTimeSelection ? renderTimeSelection(props) : <TimeSelection darkTheme={theme === themes.dark} />}
         </div>
       </div>
       {(renderButtonLine || renderButtonLineSecondary) && (

@@ -134,7 +134,6 @@ export default function SyntheticAnalyzeView() {
               title={t('in-synthetics:dashboard.testList.mainLabel')}
               label={get(test, ['data', 'label'])}
               withBorderBottom
-              showHistoricDataWarning={false}
               renderMetaInformation={renderMetaInformation}
             />
             <DashboardHeaderShadowModule />

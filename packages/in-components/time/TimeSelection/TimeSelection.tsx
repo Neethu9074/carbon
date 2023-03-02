@@ -3,41 +3,37 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 // @ts-expect-error
 import TimeSelectionDialogPresenter from 'in-components/time/TimeSelectionDialogPresenter/TimeSelectionDialogPresenter';
 // @ts-expect-error
 import DashboardHeaderButton from 'in-components/DashboardHeader/DashboardHeaderButton';
-import { getTimeConfig, setTimeConfig, timeConfig$, urlQueryKeys } from 'in-stores/time/config';
 import { TIME_WINDOW_SIZE_VIA_PICKER, track } from 'in-services/tracking/tracking';
-import { getModifiedUrlStream, mutateUrl } from 'in-stores/navigation/navigation';
 // @ts-expect-error
 import ErrorBoundary from 'in-components/ErrorBoundary';
-import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { cloneLocation } from 'in-stores/navigation/routing/clone';
 import TimePresenter from 'in-components/time/TimePresenter';
-// @ts-expect-error
-import connect from 'in-hoc/connectTo';
 import { logsPath } from 'in-logging/navigation/paths';
 import { Location } from 'in-stores/navigation/types';
+import { urlQueryKeys } from 'in-stores/time/config';
 import Overlay from 'in-components/overlays/Overlay';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import Tooltip from 'in-components/Tooltip';
 import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './TimeSelection.mless';
 
-export default connect({
-  timeConfig: timeConfig$
-})(TimeSelection);
-
 export interface TimeSelectionProps {
-  timeConfig: TimeConfig;
-  isHidden: boolean;
+  isHidden?: boolean;
   darkTheme: boolean;
 }
 
-function TimeSelection({ timeConfig, isHidden, darkTheme }: TimeSelectionProps) {
+export default function TimeSelection({ isHidden, darkTheme }: TimeSelectionProps) {
+  const timeConfig = useTimeConfig();
+
   if (isHidden) {
     return null;
   }
@@ -108,18 +104,12 @@ const checkIsLiveModeDisabled = (location: Location): { disabled: boolean; toolt
 };
 
 function LiveModeToggle({ isLive: isLiveProp, darkTheme }: LiveModeToggleProps) {
+  const { location, createHref } = useNavigation();
   const [hover, setHover] = useState(false);
-  const location = useLocation();
   const { disabled, tooltipMessage } = checkIsLiveModeDisabled(location);
 
   const isLive = disabled ? false : isLiveProp;
-  const href$ = isLive ? getTimeframeNonLiveUrl() : getTimeframeLiveUrl();
-
-  useEffect(() => {
-    if (disabled) {
-      setTimeConfig(location, { ...getTimeConfig(location), autoRefresh: !disabled });
-    }
-  }, [disabled, location]);
+  const href = createHref(isLive ? getTimeframeNonLiveLocation(location) : getTimeframeLiveLocation(location));
 
   let icon;
   let iconSpinning = false;
@@ -138,7 +128,7 @@ function LiveModeToggle({ isLive: isLiveProp, darkTheme }: LiveModeToggleProps) 
     <Tooltip content={tooltipMessage}>
       <DashboardHeaderButton
         disabled={disabled}
-        href$={href$}
+        href={href}
         icon={icon}
         iconSpinning={iconSpinning}
         onMouseEnter={() => setHover(true)}
@@ -158,6 +148,8 @@ interface TimeSelectionDialogPresenterWrapperProps {
 }
 
 function TimeSelectionDialogPresenterWrapper({ timeConfig, close }: TimeSelectionDialogPresenterWrapperProps) {
+  const { location, navigate } = useNavigation();
+
   return <TimeSelectionDialogPresenter timeConfig={timeConfig} onChange={onChange} closeOverlay={close} />;
 
   function onChange(timeConfig: TimeConfig) {
@@ -165,37 +157,35 @@ function TimeSelectionDialogPresenterWrapper({ timeConfig, close }: TimeSelectio
     track(TIME_WINDOW_SIZE_VIA_PICKER, {});
 
     if (timeConfig) {
-      setTimeframe(timeConfig.windowSize, timeConfig.to);
+      navigate(setTimeframe(timeConfig.windowSize, timeConfig.to, location));
     }
   }
 }
 
-function setTimeframe(windowSize: number, to: number | null | undefined = null) {
-  mutateUrl(navParams => {
-    if (to != null) {
-      navParams.query[urlQueryKeys.to] = `${to}`;
-      navParams.query[urlQueryKeys.focusedMoment] = `${to}`;
-    } else {
-      navParams.query[urlQueryKeys.to] = to;
-      navParams.query[urlQueryKeys.focusedMoment] = to;
-    }
-    navParams.query[urlQueryKeys.windowSize] = `${windowSize}`;
-    return navParams;
-  });
+function setTimeframe(windowSize: number, to: number | null | undefined = null, location: Location): Location {
+  if (to != null) {
+    location.query[urlQueryKeys.to] = `${to}`;
+    location.query[urlQueryKeys.focusedMoment] = `${to}`;
+  } else {
+    location.query[urlQueryKeys.to] = to;
+    location.query[urlQueryKeys.focusedMoment] = to;
+  }
+  location.query[urlQueryKeys.windowSize] = `${windowSize}`;
+  return location;
 }
 
-function getTimeframeNonLiveUrl() {
-  return getModifiedUrlStream(navParams => {
-    delete navParams.query.fm;
-    navParams.query[urlQueryKeys.autoRefresh] = 'false';
-  });
+function getTimeframeNonLiveLocation(currentLocation: Location): Location {
+  const targetLocation = cloneLocation(currentLocation);
+  delete targetLocation.query.fm;
+  targetLocation.query[urlQueryKeys.autoRefresh] = 'false';
+  return targetLocation;
 }
 
-function getTimeframeLiveUrl() {
-  return getModifiedUrlStream(navParams => {
-    delete navParams.query.fm;
-    navParams.query[urlQueryKeys.to] = '';
-    navParams.query[urlQueryKeys.focusedMoment] = '';
-    navParams.query[urlQueryKeys.autoRefresh] = 'true';
-  });
+function getTimeframeLiveLocation(currentLocation: Location): Location {
+  const targetLocation = cloneLocation(currentLocation);
+  delete targetLocation.query.fm;
+  targetLocation.query[urlQueryKeys.to] = '';
+  targetLocation.query[urlQueryKeys.focusedMoment] = '';
+  targetLocation.query[urlQueryKeys.autoRefresh] = 'true';
+  return targetLocation;
 }

@@ -75,7 +75,6 @@ function Header(props: DashboardHeaderProps) {
       label={get(props.result, ['data', 'label'])}
       renderButtonLine={RenderButtonLine}
       renderMetaInformation={RenderMetaInformation}
-      showHistoricDataWarning={false}
     />
   );
 }

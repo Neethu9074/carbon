@@ -8,8 +8,8 @@ import React from 'react';
 import { KeyValue } from '@instana/components';
 import { Link } from '@instana/components';
 
-import Secion from 'in-components/time/TimeSelectionDialogPresenter/Section';
-import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import Section from 'in-components/time/TimeSelectionDialogPresenter/Section';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getTimePresets } from 'in-components/time/timePresets';
 import { setTimeConfig } from 'in-stores/time/config';
 import { t } from 'in-i18n';
@@ -18,7 +18,7 @@ import locals from './Presets.mless';
 
 export default function Presets({ onChange, closeOverlay }) {
   return (
-    <Secion title={t('in-components:time.presetsTitlePresets')}>
+    <Section title={t('in-components:time.presetsTitlePresets')}>
       <div className={locals.presetsContainer}>
         {getTimePresets().map(({ label, description, windowSize, to }) => (
           <Preset
@@ -34,24 +34,21 @@ export default function Presets({ onChange, closeOverlay }) {
           />
         ))}
       </div>
-    </Secion>
+    </Section>
   );
 }
 
 function Preset({ label, onClick, description, windowSize, to }) {
+  const { location, createHref } = useNavigation();
+  setTimeConfig(location, {
+    windowSize,
+    to,
+    focusedMoment: to,
+    autoRefresh: false
+  });
+
   return (
-    <Link
-      className={locals.preset}
-      onClick={onClick}
-      href$={getModifiedUrlStream(params => {
-        setTimeConfig(params, {
-          windowSize,
-          to,
-          focusedMoment: to,
-          autoRefresh: false
-        });
-      })}
-    >
+    <Link className={locals.preset} onClick={onClick} href={createHref(location)}>
       {description ? <KeyValue label={description} value={label} /> : label}
     </Link>
   );

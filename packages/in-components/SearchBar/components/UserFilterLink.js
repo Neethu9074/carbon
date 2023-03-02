@@ -3,10 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import React from 'react';
 
-import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { Link } from '@instana/components';
+
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { DFQ_FILTER_SELECTED } from 'in-services/tracking/eventNames';
 import { track } from 'in-services/tracking/tracking';
 
@@ -15,9 +16,11 @@ import './UserFilterLink.less';
 const block = 'in-search-use-filter-link';
 
 export default function UserFilterLink({ filter, onClick }) {
+  const { location, createHref } = useNavigation();
+
   return (
     <Link
-      href$={getCurrentViewWithFilter(filter.get('definition'))}
+      href={createHref(applyFilter(filter.get('definition'), location))}
       onClick={onFilterSelected(filter, onClick)}
       className={block}
     >
@@ -33,9 +36,8 @@ function onFilterSelected(filter, callback) {
   };
 }
 
-function getCurrentViewWithFilter(filter) {
-  return getModifiedUrlStream(params => {
-    params.query.q = filter;
-    params.query.ss = '1';
-  });
+function applyFilter(filter, location) {
+  location.query.q = filter;
+  location.query.ss = '1';
+  return location;
 }
