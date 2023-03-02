@@ -8,7 +8,15 @@ import React, { useEffect, useRef } from 'react';
 
 import { keyCodes } from '@instana/components';
 
-import { CodeProps, javascript, bbedit, useCodeMirror, EditorView, events } from 'in-synthetics/packages/CodeMirror';
+import {
+  CodeProps,
+  javascript,
+  useCodeMirror,
+  EditorView,
+  events,
+  StreamLanguage,
+  jsMode
+} from 'in-synthetics/packages/CodeMirror';
 
 import locals from './Code.mless';
 
@@ -16,7 +24,6 @@ const { isF, isQuestionMarkOrMinus } = keyCodes;
 
 export default function CodeInput(props: CodeProps) {
   const editor = useRef(null);
-  const extensions = [javascript({ jsx: true })];
   const customizedTheme = EditorView.theme({
     '&.cm-editor.cm-focused': {
       outline: 'none'
@@ -33,8 +40,8 @@ export default function CodeInput(props: CodeProps) {
   const { setContainer } = useCodeMirror({
     container: editor.current,
     value: props.value || '',
-    theme: [bbedit, customizedTheme],
-    extensions: [extensions, keyboardEventExtension],
+    theme: [customizedTheme],
+    extensions: [javascript({ jsx: true }), StreamLanguage.define(jsMode), keyboardEventExtension],
     editable: props.editable,
     readOnly: props.readOnly,
     autoFocus: props.autoFocus,

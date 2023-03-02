@@ -4,11 +4,12 @@
  * Copyright IBM Corp. 2023
  */
 
+import { javascript as jsMode } from '@codemirror/legacy-modes/mode/javascript';
 import { ReactCodeMirrorProps, useCodeMirror } from '@uiw/react-codemirror';
 import * as events from '@uiw/codemirror-extensions-events';
 import { javascript } from '@codemirror/lang-javascript';
-import { bbedit } from '@uiw/codemirror-theme-bbedit';
+import { StreamLanguage } from '@codemirror/language';
 import { EditorView } from '@codemirror/view';
 
 export type CodeProps = ReactCodeMirrorProps;
-export { javascript, bbedit, useCodeMirror, EditorView, events };
+export { useCodeMirror, javascript, StreamLanguage, EditorView, jsMode, events };
