@@ -24,7 +24,7 @@ export interface TabProps {
   index?: number;
   isActive?: boolean;
   isDisabled?: boolean;
-  onTabSelect?: (...args: any[]) => any;
+  onTabSelect?: (index: number | undefined) => void;
   text?: string;
   withoutBottomBorder?: boolean;
 }
