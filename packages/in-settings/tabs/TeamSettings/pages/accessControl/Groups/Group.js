@@ -147,118 +147,122 @@ function renderGroup(props) {
           ))}
       </Row>
 
-      <Row>
-        <Col lg>
-          {form.get('permissionSet').map(field => (
-            <FormGroup>
-              <Label>{t('in-settings:tabs.access')}</Label>
-              {productRestrictions.map(({ value, label, help }) => (
-                <HorizontalFormGroup key={label} helpText={help}>
-                  <Label htmlFor={`permission-${value}`}>{label}</Label>
-                  <Toggle
-                    id={`permission-${value}`}
-                    checked={field.value.permissions.includes(value)}
-                    onChange={() => togglePermission(form, setForm, value)}
-                    disabled={isOwnerGroup}
-                  />
-                </HorizontalFormGroup>
-              ))}
-            </FormGroup>
-          ))}
-        </Col>
-      </Row>
-
-      <Row>
-        <Col lg>
-          {form.get('permissionSet').map(field => (
-            <FormGroup>
-              <Label>{t('in-settings:tabs.permissionScope')}</Label>
-              {accessRestrictionWarning}
-              {productAreaPermissions.map(({ value, label, isNew }) => (
-                <HorizontalFormGroup
-                  key={label}
-                  helpText={t('in-settings:tabs.permitsAccessToLabelMonitoringFunctionality', { label: label })}
-                >
-                  <span>
-                    <Label htmlFor={`permission-${value}`}>{label}</Label>
-                    {isNew && (
-                      <Pill kind="inverted" color={theme.lib.colors.blue800}>
-                        {t('in-stores:permissionNewLabel')}
-                      </Pill>
-                    )}
-                  </span>
-                  <Toggle
-                    id={`permission-${value}`}
-                    checked={field.value.permissions.includes(value)}
-                    onChange={() => togglePermission(form, setForm, value)}
-                    disabled={isOwnerGroup}
-                  />
-                </HorizontalFormGroup>
-              ))}
-            </FormGroup>
-          ))}
-        </Col>
-      </Row>
-
-      <Row>
-        <Col lg>
-          {form.get('permissionSet').map(field => (
-            <FormGroup>
-              <Label>{t('in-settings:tabs.ownerPermissions')}</Label>
-              {productOwnerPermissions.map(({ value, label, description, keyForGroupApi }) => (
-                <HorizontalFormGroup key={label} helpText={description}>
-                  <Label htmlFor={`permission-${value}`}>{label}</Label>
-                  <Toggle
-                    id={`permission-${keyForGroupApi}`}
-                    checked={field.value.permissions.includes(keyForGroupApi)}
-                    onChange={() => {
-                      // check if value is currently false -> user sets permission to true
-                      if (!field.value.permissions.includes(keyForGroupApi)) {
-                        addActiveDialog(
-                          <ConfirmationDialog
-                            togglePermission={() => togglePermission(form, setForm, keyForGroupApi)}
-                          />
-                        );
-                      } else {
-                        togglePermission(form, setForm, keyForGroupApi);
-                      }
-                    }}
-                    disabled={isOwnerGroup}
-                  />
-                </HorizontalFormGroup>
-              ))}
-            </FormGroup>
-          ))}
-        </Col>
-      </Row>
-
-      <Row>
-        <Col lg>
-          {form.get('permissionSet').map(field => (
-            <PermissionsList
-              permissions={permissionsForList}
-              listActions={[
-                {
-                  id: 'toggleEnabledAction',
-                  sortable: false,
-                  width: '5rem',
-                  widthInAbsoluteUnit: true,
-                  getContent(entity) {
-                    return (
+      {!rbacImprovementEnabled && (
+        <>
+          <Row>
+            <Col lg>
+              {form.get('permissionSet').map(field => (
+                <FormGroup>
+                  <Label>{t('in-settings:tabs.access')}</Label>
+                  {productRestrictions.map(({ value, label, help }) => (
+                    <HorizontalFormGroup key={label} helpText={help}>
+                      <Label htmlFor={`permission-${value}`}>{label}</Label>
                       <Toggle
-                        id={`permission-${entity.keyForGroupApi}`}
-                        checked={field.value.permissions.includes(entity.keyForGroupApi)}
-                        onChange={() => togglePermission(form, setForm, entity.keyForGroupApi)}
+                        id={`permission-${value}`}
+                        checked={field.value.permissions.includes(value)}
+                        onChange={() => togglePermission(form, setForm, value)}
                         disabled={isOwnerGroup}
                       />
-                    );
-                  }
-                }
-              ]}
-            />
-          ))}
-        </Col>
-      </Row>
+                    </HorizontalFormGroup>
+                  ))}
+                </FormGroup>
+              ))}
+            </Col>
+          </Row>
+
+          <Row>
+            <Col lg>
+              {form.get('permissionSet').map(field => (
+                <FormGroup>
+                  <Label>{t('in-settings:tabs.permissionScope')}</Label>
+                  {accessRestrictionWarning}
+                  {productAreaPermissions.map(({ value, label, isNew }) => (
+                    <HorizontalFormGroup
+                      key={label}
+                      helpText={t('in-settings:tabs.permitsAccessToLabelMonitoringFunctionality', { label: label })}
+                    >
+                      <span>
+                        <Label htmlFor={`permission-${value}`}>{label}</Label>
+                        {isNew && (
+                          <Pill kind="inverted" color={theme.lib.colors.blue800}>
+                            {t('in-stores:permissionNewLabel')}
+                          </Pill>
+                        )}
+                      </span>
+                      <Toggle
+                        id={`permission-${value}`}
+                        checked={field.value.permissions.includes(value)}
+                        onChange={() => togglePermission(form, setForm, value)}
+                        disabled={isOwnerGroup}
+                      />
+                    </HorizontalFormGroup>
+                  ))}
+                </FormGroup>
+              ))}
+            </Col>
+          </Row>
+
+          <Row>
+            <Col lg>
+              {form.get('permissionSet').map(field => (
+                <FormGroup>
+                  <Label>{t('in-settings:tabs.ownerPermissions')}</Label>
+                  {productOwnerPermissions.map(({ value, label, description, keyForGroupApi }) => (
+                    <HorizontalFormGroup key={label} helpText={description}>
+                      <Label htmlFor={`permission-${value}`}>{label}</Label>
+                      <Toggle
+                        id={`permission-${keyForGroupApi}`}
+                        checked={field.value.permissions.includes(keyForGroupApi)}
+                        onChange={() => {
+                          // check if value is currently false -> user sets permission to true
+                          if (!field.value.permissions.includes(keyForGroupApi)) {
+                            addActiveDialog(
+                              <ConfirmationDialog
+                                togglePermission={() => togglePermission(form, setForm, keyForGroupApi)}
+                              />
+                            );
+                          } else {
+                            togglePermission(form, setForm, keyForGroupApi);
+                          }
+                        }}
+                        disabled={isOwnerGroup}
+                      />
+                    </HorizontalFormGroup>
+                  ))}
+                </FormGroup>
+              ))}
+            </Col>
+          </Row>
+
+          <Row>
+            <Col lg>
+              {form.get('permissionSet').map(field => (
+                <PermissionsList
+                  permissions={permissionsForList}
+                  listActions={[
+                    {
+                      id: 'toggleEnabledAction',
+                      sortable: false,
+                      width: '5rem',
+                      widthInAbsoluteUnit: true,
+                      getContent(entity) {
+                        return (
+                          <Toggle
+                            id={`permission-${entity.keyForGroupApi}`}
+                            checked={field.value.permissions.includes(entity.keyForGroupApi)}
+                            onChange={() => togglePermission(form, setForm, entity.keyForGroupApi)}
+                            disabled={isOwnerGroup}
+                          />
+                        );
+                      }
+                    }
+                  ]}
+                />
+              ))}
+            </Col>
+          </Row>
+        </>
+      )}
     </>
   );
 }
