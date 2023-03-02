@@ -44,6 +44,7 @@
   "memAvailable": "Memória disponível (MB)",
   "memAvailablePercentage": "Memória disponível (%)",
   "assignedProc": "Unidades de processamento designadas",
+  "assignedMemory": "Memória designada (MB)",
   "drc": "Índice do DRC",
   "id": "ID",
   "sentPackets": "Pacotes enviados/s",
@@ -90,7 +91,8 @@
     "phmcs": "HMCs de energia",
     "systems": "Sistemas",
     "logicalPartitions": "Partições lógicas",
-    "vios": "VIOS"
+    "vios": "VIOS",
+    "sharedProcessorPool": "Grupos de processadores compartilhados"
   },
   "dashboards": {
     "phmc": "pHMC",
@@ -125,6 +127,8 @@
     "virtualFiberChannelAdapter": "Adaptadores Fibre Channel virtuais",
     "sharedStoragePool": "Conjuntos de armazenamento compartilhado",
     "energy": "Energia",
-    "maxCpuUtilzation": "Capacidade máxima de CPU"
+    "maxCpuUtilzation": "Capacidade máxima de CPU",
+    "systemFirmwareUtilized": "Firmware do sistema - Unidades de processamento utilizadas",
+    "systemFirmwareAssignedMem": "Firmware do sistema - Memória designada"
   }
 }

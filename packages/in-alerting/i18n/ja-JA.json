@@ -535,6 +535,14 @@
       "entityTitle": "範囲",
       "titleBuiltInIndicator": "組み込み"
     },
+    "list": {
+      "header": {
+        "configuredAlerts": "構成済みアラート({{numberOfAlerts}})"
+      },
+      "columns": {
+        "name": "名前"
+      }
+    },
     "form": {
       "ruleAggregationOptionMEAN": "平均",
       "ruleAggregationOptionMIN": "最小",
@@ -986,7 +994,18 @@
         "searchCustomEventButtonLabel": "カスタム・イベントの選択",
         "customEventListInfoLabel": "過去 7 日間にトリガーされたカスタム・イベントの表示"
       },
-      "addSmartAlert": "スマート・アラートの追加"
+      "addSmartAlert": "スマート・アラートの追加",
+      "list": {
+        "columns": {
+          "name": {
+            "subtitle": "{{blueprintConfigName}}, {{metricLabel}}",
+            "subtitleForStaticThreshold": "静的しきい値、 {{metricLabel}} {{operator}} {{value}}",
+            "subtitleForStaticDailySeasonality": "静的日次季節性、 {{metricLabel}}",
+            "subtitleForStaticWeeklySeasonality": "静的週次季節性、 {{metricLabel}}",
+            "subtitleForAdaptiveThreshold": "適応しきい値、{{metricLabel}}"
+          }
+        }
+      }
     },
     "sortOptions": {
       "name": "名前",
@@ -1007,6 +1026,14 @@
       "markAsMigratedButtonConfirmationConfirmLabel": "確認"
     },
     "enable": "有効にする",
-    "disable": "無効化"
+    "disable": "無効化",
+    "synthetics": {
+      "alertList": {
+        "timeThreshold": "障害しきい値",
+        "filterApplied": "適用されているフィルター",
+        "violationsCount": "{{violationsCount}}件の障害",
+        "numberOfFailures": "障害アラート"
+      }
+    }
   }
 }

@@ -49,11 +49,14 @@
     "loadingData": "正在載入資料",
     "namespace": "名稱空間",
     "pod": "Pod",
+    "podId": "Pod ID",
+    "podName": "Pod 名稱",
     "deployment": "部署",
     "node": "節點",
     "cluster": "叢集",
     "restartCount": "重新啟動計數",
-    "kubernetesLabels": "Kubernetes 標籤"
+    "kubernetesLabels": "Kubernetes 標籤",
+    "podmanAnnotations": "Podman 註釋"
   },
   "explore": {
     "beta": "測試版",
@@ -64,6 +67,7 @@
     "name": "名稱",
     "search": "搜尋類型",
     "explore": "瀏覽",
+    "noIssues": "沒有問題",
     "count": "計數",
     "errors": {
       "maximumNumberOfGroups": "此查詢有太多結果。 請使用更嚴格的過濾器或更廣泛的群組來縮小範圍",

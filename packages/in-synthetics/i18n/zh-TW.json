@@ -3,6 +3,8 @@
     "createTest": {
       "dialogTitle": "建立綜合測試",
       "noLocationFound": "抱歉！找不到任何位置",
+      "noApplicationsFound": "找不到任何應用程式",
+      "noMatchingFound": "找不到相符的應用程式",
       "titles": {
         "step1": "步驟 1：選取類型",
         "step2": "步驟 2：要求詳細資料",
@@ -23,14 +25,16 @@
         "popSubTitle": "存在點",
         "uploadScriptTitle": "上傳 Script",
         "failureToReadFileContent": "無法讀取檔案內容：{{error}}",
-        "emptyScriptFileError": "空代碼。 沒有要驗證的項目。"
+        "emptyScriptFileError": "空代碼。 沒有要驗證的項目。",
+        "enterTheScriptMessage": "在這裡輸入 Script"
       },
       "basicDetails": {
         "title": "此連線測試的名稱為何",
         "scriptTitle": "此 HTTP Script 測試的名稱",
         "labelName": "測試的名稱",
         "labelDescription": "說明",
-        "labelFrequency": "頻率"
+        "labelFrequency": "頻率",
+        "labelApplications": "選取應用程式"
       },
       "bluePrint": {
         "pingApi": {
@@ -39,10 +43,6 @@
           "whenToUse": {
             "title": "何時使用？",
             "line1": "使用 HTTP 動作測試來測試單一 REST API"
-          },
-          "whoShouldUse": {
-            "title": "誰該使用？",
-            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
           },
           "tipsForUsing": {
             "title": "使用秘訣",
@@ -57,9 +57,6 @@
           "headline": "HTTP Script",
           "whenToUse": {
             "line1": "使用 HTTP Script 測試及 Node.js 型 Script 來測試多個 Rest API 的順序"
-          },
-          "whoShouldUse": {
-            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
           },
           "tipsForUsing": {
             "line1": "步驟 1：選擇您要建立的測試類型。",
@@ -107,18 +104,21 @@
       "mainLabel": "綜合監視",
       "secondaryLabels": {
         "tests": "測試",
-        "locations": "位置"
+        "locations": "位置",
+        "smartAlerts": "智慧型警示"
       },
       "popDialog": {
-        "button": "<> 部署 PoP",
+        "button": "部署 PoP",
         "simpleTab": "簡式",
         "redisTab": "Redis TLS",
         "title": "綜合 PoP 指令",
         "subTitle": "請使用這些程式碼範本作為參照。 如需相關資訊，請參閱<documentationLink>綜合 PoP 部署</documentationLink>",
-        "simpleCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<yourPassword>\"",
-        "redisCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true",
-        "tlsInstructions": "如果您想要啟用 Redis TLS，則需要在 Helm 圖表根路徑下建立 certs 資料夾，並將憑證金鑰組（tls.crt、tls.key）及 CA 主要憑證檔 (ca.crt) 複製到 certs 資料夾，檔名應該完全相符。\n\n如果您沒有金鑰/憑證檔案，也可以使用 openssl 指令來產生新的金鑰/憑證檔案，請參閱下列範例：",
-        "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt"
+        "simpleCode": "helm install synthetic-pop \\\n--repo \"https://agents.instana.io/helm\" \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<yourPassword>\" \\\nsynthetic-pop",
+        "redisCode": "helm install synthetic-pop \\\n--repo \"https://agents.instana.io/helm\" \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true \\\n--set redis.tls.secretName=\"syntheticpop-redis\" \\\nsynthetic-pop",
+        "tlsInstructions": "如果您想要啟用 Redis TLS，則需要具有 X.509 憑證金鑰組（`tls.crt`、`tls.key`）及 CA 主要憑證檔 (`ca.crt`)。\n\n如果您沒有金鑰/憑證檔案，也可以使用 openssl 指令來產生新的檔案，請參閱下列範例：",
+        "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt",
+        "tlsSecretInstructions": "提供金鑰/憑證檔案之後，請使用 kubectl 指令來建立密鑰。",
+        "tlsSecretConfigurations": "kubectl create secret generic syntheticpop-redis -n syn \\\n--type=\"kubernetes.io/tls\" \\\n--from-file=ca.crt=\"<path/to/ca.crt>\" \\\n--from-file=tls.crt=\"<path/to/tls.crt>\" \\\n--from-file=tls.key=\"<path/to/tls.key>\""
       },
       "testLabel": "名稱",
       "status": "狀態",
@@ -140,7 +140,7 @@
       "action": "動作",
       "delete": "刪除測試",
       "labelConfirm": "請確認",
-      "labelConfirmRemoveTest": "您確定要移除綜合測試 <strong>{{label}}</strong> 嗎？",
+      "labelConfirmRemoveTest": "您確定要移除虛構測試 <strong>{{testLabel}}</strong> 嗎？",
       "labelRemove": "移除",
       "na": "N/A"
     },
@@ -194,7 +194,8 @@
         "gatewayTimeout": "閘道逾時"
       },
       "totalRuns": "{{totalRuns}} 執行總數",
-      "meanLatencyFor90th": "第 90 個的 {{meanLatencyDetail}}"
+      "meanLatencyFor90th": "第 90 個的 {{meanLatencyDetail}}",
+      "smartAlertsTab": "智慧型警示"
     },
     "resultsListPage": {
       "startedColumn": "已開始",
@@ -329,6 +330,14 @@
       "testSummaryDescription": "未從資料庫擷取綜合測試。",
       "locationListTitle": "沒有可用的綜合位置",
       "locationListDescription": "沒有從資料庫擷取的綜合位置。"
+    },
+    "alertList": {
+      "timeThreshold": "失敗臨界值",
+      "testsApplied": "已套用測試",
+      "filterApplied": "已套用過濾器",
+      "violationsCount": "{{violationsCount}} 次失敗",
+      "testsCount": "{{testsCount}} 個測試",
+      "numberOfFailures": "失敗警示"
     }
   }
 }

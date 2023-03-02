@@ -199,6 +199,7 @@
     "traceIdTooltip": "Alguns dados relacionados a esse rastreio estão atrasados, portanto, recarregue a página um pouco mais tarde. Um exemplo no qual isso pode acontecer é visualizar um rastreio muito recente com alguns dos dados dele ainda sendo processados.",
     "closeTraceDetail": "Fechar detalhe de rastreio",
     "invalidQueryConfig": "A configuração da consulta é inválida. Trate as falhas de validação antes de continuar.",
+    "invalidTraceIdTagFilter": "O ID de rastreio \"{{traceId}}\" é inválido. Especifique um ID de rastreio válido que tenha 16 ou 32 caracteres.",
     "errorRateLabel": "Chamadas errôneas (taxa)",
     "errorRateCategory": "Chamadas errôneas",
     "errorMetricLabel": "Taxa de chamadas errôneas",
@@ -568,7 +569,7 @@
         "erroneousCalls": "Chamadas errôneas",
         "errorLogs": "Logs de erro",
         "warnLogs": "Logs de aviso",
-        "latency": "Latência",
+        "duration": "Duração",
         "timeline": "Linha de tempo",
         "serviceEndpointList": "Lista de terminais em serviço",
         "largeTrace": "Rastreio grande",
@@ -579,6 +580,10 @@
         "analyzeBeacons": "Analisar indicadores",
         "adjustedTimeConfig": "O intervalo de tempo foi ajustado para incluir o indicador selecionado."
       }
+    },
+    "components": {
+      "callTreeHeaderParent": "Carregar chamada pai",
+      "callTreeHeaderCalls": "Carregar mais chamadas"
     }
   },
   "tabs": {

@@ -49,11 +49,14 @@
     "loadingData": "データをロード中",
     "namespace": "名前空間",
     "pod": "ポッド",
+    "podId": "ポッドID",
+    "podName": "ポッド名",
     "deployment": "デプロイメント",
     "node": "ノード",
     "cluster": "クラスター",
     "restartCount": "再始動カウント",
-    "kubernetesLabels": "Kubernetes ラベル"
+    "kubernetesLabels": "Kubernetes ラベル",
+    "podmanAnnotations": "Podman注釈"
   },
   "explore": {
     "beta": "ベータ",
@@ -64,6 +67,7 @@
     "name": "名前",
     "search": "タイプの検索",
     "explore": "探索",
+    "noIssues": "問題はありません",
     "count": "数",
     "errors": {
       "maximumNumberOfGroups": "この照会の結果が多すぎます。 より限定的なフィルターまたはより広範囲のグループを使用して絞り込んでください",

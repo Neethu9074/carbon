@@ -89,7 +89,11 @@
     "websites": "Sitios web",
     "mobileApps": "Aplicaciones móviles",
     "websitesMobileApps": "Sitios web y aplicaciones móviles",
-    "customEventDeprecatedWarning": "<strong>{{deprecatedCustomEvents}} Los sucesos personalizados Aplicación, Servicio y Punto final requieren acción</strong><affectedCustomEvents>Ver sucesos personalizados afectados</affectedCustomEvents>"
+    "customEventDeprecatedWarning": "<strong>{{count}} suceso personalizado en aplicación, servicio y punto final requieren acción</strong><affectedCustomEvents>Ver suceso personalizado afectado</affectedCustomEvents>",
+    "customEventDeprecatedWarning_plural": "<strong>{{count}} sucesos personalizados en aplicación, servicio y punto final requieren acción</strong><affectedCustomEvents>Ver sucesos personalizados afectados</affectedCustomEvents>",
+    "customEventDeprecatedWarning_0": "<strong>{{count}} sucesos personalizados en aplicación, servicio y punto final requieren acción</strong><affectedCustomEvents>Ver sucesos personalizados afectados</affectedCustomEvents>",
+    "customEventDeprecatedWarning_1": "<strong>{{count}} sucesos personalizados en aplicación, servicio y punto final requieren acción</strong><affectedCustomEvents>Ver sucesos personalizados afectados</affectedCustomEvents>",
+    "customEventDeprecatedWarning_2": "<strong>{{count}} sucesos personalizados en aplicación, servicio y punto final requieren acción</strong><affectedCustomEvents>Ver sucesos personalizados afectados</affectedCustomEvents>"
   },
   "widgets": {
     "columnDefinitions": {

@@ -98,7 +98,8 @@
     "perBeaconTypeConfigs": {
       "customBatchingIndicatorTooltipContent": "Dieses Ereignis wurde gebündelt und stellt {{size}} einzelne Ereignisse dar.",
       "httpRequestBatchingIndicatorTooltipContent": "Diese HTTP-Anforderung wurde gebündelt und stellt {{size}} einzelne HTTP-Anforderungen dar."
-    }
+    },
+    "invalidTraceIdTagFilter": "Die Backend-Trace-ID \"{{traceId}}\" ist ungültig. Geben Sie eine gültige Backend-Trace-ID an, die entweder 16 oder 32 Zeichen lang ist."
   },
   "beaconUserSum": {
     "userInfoTitle": "Benutzerinformationen",
@@ -212,7 +213,9 @@
       "errorType": "Fehlertyp",
       "crashLabel": "Absturz",
       "metaHeader": "Meta",
-      "stackTrace": "Stack-Trace"
+      "stackTrace": "Stack-Trace",
+      "stackTraceButtonPrettyStackTrace": "Stack-Trace-Quelltextformatierung",
+      "stackTraceButtonRawStackTrace": "Unformatierter Stack-Trace"
     },
     "tabsSumHttpRequestBeacon": {
       "retrievalTimeTooltip": "Abrufzeit",

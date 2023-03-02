@@ -535,6 +535,14 @@
       "entityTitle": "作用域",
       "titleBuiltInIndicator": "内置"
     },
+    "list": {
+      "header": {
+        "configuredAlerts": "已配置的警报数（{{numberOfAlerts}} 个）"
+      },
+      "columns": {
+        "name": "名称"
+      }
+    },
     "form": {
       "ruleAggregationOptionMEAN": "平均值",
       "ruleAggregationOptionMIN": "最小值",
@@ -986,7 +994,18 @@
         "searchCustomEventButtonLabel": "选择定制事件",
         "customEventListInfoLabel": "显示过去 7 天内触发的定制事件"
       },
-      "addSmartAlert": "添加智能警报"
+      "addSmartAlert": "添加智能警报",
+      "list": {
+        "columns": {
+          "name": {
+            "subtitle": "{{blueprintConfigName}}, {{metricLabel}}",
+            "subtitleForStaticThreshold": "静态阈值：{{metricLabel}} {{operator}} {{value}}",
+            "subtitleForStaticDailySeasonality": "静态每日季节性：{{metricLabel}}",
+            "subtitleForStaticWeeklySeasonality": "静态每周季节性：{{metricLabel}}",
+            "subtitleForAdaptiveThreshold": "自适应阈值：{{metricLabel}}"
+          }
+        }
+      }
     },
     "sortOptions": {
       "name": "名称",
@@ -1007,6 +1026,14 @@
       "markAsMigratedButtonConfirmationConfirmLabel": "确认"
     },
     "enable": "启用",
-    "disable": "禁用"
+    "disable": "禁用",
+    "synthetics": {
+      "alertList": {
+        "timeThreshold": "故障阈值",
+        "filterApplied": "已应用的过滤器",
+        "violationsCount": "{{violationsCount}} 个故障",
+        "numberOfFailures": "故障警报"
+      }
+    }
   }
 }

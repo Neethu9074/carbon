@@ -535,6 +535,14 @@
       "entityTitle": "Bereich",
       "titleBuiltInIndicator": "Integriert"
     },
+    "list": {
+      "header": {
+        "configuredAlerts": "Konfigurierte Alerts ({{numberOfAlerts}})"
+      },
+      "columns": {
+        "name": "Name"
+      }
+    },
     "form": {
       "ruleAggregationOptionMEAN": "Mittelwert",
       "ruleAggregationOptionMIN": "Min.",
@@ -986,7 +994,18 @@
         "searchCustomEventButtonLabel": "Wählen Sie ein angepasstes Ereignis aus",
         "customEventListInfoLabel": "Angepasste Ereignisse anzeigen, die in den letzten 7 Tagen ausgelöst wurden"
       },
-      "addSmartAlert": "Smart Alert hinzufügen"
+      "addSmartAlert": "Smart Alert hinzufügen",
+      "list": {
+        "columns": {
+          "name": {
+            "subtitle": "{{blueprintConfigName}}, {{metricLabel}}",
+            "subtitleForStaticThreshold": "Statischer Schwellenwert, {{metricLabel}} {{operator}} {{value}}",
+            "subtitleForStaticDailySeasonality": "Statische tägliche Saisonalität, {{metricLabel}}",
+            "subtitleForStaticWeeklySeasonality": "Statische wöchentliche Saisonalität, {{metricLabel}}",
+            "subtitleForAdaptiveThreshold": "Adaptiver Schwellenwert, {{metricLabel}}"
+          }
+        }
+      }
     },
     "sortOptions": {
       "name": "Name",
@@ -1007,6 +1026,14 @@
       "markAsMigratedButtonConfirmationConfirmLabel": "Bestätigen"
     },
     "enable": "Aktivieren",
-    "disable": "Inaktivieren"
+    "disable": "Inaktivieren",
+    "synthetics": {
+      "alertList": {
+        "timeThreshold": "Fehlerschwellenwert",
+        "filterApplied": "Angewendeter Filter",
+        "violationsCount": "{{violationsCount}} Fehler",
+        "numberOfFailures": "Fehleralerts"
+      }
+    }
   }
 }

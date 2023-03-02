@@ -89,7 +89,11 @@
     "websites": "Websites",
     "mobileApps": "Aplicativos móveis",
     "websitesMobileApps": "Websites e aplicativos móveis",
-    "customEventDeprecatedWarning": "<strong>Os eventos customizados Aplicativo, Serviço e Terminal {{deprecatedCustomEvents}} requerem ação</strong><affectedCustomEvents>Visualizar os eventos customizados afetados</affectedCustomEvents>"
+    "customEventDeprecatedWarning": "<strong>{{count}} evento customizado no aplicativo, serviço e terminal requer ação</strong><affectedCustomEvents>Visualizar evento customizado afetado</affectedCustomEvents>",
+    "customEventDeprecatedWarning_plural": "<strong>{{count}} eventos customizados no aplicativo, serviço e terminal requerem ação</strong><affectedCustomEvents>Visualizar eventos customizados afetados</affectedCustomEvents>",
+    "customEventDeprecatedWarning_0": "<strong>{{count}} eventos customizados no aplicativo, serviço e terminal requerem ação</strong><affectedCustomEvents>Visualizar eventos customizados afetados</affectedCustomEvents>",
+    "customEventDeprecatedWarning_1": "<strong>{{count}} eventos customizados no aplicativo, serviço e terminal requerem ação</strong><affectedCustomEvents>Visualizar eventos customizados afetados</affectedCustomEvents>",
+    "customEventDeprecatedWarning_2": "<strong>{{count}} eventos customizados no aplicativo, serviço e terminal requerem ação</strong><affectedCustomEvents>Visualizar eventos customizados afetados</affectedCustomEvents>"
   },
   "widgets": {
     "columnDefinitions": {

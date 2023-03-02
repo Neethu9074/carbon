@@ -98,7 +98,8 @@
     "perBeaconTypeConfigs": {
       "customBatchingIndicatorTooltipContent": "Este suceso se ha agrupado en lote y representa sucesos individuales de {{size}}.",
       "httpRequestBatchingIndicatorTooltipContent": "Esta solicitud HTTP se ha agrupado en un lote y representa solicitudes HTTP individuales de {{size}}."
-    }
+    },
+    "invalidTraceIdTagFilter": "El ID de rastreo de programa de fondo \"{{traceId}}\" no es válido. Especifique un ID de rastreo de programa de fondo válido que tenga una longitud de 16 o 32 caracteres."
   },
   "beaconUserSum": {
     "userInfoTitle": "Información de usuario",
@@ -212,7 +213,9 @@
       "errorType": "Tipo de error",
       "crashLabel": "Caída",
       "metaHeader": "Meta",
-      "stackTrace": "Rastreo de pila"
+      "stackTrace": "Rastreo de pila",
+      "stackTraceButtonPrettyStackTrace": "Rastreo de pila \"pretty\"",
+      "stackTraceButtonRawStackTrace": "Rastreo de pila sin formato"
     },
     "tabsSumHttpRequestBeacon": {
       "retrievalTimeTooltip": "Hora de recuperación",

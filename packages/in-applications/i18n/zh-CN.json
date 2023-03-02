@@ -199,6 +199,7 @@
     "traceIdTooltip": "与此跟踪相关的一些数据发生延迟，请稍后重新装入页面。可能发生此情况的一个示例如下：正在查看最近跟踪，而其部分数据仍在处理中。",
     "closeTraceDetail": "关闭跟踪详细信息",
     "invalidQueryConfig": "查询配置无效。请在继续之前处理验证失败。",
+    "invalidTraceIdTagFilter": "跟踪标识“{{traceId}}”无效。 请指定长度为 16 或 32 个字符的有效跟踪标识。",
     "errorRateLabel": "错误调用数（率）",
     "errorRateCategory": "错误调用数",
     "errorMetricLabel": "错误调用率",
@@ -568,7 +569,7 @@
         "erroneousCalls": "错误调用数",
         "errorLogs": "错误日志",
         "warnLogs": "警告日志",
-        "latency": "等待时间",
+        "duration": "持续时间",
         "timeline": "时间线",
         "serviceEndpointList": "服务端点列表",
         "largeTrace": "大跟踪",
@@ -579,6 +580,10 @@
         "analyzeBeacons": "分析信标",
         "adjustedTimeConfig": "时间范围已调整为包含所选信标。"
       }
+    },
+    "components": {
+      "callTreeHeaderParent": "装入父调用",
+      "callTreeHeaderCalls": "装入更多调用"
     }
   },
   "tabs": {

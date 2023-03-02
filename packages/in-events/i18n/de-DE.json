@@ -30,7 +30,17 @@
   "method": "Methode: {{method}}",
   "host": "Host: {{host}}",
   "body": "Hauptteil: {{body}}",
+  "authType": "Berechtigungstyp: {{authType}}",
   "headers": "Header:",
+  "secretPath": "Pfad des geheimen Schlüssels",
+  "secretKey": "Geheimer Schlüssel",
+  "enterParameterValue": "Parameterwert eingeben",
+  "optional": "{{name}} (optional)",
+  "vault": "Vault",
+  "static": "Statisch",
+  "parameters": "Parameter",
+  "noParametersTitle": "Keine Parameter",
+  "noParametersText": "Diese Aktion hat keine Parameter.",
   "entityInfoPresenterDefaultLabel": "Unter: ",
   "entityInfoLabelOfService": "Des Service:",
   "titleDetail": "Details",
@@ -49,6 +59,7 @@
   "titleAnalyzePageLoads": "Seitenladevorgänge analysieren",
   "titleAnalyzePageTransitions": "Seitenwechsel analysieren",
   "titleAnalyzeLoadTime": "Ladezeit analysieren",
+  "titleViewRelatedTestResults": "Zugehörige Testergebnisse anzeigen",
   "titleTime": "Zeit",
   "titleTriggered": "Ausgelöst",
   "titleActive": "Aktiv",
@@ -138,6 +149,12 @@
   "releaseOccurName": "Release: {{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (vor <timeCount/>)",
   "deprecatedCustomEventWarning": "<strong>{{issueOrIncident}} ist ab Juli 2023 (Build 253) nicht mehr erhältlich</strong> Zeigen Sie die Ereigniskonfiguration an, um sie zu migrieren. <documentationLink>Weitere Informationen finden Sie in der Dokumentation</documentationLink>",
+  "deprecatedCustomEventGlobalPopup": {
+    "title": "{{deprecatedCustomEvents}} Angepasste Ereignisse erfordern eine Aktion",
+    "message": "Angepasste Ereignisse für Anwendung, Service und Endpunkt sind veraltet. Sie können diese Arten von angepassten Ereignissen ab <strong>April 2023 (Build 246)</strong> nicht mehr erstellen oder aktualisieren <br /><br />Vorhandene Konfigurationen dieser Art werden ab <strong>Juli 2023 (Build 253)</strong> entfernt",
+    "documentationLink": "<documentationLink>Weitere Informationen finden Sie in der Dokumentation</documentationLink>",
+    "affectedEventsLink": "Betroffene angepasste Ereignisse anzeigen"
+  },
   "ibmMqFileTransfer": {
     "transferID": "Übertragungs-ID",
     "sourceAgent": "Quellenagent",
@@ -162,5 +179,8 @@
   },
   "infraSmartAlerts": {
     "pseudoAggregatedEntityLabel": "{{entityName}} (aggregiert)"
+  },
+  "syntheticSmartAlerts": {
+    "failedStatusMetric": "Status 'Fehlgeschlagen'"
   }
 }

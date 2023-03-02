@@ -535,6 +535,14 @@
       "entityTitle": "범위",
       "titleBuiltInIndicator": "기본 제공"
     },
+    "list": {
+      "header": {
+        "configuredAlerts": "구성된 경보 ({{numberOfAlerts}})"
+      },
+      "columns": {
+        "name": "이름"
+      }
+    },
     "form": {
       "ruleAggregationOptionMEAN": "평균",
       "ruleAggregationOptionMIN": "최소",
@@ -986,7 +994,18 @@
         "searchCustomEventButtonLabel": "사용자 정의 이벤트 선택",
         "customEventListInfoLabel": "지난 7일 동안 트리거된 사용자 정의 이벤트 표시"
       },
-      "addSmartAlert": "스마트 경보 추가"
+      "addSmartAlert": "스마트 경보 추가",
+      "list": {
+        "columns": {
+          "name": {
+            "subtitle": "{{blueprintConfigName}}, {{metricLabel}}",
+            "subtitleForStaticThreshold": "정적 임계값, {{metricLabel}} {{operator}} {{value}}",
+            "subtitleForStaticDailySeasonality": "정적 일일 계절성, {{metricLabel}}",
+            "subtitleForStaticWeeklySeasonality": "정적 주간 계절성, {{metricLabel}}",
+            "subtitleForAdaptiveThreshold": "적응형 임계값, {{metricLabel}}"
+          }
+        }
+      }
     },
     "sortOptions": {
       "name": "이름",
@@ -1007,6 +1026,14 @@
       "markAsMigratedButtonConfirmationConfirmLabel": "확인"
     },
     "enable": "사용",
-    "disable": "사용 안함"
+    "disable": "사용 안함",
+    "synthetics": {
+      "alertList": {
+        "timeThreshold": "실패 임계값",
+        "filterApplied": "필터 적용됨",
+        "violationsCount": "{{violationsCount}} 실패",
+        "numberOfFailures": "실패 경보"
+      }
+    }
   }
 }

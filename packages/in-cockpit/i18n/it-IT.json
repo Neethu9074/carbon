@@ -89,7 +89,11 @@
     "websites": "Siti web",
     "mobileApps": "App per dispositivi mobili",
     "websitesMobileApps": "Siti web & App per dispositivi mobili",
-    "customEventDeprecatedWarning": "<strong>{{deprecatedCustomEvents}} Gli eventi personalizzati di applicazione, servizio ed endpoint richiedono un'azione</strong><affectedCustomEvents>Visualizza eventi personalizzati interessati</affectedCustomEvents>"
+    "customEventDeprecatedWarning": "<strong>{{count}} evento personalizzato su applicazione, servizio ed endpoint richiede un'azione</strong><affectedCustomEvents>Visualizza evento personalizzato interessato</affectedCustomEvents>",
+    "customEventDeprecatedWarning_plural": "<strong>{{count}} eventi personalizzati su applicazione, servizio ed endpoint richiedono un'azione</strong><affectedCustomEvents>Visualizza eventi personalizzati interessati</affectedCustomEvents>",
+    "customEventDeprecatedWarning_0": "<strong>{{count}} eventi personalizzati su applicazione, servizio ed endpoint richiedono un'azione</strong><affectedCustomEvents>Visualizza eventi personalizzati interessati</affectedCustomEvents>",
+    "customEventDeprecatedWarning_1": "<strong>{{count}} eventi personalizzati su applicazione, servizio ed endpoint richiedono un'azione</strong><affectedCustomEvents>Visualizza eventi personalizzati interessati</affectedCustomEvents>",
+    "customEventDeprecatedWarning_2": "<strong>{{count}} eventi personalizzati su applicazione, servizio ed endpoint richiedono un'azione</strong><affectedCustomEvents>Visualizza eventi personalizzati interessati</affectedCustomEvents>"
   },
   "widgets": {
     "columnDefinitions": {

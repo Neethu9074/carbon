@@ -49,11 +49,14 @@
     "loadingData": "데이터 로드 중",
     "namespace": "네임스페이스",
     "pod": "팟(Pod)",
+    "podId": "팟(Pod) ID",
+    "podName": "팟(Pod) 이름",
     "deployment": "배치",
     "node": "노드",
     "cluster": "클러스터",
     "restartCount": "다시 시작 개수",
-    "kubernetesLabels": "Kubernetes 레이블"
+    "kubernetesLabels": "Kubernetes 레이블",
+    "podmanAnnotations": "Podman 주석"
   },
   "explore": {
     "beta": "베타",
@@ -64,6 +67,7 @@
     "name": "이름",
     "search": "유형 검색",
     "explore": "탐색",
+    "noIssues": "출고 없음",
     "count": "개수",
     "errors": {
       "maximumNumberOfGroups": "이 조회의 결과가 너무 많습니다. 더 제한적인 필터 또는 더 광범위한 그룹을 사용하여 범위를 좁히십시오.",

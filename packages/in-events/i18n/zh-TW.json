@@ -30,7 +30,17 @@
   "method": "方法：{{method}}",
   "host": "主機：{{host}}",
   "body": "內文：{{body}}",
+  "authType": "授權類型：{{authType}}",
   "headers": "標頭：",
+  "secretPath": "密鑰路徑",
+  "secretKey": "秘密金鑰",
+  "enterParameterValue": "輸入參數值",
+  "optional": "{{name}}（選用）",
+  "vault": "儲存庫",
+  "static": "靜態",
+  "parameters": "參數",
+  "noParametersTitle": "無參數",
+  "noParametersText": "此動作沒有任何參數。",
   "entityInfoPresenterDefaultLabel": "位於：",
   "entityInfoLabelOfService": "屬於服務：",
   "titleDetail": "詳細資料",
@@ -49,6 +59,7 @@
   "titleAnalyzePageLoads": "分析頁面載入",
   "titleAnalyzePageTransitions": "分析頁面轉移",
   "titleAnalyzeLoadTime": "分析載入時間",
+  "titleViewRelatedTestResults": "檢視相關的測試結果",
   "titleTime": "時間",
   "titleTriggered": "已觸發",
   "titleActive": "作用中",
@@ -138,6 +149,12 @@
   "releaseOccurName": "版本：{{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> 前）",
   "deprecatedCustomEventWarning": "<strong>從 2023 年 7 月（建置 253）開始，您將不再收到此 {{issueOrIncident}}</strong> 檢視事件配置以進行移轉。 <documentationLink>進一步閱讀我們的文件</documentationLink>",
+  "deprecatedCustomEventGlobalPopup": {
+    "title": "{{deprecatedCustomEvents}} 自訂事件需要動作",
+    "message": "「應用程式」、「服務」及「端點」上的自訂事件已淘汰。 從 <strong>2023 年 4 月（建置 246）</strong>開始，您將無法建立或更新這些類型的自訂事件<br /><br />從 <strong>2023 年 7 月（建置 253）</strong>開始，將移除這些類型的現有配置",
+    "documentationLink": "<documentationLink>進一步閱讀我們的文件</documentationLink>",
+    "affectedEventsLink": "檢視受影響的自訂事件"
+  },
   "ibmMqFileTransfer": {
     "transferID": "傳送 ID",
     "sourceAgent": "來源代理程式",
@@ -162,5 +179,8 @@
   },
   "infraSmartAlerts": {
     "pseudoAggregatedEntityLabel": "{{entityName}}（已聚集）"
+  },
+  "syntheticSmartAlerts": {
+    "failedStatusMetric": "失敗狀態"
   }
 }

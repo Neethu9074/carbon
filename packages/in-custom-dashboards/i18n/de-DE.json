@@ -104,6 +104,7 @@
     }
   },
   "widgets": {
+    "invalidWidgetTypeErrorMessage": "<strong>Ungültiger Widgettyp</strong><br/>Dieses Widget weist einen ungültigen Typ auf. Sie können den Typ korrigieren, indem Sie die JSON des Dashboards bearbeiten oder das Widget entfernen.",
     "metricConfig": {
       "groupingConfig": {
         "top": "Oberste {{number}}",

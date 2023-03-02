@@ -293,7 +293,8 @@
         "buttonDownload": "ダウンロード",
         "renderTimeSelectionTooltip": "ページ・ロードの詳細を閉じる",
         "referencedPageLoads": "参照されたページ・ロード"
-      }
+      },
+      "invalidTraceIdTagFilter": "バックエンド・トレースID「{{traceId}}」が無効です。 16文字または32 文字の有効なバックエンド・トレースIDを指定してください。"
     }
   },
   "definitions": {
@@ -327,6 +328,7 @@
     "inputStepParagraphGetStarted": "Web サイト・モニタリングを行うことで、Web サイトのパフォーマンスがユーザー・エクスペリエンスに与える影響を十分に把握できるようになります。  構成はシンプルです。",
     "inputStepLabelWebsiteName": "Web サイト名",
     "inputStepButtonAddWebsite": "Web サイトの追加",
+    "inputStepNewWebsiteTitle": "新規Webサイト",
     "readyStepTitleEverythingsReady": "すべての準備が完了しました。",
     "readyStepParagraphEverythingIsReadyToMonitorYourWebsite": "Web サイト <strong>{{websiteName}}</strong> をモニターする準備がすべて完了しました。 このスクリプトを HTML 文書の <code>{{httpHeadTag}}</code> にコピーしてください。 Web サイト・モニタリングおよびトラッキング・スクリプトの全機能に関する情報は<linkToDocs>こちらの資料</linkToDocs>をご覧ください。",
     "readyStepButtonGoToWebsiteDashboard": "Web サイト・ダッシュボードに移動",
@@ -363,12 +365,6 @@
       "overlaysCountryDisplayName": "国/地域",
       "globeViewTitle": "Web サイトの世界地図",
       "globViewFootertext": "NASA 提供の画像",
-      "websiteHealthIndicatorBehaviorNoIssues": "問題はありません",
-      "websiteHealthIndicatorBehaviorNumbersOfIssues": "{{count}} 件の問題",
-      "websiteHealthIndicatorBehaviorNumbersOfIssues_plural": "{{count}} 件の問題",
-      "websiteHealthIndicatorBehaviorNumbersOfIssues_0": "{{count}} 件の問題",
-      "websiteHealthIndicatorBehaviorNumbersOfIssues_1": "{{count}} 件の問題",
-      "websiteHealthIndicatorBehaviorNumbersOfIssues_2": "{{count}} 件の問題",
       "browserTopListTitle": "ブラウザー",
       "browserTopListLinkLabel": "すべてのブラウザーを表示",
       "effectiveConnectionTypeTopListTitle": "有効な接続タイプ",
@@ -467,10 +463,7 @@
         "moreFiltersWithCount": "さらに {{count}} 個のフィルター",
         "moreFiltersWithCount_plural": "さらに {{count}} 個のフィルター",
         "labelConfirmRemoveAlertConfigWithName": "アラート<strong>{{name}}</strong>を削除しますか？",
-        "alertEntityName": "アラート {{entityName}}",
-        "alertsLabelName": "名前",
         "alertsLabelFilters": "フィルター",
-        "alertsHeaderConfiguredAlerts": "構成済みアラート",
         "alertsNoDataMessage": "アラートが構成されていません。"
       },
       "configuration": {
@@ -564,7 +557,7 @@
         "stackTraceTranslationButtonAddConfiguration": "構成の追加",
         "stackTraceTranslationLabelFileDownloadConfiguration": "ファイル・ダウンロード構成 {{config}}",
         "stackTraceTranslationLabelFileUploadConfiguration": "ファイル・アップロード構成 {{config}}",
-        "stackTraceTranslationLabelOr": " または ",
+        "stackTraceTranslationLabelOr": "または",
         "configurationTitle": "構成",
         "configurationLabelOptions": "オプション",
         "configurationLabelPrivacy": "プライバシー",

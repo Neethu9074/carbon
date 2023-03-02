@@ -98,7 +98,8 @@
     "perBeaconTypeConfigs": {
       "customBatchingIndicatorTooltipContent": "Questo evento è stato eseguito in batch e rappresenta {{size}} eventi individuali.",
       "httpRequestBatchingIndicatorTooltipContent": "Questa richiesta HTTP è stata eseguita in batch e rappresenta {{size}} richieste HTTP individuali."
-    }
+    },
+    "invalidTraceIdTagFilter": "L'ID della traccia di backend \"{{traceId}}\" non è valido. Specificare un ID della traccia di backend valido che sia lungo 16 o 32 caratteri."
   },
   "beaconUserSum": {
     "userInfoTitle": "Informazioni sull'utente",
@@ -212,7 +213,9 @@
       "errorType": "Tipo di errore",
       "crashLabel": "Arresto anomalo",
       "metaHeader": "Meta",
-      "stackTrace": "Traccia di stack"
+      "stackTrace": "Traccia di stack",
+      "stackTraceButtonPrettyStackTrace": "Traccia di stack Pretty",
+      "stackTraceButtonRawStackTrace": "Traccia di stack non elaborata"
     },
     "tabsSumHttpRequestBeacon": {
       "retrievalTimeTooltip": "Tempo richiamo",

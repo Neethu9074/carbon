@@ -199,6 +199,7 @@
     "traceIdTooltip": "此追蹤的某些相關資料有所延遲，請稍後再重新載入頁面。舉例來說，當正在檢視最近的追蹤時，若其某些資料仍在處理中，就可能發生此情況。",
     "closeTraceDetail": "關閉追蹤明細",
     "invalidQueryConfig": "查詢配置無效。請先處理驗證失敗情況，再繼續進行。",
+    "invalidTraceIdTagFilter": "追蹤 ID \"{{traceId}}\" 無效。 請指定長度為 16 或 32 個字元的有效追蹤 ID。",
     "errorRateLabel": "錯誤呼叫（比率）",
     "errorRateCategory": "錯誤呼叫",
     "errorMetricLabel": "錯誤呼叫率",
@@ -568,7 +569,7 @@
         "erroneousCalls": "錯誤呼叫",
         "errorLogs": "錯誤日誌",
         "warnLogs": "警告日誌",
-        "latency": "延遲",
+        "duration": "持續時間",
         "timeline": "時間表",
         "serviceEndpointList": "服務端點清單",
         "largeTrace": "大型追蹤",
@@ -579,6 +580,10 @@
         "analyzeBeacons": "分析引標",
         "adjustedTimeConfig": "已將時間範圍調整為包括選取的引標。"
       }
+    },
+    "components": {
+      "callTreeHeaderParent": "載入母項呼叫",
+      "callTreeHeaderCalls": "載入更多呼叫"
     }
   },
   "tabs": {

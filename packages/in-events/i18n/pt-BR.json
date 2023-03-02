@@ -30,7 +30,17 @@
   "method": "Método: {{method}}",
   "host": "Host: {{host}}",
   "body": "Corpo: {{body}}",
+  "authType": "Tipo de autorização: {{authType}}",
   "headers": "Cabeçalhos:",
+  "secretPath": "Caminho do segredo",
+  "secretKey": "Chave secreta",
+  "enterParameterValue": "Inserir valor de parâmetro",
+  "optional": "{{name}} (opcional)",
+  "vault": "Área segura",
+  "static": "Estático",
+  "parameters": "Parâmetros",
+  "noParametersTitle": "Sem parâmetros",
+  "noParametersText": "Esta ação não tem nenhum parâmetro.",
   "entityInfoPresenterDefaultLabel": "Em: ",
   "entityInfoLabelOfService": "De serviço:",
   "titleDetail": "Detalhe",
@@ -49,6 +59,7 @@
   "titleAnalyzePageLoads": "Analisar carregamentos de página",
   "titleAnalyzePageTransitions": "Analisar transições de página",
   "titleAnalyzeLoadTime": "Analisar tempo de carga",
+  "titleViewRelatedTestResults": "Visualizar resultados de teste relacionados",
   "titleTime": "Horário",
   "titleTriggered": "Acionado",
   "titleActive": "Ativo",
@@ -138,6 +149,12 @@
   "releaseOccurName": "Liberação: {{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> atrás)",
   "deprecatedCustomEventWarning": "<strong>Você não receberá mais este {{issueOrIncident}} a partir de julho de 2023 (Construção 253)</strong>. Veja a Configuração do evento para migrá-lo. <documentationLink>Leia mais em nossa documentação</documentationLink>",
+  "deprecatedCustomEventGlobalPopup": {
+    "title": "{{deprecatedCustomEvents}} eventos customizados requerem ação",
+    "message": "Os eventos customizados no aplicativo, serviço e terminal foram descontinuados. Não será possível criar ou atualizar esses tipos de eventos customizados a partir de <strong>abril de 2023 (Construção 246)</strong><br /><br />As configurações existentes desses tipos serão removidas a partir de <strong>julho de 2023 (Construção 253)</strong>",
+    "documentationLink": "<documentationLink>Leia mais em nossa documentação</documentationLink>",
+    "affectedEventsLink": "Visualizar eventos customizados afetados"
+  },
   "ibmMqFileTransfer": {
     "transferID": "ID da transferência",
     "sourceAgent": "Agente de origem",
@@ -162,5 +179,8 @@
   },
   "infraSmartAlerts": {
     "pseudoAggregatedEntityLabel": "{{entityName}} (agregado)"
+  },
+  "syntheticSmartAlerts": {
+    "failedStatusMetric": "Status com falha"
   }
 }

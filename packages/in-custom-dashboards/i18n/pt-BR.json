@@ -104,6 +104,7 @@
     }
   },
   "widgets": {
+    "invalidWidgetTypeErrorMessage": "<strong>Tipo de widget inválido</strong><br/>Esse widget tem um tipo inválido, é possível corrigi-lo editando o JSON do painel ou removendo o widget.",
     "metricConfig": {
       "groupingConfig": {
         "top": "{{number}} superiores",

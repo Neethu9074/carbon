@@ -98,7 +98,8 @@
     "perBeaconTypeConfigs": {
       "customBatchingIndicatorTooltipContent": "このイベントはバッチ処理されました。{{size}} の個別のイベントを表しています。",
       "httpRequestBatchingIndicatorTooltipContent": "この HTTP 要求はバッチ処理され、{{size}} 個の個別の HTTP 要求を表します。"
-    }
+    },
+    "invalidTraceIdTagFilter": "バックエンド・トレースID「{{traceId}}」が無効です。 16文字または32 文字の有効なバックエンド・トレースIDを指定してください。"
   },
   "beaconUserSum": {
     "userInfoTitle": "ユーザー情報",
@@ -212,7 +213,9 @@
       "errorType": "エラー・タイプ",
       "crashLabel": "異常終了",
       "metaHeader": "メタ",
-      "stackTrace": "スタック・トレース"
+      "stackTrace": "スタック・トレース",
+      "stackTraceButtonPrettyStackTrace": "プリティー・スタック・トレース",
+      "stackTraceButtonRawStackTrace": "未加工のスタック・トレース"
     },
     "tabsSumHttpRequestBeacon": {
       "retrievalTimeTooltip": "取得時間",

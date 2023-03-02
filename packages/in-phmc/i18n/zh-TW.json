@@ -44,6 +44,7 @@
   "memAvailable": "可用記憶體 (MB)",
   "memAvailablePercentage": "可用記憶體 (%)",
   "assignedProc": "已指派的處理裝置數",
+  "assignedMemory": "已指派記憶體 (MB)",
   "drc": "DRC-索引",
   "id": "ID",
   "sentPackets": "傳送的封包數/秒",
@@ -90,7 +91,8 @@
     "phmcs": "電源 HMC",
     "systems": "系統",
     "logicalPartitions": "邏輯分割區",
-    "vios": "VIOS"
+    "vios": "VIOS",
+    "sharedProcessorPool": "共用處理器儲存區"
   },
   "dashboards": {
     "phmc": "pHMC",
@@ -125,6 +127,8 @@
     "virtualFiberChannelAdapter": "虛擬光纖通道配接卡",
     "sharedStoragePool": "共用儲存區",
     "energy": "能源",
-    "maxCpuUtilzation": "CPU 容量上限"
+    "maxCpuUtilzation": "CPU 容量上限",
+    "systemFirmwareUtilized": "系統韌體 - 使用的處理裝置數",
+    "systemFirmwareAssignedMem": "系統韌體 - 指派的記憶體"
   }
 }

@@ -3,6 +3,8 @@
     "createTest": {
       "dialogTitle": "Crea test sintetico",
       "noLocationFound": "Spiacenti. Nessuna ubicazione trovata",
+      "noApplicationsFound": "Nessuna applicazione trovata",
+      "noMatchingFound": "Nessuna applicazione corrispondente trovata",
       "titles": {
         "step1": "Passo 1: Selezionare il tipo",
         "step2": "Passo 2: Dettagli della richiesta",
@@ -23,14 +25,16 @@
         "popSubTitle": "PoP (Point of Presence)",
         "uploadScriptTitle": "Carica lo script",
         "failureToReadFileContent": "Impossibile leggere il contenuto del file: {{error}}",
-        "emptyScriptFileError": "Codice vuoto. Niente da convalidare."
+        "emptyScriptFileError": "Codice vuoto. Niente da convalidare.",
+        "enterTheScriptMessage": "Immettere lo script qui"
       },
       "basicDetails": {
         "title": "Qual è il nome di questo test di ping",
         "scriptTitle": "Qual è il nome di questo test di script HTTP",
         "labelName": "Nome del test",
         "labelDescription": "Descrizione",
-        "labelFrequency": "Frequenza"
+        "labelFrequency": "Frequenza",
+        "labelApplications": "Selezionare un'applicazione"
       },
       "bluePrint": {
         "pingApi": {
@@ -39,10 +43,6 @@
           "whenToUse": {
             "title": "Quando utilizzarlo?",
             "line1": "Utilizzare un test di azione HTTP per verificare una singola API Rest"
-          },
-          "whoShouldUse": {
-            "title": "Chi lo deve utilizzare?",
-            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
           },
           "tipsForUsing": {
             "title": "Consigli per l'uso",
@@ -57,9 +57,6 @@
           "headline": "Script HTTP",
           "whenToUse": {
             "line1": "Utilizza un test di script HTTP e uno script basato su Node.js per verificare la sequenza di più API Rest"
-          },
-          "whoShouldUse": {
-            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
           },
           "tipsForUsing": {
             "line1": "Passo 1: Scegliere il tipo di test che si desidera creare.",
@@ -107,18 +104,21 @@
       "mainLabel": "Monitoraggio sintetico",
       "secondaryLabels": {
         "tests": "Test",
-        "locations": "Ubicazioni"
+        "locations": "Ubicazioni",
+        "smartAlerts": "Avvisi smart"
       },
       "popDialog": {
-        "button": "<> Distribuisci un PoP",
+        "button": "Distribuire un PoP",
         "simpleTab": "Semplice",
         "redisTab": "TLS Redis",
         "title": "Comandi PoP sintetici",
         "subTitle": "Utilizzare questi modelli di codice come riferimento. Per ulteriori informazioni, consultare <documentationLink>Synthetic PoP Deployment</documentationLink>",
-        "simpleCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<yourPassword>\"",
-        "redisCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true",
-        "tlsInstructions": "Se si desidera abilitare TLS Redis, è necessario creare una cartella certs nel percorso radice del grafico Helm e copiare la propria coppia certificato-chiave (tls.crt, tls.key) e il file di certificato radice CA (ca.crt) nella cartella certs; i nomi file devono essere esattamente corrispondenti.\n\nSe non si dispone di propri file di chiave/certificato, è anche possibile utilizzare il comando openssl per generarne di nuovi; vedere gli esempi di seguito:",
-        "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt"
+        "simpleCode": "helm install synthetic-pop \\\n--repo \"https://agents.instana.io/helm\" \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<yourPassword>\" \\\nsynthetic-pop",
+        "redisCode": "helm install synthetic-pop \\\n--repo \"https://agents.instana.io/helm\" \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true \\\n--set redis.tls.secretName=\"syntheticpop-redis\" \\\nsynthetic-pop",
+        "tlsInstructions": "Se si desidera abilitare Redis TLS, è necessario disporre della propria coppia certificato-chiave X.509 (`tls.crt`, `tls.key`) e il file del certificato root CA (`ca.crt`).\n\nSe non si dispone dei file chiave/cert, è anche possibile utilizzare il comando openssl per generarne di nuovi, fare riferimento agli esempi seguenti:",
+        "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt",
+        "tlsSecretInstructions": "Una volta forniti i file chiave/cert, utilizzare il comando kubectl per creare un segreto.",
+        "tlsSecretConfigurations": "kubectl create secret generic syntheticpop-redis -n syn \\\n--type=\"kubernetes.io/tls\" \\\n--from-file=ca.crt=\"<path/to/ca.crt>\" \\\n--from-file=tls.crt=\"<path/to/tls.crt>\" \\\n--from-file=tls.key=\"<path/to/tls.key>\""
       },
       "testLabel": "Nome",
       "status": "Stato",
@@ -140,7 +140,7 @@
       "action": "Azione",
       "delete": "Elimina il test",
       "labelConfirm": "Confermare",
-      "labelConfirmRemoveTest": "Si è sicuri di voler rimuovere il test sintetico <strong>{{label}}</strong>?",
+      "labelConfirmRemoveTest": "Si è sicuri di voler rimuovere il test sintetico <strong>{{testLabel}}</strong>?",
       "labelRemove": "Rimuovi",
       "na": "N/D"
     },
@@ -194,7 +194,8 @@
         "gatewayTimeout": "Timeout del gateway"
       },
       "totalRuns": "Numero totale di esecuzioni: {{totalRuns}}",
-      "meanLatencyFor90th": "{{meanLatencyDetail}} per 90esimo"
+      "meanLatencyFor90th": "{{meanLatencyDetail}} per 90esimo",
+      "smartAlertsTab": "Avvisi smart"
     },
     "resultsListPage": {
       "startedColumn": "Avviato",
@@ -329,6 +330,14 @@
       "testSummaryDescription": "Non ci sono test sintetici richiamati dal database.",
       "locationListTitle": "Posizioni Non Sintetiche disponibili",
       "locationListDescription": "Non ci sono posizioni Synthetic richiamate dal database."
+    },
+    "alertList": {
+      "timeThreshold": "Soglia di errore",
+      "testsApplied": "Test applicati",
+      "filterApplied": "Filtro applicato",
+      "violationsCount": "{{violationsCount}} errori",
+      "testsCount": "{{testsCount}} test",
+      "numberOfFailures": "Generazione di avvisi di errore"
     }
   }
 }

@@ -293,7 +293,8 @@
         "buttonDownload": "下载",
         "renderTimeSelectionTooltip": "关闭页面加载详细信息",
         "referencedPageLoads": "引用页面加载数"
-      }
+      },
+      "invalidTraceIdTagFilter": "后端跟踪标识“{{traceId}}”无效。 请指定长度为 16 或 32 个字符的有效后端跟踪标识。"
     }
   },
   "definitions": {
@@ -327,6 +328,7 @@
     "inputStepParagraphGetStarted": "开始使用 Web 站点监视功能，以便更好地了解 Web 站点性能对用户体验的影响。配置非常简单！",
     "inputStepLabelWebsiteName": "Web 站点名称",
     "inputStepButtonAddWebsite": "添加 Web 站点",
+    "inputStepNewWebsiteTitle": "新建 Web 站点",
     "readyStepTitleEverythingsReady": "一切准备就绪！",
     "readyStepParagraphEverythingIsReadyToMonitorYourWebsite": "一切准备就绪，可监控您的 Web 站点 <strong>{{websiteName}}</strong>。将此脚本复制到 HTML 文档的 <code>{{httpHeadTag}}</code>。有关 Web 站点监控以及跟踪脚本完整功能的信息位于<linkToDocs>我们的文档</linkToDocs>中。",
     "readyStepButtonGoToWebsiteDashboard": "转至 Web 站点仪表板",
@@ -363,12 +365,6 @@
       "overlaysCountryDisplayName": "国家/地区",
       "globeViewTitle": "Web 站点世界地球仪",
       "globViewFootertext": "NASA 提供的图像",
-      "websiteHealthIndicatorBehaviorNoIssues": "无问题",
-      "websiteHealthIndicatorBehaviorNumbersOfIssues": "{{count}} 个问题",
-      "websiteHealthIndicatorBehaviorNumbersOfIssues_plural": "{{count}} 个问题",
-      "websiteHealthIndicatorBehaviorNumbersOfIssues_0": "{{count}} 个问题",
-      "websiteHealthIndicatorBehaviorNumbersOfIssues_1": "{{count}} 个问题",
-      "websiteHealthIndicatorBehaviorNumbersOfIssues_2": "{{count}} 个问题",
       "browserTopListTitle": "浏览器",
       "browserTopListLinkLabel": "查看所有浏览器",
       "effectiveConnectionTypeTopListTitle": "有效连接类型",
@@ -467,10 +463,7 @@
         "moreFiltersWithCount": "+其他 {{count}} 个过滤器",
         "moreFiltersWithCount_plural": "+其他 {{count}} 个过滤器",
         "labelConfirmRemoveAlertConfigWithName": "确定要除去警报 <strong>{{name}}</strong> 吗？",
-        "alertEntityName": "警报 {{entityName}}",
-        "alertsLabelName": "名称",
         "alertsLabelFilters": "过滤器",
-        "alertsHeaderConfiguredAlerts": "已配置的警报",
         "alertsNoDataMessage": "未配置任何警报。"
       },
       "configuration": {
@@ -564,7 +557,7 @@
         "stackTraceTranslationButtonAddConfiguration": "添加配置",
         "stackTraceTranslationLabelFileDownloadConfiguration": "文件下载配置 {{config}}",
         "stackTraceTranslationLabelFileUploadConfiguration": "文件上载配置 {{config}}",
-        "stackTraceTranslationLabelOr": " 或 ",
+        "stackTraceTranslationLabelOr": "或",
         "configurationTitle": "配置",
         "configurationLabelOptions": "选项",
         "configurationLabelPrivacy": "隐私",

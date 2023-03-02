@@ -104,6 +104,7 @@
     }
   },
   "widgets": {
+    "invalidWidgetTypeErrorMessage": "<strong>無效小組件類型</strong><br/>此小組件具有無效類型，您可以透過編輯儀表板 JSON 或移除小組件來修正它。",
     "metricConfig": {
       "groupingConfig": {
         "top": "前 {{number}}",

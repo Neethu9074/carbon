@@ -199,6 +199,7 @@
     "traceIdTooltip": "Alcuni dati correlati a questa traccia sono ritardati, pertanto ricaricare la pagina tra qualche minuto. Un esempio di questa situazione è la visualizzazione di una traccia molto recente con alcuni di tali dati ancora in fase di elaborazione.",
     "closeTraceDetail": "Chiudi dettagli traccia",
     "invalidQueryConfig": "La configurazione della query non è valida. Correggere gli errori di convalida prima di continuare.",
+    "invalidTraceIdTagFilter": "L'ID traccia \"{{traceId}}\" non è valido. Specificare un ID traccia valido con una lunghezza di 16 o 32 caratteri.",
     "errorRateLabel": "Chiamate con errori (tasso)",
     "errorRateCategory": "Chiamate con errori",
     "errorMetricLabel": "Tasso di chiamate con errori",
@@ -568,7 +569,7 @@
         "erroneousCalls": "Chiamate con errori",
         "errorLogs": "Log di errore",
         "warnLogs": "Log di avvertenza",
-        "latency": "Latenza",
+        "duration": "Durata",
         "timeline": "Sequenza temporale",
         "serviceEndpointList": "Elenco endpoint di servizio",
         "largeTrace": "Traccia di grande dimensioni",
@@ -579,6 +580,10 @@
         "analyzeBeacons": "Analizza beacon",
         "adjustedTimeConfig": "L'intervallo di tempo è stato adattato per includere il beacon selezionato."
       }
+    },
+    "components": {
+      "callTreeHeaderParent": "Carica chiamata parent",
+      "callTreeHeaderCalls": "Carica altre chiamate"
     }
   },
   "tabs": {

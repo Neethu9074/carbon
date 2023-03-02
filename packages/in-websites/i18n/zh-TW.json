@@ -293,7 +293,8 @@
         "buttonDownload": "下載",
         "renderTimeSelectionTooltip": "關閉頁面載入詳細資料",
         "referencedPageLoads": "參照頁面載入"
-      }
+      },
+      "invalidTraceIdTagFilter": "後端追蹤 ID \"{{traceId}}\" 無效。 請指定長度為 16 或 32 個字元的有效後端追蹤 ID。"
     }
   },
   "definitions": {
@@ -327,6 +328,7 @@
     "inputStepParagraphGetStarted": "著手進行網站監視，以充分瞭解您的網站效能如何影響使用者體驗。配置很簡單！",
     "inputStepLabelWebsiteName": "網站名稱",
     "inputStepButtonAddWebsite": "新增網站",
+    "inputStepNewWebsiteTitle": "新建網站",
     "readyStepTitleEverythingsReady": "一切就緒！",
     "readyStepParagraphEverythingIsReadyToMonitorYourWebsite": "一切都就緒，可開始監視您的網站 <strong>{{websiteName}}</strong>。請將此 Script 複製到 HTML 文件的 <code>{{httpHeadTag}}</code>。有關網站監視和追蹤 Script 完整功能的相關資訊位於<linkToDocs>我們的文件內</linkToDocs>。",
     "readyStepButtonGoToWebsiteDashboard": "移至網站儀表板",
@@ -363,12 +365,6 @@
       "overlaysCountryDisplayName": "國家/地區",
       "globeViewTitle": "網站世界地球儀",
       "globViewFootertext": "NASA 所提供的影像",
-      "websiteHealthIndicatorBehaviorNoIssues": "沒有問題",
-      "websiteHealthIndicatorBehaviorNumbersOfIssues": "{{count}} 個問題",
-      "websiteHealthIndicatorBehaviorNumbersOfIssues_plural": "{{count}} 個問題",
-      "websiteHealthIndicatorBehaviorNumbersOfIssues_0": "{{count}} 個問題",
-      "websiteHealthIndicatorBehaviorNumbersOfIssues_1": "{{count}} 個問題",
-      "websiteHealthIndicatorBehaviorNumbersOfIssues_2": "{{count}} 個問題",
       "browserTopListTitle": "瀏覽器",
       "browserTopListLinkLabel": "檢視所有瀏覽器",
       "effectiveConnectionTypeTopListTitle": "有效連線類型",
@@ -467,10 +463,7 @@
         "moreFiltersWithCount": "+{{count}} 個以上的過濾器",
         "moreFiltersWithCount_plural": "+{{count}} 個以上的過濾器",
         "labelConfirmRemoveAlertConfigWithName": "您確定要移除警示 <strong>{{name}}</strong> 嗎？",
-        "alertEntityName": "警示 {{entityName}}",
-        "alertsLabelName": "名稱",
         "alertsLabelFilters": "過濾器",
-        "alertsHeaderConfiguredAlerts": "配置的警示",
         "alertsNoDataMessage": "未配置警示。"
       },
       "configuration": {
@@ -564,7 +557,7 @@
         "stackTraceTranslationButtonAddConfiguration": "新增配置",
         "stackTraceTranslationLabelFileDownloadConfiguration": "檔案下載配置 {{config}}",
         "stackTraceTranslationLabelFileUploadConfiguration": "檔案上傳配置 {{config}}",
-        "stackTraceTranslationLabelOr": " 或 ",
+        "stackTraceTranslationLabelOr": "或",
         "configurationTitle": "配置",
         "configurationLabelOptions": "選項",
         "configurationLabelPrivacy": "隱私權",

@@ -535,6 +535,14 @@
       "entityTitle": "Ámbito",
       "titleBuiltInIndicator": "Incorporado"
     },
+    "list": {
+      "header": {
+        "configuredAlerts": "Alertas configuradas ({{numberOfAlerts}})"
+      },
+      "columns": {
+        "name": "Nombre"
+      }
+    },
     "form": {
       "ruleAggregationOptionMEAN": "media",
       "ruleAggregationOptionMIN": "mín",
@@ -986,7 +994,18 @@
         "searchCustomEventButtonLabel": "Seleccionar suceso personalizado",
         "customEventListInfoLabel": "Mostrando sucesos personalizados que se han desencadenado en los últimos 7 días"
       },
-      "addSmartAlert": "Añadir alerta inteligente"
+      "addSmartAlert": "Añadir alerta inteligente",
+      "list": {
+        "columns": {
+          "name": {
+            "subtitle": "{{blueprintConfigName}}, {{metricLabel}}",
+            "subtitleForStaticThreshold": "Umbral estático, {{metricLabel}} {{operator}} {{value}}",
+            "subtitleForStaticDailySeasonality": "Estacionalidad diaria estática, {{metricLabel}}",
+            "subtitleForStaticWeeklySeasonality": "Estacionalidad semanal estática, {{metricLabel}}",
+            "subtitleForAdaptiveThreshold": "Umbral adaptable, {{metricLabel}}"
+          }
+        }
+      }
     },
     "sortOptions": {
       "name": "Nombre",
@@ -1007,6 +1026,14 @@
       "markAsMigratedButtonConfirmationConfirmLabel": "Confirmar"
     },
     "enable": "Habilitar",
-    "disable": "Inhabilitar"
+    "disable": "Inhabilitar",
+    "synthetics": {
+      "alertList": {
+        "timeThreshold": "Umbral de error",
+        "filterApplied": "Filtro aplicado",
+        "violationsCount": "{{violationsCount}} anomalías",
+        "numberOfFailures": "Alerta de anomalía"
+      }
+    }
   }
 }

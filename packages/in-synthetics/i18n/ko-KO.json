@@ -3,6 +3,8 @@
     "createTest": {
       "dialogTitle": "합성 테스트 작성",
       "noLocationFound": "죄송합니다! 위치를 발견할 수 없음",
+      "noApplicationsFound": "발견된 애플리케이션이 없음",
+      "noMatchingFound": "일치하는 애플리케이션이 없습니다.",
       "titles": {
         "step1": "단계 1: 유형 선택",
         "step2": "단계 2: 세부사항 요청",
@@ -23,14 +25,16 @@
         "popSubTitle": "접속 위치",
         "uploadScriptTitle": "스크립트 업로드",
         "failureToReadFileContent": "파일 컨텐츠 읽기 실패: {{error}}",
-        "emptyScriptFileError": "코드가 비어 있습니다. 유효성을 검증할 항목이 없습니다."
+        "emptyScriptFileError": "코드가 비어 있습니다. 유효성을 검증할 항목이 없습니다.",
+        "enterTheScriptMessage": "여기에 스크립트 입력"
       },
       "basicDetails": {
         "title": "ping 테스트 이름",
         "scriptTitle": "이 HTTP 스크립트 테스트의 이름은 무엇입니까",
         "labelName": "테스트 이름",
         "labelDescription": "설명",
-        "labelFrequency": "빈도"
+        "labelFrequency": "빈도",
+        "labelApplications": "애플리케이션을 선택하십시오"
       },
       "bluePrint": {
         "pingApi": {
@@ -39,10 +43,6 @@
           "whenToUse": {
             "title": "사용 시기",
             "line1": "HTTP Action 테스트를 사용하여 단일 REST API 테스트"
-          },
-          "whoShouldUse": {
-            "title": "사용자",
-            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
           },
           "tipsForUsing": {
             "title": "사용 팁",
@@ -57,9 +57,6 @@
           "headline": "HTTP 스크립트",
           "whenToUse": {
             "line1": "HTTP 스크립트 테스트 및 Node.js 기반 스크립트를 사용하여 여러 REST API 시퀀스를 테스트하십시오."
-          },
-          "whoShouldUse": {
-            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
           },
           "tipsForUsing": {
             "line1": "1단계: 작성할 테스트 유형을 선택하십시오.",
@@ -107,18 +104,21 @@
       "mainLabel": "합성 모니터링",
       "secondaryLabels": {
         "tests": "테스트",
-        "locations": "위치"
+        "locations": "위치",
+        "smartAlerts": "스마트 경보"
       },
       "popDialog": {
-        "button": "<> PoP 배치",
+        "button": "PoP 배치",
         "simpleTab": "단순",
         "redisTab": "Redis TLS",
         "title": "합성 PoP 명령",
         "subTitle": "이 코드 템플리트를 참조로 사용하십시오. 자세한 정보는 <documentationLink>Synthetic PoP 배치</documentationLink>를 참조하십시오.",
-        "simpleCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<yourPassword>\"",
-        "redisCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true",
-        "tlsInstructions": "Redis TLS를 사용으로 설정하려면 Helm 차트 루트 경로 아래에 certs 폴더를 작성하고 인증서 키 쌍(tls.crt, tls.key) 및 CA 루트 인증서 파일(ca.crt)을 certs 폴더로 복사해야 하며 파일 이름이 정확히 일치해야 합니다.\n\n키/인증서 파일이 없는 경우 openssl 명령을 사용하여 새 파일을 생성할 수도 있습니다. 아래 예를 참조하십시오.",
-        "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt"
+        "simpleCode": "helm install synthetic-pop \\\n--repo \"https://agents.instana.io/helm\" \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<yourPassword>\" \\\nsynthetic-pop",
+        "redisCode": "helm install synthetic-pop \\\n--repo \"https://agents.instana.io/helm\" \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true \\\n--set redis.tls.secretName=\"syntheticpop-redis\" \\\nsynthetic-pop",
+        "tlsInstructions": "Redis TLS를 사용하려면 X.509 인증서 키 쌍(`tls.crt`, `tls.key`) 및 CA 루트 인증서 파일(`ca.crt`)이 있어야 합니다.\n\n키/인증서 파일이 없는 경우, openssl 명령을 사용하여 새 파일을 생성할 수도 있습니다.",
+        "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt",
+        "tlsSecretInstructions": "키/인증서 파일이 제공된 후에는 kubectl 명령을 사용하여 비밀을 작성합니다.",
+        "tlsSecretConfigurations": "kubectl create secret generic syntheticpop-redis -n syn \\\n--type=\"kubernetes.io/tls\" \\\n--from-file=ca.crt=\"<path/to/ca.crt>\" \\\n--from-file=tls.crt=\"<path/to/tls.crt>\" \\\n--from-file=tls.key=\"<path/to/tls.key>\""
       },
       "testLabel": "이름",
       "status": "상태",
@@ -140,7 +140,7 @@
       "action": "조치",
       "delete": "이 테스트를 삭제",
       "labelConfirm": "확인하십시오.",
-      "labelConfirmRemoveTest": "합성 테스트 <strong>{{label}}</strong>을(를) 제거하시겠습니까?",
+      "labelConfirmRemoveTest": "합성 테스트 <strong>{{testLabel}}</strong>을(를) 제거하시겠습니까?",
       "labelRemove": "제거",
       "na": "해당사항 없음"
     },
@@ -194,7 +194,8 @@
         "gatewayTimeout": "게이트웨이 시간 초과"
       },
       "totalRuns": "{{totalRuns}}개의 총 실행",
-      "meanLatencyFor90th": "90번째: {{meanLatencyDetail}}"
+      "meanLatencyFor90th": "90번째: {{meanLatencyDetail}}",
+      "smartAlertsTab": "스마트 경보"
     },
     "resultsListPage": {
       "startedColumn": "시작됨",
@@ -329,6 +330,14 @@
       "testSummaryDescription": "데이터베이스에서 검색된 합성 테스트가 없습니다.",
       "locationListTitle": "사용 가능한 합성 위치가 없음",
       "locationListDescription": "데이터베이스에서 검색된 합성 위치가 없습니다."
+    },
+    "alertList": {
+      "timeThreshold": "실패 임계값",
+      "testsApplied": "적용된 테스트 수",
+      "filterApplied": "필터 적용됨",
+      "violationsCount": "{{violationsCount}} 실패",
+      "testsCount": "{{testsCount}} 테스트",
+      "numberOfFailures": "실패 경보"
     }
   }
 }

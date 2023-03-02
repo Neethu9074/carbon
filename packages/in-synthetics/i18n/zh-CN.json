@@ -3,6 +3,8 @@
     "createTest": {
       "dialogTitle": "创建合成测试",
       "noLocationFound": "对不起！找不到任何位置",
+      "noApplicationsFound": "找不到应用程序",
+      "noMatchingFound": "找不到匹配的应用程序",
       "titles": {
         "step1": "步骤 1：选择类型",
         "step2": "步骤 2：请求详细信息",
@@ -23,14 +25,16 @@
         "popSubTitle": "接入点",
         "uploadScriptTitle": "上载脚本",
         "failureToReadFileContent": "未能读取文件内容：{{error}}",
-        "emptyScriptFileError": "空代码。 没有要验证的内容。"
+        "emptyScriptFileError": "空代码。 没有要验证的内容。",
+        "enterTheScriptMessage": "在此处输入脚本"
       },
       "basicDetails": {
         "title": "此 ping 测试的名称是什么",
         "scriptTitle": "此 HTTP 脚本测试的名称",
         "labelName": "测试的名称",
         "labelDescription": "描述",
-        "labelFrequency": "频率"
+        "labelFrequency": "频率",
+        "labelApplications": "选择应用程序"
       },
       "bluePrint": {
         "pingApi": {
@@ -39,10 +43,6 @@
           "whenToUse": {
             "title": "何时使用？",
             "line1": "使用 HTTP 操作测试来测试单个 Rest API"
-          },
-          "whoShouldUse": {
-            "title": "谁应该使用？",
-            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
           },
           "tipsForUsing": {
             "title": "使用提示",
@@ -57,9 +57,6 @@
           "headline": "HTTP 脚本",
           "whenToUse": {
             "line1": "使用 HTTP 脚本测试和基于 Node.js 的脚本来测试多个 Rest API 的序列"
-          },
-          "whoShouldUse": {
-            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
           },
           "tipsForUsing": {
             "line1": "步骤 1：选择要创建的测试类型。",
@@ -107,18 +104,21 @@
       "mainLabel": "合成监视",
       "secondaryLabels": {
         "tests": "测试",
-        "locations": "位置"
+        "locations": "位置",
+        "smartAlerts": "智能警报"
       },
       "popDialog": {
-        "button": "<> 部署 PoP",
+        "button": "部署 PoP",
         "simpleTab": "简单",
         "redisTab": "Redis TLS",
         "title": "合成的 PoP 命令",
         "subTitle": "请使用这些代码模板作为参考。 有关更多信息，请参阅<documentationLink>合成 PoP 部署</documentationLink>",
-        "simpleCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<yourPassword>\"",
-        "redisCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true",
-        "tlsInstructions": "如果要启用 Redis TLS，需要在 Helm Chart 根路径下创建 certs 文件夹，并将证书/密钥对 (tls.crt, tls.key) 和 CA 根证书文件 (ca.crt) 复制到 certs 文件夹中，文件名必须完全匹配。\n\n如果您没有密钥/证书文件，那么还可以使用 openssl 命令生成新的密钥/证书文件，请参阅以下示例：",
-        "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt"
+        "simpleCode": "helm install synthetic-pop \\\n--repo \"https://agents.instana.io/helm\" \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<yourPassword>\" \\\nsynthetic-pop",
+        "redisCode": "helm install synthetic-pop \\\n--repo \"https://agents.instana.io/helm\" \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true \\\n--set redis.tls.secretName=\"syntheticpop-redis\" \\\nsynthetic-pop",
+        "tlsInstructions": "如果要启用 Redis TLS，那么需要具有 X.509 证书密钥对（“tls.crt”、“tls.key”）和 CA 根证书文件（“ca.crt”）。\n\n如果您没有密钥/证书文件，那么还可以使用 openssl 命令来生成新的密钥/证书文件，请参阅以下示例：",
+        "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt",
+        "tlsSecretInstructions": "提供密钥/证书文件后，使用 kubectl 命令创建私钥。",
+        "tlsSecretConfigurations": "kubectl create secret generic syntheticpop-redis -n syn \\\n--type=\"kubernetes.io/tls\" \\\n--from-file=ca.crt=\"<path/to/ca.crt>\" \\\n--from-file=tls.crt=\"<path/to/tls.crt>\" \\\n--from-file=tls.key=\"<path/to/tls.key>\""
       },
       "testLabel": "名称",
       "status": "状态",
@@ -140,7 +140,7 @@
       "action": "操作",
       "delete": "删除测试",
       "labelConfirm": "请确认",
-      "labelConfirmRemoveTest": "是否确定要除去合成测试 <strong>{{label}}</strong>？",
+      "labelConfirmRemoveTest": "确定要移除合成测试 <strong>{{testLabel}}</strong> 吗？",
       "labelRemove": "除去",
       "na": "不适用"
     },
@@ -194,7 +194,8 @@
         "gatewayTimeout": "网关超时"
       },
       "totalRuns": "{{totalRuns}} 总运行次数",
-      "meanLatencyFor90th": "第 90 个的 {{meanLatencyDetail}}"
+      "meanLatencyFor90th": "第 90 个的 {{meanLatencyDetail}}",
+      "smartAlertsTab": "智能警报"
     },
     "resultsListPage": {
       "startedColumn": "已启动",
@@ -329,6 +330,14 @@
       "testSummaryDescription": "未从数据库检索到任何合成测试。",
       "locationListTitle": "没有可用的合成位置",
       "locationListDescription": "没有从数据库中检索到合成位置。"
+    },
+    "alertList": {
+      "timeThreshold": "故障阈值",
+      "testsApplied": "已应用的测试",
+      "filterApplied": "已应用的过滤器",
+      "violationsCount": "{{violationsCount}} 个故障",
+      "testsCount": "{{testsCount}} 个测试",
+      "numberOfFailures": "故障警报"
     }
   }
 }

@@ -104,6 +104,7 @@
     }
   },
   "widgets": {
+    "invalidWidgetTypeErrorMessage": "<strong>Type de widget non valide</strong><br/>Le type de ce widget n'est pas valide. Vous pouvez le corriger en éditant le fichier JSON du tableau de bord ou en retirant le widget.",
     "metricConfig": {
       "groupingConfig": {
         "top": "{{number}} premiers",

@@ -89,7 +89,11 @@
     "websites": "Websites",
     "mobileApps": "Mobile Apps",
     "websitesMobileApps": "Websites und mobile Apps",
-    "customEventDeprecatedWarning": "<strong>{{deprecatedCustomEvents}} Für die benutzerdefinierten Ereignisse 'Anwendung', 'Service' und 'Endpunkt' ist eine Aktion erforderlich</strong><affectedCustomEvents>Betroffene benutzerdefinierte Ereignisse anzeigen</affectedCustomEvents>"
+    "customEventDeprecatedWarning": "<strong>{{count}} Angepasstes Ereignis für Anwendung, Service und Endpunkt erfordert eine Aktion</strong><affectedCustomEvents>Betroffenes angepasstes Ereignis anzeigen</affectedCustomEvents>",
+    "customEventDeprecatedWarning_plural": "<strong>{{count}} Angepasste Ereignisse für Anwendung, Service und Endpunkt erfordern eine Aktion</strong><affectedCustomEvents>Betroffene angepasste Ereignisse anzeigen</affectedCustomEvents>",
+    "customEventDeprecatedWarning_0": "<strong>{{count}} Angepasste Ereignisse für Anwendung, Service und Endpunkt erfordern eine Aktion</strong><affectedCustomEvents>Betroffene angepasste Ereignisse anzeigen</affectedCustomEvents>",
+    "customEventDeprecatedWarning_1": "<strong>{{count}} Angepasste Ereignisse für Anwendung, Service und Endpunkt erfordern eine Aktion</strong><affectedCustomEvents>Betroffene angepasste Ereignisse anzeigen</affectedCustomEvents>",
+    "customEventDeprecatedWarning_2": "<strong>{{count}} Angepasste Ereignisse für Anwendung, Service und Endpunkt erfordern eine Aktion</strong><affectedCustomEvents>Betroffene angepasste Ereignisse anzeigen</affectedCustomEvents>"
   },
   "widgets": {
     "columnDefinitions": {

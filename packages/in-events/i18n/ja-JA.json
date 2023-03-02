@@ -30,7 +30,17 @@
   "method": "メソッド: {{method}}",
   "host": "ホスト: {{host}}",
   "body": "本文: {{body}}",
+  "authType": "許可タイプ: {{authType}}",
   "headers": "ヘッダー:",
+  "secretPath": "秘密パス",
+  "secretKey": "秘密鍵",
+  "enterParameterValue": "パラメーター値の入力",
+  "optional": "{{name}} (オプション)",
+  "vault": "ボールト",
+  "static": "静的",
+  "parameters": "パラメーター",
+  "noParametersTitle": "パラメーターはありません。",
+  "noParametersText": "このアクションにはパラメーターはありません。",
   "entityInfoPresenterDefaultLabel": "対象:",
   "entityInfoLabelOfService": "サービス:",
   "titleDetail": "詳細",
@@ -49,6 +59,7 @@
   "titleAnalyzePageLoads": "ページ・ロードの分析",
   "titleAnalyzePageTransitions": "ページ遷移の分析",
   "titleAnalyzeLoadTime": "ロード時間の分析",
+  "titleViewRelatedTestResults": "関連テスト結果の表示",
   "titleTime": "時刻",
   "titleTriggered": "トリガー済み",
   "titleActive": "アクティブ",
@@ -138,6 +149,12 @@
   "releaseOccurName": "リリース: {{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> 前)",
   "deprecatedCustomEventWarning": "<strong>2023 年 7 月 (ビルド 253) 以降、この {{issueOrIncident}} は受け取りません</strong> イベント構成を表示してマイグレーションします。 <documentationLink>詳しくは資料をご覧ください</documentationLink>",
+  "deprecatedCustomEventGlobalPopup": {
+    "title": "{{deprecatedCustomEvents}}カスタム・イベントにはアクションが必要です",
+    "message": "アプリケーション、サービス、およびエンドポイントのカスタム・イベントは推奨されません。 これらのタイプのカスタム・イベントは<strong>2023年4月(ビルド246)</strong>より、作成と更新ができなくなります<br /><br />これらのタイプの既存の構成は、<strong>2023年7月(ビルド253)</strong>より、削除されます",
+    "documentationLink": "<documentationLink>詳しくは資料をご覧ください</documentationLink>",
+    "affectedEventsLink": "影響を受けるカスタム・イベントの表示"
+  },
   "ibmMqFileTransfer": {
     "transferID": "転送 ID",
     "sourceAgent": "ソース・エージェント",
@@ -162,5 +179,8 @@
   },
   "infraSmartAlerts": {
     "pseudoAggregatedEntityLabel": "{{entityName}} (集約)"
+  },
+  "syntheticSmartAlerts": {
+    "failedStatusMetric": "失敗状況"
   }
 }

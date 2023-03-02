@@ -44,6 +44,7 @@
   "memAvailable": "사용 가능한 메모리(MB)",
   "memAvailablePercentage": "사용 가능한 메모리(%)",
   "assignedProc": "지정된 처리 장치",
+  "assignedMemory": "지정된 메모리(MB)",
   "drc": "DRC-색인",
   "id": "ID",
   "sentPackets": "송신된 패킷/초",
@@ -90,7 +91,8 @@
     "phmcs": "전원 HMC",
     "systems": "시스템",
     "logicalPartitions": "논리 파티션",
-    "vios": "VIOS"
+    "vios": "VIOS",
+    "sharedProcessorPool": "공유 프로세서 풀"
   },
   "dashboards": {
     "phmc": "pHMC",
@@ -125,6 +127,8 @@
     "virtualFiberChannelAdapter": "가상 파이버 채널 어댑터",
     "sharedStoragePool": "공유 스토리지 풀",
     "energy": "에너지",
-    "maxCpuUtilzation": "최대 CPU 용량"
+    "maxCpuUtilzation": "최대 CPU 용량",
+    "systemFirmwareUtilized": "시스템 펌웨어 - 활용한 처리 장치",
+    "systemFirmwareAssignedMem": "시스템 펌웨어 - 지정된 메모리"
   }
 }

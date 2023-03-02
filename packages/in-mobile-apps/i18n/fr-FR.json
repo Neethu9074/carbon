@@ -98,7 +98,8 @@
     "perBeaconTypeConfigs": {
       "customBatchingIndicatorTooltipContent": "Cet événement a été traités par lots et représente {{size}} événements individuels.",
       "httpRequestBatchingIndicatorTooltipContent": "Cette demande HTTP est traitée par lots et représente {{size}} requêtes HTTP individuelles."
-    }
+    },
+    "invalidTraceIdTagFilter": "L'ID de trace de back end \"{{traceId}}\" n'est pas valide. Spécifiez un ID de trace de back end valide de 16 ou 32 caractères."
   },
   "beaconUserSum": {
     "userInfoTitle": "Informations utilisateur",
@@ -212,7 +213,9 @@
       "errorType": "Type d'erreur",
       "crashLabel": "Panne",
       "metaHeader": "Méta",
-      "stackTrace": "StackTrace"
+      "stackTrace": "StackTrace",
+      "stackTraceButtonPrettyStackTrace": "Trace de pile formatée",
+      "stackTraceButtonRawStackTrace": "Trace de pile brute"
     },
     "tabsSumHttpRequestBeacon": {
       "retrievalTimeTooltip": "Temps d'extraction",

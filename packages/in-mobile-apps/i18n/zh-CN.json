@@ -98,7 +98,8 @@
     "perBeaconTypeConfigs": {
       "customBatchingIndicatorTooltipContent": "此事件已进行批处理，并表示 {{size}} 个单独事件。",
       "httpRequestBatchingIndicatorTooltipContent": "此 HTTP 请求已进行批处理，并表示 {{size}} 个单独 HTTP 请求。"
-    }
+    },
+    "invalidTraceIdTagFilter": "后端跟踪标识“{{traceId}}”无效。 请指定长度为 16 或 32 个字符的有效后端跟踪标识。"
   },
   "beaconUserSum": {
     "userInfoTitle": "用户信息",
@@ -212,7 +213,9 @@
       "errorType": "错误类型",
       "crashLabel": "崩溃",
       "metaHeader": "元",
-      "stackTrace": "堆栈跟踪"
+      "stackTrace": "堆栈跟踪",
+      "stackTraceButtonPrettyStackTrace": "漂亮的堆栈跟踪",
+      "stackTraceButtonRawStackTrace": "原始堆栈跟踪"
     },
     "tabsSumHttpRequestBeacon": {
       "retrievalTimeTooltip": "检索时间",

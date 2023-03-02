@@ -98,7 +98,8 @@
     "perBeaconTypeConfigs": {
       "customBatchingIndicatorTooltipContent": "Este evento foi em lote e representa {{size}} eventos individuais.",
       "httpRequestBatchingIndicatorTooltipContent": "Esta solicitação de HTTP está em lote representa {{size}} solicitações de HTTP individuais."
-    }
+    },
+    "invalidTraceIdTagFilter": "O ID de rastreio de back-end \"{{traceId}}\" é inválido. Especifique um ID de rastreio de back-end válido que tenha 16 ou 32 caracteres."
   },
   "beaconUserSum": {
     "userInfoTitle": "Informações sobre o usuário",
@@ -212,7 +213,9 @@
       "errorType": "Tipo de erro",
       "crashLabel": "Travamento",
       "metaHeader": "Meta",
-      "stackTrace": "Rastreio de pilha"
+      "stackTrace": "Rastreio de pilha",
+      "stackTraceButtonPrettyStackTrace": "Rastreio de pilha considerável",
+      "stackTraceButtonRawStackTrace": "Rastreio de pilha bruto"
     },
     "tabsSumHttpRequestBeacon": {
       "retrievalTimeTooltip": "Tempo de recuperação",

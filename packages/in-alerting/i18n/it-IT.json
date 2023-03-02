@@ -535,6 +535,14 @@
       "entityTitle": "Ambito",
       "titleBuiltInIndicator": "Integrato"
     },
+    "list": {
+      "header": {
+        "configuredAlerts": "Avvisi configurati ({{numberOfAlerts}})"
+      },
+      "columns": {
+        "name": "Nome"
+      }
+    },
     "form": {
       "ruleAggregationOptionMEAN": "media",
       "ruleAggregationOptionMIN": "min",
@@ -986,7 +994,18 @@
         "searchCustomEventButtonLabel": "Seleziona evento personalizzato",
         "customEventListInfoLabel": "Visualizzazione di eventi personalizzati che sono stati attivati negli ultimi 7 giorni"
       },
-      "addSmartAlert": "Aggiungi avviso smart"
+      "addSmartAlert": "Aggiungi avviso smart",
+      "list": {
+        "columns": {
+          "name": {
+            "subtitle": "{{blueprintConfigName}}, {{metricLabel}}",
+            "subtitleForStaticThreshold": "Soglia statica, {{metricLabel}} {{operator}} {{value}}",
+            "subtitleForStaticDailySeasonality": "Stagionalità giornaliera statica, {{metricLabel}}",
+            "subtitleForStaticWeeklySeasonality": "Stagionalità settimanale statica, {{metricLabel}}",
+            "subtitleForAdaptiveThreshold": "Soglia adattiva, {{metricLabel}}"
+          }
+        }
+      }
     },
     "sortOptions": {
       "name": "Nome",
@@ -1007,6 +1026,14 @@
       "markAsMigratedButtonConfirmationConfirmLabel": "Conferma"
     },
     "enable": "Abilita",
-    "disable": "Disabilita"
+    "disable": "Disabilita",
+    "synthetics": {
+      "alertList": {
+        "timeThreshold": "Soglia di errore",
+        "filterApplied": "Filtro applicato",
+        "violationsCount": "{{violationsCount}} errori",
+        "numberOfFailures": "Generazione di avvisi di errore"
+      }
+    }
   }
 }

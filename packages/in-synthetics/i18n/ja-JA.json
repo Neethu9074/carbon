@@ -3,6 +3,8 @@
     "createTest": {
       "dialogTitle": "シンセティック・テストの作成",
       "noLocationFound": "申し訳ありませんアプリケーションが見つかりません",
+      "noApplicationsFound": "アプリケーションが見つかりません",
+      "noMatchingFound": "一致するアプリケーションが見つかりません",
       "titles": {
         "step1": "ステップ 1：タイプの選択",
         "step2": "ステップ 2：要求の詳細",
@@ -23,14 +25,16 @@
         "popSubTitle": "ポイント・オブ・プレゼンス",
         "uploadScriptTitle": "スクリプトのアップロード",
         "failureToReadFileContent": "ファイル・コンテンツの読み取りに失敗しました: {{error}}",
-        "emptyScriptFileError": "コードが空です。 検証するものがありません。"
+        "emptyScriptFileError": "コードが空です。 検証するものがありません。",
+        "enterTheScriptMessage": "ここにスクリプトを入力"
       },
       "basicDetails": {
         "title": "この ping テストの名前は何ですか",
         "scriptTitle": "この HTTP スクリプト・テストの名前は何ですか",
         "labelName": "テストの名前",
         "labelDescription": "説明",
-        "labelFrequency": "頻度"
+        "labelFrequency": "頻度",
+        "labelApplications": "アプリケーションの選択"
       },
       "bluePrint": {
         "pingApi": {
@@ -39,10 +43,6 @@
           "whenToUse": {
             "title": "いつ使用しますか?",
             "line1": "HTTP アクション・テストを使用して単一の Rest API をテストします"
-          },
-          "whoShouldUse": {
-            "title": "誰が使用すべきですか?",
-            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
           },
           "tipsForUsing": {
             "title": "使用のヒント",
@@ -57,9 +57,6 @@
           "headline": "HTTP スクリプト",
           "whenToUse": {
             "line1": "HTTP スクリプト・テストと Node.js ベースのスクリプトを使用して、複数の Rest API のシーケンスをテストします"
-          },
-          "whoShouldUse": {
-            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
           },
           "tipsForUsing": {
             "line1": "ステップ 1: 作成するテストのタイプを選択します。",
@@ -107,18 +104,21 @@
       "mainLabel": "シンセティック・モニタリング",
       "secondaryLabels": {
         "tests": "テスト",
-        "locations": "ロケーション"
+        "locations": "ロケーション",
+        "smartAlerts": "スマート・アラート"
       },
       "popDialog": {
-        "button": "<> PoP のデプロイ",
+        "button": "PoPのデプロイ",
         "simpleTab": "シンプル",
         "redisTab": "Redis TLS",
         "title": "シンセティック PoP コマンド",
         "subTitle": "以下のコード・テンプレートを参考に使用してください。 詳しくは、<documentationLink>合成 PoP デプロイメント</documentationLink>を参照してください",
-        "simpleCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<yourPassword>\"",
-        "redisCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true",
-        "tlsInstructions": "Redis TLS を有効にする場合は、Helm チャートのルート・パスの下に certs フォルダーを作成し、証明書と鍵のペア (tls.crt、tls.key) および CA ルート証明書ファイル (ca.crt) を certs フォルダーにコピーする必要があります。ファイル名は正確に一致していなければなりません。\n\n鍵/証明書ファイルがない場合は、openssl コマンドを使用して新しい鍵/証明書ファイルを生成することもできます。以下の例を参照してください。",
-        "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt"
+        "simpleCode": "helm install synthetic-pop \\\n--repo \"https://agents.instana.io/helm\" \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<yourPassword>\" \\\nsynthetic-pop",
+        "redisCode": "helm install synthetic-pop \\\n--repo \"https://agents.instana.io/helm\" \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true \\\n--set redis.tls.secretName=\"syntheticpop-redis\" \\\nsynthetic-pop",
+        "tlsInstructions": "Redis TLSを有効にする場合は、X.509証明書と鍵のペア(「tls.crt」、「tls.key」)およびCAルート証明書ファイル(「ca.crt」)が必要です。\n\n鍵/証明書ファイルがない場合は、opensslコマンドを使用して新しい鍵/証明書ファイルを生成することもできます。以下の例を参照してください。",
+        "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt",
+        "tlsSecretInstructions": "鍵/証明書ファイルが提供されたら、kubectlコマンドを使用して秘密を作成します。",
+        "tlsSecretConfigurations": "kubectl create secret generic syntheticpop-redis -n syn \\\n--type=\"kubernetes.io/tls\" \\\n--from-file=ca.crt=\"<path/to/ca.crt>\" \\\n--from-file=tls.crt=\"<path/to/tls.crt>\" \\\n--from-file=tls.key=\"<path/to/tls.key>\""
       },
       "testLabel": "名前",
       "status": "状況",
@@ -140,7 +140,7 @@
       "action": "アクション",
       "delete": "テストの削除",
       "labelConfirm": "ご確認ください",
-      "labelConfirmRemoveTest": "シンセティック・テスト <strong>{{label}}</strong> を削除しますか?",
+      "labelConfirmRemoveTest": "シンセティック・テスト<strong>{{testLabel}}</strong>を削除しますか?",
       "labelRemove": "削除",
       "na": "該当なし"
     },
@@ -194,7 +194,8 @@
         "gatewayTimeout": "ゲートウェイタイムアウト"
       },
       "totalRuns": "{{totalRuns}}の合計実行数",
-      "meanLatencyFor90th": "90 パーセンタイルでは {{meanLatencyDetail}}"
+      "meanLatencyFor90th": "90 パーセンタイルでは {{meanLatencyDetail}}",
+      "smartAlertsTab": "スマート・アラート"
     },
     "resultsListPage": {
       "startedColumn": "開始済み",
@@ -329,6 +330,14 @@
       "testSummaryDescription": "データベースから取得されたシンセティック・テストはありません。",
       "locationListTitle": "使用可能なシンセティック・ロケーションがありません",
       "locationListDescription": "データベースから取得されたシンセティック・ロケーションがありません。"
+    },
+    "alertList": {
+      "timeThreshold": "障害しきい値",
+      "testsApplied": "適用されているテスト",
+      "filterApplied": "適用されているフィルター",
+      "violationsCount": "{{violationsCount}}件の障害",
+      "testsCount": "{{testsCount}}個のテスト",
+      "numberOfFailures": "障害アラート"
     }
   }
 }

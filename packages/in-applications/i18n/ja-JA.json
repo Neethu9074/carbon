@@ -199,6 +199,7 @@
     "traceIdTooltip": "このトレースに関連するデータの一部が遅延しているため、少し時間をおいてからページを再ロードしてください。 例えば、データの一部がまだ処理中の最新のトレースを表示する場合に、このような現象が発生する場合があります。",
     "closeTraceDetail": "トレースの詳細を閉じる",
     "invalidQueryConfig": "照会構成が無効です。 続行する前に検証の失敗に対処してください。",
+    "invalidTraceIdTagFilter": "トレースID「{{traceId}}」が無効です。 16文字または32文字の有効なトレースIDを指定してください。",
     "errorRateLabel": "エラーのある呼び出し (率)",
     "errorRateCategory": "エラーのある呼び出し数",
     "errorMetricLabel": "エラーのある呼び出し率",
@@ -568,7 +569,7 @@
         "erroneousCalls": "エラーのある呼び出し数",
         "errorLogs": "エラー・ログ",
         "warnLogs": "警告ログ",
-        "latency": "待ち時間",
+        "duration": "期間",
         "timeline": "タイムライン",
         "serviceEndpointList": "サービス・エンドポイント・リスト",
         "largeTrace": "大きなトレース",
@@ -579,6 +580,10 @@
         "analyzeBeacons": "ビーコンの分析",
         "adjustedTimeConfig": "時間範囲は、選択ビーコンを含むように調整されました。"
       }
+    },
+    "components": {
+      "callTreeHeaderParent": "親呼び出しのロード",
+      "callTreeHeaderCalls": "さらに呼び出しを読み込みます"
     }
   },
   "tabs": {

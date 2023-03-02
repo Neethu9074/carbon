@@ -89,7 +89,11 @@
     "websites": "Web サイト",
     "mobileApps": "モバイル・アプリケーション",
     "websitesMobileApps": "Web サイトおよびモバイル・アプリ",
-    "customEventDeprecatedWarning": "<strong>{{deprecatedCustomEvents}} 「アプリケーション」、「サービス」、および「エンドポイント」のカスタム・イベントには、アクションが必要です</strong><affectedCustomEvents>影響を受けるカスタム・イベントの表示</affectedCustomEvents>"
+    "customEventDeprecatedWarning": "<strong>アプリケーション、サービス、およびエンドポイントの{{count}}個のカスタム・イベントにはアクションが必要です</strong><affectedCustomEvents>影響を受けるカスタム・イベントの表示</affectedCustomEvents>",
+    "customEventDeprecatedWarning_plural": "<strong>アプリケーション、サービス、およびエンドポイントの{{count}}個のカスタム・イベントにはアクションが必要です</strong><affectedCustomEvents>影響を受けるカスタム・イベントの表示</affectedCustomEvents>",
+    "customEventDeprecatedWarning_0": "<strong>アプリケーション、サービス、およびエンドポイントの{{count}}個のカスタム・イベントにはアクションが必要です</strong><affectedCustomEvents>影響を受けるカスタム・イベントの表示</affectedCustomEvents>",
+    "customEventDeprecatedWarning_1": "<strong>アプリケーション、サービス、およびエンドポイントの{{count}}個のカスタム・イベントにはアクションが必要です</strong><affectedCustomEvents>影響を受けるカスタム・イベントの表示</affectedCustomEvents>",
+    "customEventDeprecatedWarning_2": "<strong>アプリケーション、サービス、およびエンドポイントの{{count}}個のカスタム・イベントにはアクションが必要です</strong><affectedCustomEvents>影響を受けるカスタム・イベントの表示</affectedCustomEvents>"
   },
   "widgets": {
     "columnDefinitions": {

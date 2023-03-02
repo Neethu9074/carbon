@@ -199,6 +199,7 @@
     "traceIdTooltip": "Certaines données relatives à cette trace sont retardées. Rechargez la page dans quelques instants. C'est le cas, par exemple, lorsque vous affichez une trace très récente et que certaines de ses données sont toujours en cours de traitement.",
     "closeTraceDetail": "Fermer les information de trace",
     "invalidQueryConfig": "La configuration de la requête n'est pas valide. Résolvez les échecs de validation avant de continuer.",
+    "invalidTraceIdTagFilter": "L'ID de trace \"{{traceId}}\" n'est pas valide. Spécifiez un ID de trace valide de 16 ou 32 caractères.",
     "errorRateLabel": "Appels erronés (taux)",
     "errorRateCategory": "Appels erronés",
     "errorMetricLabel": "Taux d'appels erronés",
@@ -568,7 +569,7 @@
         "erroneousCalls": "Appels erronés",
         "errorLogs": "Journaux des erreurs",
         "warnLogs": "Journaux des avertissements",
-        "latency": "Temps d'attente",
+        "duration": "Durée",
         "timeline": "Chronologie",
         "serviceEndpointList": "Liste des noeuds finaux de service",
         "largeTrace": "Grande trace",
@@ -579,6 +580,10 @@
         "analyzeBeacons": "Analyser les balises",
         "adjustedTimeConfig": "La période a été ajustée pour inclure la balise sélectionnée."
       }
+    },
+    "components": {
+      "callTreeHeaderParent": "Charger l'appel parent",
+      "callTreeHeaderCalls": "Charger plus d'appels"
     }
   },
   "tabs": {

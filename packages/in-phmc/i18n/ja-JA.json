@@ -44,6 +44,7 @@
   "memAvailable": "使用可能メモリー (MB)",
   "memAvailablePercentage": "使用可能メモリー (%)",
   "assignedProc": "割り当てられた処理装置数",
+  "assignedMemory": "割り当てメモリー (MB)",
   "drc": "DRC-索引",
   "id": "ID",
   "sentPackets": "送信パケット/秒",
@@ -90,7 +91,8 @@
     "phmcs": "HMC の電源",
     "systems": "システム",
     "logicalPartitions": "論理区画",
-    "vios": "VIOS"
+    "vios": "VIOS",
+    "sharedProcessorPool": "共有プロセッサー・プール"
   },
   "dashboards": {
     "phmc": "pHMC",
@@ -125,6 +127,8 @@
     "virtualFiberChannelAdapter": "仮想ファイバー・チャネル・アダプター",
     "sharedStoragePool": "共有ストレージ・プール",
     "energy": "エネルギー",
-    "maxCpuUtilzation": "最大 CPU 容量"
+    "maxCpuUtilzation": "最大 CPU 容量",
+    "systemFirmwareUtilized": "システム・ファームウェア - 使用された処理装置",
+    "systemFirmwareAssignedMem": "システム・ファームウェア - 割り当てられたメモリー"
   }
 }

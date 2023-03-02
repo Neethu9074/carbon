@@ -104,6 +104,7 @@
     }
   },
   "widgets": {
+    "invalidWidgetTypeErrorMessage": "<strong>올바르지 않은 위젯 유형</strong><br/>이 위젯에는 올바르지 않은 유형이 있습니다. 대시보드 JSON을 편집하거나 위젯을 제거하여 이를 수정할 수 있습니다.",
     "metricConfig": {
       "groupingConfig": {
         "top": "최상위 {{number}}",

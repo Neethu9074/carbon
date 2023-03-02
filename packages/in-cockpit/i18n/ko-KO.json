@@ -89,7 +89,11 @@
     "websites": "웹 사이트",
     "mobileApps": "모바일 앱",
     "websitesMobileApps": "웹 사이트 및 모바일 앱",
-    "customEventDeprecatedWarning": "<strong>{{deprecatedCustomEvents}} 애플리케이션, 서비스 및 엔드포인트 사용자 정의 이벤트에 조치가 필요함</strong><affectedCustomEvents>영향을 받는 사용자 정의 이벤트 보기</affectedCustomEvents>"
+    "customEventDeprecatedWarning": "<strong>{{count}} 애플리케이션, 서비스 및 엔드포인트의 사용자 정의 이벤트에 조치가 필요함</strong><affectedCustomEvents>영향받는 사용자 정의 이벤트 보기</affectedCustomEvents>",
+    "customEventDeprecatedWarning_plural": "<strong>{{count}} 애플리케이션, 서비스 및 엔드포인트의 사용자 정의 이벤트에 조치가 필요함</strong><affectedCustomEvents>영향받는 사용자 정의 이벤트 보기</affectedCustomEvents>",
+    "customEventDeprecatedWarning_0": "<strong>{{count}} 애플리케이션, 서비스 및 엔드포인트의 사용자 정의 이벤트에 조치가 필요함</strong><affectedCustomEvents>영향받는 사용자 정의 이벤트 보기</affectedCustomEvents>",
+    "customEventDeprecatedWarning_1": "<strong>{{count}} 애플리케이션, 서비스 및 엔드포인트의 사용자 정의 이벤트에 조치가 필요함</strong><affectedCustomEvents>영향받는 사용자 정의 이벤트 보기</affectedCustomEvents>",
+    "customEventDeprecatedWarning_2": "<strong>{{count}} 애플리케이션, 서비스 및 엔드포인트의 사용자 정의 이벤트에 조치가 필요함</strong><affectedCustomEvents>영향받는 사용자 정의 이벤트 보기</affectedCustomEvents>"
   },
   "widgets": {
     "columnDefinitions": {

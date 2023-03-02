@@ -104,6 +104,7 @@
     }
   },
   "widgets": {
+    "invalidWidgetTypeErrorMessage": "<strong>無効なウィジェット・タイプ</strong><br/>このウィジェットには無効なタイプが含まれています。修正するには、ダッシュボードJSONを編集するか、ウィジェットを削除してください。",
     "metricConfig": {
       "groupingConfig": {
         "top": "上位 {{number}} 件",

@@ -293,7 +293,8 @@
         "buttonDownload": "Descargar",
         "renderTimeSelectionTooltip": "Cerrar detalles de carga de página",
         "referencedPageLoads": "Cargas de páginas referenciadas"
-      }
+      },
+      "invalidTraceIdTagFilter": "El ID de rastreo de programa de fondo \"{{traceId}}\" no es válido. Especifique un ID de rastreo de programa de fondo válido que tenga una longitud de 16 o 32 caracteres."
     }
   },
   "definitions": {
@@ -327,6 +328,7 @@
     "inputStepParagraphGetStarted": "Comience a supervisar sitios web para comprender mejor cómo el rendimiento del sitio web afecta a la experiencia de usuario.  ¡La configuración es sencilla!",
     "inputStepLabelWebsiteName": "Nombre de sitio web",
     "inputStepButtonAddWebsite": "Añadir sitio web",
+    "inputStepNewWebsiteTitle": "Nuevo sitio web",
     "readyStepTitleEverythingsReady": "¡Todo está listo!",
     "readyStepParagraphEverythingIsReadyToMonitorYourWebsite": "Todo está preparado para supervisar su sitio web <strong>{{websiteName}}</strong>. Copie este script en el documento HTML <code>{{httpHeadTag}}</code>. La información sobre la supervisión de sitios web y las funciones completas del script de seguimiento se encuentran <linkToDocs>en nuestros documentos</linkToDocs>.",
     "readyStepButtonGoToWebsiteDashboard": "Ir al panel de control del sitio web",
@@ -363,12 +365,6 @@
       "overlaysCountryDisplayName": "País/Región",
       "globeViewTitle": "Sitio web World Globe",
       "globViewFootertext": "Imágenes proporcionadas por la NASA",
-      "websiteHealthIndicatorBehaviorNoIssues": "Sin problemas",
-      "websiteHealthIndicatorBehaviorNumbersOfIssues": "{{count}} problema",
-      "websiteHealthIndicatorBehaviorNumbersOfIssues_plural": "{{count}} problemas",
-      "websiteHealthIndicatorBehaviorNumbersOfIssues_0": "{{count}} problemas",
-      "websiteHealthIndicatorBehaviorNumbersOfIssues_1": "{{count}} problema",
-      "websiteHealthIndicatorBehaviorNumbersOfIssues_2": "{{count}} problemas",
       "browserTopListTitle": "Navegadores",
       "browserTopListLinkLabel": "Ver todos los navegadores",
       "effectiveConnectionTypeTopListTitle": "Tipos de conexiones efectivas",
@@ -467,10 +463,7 @@
         "moreFiltersWithCount": "+{{count}} filtro más",
         "moreFiltersWithCount_plural": "+{{count}} filtros más",
         "labelConfirmRemoveAlertConfigWithName": "¿Está seguro de que desea eliminar la alerta <strong>{{name}}</strong>?",
-        "alertEntityName": "alerta {{entityName}}",
-        "alertsLabelName": "Nombre",
         "alertsLabelFilters": "Filtros",
-        "alertsHeaderConfiguredAlerts": "Alertas configuradas",
         "alertsNoDataMessage": "No hay ninguna alerta configurada."
       },
       "configuration": {

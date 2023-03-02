@@ -30,7 +30,17 @@
   "method": "메소드: {{method}}",
   "host": "호스트: {{host}}",
   "body": "본문: {{body}}",
+  "authType": "권한 유형: {{authType}}",
   "headers": "헤더:",
+  "secretPath": "보안 경로",
+  "secretKey": "시크릿 키",
+  "enterParameterValue": "매개변수 값 입력",
+  "optional": "{{name}} (선택사항)",
+  "vault": "Vault",
+  "static": "정적",
+  "parameters": "매개변수",
+  "noParametersTitle": "매개변수 없음",
+  "noParametersText": "이 조치에는 매개변수가 없습니다.",
   "entityInfoPresenterDefaultLabel": "날짜: ",
   "entityInfoLabelOfService": "유용함:",
   "titleDetail": "세부사항",
@@ -49,6 +59,7 @@
   "titleAnalyzePageLoads": "페이지 로드 분석",
   "titleAnalyzePageTransitions": "페이지 전환 분석",
   "titleAnalyzeLoadTime": "로드 시간 분석",
+  "titleViewRelatedTestResults": "관련 테스트 결과 보기",
   "titleTime": "시간",
   "titleTriggered": "트리거됨",
   "titleActive": "활성",
@@ -138,6 +149,12 @@
   "releaseOccurName": "릴리스: {{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> 전)",
   "deprecatedCustomEventWarning": "<strong>2023년 7월(빌드 253)부터 더 이상 이 {{issueOrIncident}}을(를) 수신하지 않습니다.</strong> 마이그레이션하려면 이벤트 구성을 참조하십시오. <documentationLink>문서에서 자세히 알아보기</documentationLink>",
+  "deprecatedCustomEventGlobalPopup": {
+    "title": "{{deprecatedCustomEvents}} 사용자 정의 이벤트에 조치가 필요합니다.",
+    "message": "애플리케이션, 서비스 및 엔드포인트의 사용자 정의 이벤트는 더 이상 사용되지 않습니다. <strong>2023년 4월(빌드 246)</strong>부로 이러한 유형의 사용자 정의 이벤트를 작성하거나 업데이트할 수 없습니다.<br /><br />이러한 유형의 기존 구성은 <strong>2023년 7월(빌드 253)</strong>부로 제거됩니다.",
+    "documentationLink": "<documentationLink>문서에서 자세히 알아보기</documentationLink>",
+    "affectedEventsLink": "영향받는 사용자 정의 이벤트 보기"
+  },
   "ibmMqFileTransfer": {
     "transferID": "전송 ID",
     "sourceAgent": "소스 에이전트",
@@ -162,5 +179,8 @@
   },
   "infraSmartAlerts": {
     "pseudoAggregatedEntityLabel": "{{entityName}}(집계됨)"
+  },
+  "syntheticSmartAlerts": {
+    "failedStatusMetric": "실패 상태"
   }
 }

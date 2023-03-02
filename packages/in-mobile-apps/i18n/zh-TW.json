@@ -98,7 +98,8 @@
     "perBeaconTypeConfigs": {
       "customBatchingIndicatorTooltipContent": "此事件已批次處理，代表 {{size}} 個個別的事件。",
       "httpRequestBatchingIndicatorTooltipContent": "此 HTTP 要求已批次處理，代表 {{size}} 項個別的 HTTP 要求。"
-    }
+    },
+    "invalidTraceIdTagFilter": "後端追蹤 ID \"{{traceId}}\" 無效。 請指定長度為 16 或 32 個字元的有效後端追蹤 ID。"
   },
   "beaconUserSum": {
     "userInfoTitle": "使用者資訊",
@@ -212,7 +213,9 @@
       "errorType": "錯誤類型",
       "crashLabel": "損毀",
       "metaHeader": "Meta",
-      "stackTrace": "堆疊追蹤"
+      "stackTrace": "堆疊追蹤",
+      "stackTraceButtonPrettyStackTrace": "細緻堆疊追蹤",
+      "stackTraceButtonRawStackTrace": "原始堆疊追蹤"
     },
     "tabsSumHttpRequestBeacon": {
       "retrievalTimeTooltip": "擷取時間",

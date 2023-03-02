@@ -49,11 +49,14 @@
     "loadingData": "正在加载数据",
     "namespace": "名称空间",
     "pod": "Pod",
+    "podId": "Pod 标识",
+    "podName": "Pod 名称",
     "deployment": "部署",
     "node": "节点",
     "cluster": "集群",
     "restartCount": "重新启动次数",
-    "kubernetesLabels": "Kubernetes 标签"
+    "kubernetesLabels": "Kubernetes 标签",
+    "podmanAnnotations": "Podman 注释"
   },
   "explore": {
     "beta": "Beta",
@@ -64,6 +67,7 @@
     "name": "名称",
     "search": "搜索类型",
     "explore": "浏览",
+    "noIssues": "无问题",
     "count": "计数",
     "errors": {
       "maximumNumberOfGroups": "此查询的结果过多。 请使用更严格的过滤器或更广泛的组来缩小范围",

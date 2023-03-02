@@ -44,6 +44,7 @@
   "memAvailable": "可用内存 (MB)",
   "memAvailablePercentage": "可用内存 (%)",
   "assignedProc": "已分配的处理单元",
+  "assignedMemory": "分配的内存 (MB)",
   "drc": "DRC 索引",
   "id": "标识",
   "sentPackets": "发送的包数/秒",
@@ -90,7 +91,8 @@
     "phmcs": "Power HMC",
     "systems": "系统",
     "logicalPartitions": "逻辑分区",
-    "vios": "VIOS"
+    "vios": "VIOS",
+    "sharedProcessorPool": "共享处理器池"
   },
   "dashboards": {
     "phmc": "pHMC",
@@ -125,6 +127,8 @@
     "virtualFiberChannelAdapter": "虚拟光纤通道适配器",
     "sharedStoragePool": "共享存储池",
     "energy": "能量",
-    "maxCpuUtilzation": "最大 CPU 容量"
+    "maxCpuUtilzation": "最大 CPU 容量",
+    "systemFirmwareUtilized": "系统固件 - 已利用处理单元",
+    "systemFirmwareAssignedMem": "系统固件 - 分配的内存"
   }
 }

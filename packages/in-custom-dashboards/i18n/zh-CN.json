@@ -104,6 +104,7 @@
     }
   },
   "widgets": {
+    "invalidWidgetTypeErrorMessage": "<strong>窗口小部件类型无效</strong><br/>此窗口小部件具有无效类型，您可以通过编辑仪表板 JSON 或移除窗口小部件来对其进行修正。",
     "metricConfig": {
       "groupingConfig": {
         "top": "顶部 {{number}}",

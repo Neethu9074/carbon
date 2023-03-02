@@ -30,7 +30,17 @@
   "method": "Metodo: {{method}}",
   "host": "Host: {{host}}",
   "body": "Corpo: {{body}}",
+  "authType": "Tipo di autorizzazione: {{authType}}I",
   "headers": "Intestazioni:",
+  "secretPath": "Percorso segreto",
+  "secretKey": "Chiave segreta",
+  "enterParameterValue": "Immettere il valore del parametro",
+  "optional": "{{name}} (facoltativo)",
+  "vault": "Vault",
+  "static": "Statico",
+  "parameters": "Parametri",
+  "noParametersTitle": "Nessun parametro",
+  "noParametersText": "Per questa azione non è stato specificato alcun parametro.",
   "entityInfoPresenterDefaultLabel": "Su: ",
   "entityInfoLabelOfService": "Di servizio:",
   "titleDetail": "Dettaglio",
@@ -49,6 +59,7 @@
   "titleAnalyzePageLoads": "Analizza caricamenti pagina",
   "titleAnalyzePageTransitions": "Analizzare transizioni pagina",
   "titleAnalyzeLoadTime": "Analisi del tempo di caricamento",
+  "titleViewRelatedTestResults": "Visualizza i risultati del test correlati",
   "titleTime": "Orario",
   "titleTriggered": "Attivato",
   "titleActive": "Attivo",
@@ -138,6 +149,12 @@
   "releaseOccurName": "Release: {{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> fa)",
   "deprecatedCustomEventWarning": "<strong>Non si riceverà più questo {{issueOrIncident}} a partire da luglio 2023 (Build 253)</strong> Visualizzare la configurazione dell'evento per migrarlo. <documentationLink>Ulteriori informazioni sono disponibili nella documentazione</documentationLink>",
+  "deprecatedCustomEventGlobalPopup": {
+    "title": "{{deprecatedCustomEvents}} eventi personalizzati richiedono un'azione",
+    "message": "Eventi personalizzati sull'applicazione, sul servizio e sull'endpoint sono obsoleti. Non sarà possibile creare o aggiornare questi tipi di eventi personalizzati a partire da <strong>Aprile 2023 (Build 246)</strong><br /><br />Le configurazioni esistenti di questi tipi verranno rimosse a partire da <strong>Luglio 2023 (Build 253)</strong>",
+    "documentationLink": "<documentationLink>Ulteriori informazioni sono disponibili nella documentazione</documentationLink>",
+    "affectedEventsLink": "Visualizza gli eventi personalizzati interessati"
+  },
   "ibmMqFileTransfer": {
     "transferID": "ID trasferimento",
     "sourceAgent": "Agent di origine",
@@ -162,5 +179,8 @@
   },
   "infraSmartAlerts": {
     "pseudoAggregatedEntityLabel": "{{entityName}} (aggregato)"
+  },
+  "syntheticSmartAlerts": {
+    "failedStatusMetric": "Stato di Esito negativo"
   }
 }

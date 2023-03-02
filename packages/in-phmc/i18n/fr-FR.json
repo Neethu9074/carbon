@@ -44,6 +44,7 @@
   "memAvailable": "Mémoire disponible (Mo)",
   "memAvailablePercentage": "Mémoire disponible (%)",
   "assignedProc": "Unités de traitement affectées",
+  "assignedMemory": "Mémoire affectée (Mo)",
   "drc": "Index DRC",
   "id": "ID",
   "sentPackets": "Paquets envoyés par seconde",
@@ -90,7 +91,8 @@
     "phmcs": "Consoles Power HMC",
     "systems": "Systèmes",
     "logicalPartitions": "Partitions logiques",
-    "vios": "Virtual I/O Server"
+    "vios": "Virtual I/O Server",
+    "sharedProcessorPool": "Pools de traitement partagé"
   },
   "dashboards": {
     "phmc": "pHMC",
@@ -125,6 +127,8 @@
     "virtualFiberChannelAdapter": "Adaptateur Fibre Channel virtuel",
     "sharedStoragePool": "Pools de mémoire partagée",
     "energy": "Énergie",
-    "maxCpuUtilzation": "Capacité d'UC maximale"
+    "maxCpuUtilzation": "Capacité d'UC maximale",
+    "systemFirmwareUtilized": "Microprogramme du système - Unités de traitement utilisées",
+    "systemFirmwareAssignedMem": "Microprogramme du système - Mémoire affectée"
   }
 }

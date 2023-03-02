@@ -104,6 +104,7 @@
     }
   },
   "widgets": {
+    "invalidWidgetTypeErrorMessage": "<strong>Tipo de widget no válido</strong><br/>Este widget tiene un tipo no válido; puede corregirlo editando el JSON del panel de control o eliminando el widget.",
     "metricConfig": {
       "groupingConfig": {
         "top": "Primeros {{number}}",

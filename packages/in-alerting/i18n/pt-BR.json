@@ -535,6 +535,14 @@
       "entityTitle": "Escopo",
       "titleBuiltInIndicator": "Integrado"
     },
+    "list": {
+      "header": {
+        "configuredAlerts": "Alertas configurados ({{numberOfAlerts}})"
+      },
+      "columns": {
+        "name": "Nome"
+      }
+    },
     "form": {
       "ruleAggregationOptionMEAN": "média",
       "ruleAggregationOptionMIN": "mínima",
@@ -986,7 +994,18 @@
         "searchCustomEventButtonLabel": "Selecionar um evento customizado",
         "customEventListInfoLabel": "Mostrando eventos customizados que foram acionados nos últimos 7 dias"
       },
-      "addSmartAlert": "Incluir alerta inteligente"
+      "addSmartAlert": "Incluir alerta inteligente",
+      "list": {
+        "columns": {
+          "name": {
+            "subtitle": "{{blueprintConfigName}}, {{metricLabel}}",
+            "subtitleForStaticThreshold": "Limite estático, {{metricLabel}} {{operator}} {{value}}",
+            "subtitleForStaticDailySeasonality": "Sazonalidade diária estática, {{metricLabel}}",
+            "subtitleForStaticWeeklySeasonality": "Sazonalidade semanal estática, {{metricLabel}}",
+            "subtitleForAdaptiveThreshold": "Limite adaptável, {{metricLabel}}"
+          }
+        }
+      }
     },
     "sortOptions": {
       "name": "Nome",
@@ -1007,6 +1026,14 @@
       "markAsMigratedButtonConfirmationConfirmLabel": "Confirmar"
     },
     "enable": "Ativar",
-    "disable": "Desativar"
+    "disable": "Desativar",
+    "synthetics": {
+      "alertList": {
+        "timeThreshold": "Limite de falha",
+        "filterApplied": "Filtro aplicado",
+        "violationsCount": "{{violationsCount}} falhas",
+        "numberOfFailures": "Alerta de falha"
+      }
+    }
   }
 }

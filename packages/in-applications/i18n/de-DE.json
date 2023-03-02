@@ -199,6 +199,7 @@
     "traceIdTooltip": "Einige Daten, die sich auf diesen Trace beziehen, sind verzögert. Bitte laden Sie die Seite etwas später erneut. Ein Beispiel, bei dem dies vorkommen kann, ist die Anzeige eines sehr aktuellen Trace, bei dem ein Teil der Daten noch verarbeitet wird.",
     "closeTraceDetail": "Details zum Trace schließen",
     "invalidQueryConfig": "Die Abfragekonfiguration ist ungültig. Beheben Sie die Gültigkeitsfehler, bevor Sie fortfahren.",
+    "invalidTraceIdTagFilter": "Die Trace-ID \"{{traceId}}\" ist ungültig. Geben Sie eine gültige Trace-ID an, die entweder 16 oder 32 Zeichen lang ist.",
     "errorRateLabel": "Fehlerhafte Aufrufe (Rate)",
     "errorRateCategory": "Fehlerhafte Aufrufe",
     "errorMetricLabel": "Rate fehlerhafter Aufrufe",
@@ -568,7 +569,7 @@
         "erroneousCalls": "Fehlerhafte Aufrufe",
         "errorLogs": "Fehlerprotokolle",
         "warnLogs": "Warnprotokolle",
-        "latency": "Latenzzeit",
+        "duration": "Dauer",
         "timeline": "Zeitachse",
         "serviceEndpointList": "Serviceendpunktliste",
         "largeTrace": "Großer Trace",
@@ -579,6 +580,10 @@
         "analyzeBeacons": "Beacons analysieren",
         "adjustedTimeConfig": "Der Zeitbereich wurde angepasst, um den ausgewählten Beacon einzuschließen."
       }
+    },
+    "components": {
+      "callTreeHeaderParent": "Übergeordneten Aufruf laden",
+      "callTreeHeaderCalls": "Mehr Aufrufe laden"
     }
   },
   "tabs": {

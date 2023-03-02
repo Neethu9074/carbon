@@ -30,7 +30,17 @@
   "method": "方法：{{method}}",
   "host": "主机：{{host}}",
   "body": "主体：{{body}}",
+  "authType": "授权类型：{{authType}}",
   "headers": "标题：",
+  "secretPath": "私钥路径",
+  "secretKey": "私钥",
+  "enterParameterValue": "输入参数值",
+  "optional": "{{name}}（可选）",
+  "vault": "保险库",
+  "static": "静态",
+  "parameters": "参数",
+  "noParametersTitle": "无参数",
+  "noParametersText": "此操作没有任何参数。",
   "entityInfoPresenterDefaultLabel": "位置：",
   "entityInfoLabelOfService": "服务：",
   "titleDetail": "详细信息",
@@ -49,6 +59,7 @@
   "titleAnalyzePageLoads": "分析页面加载",
   "titleAnalyzePageTransitions": "分析页面转换",
   "titleAnalyzeLoadTime": "分析装入时间",
+  "titleViewRelatedTestResults": "查看相关测试结果",
   "titleTime": "时间",
   "titleTriggered": "已触发",
   "titleActive": "活动",
@@ -138,6 +149,12 @@
   "releaseOccurName": "版本：{{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> 前）",
   "deprecatedCustomEventWarning": "<strong>从 2023 年 7 月（构建 253）开始，您将不再接收此 {{issueOrIncident}}</strong> 查看事件配置以进行迁移。 <documentationLink>阅读文档中的更多信息</documentationLink>",
+  "deprecatedCustomEventGlobalPopup": {
+    "title": "{{deprecatedCustomEvents}} 个定制事件需要操作",
+    "message": "不推荐使用“应用程序”、“服务”和“端点”上的定制事件。 从 <strong>2023 年 4 月（构建 246）</strong>开始，您将无法创建或更新这些类型的定制事件<br /><br />从 <strong>2023 年 7 月（构建 253）</strong>开始，将移除这些类型的现有配置",
+    "documentationLink": "<documentationLink>阅读文档中的更多信息</documentationLink>",
+    "affectedEventsLink": "查看受影响的定制事件"
+  },
   "ibmMqFileTransfer": {
     "transferID": "传输标识",
     "sourceAgent": "源代理",
@@ -162,5 +179,8 @@
   },
   "infraSmartAlerts": {
     "pseudoAggregatedEntityLabel": "{{entityName}}（已聚集）"
+  },
+  "syntheticSmartAlerts": {
+    "failedStatusMetric": "“已失败”状态"
   }
 }

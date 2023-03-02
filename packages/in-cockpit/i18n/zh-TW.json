@@ -89,7 +89,11 @@
     "websites": "網站",
     "mobileApps": "行動式應用程式",
     "websitesMobileApps": "網站與行動應用程式",
-    "customEventDeprecatedWarning": "<strong>{{deprecatedCustomEvents}} 應用程式、服務及端點自訂事件需要動作</strong><affectedCustomEvents>檢視受影響的自訂事件</affectedCustomEvents>"
+    "customEventDeprecatedWarning": "<strong>應用程式、服務及端點上的 {{count}} 個自訂事件需要動作</strong><affectedCustomEvents>檢視受影響的自訂事件</affectedCustomEvents>",
+    "customEventDeprecatedWarning_plural": "<strong>應用程式、服務及端點上的 {{count}} 個自訂事件需要動作</strong><affectedCustomEvents>檢視受影響的自訂事件</affectedCustomEvents>",
+    "customEventDeprecatedWarning_0": "<strong>應用程式、服務及端點上的 {{count}} 個自訂事件需要動作</strong><affectedCustomEvents>檢視受影響的自訂事件</affectedCustomEvents>",
+    "customEventDeprecatedWarning_1": "<strong>應用程式、服務及端點上的 {{count}} 個自訂事件需要動作</strong><affectedCustomEvents>檢視受影響的自訂事件</affectedCustomEvents>",
+    "customEventDeprecatedWarning_2": "<strong>應用程式、服務及端點上的 {{count}} 個自訂事件需要動作</strong><affectedCustomEvents>檢視受影響的自訂事件</affectedCustomEvents>"
   },
   "widgets": {
     "columnDefinitions": {

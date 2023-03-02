@@ -49,11 +49,14 @@
     "loadingData": "Caricamento dei dati",
     "namespace": "Spazi dei nomi",
     "pod": "Pod",
+    "podId": "ID Pod",
+    "podName": "Nome pod",
     "deployment": "Distribuzione",
     "node": "Nodo",
     "cluster": "Cluster",
     "restartCount": "Conteggio riavvii",
-    "kubernetesLabels": "Etichette Kubernetes"
+    "kubernetesLabels": "Etichette Kubernetes",
+    "podmanAnnotations": "Annotazioni Podman"
   },
   "explore": {
     "beta": "Beta",
@@ -64,6 +67,7 @@
     "name": "Nome",
     "search": "Ricerca un tipo",
     "explore": "Esplora",
+    "noIssues": "Nessun problema",
     "count": "Conteggio",
     "errors": {
       "maximumNumberOfGroups": "Questa query ha troppi risultati. Ridurre utilizzando un filtro più restrittivo o dei gruppi più ampi",

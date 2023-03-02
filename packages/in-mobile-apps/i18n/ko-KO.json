@@ -98,7 +98,8 @@
     "perBeaconTypeConfigs": {
       "customBatchingIndicatorTooltipContent": "이 이벤트는 일괄처리되었으며 {{size}} 개별 이벤트를 나타냅니다.",
       "httpRequestBatchingIndicatorTooltipContent": "이 HTTP 요청은 일괄처리되며 {{size}} 개별 HTTP 요청을 나타냅니다."
-    }
+    },
+    "invalidTraceIdTagFilter": "백엔드 추적 ID \"{{traceId}}\"이(가) 올바르지 않습니다. 16자 또는 32자 길이의 유효한 백엔드 추적 ID를 지정하십시오."
   },
   "beaconUserSum": {
     "userInfoTitle": "사용자 정보",
@@ -212,7 +213,9 @@
       "errorType": "오류 유형",
       "crashLabel": "충돌",
       "metaHeader": "메타",
-      "stackTrace": "스택 추적"
+      "stackTrace": "스택 추적",
+      "stackTraceButtonPrettyStackTrace": "프리티 스택 추적",
+      "stackTraceButtonRawStackTrace": "원시 스택 추적"
     },
     "tabsSumHttpRequestBeacon": {
       "retrievalTimeTooltip": "검색 시간",

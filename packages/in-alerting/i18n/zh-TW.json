@@ -535,6 +535,14 @@
       "entityTitle": "範圍",
       "titleBuiltInIndicator": "內建"
     },
+    "list": {
+      "header": {
+        "configuredAlerts": "已配置警示 ({{numberOfAlerts}})"
+      },
+      "columns": {
+        "name": "名稱"
+      }
+    },
     "form": {
       "ruleAggregationOptionMEAN": "平均值",
       "ruleAggregationOptionMIN": "最小值",
@@ -986,7 +994,18 @@
         "searchCustomEventButtonLabel": "選取自訂事件",
         "customEventListInfoLabel": "顯示過去 7 天內已觸發的自訂事件"
       },
-      "addSmartAlert": "新增智慧型警示"
+      "addSmartAlert": "新增智慧型警示",
+      "list": {
+        "columns": {
+          "name": {
+            "subtitle": "{{blueprintConfigName}}, {{metricLabel}}",
+            "subtitleForStaticThreshold": "靜態臨界值，{{metricLabel}} {{operator}} {{value}}",
+            "subtitleForStaticDailySeasonality": "靜態每日週期性，{{metricLabel}}",
+            "subtitleForStaticWeeklySeasonality": "靜態每週週期性，{{metricLabel}}",
+            "subtitleForAdaptiveThreshold": "調適性臨界值，{{metricLabel}}"
+          }
+        }
+      }
     },
     "sortOptions": {
       "name": "名稱",
@@ -1007,6 +1026,14 @@
       "markAsMigratedButtonConfirmationConfirmLabel": "確認"
     },
     "enable": "啟用",
-    "disable": "停用"
+    "disable": "停用",
+    "synthetics": {
+      "alertList": {
+        "timeThreshold": "失敗臨界值",
+        "filterApplied": "已套用過濾器",
+        "violationsCount": "{{violationsCount}} 次失敗",
+        "numberOfFailures": "失敗警示"
+      }
+    }
   }
 }

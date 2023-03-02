@@ -535,6 +535,14 @@
       "entityTitle": "Portée",
       "titleBuiltInIndicator": "Intégré"
     },
+    "list": {
+      "header": {
+        "configuredAlerts": "Alertes configurées ({{numberOfAlerts}})"
+      },
+      "columns": {
+        "name": "Nom"
+      }
+    },
     "form": {
       "ruleAggregationOptionMEAN": "moyenne",
       "ruleAggregationOptionMIN": "min",
@@ -986,7 +994,18 @@
         "searchCustomEventButtonLabel": "Sélectionner un événement personnalisé",
         "customEventListInfoLabel": "Affichage des événements personnalisés qui ont été déclenchés au cours des 7 derniers jours"
       },
-      "addSmartAlert": "Ajouter une alerte intelligente"
+      "addSmartAlert": "Ajouter une alerte intelligente",
+      "list": {
+        "columns": {
+          "name": {
+            "subtitle": "{{blueprintConfigName}}, {{metricLabel}}",
+            "subtitleForStaticThreshold": "Seuil statique, {{metricLabel}} {{operator}} {{value}}",
+            "subtitleForStaticDailySeasonality": "Saisonnalité quotidienne statique, {{metricLabel}}",
+            "subtitleForStaticWeeklySeasonality": "Saisonnalité hebdomadaire statique, {{metricLabel}}",
+            "subtitleForAdaptiveThreshold": "Seuil adaptatif, {{metricLabel}}"
+          }
+        }
+      }
     },
     "sortOptions": {
       "name": "Nom",
@@ -1007,6 +1026,14 @@
       "markAsMigratedButtonConfirmationConfirmLabel": "Confirmer"
     },
     "enable": "Activer",
-    "disable": "Désactiver"
+    "disable": "Désactiver",
+    "synthetics": {
+      "alertList": {
+        "timeThreshold": "Seuil d'échec",
+        "filterApplied": "Filtre appliqué",
+        "violationsCount": "{{violationsCount}} échec(s)",
+        "numberOfFailures": "Alerte d'échec"
+      }
+    }
   }
 }
