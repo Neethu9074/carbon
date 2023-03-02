@@ -67,7 +67,7 @@ export default function PermissionSelection({
       {productAreaCapabilities.map((area, index) => (
         <>
           <Typography variant="heading-200" component="h4">
-            {t('in-settings:PermissionSection.permissions', { context: area.header })}
+            {t('in-settings:productAreas.permissions', { context: area.header })}
           </Typography>
           {area.capabilities.map(capability =>
             productPermissions

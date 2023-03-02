@@ -78,7 +78,6 @@
     "pcf": "pCF",
     "infrastructure": "Infrastructure",
     "analytics": "Analytics",
-    "syntheticMonitoring": "Synthetic monitoring",
     "countOfPermissions": "{{numberOfcapabilitiesUserHas}} / {{totalNumberOfAreaCapabilities}} permissions",
     "event": "Events and Alerts",
     "function": "Global functions",
