@@ -26,7 +26,6 @@ import tabs from 'in-kubernetes/Dashboards/Namespace/tabs/index';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
-import { k8sTimeShiftEnabled } from 'in-services/featureFlags';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { createGroupBy } from 'in-analyze/navigation/paths';
@@ -140,18 +139,16 @@ function renderButtonLine({ namespaceId, timeConfig, result }) {
 function renderButtonLineSecondary({ timeConfig, namespaceId }) {
   return (
     <>
-      {k8sTimeShiftEnabled && (
-        <TimeShiftDropdown
-          onChange={offset =>
-            kubernetesTimeShiftSelectTracker({
-              area: 'namespace',
-              offset: getTimeShiftLabel({ offset: offset }),
-              windowSize: timeConfig.windowSize,
-              autoRefresh: timeConfig.autoRefresh
-            })
-          }
-        />
-      )}
+      <TimeShiftDropdown
+        onChange={offset =>
+          kubernetesTimeShiftSelectTracker({
+            area: 'namespace',
+            offset: getTimeShiftLabel({ offset: offset }),
+            windowSize: timeConfig.windowSize,
+            autoRefresh: timeConfig.autoRefresh
+          })
+        }
+      />
       <RenderButtonLineSecondary timeConfig={timeConfig} snapshotId={namespaceId} />
     </>
   );

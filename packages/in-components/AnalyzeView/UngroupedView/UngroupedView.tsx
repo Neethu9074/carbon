@@ -57,12 +57,25 @@ export default function UngroupedView(props: UngroupedViewProps) {
   } = props;
 
   const timeConfig = useTimeConfig();
-  const cursorPaginationState = (useCursorPaginationStrategy ?? useCursorPagination)<never, Record<string, unknown>>(
+  const fields = [...fixedFields, ...selectableFields];
+
+  const backendMetrics = useStableObjectInstance(
+    fields.filter(({ type }) => type === metricType).map(metric => metric.metricId)
+  );
+
+  const cursorPaginationState = (useCursorPaginationStrategy ?? useCursorPagination)(
     params =>
       isValid
-        ? getData({ timeConfig, orderBy, backendQueryModel: backendQueryModelWithFacets, dataSource, ...params })
+        ? getData({
+            timeConfig,
+            orderBy,
+            backendQueryModel: backendQueryModelWithFacets,
+            dataSource,
+            metrics: backendMetrics,
+            ...params
+          })
         : empty,
-    [isValid, timeConfig, backendQueryModelWithFacets, orderBy, dataSource, getData]
+    [isValid, timeConfig, backendQueryModelWithFacets, orderBy, dataSource, backendMetrics, getData]
   );
   const {
     items,

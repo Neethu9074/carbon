@@ -71,6 +71,7 @@
       "applications": "应用程序",
       "websites": "Web 站点",
       "mobileApps": "移动应用程序",
+      "infrastructure": "基础结构",
       "profiles": "概要文件",
       "logs": "日志",
       "eumWebsites": "EUM：Web 站点",
@@ -246,7 +247,9 @@
     "labelKeyPairENDS_WITH": "结尾为"
   },
   "analyzeHeader": {
-    "title": "分析"
+    "title": "分析",
+    "analyzeInfrastructureSelectedTitle": "分析基础架构",
+    "readDocs": "读取文档"
   },
   "filterBar": {
     "keyValueBarItem": {

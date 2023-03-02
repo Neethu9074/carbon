@@ -4,6 +4,7 @@
  */
 
 import { Observable } from '@instana/observables';
+import { TimeConfig } from '@instana/types';
 
 // @ts-expect-error
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
@@ -18,6 +19,7 @@ const basePath = '/api/logging/catalog';
 interface GetTagCatalogParams {
   useCase?: CatalogUseCase;
   forceIncludeInternalTags?: boolean;
+  timeConfig?: TimeConfig;
 }
 
 export const getTagCatalog = memoize(getTagCatalogInternal, getId, minutes.toMillis(10));

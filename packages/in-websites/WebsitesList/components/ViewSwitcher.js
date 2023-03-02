@@ -10,7 +10,7 @@ import DashboardHeaderShadowModule from 'in-components/DashboardHeader/Dashboard
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import { hasWebsitesAccess, hasMobileAppsAccess } from 'in-stores/permission';
 import { mobileAppMonitoringPath } from 'in-mobile-apps/navigation/paths';
-import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { websiteMonitoringPath } from 'in-websites/navigation/paths';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { t } from 'in-i18n';
@@ -45,6 +45,8 @@ export default function WebsitesAndMobileAppsViewSwitcher({ isWebsites }) {
     );
   }
 
+  const { location, createHref } = useNavigation();
+
   return (
     <>
       {header}
@@ -52,13 +54,13 @@ export default function WebsitesAndMobileAppsViewSwitcher({ isWebsites }) {
         <DashboardHeaderModule theme={themes.light}>
           <SecondLevelNavigation>
             <SecondLevelNavigationItem
-              href$={getModifiedUrlStream(p => (p.pathname = websiteMonitoringPath))}
+              href={createHref({ ...location, pathname: websiteMonitoringPath })}
               icon="lib_website"
               label={t('in-websites:websitesList.viewSwitcherLabelWebsites')}
               isActive={isWebsites}
             />
             <SecondLevelNavigationItem
-              href$={getModifiedUrlStream(p => (p.pathname = mobileAppMonitoringPath))}
+              href={createHref({ ...location, pathname: mobileAppMonitoringPath })}
               icon="lib_mobile_app"
               label={t('in-websites:websitesList.viewSwitcherLabelMobileApps')}
               isActive={!isWebsites}

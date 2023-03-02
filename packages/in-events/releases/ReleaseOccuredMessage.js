@@ -3,27 +3,21 @@
  * (c) Copyright Instana Inc.
  */
 
-import { get } from 'lodash';
 import React from 'react';
 
 import { Stack, Button } from '@instana/components';
-import { useObservable } from '@instana/hooks';
 
-import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
 import { removeMessage } from 'in-components/MessageFlyout/stores/messages';
-import { setTimeConfig, urlQueryKeys } from 'in-stores/time/config';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { formatDateTime } from 'in-services/formatters/date';
+import { setTimeConfig } from 'in-stores/time/config';
 import TimeCount from 'in-components/time/TimeCount';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t, Trans } from 'in-i18n';
 
 import locals from './ReleaseOccuredMessage.mless';
 
 export default function ReleaseOccurredMessage({ release }) {
-  const windowSize = useObservable(
-    navigationParameters$.map(location => get(location, ['query', urlQueryKeys.windowSize], null)).distinct(),
-    []
-  );
-
   return (
     <div>
       <div className={locals.content}>
@@ -36,28 +30,36 @@ export default function ReleaseOccurredMessage({ release }) {
           />
         </p>
       </div>
-      <Stack direction="horizontal" gap="disabled" wrap>
-        <Button
-          className={locals.btnLeft}
-          href$={getModifiedUrlStream(params => {
-            const to = release.start + windowSize / 2;
-            setTimeConfig(params, { to, windowSize });
-          })}
-          kind="action"
-          onClick={() => removeMessage(release.id)}
-        >
-          {t('in-events:buttonFocusTimeToRelease')}
-        </Button>
-        <Button
-          href$={getModifiedUrlStream(params => {
-            setTimeConfig(params, { autoRefresh: true });
-          })}
-          kind="action"
-          onClick={() => removeMessage(release.id)}
-        >
-          {t('in-events:buttonFollowReleaseLive')}
-        </Button>
-      </Stack>
+      <div className={locals.controls}>
+        <Stack direction="horizontal" gap="disabled" wrap>
+          <FocusTimeToReleaseButton release={release} />
+          <FollowReleaseLiveButton release={release} />
+        </Stack>
+      </div>
     </div>
+  );
+}
+
+function FocusTimeToReleaseButton({ release }) {
+  const { windowSize } = useTimeConfig();
+  const { location, createHref } = useNavigation();
+  const to = release.start + windowSize / 2;
+  setTimeConfig(location, { to, windowSize });
+
+  return (
+    <Button href={createHref(location)} kind="action" onClick={() => removeMessage(release.id)}>
+      {t('in-events:buttonFocusTimeToRelease')}
+    </Button>
+  );
+}
+
+function FollowReleaseLiveButton({ release }) {
+  const { location, createHref } = useNavigation();
+  setTimeConfig(location, { autoRefresh: true });
+
+  return (
+    <Button href={createHref(location)} kind="action" onClick={() => removeMessage(release.id)}>
+      {t('in-events:buttonFollowReleaseLive')}
+    </Button>
   );
 }

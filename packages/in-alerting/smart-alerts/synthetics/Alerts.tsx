@@ -13,7 +13,9 @@ import {
   getAllAlertConfigs
 } from 'in-alerting/smart-alerts/synthetics/api/syntheticAlertConfig';
 import AlertBaseList, { TableActions } from 'in-alerting/smart-alerts/components/AlertsBaseList';
+import DefaultCell from 'in-alerting/smart-alerts/components/list/DefaultCell';
 import { SyntheticAlertConfigWithMetadata } from 'in-types';
+import { t } from 'in-i18n';
 
 interface AlertsProps {
   testId?: string;
@@ -36,6 +38,7 @@ export default function Alerts({ testId }: AlertsProps) {
       extraColumnDefinitions={getColumnDefinitions()}
       loadEntities={() => getAllAlertConfigs(testId)}
       tableActions={tableActions}
+      getSubtitle={() => t('in-alerting:smartAlerts.synthetics.alertList.numberOfFailures')}
     />
   );
 }
@@ -43,29 +46,24 @@ export default function Alerts({ testId }: AlertsProps) {
 function getColumnDefinitions() {
   const additionalColumn = [
     {
-      id: 'testApplied',
-      label: 'Tests applied',
-      getContent: (item: SyntheticAlertConfigWithMetadata) => <span>{item.name}</span>
-    },
-    {
-      id: 'locations',
-      label: 'Locations',
-      getContent: (item: SyntheticAlertConfigWithMetadata) => {
-        return <span>{item.rule.alertType}</span>;
-      }
-    },
-    {
       id: 'timeThreshold',
-      label: 'Time Threshold',
+      label: t('in-alerting:smartAlerts.synthetics.alertList.timeThreshold'),
       getContent: (item: SyntheticAlertConfigWithMetadata) => {
-        return <span>{item.rule.alertType}</span>;
+        return (
+          <DefaultCell
+            title={t('in-alerting:smartAlerts.synthetics.alertList.violationsCount', {
+              violationsCount: item.timeThreshold.violationsCount
+            })}
+            subtitle={t('in-alerting:smartAlerts.synthetics.alertList.timeThreshold')}
+          />
+        );
       }
     },
     {
       id: 'filterApplied',
-      label: 'Filter applied',
-      getContent: (item: SyntheticAlertConfigWithMetadata) => {
-        return <span>{item.rule.alertType}</span>;
+      label: t('in-alerting:smartAlerts.synthetics.alertList.filterApplied'),
+      getContent: () => {
+        return <span />;
       }
     }
   ];

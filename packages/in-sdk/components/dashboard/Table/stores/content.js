@@ -251,6 +251,7 @@ export function createStore({
       return {
         totalRowCount: rows.length,
         rows,
+        // eslint-disable-next-line no-use-before-define
         page: shownPage,
         pageCount: 1,
         sortColumnIndex,

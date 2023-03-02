@@ -2,7 +2,7 @@
   "dialog": {
     "createTest": {
       "dialogTitle": "シンセティック・テストの作成",
-      "noLocationFound": "申し訳ありません アプリケーションが見つかりません",
+      "noLocationFound": "申し訳ありませんアプリケーションが見つかりません",
       "titles": {
         "step1": "ステップ 1：タイプの選択",
         "step2": "ステップ 2：要求の詳細",
@@ -13,13 +13,7 @@
         "title": "どのような種類のシンセティック・テストを作成しますか"
       },
       "scheduling": {
-        "title": "スケジューリング",
-        "playbackMode": "プレイバック・モード",
-        "labelPlaybackMode": "プレイバック・モードの選択",
-        "simultaneous": "同時",
-        "staggered": "時間差",
-        "simultaneousDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-        "staggeredDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+        "title": "スケジューリング"
       },
       "requestStep": {
         "title": "要求の指定",
@@ -28,10 +22,12 @@
         "labelUrl": "URL",
         "popSubTitle": "ポイント・オブ・プレゼンス",
         "uploadScriptTitle": "スクリプトのアップロード",
-        "failureToReadFileContent": "ファイル・コンテンツの読み取りに失敗しました: {{error}}"
+        "failureToReadFileContent": "ファイル・コンテンツの読み取りに失敗しました: {{error}}",
+        "emptyScriptFileError": "コードが空です。 検証するものがありません。"
       },
       "basicDetails": {
         "title": "この ping テストの名前は何ですか",
+        "scriptTitle": "この HTTP スクリプト・テストの名前は何ですか",
         "labelName": "テストの名前",
         "labelDescription": "説明",
         "labelFrequency": "頻度"
@@ -42,7 +38,7 @@
           "headline": "HTTP アクション",
           "whenToUse": {
             "title": "いつ使用しますか?",
-            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+            "line1": "HTTP アクション・テストを使用して単一の Rest API をテストします"
           },
           "whoShouldUse": {
             "title": "誰が使用すべきですか?",
@@ -50,33 +46,34 @@
           },
           "tipsForUsing": {
             "title": "使用のヒント",
-            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line3": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line4": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line5": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+            "line1": "ステップ 1: 作成するテストのタイプを選択します。",
+            "line2": "ステップ 2: テストする Web ページの HTTP メソッドと URL を入力します。 次に 1 つ以上のロケーションを選択します。 ロケーションは、デプロイされた合成 Point of Presence を表します。",
+            "line3": "ステップ 3: テスト頻度 (1 分 ~ 120 分) を選択します。",
+            "line4": "ステップ 4:「名前と説明」セクションの「名前」フィールドにテストの分かりやすい名前を入力します。 テストの目的の説明を「説明」フィールドに追加します。"
           }
         },
         "scriptApi": {
           "name": "スクリプト API",
           "headline": "HTTP スクリプト",
           "whenToUse": {
-            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+            "line1": "HTTP スクリプト・テストと Node.js ベースのスクリプトを使用して、複数の Rest API のシーケンスをテストします"
           },
           "whoShouldUse": {
             "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
           },
           "tipsForUsing": {
-            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line3": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line4": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line5": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+            "line1": "ステップ 1: 作成するテストのタイプを選択します。",
+            "line2": "ステップ 2:「スクリプトのアップロード」オプションを使用して、node.js テスト・スクリプト・ファイルをアップロードします。 次に 1 つ以上のロケーションを選択します。 ロケーションは、デプロイされた合成 Point of Presence を表します。",
+            "line3": "ステップ 3: テスト頻度 (1 分 ~ 120 分) を選択します。",
+            "line4": "ステップ 4:「テストの名前と説明」セクションの「名前」フィールドにテストの分かりやすい名前を入力します。 テストの目的の説明を「説明」フィールドに追加します。"
           }
         }
       },
       "form": {
         "validUrl": "有効なURLを入力してください"
+      },
+      "validators": {
+        "theValueMustNotBeEmpty": "少なくとも 1 つのロケーションを選択する必要があります"
       }
     },
     "httpMethods": {
@@ -117,9 +114,9 @@
         "simpleTab": "シンプル",
         "redisTab": "Redis TLS",
         "title": "シンセティック PoP コマンド",
-        "subTitle": "これらのコード・テンプレートをリファレンスとして使用してください",
-        "simpleCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"Name;DisplayName;Country;City;0;0;Location description\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<yourpassword>\"",
-        "redisCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"Name;DisplayName;Country;City;0;0;Location description\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true",
+        "subTitle": "以下のコード・テンプレートを参考に使用してください。 詳しくは、<documentationLink>合成 PoP デプロイメント</documentationLink>を参照してください",
+        "simpleCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<yourPassword>\"",
+        "redisCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true",
         "tlsInstructions": "Redis TLS を有効にする場合は、Helm チャートのルート・パスの下に certs フォルダーを作成し、証明書と鍵のペア (tls.crt、tls.key) および CA ルート証明書ファイル (ca.crt) を certs フォルダーにコピーする必要があります。ファイル名は正確に一致していなければなりません。\n\n鍵/証明書ファイルがない場合は、openssl コマンドを使用して新しい鍵/証明書ファイルを生成することもできます。以下の例を参照してください。",
         "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt"
       },
@@ -205,10 +202,13 @@
       "responseTimeColumn": "応答時間",
       "responseSizeColumn": "応答サイズ",
       "retriesColumn": "再試行カウント",
-      "title": "結果"
+      "title": "結果",
+      "locationLabel": "Location",
+      "failures": "障害",
+      "status": "状況"
     },
     "detailsPage": {
-      "timeLineWidget": "時刻",
+      "timeLineWidget": "タイムライン",
       "responseTimeChart": "応答時間",
       "subtransactionStatus": "状況",
       "subtransactionSize": "サイズ",
@@ -253,8 +253,74 @@
         "notFound": "見つかりませんでした"
       },
       "downloadHar": "HAR ファイルのダウンロード",
+      "downloadLog": "ログのダウンロード",
+      "downloadImages": "スクリーン・ショットのダウンロード",
+      "downloadVideo": "記録のダウンロード",
       "consoleLogs": "コンソール",
-      "browserLogs": "ブラウザー"
+      "browserLogs": "ブラウザー",
+      "browserDetails": {
+        "page": {
+          "request": "要求",
+          "size": "サイズ",
+          "time": "時刻"
+        },
+        "entry": {
+          "time": "時刻",
+          "status": "状況",
+          "size": "サイズ",
+          "types": {
+            "short": {
+              "document": "DOC",
+              "script": "SCR",
+              "stylesheet": "CSS",
+              "image": "IMG",
+              "font": "フォント",
+              "media": "メディア",
+              "other": "その他"
+            },
+            "long": {
+              "document": "文書",
+              "script": "スクリプト",
+              "stylesheet": "スタイルシート",
+              "image": "画像",
+              "font": "フォント",
+              "media": "メディア",
+              "other": "その他"
+            }
+          }
+        },
+        "body": {
+          "request": {
+            "title": "要求",
+            "url": "URL",
+            "httpVersion": "HTTP バージョン",
+            "headerSize": "ヘッダーのサイズ",
+            "bodySize": "本文のサイズ",
+            "method": "メソッド"
+          },
+          "response": {
+            "title": "応答",
+            "transferSize": "転送サイズ",
+            "httpVersion": "HTTP バージョン",
+            "redirectUrl": "リダイレクト URI",
+            "headerSize": "ヘッダーのサイズ",
+            "bodySize": "本文のサイズ",
+            "contentType": "コンテンツ・タイプ",
+            "contentSize": "コンテンツ・サイズ",
+            "status": "状況"
+          },
+          "timings": {
+            "title": "応答時間",
+            "receiving": "受信",
+            "waiting": "待機",
+            "blocking": "ブロッキング",
+            "dns": "DNS",
+            "ssl": "SSL",
+            "sending": "送信",
+            "connect": "接続"
+          }
+        }
+      }
     },
     "noDataAvailable": {
       "resultsTitle": "表示可能な結果はありません",

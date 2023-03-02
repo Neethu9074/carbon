@@ -63,10 +63,12 @@ module.exports = {
   websiteUploadConfigEnabled: true,
   pluginMetricStatisticsEnabled: true,
   mobileAppCrashBeaconEnabled: true,
-  k8sTimeShiftEnabled: true,
   syntheticBrowserScriptEnabled: true,
   websiteBeaconQueryOptimizationEnabled: true,
   rbacImprovementEnabled: false,
   traceIdFilterOverrideEnabled: true,
-  syntheticSmartAlertsEnabled: true
+  syntheticSmartAlertsEnabled: true,
+  syntheticCreateSmartAlertsUIEnabled: true,
+  controlPlaneEnabled: true,
+  sloV2Enabled: true
 };

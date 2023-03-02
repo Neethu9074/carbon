@@ -8,7 +8,7 @@ import React from 'react';
 import MultilineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 
 export default {
-  component: MultiLineToolTipWithIconWithSingleComment,
+  component: MultilineToolTipIcon,
   parameters: {
     chromatic: { disable: true }
   }

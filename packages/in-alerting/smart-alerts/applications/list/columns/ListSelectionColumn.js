@@ -8,13 +8,13 @@ import React from 'react';
 
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 
-export default function ListSelectionColumn({ config, selection, onSelect, isGlobalSmartAlertConfig }) {
+export default function ListSelectionColumn({ config, selection, onSelect }) {
   const { id } = config;
   const selected = selection.some(i => id === i);
   return (
     <CheckboxFancy
       onChange={() => {
-        onSelect(id, !selected, isGlobalSmartAlertConfig);
+        onSelect(id, !selected);
       }}
       checked={selected}
       size="larger"
@@ -27,6 +27,5 @@ ListSelectionColumn.propTypes = {
     id: PropTypes.string.isRequired
   }).isRequired,
   selection: PropTypes.arrayOf(PropTypes.string).isRequired,
-  onSelect: PropTypes.func.isRequired,
-  isGlobalSmartAlertConfig: PropTypes.bool
+  onSelect: PropTypes.func.isRequired
 };

@@ -43,8 +43,8 @@ let state: State = {
   meta: emptyObject
 };
 
-export function track(event: string, payload: Object) {
-  if (payload == null) {
+export function track(event: string, payload?: Object) {
+  if (!payload) {
     payload = emptyObject;
   }
 
@@ -145,7 +145,7 @@ const getStringInEnglish = (string?: string) => {
   }
 
   let englishString;
-  const stringKey = flattenedLanguageData[string].split('.');
+  const stringKey = flattenedLanguageData[string]?.split('.');
 
   if (!stringKey) return string;
 

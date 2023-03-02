@@ -53,6 +53,58 @@
       "purpose": "Onboarding dell'utente e sondaggio sullo store NPS."
     }
   },
+  "roleAndAccessScope": {
+    "dialogTitle": "Crea nuovo gruppo",
+    "dialogTitle_edit": "Modifica ambito di accesso",
+    "editButton": "Modifica ambito di accesso",
+    "productArea": "Ruolo e ambito di accesso",
+    "productArea_application": "Applicazione",
+    "productArea_platform": "Piattaforme",
+    "productArea_website": "Sito web",
+    "productArea_mobile-app": "App mobili",
+    "productArea_kubernetes": "Kubernetes",
+    "productArea_infrastructure": "Infrastruttura",
+    "productArea_analytics": "Analitica",
+    "productArea_event": "Eventi e avvisi",
+    "productArea_function": "Funzioni globali"
+  },
+  "headingSection": {
+    "title": "Ruolo e ambito di accesso",
+    "description": "Abilitare le aree del prodotto per l'accesso e definire gli ambiti di accesso per ciascuna unità.",
+    "link": "Ulteriori informazioni su ruoli e autorizzazioni."
+  },
+  "groupSection": {
+    "title": "Nome gruppo",
+    "label": "Immettere un nome"
+  },
+  "websitePermissionSection": {
+    "title": "Siti web",
+    "addButton": "Seleziona sito web",
+    "description_limited_access": "Selezionare il ruolo per l'area del prodotto e aggiungere i siti web di seguito per concedere l'accesso",
+    "description_access_all": "È possibile accedere a tutti i siti web con il ruolo selezionato per l'area del prodotto",
+    "deleteButton": "Rimuovi {{name}} dall'elenco"
+  },
+  "selectItemForm": {
+    "doneButton": "Fine"
+  },
+  "selectWebsitesDialog": {
+    "title": "Seleziona siti web",
+    "nameColumnHead": "Nome"
+  },
+  "permissionScope": {
+    "selection": "Non disponibile",
+    "selection_access_all": "Accedi a tutti",
+    "selection_limited_access": "Ambito di accesso limitato",
+    "selection_no_access": "Nessun accesso",
+    "description_no_access": "Impossibile utilizzare questa area",
+    "description_access_all": "Accedi a tutto senza limitazione",
+    "role": "Seleziona un ruolo",
+    "role_owner": "Proprietario",
+    "role_viewer": "Visualizzatore",
+    "role_custom": "Personalizzato",
+    "roleTooltip": "Visualizzatore: possibilità di visualizzare i dashboard (la configurazione non può essere visualizzata). Proprietario: possibilità di creare nuove entità; visualizzare, configurare ed eliminare i dashboard.",
+    "roleTooltip_websites": "Visualizzatore: possibilità di visualizzare i dashboard del sito web (la configurazione non può essere visualizzata). Proprietario: possibilità di creare nuovi siti web; visualizzare, configurare ed eliminare i dashboard del sito web."
+  },
   "cardTitle_Area": "Area",
   "cardTitle_Area_plural": "Aree",
   "cardTitle_Area_0": "Aree",
@@ -98,6 +150,7 @@
   "tabs": {
     "team": {
       "events": {
+        "addCondition": "Aggiungi condizione",
         "withDeprecatedSuffix": "{{pluginName}} (obsoleto)",
         "placeholder": "Segnaposto"
       },
@@ -293,6 +346,8 @@
     "hostAvailabilityDetection": "Rilevamento della disponibilità host",
     "pleaseSelectASeverity": "Selezionare una severità",
     "pleaseEnterAValidMetric": "Immettere una metrica valida.",
+    "noMoreThanOneThresholdCanBeDefinedOnSameMetric": "Non è possibile definire più di una soglia sulla stessa metrica.",
+    "onlyOneRuleIsAllowedToHaveDifferentOperatorThanIs": "Quando si definiscono più metriche per modello, solo una regola può utilizzare un operatore di corrispondenza diverso da 'è' (is).",
     "thisEntityTypeHasBeenDeprecated": "Questo tipo di entità è obsoleto. Scegliere un tipo differente.",
     "failedToSaveSettings": "Impossibile salvare le impostazioni: {{err}}",
     "events": "Eventi",
@@ -312,6 +367,7 @@
     "kilobytes": "Kilobyte",
     "megabytes": "Megabyte",
     "count": "Conteggio",
+    "statusValue": "Valore stato",
     "scheduleMaintenanceWindow": "Pianifica finestra di manutenzione",
     "changeMaintenanceWindow": "Modifica finestra di manutenzione",
     "allAlertsWillBeMutedForTheDurationOfThisMaintenanceWindow": "<strong>Attenzione!</strong> Tutti gli avvisi verranno disattivati per la durata di questa finestra di manutenzione. <strong>Questo potrebbe avere effetto su altri utenti nell'organizzazione.</strong>",
@@ -396,6 +452,7 @@
     "emailField": "Campo Email",
     "emailFieldDescription": "Il nome dell'attributo dove trovare l'indirizzo email degli utenti, ad esempio: mail",
     "ldapUserAccount": "Account utente LDAP",
+    "ldapsAcceptAnyCA": "Considera attendibili tutte le autorità di certificazione mentre si utilizza ldaps",
     "username": "Nome utente",
     "usernameDescription": "L'utente deve essere correlato in Instana come utente proprietario. Un nome utente login viene verificato  prima che le impostazioni vengano salvate, le credenziali non vengono memorizzate.",
     "usernamePasswordDescription": "La password LDAP dell'utente",
@@ -490,7 +547,7 @@
     "failIfNoIdp": "Per modificare queste impostazioni è necessario avere un provider di identità configurato.",
     "noActions": "Non ci sono azioni configurate.",
     "noGroupMapping": "Non ci sono associazioni configurate tra provider di identità e Instana",
-    "denyUserWithNoGroup": "Negare l'accesso quando non viene trovata alcuna associazione. Se deselezionato, gli utenti senza associazioni gruppo e con nessun gruppo trovato verranno aggiunti al gruppo predefinito.",
+    "denyUserWithNoGroup": "Negare l'accesso quando non viene trovata alcuna associazione. Se deselezionato, gli utenti senza associazioni gruppo e con nessun gruppo trovato verranno aggiunti al gruppo Default.",
     "twoFactor": "Due fattori",
     "settings": "Impostazioni",
     "users": "Utenti",
@@ -546,8 +603,8 @@
     "savingGroup": "Salvataggio del gruppo",
     "groupSuccessfullySaved": "Gruppo salvato correttamente.",
     "groups": "Gruppi",
-    "groupDeleteTooltip_Default": "Il gruppo predefinito è un gruppo integrato e non può essere eliminato o rinominato.",
-    "groupDeleteTooltip_Owner": "Il gruppo proprietario è un gruppo integrato e non può essere eliminato o rinominato.",
+    "groupDeleteTooltip_Default": "Il gruppo Default è un gruppo integrato e non può essere eliminato o rinominato.",
+    "groupDeleteTooltip_Owner": "Il gruppo Owner è un gruppo integrato e non può essere eliminato o rinominato.",
     "addGroup": "Aggiungi gruppo",
     "pendingInvitations": "Inviti in sospeso",
     "revoke": "Revoca",
@@ -842,10 +899,11 @@
     "identityProviderType": "Tipo provider di identità",
     "copyApiTokenToClipboardError": "Impossibile copiare il token dell'API negli appunti.",
     "depreactedEventHiddenInfo": "Gli eventi obsoleti non possono essere più aggiunti ai nuovi avvisi e sono nascosti da questo elenco.",
-    "deprecatedEventMessage": "Gli eventi personalizzati sui tipi di entità Prospettiva di applicazione, Servizio e Endpoint diventeranno obsoleti presto. Da gennaio 2023, non sarà possibile creare nuovi eventi di questo tipo. Si consiglia di migrare questo evento in un avviso smart, manualmente o utilizzando il pulsante <em>Migra in avviso smart</em> sopra. <documentationLink>Leggere di più nella nostra documentazione</documentationLink>.",
-    "disallowedEventMessage": "Gli eventi personalizzati sui tipi di entità Prospettiva dell'applicazione, Servizio ed Endpoint verranno rimossi a breve. Da aprile 2023, gli eventi personalizzati esistenti di questo tipo non saranno più elaborati. Si consiglia di migrare questo evento in un avviso smart, manualmente o utilizzando il pulsante <em>Migra in avviso smart</em> sopra. <documentationLink>Leggere di più nella nostra documentazione</documentationLink>.",
+    "deprecatedEventMessage": "<strong>Eventi personalizzati sui tipi di entità Applicazione, Servizio ed Endpoint saranno presto obsoleti</strong><br/>Da Aprile 2023, non sarà possibile creare nuovi eventi di questo tipo. Si consiglia di migrare questo evento in un avviso smart, manualmente o utilizzando il pulsante <em>Migra in avviso smart</em> sopra. <documentationLink>Ulteriori informazioni sono disponibili nella documentazione</documentationLink>",
+    "disallowedEventMessage": "Gli eventi personalizzati sui tipi di entità Applicazione, Servizio ed Endpoint verranno rimossi a breve. Da luglio 2023, gli eventi personalizzati esistenti di tale tipo non verranno più elaborati. Si consiglia di migrare questo evento in un avviso smart, manualmente o utilizzando il pulsante <em>Migra in avviso smart</em> sopra. <documentationLink>Leggere di più nella nostra documentazione</documentationLink>.",
     "migratedEventMessage": "Questo evento obsoleto è stato migrato. Per ulteriori informazioni, <documentationLink>fare riferimento alla documentazione</documentationLink>.",
-    "deprecatedEventSelectedMessage": "Gli eventi personalizzati sui tipi di entità Prospettiva di applicazione, Servizio e Endpoint diventeranno obsoleti presto. Da gennaio 2023, non sarà possibile creare nuovi eventi di questo tipo. Si consiglia invece di creare un avviso smart. <documentationLink>Leggere di più nella nostra documentazione</documentationLink>.",
+    "deprecatedEventSelectedMessage": "Gli eventi personalizzati sui tipi di entità Applicazione, Servizio ed Endpoint saranno presto obsoleti. Da aprile 2023, non sarà possibile creare nuovi eventi di questo tipo. Si consiglia invece di creare un avviso smart. <documentationLink>Leggere di più nella nostra documentazione</documentationLink>.",
+    "customEventListDeprecatedWarning": "<strong>Gli eventi personalizzati sui tipi di entità Applicazione, Servizio ed Endpoint sono obsoleti</strong><br/>Non sarà possibile creare o aggiornare gli eventi personalizzati su questi tre tipi di entità da <strong>Aprile 2023 (Build 246)</strong> in poi. Le configurazioni esistenti verranno rimosse da <strong>luglio 2023 (Build 253)</strong> in poi. <documentationLink>Ulteriori informazioni sono disponibili nella documentazione</documentationLink>",
     "automation": "Automazione",
     "actionCatalog": "Catalogo azioni",
     "actions": "Azioni",
@@ -869,7 +927,35 @@
     "confidence_high": "Elevato",
     "confidence": "{{context}}",
     "confidenceTitle": "Confidenza",
-    "test": "Test"
+    "host": "Host",
+    "method": "Metodo",
+    "accept": "Accept (facoltativo)",
+    "acceptLanguage": "Accept-Language (facoltativo)",
+    "contentType": "Content-Type (facoltativo)",
+    "bodyDescription": "Dati associati alla richiesta HTTP.",
+    "acceptLanguageDescription": "Lingue che il client può comprendere.",
+    "acceptDescription": "Tipo di contenuto comprensibile dal client espresso come tipi MIME.",
+    "contentTypeDescription": "Tipo di supporto del corpo.",
+    "noAdditionalHeadersConfigured": "Nessuna intestazione aggiuntiva configurata",
+    "body": "Corpo (facoltativo)",
+    "additionalHeadersOptional": "Intestazioni aggiuntive (facoltativo)",
+    "theValueMustBeValidMime": "Il valore deve essere un tipo MIME valido.",
+    "authType": "Tipo di autorizzazione",
+    "noAuth": "Nessuna autorizzazione",
+    "ignoreCertErrors": "Ignora errori certificato",
+    "basicAuth": "Autorizzazione di base",
+    "bearerToken": "Token bearer",
+    "apiKeyAddTo": "Aggiungi a",
+    "header": "Intestazione",
+    "queryParams": "Parametri di query",
+    "test": "Test",
+    "http": "HTTP",
+    "serviceNowUrl": "URL ServiceNow",
+    "serviceNow": "ServiceNow",
+    "serviceNowAlertChannel": "Canale di avviso ServiceNow",
+    "serviceNowUsernameTooltip": "Il nome utente e la password devono essere per un utente ServiceNow con autorizzazione per creare gli incidenti.",
+    "showPasswordTooltip": "Mostra password",
+    "hidePasswordTooltip": "Nascondi password"
   },
   "languageSelection": {
     "language": "Lingua",
@@ -906,5 +992,6 @@
   "queryValidationStillInProgress": "Convalida della query ancora in corso",
   "teamSettings": {
     "newGroup": "Nuovo gruppo"
-  }
+  },
+  "successResponse": "Il canale di avviso è stato attivato correttamente, controllare il canale."
 }

@@ -18,7 +18,7 @@ import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/ta
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 import { default as useWebsiteTagCatalog } from 'in-websites/hooks/useTagCatalog';
 import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
-import { getLinkToAnalyzeDeprecated } from 'in-analyze/navigation/paths';
+import { useLinkToAnalyzeDeprecated } from 'in-analyze/navigation/paths';
 import { getLinkToExplore } from 'in-infrastructure/navigation/paths';
 import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
 import { NO_VALUE } from 'in-analyze/components/GroupedTraces/Group';
@@ -186,6 +186,8 @@ function Label({ item, config, result, tagCatalog }) {
       expressions: filteredTags
     });
   }
+
+  const getLinkToAnalyzeDeprecated = useLinkToAnalyzeDeprecated();
 
   let link = config.metricConfiguration.tagFilterExpression
     ? getLinkToAnalyze({

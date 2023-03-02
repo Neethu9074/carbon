@@ -13,13 +13,7 @@
         "title": "작성하려는 합성 테스트 종류"
       },
       "scheduling": {
-        "title": "스케줄링",
-        "playbackMode": "재생 모드",
-        "labelPlaybackMode": "재생 모드 선택",
-        "simultaneous": "동시",
-        "staggered": "시차 실행",
-        "simultaneousDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-        "staggeredDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+        "title": "스케줄링"
       },
       "requestStep": {
         "title": "요청 지정",
@@ -28,10 +22,12 @@
         "labelUrl": "URL",
         "popSubTitle": "접속 위치",
         "uploadScriptTitle": "스크립트 업로드",
-        "failureToReadFileContent": "파일 컨텐츠 읽기 실패: {{error}}"
+        "failureToReadFileContent": "파일 컨텐츠 읽기 실패: {{error}}",
+        "emptyScriptFileError": "코드가 비어 있습니다. 유효성을 검증할 항목이 없습니다."
       },
       "basicDetails": {
         "title": "ping 테스트 이름",
+        "scriptTitle": "이 HTTP 스크립트 테스트의 이름은 무엇입니까",
         "labelName": "테스트 이름",
         "labelDescription": "설명",
         "labelFrequency": "빈도"
@@ -42,7 +38,7 @@
           "headline": "HTTP 조치",
           "whenToUse": {
             "title": "사용 시기",
-            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+            "line1": "HTTP Action 테스트를 사용하여 단일 REST API 테스트"
           },
           "whoShouldUse": {
             "title": "사용자",
@@ -50,33 +46,34 @@
           },
           "tipsForUsing": {
             "title": "사용 팁",
-            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line3": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line4": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line5": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+            "line1": "1단계: 작성할 테스트 유형을 선택하십시오.",
+            "line2": "2단계: 테스트할 웹 페이지의 HTTP 메소드 및 URL을 입력하십시오. 그런 다음 하나 이상의 위치를 선택하십시오. 위치는 배치된 Synthetic PoP(Point of Presence)를 나타냅니다.",
+            "line3": "3단계: 테스트 빈도를 선택하십시오(1~120분).",
+            "line4": "4단계: 이름 및 설명 섹션에서, 테스트에 대한 의미 있는 이름을 이름 필드에 입력하십시오. 테스트 목적에 대한 설명을 설명 필드에 추가하십시오."
           }
         },
         "scriptApi": {
           "name": "스크립트 API",
           "headline": "HTTP 스크립트",
           "whenToUse": {
-            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+            "line1": "HTTP 스크립트 테스트 및 Node.js 기반 스크립트를 사용하여 여러 REST API 시퀀스를 테스트하십시오."
           },
           "whoShouldUse": {
             "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
           },
           "tipsForUsing": {
-            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line3": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line4": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line5": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+            "line1": "1단계: 작성할 테스트 유형을 선택하십시오.",
+            "line2": "2단계: 스크립트 업로드 옵션을 사용하여 node.js 테스트 스크립트 파일을 업로드하십시오. 그런 다음 하나 이상의 위치를 선택하십시오. 위치는 배치된 Synthetic PoP(Point of Presence)를 나타냅니다.",
+            "line3": "3단계: 테스트 빈도를 선택하십시오(1~120분).",
+            "line4": "4단계: 테스트 이름 및 설명 섹션에서, 테스트에 대한 의미 있는 이름을 이름 필드에 입력하십시오. 테스트 목적에 대한 설명을 설명 필드에 추가하십시오."
           }
         }
       },
       "form": {
         "validUrl": "올바른 URL을 입력하십시오."
+      },
+      "validators": {
+        "theValueMustNotBeEmpty": "위치를 하나 이상 선택해야 함"
       }
     },
     "httpMethods": {
@@ -117,9 +114,9 @@
         "simpleTab": "단순",
         "redisTab": "Redis TLS",
         "title": "합성 PoP 명령",
-        "subTitle": "이 코드 템플리트를 참조로 사용하십시오.",
-        "simpleCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"Name;DisplayName;Country;City;0;0;Location description\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<yourpassword>\"",
-        "redisCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"Name;DisplayName;Country;City;0;0;Location description\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true",
+        "subTitle": "이 코드 템플리트를 참조로 사용하십시오. 자세한 정보는 <documentationLink>Synthetic PoP 배치</documentationLink>를 참조하십시오.",
+        "simpleCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<yourPassword>\"",
+        "redisCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true",
         "tlsInstructions": "Redis TLS를 사용으로 설정하려면 Helm 차트 루트 경로 아래에 certs 폴더를 작성하고 인증서 키 쌍(tls.crt, tls.key) 및 CA 루트 인증서 파일(ca.crt)을 certs 폴더로 복사해야 하며 파일 이름이 정확히 일치해야 합니다.\n\n키/인증서 파일이 없는 경우 openssl 명령을 사용하여 새 파일을 생성할 수도 있습니다. 아래 예를 참조하십시오.",
         "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt"
       },
@@ -205,7 +202,10 @@
       "responseTimeColumn": "응답 시간",
       "responseSizeColumn": "응답 크기",
       "retriesColumn": "재시도 횟수",
-      "title": "결과"
+      "title": "결과",
+      "locationLabel": "위치",
+      "failures": "실패",
+      "status": "상태"
     },
     "detailsPage": {
       "timeLineWidget": "타임라인",
@@ -253,8 +253,74 @@
         "notFound": "찾을 수 없음"
       },
       "downloadHar": "HAR 파일 다운로드",
+      "downloadLog": "로그 다운로드",
+      "downloadImages": "스크린샷 다운로드",
+      "downloadVideo": "다운로드 레코딩",
       "consoleLogs": "콘솔",
-      "browserLogs": "브라우저"
+      "browserLogs": "브라우저",
+      "browserDetails": {
+        "page": {
+          "request": "요청",
+          "size": "크기",
+          "time": "시간"
+        },
+        "entry": {
+          "time": "시간",
+          "status": "상태",
+          "size": "크기",
+          "types": {
+            "short": {
+              "document": "DOC",
+              "script": "SCR",
+              "stylesheet": "CSS",
+              "image": "IMG",
+              "font": "FONT",
+              "media": "MEDIA",
+              "other": "기타"
+            },
+            "long": {
+              "document": "문서",
+              "script": "스크립트",
+              "stylesheet": "스타일시트",
+              "image": "이미지",
+              "font": "글꼴",
+              "media": "미디어",
+              "other": "기타"
+            }
+          }
+        },
+        "body": {
+          "request": {
+            "title": "요청",
+            "url": "URL",
+            "httpVersion": "HTTP 버전",
+            "headerSize": "헤더 크기",
+            "bodySize": "본문 크기",
+            "method": "방법"
+          },
+          "response": {
+            "title": "응답",
+            "transferSize": "전송 크기",
+            "httpVersion": "HTTP 버전",
+            "redirectUrl": "경로 재지정 URL",
+            "headerSize": "헤더 크기",
+            "bodySize": "본문 크기",
+            "contentType": "컨텐츠 유형",
+            "contentSize": "컨텐츠 크기",
+            "status": "상태"
+          },
+          "timings": {
+            "title": "응답 타이밍",
+            "receiving": "수신",
+            "waiting": "대기",
+            "blocking": "블로킹",
+            "dns": "DNS",
+            "ssl": "SSL",
+            "sending": "전송",
+            "connect": "연결"
+          }
+        }
+      }
     },
     "noDataAvailable": {
       "resultsTitle": "사용 가능한 결과가 없음",

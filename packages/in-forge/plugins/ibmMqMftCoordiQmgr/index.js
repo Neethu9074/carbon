@@ -4,11 +4,13 @@
  * Copyright IBM Corp. 2022
  */
 
+import metricDefinitions from 'in-forge/plugins/ibmMqMftCoordiQmgr/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/ibmMqMftCoordiQmgr/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.ibmMqMftCoordiQmgr,
-  kpiDefinitions
+  kpiDefinitions,
+  metricDefinitions
 });

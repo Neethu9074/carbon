@@ -16,7 +16,8 @@ import {
   ThresholdConfig,
   ThresholdOperator,
   WebsiteAlertConfig,
-  WebsiteAlertRule
+  WebsiteAlertRule,
+  isStaticThresholdConfig
 } from '@instana/types';
 
 import {
@@ -28,7 +29,6 @@ import getWebsiteMetricsThresholdSuggestion from 'in-alerting/smart-alerts/websi
 import getWebsiteRateMetricAlertsPreview from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteRateMetricAlertsPreview';
 import getWebsiteMetricAlertsPreview from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteMetricAlertsPreview';
 import { thresholdTypeOptions } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
-import { ADAPTIVE_BASELINE, isStaticThresholdConfig } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import getWebsiteRateMetric from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteRateMetric';
 import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 // @ts-expect-error needs conversion to TS
@@ -36,6 +36,7 @@ import { availableFilterTags } from 'in-websites/tags';
 import { toTagFilterNumberOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { millis, number, NumberFormatter, percentage } from 'in-services/formatters/number';
 import { getAggregationText } from 'in-alerting/smart-alerts/components/utils/formUtils';
+import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';

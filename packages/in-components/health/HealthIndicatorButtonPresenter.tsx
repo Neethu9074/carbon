@@ -51,7 +51,7 @@ export default function HealthIndicatorButtonPresenter({
 
 function getLabel(openIssues?: number, openIncidents?: number): string {
   if (openIssues != null) {
-    getIssueLabel(openIssues);
+    return getIssueLabel(openIssues);
   }
   if (openIncidents != null) {
     return getIncidentLabel(openIncidents);

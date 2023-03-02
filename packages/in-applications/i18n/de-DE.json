@@ -62,8 +62,6 @@
   "labelScope": "Bereich",
   "labelCustomServiceRules": "Angepasste Serviceregeln",
   "labelSyntheticEndpoints": "Synthetische Endpunkte",
-  "labelWarning": "Warnung",
-  "labelCritical": "Kritisch",
   "titleTopServices": "Wichtigste Services",
   "titleMeanLatency": "Durchschnittliche Latenzzeit",
   "titleErroneousCallRate": "Rate fehlerhafter Aufrufe",
@@ -132,12 +130,6 @@
   "Rendering": "Wiedergabe",
   "loadingData": "Daten werden geladen",
   "UnexpectedErrorOccurred": "Ein unerwarteter Fehler ist aufgetreten",
-  "noIssues": "Keine Probleme",
-  "openIssues": "{{count}} Problem",
-  "openIssues_plural": "{{count}} Probleme",
-  "openIssues_0": "{{count}} Probleme",
-  "openIssues_1": "{{count}} Problem",
-  "openIssues_2": "{{count}} Probleme",
   "applicationMap": {
     "webglNotSupportedTitle": "Browser unterstützt WebGL nicht",
     "webglNotSupported": "Die Instana-Benutzerschnittstelle enthält 3D-Komponenten, die mit einer Technologie namens WebGL wiedergegeben werden. Leider ist diese Technologie noch nicht auf allen Plattformen verfügbar. Einige Browser, insbesondere Browser in älteren Versionen, unterstützen WebGL nicht. Wir empfehlen die Verwendung der neuesten Generation von Browsern mit automatischer Aktualisierung: Chrome, Firefox, Safari 8 oder MS Edge.\n \nWir versuchen unser Bestes, alle Kombinationen aus Plattform und Browser zu unterstützen.Es kann jedoch sein, dass unsere Verwendung von WebGL Fehler enthält. Sie können einen [Onlinetest] (https: //get.webgl.org/) verwenden, um zu überprüfen, ob Ihre Plattform WebGL unterstützt.\n \nSollte der Online-Test ergeben, dass Ihre Plattform WebGL unterstützt, aber die Instana-3D-Karte noch nicht funktionsfähig ist, [wenden Sie sich an uns] (https: //support.instana.com/hc/en-us/requests/new).\n\nWeitere Fehlerbehebungsinformationen finden Sie in der [WebGL-Kompatibilitätstabelle](http://caniuse.com/#feat=webgl) oder auf der [WebGL-Website](http://webgl.org/).",
@@ -241,7 +233,8 @@
     "dataSource_calls": "{{formattedCount}} Aufruf",
     "dataSource_calls_plural": "{{formattedCount}} Aufrufe",
     "dataSource_traces": "{{formattedCount}} Trace",
-    "dataSource_traces_plural": "{{formattedCount}} Traces"
+    "dataSource_traces_plural": "{{formattedCount}} Traces",
+    "analyzeCallsOfThisTrace": "Aufrufe dieses Trace analysieren"
   },
   "creation": {
     "newAP": "Neue Anwendungsperspektive",

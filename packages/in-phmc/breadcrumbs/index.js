@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import SharedProcessorPoolBreadcrumb from 'in-phmc/breadcrumbs/SharedProcessorPoolBreadcrumb';
 import { getIbmpPhmcDashboard, getIbmpSystemDashboard } from 'in-phmc/navigation/paths';
 import HomeViewBreadcrumb from 'in-phmc/breadcrumbs/HomeViewBreadcrumb';
 import SystemBreadcrumb from 'in-phmc/breadcrumbs/SystemBreadcrumb';
@@ -42,5 +43,14 @@ export function LparBreadcrumbs(props) {
     consoleId && <PhmcBreadcrumb {...props} href$={getIbmpPhmcDashboard(consoleId)} />,
     systemId && <SystemBreadcrumb {...props} href$={getIbmpSystemDashboard(systemId, { consoleId })} />,
     lparId && <LparBreadcrumb {...props} />
+  ];
+}
+export function SharedProcessorPoolBreadcrumbs(props) {
+  const { sharedProcessorPoolId, systemId, consoleId } = props;
+  return [
+    <HomeViewBreadcrumb />,
+    consoleId && <PhmcBreadcrumb {...props} href$={getIbmpPhmcDashboard(consoleId)} />,
+    systemId && <SystemBreadcrumb {...props} href$={getIbmpSystemDashboard(systemId, { consoleId })} />,
+    sharedProcessorPoolId && <SharedProcessorPoolBreadcrumb {...props} />
   ];
 }

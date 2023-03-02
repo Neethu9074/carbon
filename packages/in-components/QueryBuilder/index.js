@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import React from 'react';
@@ -12,35 +13,38 @@ import { validateFormModel } from 'in-components/QueryBuilder/validation/formMod
 import QueryBuilder from 'in-components/QueryBuilder/QueryBuilder';
 import { success, errorWithData } from 'in-services/util/result';
 import { getTagCatalogOnce } from 'in-services/tags/tagCatalog';
+import { pendingResult } from 'in-services/fixedObjects';
 import { isLoading } from 'in-services/util/result';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
-export function createQueryBuilder({
-  getTagCatalog: originalGetTagCatalog,
-  ...props
-}) {
+export function createQueryBuilder({ getTagCatalog: originalGetTagCatalog, ...props }) {
   // Ensure that we only ever receive the tag catalog once (per time config).
   const getTagCatalog = getTagCatalogOnce(originalGetTagCatalog);
 
-  const {QueryBuilder, isQueryValid, toFormModel} = createDynamicQueryBuilder(props);
+  const { QueryBuilder, isQueryValid, toFormModel } = createDynamicQueryBuilder(props);
 
   return {
     // Re-exposed so that users follow the best practice to only ever load the tag catalog once.
     getTagCatalog,
 
-    QueryBuilder: function CreatedQueryBuilder({...props}) {
+    QueryBuilder: function CreatedQueryBuilder({ ...props }) {
       const timeConfig = useTimeConfig();
-      const tagCatalog = useObservable(() => getTagCatalog({timeConfig}), [getTagCatalog, timeConfig]);
+      const tagCatalog = useObservable(() => getTagCatalog({ timeConfig }), [getTagCatalog, timeConfig]);
 
-      return <QueryBuilder
-        {...props}
-        tagCatalog={tagCatalog?.data}
-      />
+      return <QueryBuilder {...props} tagCatalog={tagCatalog?.data} />;
     },
 
     // Observable<Result<Boolean>>
     isQueryValid: (formModel, timeConfig) =>
-      getTagCatalog({ timeConfig }).map(result => isQueryValid(formModel, result)),
+      getTagCatalog({ timeConfig }).map(result => {
+        if (isLoading(result)) {
+          return pendingResult;
+        }
+        if (result?.data == null) {
+          return errorWithData(false);
+        }
+        return isQueryValid(formModel, result?.data);
+      }),
 
     // Observable<Result<FormModel>>
     toFormModel: (tagFilterArray, timeConfig) =>
@@ -65,28 +69,25 @@ export function createDynamicQueryBuilder({
           withoutBrackets={withoutBrackets}
           maxExpressionDepth={maxExpressionDepth}
         />
-      )
+      );
     },
 
-    isQueryValid: (formModel, tagCatalogResult) => {
-      if (isLoading(tagCatalogResult)) {
-        return tagCatalogResult;
+    isQueryValid: (formModel, tagCatalog) => {
+      if (!tagCatalog) {
+        return pendingResult;
       }
-      if (tagCatalogResult?.data == null) {
-        return errorWithData(false);
-      }
-      const { isValid, errors } = validateFormModel({ tagCatalog: tagCatalogResult?.data, formModel, maxExpressionDepth });
+      const { isValid, errors } = validateFormModel({ tagCatalog: tagCatalog, formModel, maxExpressionDepth });
       if (!isValid) {
         return errorWithData(errors, false);
       }
       return success(isValid);
     },
 
-    toFormModel: (tagFilterArray, tagCatalogResult) => {
-      if (!tagCatalogResult?.data) {
-        return tagCatalogResult;
+    toFormModel: (tagFilterArray, tagCatalog) => {
+      if (!tagCatalog) {
+        return pendingResult;
       }
-      return success(fromTagFiltersArray(tagFilterArray, tagCatalogResult?.data));
+      return success(fromTagFiltersArray(tagFilterArray, tagCatalog));
     }
-  }
+  };
 }

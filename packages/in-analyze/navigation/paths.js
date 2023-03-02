@@ -83,121 +83,93 @@ export function createMetricField(metricId, aggregationId) {
   return { metricId, aggregationId, type: metricType };
 }
 
-export function getLinkToAnalyzeDeprecated({
-  applicationName,
-  serviceName,
-  endpointName,
-  boundaryScope = boundaryScopes.inbound,
-  dataSource = 'calls',
-  // when passing filters, make sure to pass also the tagCatalog which is needed
-  // in order to properly convert some tagFilters
-  filters,
-  // tag catalog for filtering
-  tagCatalog,
-  groupByTag, // use an empty object to prevent default grouping
-  orderBy,
-  orderDirection,
-  timeConfig,
-  metrics,
-  // ignore the 'showGraph' flag, in UA2 (closed beta) charts should always be enabled
-  // showGraph = true,
-  focusedMetric,
-  jumpToSource,
-  fastQueryModeEnabled
-} = emptyObject) {
-  if (__DEV__) {
-    invariant(
-      tagCatalog != null ||
-        filters == null ||
-        filters.filter(f => f.name !== 'include_internal' && f.name !== 'include_synthetic').length === 0,
-      'The tagCatalog param is required when the filters param is not empty, excluding filters with "include_internal" or "include_synthetic" tags.'
-    );
-  }
+function getTagFilter(name, value, entity, operator = operators.EQUALS) {
+  return {
+    type: TAG_FILTER,
+    name,
+    value,
+    operator,
+    entity
+  };
+}
 
-  return getModifiedUrlStream(location => {
-    location.pathname = analyze;
-
-    setDataSourceMatrixParam(location, dataSource);
-    setGroupByMatrixParam(location, groupByTag);
-    setOrderByMatrixParam(location, orderBy, orderDirection, groupByTag, dataSource);
-    setMetricsMatrixParam(location, dataSource, metrics);
-    setChartsMatrixParam(location, dataSource, focusedMetric);
-    setFastQueryModeEnabledMatrixParam(location, fastQueryModeEnabled);
-    if (timeConfig) {
-      setTimeConfig(location, timeConfig);
+export function useLinkToAnalyzeDeprecated() {
+  return ({
+    applicationName,
+    serviceName,
+    endpointName,
+    boundaryScope = boundaryScopes.inbound,
+    dataSource = 'calls',
+    // when passing filters, make sure to pass also the tagCatalog which is needed
+    // in order to properly convert some tagFilters
+    filters,
+    // tag catalog for filtering
+    tagCatalog,
+    groupByTag, // use an empty object to prevent default grouping
+    orderBy,
+    orderDirection,
+    timeConfig,
+    metrics,
+    // ignore the 'showGraph' flag, in UA2 (closed beta) charts should always be enabled
+    // showGraph = true,
+    focusedMetric,
+    jumpToSource,
+    fastQueryModeEnabled
+  } = emptyObject) => {
+    if (__DEV__) {
+      invariant(
+        tagCatalog != null ||
+          filters == null ||
+          filters.filter(f => f.name !== 'include_internal' && f.name !== 'include_synthetic').length === 0,
+        'The tagCatalog param is required when the filters param is not empty, excluding filters with "include_internal" or "include_synthetic" tags.'
+      );
     }
 
-    let tagFilterExpression = [];
-    if (applicationName != null) {
-      tagFilterExpression = joinExpressions({
-        expressions: [tagFilterExpression, tagFilterForBoundaryScope(boundaryScope, applicationName)]
-      });
-    }
-    if (serviceName != null) {
-      tagFilterExpression = joinExpressions({
-        expressions: [
-          tagFilterExpression,
-          {
-            type: TAG_FILTER,
-            name: SERVICE.name,
-            value: serviceName,
-            operator: operators.EQUALS,
-            entity: entityTypes.DESTINATION
-          }
-        ]
-      });
-    }
-    if (endpointName != null) {
-      tagFilterExpression = joinExpressions({
-        expressions: [
-          tagFilterExpression,
-          {
-            type: TAG_FILTER,
-            name: ENDPOINT.name,
-            value: endpointName,
-            operator: operators.EQUALS,
-            entity: entityTypes.DESTINATION
-          }
-        ]
-      });
-    }
-    if (jumpToSource) {
-      if (jumpToSource === 'application') {
-        tagFilterExpression = [
-          {
-            type: TAG_FILTER,
-            name: APPLICATION.name,
-            value: applicationName,
-            operator: operators.EQUALS,
-            entity: entityTypes.SOURCE
-          }
-        ];
+    return getModifiedUrlStream(location => {
+      location.pathname = analyze;
+
+      setDataSourceMatrixParam(location, dataSource);
+      setGroupByMatrixParam(location, groupByTag);
+      setOrderByMatrixParam(location, orderBy, orderDirection, groupByTag, dataSource);
+      setMetricsMatrixParam(location, dataSource, metrics);
+      setChartsMatrixParam(location, dataSource, focusedMetric);
+      setFastQueryModeEnabledMatrixParam(location, fastQueryModeEnabled);
+
+      if (timeConfig) {
+        setTimeConfig(location, timeConfig);
       }
-      if (jumpToSource === 'service') {
-        tagFilterExpression = [
-          {
-            type: TAG_FILTER,
-            name: SERVICE.name,
-            value: serviceName,
-            operator: operators.EQUALS,
-            entity: entityTypes.SOURCE
-          }
-        ];
+
+      let tagFilterExpression = [];
+      if (applicationName != null) {
+        tagFilterExpression = joinExpressions({
+          expressions: [tagFilterExpression, tagFilterForBoundaryScope(boundaryScope, applicationName)]
+        });
       }
-      if (jumpToSource === 'endpoint') {
-        tagFilterExpression = [
-          {
-            type: TAG_FILTER,
-            name: ENDPOINT.name,
-            value: endpointName,
-            operator: operators.EQUALS,
-            entity: entityTypes.SOURCE
-          }
-        ];
+      if (serviceName != null) {
+        tagFilterExpression = joinExpressions({
+          expressions: [tagFilterExpression, getTagFilter(SERVICE.name, serviceName, entityTypes.DESTINATION)]
+        });
       }
-    }
-    setTagFilterExpressionAndHiddenCalls(location, tagCatalog, filters, tagFilterExpression);
-  });
+      if (endpointName != null) {
+        tagFilterExpression = joinExpressions({
+          expressions: [tagFilterExpression, getTagFilter(ENDPOINT.name, endpointName, entityTypes.DESTINATION)]
+        });
+      }
+      if (jumpToSource) {
+        if (jumpToSource === 'application') {
+          tagFilterExpression = [getTagFilter(APPLICATION.name, applicationName, entityTypes.SOURCE)];
+        }
+        if (jumpToSource === 'service') {
+          tagFilterExpression = [getTagFilter(SERVICE.name, serviceName, entityTypes.SOURCE)];
+        }
+        if (jumpToSource === 'endpoint') {
+          tagFilterExpression = [getTagFilter(ENDPOINT.name, endpointName, entityTypes.SOURCE)];
+        }
+      }
+
+      setTagFilterExpressionAndHiddenCalls(location, tagCatalog, filters, tagFilterExpression);
+    });
+  };
 }
 
 export function setDataSourceMatrixParam(location, dataSource) {
@@ -349,7 +321,7 @@ export function httpStatusCodeTagFiltersToExpression(httpStatusCodeTagFilters, t
     // convert negative ranges into positive ranges
     selected.forEach(tagFilter => {
       if (tagFilter.value && !isNaN(tagFilter.value) && tagFilter.value >= 1 && tagFilter.value <= 5) {
-        includedRanges = includedRanges.filter(range => range != tagFilter.value);
+        includedRanges = includedRanges.filter(range => range !== tagFilter.value);
       }
     });
   }
@@ -389,7 +361,7 @@ export function httpStatusCodeTagFiltersToExpression(httpStatusCodeTagFilters, t
           { type: TAG_FILTER, name: TAG_CALL_HTTP_STATUS, value: start * 100, operator: operators.GREATER_OR_EQUAL_THAN }
         ]
       });
-    } else if (start == 1) {
+    } else if (start === 1) {
       // no range start needed
       rangesExpression = joinExpressions({
         logicalOperator: 'OR',
@@ -419,7 +391,7 @@ export function httpStatusCodeTagFiltersToExpression(httpStatusCodeTagFilters, t
   if (rangesExpression.length > 0) {
     expression = joinExpressions({ expressions: [expression, rangesExpression] });
   }
-  // for now we will ignore all remaining tagFilters in httpStatusCodeTagFilters
+  // for now, we will ignore all remaining tagFilters in httpStatusCodeTagFilters
   return expression;
 }
 
@@ -442,26 +414,22 @@ export function tagFilterForBoundaryScope(boundaryScope, applicationName) {
 }
 
 const analyzeTwoParameters = createParameters(analyze);
+
 // TODO: move to the in-applications package, once all UA1 related code is removed
-export function getLinkToTraceDetail(traceId, { callId, formModel } = emptyObject) {
-  return getModifiedUrlStream(location => {
-    location.pathname = analyze;
-    const detailId = {
-      traceId,
-      ...(callId && { callId })
-    };
-    setOrDeleteMatrixParameter(location, analyzeTwoParameters.detailId, detailId);
+export function useLinkToTraceDetail() {
+  return (traceId, { callId, formModel } = emptyObject) =>
+    getModifiedUrlStream(location => {
+      location.pathname = analyze;
+      const detailId = {
+        traceId,
+        ...(callId && { callId })
+      };
+      setOrDeleteMatrixParameter(location, analyzeTwoParameters.detailId, detailId);
 
-    if (formModel) {
-      setOrDeleteMatrixParameter(location, analyzeTwoParameters.tagFilterExpression, formModel);
-    }
-    // make sure that there is no grouping as otherwise the trace cannot be loaded.
-    setGroupByMatrixParam(location, null);
-  });
-}
-
-export function getLinkBackToUA2FromTraceDetails() {
-  return getModifiedUrlStream(location => {
-    location.pathname = analyze;
-  });
+      if (formModel) {
+        setOrDeleteMatrixParameter(location, analyzeTwoParameters.tagFilterExpression, formModel);
+      }
+      // make sure that there is no grouping as otherwise the trace cannot be loaded.
+      setGroupByMatrixParam(location, null);
+    });
 }

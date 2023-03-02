@@ -1,0 +1,112 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
+ */
+
+export const mockEmptyPermissionsSet = {
+  applicationIds: [],
+  kubernetesClusterUUIDs: [],
+  kubernetesNamespaceUIDs: [],
+  mobileAppIds: [],
+  permissions: [],
+  websiteIds: []
+};
+
+const mockPermissionsWithLimitedAccess = [
+  'LIMITED_WEBSITES_SCOPE',
+  'ACCESS_APPLICATIONS',
+  'ACCESS_WEBSITES',
+  'ACCESS_VSPHERE',
+  'CAN_VIEW_TRACE_DETAILS',
+  'ACCESS_MOBILE_APPS',
+  'CAN_CONFIGURE_AGENTS',
+  'CAN_CONFIGURE_EUM_APPLICATIONS',
+  'LIMITED_OPENSTACK_SCOPE',
+  'CAN_CONFIGURE_AUTOMATION_ACTIONS',
+  'ACCESS_SYNTHETICS',
+  'CAN_CONFIGURE_INTEGRATIONS',
+  'LIMITED_PCF_SCOPE',
+  'LIMITED_SYNTHETICS_SCOPE',
+  'CAN_CONFIGURE_GLOBAL_ALERT_CONFIGS',
+  'CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD',
+  'LIMITED_INFRASTRUCTURE_SCOPE',
+  'CAN_CONFIGURE_MOBILE_APP_MONITORING',
+  'CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS',
+  'ACCESS_INFRASTRUCTURE',
+  'LIMITED_APPLICATIONS_SCOPE',
+  'CAN_CONFIGURE_RELEASES',
+  'LIMITED_VSPHERE_SCOPE',
+  'ACCESS_KUBERNETES',
+  'LIMITED_MOBILE_APPS_SCOPE',
+  'RESTRICTED_ACCESS',
+  'CAN_CONFIGURE_CUSTOM_ALERTS',
+  'CAN_CONFIGURE_AGENT_RUN_MODE',
+  'LIMITED_ZHMC_SCOPE',
+  'CAN_EDIT_ALL_ACCESSIBLE_CUSTOM_DASHBOARDS',
+  'LIMITED_KUBERNETES_SCOPE',
+  'CAN_INSTALL_NEW_AGENTS',
+  'CAN_RUN_AUTOMATION_ACTIONS',
+  'CAN_CONFIGURE_TEAMS',
+  'CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS',
+  'CAN_CONFIGURE_LOG_MANAGEMENT',
+  'LIMITED_PHMC_SCOPE'
+];
+
+const mockPermissionsWithFullAccess = [
+  'ACCESS_APPLICATIONS',
+  'ACCESS_WEBSITES',
+  'ACCESS_VSPHERE',
+  'CAN_VIEW_TRACE_DETAILS',
+  'ACCESS_MOBILE_APPS',
+  'CAN_CONFIGURE_AGENTS',
+  'CAN_CONFIGURE_EUM_APPLICATIONS',
+  'CAN_CONFIGURE_AUTOMATION_ACTIONS',
+  'ACCESS_SYNTHETICS',
+  'CAN_CONFIGURE_INTEGRATIONS',
+  'CAN_CONFIGURE_GLOBAL_ALERT_CONFIGS',
+  'CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD',
+  'CAN_CONFIGURE_MOBILE_APP_MONITORING',
+  'CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS',
+  'ACCESS_INFRASTRUCTURE',
+  'CAN_CONFIGURE_RELEASES',
+  'ACCESS_KUBERNETES',
+  'RESTRICTED_ACCESS',
+  'CAN_CONFIGURE_CUSTOM_ALERTS',
+  'CAN_CONFIGURE_AGENT_RUN_MODE',
+  'CAN_EDIT_ALL_ACCESSIBLE_CUSTOM_DASHBOARDS',
+  'CAN_INSTALL_NEW_AGENTS',
+  'CAN_RUN_AUTOMATION_ACTIONS',
+  'CAN_CONFIGURE_TEAMS',
+  'CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS',
+  'CAN_CONFIGURE_LOG_MANAGEMENT'
+];
+
+export const mockPermissionsSetWithData = {
+  applicationIds: [
+    { scopeId: '1', scopeRoleId: '11' },
+    { scopeId: '2', scopeRoleId: '22' }
+  ],
+  kubernetesClusterUUIDs: [
+    { scopeId: '3', scopeRoleId: '33' },
+    { scopeId: '4', scopeRoleId: '44' }
+  ],
+  kubernetesNamespaceUIDs: [
+    { scopeId: '5', scopeRoleId: '55' },
+    { scopeId: '6', scopeRoleId: '66' }
+  ],
+  mobileAppIds: [
+    { scopeId: '7', scopeRoleId: '77' },
+    { scopeId: '8', scopeRoleId: '88' }
+  ],
+  websiteIds: [
+    { scopeId: '11', scopeRoleId: '1111' },
+    { scopeId: '12', scopeRoleId: '1212' }
+  ],
+  permissions: mockPermissionsWithLimitedAccess
+};
+
+export const mockPermissionsSetWithFullAccessData = {
+  ...mockPermissionsSetWithData,
+  permissions: mockPermissionsWithFullAccess
+};

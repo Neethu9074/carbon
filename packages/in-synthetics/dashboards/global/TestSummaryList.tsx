@@ -4,9 +4,16 @@
  * Copyright IBM Corp. 2022
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
-import { OrderDirection, Progress, SyntheticMetricConfiguration, TagFilter, TimeConfig } from '@instana/types';
+import {
+  OrderDirection,
+  Progress,
+  SyntheticMetricConfiguration,
+  TagFilterExpression,
+  TagFilterOperator,
+  TimeConfig
+} from '@instana/types';
 
 import {
   CurrentState,
@@ -16,13 +23,18 @@ import {
   pathSegment,
   PresenterProps
 } from 'in-synthetics/utils/constants';
+import showNotification, {
+  calculateNextOccurrence,
+  setReminder,
+  storedAlarmTimeOrNull,
+  timeExpired
+} from 'in-synthetics/utils/setReminders';
 // @ts-expect-error
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { columnDefinitions } from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions';
 // @ts-expect-error
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
-// @ts-expect-error Module needs to be translated to TS
-import Sticky from 'in-components/Sticky';
+import { applicationIdTagName, locationIdTagName, testNameTagName, typeTagName } from 'in-synthetics/tags';
 import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import TestConfigDialogPresenter from 'in-synthetics/components/TestConfigDialogPresenter';
@@ -37,7 +49,9 @@ import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { minutes } from 'in-services/time/time';
 import useUrlState from 'in-hooks/useUrlState';
+import Sticky from 'in-components/Sticky';
 import Footer from 'in-components/Footer';
 import { t } from 'in-i18n';
 
@@ -64,9 +78,40 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   matrixPrefix
 });
 
+const addFilter = (
+  array: string[],
+  name: string,
+  operator: TagFilterOperator,
+  tagFilterExpression: TagFilterExpression
+) => {
+  if (array.length !== 0 && Array.isArray(array)) {
+    array.forEach(value => {
+      tagFilterExpression.elements.push({
+        value,
+        name,
+        operator,
+        entity: NOT_APPLICABLE,
+        type: 'TAG_FILTER'
+      });
+    });
+  }
+};
+
 export default function TestSummaryList() {
   const timeConfig = useTimeConfig();
   const [{ syntheticTypes, locationIds, applicationIds }, setFilter] = useUrlState(urlStateDefinition);
+  const storedDialogAlarm = storedAlarmTimeOrNull();
+
+  useEffect(() => {
+    if (storedDialogAlarm === null) {
+      setReminder(calculateNextOccurrence(minutes.toMillis(0)));
+      showNotification();
+    } else {
+      if (timeExpired()) {
+        showNotification();
+      }
+    }
+  }, [storedDialogAlarm]);
 
   function reloadTests() {}
 
@@ -159,91 +204,59 @@ export function getTestSummaryListData({
   locationIds = [],
   applicationIds = []
 }: GetTestSummaryList) {
-  let baseTagFilters: TagFilter[] = [];
-  let byAppTagFilters: TagFilter[] = [];
+  const baseTagFilterExpression: TagFilterExpression = {
+    elements: [],
+    logicalOperator: 'AND',
+    type: 'EXPRESSION'
+  };
+  /** tagFilterExpressions used here are to allow users to display a list of tests
+   * with, for example, (type1 or type1) & at (location1, or location2, or location3) &
+   * associated with (application1, or application2)
+   */
+  /** Each test is at most associated with one application */
+  const appTagFilterExpression: TagFilterExpression = {
+    elements: [],
+    logicalOperator: 'OR',
+    type: 'EXPRESSION'
+  };
+  /** Each test is associated with one type */
+  const typeTagFilterExpression: TagFilterExpression = {
+    elements: [],
+    logicalOperator: 'OR',
+    type: 'EXPRESSION'
+  };
+  /** Each test is associated with one or more locations */
+  const locationTagFilterExpression: TagFilterExpression = {
+    elements: [],
+    logicalOperator: 'OR',
+    type: 'EXPRESSION'
+  };
+
   if (query && query.length > 0) {
-    baseTagFilters = [
-      {
-        stringValue: query,
-        name: 'test_name',
-        operator: CONTAINS,
-        entity: NOT_APPLICABLE,
-        type: 'TAG_FILTER'
-      }
-    ];
-  }
-
-  if (syntheticTypes.length !== 0 && Array.isArray(syntheticTypes)) {
-    syntheticTypes.forEach(syntheticType => {
-      baseTagFilters.push({
-        value: syntheticType,
-        name: 'synthetic_type',
-        operator: EQUALS,
-        entity: NOT_APPLICABLE,
-        type: 'TAG_FILTER'
-      });
-    });
-  }
-
-  if (locationIds.length !== 0 && Array.isArray(locationIds)) {
-    locationIds.forEach(locationId => {
-      baseTagFilters.push({
-        value: locationId,
-        name: 'location_id',
-        operator: EQUALS,
-        entity: NOT_APPLICABLE,
-        type: 'TAG_FILTER'
-      });
-    });
-  }
-
-  if (applicationIds.length !== 0 && Array.isArray(applicationIds)) {
-    applicationIds.forEach(applicationId => {
-      baseTagFilters.push({
-        value: applicationId,
-        name: 'application_id',
-        operator: CONTAINS,
-        entity: NOT_APPLICABLE,
-        type: 'TAG_FILTER'
-      });
+    baseTagFilterExpression.elements.push({
+      value: query,
+      name: testNameTagName,
+      operator: CONTAINS,
+      entity: NOT_APPLICABLE,
+      type: 'TAG_FILTER'
     });
   }
 
   if (context == 'application') {
-    byAppTagFilters = [
-      {
-        stringValue: appId,
-        name: 'application_id',
-        operator: EQUALS,
-        entity: NOT_APPLICABLE,
-        type: 'TAG_FILTER'
-      }
-    ];
-
-    if (syntheticTypes.length !== 0 && Array.isArray(syntheticTypes)) {
-      syntheticTypes.forEach(syntheticType => {
-        byAppTagFilters.push({
-          value: syntheticType,
-          name: 'synthetic_type',
-          operator: EQUALS,
-          entity: NOT_APPLICABLE,
-          type: 'TAG_FILTER'
-        });
-      });
-    }
-
-    if (locationIds.length !== 0 && Array.isArray(locationIds)) {
-      locationIds.forEach(locationId => {
-        byAppTagFilters.push({
-          value: locationId,
-          name: 'location_id',
-          operator: EQUALS,
-          entity: NOT_APPLICABLE,
-          type: 'TAG_FILTER'
-        });
-      });
-    }
+    appTagFilterExpression.elements.push({
+      value: appId,
+      name: applicationIdTagName,
+      operator: EQUALS,
+      entity: NOT_APPLICABLE,
+      type: 'TAG_FILTER'
+    });
   }
+
+  addFilter(syntheticTypes, typeTagName, EQUALS, typeTagFilterExpression);
+  addFilter(locationIds, locationIdTagName, EQUALS, locationTagFilterExpression);
+  addFilter(applicationIds, applicationIdTagName, EQUALS, appTagFilterExpression);
+
+  baseTagFilterExpression.elements.push(typeTagFilterExpression, locationTagFilterExpression, appTagFilterExpression);
 
   const sparkChartGranularity = getChartGranularity(timeConfig);
 
@@ -267,6 +280,6 @@ export function getTestSummaryListData({
       includeSyntheticCalls: false,
       useLongTermDataOnly: false
     },
-    tagFilters: context == 'application' ? byAppTagFilters : baseTagFilters
+    tagFilterExpression: baseTagFilterExpression
   });
 }

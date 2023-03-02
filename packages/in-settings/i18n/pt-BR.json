@@ -53,6 +53,58 @@
       "purpose": "Pesquisa de opinião sobre migração de usuário e armazenamento NPS."
     }
   },
+  "roleAndAccessScope": {
+    "dialogTitle": "Criar novo grupo",
+    "dialogTitle_edit": "Editar escopo de acesso",
+    "editButton": "Editar escopo de acesso",
+    "productArea": "Escopo de função e acesso",
+    "productArea_application": "Aplicativo",
+    "productArea_platform": "Plataforma",
+    "productArea_website": "Website",
+    "productArea_mobile-app": "Apps móveis",
+    "productArea_kubernetes": "Kubernetes",
+    "productArea_infrastructure": "Infraestrutura",
+    "productArea_analytics": "Analítica",
+    "productArea_event": "Eventos e alertas",
+    "productArea_function": "Funções globais"
+  },
+  "headingSection": {
+    "title": "Escopo de função e acesso",
+    "description": "Ativar áreas do produto para acesso e definir escopos de acesso para cada unidade.",
+    "link": "Leia mais sobre funções e permissões."
+  },
+  "groupSection": {
+    "title": "Nome do grupo",
+    "label": "Insira um nome"
+  },
+  "websitePermissionSection": {
+    "title": "Websites",
+    "addButton": "Selecionar o website",
+    "description_limited_access": "Selecione a função para a área do produto e inclua os websites abaixo para conceder acesso",
+    "description_access_all": "Todos os websites podem ser acessados com a função selecionada para a área do produto",
+    "deleteButton": "Remover {{name}} da lista"
+  },
+  "selectItemForm": {
+    "doneButton": "Concluído"
+  },
+  "selectWebsitesDialog": {
+    "title": "Selecionar websites",
+    "nameColumnHead": "Nome"
+  },
+  "permissionScope": {
+    "selection": "Não disponível",
+    "selection_access_all": "Acessar todos",
+    "selection_limited_access": "Escopo de acesso limitado",
+    "selection_no_access": "Sem acesso",
+    "description_no_access": "Não é possível usar esta área de forma alguma",
+    "description_access_all": "Acessar tudo sem limitação",
+    "role": "Selecionar uma função",
+    "role_owner": "Proprietário",
+    "role_viewer": "Visualizador",
+    "role_custom": "Customizado",
+    "roleTooltip": "Visualizador: capacidade de visualizar painéis (a configuração não pode ser visualizada). Proprietário: capacidade de criar novas entidades; visualizar, configurar e excluir painéis.",
+    "roleTooltip_websites": "Visualizador: capacidade de visualizar painéis do website (a configuração não pode ser visualizada). Proprietário: capacidade de criar novos websites; visualizar, configurar e excluir painéis do website."
+  },
   "cardTitle_Area": "Área",
   "cardTitle_Area_plural": "Áreas",
   "cardTitle_Area_0": "Áreas",
@@ -98,6 +150,7 @@
   "tabs": {
     "team": {
       "events": {
+        "addCondition": "Incluir condição",
         "withDeprecatedSuffix": "{{pluginName}} (descontinuado)",
         "placeholder": "Sinalizador"
       },
@@ -293,6 +346,8 @@
     "hostAvailabilityDetection": "Detecção de disponibilidade de host",
     "pleaseSelectASeverity": "Selecione uma gravidade",
     "pleaseEnterAValidMetric": "Insira uma métrica válida.",
+    "noMoreThanOneThresholdCanBeDefinedOnSameMetric": "Não é possível definir mais de um limite na mesma métrica.",
+    "onlyOneRuleIsAllowedToHaveDifferentOperatorThanIs": "Ao definir várias métricas por padrão, é permitido que apenas uma regra use um operador de correspondência diferente de 'is'.",
     "thisEntityTypeHasBeenDeprecated": "Este tipo de entidade foi descontinuado. Escolha um tipo diferente.",
     "failedToSaveSettings": "Falha ao salvar configurações: {{err}}",
     "events": "Eventos",
@@ -312,6 +367,7 @@
     "kilobytes": "Kilobytes",
     "megabytes": "Megabytes",
     "count": "Contagem",
+    "statusValue": "Valor do status",
     "scheduleMaintenanceWindow": "Planejar janela de manutenção",
     "changeMaintenanceWindow": "Mudar janela de manutenção",
     "allAlertsWillBeMutedForTheDurationOfThisMaintenanceWindow": "<strong>Cuidado!</strong> Todos os alertas serão silenciados enquanto durar esta janela de manutenção. <strong>Isso também pode afetar outros usuários em sua organização.</strong>",
@@ -396,6 +452,7 @@
     "emailField": "Campo de e-mail",
     "emailFieldDescription": "O nome do atributo no qual o endereço de e-mail dos usuários é localizado, ex.: mail",
     "ldapUserAccount": "Conta do usuário LDAP",
+    "ldapsAcceptAnyCA": "Confiar em qualquer autoridade de certificação ao usar ldaps",
     "username": "Nome do usuário",
     "usernameDescription": "O usuário a ser relacionado no Instana como usuário proprietário. Um login é tentado como um teste antes que as configurações sejam salvas; as credenciais não são armazenadas.",
     "usernamePasswordDescription": "A senha do LDAP do usuário",
@@ -842,10 +899,11 @@
     "identityProviderType": "Tipo de provedor de identidade",
     "copyApiTokenToClipboardError": "Não foi possível copiar o token da API para a área de transferência.",
     "depreactedEventHiddenInfo": "Os eventos descontinuados não podem mais ser incluídos a novos alertas e são ocultos desta lista.",
-    "deprecatedEventMessage": "Eventos customizados nos tipos de entidade perspectiva de aplicativo, serviço e terminal serão descontinuados em breve. A partir de janeiro de 2023, não será possível criar novos eventos deste tipo. Recomendamos migrar este evento para um Smart Alert manualmente ou usando o botão <em>Migrar para Smart Alert</em> acima. <documentationLink>Leia mais em nossa documentação</documentationLink>.",
-    "disallowedEventMessage": "Eventos customizados nos tipos de entidade perspectiva de aplicativo, serviço e terminal serão removidos em breve. A partir de abril de 2023, os eventos customizados existentes desse tipo não serão mais processados. Recomendamos migrar este evento para um Smart Alert manualmente ou usando o botão <em>Migrar para Smart Alert</em> acima. <documentationLink>Leia mais em nossa documentação</documentationLink>.",
+    "deprecatedEventMessage": "<strong>Os eventos customizados nos tipos de entidade Aplicativo, Serviço e Terminal serão descontinuados em breve</strong><br/>A partir de abril de 2023, não será possível criar novos eventos desse tipo. Recomendamos migrar este evento para um Smart Alert manualmente ou usando o botão <em>Migrar para Smart Alert</em> acima. <documentationLink>Leia mais em nossa documentação</documentationLink>",
+    "disallowedEventMessage": "Os eventos customizados nos tipos de entidade Aplicativo, Serviço e Terminal serão removidos em breve. A partir de julho de 2023, os eventos customizados existentes desse tipo não serão mais processados. Recomendamos migrar este evento para um Smart Alert manualmente ou usando o botão <em>Migrar para Smart Alert</em> acima. <documentationLink>Leia mais em nossa documentação</documentationLink>.",
     "migratedEventMessage": "Este evento descontinuado foi migrado. Para obter mais informações, <documentationLink>consulte a nossa documentação</documentationLink>.",
-    "deprecatedEventSelectedMessage": "Eventos customizados nos tipos de entidade perspectiva de aplicativo, serviço e terminal serão descontinuados em breve. A partir de janeiro de 2023, não será possível criar novos eventos deste tipo. Recomendamos criar um Smart Alert em vez disso. <documentationLink>Leia mais em nossa documentação</documentationLink>.",
+    "deprecatedEventSelectedMessage": "Os eventos customizados nos tipos de entidade Aplicativo, Serviço e Terminal serão descontinuados em breve. A partir de abril de 2023, não será possível criar novos eventos desse tipo. Recomendamos criar um Smart Alert em vez disso. <documentationLink>Leia mais em nossa documentação</documentationLink>.",
+    "customEventListDeprecatedWarning": "<strong>Os eventos customizados nos tipos de entidade Aplicativo, Serviço e Terminal foram descontinuados</strong><br/>Não será possível criar ou atualizar Eventos customizados nesses três tipos de entidade a partir de <strong>abril de 2023 (Construção 246)</strong>. As configurações existentes serão removidas a partir de <strong>julho de 2023 (Construção 253)</strong>. <documentationLink>Leia mais em nossa documentação</documentationLink>",
     "automation": "Automação",
     "actionCatalog": "Catálogo de ações",
     "actions": "Ações",
@@ -869,7 +927,35 @@
     "confidence_high": "Alta",
     "confidence": "{{context}}",
     "confidenceTitle": "Confiança",
-    "test": "Testar"
+    "host": "Host",
+    "method": "Método",
+    "accept": "Aceitar (opcional)",
+    "acceptLanguage": "Idioma Aceito (opcional)",
+    "contentType": "Tipo de conteúdo (opcional)",
+    "bodyDescription": "Dados associados à solicitação de HTTP.",
+    "acceptLanguageDescription": "Idiomas que o cliente pode entender.",
+    "acceptDescription": "Tipo de conteúdo compreensível pelo cliente e expresso como tipos MIME.",
+    "contentTypeDescription": "Tipo de mídia do corpo.",
+    "noAdditionalHeadersConfigured": "Nenhum cabeçalho adicional configurado",
+    "body": "Corpo (opcional)",
+    "additionalHeadersOptional": "Cabeçalhos adicionais (opcional)",
+    "theValueMustBeValidMime": "O valor deve ser um tipo MIME válido.",
+    "authType": "Tipo de autorização",
+    "noAuth": "Sem autenticação",
+    "ignoreCertErrors": "Ignorar erros de certificado",
+    "basicAuth": "Autenticação básica",
+    "bearerToken": "Token de Acesso",
+    "apiKeyAddTo": "Incluir em",
+    "header": "Cabeçalho",
+    "queryParams": "Parâmetros de consulta",
+    "test": "Testar",
+    "http": "HTTP",
+    "serviceNowUrl": "URL de ServiceNow",
+    "serviceNow": "ServiceNow",
+    "serviceNowAlertChannel": "Canal de alerta de ServiceNow",
+    "serviceNowUsernameTooltip": "O nome do usuário e a senha devem ser para um usuário do ServiceNow com permissão para criar incidentes.",
+    "showPasswordTooltip": "Mostrar senha",
+    "hidePasswordTooltip": "Ocultar senha"
   },
   "languageSelection": {
     "language": "Idioma",
@@ -906,5 +992,6 @@
   "queryValidationStillInProgress": "Validação de consulta ainda em andamento",
   "teamSettings": {
     "newGroup": "Novo grupo"
-  }
+  },
+  "successResponse": "O Canal de alerta foi acionado com sucesso; verifique o canal!"
 }

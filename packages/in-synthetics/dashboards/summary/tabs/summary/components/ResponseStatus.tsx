@@ -22,6 +22,7 @@ import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { pendingResult } from 'in-services/fixedObjects';
 import { number } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { testIdTagName } from 'in-synthetics/tags';
 import theme from 'in-themes';
 
 type Props = {
@@ -76,7 +77,7 @@ function RenderChart({ test, timeConfig, timeShiftConfig }: ChartProps) {
       tagFilters: [
         {
           stringValue: id,
-          name: 'testId',
+          name: testIdTagName,
           operator: EQUALS,
           entity: NOT_APPLICABLE,
           type: 'TAG_FILTER'

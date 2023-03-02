@@ -6,7 +6,7 @@
 
 import React, { Fragment } from 'react';
 
-import { ResultsFilterSectionProps, failureValue, TestResponse } from 'in-synthetics/utils/constants';
+import { ResultsFilterSectionProps, failureValue, TestResponse, successValue } from 'in-synthetics/utils/constants';
 import ComboBox from 'in-components/ComboBox';
 import { t } from 'in-i18n';
 
@@ -45,6 +45,10 @@ function getStatusOptions() {
     {
       label: t('in-synthetics:dashboard.resultsListPage.failures'),
       value: failureValue
+    },
+    {
+      label: t('in-synthetics:dashboard.resultsListPage.success'),
+      value: successValue
     }
   ];
 

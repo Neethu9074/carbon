@@ -53,6 +53,58 @@
       "purpose": "Enquête sur l'intégration des utilisateurs et le NPS en magasin."
     }
   },
+  "roleAndAccessScope": {
+    "dialogTitle": "Créer un groupe",
+    "dialogTitle_edit": "Editer la portée d'accès",
+    "editButton": "Editer la portée d'accès",
+    "productArea": "Rôle et portée d'accès",
+    "productArea_application": "Application",
+    "productArea_platform": "Plateforme",
+    "productArea_website": "Site Web",
+    "productArea_mobile-app": "Applications mobiles",
+    "productArea_kubernetes": "Kubernetes",
+    "productArea_infrastructure": "Infrastructure",
+    "productArea_analytics": "Analyse",
+    "productArea_event": "Evénements et alertes",
+    "productArea_function": "Fonctions globales"
+  },
+  "headingSection": {
+    "title": "Rôle et portée d'accès",
+    "description": "Activez les zones de produit pour l'accès et définissez les portées d'accès pour chaque unité.",
+    "link": "En savoir plus sur les rôles et les droits."
+  },
+  "groupSection": {
+    "title": "Nom du groupe",
+    "label": "Entrer un nom"
+  },
+  "websitePermissionSection": {
+    "title": "Sites Web",
+    "addButton": "Sélectionner un site Web",
+    "description_limited_access": "Sélectionnez le rôle pour la zone de produit et ajoutez des sites Web ci-dessous auxquels accorder l'accès",
+    "description_access_all": "Tous les sites Web sont accessibles avec le rôle sélectionné pour la zone de produit",
+    "deleteButton": "Retirer {{name}} de la liste"
+  },
+  "selectItemForm": {
+    "doneButton": "Terminé"
+  },
+  "selectWebsitesDialog": {
+    "title": "Sélectionner des sites Web",
+    "nameColumnHead": "Nom"
+  },
+  "permissionScope": {
+    "selection": "Non disponible",
+    "selection_access_all": "Accéder à tout",
+    "selection_limited_access": "Portée d'accès limitée",
+    "selection_no_access": "Aucun accès",
+    "description_no_access": "Impossible d'utiliser cette zone",
+    "description_access_all": "Accéder à tout sans limitation",
+    "role": "Sélectionner un rôle",
+    "role_owner": "Propriétaire",
+    "role_viewer": "Visualiseur",
+    "role_custom": "Personnalisé",
+    "roleTooltip": "Afficheur : peut afficher les tableaux de bord (la configuration ne peut pas être affichée). Propriétaire : peut créer des entités ; peut afficher, configurer et supprimer des tableaux de bord.",
+    "roleTooltip_websites": "Afficheur : peut afficher les tableaux de bord de site Web (la configuration ne peut pas être affichée). Propriétaire : peut créer des site Web ; peut afficher, configurer et supprimer des tableaux de bord."
+  },
   "cardTitle_Area": "Zone",
   "cardTitle_Area_plural": "Zones",
   "cardTitle_Area_0": "Zones",
@@ -98,6 +150,7 @@
   "tabs": {
     "team": {
       "events": {
+        "addCondition": "Ajouter une condition",
         "withDeprecatedSuffix": "{{pluginName}} (obsolète)",
         "placeholder": "Marque de réservation"
       },
@@ -293,6 +346,8 @@
     "hostAvailabilityDetection": "Détection de la disponibilité de l'hôte",
     "pleaseSelectASeverity": "Sélectionnez un niveau de gravité.",
     "pleaseEnterAValidMetric": "Entrez une métrique valide.",
+    "noMoreThanOneThresholdCanBeDefinedOnSameMetric": "Un seuil seulement peut être défini sur une même métrique.",
+    "onlyOneRuleIsAllowedToHaveDifferentOperatorThanIs": "Lors de la définition de plusieurs métriques par modèle, une seule règle est autorisée à utiliser un opérateur de mise en correspondance différent de 'est'.",
     "thisEntityTypeHasBeenDeprecated": "Ce type d'entité est obsolète. Choisissez un autre type.",
     "failedToSaveSettings": "Échec de l'enregistrement des paramètres : {{err}}",
     "events": "Evénements",
@@ -312,6 +367,7 @@
     "kilobytes": "Kilo-octets",
     "megabytes": "Mégaoctets",
     "count": "Nombre",
+    "statusValue": "Valeur d'état",
     "scheduleMaintenanceWindow": "Planifier une fenêtre de maintenance",
     "changeMaintenanceWindow": "Changer la fenêtre de maintenance",
     "allAlertsWillBeMutedForTheDurationOfThisMaintenanceWindow": "<strong>Attention !</strong> Toutes les alertes seront coupées pendant la durée de cette fenêtre de maintenance. <strong>Cela peut également affecter les autres utilisateurs de votre organisation.</strong>",
@@ -396,6 +452,7 @@
     "emailField": "Zone Courrier électronique",
     "emailFieldDescription": "Nom de l'attribut où trouver l'adresse électronique des utilisateurs, par exemple : courrier",
     "ldapUserAccount": "Compte utilisateur LDAP",
+    "ldapsAcceptAnyCA": "Faire confiance aux autorités de certification lors de l'utilisation de ldaps",
     "username": "Nom d'utilisateur",
     "usernameDescription": "L'utilisateur qui est considéré comme utilisateur propriétaire dans Instana. Une connexion est essayée en tant que test avant que les paramètres ne soient sauvegardés, les données d'identification ne sont pas stockées.",
     "usernamePasswordDescription": "Mot de passe LDAP de l'utilisateur",
@@ -842,10 +899,11 @@
     "identityProviderType": "Type de fournisseur d'identité",
     "copyApiTokenToClipboardError": "Impossible de copier le jeton API dans le presse-papiers.",
     "depreactedEventHiddenInfo": "Les événements obsolètes ne peuvent plus être ajoutés aux nouvelles alertes et sont masqués dans cette liste.",
-    "deprecatedEventMessage": "Les événements personnalisés sur les types d'entité Perspective d'application, Service et Noeud final seront bientôt obsolètes. A partir de janvier 2023, vous ne pourrez plus créer de nouveaux événements de ce type. Il est recommandé de migrer cet événement vers une alerte Smart Alert manuellement ou en utilisant le bouton <em>Migrer vers Smart Alert</em> ci-dessus. <documentationLink>Plus d'infos dans notre documentation</documentationLink>.",
-    "disallowedEventMessage": "Les événements personnalisés sur les types d'entité Perspective d'application, Service et Noeud final seront bientôt supprimés. A partir d'avril 2023, les événements personnalisés existants de ces types ne seront plus traités. Il est recommandé de migrer cet événement vers une alerte Smart Alert manuellement ou en utilisant le bouton <em>Migrer vers Smart Alert</em> ci-dessus. <documentationLink>Plus d'infos dans notre documentation</documentationLink>.",
+    "deprecatedEventMessage": "<strong>Les événements personnalisés sur les types d'entité Application, Service et Noeud final seront bientôt dépréciés</strong><br/>A partir d'avril 2023, vous ne pourrez plus créer d'événements de ce type. Il est recommandé de migrer cet événement vers une alerte Smart Alert manuellement ou en utilisant le bouton <em>Migrer vers Smart Alert</em> ci-dessus. <documentationLink>En savoir plus en lisant notre documentation</documentationLink>",
+    "disallowedEventMessage": "Les événements personnalisés sur les types d'entité Application, Service et Noeud final seront bientôt retirés. A partir de juillet 2023, les événements personnalisés existants de ce type ne seront plus traités. Il est recommandé de migrer cet événement vers une alerte Smart Alert manuellement ou en utilisant le bouton <em>Migrer vers Smart Alert</em> ci-dessus. <documentationLink>Plus d'infos dans notre documentation</documentationLink>.",
     "migratedEventMessage": "Cet événement obsolète est migré. Pour plus d'informations, <documentationLink>consultez notre documentation</documentationLink>.",
-    "deprecatedEventSelectedMessage": "Les événements personnalisés sur les types d'entité Perspective d'application, Service et Noeud final seront bientôt obsolètes. A partir de janvier 2023, vous ne pourrez plus créer de nouveaux événements de ce type. Il est recommandé de créer une alerte Smart à la place. <documentationLink>Plus d'infos dans notre documentation</documentationLink>.",
+    "deprecatedEventSelectedMessage": "Les événements personnalisés sur les types d'entité Application, Service et Noeud final seront bientôt dépréciés. A partir d'avril 2023, vous ne pourrez plus créer d'événements de ce type. Il est recommandé de créer une alerte Smart à la place. <documentationLink>Plus d'infos dans notre documentation</documentationLink>.",
+    "customEventListDeprecatedWarning": "<strong>Les événements personnalisés sur les types d'entité Application, service et noeud final ont été dépréciés</strong><br/>Vous ne pourrez plus créer ni mettre à jour d'événements personnalisés sur ces trois types d'entité à partir d'<strong>avril 2023 (génération 246)</strong>. Les configurations existantes seront retirées dès <strong>juillet 2023 (génération 253)</strong>. <documentationLink>En savoir plus en lisant notre documentation</documentationLink>",
     "automation": "Automatisation",
     "actionCatalog": "Catalogue d'actions",
     "actions": "Actions",
@@ -869,7 +927,35 @@
     "confidence_high": "Élevé",
     "confidence": "{{context}}",
     "confidenceTitle": "Niveau de fiabilité",
-    "test": "Test"
+    "host": "Hôte",
+    "method": "Méthode",
+    "accept": "Accept (facultatif)",
+    "acceptLanguage": "Accept-Language (facultatif)",
+    "contentType": "Content-Type (facultatif)",
+    "bodyDescription": "Données associées à la demande HTTP.",
+    "acceptLanguageDescription": "Langues que le client peut comprendre.",
+    "acceptDescription": "Type de contenu que le client peut comprendre, exprimé sous forme de types MIME.",
+    "contentTypeDescription": "Type de support du corps.",
+    "noAdditionalHeadersConfigured": "Aucun en-tête supplémentaire configuré",
+    "body": "Corps (facultatif)",
+    "additionalHeadersOptional": "En-têtes supplémentaires (facultatif)",
+    "theValueMustBeValidMime": "La valeur doit être un type MIME valide.",
+    "authType": "Type d'autorisation",
+    "noAuth": "Aucune autorisation",
+    "ignoreCertErrors": "Ignorer les erreurs de certificat",
+    "basicAuth": "Authentification de base",
+    "bearerToken": "Jeton bearer",
+    "apiKeyAddTo": "Ajouter à",
+    "header": "En-tête",
+    "queryParams": "Paramètres de requête",
+    "test": "Test",
+    "http": "HTTP",
+    "serviceNowUrl": "URL ServiceNow",
+    "serviceNow": "ServiceNow",
+    "serviceNowAlertChannel": "Canal d'alerte ServiceNow",
+    "serviceNowUsernameTooltip": "Le nom d'utilisateur et le mot de passe doivent être ceux d'un utilisateur ServiceNow autorisé à créer des incidents.",
+    "showPasswordTooltip": "Afficher le mot de passe",
+    "hidePasswordTooltip": "Masquer le mot de passe"
   },
   "languageSelection": {
     "language": "Langue",
@@ -906,5 +992,6 @@
   "queryValidationStillInProgress": "La validation de la requête est toujours en cours.",
   "teamSettings": {
     "newGroup": "Nouveau groupe"
-  }
+  },
+  "successResponse": "Le canal d'alerte a été déclenché ; consultez-le."
 }

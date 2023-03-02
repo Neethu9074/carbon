@@ -9,10 +9,12 @@ import React from 'react';
 import { Card } from '@instana/components';
 
 import SyntheticScopePath from 'in-alerting/smart-alerts/synthetics/components/SyntheticScopePath';
+import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import AnalyzeSyntheticEventButton from 'in-events/components/AnalyzeSyntheticEventButton';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { getChartTimeConfigByEvent, getTimeConfigFromEvent } from 'in-events/timeframe';
 import useSyntheticEventAlertConfig from 'in-events/hooks/useSyntheticEventAlertConfig';
+import { locationIdTagName, statusTagName, testIdTagName } from 'in-synthetics/tags';
 import { TimeConfig, TagFilterExpressionElementUnion, TagFilter } from 'in-types';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
@@ -105,7 +107,7 @@ interface ChartProps {
 }
 
 function FailuresChart({ testId, locationId, timeConfig, granularity, tagFilterExpression }: ChartProps) {
-  const tagFilters = toTagFiltersList(testId, locationId, tagFilterExpression);
+  const combinedExpression = toCombinedExpression(testId, locationId, tagFilterExpression);
 
   return (
     <UnifiedMetricsChart
@@ -118,7 +120,7 @@ function FailuresChart({ testId, locationId, timeConfig, granularity, tagFilterE
               source: 'SYNTHETICS',
               metric: 'id',
               label: t('in-events:syntheticSmartAlerts.failedStatusMetric'),
-              tagFilters
+              tagFilterExpression: combinedExpression
             }
           ],
           formatter: 'number.compact',
@@ -135,57 +137,34 @@ function FailuresChart({ testId, locationId, timeConfig, granularity, tagFilterE
   );
 }
 
-function toTagFiltersList(
+function toCombinedExpression(
   testId: string,
   locationId: string,
   tagFilterExpression: TagFilterExpressionElementUnion
-): TagFilter[] {
+): TagFilterExpressionElementUnion {
   const tagFilters = [
     {
       type: 'TAG_FILTER',
-      name: 'testId',
+      name: testIdTagName,
       operator: EQUALS,
       value: testId,
       entity: 'NOT_APPLICABLE'
     },
     {
       type: 'TAG_FILTER',
-      name: 'status',
+      name: statusTagName,
       operator: EQUALS,
       value: 0,
       entity: 'NOT_APPLICABLE'
     },
     {
       type: 'TAG_FILTER',
-      name: 'locationId',
+      name: locationIdTagName,
       operator: EQUALS,
       value: locationId,
       entity: 'NOT_APPLICABLE'
     }
   ] as TagFilter[];
 
-  // TODO Use addTagFilters(...) and combine the above filters with the tagFilterExpression once the backend supports that.
-  //      And then simply return the combined tagFilterExpression instead.
-  const additionalTagFilters = firstLevelAndFilters(tagFilterExpression);
-
-  return [...tagFilters, ...additionalTagFilters];
-}
-
-/**
- * As a temporary workaround, as long as the Synthetics metrics API don't yet fully support tag-filter expressions, we only
- * respect the first level of filters in case AND operator is used.
- * @param tagFilterExpression The tag-filter expression to apply a partial conversion to a list of tag-filters on.
- * @return A list of tag-filters that is equivalent to the tag-filter expression as long as no OR operator is used.
- *         Otherwise, the result might only contain a subset of the filters.
- */
-function firstLevelAndFilters(tagFilterExpression: TagFilterExpressionElementUnion): TagFilter[] {
-  if (tagFilterExpression.type === 'TAG_FILTER') {
-    return [tagFilterExpression];
-  }
-
-  if (tagFilterExpression.logicalOperator === 'OR') {
-    return [];
-  }
-
-  return tagFilterExpression.elements.filter(x => x.type === 'TAG_FILTER') as TagFilter[];
+  return addTagFilters(tagFilterExpression, tagFilters);
 }

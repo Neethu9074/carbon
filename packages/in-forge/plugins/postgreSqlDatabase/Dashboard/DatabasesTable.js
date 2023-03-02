@@ -94,7 +94,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.postgreSqlDatabase.dashboard.tuplesRead'),
+    title: t('in-forge:plugins.postgreSqlDatabase.dashboard.tupleReturned'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -256,7 +256,7 @@ function getRowDetails(row) {
               formatter: activityZeroDecimalPlaces,
               metrics: ['databases.' + row.key + '.idx_tup_read', 'databases.' + row.key + '.idx_tup_fetch'],
               labels: [
-                t('in-forge:plugins.postgreSqlDatabase.dashboard.read'),
+                t('in-forge:plugins.postgreSqlDatabase.dashboard.returned'),
                 t('in-forge:plugins.postgreSqlDatabase.dashboard.fetched')
               ],
               type: 'line'

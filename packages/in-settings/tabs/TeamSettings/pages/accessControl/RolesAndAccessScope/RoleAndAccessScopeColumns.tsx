@@ -7,11 +7,21 @@
 import { MapForm } from 'formalistic';
 import React from 'react';
 
-import { Button, Li, Message, Ul } from '@instana/components';
+import { Button, Message, Ul } from '@instana/components';
 import { PermissionSetWithRoles } from '@instana/types';
 
+import {
+  AnalyticsSection,
+  ApplicationsSection,
+  EventsAndAlertsSection,
+  InfrastructureSection,
+  GlobalFunctionsSection,
+  MobileAppsSection,
+  PlatformsSection,
+  WebsitesSection
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas';
 import EditAccessScopeDialog from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/EditAccessScope';
-import { ProductAreas } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
+import { RolesAndAccessScopeContext } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/context';
 import { getField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
@@ -61,13 +71,18 @@ export default function RoleAndAccessScopeColumns({ form, setForm, readOnly, onS
         }
       >
         {!includesRestrictedAccess && <Message type="warning">{t('in-stores:permissionRestrictedWarning')}</Message>}
-        {includesRestrictedAccess && (
+        {includesRestrictedAccess && permissionSetField && (
           <Ul>
-            {ProductAreas.map(section => (
-              <Li key={section}>
-                {t('in-settings:roleAndAccessScope.productArea', { context: section.toLocaleLowerCase() })}
-              </Li>
-            ))}
+            <RolesAndAccessScopeContext.Provider value={{ permissionsSet: permissionSetField.value }}>
+              <WebsitesSection />
+              <MobileAppsSection />
+              <ApplicationsSection />
+              <PlatformsSection />
+              <InfrastructureSection />
+              <AnalyticsSection />
+              <EventsAndAlertsSection />
+              <GlobalFunctionsSection />
+            </RolesAndAccessScopeContext.Provider>
           </Ul>
         )}
       </LightCard>

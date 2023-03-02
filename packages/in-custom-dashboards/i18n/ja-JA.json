@@ -403,6 +403,7 @@
         "pleaseSelect": "選択してください"
       },
       "createSliForm": {
+        "formName": "SLI フォームの作成",
         "sliCreateSuccess": "SLI が正常に作成されました",
         "failCreateSli": "SLI の作成に失敗しました。",
         "problemCreateSli": "次の SLI の作成中に問題が発生しました: 「{{sliName}}」",
@@ -468,7 +469,7 @@
         "type": "タイプ",
         "sliEntity": "SLI エンティティー",
         "beaconConfigLabel": "ビーコンの構成",
-        "beaconScopeLabel": "Beacon Scope",
+        "beaconScopeLabel": "ビーコン・スコープ",
         "beaconLabel": "不明なビーコン・タイプ",
         "beaconLabel_httpRequest": "HTTP 要求",
         "beaconLabel_pageLoad": "Web サイト・ページのロード",

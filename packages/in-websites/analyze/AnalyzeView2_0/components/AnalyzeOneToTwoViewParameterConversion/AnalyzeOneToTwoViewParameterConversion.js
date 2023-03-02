@@ -10,10 +10,9 @@ import { useObservable } from '@instana/hooks';
 import { transformOneZeroToTwoZero } from 'in-websites/analyze/AnalyzeView2_0/components/AnalyzeOneToTwoViewParameterConversion/transformHelper';
 import { beaconType as beaconTypeMatrixParameterName } from 'in-websites/navigation/matrix';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
-import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { createParameters } from 'in-components/AnalyzeView/parameters';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import { getModifiedUrl } from 'in-stores/navigation/navigation';
 import { getMetricCatalog } from 'in-websites/api/metricCatalog';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import useTagCatalog from 'in-websites/hooks/useTagCatalog.js';
@@ -24,16 +23,21 @@ import Sticky from 'in-components/Sticky';
 export const analyzeTwoParameters = createParameters(analyzePath);
 
 export default function AnalyzeOneToTwoViewParameterConversion({ dataSourceConfigurations }) {
-  const location = useLocation();
+  const { location, createHref } = useNavigation();
   const beaconType = getMatrixParameter(location, analyzePath, beaconTypeMatrixParameterName) || 'pageLoad';
   const tagCatalog = useTagCatalog(beaconType);
   const metricCatalogResult = useObservable(() => getMetricCatalog(), []);
 
   let redirectHref;
   if (tagCatalog != null && metricCatalogResult?.data) {
-    redirectHref = getModifiedUrl(location, location =>
-      transformOneZeroToTwoZero(location, tagCatalog, metricCatalogResult.data, dataSourceConfigurations[beaconType])
+    const updatedLocaton = { ...location };
+    transformOneZeroToTwoZero(
+      updatedLocaton,
+      tagCatalog,
+      metricCatalogResult.data,
+      dataSourceConfigurations[beaconType]
     );
+    redirectHref = createHref(updatedLocaton);
   }
 
   return (

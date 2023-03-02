@@ -7,6 +7,12 @@ import React, { useState } from 'react';
 
 import { Button, Stack } from '@instana/components';
 
+import {
+  applicationsAlertingDeprecatedEventConfirmMigrated,
+  applicationsAlertingDeprecatedEventMarkMigrated,
+  applicationsAlertingDeprecatedEventMigrateStarted,
+  applicationsAlertingDeprecatedEventMigrateFinished
+} from 'in-alerting/smart-alerts/applications/tracker';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/dialog/SmartAlertConfigDialogWrapper';
 import getAlertConfigFromLegacyEvent from 'in-alerting/migration/subscriptions/getAlertConfigFromLegacyEvent';
 import { disableMigratedCustomEventSpecification } from 'in-api/eventSpecifications';
@@ -58,12 +64,16 @@ export default function MigrateToSmartAlerts({ eventSpecificationId }) {
 }
 
 function showMigrationConfirmation(eventSpecificationId, setDisablingEvent) {
+  applicationsAlertingDeprecatedEventMarkMigrated({
+    eventSpecificationId
+  });
   addActiveDialog(
     <ConfirmationDialog
       header={t('in-alerting:smartAlerts.migration.markAsMigratedButtonConfirmationTitle')}
       description={t('in-alerting:smartAlerts.migration.markAsMigratedButtonConfirmationDescription')}
       confirmButtonLabel={t('in-alerting:smartAlerts.migration.markAsMigratedButtonConfirmationConfirmLabel')}
       onSubmit={() => {
+        applicationsAlertingDeprecatedEventConfirmMigrated({ eventSpecificationId });
         handleDisableCustomEvent(setDisablingEvent, eventSpecificationId);
         close();
       }}
@@ -99,6 +109,7 @@ function showSmartAlertDialog({
   setMigrating,
   setMigrationInProgress
 }) {
+  applicationsAlertingDeprecatedEventMigrateStarted({ eventSpecificationId });
   if (config) {
     addActiveDialog(
       <SmartAlertConfigDialogWrapper
@@ -109,6 +120,7 @@ function showSmartAlertDialog({
           if (applicationAlertConfigId) {
             handleDisableCustomEvent(setMigrating, eventSpecificationId, applicationAlertConfigId);
           }
+          applicationsAlertingDeprecatedEventMigrateFinished({ eventSpecificationId });
           setMigrationInProgress(false);
           close();
         }}

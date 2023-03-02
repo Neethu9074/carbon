@@ -9,8 +9,8 @@ import {
   getSimpleModeBlueprintConfig,
   simpleModeBlueprintConfigs
 } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
-import { BlueprintDescription, BlueprintText } from 'in-alerting/smart-alerts/components/dialog/BlueprintDescription';
 import SimpleAlertConfigDialogChart from 'in-alerting/smart-alerts/websites/dialog/simple/SimpleAlertConfigDialogChart';
+import { BlueprintDescription, BlueprintText } from 'in-alerting/smart-alerts/components/dialog/BlueprintDescription';
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import SelectedBlueprintPresenter from 'in-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
 import ProvideCustomEvent from 'in-alerting/smart-alerts/websites/components/ProvideCustomEvent';

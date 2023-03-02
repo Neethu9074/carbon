@@ -36,7 +36,6 @@ export interface HeaderProps extends UngroupedViewProps {
   availableMetrics: MetricDescription[];
   metrics: Metric[];
   setMetrics: (metrics: Metric[]) => void;
-  tracking: Record<string, (metric: Metric) => void>;
   withCountHeader?: boolean;
   MetricConfiguratorHint: (props: { metricId: string }) => JSX.Element | null;
 }

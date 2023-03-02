@@ -6,9 +6,13 @@
 
 import React, { useEffect, useRef } from 'react';
 
-import { CodeProps, javascript, bbedit, useCodeMirror, EditorView } from 'in-synthetics/packages/CodeMirror';
+import { keyCodes } from '@instana/components';
+
+import { CodeProps, javascript, bbedit, useCodeMirror, EditorView, events } from 'in-synthetics/packages/CodeMirror';
 
 import locals from './Code.mless';
+
+const { isQuestionMarkOrMinus } = keyCodes;
 
 export default function CodeInput(props: CodeProps) {
   const editor = useRef(null);
@@ -18,12 +22,19 @@ export default function CodeInput(props: CodeProps) {
       outline: 'none'
     }
   });
+  const keyboardEventExtension = events.content({
+    keydown: keyboardEvent => {
+      if (isQuestionMarkOrMinus(keyboardEvent)) {
+        keyboardEvent.stopPropagation();
+      }
+    }
+  });
 
   const { setContainer } = useCodeMirror({
     container: editor.current,
     value: props.value || '',
     theme: [bbedit, customizedTheme],
-    extensions: extensions,
+    extensions: [extensions, keyboardEventExtension],
     editable: props.editable,
     readOnly: props.readOnly,
     autoFocus: props.autoFocus,

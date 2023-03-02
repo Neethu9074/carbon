@@ -18,4 +18,19 @@
   .italic {
     font-style: italic;
   }
+
+  .logLevelPill {
+    min-width: 3.125rem;
+  }
+
+  .logLevelPillCell {
+    span {
+      display: grid;
+      place-items: center;
+    }
+  }
+
+  .headCell {
+    white-space: nowrap;
+  }
 }

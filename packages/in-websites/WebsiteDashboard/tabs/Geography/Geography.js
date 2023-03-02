@@ -16,7 +16,7 @@ import TwoDWebsiteGeoMap from 'in-websites/WebsiteDashboard/tabs/Geography/2DWeb
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import { websitePathFullyQualified } from 'in-websites/navigation/paths';
-import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import Button from 'in-components/MapControls/Button';
 import Tooltip from 'in-components/Tooltip';
@@ -29,6 +29,8 @@ const GlobeView = createAsyncViewComponent(GlobeViewLoader);
 export default function Geography(props) {
   const { tagFilters, timeConfig } = props;
   useDisabledBodyScroll();
+
+  const { location, createHref } = useNavigation();
 
   return (
     <WithEmptyStateFallback
@@ -57,7 +59,7 @@ export default function Geography(props) {
                   />
                   <Link
                     className={locals.link}
-                    href$={getModifiedUrlStream(params => (params.pathname = `${websitePathFullyQualified}/geography`))}
+                    href={createHref({ ...location, pathname: `${websitePathFullyQualified}/geography` })}
                   >
                     <SvgIcon className={locals.mapSwitchIconDark} type="lib_website" />
                   </Link>
@@ -77,9 +79,7 @@ export default function Geography(props) {
                     align="leftMiddle"
                   >
                     <Button
-                      href$={getModifiedUrlStream(
-                        params => (params.pathname = `${websitePathFullyQualified}/geography/globe`)
-                      )}
+                      href={createHref({ ...location, pathname: `${websitePathFullyQualified}/geography/globe` })}
                       className={locals.to3D}
                       renderContent={() => <span>{t('in-websites:websiteDashboard.tabs.geography.geography3D')}</span>}
                     />

@@ -18,7 +18,7 @@ import {
   isWebhook
 } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
-import { ActionExecutionParameter, runScriptAction, runWebhookAction } from 'in-api/automation';
+import { ActionExecutionParameter, runScriptAction, runWebhookAction } from 'in-automation/api';
 import RunActionContent from 'in-events/components/AutomationActions/RunActionContent';
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import { notBlankValidator } from 'in-services/validators/string';
@@ -178,6 +178,27 @@ function onSave({
   }, []);
   const hiddenInputParameters = (action.inputParameters ?? []).reduce<ActionExecutionParameter[]>((acc, parameter) => {
     if (parameter.hidden) {
+      if (parameter.type === 'vault') {
+        const parsedVaultValue: { secretKey?: string; secretPath?: string } = (raw => {
+          try {
+            return JSON.parse(raw);
+          } catch (e) {
+            return {};
+          }
+        })(parameter.value ?? '{}');
+        const { secretKey, secretPath } = parsedVaultValue;
+        return [
+          ...acc,
+          {
+            name: parameter.name,
+            type: 'vault',
+            value: JSON.stringify({
+              secretPath: secretPath ?? '',
+              secretKey: secretKey ?? ''
+            })
+          }
+        ];
+      }
       return [...acc, { name: parameter.name, value: parameter.value ?? '' }];
     }
     return acc;
@@ -199,6 +220,7 @@ function onSave({
   };
 
   const allInputParameters = [...inputParameters, ...hiddenInputParameters];
+  const { id: actionId, name: actionName } = action;
   if (isScript(action.type)) {
     const script = getScriptFromFields(action.fields);
     const interpreter = getInterpreterFromFields(action.fields);
@@ -206,7 +228,8 @@ function onSave({
       script,
       volatileId: selectedVolatileId,
       event,
-      actionName: action.name,
+      actionName,
+      actionId,
       interpreter,
       inputParameters: allInputParameters
     }).once(handleActionResponse);
@@ -215,7 +238,8 @@ function onSave({
     runWebhookAction({
       volatileId: selectedVolatileId,
       event,
-      actionName: action.name,
+      actionName,
+      actionId,
       host,
       method,
       body,

@@ -5,6 +5,7 @@
  */
 
 import { MapForm, Field } from 'formalistic';
+import classNames from 'classnames';
 import React from 'react';
 
 import { Parameter } from '@instana/types';
@@ -15,8 +16,11 @@ import ParameterDialog from 'in-settings/tabs/TeamSettings/pages/automation/Acti
 import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 import Label from 'in-components/form/Label/Label';
 import { t } from 'in-i18n';
+
+import locals from './ActionTable.mless';
 
 interface ParametersTableProps {
   form: MapForm;
@@ -36,15 +40,19 @@ const getColumnDefinitions = ({ form, onChange }: Omit<ParametersTableProps, 'se
     label: t('in-settings:tabs.displayName'),
     getContent(item: MappedParameter) {
       return (
-        <Link
-          href=""
-          onClick={e => {
-            e.preventDefault();
-            addActiveDialog(<ParameterDialog idToEdit={item.id} form={form} onChange={onChange} />);
-          }}
-        >
-          {item.value.label}
-        </Link>
+        <Tooltip content={item.value.label} align="topLeft" delay={500}>
+          <Link
+            href=""
+            className={locals.block}
+            ellipsis
+            onClick={e => {
+              e.preventDefault();
+              addActiveDialog(<ParameterDialog idToEdit={item.id} form={form} onChange={onChange} />);
+            }}
+          >
+            {item.value.label}
+          </Link>
+        </Tooltip>
       );
     }
   },
@@ -53,7 +61,11 @@ const getColumnDefinitions = ({ form, onChange }: Omit<ParametersTableProps, 'se
     sortable: true,
     label: t('in-settings:tabs.name'),
     getContent(item: MappedParameter) {
-      return item.value.name;
+      return (
+        <Tooltip content={item.value.name} align="topLeft" delay={500}>
+          <span className={classNames(locals.ellipsis, locals.block)}>{item.value.name}</span>
+        </Tooltip>
+      );
     }
   },
   {
@@ -61,12 +73,13 @@ const getColumnDefinitions = ({ form, onChange }: Omit<ParametersTableProps, 'se
     sortable: false,
     label: t('in-settings:tabs.description'),
     getContent(item: MappedParameter) {
-      return item.value.description;
+      return <div className={locals.fourLines}>{item.value.description}</div>;
     }
   },
   {
     id: 'type',
     sortable: true,
+    width: '8',
     label: t('in-settings:tabs.type'),
     getContent(item: MappedParameter) {
       if (item.value.type === 'vault') {

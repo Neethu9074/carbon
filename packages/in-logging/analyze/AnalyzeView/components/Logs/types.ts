@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import {TagFilterExpressionElementUnion, TimeConfig} from '@instana/types';
+import { TagFilterExpression, TimeConfig } from '@instana/types';
 
 import { StateManagementChildProps } from 'in-components/AnalyzeView/StateManagement';
 
@@ -23,7 +23,7 @@ export interface LogsProps extends StateManagementChildProps {
 export interface GetDataParams {
   timeConfig: TimeConfig;
   orderBy: OrderBy;
-  backendQueryModel: TagFilterExpressionElementUnion;
+  backendQueryModel: TagFilterExpression;
   dataSource: string;
   initialLogLines: number;
   retrievalSize: number;

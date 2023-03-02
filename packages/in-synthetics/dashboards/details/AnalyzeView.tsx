@@ -22,8 +22,6 @@ import {
   TestResponse
 } from 'in-synthetics/utils/constants';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
-// @ts-expect-error Module needs to be translated to TS
-import Sticky from 'in-components/Sticky';
 import BrowserTestTimeline from 'in-synthetics/dashboards/details/components/BrowserTestTimeline';
 import getTestResultDetailData from 'in-synthetics/subscriptions/getTestResultDetailData';
 import DownloadButton from 'in-synthetics/dashboards/details/components/DownloadButton';
@@ -38,6 +36,7 @@ import Timeline from 'in-synthetics/dashboards/details/components/Timeline';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { syntheticBrowserScriptEnabled } from 'in-services/featureFlags';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
+import { testIdTagName, testResultIdTagName } from 'in-synthetics/tags';
 import { syntheticDetailsPath } from 'in-synthetics/navigation/paths';
 import Logs from 'in-synthetics/dashboards/details/components/Logs';
 import { bytes, meanLatency } from 'in-services/formatters/number';
@@ -45,8 +44,10 @@ import { getTest, getTestResultMetadata } from 'in-synthetics/api';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
+import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import Sticky from 'in-components/Sticky';
 import theme from 'in-themes';
 
 export default function SyntheticAnalyzeView() {
@@ -64,7 +65,8 @@ export default function SyntheticAnalyzeView() {
   const test: TestResponse = useObservable<any, [number]>(() => getTest(testId), [0]) || dummyTest;
   const testType: string = getMatrixParameter(location, syntheticDetailsPath, 'type') ?? '';
   const isHTTPActionType: boolean = testType === 'HTTPAction';
-  const isBrowserScriptTest: boolean = testType === 'BrowserScript' && syntheticBrowserScriptEnabled;
+  const isBrowserScriptTest: boolean =
+    (testType === 'BrowserScript' || testType === 'WebpageScript') && syntheticBrowserScriptEnabled;
   const formatType: string = isBrowserScriptTest ? 'HAR' : 'SUBTRANSACTIONS';
   const details: ResultDetailsResponse =
     useObservable<any, [number]>(
@@ -80,14 +82,14 @@ export default function SyntheticAnalyzeView() {
   const tagFilters = [
     {
       stringValue: testId,
-      name: 'testId',
+      name: testIdTagName,
       operator: EQUALS,
       entity: NOT_APPLICABLE,
       type: 'TAG_FILTER'
     },
     {
       stringValue: resultId,
-      name: 'id',
+      name: testResultIdTagName,
       operator: EQUALS,
       entity: NOT_APPLICABLE,
       type: 'TAG_FILTER'
@@ -119,6 +121,9 @@ export default function SyntheticAnalyzeView() {
   const testResultMetadata: ResultMetadataResponse =
     useObservable<any, [number]>(() => getTestResultMetadata(testId, resultId), [0]) || dummyResultMetadata;
 
+  const renderMetaInformation = () => {
+    return <BetaBadge />;
+  };
   return (
     <>
       <Sticky
@@ -130,6 +135,7 @@ export default function SyntheticAnalyzeView() {
               label={get(test, ['data', 'label'])}
               withBorderBottom
               showHistoricDataWarning={false}
+              renderMetaInformation={renderMetaInformation}
             />
             <DashboardHeaderShadowModule />
           </>

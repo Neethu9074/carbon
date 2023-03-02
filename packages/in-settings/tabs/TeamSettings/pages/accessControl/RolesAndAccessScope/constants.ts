@@ -100,51 +100,73 @@ const platformAreaPermissions: Array<AreaPermissionType> = [
 const platformCapabilities: Array<CapabilityType> = [];
 
 // INFRASTRUCTURE
-const infraAreaPermissions: Array<AreaPermissionType> = [AreaPermission.ACCESS_INFRASTRUCTURE];
+export const infraAreaPermissions: Array<AreaPermissionType> = [AreaPermission.ACCESS_INFRASTRUCTURE];
 const infraCapabilities: Array<CapabilityType> = [];
 
 // ANALYTICS
 const analyticsAreaPermissions: Array<AreaPermissionType> = [];
-const analyticsCapabilities: Array<CapabilityType> = [Capability.CAN_VIEW_TRACE_DETAILS, Capability.CAN_VIEW_LOGS];
+export const analyticsCapabilities: Array<CapabilityType> = [
+  Capability.CAN_VIEW_LOGS,
+  Capability.CAN_VIEW_TRACE_DETAILS
+];
 
 // EVENT
 const eventAreaPermissions: Array<AreaPermissionType> = [];
-const eventCapabilities: Array<CapabilityType> = [
-  Capability.CAN_CONFIGURE_INTEGRATIONS,
+export const eventCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_CUSTOM_ALERTS,
-  Capability.CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD,
-  Capability.CAN_CONFIGURE_GLOBAL_ALERT_CONFIGS
+  Capability.CAN_CONFIGURE_INTEGRATIONS,
+  Capability.CAN_CONFIGURE_GLOBAL_ALERT_CONFIGS,
+  Capability.CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD
 ];
 
 // MIXED
-const mixedAreaPermissions: Array<AreaPermissionType> = [];
-const mixedCapabilities: Array<CapabilityType> = [
+export const generalMixedCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_PERSONAL_API_TOKENS,
   Capability.CAN_CONFIGURE_RELEASES,
   Capability.CAN_CONFIGURE_LOG_MANAGEMENT,
-  Capability.CAN_CONFIGURE_SERVICE_MAPPING,
-  // Custom dashboard permissions
+  Capability.CAN_CONFIGURE_SERVICE_MAPPING
+];
+
+export const customDashboardCapabilities: Array<CapabilityType> = [
   Capability.CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS,
   Capability.CAN_EDIT_ALL_ACCESSIBLE_CUSTOM_DASHBOARDS,
-  Capability.CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS,
-  // Agent permissions
+  Capability.CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS
+];
+
+export const agentsCapabilities: Array<CapabilityType> = [
   Capability.CAN_INSTALL_NEW_AGENTS,
   Capability.CAN_CONFIGURE_AGENTS,
-  Capability.CAN_CONFIGURE_AGENT_RUN_MODE,
-  // User management & security permissions
+  Capability.CAN_CONFIGURE_AGENT_RUN_MODE
+];
+
+export const userManagementCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_USERS,
   Capability.CAN_CONFIGURE_TEAMS,
   Capability.CAN_CONFIGURE_API_TOKENS,
   Capability.CAN_CONFIGURE_AUTHENTICATION_METHODS,
   Capability.CAN_VIEW_AUDIT_LOG,
-  Capability.CAN_CONFIGURE_SESSION_SETTINGS,
-  // Account & billing permissions
+  Capability.CAN_CONFIGURE_SESSION_SETTINGS
+];
+
+export const accountAndBillingCapabilities: Array<CapabilityType> = [
   Capability.CAN_SEE_USAGE_INFORMATION,
   Capability.CAN_SEE_ON_PREM_LICENE_INFORMATION,
-  Capability.CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION,
-  // Automation
+  Capability.CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION
+];
+
+export const automationCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS,
   Capability.CAN_RUN_AUTOMATION_ACTIONS
+];
+
+const mixedAreaPermissions: Array<AreaPermissionType> = [];
+export const mixedCapabilities: Array<CapabilityType> = [
+  ...generalMixedCapabilities,
+  ...customDashboardCapabilities,
+  ...agentsCapabilities,
+  ...userManagementCapabilities,
+  ...accountAndBillingCapabilities,
+  ...automationCapabilities
 ];
 
 interface ProductAreaPermissions {

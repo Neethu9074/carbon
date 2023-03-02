@@ -43,11 +43,11 @@ export default function QueryBuilderReadOnlyErrorBoundry(props) {
 }
 
 function QueryBuilderReadOnly({ value: formModel, tagCatalog, getSuggestions }) {
-  const resolvedCreateTagForm = tagCatalog?.data && createTagForm.bind(null, tagCatalog);
-
-  if (!tagCatalog?.data) {
+  if (!tagCatalog) {
     return <LoadingIndicator />;
   }
+
+  const resolvedCreateTagForm = tagCatalog && createTagForm.bind(null, tagCatalog);
 
   const renderModel = toRenderModel(formModel);
 
@@ -56,7 +56,7 @@ function QueryBuilderReadOnly({ value: formModel, tagCatalog, getSuggestions }) 
       <Elements
         createTagForm={resolvedCreateTagForm}
         getSuggestions={getSuggestions}
-        tagCatalog={tagCatalog.data}
+        tagCatalog={tagCatalog}
         elements={renderModel}
         formModel={formModel}
       />
@@ -98,4 +98,3 @@ function QueryBuilderReadOnly({ value: formModel, tagCatalog, getSuggestions }) 
     );
   }
 }
-

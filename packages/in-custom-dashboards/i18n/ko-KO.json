@@ -403,6 +403,7 @@
         "pleaseSelect": "선택하십시오."
       },
       "createSliForm": {
+        "formName": "SLI 양식 작성",
         "sliCreateSuccess": "SLI가 작성됨",
         "failCreateSli": "SLI를 작성하는 데 실패했습니다.",
         "problemCreateSli": "이 SLI를 작성하는 중에 문제점 발생: \"{{sliName}}\"",

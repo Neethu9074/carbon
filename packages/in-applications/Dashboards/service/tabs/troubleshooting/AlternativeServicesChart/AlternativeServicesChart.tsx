@@ -136,7 +136,7 @@ function getServicesCorrelationByTagObservable([
       pageSize: 20
     },
     order: {
-      by: 'calls',
+      by: 'callsAgg',
       direction: 'DESC'
     },
     metrics: {

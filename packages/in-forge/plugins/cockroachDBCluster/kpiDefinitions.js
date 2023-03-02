@@ -3,14 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-import { bytesZeroDecimalPlaces, timeByNanoTwoDecimalPlaces } from 'in-services/formatters/number';
+import { ms, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 export default [
   {
     label: t('in-forge:plugins.cockroachDBCluster.labelSQLLatency'),
     metric: 'sql.exec.latency-p99',
-    formatter: timeByNanoTwoDecimalPlaces
+    formatter: ms.compact
   },
   {
     label: t('in-forge:plugins.cockroachDBCluster.labelDiskReadBytes'),

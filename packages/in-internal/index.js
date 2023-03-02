@@ -10,13 +10,14 @@ import React from 'react';
 import AppDataProcessorStatistics from 'in-internal/monitoringUnit/Appdata/AppDataProcessorStatistics';
 // features for monitoring units
 import AppDataLiveAggregatorOverview from 'in-internal/monitoringUnit/Appdata/AppDataLiveAggregatorOverview';
+import WebsiteAdaptiveBaselineModel from 'in-internal/thisUnit/AdaptiveBaseline/WebsiteAdaptiveBaselineModel';
+import AdaptiveBaselineModel from 'in-internal/thisUnit/AdaptiveBaseline/ApplicationAdaptiveBaselineModel';
 import FillerInfrastructureMetrics from 'in-internal/monitoringUnit/infrastructureMetrics/Filler';
 import AppDataQueryPerformance from 'in-internal/monitoringUnit/Appdata/AppDataQueryPerformance';
 import ClickhouseTotalTableSizes from 'in-internal/monitoringUnit/sre/ClickhouseTotalTableSizes';
 import AppDataHealthAggregator from 'in-internal/monitoringUnit/Appdata/AppDataHealthAggregator';
 // General imports
 import InternalViewWrapper from 'in-internal/components/InternalViewWrapper';
-import AdaptiveBaselineModel from 'in-internal/thisUnit/AdaptiveBaseline/AdaptiveBaselineModel';
 import AppDataHealthProcessor from 'in-internal/monitoringUnit/Appdata/AppDataHealthProcessor';
 import ServerlessAcceptors from 'in-internal/monitoringUnit/serverless/ServerlessAcceptors';
 import JsStackTraceTranslator from 'in-internal/monitoringUnit/eum/JsStackTraceTranslator';
@@ -38,6 +39,7 @@ import CallExtraction from 'in-internal/monitoringUnit/Appdata/CallExtraction';
 import AppDataWriterForEum from 'in-internal/monitoringUnit/eum/AppDataWriter';
 import GraphExplorer from 'in-internal/thisUnit/GraphExplorer/GraphExplorer';
 import LogHousekeeping from 'in-internal/monitoringUnit/log/LogHousekeeping';
+import EumComponentMetrics from 'in-internal/thisUnit/EumComponentMetrics';
 import ErrorSimulator from 'in-internal/monitoringUnit/eum/ErrorSimulator';
 import SpansCassandra from 'in-internal/monitoringUnit/sre/SpansCassandra';
 import StateCassandra from 'in-internal/monitoringUnit/sre/StateCassandra';
@@ -302,10 +304,16 @@ export default function Internal() {
       children={wrapInInternalView(WsApiTester)}
     />,
     <Route
-      key="internalAdaptiveBaselineMode"
-      path="/internal/thisUnit/adaptiveBaselineModel"
+      key="internalApplicationAdaptiveBaselineMode"
+      path="/internal/thisUnit/applicationAdaptiveBaselineModel"
       children={wrapInInternalView(AdaptiveBaselineModel)}
     />,
+    <Route
+      key="internalWebsiteAdaptiveBaselineMode"
+      path="/internal/thisUnit/websiteAdaptiveBaselineModel"
+      children={wrapInInternalView(WebsiteAdaptiveBaselineModel)}
+    />,
+    <Route key="internalEumComponentMetrics" path="/internal/thisUnit/eum" component={EumComponentMetrics} />,
     <Route key="internalLanding" exact path="/internal" children={wrapInInternalView(Landing)} />
   );
   return internalRoutes;

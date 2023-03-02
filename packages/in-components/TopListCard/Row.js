@@ -14,7 +14,7 @@ export default function TopListRow(props) {
   const {
     wrapLabel = wrapDefault,
     wrapMetric = wrapDefault,
-    wrapContributedItem = wrapContributedItem,
+    wrapContributedItem,
     metricValue,
     maxValue,
     Label,

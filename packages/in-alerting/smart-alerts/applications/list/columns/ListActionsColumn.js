@@ -6,37 +6,17 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  applicationsAlertingAlertEdit,
-  applicationsAlertingListAlertDeleted,
-  applicationsAlertingListAlertPaused,
-  applicationsAlertingListAlertResumed
-} from 'in-alerting/smart-alerts/applications/tracker';
-import {
-  deleteGlobalAlertConfig,
-  disableGlobalAlertConfig,
-  enableGlobalAlertConfig
-} from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
-import {
-  deleteAlertConfig,
-  disableAlertConfig,
-  enableAlertConfig
-} from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
-import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/dialog/SmartAlertConfigDialogWrapper';
-import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/applications/list/SmartAlertsBaseList';
-import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
-import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
 import IconButton from 'in-components/IconButton/IconButton';
 import { stopPropagation } from 'in-services/util/function';
 import Tooltip from 'in-components/Tooltip';
-import { t, Trans } from 'in-i18n';
+import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/list/columns/ListActionsColumn.mless';
 
-export default function ListActionsColumn({ config, isLoading, isGlobalSmartAlertConfig }) {
+export function ListActionsColumn({ config, isLoading, actionHandlers = {} }) {
+  const { handleEdit, handleClone, handleToggleEnabled, handleDelete } = actionHandlers;
   const { enabled, id, name } = config;
   const [isSaving, setIsSaving] = useState(false);
   const [isMoreMenuSaving, setIsMoreMenuSaving] = useState(false);
@@ -54,45 +34,54 @@ export default function ListActionsColumn({ config, isLoading, isGlobalSmartAler
   return (
     <HorizontalFlexWrapper className={locals.actions}>
       <Tooltip content={getTooltipForAction()} delay={500}>
-        <IconButton
-          kind="primaryv2"
-          type={isSaving ? 'lib_actions_loading' : enabled ? 'lib_actions_pause' : 'lib_actions_play'}
-          iconSpinning={isSaving}
-          onClick={e => {
-            stopPropagation(e);
-            handleToggleEnabled(enabled, id, setIsSaving, isGlobalSmartAlertConfig);
-          }}
-        />
+        <div className={locals.separator}>
+          <IconButton
+            kind="primaryv2"
+            type={isSaving ? 'lib_actions_loading' : enabled ? 'lib_actions_pause' : 'lib_actions_play'}
+            iconSpinning={isSaving}
+            onClick={e => {
+              e.preventDefault();
+              stopPropagation(e);
+              handleToggleEnabled(enabled, id, setIsSaving);
+            }}
+          />
+        </div>
       </Tooltip>
 
       <MoreMenu
         renderInteractiveElement={({ ref, toggle }) => (
-          <IconButton
-            kind="info"
-            type={isMoreMenuSaving ? 'lib_actions_loading' : 'lib_menu_more_horizontal'}
-            onClick={e => {
-              stopPropagation(e);
-              toggle();
-            }}
-            ref={ref}
-            iconSpinning={isMoreMenuSaving}
-          />
+          <div className={locals.separator}>
+            <IconButton
+              kind="info"
+              type={isMoreMenuSaving ? 'lib_actions_loading' : 'lib_menu_more_horizontal'}
+              onClick={e => {
+                e.preventDefault();
+                stopPropagation(e);
+                toggle();
+              }}
+              ref={ref}
+              iconSpinning={isMoreMenuSaving}
+              className={locals.darkButton}
+            />
+          </div>
         )}
       >
         <MoreMenuButton
           icon={isSaving ? 'lib_actions_loading' : 'lib_actions_edit'}
           iconSpinning={isMoreMenuSaving}
-          onClick={() => handleEdit(config, isGlobalSmartAlertConfig)}
+          onClick={() => handleEdit(config)}
         >
           {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonEdit')}
         </MoreMenuButton>
-        <MoreMenuButton icon="lib_actions_copy" onClick={() => handleClone(config, isGlobalSmartAlertConfig)}>
+        <MoreMenuButton icon="lib_actions_copy" onClick={() => handleClone(config)}>
           {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDuplicate')}
         </MoreMenuButton>
         {!config?.builtIn && (
           <MoreMenuButton
             icon="lib_actions_delete"
-            onClick={() => handleDelete(id, setIsMoreMenuSaving, isGlobalSmartAlertConfig, name)}
+            onClick={() => {
+              return handleDelete(id, setIsMoreMenuSaving, name);
+            }}
           >
             {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDelete')}
           </MoreMenuButton>
@@ -110,84 +99,6 @@ export default function ListActionsColumn({ config, isLoading, isGlobalSmartAler
   }
 }
 
-function handleDelete(id, setIsSaving, isGlobalSmartAlertConfig, configName) {
-  const deleteConfig = isGlobalSmartAlertConfig ? deleteGlobalAlertConfig : deleteAlertConfig;
-
-  addActiveDialog(
-    <ConfirmationDialog
-      header={t('in-alerting:smartAlerts.applications.inventory.labelConfirm')}
-      description={
-        <span>
-          <Trans
-            i18nKey="in-alerting:smartAlerts.applications.inventory.labelConfirmRemoveConfig"
-            values={{ configName }}
-          />
-        </span>
-      }
-      confirmButtonLabel={t('in-alerting:smartAlerts.applications.inventory.labelRemove')}
-      onSubmit={() => {
-        setIsSaving(true);
-        close();
-        deleteConfig(id).once(
-          () => {
-            applicationsAlertingListAlertDeleted({
-              alertConfigId: id
-            });
-            refreshSmartAlertConfigsList();
-          },
-          () => {
-            setIsSaving(false);
-          }
-        );
-      }}
-    />
-  );
-}
-
-function handleToggleEnabled(enabled, id, setIsSaving, isGlobalSmartAlertConfig) {
-  const disableConfig = isGlobalSmartAlertConfig ? disableGlobalAlertConfig : disableAlertConfig;
-  const enableConfig = isGlobalSmartAlertConfig ? enableGlobalAlertConfig : enableAlertConfig;
-
-  setIsSaving(true);
-
-  (enabled ? disableConfig(id) : enableConfig(id)).once(
-    () => {
-      (enabled ? applicationsAlertingListAlertPaused : applicationsAlertingListAlertResumed)({
-        alertConfigId: id
-      });
-      refreshSmartAlertConfigsList();
-    },
-    () => {
-      setIsSaving(false);
-    }
-  );
-}
-
-function handleClone(config, isGlobalSmartAlertConfig) {
-  openSmartAlertDialog(config, isGlobalSmartAlertConfig, true);
-  applicationsAlertingAlertEdit({ alertConfigId: config.id });
-}
-
-function handleEdit(config, isGlobalSmartAlertConfig) {
-  openSmartAlertDialog(config, isGlobalSmartAlertConfig);
-  applicationsAlertingAlertEdit({ alertConfigId: config.id });
-}
-
-function openSmartAlertDialog(config, isGlobalSmartAlertConfig, isCopy = false) {
-  addActiveDialog(
-    <SmartAlertConfigDialogWrapper
-      applicationLabel={config.name}
-      alertConfig={isCopy ? duplicateAlertConfig(config) : config}
-      onClose={() => {
-        close();
-        refreshSmartAlertConfigsList();
-      }}
-      isGlobalSmartAlert={isGlobalSmartAlertConfig}
-      editMode={!isCopy}
-    />
-  );
-}
-
 ListActionsColumn.propTypes = {
   config: PropTypes.shape({
     enabled: PropTypes.bool.isRequired,
@@ -195,6 +106,11 @@ ListActionsColumn.propTypes = {
     name: PropTypes.string.isRequired,
     builtIn: PropTypes.bool
   }).isRequired,
-  isGlobalSmartAlertConfig: PropTypes.bool,
-  isLoading: PropTypes.bool
+  isLoading: PropTypes.bool,
+  actionHandlers: PropTypes.shape({
+    handleEdit: PropTypes.func,
+    handleClone: PropTypes.func,
+    handleToggleEnabled: PropTypes.func,
+    handleDelete: PropTypes.func
+  })
 };

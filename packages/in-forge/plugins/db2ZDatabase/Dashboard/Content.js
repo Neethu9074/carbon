@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import IbmDb2ZNotification from 'in-forge/plugins/db2ZDatabase/Dashboard/IbmDb2ZNotification';
 import { bytes, number, timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
@@ -19,6 +20,7 @@ export default function Db2ZDashboard({ snapshot, timeConfig }) {
 
   return (
     <div>
+      <IbmDb2ZNotification />
       <KpiSection>
         <KpiKeyValue label={t('in-forge:plugins.db2ZDatabase.dashboard.activeThreads')}>
           <MetricValue snapshotId={snapshotId} metric="DB2ZLocationStats.threadCount" formatter={number.compact} />

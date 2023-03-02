@@ -15,23 +15,30 @@ import {
 import WebsiteCustomGeoDetails from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/CustomGeoDetails/WebsiteCustomGeoDetails';
 import StackTraceTranslation from 'in-websites/WebsiteDashboard/tabs/Configuration/StackTraceTranslation/StackTraceTranslation';
 import { SideNavigation, SideNavigationItem } from 'in-components/SideNavigation/SideNavigation';
-import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
 import Options from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/Options';
 import Privacy from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/Privacy';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import SidebarContainer from 'in-components/layout/SidebarContainer';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 import Footer from 'in-components/Footer';
-import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
-const NavigationItem = connectTo(({ path }) => ({
-  href: getModifiedUrlStream(params => (params.pathname = path)),
-  isActive: navigationParameters$.map(params => params.pathname.startsWith(path))
-}))(function NavigationItem({ href, label, isActive }) {
-  return <SideNavigationItem omitEmptyIcon label={label} href={href} isActive={isActive} />;
-});
+function NavigationItem({ label, path }) {
+  const { location, createHref } = useNavigation();
+  const isActive = location.pathname.startsWith(path);
+  return (
+    <SideNavigationItem
+      label={label}
+      isActive={isActive}
+      href={createHref({ ...location, pathname: path })}
+      omitEmptyIcon
+    />
+  );
+}
 
 export default function Configuration(props) {
+  const { location, createHref } = useNavigation();
+
   const sidebar = (
     <SideNavigation title={t('in-websites:websiteDashboard.tabs.configuration.configurationTitle')}>
       <NavigationItem
@@ -68,9 +75,7 @@ export default function Configuration(props) {
           <StackTraceTranslation {...props} />
         </Route>
         <Route>
-          <RedirectWithHash
-            to$={getModifiedUrlStream(params => (params.pathname = configurationOptionsFullyQualified))}
-          />
+          <RedirectWithHash href={createHref({ ...location, pathname: configurationOptionsFullyQualified })} />
         </Route>
       </Switch>
       <Footer />

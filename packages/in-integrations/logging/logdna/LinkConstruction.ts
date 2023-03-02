@@ -6,7 +6,7 @@
 import { toParams } from 'in-stores/navigation/routing/stringifier';
 import { Parameters } from 'in-stores/navigation/types';
 
-export const logDnaDefaultBaseURL = 'https://app.logdna.com/';
+export const logDnaDefaultBaseURL = 'https://app.mezmo.com/';
 export const ibmCloudDefaultBaseURL = 'https://cloud.ibm.com/observe/embedded-view/logging/';
 
 export function constructLink(

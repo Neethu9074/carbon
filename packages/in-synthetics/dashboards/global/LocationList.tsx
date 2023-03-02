@@ -13,8 +13,6 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 // @ts-expect-error Module needs to be translated to TS
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { columnDefinitions } from 'in-synthetics/dashboards/global/tabs/locations/components/columnDefinitions';
-// @ts-expect-error Module needs to be translated to TS
-import Sticky from 'in-components/Sticky';
 import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
@@ -22,7 +20,9 @@ import { CONTAINS } from 'in-components/QueryBuilder/tagFilter/operators';
 import getLocationList from 'in-synthetics/subscriptions/getLocationList';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { locationNameTagName } from 'in-synthetics/tags';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import Sticky from 'in-components/Sticky';
 import Footer from 'in-components/Footer';
 import { t } from 'in-i18n';
 
@@ -88,7 +88,7 @@ export function getLocationData({
     baseTagFilters = [
       {
         stringValue: query,
-        name: 'location_name',
+        name: locationNameTagName,
         operator: CONTAINS,
         entity: NOT_APPLICABLE,
         type: 'TAG_FILTER'

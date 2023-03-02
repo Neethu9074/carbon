@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { compose, pure } from 'recompose';
 import React from 'react';
+
+import { useObservable } from '@instana/hooks';
 
 import { amCharts, loadMap, getMapName } from 'in-components/AmMap/libraryWrapper';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -15,7 +16,6 @@ import HeatMapLegend from 'in-components/HeatMapLegend';
 import Button from 'in-components/MapControls/Button';
 import AmMap from 'in-components/AmMap/ReactWrapper';
 import Tooltip from 'in-components/Tooltip';
-import connect from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 import locals from './GeoHeatMapPresenter.mless';
@@ -28,16 +28,9 @@ import locals from './GeoHeatMapPresenter.mless';
 //   }
 // }
 
-export default compose(
-  connect(({ mapCode }) => ({
-    map: loadMap(mapCode)
-  })),
-  pure
-)(GeoHeatMapPresenter);
-
-function GeoHeatMapPresenter(props) {
-  const { result, map, height } = props;
-
+export default function GeoHeatMapPresenter(props) {
+  const { result, height, mapCode } = props;
+  const map = useObservable(loadMap(mapCode), [mapCode]);
   if (!result || result.progress.loading || !map) {
     return <LoadingIndicator text={t('in-components:geoHeatMap.loadingIndicatorLoadingData')} height={height} />;
   } else if (result.errors.length > 0) {
@@ -48,6 +41,7 @@ function GeoHeatMapPresenter(props) {
     <Content
       // AmMap maps cannot be properly updated. Instead, we need to completely throw them away on prop changes.
       // The pure HOC will make sure that this doesn't happen exceedingly often.
+      map={map}
       key={Math.random()}
       {...props}
     />

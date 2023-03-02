@@ -12,14 +12,16 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
+import { clickedAppPerspectiveLink } from 'in-logging/analyze/AnalyzeView/tracker';
 import { EQUALS, IS_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
+import { logPillColorMap } from 'in-logging/analyze/AnalyzeView/utils/constants';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getLogMessages from 'in-applications/subscriptions/getLogMessages';
 import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { number } from 'in-services/formatters/number';
-import { t, collationLanguage } from 'in-i18n';
+import { collationLanguage, t } from 'in-i18n';
 import Pill from 'in-components/Pill';
 
 import locals from './MessagesTable.mless';
@@ -28,6 +30,24 @@ const pathSegment = '/logMessages';
 const matrixPrefix = 'log.';
 
 const columnDefinitions = [
+  {
+    id: 'logLevel',
+    width: '4.5rem',
+    widthInAbsoluteUnit: true,
+    label: t('in-applications:labelLogLevel'),
+    headCellProps: {
+      className: locals.headCell
+    },
+    cellClassName: locals.logLevelPillCell,
+    getContent(item) {
+      const color = logPillColorMap.get(item.level.toLowerCase());
+      return (
+        <Pill className={locals.logLevelPill} color={color}>
+          {item.level}
+        </Pill>
+      );
+    }
+  },
   {
     id: 'logMessage',
     label: t('in-applications:labelLogMessage'),
@@ -44,13 +64,6 @@ const columnDefinitions = [
     },
     noWrap: true,
     ellipsis: '50vw'
-  },
-  {
-    id: 'logLevel',
-    label: t('in-applications:labelLogLevel'),
-    getContent(item) {
-      return <Pill kind="lighter">{item.level}</Pill>;
-    }
   },
   {
     id: 'logsAgg',
@@ -176,8 +189,13 @@ function getTableData({
 }
 
 function Message({ message, applicationName, serviceName, endpointName, boundaryScope }) {
+  const trackLinkClick = () => {
+    clickedAppPerspectiveLink();
+  };
+
   return (
     <Link
+      onClick={trackLinkClick}
       href$={getLinkToAnalyze({
         applicationName,
         serviceName,

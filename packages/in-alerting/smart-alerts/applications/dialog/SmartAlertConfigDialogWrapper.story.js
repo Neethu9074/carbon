@@ -8,7 +8,7 @@ import React from 'react';
 
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/dialog/SmartAlertConfigDialogWrapper';
 import { someLogsFormData } from 'in-alerting/smart-alerts/applications/dialog/advanced/stories/formSampleData';
-import { generateAlertConfig } from 'in-alerting/smart-alerts/applications/components/CreateSmartAlert';
+import { generateAlertConfig } from 'in-alerting/smart-alerts/applications/CreateSmartAlert';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import history from 'in-stores/navigation/history';
 import { noop } from 'in-services/util/function';

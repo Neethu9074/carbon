@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { createMapForm, createField, ValidationResult } from 'formalistic';
+import { createMapForm, createField } from 'formalistic';
 
 import { arrayValidator, numberValidator, stringValidator } from 'in-services/validators/jsonType';
 import { arrayNotEmptyValidator } from 'in-synthetics/components/validators/validator';
@@ -13,6 +13,7 @@ import { BluePrint } from 'in-synthetics/data/simpleModeBluePrints';
 import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
 import { minValidator } from 'in-services/validators/number';
+import urlValidator from 'in-synthetics/utils/urlValidator';
 import { t } from 'in-i18n';
 
 interface HTTPMethodType {
@@ -69,7 +70,7 @@ export function createForm(selectedBlueprint?: BluePrint, savedState?: Record<st
     .put(
       'applicationId',
       createField({
-        value: savedState?.applicationId ?? null,
+        value: savedState?.applicationId ?? '',
         validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator)
       })
     );
@@ -88,7 +89,12 @@ function createActionConfigurationForm(savedState?: Record<string, any>) {
       'url',
       createField({
         value: savedState?.url ?? '',
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator, validUrl)
+        validator: composeAndShortCircuitOnError(
+          notUndefinedValidator,
+          stringValidator,
+          notBlankValidator,
+          urlValidator
+        )
       })
     )
     .put(
@@ -137,15 +143,3 @@ export const HTTPMethods: readonly HTTPMethodType[] = Object.freeze([
   { value: 'PUT', label: t('in-synthetics:dialog.httpMethods.put'), isdisabled: true },
   { value: 'DELETE', label: t('in-synthetics:dialog.httpMethods.delete'), isdisabled: true }
 ]);
-
-export function validUrl(value: string): ValidationResult {
-  if (!/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+$/.test(value)) {
-    return [
-      {
-        severity: 'error',
-        message: t('in-synthetics:dialog.createTest.form.validUrl')
-      }
-    ];
-  }
-  return undefined;
-}

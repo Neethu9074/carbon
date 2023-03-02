@@ -7,7 +7,7 @@ import { Route, Switch } from 'react-router-dom';
 import React from 'react';
 
 import AlertDetails from 'in-alerting/smart-alerts/applications/details/AlertDetails';
-import Alerts from 'in-applications/Dashboards/application/tabs/Alerts/Alerts';
+import Alerts from 'in-alerting/smart-alerts/applications/list/Alerts';
 
 export default function AlertsIndex(props) {
   return (

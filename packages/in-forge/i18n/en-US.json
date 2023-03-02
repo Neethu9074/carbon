@@ -380,6 +380,10 @@
   "pluginName_defaultEntity20_2": "Fallback",
   "pluginName_defaultEntity20": "Fallback",
   "pluginName_docker_plural": "Docker Containers",
+  "pluginName_podman_plural": "Podman Containers",
+  "pluginName_podman_plural_0": "Podman Containers",
+  "pluginName_podman_plural_1": "Podman Containers",
+  "pluginName_podman_plural_2": "Podman Containers",
   "pluginName_docker_0": "Docker Containers",
   "pluginName_docker_1": "Docker Containers",
   "pluginName_docker_2": "Docker Containers",
@@ -762,6 +766,8 @@
   "pluginName_ibmMqMftAgent_plural": "IBM MQ MFT Agents",
   "pluginName_ibmMqMftTransfer": "IBM MQ MFT Transfer",
   "pluginName_ibmMqMftTransfer_plural": "IBM MQ MFT Transfers",
+  "pluginName_ibmMqMftMonitor": "IBM MQ MFT Monitor",
+  "pluginName_ibmMqMftMonitor_plural": "IBM MQ MFT Monitors",
   "pluginName_ibmVsi_plural": "IBM Cloud Virtual Server Instances",
   "pluginName_ibmVsi_0": "IBM Cloud Virtual Server Instances",
   "pluginName_ibmVsi_1": "IBM Cloud Virtual Server Instances",
@@ -1099,6 +1105,7 @@
   "pluginName_postgreSqlDatabase_1": "PostgreSQL DBs",
   "pluginName_postgreSqlDatabase_2": "PostgreSQL DBs",
   "pluginName_postgreSqlDatabase": "PostgreSQL DB",
+  "pluginName_podman": "Podman Container",
   "pluginName_process_plural": "Processes",
   "pluginName_process_0": "Processes",
   "pluginName_process_1": "Processes",
@@ -1279,6 +1286,11 @@
   "pluginName_zCics_1": "IBM CICS for z/OS",
   "pluginName_zCics_2": "IBM CICS for z/OS",
   "pluginName_zCics": "IBM CICS for z/OS",
+  "pluginName_zIms_plural": "IBM IMS for z/OS",
+  "pluginName_zIms_0": "IBM IMS for z/OS",
+  "pluginName_zIms_1": "IBM IMS for z/OS",
+  "pluginName_zIms_2": "IBM IMS for z/OS",
+  "pluginName_zIms": "IBM IMS for z/OS",
   "pluginName_webLogicApplicationContainer_plural": "WebLogic Servers",
   "pluginName_webLogicApplicationContainer_0": "WebLogic Servers",
   "pluginName_webLogicApplicationContainer_1": "WebLogic Servers",
@@ -2920,7 +2932,8 @@
       "messageFlowApplicationName": "Application Name",
       "status": "Status",
       "messageFlowNumber": "Message Flow ({{count}})",
-      "messageFlowNumber_plural": "Message Flows ({{count}})"
+      "messageFlowNumber_plural": "Message Flows ({{count}})",
+      "readMore": "Read more…"
     },
     "aceMessageFlow": {
       "messageFlowInfo": "IBM ACE Message Flow",
@@ -4110,9 +4123,7 @@
     },
 
     "awsApiGateway": {
-      "dashboard": {
-
-      },
+      "dashboard": {},
       "infoTitle": {
         "protocol": "Protocol",
         "endpointType": "Endpoint Type",
@@ -5154,7 +5165,20 @@
         "labelRows": "Rows",
         "labelDiskUsage": "Disk Usage",
         "titlePartitioning": "Partitioning",
-        "labelPartitions": "Partitions"
+        "labelPartitions": "Partitions",
+        "titleRunningMerges":  "Running Merges",
+        "titlePartitionId":  "Partition Id",
+        "titleResultPartName":  "Part Name",
+        "titleNumberOfParts":  "Num Parts",
+        "titleRowsRead":  "Rows Read",
+        "titleRowsWritten":  "Rows Written",
+        "titleMemoryUsage":  "Memory Usage",
+        "explanationRunningQueriesNotAvailable": "Running queries is not available if the selected time range ends in the past.",
+        "explanationRunningMergesNotAvailable": "Running merges is not available if the selected time range ends in the past.",
+        "errorRetrieveRunningMerges": "Failed to retrieve running merges",
+        "errorRetrieveRunningQueries": "Failed to retrieve running queries",
+        "infoNoRunningQueries": "Failed to retrieve running queries",
+        "infoNoRunningMerges": "Failed to retrieve running merges"
       }
     },
     "cloudFoundry": {
@@ -5650,6 +5674,10 @@
         "queryCount": "Query Count",
         "logWrites": "Log Writes",
         "lockSuspensions": "Lock Suspensions"
+      },
+      "notifications": {
+        "notificationHeader": "Warning",
+        "notificationText": "This version of IBM Db2 for z/OS is deprecated. As of now, we support <supportLink>IBM Z Observability with help of Omegamon and zAPM integration</supportLink>."
       },
       "UnableToConnect": "Cannot connect to {{connectionUrl}} using user {{user}}.",
       "UnableToGetData": "Error while getting data. Removing sensor.",
@@ -6615,7 +6643,7 @@
         "rolledBackTransactions": "Rolled back transactions",
         "cacheHitRatio": "Cache Hit Ratio",
         "standbyConflicts": "Standby Conflicts",
-        "tuplesRead": "Tuples read",
+        "tupleReturned": "Tuples Returned",
         "tuplesFetched": "Tuples fetched",
         "size": "Size",
         "activeConnections": "Active Connections",
@@ -6626,7 +6654,7 @@
         "cache": "Cache",
         "conflicts": "Conflicts",
         "tuples": "Tuples",
-        "read": "Read",
+        "returned": "Returned",
         "fetched": "Fetched",
         "databaseSizeTitle": "Database Size",
         "connections": "Connections"
@@ -6644,14 +6672,67 @@
       "rolledBackTransactions": "Rolled back transactions",
       "cacheHitRatio": "Cache Hit Ratio",
       "standbyConflicts": "Standby Conflicts",
-      "tupleRead": "Tuple read",
-      "tupleFetch": "Tuple fetch",
+      "tupleReturned": "Tuple returned",
+      "tupleFetched": "Tuple fetched",
       "databaseSize": "Database size",
       "connection": "Connection",
       "replicationDelayInBytes": "Replication delay in bytes",
       "replicationDelayInSeconds": "Replication delay in seconds",
       "postgreSql": "PostgreSQL",
       "database": "Database"
+    },
+    "podman": {
+      "getContainerInfo": "Get Container Info",
+      "containerInfoIsAlwaysLive": "Container info is always live.",
+      "containerInfoCanOnlyBeRetrievedForEntitiesThatAreStillUnderMonitoringByInstana": "Container info can only be retrieved for entities that are still under monitoring by Instana.",
+      "containerInfo": "Container info",
+      "dashboard": {
+        "cpuTotal": "CPU Total",
+        "memoryUsage": "Memory Usage",
+        "cpuTime": "CPU Time",
+        "total": "Total",
+        "kernel": "Kernel",
+        "user": "User",
+        "throttlingCount": "Throttling count",
+        "throttlingTime": "Throttling time",
+        "memory": "Memory",
+        "usage": "Usage",
+        "blockIo": "Block IO",
+        "read": "Read",
+        "write": "Write",
+        "podmanContainer": "Podman Container",
+        "podmanLabels": "Container Labels",
+        "memoryLimit": "Memory (Limit: {{limitBytes}})",
+        "memoryUsagePercentage": "Memory Usage %"
+      },
+      "name": "Name",
+      "image": "Image",
+      "containerId": "Container ID",
+      "cpuTotalUsage": "CPU Total Usage",
+      "cpuThrottlingCount": "CPU Throttling Count",
+      "totalTime": "Total time",
+      "kernelTime": "Kernel time",
+      "userTime": "User time",
+      "cpu": "CPU",
+      "throttlingCount": "Throttling count",
+      "throttlingTime": "Throttling time",
+      "usage": "Usage",
+      "maxUsage": "Max usage",
+      "memory": "Memory",
+      "read": "Read",
+      "write": "Write",
+      "blockIo": "Block IO",
+      "host": "Host",
+      "created": "Created",
+      "cpuUsage": "CPU Usage",
+      "memoryUsage": "Memory Usage",
+      "graphDriver": "Graph Driver",
+      "createdAt": "Created At",
+      "startedAt": "Started At",
+      "networkMode": "Network Mode",
+      "command": "Command",
+      "podmanVersion": "Podman Version",
+      "restartCount": "Restart Count"
     },
     "process": {
       "jvmAttachGenericIssueDescription": "The host agent cannot attach correctly to this Java Virtual Machine. Therefore, this process will not be traced. Refer to the host agent logs for more information as to why the attachment failed. The host agent will try to connect again to this virtual machine every ten minutes. However, until it succeeds, neither traces nor metrics will be collected for this JVM.",
@@ -9412,7 +9493,7 @@
       "openOutputCount": "Open Output Count",
       "calls": "Calls",
       "statistics": "MQ Queue Statistics",
-      "statisticsRecord": "Note: Only 'any' is supported for 'Matching Operator' field!",
+      "statisticsRecord": "Index",
       "nonPersistentPutBytes": "Nonpersistent Put Bytes",
       "persistentPutBytes": "Persistent Put Bytes",
       "putFailCount": "PUT Fail Count",
@@ -9436,7 +9517,8 @@
         "successfulTransfers": "Successful Transfers",
         "failedTransfers": "Failed Transfers",
         "partiallySuccessfulTransfers": "Partially Successful Transfers",
-        "transfersWithCount": "Current Transfers ({{len}})"
+        "transfersWithCount": "Current Transfers ({{len}})",
+        "monitorsWithCount": "Monitors ({{len}})"
       }
     },
     "ibmMqMftZone": {
@@ -9463,12 +9545,11 @@
         "totalCurrentTransfers": "Total Current Transfers",
         "totalSourceTransfers": "Source Transfers",
         "totalDestinationTransfers": "Destination Transfers",
-        "statusRunning": "Running",
-        "statusUnknown": "Unknown",
         "transferState": "State",
         "sourceTransfersWithCount": "Source Transfers ({{len}})",
         "destinationTransfersWithCount": "Destination Transfers ({{len}})"
-      }
+      },
+      "agent": "Agent"
     },
     "ibmMqMftTransfer": {
       "dashboard": {
@@ -9491,6 +9572,20 @@
         "currentItemSize": "Total(b)",
         "currentFile": "Current File",
         "itemsWithCount": "Items ({{len}})"
+      },
+      "transfer": "Transfer"
+    },
+    "ibmMqMftMonitor": {
+      "dashboard": {
+        "ibmMqMftMonitor": "IBM MQ MFT Monitor",
+        "monitor": "Monitor",
+        "agent": "Agent",
+        "resource": "Resource",
+        "triggerEvent": "Trigger Event",
+        "filePattern": "File Pattern",
+        "pollInterval": "Poll Interval",
+        "status": "Status",
+        "batch": "Batch Size"
       }
     },
     "ibmMqQueueManager": {
@@ -10260,6 +10355,7 @@
     },
     "jBossAsApplicationContainer": {
       "undertowStatsEnabledNotification": "<strong>Statistics are not enabled for undertow subsystem</strong><p>This means that we can not collect servlet statistics from JBoss. To enable statistics, set <code>statistics-enabled</code> attribute to <code>true</code> for undertow subsystem configuration in server configuration. For this change to take effect server reboot is required. Example:<configCode /></p>",
+      "sessionStatsDisabledNotification": "<strong>Active sessions metric is currently unavailable for some of the web deployments.</strong><p>We are not able to display <strong>active sessions</strong> metric for the following web deployments: <strong>{{deploymentsAffected}}</strong>.</p>",
       "poolName": "Pool Name",
       "activeConnections": "Active Connections",
       "availableConnections": "Available Connections",
@@ -12178,6 +12274,88 @@
       "rates": "Rates",
       "sos": "SOS"
     },
+    "zIms": {
+      "label": "IBM IMS for z/OS",
+      "imsId": "IMS ID",
+      "imsplexName": "IMSplex Name",
+      "mvsSystem": "MVS System",
+      "sysplexName": "Sysplex Name",
+      "sqgroupName": "SQGroup Name",
+      "regionCount": "Region Count",
+      "sharedTransactionQueue": "Shared Transaction Queue",
+      "longestLock": "Longest Lock",
+      "highestR0Time": "Highest R0 Time",
+      "affinityCount": "Affinity Count",
+      "lockWaiters": "Lock Waiters",
+      "systemUtilization": "System Utilization",
+      "totalCpuPercent": "Total CPU Percent",
+      "totalIoRate": "Total IO Rate",
+      "totalDeqEnqRate": "Total DEQ & ENQ Rate",
+      "totalDeqRate": "Total DEQ Rate",
+      "totalEnqRate": "Total ENQ Rate",
+      "totalPagingRate": "Total Paging Rate",
+      "totalTransactionQueueTransactionRate": "Total Transaction Queue & Rate",
+      "totalTransactionQueue": "Total Transaction Queue",
+      "totalTransactionRate": "Total Transaction Rate",
+      "addressSpaces": {
+        "title": "Address Spaces",
+        "type": "Type",
+        "swappedOut": "Swapped Out",
+        "cpuTime": "CPU Time",
+        "workingSetSize": "Working Set Size",
+        "cpuPercentage": "CPU Percentage",
+        "excpRate": "EXCP Rate",
+        "commonPageInRate": "Common Page-In Rate",
+        "privatePageInRate": "Private Page-In Rate",
+        "job": "Job"
+      },
+      "subpoolStatistics": {
+        "title": "Subpool Statistics",
+        "subpoolNumber": "Subpool Number",
+        "bufferCount": "Buffer Count",
+        "bufferSize": "Buffer Size",
+        "totalStorage": "Total Storage",
+        "prefixPagefixed": "Prefix Page Fixed",
+        "bufferPagefixed": "Buffer Page Fixed",
+        "subpoolHitRatio": "Subpool Hit Ratio"
+      },
+      "vsamSubpools":{
+        "title": "VSAM Subpools",
+        "subPoolNumber": "Subpool Number",
+        "poolNames": "Pool Name",
+        "poolType": "Pool Type",
+        "bufferSize": "Buffer Size",
+        "bufferPagefixed": "Buffers Page Fixed",
+        "blocksPagefixed": "Blocks Page Fixed",
+        "usingHiperspace": "Using Hiperspace",
+        "subPoolHitRatio": "Subpool Hit Ratio"
+
+      },
+      "poolUtilization": {
+        "title": "Pool Utilization",
+        "poolName": "Pool Name",
+        "poolGroup": "Pool Group",
+        "poolSize": "Pool Size",
+        "freeSpace": "Free Space",
+        "freeBlocks": "Free Blocks",
+        "largestFreeBlock": "Largest Free Block",
+        "currentStorageUsed": "Current Storage Used"
+      },
+      "dependentRegion": {
+        "title": "Dependent Region",
+        "regionName": "Region Name",
+        "regionIdentifier": "Region Identifier",
+        "transactionName": "Transaction Name",
+        "psbName": "PSB Name",
+        "type": "Type",
+        "regionStatus": "Region Status",
+        "regionOccupancyPercentage": "Region Occupancy Percentage",
+        "transactionElapsedTime": "Transaction Elapsed Time",
+        "externalSubsystemCalls": "External Subsystem Calls",
+        "locksHeldCount": "Locks Held Count"
+
+      }
+    },
     "zOS": {
       "label": "IBM z/OS",
       "sysplexName": "Sysplex Name",
@@ -12228,7 +12406,17 @@
         "amountEcsaInUse": "Amount ECSA In Use",
         "amountSqaInUse": "Amount SQA In Use",
         "amountEsqaInUse": "Amount ESQA In Use"
+      },
+      "imsSummary": {
+        "title": "IMS Summary",
+        "imsName": "IMS Name",
+        "imsId": "IMS ID",
+        "regionCount": "Region Count",
+        "sharedTransactionQueue": "Shared Transaction Queue",
+        "longestLock": "Longest Lock",
+        "highestR0Time": "Highest R0 Time"
       }
+
     }
   },
   "tracing": {

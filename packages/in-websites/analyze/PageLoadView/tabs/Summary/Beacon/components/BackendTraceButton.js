@@ -11,7 +11,7 @@ import { Button } from '@instana/components';
 
 import getWebsiteBackendTraces from 'in-websites/subscriptions/getWebsiteBackendTraces';
 import { navigateToBackendTraceFromPageLoad } from 'in-websites/tracker';
-import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
+import { useLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
 import connect from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
@@ -25,6 +25,8 @@ const InternalBackendTraceButton = connect(({ beacon }) => ({
       })
     : empty
 }))(function InternalBackendTraceButton({ result }) {
+  const getLinkToTraceDetail = useLinkToTraceDetail();
+
   if (!result || !result.data) {
     return null;
   }

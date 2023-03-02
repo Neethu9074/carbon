@@ -27,6 +27,7 @@ import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTable
 import { bytesTwoDecimalPlaces, timeByMillisZeroDecimalPlaces } from 'in-services/formatters/number';
 import { syntheticsDashboard, syntheticDetailsPath } from 'in-synthetics/navigation/paths';
 import ResultFilters from 'in-synthetics/dashboards/summary/tabs/results/ResultFilters';
+import { locationLabelTagName, statusTagName, testIdTagName } from 'in-synthetics/tags';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { CONTAINS, EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
@@ -228,34 +229,44 @@ function getSynthTableData({
   let baseTagFilters: TagFilter[] = [
     {
       stringValue: testId,
-      name: 'testId',
+      name: testIdTagName,
       operator: EQUALS,
       entity: NOT_APPLICABLE,
       type: 'TAG_FILTER'
     }
   ];
 
-  let tagFilterExpression: TagFilterExpression = {
+  let statusTagFilterExpression: TagFilterExpression = {
     elements: [],
     logicalOperator: 'OR',
     type: 'EXPRESSION'
   };
 
-  let locationLabelTagFilters: TagFilter[] = [];
+  let locationTagFilterExpression: TagFilterExpression = {
+    elements: [],
+    logicalOperator: 'OR',
+    type: 'EXPRESSION'
+  };
+
+  let tagFilterExpression: TagFilterExpression = {
+    elements: [],
+    logicalOperator: 'AND',
+    type: 'EXPRESSION'
+  };
 
   //location_label => location display name
   if (query && query.length > 0) {
     baseTagFilters = [
       {
         stringValue: testId,
-        name: 'testId',
+        name: testIdTagName,
         operator: EQUALS,
         entity: NOT_APPLICABLE,
         type: 'TAG_FILTER'
       },
       {
         stringValue: query,
-        name: 'location_label',
+        name: locationLabelTagName,
         operator: CONTAINS,
         entity: NOT_APPLICABLE,
         type: 'TAG_FILTER'
@@ -264,31 +275,34 @@ function getSynthTableData({
   }
 
   if (status.length !== 0 && Array.isArray(status)) {
-    baseTagFilters.push({
-      value: parseInt(status[0]),
-      name: 'status',
-      operator: EQUALS,
-      entity: NOT_APPLICABLE,
-      type: 'TAG_FILTER'
-    });
-  }
-
-  if (locationLabels.length !== 0 && Array.isArray(locationLabels)) {
-    locationLabels.forEach(locationLabel => {
-      locationLabelTagFilters.push({
-        stringValue: locationLabel,
-        name: 'location_label',
+    status.forEach(stat => {
+      statusTagFilterExpression.elements.push({
+        value: parseInt(stat),
+        name: statusTagName,
         operator: EQUALS,
         entity: NOT_APPLICABLE,
         type: 'TAG_FILTER'
       });
     });
-    tagFilterExpression = {
-      elements: locationLabelTagFilters,
-      logicalOperator: 'OR',
-      type: 'EXPRESSION'
-    };
   }
+
+  if (locationLabels.length !== 0 && Array.isArray(locationLabels)) {
+    locationLabels.forEach(locationLabel => {
+      locationTagFilterExpression.elements.push({
+        stringValue: locationLabel,
+        name: locationLabelTagName,
+        operator: EQUALS,
+        entity: NOT_APPLICABLE,
+        type: 'TAG_FILTER'
+      });
+    });
+  }
+
+  tagFilterExpression = {
+    elements: [statusTagFilterExpression, locationTagFilterExpression],
+    logicalOperator: 'AND',
+    type: 'EXPRESSION'
+  };
 
   return getTestResultList({
     pagination: {

@@ -10,6 +10,16 @@ First ensure that you followed all steps outlined in our [installation guideline
 
 Everything fine now? Great! Still borked? Ping `#tech-ui-dev` on Slack with the full command line output!
 
+We found issues caused by
+* some local changes or additions, e.g. a modified .npmrc file. Run `git status`
+* additional or duplicate entries in the `.npmrc` file in your home folder. It should ideally only contain one entry like
+  ```
+  //delivery.instana.io/artifactory/api/npm/int-npm-virtual/:_auth..<SECRET>.
+  ```
+* Yarn Cache: If most dependencies can be loaded, but only _some latest new_ dependencies cannot, this indicates, that the authentication-key for artifactory is not correct.
+
+
+
 ## The Pre-Commit Hook Will Not Let Me Commit
 
 Please do not use `--no-verify` or `-n` to commit. In a lot of cases, this will create issues for other developers (broken Jenkins build, other people cannot commit due to issues introduced by your unchecked commit).

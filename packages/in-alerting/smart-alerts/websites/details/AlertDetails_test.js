@@ -6,10 +6,13 @@
 import { shallow } from 'enzyme';
 import React from 'react';
 
-import { getAlertConfigByIdAndTimestamp, getLatestAlertConfig } from 'in-websites/api/websiteAlertConfig';
+import {
+  getAlertConfigByIdAndTimestamp,
+  getLatestAlertConfig
+} from 'in-alerting/smart-alerts/websites/api/websiteAlertConfig';
 import AlertDetails from 'in-alerting/smart-alerts/websites/details/AlertDetails';
 
-jest.mock('in-websites/api/websiteAlertConfig');
+jest.mock('in-alerting/smart-alerts/websites/api/websiteAlertConfig');
 
 const location = {
   pathname: '',

@@ -50,7 +50,7 @@
             "line2": "Step 2: Enter the HTTP method and url of the webpage you wish to test. Then choose one or more locations. A location represents a deployed Synthetic Point of Presence.",
             "line3": "Step 3: Choose the test frequency (1 ~ 120 minutes).",
             "line4": "Step 4: In the Name and Description section, enter a meaningful name for your test in the Name field. Add a description of the purpose of your test to the Description field."
-         }
+          }
         },
         "scriptApi": {
           "name": "Script API",
@@ -66,11 +66,21 @@
           }
         }
       },
-      "form": {
-        "validUrl": "Enter a valid URL"
-      },
       "validators": {
-        "theValueMustNotBeEmpty": "At least one location needs to be selected"
+        "theValueMustNotBeEmpty": "At least one location needs to be selected",
+        "urlMustNotContainSpace": "URL must not contain space",
+        "mailToNotSupported": "'mailto' is not supported",
+        "outOfLength": "URL is too long",
+        "fragmentsNotSupported": "Fragments are not supported",
+        "queryNotSupported": "Query is not supported",
+        "incorrectProtocol": "Protocol must be 'http' or 'https'",
+        "incorrectUrlFormat": "Missing protocol or domain",
+        "missUserAuthentication": "Missing user authentication",
+        "incorrectAuthentication": "Incorrect user authentication",
+        "missUserOrPassword": "Missing user or password",
+        "invalidPortValue": "Port value not valid",
+        "missHost": "Missing host in the URL",
+        "invalidHost": "Host format not valid"
       }
     },
     "httpMethods": {
@@ -108,15 +118,19 @@
         "smartAlerts": "Smart Alerts"
       },
       "popDialog": {
-        "button": "<> Deploy a PoP",
+        "popUpDialogTitle": "Permissions for Synthetic Monitoring",
+        "popUpDialog": "Please check the <documentationLink>document</documentationLink> for information about setting Synthetic Monitoring permissions",
+        "button": "Deploy a PoP",
         "simpleTab": "Simple",
         "redisTab": "Redis TLS",
         "title": "Synthetic PoP Commands",
         "subTitle": "Please use these code templates as a reference. For more information, see <documentationLink>Synthetic PoP Deployment</documentationLink>",
-        "simpleCode": "helm install synthetic-pop \\\n\t./synthetic-pop \\\n\t--namespace <namespace> \\\n\t--create-namespace \\\n\t--set downloadKey=\"{{downloadKey}}\" \\\n\t--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n\t--set controller.clusterName=\"<yourClusterName>\" \\\n\t--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n\t--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n\t--set redis.tls.enabled=false \\\n\t--set redis.password=\"<yourPassword>\"",
-        "redisCode": "helm install synthetic-pop \\\n\t./synthetic-pop \\\n\t--namespace <namespace> \\\n\t--create-namespace \\\n\t--set downloadKey=\"{{downloadKey}}\" \\\n\t--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n\t--set controller.clusterName=\"<yourClusterName>\" \\\n\t--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n\t--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n\t--set redis.tls.enabled=true",
-        "tlsInstructions": "If you want to enable Redis TLS, you need to create a certs folder under Helm chart root path, and copy your certificate-key pair (tls.crt, tls.key) and CA root certificate file (ca.crt) into certs folder, the file names should be exactly matched.\n\nIf you do not have your key/cert files, you can also use openssl command to generate new ones, see below examples:",
-        "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt"
+        "simpleCode": "helm install synthetic-pop \\\n\t--repo \"https://agents.instana.io/helm\" \\\n\t--namespace <namespace> \\\n\t--create-namespace \\\n\t--set downloadKey=\"{{downloadKey}}\" \\\n\t--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n\t--set controller.clusterName=\"<yourClusterName>\" \\\n\t--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n\t--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n\t--set redis.tls.enabled=false \\\n\t--set redis.password=\"<yourPassword>\" \\\n\tsynthetic-pop",
+        "redisCode": "helm install synthetic-pop \\\n\t--repo \"https://agents.instana.io/helm\" \\\n\t--namespace <namespace> \\\n\t--create-namespace \\\n\t--set downloadKey=\"{{downloadKey}}\" \\\n\t--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n\t--set controller.clusterName=\"<yourClusterName>\" \\\n\t--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n\t--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n\t--set redis.tls.enabled=true \\\n\t--set redis.tls.secretName=\"syntheticpop-redis\" \\\n\tsynthetic-pop",
+        "tlsInstructions": "If you want to enable Redis TLS, you need to have your X.509 certificate-key pair (`tls.crt`, `tls.key`) and CA root certificate file (`ca.crt`).\n\nIf you do not have your key/cert files, you can also use openssl command to generate new ones, see below examples:",
+        "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt",
+        "tlsSecretInstructions": "After key/cert files are provided, use the kubectl command to create a secret.",
+        "tlsSecretConfigurations": "kubectl create secret generic syntheticpop-redis -n syn \\\n\t--type=\"kubernetes.io/tls\" \\\n\t--from-file=ca.crt=\"<path/to/ca.crt>\" \\\n\t--from-file=tls.crt=\"<path/to/tls.crt>\" \\\n\t--from-file=tls.key=\"<path/to/tls.key>\""
       },
       "testLabel": "Name",
       "status": "Status",
@@ -204,7 +218,8 @@
       "title": "Results",
       "locationLabel": "Location",
       "failures": "Failures",
-      "status": "Status"
+      "status": "Status",
+      "success": "Success"
     },
     "detailsPage": {
       "timeLineWidget": "Timeline",
@@ -304,7 +319,7 @@
             "redirectUrl": "Redirect URL",
             "headerSize": "Header Size",
             "bodySize": "Body Size",
-            "contentType":"Content Type",
+            "contentType": "Content Type",
             "contentSize": "Content Size",
             "status": "Status"
           },
@@ -330,10 +345,12 @@
       "locationListDescription": "There are no Synthetic locations retrieved from the database."
     },
     "alertList": {
-      "alertName": "Name",
-      "timeThreshold": "Time Threshold",
+      "timeThreshold": "Failure Threshold",
       "testsApplied": "Tests Applied",
-      "filterApplied": "Filter Applied"
+      "filterApplied": "Filter Applied",
+      "violationsCount": "{{violationsCount}} failures",
+      "testsCount": "{{testsCount}} tests",
+      "numberOfFailures": "Failure Alerting"
     }
   }
 }

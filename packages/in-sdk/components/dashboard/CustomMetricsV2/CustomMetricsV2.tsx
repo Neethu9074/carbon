@@ -48,7 +48,7 @@ interface MetricsSpec {
   prefix: string;
   type: string;
   color: string;
-  metrics: MetricSpec[]
+  metrics: MetricSpec[];
   tableMetric?: number;
 }
 
@@ -59,7 +59,7 @@ interface MetricSpec {
 }
 
 interface Metric extends MetricSpec {
-name: string;
+  name: string;
   i: number;
 }
 
@@ -71,7 +71,7 @@ interface Row {
   tableMetric: number;
   snapshotId: string;
   timeConfig: TimeConfig;
-  metrics: Metric[]
+  metrics: Metric[];
   pinnedMetrics: string[];
   setPinnedMetrics: (p: string[]) => void;
 }
@@ -158,44 +158,37 @@ const cols = [
 ];
 
 const bind = [
-    {
-      path: '/dashboard',
-      name: 'pinnedMetrics',
-      initialState: [],
-      serializer: buildJsonSerializer(),
-      parser: buildJsonParser([])
-    }
-  ];
+  {
+    path: '/dashboard',
+    name: 'pinnedMetrics',
+    initialState: [],
+    serializer: buildJsonSerializer(),
+    parser: buildJsonParser([])
+  }
+];
 
 const resets = [
-    {
-      bind: [snapshotIdUrlParameter],
-      reset: {
-        pinnedMetrics: []
-      }
+  {
+    bind: [snapshotIdUrlParameter],
+    reset: {
+      pinnedMetrics: []
     }
-  ];
+  }
+];
 
 export default function CustomMetricsV2(props: CustomMetricProps) {
-  const {
-    titlePrefix,
-    postProcessRow,
-    getRows = getDefaultRows,
-    customColumns,
-    timeConfig,
-    snapshot
-  } = props;
+  const { titlePrefix, postProcessRow, getRows = getDefaultRows, customColumns, timeConfig, snapshot } = props;
 
   const snapshotId = snapshot.get('id');
 
-  const [{ pinnedMetrics }, setState] = useUrlState<{pinnedMetrics: string[]}>({
+  const [{ pinnedMetrics }, setState] = useUrlState<{ pinnedMetrics: string[] }>({
     bind,
     resets
   });
 
-  const setPinnedMetrics = useCallback(pinnedMetrics => setState({pinnedMetrics}), [setState]);
+  const setPinnedMetrics = useCallback(pinnedMetrics => setState({ pinnedMetrics }), [setState]);
 
-  const metricIdsResult = useMetricIds({snapshotId, timeConfig});
+  const metricIdsResult = useMetricIds({ snapshotId, timeConfig });
 
   const rows = getRows({ metricIdsResult, pinnedMetrics, setPinnedMetrics, ...props });
 
@@ -290,7 +283,7 @@ export function getDefaultRows({
   const snapshotId = snapshot.get('id');
 
   const metrics =
-    metricIdsResult.data?.reduce<{[key: string]: Row}>((acc, id) => {
+    metricIdsResult.data?.reduce<{ [key: string]: Row }>((acc, id) => {
       const metric = expandMetric(id, specs);
       if (!metric) {
         return acc;
@@ -481,6 +474,5 @@ export const DEFAULT_SPECS = [
   AVAILABLE_SPECS.EXPANDED_HISTOGRAM,
   AVAILABLE_SPECS.METER,
   AVAILABLE_SPECS.EXPANDED_TIMER,
-  AVAILABLE_SPECS.SUMMARY,
-  AVAILABLE_SPECS.GENERIC
+  AVAILABLE_SPECS.SUMMARY
 ];

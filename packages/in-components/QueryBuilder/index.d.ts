@@ -34,7 +34,7 @@ export interface GetTagSuggestionsProps<ADDITIONAL_PROPS extends {} = {}> extend
 }
 
 export interface GetTagCatalogProps {
-  timeConfig: TimeConfig
+  timeConfig: TimeConfig;
 }
 
 export type GetSuggestions<ADDITIONAL_TAG_SUGGESTION_PROPS = {}> = (
@@ -80,8 +80,9 @@ interface CreateDynamicQueryBuilderProps<ADDITIONAL_TAG_SUGGESTION_PROPS = {}> {
   maxExpressionDepth?: number;
 }
 
-interface CreateQueryBuilderProps<ADDITIONAL_TAG_SUGGESTION_PROPS = {}> extends CreateDynamicQueryBuilderProps<ADDITIONAL_TAG_SUGGESTION_PROPS> {
-  getTagCatalog: GetTagCatalog
+interface CreateQueryBuilderProps<ADDITIONAL_TAG_SUGGESTION_PROPS = {}>
+  extends CreateDynamicQueryBuilderProps<ADDITIONAL_TAG_SUGGESTION_PROPS> {
+  getTagCatalog: GetTagCatalog;
 }
 
 export type QueryBuilderComponent<ADDITIONAL_TAG_SUGGESTION_PROPS = {}> = ComponentType<

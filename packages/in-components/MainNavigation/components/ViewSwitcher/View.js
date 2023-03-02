@@ -10,7 +10,6 @@ import { SvgIcon } from '@instana/components';
 import { Link } from '@instana/components';
 
 import SubView from 'in-components/MainNavigation/components/ViewSwitcher/SubView';
-import { alwaysNull } from 'in-services/fixedStreams';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './View.mless';
@@ -26,6 +25,7 @@ export default connectTo(
   },
 
   function View({
+    href,
     href$,
     icon,
     label,
@@ -41,7 +41,6 @@ export default connectTo(
     id
   }) {
     const isExpanded = label && expandedSubMenu === label;
-    href$ = href$ || alwaysNull;
 
     return (
       <li
@@ -73,7 +72,7 @@ export default connectTo(
           onMouseEnter={onMouseEnter}
           onMouseLeave={() => onMouseLeave()} // don't parse the event
         >
-          <Link id={id} className={locals.link} href$={href$}>
+          <Link id={id} className={locals.link} href$={href$} href={href}>
             {renderContent ? (
               renderContent(sidebarIsExpanded)
             ) : (

@@ -14,6 +14,7 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import CommonStorageTable from './CommonStorageTable';
 import MetricValue from 'in-components/MetricValue';
 import RealStorageTable from './RealStorageTable';
+import ImsSummaryTable from './ImsSummaryTable';
 import { t } from 'in-i18n';
 
 export default function ZOSDashboard({ snapshot, timeConfig }) {
@@ -100,6 +101,8 @@ export default function ZOSDashboard({ snapshot, timeConfig }) {
       </DashboardSection>
       <RealStorageTable snapshotId={snapshotId} timeConfig={timeConfig} />
       <CommonStorageTable snapshotId={snapshotId} timeConfig={timeConfig} />
+
+      <ImsSummaryTable snapshotId={snapshotId} timeConfig={timeConfig} />
     </div>
   );
 }

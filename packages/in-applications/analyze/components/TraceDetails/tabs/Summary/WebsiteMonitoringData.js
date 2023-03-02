@@ -97,7 +97,7 @@ export default function WebsiteMonitoringData({ traceId, startTime, correlationI
                       {
                         type: 'info',
                         timeout: 5000,
-                        content: t('in-applications:traceDetail.tabs.summary.adjustedTimeConfig')
+                        content: t('in-applications:traceDetail.tabs.summary.adjustedTimeConfigForBeacon')
                       },
                       'adjustedTimeConfig'
                     );

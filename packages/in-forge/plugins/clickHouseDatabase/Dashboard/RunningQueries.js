@@ -7,12 +7,14 @@ import React from 'react';
 
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import { number, seconds, bytes } from 'in-services/formatters/number';
 import getAgentResponse from 'in-subscription/agentResponse';
 import Table from 'in-sdk/components/dashboard/Table';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
+const queryMaxLength = 150;
 const cols = [
   {
     title: t('in-forge:plugins.clickhouseDatabase.dashboard.titleQueryID'),
@@ -28,7 +30,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.query;
+        return row.query.length > queryMaxLength ? row.query.substring(0, queryMaxLength) + ' ...' : row.query;
       }
     }
   },
@@ -61,6 +63,18 @@ const cols = [
       },
       getContent: bytes.detailed
     }
+  },
+  {
+    title: '',
+    type: 'custom',
+    disableSorting: true,
+    typeArgs: {
+      get(row) {
+        return {
+          content: <CopyToClipboardButton kind="secondary" size="compact" getText={() => row.query} />
+        };
+      }
+    }
   }
 ];
 
@@ -74,19 +88,21 @@ export default connectTo(
         args: {}
       })
   }),
-  function ActiveParts({ timeConfig, response }) {
+  function RunningQueries({ timeConfig, response }) {
     let content = null;
 
     if (timeConfig.focusedMoment != null) {
       content = (
-        <DashboardNotification type="info">Running queries list is only available in live mode.</DashboardNotification>
+        <DashboardNotification type="info">
+          {t('in-forge:plugins.clickhouseDatabase.dashboard.explanationRunningQueriesNotAvailable')}
+        </DashboardNotification>
       );
     } else if (response == null) {
       content = <LoadingIndicator />;
     } else if (response.error) {
       content = (
         <DashboardNotification type="danger">
-          Failed to retrieve running queries: {response.error}
+          {t('in-forge:plugins.clickhouseDatabase.dashboard.errorRetrieveRunningQueries')}: {response.error}
         </DashboardNotification>
       );
     } else {
@@ -95,19 +111,26 @@ export default connectTo(
         key: String(i),
         ...r
       }));
-      content = (
-        <Table
-          withoutPadding
-          cardTitle={t('in-forge:plugins.clickhouseDatabase.dashboard.titleRunningQueries')}
-          cols={cols}
-          rows={rows}
-          maxItemsPerPage={25}
-          initialSortColumn={2}
-          initialSortDirection="desc"
-        />
-      );
+      if (rows.length === 0) {
+        content = (
+          <DashboardNotification type="info">
+            {t('in-forge:plugins.clickhouseDatabase.dashboard.infoNoRunningQueries')}
+          </DashboardNotification>
+        );
+      } else {
+        content = (
+          <Table
+            withoutPadding
+            cardTitle={t('in-forge:plugins.clickhouseDatabase.dashboard.titleRunningQueries')}
+            cols={cols}
+            rows={rows}
+            maxItemsPerPage={25}
+            initialSortColumn={2}
+            initialSortDirection="desc"
+          />
+        );
+      }
     }
-
     return content;
   }
 );

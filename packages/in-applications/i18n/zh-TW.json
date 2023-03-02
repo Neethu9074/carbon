@@ -1,5 +1,5 @@
 {
-  "labelLatency": "延遲時間",
+  "labelLatency": "延遲",
   "labelApplication": "應用程式",
   "labelApplications": "應用程式",
   "labelApplicationWithNum": "應用程式 ({{numApplications}})",
@@ -62,8 +62,6 @@
   "labelScope": "範圍",
   "labelCustomServiceRules": "自訂服務規則",
   "labelSyntheticEndpoints": "綜合端點",
-  "labelWarning": "警告",
-  "labelCritical": "嚴重",
   "titleTopServices": "排名居前的服務",
   "titleMeanLatency": "延遲時間平均值",
   "titleErroneousCallRate": "錯誤呼叫率",
@@ -132,12 +130,6 @@
   "Rendering": "呈現",
   "loadingData": "正在載入資料",
   "UnexpectedErrorOccurred": "發生非預期的錯誤",
-  "noIssues": "沒有問題",
-  "openIssues": "{{count}} 個問題",
-  "openIssues_plural": "{{count}} 個問題",
-  "openIssues_0": "{{count}} 個問題",
-  "openIssues_1": "{{count}} 個問題",
-  "openIssues_2": "{{count}} 個問題",
   "applicationMap": {
     "webglNotSupportedTitle": "瀏覽器不支援 WebGL",
     "webglNotSupported": "Instana 使用者介面包含 3D 元件，是以稱為 WebGL 的技術呈現。只可惜，此技術還無法在所有平台上使用。有些瀏覽器（尤其是舊版的瀏覽器）不支援 WebGL。我們建議使用最新一代的自動更新瀏覽器：Chrome、Firefox、Safari 8 或 MS Edge。\n\n 我們盡力支援所有的平台與瀏覽器組合。不過，有可能是我們對 WebGL 的使用有錯誤。您可以使用 [線上測試](https://get.webgl.org/) 檢查您的平台是否支援 WebGL。\n\n假設線上測試指出，您的平台支援 WebGL，但 Instana 3D 地圖仍舊失靈，[請與我們聯絡](https://support.instana.com/hc/en-us/requests/new)。\n\n如需進一步的疑難排解資訊，請參閱 [WebGL 相容性表格](http://caniuse.com/#feat=webgl) 或 [WebGL 網站](http://webgl.org/)。",
@@ -177,7 +169,7 @@
   },
   "analyze": {
     "quickFilter": {
-      "labelLatency": "延遲時間"
+      "labelLatency": "延遲"
     },
     "erroneous": "錯誤",
     "resetUnsupportedTracesFilterContainingOrConjunction": "已清除過濾器，因為「分析追蹤」中不支援邏輯運算子 OR。",
@@ -191,7 +183,7 @@
       "erroneous_false": "false",
       "erroneous_Erroneous": "錯誤"
     },
-    "latency": "延遲時間",
+    "latency": "延遲",
     "traceLatency": "追蹤延遲",
     "applications": "應用程式",
     "services": "服務",
@@ -241,7 +233,8 @@
     "dataSource_calls": "{{formattedCount}} 個呼叫",
     "dataSource_calls_plural": "{{formattedCount}} 個呼叫",
     "dataSource_traces": "{{formattedCount}} 個追蹤",
-    "dataSource_traces_plural": "{{formattedCount}} 個追蹤"
+    "dataSource_traces_plural": "{{formattedCount}} 個追蹤",
+    "analyzeCallsOfThisTrace": "分析此追蹤的呼叫"
   },
   "creation": {
     "newAP": "新建應用程式視景",
@@ -266,7 +259,7 @@
       "blueprints": {
         "whenToUse": "何時使用？",
         "whoShouldUse": "誰該使用？",
-        "tipsForUsing": "用法秘訣",
+        "tipsForUsing": "使用秘訣",
         "servicesEndpoints": {
           "name": "服務或端點",
           "headline": "服務或端點的集合",
@@ -483,7 +476,7 @@
     "titleConfigureEndpointsExtract": "配置如何從對此服務的基礎呼叫來擷取端點。",
     "descriptionConfigureEndpointsExtract": "端點規則會從上到下循序評估，並將呼叫指派給它所符合的第一項規則。配置之後，會根據已更新的規則來指派新的呼叫。",
     "descriptionResetToDefaultRule": "如果您想重設為預設擷取規則，請使用下方的按鈕。重設可能需要最多幾分鐘來登錄。",
-    "understandCheckboxResetToDefaultRule": " 我瞭解這個動作無法復原。",
+    "understandCheckboxResetToDefaultRule": "我瞭解這個動作無法復原。",
     "customService": {
       "stepTitle": "新增自訂服務規則來延伸自動服務對映。",
       "descriptionTextFirstLine": "Instana 會根據廣泛的一組預先定義規則來自動對映服務。例如，如果找到 nodejs.app.name 標籤，且有呼叫的標籤是 <bold>\"nodejs.app.name=user service\"</bold> 和 <bold>\"nodejs.app.name=cart service\"</bold>，則 <bold>\"user service\"</bold> 和 <bold>\"cart service\"</bold> 會以服務形式出現。",
@@ -552,7 +545,7 @@
     "graphQL": "GraphQL",
     "internal": "內部",
     "undefined": "未定義",
-    "self": "自身",
+    "self": "自我",
     "sdk": "SDK",
     "otel": "OpenTelemetry"
   },
@@ -575,7 +568,7 @@
         "erroneousCalls": "錯誤呼叫",
         "errorLogs": "錯誤日誌",
         "warnLogs": "警告日誌",
-        "latency": "延遲時間",
+        "latency": "延遲",
         "timeline": "時間表",
         "serviceEndpointList": "服務端點清單",
         "largeTrace": "大型追蹤",
@@ -593,12 +586,12 @@
   },
   "metrics": {
     "calls_calls": "呼叫",
-    "calls_latency": "延遲時間",
+    "calls_latency": "延遲",
     "calls_erroneousCalls": "錯誤呼叫",
     "calls_errors": "錯誤呼叫率",
     "traces_calls": "追蹤",
     "traces_traces": "追蹤",
-    "traces_latency": "延遲時間",
+    "traces_latency": "延遲",
     "traces_erroneousCalls": "錯誤追蹤",
     "traces_errors": "錯誤追蹤率"
   },

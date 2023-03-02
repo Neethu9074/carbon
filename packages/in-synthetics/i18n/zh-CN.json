@@ -2,7 +2,7 @@
   "dialog": {
     "createTest": {
       "dialogTitle": "创建合成测试",
-      "noLocationFound": "对不起！ 找不到任何位置",
+      "noLocationFound": "对不起！找不到任何位置",
       "titles": {
         "step1": "步骤 1：选择类型",
         "step2": "步骤 2：请求详细信息",
@@ -13,13 +13,7 @@
         "title": "您想创建什么样的合成测试"
       },
       "scheduling": {
-        "title": "调度",
-        "playbackMode": "回放方式",
-        "labelPlaybackMode": "选择回放方式",
-        "simultaneous": "同时",
-        "staggered": "错开",
-        "simultaneousDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-        "staggeredDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+        "title": "调度"
       },
       "requestStep": {
         "title": "指定请求",
@@ -28,10 +22,12 @@
         "labelUrl": "URL",
         "popSubTitle": "接入点",
         "uploadScriptTitle": "上载脚本",
-        "failureToReadFileContent": "未能读取文件内容：{{error}}"
+        "failureToReadFileContent": "未能读取文件内容：{{error}}",
+        "emptyScriptFileError": "空代码。 没有要验证的内容。"
       },
       "basicDetails": {
         "title": "此 ping 测试的名称是什么",
+        "scriptTitle": "此 HTTP 脚本测试的名称",
         "labelName": "测试的名称",
         "labelDescription": "描述",
         "labelFrequency": "频率"
@@ -42,7 +38,7 @@
           "headline": "HTTP 操作",
           "whenToUse": {
             "title": "何时使用？",
-            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+            "line1": "使用 HTTP 操作测试来测试单个 Rest API"
           },
           "whoShouldUse": {
             "title": "谁应该使用？",
@@ -50,33 +46,34 @@
           },
           "tipsForUsing": {
             "title": "使用提示",
-            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line3": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line4": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line5": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+            "line1": "步骤 1：选择要创建的测试类型。",
+            "line2": "步骤 2：输入要测试的 Web 页面的 HTTP 方法和 URL。 然后选择一个或多个位置。 位置表示已部署的合成存在点。",
+            "line3": "步骤 3：选择测试频率（1 ~ 120 分钟）。",
+            "line4": "步骤 4：在“名称和描述”部分中，在“名称”字段中输入有意义的测试名称。 将测试用途的描述添加到“描述”字段。"
           }
         },
         "scriptApi": {
           "name": "脚本 API",
           "headline": "HTTP 脚本",
           "whenToUse": {
-            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+            "line1": "使用 HTTP 脚本测试和基于 Node.js 的脚本来测试多个 Rest API 的序列"
           },
           "whoShouldUse": {
             "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
           },
           "tipsForUsing": {
-            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line3": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line4": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-            "line5": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+            "line1": "步骤 1：选择要创建的测试类型。",
+            "line2": "步骤 2：使用“上载脚本”选项来上载 node.js 测试脚本文件。 然后选择一个或多个位置。 位置表示已部署的合成存在点。",
+            "line3": "步骤 3：选择测试频率（1 ~ 120 分钟）。",
+            "line4": "步骤 4：在“测试的名称和描述”部分中，在“名称”字段中输入有意义的测试名称。 将测试用途的描述添加到“描述”字段。"
           }
         }
       },
       "form": {
         "validUrl": "请输入有效的 URL"
+      },
+      "validators": {
+        "theValueMustNotBeEmpty": "至少需要选择一个位置"
       }
     },
     "httpMethods": {
@@ -117,9 +114,9 @@
         "simpleTab": "简单",
         "redisTab": "Redis TLS",
         "title": "合成的 PoP 命令",
-        "subTitle": "请使用这些代码模板作为参考",
-        "simpleCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"Name;DisplayName;Country;City;0;0;Location description\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<yourpassword>\"",
-        "redisCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"Name;DisplayName;Country;City;0;0;Location description\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true",
+        "subTitle": "请使用这些代码模板作为参考。 有关更多信息，请参阅<documentationLink>合成 PoP 部署</documentationLink>",
+        "simpleCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=false \\\n--set redis.password=\"<yourPassword>\"",
+        "redisCode": "helm install synthetic-pop \\\n./synthetic-pop \\\n--namespace <namespace> \\\n--create-namespace \\\n--set downloadKey=\"{{downloadKey}}\" \\\n--set controller.location=\"<yourLocationName>;<yourLocationDisplayName>;<yourLocationCountry>;<yourLocationCity>;0;0;<yourLocationDescription>\" \\\n--set controller.clusterName=\"<yourClusterName>\" \\\n--set controller.instanaKey=\"{{instanaAgentKey}}\" \\\n--set controller.instanaSyntheticEndpoint=\"{{syntheticAcceptorURL}}\" \\\n--set redis.tls.enabled=true",
         "tlsInstructions": "如果要启用 Redis TLS，需要在 Helm Chart 根路径下创建 certs 文件夹，并将证书/密钥对 (tls.crt, tls.key) 和 CA 根证书文件 (ca.crt) 复制到 certs 文件夹中，文件名必须完全匹配。\n\n如果您没有密钥/证书文件，那么还可以使用 openssl 命令生成新的密钥/证书文件，请参阅以下示例：",
         "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt"
       },
@@ -205,7 +202,10 @@
       "responseTimeColumn": "响应时间",
       "responseSizeColumn": "响应大小",
       "retriesColumn": "重试计数",
-      "title": "结果"
+      "title": "结果",
+      "locationLabel": "位置",
+      "failures": "失败次数",
+      "status": "状态"
     },
     "detailsPage": {
       "timeLineWidget": "时间线",
@@ -253,8 +253,74 @@
         "notFound": "找不到"
       },
       "downloadHar": "下载 HAR 文件",
+      "downloadLog": "下载日志",
+      "downloadImages": "下载屏幕快照",
+      "downloadVideo": "下载记录",
       "consoleLogs": "控制台",
-      "browserLogs": "浏览器"
+      "browserLogs": "浏览器",
+      "browserDetails": {
+        "page": {
+          "request": "请求",
+          "size": "大小",
+          "time": "时间"
+        },
+        "entry": {
+          "time": "时间",
+          "status": "状态",
+          "size": "大小",
+          "types": {
+            "short": {
+              "document": "DOC",
+              "script": "SCR",
+              "stylesheet": "CSS",
+              "image": "IMG",
+              "font": "FONT",
+              "media": "MEDIA",
+              "other": "OTHER"
+            },
+            "long": {
+              "document": "文档",
+              "script": "脚本",
+              "stylesheet": "样式表",
+              "image": "图像",
+              "font": "字体",
+              "media": "媒体",
+              "other": "其他"
+            }
+          }
+        },
+        "body": {
+          "request": {
+            "title": "请求",
+            "url": "URL",
+            "httpVersion": "HTTP 版本",
+            "headerSize": "标题大小",
+            "bodySize": "正文大小",
+            "method": "方法"
+          },
+          "response": {
+            "title": "响应",
+            "transferSize": "传输大小",
+            "httpVersion": "HTTP 版本",
+            "redirectUrl": "重定向 URL",
+            "headerSize": "标题大小",
+            "bodySize": "正文大小",
+            "contentType": "内容类型",
+            "contentSize": "内容大小",
+            "status": "状态"
+          },
+          "timings": {
+            "title": "响应时间",
+            "receiving": "正在接收",
+            "waiting": "正在等待",
+            "blocking": "阻止",
+            "dns": "DNS",
+            "ssl": "SSL",
+            "sending": "正在发送",
+            "connect": "连接"
+          }
+        }
+      }
     },
     "noDataAvailable": {
       "resultsTitle": "无可用结果",

@@ -316,16 +316,13 @@ export function putAllDataSourceFieldsForOneRule(entityType, rule) {
   }
 
   if (isBuiltInDynamicMetric(entityType, metricName)) {
-    form = putMetricPatternOperator(form, metricPlaceholderOperator);
-    if (metricPlaceholderOperator !== 'any') {
-      form = putMetricPatternPlaceholder(form, metricPlaceholderValue);
-    }
+    form = updateMetricPatternForms(form, metricPlaceholderOperator, metricPlaceholderValue);
   }
 
   return form;
 }
 
-export function putMetricPatternOperator(form, metricPlaceholderOperator) {
+function putMetricPatternOperator(form, metricPlaceholderOperator) {
   return form.put(
     'metricPatternOperator',
     createField({
@@ -841,13 +838,11 @@ export function onBuiltInMetricChange(metricName, onChange, entityType) {
 
         const buildInMetricsList = getAllBuiltInMetrics(entityType);
         const metricItem = find(buildInMetricsList, _metric => _metric.value === selectedMetric);
-
         if (metricItem) {
           if (isBuiltInPlainMetric(entityType, metricItem.value)) {
             updatedForm = updatedForm.remove('metricPatternOperator').remove('metricPatternPlaceholder');
           } else {
-            updatedForm = putMetricPatternOperator(updatedForm);
-            updatedForm = putMetricPatternPlaceholder(updatedForm);
+            updatedForm = updateMetricPatternForms(updatedForm, metricItem.defaultMatchingOperator);
           }
 
           const metricInfo = getBuiltInMetricInfo(metricItem);
@@ -861,6 +856,14 @@ export function onBuiltInMetricChange(metricName, onChange, entityType) {
       });
     }
   };
+}
+
+function updateMetricPatternForms(form, metricPlaceholderOperator, metricPlaceholderValue) {
+  form = putMetricPatternOperator(form, metricPlaceholderOperator);
+  if (metricPlaceholderOperator !== 'any') {
+    return putMetricPatternPlaceholder(form, metricPlaceholderValue);
+  }
+  return form;
 }
 
 export function onCustomMetricChanged(metricName, onChange, customMetricsForPlugin) {

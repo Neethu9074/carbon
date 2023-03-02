@@ -35,7 +35,7 @@ registerSnapshotDefinition({
   },
 
   getIconType(snapshot) {
-    if (typeof snapshotOrPlugin === 'object') {
+    if (typeof snapshot === 'object') {
       const os = snapshot.getIn(['data', 'os.name'], '');
       if (os.match(/aix/i)) {
         return aixPlugin;

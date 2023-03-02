@@ -15,6 +15,7 @@ import AlertConfigDialog from 'in-alerting/smart-alerts/websites/dialog/AlertCon
 import { fromTagFiltersArray } from 'in-components/QueryBuilder/transformation/formModel';
 import { websitesAlertingAddAlert } from 'in-alerting/smart-alerts/websites/tracker';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { alertsTabListFullyQualified } from 'in-websites/navigation/paths';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import FloatingActionButton from 'in-components/FloatingActionButton';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
@@ -65,7 +66,7 @@ export default function CreateSmartAlert({ location, websiteId, tagFilters, time
           <AlertConfigDialog
             onClose={() => {
               close();
-              if (location.pathname.includes('/websiteMonitoring/website/alerts')) {
+              if (location.pathname.includes(alertsTabListFullyQualified)) {
                 reload();
               }
             }}

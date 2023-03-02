@@ -1,4 +1,7 @@
 {
+  "csvExporterButton": {
+    "label": "CSV로 내보내기"
+  },
   "fileInputButton": {
     "label": {
       "chooseSingle": "파일 선택…",
@@ -77,7 +80,7 @@
     "eumPageName": "EUM",
     "settingsPageName": "설정",
     "requestQuoteBtn": "견적 요청",
-    "buyNowBtn": "지금 구매",
+    "buyNowBtn": "AWS에서 구매",
     "alreadyHaveLicense": "이미 라이센스가 있습니까? <linkToDocker>Docker</linkToDocker> 또는 <linkToKubernetes>Kubernetes</linkToKubernetes>에서 활성화하십시오."
   },
   "releaseNotesDialog": {
@@ -281,14 +284,6 @@
   "draggableItemSelector": {
     "tooltipReorderMetrics": "메트릭 다시 정렬"
   },
-  "entityHealthIndicator": {
-    "indicatorPresenterNoIssues": "문제 없음",
-    "indicatorPresenterOpenIssues": "{{count}}개 문제",
-    "indicatorPresenterOpenIssues_plural": "{{count}}개 문제",
-    "indicatorPresenterOpenIssues_0": "{{count}}개 문제",
-    "indicatorPresenterOpenIssues_1": "{{count}}개 문제",
-    "indicatorPresenterOpenIssues_2": "{{count}}개 문제"
-  },
   "entityPageMainNotification": {
     "labelEntity": "엔티티",
     "labelNotFound": "{{entity}}을(를) 찾을 수 없음"
@@ -359,7 +354,21 @@
     "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}}개 오픈 {{eventType}}",
     "openIssuesListPresenterHeaderDisplayingMaxIssuesToShowMostSevere": "(가장 심각한 {{maxIssuesToShow}}개 표시)",
     "openIssuesListPresenterIssueDescriptionOmitted": "문제 설명이 생략되었습니다. 추가 세부사항은 이벤트의 세부사항 보기 내에서 확인할 수 있습니다.",
-    "openIssuesListPresenterStarted": "시작됨"
+    "openIssuesListPresenterStarted": "시작됨",
+    "noIssues": "출고 없음",
+    "openIssues": "{{count}}개 문제",
+    "openIssues_plural": "{{count}}개 문제",
+    "openIssues_0": "{{count}}개 문제",
+    "openIssues_1": "{{count}}개 문제",
+    "openIssues_2": "{{count}}개 문제",
+    "noIncidents": "인시던트 없음",
+    "openIncidents": "{{count}}개 인시던트",
+    "openIncidents_plural": "{{count}}개 인시던트",
+    "openIncidents_0": "{{count}}개 인시던트",
+    "openIncidents_1": "{{count}}개 인시던트",
+    "openIncidents_2": "{{count}}개 인시던트",
+    "labelWarning": "경고",
+    "labelCritical": "심각"
   },
   "inlineTabNavigation": {
     "labelSelectTab": "탭 선택"

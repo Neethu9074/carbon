@@ -24,7 +24,7 @@ import List, { leftHeaderWithSelectAll, TableActions } from 'in-settings/compone
 import Tag from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Tag';
 import RunAction from 'in-events/components/AutomationActions/RunAction';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { getAllActions, ScoredAction } from 'in-api/automation';
+import { getAllActions, ScoredAction } from 'in-automation/api';
 import { formatDateTime } from 'in-services/formatters/date';
 import { runActionTracker } from 'in-events/tracker';
 import Tooltip from 'in-components/Tooltip/Tooltip';
@@ -178,6 +178,7 @@ export interface ActionTableProps {
   showTestColumn?: boolean | undefined;
   showDuplicateColumn?: boolean | undefined;
   isBeta?: boolean;
+  withBottomPadding?: boolean;
 }
 
 export default function ActionTable({
@@ -196,7 +197,8 @@ export default function ActionTable({
   scored = false,
   showTestColumn = false,
   showDuplicateColumn = false,
-  isBeta = false
+  isBeta = false,
+  withBottomPadding
 }: ActionTableProps) {
   let columnDefinitionsToShow = [nameColumn(showActionLink), ...columnDefinitions];
   if (showExecuteColumn) {
@@ -216,6 +218,7 @@ export default function ActionTable({
 
   return (
     <List<Action>
+      withBottomPadding={withBottomPadding}
       noDataMessage={noDataMessage}
       pageSize={pageSize}
       initalOrderDir={scored ? 'DESC' : 'ASC'}

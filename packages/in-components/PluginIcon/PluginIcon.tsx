@@ -8,8 +8,8 @@ import React, { forwardRef } from 'react';
 import { Size } from '@instana/components/types/components/SvgIcon/types';
 import { SvgIcon } from '@instana/components';
 
+import { isWebsitePlugin, isSyntheticPlugin, isMobileAppPlugin } from 'in-forge/plugins/pluginTypes';
 import { getIconType as getInfraIconType } from 'in-infrastructure/infrastructureIconType';
-import { isWebsitePlugin, isSyntheticPlugin } from 'in-forge/plugins/pluginTypes';
 import { SnapshotMap } from 'in-components/EntityLink';
 import theme from 'in-themes';
 
@@ -34,6 +34,9 @@ function getIconType(snapshot?: SnapshotMap, plugin?: string): string {
     }
     if (isSyntheticPlugin(plugin)) {
       return 'lib_synthetic';
+    }
+    if (isMobileAppPlugin(plugin)) {
+      return 'lib_mobile_app';
     }
   }
 

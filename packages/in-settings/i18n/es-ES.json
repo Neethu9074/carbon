@@ -53,6 +53,58 @@
       "purpose": "Integración de usuario y encuesta del almacén NPS."
     }
   },
+  "roleAndAccessScope": {
+    "dialogTitle": "Crear nuevo grupo",
+    "dialogTitle_edit": "Editar ámbito de acceso",
+    "editButton": "Editar ámbito de acceso",
+    "productArea": "Rol y ámbito de acceso",
+    "productArea_application": "Aplicación",
+    "productArea_platform": "Plataforma",
+    "productArea_website": "Sitio web",
+    "productArea_mobile-app": "Apps móviles",
+    "productArea_kubernetes": "Kubernetes",
+    "productArea_infrastructure": "Infraestructura",
+    "productArea_analytics": "Analítica",
+    "productArea_event": "Sucesos y alertas",
+    "productArea_function": "Funciones globales"
+  },
+  "headingSection": {
+    "title": "Rol y ámbito de acceso",
+    "description": "Habilite las áreas de producto para el acceso y defina los ámbitos de acceso para cada unidad.",
+    "link": "Más información sobre roles y permisos."
+  },
+  "groupSection": {
+    "title": "Nombre de grupo",
+    "label": "Especifique un nombre"
+  },
+  "websitePermissionSection": {
+    "title": "Sitios web",
+    "addButton": "Seleccionar sitio web",
+    "description_limited_access": "Seleccione el rol para el área de producto y añada los sitios web siguientes para otorgar acceso",
+    "description_access_all": "Se puede acceder a todos los sitios web con el rol seleccionado para el área de producto",
+    "deleteButton": "Eliminar {{name}} de la lista"
+  },
+  "selectItemForm": {
+    "doneButton": "Hecho"
+  },
+  "selectWebsitesDialog": {
+    "title": "Seleccionar sitios web",
+    "nameColumnHead": "Nombre"
+  },
+  "permissionScope": {
+    "selection": "No disponible",
+    "selection_access_all": "Acceder a todos",
+    "selection_limited_access": "Ámbito de acceso limitado",
+    "selection_no_access": "Sin acceso",
+    "description_no_access": "No se puede utilizar esta área en absoluto",
+    "description_access_all": "Acceso a todos sin limitación",
+    "role": "Seleccionar un rol",
+    "role_owner": "Propietario (Owner)",
+    "role_viewer": "Visor",
+    "role_custom": "Personalizar",
+    "roleTooltip": "Visor: capacidad para ver paneles de control (no se puede ver la configuración). Propietario: capacidad para crear nuevas entidades; ver, configurar y suprimir paneles de control.",
+    "roleTooltip_websites": "Visor: capacidad para ver los paneles de control del sitio web (no se puede ver la configuración). Propietario: capacidad para crear nuevos sitios web; ver, configurar y suprimir paneles de control del sitio web."
+  },
   "cardTitle_Area": "Área",
   "cardTitle_Area_plural": "Áreas",
   "cardTitle_Area_0": "Áreas",
@@ -98,6 +150,7 @@
   "tabs": {
     "team": {
       "events": {
+        "addCondition": "Añadir condición",
         "withDeprecatedSuffix": "{{pluginName}} (en desuso)",
         "placeholder": "Marcador de posición"
       },
@@ -276,7 +329,7 @@
     "name": "Nombre",
     "description": "Descripción",
     "value": "Valor",
-    "configureBuiltInEvent": "Configurar suceso integrado: {{eventName}}",
+    "configureBuiltInEvent": "Configurar suceso incorporado: {{eventName}}",
     "metric": "Métrica",
     "snapshotField": "Campo de instantánea",
     "event": "Suceso",
@@ -293,6 +346,8 @@
     "hostAvailabilityDetection": "Detección de disponibilidad de host",
     "pleaseSelectASeverity": "Seleccione una gravedad",
     "pleaseEnterAValidMetric": "Especifique una métrica válida.",
+    "noMoreThanOneThresholdCanBeDefinedOnSameMetric": "No se puede definir más de un umbral en la misma métrica.",
+    "onlyOneRuleIsAllowedToHaveDifferentOperatorThanIs": "Cuando se definen varias métricas por patrón, solo se permite que una regla utilice un operador de comparación diferente de 'is'.",
     "thisEntityTypeHasBeenDeprecated": "Este tipo de entidad ha quedado en desuso. Seleccione un tipo diferente.",
     "failedToSaveSettings": "No se han podido guardar los valores: {{err}}",
     "events": "Sucesos",
@@ -312,6 +367,7 @@
     "kilobytes": "Kilobytes",
     "megabytes": "Megabytes",
     "count": "Número",
+    "statusValue": "Valor de estado",
     "scheduleMaintenanceWindow": "Ventana de mantenimiento de planificación",
     "changeMaintenanceWindow": "Ventana de mantenimiento de cambios",
     "allAlertsWillBeMutedForTheDurationOfThisMaintenanceWindow": "<strong>Atención</strong> Todas las alertas se silenciarán mientras dure esta ventana de mantenimiento. <strong>Esto también puede afectar a otros usuarios de su organización.</strong>",
@@ -396,6 +452,7 @@
     "emailField": "Campo de correo electrónico",
     "emailFieldDescription": "El nombre del atributo donde se encuentra la dirección de correo electrónico de los usuarios, por ejemplo: mail",
     "ldapUserAccount": "Cuenta de usuario de LDAP",
+    "ldapsAcceptAnyCA": "Confiar en cualquier entidad emisora de certificados mientras utiliza ldaps",
     "username": "Nombre de usuario",
     "usernameDescription": "El usuario que debe estar relacionado en Instana como usuario propietario. Un inicio de sesión se intenta como una prueba antes de guardar los valores, las credenciales no se almacenan.",
     "usernamePasswordDescription": "La contraseña de LDAP del usuario",
@@ -661,7 +718,7 @@
     "youAreNotPermittedToEditCustomPayloads": "No está permitido editar las cargas útiles personalizadas.",
     "unknownEvent": "Suceso desconocido",
     "unknownAction": "Acción desconocida",
-    "builtInEventDefinition": "Definición de suceso integrado",
+    "builtInEventDefinition": "Definición de suceso incorporado",
     "entityType": "Tipo de entidad",
     "eventInputs": "Entradas de sucesos",
     "parameters": "Parámetros",
@@ -688,7 +745,7 @@
     "entityLabelOperator": "Operador de etiqueta de entidad",
     "entityLabel": "Etiqueta de entidad",
     "offlineFor": "Fuera de línea para",
-    "builtInMetrics": "Medidas integradas",
+    "builtInMetrics": "Métricas incorporadas",
     "customMetrics": "Métricas personalizadas",
     "systemRules": "Reglas del sistema",
     "5S": "5 s",
@@ -722,7 +779,7 @@
     "any": "cualquiera",
     "pleaseEnterANumberUseAsADecimalSeparator": "Especifique un número (utilice el punto como separador decimal).",
     "theEntityTypeValueMustNotBeBlank": "El valor del tipo de entidad no debe estar en blanco",
-    "builtIn": "Integrado",
+    "builtIn": "Incorporado",
     "filterEvents": "Filtrar sucesos...",
     "incidentsSeverity": "Incidencias y gravedad...",
     "maintenanceWindow": "Ventana de mantenimiento",
@@ -842,10 +899,11 @@
     "identityProviderType": "Tipo de proveedor de identidad",
     "copyApiTokenToClipboardError": "No se ha podido copiar la señal API en el portapapeles.",
     "depreactedEventHiddenInfo": "Los sucesos en desuso ya no se pueden añadir a nuevas alertas y se ocultan de esta lista.",
-    "deprecatedEventMessage": "Los sucesos personalizados en los tipos de entidad Perspectiva de aplicación, Servicio y Punto final estarán en desuso en breve. A partir de enero de 2023, no se podrán crear eventos de este tipo. Se recomienda migrar este suceso a una alerta inteligente manualmente o utilizando el botón <em>Migrar a alerta inteligente</em> anterior. <documentationLink>Más información en la documentación</documentationLink>.",
-    "disallowedEventMessage": "Los eventos personalizados en los tipos de entidad Perspectiva de aplicación, Servicio y Punto final se eliminarán pronto. A partir de abril de 2023, los eventos personalizados que haya de este tipo ya no se procesarán. Se recomienda migrar este suceso a una alerta inteligente manualmente o utilizando el botón <em>Migrar a alerta inteligente</em> anterior. <documentationLink>Más información en la documentación</documentationLink>.",
+    "deprecatedEventMessage": "<strong>Los sucesos personalizados en los tipos de entidad Aplicación, Servicio y Punto final estarán pronto en desuso</strong><br/>A partir de abril de 2023, no podrá crear nuevos sucesos de este tipo. Se recomienda migrar este suceso a una alerta inteligente manualmente o utilizando el botón <em>Migrar a alerta inteligente</em> anterior. <documentationLink>Más información en nuestra documentación</documentationLink>",
+    "disallowedEventMessage": "Los sucesos personalizados en los tipos de entidad Aplicación, Servicio y Punto final se eliminarán pronto. A partir de julio de 2023, los sucesos personalizados existentes de este tipo ya no se procesarán. Se recomienda migrar este suceso a una alerta inteligente manualmente o utilizando el botón <em>Migrar a alerta inteligente</em> anterior. <documentationLink>Más información en la documentación</documentationLink>.",
     "migratedEventMessage": "Este suceso en desuso se migra. Para obtener más información, <documentationLink>consulte nuestra documentación</documentationLink>.",
-    "deprecatedEventSelectedMessage": "Los sucesos personalizados en los tipos de entidad Perspectiva de aplicación, Servicio y Punto final estarán en desuso en breve. A partir de enero de 2023, no se podrán crear eventos de este tipo. Recomendamos crear una alerta inteligente en su lugar. <documentationLink>Más información en la documentación</documentationLink>.",
+    "deprecatedEventSelectedMessage": "Los sucesos personalizados en los tipos de entidad Aplicación, Servicio y Punto final quedarán pronto en desuso. A partir de abril de 2023, no se podrán crear nuevos sucesos de este tipo. Recomendamos crear una alerta inteligente en su lugar. <documentationLink>Más información en la documentación</documentationLink>.",
+    "customEventListDeprecatedWarning": "<strong>Los sucesos personalizados en los tipos de entidad Aplicación, Servicio y Punto final están en desuso</strong><br/>No podrá crear ni actualizar sucesos personalizados en estos tres tipos de entidad a partir de <strong>abril de 2023 (Build 246)</strong> en adelante. Las configuraciones existentes se eliminarán a partir de <strong>julio de 2023 (Build 253)</strong> en adelante. <documentationLink>Más información en nuestra documentación</documentationLink>",
     "automation": "Automatización",
     "actionCatalog": "Catálogo de acciones",
     "actions": "Acciones",
@@ -869,7 +927,35 @@
     "confidence_high": "Alto",
     "confidence": "{{context}}",
     "confidenceTitle": "Confianza",
-    "test": "Prueba"
+    "host": "Host",
+    "method": "Método",
+    "accept": "Aceptar (opcional)",
+    "acceptLanguage": "Accept-Language (opcional)",
+    "contentType": "Content-Type (opcional)",
+    "bodyDescription": "Datos asociados a la solicitud HTTP.",
+    "acceptLanguageDescription": "Idiomas que el cliente puede entender.",
+    "acceptDescription": "Tipo de contenido que es comprensible para el cliente expresado como tipos MIME.",
+    "contentTypeDescription": "Tipo de soporte del cuerpo.",
+    "noAdditionalHeadersConfigured": "No hay cabeceras adicionales configuradas",
+    "body": "Cuerpo (opcional)",
+    "additionalHeadersOptional": "Cabeceras adicionales (opcional)",
+    "theValueMustBeValidMime": "El valor debe ser un tipo MIME válido.",
+    "authType": "Tipo de autorización",
+    "noAuth": "Sin autorización",
+    "ignoreCertErrors": "Ignorar errores de certificado",
+    "basicAuth": "Autenticación básica",
+    "bearerToken": "Señal portadora",
+    "apiKeyAddTo": "Añadir a",
+    "header": "Cabecera",
+    "queryParams": "Parámetros de consulta",
+    "test": "Prueba",
+    "http": "HTTP",
+    "serviceNowUrl": "URL de ServiceNow",
+    "serviceNow": "ServiceNow",
+    "serviceNowAlertChannel": "Canal de alerta de ServiceNow",
+    "serviceNowUsernameTooltip": "El nombre de usuario y la contraseña deben ser para un usuario de ServiceNow con permiso para crear incidencias.",
+    "showPasswordTooltip": "Mostrar contraseña",
+    "hidePasswordTooltip": "Ocultar contraseña"
   },
   "languageSelection": {
     "language": "Idioma",
@@ -906,5 +992,6 @@
   "queryValidationStillInProgress": "Validación de consulta todavía en curso",
   "teamSettings": {
     "newGroup": "Nuevo grupo"
-  }
+  },
+  "successResponse": "El canal de alertas se ha activado correctamente, compruebe el canal."
 }

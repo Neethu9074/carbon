@@ -6,10 +6,12 @@
 
 import React from 'react';
 
-import { SnapshotPreview, TimeConfig } from '@instana/types';
+import { TimeConfig } from '@instana/types';
+
+import { SnapshotData } from 'in-stores/snapshot/snapshot';
 
 interface DashboardHeaderButtonSectionProps {
-  snapshot: SnapshotPreview;
+  snapshot: SnapshotData;
   snapshotId: string;
   timeConfig: TimeConfig;
 }

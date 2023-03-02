@@ -9,7 +9,7 @@ import React from 'react';
 
 import { putMetricPatternPlaceholder } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import { metricPatternMatchingOptions } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customEventFormUtil';
-import { DynamicMetricPattern, getMetricDefinition, isBuiltInDynamicMetric } from 'in-sdk/metrics';
+import { getMetricDefinition, isBuiltInDynamicMetric } from 'in-sdk/metrics';
 import { CustomEventSpecificationWithMetadata, Nullish } from 'in-types';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import ComboBox, { Option } from 'in-components/ComboBox';
@@ -19,7 +19,7 @@ import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import { t } from 'in-i18n';
 
-const placeholderLabel = t('in-settings:tabs.team.events.placeholder');
+const defaultPlaceholderLabel = t('in-settings:tabs.team.events.placeholder');
 
 interface DynamicBuiltInFormGroupProps {
   form: MapForm;
@@ -36,12 +36,20 @@ export function DynamicBuiltInFormGroup({ form, onChange, disabled }: DynamicBui
   const entityType = (form.get('entityType') as Field<string>)?.value;
   const metricName = (form.get('metricName') as Field<string>)?.value;
 
-  if (!entityType || !metricName || !isBuiltInDynamicMetric(entityType, metricName)) {
+  const metricDefinition = getMetricDefinition(entityType, metricName);
+  const metricPattern = metricDefinition.metricPattern;
+  if (!entityType || !metricName || !isBuiltInDynamicMetric(entityType, metricName) || metricPattern == null) {
     return null;
   }
 
   const metricPatternPlaceholder = form.get('metricPatternPlaceholder') as Field<string>;
   const metricPatternOperator = form.get('metricPatternOperator') as Field<string>;
+
+  const lockedMatchingOperator =
+    metricPattern.lockedMatchingOperator &&
+    // For backward compatibility, we allow other options in case a user set a different option already, so that he can fix this
+    // via UI and resolving this is not require the use of the API.
+    metricPatternOperator.value === metricPattern.defaultMatchingOperator;
 
   return (
     <>
@@ -54,7 +62,7 @@ export function DynamicBuiltInFormGroup({ form, onChange, disabled }: DynamicBui
             {t('in-settings:tabs.matchingOperator')}
           </Label>
           <ComboBox
-            isDisabled={disabled}
+            isDisabled={disabled || lockedMatchingOperator}
             name="event-metricPatternOperator"
             value={metricPatternOperator.value}
             options={metricPatternMatchingOptions}
@@ -82,7 +90,7 @@ export function DynamicBuiltInFormGroup({ form, onChange, disabled }: DynamicBui
               htmlFor="event-metricPatternPlaceholder"
               hasError={!metricPatternPlaceholder.valid && metricPatternPlaceholder.touched}
             >
-              {getPlaceholderLabel(entityType, metricName)}
+              {metricPattern.placeholderLabel ?? defaultPlaceholderLabel}
             </Label>
             <Input
               disabled={disabled}
@@ -98,16 +106,4 @@ export function DynamicBuiltInFormGroup({ form, onChange, disabled }: DynamicBui
       </Col>
     </>
   );
-}
-
-function getPlaceholderLabel(entityType: string, metricName: string) {
-  const metricPattern = getMetricDefinition(entityType, metricName)?.metricPattern;
-
-  if (metricPattern) {
-    const { placeholderLabel } = metricPattern as DynamicMetricPattern;
-    if (placeholderLabel) {
-      return placeholderLabel;
-    }
-  }
-  return placeholderLabel;
 }

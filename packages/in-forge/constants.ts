@@ -162,6 +162,7 @@ export const nonServicePlugins = {
   ibmMqMftZone: 'ibmMqMftZone',
   ibmMqMftAgent: 'ibmMqMftAgent',
   ibmMqMftTransfer: 'ibmMqMftTransfer',
+  ibmMqMftMonitor: 'ibmMqMftMonitor',
   ibmOpenstack: 'ibmOpenstack',
   ibmOpenstackComputeInstance: 'ibmOpenstackComputeInstance',
   ibmOpenstackHypervisor: 'ibmOpenstackHypervisor',
@@ -232,6 +233,7 @@ export const nonServicePlugins = {
   ping: 'ping',
   pingDirectory: 'pingDirectory',
   postgreSqlDatabase: 'postgreSqlDatabase',
+  podman: 'podman',
   process: 'process',
   processingStatistics: 'processingStatistics',
   processingStatisticsMember: 'processingStatisticsMember',
@@ -277,7 +279,8 @@ export const nonServicePlugins = {
   zooKeeper: 'zooKeeper',
   zOS: 'zOS',
   zDb2: 'zDb2',
-  zCics: 'zCics'
+  zCics: 'zCics',
+  zIms: 'zIms'
 };
 
 export const applicationPlugins = {
@@ -475,6 +478,7 @@ export const fullyQualifiedPlugins = {
   ibmMqMftCoordiQmgr: 'com.instana.forge.infrastructure.messaging.ibmmqmft.derivedentity.coordiqmgr.IbmMqMftCoordiQmgr',
   ibmMqMftAgent: 'com.instana.forge.infrastructure.messaging.ibmmqmft.derivedentity.agent.IbmMqMftAgent',
   ibmMqMftTransfer: 'com.instana.forge.infrastructure.messaging.ibmmqmft.derivedentity.transfer.IbmMqMftTransfer',
+  ibmMqMftMonitor: 'com.instana.forge.infrastructure.messaging.ibmmqmft.derivedentity.monitor.IbmMqMftMonitor',
   ibmOpenstack: 'com.instana.forge.infrastructure.paas.ibmopenstack.derivedentity.openstack.IbmOpenstack',
   ibmOpenstackComputeInstance:
     'com.instana.forge.infrastructure.paas.ibmopenstack.derivedentity.computeinstance.IbmOpenstackComputeInstance',
@@ -555,6 +559,7 @@ export const fullyQualifiedPlugins = {
   ping: 'com.instana.forge.infrastructure.synthetic.ping.Ping',
   pingDirectory: 'com.instana.forge.infrastructure.directory.pingdirectory.PingDirectory',
   postgreSqlDatabase: 'com.instana.forge.infrastructure.database.postgresql.PostgreSqlDatabase',
+  podman: 'com.instana.forge.infrastructure.virtualization.podman.Podman',
   process: 'com.instana.forge.infrastructure.os.process.Process',
   processingStatistics: 'com.instana.forge.ProcessingStatistics',
   processingStatisticsMember: 'com.instana.forge.ProcessingStatisticsMember',
@@ -602,7 +607,8 @@ export const fullyQualifiedPlugins = {
   zooKeeper: 'com.instana.forge.infrastructure.database.zookeeper.ZooKeeper',
   zOS: 'com.instana.forge.ibm.ibmz.os.ZOS',
   zDb2: 'com.instana.forge.ibm.ibmz.db2.ZDb2',
-  zCics: 'com.instana.forge.ibm.ibmz.cics.ZCics'
+  zCics: 'com.instana.forge.ibm.ibmz.cics.ZCics',
+  zIms: 'com.instana.forge.ibm.ibmz.ims.ZIms'
 };
 
 export function translateFullyQualifiedPluginToShortPluginName(fullyQualifiedPlugin: string): string | null {

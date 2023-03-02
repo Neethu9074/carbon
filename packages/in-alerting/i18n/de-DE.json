@@ -607,11 +607,11 @@
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_perWindowEvaluation_2": "Mindestens {{count}} betroffene Benutzer pro Fenster bei den letzten {{numberEvaluationWindows}} Auswertungsfenstern",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserPercentage_perWindowEvaluation": "Mindestens {{userPercentage}} betroffene Benutzer pro Fenster bei den letzten {{numberEvaluationWindows}} Auswertungsfenstern",
         "timeThresholdDescriptionUserImpactOfViolationsInSequence_perWindowEvaluation": "Betroffen pro Fenster bei den letzten {{numberEvaluationWindows}}-Auswertungsfenstern",
-        "timeThresholdDescriptionRequestImpact": "Mindestens {{count}} Anforderungen innerhalb der letzten {{formattedTimeWindow}} betroffen",
-        "timeThresholdDescriptionRequestImpact_plural": "Mindestens {{count}} Anforderungen innerhalb der letzten {{formattedTimeWindow}} betroffen",
-        "timeThresholdDescriptionRequestImpact_0": "Mindestens {{count}} Anforderungen innerhalb der letzten {{formattedTimeWindow}} betroffen",
-        "timeThresholdDescriptionRequestImpact_1": "Mindestens {{count}} Anforderungen innerhalb der letzten {{formattedTimeWindow}} betroffen",
-        "timeThresholdDescriptionRequestImpact_2": "Mindestens {{count}} Anforderungen innerhalb der letzten {{formattedTimeWindow}} betroffen",
+        "timeThresholdDescriptionTraceImpact": "Mindestens {{count}} betroffener Trace im letzten {{formattedTimeWindow}}",
+        "timeThresholdDescriptionTraceImpact_plural": "Mindestens {{count}} betroffene Traces im letzten {{formattedTimeWindow}}",
+        "timeThresholdDescriptionTraceImpact_0": "Mindestens {{count}} betroffene Traces im letzten {{formattedTimeWindow}}",
+        "timeThresholdDescriptionTraceImpact_1": "Mindestens {{count}} betroffener Trace im letzten {{formattedTimeWindow}}",
+        "timeThresholdDescriptionTraceImpact_2": "Mindestens {{count}} betroffene Traces im letzten {{formattedTimeWindow}}",
         "timeThresholdDescriptionViolationsInPeriod": "Mindestens {{count}} Verstoß innerhalb der letzten {{formattedTimeWindow}}",
         "timeThresholdDescriptionViolationsInPeriod_plural": "Mindestens {{count}} Verstöße innerhalb der letzten {{formattedTimeWindow}}",
         "timeThresholdDescriptionViolationsInPeriod_0": "Mindestens {{count}} Verstöße innerhalb der letzten {{formattedTimeWindow}}",
@@ -625,10 +625,10 @@
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "Für jedes Auswertungsfenster berechnen",
         "timeThresholdConfigNumberOfViolations": "Anzahl der Messwertverstöße",
         "timeThresholdConfigEvaluationGranularity": "Evaluierungsgranularität",
-        "timeThresholdConfigNumberOfRequestsThreshold": "Anzahl der betroffenen Anforderungen",
+        "timeThresholdConfigNumberOfTracesThreshold": "Anzahl betroffener Traces",
         "timeThresholdConfigNumberOfImpactedUsersThreshold": "Anzahl der betroffenen Benutzer",
         "timeThresholdConfigAtLeast": "Mindestens",
-        "timeThresholdConfigNumberOfRequests": "Anzahl der betroffenen Anforderungen",
+        "timeThresholdConfigNumberOfTraces": "Anzahl der betroffenen Traces",
         "timeThresholdConfigMinutes": "{{min}} Min.",
         "timeThresholdConfigNumberOfUsers": "Anzahl der betroffenen Benutzer",
         "timeThresholdConfigPercentageOfUsers": "% der betroffenen Benutzer",
@@ -639,11 +639,11 @@
         "timeThresholdConfigTimeThresholdLabelViolationsInSequence": "Wenn die Bedingung über einen angegebenen Zeitraum bestehen bleibt",
         "timeThresholdConfigTimeThresholdLabelViolationsInPeriod": "Jedes Mal, wenn die Bedingung eine bestimmte Anzahl von Malen in einem definierten Zeitrahmen ausgelöst wird",
         "timeThresholdConfigTimeThresholdLabelUserImpactOfViolationsInSequence": "Wenn eine bestimmte Menge meiner Benutzer betroffen ist",
-        "timeThresholdConfigTimeThresholdLabelRequestImpact": "Wenn eine bestimmte Menge an Anforderungen betroffen ist",
+        "timeThresholdConfigTimeThresholdLabelTraceImpact": "Wenn eine bestimmte Anzahl von Traces betroffen ist",
         "timeThresholdConfigTimeThresholdTitleViolationsInSequence": "Persistenz im Laufe der Zeit",
         "timeThresholdConfigTimeThresholdTitleViolationsInPeriod": "Anzahl der Verstöße im Laufe der Zeit",
         "timeThresholdConfigTimeThresholdTitleUserImpactOfViolationsInSequence": "Auswirkungen auf Benutzer",
-        "timeThresholdConfigTimeThresholdTitleRequestImpact": "Auswirkung auf Anforderungen",
+        "timeThresholdConfigTimeThresholdTitleTraceImpact": "Traceauswirkung",
         "timeThresholdConfigNoUserSessionDetected": "Keine <linkToIdentifyingUsers>Benutzer</linkToIdentifyingUsers> oder<linkToSessionTracking>Sitzungen</linkToSessionTracking> erkannt.",
         "timeThresholdConfigPleaseConfigureWebsiteMonitoringBeforeUsingThisOption": "Konfigurieren Sie die Website-Überwachung, bevor Sie diese Option verwenden.",
         "alertPropertiesWarning": "Warnung",
@@ -794,7 +794,12 @@
         "propertiesTitle": "Zusätzliche Alerteigenschaften",
         "thresholdValue": "Schwellenwert",
         "payloadsLabel": "Nutzdaten",
-        "payloadsTitle": "Angepasste Nutzdaten"
+        "payloadsTitle": "Angepasste Nutzdaten",
+        "evaluationSwitch": {
+          "evaluationTypePERWEBSITE": {
+            "shortText": "Pro Website"
+          }
+        }
       },
       "components": {
         "provideStatusCodeStatusCode": "Statuscode",

@@ -7,6 +7,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
+import { locationIdTagName, statusTagName, testIdTagName } from 'in-synthetics/tags';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
@@ -64,17 +65,17 @@ const RenderChart = ({ test, timeShiftConfig, renderPostChartContent }: Props) =
     tagFilters = [
       {
         stringValue: id,
-        name: 'testId',
+        name: testIdTagName,
         operator: EQUALS
       },
       {
         numberValue: 0,
-        name: 'status',
+        name: statusTagName,
         operator: EQUALS
       },
       {
         stringValue: locations[i],
-        name: 'locationId',
+        name: locationIdTagName,
         operator: EQUALS
       }
     ];

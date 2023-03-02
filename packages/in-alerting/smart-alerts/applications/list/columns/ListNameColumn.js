@@ -7,19 +7,9 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { SvgIcon, Link } from '@instana/components';
+import { SvgIcon } from '@instana/components';
 
-import {
-  alertsTab,
-  alertsTabDetailsFullyQualified,
-  applicationDashboard,
-  globalAlertDetails
-} from 'in-applications/navigation/paths';
 import AlertTitleWithPlaceholderHighlighting from 'in-alerting/smart-alerts/applications/inventory/AlertTitleWithPlacholderHighlighting';
-import {
-  alertCreated as alertCreatedMatrixParam,
-  alertId as alertIdMatrixParam
-} from 'in-applications/navigation/matrix';
 import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
 import { STATIC_THRESHOLD, ADAPTIVE_BASELINE, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
@@ -27,15 +17,13 @@ import BuiltInIndicator from 'in-alerting/smart-alerts/components/details/BuiltI
 import { getAggregationText } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
-import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { getModifiedUrlStream } from 'in-stores/navigation';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/list/columns/ListColumns.mless';
 
-export function ListNameColumn({ config, configsCategory, additionalMatrixKeys = () => [], goToGlobalAlertDetails }) {
-  const { description, enabled, name, severity, rule, threshold, id, created, builtIn, evaluationType } = config;
+export function ListNameColumn({ config }) {
+  const { description, enabled, name, severity, rule, threshold, builtIn, evaluationType } = config;
 
   return (
     <HorizontalFlexWrapper className={locals.nameListColumn}>
@@ -49,22 +37,9 @@ export function ListNameColumn({ config, configsCategory, additionalMatrixKeys =
       />
       <div className={locals.name}>
         <Tooltip content={description} align="topMiddle" delay={500}>
-          <Link
-            href$={getModifiedUrlStream(_location => {
-              _location.pathname = goToGlobalAlertDetails ? globalAlertDetails : alertsTabDetailsFullyQualified;
-
-              for (const { key, value } of additionalMatrixKeys({ configsCategory, config })) {
-                setOrDeleteMatrixKey(_location, applicationDashboard, key, value);
-              }
-
-              setOrDeleteMatrixKey(_location, alertsTab, alertIdMatrixParam, id);
-              setOrDeleteMatrixKey(_location, alertsTab, alertCreatedMatrixParam, created);
-
-              return _location;
-            })}
-          >
+          <div>
             <AlertTitleWithPlaceholderHighlighting configName={name} evaluationType={evaluationType} />
-          </Link>
+          </div>
         </Tooltip>
         <div className={locals.nameSubtext}>{getSubtitle(rule, threshold)}</div>
       </div>
@@ -136,11 +111,6 @@ ListNameColumn.propTypes = {
       value: PropTypes.number
     }).isRequired,
     evaluationType: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
-    created: PropTypes.number.isRequired,
     builtIn: PropTypes.bool
-  }).isRequired,
-  configsCategory: PropTypes.string.isRequired,
-  additionalMatrixKeys: PropTypes.func,
-  goToGlobalAlertDetails: PropTypes.bool
+  }).isRequired
 };

@@ -29,6 +29,7 @@ export const resultsPathSegment = resultsTab;
 export const resultsMatrixPrefix = 'result.';
 export const failureValue = '0';
 export const defaultPage = 'page_x0';
+export const successValue = '1';
 
 export const dummyLocations = {
   data: [],
@@ -151,8 +152,8 @@ export const defaultUrlState: UrlState = {
 };
 
 export interface TestResponse {
-  data?: SyntheticTest;
-  errors?: Error[];
+  data: SyntheticTest;
+  errors: Error[];
   progress: Progress;
   time?: number;
 }

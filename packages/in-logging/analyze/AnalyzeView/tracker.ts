@@ -12,6 +12,7 @@ import {
   ANALYZE_LOGGING_SELECTED_TAGS_CHANGED,
   ANALYZE_LOGGING_SORTING_CHANGED,
   ANALYZE_LOGGING_TIME_SPENT,
+  LOGGING_CLICKED_APPLICATION_PERSPECTIVE_LINK,
   track
 } from 'in-services/tracking/tracking';
 
@@ -24,3 +25,4 @@ export const logMessageTagClicked = (e: any) => track(ANALYZE_LOGGING_LOG_MESSAG
 export const jumpToLogs = (e: any) => track(ANALYZE_LOGGING_JUMP_TO_LOGS, e);
 export const timeSpent = (e: { millisSpentOnAnalyzeView: number }) => track(ANALYZE_LOGGING_TIME_SPENT, e);
 export const sortingChanged = (e: Record<string, string>) => track(ANALYZE_LOGGING_SORTING_CHANGED, e);
+export const clickedAppPerspectiveLink = () => track(LOGGING_CLICKED_APPLICATION_PERSPECTIVE_LINK);

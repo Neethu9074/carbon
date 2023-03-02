@@ -403,6 +403,7 @@
         "pleaseSelect": "Bitte auswählen"
       },
       "createSliForm": {
+        "formName": "SLI-Formular erstellen",
         "sliCreateSuccess": "SLI wurde erfolgreich erstellt",
         "failCreateSli": "Fehler beim Erstellen des SLI.",
         "problemCreateSli": "Problem beim Erstellen des folgenden SLI: \"{{sliName}}\"",

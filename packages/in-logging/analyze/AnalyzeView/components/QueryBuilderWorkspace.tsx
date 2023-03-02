@@ -1,0 +1,107 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+import React from 'react';
+
+import { Message, Stack } from '@instana/components';
+import { TagFilter } from '@instana/types';
+
+import {
+  FilterAddedTrackingPayload,
+  ua2GroupChangedTracker,
+  ua2NestingDepthTracker,
+  ua2QueryBuilderFilterAddedTracker
+} from 'in-applications/tracker';
+import {
+  getMaximumExpressionDepth,
+  toBackendQueryModel
+} from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import LogsGroupingConfigurator from 'in-logging/analyze/AnalyzeView/workspace/LogsGroupingConfigurator';
+import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
+import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
+import LogsQueryBuilder from 'in-logging/analyze/AnalyzeView/workspace/LogsQueryBuilder';
+import { StateManagementChildProps } from 'in-components/AnalyzeView/StateManagement';
+import { QueryBuilderTrackingFunctions } from 'in-components/QueryBuilder';
+import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
+import Sections from 'in-components/workspace/Sections';
+import Sticky from 'in-components/Sticky';
+import Footer from 'in-components/Footer';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
+
+interface LoggingQueryBuilderWorkspaceProps extends StateManagementChildProps {
+  children: React.ReactNode;
+  validationError?: string;
+}
+export default function LoggingQueryBuilderWorkspace(props: LoggingQueryBuilderWorkspaceProps) {
+  const {
+    formModel,
+    onFormModelChange,
+    backendQueryModel,
+    onGroupByChange,
+    isGrouped,
+    isValid,
+    validationError,
+    children,
+    dataSource,
+    isLoading,
+    groupBy
+  } = props;
+
+  const tracking: QueryBuilderTrackingFunctions = {
+    onTagAdded: tagFilter => {
+      const tagName = (tagFilter as TagFilter).name;
+      const trackingPayload: FilterAddedTrackingPayload = { dataSource, tagName };
+      if (!tagName) {
+        trackingPayload.tagFilter = tagFilter as TagFilter;
+      }
+      ua2QueryBuilderFilterAddedTracker(trackingPayload);
+    },
+    onQueryChanged: _formModel =>
+      ua2NestingDepthTracker({
+        dataSource,
+        nestingDepth: getMaximumExpressionDepth(toBackendQueryModel(_formModel))
+      })
+  };
+
+  return (
+    <Sticky header={<AnalyzeHeader isGrouped={isGrouped} />} backgroundColor={theme.lib.colors.white}>
+      <LeftRightPadding>
+        <Stack gap="gutter">
+          <Sections>
+            <QueryBuilderSection
+              value={formModel}
+              onChange={onFormModelChange}
+              QueryBuilder={LogsQueryBuilder}
+              hasError={!isValid && !isLoading}
+              useLastValidStateWhenErroneous
+              getSuggestionLabel={({ item }) => item}
+              tracking={tracking}
+            />
+
+            <GroupingConfiguratorSection
+              value={groupBy}
+              onChange={onGroupByChange}
+              GroupingConfigurator={LogsGroupingConfigurator}
+              tagFilterExpression={backendQueryModel || toBackendQueryModel([])}
+              tracking={{
+                onGroupAdded: group => ua2GroupChangedTracker({ dataSource, tagName: group.groupbyTag })
+              }}
+            />
+          </Sections>
+          {!isValid && !isLoading && (
+            <Message type="error" withIcon small>
+              {validationError ??
+                t('in-logging:theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing')}
+            </Message>
+          )}
+          {children}
+        </Stack>
+      </LeftRightPadding>
+      <Footer />
+    </Sticky>
+  );
+}

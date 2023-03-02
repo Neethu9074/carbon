@@ -28,7 +28,7 @@ import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
-import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import Badge from 'in-components/tables/ServerTable/components/Badge';
 import getEndpoints from 'in-applications/subscriptions/getEndpoints';
 import { createGroupBy } from 'in-analyze/navigation/paths';
@@ -218,6 +218,8 @@ export default function Endpoints(props) {
   const serviceLabel = useObservable(getServiceLabelObservable, [serviceId]);
   const [{ endpointTypes, technologies }, setFilter] = useUrlState(urlStateDefinition);
 
+  const { location, createHref } = useNavigation();
+
   const hasHttpType = data.types.indexOf('HTTP') >= 0;
   const rightHeader = ({ query }) => (
     <>
@@ -226,7 +228,7 @@ export default function Endpoints(props) {
           className={locals.button}
           icon="lib_actions_settings"
           kind="action"
-          href$={getModifiedUrlStream(p => (p.pathname = configureEndpointsView))}
+          href={createHref({ ...location, pathname: configureEndpointsView })}
         >
           {t('in-applications:buttonConfigureEndpoints')}
         </Button>

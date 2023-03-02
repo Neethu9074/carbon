@@ -81,7 +81,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={t('in-internal:monitoringUnit.eum.eumHealthProcessor.droppedIncomingBeacon')}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.eumHealthProcessor.droppedIncomingBeacons')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}

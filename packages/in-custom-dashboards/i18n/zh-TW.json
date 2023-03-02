@@ -403,6 +403,7 @@
         "pleaseSelect": "請選取"
       },
       "createSliForm": {
+        "formName": "建立 SLI 表單",
         "sliCreateSuccess": "已順利建立 SLI",
         "failCreateSli": "無法建立 SLI。",
         "problemCreateSli": "建立此 SLI 時發生問題：\"{{sliName}}\"",
@@ -422,7 +423,7 @@
         "websitesFilterLabel": "{{websiteLabel}} / {{beaconType}}"
       },
       "metricFormData": {
-        "latency": "延遲時間",
+        "latency": "延遲",
         "callCount": "呼叫計數",
         "errorRate": "錯誤率",
         "erroneousCalls": "錯誤呼叫",
@@ -474,7 +475,7 @@
         "beaconLabel_pageLoad": "網站頁面載入",
         "beaconLabel_custom": "網站自訂事件",
         "beaconFiltersLabel": "引標過濾器",
-        "beaconFiltersSubtext": "伺服器配接卡的"
+        "beaconFiltersSubtext": "選用"
       },
       "sliList": {
         "serviceLevelIndicators": "服務水準指標",
@@ -658,8 +659,7 @@
           "website": "已達到網站 apdex 配置數上限 ({{0}})。 請聯絡 Instana 支援中心，以要求增加此限制。",
           "application": "已達到應用程式 apdex 配置數目上限 ({{0}})。 請聯絡 Instana 支援中心，以要求增加此限制。"
         },
-        "editConfigNotice": "為了避免資料流失，一旦建立配置，就無法編輯；只能將它調整為副本。",
-        "apdexCloneName": "{{apdexName}} 的副本"
+        "editConfigNotice": "為了避免資料流失，一旦建立配置，就無法編輯；只能將它調整為副本。"
       },
       "createWebsiteApdexForm": {
         "thresholdHeader": "臨界值配置",

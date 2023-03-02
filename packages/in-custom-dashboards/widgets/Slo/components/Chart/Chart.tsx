@@ -5,8 +5,8 @@
 
 import React, { useMemo } from 'react';
 
-import { MetricResult, Result, SliEntity, SliConfigurationWithLastUpdated, TimeConfig } from '@instana/types';
-import { Observable, just } from '@instana/observables';
+import { MetricResult, Result, SliConfigurationWithLastUpdated, SliEntity, TimeConfig } from '@instana/types';
+import { just, Observable } from '@instana/observables';
 import { Message } from '@instana/components';
 
 import {

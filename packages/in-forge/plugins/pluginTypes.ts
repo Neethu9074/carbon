@@ -8,6 +8,7 @@ import { Nullish } from 'in-types';
 
 const appDataPlugins = ['application', 'service', 'endpoint'];
 const websitePlugins = ['website'];
+const mobileAppPlugins = ['mobileApp'];
 const syntheticPlugins = ['syntheticTest'];
 
 export function isAppDataPlugin(plugin: string | Nullish): boolean {
@@ -29,4 +30,8 @@ export function isSyntheticPlugin(plugin: string | Nullish): boolean {
     return syntheticPlugins.includes(plugin);
   }
   return false;
+}
+
+export function isMobileAppPlugin(plugin: string | Nullish): boolean {
+  return plugin ? mobileAppPlugins.includes(plugin) : false;
 }

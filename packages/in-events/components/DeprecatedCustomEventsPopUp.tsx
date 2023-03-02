@@ -9,7 +9,12 @@ import React, { useEffect } from 'react';
 import { useObservable } from '@instana/hooks';
 import { Link } from '@instana/components';
 
-import { smartAlertMigrationDocs } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
+import {
+  applicationsAlertingMigrationNotificationDocs,
+  applicationsAlertingMigrationNotificationEvents,
+  applicationsAlertingShowMigrationNotification
+} from 'in-alerting/smart-alerts/applications/tracker';
+import { smartAlertMigrationUrl } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
 import getLegacyAlertConfigStats from 'in-alerting/smart-alerts/subscriptions/getLegacyAlertConfigStats';
 import { deprecatedValue } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import { addMessage, Message, removeMessage } from 'in-components/MessageFlyout/stores/messages';
@@ -46,6 +51,8 @@ export default function DeprecatedCustomEventsPopUp() {
       } else {
         if (timeExpired()) {
           showNotification(legacyAlertConfigStats.data.deprecatedCustomEvents);
+          const deprecatedCustomEvents = legacyAlertConfigStats?.data?.deprecatedCustomEvents;
+          applicationsAlertingShowMigrationNotification({ deprecatedCustomEvents });
         }
       }
     }
@@ -70,7 +77,15 @@ export function showNotification(deprecatedCustomEvents: number) {
           <Trans
             i18nKey="in-events:deprecatedCustomEventGlobalPopup.documentationLink"
             components={{
-              documentationLink: smartAlertMigrationDocs
+              documentationLink: (
+                <Link
+                  href={smartAlertMigrationUrl}
+                  external
+                  onClick={() => applicationsAlertingMigrationNotificationDocs({ deprecatedCustomEvents })}
+                >
+                  &nbsp;
+                </Link>
+              )
             }}
           />
         </p>
@@ -79,6 +94,7 @@ export function showNotification(deprecatedCustomEvents: number) {
             location.pathname = teamSettingsAlertingEvents;
             setOrDeleteMatrixKey(location, events, 'type', deprecatedValue);
           })}
+          onClick={() => applicationsAlertingMigrationNotificationEvents({ deprecatedCustomEvents })}
         >
           {t('in-events:deprecatedCustomEventGlobalPopup.affectedEventsLink')}
         </Link>

@@ -16,8 +16,10 @@ import {
   createWebhookFields,
   NewAction,
   saveAction,
-  saveNewAction
-} from 'in-api/automation';
+  saveNewAction,
+  getAction,
+  createAction
+} from 'in-automation/api';
 import {
   API_KEY,
   BASIC_AUTH,
@@ -31,6 +33,7 @@ import { createActionFormDefinition } from 'in-settings/tabs/TeamSettings/pages/
 import { MappedParameter } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ParametersTable';
 import { Header } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/AdditionalHeadersTable';
 import TestActionButton from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/TestActionButton';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import ActionForm from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionForm';
 import { Tag } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/TagsTable';
 import useEntityForm, { SetFormFunction } from 'in-settings/hooks/useEntityForm';
@@ -41,10 +44,8 @@ import { teamSettingsActionCatalog } from 'in-settings/navigation/paths';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SectionLine from 'in-settings/components/SectionLine';
-import { getAction, createAction } from 'in-api/automation';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
-import { Col, Row } from 'in-components/layout/Grid/Grid';
 import Section from 'in-settings/components/Section';
 import { goToPath } from 'in-stores/navigation';
 import Title from 'in-components/Title/Title';
@@ -140,17 +141,19 @@ interface ActionFormHeaderProps {
 const ActionFormHeader = ({ isCreate, isCopy, form, entity, setForm }: ActionFormHeaderProps) => {
   const isNewAction = isCreate || isCopy;
   return (
-    <Row className={locals.spaceBetween}>
+    <HorizontalFlexWrapper className={locals.spaceBetween}>
       <SubViewHeader>
         {isNewAction
           ? t('in-settings:tabs.createANewAction')
           : t('in-settings:tabs.configureActionEntityName', { entityName: entity!.name })}
       </SubViewHeader>
-      <Col>
-        {form && <TestActionButton form={form} setForm={setForm} action={getActionSpecification(form)} />}
-        {!isNewAction && entity && isAction(entity) && <CopyActionLink action={entity} />}
-      </Col>
-    </Row>
+      {!isNewAction && (
+        <HorizontalFlexWrapper>
+          {form && <TestActionButton form={form} setForm={setForm} action={getActionSpecification(form)} />}
+          {entity && isAction(entity) && <CopyActionLink action={entity} />}
+        </HorizontalFlexWrapper>
+      )}
+    </HorizontalFlexWrapper>
   );
 };
 

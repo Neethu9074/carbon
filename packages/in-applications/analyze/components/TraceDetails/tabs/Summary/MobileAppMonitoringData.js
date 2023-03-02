@@ -116,7 +116,7 @@ export default function MobileAppMonitoringData({ traceId, startTime }) {
                       {
                         type: 'info',
                         timeout: 5000,
-                        content: t('in-applications:traceDetail.tabs.summary.adjustedTimeConfig')
+                        content: t('in-applications:traceDetail.tabs.summary.adjustedTimeConfigForBeacon')
                       },
                       'adjustedTimeConfig'
                     );

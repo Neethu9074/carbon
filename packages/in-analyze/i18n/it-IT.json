@@ -71,6 +71,7 @@
       "applications": "Applicazioni",
       "websites": "Siti Web",
       "mobileApps": "App mobili",
+      "infrastructure": "Infrastruttura",
       "profiles": "Profili",
       "logs": "Log",
       "eumWebsites": "EUM: Siti Web",
@@ -246,7 +247,9 @@
     "labelKeyPairENDS_WITH": "termina con"
   },
   "analyzeHeader": {
-    "title": "Analitica"
+    "title": "Analitica",
+    "analyzeInfrastructureSelectedTitle": "Analizza infrastruttura",
+    "readDocs": "Leggi documentazione"
   },
   "filterBar": {
     "keyValueBarItem": {

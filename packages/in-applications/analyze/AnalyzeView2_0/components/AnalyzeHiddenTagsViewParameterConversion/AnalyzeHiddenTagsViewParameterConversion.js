@@ -17,10 +17,9 @@ import {
 import { withTimeout } from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeHiddenTagsViewParameterConversion/withTimeout';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { error, isLoading, noResultObservable } from 'in-services/util/result';
-import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import getEndpoint from 'in-applications/subscriptions/getEndpoint';
 import getService from 'in-applications/subscriptions/getService';
-import { getModifiedUrl } from 'in-stores/navigation/navigation';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -30,7 +29,7 @@ import Sticky from 'in-components/Sticky';
 const pendingResults = [pendingResult];
 
 export default function AnalyzeHiddenTagsViewParameterConversion({ onConversionCompleted }) {
-  const location = useLocation();
+  const { location, createHref } = useNavigation();
   const timeConfig = useTimeConfig();
   const endpointIds = useMemo(() => getEndpointIds(location), [location]);
   const serviceIds = useMemo(() => getServiceIds(location), [location]);
@@ -49,13 +48,13 @@ export default function AnalyzeHiddenTagsViewParameterConversion({ onConversionC
 
   let redirectHref;
   if (isReadyToConvert(endpointResults, serviceResults, serviceForEndpointResults)) {
-    redirectHref = getModifiedUrl(location, location =>
-      transformHiddenTags({
-        location,
-        serviceResults: [...serviceResults, ...serviceForEndpointResults],
-        endpointResults
-      })
-    );
+    const redirectLocation = { ...location };
+    transformHiddenTags({
+      location: redirectLocation,
+      serviceResults: [...serviceResults, ...serviceForEndpointResults],
+      endpointResults
+    });
+    redirectHref = createHref(redirectLocation);
   }
 
   return (

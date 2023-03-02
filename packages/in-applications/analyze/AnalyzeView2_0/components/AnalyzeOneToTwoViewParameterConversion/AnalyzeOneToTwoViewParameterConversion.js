@@ -9,10 +9,9 @@ import { transformOneZeroToTwoZero } from 'in-applications/analyze/AnalyzeView2_
 import { getTagCatalog as getTracesTagCatalog } from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
 import { getTagCatalog as getCallsTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
-import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { createParameters } from 'in-components/AnalyzeView/parameters';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import { getModifiedUrl } from 'in-stores/navigation/navigation';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { analyzePath } from 'in-applications/navigation/paths';
@@ -22,16 +21,16 @@ import Sticky from 'in-components/Sticky';
 export const analyzeTwoParameters = createParameters(analyzePath);
 
 export default function AnalyzeOneToTwoViewParameterConversion({ dataSourceConfigurations }) {
-  const location = useLocation();
+  const { location, createHref } = useNavigation();
   const dataSource = getMatrixParameter(location, analyzePath, 'callList.dataSource') || 'calls';
 
   const tagCatalog = useTagCatalog(dataSource === 'traces' ? getTracesTagCatalog : getCallsTagCatalog);
 
   let redirectHref;
   if (tagCatalog != null) {
-    redirectHref = getModifiedUrl(location, location =>
-      transformOneZeroToTwoZero(location, tagCatalog, dataSourceConfigurations[dataSource])
-    );
+    const redirectLocation = { ...location };
+    transformOneZeroToTwoZero(redirectLocation, tagCatalog, dataSourceConfigurations[dataSource]);
+    redirectHref = createHref(redirectLocation);
   }
 
   return (

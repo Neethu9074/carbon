@@ -35,7 +35,7 @@ export default connectTo(
         <h1>js-stack-trace-translator</h1>
 
         <Columize>
-          <DashboardSection title={t('in-internal:monitoringUnit.eum.jsStackTraceTranslator.incomingBeacon')}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.jsStackTraceTranslator.incomingBeacons')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -49,7 +49,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={t('in-internal:monitoringUnit.eum.jsStackTraceTranslator.failedIncomingBeacon')}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.jsStackTraceTranslator.failedIncomingBeacons')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -95,7 +95,7 @@ export default connectTo(
         </Columize>
 
         <Columize>
-          <DashboardSection title={t('in-internal:monitoringUnit.eum.jsStackTraceTranslator.outgoingBeacon')}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.jsStackTraceTranslator.outgoingBeacons')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -109,7 +109,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={t('in-internal:monitoringUnit.eum.jsStackTraceTranslator.failOutgoingBeacon')}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.jsStackTraceTranslator.failOutgoingBeacons')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}

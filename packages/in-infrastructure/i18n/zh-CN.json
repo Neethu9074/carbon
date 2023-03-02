@@ -56,8 +56,9 @@
     "kubernetesLabels": "Kubernetes 标签"
   },
   "explore": {
+    "beta": "Beta",
+    "tryBetaInfraAnalytics": "尝试新的基础架构分析",
     "focusOnThisGroup": "关注此组",
-    "thisIsABetaVersionOfANewProductCapability": "这是新产品功能的 beta 版本。我们建议您不要依赖所呈现的数据。",
     "theQueryConfigurationIsInvalid": "查询配置无效。请在继续之前处理验证失败。",
     "allInfrastructure": "所有基础架构",
     "name": "名称",
@@ -101,7 +102,6 @@
     "collapseAll": "全部折叠",
     "map": "图",
     "comparisonTable": "比较表",
-    "entityExploreBeta": "实体浏览 (Beta)",
     "infrastructureComparisonTable": "基础架构比较表"
   }
 }

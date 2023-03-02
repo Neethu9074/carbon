@@ -1,4 +1,7 @@
 {
+  "csvExporterButton": {
+    "label": "CSV にエクスポート"
+  },
   "fileInputButton": {
     "label": {
       "chooseSingle": "ファイルを選択…",
@@ -77,7 +80,7 @@
     "eumPageName": "EUM",
     "settingsPageName": "設定",
     "requestQuoteBtn": "見積もり依頼",
-    "buyNowBtn": "今すぐ購入",
+    "buyNowBtn": "AWS で購入",
     "alreadyHaveLicense": "ライセンスをお持ちですか? <linkToDocker>Docker</linkToDocker> または <linkToKubernetes>Kubernetes</linkToKubernetes>でアクティブにします。"
   },
   "releaseNotesDialog": {
@@ -281,14 +284,6 @@
   "draggableItemSelector": {
     "tooltipReorderMetrics": "メトリックの再配列"
   },
-  "entityHealthIndicator": {
-    "indicatorPresenterNoIssues": "問題はありません",
-    "indicatorPresenterOpenIssues": "{{count}} 件の問題",
-    "indicatorPresenterOpenIssues_plural": "{{count}} 件の問題",
-    "indicatorPresenterOpenIssues_0": "{{count}} 件の問題",
-    "indicatorPresenterOpenIssues_1": "{{count}} 件の問題",
-    "indicatorPresenterOpenIssues_2": "{{count}} 件の問題"
-  },
   "entityPageMainNotification": {
     "labelEntity": "エンティティー",
     "labelNotFound": "{{entity}} が見つかりません"
@@ -359,7 +354,21 @@
     "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}} 件の開いている {{eventType}}",
     "openIssuesListPresenterHeaderDisplayingMaxIssuesToShowMostSevere": "(最も重大な {{maxIssuesToShow}} 件を表示)",
     "openIssuesListPresenterIssueDescriptionOmitted": "問題の説明が省略されました。 詳細は、イベントの詳細ビューに表示されます。",
-    "openIssuesListPresenterStarted": "開始済み"
+    "openIssuesListPresenterStarted": "開始済み",
+    "noIssues": "問題はありません",
+    "openIssues": "{{count}} 件の問題",
+    "openIssues_plural": "{{count}} 件の問題",
+    "openIssues_0": "{{count}} 件の問題",
+    "openIssues_1": "{{count}} 件の問題",
+    "openIssues_2": "{{count}} 件の問題",
+    "noIncidents": "インシデントなし",
+    "openIncidents": "{{count}} 個のインシデント",
+    "openIncidents_plural": "{{count}} 個のインシデント",
+    "openIncidents_0": "{{count}} 個のインシデント",
+    "openIncidents_1": "{{count}} 個のインシデント",
+    "openIncidents_2": "{{count}} 個のインシデント",
+    "labelWarning": "警告",
+    "labelCritical": "クリティカル"
   },
   "inlineTabNavigation": {
     "labelSelectTab": "タブの選択"

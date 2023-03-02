@@ -5,8 +5,8 @@
 
 import { Observable } from '@instana/observables';
 
-import { getRootPathPredicate } from 'in-stores/navigation/paths';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { getRootPathPredicate } from 'in-stores/navigation/paths';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 import { setTimeConfig } from 'in-stores/time/config';
 import { stringify } from 'in-services/util/json';

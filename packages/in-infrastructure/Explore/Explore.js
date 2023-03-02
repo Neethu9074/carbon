@@ -47,12 +47,14 @@ import GroupedInfrastructure from 'in-infrastructure/Explore/components/GroupedI
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import { getMetricKey, fromUrlMetrics } from 'in-infrastructure/Explore/services/metrics';
 import InfrastructureList from 'in-infrastructure/Explore/components/InfrastructureList';
+import ApiQueryAction from 'in-components/QueryBuilder/workspace/ApiQueryAction';
 import getMetricCatalog from 'in-infrastructure/subscriptions/getMetricCatalog';
 import { defaultInfraExploreView } from 'in-infrastructure/navigation/paths';
 import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
 import EntityList from 'in-infrastructure/Explore/components/EntityList';
 import useMetricCatalog from 'in-infrastructure/hooks/useMetricCatalog';
 import { themes } from 'in-components/DashboardHeader/DashboardHeader';
+import { ActionSection } from 'in-components/workspace/ActionSection';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import EntityExploreHeader from '../components/EntityExploreHeader';
 import { defaultOrder } from 'in-infrastructure/Explore/constants';
@@ -98,8 +100,8 @@ function InfraExploreViewWithFixatedTimeConfig() {
   const type = urlType === 'all' ? null : urlType;
 
   const tagCatalog = useTagCatalog({ ownerType: type });
-  const validTagFilterExpressionResult = isQueryValid(tagFilterExpression, tagCatalog) ?? pendingResult;
-  const validGroupResult = isGroupingConfigurationValid(group, tagCatalog) ?? pendingResult;
+  const validTagFilterExpressionResult = isQueryValid(tagFilterExpression, tagCatalog);
+  const validGroupResult = isGroupingConfigurationValid(group, tagCatalog);
   // in case of a pending result (validTagFilterExpressionResult.data === null) we do not want to show the user an error message
   const isValid = validTagFilterExpressionResult.data === true && validGroupResult.data === true;
   const isInvalid = validGroupResult.data === false;
@@ -242,6 +244,8 @@ function Content({
           onGroupRemoved: groupRemovedTracker(getInfraExploreState)
         }}
       />
+
+      <ActionSection right={<ApiQueryAction backendQueryModel={backendQueryModel} />} />
     </Sections>
   );
 

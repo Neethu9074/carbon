@@ -13,7 +13,7 @@ import { on } from '@instana/observables';
 import { getKubernetesProblemText, getKubernetesProblemTextReplacement } from './EventContent/KubernetesEventContent';
 import { getEventType, EVENT_TYPES, getEvent, getEventSeverityLabelWithEventType } from 'in-stores/events';
 import NavigatorSplitScreen from 'in-events/components/NavigatorSplitScreen/NavigatorSplitScreen';
-import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -134,7 +134,7 @@ function Header(props) {
         title={t('in-events:titleEvent')}
         icon=""
         result={{ data: null }}
-        renderTimeSelection={renderTimeSelection}
+        renderTimeSelection={TimeSelection}
         hideUrlShortener
       />
     );
@@ -147,7 +147,7 @@ function Header(props) {
       renderIcon={() => renderIcon(props.result.data, props.timeConfig)}
       label={getLabelText(props.result.data)}
       renderMetaInformation={renderMetaInformation}
-      renderTimeSelection={renderTimeSelection}
+      renderTimeSelection={TimeSelection}
       hideUrlShortener
     />
   );
@@ -157,9 +157,12 @@ function renderMetaInformation({ event }) {
   return <TriggeredMarker event={event} />;
 }
 
-function renderTimeSelection() {
+function TimeSelection() {
+  const { location, createHref } = useNavigation();
+  setOrDeleteMatrixKey(location, eventsPath, eventId, null);
+
   return (
-    <Link href$={getModifiedUrlStream(location => setOrDeleteMatrixKey(location, eventsPath, eventId, null))}>
+    <Link href={createHref(location)}>
       <Tooltip content={t('in-events:tooltipCloseEventDetail')}>
         <SvgIcon
           className={locals.closeIcon}

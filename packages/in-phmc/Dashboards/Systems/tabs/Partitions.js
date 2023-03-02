@@ -105,6 +105,7 @@ export default function Partitions(props) {
       timeConfig={props.timeConfig}
       consoleId={props.consoleId}
       systemId={props.systemId}
+      sharedProcessorPoolId={props.sharedProcessorPoolId}
     />
   );
 }
@@ -116,7 +117,8 @@ function getTableData({
   orderBy = 'label',
   orderDirection = 'ASC',
   timeConfig,
-  systemId
+  systemId,
+  sharedProcessorPoolId
 }) {
   return getLpars({
     pagination: {
@@ -130,6 +132,7 @@ function getTableData({
     filter: {
       label: query,
       systemId,
+      sharedProcessorPoolId,
       timeConfig
     },
     granularity: getInfraGranularity(timeConfig)

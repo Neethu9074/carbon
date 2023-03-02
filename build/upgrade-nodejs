@@ -12,6 +12,9 @@ if command -v brew > /dev/null && brew list nvm >/dev/null 2>&1 ; then
   NVM_DIR=${NVM_DIR:-"$HOME/.nvm"}
   export NVM_DIR
   . "$(brew --prefix nvm)/nvm.sh"
+elif command -v asdf > /dev/null && asdf list nodejs >/dev/null 2>&1 ; then
+  asdf reshim nodejs
+  asdf="true"
 else
   . "${NVM_DIR:-"$HOME/.nvm"}/nvm.sh"
 fi
@@ -38,23 +41,27 @@ rm -f in-themes/active.less
 rm -f in-themes/active.json
 
 # okay, actually install the current version
-nvm install "$NEW_NODE_VERSION"
-nvm use "$NEW_NODE_VERSION"
-nvm alias default "$NEW_NODE_VERSION"
+if [[ "$asdf" == "true" ]]; then
+  asdf install
+else
+  nvm install "$NEW_NODE_VERSION"
+  nvm use "$NEW_NODE_VERSION"
+  nvm alias default "$NEW_NODE_VERSION"
+fi
 
 # prepare hook installation
 rm -f .git/hooks/pre-commit
 echo "" > .git/hooks/pre-commit
 
 # install yarn
-npm install -g yarn@1.22.19
+npm install --location=global yarn@1.22.19
 
 # and install all the dependencies
-yarn install
+yarn install --frozen-lockfile
 cd packages/in-server
-yarn install
+yarn install --frozen-lockfile
 cd ../../storybook
-yarn install
+yarn install --frozen-lockfile
 
 ACTUAL_NODE_VERSION=$(node --version)
 
@@ -69,5 +76,7 @@ if [[ "$NEW_NODE_VERSION" != "$ACTUAL_NODE_VERSION" ]]; then
 fi
 
 echo "Great success, Node.js $ACTUAL_NODE_VERSION is installed and this has also been set as your default Node.js version via nvm."
-echo
-echo "Please remember to reload your shell so that this new Node.js version is used!"
+if [[ $asdf != "true" ]]; then
+  echo
+  echo "Please remember to reload your shell so that this new Node.js version is used!"
+fi

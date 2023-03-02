@@ -250,6 +250,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'syntheticCreateSmartAlertsUIEnabled',
+    instanaCtlKey: 'feature.synthetic.create.smart.alerts.ui.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'sliCHClusterAccessEnabled',
     instanaCtlKey: 'feature.sli.CHCluster.access.enabled',
     defaultValue: false
@@ -295,13 +300,18 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'k8sTimeShiftEnabled',
-    instanaCtlKey: 'feature.kubernetes.timeshift.enabled',
+    uiClientKey: 'rbacImprovementEnabled',
+    instanaCtlKey: 'feature.rbac.improvement.enabled',
     defaultValue: false
   },
   {
-    uiClientKey: 'rbacImprovementEnabled',
-    instanaCtlKey: 'feature.rbac.improvement.enabled',
+    uiClientKey: 'controlPlaneEnabled',
+    instanaCtlKey: 'feature.kubernetes.controlplane.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'sloV2Enabled',
+    instanaCtlKey: 'feature.sloV2.enabled',
     defaultValue: false
   }
 ];

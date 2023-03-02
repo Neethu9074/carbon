@@ -4,7 +4,9 @@
  * Copyright IBM Corp. 2022
  */
 
-import { SnapshotPreview, TimeConfig } from '@instana/types';
 import { Observable } from '@instana/observables';
+import { TimeConfig } from '@instana/types';
 
-export function getSnapshot(snapshotId: string, timeConfig?: TimeConfig): Observable<SnapshotPreview>;
+export type SnapshotData = { [index: string]: any };
+
+export function getSnapshot(snapshotId: string, timeConfig?: TimeConfig): Observable<SnapshotData>;

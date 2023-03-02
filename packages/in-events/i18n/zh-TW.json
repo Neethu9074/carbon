@@ -7,17 +7,8 @@
   },
   "associatedActions": "相關聯的動作",
   "associateActions": "關聯動作",
-  "actionSelectionStep1Headline": "關聯動作意味著什麼？",
-  "step1ActionAssociationsTitle": "步驟 1：動作關聯",
-  "step2ActionAssociationsTitle": "步驟 2：動作型錄",
-  "actionSelectionConfigDialogStep2Headline": "您要從型錄關聯動作嗎？",
   "selectActions": "選取動作",
   "addActions": "新增動作",
-  "whatAreActions": "何謂動作？",
-  "whatAreActionAssociations": "何謂動作關聯？",
-  "actionAssociations": "動作關聯",
-  "whatAreActionsText": "動作是自動化或文件的單元，可執行或啟動以診斷或重新修補事件。",
-  "whatAreActionAssociationsText": "動作可以與內建或自訂事件類型相關聯，並且可以在事件出現時執行或啟動。",
   "actionsAssociationsNote": "請注意，動作關聯會隨事件的定義一起儲存。",
   "saveButton": "儲存",
   "cancelButton": "取消",
@@ -28,12 +19,19 @@
   "targetAgentDescription": "代理程式封裝 1..* 感應器，進而能夠將「事件」提升至 Instana 後端。 觸發代理程式包含引發此特定事件的感應器。",
   "pleaseSelect": "請選取",
   "actionSensorTimeout": "無法處理後端要求。 請檢查代理程式配置，以確定已安裝「動作」感應器。",
-  "chosenToRun": "您已從「動作型錄」中選擇 {{actionName}}。",
+  "chosenToRun": "您已選擇從「動作型錄」執行 {{actionName}}。",
   "chosenToTest": "您已選擇從「動作型錄」測試 {{actionName}} 。",
   "failedToInitiate": "{{actionName}} 無法起始。",
   "hasBeenInitiated": "已起始 {{actionName}}。",
   "actionCannotBeUndone": "此動作無法復原。 您確定要繼續嗎？",
-  "entityInfoPresenterDefaultLabel": "位於： ",
+  "request": "要求",
+  "titleScriptContent": "Script 內容",
+  "titleActionType": "動作類型",
+  "method": "方法：{{method}}",
+  "host": "主機：{{host}}",
+  "body": "內文：{{body}}",
+  "headers": "標頭：",
+  "entityInfoPresenterDefaultLabel": "位於：",
   "entityInfoLabelOfService": "屬於服務：",
   "titleDetail": "詳細資料",
   "titleDetails": "詳細資料",
@@ -97,7 +95,7 @@
   "incidentHeader_2": "'事故：{{incidentName}} - {{label}}（{{eventsLength}} 個事件）",
   "startHere": "從這裡開始：",
   "duration": "持續時間",
-  "monitoringIssueForMoreInfo": "如需如何解決此問題的相關資訊，請參閱： ",
+  "monitoringIssueForMoreInfo": "如需如何解決此問題的相關資訊，請參閱：",
   "analyzeCalls": "分析呼叫",
   "labelServiceImpact": "服務影響",
   "labelTriggeringEvent": "觸發事件",
@@ -139,6 +137,7 @@
   "tooltipCloseEventDetail": "關閉事件詳細資料",
   "releaseOccurName": "版本：{{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> 前）",
+  "deprecatedCustomEventWarning": "<strong>從 2023 年 7 月（建置 253）開始，您將不再收到此 {{issueOrIncident}}</strong> 檢視事件配置以進行移轉。 <documentationLink>進一步閱讀我們的文件</documentationLink>",
   "ibmMqFileTransfer": {
     "transferID": "傳送 ID",
     "sourceAgent": "來源代理程式",
@@ -160,5 +159,8 @@
     "fixSuggestion": {
       "podContainerNotReady": "Pod 儲存器未備妥。請檢查節點是否具有容量及/或可從指定的映像檔路徑擷取映像檔。"
     }
+  },
+  "infraSmartAlerts": {
+    "pseudoAggregatedEntityLabel": "{{entityName}}（已聚集）"
   }
 }

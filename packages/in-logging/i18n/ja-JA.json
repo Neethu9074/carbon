@@ -37,5 +37,6 @@
   "pod": "ポッド",
   "tooltipEntityHealthNoIssues": "問題なし",
   "tooltipEntityHealthIssues": "{{numberOfIssues}} 個の問題",
-  "container": "コンテナー"
+  "container": "コンテナー",
+  "endOfInfiniteScroll": "ログはこれ以上ありません"
 }

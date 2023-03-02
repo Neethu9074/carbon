@@ -32,7 +32,7 @@ import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
-import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { newServiceView } from 'in-applications/navigation/paths';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -201,6 +201,9 @@ export default function ServicesList({
   plugin
 }) {
   tagFilters = tagFilters ? tagFilters.map(tagFilter => ({ ...tagFilter, stringValue: tagFilter.value })) : [];
+
+  const { location, createHref } = useNavigation();
+
   const rightHeader = ({ query }) => (
     <>
       {role.canConfigureServiceMapping && (
@@ -208,7 +211,7 @@ export default function ServicesList({
           className={locals.button}
           icon="lib_actions_settings"
           kind="action"
-          href$={getModifiedUrlStream(p => (p.pathname = newServiceView))}
+          href={createHref({ ...location, pathname: newServiceView })}
         >
           {t('in-applications:buttonConfigureServices')}
         </Button>

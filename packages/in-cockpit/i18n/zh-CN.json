@@ -70,13 +70,6 @@
       "views": "视图数",
       "website": "Web 站点",
       "mobileApp": "移动应用程序"
-    },
-    "openIncidentsButton": {
-      "numberOfIncidents": "{{count}} 个突发事件",
-      "numberOfIncidents_plural": "{{count}} 个突发事件",
-      "numberOfIncidents_0": "{{count}} 个突发事件",
-      "numberOfIncidents_1": "{{count}} 个突发事件",
-      "numberOfIncidents_2": "{{count}} 个突发事件"
     }
   },
   "cockpit": {
@@ -95,7 +88,8 @@
     "kubernetes": "Kubernetes",
     "websites": "Web 站点",
     "mobileApps": "移动应用程序",
-    "websitesMobileApps": "Web 站点和移动应用程序"
+    "websitesMobileApps": "Web 站点和移动应用程序",
+    "customEventDeprecatedWarning": "<strong>{{deprecatedCustomEvents}} 应用程序、服务和端点定制事件需要操作</strong><affectedCustomEvents>查看受影响的定制事件</affectedCustomEvents>"
   },
   "widgets": {
     "columnDefinitions": {

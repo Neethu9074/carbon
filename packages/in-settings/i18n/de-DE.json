@@ -53,6 +53,58 @@
       "purpose": "Benutzeronboarding und NPS-Store-Umfragen."
     }
   },
+  "roleAndAccessScope": {
+    "dialogTitle": "Neue Gruppe erstellen",
+    "dialogTitle_edit": "Zugriffsbereich bearbeiten",
+    "editButton": "Zugriffsbereich bearbeiten",
+    "productArea": "Rolle und Zugriffsbereich",
+    "productArea_application": "Anwendung",
+    "productArea_platform": "Plattform",
+    "productArea_website": "Website",
+    "productArea_mobile-app": "Mobile Apps",
+    "productArea_kubernetes": "Kubernetes",
+    "productArea_infrastructure": "Infrastruktur",
+    "productArea_analytics": "Analyse",
+    "productArea_event": "Ereignisse und Alerts",
+    "productArea_function": "Globale Funktionen"
+  },
+  "headingSection": {
+    "title": "Rolle und Zugriffsbereich",
+    "description": "Aktivieren Sie Produktbereiche für den Zugriff und definieren Sie Zugriffsbereiche für jede Einheit.",
+    "link": "Weitere Informationen zu Rollen und Berechtigungen."
+  },
+  "groupSection": {
+    "title": "Gruppenname",
+    "label": "Name eingeben"
+  },
+  "websitePermissionSection": {
+    "title": "Websites",
+    "addButton": "Website auswählen",
+    "description_limited_access": "Wählen Sie die Rolle für den Produktbereich aus und fügen Sie unten Websites hinzu, um Zugriff zu erteilen",
+    "description_access_all": "Auf alle Websites kann mit der für den Produktbereich ausgewählten Rolle zugegriffen werden",
+    "deleteButton": "{{name}} aus Liste entfernen"
+  },
+  "selectItemForm": {
+    "doneButton": "Erledigt"
+  },
+  "selectWebsitesDialog": {
+    "title": "Websites auswählen",
+    "nameColumnHead": "Name"
+  },
+  "permissionScope": {
+    "selection": "Nicht verfügbar",
+    "selection_access_all": "Auf alle zugreifen",
+    "selection_limited_access": "Begrenzter Zugriffsbereich",
+    "selection_no_access": "Kein Zugriff",
+    "description_no_access": "Dieser Bereich kann überhaupt nicht verwendet werden",
+    "description_access_all": "Zugriff auf alle ohne Einschränkung",
+    "role": "Rolle auswählen",
+    "role_owner": "Eigner",
+    "role_viewer": "Anzeigeberechtigter",
+    "role_custom": "Angepasst",
+    "roleTooltip": "Viewer: Berechtigung zum Anzeigen von Dashboards (Konfiguration kann nicht angezeigt werden). Eigner: Berechtigung zum Erstellen neuer Entitäten; Dashboards anzeigen, konfigurieren und löschen.",
+    "roleTooltip_websites": "Viewer: Berechtigung zum Anzeigen von Website-Dashboards (Konfiguration kann nicht angezeigt werden). Eigner: Berechtigung zum Erstellen neuer Websites; Website-Dashboards anzeigen, konfigurieren und löschen."
+  },
   "cardTitle_Area": "Bereich",
   "cardTitle_Area_plural": "Produktbereiche",
   "cardTitle_Area_0": "Produktbereiche",
@@ -98,6 +150,7 @@
   "tabs": {
     "team": {
       "events": {
+        "addCondition": "Bedingung hinzufügen",
         "withDeprecatedSuffix": "{{pluginName}} (veraltet)",
         "placeholder": "Platzhalter"
       },
@@ -293,6 +346,8 @@
     "hostAvailabilityDetection": "Erkennung der Hostverfügbarkeit",
     "pleaseSelectASeverity": "Wählen Sie einen Schweregrad aus",
     "pleaseEnterAValidMetric": "Geben Sie einen gültigen Messwert ein.",
+    "noMoreThanOneThresholdCanBeDefinedOnSameMetric": "Es kann nur ein Schwellenwert für dieselbe Metrik definiert werden.",
+    "onlyOneRuleIsAllowedToHaveDifferentOperatorThanIs": "Beim Definieren mehrerer Metriken nach Muster darf nur eine Regel einen anderen übereinstimmenden Operator als 'is' verwenden.",
     "thisEntityTypeHasBeenDeprecated": "Dieser Entitätstyp ist veraltet. Wählen Sie einen anderen Typ aus.",
     "failedToSaveSettings": "Fehler beim Speichern der Einstellungen: {{err}}",
     "events": "Ereignisse",
@@ -312,6 +367,7 @@
     "kilobytes": "Kilobyte",
     "megabytes": "Megabyte",
     "count": "Anzahl",
+    "statusValue": "Statuswert",
     "scheduleMaintenanceWindow": "Wartungsfenster planen",
     "changeMaintenanceWindow": "Wartungsfenster ändern",
     "allAlertsWillBeMutedForTheDurationOfThisMaintenanceWindow": "<strong>Vorsicht!</strong> Alle Alerts werden für die Dauer dieses Wartungsfensters stumm geschaltet. <strong>Dies kann sich auch auf andere Benutzer in Ihrem Unternehmen auswirken.</strong>",
@@ -396,6 +452,7 @@
     "emailField": "E-Mail-Feld",
     "emailFieldDescription": "Der Name des Attributs, in dem sich die E-Mail-Adresse des Benutzers befindet, z. B. Mail",
     "ldapUserAccount": "LDAP-Benutzeraccount",
+    "ldapsAcceptAnyCA": "Bei der Verwendung von LDAPs alle Zertifizierungsstellen akzeptieren",
     "username": "Benutzername",
     "usernameDescription": "Der Benutzer, der als Eigner in Instana zuzuordnen ist. Eine Anmeldung wird als Test versucht, bevor die Einstellungen gespeichert werden. Die Berechtigungsnachweise werden nicht gespeichert.",
     "usernamePasswordDescription": "Das LDAP-Kennwort des Benutzers",
@@ -842,10 +899,11 @@
     "identityProviderType": "Identitätsprovidertyp",
     "copyApiTokenToClipboardError": "API-Token konnte nicht in die Zwischenablage kopiert werden.",
     "depreactedEventHiddenInfo": "Veraltete Ereignisse können nicht mehr zu neuen Alerts hinzugefügt werden und sind in dieser Liste ausgeblendet.",
-    "deprecatedEventMessage": "Angepasste Ereignisse für die Entitätstypen \"Anwendungsperspektive\", \"Service\" und \"Endpunkt\" sind bald veraltet. Ab Januar 2023 können Sie keine neuen Ereignisse dieses Typs erstellen. Es wird empfohlen, dieses Ereignis manuell oder über die Schaltfläche <em>Auf Smart Alert migrieren</em> auf einen Smart Alert zu migrieren. <documentationLink>Lesen Sie mehr in unserer Dokumentation</documentationLink>.",
-    "disallowedEventMessage": "Angepasste Ereignisse für die Entitätstypen \"Anwendungsperspektive\", \"Service\" und \"Endpunkt\" werden in Kürze entfernt. Ab April 2023 werden benutzerdefinierte Ereignisse dieses Typs nicht mehr verarbeitet. Es wird empfohlen, dieses Ereignis manuell oder über die Schaltfläche <em>Auf Smart Alert migrieren</em> auf einen Smart Alert zu migrieren. <documentationLink>Lesen Sie mehr in unserer Dokumentation</documentationLink>.",
+    "deprecatedEventMessage": "<strong>Benutzerdefinierte Ereignisse für Entitätstypen 'Anwendung', 'Service' und 'Endpunkt ' werden bald veraltet sein</strong><br/>Ab April 2023 können Sie keine neuen Ereignisse dieses Typs erstellen. Es wird empfohlen, dieses Ereignis manuell oder über die Schaltfläche <em>Auf Smart Alert migrieren</em> auf einen Smart Alert zu migrieren. <documentationLink>Weitere Informationen finden Sie in der Dokumentation</documentationLink>",
+    "disallowedEventMessage": "Angepasste Ereignisse für Entitätstypen 'Anwendung', 'Service' und 'Endpunkt ' werden in Kürze entfernt. Ab Juli 2023 werden vorhandene benutzerdefinierte Ereignisse dieses Typs nicht mehr verarbeitet. Es wird empfohlen, dieses Ereignis manuell oder über die Schaltfläche <em>Auf Smart Alert migrieren</em> auf einen Smart Alert zu migrieren. <documentationLink>Lesen Sie mehr in unserer Dokumentation</documentationLink>.",
     "migratedEventMessage": "Dieses veraltete Ereignis wird migriert. Weitere Informationen finden Sie in der <documentationLink>Dokumentation</documentationLink>.",
-    "deprecatedEventSelectedMessage": "Angepasste Ereignisse für die Entitätstypen \"Anwendungsperspektive\", \"Service\" und \"Endpunkt\" sind bald veraltet. Ab Januar 2023 können Sie keine neuen Ereignisse dieses Typs erstellen. Es wird empfohlen, stattdessen einen Smart Alert zu erstellen. <documentationLink>Lesen Sie mehr in unserer Dokumentation</documentationLink>.",
+    "deprecatedEventSelectedMessage": "Angepasste Ereignisse für Entitätstypen 'Anwendung', 'Service' und 'Endpunkt' werden in Kürze nicht weiter verwendet. Ab April 2023 können keine neuen Ereignisse dieses Typs erstellt werden. Es wird empfohlen, stattdessen einen Smart Alert zu erstellen. <documentationLink>Lesen Sie mehr in unserer Dokumentation</documentationLink>.",
+    "customEventListDeprecatedWarning": "<strong>Angepasste Ereignisse für Entitätstypen 'Anwendung', 'Service' und 'Endpunkt ' sind veraltet</strong><br/>Ab <strong>April 2023 (Build 246)</strong> können Sie keine angepassten Ereignisse für diese drei Entitätstypen erstellen oder aktualisieren. Vorhandene Konfigurationen werden ab <strong>Juli 2023 (Build 253)</strong> entfernt. <documentationLink>Weitere Informationen finden Sie in der Dokumentation</documentationLink>",
     "automation": "Automation",
     "actionCatalog": "Aktionskatalog",
     "actions": "Aktionen",
@@ -869,7 +927,35 @@
     "confidence_high": "Hoch",
     "confidence": "{{context}}",
     "confidenceTitle": "Zuverlässigkeit",
-    "test": "Test"
+    "host": "Host",
+    "method": "Methode",
+    "accept": "Akzeptieren (optional)",
+    "acceptLanguage": "Accept-Language (optional)",
+    "contentType": "Inhaltstyp (optional)",
+    "bodyDescription": "Daten, die der HTTP-Anforderung zugeordnet sind.",
+    "acceptLanguageDescription": "Sprachen, die der Client verstehen kann.",
+    "acceptDescription": "Inhaltstyp, der vom Client als MIME-Typen interpretiert werden kann.",
+    "contentTypeDescription": "Medientyp des Hauptteils.",
+    "noAdditionalHeadersConfigured": "Keine zusätzlichen Header konfiguriert",
+    "body": "Hauptteil (optional)",
+    "additionalHeadersOptional": "Weitere Header (optional)",
+    "theValueMustBeValidMime": "Der Wert muss ein gültiger MIME-Typ sein.",
+    "authType": "Berechtigungstyp",
+    "noAuth": "Keine Authentifizierung",
+    "ignoreCertErrors": "Zertifikatsfehler ignorieren",
+    "basicAuth": "Grundlegende Autorisierung",
+    "bearerToken": "Trägertoken",
+    "apiKeyAddTo": "Hinzufügen zu",
+    "header": "Header",
+    "queryParams": "Abfrageparameter",
+    "test": "Test",
+    "http": "HTTP",
+    "serviceNowUrl": "ServiceNow-URL",
+    "serviceNow": "ServiceNow",
+    "serviceNowAlertChannel": "ServiceNow-Alertkanal",
+    "serviceNowUsernameTooltip": "Benutzername und Kennwort sollten für einen ServiceNow-Benutzer mit Berechtigung zum Erstellen von Vorfällen gelten.",
+    "showPasswordTooltip": "Kennwort anzeigen",
+    "hidePasswordTooltip": "Kennwort verbergen"
   },
   "languageSelection": {
     "language": "Sprache",
@@ -906,5 +992,6 @@
   "queryValidationStillInProgress": "Abfragevalidierung ist noch in Bearbeitung",
   "teamSettings": {
     "newGroup": "Neue Gruppe"
-  }
+  },
+  "successResponse": "Der Alertkanal wurde erfolgreich ausgelöst. Überprüfen Sie den Kanal!"
 }

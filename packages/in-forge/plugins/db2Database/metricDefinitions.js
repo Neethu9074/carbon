@@ -585,5 +585,10 @@ export default [
     min: 0,
     max: 100,
     formatter: percentage.detailed
+  },
+  {
+    labels: t('in-forge:plugins.db2Database.logHadrWaitTime'),
+    metrics: ['hadrmetrics.hadrLastTakeOverTime'],
+    formatter: millis
   }
 ];

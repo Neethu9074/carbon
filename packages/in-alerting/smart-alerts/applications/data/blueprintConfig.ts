@@ -13,7 +13,9 @@ import {
   StaticThresholdConfig,
   StatusCodeApplicationAlertRule,
   ThresholdConfig,
-  ThresholdOperator
+  ThresholdOperator,
+  isAdaptiveBaselineConfig,
+  isStaticThresholdConfig
 } from 'in-types';
 import {
   applicationThresholdTypeOptions,
@@ -30,7 +32,6 @@ import {
   getEntitySelectionAsTagFilterFormModel
 } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import getApplicationMetricsAlertPreview from 'in-alerting/smart-alerts/applications/subscriptions/getApplicationMetricsAlertsPreview';
-import { isAdaptiveBaselineConfig, isStaticThresholdConfig } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { toTagFilterNumberOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { and } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';

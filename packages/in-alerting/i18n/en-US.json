@@ -530,7 +530,7 @@
     },
     "details": {
       "header": "Details",
-      "thresholdTypeTitle" : "Threshold Type",
+      "thresholdTypeTitle": "Threshold Type",
       "metricTitle": "Metric",
       "entityTitle": "Scope",
       "titleBuiltInIndicator": "Built-in"
@@ -538,6 +538,9 @@
     "list": {
       "header": {
         "configuredAlerts": "Configured Alerts ({{numberOfAlerts}})"
+      },
+      "columns": {
+        "name": "Name"
       }
     },
     "form": {
@@ -979,7 +982,7 @@
         "stepConfigsStep2Title": "Step 2: Select Scope",
         "stepConfigsStep3Title": "Step 3: Select Alert Channels"
       },
-      "customEvent" : {
+      "customEvent": {
         "noCustomEventsFound": "No custom events found",
         "searchCustomEvents": "Filter Events",
         "customEventSelectionSliderTitle": "Choose Custom Event",
@@ -991,7 +994,18 @@
         "searchCustomEventButtonLabel": "Select Custom Event",
         "customEventListInfoLabel": "Showing custom events that have been triggered in the last 7 days"
       },
-      "addSmartAlert": "Add Smart Alert"
+      "addSmartAlert": "Add Smart Alert",
+      "list": {
+        "columns": {
+          "name": {
+            "subtitle": "{{blueprintConfigName}}, {{metricLabel}}",
+            "subtitleForStaticThreshold": "Static Threshold, {{metricLabel}} {{operator}} {{value}}",
+            "subtitleForStaticDailySeasonality": "Static Daily Seasonality, {{metricLabel}}",
+            "subtitleForStaticWeeklySeasonality": "Static Weekly Seasonality, {{metricLabel}}",
+            "subtitleForAdaptiveThreshold": "Adaptive Threshold, {{metricLabel}}"
+          }
+        }
+      }
     },
     "sortOptions": {
       "name": "Name",
@@ -1012,6 +1026,23 @@
       "markAsMigratedButtonConfirmationConfirmLabel": "Confirm"
     },
     "enable": "Enable",
-    "disable": "Disable"
+    "disable": "Disable",
+    "synthetics": {
+      "alertList": {
+        "timeThreshold": "Failure Threshold",
+        "filterApplied": "Filter Applied",
+        "violationsCount": "{{violationsCount}} failures",
+        "numberOfFailures": "Failure Alerting"
+      },
+      "simple": {
+        "stepConfigsStep3Title": "Step 3: Select Alert Channels"
+      },
+      "advanced": {
+        "alertChannelsLabel": "Alert Channels",
+        "alertChannelsTitle": "Alert Channels: Who needs to be alerted?",
+        "propertiesLabel": "Properties",
+        "propertiesTitle": "Additional Alert Properties"
+      }
+    }
   }
 }

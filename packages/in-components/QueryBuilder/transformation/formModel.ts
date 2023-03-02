@@ -169,3 +169,7 @@ function adjacentAndIndex(expression: FormModelElement[], indexOfFilter: number)
   }
   return undefined;
 }
+
+export function isTagFilter(expression: FormModelElement): expression is TagFilter {
+  return expression.type === 'TAG_FILTER';
+}

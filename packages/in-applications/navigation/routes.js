@@ -4,10 +4,10 @@
  */
 
 import CustomEndpointMapping from 'promise-loader?global,applications!in-applications/Forms/CustomEndpointMapping/CustomEndpointMappingDialog';
-import GlobalSmartAlertsTab from 'promise-loader?global,applications!in-alerting/smart-alerts/applications/inventory/GlobalSmartAlertsTab';
 import CustomServiceMapping from 'promise-loader?global,applications!in-applications/Forms/CustomServiceMapping/CustomServiceMapping';
 import SyntheticCallConfig from 'promise-loader?global,applications!in-applications/Forms/SyntheticCallConfig/SyntheticCallConfig';
 import ApplicationDashboard from 'promise-loader?global,applications!in-applications/Dashboards/application/ApplicationDashboard';
+import GlobalSmartAlerts from 'promise-loader?global,applications!in-alerting/smart-alerts/applications/list/GlobalSmartAlerts';
 import NewApplicationWaiter from 'promise-loader?global,applications!in-applications/Forms/NewApplication/NewApplicationWaiter';
 import EndpointDashboard from 'promise-loader?global,applications!in-applications/Dashboards/endpoint/EndpointDashboard';
 import ServiceDashboard from 'promise-loader?global,applications!in-applications/Dashboards/service/ServiceDashboard';
@@ -95,7 +95,7 @@ export default function applicationRoutes() {
       <Route
         key="applicationPerspectiveAlertsList"
         path={alertsList}
-        children={renderAsyncRouteChildren(GlobalSmartAlertsTab)}
+        children={renderAsyncRouteChildren(GlobalSmartAlerts)}
       />
     );
   }

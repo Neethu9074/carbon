@@ -9,4 +9,17 @@
   .actions {
     justify-content: flex-end;
   }
+
+  .separator {
+    border-left: 1px solid var(--colors-gray-400);
+    padding-left: 0.625rem;
+  }
+
+  .separator:first-child {
+    padding: 0 0.625rem;
+  }
+
+  .darkButton svg {
+    fill: var(--colors-gray-900);
+  }
 }

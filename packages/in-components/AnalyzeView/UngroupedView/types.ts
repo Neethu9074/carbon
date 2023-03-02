@@ -4,16 +4,31 @@
  * Copyright IBM Corp. 2022
  */
 
-import { Progress, TagFilter, TagFilterExpressionElementUnion, TimeConfig } from '@instana/types';
+import { Error, Progress, ResultPrecisionDetails, TagFilter, TagFilterExpression, TimeConfig } from '@instana/types';
 import { ColumnizedDefinition } from '@instana/components';
+import { Group } from '@instana/types/typeDefinitions';
 import { Observable } from '@instana/observables';
 
 import { StateManagementChildProps } from 'in-components/AnalyzeView/StateManagement';
 import { OrderBy } from 'in-logging/analyze/AnalyzeView/components/Logs/types';
 import { HeaderProps } from 'in-components/QueryBuilder/components/Header';
-import useCursorPagination from 'in-hooks/useCursorPagination';
 
-type CursorPaginationStrategy = typeof useCursorPagination;
+export type CursorPaginationStrategy = (
+  create: (params: any) => Observable<any>,
+  deps: unknown[]
+) => {
+  items: unknown[];
+  errors: Error[];
+  progress: Progress;
+  totalHits?: number;
+  totalRepresentedItemCount?: number;
+  totalRetainedItemCount?: number;
+  adjustedWindowSize?: number;
+  resultPrecisionDetails?: ResultPrecisionDetails;
+  time?: number;
+  canLoadMore?: boolean;
+};
+
 type InfiniteScrollProps = { loadingCompleteMessage: string } | boolean;
 
 type CursorPaginationReturn = ReturnType<CursorPaginationStrategy>;
@@ -22,8 +37,9 @@ export type Presenter = (props: PresenterProps) => JSX.Element;
 export interface GetDataParams {
   timeConfig: TimeConfig;
   orderBy: OrderBy;
-  backendQueryModel: TagFilterExpressionElementUnion;
+  backendQueryModel: TagFilterExpression;
   dataSource: string;
+  metrics: Array<string>;
   afterKey?: string;
   initialLogLines?: number;
   retrievalSize?: number;
@@ -39,8 +55,8 @@ interface DetailViewProps extends UngroupedViewProps, CursorPaginationReturn {
 export interface PresenterProps extends UngroupedViewProps, CursorPaginationReturn {
   hasErrors: boolean;
   hasItems: boolean;
-  items: Record<string, unknown>[];
-  canLoadMore: boolean;
+  items: unknown[];
+  canLoadMore?: boolean;
   progress: Progress;
 }
 
@@ -52,8 +68,6 @@ export interface UngroupedViewProps<Item = any> extends StateManagementChildProp
   groupLabel: string;
   DetailView: (detailViewProps: DetailViewProps) => JSX.Element | null;
   CustomHeaderActions: (props: HeaderProps) => JSX.Element;
-  Chart: (props: UngroupedViewProps<Item>) => JSX.Element;
-  Sidebar: (props: UngroupedViewProps<Item>) => JSX.Element;
   Presenter: (props: PresenterProps) => JSX.Element;
   SplitScreenListItemContent?: () => JSX.Element;
   getItemName?: () => string;
@@ -62,6 +76,7 @@ export interface UngroupedViewProps<Item = any> extends StateManagementChildProp
   getId: (item: Item) => string;
   columnDefinitions: ColumnizedDefinition[];
   useCursorPaginationStrategy: CursorPaginationStrategy;
+  getColor?: (item: unknown, i: number, groupBy: Group) => string;
 }
 
 export interface UngroupedViewListProps<Item> extends Omit<UngroupedViewProps, 'Presenter'> {

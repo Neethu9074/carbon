@@ -75,12 +75,12 @@ export const websiteSloEnabled = isFeatureFlagEnabled('websiteSloEnabled', false
 export const sliCHClusterAccessEnabled = isFeatureFlagEnabled('sliCHClusterAccessEnabled');
 export const apdexWidgetEnabled = isFeatureFlagEnabled('apdexWidgetEnabled', false);
 export const applicationApdexEnabled = isFeatureFlagEnabled('applicationApdexEnabled', false);
+export const sloV2Enabled = isFeatureFlagEnabled('sloV2Enabled', false);
 
 export const websiteUploadConfigEnabled = isFeatureFlagEnabled('websiteUploadConfigEnabled', false);
 export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashBeaconEnabled', false);
 
 export const traceIdFilterOverrideEnabled = isFeatureFlagEnabled('traceIdFilterOverrideEnabled', true);
-
 // RBAC usability improvements
 export const rbacImprovementEnabled = isFeatureFlagEnabled('rbacImprovementEnabled', false);
 
@@ -102,6 +102,9 @@ export const syntheticBrowserScriptEnabled = isFeatureFlagEnabled('syntheticBrow
 
 // Synthetic SmartAlert feature flag
 export const syntheticSmartAlertsEnabled = isFeatureFlagEnabled('syntheticSmartAlertsEnabled');
+
+// Create Synthetic SmartAlert UI feature flag
+export const syntheticCreateSmartAlertsUIEnabled = isFeatureFlagEnabled('syntheticCreateSmartAlertsUIEnabled');
 
 // ########################################################################################
 // Dynamic focus keywords
@@ -135,4 +138,4 @@ export const actionAutomationEnabled = isFeatureFlagEnabled('actionAutomationEna
 
 export const pluginMetricStatisticsEnabled = isFeatureFlagEnabled('pluginMetricStatisticsEnabled', false);
 
-export const k8sTimeShiftEnabled = isFeatureFlagEnabled('k8sTimeShiftEnabled', false);
+export const controlPlaneEnabled = isFeatureFlagEnabled('controlPlaneEnabled', false);

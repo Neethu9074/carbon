@@ -62,4 +62,14 @@
   .overlayContentWrapper {
     width: 50rem;
   }
+
+  .centered {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .filters {
+    display: flex;
+    color: @lib__colors__N700Medium;
+  }
 }

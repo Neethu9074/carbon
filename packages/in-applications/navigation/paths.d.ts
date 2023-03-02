@@ -7,6 +7,15 @@ import { Observable } from '@instana/observables';
 
 import { Group, Order, TagCatalog, TimeConfig } from 'in-types';
 
+export declare const alertsList: string;
+export declare const alertsTab: string;
+export declare const alertsTabDetailsFullyQualified: string;
+export declare const alertsTabListFullyQualified: string;
+export declare const applicationDashboard: string;
+export declare const getLinkToAlertConfig: string;
+export declare const getLinkToGlobalAlertConfigWithoutAPDashboard: string;
+export declare const globalAlertDetails: string;
+
 interface ChartedMetric {
   metricId: string;
   aggregationId: string;

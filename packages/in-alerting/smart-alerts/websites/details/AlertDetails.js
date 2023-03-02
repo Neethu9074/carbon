@@ -13,7 +13,7 @@ import {
   getAllVersionsOfAlertConfig,
   getLatestAlertConfig,
   restoreAlertConfigVersion
-} from 'in-websites/api/websiteAlertConfig';
+} from 'in-alerting/smart-alerts/websites/api/websiteAlertConfig';
 import {
   websitesAlertingAlertDeleted,
   websitesAlertingAlertEdit,
@@ -30,9 +30,9 @@ import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-w
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import AlertConfiguration from 'in-alerting/smart-alerts/websites/details/AlertConfiguration';
 import AlertConfigDialog from 'in-alerting/smart-alerts/websites/dialog/AlertConfigDialog';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { mutateUrl } from 'in-stores/navigation/navigation';
 
 const endpointConfig = { asObservable: true };
 
@@ -62,14 +62,16 @@ export default function AlertDetails(props) {
       disableConfig={disableAlertConfig}
       deleteConfig={deleteAlertConfig}
       restoreConfig={restoreAlertConfigVersion}
-      renderSmartAlertDialog={renderSmartAlertDialog}
+      renderSmartAlertDialog={props => <SmartAlertDialogWrapper {...props} />}
       renderAlertConfiguration={({ alertConfig }) => <AlertConfiguration alertConfig={alertConfig} />}
       tracking={tracking}
     />
   );
 }
 
-function renderSmartAlertDialog({ close, alertConfig, setRevision, isCopy, detailsPath, alertConfigId }) {
+function SmartAlertDialogWrapper({ close, alertConfig, setRevision, isCopy, detailsPath, alertConfigId }) {
+  const { location, navigate } = useNavigation();
+
   return (
     <AlertConfigDialog
       alertConfig={isCopy ? duplicateAlertConfig(alertConfig) : alertConfig}
@@ -77,10 +79,9 @@ function renderSmartAlertDialog({ close, alertConfig, setRevision, isCopy, detai
         close();
         setRevision(null);
         if (isCopy) {
-          mutateUrl(location => {
-            location.pathname = detailsPath;
-            setOrDeleteMatrixKey(location, alertsTabSegment, 'alertId', id ?? alertConfigId);
-          });
+          const onCloseTargetLocation = { ...location, pathname: detailsPath };
+          setOrDeleteMatrixKey(onCloseTargetLocation, alertsTabSegment, 'alertId', id ?? alertConfigId);
+          navigate(onCloseTargetLocation);
         }
       }}
       editMode={!isCopy}

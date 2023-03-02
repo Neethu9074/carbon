@@ -9,7 +9,7 @@ import { TagCatalog } from '@instana/types';
 
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { ContextConfiguration } from 'in-components/DashboardHeader/DashboardHeader';
-import { ProductArea, Entity } from 'in-analyze/AnalyzeView/dataSources';
+import { Entity, ProductArea } from 'in-analyze/AnalyzeView/dataSources';
 
 export interface DataSource {
   enabled: boolean;
@@ -27,9 +27,9 @@ export interface ActiveConfiguration {
 export interface AnalyzeHeaderProps {
   renderQuickFilterBar?: () => JSX.Element;
   isGrouped: boolean;
-  withoutShadow: boolean;
-  formModel: FormModelElement[] | readonly never[];
-  label: string | JSX.Element;
+  withoutShadow?: boolean;
+  formModel?: FormModelElement[] | readonly never[];
+  label?: string | JSX.Element;
   headerHref$?: Observable<string>;
   onHeaderClick?: (params: any) => any;
   contextConfigurations?: ContextConfiguration[];

@@ -328,6 +328,7 @@
     "inputStepParagraphGetStarted": "Get started with website monitoring to better understand how your website performance impacts user experience.  Configuration is simple!",
     "inputStepLabelWebsiteName": "Website Name",
     "inputStepButtonAddWebsite": "Add Website",
+    "inputStepNewWebsiteTitle": "New Website",
     "readyStepTitleEverythingsReady": "Everything's Ready!",
     "readyStepParagraphEverythingIsReadyToMonitorYourWebsite": "Everything is ready to monitor your website <strong>{{websiteName}}</strong>. Copy this script to the HTML document's <code>{{httpHeadTag}}</code>. Information about website monitoring and the full capabilities of the tracking script are located <linkToDocs>within our docs</linkToDocs>.",
     "readyStepButtonGoToWebsiteDashboard": "Go to website dashboard",
@@ -462,10 +463,7 @@
         "moreFiltersWithCount": "+{{count}} more filter",
         "moreFiltersWithCount_plural": "+{{count}} more filters",
         "labelConfirmRemoveAlertConfigWithName": "Are you sure you want to remove the alert <strong>{{name}}</strong>?",
-        "alertEntityName": "alert {{entityName}}",
-        "alertsLabelName": "Name",
         "alertsLabelFilters": "Filters",
-        "alertsHeaderConfiguredAlerts": "Configured Alerts",
         "alertsNoDataMessage": "No alert configured."
       },
       "configuration": {

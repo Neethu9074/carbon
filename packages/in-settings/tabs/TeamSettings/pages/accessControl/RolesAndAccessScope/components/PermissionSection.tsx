@@ -24,12 +24,6 @@ import {
   ScopedPermissionItems,
   ScopedPermissionType
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
-import LimitedAccessPanel from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/LimitedAccesPanel';
-import {
-  ExtractIdFunction,
-  ExtractNameFunction
-} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/types';
-import AccessAllPanel from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/AccessAllPanel';
 import TabSelect, {
   TabSelectHeader,
   TabSelectItem,
@@ -37,8 +31,14 @@ import TabSelect, {
   TabSelectPanel,
   TabSelectPanels
 } from 'in-components/TabSelect';
-import NoAccessPanel from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/NoAccessPanel';
+import LimitedAccessPanel from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/LimitedAccesPanel';
+import {
+  ExtractIdFunction,
+  ExtractNameFunction
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/types';
+import AccessAllPanel from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/AccessAllPanel';
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
+import NoAccessPanel from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/NoAccessPanel';
 import { SubSlideConfig } from 'in-settings/components/ConfigDialog/ConfigDialog';
 import { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
 import { t } from 'in-i18n';

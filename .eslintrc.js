@@ -5,7 +5,7 @@
 
 /* eslint-env node */
 
-var { createImportRestrictionRule } = require('./build/linting/restrictedImportRule');
+const { createImportRestrictionRule } = require('./build/linting/restrictedImportRule');
 
 module.exports = {
   parserOptions: {
@@ -29,7 +29,7 @@ module.exports = {
   },
 
   globals: (function() {
-    var globals = require('globals').browser;
+    let globals = require('globals').browser;
     delete globals['name'];
     delete globals['Notification'];
     delete globals['find'];
@@ -57,6 +57,15 @@ module.exports = {
         // disable case sensitivity checks, because they cause false positives
         // and this class of errors should be mostly covered by git already
         caseSensitive: false
+      }
+    ],
+
+    'no-use-before-define': [
+      'error',
+      {
+        functions: false,
+        classes: false,
+        variables: false
       }
     ],
 

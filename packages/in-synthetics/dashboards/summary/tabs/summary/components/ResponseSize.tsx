@@ -10,6 +10,7 @@ import { t } from '@instana/i18n-react';
 
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
+import { locationIdTagName, testIdTagName } from 'in-synthetics/tags';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
 import { TestResponse } from 'in-synthetics/utils/constants';
@@ -63,12 +64,12 @@ const RenderChart = ({ test, timeShiftConfig, renderPostChartContent }: Props) =
     tagFilters = [
       {
         stringValue: id,
-        name: 'testId',
+        name: testIdTagName,
         operator: EQUALS
       },
       {
         stringValue: locations[i],
-        name: 'locationId',
+        name: locationIdTagName,
         operator: EQUALS
       }
     ];

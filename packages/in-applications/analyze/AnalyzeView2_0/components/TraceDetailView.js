@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import React, { useMemo } from 'react';
 import { get } from 'lodash';
-import React from 'react';
 
 import { Button, Link, SvgIcon } from '@instana/components';
 import { useObservable } from '@instana/hooks';
@@ -15,16 +15,22 @@ import SplitScreenList from 'in-components/AnalyzeView/SplitScreenList/SplitScre
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { getIconByType, getLabelByType } from 'in-analyze/AnalyzeView/dataSources';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { getAdjustedTimeConfigToIncludeTimestamp } from 'in-stores/time/config';
 import getTraceSummary from 'in-applications/subscriptions/getTraceSummary';
+import { updateLocationToAnalyze } from 'in-applications/navigation/paths';
 import tabs from 'in-applications/analyze/AnalyzeView2_0/components/tabs';
+import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { traceIdFilterOverrideEnabled } from 'in-services/featureFlags';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
-import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getColorPool } from 'in-services/util/ColorGenerator';
+import { analyzePath } from 'in-applications/navigation/paths';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { getColor } from 'in-applications/endpointTypes';
+import { getChartGranularity } from 'in-stores/metric';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import Tooltip from 'in-components/Tooltip';
 import Sticky from 'in-components/Sticky';
 import { role } from 'in-stores/user';
@@ -114,15 +120,13 @@ function getColorByEndpointType({ endpoint }) {
 }
 
 function Header(props) {
-  const isInternalVisible = useObservable(isInternalVisible$, []) || false;
-
   return (
     <DashboardHeader
       {...props}
       title={t('in-applications:labelTrace')}
       icon="lib_application_trace"
       label={get(props.result, ['data', 'label'])}
-      renderButtonLine={isInternalVisible ? renderButtonLineInternalOnly : renderButtonLine}
+      renderButtonLine={renderButtonLine}
       renderMetaInformation={renderMetaInformation}
       renderTimeSelection={renderTimeSelection}
       hideUrlShortener
@@ -149,28 +153,50 @@ function applyTraceIdFilter(formModel, traceId) {
   return joinExpressions({ expressions: [formModel, traceIdFilterExpression] });
 }
 
-function renderButtonLineInternalOnly({ traceId, result, formModel, facets }) {
+function renderButtonLine(props) {
+  return <TraceDetailViewButtonLine {...props} />;
+}
+
+function TraceDetailViewButtonLine({ traceId, result, formModel, facets }) {
+  const isInternalVisible = useObservable(isInternalVisible$, []) || false;
+  const timeConfig = useTimeConfig();
+  const { location, createHref } = useNavigation();
+
+  const traceIdInUrl = result?.data?.id ?? traceId;
+
+  let adjustedTimeConfig = timeConfig;
+  if (isInternalVisible && result?.data) {
+    // adjust the selected time range to cover the whole trace
+    adjustedTimeConfig = getAdjustedTimeConfigToIncludeTimestamp(
+      timeConfig,
+      result.data.startTime,
+      getChartGranularity
+    );
+    adjustedTimeConfig = getAdjustedTimeConfigToIncludeTimestamp(
+      timeConfig,
+      result.data.startTime + result.data.duration,
+      getChartGranularity
+    );
+  }
+
+  const locationAnalyzeCallsOfThisTrace = useMemo(() => {
+    updateLocationToAnalyze(location, {
+      dataSource: 'calls',
+      formModel: applyTraceIdFilter(formModel, traceIdInUrl),
+      facets: traceIdFilterOverrideEnabled ? null : facets,
+      timeConfig: adjustedTimeConfig,
+      hiddenCalls: { includeInternal: true, includeSynthetic: true },
+      resetUndefinedParams: false
+    });
+    return location;
+  }, [adjustedTimeConfig, facets, formModel, location, traceIdInUrl]);
+
   if (!role.canViewLogs || !role.canViewTraceDetails) {
     return null;
   }
 
-  const traceIdInUrl = result?.data?.id ?? traceId;
   return (
     <>
-      {
-        <Button
-          icon="lib_analyze"
-          kind="secondary"
-          href$={getLinkToAnalyze({
-            dataSource: 'calls',
-            formModel: applyTraceIdFilter(formModel, traceIdInUrl),
-            facets: traceIdFilterOverrideEnabled ? null : facets,
-            resetUndefinedParams: false
-          })}
-        >
-          {t('in-applications:analyze.analyzeCallsOfThisTrace')}
-        </Button>
-      }
       <Button
         icon="lib_actions_download"
         kind="secondary"
@@ -179,25 +205,28 @@ function renderButtonLineInternalOnly({ traceId, result, formModel, facets }) {
       >
         {t('in-applications:linkDownload')}
       </Button>
+      {isInternalVisible && (
+        <Button
+          icon="lib_analyze"
+          kind="secondary"
+          href={createHref({ ...locationAnalyzeCallsOfThisTrace, pathname: analyzePath })}
+          onClick={() => {
+            if (adjustedTimeConfig !== timeConfig) {
+              addMessage(
+                {
+                  type: 'info',
+                  timeout: 5000,
+                  content: t('in-applications:traceDetail.tabs.summary.adjustedTimeConfigForTrace')
+                },
+                'adjustedTimeConfig'
+              );
+            }
+          }}
+        >
+          {t('in-applications:analyze.analyzeCallsOfThisTrace')}
+        </Button>
+      )}
     </>
-  );
-}
-
-function renderButtonLine({ traceId, result }) {
-  if (!role.canViewLogs || !role.canViewTraceDetails) {
-    return null;
-  }
-
-  const traceIdInUrl = result?.data?.id ?? traceId;
-  return (
-    <Button
-      icon="lib_actions_download"
-      kind="secondary"
-      target="_blank"
-      href={`/api/application-monitoring/analyze/traces;id=${encodeURIComponent(traceIdInUrl)}?pretty`}
-    >
-      {t('in-applications:linkDownload')}
-    </Button>
   );
 }
 

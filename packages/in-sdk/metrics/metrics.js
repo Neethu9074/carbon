@@ -61,7 +61,9 @@ function getDynamicMetricStringValueList(plugin) {
   return getDynamicMetricList(plugin).map(item => {
     return {
       ...item,
-      value: toDynamicMetricStringValue(item.value.pre, item.value.post)
+      value: toDynamicMetricStringValue(item.value.pre, item.value.post),
+      defaultMatchingOperator: item.value.defaultMatchingOperator,
+      lockedMatchingOperator: item.value.lockedMatchingOperator
     };
   });
 }

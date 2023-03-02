@@ -4,12 +4,13 @@
  */
 
 import React, { ReactNode, useState } from 'react';
-import { Field, MapForm } from 'formalistic';
+import { Field, MapForm, Item } from 'formalistic';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import { Button } from '@instana/components';
 
+import { SimpleModeContainerProps } from 'in-alerting/smart-alerts/components/dialog/simple/SimpleModeContainer';
 import BuiltInIndicator from 'in-alerting/smart-alerts/components/details/BuiltInIndicator';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
@@ -19,7 +20,7 @@ import { t } from 'in-i18n';
 
 import locals from './AlertConfigDialogPresenter.mless';
 
-type MainDialogControl = {
+export type MainDialogControl = {
   onCreate: () => void;
   onClose: (step: number | false | undefined) => void;
   setSliderState: ({ slideInConfig, isVisible }: SliderState) => void;
@@ -27,18 +28,21 @@ type MainDialogControl = {
   setCustomSlideInHeaderConfig: (state: { title: string | null; onClose: (() => void) | null }) => void;
 };
 
-interface AlertConfigDialogPresenterProps {
+export interface AlertConfigDialogPresenterProps {
   stepConfigs?: StepConfigs;
   step?: number;
-  stepRenderers: (() => ReactNode)[];
+  //stepRenderers: (() => ReactNode)[];
   AdvancedModeElement: (props: AlertConfigDialogPresenterProps & MainDialogControl) => JSX.Element;
   form: MapForm;
   handleSubmit: () => void;
   formId: string;
-  SimpleModeElement: (props: AlertConfigDialogPresenterProps & MainDialogControl) => JSX.Element;
-  footer?: () => ReactNode;
-  trackModeSwitch: (simpleMode: boolean, simpleModeStep: number, form: MapForm) => void;
+  SimpleModeElement: (
+    props: AlertConfigDialogPresenterProps & MainDialogControl & SimpleModeContainerProps
+  ) => JSX.Element;
+  footer?: ReactNode;
+  trackModeSwitch?: (simpleMode: boolean, simpleModeStep: number, form: MapForm) => void;
   updateForm?: (form: MapForm) => void;
+  onChange: (path: string[], updater: (item: Item) => Item) => void;
   withTrackClose: (step: number | false | undefined) => void;
   withTrackCreate: () => void;
   simpleMode?: boolean;
@@ -50,17 +54,17 @@ interface AlertConfigDialogPresenterProps {
   isGlobalSmartAlert?: boolean;
 }
 
-interface SlideInConfig {
+export interface SlideInConfig {
   title?: string;
   component?: ReactNode;
 }
 
-interface SliderState {
+export interface SliderState {
   slideInConfig?: SlideInConfig;
   isVisible: boolean;
 }
 
-export default function AlertConfigDialogPresenter(props: AlertConfigDialogPresenterProps) {
+export default function AlertConfigDialogPresenter(props: AlertConfigDialogPresenterProps & SimpleModeContainerProps) {
   const {
     editMode,
     migrationMode,
@@ -120,7 +124,8 @@ export default function AlertConfigDialogPresenter(props: AlertConfigDialogPrese
             <Button
               onClick={() => {
                 resetFormDirtyState();
-                trackModeSwitch(simpleMode, simpleModeStep, form);
+                // optionally track switching when function is defined:
+                trackModeSwitch?.(simpleMode, simpleModeStep, form);
                 const newMode = !simpleMode;
                 setSimpleMode(newMode);
                 resetScrollShadow();
@@ -231,7 +236,7 @@ AlertConfigDialogPresenter.propTypes = {
   formId: PropTypes.string.isRequired,
   SimpleModeElement: PropTypes.func.isRequired,
   footer: PropTypes.node,
-  trackModeSwitch: PropTypes.func.isRequired,
+  trackModeSwitch: PropTypes.func,
   updateForm: PropTypes.func,
   withTrackClose: PropTypes.func.isRequired,
   withTrackCreate: PropTypes.func.isRequired,

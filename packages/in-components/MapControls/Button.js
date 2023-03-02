@@ -19,6 +19,7 @@ export default forwardRef(function Button(
     dark = false,
     onClick,
     href$,
+    href,
     appendTop,
     appendBottom,
     appendLeft,
@@ -40,6 +41,7 @@ export default forwardRef(function Button(
       })}
       onClick={onClick}
       href$={href$}
+      href={href}
       ref={ref}
     >
       {icon && (

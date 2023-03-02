@@ -1,6 +1,6 @@
 # Installation
 
-**Please do not skip any of these steps, only use `sudo` where this document instructs you to and do not try to follow this guide with a super-user (root)!**
+**Please make sure you are on the develop branch to read the latest instructions.  Do not skip any of these steps, only use `sudo` where this document instructs you to and do not try to follow this guide with a super-user (root)!**
 
 This document lists the technical steps necessary in order to get a local UI development setup running.
 
@@ -107,7 +107,7 @@ newgrp docker
 
 ## Editor Recommendations
 
-At the time of writing most UI engineers are using [VS Code](https://code.visualstudio.com/). We would recommend that you give this a try. VS Code will bring up a list of suggested extensions when opening the `ui-client` root directory in VS Code. We recommend that you install these as well for a good out of the box development experience.
+At the time of writing UI engineers are using [VS Code](https://code.visualstudio.com/) or [IntelliJ](https://www.jetbrains.com/idea/). We would recommend that you use either of them. VS Code will bring up a list of suggested extensions when opening the `ui-client` root directory in VS Code. We recommend that you install these as well for a good out of the box development experience.
 
 ## Note for WSL2 Users
 
@@ -120,6 +120,8 @@ The installation instructions will work out of the box, assuming that you are us
 ```
 
 Alternatively, you can install an XServer in your Windows environment and run your preferred browser from within WSL2.
+
+There is some advanced WSL2 Support int the latest IntelliJ Version 2022.3 [more details](https://www.jetbrains.com/help/idea/how-to-use-wsl-development-environment-in-product.html)
 
 ## Next Steps
 

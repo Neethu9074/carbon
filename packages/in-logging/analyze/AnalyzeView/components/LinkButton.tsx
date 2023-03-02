@@ -7,7 +7,7 @@ import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 
-import { maxInitialLogLines } from 'in-logging/analyze/AnalyzeView/components/constants';
+import { maxInitialLogLines } from 'in-logging/analyze/AnalyzeView/components/Charts/constants';
 import { buildJsonSerializer, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { fixateTimeConfig, getTimeConfig, setTimeConfig } from 'in-stores/time/config';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';

@@ -12,7 +12,7 @@ import WithApplicationHealthIndicationBehaviour from 'in-components/health/WithH
 import { applicationId as matrixApplicationId } from 'in-applications/navigation/matrix';
 import WithHealthIndication from 'in-components/health/WithHealthIndication';
 import { applicationOpenSubmitFormTracker } from 'in-applications/tracker';
-import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { t, Trans } from 'in-i18n';
 
@@ -36,26 +36,31 @@ export default function ApplicationSwitcher({ applicationId, applications, viewP
         <ul className={locals.menu}>
           {applications.data.items
             .filter(item => item.application.id !== applicationId)
-            .map(item => {
-              return (
-                <li key={item.application.id} className={locals.row}>
-                  <Button
-                    className={locals.button}
-                    kind="subtle"
-                    href$={getModifiedUrlStream(params =>
-                      setOrDeleteMatrixKey(params, viewPath, matrixApplicationId, item.application.id)
-                    )}
-                    onClick={() => applicationOpenSubmitFormTracker()}
-                    icon="lib_application"
-                  >
-                    {item.application.label}
-                  </Button>
-                </li>
-              );
-            })}
+            .map(item => (
+              <ApplicationButtonItem item={item} viewPath={viewPath} />
+            ))}
         </ul>
       </div>
     </div>
+  );
+}
+
+function ApplicationButtonItem({ item, viewPath }) {
+  const { location, createHref } = useNavigation();
+  setOrDeleteMatrixKey(location, viewPath, matrixApplicationId, item.application.id);
+
+  return (
+    <li key={item.application.id} className={locals.row}>
+      <Button
+        className={locals.button}
+        kind="subtle"
+        href={createHref(location)}
+        onClick={() => applicationOpenSubmitFormTracker()}
+        icon="lib_application"
+      >
+        {item.application.label}
+      </Button>
+    </li>
   );
 }
 

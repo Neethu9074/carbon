@@ -13,10 +13,9 @@ import { Card } from '@instana/components';
 
 // @ts-expect-error needs migration to TS
 import { removeWebsite as removeWebsiteTracker } from 'in-websites/tracker';
-// @ts-expect-error needs migration to TS
-import { websitesPathFullyQualified } from 'in-websites/navigation/paths';
 import HelpParagraph from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/HelpParagraph';
-import { goToPath } from 'in-stores/navigation/navigation';
+import { websitesPathFullyQualified } from 'in-websites/navigation/paths';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { combineDataAndError } from 'in-services/util/ro';
 import { removeWebsite } from 'in-websites/api/websites';
 import SaveError from 'in-components/form/SaveError';
@@ -57,6 +56,8 @@ const Remove = (props: Props) => {
   const subscriptionRef = useRef<Disposable | null>(null);
 
   useEffect(() => () => subscriptionRef.current?.dispose(), []);
+
+  const { goToPath } = useNavigation();
 
   const onTickChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setState(prevState => ({ ...prevState, checkboxChecked: e.target.checked }));

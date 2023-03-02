@@ -56,8 +56,9 @@
     "kubernetesLabels": "Rótulos do Kubernetes"
   },
   "explore": {
+    "beta": "Beta",
+    "tryBetaInfraAnalytics": "Tente a nova análise de infraestrutura",
     "focusOnThisGroup": "Foco neste grupo",
-    "thisIsABetaVersionOfANewProductCapability": "Esta é uma versão beta de um novo recurso do produto. Avisamos para não contar com os dados apresentados.",
     "theQueryConfigurationIsInvalid": "A configuração da consulta é inválida. Trate as falhas de validação antes de continuar.",
     "allInfrastructure": "Todas as infraestruturas",
     "name": "Nome",
@@ -101,7 +102,6 @@
     "collapseAll": "Reduzir tudo",
     "map": "Mapa",
     "comparisonTable": "Tabela de comparação",
-    "entityExploreBeta": "Exploração de entidade (Beta)",
     "infrastructureComparisonTable": "Tabela de comparação de infraestrutura"
   }
 }

@@ -22,7 +22,7 @@ import { createAlertConfig, updateAlertConfig } from 'in-alerting/smart-alerts/a
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import { getLinkToGlobalAlertConfigWithoutAPDashboard, getLinkToAlertConfig } from 'in-applications/navigation/paths';
 import { SmartAlertConfigDialog } from 'in-alerting/smart-alerts/applications/dialog/SmartAlertConfigDialog';
-import useSmartAlertFormSideEffects from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
+import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import useApplicationLabel from 'in-alerting/smart-alerts/applications/hooks/useApplicationLabel';
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
