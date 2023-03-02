@@ -39,5 +39,6 @@
   "tooltipEntityHealthIssues": "{{numberOfIssues}} Issues",
   "container": "Container",
   "endOfInfiniteScroll": "No more logs available",
-  "liveModeDisabled": "Live mode disabled for Logging"
+  "liveModeDisabled": "Live mode disabled for Logging",
+  "logLevels": "Log levels"
 }
