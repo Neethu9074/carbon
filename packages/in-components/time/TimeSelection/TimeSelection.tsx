@@ -5,6 +5,8 @@
 
 import React, { useState } from 'react';
 
+import { useObservable } from '@instana/hooks';
+
 // @ts-expect-error
 import TimeSelectionDialogPresenter from 'in-components/time/TimeSelectionDialogPresenter/TimeSelectionDialogPresenter';
 // @ts-expect-error
@@ -14,12 +16,11 @@ import { TIME_WINDOW_SIZE_VIA_PICKER, track } from 'in-services/tracking/trackin
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
+import { timeConfig$, urlQueryKeys } from 'in-stores/time/config';
 import TimePresenter from 'in-components/time/TimePresenter';
 import { logsPath } from 'in-logging/navigation/paths';
 import { Location } from 'in-stores/navigation/types';
-import { urlQueryKeys } from 'in-stores/time/config';
 import Overlay from 'in-components/overlays/Overlay';
-import useTimeConfig from 'in-hooks/useTimeConfig';
 import Tooltip from 'in-components/Tooltip';
 import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
@@ -32,9 +33,12 @@ export interface TimeSelectionProps {
 }
 
 export default function TimeSelection({ isHidden, darkTheme }: TimeSelectionProps) {
-  const timeConfig = useTimeConfig();
+  // NOTE: this specifically needs to grab the user selected timeConfig from in-stores/time/config
+  // instead of the default useTimeConfig, because the analyze view employs a fixed timeConfig context,
+  // but needs to still show the original user selection
+  const timeConfig = useObservable(timeConfig$, []);
 
-  if (isHidden) {
+  if (isHidden || !timeConfig) {
     return null;
   }
   return (
