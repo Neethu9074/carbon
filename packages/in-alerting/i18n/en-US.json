@@ -1036,9 +1036,11 @@
         "numberOfFailures": "Failure Alerting"
       },
       "simple": {
-        "stepConfigsStep3Title": "Step 4: Alert Channels",
-        "stepConfigsStep4Title": "Step 5: Alert Properties",
-        "alertDialogHeadline": "What should appear in the alert?"
+        "stepConfigsStep2Title": "Step 2: Threshold",
+        "stepConfigsStep4Title": "Step 4: Alert Channels",
+        "stepConfigsStep5Title": "Step 5: Alert Properties",
+        "alertDialogHeadline": "What should appear in the alert?",
+        "thresholdTitle": "How many consecutive failures should occur per location before alerting?"
       },
       "advanced": {
         "alertChannelsLabel": "Alert Channels",
