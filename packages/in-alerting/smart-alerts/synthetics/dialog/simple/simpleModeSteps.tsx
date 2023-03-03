@@ -11,11 +11,16 @@ import {
   MainDialogControl
 } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
 import SimpleAlertConfigDialogStep3 from 'in-alerting/smart-alerts/components/dialog/simple/SimpleAlertConfigDialogStep3';
+import DialogAlertProperties from 'in-alerting/smart-alerts/synthetics/dialog/simple/DialogAlertProperties';
 import { t } from 'in-i18n';
 
 export const stepConfigs = [
   {
     title: t('in-alerting:smartAlerts.synthetics.simple.stepConfigsStep3Title'),
+    validateIntermediately: [['alertChannelIds']]
+  },
+  {
+    title: t('in-alerting:smartAlerts.synthetics.simple.stepConfigsStep4Title'),
     validateIntermediately: [['alertChannelIds']]
   }
 ];
@@ -23,5 +28,6 @@ export const stepConfigs = [
 export const stepRenderers = [
   (parentProps: AlertConfigDialogPresenterProps & MainDialogControl) => (
     <SimpleAlertConfigDialogStep3 {...parentProps} />
-  )
+  ),
+  (parentProps: AlertConfigDialogPresenterProps & MainDialogControl) => <DialogAlertProperties {...parentProps} />
 ];

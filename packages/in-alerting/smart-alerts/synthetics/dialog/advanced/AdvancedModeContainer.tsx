@@ -15,6 +15,7 @@ import {
   AlertPreview,
   AlertPreviewHeadline
 } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
+import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/dialog/advanced/AlertPropertiesTitleRow';
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
 import { SliderState } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
 import StepsContainer from 'in-components/StepsContainer';
@@ -66,7 +67,14 @@ export default function AdvancedModeContainer(props: AdvancedModeContainerProp) 
                   onChange={onChange}
                   getDescriptionPlaceholder={() => 'some Description'}
                   getPreviewTitlePlaceholder={() => 'some Preview Title'}
-                  renderAlertPopertiesTitleRow={() => 'some Row Title'}
+                  renderAlertPopertiesTitleRow={() => (
+                    <AlertPropertiesTitleRow
+                      form={form}
+                      onChange={onChange}
+                      getTitlePlaceholder={() => (form.get('name') as Field<string>).value ?? 'undefined'}
+                      placeholders={[]}
+                    />
+                  )}
                 />
               )}
               renderAlertPreview={() => {

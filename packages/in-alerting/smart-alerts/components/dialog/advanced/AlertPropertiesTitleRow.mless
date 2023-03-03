@@ -1,0 +1,18 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+@import '~in-themes/active.less';
+
+:local {
+  .placeholderMenu {
+    margin-left: 0.5rem;
+    margin-right: -0.5rem;
+  }
+
+  .placeholderMenuButtonWrapper {
+    justify-content: flex-end;
+    padding-right: 0.5rem;
+  }
+}

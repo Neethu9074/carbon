@@ -581,6 +581,7 @@
         "addChannel_1": "Add {{count}} Channels",
         "addChannel_2": "Add {{count}} Channels",
         "add": "Add",
+        "alertPropertyInsertPlaceholderLabel": "Insert placeholder",
         "scopeConfigTitleWithApplications": "Select Applications/Services/Endpoints",
         "scopeConfigTitle": "Select Services/Endpoints",
         "scopeConfigSelectOneEntryMessage": "Please select at least one entry.",
@@ -1035,7 +1036,9 @@
         "numberOfFailures": "Failure Alerting"
       },
       "simple": {
-        "stepConfigsStep3Title": "Step 3: Select Alert Channels"
+        "stepConfigsStep3Title": "Step 4: Alert Channels",
+        "stepConfigsStep4Title": "Step 5: Alert Properties",
+        "alertDialogHeadline": "What should appear in the alert?"
       },
       "advanced": {
         "alertChannelsLabel": "Alert Channels",
