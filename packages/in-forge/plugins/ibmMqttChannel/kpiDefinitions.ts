@@ -10,12 +10,12 @@ import { t } from 'in-i18n';
 export default [
   {
     label: t('in-forge:plugins.ibmMqttChannel.messagesSent'),
-    metric: 'MQTTMessagesSent',
+    metric: 'mqttMessagesSent',
     formatter: number.compact
   },
   {
     label: t('in-forge:plugins.ibmMqttChannel.messagesReceived'),
-    metric: 'MQTTMessagesReceived',
+    metric: 'mqttMessagesReceived',
     formatter: number.compact
   }
 ];

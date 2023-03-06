@@ -21,7 +21,7 @@ export default [
     formatter: number
   },
   {
-    metrics: ['MQTTMessagesSent', 'MQTTMessagesReceived'],
+    metrics: ['mqttMessagesSent', 'mqttMessagesReceived'],
     labels: [t('in-forge:plugins.ibmMqttChannel.messagesSent'), t('in-forge:plugins.ibmMqttChannel.messagesReceived')],
     min: 0,
     category: [t('in-forge:plugins.ibmMqttChannel.messages')],

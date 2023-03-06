@@ -18,10 +18,10 @@ export default function IbmMqttChannelDashboard({ snapshot, timeConfig }) {
     <div>
       <KpiSection>
         <KpiKeyValue label={t('in-forge:plugins.ibmMqttChannel.dashboard.messagesSent')}>
-          <MetricValue snapshotId={snapshotId} metric="MQTTMessagesSent" formatter={number.compact} />
+          <MetricValue snapshotId={snapshotId} metric="mqttMessagesSent" formatter={number.compact} />
         </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.ibmMqttChannel.dashboard.messagesReceived')}>
-          <MetricValue snapshotId={snapshotId} metric="MQTTMessagesReceived" formatter={number.compact} />
+          <MetricValue snapshotId={snapshotId} metric="mqttMessagesReceived" formatter={number.compact} />
         </KpiKeyValue>
       </KpiSection>
       <DashboardSection title={t('in-forge:plugins.ibmMqttChannel.dashboard.messages')}>
@@ -31,7 +31,7 @@ export default function IbmMqttChannelDashboard({ snapshot, timeConfig }) {
           y1={{
             formatter: number.compact,
             tooltipFormatter: number.compact,
-            metrics: [`MQTTMessagesSent`, `MQTTMessagesReceived`],
+            metrics: [`mqttMessagesSent`, `mqttMessagesReceived`],
             labels: [
               t('in-forge:plugins.ibmMqttChannel.dashboard.messagesSent'),
               t('in-forge:plugins.ibmMqttChannel.dashboard.messagesReceived')
