@@ -81,6 +81,9 @@
         "invalidPortValue": "Port value not valid",
         "missHost": "Missing host in the URL",
         "invalidHost": "Host format not valid"
+      },
+      "advancedMode": {
+        "buttonContent": "Switch to Advanced Mode"
       }
     },
     "httpMethods": {
