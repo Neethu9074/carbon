@@ -13,8 +13,11 @@ export default function Info({ snapshot }) {
   const data = snapshot.get('data');
   return (
     <DescriptionList>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqMftAgent.dashboard.agentStatus')}>
+        {data.get('agentStatus')}
+      </DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.ibmMqMftAgent.dashboard.hostName')}>
-        {data.get('hostName')}
+        {data.get('agentDeclaredHostName')}
       </DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.ibmMqMftAgent.dashboard.agentType')}>
         {data.get('agentType')}
@@ -22,8 +25,17 @@ export default function Info({ snapshot }) {
       <DescriptionItem title={t('in-forge:plugins.ibmMqMftAgent.dashboard.agentTimeZone')}>
         {data.get('agentTimeZone')}
       </DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.ibmMqMftAgent.dashboard.agentStatus')}>
-        {data.get('agentStatus')}
+      <DescriptionItem title={t('in-forge:plugins.ibmMqMftAgent.dashboard.AgentStartTimeUTC')}>
+        {data.get('AgentStartTimeUTC')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqMftAgent.dashboard.agentVersion')}>
+        {data.get('agentVersion')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqMftAgent.dashboard.agentOsName')}>
+        {data.get('agentOsName')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqMftAgent.dashboard.PublishTimeUTC')}>
+        {data.get('PublishTimeUTC')}
       </DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.ibmMqMftAgent.dashboard.maxSourceTransfers')}>
         {data.get('maxSourceTransfers')}
