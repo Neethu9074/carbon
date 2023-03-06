@@ -17,7 +17,7 @@ export default function ApiQueryAction({
   timeFrame,
   type,
   order,
-  group,
+  groupBy,
   metrics,
   pagination,
   tracking
@@ -27,7 +27,7 @@ export default function ApiQueryAction({
       withoutWrapper
       align="bottomMiddle"
       content={ApiQueryOverlay}
-      props={{ backendQueryModel, backendQueryModelWithFacets, timeFrame, type, order, group, metrics, pagination }}
+      props={{ backendQueryModel, backendQueryModelWithFacets, timeFrame, type, order, groupBy, metrics, pagination }}
     >
       {({ toggle, refSetter }) => (
         <Action
@@ -54,7 +54,7 @@ ApiQueryAction.propTypes = {
   timeFrame: rpt.object,
   type: rpt.string,
   order: rpt.object,
-  group: rpt.object,
+  groupBy: rpt.array,
   metrics: rpt.array,
   pagination: rpt.object,
   tracking: rpt.shape({

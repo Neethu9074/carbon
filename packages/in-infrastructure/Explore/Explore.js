@@ -209,6 +209,7 @@ function Content({
     tagFilterExpression
   ]);
   const pagination = { retrievalSize: 20 };
+  const groupBy = [Object.values(group)[0]];
   const catalogQuery = useDebouncedValue('', noop, 800);
   const metricCatalog = useMetricCatalog({
     getMetricCatalog,
@@ -252,7 +253,7 @@ function Content({
             timeFrame={(({ to, windowSize }) => ({ to, windowSize }))(timeConfig)}
             backendQueryModel={backendQueryModel}
             pagination={pagination}
-            group={group}
+            groupBy={groupBy}
             type={type}
             metrics={metrics}
             order={order}
