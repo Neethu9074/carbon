@@ -46,26 +46,21 @@ export function generateAlertConfig(): SyntheticAlertConfigWithMetadata {
   // LATER: use an empty tagFilter
   const tagFilterExpression: TagFilter = {
     entity: 'NOT_APPLICABLE',
-    name: 'undefined',
+    name: 'synthetic.locationId',
     type: 'TAG_FILTER',
-    value: 0,
+    value: 'Hello',
     operator: 'EQUALS'
   };
 
   return {
     enabled: true,
     readOnly: false,
-
     id: '',
     created: 0,
-
     description: 'new config description',
     name: 'new config',
-
     severity: 5,
-
     rule,
-
     alertChannelIds: [],
     syntheticTestIds: [],
     tagFilterExpression,

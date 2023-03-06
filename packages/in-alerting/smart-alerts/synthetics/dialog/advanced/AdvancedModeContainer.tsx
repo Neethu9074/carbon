@@ -11,6 +11,8 @@ import React from 'react';
 import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesContainer';
 // @ts-expect-error needs migration
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
+//@ts-expect-error
+import AlertTagFilterExpressionConfig from 'in-alerting/smart-alerts/synthetics/components/AlertTagFilterExpressionConfig';
 import {
   AlertPreview,
   AlertPreviewHeadline
@@ -46,6 +48,13 @@ export default function AdvancedModeContainer(props: AdvancedModeContainerProp) 
           title: t('in-alerting:smartAlerts.synthetics.advanced.alertTestsTitle'),
           valid: true,
           content: <ConfigureAlertTest {...props} />
+        },
+        {
+          scrollId: '2',
+          label: t('in-alerting:smartAlerts.synthetics.advanced.scopeFilterLabel'),
+          title: t('in-alerting:smartAlerts.synthetics.simple.scopeHeadline'),
+          valid: true,
+          content: <AlertTagFilterExpressionConfig {...props} />
         },
         {
           scrollId: '5',

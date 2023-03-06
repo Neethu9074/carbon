@@ -10,6 +10,8 @@ import {
   AlertConfigDialogPresenterProps,
   MainDialogControl
 } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
+//@ts-expect-error
+import SimpleAlertConfigDialogStep2 from 'in-alerting/smart-alerts/synthetics/dialog/simple/SimpleAlertConfigDialogStep2';
 import SimpleAlertConfigDialogStep1 from 'in-alerting/smart-alerts/synthetics/dialog/simple/SimpleAlertConfigDialogStep1';
 import SimpleAlertConfigDialogStep3 from 'in-alerting/smart-alerts/components/dialog/simple/SimpleAlertConfigDialogStep3';
 import SimpleModeDialogThreshold from 'in-alerting/smart-alerts/synthetics/dialog/simple/SimpleModeDialogThreshold';
@@ -25,6 +27,10 @@ export const stepConfigs = [
     title: t('in-alerting:smartAlerts.synthetics.simple.stepConfigsStep2Title')
   },
   {
+    title: t('in-alerting:smartAlerts.synthetics.simple.stepConfigsStep3Title'),
+    validateIntermediately: [['alertChannelIds']]
+  },
+  {
     title: t('in-alerting:smartAlerts.synthetics.simple.stepConfigsStep4Title'),
     validateIntermediately: [['alertChannelIds']]
   },
@@ -36,6 +42,9 @@ export const stepConfigs = [
 export const stepRenderers = [
   (parentProps: AlertConfigDialogPresenterProps & MainDialogControl) => (
     <SimpleAlertConfigDialogStep1 {...parentProps} />
+  ),
+  (parentProps: AlertConfigDialogPresenterProps & MainDialogControl) => (
+    <SimpleAlertConfigDialogStep2 {...parentProps} />
   ),
   (parentProps: AlertConfigDialogPresenterProps & MainDialogControl) => <SimpleModeDialogThreshold {...parentProps} />,
   (parentProps: AlertConfigDialogPresenterProps & MainDialogControl) => (

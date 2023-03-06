@@ -1,0 +1,92 @@
+{
+  "tagTree": [
+    {
+      "label": "Commonly Used",
+      "description": null,
+      "icon": null,
+      "children": [
+        { "label": "Location Label", "tagName": "synthetic.locationLabel", "type": "TAG" },
+        { "label": "Synthetic Type", "tagName": "synthetic.syntheticType", "type": "TAG" }
+      ],
+      "type": "LEVEL",
+      "queryable": false
+    },
+    {
+      "label": "Application",
+      "description": null,
+      "icon": null,
+      "children": [
+        { "label": "Application Id", "tagName": "synthetic.applicationId", "type": "TAG" },
+        { "label": "Service Id", "tagName": "synthetic.serviceId", "type": "TAG" }
+      ],
+      "type": "LEVEL",
+      "queryable": false
+    },
+    {
+      "label": "Synthetic Test",
+      "description": null,
+      "icon": null,
+      "children": [{ "label": "Synthetic Type", "tagName": "synthetic.syntheticType", "type": "TAG" }],
+      "type": "LEVEL",
+      "queryable": false
+    },
+    {
+      "label": "Location",
+      "description": null,
+      "icon": null,
+      "children": [
+        { "label": "Location Id", "tagName": "synthetic.locationId", "type": "TAG" },
+        { "label": "Location Label", "tagName": "synthetic.locationLabel", "type": "TAG" }
+      ],
+      "type": "LEVEL",
+      "queryable": false
+    }
+  ],
+  "tags": [
+    {
+      "name": "synthetic.locationId",
+      "label": "Location Id",
+      "type": "STRING",
+      "description": null,
+      "canApplyToSource": false,
+      "canApplyToDestination": false,
+      "idTag": false
+    },
+    {
+      "name": "synthetic.locationLabel",
+      "label": "Location Label",
+      "type": "STRING",
+      "description": null,
+      "canApplyToSource": false,
+      "canApplyToDestination": false,
+      "idTag": false
+    },
+    {
+      "name": "synthetic.syntheticType",
+      "label": "Synthetic Type",
+      "type": "STRING",
+      "description": null,
+      "canApplyToSource": false,
+      "canApplyToDestination": false,
+      "idTag": false
+    },
+    {
+      "name": "synthetic.applicationId",
+      "label": "Application Id",
+      "type": "STRING",
+      "description": null,
+      "canApplyToSource": false,
+      "canApplyToDestination": false,
+      "idTag": false
+    },
+    {
+      "name": "synthetic.serviceId",
+      "label": "Service Id",
+      "type": "STRING",
+      "description": null,
+      "canApplyToSource": false,
+      "canApplyToDestination": false,
+      "idTag": false
+    }
+  ]
+}

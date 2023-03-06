@@ -1040,7 +1040,9 @@
         "simpleAlertConfigDialogStep1Headline": "What synthetic tests should be alerted on?",
         "stepConfigsStep4Title": "Step 4: Alert Channels",
         "alertDialogHeadline": "What should appear in the alert?",
-        "stepConfigsStep2Title": "Step 2: Threshold",
+        "stepConfigsStep2Title": "Step 2: Scope",
+        "scopeHeadline": "Where do you want the alert to trigger?",
+        "stepConfigsStep3Title": "Step 3: Threshold",
         "stepConfigsStep5Title": "Step 5: Alert Properties",
         "thresholdTitle": "How many consecutive failures should occur per location before alerting?"
       },
@@ -1049,6 +1051,7 @@
         "alertChannelsTitle": "Alert Channels: Who needs to be alerted?",
         "propertiesLabel": "Properties",
         "propertiesTitle": "Additional Alert Properties",
+        "scopeFilterLabel": "Scope",
         "alertTestsLabel": "Synthetic Tests",
         "alertTestsTitle": "Synthetic Tests : What synthetic tests should be alerted on?"
       },

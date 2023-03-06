@@ -7,9 +7,9 @@
 import { Item, MapForm } from 'formalistic';
 import React, { useState } from 'react';
 
-import AlertConfigDialogWithThreshold from 'in-alerting/smart-alerts/synthetics/dialog/AlertConfigDialogWithThreshold';
-import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
+// import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
 import alertFormDefinition from 'in-alerting/smart-alerts/synthetics/form/alertDialogFormDefinition';
+import AlertConfigDialogWithThreshold from 'in-alerting/smart-alerts/synthetics/dialog/AlertConfigDialogWithThreshold';
 import { SyntheticAlertConfigWithMetadata } from 'in-types';
 import { MessageType } from 'in-components/MessageStack';
 
@@ -28,15 +28,17 @@ export default function AlertConfigDialog({
 }: AlertConfigDialogType) {
   const [form, setForm] = useState(() => alertFormDefinition(alertConfig, editMode));
 
-  const updateForm = useSmartAlertFormSideEffects(form, setForm);
+  // const updateForm = useSmartAlertFormSideEffects(form, setForm);
   const [isSaving] = useState(false);
   const [messages] = useState<MessageType[]>([]);
 
   return (
     <AlertConfigDialogWithThreshold
-      updateForm={updateForm}
+      updateForm={(updateForm: MapForm) => {
+        setForm(updateForm);
+      }}
       form={form}
-      onChange={createOnChange(updateForm, form)}
+      onChange={createOnChange(setForm, form)}
       onCreate={() => {
         // LATER: store in backend
         onClose(/* Later: created new config */);
