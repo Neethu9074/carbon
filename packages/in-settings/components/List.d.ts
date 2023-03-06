@@ -57,6 +57,7 @@ interface ListProps<ItemType extends Object> {
     orderDirectionState: 'ASC' | 'DESC';
   }) => ItemType[];
   onRowClick?: (entity: ItemType) => void;
+  renderNoDataAvailable?: (message?: string) => React.ReactNode;
 }
 
 declare function ListComponent<ItemType extends Object>(props: ListProps<ItemType>): JSX.Element;

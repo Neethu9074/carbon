@@ -52,7 +52,7 @@ export interface SelectListDialogContentProps {
   renderCustomFormActions: (numberOfItems: number) => JSX.Element;
   pageSize: number;
   preventCloseOnSubmit: boolean;
-  requiresAtLeastOneMessage: string;
+  requiresAtLeastOneMessage?: string;
 }
 
 declare function SelectListDialogContent(props: SelectListDialogContentProps): JSX.Element;

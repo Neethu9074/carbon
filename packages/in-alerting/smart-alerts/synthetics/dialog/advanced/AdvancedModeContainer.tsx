@@ -18,6 +18,7 @@ import {
 import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/dialog/advanced/AlertPropertiesTitleRow';
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
 import { SliderState } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
+import ConfigureAlertTest from 'in-alerting/smart-alerts/synthetics/components/ConfigureAlertTest';
 import StepsContainer from 'in-components/StepsContainer';
 import { MessageType } from 'in-components/MessageStack';
 import { t } from 'in-i18n';
@@ -39,6 +40,13 @@ export default function AdvancedModeContainer(props: AdvancedModeContainerProp) 
     <StepsContainer
       messages={messages}
       navItems={[
+        {
+          scrollId: '1',
+          label: t('in-alerting:smartAlerts.synthetics.advanced.alertTestsLabel'),
+          title: t('in-alerting:smartAlerts.synthetics.advanced.alertTestsTitle'),
+          valid: true,
+          content: <ConfigureAlertTest {...props} />
+        },
         {
           scrollId: '5',
           label: t('in-alerting:smartAlerts.synthetics.advanced.alertChannelsLabel'),
