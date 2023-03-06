@@ -211,18 +211,19 @@ export default class Config {
   }
 
   addBlockSizeMillisForAxis(axis: Axis): void {
-    axis.dynamicCalculatedBlockSizeMillis = Math.max(
-      this.granularity!,
-      getPredefinedBlockSizeMillisForBlockSize(
-        getBlockSizeMillis({
-          windowSize: this.timeConfig!.windowSize,
-          maxDataPoints: axis.maxDataPoints,
-          minPixelsPerBlock: axis.minPixelsPerBlock || 1,
-          width: this.width!,
-          rollup: this.granularity
-        })
-      )
-    );
+    if (this.granularity != null) {
+      // Enforce granularity if explicitly requested
+      axis.dynamicCalculatedBlockSizeMillis = this.granularity;
+    } else {
+      // Otherwise, fallback to the pre-defined granularities
+      const blockSizeMillis = getBlockSizeMillis({
+        windowSize: this.timeConfig!.windowSize,
+        maxDataPoints: axis.maxDataPoints,
+        minPixelsPerBlock: axis.minPixelsPerBlock || 1,
+        width: this.width!
+      });
+      axis.dynamicCalculatedBlockSizeMillis = getPredefinedBlockSizeMillisForBlockSize(blockSizeMillis);
+    }
   }
 
   determineSeriesColors(): void {

@@ -44,8 +44,19 @@ export const aggregationIcons = {
   SUM: 'lib_sum'
 };
 
-// Ensure that this is kept in sync with the backend:
-// - https://github.ibm.com/instana/backend/blob/1f04be562b1310cbd7dd00ab3208c82042197b00/ui-backend/src/main/java/com/instana/ui/service/EventMetricService.java#L59
+/**
+ * Granularities that we want to use by default depending on the chosen timeframes.
+ * <p>
+ * <strong>This needs to be kept in sync with the backend</strong>, in order to ensure that charts and big-number KPIs show
+ * comparable data based on the same timeframes that could otherwise due to the timeframe-adjustment to remove partial buckets:
+ * <a href="https://github.ibm.com/instana/backend/blob/2f1e83755c6a1096544997c5a0e0893d3975d851/metrics/metrics-core/src/main/java/com/instana/metrics/BaseGranularity.java#L26-L41">BaseGranularity</>
+ * <p>
+ * Furthermore, the following granularities are not listed here, because they might only be used in specific cases explicitly,
+ * such as Smart Alert charts or charts in Synthetics dashboards, where such granularities are explicitly used for e.g. the
+ * evaluation interval, or test interval. However, we don't want to globally use them as a default granularity, because that would
+ * mean that e.g. the 24h chart in AP dashboards would use 20min instead of 30min chart, where we would benefit from the
+ * 30m mat-views, but otherwise would fall back to use the 1m mat-views instead.
+ */
 export const sensibleGranularities = [
   seconds.toMillis(1),
   seconds.toMillis(5),
