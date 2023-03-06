@@ -8,7 +8,7 @@ import React from 'react';
 
 import { ListNameColumn, getSubtitle } from 'in-alerting/smart-alerts/applications/list/columns/ListNameColumn';
 import BuiltInIndicator from 'in-alerting/smart-alerts/components/details/BuiltInIndicator';
-import { NameContent } from 'in-alerting/smart-alerts/components/AlertsBaseList';
+import { NameColumnCell } from 'in-alerting/smart-alerts/components/list/NameColumnCell';
 
 export default {
   component: ListNameColumn
@@ -36,7 +36,7 @@ export const APListNameColumn = {
 };
 
 export const NewNameContentColumn = () => (
-  <NameContent
+  <NameColumnCell
     config={config}
     getSubtitle={config => getSubtitle(config.rule, config.threshold)}
     getAdditionalContent={config => <BuiltInIndicator builtIn={config.builtIn} />}
@@ -49,7 +49,7 @@ export const ComparisonRegularName = () => (
     <ListNameColumn config={config} />
     <hr />
     new Alert list name:
-    <NameContent
+    <NameColumnCell
       config={config}
       getSubtitle={config => getSubtitle(config.rule, config.threshold)}
       getAdditionalContent={config => <BuiltInIndicator builtIn={config.builtIn} />}
@@ -66,7 +66,7 @@ export const WithExtraLongNameAndMaxWidth = args => {
       </div>
       <div style={{ border: '1px solid green', padding: '1rem' }}>
         <strong>new Alert list name:</strong>
-        <NameContent
+        <NameColumnCell
           config={withLongName}
           getSubtitle={config => getSubtitle(config.rule, config.threshold)}
           getAdditionalContent={config => <BuiltInIndicator builtIn={config.builtIn} />}
