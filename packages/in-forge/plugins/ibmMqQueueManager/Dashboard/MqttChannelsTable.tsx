@@ -19,16 +19,6 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 import { success } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
-//import { Result } from '@instana/types';
-
-// import { combineLatest, just } from '@instana/observables';
-// import { Result } from '@instana/types';
-// import getIbmMqMftMonitorsForCoordiQmgr from '../subscriptions/getIbmMqMftMonitorsForCoordiQmgr';
-// import { pendingResult } from 'in-services/fixedObjects';
-// import { success } from 'in-services/util/result';
-// import connectTo from 'in-hoc/connectTo';import { t } from 'in-i18n';
-// import { useObservable } from '@instana/hooks/types/useObservable/useObservable';
-
 const cols = [
   {
     title: t('in-forge:plugins.ibmMqQueueManager.dashboard.name'),
