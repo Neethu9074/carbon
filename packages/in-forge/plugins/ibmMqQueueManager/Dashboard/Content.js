@@ -6,9 +6,9 @@
 import React from 'react';
 
 import SubscriptionsTable from 'in-forge/plugins/ibmMqQueueManager/Dashboard/SubscriptionsTable.js';
+import MqttChannelsTable from 'in-forge/plugins/ibmMqQueueManager/Dashboard/MqttChannelsTable.tsx';
 import QueuesUsageTable from 'in-forge/plugins/ibmMqQueueManager/Dashboard/QueuesUsageTable.js';
 import ChannelsTable from 'in-forge/plugins/ibmMqQueueManager/Dashboard/ChannelsTable.js';
-import MqttChannelsTable from 'in-forge/plugins/ibmMqQueueManager/Dashboard/MqttChannelsTable.js';
 import ListenersTable from 'in-forge/plugins/ibmMqQueueManager/Dashboard/ListenersTable';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import QueuesTable from 'in-forge/plugins/ibmMqQueueManager/Dashboard/QueuesTable.js';
