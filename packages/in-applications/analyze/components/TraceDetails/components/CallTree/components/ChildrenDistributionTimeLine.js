@@ -6,11 +6,13 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { convertLogEventsToLogs } from 'in-applications/analyze/components/TraceDetails/components/CallTree/logEvents';
 import CallTooltipContent from 'in-applications/analyze/components/TraceDetails/components/CallTooltipContent';
 import { isCallNode } from 'in-applications/analyze/components/TraceDetails/components/CallTree/lazyCallTree';
 import LogTooltipContent from 'in-applications/analyze/components/TraceDetails/components/LogTooltipContent';
 import { isFakeRootCall } from 'in-applications/analyze/components/TraceDetails/components/callHelper';
 import LogIndicator from 'in-applications/analyze/components/TraceDetails/components/LogIndicator';
+import { largeTracesV2Enabled } from 'in-services/featureFlags';
 import { latencyFixed } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
 
@@ -44,6 +46,10 @@ export default function ChildrenDistributionTimeLine(props) {
         .filter(subCall => subCall.model === 'LOG')
         .map((subCall, i) => (
           <LogIndicators key={i} {...props} parentCall={call} log={subCall} />
+        ))}
+      {largeTracesV2Enabled &&
+        convertLogEventsToLogs(call.logEvents).map((log, i) => (
+          <LogIndicators key={i} {...props} parentCall={call} log={log} />
         ))}
     </div>
   );

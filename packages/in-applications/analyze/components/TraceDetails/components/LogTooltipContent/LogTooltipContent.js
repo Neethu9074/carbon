@@ -7,7 +7,9 @@ import React from 'react';
 
 import { Stack, SvgIcon } from '@instana/components';
 
+import { number } from 'in-services/formatters/number';
 import { role } from 'in-stores/user';
+import Pill from 'in-components/Pill';
 import { t } from 'in-i18n';
 
 import locals from './LogTooltipContent.mless';
@@ -37,6 +39,16 @@ export default function LogTooltipContent({ log }) {
           : t('in-analyze:traceDetail.components.logTooltipContent.warningLog')}
       </div>
       <span className={locals.headingLabel}>{log.label}</span>
+      {log.batchCount > 1 && (
+        <div className={locals.batchCount}>
+          <Pill kind="lighter" className={locals.pill}>
+            {number.compact(log.batchCount)}
+          </Pill>
+          {t('in-analyze:traceDetail.components.logTooltipContent.batchCount', {
+            count: number.compact(log.batchCount)
+          })}
+        </div>
+      )}
     </div>
   );
 }
