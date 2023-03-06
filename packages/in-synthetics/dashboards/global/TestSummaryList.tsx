@@ -21,7 +21,9 @@ import {
   filterUrlStateDefinition,
   matrixPrefix,
   pathSegment,
-  PresenterProps
+  PresenterProps,
+  createLocationsUrlParameter,
+  createSyntheticTypesUrlParameter
 } from 'in-synthetics/utils/constants';
 import showNotification, {
   calculateNextOccurrence,
@@ -70,7 +72,11 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
     title: t('in-synthetics:dashboard.noDataAvailable.testSummaryTitle'),
     description: t('in-synthetics:dashboard.noDataAvailable.testSummaryDescription')
   }),
-  paginationResettingUrlParameters: [...timeConfigUrlParameters],
+  paginationResettingUrlParameters: [
+    ...timeConfigUrlParameters,
+    createSyntheticTypesUrlParameter(),
+    createLocationsUrlParameter()
+  ],
   columnDefinitions: columnDefinitions,
   defaultOrderBy: 'successRate',
   defaultOrderDirection: 'ASC',

@@ -287,22 +287,8 @@ export type Timing = {
 
 export const filterUrlStateDefinition = {
   bind: [
-    {
-      path: pathSegment,
-      name: 'syntheticTypes',
-      as: 'syntheticTypes',
-      initialState: [],
-      parser: buildJsonParser([]),
-      serializer: buildJsonSerializer()
-    },
-    {
-      path: pathSegment,
-      name: 'locationIds',
-      as: 'locationIds',
-      initialState: [],
-      parser: buildJsonParser([]),
-      serializer: buildJsonSerializer()
-    },
+    createSyntheticTypesUrlParameter(),
+    createLocationsUrlParameter(),
     {
       path: pathSegment,
       name: 'applicationIds',
@@ -313,6 +299,28 @@ export const filterUrlStateDefinition = {
     }
   ]
 } as Options<UrlState>;
+
+export function createSyntheticTypesUrlParameter() {
+  return {
+    path: pathSegment,
+    name: 'syntheticTypes',
+    as: 'syntheticTypes',
+    initialState: [],
+    parser: buildJsonParser([]),
+    serializer: buildJsonSerializer()
+  };
+}
+
+export function createLocationsUrlParameter() {
+  return {
+    path: pathSegment,
+    name: 'locationIds',
+    as: 'locationIds',
+    initialState: [],
+    parser: buildJsonParser([]),
+    serializer: buildJsonSerializer()
+  };
+}
 
 export interface PresenterProps extends FilterState {
   result: Result<PaginatedResult<TestResultListItem>>;
