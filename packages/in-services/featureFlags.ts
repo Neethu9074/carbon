@@ -127,6 +127,11 @@ export const hiddenSearchFieldValues = {
 };
 
 // ########################################################################################
+// Business Observability flags
+// ########################################################################################
+export const businessObservabilityEnabled = isFeatureFlagEnabled('businessObservabilityEnabled');
+
+// ########################################################################################
 // Chart gap hiding
 // ########################################################################################
 export const allowedMillisGapsInOneSecondResolution = 20000;

@@ -325,6 +325,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'businessObservabilityEnabled',
+    instanaCtlKey: 'feature.business.observability.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'largeTracesV2Enabled',
     instanaCtlKey: 'feature.ua.large.traces.v2.enabled',
     defaultValue: false

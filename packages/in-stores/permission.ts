@@ -5,6 +5,7 @@
 
 import {
   actionAutomationEnabled,
+  businessObservabilityEnabled,
   openstackEnabled,
   pcfEnabled,
   phmcEnabled,
@@ -21,6 +22,7 @@ export const RESTRICTED_ACCESS = 'RESTRICTED_ACCESS';
 export const LimitedAccessScope = Object.freeze({
   LIMITED_WEBSITES_SCOPE: 'LIMITED_WEBSITES_SCOPE',
   LIMITED_MOBILE_APPS_SCOPE: 'LIMITED_MOBILE_APPS_SCOPE',
+  LIMITED_BIZOPS_SCOPE: 'LIMITED_BIZOPS_SCOPE',
   LIMITED_APPLICATIONS_SCOPE: 'LIMITED_APPLICATIONS_SCOPE',
   LIMITED_KUBERNETES_SCOPE: 'LIMITED_KUBERNETES_SCOPE',
   LIMITED_INFRASTRUCTURE_SCOPE: 'LIMITED_INFRASTRUCTURE_SCOPE',
@@ -46,6 +48,7 @@ export const AreaPermission = Object.freeze({
   ACCESS_ZHMC: 'ACCESS_ZHMC',
   ACCESS_PCF: 'ACCESS_PCF',
   ACCESS_OPENSTACK: 'ACCESS_OPENSTACK',
+  ACCESS_BIZOPS: 'ACCESS_BIZOPS',
   ACCESS_INFRASTRUCTURE_ANALYZE: 'ACCESS_INFRASTRUCTURE_ANALYZE'
 } as const);
 export type AreaPermissionType = keyof typeof AreaPermission;
@@ -152,6 +155,8 @@ export const hasAPlatformAccess =
   hasVSphereAccess || hasPHMCAccess || hasZHMCAccess || hasPCFAccess || hasOpenStackAccess || hasKubernetesAccess;
 export const hasEventsAccess =
   hasWebsitesAccess || hasApplicationsAccess || hasAPlatformAccess || hasInfrastructureAccess;
+export const hasBizOpsAccess =
+  hasPermission(LimitedAccessScope.LIMITED_BIZOPS_SCOPE, AreaPermission.ACCESS_BIZOPS) && businessObservabilityEnabled;
 
 interface AreaPermissionProps {
   value: AreaPermissionType;
@@ -204,6 +209,13 @@ function getProductAreaPermissions(): Array<AreaPermissionProps> {
   if (syntheticsEnabled) {
     areaPermissions.push({
       value: AreaPermission.ACCESS_SYNTHETICS,
+      label: t('in-stores:permissionAccessSyntheticsLabel')
+    });
+  }
+
+  if (businessObservabilityEnabled) {
+    areaPermissions.push({
+      value: AreaPermission.ACCESS_BIZOPS,
       label: t('in-stores:permissionAccessSyntheticsLabel')
     });
   }
