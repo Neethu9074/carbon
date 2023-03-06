@@ -12,7 +12,6 @@ import locals from './InlineTabNavigation.mless';
 interface InlineTabNavigationProps extends Pick<TabProps, 'onTabSelect' | 'isDisabled'> {
   activeTabIndex?: number;
   isDisabled?: boolean;
-  onTabSelect?: (...args: any[]) => any;
   tabList?: TabProps[];
 }
 

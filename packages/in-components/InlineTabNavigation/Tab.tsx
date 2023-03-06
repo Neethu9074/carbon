@@ -24,7 +24,7 @@ export interface TabProps {
   index?: number;
   isActive?: boolean;
   isDisabled?: boolean;
-  onTabSelect?: (index: number | undefined) => void;
+  onTabSelect?: (index: number) => void;
   text?: string;
   withoutBottomBorder?: boolean;
 }
@@ -60,7 +60,7 @@ export default function Tab({
   if (onTabSelect && !isDisabled) {
     interactivityProps = toInteractiveElement({
       ariaLabel: t('in-components:inlineTabNavigation.labelSelectTab'),
-      onDefaultInteraction: () => onTabSelect(index)
+      onDefaultInteraction: () => onTabSelect(index ?? 0)
     });
   }
 

@@ -9,13 +9,13 @@ import { getColorBySeverity } from 'in-stores/events';
 
 import locals from './WithHealthDot.mless';
 
-interface WithHealthDootProps {
+interface WithHealthDotProps {
   severity?: number;
   iconSize?: number;
   children?: ReactNode;
 }
 
-export default function WithHealthDot({ severity = 0, iconSize = 0, children }: WithHealthDootProps) {
+export default function WithHealthDot({ severity = 0, iconSize = 0, children }: WithHealthDotProps) {
   return (
     <div className={locals.wrapper}>
       {children}
