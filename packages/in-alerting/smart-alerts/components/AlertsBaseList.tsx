@@ -101,7 +101,7 @@ export default function AlertBaseList<AlertConfig extends AlertConfigType>({
   );
 }
 
-function NameContent<AlertConfig extends AlertConfigType>({
+export function NameContent<AlertConfig extends AlertConfigType>({
   config,
   getSubtitle
 }: {

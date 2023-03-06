@@ -48,7 +48,7 @@ export function ListNameColumn({ config }) {
   );
 }
 
-function getSubtitle(rule, threshold) {
+export function getSubtitle(rule, threshold) {
   const { alertType, aggregation, metricName } = rule;
   const blueprintConfig = getBlueprintConfig(alertType);
   const metricLabel = blueprintConfig.getMetricLabel(metricName);
