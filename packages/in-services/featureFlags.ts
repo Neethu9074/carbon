@@ -106,6 +106,9 @@ export const syntheticSmartAlertsEnabled = isFeatureFlagEnabled('syntheticSmartA
 // Create Synthetic SmartAlert UI feature flag
 export const syntheticCreateSmartAlertsUIEnabled = isFeatureFlagEnabled('syntheticCreateSmartAlertsUIEnabled');
 
+// Create Synthetic Test in Advance Mode
+export const syntheticCreateTestAdvanceModeEnabled = isFeatureFlagEnabled('syntheticCreateTestAdvanceModeEnabled');
+
 // ########################################################################################
 // Dynamic focus keywords
 // ########################################################################################
