@@ -3,9 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { ReactNode } from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
-import React from 'react';
 
 import { toInteractiveElement } from '@instana/components';
 import { SvgIcon } from '@instana/components';
@@ -18,6 +17,18 @@ import { t } from 'in-i18n';
 
 import locals from './Tab.mless';
 
+export interface TabProps {
+  disabledReason?: ReactNode;
+  healthSeverity?: number;
+  icon?: string;
+  index?: number;
+  isActive?: boolean;
+  isDisabled?: boolean;
+  onTabSelect?: (index: number) => void;
+  text?: string;
+  withoutBottomBorder?: boolean;
+}
+
 export default function Tab({
   icon,
   text,
@@ -28,7 +39,7 @@ export default function Tab({
   onTabSelect,
   healthSeverity,
   withoutBottomBorder
-}) {
+}: TabProps) {
   let iconElement = icon && (
     <SvgIcon
       className={locals.tabIcon}
@@ -49,7 +60,7 @@ export default function Tab({
   if (onTabSelect && !isDisabled) {
     interactivityProps = toInteractiveElement({
       ariaLabel: t('in-components:inlineTabNavigation.labelSelectTab'),
-      onDefaultInteraction: () => onTabSelect(index)
+      onDefaultInteraction: () => onTabSelect(index ?? 0)
     });
   }
 
@@ -81,15 +92,3 @@ export default function Tab({
     return item;
   }
 }
-
-Tab.propTypes = {
-  disabledReason: PropTypes.node,
-  healthSeverity: WithHealthDot.propTypes.severity,
-  icon: PropTypes.string,
-  index: PropTypes.number,
-  isActive: PropTypes.bool,
-  isDisabled: PropTypes.bool,
-  onTabSelect: PropTypes.func,
-  text: PropTypes.string,
-  withoutBottomBorder: PropTypes.bool
-};
