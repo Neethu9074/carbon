@@ -5,14 +5,13 @@
 
 import React from 'react';
 
-import { getGroupTagValue } from 'in-infrastructure/Explore/components/GroupedInfrastructure';
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { getLinkToExplore } from 'in-infrastructure/navigation/paths';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 import CsvExporter from 'in-components/CsvExporter';
 import { t } from 'in-i18n';
 
-export default function EntityListPresenter({ order, result, onChange }) {
+export default function EntityListPresenter({ order, result, onChange, query }) {
   const columnDefinitions = [
     {
       id: 'label',
@@ -20,13 +19,12 @@ export default function EntityListPresenter({ order, result, onChange }) {
       label: t('in-infrastructure:explore.name'),
       sortable: true,
       getContent(item) {
-        const value = getGroupTagValue(item, 'type');
         return (
           <div>
             <EntityLink
-              label={value}
-              plugin={item.tags['type']}
-              href$={getLinkToExplore({ type: item.tags['type'], group: {} })}
+              label={item.label}
+              plugin={item.type}
+              href$={getLinkToExplore({ type: item.type, group: {} })}
             />
           </div>
         );
@@ -53,11 +51,12 @@ export default function EntityListPresenter({ order, result, onChange }) {
   ];
 
   function getCsvItems() {
-    return result?.data?.items.map(item => ({ name: getGroupTagValue(item, 'type'), count: item.count })) || [];
+    return result?.data?.items.map(item => ({ name: item.label, count: item.count })) || [];
   }
 
   return (
     <ServerTablePresenter
+      query={query}
       orderBy={order.by}
       orderDirection={order.direction}
       result={result}

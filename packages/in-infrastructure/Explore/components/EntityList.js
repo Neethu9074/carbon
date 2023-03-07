@@ -3,74 +3,37 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 
-import { getGroupTagValue } from 'in-infrastructure/Explore/components/GroupedInfrastructure';
+import { useObservable } from '@instana/hooks';
+
+import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { ErroneousResult } from 'in-components/QueryBuilder/components/Header/CountHeader';
-import createGetGroupsSubscription from 'in-infrastructure/subscriptions/getGroups';
-import useCursorPagination from 'in-hooks/useCursorPagination';
+import { pendingResult } from 'in-services/fixedObjects';
 import EntityListPresenter from './EntityListPresenter';
+import getGroups from '../../subscriptions/getGroups';
+import { mapData } from 'in-services/util/result';
+import { getPluginName } from 'in-sdk/pluginName';
 
-export default function EntityList({ retrievalSize = 20, backendQueryModel, timeConfig, order, type, setOrder }) {
-  const { items, errors, progress } = useCursorPagination(
-    ({ cursor }) => getTableData({ timeConfig, retrievalSize, backendQueryModel, order, type, cursor }),
-    [timeConfig, retrievalSize, backendQueryModel, type, order]
-  );
+export default function EntityList({ backendQueryModel, timeConfig, order, setOrder }) {
+  const typesResult = useObservable(() => getAvailableTypes({timeConfig, backendQueryModel}), [timeConfig, backendQueryModel]) ?? pendingResult;
+  const [query, setQuery] = useState('');
+  const tableResult = useMemo(() => mapData(typesResult, data => {
+    const rawItems = data.items.map(({tags: {type}, count = 0}) => ({type, label: getPluginName(type), count}));
+    const filteredItems = rawItems.filter(item => item.label.toLowerCase().includes(query.toLowerCase()));
+    const items = sortItems(filteredItems, order.by, order.direction);
+    return {items, page: 1};
+  }), [typesResult, order.by, order.direction, query]);
 
-  const hasErrors = errors?.length > 0;
-  const isLoading = progress?.loading;
-
-  const [result, setResultData] = useState(createResultData(items));
-
-  const onChangeItems = items => {
-    return setResultData(createResultData(items));
-  };
-
-  if (isLoading && result.data.items.length > 0 && items.length === 0) {
-    onChangeItems([]);
-  }
-
-  if (!isLoading && result.progress.loading && items.length > 0 && result.data.items.length === 0) {
-    if (order.by === 'count') {
-      onChangeItems(sortItems(items, order.by, order.direction));
-    } else {
-      onChangeItems(items);
-    }
-  }
-
-  function createResultData(items) {
-    return {
-      progress: {
-        loading: isLoading
-      },
-      errors: errors,
-      data: {
-        items: items ?? [],
-        page: 1
-      }
-    };
-  }
-
-  const onChange = ({ query, orderBy, orderDirection }) => {
-    if (query !== undefined) {
-      //search
-      onChangeItems(
-        items.filter(item =>
-          getGroupTagValue(item, 'type')
-            .toLowerCase()
-            .includes(query?.toLowerCase())
-        )
-      );
-    } else {
-      //sort
-      setOrder({ by: orderBy, direction: orderDirection });
-    }
-  };
+  const onChange = useCallback(({query, orderBy, orderDirection}) => {
+    setQuery(query);
+    setOrder({by: orderBy, direction: orderDirection});
+  }, [setQuery, setOrder]);
 
   return (
     <>
-      {hasErrors && <ErroneousResult />}
-      <EntityListPresenter order={order} result={result} onChange={onChange} />
+      {tableResult.errors?.length > 0 && <ErroneousResult />}
+      <EntityListPresenter order={order} result={tableResult} onChange={onChange} query={query} />
     </>
   );
 }
@@ -78,10 +41,10 @@ export default function EntityList({ retrievalSize = 20, backendQueryModel, time
 function sortItems(items, orderBy, orderDirection) {
   if (orderBy === 'label') {
     return items.sort((a, b) => {
-      if (a.tags.type < b.tags.type) {
+      if (a.label < b.label) {
         return orderDirection === 'DESC' ? 1 : -1;
       }
-      if (a.tags.type > b.tags.type) {
+      if (a.label > b.label) {
         return orderDirection === 'DESC' ? -1 : 1;
       }
       return 0;
@@ -100,37 +63,20 @@ function sortItems(items, orderBy, orderDirection) {
   }
 }
 
-function getTableData(params) {
-  return getGroupsSubscribeEvent(params);
-}
-
-function getGroupsSubscribeEvent({
-  query = '',
-  page = 1,
-  pageSize = 20,
-  order,
+function getAvailableTypes({
   timeConfig,
-  backendQueryModel = {
-    type: 'EXPRESSION',
-    logicalOperator: 'AND',
-    elements: []
-  }
+  backendQueryModel = EMPTY_EXPRESSION
 }) {
-  return createGetGroupsSubscription({
+  return getGroups({
     pagination: {
-      page,
-      pageSize,
-      retrievalSize: 200
-    },
-    order: {
-      by: order.by,
-      direction: order.direction
+      retrievalSize: 500,
+      fullData: true
     },
     filter: {
       tagFilterExpression: backendQueryModel,
-      label: query,
       timeConfig
     },
+    firstPageOnly: true,
     groupBy: ['type']
   });
 }
