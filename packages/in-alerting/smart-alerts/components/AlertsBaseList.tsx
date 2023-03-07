@@ -5,18 +5,14 @@
  */
 
 import React, { ReactNode, useState } from 'react';
-import classNames from 'classnames';
 
 import { Observable } from '@instana/observables';
-import { SvgIcon } from '@instana/components';
 import { Card } from '@instana/components';
 
 import { ListActionsColumn } from 'in-alerting/smart-alerts/applications/list/columns/ListActionsColumn';
+import { NameColumnCell } from 'in-alerting/smart-alerts/components/list/NameColumnCell';
 import List, { TableActions as ListTableActions } from 'in-settings/components/List';
-import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t } from 'in-i18n';
-
-import locals from 'in-alerting/smart-alerts/websites/Alerts.mless';
 
 export type TableActions<T> = Omit<ListTableActions<T>, 'deselect'> & {
   toggleEnabled?: {
@@ -66,7 +62,7 @@ export default function AlertBaseList<AlertConfig extends AlertConfigType>({
   const nameColumn: ColumnDefinition<AlertConfig> = {
     id: 'name',
     label: t('in-alerting:smartAlerts.list.columns.name'),
-    getContent: config => <NameContent<AlertConfig> config={config} getSubtitle={getSubtitle} />
+    getContent: config => <NameColumnCell<AlertConfig> config={config} getSubtitle={getSubtitle} />
   };
 
   const columnDef = actionHandlers
@@ -98,32 +94,5 @@ export default function AlertBaseList<AlertConfig extends AlertConfigType>({
         />
       </Card>
     </>
-  );
-}
-
-export function NameContent<AlertConfig extends AlertConfigType>({
-  config,
-  getSubtitle
-}: {
-  config: AlertConfig;
-  getSubtitle?: (config: AlertConfig) => string;
-}) {
-  return (
-    <div className={classNames(locals.centered, locals.fullWidth)}>
-      <SvgIcon
-        className={classNames({
-          [locals.alertIcon]: true,
-          [locals.alertIconSeverityLow]: config.severity <= 5,
-          [locals.alertIconSeverityHigh]: config.severity > 5
-        })}
-        type="lib_alerts_alert"
-      />
-      <div className={classNames(locals.column, locals.fullWidth)}>
-        <Tooltip themeStyle="light" content={config.description} align="topMiddle" delay={500}>
-          <div className={classNames(locals.name, locals.fullWidth)}>{config.name}</div>
-        </Tooltip>
-        {getSubtitle && <div className={locals.nameSubtext}>{getSubtitle(config)}</div>}
-      </div>
-    </div>
   );
 }
