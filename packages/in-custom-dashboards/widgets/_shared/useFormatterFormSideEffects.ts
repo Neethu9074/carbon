@@ -129,7 +129,7 @@ function handleChartAxisFormatterUpdate(axisName: 'y1' | 'y2') {
       metricConfigurations?.flatMap(config => getFormatter(config.source, config.metric, config.aggregation)) ?? [];
 
     return form.updateIn([axisName, formatterPath], f =>
-      (f as Field<string>).setValue(formatters?.[0].id ?? defaultFormatter).setTouched(true)
+      (f as Field<string>).setValue(formatters?.[0]?.id ?? defaultFormatter.id).setTouched(true)
     );
   };
 }
