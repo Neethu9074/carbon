@@ -345,7 +345,7 @@ function BizOps(props) {
     <View
       id="main-nav-bizops"
       label={t('in-bizops:navigation.bizops')}
-      icon={'lib_service_level'}
+      icon={'lib_camunda'}
       isActive={matchLocation(isBizOpsView)}
       href={createHrefToPath(bizopsPath)}
       {...props}
