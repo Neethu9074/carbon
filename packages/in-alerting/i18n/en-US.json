@@ -1030,6 +1030,20 @@
     "enable": "Enable",
     "disable": "Disable",
     "synthetics": {
+      "dashboard": {
+        "column": {
+          "moreFiltersWithCount": "+{{count}} more filter",
+          "moreFiltersWithCount_plural": "+{{count}} more filters",
+          "moreFiltersWithCount_0": "+{{count}} more filters",
+          "moreFiltersWithCount_1": "+{{count}} more filters",
+          "moreFiltersWithCount_2": "+{{count}} more filters",
+          "filter": "filter",
+          "filter_plural": "filters",
+          "filter_0": "filters",
+          "filter_1": "filters",
+          "filter_2": "filters"
+        }
+      },
       "alertList": {
         "timeThreshold": "Failure Threshold",
         "filterApplied": "Filter Applied",

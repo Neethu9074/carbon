@@ -9,11 +9,11 @@ import {
   Conjunction,
   FormModelElement
 } from 'in-components/QueryBuilder/transformation/formModel';
-import { getFiltersCount, getLimitedNumberOfFilters } from 'in-alerting/smart-alerts/websites/limitedFilters';
+import { getFiltersCount, getLimitedNumberOfFilters } from 'in-alerting/smart-alerts/components/limitedFilters';
 import { type as TAG_FILTER } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { TagFilter } from 'in-types';
 
-describe('in-alerting/smart-alerts/websites/limitedFilters', () => {
+describe('in-alerting/smart-alerts/components/limitedFilters', () => {
   const and: Conjunction = {
     type: 'CONJUNCTION',
     logicalOperator: 'AND'

@@ -10,7 +10,7 @@ import React from 'react';
 import { WebsiteAlertConfig } from '@instana/types';
 import { SvgIcon } from '@instana/components';
 
-import { getFiltersCount, getLimitedNumberOfFilters } from 'in-alerting/smart-alerts/websites/limitedFilters';
+import { getFiltersCount, getLimitedNumberOfFilters } from 'in-alerting/smart-alerts/components/limitedFilters';
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
 import { getBlueprintConfig, MetricName } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { fromBackendModel, isTagFilter } from 'in-components/QueryBuilder/transformation/formModel';
