@@ -17,17 +17,17 @@ import {
 import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesContainer';
 // @ts-expect-error needs migration
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
-//@ts-expect-error
-import AlertTagFilterExpressionConfig from 'in-alerting/smart-alerts/synthetics/components/AlertTagFilterExpressionConfig';
 import {
   AlertPreview,
   AlertPreviewHeadline
 } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
+import AlertTagFilterExpressionConfig from 'in-alerting/smart-alerts/synthetics/components/AlertTagFilterExpressionConfig';
 import SimpleModeDialogThreshold from 'in-alerting/smart-alerts/synthetics/dialog/simple/SimpleModeDialogThreshold';
 import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/dialog/advanced/AlertPropertiesTitleRow';
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
 import ConfigureAlertTest from 'in-alerting/smart-alerts/synthetics/components/ConfigureAlertTest';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
+import { QueryBuilderComponent } from 'in-components/QueryBuilder';
 import StepsContainer from 'in-components/StepsContainer';
 import { MessageType } from 'in-components/MessageStack';
 import { t } from 'in-i18n';
@@ -38,12 +38,14 @@ interface AdvancedModeContainerProp {
   messages?: MessageType[];
   setSliderState: (state: SliderState) => void;
   setCustomSlideInHeaderConfig: (state: { title: string | null; onClose: (() => void) | null }) => void;
+  QueryBuilderComponent: QueryBuilderComponent;
+  headerTransparent?: boolean;
 }
 
 export default function AdvancedModeContainer(
   props: AdvancedModeContainerProp & AlertConfigDialogPresenterProps & MainDialogControl & SlideInConfig
 ) {
-  const { form, onChange, setSliderState, setCustomSlideInHeaderConfig, messages } = props;
+  const { form, onChange, setSliderState, setCustomSlideInHeaderConfig, messages, headerTransparent = false } = props;
 
   const nameField = form.get('name') as Field<string>;
   return (
@@ -62,7 +64,7 @@ export default function AdvancedModeContainer(
           label: t('in-alerting:smartAlerts.synthetics.advanced.scopeFilterLabel'),
           title: t('in-alerting:smartAlerts.synthetics.simple.scopeHeadline'),
           valid: true,
-          content: <AlertTagFilterExpressionConfig {...props} />
+          content: <AlertTagFilterExpressionConfig {...props} headerTransparent={headerTransparent} />
         },
         {
           scrollId: '3',

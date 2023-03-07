@@ -10,7 +10,6 @@ import {
   AlertConfigDialogPresenterProps,
   MainDialogControl
 } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
-//@ts-expect-error
 import SimpleAlertConfigDialogStep2 from 'in-alerting/smart-alerts/synthetics/dialog/simple/SimpleAlertConfigDialogStep2';
 import SimpleAlertConfigDialogStep1 from 'in-alerting/smart-alerts/synthetics/dialog/simple/SimpleAlertConfigDialogStep1';
 import SimpleAlertConfigDialogStep3 from 'in-alerting/smart-alerts/components/dialog/simple/SimpleAlertConfigDialogStep3';

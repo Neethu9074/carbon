@@ -12,7 +12,6 @@ import {
   AlertConfigDialogPresenterProps,
   MainDialogControl
 } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
-//@ts-expect-error
 import SimpleAlertConfigDialogStep2 from 'in-alerting/smart-alerts/synthetics/dialog/simple/SimpleAlertConfigDialogStep2';
 import { createBoundedAlertQueryBuilderFactory } from 'in-alerting/smart-alerts/synthetics/components/AlertQueryBuilder';
 import { tagSuggestionTimeConfig } from 'in-alerting/smart-alerts/synthetics/dialog/AlertConfigDialogWithThreshold';
