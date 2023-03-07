@@ -1,6 +1,7 @@
 {
   "permissionAccessWebsitesLabel": "Websites",
   "permissionAccessMobileAppsLabel": "Mobile Apps",
+  "permissionAccessBizOpsLabel": "Business Processes",
   "permissionAccessApplicationsLabel": "Applications",
   "permissionAccessKubernetesLabel": "Kubernetes",
   "permissionAccessInfrastructureLabel": "Infrastructure",

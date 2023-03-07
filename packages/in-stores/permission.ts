@@ -155,8 +155,8 @@ export const hasAPlatformAccess =
   hasVSphereAccess || hasPHMCAccess || hasZHMCAccess || hasPCFAccess || hasOpenStackAccess || hasKubernetesAccess;
 export const hasEventsAccess =
   hasWebsitesAccess || hasApplicationsAccess || hasAPlatformAccess || hasInfrastructureAccess;
-export const hasBizOpsAccess =
-  hasPermission(LimitedAccessScope.LIMITED_BIZOPS_SCOPE, AreaPermission.ACCESS_BIZOPS) && businessObservabilityEnabled;
+export const hasBizOpsAccess = businessObservabilityEnabled;
+// hasPermission(LimitedAccessScope.LIMITED_BIZOPS_SCOPE, AreaPermission.ACCESS_BIZOPS) && businessObservabilityEnabled;
 
 interface AreaPermissionProps {
   value: AreaPermissionType;
@@ -216,7 +216,7 @@ function getProductAreaPermissions(): Array<AreaPermissionProps> {
   if (businessObservabilityEnabled) {
     areaPermissions.push({
       value: AreaPermission.ACCESS_BIZOPS,
-      label: t('in-stores:permissionAccessSyntheticsLabel')
+      label: t('in-stores:permissionAccessBizOpsLabel')
     });
   }
   return areaPermissions;

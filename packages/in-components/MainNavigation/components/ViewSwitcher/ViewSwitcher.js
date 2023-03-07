@@ -14,6 +14,7 @@ import {
   hasAnalyzeAccess,
   hasAPlatformAccess,
   hasApplicationsAccess,
+  hasBizOpsAccess,
   hasEventsAccess,
   hasInfrastructureAccess,
   hasKubernetesAccess,
@@ -71,6 +72,7 @@ import { isInfraExploreView } from 'in-infrastructure/navigation/paths';
 import { ibmp, phmcListFullyQualified } from 'in-phmc/navigation/paths';
 import { ibmz, zhmcListFullyQualified } from 'in-zhmc/navigation/paths';
 import { isSloView, sloList } from 'in-service-levels/navigation/path';
+import { isBizOpsView, bizopsPath } from 'in-bizops/navigation/paths';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { cockpit as cockpitPath } from 'in-cockpit/navigation/paths';
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
@@ -90,6 +92,7 @@ const tenantSwitcherLink = `https://${config.tenantUnitDomainSuffix}/tenantSwitc
 const hasFirstSectionAccess =
   hasWebsitesAccess ||
   hasMobileAppsAccess ||
+  hasBizOpsAccess ||
   hasApplicationsAccess ||
   hasAPlatformAccess ||
   hasInfrastructureAccess ||
@@ -124,6 +127,7 @@ export default function ViewSwitcher({
       />
       <SpacerListItem />
       <WebsiteMobileAppView {...commonProps} />
+      <BizOps {...commonProps} />
       <Applications {...commonProps} />
       <Platforms
         {...commonProps}
@@ -326,6 +330,24 @@ function Synthetics(props) {
       icon={'lib_synthetic'}
       isActive={matchLocation(isSyntheticMonitoringView)}
       href={createHrefToPath(syntheticsPath)}
+      {...props}
+    />
+  );
+}
+
+function BizOps(props) {
+  const { matchLocation, createHrefToPath } = useNavigation();
+
+  if (!hasBizOpsAccess) {
+    return null;
+  }
+  return (
+    <View
+      id="main-nav-bizops"
+      label={t('in-bizops:navigation.bizops')}
+      icon={'lib_service_level'}
+      isActive={matchLocation(isBizOpsView)}
+      href={createHrefToPath(bizopsPath)}
       {...props}
     />
   );
