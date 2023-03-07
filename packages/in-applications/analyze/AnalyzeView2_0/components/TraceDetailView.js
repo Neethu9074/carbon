@@ -11,6 +11,7 @@ import { useObservable } from '@instana/hooks';
 
 import SplitScreenTraceDetailContent from 'in-applications/analyze/AnalyzeView2_0/components/SplitScreenTraceDetailContent';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
+import { largeTracesV2Enabled, traceIdFilterOverrideEnabled } from 'in-services/featureFlags';
 import SplitScreenList from 'in-components/AnalyzeView/SplitScreenList/SplitScreenList';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { getIconByType, getLabelByType } from 'in-analyze/AnalyzeView/dataSources';
@@ -21,7 +22,6 @@ import { updateLocationToAnalyze } from 'in-applications/navigation/paths';
 import tabs from 'in-applications/analyze/AnalyzeView2_0/components/tabs';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { traceIdFilterOverrideEnabled } from 'in-services/featureFlags';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getColorPool } from 'in-services/util/ColorGenerator';
@@ -195,14 +195,13 @@ function TraceDetailViewButtonLine({ traceId, result, formModel, facets }) {
     return null;
   }
 
+  const traceDownloadUrl = largeTracesV2Enabled
+    ? `/api/application-monitoring/v2/analyze/traces/${encodeURIComponent(traceIdInUrl)}?pretty`
+    : `/api/application-monitoring/analyze/traces;id=${encodeURIComponent(traceIdInUrl)}?pretty`;
+
   return (
     <>
-      <Button
-        icon="lib_actions_download"
-        kind="secondary"
-        target="_blank"
-        href={`/api/application-monitoring/analyze/traces;id=${encodeURIComponent(traceIdInUrl)}?pretty`}
-      >
+      <Button icon="lib_actions_download" kind="secondary" target="_blank" href={traceDownloadUrl}>
         {t('in-applications:linkDownload')}
       </Button>
       {isInternalVisible && (
