@@ -17,7 +17,7 @@ import { fromBackendModel, isTagFilter } from 'in-components/QueryBuilder/transf
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
-import locals from 'in-alerting/smart-alerts/websites/Alerts.mless';
+import locals from 'in-alerting/smart-alerts/websites/list/ScopeColumn.mless';
 
 export default function ScopeColumn({ config, websiteLabel }: { config: WebsiteAlertConfig; websiteLabel: string }) {
   const tagFilterExpression = fromBackendModel(config.tagFilterExpression);
@@ -49,13 +49,12 @@ export default function ScopeColumn({ config, websiteLabel }: { config: WebsiteA
           {websiteLabel}
         </span>
       )}
-      {pages &&
-        pages.map((page, i) => (
-          <span className={classNames(locals.centered, locals.space)} key={i}>
-            <SvgIcon className={locals.filterIcon} type="lib_website_page_load" />
-            {page.stringValue}
-          </span>
-        ))}
+      {pages.map((page, i) => (
+        <span className={classNames(locals.centered, locals.space)} key={i}>
+          <SvgIcon className={locals.filterIcon} type="lib_website_page_load" />
+          {page.stringValue}
+        </span>
+      ))}
       {otherTagFiltersCount >= 1 && (
         <Tooltip
           themeStyle="light"
