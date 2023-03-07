@@ -562,6 +562,7 @@
         "cancelTitle": "Cancel",
         "sharedListTooltip": "{{typeName}} is not available anymore",
         "clearTagFilterExpressionButton": "Clear",
+        "baselineErrorMessageComputedOnApproximateData": "The baseline is computed based on approximate data due to data retention settings. Therefore, it might not be accurate in case there are few calls matching selected filters.",
         "baselineErrorMessageInsufficientDataToCompute": "Insufficient data to compute the selected baseline. Please select <em>Static Threshold</em> instead.",
         "pleaseContactSupportToRiseLimit": "Please contact us via our <supportLink>{{instanaSupportPortal}}</supportLink> to request an increase of this limit.",
         "adaptiveBaselineErrorMessage": "Threshold preview is currently unavailable.<br />This Smart Alert can still be saved.",
