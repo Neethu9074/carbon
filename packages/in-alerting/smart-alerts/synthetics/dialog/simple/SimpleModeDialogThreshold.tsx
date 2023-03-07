@@ -11,17 +11,18 @@ import { DistinctSlider } from '@instana/components';
 
 import {
   AlertConfigDialogPresenterProps,
-  MainDialogControl
+  MainDialogControl,
+  SlideInConfig
 } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
-import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
-import { t } from 'in-i18n';
 
-import locals from 'in-alerting/smart-alerts/components/dialog/simple/SimpleAlertConfigDialogStep3.mless';
+import locals from 'in-alerting/smart-alerts/synthetics/dialog/simple/SimpleAlertConfigDialogStep3.mless';
 
-export default function SimpleModeDialogThreshold(props: AlertConfigDialogPresenterProps & MainDialogControl) {
-  const formatPercent = (value: number) => `${value}`;
-  const labeledTicks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(value => ({ value, label: formatPercent(value) }));
-  const { form, updateForm } = props;
+export default function SimpleModeDialogThreshold(
+  props: AlertConfigDialogPresenterProps & MainDialogControl & SlideInConfig
+) {
+  const formatLabel = (value: number) => `${value} Failures`;
+  const labeledTicks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(value => ({ value, label: value }));
+  const { form, updateForm, title } = props;
   const timeThresholdForm = form.get('timeThreshold') as MapForm;
   const violationsCount = (timeThresholdForm.get('violationsCount') as Field<number>).value;
 
@@ -30,11 +31,12 @@ export default function SimpleModeDialogThreshold(props: AlertConfigDialogPresen
     updateForm(form.updateIn(['timeThreshold', 'violationsCount'], f => f.setValue(value).setTouched(true)));
   }
   return (
-    <SimpleModeStepContentWrapper headline={t('in-alerting:smartAlerts.synthetics.simple.thresholdTitle')}>
-      <div className={locals.alertChannelsContainer}>
+    <>
+      {title && <h1 className={locals.title}>{title}</h1>}
+      <div className={locals.container}>
         <DistinctSlider
           valueLabelDisplay="auto"
-          valueLabelFormat={formatPercent}
+          valueLabelFormat={formatLabel}
           marks={labeledTicks}
           min={1}
           max={10}
@@ -43,6 +45,6 @@ export default function SimpleModeDialogThreshold(props: AlertConfigDialogPresen
           onChange={onChangeViolationsInPeriod}
         />
       </div>
-    </SimpleModeStepContentWrapper>
+    </>
   );
 }

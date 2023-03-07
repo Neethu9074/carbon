@@ -1048,12 +1048,13 @@
       },
       "advanced": {
         "alertChannelsLabel": "Alert Channels",
-        "alertChannelsTitle": "Alert Channels: Who needs to be alerted?",
-        "propertiesLabel": "Properties",
-        "propertiesTitle": "Additional Alert Properties",
         "scopeFilterLabel": "Scope",
         "alertTestsLabel": "Synthetic Tests",
-        "alertTestsTitle": "Synthetic Tests : What synthetic tests should be alerted on?"
+        "alertTestsTitle": "Synthetic Tests : What synthetic tests should be alerted on?",
+        "propertiesLabel": "Alert Properties",
+        "failureThreshold": "Failure Threshold",
+        "failureThresholdLabel": "Failure Threshold",
+        "failureThresholdTitle": "How many consecutive failures should occur per location before alerting?"
       },
       "selectTests": {
         "selectAlertTestButtonTitle": "Add synthetic tests",
