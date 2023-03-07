@@ -6,8 +6,6 @@
 import React from 'react';
 
 import ThresholdSelectionInteractiveChart from 'in-alerting/smart-alerts/websites/dialog/advanced/ThresholdSelectionInteractiveChart';
-import HistoricBaselineErrorMessage from 'in-alerting/smart-alerts/components/dialog/HistoricBaselineErrorMessage';
-import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 
 export function ThresholdSection(props) {
   const {
@@ -17,11 +15,8 @@ export function ThresholdSection(props) {
     form,
     onChartViewConfigChange,
     selectedChartViewConfigIndex,
-    thresholdResult,
     updateForm
   } = props;
-
-  const thresholdType = form.get('threshold').get('type').value;
 
   return (
     <>
@@ -34,7 +29,6 @@ export function ThresholdSection(props) {
         selectedChartViewConfigIndex={selectedChartViewConfigIndex}
         editMode={editMode}
       />
-      {thresholdType === HISTORIC_BASELINE && <HistoricBaselineErrorMessage thresholdResult={thresholdResult} />}
     </>
   );
 }
