@@ -209,7 +209,7 @@ function Content({
     tagFilterExpression
   ]);
   const pagination = { retrievalSize: 20 };
-  const groupBy = [Object.values(group)[0]];
+  const groupBy = group ? [group.groupbyTag] : [];
   const catalogQuery = useDebouncedValue('', noop, 800);
   const metricCatalog = useMetricCatalog({
     getMetricCatalog,
