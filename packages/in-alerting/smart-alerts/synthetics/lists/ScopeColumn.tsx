@@ -15,7 +15,7 @@ import { fromBackendModel } from 'in-components/QueryBuilder/transformation/form
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
-import locals from 'in-alerting/smart-alerts/synthetics/Alerts.mless';
+import locals from 'in-alerting/smart-alerts/synthetics/lists/ScopeColumn.mless';
 
 export default function ScopeColumn({ config }: { config: SyntheticAlertConfig }) {
   const tagFilterExpression = fromBackendModel(config.tagFilterExpression);
