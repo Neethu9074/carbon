@@ -7,9 +7,8 @@
 import { Item, MapForm } from 'formalistic';
 import React, { useState } from 'react';
 
-// import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
-import alertFormDefinition from 'in-alerting/smart-alerts/synthetics/form/alertDialogFormDefinition';
 import AlertConfigDialogWithThreshold from 'in-alerting/smart-alerts/synthetics/dialog/AlertConfigDialogWithThreshold';
+import alertFormDefinition from 'in-alerting/smart-alerts/synthetics/form/alertDialogFormDefinition';
 import { SyntheticAlertConfigWithMetadata } from 'in-types';
 import { MessageType } from 'in-components/MessageStack';
 
@@ -28,7 +27,6 @@ export default function AlertConfigDialog({
 }: AlertConfigDialogType) {
   const [form, setForm] = useState(() => alertFormDefinition(alertConfig, editMode));
 
-  // const updateForm = useSmartAlertFormSideEffects(form, setForm);
   const [isSaving] = useState(false);
   const [messages] = useState<MessageType[]>([]);
 

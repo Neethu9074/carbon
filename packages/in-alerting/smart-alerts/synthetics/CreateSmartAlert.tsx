@@ -43,7 +43,6 @@ export function generateAlertConfig(): SyntheticAlertConfigWithMetadata {
     metricName: 'not-clear'
   };
 
-  // LATER: use an empty tagFilter
   const tagFilterExpression: TagFilter = {
     entity: 'NOT_APPLICABLE',
     name: 'synthetic.locationId',

@@ -30,7 +30,7 @@ export function createBoundedAlertQueryBuilder(suggestionTimeConfig?: TimeConfig
   });
 }
 
-// This function is for storybook
+// The getTagCatalog can be injected
 export function createBoundedAlertQueryBuilderFactory(
   getTagCatalogTest: (props: GetTagCatalogProps) => Observable<Result<TagCatalog>>,
   suggestionTimeConfig?: TimeConfig
