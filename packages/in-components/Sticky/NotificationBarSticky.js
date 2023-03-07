@@ -12,10 +12,8 @@ import { useObservable } from '@instana/hooks';
 import { track, REQUEST_QUOTE_BUTTON_CLICKED, BUY_NOW_BUTTON_CLICKED } from 'in-services/tracking/tracking';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { onPremLicenseInformationEnabled } from 'in-services/featureFlags';
-import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { messages$ } from 'in-components/MessageFlyout/stores/messages';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { physicalPath } from 'in-stores/navigation/paths/mainPaths';
 import RequestQuoteDialog from 'in-components/RequestQuoteDialog';
 import history from 'in-stores/navigation/history';
 import Sticky from 'in-components/Sticky';
@@ -56,10 +54,7 @@ export default function NotificationBarSticky() {
   );
 }
 function Content({ message }) {
-  const location = useLocation();
-  const isPhysicalPageView = location.pathname === physicalPath;
-
-  return !isPhysicalPageView ? (
+  return (
     <Sticky
       header={
         <div className={locals.section}>
@@ -122,5 +117,5 @@ function Content({ message }) {
         </div>
       }
     />
-  ) : null;
+  );
 }

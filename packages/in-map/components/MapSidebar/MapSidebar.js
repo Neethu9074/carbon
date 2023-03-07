@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
 import { fromPromise } from '@instana/observables';
@@ -11,6 +12,7 @@ import { useObservable } from '@instana/hooks';
 import SidebarBreadcrumb from 'in-map/components/MapSidebar/components/SidebarBreadcrumb';
 import MapSidebarHeader from 'in-map/components/MapSidebar/components/MapSidebarHeader';
 import SidebarContent from 'in-map/components/MapSidebar/components/SidebarContent';
+import { isUsageInfoPopupEnabled } from 'in-services/featureFlags';
 import { getForgeComponent } from 'in-sdk/getForgeComponent';
 import { selectedSnapshot$ } from 'in-stores/snapshot';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -33,8 +35,13 @@ export default connectTo(
       <div className={locals.mapSidebar}>
         <MapSidebarHeader snapshot={snapshot} timeConfig={timeConfig} />
         <SidebarBreadcrumb snapshotId={snapshot.get('id')} />
-
-        <div className={locals.scrollWrapper}>
+        <div
+          className={classNames({
+            [locals.scrollWrapper]: true,
+            [locals.scrollWrapperBanner]: isUsageInfoPopupEnabled,
+            [locals.scrollWrapperNoBanner]: !isUsageInfoPopupEnabled
+          })}
+        >
           <SidebarContent snapshot={snapshot} ForgeDetailsComponent={SidebarImpl} />
         </div>
       </div>

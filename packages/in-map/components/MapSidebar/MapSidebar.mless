@@ -13,13 +13,19 @@
     border-radius: 0.125rem;
     max-height: ~'calc(100vh - 200px)';
   }
+
   .scrollWrapper {
     overflow-y: auto;
     overflow-x: hidden;
-    max-height: ~'calc(100vh - 400px)';
-
     & > div {
       width: 20.5rem;
+    }
+
+    &NoBanner {
+      max-height: ~'calc(100vh - 400px)';
+    }
+    &Banner {
+      max-height: ~'calc(100vh - 446px)';
     }
   }
 }
