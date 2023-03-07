@@ -1062,7 +1062,9 @@
         "addTest": "Add {{count}} Test",
         "alertTests": "Synthetic Tests",
         "noTestSelectedText": "No Synthetic Tests Selected",
-        "alertTestEntityName": "synthetic test {{entityName}}"
+        "alertTestEntityName": "synthetic test {{entityName}}",
+        "testAttachedCount": "Tests Attached ({{count}})",
+        "testAttached": "Tests Attached"
       }
     }
   }
