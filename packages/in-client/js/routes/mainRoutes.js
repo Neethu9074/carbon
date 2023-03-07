@@ -10,6 +10,7 @@ import React from 'react';
 
 import {
   hasApplicationsAccess,
+  hasBizOpsAccess,
   hasWebsitesAccess,
   hasKubernetesAccess,
   hasMobileAppsAccess,
@@ -42,6 +43,7 @@ import sloRoutes from 'in-service-levels/navigation/routes';
 import loggingRoutes from 'in-logging/navigation/routes';
 import cockpitRoutes from 'in-cockpit/navigation/routes';
 import vsphereRoutes from 'in-vsphere/navigation/routes';
+import bizopsRoutes from 'in-bizops/navigation/routes';
 import { role, isInstanaEmail } from 'in-stores/user';
 import eventRoutes from 'in-events/navigation/routes';
 import deepLinkRoutes from 'in-client/js/deepLink';
@@ -63,6 +65,7 @@ export default (
     {sloV2Enabled && sloRoutes}
     {hasSyntheticsAccess && syntheticsRoutes}
     {hasApplicationsAccess && applicationRoutes()}
+    {hasBizOpsAccess && bizopsRoutes}
     {hasKubernetesAccess && kubernetesRoutes}
     {hasPCFAccess && cloudfoundryRoutes}
     {hasPHMCAccess && phmcRoutes}
