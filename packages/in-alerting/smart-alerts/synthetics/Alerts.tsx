@@ -13,8 +13,9 @@ import {
   getAllAlertConfigs
 } from 'in-alerting/smart-alerts/synthetics/api/syntheticAlertConfig';
 import AlertBaseList, { TableActions } from 'in-alerting/smart-alerts/components/AlertsBaseList';
+import { SyntheticAlertConfigWithMetadata, SyntheticAlertConfig } from 'in-types';
+import ScopeColumn from 'in-alerting/smart-alerts/synthetics/lists/ScopeColumn';
 import DefaultCell from 'in-alerting/smart-alerts/components/list/DefaultCell';
-import { SyntheticAlertConfigWithMetadata } from 'in-types';
 import { t } from 'in-i18n';
 
 interface AlertsProps {
@@ -62,9 +63,7 @@ function getColumnDefinitions() {
     {
       id: 'filterApplied',
       label: t('in-alerting:smartAlerts.synthetics.alertList.filterApplied'),
-      getContent: () => {
-        return <span />;
-      }
+      getContent: (entity: SyntheticAlertConfig) => <ScopeColumn config={entity} />
     }
   ];
 

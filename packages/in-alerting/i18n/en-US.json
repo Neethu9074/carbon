@@ -1029,6 +1029,14 @@
     "enable": "Enable",
     "disable": "Disable",
     "synthetics": {
+      "dashboard": {
+        "column": {
+          "moreFiltersWithCount": "+{{count}} more filter",
+          "moreFiltersWithCount_plural": "+{{count}} more filters",
+          "filter": "filter",
+          "filter_plural": "filters"
+        }
+      },
       "alertList": {
         "timeThreshold": "Failure Threshold",
         "filterApplied": "Filter Applied",
