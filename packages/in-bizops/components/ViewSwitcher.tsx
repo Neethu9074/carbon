@@ -39,8 +39,8 @@ export default function ViewSwitcher() {
 
   const dashboardHeaderProps = {
     icon: 'lib_camunda',
-    label: t('in-bizops:labelBizOps'),
-    title: t('in-bizops:labelBizOps'),
+    label: t('in-bizops:navigation.bizOps'),
+    title: t('in-bizops:navigation.bizOps'),
     showHistoricDataWarning: false,
     renderMetaInformation
   };
