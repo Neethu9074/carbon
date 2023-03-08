@@ -83,7 +83,15 @@
         "invalidHost": "Host format not valid"
       },
       "advancedMode": {
-        "buttonContent": "Switch to Advanced Mode"
+        "buttonContent": "Switch to Advanced Mode",
+        "configurationLabel": "Configuration",
+        "configurationTitle": "Configuration: How will this test work?",
+        "locationsLabel": "Location(s)",
+        "locationsTitle": "Location(s): Where will this test run?",
+        "scheduleLabel": "Schedule",
+        "scheduleTitle": "Schedule: When will this test run?",
+        "identifyLabel": "Identify",
+        "identifyTitle": "Identify: What is the test going to do?"
       }
     },
     "httpMethods": {

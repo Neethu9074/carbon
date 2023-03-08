@@ -30,6 +30,7 @@ interface Props {
 export default function TestConfigDialogPresenter({ onClose, reloadTests }: Props) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [simpleModeStep, setSimpleModeStep] = useState(0);
+  const [simpleMode, setSimpleMode] = useState(true);
   const [form, setForm] = useState(() => createForm());
   const formId = 'create-synthetics-test-form';
   const [scriptErrors, setScriptErrors] = useState([] as ScriptError[]);
@@ -127,12 +128,13 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
       removeBottomPaddingWhenFooterIsShown
       renderCustomCloseBehaviour={resetScrollShadow => (
         <>
-          {syntheticCreateTestAdvanceModeEnabled && (
+          {simpleMode && syntheticCreateTestAdvanceModeEnabled && (
             <Button
               kind="action"
               onClick={() => {
                 // TODO: Reset form state
                 // TODO: Track mode switching state
+                setSimpleMode(!simpleMode);
                 resetScrollShadow();
               }}
             >
@@ -156,6 +158,7 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
         setSelectedBlueprint={setSelectedBlueprint}
         scriptErrors={scriptErrors}
         setScriptErrors={setScriptErrors}
+        simpleMode={simpleMode}
       />
       <DialogFooter
         formId={formId}
