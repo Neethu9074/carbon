@@ -125,15 +125,6 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.protectionType'),
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return row.solidStateDiskRawData.get('protectionType');
-      }
-    }
-  },
-  {
     title: t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.unitMediaCapacityGb'),
     type: 'metric',
     typeArgs: {
@@ -150,21 +141,38 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.unitStorageCapacity'),
+    title: t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.ssdLifeRemaining'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `advanceSolidStateDiskMetrics.${row.key}.unitStorageCapacity`;
+        return `advanceSolidStateDiskMetrics.${row.key}.ssdLifeRemaining`;
       },
-      getContent: bytes.detailed,
+      getContent: number.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
     }
   },
+  {
+    title: t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.ssdPowerOnDays'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `advanceSolidStateDiskMetrics.${row.key}.ssdPowerOnDays`;
+      },
+      getContent: number.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+
   {
     title: t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.percentUsed'),
     type: 'metric',

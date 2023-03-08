@@ -9302,7 +9302,8 @@
             "aspNumber": "ASP Number",
             "raidType": "Raid Type",
             "protectionStatus": "Protection Status",
-            "protectionType": "Protection Type",
+            "ssdLifeRemaining": "SSD Remaining Life",
+            "ssdPowerOnDays": "SSD Power On days",
             "unitMediaCapacityGb": "Media Capacity(GB)",
             "charts": {
               "elapsedIORequests": "Elapsed IO Requests",

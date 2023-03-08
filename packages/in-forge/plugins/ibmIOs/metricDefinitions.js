@@ -665,6 +665,32 @@ export default [
     metrics: [
       getDynamicMetricMatch(
         'advanceSolidStateDiskMetrics',
+        'ssdLifeRemaining',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.ssdLifeRemaining')],
+    min: 0,
+    formatter: number,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'advanceSolidStateDiskMetrics',
+        'ssdPowerOnDays',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.ssdPowerOnDays')],
+    min: 0,
+    formatter: number,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'advanceSolidStateDiskMetrics',
         'elapsedDataRead',
         t('in-forge:plugins.ibmIOs.dashboard.tables.solidStateDisk.name')
       )
