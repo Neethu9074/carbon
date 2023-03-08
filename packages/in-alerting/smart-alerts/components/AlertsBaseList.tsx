@@ -41,6 +41,7 @@ export interface AlertConfigType {
   name: string;
   severity: number;
   description: string;
+  enabled: boolean;
 }
 
 export interface ColumnDefinition<AlertConfig extends AlertConfigType> {

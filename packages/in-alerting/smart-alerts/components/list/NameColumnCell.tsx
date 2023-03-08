@@ -16,14 +16,17 @@ import locals from 'in-alerting/smart-alerts/components/list/NameColumnCell.mles
 
 export function NameColumnCell<AlertConfig extends AlertConfigType>({
   config,
+  renderName,
   getSubtitle,
   getAdditionalContent
 }: {
   config: AlertConfig;
+  renderName?: ((config: AlertConfig) => string) | ((config: AlertConfig) => ReactNode);
   getSubtitle?: (config: AlertConfig) => string;
   getAdditionalContent?: (config: AlertConfig) => ReactNode;
 }) {
-  const { description, name, severity } = config;
+  const { enabled, name, severity } = config;
+  const content = <span>{renderName ? renderName(config) : name}</span>;
   return (
     <div className={classNames(locals.main)}>
       <SvgIcon
@@ -32,12 +35,12 @@ export function NameColumnCell<AlertConfig extends AlertConfigType>({
           [locals.alertIconSeverityLow]: severity <= 5,
           [locals.alertIconSeverityHigh]: severity > 5
         })}
-        type="lib_alerts_alert"
+        type={enabled ? 'lib_alerts_alert' : 'lib_actions_pause'}
       />
       <div className={classNames(locals.column)}>
         <div className={classNames(locals.name)}>
-          <Tooltip themeStyle="light" content={description} align="topMiddle" delay={500}>
-            <span>{name}</span>
+          <Tooltip themeStyle="light" content={content} align="topMiddle" delay={500}>
+            {content}
           </Tooltip>
           {getSubtitle && <div className={locals.nameSubtext}>{getSubtitle(config)}</div>}
         </div>
