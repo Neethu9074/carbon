@@ -23,6 +23,7 @@ import { hasWebsitesAccess, hasMobileAppsAccess } from 'in-stores/permission';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import { number, meanLatencyFixed } from 'in-services/formatters/number';
 import mergeResults from 'in-cockpit/widgets/TopListWidget/mergeResults';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { linkToNewMobileApp$ } from 'in-mobile-apps/navigation/paths';
 import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
@@ -34,7 +35,6 @@ import { mobileAppsOpenAddForm } from 'in-mobile-apps/tracker';
 import { hasError, isLoading } from 'in-services/util/result';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
 import TopListWidget from 'in-cockpit/widgets/TopListWidget';
-import { getView } from 'in-stores/navigation/navigation';
 import { websitesOpenAddForm } from 'in-websites/tracker';
 import { add, remove } from 'in-cockpit/starredItems';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -43,6 +43,8 @@ import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 export default function WebsitesAndMobileTopList({ config }) {
+  const { createHrefToPath } = useNavigation();
+
   const header = (
     <>
       {role.canConfigureEumApplications && (
@@ -71,7 +73,7 @@ export default function WebsitesAndMobileTopList({ config }) {
   const generalProps = {
     ...config,
     columnDefinitions,
-    fullListView$: getView(websiteMonitoringPath),
+    fullListView: createHrefToPath(websiteMonitoringPath),
     getId,
     pinItem: (id, item) =>
       add({

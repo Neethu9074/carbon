@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { useObservable } from '@instana/hooks';
+
 import DraggableLightCard from 'in-cockpit/widgets/TopListWidget/DraggableLightCard';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import ChartWidget from 'in-custom-dashboards/widgets/Chart/Widget';
@@ -12,13 +14,14 @@ import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function EventChartCardWidget({ config }) {
+  const fullListViewHref = useObservable(getEventsViewFilteredBy({}), []);
   return (
     <DraggableLightCard
       {...config}
       icon={config.cardIcon}
       useMaxAvailableHeight
       fullListViewLinkTitle={t('in-cockpit:component.eventChartCard.allEvents')}
-      fullListView$={getEventsViewFilteredBy({})}
+      fullListView={fullListViewHref}
     >
       <ChartWidget
         config={{

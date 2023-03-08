@@ -26,6 +26,7 @@ import { application as applicationType } from 'in-cockpit/starredItems/types';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { getApplicationDashboard } from 'in-applications/navigation/paths';
 import getApplication from 'in-applications/subscriptions/getApplication';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { applicationsList } from 'in-applications/navigation/paths';
 import getMetrics from 'in-applications/subscriptions/getMetrics';
 import HealthDot from 'in-components/health/HealthDot/HealthDot';
@@ -33,7 +34,6 @@ import { hasError, isLoading } from 'in-services/util/result';
 import TopListWidget from 'in-cockpit/widgets/TopListWidget';
 import { successObservable } from 'in-services/util/result';
 import { boundaryScopes } from 'in-applications/constants';
-import { getView } from 'in-stores/navigation/navigation';
 import { getTimeConfig } from 'in-stores/time/config';
 import { add, remove } from 'in-cockpit/starredItems';
 import Tooltip from 'in-components/Tooltip';
@@ -43,6 +43,7 @@ import { t } from 'in-i18n';
 
 export default function ApplicationsTopList({ applicationId, config }) {
   const entityResult = useObservable(getConfig, [applicationId]);
+  const { createHrefToPath } = useNavigation();
 
   const header = role.canConfigureApplications ? (
     <Button
@@ -83,7 +84,7 @@ export default function ApplicationsTopList({ applicationId, config }) {
       unpinItem={(id, type) => remove({ id, type })}
       columnDefinitions={columnDefinitions}
       getItems={getApplicationsWithDefaults}
-      fullListView$={getView(applicationsList)}
+      fullListView={createHrefToPath(applicationsList)}
       EmptyStateComponent={ApplicationsNoDataNotification}
       getItemLink={item => getApplicationDashboard(item.application.id)}
     />

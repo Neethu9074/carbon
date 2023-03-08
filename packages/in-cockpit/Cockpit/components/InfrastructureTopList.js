@@ -13,7 +13,7 @@ import columnDefinitions from 'in-cockpit/widgets/InfrastructureTopList/columnDe
 import TopListWidget, { getFlattenedIds } from 'in-cockpit/widgets/TopListWidget';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { physicalTablePath } from 'in-stores/navigation/paths/mainPaths';
-import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { pendingResult } from 'in-services/fixedObjects';
 import { add, remove } from 'in-cockpit/starredItems';
@@ -26,6 +26,9 @@ import { t } from 'in-i18n';
 
 export default function InfrastructureTopList({ config }) {
   const [selectedType, setSelectedType] = useState('host');
+  const { location, createHref } = useNavigation();
+  const fullListViewLocation = { ...location, pathname: physicalTablePath };
+  setOrDeleteMatrixKey(fullListViewLocation, physicalTablePath, 'plugin', selectedType);
 
   const generalProps = {
     ...config,
@@ -37,10 +40,7 @@ export default function InfrastructureTopList({ config }) {
     header: <Header selectedType={selectedType} setSelectedType={setSelectedType} />,
     columnDefinitions: columnDefinitions[selectedType],
     getId: ({ snapshotId }) => snapshotId,
-    fullListView$: getModifiedUrlStream(location => {
-      location.pathname = physicalTablePath;
-      setOrDeleteMatrixKey(location, physicalTablePath, 'plugin', selectedType);
-    }),
+    fullListView: createHref(fullListViewLocation),
     getItem: (id, timeConfig) => getItem(id, timeConfig, selectedType),
     getItemLink: item =>
       getDashboardLink(item.snapshotId || item?.snapshot?.get('id'), { pathname: '/physical/dashboard' }),
