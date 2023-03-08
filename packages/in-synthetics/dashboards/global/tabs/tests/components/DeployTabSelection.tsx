@@ -9,10 +9,9 @@ import React, { useState } from 'react';
 import { KeyValue, Link } from '@instana/components';
 import { Trans, t } from '@instana/i18n-react';
 
-// @ts-expect-error Module needs to be translated to TS
-import InlineTabNavigation from 'in-components/InlineTabNavigation';
 import RedisTLSDeployContent from 'in-synthetics/dashboards/global/tabs/tests/components/RedisTLSDeployContent';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
+import InlineTabNavigation from 'in-components/InlineTabNavigation/InlineTabNavigation';
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import { PoPProperties } from 'in-synthetics/utils/constants';
 import CodeComponent from 'in-components/Code';

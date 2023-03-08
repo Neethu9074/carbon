@@ -42,8 +42,8 @@ import { events, teamSettingsAlertingEvents } from 'in-settings/navigation/paths
 import PlatformsTopList from 'in-cockpit/Cockpit/components/PlatformsTopList';
 import EventChartCard from 'in-cockpit/Cockpit/components/EventChartCard';
 import SetAsLandingPage from 'in-client/js/LandingPage/SetAsLandingPage';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import DashboardHeader, { themes } from 'in-components/DashboardHeader';
-import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { setSingle, settings$ } from 'in-services/settings/settings';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import useResizeObserverCustom from 'in-hooks/useResizeObserver';
@@ -163,6 +163,8 @@ function CockpitInner({ settings, width }) {
 }
 
 function Header() {
+  const { createHrefToPath } = useNavigation();
+
   return (
     <>
       <DashboardHeader
@@ -175,9 +177,7 @@ function Header() {
               <Button
                 kind="secondaryDarker"
                 icon="lib_actions_settings"
-                href$={getModifiedUrlStream(params => {
-                  params.pathname = '/agents/installation';
-                })}
+                href={createHrefToPath('/agents/installation')}
               >
                 {t('in-cockpit:cockpit.deployAgent')}
               </Button>
@@ -187,9 +187,7 @@ function Header() {
               <Button
                 kind="secondaryDarker"
                 icon="lib_alerts_user_impacted"
-                href$={getModifiedUrlStream(params => {
-                  params.pathname = '/config/team/accessControl/users';
-                })}
+                href={createHrefToPath('/config/team/accessControl/users')}
               >
                 {t('in-cockpit:cockpit.addUser')}
               </Button>
@@ -216,6 +214,9 @@ function CustomEventDeprecatedWarning({ legacyAlertConfigStats }) {
   useEffect(() => {
     applicationsAlertingShowDeprecationBanner();
   }, []);
+  const { location, createHref } = useNavigation();
+  const affectedEventsListTarget = { ...location, pathname: teamSettingsAlertingEvents };
+  setOrDeleteMatrixKey(affectedEventsListTarget, events, 'type', deprecatedValue);
 
   const deprecatedCustomEvents = legacyAlertConfigStats.data?.deprecatedCustomEvents;
 
@@ -227,10 +228,7 @@ function CustomEventDeprecatedWarning({ legacyAlertConfigStats }) {
           components={{
             affectedCustomEvents: (
               <Link
-                href$={getModifiedUrlStream(params => {
-                  params.pathname = `${teamSettingsAlertingEvents}`;
-                  setOrDeleteMatrixKey(params, events, 'type', deprecatedValue);
-                })}
+                href={createHref(affectedEventsListTarget)}
                 onClick={() =>
                   applicationsAlertingMigrationBannerEvents({
                     deprecatedCustomEvents

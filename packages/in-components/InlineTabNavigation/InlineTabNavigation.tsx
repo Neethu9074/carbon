@@ -3,22 +3,31 @@
  * (c) Copyright Instana Inc.
  */
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
-import Tab from 'in-components/InlineTabNavigation/Tab';
+import Tab, { TabProps } from 'in-components/InlineTabNavigation/Tab';
 
 import locals from './InlineTabNavigation.mless';
 
-export default function InlineTabNavigation({ tabList, activeTabIndex, onTabSelect, isDisabled = false }) {
+interface InlineTabNavigationProps extends Pick<TabProps, 'onTabSelect' | 'isDisabled'> {
+  activeTabIndex?: number;
+  tabList?: TabProps[];
+}
+
+export default function InlineTabNavigation({
+  tabList,
+  activeTabIndex,
+  onTabSelect,
+  isDisabled = false
+}: InlineTabNavigationProps) {
   return (
     <ul className={locals.wrapper}>
-      {tabList.map((tab, i) => (
+      {tabList?.map((tab, i) => (
         <Tab
           key={i}
           index={i}
           isActive={activeTabIndex === i}
-          isDisabled={isDisabled || tab.disabled}
+          isDisabled={isDisabled || tab.isDisabled}
           onTabSelect={onTabSelect}
           withoutBottomBorder={tabList.length === 1 && activeTabIndex !== 0}
           {...tab}
@@ -27,10 +36,3 @@ export default function InlineTabNavigation({ tabList, activeTabIndex, onTabSele
     </ul>
   );
 }
-
-InlineTabNavigation.propTypes = {
-  activeTabIndex: PropTypes.number,
-  isDisabled: PropTypes.bool,
-  onTabSelect: PropTypes.func,
-  tabList: PropTypes.array
-};

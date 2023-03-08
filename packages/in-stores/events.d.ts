@@ -11,3 +11,8 @@ type Kind = keyof typeof ButtonKinds;
 export function getDesignLibraryColorBySeverity(severity: number, fallback?: string): string;
 
 export function getButtonKindBySeverity(severity: number, fallback?: Kind): Kind;
+
+interface Parms {
+  defaultColor?: string;
+}
+export function getColorBySeverity(severity: number, parms?: Parms): Property.BackgroundColor | undefined;

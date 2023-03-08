@@ -138,8 +138,6 @@ export default function Summary({
     setLogId(null);
   };
 
-  const rootCall = callTreeResult.data;
-
   const hasWebsiteCorrelationId = trace.eumCorrelationId != null && trace.eumCorrelationType === 'web';
   const hasMobileCorrelationId = trace.eumCorrelationId != null && trace.eumCorrelationType === 'mobile';
   const missingEumCorrelation = !hasWebsiteCorrelationId && !hasMobileCorrelationId;
@@ -190,16 +188,6 @@ export default function Summary({
                 description={t('in-applications:traceDetail.tabs.summary.traceIngestionBatchCount', {
                   traceIngestionBatchesCount: trace.ingestionBatchesCount
                 })}
-              />
-            </Col>
-          </Row>
-        ) : null}
-        {rootCall && rootCall.errorCount ? (
-          <Row withoutSideMargin>
-            <Col lg={12}>
-              <Message
-                type={trace.totalErrorCount}
-                title={t('in-applications:traceDetail.tabs.summary.erroneousTrace')}
               />
             </Col>
           </Row>

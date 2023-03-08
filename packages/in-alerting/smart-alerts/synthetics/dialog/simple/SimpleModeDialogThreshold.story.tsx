@@ -17,7 +17,7 @@ import { generateAlertConfig } from 'in-alerting/smart-alerts/synthetics/CreateS
 export default { component: SimpleModeDialogThreshold };
 const failureAlertConfig = Object.freeze(generateAlertConfig());
 
-export const AlertProperties = (args: AlertConfigDialogPresenterProps & MainDialogControl) => {
+export const Threshold = (args: AlertConfigDialogPresenterProps & MainDialogControl) => {
   const [form, updateForm] = useState(alertFormDefinition(failureAlertConfig, false));
 
   return <SimpleModeDialogThreshold {...args} form={form} updateForm={updateForm} />;

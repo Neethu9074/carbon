@@ -38,7 +38,7 @@ export default connectTo(({ pinnedItemTypes }) => ({
     header,
     cardIcon,
     columnDefinitions,
-    fullListView$,
+    fullListView,
     fullListViewLinkTitle,
     getItem,
     EmptyStateComponent = DefaultEmptyStateContent,
@@ -93,7 +93,7 @@ export default connectTo(({ pinnedItemTypes }) => ({
       label={label}
       icon={cardIcon}
       fullListViewLinkTitle={hasContent && fullListViewLinkTitle}
-      fullListView$={hasContent && fullListView$}
+      fullListView={hasContent && fullListView}
       dragAndDropConfig={dragAndDropConfig}
       useMaxAvailableHeight
       rightHeaderContent={

@@ -15,6 +15,7 @@ import BuiltInIndicator from 'in-alerting/smart-alerts/components/details/BuiltI
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { StepConfigs } from 'in-components/BlueprintFormMultistep/StepConfigs';
+import { QueryBuilderComponent } from 'in-components/QueryBuilder';
 import { Title } from 'in-components/Dialog/Header';
 import { t } from 'in-i18n';
 
@@ -52,6 +53,7 @@ export interface AlertConfigDialogPresenterProps {
   featureFeedbackElement?: () => ReactNode;
   initialConfiguredApplications?: object;
   isGlobalSmartAlert?: boolean;
+  QueryBuilderComponent: QueryBuilderComponent;
 }
 
 export interface SlideInConfig {

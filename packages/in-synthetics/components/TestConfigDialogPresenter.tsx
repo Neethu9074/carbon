@@ -7,9 +7,11 @@ import { MapForm, Field } from 'formalistic';
 import React, { useState } from 'react';
 
 import { createLogger } from '@instana/logger';
+import { Button } from '@instana/components';
 
 import { showCreateSuccessMessage, showCreateErrorMessage } from 'in-synthetics/components/utils/userFeedback';
 import TestCreationWithSteps from 'in-synthetics/components/TestCreationWithSteps';
+import { syntheticCreateTestAdvanceModeEnabled } from 'in-services/featureFlags';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
 import { blueprintConfig } from 'in-synthetics/data/simpleModeBluePrints';
@@ -123,6 +125,22 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
       slideInViewVisible={false} // Change it when needed
       slideInViewComponent={null}
       removeBottomPaddingWhenFooterIsShown
+      renderCustomCloseBehaviour={resetScrollShadow => (
+        <>
+          {syntheticCreateTestAdvanceModeEnabled && (
+            <Button
+              kind="action"
+              onClick={() => {
+                // TODO: Reset form state
+                // TODO: Track mode switching state
+                resetScrollShadow();
+              }}
+            >
+              {t('in-synthetics:dialog.createTest.advancedMode.buttonContent')}
+            </Button>
+          )}
+        </>
+      )}
     >
       <TestCreationWithSteps
         onDialogClose={onClose}

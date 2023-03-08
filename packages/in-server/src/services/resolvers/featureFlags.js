@@ -241,7 +241,7 @@ module.exports = exports = [
   },
   {
     uiClientKey: 'syntheticBrowserScriptEnabled',
-    instanaCtlKey: 'feature.synthetics.browser.script.enabled',
+    instanaCtlKey: 'feature.synthetic.browser.script.enabled',
     defaultValue: false
   },
   {

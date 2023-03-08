@@ -562,6 +562,7 @@
         "cancelTitle": "Cancel",
         "sharedListTooltip": "{{typeName}} is not available anymore",
         "clearTagFilterExpressionButton": "Clear",
+        "baselineErrorMessageComputedOnApproximateData": "The baseline is computed based on approximate data due to data retention settings. Therefore, it might not be accurate in case there are few calls matching selected filters.",
         "baselineErrorMessageInsufficientDataToCompute": "Insufficient data to compute the selected baseline. Please select <em>Static Threshold</em> instead.",
         "pleaseContactSupportToRiseLimit": "Please contact us via our <supportLink>{{instanaSupportPortal}}</supportLink> to request an increase of this limit.",
         "adaptiveBaselineErrorMessage": "Threshold preview is currently unavailable.<br />This Smart Alert can still be saved.",
@@ -1029,6 +1030,20 @@
     "enable": "Enable",
     "disable": "Disable",
     "synthetics": {
+      "dashboard": {
+        "column": {
+          "moreFiltersWithCount": "+{{count}} more filter",
+          "moreFiltersWithCount_plural": "+{{count}} more filters",
+          "moreFiltersWithCount_0": "+{{count}} more filters",
+          "moreFiltersWithCount_1": "+{{count}} more filters",
+          "moreFiltersWithCount_2": "+{{count}} more filters",
+          "filter": "filter",
+          "filter_plural": "filters",
+          "filter_0": "filters",
+          "filter_1": "filters",
+          "filter_2": "filters"
+        }
+      },
       "alertList": {
         "timeThreshold": "Failure Threshold",
         "filterApplied": "Filter Applied",
@@ -1040,17 +1055,21 @@
         "simpleAlertConfigDialogStep1Headline": "What synthetic tests should be alerted on?",
         "stepConfigsStep4Title": "Step 4: Alert Channels",
         "alertDialogHeadline": "What should appear in the alert?",
-        "stepConfigsStep2Title": "Step 2: Threshold",
+        "stepConfigsStep2Title": "Step 2: Scope",
+        "scopeHeadline": "Where do you want the alert to trigger?",
+        "stepConfigsStep3Title": "Step 3: Threshold",
         "stepConfigsStep5Title": "Step 5: Alert Properties",
         "thresholdTitle": "How many consecutive failures should occur per location before alerting?"
       },
       "advanced": {
         "alertChannelsLabel": "Alert Channels",
-        "alertChannelsTitle": "Alert Channels: Who needs to be alerted?",
-        "propertiesLabel": "Properties",
-        "propertiesTitle": "Additional Alert Properties",
+        "scopeFilterLabel": "Scope",
         "alertTestsLabel": "Synthetic Tests",
-        "alertTestsTitle": "Synthetic Tests : What synthetic tests should be alerted on?"
+        "alertTestsTitle": "Synthetic Tests : What synthetic tests should be alerted on?",
+        "propertiesLabel": "Alert Properties",
+        "failureThreshold": "Failure Threshold",
+        "failureThresholdLabel": "Failure Threshold",
+        "failureThresholdTitle": "How many consecutive failures should occur per location before alerting?"
       },
       "selectTests": {
         "selectAlertTestButtonTitle": "Add synthetic tests",
@@ -1058,7 +1077,9 @@
         "addTest": "Add {{count}} Test",
         "alertTests": "Synthetic Tests",
         "noTestSelectedText": "No Synthetic Tests Selected",
-        "alertTestEntityName": "synthetic test {{entityName}}"
+        "alertTestEntityName": "synthetic test {{entityName}}",
+        "testAttachedCount": "Tests Attached ({{count}})",
+        "testAttached": "Tests Attached"
       }
     }
   }

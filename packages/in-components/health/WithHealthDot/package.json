@@ -2,5 +2,5 @@
   "name": "WithHealthDot",
   "version": "0.0.0",
   "private": true,
-  "main": "./WithHealthDot.js"
+  "main": "./WithHealthDot.tsx"
 }

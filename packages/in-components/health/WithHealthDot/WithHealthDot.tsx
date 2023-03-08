@@ -3,14 +3,19 @@
  * (c) Copyright Instana Inc.
  */
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import { getColorBySeverity } from 'in-stores/events';
 
 import locals from './WithHealthDot.mless';
 
-export default function WithHealthDot({ severity = 0, iconSize, children }) {
+interface WithHealthDotProps {
+  severity?: number;
+  iconSize?: number;
+  children?: ReactNode;
+}
+
+export default function WithHealthDot({ severity = 0, iconSize = 0, children }: WithHealthDotProps) {
   return (
     <div className={locals.wrapper}>
       {children}
@@ -26,9 +31,3 @@ export default function WithHealthDot({ severity = 0, iconSize, children }) {
     </div>
   );
 }
-
-WithHealthDot.propTypes = {
-  severity: PropTypes.number,
-  iconSize: PropTypes.number,
-  children: PropTypes.node
-};

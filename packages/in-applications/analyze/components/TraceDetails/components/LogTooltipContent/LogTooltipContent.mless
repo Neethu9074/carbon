@@ -37,4 +37,13 @@
   .icon {
     fill: @lib__colors__N900Primary;
   }
+
+  .batchCount {
+    padding-top: 0.75rem;
+    color: @lib__colors__N700Medium;
+  }
+
+  .pill {
+    margin-right: 0.25rem;
+  }
 }

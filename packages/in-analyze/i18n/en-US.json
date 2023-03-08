@@ -190,7 +190,8 @@
         "errorLog": "Error Log",
         "warningLog": "Warning Log",
         "restrictedAccess": "Restricted access",
-        "restrictedAccessExpl": "You don't have permission to access this information"
+        "restrictedAccessExpl": "You don't have permission to access this information",
+        "batchCount": "There are {{count}} logs around this timestamp."
       },
       "callTooltipContent": {
         "numbersOfErrors": "{{count}} Error",

@@ -3,23 +3,23 @@
  * (c) Copyright Instana Inc.
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
 import PhysicalContent from 'in-map/components/MapOverlayControls/components/physicalContent';
 import Menu from 'in-map/components/MapOverlayControls/components/Menu';
-import toPx from 'in-services/formatters/toPx';
+import { isUsageInfoPopupEnabled } from 'in-services/featureFlags';
 
-import 'in-map/components/MapOverlayControls/MapOverlayControls.less';
-
-const block = 'in-map-overlaycontrols';
+import locals from 'in-map/components/MapOverlayControls/MapOverlayControls.mless';
 
 export default function MapOverlayControls() {
   return (
     <div
-      className={block}
-      style={{
-        bottom: toPx(70)
-      }}
+      className={classNames({
+        [locals.InMapOverlaycontrols]: true,
+        [locals.InMapOverlaycontrolsWithBanner]: isUsageInfoPopupEnabled,
+        [locals.InMapOverlaycontrolsNoBanner]: !isUsageInfoPopupEnabled
+      })}
     >
       <PhysicalContent />
       <Menu />

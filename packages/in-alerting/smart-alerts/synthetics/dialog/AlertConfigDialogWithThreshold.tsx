@@ -4,10 +4,11 @@
  * Copyright IBM Corp. 2023
  */
 
+import React, { useMemo, useState } from 'react';
 import { Item, MapForm } from 'formalistic';
-import React, { useState } from 'react';
 
 import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/applications/components/useSimpleModePageNavigation';
+import { createBoundedAlertQueryBuilder } from 'in-alerting/smart-alerts/synthetics/components/AlertQueryBuilder';
 import { stepConfigs, stepRenderers } from 'in-alerting/smart-alerts/synthetics/dialog/simple/simpleModeSteps';
 import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
 import AdvancedModeContainer from 'in-alerting/smart-alerts/synthetics/dialog/advanced/AdvancedModeContainer';
@@ -16,7 +17,15 @@ import { triggerScrollToInvalidItem } from 'in-components/StepsContainer/useScro
 import SimpleModeContainer from 'in-alerting/smart-alerts/components/dialog/simple/SimpleModeContainer';
 import { SimpleDialogFooter } from 'in-components/BlueprintFormMultistep/SimpleDialogFooter';
 import { MessageType } from 'in-components/MessageStack';
+import { days } from 'in-services/time';
 
+/**
+ * Timeframe used for the tag-suggestions in QB2.
+ */
+export const tagSuggestionTimeConfig = {
+  windowSize: days.toMillis(1),
+  autoRefresh: true
+};
 interface AlertConfigDialogWithThresholdProps {
   form: MapForm;
   updateForm: ((form: MapForm, setForm?: (form: MapForm) => void) => void) | ((form: MapForm) => void);
@@ -38,7 +47,10 @@ const FORM_ID = 'smart-alert-editor';
 function SmartAlertConfigDialogWithQueryValidation({ ...props }: AlertConfigDialogWithThresholdProps) {
   const { form, updateForm, startWithSimpleMode, editMode, isSaving, onCreate, onClose, messages, onChange } = props;
   const [simpleMode, setSimpleMode] = useState(startWithSimpleMode);
-
+  const { QueryBuilder: AlertQueryBuilder } = useMemo(
+    () => createBoundedAlertQueryBuilder(tagSuggestionTimeConfig),
+    []
+  );
   const { step, backOrCancel, handleSubmit } = useSimpleModePageNavigation({
     stepConfigs,
     form,
@@ -92,7 +104,7 @@ function SmartAlertConfigDialogWithQueryValidation({ ...props }: AlertConfigDial
       thresholdResult={{}}
       TagBasedPayloadConfigurator={null}
       isDynamicCustomPayloadValid
-      QueryBuilderComponent={null}
+      QueryBuilderComponent={AlertQueryBuilder}
       SimpleModeElement={SimpleModeContainer}
       AdvancedModeElement={AdvancedModeContainer}
       isTagFilterFormModelValid

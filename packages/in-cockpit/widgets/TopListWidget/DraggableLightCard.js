@@ -35,8 +35,8 @@ export default function DraggableLightCard(props) {
     >
       {props.children}
 
-      {props.fullListViewLinkTitle && props.fullListView$ ? (
-        <Link className={locals.link} href$={props.fullListView$}>
+      {props.fullListViewLinkTitle && props.fullListView ? (
+        <Link className={locals.link} href={props.fullListView}>
           {props.fullListViewLinkTitle}
         </Link>
       ) : (
