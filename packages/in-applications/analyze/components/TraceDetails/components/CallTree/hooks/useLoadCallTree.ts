@@ -16,9 +16,9 @@ import {
   initLazyCallTree,
   LazyCallTree,
   Relations,
-  CallNode,
-  getRelatedCallsDetailsWithCursor
+  CallNode
 } from 'in-applications/analyze/components/TraceDetails/components/CallTree/lazyCallTree';
+import getRelatedCallsDetailsWithCursor from 'in-applications/subscriptions/getRelatedCallsDetailsWithCursor';
 import { GetRelatedCallsDetailsResult } from 'in-applications/subscriptions/getRelatedCallsDetails';
 import getCallDetails, { GetCallDetailsResult } from 'in-applications/subscriptions/getCallDetails';
 import getTraceActivityTree from 'in-applications/subscriptions/getTraceActivityTree';
@@ -80,50 +80,52 @@ export function useLoadCallTree({
   const callDetailsResult =
     useObservable(lazyLoading ? () => getCallDetails({ traceId, callId: callIdOrMissing }) : just(null), [
       traceId,
-      callIdOrMissing
+      callIdOrMissing,
+      lazyLoading
     ]) ?? pendingResult;
 
   const callId = callDetailsResult.data?.id;
+  const parentId = callDetailsResult.data?.parentId;
+  const isRootCall = parentId == null && callDetailsResult.data?.foreignParentId == null;
+  const loadChildren = lazyLoading && callId != null && callDetailsResult.data?.hasChildren;
+  const loadSiblings = lazyLoading && callId != null && !isRootCall;
+  const loadParent = loadSiblings && parentId != null;
 
   const childCallsDetailsResult =
     useObservable(
-      lazyLoading && callId
+      loadChildren
         ? () => getRelatedCallsDetailsWithCursor({ traceId, callId: callId, relation: Relations.CHILDREN })
         : just(null),
-      [traceId, callId]
+      [traceId, callId, loadChildren]
     ) ?? pendingResult;
 
   const siblingCallsBeforeResult =
     useObservable(
-      lazyLoading && callId
+      loadSiblings
         ? () => getRelatedCallsDetailsWithCursor({ traceId, callId: callId, relation: Relations.SIBLINGS_BEFORE })
         : just(null),
-      [traceId, callId]
+      [traceId, callId, loadSiblings]
     ) ?? pendingResult;
 
   const siblingCallsAfterResult =
     useObservable(
-      lazyLoading && callId
+      loadSiblings
         ? () => getRelatedCallsDetailsWithCursor({ traceId, callId: callId, relation: Relations.SIBLINGS_AFTER })
         : just(null),
-      [traceId, callId]
+      [traceId, callId, loadSiblings]
     ) ?? pendingResult;
 
-  const parentId = callDetailsResult.data?.parentId;
   const parentCallDetailsResult =
-    useObservable(lazyLoading && parentId ? getCallDetails({ traceId, callId: parentId }) : just(null), [
+    useObservable(loadParent ? getCallDetails({ traceId, callId: parentId }) : just(null), [
       traceId,
-      parentId
+      parentId,
+      loadParent
     ]) ?? pendingResult;
 
   const onRelatedCallsLoaded = useCallback(
     ({ callId, relation, getRelatedCallsDetailsResult }: OnRelatedCallsLoadedProps) => {
       setLazyCallTreeResult(lazyCallTreeResult => {
-        if (
-          isLoading(getRelatedCallsDetailsResult) ||
-          hasError(getRelatedCallsDetailsResult) ||
-          !lazyCallTreeResult.lazyCallTree
-        ) {
+        if (isLoading(getRelatedCallsDetailsResult) || !lazyCallTreeResult.lazyCallTree) {
           return lazyCallTreeResult;
         }
         const updatedTree = updateLazyCallTreeWithRelatedCalls(
@@ -148,7 +150,6 @@ export function useLoadCallTree({
       setLazyCallTreeResult(lazyCallTreeResult => {
         if (
           isLoading(parentCallResult, siblingCallsBeforeResult, siblingCallsAfterResult) ||
-          hasError(parentCallResult, siblingCallsBeforeResult, siblingCallsAfterResult) ||
           !lazyCallTreeResult.lazyCallTree
         ) {
           return lazyCallTreeResult;
@@ -169,8 +170,10 @@ export function useLoadCallTree({
   useEffect(() => {
     if (
       lazyLoading &&
-      (isLoading(callDetailsResult, childCallsDetailsResult, siblingCallsBeforeResult, siblingCallsAfterResult) ||
-        (parentId && isLoading(parentCallDetailsResult)))
+      (isLoading(callDetailsResult) ||
+        (loadChildren && isLoading(childCallsDetailsResult)) ||
+        (loadSiblings && isLoading(siblingCallsBeforeResult, siblingCallsAfterResult)) ||
+        (loadParent && isLoading(parentCallDetailsResult)))
     ) {
       return;
     }
@@ -184,19 +187,25 @@ export function useLoadCallTree({
     }
 
     let lazyCallTree: LazyCallTree = initLazyCallTree({ callDetails: callDetailsResult.data, traceId });
-    lazyCallTree = updateLazyCallTreeWithRelatedCalls(
-      lazyCallTree,
-      callId,
-      Relations.CHILDREN,
-      childCallsDetailsResult
-    );
-    lazyCallTree = updateLazyCallTreeWithParentAndSiblingCalls(
-      lazyCallTree,
-      callId,
-      parentCallDetailsResult,
-      siblingCallsBeforeResult,
-      siblingCallsAfterResult
-    );
+
+    if (loadChildren) {
+      lazyCallTree = updateLazyCallTreeWithRelatedCalls(
+        lazyCallTree,
+        callId,
+        Relations.CHILDREN,
+        childCallsDetailsResult
+      );
+    }
+
+    if (loadSiblings || loadParent) {
+      lazyCallTree = updateLazyCallTreeWithParentAndSiblingCalls(
+        lazyCallTree,
+        callId,
+        parentCallDetailsResult,
+        siblingCallsBeforeResult,
+        siblingCallsAfterResult
+      );
+    }
 
     setLazyCallTreeResult(successfulResult(lazyCallTree));
   }, [
@@ -204,11 +213,15 @@ export function useLoadCallTree({
     callId,
     childCallsDetailsResult,
     lazyLoading,
+    loadChildren,
+    loadSiblings,
+    loadParent,
     parentCallDetailsResult,
     parentId,
     siblingCallsAfterResult,
     siblingCallsBeforeResult,
-    traceId
+    traceId,
+    setLazyCallTreeResult
   ]);
 
   return [lazyLoading ? lazyCallTreeResult : eagerCallTreeResult, onRelatedCallsLoaded, onParentAndSiblingCallsLoaded];

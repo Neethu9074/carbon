@@ -30,21 +30,41 @@ export function LazyLoadingCalls({ lazyNode, onParentAndSiblingCallsLoaded, onRe
 function LazyParentAndSiblingCalls({ lazyParentNode, onParentAndSiblingCallsLoaded }) {
   const [startLoading, setStartLoading] = useState(false);
   useLoadLazyParentNode({ lazyParentNode, onParentAndSiblingCallsLoaded, startLoading, setStartLoading });
-  return <LoadButtonOrSkeleton startLoading={startLoading} setStartLoading={setStartLoading} parent />;
+  return (
+    <LoadButtonOrSkeleton
+      startLoading={startLoading}
+      setStartLoading={setStartLoading}
+      errors={lazyParentNode.errors}
+      parent
+    />
+  );
 }
 
 function LazyRelatedCalls({ lazyNode, onRelatedCallsLoaded }) {
-  const { cursor } = lazyNode;
+  const { cursor, errors } = lazyNode;
   const autoLoadInitialChildBatch = !cursor || cursor.offset === 0;
   const [startLoading, setStartLoading] = useState(autoLoadInitialChildBatch);
   useLoadLazyRelatedCalls({ lazyNode, onRelatedCallsLoaded, startLoading, setStartLoading });
-  return <LoadButtonOrSkeleton startLoading={startLoading} setStartLoading={setStartLoading} />;
+  return <LoadButtonOrSkeleton startLoading={startLoading} setStartLoading={setStartLoading} errors={errors} />;
 }
 
-function LoadButtonOrSkeleton({ startLoading, setStartLoading, parent = false }) {
-  return startLoading ? (
-    <LoadingSkeleton className={locals.skeleton} />
-  ) : (
+function LoadButtonOrSkeleton({ startLoading, setStartLoading, parent = false, errors }) {
+  if (startLoading) {
+    return <LoadingSkeleton className={locals.skeleton} />;
+  }
+
+  if (errors?.length > 0) {
+    return (
+      <CallTreeHeader size="small">
+        {parent
+          ? t('in-applications:traceDetail.components.callTreeLoadingOfParentFailed')
+          : t('in-applications:traceDetail.components.callTreeLoadingOfCallsFailed')}
+        <span onClick={() => setStartLoading(true)}>{t('in-applications:traceDetail.components.retry')}</span>
+      </CallTreeHeader>
+    );
+  }
+
+  return (
     <CallTreeHeader size="small">
       <span onClick={() => setStartLoading(true)}>
         {parent

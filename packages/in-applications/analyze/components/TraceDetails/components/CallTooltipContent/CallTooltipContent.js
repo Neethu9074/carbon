@@ -25,11 +25,15 @@ import { t } from 'in-i18n';
 import locals from './CallTooltipContent.mless';
 
 export default function CallTooltipContent({ call }) {
-  const waitingTime = hasOnlyExitSpan(call) ? null : call.duration - (call.minSelfTime || 0) - (call.networkTime || 0);
+  // 'minSelfTime' was renamed to 'selfTime' in the new lazy loading call tree, therefore we need to fallback to
+  // 'selfTime' if 'minSelfTime' is not set
+  const waitingTime = hasOnlyExitSpan(call)
+    ? null
+    : call.duration - (call.minSelfTime || call.selfTime || 0) - (call.networkTime || 0);
   const values = [
     {
       label: SELF_TIME_LABEL,
-      duration: call.minSelfTime,
+      duration: call.minSelfTime || call.selfTime,
       totalDuration: call.duration
     },
     {
