@@ -5,7 +5,7 @@
  */
 
 // @ts-expect-error module need to be translated to TS
-import BusinessProcessesList from 'promise-loader?global,bizops!in-bizops/lists/ProcessesList';
+import BusinessProcessesList from 'promise-loader?global,bizops!in-bizops/lists/BizOpsList';
 // @ts-expect-error module need to be translated to TS
 import { Route } from 'react-router-dom';
 import React from 'react';
