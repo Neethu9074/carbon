@@ -12,21 +12,16 @@ import { RolesAndAccessScopeContext } from 'in-settings/tabs/TeamSettings/pages/
 import { getAreaRoleFromPermissionSet } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { AreaExpandableListItem } from 'in-settings/tabs/TeamSettings/pages/accessControl/Areas/AreaExpandableListItem';
 import { ProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
-import { hasInfrastructureAccess } from 'in-stores/permission';
 import { t } from 'in-i18n';
 
 export const InfrastructureSection = () => {
   const { permissionsSet } = useContext(RolesAndAccessScopeContext);
 
-  if (!hasInfrastructureAccess) return null;
-
   const scopeId = permissionsSet.infraDfqFilter?.scopeId;
   const role = getAreaRoleFromPermissionSet(ProductArea.INFRASTRUCTURE, permissionsSet);
 
-  if (!role || !scopeId) return null;
-
   const columnHeadline = t('in-settings:productAreas.role', {
-    context: role.toLowerCase()
+    context: role?.toLowerCase()
   });
 
   const subListContent = (
@@ -42,7 +37,7 @@ export const InfrastructureSection = () => {
       iconType="lib_infrastructure_inverted"
       firstColumnHeadline={columnHeadline}
       firstColumnLabel={t('in-settings:productAreas.infrastructure')}
-      subList={subListContent}
+      subList={scopeId ? subListContent : null}
     >
       <Typography variant="body-small">{t('in-settings:productAreas.infrastructureContentMessage')}</Typography>
     </AreaExpandableListItem>

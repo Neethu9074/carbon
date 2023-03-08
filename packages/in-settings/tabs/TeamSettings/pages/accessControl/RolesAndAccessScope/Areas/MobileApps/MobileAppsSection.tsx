@@ -14,12 +14,10 @@ import { ProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/R
 
 export const MobileAppsSection = () => {
   const { permissionsSet } = useContext(RolesAndAccessScopeContext);
-  const { hasFullAreaAccess, shouldRenderContent } = getAreaData({
+  const { hasFullAreaAccess } = getAreaData({
     area: ProductArea.MOBILE_APP,
     permissionsSet
   });
-
-  if (!shouldRenderContent) return null;
 
   if (hasFullAreaAccess) return <MobileSectionFullAccessContent />;
 

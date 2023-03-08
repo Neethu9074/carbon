@@ -16,9 +16,7 @@ import { t } from 'in-i18n';
 
 export const PlatformsSection = () => {
   const { permissionsSet } = useContext(RolesAndAccessScopeContext);
-  const { hasKubernetesAccess, hasOtherPlatformsAccess, translations } = getKubernetesData(permissionsSet);
-
-  if (!hasKubernetesAccess) return null;
+  const { hasOtherPlatformsAccess, translations } = getKubernetesData(permissionsSet);
 
   if (!hasOtherPlatformsAccess) return <KubernetesListItem />;
 

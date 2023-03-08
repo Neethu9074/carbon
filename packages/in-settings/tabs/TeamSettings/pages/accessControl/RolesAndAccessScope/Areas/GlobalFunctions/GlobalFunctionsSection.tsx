@@ -35,7 +35,7 @@ export const GlobalFunctionsSection = () => {
 
   const subListContent = (
     <Ul>
-      <CapabilitySubsection capabilities={mixedCapabilities} />
+      <CapabilitySubsection capabilities={mixedCapabilities} headerText={t('in-settings:productAreas.permissions')} />
       <CapabilitySubsection
         capabilities={customDashboardCapabilities}
         headerText={t('in-settings:productAreas.permissions', { context: ProductArea.DASHBOARD })}
