@@ -17,7 +17,6 @@ import { isSyntheticOption } from 'in-applications/Dashboards/commonComponents/i
 // @ts-expect-error
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 import { percentage, meanLatencyLargeInSeconds, number } from 'in-services/formatters/number';
-import WidgetNotActive from 'in-applications/Dashboards/commonComponents/WidgetNotActive';
 import getEndpoints from 'in-applications/subscriptions/getEndpoints';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
@@ -45,6 +44,7 @@ interface EndpointTopListProps {
   urlMatrixParamConfig: UrlMatrixParamConfig;
   syntheticCalls: string;
   renderHistoricDataIndicator: boolean;
+  renderWidgetNotSupportedIndicator: boolean;
 }
 
 interface UrlMatrixParamConfig {
@@ -60,11 +60,10 @@ export default function EndpointTopList({
   timeConfig,
   urlMatrixParamConfig,
   syntheticCalls,
-  renderHistoricDataIndicator
+  renderHistoricDataIndicator,
+  renderWidgetNotSupportedIndicator
 }: EndpointTopListProps) {
-  return timeConfig.autoRefresh ? (
-    <WidgetNotActive title={t('in-applications:titleTopEndpoints')} />
-  ) : (
+  return (
     <TopListWithUrlState
       title={t('in-applications:titleTopEndpoints')}
       metrics={metrics}
@@ -88,6 +87,7 @@ export default function EndpointTopList({
       urlMatrixParamConfig={urlMatrixParamConfig}
       syntheticCalls={syntheticCalls}
       renderHistoricDataIndicator={renderHistoricDataIndicator}
+      renderWidgetNotSupportedIndicator={renderWidgetNotSupportedIndicator}
     />
   );
 }

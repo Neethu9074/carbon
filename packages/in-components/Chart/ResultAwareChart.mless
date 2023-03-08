@@ -42,4 +42,10 @@
     padding: 1rem;
     margin: 0 auto;
   }
+  .liveModeIcon {
+    padding: 0;
+  }
+  .disabledChart {
+    background-color: @lib__colors__N050;
+  }
 }

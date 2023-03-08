@@ -14,7 +14,6 @@ import {
 import LatencyDistributionBase10Chart from 'in-components/LatencyDistributionBase10Chart/LatencyDistributionBase10Chart';
 import getLatencyDistributionBase10 from 'in-applications/subscriptions/getLatencyDistributionBase10';
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
-import WidgetNotActive from 'in-applications/Dashboards/commonComponents/WidgetNotActive';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { jumpToUnboundedAnalyticsFromLatencyTracker } from 'in-applications/tracker';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
@@ -24,8 +23,12 @@ import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { filterByEndpointType } from './includeEndpointTypes';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { fixateTimeConfig } from 'in-stores/time/config';
+import IconLink from 'in-components/IconButton/IconLink';
 import { emptyObject } from 'in-services/fixedObjects';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t } from 'in-i18n';
+
+import locals from './LatencyDistributionHistogram.mless';
 
 export default function LatencyDistributionHistogram({
   timeConfig,
@@ -37,7 +40,8 @@ export default function LatencyDistributionHistogram({
   endpointTypes,
   rightHeaderContent,
   cardTitle,
-  renderHistoricDataIndicator = false
+  renderHistoricDataIndicator = false,
+  renderWidgetNotSupportedIndicator = false
 }) {
   const [selectedLatencyRange, setSelectedLatencyRange] = useState({ from: null, to: null });
   const [hasApproximateData, setApproximateData] = useState(false);
@@ -52,7 +56,10 @@ export default function LatencyDistributionHistogram({
     includePercentiles: true,
     ...hiddenCalls,
     filter: {
-      timeConfig
+      timeConfig: {
+        ...timeConfig,
+        autoRefresh: false
+      }
     },
     tagFilterExpression: {
       type: 'EXPRESSION',
@@ -87,19 +94,29 @@ export default function LatencyDistributionHistogram({
     timeShift: translateOffsetToTimeShiftConfig(timeShiftConfig.offset, timeConfig)
   };
 
-  const leftHeaderContent =
-    renderHistoricDataIndicator && hasApproximateData ? (
-      <MultiLineToolTipIcon lines={[t('in-components:approximateDataIndicator.dataRetention')]} />
-    ) : (
-      undefined
+  const LeftHeaderContent = () => {
+    return (
+      <>
+        {renderHistoricDataIndicator && hasApproximateData && (
+          <MultiLineToolTipIcon lines={[t('in-components:approximateDataIndicator.dataRetention')]} />
+        )}
+        {renderWidgetNotSupportedIndicator && (
+          <Tooltip content={t('in-components:liveModeIndicator.widgetNotSupportedInLiveMode')}>
+            <IconLink type="lib_help_error_info_outline" className={locals.liveModeIcon} />
+          </Tooltip>
+        )}
+      </>
     );
-
-  if (timeConfig.autoRefresh) {
-    return <WidgetNotActive title={cardTitle} rightHeaderContent={rightHeaderContent} />;
-  }
+  };
 
   return (
-    <Card title={cardTitle} leftHeaderContent={leftHeaderContent} rightHeaderContent={rightHeaderContent} size="l">
+    <Card
+      className={renderWidgetNotSupportedIndicator ? locals.disabledWidget : null}
+      title={cardTitle}
+      leftHeaderContent={<LeftHeaderContent />}
+      rightHeaderContent={rightHeaderContent}
+      size="l"
+    >
       <LatencyDistributionBase10Chart
         dataSource="calls"
         subscription={getLatencyDistributionBase10(latencyDistRequest)}
@@ -143,6 +160,7 @@ export default function LatencyDistributionHistogram({
         showLegend
         timeShiftConfig={timeShiftConfig}
         setApproximateData={setApproximateData}
+        renderWidgetNotSupportedIndicator={renderWidgetNotSupportedIndicator}
       />
     </Card>
   );

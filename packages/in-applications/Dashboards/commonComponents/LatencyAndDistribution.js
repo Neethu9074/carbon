@@ -8,6 +8,7 @@ import React from 'react';
 import LatencyDistributionHistogram from 'in-applications/Dashboards/commonComponents/LatencyDistributionHistogram';
 import { TimeShiftAwareChartSelectorWithUrlState } from 'in-components/ChartSelectors/ChartSelectors';
 import Latency from 'in-applications/Dashboards/commonComponents/Latency';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { t } from 'in-i18n';
 
 const tabOverTime = {
@@ -79,14 +80,19 @@ export default function LatencyAndDistribution({
   cardTitle,
   percentileGroupBy,
   renderPostChartContent,
-  urlMatrixParamConfig
+  urlMatrixParamConfig,
+  renderWidgetNotSupportedIndicator
 }) {
+  const { location } = useNavigation();
   return (
     <TimeShiftAwareChartSelectorWithUrlState
       cardTitle={cardTitle}
       tabs={tabs}
       metrics={metrics}
       urlMatrixParamConfig={urlMatrixParamConfig}
+      disabledWidgetInLive={
+        renderWidgetNotSupportedIndicator && location.matrix['/summary']['latencyTab'] === tabDistribution.id
+      }
     >
       <ChartPresenter
         applicationId={applicationId}
@@ -99,6 +105,7 @@ export default function LatencyAndDistribution({
         endpointTypes={endpointTypes}
         percentileGroupBy={percentileGroupBy}
         renderPostChartContent={renderPostChartContent}
+        renderWidgetNotSupportedIndicator={renderWidgetNotSupportedIndicator}
       />
     </TimeShiftAwareChartSelectorWithUrlState>
   );
@@ -119,7 +126,8 @@ function ChartPresenter({
   selectedMetricValue,
   timeShiftConfig,
   cardTitle,
-  selectorComponent
+  selectorComponent,
+  renderWidgetNotSupportedIndicator
 }) {
   return selectedTabId === tabOverTime.id ? (
     <Latency
@@ -150,6 +158,7 @@ function ChartPresenter({
       syntheticCalls={syntheticCalls}
       endpointTypes={endpointTypes}
       renderHistoricDataIndicator
+      renderWidgetNotSupportedIndicator={renderWidgetNotSupportedIndicator}
     />
   );
 }

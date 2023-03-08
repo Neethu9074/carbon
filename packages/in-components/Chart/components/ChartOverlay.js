@@ -22,10 +22,12 @@ const userInteractionThrottlingMillis = 50;
 
 const highlightedMoment$ = create();
 
+const isHoveringOnDisabledChart$ = create();
 export default connectTo(
   ({ chart }) => {
     const xScale = createScale();
     return {
+      isHoveringOnDisabledChart: isHoveringOnDisabledChart$,
       highlightedMoment: highlightedMoment$,
       localHighlightedTimeframe: chart.config.localHighlightedTimeframe$,
       localZoomedTimeframe: chart.config.localZoomedTimeframe$,
@@ -72,27 +74,39 @@ export default connectTo(
             ref={glassPane => (this.glassPane = glassPane)}
           />
 
-          <HighlightedTimeframeCloseButton chartWrapper={this.props.chartWrapper} xScale={xScale} />
+          {!this.props.disableChartInLive && (
+            <HighlightedTimeframeCloseButton chartWrapper={this.props.chartWrapper} xScale={xScale} />
+          )}
 
           {this.renderTooltipAndContextMenu()}
         </div>
       );
     }
+    showTooltipForTheChart = () => {
+      if (this.props.isHoveringOnDisabledChart) {
+        if (!this.props.disableChartInLive) {
+          return false;
+        }
+      } else {
+        if (this.props.disableChartInLive) {
+          return false;
+        }
+      }
+      return true;
+    };
 
     renderTooltipAndContextMenu = () => {
       const { isDragging, showContextMenu, immediatelyOpenContextMenu } = this.state;
       if (isDragging) {
         return null;
       }
-
       const xScale = this.props.xScale;
       const localHighlightedTimeframe = !this.mouseDownPos && this.props.localHighlightedTimeframe;
       const localZoomedTimeframe = !this.mouseDownPos && this.props.localZoomedTimeframe;
 
       const nearestTimeInMetrics = this.getNearestTimeInMetrics();
       const cursorXPosition = this.getAnimationOffsetAwareXPosition(nearestTimeInMetrics);
-
-      const showTooltip = !showContextMenu && cursorXPosition != null;
+      const showTooltip = !showContextMenu && cursorXPosition != null && this.showTooltipForTheChart();
 
       return (
         <>
@@ -152,6 +166,9 @@ export default connectTo(
 
     onMouseDown(e) {
       e.preventDefault();
+      this.props.isHighlightedOnDisabledChart$.emit(
+        this.props.disableChartInLive ? this.props.disableChartInLive : false
+      );
 
       // clicking on the glass panel when a highlighted selection was made, only discards the selection
       // a new selection should only possible if there is no current selection
@@ -192,6 +209,7 @@ export default connectTo(
         currentMousePos >= xScale.getRangeFrom() &&
         currentMousePos <= xScale.getRangeTo()
       ) {
+        isHoveringOnDisabledChart$.emit(this.props.disableChartInLive ? this.props.disableChartInLive : false);
         setHighlightedMoment(xScale.getDomain(currentMousePos));
       }
 

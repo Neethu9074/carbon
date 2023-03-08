@@ -52,7 +52,9 @@ interface ResultAwareChartConfig {
   showNoDataInfoWhenEmpty?: boolean;
   renderErrorDetail?: boolean;
   renderHistoricDataIndicator?: boolean;
+  renderWidgetNotSupportedIndicator?: boolean;
   hasApproximateData?: boolean;
+  disableChartInLive?: boolean;
 }
 
 interface CardConfig {

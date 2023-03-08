@@ -8,9 +8,7 @@ import React, { Fragment } from 'react';
 import { BoundaryScope, TimeConfig } from '@instana/types';
 
 import DatabaseStatementTopList from 'in-applications/Dashboards/commonComponents/database/DatabaseStatementTopList';
-import WidgetNotActive from 'in-applications/Dashboards/commonComponents/WidgetNotActive';
 import { UrlMatrixParamConfig } from 'in-applications/types';
-import { t } from 'in-i18n';
 
 interface DatabaseSectionProps {
   boundaryScope: BoundaryScope;
@@ -20,16 +18,13 @@ interface DatabaseSectionProps {
   timeConfig: TimeConfig;
   urlMatrixParamConfig: UrlMatrixParamConfig;
   renderHistoricDataIndicator: boolean;
+  renderWidgetNotSupportedIndicator: boolean;
 }
 
 export default function DatabaseSections(props: DatabaseSectionProps) {
   return (
     <Fragment>
-      {props.timeConfig.autoRefresh ? (
-        <WidgetNotActive title={t('in-applications:titleTopStatements')} />
-      ) : (
-        <DatabaseStatementTopList {...props} />
-      )}
+      <DatabaseStatementTopList {...props} />
     </Fragment>
   );
 }

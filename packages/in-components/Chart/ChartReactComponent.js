@@ -6,6 +6,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { isEqual } from 'lodash';
 
+import { create } from '@instana/observables';
+
 import ExternallyDefinedWidthAndHeight from 'in-components/layout/ExternallyDefinedWidthAndHeight';
 import { HEIGHT as commonLegendHeight } from 'in-components/Chart/components/Legend';
 import MetricAwareAxis from 'in-components/Chart/components/MetricAwareAxis';
@@ -37,6 +39,7 @@ function CompletelyAutomaticallySized(props) {
     </ExternallyDefinedWidthAndHeight>
   );
 }
+const isHighlightedOnDisabledChart$ = create();
 
 const ChartReactWrapper = React.forwardRef(function ChartReactWrapper(props, outerRef) {
   const {
@@ -51,7 +54,8 @@ const ChartReactWrapper = React.forwardRef(function ChartReactWrapper(props, out
     nonInteractive,
     automaticallySize,
     wiggleRoom,
-    customChartSkeletonHeight
+    customChartSkeletonHeight,
+    disableChartInLive
   } = props;
 
   const [preAndPostContentConfig, setPreAndPostContentConfig] = useState();
@@ -61,7 +65,6 @@ const ChartReactWrapper = React.forwardRef(function ChartReactWrapper(props, out
   const { ref: postContentRef, height: calculatedPostContentHeight = 0 } = useResizeObserver();
 
   const actualLegendHeight = calculatedLegendHeight ?? commonLegendHeight;
-
   let chartHeight = heightOfWrapper - actualLegendHeight;
 
   if (automaticallySize) {
@@ -70,7 +73,8 @@ const ChartReactWrapper = React.forwardRef(function ChartReactWrapper(props, out
 
   const chartProps = {
     ...props,
-    height: chartHeight
+    height: chartHeight,
+    isHighlightedOnDisabledChart$: isHighlightedOnDisabledChart$
   };
 
   const chartWrapperRef = useRef();
@@ -90,7 +94,6 @@ const ChartReactWrapper = React.forwardRef(function ChartReactWrapper(props, out
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     chart?.update(chartProps);
-
     // We need to align the behavior of the pre-/post- content to some Chart configuration
     // that depends on the props. Therefore, we need to update the preAndPostContentConfig
     // only after the chart has been updated with the latest props.
@@ -151,6 +154,8 @@ const ChartReactWrapper = React.forwardRef(function ChartReactWrapper(props, out
               metrics={props}
               nonInteractive={nonInteractive}
               wiggleRoom={wiggleRoom}
+              disableChartInLive={disableChartInLive}
+              isHighlightedOnDisabledChart$={isHighlightedOnDisabledChart$}
             />
           )}
           <canvas className={locals.canvas} ref={canvasRefSetter} />
