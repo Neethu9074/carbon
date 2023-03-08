@@ -25,9 +25,9 @@ import * as paths from 'in-bizops/navigation/paths';
 import locals from './ViewSwitcher.mless';
 
 export default function ViewSwitcher() {
-  const isTabActive = useObservable(isView(paths.bizopsPath), []);
-  // const isLocationsActive = useObservable(isView(paths.syntheticLocationPath), []);
-  // const isSmartAlertsActive = useObservable(isView(paths.syntheticSmartAlertsPath), []);
+  const isProcessesActive = useObservable(isView(paths.bizOpsPath), []);
+  const isServicesActive = useObservable(isView(paths.servicesPath), []);
+  const isSmartAlertsActive = useObservable(isView(paths.smartAlertsPath), []);
 
   // const popProperties: PoPInstallationPropertiesResponse =
   //   useObservable<any, [number]>(() => getPoPInstallationProperties({ installationType: 'simple' }), [0]) ||
@@ -45,8 +45,6 @@ export default function ViewSwitcher() {
     renderMetaInformation
   };
 
-  // const isTabActive = true;
-
   return (
     <>
       <DashboardHeader {...dashboardHeaderProps} />
@@ -54,23 +52,23 @@ export default function ViewSwitcher() {
         <div className={locals.firstLine}>
           <SecondLevelNavigation>
             <SecondLevelNavigationItem
-              href$={getModifiedUrlStream(p => (p.pathname = paths.bizopsPath))}
+              href$={getModifiedUrlStream(p => (p.pathname = paths.bizOpsPath))}
               label={t('in-bizops:labelBizOps')}
-              isActive={isTabActive}
+              isActive={isProcessesActive && !isServicesActive && !isSmartAlertsActive}
               icon={'lib_camunda'}
             />
-            {/* <SecondLevelNavigationItem
-              href$={getModifiedUrlStream(p => (p.pathname = paths.syntheticLocationPath))}
-              label={t('in-synthetics:dashboard.testList.secondaryLabels.locations')}
-              isActive={isLocationsActive && !isTestsActive && !isSmartAlertsActive}
-              icon={'lib_synthetic_location'}
+            <SecondLevelNavigationItem
+              href$={getModifiedUrlStream(p => (p.pathname = paths.servicesPath))}
+              label={t('in-bizops:labelServices')}
+              isActive={isServicesActive && !isProcessesActive && !isSmartAlertsActive}
+              icon={'lib_application_service'}
             />
             <SecondLevelNavigationItem
-              href$={getModifiedUrlStream(p => (p.pathname = paths.syntheticSmartAlertsPath))}
-              label={t('in-synthetics:dashboard.testList.secondaryLabels.smartAlerts')}
-              isActive={isSmartAlertsActive && !isTestsActive && !isLocationsActive}
-              icon={'lib_alerts_alert'}}
-            { /> */}
+              href$={getModifiedUrlStream(p => (p.pathname = paths.smartAlertsPath))}
+              label={t('in-bizops:labelSmartAlerts')}
+              isActive={isSmartAlertsActive && !isProcessesActive && !isServicesActive}
+              icon={'lib_alerts_alert'}
+            />
           </SecondLevelNavigation>
           {/* {!popProperties.progress.loading && role?.canConfigureSyntheticLocations && (
             <PopDeployButton

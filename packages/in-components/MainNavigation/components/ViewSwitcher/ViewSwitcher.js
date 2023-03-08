@@ -72,7 +72,7 @@ import { isInfraExploreView } from 'in-infrastructure/navigation/paths';
 import { ibmp, phmcListFullyQualified } from 'in-phmc/navigation/paths';
 import { ibmz, zhmcListFullyQualified } from 'in-zhmc/navigation/paths';
 import { isSloView, sloList } from 'in-service-levels/navigation/path';
-import { isBizOpsView, bizopsPath } from 'in-bizops/navigation/paths';
+import { isBizOpsView, bizOpsPath } from 'in-bizops/navigation/paths';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { cockpit as cockpitPath } from 'in-cockpit/navigation/paths';
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
@@ -344,10 +344,10 @@ function BizOps(props) {
   return (
     <View
       id="main-nav-bizops"
-      label={t('in-bizops:navigation.bizops')}
+      label={t('in-bizops:navigation.bizOps')}
       icon={'lib_camunda'}
       isActive={matchLocation(isBizOpsView)}
-      href={createHrefToPath(bizopsPath)}
+      href={createHrefToPath(bizOpsPath)}
       {...props}
     />
   );

@@ -19,7 +19,8 @@ packages/in-analyze                 @pr-approval @Instana-IBM-GitHub-Enterprise 
 packages/in-api                     @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-applications            @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-application @instana/eng-ui
 packages/in-applications/alerting   @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-application @instana/eng-ui @instana/eng-issue-detection
-packages/in-automation @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-remediation
+packages/in-automation              @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-remediation
+packages/in-bizops                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-client                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 # No clear ownership: Fallback to eng-ui
 packages/in-cloudfoundry            @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui

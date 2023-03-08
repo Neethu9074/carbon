@@ -1,7 +1,9 @@
 
 {
- "labelBizOps": "Business Processes",
+ "labelBizOps": "Processes",
+ "labelSmartAlerts": "Smart Alerts",
+ "labelServices": "Services",
  "navigation": {
-   "bizops": "Business Processes"
+   "bizOps": "Business Processes"
  }
 }

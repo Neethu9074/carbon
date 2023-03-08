@@ -156,7 +156,7 @@ export const hasAPlatformAccess =
 export const hasEventsAccess =
   hasWebsitesAccess || hasApplicationsAccess || hasAPlatformAccess || hasInfrastructureAccess;
 export const hasBizOpsAccess = businessObservabilityEnabled;
-// hasPermission(LimitedAccessScope.LIMITED_BIZOPS_SCOPE, AreaPermission.ACCESS_BIZOPS) && businessObservabilityEnabled;
+// RBAC for BizOps willl be resolved in another PR hasPermission(LimitedAccessScope.LIMITED_BIZOPS_SCOPE, AreaPermission.ACCESS_BIZOPS) && businessObservabilityEnabled;
 
 interface AreaPermissionProps {
   value: AreaPermissionType;

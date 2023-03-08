@@ -6,6 +6,10 @@
 
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
 
-export const bizopsPath = '/businessProcesses';
+export const bizOpsPath = '/businessProcesses';
+export const servicesPath = '/bizopsServices';
+export const smartAlertsPath = '/bizopsSmartAlerts';
 
-export const isBizOpsView = getRootPathPredicate(bizopsPath);
+export const isBizOpsView = getRootPathPredicate(bizOpsPath);
+export const isServicesView = getRootPathPredicate(servicesPath);
+export const isSmartAlertsView = getRootPathPredicate(smartAlertsPath);
