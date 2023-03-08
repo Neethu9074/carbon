@@ -6,6 +6,16 @@
 @import '~in-themes/active.less';
 
 :local {
+  .filters {
+    display: flex;
+    color: @lib__colors__N700Medium;
+  }
+
+  .centered {
+    display: inline-flex;
+    align-items: center;
+  }
+
   .space {
     margin-right: 1rem;
   }
