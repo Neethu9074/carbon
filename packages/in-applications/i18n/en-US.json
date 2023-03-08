@@ -575,7 +575,6 @@
         "largeTrace": "Large Trace",
         "largeTraceLink": "This trace is large and rendering of this trace can result in performance problems within your browser. You can either <linkToDocs>download the trace</linkToDocs> for manual inspection or attempt trace rendering within your browser. We will only render a subset of the components in order to increase performance of this attempt.",
         "calls": "Calls",
-        "erroneousTrace": "Erroneous Trace",
         "attemptToRenderTrace": "Attempt to render trace",
         "analyzeBeacons": "Analyze Beacons",
         "adjustedTimeConfigForTrace": "The time range was adjusted to include all calls of the selected trace.",
