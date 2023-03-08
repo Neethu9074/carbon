@@ -57,9 +57,8 @@ export default connectTo(({ pinnedItemTypes }) => ({
     query,
     pinnedItemIdsByType
   ]);
-  let resultForEmptyStateCheck = useObservable(getItems({ timeConfig, query, pinnedItemIdsByType }), [
+  let resultForEmptyStateCheck = useObservable(getItems({ timeConfig, pinnedItemIdsByType }), [
     timeConfig,
-    query,
     pinnedItemIdsByType
   ]);
 
