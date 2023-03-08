@@ -16,7 +16,9 @@ import {
   initLazyCallTree,
   LazyCallTree,
   Relations,
-  CallNode
+  CallNode,
+  FAKE_ROOT_CALL_ID,
+  isCallNode
 } from 'in-applications/analyze/components/TraceDetails/components/CallTree/lazyCallTree';
 import getRelatedCallsDetailsWithCursor from 'in-applications/subscriptions/getRelatedCallsDetailsWithCursor';
 import { GetRelatedCallsDetailsResult } from 'in-applications/subscriptions/getRelatedCallsDetails';
@@ -77,18 +79,19 @@ export function useLoadCallTree({
   // lazy loading tree
   const [lazyCallTreeResult, setLazyCallTreeResult] = useState<LazyCallTreeResult>(pendingResult);
 
+  const callNotYetLoaded = !isCallAlreadyLoaded(lazyCallTreeResult.lazyCallTree, callIdOrMissing);
+
   const callDetailsResult =
-    useObservable(lazyLoading ? () => getCallDetails({ traceId, callId: callIdOrMissing }) : just(null), [
-      traceId,
-      callIdOrMissing,
-      lazyLoading
-    ]) ?? pendingResult;
+    useObservable(
+      callNotYetLoaded && lazyLoading ? () => getCallDetails({ traceId, callId: callIdOrMissing }) : just(null),
+      [traceId, callIdOrMissing, lazyLoading, callNotYetLoaded]
+    ) ?? pendingResult;
 
   const callId = callDetailsResult.data?.id;
   const parentId = callDetailsResult.data?.parentId;
   const isRootCall = parentId == null && callDetailsResult.data?.foreignParentId == null;
-  const loadChildren = lazyLoading && callId != null && callDetailsResult.data?.hasChildren;
-  const loadSiblings = lazyLoading && callId != null && !isRootCall;
+  const loadChildren = lazyLoading && callNotYetLoaded && callId != null && callDetailsResult.data?.hasChildren;
+  const loadSiblings = lazyLoading && callNotYetLoaded && callId != null && !isRootCall;
   const loadParent = loadSiblings && parentId != null;
 
   const childCallsDetailsResult =
@@ -225,6 +228,25 @@ export function useLoadCallTree({
   ]);
 
   return [lazyLoading ? lazyCallTreeResult : eagerCallTreeResult, onRelatedCallsLoaded, onParentAndSiblingCallsLoaded];
+}
+
+function isCallAlreadyLoaded(lazyCallTree?: LazyCallTree, callId?: string): boolean {
+  if (!lazyCallTree) {
+    return false;
+  }
+  if (callId == null) {
+    return isRootCallLoaded(lazyCallTree);
+  }
+  return lazyCallTree.searchIndex.get(callId) != null;
+}
+
+function isRootCallLoaded(lazyCallTree: LazyCallTree): boolean {
+  return (
+    (isCallNode(lazyCallTree.root) &&
+      lazyCallTree.root.parentId == null &&
+      lazyCallTree.root.foreignParentId == null) ||
+    lazyCallTree.searchIndex.get(FAKE_ROOT_CALL_ID) != null
+  );
 }
 
 function successfulResult(lazyCallTree: LazyCallTree): LazyCallTreeResult {
