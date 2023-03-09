@@ -323,5 +323,10 @@ module.exports = exports = [
     uiClientKey: 'largeTracesV2Enabled',
     instanaCtlKey: 'feature.ua.large.traces.v2.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'skipOnboarding',
+    instanaCtlKey: 'feature.onboarding.skip',
+    defaultValue: false
   }
 ];
