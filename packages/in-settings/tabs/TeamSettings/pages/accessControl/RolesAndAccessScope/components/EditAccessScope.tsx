@@ -19,6 +19,7 @@ import { getApplicationConfigsAsResultObservable } from 'in-api/applicationConfi
 import ConfigDialog, { SubSlideConfig } from 'in-settings/components/ConfigDialog';
 import { getMobileAppConfigurations } from 'in-mobile-apps/api/mobileApps';
 import { getWebsiteConfigurations } from 'in-websites/api/websites';
+import PlatformsEditSelection from './PlatformsEditSelection';
 import { t } from 'in-i18n';
 
 interface EditAccessScopeDialogProps extends FormControlProps {
@@ -161,7 +162,15 @@ export default function EditAccessScopeDialog({
           label: t('in-settings:PermissionSection.title_platforms'),
           title: t('in-settings:PermissionSection.title_platforms'),
           valid: true,
-          content: <></>
+          content: (
+            <PlatformsEditSelection
+              title={t('in-settings:PermissionSection.title_platforms')}
+              productArea={ProductArea.PLATFORM}
+              icon="lib_platforms"
+              {...formControlProps}
+              {...slideControlProps}
+            />
+          )
         },
         {
           scrollId: '7-infrastructure',
