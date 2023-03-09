@@ -24,6 +24,15 @@ const cols = [
     }
   },
   {
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.usage'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.snapshot.getIn(['data', 'queueUsage']);
+      }
+    }
+  },
+  {
     title: t('in-forge:plugins.ibmMqQueueManager.dashboard.queueFullPercentage'),
     type: 'metric',
     typeArgs: {

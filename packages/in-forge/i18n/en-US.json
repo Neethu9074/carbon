@@ -718,6 +718,11 @@
   "pluginName_ibmMqChannel_1": "IBM MQ Channels",
   "pluginName_ibmMqChannel_2": "IBM MQ Channels",
   "pluginName_ibmMqChannel": "IBM MQ Channel",
+  "pluginName_ibmMqttChannel_plural": "IBM MQ MQTT Channels",
+  "pluginName_ibmMqttChannel_0": "IBM MQ MQTT Channels",
+  "pluginName_ibmMqttChannel_1": "IBM MQ MQTT Channels",
+  "pluginName_ibmMqttChannel_2": "IBM MQ MQTT Channels",
+  "pluginName_ibmMqttChannel": "IBM MQ MQTT Channel",
   "pluginName_ibmMqCluster_plural": "IBM MQ Clusters",
   "pluginName_ibmMqCluster_0": "IBM MQ Clusters",
   "pluginName_ibmMqCluster_1": "IBM MQ Clusters",
@@ -9356,6 +9361,36 @@
       "buffersReceived": "Buffers Received",
       "buffers": "Buffers"
     },
+    "ibmMqttChannel": {
+      "dashboard": {
+        "messagesSent": "Total Messages Sent",
+        "messagesReceived": "Total Messages Received",
+        "messages": "MQTT Messages",
+        "inDoubtInput": "Inbound Messages in doubt",
+        "inDoubtOutput": "Outbound Messages in doubt",
+        "indoubtMessages": "Indoubt Messages",
+        "pendingOutbound": "Pending Outbound Messages",
+        "ibmMqttChannel": "IBM MQ MQTT Channel"
+      },
+      "name": "Name",
+      "type": "Type",
+      "status": "Status",
+      "connectionName": "Connection Name",
+      "lastMessage": "Last Message Date/Time",
+      "startDateTime": "Start Date/Time",
+      "clientId": "Client Id",
+      "clientUser": "Client User",
+      "MCAUser": "MCA User",
+      "messages": "Messages",
+      "protocol": "Protocol",
+      "connections": "Connections",
+      "messagesSent": "Messages Sent",
+      "messagesReceived": "Messages Received",
+      "indoubtMessages": "Indoubt Messages",
+      "inDoubtInput": "Inbound Messages in doubt",
+      "inDoubtOutput": "Outbound Messages in doubt",
+      "pendingOutbound": "Pending Outbound Messages"
+    },
     "ibmMqCluster": {
       "dashboard": {
         "messagesIn": "Messages In",
@@ -9575,6 +9610,7 @@
         "out": "Out",
         "uncommitted": "Uncommitted",
         "queuesWithCount": "Queues ({{len}})",
+        "usage": "Usage",
         "queueFullPercentage": "Depth Percentage",
         "queueDepth": "Current Depth",
         "lastGetDateTime": "Last Get Time",
@@ -9594,7 +9630,10 @@
         "subType": "Type",
         "durable": "Durable",
         "subAlternatedAt": "Alternated At",
-        "numberMessages": "Number of Messages"
+        "numberMessages": "Number of Messages",
+        "channelType": "Type",
+        "clientId": "Client Id",
+        "mqttChannelsWithCount": "MQTT Channels ({{len}})"
       },
       "name": "Name",
       "version": "Version",

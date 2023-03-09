@@ -35,6 +35,15 @@ const cols = [
     }
   },
   {
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.channelType'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.snapshot.getIn(['data', 'channelType']);
+      }
+    }
+  },
+  {
     title: t('in-forge:plugins.ibmMqQueueManager.dashboard.inDoubt'),
     type: 'string',
     typeArgs: {
@@ -103,7 +112,7 @@ export default connectTo(
       .flatMap(timeConfig => getIbmMqChannelsForQueueManager({ snapshotId: props.snapshot.get('id'), timeConfig }))
       .flatMap(getSnapshots)
   }),
-  function QueuesUsageTable({ channels, timeConfig }) {
+  function ChannelsTable({ channels, timeConfig }) {
     if (channels == null || channels.length === 0) {
       return null;
     }
