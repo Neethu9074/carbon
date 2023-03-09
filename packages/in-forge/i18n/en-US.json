@@ -9292,7 +9292,7 @@
             }
           },
           "solidStateDisk": {
-            "name": "Solid State Disk(SSD) Info",
+            "name": "Solid State Disk (SSD) Info",
             "resourceName": "Resource Name",
             "unitStorageCapacity": "Storage Capacity",
             "percentUsed": "Percent Used",
