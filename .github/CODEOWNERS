@@ -36,7 +36,7 @@ packages/in-events/components/AutomationActions @pr-approval @Instana-IBM-GitHub
 # packages/in-forge
 packages/in-forge                                               @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
 # packages/in-forge/i18n
-packages/in-forge/i18n                                          @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware @instana/eng-ibm-us-sensors @instana/eng-ibm-us-sensors
+packages/in-forge/i18n                                          @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware @instana/eng-sensors-system @instana/eng-ibm-us-sensors
 # Specific ownerships for different sensors
 packages/in-forge/plugins/ace*                                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
 packages/in-forge/plugins/aliCloud*                             @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
