@@ -20,6 +20,7 @@ import {
   FAKE_ROOT_CALL_ID,
   isCallNode
 } from 'in-applications/analyze/components/TraceDetails/components/CallTree/lazyCallTree';
+import searchForPathToSelectedNode from 'in-applications/analyze/components/TraceDetails/components/CallTree/searchForPathToSelectedNode';
 import getRelatedCallsDetailsWithCursor from 'in-applications/subscriptions/getRelatedCallsDetailsWithCursor';
 import { GetRelatedCallsDetailsResult } from 'in-applications/subscriptions/getRelatedCallsDetails';
 import getCallDetails, { GetCallDetailsResult } from 'in-applications/subscriptions/getCallDetails';
@@ -52,7 +53,7 @@ interface LazyCallTreeResult extends Result<CallNode> {
 }
 
 /**
- * Initiates loading of a call tree.
+ * Initiates loading of a call tree and maintains the state of expanded nodes in the call tree.
  *
  * @param traceId     Specifies which trace to load.
  * @param callId      Specifies which call to load first, if lazy loading is selected. If callId is missing or 'ROOT', the root call will be loaded first.
@@ -65,21 +66,52 @@ export function useLoadCallTree({
 }: UseLoadCallTreeProps): [
   LazyCallTreeResult | Result<TraceActivityTreeNode>,
   (params: OnRelatedCallsLoadedProps) => void,
-  (params: OnParentAndSiblingCallsLoadedProps) => void
+  (params: OnParentAndSiblingCallsLoadedProps) => void,
+  Set<string>,
+  (callId: string) => void,
+  (callId: string) => void
 ] {
   if (callIdOrMissing === 'ROOT') {
     callIdOrMissing = undefined;
   }
 
-  // eager loading tree
+  const [expandedCalls, onCallExpanded, onCallCollapsed, resetExpandedCalls, expandCalls] = useExpandedCalls();
+
+  // eager loading tree ------------------------------------------------------------------------------------------
   const eagerCallTreeResult =
     useObservable(!lazyLoading ? () => getTraceActivityTree({ id: traceId }) : just(null), [traceId, lazyLoading]) ??
     pendingResult;
 
-  // lazy loading tree
+  useEffect(() => {
+    if (!lazyLoading && (isLoading(eagerCallTreeResult) || hasError(eagerCallTreeResult))) {
+      return;
+    }
+    // auto expand all nodes from the root node to the selected call
+    const nodesToExpand = searchForPathToSelectedNode(eagerCallTreeResult.data, node => node.id === callIdOrMissing);
+    expandCalls(nodesToExpand);
+  }, [lazyLoading, callIdOrMissing, eagerCallTreeResult, expandCalls]);
+
+  // lazy loading tree ------------------------------------------------------------------------------------------
   const [lazyCallTreeResult, setLazyCallTreeResult] = useState<LazyCallTreeResult>(pendingResult);
 
   const callNotYetLoaded = !isCallAlreadyLoaded(lazyCallTreeResult.lazyCallTree, callIdOrMissing);
+
+  useEffect(() => {
+    if (lazyLoading && callNotYetLoaded) {
+      // if the selected call was not loaded yet, reset both the lazy call tree and the expanded calls state
+      resetExpandedCalls();
+      setLazyCallTreeResult(pendingResult);
+    }
+  }, [lazyLoading, callNotYetLoaded, resetExpandedCalls]);
+
+  useEffect(() => {
+    if (lazyLoading && (isLoading(lazyCallTreeResult) || hasError(lazyCallTreeResult))) {
+      return;
+    }
+    // auto expand all nodes from the root node to the selected call
+    const nodesToExpand = searchForPathToSelectedNode(lazyCallTreeResult.data, node => node.id === callIdOrMissing);
+    expandCalls(nodesToExpand);
+  }, [lazyLoading, callIdOrMissing, eagerCallTreeResult, lazyCallTreeResult, expandCalls]);
 
   const callDetailsResult =
     useObservable(
@@ -164,10 +196,17 @@ export function useLoadCallTree({
           siblingCallsBeforeResult,
           siblingCallsAfterResult
         );
+
+        const parentId = parentCallResult.data?.id;
+        if (parentId && updatedTree.searchIndex.has(parentId)) {
+          // auto expand loaded parent
+          onCallExpanded(parentId);
+        }
+
         return successfulResult(updatedTree);
       });
     },
-    []
+    [onCallExpanded]
   );
 
   useEffect(() => {
@@ -227,7 +266,14 @@ export function useLoadCallTree({
     setLazyCallTreeResult
   ]);
 
-  return [lazyLoading ? lazyCallTreeResult : eagerCallTreeResult, onRelatedCallsLoaded, onParentAndSiblingCallsLoaded];
+  return [
+    lazyLoading ? lazyCallTreeResult : eagerCallTreeResult,
+    onRelatedCallsLoaded,
+    onParentAndSiblingCallsLoaded,
+    expandedCalls,
+    onCallExpanded,
+    onCallCollapsed
+  ];
 }
 
 function isCallAlreadyLoaded(lazyCallTree?: LazyCallTree, callId?: string): boolean {
@@ -256,4 +302,66 @@ function successfulResult(lazyCallTree: LazyCallTree): LazyCallTreeResult {
     data: lazyCallTree.root,
     lazyCallTree
   };
+}
+
+/**
+ * Hook used for tracking of the expanded state of nodes within the call tree. We can't keep the expanded
+ * state locally within the component representing individual calls, because after loading a lazy parent,
+ * all child components will get remounted and we would thus lose all previous state.
+ */
+function useExpandedCalls(): [
+  Set<string>,
+  (callId: string) => void,
+  (callId: string) => void,
+  () => void,
+  (callIds: string[]) => void
+] {
+  const [expandedCalls, setExpandedCalls] = useState<Set<string>>(new Set());
+
+  /**
+   * This callback should be called after expanding a node in the call tree.
+   */
+  const onCallExpanded = useCallback(
+    (callId: string) =>
+      setExpandedCalls(prevSet => {
+        if (prevSet.has(callId)) {
+          return prevSet;
+        }
+        return new Set(Array.from(prevSet.keys())).add(callId);
+      }),
+    [setExpandedCalls]
+  );
+
+  /**
+   * This callback should be called after collapsing a node in the call tree.
+   */
+  const onCallCollapsed = useCallback(
+    (callId: string) =>
+      setExpandedCalls(prevSet => {
+        if (!prevSet.has(callId)) {
+          return prevSet;
+        }
+        const newSet = new Set(Array.from(prevSet.keys()));
+        newSet.delete(callId);
+        return newSet;
+      }),
+    [setExpandedCalls]
+  );
+
+  /**
+   * This callback will be used internally within this module to reset the state when the lazy call tree is reloaded.
+   */
+  const resetExpandedCalls = useCallback(() => setExpandedCalls(new Set()), [setExpandedCalls]);
+
+  /**
+   * This callback will be used internally within this module to auto expand all nodes in the call tree between the root node and the selected call.
+   */
+  const expandCalls = useCallback(
+    callsToExpand => {
+      setExpandedCalls(prevSet => new Set([...Array.from(prevSet.values()), ...callsToExpand]));
+    },
+    [setExpandedCalls]
+  );
+
+  return [expandedCalls, onCallExpanded, onCallCollapsed, resetExpandedCalls, expandCalls];
 }

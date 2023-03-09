@@ -77,7 +77,14 @@ export default function Summary({
     // over callCount
     (trace.callCountIgnoringBatchSize || trace.callCount) > maximumNumberOfCallsForLargeTraceConsideration;
 
-  const [callTreeResult, onRelatedCallsLoaded, onParentAndSiblingCallsLoaded] = useLoadCallTree({
+  const [
+    callTreeResult,
+    onRelatedCallsLoaded,
+    onParentAndSiblingCallsLoaded,
+    expandedCalls,
+    onCallExpanded,
+    onCallCollapsed
+  ] = useLoadCallTree({
     traceId,
     callId,
     lazyLoading: isLargeTrace
@@ -370,6 +377,9 @@ export default function Summary({
                   totalNumberOfLogs={totalNumberOfLogs}
                   onRelatedCallsLoaded={onRelatedCallsLoaded}
                   onParentAndSiblingCallsLoaded={onParentAndSiblingCallsLoaded}
+                  expandedCalls={expandedCalls}
+                  onCallExpanded={onCallExpanded}
+                  onCallCollapsed={onCallCollapsed}
                 />
               </Card>
             </Col>
