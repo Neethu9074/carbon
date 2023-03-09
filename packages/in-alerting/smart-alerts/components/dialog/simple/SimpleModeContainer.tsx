@@ -5,8 +5,9 @@
 
 import React from 'react';
 
-import MessageStack, { MessageType } from 'in-components/MessageStack/MessageStack';
+import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import { StepConfigs } from 'in-components/BlueprintFormMultistep/StepConfigs';
+import MessageStack from 'in-components/MessageStack/MessageStack';
 import StepProgressBar from 'in-components/StepProgressBar';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/simple/SimpleModeContainer.mless';
@@ -15,7 +16,7 @@ export interface SimpleModeContainerProps {
   step: number;
   stepConfigs: StepConfigs;
   stepRenderers: ((props?: SimpleModeContainerProps) => React.ReactNode)[];
-  messages: MessageType[];
+  messages: EnrichedError[];
 }
 
 export default function SimpleModeContainer(props: SimpleModeContainerProps) {
@@ -36,8 +37,10 @@ export default function SimpleModeContainer(props: SimpleModeContainerProps) {
             </div>
           )
       )}
-
-      <MessageStack className={locals.errorInfo} messages={messages} />
+      {
+        //@ts-expect-error  - message does not support JSX
+        <MessageStack className={locals.errorInfo} messages={messages} />
+      }
     </div>
   );
 }

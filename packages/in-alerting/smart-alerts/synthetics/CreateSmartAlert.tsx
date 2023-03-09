@@ -8,13 +8,17 @@ import React from 'react';
 
 import { FailureSyntheticAlertRule, SyntheticAlertConfigWithMetadata, TagFilter } from '@instana/types';
 
+import { syntheticAlertListPath, syntheticSmartAlertsPath } from 'in-synthetics/navigation/paths';
 import AlertConfigDialog from 'in-alerting/smart-alerts/synthetics/dialog/AlertConfigDialog';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import FloatingActionButton from 'in-components/FloatingActionButton';
+import { reload } from 'in-settings/components/List';
 import { t } from 'in-i18n';
 
 export default function CreateSmartAlert() {
   const alertConfig = generateAlertConfig();
+  const location = useLocation();
   return (
     <FloatingActionButton
       icon="lib_alerts_create"
@@ -23,6 +27,12 @@ export default function CreateSmartAlert() {
           <AlertConfigDialog
             onClose={() => {
               close();
+              if (
+                location.pathname.includes(syntheticAlertListPath) ||
+                location.pathname.includes(syntheticSmartAlertsPath)
+              ) {
+                reload();
+              }
             }}
             editMode={false}
             alertConfig={alertConfig}
@@ -40,7 +50,7 @@ export default function CreateSmartAlert() {
 export function generateAlertConfig(): SyntheticAlertConfigWithMetadata {
   const rule: FailureSyntheticAlertRule = {
     alertType: 'failure',
-    metricName: 'not-clear'
+    metricName: 'status'
   };
 
   const tagFilterExpression: TagFilter = {

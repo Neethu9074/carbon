@@ -100,12 +100,19 @@ export default function alertFormDefinition(alertConfig: SyntheticAlertConfigWit
     )
     .put(
       fieldNames.timeThreshold,
-      createMapForm().put(
-        'violationsCount',
-        createField({
-          value: timeThreshold.violationsCount
-        })
-      )
+      createMapForm()
+        .put(
+          'violationsCount',
+          createField({
+            value: timeThreshold.violationsCount
+          })
+        )
+        .put(
+          'type',
+          createField({
+            value: timeThreshold.type
+          })
+        )
     );
 
   return applyEditMode(form, editMode);
