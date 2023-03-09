@@ -10,6 +10,4 @@ export const bizOpsPath = '/businessProcesses';
 export const servicesPath = '/bizopsServices';
 export const smartAlertsPath = '/bizopsSmartAlerts';
 
-export const isBizOpsView = getRootPathPredicate(bizOpsPath);
-export const isServicesView = getRootPathPredicate(servicesPath);
-export const isSmartAlertsView = getRootPathPredicate(smartAlertsPath);
+export const isBizOpsView = getRootPathPredicate(bizOpsPath, servicesPath, smartAlertsPath);
