@@ -33,20 +33,22 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {} }) {
 
   return (
     <HorizontalFlexWrapper className={locals.actions}>
-      <Tooltip content={getTooltipForAction()} delay={500}>
-        <div className={locals.separator}>
-          <IconButton
-            kind="primaryv2"
-            type={isSaving ? 'lib_actions_loading' : enabled ? 'lib_actions_pause' : 'lib_actions_play'}
-            iconSpinning={isSaving}
-            onClick={e => {
-              e.preventDefault();
-              stopPropagation(e);
-              handleToggleEnabled(enabled, id, setIsSaving);
-            }}
-          />
-        </div>
-      </Tooltip>
+      {handleToggleEnabled && (
+        <Tooltip content={getTooltipForAction()} delay={500}>
+          <div className={locals.separator}>
+            <IconButton
+              kind="primaryv2"
+              type={isSaving ? 'lib_actions_loading' : enabled ? 'lib_actions_pause' : 'lib_actions_play'}
+              iconSpinning={isSaving}
+              onClick={e => {
+                e.preventDefault();
+                stopPropagation(e);
+                handleToggleEnabled(enabled, id, setIsSaving);
+              }}
+            />
+          </div>
+        </Tooltip>
+      )}
 
       <MoreMenu
         renderInteractiveElement={({ ref, toggle }) => (
@@ -66,17 +68,21 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {} }) {
           </div>
         )}
       >
-        <MoreMenuButton
-          icon={isSaving ? 'lib_actions_loading' : 'lib_actions_edit'}
-          iconSpinning={isMoreMenuSaving}
-          onClick={() => handleEdit(config)}
-        >
-          {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonEdit')}
-        </MoreMenuButton>
-        <MoreMenuButton icon="lib_actions_copy" onClick={() => handleClone(config)}>
-          {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDuplicate')}
-        </MoreMenuButton>
-        {!config?.builtIn && (
+        {handleEdit && (
+          <MoreMenuButton
+            icon={isSaving ? 'lib_actions_loading' : 'lib_actions_edit'}
+            iconSpinning={isMoreMenuSaving}
+            onClick={() => handleEdit(config)}
+          >
+            {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonEdit')}
+          </MoreMenuButton>
+        )}
+        {handleClone && (
+          <MoreMenuButton icon="lib_actions_copy" onClick={() => handleClone(config)}>
+            {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDuplicate')}
+          </MoreMenuButton>
+        )}
+        {!config?.builtIn && handleDelete && (
           <MoreMenuButton
             icon="lib_actions_delete"
             onClick={() => {

@@ -22,10 +22,10 @@ export type TableActions<T> = Omit<ListTableActions<T>, 'deselect'> & {
 };
 
 export type ActionHandlers = {
-  handleClone: (config: AlertConfigType) => void;
-  handleDelete: (id: string, setIsSaving: boolean, configName: string) => void;
-  handleEdit: (config: string) => void;
-  handleToggleEnabled: (enabled: boolean, id: string, setIsSaving: (saving: boolean) => void) => void;
+  handleClone?: (config: AlertConfigType) => void;
+  handleDelete?: (id: string, setIsSaving: boolean, configName: string) => void;
+  handleEdit?: (config: string) => void;
+  handleToggleEnabled?: (enabled: boolean, id: string, setIsSaving: (saving: boolean) => void) => void;
 };
 
 interface AlertBaseListProps<AlertConfig extends AlertConfigType> {
