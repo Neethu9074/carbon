@@ -5808,6 +5808,7 @@
       "bufferPoolTime": "Buffer Pool Time",
       "logsAvailable": "Logs Available",
       "logsUsed": "Logs Used",
+      "availablePercentage": "Logs Used Percentage",
       "logSpace": "Log Space",
       "logIoReads": "Log IO Reads",
       "logIoWrites": "Log IO Writes",
@@ -5984,7 +5985,8 @@
       "unableToConnect": "Cannot connect to {{connectionUrl}} using user {{user}}.",
       "troubleshootingDocs": "Troubleshooting docs",
       "oldConfigUsed": "Db2 Sensor now supports monitoring of multiple instances and databases on the host where Instana Agent is running. Please refer to the docs for the new configuration format.",
-      "autoResize": "Auto Resize"
+      "autoResize": "Auto Resize",
+      "hadrLogGap": "HADR Log Gap"
     },
     "defaultEntity20": {
       "allCallsPerSecond": "All Calls per Second",
