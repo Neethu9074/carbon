@@ -28,13 +28,13 @@ import { finishedProgress, pendingResult } from 'in-services/fixedObjects';
 import { hasError, isLoading } from 'in-services/util/result';
 import { Result } from 'in-types';
 
-interface OnRelatedCallsLoadedProps {
+export interface OnRelatedCallsLoadedProps {
   callId: string;
   relation: Relation;
   getRelatedCallsDetailsResult: GetRelatedCallsDetailsResult;
 }
 
-interface OnParentAndSiblingCallsLoadedProps {
+export interface OnParentAndSiblingCallsLoadedProps {
   callId: string;
   parentCallResult: GetCallDetailsResult;
   siblingCallsBeforeResult: GetRelatedCallsDetailsResult;
