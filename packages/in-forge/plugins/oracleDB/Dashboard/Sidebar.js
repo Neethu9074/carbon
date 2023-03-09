@@ -1,22 +1,40 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
  */
 
 import React from 'react';
 
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
+import { oracleRacMonitoringEnabled } from 'in-services/featureFlags';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import InstanceInfo from './instance/InstanceInfo';
+import RACInfo from './rac/RacInfo';
 import { t } from 'in-i18n';
-import Info from '../Info';
 
 export default function OracleDBSidebar({ snapshot }) {
+  const data = snapshot.get('data');
+  if (oracleRacMonitoringEnabled && data.get('enableRacMonitoring')) {
+    return (
+      <div>
+        <Collapsible initiallyOpen>
+          <Collapsible.Header>{t('in-forge:plugins.oracleDB.oracleRAC')}</Collapsible.Header>
+          <Collapsible.Content>
+            <RACInfo snapshot={snapshot} />
+          </Collapsible.Content>
+        </Collapsible>
+
+        <ServiceInstancesList snapshot={snapshot} />
+      </div>
+    );
+  }
   return (
     <div>
       <Collapsible initiallyOpen>
         <Collapsible.Header>{t('in-forge:plugins.oracleDB.oracleDb')}</Collapsible.Header>
         <Collapsible.Content>
-          <Info snapshot={snapshot} />
+          <InstanceInfo snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
 

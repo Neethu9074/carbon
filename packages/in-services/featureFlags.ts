@@ -144,3 +144,5 @@ export const pluginMetricStatisticsEnabled = isFeatureFlagEnabled('pluginMetricS
 export const controlPlaneEnabled = isFeatureFlagEnabled('controlPlaneEnabled', false);
 
 export const largeTracesV2Enabled = isFeatureFlagEnabled('largeTracesV2Enabled', false);
+
+export const oracleRacMonitoringEnabled = isFeatureFlagEnabled('oracleRacMonitoringEnabled', false);
