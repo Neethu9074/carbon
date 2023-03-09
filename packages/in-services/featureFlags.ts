@@ -136,3 +136,6 @@ export const actionAutomationEnabled = isFeatureFlagEnabled('actionAutomationEna
 export const pluginMetricStatisticsEnabled = isFeatureFlagEnabled('pluginMetricStatisticsEnabled', false);
 
 export const controlPlaneEnabled = isFeatureFlagEnabled('controlPlaneEnabled', false);
+
+// Skips the onboarding dialog, to keep ui available when infra monitoring might be in a degraded state
+export const skipOnboarding = isFeatureFlagEnabled('skipOnboarding', false);

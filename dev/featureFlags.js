@@ -68,5 +68,6 @@ module.exports = {
   rbacImprovementEnabled: false,
   traceIdFilterOverrideEnabled: true,
   syntheticSmartAlertsEnabled: true,
-  controlPlaneEnabled: true
+  controlPlaneEnabled: true,
+  skipOnboarding: false
 };
