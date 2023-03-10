@@ -88,7 +88,7 @@ export default function Summary({
   ] = useLoadCallTree({
     traceId,
     callId,
-    lazyLoading: isLargeTrace
+    lazyLoading: shouldUseLazyLoadedTree
   });
 
   const effectiveCallId = callId === 'ROOT' && callTreeResult.data ? callTreeResult.data.id : callId;
