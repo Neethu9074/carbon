@@ -12,12 +12,13 @@ import { syntheticAlertListPath, syntheticSmartAlertsPath } from 'in-synthetics/
 import AlertConfigDialog from 'in-alerting/smart-alerts/synthetics/dialog/AlertConfigDialog';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import { AlertsProps } from 'in-alerting/smart-alerts/synthetics/Alerts';
 import FloatingActionButton from 'in-components/FloatingActionButton';
 import { reload } from 'in-settings/components/List';
 import { t } from 'in-i18n';
 
-export default function CreateSmartAlert() {
-  const alertConfig = generateAlertConfig();
+export default function CreateSmartAlert({ testId }: AlertsProps) {
+  const alertConfig = generateAlertConfig(testId ? [testId] : []);
   const location = useLocation();
   return (
     <FloatingActionButton
@@ -47,7 +48,7 @@ export default function CreateSmartAlert() {
   );
 }
 
-export function generateAlertConfig(): SyntheticAlertConfigWithMetadata {
+export function generateAlertConfig(testIds?: string[]): SyntheticAlertConfigWithMetadata {
   const rule: FailureSyntheticAlertRule = {
     alertType: 'failure',
     metricName: 'status'
@@ -71,7 +72,7 @@ export function generateAlertConfig(): SyntheticAlertConfigWithMetadata {
     severity: 5,
     rule,
     alertChannelIds: [],
-    syntheticTestIds: [],
+    syntheticTestIds: testIds ?? [],
     tagFilterExpression,
     timeThreshold: {
       type: 'violationsInSequence',
