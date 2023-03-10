@@ -165,7 +165,6 @@ export default function EditAccessScopeDialog({
           content: (
             <PlatformsEditSelection
               title={t('in-settings:PermissionSection.title_platforms')}
-              productArea={ProductArea.PLATFORM}
               icon="lib_platforms"
               {...formControlProps}
               {...slideControlProps}
