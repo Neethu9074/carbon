@@ -8,10 +8,13 @@ import React, { ReactNode, useState } from 'react';
 
 import { Observable } from '@instana/observables';
 import { Card } from '@instana/components';
+import { Result } from '@instana/types';
 
 import { ListActionsColumn } from 'in-alerting/smart-alerts/applications/list/columns/ListActionsColumn';
+import SmartAlertsBaseList from 'in-alerting/smart-alerts/applications/list/SmartAlertsBaseList';
 import { NameColumnCell } from 'in-alerting/smart-alerts/components/list/NameColumnCell';
 import List, { TableActions as ListTableActions } from 'in-settings/components/List';
+import { SortOption } from 'in-components/SortingConfigurator/SortingConfigurator';
 import { t } from 'in-i18n';
 
 export type TableActions<T> = Omit<ListTableActions<T>, 'deselect'> & {
@@ -29,12 +32,15 @@ export type ActionHandlers = {
 };
 
 interface AlertBaseListProps<AlertConfig extends AlertConfigType> {
-  loadEntities: () => Observable<AlertConfig[]>;
+  loadEntities?: () => Observable<AlertConfig[]>;
+  getAlertConfigs?: () => Observable<Result<AlertConfig[]>>;
   extraColumnDefinitions: ColumnDefinition<AlertConfig>[];
   tableActions?: TableActions<AlertConfig>;
   getSubtitle?: (config: AlertConfig) => string;
   onRowClick?: (config: AlertConfig) => void;
+  createRowLinkLocation?: (config: AlertConfigType, location: Location) => Location;
   actionHandlers?: ActionHandlers;
+  sortOptions?: SortOption[];
 }
 
 export interface AlertConfigType {
@@ -47,41 +53,34 @@ export interface AlertConfigType {
 export interface ColumnDefinition<AlertConfig extends AlertConfigType> {
   id: string;
   label: string;
+  width?: string;
   getContent: (entity: AlertConfig) => ReactNode;
 }
 
+/**
+ * Currently there are 2 ways to use this base-list:
+ * with old {loadEntities} or
+ * with {getAlertConfigs} (supporting loading state)
+ *
+ * Both are needed until the synthetics-list will have been migrated.
+ */
 export default function AlertBaseList<AlertConfig extends AlertConfigType>({
   extraColumnDefinitions,
   loadEntities,
+  getAlertConfigs,
   tableActions,
   getSubtitle,
   onRowClick,
+  createRowLinkLocation,
+  sortOptions = [],
   actionHandlers
 }: AlertBaseListProps<AlertConfig>) {
   const [alertsSize, setAlertsSize] = useState<number | null>(null);
   const header = t('in-alerting:smartAlerts.list.header.configuredAlerts', { numberOfAlerts: alertsSize });
-  const nameColumn: ColumnDefinition<AlertConfig> = {
-    id: 'name',
-    label: t('in-alerting:smartAlerts.list.columns.name'),
-    getContent: config => <NameColumnCell<AlertConfig> config={config} getSubtitle={getSubtitle} />
-  };
+  const columnDef = createColumnDefinition(extraColumnDefinitions, actionHandlers, getSubtitle);
 
-  const columnDef = actionHandlers
-    ? [
-        nameColumn,
-        ...extraColumnDefinitions,
-        {
-          id: 'actions',
-          label: 'Action',
-          getContent: (config: AlertConfig) => (
-            <ListActionsColumn config={config} actionHandlers={actionHandlers} isLoading={false} />
-          )
-        }
-      ]
-    : [nameColumn, ...extraColumnDefinitions];
-
-  return (
-    <>
+  if (loadEntities)
+    return (
       <Card size="l">
         <List<AlertConfig>
           getHeader={() => header}
@@ -90,10 +89,69 @@ export default function AlertBaseList<AlertConfig extends AlertConfigType>({
           columnDefinitions={columnDef}
           loadEntities={() => loadEntities().tap(alerts => setAlertsSize(alerts.length))}
           searchAttributes={[(entity: AlertConfig) => entity.name]}
-          pageSize={15}
+          pageSize={5}
           onRowClick={onRowClick}
         />
       </Card>
-    </>
-  );
+    );
+
+  if (getAlertConfigs) {
+    return (
+      <Card size="l">
+        <SmartAlertsBaseList
+          columnDefinitions={columnDef.map(toAlertListColumns)}
+          getLocalAlertConfigsFetchFunction={getAlertConfigs}
+          sortOptions={sortOptions}
+          pageSize={5}
+          createRowLinkLocation={createRowLinkLocation}
+        />
+      </Card>
+    );
+  }
+
+  if (__DEV__) {
+    // eslint-disable-next-line no-console
+    console.warn('AlertBaseList: Please either provide getAlertConfigs or loadEntities property.');
+  }
+  return null;
+}
+
+function createColumnDefinition<AlertConfig extends AlertConfigType>(
+  extraColumnDefinitions: ColumnDefinition<AlertConfig>[],
+  actionHandlers: ActionHandlers | undefined,
+  getSubtitle?: (config: AlertConfig) => string
+) {
+  const nameColumn: ColumnDefinition<AlertConfig> = {
+    id: 'name',
+    width: '35%',
+    label: t('in-alerting:smartAlerts.list.columns.name'),
+    getContent: config => <NameColumnCell<AlertConfig> config={config} getSubtitle={getSubtitle} />
+  };
+
+  if (actionHandlers) {
+    const actionsColumn = {
+      id: 'actions',
+      label: 'Action',
+      getContent: (config: AlertConfig) => (
+        <ListActionsColumn config={config} actionHandlers={actionHandlers} isLoading={false} />
+      )
+    };
+    return [nameColumn, ...extraColumnDefinitions, actionsColumn];
+  }
+  return [nameColumn, ...extraColumnDefinitions];
+}
+
+/** adapter, because we use a different column format:
+ *  getContent: ( config: AlertConfig }) {}
+ *
+ *  compared the one, used Smart-Alert-List, based on {ColumnizedContent}
+ *  getContent: ({ config }: { config: AlertConfig }) {}
+ */
+function toAlertListColumns<AlertConfig extends AlertConfigType>(column: ColumnDefinition<AlertConfig>) {
+  return {
+    ...column,
+    getContent: ({ config }: { config: AlertConfig }) => {
+      return column.getContent(config);
+    }
+  };
 }

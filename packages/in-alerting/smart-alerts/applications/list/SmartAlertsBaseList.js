@@ -209,7 +209,7 @@ function getConfigByCategory({ configsCategory, fetchedGlobalAlerts, fetchedLoca
     return {
       configs: fetchedGlobalAlerts.configs,
       errors: fetchedGlobalAlerts.errors,
-      loading: fetchedGlobalAlerts.loading
+      loading: fetchedGlobalAlerts.isLoading
     };
   }
 
@@ -217,7 +217,7 @@ function getConfigByCategory({ configsCategory, fetchedGlobalAlerts, fetchedLoca
     return {
       configs: fetchedLocalAlerts.configs,
       errors: fetchedLocalAlerts.errors,
-      loading: fetchedLocalAlerts.loading
+      loading: fetchedLocalAlerts.isLoading
     };
   }
 
