@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import { ColumnizedContent, Li, Ul, Stack } from '@instana/components';
@@ -23,9 +23,9 @@ import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { emptyArray, pendingResult } from 'in-services/fixedObjects';
 import { hasError, isLoading } from 'in-services/util/result';
 import { compareIgnoreCase } from 'in-services/util/string';
-import { pendingResult } from 'in-services/fixedObjects';
 import ButtonGroup from 'in-components/ButtonGroup';
 import SearchInput from 'in-components/SearchInput';
 import Pagination from 'in-components/Pagination';
@@ -49,6 +49,23 @@ export function refreshSmartAlertConfigsList() {
   refreshSignal.emit(true);
 }
 
+function useTraceUpdate(props) {
+  const prev = useRef(props);
+  useEffect(() => {
+    const changedProps = Object.entries(props).reduce((ps, [k, v]) => {
+      if (prev.current[k] !== v) {
+        ps[k] = [prev.current[k], v];
+      }
+      return ps;
+    }, {});
+    if (Object.keys(changedProps).length > 0) {
+      // eslint-disable-next-line no-console
+      console.log('Changed props:', changedProps);
+    }
+    prev.current = props;
+  });
+}
+
 export default function SmartAlertsBaseList({
   onNoData,
   getGlobalAlertConfigFetchFunction,
@@ -61,13 +78,32 @@ export default function SmartAlertsBaseList({
   configsCategory = categoryLocal,
   setConfigsCategory,
   sortOptions,
-  extraSearchAttributes = [],
+  extraSearchAttributes = emptyArray,
   ...remainingProps
 }) {
+  useTraceUpdate({
+    onNoData,
+    getGlobalAlertConfigFetchFunction,
+    getLocalAlertConfigsFetchFunction,
+    columnDefinitions,
+    externalState,
+    setExternalState,
+    pageSize,
+    createRowLinkLocation,
+    configsCategory,
+    setConfigsCategory,
+    sortOptions,
+    extraSearchAttributes,
+    ...remainingProps
+  });
+
   const [{ orderBy, orderDirection, page, query }, setState] = useOptionalExternalState(
     externalState,
     setExternalState
   );
+
+  // eslint-disable-next-line no-console
+  console.log('rerender');
 
   const fetchedGlobalAlerts = useSmartAlertConfigs(getGlobalAlertConfigFetchFunction);
   const fetchedLocalAlerts = useSmartAlertConfigs(getLocalAlertConfigsFetchFunction);
@@ -160,6 +196,10 @@ export default function SmartAlertsBaseList({
           <SearchInput query={query} onChange={updatedQuery => setState({ query: updatedQuery, page: 1 })} />
         </HorizontalFlexWrapper>
       </HorizontalFlexWrapper>
+
+      <p>
+        loading: <strong>{JSON.stringify(loading)}</strong>
+      </p>
       <Ul framed>
         {/* copy this list because the result coming from createObservable() is strictly deep freezed */}
         {[...searchResultsSelected]

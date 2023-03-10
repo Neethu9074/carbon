@@ -6,6 +6,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import {
   websitesAlertingListAlertResumed,
   websitesAlertingListAlertPaused,
@@ -20,6 +22,7 @@ import {
 import { alertCreated as alertCreatedMatrixParam, alertId as alertIdMatrixParam } from 'in-websites/navigation/matrix';
 import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
 import { STATIC_THRESHOLD, ADAPTIVE_BASELINE, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/applications/list/SmartAlertsBaseList';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { actionHandlers } from 'in-alerting/smart-alerts/websites/list/ListActionHandlers';
 import { getAggregationText } from 'in-alerting/smart-alerts/components/utils/formUtils';
@@ -30,6 +33,7 @@ import ScopeColumn from 'in-alerting/smart-alerts/websites/list/ScopeColumn';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { mutateUrl } from 'in-stores/navigation/navigation';
+import { reload } from 'in-settings/components/List';
 import Footer from 'in-components/Footer/Footer';
 import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
@@ -89,6 +93,10 @@ export default function Alerts({ websiteId, websiteLabel }) {
         }
       />
 
+      <Button kind="secondary" onClick={() => refreshSmartAlertConfigsList()}>
+        Reload
+      </Button>
+
       <AlertBaseList
         extraColumnDefinitions={getColumnDefinitions(websiteLabel)}
         getAlertConfigs={() => getAllAlertConfigs(websiteId, { asObservable: true })}
@@ -99,6 +107,10 @@ export default function Alerts({ websiteId, websiteLabel }) {
         pageSize={5}
         sortOptions={sortOptions}
       />
+
+      <Button kind="secondary" onClick={() => reload()}>
+        Reload
+      </Button>
 
       <Footer />
     </>
