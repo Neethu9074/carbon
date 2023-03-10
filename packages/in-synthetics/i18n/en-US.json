@@ -91,11 +91,14 @@
         "scheduleLabel": "Schedule",
         "scheduleTitle": "Schedule: When will this test run?",
         "identifyLabel": "Identify",
-        "identifyTitle": "Identify: What is the test going to do?"
-      },
-      "configStep": {
-        "expectedStatus": "Enter expected status",
-        "allowInsecure": "Allow Insecure"
+        "identifyTitle": "Identify: What is the test going to do?",
+        "frequency": "This test will run every {{frequencyValue}} minutes.",
+        "simultaneous": "Simultaneous",
+        "simultaneousDescription": "This test will run simultaneously on each location(s) selected.",
+        "configStep": {
+          "expectedStatus": "Enter expected status",
+          "allowInsecure": "Allow Insecure"
+        }
       }
     },
     "httpMethods": {

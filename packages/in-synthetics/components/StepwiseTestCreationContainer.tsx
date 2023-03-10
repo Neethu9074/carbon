@@ -73,7 +73,7 @@ export default function StepwiseTestCreationContainer({
           />
         );
       case 2:
-        return <SelectScheduleStep form={form} updateForm={updateForm} />;
+        return <SelectScheduleStep form={form} updateForm={updateForm} simpleMode={simpleMode} />;
       case 3:
         return (
           <BasicDetailsStep

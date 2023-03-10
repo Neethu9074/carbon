@@ -106,7 +106,7 @@ export default function ConfigurationSection({ form, updateForm }: AdvancedModeP
             <FormGroup className={locals.descriptionInput}>
               <Input
                 name="expectedStatusDescription"
-                placeholder={t('in-synthetics:dialog.createTest.configStep.expectedStatus')}
+                placeholder={t('in-synthetics:dialog.createTest.advancedMode.configStep.expectedStatus')}
                 value={field.value}
                 onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
                   updateForm(
@@ -133,7 +133,7 @@ export default function ConfigurationSection({ form, updateForm }: AdvancedModeP
           }}
           checked={allowInsecure.value}
           size="larger"
-          label={t('in-synthetics:dialog.createTest.configStep.allowInsecure')}
+          label={t('in-synthetics:dialog.createTest.advancedMode.configStep.allowInsecure')}
           disabled={false}
         />
       </div>

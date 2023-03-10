@@ -9,6 +9,7 @@ import React from 'react';
 import { t } from '@instana/i18n-react';
 
 import ConfigurationSection from 'in-synthetics/components/advanced/ConfigurationSection';
+import SelectScheduleStep from 'in-synthetics/components/steps/SelectScheduleStep';
 import StepsContainer from 'in-components/StepsContainer/StepsContainer';
 import { AdvancedModeProps } from 'in-synthetics/utils/constants';
 
@@ -35,7 +36,7 @@ const AdvancedMode = ({ form, updateForm }: AdvancedModeProps) => {
           label: t('in-synthetics:dialog.createTest.advancedMode.scheduleLabel'),
           title: t('in-synthetics:dialog.createTest.advancedMode.scheduleTitle'),
           valid: true,
-          content: <div>Schedule section here</div>
+          content: <SelectScheduleStep form={form} updateForm={updateForm} simpleMode={false} />
         },
         {
           scrollId: '4',
