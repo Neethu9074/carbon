@@ -27,6 +27,7 @@ export interface Props {
   setSelectedBlueprint: (item: BluePrint) => void;
   scriptErrors: ScriptError[];
   setScriptErrors: React.Dispatch<React.SetStateAction<ScriptError[]>>;
+  simpleMode: boolean;
 }
 
 export interface ApplicationsResponse {
@@ -43,7 +44,8 @@ export default function StepwiseTestCreationContainer({
   selectedBlueprint,
   setSelectedBlueprint,
   scriptErrors,
-  setScriptErrors
+  setScriptErrors,
+  simpleMode
 }: Props) {
   const applications: ApplicationsResponse =
     useObservable<any, []>(() => getApplicationsList(), []) || dummyApplications;
@@ -57,6 +59,7 @@ export default function StepwiseTestCreationContainer({
             onSelectBluePrint={setSelectedBlueprint}
             updateForm={updateForm}
             setScriptErrors={setScriptErrors}
+            simpleMode={simpleMode}
           />
         );
       case 1:

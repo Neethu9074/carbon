@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { MapForm } from 'formalistic';
+
 import {
   PaginatedResult,
   Progress,
@@ -355,3 +357,8 @@ export const resultsFilterUrlStateDefinition = {
     }
   ]
 } as Options<UrlState>;
+
+export interface AdvancedModeProps {
+  form: MapForm;
+  updateForm: (form: MapForm) => void;
+}

@@ -22,6 +22,7 @@ export interface Props {
   onSelectBluePrint: (item: BluePrint) => void;
   updateForm: (form: MapForm) => void;
   setScriptErrors: React.Dispatch<React.SetStateAction<ScriptError[]>>;
+  simpleMode: boolean;
 }
 
 interface Description {
@@ -29,7 +30,13 @@ interface Description {
   htmlContent: string;
 }
 
-export default function SelectTestStep({ selectedBlueprint, onSelectBluePrint, updateForm, setScriptErrors }: Props) {
+export default function SelectTestStep({
+  selectedBlueprint,
+  onSelectBluePrint,
+  updateForm,
+  setScriptErrors,
+  simpleMode
+}: Props) {
   return (
     <SimpleModeStepContentWrapper headline={t('in-synthetics:dialog.createTest.selectTest.title')}>
       <Menu
@@ -38,7 +45,7 @@ export default function SelectTestStep({ selectedBlueprint, onSelectBluePrint, u
         initialItemSelected={selectedBlueprint}
         onItemClick={item => {
           onSelectBluePrint(item);
-          updateForm(createForm(item));
+          updateForm(createForm(simpleMode, item));
           setScriptErrors([] as ScriptError[]);
         }}
       />

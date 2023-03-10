@@ -8,9 +8,11 @@ import React from 'react';
 
 import { t } from '@instana/i18n-react';
 
+import ConfigurationSection from 'in-synthetics/components/advanced/ConfigurationSection';
 import StepsContainer from 'in-components/StepsContainer/StepsContainer';
+import { AdvancedModeProps } from 'in-synthetics/utils/constants';
 
-const AdvancedMode = () => {
+const AdvancedMode = ({ form, updateForm }: AdvancedModeProps) => {
   return (
     <StepsContainer
       navItems={[
@@ -19,7 +21,7 @@ const AdvancedMode = () => {
           label: t('in-synthetics:dialog.createTest.advancedMode.configurationLabel'),
           title: t('in-synthetics:dialog.createTest.advancedMode.configurationTitle'),
           valid: true,
-          content: <div>Configuration section here</div>
+          content: <ConfigurationSection form={form} updateForm={updateForm} />
         },
         {
           scrollId: '2',

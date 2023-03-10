@@ -135,6 +135,7 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
                 // TODO: Reset form state
                 // TODO: Track mode switching state
                 setSimpleMode(!simpleMode);
+                setForm(createForm(!simpleMode));
                 resetScrollShadow();
               }}
             >
@@ -174,7 +175,7 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
             ? t('in-components:blueprintFormMultistep.buttonCancel')
             : t('in-components:blueprintFormMultistep.buttonBack')
         }
-        primaryActionDisabled={isProceedDisabled()}
+        primaryActionDisabled={simpleMode ? isProceedDisabled() : false}
         saving={isSubmitting}
       />
     </DialogWithSlideInView>

@@ -65,7 +65,7 @@ export default function TestCreationWithSteps({
       className={locals.form}
     >
       {!simpleMode && syntheticCreateTestAdvanceModeEnabled ? (
-        <AdvancedMode />
+        <AdvancedMode form={form} updateForm={updateForm} />
       ) : (
         <>
           <StepProgressBar stepTitles={mapTitles(stepConfigs)} step={step} />
@@ -77,6 +77,7 @@ export default function TestCreationWithSteps({
             setSelectedBlueprint={setSelectedBlueprint}
             scriptErrors={scriptErrors}
             setScriptErrors={setScriptErrors}
+            simpleMode={simpleMode}
           />
         </>
       )}

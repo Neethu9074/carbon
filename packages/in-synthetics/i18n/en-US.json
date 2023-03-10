@@ -92,6 +92,10 @@
         "scheduleTitle": "Schedule: When will this test run?",
         "identifyLabel": "Identify",
         "identifyTitle": "Identify: What is the test going to do?"
+      },
+      "configStep": {
+        "expectedStatus": "Enter expected status",
+        "allowInsecure": "Allow Insecure"
       }
     },
     "httpMethods": {
