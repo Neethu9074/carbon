@@ -21,8 +21,10 @@ import { alertCreated as alertCreatedMatrixParam, alertId as alertIdMatrixParam 
 import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
 import { STATIC_THRESHOLD, ADAPTIVE_BASELINE, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
+import { actionHandlers } from 'in-alerting/smart-alerts/websites/list/ListActionHandlers';
 import { getAggregationText } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { alertsTab, alertsTabDetailsFullyQualified } from 'in-websites/navigation/paths';
+import { sortOptions } from 'in-alerting/smart-alerts/applications/list/constants';
 import AlertBaseList from 'in-alerting/smart-alerts/components/AlertsBaseList';
 import ScopeColumn from 'in-alerting/smart-alerts/websites/list/ScopeColumn';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
@@ -43,6 +45,8 @@ function getColumnDefinitions(websiteLabel) {
 }
 
 export default function Alerts({ websiteId, websiteLabel }) {
+  const handlers = role.canConfigureCustomAlerts ? actionHandlers() : {};
+
   return (
     <>
       <AlertBaseList
@@ -74,6 +78,7 @@ export default function Alerts({ websiteId, websiteLabel }) {
           }
         }
         getSubtitle={config => getSubtitle(config.rule, config.threshold)}
+        pageSize={5}
         noDataMessage={t('in-websites:websiteDashboard.tabs.alerts.alertsNoDataMessage')}
         onRowClick={config =>
           mutateUrl(location => {
@@ -82,6 +87,17 @@ export default function Alerts({ websiteId, websiteLabel }) {
             setOrDeleteMatrixKey(location, alertsTab, alertCreatedMatrixParam, config.created);
           })
         }
+      />
+
+      <AlertBaseList
+        extraColumnDefinitions={getColumnDefinitions(websiteLabel)}
+        getAlertConfigs={() => getAllAlertConfigs(websiteId, { asObservable: true })}
+        actionHandlers={handlers}
+        getSubtitle={config => getSubtitle(config.rule, config.threshold)}
+        noDataMessage={t('in-websites:websiteDashboard.tabs.alerts.alertsNoDataMessage')}
+        createRowLinkLocation={createRowLinkLocation}
+        pageSize={5}
+        sortOptions={sortOptions}
       />
 
       <Footer />
@@ -139,4 +155,16 @@ function getSubtitle(rule, threshold) {
     blueprintConfigName: blueprintConfig.name,
     metricLabel: formattedMetricLabel
   });
+}
+
+function createRowLinkLocation(config, location) {
+  const rowLinkLocation = {
+    ...location,
+    pathname: alertsTabDetailsFullyQualified
+  };
+
+  setOrDeleteMatrixKey(rowLinkLocation, alertsTab, alertIdMatrixParam, config.id);
+  setOrDeleteMatrixKey(rowLinkLocation, alertsTab, alertCreatedMatrixParam, config.created);
+
+  return rowLinkLocation;
 }
