@@ -6,20 +6,18 @@
 // we want to split the codebase of the onboarding dialog from the main bundle.
 // so we don't have to load the bundle when it's not neededd.
 import InstanaOnboardingComponent from 'promise-loader?global,onboarding!in-init/steps/InstanaOnboardingComponent';
+import { create, just } from '@instana/observables';
 import { Router } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import React from 'react';
 
-import { create, just } from '@instana/observables';
-
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
-import { skipOnboarding } from 'in-services/featureFlags';
 import history from 'in-stores/navigation/history';
 
 export function init() {
   const reportingData = window.instana.reportingData;
   // The onboarding dialog is skipped when there are reporting hosts or monitored serverless entities.
-  if (skipOnboarding || (reportingData && (reportingData.hostCount > 0 || reportingData.serverlessCount > 0))) {
+  if (reportingData && (reportingData.hostCount > 0 || reportingData.serverlessCount > 0)) {
     return just(true);
   }
 
