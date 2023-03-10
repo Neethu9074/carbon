@@ -16,11 +16,28 @@ import { t } from 'in-i18n';
 
 import locals from './ApiQueryOverlay.mless';
 
-export default function ApiQueryOverlay({ backendQueryModel, backendQueryModelWithFacets }) {
+export default function ApiQueryOverlay({
+  backendQueryModel,
+  backendQueryModelWithFacets,
+  timeFrame,
+  type,
+  order,
+  pagination,
+  groupBy,
+  metrics
+}) {
   useDisabledBodyScroll();
   const [includeFacets, setIncludeFacets] = useState(backendQueryModelWithFacets != null);
 
-  const model = includeFacets ? backendQueryModelWithFacets : backendQueryModel;
+  const model = {
+    timeFrame,
+    tagFilterExpression: backendQueryModel,
+    pagination,
+    ...(groupBy[0] != null ? { groupBy: groupBy } : {}),
+    type,
+    metrics,
+    order
+  };
 
   const jsonString = JSON.stringify(model, 0, 2);
 
