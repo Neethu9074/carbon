@@ -4,9 +4,8 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useMemo } from 'react';
+import React from 'react';
 
-import searchForPathToSelectedNode from 'in-applications/analyze/components/TraceDetails/components/CallTree/searchForPathToSelectedNode';
 import TreeHeader from 'in-applications/analyze/components/TraceDetails/components/CallTree/components/TreeHeader';
 import { getStart, getEnd } from 'in-applications/analyze/components/TraceDetails/components/callStartAndEndTime';
 import LoadingCallTree from 'in-applications/analyze/components/TraceDetails/components/CallTree/LoadingCallTree';
@@ -32,13 +31,11 @@ export default function CallTree2({
   isLargeTrace,
   selectedCall$,
   onRelatedCallsLoaded,
-  onParentAndSiblingCallsLoaded
+  onParentAndSiblingCallsLoaded,
+  expandedCalls,
+  onCallExpanded,
+  onCallCollapsed
 }) {
-  const initialExpandedNodeIds = useMemo(
-    () => searchForPathToSelectedNode(callTreeResult.data, node => node.id === openedCallId),
-    [callTreeResult.data, openedCallId]
-  );
-
   if (isLoading(callTreeResult)) {
     return <LoadingCallTree progress={callTreeResult.progress} />;
   }
@@ -65,7 +62,6 @@ export default function CallTree2({
         call={rootCall}
         getColor={getColor}
         scale={scale}
-        initialExpandedNodeIds={initialExpandedNodeIds}
         isLargeTrace={isLargeTrace}
         onCallClicked={onCallClicked}
         onSubCallClicked={onSubCallClicked}
@@ -73,6 +69,9 @@ export default function CallTree2({
         openedCallId={openedCallId}
         onParentAndSiblingCallsLoaded={onParentAndSiblingCallsLoaded}
         onRelatedCallsLoaded={onRelatedCallsLoaded}
+        expandedCalls={expandedCalls}
+        onCallExpanded={onCallExpanded}
+        onCallCollapsed={onCallCollapsed}
       />
     </div>
   );
