@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import TreeHeader from 'in-applications/analyze/components/TraceDetails/components/CallTree/components/TreeHeader';
+import TreeHeader2 from 'in-applications/analyze/components/TraceDetails/components/CallTree/components/TreeHeader2';
 import { getStart, getEnd } from 'in-applications/analyze/components/TraceDetails/components/callStartAndEndTime';
 import LoadingCallTree from 'in-applications/analyze/components/TraceDetails/components/CallTree/LoadingCallTree';
 import Row2 from 'in-applications/analyze/components/TraceDetails/components/CallTree/components/Row2';
@@ -34,7 +34,8 @@ export default function CallTree2({
   onParentAndSiblingCallsLoaded,
   expandedCalls,
   onCallExpanded,
-  onCallCollapsed
+  onCallCollapsed,
+  traceSummary
 }) {
   if (isLoading(callTreeResult)) {
     return <LoadingCallTree progress={callTreeResult.progress} />;
@@ -57,7 +58,7 @@ export default function CallTree2({
 
   return (
     <div className={locals.callTree}>
-      <TreeHeader rootCall={rootCall} scale={scale} />
+      <TreeHeader2 traceSummary={traceSummary} rootCall={rootCall} />
       <Row2
         call={rootCall}
         getColor={getColor}

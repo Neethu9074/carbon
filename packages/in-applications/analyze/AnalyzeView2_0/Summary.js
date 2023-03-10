@@ -381,6 +381,7 @@ export default function Summary({
                   expandedCalls={expandedCalls}
                   onCallExpanded={onCallExpanded}
                   onCallCollapsed={onCallCollapsed}
+                  traceSummary={trace}
                 />
               </Card>
             </Col>

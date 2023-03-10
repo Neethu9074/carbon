@@ -92,22 +92,22 @@ function LoadButtonOrSkeleton({ startLoading, setStartLoading, parent = false, e
 
   if (errors && errors.length > 0) {
     return (
-      <CallTreeHeader size="small">
+      <CallTreeHeader size="small" errorState>
         {parent
           ? t('in-applications:traceDetail.components.callTreeLoadingOfParentFailed')
           : t('in-applications:traceDetail.components.callTreeLoadingOfCallsFailed')}
-        <span onClick={() => setStartLoading(true)}>{t('in-applications:traceDetail.components.retry')}</span>
+        <span className={locals.tryAgainButton} onClick={() => setStartLoading(true)}>
+          {t('in-applications:traceDetail.components.retry')}
+        </span>
       </CallTreeHeader>
     );
   }
 
   return (
-    <CallTreeHeader size="small">
-      <span onClick={() => setStartLoading(true)}>
-        {parent
-          ? t('in-applications:traceDetail.components.callTreeHeaderParent')
-          : t('in-applications:traceDetail.components.callTreeHeaderCalls')}
-      </span>
+    <CallTreeHeader size="small" onClick={() => setStartLoading(true)}>
+      {parent
+        ? t('in-applications:traceDetail.components.callTreeHeaderParent')
+        : t('in-applications:traceDetail.components.callTreeHeaderCalls')}
     </CallTreeHeader>
   );
 }
