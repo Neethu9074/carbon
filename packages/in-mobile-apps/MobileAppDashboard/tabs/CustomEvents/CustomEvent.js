@@ -15,6 +15,7 @@ import {
 } from 'in-mobile-apps/navigation/paths';
 import MobileAppMetricsKpiCard from 'in-mobile-apps/MobileAppDashboard/components/MobileAppMetricsKpiCard';
 import MobileAppChartWrapper from 'in-mobile-apps/MobileAppDashboard/components/MobileAppChartWrapper';
+import MobileAppMarkerLane from 'in-mobile-apps/MobileAppDashboard/components/MobileAppMarkerLane';
 import PlatformTopList from 'in-mobile-apps/MobileAppDashboard/tabs/CustomEvents/PlatformTopList';
 import { customEventId as customEventIdMatrixParameter } from 'in-mobile-apps/navigation/matrix';
 import ViewTopList from 'in-mobile-apps/MobileAppDashboard/tabs/CustomEvents/ViewTopList';
@@ -55,6 +56,7 @@ export default function CustomEvent({ location, tagFilters, timeConfig, mobileAp
       groupbyTag: 'mobileBeacon.view.name'
     }
   };
+  const MarkerLane = MobileAppMarkerLane({ mobileAppId });
 
   return (
     <>
@@ -207,6 +209,7 @@ export default function CustomEvent({ location, tagFilters, timeConfig, mobileAp
                 }
               }
             }}
+            renderPostChartContent={MarkerLane}
           />
         </Col>
         <Col lg={6}>
@@ -233,6 +236,7 @@ export default function CustomEvent({ location, tagFilters, timeConfig, mobileAp
                 }
               }
             }}
+            renderPostChartContent={MarkerLane}
           />
         </Col>
       </Row>
@@ -308,6 +312,7 @@ export default function CustomEvent({ location, tagFilters, timeConfig, mobileAp
                 }
               }
             }}
+            renderPostChartContent={MarkerLane}
           />
         </Col>
       </Row>
