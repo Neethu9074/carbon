@@ -31,7 +31,6 @@ packages/in-custom-dashboards       @pr-approval @Instana-IBM-GitHub-Enterprise 
 # potential problems marker lane in metrics chart
 packages/in-custom-dashboards/widgets @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-eum @instana/eng-ui @instana/eng-issue-detection
 packages/in-events                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-issue-detection @instana/eng-alert-response
-packages/in-events/components/AutomationActions @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-remediation
 # Shared ownership
 # packages/in-forge
 packages/in-forge                                               @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure

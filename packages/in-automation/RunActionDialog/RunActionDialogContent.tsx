@@ -38,9 +38,9 @@ import Input from 'in-components/form/Input/Input';
 import Code from 'in-components/Code';
 import { t, Trans } from 'in-i18n';
 
-import locals from './RunAction.mless';
+import locals from './RunActionDialog.mless';
 
-interface RunActionContentProps {
+interface RunActionDialogContentProps {
   error: string;
   actionInstanceId: string;
   action: Action;
@@ -50,7 +50,7 @@ interface RunActionContentProps {
   agentSnapShots: OUT | null | undefined;
 }
 
-export default function RunActionContent({
+export default function RunActionDialogContent({
   error,
   actionInstanceId,
   action,
@@ -58,7 +58,7 @@ export default function RunActionContent({
   setForm,
   volatileId,
   agentSnapShots
-}: RunActionContentProps) {
+}: RunActionDialogContentProps) {
   const timeConfig = useTimeConfig();
 
   if (error) return <Typography variant="body-small">{error}</Typography>;
@@ -119,7 +119,7 @@ function AgentSelection({
   setForm,
   agentSnapShots,
   volatileId
-}: Pick<RunActionContentProps, 'form' | 'setForm' | 'agentSnapShots' | 'volatileId'>) {
+}: Pick<RunActionDialogContentProps, 'form' | 'setForm' | 'agentSnapShots' | 'volatileId'>) {
   const targetAgent = form?.get('targetAgent') as Field<string> | undefined;
   return (
     <>
@@ -165,7 +165,7 @@ function AgentSelection({
   );
 }
 
-function ScriptActionContent({ action }: Pick<RunActionContentProps, 'action'>) {
+function ScriptActionContent({ action }: Pick<RunActionDialogContentProps, 'action'>) {
   const script = getScriptFromFields(action.fields);
   let plaintextScript = script.value;
   if (script.encoding === 'base64') {
@@ -183,7 +183,7 @@ function ScriptActionContent({ action }: Pick<RunActionContentProps, 'action'>) 
   );
 }
 
-function WebhookActionContent({ action }: Pick<RunActionContentProps, 'action'>) {
+function WebhookActionContent({ action }: Pick<RunActionDialogContentProps, 'action'>) {
   const { host, method, body, headerParsed, authenParsed } = getWebhookFields(action);
   const headerEntries = Object.entries(headerParsed);
   const authType = AUTH_TYPES.find(a => a.value === authenParsed.type)?.translation;
@@ -226,7 +226,7 @@ function WebhookActionContent({ action }: Pick<RunActionContentProps, 'action'>)
   );
 }
 
-function ParameterInput({ action, form, setForm }: Pick<RunActionContentProps, 'action' | 'form' | 'setForm'>) {
+function ParameterInput({ action, form, setForm }: Pick<RunActionDialogContentProps, 'action' | 'form' | 'setForm'>) {
   const { inputParameters } = action;
 
   if (!inputParameters || inputParameters.filter(parameter => !parameter.hidden).length === 0) {
@@ -249,7 +249,7 @@ function ParameterInput({ action, form, setForm }: Pick<RunActionContentProps, '
   );
 }
 
-interface ParameterInputParams extends Pick<RunActionContentProps, 'form' | 'setForm'> {
+interface ParameterInputParams extends Pick<RunActionDialogContentProps, 'form' | 'setForm'> {
   parameter: Parameter;
 }
 

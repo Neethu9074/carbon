@@ -19,7 +19,7 @@ import {
 } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import { ActionExecutionParameter, runScriptAction, runWebhookAction } from 'in-automation/api';
-import RunActionContent from 'in-events/components/AutomationActions/RunActionContent';
+import RunActionContent from 'in-automation/RunActionDialog/RunActionDialogContent';
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import { notBlankValidator } from 'in-services/validators/string';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
@@ -31,16 +31,16 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 import Dialog from 'in-components/Dialog/Dialog';
 import { t } from 'in-i18n';
 
-import locals from './RunAction.mless';
+import locals from './RunActionDialog.mless';
 
-interface RunActionProps {
+interface RunActionDialogProps {
   volatileId: VolatileId;
   event?: Event;
   action: Action;
   test?: boolean;
 }
 
-export default function RunAction({ action, volatileId, event, test }: RunActionProps) {
+export default function RunActionDialog({ action, volatileId, event, test }: RunActionDialogProps) {
   const [actionInstanceId, setActionInstanceId] = useState('');
   const [error, setError] = useState('');
   const [isSaving, setIsSaving] = useState(false);
@@ -91,7 +91,7 @@ export default function RunAction({ action, volatileId, event, test }: RunAction
   );
 }
 
-interface GetTitleParams extends Pick<RunActionProps, 'action' | 'test'> {
+interface GetTitleParams extends Pick<RunActionDialogProps, 'action' | 'test'> {
   actionInstanceId: string;
   error: string;
 }
@@ -103,7 +103,7 @@ const getTitle = ({ action, error, actionInstanceId, test }: GetTitleParams) => 
   return t('in-events:chosenToRun', { actionName });
 };
 
-interface UseAgentSnapShotsParams extends Pick<RunActionProps, 'action' | 'volatileId'> {
+interface UseAgentSnapShotsParams extends Pick<RunActionDialogProps, 'action' | 'volatileId'> {
   form: MapForm | undefined;
   setForm: React.Dispatch<React.SetStateAction<MapForm | undefined>>;
 }
@@ -120,7 +120,7 @@ function useAgentSnapShots({ action, form, volatileId, setForm }: UseAgentSnapSh
   return agentSnapShots;
 }
 
-interface OnSaveParams extends Pick<RunActionProps, 'action' | 'event'> {
+interface OnSaveParams extends Pick<RunActionDialogProps, 'action' | 'event'> {
   form: MapForm | undefined;
   setForm: React.Dispatch<React.SetStateAction<MapForm | undefined>>;
   setIsSaving: React.Dispatch<React.SetStateAction<boolean>>;
@@ -276,7 +276,7 @@ function RunActionFooter({ error, actionInstanceId, isSaving, form, onSave }: Ru
   );
 }
 
-interface CreateFormParams extends Pick<RunActionProps, 'volatileId' | 'action'> {
+interface CreateFormParams extends Pick<RunActionDialogProps, 'volatileId' | 'action'> {
   agentSnapShots: OUT;
 }
 function createForm({ volatileId, agentSnapShots, action }: CreateFormParams) {
