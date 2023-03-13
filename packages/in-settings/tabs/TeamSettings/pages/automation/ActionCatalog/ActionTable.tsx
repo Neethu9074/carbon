@@ -26,7 +26,7 @@ import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getAllActions, ScoredAction } from 'in-automation/api';
 import { formatDateTime } from 'in-services/formatters/date';
-import { runActionTracker } from 'in-events/tracker';
+import { runActionTracker } from 'in-automation/tracker';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import TestActionButton from './TestActionButton';
 import { Event, VolatileId } from 'in-types';

@@ -26,7 +26,7 @@ import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import { AgentResponse } from 'in-subscription/agentResponse';
 import { Action, Event, Result, VolatileId } from 'in-types';
 import { close } from 'in-components/DialogPresenter/store';
-import { runActionTracker } from 'in-events/tracker';
+import { runActionTracker } from 'in-automation/tracker';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Dialog from 'in-components/Dialog/Dialog';
 import { t } from 'in-i18n';
@@ -97,10 +97,10 @@ interface GetTitleParams extends Pick<RunActionDialogProps, 'action' | 'test'> {
 }
 const getTitle = ({ action, error, actionInstanceId, test }: GetTitleParams) => {
   const actionName = action.name;
-  if (error) return t('in-events:failedToInitiate', { actionName });
-  if (actionInstanceId) return t('in-events:hasBeenInitiated', { actionName });
-  if (test) return t('in-events:chosenToTest', { actionName });
-  return t('in-events:chosenToRun', { actionName });
+  if (error) return t('in-automation:failedToInitiate', { actionName });
+  if (actionInstanceId) return t('in-automation:hasBeenInitiated', { actionName });
+  if (test) return t('in-automation:chosenToTest', { actionName });
+  return t('in-automation:chosenToRun', { actionName });
 };
 
 interface UseAgentSnapShotsParams extends Pick<RunActionDialogProps, 'action' | 'volatileId'> {
@@ -262,7 +262,7 @@ function RunActionFooter({ error, actionInstanceId, isSaving, form, onSave }: Ru
   if (error || actionInstanceId) {
     return (
       <Button kind="primary" onClick={close}>
-        {t('in-events:ok')}
+        {t('in-automation:ok')}
       </Button>
     );
   }
@@ -270,7 +270,7 @@ function RunActionFooter({ error, actionInstanceId, isSaving, form, onSave }: Ru
     <>
       <CancelButton isSaving={isSaving} onClick={close} />
       <SaveButton kind="primary" form={form} disabled={!form} isSaving={isSaving} onClick={onSave}>
-        {t('in-events:yes')}
+        {t('in-automation:yes')}
       </SaveButton>
     </>
   );
