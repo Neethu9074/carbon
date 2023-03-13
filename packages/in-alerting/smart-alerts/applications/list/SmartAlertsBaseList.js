@@ -17,7 +17,7 @@ import {
   isCategoryLocal
 } from 'in-alerting/smart-alerts/applications/list/constants';
 import SmartAlertsNoDataAvailable from 'in-alerting/smart-alerts/components/SmartAlertsNoDataAvailable';
-import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
+import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import SortingConfigurator from 'in-components/SortingConfigurator/SortingConfigurator';
 import getResultsToDisplay from 'in-alerting/smart-alerts/components/list/ListHelper';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
