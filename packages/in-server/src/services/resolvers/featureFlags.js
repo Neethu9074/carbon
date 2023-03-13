@@ -303,10 +303,5 @@ module.exports = exports = [
     uiClientKey: 'controlPlaneEnabled',
     instanaCtlKey: 'feature.kubernetes.controlplane.enabled',
     defaultValue: false
-  },
-  {
-    uiClientKey: 'skipOnboarding',
-    instanaCtlKey: 'feature.onboarding.skip',
-    defaultValue: false
   }
 ];
