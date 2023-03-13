@@ -26,7 +26,9 @@ import { clusterDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import Nodes from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Nodes';
 import { ClusterTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
 import { persistentVolumeSupportEnabled } from 'in-services/featureFlags';
+import { beeInstanaInfraMetricsEnabled } from 'in-services/featureFlags';
 import Details from 'in-kubernetes/Dashboards/Cluster/tabs/Details';
+import SummaryWithoutTimeShift from './SummaryWithoutTimeShift';
 import Pods from 'in-kubernetes/Dashboards/Cluster/tabs/Pods';
 import Summary from './Summary';
 import { t } from 'in-i18n';
@@ -35,7 +37,7 @@ export default [
   {
     label: t('in-kubernetes:dashboards.summary'),
     path: `${clusterDashboardFullyQualified}/summary`,
-    component: Summary
+    component: beeInstanaInfraMetricsEnabled ? Summary : SummaryWithoutTimeShift
   },
   {
     label: t('in-kubernetes:dashboards.details'),
