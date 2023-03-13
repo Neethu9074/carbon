@@ -12,18 +12,34 @@ import locals from './CallTreeHeader.mless';
 interface CallTreeHeaderProps {
   size?: 'small' | 'regular';
   children: React.ReactNode;
+  onClick?: () => void;
+  errorState?: boolean;
 }
 
-export default function CallTreeHeader({ size = 'regular', children }: CallTreeHeaderProps) {
+export default function CallTreeHeader({
+  size = 'regular',
+  children,
+  onClick,
+  errorState = false
+}: CallTreeHeaderProps) {
   return (
     <div
       className={classNames({
         [locals.small]: size === 'small',
         [locals.regular]: size === 'regular',
+        [locals.errorState]: errorState,
         [locals.callTreeHeader]: true
       })}
+      onClick={onClick}
     >
-      <span className={locals.callTreeButton}>{children}</span>
+      <span
+        className={classNames({
+          [locals.errorState]: errorState,
+          [locals.callTreeButton]: true
+        })}
+      >
+        {children}
+      </span>
     </div>
   );
 }

@@ -588,7 +588,8 @@
       "callTreeHeaderCalls": "Load more calls",
       "callTreeLoadingOfParentFailed": "Parent call cannot be loaded at this moment",
       "callTreeLoadingOfCallsFailed": "Calls cannot be loaded at this moment",
-      "retry": "Try again"
+      "retry": "Try again",
+      "treeHeaderLatency": "Root call latency"
     }
   },
   "tabs": {

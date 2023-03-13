@@ -290,11 +290,14 @@ async function getCsrfToken(req) {
   });
 }
 
+// eslint-disable-next-line no-unused-vars
 function getIsMonitoring(req) {
-  return getFromUiBackend({
-    req,
-    path: '/api/infrastructure-monitoring/monitoring-state'
-  });
+  // Disabled because of backend impact https://instana.slack.com/archives/C5LCSUJGY/p1678364653774939
+  // return getFromUiBackend({
+  //   req,
+  //   path: '/api/infrastructure-monitoring/monitoring-state'
+  // });
+  return Promise.resolve('{}');
 }
 
 function getStarredItems(req) {

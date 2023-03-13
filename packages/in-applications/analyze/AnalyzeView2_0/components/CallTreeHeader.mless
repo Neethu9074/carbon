@@ -8,13 +8,14 @@
   .callTreeHeader {
     background: var(--ids-color-option-neutral-50);
     border: 1px solid var(--ids-color-option-neutral-300);
+    cursor: pointer;
 
     &.small {
-      padding: 0.625rem 1rem;
+      padding: 0.563rem 1rem;
     }
 
     &.regular {
-      padding: 1.25rem 1rem;
+      padding: 0.938rem 1rem;
     }
   }
 
@@ -22,6 +23,10 @@
     font-size: 14px;
     font-weight: var(--ids-font-weight-option-body-bold);
     color: var(--ids-color-option-teal-500);
-    cursor: pointer;
+  }
+
+  .errorState {
+    color: var(--ids-color-text-primary-on-light);
+    cursor: default;
   }
 }
