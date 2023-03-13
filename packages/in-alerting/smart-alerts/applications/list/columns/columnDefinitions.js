@@ -14,7 +14,6 @@ import ListSelectionColumn from 'in-alerting/smart-alerts/applications/list/colu
 import { ListActionsColumn } from 'in-alerting/smart-alerts/applications/list/columns/ListActionsColumn';
 import ListFilterColumn from 'in-alerting/smart-alerts/applications/list/columns/ListFiltersColumn';
 import { ListNameColumn } from 'in-alerting/smart-alerts/applications/list/columns/ListNameColumn';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/list/columns/ListColumns.mless';
@@ -58,7 +57,6 @@ export function simpleListNameColumnDefinition(width = '35%') {
 /* Details column informing about evaluation type and global/local alert type */
 export function evaluationInfoColumnDefinition(params = {}) {
   const { width = '20%', isGlobalSmartAlertConfig = false } = params;
-
   return {
     id: 'evaluationInfo',
     label: t('in-alerting:smartAlerts.sortOptions.type'),
@@ -104,11 +102,7 @@ export function editActionsColumnDefinition(params = {}) {
     sortable: false,
     width,
     getContent({ config, loading }) {
-      return (
-        role.canConfigureCustomAlerts && (
-          <ListActionsColumn config={config} isLoading={loading} actionHandlers={actionHandlers} />
-        )
-      );
+      return <ListActionsColumn config={config} isLoading={loading} actionHandlers={actionHandlers} />;
     }
   };
 }

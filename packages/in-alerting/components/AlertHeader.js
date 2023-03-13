@@ -21,7 +21,6 @@ import IconButton from 'in-components/IconButton/IconButton';
 import BackButton from 'in-components/BackButton';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-components/Pill';
-import { role } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
 import theme from 'in-themes';
 
@@ -40,7 +39,8 @@ export default function AlertHeader({
   onConfigStateChanged,
   onConfigDeleted,
   onConfigRevisionChanged,
-  renderCustomTitle
+  renderCustomTitle,
+  allowActionButtons = true
 }) {
   const extendedAlertConfigVersions = extendAlertConfigVersions(alertConfigVersions);
 
@@ -190,7 +190,7 @@ export default function AlertHeader({
             </Tooltip>
           )}
 
-          {role.canConfigureCustomAlerts && !alertConfig.readOnly && (
+          {allowActionButtons && !alertConfig.readOnly && (
             <>
               <Tooltip
                 content={
@@ -318,7 +318,8 @@ AlertHeader.propTypes = {
   onConfigStateChanged: PropTypes.func,
   onConfigDeleted: PropTypes.func,
   onConfigRevisionChanged: PropTypes.func,
-  renderCustomTitle: PropTypes.func
+  renderCustomTitle: PropTypes.func,
+  allowActionButtons: PropTypes.bool
 };
 
 function openRestoreConfirmationDialog(alertRevision, doRestore) {

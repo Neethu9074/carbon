@@ -26,6 +26,7 @@ import SetBodyColor from 'in-components/SetBodyColor';
 import { Col, Row } from 'in-components/layout/Grid';
 import Footer from 'in-components/Footer/Footer';
 import Title from 'in-components/Title';
+import { role } from 'in-stores/user';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -130,6 +131,7 @@ export default function Alert({
               </HorizontalFlexWrapper>
             );
           }}
+          allowActionButtons={isGlobalSmartAlert ? role.canConfigureGlobalAlertConfigs : role.canConfigureCustomAlerts}
         />
 
         <Row>
