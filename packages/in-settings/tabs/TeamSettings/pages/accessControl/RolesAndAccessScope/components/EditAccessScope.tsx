@@ -17,6 +17,7 @@ import { ProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/R
 import useSubSlideControl, { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
 import { getApplicationConfigsAsResultObservable } from 'in-api/applicationConfigs';
 import ConfigDialog, { SubSlideConfig } from 'in-settings/components/ConfigDialog';
+import PermissionSectionInfrastructure from './PermissionSectionInfrastructure';
 import { getMobileAppConfigurations } from 'in-mobile-apps/api/mobileApps';
 import { getWebsiteConfigurations } from 'in-websites/api/websites';
 import { t } from 'in-i18n';
@@ -168,7 +169,15 @@ export default function EditAccessScopeDialog({
           label: t('in-settings:PermissionSection.title_infrastructure'),
           title: t('in-settings:PermissionSection.title_infrastructure'),
           valid: true,
-          content: <></>
+          content: (
+            <PermissionSectionInfrastructure
+              title={t('in-settings:PermissionSection.title_infrastructure')}
+              viewerAccessDescription={t('in-settings:PermissionSection.descriptionViewerAccess_infrastructure')}
+              icon="lib_application"
+              {...formControlProps}
+              {...slideControlProps}
+            />
+          )
         },
         {
           scrollId: '8-analytics',

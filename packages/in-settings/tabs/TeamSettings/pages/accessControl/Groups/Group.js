@@ -13,11 +13,8 @@ import {
   productPermissions,
   productRestrictions,
   productOwnerPermissions,
-  RESTRICTED_ACCESS,
-  ACCESS_APPLICATIONS,
-  ACCESS_KUBERNETES,
-  ACCESS_WEBSITES,
-  ACCESS_MOBILE_APPS
+  AreaPermission,
+  RESTRICTED_ACCESS
 } from 'in-stores/permission';
 import RoleAndAccessScopeColumns from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import {
@@ -273,10 +270,10 @@ export function needsToShowRestricAccessedWarning(permissionSet) {
 
 function hasScopes(permissionSet) {
   return (
-    permissionSet.permissions?.includes(ACCESS_APPLICATIONS) ||
-    permissionSet.permissions?.includes(ACCESS_KUBERNETES) ||
-    permissionSet.permissions?.includes(ACCESS_WEBSITES) ||
-    permissionSet.permissions?.includes(ACCESS_MOBILE_APPS)
+    permissionSet.permissions?.includes(AreaPermission.ACCESS_APPLICATIONS) ||
+    permissionSet.permissions?.includes(AreaPermission.ACCESS_KUBERNETES) ||
+    permissionSet.permissions?.includes(AreaPermission.ACCESS_WEBSITES) ||
+    permissionSet.permissions?.includes(AreaPermission.ACCESS_MOBILE_APPS)
   );
 }
 

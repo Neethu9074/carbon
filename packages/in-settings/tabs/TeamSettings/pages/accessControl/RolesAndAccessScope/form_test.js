@@ -5,28 +5,21 @@
  */
 
 import {
+  getScopeFromProductArea,
   getAreaRoleFromPermissionSet,
-  updatePermissionSetByProductAreaAndRole,
   updatePermissionSetForLimitableProductArea
 } from './form';
-import {
-  AreaRole,
-  LimitedScopeByProductArea,
-  ProductArea,
-  ProductAreaPermissionMap,
-  ScopedPermissionItem
-} from './constants';
+import { AreaRole, ProductArea, ProductAreaPermissionMap, ScopedPermissionItem } from './constants';
 
 describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form', () => {
   describe('getAreaRoleFromPermissionSet', () => {
-    it('returns owner role when all area and functional permissions are given', () => {
+    it('returns owner role when all functional permissions are given', () => {
       // Given
-      const { areaPermissions, capabilities } = ProductAreaPermissionMap[ProductArea.WEBSITE];
-      const permissionUnion = [...areaPermissions, ...capabilities];
-      const permissionSet = { permissions: permissionUnion };
+      const { capabilities } = ProductAreaPermissionMap[ProductArea.SYNTHETICS];
+      const permissionSet = { permissions: [...capabilities] };
 
       // When
-      const role = getAreaRoleFromPermissionSet(ProductArea.WEBSITE, permissionSet);
+      const role = getAreaRoleFromPermissionSet(ProductArea.SYNTHETICS, permissionSet);
 
       // Then
       expect(role).toEqual('OWNER');
@@ -36,234 +29,181 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       // Given
       const {
         capabilities: [firstCapability]
-      } = ProductAreaPermissionMap[ProductArea.ANALYTICS];
+      } = ProductAreaPermissionMap[ProductArea.SYNTHETICS];
       const permissionSet = { permissions: [firstCapability] };
 
       // When
-      const role = getAreaRoleFromPermissionSet(ProductArea.ANALYTICS, permissionSet);
+      const role = getAreaRoleFromPermissionSet(ProductArea.SYNTHETICS, permissionSet);
 
       // Then
       expect(role).toEqual('CUSTOM');
     });
 
-    it('returns viewer role when all area permissions but no functional permissions is given', () => {
+    it('returns viewer role when no functional permissions is given', () => {
       // Given
-      const { areaPermissions } = ProductAreaPermissionMap[ProductArea.WEBSITE];
-      const permissions = [...areaPermissions];
-      const permissionSet = { permissions };
+      const permissionSet = { permissions: [] };
 
       // When
-      const role = getAreaRoleFromPermissionSet(ProductArea.WEBSITE, permissionSet);
+      const role = getAreaRoleFromPermissionSet(ProductArea.SYNTHETICS, permissionSet);
 
       // Then
       expect(role).toEqual('VIEWER');
     });
+  });
 
-    it('returns viewer role when all area permissions but no functional permissions is given', () => {
-      // Given
-      const { areaPermissions } = ProductAreaPermissionMap[ProductArea.WEBSITE];
-      const permissions = [...areaPermissions];
-      const permissionSet = { permissions };
-
-      // When
-      const role = getAreaRoleFromPermissionSet(ProductArea.WEBSITE, permissionSet);
-
-      // Then
-      expect(role).toEqual('VIEWER');
-    });
-
-    it('returns undefined role when empty permissions array is provided', () => {
+  describe('getScopeFromProductArea', () => {
+    it('returns access all when scope is not limited', () => {
       // Given
       const permissionSet = { permissions: [] };
 
       // When
-      const role = getAreaRoleFromPermissionSet(ProductArea.WEBSITE, permissionSet);
+      const role = getScopeFromProductArea(ProductArea.APPLICATION, permissionSet);
 
       // Then
-      expect(role).toBeUndefined();
+      expect(role).toEqual('ACCESS_ALL');
+    });
+
+    it('returns limited scope when scope is limited and access to scope is given', () => {
+      // Given
+      const { limitation, permission } = ProductAreaPermissionMap[ProductArea.APPLICATION];
+      expect(limitation).toBeDefined();
+      expect(permission).toBeDefined();
+      const unionPermissions = [];
+      if (limitation) unionPermissions.push(limitation);
+      if (permission) unionPermissions.push(permission);
+      const permissionSet = { permissions: unionPermissions };
+
+      // When
+      const role = getScopeFromProductArea(ProductArea.APPLICATION, permissionSet);
+
+      // Then
+      expect(role).toEqual('LIMITED_ACCESS');
+    });
+
+    it('returns no access when scope is limited and no access is given', () => {
+      // Given
+      const { limitation, permission } = ProductAreaPermissionMap[ProductArea.APPLICATION];
+      expect(limitation).toBeDefined();
+      expect(permission).toBeDefined();
+      const unionPermissions = [];
+      if (limitation) unionPermissions.push(limitation);
+      const permissionSet = { permissions: unionPermissions };
+
+      // When
+      const role = getScopeFromProductArea(ProductArea.APPLICATION, permissionSet);
+
+      // Then
+      expect(role).toEqual('NO_ACCESS');
     });
   });
 
-  describe('updatePermissionSetByProductAreaAndRole', () => {
-    it('returns permissionSet which inlcudes all area and all functional permissions for website area when owner role is provided', () => {
-      // Given
-      const role = 'OWNER';
-      const permissionSet = { permissions: [] };
-      const productArea = ProductArea.WEBSITE;
-
-      // When
-      const updatedPermissionSet = updatePermissionSetByProductAreaAndRole(productArea, role, permissionSet);
-
-      // Then
-      const { areaPermissions, capabilities } = ProductAreaPermissionMap[ProductArea.WEBSITE];
-      expect(updatedPermissionSet.permissions).toMatchObject([...areaPermissions, ...capabilities]);
-    });
-
-    it('returns permissionSet which inlcudes all area but no functional permissions for website area when viewer role is provided', () => {
-      // Given
-      const role = 'VIEWER';
-      const permissionSet = { permissions: [] };
-      const productArea = ProductArea.WEBSITE;
-
-      // When
-      const updatedPermissionSet = updatePermissionSetByProductAreaAndRole(productArea, role, permissionSet);
-
-      // Then
-      const { areaPermissions } = ProductAreaPermissionMap[ProductArea.WEBSITE];
-      expect(updatedPermissionSet.permissions).toMatchObject(areaPermissions);
-    });
-
-    it('returns permissionSet with empty permissions when undefined role is provided', () => {
-      // Given
-      const role = undefined;
-      const permissionSet = { permissions: [] };
-      const productArea = ProductArea.WEBSITE;
-
-      // When
-      const updatedPermissionSet = updatePermissionSetByProductAreaAndRole(productArea, role, permissionSet);
-
-      // Then
-      expect(updatedPermissionSet.permissions).toMatchObject([]);
-    });
-
-    it('returns permissionSet with only viewer permissions when role is set from owner to viewer', () => {
-      // Given
-      const role = 'VIEWER';
-      const { areaPermissions, capabilities } = ProductAreaPermissionMap[ProductArea.WEBSITE];
-      const ownerPermissions = [...areaPermissions, ...capabilities];
-      const permissionSet = { permissions: ownerPermissions };
-      const productArea = ProductArea.WEBSITE;
-
-      // When
-      const updatedPermissionSet = updatePermissionSetByProductAreaAndRole(productArea, role, permissionSet);
-
-      // Then
-
-      expect(updatedPermissionSet.permissions).toMatchObject(areaPermissions);
-    });
-
-    it.each(['OWNER', 'VIEWER', 'UNDEFINED'])(
-      'returns permissionSet and preserves existing permissions when %s role is provided',
-      role => {
-        // Given
-        const permissionSet = { permissions: ['SOME_EXISTING_PERMISSION', 'ANOTHER_EXISTING_PERMISSION'] };
-        const productArea = ProductArea.WEBSITE;
-
-        // When
-        const updatedPermissionSet = updatePermissionSetByProductAreaAndRole(productArea, role, permissionSet);
-
-        // Then
-        expect(updatedPermissionSet.permissions).toContain('SOME_EXISTING_PERMISSION');
-        expect(updatedPermissionSet.permissions).toContain('ANOTHER_EXISTING_PERMISSION');
-      }
-    );
-  });
   describe('updatePermissionSetForLimitableProductArea', () => {
-    it.each(['OWNER', 'VIEWER', 'UNDEFINED'])(
-      'returns permissionSet with NO_ACCESS for websites and preserves existing permissions when %s role is provided',
-      role => {
-        // Given
-        const scope = ScopedPermissionItem.NO_ACCESS;
-        const permissionSet = { permissions: ['SOME_EXISTING_PERMISSION', 'ANOTHER_EXISTING_PERMISSION'] };
-        const productArea = ProductArea.WEBSITE;
-
-        // When
-        const updatedPermissionSet = updatePermissionSetForLimitableProductArea(
-          permissionSet,
-          productArea,
-          scope,
-          role
-        );
-        const { areaPermissions, capabilities } = ProductAreaPermissionMap[productArea];
-        const limitedScope = LimitedScopeByProductArea[productArea];
-
-        // Then
-        expect(updatedPermissionSet.permissions).toContain('SOME_EXISTING_PERMISSION');
-        expect(updatedPermissionSet.permissions).toContain('ANOTHER_EXISTING_PERMISSION');
-        expect(updatedPermissionSet.permissions).not.toEqual(expect.arrayContaining(areaPermissions));
-        expect(updatedPermissionSet.permissions).not.toEqual(expect.arrayContaining(capabilities));
-        expect(updatedPermissionSet.permissions).not.toContain(limitedScope);
-      }
-    );
-
-    it('returns permissionSet with ACCESS_ALL permissions for websites and preserves existing permissions when OWNER role is provided', () => {
+    it('update access scope limitation and remove existing capabilites when no access is given', () => {
       // Given
-      const scope = ScopedPermissionItem.ACCESS_ALL;
-      const role = AreaRole.OWNER;
-      const permissionSet = { permissions: ['SOME_EXISTING_PERMISSION', 'ANOTHER_EXISTING_PERMISSION'] };
-      const productArea = ProductArea.WEBSITE;
+      const productArea = ProductArea.APPLICATION;
+      const { limitation, permission, capabilities } = ProductAreaPermissionMap[productArea];
+      const scope = ScopedPermissionItem.NO_ACCESS;
+      const permissionSet = { permissions: [...capabilities] };
 
       // When
-      const updatedPermissionSet = updatePermissionSetForLimitableProductArea(permissionSet, productArea, scope, role);
-      const { areaPermissions, capabilities } = ProductAreaPermissionMap[productArea];
-      const limitedScope = LimitedScopeByProductArea[productArea];
+      const updatedPermissionSet = updatePermissionSetForLimitableProductArea(
+        permissionSet,
+        productArea,
+        scope,
+        undefined
+      );
 
       // Then
-      expect(updatedPermissionSet.permissions).toContain('SOME_EXISTING_PERMISSION');
-      expect(updatedPermissionSet.permissions).toContain('ANOTHER_EXISTING_PERMISSION');
-      expect(updatedPermissionSet.permissions).toEqual(expect.arrayContaining(areaPermissions));
-      expect(updatedPermissionSet.permissions).toEqual(expect.arrayContaining(capabilities));
-      expect(updatedPermissionSet.permissions).not.toContain(limitedScope);
-    });
-
-    it('returns permissionSet with ACCESS_ALL permissions for websites and preserves existing permissions when VIEWER role is provided', () => {
-      // Given
-      const scope = ScopedPermissionItem.ACCESS_ALL;
-      const role = AreaRole.VIEWER;
-      const permissionSet = { permissions: ['SOME_EXISTING_PERMISSION', 'ANOTHER_EXISTING_PERMISSION'] };
-      const productArea = ProductArea.WEBSITE;
-
-      // When
-      const updatedPermissionSet = updatePermissionSetForLimitableProductArea(permissionSet, productArea, scope, role);
-      const { areaPermissions, capabilities } = ProductAreaPermissionMap[productArea];
-      const limitedScope = LimitedScopeByProductArea[productArea];
-
-      // Then
-      expect(updatedPermissionSet.permissions).toContain('SOME_EXISTING_PERMISSION');
-      expect(updatedPermissionSet.permissions).toContain('ANOTHER_EXISTING_PERMISSION');
-      expect(updatedPermissionSet.permissions).toEqual(expect.arrayContaining(areaPermissions));
+      expect(updatedPermissionSet.permissions).toContain(limitation);
+      expect(updatedPermissionSet.permissions).not.toContain(permission);
       expect(updatedPermissionSet.permissions).not.toEqual(expect.arrayContaining(capabilities));
-      expect(updatedPermissionSet.permissions).not.toContain(limitedScope);
     });
 
-    it('returns permissionSet with LIMITED_ACCESS permissions for websites and preserves existing permissions when OWNER role is provided', () => {
+    it('update access scope limitation and capabilites when limited access as owner is given', () => {
       // Given
+      const productArea = ProductArea.APPLICATION;
+      const { limitation, permission, capabilities } = ProductAreaPermissionMap[productArea];
       const scope = ScopedPermissionItem.LIMITED_ACCESS;
       const role = AreaRole.OWNER;
-      const permissionSet = { permissions: ['SOME_EXISTING_PERMISSION', 'ANOTHER_EXISTING_PERMISSION'] };
-      const productArea = ProductArea.WEBSITE;
+      const permissionSet = { permissions: [] };
 
       // When
       const updatedPermissionSet = updatePermissionSetForLimitableProductArea(permissionSet, productArea, scope, role);
-      const { areaPermissions, capabilities } = ProductAreaPermissionMap[productArea];
-      const limitedScope = LimitedScopeByProductArea[productArea];
 
       // Then
-      expect(updatedPermissionSet.permissions).toContain('SOME_EXISTING_PERMISSION');
-      expect(updatedPermissionSet.permissions).toContain('ANOTHER_EXISTING_PERMISSION');
-      expect(updatedPermissionSet.permissions).toContain(limitedScope);
-      expect(updatedPermissionSet.permissions).toEqual(expect.arrayContaining(areaPermissions));
+      expect(updatedPermissionSet.permissions).toContain(limitation);
+      expect(updatedPermissionSet.permissions).toContain(permission);
       expect(updatedPermissionSet.permissions).toEqual(expect.arrayContaining(capabilities));
     });
 
-    it('returns permissionSet with LIMITED_ACCESS permissions for websites and preserves existing permissions when VIEWER role is provided', () => {
+    it('update access scope limitation and capabilites when limited access as viewer is given', () => {
       // Given
+      const productArea = ProductArea.APPLICATION;
+      const { limitation, permission, capabilities } = ProductAreaPermissionMap[productArea];
       const scope = ScopedPermissionItem.LIMITED_ACCESS;
       const role = AreaRole.VIEWER;
-      const permissionSet = { permissions: ['SOME_EXISTING_PERMISSION', 'ANOTHER_EXISTING_PERMISSION'] };
-      const productArea = ProductArea.WEBSITE;
+      const permissionSet = { permissions: [...capabilities] };
 
       // When
       const updatedPermissionSet = updatePermissionSetForLimitableProductArea(permissionSet, productArea, scope, role);
-      const { areaPermissions, capabilities } = ProductAreaPermissionMap[productArea];
-      const limitedScope = LimitedScopeByProductArea[productArea];
+
+      // Then
+      expect(updatedPermissionSet.permissions).toContain(limitation);
+      expect(updatedPermissionSet.permissions).toContain(permission);
+      expect(updatedPermissionSet.permissions).not.toEqual(expect.arrayContaining(capabilities));
+    });
+
+    it('update access scope limitation and capabilites when access all as owner is given', () => {
+      // Given
+      const productArea = ProductArea.APPLICATION;
+      const { limitation, permission, capabilities } = ProductAreaPermissionMap[productArea];
+      const scope = ScopedPermissionItem.ACCESS_ALL;
+      const role = AreaRole.OWNER;
+      const permissionSet = { permissions: [] };
+
+      // When
+      const updatedPermissionSet = updatePermissionSetForLimitableProductArea(permissionSet, productArea, scope, role);
+
+      // Then
+      expect(updatedPermissionSet.permissions).not.toContain(limitation);
+      expect(updatedPermissionSet.permissions).not.toContain(permission);
+      expect(updatedPermissionSet.permissions).toEqual(expect.arrayContaining(capabilities));
+    });
+
+    it('update access scope limitation and capabilites when access all as viewer is given', () => {
+      // Given
+      const productArea = ProductArea.APPLICATION;
+      const { limitation, permission, capabilities } = ProductAreaPermissionMap[productArea];
+      const scope = ScopedPermissionItem.ACCESS_ALL;
+      const role = AreaRole.VIEWER;
+      const permissionSet = { permissions: [...capabilities] };
+
+      // When
+      const updatedPermissionSet = updatePermissionSetForLimitableProductArea(permissionSet, productArea, scope, role);
+
+      // Then
+      expect(updatedPermissionSet.permissions).not.toContain(limitation);
+      expect(updatedPermissionSet.permissions).not.toContain(permission);
+      expect(updatedPermissionSet.permissions).not.toEqual(expect.arrayContaining(capabilities));
+    });
+
+    it('preserves existing permissions', () => {
+      // Given
+      const productArea = ProductArea.APPLICATION;
+      const scope = ScopedPermissionItem.NO_ACCESS;
+      const permissionSet = { permissions: ['SOME_EXISTING_PERMISSION', 'ANOTHER_EXISTING_PERMISSION'] };
+
+      // When
+      const updatedPermissionSet = updatePermissionSetForLimitableProductArea(
+        permissionSet,
+        productArea,
+        scope,
+        undefined
+      );
 
       // Then
       expect(updatedPermissionSet.permissions).toContain('SOME_EXISTING_PERMISSION');
       expect(updatedPermissionSet.permissions).toContain('ANOTHER_EXISTING_PERMISSION');
-      expect(updatedPermissionSet.permissions).toContain(limitedScope);
-      expect(updatedPermissionSet.permissions).toEqual(expect.arrayContaining(areaPermissions));
-      expect(updatedPermissionSet.permissions).not.toEqual(expect.arrayContaining(capabilities));
     });
   });
 });

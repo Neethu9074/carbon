@@ -50,7 +50,8 @@ const mockPermissionsWithLimitedAccess = [
   'CAN_CONFIGURE_TEAMS',
   'CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS',
   'CAN_CONFIGURE_LOG_MANAGEMENT',
-  'LIMITED_PHMC_SCOPE'
+  'LIMITED_PHMC_SCOPE',
+  'CAN_CONFIGURE_APPLICATIONS'
 ];
 
 const mockPermissionsWithFullAccess = [

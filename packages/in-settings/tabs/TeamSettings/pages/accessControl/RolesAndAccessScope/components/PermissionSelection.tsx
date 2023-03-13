@@ -19,7 +19,7 @@ import { SubSlideConfig } from 'in-settings/components/ConfigDialog/ConfigDialog
 import Section from 'in-settings/tabs/TeamSettings/pages/accessControl/Section';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
-import { productPermissions } from 'in-stores/permission';
+import { productPermissionsObject } from 'in-stores/permission';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
@@ -46,7 +46,7 @@ export default function PermissionSelection({
   }));
 
   const onUpdatePermissionSet = (form: any, setForm: any, value: string) => {
-    if (permissionSet === undefined || permissionSet.permissions.length === 0) return;
+    if (!permissionSet) return;
 
     const hasToggledCapability = permissionSet.permissions.includes(value);
     const newPermissions = hasToggledCapability
@@ -65,35 +65,34 @@ export default function PermissionSelection({
         </Typography>
       )}
       {productAreaCapabilities.map((area, index) => (
-        <>
+        <div key={area.header}>
           <Typography variant="heading-200" component="h4">
             {t('in-settings:productAreas.permissions', { context: area.header })}
           </Typography>
-          {area.capabilities.map(capability =>
-            productPermissions
-              .filter(permission => permission.keyForGroupApi === capability)
-              .map(productPermission => (
-                <CheckboxFancy
-                  size="large"
-                  checked={permissionSet?.permissions.includes(productPermission.keyForGroupApi) || false}
-                  onChange={() => onUpdatePermissionSet(form, setForm, productPermission.keyForGroupApi)}
-                  label={
-                    <Stack gap="xsmall" direction="horizontal" align="start">
-                      <span>{productPermission.label}</span>
-                      <Tooltip content={productPermission.description} align="rightMiddle">
-                        {productPermission.isOwnerPermission ? (
-                          <SvgIcon type="lib_help_error_warning_outline" size="s" color={'#172429'} />
-                        ) : (
-                          <SvgIcon type="lib_help_error_info_outline" size="s" color={'#172429'} />
-                        )}
-                      </Tooltip>
-                    </Stack>
-                  }
-                />
-              ))
-          )}
+          {area.capabilities
+            .map(capability => productPermissionsObject[capability])
+            .map(productPermission => (
+              <CheckboxFancy
+                key={productPermission.keyForGroupApi}
+                size="large"
+                checked={permissionSet?.permissions.includes(productPermission.keyForGroupApi) || false}
+                onChange={() => onUpdatePermissionSet(form, setForm, productPermission.keyForGroupApi)}
+                label={
+                  <Stack gap="xsmall" direction="horizontal" align="start">
+                    <span>{productPermission.label}</span>
+                    <Tooltip content={productPermission.description} align="rightMiddle">
+                      {productPermission.isOwnerPermission ? (
+                        <SvgIcon type="lib_help_error_warning_outline" size="s" color={'#172429'} />
+                      ) : (
+                        <SvgIcon type="lib_help_error_info_outline" size="s" color={'#172429'} />
+                      )}
+                    </Tooltip>
+                  </Stack>
+                }
+              />
+            ))}
           {index < productAreaCapabilities.length - 1 && <Spacer vertical="normal" />}
-        </>
+        </div>
       ))}
     </Section>
   );
