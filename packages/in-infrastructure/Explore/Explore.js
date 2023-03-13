@@ -68,6 +68,7 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 import { noop } from 'in-services/util/function';
 import useUrlState from 'in-hooks/useUrlState';
 import Title from 'in-components/Title';
+import config from 'in-services/config';
 import { t } from 'in-i18n';
 
 import locals from './Explore.mless';
@@ -218,6 +219,7 @@ function Content({
     query: catalogQuery.debouncedValue
   });
   const metricMetadatas = useMetricMetadatas({ type, metrics, kpiDefinitions });
+  const url = config.butlerDomain;
 
   const topSection = !isInitPage && (
     <Sections>
@@ -257,6 +259,7 @@ function Content({
             type={type}
             metrics={metrics}
             order={order}
+            curlUrl={url}
           />
         }
       />

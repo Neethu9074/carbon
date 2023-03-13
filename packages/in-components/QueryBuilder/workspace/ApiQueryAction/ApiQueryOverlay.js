@@ -8,7 +8,6 @@ import React, { useState } from 'react';
 import { KeyValue, Toggle } from '@instana/components';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
-import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import CodeComponent from 'in-components/Code';
 import Tooltip from 'in-components/Tooltip';
@@ -24,7 +23,8 @@ export default function ApiQueryOverlay({
   order,
   pagination,
   groupBy,
-  metrics
+  metrics,
+  curlUrl
 }) {
   useDisabledBodyScroll();
   const [includeFacets, setIncludeFacets] = useState(backendQueryModelWithFacets != null);
@@ -33,13 +33,26 @@ export default function ApiQueryOverlay({
     timeFrame,
     tagFilterExpression: backendQueryModel,
     pagination,
-    ...(groupBy[0] != null ? { groupBy: groupBy } : {}),
     type,
     metrics,
     order
   };
-
+  if (groupBy != undefined && groupBy[0] != null) {
+    model.groupBy = groupBy;
+  }
   const jsonString = JSON.stringify(model, 0, 2);
+
+  if (groupBy != undefined && groupBy[0] != null) {
+    curlUrl = 'https://' + curlUrl + '/api/infrastructure-monitoring/analyze/entity-groups';
+  } else {
+    curlUrl = 'https://' + curlUrl + '/api/infrastructure-monitoring/analyze/entities';
+  }
+  const curl =
+    'curl -XPOST ' +
+    curlUrl +
+    " -H 'Content-Type: application/json' -d '" +
+    jsonString.replace(/(\r\n|\n|\r|\s)/gm, '') +
+    "' -H 'authorization: apiToken xxxxxxxxxxxxx'";
 
   return (
     <div>
@@ -50,10 +63,10 @@ export default function ApiQueryOverlay({
           label={t('in-components:queryBuilder.workspaceUseThisExpressionToQueryOurAPI')}
           accentuated
         />
-        <CopyToClipboardButton kind="action" getText={() => jsonString} />
       </HorizontalFlexWrapper>
       <div className={locals.content}>
-        <CodeComponent code={jsonString} lang="json" showLineNumbers={false} withoutCopyButton />
+        <CodeComponent code={curl} lang="java" softWrap="true" />
+        <CodeComponent code={jsonString} lang="json" showLineNumbers={false} />
       </div>
       {backendQueryModelWithFacets != null && (
         <div className={locals.toggleWrapper}>
