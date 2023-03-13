@@ -10,6 +10,7 @@ import { Li, Typography } from '@instana/components';
 
 import { SubsectionHeader } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/components/SubsectionHeader/SubsectionHeader';
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/context';
+import { t } from 'in-i18n';
 
 export const KubernetesClustersList = () => {
   const {
@@ -20,7 +21,7 @@ export const KubernetesClustersList = () => {
 
   return (
     <>
-      <SubsectionHeader headerText="Clusters" />
+      <SubsectionHeader headerText={t('in-settings:productAreas.clusters')} />
       {kubernetesClusterUUIDs.map(kubernetesСluster => (
         <Li noAlternatingBg key={kubernetesСluster.scopeId}>
           <Typography variant="body-regular">{kubernetesСluster.scopeId}</Typography>

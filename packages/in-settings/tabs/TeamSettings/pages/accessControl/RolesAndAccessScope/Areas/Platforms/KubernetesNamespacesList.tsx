@@ -12,6 +12,7 @@ import { Li, Typography } from '@instana/components';
 import { SubsectionHeader } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/components/SubsectionHeader/SubsectionHeader';
 import { getKubernetesData } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/utils/getKubernetesData';
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/context';
+import { t } from 'in-i18n';
 
 interface KubernetesNamespacesListProps {
   kubernetesNamespaces: PaginatedResult<KubernetesNamespace> | undefined;
@@ -30,7 +31,7 @@ export const KubernetesNamespacesList = ({ kubernetesNamespaces }: KubernetesNam
 
   return (
     <>
-      <SubsectionHeader headerText="Namespaces" />
+      <SubsectionHeader headerText={t('in-settings:productAreas.namespaces')} />
       {kubernetesNamespacesToDisplay.map(kubernetesNamespace => (
         <Li noAlternatingBg key={kubernetesNamespace.id}>
           <Typography variant="body-regular">{kubernetesNamespace.label}</Typography>

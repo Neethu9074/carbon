@@ -96,7 +96,9 @@
     "permissions_AGENTS": "Agent permissions",
     "permissions_ACCESS_CONTROL": "Access control permissions",
     "permissions_ACCOUNT": "Account & billing permissions",
-    "permissions_AUTOMATION": "Automation permissions"
+    "permissions_AUTOMATION": "Automation permissions",
+    "clusters": "Clusters",
+    "namespaces": "Namespaces"
   },
   "headingSection": {
     "title": "Role and access scope",
@@ -121,8 +123,8 @@
     "title_infrastructure": "Infrastructure",
     "title_analytics": "Analytics",
     "description_analytics": "Content is defined by access granted to website, mobile app and application dashboards.",
-    "title_events_and_alerts": "Events and Alerts",    
-    "description_events_and_alerts": "Events and alerts to view are defined by the access granted to website, mobile app, application dashboards and platforms.",    
+    "title_events_and_alerts": "Events and Alerts",
+    "description_events_and_alerts": "Events and alerts to view are defined by the access granted to website, mobile app, application dashboards and platforms.",
     "title_global_functions": "Global functions",
     "addButton_applications": "Select applications",
     "descriptionLimitedAccess_applications": "Select the role for the product area and add applications below to grant access.",
