@@ -38,9 +38,9 @@ import Input from 'in-components/form/Input/Input';
 import Code from 'in-components/Code';
 import { t, Trans } from 'in-i18n';
 
-import locals from './RunAction.mless';
+import locals from './RunActionDialog.mless';
 
-interface RunActionContentProps {
+interface RunActionDialogContentProps {
   error: string;
   actionInstanceId: string;
   action: Action;
@@ -50,7 +50,7 @@ interface RunActionContentProps {
   agentSnapShots: OUT | null | undefined;
 }
 
-export default function RunActionContent({
+export default function RunActionDialogContent({
   error,
   actionInstanceId,
   action,
@@ -58,7 +58,7 @@ export default function RunActionContent({
   setForm,
   volatileId,
   agentSnapShots
-}: RunActionContentProps) {
+}: RunActionDialogContentProps) {
   const timeConfig = useTimeConfig();
 
   if (error) return <Typography variant="body-small">{error}</Typography>;
@@ -68,7 +68,7 @@ export default function RunActionContent({
     return (
       <Typography variant="body-small">
         <Trans
-          i18nKey="in-settings:tabs.linkToActionLogs"
+          i18nKey="in-automation:linkToActionLogs"
           components={{
             // @ts-expect-error
             logsLink: <Link target="_blank" onClick={close} href$={link} />
@@ -83,13 +83,13 @@ export default function RunActionContent({
         <DescriptionList>
           <DescriptionItem
             className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
-            title={t('in-events:titleDescription')}
+            title={t('in-automation:description')}
           >
             {action.description}
           </DescriptionItem>
           <DescriptionItem
             className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
-            title={t('in-events:titleActionType')}
+            title={t('in-automation:titleActionType')}
           >
             {getType(action)}
           </DescriptionItem>
@@ -97,14 +97,14 @@ export default function RunActionContent({
         {isScript(action.type) && <ScriptActionContent action={action} />}
         {isWebhook(action.type) && <WebhookActionContent action={action} />}
         <AgentSelection form={form} volatileId={volatileId} setForm={setForm} agentSnapShots={agentSnapShots} />
-        <Typography variant="body-small">{t('in-events:actionCannotBeUndone')}</Typography>
+        <Typography variant="body-small">{t('in-automation:actionCannotBeUndone')}</Typography>
       </div>
       <Spacer horizontal="normal" />
       <Col className={locals.parameterContainer} lg={4}>
         <DescriptionList>
           <DescriptionItem
             className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
-            title={t('in-events:parameters')}
+            title={t('in-automation:parameters')}
           >
             <ParameterInput action={action} form={form} setForm={setForm} />
           </DescriptionItem>
@@ -119,14 +119,14 @@ function AgentSelection({
   setForm,
   agentSnapShots,
   volatileId
-}: Pick<RunActionContentProps, 'form' | 'setForm' | 'agentSnapShots' | 'volatileId'>) {
+}: Pick<RunActionDialogContentProps, 'form' | 'setForm' | 'agentSnapShots' | 'volatileId'>) {
   const targetAgent = form?.get('targetAgent') as Field<string> | undefined;
   return (
     <>
       {targetAgent?.map(field => (
         <FormGroup>
           <Label htmlFor="target-agent" hasError={!field.valid && field.touched}>
-            {t('in-events:targetAgent')}
+            {t('in-automation:targetAgent')}
           </Label>
           <Select
             id="target-agent"
@@ -141,13 +141,13 @@ function AgentSelection({
           >
             <>
               <option hidden value="">
-                {t('in-events:pleaseSelect')}
+                {t('in-automation:pleaseSelect')}
               </option>
               {agentSnapShots?.data?.online?.map(agent => {
                 const hostname = agent.data?.hostname;
                 const label =
                   agent.volatileId?.host_id === volatileId.host_id
-                    ? t('in-events:triggeringAgent', { hostname })
+                    ? t('in-automation:triggeringAgent', { hostname })
                     : hostname;
                 return (
                   <option key={agent.volatileId?.host_id} value={agent.volatileId?.host_id}>
@@ -158,14 +158,14 @@ function AgentSelection({
             </>
           </Select>
           <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-          <HelpText className={locals.subTextFormField}>{t('in-events:targetAgentDescription')}</HelpText>
+          <HelpText className={locals.subTextFormField}>{t('in-automation:targetAgentDescription')}</HelpText>
         </FormGroup>
       ))}
     </>
   );
 }
 
-function ScriptActionContent({ action }: Pick<RunActionContentProps, 'action'>) {
+function ScriptActionContent({ action }: Pick<RunActionDialogContentProps, 'action'>) {
   const script = getScriptFromFields(action.fields);
   let plaintextScript = script.value;
   if (script.encoding === 'base64') {
@@ -175,7 +175,7 @@ function ScriptActionContent({ action }: Pick<RunActionContentProps, 'action'>) 
     <DescriptionList>
       <DescriptionItem
         className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
-        title={t('in-events:titleScriptContent')}
+        title={t('in-automation:titleScriptContent')}
       >
         <Code withExpandButton withoutCopyButton code={plaintextScript} lang={'bash'} softWrap />
       </DescriptionItem>
@@ -183,7 +183,7 @@ function ScriptActionContent({ action }: Pick<RunActionContentProps, 'action'>) 
   );
 }
 
-function WebhookActionContent({ action }: Pick<RunActionContentProps, 'action'>) {
+function WebhookActionContent({ action }: Pick<RunActionDialogContentProps, 'action'>) {
   const { host, method, body, headerParsed, authenParsed } = getWebhookFields(action);
   const headerEntries = Object.entries(headerParsed);
   const authType = AUTH_TYPES.find(a => a.value === authenParsed.type)?.translation;
@@ -191,23 +191,23 @@ function WebhookActionContent({ action }: Pick<RunActionContentProps, 'action'>)
     <DescriptionList>
       <DescriptionItem
         className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
-        title={t('in-events:request')}
+        title={t('in-automation:request')}
       >
         <div>
-          <Typography variant="body-small">{t('in-events:method', { method: method.value })}</Typography>
+          <Typography variant="body-small">{t('in-automation:method', { method: method.value })}</Typography>
         </div>
         <div>
-          <Typography variant="body-small">{t('in-events:host', { host: host.value })}</Typography>
+          <Typography variant="body-small">{t('in-automation:host', { host: host.value })}</Typography>
         </div>
         {body && (
           <div>
-            <Typography variant="body-small">{t('in-events:body', { body: body.value })}</Typography>
+            <Typography variant="body-small">{t('in-automation:body', { body: body.value })}</Typography>
           </div>
         )}
         {headerEntries?.length > 0 && (
           <div>
             <Typography variant="body-small">
-              {t('in-events:headers')}
+              {t('in-automation:headers')}
               <ul>
                 {headerEntries.map(h => (
                   <li key={h[0]}>
@@ -219,19 +219,23 @@ function WebhookActionContent({ action }: Pick<RunActionContentProps, 'action'>)
           </div>
         )}
         <div>
-          <Typography variant="body-small">{t('in-events:authType', { authType })}</Typography>
+          <Typography variant="body-small">{t('in-automation:authType', { authType })}</Typography>
         </div>
       </DescriptionItem>
     </DescriptionList>
   );
 }
 
-function ParameterInput({ action, form, setForm }: Pick<RunActionContentProps, 'action' | 'form' | 'setForm'>) {
+function ParameterInput({ action, form, setForm }: Pick<RunActionDialogContentProps, 'action' | 'form' | 'setForm'>) {
   const { inputParameters } = action;
 
   if (!inputParameters || inputParameters.filter(parameter => !parameter.hidden).length === 0) {
     return (
-      <NoDataAvailable height={200} title={t('in-events:noParametersTitle')} text={t('in-events:noParametersText')} />
+      <NoDataAvailable
+        height={200}
+        title={t('in-automation:noParametersTitle')}
+        text={t('in-automation:noParametersText')}
+      />
     );
   }
   return (
@@ -249,7 +253,7 @@ function ParameterInput({ action, form, setForm }: Pick<RunActionContentProps, '
   );
 }
 
-interface ParameterInputParams extends Pick<RunActionContentProps, 'form' | 'setForm'> {
+interface ParameterInputParams extends Pick<RunActionDialogContentProps, 'form' | 'setForm'> {
   parameter: Parameter;
 }
 
@@ -285,13 +289,13 @@ function VaultParameterInput({ form, parameter, setForm }: ParameterInputParams)
             >
               {parameter.label}
             </Label>
-            <Label>{t('in-events:vault')}</Label>
+            <Label>{t('in-automation:vault')}</Label>
           </Row>
-          <Label hasError={!pathField.valid && pathField.touched}>{t('in-events:secretPath')}</Label>
+          <Label hasError={!pathField.valid && pathField.touched}>{t('in-automation:secretPath')}</Label>
           <Input value={pathField.value} onChange={onChange(0)} hasError={!pathField.valid && pathField.touched} />
           <TouchedMessages field={pathField} className={locals.subErrorTextFormField} />
           <Spacer vertical="small" />
-          <Label hasError={!keyField.valid && keyField.touched}>{t('in-events:secretKey')}</Label>
+          <Label hasError={!keyField.valid && keyField.touched}>{t('in-automation:secretKey')}</Label>
           <Input value={keyField.value} onChange={onChange(1)} hasError={!keyField.valid && keyField.touched} />
           <TouchedMessages field={keyField} className={locals.subErrorTextFormField} />
         </FormGroup>
@@ -315,14 +319,14 @@ function StaticParameterInput({ parameter, form, setForm }: ParameterInputParams
               htmlFor={parameter.name}
               hasError={!parameterField.valid && parameterField.touched}
             >
-              {parameter.required ? parameter.label : t('in-events:optional', { name: parameter.label })}
+              {parameter.required ? parameter.label : t('in-automation:optional', { name: parameter.label })}
             </Label>
-            <Label>{t('in-events:static')}</Label>
+            <Label>{t('in-automation:static')}</Label>
           </Row>
           <Input
             id={`${parameter.name}-input`}
             value={parameterField.value}
-            placeholder={t('in-events:enterParameterValue')}
+            placeholder={t('in-automation:enterParameterValue')}
             onChange={e => {
               const updatedForm = form?.updateIn(['parameters', parameter.name], field =>
                 (field as Field<string>).setValue(e.target.value).setTouched(true)
