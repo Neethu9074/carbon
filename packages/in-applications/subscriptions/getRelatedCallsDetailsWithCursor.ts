@@ -10,7 +10,7 @@ import { IngestionOffsetCursor, Relation } from 'in-types';
 /**
  * Number of children or siblings to fetch in a single batch.
  */
-const RETRIEVAL_SIZE = 1;
+const RETRIEVAL_SIZE = 5;
 
 export default function getRelatedCallsDetailsWithCursor({
   traceId,
