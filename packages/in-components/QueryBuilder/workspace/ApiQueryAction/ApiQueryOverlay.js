@@ -60,7 +60,10 @@ export default function ApiQueryOverlay({
         <KeyValue
           inverted
           customValue={t('in-components:queryBuilder.workspaceAPIQuery')}
-          label={t('in-components:queryBuilder.workspaceUseThisExpressionToQueryOurAPI')}
+          label={
+            t('in-components:queryBuilder.workspaceUseThisExpressionToQueryOurAPI') +
+            '\n https://instana.github.io/openapi/#operation/getEntityGroups'
+          }
           accentuated
         />
       </HorizontalFlexWrapper>
