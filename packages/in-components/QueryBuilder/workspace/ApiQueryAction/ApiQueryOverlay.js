@@ -35,11 +35,10 @@ export default function ApiQueryOverlay({
     pagination,
     type,
     metrics,
-    order
+    order,
+    ...(groupBy != undefined && groupBy[0] != null ? { groupBy: groupBy } : {})
   };
-  if (groupBy != undefined && groupBy[0] != null) {
-    model.groupBy = groupBy;
-  }
+
   const jsonString = JSON.stringify(model, 0, 2);
 
   if (groupBy != undefined && groupBy[0] != null) {
@@ -62,7 +61,7 @@ export default function ApiQueryOverlay({
           customValue={t('in-components:queryBuilder.workspaceAPIQuery')}
           label={
             t('in-components:queryBuilder.workspaceUseThisExpressionToQueryOurAPI') +
-            '\n https://instana.github.io/openapi/#operation/getEntityGroups'
+            ' https://instana.github.io/openapi/#operation/getEntityGroups'
           }
           accentuated
         />
