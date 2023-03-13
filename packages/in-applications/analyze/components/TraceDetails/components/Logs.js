@@ -6,19 +6,20 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { ColumnizedContent, Ul, Li } from '@instana/components';
+import { ColumnizedContent, Li, Ul } from '@instana/components';
 
 import {
-  LOG_SPAN_ID,
-  LOG_CUSTOM,
   getTraceIdTagFilter,
-  LOG_LEVEL,
-  LOG_EXCEPTION_TYPE,
+  LOG_CUSTOM,
   LOG_EXCEPTION_MESSAGE,
-  LOG_EXCEPTION_STACK_TRACE
+  LOG_EXCEPTION_STACK_TRACE,
+  LOG_EXCEPTION_TYPE,
+  LOG_LEVEL,
+  LOG_SPAN_ID
 } from 'in-logging/queryBuilder';
 import useLogsCursorPagination from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
 import { logLevelColumn, timestampColumn } from 'in-logging/analyze/AnalyzeView/utils/logsColumnUtils';
+import { maxRetrievalSize } from 'in-logging/analyze/AnalyzeView/components/Charts/constants';
 import LogMessageColumn from 'in-logging/analyze/AnalyzeView/components/LogMessageColumn';
 import { LogTagsTable } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
@@ -77,9 +78,11 @@ export default function Logs(props) {
   );
 }
 function getData({ traceId, totalNumberOfLogs, timeConfigForLogs }) {
+  const cappedRetrievalSize = totalNumberOfLogs < maxRetrievalSize ? totalNumberOfLogs : maxRetrievalSize;
+
   return getLogs({
     timeConfig: timeConfigForLogs,
-    retrievalSize: totalNumberOfLogs,
+    retrievalSize: cappedRetrievalSize,
     tagFilterExpression: getTraceIdTagFilter(traceId),
     requestedTags: [
       LOG_SPAN_ID,
