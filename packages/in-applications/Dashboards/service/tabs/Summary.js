@@ -140,6 +140,7 @@ export default connectTo(
               syntheticCalls={syntheticCalls}
               urlMatrixParamConfig={{ path: summaryTab, paramTab: 'latencyTab', paramMetric: 'latencyMetric' }}
               endpointTypes={endpointTypes}
+              renderWidgetNotSupportedIndicator={timeConfig.autoRefresh}
             />
           </Col>
         </Row>
@@ -161,6 +162,7 @@ export default connectTo(
               urlMatrixParamConfig={{ path: summaryTab, paramTab: 'endpointsTab' }}
               syntheticCalls={syntheticCalls}
               renderHistoricDataIndicator
+              renderWidgetNotSupportedIndicator={timeConfig.autoRefresh}
             />
           </Col>
           <Col lg={4}>
@@ -170,6 +172,7 @@ export default connectTo(
                 {...props}
                 urlMatrixParamConfig={{ path: summaryTab, paramTab: 'stmtTab' }}
                 renderHistoricDataIndicator
+                renderWidgetNotSupportedIndicator={timeConfig.autoRefresh}
                 endpointTypes={endpointTypes}
               />
             ) : (
@@ -180,6 +183,8 @@ export default connectTo(
                 renderPostChartContent={MarkerLanes}
                 syntheticCalls={syntheticCalls}
                 renderHistoricDataIndicator
+                renderWidgetNotSupportedIndicator={timeConfig.autoRefresh}
+                disableChartInLive={timeConfig.autoRefresh}
               />
             )}
           </Col>

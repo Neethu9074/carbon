@@ -4,10 +4,10 @@
  * Copyright IBM Corp. 2023
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
+import { pieWidget, timeSeriesWidget6Dataset2Axis } from '../storyData/customDashboardStoryData';
 import WidgetEditorDialogPresenter from './WidgetEditorDialogPresenter';
-import { pieWidget } from '../storyData/customDashboardStoryData';
 import { getInitialFormState } from './WidgetEditorDialog';
 
 export default {
@@ -15,7 +15,38 @@ export default {
 };
 
 export function PieEdit() {
-  const pieForm = getInitialFormState(pieWidget);
+  let initialFormState = getInitialFormState(pieWidget);
+  const [state, setState] = useState({ form: initialFormState });
 
-  return <WidgetEditorDialogPresenter form={pieForm} />;
+  function setForm(form) {
+    setState({
+      ...state,
+      form
+    });
+  }
+  return (
+    <WidgetEditorDialogPresenter
+      isEditing
+      form={state.form}
+      onChange={(path, fn) => setForm(state.form.updateIn(path, fn))}
+    />
+  );
+}
+export function SixDatasetTwoAxisTimeSeries() {
+  let initialFormState = getInitialFormState(timeSeriesWidget6Dataset2Axis);
+  const [state, setState] = useState({ form: initialFormState });
+
+  function setForm(form) {
+    setState({
+      ...state,
+      form
+    });
+  }
+  return (
+    <WidgetEditorDialogPresenter
+      isEditing
+      form={state.form}
+      onChange={(path, fn) => setForm(state.form.updateIn(path, fn))}
+    />
+  );
 }

@@ -32,4 +32,10 @@
     height: 1rem;
     margin-bottom: 1.9375rem;
   }
+  .liveModeIcon {
+    padding: 0;
+  }
+  .disabledWidget {
+    background-color: @lib__colors__N050;
+  }
 }

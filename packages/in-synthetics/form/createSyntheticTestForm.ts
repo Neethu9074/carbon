@@ -5,7 +5,7 @@
 
 import { createMapForm, createField } from 'formalistic';
 
-import { arrayValidator, numberValidator, stringValidator } from 'in-services/validators/jsonType';
+import { arrayValidator, booleanValidator, numberValidator, stringValidator } from 'in-services/validators/jsonType';
 import { arrayNotEmptyValidator } from 'in-synthetics/components/validators/validator';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
@@ -22,7 +22,11 @@ interface HTTPMethodType {
   isdisabled?: boolean;
 }
 
-export function createForm(selectedBlueprint?: BluePrint, savedState?: Record<string, any>) {
+export function createForm(
+  simpleMode: boolean = true,
+  selectedBlueprint?: BluePrint,
+  savedState?: Record<string, any>
+) {
   return createMapForm({
     validator: syntheticFormValidator
   })
@@ -30,6 +34,8 @@ export function createForm(selectedBlueprint?: BluePrint, savedState?: Record<st
       'configuration',
       selectedBlueprint?.type === 'Script API'
         ? createScriptConfigurationForm(savedState ?? {})
+        : !simpleMode
+        ? createAdvancedActionConfigurationForm(savedState ?? {})
         : createActionConfigurationForm(savedState ?? {})
     )
     .put(
@@ -129,6 +135,55 @@ function createScriptConfigurationForm(savedState?: Record<string, any>) {
     );
 }
 
+function createAdvancedActionConfigurationForm(savedState?: Record<string, any>) {
+  return createMapForm()
+    .put(
+      'operation',
+      createField({
+        value: savedState?.method || HTTPMethods[0].value,
+        validator: composeAndShortCircuitOnError(
+          notUndefinedValidator,
+          stringValidator,
+          notBlankValidator,
+          buildEnumValidator(HTTPMethods.map(method => method.value))
+        )
+      })
+    )
+    .put(
+      'url',
+      createField({
+        value: savedState?.url ?? '',
+        validator: composeAndShortCircuitOnError(
+          notUndefinedValidator,
+          stringValidator,
+          notBlankValidator,
+          urlValidator
+        )
+      })
+    )
+    .put(
+      'expectedStatus',
+      createField({
+        value: savedState?.expectedStatus ?? Validations[0].value,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'expectedStatusDescription',
+      createField({
+        value: savedState?.expectedStatusDescription ?? '200',
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    )
+    .put(
+      'allowInsecure',
+      createField({
+        value: savedState?.allowInsecure ?? true,
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator, notBlankValidator)
+      })
+    );
+}
+
 export const syntheticFormValidator = (data: any) => {
   if (data == null) {
     return null;
@@ -143,3 +198,5 @@ export const HTTPMethods: readonly HTTPMethodType[] = Object.freeze([
   { value: 'PUT', label: t('in-synthetics:dialog.httpMethods.put'), isdisabled: true },
   { value: 'DELETE', label: t('in-synthetics:dialog.httpMethods.delete'), isdisabled: true }
 ]);
+
+export const Validations: readonly any[] = Object.freeze([{ value: 'Expect Status', label: 'Expect Status' }]);

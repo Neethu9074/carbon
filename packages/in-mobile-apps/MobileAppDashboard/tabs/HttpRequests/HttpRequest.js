@@ -17,6 +17,7 @@ import {
 import MobileAppChartWrapper from 'in-mobile-apps/MobileAppDashboard/components/MobileAppChartWrapper';
 import ErrorTypesTopList from 'in-mobile-apps/MobileAppDashboard/tabs/HttpRequests/ErrorTypesTopList';
 import LocationsTopList from 'in-mobile-apps/MobileAppDashboard/tabs/HttpRequests/LocationsTopList';
+import MobileAppMarkerLane from 'in-mobile-apps/MobileAppDashboard/components/MobileAppMarkerLane';
 import { httpRequestId as httpRequestIdMatrixParameter } from 'in-mobile-apps/navigation/matrix';
 import ViewsTopList from 'in-mobile-apps/MobileAppDashboard/tabs/HttpRequests/ViewsTopList';
 import { translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/tags';
@@ -61,6 +62,7 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
       groupbyTag: 'mobileBeacon.http.path'
     }
   };
+  const MarkerLane = MobileAppMarkerLane({ mobileAppId });
 
   const content = (
     <Fragment>
@@ -105,6 +107,7 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
                 }
               }
             }}
+            renderPostChartContent={MarkerLane}
           />
         </Col>
         <Col lg={4}>
@@ -131,6 +134,7 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
                 }
               }
             }}
+            renderPostChartContent={MarkerLane}
           />
         </Col>
         <Col lg={4}>
@@ -203,6 +207,7 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
                 }
               }
             }}
+            renderPostChartContent={MarkerLane}
           />
         </Col>
       </Row>
@@ -264,6 +269,7 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
                 }
               }
             }}
+            renderPostChartContent={MarkerLane}
           />
         </Col>
 
@@ -309,6 +315,7 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
                 }
               }
             }}
+            renderPostChartContent={MarkerLane}
           />
         </Col>
       </Row>

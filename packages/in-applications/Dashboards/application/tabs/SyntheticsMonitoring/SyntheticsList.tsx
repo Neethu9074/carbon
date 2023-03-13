@@ -14,7 +14,9 @@ import {
   filterUrlStateDefinition,
   matrixPrefix,
   pathSegment,
-  PresenterProps
+  PresenterProps,
+  syntheticTypesUrlParameter,
+  locationsUrlParameter
 } from 'in-synthetics/utils/constants';
 // @ts-expect-error
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
@@ -46,7 +48,7 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
     title: t('in-synthetics:dashboard.noDataAvailable.testSummaryTitle'),
     description: t('in-synthetics:dashboard.noDataAvailable.testSummaryDescription')
   }),
-  paginationResettingUrlParameters: [...timeConfigUrlParameters],
+  paginationResettingUrlParameters: [...timeConfigUrlParameters, syntheticTypesUrlParameter, locationsUrlParameter],
   columnDefinitions: columnDefinitions.filter(column => column.id != 'applicationLabel'),
   defaultOrderBy: 'successRate',
   defaultOrderDirection: 'ASC',

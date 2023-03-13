@@ -35,7 +35,12 @@ export const ProductArea = Object.freeze({
   WEBSITE: 'WEBSITE',
   MOBILE_APP: 'MOBILE_APP',
   APPLICATION: 'APPLICATION',
-  PLATFORM: 'PLATFORM',
+  KUBERNETES: 'KUBERNETES',
+  VSPHERE: 'VSPHERE',
+  PHMC: 'PHMC',
+  ZHMC: 'ZHMC',
+  PCF: 'PCF',
+  OPENSTACK: 'OPENSTACK',
   INFRASTRUCTURE: 'INFRASTRUCTURE',
   ANALYTICS: 'ANALYTICS',
   EVENT: 'EVENT',
@@ -50,6 +55,21 @@ export const ProductArea = Object.freeze({
 } as const);
 export type ProductAreaType = keyof typeof ProductArea;
 export const ProductAreas = Object.freeze(Object.values(ProductArea)) as Array<ProductAreaType>;
+
+export type LimitableProductArea = Extract<
+  ProductAreaType,
+  | 'WEBSITE'
+  | 'MOBILE_APP'
+  | 'APPLICATION'
+  | 'INFRASTRUCTURE'
+  | 'KUBERNETES'
+  | 'VSPHERE'
+  | 'PHMC'
+  | 'ZHMC'
+  | 'PCF'
+  | 'OPENSTACK'
+  | 'SYNTHETICS'
+>;
 
 export const PermissionAreas = Object.freeze<Array<keyof PermissionSetWithRoles>>([
   'applicationIds',
@@ -69,52 +89,17 @@ export const ScopedPermissionItem = Object.freeze({
 export type ScopedPermissionType = keyof typeof ScopedPermissionItem;
 export const ScopedPermissionItems = Object.freeze(Object.values(ScopedPermissionItem)) as Array<ScopedPermissionType>;
 
-export type LimitableProductArea = Extract<ProductAreaType, 'WEBSITE' | 'MOBILE_APP' | 'APPLICATION'>;
-type LimitedScopeByProductAreaType = Record<LimitableProductArea, LimitedAccessScopeType>;
-export const LimitedScopeByProductArea: LimitedScopeByProductAreaType = {
-  [ProductArea.WEBSITE]: LimitedAccessScope.LIMITED_WEBSITES_SCOPE,
-  [ProductArea.MOBILE_APP]: LimitedAccessScope.LIMITED_MOBILE_APPS_SCOPE,
-  [ProductArea.APPLICATION]: LimitedAccessScope.LIMITED_APPLICATIONS_SCOPE
-};
-
-export function isLimitableProductArea(productArea: ProductAreaType): productArea is LimitableProductArea {
-  return productArea in LimitedScopeByProductArea;
-}
-
 // Permission mapping:
 
-// WEBSITE
-const websiteAreaPermissions: Array<AreaPermissionType> = [AreaPermission.ACCESS_WEBSITES];
 const websiteCapabilities: Array<CapabilityType> = [Capability.CAN_CONFIGURE_EUM_APPLICATIONS];
-
-// MOBILE_APP
-const mobileAppAreaPermissions: Array<AreaPermissionType> = [AreaPermission.ACCESS_MOBILE_APPS];
 const mobileAppCapabilities: Array<CapabilityType> = [Capability.CAN_CONFIGURE_MOBILE_APP_MONITORING];
-
-// APPLICATION
-const applicationAreaPermissions: Array<AreaPermissionType> = [AreaPermission.ACCESS_APPLICATIONS];
 const applicationCapabilities: Array<CapabilityType> = [Capability.CAN_CONFIGURE_APPLICATIONS];
 
-// PLATFORM
-const platformAreaPermissions: Array<AreaPermissionType> = [
-  AreaPermission.ACCESS_KUBERNETES,
-  AreaPermission.ACCESS_PCF,
-  AreaPermission.ACCESS_PHMC,
-  AreaPermission.ACCESS_VSPHERE,
-  AreaPermission.ACCESS_ZHMC,
-  AreaPermission.ACCESS_OPENSTACK
-];
-
-// INFRASTRUCTURE
-export const infraAreaPermissions: Array<AreaPermissionType> = [AreaPermission.ACCESS_INFRASTRUCTURE];
-
-// ANALYTICS
 export const analyticsCapabilities: Array<CapabilityType> = [
   Capability.CAN_VIEW_LOGS,
   Capability.CAN_VIEW_TRACE_DETAILS
 ];
 
-// EVENT
 export const eventCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_CUSTOM_ALERTS,
   Capability.CAN_CONFIGURE_INTEGRATIONS,
@@ -122,7 +107,6 @@ export const eventCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD
 ];
 
-// MIXED
 export const mixedCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_PERSONAL_API_TOKENS,
   Capability.CAN_CONFIGURE_RELEASES,
@@ -130,14 +114,12 @@ export const mixedCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_SERVICE_MAPPING
 ];
 
-// CUSTOM DASHBOARD
 export const customDashboardCapabilities: Array<CapabilityType> = [
   Capability.CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS,
   Capability.CAN_EDIT_ALL_ACCESSIBLE_CUSTOM_DASHBOARDS,
   Capability.CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS
 ];
 
-// SYNTHETIC MONITORING
 export const syntheticMonitoringCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_SYNTHETIC_TESTS,
   Capability.CAN_CONFIGURE_SYNTHETIC_LOCATIONS,
@@ -146,14 +128,12 @@ export const syntheticMonitoringCapabilities: Array<CapabilityType> = [
   Capability.CAN_VIEW_SYNTHETIC_TEST_RESULTS
 ];
 
-// AGENTS
 export const agentsCapabilities: Array<CapabilityType> = [
   Capability.CAN_INSTALL_NEW_AGENTS,
   Capability.CAN_CONFIGURE_AGENTS,
   Capability.CAN_CONFIGURE_AGENT_RUN_MODE
 ];
 
-// ACCESS CONTROL
 export const accessControlCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_USERS,
   Capability.CAN_CONFIGURE_TEAMS,
@@ -163,20 +143,17 @@ export const accessControlCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_SESSION_SETTINGS
 ];
 
-// ACCOUNT
 export const accountAndBillingCapabilities: Array<CapabilityType> = [
   Capability.CAN_SEE_USAGE_INFORMATION,
   Capability.CAN_SEE_ON_PREM_LICENE_INFORMATION,
   Capability.CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION
 ];
 
-// AUTOMATION
 export const automationCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS,
   Capability.CAN_RUN_AUTOMATION_ACTIONS
 ];
 
-// GLOBAL
 export const unionGlobalCapabilities: Array<CapabilityType> = [
   ...mixedCapabilities,
   ...customDashboardCapabilities,
@@ -187,31 +164,76 @@ export const unionGlobalCapabilities: Array<CapabilityType> = [
   ...automationCapabilities
 ];
 
-interface ProductAreaPermissions {
-  areaPermissions: Array<AreaPermissionType>;
+interface ProductAreaAccess {
+  limitation?: LimitedAccessScopeType;
+  permission?: AreaPermissionType;
   capabilities: Array<CapabilityType>;
 }
-type ProductAreaPermissionStructure = Record<ProductAreaType, ProductAreaPermissions>;
-
-// We need to distinguish between area permissions and capabilities in mapping to
-// enable correct role assignment. The OWNER role owns all area permissions as
-// well as all capabilities, whereas the VIEWER role owns only the area permissions.
-const noAreaPermissions: Array<AreaPermissionType> = [];
+type ProductAreaPermissionStructure = Record<ProductAreaType, ProductAreaAccess>;
 const noCapabilities: Array<CapabilityType> = [];
 export const ProductAreaPermissionMap: ProductAreaPermissionStructure = deepFreeze({
-  [ProductArea.WEBSITE]: { areaPermissions: websiteAreaPermissions, capabilities: websiteCapabilities },
-  [ProductArea.MOBILE_APP]: { areaPermissions: mobileAppAreaPermissions, capabilities: mobileAppCapabilities },
-  [ProductArea.APPLICATION]: { areaPermissions: applicationAreaPermissions, capabilities: applicationCapabilities },
-  [ProductArea.PLATFORM]: { areaPermissions: platformAreaPermissions, capabilities: noCapabilities },
-  [ProductArea.INFRASTRUCTURE]: { areaPermissions: infraAreaPermissions, capabilities: noCapabilities },
-  [ProductArea.ANALYTICS]: { areaPermissions: noAreaPermissions, capabilities: analyticsCapabilities },
-  [ProductArea.EVENT]: { areaPermissions: noAreaPermissions, capabilities: eventCapabilities },
-  [ProductArea.MIXED]: { areaPermissions: noAreaPermissions, capabilities: mixedCapabilities },
-  [ProductArea.DASHBOARD]: { areaPermissions: noAreaPermissions, capabilities: customDashboardCapabilities },
-  [ProductArea.SYNTHETICS]: { areaPermissions: noAreaPermissions, capabilities: syntheticMonitoringCapabilities },
-  [ProductArea.AGENTS]: { areaPermissions: noAreaPermissions, capabilities: agentsCapabilities },
-  [ProductArea.ACCESS_CONTROL]: { areaPermissions: noAreaPermissions, capabilities: accessControlCapabilities },
-  [ProductArea.ACCOUNT]: { areaPermissions: noAreaPermissions, capabilities: accountAndBillingCapabilities },
-  [ProductArea.AUTOMATION]: { areaPermissions: noAreaPermissions, capabilities: automationCapabilities },
-  [ProductArea.GLOBAL]: { areaPermissions: noAreaPermissions, capabilities: unionGlobalCapabilities }
+  [ProductArea.WEBSITE]: {
+    limitation: LimitedAccessScope.LIMITED_WEBSITES_SCOPE,
+    permission: AreaPermission.ACCESS_WEBSITES,
+    capabilities: websiteCapabilities
+  },
+  [ProductArea.MOBILE_APP]: {
+    limitation: LimitedAccessScope.LIMITED_MOBILE_APPS_SCOPE,
+    permission: AreaPermission.ACCESS_MOBILE_APPS,
+    capabilities: mobileAppCapabilities
+  },
+  [ProductArea.APPLICATION]: {
+    limitation: LimitedAccessScope.LIMITED_APPLICATIONS_SCOPE,
+    permission: AreaPermission.ACCESS_APPLICATIONS,
+    capabilities: applicationCapabilities
+  },
+  [ProductArea.KUBERNETES]: {
+    limitation: LimitedAccessScope.LIMITED_KUBERNETES_SCOPE,
+    permission: AreaPermission.ACCESS_KUBERNETES,
+    capabilities: noCapabilities
+  },
+  [ProductArea.VSPHERE]: {
+    limitation: LimitedAccessScope.LIMITED_VSPHERE_SCOPE,
+    permission: AreaPermission.ACCESS_VSPHERE,
+    capabilities: noCapabilities
+  },
+  [ProductArea.PHMC]: {
+    limitation: LimitedAccessScope.LIMITED_PHMC_SCOPE,
+    permission: AreaPermission.ACCESS_PHMC,
+    capabilities: noCapabilities
+  },
+  [ProductArea.ZHMC]: {
+    limitation: LimitedAccessScope.LIMITED_ZHMC_SCOPE,
+    permission: AreaPermission.ACCESS_ZHMC,
+    capabilities: noCapabilities
+  },
+  [ProductArea.PCF]: {
+    limitation: LimitedAccessScope.LIMITED_PCF_SCOPE,
+    permission: AreaPermission.ACCESS_PCF,
+    capabilities: noCapabilities
+  },
+  [ProductArea.OPENSTACK]: {
+    limitation: LimitedAccessScope.LIMITED_OPENSTACK_SCOPE,
+    permission: AreaPermission.ACCESS_OPENSTACK,
+    capabilities: noCapabilities
+  },
+  [ProductArea.INFRASTRUCTURE]: {
+    limitation: LimitedAccessScope.LIMITED_INFRASTRUCTURE_SCOPE,
+    permission: AreaPermission.ACCESS_INFRASTRUCTURE,
+    capabilities: noCapabilities
+  },
+  [ProductArea.SYNTHETICS]: {
+    limitation: LimitedAccessScope.LIMITED_SYNTHETICS_SCOPE,
+    permission: AreaPermission.ACCESS_SYNTHETICS,
+    capabilities: syntheticMonitoringCapabilities
+  },
+  [ProductArea.ANALYTICS]: { capabilities: analyticsCapabilities },
+  [ProductArea.EVENT]: { capabilities: eventCapabilities },
+  [ProductArea.MIXED]: { capabilities: mixedCapabilities },
+  [ProductArea.DASHBOARD]: { capabilities: customDashboardCapabilities },
+  [ProductArea.AGENTS]: { capabilities: agentsCapabilities },
+  [ProductArea.ACCESS_CONTROL]: { capabilities: accessControlCapabilities },
+  [ProductArea.ACCOUNT]: { capabilities: accountAndBillingCapabilities },
+  [ProductArea.AUTOMATION]: { capabilities: automationCapabilities },
+  [ProductArea.GLOBAL]: { capabilities: unionGlobalCapabilities }
 } as const);

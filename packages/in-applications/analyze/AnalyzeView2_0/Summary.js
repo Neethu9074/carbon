@@ -76,11 +76,19 @@ export default function Summary({
     // would represent 500 calls. This is why we are preferrring callCountIgnoringBatchSize
     // over callCount
     (trace.callCountIgnoringBatchSize || trace.callCount) > maximumNumberOfCallsForLargeTraceConsideration;
+  const shouldUseLazyLoadedTree = largeTracesV2Enabled && trace?.allowLazyLoading && isLargeTrace;
 
-  const [callTreeResult, onRelatedCallsLoaded, onParentAndSiblingCallsLoaded] = useLoadCallTree({
+  const [
+    callTreeResult,
+    onRelatedCallsLoaded,
+    onParentAndSiblingCallsLoaded,
+    expandedCalls,
+    onCallExpanded,
+    onCallCollapsed
+  ] = useLoadCallTree({
     traceId,
     callId,
-    lazyLoading: isLargeTrace
+    lazyLoading: shouldUseLazyLoadedTree
   });
 
   const effectiveCallId = callId === 'ROOT' && callTreeResult.data ? callTreeResult.data.id : callId;
@@ -274,7 +282,7 @@ export default function Summary({
           </Row>
         )}
 
-        {!largeTracesV2Enabled && isLargeTrace && !showLargeTrace && (
+        {!shouldUseLazyLoadedTree && isLargeTrace && !showLargeTrace && (
           <Row withoutSideMargin>
             <Col lg={12}>
               <Card title={t('in-applications:traceDetail.tabs.summary.largeTrace')}>
@@ -298,7 +306,7 @@ export default function Summary({
           </Row>
         )}
 
-        {!largeTracesV2Enabled && (!isLargeTrace || showLargeTrace) && (
+        {!shouldUseLazyLoadedTree && (!isLargeTrace || showLargeTrace) && (
           <Row singleRowTopMargin withoutSideMargin>
             <Col lg={12}>
               <Card
@@ -336,7 +344,7 @@ export default function Summary({
           </Row>
         )}
 
-        {largeTracesV2Enabled && (
+        {shouldUseLazyLoadedTree && (
           <Row singleRowTopMargin withoutSideMargin>
             <Col lg={12}>
               <Card
@@ -370,6 +378,10 @@ export default function Summary({
                   totalNumberOfLogs={totalNumberOfLogs}
                   onRelatedCallsLoaded={onRelatedCallsLoaded}
                   onParentAndSiblingCallsLoaded={onParentAndSiblingCallsLoaded}
+                  expandedCalls={expandedCalls}
+                  onCallExpanded={onCallExpanded}
+                  onCallCollapsed={onCallCollapsed}
+                  traceSummary={trace}
                 />
               </Card>
             </Col>

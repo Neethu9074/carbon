@@ -11,6 +11,7 @@ import {
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/utils/testData';
 import { getAreaData } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/utils/getAreaData';
 import { ProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
+import { LimitedAccessScope } from 'in-stores/permission';
 import { t } from 'in-i18n';
 
 jest.mock('in-i18n', () => ({ t: jest.fn() }));
@@ -25,7 +26,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       // Given
       const { areaItemIdsWithAccess, hasFullAreaAccess, shouldRenderContent } = getAreaData({
         area: ProductArea.WEBSITE,
-        permissionsSet: mockEmptyPermissionsSet
+        permissionsSet: { ...mockEmptyPermissionsSet, permissions: [LimitedAccessScope.LIMITED_WEBSITES_SCOPE] }
       });
 
       // Then
@@ -33,7 +34,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       expect(hasFullAreaAccess).toBe(false);
       expect(shouldRenderContent).toBe(false);
       expect(t).toHaveBeenCalledWith('in-settings:productAreas.role_permissions', {
-        context: undefined,
+        context: 'viewer',
         quantityOfAreas: 0
       });
     });
@@ -85,7 +86,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       // Given
       const { areaItemIdsWithAccess, hasFullAreaAccess, shouldRenderContent } = getAreaData({
         area: ProductArea.MOBILE_APP,
-        permissionsSet: mockEmptyPermissionsSet
+        permissionsSet: { ...mockEmptyPermissionsSet, permissions: [LimitedAccessScope.LIMITED_MOBILE_APPS_SCOPE] }
       });
 
       // Then
@@ -93,7 +94,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       expect(hasFullAreaAccess).toBe(false);
       expect(shouldRenderContent).toBe(false);
       expect(t).toHaveBeenCalledWith('in-settings:productAreas.role_permissions', {
-        context: undefined,
+        context: 'viewer',
         quantityOfAreas: 0
       });
     });
@@ -145,7 +146,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       // Given
       const { areaItemIdsWithAccess, hasFullAreaAccess, shouldRenderContent } = getAreaData({
         area: ProductArea.APPLICATION,
-        permissionsSet: mockEmptyPermissionsSet
+        permissionsSet: { ...mockEmptyPermissionsSet, permissions: [LimitedAccessScope.LIMITED_APPLICATIONS_SCOPE] }
       });
 
       // Then
@@ -153,7 +154,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/
       expect(hasFullAreaAccess).toBe(false);
       expect(shouldRenderContent).toBe(false);
       expect(t).toHaveBeenCalledWith('in-settings:productAreas.role_permissions', {
-        context: undefined,
+        context: 'viewer',
         quantityOfAreas: 0
       });
     });

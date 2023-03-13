@@ -28,9 +28,24 @@ export default class Chart {
       this.config.localHighlightedTimeframe$.nextFrame().throttle(STEADY_FRAMERATE),
       highlightedTimeframe$.nextFrame().throttle(STEADY_FRAMERATE)
     ]).subscribe(([localHighlightedTimeframe, highlightedTimeframe]) => {
-      this.highlightedTimeframe = highlightedTimeframe;
-      this.localHighlightedTimeframe = localHighlightedTimeframe;
-      this.renderScheduler.forceRender();
+      this.config.isHighlightedOnDisabledChart$.subscribe(isHighlightedOnDisabledChart => {
+        if (!isHighlightedOnDisabledChart) {
+          if (!this.config.disableChartInLive) {
+            this.highlightedTimeframe = highlightedTimeframe;
+            this.localHighlightedTimeframe = localHighlightedTimeframe;
+          } else {
+            if (!localHighlightedTimeframe) {
+              this.localHighlightedTimeframe = localHighlightedTimeframe;
+            }
+          }
+        } else {
+          this.localHighlightedTimeframe = localHighlightedTimeframe;
+          if (!this.config.disableChartInLive) {
+            this.highlightedTimeframe = highlightedTimeframe;
+          }
+        }
+        this.renderScheduler.forceRender();
+      });
     });
   }
 

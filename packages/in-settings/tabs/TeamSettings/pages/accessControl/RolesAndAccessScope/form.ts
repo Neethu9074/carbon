@@ -12,11 +12,8 @@ import {
   AreaRole,
   AreaRoleType,
   AreaRoleWithCustomType,
-  isLimitableProductArea,
   LimitableProductArea,
-  LimitedScopeByProductArea,
   ProductAreaPermissionMap,
-  ProductAreaType,
   ScopedPermissionItem,
   ScopedPermissionType
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
@@ -70,18 +67,13 @@ export function createForm(form = createMapForm(), apiResult?: GroupApiResult) {
     );
 }
 
-type ProductAreasWithRoles = Extract<
-  ProductAreaType,
-  'WEBSITE' | 'MOBILE_APP' | 'APPLICATION' | 'PLATFORM' | 'INFRASTRUCTURE'
->;
-
 // Returns the AreaRole that matches the specified permissions
 // in a permission set for a given product area
 export function getAreaRoleFromPermissionSet(
-  productArea: ProductAreasWithRoles,
+  productArea: LimitableProductArea,
   permissionSet?: PermissionSetWithRoles
 ): AreaRoleWithCustomType | undefined {
-  if (permissionSet === undefined || permissionSet.permissions.length === 0) return;
+  if (!permissionSet) return;
 
   const { capabilities } = ProductAreaPermissionMap[productArea];
 
@@ -98,65 +90,18 @@ export function getAreaRoleFromPermissionSet(
   return AreaRole.VIEWER;
 }
 
-// Returns a new permission set containing all permissions related to the given product area and role
-export function updatePermissionSetByProductAreaAndRole(
-  productArea: ProductAreasWithRoles,
-  role: AreaRoleType | undefined,
-  permissionSet: PermissionSetWithRoles
-): PermissionSetWithRoles {
-  const { areaPermissions, capabilities } = ProductAreaPermissionMap[productArea];
-  const unionPermissions = [...areaPermissions, ...capabilities];
-  const cleanedPermissionSet = removePermissionsFromPermissionSetByProductArea(productArea, permissionSet);
-  const permissions = [...cleanedPermissionSet.permissions];
-
-  if (role === AreaRole.OWNER) {
-    permissions.push(...unionPermissions);
-  }
-
-  if (role === AreaRole.VIEWER) {
-    permissions.push(...areaPermissions);
-  }
-
-  return {
-    ...permissionSet,
-    permissions
-  };
-}
-
-// Returns a new permission set without permissions related to a specific product area
-export function removePermissionsFromPermissionSetByProductArea(
-  productArea: ProductAreasWithRoles,
-  permissionSet: PermissionSetWithRoles
-): PermissionSetWithRoles {
-  const limitedScopes = isLimitableProductArea(productArea) ? [LimitedScopeByProductArea[productArea]] : [];
-  const { areaPermissions, capabilities } = ProductAreaPermissionMap[productArea];
-  const unionPermissions: Array<PermissionsUnion> = [...areaPermissions, ...capabilities, ...limitedScopes];
-  const currentPermissions = permissionSet.permissions as Array<PermissionsUnion>;
-
-  const permissions = currentPermissions.filter(permission => !unionPermissions.includes(permission));
-
-  return {
-    ...permissionSet,
-    permissions
-  };
-}
-
 // Returns a limitation scope based on the given product area and current permissions.
 export function getScopeFromProductArea(
   productArea: LimitableProductArea,
   permissionSet: PermissionSetWithRoles
 ): ScopedPermissionType {
   const { permissions } = permissionSet;
-  const { areaPermissions } = ProductAreaPermissionMap[productArea];
-  const hasAreaPermission = areaPermissions.every(permission => permissions.includes(permission));
+  const { limitation, permission } = ProductAreaPermissionMap[productArea];
+  const hasAreaLimitation = limitation ? permissions.includes(limitation) : false;
+  const hasAreaPermission = permission ? permissions.includes(permission) : false;
 
-  if (!hasAreaPermission) return ScopedPermissionItem.NO_ACCESS;
-
-  const limitedScope = LimitedScopeByProductArea[productArea];
-
-  const hasLimitedAccessScope = permissionSet.permissions.includes(limitedScope);
-  if (hasLimitedAccessScope) return ScopedPermissionItem.LIMITED_ACCESS;
-
+  if (hasAreaLimitation && !hasAreaPermission) return ScopedPermissionItem.NO_ACCESS;
+  if (hasAreaLimitation) return ScopedPermissionItem.LIMITED_ACCESS;
   return ScopedPermissionItem.ACCESS_ALL;
 }
 
@@ -168,23 +113,49 @@ export function updatePermissionSetForLimitableProductArea(
   scope: ScopedPermissionType,
   role: AreaRoleType | undefined
 ): PermissionSetWithRoles {
+  const { limitation, permission, capabilities } = ProductAreaPermissionMap[productArea];
+  const currentPermissions = permissionSet.permissions as Array<PermissionsUnion>;
+
+  // clean all permissions related to managed ProductArea
+  const allAreaPermissions: Array<PermissionsUnion> = [...capabilities];
+  if (limitation) allAreaPermissions.push(limitation);
+  if (permission) allAreaPermissions.push(permission);
+  const permissions = currentPermissions.filter(permission => !allAreaPermissions.includes(permission));
+
   if (scope === ScopedPermissionItem.NO_ACCESS) {
-    const cleanedPermissionSet = removePermissionsFromPermissionSetByProductArea(productArea, permissionSet);
-    return { ...cleanedPermissionSet };
+    // with scope limitation without access permissions
+    if (limitation) permissions.push(limitation);
+    return { ...permissionSet, permissions };
   }
 
-  const updatedPermissionSet = updatePermissionSetByProductAreaAndRole(productArea, role, permissionSet);
-  const updatedPermissions = updatedPermissionSet.permissions;
-  const limitedScope = LimitedScopeByProductArea[productArea];
-  const permissionsWithoutLimitation = updatedPermissions.filter(permission => permission !== limitedScope);
+  const updatedPermissions = addPermissionsByRoleForProductArea(productArea, role, permissions);
 
   if (scope === ScopedPermissionItem.ACCESS_ALL) {
-    return { ...updatedPermissionSet, permissions: permissionsWithoutLimitation };
+    // no scope limitation therefor no access permission needed
+    return { ...permissionSet, permissions: updatedPermissions };
   }
 
   if (scope === ScopedPermissionItem.LIMITED_ACCESS) {
-    return { ...updatedPermissionSet, permissions: [...permissionsWithoutLimitation, limitedScope] };
+    // with scope limitation and access permission
+    if (limitation) updatedPermissions.push(limitation);
+    if (permission) updatedPermissions.push(permission);
+    return { ...permissionSet, permissions: updatedPermissions };
   }
 
   return { ...permissionSet };
+}
+
+// Returns a new permission set containing all permissions related to the given product area and role
+function addPermissionsByRoleForProductArea(
+  productArea: LimitableProductArea,
+  role: AreaRoleType | undefined,
+  permissions: string[]
+): string[] {
+  // as starting with clean permissions for the area
+  if (role === AreaRole.OWNER) {
+    const { capabilities } = ProductAreaPermissionMap[productArea];
+    permissions.push(...capabilities);
+  }
+
+  return permissions;
 }

@@ -84,3 +84,5 @@ export declare function createNewEntityButton({
 }): ReactNode;
 
 export default ListComponent;
+
+export function reload(): void;

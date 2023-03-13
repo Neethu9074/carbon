@@ -18,7 +18,7 @@ import ScopeColumn from 'in-alerting/smart-alerts/synthetics/lists/ScopeColumn';
 import DefaultCell from 'in-alerting/smart-alerts/components/list/DefaultCell';
 import { t } from 'in-i18n';
 
-interface AlertsProps {
+export interface AlertsProps {
   testId?: string;
 }
 

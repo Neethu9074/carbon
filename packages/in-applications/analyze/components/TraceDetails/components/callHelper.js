@@ -14,7 +14,7 @@ export function hasOnlyExitSpan(call) {
 }
 
 export function isUnknownTypeSpan(call) {
-  return call.kind === 'UNKNOWN';
+  return call.kind === 'UNKNOWN' || call.type === 'UNDEFINED';
 }
 
 export function isInternalCall(call) {

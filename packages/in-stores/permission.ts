@@ -19,10 +19,10 @@ import { t } from 'in-i18n';
 export const RESTRICTED_ACCESS = 'RESTRICTED_ACCESS';
 
 export const LimitedAccessScope = Object.freeze({
-  LIMITED_APPLICATIONS_SCOPE: 'LIMITED_APPLICATIONS_SCOPE',
   LIMITED_WEBSITES_SCOPE: 'LIMITED_WEBSITES_SCOPE',
-  LIMITED_KUBERNETES_SCOPE: 'LIMITED_KUBERNETES_SCOPE',
   LIMITED_MOBILE_APPS_SCOPE: 'LIMITED_MOBILE_APPS_SCOPE',
+  LIMITED_APPLICATIONS_SCOPE: 'LIMITED_APPLICATIONS_SCOPE',
+  LIMITED_KUBERNETES_SCOPE: 'LIMITED_KUBERNETES_SCOPE',
   LIMITED_INFRASTRUCTURE_SCOPE: 'LIMITED_INFRASTRUCTURE_SCOPE',
   LIMITED_SYNTHETICS_SCOPE: 'LIMITED_SYNTHETICS_SCOPE',
   LIMITED_VSPHERE_SCOPE: 'LIMITED_VSPHERE_SCOPE',
@@ -50,19 +50,6 @@ export const AreaPermission = Object.freeze({
 } as const);
 export type AreaPermissionType = keyof typeof AreaPermission;
 export const AreaPermissions = Object.freeze(Object.values(AreaPermission));
-
-export const ACCESS_APPLICATIONS = AreaPermission.ACCESS_APPLICATIONS;
-export const ACCESS_KUBERNETES = AreaPermission.ACCESS_KUBERNETES;
-export const ACCESS_WEBSITES = AreaPermission.ACCESS_WEBSITES;
-export const ACCESS_MOBILE_APPS = AreaPermission.ACCESS_MOBILE_APPS;
-export const ACCESS_INFRASTRUCTURE = AreaPermission.ACCESS_INFRASTRUCTURE;
-export const ACCESS_SYNTHETICS = AreaPermission.ACCESS_SYNTHETICS;
-export const ACCESS_VSPHERE = AreaPermission.ACCESS_VSPHERE;
-export const ACCESS_PHMC = AreaPermission.ACCESS_PHMC;
-export const ACCESS_ZHMC = AreaPermission.ACCESS_ZHMC;
-export const ACCESS_PCF = AreaPermission.ACCESS_PCF;
-export const ACCESS_OPENSTACK = AreaPermission.ACCESS_OPENSTACK;
-export const ACCESS_INFRASTRUCTURE_ANALYZE = AreaPermission.ACCESS_INFRASTRUCTURE_ANALYZE;
 
 export const Capability = Object.freeze({
   CAN_CONFIGURE_EUM_APPLICATIONS: 'CAN_CONFIGURE_EUM_APPLICATIONS',
@@ -124,28 +111,43 @@ function hasPermission(limitedScope: string, accessPermission: string): boolean 
   return permissions.indexOf(accessPermission) !== -1;
 }
 
-export const hasApplicationsAccess = hasPermission(LimitedAccessScope.LIMITED_APPLICATIONS_SCOPE, ACCESS_APPLICATIONS);
-export const hasKubernetesAccess = hasPermission(LimitedAccessScope.LIMITED_KUBERNETES_SCOPE, ACCESS_KUBERNETES);
-export const hasWebsitesAccess = hasPermission(LimitedAccessScope.LIMITED_WEBSITES_SCOPE, ACCESS_WEBSITES);
-export const hasMobileAppsAccess = hasPermission(LimitedAccessScope.LIMITED_MOBILE_APPS_SCOPE, ACCESS_MOBILE_APPS);
+export const hasApplicationsAccess = hasPermission(
+  LimitedAccessScope.LIMITED_APPLICATIONS_SCOPE,
+  AreaPermission.ACCESS_APPLICATIONS
+);
+export const hasKubernetesAccess = hasPermission(
+  LimitedAccessScope.LIMITED_KUBERNETES_SCOPE,
+  AreaPermission.ACCESS_KUBERNETES
+);
+export const hasWebsitesAccess = hasPermission(
+  LimitedAccessScope.LIMITED_WEBSITES_SCOPE,
+  AreaPermission.ACCESS_WEBSITES
+);
+export const hasMobileAppsAccess = hasPermission(
+  LimitedAccessScope.LIMITED_MOBILE_APPS_SCOPE,
+  AreaPermission.ACCESS_MOBILE_APPS
+);
 export const hasInfrastructureAnalyzeAccess =
-  hasPermission(LimitedAccessScope.LIMITED_INFRASTRUCTURE_SCOPE, ACCESS_INFRASTRUCTURE_ANALYZE) &&
+  hasPermission(LimitedAccessScope.LIMITED_INFRASTRUCTURE_SCOPE, AreaPermission.ACCESS_INFRASTRUCTURE_ANALYZE) &&
   infraExploreDataEnabled;
 export const hasAnalyzeAccess =
   hasApplicationsAccess || hasWebsitesAccess || hasMobileAppsAccess || hasInfrastructureAnalyzeAccess;
 export const hasInfrastructureAccess = hasPermission(
   LimitedAccessScope.LIMITED_INFRASTRUCTURE_SCOPE,
-  ACCESS_INFRASTRUCTURE
+  AreaPermission.ACCESS_INFRASTRUCTURE
 );
 export const hasSyntheticsAccess =
-  hasPermission(LimitedAccessScope.LIMITED_SYNTHETICS_SCOPE, ACCESS_SYNTHETICS) && syntheticsEnabled;
+  hasPermission(LimitedAccessScope.LIMITED_SYNTHETICS_SCOPE, AreaPermission.ACCESS_SYNTHETICS) && syntheticsEnabled;
 export const hasVSphereAccess =
-  hasPermission(LimitedAccessScope.LIMITED_VSPHERE_SCOPE, ACCESS_VSPHERE) && vsphereEnabled;
-export const hasPHMCAccess = hasPermission(LimitedAccessScope.LIMITED_PHMC_SCOPE, ACCESS_PHMC) && phmcEnabled;
-export const hasZHMCAccess = hasPermission(LimitedAccessScope.LIMITED_ZHMC_SCOPE, ACCESS_ZHMC) && zhmcEnabled;
-export const hasPCFAccess = hasPermission(LimitedAccessScope.LIMITED_PCF_SCOPE, ACCESS_PCF) && pcfEnabled;
+  hasPermission(LimitedAccessScope.LIMITED_VSPHERE_SCOPE, AreaPermission.ACCESS_VSPHERE) && vsphereEnabled;
+export const hasPHMCAccess =
+  hasPermission(LimitedAccessScope.LIMITED_PHMC_SCOPE, AreaPermission.ACCESS_PHMC) && phmcEnabled;
+export const hasZHMCAccess =
+  hasPermission(LimitedAccessScope.LIMITED_ZHMC_SCOPE, AreaPermission.ACCESS_ZHMC) && zhmcEnabled;
+export const hasPCFAccess =
+  hasPermission(LimitedAccessScope.LIMITED_PCF_SCOPE, AreaPermission.ACCESS_PCF) && pcfEnabled;
 export const hasOpenStackAccess =
-  hasPermission(LimitedAccessScope.LIMITED_OPENSTACK_SCOPE, ACCESS_OPENSTACK) && openstackEnabled;
+  hasPermission(LimitedAccessScope.LIMITED_OPENSTACK_SCOPE, AreaPermission.ACCESS_OPENSTACK) && openstackEnabled;
 export const hasAPlatformAccess =
   hasVSphereAccess || hasPHMCAccess || hasZHMCAccess || hasPCFAccess || hasOpenStackAccess || hasKubernetesAccess;
 export const hasEventsAccess =

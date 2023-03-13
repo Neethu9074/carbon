@@ -55,6 +55,7 @@ interface DatabaseStatementTopListProps {
   timeConfig: TimeConfig;
   urlMatrixParamConfig: UrlMatrixParamConfig;
   renderHistoricDataIndicator: boolean;
+  renderWidgetNotSupportedIndicator: boolean;
 }
 
 export default function DatabaseStatementTopList({
@@ -64,7 +65,8 @@ export default function DatabaseStatementTopList({
   boundaryScope,
   timeConfig,
   urlMatrixParamConfig,
-  renderHistoricDataIndicator
+  renderHistoricDataIndicator,
+  renderWidgetNotSupportedIndicator
 }: DatabaseStatementTopListProps) {
   const applicationLabel = useObservable(
     applicationId ? getApplication({ id: applicationId }).map(getLabel) : just(null),
@@ -100,6 +102,7 @@ export default function DatabaseStatementTopList({
       colors={colors}
       urlMatrixParamConfig={urlMatrixParamConfig}
       renderHistoricDataIndicator={renderHistoricDataIndicator}
+      renderWidgetNotSupportedIndicator={renderWidgetNotSupportedIndicator}
     />
   );
 }

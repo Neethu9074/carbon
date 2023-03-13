@@ -821,6 +821,9 @@
     "retainedLabel_viewChange_1": "Approximated data ({{totalHits}} View Changes retained from {{representedHits}})",
     "retainedLabel_viewChange_2": "Approximated data ({{totalHits}} View Changes retained from {{representedHits}})"
   },
+  "liveModeIndicator":{
+    "widgetNotSupportedInLiveMode":"This widget is not updated during Live Mode."
+  },
   "migratedTenantBanner": {
     "title": "Migrated Tenant Unit",
     "notice": "This tenant unit has been migrated to a new region. The unit you are currently accessing only contains historical data.",

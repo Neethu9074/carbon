@@ -13,8 +13,11 @@ import { t } from '@instana/i18n-react';
 
 // @ts-expect-error Module needs to be translated to TS
 import TabView from 'in-components/LocationAwareTabView/TabView';
+import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import DashboardHeader, { DashboardHeaderProps } from 'in-components/DashboardHeader';
 import { showUpdateErrorMessage } from 'in-synthetics/components/utils/userFeedback';
+import CreateSmartAlert from 'in-alerting/smart-alerts/synthetics/CreateSmartAlert';
+import { syntheticCreateSmartAlertsUIEnabled } from 'in-services/featureFlags';
 import getSyntheticTest from 'in-synthetics/subscriptions/getSyntheticTest';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { TestResponse, dummyTest } from 'in-synthetics/utils/constants';
@@ -25,6 +28,7 @@ import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import { getTest, updateTest } from 'in-synthetics/api';
 import { Location } from 'in-stores/navigation/types';
+import Footer from 'in-components/Footer';
 import { SyntheticTest } from 'in-types';
 
 import locals from './SyntheticSummary.mless';
@@ -62,6 +66,12 @@ export default function SyntheticSummaryDashboard() {
           testName: get(result, ['data', 'label'])
         })}
       />
+      <Footer />
+      {syntheticCreateSmartAlertsUIEnabled && (
+        <FloatingActionButtons>
+          <CreateSmartAlert testId={testId} />
+        </FloatingActionButtons>
+      )}
     </>
   );
 }

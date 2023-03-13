@@ -12,6 +12,8 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { number, percentage, bytes } from 'in-services/formatters/number';
 import AdvanceSpinningDiskTypeTable from './AdvanceSpinningDiskTypeTable';
 import BasicSpinningDiskTypeTable from './BasicSpinningDiskTypeTable';
+import AdvanceSolidStateDiskTable from './AdvanceSolidStateDiskTable';
+import BasicSolidStateDiskTable from './BasicSolidStateDiskTable';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import NetstatInterfaceTable from './NetstatInterfaceTable';
 import NetstatBytesOutTable from './NetstatBytesOutTable';
@@ -158,6 +160,8 @@ export default function IbmIOsDashboard({ snapshot, timeConfig }) {
       <MemoryPoolsTable snapshot={snapshot} timeConfig={timeConfig} />
       <AdvanceSpinningDiskTypeTable snapshotId={snapshotId} timeConfig={timeConfig} />
       <BasicSpinningDiskTypeTable snapshotId={snapshotId} timeConfig={timeConfig} />
+      <AdvanceSolidStateDiskTable snapshotId={snapshotId} timeConfig={timeConfig} />
+      <BasicSolidStateDiskTable snapshotId={snapshotId} timeConfig={timeConfig} />
       <SubsystemTable snapshot={snapshot} timeConfig={timeConfig} />
       <OutputQueueTable snapshot={snapshot} timeConfig={timeConfig} />
       <Columize>

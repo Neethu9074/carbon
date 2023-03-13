@@ -128,6 +128,7 @@ export default function Summary({
             renderPostChartContent={withPotentialProblemsLane}
             syntheticCalls={syntheticCalls}
             urlMatrixParamConfig={{ path: summaryTab, paramTab: 'latencyTab', paramMetric: 'latencyMetric' }}
+            renderWidgetNotSupportedIndicator={timeConfig.autoRefresh}
           />
         </Col>
       </Row>
@@ -143,6 +144,7 @@ export default function Summary({
             urlMatrixParamConfig={{ path: summaryTab, paramTab: 'servicesTab' }}
             syntheticCalls={syntheticCalls}
             renderHistoricDataIndicator
+            renderWidgetNotSupportedIndicator={timeConfig.autoRefresh}
           />
         </Col>
         <Col lg={4}>
@@ -153,6 +155,8 @@ export default function Summary({
             renderPostChartContent={MarkerLanes}
             syntheticCalls={syntheticCalls}
             renderHistoricDataIndicator
+            renderWidgetNotSupportedIndicator={timeConfig.autoRefresh}
+            disableChartInLive={timeConfig.autoRefresh}
           />
         </Col>
       </Row>

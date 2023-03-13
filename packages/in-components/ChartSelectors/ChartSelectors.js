@@ -25,6 +25,7 @@ export function TimeShiftAwareChartSelectorWithUrlState({
   tabs,
   metrics,
   urlMatrixParamConfig: { path, paramTab, paramMetric },
+  disabledWidgetInLive,
   children
 }) {
   // find the default metric of the specified tab
@@ -90,7 +91,14 @@ export function TimeShiftAwareChartSelectorWithUrlState({
   const selectorComponent = timeShiftEnabled ? (
     <ComboChartMetricSelector metrics={metrics} selected={getActiveMetric()} onChange={setActiveMetric} />
   ) : (
-    tabs.length > 1 && <TabChartSelector tabs={tabs} selected={getActiveTab()} onChange={setActiveTab} />
+    tabs.length > 1 && (
+      <TabChartSelector
+        tabs={tabs}
+        selected={getActiveTab()}
+        onChange={setActiveTab}
+        disabledWidgetInLive={disabledWidgetInLive}
+      />
+    )
   );
 
   // pass these additional props to the children
@@ -135,7 +143,8 @@ TimeShiftAwareChartSelectorWithUrlState.propTypes = {
     paramTab: PropTypes.string.isRequired,
     paramMetric: PropTypes.string.isRequired
   }).isRequired,
-  children: PropTypes.element.isRequired
+  children: PropTypes.element.isRequired,
+  disabledWidgetInLive: PropTypes.bool
 };
 
 export function ComboChartMetricSelector({ metrics, selected, onChange }) {
@@ -171,10 +180,11 @@ ComboChartMetricSelector.propTypes = {
   onChange: PropTypes.func.isRequired
 };
 
-export function TabChartSelector({ tabs, selected, onChange }) {
+export function TabChartSelector({ tabs, selected, onChange, disabledWidgetInLive }) {
   return (
     <ButtonGroup
       activeKey={selected}
+      disabledWidgetInLive={disabledWidgetInLive}
       buttonPropsList={tabs.map(tab => ({
         text: tab.label,
         key: tab.id,
@@ -195,5 +205,6 @@ TabChartSelector.propTypes = {
     })
   ).isRequired,
   selected: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
+  disabledWidgetInLive: PropTypes.bool
 };

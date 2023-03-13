@@ -14,6 +14,8 @@ import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import PieChart from 'in-components/PieChart';
 import { AxisConfiguration } from 'in-components/Chart/types';
 import Renderer from 'in-components/Chart/renderer/Renderer';
+import IconLink from 'in-components/IconButton/IconLink';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 import { Result } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -40,7 +42,9 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
     renderErrorDetail = false,
     renderHistoricDataIndicator = false,
     hasApproximateData,
-    customChartSkeletonHeight
+    customChartSkeletonHeight,
+    renderWidgetNotSupportedIndicator = false,
+    disableChartInLive
   } = config;
   let content;
 
@@ -71,7 +75,13 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
       content = <PieChart renderLegend={renderLegend} config={config} />;
     } else {
       config = normalizeTimeShiftedTimestamps(config as ChartReactComponentProps);
-      content = <Chart renderLegend={renderLegend} {...(config as ChartReactComponentProps)} />;
+      content = (
+        <Chart
+          renderLegend={renderLegend}
+          {...(config as ChartReactComponentProps)}
+          disableChartInLive={disableChartInLive}
+        />
+      );
     }
   }
 
@@ -79,18 +89,27 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
     return content;
   }
 
-  const leftHeaderContent =
-    renderHistoricDataIndicator && hasApproximateData ? (
-      <MultiLineToolTipIcon lines={[t('in-components:approximateDataIndicator.dataRetention')]} />
-    ) : (
-      undefined
+  const LeftHeaderContent = () => {
+    return (
+      <>
+        {renderHistoricDataIndicator && hasApproximateData && (
+          <MultiLineToolTipIcon lines={[t('in-components:approximateDataIndicator.dataRetention')]} />
+        )}
+        {renderWidgetNotSupportedIndicator && (
+          <Tooltip content={t('in-components:liveModeIndicator.widgetNotSupportedInLiveMode')}>
+            <IconLink type="lib_help_error_info_outline" className={locals.liveModeIcon} />
+          </Tooltip>
+        )}
+      </>
     );
+  };
 
   const card = (
     <Card
+      className={renderWidgetNotSupportedIndicator ? locals.disabledChart : ''}
       title={title}
       useMaxAvailableHeight={config.cardUseMaxAvailableHeight}
-      leftHeaderContent={leftHeaderContent}
+      leftHeaderContent={<LeftHeaderContent />}
       rightHeaderContent={config.rightHeaderContent}
       size="l"
     >

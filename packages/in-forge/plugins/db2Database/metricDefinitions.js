@@ -3,7 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
-import { number, kiloBytes, bytes, millis, percentage, micros } from 'in-services/formatters/number';
+import {
+  number,
+  kiloBytes,
+  bytes,
+  millis,
+  percentage,
+  micros,
+  percentagePlainZeroDecimalPlaces
+} from 'in-services/formatters/number';
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { t } from 'in-i18n';
 
@@ -176,6 +184,13 @@ export default [
     ],
     min: 0,
     formatter: bytes.detailed,
+    category: [t('in-forge:plugins.db2Database.logSpace')]
+  },
+  {
+    metrics: ['logs.availablePercentage'],
+    labels: [t('in-forge:plugins.db2Database.availablePercentage')],
+    min: 0,
+    formatter: percentagePlainZeroDecimalPlaces,
     category: [t('in-forge:plugins.db2Database.logSpace')]
   },
   {

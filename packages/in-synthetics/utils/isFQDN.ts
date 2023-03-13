@@ -92,7 +92,7 @@ export default function isFQDN(str: string) {
     }
 
     // disallow parts starting or ending with hyphen
-    if (/^-|-$/.test(part)) {
+    if (/(^-)|(-$)/.test(part)) {
       return false;
     }
 

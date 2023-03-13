@@ -11,6 +11,7 @@ import HttpRequestOriginTopList from 'in-mobile-apps/MobileAppDashboard/tabs/Sum
 import MobileAppMetricsKpiCard from 'in-mobile-apps/MobileAppDashboard/components/MobileAppMetricsKpiCard';
 import MobileAppChartWrapper from 'in-mobile-apps/MobileAppDashboard/components/MobileAppChartWrapper';
 import MobileAppGeoHeatMap from 'in-mobile-apps/MobileAppDashboard/components/MobileAppGeoHeatMap';
+import MobileAppMarkerLane from 'in-mobile-apps/MobileAppDashboard/components/MobileAppMarkerLane';
 import ViewsTopList from 'in-mobile-apps/MobileAppDashboard/tabs/Summary/ViewsTopList';
 import { translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/tags';
 import { getLinkToAnalyze, summaryTab } from 'in-mobile-apps/navigation/paths';
@@ -25,6 +26,7 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
   const granularity = getChartGranularity(timeConfig);
   const tagCatalogSessionStart = useTagCatalog('sessionStart');
   const tagCatalogViewChange = useTagCatalog('viewChange');
+  const MarkerLane = MobileAppMarkerLane({ mobileAppId });
 
   return (
     <Fragment>
@@ -134,6 +136,7 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
                 }
               }
             }}
+            renderPostChartContent={MarkerLane}
           />
         </Col>
       </Row>

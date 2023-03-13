@@ -52,9 +52,12 @@ export function extendMetricConfigurationOnLiveMode(metricsConfiguration: Metric
   });
 }
 
-export function extendWindowSizeOnLiveMode(timeConfig: TimeConfig): TimeConfig {
-  if (!timeConfig.autoRefresh) {
-    return timeConfig;
+export function extendWindowSizeOnLiveMode(timeConfig: TimeConfig, disableLiveMode?: boolean): TimeConfig {
+  if (!timeConfig.autoRefresh || disableLiveMode) {
+    return {
+      ...timeConfig,
+      autoRefresh: false
+    };
   }
 
   const granularity = getChartGranularity(timeConfig);
