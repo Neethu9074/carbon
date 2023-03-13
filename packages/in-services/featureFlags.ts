@@ -145,6 +145,3 @@ export const pluginMetricStatisticsEnabled = isFeatureFlagEnabled('pluginMetricS
 export const controlPlaneEnabled = isFeatureFlagEnabled('controlPlaneEnabled', false);
 
 export const largeTracesV2Enabled = isFeatureFlagEnabled('largeTracesV2Enabled', false);
-
-// Skips the onboarding dialog, to keep ui available when infra monitoring might be in a degraded state
-export const skipOnboarding = isFeatureFlagEnabled('skipOnboarding', false);

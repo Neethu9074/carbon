@@ -72,6 +72,5 @@ module.exports = {
   syntheticCreateTestAdvanceModeEnabled: true,
   controlPlaneEnabled: true,
   sloV2Enabled: true,
-  largeTracesV2Enabled: true,
-  skipOnboarding: false
+  largeTracesV2Enabled: true
 };
