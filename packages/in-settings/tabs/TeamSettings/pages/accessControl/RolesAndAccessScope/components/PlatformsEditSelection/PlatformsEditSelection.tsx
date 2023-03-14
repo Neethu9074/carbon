@@ -11,7 +11,7 @@ import { SvgIcon, Stack } from '@instana/components';
 
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import { getField, updateFormField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
-import RbacSection from 'in-settings/tabs/TeamSettings/pages/accessControl/Section';
+import Section from 'in-settings/tabs/TeamSettings/pages/accessControl/Section';
 import { SubSlideConfig } from 'in-settings/components/ConfigDialog/ConfigDialog';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { AreaPermissionType, AreaPermission } from 'in-stores/permission';
@@ -106,7 +106,7 @@ export default function _PlatformsEditSelection({ title, icon, form, setForm }: 
   const hasAnyAreaPermission = (areaId: string) => permissionSet?.permissions.includes(areaId) || false;
 
   return (
-    <RbacSection icon={icon} title={title} panelNoIndentation>
+    <Section icon={icon} title={title} panelNoIndentation>
       <div className={locals.sectionContent}>
         {platformAreas
           .filter(area => !area.children)
@@ -131,6 +131,6 @@ export default function _PlatformsEditSelection({ title, icon, form, setForm }: 
             </>
           ))}
       </div>
-    </RbacSection>
+    </Section>
   );
 }
