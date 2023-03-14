@@ -33,7 +33,7 @@ export default function AlertTagFilterExpressionConfig({
   QueryBuilderComponent,
   headerTransparent = false
 }: AlertTagFilterExpressionConfigProps) {
-  const tagFilterLength = (form.get('tagFilterExpression') as Field<string>)?.value.length;
+  const selectedTests = (form.get('syntheticTestIds') as Field<string[]>)?.value.length;
   return (
     <LightCard
       title={
@@ -41,9 +41,9 @@ export default function AlertTagFilterExpressionConfig({
           noBottomMargin
           type={'lib_synthetic'}
           text={
-            tagFilterLength > 0
+            selectedTests > 0
               ? t('in-alerting:smartAlerts.synthetics.selectTests.testAttachedCount', {
-                  count: tagFilterLength
+                  count: selectedTests
                 })
               : t('in-alerting:smartAlerts.synthetics.selectTests.testAttached')
           }

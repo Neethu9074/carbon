@@ -255,6 +255,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'syntheticSmartAlertsDetailsEnabled',
+    instanaCtlKey: 'feature.synthetic.smart.alerts.details.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'syntheticCreateSmartAlertsUIEnabled',
     instanaCtlKey: 'feature.synthetic.create.smart.alerts.ui.enabled',
     defaultValue: false

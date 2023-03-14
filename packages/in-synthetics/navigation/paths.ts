@@ -18,7 +18,7 @@ const matrixLocationLabels = 'locationLabels';
 
 const summaryTab = '/summary';
 export const resultsTab = '/results';
-const alertsTab = '/alerts';
+export const alertsTab = '/alerts';
 
 export const syntheticsPath = '/syntheticTests';
 export const syntheticLocationPath = '/syntheticLocations';
@@ -28,6 +28,11 @@ export const syntheticsSummaryPath = `${syntheticsDashboard}${summaryTab}`;
 export const syntheticResultsListPath = `${syntheticsDashboard}${resultsTab}`;
 export const syntheticDetailsPath = `/syntheticDetails`;
 export const syntheticSmartAlertsPath = '/syntheticSmartAlerts';
+export const syntheticSmartAlertsDetailsPath = '/details';
+
+export const alertsTabDetailsFullyQualified = `${syntheticSmartAlertsPath}${syntheticSmartAlertsDetailsPath}`;
+export const dasboardAlertsFullyQualified = `${syntheticsDashboard}${alertsTab}`;
+export const dashboardTestAlertsTabDetailsFullyQualified = `${dasboardAlertsFullyQualified}${syntheticSmartAlertsDetailsPath}`;
 
 export const isSyntheticMonitoringView = getRootPathPredicate(
   syntheticsPath,
@@ -35,7 +40,8 @@ export const isSyntheticMonitoringView = getRootPathPredicate(
   syntheticsDashboard,
   syntheticsSummaryPath,
   syntheticResultsListPath,
-  syntheticDetailsPath
+  syntheticDetailsPath,
+  syntheticSmartAlertsPath
 );
 
 export function getSyntheticTestDashboard(testId: string, timeConfig?: TimeConfig): Observable<string> {

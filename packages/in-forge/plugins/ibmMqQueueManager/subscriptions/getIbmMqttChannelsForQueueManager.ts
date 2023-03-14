@@ -4,8 +4,9 @@
  * Copyright IBM Corp. 2023
  */
 
-import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 import { ContextQuery, Result, TimeConfig } from '@instana/types';
+
+import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
 interface GetIbmMqttChannelsForQueueManagerQuery extends ContextQuery {
   readonly snapshotId: string;

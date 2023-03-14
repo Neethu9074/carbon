@@ -8,9 +8,7 @@ import { MapForm, Item, Field } from 'formalistic';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { just, Observable } from '@instana/observables';
 import { Result, SyntheticTest } from '@instana/types';
-import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/components';
 
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
@@ -22,8 +20,8 @@ import AlertTestsList from 'in-alerting/smart-alerts/synthetics/components/Alert
 import SlideInView, { NoHeader } from 'in-components/SlideInView/SlideInView';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import { getTestsAsResultObservable } from 'in-synthetics/api';
 import SaveButton from 'in-components/form/SaveButton';
-import { getTests } from 'in-synthetics/api';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/synthetics/components/ConfigureAlertTest.mless';
@@ -45,23 +43,25 @@ export default function ConfigureAlertTest({
   setCustomSlideInHeaderConfig,
   numberOfAlertTestListRows = 5
 }: ConfigureAlertChannelProps) {
-  const syntheticTests = useObservable(() => getTests(), []);
-  const getSelectedTests = createMemoizedObservableForReferencedEntities(function(selectedTests: string[]) {
-    if (selectedTests.length === 0) {
-      return just([]) as Observable<SyntheticTest[]>;
-    }
-
-    return just(
-      (syntheticTests as Result<SyntheticTest[]>)?.data?.filter(
-        (listItems: SyntheticTest) => selectedTests.filter(ids => ids === listItems.id).length > 0
-      ) ?? []
-    );
+  const getSelectedTests = createMemoizedObservableForReferencedEntities(function(alertTestIds) {
+    return getTestsAsResultObservable('')
+      .map((result: Result<SyntheticTest[]> | null) => {
+        if (result == null) {
+          return null;
+        }
+        return (result as Result<SyntheticTest[]>)?.data?.filter(
+          (listItems: SyntheticTest) => alertTestIds.filter(ids => ids === listItems.id).length > 0
+        );
+      })
+      .startWith(null);
+    // null is treated as a pending result when converting the HTTP response into a result
   });
 
   return (
     <>
       <AlertTestsList
         setTitle={false}
+        // @ts-expect-error
         loadEntities={() => getSelectedTests((form.get('syntheticTestIds') as Field<string[]>)?.value ?? [])}
         renderNoDataAvailable={() => <NoTestSelected />}
         tableActions={alertTestSelectionTableActions(form, onChange)}

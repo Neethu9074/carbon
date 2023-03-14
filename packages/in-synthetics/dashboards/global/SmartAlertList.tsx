@@ -8,16 +8,23 @@ import React from 'react';
 
 import { SyntheticAlertConfigWithMetadata } from '@instana/types';
 
+import {
+  alertCreated as alertCreatedMatrixParam,
+  alertId as alertIdMatrixParam
+} from 'in-synthetics/navigation/matrix';
+import { syntheticCreateSmartAlertsUIEnabled, syntheticSmartAlertsDetailsEnabled } from 'in-services/featureFlags';
+import { alertsTabDetailsFullyQualified, syntheticSmartAlertsPath } from 'in-synthetics/navigation/paths';
 import { getAllAlertConfigs } from 'in-alerting/smart-alerts/synthetics/api/syntheticAlertConfig';
 import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import CreateSmartAlert from 'in-alerting/smart-alerts/synthetics/CreateSmartAlert';
 import AlertBaseList from 'in-alerting/smart-alerts/components/AlertsBaseList';
 import DefaultCell from 'in-alerting/smart-alerts/components/list/DefaultCell';
-import { syntheticCreateSmartAlertsUIEnabled } from 'in-services/featureFlags';
 import { tableActions } from 'in-alerting/smart-alerts/synthetics/Alerts';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { mutateUrl } from 'in-stores/navigation/navigation';
 import Sticky from 'in-components/Sticky';
 import Footer from 'in-components/Footer';
 import { t } from 'in-i18n';
@@ -37,6 +44,16 @@ export default function SmartAlertList() {
           loadEntities={getAllAlertConfigs}
           tableActions={tableActions}
           getSubtitle={() => t('in-synthetics:dashboard.alertList.numberOfFailures')}
+          onRowClick={
+            syntheticSmartAlertsDetailsEnabled
+              ? config =>
+                  mutateUrl(location => {
+                    location.pathname = alertsTabDetailsFullyQualified;
+                    setOrDeleteMatrixKey(location, syntheticSmartAlertsPath, alertIdMatrixParam, config.id);
+                    setOrDeleteMatrixKey(location, syntheticSmartAlertsPath, alertCreatedMatrixParam, config.created);
+                  })
+              : undefined
+          }
         />
       </LeftRightPadding>
       <Footer />

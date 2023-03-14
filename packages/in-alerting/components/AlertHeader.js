@@ -40,6 +40,7 @@ export default function AlertHeader({
   onConfigDeleted,
   onConfigRevisionChanged,
   renderCustomTitle,
+  showActionButton,
   allowActionButtons = true
 }) {
   const extendedAlertConfigVersions = extendAlertConfigVersions(alertConfigVersions);
@@ -161,7 +162,6 @@ export default function AlertHeader({
           <Pill className={locals.badge} color={theme.lib.colors.purple800} kind="light">
             {t('in-alerting:components.alertHeaderAlert')}
           </Pill>
-
           {extendedAlertConfigVersions.length > 0 && (
             <>
               <RevisionDropdown
@@ -177,7 +177,6 @@ export default function AlertHeader({
               <Spacer horizontal="normal" />
             </>
           )}
-
           {alertConfig.readOnly && (
             <Tooltip content={t('in-alerting:components.alertHeaderRestoreRevisionTooltip')}>
               <IconButton
@@ -190,7 +189,7 @@ export default function AlertHeader({
             </Tooltip>
           )}
 
-          {allowActionButtons && !alertConfig.readOnly && (
+          {allowActionButtons && !alertConfig.readOnly && showActionButton && (
             <>
               <Tooltip
                 content={
@@ -319,6 +318,7 @@ AlertHeader.propTypes = {
   onConfigDeleted: PropTypes.func,
   onConfigRevisionChanged: PropTypes.func,
   renderCustomTitle: PropTypes.func,
+  showActionButton: PropTypes.bool,
   allowActionButtons: PropTypes.bool
 };
 

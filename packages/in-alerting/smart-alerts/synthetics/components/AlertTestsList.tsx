@@ -6,12 +6,13 @@
 
 import React, { ReactNode } from 'react';
 
-import { just, Observable } from '@instana/observables';
-import { useObservable } from '@instana/hooks';
+import { Observable } from '@instana/observables';
+import { SvgIcon } from '@instana/components';
 
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import List, { leftHeaderWithSelectAll, TableActions } from 'in-settings/components/List';
+import { getTestsAsResultObservable } from 'in-synthetics/api';
 import { Result, SyntheticTest } from 'in-types';
-import { getTests } from 'in-synthetics/api';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
@@ -49,7 +50,14 @@ export default function AlertTestsList({
   onRowClick,
   inSelectListDialog = false
 }: AlertTestsListProps): JSX.Element {
-  const syntheticTests = useObservable(() => getTests(), []);
+  const syntheticTests = getTestsAsResultObservable('')
+    .map((result: Result<SyntheticTest[]> | null) => {
+      if (result == null) {
+        return null;
+      }
+      return (result as Result<SyntheticTest[]>)?.data;
+    })
+    .startWith(null);
 
   return (
     <List<SyntheticTest>
@@ -58,7 +66,8 @@ export default function AlertTestsList({
       getEntityName={getEntityName}
       columnDefinitions={columnDefinitions()}
       tableActions={tableActions}
-      loadEntities={loadEntities ? loadEntities : () => just((syntheticTests as Result<SyntheticTest[]>)?.data ?? [])}
+      //@ts-expect-error
+      loadEntities={loadEntities ? loadEntities : () => syntheticTests}
       noDataMessage={noDataMessage}
       renderNoDataAvailable={renderNoDataAvailable}
       pageSize={pageSize}
@@ -116,6 +125,28 @@ function columnDefinitions() {
             </span>
           </div>
         );
+      }
+    },
+    {
+      id: 'applicationLabel',
+      label: t('in-synthetics:dashboard.testList.applicationLabel'),
+      defaultOrderDirection: 'ASC',
+      getContent(item: SyntheticTest) {
+        const applicationLabel = item.applicationLabel;
+        if (applicationLabel != null && applicationLabel !== '') {
+          return (
+            <HorizontalFlexWrapper>
+              <SvgIcon type={'lib_application_invert'} />
+              <span className={locals.label}>{applicationLabel}</span>
+            </HorizontalFlexWrapper>
+          );
+        } else {
+          return (
+            <div>
+              <span className={locals.label}>{''}</span>
+            </div>
+          );
+        }
       }
     }
   ];

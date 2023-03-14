@@ -45,7 +45,8 @@ export default function Alert({
   isGlobalSmartAlert,
   renderSmartAlertDialog,
   renderAlertConfiguration,
-  tracking = {}
+  tracking = {},
+  showActionButton = true
 }) {
   const { location, navigate } = useNavigation();
 
@@ -131,6 +132,7 @@ export default function Alert({
               </HorizontalFlexWrapper>
             );
           }}
+          showActionButton={showActionButton}
           allowActionButtons={isGlobalSmartAlert ? role.canConfigureGlobalAlertConfigs : role.canConfigureCustomAlerts}
         />
 
@@ -186,5 +188,6 @@ Alert.propTypes = {
   matrix: PropTypes.shape({
     alertIdParam: PropTypes.string.isRequired,
     alertCreatedParam: PropTypes.string.isRequired
-  }).isRequired
+  }).isRequired,
+  showActionButton: PropTypes.bool
 };

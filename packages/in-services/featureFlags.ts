@@ -104,6 +104,9 @@ export const syntheticBrowserScriptEnabled = isFeatureFlagEnabled('syntheticBrow
 // Synthetic SmartAlert feature flag
 export const syntheticSmartAlertsEnabled = isFeatureFlagEnabled('syntheticSmartAlertsEnabled');
 
+// Synthetic SmartAlert details feature flag
+export const syntheticSmartAlertsDetailsEnabled = isFeatureFlagEnabled('syntheticSmartAlertsDetailsEnabled');
+
 // Create Synthetic SmartAlert UI feature flag
 export const syntheticCreateSmartAlertsUIEnabled = isFeatureFlagEnabled('syntheticCreateSmartAlertsUIEnabled');
 
