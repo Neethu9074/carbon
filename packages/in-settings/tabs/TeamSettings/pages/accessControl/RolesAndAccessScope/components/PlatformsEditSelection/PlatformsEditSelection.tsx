@@ -64,7 +64,7 @@ export default function _PlatformsEditSelection({ form, setForm }: PlatformsEdit
   // Checks whether it currently has the permission
   const hasAnyAreaPermission = (area: LimitableProductArea) => {
     const access = permissionSet ? getScopeFromProductArea(area, permissionSet) : ScopedPermissionItem.NO_ACCESS;
-    return access == ScopedPermissionItem.ACCESS_ALL ? true : false;
+    return access === ScopedPermissionItem.ACCESS_ALL ? true : false;
   };
 
   return (
