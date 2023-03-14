@@ -34,7 +34,8 @@ import {
   chartsMatrixParameter,
   groupMatrixParameter,
   orderMatrixParameter,
-  typeMatrixParameter
+  typeMatrixParameter,
+  chartedMetricsMatrixParameter
 } from 'in-infrastructure/navigation/paths';
 import GroupingConfigurator, {
   isGroupingConfigurationValid
@@ -79,7 +80,8 @@ const urlStateDefinition = {
     chartsMatrixParameter,
     metricsMatrixParameter,
     orderMatrixParameter,
-    typeMatrixParameter
+    typeMatrixParameter,
+    chartedMetricsMatrixParameter
   ],
   resets: [resetMetricsAndOrderOnTypeChange]
 };
@@ -94,9 +96,17 @@ export default function InfraExploreView() {
 
 function InfraExploreViewWithFixatedTimeConfig() {
   const timeConfig = useTimeConfig();
-  const [{ tagFilterExpression, group, metrics: urlMetrics, type: urlType, order: urlOrder }, setUrl] = useUrlState(
-    urlStateDefinition
-  );
+  const [
+    {
+      tagFilterExpression,
+      group,
+      metrics: urlMetrics,
+      type: urlType,
+      order: urlOrder,
+      chartedMetrics: urlChartedMetrics
+    },
+    setUrl
+  ] = useUrlState(urlStateDefinition);
   const type = urlType === 'all' ? null : urlType;
 
   const tagCatalog = useTagCatalog({ ownerType: type });
@@ -163,6 +173,8 @@ function InfraExploreViewWithFixatedTimeConfig() {
             getInfraExploreState={getInfraExploreState}
             kpiDefinitions={kpiDefinitions}
             tagCatalog={tagCatalog}
+            refreshFixatedTimeConfig={() => {}}
+            chartedMetrics={urlChartedMetrics}
           />
         </Stack>
       </LeftRightPadding>
@@ -184,7 +196,8 @@ function Content({
   infrastructureListTrackingConfig,
   getInfraExploreState,
   kpiDefinitions,
-  tagCatalog
+  tagCatalog,
+  chartedMetrics
 }) {
   const setMetrics = useCallback(
     metrics => {
@@ -202,6 +215,7 @@ function Content({
   const setOrder = useCallback(order => setUrl({ order }), [setUrl]);
 
   const onTagFilterExpressionChange = useCallback(tagFilterExpression => setUrl({ tagFilterExpression }), [setUrl]);
+  const onChartedMetricChange = useCallback(chartedMetric => setUrl({ chartedMetrics: chartedMetric }), [setUrl]);
   const onGroupChange = useCallback(group => setUrl({ group }), [setUrl]);
 
   const backendQueryModel = useMemo(() => (isValid && toBackendQueryModel(tagFilterExpression)) || EMPTY_EXPRESSION, [
@@ -217,6 +231,21 @@ function Content({
     type,
     query: catalogQuery.debouncedValue
   });
+
+  if (
+    chartedMetrics !== undefined &&
+    chartedMetrics.length > 0 &&
+    !metrics.some(
+      item => item.metric === chartedMetrics[0]?.metricId && item.aggregation === chartedMetrics[0]?.aggregationId
+    )
+  ) {
+    metrics.push({
+      metric: chartedMetrics[0]?.metricId,
+      aggregation: chartedMetrics[0]?.aggregationId,
+      removeFromTable: true
+    });
+  }
+
   const metricMetadatas = useMetricMetadatas({ type, metrics, kpiDefinitions });
 
   const topSection = !isInitPage && (
@@ -289,6 +318,8 @@ function Content({
       backendQueryModel={backendQueryModel}
       setMetrics={setMetrics}
       catalogQuery={catalogQuery}
+      onChartedMetricChange={onChartedMetricChange}
+      chartedMetrics={chartedMetrics}
     />
   );
 
@@ -316,7 +347,9 @@ function List({
   metricMetadatas,
   backendQueryModel,
   setMetrics,
-  catalogQuery
+  catalogQuery,
+  onChartedMetricChange,
+  chartedMetrics
 }) {
   if (isInitPage) {
     return (
@@ -367,6 +400,7 @@ function List({
 
   return (
     <InfrastructureList
+      tagFilterExpression={tagFilterExpression}
       backendQueryModel={backendQueryModel}
       timeConfig={timeConfig}
       setMetrics={setMetrics}
@@ -378,6 +412,8 @@ function List({
       metrics={metrics}
       metricMetadatas={metricMetadatas}
       order={order}
+      onChartedMetricChange={onChartedMetricChange}
+      chartedMetrics={chartedMetrics}
       showHeader
       tracking={{
         onLoadMore: page => loadMoreTracker(getInfraExploreState)(page, LOAD_MORE_CONTEXT.UNGROUPED_ENTITIES),
@@ -386,6 +422,7 @@ function List({
       metricCatalog={(catalogQuery.value === catalogQuery.debouncedValue && metricCatalog) || pendingResult}
       query={catalogQuery.value}
       onQueryChange={catalogQuery.onChange}
+      setUrl={setUrl}
     />
   );
 }

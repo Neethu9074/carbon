@@ -222,7 +222,8 @@ const icons = deepFreeze<Record<ProductArea, Icon>>({
     crash: 'lib_mobile_app'
   },
   infrastructure: {
-    infrastructure: 'lib_infrastructure'
+    infrastructure: 'lib_infrastructure',
+    analytics: 'lib_bar_chart'
   },
   profiles: {
     profiles: 'lib_profiling'

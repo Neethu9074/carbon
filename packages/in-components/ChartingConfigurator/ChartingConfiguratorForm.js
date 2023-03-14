@@ -8,8 +8,8 @@ import React from 'react';
 
 import { SvgIcon } from '@instana/components';
 
+import ChartSelectorOverlay, { getActiveChartMetric } from 'in-components/ChartingConfigurator/ChartSelectorOverlay';
 import GroupedMetricSelectorOverlay from 'in-components/ChartingConfigurator/GroupedMetricSelectorOverlay';
-import ChartSelectorOverlay from 'in-components/ChartingConfigurator/ChartSelectorOverlay';
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 import { t } from 'in-i18n';
 
@@ -26,9 +26,11 @@ export default function ChartingConfiguratorForm({
 }) {
   const activeTemplate = options?.templates?.find(({ templateId }) => templateId === value.templateId);
 
-  let activeMetric, activeAggregation, activeRenderer;
+  let activeAggregation, activeRenderer;
+
+  let activeMetric = getActiveChartMetric(options, value);
+
   if (!activeTemplate) {
-    activeMetric = options?.metrics?.find(({ metricId }) => metricId === value.metricId) || options?.metrics?.[0];
     activeAggregation =
       activeMetric?.aggregations?.find(({ id }) => id === value.aggregationId) || activeMetric?.aggregations?.[0];
     activeRenderer =
