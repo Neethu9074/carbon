@@ -96,19 +96,9 @@ function openSmartAlertDialog(config, isCopy = false) {
   );
 }
 
-export function actionHandlers() {
-  return {
-    handleClone: function(config) {
-      handleClone(config);
-    },
-    handleDelete: function(id, setIsSaving, configName) {
-      handleDelete(id, setIsSaving, configName);
-    },
-    handleEdit: function(config) {
-      handleEdit(config);
-    },
-    handleToggleEnabled: function(enabled, id, setIsSaving) {
-      handleToggleEnabled(enabled, id, setIsSaving);
-    }
-  };
-}
+export const actionHandlers = () => ({
+  handleClone: config => handleClone(config),
+  handleDelete: (id, setIsSaving, configName) => handleDelete(id, setIsSaving, configName),
+  handleEdit: config => handleEdit(config),
+  handleToggleEnabled: (enabled, id, setIsSaving) => handleToggleEnabled(enabled, id, setIsSaving)
+});
