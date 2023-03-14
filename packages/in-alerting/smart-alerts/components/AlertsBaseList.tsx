@@ -89,7 +89,7 @@ export default function AlertBaseList<AlertConfig extends AlertConfigType>({
           columnDefinitions={columnDef}
           loadEntities={() => loadEntities().tap(alerts => setAlertsSize(alerts.length))}
           searchAttributes={[(entity: AlertConfig) => entity.name]}
-          pageSize={5}
+          pageSize={15}
           onRowClick={onRowClick}
         />
       </Card>
@@ -102,7 +102,7 @@ export default function AlertBaseList<AlertConfig extends AlertConfigType>({
           columnDefinitions={columnDef.map(toAlertListColumns)}
           getLocalAlertConfigsFetchFunction={getAlertConfigs}
           sortOptions={sortOptions}
-          pageSize={5}
+          pageSize={15}
           createRowLinkLocation={createRowLinkLocation}
         />
       </Card>
