@@ -11,8 +11,8 @@ import { SvgIcon, Stack } from '@instana/components';
 
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import { getField, updateFormField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
-import Section from 'in-settings/tabs/TeamSettings/pages/accessControl/Section';
 import { SubSlideConfig } from 'in-settings/components/ConfigDialog/ConfigDialog';
+import Section from 'in-settings/tabs/TeamSettings/pages/accessControl/Section';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { AreaPermissionType, AreaPermission } from 'in-stores/permission';
 import { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
@@ -41,8 +41,6 @@ interface PlatformArea {
   id: AreaPermissionType;
   title: string;
   icon: string;
-  children?: boolean;
-  helpText: string;
 }
 
 // Definition of all PlatformAreas
@@ -50,36 +48,27 @@ const platformAreas: Array<PlatformArea> = [
   {
     id: AreaPermission.ACCESS_PCF,
     title: t('in-settings:productAreas.permissions', { context: 'PCF' }),
-    icon: 'lib_cloudfoundry',
-    helpText: t('in-settings:tabs.permitsAccessToLabelMonitoringFunctionality', { label: AreaPermission.ACCESS_PCF })
+    icon: 'lib_cloudfoundry'
   },
   {
     id: AreaPermission.ACCESS_PHMC,
     title: t('in-settings:productAreas.permissions', { context: 'PHMC' }),
-    icon: 'lib_phmc_console',
-    helpText: t('in-settings:tabs.permitsAccessToLabelMonitoringFunctionality', { label: AreaPermission.ACCESS_PHMC })
+    icon: 'lib_phmc_console'
   },
   {
     id: AreaPermission.ACCESS_ZHMC,
     title: t('in-settings:productAreas.permissions', { context: 'ZHMC' }),
-    icon: 'lib_zhmcConsole',
-    helpText: t('in-settings:tabs.permitsAccessToLabelMonitoringFunctionality', { label: AreaPermission.ACCESS_ZHMC })
+    icon: 'lib_zhmcConsole'
   },
   {
     id: AreaPermission.ACCESS_OPENSTACK,
     title: t('in-settings:productAreas.permissions', { context: 'OPENSTACK' }),
-    icon: 'lib_openstack',
-    helpText: t('in-settings:tabs.permitsAccessToLabelMonitoringFunctionality', {
-      label: AreaPermission.ACCESS_OPENSTACK
-    })
+    icon: 'lib_openstack'
   },
   {
     id: AreaPermission.ACCESS_VSPHERE,
     title: t('in-settings:productAreas.permissions', { context: 'VSPHERE' }),
-    icon: 'lib_vsphere',
-    helpText: t('in-settings:tabs.permitsAccessToLabelMonitoringFunctionality', {
-      label: AreaPermission.ACCESS_VSPHERE
-    })
+    icon: 'lib_vsphere'
   }
 ];
 
@@ -108,28 +97,26 @@ export default function _PlatformsEditSelection({ title, icon, form, setForm }: 
   return (
     <Section icon={icon} title={title} panelNoIndentation>
       <div className={locals.sectionContent}>
-        {platformAreas
-          .filter(area => !area.children)
-          .map(area => (
-            <>
-              <CheckboxFancy
-                size="large"
-                checked={hasAnyAreaPermission(area.id)}
-                onChange={(event: any) => onUpdatePermissionSet(area.id, event.target.checked)}
-                label={
-                  <Stack gap="xsmall" direction="horizontal" align="start">
-                    <span>{area.title}</span>
-                    <Tooltip
-                      content={t('in-settings:tabs.permitsAccessToLabelMonitoringFunctionality', { label: area.title })}
-                      align="rightMiddle"
-                    >
-                      <SvgIcon type="lib_help_error_info_outline" size="s" color={'#172429'} />
-                    </Tooltip>
-                  </Stack>
-                }
-              />
-            </>
-          ))}
+        {platformAreas.map(area => (
+          <>
+            <CheckboxFancy
+              size="large"
+              checked={hasAnyAreaPermission(area.id)}
+              onChange={(event: any) => onUpdatePermissionSet(area.id, event.target.checked)}
+              label={
+                <Stack gap="xsmall" direction="horizontal" align="start">
+                  <span>{area.title}</span>
+                  <Tooltip
+                    content={t('in-settings:tabs.permitsAccessToLabelMonitoringFunctionality', { label: area.title })}
+                    align="rightMiddle"
+                  >
+                    <SvgIcon type="lib_help_error_info_outline" size="s" color={'#172429'} />
+                  </Tooltip>
+                </Stack>
+              }
+            />
+          </>
+        ))}
       </div>
     </Section>
   );
