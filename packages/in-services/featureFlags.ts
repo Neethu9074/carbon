@@ -147,5 +147,3 @@ export const controlPlaneEnabled = isFeatureFlagEnabled('controlPlaneEnabled', f
 export const largeTracesV2Enabled = isFeatureFlagEnabled('largeTracesV2Enabled', false);
 
 export const oracleRacMonitoringEnabled = isFeatureFlagEnabled('oracleRacMonitoringEnabled', false);
-// Skips the onboarding dialog, to keep ui available when infra monitoring might be in a degraded state
-export const skipOnboarding = isFeatureFlagEnabled('skipOnboarding', false);

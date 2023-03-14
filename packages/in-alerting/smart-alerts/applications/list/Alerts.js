@@ -22,6 +22,7 @@ import SmartAlertsBaseList from 'in-alerting/smart-alerts/components/list/SmartA
 import { actionHandlers } from 'in-alerting/smart-alerts/applications/list/ListActionHandlers';
 import { createRowLinkLocation } from 'in-alerting/smart-alerts/applications/list/rowLinking';
 import Footer from 'in-components/Footer/Footer';
+import { role } from 'in-stores/user';
 
 export default function Alerts({ applicationId }) {
   const [configsCategory, setConfigsCategory] = useUrlBasedCategory(categoryLocal);
@@ -47,12 +48,18 @@ export default function Alerts({ applicationId }) {
 }
 
 function getColumnDefinitions(isGlobalSmartAlertConfig) {
+  const showActionButtons = isGlobalSmartAlertConfig
+    ? role.canConfigureGlobalAlertConfigs
+    : role.canConfigureCustomAlerts;
   return [
     linkedListNameColumnDefinition(),
     evaluationInfoColumnDefinition({ isGlobalSmartAlertConfig }),
     entityNameColumnDefinition({ isGlobalSmartAlertConfig }),
-    editActionsColumnDefinition({ actionHandlers: actionHandlers(isGlobalSmartAlertConfig) })
-  ];
+    showActionButtons &&
+      editActionsColumnDefinition({
+        actionHandlers: actionHandlers(isGlobalSmartAlertConfig)
+      })
+  ].filter(Boolean);
 }
 
 Alerts.propTypes = {

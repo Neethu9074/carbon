@@ -13,13 +13,12 @@ import React from 'react';
 import { create, just } from '@instana/observables';
 
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
-import { skipOnboarding } from 'in-services/featureFlags';
 import history from 'in-stores/navigation/history';
 
 export function init() {
   const reportingData = window.instana.reportingData;
   // The onboarding dialog is skipped when there are reporting hosts or monitored serverless entities.
-  if (skipOnboarding || (reportingData && (reportingData.hostCount > 0 || reportingData.serverlessCount > 0))) {
+  if (reportingData && (reportingData.hostCount > 0 || reportingData.serverlessCount > 0)) {
     return just(true);
   }
 

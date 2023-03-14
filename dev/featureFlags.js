@@ -73,6 +73,5 @@ module.exports = {
   controlPlaneEnabled: true,
   sloV2Enabled: true,
   largeTracesV2Enabled: true,
-  oracleRacMonitoringEnabled: false,
-  skipOnboarding: false
+  oracleRacMonitoringEnabled: false
 };

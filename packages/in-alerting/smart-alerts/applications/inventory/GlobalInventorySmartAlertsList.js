@@ -19,6 +19,7 @@ import { useUrlBasedCategory } from 'in-alerting/smart-alerts/applications/hooks
 import SmartAlertsBaseList from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
 import { actionHandlers } from 'in-alerting/smart-alerts/applications/list/ListActionHandlers';
 import { createRowLinkLocation } from 'in-alerting/smart-alerts/applications/list/rowLinking';
+import { role } from 'in-stores/user';
 
 export default function GlobalInventorySmartAlertsList({ onNoData }) {
   const [configsCategory, setConfigsCategory] = useUrlBasedCategory(categoryLocal);
@@ -46,12 +47,18 @@ export default function GlobalInventorySmartAlertsList({ onNoData }) {
 }
 
 function getColumnDefinitions(isGlobalSmartAlertConfig) {
+  const showActionButtons = isGlobalSmartAlertConfig
+    ? role.canConfigureGlobalAlertConfigs
+    : role.canConfigureCustomAlerts;
   return [
     linkedListNameColumnDefinition(),
     evaluationInfoColumnDefinition({ isGlobalSmartAlertConfig }),
     entityNameColumnDefinition({ isGlobalSmartAlertConfig }),
-    editActionsColumnDefinition({ actionHandlers: actionHandlers(isGlobalSmartAlertConfig) })
-  ];
+    showActionButtons &&
+      editActionsColumnDefinition({
+        actionHandlers: actionHandlers(isGlobalSmartAlertConfig)
+      })
+  ].filter(Boolean);
 }
 
 GlobalInventorySmartAlertsList.propTypes = {

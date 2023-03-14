@@ -328,10 +328,5 @@ module.exports = exports = [
     uiClientKey: 'oracleRacMonitoringEnabled',
     instanaCtlKey: 'feature.infrastructure.oracle.rac.enabled',
     defaultValue: false
-  },
-  {
-    uiClientKey: 'skipOnboarding',
-    instanaCtlKey: 'feature.onboarding.skip',
-    defaultValue: false
   }
 ];
