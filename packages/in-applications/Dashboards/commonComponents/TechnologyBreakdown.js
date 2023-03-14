@@ -54,6 +54,7 @@ export default function TechnologyBreakdownPresenter({
       return getTechnologyBreakdownObservable({
         filter: {
           application: applicationId,
+          service: serviceId,
           endpoint: endpointId,
           applicationBoundaryScope: boundaryScope,
           timeConfig: extendWindowSizeOnLiveMode(timeConfig, true),
