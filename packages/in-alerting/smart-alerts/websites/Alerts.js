@@ -34,7 +34,7 @@ function getColumnDefinitions(websiteLabel) {
 }
 
 export default function Alerts({ websiteId, websiteLabel }) {
-  const handlers = role.canConfigureCustomAlerts ? actionHandlers() : {};
+  const handlers = role.canConfigureCustomAlerts ? actionHandlers : {};
 
   return (
     <>

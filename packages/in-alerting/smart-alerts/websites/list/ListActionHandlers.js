@@ -96,9 +96,9 @@ function openSmartAlertDialog(config, isCopy = false) {
   );
 }
 
-export const actionHandlers = () => ({
+export const actionHandlers = {
   handleClone: config => handleClone(config),
   handleDelete: (id, setIsSaving, configName) => handleDelete(id, setIsSaving, configName),
   handleEdit: config => handleEdit(config),
   handleToggleEnabled: (enabled, id, setIsSaving) => handleToggleEnabled(enabled, id, setIsSaving)
-});
+};
