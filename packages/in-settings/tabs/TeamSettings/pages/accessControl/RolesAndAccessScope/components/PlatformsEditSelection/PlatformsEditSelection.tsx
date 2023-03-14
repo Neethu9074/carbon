@@ -40,35 +40,29 @@ export interface PlatformsEditSelectionProps extends SlideControlProps<SubSlideC
 interface PlatformArea {
   id: AreaPermissionType;
   title: string;
-  icon: string;
 }
 
 // Definition of all PlatformAreas
 const platformAreas: Array<PlatformArea> = [
   {
     id: AreaPermission.ACCESS_PCF,
-    title: t('in-settings:productAreas.permissions', { context: 'PCF' }),
-    icon: 'lib_cloudfoundry'
+    title: t('in-settings:productAreas.permissions', { context: 'PCF' })
   },
   {
     id: AreaPermission.ACCESS_PHMC,
-    title: t('in-settings:productAreas.permissions', { context: 'PHMC' }),
-    icon: 'lib_phmc_console'
+    title: t('in-settings:productAreas.permissions', { context: 'PHMC' })
   },
   {
     id: AreaPermission.ACCESS_ZHMC,
-    title: t('in-settings:productAreas.permissions', { context: 'ZHMC' }),
-    icon: 'lib_zhmcConsole'
+    title: t('in-settings:productAreas.permissions', { context: 'ZHMC' })
   },
   {
     id: AreaPermission.ACCESS_OPENSTACK,
-    title: t('in-settings:productAreas.permissions', { context: 'OPENSTACK' }),
-    icon: 'lib_openstack'
+    title: t('in-settings:productAreas.permissions', { context: 'OPENSTACK' })
   },
   {
     id: AreaPermission.ACCESS_VSPHERE,
-    title: t('in-settings:productAreas.permissions', { context: 'VSPHERE' }),
-    icon: 'lib_vsphere'
+    title: t('in-settings:productAreas.permissions', { context: 'VSPHERE' })
   }
 ];
 
