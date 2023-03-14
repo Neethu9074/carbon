@@ -25,6 +25,7 @@ import {
 } from 'in-applications/analyze/components/TraceDetails/components/CallTree/lazyCallTree';
 import { LazyLoadingCalls } from 'in-applications/analyze/components/TraceDetails/components/CallTree/components/LazyLoadingCalls';
 import ErrorIndicator from 'in-applications/analyze/components/TraceDetails/components/ErrorIndicator';
+import CallTimeAxis from 'in-applications/analyze/components/TraceDetails/components/CallTimeAxis';
 import { getColor as getEndpointColor } from 'in-applications/endpointTypes';
 import { shorten } from 'in-services/util/string';
 import Tooltip from 'in-components/Tooltip';
@@ -121,6 +122,11 @@ function Row({
 
   return (
     <div className={locals.wrapper}>
+      {hasLazyParentNode && (
+        <div className={locals.axisWrapper}>
+          <div className={locals.horizontalAxis}>{<CallTimeAxis call={call} />}</div>
+        </div>
+      )}
       <VerticalLine
         depth={depth}
         marginLeft={marginLeft}

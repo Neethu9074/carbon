@@ -4,7 +4,8 @@
  */
 
 :local {
-  .treeHeader, .axisWrapper {
+  .treeHeader,
+  .axisWrapper {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
@@ -16,13 +17,10 @@
     color: #92a5ae;
   }
 
-  .axis, .axis2 {
+  .axis,
+  .axis2 {
     width: 60%;
     margin-left: 40%;
-  }
-
-  .axis2 {
-    margin-bottom: 16px;
   }
 
   .treeHeader2 {
@@ -48,5 +46,9 @@
     white-space: nowrap;
     color: var(--ids-color-option-neutral-700);
     margin: 0;
+  }
+
+  .extraMargin {
+    margin-bottom: 1.25rem;
   }
 }
