@@ -15,11 +15,11 @@ import HeadingSection from 'in-settings/tabs/TeamSettings/pages/accessControl/Ro
 import { getField, updateFormField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { ProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import useSubSlideControl, { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
+import PlatformsEditSelection from './PlatformsEditSelection/PlatformsEditSelection';
 import { getApplicationConfigsAsResultObservable } from 'in-api/applicationConfigs';
 import ConfigDialog, { SubSlideConfig } from 'in-settings/components/ConfigDialog';
 import { getMobileAppConfigurations } from 'in-mobile-apps/api/mobileApps';
 import { getWebsiteConfigurations } from 'in-websites/api/websites';
-import PlatformsEditSelection from './PlatformsEditSelection';
 import { t } from 'in-i18n';
 
 interface EditAccessScopeDialogProps extends FormControlProps {

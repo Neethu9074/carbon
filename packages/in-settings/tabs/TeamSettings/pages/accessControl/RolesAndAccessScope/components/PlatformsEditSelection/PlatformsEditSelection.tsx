@@ -7,17 +7,19 @@
 import React from 'react';
 
 import { PermissionSetWithRoles } from '@instana/types';
-import { Toggle } from '@instana/components';
+import { SvgIcon, Stack } from '@instana/components';
 
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import { getField, updateFormField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import RbacSection from 'in-settings/tabs/TeamSettings/pages/accessControl/Section';
 import { SubSlideConfig } from 'in-settings/components/ConfigDialog/ConfigDialog';
+import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { AreaPermissionType, AreaPermission } from 'in-stores/permission';
 import { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
-import Sections from 'in-components/workspace/Sections/Sections';
-import Section from 'in-components/workspace/Section';
+import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
+
+import locals from './PlatformsEditSelection.mless';
 
 /**
  * Properties for the platforms edit component
@@ -39,6 +41,8 @@ interface PlatformArea {
   id: AreaPermissionType;
   title: string;
   icon: string;
+  children?: boolean;
+  helpText: string;
 }
 
 // Definition of all PlatformAreas
@@ -46,32 +50,36 @@ const platformAreas: Array<PlatformArea> = [
   {
     id: AreaPermission.ACCESS_PCF,
     title: t('in-settings:productAreas.permissions', { context: 'PCF' }),
-    icon: 'lib_cloudfoundry'
+    icon: 'lib_cloudfoundry',
+    helpText: t('in-settings:tabs.permitsAccessToLabelMonitoringFunctionality', { label: AreaPermission.ACCESS_PCF })
   },
   {
     id: AreaPermission.ACCESS_PHMC,
     title: t('in-settings:productAreas.permissions', { context: 'PHMC' }),
-    icon: 'lib_phmc_console'
+    icon: 'lib_phmc_console',
+    helpText: t('in-settings:tabs.permitsAccessToLabelMonitoringFunctionality', { label: AreaPermission.ACCESS_PHMC })
   },
   {
     id: AreaPermission.ACCESS_ZHMC,
     title: t('in-settings:productAreas.permissions', { context: 'ZHMC' }),
-    icon: 'lib_zhmcConsole'
-  },
-  {
-    id: AreaPermission.ACCESS_KUBERNETES,
-    title: t('in-settings:productAreas.permissions', { context: 'KUBERNETES' }),
-    icon: 'lib_kubernetes'
+    icon: 'lib_zhmcConsole',
+    helpText: t('in-settings:tabs.permitsAccessToLabelMonitoringFunctionality', { label: AreaPermission.ACCESS_ZHMC })
   },
   {
     id: AreaPermission.ACCESS_OPENSTACK,
     title: t('in-settings:productAreas.permissions', { context: 'OPENSTACK' }),
-    icon: 'lib_openstack'
+    icon: 'lib_openstack',
+    helpText: t('in-settings:tabs.permitsAccessToLabelMonitoringFunctionality', {
+      label: AreaPermission.ACCESS_OPENSTACK
+    })
   },
   {
     id: AreaPermission.ACCESS_VSPHERE,
     title: t('in-settings:productAreas.permissions', { context: 'VSPHERE' }),
-    icon: 'lib_vsphere'
+    icon: 'lib_vsphere',
+    helpText: t('in-settings:tabs.permitsAccessToLabelMonitoringFunctionality', {
+      label: AreaPermission.ACCESS_VSPHERE
+    })
   }
 ];
 
@@ -99,20 +107,30 @@ export default function _PlatformsEditSelection({ title, icon, form, setForm }: 
 
   return (
     <RbacSection icon={icon} title={title} panelNoIndentation>
-      <Sections>
-        {platformAreas.map(area => {
-          const toggleId = `${area.id}-toggle`; // id for the toggle element
-          return (
-            <Section titleHtmlFor={toggleId} title={area.title} icon={area.icon}>
-              <Toggle
-                id={toggleId}
+      <div className={locals.sectionContent}>
+        {platformAreas
+          .filter(area => !area.children)
+          .map(area => (
+            <>
+              <CheckboxFancy
+                size="large"
                 checked={hasAnyAreaPermission(area.id)}
-                onChange={event => onUpdatePermissionSet(area.id, event.target.checked)}
+                onChange={(event: any) => onUpdatePermissionSet(area.id, event.target.checked)}
+                label={
+                  <Stack gap="xsmall" direction="horizontal" align="start">
+                    <span>{area.title}</span>
+                    <Tooltip
+                      content={t('in-settings:tabs.permitsAccessToLabelMonitoringFunctionality', { label: area.title })}
+                      align="rightMiddle"
+                    >
+                      <SvgIcon type="lib_help_error_info_outline" size="s" color={'#172429'} />
+                    </Tooltip>
+                  </Stack>
+                }
               />
-            </Section>
-          );
-        })}
-      </Sections>
+            </>
+          ))}
+      </div>
     </RbacSection>
   );
 }

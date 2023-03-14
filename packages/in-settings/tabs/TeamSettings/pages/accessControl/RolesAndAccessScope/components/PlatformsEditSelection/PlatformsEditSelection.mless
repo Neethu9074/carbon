@@ -1,0 +1,5 @@
+:local {
+  .sectionContent {
+    padding: var(--ids-border-radius-option-large);
+  }
+}
