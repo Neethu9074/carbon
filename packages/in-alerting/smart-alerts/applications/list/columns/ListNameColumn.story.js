@@ -4,15 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React from 'react';
-
-import { ListNameColumn, getSubtitle } from 'in-alerting/smart-alerts/applications/list/columns/ListNameColumn';
-import BuiltInIndicator from 'in-alerting/smart-alerts/components/details/BuiltInIndicator';
-import { NameColumnCell } from 'in-alerting/smart-alerts/components/list/NameColumnCell';
-
-export default {
-  component: ListNameColumn
-};
+import { ListNameColumn } from 'in-alerting/smart-alerts/applications/list/columns/ListNameColumn';
 
 const config = {
   description: 'some description',
@@ -29,52 +21,20 @@ const config = {
   enabled: true
 };
 
-export const APListNameColumn = {
+export default {
+  component: ListNameColumn,
   args: {
     config
   }
 };
 
-export const NewNameContentColumn = () => (
-  <NameColumnCell
-    config={config}
-    getSubtitle={config => getSubtitle(config.rule, config.threshold)}
-    getAdditionalContent={config => <BuiltInIndicator builtIn={config.builtIn} />}
-  />
-);
+export const APListNameColumn = {};
 
-export const ComparisonRegularName = () => (
-  <div>
-    old AP list name:
-    <ListNameColumn config={config} />
-    <hr />
-    new Alert list name:
-    <NameColumnCell
-      config={config}
-      getSubtitle={config => getSubtitle(config.rule, config.threshold)}
-      getAdditionalContent={config => <BuiltInIndicator builtIn={config.builtIn} />}
-    />
-  </div>
-);
-export const WithExtraLongNameAndMaxWidth = args => {
-  const withLongName = { ...config, builtIn: args.builtIn, name: 'some super long text to test and demonstrate ' };
-  return (
-    <div style={{ width: 300, display: 'flex', flexDirection: 'column' }}>
-      <div style={{ border: '1px solid red', padding: '1rem' }}>
-        <strong>old AP list name:</strong>
-        <ListNameColumn config={withLongName} />
-      </div>
-      <div style={{ border: '1px solid green', padding: '1rem' }}>
-        <strong>new Alert list name:</strong>
-        <NameColumnCell
-          config={withLongName}
-          getSubtitle={config => getSubtitle(config.rule, config.threshold)}
-          getAdditionalContent={config => <BuiltInIndicator builtIn={config.builtIn} />}
-        />
-      </div>
-    </div>
-  );
-};
-WithExtraLongNameAndMaxWidth.args = {
-  builtIn: true
+export const WithExtraLongNameAndMaxWidth = {
+  args: {
+    config: {
+      ...config,
+      name: 'some super long text to test and demonstrate '
+    }
+  }
 };
