@@ -152,7 +152,7 @@ export const nonServicePlugins = {
   ibmMqCluster: 'ibmMqCluster',
   ibmMqQueueManager: 'ibmMqQueueManager',
   ibmMqChannel: 'ibmMqChannel',
-  ibmMqttChannel: 'ibmMqttChannel',
+  ibmMqttChannel: 'ibmMqttChannel', 
   ibmMqListener: 'ibmMqListener',
   ibmMqQueue: 'ibmMqQueue',
   ibmMqQueueUsage: 'ibmMqQueueUsage',
