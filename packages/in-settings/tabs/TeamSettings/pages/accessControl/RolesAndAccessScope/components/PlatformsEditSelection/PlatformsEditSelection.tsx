@@ -9,13 +9,18 @@ import React from 'react';
 import { PermissionSetWithRoles } from '@instana/types';
 import { SvgIcon, Stack } from '@instana/components';
 
+import {
+  getField,
+  getScopeFromProductArea,
+  updateFormField,
+  updatePermissionSetForLimitableProductArea
+} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
-import { getField, updateFormField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
+import { LimitableProductArea, ProductArea, ScopedPermissionItem } from '../../constants';
 import { SubSlideConfig } from 'in-settings/components/ConfigDialog/ConfigDialog';
 import Section from 'in-settings/tabs/TeamSettings/pages/accessControl/Section';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
-import { AreaPermission } from 'in-stores/permission';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
@@ -28,12 +33,12 @@ import locals from './PlatformsEditSelection.mless';
  */
 export interface PlatformsEditSelectionProps extends SlideControlProps<SubSlideConfig>, FormControlProps {}
 
-const generalAreas = [
-  AreaPermission.ACCESS_PCF,
-  AreaPermission.ACCESS_PHMC,
-  AreaPermission.ACCESS_ZHMC,
-  AreaPermission.ACCESS_OPENSTACK,
-  AreaPermission.ACCESS_VSPHERE
+const generalAreas: Array<LimitableProductArea> = [
+  ProductArea.PCF,
+  ProductArea.PHMC,
+  ProductArea.ZHMC,
+  ProductArea.OPENSTACK,
+  ProductArea.VSPHERE
 ];
 
 /**
@@ -46,17 +51,21 @@ export default function _PlatformsEditSelection({ form, setForm }: PlatformsEdit
   const permissionSet = permissionSetField?.value;
 
   // Updates the permissionSet, by removing the value from the permissions array or adding it
-  const onUpdatePermissionSet = (value: string, isAdd: boolean) => {
+  const onUpdatePermissionSet = (value: LimitableProductArea, isAdd: boolean) => {
     if (!permissionSet?.permissions) return;
-    const permissions = isAdd
-      ? [...permissionSet.permissions, value]
-      : permissionSet.permissions.filter(permission => permission !== value);
-    const newPermissionSet = { ...permissionSet, permissions };
+    const newPermissionSet = updatePermissionSetForLimitableProductArea(
+      permissionSet,
+      value,
+      isAdd ? ScopedPermissionItem.ACCESS_ALL : ScopedPermissionItem.NO_ACCESS
+    );
     setForm(updateFormField(form, 'permissionSet', newPermissionSet, true));
   };
 
   // Checks whether it currently has the permission
-  const hasAnyAreaPermission = (areaId: string) => permissionSet?.permissions.includes(areaId) || false;
+  const hasAnyAreaPermission = (area: LimitableProductArea) => {
+    const access = permissionSet ? getScopeFromProductArea(area, permissionSet) : ScopedPermissionItem.NO_ACCESS;
+    return access == ScopedPermissionItem.ACCESS_ALL ? true : false;
+  };
 
   return (
     <Section icon="lib_platforms" title={t('in-settings:PermissionSection.title_platforms')} panelNoIndentation>
