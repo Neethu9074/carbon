@@ -24,8 +24,12 @@ import {
   getAllVersionsOfAlertConfig
 } from 'in-alerting/smart-alerts/synthetics/api/syntheticAlertConfig';
 import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-synthetics/navigation/matrix';
+import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import AlertConfiguration from 'in-alerting/smart-alerts/synthetics/details/AlertConfiguration';
+import AlertConfigDialog from 'in-alerting/smart-alerts/synthetics/dialog/AlertConfigDialog';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 
 const endpointConfig = { asObservable: true };
 const tracking = {};
@@ -58,10 +62,29 @@ export default function AlertDetails(props) {
       disableConfig={disableAlertConfig}
       deleteConfig={deleteAlertConfig}
       restoreConfig={restoreAlertConfigVersion}
-      renderSmartAlertDialog={() => undefined}
+      renderSmartAlertDialog={props => <SmartAlertDialogWrapper {...props} />}
       renderAlertConfiguration={({ alertConfig }) => <AlertConfiguration alertConfig={alertConfig} />}
       tracking={tracking}
-      showActionButton={false}
+    />
+  );
+}
+
+function SmartAlertDialogWrapper({ close, alertConfig, setRevision, isCopy, detailsPath, alertConfigId }) {
+  const { location, navigate } = useNavigation();
+
+  return (
+    <AlertConfigDialog
+      alertConfig={isCopy ? duplicateAlertConfig(alertConfig) : alertConfig}
+      onClose={({ id } = {}) => {
+        close();
+        setRevision(null);
+        if (isCopy) {
+          const onCloseTargetLocation = { ...location, pathname: detailsPath };
+          setOrDeleteMatrixKey(onCloseTargetLocation, alertsTabSegment, 'alertId', id ?? alertConfigId);
+          navigate(onCloseTargetLocation);
+        }
+      }}
+      editMode={!isCopy}
     />
   );
 }

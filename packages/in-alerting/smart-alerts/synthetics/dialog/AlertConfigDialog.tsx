@@ -40,7 +40,7 @@ export default function AlertConfigDialog({
   editMode,
   startWithSimpleMode
 }: AlertConfigDialogType) {
-  const [form, setForm] = useState(() => alertFormDefinition(alertConfig, editMode));
+  const [form, setForm] = useState(() => alertFormDefinition(alertConfig));
 
   const [isSaving, setIsSaving] = useState(false);
   const [messages, setMessages] = useState<EnrichedError[]>([]);

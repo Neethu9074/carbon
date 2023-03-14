@@ -38,8 +38,10 @@ export default function AlertDetailsView() {
   const testId: string = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
   const test: TestResponse = useObservable<any, [number]>(() => getTest(testId), [0]) || dummyTest;
   const props = {
-    location: location,
-    timeConfig: timeConfig,
+    testId,
+    test,
+    location,
+    timeConfig,
     isMainPage: isDetailsMainPage
   };
 
@@ -92,8 +94,9 @@ export default function AlertDetailsView() {
             <AlertDetails {...props} />
           </LeftRightPadding>
         )}
+        <Footer />
         <FloatingActionButtons>
-          <CreateSmartAlert />
+          <CreateSmartAlert testId={testId} />
         </FloatingActionButtons>
       </Sticky>
     </>

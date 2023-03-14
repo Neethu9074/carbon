@@ -9,8 +9,8 @@ import React from 'react';
 import { SyntheticAlertConfigWithMetadata } from '@instana/types';
 
 import {
-  alertCreated as alertCreatedMatrixParam,
-  alertId as alertIdMatrixParam
+  alertId as alertIdMatrixParam,
+  alertCreated as alertCreatedMatrixParam
 } from 'in-synthetics/navigation/matrix';
 import { syntheticCreateSmartAlertsUIEnabled, syntheticSmartAlertsDetailsEnabled } from 'in-services/featureFlags';
 import { alertsTabDetailsFullyQualified, syntheticSmartAlertsPath } from 'in-synthetics/navigation/paths';

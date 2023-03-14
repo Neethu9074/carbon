@@ -27,7 +27,7 @@ export default { component: SimpleAlertConfigDialogStep2 };
 const failureAlertConfig = Object.freeze(generateAlertConfig());
 
 export const Default = (args: AlertConfigDialogPresenterProps & MainDialogControl) => {
-  const [form, updateForm] = useState(alertFormDefinition(failureAlertConfig, false));
+  const [form, updateForm] = useState(alertFormDefinition(failureAlertConfig));
   const { QueryBuilder } = useMemo(
     () => createBoundedAlertQueryBuilderFactory(getTagCatalogTest, tagSuggestionTimeConfig),
     []

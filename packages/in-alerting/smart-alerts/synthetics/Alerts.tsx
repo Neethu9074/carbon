@@ -13,8 +13,8 @@ import {
   getAllAlertConfigs
 } from 'in-alerting/smart-alerts/synthetics/api/syntheticAlertConfig';
 import {
-  alertCreated as alertCreatedMatrixParam,
-  alertId as alertIdMatrixParam
+  alertId as alertIdMatrixParam,
+  alertCreated as alertCreatedMatrixParam
 } from 'in-synthetics/navigation/matrix';
 import { alertsTab, dashboardTestAlertsTabDetailsFullyQualified } from 'in-synthetics/navigation/paths';
 import AlertBaseList, { TableActions } from 'in-alerting/smart-alerts/components/AlertsBaseList';
