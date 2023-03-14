@@ -11,21 +11,20 @@ import { AlertConfigType } from 'in-alerting/smart-alerts/components/AlertsBaseL
 import { SortOption } from 'in-components/SortingConfigurator/SortingConfigurator';
 import { Result } from 'in-types';
 
-interface Props {
-  getGlobalAlertConfigFetchFunction?: () => Observable<Result<AlertConfigType[]>>;
-  getLocalAlertConfigsFetchFunction?: () => Observable<Result<AlertConfigType[]>>;
+interface Props<AlertConfig extends AlertConfigType> {
+  getGlobalAlertConfigFetchFunction?: () => Observable<Result<AlertConfig[]>>;
+  getLocalAlertConfigsFetchFunction?: () => Observable<Result<AlertConfig[]>>;
   columnDefinitions: ColumnizedDefinition[];
   pageSize?: number;
-  createRowLinkLocation?: (config: AlertConfigType, location: Location) => Location;
+  createRowLinkLocation?: (config: AlertConfig, location: Location) => Location;
   configsCategory?: string;
   setConfigsCategory?: (a: string) => void;
   sortOptions?: SortOption[];
-  extraSearchAttributes?:
-    | string
-    | ((entity: AlertConfigType) => string)
-    | (string | ((entity: AlertConfigType) => string))[];
+  extraSearchAttributes?: string | ((entity: AlertConfig) => string) | (string | ((entity: AlertConfig) => string))[];
 }
 
-export default function SmartAlertsBaseList(props: Props): JSX.Element;
+export default function SmartAlertsBaseList<AlertConfig extends AlertConfigType>(
+  props: Props<AlertConfig>
+): JSX.Element;
 
 export function refreshSmartAlertConfigsList(): void;

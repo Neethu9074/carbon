@@ -98,7 +98,7 @@ export default function AlertBaseList<AlertConfig extends AlertConfigType>({
   if (getAlertConfigs) {
     return (
       <Card size="l">
-        <SmartAlertsBaseList
+        <SmartAlertsBaseList<AlertConfig>
           columnDefinitions={columnDef.map(toAlertListColumns)}
           getLocalAlertConfigsFetchFunction={getAlertConfigs}
           sortOptions={sortOptions}
