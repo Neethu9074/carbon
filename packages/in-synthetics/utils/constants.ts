@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { MapForm } from 'formalistic';
+
 import {
   PaginatedResult,
   Progress,
@@ -285,42 +287,36 @@ export type Timing = {
   value: number;
 };
 
+export const syntheticTypesUrlParameter = {
+  path: pathSegment,
+  name: 'syntheticTypes',
+  as: 'syntheticTypes',
+  initialState: [],
+  parser: buildJsonParser([]),
+  serializer: buildJsonSerializer()
+};
+
+export const locationsUrlParameter = {
+  path: pathSegment,
+  name: 'locationIds',
+  as: 'locationIds',
+  initialState: [],
+  parser: buildJsonParser([]),
+  serializer: buildJsonSerializer()
+};
+
+export const applicationsUrlParameter = {
+  path: pathSegment,
+  name: 'applicationIds',
+  as: 'applicationIds',
+  initialState: [],
+  parser: buildJsonParser([]),
+  serializer: buildJsonSerializer()
+};
+
 export const filterUrlStateDefinition = {
-  bind: [
-    createSyntheticTypesUrlParameter(),
-    createLocationsUrlParameter(),
-    {
-      path: pathSegment,
-      name: 'applicationIds',
-      as: 'applicationIds',
-      initialState: [],
-      parser: buildJsonParser([]),
-      serializer: buildJsonSerializer()
-    }
-  ]
+  bind: [syntheticTypesUrlParameter, locationsUrlParameter, applicationsUrlParameter]
 } as Options<UrlState>;
-
-export function createSyntheticTypesUrlParameter() {
-  return {
-    path: pathSegment,
-    name: 'syntheticTypes',
-    as: 'syntheticTypes',
-    initialState: [],
-    parser: buildJsonParser([]),
-    serializer: buildJsonSerializer()
-  };
-}
-
-export function createLocationsUrlParameter() {
-  return {
-    path: pathSegment,
-    name: 'locationIds',
-    as: 'locationIds',
-    initialState: [],
-    parser: buildJsonParser([]),
-    serializer: buildJsonSerializer()
-  };
-}
 
 export interface PresenterProps extends FilterState {
   result: Result<PaginatedResult<TestResultListItem>>;
@@ -361,3 +357,8 @@ export const resultsFilterUrlStateDefinition = {
     }
   ]
 } as Options<UrlState>;
+
+export interface AdvancedModeProps {
+  form: MapForm;
+  updateForm: (form: MapForm) => void;
+}

@@ -7,7 +7,6 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import React from 'react';
 
 import { ColumnizedContent, Li, Stack, SvgIcon, toInteractiveElement, Ul } from '@instana/components';
-import { generateStableHash } from '@instana/utils';
 
 import {
   metricsPath,
@@ -96,10 +95,10 @@ export function Reorderer({ form, onChange, children }) {
           form.updateIn([], form => {
             const metric = form.getIn([e.source.droppableId, metricsPath, e.source.index]);
             return form
+              .updateIn([e.source.droppableId, metricsPath], f => f.remove(e.source.index).setTouched(true))
               .updateIn([e.destination.droppableId, metricsPath], f =>
                 f.insert(e.destination.index, metric).setTouched(true)
-              )
-              .updateIn([e.source.droppableId, metricsPath], f => f.remove(e.source.index).setTouched(true));
+              );
           })
         );
       }}
@@ -136,7 +135,7 @@ export function MetricsForAxis({
               // Usage of indexInAxis is therefore not sufficient. You can validate this by trying to drag
               // the first (and only) metric for a y2 axis.
               <Draggable
-                key={generateStableHash(metricForm.toJS())}
+                key={String(startIndex + indexInAxis)}
                 draggableId={String(startIndex + indexInAxis)}
                 index={indexInAxis}
               >

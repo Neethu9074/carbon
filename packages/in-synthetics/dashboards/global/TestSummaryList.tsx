@@ -22,8 +22,9 @@ import {
   matrixPrefix,
   pathSegment,
   PresenterProps,
-  createLocationsUrlParameter,
-  createSyntheticTypesUrlParameter
+  syntheticTypesUrlParameter,
+  locationsUrlParameter,
+  applicationsUrlParameter
 } from 'in-synthetics/utils/constants';
 import showNotification, {
   calculateNextOccurrence,
@@ -74,8 +75,9 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   }),
   paginationResettingUrlParameters: [
     ...timeConfigUrlParameters,
-    createSyntheticTypesUrlParameter(),
-    createLocationsUrlParameter()
+    syntheticTypesUrlParameter,
+    locationsUrlParameter,
+    applicationsUrlParameter
   ],
   columnDefinitions: columnDefinitions,
   defaultOrderBy: 'successRate',

@@ -1059,7 +1059,14 @@
         "scopeHeadline": "Where do you want the alert to trigger?",
         "stepConfigsStep3Title": "Step 3: Threshold",
         "stepConfigsStep5Title": "Step 5: Alert Properties",
-        "thresholdTitle": "How many consecutive failures should occur per location before alerting?"
+        "thresholdTitle": "How many consecutive failures should occur per location before alerting?",
+        "slider": {
+          "failuresWithCount": "{{count}} Failure",
+          "failuresWithCount_plural": "{{count}} Failures",
+          "failuresWithCount_0": "{{count}} Failures",
+          "failuresWithCount_1": "{{count}} Failures",
+          "failuresWithCount_2": "{{count}} Failures"
+        }
       },
       "advanced": {
         "alertChannelsLabel": "Alert Channels",

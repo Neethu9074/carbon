@@ -19,28 +19,28 @@ import {
 } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import { ActionExecutionParameter, runScriptAction, runWebhookAction } from 'in-automation/api';
-import RunActionContent from 'in-events/components/AutomationActions/RunActionContent';
+import RunActionContent from 'in-automation/RunActionDialog/RunActionDialogContent';
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import { notBlankValidator } from 'in-services/validators/string';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import { AgentResponse } from 'in-subscription/agentResponse';
 import { Action, Event, Result, VolatileId } from 'in-types';
 import { close } from 'in-components/DialogPresenter/store';
-import { runActionTracker } from 'in-events/tracker';
+import { runActionTracker } from 'in-automation/tracker';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Dialog from 'in-components/Dialog/Dialog';
 import { t } from 'in-i18n';
 
-import locals from './RunAction.mless';
+import locals from './RunActionDialog.mless';
 
-interface RunActionProps {
+interface RunActionDialogProps {
   volatileId: VolatileId;
   event?: Event;
   action: Action;
   test?: boolean;
 }
 
-export default function RunAction({ action, volatileId, event, test }: RunActionProps) {
+export default function RunActionDialog({ action, volatileId, event, test }: RunActionDialogProps) {
   const [actionInstanceId, setActionInstanceId] = useState('');
   const [error, setError] = useState('');
   const [isSaving, setIsSaving] = useState(false);
@@ -91,19 +91,19 @@ export default function RunAction({ action, volatileId, event, test }: RunAction
   );
 }
 
-interface GetTitleParams extends Pick<RunActionProps, 'action' | 'test'> {
+interface GetTitleParams extends Pick<RunActionDialogProps, 'action' | 'test'> {
   actionInstanceId: string;
   error: string;
 }
 const getTitle = ({ action, error, actionInstanceId, test }: GetTitleParams) => {
   const actionName = action.name;
-  if (error) return t('in-events:failedToInitiate', { actionName });
-  if (actionInstanceId) return t('in-events:hasBeenInitiated', { actionName });
-  if (test) return t('in-events:chosenToTest', { actionName });
-  return t('in-events:chosenToRun', { actionName });
+  if (error) return t('in-automation:failedToInitiate', { actionName });
+  if (actionInstanceId) return t('in-automation:hasBeenInitiated', { actionName });
+  if (test) return t('in-automation:chosenToTest', { actionName });
+  return t('in-automation:chosenToRun', { actionName });
 };
 
-interface UseAgentSnapShotsParams extends Pick<RunActionProps, 'action' | 'volatileId'> {
+interface UseAgentSnapShotsParams extends Pick<RunActionDialogProps, 'action' | 'volatileId'> {
   form: MapForm | undefined;
   setForm: React.Dispatch<React.SetStateAction<MapForm | undefined>>;
 }
@@ -120,7 +120,7 @@ function useAgentSnapShots({ action, form, volatileId, setForm }: UseAgentSnapSh
   return agentSnapShots;
 }
 
-interface OnSaveParams extends Pick<RunActionProps, 'action' | 'event'> {
+interface OnSaveParams extends Pick<RunActionDialogProps, 'action' | 'event'> {
   form: MapForm | undefined;
   setForm: React.Dispatch<React.SetStateAction<MapForm | undefined>>;
   setIsSaving: React.Dispatch<React.SetStateAction<boolean>>;
@@ -262,7 +262,7 @@ function RunActionFooter({ error, actionInstanceId, isSaving, form, onSave }: Ru
   if (error || actionInstanceId) {
     return (
       <Button kind="primary" onClick={close}>
-        {t('in-events:ok')}
+        {t('in-automation:ok')}
       </Button>
     );
   }
@@ -270,13 +270,13 @@ function RunActionFooter({ error, actionInstanceId, isSaving, form, onSave }: Ru
     <>
       <CancelButton isSaving={isSaving} onClick={close} />
       <SaveButton kind="primary" form={form} disabled={!form} isSaving={isSaving} onClick={onSave}>
-        {t('in-events:yes')}
+        {t('in-automation:yes')}
       </SaveButton>
     </>
   );
 }
 
-interface CreateFormParams extends Pick<RunActionProps, 'volatileId' | 'action'> {
+interface CreateFormParams extends Pick<RunActionDialogProps, 'volatileId' | 'action'> {
   agentSnapShots: OUT;
 }
 function createForm({ volatileId, agentSnapShots, action }: CreateFormParams) {

@@ -18,6 +18,7 @@ type ButtonGroupProps<T> = {
   activeKey: ButtonProps['key'];
   segmented?: boolean | undefined;
   className?: string | undefined;
+  disabledWidgetInLive?: boolean;
 } & T;
 
 export default function ButtonGroup<RemainingPropsType = {}>({
@@ -25,6 +26,7 @@ export default function ButtonGroup<RemainingPropsType = {}>({
   activeKey,
   segmented,
   className,
+  disabledWidgetInLive,
   ...remainingProps
 }: ButtonGroupProps<RemainingPropsType>) {
   return (
@@ -39,6 +41,7 @@ export default function ButtonGroup<RemainingPropsType = {}>({
           {...buttonProps}
           {...remainingProps}
           className={classNames(buttonProps.className, locals.button, {
+            [locals.disabledWidget]: disabledWidgetInLive && activeKey !== buttonProps.key,
             [locals.segmented]: segmented,
             [locals.first]: i === 0,
             [locals.last]: i === buttonPropsList.length - 1,

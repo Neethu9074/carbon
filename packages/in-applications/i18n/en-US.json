@@ -559,6 +559,9 @@
     "onlySyntheticCallsAreShownAndIncludedInTheMetrics": "Only synthetic calls are shown and included in the metrics"
   },
   "traceDetail": {
+    "beta": "BETA",
+    "foreignRootCall": "Not monitored by Instana",
+    "notYetReceivedRootCall": "Root call not yet received",
     "tabs": {
       "summary": {
         "duplicateCalls": "Duplicate Calls",
@@ -583,7 +586,11 @@
     },
     "components": {
       "callTreeHeaderParent": "Load parent call",
-      "callTreeHeaderCalls": "Load more calls"
+      "callTreeHeaderCalls": "Load more calls",
+      "callTreeLoadingOfParentFailed": "Parent call cannot be loaded at this moment",
+      "callTreeLoadingOfCallsFailed": "Calls cannot be loaded at this moment",
+      "retry": "Try again",
+      "treeHeaderLatency": "Root call latency"
     }
   },
   "tabs": {

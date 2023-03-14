@@ -77,6 +77,9 @@
       }
     }
   }
+  .disabledWidget {
+    background-color: @lib__colors__N050;
+  }
 
   .first {
     border-top-left-radius: @lib__shapes__radius_medium;

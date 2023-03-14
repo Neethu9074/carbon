@@ -10,6 +10,8 @@ import { Card, HorizontalIndicator, LoadingSkeleton, Message } from '@instana/co
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import { TOPLIST_METRIC_CHANGED, track } from 'in-services/tracking/tracking';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
+import IconLink from 'in-components/IconButton/IconLink';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 import ButtonGroup from 'in-components/ButtonGroup';
 import List from 'in-components/TopListCard/List';
 import { t } from 'in-i18n';
@@ -29,15 +31,16 @@ export default function TopListCard(props) {
     showMetricSelectorsForSingleMetrics,
     useMaxAvailableHeight,
     renderHistoricDataIndicator = false,
-    hasApproximateData = false
+    hasApproximateData = false,
+    renderWidgetNotSupportedIndicator = false
   } = props;
-
   const shouldRenderOnItem = showMetricSelectorsForSingleMetrics && metrics.length === 1;
 
   const headerComponent =
     header ||
     ((metrics.length > 1 || shouldRenderOnItem) && (
       <ButtonGroup
+        disabledWidgetInLive={renderWidgetNotSupportedIndicator}
         buttonPropsList={metrics.map((metric, i) => ({
           text: labels[i],
           key: metrics[i],
@@ -69,17 +72,26 @@ export default function TopListCard(props) {
     content = <ListRenderer {...props} />;
   }
 
-  const leftHeaderContent =
-    renderHistoricDataIndicator && hasApproximateData ? (
-      <MultiLineToolTipIcon lines={[t('in-components:approximateDataIndicator.dataRetention')]} />
-    ) : (
-      undefined
+  const LeftHeaderContent = () => {
+    return (
+      <>
+        {renderHistoricDataIndicator && hasApproximateData && (
+          <MultiLineToolTipIcon lines={[t('in-components:approximateDataIndicator.dataRetention')]} />
+        )}
+        {renderWidgetNotSupportedIndicator && (
+          <Tooltip content={t('in-components:liveModeIndicator.widgetNotSupportedInLiveMode')}>
+            <IconLink type="lib_help_error_info_outline" className={locals.liveModeIcon} />
+          </Tooltip>
+        )}
+      </>
     );
+  };
 
   const card = (
     <Card
+      className={renderWidgetNotSupportedIndicator ? locals.disabledWidget : ''}
       title={title}
-      leftHeaderContent={leftHeaderContent}
+      leftHeaderContent={<LeftHeaderContent />}
       rightHeaderContent={headerComponent}
       withoutPadding={withoutPadding}
       useMaxAvailableHeight={useMaxAvailableHeight}

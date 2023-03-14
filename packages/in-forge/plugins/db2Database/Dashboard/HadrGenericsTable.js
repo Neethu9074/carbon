@@ -6,7 +6,7 @@
 import React from 'react';
 
 import TimeOfLastUpdateCardTitle from 'in-sdk/components/dashboard/TimeOfLastUpdateCardTitle';
-import { number, millis, seconds } from 'in-services/formatters/number';
+import { number, millis, seconds, bytes } from 'in-services/formatters/number';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import { yesOrNo } from 'in-services/formatters/boolean';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -95,6 +95,16 @@ const cols = [
         return row.hadrGeneric.get('HADR_TIMEOUT');
       },
       getContent: seconds.detailed
+    }
+  },
+  {
+    title: t('in-forge:plugins.db2Database.hadrLogGap'),
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.hadrGeneric.get('HADR_LOG_GAP');
+      },
+      getContent: bytes.detailed
     }
   },
   {

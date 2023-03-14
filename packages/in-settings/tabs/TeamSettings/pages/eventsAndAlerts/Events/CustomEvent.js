@@ -51,8 +51,8 @@ import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
+import { associateActionsTracker } from 'in-automation/tracker';
 import SectionLine from 'in-settings/components/SectionLine';
-import { associateActionsTracker } from 'in-events/tracker';
 import useEntityForm from 'in-settings/hooks/useEntityForm';
 import Notification from 'in-components/form/Notification';
 import SaveCancel from 'in-settings/components/SaveCancel';
@@ -224,18 +224,16 @@ function save(event, form, actions) {
     severity: getSeverityText(severity)
   });
 
-  const actionNames = actions.reduce(
-    (acc, action) => [...acc, ...(actionIds.includes(action.id) ? [action.name] : [])],
-    []
-  );
-
-  associateActionsTracker({
-    eventName: form.get('name').value,
-    actionNames: actionNames
-  });
-
   const eventSpecification = getEventSpecification(event, form);
   if (role.canConfigureAutomationActions && actionAutomationEnabled && !isTriggering) {
+    const actionNames = actions.reduce(
+      (acc, action) => [...acc, ...(actionIds.includes(action.id) ? [action.name] : [])],
+      []
+    );
+    associateActionsTracker({
+      eventName: form.get('name').value,
+      actionNames: actionNames
+    });
     return saveCustomEventSpecificationWithActions({
       ...eventSpecification,
       actions: actionIds?.map(value => ({ id: value }))

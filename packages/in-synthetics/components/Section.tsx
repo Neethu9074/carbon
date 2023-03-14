@@ -32,3 +32,17 @@ export function SubTitle({ children, isUploadScriptSubTitle }: SubTitleProps) {
     <h4 className={classNames(locals.subTitle, { [locals.scriptSubTitle]: isUploadScriptSubTitle })}>{children}</h4>
   );
 }
+
+export function ActionTitle({ children, isUploadScriptSubTitle }: SubTitleProps) {
+  return (
+    <h4 className={classNames(locals.actionSubTitle, { [locals.scriptSubTitle]: isUploadScriptSubTitle })}>
+      {children}
+    </h4>
+  );
+}
+
+export function Description({ children, isUploadScriptSubTitle }: SubTitleProps) {
+  return (
+    <p className={classNames(locals.scriptSubTitle, { [locals.scriptSubTitle]: isUploadScriptSubTitle })}>{children}</p>
+  );
+}

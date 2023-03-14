@@ -208,6 +208,8 @@ function Content({
     isValid,
     tagFilterExpression
   ]);
+  const pagination = { retrievalSize: 20 };
+  const groupBy = group ? [group.groupbyTag] : [];
   const catalogQuery = useDebouncedValue('', noop, 800);
   const metricCatalog = useMetricCatalog({
     getMetricCatalog,
@@ -245,7 +247,19 @@ function Content({
         }}
       />
 
-      <ActionSection right={<ApiQueryAction backendQueryModel={backendQueryModel} />} />
+      <ActionSection
+        right={
+          <ApiQueryAction
+            timeFrame={(({ to, windowSize }) => ({ to, windowSize }))(timeConfig)}
+            backendQueryModel={backendQueryModel}
+            pagination={pagination}
+            groupBy={groupBy}
+            type={type}
+            metrics={metrics}
+            order={order}
+          />
+        }
+      />
     </Sections>
   );
 

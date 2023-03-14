@@ -5,7 +5,15 @@
 
 import React from 'react';
 
-import { number, millis, bytes, micros, positiveNumber, percentage } from 'in-services/formatters/number';
+import {
+  number,
+  millis,
+  bytes,
+  micros,
+  positiveNumber,
+  percentage,
+  percentagePlainZeroDecimalPlaces
+} from 'in-services/formatters/number';
 import TopTotalStmtsTable from 'in-forge/plugins/db2Database/Dashboard/TopTotalStmtsTable';
 import HadrGenericsTable from 'in-forge/plugins/db2Database/Dashboard/HadrGenericsTable';
 import DiagLogInfoTable from 'in-forge/plugins/db2Database/Dashboard//DiagLogInfoTable';
@@ -336,6 +344,20 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
             labels: [t('in-forge:plugins.db2Database.logsecLogsAlloc')],
             type: 'line',
             formatter: number.compact
+          }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
+      </DashboardSection>
+      <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.logSpace')}>
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            metrics: ['logs.availablePercentage'],
+            labels: [t('in-forge:plugins.db2Database.availablePercentage')],
+            type: 'line',
+            formatter: percentagePlainZeroDecimalPlaces
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />

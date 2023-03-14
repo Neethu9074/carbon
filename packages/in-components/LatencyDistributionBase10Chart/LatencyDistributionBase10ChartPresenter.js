@@ -53,6 +53,7 @@ export default function LatencyDistributionBase10ChartPresenter({
   aggregation,
   showHeader,
   fastQueryModeEnabled,
+  renderWidgetNotSupportedIndicator,
   setApproximateData = noop
 }) {
   // which metrics to hide on the chart
@@ -246,6 +247,7 @@ export default function LatencyDistributionBase10ChartPresenter({
             onSelectionChanged={onSelectionChanged}
             selectionAdjustable={selectionAdjustable}
             selection={selection}
+            renderWidgetNotSupportedIndicator={renderWidgetNotSupportedIndicator}
             tooltipRenderer={{
               render: function TooltipRenderer({ from, to, style }) {
                 return (

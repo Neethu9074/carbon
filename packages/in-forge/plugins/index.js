@@ -145,6 +145,7 @@ import './mongoDbCluster';
 import './nomadScheduler';
 import './pCFApplication';
 import './rocketMqBroker';
+import './ibmMqttChannel';
 import './ibmMqMftAgent';
 import './aliCloudMysql';
 import './awsApiGateway';

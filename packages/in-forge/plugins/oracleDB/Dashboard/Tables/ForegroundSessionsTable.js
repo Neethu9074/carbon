@@ -61,7 +61,7 @@ const cols = [
   },
   {
     title: t('in-forge:plugins.oracleDB.process'),
-    type: 'number',
+    type: 'string',
     typeArgs: {
       getValue(row) {
         return row.process;

@@ -116,12 +116,12 @@
   "PermissionSection": {
     "title_websites": "Websites",
     "addButton_websites": "Select websites",
-    "descriptionLimitedAccess_websites": "Select the role for the product area and add websites below to grant access",
-    "descriptionAccessAll_websites": "All websites can be accessed with the role selected for the product area",
+    "descriptionLimitedAccess_websites": "Select the role for the product area and add websites below to grant access.",
+    "descriptionAccessAll_websites": "All websites can be accessed with the role selected for the product area.",
     "title_mobileApps": "Mobile Apps",
     "addButton_mobileApps": "Select mobile apps",
-    "descriptionLimitedAccess_mobileApps": "Select the role for the product area and add mobile apps below to grant access",
-    "descriptionAccessAll_mobileApps": "All mobile apps can be accessed with the role selected for the product area",
+    "descriptionLimitedAccess_mobileApps": "Select the role for the product area and add mobile apps below to grant access.",
+    "descriptionAccessAll_mobileApps": "All mobile apps can be accessed with the role selected for the product area.",
     "title_applications": "Applications",
     "title_platforms": "Platforms",
     "title_infrastructure": "Infrastructure",
@@ -131,11 +131,13 @@
     "description_events_and_alerts": "Events and alerts to view are defined by the access granted to website, mobile app, application dashboards and platforms.",
     "title_global_functions": "Global functions",
     "addButton_applications": "Select applications",
-    "descriptionLimitedAccess_applications": "Select the role for the product area and add applications below to grant access",
-    "descriptionAccessAll_applications": "All applications can be accessed with the role selected for the product area",
+    "descriptionLimitedAccess_applications": "Select the role for the product area and add applications below to grant access.",
+    "descriptionAccessAll_applications": "All applications can be accessed with the role selected for the product area.",
     "deleteButton": "Remove {{name}} from list",
-    "description_platforms": "",
-    "platform_area_kubernetes":""
+    "infrastructureAccessScope": "Access Scope",
+    "infrastructureDfqHeader": "Dynamic focus query (DFQ)",
+    "infrastructureDfqExample": "e.g. entity.zone:\"production\" AND NOT event.text:\"TCP*\"",
+    "descriptionViewerAccess_infrastructure": "All entity dashboards can be viewed, which are related to the access granted to application and platforms. In addition, you can use the dynamic focus query below to grant access to infrastructure."
   },
   "selectItemForm": {
     "doneButton": "Done"
@@ -148,6 +150,7 @@
     "selection_access_all": "Access all",
     "selection_limited_access": "Limited access scope",
     "selection_no_access": "No access",
+    "selection_viewer_access": "Viewer access",
     "description_no_access": "Can't use this area at all",
     "description_access_all": "Access all without limitation",
     "role": "Select a role",
@@ -211,7 +214,6 @@
         "unknownTag": "Unknown tag: {{tagName}}"
       }
     },
-    "linkToActionLogs": "The output of this action can be viewed in <logsLink>Analytics > Logs.</logsLink>",
     "run": "Run",
     "launch": "Launch",
     "failedToSaveConfig": "Failed to save config: {{err}}",

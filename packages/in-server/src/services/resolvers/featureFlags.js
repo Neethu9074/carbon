@@ -323,5 +323,10 @@ module.exports = exports = [
     uiClientKey: 'largeTracesV2Enabled',
     instanaCtlKey: 'feature.ua.large.traces.v2.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'oracleRacMonitoringEnabled',
+    instanaCtlKey: 'feature.infrastructure.oracle.rac.enabled',
+    defaultValue: false
   }
 ];

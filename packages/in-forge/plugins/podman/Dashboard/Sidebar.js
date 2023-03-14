@@ -10,6 +10,7 @@ import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsLi
 import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import PodmanPodInfo from 'in-forge/plugins/podman/PodmanPodInfo';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import Info from 'in-forge/plugins/podman/Info';
 import { t } from 'in-i18n';
 
@@ -22,7 +23,9 @@ export default function PodmanSidebar({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>{t('in-forge:plugins.podman.dashboard.podmanContainer')}</Collapsible.Header>
+        <Collapsible.Header>
+          {t('in-forge:plugins.podman.dashboard.podmanContainer')} <BetaBadge />
+        </Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>

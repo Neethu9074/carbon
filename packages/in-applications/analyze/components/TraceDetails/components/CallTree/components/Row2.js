@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useState } from 'react';
 import classNames from 'classnames';
+import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
@@ -18,11 +18,12 @@ import {
 } from 'in-applications/analyze/components/TraceDetails/components/callHelper';
 import ChildrenDistributionTimeLine from 'in-applications/analyze/components/TraceDetails/components/CallTree/components/ChildrenDistributionTimeLine';
 import ServiceEndpointInformation from 'in-applications/analyze/components/TraceDetails/components/CallTree/components/ServiceEndpointInformation';
-import { LazyLoadingCalls } from 'in-applications/analyze/components/TraceDetails/components/CallTree/components/LazyLoadingCalls';
 import {
   isCallNode,
-  isLazyNode
+  isLazyNode,
+  isLazyParentNode
 } from 'in-applications/analyze/components/TraceDetails/components/CallTree/lazyCallTree';
+import { LazyLoadingCalls } from 'in-applications/analyze/components/TraceDetails/components/CallTree/components/LazyLoadingCalls';
 import ErrorIndicator from 'in-applications/analyze/components/TraceDetails/components/ErrorIndicator';
 import { getColor as getEndpointColor } from 'in-applications/endpointTypes';
 import { shorten } from 'in-services/util/string';
@@ -39,7 +40,6 @@ export default function EnhancedRow({
   call,
   openedCallId,
   openedCall$,
-  initialExpandedNodeIds,
   getColor,
   onCallClicked,
   onSubCallClicked,
@@ -49,9 +49,12 @@ export default function EnhancedRow({
   nonInternalParentCall,
   intermediateRow,
   onParentAndSiblingCallsLoaded,
-  onRelatedCallsLoaded
+  onRelatedCallsLoaded,
+  expandedCalls,
+  onCallExpanded,
+  onCallCollapsed,
+  hasLazyParentNode
 }) {
-  const [isExpanded, setIsExpanded] = useState(isCallNode(call) && initialExpandedNodeIds.includes(call.id));
   const isSelected = useObservable(
     isCallNode(call) && selectedCall$.map(selectedCall => selectedCall && call.id === selectedCall.id).distinct(),
     [call, selectedCall$]
@@ -66,11 +69,8 @@ export default function EnhancedRow({
 
   return (
     <Row
-      isExpanded={isExpanded}
-      setIsExpanded={setIsExpanded}
       isSelected={isSelected}
       isOpened={isOpened}
-      initialExpandedNodeIds={initialExpandedNodeIds}
       call={call}
       getColor={getColor}
       onCallClicked={onCallClicked}
@@ -85,6 +85,10 @@ export default function EnhancedRow({
       openedCall$={openedCall$}
       onParentAndSiblingCallsLoaded={onParentAndSiblingCallsLoaded}
       onRelatedCallsLoaded={onRelatedCallsLoaded}
+      expandedCalls={expandedCalls}
+      onCallExpanded={onCallExpanded}
+      onCallCollapsed={onCallCollapsed}
+      hasLazyParentNode={hasLazyParentNode}
     />
   );
 }
@@ -92,8 +96,6 @@ export default function EnhancedRow({
 function Row({
   isSelected,
   isOpened,
-  isExpanded,
-  setIsExpanded,
   call,
   nonInternalParentCall,
   getColor,
@@ -101,14 +103,17 @@ function Row({
   onCallClicked,
   onSubCallClicked,
   isLargeTrace,
-  initialExpandedNodeIds,
   scale,
   intermediateRow,
   selectedCall$,
   openedCallId,
   openedCall$,
   onParentAndSiblingCallsLoaded,
-  onRelatedCallsLoaded
+  onRelatedCallsLoaded,
+  expandedCalls,
+  onCallExpanded,
+  onCallCollapsed,
+  hasLazyParentNode
 }) {
   const hasChildren = isCallNode(call) && call.children && call.children.filter(child => !isLog(child)).length > 0;
   const marginLeft = Math.max(0, depth - 1) * marginPerDepth;
@@ -116,7 +121,12 @@ function Row({
 
   return (
     <div className={locals.wrapper}>
-      <VerticalLine depth={depth} marginLeft={marginLeft} intermediateRow={intermediateRow} />
+      <VerticalLine
+        depth={depth}
+        marginLeft={marginLeft}
+        intermediateRow={intermediateRow}
+        hasLazyParentNode={hasLazyParentNode}
+      />
       {isLazyNode(call) ? (
         <div
           className={classNames({
@@ -124,8 +134,13 @@ function Row({
             [locals.row]: true
           })}
         >
-          <div className={locals.detailGroup}>
-            <HorizontalLine depth={depth} marginLeft={marginLeft} lineWidth={lineWidth} />
+          <div
+            className={classNames({
+              [locals.detailGroup]: true,
+              [locals.detailGroupWithLazyNode]: true
+            })}
+          >
+            <HorizontalLine depth={depth} marginLeft={marginLeft} lineWidth={lineWidth} isLazyNode />
             <LazyLoadingCalls
               lazyNode={call}
               onRelatedCallsLoaded={onRelatedCallsLoaded}
@@ -150,17 +165,19 @@ function Row({
             lineWidth={lineWidth}
             hasChildren={hasChildren}
             onCallClicked={isFakeRootCall(call) ? null : onCallClicked}
-            onSubCallClicked={call => {
-              setIsExpanded(true);
-              onSubCallClicked(call);
+            onSubCallClicked={subCall => {
+              onCallExpanded(call.id);
+              onSubCallClicked(subCall);
             }}
-            setIsExpanded={setIsExpanded}
-            isExpanded={isExpanded}
             isLargeTrace={isLargeTrace}
             isOpened={isOpened}
             getColor={getColor}
             scale={scale}
             depth={depth}
+            expandedCalls={expandedCalls}
+            onCallExpanded={onCallExpanded}
+            onCallCollapsed={onCallCollapsed}
+            isLazyNode={isLazyNode(call)}
           />
 
           {!isLargeTrace && (
@@ -175,7 +192,7 @@ function Row({
         </div>
       )}
 
-      {(isExpanded || isLazyNode(call)) &&
+      {(expandedCalls.has(call.id) || isLazyNode(call)) &&
         call.children
           .filter(child => !isLog(child))
           .map((subCall, i) => (
@@ -185,7 +202,6 @@ function Row({
               nonInternalParentCall={isCallNode(call) && isInternalCall(call) ? nonInternalParentCall : call}
               depth={depth + 1}
               intermediateRow={i !== call.children.filter(subCall => subCall.model !== 'LOG').length - 1}
-              initialExpandedNodeIds={initialExpandedNodeIds}
               scale={scale}
               getColor={getColor}
               selectedCall$={selectedCall$}
@@ -196,6 +212,10 @@ function Row({
               isLargeTrace={isLargeTrace}
               onParentAndSiblingCallsLoaded={onParentAndSiblingCallsLoaded}
               onRelatedCallsLoaded={onRelatedCallsLoaded}
+              expandedCalls={expandedCalls}
+              onCallExpanded={onCallExpanded}
+              onCallCollapsed={onCallCollapsed}
+              hasLazyParentNode={isLazyParentNode(call)}
             />
           ))}
     </div>
@@ -207,18 +227,20 @@ function CallInformation(props) {
     call,
     marginLeft,
     hasChildren,
-    isExpanded,
     lineWidth,
-    setIsExpanded,
     onCallClicked,
     isLargeTrace,
     isOpened,
     onSubCallClicked,
     getColor,
     scale,
-    depth
+    depth,
+    expandedCalls,
+    onCallExpanded,
+    onCallCollapsed
   } = props;
 
+  const isExpanded = expandedCalls.has(call.id);
   return (
     <div className={locals.detailGroup}>
       <div
@@ -234,7 +256,7 @@ function CallInformation(props) {
             type={isExpanded ? 'lib_openclose_remove_box' : 'lib_openclose_add_box'}
             aria-label={t('in-analyze:traceDetail.components.callTree.expandButtonForRow')}
             tabIndex={0}
-            onClick={() => setIsExpanded(!isExpanded)}
+            onClick={() => (isExpanded ? onCallCollapsed(call.id) : onCallExpanded(call.id))}
           />
         )}
         <ErrorIndicator erroneous={call.errorCount} />
@@ -291,7 +313,7 @@ function getLineWidth(depth, hasChildren) {
   return marginPerDepth * 2;
 }
 
-function HorizontalLine({ marginLeft, lineWidth, depth = 0 }) {
+function HorizontalLine({ marginLeft, lineWidth, depth = 0, isLazyNode }) {
   if (depth === 0) {
     return null;
   }
@@ -304,21 +326,40 @@ function HorizontalLine({ marginLeft, lineWidth, depth = 0 }) {
         marginLeft: marginLeft + lineLeftMargin,
         minWidth: lineWidth - lineRightMargin - lineLeftMargin
       }}
-      className={locals.leftLine}
+      className={classNames({
+        [locals.leftLine]: true,
+        [locals.horizontalWithLazyNode]: isLazyNode
+      })}
     />
   );
 }
 
-function VerticalLine({ depth = 0, intermediateRow = true, marginLeft }) {
+function VerticalLine({ depth = 0, intermediateRow = true, marginLeft, hasLazyParentNode }) {
   if (depth === 0) {
     return null;
   }
+
+  if (depth === 1) {
+    return (
+      <div
+        style={{ left: marginLeft }}
+        className={classNames({
+          [locals.firstLine]: true,
+          [locals.intermediateLine2]: intermediateRow,
+          [locals.lineEnd]: !intermediateRow,
+          [locals.nodeTypeParent]: hasLazyParentNode
+        })}
+      />
+    );
+  }
+
   return (
     <div
       style={{ left: marginLeft }}
       className={classNames({
-        [locals.intermediateLine]: intermediateRow,
-        [locals.lineEnd]: !intermediateRow
+        [locals.intermediateLine2]: intermediateRow,
+        [locals.lineEnd]: !intermediateRow,
+        [locals.nodeTypeParent]: hasLazyParentNode
       })}
     />
   );

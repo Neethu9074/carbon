@@ -28,7 +28,7 @@ export default function useTagCatalog({
 
   const filter = { timeConfig, tagFilterExpression: EMPTY_EXPRESSION };
 
-  const tagCatalogResult = useObservable(() => getTagCatalog({ filter, metric, ownerType, includeMetricTags }), [
+  const tagCatalogResult = useObservable(() => getTagCatalog({ filter, metric, ownerType }), [
     timeConfig,
     metric,
     ownerType,

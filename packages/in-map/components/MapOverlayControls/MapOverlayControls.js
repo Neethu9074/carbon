@@ -8,7 +8,6 @@ import React from 'react';
 
 import PhysicalContent from 'in-map/components/MapOverlayControls/components/physicalContent';
 import Menu from 'in-map/components/MapOverlayControls/components/Menu';
-import { isUsageInfoPopupEnabled } from 'in-services/featureFlags';
 
 import locals from 'in-map/components/MapOverlayControls/MapOverlayControls.mless';
 
@@ -16,9 +15,7 @@ export default function MapOverlayControls() {
   return (
     <div
       className={classNames({
-        [locals.InMapOverlaycontrols]: true,
-        [locals.InMapOverlaycontrolsWithBanner]: isUsageInfoPopupEnabled,
-        [locals.InMapOverlaycontrolsNoBanner]: !isUsageInfoPopupEnabled
+        [locals.InMapOverlaycontrols]: true
       })}
     >
       <PhysicalContent />

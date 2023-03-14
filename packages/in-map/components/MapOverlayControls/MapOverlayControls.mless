@@ -9,16 +9,10 @@
 :local {
   .InMapOverlaycontrols {
     position: absolute;
+    bottom: 1.25rem;
     right: 1.25rem;
     display: flex;
     align-items: flex-end;
     transition: bottom 0.25s ease-in-out;
-
-    &WithBanner {
-      bottom: 115px;
-    }
-    &NoBanner {
-      bottom: 70px;
-    }
   }
 }

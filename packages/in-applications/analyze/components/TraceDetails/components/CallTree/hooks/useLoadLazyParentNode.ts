@@ -10,10 +10,10 @@ import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
 import {
-  getRelatedCallsDetailsWithCursor,
   LazyParentNode,
   Relations
 } from 'in-applications/analyze/components/TraceDetails/components/CallTree/lazyCallTree';
+import getRelatedCallsDetailsWithCursor from 'in-applications/subscriptions/getRelatedCallsDetailsWithCursor';
 import getCallDetails from 'in-applications/subscriptions/getCallDetails';
 import { pendingResult } from 'in-services/fixedObjects';
 import { isLoading } from 'in-services/util/result';

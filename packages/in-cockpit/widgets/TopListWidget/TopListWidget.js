@@ -38,7 +38,7 @@ export default connectTo(({ pinnedItemTypes }) => ({
     header,
     cardIcon,
     columnDefinitions,
-    fullListView$,
+    fullListView,
     fullListViewLinkTitle,
     getItem,
     EmptyStateComponent = DefaultEmptyStateContent,
@@ -57,9 +57,8 @@ export default connectTo(({ pinnedItemTypes }) => ({
     query,
     pinnedItemIdsByType
   ]);
-  let resultForEmptyStateCheck = useObservable(getItems({ timeConfig, query, pinnedItemIdsByType }), [
+  let resultForEmptyStateCheck = useObservable(getItems({ timeConfig, pinnedItemIdsByType }), [
     timeConfig,
-    query,
     pinnedItemIdsByType
   ]);
 
@@ -93,7 +92,7 @@ export default connectTo(({ pinnedItemTypes }) => ({
       label={label}
       icon={cardIcon}
       fullListViewLinkTitle={hasContent && fullListViewLinkTitle}
-      fullListView$={hasContent && fullListView$}
+      fullListView={hasContent && fullListView}
       dragAndDropConfig={dragAndDropConfig}
       useMaxAvailableHeight
       rightHeaderContent={

@@ -31,10 +31,11 @@ packages/in-custom-dashboards       @pr-approval @Instana-IBM-GitHub-Enterprise 
 # potential problems marker lane in metrics chart
 packages/in-custom-dashboards/widgets @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-eum @instana/eng-ui @instana/eng-issue-detection
 packages/in-events                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-issue-detection @instana/eng-alert-response
-packages/in-events/components/AutomationActions @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-remediation
 # Shared ownership
 # packages/in-forge
 packages/in-forge                                               @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
+# packages/in-forge/i18n
+packages/in-forge/i18n                                          @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware @instana/eng-sensors-system @instana/eng-ibm-us-sensors
 # Specific ownerships for different sensors
 packages/in-forge/plugins/ace*                                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
 packages/in-forge/plugins/aliCloud*                             @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
@@ -74,6 +75,7 @@ packages/in-forge/plugins/ibmIOs                                @pr-approval @In
 packages/in-forge/plugins/ibmMq*                                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
 packages/in-forge/plugins/ibmVsi                                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-ibm-us-sensors
 packages/in-forge/plugins/instanaAgent                          @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-agent
+packages/in-forge/plugins/kongApigateway                        @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
 packages/in-forge/plugins/kubernetesCluster                     @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-k8s
 packages/in-forge/plugins/kubernetesCronJob                     @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-k8s
 packages/in-forge/plugins/kubernetesDaemonSet                   @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-k8s

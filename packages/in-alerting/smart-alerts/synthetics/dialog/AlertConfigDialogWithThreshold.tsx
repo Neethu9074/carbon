@@ -7,6 +7,7 @@
 import React, { useMemo, useState } from 'react';
 import { Item, MapForm } from 'formalistic';
 
+import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/applications/components/useSimpleModePageNavigation';
 import { createBoundedAlertQueryBuilder } from 'in-alerting/smart-alerts/synthetics/components/AlertQueryBuilder';
 import { stepConfigs, stepRenderers } from 'in-alerting/smart-alerts/synthetics/dialog/simple/simpleModeSteps';
@@ -16,7 +17,6 @@ import { AdvancedModeFooter } from 'in-alerting/smart-alerts/components/dialog/a
 import { triggerScrollToInvalidItem } from 'in-components/StepsContainer/useScrollToFirstInvalidNavItem';
 import SimpleModeContainer from 'in-alerting/smart-alerts/components/dialog/simple/SimpleModeContainer';
 import { SimpleDialogFooter } from 'in-components/BlueprintFormMultistep/SimpleDialogFooter';
-import { MessageType } from 'in-components/MessageStack';
 import { days } from 'in-services/time';
 
 /**
@@ -35,7 +35,7 @@ interface AlertConfigDialogWithThresholdProps {
   startWithSimpleMode: boolean;
   onCreate: () => void;
   isSaving: boolean;
-  messages: MessageType[];
+  messages: EnrichedError[];
 }
 
 export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogWithThresholdProps) {

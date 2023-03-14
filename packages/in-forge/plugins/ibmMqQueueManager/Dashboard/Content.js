@@ -6,6 +6,7 @@
 import React from 'react';
 
 import SubscriptionsTable from 'in-forge/plugins/ibmMqQueueManager/Dashboard/SubscriptionsTable.js';
+import MqttChannelsTable from 'in-forge/plugins/ibmMqQueueManager/Dashboard/MqttChannelsTable.tsx';
 import QueuesUsageTable from 'in-forge/plugins/ibmMqQueueManager/Dashboard/QueuesUsageTable.js';
 import ChannelsTable from 'in-forge/plugins/ibmMqQueueManager/Dashboard/ChannelsTable.js';
 import ListenersTable from 'in-forge/plugins/ibmMqQueueManager/Dashboard/ListenersTable';
@@ -73,6 +74,7 @@ export default function IbmMqQueueManagerDashboard({ snapshot, timeConfig }) {
       <QueuesUsageTable snapshot={snapshot} timeConfig={timeConfig} />
       <QueuesTable snapshot={snapshot} timeConfig={timeConfig} />
       <ChannelsTable snapshot={snapshot} timeConfig={timeConfig} />
+      <MqttChannelsTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }

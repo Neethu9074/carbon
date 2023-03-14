@@ -14,13 +14,18 @@ import {
   MainDialogControl,
   SlideInConfig
 } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
+import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/synthetics/dialog/simple/SimpleAlertConfigDialogStep3.mless';
 
 export default function SimpleModeDialogThreshold(
   props: AlertConfigDialogPresenterProps & MainDialogControl & SlideInConfig
 ) {
-  const formatLabel = (value: number) => `${value} Failures`;
+  const formatLabel = (value: number) =>
+    t('in-alerting:smartAlerts.synthetics.simple.slider.failuresWithCount', {
+      count: value
+    });
+
   const labeledTicks = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(value => ({ value, label: value }));
   const { form, updateForm, title } = props;
   const timeThresholdForm = form.get('timeThreshold') as MapForm;
