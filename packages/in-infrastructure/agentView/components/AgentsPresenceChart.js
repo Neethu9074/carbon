@@ -32,6 +32,7 @@ export default connectTo(
           snapshotId={ID_OF_PROCESSING_STATISTICS}
           timeConfig={timeConfig}
           height={120}
+          minPixelsPerBlock={5}
           y1={{
             min: 0,
             metrics: [
@@ -42,8 +43,7 @@ export default connectTo(
             labels: [modes[2], modes[1], modes[0]],
             formatter: n => number.compact(Math.ceil(n)),
             type: 'stackedBar',
-            aggregation: 'mean',
-            minPixelsPerBlock: 5
+            aggregation: 'mean'
           }}
         />
       </DashboardSection>

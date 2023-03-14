@@ -89,7 +89,15 @@ class InfrastructureMetricChartBehavior extends React.Component {
     const timeSkew = 10000;
 
     this.timeConfig = timeConfigWithShift(timeConfig, timeSkew);
-    this.granularity = getInfraGranularity(this.timeConfig, minRollup);
+    const defaultGranularity = getInfraGranularity(this.timeConfig, minRollup);
+    this.granularity = props.minPixelsPerBlock ? getPredefinedBlockSizeMillisForBlockSize(
+      getBlockSizeMillis({
+        windowSize: timeConfig.windowSize,
+        minPixelsPerBlock: props.minPixelsPerBlock,
+        width: getChartCanvasWidth(props),
+        rollup: defaultGranularity
+      })
+    ) : defaultGranularity;
     this.primaryContextMenuAction = primaryContextMenuAction;
     this.additionalContextMenuButtons = additionalContextMenuButtons;
     this.customHeight = customHeight;
@@ -159,30 +167,13 @@ class InfrastructureMetricChartBehavior extends React.Component {
     for (let i = 0, len = metrics.length; i < len; i++) {
       const snapshotId = axis.snapshotId || this.props.snapshotId || this.props.snapshotIds[i];
 
-      const isDynamicAggregated = isDynamicallyAggregated(axis);
-      let blockSizeMillis;
-      if (isDynamicAggregated) {
-        blockSizeMillis = getPredefinedBlockSizeMillisForBlockSize(
-          getBlockSizeMillis({
-            windowSize: this.props.timeConfig.windowSize,
-            maxDataPoints: axis.maxDataPoints,
-            minPixelsPerBlock: axis.minPixelsPerBlock || 1,
-            width: getChartCanvasWidth(this.props),
-            rollup: this.granularity
-          })
-        );
-      }
-
       this.subscriptions.push(
         getMetricsForTimeframe({
           snapshotId,
           metric: metrics[i],
           timeConfig: this.timeConfig,
           rollup: this.granularity,
-          aggregation: axis.aggregation,
-          blockSizeMillis: blockSizeMillis,
-          metricBaseMillis: axis.metricBaseMillis,
-          isDynamicAggregated: isDynamicAggregated
+          aggregation: axis.aggregation
         }).subscribe(this.onNewDataPoints, null, i, queue)
       );
     }

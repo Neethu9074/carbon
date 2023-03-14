@@ -58,16 +58,13 @@ export default connectTo(
       props.rollup = getPixelAwareRollupSize(props.timeConfig, props.width);
 
       if (props.aggregation) {
-        props.blockSizeMillis = getBlockSizeMillis({
+        props.rollup = getBlockSizeMillis({
           windowSize: props.timeConfig.windowSize,
           maxDataPoints: 100,
           minPixelsPerBlock: 10,
           width: props.width,
           rollup: props.rollup
         });
-        props.rollup = props.blockSizeMillis;
-        props.isDynamicAggregated = true;
-        props.metricBaseMillis = 1000;
       } else if (__DEV__) {
         logger.warn('No aggregation defined for spark chart', props);
       }
