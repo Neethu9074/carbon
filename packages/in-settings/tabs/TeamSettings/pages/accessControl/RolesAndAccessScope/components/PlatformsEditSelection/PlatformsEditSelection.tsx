@@ -14,8 +14,8 @@ import { getField, updateFormField } from 'in-settings/tabs/TeamSettings/pages/a
 import { SubSlideConfig } from 'in-settings/components/ConfigDialog/ConfigDialog';
 import Section from 'in-settings/tabs/TeamSettings/pages/accessControl/Section';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
-import { AreaPermissionType, AreaPermission } from 'in-stores/permission';
 import { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
+import { AreaPermission } from 'in-stores/permission';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
@@ -26,44 +26,14 @@ import locals from './PlatformsEditSelection.mless';
  * @property title of the plat form area
  * @property icon reference to be icon, that should be displayed
  */
-export interface PlatformsEditSelectionProps extends SlideControlProps<SubSlideConfig>, FormControlProps {
-  title: string;
-  icon: string;
-}
+export interface PlatformsEditSelectionProps extends SlideControlProps<SubSlideConfig>, FormControlProps {}
 
-/**
- * Model for each platform area (e.g. K8S CF..)
- * @property id of the current area
- * @property title translated title of the current area
- * @property icon reference to the corresponding area
- */
-interface PlatformArea {
-  id: AreaPermissionType;
-  title: string;
-}
-
-// Definition of all PlatformAreas
-const platformAreas: Array<PlatformArea> = [
-  {
-    id: AreaPermission.ACCESS_PCF,
-    title: t('in-settings:productAreas.permissions', { context: 'PCF' })
-  },
-  {
-    id: AreaPermission.ACCESS_PHMC,
-    title: t('in-settings:productAreas.permissions', { context: 'PHMC' })
-  },
-  {
-    id: AreaPermission.ACCESS_ZHMC,
-    title: t('in-settings:productAreas.permissions', { context: 'ZHMC' })
-  },
-  {
-    id: AreaPermission.ACCESS_OPENSTACK,
-    title: t('in-settings:productAreas.permissions', { context: 'OPENSTACK' })
-  },
-  {
-    id: AreaPermission.ACCESS_VSPHERE,
-    title: t('in-settings:productAreas.permissions', { context: 'VSPHERE' })
-  }
+const generalAreas = [
+  AreaPermission.ACCESS_PCF,
+  AreaPermission.ACCESS_PHMC,
+  AreaPermission.ACCESS_ZHMC,
+  AreaPermission.ACCESS_OPENSTACK,
+  AreaPermission.ACCESS_VSPHERE
 ];
 
 /**
@@ -71,7 +41,7 @@ const platformAreas: Array<PlatformArea> = [
  * @param param see PlatformsEditSelectionProps
  * @returns component
  */
-export default function _PlatformsEditSelection({ title, icon, form, setForm }: PlatformsEditSelectionProps) {
+export default function _PlatformsEditSelection({ form, setForm }: PlatformsEditSelectionProps) {
   const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');
   const permissionSet = permissionSetField?.value;
 
@@ -89,28 +59,33 @@ export default function _PlatformsEditSelection({ title, icon, form, setForm }: 
   const hasAnyAreaPermission = (areaId: string) => permissionSet?.permissions.includes(areaId) || false;
 
   return (
-    <Section icon={icon} title={title} panelNoIndentation>
+    <Section icon="lib_platforms" title={t('in-settings:PermissionSection.title_platforms')} panelNoIndentation>
       <div className={locals.sectionContent}>
-        {platformAreas.map(area => (
-          <>
-            <CheckboxFancy
-              size="large"
-              checked={hasAnyAreaPermission(area.id)}
-              onChange={(event: any) => onUpdatePermissionSet(area.id, event.target.checked)}
-              label={
-                <Stack gap="xsmall" direction="horizontal" align="start">
-                  <span>{area.title}</span>
-                  <Tooltip
-                    content={t('in-settings:tabs.permitsAccessToLabelMonitoringFunctionality', { label: area.title })}
-                    align="rightMiddle"
-                  >
-                    <SvgIcon type="lib_help_error_info_outline" size="s" color={'#172429'} />
-                  </Tooltip>
-                </Stack>
-              }
-            />
-          </>
-        ))}
+        {generalAreas.map(area => {
+          const platformTitle = t('in-settings:productAreas.permissions', { context: area });
+          return (
+            <>
+              <CheckboxFancy
+                size="large"
+                checked={hasAnyAreaPermission(area)}
+                onChange={(event: any) => onUpdatePermissionSet(area, event.target.checked)}
+                label={
+                  <Stack gap="xsmall" direction="horizontal" align="start">
+                    <span>{platformTitle}</span>
+                    <Tooltip
+                      content={t('in-settings:tabs.permitsAccessToLabelMonitoringFunctionality', {
+                        label: platformTitle
+                      })}
+                      align="rightMiddle"
+                    >
+                      <SvgIcon type="lib_help_error_info_outline" size="s" color={'#172429'} />
+                    </Tooltip>
+                  </Stack>
+                }
+              />
+            </>
+          );
+        })}
       </div>
     </Section>
   );

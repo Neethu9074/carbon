@@ -163,14 +163,7 @@ export default function EditAccessScopeDialog({
           label: t('in-settings:PermissionSection.title_platforms'),
           title: t('in-settings:PermissionSection.title_platforms'),
           valid: true,
-          content: (
-            <PlatformsEditSelection
-              title={t('in-settings:PermissionSection.title_platforms')}
-              icon="lib_platforms"
-              {...formControlProps}
-              {...slideControlProps}
-            />
-          )
+          content: <PlatformsEditSelection {...formControlProps} {...slideControlProps} />
         },
         {
           scrollId: '7-infrastructure',

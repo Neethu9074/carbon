@@ -97,12 +97,12 @@
     "permissions_ACCESS_CONTROL": "Access control permissions",
     "permissions_ACCOUNT": "Account & billing permissions",
     "permissions_AUTOMATION": "Automation permissions",
-    "permissions_PCF": "Cloud Foundry",
-    "permissions_PHMC": "IBM Power",
-    "permissions_ZHMC": "IBM Z",
-    "permissions_KUBERNETES": "Kubernetes",
-    "permissions_OPENSTACK": "OpenStack",
-    "permissions_VSPHERE": "vSphere"
+    "permissions_ACCESS_PCF": "Cloud Foundry",
+    "permissions_ACCESS_PHMC": "IBM Power",
+    "permissions_ACCESS_ZHMC": "IBM Z",
+    "permissions_ACCESS_KUBERNETES": "Kubernetes",
+    "permissions_ACCESS_OPENSTACK": "OpenStack",
+    "permissions_ACCESS_VSPHERE": "vSphere"
   },
   "headingSection": {
     "title": "Role and access scope",
