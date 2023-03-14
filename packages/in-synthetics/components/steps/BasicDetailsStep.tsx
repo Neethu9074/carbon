@@ -6,7 +6,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { Field, MapForm, Item } from 'formalistic';
 
-import { Progress } from '@instana/types';
+import { Application, Result } from '@instana/types';
 
 // eslint-disable-next-line no-restricted-imports
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
@@ -29,14 +29,7 @@ export interface Props {
   form: MapForm;
   updateForm: (form: MapForm) => void;
   selectedBlueprint: BluePrint;
-  applications: ApplicationsResponse;
-}
-
-export interface ApplicationsResponse {
-  data?: Record<string, any>[];
-  errors?: Error[];
-  progress: Progress;
-  time?: number;
+  applications: Result<Application[]>;
 }
 
 export default function BasicDetailsStep({ form, updateForm, selectedBlueprint, applications }: Props) {
@@ -47,15 +40,18 @@ export default function BasicDetailsStep({ form, updateForm, selectedBlueprint, 
   const [searchInput, setSearchInput] = useState('');
 
   const filterApplications = useCallback(
-    (applications: ApplicationsResponse) => {
-      return applications.data?.filter((app: Record<string, any>) =>
-        app.label.toLowerCase().includes(searchInput.toLowerCase())
+    (applications: Result<Application[]> | undefined) => {
+      return applications?.data?.filter((app: Application | undefined) =>
+        app?.label.toLowerCase().includes(searchInput.toLowerCase())
       );
     },
     [searchInput]
   );
 
-  const filteredApplications = useMemo(() => filterApplications(applications), [applications, filterApplications]);
+  const filteredApplications: Application[] | undefined = useMemo(() => filterApplications(applications), [
+    applications,
+    filterApplications
+  ]);
 
   function renderApplications() {
     if (applications.progress?.loading) {

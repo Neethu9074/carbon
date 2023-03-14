@@ -16,8 +16,7 @@ import {
   TestResultSubtransaction,
   Error,
   PoPInstallationProperties,
-  TestResultMetadata,
-  ApplicationItem
+  TestResultMetadata
 } from 'in-types';
 import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
 import { syntheticsPath, resultsTab } from 'in-synthetics/navigation/paths';
@@ -35,14 +34,6 @@ export const successValue = '1';
 
 export const dummyLocations = {
   data: [],
-  errors: [],
-  progress: {
-    loading: true
-  }
-};
-
-export const dummyApplications = {
-  data: [] as ApplicationItem[],
   errors: [],
   progress: {
     loading: true

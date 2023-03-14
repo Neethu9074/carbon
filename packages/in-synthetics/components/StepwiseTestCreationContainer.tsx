@@ -6,7 +6,7 @@
 import { MapForm } from 'formalistic';
 import React from 'react';
 
-import { Progress, Error as ScriptError } from '@instana/types';
+import { Application, Error as ScriptError, Result } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import RequestResponseStep from 'in-synthetics/components/steps/RequestResponseStep';
@@ -14,7 +14,7 @@ import SelectScheduleStep from 'in-synthetics/components/steps/SelectScheduleSte
 import BasicDetailsStep from 'in-synthetics/components/steps/BasicDetailsStep';
 import SelectTestStep from 'in-synthetics/components/steps/SelectTestStep';
 import { BluePrint } from 'in-synthetics/data/simpleModeBluePrints';
-import { dummyApplications } from 'in-synthetics/utils/constants';
+import { pendingResult } from 'in-services/fixedObjects';
 import { getApplicationsList } from 'in-synthetics/api';
 
 import locals from './StepwiseTestCreationContainer.mless';
@@ -30,13 +30,6 @@ export interface Props {
   simpleMode: boolean;
 }
 
-export interface ApplicationsResponse {
-  data?: Record<string, any>[];
-  errors?: Error[];
-  progress: Progress;
-  time?: number;
-}
-
 export default function StepwiseTestCreationContainer({
   step,
   form,
@@ -47,8 +40,7 @@ export default function StepwiseTestCreationContainer({
   setScriptErrors,
   simpleMode
 }: Props) {
-  const applications: ApplicationsResponse =
-    useObservable<any, []>(() => getApplicationsList(), []) || dummyApplications;
+  const applications: Result<Application[]> = useObservable<any, []>(() => getApplicationsList(), []) ?? pendingResult;
 
   function renderSteps() {
     switch (step) {

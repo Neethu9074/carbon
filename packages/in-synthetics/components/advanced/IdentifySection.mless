@@ -1,0 +1,61 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+@import '~in-themes/active.less';
+
+:local {
+  .baseContainer {
+    padding-bottom: 5px;
+    display: grid;
+    max-height: fit-content;
+    grid-template-areas: 'content' 'errors';
+    grid-auto-rows: 1fr min-content;
+    margin-bottom: 4%;
+  }
+
+  .rightHeader {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .outerBox {
+    border: 1px solid @lib__colors__N300;
+    padding: 10px;
+    margin-bottom: 2%;
+  }
+
+  .item {
+    display: list-item;
+    align-items: left;
+
+    width: auto;
+    padding: 0.3rem;
+    border-bottom: 1px solid @lib__colors__N300;
+    list-style: none;
+  }
+
+  .center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+  }
+
+  .button {
+    padding: 0.5rem 0.65rem;
+    background: transparent;
+    color: @lib__colors__primary1;
+    border-radius: @lib__shapes__radius_medium;
+    font-size: medium;
+    font-weight: normal;
+    border: none;
+  }
+
+  .button:hover {
+    background-color: lighten(@lib__colors__primary1, 60%);
+    transition: 0.7s;
+  }
+}

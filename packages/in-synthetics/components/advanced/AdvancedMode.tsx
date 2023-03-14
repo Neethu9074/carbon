@@ -6,14 +6,20 @@
 
 import React from 'react';
 
+import { Application, Result } from '@instana/types';
+import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
 import ConfigurationSection from 'in-synthetics/components/advanced/ConfigurationSection';
 import SelectScheduleStep from 'in-synthetics/components/steps/SelectScheduleStep';
+import IdentifySection from 'in-synthetics/components/advanced/IdentifySection';
 import StepsContainer from 'in-components/StepsContainer/StepsContainer';
 import { AdvancedModeProps } from 'in-synthetics/utils/constants';
+import { pendingResult } from 'in-services/fixedObjects';
+import { getApplicationsList } from 'in-synthetics/api';
 
 const AdvancedMode = ({ form, updateForm }: AdvancedModeProps) => {
+  const applications: Result<Application[]> = useObservable<any, []>(() => getApplicationsList(), []) ?? pendingResult;
   return (
     <StepsContainer
       navItems={[
@@ -43,7 +49,7 @@ const AdvancedMode = ({ form, updateForm }: AdvancedModeProps) => {
           label: t('in-synthetics:dialog.createTest.advancedMode.identifyLabel'),
           title: t('in-synthetics:dialog.createTest.advancedMode.identifyTitle'),
           valid: true,
-          content: <div>Identify section here</div>
+          content: <IdentifySection form={form} updateForm={updateForm} applications={applications} />
         }
       ]}
     />

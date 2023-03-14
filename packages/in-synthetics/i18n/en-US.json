@@ -98,7 +98,8 @@
         "configStep": {
           "expectedStatus": "Enter expected status",
           "allowInsecure": "Allow Insecure"
-        }
+        },
+        "loadMore": "Load More"
       }
     },
     "httpMethods": {
