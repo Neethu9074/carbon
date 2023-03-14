@@ -17,9 +17,11 @@ import locals from 'in-alerting/smart-alerts/applications/list/columns/ListActio
 
 export function ListActionsColumn({ config, isLoading, actionHandlers = {} }) {
   const { handleEdit, handleClone, handleToggleEnabled, handleDelete } = actionHandlers;
-  const { enabled, id, name } = config;
+  const { builtIn, enabled, id, name } = config;
   const [isSaving, setIsSaving] = useState(false);
   const [isMoreMenuSaving, setIsMoreMenuSaving] = useState(false);
+
+  const hasSecondaryActions = handleEdit || handleClone || handleDelete;
 
   useEffect(() => {
     if (!isLoading && (isSaving || isMoreMenuSaving)) {
@@ -33,60 +35,63 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {} }) {
 
   return (
     <HorizontalFlexWrapper className={locals.actions}>
-      <Tooltip content={getTooltipForAction()} delay={500}>
-        <div className={locals.separator}>
-          <IconButton
-            kind="primaryv2"
-            type={isSaving ? 'lib_actions_loading' : enabled ? 'lib_actions_pause' : 'lib_actions_play'}
-            iconSpinning={isSaving}
-            onClick={e => {
-              e.preventDefault();
-              stopPropagation(e);
-              handleToggleEnabled(enabled, id, setIsSaving);
-            }}
-          />
-        </div>
-      </Tooltip>
-
-      <MoreMenu
-        renderInteractiveElement={({ ref, toggle }) => (
+      {handleToggleEnabled && (
+        <Tooltip content={getTooltipForAction()} delay={500}>
           <div className={locals.separator}>
             <IconButton
-              kind="info"
-              type={isMoreMenuSaving ? 'lib_actions_loading' : 'lib_menu_more_horizontal'}
+              kind="primaryv2"
+              type={isSaving ? 'lib_actions_loading' : enabled ? 'lib_actions_pause' : 'lib_actions_play'}
+              iconSpinning={isSaving}
               onClick={e => {
                 e.preventDefault();
                 stopPropagation(e);
-                toggle();
+                handleToggleEnabled(enabled, id, setIsSaving);
               }}
-              ref={ref}
-              iconSpinning={isMoreMenuSaving}
-              className={locals.darkButton}
             />
           </div>
-        )}
-      >
-        <MoreMenuButton
-          icon={isSaving ? 'lib_actions_loading' : 'lib_actions_edit'}
-          iconSpinning={isMoreMenuSaving}
-          onClick={() => handleEdit(config)}
+        </Tooltip>
+      )}
+
+      {hasSecondaryActions && (
+        <MoreMenu
+          renderInteractiveElement={({ ref, toggle }) => (
+            <div className={locals.separator}>
+              <IconButton
+                kind="info"
+                type={isMoreMenuSaving ? 'lib_actions_loading' : 'lib_menu_more_horizontal'}
+                onClick={e => {
+                  e.preventDefault();
+                  stopPropagation(e);
+                  toggle();
+                }}
+                ref={ref}
+                iconSpinning={isMoreMenuSaving}
+                className={locals.darkButton}
+              />
+            </div>
+          )}
         >
-          {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonEdit')}
-        </MoreMenuButton>
-        <MoreMenuButton icon="lib_actions_copy" onClick={() => handleClone(config)}>
-          {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDuplicate')}
-        </MoreMenuButton>
-        {!config?.builtIn && (
-          <MoreMenuButton
-            icon="lib_actions_delete"
-            onClick={() => {
-              return handleDelete(id, setIsMoreMenuSaving, name);
-            }}
-          >
-            {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDelete')}
-          </MoreMenuButton>
-        )}
-      </MoreMenu>
+          {handleEdit && (
+            <MoreMenuButton
+              icon={isSaving ? 'lib_actions_loading' : 'lib_actions_edit'}
+              iconSpinning={isMoreMenuSaving}
+              onClick={() => handleEdit(config)}
+            >
+              {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonEdit')}
+            </MoreMenuButton>
+          )}
+          {handleClone && (
+            <MoreMenuButton icon="lib_actions_copy" onClick={() => handleClone(config)}>
+              {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDuplicate')}
+            </MoreMenuButton>
+          )}
+          {!builtIn && handleDelete && (
+            <MoreMenuButton icon="lib_actions_delete" onClick={() => handleDelete(id, setIsMoreMenuSaving, name)}>
+              {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDelete')}
+            </MoreMenuButton>
+          )}
+        </MoreMenu>
+      )}
     </HorizontalFlexWrapper>
   );
 

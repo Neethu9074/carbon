@@ -5,18 +5,17 @@
  */
 
 import React, { ReactNode, useState } from 'react';
-import classNames from 'classnames';
 
 import { Observable } from '@instana/observables';
-import { SvgIcon } from '@instana/components';
 import { Card } from '@instana/components';
+import { Result } from '@instana/types';
 
 import { ListActionsColumn } from 'in-alerting/smart-alerts/applications/list/columns/ListActionsColumn';
+import SmartAlertsBaseList from 'in-alerting/smart-alerts/applications/list/SmartAlertsBaseList';
+import { NameColumnCell } from 'in-alerting/smart-alerts/components/list/NameColumnCell';
 import List, { TableActions as ListTableActions } from 'in-settings/components/List';
-import Tooltip from 'in-components/Tooltip/Tooltip';
+import { SortOption } from 'in-components/SortingConfigurator/SortingConfigurator';
 import { t } from 'in-i18n';
-
-import locals from 'in-alerting/smart-alerts/websites/Alerts.mless';
 
 export type TableActions<T> = Omit<ListTableActions<T>, 'deselect'> & {
   toggleEnabled?: {
@@ -26,65 +25,62 @@ export type TableActions<T> = Omit<ListTableActions<T>, 'deselect'> & {
 };
 
 export type ActionHandlers = {
-  handleClone: (config: AlertConfigType) => void;
-  handleDelete: (id: string, setIsSaving: boolean, configName: string) => void;
-  handleEdit: (config: string) => void;
-  handleToggleEnabled: (enabled: boolean, id: string, setIsSaving: (saving: boolean) => void) => void;
+  handleClone?: (config: AlertConfigType) => void;
+  handleDelete?: (id: string, setIsSaving: boolean, configName: string) => void;
+  handleEdit?: (config: string) => void;
+  handleToggleEnabled?: (enabled: boolean, id: string, setIsSaving: (saving: boolean) => void) => void;
 };
 
 interface AlertBaseListProps<AlertConfig extends AlertConfigType> {
-  loadEntities: () => Observable<AlertConfig[]>;
+  loadEntities?: () => Observable<AlertConfig[]>;
+  getAlertConfigs?: () => Observable<Result<AlertConfig[]>>;
   extraColumnDefinitions: ColumnDefinition<AlertConfig>[];
   tableActions?: TableActions<AlertConfig>;
   getSubtitle?: (config: AlertConfig) => string;
   onRowClick?: (config: AlertConfig) => void;
+  createRowLinkLocation?: (config: AlertConfigType, location: Location) => Location;
   actionHandlers?: ActionHandlers;
+  sortOptions?: SortOption[];
 }
 
 export interface AlertConfigType {
   name: string;
   severity: number;
   description: string;
+  enabled: boolean;
 }
 
 export interface ColumnDefinition<AlertConfig extends AlertConfigType> {
   id: string;
   label: string;
+  width?: string;
   getContent: (entity: AlertConfig) => ReactNode;
 }
 
+/**
+ * Currently there are 2 ways to use this base-list:
+ * with old {loadEntities} or
+ * with {getAlertConfigs} (supporting loading state)
+ *
+ * Both are needed until the synthetics-list will have been migrated.
+ */
 export default function AlertBaseList<AlertConfig extends AlertConfigType>({
   extraColumnDefinitions,
   loadEntities,
+  getAlertConfigs,
   tableActions,
   getSubtitle,
   onRowClick,
+  createRowLinkLocation,
+  sortOptions = [],
   actionHandlers
 }: AlertBaseListProps<AlertConfig>) {
   const [alertsSize, setAlertsSize] = useState<number | null>(null);
   const header = t('in-alerting:smartAlerts.list.header.configuredAlerts', { numberOfAlerts: alertsSize });
-  const nameColumn: ColumnDefinition<AlertConfig> = {
-    id: 'name',
-    label: t('in-alerting:smartAlerts.list.columns.name'),
-    getContent: config => <NameContent<AlertConfig> config={config} getSubtitle={getSubtitle} />
-  };
+  const columnDef = createColumnDefinition(extraColumnDefinitions, actionHandlers, getSubtitle);
 
-  const columnDef = actionHandlers
-    ? [
-        nameColumn,
-        ...extraColumnDefinitions,
-        {
-          id: 'actions',
-          label: 'Action',
-          getContent: (config: AlertConfig) => (
-            <ListActionsColumn config={config} actionHandlers={actionHandlers} isLoading={false} />
-          )
-        }
-      ]
-    : [nameColumn, ...extraColumnDefinitions];
-
-  return (
-    <>
+  if (loadEntities)
+    return (
       <Card size="l">
         <List<AlertConfig>
           getHeader={() => header}
@@ -97,33 +93,65 @@ export default function AlertBaseList<AlertConfig extends AlertConfigType>({
           onRowClick={onRowClick}
         />
       </Card>
-    </>
-  );
+    );
+
+  if (getAlertConfigs) {
+    return (
+      <Card size="l">
+        <SmartAlertsBaseList<AlertConfig>
+          columnDefinitions={columnDef.map(toAlertListColumns)}
+          getLocalAlertConfigsFetchFunction={getAlertConfigs}
+          sortOptions={sortOptions}
+          pageSize={15}
+          createRowLinkLocation={createRowLinkLocation}
+        />
+      </Card>
+    );
+  }
+
+  if (__DEV__) {
+    // eslint-disable-next-line no-console
+    console.warn('AlertBaseList: Please either provide getAlertConfigs or loadEntities property.');
+  }
+  return null;
 }
 
-function NameContent<AlertConfig extends AlertConfigType>({
-  config,
-  getSubtitle
-}: {
-  config: AlertConfig;
-  getSubtitle?: (config: AlertConfig) => string;
-}) {
-  return (
-    <div className={classNames(locals.centered, locals.fullWidth)}>
-      <SvgIcon
-        className={classNames({
-          [locals.alertIcon]: true,
-          [locals.alertIconSeverityLow]: config.severity <= 5,
-          [locals.alertIconSeverityHigh]: config.severity > 5
-        })}
-        type="lib_alerts_alert"
-      />
-      <div className={classNames(locals.column, locals.fullWidth)}>
-        <Tooltip themeStyle="light" content={config.description} align="topMiddle" delay={500}>
-          <div className={classNames(locals.name, locals.fullWidth)}>{config.name}</div>
-        </Tooltip>
-        {getSubtitle && <div className={locals.nameSubtext}>{getSubtitle(config)}</div>}
-      </div>
-    </div>
-  );
+function createColumnDefinition<AlertConfig extends AlertConfigType>(
+  extraColumnDefinitions: ColumnDefinition<AlertConfig>[],
+  actionHandlers: ActionHandlers | undefined,
+  getSubtitle?: (config: AlertConfig) => string
+) {
+  const nameColumn: ColumnDefinition<AlertConfig> = {
+    id: 'name',
+    width: '35%',
+    label: t('in-alerting:smartAlerts.list.columns.name'),
+    getContent: config => <NameColumnCell<AlertConfig> config={config} getSubtitle={getSubtitle} />
+  };
+
+  if (actionHandlers) {
+    const actionsColumn = {
+      id: 'actions',
+      label: 'Action',
+      getContent: (config: AlertConfig) => (
+        <ListActionsColumn config={config} actionHandlers={actionHandlers} isLoading={false} />
+      )
+    };
+    return [nameColumn, ...extraColumnDefinitions, actionsColumn];
+  }
+  return [nameColumn, ...extraColumnDefinitions];
+}
+
+/** adapter, because we use a different column format:
+ *  getContent: ( config: AlertConfig }) {}
+ *
+ *  compared the one, used Smart-Alert-List, based on {ColumnizedContent}
+ *  getContent: ({ config }: { config: AlertConfig }) {}
+ */
+function toAlertListColumns<AlertConfig extends AlertConfigType>(column: ColumnDefinition<AlertConfig>) {
+  return {
+    ...column,
+    getContent: ({ config }: { config: AlertConfig }) => {
+      return column.getContent(config);
+    }
+  };
 }
