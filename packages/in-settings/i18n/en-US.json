@@ -137,7 +137,14 @@
     "infrastructureAccessScope": "Access Scope",
     "infrastructureDfqHeader": "Dynamic focus query (DFQ)",
     "infrastructureDfqExample": "e.g. entity.zone:\"production\" AND NOT event.text:\"TCP*\"",
-    "descriptionViewerAccess_infrastructure": "All entity dashboards can be viewed, which are related to the access granted to application and platforms. In addition, you can use the dynamic focus query below to grant access to infrastructure."
+    "descriptionViewerAccess_infrastructure": "All entity dashboards can be viewed, which are related to the access granted to application and platforms. In addition, you can use the dynamic focus query below to grant access to infrastructure.",
+    "descriptionAccessAll_kubernetes": "All namespaces and clusters can be viewed.",
+    "descriptionAccessNo_kubernetes": "No access to namespaces and clusters.",
+    "descriptionAccessLimited_kubernetes": "Select the namespaces and clusters below to grant access.",
+    "limitedAccessKubernetes_clusters": "Clusters",
+    "limitedAccessKubernetes_namespaces": "Namespaces",
+    "limitedAccessKubernetes_addCluster": "Add Cluster",
+    "limitedAccessKubernetes_addNamespace": "Add Namespace"
   },
   "selectItemForm": {
     "doneButton": "Done"
@@ -152,6 +159,7 @@
     "selection_no_access": "No access",
     "selection_viewer_access": "Viewer access",
     "description_no_access": "Can't use this area at all",
+    "description_no_access_kubernetes": "No access to namespaces and clusters.",
     "description_access_all": "Access all without limitation",
     "role": "Select a role",
     "role_owner": "Owner",

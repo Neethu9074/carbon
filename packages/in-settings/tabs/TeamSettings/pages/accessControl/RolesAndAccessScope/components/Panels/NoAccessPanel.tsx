@@ -10,7 +10,14 @@ import { Stack, StackItem, Typography } from '@instana/components';
 
 import { t } from 'in-i18n';
 
-export default function NoAccessPanel() {
+export interface NoAccessPanelProps {
+  descriptionNLSContext?: string;
+}
+
+export default function NoAccessPanel({ descriptionNLSContext }: NoAccessPanelProps) {
+  const description = descriptionNLSContext
+    ? t('in-settings:permissionScope.description_no_access', { context: descriptionNLSContext })
+    : t('in-settings:permissionScope.description_no_access');
   return (
     <Stack direction="vertical">
       <StackItem>
@@ -18,7 +25,7 @@ export default function NoAccessPanel() {
           {t('in-settings:permissionScope.selection_no_access')}
         </Typography>
         <Typography variant="body-regular" component="div">
-          {t('in-settings:permissionScope.description_no_access')}
+          {description}
         </Typography>
       </StackItem>
     </Stack>
