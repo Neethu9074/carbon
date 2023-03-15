@@ -75,12 +75,13 @@ function SmartAlertDialogWrapper({ close, alertConfig, setRevision, isCopy, deta
   return (
     <AlertConfigDialog
       alertConfig={isCopy ? duplicateAlertConfig(alertConfig) : alertConfig}
-      onClose={({ id } = {}) => {
+      onClose={({ id, created } = {}) => {
         close();
         setRevision(null);
         if (isCopy) {
           const onCloseTargetLocation = { ...location, pathname: detailsPath };
-          setOrDeleteMatrixKey(onCloseTargetLocation, alertsTabSegment, 'alertId', id ?? alertConfigId);
+          setOrDeleteMatrixKey(onCloseTargetLocation, alertsTabSegment, alertIdParam, id ?? alertConfigId);
+          setOrDeleteMatrixKey(onCloseTargetLocation, alertsTabSegment, alertCreatedParam, created); // if not set, use the latest
           navigate(onCloseTargetLocation);
         }
       }}
