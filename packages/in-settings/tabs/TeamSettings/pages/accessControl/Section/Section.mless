@@ -19,8 +19,13 @@
     border: 1px solid var(--ids-color-option-neutral-300);
   }
 
-  .panel {
+  .panel,
+  .panelNoIndentation {
     background-color: var(--ids-color-option-white);
     padding: var(--ids-border-radius-option-large);
+  }
+
+  .panelNoIndentation {
+    padding: 0;
   }
 }

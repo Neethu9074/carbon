@@ -407,6 +407,7 @@
     "viewSwitcherLabelEvents": "イベント",
     "viewSwitcherlabelInfrastructure": "インフラストラクチャー",
     "viewSwitcherLabelApplications": "アプリケーション",
+    "viewSwitcherLabelSlo": "サービス・レベル",
     "viewSwitcherLabelAnalytics": "分析",
     "viewSwitcherLabelWebsitesAndMobileApps": "Web サイトおよびモバイル・アプリケーション",
     "viewSwitcherLabelWebsites": "Web サイト",

@@ -66,11 +66,24 @@
           }
         }
       },
-      "form": {
-        "validUrl": "有効なURLを入力してください"
-      },
       "validators": {
-        "theValueMustNotBeEmpty": "少なくとも 1 つのロケーションを選択する必要があります"
+        "theValueMustNotBeEmpty": "少なくとも 1 つのロケーションを選択する必要があります",
+        "urlMustNotContainSpace": "URLにスペースを入れることはできません",
+        "mailToNotSupported": "「mailto」はサポートされていません",
+        "outOfLength": "URLが長すぎます",
+        "fragmentsNotSupported": "フラグメントはサポートされていません",
+        "queryNotSupported": "照会はサポートされていません",
+        "incorrectProtocol": "プロトコルは「http」または「https」でなければなりません",
+        "incorrectUrlFormat": "プロトコルやドメインがありません",
+        "missUserAuthentication": "ユーザー認証がありません",
+        "incorrectAuthentication": "ユーザー認証が正しくありません",
+        "missUserOrPassword": "ユーザーまたはパスワードがありません",
+        "invalidPortValue": "ポート値が無効です",
+        "missHost": "URLにホストがありません",
+        "invalidHost": "ホスト形式が無効です"
+      },
+      "advancedMode": {
+        "buttonContent": "拡張モードに切り替える"
       }
     },
     "httpMethods": {
@@ -108,6 +121,8 @@
         "smartAlerts": "スマート・アラート"
       },
       "popDialog": {
+        "popUpDialogTitle": "シンセティック・モニターのための権限",
+        "popUpDialog": "シンセティック・モニターの権限の設定については、<documentationLink>資料</documentationLink>を参照してください",
         "button": "PoPのデプロイ",
         "simpleTab": "シンプル",
         "redisTab": "Redis TLS",
@@ -206,7 +221,8 @@
       "title": "結果",
       "locationLabel": "Location",
       "failures": "障害",
-      "status": "状況"
+      "status": "状況",
+      "success": "成功"
     },
     "detailsPage": {
       "timeLineWidget": "タイムライン",

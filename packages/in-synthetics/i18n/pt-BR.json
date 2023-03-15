@@ -66,11 +66,24 @@
           }
         }
       },
-      "form": {
-        "validUrl": "Insira uma URL válida"
-      },
       "validators": {
-        "theValueMustNotBeEmpty": "Pelo menos um local precisa ser selecionado"
+        "theValueMustNotBeEmpty": "Pelo menos um local precisa ser selecionado",
+        "urlMustNotContainSpace": "A URL não deve conter espaço",
+        "mailToNotSupported": "A opção 'enviar e-mail para' não é suportada",
+        "outOfLength": "A URL é muito longa",
+        "fragmentsNotSupported": "Os fragmentos não são suportados",
+        "queryNotSupported": "A consulta não é suportada",
+        "incorrectProtocol": "O protocolo deve ser 'http' ou 'https'",
+        "incorrectUrlFormat": "O protocolo ou o domínio está ausente",
+        "missUserAuthentication": "A autenticação do usuário está ausente",
+        "incorrectAuthentication": "A autenticação de usuário está incorreta",
+        "missUserOrPassword": "O usuário ou senha está ausente",
+        "invalidPortValue": "O valor da porta não é válido",
+        "missHost": "O host está ausente na URL",
+        "invalidHost": "O formato do host não é válido"
+      },
+      "advancedMode": {
+        "buttonContent": "Alternar para o modo avançado"
       }
     },
     "httpMethods": {
@@ -108,6 +121,8 @@
         "smartAlerts": "Alertas inteligentes"
       },
       "popDialog": {
+        "popUpDialogTitle": "Permissões para monitoramento sintético",
+        "popUpDialog": "Verifique o <documentationLink>documento</documentationLink> para obter informações sobre como configurar permissões de monitoramento sintético",
         "button": "Implementar um PoP",
         "simpleTab": "Simples",
         "redisTab": "Redis TLS",
@@ -206,7 +221,8 @@
       "title": "Resultados",
       "locationLabel": "Posição",
       "failures": "Falhas",
-      "status": "Status"
+      "status": "Status",
+      "success": "Sucesso"
     },
     "detailsPage": {
       "timeLineWidget": "Linha de tempo",

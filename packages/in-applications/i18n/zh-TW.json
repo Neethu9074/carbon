@@ -578,7 +578,8 @@
         "erroneousTrace": "錯誤追蹤",
         "attemptToRenderTrace": "嘗試呈現追蹤",
         "analyzeBeacons": "分析引標",
-        "adjustedTimeConfig": "已將時間範圍調整為包括選取的引標。"
+        "adjustedTimeConfigForTrace": "已調整時間範圍，以併入所選取追蹤的所有呼叫。",
+        "adjustedTimeConfigForBeacon": "已將時間範圍調整為包括選取的引標。"
       }
     },
     "components": {

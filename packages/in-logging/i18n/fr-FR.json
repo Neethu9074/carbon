@@ -38,5 +38,7 @@
   "tooltipEntityHealthNoIssues": "Aucun problème",
   "tooltipEntityHealthIssues": "{{numberOfIssues}} problèmes",
   "container": "Conteneur",
-  "endOfInfiniteScroll": "Aucun autre journal disponible"
+  "endOfInfiniteScroll": "Aucun autre journal disponible",
+  "liveModeDisabled": "Mode opérationnel désactivé pour la journalisation",
+  "logLevels": "Niveaux de journalisation"
 }

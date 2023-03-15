@@ -18,7 +18,7 @@ export default { component: DialogAlertProperties };
 const failureAlertConfig = Object.freeze(generateAlertConfig());
 
 export const AlertProperties = (args: AlertConfigDialogPresenterProps & MainDialogControl) => {
-  const [form, updateForm] = useState(alertFormDefinition(failureAlertConfig, false));
+  const [form, updateForm] = useState(alertFormDefinition(failureAlertConfig));
 
   return (
     <DialogAlertProperties

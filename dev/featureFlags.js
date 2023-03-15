@@ -68,11 +68,11 @@ module.exports = {
   rbacImprovementEnabled: false,
   traceIdFilterOverrideEnabled: true,
   syntheticSmartAlertsEnabled: true,
+  syntheticSmartAlertsDetailsEnabled: true,
   syntheticCreateSmartAlertsUIEnabled: true,
   syntheticCreateTestAdvanceModeEnabled: true,
   controlPlaneEnabled: true,
   sloV2Enabled: true,
   largeTracesV2Enabled: true,
-  oracleRacMonitoringEnabled: false,
-  skipOnboarding: false
+  oracleRacMonitoringEnabled: false
 };

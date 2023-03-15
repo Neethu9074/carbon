@@ -190,7 +190,8 @@
         "errorLog": "Journal des erreurs",
         "warningLog": "Journal des avertissements",
         "restrictedAccess": "Accès restreint",
-        "restrictedAccessExpl": "Vous n'êtes pas autorisé à accéder à ces informations"
+        "restrictedAccessExpl": "Vous n'êtes pas autorisé à accéder à ces informations",
+        "batchCount": "Il existe {{count}} journaux aux alentours de cet horodatage."
       },
       "callTooltipContent": {
         "numbersOfErrors": "{{count}} erreur",

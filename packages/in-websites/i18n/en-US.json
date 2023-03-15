@@ -462,7 +462,6 @@
         "filter_plural": "filters",
         "moreFiltersWithCount": "+{{count}} more filter",
         "moreFiltersWithCount_plural": "+{{count}} more filters",
-        "labelConfirmRemoveAlertConfigWithName": "Are you sure you want to remove the alert <strong>{{name}}</strong>?",
         "alertsLabelFilters": "Filters",
         "alertsNoDataMessage": "No alert configured."
       },

@@ -255,6 +255,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'syntheticSmartAlertsDetailsEnabled',
+    instanaCtlKey: 'feature.synthetic.smart.alerts.details.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'syntheticCreateSmartAlertsUIEnabled',
     instanaCtlKey: 'feature.synthetic.create.smart.alerts.ui.enabled',
     defaultValue: false
@@ -327,11 +332,6 @@ module.exports = exports = [
   {
     uiClientKey: 'oracleRacMonitoringEnabled',
     instanaCtlKey: 'feature.infrastructure.oracle.rac.enabled',
-    defaultValue: false
-  },
-  {
-    uiClientKey: 'skipOnboarding',
-    instanaCtlKey: 'feature.onboarding.skip',
     defaultValue: false
   }
 ];

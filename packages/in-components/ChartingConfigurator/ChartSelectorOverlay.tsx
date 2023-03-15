@@ -56,6 +56,7 @@ interface ChartMetric {
   label: string;
   metricId: string;
   formatter: string;
+  groupLabel?: string;
 }
 
 interface ChartAggregation {
@@ -78,13 +79,17 @@ export default function ChartSelectorOverlay(props: ChartSelectorProps) {
   const { dataSource, unifiedMetricsSource, value, options, onChange, overlayContent, overlayProps } = props;
 
   const activeTemplate = options?.templates?.find(({ templateId }) => templateId === value?.templateId);
-  const activeMetric = options?.metrics?.find(({ metricId }) => metricId === value?.metricId);
+  let activeMetric = getActiveChartMetric(options, value);
 
   const getGroupName = (name: string) => {
     if (name === 'templates') {
       return t('in-components:chart.chartTemplates');
     }
-    return getEntityNameByType(dataSource);
+    if (name.startsWith('_')) {
+      return name.substring(1);
+    } else {
+      return getEntityNameByType(dataSource);
+    }
   };
 
   const optionGroups = Object.getOwnPropertyNames(options);
@@ -103,6 +108,8 @@ export default function ChartSelectorOverlay(props: ChartSelectorProps) {
         return metricSource.toLowerCase() as ProductArea;
       case 'MOBILE_APP':
         return 'mobileApp';
+      case 'INFRASTRUCTURE_METRICS':
+        return 'infrastructure';
       default:
         return 'application';
     }
@@ -125,7 +132,11 @@ export default function ChartSelectorOverlay(props: ChartSelectorProps) {
         ...change,
         metricId: input.metricId
       };
-      const metric = options?.metrics?.find(opt => opt.metricId === input.metricId);
+
+      const optionKey = input.groupLabel ? '_' + input.groupLabel : 'metrics';
+      const metricOptions = options[optionKey];
+
+      const metric = (metricOptions as ChartMetric[])?.find(opt => opt.metricId === input.metricId);
       let aggregation = metric?.aggregations?.find(opt => opt.id === change.aggregationId);
       if (!aggregation) {
         aggregation = metric?.aggregations?.[0];
@@ -195,4 +206,32 @@ export default function ChartSelectorOverlay(props: ChartSelectorProps) {
       }
     </Overlay>
   );
+}
+
+export function getEmptyChartMetric() {
+  return {
+    aggregations: [],
+    defaultAggregation: '',
+    description: '',
+    label: '',
+    metricId: '',
+    formatter: ''
+  };
+}
+
+export function getActiveChartMetric(options: ChartOptions, value: ChartValue) {
+  let activeMetric: ChartValue = getEmptyChartMetric();
+  let keys = Object.getOwnPropertyNames(options);
+  if (keys.find(key => key.startsWith('_'))) {
+    keys.forEach(key =>
+      options[key].forEach(option => {
+        if ((option as ChartValue)?.metricId === value?.metricId) {
+          activeMetric = option;
+        }
+      })
+    );
+  } else {
+    activeMetric = options?.metrics?.find(({ metricId }) => metricId === value?.metricId) || options?.metrics?.[0];
+  }
+  return activeMetric;
 }

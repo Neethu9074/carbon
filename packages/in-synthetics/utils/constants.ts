@@ -16,8 +16,7 @@ import {
   TestResultSubtransaction,
   Error,
   PoPInstallationProperties,
-  TestResultMetadata,
-  ApplicationItem
+  TestResultMetadata
 } from 'in-types';
 import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
 import { syntheticsPath, resultsTab } from 'in-synthetics/navigation/paths';
@@ -35,14 +34,6 @@ export const successValue = '1';
 
 export const dummyLocations = {
   data: [],
-  errors: [],
-  progress: {
-    loading: true
-  }
-};
-
-export const dummyApplications = {
-  data: [] as ApplicationItem[],
   errors: [],
   progress: {
     loading: true
@@ -273,7 +264,7 @@ export interface FilterState {
 export interface FilterSectionProps extends FilterState {
   setFilter: (x: Object) => void;
   isAppcontext?: boolean;
-  result?: Result<PaginatedResult<TestResultListItem>>;
+  result?: Result<SyntheticTest[]>;
 }
 
 export type CurrentState = {
@@ -319,7 +310,7 @@ export const filterUrlStateDefinition = {
 } as Options<UrlState>;
 
 export interface PresenterProps extends FilterState {
-  result: Result<PaginatedResult<TestResultListItem>>;
+  syntheticTests: Result<SyntheticTest[]>;
 }
 
 export interface ResultsFilterState {

@@ -562,6 +562,7 @@
         "cancelTitle": "Cancelar",
         "sharedListTooltip": "{{typeName}} ya no está disponible",
         "clearTagFilterExpressionButton": "Borrar",
+        "baselineErrorMessageComputedOnApproximateData": "La línea base se calcula en función de datos aproximados debido a los valores de retención de datos. Por lo tanto, es posible que no sea precisa en el caso de que haya pocas llamadas que coincidan con los filtros seleccionados.",
         "baselineErrorMessageInsufficientDataToCompute": "Los datos son insuficientes para calcular la línea base seleccionada. En su lugar, seleccione <em>Umbral estático</em>.",
         "pleaseContactSupportToRiseLimit": "Póngase en contacto con nosotros a través de nuestro <supportLink>{{instanaSupportPortal}}</supportLink> para solicitar un aumento de este límite.",
         "adaptiveBaselineErrorMessage": "La vista previa de umbral no está disponible actualmente.<br />Esta alerta inteligente todavía se puede guardar.",
@@ -581,6 +582,7 @@
         "addChannel_1": "Añadir {{count}} canales",
         "addChannel_2": "Añadir {{count}} canales",
         "add": "Añadir",
+        "alertPropertyInsertPlaceholderLabel": "Insertar marcador",
         "scopeConfigTitleWithApplications": "Seleccionar Aplicaciones/Servicios/Puntos finales",
         "scopeConfigTitle": "Seleccionar servicios/puntos finales",
         "scopeConfigSelectOneEntryMessage": "Seleccione, al menos, una entrada.",
@@ -1028,11 +1030,56 @@
     "enable": "Habilitar",
     "disable": "Inhabilitar",
     "synthetics": {
+      "dashboard": {
+        "column": {
+          "moreFiltersWithCount": "+{{count}} filtro más",
+          "moreFiltersWithCount_plural": "+{{count}} filtros más",
+          "moreFiltersWithCount_0": "+{{count}} filtros más",
+          "moreFiltersWithCount_1": "+{{count}} filtros más",
+          "moreFiltersWithCount_2": "+{{count}} filtros más",
+          "filter": "filtro",
+          "filter_plural": "filtros",
+          "filter_0": "filtros",
+          "filter_1": "filtros",
+          "filter_2": "filtros"
+        }
+      },
       "alertList": {
         "timeThreshold": "Umbral de error",
         "filterApplied": "Filtro aplicado",
         "violationsCount": "{{violationsCount}} anomalías",
         "numberOfFailures": "Alerta de anomalía"
+      },
+      "simple": {
+        "stepConfigsStep1Title": "Paso 1: Pruebas",
+        "simpleAlertConfigDialogStep1Headline": "¿Sobre qué pruebas sintéticas se debe alertar?",
+        "stepConfigsStep4Title": "Paso 4: Canales de alerta",
+        "alertDialogHeadline": "¿Qué debe aparecer en la alerta?",
+        "stepConfigsStep2Title": "Paso 2: Ámbito",
+        "scopeHeadline": "¿Dónde desea que se active la alerta?",
+        "stepConfigsStep3Title": "Paso 3: Umbral",
+        "stepConfigsStep5Title": "Paso 5: Propiedades de alerta",
+        "thresholdTitle": "¿Cuántos errores consecutivos deben producirse por ubicación antes de la alerta?"
+      },
+      "advanced": {
+        "alertChannelsLabel": "Canales de alerta",
+        "scopeFilterLabel": "Ámbito",
+        "alertTestsLabel": "Pruebas sintéticas",
+        "alertTestsTitle": "Pruebas sintéticas: ¿Sobre qué pruebas sintéticas se debe alertar?",
+        "propertiesLabel": "Propiedades de alerta",
+        "failureThreshold": "Umbral de error",
+        "failureThresholdLabel": "Umbral de error",
+        "failureThresholdTitle": "¿Cuántos errores consecutivos deben producirse por ubicación antes de la alerta?"
+      },
+      "selectTests": {
+        "selectAlertTestButtonTitle": "Añadir pruebas sintéticas",
+        "selectAlertTestButton": "Añadir pruebas sintéticas",
+        "addTest": "Añadir {{count}} prueba",
+        "alertTests": "Pruebas sintéticas",
+        "noTestSelectedText": "No se han seleccionado pruebas sintéticas",
+        "alertTestEntityName": "prueba sintética {{entityName}}",
+        "testAttachedCount": "Pruebas adjuntas ({{count}})",
+        "testAttached": "Pruebas adjuntas"
       }
     }
   }

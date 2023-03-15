@@ -562,6 +562,7 @@
         "cancelTitle": "Annulla",
         "sharedListTooltip": "{{typeName}} non è più disponibile",
         "clearTagFilterExpressionButton": "Ripulisci",
+        "baselineErrorMessageComputedOnApproximateData": "La baseline viene calcolata in base ai dati approssimati dovuti alle impostazioni di conservazione dei dati. Pertanto, potrebbe non essere accurato nel caso in cui vi siano poche chiamate che corrispondono ai filtri selezionati.",
         "baselineErrorMessageInsufficientDataToCompute": "Dati insufficienti per calcolare la baseline selezionata. Selezionare <em>Soglia statica</em>.",
         "pleaseContactSupportToRiseLimit": "Contattare il supporto tramite <supportLink>{{instanaSupportPortal}}</supportLink> per richiedere di aumentare questo limite.",
         "adaptiveBaselineErrorMessage": "L'anteprima della soglia non è attualmente disponibile.<br />Questo avviso smart può essere ancora salvato.",
@@ -581,6 +582,7 @@
         "addChannel_1": "Aggiungi {{count}} Canali",
         "addChannel_2": "Aggiungi {{count}} Canali",
         "add": "Aggiungi",
+        "alertPropertyInsertPlaceholderLabel": "Inserisci segnaposto",
         "scopeConfigTitleWithApplications": "Selezionare applicazioni/servizi/endpoint",
         "scopeConfigTitle": "Seleziona servizi/endpoint",
         "scopeConfigSelectOneEntryMessage": "Selezionare almeno una voce.",
@@ -1028,11 +1030,56 @@
     "enable": "Abilita",
     "disable": "Disabilita",
     "synthetics": {
+      "dashboard": {
+        "column": {
+          "moreFiltersWithCount": "+{{count}} altri filtri",
+          "moreFiltersWithCount_plural": "+{{count}} altri filtri",
+          "moreFiltersWithCount_0": "+{{count}} altri filtri",
+          "moreFiltersWithCount_1": "+{{count}} altri filtri",
+          "moreFiltersWithCount_2": "+{{count}} altri filtri",
+          "filter": "filtro",
+          "filter_plural": "filtri",
+          "filter_0": "filtri",
+          "filter_1": "filtri",
+          "filter_2": "filtri"
+        }
+      },
       "alertList": {
         "timeThreshold": "Soglia di errore",
         "filterApplied": "Filtro applicato",
         "violationsCount": "{{violationsCount}} errori",
         "numberOfFailures": "Generazione di avvisi di errore"
+      },
+      "simple": {
+        "stepConfigsStep1Title": "Passo 1: Test",
+        "simpleAlertConfigDialogStep1Headline": "Quali test sintetici dovrebbero essere segnalati?",
+        "stepConfigsStep4Title": "Passo 4: Canali di avviso",
+        "alertDialogHeadline": "Cosa dovrebbe apparire nell'avviso?",
+        "stepConfigsStep2Title": "Passo 2: ambito",
+        "scopeHeadline": "Dove si desidera attivare l'avviso?",
+        "stepConfigsStep3Title": "Passo 3: soglia",
+        "stepConfigsStep5Title": "Passo 5: proprietà dei messaggi di avviso",
+        "thresholdTitle": "Quanti errori consecutivi devono verificarsi per ogni sede prima che venga emesso un avviso?"
+      },
+      "advanced": {
+        "alertChannelsLabel": "Canali di avviso",
+        "scopeFilterLabel": "Ambito",
+        "alertTestsLabel": "Test sintetici",
+        "alertTestsTitle": "Test sintetici: quali test sintetici dovrebbero essere segnalati?",
+        "propertiesLabel": "Proprietà avviso",
+        "failureThreshold": "Soglia di errore",
+        "failureThresholdLabel": "Soglia di errore",
+        "failureThresholdTitle": "Quanti errori consecutivi devono verificarsi per ogni sede prima che venga emesso un avviso?"
+      },
+      "selectTests": {
+        "selectAlertTestButtonTitle": "Aggiungi test sintetici",
+        "selectAlertTestButton": "Aggiungi test sintetici",
+        "addTest": "Aggiungi test {{count}}",
+        "alertTests": "Test sintetici",
+        "noTestSelectedText": "Nessun test sintetico selezionato",
+        "alertTestEntityName": "test sintetico {{entityName}}",
+        "testAttachedCount": "Test collegati ({{count}})",
+        "testAttached": "Test collegati"
       }
     }
   }

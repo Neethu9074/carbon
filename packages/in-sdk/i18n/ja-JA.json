@@ -9,6 +9,7 @@
   "agentMonitoringAlert_prefix04": "モニタリングの問題",
   "agentMonitoringExplanationLinkLabel": "トラブルシューティング資料",
   "agentMonitoringExplanationLinkHref": "https://www.ibm.com/docs/en/obi/current",
+  "agentMonitoringMetricCardinalityExceeded": "メトリック数の制限を超えました。 報告されるメトリック数を減らすか、サポートに連絡して制限を上げてください。",
   "services": "サービス",
   "dashboard": {
     "customMetricsV2": {

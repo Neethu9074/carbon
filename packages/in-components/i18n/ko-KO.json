@@ -407,6 +407,7 @@
     "viewSwitcherLabelEvents": "이벤트",
     "viewSwitcherlabelInfrastructure": "인프라",
     "viewSwitcherLabelApplications": "애플리케이션",
+    "viewSwitcherLabelSlo": "서비스 레벨",
     "viewSwitcherLabelAnalytics": "분석",
     "viewSwitcherLabelWebsitesAndMobileApps": "웹 사이트 및 모바일 앱",
     "viewSwitcherLabelWebsites": "웹 사이트",

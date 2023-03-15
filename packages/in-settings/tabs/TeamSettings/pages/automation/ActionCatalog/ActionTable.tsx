@@ -22,11 +22,11 @@ import CopyActionLink from 'in-settings/tabs/TeamSettings/pages/automation/Actio
 import { teamSettingsActionCatalog, getEntityIdView } from 'in-settings/navigation/paths';
 import List, { leftHeaderWithSelectAll, TableActions } from 'in-settings/components/List';
 import Tag from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Tag';
-import RunAction from 'in-events/components/AutomationActions/RunAction';
+import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getAllActions, ScoredAction } from 'in-automation/api';
 import { formatDateTime } from 'in-services/formatters/date';
-import { runActionTracker } from 'in-events/tracker';
+import { runActionTracker } from 'in-automation/tracker';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import TestActionButton from './TestActionButton';
 import { Event, VolatileId } from 'in-types';
@@ -100,7 +100,7 @@ const executeColumn = (volatileId: VolatileId, event?: Event) => ({
         <Button
           kind="action"
           icon={'lib_actions_play'}
-          onClick={() => addActiveDialog(<RunAction action={row} volatileId={volatileId} event={event} />)}
+          onClick={() => addActiveDialog(<RunActionDialog action={row} volatileId={volatileId} event={event} />)}
           noAutoMargin
         >
           {t('in-settings:tabs.run')}

@@ -4,12 +4,16 @@
  */
 
 import { Observable } from '@instana/observables';
+import { create } from '@instana/observables';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
+import createObservable from 'in-services/http/observableHttpResult';
+import memoize from 'in-services/util/memoizingObservableGenerator';
 import { deepFreeze } from 'in-services/util/object';
 import { SyntheticTest } from 'in-types';
 import http from 'in-services/http';
 
+const refreshSignal = create().emit(true);
 const testsUrl = `/api/synthetics/settings/tests`;
 const locationUrl = `/api/synthetics/settings/locations`;
 const resultUrl = `/api/synthetics/results`;
@@ -43,6 +47,19 @@ export function deleteLocation(locationId: string): Observable<unknown> {
     url: locationUrl + '/' + locationId,
     mapToResultObject: true
   }).map(response => deepFreeze(response));
+}
+
+export const getTestsAsResultObservable = memoize(getTestsAsResultObservableInternal, () => '', 1000);
+export function getTestsAsResultObservableInternal() {
+  return refreshSignal.flatMap(() =>
+    createObservable(
+      http<SyntheticTest[]>({
+        method: 'GET',
+        maxRetries: 3,
+        url: testsUrl
+      }).map(response => deepFreeze(response))
+    ).startWith(null)
+  );
 }
 
 export function getTests(): Observable<unknown> {

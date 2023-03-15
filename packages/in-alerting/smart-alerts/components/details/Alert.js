@@ -19,13 +19,13 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import AlertHistoryList from 'in-alerting/components/AlertHistoryList';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import AlertHeader from 'in-alerting/components/AlertHeader';
-import { alertsTab } from 'in-applications/navigation/paths';
 import { close } from 'in-components/DialogPresenter/store';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import SetBodyColor from 'in-components/SetBodyColor';
 import { Col, Row } from 'in-components/layout/Grid';
 import Footer from 'in-components/Footer/Footer';
 import Title from 'in-components/Title';
+import { role } from 'in-stores/user';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -44,7 +44,8 @@ export default function Alert({
   isGlobalSmartAlert,
   renderSmartAlertDialog,
   renderAlertConfiguration,
-  tracking = {}
+  tracking = {},
+  showActionButton = true
 }) {
   const { location, navigate } = useNavigation();
 
@@ -68,7 +69,7 @@ export default function Alert({
 
   function setRevision(created) {
     const targetLocation = { ...location, pathname: detailsPath };
-    setOrDeleteMatrixKey(targetLocation, alertsTab, alertCreatedMatrixParam, created);
+    setOrDeleteMatrixKey(targetLocation, alertsTabSegment, alertCreatedMatrixParam, created);
     navigate(targetLocation);
 
     /**
@@ -130,6 +131,8 @@ export default function Alert({
               </HorizontalFlexWrapper>
             );
           }}
+          showActionButton={showActionButton}
+          allowActionButtons={isGlobalSmartAlert ? role.canConfigureGlobalAlertConfigs : role.canConfigureCustomAlerts}
         />
 
         <Row>
@@ -184,5 +187,6 @@ Alert.propTypes = {
   matrix: PropTypes.shape({
     alertIdParam: PropTypes.string.isRequired,
     alertCreatedParam: PropTypes.string.isRequired
-  }).isRequired
+  }).isRequired,
+  showActionButton: PropTypes.bool
 };

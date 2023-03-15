@@ -9,6 +9,7 @@
   "agentMonitoringAlert_prefix04": "Problema de monitoramento",
   "agentMonitoringExplanationLinkLabel": "Docs de resolução de problemas",
   "agentMonitoringExplanationLinkHref": "https://www.ibm.com/docs/en/obi/current",
+  "agentMonitoringMetricCardinalityExceeded": "O limite da cardinalidade de métrica foi excedido. Reduza o número de métricas relatadas ou entre em contato com o suporte para obter um aumento de limite.",
   "services": "Serviços",
   "dashboard": {
     "customMetricsV2": {

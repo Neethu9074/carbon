@@ -190,7 +190,8 @@
         "errorLog": "Registro de errores",
         "warningLog": "Registro de avisos",
         "restrictedAccess": "Acceso restringido",
-        "restrictedAccessExpl": "No tiene permiso para acceder a esta información"
+        "restrictedAccessExpl": "No tiene permiso para acceder a esta información",
+        "batchCount": "Hay {{count}} registros relacionados con esta indicación de fecha y hora."
       },
       "callTooltipContent": {
         "numbersOfErrors": "{{count}} error",

@@ -35,7 +35,7 @@
   "permissionCanConfigureIntegrationsLabel": "Configuration de canaux d'alerte",
   "permissionCanConfigureIntegrationsDescription": "Permet la création et la configuration de canaux d'alerte.",
   "permissionCanConfigureIntegrationsCategory": "Événements",
-  "permissionCanConfigureCustomAlertsLabel": "Configuration d'événements, d'alertes et d'alertes intelligentes",
+  "permissionCanConfigureCustomAlertsLabel": "Configuration des événements, des alertes et des alertes intelligentes pour les points d'accès et les sites Web",
   "permissionCanConfigureCustomAlertsDescription": "Permet la création et la configuration d'événements, d'alertes et d'alertes intelligentes pour les perspectives d'application et les sites Web.",
   "permissionCanConfigureCustomAlertsCategory": "Événements",
   "permissionCanConfigureGlobalAlertPayloadLabel": "Configuration de la charge utile globale personnalisée des alertes",

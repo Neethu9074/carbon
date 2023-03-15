@@ -578,7 +578,8 @@
         "erroneousTrace": "错误跟踪",
         "attemptToRenderTrace": "尝试呈现跟踪",
         "analyzeBeacons": "分析信标",
-        "adjustedTimeConfig": "时间范围已调整为包含所选信标。"
+        "adjustedTimeConfigForTrace": "时间范围已调整为包含所选跟踪的所有调用。",
+        "adjustedTimeConfigForBeacon": "时间范围已调整为包含所选信标。"
       }
     },
     "components": {

@@ -3,44 +3,25 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
-
-import { SvgIcon } from '@instana/components';
 
 import AlertTitleWithPlaceholderHighlighting from 'in-alerting/smart-alerts/applications/inventory/AlertTitleWithPlacholderHighlighting';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import BuiltInIndicator from 'in-alerting/smart-alerts/components/details/BuiltInIndicator';
-import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
-import Tooltip from 'in-components/Tooltip';
+import { NameColumnCell } from 'in-alerting/smart-alerts/components/list/NameColumnCell';
 import { t } from 'in-i18n';
 
-import locals from 'in-alerting/smart-alerts/applications/list/columns/ListColumns.mless';
-
 export function SimpleListNameColumn({ config }) {
-  const { description, enabled, name, severity, rule, builtIn, evaluationType } = config;
-
   return (
-    <HorizontalFlexWrapper className={locals.nameListColumn}>
-      <SvgIcon
-        className={classNames({
-          [locals.alertIcon]: true,
-          [locals.alertIconSeverityLow]: severity <= 5,
-          [locals.alertIconSeverityHigh]: severity > 5
-        })}
-        type={enabled ? 'lib_alerts_alert' : 'lib_actions_pause'}
-      />
-      <div className={locals.name}>
-        <Tooltip content={description} align="topMiddle" delay={500}>
-          <div>
-            <AlertTitleWithPlaceholderHighlighting configName={name} evaluationType={evaluationType} />
-          </div>
-        </Tooltip>
-        <div className={locals.nameSubtext}>{getSubtitle(rule)}</div>
-      </div>
-      <BuiltInIndicator builtIn={builtIn} />
-    </HorizontalFlexWrapper>
+    <NameColumnCell
+      config={config}
+      renderName={config => (
+        <AlertTitleWithPlaceholderHighlighting configName={config.name} evaluationType={config.evaluationType} />
+      )}
+      getSubtitle={config => getSubtitle(config.rule)}
+      getAdditionalContent={config => <BuiltInIndicator builtIn={config.builtIn} />}
+    />
   );
 }
 

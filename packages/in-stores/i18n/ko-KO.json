@@ -35,7 +35,7 @@
   "permissionCanConfigureIntegrationsLabel": "경보 채널의 구성",
   "permissionCanConfigureIntegrationsDescription": "경보 채널의 작성 및 구성을 가능하게 합니다.",
   "permissionCanConfigureIntegrationsCategory": "이벤트",
-  "permissionCanConfigureCustomAlertsLabel": "이벤트, 경보 및 스마트 경보의 구성",
+  "permissionCanConfigureCustomAlertsLabel": "AP 및 웹 사이트에 대한 이벤트, 경보 및 스마트 경보 구성",
   "permissionCanConfigureCustomAlertsDescription": "애플리케이션 퍼스펙티브 및 웹 사이트에 대한 이벤트, 경보 및 스마트 경보의 작성 및 구성을 가능하게 합니다.",
   "permissionCanConfigureCustomAlertsCategory": "이벤트",
   "permissionCanConfigureGlobalAlertPayloadLabel": "경보에 대한 글로벌 사용자 정의 페이로드의 구성",

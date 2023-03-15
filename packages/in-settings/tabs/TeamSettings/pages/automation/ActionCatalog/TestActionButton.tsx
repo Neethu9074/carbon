@@ -11,7 +11,7 @@ import { Action } from '@instana/types';
 
 import { ActionFormEntity } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import { isDocLink } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
-import RunAction from 'in-events/components/AutomationActions/RunAction';
+import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import IconButton from 'in-components/IconButton/IconButton';
@@ -37,7 +37,7 @@ export default function TestActionButton({ action, form, setForm }: TestActionBu
                 setForm(form.setTouched(true, { recurse: true }));
                 return;
               }
-              addActiveDialog(<RunAction test action={action as Action} volatileId={{}} />);
+              addActiveDialog(<RunActionDialog test action={action as Action} volatileId={{}} />);
             }}
           />
         </Tooltip>

@@ -2927,7 +2927,8 @@
       "messageFlowApplicationName": "Nom de l'application",
       "status": "Statut",
       "messageFlowNumber": "Flux de messages ({{count}})",
-      "messageFlowNumber_plural": "Flux de messages ({{count}})"
+      "messageFlowNumber_plural": "Flux de messages ({{count}})",
+      "readMore": "En savoir plus..."
     },
     "aceMessageFlow": {
       "messageFlowInfo": "Flux de messages IBM ACE",
@@ -5155,7 +5156,20 @@
         "labelRows": "Lignes",
         "labelDiskUsage": "Utilisation du disque",
         "titlePartitioning": "Partitionnement",
-        "labelPartitions": "Partitions"
+        "labelPartitions": "Partitions",
+        "titleRunningMerges": "Fusions en cours d'exécution",
+        "titlePartitionId": "ID de partition",
+        "titleResultPartName": "Nom de composant",
+        "titleNumberOfParts": "Nombre de composants",
+        "titleRowsRead": "Lignes lues",
+        "titleRowsWritten": "Lignes écrites",
+        "titleMemoryUsage": "Utilisation de la mémoire",
+        "explanationRunningQueriesNotAvailable": "Aucune requête en cours d'exécution n'est disponible si l'intervalle de temps sélectionné se termine dans le passé.",
+        "explanationRunningMergesNotAvailable": "Aucune fusion en cours d'exécution n'est disponible si l'intervalle de temps sélectionné se termine dans le passé.",
+        "errorRetrieveRunningMerges": "Echec de l'extraction des fusions en cours d'exécution",
+        "errorRetrieveRunningQueries": "Echec de l'extraction des requêtes en cours d'exécution",
+        "infoNoRunningQueries": "Echec de l'extraction des requêtes en cours d'exécution",
+        "infoNoRunningMerges": "Echec de l'extraction des fusions en cours d'exécution"
       }
     },
     "cloudFoundry": {
@@ -5651,6 +5665,10 @@
         "queryCount": "Nombre de requêtes",
         "logWrites": "Ecritures de journal",
         "lockSuspensions": "Verrouiller les mises en suspens"
+      },
+      "notifications": {
+        "notificationHeader": "Avertissement",
+        "notificationText": "Cette version d'IBM Db2 for z/OS est obsolète. Nous prenons désormais en charge <supportLink>IBM Z Observability à l'aide de l'intégration d'Omegamon et de zAPM</supportLink>."
       },
       "UnableToConnect": "Impossible de se connecter à {{connectionUrl}} avec l'utilisateur {{user}}.",
       "UnableToGetData": "Une erreur s'est produite lors de l'obtention des données. Retrait du détecteur.",
@@ -6615,7 +6633,7 @@
         "rolledBackTransactions": "Transactions annulées",
         "cacheHitRatio": "Taux de réussite en cache",
         "standbyConflicts": "Conflits en attente",
-        "tuplesRead": "Tuples lus",
+        "tupleReturned": "Tuples renvoyés",
         "tuplesFetched": "Tuples extraits",
         "size": "Taille",
         "activeConnections": "Connexions actives",
@@ -6626,7 +6644,7 @@
         "cache": "Cache",
         "conflicts": "Conflits",
         "tuples": "Tuples",
-        "read": "Lecture",
+        "returned": "Retourné",
         "fetched": "Extrait",
         "databaseSizeTitle": "Taille de la base de données",
         "connections": "Connexions"
@@ -6644,8 +6662,8 @@
       "rolledBackTransactions": "Transactions annulées",
       "cacheHitRatio": "Taux de réussite en cache",
       "standbyConflicts": "Conflits en attente",
-      "tupleRead": "Tuple lu",
-      "tupleFetch": "Tuple extrait",
+      "tupleReturned": "Tuple renvoyé",
+      "tupleFetched": "Tuple extrait",
       "databaseSize": "Taille de la base de données",
       "connection": "Connexion",
       "replicationDelayInBytes": "Délai de réplication en octets",
@@ -9432,7 +9450,7 @@
       "openOutputCount": "Nombre de sorties ouvertes",
       "calls": "Appels",
       "statistics": "Statistiques de file d'attente MQ",
-      "statisticsRecord": "Remarque : seul 'indifférent' est pris en charge dans la zone 'Opérateur de mise en correspondance'.",
+      "statisticsRecord": "Index",
       "nonPersistentPutBytes": "Octets d'insertion non persistants",
       "persistentPutBytes": "Octets d'insertion persistants",
       "putFailCount": "Nombre d'échecs d'insertion",
@@ -9474,6 +9492,9 @@
         "agentStatus": "Statut",
         "queueManager": "Gestionnaire de files d'attente",
         "AgentStartTimeUTC": "Heure de début (UTC)",
+        "agentVersion": "Version de génération",
+        "agentOsName": "Système d'exploitation",
+        "PublishTimeUTC": "Heure de publication (UTC)",
         "maxSourceTransfers": "Nombre maximal de transferts de la source",
         "maxDestinationTransfers": "Nombre maximal de transferts de la destination",
         "maxQueuedTransfers": "Nombre maximal de transferts en file d'attente",
@@ -9484,8 +9505,6 @@
         "totalCurrentTransfers": "Nombre total de transferts en cours",
         "totalSourceTransfers": "Transferts source",
         "totalDestinationTransfers": "Transferts de destination",
-        "statusRunning": "En cours d'exécution",
-        "statusUnknown": "Inconnu",
         "transferState": "Etat",
         "sourceTransfersWithCount": "Transferts de source ({{len}})",
         "destinationTransfersWithCount": "Transferts de destination ({{len}})"

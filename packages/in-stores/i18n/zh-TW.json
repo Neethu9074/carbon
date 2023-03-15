@@ -35,7 +35,7 @@
   "permissionCanConfigureIntegrationsLabel": "警示通道的配置",
   "permissionCanConfigureIntegrationsDescription": "允許建立及配置警示通道。",
   "permissionCanConfigureIntegrationsCategory": "事件",
-  "permissionCanConfigureCustomAlertsLabel": "事件、警示及智慧型警示的配置",
+  "permissionCanConfigureCustomAlertsLabel": "應用程式及網站之事件、警示及智慧型警示的配置",
   "permissionCanConfigureCustomAlertsDescription": "允許建立及配置應用程式視景及網站的事件、警示及智慧型警示。",
   "permissionCanConfigureCustomAlertsCategory": "事件",
   "permissionCanConfigureGlobalAlertPayloadLabel": "配置警示的廣域自訂有效負載",

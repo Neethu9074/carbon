@@ -1087,6 +1087,19 @@
         "alertTestEntityName": "synthetic test {{entityName}}",
         "testAttachedCount": "Tests Attached ({{count}})",
         "testAttached": "Tests Attached"
+      },
+      "details": {
+        "threshold": "Threshold",
+        "alertConfigurationListTitleAlertConfiguration": "Alert Configuration",
+        "scope": {
+          "perLocation": {
+            "shortText": "Per Location"
+          }
+        },
+        "alertConfigurationTitleAlertTests": "Selected Tests",
+        "alertConfigurationTitleAlertChannels": "Alert Channels",
+        "alertConfigurationTitleAlertProperties": "Alert Properties",
+        "failureThreshold": "{{failureCount}} failures"
       }
     }
   }

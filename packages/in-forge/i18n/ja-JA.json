@@ -2927,7 +2927,8 @@
       "messageFlowApplicationName": "アプリケーション名",
       "status": "状況",
       "messageFlowNumber": "メッセージ・フロー数 ({{count}})",
-      "messageFlowNumber_plural": "メッセージ・フロー数 ({{count}})"
+      "messageFlowNumber_plural": "メッセージ・フロー数 ({{count}})",
+      "readMore": "続きを読む…"
     },
     "aceMessageFlow": {
       "messageFlowInfo": "IBM ACE メッセージ・フロー",
@@ -5155,7 +5156,20 @@
         "labelRows": "行数",
         "labelDiskUsage": "ディスク使用状況",
         "titlePartitioning": "パーティショニング",
-        "labelPartitions": "パーティション数"
+        "labelPartitions": "パーティション数",
+        "titleRunningMerges": "実行中のマージ",
+        "titlePartitionId": "パーティション ID",
+        "titleResultPartName": "パーツ名",
+        "titleNumberOfParts": "パーツの数",
+        "titleRowsRead": "読み取り行数",
+        "titleRowsWritten": "書き込み行数",
+        "titleMemoryUsage": "メモリー使用量",
+        "explanationRunningQueriesNotAvailable": "選択した時刻範囲が過去に終了している場合、実行中の照会は参照できません。",
+        "explanationRunningMergesNotAvailable": "選択した時刻範囲が過去に終了している場合、実行中のマージは参照できません。",
+        "errorRetrieveRunningMerges": "実行中のマージの取得に失敗しました",
+        "errorRetrieveRunningQueries": "実行中の照会の取得に失敗しました",
+        "infoNoRunningQueries": "実行中の照会の取得に失敗しました",
+        "infoNoRunningMerges": "実行中のマージの取得に失敗しました"
       }
     },
     "cloudFoundry": {
@@ -5651,6 +5665,10 @@
         "queryCount": "照会数",
         "logWrites": "ログ書き込み数",
         "lockSuspensions": "ロック中断数"
+      },
+      "notifications": {
+        "notificationHeader": "警告",
+        "notificationText": "このバージョンのIBM Db2 for z/OSは推奨されません。 現時点では、IBMは<supportLink>OmegamonとzAPMの統合を使用して、IBM Z Observabilityをサポートしています。</supportLink>"
       },
       "UnableToConnect": "ユーザー {{user}} を使用して {{connectionUrl}} に接続することはできません。",
       "UnableToGetData": "データの取得中にエラーが発生しました。センサーを削除します。",
@@ -6615,7 +6633,7 @@
         "rolledBackTransactions": "ロールバックされたトランザクション",
         "cacheHitRatio": "キャッシュ・ヒット率",
         "standbyConflicts": "スタンバイ競合",
-        "tuplesRead": "読み取られたタプル",
+        "tupleReturned": "タプルが返されました",
         "tuplesFetched": "フェッチされたタプル",
         "size": "サイズ",
         "activeConnections": "アクティブな接続",
@@ -6626,7 +6644,7 @@
         "cache": "キャッシュ",
         "conflicts": "競合数",
         "tuples": "タプル数",
-        "read": "読み取り済み",
+        "returned": "返された",
         "fetched": "フェッチ済み",
         "databaseSizeTitle": "データベースのサイズ",
         "connections": "接続数"
@@ -6644,8 +6662,8 @@
       "rolledBackTransactions": "ロールバックされたトランザクション",
       "cacheHitRatio": "キャッシュ・ヒット率",
       "standbyConflicts": "スタンバイ競合",
-      "tupleRead": "読み取られたタプル",
-      "tupleFetch": "フェッチされたタプル",
+      "tupleReturned": "タプルが返されました",
+      "tupleFetched": "タプルが取り出されました",
       "databaseSize": "データベースのサイズ",
       "connection": "接続",
       "replicationDelayInBytes": "レプリケーション遅延 (バイト)",
@@ -9432,7 +9450,7 @@
       "openOutputCount": "オープン出力数",
       "calls": "呼び出し",
       "statistics": "MQ キュー統計",
-      "statisticsRecord": "注:「一致演算子」フィールドでは「any」のみがサポートされます。",
+      "statisticsRecord": "索引",
       "nonPersistentPutBytes": "非永続 Put バイト数",
       "persistentPutBytes": "永続 Put バイト数",
       "putFailCount": "Put 失敗数",
@@ -9474,6 +9492,9 @@
         "agentStatus": "状況",
         "queueManager": "キュー・マネージャー",
         "AgentStartTimeUTC": "開始時刻 (UTC)",
+        "agentVersion": "ビルド・バージョン",
+        "agentOsName": "オペレーティング・システム",
+        "PublishTimeUTC": "公開時刻 (UTC)",
         "maxSourceTransfers": "ソース転送の最大数",
         "maxDestinationTransfers": "宛先転送の最大数",
         "maxQueuedTransfers": "キューに入れられた転送の最大数",
@@ -9484,8 +9505,6 @@
         "totalCurrentTransfers": "現在の転送の合計",
         "totalSourceTransfers": "ソース転送",
         "totalDestinationTransfers": "宛先転送",
-        "statusRunning": "実行中",
-        "statusUnknown": "不明",
         "transferState": "状態",
         "sourceTransfersWithCount": "ソース転送 ({{len}})",
         "destinationTransfersWithCount": "宛先転送 ({{len}})"

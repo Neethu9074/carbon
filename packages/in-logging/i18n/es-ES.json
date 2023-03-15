@@ -38,5 +38,7 @@
   "tooltipEntityHealthNoIssues": "No hay ningún problema",
   "tooltipEntityHealthIssues": "{{numberOfIssues}} problemas",
   "container": "Contenedor",
-  "endOfInfiniteScroll": "No hay más registros disponibles"
+  "endOfInfiniteScroll": "No hay más registros disponibles",
+  "liveModeDisabled": "Modalidad activa inhabilitada para registro",
+  "logLevels": "Niveles de registro"
 }

@@ -33,7 +33,7 @@
         "scriptTitle": "What is the name of this HTTP Script test",
         "labelName": "Name of the test",
         "labelDescription": "Description",
-        "labelFrequency": "Frequency",
+        "labelFrequency": "Frequency (minute)",
         "labelApplications": "Select an Application"
       },
       "bluePrint": {
@@ -98,7 +98,8 @@
         "configStep": {
           "expectedStatus": "Enter expected status",
           "allowInsecure": "Allow Insecure"
-        }
+        },
+        "loadMore": "Load More"
       }
     },
     "httpMethods": {

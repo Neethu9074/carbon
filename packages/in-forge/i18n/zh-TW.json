@@ -2927,7 +2927,8 @@
       "messageFlowApplicationName": "應用程式名稱",
       "status": "狀態",
       "messageFlowNumber": "訊息流程 ({{count}})",
-      "messageFlowNumber_plural": "訊息流程 ({{count}})"
+      "messageFlowNumber_plural": "訊息流程 ({{count}})",
+      "readMore": "閱讀更多…"
     },
     "aceMessageFlow": {
       "messageFlowInfo": "IBM ACE 訊息流程",
@@ -5155,7 +5156,20 @@
         "labelRows": "列",
         "labelDiskUsage": "磁碟用量",
         "titlePartitioning": "分割",
-        "labelPartitions": "分割區"
+        "labelPartitions": "分割區",
+        "titleRunningMerges": "執行中合併",
+        "titlePartitionId": "分割區 ID",
+        "titleResultPartName": "組件名稱",
+        "titleNumberOfParts": "組件數",
+        "titleRowsRead": "讀取的列數",
+        "titleRowsWritten": "寫入的列數",
+        "titleMemoryUsage": "記憶體用量",
+        "explanationRunningQueriesNotAvailable": "如果選取的時間範圍在過去結束，則無法使用執行中查詢。",
+        "explanationRunningMergesNotAvailable": "如果選取的時間範圍在過去結束，則無法使用執行中合併。",
+        "errorRetrieveRunningMerges": "無法擷取執行中合併",
+        "errorRetrieveRunningQueries": "無法擷取執行中查詢",
+        "infoNoRunningQueries": "無法擷取執行中查詢",
+        "infoNoRunningMerges": "無法擷取執行中合併"
       }
     },
     "cloudFoundry": {
@@ -5651,6 +5665,10 @@
         "queryCount": "查詢計數",
         "logWrites": "日誌寫入",
         "lockSuspensions": "鎖定暫停"
+      },
+      "notifications": {
+        "notificationHeader": "警告",
+        "notificationText": "此 IBM Db2 for z/OS 版本已淘汰。 從現在開始，我們支援 <supportLink>IBM Z Observability with help of Omegamon and zAPM integration</supportLink>。"
       },
       "UnableToConnect": "無法以使用者 {{user}} 身分連接至 {{connectionUrl}}。",
       "UnableToGetData": "取得資料時發生錯誤。正在移除感應器。",
@@ -6615,7 +6633,7 @@
         "rolledBackTransactions": "已回復的交易",
         "cacheHitRatio": "快取命中率",
         "standbyConflicts": "待命衝突",
-        "tuplesRead": "已讀取的值組",
+        "tupleReturned": "傳回的值組數",
         "tuplesFetched": "已提取的值組",
         "size": "大小",
         "activeConnections": "作用中連線",
@@ -6626,7 +6644,7 @@
         "cache": "快取",
         "conflicts": "衝突",
         "tuples": "值組",
-        "read": "讀取",
+        "returned": "已傳回",
         "fetched": "已提取",
         "databaseSizeTitle": "資料庫大小",
         "connections": "連線"
@@ -6644,8 +6662,8 @@
       "rolledBackTransactions": "已回復的交易",
       "cacheHitRatio": "快取命中率",
       "standbyConflicts": "待命衝突",
-      "tupleRead": "值組讀取",
-      "tupleFetch": "值組提取",
+      "tupleReturned": "已傳回值組",
+      "tupleFetched": "已提取值組",
       "databaseSize": "資料庫大小",
       "connection": "連線",
       "replicationDelayInBytes": "抄寫延遲（以位元組為單位）",
@@ -9432,7 +9450,7 @@
       "openOutputCount": "開啟輸出計數",
       "calls": "呼叫",
       "statistics": "MQ 佇列統計資料",
-      "statisticsRecord": "附註：「相符運算子」欄位只支援 'any'！",
+      "statisticsRecord": "索引",
       "nonPersistentPutBytes": "非持續性放置位元組數",
       "persistentPutBytes": "持續放置位元組數",
       "putFailCount": "放置失敗計數",
@@ -9474,6 +9492,9 @@
         "agentStatus": "狀態",
         "queueManager": "佇列管理程式",
         "AgentStartTimeUTC": "開始時間 (UTC)",
+        "agentVersion": "建置版本",
+        "agentOsName": "作業系統",
+        "PublishTimeUTC": "發佈時間 (UTC)",
         "maxSourceTransfers": "來源傳送數上限",
         "maxDestinationTransfers": "目的地傳送數上限",
         "maxQueuedTransfers": "佇列傳送數上限",
@@ -9484,8 +9505,6 @@
         "totalCurrentTransfers": "現行傳送總數",
         "totalSourceTransfers": "來源傳送",
         "totalDestinationTransfers": "目的地傳送",
-        "statusRunning": "執行中",
-        "statusUnknown": "不明",
         "transferState": "狀態",
         "sourceTransfersWithCount": "來源傳送 ({{len}})",
         "destinationTransfersWithCount": "目的地傳送 ({{len}})"

@@ -66,11 +66,24 @@
           }
         }
       },
-      "form": {
-        "validUrl": "Geben Sie eine gültige URL ein"
-      },
       "validators": {
-        "theValueMustNotBeEmpty": "Mindestens eine Position muss ausgewählt werden"
+        "theValueMustNotBeEmpty": "Mindestens eine Position muss ausgewählt werden",
+        "urlMustNotContainSpace": "Die URL darf kein Leerzeichen enthalten",
+        "mailToNotSupported": "'mailto' wird nicht unterstützt",
+        "outOfLength": "Die URL ist zu lang",
+        "fragmentsNotSupported": "Fragmente werden nicht unterstützt",
+        "queryNotSupported": "Abfrage wird nicht unterstützt",
+        "incorrectProtocol": "Das Protokoll muss 'http' oder 'https' sein",
+        "incorrectUrlFormat": "Protokoll oder Domäne fehlt",
+        "missUserAuthentication": "Benutzerauthentifizierung fehlt",
+        "incorrectAuthentication": "Falsche Benutzerauthentifizierung",
+        "missUserOrPassword": "Benutzer oder Kennwort fehlt",
+        "invalidPortValue": "Portwert ungültig",
+        "missHost": "Host fehlt in der URL",
+        "invalidHost": "Hostformat ungültig"
+      },
+      "advancedMode": {
+        "buttonContent": "Zum erweiterten Modus wechseln"
       }
     },
     "httpMethods": {
@@ -108,6 +121,8 @@
         "smartAlerts": "Smart Alerts"
       },
       "popDialog": {
+        "popUpDialogTitle": "Berechtigungen für synthetische Überwachung",
+        "popUpDialog": "Informationen zum Festlegen der Berechtigungen für synthetische Überwachung finden Sie in diesem <documentationLink>Dokument</documentationLink>",
         "button": "PoP bereitstellen",
         "simpleTab": "Einfach",
         "redisTab": "Redis-TLS",
@@ -206,7 +221,8 @@
       "title": "Ergebnisse",
       "locationLabel": "Position",
       "failures": "Fehler",
-      "status": "Status"
+      "status": "Status",
+      "success": "Erfolgreich"
     },
     "detailsPage": {
       "timeLineWidget": "Zeitachse",

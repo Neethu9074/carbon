@@ -562,6 +562,7 @@
         "cancelTitle": "キャンセル",
         "sharedListTooltip": "{{typeName}} は利用できなくなりました。",
         "clearTagFilterExpressionButton": "クリア",
+        "baselineErrorMessageComputedOnApproximateData": "ベースラインは、データ保存設定による概算データに基づいて計算されます。 そのため、選択したフィルターに一致する呼び出しがほとんどない場合には、ベースラインが正確でない可能性があります。",
         "baselineErrorMessageInsufficientDataToCompute": "選択したベースラインを計算するにはデータが不十分です。 代わりに<em>静的しきい値</em> を選択してください。",
         "pleaseContactSupportToRiseLimit": "この上限を増やすには <supportLink>{{instanaSupportPortal}}</supportLink> からお問い合わせください。",
         "adaptiveBaselineErrorMessage": "しきい値プレビューは現在使用できません。<br />このスマート・アラートは引き続き保存できます。",
@@ -581,6 +582,7 @@
         "addChannel_1": "{{count}} 個のチャネルの追加",
         "addChannel_2": "{{count}} 個のチャネルの追加",
         "add": "追加",
+        "alertPropertyInsertPlaceholderLabel": "プレースホルダーの挿入",
         "scopeConfigTitleWithApplications": "アプリケーション/サービス/エンドポイントの選択",
         "scopeConfigTitle": "サービス/エンドポイントの選択",
         "scopeConfigSelectOneEntryMessage": "少なくとも 1 つのエントリーを選択してください。",
@@ -1028,11 +1030,56 @@
     "enable": "有効にする",
     "disable": "無効化",
     "synthetics": {
+      "dashboard": {
+        "column": {
+          "moreFiltersWithCount": "さらに {{count}} 個のフィルター",
+          "moreFiltersWithCount_plural": "さらに {{count}} 個のフィルター",
+          "moreFiltersWithCount_0": "さらに {{count}} 個のフィルター",
+          "moreFiltersWithCount_1": "さらに {{count}} 個のフィルター",
+          "moreFiltersWithCount_2": "さらに {{count}} 個のフィルター",
+          "filter": "フィルター",
+          "filter_plural": "フィルター",
+          "filter_0": "フィルター",
+          "filter_1": "フィルター",
+          "filter_2": "フィルター"
+        }
+      },
       "alertList": {
         "timeThreshold": "障害しきい値",
         "filterApplied": "適用されているフィルター",
         "violationsCount": "{{violationsCount}}件の障害",
         "numberOfFailures": "障害アラート"
+      },
+      "simple": {
+        "stepConfigsStep1Title": "ステップ1: テスト",
+        "simpleAlertConfigDialogStep1Headline": "アラートを出す必要があるのはどのシンセティック・テストですか?",
+        "stepConfigsStep4Title": "ステップ4: アラート・チャネル",
+        "alertDialogHeadline": "アラートには何が表示されますか?",
+        "stepConfigsStep2Title": "ステップ2: 範囲",
+        "scopeHeadline": "どこでアラートをトリガーしますか?",
+        "stepConfigsStep3Title": "ステップ3: しきい値",
+        "stepConfigsStep5Title": "ステップ5: アラート・プロパティー",
+        "thresholdTitle": "ロケーションごとに何回連続して失敗するとアラートが出されますか?"
+      },
+      "advanced": {
+        "alertChannelsLabel": "アラート・チャネル",
+        "scopeFilterLabel": "範囲",
+        "alertTestsLabel": "シンセティック・テスト",
+        "alertTestsTitle": "シンセティック・テスト: アラートを出す必要があるのはどのシンセティック・テストですか?",
+        "propertiesLabel": "アラートのプロパティー",
+        "failureThreshold": "障害しきい値",
+        "failureThresholdLabel": "障害しきい値",
+        "failureThresholdTitle": "ロケーションごとに何回連続して失敗するとアラートが出されますか?"
+      },
+      "selectTests": {
+        "selectAlertTestButtonTitle": "シンセティック・テストの追加",
+        "selectAlertTestButton": "シンセティック・テストの追加",
+        "addTest": "{{count}}個のテストの追加",
+        "alertTests": "シンセティック・テスト",
+        "noTestSelectedText": "シンセティック・テストが選択されていません",
+        "alertTestEntityName": "シンセティック・テスト{{entityName}}",
+        "testAttachedCount": "接続されたテスト数 ({{count}})",
+        "testAttached": "接続されたテスト"
       }
     }
   }

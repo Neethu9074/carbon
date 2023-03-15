@@ -190,7 +190,8 @@
         "errorLog": "Fehlerprotokoll",
         "warningLog": "Warnprotokoll",
         "restrictedAccess": "Eingeschränkter Zugriff",
-        "restrictedAccessExpl": "Sie sind nicht berechtigt, auf diese Informationen zuzugreifen."
+        "restrictedAccessExpl": "Sie sind nicht berechtigt, auf diese Informationen zuzugreifen.",
+        "batchCount": "Um diese Zeitmarke herum sind {{count}} Protokolle vorhanden."
       },
       "callTooltipContent": {
         "numbersOfErrors": "{{count}} Fehler",

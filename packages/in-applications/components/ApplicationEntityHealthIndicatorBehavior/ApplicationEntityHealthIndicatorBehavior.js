@@ -44,7 +44,7 @@ export default function ApplicationEntityHealthIndicatorBehavior(props) {
   }
 
   return (
-    <Overlay props={{ ...props, healthInfo }} content={Content} withoutWrapper inContentArea={props.inContentArea}>
+    <Overlay props={{ ...props, healthInfo }} content={Content} inContentArea={props.inContentArea} align="leftTop">
       {({ toggle, refSetter }) => (
         <props.IndicatorPresenter
           openIssues={healthInfo?.openIssues ?? 0}

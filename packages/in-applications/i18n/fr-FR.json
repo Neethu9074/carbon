@@ -578,7 +578,8 @@
         "erroneousTrace": "Trace erronée",
         "attemptToRenderTrace": "Trace de tentative de rendu",
         "analyzeBeacons": "Analyser les balises",
-        "adjustedTimeConfig": "La période a été ajustée pour inclure la balise sélectionnée."
+        "adjustedTimeConfigForTrace": "L'intervalle a été ajusté pour inclure tous les appels de la trace sélectionnée.",
+        "adjustedTimeConfigForBeacon": "La période a été ajustée pour inclure la balise sélectionnée."
       }
     },
     "components": {

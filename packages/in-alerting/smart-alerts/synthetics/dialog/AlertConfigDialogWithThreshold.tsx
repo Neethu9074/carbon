@@ -7,9 +7,14 @@
 import React, { useMemo, useState } from 'react';
 import { Item, MapForm } from 'formalistic';
 
+import {
+  createBoundedAlertQueryBuilder,
+  createIsAlertQueryValid
+} from 'in-alerting/smart-alerts/synthetics/components/AlertQueryBuilder';
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
+//@ts-expect-error
+import { useIsTagFilterFormModelValid } from 'in-alerting/smart-alerts/synthetics/hooks/useIsTagFilterFormModelValid';
 import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/applications/components/useSimpleModePageNavigation';
-import { createBoundedAlertQueryBuilder } from 'in-alerting/smart-alerts/synthetics/components/AlertQueryBuilder';
 import { stepConfigs, stepRenderers } from 'in-alerting/smart-alerts/synthetics/dialog/simple/simpleModeSteps';
 import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
 import AdvancedModeContainer from 'in-alerting/smart-alerts/synthetics/dialog/advanced/AdvancedModeContainer';
@@ -46,11 +51,20 @@ const FORM_ID = 'smart-alert-editor';
 
 function SmartAlertConfigDialogWithQueryValidation({ ...props }: AlertConfigDialogWithThresholdProps) {
   const { form, updateForm, startWithSimpleMode, editMode, isSaving, onCreate, onClose, messages, onChange } = props;
+
   const [simpleMode, setSimpleMode] = useState(startWithSimpleMode);
-  const { QueryBuilder: AlertQueryBuilder } = useMemo(
+  const { QueryBuilder: AlertQueryBuilder, isQueryValid } = useMemo(
     () => createBoundedAlertQueryBuilder(tagSuggestionTimeConfig),
     []
   );
+
+  const alertConfigWithFormModel = form.toJS();
+  const { tagFilterExpression } = alertConfigWithFormModel;
+
+  const isAlertQueryValid = createIsAlertQueryValid(isQueryValid);
+
+  const isTagFilterFormModelValid = useIsTagFilterFormModelValid(tagFilterExpression, isAlertQueryValid);
+
   const { step, backOrCancel, handleSubmit } = useSimpleModePageNavigation({
     stepConfigs,
     form,
@@ -68,7 +82,9 @@ function SmartAlertConfigDialogWithQueryValidation({ ...props }: AlertConfigDial
       form={form}
       isSaving={isSaving}
       formId={FORM_ID}
-      additionalStepCheck={() => true}
+      additionalStepCheck={step => {
+        return step === 0 ? true : isTagFilterFormModelValid;
+      }}
     />
   ) : (
     <AdvancedModeFooter
@@ -78,7 +94,7 @@ function SmartAlertConfigDialogWithQueryValidation({ ...props }: AlertConfigDial
       onCreate={onCreate}
       isSaving={isSaving}
       editMode={editMode}
-      additionalValidationCheck={() => true}
+      additionalValidationCheck={() => isTagFilterFormModelValid}
       scrollToFirstFormError={() => triggerScrollToInvalidItem()}
     />
   );
@@ -107,7 +123,7 @@ function SmartAlertConfigDialogWithQueryValidation({ ...props }: AlertConfigDial
       QueryBuilderComponent={AlertQueryBuilder}
       SimpleModeElement={SimpleModeContainer}
       AdvancedModeElement={AdvancedModeContainer}
-      isTagFilterFormModelValid
+      isTagFilterFormModelValid={isTagFilterFormModelValid}
     />
   );
 }

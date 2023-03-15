@@ -562,6 +562,7 @@
         "cancelTitle": "Annuler",
         "sharedListTooltip": "{{typeName}} n'est plus disponible",
         "clearTagFilterExpressionButton": "Effacer",
+        "baselineErrorMessageComputedOnApproximateData": "La base de référence est calculée en fonction des données approximatives en raison des paramètres de conservation de données. Par conséquent, il se peut qu'elle ne soit pas exacte s'il y a peu d'appels correspondant aux filtres sélectionnés.",
         "baselineErrorMessageInsufficientDataToCompute": "Données insuffisantes pour calculer la référence sélectionnée. Sélectionnez <em>Seuil statique</em> à la place.",
         "pleaseContactSupportToRiseLimit": "Merci de nous contacter via notre <supportLink>{{instanaSupportPortal}}</supportLink> pour demander une augmentation de cette limite.",
         "adaptiveBaselineErrorMessage": "L'aperçu de seuil n'est pas disponible actuellement.<br />Cette alerte intelligente peut tout de même être sauvegardée.",
@@ -581,6 +582,7 @@
         "addChannel_1": "Ajouter {{count}} canaux",
         "addChannel_2": "Ajouter {{count}} canaux",
         "add": "Ajouter",
+        "alertPropertyInsertPlaceholderLabel": "Insérer un espace réservé",
         "scopeConfigTitleWithApplications": "Sélectionner des applications, services, noeuds finaux",
         "scopeConfigTitle": "Sélectionner les services/noeuds finaux",
         "scopeConfigSelectOneEntryMessage": "Sélectionnez au moins une entrée.",
@@ -1028,11 +1030,56 @@
     "enable": "Activer",
     "disable": "Désactiver",
     "synthetics": {
+      "dashboard": {
+        "column": {
+          "moreFiltersWithCount": "+{{count}} filtre supplémentaire",
+          "moreFiltersWithCount_plural": "+{{count}} filtres supplémentaires",
+          "moreFiltersWithCount_0": "+{{count}} filtres supplémentaires",
+          "moreFiltersWithCount_1": "+{{count}} filtres supplémentaires",
+          "moreFiltersWithCount_2": "+{{count}} filtres supplémentaires",
+          "filter": "filtre",
+          "filter_plural": "filtres",
+          "filter_0": "filtres",
+          "filter_1": "filtres",
+          "filter_2": "filtres"
+        }
+      },
       "alertList": {
         "timeThreshold": "Seuil d'échec",
         "filterApplied": "Filtre appliqué",
         "violationsCount": "{{violationsCount}} échec(s)",
         "numberOfFailures": "Alerte d'échec"
+      },
+      "simple": {
+        "stepConfigsStep1Title": "Etape 1 : Tests",
+        "simpleAlertConfigDialogStep1Headline": "Quels tests synthétiques doivent être signalés par une alerte ?",
+        "stepConfigsStep4Title": "Etape 4 : Canaux d'alerte",
+        "alertDialogHeadline": "Que doit-on voir dans l'alerte ?",
+        "stepConfigsStep2Title": "Etape 2 : Portée",
+        "scopeHeadline": "Où voulez-vous que l'alerte se déclenche ?",
+        "stepConfigsStep3Title": "Etape 3 : Seuil",
+        "stepConfigsStep5Title": "Etape 5 : Propriétés d'alerte",
+        "thresholdTitle": "Combien d'échecs consécutifs doivent se produire par emplacement avant la génération d'alerte ?"
+      },
+      "advanced": {
+        "alertChannelsLabel": "Canaux d'alerte",
+        "scopeFilterLabel": "Portée",
+        "alertTestsLabel": "Tests synthétiques",
+        "alertTestsTitle": "Tests synthétiques : Quels tests synthétiques doivent être signalés par une alerte ?",
+        "propertiesLabel": "Propriétés d'alerte",
+        "failureThreshold": "Seuil d'échec",
+        "failureThresholdLabel": "Seuil d'échec",
+        "failureThresholdTitle": "Combien d'échecs consécutifs doivent se produire par emplacement avant la génération d'alerte ?"
+      },
+      "selectTests": {
+        "selectAlertTestButtonTitle": "Ajouter des tests synthétiques",
+        "selectAlertTestButton": "Ajouter des tests synthétiques",
+        "addTest": "Ajouter {{count}} test",
+        "alertTests": "Tests synthétiques",
+        "noTestSelectedText": "Aucun test synthétique sélectionné",
+        "alertTestEntityName": "test synthétique {{entityName}}",
+        "testAttachedCount": "Tests joints ({{count}})",
+        "testAttached": "Tests joints"
       }
     }
   }

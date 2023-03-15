@@ -35,7 +35,7 @@
   "permissionCanConfigureIntegrationsLabel": "アラート・チャネルの構成",
   "permissionCanConfigureIntegrationsDescription": "アラート・チャネルの作成と構成を許可します。",
   "permissionCanConfigureIntegrationsCategory": "イベント",
-  "permissionCanConfigureCustomAlertsLabel": "イベント、アラート、およびスマート・アラートの構成",
+  "permissionCanConfigureCustomAlertsLabel": "APおよびWebサイトのイベント、アラート、およびスマート・アラートの構成",
   "permissionCanConfigureCustomAlertsDescription": "アプリケーション・パースペクティブと Web サイトのイベント、アラート、およびスマート・アラートの作成と構成を許可します。",
   "permissionCanConfigureCustomAlertsCategory": "イベント",
   "permissionCanConfigureGlobalAlertPayloadLabel": "アラート用のグローバル・カスタム・ペイロードの構成",

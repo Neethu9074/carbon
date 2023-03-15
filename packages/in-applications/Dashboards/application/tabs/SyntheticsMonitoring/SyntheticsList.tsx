@@ -6,6 +6,8 @@
 
 import React from 'react';
 
+import { Result, SyntheticTest } from '@instana/types';
+import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
 import {
@@ -28,9 +30,11 @@ import Filters from 'in-synthetics/dashboards/global/tabs/tests/components/Filte
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Footer from 'in-components/Footer/Footer';
 import useUrlState from 'in-hooks/useUrlState';
+import { getTests } from 'in-synthetics/api';
 
 const isAppcontext = true;
 
@@ -61,15 +65,16 @@ export default function SyntheticList() {
   const location = useLocation();
   const appId = getMatrixParameter(location, '/application', 'appId') ?? '';
   const [{ syntheticTypes, locationIds }, setFilter] = useUrlState(urlStateDefinition);
+  const syntheticTests: Result<SyntheticTest[]> = useObservable<any, any[]>(getTests, []) ?? pendingResult;
 
   function useFilterHeader(isFilterAllowed: boolean) {
-    return function Filter({ result, syntheticTypes, locationIds }: PresenterProps) {
+    return function Filter({ syntheticTypes, locationIds }: PresenterProps) {
       if (!isFilterAllowed) {
         return undefined;
       } else {
         return (
           <Filters
-            result={result}
+            result={syntheticTests}
             setFilter={setFilter}
             isAppcontext={isAppcontext}
             syntheticTypes={syntheticTypes}

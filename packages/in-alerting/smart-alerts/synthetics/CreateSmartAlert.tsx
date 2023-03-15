@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { FailureSyntheticAlertRule, SyntheticAlertConfigWithMetadata, TagFilter } from '@instana/types';
+import { ChangeSummary, FailureSyntheticAlertRule, SyntheticAlertConfigWithMetadata, TagFilter } from '@instana/types';
 
 import { syntheticAlertListPath, syntheticSmartAlertsPath } from 'in-synthetics/navigation/paths';
 import AlertConfigDialog from 'in-alerting/smart-alerts/synthetics/dialog/AlertConfigDialog';
@@ -48,7 +48,7 @@ export default function CreateSmartAlert({ testId }: AlertsProps) {
   );
 }
 
-export function generateAlertConfig(testIds?: string[]): SyntheticAlertConfigWithMetadata {
+export function generateAlertConfig(testIds?: string[]): SyntheticAlertConfigWithMetadata & ChangeSummary {
   const rule: FailureSyntheticAlertRule = {
     alertType: 'failure',
     metricName: 'status'
@@ -58,15 +58,16 @@ export function generateAlertConfig(testIds?: string[]): SyntheticAlertConfigWit
     entity: 'NOT_APPLICABLE',
     name: 'synthetic.locationId',
     type: 'TAG_FILTER',
-    value: 'Hello',
+    value: '',
     operator: 'EQUALS'
   };
 
   return {
     enabled: true,
     readOnly: false,
-    id: '',
-    created: 0,
+    id: '123',
+    //@ts-expect-error type-conflict: created would be a timestamp if created on the server.
+    created: undefined,
     description: 'new config description',
     name: 'new config',
     severity: 5,
@@ -77,6 +78,13 @@ export function generateAlertConfig(testIds?: string[]): SyntheticAlertConfigWit
     timeThreshold: {
       type: 'violationsInSequence',
       violationsCount: 1
+    },
+    changeSummary: {
+      changeType: 'DELETE',
+      author: {
+        id: '123',
+        type: 'USER'
+      }
     }
   };
 }

@@ -14,6 +14,12 @@ interface MetricItem {
   aggregation: AggregationType;
 }
 
+interface ChartedMetric {
+  metricId: string;
+  aggregationId: AggregationType;
+  rendererId: string;
+}
+
 interface GetLinkToExploreProps {
   tagFilterExpression?: FormModelElement[];
   group?: Group;
@@ -22,6 +28,7 @@ interface GetLinkToExploreProps {
   metrics?: Array<MetricItem>;
   order?: Order;
   timeConfig?: TimeConfig;
+  chartedMetrics?: Array<ChartedMetric>;
 }
 
 export function getLinkToExplore({
@@ -31,5 +38,6 @@ export function getLinkToExplore({
   type,
   metrics,
   order,
-  timeConfig
+  timeConfig,
+  chartedMetrics
 }: GetLinkToExploreProps): Observable<string>;

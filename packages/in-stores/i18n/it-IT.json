@@ -35,7 +35,7 @@
   "permissionCanConfigureIntegrationsLabel": "Configurazione dei canali di allarme",
   "permissionCanConfigureIntegrationsDescription": "Consente la creazione e la configurazione dei canali di allarme.",
   "permissionCanConfigureIntegrationsCategory": "Eventi",
-  "permissionCanConfigureCustomAlertsLabel": "Configurazione degli eventi, degli avvisi e degli avvisi intelligenti",
+  "permissionCanConfigureCustomAlertsLabel": "Configurazione di eventi, avvisi e avvisi smart per app e siti web",
   "permissionCanConfigureCustomAlertsDescription": "Permette la creazione e la configurazione di eventi, avvisi e avvisi intelligenti per prospettive applicazione e siti web.",
   "permissionCanConfigureCustomAlertsCategory": "Eventi",
   "permissionCanConfigureGlobalAlertPayloadLabel": "Configurazione del payload personalizzato globale per gli avvisi",

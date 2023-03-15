@@ -28,7 +28,8 @@ const propertiesBySeverity = Object.freeze({
 
 export default function AlertPropertyInfos({
   alertConfig: { name, description, triggering, severity },
-  renderCustomTitle
+  renderCustomTitle,
+  disableTrigger
 }) {
   const severityProperty = propertiesBySeverity[severity];
   return (
@@ -39,13 +40,15 @@ export default function AlertPropertyInfos({
       <AlertSection icon={severityProperty.icon} title={t('in-alerting:components.alertPropertyInfosLabelAlertLevel')}>
         <Label className={locals.staticSeverity}>{severityProperty.label}</Label>
       </AlertSection>
-      <AlertSection
-        icon="lib_events_incident"
-        title={t('in-alerting:components.alertPropertyInfosLabelTriggersIncident')}
-      >
-        <Toggle checked={triggering} disabled />
-        <Spacer horizontal="xxsmall" />
-      </AlertSection>
+      {!disableTrigger && (
+        <AlertSection
+          icon="lib_events_incident"
+          title={t('in-alerting:components.alertPropertyInfosLabelTriggersIncident')}
+        >
+          <Toggle checked={triggering} disabled />
+          <Spacer horizontal="xxsmall" />
+        </AlertSection>
+      )}
       <AlertSection
         icon="lib_help_error_error_outline"
         title={t('in-alerting:components.alertPropertyInfosLabelDescription')}
@@ -58,5 +61,6 @@ export default function AlertPropertyInfos({
 
 AlertPropertyInfos.propTypes = {
   alertConfig: PropTypes.object.isRequired,
-  renderCustomTitle: PropTypes.func
+  renderCustomTitle: PropTypes.func,
+  disableTrigger: PropTypes.bool
 };

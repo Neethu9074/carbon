@@ -2927,7 +2927,8 @@
       "messageFlowApplicationName": "Anwendungsname",
       "status": "Status",
       "messageFlowNumber": "Nachrichtenfluss ({{count}})",
-      "messageFlowNumber_plural": "Nachrichtenflüsse ({{count}})"
+      "messageFlowNumber_plural": "Nachrichtenflüsse ({{count}})",
+      "readMore": "Weiterlesen …"
     },
     "aceMessageFlow": {
       "messageFlowInfo": "IBM ACE-Nachrichtenfluss",
@@ -5155,7 +5156,20 @@
         "labelRows": "Zeilen",
         "labelDiskUsage": "Plattennutzung",
         "titlePartitioning": "Partitionierung",
-        "labelPartitions": "Partitionen"
+        "labelPartitions": "Partitionen",
+        "titleRunningMerges": "Aktive Zusammenführungen",
+        "titlePartitionId": "Partitions-ID",
+        "titleResultPartName": "Teilename",
+        "titleNumberOfParts": "Teileanzahl",
+        "titleRowsRead": "Gelesene Zeilen",
+        "titleRowsWritten": "Geschriebene Zeilen",
+        "titleMemoryUsage": "Speicherbelegung",
+        "explanationRunningQueriesNotAvailable": "Abfragen können nicht ausgeführt werden, wenn der ausgewählte Zeitraum in der Vergangenheit endet.",
+        "explanationRunningMergesNotAvailable": "Zusammenführungen können nicht ausgeführt werden, wenn der ausgewählte Zeitraum in der Vergangenheit endet.",
+        "errorRetrieveRunningMerges": "Aktive Zusammenführungen konnten nicht abgerufen werden",
+        "errorRetrieveRunningQueries": "Aktive Abfragen konnten nicht abgerufen werden",
+        "infoNoRunningQueries": "Aktive Abfragen konnten nicht abgerufen werden",
+        "infoNoRunningMerges": "Aktive Zusammenführungen konnten nicht abgerufen werden"
       }
     },
     "cloudFoundry": {
@@ -5651,6 +5665,10 @@
         "queryCount": "Abfrageanzahl",
         "logWrites": "Protokollschreibvorgänge",
         "lockSuspensions": "Aussetzungen für Sperren"
+      },
+      "notifications": {
+        "notificationHeader": "Warnung",
+        "notificationText": "Diese Version von IBM Db2 for z/OS ist veraltet. Derzeit unterstützen wir die Beobachtbarkeit von <supportLink>IBM Z mithilfe der Omegamon- und zAPM-Integration</supportLink>."
       },
       "UnableToConnect": "Zu {{connectionUrl}} kann mithilfe von Benutzer {{user}} keine Verbindung hergestellt werden.",
       "UnableToGetData": "Fehler beim Abrufen der Daten. Sensor wird entfernt.",
@@ -6615,7 +6633,7 @@
         "rolledBackTransactions": "Rückgängig gemachte Transaktionen",
         "cacheHitRatio": "Cachetrefferquote",
         "standbyConflicts": "Standby-Konflikte",
-        "tuplesRead": "Gelesene Tupel",
+        "tupleReturned": "Zurückgegebene Tupel",
         "tuplesFetched": "Abgerufene Tupel",
         "size": "Größe",
         "activeConnections": "Aktive Verbindungen",
@@ -6626,7 +6644,7 @@
         "cache": "Cache",
         "conflicts": "Konflikte",
         "tuples": "Tupel",
-        "read": "Gelesen",
+        "returned": "Zurückgegeben",
         "fetched": "Abgerufen",
         "databaseSizeTitle": "Datenbankgröße",
         "connections": "Verbindungen"
@@ -6644,8 +6662,8 @@
       "rolledBackTransactions": "Rückgängig gemachte Transaktionen",
       "cacheHitRatio": "Cachetrefferquote",
       "standbyConflicts": "Standby-Konflikte",
-      "tupleRead": "Gelesenes Tupel",
-      "tupleFetch": "Abgerufenes Tupel",
+      "tupleReturned": "Zurückgegebenes Tupel",
+      "tupleFetched": "Abgerufenes Tupel",
       "databaseSize": "Datenbankgröße",
       "connection": "Verbindung",
       "replicationDelayInBytes": "Replikationsverzögerung in Byte",
@@ -9432,7 +9450,7 @@
       "openOutputCount": "Anzahl der offenen Ausgaben",
       "calls": "Aufrufe",
       "statistics": "MQ-Warteschlangenstatistik",
-      "statisticsRecord": "Hinweis: Nur 'any' wird für das Feld 'Matching Operator' unterstützt!",
+      "statisticsRecord": "Index",
       "nonPersistentPutBytes": "Nicht persistent eingereihte Byte",
       "persistentPutBytes": "Persistent eingereihte Byte",
       "putFailCount": "PUT-Fehleranzahl",
@@ -9474,6 +9492,9 @@
         "agentStatus": "Status",
         "queueManager": "Warteschlangenmanager",
         "AgentStartTimeUTC": "Startzeit (UTC)",
+        "agentVersion": "Buildversion",
+        "agentOsName": "Betriebssystem",
+        "PublishTimeUTC": "Zeitpunkt der Veröffentlichung (UTC)",
         "maxSourceTransfers": "Max. Quellenübertragungen",
         "maxDestinationTransfers": "Max. Zielübertragungen",
         "maxQueuedTransfers": "Max. Übertragungen in Warteschlange",
@@ -9484,8 +9505,6 @@
         "totalCurrentTransfers": "Aktuelle Übertragungen insgesamt",
         "totalSourceTransfers": "Quellenübertragungen",
         "totalDestinationTransfers": "Zielübertragungen",
-        "statusRunning": "Aktiv",
-        "statusUnknown": "Unbekannt",
         "transferState": "Status",
         "sourceTransfersWithCount": "Quellenübertragungen ({{len}})",
         "destinationTransfersWithCount": "Zielübertragungen ({{len}})"

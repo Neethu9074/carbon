@@ -13,6 +13,8 @@ import SmartAlertList from 'promise-loader?global,synthetics!in-synthetics/dashb
 import AnalyzeView from 'promise-loader?global,synthetics!in-synthetics/dashboards/details/AnalyzeView';
 //@ts-ignore
 import SyntheticSummaryDashboard from 'promise-loader?global,synthetics!in-synthetics/dashboards/summary/SyntheticSummary';
+//@ts-expect-error
+import AlertDetailsView from 'promise-loader?global,synthetics!in-synthetics/dashboards/global/AlertDetailsView';
 // @ts-expect-error module need to be translated to TS
 import { Route } from 'react-router-dom';
 import React from 'react';
@@ -22,7 +24,9 @@ import {
   syntheticLocationPath,
   syntheticsDashboard,
   syntheticDetailsPath,
-  syntheticSmartAlertsPath
+  syntheticSmartAlertsPath,
+  alertsTabDetailsFullyQualified,
+  dashboardTestAlertsTabDetailsFullyQualified
 } from 'in-synthetics/navigation/paths';
 // @ts-expect-error module need to be translated to TS
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
@@ -36,6 +40,12 @@ export default [
   </Route>,
   <Route key="syntheticSmartAlerts" exact path={syntheticSmartAlertsPath}>
     {renderAsyncRouteChildren(SmartAlertList)}
+  </Route>,
+  <Route key="details" path={alertsTabDetailsFullyQualified}>
+    {renderAsyncRouteChildren(AlertDetailsView)}
+  </Route>,
+  <Route key="details" path={dashboardTestAlertsTabDetailsFullyQualified}>
+    {renderAsyncRouteChildren(AlertDetailsView)}
   </Route>,
   <Route key="syntheticsDashboard" path={syntheticsDashboard}>
     {renderAsyncRouteChildren(SyntheticSummaryDashboard)}

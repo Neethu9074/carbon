@@ -11,6 +11,7 @@ import { Card } from '@instana/components';
 import SyntheticScopePath from 'in-alerting/smart-alerts/synthetics/components/SyntheticScopePath';
 import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import AnalyzeSyntheticEventButton from 'in-events/components/AnalyzeSyntheticEventButton';
+import SyntheticsAlertconfigButton from 'in-events/components/SyntheticsAlertconfigButton';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { getChartTimeConfigByEvent, getTimeConfigFromEvent } from 'in-events/timeframe';
 import useSyntheticEventAlertConfig from 'in-events/hooks/useSyntheticEventAlertConfig';
@@ -62,6 +63,7 @@ export default function SyntheticEventContent({ event }: Props) {
             <ProblemDescription fixSuggestion={fixSuggestion} />
 
             <DescriptionButtons>
+              <SyntheticsAlertconfigButton alertConfig={alertConfig} />
               <AnalyzeSyntheticEventButton
                 testId={syntheticTestId}
                 locationLabel={locationLabel}

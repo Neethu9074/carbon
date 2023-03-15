@@ -24,8 +24,8 @@ import { actionAutomationEnabled } from 'in-services/featureFlags';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
+import { associateActionsTracker } from 'in-automation/tracker';
 import SectionLine from 'in-settings/components/SectionLine';
-import { associateActionsTracker } from 'in-events/tracker';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
 import BetaBadge from 'in-components/BetaBadge/BetaBadge';
@@ -57,6 +57,7 @@ const paramCols = [
 export default function BuiltinEvent(props) {
   const entityId = props.match.params.id;
 
+  const hasAutomationActions = role.canConfigureAutomationActions && actionAutomationEnabled;
   function mergeResultData() {
     const eventDetails$ = getBuiltInEventSpecification(entityId);
     const actionDetails$ = getBuiltinEventActions(entityId);
@@ -73,15 +74,18 @@ export default function BuiltinEvent(props) {
   function save(event, form) {
     const actionIds = form.get('actionIds')?.value ?? [];
     const mappedActionIds = actionIds.length > 0 ? actionIds.map(value => ({ id: value })) : [];
-    const actionNames = actions.reduce(
-      (acc, action) => [...acc, ...(actionIds.includes(action.id) ? [action.name] : [])],
-      []
-    );
+    if (hasAutomationActions) {
+      const actionNames = actions.reduce(
+        (acc, action) => [...acc, ...(actionIds.includes(action.id) ? [action.name] : [])],
+        []
+      );
 
-    associateActionsTracker({
-      eventName: event.get('name').value,
-      actionNames: actionNames
-    });
+      associateActionsTracker({
+        eventName: event.get('name').value,
+        actionNames: actionNames
+      });
+    }
+
     return updateActionsAssignedToBuiltInEvent(mappedActionIds, entityId);
   }
 
@@ -91,9 +95,7 @@ export default function BuiltinEvent(props) {
       entityId={entityId}
       createDefaultEntity={createCustomThresholdBasedEventSpecification}
       createForm={event => createBuiltinEventFormDefinition(event)}
-      getEntityFromApi={
-        role.canConfigureAutomationActions && actionAutomationEnabled ? mergeResultData : getBuiltInEventSpecification
-      }
+      getEntityFromApi={hasAutomationActions ? mergeResultData : getBuiltInEventSpecification}
       openEntities={() => goToPath(teamSettingsAlertingEvents)}
       saveEntity={(entity, form) => save(entity, form)}
     />

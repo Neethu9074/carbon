@@ -9,6 +9,7 @@
   "agentMonitoringAlert_prefix04": "監視問題",
   "agentMonitoringExplanationLinkLabel": "疑難排解文件",
   "agentMonitoringExplanationLinkHref": "https://www.ibm.com/docs/en/obi/current",
+  "agentMonitoringMetricCardinalityExceeded": "已超出度量基數限制。 請減少報告的度量數目，或聯絡支援中心以增加限制。",
   "services": "服務",
   "dashboard": {
     "customMetricsV2": {

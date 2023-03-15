@@ -11201,6 +11201,9 @@
       "infoThreadPoolStatesNotAvailable": "Thread Pool stats are not available. There is a known problem when JMS features (WASJmsClient-1.1 and WASJmsServer-1.0) are enabled along with the monitor-1.0 feature in server.xml. Thread Pool stats mbean is overridden and not visible.",
       "webSphereLiberty": "WebSphere Liberty"
     },
+    "webSphereMember": {
+      "weight": "Weight"
+    },
     "zhmcConsole": {
       "logicalPartition": "Logical Partition",
       "channelUsage": "Channel Usage",

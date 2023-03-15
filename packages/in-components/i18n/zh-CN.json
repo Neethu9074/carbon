@@ -407,6 +407,7 @@
     "viewSwitcherLabelEvents": "事件",
     "viewSwitcherlabelInfrastructure": "基础架构",
     "viewSwitcherLabelApplications": "应用程序",
+    "viewSwitcherLabelSlo": "服务级别",
     "viewSwitcherLabelAnalytics": "分析",
     "viewSwitcherLabelWebsitesAndMobileApps": "Web 站点和移动应用程序",
     "viewSwitcherLabelWebsites": "Web 站点",

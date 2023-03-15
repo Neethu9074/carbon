@@ -6,7 +6,8 @@
 
 import React, { Fragment } from 'react';
 
-import { PaginatedResult, Result, TestResultListItem } from 'in-types';
+import { Result, SyntheticTest } from '@instana/types';
+
 import { FilterSectionProps } from 'in-synthetics/utils/constants';
 import ComboBox from 'in-components/ComboBox';
 import { t } from 'in-i18n';
@@ -30,20 +31,6 @@ export default function Filters({
   locationIds,
   applicationIds = []
 }: FilterSectionProps) {
-  let useTypeOptions: boolean = syntheticTypes != null && syntheticTypes.length > 0 ? true : false;
-  let useLocationOptions: boolean = locationIds != null && locationIds.length > 0 ? true : false;
-  let useApplicationOptions: boolean = applicationIds.length > 0 ? true : false;
-
-  let resetOptions: boolean =
-    syntheticTypes == null ||
-    syntheticTypes.length == 0 ||
-    locationIds == null ||
-    locationIds.length == 0 ||
-    applicationIds == null ||
-    applicationIds.length == 0
-      ? true
-      : false;
-
   return (
     <Fragment>
       <ComboBox
@@ -51,7 +38,7 @@ export default function Filters({
         onChange={t => Array.isArray(t) && setFilter({ syntheticTypes: t.map(a => a.value) })}
         placeholder={t('in-synthetics:dashboard.testList.type')}
         isMulti
-        options={syntheticTypeOptions.length > 0 && useTypeOptions ? syntheticTypeOptions : getSyntheticTypes(result)}
+        options={getSyntheticTypes(result)}
         className={locals.filter}
       />
       <ComboBox
@@ -59,11 +46,7 @@ export default function Filters({
         onChange={t => Array.isArray(t) && setFilter({ locationIds: t.map(a => a.value) })}
         placeholder={t('in-synthetics:dashboard.testList.locationLabel')}
         isMulti
-        options={
-          locationLabelOptions.length > 0 && useLocationOptions
-            ? locationLabelOptions
-            : getLocationLabels(result, resetOptions)
-        }
+        options={getLocationLabels(result)}
         className={locals.filter}
       />
       {!isAppcontext && (
@@ -72,11 +55,7 @@ export default function Filters({
           onChange={t => Array.isArray(t) && setFilter({ applicationIds: t.map(a => a.value) })}
           placeholder={t('in-synthetics:dashboard.testList.applicationLabel')}
           isMulti
-          options={
-            applicationLabelOptions.length > 0 && useApplicationOptions
-              ? applicationLabelOptions
-              : getApplicationLabels(result, resetOptions)
-          }
+          options={getApplicationLabels(result)}
           className={locals.filter}
         />
       )}
@@ -84,12 +63,13 @@ export default function Filters({
   );
 }
 
-function getSyntheticTypes(result: Result<PaginatedResult<TestResultListItem>> | undefined) {
-  // Get syntheticTypes from result
+function getSyntheticTypes(result: Result<SyntheticTest[]> | undefined) {
+  // Get syntheticTypes from SyntheticTest
+  // result can be undefined, isLoading(Result<x>) cannot be used here
   if (!result?.progress?.loading) {
     let syntheticTypes: string[] = [];
-    result?.data?.items?.forEach(function(item) {
-      syntheticTypes.push(item.testResultCommonProperties?.testCommonProperties?.type ?? '');
+    result?.data?.forEach(function(item: SyntheticTest) {
+      syntheticTypes.push(item.configuration.syntheticType ?? '');
     });
 
     // Clean up duplicate and empty array elements
@@ -97,7 +77,9 @@ function getSyntheticTypes(result: Result<PaginatedResult<TestResultListItem>> |
       return arrayRef.indexOf(item) === index && item !== '';
     });
 
-    syntheticTypeOptions = syntheticTypes?.map(syntheticType => {
+    syntheticTypes.sort((a, b) => (a < b ? -1 : 1));
+
+    syntheticTypeOptions = syntheticTypes.map(syntheticType => {
       return {
         label: syntheticType,
         value: syntheticType
@@ -109,24 +91,17 @@ function getSyntheticTypes(result: Result<PaginatedResult<TestResultListItem>> |
   return syntheticTypeOptions;
 }
 
-function getLocationLabels(result: Result<PaginatedResult<TestResultListItem>> | undefined, resetOptions: boolean) {
-  // Reset locationLabelOptions
-  if (resetOptions) {
-    locationLabelOptions = [];
-  }
-
-  // Get locationDisplayLabels and locationIds from result
+function getLocationLabels(result: Result<SyntheticTest[]> | undefined) {
+  // Get locationDisplayLabels and locationIds from SyntheticTest
   if (!result?.progress?.loading) {
-    result?.data?.items?.forEach((item: TestResultListItem) => {
-      if (item.testResultCommonProperties.testCommonProperties?.locationDisplayLabels) {
-        item.testResultCommonProperties.testCommonProperties?.locationDisplayLabels.forEach(
-          (locationDisplayLabel, i) => {
-            locationLabelOptions.push({
-              label: locationDisplayLabel,
-              value: item.testResultCommonProperties.testCommonProperties?.locationIds?.at(i) ?? ''
-            });
-          }
-        );
+    result?.data?.forEach((item: SyntheticTest) => {
+      if (item.locationDisplayLabels) {
+        item.locationDisplayLabels.forEach((locationDisplayLabel, i) => {
+          locationLabelOptions.push({
+            label: locationDisplayLabel,
+            value: item.locations?.at(i) ?? ''
+          });
+        });
       }
     });
 
@@ -138,22 +113,19 @@ function getLocationLabels(result: Result<PaginatedResult<TestResultListItem>> |
     );
   }
 
+  locationLabelOptions.sort((a, b) => (a.label < b.label ? -1 : 1));
+
   // return location display labels and ids;
   return locationLabelOptions;
 }
 
-function getApplicationLabels(result: Result<PaginatedResult<TestResultListItem>> | undefined, resetOptions: boolean) {
-  // Reset applicationLabelOptions
-  if (resetOptions) {
-    applicationLabelOptions = [];
-  }
-
-  // Get applicationLabels and applicationIds from result
+function getApplicationLabels(result: Result<SyntheticTest[]> | undefined) {
+  // Get applicationLabels and applicationIds from SyntheticTest
   if (!result?.progress?.loading) {
-    result?.data?.items?.forEach(function(item) {
+    result?.data?.forEach(function(item: SyntheticTest) {
       const applicationitem = {
-        label: item.testResultCommonProperties.testCommonProperties?.applicationLabel ?? '',
-        value: item.testResultCommonProperties.testCommonProperties?.applicationId ?? ''
+        label: item.applicationLabel ?? '',
+        value: item.applicationId ?? ''
       };
       applicationLabelOptions.push(applicationitem);
     });
@@ -165,6 +137,8 @@ function getApplicationLabels(result: Result<PaginatedResult<TestResultListItem>
         arrayRef.findIndex(t => t.label === item.label && t.value === item.value && (t.label !== '' || t.value !== ''))
     );
   }
+
+  applicationLabelOptions.sort((a, b) => (a.label < b.label ? -1 : 1));
 
   // return application labels and ids;
   return applicationLabelOptions;

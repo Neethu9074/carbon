@@ -14,6 +14,7 @@ import { formatCsvColumnName, formatCsvColumnValue } from 'in-infrastructure/Exp
 import { firstValue, getGranularity, getMetricKey, getSeriesKey } from 'in-infrastructure/Explore/services/metrics';
 import { default as MetricLabel } from 'in-infrastructure/Explore/components/MetricLabel';
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
+import { ChartsPresenter } from 'in-infrastructure/Explore/components/ChartsPresenter';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import getEntities from 'in-infrastructure/subscriptions/getEntities';
@@ -45,7 +46,11 @@ export default function InfrastructureList({
   tracking,
   metricCatalog,
   query,
-  onQueryChange
+  onQueryChange,
+  onChartedMetricChange,
+  chartedMetrics,
+  setUrl,
+  displayChart = true
 }) {
   const timeConfig = useTimeConfig();
   const granularity = getGranularity(timeConfig);
@@ -77,15 +82,15 @@ export default function InfrastructureList({
       sortable: false,
       getContent(item) {
         const problems = getAllIssues(
-          item.entityHealthInfo.openIssues,
-          item.entityHealthInfo.maxSeverity,
+          item.entityHealthInfo?.openIssues,
+          item.entityHealthInfo?.maxSeverity,
           t('in-infrastructure:explore.noIssues')
         );
 
         return (
           <HealthDot
             className={locals.dot}
-            severity={item.entityHealthInfo.maxSeverity}
+            severity={item.entityHealthInfo?.maxSeverity}
             explanation={problems}
             iconSize={10}
           />
@@ -98,6 +103,27 @@ export default function InfrastructureList({
 
   return (
     <>
+      {displayChart && (
+        <ChartsPresenter
+          chartedMetrics={chartedMetrics}
+          metricMetadatas={metricMetadatas}
+          defaultTableMetric={
+            metrics && metrics.length > 0 && chartedMetrics?.length === 0
+              ? [{ metricId: metrics[0].metric, aggregationId: 'MEAN', rendererId: 'line' }]
+              : undefined
+          }
+          dataSource={'analytics'}
+          chartableDataSeries={undefined}
+          metricCatalogInit={metricCatalog}
+          isLoading={isLoading}
+          isValid={!hasErrors}
+          isGrouped={false}
+          onChartedMetricChange={onChartedMetricChange}
+          tagFilterExpression={backendQueryModel}
+          type={type}
+          setUrl={setUrl}
+        />
+      )}
       {showHeader && (
         <Header
           setMetrics={setMetrics}
@@ -129,6 +155,7 @@ export default function InfrastructureList({
           {getErrorMessage(errors[0])}
         </Message>
       )}
+
       <CursorPaginatedTable
         columnDefinitions={columnDefinitions}
         numSkeletonRows={numSkeletonRows}
@@ -197,7 +224,7 @@ function getTableData({
     type,
     metrics: Object.fromEntries(
       metrics
-        .filter(({ metric }) => metric !== undefined && metric !== null)
+        .filter(({ metric, removeFromTable }) => metric !== undefined && metric !== null && !removeFromTable)
         .flatMap(({ metric, aggregation, crossSeriesAggregation }) => {
           const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
           const kpiGranularity = timeConfig.windowSize;
@@ -236,6 +263,7 @@ InfrastructureList.propTypes = {
   backendQueryModel: rpt.object,
   showHeader: rpt.bool,
   setMetrics: rpt.func,
+  onChartedMetricChange: rpt.func,
   setOrder: rpt.func,
   metrics: rpt.array,
   metricMetadatas: rpt.object,
@@ -251,63 +279,68 @@ InfrastructureList.propTypes = {
   }),
   query: rpt.string,
   onQueryChange: rpt.func,
-  metricCatalog: rpt.object
+  metricCatalog: rpt.object,
+  chartedMetrics: rpt.array,
+  setUrl: rpt.func,
+  displayChart: rpt.bool
 };
 
 function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, granularity }) {
-  return metrics.map(({ metric, aggregation, crossSeriesAggregation }) => {
-    const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
-    const metadata = mapData(metricMetadatas, data => data[metric]);
-    const label = mapData(metadata, data => data?.label);
-    const isKpi = mapData(metadata, data => data?.isKpi).data || false;
-    return {
-      id,
-      metric,
-      label,
-      aggregation: aggregation,
-      renderLabel: MetricLabel,
-      sortable,
-      width: '15rem',
-      widthInAbsoluteUnit: true,
-      optional: true,
-      defaultDisabled: !isKpi,
-      headCellProps: { className: locals.metricLabel },
-      getContent(item) {
-        const id = getMetricKey(metric, aggregation);
-        const metadata = mapData(metricMetadatas, data => data[metric]);
-        const label = mapData(metadata, data => data?.label);
-        const renderedLabel = <MetricLabel label={label} aggregation={aggregation} />;
-        const formatter = mapData(metadata, data => data?.formatter).data;
-        const kpi = firstValue(item.metrics[id]);
-        const series = item.metrics[getSeriesKey(id)];
-        const percentageMetric = mapData(metadata, data => data?.percentageMetric).data;
-        const metricValue = getMetricValue(kpi, formatter);
-        return (
-          <SparkChart
-            horizontalMetricValue={metricValue}
-            percentageMetric={percentageMetric}
-            metrics={series}
-            tooltipFormatter={formatter}
-            aggregation={aggregation}
-            timeConfig={timeConfig}
-            rollup={granularity}
-            label={renderedLabel}
-          />
-        );
-      },
-      getColumnLabel() {
-        const metadata = mapData(metricMetadatas, data => data[metric]);
-        const label = mapData(metadata, data => data?.label);
-        const formatter = mapData(metadata, data => data?.formatter).data;
-        return formatCsvColumnName(label['data'], aggregation, formatter);
-      },
-      getFormatter() {
-        const metadata = mapData(metricMetadatas, data => data[metric]);
-        const formatter = mapData(metadata, data => data?.formatter).data;
-        return formatter;
-      }
-    };
-  });
+  return metrics
+    .filter(m => !m.removeFromTable)
+    .map(({ metric, aggregation, crossSeriesAggregation }) => {
+      const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
+      const metadata = mapData(metricMetadatas, data => data[metric]);
+      const label = mapData(metadata, data => data?.label);
+      const isKpi = mapData(metadata, data => data?.isKpi).data || false;
+      return {
+        id,
+        metric,
+        label,
+        aggregation: aggregation,
+        renderLabel: MetricLabel,
+        sortable,
+        width: '15rem',
+        widthInAbsoluteUnit: true,
+        optional: true,
+        defaultDisabled: !isKpi,
+        headCellProps: { className: locals.metricLabel },
+        getContent(item) {
+          const id = getMetricKey(metric, aggregation);
+          const metadata = mapData(metricMetadatas, data => data[metric]);
+          const label = mapData(metadata, data => data?.label);
+          const renderedLabel = <MetricLabel label={label} aggregation={aggregation} />;
+          const formatter = mapData(metadata, data => data?.formatter).data;
+          const kpi = firstValue(item.metrics[id]);
+          const series = item.metrics[getSeriesKey(id)];
+          const percentageMetric = mapData(metadata, data => data?.percentageMetric).data;
+          const metricValue = getMetricValue(kpi, formatter);
+          return (
+            <SparkChart
+              horizontalMetricValue={metricValue}
+              percentageMetric={percentageMetric}
+              metrics={series}
+              tooltipFormatter={formatter}
+              aggregation={aggregation}
+              timeConfig={timeConfig}
+              rollup={granularity}
+              label={renderedLabel}
+            />
+          );
+        },
+        getColumnLabel() {
+          const metadata = mapData(metricMetadatas, data => data[metric]);
+          const label = mapData(metadata, data => data?.label);
+          const formatter = mapData(metadata, data => data?.formatter).data;
+          return formatCsvColumnName(label['data'], aggregation, formatter);
+        },
+        getFormatter() {
+          const metadata = mapData(metricMetadatas, data => data[metric]);
+          const formatter = mapData(metadata, data => data?.formatter).data;
+          return formatter;
+        }
+      };
+    });
 }
 
 export function pagesLoaded(offset, itemsPerPage) {
@@ -340,7 +373,7 @@ function processData(items, columns) {
         row[col.getColumnLabel()] = '-';
       }
     });
-    row['Health'] = getAllIssues(item.entityHealthInfo.openIssues, item.entityHealthInfo.maxSeverity, '');
+    row['Health'] = getAllIssues(item.entityHealthInfo?.openIssues, item.entityHealthInfo?.maxSeverity, '');
     csvRows.push(row);
   });
 
@@ -370,7 +403,7 @@ function getHeaderActions(props) {
       backendQueryModel,
       type,
       order,
-      metrics,
+      metrics: metrics.filter(m => !m.removeFromTable),
       cursor,
       fullData: true
     });
@@ -384,7 +417,7 @@ function getHeaderActions(props) {
         cursor={cursor}
         columns={columns}
       />
-      <MetricCatalogAndSortingConfigurator {...props} />
+      <MetricCatalogAndSortingConfigurator {...props} metrics={metrics.filter(m => !m.removeFromTable)} />
     </>
   );
 }

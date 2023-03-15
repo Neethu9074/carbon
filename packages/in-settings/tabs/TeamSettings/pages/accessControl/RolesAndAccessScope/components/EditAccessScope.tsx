@@ -7,6 +7,8 @@
 import React, { useState } from 'react';
 import { MapForm } from 'formalistic';
 
+import PlatformsEditSelection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PlatformsEditSelection/PlatformsEditSelection';
+import PermissionSectionInfrastructure from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSectionInfrastructure';
 import PermissionSelection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSelection';
 import PermissionSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSection';
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
@@ -17,7 +19,6 @@ import { ProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/R
 import useSubSlideControl, { SlideControlProps } from 'in-settings/hooks/useSubSlideControl';
 import { getApplicationConfigsAsResultObservable } from 'in-api/applicationConfigs';
 import ConfigDialog, { SubSlideConfig } from 'in-settings/components/ConfigDialog';
-import PermissionSectionInfrastructure from './PermissionSectionInfrastructure';
 import { getMobileAppConfigurations } from 'in-mobile-apps/api/mobileApps';
 import { getWebsiteConfigurations } from 'in-websites/api/websites';
 import { t } from 'in-i18n';
@@ -162,7 +163,7 @@ export default function EditAccessScopeDialog({
           label: t('in-settings:PermissionSection.title_platforms'),
           title: t('in-settings:PermissionSection.title_platforms'),
           valid: true,
-          content: <></>
+          content: <PlatformsEditSelection {...formControlProps} {...slideControlProps} />
         },
         {
           scrollId: '7-infrastructure',

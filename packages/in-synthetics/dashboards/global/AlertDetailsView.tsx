@@ -1,0 +1,112 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2022
+ */
+
+import { get } from 'lodash';
+import React from 'react';
+
+import { useObservable } from '@instana/hooks';
+import { t } from '@instana/i18n-react';
+
+//@ts-expect-error
+import AlertDetails from 'in-alerting/smart-alerts/synthetics/details/AlertDetails';
+import { alertsTabDetailsFullyQualified, syntheticsDashboard } from 'in-synthetics/navigation/paths';
+import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
+import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
+import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
+import CreateSmartAlert from 'in-alerting/smart-alerts/synthetics/CreateSmartAlert';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import DashboardHeader from 'in-components/DashboardHeader/DashboardHeader';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { dummyTest, TestResponse } from 'in-synthetics/utils/constants';
+import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import BetaBadge from 'in-components/BetaBadge/BetaBadge';
+import { Location } from 'in-stores/navigation/types';
+import useTimeConfig from 'in-hooks/useTimeConfig';
+import { getTest } from 'in-synthetics/api';
+import Sticky from 'in-components/Sticky';
+import Footer from 'in-components/Footer';
+
+export default function AlertDetailsView() {
+  const timeConfig = useTimeConfig();
+  const { location } = useNavigation();
+  const isDetailsMainPage = isMainPage(location);
+  const testId: string = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
+  const test: TestResponse = useObservable<any, [number]>(() => getTest(testId), [0]) || dummyTest;
+  const props = {
+    testId,
+    test,
+    location,
+    timeConfig,
+    isMainPage: isDetailsMainPage
+  };
+
+  return isDetailsMainPage ? (
+    <Sticky header={<ViewSwitcher />}>
+      {test.progress.loading ? (
+        <LoadingIndicator text={t('in-components:topListCard.loadingData')} height={160} size="xxxl" />
+      ) : (
+        <LeftRightPadding>
+          <ViewTrackingMeta
+            data={{
+              productArea: 'Synthetic Monitoring',
+              pageRootName: 'Synthetic Monitoring'
+            }}
+          />
+          <AlertDetails {...props} />
+        </LeftRightPadding>
+      )}
+      <Footer />
+      <FloatingActionButtons>
+        <CreateSmartAlert />
+      </FloatingActionButtons>
+    </Sticky>
+  ) : (
+    <>
+      <Sticky
+        header={
+          <>
+            <DashboardHeader
+              icon={'lib_synthetic'}
+              title={t('in-synthetics:dashboard.testList.mainLabel')}
+              label={get(test, ['data', 'label'])}
+              withBorderBottom
+              renderMetaInformation={renderMetaInformation}
+            />
+            <DashboardHeaderShadowModule />
+          </>
+        }
+      >
+        {test.progress.loading ? (
+          <LoadingIndicator text={t('in-components:topListCard.loadingData')} height={160} size="xxxl" />
+        ) : (
+          <LeftRightPadding>
+            <ViewTrackingMeta
+              data={{
+                productArea: 'EUM: Synthetics',
+                pageRootName: 'Synthetics Test'
+              }}
+            />
+            <AlertDetails {...props} />
+          </LeftRightPadding>
+        )}
+        <Footer />
+        <FloatingActionButtons>
+          <CreateSmartAlert testId={testId} />
+        </FloatingActionButtons>
+      </Sticky>
+    </>
+  );
+}
+
+function isMainPage(location: Location) {
+  return location?.pathname === alertsTabDetailsFullyQualified;
+}
+
+const renderMetaInformation = () => {
+  return <BetaBadge />;
+};

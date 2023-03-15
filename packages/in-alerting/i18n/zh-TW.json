@@ -562,6 +562,7 @@
         "cancelTitle": "取消",
         "sharedListTooltip": "{{typeName}} 不再可用",
         "clearTagFilterExpressionButton": "清除",
+        "baselineErrorMessageComputedOnApproximateData": "基準線是根據由於資料保留設定而產生的近似資料來計算。 因此，如果只有少數呼叫符合選取的過濾器，則它可能不正確。",
         "baselineErrorMessageInsufficientDataToCompute": "資料不足而無法計算選取的基準線。請改為選取<em>靜態臨界值</em>。",
         "pleaseContactSupportToRiseLimit": "請透過 <supportLink>{{instanaSupportPortal}}</supportLink>聯絡我們以要求增加此限制。",
         "adaptiveBaselineErrorMessage": "臨界值預覽目前無法使用。<br />仍然可以儲存此「智慧型警示」。",
@@ -581,6 +582,7 @@
         "addChannel_1": "新增 {{count}} 個通道",
         "addChannel_2": "新增 {{count}} 個通道",
         "add": "新增",
+        "alertPropertyInsertPlaceholderLabel": "插入位置保留",
         "scopeConfigTitleWithApplications": "選取應用程式/服務/端點",
         "scopeConfigTitle": "選取服務/端點",
         "scopeConfigSelectOneEntryMessage": "請至少選取一個項目。",
@@ -1028,11 +1030,56 @@
     "enable": "啟用",
     "disable": "停用",
     "synthetics": {
+      "dashboard": {
+        "column": {
+          "moreFiltersWithCount": "+{{count}} 個以上的過濾器",
+          "moreFiltersWithCount_plural": "+{{count}} 個以上的過濾器",
+          "moreFiltersWithCount_0": "+{{count}} 個以上的過濾器",
+          "moreFiltersWithCount_1": "+{{count}} 個以上的過濾器",
+          "moreFiltersWithCount_2": "+{{count}} 個以上的過濾器",
+          "filter": "過濾器",
+          "filter_plural": "過濾器",
+          "filter_0": "過濾器",
+          "filter_1": "過濾器",
+          "filter_2": "過濾器"
+        }
+      },
       "alertList": {
         "timeThreshold": "失敗臨界值",
         "filterApplied": "已套用過濾器",
         "violationsCount": "{{violationsCount}} 次失敗",
         "numberOfFailures": "失敗警示"
+      },
+      "simple": {
+        "stepConfigsStep1Title": "步驟 1：測試",
+        "simpleAlertConfigDialogStep1Headline": "應該警示哪些綜合測試？",
+        "stepConfigsStep4Title": "步驟 4：警示通道",
+        "alertDialogHeadline": "警示中應該顯示哪些內容？",
+        "stepConfigsStep2Title": "步驟 2：範圍",
+        "scopeHeadline": "您希望警示在何處觸發？",
+        "stepConfigsStep3Title": "步驟 3：臨界值",
+        "stepConfigsStep5Title": "步驟 5：警示內容",
+        "thresholdTitle": "在發出警示之前，每個位置應該發生多少次連續失敗？"
+      },
+      "advanced": {
+        "alertChannelsLabel": "警示通道",
+        "scopeFilterLabel": "範圍",
+        "alertTestsLabel": "虛構測試",
+        "alertTestsTitle": "綜合測試：應警示哪些綜合測試？",
+        "propertiesLabel": "警示內容",
+        "failureThreshold": "失敗臨界值",
+        "failureThresholdLabel": "失敗臨界值",
+        "failureThresholdTitle": "在發出警示之前，每個位置應該發生多少次連續失敗？"
+      },
+      "selectTests": {
+        "selectAlertTestButtonTitle": "新增綜合測試",
+        "selectAlertTestButton": "新增綜合測試",
+        "addTest": "新增 {{count}} 個測試",
+        "alertTests": "虛構測試",
+        "noTestSelectedText": "未選取綜合測試",
+        "alertTestEntityName": "綜合測試 {{entityName}}",
+        "testAttachedCount": "附加測試 ({{count}})",
+        "testAttached": "附加的測試"
       }
     }
   }

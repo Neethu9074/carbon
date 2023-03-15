@@ -2927,7 +2927,8 @@
       "messageFlowApplicationName": "애플리케이션 이름",
       "status": "상태",
       "messageFlowNumber": "메시지 플로우({{count}})",
-      "messageFlowNumber_plural": "메시지 플로우({{count}})"
+      "messageFlowNumber_plural": "메시지 플로우({{count}})",
+      "readMore": "자세히 보기…"
     },
     "aceMessageFlow": {
       "messageFlowInfo": "IBM ACE 메시지 플로우",
@@ -5155,7 +5156,20 @@
         "labelRows": "행",
         "labelDiskUsage": "디스크 사용",
         "titlePartitioning": "파티셔닝",
-        "labelPartitions": "파티션"
+        "labelPartitions": "파티션",
+        "titleRunningMerges": "병합 실행",
+        "titlePartitionId": "파티션 ID",
+        "titleResultPartName": "부품 이름",
+        "titleNumberOfParts": "부품 번호",
+        "titleRowsRead": "읽은 행",
+        "titleRowsWritten": "쓴 행",
+        "titleMemoryUsage": "메모리 사용량",
+        "explanationRunningQueriesNotAvailable": "선택한 시간 범위가 과거에 끝나는 경우 실행 중인 조회를 사용할 수 없습니다.",
+        "explanationRunningMergesNotAvailable": "선택한 시간 범위가 과거에 끝나면 병합 실행을 사용할 수 없습니다.",
+        "errorRetrieveRunningMerges": "실행 중인 병합 검색 실패",
+        "errorRetrieveRunningQueries": "실행 중인 조회 검색 실패",
+        "infoNoRunningQueries": "실행 중인 조회 검색 실패",
+        "infoNoRunningMerges": "실행 중인 병합 검색 실패"
       }
     },
     "cloudFoundry": {
@@ -5651,6 +5665,10 @@
         "queryCount": "조회 수",
         "logWrites": "로그 쓰기",
         "lockSuspensions": "잠금 보류"
+      },
+      "notifications": {
+        "notificationHeader": "경고",
+        "notificationText": "이 버전의 IBM Db2 for z/OS는 더 이상 사용되지 않습니다. 지금은 Omegamon 및 zAPM 통합을 통해 <supportLink>IBM Z Observability를 지원합니다</supportLink>."
       },
       "UnableToConnect": "{{user}} 사용자를 사용하여 {{connectionUrl}}에 연결할 수 없습니다.",
       "UnableToGetData": "데이터를 가져오는 중에 오류가 발생했습니다. 센서를 제거하는 중입니다.",
@@ -6615,7 +6633,7 @@
         "rolledBackTransactions": "롤백된 트랜잭션",
         "cacheHitRatio": "캐시 적중률",
         "standbyConflicts": "대기 충돌",
-        "tuplesRead": "튜플 읽기",
+        "tupleReturned": "튜플이 리턴됨",
         "tuplesFetched": "튜플 페치",
         "size": "크기",
         "activeConnections": "활성 연결",
@@ -6626,7 +6644,7 @@
         "cache": "캐시",
         "conflicts": "충돌",
         "tuples": "튜플",
-        "read": "읽기",
+        "returned": "리턴됨",
         "fetched": "페치됨",
         "databaseSizeTitle": "데이터베이스 크기",
         "connections": "연결"
@@ -6644,8 +6662,8 @@
       "rolledBackTransactions": "롤백된 트랜잭션",
       "cacheHitRatio": "캐시 적중률",
       "standbyConflicts": "대기 충돌",
-      "tupleRead": "튜플 읽기",
-      "tupleFetch": "튜플 페치",
+      "tupleReturned": "튜플이 리턴됨",
+      "tupleFetched": "튜플이 페치됨",
       "databaseSize": "데이터베이스 크기",
       "connection": "연결",
       "replicationDelayInBytes": "복제 지연(바이트)",
@@ -9432,7 +9450,7 @@
       "openOutputCount": "출력 열기 수",
       "calls": "호출",
       "statistics": "MQ 큐 통계",
-      "statisticsRecord": "참고: '일치 연산자' 필드에는 'any'만 지원됩니다!",
+      "statisticsRecord": "색인",
       "nonPersistentPutBytes": "비지속적 넣기 바이트",
       "persistentPutBytes": "지속적 넣기 바이트",
       "putFailCount": "넣기 실패 수",
@@ -9474,6 +9492,9 @@
         "agentStatus": "상태",
         "queueManager": "큐 관리자",
         "AgentStartTimeUTC": "시작 시간(UTC)",
+        "agentVersion": "빌드 버전",
+        "agentOsName": "운영 체제",
+        "PublishTimeUTC": "게시 시간(UTC)",
         "maxSourceTransfers": "최대 소스 전송 수",
         "maxDestinationTransfers": "최대 대상 전송 수",
         "maxQueuedTransfers": "최대 큐된 전송 수",
@@ -9484,8 +9505,6 @@
         "totalCurrentTransfers": "전체 현재 전송 수",
         "totalSourceTransfers": "소스 전송 수",
         "totalDestinationTransfers": "대상 전송 수",
-        "statusRunning": "실행 중",
-        "statusUnknown": "알 수 없음",
         "transferState": "상태",
         "sourceTransfersWithCount": "소스 전송({{len}})",
         "destinationTransfersWithCount": "대상 전송({{len}})"

@@ -38,5 +38,7 @@
   "tooltipEntityHealthNoIssues": "問題なし",
   "tooltipEntityHealthIssues": "{{numberOfIssues}} 個の問題",
   "container": "コンテナー",
-  "endOfInfiniteScroll": "ログはこれ以上ありません"
+  "endOfInfiniteScroll": "ログはこれ以上ありません",
+  "liveModeDisabled": "ログ記録のためにライブ・モードが無効になりました",
+  "logLevels": "ログ・レベル"
 }

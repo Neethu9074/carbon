@@ -35,7 +35,7 @@
   "permissionCanConfigureIntegrationsLabel": "警报通道的配置",
   "permissionCanConfigureIntegrationsDescription": "允许创建和配置警报通道。",
   "permissionCanConfigureIntegrationsCategory": "事件",
-  "permissionCanConfigureCustomAlertsLabel": "事件、警报和智能警报的配置",
+  "permissionCanConfigureCustomAlertsLabel": "为 AP 和 Web 站点配置事件、警报和智能警报",
   "permissionCanConfigureCustomAlertsDescription": "允许为应用程序透视图和 Web 站点创建和配置事件、警报和智能警报。",
   "permissionCanConfigureCustomAlertsCategory": "事件",
   "permissionCanConfigureGlobalAlertPayloadLabel": "配置警报的全局定制有效内容",

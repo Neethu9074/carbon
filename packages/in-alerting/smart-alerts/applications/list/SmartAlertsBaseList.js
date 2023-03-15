@@ -17,16 +17,15 @@ import {
   isCategoryLocal
 } from 'in-alerting/smart-alerts/applications/list/constants';
 import SmartAlertsNoDataAvailable from 'in-alerting/smart-alerts/components/SmartAlertsNoDataAvailable';
-import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import SortingConfigurator from 'in-components/SortingConfigurator/SortingConfigurator';
 import getResultsToDisplay from 'in-alerting/smart-alerts/components/list/ListHelper';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { emptyArray, pendingResult } from 'in-services/fixedObjects';
 import { hasError, isLoading } from 'in-services/util/result';
 import { compareIgnoreCase } from 'in-services/util/string';
-import { pendingResult } from 'in-services/fixedObjects';
 import ButtonGroup from 'in-components/ButtonGroup';
 import SearchInput from 'in-components/SearchInput';
 import Pagination from 'in-components/Pagination';
@@ -50,13 +49,6 @@ export function refreshSmartAlertConfigsList() {
   refreshSignal.emit(true);
 }
 
-/** ap-specific only */
-const getMetricName = config => {
-  const { rule } = config;
-  const blueprintConfig = getBlueprintConfig(rule.alertType);
-  return blueprintConfig?.getMetricLabel(rule.metricName);
-};
-
 export default function SmartAlertsBaseList({
   onNoData,
   getGlobalAlertConfigFetchFunction,
@@ -69,7 +61,7 @@ export default function SmartAlertsBaseList({
   configsCategory = categoryLocal,
   setConfigsCategory,
   sortOptions,
-  extraSearchAttributes = [getMetricName],
+  extraSearchAttributes = emptyArray,
   ...remainingProps
 }) {
   const [{ orderBy, orderDirection, page, query }, setState] = useOptionalExternalState(
@@ -217,7 +209,7 @@ function getConfigByCategory({ configsCategory, fetchedGlobalAlerts, fetchedLoca
     return {
       configs: fetchedGlobalAlerts.configs,
       errors: fetchedGlobalAlerts.errors,
-      loading: fetchedGlobalAlerts.loading
+      loading: fetchedGlobalAlerts.isLoading
     };
   }
 
@@ -225,7 +217,7 @@ function getConfigByCategory({ configsCategory, fetchedGlobalAlerts, fetchedLoca
     return {
       configs: fetchedLocalAlerts.configs,
       errors: fetchedLocalAlerts.errors,
-      loading: fetchedLocalAlerts.loading
+      loading: fetchedLocalAlerts.isLoading
     };
   }
 

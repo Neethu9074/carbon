@@ -20,19 +20,16 @@ import { t } from 'in-i18n';
 
 export const stepConfigs = [
   {
-    title: t('in-alerting:smartAlerts.synthetics.simple.stepConfigsStep1Title'),
-    validateIntermediately: [['alertTestIds']]
+    title: t('in-alerting:smartAlerts.synthetics.simple.stepConfigsStep1Title')
   },
   {
     title: t('in-alerting:smartAlerts.synthetics.simple.stepConfigsStep2Title')
   },
   {
-    title: t('in-alerting:smartAlerts.synthetics.simple.stepConfigsStep3Title'),
-    validateIntermediately: [['alertChannelIds']]
+    title: t('in-alerting:smartAlerts.synthetics.simple.stepConfigsStep3Title')
   },
   {
-    title: t('in-alerting:smartAlerts.synthetics.simple.stepConfigsStep4Title'),
-    validateIntermediately: [['alertChannelIds']]
+    title: t('in-alerting:smartAlerts.synthetics.simple.stepConfigsStep4Title')
   },
   {
     title: t('in-alerting:smartAlerts.synthetics.simple.stepConfigsStep5Title')

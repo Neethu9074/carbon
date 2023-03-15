@@ -190,7 +190,8 @@
         "errorLog": "Log di errore",
         "warningLog": "Log di avvertenza",
         "restrictedAccess": "Accesso limitato",
-        "restrictedAccessExpl": "Non si dispone dell'autorizzazione per accedere a queste informazioni"
+        "restrictedAccessExpl": "Non si dispone dell'autorizzazione per accedere a queste informazioni",
+        "batchCount": "Esistono {{count}} log intorno a questa data/ora."
       },
       "callTooltipContent": {
         "numbersOfErrors": "{{count}} Errore",

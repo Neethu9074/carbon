@@ -2927,7 +2927,8 @@
       "messageFlowApplicationName": "Nome Applicazione",
       "status": "Stato",
       "messageFlowNumber": "Flusso di messaggi ({{count}})",
-      "messageFlowNumber_plural": "Flusso di messaggi  ({{count}})"
+      "messageFlowNumber_plural": "Flusso di messaggi  ({{count}})",
+      "readMore": "Ulteriori informazioni…"
     },
     "aceMessageFlow": {
       "messageFlowInfo": "Flusso IBM ACE Message",
@@ -5155,7 +5156,20 @@
         "labelRows": "Righe",
         "labelDiskUsage": "Utilizzo disco",
         "titlePartitioning": "Partizionamento",
-        "labelPartitions": "Partizioni"
+        "labelPartitions": "Partizioni",
+        "titleRunningMerges": "Esecuzione delle unioni",
+        "titlePartitionId": "ID partizione",
+        "titleResultPartName": "Nome parte",
+        "titleNumberOfParts": "Numero parti",
+        "titleRowsRead": "Righe lette",
+        "titleRowsWritten": "Righe scritte",
+        "titleMemoryUsage": "Utilizzo della memoria",
+        "explanationRunningQueriesNotAvailable": "L'esecuzione delle query non è disponibile se l'intervallo di tempo selezionato termina nel passato.",
+        "explanationRunningMergesNotAvailable": "L'esecuzione delle unioni non è disponibile se l'intervallo di tempo selezionato termina nel passato.",
+        "errorRetrieveRunningMerges": "Impossibile richiamare le unioni in esecuzione",
+        "errorRetrieveRunningQueries": "Impossibile recuperare le query in esecuzione",
+        "infoNoRunningQueries": "Impossibile recuperare le query in esecuzione",
+        "infoNoRunningMerges": "Impossibile richiamare le unioni in esecuzione"
       }
     },
     "cloudFoundry": {
@@ -5651,6 +5665,10 @@
         "queryCount": "Conteggio query",
         "logWrites": "Scritture log",
         "lockSuspensions": "Sospensioni blocco"
+      },
+      "notifications": {
+        "notificationHeader": "Avvertenza",
+        "notificationText": "Questa versione di IBM Db2 for z/OS è obsoleta. Al momento, supportiamo <supportLink>IBM Z Observability with help of Omegamon and zAPM integration</supportLink>."
       },
       "UnableToConnect": "Impossibile effettuare la connessione a {{connectionUrl}} utilizzando l'utente {{user}}.",
       "UnableToGetData": "Errore durante l'acquisizione dei dati. Rimozione del sensore.",
@@ -6615,7 +6633,7 @@
         "rolledBackTransactions": "Transazioni di cui è stato eseguito il rollback",
         "cacheHitRatio": "Rapporto riscontri cache",
         "standbyConflicts": "Conflitti In Standby",
-        "tuplesRead": "Tuple lette",
+        "tupleReturned": "Tuple restituite",
         "tuplesFetched": "Tuple recuperate",
         "size": "Dimensione",
         "activeConnections": "Connessioni attive",
@@ -6626,7 +6644,7 @@
         "cache": "Cache",
         "conflicts": "Conflitti",
         "tuples": "Tuple",
-        "read": "Lettura",
+        "returned": "Restituito",
         "fetched": "Recupero",
         "databaseSizeTitle": "Dimensioni del database",
         "connections": "Connessioni"
@@ -6644,8 +6662,8 @@
       "rolledBackTransactions": "Transazioni di cui è stato eseguito il rollback",
       "cacheHitRatio": "Rapporto riscontri cache",
       "standbyConflicts": "Conflitti In Standby",
-      "tupleRead": "Lettura tupla",
-      "tupleFetch": "Recupero tupla",
+      "tupleReturned": "Tupla restituita",
+      "tupleFetched": "Tupla recuperata",
       "databaseSize": "Dimensione database",
       "connection": "Connessione",
       "replicationDelayInBytes": "Ritardo replica in byte",
@@ -9432,7 +9450,7 @@
       "openOutputCount": "Numero output aperti",
       "calls": "Chiamate",
       "statistics": "Statistiche coda MQ",
-      "statisticsRecord": "Nota: solo 'qualsiasi' (any) è supportato per il campo 'Operatore di corrispondenza'.",
+      "statisticsRecord": "Indice",
       "nonPersistentPutBytes": "Byte di put non persistenti",
       "persistentPutBytes": "Byte di put persistenti",
       "putFailCount": "Numero errori PUT",
@@ -9474,6 +9492,9 @@
         "agentStatus": "Stato",
         "queueManager": "Gestore code",
         "AgentStartTimeUTC": "Ora di inizio (UTC)",
+        "agentVersion": "Versione build",
+        "agentOsName": "Sistema operativo",
+        "PublishTimeUTC": "Ora di pubblicazione (UTC)",
         "maxSourceTransfers": "Numero massimo trasferimenti di origine",
         "maxDestinationTransfers": "Numero massimo trasferimenti di destinazione",
         "maxQueuedTransfers": "Numero massimo trasferimenti accodati",
@@ -9484,8 +9505,6 @@
         "totalCurrentTransfers": "Trasferimenti Correnti totali",
         "totalSourceTransfers": "Trasferimenti Origine",
         "totalDestinationTransfers": "Trasferimenti Destinazione",
-        "statusRunning": "In esecuzione",
-        "statusUnknown": "Sconosciuto",
         "transferState": "Stato",
         "sourceTransfersWithCount": "Trasferimenti di origine ({{len}})",
         "destinationTransfersWithCount": "Trasferimenti di destinazione ({{len}})"

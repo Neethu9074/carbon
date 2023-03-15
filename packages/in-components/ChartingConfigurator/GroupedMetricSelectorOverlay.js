@@ -27,6 +27,8 @@ export const getProductAreaFromMetricSource = metricSource => {
       return metricSource.toLowerCase();
     case 'MOBILE_APP':
       return 'mobileApp';
+    case 'INFRASTRUCTURE_METRICS':
+      return 'infrastructure';
     default:
       return 'application';
   }

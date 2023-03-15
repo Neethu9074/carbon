@@ -1,0 +1,17 @@
+{
+  "selectActions": "選取動作",
+  "associateActions": "關聯動作",
+  "associatedActions": "相關聯的動作",
+  "actionsAssociationsNote": "請注意，動作關聯會隨事件的定義一起儲存。",
+  "failedToSaveAssocations": "無法儲存動作關聯。",
+  "pleaseSelectAtLeastOneAction": "請至少選取一個動作。",
+  "addActions": "新增動作",
+  "addNumberOfItemsAction": "新增 {{count}} 個動作",
+  "addNumberOfItemsAction_plural": "新增 {{count}} 個動作",
+  "addNumberOfItemsAction_0": "新增 {{count}} 個動作",
+  "addNumberOfItemsAction_1": "新增 {{count}} 個動作",
+  "addNumberOfItemsAction_2": "新增 {{count}} 個動作",
+  "noActionsSelected": "未選取任何動作",
+  "actionSensorTimeout": "無法處理後端要求。 請檢查代理程式配置，以確定已安裝「動作」感應器。",
+  "newAction": "新增動作"
+}

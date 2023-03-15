@@ -439,6 +439,7 @@ function ExpandedGroup({ group, backendQueryModel, timeConfig, type, metrics, or
         onNavigateToEntity: tracking?.onNavigateToEntity,
         onLoadMore: page => tracking?.onLoadMore?.(page, LOAD_MORE_CONTEXT.ENTITIES_IN_GROUP)
       }}
+      displayChart={false}
     />
   );
 }

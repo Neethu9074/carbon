@@ -36,6 +36,14 @@ export const chartsMatrixParameter = {
   initialState: emptyObject
 };
 
+export const chartedMetricsMatrixParameter = {
+  path: infraExplorePath,
+  name: 'chartedMetrics',
+  serializer: buildJsonSerializer(),
+  parser: buildJsonParser(emptyArray),
+  initialState: emptyArray
+};
+
 export const typeMatrixParameter = {
   path: infraExplorePath,
   name: 'type',
@@ -71,14 +79,23 @@ export const resetMetricsAndOrderOnTypeChange = {
       name: 'type'
     }
   ],
-  reset: { metrics: emptyArray, order: undefined }
+  reset: { metrics: emptyArray, order: undefined, chartedMetrics: undefined }
 };
 
 export function isInfraExploreView() {
   return navigationParameters$.map(location => location.pathname.indexOf(infraExplorePath) === 0);
 }
 
-export function getLinkToExplore({ tagFilterExpression, group, charts, type, metrics, order, timeConfig }) {
+export function getLinkToExplore({
+  tagFilterExpression,
+  group,
+  charts,
+  type,
+  metrics,
+  order,
+  timeConfig,
+  chartedMetrics
+}) {
   return getModifiedUrlStream(params => {
     params.pathname = infraExplorePath;
 
@@ -108,6 +125,10 @@ export function getLinkToExplore({ tagFilterExpression, group, charts, type, met
 
     if (timeConfig) {
       setTimeConfig(params, timeConfig);
+    }
+
+    if (chartedMetrics) {
+      setMatrixKey(params, chartedMetricsMatrixParameter, chartedMetrics);
     }
 
     setMatrixKey(params, dataSourcerMatrixParameter, 'infrastructure');

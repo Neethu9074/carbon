@@ -21,7 +21,6 @@ import IconButton from 'in-components/IconButton/IconButton';
 import BackButton from 'in-components/BackButton';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-components/Pill';
-import { role } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
 import theme from 'in-themes';
 
@@ -40,7 +39,9 @@ export default function AlertHeader({
   onConfigStateChanged,
   onConfigDeleted,
   onConfigRevisionChanged,
-  renderCustomTitle
+  renderCustomTitle,
+  showActionButton,
+  allowActionButtons = true
 }) {
   const extendedAlertConfigVersions = extendAlertConfigVersions(alertConfigVersions);
 
@@ -161,7 +162,6 @@ export default function AlertHeader({
           <Pill className={locals.badge} color={theme.lib.colors.purple800} kind="light">
             {t('in-alerting:components.alertHeaderAlert')}
           </Pill>
-
           {extendedAlertConfigVersions.length > 0 && (
             <>
               <RevisionDropdown
@@ -177,7 +177,6 @@ export default function AlertHeader({
               <Spacer horizontal="normal" />
             </>
           )}
-
           {alertConfig.readOnly && (
             <Tooltip content={t('in-alerting:components.alertHeaderRestoreRevisionTooltip')}>
               <IconButton
@@ -190,7 +189,7 @@ export default function AlertHeader({
             </Tooltip>
           )}
 
-          {role.canConfigureCustomAlerts && !alertConfig.readOnly && (
+          {allowActionButtons && !alertConfig.readOnly && showActionButton && (
             <>
               <Tooltip
                 content={
@@ -318,7 +317,9 @@ AlertHeader.propTypes = {
   onConfigStateChanged: PropTypes.func,
   onConfigDeleted: PropTypes.func,
   onConfigRevisionChanged: PropTypes.func,
-  renderCustomTitle: PropTypes.func
+  renderCustomTitle: PropTypes.func,
+  showActionButton: PropTypes.bool,
+  allowActionButtons: PropTypes.bool
 };
 
 function openRestoreConfirmationDialog(alertRevision, doRestore) {

@@ -104,6 +104,9 @@ export const syntheticBrowserScriptEnabled = isFeatureFlagEnabled('syntheticBrow
 // Synthetic SmartAlert feature flag
 export const syntheticSmartAlertsEnabled = isFeatureFlagEnabled('syntheticSmartAlertsEnabled');
 
+// Synthetic SmartAlert details feature flag
+export const syntheticSmartAlertsDetailsEnabled = isFeatureFlagEnabled('syntheticSmartAlertsDetailsEnabled');
+
 // Create Synthetic SmartAlert UI feature flag
 export const syntheticCreateSmartAlertsUIEnabled = isFeatureFlagEnabled('syntheticCreateSmartAlertsUIEnabled');
 
@@ -147,5 +150,3 @@ export const controlPlaneEnabled = isFeatureFlagEnabled('controlPlaneEnabled', f
 export const largeTracesV2Enabled = isFeatureFlagEnabled('largeTracesV2Enabled', false);
 
 export const oracleRacMonitoringEnabled = isFeatureFlagEnabled('oracleRacMonitoringEnabled', false);
-// Skips the onboarding dialog, to keep ui available when infra monitoring might be in a degraded state
-export const skipOnboarding = isFeatureFlagEnabled('skipOnboarding', false);

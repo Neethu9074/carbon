@@ -6,10 +6,9 @@
 
 import { createField, createMapForm, MapForm } from 'formalistic';
 
-import { applyEditMode } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
-import { MAX_LABEL_LENGTH, MAX_LONG_STRING_LENGTH } from 'in-alerting/formFieldLengths';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
+import { MAX_LONG_STRING_LENGTH } from 'in-alerting/formFieldLengths';
 import { SyntheticAlertConfigWithMetadata } from 'in-types';
 
 const severityWarning = 5;
@@ -27,7 +26,7 @@ export const fieldNames = Object.freeze({
   timeThreshold: 'timeThreshold'
 });
 
-export default function alertFormDefinition(alertConfig: SyntheticAlertConfigWithMetadata, editMode: boolean): MapForm {
+export default function alertFormDefinition(alertConfig: SyntheticAlertConfigWithMetadata): MapForm {
   const {
     tagFilterExpression,
     alertChannelIds = [],
@@ -45,8 +44,7 @@ export default function alertFormDefinition(alertConfig: SyntheticAlertConfigWit
     .put(
       fieldNames.tagFilterExpression,
       createField({
-        value: tagFilterExpression ? fromBackendModel(tagFilterExpression) : [],
-        validator: stringMaxLengthValidator(MAX_LABEL_LENGTH)
+        value: tagFilterExpression ? fromBackendModel(tagFilterExpression) : []
       })
     )
     .put(
@@ -115,5 +113,5 @@ export default function alertFormDefinition(alertConfig: SyntheticAlertConfigWit
         )
     );
 
-  return applyEditMode(form, editMode);
+  return form;
 }

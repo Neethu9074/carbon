@@ -38,20 +38,7 @@ export default function SelectScheduleStep({ form, updateForm, simpleMode }: Pro
       <Section headingText={t('in-synthetics:dialog.createTest.scheduling.title')}>
         <FormGroup>
           <SubTitle>{t('in-synthetics:dialog.createTest.basicDetails.labelFrequency')}</SubTitle>
-          <DebouncedDistinctSlider
-            marks={marks}
-            max={marks[marks.length - 1].value}
-            min={0}
-            step={1}
-            value={frequencyField.value}
-            onChange={(value: number) => {
-              updateForm(
-                form.updateIn(['testFrequency'], (field: Item) =>
-                  (field as Field<number>).setValue(value).setTouched(true)
-                )
-              );
-            }}
-          />
+          {displaySlider(frequencyField, marks, form, updateForm)}
         </FormGroup>
       </Section>
     );
@@ -68,21 +55,7 @@ export default function SelectScheduleStep({ form, updateForm, simpleMode }: Pro
           <Description>
             {t('in-synthetics:dialog.createTest.advancedMode.frequency', { frequencyValue: frequencyField.value })}
           </Description>
-          <DebouncedDistinctSlider
-            marks={marks}
-            max={marks[marks.length - 1].value}
-            min={0}
-            step={1}
-            value={frequencyField.value}
-            valueLabelDisplay="auto"
-            onChange={(value: number) => {
-              updateForm(
-                form.updateIn(['testFrequency'], (field: Item) =>
-                  (field as Field<number>).setValue(value).setTouched(true)
-                )
-              );
-            }}
-          />
+          {displaySlider(frequencyField, marks, form, updateForm)}
         </FormGroup>
       </Section>
     );
@@ -97,4 +70,27 @@ function getDisplayLabel(value: number) {
   } else {
     return '';
   }
+}
+
+function displaySlider(
+  frequencyField: Field<Number>,
+  marks: Shape[],
+  form: MapForm,
+  updateForm: (form: MapForm) => void
+) {
+  return (
+    <DebouncedDistinctSlider
+      marks={marks}
+      max={marks[marks.length - 1].value}
+      min={1}
+      step={1}
+      value={frequencyField.value}
+      valueLabelDisplay="auto"
+      onChange={(value: number) => {
+        updateForm(
+          form.updateIn(['testFrequency'], (field: Item) => (field as Field<number>).setValue(value).setTouched(true))
+        );
+      }}
+    />
+  );
 }

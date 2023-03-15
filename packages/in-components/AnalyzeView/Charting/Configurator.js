@@ -23,11 +23,12 @@ export default function Configurator({
   unifiedMetricsSource,
   disableClose,
   hideRenderer,
-  tracking
+  tracking,
+  processedOptions
 }) {
   const value = chartedMetricsTemplate ?? chartedMetrics?.[0];
 
-  const options = {
+  const options = processedOptions ?? {
     templates: chartedMetricsTemplates ?? emptyArray,
     metrics:
       chartableMetricCatalog?.map(({ metricId, label, description, aggregations }) => ({

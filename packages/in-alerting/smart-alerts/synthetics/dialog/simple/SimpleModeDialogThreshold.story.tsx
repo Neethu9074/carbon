@@ -18,7 +18,7 @@ export default { component: SimpleModeDialogThreshold };
 const failureAlertConfig = Object.freeze(generateAlertConfig());
 
 export const Threshold = (args: AlertConfigDialogPresenterProps & MainDialogControl) => {
-  const [form, updateForm] = useState(alertFormDefinition(failureAlertConfig, false));
+  const [form, updateForm] = useState(alertFormDefinition(failureAlertConfig));
 
   return <SimpleModeDialogThreshold {...args} form={form} updateForm={updateForm} />;
 };

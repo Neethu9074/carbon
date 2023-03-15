@@ -562,6 +562,7 @@
         "cancelTitle": "Cancelar",
         "sharedListTooltip": "{{typeName}} não está mais disponível",
         "clearTagFilterExpressionButton": "Limpar",
+        "baselineErrorMessageComputedOnApproximateData": "A linha de base é calculada com base em dados aproximados, devido às configurações de retenção de dados. Portanto, pode não ser preciso no caso de haver poucas chamadas correspondentes aos filtros selecionados.",
         "baselineErrorMessageInsufficientDataToCompute": "Dados insuficientes para computar a linha de base selecionada. Selecione <em>Limite estático</em> como alternativa.",
         "pleaseContactSupportToRiseLimit": "Entre em contato conosco por meio de nosso <supportLink>{{instanaSupportPortal}}</supportLink> para solicitar um aumento desse limite.",
         "adaptiveBaselineErrorMessage": "A visualização de limite está indisponível no momento.<br />Este Smart Alert ainda pode ser salvo.",
@@ -581,6 +582,7 @@
         "addChannel_1": "Incluir {{count}} canais",
         "addChannel_2": "Incluir {{count}} canais",
         "add": "Incluir",
+        "alertPropertyInsertPlaceholderLabel": "Inserir item temporário",
         "scopeConfigTitleWithApplications": "Selecionar Aplicativos/Serviços/Terminais",
         "scopeConfigTitle": "Selecionar serviços/terminais",
         "scopeConfigSelectOneEntryMessage": "Selecione pelo menos uma entrada.",
@@ -1028,11 +1030,56 @@
     "enable": "Ativar",
     "disable": "Desativar",
     "synthetics": {
+      "dashboard": {
+        "column": {
+          "moreFiltersWithCount": "+{{count}} mais filtro",
+          "moreFiltersWithCount_plural": "+{{count}} mais filtros",
+          "moreFiltersWithCount_0": "+{{count}} mais filtros",
+          "moreFiltersWithCount_1": "+{{count}} mais filtros",
+          "moreFiltersWithCount_2": "+{{count}} mais filtros",
+          "filter": "Filtro",
+          "filter_plural": "filtros",
+          "filter_0": "filtros",
+          "filter_1": "filtros",
+          "filter_2": "filtros"
+        }
+      },
       "alertList": {
         "timeThreshold": "Limite de falha",
         "filterApplied": "Filtro aplicado",
         "violationsCount": "{{violationsCount}} falhas",
         "numberOfFailures": "Alerta de falha"
+      },
+      "simple": {
+        "stepConfigsStep1Title": "Etapa 1: testes",
+        "simpleAlertConfigDialogStep1Headline": "Quais testes sintéticos devem ser alertados?",
+        "stepConfigsStep4Title": "Etapa 4: canais de alerta",
+        "alertDialogHeadline": "O que deve aparecer no alerta?",
+        "stepConfigsStep2Title": "Etapa 2: escopo",
+        "scopeHeadline": "Onde você deseja que o alerta seja acionado?",
+        "stepConfigsStep3Title": "Etapa 3: limite",
+        "stepConfigsStep5Title": "Etapa 5: propriedades de alerta",
+        "thresholdTitle": "Quantas falhas consecutivas devem ocorrer por local antes de alertar?"
+      },
+      "advanced": {
+        "alertChannelsLabel": "Canais de alerta",
+        "scopeFilterLabel": "Escopo",
+        "alertTestsLabel": "Testes sintéticos",
+        "alertTestsTitle": "Testes sintéticos: quais testes sintéticos devem ser alertados?",
+        "propertiesLabel": "Propriedades de alerta",
+        "failureThreshold": "Limite de falha",
+        "failureThresholdLabel": "Limite de falha",
+        "failureThresholdTitle": "Quantas falhas consecutivas devem ocorrer por local antes de alertar?"
+      },
+      "selectTests": {
+        "selectAlertTestButtonTitle": "Incluir testes sintéticos",
+        "selectAlertTestButton": "Incluir testes sintéticos",
+        "addTest": "Incluir {{count}} teste(s)",
+        "alertTests": "Testes sintéticos",
+        "noTestSelectedText": "Nenhum teste sintético selecionado",
+        "alertTestEntityName": "teste sintético {{entityName}}",
+        "testAttachedCount": "({{count}}) teste(s) anexado(s)",
+        "testAttached": "Testes anexados"
       }
     }
   }
