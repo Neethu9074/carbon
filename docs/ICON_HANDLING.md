@@ -38,13 +38,14 @@ To test your change locally, you can start the documentation locally through whi
 ```sh
 cd packages/components
 yarn build
-cd ../documentation
+cd ../playground
 yarn start
 ```
 
 Please open a pull request with the new icon and ping the UI community within `#tech-ui-dev` to get this change merged and released.
-
-Make sure the version in `ui-foundation/packages/components/package.json` is increased and same is used as `@instana/components` version in `ui-client/package.json`.
+If you are triggering the ui-foundation release yourself, copy the new version number of `@instana/components` from the build output.
+If someone else is releasing your changes for you, they should be able to provide you with the new version number.
+Head back to `ui-client` and upgrade the `@instana/components` dependency to the new version in order to use the new icon.
 
 # (Old) Infrastructure icons
 
