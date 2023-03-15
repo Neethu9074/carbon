@@ -66,11 +66,24 @@
           }
         }
       },
-      "form": {
-        "validUrl": "Entrer une URL valide"
-      },
       "validators": {
-        "theValueMustNotBeEmpty": "Vous devez sélectionner au moins un emplacement."
+        "theValueMustNotBeEmpty": "Vous devez sélectionner au moins un emplacement.",
+        "urlMustNotContainSpace": "L'URL ne doit pas contenir d'espace",
+        "mailToNotSupported": "'mailto' n'est pas pris en charge",
+        "outOfLength": "L'URL est trop longue",
+        "fragmentsNotSupported": "Les fragments ne sont pas pris en charge",
+        "queryNotSupported": "La requête n'est pas prise en charge",
+        "incorrectProtocol": "Le protocole doit être 'http' ou 'https'",
+        "incorrectUrlFormat": "Protocole ou domaine manquant",
+        "missUserAuthentication": "Authentification d'utilisateur manquante",
+        "incorrectAuthentication": "Authentification d'utilisateur incorrecte",
+        "missUserOrPassword": "Utilisateur ou mot de passe manquant",
+        "invalidPortValue": "Valeur de port non valide",
+        "missHost": "Hôte manquant dans l'URL",
+        "invalidHost": "Format d'hôte non valide"
+      },
+      "advancedMode": {
+        "buttonContent": "Passer en mode avancé"
       }
     },
     "httpMethods": {
@@ -108,6 +121,8 @@
         "smartAlerts": "Alertes intelligentes"
       },
       "popDialog": {
+        "popUpDialogTitle": "Droits d'accès pour la surveillance synthétique",
+        "popUpDialog": "Consultez le <documentationLink>document</documentationLink> pour plus d'informations sur la définition des droits d'accès pour la surveillance synthétique",
         "button": "Déployer un point de présence",
         "simpleTab": "Simple",
         "redisTab": "TLS Redis",
@@ -206,7 +221,8 @@
       "title": "Résultats",
       "locationLabel": "Emplacement",
       "failures": "Echecs",
-      "status": "Statut"
+      "status": "Statut",
+      "success": "Succès"
     },
     "detailsPage": {
       "timeLineWidget": "Chronologie",

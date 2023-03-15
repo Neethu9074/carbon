@@ -66,11 +66,24 @@
           }
         }
       },
-      "form": {
-        "validUrl": "올바른 URL을 입력하십시오."
-      },
       "validators": {
-        "theValueMustNotBeEmpty": "위치를 하나 이상 선택해야 함"
+        "theValueMustNotBeEmpty": "위치를 하나 이상 선택해야 함",
+        "urlMustNotContainSpace": "URL은 공백을 포함할 수 없음",
+        "mailToNotSupported": "'mailto'는 지원되지 않습니다.",
+        "outOfLength": "URL이 너무 깁니다",
+        "fragmentsNotSupported": "단편은 지원되지 않습니다.",
+        "queryNotSupported": "조회가 지원되지 않음",
+        "incorrectProtocol": "프로토콜은 'http' 또는 'https'여야 함",
+        "incorrectUrlFormat": "프로토콜 또는 도메인 누락",
+        "missUserAuthentication": "사용자 인증 누락",
+        "incorrectAuthentication": "잘못된 사용자 인증",
+        "missUserOrPassword": "사용자 또는 비밀번호 누락",
+        "invalidPortValue": "포트 값이 유효하지 않음",
+        "missHost": "URL에서 호스트 누락",
+        "invalidHost": "호스트 형식이 유효하지 않음"
+      },
+      "advancedMode": {
+        "buttonContent": "고급 모드로 전환"
       }
     },
     "httpMethods": {
@@ -108,6 +121,8 @@
         "smartAlerts": "스마트 경보"
       },
       "popDialog": {
+        "popUpDialogTitle": "합성 모니터링에 대한 권한",
+        "popUpDialog": "합성 모니터링 권한 설정에 대한 정보는 <documentationLink>문서</documentationLink>를 확인하십시오.",
         "button": "PoP 배치",
         "simpleTab": "단순",
         "redisTab": "Redis TLS",
@@ -206,7 +221,8 @@
       "title": "결과",
       "locationLabel": "위치",
       "failures": "실패",
-      "status": "상태"
+      "status": "상태",
+      "success": "성공"
     },
     "detailsPage": {
       "timeLineWidget": "타임라인",

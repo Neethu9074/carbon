@@ -190,7 +190,8 @@
         "errorLog": "Log de erro",
         "warningLog": "Log de aviso",
         "restrictedAccess": "Acesso restrito",
-        "restrictedAccessExpl": "Você não tem permissão para acessar estas informações"
+        "restrictedAccessExpl": "Você não tem permissão para acessar estas informações",
+        "batchCount": "Há {{count}} logs em torno deste registro de data e hora."
       },
       "callTooltipContent": {
         "numbersOfErrors": "{{count}} Erro",

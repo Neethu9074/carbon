@@ -407,6 +407,7 @@
     "viewSwitcherLabelEvents": "Evénements",
     "viewSwitcherlabelInfrastructure": "Infrastructure",
     "viewSwitcherLabelApplications": "Applications",
+    "viewSwitcherLabelSlo": "Niveaux de Service",
     "viewSwitcherLabelAnalytics": "Analyse",
     "viewSwitcherLabelWebsitesAndMobileApps": "Sites Web et applications mobiles",
     "viewSwitcherLabelWebsites": "Sites Web",

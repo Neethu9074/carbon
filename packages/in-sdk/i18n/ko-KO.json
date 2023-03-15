@@ -9,6 +9,7 @@
   "agentMonitoringAlert_prefix04": "모니터링 문제",
   "agentMonitoringExplanationLinkLabel": "문제점 해결 문서",
   "agentMonitoringExplanationLinkHref": "https://www.ibm.com/docs/en/obi/current",
+  "agentMonitoringMetricCardinalityExceeded": "메트릭 카디널리티 한계를 초과했습니다. 보고된 메트릭 수를 줄이거나 지원팀에 문의하여 한계를 늘리십시오.",
   "services": "서비스",
   "dashboard": {
     "customMetricsV2": {

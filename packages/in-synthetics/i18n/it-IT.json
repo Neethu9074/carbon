@@ -66,11 +66,24 @@
           }
         }
       },
-      "form": {
-        "validUrl": "Immettere un URL valido"
-      },
       "validators": {
-        "theValueMustNotBeEmpty": "È necessario selezionare almeno una ubicazione"
+        "theValueMustNotBeEmpty": "È necessario selezionare almeno una ubicazione",
+        "urlMustNotContainSpace": "L'URL non deve contenere spazi",
+        "mailToNotSupported": "'mailto' non è supportata",
+        "outOfLength": "L'URL è troppo lungo",
+        "fragmentsNotSupported": "I frammenti non sono supportati",
+        "queryNotSupported": "La query non è supportata",
+        "incorrectProtocol": "Il protocollo deve essere 'http' o 'https'",
+        "incorrectUrlFormat": "Protocollo o dominio mancante",
+        "missUserAuthentication": "Autenticazione utente mancante",
+        "incorrectAuthentication": "Autenticazione utente non corretta",
+        "missUserOrPassword": "Utente o password mancanti",
+        "invalidPortValue": "Valore porta non valido",
+        "missHost": "Host mancante nell'URL",
+        "invalidHost": "Formato host non valido"
+      },
+      "advancedMode": {
+        "buttonContent": "Passa alla modalità avanzata"
       }
     },
     "httpMethods": {
@@ -108,6 +121,8 @@
         "smartAlerts": "Avvisi smart"
       },
       "popDialog": {
+        "popUpDialogTitle": "Autorizzazioni per il monitoraggio sintetico",
+        "popUpDialog": "Controllare il <documentationLink>documento</documentationLink> per informazioni sull'impostazione delle autorizzazioni di monitoraggio sintetico",
         "button": "Distribuire un PoP",
         "simpleTab": "Semplice",
         "redisTab": "TLS Redis",
@@ -206,7 +221,8 @@
       "title": "Risultati",
       "locationLabel": "Ubicazione",
       "failures": "Errori",
-      "status": "Stato"
+      "status": "Stato",
+      "success": "Riuscito"
     },
     "detailsPage": {
       "timeLineWidget": "Scala temporale",

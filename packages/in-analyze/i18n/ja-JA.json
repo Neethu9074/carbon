@@ -190,7 +190,8 @@
         "errorLog": "エラー・ログ",
         "warningLog": "警告ログ",
         "restrictedAccess": "制限付きアクセス",
-        "restrictedAccessExpl": "この情報にアクセスする権限がありません。"
+        "restrictedAccessExpl": "この情報にアクセスする権限がありません。",
+        "batchCount": "このタイム・スタンプの前後には{{count}}個のログがあります。"
       },
       "callTooltipContent": {
         "numbersOfErrors": "{{count}} 個のエラー",

@@ -66,11 +66,24 @@
           }
         }
       },
-      "form": {
-        "validUrl": "輸入有效的 URL"
-      },
       "validators": {
-        "theValueMustNotBeEmpty": "至少需要選取一個位置"
+        "theValueMustNotBeEmpty": "至少需要選取一個位置",
+        "urlMustNotContainSpace": "URL 不得包含空格",
+        "mailToNotSupported": "不支援 'mailto'",
+        "outOfLength": "URL 太長",
+        "fragmentsNotSupported": "不支援片段",
+        "queryNotSupported": "不支援查詢",
+        "incorrectProtocol": "通訊協定必須是 'http' 或 'https'",
+        "incorrectUrlFormat": "遺漏通訊協定或網域",
+        "missUserAuthentication": "遺漏使用者鑑別",
+        "incorrectAuthentication": "使用者鑑別不正確",
+        "missUserOrPassword": "遺漏使用者或密碼",
+        "invalidPortValue": "埠值無效",
+        "missHost": "URL 中遺漏主機",
+        "invalidHost": "主機格式無效"
+      },
+      "advancedMode": {
+        "buttonContent": "切換至進階模式"
       }
     },
     "httpMethods": {
@@ -108,6 +121,8 @@
         "smartAlerts": "智慧型警示"
       },
       "popDialog": {
+        "popUpDialogTitle": "Synthetic Monitoring 的許可權",
+        "popUpDialog": "如需設定 Synthetic Monitoring 許可權的相關資訊，請檢查<documentationLink>文件</documentationLink>",
         "button": "部署 PoP",
         "simpleTab": "簡式",
         "redisTab": "Redis TLS",
@@ -206,7 +221,8 @@
       "title": "結果",
       "locationLabel": "位置",
       "failures": "失敗",
-      "status": "狀態"
+      "status": "狀態",
+      "success": "成功"
     },
     "detailsPage": {
       "timeLineWidget": "時間表",

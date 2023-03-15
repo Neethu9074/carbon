@@ -190,7 +190,8 @@
         "errorLog": "錯誤日誌",
         "warningLog": "警告日誌",
         "restrictedAccess": "受限存取權",
-        "restrictedAccessExpl": "您無權存取此資訊"
+        "restrictedAccessExpl": "您無權存取此資訊",
+        "batchCount": "此時間戳記周圍有 {{count}} 個日誌。"
       },
       "callTooltipContent": {
         "numbersOfErrors": "{{count}} 個錯誤",

@@ -1,0 +1,17 @@
+{
+  "selectActions": "Selecionar ações",
+  "associateActions": "Associar ações",
+  "associatedActions": "Ações associadas",
+  "actionsAssociationsNote": "Observe que as associações de ação são salvas com a definição do evento.",
+  "failedToSaveAssocations": "Falha ao salvar as associações de ações",
+  "pleaseSelectAtLeastOneAction": "Selecione pelo menos uma ação.",
+  "addActions": "Incluir ações",
+  "addNumberOfItemsAction": "Incluir {{count}} ação",
+  "addNumberOfItemsAction_plural": "Incluir {{count}} ações",
+  "addNumberOfItemsAction_0": "Incluir {{count}} ações",
+  "addNumberOfItemsAction_1": "Incluir {{count}} ações",
+  "addNumberOfItemsAction_2": "Incluir {{count}} ações",
+  "noActionsSelected": "Nenhuma ação selecionada",
+  "actionSensorTimeout": "Não foi possível manipular a solicitação de back-end. Verifique a sua configuração do agente para ter certeza de que o sensor de ação está instalado.",
+  "newAction": "Nova ação"
+}

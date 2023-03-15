@@ -578,7 +578,8 @@
         "erroneousTrace": "Fehlerhafter Trace",
         "attemptToRenderTrace": "Versuch, Trace wiederzugeben",
         "analyzeBeacons": "Beacons analysieren",
-        "adjustedTimeConfig": "Der Zeitbereich wurde angepasst, um den ausgewählten Beacon einzuschließen."
+        "adjustedTimeConfigForTrace": "Der Zeitbereich wurde angepasst, um alle Aufrufe des ausgewählten Trace einzubeziehen.",
+        "adjustedTimeConfigForBeacon": "Der Zeitbereich wurde angepasst, um den ausgewählten Beacon einzuschließen."
       }
     },
     "components": {

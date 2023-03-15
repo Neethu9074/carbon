@@ -1,0 +1,17 @@
+{
+  "selectActions": "조치 선택",
+  "associateActions": "조치 연관",
+  "associatedActions": "연관된 조치",
+  "actionsAssociationsNote": "조치 연관은 이벤트의 정의와 함께 저장됩니다.",
+  "failedToSaveAssocations": "조치 연관을 저장하지 못했습니다.",
+  "pleaseSelectAtLeastOneAction": "하나 이상의 조치를 선택하십시오.",
+  "addActions": "조치 추가",
+  "addNumberOfItemsAction": "{{count}}개의 조치 추가",
+  "addNumberOfItemsAction_plural": "{{count}}개의 조치 추가",
+  "addNumberOfItemsAction_0": "{{count}}개의 조치 추가",
+  "addNumberOfItemsAction_1": "{{count}}개의 조치 추가",
+  "addNumberOfItemsAction_2": "{{count}}개의 조치 추가",
+  "noActionsSelected": "조치가 선택되지 않음",
+  "actionSensorTimeout": "백엔드 요청을 처리할 수 없습니다. 에이전트 구성을 확인하여 조치 센서가 설치되어 있는지 확인하십시오.",
+  "newAction": "새 조치"
+}

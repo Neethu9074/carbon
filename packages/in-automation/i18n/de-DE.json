@@ -1,0 +1,17 @@
+{
+  "selectActions": "Aktionen auswählen",
+  "associateActions": "Aktionen zuordnen",
+  "associatedActions": "Zugeordnete Aktionen",
+  "actionsAssociationsNote": "Beachten Sie, dass Aktionszuordnungen mit der Definition des Ereignisses gespeichert werden.",
+  "failedToSaveAssocations": "Aktionszuordnungen konnten nicht gespeichert werden.",
+  "pleaseSelectAtLeastOneAction": "Wählen Sie mindestens eine Aktion aus.",
+  "addActions": "Aktionen hinzufügen",
+  "addNumberOfItemsAction": "Aktion {{count}} hinzufügen",
+  "addNumberOfItemsAction_plural": "{{count}} Aktionen hinzufügen",
+  "addNumberOfItemsAction_0": "{{count}} Aktionen hinzufügen",
+  "addNumberOfItemsAction_1": "{{count}} Aktionen hinzufügen",
+  "addNumberOfItemsAction_2": "{{count}} Aktionen hinzufügen",
+  "noActionsSelected": "Keine Aktionen ausgewählt",
+  "actionSensorTimeout": "Die Back-End-Anforderung konnte nicht verarbeitet werden. Überprüfen Sie Ihre Agentenkonfiguration, um sicherzustellen, dass der Aktionssensor installiert ist.",
+  "newAction": "Neue Aktion"
+}

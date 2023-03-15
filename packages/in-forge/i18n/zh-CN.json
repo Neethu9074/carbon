@@ -2927,7 +2927,8 @@
       "messageFlowApplicationName": "应用程序名称",
       "status": "状态",
       "messageFlowNumber": "消息流 ({{count}})",
-      "messageFlowNumber_plural": "消息流 ({{count}})"
+      "messageFlowNumber_plural": "消息流 ({{count}})",
+      "readMore": "阅读更多信息…"
     },
     "aceMessageFlow": {
       "messageFlowInfo": "IBM ACE 消息流",
@@ -5155,7 +5156,20 @@
         "labelRows": "行数",
         "labelDiskUsage": "磁盘使用情况",
         "titlePartitioning": "分区",
-        "labelPartitions": "分区"
+        "labelPartitions": "分区",
+        "titleRunningMerges": "正在运行合并",
+        "titlePartitionId": "分区标识",
+        "titleResultPartName": "部件名称",
+        "titleNumberOfParts": "部件数",
+        "titleRowsRead": "已读取的行数",
+        "titleRowsWritten": "已写入的行数",
+        "titleMemoryUsage": "内存使用率",
+        "explanationRunningQueriesNotAvailable": "如果所选时间范围在过去结束，那么无法运行查询。",
+        "explanationRunningMergesNotAvailable": "如果所选时间范围在过去结束，那么无法运行合并。",
+        "errorRetrieveRunningMerges": "未能检索正在运行的合并",
+        "errorRetrieveRunningQueries": "未能检索正在运行的查询",
+        "infoNoRunningQueries": "未能检索正在运行的查询",
+        "infoNoRunningMerges": "未能检索正在运行的合并"
       }
     },
     "cloudFoundry": {
@@ -5651,6 +5665,10 @@
         "queryCount": "查询计数",
         "logWrites": "日志写入数",
         "lockSuspensions": "锁定暂挂"
+      },
+      "notifications": {
+        "notificationHeader": "警告",
+        "notificationText": "不推荐使用此版本的 IBM Db2 for z/OS。 截至目前，我们支持 <supportLink>IBM Z 可观察性，借助 Omegamon 和 zAPM 集成</supportLink>。"
       },
       "UnableToConnect": "无法使用用户 {{user}} 连接到 {{connectionUrl}}。",
       "UnableToGetData": "获取数据时出错。正在移除传感器。",
@@ -6615,7 +6633,7 @@
         "rolledBackTransactions": "回滚事务数",
         "cacheHitRatio": "高速缓存命中率",
         "standbyConflicts": "备用冲突",
-        "tuplesRead": "元组读取",
+        "tupleReturned": "返回的元组数",
         "tuplesFetched": "已访存元组数",
         "size": "大小",
         "activeConnections": "活动连接数",
@@ -6626,7 +6644,7 @@
         "cache": "高速缓存",
         "conflicts": "冲突数",
         "tuples": "元组",
-        "read": "读取",
+        "returned": "已返回",
         "fetched": "已访存",
         "databaseSizeTitle": "数据库大小",
         "connections": "连接数"
@@ -6644,8 +6662,8 @@
       "rolledBackTransactions": "回滚事务数",
       "cacheHitRatio": "高速缓存命中率",
       "standbyConflicts": "备用冲突",
-      "tupleRead": "元组读取",
-      "tupleFetch": "元组访存",
+      "tupleReturned": "已返回元组",
+      "tupleFetched": "已访存元组",
       "databaseSize": "数据库大小",
       "connection": "连接",
       "replicationDelayInBytes": "复制延迟（以字节计）",
@@ -9432,7 +9450,7 @@
       "openOutputCount": "打开输出计数",
       "calls": "调用数",
       "statistics": "MQ 队列统计信息",
-      "statisticsRecord": "注：“匹配运算符”字段仅支持“任何”！",
+      "statisticsRecord": "索引",
       "nonPersistentPutBytes": "非持久 Put 字节数",
       "persistentPutBytes": "持久 Put 字节数",
       "putFailCount": "PUT 失败计数",
@@ -9474,6 +9492,9 @@
         "agentStatus": "状态",
         "queueManager": "队列管理器",
         "AgentStartTimeUTC": "开始时间 (UTC)",
+        "agentVersion": "构建版本",
+        "agentOsName": "操作系统",
+        "PublishTimeUTC": "发布时间 (UTC)",
         "maxSourceTransfers": "最大源传输数",
         "maxDestinationTransfers": "最大目标传输数",
         "maxQueuedTransfers": "最大排队传输数",
@@ -9484,8 +9505,6 @@
         "totalCurrentTransfers": "当前传输总数",
         "totalSourceTransfers": "源传输",
         "totalDestinationTransfers": "目标传输",
-        "statusRunning": "正在运行",
-        "statusUnknown": "未知",
         "transferState": "状态",
         "sourceTransfersWithCount": "源传输 ({{len}})",
         "destinationTransfersWithCount": "目标传输 ({{len}})"

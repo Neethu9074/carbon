@@ -9,6 +9,7 @@
   "agentMonitoringAlert_prefix04": "Überwachungsproblem",
   "agentMonitoringExplanationLinkLabel": "Fehlerbehebungshandbücher",
   "agentMonitoringExplanationLinkHref": "https://www.ibm.com/docs/en/obi/current",
+  "agentMonitoringMetricCardinalityExceeded": "Grenzwert für Metrikkardinalität überschritten. Reduzieren Sie die Anzahl der gemeldeten Metriken oder wenden Sie sich an den Support, um den Grenzwert zu erhöhen.",
   "services": "Services",
   "dashboard": {
     "customMetricsV2": {

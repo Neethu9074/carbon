@@ -578,7 +578,8 @@
         "erroneousTrace": "Traccia errata",
         "attemptToRenderTrace": "Tentativo di rendering della traccia",
         "analyzeBeacons": "Analizza beacon",
-        "adjustedTimeConfig": "L'intervallo di tempo è stato adattato per includere il beacon selezionato."
+        "adjustedTimeConfigForTrace": "L'intervallo di tempo è stato regolato per includere tutte le chiamate della traccia selezionata.",
+        "adjustedTimeConfigForBeacon": "L'intervallo di tempo è stato adattato per includere il beacon selezionato."
       }
     },
     "components": {

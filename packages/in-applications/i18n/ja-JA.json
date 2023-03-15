@@ -578,7 +578,8 @@
         "erroneousTrace": "エラーのあるトレース",
         "attemptToRenderTrace": "トレース・レンダリングの試行",
         "analyzeBeacons": "ビーコンの分析",
-        "adjustedTimeConfig": "時間範囲は、選択ビーコンを含むように調整されました。"
+        "adjustedTimeConfigForTrace": "時刻範囲は、選択されたトレースのすべての呼び出しを含むように調整されています。",
+        "adjustedTimeConfigForBeacon": "時間範囲は、選択ビーコンを含むように調整されました。"
       }
     },
     "components": {

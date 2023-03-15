@@ -190,7 +190,8 @@
         "errorLog": "错误日志",
         "warningLog": "警告日志",
         "restrictedAccess": "受限访问权",
-        "restrictedAccessExpl": "您没有访问此信息的许可权"
+        "restrictedAccessExpl": "您没有访问此信息的许可权",
+        "batchCount": "此时间戳记周围有 {{count}} 个日志。"
       },
       "callTooltipContent": {
         "numbersOfErrors": "{{count}} 个错误",

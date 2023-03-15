@@ -38,5 +38,7 @@
   "tooltipEntityHealthNoIssues": "Keine Probleme",
   "tooltipEntityHealthIssues": "{{numberOfIssues}}-Probleme",
   "container": "Container",
-  "endOfInfiniteScroll": "Keine weiteren Protokolle verfügbar"
+  "endOfInfiniteScroll": "Keine weiteren Protokolle verfügbar",
+  "liveModeDisabled": "Live-Modus für Protokollierung inaktiviert",
+  "logLevels": "Protokollierungsstufen"
 }

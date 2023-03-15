@@ -1,0 +1,17 @@
+{
+  "selectActions": "アクションの選択",
+  "associateActions": "アクションの関連付け",
+  "associatedActions": "関連付けられたアクション",
+  "actionsAssociationsNote": "アクションの関連付けは、イベントの定義と一緒に保存されることに注意してください。",
+  "failedToSaveAssocations": "アクションの関連付けを保存できませんでした。",
+  "pleaseSelectAtLeastOneAction": "少なくとも 1 つのアクションを選択してください。",
+  "addActions": "アクションの追加",
+  "addNumberOfItemsAction": "{{count}} 個のアクションの追加",
+  "addNumberOfItemsAction_plural": "{{count}} 個のアクションの追加",
+  "addNumberOfItemsAction_0": "{{count}} 個のアクションの追加",
+  "addNumberOfItemsAction_1": "{{count}} 個のアクションの追加",
+  "addNumberOfItemsAction_2": "{{count}} 個のアクションの追加",
+  "noActionsSelected": "アクションが選択されていません",
+  "actionSensorTimeout": "バックエンド要求を処理できませんでした。 エージェント構成を調べて、アクション・センサーがインストールされていることを確認してください。",
+  "newAction": "新規アクション"
+}

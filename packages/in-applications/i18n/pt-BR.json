@@ -578,7 +578,8 @@
         "erroneousTrace": "Rastreio errôneo",
         "attemptToRenderTrace": "Tentativa de renderização de rastreio",
         "analyzeBeacons": "Analisar indicadores",
-        "adjustedTimeConfig": "O intervalo de tempo foi ajustado para incluir o indicador selecionado."
+        "adjustedTimeConfigForTrace": "O intervalo de tempo foi ajustado para incluir todas as chamadas do rastreio selecionado.",
+        "adjustedTimeConfigForBeacon": "O intervalo de tempo foi ajustado para incluir o indicador selecionado."
       }
     },
     "components": {

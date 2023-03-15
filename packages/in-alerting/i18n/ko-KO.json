@@ -562,6 +562,7 @@
         "cancelTitle": "취소",
         "sharedListTooltip": "{{typeName}}을(를) 더 이상 사용할 수 없음",
         "clearTagFilterExpressionButton": "지우기",
+        "baselineErrorMessageComputedOnApproximateData": "기준선은 데이터 보존 설정으로 인해 대략적인 데이터를 기반으로 계산됩니다. 따라서 선택한 필터와 일치하는 호출이 거의 없는 경우 정확하지 않을 수 있습니다.",
         "baselineErrorMessageInsufficientDataToCompute": "선택한 기준선을 컴퓨팅하기에 데이터가 충분하지 않습니다. 대신 <em>정적 임계값</em>을 선택하십시오.",
         "pleaseContactSupportToRiseLimit": "이 한계 증가를 요청하려면 <supportLink>{{instanaSupportPortal}}</supportLink>에 문의하십시오.",
         "adaptiveBaselineErrorMessage": "임계값 미리보기를 현재 사용할 수 없습니다.<br />이 스마트 경보는 여전히 저장할 수 있습니다.",
@@ -581,6 +582,7 @@
         "addChannel_1": "{{count}}개 채널 추가",
         "addChannel_2": "{{count}}개 채널 추가",
         "add": "추가",
+        "alertPropertyInsertPlaceholderLabel": "플레이스홀더 삽입",
         "scopeConfigTitleWithApplications": "애플리케이션/서비스/엔드포인트 선택",
         "scopeConfigTitle": "서비스/엔드포인트 선택",
         "scopeConfigSelectOneEntryMessage": "하나 이상의 항목을 선택하십시오.",
@@ -1028,11 +1030,56 @@
     "enable": "사용",
     "disable": "사용 안함",
     "synthetics": {
+      "dashboard": {
+        "column": {
+          "moreFiltersWithCount": "{{count}}개 추가 필터",
+          "moreFiltersWithCount_plural": "{{count}}개 추가 필터",
+          "moreFiltersWithCount_0": "{{count}}개 추가 필터",
+          "moreFiltersWithCount_1": "{{count}}개 추가 필터",
+          "moreFiltersWithCount_2": "{{count}}개 추가 필터",
+          "filter": "필터",
+          "filter_plural": "필터",
+          "filter_0": "필터",
+          "filter_1": "필터",
+          "filter_2": "필터"
+        }
+      },
       "alertList": {
         "timeThreshold": "실패 임계값",
         "filterApplied": "필터 적용됨",
         "violationsCount": "{{violationsCount}} 실패",
         "numberOfFailures": "실패 경보"
+      },
+      "simple": {
+        "stepConfigsStep1Title": "1단계: 테스트",
+        "simpleAlertConfigDialogStep1Headline": "어떤 합성 테스트에 대해 경보해야 합니까?",
+        "stepConfigsStep4Title": "4단계: 경보 채널",
+        "alertDialogHeadline": "이 경보에 어떤 것을 표시해야 합니까?",
+        "stepConfigsStep2Title": "2단계: 범위",
+        "scopeHeadline": "경보를 트리거하려는 항목",
+        "stepConfigsStep3Title": "3단계: 임계치",
+        "stepConfigsStep5Title": "5단계: 경보 특성",
+        "thresholdTitle": "경보하기 전에 위치당 몇 번의 연속 실패가 발생해야 합니까?"
+      },
+      "advanced": {
+        "alertChannelsLabel": "경보 채널",
+        "scopeFilterLabel": "범위",
+        "alertTestsLabel": "합성 테스트",
+        "alertTestsTitle": "합성 테스트: 어떤 합성 테스트에 대해 경보해야 합니까?",
+        "propertiesLabel": "경보 특성",
+        "failureThreshold": "실패 임계값",
+        "failureThresholdLabel": "실패 임계값",
+        "failureThresholdTitle": "경보하기 전에 위치당 몇 번의 연속 실패가 발생해야 합니까?"
+      },
+      "selectTests": {
+        "selectAlertTestButtonTitle": "합성 테스트 추가",
+        "selectAlertTestButton": "합성 테스트 추가",
+        "addTest": "{{count}}개 테스트 추가",
+        "alertTests": "합성 테스트",
+        "noTestSelectedText": "선택된 합성 테스트 없음",
+        "alertTestEntityName": "합성 테스트 {{entityName}}",
+        "testAttachedCount": "첨부된 ({{count}})개 테스트",
+        "testAttached": "첨부된 테스트"
       }
     }
   }

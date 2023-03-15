@@ -190,7 +190,8 @@
         "errorLog": "오류 로그",
         "warningLog": "경고 로그",
         "restrictedAccess": "제한된 액세스",
-        "restrictedAccessExpl": "이 정보에 액세스할 수 있는 권한이 없습니다."
+        "restrictedAccessExpl": "이 정보에 액세스할 수 있는 권한이 없습니다.",
+        "batchCount": "이 시간소인에는 {{count}}개 로그가 있습니다."
       },
       "callTooltipContent": {
         "numbersOfErrors": "{{count}}개 오류",

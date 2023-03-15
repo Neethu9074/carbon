@@ -562,6 +562,7 @@
         "cancelTitle": "取消",
         "sharedListTooltip": "{{typeName}} 不再可用",
         "clearTagFilterExpressionButton": "清除",
+        "baselineErrorMessageComputedOnApproximateData": "根据数据保留时间设置的近似数据计算基线。 因此，如果与所选过滤器匹配的调用很少，那么可能不准确。",
         "baselineErrorMessageInsufficientDataToCompute": "数据不足，无法计算所选基线。请改为选择<em>静态阈值</em>。",
         "pleaseContactSupportToRiseLimit": "请通过我们的 <supportLink>{{instanaSupportPortal}}</supportLink>联系我们，以请求增大此限制。",
         "adaptiveBaselineErrorMessage": "阈值预览当前不可用。<br />仍可以保存此 Smart Alert。",
@@ -581,6 +582,7 @@
         "addChannel_1": "添加 {{count}} 个通道",
         "addChannel_2": "添加 {{count}} 个通道",
         "add": "添加",
+        "alertPropertyInsertPlaceholderLabel": "插入占位符",
         "scopeConfigTitleWithApplications": "选择应用程序/服务/端点",
         "scopeConfigTitle": "选择服务/端点",
         "scopeConfigSelectOneEntryMessage": "请至少选择一个条目。",
@@ -1028,11 +1030,56 @@
     "enable": "启用",
     "disable": "禁用",
     "synthetics": {
+      "dashboard": {
+        "column": {
+          "moreFiltersWithCount": "+其他 {{count}} 个过滤器",
+          "moreFiltersWithCount_plural": "+其他 {{count}} 个过滤器",
+          "moreFiltersWithCount_0": "+其他 {{count}} 个过滤器",
+          "moreFiltersWithCount_1": "+其他 {{count}} 个过滤器",
+          "moreFiltersWithCount_2": "+其他 {{count}} 个过滤器",
+          "filter": "过滤器",
+          "filter_plural": "过滤器",
+          "filter_0": "过滤器",
+          "filter_1": "过滤器",
+          "filter_2": "过滤器"
+        }
+      },
       "alertList": {
         "timeThreshold": "故障阈值",
         "filterApplied": "已应用的过滤器",
         "violationsCount": "{{violationsCount}} 个故障",
         "numberOfFailures": "故障警报"
+      },
+      "simple": {
+        "stepConfigsStep1Title": "步骤 1：测试",
+        "simpleAlertConfigDialogStep1Headline": "应该在哪些合成测试上发出警报？",
+        "stepConfigsStep4Title": "步骤 4：警报通道",
+        "alertDialogHeadline": "警报中应该显示哪些内容？",
+        "stepConfigsStep2Title": "步骤 2：作用域",
+        "scopeHeadline": "您希望在何处触发警报？",
+        "stepConfigsStep3Title": "步骤 3：阈值",
+        "stepConfigsStep5Title": "步骤 5：警报属性",
+        "thresholdTitle": "在发出警报之前，每个位置应连续发生多少次故障？"
+      },
+      "advanced": {
+        "alertChannelsLabel": "警报通道",
+        "scopeFilterLabel": "作用域",
+        "alertTestsLabel": "合成测试",
+        "alertTestsTitle": "合成测试：应该在哪些合成测试上发出警报？",
+        "propertiesLabel": "警报属性",
+        "failureThreshold": "故障阈值",
+        "failureThresholdLabel": "故障阈值",
+        "failureThresholdTitle": "在发出警报之前，每个位置应连续发生多少次故障？"
+      },
+      "selectTests": {
+        "selectAlertTestButtonTitle": "添加合成测试",
+        "selectAlertTestButton": "添加合成测试",
+        "addTest": "添加 {{count}} 个测试",
+        "alertTests": "合成测试",
+        "noTestSelectedText": "未选择合成测试",
+        "alertTestEntityName": "合成测试 {{entityName}}",
+        "testAttachedCount": "附加的测试（{{count}} 个）",
+        "testAttached": "附加的测试"
       }
     }
   }

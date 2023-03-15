@@ -66,11 +66,24 @@
           }
         }
       },
-      "form": {
-        "validUrl": "Especifique un URL válido"
-      },
       "validators": {
-        "theValueMustNotBeEmpty": "Es necesario seleccionar al menos una ubicación"
+        "theValueMustNotBeEmpty": "Es necesario seleccionar al menos una ubicación",
+        "urlMustNotContainSpace": "El URL no debe contener espacios",
+        "mailToNotSupported": "'mailto' no está admitido",
+        "outOfLength": "El URL es demasiado largo",
+        "fragmentsNotSupported": "Los fragmentos no están admitidos",
+        "queryNotSupported": "La consulta no está admitida",
+        "incorrectProtocol": "El protocolo debe ser 'http' o 'https'",
+        "incorrectUrlFormat": "Falta el protocolo o dominio",
+        "missUserAuthentication": "Falta la autenticación de usuario",
+        "incorrectAuthentication": "Autenticación de usuario incorrecta",
+        "missUserOrPassword": "Falta el usuario o la contraseña",
+        "invalidPortValue": "Valor de puerto no válido",
+        "missHost": "Falta el host en el URL",
+        "invalidHost": "Formato de host no válido"
+      },
+      "advancedMode": {
+        "buttonContent": "Cambiar a modalidad avanzada"
       }
     },
     "httpMethods": {
@@ -108,6 +121,8 @@
         "smartAlerts": "Alertas inteligentes"
       },
       "popDialog": {
+        "popUpDialogTitle": "Permisos para supervisión sintética",
+        "popUpDialog": "Consulte el <documentationLink>documento</documentationLink> para obtener información sobre cómo establecer permisos de supervisión sintética",
         "button": "Desplegar un PoP",
         "simpleTab": "Simple",
         "redisTab": "Redis TLS",
@@ -206,7 +221,8 @@
       "title": "Resultados",
       "locationLabel": "Ubicación",
       "failures": "Anomalías",
-      "status": "Estado"
+      "status": "Estado",
+      "success": "Éxito"
     },
     "detailsPage": {
       "timeLineWidget": "Línea temporal",

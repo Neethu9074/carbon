@@ -38,5 +38,7 @@
   "tooltipEntityHealthNoIssues": "문제 없음",
   "tooltipEntityHealthIssues": "{{numberOfIssues}}개의 문제",
   "container": "컨테이너",
-  "endOfInfiniteScroll": "사용 가능한 로그가 더 이상 없음"
+  "endOfInfiniteScroll": "사용 가능한 로그가 더 이상 없음",
+  "liveModeDisabled": "로깅을 위해 라이브 모드가 비활성화됨",
+  "logLevels": "로그 레벨"
 }
