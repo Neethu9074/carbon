@@ -62,25 +62,26 @@ export default function AlertDetails(props) {
       disableConfig={disableAlertConfig}
       deleteConfig={deleteAlertConfig}
       restoreConfig={restoreAlertConfigVersion}
-      renderSmartAlertDialog={props => <SmartAlertDialogWrapper {...props} />}
+      renderSmartAlertDialog={props => <SmartAlertDialogWrapper {...props} isMainPage={isMainPage} />}
       renderAlertConfiguration={({ alertConfig }) => <AlertConfiguration alertConfig={alertConfig} />}
       tracking={tracking}
     />
   );
 }
 
-function SmartAlertDialogWrapper({ close, alertConfig, setRevision, isCopy, detailsPath, alertConfigId }) {
+function SmartAlertDialogWrapper({ close, alertConfig, setRevision, isCopy, detailsPath, alertConfigId, isMainPage }) {
   const { location, navigate } = useNavigation();
-
+  const alertTabPath = isMainPage ? alertsTabSegment : dashboardTestAlertTabSegment;
   return (
     <AlertConfigDialog
       alertConfig={isCopy ? duplicateAlertConfig(alertConfig) : alertConfig}
-      onClose={({ id } = {}) => {
+      onClose={({ id, created } = {}) => {
         close();
         setRevision(null);
         if (isCopy) {
           const onCloseTargetLocation = { ...location, pathname: detailsPath };
-          setOrDeleteMatrixKey(onCloseTargetLocation, alertsTabSegment, 'alertId', id ?? alertConfigId);
+          setOrDeleteMatrixKey(onCloseTargetLocation, alertTabPath, alertIdParam, id ?? alertConfigId);
+          setOrDeleteMatrixKey(onCloseTargetLocation, alertTabPath, alertCreatedParam, created);
           navigate(onCloseTargetLocation);
         }
       }}

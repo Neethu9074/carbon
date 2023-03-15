@@ -19,7 +19,6 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import AlertHistoryList from 'in-alerting/components/AlertHistoryList';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import AlertHeader from 'in-alerting/components/AlertHeader';
-import { alertsTab } from 'in-applications/navigation/paths';
 import { close } from 'in-components/DialogPresenter/store';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import SetBodyColor from 'in-components/SetBodyColor';
@@ -70,7 +69,7 @@ export default function Alert({
 
   function setRevision(created) {
     const targetLocation = { ...location, pathname: detailsPath };
-    setOrDeleteMatrixKey(targetLocation, alertsTab, alertCreatedMatrixParam, created);
+    setOrDeleteMatrixKey(targetLocation, alertsTabSegment, alertCreatedMatrixParam, created);
     navigate(targetLocation);
 
     /**
