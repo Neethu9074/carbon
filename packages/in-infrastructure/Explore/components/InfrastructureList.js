@@ -393,7 +393,7 @@ function getHeaderActions(props) {
   const cursor = props.cursor;
   const columns = props.columns;
   const granularity = props.granularity;
-  const csvFileName = 'infrastructure_entites_' + type + '.csv';
+  const csvFileName = 'infrastructure_entities_' + type + '.csv';
 
   const getAllData = ({ cursor }) =>
     getTableData({
