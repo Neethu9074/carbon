@@ -264,7 +264,7 @@ export interface FilterState {
 export interface FilterSectionProps extends FilterState {
   setFilter: (x: Object) => void;
   isAppcontext?: boolean;
-  result?: Result<PaginatedResult<TestResultListItem>>;
+  result?: Result<SyntheticTest[]>;
 }
 
 export type CurrentState = {
@@ -310,7 +310,7 @@ export const filterUrlStateDefinition = {
 } as Options<UrlState>;
 
 export interface PresenterProps extends FilterState {
-  result: Result<PaginatedResult<TestResultListItem>>;
+  syntheticTests: Result<SyntheticTest[]>;
 }
 
 export interface ResultsFilterState {

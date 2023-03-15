@@ -9,11 +9,14 @@ import React, { useEffect } from 'react';
 import {
   OrderDirection,
   Progress,
+  Result,
   SyntheticMetricConfiguration,
+  SyntheticTest,
   TagFilterExpression,
   TagFilterOperator,
   TimeConfig
 } from '@instana/types';
+import { useObservable } from '@instana/hooks';
 
 import {
   CurrentState,
@@ -51,9 +54,11 @@ import FloatingActionButton from 'in-components/FloatingActionButton';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { getChartGranularity } from 'in-stores/metric/metric';
+import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { minutes } from 'in-services/time/time';
 import useUrlState from 'in-hooks/useUrlState';
+import { getTests } from 'in-synthetics/api';
 import Sticky from 'in-components/Sticky';
 import Footer from 'in-components/Footer';
 import { t } from 'in-i18n';
@@ -109,6 +114,7 @@ export default function TestSummaryList() {
   const timeConfig = useTimeConfig();
   const [{ syntheticTypes, locationIds, applicationIds }, setFilter] = useUrlState(urlStateDefinition);
   const storedDialogAlarm = storedAlarmTimeOrNull();
+  const syntheticTests: Result<SyntheticTest[]> = useObservable<any, any[]>(() => getTests(), []) ?? pendingResult;
 
   useEffect(() => {
     if (storedDialogAlarm === null) {
@@ -135,13 +141,13 @@ export default function TestSummaryList() {
   }
 
   function useFilterHeader(isFilterAllowed: boolean) {
-    return function Filter({ result, syntheticTypes, locationIds, applicationIds }: PresenterProps) {
+    return function Filter({ syntheticTypes, locationIds, applicationIds }: PresenterProps) {
       if (!isFilterAllowed) {
         return undefined;
       } else {
         return (
           <Filters
-            result={result}
+            result={syntheticTests}
             setFilter={setFilter}
             syntheticTypes={syntheticTypes}
             locationIds={locationIds}
