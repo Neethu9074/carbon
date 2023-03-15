@@ -9,9 +9,12 @@ import { get } from 'lodash';
 import { Button, Link, SvgIcon } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
+import {
+  LARGE_TRACE_THRESHOLD,
+  shouldUseLazyLoadedCallTree
+} from 'in-applications/analyze/AnalyzeView2_0/traceSummary';
 import SplitScreenTraceDetailContent from 'in-applications/analyze/AnalyzeView2_0/components/SplitScreenTraceDetailContent';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
-import { shouldUseLazyLoadedCallTree } from 'in-applications/analyze/AnalyzeView2_0/traceSummary';
 import SplitScreenList from 'in-components/AnalyzeView/SplitScreenList/SplitScreenList';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { getIconByType, getLabelByType } from 'in-analyze/AnalyzeView/dataSources';
@@ -25,6 +28,7 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { traceIdFilterOverrideEnabled } from 'in-services/featureFlags';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import TabView from 'in-components/LocationAwareTabView/TabView';
+import { analyzeTagFilterExpression } from './analyzeTagFilter';
 import { getColorPool } from 'in-services/util/ColorGenerator';
 import { analyzePath } from 'in-applications/navigation/paths';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -41,13 +45,17 @@ import { t } from 'in-i18n';
 
 import locals from './TraceDetailView.mless';
 
+const maximumNumberOfCallsForLargeTraceConsideration = LARGE_TRACE_THRESHOLD;
+
 export default function TraceDetailView(props) {
   const dataSource = props.dataSource;
 
   const {
     detailId: { callId, traceId, colorCode, logId },
-    getHrefToDetailId
+    getHrefToDetailId,
+    backendQueryModel
   } = props;
+  const isFromSameTrace = analyzeTagFilterExpression(backendQueryModel, traceId);
 
   return (
     <>
@@ -75,6 +83,7 @@ export default function TraceDetailView(props) {
           {...props}
           ListItemContent={SplitScreenTraceDetailContent}
           getHrefToDetailId={getHrefToDetailId}
+          subLabel={isFromSameTrace ? t('in-applications:analyze.filteredInThisTrace') : undefined}
         >
           <TabView
             key={traceId}
@@ -246,6 +255,7 @@ function renderContext({ getHrefToUngroupedView, tracker }) {
 function renderMetaInformation({ traceId, result }) {
   const displayedTraceId = result?.data?.id ?? traceId;
   const lazyLoadedCallTree = shouldUseLazyLoadedCallTree(result?.data);
+
   return (
     <div>
       <span className={locals.traceIdLabel}>Trace ID: </span>
@@ -253,6 +263,15 @@ function renderMetaInformation({ traceId, result }) {
       {result.data && !result.data.id && (
         <Tooltip content={t('in-applications:analyze.traceIdTooltip')}>
           <SvgIcon className={locals.icon} type="lib_help_error_info_outline" size="xs" />
+        </Tooltip>
+      )}
+      {lazyLoadedCallTree && (
+        <Tooltip
+          content={t('in-applications:traceDetail.tabs.summary.timeLineViewNotAvailable', {
+            maximumNumberOfCallsForLargeTraceConsideration: maximumNumberOfCallsForLargeTraceConsideration
+          })}
+        >
+          <Pill className={locals.label}>{t('in-applications:traceDetail.tabs.summary.largeTrace')}</Pill>
         </Tooltip>
       )}
       {lazyLoadedCallTree && (

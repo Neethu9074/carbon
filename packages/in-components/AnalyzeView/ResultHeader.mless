@@ -40,4 +40,12 @@
   .adjustmentIcon {
     fill: @lib__colors__N500;
   }
+  .text {
+    line-height: 16px;
+    margin: 4px 0px 0px 2px;
+  }
+  .labelWrapper {
+    display: flex;
+    align-items: center;
+  }
 }

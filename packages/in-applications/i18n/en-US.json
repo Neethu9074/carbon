@@ -194,6 +194,7 @@
     "hiddenCalls": "Hidden Calls",
     "fastQueryMode": "Fast query mode",
     "fastQueryModeTooltip": "Fast query mode enables query execution against a subset of calls or traces, if execution against the full dataset would take too long.",
+    "filteredInThisTrace" :"filtered in this trace",
     "listBatchTypeTooltip": "This {{type}} is batched and represents {{batchCount}} individual {{types}}.",
     "listBatchLatencyTooltip": "Total latency of {{batchCount}} batched {{types}}.",
     "traceIdTooltip": "Some data related to this trace is delayed so please reload the page in a little later. An example where this may happen is viewing a very recent trace with some of its data is still being processed.",
@@ -581,7 +582,8 @@
         "attemptToRenderTrace": "Attempt to render trace",
         "analyzeBeacons": "Analyze Beacons",
         "adjustedTimeConfigForTrace": "The time range was adjusted to include all calls of the selected trace.",
-        "adjustedTimeConfigForBeacon": "The time range was adjusted to include the selected beacon."
+        "adjustedTimeConfigForBeacon": "The time range was adjusted to include the selected beacon.",
+        "timeLineViewNotAvailable": "This is a trace with more than {{maximumNumberOfCallsForLargeTraceConsideration}} calls. Timeline view is not available. Only the selected call and its immediate siblings are displayed initially."
       }
     },
     "components": {
