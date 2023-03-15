@@ -6,7 +6,6 @@
 import { just } from '@instana/observables';
 
 import { beeInstanaInfraMetricsEnabled, highResolutionInfrastructureMetricsEnabled } from 'in-services/featureFlags';
-import createDynamicAggregatedMetricObservable from 'in-subscription/dynamicAggregatedMetric';
 import createTimeWindowMetricAggregation from 'in-subscription/timeWindowMetricAggregation';
 import createLatestMetricsObservable from 'in-subscription/latestMetrics';
 import { showAggregations$ } from 'in-stores/metric/showAggregations';
@@ -126,7 +125,7 @@ const INFRA_GRANULARITIES = [
 
 const getLatestMetrics = resolveTimeConfigAndRollup(createLatestMetricsObservable);
 
-const getMetrics = resolveTimeConfigAndRollup(createMetricsObservable);
+export const getMetricsForTimeframe = resolveTimeConfigAndRollup(createMetricsObservable);
 
 function resolveTimeConfigAndRollup(createFn) {
   return ({ timeConfig, rollup, ...rest }) =>
@@ -196,18 +195,6 @@ export function getHistoricMetric({ snapshotId, metric, timeConfig }) {
     rollup,
     timeConfig
   });
-}
-
-export function getMetricsForTimeframe(opts) {
-  if (opts.isDynamicAggregated) {
-    // live or not is done in the backend
-    return getDynamicAggregatedMetricsForTimeframe(opts);
-  }
-  return getMetrics(opts);
-}
-
-export function getDynamicAggregatedMetricsForTimeframe(opts) {
-  return createDynamicAggregatedMetricObservable(opts);
 }
 
 export function getInfraGranularity(

@@ -379,13 +379,13 @@ export default connectTo(
               <Chart
                 snapshotId={snapshotId}
                 timeConfig={timeConfig}
+                minPixelsPerBlock={5}
                 y1={{
                   min: 0,
                   metrics: ['sensors.scheduler.slow'],
                   labels: [t('in-forge:plugins.instanaAgent.dashboard.slowSensors')],
                   type: 'bar',
                   aggregation: 'sum',
-                  minPixelsPerBlock: 5,
                   colors: [theme.lib.colors.failure],
                   formatter: number.compact
                 }}

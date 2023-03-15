@@ -9,6 +9,7 @@ import React from 'react';
 import TreeHeader2 from 'in-applications/analyze/components/TraceDetails/components/CallTree/components/TreeHeader2';
 import { getStart, getEnd } from 'in-applications/analyze/components/TraceDetails/components/callStartAndEndTime';
 import LoadingCallTree from 'in-applications/analyze/components/TraceDetails/components/CallTree/LoadingCallTree';
+import { isLazyNode } from 'in-applications/analyze/components/TraceDetails/components/CallTree/lazyCallTree';
 import Row2 from 'in-applications/analyze/components/TraceDetails/components/CallTree/components/Row2';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import { isLoading } from 'in-services/util/result';
@@ -58,7 +59,7 @@ export default function CallTree2({
 
   return (
     <div className={locals.callTree}>
-      <TreeHeader2 traceSummary={traceSummary} rootCall={rootCall} />
+      <TreeHeader2 traceSummary={traceSummary} rootCall={rootCall} isLazyParent={isLazyNode(rootCall)} />
       <Row2
         call={rootCall}
         getColor={getColor}
