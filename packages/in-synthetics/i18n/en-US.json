@@ -125,6 +125,9 @@
   "createTest": {
     "buttonLabel": "Create new Test"
   },
+  "createSmartAlert": {
+    "buttonLabel": "Create new Smart Alert"
+  },
   "navigation": {
     "synthetics": "Synthetic Monitoring"
   },

@@ -79,7 +79,7 @@ export default function CreateSmartAlert({ location, websiteId, tagFilters, time
       }}
       withBoxShadow
     >
-      {t('in-alerting:smartAlerts.websites.addSmartAlert')}
+      {t('in-alerting:smartAlerts.addSmartAlert')}
     </FloatingActionButton>
   );
 }

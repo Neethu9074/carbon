@@ -122,6 +122,7 @@
     "descriptionUnsupportedOperator": "Unsupported operator: {{operator}}"
   },
   "smartAlerts": {
+    "addSmartAlert": "Add Smart Alert",
     "applicationSmartAlert": "Application Smart Alert",
     "globalApplicationSmartAlert": "Global Application Smart Alert",
     "titleNoSmartAlertsConfigured": "No Smart Alerts configured",
@@ -996,7 +997,6 @@
         "searchCustomEventButtonLabel": "Select Custom Event",
         "customEventListInfoLabel": "Showing custom events that have been triggered in the last 7 days"
       },
-      "addSmartAlert": "Add Smart Alert",
       "list": {
         "columns": {
           "name": {

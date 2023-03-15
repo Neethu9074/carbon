@@ -17,7 +17,7 @@ import { createBoundedAlertQueryBuilderFactory } from 'in-alerting/smart-alerts/
 import { tagSuggestionTimeConfig } from 'in-alerting/smart-alerts/synthetics/dialog/AlertConfigDialogWithThreshold';
 import alertFormDefinition from 'in-alerting/smart-alerts/synthetics/form/alertDialogFormDefinition';
 import * as TestDataCatalog from 'in-alerting/smart-alerts/synthetics/api/tagCatalog_test.json';
-import { generateAlertConfig } from 'in-alerting/smart-alerts/synthetics/CreateSmartAlert';
+import generateAlertConfig from 'in-alerting/smart-alerts/data/generateAlertConfig';
 import { successObservableFactory } from 'in-services/util/result';
 
 const getTagCatalogTest = successObservableFactory((TestDataCatalog as unknown) as TagCatalog);

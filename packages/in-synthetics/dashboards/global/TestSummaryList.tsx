@@ -17,6 +17,7 @@ import {
   TimeConfig
 } from '@instana/types';
 import { useObservable } from '@instana/hooks';
+import { Button } from '@instana/components';
 
 import {
   CurrentState,
@@ -37,10 +38,13 @@ import showNotification, {
 } from 'in-synthetics/utils/setReminders';
 // @ts-expect-error
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+//@ts-expect-error
+import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
 import { columnDefinitions } from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions';
 // @ts-expect-error
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { applicationIdTagName, locationIdTagName, testNameTagName, typeTagName } from 'in-synthetics/tags';
+import CreateSmartAlertDialog from 'in-alerting/smart-alerts/synthetics/CreateSmartAlertDialog';
 import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import TestConfigDialogPresenter from 'in-synthetics/components/TestConfigDialogPresenter';
@@ -48,6 +52,7 @@ import Filters from 'in-synthetics/dashboards/global/tabs/tests/components/Filte
 import { CONTAINS, EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import getTestSummaryList from 'in-synthetics/subscriptions/getTestSummaryList';
+import { syntheticCreateSmartAlertsUIEnabled } from 'in-services/featureFlags';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import FloatingActionButton from 'in-components/FloatingActionButton';
@@ -139,6 +144,9 @@ export default function TestSummaryList() {
       />
     );
   }
+  function showSADialog() {
+    return addActiveDialog(<CreateSmartAlertDialog />);
+  }
 
   function useFilterHeader(isFilterAllowed: boolean) {
     return function Filter({ syntheticTypes, locationIds, applicationIds }: PresenterProps) {
@@ -181,11 +189,25 @@ export default function TestSummaryList() {
       </LeftRightPadding>
       <Footer />
 
-      <FloatingActionButtons>
-        <FloatingActionButton onClick={onAddWidget} withBoxShadow icon="lib_line_chart">
-          {t('in-synthetics:createTest.buttonLabel')}
-        </FloatingActionButton>
-      </FloatingActionButtons>
+      {syntheticCreateSmartAlertsUIEnabled ? (
+        <FloatingActionButtons>
+          <FloatingActionButtonMenu>
+            <Button onClick={onAddWidget} icon="lib_openclose_add" kind="primaryv2">
+              {t('in-synthetics:createTest.buttonLabel')}
+            </Button>
+
+            <Button onClick={showSADialog} icon="lib_openclose_add" kind="primaryv2">
+              {t('in-synthetics:createSmartAlert.buttonLabel')}
+            </Button>
+          </FloatingActionButtonMenu>
+        </FloatingActionButtons>
+      ) : (
+        <FloatingActionButtons>
+          <FloatingActionButton onClick={onAddWidget} withBoxShadow icon="lib_line_chart">
+            {t('in-synthetics:createTest.buttonLabel')}
+          </FloatingActionButton>
+        </FloatingActionButtons>
+      )}
     </Sticky>
   );
 }

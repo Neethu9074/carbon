@@ -19,7 +19,7 @@ import {
 } from 'in-websites/navigation/paths';
 import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-websites/navigation/matrix';
 import AlertConfiguration from 'in-alerting/smart-alerts/synthetics/details/AlertConfiguration';
-import { generateAlertConfig } from 'in-alerting/smart-alerts/synthetics/CreateSmartAlert';
+import generateAlertConfig from 'in-alerting/smart-alerts/data/generateAlertConfig';
 import AlertDetails from 'in-alerting/smart-alerts/synthetics/details/AlertDetails';
 import { successObservable } from 'in-services/util/result';
 

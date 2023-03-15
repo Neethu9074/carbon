@@ -5,7 +5,7 @@
  */
 
 import AlertConfigDialog from 'in-alerting/smart-alerts/synthetics/dialog/AlertConfigDialog';
-import { generateAlertConfig } from 'in-alerting/smart-alerts/synthetics/CreateSmartAlert';
+import generateAlertConfig from 'in-alerting/smart-alerts/data/generateAlertConfig';
 
 export default {
   component: AlertConfigDialog,

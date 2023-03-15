@@ -7,7 +7,7 @@
 import React from 'react';
 
 import AlertConfiguration from 'in-alerting/smart-alerts/synthetics/details/AlertConfiguration';
-import { generateAlertConfig } from 'in-alerting/smart-alerts/synthetics/CreateSmartAlert';
+import generateAlertConfig from 'in-alerting/smart-alerts/data/generateAlertConfig';
 
 export default { component: AlertConfiguration };
 const alertConfig = generateAlertConfig();
