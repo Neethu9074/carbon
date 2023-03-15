@@ -20,7 +20,8 @@ export default function ResultHeader({
   totalHits,
   fastQueryModeEnabled,
   isLoading = true,
-  resultPrecisionDetails
+  resultPrecisionDetails,
+  subLabel
 }) {
   // for historic data show number of retained items
   // otherwise show total represented item count (a single batched call can represent multiple items)
@@ -36,18 +37,25 @@ export default function ResultHeader({
         </span>
       ) : (
         <>
-          {getItemName && <span className={locals.number}>{getItemName({ count: resultCount })}</span>}
-          {isApproximateData && (
-            <Tooltip
-              content={
-                fastQueryModeEnabled
-                  ? t('in-components:approximateDataIndicator.dataRetentionOrFastQueryMode')
-                  : t('in-components:approximateDataIndicator.dataRetention')
-              }
-              align="rightMiddle"
-            >
-              <SvgIcon className={locals.adjustmentIcon} type="lib_approximately_equal" />
-            </Tooltip>
+          {getItemName && (
+            <div>
+              <div className={locals.labelWrapper}>
+                <span className={locals.number}>{getItemName({ count: resultCount })}</span>
+                {isApproximateData && (
+                  <Tooltip
+                    content={
+                      fastQueryModeEnabled
+                        ? t('in-components:approximateDataIndicator.dataRetentionOrFastQueryMode')
+                        : t('in-components:approximateDataIndicator.dataRetention')
+                    }
+                    align="rightMiddle"
+                  >
+                    <SvgIcon className={locals.adjustmentIcon} type="lib_approximately_equal" />
+                  </Tooltip>
+                )}
+              </div>
+              {!!subLabel && <p className={locals.text}>{subLabel}</p>}
+            </div>
           )}
         </>
       )}
@@ -64,5 +72,6 @@ ResultHeader.propTypes = {
   isLoading: rpt.bool,
   resultPrecisionDetails: rpt.shape({
     resultPrecision: rpt.string
-  })
+  }),
+  subLabel: rpt.string
 };

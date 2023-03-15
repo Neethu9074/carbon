@@ -7,7 +7,7 @@
 import { largeTracesV2Enabled } from 'in-services/featureFlags';
 import { TraceSummary } from 'in-types';
 
-const LARGE_TRACE_THRESHOLD = 1000;
+export const LARGE_TRACE_THRESHOLD = 1000;
 
 export function isLargeTrace(traceSummaryData?: TraceSummary): boolean {
   return (

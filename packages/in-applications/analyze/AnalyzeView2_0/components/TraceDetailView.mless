@@ -29,4 +29,8 @@
   .betaPill {
     margin-left: 0.5rem;
   }
+  .label {
+    color: @lib__colors__indigo800;
+    background-color: var(--ids-color-option-blue-100) !important;
+  }
 }
