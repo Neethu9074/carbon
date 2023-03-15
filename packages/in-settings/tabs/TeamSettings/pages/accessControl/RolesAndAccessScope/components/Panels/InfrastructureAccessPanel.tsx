@@ -41,13 +41,14 @@ export default function InfrastructureAccessPanel({
 }: InfrastructureAccessPanelProps) {
   const productArea = ProductArea.INFRASTRUCTURE;
   const entityPermissionKey = 'infraDfqFilter';
+  const label = t('in-stores:permissionAccessInfrastructureAnalyzeLabel');
   const area = {
     header: productArea,
     capabilities: [
       {
         keyForGroupApi: AreaPermission.ACCESS_INFRASTRUCTURE_ANALYZE,
-        label: t('in-stores:permissionAccessInfrastructureAnalyzeLabel'),
-        description: 'in-stores:permissionAccessInfrastructureAnalyzeDescription'
+        label: label,
+        description: t('in-settings:tabs.permitsAccessToLabelMonitoringFunctionality', { label: label })
       }
     ]
   };
