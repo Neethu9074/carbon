@@ -26,6 +26,9 @@ export default function Info({ snapshot }: { snapshot: any }) {
         {data.get('connectionName')}
       </DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.ibmMqttChannel.protocol')}>{data.get('protocol')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqttChannel.keepAliveInterval')}>
+        {data.get('keepAliveInterval')}
+      </DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.ibmMqttChannel.lastMessage')}>
         {data.get('lastMessage')}
       </DescriptionItem>
