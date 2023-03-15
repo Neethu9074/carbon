@@ -82,8 +82,9 @@ export function getAreaRoleFromPermissionSet(
 
     if (hasAllCapabilities) return AreaRole.OWNER;
 
-    // some capabilities
-    return 'CUSTOM';
+    const hasSomeCapabilities = capabilities.some(permission => permissionSet.permissions.includes(permission));
+
+    if (hasSomeCapabilities) return 'CUSTOM';
   }
 
   return AreaRole.VIEWER;
