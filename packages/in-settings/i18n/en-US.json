@@ -96,7 +96,13 @@
     "permissions_AGENTS": "Agent permissions",
     "permissions_ACCESS_CONTROL": "Access control permissions",
     "permissions_ACCOUNT": "Account & billing permissions",
-    "permissions_AUTOMATION": "Automation permissions"
+    "permissions_AUTOMATION": "Automation permissions",
+    "permissions_PCF": "Cloud Foundry",
+    "permissions_PHMC": "IBM Power",
+    "permissions_ZHMC": "IBM Z",
+    "permissions_KUBERNETES": "Kubernetes",
+    "permissions_OPENSTACK": "OpenStack",
+    "permissions_VSPHERE": "vSphere"
   },
   "headingSection": {
     "title": "Role and access scope",

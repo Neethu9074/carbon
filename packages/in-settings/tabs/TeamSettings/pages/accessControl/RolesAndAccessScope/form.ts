@@ -109,7 +109,7 @@ export function updatePermissionSetForLimitableProductArea(
   permissionSet: PermissionSetWithRoles,
   productArea: LimitableProductArea,
   scope: ScopedPermissionType,
-  role: AreaRoleType | undefined
+  role: AreaRoleType | undefined = undefined
 ): PermissionSetWithRoles {
   const { limitation, permission, capabilities } = ProductAreaPermissionMap[productArea];
   const currentPermissions = permissionSet.permissions as Array<PermissionsUnion>;

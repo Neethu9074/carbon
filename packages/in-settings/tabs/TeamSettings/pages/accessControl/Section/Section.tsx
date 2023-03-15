@@ -13,9 +13,11 @@ import locals from './Section.mless';
 interface SectionProps {
   icon: string;
   title: React.ReactElement | string;
+  panelNoIndentation?: boolean;
 }
 
-export default function Section({ icon, title, children }: PropsWithChildren<SectionProps>) {
+export default function Section({ icon, title, children, panelNoIndentation }: PropsWithChildren<SectionProps>) {
+  const panelClass = panelNoIndentation ? locals.panelNoIndentation : locals.panel;
   return (
     <div className={locals.section}>
       <div className={locals.header}>
@@ -24,7 +26,7 @@ export default function Section({ icon, title, children }: PropsWithChildren<Sec
           {title}
         </Typography>
       </div>
-      <div className={locals.panel}>{children}</div>
+      <div className={panelClass}>{children}</div>
     </div>
   );
 }
