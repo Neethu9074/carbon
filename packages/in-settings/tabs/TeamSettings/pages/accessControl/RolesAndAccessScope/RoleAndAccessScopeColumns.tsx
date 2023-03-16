@@ -7,25 +7,14 @@
 import { MapForm } from 'formalistic';
 import React from 'react';
 
-import { Button, Message, Ul } from '@instana/components';
 import { PermissionSetWithRoles } from '@instana/types';
+import { Button } from '@instana/components';
 
-import {
-  AnalyticsSection,
-  ApplicationsSection,
-  EventsAndAlertsSection,
-  InfrastructureSection,
-  GlobalFunctionsSection,
-  MobileAppsSection,
-  PlatformsSection,
-  WebsitesSection
-} from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas';
 import EditAccessScopeDialog from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/EditAccessScope';
-import { RolesAndAccessScopeContext } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/context';
+import RolesAndAccessScopeOverview from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas';
 import { getField } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
-import { RESTRICTED_ACCESS } from 'in-stores/permission';
 import { Col } from 'in-components/layout/Grid/Grid';
 import { t } from 'in-i18n';
 
@@ -40,8 +29,6 @@ interface RoleAndAccessScopeColumnsProps extends FormControlProps {
 
 export default function RoleAndAccessScopeColumns({ form, setForm, readOnly, onSave }: RoleAndAccessScopeColumnsProps) {
   const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');
-
-  const includesRestrictedAccess = permissionSetField?.value?.permissions?.includes(RESTRICTED_ACCESS);
 
   const openAccessScopeDialog = () => {
     addActiveDialog(
@@ -70,21 +57,7 @@ export default function RoleAndAccessScopeColumns({ form, setForm, readOnly, onS
           )
         }
       >
-        {!includesRestrictedAccess && <Message type="warning">{t('in-stores:permissionRestrictedWarning')}</Message>}
-        {includesRestrictedAccess && permissionSetField && (
-          <Ul>
-            <RolesAndAccessScopeContext.Provider value={{ permissionsSet: permissionSetField.value }}>
-              <WebsitesSection />
-              <MobileAppsSection />
-              <ApplicationsSection />
-              <PlatformsSection />
-              <InfrastructureSection />
-              <AnalyticsSection />
-              <EventsAndAlertsSection />
-              <GlobalFunctionsSection />
-            </RolesAndAccessScopeContext.Provider>
-          </Ul>
-        )}
+        {permissionSetField && <RolesAndAccessScopeOverview permissionsSet={permissionSetField.value} />}
       </LightCard>
     </Col>
   );
