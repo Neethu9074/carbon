@@ -298,5 +298,10 @@ module.exports = exports = [
     uiClientKey: 'rbacImprovementEnabled',
     instanaCtlKey: 'feature.rbac.improvement.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'controlPlaneEnabled',
+    instanaCtlKey: 'feature.kubernetes.controlplane.enabled',
+    defaultValue: false
   }
 ];

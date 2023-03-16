@@ -16,7 +16,6 @@ import getKubernetesNode from 'in-kubernetes/subscriptions/getKubernetesNode';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import { kubernetesTimeShiftSelectTracker } from 'in-kubernetes/tracker';
 import { nodeId as matrixNodeId } from 'in-kubernetes/navigation/matrix';
-import { beeInstanaInfraMetricsEnabled } from 'in-services/featureFlags';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import EntityVersionList from 'in-components/EntityVersionList';
@@ -124,18 +123,16 @@ function renderButtonLine({ nodeId, timeConfig, result }) {
 function renderButtonLineSecondary({ nodeId, timeConfig }) {
   return (
     <>
-      {beeInstanaInfraMetricsEnabled && (
-        <TimeShiftDropdown
-          onChange={offset =>
-            kubernetesTimeShiftSelectTracker({
-              area: 'node',
-              offset: getTimeShiftLabel({ offset: offset }),
-              windowSize: timeConfig.windowSize,
-              autoRefresh: timeConfig.autoRefresh
-            })
-          }
-        />
-      )}
+      <TimeShiftDropdown
+        onChange={offset =>
+          kubernetesTimeShiftSelectTracker({
+            area: 'node',
+            offset: getTimeShiftLabel({ offset: offset }),
+            windowSize: timeConfig.windowSize,
+            autoRefresh: timeConfig.autoRefresh
+          })
+        }
+      />
       <RenderButtonLineSecondary timeConfig={timeConfig} snapshotId={nodeId} />
     </>
   );

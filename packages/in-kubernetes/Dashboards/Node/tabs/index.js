@@ -4,12 +4,11 @@
  */
 
 import { NodeVolumesTab, NodeConditionsTab, NodePodTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
-import { beeInstanaInfraMetricsEnabled, persistentVolumeSupportEnabled } from 'in-services/featureFlags';
-import SummaryWithoutTimeShift from 'in-kubernetes/Dashboards/Node/tabs/SummaryWithoutTimeShift';
 import Conditions from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Conditions';
 import Infrastructure from 'in-kubernetes/Dashboards/Node/tabs/Infrastructure';
 import { nodeDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import Pods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
+import { persistentVolumeSupportEnabled } from 'in-services/featureFlags';
 import Details from 'in-kubernetes/Dashboards/Node/tabs/Details/Details';
 import PersistentVolumes from '../../Cluster/tabs/PersistentVolumes';
 import Summary from 'in-kubernetes/Dashboards/Node/tabs/Summary';
@@ -19,7 +18,7 @@ export default [
   {
     label: t('in-kubernetes:dashboards.summary'),
     path: `${nodeDashboardFullyQualified}/summary`,
-    component: beeInstanaInfraMetricsEnabled ? Summary : SummaryWithoutTimeShift
+    component: Summary
   },
   {
     label: t('in-kubernetes:dashboards.details'),

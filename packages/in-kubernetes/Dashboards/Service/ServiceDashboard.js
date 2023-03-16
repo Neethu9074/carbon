@@ -17,7 +17,6 @@ import { serviceId as matrixServiceId } from 'in-kubernetes/navigation/matrix';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
-import { beeInstanaInfraMetricsEnabled } from 'in-services/featureFlags';
 import ContextGuide from 'in-components/ContextGuide/ContextGuide';
 import { serviceDashboard } from 'in-kubernetes/navigation/paths';
 import TabView from 'in-components/LocationAwareTabView/TabView';
@@ -151,18 +150,16 @@ function renderButtonLine({ timeConfig, result, serviceId }) {
 function renderButtonLineSecondary({ timeConfig, serviceId }) {
   return (
     <>
-      {beeInstanaInfraMetricsEnabled && (
-        <TimeShiftDropdown
-          onChange={offset =>
-            kubernetesTimeShiftSelectTracker({
-              area: 'service',
-              offset: getTimeShiftLabel({ offset: offset }),
-              windowSize: timeConfig.windowSize,
-              autoRefresh: timeConfig.autoRefresh
-            })
-          }
-        />
-      )}
+      <TimeShiftDropdown
+        onChange={offset =>
+          kubernetesTimeShiftSelectTracker({
+            area: 'service',
+            offset: getTimeShiftLabel({ offset: offset }),
+            windowSize: timeConfig.windowSize,
+            autoRefresh: timeConfig.autoRefresh
+          })
+        }
+      />
       <RenderButtonLineSecondary timeConfig={timeConfig} snapshotId={serviceId} />
     </>
   );

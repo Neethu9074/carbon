@@ -12,7 +12,6 @@ import {
   getStatefulSetDashboard
 } from 'in-kubernetes/navigation/paths';
 import WorkloadControllers from 'in-kubernetes/Dashboards/commonComponents/commonTabs/WorkloadControllers';
-import { beeInstanaInfraMetricsEnabled, persistentVolumeSupportEnabled } from 'in-services/featureFlags';
 import getOpenShiftDeploymentConfigs$ from 'in-kubernetes/subscriptions/getOpenShiftDeploymentConfigs';
 import { EventsWithoutNamespace } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
 import getKubernetesStatefulSets from 'in-kubernetes/subscriptions/getKubernetesStatefulSets';
@@ -22,18 +21,18 @@ import Services from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Servi
 import CronJobs from 'in-kubernetes/Dashboards/commonComponents/commonTabs/CronJobs';
 import { namespaceDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import { NamespaceTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
+import { persistentVolumeSupportEnabled } from 'in-services/featureFlags';
 import Summary from 'in-kubernetes/Dashboards/Namespace/tabs/Summary';
 import Details from 'in-kubernetes/Dashboards/Namespace/tabs/Details';
 import PersistentVolumes from '../../Cluster/tabs/PersistentVolumes';
 import Pods from 'in-kubernetes/Dashboards/Namespace/tabs/Pods';
-import SummaryWithoutTimeShift from './SummaryWithoutTimeShift';
 import { t } from 'in-i18n';
 
 export default [
   {
     label: t('in-kubernetes:dashboards.summary'),
     path: `${namespaceDashboardFullyQualified}/summary`,
-    component: beeInstanaInfraMetricsEnabled ? Summary : SummaryWithoutTimeShift
+    component: Summary
   },
   {
     label: t('in-kubernetes:dashboards.details'),
