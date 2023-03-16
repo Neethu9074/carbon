@@ -24,11 +24,11 @@ import Infrastructure from 'in-kubernetes/Dashboards/Cluster/tabs/Infrastructure
 import Events from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
 import { clusterDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import Nodes from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Nodes';
-import ControlPlane from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane';
 import { ClusterTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
 import { persistentVolumeSupportEnabled } from 'in-services/featureFlags';
+import { beeInstanaInfraMetricsEnabled } from 'in-services/featureFlags';
 import Details from 'in-kubernetes/Dashboards/Cluster/tabs/Details';
-import { controlPlaneEnabled } from 'in-services/featureFlags';
+import SummaryWithoutTimeShift from './SummaryWithoutTimeShift';
 import Pods from 'in-kubernetes/Dashboards/Cluster/tabs/Pods';
 import Summary from './Summary';
 import { t } from 'in-i18n';
@@ -37,17 +37,12 @@ export default [
   {
     label: t('in-kubernetes:dashboards.summary'),
     path: `${clusterDashboardFullyQualified}/summary`,
-    component: Summary
+    component: beeInstanaInfraMetricsEnabled ? Summary : SummaryWithoutTimeShift
   },
-  !controlPlaneEnabled && {
+  {
     label: t('in-kubernetes:dashboards.details'),
     path: `${clusterDashboardFullyQualified}/details`,
     component: Details
-  },
-  controlPlaneEnabled && {
-    label: t('in-kubernetes:dashboards.controlPlane'),
-    path: `${clusterDashboardFullyQualified}/controlplane`,
-    component: ControlPlane
   },
   {
     label: t('in-kubernetes:dashboards.events'),
