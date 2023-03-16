@@ -6,15 +6,24 @@
 @import '~in-themes/active.less';
 
 :local {
-  .live,
-  .live:hover {
-    color: @lib__colors__green800;
-
-    svg {
-      fill: @lib__colors__green800;
-    }
+  .static:hover,
+  .live {
+    border-color: @lib__colors__N500;
   }
 
+  .static:hover {
+    background: @lib__colors__N100;
+  }
+
+  .live,
+  .live:hover {
+    background: @lib__colors__N500;
+    color: @lib__colors__white;
+
+    svg {
+      fill: @lib__colors__white;
+    }
+  }
   .static,
   .live {
     border-radius: 0 @lib__shapes__radius_small @lib__shapes__radius_small 0;

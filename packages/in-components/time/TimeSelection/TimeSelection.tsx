@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 
@@ -109,24 +109,12 @@ const checkIsLiveModeDisabled = (location: Location): { disabled: boolean; toolt
 
 function LiveModeToggle({ isLive: isLiveProp, darkTheme }: LiveModeToggleProps) {
   const { location, createHref } = useNavigation();
-  const [hover, setHover] = useState(false);
   const { disabled, tooltipMessage } = checkIsLiveModeDisabled(location);
 
   const isLive = disabled ? false : isLiveProp;
   const href = createHref(isLive ? getTimeframeNonLiveLocation(location) : getTimeframeLiveLocation(location));
 
-  let icon;
-  let iconSpinning = false;
-  if (isLive) {
-    if (hover) {
-      icon = 'lib_actions_stop';
-    } else {
-      icon = 'lib_actions_loading';
-      iconSpinning = true;
-    }
-  } else {
-    icon = 'lib_actions_play';
-  }
+  const icon = isLive ? 'lib_actions_stop' : 'lib_actions_play';
 
   return (
     <Tooltip content={tooltipMessage}>
@@ -134,9 +122,6 @@ function LiveModeToggle({ isLive: isLiveProp, darkTheme }: LiveModeToggleProps) 
         disabled={disabled}
         href={href}
         icon={icon}
-        iconSpinning={iconSpinning}
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
         darkTheme={darkTheme}
         className={isLive ? locals.live : locals.static}
       >
