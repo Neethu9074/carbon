@@ -19,7 +19,7 @@
     "check:licenses": "build/create-license-report.sh",
     "check:bundle-size": "ANALYZE_BUNDLE=true yarn run build",
     "check:yarn-lock-exists": "./build/precommit/checkYarnLock.js",
-    "dev": "export USE_ESBUILD=true ; unset npm_config_registry && yarn && export BUILD_DEV='true' && export NODE_ENV='development' && node --max-old-space-size=4096 node_modules/gulp/bin/gulp.js dev",
+    "dev": "unset npm_config_registry && yarn && export BUILD_DEV='true' && export NODE_ENV='development' && node --max-old-space-size=4096 node_modules/gulp/bin/gulp.js dev",
     "debug": "export DETAILED_SOURCEMAPS='true' && export DONT_OPEN_BROWSER='true' && yarn dev",
     "start": "yarn dev",
     "dev:watch": "HOT_RELOAD=true yarn dev",

@@ -21,9 +21,10 @@ const { resolveToEsbuildTarget } = require('esbuild-plugin-browserslist');
 const browserslist = require('browserslist');
 const hotReload = isDevModeBuild && !!process.env.HOT_RELOAD;
 
-// only activate esbuild, if enabled by the developer via setting this ENV, e.g.:
-// USE_ESBUILD=true
-const use_esbuild = process.env.USE_ESBUILD === 'true';
+// to disable esbuild the developer needs to explicitly set this ENV to false
+// USE_ESBUILD=false
+// in any other cases, esbuild will be activated
+const use_esbuild = !(process.env.USE_ESBUILD === 'false');
 const esBuildTargets = resolveToEsbuildTarget(browserslist(), {
   printUnknownTargets: false
 });
