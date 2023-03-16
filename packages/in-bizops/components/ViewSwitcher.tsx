@@ -38,7 +38,7 @@ export default function ViewSwitcher() {
   };
 
   const dashboardHeaderProps = {
-    icon: 'lib_camunda',
+    icon: 'lib_bizops',
     label: t('in-bizops:navigation.bizOps'),
     title: t('in-bizops:navigation.bizOps'),
     showHistoricDataWarning: false,
@@ -55,7 +55,7 @@ export default function ViewSwitcher() {
               href$={getModifiedUrlStream(p => (p.pathname = paths.bizOpsPath))}
               label={t('in-bizops:labelBizOps')}
               isActive={isProcessesActive && !isServicesActive && !isSmartAlertsActive}
-              icon={'lib_camunda'}
+              icon={'lib_bizops'}
             />
             <SecondLevelNavigationItem
               href$={getModifiedUrlStream(p => (p.pathname = paths.servicesPath))}
