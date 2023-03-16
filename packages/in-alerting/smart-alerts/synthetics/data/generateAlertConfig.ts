@@ -4,9 +4,9 @@
  * Copyright IBM Corp. 2023
  */
 
-import { FailureSyntheticAlertRule, SyntheticAlertConfigWithMetadata, TagFilter, ChangeSummary } from '@instana/types';
+import { FailureSyntheticAlertRule, SyntheticAlertConfigWithMetadata, TagFilter } from '@instana/types';
 
-export default function generateAlertConfig(testIds?: string[]): SyntheticAlertConfigWithMetadata & ChangeSummary {
+export default function generateAlertConfig(testIds?: string[]): SyntheticAlertConfigWithMetadata {
   const rule: FailureSyntheticAlertRule = {
     alertType: 'failure',
     metricName: 'status'
@@ -36,13 +36,6 @@ export default function generateAlertConfig(testIds?: string[]): SyntheticAlertC
     timeThreshold: {
       type: 'violationsInSequence',
       violationsCount: 1
-    },
-    changeSummary: {
-      changeType: 'DELETE',
-      author: {
-        id: '123',
-        type: 'USER'
-      }
     }
   };
 }

@@ -12,7 +12,7 @@ import {
 } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
 import DialogAlertProperties from 'in-alerting/smart-alerts/synthetics/dialog/simple/DialogAlertProperties';
 import alertFormDefinition from 'in-alerting/smart-alerts/synthetics/form/alertDialogFormDefinition';
-import generateAlertConfig from 'in-alerting/smart-alerts/data/generateAlertConfig';
+import generateAlertConfig from 'in-alerting/smart-alerts/synthetics/data/generateAlertConfig';
 
 export default { component: DialogAlertProperties };
 const failureAlertConfig = Object.freeze(generateAlertConfig());

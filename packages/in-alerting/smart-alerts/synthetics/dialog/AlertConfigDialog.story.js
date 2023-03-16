@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2023
  */
 
+import generateAlertConfig from 'in-alerting/smart-alerts/synthetics/data/generateAlertConfig';
 import AlertConfigDialog from 'in-alerting/smart-alerts/synthetics/dialog/AlertConfigDialog';
-import generateAlertConfig from 'in-alerting/smart-alerts/data/generateAlertConfig';
 
 export default {
   component: AlertConfigDialog,

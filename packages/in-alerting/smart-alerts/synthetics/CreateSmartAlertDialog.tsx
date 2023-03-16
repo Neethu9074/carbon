@@ -7,8 +7,8 @@
 import React from 'react';
 
 import { syntheticAlertListPath, syntheticSmartAlertsPath } from 'in-synthetics/navigation/paths';
+import generateAlertConfig from 'in-alerting/smart-alerts/synthetics/data/generateAlertConfig';
 import AlertConfigDialog from 'in-alerting/smart-alerts/synthetics/dialog/AlertConfigDialog';
-import generateAlertConfig from 'in-alerting/smart-alerts/data/generateAlertConfig';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { AlertsProps } from 'in-alerting/smart-alerts/synthetics/Alerts';
 import { close } from 'in-components/DialogPresenter/store';
