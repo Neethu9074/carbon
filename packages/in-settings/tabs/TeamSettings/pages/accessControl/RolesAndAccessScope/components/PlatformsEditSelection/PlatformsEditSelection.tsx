@@ -15,8 +15,9 @@ import {
   updateFormField,
   updatePermissionSetForLimitableProductArea
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
+import KubernetesEditSection from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PlatformsEditSelection/KubernetesEditSection';
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
-import { LimitableProductArea, ProductArea, ScopedPermissionItem } from '../../constants';
+import { LimitableProductArea, ProductArea, ScopedPermissionItem, ScopedPermissionType } from '../../constants';
 import { SubSlideConfig } from 'in-settings/components/ConfigDialog/ConfigDialog';
 import Section from 'in-settings/tabs/TeamSettings/pages/accessControl/Section';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
@@ -28,11 +29,10 @@ import locals from './PlatformsEditSelection.mless';
 
 /**
  * Properties for the platforms edit component
- * @property title of the plat form area
- * @property icon reference to be icon, that should be displayed
  */
 export interface PlatformsEditSelectionProps extends SlideControlProps<SubSlideConfig>, FormControlProps {}
 
+// later this needs to be constructed based on featureFlags or current user permissions
 const generalAreas: Array<LimitableProductArea> = [
   ProductArea.PCF,
   ProductArea.PHMC,
@@ -50,15 +50,24 @@ export default function _PlatformsEditSelection({ form, setForm }: PlatformsEdit
   const permissionSetField = getField<PermissionSetWithRoles>(form, 'permissionSet');
   const permissionSet = permissionSetField?.value;
 
-  // Updates the permissionSet, by removing the value from the permissions array or adding it
-  const onUpdatePermissionSet = (value: LimitableProductArea, isAdd: boolean) => {
+  /**
+   * Updates the permissionSet, by removing the value from the permissions array or adding it
+   * @param area to be added / removed
+   * @param newScope new scope to be set
+   */
+  const onUpdatePermissionSet = (area: LimitableProductArea, newScope: ScopedPermissionType) => {
     if (!permissionSet?.permissions) return;
-    const newPermissionSet = updatePermissionSetForLimitableProductArea(
-      permissionSet,
-      value,
-      isAdd ? ScopedPermissionItem.ACCESS_ALL : ScopedPermissionItem.NO_ACCESS
-    );
+    const newPermissionSet = updatePermissionSetForLimitableProductArea(permissionSet, area, newScope);
     setForm(updateFormField(form, 'permissionSet', newPermissionSet, true));
+  };
+
+  /**
+   * Adds / Removes the access to a genralArea
+   * @param area to be added / removed
+   * @param isAdd whether it is an add case or remove case
+   */
+  const onUpdateGeneralArea = (area: LimitableProductArea, isAdd: boolean) => {
+    onUpdatePermissionSet(area, isAdd ? ScopedPermissionItem.ACCESS_ALL : ScopedPermissionItem.NO_ACCESS);
   };
 
   // Checks whether it currently has the permission
@@ -67,6 +76,11 @@ export default function _PlatformsEditSelection({ form, setForm }: PlatformsEdit
     return access === ScopedPermissionItem.ACCESS_ALL ? true : false;
   };
 
+  // requires as soon as generalAreas is constructed based on ff / permissions - render only K8S
+  if (generalAreas.length === 0) {
+    return <KubernetesEditSection form={form} setForm={setForm} />;
+  }
+  // standard case
   return (
     <Section icon="lib_platforms" title={t('in-settings:PermissionSection.title_platforms')} panelNoIndentation>
       <div className={locals.sectionContent}>
@@ -77,7 +91,7 @@ export default function _PlatformsEditSelection({ form, setForm }: PlatformsEdit
               <CheckboxFancy
                 size="large"
                 checked={hasAnyAreaPermission(area)}
-                onChange={(event: any) => onUpdatePermissionSet(area, event.target.checked)}
+                onChange={(event: any) => onUpdateGeneralArea(area, event.target.checked)}
                 label={
                   <Stack gap="xsmall" direction="horizontal" align="start">
                     <span>{platformTitle}</span>
@@ -96,6 +110,7 @@ export default function _PlatformsEditSelection({ form, setForm }: PlatformsEdit
           );
         })}
       </div>
+      <KubernetesEditSection form={form} isChild setForm={setForm} />
     </Section>
   );
 }

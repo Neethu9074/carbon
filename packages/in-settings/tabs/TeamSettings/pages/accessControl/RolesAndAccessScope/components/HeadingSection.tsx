@@ -15,7 +15,7 @@ export default function HeadingSection() {
     <Stack direction="vertical" gap="disabled">
       <Typography variant="heading-300">{t('in-settings:headingSection.title')}</Typography>
       <Typography variant="body-regular">
-        {t('in-settings:headingSection.description')}
+        {t('in-settings:headingSection.description')}&nbsp;
         <Link href="#">{t('in-settings:headingSection.link')}</Link>
       </Typography>
     </Stack>
