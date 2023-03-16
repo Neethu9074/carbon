@@ -55,12 +55,12 @@ export default function _KubernetesEditSection({ form, isChild, setForm }: Permi
    * @param newScope to be set
    * @returns never / void
    */
-  const setSelectedScope = (newScope: ScopedPermissionType) => {
+  const setSelectedScope = (newScope: ScopedPermissionType | undefined) => {
     if (!permissionSet?.permissions) return;
     const newPermissionSet = updatePermissionSetForLimitableProductArea(
       permissionSet,
       ProductArea.KUBERNETES,
-      newScope
+      newScope ?? ScopedPermissionItem.NO_ACCESS
     );
     setForm(updateFormField(form, 'permissionSet', newPermissionSet, true));
   };
@@ -77,19 +77,7 @@ export default function _KubernetesEditSection({ form, isChild, setForm }: Permi
   return (
     <TabSelect<ScopedPermissionType>
       initialActivePanelId={initialScope}
-      onChange={(_panelId, value) => {
-        switch (value) {
-          case ScopedPermissionItem.ACCESS_ALL:
-            setSelectedScope(ScopedPermissionItem.ACCESS_ALL);
-            break;
-          case ScopedPermissionItem.LIMITED_ACCESS:
-            setSelectedScope(ScopedPermissionItem.LIMITED_ACCESS);
-            break;
-          default:
-            setSelectedScope(ScopedPermissionItem.NO_ACCESS);
-            break;
-        }
-      }}
+      onChange={(_panelId, value) => setSelectedScope(value)}
     >
       <TabSelectHeader>
         <SvgIcon type="lib_kubernetes" size={iconSize} />
@@ -124,7 +112,7 @@ export default function _KubernetesEditSection({ form, isChild, setForm }: Permi
           <KubernetesLimitedAccessPanel />
         </TabSelectPanel>
         <TabSelectPanel key="NO_ACCESS" id="NO_ACCESS">
-          <NoAccessPanel descriptionNLSContext="kubernetes" />
+          <NoAccessPanel descriptionContext="kubernetes" />
         </TabSelectPanel>
       </TabSelectPanels>
     </TabSelect>
