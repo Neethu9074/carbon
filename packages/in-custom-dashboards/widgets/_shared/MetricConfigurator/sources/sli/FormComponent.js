@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { Stack } from '@instana/components';
@@ -27,6 +27,7 @@ export default function FormComponent({
   formatterSection,
   timeShiftConfiguration
 }) {
+  const [flag, setflag] = useState('');
   const { data: sliConfigurations } = useObservable(() => getSliConfigurations(), []) ?? {};
   return (
     <Stack gap="xsmall">
@@ -61,51 +62,16 @@ export default function FormComponent({
           </SelectInSection>
         </Sections>
       ))}
-
-      {form.get('slo').map(field => (
-        <Sections>
-          <InputInSection
-            label={t('in-custom-dashboards:widgets.slo.slo')}
-            id="metric-configurator-slo"
-            type="number"
-            value={
-              typeof field.value === 'number'
-                ? parseFloat(Number.parseFloat(field.value * 100).toPrecision(6))
-                : field.value
-            }
-            onChange={e => {
-              let newValue = undefined;
-              if (e.target.value !== '' && !isNaN(e.target.valueAsNumber)) {
-                newValue = parseFloat((e.target.valueAsNumber / 100).toPrecision(6));
-              }
-              onChange(['slo'], field => field.setValue(newValue).setTouched(true));
-            }}
-            hasError={!field.valid && field.touched}
-            min={0}
-            max={99.99}
-            step="any"
-            actions={
-              <HelpAction>
-                <Trans
-                  i18nKey="in-custom-dashboards:widgets.srcSli.formComp.typeSloThreshold"
-                  values={{ compact: percentage.compact(0), detailed: percentage.detailed(0.9999) }}
-                />
-              </HelpAction>
-            }
-            additionalContent={<TouchedMessages field={field} />}
-          />
-        </Sections>
-      ))}
-
       {form.get('metric').map(field => (
         <Sections>
           <SelectInSection
             label={t('in-custom-dashboards:widgets.srcSli.formComp.valType')}
             id="metric-configurator-metric"
             value={field.value}
-            onChange={e =>
-              onChange([], form => form.updateIn(['metric'], field => field.setValue(e.target.value).setTouched(true)))
-            }
+            onChange={e => {
+              onChange([], form => form.updateIn(['metric'], field => field.setValue(e.target.value).setTouched(true)));
+              setflag(e.target.value);
+            }}
             hasError={!field.valid && field.touched}
             additionalContent={<TouchedMessages field={field} />}
           >
@@ -121,6 +87,46 @@ export default function FormComponent({
           {formatterSection}
         </Sections>
       ))}
+      {flag != 'SLI' ? (
+        <>
+          {form.get('slo').map(field => (
+            <Sections>
+              <InputInSection
+                label={t('in-custom-dashboards:widgets.slo.slo')}
+                id="metric-configurator-slo"
+                type="number"
+                value={
+                  typeof field.value === 'number'
+                    ? parseFloat(Number.parseFloat(field.value * 100).toPrecision(6))
+                    : field.value
+                }
+                onChange={e => {
+                  let newValue = undefined;
+                  if (e.target.value !== '' && !isNaN(e.target.valueAsNumber)) {
+                    newValue = parseFloat((e.target.valueAsNumber / 100).toPrecision(6));
+                  }
+                  onChange(['slo'], field => field.setValue(newValue).setTouched(true));
+                }}
+                hasError={!field.valid && field.touched}
+                min={0}
+                max={99.99}
+                step="any"
+                actions={
+                  <HelpAction>
+                    <Trans
+                      i18nKey="in-custom-dashboards:widgets.srcSli.formComp.typeSloThreshold"
+                      values={{ compact: percentage.compact(0), detailed: percentage.detailed(0.9999) }}
+                    />
+                  </HelpAction>
+                }
+                additionalContent={<TouchedMessages field={field} />}
+              />
+            </Sections>
+          ))}
+        </>
+      ) : (
+        ''
+      )}
 
       {timeShiftConfiguration}
       {labelSection}
