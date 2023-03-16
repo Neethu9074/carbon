@@ -26,7 +26,7 @@ import locals from './ViewSwitcher.mless';
 
 export default function ViewSwitcher() {
   const isProcessesActive = useObservable(isView(paths.bizOpsPath), []);
-  const isServicesActive = useObservable(isView(paths.servicesPath), []);
+  const isActivitiesActive = useObservable(isView(paths.activitiesPath), []);
   const isSmartAlertsActive = useObservable(isView(paths.smartAlertsPath), []);
 
   // const popProperties: PoPInstallationPropertiesResponse =
@@ -54,19 +54,19 @@ export default function ViewSwitcher() {
             <SecondLevelNavigationItem
               href$={getModifiedUrlStream(p => (p.pathname = paths.bizOpsPath))}
               label={t('in-bizops:labelBizOps')}
-              isActive={isProcessesActive && !isServicesActive && !isSmartAlertsActive}
+              isActive={isProcessesActive && !isActivitiesActive && !isSmartAlertsActive}
               icon={'lib_bizops'}
             />
             <SecondLevelNavigationItem
-              href$={getModifiedUrlStream(p => (p.pathname = paths.servicesPath))}
-              label={t('in-bizops:labelServices')}
-              isActive={isServicesActive && !isProcessesActive && !isSmartAlertsActive}
+              href$={getModifiedUrlStream(p => (p.pathname = paths.activitiesPath))}
+              label={t('in-bizops:labelActivities')}
+              isActive={isActivitiesActive && !isProcessesActive && !isSmartAlertsActive}
               icon={'lib_application_service'}
             />
             <SecondLevelNavigationItem
               href$={getModifiedUrlStream(p => (p.pathname = paths.smartAlertsPath))}
               label={t('in-bizops:labelSmartAlerts')}
-              isActive={isSmartAlertsActive && !isProcessesActive && !isServicesActive}
+              isActive={isSmartAlertsActive && !isProcessesActive && !isActivitiesActive}
               icon={'lib_alerts_alert'}
             />
           </SecondLevelNavigation>

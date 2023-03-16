@@ -14,11 +14,11 @@ import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
 
-export default function BizServicesList() {
+export default function BizActivitiesList() {
   return (
     <Sticky header={<ViewSwitcher />}>
       <LeftRightPadding>
-        <Title title={t('in-bizops:labelServices')} />
+        <Title title={t('in-bizops:labelActivities')} />
         <ViewTrackingMeta
           data={{
             productArea: 'BizOps',
