@@ -187,7 +187,7 @@ export function getContextForDropwizard(dropwizard, timeConfig) {
       return {
         key: dropwizard.get('id'),
         host: snapshots.find(s => s.getIn(['plugin']) === 'host'),
-        container: snapshots.find(s => s.getIn(['plugin']) === 'docker'),
+        container: snapshots.find(s => ['docker', 'containerd'].includes(s.getIn(['plugin']))),
         jvm: snapshots.find(s => s.getIn(['plugin']) === 'jvmRuntimePlatform'),
         pod: snapshots.find(s => s.getIn(['plugin']) === 'kubernetesPod'),
         dropwizard,
