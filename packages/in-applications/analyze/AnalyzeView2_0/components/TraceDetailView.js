@@ -207,7 +207,9 @@ function TraceDetailViewButtonLine({ traceId, result, formModel, facets }) {
   }
 
   const traceDownloadUrl = shouldUseLazyLoadedCallTree(result?.data)
-    ? `/api/application-monitoring/v2/analyze/traces/${encodeURIComponent(traceIdInUrl)}?pretty`
+    ? `/api/application-monitoring/v2/analyze/traces/${encodeURIComponent(
+        traceIdInUrl
+      )}?pretty&retrievalSize=200&offset=0&ingestionTime=${Date.now()}`
     : `/api/application-monitoring/analyze/traces;id=${encodeURIComponent(traceIdInUrl)}?pretty`;
 
   return (
