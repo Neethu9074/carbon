@@ -368,7 +368,7 @@ function addLazyRelatedCallNodes(
   if (addBefore) {
     existingCallNodes.unshift(...newRelatedCallNodes.reverse());
   } else {
-    existingCallNodes.push(...newRelatedCallNodes.reverse());
+    existingCallNodes.push(...newRelatedCallNodes);
   }
 
   if (data.canLoadMore) {
