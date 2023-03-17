@@ -165,13 +165,13 @@ export default function TestConfigDialogPresenter({ onClose, reloadTests }: Prop
         formId={formId}
         form={form}
         primaryActionText={
-          simpleModeStep === stepConfigs.length - 1
+          simpleModeStep === stepConfigs.length - 1 || !simpleMode
             ? t('in-components:blueprintFormMultistep.buttonCreate')
             : t('in-components:blueprintFormMultistep.buttonNext')
         }
         onSecondaryActionClick={() => onGoBack()}
         secondaryActionText={
-          simpleModeStep === 0
+          simpleModeStep === 0 || !simpleMode
             ? t('in-components:blueprintFormMultistep.buttonCancel')
             : t('in-components:blueprintFormMultistep.buttonBack')
         }

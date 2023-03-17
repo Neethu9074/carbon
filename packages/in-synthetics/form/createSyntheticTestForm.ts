@@ -138,6 +138,13 @@ function createScriptConfigurationForm(savedState?: Record<string, any>) {
 function createAdvancedActionConfigurationForm(savedState?: Record<string, any>) {
   return createMapForm()
     .put(
+      'syntheticType',
+      createField({
+        value: savedState?.syntheticType ?? 'HTTPAction',
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+      })
+    )
+    .put(
       'operation',
       createField({
         value: savedState?.method || HTTPMethods[0].value,

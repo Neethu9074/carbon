@@ -47,7 +47,7 @@ export default function TestCreationWithSteps({
   simpleMode
 }: Props) {
   const onProceed = () => {
-    if (step !== stepConfigs.length - 1) {
+    if (simpleMode && step !== stepConfigs.length - 1) {
       updateStep(step + 1);
       return;
     }

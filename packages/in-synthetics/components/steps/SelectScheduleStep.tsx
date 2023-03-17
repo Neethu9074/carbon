@@ -14,6 +14,8 @@ import FormGroup from 'in-components/form/FormGroup';
 import { minutes } from 'in-services/time';
 import { t } from 'in-i18n';
 
+import locals from 'in-synthetics/components/steps/SelectScheduleStep.mless';
+
 export interface Props {
   form: MapForm;
   updateForm: (form: MapForm) => void;
@@ -46,11 +48,11 @@ export default function SelectScheduleStep({ form, updateForm, simpleMode }: Pro
     //Advanced Mode
     return (
       <Section>
-        <FormGroup>
+        <FormGroup className={locals.outerBox}>
           <ActionTitle>{t('in-synthetics:dialog.createTest.advancedMode.simultaneous')}</ActionTitle>
           <Description>{t('in-synthetics:dialog.createTest.advancedMode.simultaneousDescription')}</Description>
         </FormGroup>
-        <FormGroup>
+        <FormGroup className={locals.outerBox}>
           <ActionTitle>{t('in-synthetics:dialog.createTest.basicDetails.labelFrequency')}</ActionTitle>
           <Description>
             {t('in-synthetics:dialog.createTest.advancedMode.frequency', { frequencyValue: frequencyField.value })}
